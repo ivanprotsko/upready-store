@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-18",
+  "index": 12,
+  "action": "status-set",
+  "ts": "2026-09-18T06:48:01+08:00",
+  "status": "2026-09-18 06:48 WITA: ag01 закрыт — 39 живых вызовов agy 1.2.5, 6 моделей, 3 пилота (тесты Pro 21/Flash 26, мок gh 2), все node --test зелёные, мутация ловится. Главное: agy пишет МИМО рабочей папки 2 из 5 (один раз — в живой чекаут движка дня, файл убран, дерево чисто); лечится строкой запрета абсолютных путей + запретом подагентов. Цена: пилот = 2 п.п. пятичасовой квоты Gemini, прогон целиком 99→87 %. Рекомендация раннеру: gemini-3.8-flash-high, без --effort, --print-timeout всегда, ответ через --json-schema→structured_output. Отчёт: file:///Users/ivanprotsko/upready/research/reports/2026-09-18-antigravity-gemini-capabilities.md — коммиты b8642635 (движок), d50e5a1ae (research), a1add72 (память), ошибка aie-20260918-064752-74f7"
+}

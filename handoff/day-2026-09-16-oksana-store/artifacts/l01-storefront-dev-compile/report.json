@@ -1,0 +1,22 @@
+{
+  "task": "l01-storefront-dev-compile",
+  "branch": "feat/day17-storefront-dev-compile",
+  "pr": { "number": 102, "url": "https://github.com/ivanprotsko/upready-store/pull/102" },
+  "done": [
+    { "item": "Удалён реэкспорт типов ProductOptionFilterGroup/ProductOptionFilterValue из products.ts:101, который ломал компиляцию \"use server\"-модуля.", "links": ["apps/storefront/src/lib/data/products.ts"] },
+    { "item": "Три импортёра типа (два из задания плюс mobile-refinement, найден повторным rg) переведены на прямой импорт из option-filter-groups.", "links": [
+      "apps/storefront/src/modules/store/components/refinement-list/index.tsx",
+      "apps/storefront/src/modules/store/components/refinement-list/options-picker/index.tsx",
+      "apps/storefront/src/modules/store/components/mobile-refinement/index.tsx"
+    ] }
+  ],
+  "results": [
+    { "label": "next build (в worktree)", "path": "/tmp/sf-build.log", "note": "rc=0, зелёный" },
+    { "label": "dev-сервер на 8031, curl /ru", "path": "/tmp/sf-dev.log", "note": "http_code=200, 0 вхождений «Ecmascript file had an error»" },
+    { "label": "PR #102", "url": "https://github.com/ivanprotsko/upready-store/pull/102" }
+  ],
+  "notes": [
+    "pnpm install потребовался в worktree (отсутствовал ansi-colors) — побочная проблема установки, pnpm-lock.yaml откатан, в коммит не попал.",
+    "Проверка /ru на локальном backend без tenant-данных: store-запросы отвечают 400, это допустимо по условиям задачи (важно отсутствие 500/Ecmascript-ошибки)."
+  ]
+}

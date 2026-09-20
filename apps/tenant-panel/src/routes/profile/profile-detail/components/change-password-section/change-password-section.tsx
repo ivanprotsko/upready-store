@@ -9,11 +9,14 @@ import { useUpdatePassword } from "../../../../../hooks/api/users"
 
 // tenant-panel wave 2, piece 4: own component, no Admin counterpart (the
 // Admin only ever changes a password through the unauthenticated
-// reset-password link flow, `routes/login/components/reset-password`, which
-// this panel drops per README.md "Deviations"). Uses the same
-// Form/Input/Button primitives and toast pattern as the copied
-// `edit-profile-form`, posting to `POST /tenants/me/password`
-// (docs/tenant-panel/api-contract.md, "Piece 4: profile").
+// reset-password link flow). This panel has its own separate reset-password
+// flow too (`routes/forgot-password`, `routes/reset-password`,
+// f14-no-password-reset), for a tenant admin who is not logged in at all;
+// this section stays for one who is, and wants the current-password check
+// the unauthenticated flow does not have. Uses the same Form/Input/Button
+// primitives and toast pattern as the copied `edit-profile-form`, posting to
+// `POST /tenants/me/password` (docs/tenant-panel/api-contract.md,
+// "Piece 4: profile").
 
 const ChangePasswordSchema = zod
   .object({

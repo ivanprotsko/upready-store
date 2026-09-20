@@ -6,9 +6,24 @@ import { getAuthHeaders, getCacheOptions, getCacheTag } from "./cookies"
 import type { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
 
-export const retrieveOrder = async (id: string) => {
+/**
+ * One order, by id.
+ *
+ * `token` is the order's own access token (b07-store-api-isolation). The Store
+ * API used to answer this call for anybody holding the id; it now wants either
+ * the logged-in owner behind `authorization`, or this token. A guest has no
+ * account, so the token is what keeps the "Thank you" page and the link in the
+ * order email working: the checkout redirect and the email both carry it in
+ * the URL, and it is read back out of the URL here.
+ */
+export const retrieveOrder = async (id: string, token?: string) => {
   const headers = {
     ...(await getAuthHeaders()),
+    // The Store API takes the order token as a header and not as a query
+    // parameter: its query validator is strict and answers
+    // `400 … Unrecognized fields: 'token'`. The token still travels through
+    // the page URL, which is what a link in an email can carry.
+    ...(token ? { "x-order-token": token } : {}),
   }
 
   const next = {
@@ -25,7 +40,10 @@ export const retrieveOrder = async (id: string) => {
         // defaultStoreRetrieveOrderFields, so a bare add is required; every other field
         // already reaches this response through that default set.
         fields:
-          "*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at",
+          // +fulfillments.labels / +fulfillments.metadata: the tracking number and
+          // the carrier the shop owner typed on the shipment (t04-shipping-tariffs),
+          // shown under the account order-timeline.
+          "*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,*fulfillments.labels,+fulfillments.metadata",
       },
       headers,
       next,
@@ -126,6 +144,68 @@ const revalidateOrdersCache = async () => {
 
   const customersCacheTag = await getCacheTag("customers")
   if (customersCacheTag) revalidateTag(customersCacheTag)
+}
+
+export type ClaimOrdersState = {
+  /** null while the form has not been submitted, a number once it has. */
+  claimed: number | null
+  error: string | null
+}
+
+/**
+ * Attaches the orders this shop holds under the logged-in customer's own email
+ * to their account, and returns how many moved.
+ *
+ * The buyer who checks out as a guest and registers afterwards is the case
+ * this exists for: Medusa hangs the guest order on an account-less customer
+ * row, `GET /store/orders` filters by `customer_id`, and the account is empty
+ * (f03-guest-order-not-in-account). The backend decides what may move; nothing
+ * about the address or the shop is sent from here, because both are read from
+ * the session and the publishable key server-side.
+ *
+ * Zero claimed is a real answer and says so on the screen. It is never
+ * reported as a success with no number, because "nothing was found for your
+ * address" and "the call failed" have to look different to the person reading
+ * it (rule 20a).
+ */
+export const claimGuestOrders = async (): Promise<ClaimOrdersState> => {
+  const headers = await getAuthHeaders()
+
+  if (!headers) {
+    return { claimed: null, error: "unauthorized" }
+  }
+
+  try {
+    const { claimed } = await sdk.client.fetch<{ claimed: number }>(
+      `/store/customers/me/claim-orders`,
+      {
+        method: "POST",
+        headers,
+        cache: "no-store",
+      }
+    )
+
+    if (claimed > 0) {
+      await revalidateOrdersCache()
+    }
+
+    return { claimed, error: null }
+  } catch (error) {
+    console.error("[claimGuestOrders]", error)
+    return { claimed: null, error: String(error) }
+  }
+}
+
+/**
+ * The form action behind the "find my orders" button on the account orders
+ * screen. Submitting it re-renders the route, so a claimed order is in the
+ * list by the time the message is on screen.
+ */
+export const claimGuestOrdersAction = async (
+  _state: ClaimOrdersState,
+  _formData: FormData
+): Promise<ClaimOrdersState> => {
+  return await claimGuestOrders()
 }
 
 export const acceptTransferRequest = async (id: string, token: string) => {

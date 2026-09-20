@@ -1,3 +1,10 @@
+import { attachOrderAccessToken, ensureCartTenantScope } from "./store/cart-scope";
+import {
+  ensureOrderAccess,
+  ensureReturnOrderAccess,
+  guardOrderTransferRequest,
+  scopeOrderListToShop,
+} from "./store/order-access";
 import {
   authenticate,
   defineMiddlewares,
@@ -10,6 +17,10 @@ import {
   retrieveTransformQueryConfig as retrieveCustomerQueryConfig,
 } from "@medusajs/medusa/api/admin/customers/query-config";
 import { AdminCustomerParams } from "@medusajs/medusa/api/admin/customers/validators";
+import {
+  TenantExportCustomersParams,
+  TenantGetCustomersParams,
+} from "./tenants/customers/validators";
 import { listTransformQueryConfig as listExchangeQueryConfig } from "@medusajs/medusa/api/admin/exchanges/query-config";
 import { listTransformQueryConfig as listFulfillmentProviderQueryConfig } from "@medusajs/medusa/api/admin/fulfillment-providers/query-config";
 import { AdminFulfillmentProvidersParams } from "@medusajs/medusa/api/admin/fulfillment-providers/validators";
@@ -145,21 +156,63 @@ import { AdminGetStoreParams } from "@medusajs/medusa/api/admin/stores/validator
 import { applyCategoryFilters as applyStoreCategoryFilters } from "@medusajs/medusa/api/store/product-categories/helpers";
 import { listProductCategoryConfig as listStoreProductCategoryConfig } from "@medusajs/medusa/api/store/product-categories/query-config";
 import { StoreProductCategoriesParams } from "@medusajs/medusa/api/store/product-categories/validators";
+import { listTransformQueryConfig as listStoreCollectionConfig } from "@medusajs/medusa/api/store/collections/query-config";
+import { StoreGetCollectionsParams } from "@medusajs/medusa/api/store/collections/validators";
 import { MedusaError } from "@medusajs/framework/utils";
 import { adminUploadRoutesMiddlewares } from "@medusajs/medusa/api/admin/uploads/middlewares";
 import { TENANT_ACTOR_TYPE } from "../modules/tenant";
 import {
   PostTenantCreateSchema,
   PostTenantDomainSchema,
+  PutTenantApishipKeySchema,
+  PutTenantDeliverySettingsSchema,
+  PutTenantPaymentSettingsSchema,
+  PutTenantNotificationSettingsSchema,
+  PutTenantRequisitesSchema,
   PostTenantHandleSchema,
+  PostTenantArticleSchema,
+  PostTenantPageSchema,
+  PostTenantRedirectSchema,
+  PutTenantRedirectSchema,
+  PutTenantBrandingSchema,
+  PutTenantSeoVerificationSchema,
+  PutTenantAnalyticsSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
+  PutTenantArticleSchema,
   PutTenantPageSchema,
   TenantGetProductOptionsParams,
 } from "./tenants/validators";
+import {
+  GetShippingRegionsSchema,
+  PostStoreShippingQuoteSchema,
+  PostTenantShippingMethodSchema,
+  PostTenantShippingMethodsReorderSchema,
+  PostTenantShippingMethodUpdateSchema,
+  PostTenantShippingSettingsSchema,
+  PostTenantZonePresetsSchema,
+} from "./tenants/shipping-methods/validators";
+// ---- t09-reviews: moderation body (tenant side) and the storefront's form.
+import { PostTenantReviewSchema } from "./tenants/reviews/validators";
+import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
+import {
+  PostTenantProductAttributeSchema,
+  PostTenantProductAttributeUpdateSchema,
+  PostTenantProductAttributeValuesSchema,
+} from "./tenants/product-attributes/validators";
+import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
+import {
+  PostTenantWbFeedbackAnswerSendBody,
+  PutTenantWbFeedbackAnswerBody,
+} from "./tenants/wb/feedback-answers/validators";
+import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
+import { PutTenantMarketplaceKeyBody } from "./tenants/marketplaces/[marketplace]/key/validators";
+import { PutTenantWbWritePreviewBody } from "./tenants/wb/write-preview/validators";
+import { PostTenantMpCatalogLinkBody } from "./tenants/marketplaces/catalog/links/validators";
+import { PostTenantWbFbsActionBody } from "./tenants/wb/fbs-orders/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
   AdminGetTenantsParams,
@@ -170,6 +223,9 @@ import {
   PostAdminTenantUpdateSchema,
 } from "./admin/tenants/validators";
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
+import { injectRobokassaTenant } from "./store/tenant/robokassa";
+import { StoreGetPaymentProvidersParams } from "@medusajs/medusa/api/store/payment-providers/validators";
+import { listTransformPaymentProvidersQueryConfig } from "@medusajs/medusa/api/store/payment-providers/query-config";
 
 /**
  * `/tenants/*` is the tenant admin's own namespace, next to `/admin` (staff)
@@ -245,6 +301,86 @@ export default defineMiddlewares({
       matcher: "/auth/tenant/emailpass",
       method: ["POST"],
       middlewares: [blockArchivedTenantLogin],
+    },
+    {
+      // The owner ties one marketplace card to one variant of her shop by hand
+      // (w14-mp-catalog-link). This is the answer to «требует выбора», the one
+      // outcome no rule is allowed to decide.
+      matcher: "/tenants/marketplaces/catalog/links",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantMpCatalogLinkBody)],
+    },
+    // w24-integration-keys-self-service: the shop owner stores her OWN key for
+    // every marketplace. Three matchers, ONE schema and one handler family —
+    // the general route plus the two per-marketplace paths this repository
+    // already uses (`/tenants/wb/*`, `/tenants/ozon/*`). WHICH fields are
+    // required comes from the adapter, not from a schema written per
+    // marketplace (rule 20).
+    {
+      matcher: "/tenants/marketplaces/:marketplace/key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantMarketplaceKeyBody)],
+    },
+    {
+      matcher: "/tenants/wb/key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantMarketplaceKeyBody)],
+    },
+    {
+      matcher: "/tenants/ozon/key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantMarketplaceKeyBody)],
+    },
+    {
+      // p01-settings-integrations-restructure: the shop's ApiShip token. Not a
+      // marketplace adapter, so it cannot ride the registry-driven matcher
+      // above; it shares the slot writer instead of the schema.
+      matcher: "/tenants/apiship/key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantApishipKeySchema)],
+    },
+    {
+      // The shop's payment account (t03-tenant-secrets-robokassa).
+      matcher: "/tenants/payment-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantPaymentSettingsSchema)],
+    },
+    {
+      // The shop's CDEK account and the delivery kinds it offers
+      // (i02-apiship-cdek-shipping).
+      matcher: "/tenants/delivery-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantDeliverySettingsSchema)],
+    },
+    {
+      // Who hears about this shop's orders (t08-order-notifications).
+      matcher: "/tenants/notification-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantNotificationSettingsSchema)],
+    },
+    {
+      // The seller's legal details, resolved into this shop's `{{ТОКЕН}}`
+      // placeholders (t12-legal-requisites).
+      matcher: "/tenants/requisites",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantRequisitesSchema)],
+    },
+    {
+      // Robokassa needs the SERVER's word on which shop the cart belongs to;
+      // the client's `data.tenant_id`, if any, is overwritten (step 4 of the task).
+      matcher: "/store/payment-collections/:id/payment-sessions",
+      method: ["POST"],
+      middlewares: [injectRobokassaTenant],
+    },
+    {
+      // The shadowing route in `src/api/store/payment-providers/route.ts`
+      // reads `req.filterableFields` and `req.queryConfig` the way the core
+      // route does, so it is parsed by the core's own validator and config.
+      matcher: "/store/payment-providers",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(StoreGetPaymentProvidersParams, listTransformPaymentProvidersQueryConfig),
+      ],
     },
     {
       // The starter catalog for an empty shop (specs/catalog-taxonomy/ABSTRACT-DATASETS.md §4).
@@ -384,6 +520,25 @@ export default defineMiddlewares({
       matcher: "/tenants/me/password",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantUpdatePasswordSchema)],
+    },
+
+    // ---- t14-product-import: catalogue export and import (/tenants/products/export,
+    // /tenants/products/import/**)
+    //
+    // These come BEFORE `/tenants/products/:id` for the same reason the
+    // variants batch comes before `:variant_id` further down: Express hands a
+    // path to every matching entry in the order they are declared, and
+    // `/tenants/products/:id` matches `/tenants/products/import` just as well
+    // as it matches a product id. Declaring the upload first is what puts
+    // multer in front of the body validator, so `req.files` is populated by the
+    // time the route runs.
+    //
+    // `GET /tenants/products/export` takes no query parameters and answers the
+    // CSV bytes, so it needs no validator of its own.
+    {
+      matcher: "/tenants/products/import",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
     },
 
     // ---- piece 1: product detail (/tenants/products/:id/**, variants, options)
@@ -686,6 +841,16 @@ export default defineMiddlewares({
       ],
     },
     {
+      matcher: "/tenants/customers",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(TenantGetCustomersParams, { isList: true })],
+    },
+    {
+      matcher: "/tenants/customers/export",
+      method: ["POST"],
+      middlewares: [validateAndTransformQuery(TenantExportCustomersParams, { isList: true })],
+    },
+    {
       matcher: "/tenants/customers/:id",
       method: ["GET"],
       middlewares: [validateAndTransformQuery(AdminCustomerParams, retrieveCustomerQueryConfig)],
@@ -772,6 +937,17 @@ export default defineMiddlewares({
       middlewares: [
         validateAndTransformQuery(StoreProductCategoriesParams, listStoreProductCategoryConfig),
         applyStoreCategoryFilters,
+      ],
+    },
+    // b08-seo-storefront: the same public read for collections. A collection
+    // carries no sales-channel link, so `/store/collections` answers with every
+    // shop's; this one lists only the collections the tenant's own products sit
+    // in (`api/store/tenant/collections/route.ts`).
+    {
+      matcher: "/store/tenant/collections",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(StoreGetCollectionsParams, listStoreCollectionConfig),
       ],
     },
 
@@ -922,17 +1098,48 @@ export default defineMiddlewares({
     },
 
     // ---- piece 7: content pages (/tenants/pages/**, /store/tenant/pages/**)
-    // Only the write verb needs a middleware here: the two tenant reads take no
+    // Only the write verbs need a middleware here: the two tenant reads take no
     // body, and their one query parameter (`locale`) is parsed in the route —
     // this resource has no Admin counterpart whose validator and query config
-    // could be reused, and the contract's shape for the list is the whole fixed
-    // set of five sections, not an Admin `count/offset/limit` page. The public
-    // `/store/tenant/pages/**` reads sit behind the framework's own global
-    // publishable-key gate and take neither body nor query.
+    // could be reused, and the contract's shape for the list is the reserved
+    // five plus the tenant's own custom pages, not an Admin `count/offset/limit`
+    // page. The public `/store/tenant/pages/**` reads sit behind the
+    // framework's own global publishable-key gate and take neither body nor
+    // query. `POST` (t05-page-keys) creates a custom page; `DELETE` removes one.
+    {
+      matcher: "/tenants/pages",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantPageSchema)],
+    },
     {
       matcher: "/tenants/pages/:key",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantPageSchema)],
+    },
+
+    // ---- t10-blog / b18-blog-full: journal articles
+    // (/tenants/articles/**, /tenants/article-categories,
+    //  /store/tenant/articles/**, /store/tenant/article-categories)
+    // The two category reads take no body and no parameter at all, so they are
+    // not listed here: the owner's one rides the "/tenants/*" authenticate
+    // above, the visitor's one the framework's publishable-key gate on
+    // "/store/*". They are their own paths rather than
+    // "/tenants/articles/categories" because that sits inside the ":slug"
+    // route's space, and a rubric is not an article.
+    // Same reasoning as the pages block above: only the write verbs take a
+    // body. The two tenant reads parse their one optional `?locale=` in the
+    // route (this resource has no Admin counterpart to borrow a query config
+    // from), and the public `/store/tenant/articles/**` reads ride the
+    // framework's own publishable-key gate on `/store/*`.
+    {
+      matcher: "/tenants/articles",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantArticleSchema)],
+    },
+    {
+      matcher: "/tenants/articles/:slug",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantArticleSchema)],
     },
 
     // ---- piece 8: home page document (/tenants/home, /store/tenant/home)
@@ -946,6 +1153,84 @@ export default defineMiddlewares({
       matcher: "/tenants/home",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantHomeBody)],
+    },
+
+    // ---- t15-product-attributes: the shop's own product characteristics
+    // (/tenants/product-attributes/**, /tenants/products/:id/attributes,
+    // /store/tenant/product-attributes/**).
+    //
+    // Only the write verbs take a body. The reads parse their own one or two
+    // query parameters in the route (this resource has no Admin counterpart to
+    // borrow a query config from), and the public `/store/tenant/*` reads ride
+    // the framework's own publishable-key gate on `/store/*`.
+    {
+      matcher: "/tenants/product-attributes",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeSchema)],
+    },
+    {
+      matcher: "/tenants/product-attributes/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeUpdateSchema)],
+    },
+    {
+      matcher: "/tenants/products/:id/attributes",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeValuesSchema)],
+    },
+
+    // t06-locale-currency: the tenant's default storefront locale, its enabled
+    // subset of the 36 shipped locales, and the country its default prices in.
+    {
+      matcher: "/tenants/locale-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantLocaleSettingsBody)],
+    },
+
+    // w20-wb-write-core: the owner's two gates (the write switch and the
+    // per-class consents). GET takes no middleware — it only reads rows the
+    // tenant already owns.
+    {
+      matcher: "/tenants/wb/write-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantWbWriteSettingsBody)],
+    },
+
+    // w21-wb-write-stocks-prices: "что изменится на WB". GET takes no
+    // middleware — it parses its own three query parameters (the route says
+    // why) and reads only rows this tenant already owns. PUT changes one
+    // thing and it is not a mutation of Wildberries: which WB seller
+    // warehouse a stock location of the shop stands for.
+    {
+      matcher: "/tenants/wb/write-preview",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantWbWritePreviewBody)],
+    },
+
+    // w22-wb-write-feedback-answers: drafts for reviews and questions, and the
+    // one dispatch of this task. GET takes no middleware — it reads rows the
+    // tenant already owns. The POST body carries the per-ANSWER confirmation
+    // (a sha256 of the text the dialog quoted); the route compares it against
+    // the stored draft, which is a check no validator can do.
+    {
+      matcher: "/tenants/wb/feedback-answers",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantWbFeedbackAnswerBody)],
+    },
+    {
+      matcher: "/tenants/wb/feedback-answers/send",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantWbFeedbackAnswerSendBody)],
+    },
+
+    // w23-wb-write-fbs-orders: «Собрать» / «Отменить» / «Передать в доставку».
+    // The body names an ACTION and the orders it applies to, never a method or
+    // a path; the mutations come from the write registry. GET of the desk
+    // takes no middleware — it only reads this tenant's own mirror.
+    {
+      matcher: "/tenants/wb/fbs-orders/actions",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantWbFbsActionBody)],
     },
 
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
@@ -965,6 +1250,48 @@ export default defineMiddlewares({
       matcher: "/tenants/handle",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantHandleSchema)],
+    },
+    // t11-seo-redirects: the tenant's own redirect table
+    // (`/tenants/redirects/**`, read by the storefront at
+    // `/store/tenant/redirects` behind the framework's own publishable-key
+    // gate, no middleware needed there). `GET` and `DELETE` take no body.
+    {
+      matcher: "/tenants/redirects",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantRedirectSchema)],
+    },
+    {
+      // b10-panel-gaps: editing one rule in place, so the owner's screen can fix
+      // a target without dropping the rule and re-typing its source path.
+      matcher: "/tenants/redirects/:id",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantRedirectSchema)],
+    },
+    {
+      matcher: "/tenants/seo-verification",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantSeoVerificationSchema)],
+    },
+    // t17-analytics: the shop's own Yandex Metrica / GA4 ids, plus the
+    // read-only sales summary computed from the tenant's own orders
+    // (`GET /tenants/analytics/summary`, no body to validate).
+    {
+      matcher: "/tenants/analytics",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantAnalyticsSchema)],
+    },
+    // t16-owner-branding: logo/favicon/og-image/primary-colour/footer-credit.
+    // The upload route reuses the same multipart middlewares as
+    // `/tenants/uploads` (`adminUploadPostMiddlewares`, defined above).
+    {
+      matcher: "/tenants/branding",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantBrandingSchema)],
+    },
+    {
+      matcher: "/tenants/branding/upload",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
     },
     // `/admin/tenants*` (contract §3): the platform staff's own tenant
     // management API. Auth is the framework's default `/admin/*` middleware
@@ -1002,6 +1329,161 @@ export default defineMiddlewares({
       matcher: "/admin/tenants/:id/admins/:adminId",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostAdminTenantAdminUpdateSchema)],
+    },
+
+    // ---- t04-shipping-tariffs (day-2026-09-16): the shop's own delivery
+    // methods (/tenants/shipping-methods/**, behind the "/tenants/*"
+    // authenticate above) and the checkout's quote/regions reads
+    // (/store/shipping-methods/**, behind the framework's publishable-key gate).
+    // The static segments (settings, reorder, regions) are matched before the
+    // ":id" routes by Medusa's router, so they never read as an id.
+    {
+      matcher: "/tenants/shipping-methods",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/reorder",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodsReorderSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/settings",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingSettingsSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/regions",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
+    },
+    {
+      // b03-shipping-zones-weight: one method per Russian zone in a single call.
+      matcher: "/tenants/shipping-methods/zone-presets",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantZonePresetsSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodUpdateSchema)],
+    },
+    {
+      matcher: "/store/shipping-methods/quote",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostStoreShippingQuoteSchema)],
+    },
+    {
+      matcher: "/store/shipping-methods/regions",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
+    },
+
+    // ---- t09-reviews: product reviews. The tenant side rides the
+    // "/tenants/*" authenticate above and needs a body schema for the one
+    // write verb (`DELETE` takes none, the two reads take query parameters the
+    // route parses itself). The storefront's read rides the framework's own
+    // publishable-key gate; its POST needs a customer on top of that, so it
+    // carries `authenticate("customer", …)` WITHOUT `allowUnauthenticated` —
+    // an anonymous visitor gets a 401 rather than a review with no author
+    // behind it.
+    {
+      matcher: "/tenants/reviews/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantReviewSchema)],
+    },
+    {
+      matcher: "/store/tenant/reviews",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        validateAndTransformBody(PostStoreReviewSchema),
+      ],
+    },
+
+    // ---- f03-guest-order-not-in-account: the buyer takes over the orders
+    // this shop holds under their own address. It carries no body, so there is
+    // nothing to validate; what it needs is a customer behind the call, and
+    // the shop, which the framework's publishable-key gate has already put on
+    // the request by the time the route runs.
+    {
+      matcher: "/store/customers/me/claim-orders",
+      method: ["POST"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+
+    // ---- w02-yandex-id-auth: the buyer who already has an account signs in
+    // with Yandex ID for the first time. The token this runs with is the one
+    // the OAuth callback issued, and it carries NO customer yet
+    // (`actor_id` empty), which is exactly what `allowUnregistered` admits —
+    // the same setting Medusa's own `POST /store/customers` uses for the
+    // registration leg of email-and-password signup.
+    {
+      matcher: "/store/customers/oauth-link",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["bearer"], { allowUnregistered: true }),
+      ],
+    },
+
+    // ---- b07-store-api-isolation: the Store API stops handing one shop's
+    // orders to another shop's key, and one buyer's order to anybody holding
+    // its id. The checks live next to the data they guard
+    // (`store/order-access.ts`, `store/cart-scope.ts`); what is registered
+    // here is where each one runs.
+    //
+    // They are middlewares rather than routes of our own because the core
+    // handlers are a few lines each around a core-flows workflow, and a
+    // project middleware runs AFTER the framework's own for the same path, so
+    // `req.queryConfig`, `req.filterableFields` and `req.validatedBody` are
+    // all populated by the time they see the request.
+    //
+    // `GET /store/orders/:id` carries NO authenticate in core, so
+    // `req.auth_context` was never populated and the route could not tell an
+    // owner from a stranger even if it wanted to. `allowUnauthenticated` is
+    // what keeps the guest confirmation page reachable: an anonymous call is
+    // let through to `ensureOrderAccess`, which then demands the order's
+    // access token.
+    {
+      matcher: "/store/orders/:id",
+      method: ["GET"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"], { allowUnauthenticated: true }),
+        ensureOrderAccess,
+      ],
+    },
+    {
+      matcher: "/store/orders",
+      method: ["GET"],
+      middlewares: [scopeOrderListToShop],
+    },
+    {
+      matcher: "/store/orders/:id/transfer/request",
+      method: ["POST"],
+      middlewares: [guardOrderTransferRequest],
+    },
+    // `POST /store/returns` takes an `order_id` out of the body and completes
+    // a return against it, with no authentication in core at all.
+    {
+      matcher: "/store/returns",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        ensureReturnOrderAccess,
+      ],
+    },
+    // Every `/store/carts/:id…` route, read and write: the cart has to belong
+    // to the shop whose publishable key the call carries.
+    {
+      matcher: "/store/carts/*",
+      method: "ALL",
+      middlewares: [ensureCartTenantScope],
+    },
+    // The one place the guest access token is handed out.
+    {
+      matcher: "/store/carts/:id/complete",
+      method: ["POST"],
+      middlewares: [attachOrderAccessToken],
     },
   ],
 });

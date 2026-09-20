@@ -1,0 +1,85 @@
+{
+  "task": "t03-tenant-secrets-robokassa",
+  "branch": "feat/day16-tenant-secrets-psp",
+  "pr": {
+    "number": 23,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/23"
+  },
+  "done": [
+    {
+      "item": "Добавлена таблица tenant_integration_secret с миграцией и AES-256-GCM шифрованием секретов по тенанту.",
+      "links": [
+        "apps/backend/src/modules/tenant/models/tenant-integration-secret.ts",
+        "apps/backend/src/modules/tenant/migrations/Migration20260914193724.ts",
+        "apps/backend/src/tenant-secrets/crypto.ts"
+      ]
+    },
+    {
+      "item": "Реализован платёжный провайдер pp_robokassa_robokassa: инициация, авторизация, статус и обновление платежа по реквизитам тенанта.",
+      "links": [
+        "apps/backend/src/modules/payment-robokassa/service.ts"
+      ]
+    },
+    {
+      "item": "Добавлены API-маршруты настроек оплаты /api/tenants/payment-settings (GET/PUT/DELETE) с маскированием пароля в ответе и Result URL для приёма подтверждений от Robokassa.",
+      "links": [
+        "apps/backend/src/api/tenants/payment-settings/route.ts",
+        "apps/backend/src/api/robokassa/result/route.ts"
+      ]
+    },
+    {
+      "item": "На витрине добавлена кнопка оплаты Robokassa и обработка возврата после оплаты, локализация ключей на 36 языков.",
+      "links": [
+        "apps/storefront/src/app/api/payment-return/route.ts",
+        "apps/storefront/messages/ru.json"
+      ]
+    },
+    {
+      "item": "В панели тенанта добавлен экран «Приём оплат» с полями MerchantLogin/паролей, переключателями тестового режима и включения оплаты.",
+      "links": [
+        "apps/tenant-panel/src/routes/settings/payments/payments.tsx"
+      ]
+    },
+    {
+      "item": "Написаны тесты: 8 интеграционных кейсов на API настроек оплаты и 9 юнит-тестов на шифрование секретов.",
+      "links": [
+        "apps/backend/integration-tests/http/tenants-payment-settings.spec.ts",
+        "apps/backend/src/tenant-secrets/__tests__/crypto.unit.spec.ts"
+      ]
+    },
+    {
+      "item": "На живом стенде измерено: секрет хранится в БД шифротекстом, тестовая оплата Robokassa проходит до подтверждённого заказа, у другого тенанта провайдер не отображается.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t03-tenant-secrets-robokassa-1/03-order-confirmed.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t03-tenant-secrets-robokassa-1/04-panel-payment-settings.png"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #23 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/23"
+    },
+    {
+      "label": "Отчёт по задаче (report.md)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t03-tenant-secrets-robokassa/report.md"
+    },
+    {
+      "label": "Отчёт приёмки (REPORT.md)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t03-tenant-secrets-robokassa-1/REPORT.md"
+    },
+    {
+      "label": "Скриншот: тестовая страница Robokassa",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t03-tenant-secrets-robokassa-1/02-robokassa-test-page.png"
+    },
+    {
+      "label": "Скриншот: экран настроек оплаты в панели",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t03-tenant-secrets-robokassa-1/04-panel-payment-settings.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Боевой режим Robokassa включать нельзя до прохождения модерации и идентификации домена по 569-ФЗ — это заявлено как граница задачи и не входит в PR.",
+    "Интеграционные тесты репозитория требуют DB_PORT=5433 DB_USERNAME=ivanprotsko (не указано в AGENTS.md) и ловят EADDRINUSE при последовательных прогонах на одном PORT."
+  ]
+}

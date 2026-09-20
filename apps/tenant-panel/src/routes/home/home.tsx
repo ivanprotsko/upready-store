@@ -1,25 +1,48 @@
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Container, Heading, Text } from "@medusajs/ui"
+import { ArrowUpRightMini } from "@medusajs/icons"
+import { Button, Container, Heading, Text } from "@medusajs/ui"
 
 import { SingleColumnPage } from "../../components/layout/pages"
 import { useMe } from "../../hooks/api/users"
-import { PublishableKey } from "./publishable-key"
+import { useDomains } from "../../hooks/api/domains"
+import { useTenantLocaleSettings } from "../../hooks/api/locale-settings"
+import { OverviewStats } from "./overview-stats"
+import { SalesSummary } from "./sales-summary"
+import { DeveloperDetails } from "./developer-details"
 
 // tenant-panel: the panel's own Overview page (piece-1 prompt, item 6). Not a
 // copy of the Admin's routes/home/home.tsx, which renders a widget-injected
-// dashboard shell with no content of its own. This shows the tenant's own
-// identity (name, handle, sales channel, publishable key) and links into the
-// two screens the panel has.
+// dashboard shell with no content of its own.
+//
+// f15-overview-empty (q02-qa-owner): the first screen used to open on the
+// tenant's technical handle, "Канал продаж" and a publishable key — words a
+// shop owner does not recognize, with a key that invites pasting it
+// somewhere. It answers "what is happening in my shop" instead: product and
+// order counts (OverviewStats), the existing sales summary, and a link to the
+// storefront itself. The technical fields move into DeveloperDetails,
+// collapsed by default.
 export const Home = () => {
   const { t } = useTranslation()
   const { user, isPending, isError, error } = useMe()
+  const {
+    primary_host: primaryHost,
+    isPending: isDomainsPending,
+    isError: isDomainsError,
+    error: domainsError,
+  } = useDomains()
+  const { locale_settings: localeSettings } = useTenantLocaleSettings()
 
   if (isError) {
     throw error
   }
+  if (isDomainsError) {
+    throw domainsError
+  }
 
   const tenant = user?.tenant
+  const defaultLocale = localeSettings?.default_locale ?? "ru"
+  const shopUrl = primaryHost ? `https://${primaryHost}/${defaultLocale}` : null
 
   return (
     <SingleColumnPage
@@ -28,38 +51,34 @@ export const Home = () => {
       hasOutlet={false}
     >
       <Container className="flex flex-col gap-y-6 p-6">
-        <div>
+        <div className="flex flex-wrap items-center justify-between gap-y-2">
           <Heading level="h1">
             {isPending ? t("general.loading") : tenant?.name}
           </Heading>
-          <Text size="small" className="text-ui-fg-subtle">
-            {tenant?.handle}
-          </Text>
-        </div>
-        <div className="flex flex-col gap-y-1">
-          <Text size="small" weight="plus">
-            {t("fields.salesChannel")}
-          </Text>
-          <Text size="small" className="text-ui-fg-subtle">
-            {tenant?.sales_channel?.name ?? "-"}
-          </Text>
-        </div>
-        <div className="flex flex-col gap-y-1">
-          <Text size="small" weight="plus">
-            {t("apiKeyManagement.domain.publishable")}
-          </Text>
-          {tenant?.api_key ? (
-            <PublishableKey
-              redacted={tenant.api_key.redacted}
-              token={tenant.api_key.token}
-            />
-          ) : (
+          {shopUrl ? (
+            <Button asChild variant="secondary" size="small">
+              <a
+                href={shopUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="open-storefront-link"
+              >
+                {t("overview.openStorefront")}
+                <ArrowUpRightMini />
+              </a>
+            </Button>
+          ) : isDomainsPending ? (
             <Text size="small" className="text-ui-fg-subtle">
-              -
+              {t("overview.loading")}
             </Text>
-          )}
+          ) : null}
         </div>
-        <div className="flex items-center gap-x-4">
+
+        <OverviewStats />
+
+        <SalesSummary />
+
+        <div className="flex flex-wrap items-center gap-x-4 border-t pt-6">
           <Link
             to="/products"
             className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
@@ -81,7 +100,85 @@ export const Home = () => {
           >
             {t("tenantAddress.title")}
           </Link>
+          {/* t06-locale-currency: the shop's own default language and its
+              enabled subset of the storefront's 36 locales. */}
+          <Link
+            to="/settings/locale"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("localeSettings.title", { defaultValue: "Язык и валюта" })}
+          </Link>
+          <Link
+            to="/settings/payments"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("paymentSettings.title")}
+          </Link>
+          {/* i02-apiship-cdek-shipping: реквизиты СДЭК и способы доставки,
+              которые магазин показывает на кассе. */}
+          <Link
+            to="/settings/delivery"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("deliverySettings.title")}
+          </Link>
+          <Link
+            to="/settings/notifications"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("notificationSettings.title")}
+          </Link>
+          {/* t12-legal-requisites: значения, подставляемые вместо {{ТОКЕНОВ}}
+              в оферте, политике конфиденциальности и контактах магазина. */}
+          <Link
+            to="/settings/requisites"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            Реквизиты продавца
+          </Link>
+          {/* b10-panel-gaps: старые адреса магазина и коды подтверждения в
+              поисковиках — две половины одного переезда со старого сайта. */}
+          <Link
+            to="/settings/redirects"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("redirects.title")}
+          </Link>
+          <Link
+            to="/settings/seo"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("seoVerification.title")}
+          </Link>
+          {/* t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids. */}
+          <Link
+            to="/settings/analytics"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("analyticsSettings.title")}
+          </Link>
+          {/* p01-settings-integrations-restructure: «Подключение» — реквизиты
+              всех сервисов магазина одним разделом. Стоит здесь, рядом с
+              «Приёмом оплат» и «Доставкой», а не внутри маркетплейсов: ключи
+              Robokassa и СДЭК к площадкам отношения не имеют (приказ Ивана
+              2026-09-16 20:22 WITA). Прежняя ссылка вела на хаб
+              `/settings/marketplaces`, который теперь редиректит сюда. */}
+          <Link
+            to="/settings/integrations"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("integrations.title")}
+          </Link>
+          {/* t16-owner-branding: logo, favicon, og image, primary colour, footer credit. */}
+          <Link
+            to="/settings/branding"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("brandingSettings.title", { defaultValue: "Бренд" })}
+          </Link>
         </div>
+
+        <DeveloperDetails tenant={tenant} />
       </Container>
     </SingleColumnPage>
   )

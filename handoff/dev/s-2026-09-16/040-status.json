@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 40,
+  "action": "status-set",
+  "ts": "2026-09-16T10:48:44+08:00",
+  "status": "2026-09-16 10:48 WITA: приёмка w15-mp-orders-desk (PR #90) — MERGED. Сам замерил: test:unit 908/908, панель typecheck+lint rc=0, mp_order на стенде воспроизведён (wb FBS 8075 / без схемы 18737, ozon 2, строк и событий по 26814), дедупликация WB сходится (25869+8075-7132=26812), изоляция тенантов держит (acme 17 против cherkashino 2), Ozon на актуальных v4/v3, миграция аддитивна. Равенство CSV=экран принято по конструкции (общий loadFeed и общая строка params). Ниты: read-only тест не покрывает routes/marketplace-order-detail; комментарий load-feed.ts:147 обещает фильтр периода в query.graph, которого там нет; CSV-улика не закоммичена. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-w15-mp-orders-desk-1/measurements.md"
+}

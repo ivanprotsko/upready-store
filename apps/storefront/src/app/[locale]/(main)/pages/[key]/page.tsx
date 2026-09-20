@@ -4,10 +4,12 @@ import { getLocale, getTranslations } from "next-intl/server"
 
 import { getTenantPage } from "@lib/data/tenant-pages"
 import { buildAlternates } from "@lib/util/alternates"
+import { decodeSegment } from "@lib/util/decode-segment"
 import { getSiteName } from "@lib/data/cookies"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
-import MarkdownContent from "@modules/content/components/markdown-content"
+import { parseInline } from "@lib/util/markdown"
+import MarkdownContent, { Inline } from "@modules/content/components/markdown-content"
 
 /**
  * One content page of this storefront's tenant, written from the tenant panel
@@ -31,16 +33,16 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     getLocale(),
     getTranslations("TenantPage"),
   ])
-  const page = await getTenantPage(params.key)
+  const page = await getTenantPage(decodeSegment(params.key))
 
   if (!page) {
     notFound()
   }
 
   return {
-    title: await pageTitle(page.title),
+    title: await pageTitle(page.seo_title || page.title),
     description:
-      metaDescription(page.body) ??
+      metaDescription(page.seo_description, page.body) ??
       t("metaDescription", { title: page.title, siteName: await getSiteName() }),
     alternates: await buildAlternates(locale, `/pages/${params.key}`),
   }
@@ -48,7 +50,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function TenantContentPage(props: Props) {
   const [params, t] = await Promise.all([props.params, getTranslations("TenantPage")])
-  const page = await getTenantPage(params.key)
+  const page = await getTenantPage(decodeSegment(params.key))
 
   if (!page) {
     notFound()
@@ -58,7 +60,9 @@ export default async function TenantContentPage(props: Props) {
 
   return (
     <div className="content-container flex flex-col gap-y-6 py-12 max-w-2xl">
-      <h1 className="text-2xl-semi text-ui-fg-base">{page.title}</h1>
+      <h1 className="text-2xl-semi text-ui-fg-base">
+        <Inline nodes={parseInline(page.title)} />
+      </h1>
       {hasBody ? (
         <MarkdownContent source={page.body} />
       ) : (

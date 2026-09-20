@@ -62,6 +62,11 @@
     "description": "配送先住所の確認・更新ができ、いくつでも追加登録できます。登録した住所はチェックアウト時に利用できます。",
     "heading": "配送先住所"
   },
+  "AnalyticsConsent": {
+    "message": "訪問者がこのサイトをどのように利用しているかを把握するためにCookieを使用しています。",
+    "accept": "同意する",
+    "decline": "拒否する"
+  },
   "Breadcrumb": {
     "home": "ホーム",
     "store": "ストア"
@@ -98,6 +103,25 @@
     "title": "カテゴリー",
     "viewAll": "すべて見る"
   },
+  "CdekPoint": {
+    "heading": "CDEK 受取場所",
+    "chooseHeading": "CDEK の受取場所を選択",
+    "searchPlaceholder": "住所や駅名で検索",
+    "cityLabel": "都市",
+    "cityPlaceholder": "都市名を入力",
+    "choose": "選択",
+    "chosen": "選択済み",
+    "found": "見つかった受取場所：{count}",
+    "noResults": "{city} に受取場所は見つかりませんでした。",
+    "needCity": "受取場所を表示するには配送先の都市を入力してください。",
+    "loading": "受取場所を読み込んでいます…",
+    "notConfigured": "このショップでは CDEK 配送はまだ設定されていません。",
+    "change": "場所を変更",
+    "tabList": "一覧",
+    "tabMap": "地図",
+    "mapEmpty": "この都市では地図に表示できる受取店舗がありません。",
+    "mapFailed": "地図を利用できません。一覧から受取店舗を選んでください。"
+  },
   "CheckoutPage": {
     "addNewAddress": "新しい住所を追加",
     "addressHeading": "配送先住所",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, other {{count}点}}",
     "legal": "「支払う」をクリックすることで、<terms>販売条件</terms>、<termsOfUse>利用規約</termsOfUse>、<returnPolicy>返品ポリシー</returnPolicy>に同意し、<privacyPolicy>プライバシーポリシー</privacyPolicy>に同意するものとします。",
     "manualInput": "住所を手入力する",
+    "addressIncomplete": "住所の必須項目を入力してください。市区町村と郵便番号がないと注文を発送できません。",
     "orderComposition": "注文内容",
     "paymentHeading": "支払い方法",
     "recipientCheckbox": "受取人が異なる場合",
@@ -145,7 +170,16 @@
     "shippingLink": "配送",
     "shippingUnavailable": "利用可能な配送方法がありません",
     "signIn": "サインイン",
-    "total": "合計"
+    "total": "合計",
+    "shippingZone": "地域: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "アカウントなしで注文しましたか？",
+    "description": "同じメールアドレスでゲストとして注文した場合、その注文をアカウントに紐づけます。",
+    "button": "注文を探す",
+    "claimed": "紐づけた注文: {count}",
+    "none": "このショップでは、お客様のメールアドレスのゲスト注文は見つかりませんでした。",
+    "failed": "注文を確認できませんでした。しばらくしてからもう一度お試しください。"
   },
   "Common": {
     "clear": "クリア",
@@ -306,8 +340,12 @@
     "unauthorized": "続行するにはサインインしてください。"
   },
   "Filters": {
+    "from": "最小",
+    "no": "いいえ",
     "sort": "並び替え",
-    "title": "フィルター"
+    "title": "フィルター",
+    "to": "最大",
+    "yes": "はい"
   },
   "Footer": {
     "categoriesHeading": "カテゴリー",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "閉じる",
+    "counter": "{total} 枚中 {index} 枚目",
     "goToImage": "画像 {index} へ移動",
-    "openFullImage": "画像を拡大表示"
+    "nextImage": "次の画像",
+    "openFullImage": "画像を拡大表示",
+    "previousImage": "前の画像",
+    "showImage": "画像 {index} を表示",
+    "thumbnails": "商品のサムネイル"
+  },
+  "Journal": {
+    "navLabel": "読みもの",
+    "feedTitle": "読みもの",
+    "feedDescription": "{siteName}の記事。",
+    "empty": "記事はまだありません。",
+    "backToFeed": "記事一覧",
+    "previous": "前へ",
+    "next": "次へ",
+    "pageOf": "{lastPage} ページ中 {page} ページ",
+    "pagination": "読みもののページ",
+    "readingTime": "約{minutes}分で読めます",
+    "related": "あわせて読みたい",
+    "share": "共有",
+    "copyLink": "リンクをコピー",
+    "linkCopied": "リンクをコピーしました",
+    "allCategories": "すべてのテーマ",
+    "categories": "テーマ"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "新規登録",
     "notMember": "アカウントをお持ちでない方",
     "password": "パスワード",
-    "signIn": "サインイン"
+    "signIn": "サインイン",
+    "yandexCta": "Yandex ID でログイン",
+    "yandexDivider": "または",
+    "yandexErrorDenied": "Yandex のページでログインをキャンセルしました。",
+    "yandexErrorEmailTaken": "このメールアドレスのアカウントはすでにあります。パスワードでログインしてください。",
+    "yandexErrorExpired": "ログイン用のリンクの有効期限が切れました。最初からやり直してください。",
+    "yandexErrorFailed": "ログインできませんでした。しばらくしてからお試しください。",
+    "yandexErrorNoEmail": "Yandex からメールアドレスが渡されなかったため、アカウントを作成できません。",
+    "yandexErrorRejected": "Yandex がこのログインを確認できませんでした。もう一度お試しください。",
+    "yandexErrorUnconfigured": "このストアでは Yandex でのログインがまだ有効になっていません。"
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "詳細を見る"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "注文番号を保管してください。ショップへのお問い合わせの際に必要です。",
     "orderSuccess": "ご注文が完了しました。",
     "thankYou": "ありがとうございます！"
   },
   "OrderDetails": {
     "backToOrders": "注文一覧に戻る",
-    "confirmationSentBefore": "注文確認の詳細を以下の宛先にお送りしました：",
+    "contactEmailBefore": "このご注文の連絡先アドレス",
     "fulfillmentStatuses": {
       "canceled": "キャンセル済み",
       "delivered": "配達済み",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "お支払いはまだ確認中です。1分ほど待ってアカウントから注文を開くか、もう一度お試しください。",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "追跡番号"
   },
   "OrdersPage": {
     "description": "過去の注文とその状況を確認できます。",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "支払う",
+    "redirectUnavailable": "決済ページはまだ利用できません。しばらくしてからもう一度お試しください。",
     "selectPaymentMethod": "支払い方法を選択してください"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "クレジットカード",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "クレジットカード",
@@ -682,6 +758,14 @@
     "selectOptions": "オプションを選択",
     "selectVariant": "バリエーションを選択"
   },
+  "ProductAttributes": {
+    "no": "いいえ",
+    "title": "仕様",
+    "yes": "はい"
+  },
+  "ProductInfo": {
+    "description": "商品説明"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "管理画面で設定を続ける",
     "continueSetup": "管理画面でストアの設定を続けることができます。",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "すべて見る"
+  },
+  "ProductReviews": {
+    "heading": "レビュー",
+    "ratingSummary": "5段階中{average} · {count, plural, other {#件のレビュー}}",
+    "ratingValue": "5段階中{value}",
+    "formHeading": "あなたのレビュー",
+    "ratingLabel": "評価",
+    "nameLabel": "お名前",
+    "titleLabel": "タイトル（任意）",
+    "bodyLabel": "レビュー本文",
+    "submit": "レビューを送信",
+    "pendingNotice": "ありがとうございます。ショップの承認後にレビューが表示されます。",
+    "signInPrompt": "レビューを書くにはログインしてください。",
+    "error": "レビューを送信できませんでした。もう一度お試しください。",
+    "ownerReply": "ショップからの返信",
+    "previousPage": "前へ",
+    "nextPage": "次へ",
+    "pageOf": "{pages}ページ中{page}ページ"
   },
   "ProductTabs": {
     "easyReturns": "簡単な返品",
@@ -809,7 +911,8 @@
       "account": "アカウント",
       "cart": "カート",
       "home": "ホーム",
-      "store": "ストア"
+      "store": "ストア",
+      "journal": "読みもの"
     },
     "menuButton": "メニュー"
   },

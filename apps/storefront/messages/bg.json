@@ -62,6 +62,11 @@
     "description": "Преглеждайте и актуализирайте адресите си за доставка — можете да добавите колкото искате. Запазените адреси ще бъдат достъпни при поръчка.",
     "heading": "Адреси за доставка"
   },
+  "AnalyticsConsent": {
+    "message": "Използваме бисквитки, за да разберем как посетителите използват този сайт.",
+    "accept": "Приемам",
+    "decline": "Отказвам"
+  },
   "Breadcrumb": {
     "home": "Начало",
     "store": "Магазин"
@@ -98,6 +103,25 @@
     "title": "Категории",
     "viewAll": "Виж всички"
   },
+  "CdekPoint": {
+    "heading": "Пункт за получаване CDEK",
+    "chooseHeading": "Изберете пункт за получаване CDEK",
+    "searchPlaceholder": "Търсене по адрес или метро",
+    "cityLabel": "Град",
+    "cityPlaceholder": "Започнете да въвеждате град",
+    "choose": "Избор",
+    "chosen": "Избран",
+    "found": "Намерени пунктове: {count}",
+    "noResults": "В {city} не са намерени пунктове за получаване.",
+    "needCity": "Въведете град на доставка, за да видите пунктовете.",
+    "loading": "Зареждане на пунктовете…",
+    "notConfigured": "Доставката с CDEK още не е настроена в този магазин.",
+    "change": "Смяна на пункт",
+    "tabList": "Списък",
+    "tabMap": "Карта",
+    "mapEmpty": "За този град няма точки на картата.",
+    "mapFailed": "Картата не е достъпна. Изберете точка от списъка."
+  },
   "CheckoutPage": {
     "addNewAddress": "Добави нов адрес",
     "addressHeading": "Адрес за доставка",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} артикул} other {{count} артикула}}",
     "legal": "С натискането на «Плати» приемате нашите <terms>условия</terms>, <termsOfUse>условия за ползване</termsOfUse> и <returnPolicy>политика за връщане</returnPolicy>, и се съгласявате с нашата <privacyPolicy>политика за поверителност</privacyPolicy>.",
     "manualInput": "Въведи адрес ръчно",
+    "addressIncomplete": "Попълнете задължителните полета на адреса. Без град и пощенски код поръчката не може да бъде изпратена.",
     "orderComposition": "Обобщение на поръчката",
     "paymentHeading": "Начин на плащане",
     "recipientCheckbox": "Получателят е друго лице",
@@ -145,7 +170,16 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Няма налични методи за доставка",
     "signIn": "Вход",
-    "total": "Общо"
+    "total": "Общо",
+    "shippingZone": "Зона: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Поръчали сте без регистрация?",
+    "description": "Ако сте направили поръчка като гост със същия имейл адрес, ще я свържем с вашия профил.",
+    "button": "Намери поръчките ми",
+    "claimed": "Свързани поръчки: {count}",
+    "none": "Не намерихме поръчки като гост за вашия имейл адрес в този магазин.",
+    "failed": "Не успяхме да проверим поръчките. Опитайте отново след малко."
   },
   "Common": {
     "clear": "Изчистване",
@@ -306,8 +340,12 @@
     "unauthorized": "Моля, влезте в акаунта си, за да продължите."
   },
   "Filters": {
+    "from": "от",
+    "no": "Не",
     "sort": "Подредба",
-    "title": "Филтри"
+    "title": "Филтри",
+    "to": "до",
+    "yes": "Да"
   },
   "Footer": {
     "categoriesHeading": "Категории",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Затвори",
+    "counter": "Изображение {index} от {total}",
     "goToImage": "Към изображение {index}",
-    "openFullImage": "Отваряне на цялото изображение"
+    "nextImage": "Следващо изображение",
+    "openFullImage": "Отваряне на цялото изображение",
+    "previousImage": "Предишно изображение",
+    "showImage": "Покажи изображение {index}",
+    "thumbnails": "Миниатюри на продукта"
+  },
+  "Journal": {
+    "navLabel": "Списание",
+    "feedTitle": "Списание",
+    "feedDescription": "Статии от {siteName}.",
+    "empty": "Все още няма статии.",
+    "backToFeed": "Всички статии",
+    "previous": "Назад",
+    "next": "Напред",
+    "pageOf": "Страница {page} от {lastPage}",
+    "pagination": "Страници на списанието",
+    "readingTime": "{minutes} мин четене",
+    "related": "Прочетете също",
+    "share": "Споделяне",
+    "copyLink": "Копирай връзката",
+    "linkCopied": "Връзката е копирана",
+    "allCategories": "Всички рубрики",
+    "categories": "Рубрики"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Присъединете се",
     "notMember": "Нямате акаунт?",
     "password": "Парола",
-    "signIn": "Вход"
+    "signIn": "Вход",
+    "yandexCta": "Вход с Яндекс ID",
+    "yandexDivider": "или",
+    "yandexErrorDenied": "Отказахте входа на страницата на Яндекс.",
+    "yandexErrorEmailTaken": "Вече има профил с този имейл. Влезте с паролата си.",
+    "yandexErrorExpired": "Връзката за вход изтече. Започнете отначало.",
+    "yandexErrorFailed": "Входът не се осъществи. Опитайте пак след малко.",
+    "yandexErrorNoEmail": "Яндекс не предостави имейл адрес, затова профил не може да се създаде.",
+    "yandexErrorRejected": "Яндекс не потвърди този вход. Опитайте отново.",
+    "yandexErrorUnconfigured": "Входът през Яндекс още не е включен в този магазин."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Виж детайли"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Запазете номера на поръчката. Той ще ви трябва при връзка с магазина.",
     "orderSuccess": "Поръчката ви беше направена успешно.",
     "thankYou": "Благодарим ви!"
   },
   "OrderDetails": {
     "backToOrders": "Назад към поръчките",
-    "confirmationSentBefore": "Изпратихме потвърждението на поръчката на",
+    "contactEmailBefore": "Адресът за връзка по тази поръчка е",
     "fulfillmentStatuses": {
       "canceled": "Отказана",
       "delivered": "Доставена",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Плащането все още се потвърждава. Изчакайте минута и отворете поръчката от профила си или опитайте отново.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Номер за проследяване"
   },
   "OrdersPage": {
     "description": "Преглеждайте предишните си поръчки и техния статус.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Плати",
+    "redirectUnavailable": "Страницата за плащане още не е достъпна. Опитайте отново след малко.",
     "selectPaymentMethod": "Изберете начин на плащане"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Кредитна карта",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Кредитна карта",
@@ -682,6 +758,14 @@
     "selectOptions": "Избери опции",
     "selectVariant": "Избери вариант"
   },
+  "ProductAttributes": {
+    "no": "Не",
+    "title": "Характеристики",
+    "yes": "Да"
+  },
+  "ProductInfo": {
+    "description": "Описание"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продължи настройката в администрацията",
     "continueSetup": "Сега можете да продължите настройката на магазина си в администрацията.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Виж всички"
+  },
+  "ProductReviews": {
+    "heading": "Отзиви",
+    "ratingSummary": "{average} от 5 · {count, plural, one {# отзив} other {# отзива}}",
+    "ratingValue": "{value} от 5",
+    "formHeading": "Вашият отзив",
+    "ratingLabel": "Оценка",
+    "nameLabel": "Вашето име",
+    "titleLabel": "Заглавие (по избор)",
+    "bodyLabel": "Текст на отзива",
+    "submit": "Изпрати отзив",
+    "pendingNotice": "Благодарим ви. Отзивът ще се появи, след като магазинът го одобри.",
+    "signInPrompt": "Влезте, за да оставите отзив.",
+    "error": "Отзивът не беше изпратен. Опитайте отново.",
+    "ownerReply": "Отговор от магазина",
+    "previousPage": "Назад",
+    "nextPage": "Напред",
+    "pageOf": "Страница {page} от {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Лесно връщане",
@@ -809,7 +911,8 @@
       "account": "Профил",
       "cart": "Кошница",
       "home": "Начало",
-      "store": "Магазин"
+      "store": "Магазин",
+      "journal": "Списание"
     },
     "menuButton": "Меню"
   },

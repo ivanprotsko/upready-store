@@ -14,7 +14,6 @@ import {
   toast,
   usePrompt,
 } from "@medusajs/ui"
-import { format } from "date-fns"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "react-router-dom"
@@ -26,7 +25,8 @@ import {
   useMarkOrderFulfillmentAsDelivered,
 } from "../../../../../hooks/api/orders"
 import { useStockLocation } from "../../../../../hooks/api/stock-locations"
-import { formatProvider } from "../../../../../lib/format-provider"
+import { useDate } from "../../../../../hooks/use-date"
+import { getFulfillmentProviderLabel } from "../../../../../lib/order-helpers"
 import { getLocaleAmount } from "../../../../../lib/money-amount-helpers"
 import { FulfillmentSetType } from "../../../../locations/common/constants"
 import { ExtendedOrderFulfillment, ExtendedOrder } from "../../constants"
@@ -208,6 +208,7 @@ const Fulfillment = ({
   index: number
 }) => {
   const { t } = useTranslation()
+  const { getFullDate } = useDate()
   const prompt = usePrompt()
   const navigate = useNavigate()
 
@@ -348,10 +349,7 @@ const Fulfillment = ({
         </Heading>
         <div className="flex items-center gap-x-4">
           <Tooltip
-            content={format(
-              new Date(statusTimestamp),
-              "dd MMM, yyyy, HH:mm:ss"
-            )}
+            content={getFullDate({ date: statusTimestamp, includeTime: true })}
           >
             <StatusBadge color={statusColor} className="text-nowrap">
               {statusText}
@@ -415,7 +413,7 @@ const Fulfillment = ({
         </Text>
 
         <Text size="small" leading="compact">
-          {formatProvider(fulfillment.provider_id)}
+          {getFulfillmentProviderLabel(t, fulfillment.provider_id)}
         </Text>
       </div>
       <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
@@ -423,6 +421,14 @@ const Fulfillment = ({
           {t("orders.fulfillment.trackingLabel")}
         </Text>
         <div>
+          {/* tenant-panel (t04-shipping-tariffs): the carrier the owner typed
+              on the shipment form, from fulfillment.metadata.carrier. */}
+          {typeof fulfillment.metadata?.carrier === "string" &&
+            fulfillment.metadata.carrier && (
+              <Text size="small" leading="compact" className="mb-1">
+                {fulfillment.metadata.carrier}
+              </Text>
+            )}
           {fulfillment.labels && fulfillment.labels.length > 0 ? (
             <ul>
               {fulfillment.labels.map((tlink) => {

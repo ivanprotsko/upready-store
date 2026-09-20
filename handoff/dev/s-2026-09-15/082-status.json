@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 82,
+  "action": "status-set",
+  "ts": "2026-09-15T20:47:00+08:00",
+  "status": "2026-09-15 20:47 WITA: d04 — на живом mt-хосте стоит a530e50 (9 PR волны 4: f06,f08,f09,f10,f11,f13,f14,f15,f16), 5/5 платформенных URL + 5/5 карточек клиента 200, откат не нужен. НАХОДКА: #50/f12 смёржен в 20:24 и НЕ доставлен — образ бэкенда из ba126e8 не собирается, src/scripts/f12-seed-test-order.ts:55 TS2322 роняет medusa build (приёмочная фикстура лежит в компилируемом дереве, класс f17). Тег mt-panel:latest возвращён на обслуживающий образ. Отчёт: handoff/day-2026-09-16-oksana-store/artifacts/d04-deploy-mt-4/report.md"
+}

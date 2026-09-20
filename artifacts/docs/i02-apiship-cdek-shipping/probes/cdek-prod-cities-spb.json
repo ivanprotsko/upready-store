@@ -1,0 +1,8 @@
+{
+  "name": "cdek-prod-cities-spb",
+  "url": "https://api.cdek.ru/v2/location/cities?city=Санкт-Петербург&size=5",
+  "method": "GET",
+  "status": 401,
+  "ms": 269,
+  "body": "{}\r\n"
+}

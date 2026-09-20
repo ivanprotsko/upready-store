@@ -1,0 +1,55 @@
+FAIL src/migration-scripts/__tests__/profile-data.unit.spec.ts
+  catalog loader: STORE_PROFILE unset
+    ✓ reads the shipped demo catalog (8 ms)
+    ✓ leaves the demo images and prices exactly as they are on disk (2 ms)
+    ✓ keeps the shipped store identity (3 ms)
+    ✓ keeps all 36 shipped locales untouched (8 ms)
+  catalog loader: STORE_PROFILE set
+    ✓ reads the profile catalog instead of the demo one (3 ms)
+    ✓ prefixes relative image refs with STORE_MEDIA_BASE_URL (1 ms)
+    ✓ keeps subtitle, specs and price_usd, drops the authoring-only fields (1 ms)
+    ✓ rejects an absolute image URL instead of seeding it (7 ms)
+    ✓ takes the store name and sales channel from the profile brand
+  i18n merge
+    ✓ keeps every base locale so the storefront stays complete (3 ms)
+    ✓ lets a profile key win over a base key that already exists (4 ms)
+    ✓ adds the profile's own keys (6 ms)
+    ✓ keeps base keys the profile omits inside a group it does override (2 ms)
+    ✓ keeps base keys the profile does not carry (4 ms)
+    ✕ leaves a locale the profile never translated identical to the base (7 ms)
+
+  ● i18n merge › leaves a locale the profile never translated identical to the base
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 0
+    + Received  + 1
+
+    @@ -14,10 +14,11 @@
+          "tableware": "Vaisselle",
+        },
+        "collections": Object {
+          "new": "Nouveautés",
+        },
+    +   "productOptions": Object {},
+        "products": Object {
+          "chinoPants": Object {
+            "description": "Pantalon chino noir classique à coupe ajustée et au design épuré. Confectionné dans un coton doux et résistant avec une touche d'élasthanne pour le confort. Poches latérales, passants de ceinture et fermeture à bouton. Idéal pour un look décontracté ou habillé.",
+            "title": "Pantalon chino",
+          },
+
+      222 |       () => require("../data/i18n") as I18nModule,
+      223 |     ).SEED_TRANSLATIONS.fr;
+    > 224 |     expect(profileFr).toEqual(baseFr);
+          |                       ^
+      225 |   });
+      226 | });
+      227 |
+
+      at Object.toEqual (src/migration-scripts/__tests__/profile-data.unit.spec.ts:224:23)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 14 passed, 15 total
+Snapshots:   0 total
+Time:        0.304 s, estimated 1 s
+Ran all test suites matching /src\/migration-scripts\/__tests__\/profile-data.unit.spec.ts/i.

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-day16-owner-numbers",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T22:29:46+08:00",
+  "status": "2026-09-15 22:29 WITA: b01-owner-numbers — PR #57 открыт в dev: дедуп order_summary/order_item по версии (Обзор+Клиенты в одном модуле order-totals.ts), отменённые заказы вне выручки и названы отдельно, выгрузка каталога в валюте магазина (RUB вместо USD), круговой рейс CSV прогнан на клоне живой базы и починен (регистр ключа метаданных, пробелы в описании). Замеры и скриншоты: artifacts/docs/b01-owner-numbers/report.md"
+}

@@ -1,0 +1,68 @@
+{
+  "task": "t10-blog",
+  "branch": "feat/day16-blog",
+  "pr": {
+    "number": 31,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/31"
+  },
+  "done": [
+    {
+      "item": "Добавлена модель tenant_article с миграцией, панельное API /tenants/articles (создание, правка, удаление по языку) и публичное /store/tenant/articles для ленты и отдельной статьи."
+    },
+    {
+      "item": "На витрине сделаны лента /[locale]/journal и страница статьи /[locale]/journal/[slug] с обложкой, JSON-LD, canonical и hreflang."
+    },
+    {
+      "item": "Пункт «Журнал» добавлен во все шесть вариантов навигации и показывается только если у магазина есть хотя бы одна опубликованная статья."
+    },
+    {
+      "item": "Читалка markdown научилась цитатам (>) и разделителям (---), заголовки глубже h3 зажимаются вместо потери форматирования."
+    },
+    {
+      "item": "Опубликованные статьи попадают в sitemap своего тенанта и не видны в карте сайта соседнего тенанта."
+    },
+    {
+      "item": "Скрипт переноса перенёс все 18 опубликованных статей клиента (ru+en, обложки перезалиты), идемпотентен, поддерживает --dry-run."
+    },
+    {
+      "item": "В панели тенанта сделан раздел «Журнал»: список статей, создание, редактор с загрузкой обложки, публикацией, метками и SEO-полями."
+    },
+    {
+      "item": "Приёмка подтвердила изоляцию тенантов и работу без пересборки; найдена и заведена отдельно помарка — published_at не проставляется при первой публикации из панели."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #31 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/31"
+    },
+    {
+      "label": "Находки приёмки, раунд 1",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t10-blog-1.findings.md"
+    },
+    {
+      "label": "Реестр переноса 18 статей",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t10-blog/articles-registry.json"
+    },
+    {
+      "label": "Скриншот: лента журнала на витрине",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t10-blog-1/storefront-feed-1280x900.png"
+    },
+    {
+      "label": "Скриншот: панель — список статей",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t10-blog-1/panel-journal-list-1280x900.png"
+    }
+  ],
+  "access": [
+    {
+      "url": "http://localhost:9250",
+      "login": "admin@oksana-t05.test",
+      "password": "supersecret",
+      "note": "тестовый бэкенд тенанта oksana-t05 на стенде приёмки, использовался для переноса статей"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Помарка: published_at не проставляется при первой публикации статьи из панели (панель шлёт null вместо undefined на пустой дате) — заведена отдельным комментарием к PR, не блокировала слияние."
+  ]
+}

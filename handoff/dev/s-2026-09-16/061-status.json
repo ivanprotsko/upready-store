@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 61,
+  "action": "status-set",
+  "ts": "2026-09-16T23:38:45+08:00",
+  "status": "2026-09-16 23:38 WITA: штаб дня Оксаны — p02-operator-v1 running (ws 07e1c581, opus/high), сторож bu7cm4t75, диспетчер pid 82353; по вопросу Ивана 23:35 (оператор и штаб на много проектов) написана позиция intake/STAFF-MULTI-PROJECT.md — один оператор, N очередей одного движка, один резидент Fable, изоляция по project и диску; реализация только по «делай»"
+}

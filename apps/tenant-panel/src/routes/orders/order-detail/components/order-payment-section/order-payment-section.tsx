@@ -12,7 +12,6 @@ import {
   Tooltip,
   usePrompt,
 } from "@medusajs/ui"
-import { format } from "date-fns"
 import { Trans, useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import DisplayId from "../../../../../components/common/display-id/display-id"
@@ -20,12 +19,16 @@ import {
   useCapturePayment,
   useAuthorizePaymentSession,
 } from "../../../../../hooks/api"
+import { useDate } from "../../../../../hooks/use-date"
 import { formatCurrency } from "../../../../../lib/format-currency"
 import {
   getLocaleAmount,
   getStylizedAmount,
 } from "../../../../../lib/money-amount-helpers"
-import { getOrderPaymentStatus } from "../../../../../lib/order-helpers"
+import {
+  getOrderPaymentStatus,
+  getPaymentProviderLabel,
+} from "../../../../../lib/order-helpers"
 import { getPaymentsFromOrder } from "../../../../../lib/orders"
 import { getTotalCaptured, getTotalPending } from "../../../../../lib/payment"
 import { getLoyaltyPlugin } from "../../../../../lib/plugins"
@@ -87,6 +90,7 @@ const Refund = ({
   currencyCode: string
 }) => {
   const { t } = useTranslation()
+  const { getFullDate } = useDate()
   const RefundReasonBadge = refund?.refund_reason && (
     <Badge
       size="2xsmall"
@@ -114,7 +118,7 @@ const Refund = ({
             {t("orders.payment.refund")} {RefundNoteIndicator}
           </Text>
           <Text size="small" leading="compact">
-            {format(new Date(refund.created_at), "dd MMM, yyyy, HH:mm:ss")}
+            {getFullDate({ date: refund.created_at, includeTime: true })}
           </Text>
         </div>
       </div>
@@ -140,6 +144,7 @@ const Payment = ({
   currencyCode: string
 }) => {
   const { t } = useTranslation()
+  const { getFullDate } = useDate()
   const prompt = usePrompt()
   const { mutateAsync } = useCapturePayment(order.id, payment.id)
 
@@ -177,11 +182,11 @@ const Payment = ({
 
   const getPaymentStatusAttributes = (payment: AdminPayment) => {
     if (payment.canceled_at) {
-      return ["Canceled", "red"]
+      return [t("orders.payment.status.canceled"), "red"]
     } else if (payment.captured_at) {
-      return ["Captured", "green"]
+      return [t("orders.payment.status.captured"), "green"]
     } else {
-      return ["Pending", "orange"]
+      return [t("orders.payment.status.awaiting"), "orange"]
     }
   }
 
@@ -211,15 +216,15 @@ const Payment = ({
             <DisplayId id={payment.id} />
           </Text>
           <Text size="small" leading="compact">
-            {format(
-              new Date(payment.created_at as string),
-              "dd MMM, yyyy, HH:mm:ss"
-            )}
+            {getFullDate({
+              date: payment.created_at as string,
+              includeTime: true,
+            })}
           </Text>
         </div>
         <div className="hidden items-center justify-end sm:flex">
-          <Text size="small" leading="compact" className="capitalize">
-            {payment.provider_id}
+          <Text size="small" leading="compact">
+            {getPaymentProviderLabel(t, payment.provider_id)}
           </Text>
         </div>
         <div className="flex items-center justify-end">
@@ -293,6 +298,8 @@ const CreditLine = ({
   currencyCode: string
   plugins: HttpTypes.AdminPlugin[]
 }) => {
+  const { t } = useTranslation()
+  const { getFullDate } = useDate()
   const loyaltyPlugin = getLoyaltyPlugin(plugins)
 
   if (!loyaltyPlugin) {
@@ -321,17 +328,17 @@ const CreditLine = ({
           >
             {loyaltyPlugin ? (
               <Text size="small" leading="compact" weight="plus">
-                Store credit refund
+                {t("orders.creditLines.storeCreditRefund")}
               </Text>
             ) : (
               <DisplayId id={creditLine.id} />
             )}
           </Text>
           <Text size="small" leading="compact">
-            {format(
-              new Date(creditLine.created_at as unknown as string),
-              "dd MMM, yyyy, HH:mm:ss"
-            )}
+            {getFullDate({
+              date: creditLine.created_at as unknown as string,
+              includeTime: true,
+            })}
           </Text>
         </div>
         <div className="hidden items-center justify-end sm:flex">
@@ -519,7 +526,7 @@ const Total = ({ order }: { order: AdminOrder }) => {
       {order.status !== "canceled" && totalPending > 0 && (
         <div className="flex items-center justify-between">
           <Text size="small" weight="plus" leading="compact">
-            Total pending
+            {t("orders.payment.totalPending")}
           </Text>
 
           <Text size="small" weight="plus" leading="compact">

@@ -69,6 +69,21 @@
     },
     "title": "Addresses"
   },
+  "analyticsSettings": {
+    "title": "Analytics",
+    "subtitle": "your own counters on your storefront",
+    "yandexMetrica": {
+      "label": "Yandex Metrica counter",
+      "hint": "the number shown in the Metrica dashboard, digits only"
+    },
+    "ga4": {
+      "label": "GA4 measurement ID",
+      "hint": "starts with G-, from your Google Analytics 4 property"
+    },
+    "save": "Save",
+    "loading": "Loading…",
+    "saved": "Analytics settings saved"
+  },
   "apiKeyManagement": {
     "actions": {
       "copy": "Copy API key",
@@ -214,11 +229,22 @@
         "extensions": "Extensions"
       },
       "main": {
+        "reviews": "Reviews",
+        "shipping": "Delivery",
         "homeSettings": "Home page",
         "overview": "Overview",
         "pages": "Pages",
+        "journal": "Journal",
         "store": "Store",
-        "storeSettings": "Store settings"
+        "storeSettings": "Store settings",
+        "marketplaces": "Marketplaces",
+        "wildberries": "Wildberries",
+        "mpCatalog": "Catalog",
+        "mpPriceStock": "Prices and stock",
+        "mpOrders": "Marketplace orders",
+        "mpReviews": "Marketplace reviews",
+        "mpSync": "Synchronisation",
+        "ozon": "Ozon"
       },
       "settings": {
         "developer": "Developer",
@@ -421,7 +447,7 @@
       "header": "Edit Category",
       "image": "Image",
       "imageAlt": "Image description",
-      "imageHint": "Shown as the tile image wherever the storefront shows this category. Clear the address to remove it.",
+      "imageHint": "Shown on this category's own page, and as a tile in the catalog and on the home page. Clear the address to remove it.",
       "imageUploadFailed": "The image could not be uploaded.",
       "successToast": "Category was successfully updated.",
       "upload": "Upload",
@@ -430,6 +456,9 @@
     "fields": {
       "children": {
         "label": "Children"
+      },
+      "image": {
+        "none": "None"
       },
       "new": {
         "label": "New"
@@ -586,16 +615,30 @@
       "successToast": "Customer {{email}} was successfully deleted.",
       "title": "Delete Customer"
     },
+    "detail": {
+      "addressesHeading": "Addresses",
+      "noAddresses": "This customer has no saved addresses.",
+      "noOrders": "This customer has no orders yet."
+    },
     "domain": "Customers",
     "edit": {
       "emailDisabledTooltip": "The email address cannot be changed for registered customers.",
       "header": "Edit Customer",
       "successToast": "Customer {{email}} was successfully updated."
     },
+    "export": {
+      "success": {
+        "description_one": "The file has {{count}} customer.",
+        "description_other": "The file has {{count}} customers.",
+        "title": "CSV ready"
+      }
+    },
     "fields": {
       "groups": "Groups",
       "guest": "Guest",
-      "registered": "Registered"
+      "registered": "Registered",
+      "totalSpent": "Total spent",
+      "canceledOrders": "+{{count}} cancelled"
     },
     "groups": {
       "add": {
@@ -859,6 +902,7 @@
     "phone": "Phone",
     "postalCode": "Postal Code",
     "price": "Price",
+    "priceShopTemplate": "Price, {{symbol}}",
     "priceTemplate": "Price {{regionOrCurrency}}",
     "product": "Product",
     "product_collections": "Product Collections",
@@ -891,6 +935,8 @@
     "sales_channels": "Sales Channels",
     "search": "Search",
     "selectCountry": "Select country",
+    "seoDescription": "Search description",
+    "seoTitle": "Search title",
     "sent": "Sent",
     "serviceZone": "Service Zone",
     "shipping": "Shipping",
@@ -1295,6 +1341,44 @@
     "numberOfKeys_one": "{{count}} key",
     "numberOfKeys_other": "{{count}} keys"
   },
+  "notificationSettings": {
+    "title": "Notifications",
+    "subtitle": "who hears about a new order: the customer by e-mail, you in Telegram",
+    "loading": "loading…",
+    "save": "Save",
+    "saved": "Notification settings saved",
+    "lastNever": "Nothing has been sent yet.",
+    "lastOk": "Last attempt: {{when}}, order {{order}} — delivered.",
+    "lastFailed": "Last attempt: {{when}}, order {{order}} — NOT delivered",
+    "email": {
+      "title": "E-mail to the customer",
+      "on": "on",
+      "off": "no mail server",
+      "hint": "The customer gets an order e-mail, and its links point at your shop: {{url}}",
+      "offHint": "This platform has no mail server configured, so customer letters are not sent. Orders still complete, and every undelivered letter is logged with its order number.",
+      "fromName": "Sender name",
+      "fromNameHint": "How the letter is signed in the customer's inbox. Currently: {{name}}",
+      "replyTo": "Reply-to address",
+      "replyToHint": "Where a customer's reply goes. The sender address stays the platform's: mail services reject a domain we cannot sign for."
+    },
+    "telegram": {
+      "title": "Telegram to you",
+      "connected": "connected",
+      "notConnected": "not connected",
+      "chat": "Orders arrive in: {{chat}}",
+      "chatUnnamed": "unnamed chat",
+      "hint": "Press Connect, open the link in Telegram and press Start. Orders will arrive in the chat you opened it from.",
+      "offHint": "The platform bot is not configured on this deployment, so linking will not work.",
+      "linkReady": "Open this link in Telegram. It lives 15 minutes and works once:",
+      "connect": "Connect Telegram",
+      "reconnect": "Connect another chat",
+      "test": "Send a test",
+      "testSent": "Test message sent",
+      "unlink": "Disconnect",
+      "unlinked": "Telegram disconnected — orders no longer arrive there"
+    },
+    "noProviderError": "The store has no mail server configured."
+  },
   "notifications": {
     "accessibility": {
       "description": "Notifications about Medusa activities will be listed here."
@@ -1463,7 +1547,8 @@
       "debitDescription": "Subtracts a negative sum from the order",
       "operation": "Operation",
       "title": "Credit lines",
-      "total": "Sum of all credit lines"
+      "total": "Sum of all credit lines",
+      "storeCreditRefund": "Store credit refund"
     },
     "customer": {
       "contactLabel": "Contact",
@@ -1600,6 +1685,10 @@
       "markAsShipped": "Mark as shipped",
       "methodDescription": "Choose a different shipping method from the one customer selected",
       "number": "Fulfillment #{{number}}",
+      "provider": {
+        "manual": "Manual, no carrier",
+        "unknown": "Unknown carrier"
+      },
       "requiresShipping": "Requires shipping",
       "sendNotificationHint": "Notify customers about the created fulfillment.",
       "shippingFromLabel": "Shipping from",
@@ -1652,6 +1741,10 @@
       "markAsPaidPaymentSuccess": "Payment of {{amount}} successfully marked as paid",
       "paymentLink": "Copy payment link for {{ amount }}",
       "pendingAuthorization": "Payment is awaiting authorization from the payment provider.",
+      "provider": {
+        "manual": "Manual payment",
+        "unknown": "Unknown provider"
+      },
       "refund": "Refund",
       "refundAmount": "Refund {{ amount }}",
       "refundPaymentSuccess": "Refund of amount {{amount}} successful",
@@ -1673,6 +1766,7 @@
       "stillPending": "Payment is still pending authorization.",
       "title": "Payments",
       "totalPaidByCustomer": "Total paid by customer",
+      "totalPending": "Total pending",
       "totalStoreCreditRefunds": "Total store credit refunds"
     },
     "refund": {
@@ -1763,6 +1857,8 @@
     },
     "shipment": {
       "addTracking": "Add tracking number",
+      "carrier": "Carrier",
+      "carrierPlaceholder": "CDEK, Russian Post, Boxberry…",
       "labelUrl": "Label URL",
       "sendNotification": "Send notification",
       "sendNotificationHint": "Notify the customer about this shipment.",
@@ -2148,6 +2244,7 @@
     "create": {
       "description": "Create a new product.",
       "errors": {
+        "missingPrice": "Set a price in at least one currency: a product with no price reaches the storefront as a card without one. Save it as a draft if the price is not known yet.",
         "options": "Please create at least one option.",
         "uniqueSku": "SKU must be unique.",
         "variants": "Please select at least one variant."
@@ -2424,6 +2521,12 @@
           "description": "{{title}} was successfully deleted.",
           "header": "Product deleted"
         }
+      },
+      "prices": {
+        "error": {
+          "header": "Prices were not saved",
+          "invalid": "Enter the price as a number, for example 1400"
+        }
       }
     },
     "variant": {
@@ -2493,6 +2596,13 @@
         "heading": "No results"
       },
       "header": "Variants"
+    },
+    "csv": {
+      "exportAction": "Export CSV",
+      "importAction": "Import CSV"
+    },
+    "pricing": {
+      "showAllCurrencies": "All currencies ({{count}})"
     }
   },
   "profile": {
@@ -2921,7 +3031,8 @@
     "successfulReset": "Please login in on the login page.",
     "successfulResetTitle": "Password reset successful",
     "title": "Reset password",
-    "tokenExpiresIn": "Token expires in <0>{{time}}</0> minutes"
+    "tokenExpiresIn": "Token expires in <0>{{time}}</0> minutes",
+    "mailNotConfigured": "This platform cannot send email right now (no mail server configured). Write to us at {{email}} and we will reset your password by hand."
   },
   "returnReasons": {
     "calloutHint": "Manage the reasons to categorize returns.",
@@ -3079,6 +3190,37 @@
     "tooltip": {
       "cannotDeleteDefault": "Cannot delete default sales channel"
     }
+  },
+  "overview": {
+    "openStorefront": "Open my shop",
+    "productsPublished": "Published",
+    "productsDraft": "Drafts",
+    "loading": "Loading…",
+    "developerDetails": "For developers"
+  },
+  "salesSummary": {
+    "title": "Sales",
+    "period": {
+      "today": "Today",
+      "7d": "7 days",
+      "30d": "30 days",
+      "custom": "Custom"
+    },
+    "customFrom": "from",
+    "customTo": "to",
+    "pickRange": "Pick both dates to see the summary",
+    "revenue": "Revenue",
+    "orders": "Orders",
+    "aov": "Average order",
+    "chartTitle": "Revenue by day",
+    "topProducts": "Best sellers",
+    "topProductRow": "{{quantity}} pcs — {{revenue}}",
+    "noSalesThisPeriod": "No sales in this period",
+    "loading": "Loading…",
+    "noOrdersYet": "No orders yet",
+    "canceledNote": "Cancelled orders in this period: {{count}} for {{amount}}. They are not counted as revenue.",
+    "otherCurrenciesNote": "Orders in other currencies: {{list}}. They are not part of the figures above; switch the currency to see them.",
+    "otherCurrencyItem": "{{amount}} — orders: {{count}}"
   },
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"
@@ -3858,5 +4000,936 @@
     },
     "transactionIdLabel": "Transaction ID",
     "workflowIdLabel": "Workflow ID"
+  },
+  "paymentSettings": {
+    "title": "Payments",
+    "subtitle": "your shop's own account at the payment service; the keys are stored encrypted and never shown back",
+    "stateTest": "test mode",
+    "stateLive": "live mode",
+    "stateOff": "off",
+    "stateNone": "not set up",
+    "loading": "loading…",
+    "fields": {
+      "provider": "Payment service",
+      "merchant_login": "Shop identifier (MerchantLogin)",
+      "password1": "Password #1",
+      "password2": "Password #2",
+      "test_password1": "Test password #1",
+      "test_password2": "Test password #2",
+      "hash_algorithm": "Signature algorithm",
+      "is_test": "Test mode",
+      "is_enabled": "Accept payments"
+    },
+    "secretSet": "set ····{{last4}}",
+    "secretNotSet": "not set",
+    "keepPlaceholder": "leave empty to keep the current one",
+    "emptyPlaceholder": "paste from the Robokassa dashboard",
+    "testHint": "In test mode the customer pays with Robokassa's test card and no money moves. Live mode is for after Robokassa has approved the shop.",
+    "merchantLoginRequired": "Enter the shop identifier",
+    "save": "Save",
+    "remove": "Remove account",
+    "saved": "Payment settings saved",
+    "removed": "Account removed — Robokassa is no longer offered at checkout",
+    "resultUrlTitle": "Result URL for the Robokassa dashboard",
+    "resultUrlHint": "Paste this address into your shop's settings in Robokassa (Technical settings → Result URL, method POST). Robokassa reports payments to it; without it an order never becomes paid."
+  },
+  "redirects": {
+    "title": "Old addresses",
+    "subtitle": "where to send a visitor who arrives from a link on your old site, or at a page that no longer exists",
+    "columnFrom": "Old address",
+    "columnTo": "Goes to",
+    "columnKind": "Kind of redirect",
+    "status": {
+      "301": "Permanent (301)",
+      "302": "Temporary (302)",
+      "307": "Temporary, request kept (307)",
+      "308": "Permanent, request kept (308)"
+    },
+    "addAction": "Add a rule",
+    "editAction": "Edit",
+    "deleteAction": "Delete",
+    "deleteConfirm": "Delete",
+    "saveAction": "Save",
+    "cancel": "Cancel",
+    "created": "Rule added",
+    "saved": "Rule changed",
+    "removed": "Rule deleted",
+    "empty": "No rules yet. Add the first one, for example from an old product address to its new one.",
+    "searchPlaceholder": "Search by address",
+    "counter": "showing {{shown}} of {{total}}",
+    "pathError": "An address starts with a slash and carries no site name and no question mark, for example /catalog/cube-1",
+    "loopError": "The old and the new address are the same, so the redirect would loop",
+    "hint": "Choose permanent when the page has moved for good: search engines carry its standing over to the new address. Choose temporary when you plan to bring the old address back."
+  },
+  "seoVerification": {
+    "title": "Search engine ownership",
+    "subtitle": "the code Yandex and Google use to confirm the site is yours",
+    "yandex": {
+      "label": "Yandex Webmaster code",
+      "hint": "in Webmaster pick the Meta tag method and paste its content value here"
+    },
+    "google": {
+      "label": "Google Search Console code",
+      "hint": "in Search Console pick the HTML tag method and paste its content value here"
+    },
+    "hint": "Once saved, the code appears in the source of every page of your shop. Go back to Webmaster or Search Console and press Verify.",
+    "save": "Save",
+    "saved": "Code saved",
+    "loading": "loading…"
+  },
+  "marketplaceSync": {
+    "title": "Synchronisation",
+    "subtitle": "when each kind of data last came in, when the next run is due and what went wrong",
+    "backToCards": "← back to the marketplace cards",
+    "scheduleHint": "The schedule runs itself: the platform checks every 5 minutes what needs refreshing. One kind of one marketplace imports at a time; a run stuck for more than {{minutes}} min is released and stays visible as a failure. A key is flagged {{days}} days before it expires.",
+    "noWarnings": "Nothing needs attention: the keys are fine and every kind has run.",
+    "warnings": {
+      "noKey": "{{label}}: no key saved, nothing is being imported.",
+      "keyExpired": "{{label}}: the key has expired. Issue a new one in the marketplace account — the import has stopped.",
+      "keyExpiring": "{{label}}: the key expires in {{days}} days. Issue a new one in the marketplace account before the import stops.",
+      "failed": "{{where}}: the last run failed — {{error}}",
+      "neverRan": "{{where}}: has never run."
+    },
+    "state": "State",
+    "lastSuccess": "Last successful run",
+    "neverSucceeded": "never succeeded",
+    "every": "How often",
+    "everyMinutes": "every {{count}} min",
+    "notScheduled": "not scheduled",
+    "nextRun": "Next run",
+    "dueNow": "due, starts at the next check",
+    "running": "running right now",
+    "inMinutes": "in {{count}} min",
+    "inHours": "in {{count}} h",
+    "waitingForMarketplace": "the marketplace asks to wait until {{at}}",
+    "lastFailure": "Last failure",
+    "noFailures": "no failures",
+    "neverRan": "never ran",
+    "attempts": "attempts: {{count}}",
+    "keySet": "key ends with {{last4}}, valid until {{until}}",
+    "noExpiry": "no expiry stated"
+  },
+  "marketplaces": {
+    "title": "Marketplaces",
+    "subtitle": "Wildberries and Ozon: the key, what it may do, what has already been imported and how it maps onto your catalog",
+    "loading": "Loading…",
+    "empty": "No marketplace is registered on the platform. That is a backend configuration error, not an empty list — please contact support.",
+    "card": {
+      "subtitle": "data moves one way only: the marketplace into your shop",
+      "statusFailed": "The marketplace could not be asked about this key. Everything else on the card comes from our own database and is correct."
+    },
+    "key": {
+      "label": "API key",
+      "set": "stored ••••{{last4}}",
+      "missing": "not stored",
+      "form": {
+        "title": "API key",
+        "missing": "Fill in: {{fields}}.",
+        "saved": "Key stored, ends with {{last4}}.",
+        "removed": "Key removed.",
+        "removeTitle": "Remove the {{label}} key?",
+        "removeDescription": "The shop stops receiving this marketplace's data until you enter a key again. The key itself stays in the marketplace cabinet, we only forget it.",
+        "remove": "Remove",
+        "cancel": "Cancel",
+        "save": "Save",
+        "keepPlaceholder": "leave empty to keep the stored value",
+        "emptyPlaceholder": "paste the value from the cabinet",
+        "docs": "where to find it",
+        "writeRights": "This key carries write rights. The shop does not use them: we only read the marketplace."
+      }
+    },
+    "enabled": {
+      "label": "Connection",
+      "yes": "on",
+      "no": "off"
+    },
+    "readOnly": {
+      "label": "Key permissions",
+      "yes": "read only",
+      "no": "writing is allowed",
+      "unknown": "could not be determined",
+      "asking": "asking the key…"
+    },
+    "expiresAt": "Valid until",
+    "expired": "(expired)",
+    "expiringSoon": "The {{label}} key expires in {{days}} days. Ask the seller to issue a new one in the marketplace cabinet",
+    "access": "What the key may reach",
+    "problem": "Problem with the key",
+    "scopes": {
+      "granted": "granted",
+      "denied": "denied",
+      "none": "the marketplace said nothing about this key"
+    },
+    "linking": {
+      "title": "Link to your catalog",
+      "hint": "marketplace listings are matched to your products by article: the marketplace article equals your product SKU",
+      "total": "Listings",
+      "linked": "Linked",
+      "notFound": "Not found",
+      "needsChoice": "Needs a choice",
+      "stored": "Links stored"
+    },
+    "sync": {
+      "title": "Latest imports",
+      "hint": "the wb:sync and ozon:sync scripts import, mp:project normalizes; the last run of each kind is here",
+      "kind": "What is imported",
+      "status": "Outcome",
+      "rows": "Rows",
+      "requests": "Requests sent",
+      "finishedAt": "Finished",
+      "error": "Error",
+      "never": "never ran",
+      "fixture": "from recorded answers"
+    },
+    "normalized": {
+      "title": "Already here",
+      "hint": "rows of the shared layer: the order feed, the price and stock table and the reviews are built from them"
+    },
+    "normalizedKinds": {
+      "products": "Listings",
+      "offers": "Prices and stock",
+      "orders": "Orders",
+      "reviews": "Reviews",
+      "questions": "Questions"
+    },
+    "endpoints": {
+      "title": "What we are allowed to ask for",
+      "hint": "the full list of requests the platform may send this marketplace; nothing beyond it can be sent",
+      "method": "Method",
+      "address": "Address",
+      "summary": "What the documentation calls it"
+    },
+    "denied": {
+      "toggle": "What this marketplace's documentation calls a write, and what we cannot register ({{count}})",
+      "anyVerb": "any"
+    },
+    "kinds": {
+      "cards": "Product listings",
+      "prices": "Prices and discounts",
+      "stocks": "Warehouse stock",
+      "orders": "Orders",
+      "feedbacks": "Reviews",
+      "products": "Product listings",
+      "postings": "Shipments",
+      "reviews": "Reviews",
+      "questions": "Questions",
+      "sales": "Sales",
+      "analytics": "Listing analytics",
+      "supplies": "Supplies",
+      "fbs_orders": "FBS orders",
+      "projection": "Shared-layer recompute"
+    },
+    "statuses": {
+      "rate_limited": "waiting for the marketplace",
+      "running": "running",
+      "succeeded": "succeeded",
+      "failed": "failed"
+    },
+    "desk": {
+      "title": "Reviews and questions",
+      "subtitle": "Customer reviews and questions from Wildberries and Ozon in one list. The answer draft is stored here; the answer itself is posted from the marketplace's own cabinet.",
+      "link": "Customer reviews and questions",
+      "sendingOff": "Sending answers to the marketplace is not enabled: the platform reads Wildberries and Ozon and never writes to them.",
+      "tabs": {
+        "reviews": "Reviews",
+        "questions": "Questions"
+      },
+      "unansweredOf": "Unanswered: {{unanswered}} of {{total}}",
+      "shownOf": "Showing {{shown}} of {{count}}",
+      "anonymous": "No name",
+      "notInShop": "Not in the shop",
+      "pros": "Pros",
+      "cons": "Cons",
+      "answered": {
+        "yes": "Answered on the marketplace",
+        "no": "Unanswered"
+      },
+      "marketplaceNames": {
+        "wb": "Wildberries",
+        "ozon": "Ozon"
+      },
+      "filters": {
+        "marketplace": "Marketplace",
+        "rating": "Rating",
+        "answered": "Answer",
+        "period": "Period",
+        "any": "Any",
+        "stars": "{{count}} ★",
+        "reset": "Reset filters"
+      },
+      "filterValues": {
+        "answered": {
+          "all": "All",
+          "no": "Unanswered",
+          "yes": "Answered"
+        },
+        "period": {
+          "all": "All time",
+          "7d": "7 days",
+          "30d": "30 days",
+          "90d": "90 days",
+          "365d": "A year"
+        },
+        "rating": {
+          "1": "1 ★",
+          "2": "2 ★",
+          "3": "3 ★",
+          "4": "4 ★",
+          "5": "5 ★"
+        }
+      },
+      "emptyNoFilters": "Nothing has been imported yet. The mp:reviews script runs the import.",
+      "emptyFiltered": "Nothing matches the filters: {{filters}}. Clear a filter or widen the period — this is an empty FILTER result, not an empty marketplace.",
+      "emptyImportHint": "Our database holds no row of this kind at all: either the import has not run, or the marketplace returned nothing. The last imports are listed on the «Marketplaces» screen.",
+      "draft": {
+        "label": "Answer draft — stored here, never sent to the marketplace",
+        "placeholder": "Write the answer, then copy it into the marketplace cabinet",
+        "save": "Save draft",
+        "generate": "Generate",
+        "saved": "Draft saved",
+        "generated": "Draft written — read it and save",
+        "savedAt": "Draft saved {{at}}"
+      }
+    }
+  },
+  "marketplaceOrders": {
+    "title": "Marketplace orders",
+    "navLabel": "Marketplace orders",
+    "subtitle": "Shop, Wildberries and Ozon orders in one feed. The screen only shows them: it changes nothing on a marketplace.",
+    "loading": "Loading…",
+    "export": "Download CSV ({{count}})",
+    "more": "Show more",
+    "shown": "Showing {{shown}} of {{count}}",
+    "empty": "No orders in the selected period ({{from}} — {{to}}).",
+    "period": {
+      "default": "Default period: the last {{days}} days ({{from}} — {{to}}). Pick your own below.",
+      "chosen": "Period: {{from}} — {{to}}",
+      "undated": "{{count}} more order(s) arrived without a date, so they fall in no period."
+    },
+    "filters": {
+      "source": "Source",
+      "scheme": "Scheme",
+      "status": "Status",
+      "from": "From",
+      "to": "To",
+      "reset": "Reset filters",
+      "nothingToFilter": "Nothing to filter in this period."
+    },
+    "columns": {
+      "source": "Source",
+      "number": "Number",
+      "date": "Ordered",
+      "scheme": "Scheme",
+      "status": "Status",
+      "region": "Region",
+      "total": "Total"
+    },
+    "connection": {
+      "missing": "{{marketplace}}: no connection — no key is stored, so this marketplace has no orders in the feed at all.",
+      "never_run": "{{marketplace}}: connected, but the order import has never run.",
+      "failed": "{{marketplace}}: the last order import failed — {{error}}. An empty row for this marketplace means a failed import, not an absence of orders.",
+      "rate_limited": "{{marketplace}}: the marketplace refused to serve orders right now (rate limit). That is neither a failure nor an absence of orders — some orders of the period may not be imported yet. Run the import again later.",
+      "noErrorText": "the marketplace sent no error text",
+      "fixture": "{{marketplace}}: these rows come from recorded answers (fixtures), not from the marketplace."
+    },
+    "detail": {
+      "readOnly": "View only. Change the order in the marketplace's own cabinet.",
+      "statusRaw": "Marketplace status",
+      "statusChangedAt": "Marketplace changed the status",
+      "statusChangedUnknown": "the marketplace does not say when",
+      "syncedAt": "Imported at",
+      "warehouse": "Warehouse",
+      "lines": "Items",
+      "noLines": "This order has no lines, which is an import defect rather than an empty order. Check the last import.",
+      "vendorCode": "Article",
+      "product": "Shop product",
+      "qty": "Qty",
+      "notInShop": "not in the shop",
+      "history": "Status history",
+      "historyHint": "What we saw at each import. Neither Wildberries nor Ozon hands out a status log, so the time here is ours.",
+      "observedAt": "Seen at"
+    }
+  },
+  "marketplaceAnalytics": {
+    "title": "Marketplace analytics",
+    "navLabel": "Marketplace analytics",
+    "subtitle": "Sales by day and by listing, ABC/XYZ, stock turnover and days to zero, seller rating and P&L. The screen only folds our own tables: it sends nothing to a marketplace and asks none of them when it opens.",
+    "period": "Period: {{period}} ({{days}} days)",
+    "periodDefault": "The screen chose the period: the last {{days}} days.",
+    "undated": "Orders with no date: {{count}}. The marketplace sent none, so they fall in no period.",
+    "empty": "No sales in the selected period ({{period}}).",
+    "emptyStock": "There are {{units}} items in marketplace warehouses, but turnover cannot be computed without sales.",
+    "filters": {
+      "from": "From",
+      "to": "To",
+      "marketplace": "Marketplace",
+      "reset": "Reset"
+    },
+    "connection": {
+      "ok": "{{label}}: {{orders}} orders in the period, last import — {{status}}.",
+      "noKey": "{{label}}: no key, so this marketplace has no data on the screen at all.",
+      "neverRun": "never run"
+    },
+    "metrics": {
+      "revenue": "Revenue",
+      "revenueHint": "Marketplace orders, cancellations excluded",
+      "orders": "Orders",
+      "ordersHint": "Order lines in the period",
+      "units": "Items",
+      "avgOrder": "Average order",
+      "cancelled": "Cancelled",
+      "cancelledHint": "Worth {{amount}}, not counted as revenue",
+      "cards": "Listings",
+      "cardsHint": "With sales, out of all in the table"
+    },
+    "byDay": {
+      "title": "Sales by day",
+      "subtitle": "One bar per day of the period. A zero day is a measured zero, not a gap.",
+      "day": "Day"
+    },
+    "markets": {
+      "title": "Where the buyers were",
+      "subtitle": "Amounts are in {{currency}}, the currency of the shop's own price list. The code on an order is the buyer's country, not the currency of the amount: WB stores the price already converted into the seller's currency.",
+      "market": "Market"
+    },
+    "abc": {
+      "title": "ABC by revenue",
+      "row": "{{cards}} listings, {{revenue}}, {{share}} % of revenue"
+    },
+    "xyz": {
+      "title": "XYZ by demand stability",
+      "row": "{{cards}} listings, {{units}} items",
+      "noClass": "no class"
+    },
+    "turnover": {
+      "title": "Turnover and days to zero",
+      "subtitle": "Marketplace warehouses hold {{stock}} items. At the period's pace that lasts {{days}} days.",
+      "running": "Runs out within two weeks",
+      "nothingRunningOut": "No listing runs out in the next 14 days at the current pace.",
+      "row": "{{title}} — {{days}} days (stock {{stock}} items, pace {{rate}} items/day)"
+    },
+    "cards": {
+      "title": "Sales by listing",
+      "subtitle": "Showing {{shown}} of {{total}}. A listing with stock but no sales is in the table too, as a zero row.",
+      "more": "Show {{count}} more"
+    },
+    "rating": {
+      "title": "Seller rating",
+      "subtitle": "Only the marketplace knows the rating. When it refuses, its own answer is printed here instead of an empty space."
+    },
+    "pnl": {
+      "title": "P&L",
+      "subtitle": "A full P&L needs the marketplace's finance reports: commission, logistics, storage, penalties.",
+      "note": "No profit is computed or estimated on this screen. Everything one could guess it from — revenue, price, discount — is right here, which is exactly why there is no invented number: the owner would act on it and nothing could check it."
+    }
+  },
+  "wildberries": {
+    "title": "Wildberries",
+    "subtitle": "the seller cabinet: the key, what it may do, and what is already mirrored here",
+    "loading": "Loading…",
+    "key": {
+      "label": "API key",
+      "set": "stored, ends with {{last4}}",
+      "missing": "not stored"
+    },
+    "readOnly": {
+      "label": "Key permissions",
+      "yes": "read only",
+      "no": "writing is allowed too",
+      "unknown": "could not be determined",
+      "docs": "Wildberries documentation"
+    },
+    "expiresAt": "Valid until",
+    "expired": "(expired)",
+    "expiringSoon": "The Wildberries key expires in {{days}} days — ask the seller to reissue it in the WB cabinet",
+    "sellerId": "Seller id",
+    "access": "Sections the key opens",
+    "categories": {
+      "granted": "open",
+      "denied": "closed",
+      "unknownBit": "unknown bit {{bit}}"
+    },
+    "problem": "Problem with the key",
+    "sync": {
+      "title": "Last import",
+      "hint": "the wb:sync script fetches the data; this is its last run per kind",
+      "kind": "What is imported",
+      "status": "How it ended",
+      "rows": "Rows",
+      "requests": "WB requests",
+      "finishedAt": "Finished",
+      "never": "never run"
+    },
+    "kinds": {
+      "cards": "Listings",
+      "prices": "Prices and discounts",
+      "stocks": "Warehouse inventory",
+      "orders": "Orders",
+      "feedbacks": "Feedbacks",
+      "sales": "Sales and returns",
+      "questions": "Customer questions",
+      "analytics": "Funnel by listing",
+      "supplies": "FBS supplies",
+      "fbs_orders": "FBS assembly orders"
+    },
+    "statuses": {
+      "running": "running",
+      "succeeded": "succeeded",
+      "failed": "failed",
+      "rate_limited": "waiting for the WB window",
+      "rateLimitedUntil": "waiting for the WB window until {{time}}"
+    },
+    "mirrors": {
+      "title": "How much is mirrored here",
+      "hint": "a copy of the cabinet in our database; nothing is ever written back to Wildberries",
+      "products": "Listings",
+      "prices": "Prices",
+      "stocks": "Inventory",
+      "orders": "Orders",
+      "feedbacks": "Feedbacks",
+      "sales": "Sales",
+      "questions": "Questions",
+      "analytics": "Funnel days"
+    },
+    "endpoints": {
+      "title": "What we may ask Wildberries for",
+      "hint": "the whole list; anything else is refused by the code before a socket is opened",
+      "method": "Method",
+      "address": "Address",
+      "summary": "Method in the WB documentation"
+    },
+    "write": {
+      "title": "Writing to Wildberries",
+      "hint": "off entirely for now: five gates must be open before a single request reaches WB. Two of them are yours — the switch and a consent per operation class.",
+      "gate": {
+        "open": "open",
+        "shut": "shut",
+        "keyStored": "write key in slot {{slot}}, ending {{last4}}",
+        "noKey": "no separate write key (slot {{slot}}); the read key is never used to write",
+        "liveOn": "{{env}}=1 — live mode is on",
+        "liveOff": "{{env}} is not set: every call stays a dry run and nothing leaves the process"
+      },
+      "gates": {
+        "credential": "Separate write key",
+        "credential_usable": "Key usable (not read-only, not expired)",
+        "enabled": "Shop switch",
+        "consent": "Consent for the operation class",
+        "live": "Live mode",
+        "body": "Request body per WB documentation"
+      },
+      "switch": {
+        "label": "Allow writing to Wildberries for this shop",
+        "onToast": "Switch is on. Writing still will not happen: the other gates are shut.",
+        "offToast": "Switch is off."
+      },
+      "consent": {
+        "title": "Consents per operation class",
+        "grant": "Confirm",
+        "revoke": "Revoke",
+        "grantConfirm": "I confirm",
+        "revokeConfirm": "Revoke",
+        "cancel": "Cancel",
+        "grantTitle": "Confirm the class “{{name}}”",
+        "revokeTitle": "Revoke consent for “{{name}}”",
+        "grantBody": "You are confirming that the platform may {{what}}. This covers only these calls: {{methods}}. A consent applies to one operation class and never to the others. Today nothing will be sent regardless: there is no separate write key and live mode is off.",
+        "revokeBody": "The consent for “{{name}}” will be deleted. Every call of that class is refused afterwards.",
+        "note": "The owner confirmed: {{what}}. Calls in this class: {{count}}.",
+        "givenAt": "confirmed {{when}}",
+        "notGiven": "no consent — calls of this class are refused",
+        "grantedToast": "Consent for “{{name}}” recorded.",
+        "revokedToast": "Consent for “{{name}}” revoked."
+      },
+      "classes": {
+        "stocks": {
+          "title": "Stocks",
+          "does": "update and delete item inventory on Wildberries warehouses"
+        },
+        "prices": {
+          "title": "Prices",
+          "does": "send new prices and discounts to Wildberries"
+        },
+        "feedback_answers": {
+          "title": "Feedback answers",
+          "does": "publish and edit answers to customer feedback"
+        },
+        "fbs_orders": {
+          "title": "FBS orders",
+          "does": "cancel FBS orders and hand supplies over to delivery"
+        }
+      },
+      "outcomes": {
+        "refused": "refused at a gate",
+        "dry_run": "dry run, nothing sent",
+        "sent": "sent to WB"
+      },
+      "audit": {
+        "title": "Attempt journal",
+        "hint": "every write attempt, whatever came of it. “Dry run” means nothing left the process.",
+        "empty": "no write attempts yet",
+        "when": "When",
+        "what": "What",
+        "outcome": "Outcome",
+        "detail": "Details",
+        "refusedAt": "refused at gate: {{gate}}",
+        "nothingSent": "nothing was sent"
+      }
+    },
+    "tablesFailed": "could not load the tables",
+    "sales": {
+      "title": "Sales and returns this month",
+      "hint": "the WB statistics feed for the last {{days}} days; the data is preliminary, accurate money lives in the realization report",
+      "lines": "Lines",
+      "customerPaid": "Customer paid",
+      "forPay": "WB pays the shop",
+      "returnLines": "Of them returns",
+      "when": "When",
+      "item": "Item",
+      "size": "Size",
+      "where": "Where",
+      "empty": "no sales in this period — either the import has not run, or WB returned nothing"
+    },
+    "questions": {
+      "title": "Customer questions",
+      "hint": "the ones waiting for an answer come first; answering happens in the WB cabinet, this platform cannot write to Wildberries",
+      "unanswered": "Waiting for an answer",
+      "answered": "Answered",
+      "state": "State",
+      "when": "Asked",
+      "item": "Item",
+      "text": "Question",
+      "isAnswered": "answered",
+      "isWaiting": "waiting",
+      "answerPrefix": "Answer:",
+      "empty": "no questions — either the import has not run, or WB returned nothing"
+    },
+    "funnel": {
+      "title": "Funnel by listing",
+      "hint": "card opens, adds to cart, orders and buyouts per day, from the seller-analytics report",
+      "window": "{{from}} — {{to}}, {{listings}} of {{total}} listings in the table (WB answers for at most 20 listings per request)",
+      "noWindow": "period unknown: the analytics import has not run yet",
+      "item": "Listing",
+      "openCard": "Card opened",
+      "addToCart": "Added to cart",
+      "orders": "Ordered",
+      "orderedSum": "Order value",
+      "buyouts": "Bought out",
+      "empty": "no funnel data — either the import has not run, or WB returned nothing"
+    },
+    "answers": {
+      "title": "Feedbacks and questions",
+      "hint": "answer drafts, templates and a confirmation for every answer; today every send stays a dry run",
+      "answered": "answered",
+      "unanswered": "no answer yet",
+      "rating": "rated {{value}} of 5",
+      "byNmId": "WB article {{nmId}}",
+      "noProduct": "product unknown",
+      "noText": "(the customer left no text)",
+      "pros": "Pros: {{text}}",
+      "cons": "Cons: {{text}}",
+      "existingAnswer": "Already answered: {{text}}",
+      "empty": "nothing here under this filter",
+      "templatePlaceholder": "Pick a template",
+      "draftPlaceholder": "Write an answer to the customer",
+      "chars": "{{used}} of {{max}} characters",
+      "save": "Save draft",
+      "send": "Confirm and send",
+      "markViewed": "Mark as viewed",
+      "alreadyViewed": "Viewed",
+      "savedToast": "Draft saved.",
+      "noDraftToast": "Write the answer text first: there is nothing to send.",
+      "liveOff": "Live mode is off ({{env}} is not set): a confirmed answer is checked against the Wildberries documentation and journalled, but it does not reach Wildberries.",
+      "liveOn": "Live mode is on ({{env}}=1): a confirmed answer really goes to Wildberries.",
+      "noConsent": "Consent for the class «Feedback and question answers» has not been given. Give it below, in «Writing to Wildberries», or a send is refused at the consent gate.",
+      "questionGap": "Answering a customer question is not available yet. {{method}} {{path}} — {{reason}}",
+      "statuses": {
+        "draft": "draft",
+        "confirmed": "confirmed, journalled",
+        "sent": "sent to WB",
+        "failed": "refused"
+      },
+      "filters": {
+        "unanswered": "No answer",
+        "answered": "Answered",
+        "all": "All"
+      },
+      "tabs": {
+        "feedbacks": "Feedbacks",
+        "questions": "Questions"
+      },
+      "counts": {
+        "unanswered": "No answer:",
+        "answered": "Answered:",
+        "drafts": "Drafts:"
+      },
+      "confirm": {
+        "title": "Confirm the answer",
+        "body": "The customer will receive exactly this text:\n\n«{{text}}»\n\n{{mode}}",
+        "dryRun": "This is a dry run: {{env}} is not set, so nothing reaches Wildberries and the attempt is journalled.",
+        "live": "Live mode is on: the answer goes to Wildberries and customers will see it.",
+        "ok": "Confirm and send",
+        "cancel": "Cancel"
+      },
+      "cannotAnswer": "sending an answer is unavailable — see the note at the top of the tab"
+    },
+    "tabs": {
+      "connection": "Connection",
+      "fbs": "FBS orders"
+    },
+    "fbs": {
+      "title": "FBS orders",
+      "hint": "assembly orders and supplies from the Wildberries cabinet. This is our copy: the list comes from our own database, so reloading the page does not spend the shop's request budget.",
+      "empty": "no orders in this status",
+      "sync": {
+        "line": "{{kind}}: {{status}}, {{rows}} rows, {{when}}",
+        "howTo": "the data refreshes on a schedule; the «Synchronisation» screen shows when the last import landed."
+      },
+      "filters": {
+        "new": "New",
+        "confirm": "In assembly",
+        "complete": "In delivery",
+        "cancel": "Cancelled",
+        "all": "All"
+      },
+      "columns": {
+        "order": "Assembly order",
+        "created": "Created",
+        "article": "Item",
+        "price": "Price",
+        "status": "Status",
+        "supply": "Supply"
+      },
+      "supplierStatuses": {
+        "new": "new",
+        "confirm": "in assembly",
+        "complete": "in delivery",
+        "cancel": "cancelled by the seller",
+        "cancel_carrier": "cancelled by the carrier"
+      },
+      "wbStatuses": {
+        "waiting": "waiting at Wildberries",
+        "sorted": "sorted at the WB warehouse",
+        "sold": "sold",
+        "canceled": "cancelled",
+        "canceled_by_client": "cancelled by the buyer on receipt",
+        "declined_by_client": "cancelled by the buyer within the hour",
+        "defect": "defect",
+        "ready_for_pickup": "waiting at the pickup point",
+        "postponed_delivery": "delivery postponed",
+        "accepted_by_carrier": "accepted by the carrier",
+        "sent_to_carrier": "dispatched to the carrier",
+        "canceled_by_carrier": "cancelled by the carrier"
+      },
+      "assemble": {
+        "button": "Assemble ({{count}})",
+        "title": "Assemble {{count}} order(s)",
+        "intoSupply": "The orders are added to the supply «{{supply}}» and move to the in-assembly status. Wildberries has no separate confirm method: adding an order to a supply IS confirming it. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "newSupply": "No supply is chosen, so a new one is created first and {{count}} order(s) are then added to it and moved to the in-assembly status. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Assemble"
+      },
+      "cancel": {
+        "button": "Cancel ({{count}})",
+        "title": "Cancel {{count}} order(s)",
+        "body": "Orders {{orders}} move to the cancelled-by-the-seller status. Cancelling is possible only before the order is handed over to Wildberries. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Cancel the orders"
+      },
+      "deliver": {
+        "button": "Hand over for delivery",
+        "title": "Hand the supply «{{supply}}» over for delivery",
+        "body": "The supply closes and all {{count}} order(s) move to the in-delivery status. Nothing can be added to it afterwards, and Wildberries calls the action irreversible. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Hand over for delivery"
+      },
+      "supply": {
+        "title": "Open supplies",
+        "empty": "no open supplies",
+        "newOne": "Create a new supply",
+        "orders": "{{count}} orders"
+      },
+      "blocked": {
+        "assemble": "Order {{order}} cannot be assembled: {{reason}}.",
+        "cancel": "Order {{order}} cannot be cancelled: {{reason}}."
+      },
+      "gates": {
+        "consentGiven": "The consent for the FBS orders class was given on the Connection tab.",
+        "consentMissing": "The consent for the FBS orders class has not been given. It can be confirmed on the Connection tab; without it every attempt is refused at the consent gate."
+      },
+      "result": {
+        "dryRun": "Dry run: nothing left this process",
+        "sent": "Sent to Wildberries",
+        "journalled": "journalled, payload fingerprint {{sha}}…",
+        "refusedAt": "refused at the «{{gate}}» gate: {{message}}",
+        "dryRunToast": "The attempt is in the journal. Nothing was sent to Wildberries.",
+        "sentToast": "Sent to Wildberries."
+      }
+    },
+    "preview": {
+      "title": "What would change on WB",
+      "hint": "Your shop compared with the Wildberries mirror: what a push would carry if sending were allowed. Nothing is sent — the «Send» button is off and the gates that are shut are listed below.",
+      "empty": "Nothing differs — there is nothing to compare.",
+      "product": "Product",
+      "barcode": "WB barcode",
+      "nmId": "WB item number (nmID)",
+      "store": "In the shop",
+      "wb": "On WB",
+      "proposed": "WB price after the push",
+      "proposedHint": "The WB discount stays at {{discount}}%; only the pre-discount price changes (now {{price}}), so a WB buyer sees your price.",
+      "action": "Outcome",
+      "mirrorRead": "WB mirror read: {{when}}",
+      "send": "Send: {{batches}} request(s), {{rows}} rows",
+      "sendHint": "Sending is impossible: this build has no live write to Wildberries.",
+      "actions": {
+        "equal": "equal",
+        "update": "differs",
+        "skipped": "skipped"
+      },
+      "reasons": {
+        "card_has_several_barcodes": "the WB listing has several sizes, and the data does not say which one is yours",
+        "card_without_barcodes": "the WB listing carries no barcodes",
+        "store_does_not_count_this_variant": "the shop does not count stock for this product",
+        "store_price_absent": "the product has no price in the listing's currency",
+        "wb_price_absent": "the WB mirror holds no price for this listing",
+        "wb_discount_out_of_range": "the WB discount is 100% or more, so no price can be computed",
+        "price_not_reachable_at_current_discount": "at the current WB discount your price is not a whole number of roubles"
+      },
+      "counts": {
+        "update": "differs: {{count}}",
+        "equal": "equal: {{count}}",
+        "skipped": "skipped: {{count}}"
+      },
+      "gates": {
+        "live": "the live write mode is off ({{env}} in the backend's environment)",
+        "credential": "there is no write key in the separate slot {{slot}}",
+        "switch": "writing to Wildberries is switched off in the section above",
+        "consent": "you have not confirmed the class «{{name}}»",
+        "allOpen": "Every gate this page can see is open. Sending is still off: this build has no live calls."
+      },
+      "mapping": {
+        "title": "Shop warehouse and Wildberries warehouse",
+        "hint": "Wildberries keeps stock per seller warehouse, and the warehouse number is part of the update method's address. Until a warehouse is chosen there is nothing to compare stock against.",
+        "none": "no WB warehouse chosen",
+        "saved": "Mapping saved",
+        "unmapped": "Locations with no WB warehouse chosen: {{count}}."
+      }
+    }
+  },
+  "deliverySettings": {
+    "title": "CDEK delivery",
+    "subtitle": "your shop's own CDEK contract; passwords are stored encrypted and never shown back",
+    "stateTest": "test mode",
+    "stateLive": "live mode",
+    "stateOff": "off",
+    "stateNone": "not set up",
+    "loading": "loading…",
+    "fields": {
+      "account": "Live account login",
+      "test_account": "Test account login",
+      "password": "Live account password",
+      "test_password": "Test account password",
+      "sender_mode": "Where the parcel is collected",
+      "sender_city_name": "Departure city",
+      "sender_address": "Departure address",
+      "shipment_point": "CDEK office code you drop parcels at",
+      "sender_name": "Sender name",
+      "sender_phone": "Sender phone",
+      "kinds": "Delivery options at checkout",
+      "markup_amount": "Markup, ₽",
+      "markup_percent": "Markup, %",
+      "free_above_total": "Free above, ₽",
+      "is_test": "Test mode",
+      "is_enabled": "Offer CDEK at checkout"
+    },
+    "kinds": {
+      "courier": "Courier to the door",
+      "pickup": "To a CDEK pickup point",
+      "postamat": "To a CDEK locker"
+    },
+    "kindsHint": "Each option you switch on becomes its own card at checkout. CDEK itself prices it for the buyer's address.",
+    "senderWarehouse": "I drop parcels at a CDEK office",
+    "senderDoor": "A CDEK courier collects from me",
+    "senderModeHint": "This decides which CDEK tariffs apply: «warehouse-…» or «door-…».",
+    "secretSet": "set ····{{last4}}",
+    "secretNotSet": "not set",
+    "keepPlaceholder": "leave empty to keep the stored one",
+    "emptyPlaceholder": "paste from your CDEK dashboard",
+    "freeAbovePlaceholder": "empty — never free",
+    "testHint": "Test mode uses CDEK's training contour (api.edu.cdek.ru): orders there create no real parcels. Live mode needs a CDEK contract.",
+    "save": "Save",
+    "remove": "Remove contract",
+    "saved": "Delivery settings saved",
+    "savedWithTariffs": "Saved. CDEK answered with {{count}} tariffs",
+    "removed": "Contract removed — CDEK is no longer offered at checkout",
+    "webhookFailed": "Settings saved, but the status subscription did not register: {{reason}}",
+    "methodsTitle": "Shipping options created for CDEK",
+    "methodOn": "at checkout",
+    "methodOff": "off",
+    "webhookTitle": "Status callback address for CDEK",
+    "webhookHint": "CDEK posts parcel status changes to this address. It is registered automatically when you save.",
+    "webhookRegistered": "subscription registered",
+    "webhookNotRegistered": "subscription not registered",
+    "savedWithoutCity": "The credentials are saved, but delivery stays off: set the departure city on «CDEK delivery» and CDEK starts pricing."
+  },
+  "integrations": {
+    "title": "Integrations",
+    "subtitle": "every credential this shop holds, in one place: marketplaces, payments, delivery. Each page carries the fields of one service and nothing else.",
+    "open": "Open",
+    "state": {
+      "connected": "connected ••••{{last4}}",
+      "missing": "not connected",
+      "asking": "asking…"
+    },
+    "rights": {
+      "readOnly": "read-only key",
+      "write": "the key carries write rights",
+      "unknown": "the key's rights could not be read",
+      "withExpiry": "{{rights}}, days left: {{days}}"
+    },
+    "crossLink": {
+      "credentialsHint": "Login and passwords live on the connection page:",
+      "behaviourHint": "Mode and settings live on:",
+      "marketplaceHint": "Connection state, rights and imports live on the marketplace page:",
+      "keyHint": "The key of this marketplace is entered under"
+    },
+    "marketplace": {
+      "subtitle": "the key of this marketplace. Everything else is on the marketplace page.",
+      "rowSubtitle": "Seller API key",
+      "unknown": "Marketplace «{{slug}}» is not registered in the backend: the page exists, the adapter does not."
+    },
+    "robokassa": {
+      "title": "Robokassa",
+      "subtitle": "the shop's merchant login and the passwords that sign its payments.",
+      "rowSubtitle": "payments on the shop's site",
+      "behaviourHint": "The test mode and the hash algorithm live on «Payments»: they are how the shop behaves, not who it is.",
+      "noAccount": "Robokassa has no credentials yet, so there is nothing to save here. Enter the login and passwords on the connection page."
+    },
+    "cdek": {
+      "title": "CDEK",
+      "subtitle": "the logins and passwords of the CDEK accounts, sandbox and live.",
+      "rowSubtitle": "delivery rates and shipments",
+      "behaviourHint": "The sender city, the delivery kinds, the markup and the free-shipping threshold live on «CDEK delivery».",
+      "noAccount": "No CDEK account is connected yet, so the delivery settings have nothing to save with. Enter the login and password on the connection page."
+    },
+    "apiship": {
+      "title": "ApiShip",
+      "subtitle": "the token of the ApiShip carrier aggregator.",
+      "rowSubtitle": "carrier aggregator",
+      "rowNote": "not used at the checkout: CDEK quotes the rates directly",
+      "notInCheckout": "The token is stored and checked, but ApiShip is not wired into the checkout: the ApiShip calculator answers this account with zero tariffs (measured in i02, 2026-09-16), so CDEK quotes delivery directly. Rating is switched on in the ApiShip cabinet.",
+      "tokenLabel": "ApiShip token",
+      "tokenHint": "ApiShip cabinet, API section. The token goes into the Authorization header as it is, with no Bearer in front of it.",
+      "tokenRequired": "Enter the ApiShip token.",
+      "keepPlaceholder": "keep the stored one",
+      "emptyPlaceholder": "not set",
+      "save": "Save",
+      "remove": "Delete",
+      "cancel": "Cancel",
+      "saved": "ApiShip token saved ••••{{last4}}",
+      "removed": "ApiShip token deleted",
+      "removeTitle": "Delete the ApiShip token?",
+      "removeDescription": "The token is forgotten. You can enter it again at any time.",
+      "probeAsking": "asking ApiShip…",
+      "probeOk": "token accepted",
+      "probeOkWithCount": "token accepted, carriers connected: {{count}}",
+      "probeFailed": "token rejected",
+      "deliveryHint": "The delivery methods a buyer sees live on:"
+    }
   }
 }

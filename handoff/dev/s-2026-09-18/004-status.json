@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-18",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-18T04:01:12+08:00",
+  "status": "2026-09-18 04:01 WITA: штаб дня Оксаны — заказ Ивана 03:59 записан в INTAKE (бэклог исследований с моделью/effort в UI 5390, фильтры UI по модели/effort/разработчику, исследование моделей openai/deepseek/opensource и подписок, замер доли ошибок приёмки PR и план теста моделей); очередь пуста (merged 82, blocked 10); resume-блок записан; следующий шаг после /compact — п. 1.1 и 1.5 по resume."
+}

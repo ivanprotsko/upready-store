@@ -1,0 +1,5 @@
+owner email: ivanprotsko+cherkashino@ivanprotsko.com | password: (прочитан из файла, не печатается, длина 28)
+AUTH: ok
+OWNER products: total=38 returned=38 by status={"published":29,"draft":9}
+OWNER pages locale=ru: 5 -> contacts/ru/pub=true/3417b | legal/ru/pub=false/0b | about/ru/pub=true/561b | privacy/ru/pub=true/15821b | offer/ru/pub=true/19274b
+OWNER pages locale=en: 5 -> contacts/en/pub=false/0b | legal/en/pub=false/0b | about/en/pub=true/580b | privacy/en/pub=false/0b | offer/en/pub=false/0b

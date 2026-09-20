@@ -1,0 +1,67 @@
+{
+  "task": "t08-order-notifications",
+  "branch": "feat/day16-order-notifications",
+  "pr": {
+    "number": 28,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/28"
+  },
+  "done": [
+    {
+      "item": "Письмо покупателю о заказе теперь ведёт на витрину его магазина (acme.localhost), а не на домен движка — устранена гонка определения тенанта через sales-channel заказа.",
+      "links": [
+        "artifacts/docs/t08-order-notifications/report.md"
+      ]
+    },
+    {
+      "item": "Владельцу магазина при создании заказа приходит сообщение в Telegram с номером, составом, суммой доставки и итогом, а также контактами покупателя."
+    },
+    {
+      "item": "В панели тенанта добавлен экран «Уведомления»: имя отправителя, адрес для ответа, подключение Telegram по одноразовому коду, кнопка «Проверить» и статус последней доставки по каждому каналу.",
+      "links": [
+        "artifacts/docs/t08-order-notifications/panel-notifications-acme-1280x900.png"
+      ]
+    },
+    {
+      "item": "Привязка чата Telegram проверена через живой процесс бота apps/bot: код доставлен ботом, чат владельца acme привязан и получил тестовое сообщение."
+    },
+    {
+      "item": "Подтверждена изоляция магазинов: сообщение о заказе acme не попало в чат владельца globex."
+    },
+    {
+      "item": "Проверено поведение без настроенного SMTP: заказ всё равно оформляется, ошибка отправки письма видна владельцу в панели, а Telegram-уведомление при этом уходит."
+    },
+    {
+      "item": "В deploy/mt/shipshift.env.example и deploy/compose.mt.yml добавлены имена переменных SMTP_*, TELEGRAM_BOT_TOKEN, TELEGRAM_LINK_SECRET, PANEL_PUBLIC_URL; значения секретов в репозиторий не попали."
+    }
+  ],
+  "results": [
+    {
+      "label": "Pull Request #28 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/28"
+    },
+    {
+      "label": "Отчёт задачи (report.md)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t08-order-notifications/report.md"
+    },
+    {
+      "label": "Скрин панели — Acme, Telegram подключён",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t08-order-notifications/panel-notifications-acme-1280x900.png"
+    },
+    {
+      "label": "Скрин панели — Globex, отправок не было",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t08-order-notifications/panel-notifications-globex-1280x900.png"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t08-order-notifications-1.findings.md"
+    },
+    {
+      "label": "Итог приёмки (acceptance-summary.md)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t08-order-notifications-1/acceptance-summary.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "В unit-сьюте бэкенда 95 тестов из 96 зелёных: единственный красный файл падает и на dev до этой ветки, значит ветка его не сломала."
+  ]
+}

@@ -8,16 +8,27 @@ import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import { Link } from "@i18n/navigation"
 import { signup } from "@lib/data/customer"
+import { consentHref, type LegalLinkContext } from "@lib/util/legal-links"
 import { useTranslations } from "next-intl"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   /** From the server page, through `LoginTemplate` — see the note there (rule 19g). */
   siteName: string
+  /** Same journey as `siteName`, for the same reason (f05-checkout-legal-stubs). */
+  legal: LegalLinkContext
 }
 
-const Register = ({ setCurrentView, siteName }: Props) => {
+const Register = ({ setCurrentView, siteName, legal }: Props) => {
   const t = useTranslations("Register")
+  // The signup consent sentence, like the checkout one: the shop's own
+  // documents, the contract as the fallback, plain words rather than a link to
+  // the starter's placeholder when the shop has written neither.
+  const privacyLink = consentHref("privacy", legal)
+  // The sentence says "Условиями использования", so it is the usage-terms slot
+  // (b14-pages-legal-content); a shop without that page still falls back to the
+  // contract inside `consentHref`.
+  const termsLink = consentHref("termsOfUse", legal)
   const [message, formAction] = useActionState(signup as (state: string | null, formData: FormData) => Promise<string | null>, null as string | null)
 
   return (
@@ -75,13 +86,21 @@ const Register = ({ setCurrentView, siteName }: Props) => {
         <ErrorMessage error={message} data-testid="register-error" />
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
           {t("agreeText", { siteName: siteName })}{" "}
-          <Link href="/privacy" className="underline">
-            {t("privacyPolicy")}
-          </Link>{" "}
+          {privacyLink ? (
+            <Link href={privacyLink} className="underline">
+              {t("privacyPolicy")}
+            </Link>
+          ) : (
+            t("privacyPolicy")
+          )}{" "}
           {t("and")}{" "}
-          <Link href="/terms" className="underline">
-            {t("termsOfUse")}
-          </Link>
+          {termsLink ? (
+            <Link href={termsLink} className="underline">
+              {t("termsOfUse")}
+            </Link>
+          ) : (
+            t("termsOfUse")
+          )}
           .
         </span>
         <SubmitButton className="w-full mt-6" data-testid="register-button">

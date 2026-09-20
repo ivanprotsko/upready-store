@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 72,
+  "action": "status-set",
+  "ts": "2026-09-15T16:02:27+08:00",
+  "status": "2026-09-15 16:02 WITA: приёмка f09-price-editor-currencies round 1 — ПРИНЯТО, PR #48 смержен squash 905772f3. Замер приёмщика: 2 клика, 0 Tab до «Цена, ₽», без горизонтальной прокрутки, поле цены в мастере есть, публикация без цены отбивается; скрытая USD-цена при правке рубля не теряется. tsc rc=0, eslint 0 errors. Отчёт: handoff/day-2026-09-16-oksana-store/artifacts/accept-f09-price-editor-currencies-1/REPORT.md"
+}

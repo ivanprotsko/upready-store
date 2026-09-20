@@ -171,20 +171,36 @@ export function parseAcceptLanguage(
  * their languages is one the storefront ships. Every tag is tried as written and then
  * by its language subtag (`pt-BR` → `pt`); a `preferredLocales` entry wins wherever it
  * stands in the list, otherwise the visitor's own order decides.
+ *
+ * `options.allowed` restricts which of the 36 shipped locales this negotiation may
+ * land on — a tenant's `enabled_locales` (t06-locale-currency, `src/middleware.ts`):
+ * a browser asking for a language the shop never enabled must not land on a
+ * catalog the shop has no content for. `options.preferred` overrides
+ * `preferredLocales` for the same call — a tenant's own `default_locale` wins
+ * wherever it appears in the visitor's list, the same rule `preferredLocales`
+ * already applies deployment-wide.
  */
 export function matchBrowserLocale(
-  acceptLanguage: string | null | undefined
+  acceptLanguage: string | null | undefined,
+  options?: { allowed?: readonly string[]; preferred?: readonly string[] }
 ): AppLocale | undefined {
+  const allowed = options?.allowed
+  const preferred = options?.preferred ?? preferredLocales
+
   const candidates: AppLocale[] = []
   for (const tag of parseAcceptLanguage(acceptLanguage)) {
     for (const code of [tag, tag.split("-")[0]]) {
-      if (isAppLocale(code) && !candidates.includes(code)) candidates.push(code)
+      if (
+        isAppLocale(code) &&
+        (!allowed || allowed.includes(code)) &&
+        !candidates.includes(code)
+      )
+        candidates.push(code)
     }
   }
 
   return (
-    candidates.find((code) =>
-      (preferredLocales as readonly string[]).includes(code)
-    ) ?? candidates[0]
+    candidates.find((code) => (preferred as readonly string[]).includes(code)) ??
+    candidates[0]
   )
 }

@@ -3,6 +3,8 @@ import { Suspense } from "react"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import type { OptionValueIds } from "@lib/util/product-option-filters"
+import type { AttributeSelection } from "@lib/util/product-attribute-filters"
+import { listProductAttributeFacets } from "@lib/data/product-attributes"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import RefinementList from "@modules/store/components/refinement-list"
@@ -13,7 +15,8 @@ import PaginatedProducts, {
 } from "@modules/store/templates/paginated-products"
 import { listCategories } from "@lib/data/categories"
 import { listProductOptionFilters } from "@lib/data/products"
-import CategoryChildTiles from "@modules/categories/components/category-child-tiles"
+import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
+import CategoryHeaderImage from "@modules/categories/components/category-header-image"
 import { getCategoryAncestors } from "@lib/util/category-ancestors"
 import type { HttpTypes } from "@medusajs/types"
 import Breadcrumb, {
@@ -28,6 +31,7 @@ export default async function CategoryTemplate({
   page,
   countryCode,
   optionValueIds,
+  attributeSelection,
   subcategoryHandles = [],
 }: {
   category: HttpTypes.StoreProductCategory
@@ -35,6 +39,8 @@ export default async function CategoryTemplate({
   page?: string
   countryCode: string
   optionValueIds?: OptionValueIds
+  /** The shop's own characteristics picked in the URL, t15-product-attributes. */
+  attributeSelection?: AttributeSelection
   subcategoryHandles?: string[]
 }) {
   const pageNumber = page ? parseInt(page) : 1
@@ -50,11 +56,17 @@ export default async function CategoryTemplate({
     ? selectedSubcategories.map((c) => c.id)
     : [category.id, ...subcategories.map((c) => c.id)]
 
-  const [t, locale, categories, optionFilters] = await Promise.all([
+  const [t, locale, categories, optionFilters, attributeFacets] = await Promise.all([
     getTranslations(),
     getLocale(),
     listCategories(),
     listProductOptionFilters({ category_id: categoryIds }),
+    // The facets follow the category the visitor is looking at, subtree
+    // included, so their counts describe THIS listing and not the whole shop.
+    listProductAttributeFacets({
+      categoryId: category.id,
+      selection: attributeSelection,
+    }),
   ])
 
   const ancestors = getCategoryAncestors(category)
@@ -90,13 +102,20 @@ export default async function CategoryTemplate({
       <Breadcrumb items={breadcrumbItems} />
 
       <div className="mb-8 lg:grid lg:grid-cols-[280px_1fr] lg:items-center">
-        <div className="flex items-center justify-between">
-          <h1 className="h3-webs" data-testid="category-page-title">
-            {category.name}
-          </h1>
+        <div className="flex items-center justify-between gap-4">
+          {/* The picture the owner gave THIS category, not only its children's
+              (f16-category-image-not-shown). It renders nothing when the field is
+              empty, so a shop that uploaded none keeps today's header exactly. */}
+          <div className="flex min-w-0 items-center gap-3 small:gap-4">
+            <CategoryHeaderImage category={category} />
+            <h1 className="h3-webs truncate" data-testid="category-page-title">
+              {category.name}
+            </h1>
+          </div>
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
+            attributeFacets={attributeFacets.facets}
             className="lg:hidden text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
           />
         </div>
@@ -105,6 +124,7 @@ export default async function CategoryTemplate({
             sortBy={sort}
             display="filters"
             optionFilters={optionFilters}
+            attributeFacets={attributeFacets.facets}
           />
           <RefinementList
             sortBy={sort}
@@ -118,7 +138,7 @@ export default async function CategoryTemplate({
           locales (AGENTS.md, "Localization"), out of scope for this pass —
           the tiles read as a continuation of the category page above them. */}
       {selectedSubcategories.length === 0 ? (
-        <CategoryChildTiles categories={subcategories} />
+        <CategoryImageTiles categories={subcategories} />
       ) : null}
 
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
@@ -145,6 +165,7 @@ export default async function CategoryTemplate({
               categoryIds={categoryIds}
               countryCode={countryCode}
               optionValueIds={optionValueIds}
+              attributeProductIds={attributeFacets.productIds}
             />
           </Suspense>
         </div>

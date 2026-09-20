@@ -1,0 +1,48 @@
+{
+  "task": "b14-pages-legal-content",
+  "branch": "feat/day16-pages-legal-content",
+  "pr": { "number": 67, "url": "https://github.com/ivanprotsko/upready-store/pull/67" },
+  "done": [
+    {
+      "item": "Завёл пять страниц магазина черновиками: Доставка, Возврат и обмен, Вопросы и ответы, Условия использования сайта и Реквизиты — до этого три из них отдавали 404, а раздел «Реквизиты» не был заведён.",
+      "links": ["artifacts/docs/b14-pages-legal-content/pages/delivery.ru.md", "artifacts/docs/b14-pages-legal-content/pages/returns.ru.md", "artifacts/docs/b14-pages-legal-content/pages/faq.ru.md", "artifacts/docs/b14-pages-legal-content/pages/terms.ru.md", "artifacts/docs/b14-pages-legal-content/pages/legal.ru.md"]
+    },
+    {
+      "item": "Всё, что зависит от решения Оксаны (службы доставки, сроки, адрес возврата, кто платит обратную пересылку), оставлено токеном реквизитов — ничего не выдумано, вопросы собраны в конец отчёта.",
+      "links": ["artifacts/docs/b14-pages-legal-content/report.md"]
+    },
+    {
+      "item": "Три ссылки в чекауте, которые вели в один и тот же документ, теперь ведут в три разных: оферта, условия использования, политика возврата.",
+      "links": ["artifacts/docs/b14-pages-legal-content/raw/checkout-consent-hrefs.txt"]
+    },
+    {
+      "item": "Та же ошибка исправлена в форме регистрации: подпись «Условиями использования» вела в оферту.",
+      "links": []
+    },
+    {
+      "item": "Нашёл и починил побочный дефект: скрипт, заводящий страницу, не сбрасывал кэш витрины, и заведённая страница продолжала отдавать 404 — после деплоя это повторилось бы на живом магазине.",
+      "links": []
+    },
+    {
+      "item": "Проверил страницу «Реквизиты» в двух состояниях: при пустых реквизитах блоки скрыты без битой разметки, при заполненных — ни одного плейсхолдера.",
+      "links": ["artifacts/docs/b14-pages-legal-content/shots/07-legal-empty-1280x900.png", "artifacts/docs/b14-pages-legal-content/shots/04-legal-filled-1280x900.png"]
+    }
+  ],
+  "results": [
+    { "label": "PR 67 — вся пачка", "url": "https://github.com/ivanprotsko/upready-store/pull/67" },
+    { "label": "Отчёт с замерами и вопросами Оксане", "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-pages-legal-content/artifacts/docs/b14-pages-legal-content/report.md" },
+    { "label": "Тексты пяти страниц", "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-pages-legal-content/artifacts/docs/b14-pages-legal-content/pages" },
+    { "label": "Кадры 1280×900: пять страниц и чекаут", "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-pages-legal-content/artifacts/docs/b14-pages-legal-content/shots", "note": "06-checkout-1280x900.png — три ссылки согласия ведут в три разных документа" },
+    { "label": "Ссылки согласия до и после", "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-pages-legal-content/artifacts/docs/b14-pages-legal-content/raw/checkout-consent-hrefs.txt" }
+  ],
+  "notes": [
+    "Живой магазин не тронут: тексты едут как черновики, публикация — отдельный шаг после согласования с Оксаной (один medusa exec после деплоя).",
+    "Бриф просил 14-дневный срок возврата: 14 дней — это офлайн-торговля. Дистанционно 7 дней и 3 месяца без письменной памятки, и так уже написано в опубликованной офёрте. Страницы написаны по офёрте.",
+    "Критерий «при пустых реквизитах токены стоят код-спанами» отменён задачей b02 (PR #63): пустой реквизит покупателю больше не показывается вовсе, блок скрывается. Замерено в обоих состояниях.",
+    "Сверх трёх названных страниц заведена пятая — «Условия использования сайта»: без отдельного документа три ссылки чекаута дают только два адреса.",
+    "Вопросов к Оксане — 13, построчно в конце отчёта. Пока нет ответов, соответствующие блоки на страницах скрыты от покупателя.",
+    "Панель под владельцем не открывалась (пароля в клоне базы нет), hidden_blocks для новых страниц не снимал.",
+    "Английских версий страниц нет: машинный перевод юридических текстов без владелицы недопустим.",
+    "Стенд погашен после замеров: порты 9214/8214 свободны."
+  ]
+}

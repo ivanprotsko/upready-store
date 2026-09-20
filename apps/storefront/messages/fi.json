@@ -62,6 +62,11 @@
     "description": "Tarkastele ja päivitä toimitusosoitteitasi – voit lisätä niitä niin monta kuin haluat. Tallennetut osoitteet ovat käytettävissä kassalla.",
     "heading": "Toimitusosoitteet"
   },
+  "AnalyticsConsent": {
+    "message": "Käytämme evästeitä ymmärtääksemme, miten kävijät käyttävät tätä sivustoa.",
+    "accept": "Hyväksy",
+    "decline": "Hylkää"
+  },
   "Breadcrumb": {
     "home": "Etusivu",
     "store": "Kauppa"
@@ -98,6 +103,25 @@
     "title": "Kategoriat",
     "viewAll": "Näytä kaikki"
   },
+  "CdekPoint": {
+    "heading": "CDEK-noutopiste",
+    "chooseHeading": "Valitse CDEK-noutopiste",
+    "searchPlaceholder": "Hae osoitteella tai metrolla",
+    "cityLabel": "Kaupunki",
+    "cityPlaceholder": "Ala kirjoittaa kaupunkia",
+    "choose": "Valitse",
+    "chosen": "Valittu",
+    "found": "Löytyneet noutopisteet: {count}",
+    "noResults": "Kaupungista {city} ei löytynyt noutopisteitä.",
+    "needCity": "Anna toimituskaupunki nähdäksesi noutopisteet.",
+    "loading": "Ladataan noutopisteitä…",
+    "notConfigured": "CDEK-toimitusta ei ole vielä otettu käyttöön tässä kaupassa.",
+    "change": "Vaihda piste",
+    "tabList": "Lista",
+    "tabMap": "Kartta",
+    "mapEmpty": "Tälle kaupungille ei ole noutopisteitä kartalla.",
+    "mapFailed": "Kartta ei ole käytettävissä. Valitse piste listalta."
+  },
   "CheckoutPage": {
     "addNewAddress": "Lisää uusi osoite",
     "addressHeading": "Toimitusosoite",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} tuote} other {{count} tuotetta}}",
     "legal": "Klikkaamalla «Maksa» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
     "manualInput": "Syötä osoite manuaalisesti",
+    "addressIncomplete": "Täytä osoitteen pakolliset kentät. Ilman kaupunkia ja postinumeroa tilausta ei voi lähettää.",
     "orderComposition": "Tilauksen yhteenveto",
     "paymentHeading": "Maksutapa",
     "recipientCheckbox": "Vastaanottaja on eri henkilö",
@@ -145,7 +170,16 @@
     "shippingLink": "Toimitus",
     "shippingUnavailable": "Toimitustapoja ei ole saatavilla",
     "signIn": "Kirjaudu sisään",
-    "total": "Yhteensä"
+    "total": "Yhteensä",
+    "shippingZone": "Vyöhyke: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Tilasitko ilman tiliä?",
+    "description": "Jos tilasit vieraana samalla sähköpostiosoitteella, liitämme ne tilaukset tilillesi.",
+    "button": "Etsi tilaukseni",
+    "claimed": "Liitetyt tilaukset: {count}",
+    "none": "Sähköpostiosoitteellasi ei löytynyt vierastilauksia tästä kaupasta.",
+    "failed": "Tilauksiasi ei voitu tarkistaa. Yritä hetken kuluttua uudelleen."
   },
   "Common": {
     "clear": "Tyhjennä",
@@ -306,8 +340,12 @@
     "unauthorized": "Kirjaudu sisään jatkaaksesi."
   },
   "Filters": {
+    "from": "alkaen",
+    "no": "Ei",
     "sort": "Lajittele",
-    "title": "Suodattimet"
+    "title": "Suodattimet",
+    "to": "asti",
+    "yes": "Kyllä"
   },
   "Footer": {
     "categoriesHeading": "Kategoriat",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Sulje",
+    "counter": "Kuva {index}/{total}",
     "goToImage": "Siirry kuvaan {index}",
-    "openFullImage": "Avaa kuva täysikokoisena"
+    "nextImage": "Seuraava kuva",
+    "openFullImage": "Avaa kuva täysikokoisena",
+    "previousImage": "Edellinen kuva",
+    "showImage": "Näytä kuva {index}",
+    "thumbnails": "Tuotteen pienoiskuvat"
+  },
+  "Journal": {
+    "navLabel": "Lehti",
+    "feedTitle": "Lehti",
+    "feedDescription": "Kaupan {siteName} artikkelit.",
+    "empty": "Artikkeleita ei ole vielä.",
+    "backToFeed": "Kaikki artikkelit",
+    "previous": "Edellinen",
+    "next": "Seuraava",
+    "pageOf": "Sivu {page} / {lastPage}",
+    "pagination": "Lehden sivut",
+    "readingTime": "{minutes} min lukuaika",
+    "related": "Lue myös",
+    "share": "Jaa",
+    "copyLink": "Kopioi linkki",
+    "linkCopied": "Linkki kopioitu",
+    "allCategories": "Kaikki aiheet",
+    "categories": "Aiheet"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Liity meihin",
     "notMember": "Eikö sinulla ole vielä tiliä?",
     "password": "Salasana",
-    "signIn": "Kirjaudu sisään"
+    "signIn": "Kirjaudu sisään",
+    "yandexCta": "Kirjaudu Yandex ID:llä",
+    "yandexDivider": "tai",
+    "yandexErrorDenied": "Peruutit kirjautumisen Yandexin sivulla.",
+    "yandexErrorEmailTaken": "Tällä sähköpostiosoitteella on jo tili. Kirjaudu salasanallasi.",
+    "yandexErrorExpired": "Kirjautumislinkki on vanhentunut. Aloita alusta.",
+    "yandexErrorFailed": "Kirjautuminen ei onnistunut. Yritä hetken kuluttua uudelleen.",
+    "yandexErrorNoEmail": "Yandex ei antanut sähköpostiosoitetta, joten tiliä ei voi luoda.",
+    "yandexErrorRejected": "Yandex ei vahvistanut tätä kirjautumista. Yritä uudelleen.",
+    "yandexErrorUnconfigured": "Yandex-kirjautumista ei ole vielä otettu käyttöön tässä kaupassa."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Katso tiedot"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Säilytä tilausnumero. Tarvitset sitä, kun otat yhteyttä kauppaan.",
     "orderSuccess": "Tilauksesi on tehty onnistuneesti.",
     "thankYou": "Kiitos!"
   },
   "OrderDetails": {
     "backToOrders": "Takaisin tilauksiin",
-    "confirmationSentBefore": "Olemme lähettäneet tilausvahvistuksen osoitteeseen",
+    "contactEmailBefore": "Tämän tilauksen yhteysosoite on",
     "fulfillmentStatuses": {
       "canceled": "Peruutettu",
       "delivered": "Toimitettu",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Maksua vahvistetaan vielä. Odota minuutti ja avaa tilaus tililtäsi tai yritä uudelleen.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Seurantanumero"
   },
   "OrdersPage": {
     "description": "Tarkastele aiempia tilauksiasi ja niiden tilaa.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Maksa",
+    "redirectUnavailable": "Maksusivu ei ole vielä käytettävissä. Yritä hetken kuluttua uudelleen.",
     "selectPaymentMethod": "Valitse maksutapa"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Luottokortti",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Luottokortti",
@@ -682,6 +758,14 @@
     "selectOptions": "Valitse vaihtoehdot",
     "selectVariant": "Valitse versio"
   },
+  "ProductAttributes": {
+    "no": "Ei",
+    "title": "Ominaisuudet",
+    "yes": "Kyllä"
+  },
+  "ProductInfo": {
+    "description": "Kuvaus"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Jatka asetusten määrittämistä hallintapaneelissa",
     "continueSetup": "Voit nyt jatkaa kauppasi asetusten määrittämistä hallintapaneelissa.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Näytä kaikki"
+  },
+  "ProductReviews": {
+    "heading": "Arvostelut",
+    "ratingSummary": "{average} / 5 · {count, plural, one {# arvostelu} other {# arvostelua}}",
+    "ratingValue": "{value} / 5",
+    "formHeading": "Arvostelusi",
+    "ratingLabel": "Arvosana",
+    "nameLabel": "Nimesi",
+    "titleLabel": "Otsikko (valinnainen)",
+    "bodyLabel": "Arvostelun teksti",
+    "submit": "Lähetä arvostelu",
+    "pendingNotice": "Kiitos. Arvostelu ilmestyy, kun kauppa on hyväksynyt sen.",
+    "signInPrompt": "Kirjaudu sisään jättääksesi arvostelun.",
+    "error": "Arvostelua ei voitu lähettää. Yritä uudelleen.",
+    "ownerReply": "Kaupan vastaus",
+    "previousPage": "Edellinen",
+    "nextPage": "Seuraava",
+    "pageOf": "Sivu {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Helppo palautus",
@@ -809,7 +911,8 @@
       "account": "Tili",
       "cart": "Ostoskori",
       "home": "Etusivu",
-      "store": "Kauppa"
+      "store": "Kauppa",
+      "journal": "Lehti"
     },
     "menuButton": "Valikko"
   },

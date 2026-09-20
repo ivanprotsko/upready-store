@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 75,
+  "action": "status-append",
+  "ts": "2026-09-15T16:40:42+08:00",
+  "status": "2026-09-15 16:35 WITA: приёмка f12-owner-raw-keys раунд 1 — ОТКЛОНЕНО: PR #50 конфликтует с dev в ru.json (замер git merge-file, rc=1) и не выполнен обязательный живой обход с артефактами; findings записаны (accept-f12-owner-raw-keys-1) | 2026-09-15 16:40 WITA: f14-no-password-reset PR #52 opened (dev) — tenant auth.password_reset subscriber extended to actor_type tenant, panel forgot/reset-password screens, public GET /auth/tenant/mail-status for honest SMTP-off dead-end; tsc/lint/unit green (239/240, 1 pre-existing dev failure), live-stand Playwright pass incl. no-leak on missing email + used/missing-token screens; screenshots in worker's own artifacts/docs/f14-no-password-reset/ (not in git)"
+}

@@ -62,6 +62,11 @@
     "description": "Просмотрите и обновите ваши адреса доставки. Вы можете добавить любое количество адресов. Сохранённые адреса будут доступны при оформлении заказа.",
     "heading": "Адреса доставки"
   },
+  "AnalyticsConsent": {
+    "message": "Мы используем куки, чтобы понимать, как посетители пользуются сайтом.",
+    "accept": "Принять",
+    "decline": "Отклонить"
+  },
   "Breadcrumb": {
     "home": "Главная",
     "store": "Магазин"
@@ -98,6 +103,25 @@
     "title": "Категории",
     "viewAll": "Смотреть все"
   },
+  "CdekPoint": {
+    "heading": "Пункт выдачи СДЭК",
+    "chooseHeading": "Выберите пункт выдачи СДЭК",
+    "searchPlaceholder": "Поиск по адресу или метро",
+    "cityLabel": "Город",
+    "cityPlaceholder": "Начните вводить город",
+    "choose": "Выбрать",
+    "chosen": "Выбран",
+    "found": "Найдено пунктов выдачи: {count}",
+    "noResults": "В городе {city} не нашлось пунктов выдачи.",
+    "needCity": "Укажите город доставки, чтобы увидеть пункты выдачи.",
+    "loading": "Загружаем пункты выдачи…",
+    "notConfigured": "Доставка СДЭК пока не настроена в этом магазине.",
+    "change": "Сменить пункт",
+    "tabList": "Список",
+    "tabMap": "Карта",
+    "mapEmpty": "В этом городе нет пунктов, которые можно показать на карте.",
+    "mapFailed": "Карта недоступна — выберите пункт из списка."
+  },
   "CheckoutPage": {
     "addNewAddress": "Добавить новый адрес",
     "addressHeading": "Адрес доставки",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} товар} few {{count} товара} many {{count} товаров} other {{count} товаров}}",
     "legal": "Нажимая «Оплатить», вы принимаете <terms>условия</terms>, <termsOfUse>условия использования</termsOfUse> и <returnPolicy>политику возврата</returnPolicy>, а также соглашаетесь с <privacyPolicy>политикой конфиденциальности</privacyPolicy>.",
     "manualInput": "Ввести адрес вручную",
+    "addressIncomplete": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить.",
     "orderComposition": "Состав заказа",
     "paymentHeading": "Способ оплаты",
     "recipientCheckbox": "Получать будет другой человек",
@@ -143,9 +168,18 @@
     "shippingDescription": "Выберите, как вы хотите получить заказ",
     "shippingHeading": "Способ доставки",
     "shippingLink": "Доставка",
-    "shippingUnavailable": "Методы доставки недоступны",
+    "shippingUnavailable": "Доставка по этому адресу пока не настроена. Проверьте страну и регион или напишите нам — подберём способ.",
     "signIn": "Войти",
-    "total": "Итого"
+    "total": "Итого",
+    "shippingZone": "Зона: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Оформляли заказ без регистрации?",
+    "description": "Если вы заказывали как гость на этот же адрес электронной почты, мы привяжем такие заказы к вашему аккаунту.",
+    "button": "Найти мои заказы",
+    "claimed": "Привязано заказов: {count}",
+    "none": "Заказов без аккаунта на вашу почту в этом магазине не нашлось.",
+    "failed": "Не удалось проверить заказы. Попробуйте ещё раз."
   },
   "Common": {
     "clear": "Очистить",
@@ -306,8 +340,12 @@
     "unauthorized": "Пожалуйста, войдите, чтобы продолжить."
   },
   "Filters": {
+    "from": "от",
+    "no": "Нет",
     "sort": "Сортировка",
-    "title": "Фильтры"
+    "title": "Фильтры",
+    "to": "до",
+    "yes": "Да"
   },
   "Footer": {
     "categoriesHeading": "Категории",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Закрыть",
+    "counter": "Изображение {index} из {total}",
     "goToImage": "Перейти к изображению {index}",
-    "openFullImage": "Открыть изображение целиком"
+    "nextImage": "Следующее изображение",
+    "openFullImage": "Открыть изображение целиком",
+    "previousImage": "Предыдущее изображение",
+    "showImage": "Показать изображение {index}",
+    "thumbnails": "Миниатюры товара"
+  },
+  "Journal": {
+    "navLabel": "Журнал",
+    "feedTitle": "Журнал",
+    "feedDescription": "Статьи магазина {siteName}.",
+    "empty": "Статей пока нет.",
+    "backToFeed": "Все статьи",
+    "previous": "Назад",
+    "next": "Вперёд",
+    "pageOf": "Страница {page} из {lastPage}",
+    "pagination": "Страницы журнала",
+    "readingTime": "{minutes} мин чтения",
+    "related": "Читайте также",
+    "share": "Поделиться",
+    "copyLink": "Скопировать ссылку",
+    "linkCopied": "Ссылка скопирована",
+    "allCategories": "Все рубрики",
+    "categories": "Рубрики журнала"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Присоединиться",
     "notMember": "Нет аккаунта?",
     "password": "Пароль",
-    "signIn": "Войти"
+    "signIn": "Войти",
+    "yandexCta": "Войти через Яндекс ID",
+    "yandexDivider": "или",
+    "yandexErrorDenied": "Вы отменили вход на странице Яндекса.",
+    "yandexErrorEmailTaken": "Аккаунт с этой почтой уже есть. Войдите по паролю.",
+    "yandexErrorExpired": "Ссылка для входа устарела. Начните заново.",
+    "yandexErrorFailed": "Войти не получилось. Попробуйте через минуту.",
+    "yandexErrorNoEmail": "Яндекс не передал адрес почты, поэтому аккаунт создать нельзя.",
+    "yandexErrorRejected": "Яндекс не подтвердил этот вход. Попробуйте ещё раз.",
+    "yandexErrorUnconfigured": "Вход через Яндекс в этом магазине пока не включён."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Подробнее"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Сохраните номер заказа. Он понадобится, чтобы связаться с магазином.",
     "orderSuccess": "Ваш заказ успешно оформлен.",
     "thankYou": "Спасибо!"
   },
   "OrderDetails": {
     "backToOrders": "Назад к заказам",
-    "confirmationSentBefore": "Подтверждение заказа отправлено на",
+    "contactEmailBefore": "Заказ оформлен на адрес",
     "fulfillmentStatuses": {
       "canceled": "Отменён",
       "delivered": "Доставлен",
@@ -602,6 +674,7 @@
     "heading": "Платёж не прошёл",
     "orderFailedReason": "Платёж прошёл, но оформить заказ не удалось. Содержимое корзины не изменилось.",
     "paymentFailedReason": "Банк не одобрил эту карту. Содержимое корзины не изменилось.",
+    "paymentPendingReason": "Оплата ещё подтверждается. Подождите минуту и откройте заказ в личном кабинете или повторите оформление.",
     "retryCheckout": "Вернуться к оформлению"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "Этот заказ отменён.",
     "confirmed": "Подтверждён",
     "placed": "Оформлен",
-    "received": "Получен"
+    "received": "Получен",
+    "trackingNumber": "Трек-номер"
   },
   "OrdersPage": {
     "description": "Просматривайте свои предыдущие заказы и их статус.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Оплатить",
+    "redirectUnavailable": "Страница оплаты пока недоступна. Попробуйте ещё раз через минуту.",
     "selectPaymentMethod": "Выберите способ оплаты"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Банковская карта",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Банковская карта",
@@ -682,6 +758,14 @@
     "selectOptions": "Выбрать опции",
     "selectVariant": "Выбрать вариант"
   },
+  "ProductAttributes": {
+    "no": "Нет",
+    "title": "Характеристики",
+    "yes": "Да"
+  },
+  "ProductInfo": {
+    "description": "Описание"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продолжить настройку в панели",
     "continueSetup": "Теперь вы можете продолжить настройку магазина в панели администратора.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Смотреть все"
+  },
+  "ProductReviews": {
+    "heading": "Отзывы",
+    "ratingSummary": "{average} из 5 · {count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}",
+    "ratingValue": "{value} из 5",
+    "formHeading": "Ваш отзыв",
+    "ratingLabel": "Оценка",
+    "nameLabel": "Ваше имя",
+    "titleLabel": "Заголовок (необязательно)",
+    "bodyLabel": "Текст отзыва",
+    "submit": "Отправить отзыв",
+    "pendingNotice": "Спасибо. Отзыв появится на странице после проверки магазином.",
+    "signInPrompt": "Войдите, чтобы оставить отзыв.",
+    "error": "Отзыв не отправился. Попробуйте ещё раз.",
+    "ownerReply": "Ответ магазина",
+    "previousPage": "Назад",
+    "nextPage": "Вперёд",
+    "pageOf": "Страница {page} из {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Лёгкий возврат",
@@ -809,7 +911,8 @@
       "account": "Профиль",
       "cart": "Корзина",
       "home": "Главная",
-      "store": "Магазин"
+      "store": "Магазин",
+      "journal": "Журнал"
     },
     "menuButton": "Меню"
   },

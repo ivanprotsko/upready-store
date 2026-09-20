@@ -1,40 +1,44 @@
 import { MedusaError } from "@medusajs/framework/utils";
 import {
   TENANT_PAGE_KEYS,
+  isReservedPageKey,
+  isValidPageSlug,
   type TenantPageKey,
 } from "../../../modules/tenant/models/tenant-page";
 
 /**
- * Shared shape and guards for the five content pages
- * (`docs/tenant-panel/api-contract.md`, "Piece 7"). The panel lists all five
- * sections whether or not the tenant has saved them, so an unsaved key is a
+ * Shared shape and guards for tenant content pages (t05-page-keys widened
+ * `docs/tenant-panel/api-contract.md`, "Piece 7", from a fixed set of five keys
+ * to a free slug per tenant). The panel lists the five reserved sections
+ * whether or not the tenant has saved them, so an unsaved reserved key is a
  * real row in the response with `id: null` rather than a gap the client has to
- * reconstruct from the key list.
+ * reconstruct from the key list; a custom slug only appears once it has been
+ * created.
  */
 export type TenantPageDto = {
   id: string | null;
-  key: TenantPageKey;
+  key: string;
   locale: string;
   title: string;
   body: string;
   published: boolean;
+  in_footer: boolean;
+  footer_order: number | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  reserved: boolean;
 };
 
 /** The model's own default; the panel edits one language today. */
 export const DEFAULT_PAGE_LOCALE = "en";
 
-const isPageKey = (value: string): value is TenantPageKey =>
-  (TENANT_PAGE_KEYS as readonly string[]).includes(value);
-
 /**
- * A key outside the fixed five is a missing page, not a bad request: the
- * contract's own wording for `GET /tenants/pages/:key` is "404 for an unknown
- * key", and 404 is also what keeps this route from telling a caller which
- * section names exist. (`INVALID_DATA` in the same contract line covers the
- * body, which `PutTenantPageSchema` validates.)
+ * A key that is syntactically valid (`isValidPageSlug`) — reserved or custom —
+ * so it may be looked up, created or updated. Kept for the path segment; the
+ * body's own fields are `PutTenantPageSchema`'s job.
  */
-export const assertPageKey = (raw: string): TenantPageKey => {
-  if (!isPageKey(raw)) {
+export const assertPageKey = (raw: string): string => {
+  if (!isValidPageSlug(raw) && !isReservedPageKey(raw)) {
     throw new MedusaError(MedusaError.Types.NOT_FOUND, `Page with key "${raw}" was not found`);
   }
 
@@ -61,7 +65,7 @@ export const parsePageLocale = (raw: unknown): string => {
   return raw;
 };
 
-/** The unsaved state of one section, in the same shape a saved row answers. */
+/** The unsaved state of a reserved section, in the same shape a saved row answers. */
 export const blankPage = (key: TenantPageKey, locale: string): TenantPageDto => ({
   id: null,
   key,
@@ -69,6 +73,14 @@ export const blankPage = (key: TenantPageKey, locale: string): TenantPageDto => 
   title: "",
   body: "",
   published: false,
+  // A reserved key kept its old behaviour: every published one used to show in
+  // the footer unconditionally, so an unsaved reserved section still defaults
+  // to "on" the first time its form opens. A custom page opts in explicitly.
+  in_footer: true,
+  footer_order: null,
+  seo_title: null,
+  seo_description: null,
+  reserved: true,
 });
 
 type PageRow = {
@@ -78,28 +90,90 @@ type PageRow = {
   title: string;
   body: string;
   published: boolean;
+  in_footer: boolean;
+  footer_order: number | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
 };
 
 export const toPageDto = (row: PageRow): TenantPageDto => ({
   id: row.id,
-  key: row.key as TenantPageKey,
+  key: row.key,
   locale: row.locale,
   title: row.title,
   body: row.body,
   published: row.published,
+  in_footer: row.in_footer,
+  footer_order: row.footer_order,
+  seo_title: row.seo_title ?? null,
+  seo_description: row.seo_description ?? null,
+  reserved: isReservedPageKey(row.key),
 });
 
 /**
- * The five sections in their canonical order, saved rows in place of the
- * blanks. A row whose key is not one of the five (a key removed from
- * `TENANT_PAGE_KEYS` after it was saved) is dropped rather than listed, so the
- * panel never renders a section it has no screen for.
+ * The panel's list screen: the five reserved sections first, in their
+ * canonical order (saved rows in place of the blanks, same as before
+ * t05-page-keys), then every custom page the tenant has created, alphabetical
+ * by title so a growing list stays scannable rather than reordering itself
+ * every save.
  */
-export const fillPageList = (rows: PageRow[], locale: string): TenantPageDto[] => {
-  const saved = new Map(rows.filter((row) => isPageKey(row.key)).map((row) => [row.key, row]));
+export const listPagesForPanel = (rows: PageRow[], locale: string): TenantPageDto[] => {
+  const saved = new Map(rows.map((row) => [row.key, row]));
 
-  return TENANT_PAGE_KEYS.map((key) => {
+  const reserved = TENANT_PAGE_KEYS.map((key) => {
     const row = saved.get(key);
     return row ? toPageDto(row) : blankPage(key, locale);
   });
+
+  const custom = rows
+    .filter((row) => !isReservedPageKey(row.key))
+    .map(toPageDto)
+    .sort((a, b) => a.title.localeCompare(b.title) || a.key.localeCompare(b.key));
+
+  return [...reserved, ...custom];
+};
+
+const LOCALE_TAG = /^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/;
+
+/**
+ * The visitor's locale on the PUBLIC reads (`/store/tenant/pages*`). The
+ * framework's `applyLocale` middleware already resolves it into `req.locale`
+ * (`?locale=` first — which it DELETES from `req.query` — then the
+ * `x-medusa-locale` header the storefront sends on every SDK call), so this
+ * reads `req.locale` and only falls back to the raw header for a request that
+ * bypassed the middleware. A malformed value is not an error on a public route:
+ * it means «no preference», and the fallback chain of `pickPageForLocale`
+ * decides.
+ */
+export const requestedPageLocale = (req: {
+  locale?: string;
+  headers: Record<string, unknown>;
+}): string | null => {
+  const raw = req.locale ?? req.headers["x-medusa-locale"];
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return LOCALE_TAG.test(trimmed) ? trimmed : null;
+};
+
+/**
+ * One page per key for a visitor: their locale first, then its language part
+ * (`pt-BR` → `pt`), then `en` (what the panel wrote first), then whatever
+ * locale exists. A tenant whose default language is not English (the
+ * Cherkashina shop: ru default, en second) is otherwise unreadable on its own
+ * storefront, which served the `en` row alone before this fallback.
+ */
+export const pickPageForLocale = <T extends { locale: string }>(
+  rows: T[],
+  requested: string | null,
+): T | null => {
+  if (!rows.length) return null;
+  const candidates = [requested, requested?.split("-")[0], DEFAULT_PAGE_LOCALE].filter(
+    (l): l is string => Boolean(l),
+  );
+  for (const locale of candidates) {
+    const hit = rows.find((row) => row.locale === locale);
+    if (hit) return hit;
+  }
+  return [...rows].sort((a, b) => a.locale.localeCompare(b.locale))[0];
 };

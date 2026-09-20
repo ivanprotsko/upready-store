@@ -8,6 +8,7 @@ import {
   TransitionChild,
 } from "@headlessui/react"
 import { XMark } from "@medusajs/icons"
+import { clx } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 
 interface CheckoutModalProps {
@@ -15,6 +16,13 @@ interface CheckoutModalProps {
   onClose: () => void
   title: string
   children: React.ReactNode
+  /**
+   * A sheet that has two panes to show at once (the CDEK picker's list and its
+   * map, i03-checkout-pvz-map-address-suggest) gets the wider panel on a large
+   * screen. Every other sheet keeps the 540 px it has always had, and the
+   * mobile panel is full width either way.
+   */
+  wide?: boolean
 }
 
 export function CheckoutModal({
@@ -22,6 +30,7 @@ export function CheckoutModal({
   onClose,
   title,
   children,
+  wide = false,
 }: CheckoutModalProps) {
   const t = useTranslations("Common")
 
@@ -53,7 +62,12 @@ export function CheckoutModal({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel className="relative w-full sm:w-[540px] max-h-[90dvh] overflow-y-auto bg-ui-bg-base rounded-t-xl sm:rounded-xl shadow-elevation-modal">
+            <DialogPanel
+              className={clx(
+                "relative w-full sm:w-[540px] max-h-[90dvh] overflow-y-auto bg-ui-bg-base rounded-t-xl sm:rounded-xl shadow-elevation-modal",
+                wide && "small:w-[880px]"
+              )}
+            >
               <div className="flex items-center justify-between px-6 py-4">
                 <DialogTitle className="txt-xlarge text-ui-fg-base">
                   {title}

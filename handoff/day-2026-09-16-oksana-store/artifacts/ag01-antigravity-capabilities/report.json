@@ -1,0 +1,81 @@
+{
+  "task": "ag01-antigravity-capabilities",
+  "done": [
+    {
+      "item": "Прогнал 39 живых вызовов agy 1.2.5 и снял квоту до и после каждого — отчёт для Ивана готов.",
+      "links": ["file:///Users/ivanprotsko/upready/research/reports/2026-09-18-antigravity-gemini-capabilities.md"]
+    },
+    {
+      "item": "Проверил шесть моделей одним контрольным промптом: все ответили верно, включая gpt-oss-120b-medium, который ночью отдавал 503.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/10-models-summary.json"]
+    },
+    {
+      "item": "Проверил инструменты по диску и эталону, а не по словам модели: чтение, запись, shell, поиск по коду, веб — все пять работают; полный список инструментов агента — 57.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/31-format-stream-json.txt"]
+    },
+    {
+      "item": "Пилот тестов прошёл с первой попытки на обеих моделях: Pro High написал 21 тест за 140,5 с, Flash High 26 тестов за 86,2 с, оба прогона node --test в копии зелёные.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/71-pilot-flash-lib-extra.test.mjs"]
+    },
+    {
+      "item": "Мутационной проверкой показал, что тесты не тавтология: сломанный renderTemplate валит 2 теста из набора Pro и 5 из набора Flash.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/80-mutation-flash.log"]
+    },
+    {
+      "item": "Пилот мока внешнего gh: Flash High сам выбрал mock.method на child_process.execFileSync через createRequire, проверил и результат, и аргументы вызова.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/91-pilot-mock-test.mjs"]
+    },
+    {
+      "item": "Нашёл и задокументировал главную опасность: agy в 2 случаях из 5 записал файл мимо рабочей папки, один раз — в живой чекаут движка дня; файл убран, дерево чистое.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/65-pilot-pro-transcript.jsonl"]
+    },
+    {
+      "item": "Разобрал форматы: json, stream-json с событиями init/step_update/result, --json-schema с полем structured_output и многоходовой --input-format stream-json через stdin.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/32-format-json-schema.txt"]
+    },
+    {
+      "item": "Замерил цену: весь прогон стоил 12 п.п. пятичасового пула Gemini, один пилот тестов — 2 п.п., то есть около 50 прогонов на окно.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/usage-log.tsv"]
+    },
+    {
+      "item": "Дал готовую рекомендацию для раннера agy: модель gemini-3.8-flash-high, две обязательные строки преамбулы и семь ограничений движка.",
+      "links": ["file:///Users/ivanprotsko/upready/research/reports/2026-09-18-antigravity-gemini-capabilities.md"]
+    }
+  ],
+  "results": [
+    {
+      "label": "Отчёт: возможности моделей Gemini через agy",
+      "path": "file:///Users/ivanprotsko/upready/research/reports/2026-09-18-antigravity-gemini-capabilities.md",
+      "note": "7 разделов: выводы, таблица возможностей, пилот тестов и моков, квота, рекомендация раннеру, не замерено, методика"
+    },
+    {
+      "label": "Сырые выводы всех 39 вызовов agy",
+      "path": "file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/",
+      "note": "69 файлов: команда, rc, stdout+stderr на каждый вызов"
+    },
+    {
+      "label": "Журнал квоты до и после каждого вызова",
+      "path": "file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/usage-log.tsv",
+      "note": "момент UTC, шаг, пул, лимит, остаток, плановый сброс"
+    },
+    {
+      "label": "Тесты, написанные Gemini 3.8 Flash High (26 кейсов, зелёные)",
+      "path": "file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/71-pilot-flash-lib-extra.test.mjs"
+    },
+    {
+      "label": "Тест с моком внешнего gh, написанный Gemini 3.8 Flash High",
+      "path": "file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/91-pilot-mock-test.mjs"
+    },
+    {
+      "label": "Сводка шести моделей на одном промпте",
+      "path": "file:///Users/ivanprotsko/upready/research/raw/ag01-antigravity-capabilities/10-models-summary.json"
+    }
+  ],
+  "notes": [
+    "Решение Ивану: брать ли тесты, написанные agy, в движок как есть — они зелёные и ловят мутацию, но писал их не наш ревьюер.",
+    "Раннеру agy нужны две строки преамбулы (запрет подагентов и запрет абсолютных путей) — без первой одна попытка из двух зависла на 10 минут.",
+    "Порог quotaMinPct 10 % оставляет запас примерно на пять прогонов тестов; при пакете тяжёлых задач стоит поднять до 15 %.",
+    "Как выглядит отказ agy по исчерпанию квоты — по-прежнему не замерено: в логах ни одного 429 и ни одного RESOURCE_EXHAUSTED, провоцировать исчерпание было запрещено.",
+    "В ходе прогона я снял чужой осиротевший процесс agy (pid 44670, возраст 7 ч 52 мин), приняв его за свой; активной работы он не нёс, tmux-сервера не было."
+  ]
+}

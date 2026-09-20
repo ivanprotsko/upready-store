@@ -1,0 +1,18 @@
+owner API /tenants/products: total=38 {"published":29,"draft":9}
+
+per-category product count (owner API, 9 categories):
+    1  multivarki-cherkashino  (Мультиварки)
+    1  steviya-cherkashino  (Стевия)
+    6  asd-cherkashino  (АСД)
+    0  stimulyatory-cherkashino  (Стимуляторы)
+    1  antiseptiki-cherkashino  (Антисептики)
+    2  fito-svechi-cherkashino  (Фито-свечи)
+    1  masla-cherkashino  (Масла)
+    5  myod-cherkashino  (Мёд)
+   19  dobavki-cherkashino  (Добавки)
+empty categories: stimulyatory-cherkashino
+
+distinct image URLs on the tenant's products: 331
+URLs pointing at localhost: 0
+HEAD sample: 12/12 answered 200
+sample URL: https://shipshift.dev/static/tenants/ten_01M2GQVGEN1204CN90C510DNRG/1789416266499-08-1.png

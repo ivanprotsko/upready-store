@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-day16-test-methods-pilot",
+  "session": "s-2026-09-15",
+  "index": 2,
+  "action": "status-append",
+  "ts": "2026-09-15T22:11:45+08:00",
+  "status": "2026-09-15 21:21 WITA: c01-wave5-composer — волна 5 собрана: 10 пачек b07–b16 (приоритеты 80–89) в artifacts/c01-wave5-composer/tasks.json, 10 промптов, needs-ivan.md (10 строк Оксане, 5 Ивану, 8 задач HANDOFF вне миссии + 4 открытых PR), report.md с таблицей 38 пунктов; tasks.json и prompts/ дня не тронуты, коммит e530a06 | 2026-09-15 22:11 WITA: r03-test-methods-pilot — раунд 2: PR #56 слит с origin/dev (конфликт был только в шапке HANDOFF.json: моя строка статуса против строки c01), суть задачи приёмщик перемерил и принял. Реестр методов тестирования в tools/test-methods/ без изменений по существу; добавлена проверка протухших записей baseline (нит 1 приёмки)."
+}

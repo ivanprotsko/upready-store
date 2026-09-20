@@ -1,0 +1,50 @@
+{
+  "task": "t02-cherkashina-port",
+  "branch": "feat/day16-cherkashina-port",
+  "pr": {
+    "number": 21,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/21"
+  },
+  "done": [
+    {
+      "item": "Перенесены скрипты миграции cherkashina-migration (8 скриптов + lib/http,psql,mapping-registry + новый lib/cli.mjs) из ветки feat/cherkashina-tenant в dev."
+    },
+    {
+      "item": "Перенесена правка локали публичных страниц тенанта: store/tenant/pages/route.ts, pages/[key]/route.ts, page-helpers.ts, tenant-pages.ts и кейс фолбэка локали в tenants-pages.spec.ts."
+    },
+    {
+      "item": "Скрипты переведены с привязок к стенду 2026-09-12 на живой хост: добавлены --help/usage у всех восьми скриптов, --psql-bin, --storefront-origin/--source-origin, ранняя проверка --source-root."
+    },
+    {
+      "item": "Написан README.md в каталоге скриптов с таблицей вход/выход по каждому скрипту и копируемым примером dry-run."
+    },
+    {
+      "item": "Перенесены документы миграции в artifacts/docs/2026-09-12-cherkashina-migration/ (feature-inventory, mapping-registry, migration-report)."
+    },
+    {
+      "item": "На локальном стенде (backend :9088, storefront :8088, БД upready_store_t02) tenants-pages.spec.ts зелёный целиком (9/9), tsc/lint/build backend и storefront без ошибок."
+    },
+    {
+      "item": "PR #21 замержен squash-мёрджем 2026-09-14T19:48:41Z, merge-коммит 8b8b482."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #21 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/21"
+    },
+    {
+      "label": "Отчёт исполнителя",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t02-cherkashina-port/report.md"
+    },
+    {
+      "label": "Отчёт приёмки",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t02-cherkashina-port-1/report.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Две красные проверки (profile-data.unit.spec.ts и tenants-domains.spec.ts) не относятся к этому PR — уже красные на dev, предложено завести отдельными задачами.",
+    "Ветка feat/cherkashina-tenant не слита и не тронута; JSON-снимки (source-snapshot.json, mapping-registry.json) остаются на ней, в dev перенесён только .md-рендер реестра."
+  ]
+}

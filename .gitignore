@@ -78,10 +78,18 @@ artifacts/media/*/*
 # Contact sheet screenshots (t-store-profiles-pilot): binaries never enter git.
 # shoot.log and manifest.json (siblings, not under shots/) stay tracked as documents.
 artifacts/docs/contact-sheet/shots/
+artifacts/docs/f06-shipping-method-names/shots/
+artifacts/docs/f10-price-save-silently-lost/shots/
+artifacts/docs/w12-marketplace-core/shots/
+# Playwright session state of the shop owner (cookies): never in git.
+artifacts/docs/f10-price-save-silently-lost/.state-*.json
 
 # Stand index screenshots (t-store-profiles-pilot): binaries never enter git.
 # build.mjs, shot.mjs, tokens.css and index.html stay tracked as documents.
 artifacts/docs/stands/shot-*.png
+# b17: reference/before/after screenshots of the product page, kept on disk
+# for the PR body and named there by absolute path (rule 21f: no binaries in history)
+artifacts/docs/b17-pdp-gallery-info-layout/design/*.png
 artifacts/docs/hero-lab/shot-*.png
 artifacts/docs/hero-lab-2/shot-*.png
 artifacts/docs/hero-lab-2/collection/*.webp
@@ -119,3 +127,28 @@ deploy/mt/*.env
 # README.md and probe-local.mjs stay tracked as documents.
 artifacts/docs/2026-09-12-mt-storefront-head-footer/shots/
 artifacts/mockups/*/shot-*.png
+artifacts/docs/f01-thankyou-brand/*.png
+
+# w01-wb-readonly-client: full-page screenshots of the WB doc portal (4-12 MB each).
+# The extracted TEXT of those pages is committed next to them and is what the
+# endpoint registry cites; the PNGs stay on disk and are listed in the PR body.
+artifacts/docs/w01-wb-readonly-client/docs/*.png
+
+# b18-blog-full: скриншоты приёмки журнала — бинарники в историю не кладём (правило 21f)
+artifacts/docs/b18-blog-full/**/*.png
+
+# d09: кадры приёмки панели — бинарники вне git.
+artifacts/docs/d09-deploy-integrations/shots/
+
+# p02-operator-v1: рабочие данные оператора. Индекс корпуса, документы ответов, входящие промпты и
+# журнал эскалаций — состояние РАБОТЫ, не исходник: база пересобирается `node intake/index.mjs` за
+# 11 с, а в ответах и промптах стоит дословный текст Ивана. Кадры приёмки — бинарники (правило 21f).
+handoff/day-2026-09-16-oksana-store/intake/operator.db
+handoff/day-2026-09-16-oksana-store/intake/operator.db-wal
+handoff/day-2026-09-16-oksana-store/intake/operator.db-shm
+handoff/day-2026-09-16-oksana-store/intake/answers/
+handoff/day-2026-09-16-oksana-store/intake/prompts/
+handoff/day-2026-09-16-oksana-store/intake/escalations.log
+handoff/day-2026-09-16-oksana-store/intake/inbox.json
+artifacts/docs/p02-operator-v1/shots/
+handoff/day-2026-09-16-oksana-store/logs/launchd-operator.log

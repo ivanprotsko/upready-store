@@ -2,7 +2,6 @@ import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { OrderDeliveredEmail } from "../emails/order-delivered";
-import { STOREFRONT_URL } from "../emails/i18n";
 import {
   findOrderForEmail,
   sendOrderEmail,
@@ -49,13 +48,13 @@ export default async function orderDeliveredEmailHandler({
     idempotencyKey: `order-delivered:${order.id}:${fulfillmentId}`,
     Component: OrderDeliveredEmail,
     subjectKey: "Delivery.subject",
-    text: (t, id) =>
+    text: (t, id, shop) =>
       [
         t("Delivery.textFallback", { id }),
         "",
         t("Delivery.somethingWrong"),
         "",
-        `${STOREFRONT_URL}/account/orders`,
+        `${shop.storefrontUrl}/account/orders`,
       ].join("\n"),
   });
 }

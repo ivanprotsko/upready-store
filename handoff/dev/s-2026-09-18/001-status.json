@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-18",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-18T01:55:21+08:00",
+  "status": "2026-09-18 01:55 WITA: штаб дня Оксаны — очередь пуста (merged 82, blocked 10); ответ Ивану про Antigravity/agy: отчёт research/reports/2026-09-18-antigravity-agy-quota-models-factcheck.md (96 утверждений агента, 17 % прямых ошибок, 76 % без источника), память antigravity-cli-agy дополнена живым тестом (Sonnet/Opus на Pro отвечают, GPT-OSS 503). Жду слова Ивана: пилот gemini (e01), q04/y01/r04/k01, INFRA_OK на стенд"
+}

@@ -1,0 +1,40 @@
+{
+  "task": "gw03-payment-providers-rf-acc",
+  "done": [
+    {
+      "item": "Проверен этап 0 (машинный): все ARTIFACT-пути исполнителя внутри его папки, чужих записей вне окна прогона нет.",
+      "links": ["artifacts/agy-runs/gw03-payment-providers-rf-gem/findings-sonnet-1.md"]
+    },
+    {
+      "item": "Сверены факты про интеграцию Robokassa с кодом apps/backend — большинство совпало, но найдена ошибка атрибуции пакета.",
+      "links": ["../../../apps/backend/src/modules/payment-robokassa/service.ts"]
+    },
+    {
+      "item": "Найден блокер: ни у одной цены в таблице нет даты снятия — критерий приёмки не выполнен полностью.",
+      "links": ["artifacts/agy-runs/gw03-payment-providers-rf-gem/report.md"]
+    },
+    {
+      "item": "Найден блокер: комиссии всех 6 провайдеров не подтверждаются сохранёнными первоисточниками — там, где страница реально скачана, grep по заявленным процентам даёт ноль совпадений.",
+      "links": ["artifacts/agy-runs/gw03-payment-providers-rf-gem/sources"]
+    },
+    {
+      "item": "Записан вердикт REJECT с разбором находок в findings-sonnet-1.md, добавлена строка в общий ledger.",
+      "links": ["artifacts/agy-runs/gw03-payment-providers-rf-gem/findings-sonnet-1.md", "artifacts/agy-runs/ledger.tsv"]
+    }
+  ],
+  "results": [
+    {
+      "label": "Вердикт приёмки (findings-sonnet-1.md)",
+      "path": "artifacts/agy-runs/gw03-payment-providers-rf-gem/findings-sonnet-1.md",
+      "note": "REJECT: 2 блокера, 1 мажор, 1 минор"
+    },
+    {
+      "label": "Отчёт исполнителя (что проверялось)",
+      "path": "artifacts/agy-runs/gw03-payment-providers-rf-gem/report.md"
+    }
+  ],
+  "notes": [
+    "На REJECT: копирования в ~/upready/research не было и коммитов сверх записи приёмки не потребовалось — по инструкции задачи это только для ACCEPT.",
+    "Повторяется паттерн из прошлой приёмки (gw08, gw13): sources/*.txt у gemini через agy иногда оказываются пересказом Google Grounding, а не сырой выдержкой с сайта — при наличии реально скачанного HTML цифры в нём не находятся."
+  ]
+}

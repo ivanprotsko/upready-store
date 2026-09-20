@@ -21,14 +21,31 @@ const sideMenuItems = [
 ]
 
 /**
+ * t10-blog: the shop's journal, between the catalog and the account. It is
+ * conditional, not fixed, because a shop that has never published an article
+ * must not be given a link to an empty page — the caller measures that
+ * (`hasPublishedArticles`) on the server and passes the answer down.
+ */
+const JOURNAL_ITEM = { key: "journal" as const, href: "/journal" }
+
+/**
  * `siteName` comes from the server parent (the tenant's `x-tenant-name`
  * header, single-store `SITE_NAME` fallback) as a PROP: this is a client
  * component, so it must never import the `next/headers`-reading accessor
  * directly (rule 19g — a `"use client"` directive colours the whole import
  * graph below it).
  */
-const SideMenu = ({ siteName }: { siteName: string }) => {
+const SideMenu = ({
+  siteName,
+  showJournal = false,
+}: {
+  siteName: string
+  showJournal?: boolean
+}) => {
   const t = useTranslations()
+  const items = showJournal
+    ? [sideMenuItems[0], sideMenuItems[1], JOURNAL_ITEM, ...sideMenuItems.slice(2)]
+    : sideMenuItems
 
   return (
     <div className="h-full">
@@ -89,7 +106,7 @@ const SideMenu = ({ siteName }: { siteName: string }) => {
                       </button>
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start">
-                      {sideMenuItems.map(({ key, href }) => (
+                      {items.map(({ key, href }) => (
                         <li key={key}>
                           <Link
                             href={href}

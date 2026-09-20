@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 22,
+  "action": "status-set",
+  "ts": "2026-09-15T06:13:49+08:00",
+  "status": "2026-09-15 06:13 WITA: d02-deploy-mt-2 в процессе — код деплоя ЧИСТО из origin/dev sha 2508708 (git archive, локальный dev-чекаут разошёлся с origin — journal-коммиты без реальных merge-коммитов кода, детали в артефактах); env на хосте не менялся (md5 совпал); дамп mt-medusa_mt-20260915-000636.sql.gz 5069986 байт; сборка backend+panel готова, storefront достраивается; находка — compose.mt.yml не прокидывает новые SMTP_*/TELEGRAM_*/BACKEND_PUBLIC_URL в контейнер бэкенда (баг PR #23/#28, не чинится этим деплоем); дальше up -d, бэкфиллы, health-checks, report.md"
+}

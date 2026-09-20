@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 48,
+  "action": "status-set",
+  "ts": "2026-09-16T12:13:53+08:00",
+  "status": "2026-09-16 12:13 WITA: приёмка w21-wb-write-stocks-prices раунд 4 (PR #81) — MERGED. Ветка доехала: HEAD 350e2590 = голова PR, невыложенного 0, маркеров конфликта 0, GitHub MERGEABLE/CLEAN. Перемерено: test:unit 980/980, секретов 0, скриншоты в ветке отслеживаются. Отдельно проверил правку 6ce8c439 (раздел предпросмотра переехал в карточку Wildberries, т.к. w12 сделал /settings/wildberries редиректом) — смонтирован в mp-card.tsx:234, путь владельца до предпросмотра есть; на снимке таблица 5 отличается/1 совпадает/14 пропущено и выключенная кнопка Отправить с причиной WB_WRITE_LIVE. Претензий по существу не было ни в одном из 4 раундов — все три отказа были механикой доставки. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-w21-wb-write-stocks-prices-4/measurements.md"
+}

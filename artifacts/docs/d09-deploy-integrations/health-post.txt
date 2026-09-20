@@ -1,0 +1,9 @@
+# ПОСЛЕ деплоя 2026-09-16 21:34 WITA
+https://cherkashino.shipshift.dev/ru                           200
+https://cherkashino.shipshift.dev/ru/products/propolis         200
+https://panel-store.upready.dev/                               200
+https://start.upready.dev/start/onboarding                     200
+https://shipshift.dev/health                                   200
+https://zolotaya-nit-1057.shipshift.dev/                       200
+https://shipshift.dev/static/store-profiles/abstract/home-hero.webp 200
+https://hooks.svgnoon.upready.dev/health                       200

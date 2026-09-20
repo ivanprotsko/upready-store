@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 21,
+  "action": "status-set",
+  "ts": "2026-09-15T06:06:31+08:00",
+  "status": "2026-09-15 06:06 WITA: d02-deploy-mt-2 в процессе — магазин cherkashino уже 200 до деплоя, смёржено с волны 1: PR #21-28 (8 задач, sha origin/dev 2508708), env с хоста md5 совпал (не менялся), дамп БД снят mt-medusa_mt-20260915-000508.sql.gz (5 069 981 байт), rsync кода на хост запущен в фоне (обычно >300с); дальше build/up/4 новые миграции модуля tenant/backfills/health-checks"
+}

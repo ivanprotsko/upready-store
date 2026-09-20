@@ -1,0 +1,11 @@
+.faq-in { max-width: calc(var(--container) * 0.75); }
+.faq-list { display: grid; }
+.faq-item { border-bottom: var(--hairline) solid var(--border); }
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  min-height: var(--space-16); cursor: pointer; list-style: none;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q svg { flex: none; width: var(--space-6); height: var(--space-6); transition: transform var(--dur-fast) var(--ease); }
+.faq-item[open] .faq-q svg { transform: rotate(180deg); }
+.faq-a { padding-block-end: var(--space-6); max-width: var(--measure); }

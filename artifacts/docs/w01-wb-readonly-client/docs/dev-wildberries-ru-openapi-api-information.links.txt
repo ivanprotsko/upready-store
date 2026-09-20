@@ -1,0 +1,192 @@
+/en :: 
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+api-information#tag/introduction :: WB API general information
+api-information#tag/introduction/How-to-get-started-with-the-API :: get started with the WB API
+api-information#tag/authorization :: log in
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: create tokens
+api-information#tag/introduction/HTTP-status-codes :: HTTP status codes
+api-information#tag/introduction/Rate-Limits :: rate limits
+api-information#tag/introduction/Support :: support
+api-information#tag/connectionCheck :: WB API connection
+api-information#tag/newsApi/operation/getV2News :: seller portal news
+api-information#tag/sellerInformation :: seller information
+api-information#tag/sellerUserManagement :: manage seller users
+#tag/General :: 
+api-information#tag/introduction :: WB API general information
+api-information#tag/introduction/How-to-get-started-with-the-API :: get started with the WB API
+api-information#tag/authorization :: log in
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: create tokens
+api-information#tag/introduction/HTTP-status-codes :: HTTP status codes
+api-information#tag/introduction/Rate-Limits :: rate limits
+api-information#tag/introduction/Support :: support
+api-information#tag/connectionCheck :: WB API connection
+api-information#tag/newsApi/operation/getV2News :: seller portal news
+api-information#tag/sellerInformation :: seller information
+api-information#tag/sellerUserManagement :: manage seller users
+#tag/introduction :: 
+https://www.postman.com :: PostMan
+https://curl.se :: curl
+#tag/introduction/How-to-get-started-with-the-API :: 
+https://seller.wildberries.ru/ :: Seller personal account
+/en/release-notes :: release notes
+https://seller.wildberries.ru/auth-services :: Solutions for Business catalog
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: store settings
+/knowledge-base/articles/019d49a0-daa8-7cc4-81a4-af60cf43a6dd/sposoby-integratsii-svoio-reshenie-ili-gotovyi-servis :: Integration Types: Custom Solution or Ready-made Service
+api-information#tag/connectionCheck :: connection test method
+api-information :: Official WB API documentation
+api-information#tag/introduction/Support :: technical support
+/en/release-notes :: Release Notes
+https://t.me/wb_api_notifications :: Telegram channel
+https://max.ru/wbapi :: MAX channel
+https://seller.wildberries.ru/news-v2 :: Wildberries news feed
+#tag/introduction/Support :: 
+https://seller.wildberries.ru/service-desk-v2 :: chats
+#tag/introduction/HTTP-status-codes :: 
+/business-solutions :: Solutions for business Catalog
+https://seller.wildberries.ru/monetization/jam :: Jam
+#tag/introduction/Rate-Limits :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/business-solutions :: Catalog for business solutions
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: Marketplace
+#tag/authorization :: 
+/en :: WB API
+#tag/authorization/Rules-for-using-API-access-tokens :: 
+https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/ :: WB API Platform Access Agreement
+https://seller.wildberries.ru/instructions/ru/ru/material/api-integration-with-token :: guide in the Help Center
+/en/business-solutions :: Catalog of business solutions
+/en/business-solutions :: Catalog
+/en/sandbox :: WB API sandbox
+#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: 
+https://seller.wildberries.ru/instructions/ru/ru/material/how-to-create-update-or-delete-a-wb-api-token?categoryId=api-integration&goBackOption=prevRoute#%D0%BA%D0%B0%D0%BA-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D0%BD%D1%8B%D0%B9-%D1%82%D0%BE%D0%BA%D0%B5%D0%BD :: guide in the Help Center
+https://seller.wildberries.ru/api-integrations :: API Integrations
+api-information#tag/authorization/Token-categories :: categories
+#tag/authorization/Token-categories :: 
+item-management#tag/categoriesSubcategoriesAndCharacteristics :: Categories, Subcategories and Characteristics
+item-management#tag/listingItems :: Listing Items
+item-management#tag/listings :: Listings
+item-management#tag/mediaFiles :: mediaFiles
+item-management#tag/labels :: Labels
+item-management#tag/recommendations :: Recommendations
+analytics :: Analytics and Data
+reports#tag/warehousesInventoryReport :: Warehouses Inventory Report
+reports#tag/reportOnItemsWithMandatoryLabeling :: Report on Items with Mandatory Labeling
+reports#tag/retentionReports :: Retention Reports
+reports#tag/acceptanceExpenses :: Acceptance Expenses
+reports#tag/paidStorage :: Paid Storage
+reports#tag/salesByRegions :: Sales by Regions
+reports#tag/shareOfBrandInSales :: Share of Brand in Sales
+reports#tag/blockedItems :: Blocked Items
+reports#tag/returnsAndItemMovementReport :: Returns and Item Movement Report
+item-management#tag/pricesAndDiscounts :: Prices and Discounts
+promotion#tag/promoCalendar :: Promo Calendar
+item-management#tag/sellerWarehouses :: Seller Warehouses
+item-management#tag/sellerWarehousesInventory :: Seller Warehouses Inventory
+orders-fbs :: FBS Orders
+orders-dbw :: DBW Orders
+orders-dbs :: DBS Orders
+in-store-pickup :: In-Store Pickup Orders
+reports#tag/mainReports :: Main Reports
+promotion#tag/campaigns :: Campaigns
+promotion#tag/creatingCampaigns :: Creating Campaigns
+promotion#tag/campaignManagement :: Campaign Management
+promotion#tag/searchClusters :: Search Clusters
+promotion#tag/finances :: Finances
+promotion#tag/media :: Media
+promotion#tag/statistics :: Statistics
+customer-communication#tag/questions :: Questions
+customer-communication#tag/feedbacks :: Feedbacks
+customer-communication#tag/pinnedFeedbacks :: Pinned Feedback
+customer-communication#tag/buyersChat :: Buyers Chat
+orders-fbw#tag/FBW-Supplies :: FBW Supplies
+customer-communication#tag/buyersReturns :: Buyers Returns
+documents-and-accounting#tag/documents :: Documents
+documents-and-accounting#tag/balance :: Balance
+documents-and-accounting#tag/financialReports :: Financial Reports
+api-information#tag/sellerUserManagement :: Seller User Management
+#tag/authorization/About-the-token :: 
+https://www.rfc-editor.org/rfc/rfc7519 :: RFC 7519
+/en/jwt?utm_source=dev-portal&utm_campaign=api-information&utm_content=cta-link :: decode it
+https://www.rfc-editor.org/rfc/rfc7519#section-4.1.4 :: RFC 7519: JSON Web Token (JWT)
+https://en.wikipedia.org/wiki/Mask_(computing) :: Learn more about bitmask
+#tag/authorization/Token-decode :: 
+/en/jwt?utm_source=dev-portal&utm_campaign=api-information&utm_content=cta-link :: separate page
+#tag/connectionCheck :: 
+api-information#tag/authorization/Token-categories :: category
+#tag/connectionCheck/operation/getPing :: 
+api-information#tag/introduction/Rate-Limits :: seconds
+#tag/newsApi :: 
+api-information#tag/authorization/Token-categories :: category
+#tag/newsApi/operation/getV2News :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerInformation :: 
+api-information#tag/sellerInformation/operation/getV1SellerInfo :: seller information
+api-information#tag/sellerInformation/operation/getV1Rating :: seller rating
+api-information#tag/sellerInformation/operation/getV1Subscriptions :: Jam subscription information
+api-information#tag/sellerInformation/operation/getV1TariffConstructorOptions :: Plan builder options information
+#tag/sellerInformation/operation/getV1SellerInfo :: 
+api-information#tag/authorization/Token-categories :: category
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerInformation/operation/getV1Rating :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerInformation/operation/getV1Subscriptions :: 
+api-information#tag/authorization/Token-categories :: category
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+https://seller.wildberries.ru/monetization/jam :: Jam
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerInformation/operation/getV1TariffConstructorOptions :: 
+api-information#tag/authorization/Token-categories :: category
+https://seller.wildberries.ru/tariff-constructor :: Plan Builder
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerUserManagement :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+api-information#tag/sellerUserManagement/operation/postV1Invite :: Create an invitation for a user
+api-information#tag/sellerUserManagement/operation/getV1Users :: Get a list of the seller active or invited users
+api-information#tag/sellerUserManagement/operation/putV1UsersAccess :: Update user's access permissions
+api-information#tag/sellerUserManagement/operation/deleteV1User :: Revoke a user's access
+#tag/sellerUserManagement/operation/postV1Invite :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://seller.wildberries.ru/supplier-settings/supplier-card?inviteId=e5a813c7-65e0-4599-a550-a6b3d85661ed :: https://seller.wildberries.ru/supplier-settings/supplier-card?inviteId=e5a813c7-65e0-4599-
+#tag/sellerUserManagement/operation/getV1Users :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerUserManagement/operation/putV1UsersAccess :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerUserManagement/operation/deleteV1User :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/sellerUserManagement/operation/getV1Users :: the seller users list
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en :: 
+/en/rules :: User Agreement of the WB API Service
+https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/ :: WB API Platform Access Agreement
+/en/privacy :: Policy on the Processing of Personal Data of RWB
+/api/price-list :: WB API Price List for Third-Party Services
+/en/faq :: FAQ. Frequently Asked Questions
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+/privacy :: cookies

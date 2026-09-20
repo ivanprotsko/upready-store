@@ -11,22 +11,26 @@
  * storefront's publishable key; a draft, an unwritten page and a neighbouring
  * tenant's page are all the same 404 here, on purpose.
  *
- * Not locale-scoped: the backend serves the `en` row, and this calls
- * `fetchWithoutLocale` rather than the locale-aware `sdk.client.fetch` every
- * catalog loader uses — one document per key, one shared cache tag, the same
- * reason `storefront-settings.ts` and `app/llms.txt/route.ts` do it
- * (AGENTS.md, "Two pieces of locale plumbing"). A per-locale read needs a
- * per-locale cache tag first, and the panel edits one language today.
+ * Locale-scoped since the Cherkashina migration (2026-09-12): the request goes
+ * through the locale-aware `sdk.client.fetch` (it sends `x-medusa-locale`) and
+ * repeats the locale as `?locale=`, so the Next fetch cache holds one entry per
+ * language behind the shared tag. The backend answers the visitor's locale when
+ * that row exists and falls back (language part → `en` → any locale), which is
+ * what a shop whose default language is not English needs to be readable at
+ * all — before this it served the `en` row to every visitor.
  *
  * One shared cache tag, `"tenant-pages"`, cleared for everyone at once by
  * `POST /api/revalidate` with `{ "type": "tenant.pages" }`.
  */
 
-import { fetchWithoutLocale } from "@lib/config"
+import { sdk, fetchWithoutLocale } from "@lib/config"
+import { siteWideRead } from "./site-wide"
+import { getLocale } from "./locale-actions"
+import { defaultLocale } from "@i18n/config"
 
 const PAGES_TAG = "tenant-pages"
 
-export type TenantPageLink = { key: string; title: string }
+export type TenantPageLink = { key: string; title: string; locale: string }
 
 export type TenantPage = {
   id: string | null
@@ -35,6 +39,8 @@ export type TenantPage = {
   title: string
   body: string
   published: boolean
+  seo_title: string | null
+  seo_description: string | null
 }
 
 let warnedUnreachable = false
@@ -51,8 +57,9 @@ let warnedUnreachable = false
  */
 export async function listTenantPages(): Promise<TenantPageLink[]> {
   try {
-    const { pages } = await fetchWithoutLocale<{ pages: TenantPageLink[] }>(
-      "/store/tenant/pages",
+    const locale = (await getLocale()) ?? defaultLocale
+    const { pages } = await sdk.client.fetch<{ pages: TenantPageLink[] }>(
+      `/store/tenant/pages?locale=${encodeURIComponent(locale)}`,
       { next: { tags: [PAGES_TAG] }, cache: "force-cache" }
     )
     return pages ?? []
@@ -75,12 +82,48 @@ export async function listTenantPages(): Promise<TenantPageLink[]> {
  */
 export async function getTenantPage(key: string): Promise<TenantPage | null> {
   try {
-    const { page } = await fetchWithoutLocale<{ page: TenantPage }>(
-      `/store/tenant/pages/${encodeURIComponent(key)}`,
+    const locale = (await getLocale()) ?? defaultLocale
+    const { page } = await sdk.client.fetch<{ page: TenantPage }>(
+      `/store/tenant/pages/${encodeURIComponent(key)}?locale=${encodeURIComponent(locale)}`,
       { next: { tags: [PAGES_TAG] }, cache: "force-cache" }
     )
     return page ?? null
   } catch {
     return null
   }
+}
+
+/**
+ * Every page key this tenant has PUBLISHED, footer-linked or not, for the legal
+ * links a buyer meets outside the footer (`@lib/util/legal-links`): the consent
+ * sentence under the Pay button, the checkout footer, the account screens.
+ *
+ * `listTenantPages` above is the wrong source for that decision — it answers
+ * the footer's own list, `in_footer: true` only, so an offer the owner
+ * published without putting it in the footer would read here as "this shop has
+ * no offer" and the checkout would fall back to the starter placeholder. The
+ * sitemap endpoint is already the unfiltered one (t11-seo-redirects step 3, one
+ * row per key per locale) and shares this module's cache tag, so this costs no
+ * new backend surface and no second invalidation path.
+ *
+ * `fetchWithoutLocale` because a key is not translated: the same `offer` page
+ * exists under every locale the owner saved it in, and a locale-scoped fetch
+ * would hold one cache entry per language for an answer that does not vary.
+ *
+ * An empty array is both "this shop has published nothing" and "the read
+ * failed" on purpose: every consumer degrades the same way (a link is hidden,
+ * never pointed at a placeholder), and the failure is reported to the server
+ * log by `siteWideRead` rather than thrown into a checkout render.
+ */
+export async function listPublishedPageKeys(): Promise<string[]> {
+  return siteWideRead("listPublishedPageKeys", async () => {
+    const { pages } = await fetchWithoutLocale<{
+      pages: Array<{ key: string }>
+    }>("/store/tenant/pages/sitemap", {
+      next: { tags: [PAGES_TAG] },
+      cache: "force-cache",
+    })
+
+    return Array.from(new Set((pages ?? []).map((page) => page.key)))
+  }, [])
 }

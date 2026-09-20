@@ -1,0 +1,264 @@
+# WB methods extracted from the saved doc pages (w01 + w10). Prod base URLs only.
+# SECTION\tHOST\tMETHOD\tPATH\tSUMMARY
+analytics	seller-analytics-api.wildberries.ru	GET	/api/v2/nm-report/downloads	Get the Reports List
+analytics	seller-analytics-api.wildberries.ru	GET	/api/v2/nm-report/downloads/file/{downloadId}	Get the Report
+analytics	seller-analytics-api.wildberries.ru	POST	/api/analytics/v1/order-feed	Get Report
+analytics	seller-analytics-api.wildberries.ru	POST	/api/analytics/v1/stocks-report/seller-warehouses	Seller Warehouses Inventory
+analytics	seller-analytics-api.wildberries.ru	POST	/api/analytics/v1/stocks-report/wb-warehouses	WB Warehouses Inventory
+analytics	seller-analytics-api.wildberries.ru	POST	/api/analytics/v2/item-rating	Get Report
+analytics	seller-analytics-api.wildberries.ru	POST	/api/analytics/v3/sales-funnel/grouped/history	Grouped Listings Statistics per Days
+analytics	seller-analytics-api.wildberries.ru	POST	/api/analytics/v3/sales-funnel/products	Listings Statistics per Period
+analytics	seller-analytics-api.wildberries.ru	POST	/api/analytics/v3/sales-funnel/products/history	Listings Statistics per Days
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/nm-report/downloads	Create the Report
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/nm-report/downloads/retry	Regenerate the Report
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/search-report/product/orders	Orders and Positions by Item Search Texts
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/search-report/product/search-texts	Search Texts by Item
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/search-report/report	Main Page
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/search-report/table/details	Pagination by Items Within a Group
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/search-report/table/groups	Pagination by Groups
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/stocks-report/offices	Warehouse Data
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/stocks-report/products/groups	Group Data
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/stocks-report/products/products	Item Data
+analytics	seller-analytics-api.wildberries.ru	POST	/api/v2/stocks-report/products/sizes	Size Data
+customer-communication	buyer-chat-api.wildberries.ru	GET	/api/v1/seller/chats	Chats List
+customer-communication	buyer-chat-api.wildberries.ru	GET	/api/v1/seller/download/{id}	Get File from the Message
+customer-communication	buyer-chat-api.wildberries.ru	GET	/api/v1/seller/events	Chat Events
+customer-communication	buyer-chat-api.wildberries.ru	POST	/api/v1/seller/message	Send Message
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/feedback	https://feedbacks-api.wildberries.ru/api/v1/feedback
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/feedbacks	https://feedbacks-api.wildberries.ru/api/v1/feedbacks
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/feedbacks/archive	https://feedbacks-api.wildberries.ru/api/v1/feedbacks/archive
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/feedbacks/count	https://feedbacks-api.wildberries.ru/api/v1/feedbacks/count
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/feedbacks/count-unanswered	https://feedbacks-api.wildberries.ru/api/v1/feedbacks/count-unanswered
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/new-feedbacks-questions	https://feedbacks-api.wildberries.ru/api/v1/new-feedbacks-questions
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/question	https://feedbacks-api.wildberries.ru/api/v1/question
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/questions	https://feedbacks-api.wildberries.ru/api/v1/questions
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/questions/count	https://feedbacks-api.wildberries.ru/api/v1/questions/count
+customer-communication	feedbacks-api-sandbox.wildberries.ru	GET	/api/v1/questions/count-unanswered	https://feedbacks-api.wildberries.ru/api/v1/questions/count-unanswered
+customer-communication	feedbacks-api-sandbox.wildberries.ru	PATCH	/api/v1/feedbacks/answer	https://feedbacks-api.wildberries.ru/api/v1/feedbacks/answer
+customer-communication	feedbacks-api-sandbox.wildberries.ru	PATCH	/api/v1/questions	https://feedbacks-api.wildberries.ru/api/v1/questions
+customer-communication	feedbacks-api-sandbox.wildberries.ru	POST	/api/v1/feedbacks/answer	https://feedbacks-api.wildberries.ru/api/v1/feedbacks/answer
+customer-communication	feedbacks-api-sandbox.wildberries.ru	POST	/api/v1/feedbacks/order/return	https://feedbacks-api.wildberries.ru/api/v1/feedbacks/order/return
+customer-communication	feedbacks-api.wildberries.ru	DELETE	/api/feedbacks/v1/pins	Unpin Feedback
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/feedbacks/v1/pins	List of Pinned and Unpinned Feedbacks
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/feedbacks/v1/pins/count	Pinned and Unpinned Feedback Number
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/feedbacks/v1/pins/limits	Pinned Feedback Limits
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/feedback	Get the Feedback by ID
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/feedbacks	Feedbacks List
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/feedbacks/archive	List of Archived Feedbacks
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/feedbacks/count	Number of Feedbacks
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/feedbacks/count-unanswered	Unanswered Feedbacks
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/new-feedbacks-questions	Unseen Feedbacks and Questions
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/question	Get the Question by ID
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/questions	Questions List
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/questions/count	Number of Questions
+customer-communication	feedbacks-api.wildberries.ru	GET	/api/v1/questions/count-unanswered	Unanswered Questions
+customer-communication	feedbacks-api.wildberries.ru	PATCH	/api/v1/feedbacks/answer	Edit Response to Feedback
+customer-communication	feedbacks-api.wildberries.ru	PATCH	/api/v1/questions	Working with Questions
+customer-communication	feedbacks-api.wildberries.ru	POST	/api/feedbacks/v1/pins	Pin Feedbacks
+customer-communication	feedbacks-api.wildberries.ru	POST	/api/v1/feedbacks/answer	Reply to Feedback
+customer-communication	feedbacks-api.wildberries.ru	POST	/api/v1/feedbacks/order/return	Return Item by Feedback ID
+customer-communication	returns-api.wildberries.ru	GET	/api/v1/claims	Buyers Return Applications
+customer-communication	returns-api.wildberries.ru	PATCH	/api/v1/claim	Answer Buyers Application
+item-management	content-api-sandbox.wildberries.ru	DELETE	/content/v2/tag/{id}	https://content-api.wildberries.ru/content/v2/tag/{id}
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/cards/limits	https://content-api.wildberries.ru/content/v2/cards/limits
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/directory/colors	https://content-api.wildberries.ru/content/v2/directory/colors
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/directory/countries	https://content-api.wildberries.ru/content/v2/directory/countries
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/directory/kinds	https://content-api.wildberries.ru/content/v2/directory/kinds
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/directory/seasons	https://content-api.wildberries.ru/content/v2/directory/seasons
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/directory/tnved	https://content-api.wildberries.ru/content/v2/directory/tnved
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/directory/vat	https://content-api.wildberries.ru/content/v2/directory/vat
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/object/all	https://content-api.wildberries.ru/content/v2/object/all
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/object/charcs/{subjectId}	https://content-api.wildberries.ru/content/v2/object/charcs/{subjectId}
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/object/parent/all	https://content-api.wildberries.ru/content/v2/object/parent/all
+item-management	content-api-sandbox.wildberries.ru	GET	/content/v2/tags	https://content-api.wildberries.ru/content/v2/tags
+item-management	content-api-sandbox.wildberries.ru	PATCH	/content/v2/tag/{id}	https://content-api.wildberries.ru/content/v2/tag/{id}
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/barcodes	https://content-api.wildberries.ru/content/v2/barcodes
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/cards/delete/trash	https://content-api.wildberries.ru/content/v2/cards/delete/trash
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/cards/error/list	https://content-api.wildberries.ru/content/v2/cards/error/list
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/cards/moveNm	https://content-api.wildberries.ru/content/v2/cards/moveNm
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/cards/recover	https://content-api.wildberries.ru/content/v2/cards/recover
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/cards/update	https://content-api.wildberries.ru/content/v2/cards/update
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/cards/upload	https://content-api.wildberries.ru/content/v2/cards/upload
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/cards/upload/add	https://content-api.wildberries.ru/content/v2/cards/upload/add
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/get/cards/list	https://content-api.wildberries.ru/content/v2/get/cards/list
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/get/cards/trash	https://content-api.wildberries.ru/content/v2/get/cards/trash
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/tag	https://content-api.wildberries.ru/content/v2/tag
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v2/tag/nomenclature/link	https://content-api.wildberries.ru/content/v2/tag/nomenclature/link
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v3/media/file	https://content-api.wildberries.ru/content/v3/media/file
+item-management	content-api-sandbox.wildberries.ru	POST	/content/v3/media/save	https://content-api.wildberries.ru/content/v3/media/save
+item-management	content-api.wildberries.ru	DELETE	/content/v2/tag/{id}	Delete the Label
+item-management	content-api.wildberries.ru	GET	/api/content/v1/brands	Brands
+item-management	content-api.wildberries.ru	GET	/content/v2/cards/limits	Limits for the Listings
+item-management	content-api.wildberries.ru	GET	/content/v2/directory/colors	Color
+item-management	content-api.wildberries.ru	GET	/content/v2/directory/countries	Country of Origin
+item-management	content-api.wildberries.ru	GET	/content/v2/directory/kinds	Gender
+item-management	content-api.wildberries.ru	GET	/content/v2/directory/seasons	Season
+item-management	content-api.wildberries.ru	GET	/content/v2/directory/tnved	HS-codes
+item-management	content-api.wildberries.ru	GET	/content/v2/directory/vat	VAT Rate
+item-management	content-api.wildberries.ru	GET	/content/v2/object/all	Subcategories List
+item-management	content-api.wildberries.ru	GET	/content/v2/object/charcs/{subjectId}	Subcategory Characteristics
+item-management	content-api.wildberries.ru	GET	/content/v2/object/parent/all	Item Parent Categories
+item-management	content-api.wildberries.ru	GET	/content/v2/tags	Labels List
+item-management	content-api.wildberries.ru	PATCH	/content/v2/tag/{id}	Update the Label
+item-management	content-api.wildberries.ru	POST	/api/content/v1/recommendations/list	Item Recommendations List
+item-management	content-api.wildberries.ru	POST	/api/content/v1/recommendations/set	Set Item Recommendations
+item-management	content-api.wildberries.ru	POST	/content/v2/barcodes	Generation of SKUs
+item-management	content-api.wildberries.ru	POST	/content/v2/cards/delete/trash	Transfer Listing to Trash
+item-management	content-api.wildberries.ru	POST	/content/v2/cards/error/list	Failed Listings with Errors
+item-management	content-api.wildberries.ru	POST	/content/v2/cards/moveNm	Merging or Separating of Listings
+item-management	content-api.wildberries.ru	POST	/content/v2/cards/recover	Recover Listing from Trash
+item-management	content-api.wildberries.ru	POST	/content/v2/cards/update	Update Listings
+item-management	content-api.wildberries.ru	POST	/content/v2/cards/upload	List Items
+item-management	content-api.wildberries.ru	POST	/content/v2/cards/upload/add	List Items with Merge
+item-management	content-api.wildberries.ru	POST	/content/v2/get/cards/list	Listings
+item-management	content-api.wildberries.ru	POST	/content/v2/get/cards/trash	Listings in Trash
+item-management	content-api.wildberries.ru	POST	/content/v2/tag	Create a Label
+item-management	content-api.wildberries.ru	POST	/content/v2/tag/nomenclature/link	Label Management in the Listing
+item-management	content-api.wildberries.ru	POST	/content/v3/media/file	Upload Media File
+item-management	content-api.wildberries.ru	POST	/content/v3/media/save	Upload Media Files via Links
+item-management	discounts-prices-api-sandbox.wildberries.ru	GET	/api/v2/buffer/goods/task	https://discounts-prices-api.wildberries.ru/api/v2/buffer/goods/task
+item-management	discounts-prices-api-sandbox.wildberries.ru	GET	/api/v2/buffer/tasks	https://discounts-prices-api.wildberries.ru/api/v2/buffer/tasks
+item-management	discounts-prices-api-sandbox.wildberries.ru	GET	/api/v2/history/goods/task	https://discounts-prices-api.wildberries.ru/api/v2/history/goods/task
+item-management	discounts-prices-api-sandbox.wildberries.ru	GET	/api/v2/history/tasks	https://discounts-prices-api.wildberries.ru/api/v2/history/tasks
+item-management	discounts-prices-api-sandbox.wildberries.ru	GET	/api/v2/list/goods/filter	https://discounts-prices-api.wildberries.ru/api/v2/list/goods/filter
+item-management	discounts-prices-api-sandbox.wildberries.ru	GET	/api/v2/list/goods/size/nm	https://discounts-prices-api.wildberries.ru/api/v2/list/goods/size/nm
+item-management	discounts-prices-api-sandbox.wildberries.ru	GET	/api/v2/quarantine/goods	https://discounts-prices-api.wildberries.ru/api/v2/quarantine/goods
+item-management	discounts-prices-api-sandbox.wildberries.ru	POST	/api/v2/list/goods/filter	https://discounts-prices-api.wildberries.ru/api/v2/list/goods/filter
+item-management	discounts-prices-api-sandbox.wildberries.ru	POST	/api/v2/upload/task	https://discounts-prices-api.wildberries.ru/api/v2/upload/task
+item-management	discounts-prices-api-sandbox.wildberries.ru	POST	/api/v2/upload/task/club-discount	https://discounts-prices-api.wildberries.ru/api/v2/upload/task/club-discount
+item-management	discounts-prices-api-sandbox.wildberries.ru	POST	/api/v2/upload/task/size	https://discounts-prices-api.wildberries.ru/api/v2/upload/task/size
+item-management	discounts-prices-api.wildberries.ru	GET	/api/v2/buffer/goods/task	Unprocessed Upload Details
+item-management	discounts-prices-api.wildberries.ru	GET	/api/v2/buffer/tasks	Unprocessed Upload State
+item-management	discounts-prices-api.wildberries.ru	GET	/api/v2/history/goods/task	Processed Upload Details
+item-management	discounts-prices-api.wildberries.ru	GET	/api/v2/history/tasks	Processed Upload State
+item-management	discounts-prices-api.wildberries.ru	GET	/api/v2/list/goods/filter	Get Items with Prices
+item-management	discounts-prices-api.wildberries.ru	GET	/api/v2/list/goods/size/nm	Get Item Sizes with Prices
+item-management	discounts-prices-api.wildberries.ru	GET	/api/v2/quarantine/goods	Get Items in Quarantine
+item-management	discounts-prices-api.wildberries.ru	POST	/api/discounts-prices/v1/upload/task/b2b/wholesale	Set Wholesale Discounts for B2B
+item-management	discounts-prices-api.wildberries.ru	POST	/api/v2/list/goods/filter	Get Items with Prices by Item Numbers
+item-management	discounts-prices-api.wildberries.ru	POST	/api/v2/upload/task	Set Prices and Discounts
+item-management	discounts-prices-api.wildberries.ru	POST	/api/v2/upload/task/club-discount	Set WB Club Discounts
+item-management	discounts-prices-api.wildberries.ru	POST	/api/v2/upload/task/size	Set Size Prices
+item-management	marketplace-api-sandbox.wildberries.ru	DELETE	/api/v3/stocks/{warehouseId}	https://marketplace-api.wildberries.ru/api/v3/stocks/{warehouseId}
+item-management	marketplace-api-sandbox.wildberries.ru	DELETE	/api/v3/warehouses/{warehouseId}	https://marketplace-api.wildberries.ru/api/v3/warehouses/{warehouseId}
+item-management	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/offices	https://marketplace-api.wildberries.ru/api/v3/offices
+item-management	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/warehouses	https://marketplace-api.wildberries.ru/api/v3/warehouses
+item-management	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/stocks/{warehouseId}	https://marketplace-api.wildberries.ru/api/v3/stocks/{warehouseId}
+item-management	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/warehouses	https://marketplace-api.wildberries.ru/api/v3/warehouses
+item-management	marketplace-api-sandbox.wildberries.ru	PUT	/api/v3/stocks/{warehouseId}	https://marketplace-api.wildberries.ru/api/v3/stocks/{warehouseId}
+item-management	marketplace-api-sandbox.wildberries.ru	PUT	/api/v3/warehouses/{warehouseId}	https://marketplace-api.wildberries.ru/api/v3/warehouses/{warehouseId}
+item-management	marketplace-api.wildberries.ru	DELETE	/api/v3/stocks/{warehouseId}	Delete Inventory
+item-management	marketplace-api.wildberries.ru	DELETE	/api/v3/warehouses/{warehouseId}	Delete Warehouse
+item-management	marketplace-api.wildberries.ru	GET	/api/v3/dbw/warehouses/{warehouseId}/contacts	Contacts List
+item-management	marketplace-api.wildberries.ru	GET	/api/v3/offices	Get Offices
+item-management	marketplace-api.wildberries.ru	GET	/api/v3/warehouses	Get Warehouses
+item-management	marketplace-api.wildberries.ru	POST	/api/v3/stocks/{warehouseId}	Get Inventory
+item-management	marketplace-api.wildberries.ru	POST	/api/v3/warehouses	Create Warehouse
+item-management	marketplace-api.wildberries.ru	PUT	/api/v3/dbw/warehouses/{warehouseId}/contacts	Update Contacts List
+item-management	marketplace-api.wildberries.ru	PUT	/api/v3/stocks/{warehouseId}	Update Inventory
+item-management	marketplace-api.wildberries.ru	PUT	/api/v3/warehouses/{warehouseId}	Update Warehouse
+orders-fbs	marketplace-api-sandbox.wildberries.ru	DELETE	/api/v3/orders/{orderId}/meta	https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta
+orders-fbs	marketplace-api-sandbox.wildberries.ru	DELETE	/api/v3/passes/{passId}	https://marketplace-api.wildberries.ru/api/v3/passes/{passId}
+orders-fbs	marketplace-api-sandbox.wildberries.ru	DELETE	/api/v3/supplies/{supplyId}	https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}
+orders-fbs	marketplace-api-sandbox.wildberries.ru	DELETE	/api/v3/supplies/{supplyId}/trbx	https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/marketplace/v3/supplies/{supplyId}/order-ids	https://marketplace-api.wildberries.ru/api/marketplace/v3/supplies/{supplyId}/order-ids
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/orders	https://marketplace-api.wildberries.ru/api/v3/orders
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/orders/new	https://marketplace-api.wildberries.ru/api/v3/orders/new
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/passes	https://marketplace-api.wildberries.ru/api/v3/passes
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/passes/offices	https://marketplace-api.wildberries.ru/api/v3/passes/offices
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/supplies	https://marketplace-api.wildberries.ru/api/v3/supplies
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/supplies/orders/reshipment	https://marketplace-api.wildberries.ru/api/v3/supplies/orders/reshipment
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/supplies/{supplyId}	https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/supplies/{supplyId}/barcode	https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/barcode
+orders-fbs	marketplace-api-sandbox.wildberries.ru	GET	/api/v3/supplies/{supplyId}/trbx	https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PATCH	/api/marketplace/v3/supplies/{supplyId}/orders	https://marketplace-api.wildberries.ru/api/marketplace/v3/supplies/{supplyId}/orders
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PATCH	/api/v3/orders/{orderId}/cancel	https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/cancel
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PATCH	/api/v3/supplies/{supplyId}/deliver	https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/deliver
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/marketplace/v3/orders/meta	https://marketplace-api.wildberries.ru/api/marketplace/v3/orders/meta
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/orders/client	https://marketplace-api.wildberries.ru/api/v3/orders/client
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/orders/status	https://marketplace-api.wildberries.ru/api/v3/orders/status
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/orders/status/history	https://marketplace-api.wildberries.ru/api/v3/orders/status/history
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/orders/stickers	https://marketplace-api.wildberries.ru/api/v3/orders/stickers
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/passes	https://marketplace-api.wildberries.ru/api/v3/passes
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/supplies	https://marketplace-api.wildberries.ru/api/v3/supplies
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/supplies/{supplyId}/trbx	https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+orders-fbs	marketplace-api-sandbox.wildberries.ru	POST	/api/v3/supplies/{supplyId}/trbx/stickers	https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/trbx/stickers
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PUT	/api/marketplace/v3/orders/{orderId}/meta/customs-declaration	https://marketplace-api.wildberries.ru/api/marketplace/v3/orders/{orderId}/meta/customs-declaration
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/expiration	https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/expiration
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/gtin	https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/gtin
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/imei	https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/imei
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/sgtin	https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/sgtin
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/uin	https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/uin
+orders-fbs	marketplace-api-sandbox.wildberries.ru	PUT	/api/v3/passes/{passId}	https://marketplace-api.wildberries.ru/api/v3/passes/{passId}
+orders-fbs	marketplace-api.wildberries.ru	DELETE	/api/v3/orders/{orderId}/meta	Delete Assembly Order Label Identifiers
+orders-fbs	marketplace-api.wildberries.ru	DELETE	/api/v3/passes/{passId}	Delete the Pass
+orders-fbs	marketplace-api.wildberries.ru	DELETE	/api/v3/supplies/{supplyId}	Delete the Supply
+orders-fbs	marketplace-api.wildberries.ru	DELETE	/api/v3/supplies/{supplyId}/trbx	Delete Shipping Units from the Supply
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/marketplace/v3/fbs/dictionaries/countries/oksm	Get the OKSM Country List
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/marketplace/v3/fbs/orders/archive	Get the List of Archived Assembly Orders
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/marketplace/v3/fbs/settings/autoreturns	Get Auto-Return Seller Settings
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/marketplace/v3/fbs/settings/autoreturns/subcategories/restricted	Get Subcategories That Can't Be Returned to the Warehouse
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/marketplace/v3/fbs/shipping-points	Get Supply Shipping Points
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/marketplace/v3/fbs/supplies/{supplyId}/stickers/spot	Get the Supply SPOT QR Code
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/marketplace/v3/supplies/{supplyId}/order-ids	Get Supply Assembly Order IDs
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/orders	Get Assembly Orders
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/orders/new	Get New Assembly Orders
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/passes	Get Passes
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/passes/offices	Get Offices for Pass
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/supplies	Get a Supplies List
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/supplies/orders/reshipment	Get All Assembly Orders for Re-shipment
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/supplies/{supplyId}	Get Supply Details
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/supplies/{supplyId}/barcode	Get the Supply QR Code
+orders-fbs	marketplace-api.wildberries.ru	GET	/api/v3/supplies/{supplyId}/trbx	Get Supply Shipping Units List
+orders-fbs	marketplace-api.wildberries.ru	PATCH	/api/marketplace/v3/fbs/settings/autoreturns	Update Seller Auto-Return Settings
+orders-fbs	marketplace-api.wildberries.ru	PATCH	/api/marketplace/v3/fbs/settings/autoreturns/items	Update Item Auto-Return Settings
+orders-fbs	marketplace-api.wildberries.ru	PATCH	/api/marketplace/v3/fbs/supplies/shipping-method	Set Supply Shipping Method
+orders-fbs	marketplace-api.wildberries.ru	PATCH	/api/marketplace/v3/fbs/supplies/waybill	Set Supply Waybill ID
+orders-fbs	marketplace-api.wildberries.ru	PATCH	/api/marketplace/v3/supplies/{supplyId}/orders	Add Assembly Orders to the Supply
+orders-fbs	marketplace-api.wildberries.ru	PATCH	/api/v3/orders/{orderId}/cancel	Cancel the Assembly Order
+orders-fbs	marketplace-api.wildberries.ru	PATCH	/api/v3/supplies/{supplyId}/deliver	Move the Supply to the Delivery
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/marketplace/v3/fbs/settings/autoreturns/items	Get Item Auto-Return Settings
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/marketplace/v3/fbs/supplies/spot/list	Get SPOT Data for Supply List
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/marketplace/v3/orders/meta	Get Assembly Orders Label Identifiers
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/orders/client	Orders with Client Information
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/orders/status	Get Assembly Orders Statuses
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/orders/status/history	Status History for Cross-Border Orders
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/orders/stickers	Get Assembly Orders Stickers
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/orders/stickers/cross-border	Get Stickers for Cross-Border Assembly Orders
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/passes	Create Pass
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/supplies	Create a New Supply
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/supplies/{supplyId}/trbx	Add Shipping Units to the Supply
+orders-fbs	marketplace-api.wildberries.ru	POST	/api/v3/supplies/{supplyId}/trbx/stickers	Get the Supply Shipping Unit QR Code Stickers
+orders-fbs	marketplace-api.wildberries.ru	PUT	/api/marketplace/v3/fbs/supplies/{supplyId}/spot	Add SPOT Data to Supply
+orders-fbs	marketplace-api.wildberries.ru	PUT	/api/marketplace/v3/orders/{orderId}/meta/customs-declaration	Add Custom Declaration number to the Order
+orders-fbs	marketplace-api.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/expiration	Add Expiration Date to the Assembly Order
+orders-fbs	marketplace-api.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/gtin	Add GTIN to the Assembly Order
+orders-fbs	marketplace-api.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/imei	Add IMEI to the Assembly Order
+orders-fbs	marketplace-api.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/sgtin	Add Labeling Code Chestny ZNAK to the Assembly Order
+orders-fbs	marketplace-api.wildberries.ru	PUT	/api/v3/orders/{orderId}/meta/uin	Add UIN (Unique Identification Number) to the Assembly Order
+orders-fbs	marketplace-api.wildberries.ru	PUT	/api/v3/passes/{passId}	Update Pass
+reports	seller-analytics-api.wildberries.ru	GET	/api/analytics/v1/deductions	Substitutions and Incorrect Attachments
+reports	seller-analytics-api.wildberries.ru	GET	/api/analytics/v1/measurement-penalties	Logistics and Storage Costs Multiplier
+reports	seller-analytics-api.wildberries.ru	GET	/api/analytics/v1/warehouse-measurements	Warehouse Measurements
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/acceptance_report	Create the Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/acceptance_report/tasks/{task_id}/download	Get the Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/acceptance_report/tasks/{task_id}/status	Check the Status
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/analytics/antifraud-details	Self-purchases
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/analytics/banned-products/blocked	Get Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/analytics/brand-share	Get Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/analytics/brand-share/brands	Seller Brands
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/analytics/brand-share/parent-subjects	Parent Categories of the Brand
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/analytics/goods-labeling	Item Labeling
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/analytics/goods-return	Get Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/analytics/region-sale	Get Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/paid_storage	Generate the Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/paid_storage/tasks/{task_id}/download	Get the Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/paid_storage/tasks/{task_id}/status	Check the Status
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/warehouse_remains	Create the Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/warehouse_remains/tasks/{task_id}/download	Get the Report
+reports	seller-analytics-api.wildberries.ru	GET	/api/v1/warehouse_remains/tasks/{task_id}/status	Check the Status
+reports	seller-analytics-api.wildberries.ru	POST	/api/v1/analytics/excise-report	Report on Items with Mandatory Labeling
+reports	statistics-api-sandbox.wildberries.ru	GET	/api/v1/supplier/orders	https://statistics-api.wildberries.ru/api/v1/supplier/orders
+reports	statistics-api-sandbox.wildberries.ru	GET	/api/v1/supplier/sales	https://statistics-api.wildberries.ru/api/v1/supplier/sales
+reports	statistics-api.wildberries.ru	GET	/api/v1/supplier/orders	Orders
+reports	statistics-api.wildberries.ru	GET	/api/v1/supplier/sales	Sales

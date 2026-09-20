@@ -1,0 +1,51 @@
+{
+  "measured_at": "2026-09-15T14:59:17.546Z",
+  "storefront": [
+    {
+      "name": "svechi-asd",
+      "handle": "svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "expected_reviews": 47,
+      "url": "https://cherkashino.shipshift.dev/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "summary": null,
+      "count_in_summary": null,
+      "cards_on_page": 5,
+      "sample": "Отзывы 5 из 5 · 47 отзывов Елена И. 6 мая 2026 г. ну что сказать! пользуюсь четыре дня, свечку ставлю на ночь! первый раз поставила, утром мягко сходила в туалет! и исчезло две шишки геморроя, на следующий день опять мягко сходила, исчезли оставшиеся три шишки",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/shots/pdp-svechi-asd-1280x900.png"
+    },
+    {
+      "name": "multivarka",
+      "handle": "multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino",
+      "expected_reviews": 31,
+      "url": "https://cherkashino.shipshift.dev/ru/products/multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino",
+      "summary": null,
+      "count_in_summary": null,
+      "cards_on_page": 5,
+      "sample": "Отзывы 4.9 из 5 · 31 отзыв Олег М. 14 мая 2026 г. Отличная мультиварка! Пользуюсь каждый день уже несколько месяцев — работает стабильно и без нареканий. Очень выручает в дороге: можно спокойно приготовить кашу, суп, макароны, мясо или просто разогреть еду. Го",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/shots/pdp-multivarka-1280x900.png"
+    },
+    {
+      "name": "maz-asd-3",
+      "handle": "maz-s-asd-3-15-100-ml-cherkashino",
+      "expected_reviews": 24,
+      "url": "https://cherkashino.shipshift.dev/ru/products/maz-s-asd-3-15-100-ml-cherkashino",
+      "summary": null,
+      "count_in_summary": null,
+      "cards_on_page": 5,
+      "sample": "Отзывы 5 из 5 · 24 отзыва Татьяна 4 мая 2026 г. Берем маме колени мазать, снимает боль, засыпать спокойно. соседке помог герпес за сутки убрать. Аромат от сие продукта как в нефти искупался, но очень помогает! Поэтому терпим! Покупатель Wildberries 21 апреля 2",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/shots/pdp-maz-asd-3-1280x900.png"
+    }
+  ],
+  "panel": {
+    "url": "https://panel-store.upready.dev/reviews",
+    "rows": 20,
+    "text": "Обзор Товары Заказы Клиенты Категории Акции Страницы Главная страница Журнал Доставка Отзывы О Оксана Черкашина Отзывы Отзывы Отзыв, оставленный покупателем на витрине, попадает сюда со статусом «На проверке» и не виден на странице товара, пока вы его не опубликуете. Отзывы, перенесённые из старого магазина, уже опубликованы. Статус Все Товар Все товары Найдено отзывов: 304 Товар Отзыв Статус Мультиварка для дома и авто 12 Вт / 24 Вт / 220 Вт Перенесён из старого магазина, английский ★★★★★ 5 из 5 · Oleg M. · 14 мая 2026 г. Great slow cooker! I've been using it every day for several months — works steadily and without any issues. A real lifesaver on the road: you can easily cook porridge, soup, pasta, meat, or just reheat food. Cooks well, nothing burns, easy and intuitive to use. Build quality is good, doesn't take up much space. For anyone who's frequently on the road or lives out of a ",
+    "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/shots/panel-reviews-1280x900.png"
+  },
+  "console_errors": [
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+    "Failed to load resource: the server responded with a status of 401 ()",
+    "Failed to load resource: the server responded with a status of 401 ()",
+    "Failed to load resource: the server responded with a status of 401 ()"
+  ]
+}

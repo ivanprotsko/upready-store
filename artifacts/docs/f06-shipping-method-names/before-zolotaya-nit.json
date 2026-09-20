@@ -1,0 +1,42 @@
+{
+  "host": "zolotaya-nit-1057.shipshift.dev",
+  "tenant": {
+    "handle": null,
+    "name": null
+  },
+  "region": {
+    "id": "reg_01M28EPZ15P07ZB3SC29AG9JPD",
+    "currency_code": "rub"
+  },
+  "cart": {
+    "id": "cart_01M2HMK0VP70NG3FJZ653XHYTQ",
+    "product": "Sphere No. 2 · Graphite",
+    "variant": "variant_01M2EXJTJFF26FSC2RBK3AFARB"
+  },
+  "shipping_options": [
+    {
+      "id": "so_01M2EXJSERR0VH52T6HMMJ1BDE",
+      "name": "Золотая нить pickup",
+      "amount": 0,
+      "price_type": "flat",
+      "type": {
+        "label": "Pickup",
+        "code": "pickup",
+        "description": "Pick up at the warehouse."
+      },
+      "data": null
+    },
+    {
+      "id": "so_01M2EXJSESGNS5HES7GY106M9N",
+      "name": "Золотая нить courier",
+      "amount": 10,
+      "price_type": "flat",
+      "type": {
+        "label": "Courier",
+        "code": "courier",
+        "description": "Courier delivery."
+      },
+      "data": null
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+адрес вебхука: http://localhost:9062/cdek/webhook?tenant=ten_01M29Q4KYQHC70JZBENWZ8Z88M&token=<redacted>
+1. чужой токен → HTTP 200 {"received":true}
+2. верный токен, неизвестный заказ → HTTP 200 {"received":true}
+3. вставлена тестовая отгрузка ful_i02_test_1789530746161 с cdek_order_uuid
+3. статус ACCEPTED_AT_SHIPMENT_WAREHOUSE → HTTP 200; в БД: ACCEPTED_AT_SHIPMENT_WAREHOUSE | shipped_at=2026-09-16 19:50:00+08 | delivered_at=- | история=1 | номер=1234567890
+3. статус DELIVERED → HTTP 200; в БД: DELIVERED | shipped_at=2026-09-16 19:50:00+08 | delivered_at=2026-09-16 19:50:00+08 | история=2 | номер=1234567890
+3. тестовая отгрузка удалена

@@ -1,5 +1,6 @@
 import { formatAddressLines, joinFilled } from "@lib/util/address"
 import { convertToLocale } from "@lib/util/money"
+import { trackingLines } from "@lib/util/order-tracking"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
 
@@ -25,7 +26,15 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
   // resolution 2.8: `ShippingDetails.pickupPoint` was dropped in its favor,
   // shared with the pickup-point sheet's own display copy).
   const tPickup = await getTranslations("PickupPoint")
+  // `OrderTimeline.trackingNumber` is the one key for the tracking label; the
+  // account timeline (pickup orders) and this section (shipped orders) share it.
+  const tTimeline = await getTranslations("OrderTimeline")
   const locale = await getLocale()
+
+  // The tracking number(s) the shop owner typed on the shipment, carrier first
+  // («СДЭК 1234567890»), assembled the same way as in the account timeline
+  // (`@lib/util/order-tracking`).
+  const tracking = trackingLines(order.fulfillments)
 
   // `cart.metadata` is copied onto `order.metadata` verbatim by
   // `completeCartWorkflow` (composition.ts's own PICKUP_METADATA_KEYS doc
@@ -99,6 +108,19 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
       >
         <span>{shippingMethodLabel}</span>
       </OrderDetailColumn>
+
+      {tracking.length > 0 && (
+        <OrderDetailColumn
+          label={tTimeline("trackingNumber")}
+          data-testid="order-tracking"
+        >
+          {tracking.map((line) => (
+            <span key={line} className="tabular-nums" data-testid="order-tracking-number">
+              {line}
+            </span>
+          ))}
+        </OrderDetailColumn>
+      )}
     </div>
   )
 }

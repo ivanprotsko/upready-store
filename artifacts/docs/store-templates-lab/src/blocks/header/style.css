@@ -1,0 +1,56 @@
+.hdr { position: relative; background: var(--background); border-bottom: var(--hairline) solid var(--border); }
+.hdr-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-6); min-height: var(--space-16);
+}
+.hdr-row-centered { display: grid; grid-template-columns: 1fr auto 1fr; }
+.hdr-side { display: flex; align-items: center; }
+.hdr-side-end { justify-content: flex-end; }
+
+.wordmark {
+  display: inline-flex; align-items: center; min-height: var(--tap);
+  font-family: var(--font-display);
+  font-size: var(--text-lead); line-height: var(--lh-lead);
+  font-weight: var(--weight-strong); letter-spacing: var(--tr-title);
+  white-space: nowrap;
+}
+.wordmark[data-mark="centered"] { font-size: var(--text-title); text-align: center; }
+
+.hdr-nav { display: flex; align-items: center; gap: var(--space-6); flex-wrap: wrap; }
+.hdr-nav-center { justify-content: center; }
+.hdr-link {
+  display: inline-flex; align-items: center; min-height: var(--tap);
+  font-size: var(--text-body); color: var(--foreground);
+}
+.hdr-link:hover { color: var(--muted-foreground); }
+.hdr-nav-bar { border-top: var(--hairline) solid var(--border); }
+
+.hdr-tools { display: flex; align-items: center; gap: var(--space-1); }
+.cart-count {
+  margin-inline-start: var(--space-1);
+  font-variant-numeric: tabular-nums; color: var(--muted-foreground);
+}
+.hdr-more { position: relative; }
+.hdr-more > summary { list-style: none; }
+.hdr-more > summary::-webkit-details-marker { display: none; }
+.hdr-more-panel a { display: inline-flex; align-items: center; min-height: var(--tap); }
+.hdr-more-panel {
+  position: absolute; inset-inline-end: 0; top: 100%;
+  display: grid; gap: var(--space-2); padding: var(--space-3);
+  min-width: var(--space-32); z-index: 20;
+  box-shadow: var(--shadow-card); border-radius: var(--r-lg);
+  background: var(--popover); color: var(--popover-foreground);
+}
+
+.hdr-strip { background: var(--secondary); color: var(--secondary-foreground); }
+.hdr-strip-in { display: flex; gap: var(--space-6); align-items: center; min-height: var(--space-8); flex-wrap: wrap; }
+.hdr-search { display: flex; gap: var(--space-2); flex: 1 1 auto; max-width: calc(var(--container) / 2); }
+.hdr-burger { display: none; }
+
+@media (max-width: 639px) {
+  .hdr-nav-inline { display: none; }
+  .hdr-burger { display: inline-flex; }
+  .hdr-search { display: none; }
+  .hdr-strip-in { justify-content: center; }
+  .hdr-nav-bar .hdr-nav { overflow-x: auto; flex-wrap: nowrap; gap: var(--space-4); }
+}

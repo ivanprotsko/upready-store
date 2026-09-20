@@ -1,0 +1,19 @@
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    Executing script at ./src/scripts/mp-reviews-sync.ts...
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-mp-reviews-desk/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-mp-reviews-desk/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-mp-reviews-desk/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.
+[32minfo[39m:    No subscriber to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-mp-reviews-desk/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.
+[32minfo[39m:    [wb] GET feedbacks-api.wildberries.ru/api/v1/questions -> 200 in 1034 ms (Authorization: ***)
+[32minfo[39m:    [wb] questions (isAnswered=false) page 1: 2 questions (WB counts 2 unanswered, 16455 archived)
+[33mwarn[39m:    [wb] questions: WB rate limit after 2 requests and 2 rows written, WB opens the window at 2026-09-16T02:11:18.379Z. This is not a failure — run this kind again later.
+[32minfo[39m:    mp:reviews: wb/questions rate_limited — 2 строк, 2 запросов, ошибка: WB feedbacks.questions answered 429: {"status":429,"statusText":"Too Many Requests","title":"Too Many Requests","detail":"rate limit exceeded, retry after the period specified in the X-RateLimit-Retry header","requestId":"f5e9bd1dd0c385da28aaa3b80c685263","origin":"ag-feedbacks","timestamp":"2026-09-16T01:59:18Z"} [WB asks to retry in 720 s, which is longer than this client waits inside one run (30 s). Run this kind again later.], повтор после 2026-09-16T02:11:18.379Z
+[32minfo[39m:    [marketplace] projection wb / ten_01M2KB5W7R2WRXFJX1F25KCJ8P: 12368 rows. Связано 2 из 423. Не найдено: 421, требует выбора: 0.
+[32minfo[39m:    mp:reviews: wb проекция succeeded — отзывов 125, вопросов 2.
+[32minfo[39m:    Finished executing script.
+rc=0

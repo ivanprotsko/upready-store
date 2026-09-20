@@ -1,0 +1,57 @@
+{
+  "task": "f10-price-save-silently-lost",
+  "branch": "fix/day16-price-save-silently-lost",
+  "pr": {
+    "number": 51,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/51"
+  },
+  "done": [
+    {
+      "item": "Найдена причина потери цены: ячейки дата-грида отдают значение форме только по blur, а сохранение через Cmd/Ctrl+Enter отправляет форму без blur — старая цена уходит на сервер."
+    },
+    {
+      "item": "В keybound-form.tsx добавлен flushFocusedControl(), который перед submit снимает фокус с активного контрола — правка чинит все 35 форм панели, использующих эту обёртку."
+    },
+    {
+      "item": "В pricing-edit.tsx добавлена обработка ошибок: нечисловое значение больше не уходит на сервер (тост + дровер не закрывается), неудачный запрос показывает тост с сообщением сервера вместо молчания."
+    },
+    {
+      "item": "Добавлены строки перевода ошибок сохранения цены в ru.json и en.json."
+    },
+    {
+      "item": "Проведены замеры на живом магазине Оксаны и на стенде против живого бэкенда: 5 из 5 сохранений подряд кликом и 5 из 5 через Cmd+Enter — цена сохраняется и видна в панели и на витрине."
+    },
+    {
+      "item": "Проверен путь явной ошибки сервера (500): вместо молчания показывается тост «Цена не сохранена», дровер остаётся открытым, цена на движке не меняется."
+    },
+    {
+      "item": "Найдена и вынесена в отдельную задачу f09 побочная проблема харнесса QA — запись цены в соседнюю валюту из-за неверного подсчёта Tab-переходов."
+    },
+    {
+      "item": "tsc --noEmit и eslint src в apps/tenant-panel прошли без ошибок (rc=0), новых warning в тронутых файлах нет."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #51 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/51"
+    },
+    {
+      "label": "Отчёт воркера с замерами",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f10-price-save-silently-lost/report.md"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f10-price-save-silently-lost-1.findings.md"
+    },
+    {
+      "label": "Отчёт приёмки со скриншотами",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f10-price-save-silently-lost-1/REPORT.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Побочный дефект QA-харнесса (запись цены в соседнюю валюту RSD из-за неверного подсчёта Tab-переходов) вынесен в отдельную задачу f09, в этот PR не входит.",
+    "Деплой на panel-store.upready.dev не выполнялся — не входит в задачу (правило 21c)."
+  ]
+}

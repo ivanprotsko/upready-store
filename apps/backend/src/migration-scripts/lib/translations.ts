@@ -179,8 +179,9 @@ export const seedTranslations = async (
 
   // The options a profile declares are global (`product_option.title` is unique
   // across the database); the ones Medusa mints for a product with no options
-  // are per product and share the title "Default option" with every other
-  // profile's, so they are reached through the products instead of by title.
+  // are per product and share the placeholder title (`DEFAULT_OPTION_TITLE`
+  // in `lib/products.ts`) with every other profile's, so they are reached
+  // through the products instead of by title.
   const ownOptionIds = new Set(
     seededProducts.flatMap((product) =>
       (product.options ?? []).map((option: { id: string }) => option.id),

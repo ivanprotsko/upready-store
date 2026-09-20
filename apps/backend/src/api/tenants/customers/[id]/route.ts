@@ -11,8 +11,8 @@ import { listTenantOrderIds } from "../../tenant-scope";
  * A customer is a store-wide row, so ownership is indirect: the id is allowed
  * only while one of the tenant's own orders names it. A customer who has never
  * bought from this tenant is a 404, the same answer as an id that does not
- * exist. There is no list route: `GET /tenants/customers` would enumerate
- * every shopper of the store.
+ * exist. `GET /tenants/customers` (t13-customers-screen, `../route.ts`) lists
+ * the tenant's own customers through the same ownership rule.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const { id } = req.params;

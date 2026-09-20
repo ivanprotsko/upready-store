@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 28,
+  "action": "status-set",
+  "ts": "2026-09-15T07:14:02+08:00",
+  "status": "2026-09-15 07:14 WITA: приёмка t09-reviews PR #30 раунд 1 — REJECTED только из-за конфликта в HANDOFF.json (код принят: живой сценарий модерации 11/11 PASS своим прогоном, изоляция тенантов, JSON-LD оба случая, импорт идемпотентен, tsc/lint/build зелёные; 3 красных теста доказанно не от t09 — два падают и на базе ветки b2453fb, один на dev). Фикс: git merge origin/dev, разрешить HANDOFF.json, push"
+}

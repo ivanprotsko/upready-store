@@ -62,6 +62,11 @@
     "description": "আপনার শিপিং ঠিকানাগুলো দেখুন ও আপডেট করুন, আপনি যত খুশি ততগুলো যোগ করতে পারেন। ঠিকানা সংরক্ষণ করলে চেকআউটের সময় তা ব্যবহার করা যাবে।",
     "heading": "শিপিং ঠিকানাসমূহ"
   },
+  "AnalyticsConsent": {
+    "message": "দর্শনার্থীরা কীভাবে এই সাইটটি ব্যবহার করেন তা বোঝার জন্য আমরা কুকি ব্যবহার করি।",
+    "accept": "গ্রহণ করুন",
+    "decline": "প্রত্যাখ্যান করুন"
+  },
   "Breadcrumb": {
     "home": "হোম",
     "store": "স্টোর"
@@ -98,6 +103,25 @@
     "title": "ক্যাটাগরি",
     "viewAll": "সব দেখুন"
   },
+  "CdekPoint": {
+    "heading": "CDEK পিকআপ পয়েন্ট",
+    "chooseHeading": "একটি CDEK পিকআপ পয়েন্ট বেছে নিন",
+    "searchPlaceholder": "ঠিকানা বা মেট্রো দিয়ে খুঁজুন",
+    "cityLabel": "শহর",
+    "cityPlaceholder": "শহরের নাম লিখতে শুরু করুন",
+    "choose": "বেছে নিন",
+    "chosen": "নির্বাচিত",
+    "found": "পাওয়া পিকআপ পয়েন্ট: {count}",
+    "noResults": "{city}-এ কোনো পিকআপ পয়েন্ট পাওয়া যায়নি।",
+    "needCity": "পিকআপ পয়েন্ট দেখতে আপনার ডেলিভারি শহর লিখুন।",
+    "loading": "পিকআপ পয়েন্ট লোড হচ্ছে…",
+    "notConfigured": "এই দোকানে CDEK ডেলিভারি এখনও সেট করা হয়নি।",
+    "change": "পয়েন্ট বদলান",
+    "tabList": "তালিকা",
+    "tabMap": "মানচিত্র",
+    "mapEmpty": "এই শহরের জন্য মানচিত্রে কোনো পয়েন্ট নেই।",
+    "mapFailed": "মানচিত্র পাওয়া যাচ্ছে না। তালিকা থেকে একটি পয়েন্ট বেছে নিন।"
+  },
   "CheckoutPage": {
     "addNewAddress": "নতুন ঠিকানা যোগ করুন",
     "addressHeading": "শিপিং ঠিকানা",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count}টি আইটেম} other {{count}টি আইটেম}}",
     "legal": "«পে করুন»-এ ক্লিক করে, আপনি আমাদের <terms>শর্তাবলী</terms>, <termsOfUse>ব্যবহারের শর্তাবলী</termsOfUse> এবং <returnPolicy>রিটার্ন নীতি</returnPolicy> গ্রহণ করছেন এবং আমাদের <privacyPolicy>গোপনীয়তা নীতি</privacyPolicy>-তে সম্মত হচ্ছেন।",
     "manualInput": "ঠিকানা ম্যানুয়ালি লিখুন",
+    "addressIncomplete": "ঠিকানার আবশ্যক ঘরগুলো পূরণ করুন। শহর ও পোস্টাল কোড ছাড়া অর্ডারটি পাঠানো যাবে না।",
     "orderComposition": "অর্ডার সারসংক্ষেপ",
     "paymentHeading": "পেমেন্ট পদ্ধতি",
     "recipientCheckbox": "প্রাপক একজন ভিন্ন ব্যক্তি",
@@ -145,7 +170,16 @@
     "shippingLink": "শিপিং",
     "shippingUnavailable": "কোনো শিপিং পদ্ধতি উপলব্ধ নেই",
     "signIn": "সাইন ইন করুন",
-    "total": "মোট"
+    "total": "মোট",
+    "shippingZone": "অঞ্চল: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "অ্যাকাউন্ট ছাড়াই অর্ডার করেছেন?",
+    "description": "আপনি যদি একই ইমেল ঠিকানা দিয়ে অতিথি হিসেবে অর্ডার করে থাকেন, আমরা সেই অর্ডারগুলি আপনার অ্যাকাউন্টে যুক্ত করব।",
+    "button": "আমার অর্ডার খুঁজুন",
+    "claimed": "যুক্ত অর্ডার: {count}",
+    "none": "এই দোকানে আপনার ইমেল ঠিকানায় অতিথি অর্ডার পাওয়া যায়নি।",
+    "failed": "আপনার অর্ডার যাচাই করা যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।"
   },
   "Common": {
     "clear": "মুছুন",
@@ -306,8 +340,12 @@
     "unauthorized": "চালিয়ে যেতে অনুগ্রহ করে সাইন ইন করুন।"
   },
   "Filters": {
+    "from": "থেকে",
+    "no": "না",
     "sort": "সাজান",
-    "title": "ফিল্টার"
+    "title": "ফিল্টার",
+    "to": "পর্যন্ত",
+    "yes": "হ্যাঁ"
   },
   "Footer": {
     "categoriesHeading": "ক্যাটাগরি",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "বন্ধ করুন",
+    "counter": "ছবি {index} / {total}",
     "goToImage": "ছবি {index}-এ যান",
-    "openFullImage": "সম্পূর্ণ ছবি খুলুন"
+    "nextImage": "পরের ছবি",
+    "openFullImage": "সম্পূর্ণ ছবি খুলুন",
+    "previousImage": "আগের ছবি",
+    "showImage": "ছবি {index} দেখুন",
+    "thumbnails": "পণ্যের থাম্বনেইল"
+  },
+  "Journal": {
+    "navLabel": "ম্যাগাজিন",
+    "feedTitle": "ম্যাগাজিন",
+    "feedDescription": "{siteName}-এর লেখা।",
+    "empty": "এখনও কোনো লেখা নেই।",
+    "backToFeed": "সব লেখা",
+    "previous": "আগের",
+    "next": "পরের",
+    "pageOf": "পৃষ্ঠা {page} / {lastPage}",
+    "pagination": "ম্যাগাজিনের পৃষ্ঠা",
+    "readingTime": "{minutes} মিনিট পড়া",
+    "related": "আরও পড়ুন",
+    "share": "শেয়ার",
+    "copyLink": "লিঙ্ক কপি করুন",
+    "linkCopied": "লিঙ্ক কপি হয়েছে",
+    "allCategories": "সব বিভাগ",
+    "categories": "বিভাগ"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "আমাদের সাথে যোগ দিন",
     "notMember": "সদস্য নন?",
     "password": "পাসওয়ার্ড",
-    "signIn": "সাইন ইন করুন"
+    "signIn": "সাইন ইন করুন",
+    "yandexCta": "Yandex ID দিয়ে সাইন ইন করুন",
+    "yandexDivider": "অথবা",
+    "yandexErrorDenied": "আপনি Yandex-এর পাতায় সাইন ইন বাতিল করেছেন।",
+    "yandexErrorEmailTaken": "এই ইমেলে ইতিমধ্যে একটি অ্যাকাউন্ট আছে। পাসওয়ার্ড দিয়ে সাইন ইন করুন।",
+    "yandexErrorExpired": "সাইন ইন লিঙ্কের মেয়াদ শেষ হয়ে গেছে। নতুন করে শুরু করুন।",
+    "yandexErrorFailed": "সাইন ইন সম্পূর্ণ হয়নি। একটু পরে আবার চেষ্টা করুন।",
+    "yandexErrorNoEmail": "Yandex কোনও ইমেল ঠিকানা দেয়নি, তাই অ্যাকাউন্ট তৈরি করা যাচ্ছে না।",
+    "yandexErrorRejected": "Yandex এই সাইন ইন নিশ্চিত করতে পারেনি। আবার চেষ্টা করুন।",
+    "yandexErrorUnconfigured": "এই দোকানে Yandex দিয়ে সাইন ইন এখনও চালু হয়নি।"
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "বিস্তারিত দেখুন"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "অর্ডার নম্বরটি সংরক্ষণ করুন। দোকানের সঙ্গে যোগাযোগ করতে এটি প্রয়োজন হবে।",
     "orderSuccess": "আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।",
     "thankYou": "ধন্যবাদ!"
   },
   "OrderDetails": {
     "backToOrders": "অর্ডারে ফিরে যান",
-    "confirmationSentBefore": "আমরা অর্ডার নিশ্চিতকরণের বিবরণ পাঠিয়েছি এই ঠিকানায়",
+    "contactEmailBefore": "এই অর্ডারের যোগাযোগের ঠিকানা",
     "fulfillmentStatuses": {
       "canceled": "বাতিল",
       "delivered": "পৌঁছেছে",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "পেমেন্ট এখনও নিশ্চিত হচ্ছে। এক মিনিট অপেক্ষা করে অ্যাকাউন্ট থেকে অর্ডারটি খুলুন, অথবা আবার চেষ্টা করুন।",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "ট্র্যাকিং নম্বর"
   },
   "OrdersPage": {
     "description": "আপনার আগের অর্ডার এবং তাদের অবস্থা দেখুন।",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "পে করুন",
+    "redirectUnavailable": "পেমেন্ট পৃষ্ঠা এখনও উপলব্ধ নয়। একটু পরে আবার চেষ্টা করুন।",
     "selectPaymentMethod": "একটি পেমেন্ট পদ্ধতি নির্বাচন করুন"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "ক্রেডিট কার্ড",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "ক্রেডিট কার্ড",
@@ -682,6 +758,14 @@
     "selectOptions": "অপশন নির্বাচন করুন",
     "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন"
   },
+  "ProductAttributes": {
+    "no": "না",
+    "title": "বৈশিষ্ট্য",
+    "yes": "হ্যাঁ"
+  },
+  "ProductInfo": {
+    "description": "বিবরণ"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "অ্যাডমিনে সেটআপ চালিয়ে যান",
     "continueSetup": "এখন আপনি অ্যাডমিনে আপনার স্টোর সেটআপ চালিয়ে যেতে পারেন।",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "সব দেখুন"
+  },
+  "ProductReviews": {
+    "heading": "রিভিউ",
+    "ratingSummary": "৫-এর মধ্যে {average} · {count, plural, one {# রিভিউ} other {# রিভিউ}}",
+    "ratingValue": "৫-এর মধ্যে {value}",
+    "formHeading": "আপনার রিভিউ",
+    "ratingLabel": "রেটিং",
+    "nameLabel": "আপনার নাম",
+    "titleLabel": "শিরোনাম (ঐচ্ছিক)",
+    "bodyLabel": "রিভিউয়ের লেখা",
+    "submit": "রিভিউ পাঠান",
+    "pendingNotice": "ধন্যবাদ। দোকান অনুমোদন করলে আপনার রিভিউ দেখা যাবে।",
+    "signInPrompt": "রিভিউ লিখতে সাইন ইন করুন।",
+    "error": "রিভিউ পাঠানো যায়নি। আবার চেষ্টা করুন।",
+    "ownerReply": "দোকানের উত্তর",
+    "previousPage": "পূর্ববর্তী",
+    "nextPage": "পরবর্তী",
+    "pageOf": "পৃষ্ঠা {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "সহজ রিটার্ন",
@@ -809,7 +911,8 @@
       "account": "অ্যাকাউন্ট",
       "cart": "কার্ট",
       "home": "হোম",
-      "store": "স্টোর"
+      "store": "স্টোর",
+      "journal": "ম্যাগাজিন"
     },
     "menuButton": "মেনু"
   },

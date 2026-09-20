@@ -62,6 +62,11 @@
     "description": "Хүргэлтийн хаягуудаа харах, шинэчлэх боломжтой бөгөөд хүссэн хэмжээгээрээ нэмж болно. Хадгалсан хаягууд захиалга хийх үед боломжтой байх болно.",
     "heading": "Хүргэлтийн хаягууд"
   },
+  "AnalyticsConsent": {
+    "message": "Зочид энэ сайтыг хэрхэн ашиглаж байгааг ойлгохын тулд бид күүки ашигладаг.",
+    "accept": "Зөвшөөрөх",
+    "decline": "Татгалзах"
+  },
   "Breadcrumb": {
     "home": "Нүүр",
     "store": "Дэлгүүр"
@@ -98,6 +103,25 @@
     "title": "Ангилал",
     "viewAll": "Бүгдийг харах"
   },
+  "CdekPoint": {
+    "heading": "CDEK хүлээн авах цэг",
+    "chooseHeading": "CDEK хүлээн авах цэгээ сонгоно уу",
+    "searchPlaceholder": "Хаяг эсвэл метроор хайх",
+    "cityLabel": "Хот",
+    "cityPlaceholder": "Хотоо бичиж эхлэнэ үү",
+    "choose": "Сонгох",
+    "chosen": "Сонгосон",
+    "found": "Олдсон цэг: {count}",
+    "noResults": "{city} хотод хүлээн авах цэг олдсонгүй.",
+    "needCity": "Хүргэлтийн хотоо оруулж цэгүүдийг харна уу.",
+    "loading": "Хүлээн авах цэгүүдийг ачаалж байна…",
+    "notConfigured": "Энэ дэлгүүрт CDEK хүргэлт хараахан тохируулаагүй байна.",
+    "change": "Цэг солих",
+    "tabList": "Жагсаалт",
+    "tabMap": "Газрын зураг",
+    "mapEmpty": "Энэ хотод газрын зураг дээр харуулах цэг алга.",
+    "mapFailed": "Газрын зураг ажиллахгүй байна. Жагсаалтаас цэг сонгоно уу."
+  },
   "CheckoutPage": {
     "addNewAddress": "Шинэ хаяг нэмэх",
     "addressHeading": "Хүргэлтийн хаяг",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} бараа} other {{count} бараа}}",
     "legal": "«Төлөх» товчийг дарснаар та манай <terms>нөхцөл</terms>, <termsOfUse>ашиглалтын нөхцөл</termsOfUse> болон <returnPolicy>буцаалтын бодлого</returnPolicy>-г хүлээн зөвшөөрч, <privacyPolicy>нууцлалын бодлого</privacyPolicy>-той санал нийлж байна.",
     "manualInput": "Хаягийг гараар оруулах",
+    "addressIncomplete": "Хаягийн заавал бөглөх талбаруудыг бөглөнө үү. Хот, шуудангийн код байхгүй бол захиалгыг илгээх боломжгүй.",
     "orderComposition": "Захиалгын дэлгэрэнгүй",
     "paymentHeading": "Төлбөрийн арга",
     "recipientCheckbox": "Хүлээн авагч өөр хүн",
@@ -145,7 +170,16 @@
     "shippingLink": "Хүргэлт",
     "shippingUnavailable": "Хүргэлтийн боломжит арга алга",
     "signIn": "Нэвтрэх",
-    "total": "Нийт"
+    "total": "Нийт",
+    "shippingZone": "Бүс: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Бүртгэлгүйгээр захиалсан уу?",
+    "description": "Хэрэв та ижил имэйл хаягаар зочноор захиалсан бол тэр захиалгыг таны бүртгэлд холбоно.",
+    "button": "Миний захиалгыг олох",
+    "claimed": "Холбогдсон захиалга: {count}",
+    "none": "Энэ дэлгүүрт таны имэйл хаягаар зочны захиалга олдсонгүй.",
+    "failed": "Захиалгыг шалгаж чадсангүй. Хэсэг хүлээгээд дахин оролдоно уу."
   },
   "Common": {
     "clear": "Цэвэрлэх",
@@ -306,8 +340,12 @@
     "unauthorized": "Үргэлжлүүлэхийн тулд нэвтэрнэ үү."
   },
   "Filters": {
+    "from": "-с",
+    "no": "Үгүй",
     "sort": "Эрэмбэлэх",
-    "title": "Шүүлтүүр"
+    "title": "Шүүлтүүр",
+    "to": "хүртэл",
+    "yes": "Тийм"
   },
   "Footer": {
     "categoriesHeading": "Ангилал",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Хаах",
+    "counter": "{total}-аас {index} дэх зураг",
     "goToImage": "{index}-р зураг руу очих",
-    "openFullImage": "Бүтэн зургийг нээх"
+    "nextImage": "Дараагийн зураг",
+    "openFullImage": "Бүтэн зургийг нээх",
+    "previousImage": "Өмнөх зураг",
+    "showImage": "{index} дугаар зургийг харах",
+    "thumbnails": "Барааны жижиг зургууд"
+  },
+  "Journal": {
+    "navLabel": "Сэтгүүл",
+    "feedTitle": "Сэтгүүл",
+    "feedDescription": "{siteName}-ийн нийтлэлүүд.",
+    "empty": "Одоогоор нийтлэл алга.",
+    "backToFeed": "Бүх нийтлэл",
+    "previous": "Өмнөх",
+    "next": "Дараах",
+    "pageOf": "{lastPage}-аас {page}-р хуудас",
+    "pagination": "Сэтгүүлийн хуудсууд",
+    "readingTime": "{minutes} мин унших",
+    "related": "Мөн уншина уу",
+    "share": "Хуваалцах",
+    "copyLink": "Холбоос хуулах",
+    "linkCopied": "Холбоосыг хуулсан",
+    "allCategories": "Бүх сэдэв",
+    "categories": "Сэдэв"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Бүртгүүлэх",
     "notMember": "Гишүүн биш үү?",
     "password": "Нууц үг",
-    "signIn": "Нэвтрэх"
+    "signIn": "Нэвтрэх",
+    "yandexCta": "Яндекс ID-гээр нэвтрэх",
+    "yandexDivider": "эсвэл",
+    "yandexErrorDenied": "Та Яндексийн хуудсан дээр нэвтрэхээс татгалзлаа.",
+    "yandexErrorEmailTaken": "Энэ и-мэйлтэй бүртгэл аль хэдийн байна. Нууц үгээрээ нэвтэрнэ үү.",
+    "yandexErrorExpired": "Нэвтрэх холбоосын хугацаа дууссан. Дахин эхлүүлнэ үү.",
+    "yandexErrorFailed": "Нэвтэрч чадсангүй. Хэсэг хүлээгээд дахин оролдоно уу.",
+    "yandexErrorNoEmail": "Яндекс и-мэйл хаяг дамжуулаагүй тул бүртгэл үүсгэх боломжгүй.",
+    "yandexErrorRejected": "Яндекс энэ нэвтрэлтийг баталгаажуулж чадсангүй. Дахин оролдоно уу.",
+    "yandexErrorUnconfigured": "Энэ дэлгүүрт Яндексээр нэвтрэх боломж хараахан идэвхжээгүй байна."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Дэлгэрэнгүй харах"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Захиалгын дугаараа хадгална уу. Дэлгүүртэй холбогдоход шаардлагатай.",
     "orderSuccess": "Таны захиалга амжилттай баталгаажлаа.",
     "thankYou": "Баярлалаа!"
   },
   "OrderDetails": {
     "backToOrders": "Захиалга руу буцах",
-    "confirmationSentBefore": "Захиалгын баталгаажуулах дэлгэрэнгүй мэдээллийг дараах хаяг руу илгээсэн",
+    "contactEmailBefore": "Энэ захиалгын холбоо барих хаяг",
     "fulfillmentStatuses": {
       "canceled": "Цуцалсан",
       "delivered": "Хүргэсэн",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Төлбөр баталгаажиж байна. Нэг минут хүлээгээд захиалгаа бүртгэлээсээ нээнэ үү, эсвэл дахин оролдоно уу.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Хянах дугаар"
   },
   "OrdersPage": {
     "description": "Өмнөх захиалгууд болон тэдгээрийн төлвийг харах боломжтой.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Төлөх",
+    "redirectUnavailable": "Төлбөрийн хуудас хараахан бэлэн болоогүй байна. Хэсэг хугацааны дараа дахин оролдоно уу.",
     "selectPaymentMethod": "Төлбөрийн аргаа сонгоно уу"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Кредит карт",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Кредит карт",
@@ -682,6 +758,14 @@
     "selectOptions": "Сонголт хийх",
     "selectVariant": "Хувилбар сонгох"
   },
+  "ProductAttributes": {
+    "no": "Үгүй",
+    "title": "Үзүүлэлт",
+    "yes": "Тийм"
+  },
+  "ProductInfo": {
+    "description": "Тайлбар"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Админ хэсэгт тохиргоог үргэлжлүүлэх",
     "continueSetup": "Одоо та админ хэсэгт дэлгүүрийн тохиргоог үргэлжлүүлж болно.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Бүгдийг харах"
+  },
+  "ProductReviews": {
+    "heading": "Сэтгэгдэл",
+    "ratingSummary": "5-аас {average} · {count, plural, one {# сэтгэгдэл} other {# сэтгэгдэл}}",
+    "ratingValue": "5-аас {value}",
+    "formHeading": "Таны сэтгэгдэл",
+    "ratingLabel": "Үнэлгээ",
+    "nameLabel": "Таны нэр",
+    "titleLabel": "Гарчиг (заавал биш)",
+    "bodyLabel": "Сэтгэгдлийн текст",
+    "submit": "Сэтгэгдэл илгээх",
+    "pendingNotice": "Баярлалаа. Дэлгүүр баталсны дараа сэтгэгдэл харагдана.",
+    "signInPrompt": "Сэтгэгдэл үлдээхийн тулд нэвтэрнэ үү.",
+    "error": "Сэтгэгдэл илгээгдсэнгүй. Дахин оролдоно уу.",
+    "ownerReply": "Дэлгүүрийн хариу",
+    "previousPage": "Өмнөх",
+    "nextPage": "Дараах",
+    "pageOf": "{pages}-аас {page} хуудас"
   },
   "ProductTabs": {
     "easyReturns": "Хялбар буцаалт",
@@ -809,7 +911,8 @@
       "account": "Профайл",
       "cart": "Сагс",
       "home": "Нүүр",
-      "store": "Дэлгүүр"
+      "store": "Дэлгүүр",
+      "journal": "Сэтгүүл"
     },
     "menuButton": "Цэс"
   },

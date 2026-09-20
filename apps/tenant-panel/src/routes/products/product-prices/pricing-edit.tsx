@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { HttpTypes } from "@medusajs/types"
-import { Button } from "@medusajs/ui"
+import { Button, toast } from "@medusajs/ui"
 import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
@@ -55,6 +55,35 @@ export const PricingEdit = ({
     ? product.variants?.filter((v) => v.id === variantId)
     : product.variants
 
+  // f09-price-editor-currencies: the grid opens on the shop's own currency, so
+  // the currencies and regions this product is ALREADY priced in are named
+  // explicitly — otherwise an existing price would have no column to edit it in.
+  const usedCurrencies = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          (variants ?? []).flatMap((v: any) =>
+            (v.prices ?? []).map((p: any) => p.currency_code as string)
+          )
+        )
+      ),
+    [variants]
+  )
+
+  const usedRegionIds = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          (variants ?? []).flatMap((v: any) =>
+            (v.prices ?? [])
+              .map((p: any) => p.rules?.region_id as string | undefined)
+              .filter(Boolean)
+          )
+        )
+      ) as string[],
+    [variants]
+  )
+
   const form = useForm<UpdateVariantPricesSchemaType>({
     defaultValues: {
       variants: variants?.map((variant: any) => ({
@@ -74,6 +103,13 @@ export const PricingEdit = ({
   })
 
   const handleSubmit = form.handleSubmit(async (values) => {
+    /**
+     * A price the panel cannot turn into a number must not travel to the server
+     * as NaN and come back as a silent no-op: the cell is marked and the drawer
+     * stays open (f10-price-save-silently-lost).
+     */
+    const invalidFields: string[] = []
+
     const reqData = values.variants.filter(Boolean).map((variant, ind) => ({
       id: variants![ind].id,
       prices: Object.entries(variant.prices || {})
@@ -106,6 +142,12 @@ export const PricingEdit = ({
 
           const amount = castNumber(value)
 
+          if (!Number.isFinite(amount)) {
+            invalidFields.push(
+              `variants.${ind}.prices.${currencyCodeOrRegionId}`
+            )
+          }
+
           return {
             id: existingId,
             currency_code: currencyCode,
@@ -115,11 +157,33 @@ export const PricingEdit = ({
         }),
     }))
 
-    await mutateAsync(reqData, {
-      onSuccess: () => {
-        handleSuccess("..")
-      },
-    })
+    if (invalidFields.length) {
+      const message = t("products.toasts.prices.error.invalid")
+
+      invalidFields.forEach((name) => {
+        form.setError(name as any, { type: "manual", message })
+      })
+
+      toast.error(t("products.toasts.prices.error.header"), {
+        description: message,
+      })
+
+      return
+    }
+
+    try {
+      await mutateAsync(reqData)
+      handleSuccess("..")
+    } catch (error) {
+      /**
+       * Without this the drawer closed on a failed request and the owner was
+       * left believing the new price was saved (f10-price-save-silently-lost).
+       */
+      toast.error(t("products.toasts.prices.error.header"), {
+        description:
+          error instanceof Error ? error.message : t("errors.serverError"),
+      })
+    }
   })
 
   return (
@@ -127,7 +191,11 @@ export const PricingEdit = ({
       <KeyboundForm onSubmit={handleSubmit} className="flex size-full flex-col">
         <RouteFocusModal.Header />
         <RouteFocusModal.Body className="flex flex-col overflow-hidden">
-          <VariantPricingForm form={form as any} />
+          <VariantPricingForm
+            form={form as any}
+            usedCurrencies={usedCurrencies}
+            usedRegionIds={usedRegionIds}
+          />
         </RouteFocusModal.Body>
         <RouteFocusModal.Footer>
           <div className="flex w-full items-center justify-end gap-x-2">

@@ -62,6 +62,11 @@
     "description": "Tekintse meg és frissítse szállítási címeit, tetszőleges számút hozzáadhat. A mentett címek elérhetők lesznek a fizetés során.",
     "heading": "Szállítási címek"
   },
+  "AnalyticsConsent": {
+    "message": "Sütiket használunk, hogy megértsük, hogyan használják látogatóink ezt az oldalt.",
+    "accept": "Elfogadom",
+    "decline": "Elutasítom"
+  },
   "Breadcrumb": {
     "home": "Főoldal",
     "store": "Bolt"
@@ -98,6 +103,25 @@
     "title": "Kategóriák",
     "viewAll": "Összes megtekintése"
   },
+  "CdekPoint": {
+    "heading": "CDEK átvételi pont",
+    "chooseHeading": "Válasszon CDEK átvételi pontot",
+    "searchPlaceholder": "Keresés cím vagy metró alapján",
+    "cityLabel": "Város",
+    "cityPlaceholder": "Kezdje el beírni a várost",
+    "choose": "Kiválaszt",
+    "chosen": "Kiválasztva",
+    "found": "Talált átvételi pontok: {count}",
+    "noResults": "Nem található átvételi pont itt: {city}.",
+    "needCity": "Adja meg a szállítási várost az átvételi pontok megjelenítéséhez.",
+    "loading": "Átvételi pontok betöltése…",
+    "notConfigured": "A CDEK szállítás még nincs beállítva ebben a boltban.",
+    "change": "Pont módosítása",
+    "tabList": "Lista",
+    "tabMap": "Térkép",
+    "mapEmpty": "Ehhez a városhoz nincs átvételi pont a térképen.",
+    "mapFailed": "A térkép nem érhető el. Válasszon pontot a listából."
+  },
   "CheckoutPage": {
     "addNewAddress": "Új cím hozzáadása",
     "addressHeading": "Szállítási cím",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} termék} other {{count} termék}}",
     "legal": "„Fizetés” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
     "manualInput": "Cím megadása kézzel",
+    "addressIncomplete": "Töltse ki a cím kötelező mezőit. Város és irányítószám nélkül a rendelés nem adható fel.",
     "orderComposition": "Rendelés összesítése",
     "paymentHeading": "Fizetési mód",
     "recipientCheckbox": "A címzett más személy",
@@ -145,7 +170,16 @@
     "shippingLink": "Szállítás",
     "shippingUnavailable": "Nincs elérhető szállítási mód",
     "signIn": "Bejelentkezés",
-    "total": "Összesen"
+    "total": "Összesen",
+    "shippingZone": "Zóna: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Fiók nélkül rendelt?",
+    "description": "Ha vendégként rendelt ugyanezzel az e-mail-címmel, azokat a rendeléseket a fiókjához kapcsoljuk.",
+    "button": "Rendeléseim megkeresése",
+    "claimed": "Kapcsolt rendelések: {count}",
+    "none": "Nem találtunk vendégrendelést az e-mail-címéhez ebben a boltban.",
+    "failed": "Nem tudtuk ellenőrizni a rendeléseit. Próbálja meg újra kicsit később."
   },
   "Common": {
     "clear": "Törlés",
@@ -306,8 +340,12 @@
     "unauthorized": "A folytatáshoz jelentkezzen be."
   },
   "Filters": {
+    "from": "-tól",
+    "no": "Nem",
     "sort": "Rendezés",
-    "title": "Szűrők"
+    "title": "Szűrők",
+    "to": "-ig",
+    "yes": "Igen"
   },
   "Footer": {
     "categoriesHeading": "Kategóriák",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Bezárás",
+    "counter": "{index}. kép a(z) {total} közül",
     "goToImage": "Ugrás a(z) {index}. képre",
-    "openFullImage": "Teljes méretű kép megnyitása"
+    "nextImage": "Következő kép",
+    "openFullImage": "Teljes méretű kép megnyitása",
+    "previousImage": "Előző kép",
+    "showImage": "{index}. kép megjelenítése",
+    "thumbnails": "A termék indexképei"
+  },
+  "Journal": {
+    "navLabel": "Magazin",
+    "feedTitle": "Magazin",
+    "feedDescription": "A(z) {siteName} cikkei.",
+    "empty": "Még nincsenek cikkek.",
+    "backToFeed": "Összes cikk",
+    "previous": "Előző",
+    "next": "Következő",
+    "pageOf": "Oldal: {page} / {lastPage}",
+    "pagination": "A magazin oldalai",
+    "readingTime": "{minutes} perc olvasás",
+    "related": "Olvassa el ezt is",
+    "share": "Megosztás",
+    "copyLink": "Hivatkozás másolása",
+    "linkCopied": "Hivatkozás másolva",
+    "allCategories": "Minden rovat",
+    "categories": "Rovatok"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Csatlakozzon hozzánk",
     "notMember": "Még nincs fiókja?",
     "password": "Jelszó",
-    "signIn": "Bejelentkezés"
+    "signIn": "Bejelentkezés",
+    "yandexCta": "Belépés Yandex ID-val",
+    "yandexDivider": "vagy",
+    "yandexErrorDenied": "A Yandex oldalán megszakította a belépést.",
+    "yandexErrorEmailTaken": "Ezzel az e-mail-címmel már van fiók. Lépjen be a jelszavával.",
+    "yandexErrorExpired": "Ez a belépési hivatkozás lejárt. Kezdje elölről.",
+    "yandexErrorFailed": "A belépés nem sikerült. Próbálja újra egy pillanat múlva.",
+    "yandexErrorNoEmail": "A Yandex nem adott meg e-mail-címet, ezért a fiók nem hozható létre.",
+    "yandexErrorRejected": "A Yandex nem erősítette meg ezt a belépést. Próbálja újra.",
+    "yandexErrorUnconfigured": "A Yandexszel való belépés ebben a boltban még nincs bekapcsolva."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Részletek megtekintése"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Őrizze meg a rendelésszámot. Szüksége lesz rá, ha kapcsolatba lép az üzlettel.",
     "orderSuccess": "Rendelését sikeresen leadta.",
     "thankYou": "Köszönjük!"
   },
   "OrderDetails": {
     "backToOrders": "Vissza a rendelésekhez",
-    "confirmationSentBefore": "A rendelés visszaigazolását elküldtük a következő címre:",
+    "contactEmailBefore": "A rendelés kapcsolattartási címe",
     "fulfillmentStatuses": {
       "canceled": "Törölve",
       "delivered": "Kézbesítve",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "A fizetés megerősítése még folyamatban van. Várjon egy percet, és nyissa meg a rendelést a fiókjából, vagy próbálja újra.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Nyomkövetési szám"
   },
   "OrdersPage": {
     "description": "Tekintse meg korábbi rendeléseit és azok állapotát.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Fizetés",
+    "redirectUnavailable": "A fizetési oldal még nem érhető el. Próbálja újra egy pillanat múlva.",
     "selectPaymentMethod": "Válasszon fizetési módot"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Bankkártya",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Bankkártya",
@@ -682,6 +758,14 @@
     "selectOptions": "Opciók kiválasztása",
     "selectVariant": "Válasszon variánst"
   },
+  "ProductAttributes": {
+    "no": "Nem",
+    "title": "Jellemzők",
+    "yes": "Igen"
+  },
+  "ProductInfo": {
+    "description": "Leírás"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Beállítás folytatása az adminban",
     "continueSetup": "Most már folytathatja a bolt beállítását az admin felületen.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Összes megtekintése"
+  },
+  "ProductReviews": {
+    "heading": "Vélemények",
+    "ratingSummary": "{average} az 5-ből · {count, plural, one {# vélemény} other {# vélemény}}",
+    "ratingValue": "{value} az 5-ből",
+    "formHeading": "Az Ön véleménye",
+    "ratingLabel": "Értékelés",
+    "nameLabel": "Az Ön neve",
+    "titleLabel": "Cím (nem kötelező)",
+    "bodyLabel": "A vélemény szövege",
+    "submit": "Vélemény küldése",
+    "pendingNotice": "Köszönjük. A vélemény azután jelenik meg, hogy a bolt jóváhagyta.",
+    "signInPrompt": "Jelentkezzen be, hogy véleményt írhasson.",
+    "error": "A véleményt nem sikerült elküldeni. Próbálja újra.",
+    "ownerReply": "A bolt válasza",
+    "previousPage": "Előző",
+    "nextPage": "Következő",
+    "pageOf": "{pages} oldalból a(z) {page}."
   },
   "ProductTabs": {
     "easyReturns": "Könnyű visszaküldés",
@@ -809,7 +911,8 @@
       "account": "Fiók",
       "cart": "Kosár",
       "home": "Főoldal",
-      "store": "Bolt"
+      "store": "Bolt",
+      "journal": "Magazin"
     },
     "menuButton": "Menü"
   },

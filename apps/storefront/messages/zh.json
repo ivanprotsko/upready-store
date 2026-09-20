@@ -62,6 +62,11 @@
     "description": "查看并更新您的收货地址，您可以添加任意数量的地址。保存地址后，结账时即可直接选用。",
     "heading": "收货地址"
   },
+  "AnalyticsConsent": {
+    "message": "我们使用 Cookie 来了解访客如何使用本网站。",
+    "accept": "接受",
+    "decline": "拒绝"
+  },
   "Breadcrumb": {
     "home": "首页",
     "store": "商店"
@@ -98,6 +103,25 @@
     "title": "分类",
     "viewAll": "查看全部"
   },
+  "CdekPoint": {
+    "heading": "CDEK 自提点",
+    "chooseHeading": "选择 CDEK 自提点",
+    "searchPlaceholder": "按地址或地铁搜索",
+    "cityLabel": "城市",
+    "cityPlaceholder": "开始输入城市",
+    "choose": "选择",
+    "chosen": "已选择",
+    "found": "找到自提点：{count}",
+    "noResults": "在 {city} 未找到自提点。",
+    "needCity": "请填写收货城市以查看自提点。",
+    "loading": "正在加载自提点…",
+    "notConfigured": "本店尚未设置 CDEK 配送。",
+    "change": "更换自提点",
+    "tabList": "列表",
+    "tabMap": "地图",
+    "mapEmpty": "该城市没有可在地图上显示的自提点。",
+    "mapFailed": "地图不可用，请从列表中选择自提点。"
+  },
   "CheckoutPage": {
     "addNewAddress": "添加新地址",
     "addressHeading": "收货地址",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, other {{count}件}}",
     "legal": "点击「支付」即表示您接受我们的<terms>条款</terms>、<termsOfUse>使用条款</termsOfUse>和<returnPolicy>退货政策</returnPolicy>，并同意我们的<privacyPolicy>隐私政策</privacyPolicy>。",
     "manualInput": "手动输入地址",
+    "addressIncomplete": "请填写地址的必填项。没有城市和邮政编码，订单无法发货。",
     "orderComposition": "订单摘要",
     "paymentHeading": "支付方式",
     "recipientCheckbox": "收件人为他人",
@@ -145,7 +170,16 @@
     "shippingLink": "配送",
     "shippingUnavailable": "暂无可用的配送方式",
     "signIn": "登录",
-    "total": "总计"
+    "total": "总计",
+    "shippingZone": "配送区域：{zone}"
+  },
+  "ClaimOrders": {
+    "heading": "没有账户时下过单？",
+    "description": "如果您以访客身份用同一个邮箱地址下过单，我们会把这些订单关联到您的账户。",
+    "button": "查找我的订单",
+    "claimed": "已关联订单：{count}",
+    "none": "本店未找到使用您邮箱地址的访客订单。",
+    "failed": "无法查询您的订单，请稍后再试。"
   },
   "Common": {
     "clear": "清除",
@@ -306,8 +340,12 @@
     "unauthorized": "请登录后继续。"
   },
   "Filters": {
+    "from": "最低",
+    "no": "否",
     "sort": "排序",
-    "title": "筛选"
+    "title": "筛选",
+    "to": "最高",
+    "yes": "是"
   },
   "Footer": {
     "categoriesHeading": "分类",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "关闭",
+    "counter": "第 {index} 张，共 {total} 张",
     "goToImage": "跳转到第 {index} 张图片",
-    "openFullImage": "查看大图"
+    "nextImage": "下一张图片",
+    "openFullImage": "查看大图",
+    "previousImage": "上一张图片",
+    "showImage": "显示第 {index} 张图片",
+    "thumbnails": "商品缩略图"
+  },
+  "Journal": {
+    "navLabel": "专栏",
+    "feedTitle": "专栏",
+    "feedDescription": "{siteName} 的文章。",
+    "empty": "暂时还没有文章。",
+    "backToFeed": "全部文章",
+    "previous": "上一页",
+    "next": "下一页",
+    "pageOf": "第 {page} 页，共 {lastPage} 页",
+    "pagination": "专栏页码",
+    "readingTime": "阅读约 {minutes} 分钟",
+    "related": "延伸阅读",
+    "share": "分享",
+    "copyLink": "复制链接",
+    "linkCopied": "链接已复制",
+    "allCategories": "全部栏目",
+    "categories": "栏目"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "立即加入",
     "notMember": "还不是会员？",
     "password": "密码",
-    "signIn": "登录"
+    "signIn": "登录",
+    "yandexCta": "使用 Yandex ID 登录",
+    "yandexDivider": "或",
+    "yandexErrorDenied": "你在 Yandex 页面上取消了登录。",
+    "yandexErrorEmailTaken": "该邮箱已有账号，请用密码登录。",
+    "yandexErrorExpired": "登录链接已过期，请重新开始。",
+    "yandexErrorFailed": "登录未完成，请稍后再试。",
+    "yandexErrorNoEmail": "Yandex 未提供邮箱地址，因此无法创建账号。",
+    "yandexErrorRejected": "Yandex 未能确认此次登录，请重试。",
+    "yandexErrorUnconfigured": "本店尚未开启 Yandex 登录。"
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "查看详情"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "请保存订单编号，联系商店时需要用到。",
     "orderSuccess": "您的订单已成功提交。",
     "thankYou": "感谢您！"
   },
   "OrderDetails": {
     "backToOrders": "返回订单",
-    "confirmationSentBefore": "我们已将订单确认信息发送至",
+    "contactEmailBefore": "此订单的联系邮箱",
     "fulfillmentStatuses": {
       "canceled": "已取消",
       "delivered": "已送达",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "付款仍在确认中。请稍等一分钟后在账户中查看订单，或重新结账。",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "物流单号"
   },
   "OrdersPage": {
     "description": "查看您以往的订单及其状态。",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "支付",
+    "redirectUnavailable": "支付页面暂不可用。请稍后再试。",
     "selectPaymentMethod": "选择支付方式"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "信用卡",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "信用卡",
@@ -682,6 +758,14 @@
     "selectOptions": "选择选项",
     "selectVariant": "选择规格"
   },
+  "ProductAttributes": {
+    "no": "否",
+    "title": "规格参数",
+    "yes": "是"
+  },
+  "ProductInfo": {
+    "description": "商品描述"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "前往管理后台继续设置",
     "continueSetup": "您现在可以在管理后台继续设置商店。",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "查看全部"
+  },
+  "ProductReviews": {
+    "heading": "评价",
+    "ratingSummary": "{average} 分（满分 5 分）· {count, plural, other {# 条评价}}",
+    "ratingValue": "{value} 分（满分 5 分）",
+    "formHeading": "您的评价",
+    "ratingLabel": "评分",
+    "nameLabel": "您的姓名",
+    "titleLabel": "标题（选填）",
+    "bodyLabel": "评价内容",
+    "submit": "提交评价",
+    "pendingNotice": "感谢您。店铺审核通过后，评价将会显示。",
+    "signInPrompt": "登录后即可发表评价。",
+    "error": "评价发送失败，请重试。",
+    "ownerReply": "店铺回复",
+    "previousPage": "上一页",
+    "nextPage": "下一页",
+    "pageOf": "第 {page} 页，共 {pages} 页"
   },
   "ProductTabs": {
     "easyReturns": "轻松退货",
@@ -809,7 +911,8 @@
       "account": "账户",
       "cart": "购物车",
       "home": "首页",
-      "store": "商店"
+      "store": "商店",
+      "journal": "专栏"
     },
     "menuButton": "菜单"
   },

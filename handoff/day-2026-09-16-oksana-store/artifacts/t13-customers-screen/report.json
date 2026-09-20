@@ -1,0 +1,65 @@
+{
+  "task": "t13-customers-screen",
+  "branch": "feat/day16-customers-screen",
+  "pr": {
+    "number": 33,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/33"
+  },
+  "done": [
+    {
+      "item": "Реализован GET /tenants/customers — список клиентов тенанта с пагинацией, поиском по имени/фамилии/email/телефону и сортировкой по created_at/orders_count."
+    },
+    {
+      "item": "Реализован POST /tenants/customers/export — выгрузка CSV в формате orders/export (RFC 4180), синхронный ответ с url/filename/count."
+    },
+    {
+      "item": "Принадлежность клиента тенанту вычисляется одним SQL-агрегатом (helpers.ts::getTenantCustomerAggregates), без N+1 запросов."
+    },
+    {
+      "item": "Собран экран «Клиенты»: список (customer-list) на _DataTable/useDataTable и карточка (customer-detail) с адресами и заказами клиента, пункт навигации после «Заказы»."
+    },
+    {
+      "item": "Гостевые заказы учтены в списке и в CSV (бейдж «Гость», колонка has_account), чтобы не занижать выручку тенанта."
+    },
+    {
+      "item": "Изоляция между тенантами измерена на собственном стенде: t13test — 202 клиента, t13other — 1 клиент; поиск и сортировка по числу заказов проверены живыми запросами, CSV выгружает 202 строки."
+    },
+    {
+      "item": "Производительность списка измерена: 0.134с на limit=20 и 0.067с на limit=1 при 202 клиентах — укладывается в требуемые 200 клиентов задачи."
+    },
+    {
+      "item": "PR #33 принят и слит (mergedAt 2026-09-14T23:42:36Z); упавший unit-тест profile-data.unit.spec.ts определён как не связанный с веткой."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #33",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/33"
+    },
+    {
+      "label": "Отчёт приёмки",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t13-customers-screen-1.report.md"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t13-customers-screen-1.findings.md"
+    },
+    {
+      "label": "Скриншот: список клиентов",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t13-customers-screen-1/01-customers-list.png"
+    },
+    {
+      "label": "Скриншот: карточка клиента",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t13-customers-screen-1/03-customer-card.png"
+    },
+    {
+      "label": "Скриншот: экспорт CSV",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t13-customers-screen-1/05-customers-export.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "₽0.00 в суммах заказов на карточке клиента — артефакт синтетической тестовой фикстуры, не баг (агрегат в списке считается верно).",
+    "Интеграционные тесты (test:integration:http) не запускались — окружению не хватает роли Postgres, это инфраструктурный пробел, а не регрессия ветки."
+  ]
+}

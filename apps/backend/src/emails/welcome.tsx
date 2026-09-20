@@ -6,9 +6,8 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STOREFRONT_URL,
-  STORE_EMAIL,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
 
 export type WelcomeEmailProps = {
   firstName?: string | null;
@@ -21,8 +20,9 @@ export function WelcomeEmail({
   shopUrl,
   locale = DEFAULT_EMAIL_LOCALE,
 }: WelcomeEmailProps) {
+  const shop = useEmailShop();
   const { t } = getEmailTranslator(locale);
-  const ordersUrl = `${STOREFRONT_URL}/account/orders`;
+  const ordersUrl = `${shop.storefrontUrl}/account/orders`;
 
   return (
     <EmailLayout preview={t("Welcome.preview")} locale={locale}>
@@ -52,8 +52,8 @@ export function WelcomeEmail({
 
       <Text style={s.footerNote}>
         {t("Common.questionsPrefix")}{" "}
-        <a href={`mailto:${STORE_EMAIL}`} style={s.link}>
-          {STORE_EMAIL}
+        <a href={`mailto:${shop.email}`} style={s.link}>
+          {shop.email}
         </a>
       </Text>
     </EmailLayout>

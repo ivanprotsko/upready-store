@@ -62,6 +62,11 @@
     "description": "Zobrazte a upravte svoje doručovacie adresy, môžete ich pridať toľko, koľko chcete. Uložené adresy budú dostupné pri pokladni.",
     "heading": "Doručovacie adresy"
   },
+  "AnalyticsConsent": {
+    "message": "Používame súbory cookie, aby sme pochopili, ako návštevníci používajú túto stránku.",
+    "accept": "Prijať",
+    "decline": "Odmietnuť"
+  },
   "Breadcrumb": {
     "home": "Domov",
     "store": "Obchod"
@@ -98,6 +103,25 @@
     "title": "Kategórie",
     "viewAll": "Zobraziť všetko"
   },
+  "CdekPoint": {
+    "heading": "Výdajné miesto CDEK",
+    "chooseHeading": "Vyberte výdajné miesto CDEK",
+    "searchPlaceholder": "Hľadať podľa adresy alebo metra",
+    "cityLabel": "Mesto",
+    "cityPlaceholder": "Začnite písať mesto",
+    "choose": "Vybrať",
+    "chosen": "Vybrané",
+    "found": "Nájdených výdajných miest: {count}",
+    "noResults": "V meste {city} sa nenašli žiadne výdajné miesta.",
+    "needCity": "Zadajte mesto doručenia, aby ste videli výdajné miesta.",
+    "loading": "Načítavanie výdajných miest…",
+    "notConfigured": "Doprava CDEK zatiaľ nie je v tomto obchode nastavená.",
+    "change": "Zmeniť miesto",
+    "tabList": "Zoznam",
+    "tabMap": "Mapa",
+    "mapEmpty": "Pre toto mesto nie sú na mape žiadne výdajné miesta.",
+    "mapFailed": "Mapa nie je dostupná. Vyberte miesto zo zoznamu."
+  },
   "CheckoutPage": {
     "addNewAddress": "Pridať novú adresu",
     "addressHeading": "Adresa doručenia",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} položka} few {{count} položky} many {{count} položky} other {{count} položiek}}",
     "legal": "Kliknutím na «Zaplatiť» prijímate naše <terms>podmienky</terms>, <termsOfUse>podmienky používania</termsOfUse> a <returnPolicy>podmienky vrátenia</returnPolicy> a súhlasíte s našimi <privacyPolicy>zásadami ochrany osobných údajov</privacyPolicy>.",
     "manualInput": "Zadať adresu manuálne",
+    "addressIncomplete": "Vyplňte povinné polia adresy. Bez mesta a PSČ sa objednávka nedá odoslať.",
     "orderComposition": "Súhrn objednávky",
     "paymentHeading": "Spôsob platby",
     "recipientCheckbox": "Príjemca je iná osoba",
@@ -145,7 +170,16 @@
     "shippingLink": "Doprava",
     "shippingUnavailable": "Nie sú dostupné žiadne spôsoby dopravy",
     "signIn": "Prihlásiť sa",
-    "total": "Spolu"
+    "total": "Spolu",
+    "shippingZone": "Zóna: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Objednávali ste bez účtu?",
+    "description": "Ak ste objednávali ako hosť s rovnakou e-mailovou adresou, pripojíme tieto objednávky k vášmu účtu.",
+    "button": "Nájsť moje objednávky",
+    "claimed": "Pripojené objednávky: {count}",
+    "none": "V tomto obchode sme k vašej e-mailovej adrese nenašli žiadne objednávky bez účtu.",
+    "failed": "Objednávky sa nepodarilo overiť. Skúste to znova o chvíľu."
   },
   "Common": {
     "clear": "Vymazať",
@@ -306,8 +340,12 @@
     "unauthorized": "Ak chcete pokračovať, prihláste sa."
   },
   "Filters": {
+    "from": "od",
+    "no": "Nie",
     "sort": "Zoradiť",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "do",
+    "yes": "Áno"
   },
   "Footer": {
     "categoriesHeading": "Kategórie",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Zavrieť",
+    "counter": "Obrázok {index} z {total}",
     "goToImage": "Prejsť na obrázok {index}",
-    "openFullImage": "Otvoriť obrázok v plnej veľkosti"
+    "nextImage": "Ďalší obrázok",
+    "openFullImage": "Otvoriť obrázok v plnej veľkosti",
+    "previousImage": "Predchádzajúci obrázok",
+    "showImage": "Zobraziť obrázok {index}",
+    "thumbnails": "Náhľady produktu"
+  },
+  "Journal": {
+    "navLabel": "Magazín",
+    "feedTitle": "Magazín",
+    "feedDescription": "Články obchodu {siteName}.",
+    "empty": "Zatiaľ tu nie sú žiadne články.",
+    "backToFeed": "Všetky články",
+    "previous": "Predchádzajúca",
+    "next": "Ďalšia",
+    "pageOf": "Strana {page} z {lastPage}",
+    "pagination": "Stránky magazínu",
+    "readingTime": "{minutes} min čítania",
+    "related": "Prečítajte si aj",
+    "share": "Zdieľať",
+    "copyLink": "Kopírovať odkaz",
+    "linkCopied": "Odkaz skopírovaný",
+    "allCategories": "Všetky rubriky",
+    "categories": "Rubriky"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Zaregistrovať sa",
     "notMember": "Ešte nemáte účet?",
     "password": "Heslo",
-    "signIn": "Prihlásiť sa"
+    "signIn": "Prihlásiť sa",
+    "yandexCta": "Prihlásiť sa cez Yandex ID",
+    "yandexDivider": "alebo",
+    "yandexErrorDenied": "Prihlásenie ste na stránke Yandexu zrušili.",
+    "yandexErrorEmailTaken": "Účet s týmto e-mailom už existuje. Prihláste sa heslom.",
+    "yandexErrorExpired": "Platnosť odkazu na prihlásenie vypršala. Začnite odznova.",
+    "yandexErrorFailed": "Prihlásenie sa nepodarilo. Skúste to o chvíľu.",
+    "yandexErrorNoEmail": "Yandex neposkytol e-mailovú adresu, účet sa preto nedá vytvoriť.",
+    "yandexErrorRejected": "Yandex toto prihlásenie nepotvrdil. Skúste to znova.",
+    "yandexErrorUnconfigured": "Prihlásenie cez Yandex zatiaľ nie je v tomto obchode zapnuté."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Zobraziť detaily"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Uschovajte si číslo objednávky. Budete ho potrebovať pri kontakte s obchodom.",
     "orderSuccess": "Vaša objednávka bola úspešne vytvorená.",
     "thankYou": "Ďakujeme!"
   },
   "OrderDetails": {
     "backToOrders": "Späť na objednávky",
-    "confirmationSentBefore": "Potvrdenie objednávky sme odoslali na",
+    "contactEmailBefore": "Kontaktná adresa tejto objednávky je",
     "fulfillmentStatuses": {
       "canceled": "Zrušené",
       "delivered": "Doručené",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Platba sa ešte potvrdzuje. Počkajte minútu a otvorte objednávku v účte alebo to skúste znova.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Sledovacie číslo"
   },
   "OrdersPage": {
     "description": "Zobrazte si svoje predchádzajúce objednávky a ich stav.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Zaplatiť",
+    "redirectUnavailable": "Platobná stránka zatiaľ nie je k dispozícii. Skúste to o chvíľu znova.",
     "selectPaymentMethod": "Vyberte spôsob platby"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Platobná karta",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Platobná karta",
@@ -682,6 +758,14 @@
     "selectOptions": "Vybrať možnosti",
     "selectVariant": "Vyberte variant"
   },
+  "ProductAttributes": {
+    "no": "Nie",
+    "title": "Parametre",
+    "yes": "Áno"
+  },
+  "ProductInfo": {
+    "description": "Popis"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovať v nastavení v administrácii",
     "continueSetup": "Teraz môžete pokračovať v nastavovaní svojho obchodu v administrácii.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Zobraziť všetko"
+  },
+  "ProductReviews": {
+    "heading": "Recenzie",
+    "ratingSummary": "{average} z 5 · {count, plural, one {# recenzia} few {# recenzie} many {# recenzie} other {# recenzií}}",
+    "ratingValue": "{value} z 5",
+    "formHeading": "Vaša recenzia",
+    "ratingLabel": "Hodnotenie",
+    "nameLabel": "Vaše meno",
+    "titleLabel": "Nadpis (nepovinné)",
+    "bodyLabel": "Text recenzie",
+    "submit": "Odoslať recenziu",
+    "pendingNotice": "Ďakujeme. Recenzia sa zobrazí, keď ju obchod schváli.",
+    "signInPrompt": "Prihláste sa, aby ste mohli napísať recenziu.",
+    "error": "Recenziu sa nepodarilo odoslať. Skúste to znova.",
+    "ownerReply": "Odpoveď obchodu",
+    "previousPage": "Späť",
+    "nextPage": "Ďalej",
+    "pageOf": "Strana {page} z {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Jednoduché vrátenie",
@@ -809,7 +911,8 @@
       "account": "Účet",
       "cart": "Košík",
       "home": "Domov",
-      "store": "Obchod"
+      "store": "Obchod",
+      "journal": "Magazín"
     },
     "menuButton": "Menu"
   },

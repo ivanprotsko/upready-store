@@ -15,7 +15,13 @@ import { parseMarkdown } from "@lib/util/markdown"
  * `rel="noreferrer"`, the same pair the footer already uses.
  */
 
-const Inline = ({ nodes }: { nodes: MarkdownInline[] }) => (
+/**
+ * Exported so a page title can render the same code-span styling a `{{ТОКЕН}}`
+ * left unfilled gets in the body (b09-storefront-render): the resolver wraps
+ * it in backticks either way, and a bare `<h1>{title}</h1>` showed those
+ * backticks as literal characters instead of a styled span.
+ */
+export const Inline = ({ nodes }: { nodes: MarkdownInline[] }) => (
   <>
     {nodes.map((node, index) => {
       switch (node.type) {
@@ -31,6 +37,22 @@ const Inline = ({ nodes }: { nodes: MarkdownInline[] }) => (
             >
               {node.value}
             </code>
+          )
+        case "image":
+          // b18-blog-full: a picture the owner uploaded into the text. Plain
+          // `<img>` rather than `next/image` on purpose — the source is a
+          // tenant upload whose host is not in `next.config.js`'s allowlist,
+          // and the optimiser answers 400 for a host it does not know.
+          // `loading="lazy"` because these sit far below the fold.
+          return (
+            <img
+              key={index}
+              src={node.src}
+              alt={node.value}
+              loading="lazy"
+              className="rounded-rounded my-4 h-auto w-full"
+              data-testid="markdown-image"
+            />
           )
         case "link":
           return node.href.startsWith("/") ? (
@@ -101,6 +123,72 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
           </li>
         ))}
       </Tag>
+    )
+  }
+
+  // t10-blog: the two block types the journal's articles need. A quote is the
+  // summary box every article of this shop opens with, so it is a real card
+  // (border + subtle ground) rather than an italic indent; a rule separates
+  // the sections of a long read.
+  if (block.type === "quote") {
+    return (
+      <blockquote className="border-s-2 border-ui-border-interactive bg-ui-bg-subtle rounded-e-rounded ps-4 pe-4 py-3 flex flex-col gap-y-2">
+        {block.content.map((line, index) => (
+          <p key={index} className="text-base-regular text-ui-fg-subtle">
+            <Inline nodes={line} />
+          </p>
+        ))}
+      </blockquote>
+    )
+  }
+
+  if (block.type === "rule") {
+    return <hr className="border-t border-ui-border-base my-2" />
+  }
+
+  // f07-page-markdown-tables: the legal pages of a tenant (contacts, offer,
+  // privacy) hold their seller details as GFM tables. A real `<table>` here,
+  // not a styled `<div>` grid, so a screen reader still announces row/column
+  // structure the way it does for the rest of the markdown block types.
+  if (block.type === "table") {
+    // `contact.ru.md`'s first table opens with a blank header row (`| | |`),
+    // written that way because the two real columns are a label and a value
+    // with no heading either needs. Every cell empty means there is nothing
+    // for a `<thead>` to announce, so it is dropped rather than rendered as a
+    // bare grey bar (b09-storefront-render, accept-f07-page-markdown-tables-1
+    // nit 2).
+    const hasHeader = block.header.some((cell) => cell.length > 0)
+
+    return (
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-base-regular text-ui-fg-base">
+          {hasHeader ? (
+            <thead>
+              <tr>
+                {block.header.map((cell, index) => (
+                  <th
+                    key={index}
+                    className="border border-ui-border-base bg-ui-bg-subtle px-3 py-2 text-start font-semibold"
+                  >
+                    <Inline nodes={cell} />
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          ) : null}
+          <tbody>
+            {block.rows.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex} className="border border-ui-border-base px-3 py-2 align-top">
+                    <Inline nodes={cell} />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     )
   }
 

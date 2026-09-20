@@ -1,0 +1,36 @@
+{
+  "id": "order_01M2JV58J43HR0FX89X4T2HHGT",
+  "display_id": 21,
+  "status": "pending",
+  "fulfillment_status": "shipped",
+  "payment_status": "captured",
+  "currency_code": "rub",
+  "total": 1365,
+  "shipping_methods": [
+    {
+      "name": "Оксана Черкашина courier",
+      "amount": 10
+    }
+  ],
+  "fulfillments": [
+    {
+      "id": "ful_01M2JV778403M9BQJX7C8SE5GD",
+      "provider_id": "manual_manual",
+      "location_id": "sloc_01M29Q4KK69EGJ3R9EQFEF399J",
+      "packed_at": "2026-09-15T15:33:26.910Z",
+      "shipped_at": "2026-09-15T15:33:41.300Z",
+      "delivered_at": null,
+      "canceled_at": null,
+      "metadata": {
+        "carrier": "СДЭК"
+      },
+      "labels": [
+        {
+          "tracking_number": "1005248796431",
+          "tracking_url": "https://www.cdek.ru/ru/tracking?order_id=1005248796431",
+          "label_url": "#"
+        }
+      ]
+    }
+  ]
+}

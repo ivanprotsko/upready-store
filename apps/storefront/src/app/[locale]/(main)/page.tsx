@@ -19,6 +19,7 @@ import { localizedHero } from "@lib/util/localized-hero"
 import { getTranslations, getLocale } from "next-intl/server"
 import { getSiteName } from "@lib/data/cookies"
 import { listCategories } from "@lib/data/categories"
+import { categoriesWithImages, categoryImage } from "@lib/util/category-image"
 import { categoryTiles as profileCategoryTiles } from "@lib/profile"
 import type { ProfileCategoryTile } from "@lib/profile/types"
 
@@ -47,25 +48,22 @@ async function tilesForThisShop(): Promise<readonly ProfileCategoryTile[]> {
     })
 
     // A shop's OWN pictures first (t-2026-09-12-catalog-taxonomy): a tenant seeded with the
-    // starter catalog, or one whose owner gave a category an image in the panel, has leaf
+    // starter catalog, or one whose owner gave a category an image in the panel, has
     // categories carrying `metadata.image_url` — those are its tiles, in the category order,
     // at most six (the tile grid's own limit). The build profile's list cannot know them.
-    const own = categories
-      .filter(
-        (category) =>
-          !(category.category_children ?? []).length &&
-          typeof category.metadata?.image_url === "string" &&
-          category.metadata.image_url
-      )
-      .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))
-      .slice(0, 6)
-      .map((category) => ({
-        categoryHandle: category.handle as string,
-        label: category.name,
-        image: category.metadata!.image_url as string,
-      }))
+    //
+    // ONE picture is enough. This block used to hold out for three and fall back to the
+    // build profile's foreign list below that, so an owner who uploaded a single photograph
+    // saw her home page unchanged and was told nothing anywhere — the defect
+    // f16-category-image-not-shown was opened on. The leaf rule and the order live in
+    // `@lib/util/category-image` now, shared with the catalog strip.
+    const own = categoriesWithImages(categories, 6).map((category) => ({
+      categoryHandle: category.handle as string,
+      label: category.name,
+      image: categoryImage(category).url as string,
+    }))
 
-    if (own.length >= 3) {
+    if (own.length) {
       return own
     }
 

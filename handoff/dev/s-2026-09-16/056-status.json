@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 56,
+  "action": "status-set",
+  "ts": "2026-09-16T20:38:31+08:00",
+  "status": "2026-09-16 20:38 WITA: штаб дня Оксаны — входящая очередь Ивана готова (handoff/day-2026-09-16-oksana-store/intake: intake.mjs 6/6 тестов, SPEC.md, PROMPT.md для sonnet), сторож пачек вооружён; p01 running, d09 queued"
+}

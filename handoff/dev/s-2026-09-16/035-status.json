@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 35,
+  "action": "status-set",
+  "ts": "2026-09-16T08:19:23+08:00",
+  "status": "2026-09-16 08:19 WITA: b17-pdp-gallery-info-layout раунд 1 — REJECTED по одной находке: package.json витрины расширил исключение vitest до tests/** и выключил набор build-profile (напечатано 26/239 против 27/262 с узким исключением). Существо принято: e2e 11 passed прогнал сам на поднятом стенде :9417/:8417, tsc и lint витрины rc=0, структура страницы и поведение галереи сверены глазами с референсом, стенды за собой погасил. Находки: handoff/day-2026-09-16-oksana-store/logs/accept-b17-pdp-gallery-info-layout-1.findings.md"
+}

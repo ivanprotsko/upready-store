@@ -2,6 +2,9 @@ import { Link } from "@i18n/navigation"
 import { Button } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
 
+import { getLegalLinkContext } from "@lib/data/legal-links"
+import { legalHref } from "@lib/util/legal-links"
+
 /**
  * Both redirect targets `app/api/payment-return/route.ts` already writes
  * (`payment_failed`: rejected before an order was attempted; `order_failed`:
@@ -11,7 +14,9 @@ import { getTranslations } from "next-intl/server"
  * banner never repeats a raw query-string value on the screen (rule 27d
  * acceptance 1).
  */
-const FAILURE_REASONS = ["payment_failed", "order_failed"] as const
+// `payment_pending`: a redirect provider (Robokassa) sent the customer back
+// before its webhook confirmed the payment (t03-tenant-secrets-robokassa).
+const FAILURE_REASONS = ["payment_failed", "order_failed", "payment_pending"] as const
 type FailureReason = (typeof FAILURE_REASONS)[number]
 
 const isFailureReason = (value: string | null | undefined): value is FailureReason =>
@@ -26,8 +31,20 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
     return null
   }
 
-  const t = await getTranslations("OrderFailed")
-  const reasonKey = error === "payment_failed" ? "paymentFailedReason" : "orderFailedReason"
+  const [t, legal] = await Promise.all([
+    getTranslations("OrderFailed"),
+    getLegalLinkContext(),
+  ])
+  // The buyer is here because their payment failed; "get in touch" has to reach
+  // the shop's own contacts page and is left out when the shop has none, rather
+  // than opening the starter's placeholder (f05-checkout-legal-stubs).
+  const contactLink = legalHref("contact", legal)
+  const reasonKey =
+    error === "payment_failed"
+      ? "paymentFailedReason"
+      : error === "payment_pending"
+        ? "paymentPendingReason"
+        : "orderFailedReason"
 
   return (
     <div
@@ -57,13 +74,15 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
               {t("retryCheckout")}
             </Button>
           </Link>
-          <Link
-            href="/contact"
-            className="flex items-center justify-center txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover px-4 py-2"
-            data-testid="order-error-contact-link"
-          >
-            {t("contact")}
-          </Link>
+          {contactLink && (
+            <Link
+              href={contactLink}
+              className="flex items-center justify-center txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover px-4 py-2"
+              data-testid="order-error-contact-link"
+            >
+              {t("contact")}
+            </Link>
+          )}
         </div>
       </div>
     </div>

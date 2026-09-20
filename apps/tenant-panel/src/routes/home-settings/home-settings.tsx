@@ -27,6 +27,7 @@ import {
   FOOTER_OPTIONS,
   HEADER_OPTIONS,
   HERO_OPTIONS,
+  HERO_SUPPORTS_IMAGE,
   HOME_BLOCKS,
   LISTING_OPTIONS,
   MODE_OPTIONS,
@@ -422,39 +423,42 @@ export const HomeSettings = () => {
                 onChange={(e) => setHero({ cta_href: e.target.value })}
               />
             </div>
-            <div className="flex flex-col gap-y-2 md:col-span-2">
-              <Label size="small" weight="plus" htmlFor="hero-image">
-                {t("homeSettings.heroImage", { defaultValue: "Image address" })}
-              </Label>
-              <div className="flex items-center gap-x-2">
-                <Input
-                  id="hero-image"
-                  data-testid="hero-image"
-                  value={doc.content.hero.image_url ?? ""}
-                  onChange={(e) => setHero({ image_url: e.target.value || null })}
-                />
-                <label className="shrink-0">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    data-testid="hero-image-upload"
-                    onChange={(e) => onUpload(e.target.files?.[0])}
-                  />
-                  <span className="txt-compact-small-plus inline-flex h-8 cursor-pointer items-center rounded-md border border-ui-border-base px-3 text-ui-fg-subtle hover:bg-ui-bg-base-hover">
-                    {uploading
-                      ? t("homeSettings.uploading", { defaultValue: "Uploading…" })
-                      : t("homeSettings.upload", { defaultValue: "Upload" })}
-                  </span>
-                </label>
-              </div>
-              <Text size="small" className="text-ui-fg-subtle">
-                {t("homeSettings.heroImageHint", {
-                  defaultValue:
-                    "Only the hero versions that show a photograph use it; Announcement ignores it.",
-                })}
-              </Text>
-            </div>
+            {doc.settings.hero !== "none" &&
+              HERO_SUPPORTS_IMAGE[doc.settings.hero] && (
+                <div className="flex flex-col gap-y-2 md:col-span-2">
+                  <Label size="small" weight="plus" htmlFor="hero-image">
+                    {t("homeSettings.heroImage", { defaultValue: "Image address" })}
+                  </Label>
+                  <div className="flex items-center gap-x-2">
+                    <Input
+                      id="hero-image"
+                      data-testid="hero-image"
+                      value={doc.content.hero.image_url ?? ""}
+                      onChange={(e) => setHero({ image_url: e.target.value || null })}
+                    />
+                    <label className="shrink-0">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        data-testid="hero-image-upload"
+                        onChange={(e) => onUpload(e.target.files?.[0])}
+                      />
+                      <span className="txt-compact-small-plus inline-flex h-8 cursor-pointer items-center rounded-md border border-ui-border-base px-3 text-ui-fg-subtle hover:bg-ui-bg-base-hover">
+                        {uploading
+                          ? t("homeSettings.uploading", { defaultValue: "Uploading…" })
+                          : t("homeSettings.upload", { defaultValue: "Upload" })}
+                      </span>
+                    </label>
+                  </div>
+                  <Text size="small" className="text-ui-fg-subtle">
+                    {t("homeSettings.heroImageHint", {
+                      defaultValue:
+                        "Only hero versions that show a photograph use it. Shelf, Three doors, Text only and both carousels compose their own photographs instead.",
+                    })}
+                  </Text>
+                </div>
+              )}
           </div>
         </div>
 

@@ -49,6 +49,23 @@ const routes: RouteObject[] = [
                     path: "create",
                     lazy: () => import("./routes/products/product-create"),
                   },
+                  // t14-product-import: the two buttons the product list has
+                  // always rendered (`product-list-table.tsx`) had no routes
+                  // behind them until now. `import/:import_id` is a separate
+                  // URL on purpose — the dry-run report is read from the server
+                  // by id, so a page reload does not lose it.
+                  {
+                    path: "export",
+                    lazy: () => import("./routes/products/product-export"),
+                  },
+                  {
+                    path: "import",
+                    lazy: () => import("./routes/products/product-import"),
+                  },
+                  {
+                    path: "import/:import_id",
+                    lazy: () => import("./routes/products/product-import"),
+                  },
                 ],
               },
               {
@@ -101,6 +118,14 @@ const routes: RouteObject[] = [
                         path: "attributes",
                         lazy: () =>
                           import("./routes/products/product-attributes"),
+                      },
+                      {
+                        // t15-product-attributes: the shop's own
+                        // characteristics of this product, as opposed to
+                        // Medusa's fixed `attributes` above.
+                        path: "custom-attributes",
+                        lazy: () =>
+                          import("./routes/products/product-custom-attributes"),
                       },
                       {
                         path: "organization",
@@ -205,6 +230,24 @@ const routes: RouteObject[] = [
                 ],
               },
             ],
+          },
+          {
+            // w15-mp-orders-desk: «Заказы маркетплейсов» — одна лента заказов
+            // магазина, Wildberries и Ozon с фильтрами по площадке, схеме,
+            // статусу и периоду. Только чтение: экран показывает то, что импорт
+            // положил в `mp_order`, и ничего не меняет на площадке (приказ
+            // Ивана 2026-09-16 02:46 WITA). Строка магазина ведёт на обычный
+            // экран заказа `/orders/:id`, строка площадки — на карточку ниже.
+            path: "/marketplace-orders",
+            handle: { breadcrumb: () => t("marketplaceOrders.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplace-orders"),
+          },
+          {
+            path: "/marketplace-orders/:id",
+            handle: { breadcrumb: () => t("marketplaceOrders.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplace-order-detail"),
           },
           {
             path: "/orders",
@@ -325,6 +368,26 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // t13-customers-screen: the panel's own customers tree, no Admin
+            // counterpart at this path (the Admin's `/customers` is
+            // store-wide; this is `/tenants/customers`, scoped to the
+            // tenant). List and detail only — no create/edit, since a
+            // customer is created by checking out, not by the owner.
+            path: "/customers",
+            handle: { breadcrumb: () => t("customers.domain") },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/customers/customer-list"),
+              },
+              {
+                path: ":id",
+                lazy: () => import("./routes/customers/customer-detail"),
+              },
+            ],
+          },
+          {
             // tenant-panel wave 2, piece 4 (profile): the copied
             // routes/profile/profile-detail tree, with profile-edit as its
             // "edit" child (RouteDrawer), same nesting the Admin uses.
@@ -335,6 +398,25 @@ const routes: RouteObject[] = [
               {
                 path: "edit",
                 lazy: () => import("./routes/profile/profile-edit"),
+              },
+            ],
+          },
+          {
+            // t15-product-attributes: the shop's own product characteristics,
+            // declared once and filled in on each product. Hangs under Products
+            // in the nav, the way Campaigns hangs under Promotions.
+            path: "/product-attributes",
+            handle: { breadcrumb: () => "Характеристики товаров" },
+            children: [
+              {
+                path: "",
+                lazy: () =>
+                  import("./routes/product-attributes/attribute-list"),
+              },
+              {
+                path: ":id",
+                lazy: () =>
+                  import("./routes/product-attributes/attribute-edit"),
               },
             ],
           },
@@ -537,6 +619,75 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // t10-blog: the shop's journal. Same nesting as /pages — the list
+            // renders the Outlet and `:slug` mounts the focus modal over it, so
+            // Save returns to the list with the row already refreshed by the
+            // mutation's own invalidation.
+            path: "/journal",
+            handle: { breadcrumb: () => t("app.nav.main.journal", { defaultValue: "Журнал" }) },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/journal/article-list"),
+                children: [
+                  {
+                    // b18-blog-full: «Новая статья» is a SCREEN, not a strip of
+                    // inputs at the bottom of the list. Static before dynamic,
+                    // and the word `new` is refused as an article address in
+                    // the form itself, so the two can never collide.
+                    path: "new",
+                    lazy: () => import("./routes/journal/article-new"),
+                  },
+                  {
+                    path: ":slug",
+                    lazy: () => import("./routes/journal/article-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            // t04-shipping-tariffs: the shop's delivery methods. Same nesting as
+            // /pages: the list renders the Outlet, create/edit open as focus
+            // modals over it and return to the refreshed list on save.
+            path: "/shipping",
+            handle: { breadcrumb: () => t("app.nav.main.shipping", { defaultValue: "Доставка" }) },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/shipping/shipping-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("./routes/shipping/shipping-create"),
+                  },
+                  {
+                    // b03-shipping-zones-weight: nine ready-made Russian zones,
+                    // one price per kilogram each, created in a single save.
+                    path: "zones",
+                    lazy: () => import("./routes/shipping/shipping-zones"),
+                  },
+                  {
+                    path: ":id/edit",
+                    lazy: () => import("./routes/shipping/shipping-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            // t09-reviews: the panel's own /reviews screen (no Admin
+            // counterpart — a native Medusa install has no reviews). One
+            // screen: publishing, hiding, answering and deleting all happen in
+            // the row, so there is no drawer or modal to nest under it.
+            path: "/reviews",
+            handle: { breadcrumb: () => t("app.nav.main.reviews", { defaultValue: "Отзывы" }) },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/reviews/review-list"),
+          },
+          {
             // tenant-panel wave 2, piece 8 (home page settings): the panel's own
             // routes/home-settings screen (no Admin counterpart). One screen, no
             // children: the document is edited in place and saved with one
@@ -559,6 +710,251 @@ const routes: RouteObject[] = [
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/domains"),
           },
+          {
+            // «Уведомления» (t08-order-notifications): who hears about a new
+            // order — the customer by e-mail, the owner in Telegram. No Admin
+            // counterpart: a native install notifies from medusa-config alone.
+            path: "/settings/notifications",
+            handle: { breadcrumb: () => t("notificationSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/notifications"),
+          },
+          {
+            // t06-locale-currency: which of the storefront's 36 locales this
+            // shop offers, its default, and the currency its default prices
+            // in. Same shape as /settings/domains next to it — one screen,
+            // no children, the document is edited in place.
+            path: "/settings/locale",
+            handle: {
+              breadcrumb: () =>
+                t("localeSettings.title", { defaultValue: "Язык и валюта" }),
+            },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/locale"),
+          },
+          {
+            // «Приём оплат» (t03-tenant-secrets-robokassa): the shop's own
+            // payment account, stored encrypted per tenant. No Admin
+            // counterpart — the Admin configures providers in medusa-config
+            // for the one store it serves.
+            path: "/settings/payments",
+            handle: { breadcrumb: () => t("paymentSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/payments"),
+          },
+          {
+            // «Доставка СДЭК» (i02-apiship-cdek-shipping): the shop's own CDEK
+            // account plus the delivery kinds it offers, stored encrypted per
+            // tenant. No Admin counterpart — the Admin configures fulfillment
+            // providers in medusa-config for the one store it serves.
+            path: "/settings/delivery",
+            handle: { breadcrumb: () => t("deliverySettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/delivery"),
+          },
+          {
+            // Реквизиты продавца (t12-legal-requisites): значения, которыми на
+            // витрине заполняются {{ТОКЕНЫ}} в оферте, политике
+            // конфиденциальности и контактах. No Admin counterpart — a native
+            // install has one store and никуда не подставляет свои реквизиты
+            // автоматически.
+            path: "/settings/requisites",
+            handle: { breadcrumb: () => "Реквизиты продавца" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/requisites"),
+          },
+          {
+            // b10-panel-gaps: «Старые адреса» — the shop's own redirect table.
+            // The routes shipped with t11-seo-redirects and stayed API-only, so
+            // the 47 rules imported with the shop were invisible to its owner.
+            // Same shape as /settings/domains above: one screen, no children.
+            path: "/settings/redirects",
+            handle: { breadcrumb: () => t("redirects.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/redirects"),
+          },
+          {
+            // b10-panel-gaps: the Yandex/Google ownership codes. `PUT
+            // /tenants/seo-verification` shipped with t11-seo-redirects with no
+            // field anywhere, so the storefront head never carried a code.
+            path: "/settings/seo",
+            handle: { breadcrumb: () => t("seoVerification.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/seo"),
+          },
+          {
+            // t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids.
+            // No Admin counterpart — a native install has one build-time GA
+            // id, set in the environment.
+            path: "/settings/analytics",
+            handle: { breadcrumb: () => t("analyticsSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/analytics"),
+          },
+          {
+            // w14-mp-catalog-link: «Маркетплейсы → Каталог» — товары магазина и
+            // карточки площадок одним списком, сведённые по артикулу. Не под
+            // /settings: это ежедневный рабочий экран, а не настройка, и он же
+            // посадочная страница раздела в боковой навигации.
+            path: "/marketplaces/catalog",
+            handle: { breadcrumb: () => "Каталог маркетплейсов" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/catalog"),
+          },
+          {
+            // w17-mp-price-stock-table: «Маркетплейсы → Цены и остатки» — цена
+            // и остаток магазина рядом с ценой и остатком каждой площадки,
+            // одной строкой на артикул. Соседний ежедневный экран каталога, не
+            // настройка, поэтому рядом с ним, а не под /settings.
+            path: "/marketplaces/price-stock",
+            handle: { breadcrumb: () => "Цены и остатки" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/price-stock"),
+          },
+          {
+            // p01-settings-integrations-restructure: старый хаб «Подключение
+            // площадок» (w12) больше не экран. Реквизиты всех сервисов живут в
+            // разделе «Подключение» (/settings/integrations), а у каждой
+            // площадки своя страница (/settings/marketplaces/<слаг>). Адрес
+            // остаётся и редиректит: он в закладках владелицы, а якоря `#wb` и
+            // `#ozon` из прежнего сайдбара ведут прямо на нужную площадку.
+            path: "/settings/marketplaces",
+            handle: { breadcrumb: () => t("integrations.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces"),
+          },
+          {
+            // w16-mp-scheduler-ops: «Маркетплейсы → Синхронизация» — строка на
+            // (площадка, вид): когда последний раз пришло, сколько строк и
+            // запросов, когда следующий запуск, текст последней ошибки целиком
+            // и предупреждение о ключе, которому осталось меньше 14 дней.
+            // Вид, который НИ РАЗУ не запускался, говорит это словами, а не
+            // нулём (правило 20a).
+            path: "/settings/marketplaces/sync",
+            handle: { breadcrumb: () => t("marketplaceSync.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplace-sync"),
+          },
+          {
+            // w18-mp-reviews-desk: «Маркетплейсы → Отзывы» — отзывы и вопросы
+            // покупателей с обеих площадок, фильтр «без ответа», черновик
+            // ответа в нашей базе. Кнопки отправки на площадку нет: ответ это
+            // запись, а площадки у нас только на чтение.
+            path: "/settings/marketplaces/reviews",
+            handle: { breadcrumb: () => t("marketplaces.desk.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/reviews"),
+          },
+          {
+            // w19-mp-analytics: «Маркетплейсы → Аналитика» — дашборд селлера:
+            // продажи по дням и карточкам, ABC/XYZ, оборачиваемость и «дней до
+            // нуля», рейтинг продавца и честно неполный P&L. Только чтение:
+            // экран складывает mp_order / mp_order_line / mp_offer и к площадке
+            // при открытии не обращается (приказ Ивана 2026-09-16 02:46 WITA).
+            path: "/settings/marketplaces/analytics",
+            handle: { breadcrumb: () => t("marketplaceAnalytics.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/analytics"),
+          },
+          {
+            // p01-settings-integrations-restructure: «Подключение» — хаб всех
+            // реквизитов магазина. Приказ Ивана 2026-09-16 20:22 WITA:
+            // «перенесем все подключения на страницу /settings/integrations/
+            // [robokassa, wildberries, ozon, apiship, cdek]». Хаб показывает
+            // только состояние и ссылку; поля живут на странице сервиса.
+            path: "/settings/integrations",
+            handle: { breadcrumb: () => t("integrations.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations"),
+          },
+          {
+            // Реквизиты Wildberries и ничего больше. Экран площадки — на
+            // /settings/marketplaces/wildberries.
+            path: "/settings/integrations/wildberries",
+            handle: { breadcrumb: () => "Wildberries" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/wildberries"),
+          },
+          {
+            path: "/settings/integrations/ozon",
+            handle: { breadcrumb: () => "Ozon" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/ozon"),
+          },
+          {
+            // Реквизиты Robokassa. Тестовый режим и алгоритм подписи остались
+            // на /settings/payments — это поведение магазина, а не его логин.
+            path: "/settings/integrations/robokassa",
+            handle: { breadcrumb: () => t("integrations.robokassa.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/robokassa"),
+          },
+          {
+            // Токен ApiShip. Единственная НОВАЯ интеграция задачи: слот
+            // `apiship` в tenant_integration_secret плюс проба токена. В
+            // чекаут не заведена — i02 замерил ноль тарифов у калькулятора
+            // ApiShip, и страница говорит это словами.
+            path: "/settings/integrations/apiship",
+            handle: { breadcrumb: () => t("integrations.apiship.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/apiship"),
+          },
+          {
+            // Аккаунт СДЭК. Отправитель, виды доставки, наценка и порог
+            // бесплатной доставки остались на /settings/delivery.
+            path: "/settings/integrations/cdek",
+            handle: { breadcrumb: () => t("integrations.cdek.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/cdek"),
+          },
+          {
+            // Экран площадки: состояние ключа, права, что связано и что
+            // загружено. Полей ключа здесь нет — они на странице подключения.
+            path: "/settings/marketplaces/wildberries",
+            handle: { breadcrumb: () => "Wildberries" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/wildberries"),
+          },
+          {
+            path: "/settings/marketplaces/ozon",
+            handle: { breadcrumb: () => "Ozon" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/ozon"),
+          },
+          {
+            // Старый путь страницы Wildberries (w01). Остаётся и редиректит:
+            // адрес у владелицы в закладках, ломать его нельзя. Цель сменилась
+            // в p01 — теперь это /settings/marketplaces/wildberries, а не якорь
+            // `#wb` внутри общего хаба (приказ Ивана 2026-09-16 20:22 WITA).
+            path: "/settings/wildberries",
+            handle: { breadcrumb: () => t("marketplaces.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/wildberries"),
+          },
+          {
+            // «Ozon» (w24-integration-keys-self-service): адрес, по которому
+            // владелица ищет, куда вписать свой Client-Id и ключ. В p01 у Ozon
+            // появился собственный экран, и этот путь редиректит на него;
+            // поля ключа — на /settings/integrations/ozon. Копии кода это не
+            // создаёт: и экран, и форма построены из реестра адаптеров, один
+            // компонент на все площадки (правило 20).
+            path: "/settings/ozon",
+            handle: { breadcrumb: () => t("marketplaces.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/ozon"),
+          },
+          {
+            // «Бренд владельца» (t16-owner-branding): логотип, фавикон,
+            // картинка для соцсетей, основной цвет, подпись в подвале. No
+            // Admin counterpart — a native install has one build-time theme
+            // profile for the whole platform.
+            path: "/settings/branding",
+            handle: {
+              breadcrumb: () => t("brandingSettings.title", { defaultValue: "Бренд" }),
+            },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/branding"),
+          },
         ],
       },
     ],
@@ -572,6 +968,18 @@ const routes: RouteObject[] = [
           {
             path: "/login",
             lazy: () => import("./routes/login"),
+          },
+          {
+            // f14-no-password-reset: request half of the flow, linked from
+            // the login screen.
+            path: "/forgot-password",
+            lazy: () => import("./routes/forgot-password"),
+          },
+          {
+            // f14-no-password-reset: the screen the reset email's link
+            // points at (`?token=…&email=…`).
+            path: "/reset-password",
+            lazy: () => import("./routes/reset-password"),
           },
           {
             path: "*",

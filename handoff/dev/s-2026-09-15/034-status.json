@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 34,
+  "action": "status-set",
+  "ts": "2026-09-15T07:59:56+08:00",
+  "status": "2026-09-15 07:59 WITA: t09-reviews — приёмка PR #30 раунд 4: MERGED (squash 0a03acdb, mergedAt 2026-09-14T23:57:00Z). Оба конфликта раунда 3 разрешены верно (revalidate/route.ts — оба блока tenant.reviews и tenant.articles, HANDOFF.json без потерь: 5 записей против 1 на dev). Мои замеры на смёрженном коде: живая модерация 11/11 PASS (5,0 → 4,7 · 3 отзыва), импорт идемпотентен (already 304, to write 0, rc=3 с 14 названными несопоставленными), изоляция тенантов (acme 0/None против cherkashino 47/5), aggregateRating 1 вхождение с отзывами и 0 без, аноним POST 401. storefront tsc+build rc=0, panel typecheck rc=0, backend tsc rc=0 после medusa build (красный tsc до билда — протухший .medusa/types, не код). 4 падения сюитов — известная краснота dev, ветка их файлов не трогает. Помарки комментарием в PR: нет links/tenant-product-review.ts, нет HTTP-сьюты на новые роуты, 3 отзыва с оценкой вне 1–5 не импортированы (вопрос Оксане). Отчёт: handoff/day-2026-09-16-oksana-store/logs/accept-t09-reviews-4.findings.md"
+}

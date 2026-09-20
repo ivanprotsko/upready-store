@@ -1,0 +1,142 @@
+ :: /en
+Documentation :: /en/docs/openapi/api-information
+Release Notes :: /en/release-notes
+Sandbox :: /en/sandbox
+API Status :: /en/wb-status
+Community :: /en/forum
+Knowledge Base :: /en/knowledge-base
+dev-info@rwb.ru :: mailto:dev-info@rwb.ru
+ :: https://max.ru/wbapi
+ :: https://t.me/wb_api_notifications
+assembly orders :: orders-fbs#tag/FBS-Assembly-Orders
+label identifiers :: orders-fbs#tag/fbsLabelIdentifiers
+supplies :: orders-fbs#tag/FBS-Supplies
+passes :: orders-fbs#tag/FBS-Passes
+sandbox :: /en/sandbox
+special methods :: /en/docs/openapi-other/sandbox-environment#tag/Marketplace-FBS
+instructions :: /en/knowledge-base/articles/019d49a4-0771-7571-aea9-11d5b597f34c/fbs-orders
+ :: #tag/FBS-Orders
+ :: #tag/FBS-Assembly-Orders
+token :: api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1new/get
+assembly orders :: orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders/get
+Offer :: https://seller.wildberries.ru/confirm-offer-condition/product/view
+Request limit :: api-information#tag/introduction/Rate-Limits
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders/get
+list of archived assembly orders :: orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1marketplace~1v3~1fbs~1orders~1archive/get
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1status/post
+Add assembly orders to the supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1marketplace~1v3~1supplies~1%7BsupplyId%7D~1orders/patch
+Transfer the supply to delivery :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D~1deliver/patch
+Cancel the order :: orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1%7BorderId%7D~1cancel/patch
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1supplies~1orders~1reshipment/get
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1{orderId}~1cancel/patch
+POST /api/v3/orders/status :: /en/docs/openapi/orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1status/post
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1stickers/post
+statuses :: orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1status/post
+customs declaration number :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1marketplace~1v3~1orders~1%7BorderId%7D~1meta~1customs-declaration/put
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1stickers~1cross-border/post
+status :: orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1status/post
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1status~1history/post
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1client/post
+ :: #tag/FBS-Assembly-Orders/paths/~1api~1marketplace~1v3~1fbs~1orders~1archive/get
+ :: #tag/fbsLabelIdentifiers
+get :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1marketplace~1v3~1orders~1meta/post
+delete :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1%7BorderId%7D~1meta/delete
+Labeling code Chestny ZNAK :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1%7BorderId%7D~1meta~1sgtin/put
+UIN :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1%7BorderId%7D~1meta~1uin/put
+IMEI :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1%7BorderId%7D~1meta~1imei/put
+GTIN :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1%7BorderId%7D~1meta~1gtin/put
+Expiration date :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1%7BorderId%7D~1meta~1expiration/put
+Customs declaration number :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1marketplace~1v3~1orders~1%7BorderId%7D~1meta~1customs-declaration/put
+ :: #tag/fbsLabelIdentifiers/paths/~1api~1marketplace~1v3~1orders~1meta/post
+Get New Assembly Orders :: orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1new/get
+labeling code Chestny ZNAK :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1%7BorderId%7D~1meta~1sgtin/put
+ :: #tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1{orderId}~1meta/delete
+ :: #tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1{orderId}~1meta~1sgtin/put
+Chestny ZNAK :: https://chestnyznak.ru/en
+Assembly Order Label Identifiers :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1marketplace~1v3~1orders~1meta/post
+ :: #tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1{orderId}~1meta~1uin/put
+ :: #tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1{orderId}~1meta~1imei/put
+assembly orders label identifiers :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1marketplace~1v3~1orders~1meta/post
+ :: #tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1{orderId}~1meta~1gtin/put
+ :: #tag/fbsLabelIdentifiers/paths/~1api~1v3~1orders~1{orderId}~1meta~1expiration/put
+label identifiers of the assembly order :: orders-fbs#tag/fbsLabelIdentifiers/paths/~1api~1marketplace~1v3~1orders~1meta/post
+ :: #tag/fbsLabelIdentifiers/paths/~1api~1marketplace~1v3~1orders~1{orderId}~1meta~1customs-declaration/put
+ :: #tag/FBS-Supplies
+Create a new supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies/post
+Set up the supply shipping method :: orders-fbs#tag/FBS-Supplies/operation/patchV3FbsSuppliesShippingMethod
+add assembly orders :: orders-fbs#tag/FBS-Supplies/paths/~1api~1marketplace~1v3~1supplies~1%7BsupplyId%7D~1orders/patch
+Create a shipping unit in the supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D~1trbx/post
+Check the list of shipping units :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D~1trbx/get
+Get the shipping unit stickers :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D~1trbx~1stickers/post
+be handed over for delivery :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D~1deliver/patch
+SPOT :: https://www.nalog.gov.ru/rn77/related_activities/spot
+list of OKSM countries :: orders-fbs#tag/FBS-Supplies/operation/getV3FbsDictionariesCountriesOksm
+add SPOT data to a supply :: orders-fbs#tag/FBS-Supplies/operation/putV3FbsSuppliesSupplyIdSpot
+get SPOT data for a list of supplies :: orders-fbs#tag/FBS-Supplies/operation/postV3FbsSuppliesSpotList
+SPOT QR codes :: orders-fbs#tag/FBS-Supplies/operation/getV3FbsSuppliesSupplyIdStickersSpot
+all assembly order requiring reshipment at this time :: orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1supplies~1orders~1reshipment/get
+These assembly order can be transferred to another active supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1marketplace~1v3~1supplies~1%7BsupplyId%7D~1orders/patch
+remove a shipping unit from the supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D~1trbx/delete
+get all assembly order IDs added to the supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1marketplace~1v3~1supplies~1%7BsupplyId%7D~1order-ids/get
+about all the seller supplies :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies/get
+about a specific supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D/get
+delete a supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D/delete
+move assembly orders between active supplies :: orders-fbs#tag/FBS-Supplies/paths/~1api~1marketplace~1v3~1supplies~1%7BsupplyId%7D~1orders/patch
+get the supply's QR code :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D~1barcode/get
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies/post
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies/get
+ :: #tag/FBS-Supplies/operation/getV3FbsShippingPoints
+supply shipping methods :: orders-fbs#tag/FBS-Supplies/operation/patchV3FbsSuppliesShippingMethod
+ :: #tag/FBS-Supplies/operation/patchV3FbsSuppliesShippingMethod
+supply waybill ID :: orders-fbs#tag/FBS-Supplies/operation/patchV3FbsSuppliesWaybill
+re-add the waybill ID :: orders-fbs#tag/FBS-Supplies/operation/patchV3FbsSuppliesWaybill
+ :: #tag/FBS-Supplies/operation/patchV3FbsSuppliesWaybill
+supply shipping method :: orders-fbs#tag/FBS-Supplies/operation/patchV3FbsSuppliesShippingMethod
+ :: #tag/FBS-Supplies/paths/~1api~1marketplace~1v3~1supplies~1{supplyId}~1orders/patch
+reshipment :: orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1supplies~1orders~1reshipment/get
+field :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D/get
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies~1{supplyId}/get
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies~1{supplyId}/delete
+ :: #tag/FBS-Supplies/paths/~1api~1marketplace~1v3~1supplies~1{supplyId}~1order-ids/get
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies~1{supplyId}~1deliver/patch
+GIIS DMDK :: https://minfin.gov.ru/ru/perfomance/jewels/dmdk
+specify the shipping parameters :: orders-fbs#tag/FBS-Supplies/operation/patchV3FbsSuppliesShippingMethod
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies~1{supplyId}~1barcode/get
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies~1{supplyId}~1trbx/get
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies~1{supplyId}~1trbx/post
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies~1{supplyId}~1trbx/delete
+ :: #tag/FBS-Supplies/paths/~1api~1v3~1supplies~1{supplyId}~1trbx~1stickers/post
+ :: #tag/FBS-Supplies/operation/getV3FbsDictionariesCountriesOksm
+ :: #tag/FBS-Supplies/operation/putV3FbsSuppliesSupplyIdSpot
+supply :: orders-fbs#tag/FBS-Supplies/paths/~1api~1v3~1supplies~1%7BsupplyId%7D/get
+OKSM :: orders-fbs#tag/FBS-Supplies/operation/getV3FbsDictionariesCountriesOksm
+ :: #tag/FBS-Supplies/operation/postV3FbsSuppliesSpotList
+ :: #tag/FBS-Supplies/operation/getV3FbsSuppliesSupplyIdStickersSpot
+SPOT data :: orders-fbs#tag/FBS-Supplies/operation/postV3FbsSuppliesSpotList
+ :: #tag/FBS-Passes
+ :: #tag/FBS-Passes/paths/~1api~1v3~1passes~1offices/get
+ :: #tag/FBS-Passes/paths/~1api~1v3~1passes/get
+ :: #tag/FBS-Passes/paths/~1api~1v3~1passes/post
+minutes :: api-information#tag/introduction/Rate-Limits
+ :: #tag/FBS-Passes/paths/~1api~1v3~1passes~1{passId}/put
+ :: #tag/FBS-Passes/paths/~1api~1v3~1passes~1{passId}/delete
+ :: #tag/autoreturnSettings
+auto-return settings :: https://seller.wildberries.ru/marketplace-settings
+get :: orders-fbs#tag/autoreturnSettings/operation/getMarketplaceV3FbsSettingsAutoreturns
+update :: /openapi/orders-fbs#tag/autoreturnSettings/operation/getMarketplaceV3FbsSettingsAutoreturns
+get :: orders-fbs#tag/autoreturnSettings/operation/postMarketplaceV3FbsSettingsAutoreturnsItems
+update :: /openapi/orders-fbs#tag/autoreturnSettings/operation/patchMarketplaceV3FbsSettingsAutoreturnsItems
+list of subcategories that can not be returned to WB warehouses :: /openapi/orders-fbs#tag/autoreturnSettings/operation/getMarketplaceV3FbsSettingsAutoreturnsSubcategoriesRestricted
+ :: #tag/autoreturnSettings/operation/getMarketplaceV3FbsSettingsAutoreturns
+ :: #tag/autoreturnSettings/operation/patchMarketplaceV3FbsSettingsAutoreturns
+subcategories :: /openapi/orders-fbs#tag/autoreturnSettings/operation/getMarketplaceV3FbsSettingsAutoreturnsSubcategoriesRestricted
+ :: #tag/autoreturnSettings/operation/postMarketplaceV3FbsSettingsAutoreturnsItems
+ :: #tag/autoreturnSettings/operation/patchMarketplaceV3FbsSettingsAutoreturnsItems
+ :: #tag/autoreturnSettings/operation/getMarketplaceV3FbsSettingsAutoreturnsSubcategoriesRestricted
+User Agreement of the WB API Service :: /en/rules
+WB API Platform Access Agreement :: https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/
+Policy on the Processing of Personal Data of RWB :: /en/privacy
+WB API Price List for Third-Party Services :: /api/price-list
+FAQ. Frequently Asked Questions :: /en/faq
+cookies :: /privacy

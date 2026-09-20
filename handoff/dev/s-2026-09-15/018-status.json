@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 18,
+  "action": "status-set",
+  "ts": "2026-09-15T05:33:11+08:00",
+  "status": "2026-09-15 05:33 WITA: приёмка t07-catalog-filters-hero раунд 1 — PR #27 MERGED (squash 478fb5f). Свои замеры: 29 option.id → 5 названий на живом стенде :9531, tsc/eslint/next build rc=0, vitest 126/126 (красный toolchain.spec.ts этим PR не тронут). Замечание про И-семантику multi-select вынесено комментарием к PR."
+}

@@ -1,16 +1,18 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { appLocales } from "@i18n/config"
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { hasPublishedArticles } from "@lib/data/tenant-articles"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
+import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 /**
@@ -36,12 +38,16 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  */
 export default async function NavH6() {
   const t = await getTranslations()
-  const [{ categories, totalCount }, regions, countryCode, siteName] = await Promise.all([
-    listTopCategoriesWithCounts(),
-    listRegions().then((regions: StoreRegion[]) => regions),
-    getCountryCode(),
-    getSiteName(),
-  ])
+  const [{ categories, totalCount }, regions, countryCode, siteName, locales, showJournal, branding] =
+    await Promise.all([
+      listTopCategoriesWithCounts(),
+      listRegions().then((regions: StoreRegion[]) => regions),
+      getCountryCode(),
+      getSiteName(),
+      getSwitcherLocales(),
+      hasPublishedArticles(),
+      getSiteBranding(),
+    ])
 
   return (
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group">
@@ -53,7 +59,7 @@ export default async function NavH6() {
               <RegionSelect
                 regions={regions}
                 currentCountryCode={countryCode ?? undefined}
-                locales={appLocales}
+                locales={locales}
                 className="min-w-0"
               />
             </div>
@@ -65,7 +71,7 @@ export default async function NavH6() {
               className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
               data-testid="nav-store-link"
             >
-              {siteName}
+              <SiteLogo siteName={siteName} branding={branding} />
             </Link>
           </BrandUnlock>
 
@@ -108,6 +114,16 @@ export default async function NavH6() {
         >
           {t("Store.allProducts")} {totalCount}
         </Link>
+        {/* t10-blog: only once this shop has published an article. */}
+        {showJournal ? (
+          <Link
+            href="/journal"
+            className="shrink-0 txt-compact-small rounded-full border border-ui-border-base px-3.5 py-1.5 text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+            data-testid="nav-journal-link"
+          >
+            {t("Journal.navLabel")}
+          </Link>
+        ) : null}
         {categories.map((category) => (
           <Link
             key={category.id}

@@ -1,0 +1,117 @@
+{
+ "home-1280x900": {
+  "url": "https://cherkashino.shipshift.dev/ru",
+  "status": 200,
+  "title": "Оксана Черкашина",
+  "file": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/home-1280x900.png",
+  "images": 12,
+  "brokenImages": [],
+  "h1": "Заказ от 5 кг — скидка 10%"
+ },
+ "catalog-1280x900": {
+  "url": "https://cherkashino.shipshift.dev/ru/store",
+  "status": 200,
+  "title": "Магазин | Оксана Черкашина",
+  "file": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/catalog-1280x900.png",
+  "images": 14,
+  "brokenImages": [],
+  "h1": "Все товары",
+  "productCards": 12
+ },
+ "category-dobavki-1280x900": {
+  "url": "https://cherkashino.shipshift.dev/ru/categories/dobavki-cherkashino",
+  "status": 200,
+  "title": "Добавки | Оксана Черкашина",
+  "file": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/category-dobavki-1280x900.png",
+  "images": 14,
+  "brokenImages": [],
+  "h1": "Добавки"
+ },
+ "home-390x844": {
+  "url": "https://cherkashino.shipshift.dev/ru",
+  "status": 200,
+  "title": "Оксана Черкашина",
+  "file": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/home-390x844.png",
+  "images": 12,
+  "brokenImages": [
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416290161-hero-botanical.webp&w=640&q=70",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416266499-08-1.png&w=256&q=65",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416269087-17-1.png&w=256&q=65",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416023610-thailand-04.png&w=256&q=65",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416271639-19-1.png&w=256&q=65"
+  ],
+  "h1": "Заказ от 5 кг — скидка 10%"
+ },
+ "catalog-390x844": {
+  "url": "https://cherkashino.shipshift.dev/ru/store",
+  "status": 200,
+  "title": "Магазин | Оксана Черкашина",
+  "file": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/catalog-390x844.png",
+  "images": 14,
+  "brokenImages": [
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416288243-20-1.png&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416286950-40-1.png&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416285880-11-1.png&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416282213-09-1.png&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416280854-21-1.png&w=384&q=50"
+  ],
+  "h1": "Все товары",
+  "productCards": 12
+ },
+ "category-dobavki-390x844": {
+  "url": "https://cherkashino.shipshift.dev/ru/categories/dobavki-cherkashino",
+  "status": 200,
+  "title": "Добавки | Оксана Черкашина",
+  "file": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/category-dobavki-390x844.png",
+  "images": 14,
+  "brokenImages": [
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416288243-20-1.png&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416285880-11-1.png&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416280854-21-1.png&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416195360-265554235__1.webp&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416277611-13-1.png&w=384&q=50"
+  ],
+  "h1": "Добавки"
+ },
+ "product": {
+  "url": "https://cherkashino.shipshift.dev/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino",
+  "title": "Зубная паста тайская отбеливающая | Оксана Черкашина",
+  "h1": "Зубная паста тайская отбеливающая",
+  "images": 23,
+  "brokenImages": [
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416264947-145679113__1.webp&w=1920&q=75"
+  ],
+  "file": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/product-1280x900.png"
+ },
+ "cart": {
+  "clicked": true,
+  "cartUrl": "https://cherkashino.shipshift.dev/ru/cart",
+  "cartLineItems": 1,
+  "bodyHasEmptyWord": false,
+  "file": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/cart-1280x900.png"
+ },
+ "page-offer": {
+  "url": "https://cherkashino.shipshift.dev/ru/pages/offer",
+  "status": 404,
+  "hasCyrillic": false,
+  "excerpt": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ 1 Страница не найдена Страница, которую вы ищете, не существует. На главную ОКСАНА ЧЕРКАШИНА"
+ },
+ "page-contacts": {
+  "url": "https://cherkashino.shipshift.dev/ru/pages/contacts",
+  "status": 404,
+  "hasCyrillic": false,
+  "excerpt": ""
+ },
+ "page-privacy": {
+  "url": "https://cherkashino.shipshift.dev/ru/pages/privacy",
+  "status": 404,
+  "hasCyrillic": false,
+  "excerpt": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ 1 Страница не найдена Страница, которую вы ищете, не существует. На главную ОКСАНА ЧЕРКАШИНА"
+ },
+ "page-about": {
+  "url": "https://cherkashino.shipshift.dev/ru/pages/about",
+  "status": 200,
+  "hasCyrillic": false,
+  "excerpt": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ 1 Oksana Cherkashina Oksana Cherkashina's health store — natural remedies, dietary supplemen"
+ }
+}

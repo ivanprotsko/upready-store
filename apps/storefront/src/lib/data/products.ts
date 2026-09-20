@@ -98,11 +98,6 @@ export const listProducts = async ({
     })
 }
 
-export type {
-  ProductOptionFilterGroup,
-  ProductOptionFilterValue,
-} from "@lib/util/option-filter-groups"
-
 export const listProductOptionFilters = async (
   queryParams?: Pick<ProductListQueryParams, "category_id" | "collection_id">
 ): Promise<ProductOptionFilterGroup[]> => {

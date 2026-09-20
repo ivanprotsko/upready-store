@@ -3,20 +3,33 @@
 import { sdk } from "@lib/config"
 import type { HttpTypes } from "@medusajs/types"
 import { getCacheOptions } from "./cookies"
+import { siteWideRead } from "./site-wide"
 
+/**
+ * Site-wide: the nav's region and currency switchers read this on every route
+ * under `(main)`, so it follows the same rule as the category tree and never
+ * throws into a layout render (`lib/data/site-wide.ts`). An empty list leaves
+ * the switcher with nothing to offer; a throw replaced the whole page with
+ * `Application error`.
+ */
 export const listRegions = async () => {
   const next = {
     ...(await getCacheOptions("regions")),
   }
 
-  return await sdk.client
-    .fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
-      method: "GET",
-      query: { limit: 1000 },
-      next,
-      cache: "force-cache",
-    })
-    .then(({ regions }) => regions)
+  return siteWideRead<HttpTypes.StoreRegion[]>(
+    "listRegions /store/regions",
+    () =>
+      sdk.client
+        .fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
+          method: "GET",
+          query: { limit: 1000 },
+          next,
+          cache: "force-cache",
+        })
+        .then(({ regions }) => regions),
+    []
+  )
 }
 
 export const retrieveRegion = async (id: string) => {

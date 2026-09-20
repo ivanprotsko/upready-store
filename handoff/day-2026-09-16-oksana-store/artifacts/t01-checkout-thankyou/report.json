@@ -1,0 +1,64 @@
+{
+  "task": "t01-checkout-thankyou",
+  "branch": "feat/day16-checkout-thankyou",
+  "pr": {
+    "number": 22,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/22"
+  },
+  "done": [
+    {
+      "item": "Найдена причина краха: сайтовые загрузчики категорий/коллекций/регионов бросали исключение на 400 «Publishable API key required» вместо фолбэка, и его ловили Nav, BottomNav и Footer на каждой странице под (main)."
+    },
+    {
+      "item": "Добавлен apps/storefront/src/lib/data/site-wide.ts — обёртка siteWideRead, которая не пускает такую ошибку в рендер лэйаута, а логирует её по имени.",
+      "links": [
+        "https://github.com/ivanprotsko/upready-store/pull/22"
+      ]
+    },
+    {
+      "item": "Через siteWideRead переведены categories.ts, collections.ts и regions.ts; отказ теперь не выдаётся за пустой каталог тенанта."
+    },
+    {
+      "item": "В app/[locale]/(main)/categories/[...category]/page.tsx добавлен явный notFound() вместо неявного разыменования undefined."
+    },
+    {
+      "item": "Написан тест site-wide.test.ts и e2e-скрипт keyless-host.e2e.mjs, воспроизводящий покупку без publishable key."
+    },
+    {
+      "item": "Измерено на продакшен-сборке: страница «Спасибо» отдаёт 200, показывает номер заказа и сумму, в консоли нет digest 2524605575 и Publishable API key required.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t01-checkout-thankyou-1/confirmed-1280x900.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t01-checkout-thankyou-1/confirmed-390x844.png"
+      ]
+    },
+    {
+      "item": "PR #22 принят и смёржен в dev (squash d0b1480), знание о классе бага записано отдельным файлом."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #22 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/22"
+    },
+    {
+      "label": "Отчёт воркера",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t01-checkout-thankyou/report.md"
+    },
+    {
+      "label": "Скриншот страницы «Спасибо», 1280×900",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t01-checkout-thankyou-1/confirmed-1280x900.png"
+    },
+    {
+      "label": "Скриншот страницы «Спасибо», 390×844",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t01-checkout-thankyou-1/confirmed-390x844.png"
+    },
+    {
+      "label": "Журнал приёмки",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t01-checkout-thankyou-1.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Класс бага шире одного места: проверены все сайтовые чтения, бросавших было четыре; оставшийся 404 на _next/image для медиа профилей к этой задаче отношения не имеет."
+  ]
+}

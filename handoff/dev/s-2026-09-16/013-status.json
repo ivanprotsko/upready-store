@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 13,
+  "action": "status-set",
+  "ts": "2026-09-16T03:35:02+08:00",
+  "status": "2026-09-16 03:35 WITA: приёмка b10-panel-gaps round 1 — PR #70 смержен (squash). Кликами на своём клоне базы Оксаны: полный цикл правила редиректа (404 → создание+правка → 301 на новую цель → удаление → 404), код верификации попал в head главной как meta yandex-verification, Result URL для публичного хоста https даже при x-forwarded-proto http (локальный остаётся http по замыслу), seam-спеки 2 сюиты / 17 тестов зелёные. Уточнение: удаление страниц закрыто не этим PR, а t05, и только для нестандартных страниц. Нит: PUT /tenants/seo-verification не шлёт ревалидацию витрине."
+}

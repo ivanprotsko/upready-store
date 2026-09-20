@@ -1,0 +1,70 @@
+0. маркер сборки витрины
+  главная HTTP: 200
+1. страница товара (b17)
+  URL товара: https://cherkashino.shipshift.dev/ru/products/mumie-altayskoe-ochischennoe-naturalnoe-100-cherkashino
+  страница товара HTTP: 200
+  картинок в галерее: 30
+  узлов цены: 1
+  кнопка «в корзину»: 1
+  есть блок «Характеристики»: true
+  есть блок отзывов: true
+  строка рейтинга: нет
+  кадр store-01-pdp-desktop.png
+2. журнал (b18)
+  журнал HTTP: 200
+  журнал: первые строки: ОКСАНА ЧЕРКАШИНА | Мультиварки | Стевия | АСД | Стимуляторы | Все товары | RU | ₽ | Журнал | Статей пока нет. | ОКСАНА ЧЕРКАШИНА | Категории | Мультиварки | Стевия | АСД | Стимуляторы | Антисептики | Фито-свечи | М
+  ссылок на статьи: 0
+  кадр store-02-journal-desktop.png
+3. чекаут: корзина
+  товар в корзине: true
+  контакты заполнены: true
+3a. подсказка при вводе адреса
+  подсказок после 2 символов: 0
+  подсказок после 4 символов: 5
+  первые подсказки: ["Москва / Россия","Московский / Московская область, Россия","Московская / Афанасьевский район, Кировская область, Россия","Москаленки / Москаленский район, Омская область, Россия"]
+  кадр store-04-address-suggest.png
+  адрес сохранён: true
+3b. тарифы СДЭК на чекауте
+  карточек доставки: 4
+  карточки: ["Самовывоз · Заберите заказ у продавца. · Адрес пришлём после заказа · Бесплатно","Курьером · До двери. Стоимость подтвердит магазин. · 300,00 ₽","СДЭК — курьером до двери · 275,00 ₽","СДЭК — пункт выдачи · 135,00 ₽"]
+  есть цена в рублях: true
+  кадр store-05-delivery-options.png
+3c. карта пунктов выдачи
+  карточка ПВЗ: СДЭК — пункт выдачи · 135,00 ₽
+  карта в DOM: 1
+  состояние «карта не загрузилась»: 0
+  узлов внутри контейнера карты: 124
+  скрипт api-maps.yandex.ru загружен: true
+  объект ymaps в окне: object
+  счётчик пунктов: Найдено пунктов выдачи: 142
+  строк пунктов в списке: 142
+  кадр store-06-pickup-map.png
+  выбранный ПВЗ на карточке: MSK65, Москва, ул. Динамовская
+  срок доставки на карточке: 1 день
+  кадр store-05b-delivery-pickup-chosen.png
+3d. курьер СДЭК
+  карточка курьера: СДЭК — курьером до двери · 275,00 ₽
+  курьер после выбора: СДЭК — курьером до двери · 1 день · 275,00 ₽
+  курьер: срок: 1 день
+  кадр store-05c-delivery-courier-chosen.png
+4. мобильные кадры 390×844
+  кадр store-07-pdp-mobile.png
+  кадр store-08-journal-mobile.png
+5. Robokassa — тестовый платёж
+  плитка Robokassa на чекауте: true
+  адрес после редиректа: https://auth.robokassa.ru/Merchant/Index/fd04b287-7279-4ab3-fce0-51d8a2a5d8cb
+  ушли на Robokassa: true
+  URL платежа (без подписи): https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=OLAVKA&OutSum=725.00&InvId=608615149&SignatureValue=<hex>&Shp_SessionID=payses_01M2MF240NPKM8DS0VZ9DFXP79&SuccessUrl2=https%3A%2F%2Fcherkashino.shipshift.dev%2Fapi%2Fpayment-return%3Fprovider%3Drobokassa%26cart_id%3Dcart_01M2MEZS63NVCTG276SMGED38Y%26outcome%3Dsuccess%26locale%3Dru&SuccessUrl2Method=GET&FailUrl2=https%3A%2F%2Fcherkashino.shipshift.dev%2Fapi%2Fpayment-return%3Fprovider%3Drobokassa%26cart_id%3Dcart_01M2MEZS63NVCTG276SMGED38Y%26outcome%3Dfail%26locale%3Dru&FailUrl2Method=GET&Email=d08-verify%2B1789540694307%40upready.dev&Culture=ru&IsTest=1
+  кадр store-09-robokassa-page.png
+  заголовок страницы Robokassa: Robokassa
+  IsTest: 1
+  MerchantLogin: OLAVKA
+  InvId / OutSum: 608615149 / 725.00
+  Result-вебхук на проде: НЕ проигран намеренно: пометил бы фиктивный заказ оплаченным
+  страница возврата URL: https://cherkashino.shipshift.dev/ru/cart?error=payment_pending
+  страница возврата HTTP-достижима: true
+  страница возврата: что показано: ОКСАНА ЧЕРКАШИНА | Мультиварки | Стевия | АСД | Стимуляторы | Все товары | RU | ₽ | 1 | Платёж не прошёл | Оплата ещё подтверждается. Подождите минуту и откройте заказ в личном кабинете или повторите оформление. | Вернуться к оформлению | Связаться с нами | Корзина | Настойка 50 мл | Default variant
+  заказ подтверждён (ожидаемо НЕТ — платёж не подтверждали): false
+  кадр store-10-return-page.png
+
+замеры записаны: artifacts/docs/d08-deploy-wave6/logs/storefront-verify.json

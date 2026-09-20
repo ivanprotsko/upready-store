@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 58,
+  "action": "status-set",
+  "ts": "2026-09-15T12:21:16+08:00",
+  "status": "2026-09-15 12:21 WITA: приёмка f07-page-markdown-tables — PR #43 принят и смержен (squash 108aa4a3), таблицы/hr/подчёркивания измерены на contacts+offer+privacy в реальном Chromium, отчёт в artifacts/accept-f07-page-markdown-tables-1/REPORT.md"
+}

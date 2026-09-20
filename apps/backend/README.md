@@ -85,6 +85,50 @@ For the full walkthrough, see [Getting Started with Medusa DTC Starter](https://
 
 Linting runs through `medusa lint`, which reads [`eslint.config.mjs`](eslint.config.mjs). `medusa develop` runs the same check before it starts and refuses to boot on a lint error, while `medusa build` reports problems and builds anyway. Pass `--lint false` to either one to skip it.
 
+One-off backfills and imports under [`src/scripts`](src/scripts) that take a `dry-run` switch
+(`backfill-tenant-locale-settings.ts`, `backfill-product-attributes.ts`, `import-cherkashino-redirects.ts`,
+`import-cherkashina-reviews.ts`, `prefill-cherkashino-requisites.ts`) run through `medusa exec` and spell
+it as a bare, dash-less word rather than `--dry-run`: `medusa exec ./src/scripts/<name>.ts dry-run`.
+`medusa exec` hands a script its own positionals verbatim but swallows a leading `--` before it ever
+reaches them (measured on the Medusa CLI 2.19), so the dashed spelling silently runs the script for
+real instead of previewing it. Every one of those scripts still accepts `--dry-run` too, in case you
+type it out of habit, but `dry-run` is the form that is guaranteed to work.
+
+## What the Container Does on Every Boot
+
+[`docker-entrypoint.sh`](docker-entrypoint.sh) runs before `medusa start`, and it is the reason an
+ordinary deploy needs no manual follow-up. In order:
+
+1. `medusa db:migrate` — always safe to re-run.
+2. The seed (`initial-data-seed.js`) — a no-op once this stand's store exists.
+3. `seed-storefront-settings.js` — writes the default block composition only when nothing is saved.
+4. `ensure-accounts.js` — converges the Admin user and the demo customer onto the env values. The
+   one step that is NOT allowed to fail.
+5. `rename-default-shipping-methods.js` — renames the machine-made delivery options of shops
+   provisioned by an older image.
+6. `backfill-tenant-redirects.js` — writes the 301 rows a MIGRATED catalogue implies, from the
+   `migrated_from`/`source_url` metadata the importer left on every product and category
+   (`src/tenant-redirects/migrated-redirects.ts`). Old addresses of an imported shop therefore
+   answer 301 after a plain deploy; before this step existed, the rows were written by hand with
+   `import-cherkashino-redirects.ts` against one task's registry JSON, and the live platform ran for
+   three days with an empty `tenant_redirect` and a 404 on every old address.
+
+Steps 5 and 6 are convergence, not correctness: `set -e` is lifted for them and a failure is logged
+rather than kept the backend down. Both are idempotent, and step 6 additionally stamps each tenant
+it seeded (`tenant.metadata.redirects_seeded_from`) so a redirect the OWNER deleted in the panel is
+not resurrected on the next boot. To seed a catalogue imported after that stamp by hand:
+
+```bash
+npx medusa exec ./src/scripts/backfill-tenant-redirects.ts dry-run
+npx medusa exec ./src/scripts/backfill-tenant-redirects.ts tenant=<handle> force
+```
+
+Arguments carry no leading dashes: `medusa exec` parses its own argv first and rejects a `--flag`
+meant for the script.
+
+A new convergence script belongs in this list, in `src/scripts/`, idempotent, with one log line
+saying what it changed — not in a runbook step someone has to remember.
+
 ## Environment Variables
 
 Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be set for the application to boot, and every `supersecret` value has to be replaced before production.
@@ -102,14 +146,21 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `REDIS_URL` | Redis instance for the cache, event bus, and workflow engine in production | `redis://localhost:6379` |
 | `USE_REDIS` | Set it to `true` to use `REDIS_URL` in development too | unset |
 | `CACHE_REDIS_URL` | Separate Redis instance for the cache | `REDIS_URL` |
-| `INTEGRATION_ENCRYPTION_KEY` | Encrypts the secret fields the Integration Module stores | `supersecret` |
+| `INTEGRATION_ENCRYPTION_KEY` | Encrypts the secret fields the Integration Module stores, and the per-shop payment credentials in `tenant_integration_secret` (`src/tenant-secrets/`) | `supersecret` |
+| `BACKEND_PUBLIC_URL` | Public address of this backend, shown to shop owners as the Robokassa Result URL (`<BACKEND_PUBLIC_URL>/robokassa/result`). Falls back to the request host, which is wrong behind the panel proxy | unset |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | SMTP transport for transactional emails | `smtp.example.com`, `587`, `false` |
 | `SMTP_USER`, `SMTP_PASS` | SMTP credentials | — |
-| `SMTP_FROM`, `SMTP_REPLY_TO` | Sender and reply-to addresses. `SMTP_FROM` carries the address; the name beside it comes from `STORE_NAME` | — |
-| `STOREFRONT_URL` | Storefront base URL used in email links and revalidation webhooks | `http://localhost:8000` |
+| `SMTP_FROM`, `SMTP_REPLY_TO` | Sender and reply-to addresses. `SMTP_FROM` carries the address; the name beside it is the shop's own (`tenant_notification_settings.email_from_name`), falling back to `STORE_NAME` | — |
+| `TELEGRAM_BOT_TOKEN` | The platform bot that tells a shop owner about a new order. The backend only sends; the long polling belongs to `apps/bot`, which Telegram allows one of per token. Unset means no owner is notified, and each skipped order says so in the log | — |
+| `TELEGRAM_BOT_USERNAME` | The `@name` the panel builds its `?start=` deep link on | `upreadystore_bot` |
+| `TELEGRAM_LINK_SECRET` | Shared secret for `POST /telegram/link`, the one call the bot makes here. Unset refuses every link attempt | — |
+| `PANEL_PUBLIC_URL` | Where the owner opens an order. The Telegram message links to `<PANEL_PUBLIC_URL>/orders/<id>`; falls back to `DEMO_PANEL_URL`, and with neither set the message carries no link | — |
+| `STOREFRONT_URL` | Storefront base URL for revalidation webhooks, and the FALLBACK address in customer e-mails. On a multi-tenant deployment the links in a letter are built from the shop the order belongs to (`src/tenant-notifications/storefront-origin.ts`), and this variable only donates the scheme and the port | `http://localhost:8000` |
 | `REVALIDATE_SECRET` | Sent as `x-revalidate-secret` to the storefront; must match its value | `supersecret` |
 | `STOREFRONT_DEFAULT_LOCALE` | Fallback email language when the buyer's is unknown, one of the locales under `src/emails/i18n` | `en` |
-| `STORE_NAME`, `STORE_EMAIL`, `STORE_PHONE`, `STORE_ADDRESS` | Store branding in email templates. `STORE_NAME` is also the sender name emails arrive under | — |
+| `STORE_NAME`, `STORE_EMAIL`, `STORE_PHONE`, `STORE_ADDRESS` | Store branding in email templates, and the fallback for a shop that has set none of its own | — |
+| `STORE_PROFILES_MEDIA_BASE_URL` | Where `/static/store-profiles` is served from, the parent of every starter dataset's media directory. `POST /tenants/seed` (the onboarding wizard's starter catalog) and `seed-mt-demo` build every image URL from it and refuse to write a relative one, so neither runs without this variable or `STORE_MEDIA_BASE_URL` below | — |
+| `STORE_MEDIA_BASE_URL` | Where ONE profile's media is served from, for the single-store seed (`STORE_PROFILE`). `resolveMediaBaseUrl` takes its parent directory when `STORE_PROFILES_MEDIA_BASE_URL` is unset | — |
 | `S3_BUCKET`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION` | S3-compatible file storage, used when `NODE_ENV=production` | — |
 | `MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY` | Storefront directory for Medusa's onboarding flow | `medusa-storefront` |
 

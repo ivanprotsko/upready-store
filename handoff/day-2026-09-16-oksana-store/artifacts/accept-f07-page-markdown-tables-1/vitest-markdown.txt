@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-page-markdown/apps/storefront
+
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  12:13:46
+   Duration  201ms (transform 36ms, setup 0ms, import 46ms, tests 9ms, environment 0ms)
+

@@ -1,0 +1,18 @@
+ID      STATUS  NEW  KNOWN  SCANNED                                            
+------  ------  ---  -----  ---------------------------------------------------
+tm-001  GREEN   0    0      files=328 imports=1036 packages=6                  
+tm-002  GREEN   0    1      panelFiles=878 storefrontFiles=420 readerFiles=1716
+tm-003  GREEN   0    3      files=1705                                         
+
+  known tm-002/written-never-read  apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx:61  (r03-test-methods-pilot → штабу на заведение)
+       Живая находка, заведена этой задачей: форма профиля пишет выбор языка в user.metadata.language, а по умолчанию подставляет i18n.language (значение из браузера). Прочитать metadata.language не пытается никто — выбор владелицы не переживает вход с другого устройства. Починка — отдельная задача, здесь только замер.
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/f12-seed-test-order.ts:8  (f18-f12-fixture-build)
+       Тот самый файл, из которого вырос метод. Живой на dev, ломает сборку образа. Починку делает отдельная задача f18-f12-fixture-build; здесь он остаётся замером, а не правкой.
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t13-seed-test-tenant.ts:11  (r03-test-methods-pilot → штабу на заведение)
+       Тот же класс, найден этой задачей: «throwaway data … run once with npx medusa exec … against a scratch database». Сборку сегодня не ломает только потому, что типы в нём сошлись. Штабу на заведение вместе с f18.
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t17-seed-test-tenant.ts:11  (r03-test-methods-pilot → штабу на заведение)
+       Тот же класс, найден этой задачей: «throwaway fixtures for measuring … not wired into any pnpm script». Штабу на заведение вместе с f18.
+rc=0

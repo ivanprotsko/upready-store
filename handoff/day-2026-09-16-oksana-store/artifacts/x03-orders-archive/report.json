@@ -1,0 +1,63 @@
+{
+  "task": "x03-orders-archive",
+  "done": [
+    {
+      "item": "Выгружены данные старого магазина Оксаны скриптом export.py: 88 заказов, 46 покупателей, 135 позиций заказов.",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/export.py"
+      ]
+    },
+    {
+      "item": "Собраны orders.csv (заказы с составом и суммами) и customers.csv (покупатели с контактами) для открытия в Excel/LibreOffice.",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/orders.csv",
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/customers.csv"
+      ]
+    },
+    {
+      "item": "Все числа сверены с прямыми запросами к исходной базе скриптом verify.py: пройдены все 22 проверки, расхождений нет.",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/verify.py",
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/verification.log"
+      ]
+    },
+    {
+      "item": "В README добавлен признак служебной записи (пометка в отдельной колонке): из 88 заказов 77 наши тестовые, из 46 покупателей — 40.",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/README.md"
+      ]
+    },
+    {
+      "item": "Добавлен order-items.csv с построчным составом заказов (174 единицы товара, 135 строк позиций)."
+    },
+    {
+      "item": "Персональные данные (CSV) исключены из git через .gitignore и в коммиты не попали.",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/.gitignore"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "README архива (пояснения к колонкам и предупреждение о служебных записях)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/README.md"
+    },
+    {
+      "label": "orders.csv — 88 заказов",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/orders.csv"
+    },
+    {
+      "label": "customers.csv — 46 покупателей",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/customers.csv"
+    },
+    {
+      "label": "verification.log — журнал сверки (22/22 OK)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/verification.log"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Признак служебной записи — эвристика по e-mail, а не поле в базе: 9 «остальных» заказов на домене самого магазина chrxn.store тоже могут оказаться внутренними.",
+    "Итог 694 211 ₽ по всей таблице — не выручка магазина: почти вся сумма приходится на служебные заказы, перед использованием нужно отфильтровать по колонке «Служебная запись»."
+  ]
+}

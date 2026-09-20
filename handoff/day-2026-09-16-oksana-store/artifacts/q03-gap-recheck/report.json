@@ -1,0 +1,81 @@
+{
+  "task": "q03-gap-recheck",
+  "done": [
+    {
+      "item": "Сверили каждую строку матрицы разрывов с живым магазином Оксаны утром и вечером, статусы записаны в gap-recheck.md и table.md.",
+      "links": [
+        "artifacts/q03-gap-recheck/gap-recheck.md",
+        "artifacts/q03-gap-recheck/raw/table.md"
+      ]
+    },
+    {
+      "item": "Посчитано покрытие функций мерки InSales: утром 11 из 169, вечером 19 из 169, критичных открытых разрывов — 16.",
+      "links": [
+        "artifacts/q03-gap-recheck/gap-recheck.md"
+      ]
+    },
+    {
+      "item": "Найдена причина двойного счёта заказов и выручки на экранах «Обзор» и «Клиенты» — leftJoin к order_summary без дедупликации (route.ts:127, helpers.ts:67), зафиксировано в памяти проекта.",
+      "links": [
+        "artifacts/q03-gap-recheck/shots/s11-panel-overview-sales-1280x900.png",
+        "file:///Users/ivanprotsko/upready/memory/medusa-order-summary-join-doubles-counts-2026-09-15.md"
+      ]
+    },
+    {
+      "item": "Проверена выгрузка каталога — цены отдаются в долларах США, рублёвой колонки нет.",
+      "links": [
+        "artifacts/q03-gap-recheck/raw/export-products.csv"
+      ]
+    },
+    {
+      "item": "На живых юридических страницах обнаружены незаполненные плейсхолдеры {{ТОКЕНЫ}}, хотя задача t12 смёржена и задеплоена.",
+      "links": [
+        "artifacts/q03-gap-recheck/gap-recheck.md"
+      ]
+    },
+    {
+      "item": "Проверены 301-редиректы задачи t11 на живом хосте — таблица tenant_redirect пуста, старые адреса отдают 404.",
+      "links": [
+        "artifacts/q03-gap-recheck/gap-recheck.md"
+      ]
+    },
+    {
+      "item": "Установлено, что восемь дефектов панели (f09–f16), заведённых утренней приёмкой, диспетчером ни разу не запускались.",
+      "links": [
+        "artifacts/q03-gap-recheck/gap-recheck.md"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Отчёт сверки по матрице разрывов",
+      "path": "artifacts/q03-gap-recheck/gap-recheck.md"
+    },
+    {
+      "label": "Матрица разрывов",
+      "path": "research/gap-matrix.md"
+    },
+    {
+      "label": "Таблица построчных статусов утро/вечер",
+      "path": "artifacts/q03-gap-recheck/raw/table.md"
+    },
+    {
+      "label": "Скриншот двойного счёта в «Обзоре»",
+      "path": "artifacts/q03-gap-recheck/shots/s11-panel-overview-sales-1280x900.png"
+    },
+    {
+      "label": "Выгрузка каталога с ценами в USD",
+      "path": "artifacts/q03-gap-recheck/raw/export-products.csv"
+    },
+    {
+      "label": "Заметка в память про баг order_summary",
+      "path": "file:///Users/ivanprotsko/upready/memory/medusa-order-summary-join-doubles-counts-2026-09-15.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Восемь дефектов панели (f09–f16) заведены утренней приёмкой, но диспетчером не планировались (attempt: 0, отсутствуют в tasks.json).",
+    "301-редиректы и правки f01–f05/t11, принятые на изолированных стендах, впервые проверены на живом магазине только сегодня.",
+    "Двойной счёт заказов и выручки (order_summary leftJoin) требует фикса дедупликации — найдено, но не исправлено."
+  ]
+}

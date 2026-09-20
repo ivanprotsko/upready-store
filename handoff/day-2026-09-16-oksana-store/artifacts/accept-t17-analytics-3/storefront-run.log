@@ -1,0 +1,2879 @@
+   ▲ Next.js 15.5.21
+   - Local:        http://localhost:8317
+   - Network:      http://192.168.0.72:8317
+   - Environments: .env.local
+   - Experiments (use with caution):
+     ✓ inlineCss
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 1626ms
+ ✓ Compiled /middleware in 331ms (178 modules)
+ ○ Compiling /[locale] ...
+Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled /[locale] in 5.2s (2729 modules)
+ ✓ Compiled in 613ms (1030 modules)
+ ✓ Compiled in 64ms (1015 modules)
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 401
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Image with src "http://localhost:9023/static/store-profiles/sneakers/home-hero.webp" is using quality "70" which is not configured in images.qualities. This config will be required starting in Next.js 16.
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+ GET /ru 200 in 7609ms
+ │ GET http://localhost:9317/store/tenant/home 200 in 126ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 200 in 113ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/home 200 in 138ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 139ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 126ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 125ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 20ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/home 200 in 6ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 6ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 20ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/storefront-settings 200 in 52ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 51ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 26ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 25ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 34ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 249ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 323ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0 200 in 332ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 86ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 650ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 476ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 200 in 497ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 10ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/pages?locale=ru 200 in 50ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 401
+
+ GET /ru 200 in 277ms
+ │ GET http://localhost:9317/store/tenant/home 200 in 5ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 7ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 7ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 7ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/pages?locale=ru 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 171ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 401
+
+[TypeError: fetch failed] {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+ GET /ru 200 in 679ms
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 5ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 5ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/pages?locale=ru 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 143ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1515ms (3073 modules)
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 1852ms
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 1834ms
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Image with src "http://localhost:9023/static/store-profiles/sneakers/home-hero.webp" is using quality "70" which is not configured in images.qualities. This config will be required starting in Next.js 16.
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+Received response with status 401
+
+[TypeError: fetch failed] {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+ GET /ru 200 in 839ms
+ │ GET http://localhost:9317/store/tenant/home 200 in 7ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 8ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 9ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/pages?locale=ru 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 327ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 219ms
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 207ms
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+listCategories: tenant "t17shopb" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 401
+
+Received response with status 200
+
+listCategories: tenant "t17shopb" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+listCategories: tenant "t17shopb" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_435e71cd3d5c96d55ea1cdf0e0e6b53400942bea67303bbf8196aae477a84df8",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+[TypeError: fetch failed] {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+ GET /ru 200 in 348ms
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 200 in 16ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/home 200 in 27ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/home 200 in 31ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 31ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 28ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 27ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 6ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 19ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 19ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 9ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 9ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 23ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 25ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 35ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 61ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 200 in 65ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0 200 in 71ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 42ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 101ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 103ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/pages?locale=ru 200 in 9ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 211ms
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 207ms
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 401
+
+[TypeError: fetch failed] {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+ GET /ru 200 in 326ms
+ │ GET http://localhost:9317/store/tenant/home 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 5ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 6ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/pages?locale=ru 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 169ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 221ms
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 213ms
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 401
+
+[TypeError: fetch failed] {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+ GET /ru 200 in 283ms
+ │ GET http://localhost:9317/store/tenant/home 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 9ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 10ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 6ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 200 in 0ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/pages?locale=ru 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 153ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 211ms
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 206ms
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 401
+
+[TypeError: fetch failed] {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+ GET /ru 200 in 273ms
+ │ GET http://localhost:9317/store/tenant/home 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 5ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 6ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/articles?locale=ru&limit=1&offset=0 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 2ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/pages?locale=ru 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 149ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 212ms
+ GET /_next/image?url=http%3A%2F%2Flocalhost%3A9023%2Fstatic%2Fstore-profiles%2Fsneakers%2Fhome-hero.webp&w=1920&q=70 500 in 207ms
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+ ○ Compiling /[locale]/store ...
+ ✓ Compiled /[locale]/store in 1667ms (3738 modules)
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-attributes/facets
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/products?limit=100&fields=id%2C%2Aoptions%2C%2Aoptions.values%2Cvariants.options.id%2Cvariants.options.option_id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/articles?locale=en&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 401
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+listCategories: tenant "t17shopa" resolved but owns zero product categories (checked /store/tenant/product-categories). This is very likely a seeding/link bug, not an empty shop.
+Performing request to:
+ URL: http://localhost:9317/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?limit=100&offset=0&region_id=reg_01M2HF18HB5ZJSV76QP6KR9K59&fields=%2Avariants.calculated_price%2C%2Bvariants.inventory_quantity%2C%2Avariants.images%2C%2Avariants.options%2C%2Boptions.values.metadata%2C%2Bmetadata%2C%2Btags%2C%2Acategories%2C%2Acategories.parent_category%2C%2Acategories.parent_category.parent_category&order=created_at
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+Performing request to:
+ URL: http://localhost:9317/store/tenant/pages?locale=en
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "en",
+  "x-publishable-api-key": "pk_4d6fac09476b31ec2c16c9aa39d6fa6419173727fa7cbef6b189875e87c5e1e6",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 200
+
+ GET /en/store 200 in 2554ms
+ │ GET http://localhost:9317/store/tenant/home 200 in 3ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/home 200 in 4ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/storefront-settings 200 in 1ms (cache hit)
+ │ GET http://localhost:9317/store/customers/me?fields=%2Aorders 401 in 44ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/products?limit=100&fields=id%2C%2Aoptions%2C%2Aoptions.values%2Cvariants.options.id%2Cvariants.options.option_id 200 in 53ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/product-attributes/facets 200 in 64ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/articles?locale=en&limit=1&offset=0 200 in 55ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 65ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 81ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 95ms (cache hit)
+ │ GET http://localhost:9317/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 200 in 83ms (cache hit)
+ │ GET http://localhost:9317/store/regions?limit=1000 200 in 6ms (cache hit)
+ │ GET http://localhost:9317/store/products?limit=100&offset=0&region_id=reg_01M2HF18HB5ZJSV76QP6KR9K59&fields=%2Avariants.calculated_price%2C%2Bvariants.inventory_quantity%2C%2Avariants.images%2C%2Avariants.options%2C%2Boptions.values.metadata%2C%2Bmetadata%2C%2Btags%2C%2Acategories%2C%2Acategories.parent_category%2C%2Acategories.parent_category.parent_category&order=created_at 200 in 23ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/collections?limit=100&offset=0 200 in 27ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id 200 in 8ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9317/store/tenant/pages?locale=en 200 in 9ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))

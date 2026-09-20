@@ -1,0 +1,460 @@
+{
+  "group": "tilda-1",
+  "templates": [
+    {
+      "template": "Продажа недвижимости",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=newsfeedrealestateru",
+      "features": [
+        {
+          "id": "hero-slider-property-images",
+          "name_ru": "Слайдер-хедер с чередующимися фотографиями объектов",
+          "category": "content",
+          "evidence": "сигнал: slider-hero",
+          "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru"
+        },
+        {
+          "id": "catalog-nav-link",
+          "name_ru": "Переход в каталог объектов из шапки и герой-блока",
+          "category": "navigation",
+          "evidence": "[Каталог объектов](http://examples-ru.tilda.ws/)",
+          "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru"
+        },
+        {
+          "id": "property-image-zoom",
+          "name_ru": "Увеличение (зум) фотографий объекта в галерее",
+          "category": "product-page",
+          "evidence": "сигнал: gallery-zoom",
+          "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru"
+        },
+        {
+          "id": "contact-popup-form",
+          "name_ru": "Всплывающая форма обратной связи по объекту",
+          "category": "content",
+          "evidence": "сигнал: popup",
+          "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru"
+        },
+        {
+          "id": "live-chat-widget",
+          "name_ru": "Виджет онлайн-чата с посетителем сайта",
+          "category": "integrations",
+          "evidence": "сигнал: chat-widget",
+          "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru"
+        },
+        {
+          "id": "client-reviews-block",
+          "name_ru": "Блок отзывов клиентов",
+          "category": "trust-reviews",
+          "evidence": "сигнал: reviews",
+          "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru"
+        },
+        {
+          "id": "contacts-address-phone",
+          "name_ru": "Блок контактов с адресом офиса и телефоном",
+          "category": "content",
+          "evidence": "Сочи, улица Заозерная, 48",
+          "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru"
+        },
+        {
+          "id": "seo-structured-data",
+          "name_ru": "SEO-разметка структурированных данных страницы",
+          "category": "seo-perf",
+          "evidence": "сигнал: seo-structured",
+          "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru"
+        }
+      ]
+    },
+    {
+      "template": "Шаблон сервиса доставки еды",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=fooddeliveryru",
+      "features": [
+        {
+          "id": "product-cards-with-price-and-order-button",
+          "name_ru": "Карточки роллов с ценой и кнопкой «Заказать»",
+          "category": "catalog-listing",
+          "evidence": "[Сяке рору Лосось, огурец, рис, нори, 6 шт. 199 р.](http://examples-ru.tilda.ws/fooddeliveryru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "product-detail-popup",
+          "name_ru": "Попап карточки товара с составом и весом порции по клику «Заказать»",
+          "category": "product-page",
+          "evidence": "[Заказать](http://examples-ru.tilda.ws/fooddeliveryru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "product-sets-bundle",
+          "name_ru": "Наборы (сеты) роллов со скидкой при покупке набора",
+          "category": "catalog-listing",
+          "evidence": "Вы можете добавить в сет дополнительные роллы и получить на них скидку 10%",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "checkout-form-name-email-phone",
+          "name_ru": "Форма оформления заказа с именем, email и телефоном",
+          "category": "cart-checkout",
+          "evidence": "Your Name\nYour Email\nYour Phone\nCheckout",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "promo-discount-banner",
+          "name_ru": "Промо-баннер со скидкой на заказ в определённые часы",
+          "category": "promo-marketing",
+          "evidence": "Make an order for 60€ and get a 10% discount!",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "social-hashtag-giveaway",
+          "name_ru": "Акция за отметку заведения в соцсетях с хэштегом",
+          "category": "promo-marketing",
+          "evidence": "Post a picture with our food on Instagram or Facebook, write a hashtag #japansushi and have free Filadelphia Rolls",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "delivery-info-block",
+          "name_ru": "Информационный блок с условиями и временем доставки",
+          "category": "content",
+          "evidence": "Заказы принимаются до 23.00. Доставляем в течение 60 минут! Вы можете оплатить заказ на сайте либо через курьера.",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "countdown-timer",
+          "name_ru": "Таймер обратного отсчёта акции",
+          "category": "promo-marketing",
+          "evidence": "сигнал: countdown",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "shopping-cart",
+          "name_ru": "Корзина покупок",
+          "category": "cart-checkout",
+          "evidence": "сигнал: cart",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        },
+        {
+          "id": "call-order-button",
+          "name_ru": "Кнопка «Заказать звонок» и телефон в шапке сайта",
+          "category": "navigation",
+          "evidence": "Заказать звонок",
+          "page_url": "http://examples-ru.tilda.ws/fooddeliveryru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин комнатных растений",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=plantsshopru",
+      "features": [
+        {
+          "id": "order-sidebar-form",
+          "name_ru": "Боковая форма заказа с именем, почтой и телефоном",
+          "category": "cart-checkout",
+          "evidence": "Ваш заказ\nВаше имя\nВаша почта\nВаш телефон\nОформить заказ",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        },
+        {
+          "id": "promo-code-first-order",
+          "name_ru": "Промокод на скидку 10% на первый заказ",
+          "category": "promo-marketing",
+          "evidence": "Дарим 10% скидку на первый заказ по промокоду FLOWERS",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        },
+        {
+          "id": "customer-reviews-with-name-city",
+          "name_ru": "Отзывы клиентов с именем и городом автора",
+          "category": "trust-reviews",
+          "evidence": "«Заказывала композицию для гостиной и переживала, что вживую она будет выглядеть иначе. Но всё оказалось даже лучше, чем на фото»",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        },
+        {
+          "id": "payment-delivery-return-info",
+          "name_ru": "Раздел «Оплата и доставка» с подразделами оплаты, сроков, доставки и возврата",
+          "category": "content",
+          "evidence": "Оплатить заказ можно банковской картой онлайн. Для корпоративных клиентов доступна оплата по счёту.",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        },
+        {
+          "id": "anchor-navigation-menu",
+          "name_ru": "Якорное меню разделов (Каталог, Покупателям, О нас)",
+          "category": "navigation",
+          "evidence": "[Каталог](http://examples-ru.tilda.ws/plantsshopru#catalog)",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        },
+        {
+          "id": "product-buy-popup",
+          "name_ru": "Кнопка «BUY NOW» открывает попап товара для заказа",
+          "category": "product-page",
+          "evidence": "[BUY NOW](http://examples-ru.tilda.ws/plantsshopru#order)",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        },
+        {
+          "id": "faq-accordion",
+          "name_ru": "Аккордеон часто задаваемых вопросов",
+          "category": "content",
+          "evidence": "сигнал: faq-accordion",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        },
+        {
+          "id": "product-stock-status",
+          "name_ru": "Отметка наличия товара на карточке",
+          "category": "catalog-listing",
+          "evidence": "сигнал: stock-status",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        },
+        {
+          "id": "loyalty-program",
+          "name_ru": "Программа лояльности",
+          "category": "promo-marketing",
+          "evidence": "сигнал: loyalty",
+          "page_url": "http://examples-ru.tilda.ws/plantsshopru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин товаров для дома",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=homegoodsru",
+      "features": [
+        {
+          "id": "faq-block-real-questions",
+          "name_ru": "Раздел «Частые вопросы» с ответами о производстве, заказе и оплате",
+          "category": "content",
+          "evidence": "Где производится ваша продукция?",
+          "page_url": "http://examples-ru.tilda.ws/homegoodsru"
+        },
+        {
+          "id": "partners-showcase",
+          "name_ru": "Блок партнёров-брендов и мультибрендовых магазинов",
+          "category": "trust-reviews",
+          "evidence": "Мы сотрудничаем с брендами, студиями и магазинами, которые разделяют нашу любовь к спокойной домашней эстетике",
+          "page_url": "http://examples-ru.tilda.ws/homegoodsru"
+        },
+        {
+          "id": "payment-methods-list",
+          "name_ru": "Описание доступных способов оплаты (картой, переводом, наличными)",
+          "category": "cart-checkout",
+          "evidence": "После подтверждения наличия вы сможете оплатить заказ банковской картой, банковским переводом или наличными при получении.",
+          "page_url": "http://examples-ru.tilda.ws/homegoodsru"
+        },
+        {
+          "id": "order-summary-panel",
+          "name_ru": "Панель «Ваш заказ» с переходом к оплате",
+          "category": "cart-checkout",
+          "evidence": "Ваш заказ\nПерейти к оплате",
+          "page_url": "http://examples-ru.tilda.ws/homegoodsru"
+        },
+        {
+          "id": "wishlist",
+          "name_ru": "Список избранных товаров (wishlist)",
+          "category": "catalog-listing",
+          "evidence": "сигнал: wishlist",
+          "page_url": "http://examples-ru.tilda.ws/homegoodsru"
+        },
+        {
+          "id": "product-badges",
+          "name_ru": "Метки на карточках товаров (например, новинка/скидка)",
+          "category": "catalog-listing",
+          "evidence": "сигнал: product-badges",
+          "page_url": "http://examples-ru.tilda.ws/homegoodsru"
+        },
+        {
+          "id": "anchor-navigation-menu",
+          "name_ru": "Якорное меню разделов каталога и страницы",
+          "category": "navigation",
+          "evidence": "[Каталог](http://examples-ru.tilda.ws/homegoodsru#HomeGoods)",
+          "page_url": "http://examples-ru.tilda.ws/homegoodsru"
+        },
+        {
+          "id": "ugc-instagram-block",
+          "name_ru": "Блок пользовательского контента с призывом отмечать бренд в Instagram",
+          "category": "promo-marketing",
+          "evidence": "Делитесь фотографиями своих интерьеров и отмечайте @maisondetail . Ваши идеи вдохновляют других создавать уютные и красивые дома",
+          "page_url": "http://examples-ru.tilda.ws/homegoodsru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин украшений",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=jewelryru",
+      "features": [
+        {
+          "id": "bestsellers-section",
+          "name_ru": "Раздел «Бестселлеры» с подборкой популярных украшений",
+          "category": "catalog-listing",
+          "evidence": "Бестселлеры",
+          "page_url": "http://examples-ru.tilda.ws/jewelryru"
+        },
+        {
+          "id": "legal-pages-links",
+          "name_ru": "Ссылки на политику конфиденциальности и договор оферты в подвале",
+          "category": "trust-reviews",
+          "evidence": "[Политика конфиденциальности](http://examples-ru.tilda.ws/jewelryru#)",
+          "page_url": "http://examples-ru.tilda.ws/jewelryru"
+        },
+        {
+          "id": "order-summary-panel",
+          "name_ru": "Панель «Ваш заказ» с переходом к оплате",
+          "category": "cart-checkout",
+          "evidence": "Ваш заказ\nПерейти к оплате",
+          "page_url": "http://examples-ru.tilda.ws/jewelryru"
+        },
+        {
+          "id": "scroll-to-top-button",
+          "name_ru": "Кнопка прокрутки страницы наверх",
+          "category": "navigation",
+          "evidence": "[Наверх](javascript:t389_scrollToTop();)",
+          "page_url": "http://examples-ru.tilda.ws/jewelryru"
+        },
+        {
+          "id": "custom-sizing-production",
+          "name_ru": "Изготовление украшений по индивидуальным меркам заказчика",
+          "category": "product-page",
+          "evidence": "Мы подгоняем размер изделия под ваши параметры по вашему запросу",
+          "page_url": "http://examples-ru.tilda.ws/jewelryru"
+        },
+        {
+          "id": "worldwide-delivery",
+          "name_ru": "Информация о доставке украшений по всему миру",
+          "category": "content",
+          "evidence": "Мы предлагаем доставку в любую точку мира удобными для вас способами",
+          "page_url": "http://examples-ru.tilda.ws/jewelryru"
+        },
+        {
+          "id": "wishlist",
+          "name_ru": "Список избранных товаров (wishlist)",
+          "category": "catalog-listing",
+          "evidence": "сигнал: wishlist",
+          "page_url": "http://examples-ru.tilda.ws/jewelryru"
+        },
+        {
+          "id": "promo-countdown",
+          "name_ru": "Таймер обратного отсчёта акции",
+          "category": "promo-marketing",
+          "evidence": "сигнал: countdown",
+          "page_url": "http://examples-ru.tilda.ws/jewelryru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин мебели",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=furnitureru",
+      "features": [
+        {
+          "id": "anchor-navigation-menu",
+          "name_ru": "Якорное меню (Каталог, О нас, Преимущества)",
+          "category": "navigation",
+          "evidence": "[Каталог](http://examples-ru.tilda.ws/furnitureru#catalog)",
+          "page_url": "http://examples-ru.tilda.ws/furnitureru"
+        },
+        {
+          "id": "benefits-grid",
+          "name_ru": "Сетка преимуществ магазина (эргономика, комбинируемость, материалы)",
+          "category": "content",
+          "evidence": "Продуманная эргономика и качественные материалы для комфортного использования",
+          "page_url": "http://examples-ru.tilda.ws/furnitureru"
+        },
+        {
+          "id": "contact-order-form",
+          "name_ru": "Контактная форма с именем, email и телефоном перед оплатой",
+          "category": "cart-checkout",
+          "evidence": "Имя\nЭлектронная почта\nТелефон\nПерейти к оплате",
+          "page_url": "http://examples-ru.tilda.ws/furnitureru"
+        },
+        {
+          "id": "wishlist",
+          "name_ru": "Список избранных товаров (wishlist)",
+          "category": "catalog-listing",
+          "evidence": "сигнал: wishlist",
+          "page_url": "http://examples-ru.tilda.ws/furnitureru"
+        },
+        {
+          "id": "product-stock-status",
+          "name_ru": "Отметка наличия товара на карточке",
+          "category": "catalog-listing",
+          "evidence": "сигнал: stock-status",
+          "page_url": "http://examples-ru.tilda.ws/furnitureru"
+        },
+        {
+          "id": "product-image-zoom",
+          "name_ru": "Увеличение (зум) фотографий товара",
+          "category": "product-page",
+          "evidence": "сигнал: gallery-zoom",
+          "page_url": "http://examples-ru.tilda.ws/furnitureru"
+        },
+        {
+          "id": "product-badges",
+          "name_ru": "Метки на карточках товаров",
+          "category": "catalog-listing",
+          "evidence": "сигнал: product-badges",
+          "page_url": "http://examples-ru.tilda.ws/furnitureru"
+        }
+      ]
+    },
+    {
+      "template": "Онлайн-магазин",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=shetukaru",
+      "features": [
+        {
+          "id": "product-grid-with-sale-badge-and-old-price",
+          "name_ru": "Карточка товара со старой и новой ценой и меткой SALE",
+          "category": "catalog-listing",
+          "evidence": "[SALE Часы «Kruka» 3999 р. 4499 р.](http://examples-ru.tilda.ws/shetukaru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/shetukaru"
+        },
+        {
+          "id": "add-to-cart-button",
+          "name_ru": "Кнопка «Добавить в корзину» на каждой карточке товара",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/shetukaru#order)",
+          "page_url": "http://examples-ru.tilda.ws/shetukaru"
+        },
+        {
+          "id": "checkout-form-name-email-phone",
+          "name_ru": "Форма оформления заказа с именем, email и телефоном",
+          "category": "cart-checkout",
+          "evidence": "Ваше имя\nВаш Email\nВаш телефон\nОформить заказ",
+          "page_url": "http://examples-ru.tilda.ws/shetukaru"
+        },
+        {
+          "id": "delivery-pickup-info",
+          "name_ru": "Информация о самовывозе и курьерской доставке по Москве и области",
+          "category": "content",
+          "evidence": "Вы можете самостоятельно забрать покупку из точки самовывоза или заказать доставку курьером по Москве и Московской области.",
+          "page_url": "http://examples-ru.tilda.ws/shetukaru"
+        },
+        {
+          "id": "social-share",
+          "name_ru": "Кнопки «поделиться в соцсетях»",
+          "category": "promo-marketing",
+          "evidence": "сигнал: social-share",
+          "page_url": "http://examples-ru.tilda.ws/shetukaru"
+        },
+        {
+          "id": "pickup-points",
+          "name_ru": "Пункты самовывоза заказа",
+          "category": "cart-checkout",
+          "evidence": "сигнал: pickup-points",
+          "page_url": "http://examples-ru.tilda.ws/shetukaru"
+        },
+        {
+          "id": "photo-credits-attribution",
+          "name_ru": "Блок с указанием авторства фотографий в подвале",
+          "category": "content",
+          "evidence": "FLICKR CREDITS: [Anka Albrecht](https://www.flickr.com/photos/134465805@N06/21623729612/in/album-72157658553689829/) |",
+          "page_url": "http://examples-ru.tilda.ws/shetukaru"
+        },
+        {
+          "id": "promo-countdown",
+          "name_ru": "Таймер обратного отсчёта акции",
+          "category": "promo-marketing",
+          "evidence": "сигнал: countdown",
+          "page_url": "http://examples-ru.tilda.ws/shetukaru"
+        }
+      ]
+    }
+  ]
+}

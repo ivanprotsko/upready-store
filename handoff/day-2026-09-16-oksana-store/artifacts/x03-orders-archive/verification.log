@@ -1,0 +1,23 @@
+OK   строк orders.csv: csv=88 db=88
+OK   строк order-items.csv: csv=135 db=135
+OK   строк customers.csv: csv=46 db=46
+OK   заказов RUB: csv=77 db=77
+OK   сумма «Итого» RUB: csv=694211 db=694211
+OK   сумма «Оплачено» RUB: csv=282912 db=282912
+OK   заказов USD: csv=11 db=11
+OK   сумма «Итого» USD: csv=7264.11 db=7264.11
+OK   сумма «Оплачено» USD: csv=111.46 db=111.46
+OK   единиц товара всего: csv=174 db=174
+OK   сумма «Заказов, шт» в customers.csv: csv=88 db=88
+OK   строк, где Итого ≠ Товары+Доставка−Скидка: csv=0 db=0
+OK   пустых «Телефон» в orders.csv: csv=39 db=39
+OK   пустых «Адрес доставки»: csv=6 db=6
+OK   служебных заказов: csv=77 db=77
+OK   служебных покупателей: csv=40 db=40
+OK   orders.csv: UTF-8 BOM: csv=True db=True
+OK   customers.csv: UTF-8 BOM: csv=True db=True
+OK   order-items.csv: UTF-8 BOM: csv=True db=True
+OK   заказ 1: итого 4000 USD, единиц 4, строк позиций 1 — сверено полей 6, расхождений 0
+OK   заказ 69: итого 1259 RUB, единиц 1, строк позиций 1 — сверено полей 6, расхождений 0
+OK   заказ 117: итого 11160 RUB, единиц 5, строк позиций 4 — сверено полей 6, расхождений 0
+VERIFY-ALL: OK

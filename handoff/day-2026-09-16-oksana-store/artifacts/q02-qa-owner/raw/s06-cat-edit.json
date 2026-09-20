@@ -1,0 +1,96 @@
+{
+  "c": [
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "v": "",
+      "t": ""
+    },
+    {
+      "tag": "INPUT",
+      "name": "name",
+      "type": "text",
+      "v": "АСД",
+      "t": ""
+    },
+    {
+      "tag": "INPUT",
+      "name": "handle",
+      "type": "text",
+      "v": "asd-cherkashino",
+      "t": ""
+    },
+    {
+      "tag": "TEXTAREA",
+      "name": "description",
+      "type": "textarea",
+      "v": "",
+      "t": ""
+    },
+    {
+      "tag": "INPUT",
+      "name": "imageUrl",
+      "type": "text",
+      "v": "",
+      "t": ""
+    },
+    {
+      "tag": "INPUT",
+      "name": "",
+      "type": "file",
+      "v": "",
+      "t": ""
+    },
+    {
+      "tag": "INPUT",
+      "name": "imageAlt",
+      "type": "text",
+      "v": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "v": "",
+      "t": "Активная"
+    },
+    {
+      "tag": "SELECT",
+      "name": "status",
+      "type": "select-one",
+      "v": "active",
+      "t": "Активная\nНеактивная"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "v": "",
+      "t": "Публичная"
+    },
+    {
+      "tag": "SELECT",
+      "name": "visibility",
+      "type": "select-one",
+      "v": "public",
+      "t": "Публичная\nВнутренняя"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "v": "",
+      "t": "Отмена"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "submit",
+      "v": "",
+      "t": "Сохранить"
+    }
+  ],
+  "errors": []
+}

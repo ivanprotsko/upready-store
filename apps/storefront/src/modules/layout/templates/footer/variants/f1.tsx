@@ -6,6 +6,7 @@ import { listTenantPages } from "@lib/data/tenant-pages"
 import { getSiteName } from "@lib/data/cookies"
 
 import SiteAttribution from "@modules/layout/components/site-attribution"
+import FooterCredit from "@modules/layout/components/footer-credit"
 
 /**
  * F1 · "Четыре колонки" — the storefront's original Footer markup, unchanged, moved here
@@ -115,7 +116,10 @@ export default async function FooterF1() {
               siteName: siteName,
             })}
           </span>
-          <SiteAttribution />
+          <div className="flex flex-col items-start gap-y-1 sm:items-end">
+            <SiteAttribution />
+            <FooterCredit />
+          </div>
         </div>
       </div>
     </footer>

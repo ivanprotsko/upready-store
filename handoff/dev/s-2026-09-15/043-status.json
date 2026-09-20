@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 43,
+  "action": "status-set",
+  "ts": "2026-09-15T10:24:57+08:00",
+  "status": "2026-09-15 10:24 WITA: приёмка PR #36 t16-owner-branding раунд 1 — MERGED (merged_at 2026-09-15T02:24:08Z), свои замеры на поднятом стенде, 18 артефактов, 4 замечания комментарием к PR"
+}

@@ -1,11 +1,8 @@
 import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import {
-  OrderShipmentCreatedEmail,
-  type FulfillmentLabel,
-} from "../emails/order-shipment-created";
-import { STOREFRONT_URL } from "../emails/i18n";
+import { OrderShipmentCreatedEmail } from "../emails/order-shipment-created";
+import { type FulfillmentLabel, trackingLines } from "../emails/lib/tracking";
 import {
   findOrderForEmail,
   sendOrderEmail,
@@ -38,7 +35,12 @@ export default async function orderShipmentCreatedEmailHandler({
   const order = await findOrderForEmail(
     container,
     { fulfillments: { id: fulfillmentId } },
-    ["fulfillments.id", "fulfillments.labels.tracking_number", "fulfillments.labels.tracking_url"],
+    [
+      "fulfillments.id",
+      "fulfillments.metadata",
+      "fulfillments.labels.tracking_number",
+      "fulfillments.labels.tracking_url",
+    ],
   );
 
   if (!order) {
@@ -49,9 +51,14 @@ export default async function orderShipmentCreatedEmailHandler({
   const fulfillments = (order.fulfillments ?? []) as Array<{
     id: string;
     labels?: FulfillmentLabel[];
+    metadata?: Record<string, unknown> | null;
   }>;
-  const labels =
-    fulfillments.find((f) => f.id === fulfillmentId)?.labels ?? [];
+  const fulfillment = fulfillments.find((f) => f.id === fulfillmentId);
+  const labels = fulfillment?.labels ?? [];
+  // The carrier the owner typed in the panel next to the tracking number
+  // (`POST /tenants/orders/:id/fulfillments/:fid/shipments`, `metadata.carrier`).
+  const carrierRaw = fulfillment?.metadata?.carrier;
+  const carrier = typeof carrierRaw === "string" && carrierRaw.trim() ? carrierRaw.trim() : null;
 
   await sendOrderEmail({
     container,
@@ -61,13 +68,10 @@ export default async function orderShipmentCreatedEmailHandler({
     template: "order-shipped",
     idempotencyKey: `order-shipped:${order.id}:${fulfillmentId}`,
     Component: OrderShipmentCreatedEmail,
-    props: { labels },
+    props: { labels, carrier },
     subjectKey: "Shipment.subject",
-    text: (t, id) => {
-      const numbers = labels
-        .map((label) => label.tracking_number)
-        .filter(Boolean)
-        .join(", ");
+    text: (t, id, shop) => {
+      const numbers = trackingLines(labels, carrier).join(", ");
 
       return [
         t("Shipment.textFallback", { id }),
@@ -75,7 +79,7 @@ export default async function orderShipmentCreatedEmailHandler({
         "",
         t("Shipment.textDelivery"),
         "",
-        `${STOREFRONT_URL}/account/orders`,
+        `${shop.storefrontUrl}/account/orders`,
       ].join("\n");
     },
   });

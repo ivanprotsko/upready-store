@@ -1,0 +1,13 @@
+.qv { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: var(--space-4); }
+.qv-veil { position: absolute; inset: 0; background: var(--foreground); opacity: 0.45; }
+.qv-panel {
+  position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8); padding: var(--space-8); max-width: var(--container);
+  background: var(--popover); color: var(--popover-foreground);
+  border-radius: var(--r-lg); box-shadow: var(--shadow-card);
+}
+.qv-close { position: absolute; inset-block-start: var(--space-3); inset-inline-end: var(--space-3); }
+.qv-media { max-height: 60vh; }
+.qv-body { justify-items: start; align-content: center; }
+.qv-facts { list-style: none; padding: 0; display: grid; gap: var(--space-1); }
+@media (max-width: 639px) { .qv-panel { grid-template-columns: minmax(0, 1fr); padding: var(--space-6); } }

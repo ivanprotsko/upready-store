@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 33,
+  "action": "status-set",
+  "ts": "2026-09-16T07:40:37+08:00",
+  "status": "2026-09-16 07:40 WITA: w03-wb-sales-questions-mirror ПРИНЯТ раунд 3 и смержен (PR #76, merge f62aeaf7). Находка раунда 2 (брошенный мерж, 5 конфликтующих файлов) закрыта: merge-tree 0 конфликтов, оба набора w13+w03 на одной странице панели, HANDOFF.json ветка не несёт. Перемерено: tsc бэкенда/панели rc=0, юнит 52/561 rc=0, стенд upready_store_w03 — wb_sale 21573 / wb_question 1002 / wb_analytics_daily 133, 429 записан как rate_limited, wb_api_call только зарегистрированные id. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-w03-wb-sales-questions-mirror-3/measurements.md"
+}

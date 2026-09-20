@@ -1,0 +1,27 @@
+# d04 — ФИНАЛЬНЫЙ health-свип (состояние, которое обслуживает), 2026-09-15 20:45 WITA
+# serving sha = a530e50 (волна 4 без #50/f12: его бэкенд-образ не собирается)
+
+## Пять платформенных URL
+https://shipshift.dev/health                            200
+https://start.upready.dev/start/onboarding              200
+https://panel-store.upready.dev/                        200
+https://cherkashino.shipshift.dev/ru                    200
+https://zolotaya-nit-1057.shipshift.dev/ru              200
+
+## Пять карточек магазина клиента
+/ru/products/gepachisty-cherkashino                                      200
+/ru/products/kapli-v-nos-asd-i-serebro-cherkashino                       200
+/ru/products/maz-ot-varikoza-s-kashtanom-cherkashino                     200
+/ru/products/sila-razdelnogo-pitaniya-250-retseptov-poleznyh-blyud-cherkashino 200
+/ru/products/tabletki-ot-varikoza-s-kashtanom-cherkashino                200
+
+## Проверки реестра protected-infra
+start.upready.dev/start/onboarding                   200
+panel-store.upready.dev/                             200
+zolotaya-nit-1057.shipshift.dev/ (code ssl)          302 0
+shipshift.dev/static/.../home-hero.webp              200
+cherkashino.shipshift.dev/ru (code ssl)              200 0
+
+## Маркер живого кода волны 4
+{"configured":false,"contact_email":"hello@shipshift.dev"}
+HTTP 200

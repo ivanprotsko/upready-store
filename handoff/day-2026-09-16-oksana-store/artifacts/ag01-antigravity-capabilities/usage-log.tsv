@@ -1,0 +1,310 @@
+# usage-log.tsv — журнал квоты вокруг каждого вызова agy (ag01)
+# поля: moment_utc	step	pool	weekly_pct	five_hour_pct	five_hour_reset_utc
+2026-09-17T22:02:54Z	before:01-help	Gemini Models	Weekly Limit Remaining	99%	2026-09-24T14:34:13Z
+2026-09-17T22:02:54Z	before:01-help	Gemini Models	Five Hour Limit Remaining	99%	2026-09-18T00:34:13Z
+2026-09-17T22:02:54Z	before:01-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:02:54Z	before:01-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:02:58Z	after:01-help	Gemini Models	Weekly Limit Remaining	99%	2026-09-24T14:34:13Z
+2026-09-17T22:02:58Z	after:01-help	Gemini Models	Five Hour Limit Remaining	99%	2026-09-18T00:34:13Z
+2026-09-17T22:02:58Z	after:01-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:02:58Z	after:01-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:02Z	before:02-models	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:03:02Z	before:02-models	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:03:02Z	before:02-models	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:02Z	before:02-models	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:14Z	after:02-models	Gemini Models	Weekly Limit Remaining	99%	2026-09-24T14:34:13Z
+2026-09-17T22:03:14Z	after:02-models	Gemini Models	Five Hour Limit Remaining	99%	2026-09-18T00:34:13Z
+2026-09-17T22:03:14Z	after:02-models	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:14Z	after:02-models	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:17Z	before:03-mcp-help	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:03:17Z	before:03-mcp-help	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:03:17Z	before:03-mcp-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:17Z	before:03-mcp-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:21Z	after:03-mcp-help	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:03:21Z	after:03-mcp-help	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:03:21Z	after:03-mcp-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:21Z	after:03-mcp-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:24Z	before:04-agents-help	Gemini Models	Weekly Limit Remaining	99%	2026-09-24T14:34:13Z
+2026-09-17T22:03:24Z	before:04-agents-help	Gemini Models	Five Hour Limit Remaining	99%	2026-09-18T00:34:13Z
+2026-09-17T22:03:24Z	before:04-agents-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:24Z	before:04-agents-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:28Z	after:04-agents-help	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:03:28Z	after:04-agents-help	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:03:28Z	after:04-agents-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:28Z	after:04-agents-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:31Z	before:05-plugin-help	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:03:31Z	before:05-plugin-help	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:03:31Z	before:05-plugin-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:31Z	before:05-plugin-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:34Z	after:05-plugin-help	Gemini Models	Weekly Limit Remaining	99%	2026-09-24T14:34:13Z
+2026-09-17T22:03:34Z	after:05-plugin-help	Gemini Models	Five Hour Limit Remaining	99%	2026-09-18T00:34:13Z
+2026-09-17T22:03:34Z	after:05-plugin-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:34Z	after:05-plugin-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:43Z	before:06-slash-help	Gemini Models	Weekly Limit Remaining	99%	2026-09-24T14:34:13Z
+2026-09-17T22:03:43Z	before:06-slash-help	Gemini Models	Five Hour Limit Remaining	99%	2026-09-18T00:34:13Z
+2026-09-17T22:03:43Z	before:06-slash-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:43Z	before:06-slash-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:49Z	after:06-slash-help	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:03:49Z	after:06-slash-help	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:03:49Z	after:06-slash-help	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:49Z	after:06-slash-help	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:52Z	before:07-slash-model	Gemini Models	Weekly Limit Remaining	99%	2026-09-24T14:34:13Z
+2026-09-17T22:03:52Z	before:07-slash-model	Gemini Models	Five Hour Limit Remaining	99%	2026-09-18T00:34:13Z
+2026-09-17T22:03:52Z	before:07-slash-model	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:52Z	before:07-slash-model	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:03:58Z	after:07-slash-model	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:03:58Z	after:07-slash-model	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:03:58Z	after:07-slash-model	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:03:58Z	after:07-slash-model	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:05:29Z	before:10-model-gemini-3.8-flash-high	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:05:29Z	before:10-model-gemini-3.8-flash-high	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:05:29Z	before:10-model-gemini-3.8-flash-high	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:05:29Z	before:10-model-gemini-3.8-flash-high	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:05:40Z	after:10-model-gemini-3.8-flash-high	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:05:40Z	after:10-model-gemini-3.8-flash-high	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:05:40Z	after:10-model-gemini-3.8-flash-high	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:05:40Z	after:10-model-gemini-3.8-flash-high	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:05:43Z	before:10-model-gemini-3.8-flash-low	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:05:43Z	before:10-model-gemini-3.8-flash-low	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:05:43Z	before:10-model-gemini-3.8-flash-low	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:05:43Z	before:10-model-gemini-3.8-flash-low	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:05:51Z	after:10-model-gemini-3.8-flash-low	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:05:51Z	after:10-model-gemini-3.8-flash-low	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:05:51Z	after:10-model-gemini-3.8-flash-low	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:05:51Z	after:10-model-gemini-3.8-flash-low	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:06:13Z	before:10-model-gemini-3.1-pro-high	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:06:13Z	before:10-model-gemini-3.1-pro-high	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:06:13Z	before:10-model-gemini-3.1-pro-high	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:06:13Z	before:10-model-gemini-3.1-pro-high	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:06:29Z	after:10-model-gemini-3.1-pro-high	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:06:29Z	after:10-model-gemini-3.1-pro-high	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:06:29Z	after:10-model-gemini-3.1-pro-high	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:06:29Z	after:10-model-gemini-3.1-pro-high	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:06:32Z	before:10-model-gemini-3.1-pro-low	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:06:32Z	before:10-model-gemini-3.1-pro-low	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:06:32Z	before:10-model-gemini-3.1-pro-low	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:06:32Z	before:10-model-gemini-3.1-pro-low	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:06:46Z	after:10-model-gemini-3.1-pro-low	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:06:46Z	after:10-model-gemini-3.1-pro-low	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:06:46Z	after:10-model-gemini-3.1-pro-low	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:06:46Z	after:10-model-gemini-3.1-pro-low	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:06:49Z	before:10-model-claude-sonnet-4-6	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:06:49Z	before:10-model-claude-sonnet-4-6	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:06:49Z	before:10-model-claude-sonnet-4-6	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:06:49Z	before:10-model-claude-sonnet-4-6	Claude and GPT models	Five Hour Limit Remaining	91%	2026-09-17T22:23:30Z
+2026-09-17T22:07:00Z	after:10-model-claude-sonnet-4-6	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:07:00Z	after:10-model-claude-sonnet-4-6	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:07:00Z	after:10-model-claude-sonnet-4-6	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:07:00Z	after:10-model-claude-sonnet-4-6	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:07:03Z	before:10-model-gpt-oss-120b-medium	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:07:03Z	before:10-model-gpt-oss-120b-medium	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:07:03Z	before:10-model-gpt-oss-120b-medium	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:07:03Z	before:10-model-gpt-oss-120b-medium	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:07:14Z	after:10-model-gpt-oss-120b-medium	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:07:14Z	after:10-model-gpt-oss-120b-medium	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:07:14Z	after:10-model-gpt-oss-120b-medium	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:07:14Z	after:10-model-gpt-oss-120b-medium	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:08:07Z	before:20-tool-read	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:08:07Z	before:20-tool-read	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:08:07Z	before:20-tool-read	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:08:07Z	before:20-tool-read	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:08:48Z	after:20-tool-read	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:08:48Z	after:20-tool-read	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:08:48Z	after:20-tool-read	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:08:48Z	after:20-tool-read	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:08:51Z	before:21-tool-write	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:08:51Z	before:21-tool-write	Gemini Models	Five Hour Limit Remaining	98%	2026-09-18T00:34:13Z
+2026-09-17T22:08:51Z	before:21-tool-write	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:08:51Z	before:21-tool-write	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:09:16Z	after:21-tool-write	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:09:16Z	after:21-tool-write	Gemini Models	Five Hour Limit Remaining	97%	2026-09-18T00:34:13Z
+2026-09-17T22:09:16Z	after:21-tool-write	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:09:16Z	after:21-tool-write	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:09:19Z	before:22-tool-shell	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:09:19Z	before:22-tool-shell	Gemini Models	Five Hour Limit Remaining	97%	2026-09-18T00:34:13Z
+2026-09-17T22:09:19Z	before:22-tool-shell	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:09:19Z	before:22-tool-shell	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:10:03Z	after:22-tool-shell	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:10:03Z	after:22-tool-shell	Gemini Models	Five Hour Limit Remaining	97%	2026-09-18T00:34:13Z
+2026-09-17T22:10:03Z	after:22-tool-shell	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:10:03Z	after:22-tool-shell	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:10:06Z	before:23-tool-search	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:10:06Z	before:23-tool-search	Gemini Models	Five Hour Limit Remaining	96%	2026-09-18T00:34:13Z
+2026-09-17T22:10:06Z	before:23-tool-search	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:10:06Z	before:23-tool-search	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:10:47Z	after:23-tool-search	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:10:47Z	after:23-tool-search	Gemini Models	Five Hour Limit Remaining	96%	2026-09-18T00:34:13Z
+2026-09-17T22:10:47Z	after:23-tool-search	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:10:47Z	after:23-tool-search	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:11:07Z	before:24-tool-web	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:11:07Z	before:24-tool-web	Gemini Models	Five Hour Limit Remaining	96%	2026-09-18T00:34:13Z
+2026-09-17T22:11:07Z	before:24-tool-web	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:11:07Z	before:24-tool-web	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:11:51Z	after:24-tool-web	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:11:51Z	after:24-tool-web	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:11:51Z	after:24-tool-web	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:11:51Z	after:24-tool-web	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:12:28Z	before:30-format-text	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:12:28Z	before:30-format-text	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:12:28Z	before:30-format-text	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:12:28Z	before:30-format-text	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:12:35Z	after:30-format-text	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:12:35Z	after:30-format-text	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:12:35Z	after:30-format-text	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:12:35Z	after:30-format-text	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:12:38Z	before:31-format-stream-json	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:12:38Z	before:31-format-stream-json	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:12:38Z	before:31-format-stream-json	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:12:38Z	before:31-format-stream-json	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:12:45Z	after:31-format-stream-json	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:12:45Z	after:31-format-stream-json	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:12:45Z	after:31-format-stream-json	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:12:45Z	after:31-format-stream-json	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:12:48Z	before:32-format-json-schema	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:12:48Z	before:32-format-json-schema	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:12:48Z	before:32-format-json-schema	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:12:48Z	before:32-format-json-schema	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:13:11Z	after:32-format-json-schema	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:13:11Z	after:32-format-json-schema	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:13:11Z	after:32-format-json-schema	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:13:11Z	after:32-format-json-schema	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:13:43Z	before:40-session-first	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:13:43Z	before:40-session-first	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:13:43Z	before:40-session-first	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:13:43Z	before:40-session-first	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:13:53Z	after:40-session-first	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:13:53Z	after:40-session-first	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:13:53Z	after:40-session-first	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:13:53Z	after:40-session-first	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:13:57Z	before:41-session-continue	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:13:57Z	before:41-session-continue	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:13:57Z	before:41-session-continue	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:13:57Z	before:41-session-continue	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:14:04Z	after:41-session-continue	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:14:04Z	after:41-session-continue	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:14:04Z	after:41-session-continue	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:14:04Z	after:41-session-continue	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:14:07Z	before:42-session-by-id	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:14:07Z	before:42-session-by-id	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:14:07Z	before:42-session-by-id	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:14:07Z	before:42-session-by-id	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:14:14Z	after:42-session-by-id	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:14:14Z	after:42-session-by-id	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:14:14Z	after:42-session-by-id	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:14:14Z	after:42-session-by-id	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:14:24Z	before:50-skills	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:14:24Z	before:50-skills	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:14:24Z	before:50-skills	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:14:24Z	before:50-skills	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:14:30Z	after:50-skills	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:14:30Z	after:50-skills	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:14:30Z	after:50-skills	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:14:30Z	after:50-skills	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:14:46Z	before:51-slash-plan	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:14:46Z	before:51-slash-plan	Gemini Models	Five Hour Limit Remaining	95%	2026-09-18T00:34:13Z
+2026-09-17T22:14:46Z	before:51-slash-plan	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:14:46Z	before:51-slash-plan	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:15:04Z	after:51-slash-plan	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:15:04Z	after:51-slash-plan	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:15:04Z	after:51-slash-plan	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:15:04Z	after:51-slash-plan	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:15:06Z	before:52-slash-goal	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:15:06Z	before:52-slash-goal	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:15:06Z	before:52-slash-goal	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:15:06Z	before:52-slash-goal	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:15:14Z	after:52-slash-goal	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:15:14Z	after:52-slash-goal	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:15:14Z	after:52-slash-goal	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:15:14Z	after:52-slash-goal	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:15:17Z	before:53-slash-learn	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:15:17Z	before:53-slash-learn	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:15:17Z	before:53-slash-learn	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:15:17Z	before:53-slash-learn	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:15:26Z	after:53-slash-learn	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:15:26Z	after:53-slash-learn	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:15:26Z	after:53-slash-learn	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:15:26Z	after:53-slash-learn	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:15:41Z	before:54-slash-grill	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:15:41Z	before:54-slash-grill	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:15:41Z	before:54-slash-grill	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:15:41Z	before:54-slash-grill	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:15:52Z	after:54-slash-grill	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:15:52Z	after:54-slash-grill	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:15:52Z	after:54-slash-grill	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:15:52Z	after:54-slash-grill	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:15:55Z	before:55-slash-boost	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:15:55Z	before:55-slash-boost	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:15:55Z	before:55-slash-boost	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:15:55Z	before:55-slash-boost	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:16:07Z	after:55-slash-boost	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:16:07Z	after:55-slash-boost	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:16:07Z	after:55-slash-boost	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:16:07Z	after:55-slash-boost	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:16:52Z	before:60-pilot-pro	Gemini Models	Weekly Limit Remaining	98%	2026-09-24T14:34:13Z
+2026-09-17T22:16:52Z	before:60-pilot-pro	Gemini Models	Five Hour Limit Remaining	94%	2026-09-18T00:34:13Z
+2026-09-17T22:16:52Z	before:60-pilot-pro	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:16:52Z	before:60-pilot-pro	Claude and GPT models	Five Hour Limit Remaining	90%	2026-09-17T22:23:30Z
+2026-09-17T22:27:28Z	before:61-pilot-pro	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:27:28Z	before:61-pilot-pro	Gemini Models	Five Hour Limit Remaining	92%	2026-09-18T00:34:13Z
+2026-09-17T22:27:28Z	before:61-pilot-pro	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:27:28Z	before:61-pilot-pro	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:29:56Z	after:61-pilot-pro	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:29:56Z	after:61-pilot-pro	Gemini Models	Five Hour Limit Remaining	90%	2026-09-18T00:34:13Z
+2026-09-17T22:29:56Z	after:61-pilot-pro	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:29:56Z	after:61-pilot-pro	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:31:48Z	before:70-pilot-flash	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:31:48Z	before:70-pilot-flash	Gemini Models	Five Hour Limit Remaining	91%	2026-09-18T00:34:13Z
+2026-09-17T22:31:48Z	before:70-pilot-flash	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:31:48Z	before:70-pilot-flash	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:33:21Z	after:70-pilot-flash	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:33:21Z	after:70-pilot-flash	Gemini Models	Five Hour Limit Remaining	89%	2026-09-18T00:34:13Z
+2026-09-17T22:33:21Z	after:70-pilot-flash	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:33:21Z	after:70-pilot-flash	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:34:16Z	before:90-pilot-mock	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:34:16Z	before:90-pilot-mock	Gemini Models	Five Hour Limit Remaining	89%	2026-09-18T00:34:13Z
+2026-09-17T22:34:16Z	before:90-pilot-mock	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:34:16Z	before:90-pilot-mock	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:36:05Z	after:90-pilot-mock	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:36:05Z	after:90-pilot-mock	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:36:05Z	after:90-pilot-mock	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:36:05Z	after:90-pilot-mock	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:36:30Z	before:100-mode-plan	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:36:30Z	before:100-mode-plan	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:36:30Z	before:100-mode-plan	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:36:30Z	before:100-mode-plan	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:36:43Z	after:100-mode-plan	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:36:43Z	after:100-mode-plan	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:36:43Z	after:100-mode-plan	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:36:43Z	after:100-mode-plan	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:36:46Z	before:101-mode-accept-edits	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:36:46Z	before:101-mode-accept-edits	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:36:46Z	before:101-mode-accept-edits	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:36:46Z	before:101-mode-accept-edits	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:36:57Z	after:101-mode-accept-edits	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:36:57Z	after:101-mode-accept-edits	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:36:57Z	after:101-mode-accept-edits	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:36:57Z	after:101-mode-accept-edits	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:37:05Z	before:102-sandbox	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:37:05Z	before:102-sandbox	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:37:05Z	before:102-sandbox	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:37:05Z	before:102-sandbox	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:37:13Z	after:102-sandbox	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:37:13Z	after:102-sandbox	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:37:13Z	after:102-sandbox	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:37:13Z	after:102-sandbox	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:39:48Z	before:130-effort	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:39:48Z	before:130-effort	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:39:48Z	before:130-effort	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:39:48Z	before:130-effort	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:39:54Z	after:130-effort	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:39:54Z	after:130-effort	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:39:54Z	after:130-effort	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:39:54Z	after:130-effort	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:39:57Z	before:131-add-dir	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:39:57Z	before:131-add-dir	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:39:57Z	before:131-add-dir	Claude and GPT models	Weekly Limit Remaining	97%	2026-09-24T17:23:30Z
+2026-09-17T22:39:57Z	before:131-add-dir	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z
+2026-09-17T22:40:09Z	after:131-add-dir	Gemini Models	Weekly Limit Remaining	97%	2026-09-24T14:34:13Z
+2026-09-17T22:40:09Z	after:131-add-dir	Gemini Models	Five Hour Limit Remaining	87%	2026-09-18T00:34:13Z
+2026-09-17T22:40:09Z	after:131-add-dir	Claude and GPT models	Weekly Limit Remaining	96%	2026-09-24T17:23:30Z
+2026-09-17T22:40:09Z	after:131-add-dir	Claude and GPT models	Five Hour Limit Remaining	100%	2026-09-18T03:23:30Z

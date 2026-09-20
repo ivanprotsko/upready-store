@@ -92,6 +92,41 @@ export const useCategoryTableColumns = () => {
           return <TextCell text={`/${getValue()}`} />
         },
       }),
+      /**
+       * The picture, as a picture. The owner uploads it in the edit drawer and the
+       * storefront draws it on the category page, in the catalog and on the home
+       * page; before f16-category-image-not-shown nothing in the panel said which
+       * categories already had one, so "did my upload land?" had no answer short of
+       * opening every category in turn.
+       */
+      columnHelper.display({
+        id: "image",
+        header: () => <TextHeader text={t("categories.edit.image")} />,
+        cell: ({ row }) => {
+          const metadata = (row.original.metadata ?? {}) as Record<string, unknown>
+          const url =
+            typeof metadata.image_url === "string" && metadata.image_url.trim()
+              ? metadata.image_url
+              : null
+
+          if (!url) {
+            return (
+              <Text size="small" leading="compact" className="text-ui-fg-muted">
+                {t("categories.fields.image.none")}
+              </Text>
+            )
+          }
+
+          return (
+            <img
+              src={url}
+              alt=""
+              loading="lazy"
+              className="h-8 w-[26px] shrink-0 rounded object-cover"
+            />
+          )
+        },
+      }),
       columnHelper.accessor("is_active", {
         header: () => <TextHeader text={t("fields.status")} />,
         cell: ({ getValue }) => {

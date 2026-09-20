@@ -1,0 +1,75 @@
+
+> @dtc/gorgo-medusa-tenant-panel@0.1.0 typecheck /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel
+> tsc --noEmit
+
+panel tsc rc=0
+
+> @dtc/gorgo-medusa-tenant-panel@0.1.0 lint /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel
+> eslint src
+
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/components/data-grid/components/data-grid-root.tsx
+  297:42  warning  The ref value 'containerRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'containerRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+  300:6   warning  React Hook useEffect has a missing dependency: 'handleScroll'. Either include it or remove the dependency array                                                                                                                                                          react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/components/data-table/data-table.tsx
+  177:6  warning  React Hook React.useEffect has a missing dependency: 'columnVisibility'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/components/table/view-selector/view-pills.tsx
+  90:6  warning  React Hook useEffect has a missing dependency: 'deleteView'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/components/table/view-selector/view-selector.tsx
+  93:6  warning  React Hook useEffect has a missing dependency: 'deleteView'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/hooks/table/columns/use-column-state.ts
+  119:5  warning  React Hook useCallback has missing dependencies: 'columnOrder.length' and 'visibleColumns'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/campaigns/campaign-list/components/campaign-table-adapter.tsx
+  69:1  warning  Unused eslint-disable directive (no problems were reported from 'max-len')
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/campaigns/common/components/create-campaign-form-fields/create-campaign-form-fields.tsx
+  61:6  warning  React Hook useEffect has missing dependencies: 'fieldScope' and 'form'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/categories/category-detail/components/category-product-section/category-product-table-adapter.tsx
+  78:1  warning  Unused eslint-disable directive (no problems were reported from 'max-len')
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/orders/order-create-fulfillment/components/order-create-fulfillment-form/order-create-fulfillment-form.tsx
+  191:6  warning  React Hook useEffect has missing dependencies: 'form' and 'order.shipping_methods'. Either include them or remove the dependency array                   react-hooks/exhaustive-deps
+  224:6  warning  React Hook useEffect has missing dependencies: 'form', 'order?.items', and 't'. Either include them or remove the dependency array                       react-hooks/exhaustive-deps
+  224:7  warning  React Hook useEffect has a spread element in its dependency array. This means we can't statically verify whether you've passed the correct dependencies  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/orders/order-create-fulfillment/components/order-create-fulfillment-form/order-create-fulfillment-item.tsx
+  124:6  warning  React Hook useMemo has a missing dependency: 'item.id'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/orders/order-detail/components/copy-payment-link/copy-payment-link.tsx
+  51:8  warning  React Hook React.useEffect has a missing dependency: 't'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/orders/order-detail/components/order-active-edit-section/order-active-edit-section.tsx
+  95:6  warning  React Hook useMemo has a missing dependency: 'order.items'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/orders/order-detail/components/order-activity-section/order-timeline.tsx
+  635:6  warning  React Hook useMemo has missing dependencies: 'claims' and 't'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/products/product-create-variant/components/create-product-variant-form/create-product-variant-form.tsx
+  117:6  warning  React Hook useEffect has a missing dependency: 'inventoryField'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/products/product-image-variants-edit/components/variants-table-form/variants-table-form.tsx
+   65:6  warning  React Hook useEffect has a missing dependency: 'image.variants'. Either include it or remove the dependency array. If 'setVariantSelection' needs the current value of 'image.variants', you can also switch to useReducer instead of useState and read 'image.variants' in the reducer  react-hooks/exhaustive-deps
+  175:5  warning  React Hook useMemo has a missing dependency: 'image.url'. Either include it or remove the dependency array                                                                                                                                                                               react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/products/product-list/components/product-list-table/product-table-adapter.tsx
+  10:1  warning  Unused eslint-disable directive (no problems were reported from 'max-len')
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/products/product-shipping-profile/components/product-organization-form/product-shipping-profile-form.tsx
+  88:6  warning  React Hook useEffect has a missing dependency: 'form'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/promotions/common/edit-rules/components/rule-value-form-field/rule-value-form-field.tsx
+  116:6  warning  React Hook useEffect has missing dependencies: 'form' and 'name'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/tenant-panel/src/routes/promotions/promotion-list/components/promotion-list-table/promotion-table-adapter.tsx
+  84:1  warning  Unused eslint-disable directive (no problems were reported from 'max-len')
+
+✖ 23 problems (0 errors, 23 warnings)
+  0 errors and 4 warnings potentially fixable with the `--fix` option.
+
+panel lint rc=0

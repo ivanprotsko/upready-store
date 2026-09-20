@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Сторож дня магазина Оксаны: замена cron-строки «*/5 * * * * run.sh».
+       cron живёт вне GUI-сессии и не видит keychain входа: диспетчер, поднятый cron'ом
+       после перезагрузки 2026-09-16 06:05 WITA, получал от GitHub «HTTP 401: Requires
+       authentication», а приёмщик claude -p — «OAuth session expired». LaunchAgent в
+       домене gui/<uid> с LimitLoadToSessionType=Aqua живёт в сессии входа и keychain видит.
+       Установка: launchctl bootstrap gui/$(id -u) <этот файл>; снятие: launchctl bootout gui/$(id -u)/dev.upready.oksana-store-runner -->
+  <key>Label</key>
+  <string>dev.upready.oksana-store-runner</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/run.sh</string>
+  </array>
+  <key>StartInterval</key>
+  <integer>300</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>LimitLoadToSessionType</key>
+  <string>Aqua</string>
+  <key>StandardOutPath</key>
+  <string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/launchd-runner.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/launchd-runner.log</string>
+</dict>
+</plist>

@@ -1,0 +1,14 @@
+{
+  "checks": {
+    "edit-open-on-site-link": true,
+    "after-edit-url": "http://localhost:5118/journal",
+    "shop-title-updated": "Пептиды Хавинсона: разбор по шагам",
+    "after-rename-url": "http://localhost:5118/journal/peptidy-havinsona",
+    "shop-new-address": 200,
+    "shop-old-address": 404,
+    "rows-before-delete": 3,
+    "rows-after-delete": 2,
+    "shop-deleted-404": 404,
+    "shop-feed-after-delete": 1
+  }
+}

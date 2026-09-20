@@ -62,6 +62,11 @@
     "description": "Visa och uppdatera dina leveransadresser, du kan lägga till så många du vill. Sparade adresser blir tillgängliga vid kassan.",
     "heading": "Leveransadresser"
   },
+  "AnalyticsConsent": {
+    "message": "Vi använder cookies för att förstå hur besökare använder den här webbplatsen.",
+    "accept": "Acceptera",
+    "decline": "Avvisa"
+  },
   "Breadcrumb": {
     "home": "Hem",
     "store": "Butik"
@@ -98,6 +103,25 @@
     "title": "Kategorier",
     "viewAll": "Visa alla"
   },
+  "CdekPoint": {
+    "heading": "CDEK-utlämningsställe",
+    "chooseHeading": "Välj ett CDEK-utlämningsställe",
+    "searchPlaceholder": "Sök på adress eller tunnelbana",
+    "cityLabel": "Stad",
+    "cityPlaceholder": "Börja skriva en stad",
+    "choose": "Välj",
+    "chosen": "Vald",
+    "found": "Hittade utlämningsställen: {count}",
+    "noResults": "Inga utlämningsställen hittades i {city}.",
+    "needCity": "Ange din leveransstad för att se utlämningsställen.",
+    "loading": "Laddar utlämningsställen…",
+    "notConfigured": "CDEK-leverans är inte uppsatt i den här butiken än.",
+    "change": "Byt ställe",
+    "tabList": "Lista",
+    "tabMap": "Karta",
+    "mapEmpty": "Det finns inga utlämningsställen att visa på kartan för den här staden.",
+    "mapFailed": "Kartan är inte tillgänglig. Välj ett ställe i listan."
+  },
   "CheckoutPage": {
     "addNewAddress": "Lägg till ny adress",
     "addressHeading": "Leveransadress",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} vara} other {{count} varor}}",
     "legal": "Genom att klicka på ”Betala” godkänner du våra <terms>villkor</terms>, <termsOfUse>användarvillkor</termsOfUse> och <returnPolicy>returpolicy</returnPolicy>, samt godkänner vår <privacyPolicy>integritetspolicy</privacyPolicy>.",
     "manualInput": "Ange adress manuellt",
+    "addressIncomplete": "Fyll i adressens obligatoriska fält. Utan ort och postnummer kan beställningen inte skickas.",
     "orderComposition": "Ordersammanfattning",
     "paymentHeading": "Betalningsmetod",
     "recipientCheckbox": "Mottagaren är en annan person",
@@ -145,7 +170,16 @@
     "shippingLink": "Frakt",
     "shippingUnavailable": "Inga fraktmetoder tillgängliga",
     "signIn": "Logga in",
-    "total": "Totalt"
+    "total": "Totalt",
+    "shippingZone": "Zon: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Beställde du utan konto?",
+    "description": "Om du beställde som gäst med samma e-postadress kopplar vi de beställningarna till ditt konto.",
+    "button": "Hitta mina beställningar",
+    "claimed": "Kopplade beställningar: {count}",
+    "none": "Vi hittade inga gästbeställningar på din e-postadress i den här butiken.",
+    "failed": "Vi kunde inte kontrollera dina beställningar. Försök igen om en stund."
   },
   "Common": {
     "clear": "Rensa",
@@ -306,8 +340,12 @@
     "unauthorized": "Logga in för att fortsätta."
   },
   "Filters": {
+    "from": "från",
+    "no": "Nej",
     "sort": "Sortera",
-    "title": "Filter"
+    "title": "Filter",
+    "to": "till",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Stäng",
+    "counter": "Bild {index} av {total}",
     "goToImage": "Gå till bild {index}",
-    "openFullImage": "Öppna bilden i full storlek"
+    "nextImage": "Nästa bild",
+    "openFullImage": "Öppna bilden i full storlek",
+    "previousImage": "Föregående bild",
+    "showImage": "Visa bild {index}",
+    "thumbnails": "Miniatyrbilder av produkten"
+  },
+  "Journal": {
+    "navLabel": "Magasin",
+    "feedTitle": "Magasin",
+    "feedDescription": "Artiklar från {siteName}.",
+    "empty": "Inga artiklar ännu.",
+    "backToFeed": "Alla artiklar",
+    "previous": "Föregående",
+    "next": "Nästa",
+    "pageOf": "Sida {page} av {lastPage}",
+    "pagination": "Magasinets sidor",
+    "readingTime": "{minutes} min läsning",
+    "related": "Läs också",
+    "share": "Dela",
+    "copyLink": "Kopiera länk",
+    "linkCopied": "Länk kopierad",
+    "allCategories": "Alla ämnen",
+    "categories": "Ämnen"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Bli medlem",
     "notMember": "Inte medlem än?",
     "password": "Lösenord",
-    "signIn": "Logga in"
+    "signIn": "Logga in",
+    "yandexCta": "Logga in med Yandex ID",
+    "yandexDivider": "eller",
+    "yandexErrorDenied": "Du avbröt inloggningen på Yandex sida.",
+    "yandexErrorEmailTaken": "Det finns redan ett konto med den här e-postadressen. Logga in med ditt lösenord.",
+    "yandexErrorExpired": "Inloggningslänken har gått ut. Börja om.",
+    "yandexErrorFailed": "Inloggningen gick inte igenom. Försök igen om en stund.",
+    "yandexErrorNoEmail": "Yandex lämnade ingen e-postadress, så kontot kan inte skapas.",
+    "yandexErrorRejected": "Yandex kunde inte bekräfta inloggningen. Försök igen.",
+    "yandexErrorUnconfigured": "Inloggning med Yandex är ännu inte påslaget i den här butiken."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Visa detaljer"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Spara ordernumret. Du behöver det när du kontaktar butiken.",
     "orderSuccess": "Din order har lagts.",
     "thankYou": "Tack!"
   },
   "OrderDetails": {
     "backToOrders": "Tillbaka till beställningar",
-    "confirmationSentBefore": "Vi har skickat orderbekräftelsen till",
+    "contactEmailBefore": "Kontaktadressen för den här ordern är",
     "fulfillmentStatuses": {
       "canceled": "Avbruten",
       "delivered": "Levererad",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Betalningen bekräftas fortfarande. Vänta en minut och öppna din beställning från kontot, eller försök igen.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Spårningsnummer"
   },
   "OrdersPage": {
     "description": "Visa dina tidigare ordrar och deras status.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betala",
+    "redirectUnavailable": "Betalningssidan är inte tillgänglig ännu. Försök igen om en stund.",
     "selectPaymentMethod": "Välj en betalningsmetod"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Betalkort",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Betalkort",
@@ -682,6 +758,14 @@
     "selectOptions": "Välj alternativ",
     "selectVariant": "Välj variant"
   },
+  "ProductAttributes": {
+    "no": "Nej",
+    "title": "Specifikationer",
+    "yes": "Ja"
+  },
+  "ProductInfo": {
+    "description": "Beskrivning"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsätt konfigurationen i adminpanelen",
     "continueSetup": "Du kan nu fortsätta konfigurera din butik i adminpanelen.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Visa alla"
+  },
+  "ProductReviews": {
+    "heading": "Omdömen",
+    "ratingSummary": "{average} av 5 · {count, plural, one {# omdöme} other {# omdömen}}",
+    "ratingValue": "{value} av 5",
+    "formHeading": "Ditt omdöme",
+    "ratingLabel": "Betyg",
+    "nameLabel": "Ditt namn",
+    "titleLabel": "Rubrik (valfritt)",
+    "bodyLabel": "Din text",
+    "submit": "Skicka omdöme",
+    "pendingNotice": "Tack. Omdömet visas när butiken har godkänt det.",
+    "signInPrompt": "Logga in för att lämna ett omdöme.",
+    "error": "Omdömet kunde inte skickas. Försök igen.",
+    "ownerReply": "Svar från butiken",
+    "previousPage": "Föregående",
+    "nextPage": "Nästa",
+    "pageOf": "Sida {page} av {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Enkla returer",
@@ -809,7 +911,8 @@
       "account": "Konto",
       "cart": "Varukorg",
       "home": "Hem",
-      "store": "Butik"
+      "store": "Butik",
+      "journal": "Magasin"
     },
     "menuButton": "Meny"
   },

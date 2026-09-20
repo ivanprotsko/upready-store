@@ -2,11 +2,25 @@
 
 import { useState, useEffect, useTransition, useMemo } from "react"
 import { setShippingMethod, updateRegion } from "@lib/data/cart"
-import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
+import {
+  calculatePriceForShippingOption,
+  quoteShippingMethod,
+} from "@lib/data/fulfillment"
+import { TARIFF_PROVIDER_ID } from "@lib/util/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
+import {
+  cdekKindOf,
+  cdekNeedsPoint,
+  chosenCdekPoint,
+  cdekTermOf,
+  cityForPointSearch,
+  isCdekOption,
+  type CdekStorePoint,
+} from "@lib/util/cdek"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
 import { usePickupSheet } from "@modules/checkout/context/pickup-sheet-context"
+import CheckoutCdekPointSheet from "@modules/checkout/components/checkout-cdek-point-sheet"
 import { Loader, CursorDefault } from "@medusajs/icons"
 import { DropdownMenu, RadioGroup, clx } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
@@ -57,6 +71,35 @@ function getLocalizedCountryName(
   }
 }
 
+/** `data.sort_order` of a tenant method; anything else sorts last, in API order. */
+const sortOrderOf = (option: HttpTypes.StoreCartShippingOption): number => {
+  const value = (option.data as { sort_order?: unknown } | null)?.sort_order
+  return typeof value === "number" ? value : Number.MAX_SAFE_INTEGER
+}
+
+/**
+ * The name of the zone that priced this method («Урал», «Россия, вся страна»),
+ * written into `data.zone.label` by the backend on every save
+ * (`apps/backend/src/shipping-tariffs/ru-zone-presets.ts`). A method saved
+ * before zones had names carries none, and the card simply shows no zone line.
+ */
+const zoneLabel = (
+  option: HttpTypes.StoreCartShippingOption
+): string | null => {
+  const zone = (option.data as { zone?: { label?: unknown } | null } | null)?.zone
+  const label = zone?.label
+  return typeof label === "string" && label.trim() ? label.trim() : null
+}
+
+/** A string the owner wrote into the method's `data` (description, delivery hint), or null. */
+const dataText = (
+  option: HttpTypes.StoreCartShippingOption,
+  key: "description" | "delivery_hint"
+): string | null => {
+  const value = (option.data as Record<string, unknown> | null)?.[key]
+  return typeof value === "string" && value.trim() ? value.trim() : null
+}
+
 export default function CheckoutShippingSection({
   cart,
   availableShippingOptions,
@@ -64,6 +107,7 @@ export default function CheckoutShippingSection({
   currentCountry,
 }: CheckoutShippingSectionProps) {
   const t = useTranslations("CheckoutPage")
+  const tCdek = useTranslations("CdekPoint")
   const dir = useLocaleDirection()
   const getErrorMessage = useErrorMessage()
   const locale = useLocale()
@@ -76,10 +120,26 @@ export default function CheckoutShippingSection({
   const [calculatedPricesMap, setCalculatedPricesMap] = useState<
     Record<string, number>
   >({})
+  // t04-shipping-tariffs: the backend's one-line reason for a tariff price
+  // («2,4 кг × 180 ₽ + 150 ₽»), keyed by option id.
+  const [explanationsMap, setExplanationsMap] = useState<
+    Record<string, string>
+  >({})
   const [shippingError, setShippingError] = useState<string | null>(null)
   const [shippingMethodId, setShippingMethodId] = useState<string | null>(
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
   )
+
+  /**
+   * The CDEK method whose point sheet is open, and the point already on the
+   * cart (i02-apiship-cdek-shipping). A CDEK pickup option cannot be set as the
+   * shipping method without a point code — the provider rejects it — so
+   * choosing its card opens the sheet and the sheet performs the
+   * `setShippingMethod`, the same shape the shop's own pickup card uses.
+   */
+  const [cdekSheetOptionId, setCdekSheetOptionId] = useState<string | null>(null)
+  const cdekChosen = chosenCdekPoint(cart)
+  const cdekTerm = cdekTermOf(cart)
 
   const [now, setNow] = useState<Date | null>(null)
   useEffect(() => {
@@ -170,18 +230,35 @@ export default function CheckoutShippingSection({
       return
     }
 
+    // A tenant tariff method is priced by the quote route (amount + the
+    // explanation line); every other calculated option by Medusa's own
+    // `/calculate`. Both run on the backend.
     Promise.allSettled(
-      calculatedMethods.map((sm) =>
-        calculatePriceForShippingOption(sm.id, cart.id)
-      )
+      calculatedMethods.map(async (sm) => {
+        if (sm.provider_id === TARIFF_PROVIDER_ID) {
+          const quote = await quoteShippingMethod(sm.id, cart.id)
+          return quote
+            ? { id: sm.id, amount: quote.amount, explanation: quote.explanation }
+            : null
+        }
+        const priced = await calculatePriceForShippingOption(sm.id, cart.id)
+        return priced?.id
+          ? { id: priced.id, amount: priced.amount ?? 0, explanation: "" }
+          : null
+      })
     ).then((results) => {
       const pricesMap: Record<string, number> = {}
+      const reasons: Record<string, string> = {}
       results.forEach((r) => {
         if (r.status === "fulfilled" && r.value?.id) {
-          pricesMap[r.value.id] = r.value.amount ?? 0
+          pricesMap[r.value.id] = r.value.amount
+          if (r.value.explanation) {
+            reasons[r.value.id] = r.value.explanation
+          }
         }
       })
       setCalculatedPricesMap(pricesMap)
+      setExplanationsMap(reasons)
       setIsLoadingPrices(false)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -207,7 +284,65 @@ export default function CheckoutShippingSection({
     }
   }
 
+  const cdekSheetOption = useMemo(
+    () => (availableShippingOptions ?? []).find((sm) => sm.id === cdekSheetOptionId) ?? null,
+    [availableShippingOptions, cdekSheetOptionId]
+  )
+
+  /**
+   * The sheet's own price line: the same amount the method's card shows, so the
+   * point card inside the sheet cannot quote a different number from the card
+   * that opened it. `null` while the quote is still in flight — a price the
+   * buyer has not been shown yet must not be invented (rule 17a).
+   */
+  const cdekSheetPriceLabel = useMemo(() => {
+    if (!cdekSheetOption) return null
+    const amount =
+      cdekSheetOption.price_type === "flat"
+        ? cdekSheetOption.amount ?? null
+        : calculatedPricesMap[cdekSheetOption.id] ?? null
+    if (amount === null) return null
+    if (amount === 0) return t("freeShipping")
+    return convertToLocale({
+      amount,
+      currency_code: cart.currency_code,
+      locale,
+    })
+  }, [cdekSheetOption, calculatedPricesMap, cart.currency_code, locale, t])
+
+  /**
+   * Sets the CDEK method with the point the buyer picked. Returns the error
+   * message for the sheet to show, or `null` — the sheet stays open on a
+   * failure, because closing it would leave the cart on the previous method
+   * with no sign of what went wrong.
+   */
+  const handleChooseCdekPoint = async (point: CdekStorePoint): Promise<string | null> => {
+    if (!cdekSheetOptionId) return null
+    setShippingError(null)
+    const prev = shippingMethodId
+    setShippingMethodId(cdekSheetOptionId)
+    const err = await trackCartUpdate(() =>
+      setShippingMethod({
+        cartId: cart.id,
+        shippingMethodId: cdekSheetOptionId,
+        data: { cdek_point_code: point.code, cdek_point_name: point.name },
+      })
+    ).catch((e: Error) => e.message)
+    if (err) {
+      setShippingMethodId(prev)
+      return getErrorMessage(err as string)
+    }
+    return null
+  }
+
   const handleValueChange = (value: string) => {
+    const option = (availableShippingOptions ?? []).find((sm) => sm.id === value)
+    if (cdekNeedsPoint(option)) {
+      // The provider refuses a pickup method with no point, so the sheet runs
+      // `setShippingMethod` once the buyer has chosen one.
+      setCdekSheetOptionId(value)
+      return
+    }
     if (value === PICKUP_GROUP_VALUE) {
       // D2 frame 1: choosing "Pickup" opens the point sheet — whether no
       // point is chosen yet, or an already-chosen one is being changed
@@ -241,7 +376,12 @@ export default function CheckoutShippingSection({
       | { kind: "pickup" }
     )[] = []
     let pickupEmitted = false
-    for (const option of shippingOptions ?? []) {
+    // The owner's order from the panel's /shipping screen (`data.sort_order`);
+    // options without one keep the API order after the ordered ones.
+    const ordered = [...(shippingOptions ?? [])].sort(
+      (a, b) => sortOrderOf(a) - sortOrderOf(b)
+    )
+    for (const option of ordered) {
       if (isPickupShippingOption(option)) {
         if (!pickupEmitted) {
           result.push({ kind: "pickup" })
@@ -326,8 +466,12 @@ export default function CheckoutShippingSection({
                 : option.id === shippingMethodId
 
               const days = getDeliveryDays(option)
+              const zone = isPickupCard ? null : zoneLabel(option)
+              const deliveryHint = dataText(option, "delivery_hint")
+              const description = dataText(option, "description")
+              const explanation = explanationsMap[option.id] ?? null
               const deliveryLabel = !days
-                ? null
+                ? deliveryHint
                 : days.max === 0
                   ? t("deliveryToday")
                   : !now
@@ -386,7 +530,64 @@ export default function CheckoutShippingSection({
                   <span className="txt-compact-medium-plus text-ui-fg-base">
                     {option.name}
                   </span>
-                  <div className="flex flex-col gap-y-0">
+                  {zone && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-subtle"
+                      data-testid="delivery-option-zone"
+                    >
+                      {t("shippingZone", { zone })}
+                    </span>
+                  )}
+                  {description && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-muted line-clamp-2"
+                      data-testid="delivery-option-description"
+                    >
+                      {description}
+                    </span>
+                  )}
+                  {/*
+                    The CDEK point and term are shown only once this method IS
+                    the cart's: both come from `shipping_methods[].data`, which
+                    the provider writes, and inventing either before the buyer
+                    has chosen would be a number nobody measured.
+                  */}
+                  {isSelected && isCdekOption(option) && cdekChosen && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-base"
+                      data-testid="delivery-option-cdek-point"
+                    >
+                      {cdekChosen.name ?? cdekChosen.code}
+                    </span>
+                  )}
+                  {isSelected && isCdekOption(option) && cdekTerm && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-subtle"
+                      data-testid="delivery-option-cdek-term"
+                    >
+                      {cdekTerm}
+                    </span>
+                  )}
+                  {/*
+                    The way back into the picker (i03-checkout-pvz-map-address-suggest).
+                    Clicking the card again cannot do it: `RadioGroup` fires
+                    `onValueChange` on a CHANGE of value, and the card is already
+                    the chosen one — so a buyer who picked the wrong point had no
+                    way at all to pick another (measured 2026-09-16 on the i03
+                    stand). It sits above the radio's own full-card hit area,
+                    which is `absolute inset-0 z-10`.
+                  */}
+                  {isSelected && cdekNeedsPoint(option) && cdekChosen && (
+                    <button
+                      type="button"
+                      onClick={() => setCdekSheetOptionId(option.id)}
+                      className="relative z-20 w-fit txt-compact-xsmall text-ui-fg-interactive underline focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                      data-testid="delivery-option-cdek-change"
+                    >
+                      {tCdek("change")}
+                    </button>
+                  )}
+                  <div className="flex flex-col gap-y-1">
                     <div className="min-h-[20px]">
                       {deliveryLabel && (
                         <span className="txt-compact-small text-ui-fg-subtle">
@@ -425,6 +626,14 @@ export default function CheckoutShippingSection({
                         </div>
                       </div>
                     </div>
+                    {explanation && price !== null && (
+                      <span
+                        className="txt-compact-xsmall text-ui-fg-muted"
+                        data-testid="delivery-option-explanation"
+                      >
+                        {explanation}
+                      </span>
+                    )}
                   </div>
                 </div>
               )
@@ -441,6 +650,19 @@ export default function CheckoutShippingSection({
         <p className="txt-compact-small text-rose-500">
           {getErrorMessage(shippingError)}
         </p>
+      )}
+
+      {cdekSheetOption && (
+        <CheckoutCdekPointSheet
+          open
+          onClose={() => setCdekSheetOptionId(null)}
+          initialCity={cityForPointSearch(cart)}
+          pointType={cdekKindOf(cdekSheetOption) === "postamat" ? "POSTAMAT" : "PVZ"}
+          selectedCode={cdekChosen?.code ?? null}
+          onChoose={handleChooseCdekPoint}
+          priceLabel={cdekSheetPriceLabel}
+          termLabel={cdekTerm}
+        />
       )}
     </div>
   )

@@ -62,6 +62,11 @@
     "description": "Consultez et mettez à jour vos adresses de livraison, vous pouvez en ajouter autant que vous le souhaitez. Enregistrer vos adresses les rendra disponibles lors du paiement.",
     "heading": "Adresses de livraison"
   },
+  "AnalyticsConsent": {
+    "message": "Nous utilisons des cookies pour comprendre comment les visiteurs utilisent ce site.",
+    "accept": "Accepter",
+    "decline": "Refuser"
+  },
   "Breadcrumb": {
     "home": "Accueil",
     "store": "Boutique"
@@ -98,6 +103,25 @@
     "title": "Catégories",
     "viewAll": "Voir tout"
   },
+  "CdekPoint": {
+    "heading": "Point de retrait CDEK",
+    "chooseHeading": "Choisissez un point de retrait CDEK",
+    "searchPlaceholder": "Rechercher par adresse ou métro",
+    "cityLabel": "Ville",
+    "cityPlaceholder": "Saisissez une ville",
+    "choose": "Choisir",
+    "chosen": "Choisi",
+    "found": "Points de retrait trouvés : {count}",
+    "noResults": "Aucun point de retrait trouvé à {city}.",
+    "needCity": "Indiquez votre ville de livraison pour voir les points de retrait.",
+    "loading": "Chargement des points de retrait…",
+    "notConfigured": "La livraison CDEK n'est pas encore configurée dans cette boutique.",
+    "change": "Changer de point",
+    "tabList": "Liste",
+    "tabMap": "Carte",
+    "mapEmpty": "Aucun point relais à afficher sur la carte pour cette ville.",
+    "mapFailed": "La carte est indisponible. Choisissez un point dans la liste."
+  },
   "CheckoutPage": {
     "addNewAddress": "Ajouter une nouvelle adresse",
     "addressHeading": "Adresse de livraison",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} article} other {{count} articles}}",
     "legal": "En cliquant sur « Payer », vous acceptez nos <terms>conditions</terms>, nos <termsOfUse>conditions d'utilisation</termsOfUse> et notre <returnPolicy>politique de retour</returnPolicy>, et consentez à notre <privacyPolicy>politique de confidentialité</privacyPolicy>.",
     "manualInput": "Saisir l'adresse manuellement",
+    "addressIncomplete": "Renseignez les champs obligatoires de l'adresse. Sans ville ni code postal, la commande ne peut pas être expédiée.",
     "orderComposition": "Récapitulatif de la commande",
     "paymentHeading": "Mode de paiement",
     "recipientCheckbox": "Le destinataire est une autre personne",
@@ -145,7 +170,16 @@
     "shippingLink": "Livraison",
     "shippingUnavailable": "Aucun mode de livraison disponible",
     "signIn": "Se connecter",
-    "total": "Total"
+    "total": "Total",
+    "shippingZone": "Zone : {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Vous avez commandé sans compte ?",
+    "description": "Si vous avez commandé en tant qu'invité avec cette même adresse e-mail, nous rattacherons ces commandes à votre compte.",
+    "button": "Trouver mes commandes",
+    "claimed": "Commandes rattachées : {count}",
+    "none": "Aucune commande invité n'a été trouvée pour votre adresse e-mail dans cette boutique.",
+    "failed": "Nous n'avons pas pu vérifier vos commandes. Réessayez dans un instant."
   },
   "Common": {
     "clear": "Effacer",
@@ -306,8 +340,12 @@
     "unauthorized": "Veuillez vous connecter pour continuer."
   },
   "Filters": {
+    "from": "de",
+    "no": "Non",
     "sort": "Tri",
-    "title": "Filtres"
+    "title": "Filtres",
+    "to": "à",
+    "yes": "Oui"
   },
   "Footer": {
     "categoriesHeading": "Catégories",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Fermer",
+    "counter": "Image {index} sur {total}",
     "goToImage": "Aller à l'image {index}",
-    "openFullImage": "Ouvrir l'image en grand"
+    "nextImage": "Image suivante",
+    "openFullImage": "Ouvrir l'image en grand",
+    "previousImage": "Image précédente",
+    "showImage": "Afficher l’image {index}",
+    "thumbnails": "Miniatures du produit"
+  },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Articles de {siteName}.",
+    "empty": "Aucun article pour le moment.",
+    "backToFeed": "Tous les articles",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "pageOf": "Page {page} sur {lastPage}",
+    "pagination": "Pages du journal",
+    "readingTime": "{minutes} min de lecture",
+    "related": "À lire aussi",
+    "share": "Partager",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Lien copié",
+    "allCategories": "Toutes les rubriques",
+    "categories": "Rubriques"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Rejoignez-nous",
     "notMember": "Pas encore membre ?",
     "password": "Mot de passe",
-    "signIn": "Se connecter"
+    "signIn": "Se connecter",
+    "yandexCta": "Se connecter avec Yandex ID",
+    "yandexDivider": "ou",
+    "yandexErrorDenied": "Vous avez annulé la connexion sur la page Yandex.",
+    "yandexErrorEmailTaken": "Un compte utilise déjà cette adresse e-mail. Connectez-vous avec votre mot de passe.",
+    "yandexErrorExpired": "Ce lien de connexion a expiré. Veuillez recommencer.",
+    "yandexErrorFailed": "La connexion n'a pas abouti. Réessayez dans un instant.",
+    "yandexErrorNoEmail": "Yandex n'a pas transmis d'adresse e-mail, le compte ne peut donc pas être créé.",
+    "yandexErrorRejected": "Yandex n'a pas pu confirmer cette connexion. Veuillez réessayer.",
+    "yandexErrorUnconfigured": "La connexion via Yandex n'est pas encore activée dans cette boutique."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Voir les détails"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Conservez le numéro de commande. Vous en aurez besoin pour contacter la boutique.",
     "orderSuccess": "Votre commande a été passée avec succès.",
     "thankYou": "Merci !"
   },
   "OrderDetails": {
     "backToOrders": "Retour aux commandes",
-    "confirmationSentBefore": "Nous avons envoyé les détails de confirmation de commande à",
+    "contactEmailBefore": "L'adresse de contact de cette commande est",
     "fulfillmentStatuses": {
       "canceled": "Annulée",
       "delivered": "Livrée",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Le paiement est encore en cours de confirmation. Patientez une minute et ouvrez votre commande depuis votre compte, ou recommencez.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Numéro de suivi"
   },
   "OrdersPage": {
     "description": "Consultez vos commandes précédentes et leur statut.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Payer",
+    "redirectUnavailable": "La page de paiement n'est pas encore disponible. Réessayez dans un instant.",
     "selectPaymentMethod": "Sélectionnez un mode de paiement"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Carte bancaire",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Carte bancaire",
@@ -682,6 +758,14 @@
     "selectOptions": "Sélectionner les options",
     "selectVariant": "Sélectionner une variante"
   },
+  "ProductAttributes": {
+    "no": "Non",
+    "title": "Caractéristiques",
+    "yes": "Oui"
+  },
+  "ProductInfo": {
+    "description": "Description"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuer la configuration dans l'admin",
     "continueSetup": "Vous pouvez maintenant continuer la configuration de votre boutique dans l'admin.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Tout voir"
+  },
+  "ProductReviews": {
+    "heading": "Avis",
+    "ratingSummary": "{average} sur 5 · {count, plural, one {# avis} other {# avis}}",
+    "ratingValue": "{value} sur 5",
+    "formHeading": "Votre avis",
+    "ratingLabel": "Note",
+    "nameLabel": "Votre nom",
+    "titleLabel": "Titre (facultatif)",
+    "bodyLabel": "Votre avis",
+    "submit": "Envoyer l'avis",
+    "pendingNotice": "Merci. Votre avis paraîtra une fois validé par la boutique.",
+    "signInPrompt": "Connectez-vous pour laisser un avis.",
+    "error": "L'avis n'a pas pu être envoyé. Réessayez.",
+    "ownerReply": "Réponse de la boutique",
+    "previousPage": "Précédent",
+    "nextPage": "Suivant",
+    "pageOf": "Page {page} sur {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Retours faciles",
@@ -809,7 +911,8 @@
       "account": "Compte",
       "cart": "Panier",
       "home": "Accueil",
-      "store": "Boutique"
+      "store": "Boutique",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

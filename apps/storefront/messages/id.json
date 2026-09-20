@@ -62,6 +62,11 @@
     "description": "Lihat dan perbarui alamat pengiriman Anda, Anda dapat menambahkan sebanyak yang Anda mau. Alamat yang tersimpan akan tersedia saat checkout.",
     "heading": "Alamat Pengiriman"
   },
+  "AnalyticsConsent": {
+    "message": "Kami menggunakan cookie untuk memahami bagaimana pengunjung menggunakan situs ini.",
+    "accept": "Terima",
+    "decline": "Tolak"
+  },
   "Breadcrumb": {
     "home": "Beranda",
     "store": "Toko"
@@ -98,6 +103,25 @@
     "title": "Kategori",
     "viewAll": "Lihat semua"
   },
+  "CdekPoint": {
+    "heading": "Titik pengambilan CDEK",
+    "chooseHeading": "Pilih titik pengambilan CDEK",
+    "searchPlaceholder": "Cari berdasarkan alamat atau metro",
+    "cityLabel": "Kota",
+    "cityPlaceholder": "Mulai ketik nama kota",
+    "choose": "Pilih",
+    "chosen": "Dipilih",
+    "found": "Titik pengambilan ditemukan: {count}",
+    "noResults": "Tidak ada titik pengambilan di {city}.",
+    "needCity": "Masukkan kota pengiriman untuk melihat titik pengambilan.",
+    "loading": "Memuat titik pengambilan…",
+    "notConfigured": "Pengiriman CDEK belum diatur di toko ini.",
+    "change": "Ganti titik",
+    "tabList": "Daftar",
+    "tabMap": "Peta",
+    "mapEmpty": "Tidak ada titik ambil di peta untuk kota ini.",
+    "mapFailed": "Peta tidak tersedia. Pilih titik dari daftar."
+  },
   "CheckoutPage": {
     "addNewAddress": "Tambah alamat baru",
     "addressHeading": "Alamat Pengiriman",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, other {{count} barang}}",
     "legal": "Dengan mengklik «Bayar», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta menyetujui <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
+    "addressIncomplete": "Lengkapi kolom alamat yang wajib diisi. Tanpa kota dan kode pos, pesanan tidak dapat dikirim.",
     "orderComposition": "Ringkasan Pesanan",
     "paymentHeading": "Metode pembayaran",
     "recipientCheckbox": "Penerima adalah orang lain",
@@ -145,7 +170,16 @@
     "shippingLink": "Pengiriman",
     "shippingUnavailable": "Tidak ada metode pengiriman yang tersedia",
     "signIn": "Masuk",
-    "total": "Total"
+    "total": "Total",
+    "shippingZone": "Zona: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Memesan tanpa akun?",
+    "description": "Jika Anda memesan sebagai tamu dengan alamat email yang sama, kami akan menautkan pesanan itu ke akun Anda.",
+    "button": "Cari pesanan saya",
+    "claimed": "Pesanan yang ditautkan: {count}",
+    "none": "Tidak ada pesanan tamu dengan alamat email Anda di toko ini.",
+    "failed": "Kami tidak dapat memeriksa pesanan Anda. Coba lagi sebentar lagi."
   },
   "Common": {
     "clear": "Hapus",
@@ -306,8 +340,12 @@
     "unauthorized": "Silakan masuk untuk melanjutkan."
   },
   "Filters": {
+    "from": "dari",
+    "no": "Tidak",
     "sort": "Urutkan",
-    "title": "Filter"
+    "title": "Filter",
+    "to": "sampai",
+    "yes": "Ya"
   },
   "Footer": {
     "categoriesHeading": "Kategori",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Tutup",
+    "counter": "Gambar {index} dari {total}",
     "goToImage": "Ke gambar {index}",
-    "openFullImage": "Buka gambar penuh"
+    "nextImage": "Gambar berikutnya",
+    "openFullImage": "Buka gambar penuh",
+    "previousImage": "Gambar sebelumnya",
+    "showImage": "Tampilkan gambar {index}",
+    "thumbnails": "Miniatur produk"
+  },
+  "Journal": {
+    "navLabel": "Jurnal",
+    "feedTitle": "Jurnal",
+    "feedDescription": "Artikel dari {siteName}.",
+    "empty": "Belum ada artikel.",
+    "backToFeed": "Semua artikel",
+    "previous": "Sebelumnya",
+    "next": "Berikutnya",
+    "pageOf": "Halaman {page} dari {lastPage}",
+    "pagination": "Halaman jurnal",
+    "readingTime": "Baca {minutes} mnt",
+    "related": "Baca juga",
+    "share": "Bagikan",
+    "copyLink": "Salin tautan",
+    "linkCopied": "Tautan disalin",
+    "allCategories": "Semua rubrik",
+    "categories": "Rubrik"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Gabung sekarang",
     "notMember": "Belum jadi anggota?",
     "password": "Kata sandi",
-    "signIn": "Masuk"
+    "signIn": "Masuk",
+    "yandexCta": "Masuk dengan Yandex ID",
+    "yandexDivider": "atau",
+    "yandexErrorDenied": "Anda membatalkan proses masuk di halaman Yandex.",
+    "yandexErrorEmailTaken": "Sudah ada akun dengan email ini. Masuk dengan kata sandi Anda.",
+    "yandexErrorExpired": "Tautan masuk sudah kedaluwarsa. Mulai lagi dari awal.",
+    "yandexErrorFailed": "Proses masuk tidak berhasil. Coba lagi sebentar lagi.",
+    "yandexErrorNoEmail": "Yandex tidak memberikan alamat email, jadi akun tidak bisa dibuat.",
+    "yandexErrorRejected": "Yandex tidak dapat memastikan proses masuk ini. Coba lagi.",
+    "yandexErrorUnconfigured": "Masuk lewat Yandex belum diaktifkan di toko ini."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Lihat detail"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Simpan nomor pesanan Anda. Anda memerlukannya saat menghubungi toko.",
     "orderSuccess": "Pesanan Anda berhasil dibuat.",
     "thankYou": "Terima kasih!"
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
-    "confirmationSentBefore": "Kami telah mengirimkan detail konfirmasi pesanan ke",
+    "contactEmailBefore": "Alamat kontak untuk pesanan ini adalah",
     "fulfillmentStatuses": {
       "canceled": "Dibatalkan",
       "delivered": "Diterima",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Pembayaran masih dikonfirmasi. Tunggu satu menit dan buka pesanan dari akun Anda, atau coba lagi.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Nomor pelacakan"
   },
   "OrdersPage": {
     "description": "Lihat pesanan sebelumnya beserta statusnya.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bayar",
+    "redirectUnavailable": "Halaman pembayaran belum tersedia. Coba lagi sebentar lagi.",
     "selectPaymentMethod": "Pilih metode pembayaran"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Kartu kredit",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kartu kredit",
@@ -682,6 +758,14 @@
     "selectOptions": "Pilih Opsi",
     "selectVariant": "Pilih varian"
   },
+  "ProductAttributes": {
+    "no": "Tidak",
+    "title": "Spesifikasi",
+    "yes": "Ya"
+  },
+  "ProductInfo": {
+    "description": "Deskripsi"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Lanjutkan pengaturan di admin",
     "continueSetup": "Sekarang Anda dapat melanjutkan pengaturan toko di admin.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Lihat semua"
+  },
+  "ProductReviews": {
+    "heading": "Ulasan",
+    "ratingSummary": "{average} dari 5 · {count, plural, other {# ulasan}}",
+    "ratingValue": "{value} dari 5",
+    "formHeading": "Ulasan Anda",
+    "ratingLabel": "Penilaian",
+    "nameLabel": "Nama Anda",
+    "titleLabel": "Judul (opsional)",
+    "bodyLabel": "Isi ulasan",
+    "submit": "Kirim ulasan",
+    "pendingNotice": "Terima kasih. Ulasan akan tampil setelah disetujui toko.",
+    "signInPrompt": "Masuk untuk menulis ulasan.",
+    "error": "Ulasan gagal dikirim. Coba lagi.",
+    "ownerReply": "Balasan toko",
+    "previousPage": "Sebelumnya",
+    "nextPage": "Berikutnya",
+    "pageOf": "Halaman {page} dari {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Pengembalian mudah",
@@ -809,7 +911,8 @@
       "account": "Akun",
       "cart": "Keranjang",
       "home": "Beranda",
-      "store": "Toko"
+      "store": "Toko",
+      "journal": "Jurnal"
     },
     "menuButton": "Menu"
   },

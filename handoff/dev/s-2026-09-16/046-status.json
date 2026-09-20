@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 46,
+  "action": "status-set",
+  "ts": "2026-09-16T12:09:24+08:00",
+  "status": "2026-09-16 12:09 WITA: приёмка w17-mp-price-stock-table (PR #93) — MERGED. Сам замерил: test:unit 1004/1004; четыре группы своим SQL (2+33+423=458=всего артикулов); инвариант свёрнутое=сумма закрыт тестами price-stock.unit.spec.ts:92-126 с третьим состоянием; экспорт и список не расходятся по конструкции (общий loadPriceStock, общие thresholds+tab); read-only тест покрывает весь экран включая components с анти-вакуумными проверками; секретов и миграций нет. Ниты: 6 скриншотов не закоммичены (как в #91), экземпляр §3 (Таблетки с АСД 2 банки, 64 склада, 6463) в базе не воспроизводится — ближайшие Свечи 59/6464 и 58/6496. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-w17-mp-price-stock-table-1/measurements.md"
+}

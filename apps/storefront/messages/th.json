@@ -62,6 +62,11 @@
     "description": "ดูและอัปเดตที่อยู่จัดส่งของคุณ คุณสามารถเพิ่มได้มากเท่าที่ต้องการ การบันทึกที่อยู่จะช่วยให้เลือกใช้ได้สะดวกตอนชำระเงิน",
     "heading": "ที่อยู่จัดส่ง"
   },
+  "AnalyticsConsent": {
+    "message": "เราใช้คุกกี้เพื่อทำความเข้าใจว่าผู้เยี่ยมชมใช้เว็บไซต์นี้อย่างไร",
+    "accept": "ยอมรับ",
+    "decline": "ปฏิเสธ"
+  },
   "Breadcrumb": {
     "home": "หน้าแรก",
     "store": "ร้านค้า"
@@ -98,6 +103,25 @@
     "title": "หมวดหมู่",
     "viewAll": "ดูทั้งหมด"
   },
+  "CdekPoint": {
+    "heading": "จุดรับพัสดุ CDEK",
+    "chooseHeading": "เลือกจุดรับพัสดุ CDEK",
+    "searchPlaceholder": "ค้นหาด้วยที่อยู่หรือรถไฟฟ้า",
+    "cityLabel": "เมือง",
+    "cityPlaceholder": "เริ่มพิมพ์ชื่อเมือง",
+    "choose": "เลือก",
+    "chosen": "เลือกแล้ว",
+    "found": "พบจุดรับพัสดุ: {count}",
+    "noResults": "ไม่พบจุดรับพัสดุใน {city}",
+    "needCity": "กรอกเมืองที่จัดส่งเพื่อดูจุดรับพัสดุ",
+    "loading": "กำลังโหลดจุดรับพัสดุ…",
+    "notConfigured": "ร้านนี้ยังไม่ได้ตั้งค่าการจัดส่ง CDEK",
+    "change": "เปลี่ยนจุดรับ",
+    "tabList": "รายการ",
+    "tabMap": "แผนที่",
+    "mapEmpty": "ไม่มีจุดรับสินค้าให้แสดงบนแผนที่สำหรับเมืองนี้",
+    "mapFailed": "ใช้แผนที่ไม่ได้ กรุณาเลือกจุดรับสินค้าจากรายการ"
+  },
   "CheckoutPage": {
     "addNewAddress": "เพิ่มที่อยู่ใหม่",
     "addressHeading": "ที่อยู่จัดส่ง",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, other {{count} ชิ้น}}",
     "legal": "เมื่อคลิก «ชำระเงิน» คุณยอมรับ<terms>ข้อกำหนด</terms> <termsOfUse>เงื่อนไขการใช้งาน</termsOfUse> และ<returnPolicy>นโยบายการคืนสินค้า</returnPolicy> และยินยอมตาม<privacyPolicy>นโยบายความเป็นส่วนตัว</privacyPolicy>ของเรา",
     "manualInput": "กรอกที่อยู่ด้วยตนเอง",
+    "addressIncomplete": "กรอกช่องที่จำเป็นของที่อยู่ให้ครบ หากไม่มีเมืองและรหัสไปรษณีย์ จะจัดส่งคำสั่งซื้อไม่ได้",
     "orderComposition": "สรุปคำสั่งซื้อ",
     "paymentHeading": "วิธีการชำระเงิน",
     "recipientCheckbox": "ผู้รับเป็นคนละคนกับผู้สั่งซื้อ",
@@ -145,7 +170,16 @@
     "shippingLink": "การจัดส่ง",
     "shippingUnavailable": "ไม่มีวิธีการจัดส่งที่ใช้ได้",
     "signIn": "เข้าสู่ระบบ",
-    "total": "ยอดรวม"
+    "total": "ยอดรวม",
+    "shippingZone": "โซน: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "สั่งซื้อโดยไม่มีบัญชีใช่ไหม",
+    "description": "หากคุณสั่งซื้อแบบผู้เยี่ยมชมด้วยอีเมลเดียวกันนี้ เราจะผูกคำสั่งซื้อนั้นเข้ากับบัญชีของคุณ",
+    "button": "ค้นหาคำสั่งซื้อของฉัน",
+    "claimed": "คำสั่งซื้อที่ผูกแล้ว: {count}",
+    "none": "ไม่พบคำสั่งซื้อแบบผู้เยี่ยมชมสำหรับอีเมลของคุณในร้านนี้",
+    "failed": "เราตรวจสอบคำสั่งซื้อของคุณไม่ได้ กรุณาลองอีกครั้งในอีกสักครู่"
   },
   "Common": {
     "clear": "ล้าง",
@@ -306,8 +340,12 @@
     "unauthorized": "กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ"
   },
   "Filters": {
+    "from": "ตั้งแต่",
+    "no": "ไม่ใช่",
     "sort": "เรียงลำดับ",
-    "title": "ตัวกรอง"
+    "title": "ตัวกรอง",
+    "to": "ถึง",
+    "yes": "ใช่"
   },
   "Footer": {
     "categoriesHeading": "หมวดหมู่",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "ปิด",
+    "counter": "รูปที่ {index} จาก {total}",
     "goToImage": "ไปที่ภาพ {index}",
-    "openFullImage": "เปิดภาพเต็ม"
+    "nextImage": "รูปถัดไป",
+    "openFullImage": "เปิดภาพเต็ม",
+    "previousImage": "รูปก่อนหน้า",
+    "showImage": "แสดงรูปที่ {index}",
+    "thumbnails": "รูปย่อของสินค้า"
+  },
+  "Journal": {
+    "navLabel": "บทความ",
+    "feedTitle": "บทความ",
+    "feedDescription": "บทความจาก {siteName}",
+    "empty": "ยังไม่มีบทความ",
+    "backToFeed": "บทความทั้งหมด",
+    "previous": "ก่อนหน้า",
+    "next": "ถัดไป",
+    "pageOf": "หน้า {page} จาก {lastPage}",
+    "pagination": "หน้าของบทความ",
+    "readingTime": "อ่าน {minutes} นาที",
+    "related": "อ่านต่อ",
+    "share": "แชร์",
+    "copyLink": "คัดลอกลิงก์",
+    "linkCopied": "คัดลอกลิงก์แล้ว",
+    "allCategories": "ทุกหมวด",
+    "categories": "หมวด"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "สมัครสมาชิก",
     "notMember": "ยังไม่ได้เป็นสมาชิก?",
     "password": "รหัสผ่าน",
-    "signIn": "เข้าสู่ระบบ"
+    "signIn": "เข้าสู่ระบบ",
+    "yandexCta": "เข้าสู่ระบบด้วย Yandex ID",
+    "yandexDivider": "หรือ",
+    "yandexErrorDenied": "คุณยกเลิกการเข้าสู่ระบบบนหน้า Yandex",
+    "yandexErrorEmailTaken": "มีบัญชีที่ใช้อีเมลนี้อยู่แล้ว กรุณาเข้าสู่ระบบด้วยรหัสผ่าน",
+    "yandexErrorExpired": "ลิงก์เข้าสู่ระบบหมดอายุแล้ว กรุณาเริ่มใหม่",
+    "yandexErrorFailed": "เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
+    "yandexErrorNoEmail": "Yandex ไม่ได้ให้ที่อยู่อีเมล จึงสร้างบัญชีไม่ได้",
+    "yandexErrorRejected": "Yandex ยืนยันการเข้าสู่ระบบนี้ไม่ได้ กรุณาลองใหม่",
+    "yandexErrorUnconfigured": "ร้านนี้ยังไม่ได้เปิดใช้การเข้าสู่ระบบด้วย Yandex"
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "ดูรายละเอียด"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "เก็บหมายเลขคำสั่งซื้อไว้ คุณจะต้องใช้เมื่อติดต่อร้านค้า",
     "orderSuccess": "สั่งซื้อสำเร็จแล้ว",
     "thankYou": "ขอบคุณ!"
   },
   "OrderDetails": {
     "backToOrders": "กลับไปที่คำสั่งซื้อ",
-    "confirmationSentBefore": "เราได้ส่งรายละเอียดยืนยันคำสั่งซื้อไปที่",
+    "contactEmailBefore": "ที่อยู่ติดต่อสำหรับคำสั่งซื้อนี้คือ",
     "fulfillmentStatuses": {
       "canceled": "ยกเลิกแล้ว",
       "delivered": "ส่งถึงแล้ว",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "การชำระเงินยังอยู่ระหว่างการยืนยัน โปรดรอสักครู่แล้วเปิดคำสั่งซื้อจากบัญชีของคุณ หรือลองใหม่อีกครั้ง",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "หมายเลขติดตามพัสดุ"
   },
   "OrdersPage": {
     "description": "ดูคำสั่งซื้อก่อนหน้าและสถานะของคำสั่งซื้อ",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "ชำระเงิน",
+    "redirectUnavailable": "หน้าชำระเงินยังไม่พร้อมใช้งาน โปรดลองอีกครั้งในอีกสักครู่",
     "selectPaymentMethod": "เลือกวิธีการชำระเงิน"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "บัตรเครดิต",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "บัตรเครดิต",
@@ -682,6 +758,14 @@
     "selectOptions": "เลือกตัวเลือก",
     "selectVariant": "เลือกตัวเลือกสินค้า"
   },
+  "ProductAttributes": {
+    "no": "ไม่ใช่",
+    "title": "ข้อมูลจำเพาะ",
+    "yes": "ใช่"
+  },
+  "ProductInfo": {
+    "description": "รายละเอียดสินค้า"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "ตั้งค่าต่อในหน้าผู้ดูแลระบบ",
     "continueSetup": "ตอนนี้คุณสามารถตั้งค่าร้านค้าต่อได้ในหน้าผู้ดูแลระบบ",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "ดูทั้งหมด"
+  },
+  "ProductReviews": {
+    "heading": "รีวิว",
+    "ratingSummary": "{average} จาก 5 · {count, plural, other {# รีวิว}}",
+    "ratingValue": "{value} จาก 5",
+    "formHeading": "รีวิวของคุณ",
+    "ratingLabel": "คะแนน",
+    "nameLabel": "ชื่อของคุณ",
+    "titleLabel": "หัวข้อ (ไม่บังคับ)",
+    "bodyLabel": "ข้อความรีวิว",
+    "submit": "ส่งรีวิว",
+    "pendingNotice": "ขอบคุณ รีวิวจะแสดงหลังจากร้านค้าอนุมัติแล้ว",
+    "signInPrompt": "เข้าสู่ระบบเพื่อเขียนรีวิว",
+    "error": "ส่งรีวิวไม่สำเร็จ ลองอีกครั้ง",
+    "ownerReply": "คำตอบจากร้านค้า",
+    "previousPage": "ก่อนหน้า",
+    "nextPage": "ถัดไป",
+    "pageOf": "หน้า {page} จาก {pages}"
   },
   "ProductTabs": {
     "easyReturns": "คืนสินค้าง่ายๆ",
@@ -809,7 +911,8 @@
       "account": "บัญชี",
       "cart": "ตะกร้า",
       "home": "หน้าแรก",
-      "store": "ร้านค้า"
+      "store": "ร้านค้า",
+      "journal": "บทความ"
     },
     "menuButton": "เมนู"
   },

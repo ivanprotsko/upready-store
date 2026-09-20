@@ -1,0 +1,23 @@
+{
+  "task": "q01-qa-customer",
+  "done": [
+    { "item": "Пройден весь путь покупателя (главная → каталог → товар → корзина → чекаут → оплата демо-картой → страница «Спасибо» → письмо → регистрация → кабинет → правовые страницы) на 1280×900 и на 390×844, 12 шагов, каждый основной кадр снят в обоих размерах." },
+    { "item": "Найдено 8 дефектов, каждый заведён отдельной задачей с готовым промптом (f01–f08); 3 из них критичные — чужой бренд UPREADY на странице после оплаты, письмо о заказе не уходит при обещании «отправлено», заказ гостя не попадает в личный кабинет." },
+    { "item": "Сняты сырые замеры времени загрузки и ошибок консоли для десктопа и мобильного (measurements-desktop.json, measurements-mobile.json, legal-mobile-desktop.json, legal-mobile-mobile.json, console-errors-desktop-a.json, console-errors-mobile-a.json)." },
+    { "item": "Проверены функциональные сценарии: фильтры и сортировка каталога, поиск, изменение количества и удаление позиций в корзине (с промокодом и без), применение промокода, регистрация и вход в кабинет." },
+    { "item": "Сделано 58 скриншотов по всем шагам приёмки и дополнительным сценариям, сложены в папку shots/." },
+    { "item": "Составлен итоговый отчёт report.md с таблицей по шагам: URL, код ответа, время загрузки на 1280×900 и 390×844, ошибки консоли, ссылки на скриншоты." }
+  ],
+  "results": [
+    { "label": "Итоговый отчёт приёмки", "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q01-qa-customer/report.md" },
+    { "label": "Скриншоты всех шагов (58 файлов)", "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q01-qa-customer/shots/" },
+    { "label": "Сырые замеры — десктоп", "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q01-qa-customer/measurements-desktop.json" },
+    { "label": "Сырые замеры — мобильный", "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q01-qa-customer/measurements-mobile.json" },
+    { "label": "Промпты заведённых дефектов f01–f08", "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/prompts/" }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Критичных дефектов 3: чужой бренд UPREADY на странице оплаты (f01), письмо о заказе не отправляется (f02), заказ гостя не привязывается к кабинету (f03).",
+    "Для части найденных дефектов магазину не хватает данных (реквизиты, тарифы, секреты Robokassa, SMTP) — описано в отчётах x01/d02 и в промпте f02."
+  ]
+}

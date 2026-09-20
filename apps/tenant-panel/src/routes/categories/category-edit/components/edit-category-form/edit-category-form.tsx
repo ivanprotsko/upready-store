@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input, Label, Select, Text, Textarea, toast } from "@medusajs/ui"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { z } from "zod"
@@ -13,6 +13,10 @@ import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateProductCategory } from "../../../../../hooks/api/categories"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
 import { sdk } from "../../../../../lib/client"
+import { toSlugWhileTyping } from "../../../../../lib/slugify"
+import { mergeSeoMetadata, readSeoOverride, DEFAULT_SEO_METADATA_LOCALE } from "../../../../../lib/seo-metadata"
+import { useTenantLocaleSettings } from "../../../../../hooks/api/locale-settings"
+import { LOCALE_LABELS, type LocaleCode } from "../../../../../lib/locale-catalog"
 
 const EditCategorySchema = z.object({
   name: z.string().min(1),
@@ -22,6 +26,8 @@ const EditCategorySchema = z.object({
   visibility: z.enum(["public", "internal"]),
   imageUrl: z.string().optional(),
   imageAlt: z.string().optional(),
+  seoTitle: z.string().max(70),
+  seoDescription: z.string().max(320),
 })
 
 /**
@@ -59,6 +65,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
   const { handleSuccess } = useRouteModal()
   const direction = useDocumentDirection()
   const metadata = (category.metadata ?? {}) as Record<string, unknown>
+  const seoOverride = readSeoOverride(metadata, DEFAULT_SEO_METADATA_LOCALE)
   const [uploading, setUploading] = useState(false)
   const form = useForm<z.infer<typeof EditCategorySchema>>({
     defaultValues: {
@@ -69,9 +76,32 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
       visibility: category.is_internal ? "internal" : "public",
       imageUrl: typeof metadata.image_url === "string" ? metadata.image_url : "",
       imageAlt: typeof metadata.image_alt === "string" ? metadata.image_alt : "",
+      seoTitle: seoOverride.seo_title,
+      seoDescription: seoOverride.seo_description,
     },
     resolver: zodResolver(EditCategorySchema),
   })
+
+  // The shop's own default_locale (t06-locale-currency) is loaded async, so
+  // the form above mounts on the DEFAULT_SEO_METADATA_LOCALE guess first —
+  // round 2 finding: a default_locale=ru shop's SEO fields were silently
+  // written to metadata.seo.en, never reaching the storefront's ru pages.
+  // Once locale settings resolve, the real locale's entry replaces that
+  // guess, but only before the owner has touched either field.
+  const { locale_settings: localeSettings } = useTenantLocaleSettings()
+  const seoLocale = localeSettings?.default_locale ?? DEFAULT_SEO_METADATA_LOCALE
+  const seoLocaleAppliedRef = useRef(false)
+  useEffect(() => {
+    if (seoLocaleAppliedRef.current) return
+    if (!localeSettings) return
+    seoLocaleAppliedRef.current = true
+    if (seoLocale === DEFAULT_SEO_METADATA_LOCALE) return
+    if (form.formState.dirtyFields.seoTitle || form.formState.dirtyFields.seoDescription) return
+
+    const override = readSeoOverride(metadata, seoLocale)
+    form.setValue("seoTitle", override.seo_title)
+    form.setValue("seoDescription", override.seo_description)
+  }, [localeSettings, seoLocale, metadata, form])
 
   const onUpload = async (file: File | undefined) => {
     if (!file) {
@@ -96,6 +126,8 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
     }
   }
 
+  const watchedImageUrl = form.watch("imageUrl")?.trim()
+
   const { mutateAsync, isPending } = useUpdateProductCategory(category.id)
   const handleSubmit = form.handleSubmit(async (data) => {
     await mutateAsync(
@@ -106,7 +138,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
         is_active: data.status === "active",
         is_internal: data.visibility === "internal",
         metadata: {
-          ...metadata,
+          ...mergeSeoMetadata(metadata, data.seoTitle, data.seoDescription, seoLocale),
           image_url: data.imageUrl || null,
           image_alt: data.imageAlt || null,
         },
@@ -156,7 +188,17 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                       {t("fields.handle")}
                     </Form.Label>
                     <Form.Control>
-                      <HandleInput {...field} />
+                      {/*
+                        Transliterated as it is typed (f11-new-product-404).
+                        Nothing follows the name here: the category already has
+                        an address on the storefront.
+                      */}
+                      <HandleInput
+                        {...field}
+                        onChange={(event) =>
+                          field.onChange(toSlugWhileTyping(event.target.value))
+                        }
+                      />
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>
@@ -178,11 +220,65 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                 )
               }}
             />
+            <Form.Field
+              control={form.control}
+              name="seoTitle"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label optional>
+                      {t("fields.seoTitle")}{" "}
+                      <span className="text-ui-fg-subtle">
+                        ({LOCALE_LABELS[seoLocale as LocaleCode] ?? seoLocale}, {field.value.length}/70)
+                      </span>
+                    </Form.Label>
+                    <Form.Control>
+                      <Input autoComplete="off" {...field} />
+                    </Form.Control>
+                    <Form.ErrorMessage />
+                  </Form.Item>
+                )
+              }}
+            />
+            <Form.Field
+              control={form.control}
+              name="seoDescription"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label optional>
+                      {t("fields.seoDescription")}{" "}
+                      <span className="text-ui-fg-subtle">
+                        ({LOCALE_LABELS[seoLocale as LocaleCode] ?? seoLocale}, {field.value.length}/320)
+                      </span>
+                    </Form.Label>
+                    <Form.Control>
+                      <Textarea {...field} rows={3} />
+                    </Form.Control>
+                    <Form.ErrorMessage />
+                  </Form.Item>
+                )
+              }}
+            />
             <div className="flex flex-col gap-y-2">
               <Label size="small" weight="plus" htmlFor="category-image">
                 {t("categories.edit.image", { defaultValue: "Image" })}
               </Label>
               <div className="flex items-center gap-x-2">
+                {/*
+                  The picture itself, not only its address
+                  (f16-category-image-not-shown): the owner uploads a file, the field
+                  fills with a URL and until this preview there was nothing in the
+                  panel that showed what had been saved.
+                */}
+                {watchedImageUrl ? (
+                  <img
+                    src={watchedImageUrl}
+                    alt=""
+                    data-testid="category-image-preview"
+                    className="h-12 w-[38px] shrink-0 rounded object-cover"
+                  />
+                ) : null}
                 <Input
                   id="category-image"
                   data-testid="category-image"
@@ -206,7 +302,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
               <Text size="small" className="text-ui-fg-subtle">
                 {t("categories.edit.imageHint", {
                   defaultValue:
-                    "Shown as the tile image wherever the storefront shows this category. Clear the address to remove it.",
+                    "Shown on this category's own page, and as a tile in the catalog and on the home page. Clear the address to remove it.",
                 })}
               </Text>
             </div>

@@ -1,5 +1,7 @@
 import { TFunction } from "i18next"
 
+import { formatProvider } from "./format-provider"
+
 export const getCanceledOrderStatus = (
   t: TFunction<"translation">,
   status: string
@@ -71,4 +73,48 @@ export const getOrderFulfillmentStatus = (
   }[status] as [string, "red" | "orange" | "green"]
 
   return { label, color }
+}
+
+/**
+ * Payment `provider_id` values are internal identifiers (`pp_system_default`,
+ * `pp_robokassa_robokassa`), never meant for a shop owner's screen. The
+ * manual provider gets its own label; anything else falls back to the
+ * provider's own segment of the id via `formatProvider`, since the tenant
+ * contract carries no separate display name for a payment provider.
+ */
+export const getPaymentProviderLabel = (
+  t: TFunction<"translation">,
+  providerId?: string | null
+): string => {
+  if (!providerId) {
+    return t("orders.payment.provider.unknown")
+  }
+
+  if (providerId === "pp_system_default") {
+    return t("orders.payment.provider.manual")
+  }
+
+  return formatProvider(providerId)
+}
+
+/**
+ * A fulfillment's `provider_id` is an internal identifier too
+ * (`manual_manual` for a shop that packs and posts parcels itself), and
+ * `formatProvider` turned it into the bare word «Manual» on the owner's order
+ * card. The shop owner reads a carrier there, so the manual provider says so
+ * in words and anything else keeps the provider's own segment of the id.
+ */
+export const getFulfillmentProviderLabel = (
+  t: TFunction<"translation">,
+  providerId?: string | null
+): string => {
+  if (!providerId) {
+    return t("orders.fulfillment.provider.unknown")
+  }
+
+  if (providerId === "manual_manual") {
+    return t("orders.fulfillment.provider.manual")
+  }
+
+  return formatProvider(providerId)
 }

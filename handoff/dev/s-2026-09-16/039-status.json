@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 39,
+  "action": "status-set",
+  "ts": "2026-09-16T09:42:11+08:00",
+  "status": "2026-09-16 09:42 WITA: приёмка r03-store-templates-functionality (PR #86) — MERGED. 188/188 улик сверены с raw/, upready_store перепроверена по коду и живой витрине, лимиты загрузки соблюдены, под apps/* нет изменений. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-store-templates-functionality-1/measurements.md"
+}

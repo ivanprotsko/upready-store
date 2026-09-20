@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 90,
+  "action": "status-set",
+  "ts": "2026-09-15T22:57:43+08:00",
+  "status": "2026-09-15 22:57 WITA: штаб — r03 раунд 3: суть принята, отказ только конфликт HANDOFF.json (класс: общий журнал на ветках задач); шаблоны _acceptor/_worker-preamble исправлены (брать HANDOFF.json базы целиком, не коммитить на ветке), r03 отправлен на правку (cmd fix + адденда штаба); d05 done — живой хост на 1088507f (f12+f18), b05 запущен; b03 приёмка раунд 2 (#58), b04 pr_open после раунда 1 (#59); Иван 22:53: всегда давать промпт для /compact при окне >150k (память feedback_compact_prompt_above_150k)"
+}

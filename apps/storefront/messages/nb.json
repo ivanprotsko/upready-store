@@ -62,6 +62,11 @@
     "description": "Se og oppdater leveringsadressene dine, du kan legge til så mange du vil. Lagrede adresser vil være tilgjengelige ved utsjekking.",
     "heading": "Leveringsadresser"
   },
+  "AnalyticsConsent": {
+    "message": "Vi bruker informasjonskapsler for å forstå hvordan besøkende bruker dette nettstedet.",
+    "accept": "Godta",
+    "decline": "Avvis"
+  },
   "Breadcrumb": {
     "home": "Hjem",
     "store": "Butikk"
@@ -98,6 +103,25 @@
     "title": "Kategorier",
     "viewAll": "Se alle"
   },
+  "CdekPoint": {
+    "heading": "CDEK-hentested",
+    "chooseHeading": "Velg et CDEK-hentested",
+    "searchPlaceholder": "Søk etter adresse eller metro",
+    "cityLabel": "By",
+    "cityPlaceholder": "Begynn å skrive en by",
+    "choose": "Velg",
+    "chosen": "Valgt",
+    "found": "Hentesteder funnet: {count}",
+    "noResults": "Ingen hentesteder funnet i {city}.",
+    "needCity": "Oppgi leveringsbyen for å se hentesteder.",
+    "loading": "Laster hentesteder…",
+    "notConfigured": "CDEK-levering er ikke satt opp i denne butikken ennå.",
+    "change": "Bytt sted",
+    "tabList": "Liste",
+    "tabMap": "Kart",
+    "mapEmpty": "Ingen hentesteder å vise på kartet for denne byen.",
+    "mapFailed": "Kartet er utilgjengelig. Velg et hentested fra listen."
+  },
   "CheckoutPage": {
     "addNewAddress": "Legg til ny adresse",
     "addressHeading": "Leveringsadresse",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
     "legal": "Ved å klikke på «Betal» godtar du våre <terms>vilkår</terms>, <termsOfUse>brukervilkår</termsOfUse> og <returnPolicy>returvilkår</returnPolicy>, og aksepterer vår <privacyPolicy>personvernerklæring</privacyPolicy>.",
     "manualInput": "Skriv inn adresse manuelt",
+    "addressIncomplete": "Fyll ut de obligatoriske adressefeltene. Uten by og postnummer kan ikke bestillingen sendes.",
     "orderComposition": "Ordresammendrag",
     "paymentHeading": "Betalingsmetode",
     "recipientCheckbox": "Mottakeren er en annen person",
@@ -145,7 +170,16 @@
     "shippingLink": "Frakt",
     "shippingUnavailable": "Ingen fraktmetoder tilgjengelig",
     "signIn": "Logg inn",
-    "total": "Totalt"
+    "total": "Totalt",
+    "shippingZone": "Sone: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Bestilte du uten konto?",
+    "description": "Hvis du bestilte som gjest med den samme e-postadressen, knytter vi de bestillingene til kontoen din.",
+    "button": "Finn bestillingene mine",
+    "claimed": "Tilknyttede bestillinger: {count}",
+    "none": "Vi fant ingen gjestebestillinger på e-postadressen din i denne butikken.",
+    "failed": "Vi klarte ikke å sjekke bestillingene dine. Prøv igjen om litt."
   },
   "Common": {
     "clear": "Tøm",
@@ -306,8 +340,12 @@
     "unauthorized": "Vennligst logg inn for å fortsette."
   },
   "Filters": {
+    "from": "fra",
+    "no": "Nei",
     "sort": "Sorter",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "til",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Lukk",
+    "counter": "Bilde {index} av {total}",
     "goToImage": "Gå til bilde {index}",
-    "openFullImage": "Åpne bildet i full størrelse"
+    "nextImage": "Neste bilde",
+    "openFullImage": "Åpne bildet i full størrelse",
+    "previousImage": "Forrige bilde",
+    "showImage": "Vis bilde {index}",
+    "thumbnails": "Miniatyrbilder av produktet"
+  },
+  "Journal": {
+    "navLabel": "Magasin",
+    "feedTitle": "Magasin",
+    "feedDescription": "Artikler fra {siteName}.",
+    "empty": "Ingen artikler ennå.",
+    "backToFeed": "Alle artikler",
+    "previous": "Forrige",
+    "next": "Neste",
+    "pageOf": "Side {page} av {lastPage}",
+    "pagination": "Magasinsider",
+    "readingTime": "{minutes} min lesing",
+    "related": "Les også",
+    "share": "Del",
+    "copyLink": "Kopier lenke",
+    "linkCopied": "Lenke kopiert",
+    "allCategories": "Alle temaer",
+    "categories": "Temaer"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Bli med",
     "notMember": "Ikke medlem?",
     "password": "Passord",
-    "signIn": "Logg inn"
+    "signIn": "Logg inn",
+    "yandexCta": "Logg inn med Yandex ID",
+    "yandexDivider": "eller",
+    "yandexErrorDenied": "Du avbrøt innloggingen på Yandex-siden.",
+    "yandexErrorEmailTaken": "Det finnes allerede en konto med denne e-postadressen. Logg inn med passordet ditt.",
+    "yandexErrorExpired": "Innloggingslenken er utløpt. Start på nytt.",
+    "yandexErrorFailed": "Innloggingen gikk ikke gjennom. Prøv igjen om litt.",
+    "yandexErrorNoEmail": "Yandex oppga ingen e-postadresse, så kontoen kan ikke opprettes.",
+    "yandexErrorRejected": "Yandex kunne ikke bekrefte denne innloggingen. Prøv igjen.",
+    "yandexErrorUnconfigured": "Innlogging med Yandex er ikke slått på i denne butikken ennå."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Se detaljer"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Ta vare på bestillingsnummeret. Du trenger det når du kontakter butikken.",
     "orderSuccess": "Bestillingen din ble fullført.",
     "thankYou": "Takk!"
   },
   "OrderDetails": {
     "backToOrders": "Tilbake til bestillinger",
-    "confirmationSentBefore": "Vi har sendt bestillingsbekreftelsen til",
+    "contactEmailBefore": "Kontaktadressen for denne bestillingen er",
     "fulfillmentStatuses": {
       "canceled": "Kansellert",
       "delivered": "Levert",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Betalingen bekreftes fortsatt. Vent et minutt og åpne bestillingen fra kontoen, eller prøv igjen.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Sporingsnummer"
   },
   "OrdersPage": {
     "description": "Se dine tidligere bestillinger og deres status.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betal",
+    "redirectUnavailable": "Betalingssiden er ikke tilgjengelig ennå. Prøv igjen om et øyeblikk.",
     "selectPaymentMethod": "Velg en betalingsmetode"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Betalingskort",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Betalingskort",
@@ -682,6 +758,14 @@
     "selectOptions": "Velg alternativer",
     "selectVariant": "Velg variant"
   },
+  "ProductAttributes": {
+    "no": "Nei",
+    "title": "Spesifikasjoner",
+    "yes": "Ja"
+  },
+  "ProductInfo": {
+    "description": "Beskrivelse"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsett oppsett i admin",
     "continueSetup": "Du kan nå fortsette å sette opp butikken din i admin.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Se alle"
+  },
+  "ProductReviews": {
+    "heading": "Anmeldelser",
+    "ratingSummary": "{average} av 5 · {count, plural, one {# anmeldelse} other {# anmeldelser}}",
+    "ratingValue": "{value} av 5",
+    "formHeading": "Din anmeldelse",
+    "ratingLabel": "Vurdering",
+    "nameLabel": "Navnet ditt",
+    "titleLabel": "Overskrift (valgfritt)",
+    "bodyLabel": "Teksten din",
+    "submit": "Send anmeldelse",
+    "pendingNotice": "Takk. Anmeldelsen vises når butikken har godkjent den.",
+    "signInPrompt": "Logg inn for å skrive en anmeldelse.",
+    "error": "Anmeldelsen kunne ikke sendes. Prøv igjen.",
+    "ownerReply": "Svar fra butikken",
+    "previousPage": "Forrige",
+    "nextPage": "Neste",
+    "pageOf": "Side {page} av {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Enkel retur",
@@ -809,7 +911,8 @@
       "account": "Konto",
       "cart": "Handlekurv",
       "home": "Hjem",
-      "store": "Butikk"
+      "store": "Butikk",
+      "journal": "Magasin"
     },
     "menuButton": "Meny"
   },

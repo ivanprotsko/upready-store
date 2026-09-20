@@ -44,11 +44,26 @@ const createTenantProductWorkflow = createWorkflow(
 
     const salesChannelId = assertTenantSalesChannelStep(channelCheck);
 
-    const productData = transform({ input, salesChannelId }, (data) => {
+    // t04-shipping-tariffs: a product without a shipping profile is invisible
+    // to shipping-price calculation — `filterCartItemsByShippingProfile`
+    // (core-flows) keeps only lines whose product carries the option's
+    // profile, so a weightless-by-omission product priced a 2.4 kg cart as
+    // 0 kg (measured 2026-09-15 on :9051). The panel's form sends the profile;
+    // an API client that omits it gets the store's default one.
+    const { data: shippingProfiles } = useQueryGraphStep({
+      entity: "shipping_profile",
+      fields: ["id"],
+      pagination: { take: 1, order: { created_at: "ASC" } },
+    }).config({ name: "default-shipping-profile-query" });
+
+    const productData = transform({ input, salesChannelId, shippingProfiles }, (data) => {
+      const shippingProfileId =
+        data.input.product.shipping_profile_id ?? data.shippingProfiles[0]?.id ?? undefined;
       return {
         products: [
           {
             ...data.input.product,
+            ...(shippingProfileId ? { shipping_profile_id: shippingProfileId } : {}),
             sales_channels: [
               {
                 id: data.salesChannelId,

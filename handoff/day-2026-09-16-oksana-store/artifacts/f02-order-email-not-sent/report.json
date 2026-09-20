@@ -1,0 +1,53 @@
+{
+  "task": "f02-order-email-not-sent",
+  "branch": "fix/day16-order-email",
+  "pr": {
+    "number": 39,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/39"
+  },
+  "done": [
+    {
+      "item": "Убрано обещание отправленного письма на странице заказа: ключ OrderDetails.confirmationSentBefore заменён на contactEmailBefore с новым текстом в 36 локалях (apps/storefront/messages/*.json)."
+    },
+    {
+      "item": "На странице подтверждения заказа добавлена строка «Сохраните номер заказа» (order-completed-template.tsx, data-testid=\"order-keep-number\")."
+    },
+    {
+      "item": "Добавлен тест copy.test.ts: ни в одной из 36 локалей не осталось обещания письма."
+    },
+    {
+      "item": "В deploy/compose.mt.yml и deploy/mt/shipshift.env.example добавлены STORE_PHONE и STORE_ADDRESS для подвала письма в mt-стеке — единственная реальная дырка проводки в репозитории."
+    },
+    {
+      "item": "Замером показано, что SMTP_*/TELEGRAM_*/BACKEND_PUBLIC_URL уже проброшены в compose.mt.yml коммитом t08 (PR #28) — пункт 1 задачи в репозитории не воспроизвёлся."
+    },
+    {
+      "item": "Найдена настоящая причина симптома: на хосте лежит устаревшая копия compose.mt.yml (mtime 2026-09-14 07:07), из-за чего в контейнере mt-backend нет SMTP_* и BACKEND_PUBLIC_URL вовсе."
+    },
+    {
+      "item": "В отчёте перечислен дрейф из 14 переменных блока backend между репозиторием и хостом как задел для ручного деплоя Иваном."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #39",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/39"
+    },
+    {
+      "label": "Отчёт воркера",
+      "path": "artifacts/docs/f02-order-email-not-sent/report.md"
+    },
+    {
+      "label": "Скриншот приёмки: страница заказа после исправления",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f02-order-email-not-sent-1/worker-after-order-confirmed-1280x900.png"
+    },
+    {
+      "label": "Журнал приёмки",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f02-order-email-not-sent-1.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Живой симптом закроется только деплоем compose.mt.yml и заполнением секретов в shipshift.env на хосте — деплой не делался (правило 21c), ход за Иваном."
+  ]
+}

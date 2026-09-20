@@ -1,0 +1,7 @@
+.crumbs { padding-block: var(--space-4); }
+.crumbs-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.crumbs-item { display: inline-flex; align-items: center; gap: var(--space-2); }
+.crumbs-sep { display: inline-flex; color: var(--muted-foreground); }
+.crumbs-sep svg { width: var(--space-3); height: var(--space-3); }
+.crumbs-link { min-height: var(--tap); display: inline-flex; align-items: center; }
+.crumbs-link:hover { text-decoration: underline; text-underline-offset: var(--space-1); }

@@ -1,0 +1,40 @@
+├ ƒ /[locale]/privacy                                250 B         115 kB
+├ ƒ /[locale]/products/[handle]                    12.6 kB         170 kB
+├ ƒ /[locale]/reset-password                       4.24 kB         135 kB
+├ ƒ /[locale]/returns                                250 B         115 kB
+├ ƒ /[locale]/shipping                               250 B         115 kB
+├ ƒ /[locale]/store                                  374 B         233 kB
+├ ƒ /[locale]/terms                                  250 B         115 kB
+├ ƒ /api/cdek/cities                                 252 B         115 kB
+├ ƒ /api/cdek/points                                 252 B         115 kB
+├ ƒ /api/demo/onboarding                             172 B         103 kB
+├ ƒ /api/demo/pay                                    172 B         103 kB
+├ ƒ /api/payment-return                              252 B         115 kB
+├ ƒ /api/revalidate                                  172 B         103 kB
+├ ƒ /api/studio/settings                             252 B         115 kB
+├ ƒ /api/studio/unlock                               172 B         103 kB
+├ ƒ /api/yandex-callback                             172 B         103 kB
+├ ƒ /api/yandex-login                                172 B         103 kB
+├ ƒ /healthz                                         172 B         103 kB
+├ ○ /icon.svg                                          0 B            0 B
+├ ƒ /llms.txt                                        252 B         115 kB
+├ ƒ /opengraph-image                                 172 B         103 kB
+├ ƒ /robots.txt                                      172 B         103 kB
+├ ƒ /sitemap.xml                                     172 B         103 kB
+├ ƒ /start                                           222 B         106 kB
+├ ƒ /start/onboarding                              4.64 kB         111 kB
+├ ƒ /start/pay                                     3.41 kB         110 kB
+├ ƒ /start/plan                                      222 B         106 kB
+├ ƒ /start/service                                   222 B         106 kB
+└ ƒ /twitter-image                                   172 B         103 kB
++ First Load JS shared by all                       103 kB
+  ├ chunks/4703-17941b3017cc36f3.js                46.4 kB
+  ├ chunks/cdfca30a-155a5a0ff24300b2.js            54.3 kB
+  └ other shared chunks (total)                    2.12 kB
+
+
+ƒ Middleware                                       38.1 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

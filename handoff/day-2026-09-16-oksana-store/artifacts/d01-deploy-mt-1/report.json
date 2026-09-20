@@ -1,0 +1,46 @@
+{
+  "task": "d01-deploy-mt-1",
+  "done": [
+    {
+      "item": "Развёрнут sha bd4ced7 на живом mt-хосте: код передан rsync, три образа (backend, storefront, panel) пересобраны, контейнеры подняты через docker compose up -d."
+    },
+    {
+      "item": "Снят дамп БД до операции: mt-medusa_mt-20260914-212303.sql.gz, 4 971 267 байт."
+    },
+    {
+      "item": "Все 4 health-check отвечают 200: витрина, страница онбординга, панель и движок (health)."
+    },
+    {
+      "item": "Прогнаны бэкфиллы: backfill-hero-copy.js (12 документов, патчить не понадобилось) и backfill-option-translations.js (32 строки переписаны для профиля sneakers)."
+    },
+    {
+      "item": "Проверены все контейнеры mt-*: backend, storefront, panel, postgres, ingress-sync — Up и healthy."
+    },
+    {
+      "item": "Зафиксирована находка: scp по прямому IP на хост Contabo не проходит без явного -i ключа, хотя ssh через алиас contabo работает."
+    }
+  ],
+  "results": [
+    {
+      "label": "Отчёт о деплое (report.md)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d01-deploy-mt-1/report.md"
+    },
+    {
+      "label": "Витрина (health)",
+      "url": "https://shipshift.dev/health"
+    },
+    {
+      "label": "Панель",
+      "url": "https://panel-store.upready.dev/"
+    },
+    {
+      "label": "Онбординг",
+      "url": "https://start.upready.dev/start/onboarding"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "mt-panel:latest не пересобрался в этом прогоне (кэш слоёв, изменений для панели не было) — формально критерий «образ пересобран» для панели не выполнен, хотя контейнер здоров и отвечает 200.",
+    "Демо-тенанты acme/globex/initech уже существовали в БД, сид не запускался."
+  ]
+}

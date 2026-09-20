@@ -18,8 +18,10 @@ import {
   readAttribution,
   type TenantAttribution,
 } from "./attribution"
+import { EMPTY_BRANDING, type TenantBranding } from "./branding"
 
 export type { TenantAttribution }
+export type { TenantBranding }
 
 export type ResolvedTenant = {
   handle: string
@@ -37,6 +39,30 @@ export type ResolvedTenant = {
    * (`specs/tenant-address/CANONICAL.md`).
    */
   primaryHost: string | null
+  /**
+   * Language and currency defaults owned by the shop (t06-locale-currency),
+   * not by the build. Null for a tenant that never saved
+   * `tenant_locale_settings` — the storefront then falls back to
+   * `STOREFRONT_DEFAULT_LOCALE`/`LOCALE_PIN`/`LOCALE_COUNTRY_MAP`, exactly the
+   * single-image behaviour every deployment ran before this change.
+   */
+  locale: {
+    defaultLocale: string
+    enabledLocales: string[]
+    defaultCountry: string | null
+  } | null
+  /** Search-console ownership tags (t11-seo-redirects step 6), null when unset. */
+  seoVerification: { yandex: string | null; google: string | null } | null
+  /**
+   * The shop's own analytics counters (t17-analytics step 1), null when the
+   * owner has set neither. A tenant that resolves here NEVER falls back to
+   * the build-time `NEXT_PUBLIC_GA_MEASUREMENT_ID` — that variable is the
+   * single-store install's own fallback, not a shared id for every shop on
+   * this process.
+   */
+  analytics: { yandexMetricaId: string | null; ga4MeasurementId: string | null } | null
+  /** Logo, favicon, og image, primary colour, footer credit (t16-owner-branding). */
+  branding: TenantBranding
 }
 
 const TTL_MS = 60_000
@@ -97,10 +123,27 @@ export async function resolveTenantByHost(
         publishable_key?: string | null
         theme?: { preset?: string | null; mode?: string | null } | null
         attribution?: Partial<TenantAttribution> | null
+        seo_verification?: { yandex?: string | null; google?: string | null } | null
+        analytics?: { yandex_metrica_id?: string | null; ga4_measurement_id?: string | null } | null
+        branding?: Partial<TenantBranding> | null
         primary_host?: string | null
+        locale?: {
+          default_locale?: string | null
+          enabled_locales?: string[] | null
+          default_country?: string | null
+        } | null
       }
 
       if (body?.tenant?.handle) {
+        const locale =
+          body.locale?.default_locale && body.locale.enabled_locales?.length
+            ? {
+                defaultLocale: body.locale.default_locale,
+                enabledLocales: body.locale.enabled_locales,
+                defaultCountry: body.locale.default_country ?? null,
+              }
+            : null
+
         resolved = {
           handle: body.tenant.handle,
           name: body.tenant.name ?? body.tenant.handle,
@@ -109,6 +152,22 @@ export async function resolveTenantByHost(
           mode: body.theme?.mode ?? null,
           attribution: readAttribution(body.attribution),
           primaryHost: body.primary_host?.trim().toLowerCase() || null,
+          locale,
+          seoVerification:
+            body.seo_verification?.yandex || body.seo_verification?.google
+              ? {
+                  yandex: body.seo_verification.yandex ?? null,
+                  google: body.seo_verification.google ?? null,
+                }
+              : null,
+          analytics:
+            body.analytics?.yandex_metrica_id || body.analytics?.ga4_measurement_id
+              ? {
+                  yandexMetricaId: body.analytics.yandex_metrica_id ?? null,
+                  ga4MeasurementId: body.analytics.ga4_measurement_id ?? null,
+                }
+              : null,
+          branding: { ...EMPTY_BRANDING, ...(body.branding ?? {}) },
         }
       }
     }

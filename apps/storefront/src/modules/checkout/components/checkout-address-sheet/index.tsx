@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, type FormEvent } from "react"
+import { useEffect, useRef, useState, type FormEvent } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { setAddresses, updateRegion } from "@lib/data/cart"
 import type { HttpTypes } from "@medusajs/types"
@@ -13,6 +13,21 @@ import AddressAutocomplete, {
 } from "@modules/common/components/address-autocomplete"
 import { Button, RadioGroup } from "@medusajs/ui"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
+import { cartCountryCode, shippingAddressGaps } from "@lib/util/shipping-address"
+
+/** The one sentence a customer can act on when the address cannot be posted. */
+function AddressIncompleteMessage({ show }: { show: boolean }) {
+  const t = useTranslations("CheckoutPage")
+  if (!show) return null
+  return (
+    <div
+      className="pt-2 text-rose-500 text-small-regular"
+      data-testid="address-incomplete-message"
+    >
+      <span>{t("addressIncomplete")}</span>
+    </div>
+  )
+}
 
 interface CheckoutAddressSheetProps {
   open: boolean
@@ -33,6 +48,9 @@ export default function CheckoutAddressSheet({
   const router = useRouter()
   const pathname = usePathname()
   const shippingAddress = cart.shipping_address
+  // A cart opened but never addressed has no `country_code` yet, so the region
+  // it belongs to answers which country's rules the form follows.
+  const countryCode = cartCountryCode(cart)
 
   const savedAddresses = addresses ?? []
   const hasSaved = savedAddresses.length > 0
@@ -59,11 +77,37 @@ export default function CheckoutAddressSheet({
     province: manualAddress?.province ?? "",
   })
   const [error, setError] = useState<string | null>(null)
+  // Its own state, not `error`: `ErrorMessage` runs whatever it is given through
+  // `resolveErrorKey`, which maps a BACKEND error string onto one of the fixed
+  // `Errors.*` keys — an already-translated sentence handed to it comes out as
+  // the generic message (measured on the f04 stand, 2026-09-15: the sheet
+  // rendered nothing a customer could act on).
+  const [addressIncomplete, setAddressIncomplete] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [applyingId, setApplyingId] = useState<string | null>(null)
 
+  /**
+   * The sheet is seeded from the cart when it OPENS, and never again while it
+   * stays open.
+   *
+   * It used to re-seed on every change of `cart` (the dependencies below are
+   * all derived from it), which made the checkout's own `router.refresh()` a
+   * race: the refresh is an RSC round trip that lands whenever the network
+   * decides, and the new cart object then wiped whatever the customer had typed
+   * in the meantime — measured 2026-09-16 on the i03 stand, where a city typed
+   * into the open sheet reverted to the cart's saved one a few seconds later
+   * (rule 19h: an async answer must not own state the customer has touched).
+   * A cart that changes while the sheet is open is never newer than the form in
+   * front of the customer.
+   */
+  const wasOpen = useRef(false)
   useEffect(() => {
-    if (!open) return
+    if (!open) {
+      wasOpen.current = false
+      return
+    }
+    if (wasOpen.current) return
+    wasOpen.current = true
 
     setMode(initialMode)
     setSelectedId(matchingAddress?.id)
@@ -75,6 +119,7 @@ export default function CheckoutAddressSheet({
     })
     setCompany(manualAddress?.company ?? "")
     setError(null)
+    setAddressIncomplete(false)
   }, [open, initialMode, matchingAddress, manualAddress])
 
   const countryName = (code?: string | null) =>
@@ -94,8 +139,17 @@ export default function CheckoutAddressSheet({
       .join(", ")
 
   async function applySaved(address: HttpTypes.StoreCustomerAddress) {
+    // f04-address-without-city: an address saved before this rule existed can
+    // itself be missing a city, and applying it would put the cart back in the
+    // state the fix exists to prevent.
+    if (shippingAddressGaps(address, address.country_code).length > 0) {
+      setSelectedId(undefined)
+      setAddressIncomplete(true)
+      return
+    }
     setApplyingId(address.id)
     setError(null)
+    setAddressIncomplete(false)
     const result = await setAddresses({
       shipping_address: {
         company: address.company ?? undefined,
@@ -131,6 +185,16 @@ export default function CheckoutAddressSheet({
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    // f04-address-without-city: the browser's own `required` gate is the first
+    // line, this is the one that survives an autofill, a saved address and a
+    // form submitted programmatically. A parcel cannot be posted without city
+    // and index, so a half-filled address is never written to the cart.
+    const gaps = shippingAddressGaps(addressFields, countryCode)
+    if (gaps.length > 0) {
+      setAddressIncomplete(true)
+      return
+    }
+    setAddressIncomplete(false)
     setIsSubmitting(true)
     setError(null)
     const result = await setAddresses({
@@ -169,6 +233,7 @@ export default function CheckoutAddressSheet({
           </RadioGroup>
 
           <ErrorMessage error={error} />
+          <AddressIncompleteMessage show={addressIncomplete} />
 
           <Button
             type="button"
@@ -186,6 +251,7 @@ export default function CheckoutAddressSheet({
               values={addressFields}
               onChange={setAddressFields}
               required
+              countryCode={countryCode}
             />
             <Input
               label={t("fieldCompany")}
@@ -197,6 +263,7 @@ export default function CheckoutAddressSheet({
             />
           </div>
           <ErrorMessage error={error} />
+          <AddressIncompleteMessage show={addressIncomplete} />
           <div className="flex gap-x-2 mt-4">
             <Button
               type="button"

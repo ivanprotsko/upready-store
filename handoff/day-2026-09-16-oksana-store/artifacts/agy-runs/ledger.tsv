@@ -1,0 +1,22 @@
+task	executor	executor_model	acceptor_model	round	verdict	blockers	majors	minors	duration_s	tokens_total	quota_before_pct	quota_after_pct	ts_wita
+o01-ozon-key-instruction	gemini	gemini-3.1-pro-high	opus	1	REJECT	1	3	3	240.09	212518	87		2026-09-18 07:10 WITA
+g01-store-glossary	g01-store-glossary-gem	gemini-3.8-flash-high	claude-opus-5	1	REJECT	2	4	3	356.96	581711	86	n/a	2026-09-18 07:14 WITA
+e01-email-and-phone-auth-research	agy	gemini-3.8-flash-high	opus	1	REJECT	2	5	3	555.41	944288	86		2026-09-18 07:16 WITA
+pf01-upready-dev-portfolio-texts	gemini	gemini-3.8-flash-high	opus	1	REJECT	1	4	4	248.38	606994	65		2026-09-18 07:23 WITA
+o01-ozon-key-instruction	o01-ozon-key-instruction-opus	claude-opus-5	claude-sonnet-5	2	ACCEPT	0	0	1	799.22	231000			2026-09-18 07:28 WITA
+pf02-ivanprotsko-com-portfolio-texts	gemini	gemini-3.8-flash-high	opus	1	REJECT	0	2	2	186.99	732542	56		2026-09-18 07:31 WITA
+pf01-upready-dev-portfolio-texts	pf01-upready-dev-portfolio-texts-opus	claude-sonnet-5	claude-sonnet-5	2	ACCEPT	0	1	1	373.0	31023			2026-09-18 07:36 WITA
+pf02-ivanprotsko-com-portfolio-texts	claude	sonnet	sonnet	2	REJECT	2	1	1	420.6	n/a	n/a	n/a	2026-09-18 07:42 WITA
+e01-email-and-phone-auth-research	claude	opus	sonnet	2	REJECT	1	0	0	1723.3	n/a	n/a	n/a	2026-09-18 07:48 WITA
+gx01-gpt-oss-probe	agy	gpt-oss-120b-medium	-	1	REJECT-unavailable	0	0	0	2.9	11969	100	100	2026-09-18 07:50 WITA
+gw07-metrika-ecommerce-events-spec	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	0	2	217.483722	171588	98	74	2026-09-18 10:10 WITA
+gw13-competitor-onboarding-review	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	1	2	196.818271	104383	100	77	2026-09-18 10:11 WITA
+gw11-storefront-e2e-test-plan	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	1	2	146.97	133121	100	78	2026-09-18 10:12 WITA
+gw12-backend-api-docs-digest	agy	gemini-3.8-flash-high	sonnet	1	ACCEPT	0	0	0	434.783991	1341015	100	64	2026-09-18 10:13 WITA
+gw08-telegram-mini-app-store-research	agy	gemini-3.8-flash-high	sonnet	1	REJECT	2	1	1	367.350861	773000	99	64	2026-09-18 10:13 WITA
+gw10-ui-strings-audit-ru	agy	gemini-3.8-flash-high	sonnet	1	ACCEPT	0	0	1	491.924019	1288331	100	59	2026-09-18 10:16 WITA
+gw14-medusa-owner-glossary	agy	gemini-3.8-flash-high	sonnet	1	REJECT	1	1	0	521.370703	715194	100	59	2026-09-18 10:17 WITA
+gw02-storefront-owner-faq	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	0	0	101.581904	77713	52	42	2026-09-18 10:18 WITA
+gw09-onboarding-email-sequence	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	0	2	101.86	78724	99	84	2026-09-18 10:19 WITA
+gw05-legal-docs-rf-checklist	agy	gemini-3.1-pro-high	sonnet	1	REJECT	0	2	0	196.210644	118200	59	42	2026-09-18 10:20 WITA
+gw03-payment-providers-rf	agy	gemini-3.1-pro-high	sonnet	1	REJECT	2	1	1	189.835172	109188	57	39	2026-09-18 10:20 WITA

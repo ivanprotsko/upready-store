@@ -1,0 +1,203 @@
+{
+  "ctrls": [
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": "tab",
+      "type": "button",
+      "name": "",
+      "txt": "Детали",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": "tab",
+      "type": "button",
+      "name": "",
+      "txt": "Организация",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": "tab",
+      "type": "button",
+      "name": "",
+      "txt": "Варианты",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": "switch",
+      "type": "button",
+      "name": "",
+      "txt": "",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "type": "checkbox",
+      "name": "discountable",
+      "txt": "",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "INPUT",
+      "role": "combobox",
+      "type": "text",
+      "name": "type_id",
+      "txt": "",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "",
+      "label": "Тип\n\n(Необязательно)",
+      "aria": "Show popup"
+    },
+    {
+      "tag": "INPUT",
+      "role": "combobox",
+      "type": "text",
+      "name": "collection_id",
+      "txt": "",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "",
+      "label": "Коллекция\n\n(Необязательно)",
+      "aria": "Show popup"
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "type": "text",
+      "name": "categories",
+      "txt": "",
+      "label": "Категории\n\n(Необязательно)",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "",
+      "label": "Категории\n\n(Необязательно)",
+      "aria": null
+    },
+    {
+      "tag": "INPUT",
+      "role": "combobox",
+      "type": "text",
+      "name": "tags",
+      "txt": "",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "",
+      "label": "Теги\n\n(Необязательно)",
+      "aria": "Show popup"
+    },
+    {
+      "tag": "INPUT",
+      "role": "combobox",
+      "type": "text",
+      "name": "shipping_profile_id",
+      "txt": "",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "",
+      "label": "",
+      "aria": "Show popup"
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "Добавить",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "Очистить все",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "Отмена",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "submit",
+      "name": "",
+      "txt": "Сохранить как черновик",
+      "label": "",
+      "aria": null
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "type": "button",
+      "name": "",
+      "txt": "Продолжить",
+      "label": "",
+      "aria": null
+    }
+  ],
+  "errors": []
+}

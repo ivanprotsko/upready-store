@@ -1,0 +1,170 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Штаб дня — магазин Оксаны</title><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--bg:#0b0c0e;--fg:#e6e6e6;--mut:#8a8f98;--line:#23262b;--card:#121417;--acc:#4f8cff;--ok:#2bb673;--warn:#e2b93b;--bad:#e5484d;--pur:#a78bfa;--btn:#1a1d22;--inp:#0e1013;--hover:#111318}
+:root[data-theme=light]{--bg:#f6f7f9;--fg:#1a1d22;--mut:#5b6068;--line:#d9dde3;--card:#ffffff;--acc:#2f6fe4;--ok:#1f9d5f;--warn:#a67c0f;--bad:#d2383d;--pur:#6d4fd8;--btn:#ffffff;--inp:#ffffff;--hover:#eef1f5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 -apple-system,Inter,Segoe UI,sans-serif}
+header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;z-index:2}
+h1{font-size:16px;margin:0}.pill{padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--mut);font-size:12px}.pill.on{border-color:var(--ok);color:var(--ok)}.pill.off{border-color:var(--bad);color:var(--bad)}.pill.warn{border-color:var(--warn);color:var(--warn)}
+button{background:var(--btn);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:13px}button:hover{border-color:var(--acc)}button.run{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}button.danger{border-color:var(--bad);color:var(--bad)}
+main{padding:12px 16px;max-width:1500px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mut);font-weight:500;font-size:12px}
+tr.row{cursor:pointer}tr.row:hover{background:var(--hover)}.st{font-weight:600}.st.queued{color:var(--mut)}.st.backlog{color:var(--mut);font-style:italic}.filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 8px;font-size:12px}.filters label{color:var(--mut)}.filters select{font-size:12px}.st.running,.st.pr_open,.st.accepting,.st.fixing{color:var(--acc)}.st.merged,.st.done{color:var(--ok)}.st.failed,.st.blocked,.st.needs-ivan{color:var(--bad)}.st.skipped{color:var(--pur)}.st.waiting-quota{color:var(--warn);font-style:italic}
+.det{background:var(--card);padding:12px;border-bottom:1px solid var(--line)}textarea{width:100%;min-height:360px;background:var(--inp);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:8px;font:12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}
+select,input{background:var(--inp);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 6px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:8px}label{font-size:12px;color:var(--mut);display:block}
+pre{background:var(--inp);border:1px solid var(--line);border-radius:6px;padding:8px;max-height:420px;overflow:auto;font-size:12px;white-space:pre-wrap}.tabs{display:flex;gap:6px;margin:8px 0}.tabs button.on{border-color:var(--acc);color:var(--acc)}
+.op-in{display:flex;gap:8px;align-items:flex-start;margin-bottom:14px}.op-in textarea{min-height:72px;font:13.5px/1.45 -apple-system,Inter,Segoe UI,sans-serif}
+.op-msg{border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:6px;padding:8px 10px;margin:14px 0 6px;background:var(--inp);white-space:pre-wrap}
+.op-rec{border:1px solid var(--line);border-radius:6px;margin:8px 0 8px 18px;background:var(--card)}
+.op-head{padding:7px 10px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.op-doc{padding:10px 12px;max-height:520px;overflow:auto}.op-doc h1{font-size:16px;margin:2px 0 8px}.op-doc h2{font-size:14px;margin:12px 0 4px}.op-doc h3{font-size:13px;margin:10px 0 4px}
+.op-doc blockquote{margin:4px 0;padding:4px 10px;border-left:2px solid var(--line);color:var(--mut);white-space:pre-wrap}
+.op-doc table{margin:6px 0;font-size:12.5px}.op-doc code{background:var(--inp);padding:1px 4px;border-radius:3px;font-size:12px}
+.op-doc pre{margin:6px 0}.op-doc ul{margin:4px 0;padding-left:20px}
+.op-src{padding:6px 10px;border-top:1px solid var(--line);font-size:12px;color:var(--mut)}.op-src a{margin-right:10px}
+.op-act{padding:6px 10px;border-top:1px solid var(--line);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.badge{font-size:11px;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--mut)}.badge.lvl{border-color:var(--acc);color:var(--acc)}.badge.red{border-color:var(--bad);color:var(--bad)}.badge.green{border-color:var(--ok);color:var(--ok)}.badge.wait{border-color:var(--warn);color:var(--warn)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 14px}.box{border:1px solid var(--line);border-radius:6px;padding:8px;margin:6px 0;background:var(--inp)}details{margin:6px 0}summary{cursor:pointer;font-weight:600}textarea:disabled,select:disabled,input:disabled{opacity:.55;cursor:not-allowed}.res a{word-break:break-all}
+a{color:var(--acc)}.mut{color:var(--mut);font-size:12px}.err{color:var(--bad);font-size:12px}.ev{font-size:12px;color:var(--mut)}
+</style>
+<script>(function(){try{var t=localStorage.getItem("theme")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+function toggleTheme(){var r=document.documentElement;var t=r.getAttribute("data-theme")==="light"?"dark":"light";r.setAttribute("data-theme",t);try{localStorage.setItem("theme",t);}catch(e){}}</script></head><body>
+<header><h1>Штаб дня · магазин Оксаны · upready-store</h1><span id="alive" class="pill">…</span><span id="paused" class="pill"></span><span id="limit" class="pill"></span><span id="slots" class="pill"></span><span id="now" class="mut"></span>
+<span style="flex:1"></span><button id="themeBtn" onclick="toggleTheme()" title="Светлая/тёмная тема">☀︎ Тема</button><button onclick="cmd('pause')">⏸ Пауза</button><button onclick="cmd('resume')">▶ Возобновить</button><button onclick="cmd('clear-limit')">Сбросить лимит</button><button onclick="show('report')">📄 Отчёт</button><button onclick="show('tasks')">📋 Задачи</button><button onclick="show('events')">🕒 События</button><button onclick="show('templates')">🧩 Шаблоны</button><button onclick="show('operator')">💬 Оператор</button></header>
+<main>
+<section id="tasks"><div class="filters" id="filters"><label>модель <select id="fModel" onchange="setFilter()"><option value="">все</option></select></label><label>усилие <select id="fEffort" onchange="setFilter()"><option value="">все</option></select></label><label>разработчик <select id="fDev" onchange="setFilter()"><option value="">все</option><option value="anthropic">anthropic</option><option value="google">google</option><option value="openai">openai</option><option value="other">другие</option></select></label><label>статус <select id="fStatus" onchange="setFilter()"><option value="">все</option></select></label><span class="mut" id="fCount"></span> <button onclick="resetFilter()" style="font-size:11px">сбросить</button></div><table><thead><tr><th>#</th><th>id</th><th>задача</th><th>полоса</th><th>модель/усилие</th><th>ветка / cwd</th><th>статус</th><th>PR</th><th>попыт.</th><th>после</th></tr></thead><tbody id="tb"></tbody></table></section>
+<section id="report" hidden><pre id="reportPre"></pre></section>
+<section id="events" hidden><div id="evList"></div></section>
+<section id="operator" hidden>
+  <div class="op-in"><textarea id="opText" placeholder="Напишите оператору: вопрос, замечание, баг, задача. Enter — отправить, Shift+Enter — перенос строки." onfocus="editing=true" onblur="editing=false" onkeydown="opKey(event)"></textarea><button class="run" onclick="opSend()">Отправить</button></div>
+  <div class="mut" id="opNote"></div>
+  <div id="opThread"></div>
+</section>
+<section id="templates" hidden><div class="tabs" id="tplTabs"></div><textarea id="tplText"></textarea><div style="margin-top:6px"><button onclick="saveTpl()">💾 Сохранить шаблон</button> <span class="mut" id="tplName"></span></div></section>
+</main>
+<script>
+let S=null, open=null, editing=false, view='tasks', tplCur=null, scrollOnce=false;
+const RO=new Set(['pr_open','accepting','fixing','merged','done']); const showForm={}; let detNode=null, detSig=null;
+const $=s=>document.querySelector(s);
+async function api(p,o){const r=await fetch(p,o);return r.headers.get('content-type')?.includes('json')?r.json():r.text()}
+async function load(){ if(editing) return; S=await api('/api/state'); render(); if(view==='operator') loadOp(); if(scrollOnce&&detNode){ scrollOnce=false; setTimeout(()=>detNode&&detNode.scrollIntoView({block:'start'}),50); } }
+function render(){ const d=S.state.dispatcher||{}; $('#alive').textContent=S.alive?'диспетчер жив · тик '+(d.ticks||0):'диспетчер НЕ работает'; $('#alive').className='pill '+(S.alive?'on':'off'); $('#paused').textContent=(d.paused||S.stopFile)?'ПАУЗА':'работает'; $('#paused').className='pill '+((d.paused||S.stopFile)?'warn':'on'); const lim=d.limitUntil&&Date.parse(d.limitUntil)>Date.now(); $('#limit').textContent=lim?'лимит до '+d.limitUntil.slice(11,16)+'Z':'лимита нет'; $('#limit').className='pill '+(lim?'warn':''); $('#now').textContent=S.now+(S.doneFile?' · DONE':'');
+  const cnt={};for(const t of S.cfg.tasks){const st=S.state.tasks[t.id]?.status||t.status||'queued';cnt[st]=(cnt[st]||0)+1} $('#slots').textContent=Object.entries(cnt).map(([k,v])=>k+':'+v).join(' · ');
+  const tb=$('#tb'); tb.innerHTML=''; syncFilters(); let shown=0; for(const t of S.cfg.tasks){ const s=S.state.tasks[t.id]||{}; const st=s.status||t.status||'queued'; if(!passFilter(t,st)) continue; shown++; const tr=document.createElement('tr'); tr.className='row'; tr.onclick=()=>toggle(t.id);
+    tr.innerHTML=`<td>${t.priority??''}</td><td><code>${t.id}</code></td><td>${esc(t.title)}${s.error?`<div class="err">${esc(s.error)}</div>`:''}</td><td>${t.lane}</td><td>${t.model||'-'}/${t.effort||'-'}</td><td class="mut">${esc(t.branch||t.cwd||'')}</td><td class="st ${st}">${st}</td><td>${s.pr?.url?`<a href="${s.pr.url}" target="_blank" onclick="event.stopPropagation()">#${s.pr.number}</a>`:''}</td><td>${s.attempt||0}</td><td class="mut">${(t.deps||[]).join(', ')}</td>`;
+    tb.appendChild(tr); if(open===t.id){ const sig=t.id+'|'+JSON.stringify(s)+'|'+!!showForm[t.id]; if(detNode&&detSig===sig){ tb.appendChild(detNode); } else { const d=document.createElement('tr'); d.innerHTML=`<td colspan="10" class="det" id="det-${cssid(t.id)}"></td>`; tb.appendChild(d); detNode=d; detSig=sig; fillDetail(t,s); } } }
+  $('#fCount').textContent='показано '+shown+' из '+S.cfg.tasks.length+((F.model||F.effort||F.dev||F.status)?' (фильтр: '+[F.dev,F.model,F.effort,F.status].filter(Boolean).join(' · ')+')':'');
+  $('#evList').innerHTML=(S.state.events||[]).slice().reverse().map(e=>`<div class="ev">${e.ts.replace('T',' ').slice(0,19)} · <b>${esc(e.task||'')}</b> · ${esc(e.type)}${e.msg?': '+esc(e.msg):''}</div>`).join('');
+}
+function cssid(s){return s.replace(/[^a-z0-9]/gi,'_')}
+// Фильтры (заказ Ивана 2026-09-18 03:59, п. 1.2): модель, усилие, разработчик по ПРЕФИКСУ id модели (claude-*/opus/sonnet/haiku/fable → anthropic, gemini-* → google, gpt-*/o1..o9/codex → openai), статус.
+const F=(()=>{try{return JSON.parse(localStorage.getItem('hqFilters')||'{}')}catch(e){return {}}})();
+function devOf(m){m=String(m||'').toLowerCase();if(!m)return 'other';if(/^(claude|opus|sonnet|haiku|fable)/.test(m))return 'anthropic';if(/^gemini/.test(m))return 'google';if(/^(gpt|o[0-9]|codex|chatgpt)/.test(m))return 'openai';return 'other'}
+function passFilter(t,st){ if(F.model&&(t.model||'-')!==F.model)return false; if(F.effort&&(t.effort||'-')!==F.effort)return false; if(F.dev&&devOf(t.model)!==F.dev)return false; if(F.status&&st!==F.status)return false; return true }
+function syncOpts(id,vals,cur){ const el=$(id); if(!el)return; const have=[...el.options].map(o=>o.value).slice(1).join('|'); if(have!==vals.join('|')){ el.innerHTML='<option value="">все</option>'+vals.map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join(''); } el.value=cur||''; if(el.value!==(cur||''))el.value=''; }
+function syncFilters(){ const ts=S.cfg.tasks; const uniq=a=>[...new Set(a)].sort(); syncOpts('#fModel',uniq(ts.map(t=>t.model||'-')),F.model); syncOpts('#fEffort',uniq(ts.map(t=>t.effort||'-')),F.effort); syncOpts('#fStatus',uniq(ts.map(t=>S.state.tasks[t.id]?.status||t.status||'queued')),F.status); const d=$('#fDev'); if(d)d.value=F.dev||''; }
+function setFilter(){ F.model=$('#fModel').value; F.effort=$('#fEffort').value; F.dev=$('#fDev').value; F.status=$('#fStatus').value; try{localStorage.setItem('hqFilters',JSON.stringify(F))}catch(e){} render(); }
+function resetFilter(){ for(const k of Object.keys(F))delete F[k]; try{localStorage.removeItem('hqFilters')}catch(e){} render(); }
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+async function toggle(id){ open=open===id?null:id; try{ history.replaceState(null,'',open?'#open='+encodeURIComponent(open):location.pathname); }catch(e){} render(); }
+async function fillDetail(t,s){ const el=$('#det-'+cssid(t.id)); const st=s.status||t.status||'queued'; const ro=RO.has(st); if(ro&&!showForm[t.id]) return fillSummary(t,s,el);
+  const p=await api('/api/prompt?id='+encodeURIComponent(t.id)); const models=['opus','sonnet','fable','haiku'], efforts=['low','medium','high','xhigh','max'], lanes=Object.keys(S.cfg.lanes||{build:1}); const dis=ro?' disabled':''; const c=cssid(t.id);
+  el.innerHTML=`${ro?`<div class="mut" style="margin-bottom:6px">Задача в статусе <b>${st}</b> — параметры и промпт только для чтения. <button onclick="showForm['${t.id}']=false;render()">📊 Сводка</button></div>`:''}<div class="grid"><div><label>модель</label><select id="m-${c}"${dis}>${models.map(m=>`<option ${t.model===m?'selected':''}>${m}</option>`).join('')}</select></div><div><label>усилие</label><select id="e-${c}"${dis}>${efforts.map(m=>`<option ${t.effort===m?'selected':''}>${m}</option>`).join('')}</select></div><div><label>полоса</label><select id="l-${c}"${dis}>${lanes.map(m=>`<option ${t.lane===m?'selected':''}>${m}</option>`).join('')}</select></div><div><label>приоритет</label><input id="p-${c}"${dis} value="${t.priority??''}" size="4"></div><div><label>ветка / cwd</label><input id="b-${c}"${dis} value="${esc(t.branch||t.cwd||'')}" style="width:100%"></div><div><label>зависимости (через запятую)</label><input id="d-${c}"${dis} value="${esc((t.deps||[]).join(', '))}" style="width:100%"></div></div>
+  <div class="mut">файл промпта: ${esc(p.file)} · kind=${t.kind} · workspace ${s.ws?`<code>${s.ws}</code>`:'—'} · worktree ${esc(s.worktree||'')} ${s.pr?.url?`· <a target="_blank" href="${s.pr.url}">PR #${s.pr.number}</a>`:''}</div>
+  <div class="mut" style="margin:6px 0">Критерии приёмки: ${esc(t.acceptance||'(в промпте)')}</div>
+  <textarea id="t-${c}"${dis} onfocus="editing=true" onblur="editing=false">${esc(p.text)}</textarea>
+  <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${ro?'':`<button class="run" onclick="runTask('${t.id}')">▶ RUN — ветка + workspace + агент</button><button onclick="savePrompt('${t.id}')">💾 Сохранить промпт и параметры</button>`}<button onclick="cmd('retry','${t.id}')">↻ Retry</button><button onclick="cmd('skip','${t.id}')">⤼ Skip</button><button onclick="cmd('mark-done','${t.id}')">✓ Отметить сделанной</button><button onclick="preview('${t.id}')">👁 Полный промпт (с преамбулой)</button><button onclick="screen('${t.id}')">🖥 Экран агента</button>${(s.acceptance||[]).map(a=>`<button onclick="log('${a.log.split('/').pop()}')">лог приёмки ${a.n} (${a.verdict||'…'})</button>`).join('')}${s.run?`<button onclick="log('${s.run.log.split('/').pop()}')">лог запуска</button>`:''}</div>
+  <pre id="x-${c}" hidden></pre>`; }
+async function fillSummary(t,s,el){ const c=cssid(t.id); el.innerHTML='<div class="mut">собираю сводку…</div>'; let m; try{ m=await api('/api/summary?id='+encodeURIComponent(t.id)); }catch(e){ el.innerHTML='<div class="err">'+esc(e)+'</div>'; return; } if(open!==t.id||m.error){ if(m&&m.error) el.innerHTML='<div class="err">'+esc(m.error)+'</div>'; return; }
+  const N=n=>n==null?'—':Number(n).toLocaleString('ru-RU'); const pr=m.pr; const art=r=>'/api/artifact?f='+encodeURIComponent(r);
+  const prLine=pr?`<a target="_blank" href="${pr.url}">PR #${pr.number}</a> ${esc(pr.title||'')} · <b>${pr.state}</b>${pr.mergedAt?' · смёржен '+pr.mergedAt:''}${pr.changedFiles!=null?` · +${N(pr.additions)} / −${N(pr.deletions)}, файлов ${pr.changedFiles}`:''}${pr.error?' · <span class="err">'+esc(pr.error)+'</span>':''}`:'без PR';
+  const acc=m.acceptance.map(a=>`приёмка ${a.n}: <b>${esc(a.verdict)}</b> (${a.startedAt}) <a target="_blank" href="${art('logs/'+a.log)}">лог</a>${a.findings?` · <a target="_blank" href="${art('logs/'+a.findings)}">находки</a>`:''}`).join('<br>');
+  const res=m.results.urls.map(u=>`<a target="_blank" href="${esc(u)}">${esc(u)}</a>`).concat(m.results.groups.map(g=>`<div class="mut" style="margin-top:4px">${esc(g.title)}</div>`+g.items.map(i=>i.rel?`<a target="_blank" href="${art(i.rel)}">${esc(i.rel)}</a>${i.kind==='img'?' 🖼':''}`:`<span class="mut">${esc(i.path)}${i.kind==='missing'?' (нет файла)':''}</span>`).join('<br>')));
+  const st=m.stats, tk=st.tokens;
+  el.innerHTML=`<div style="margin-bottom:6px"><b class="st ${m.status}">${m.status}</b> · ${prLine} · ветка <code>${esc(m.branch||m.cwd||'')}</code> · попытка ${m.dispatcher.attempt} · запуск ${m.dispatcher.launchedAt||'—'} · закрыта диспетчером ${m.dispatcher.finishedAt||'—'}</div>
+  ${acc?`<div style="margin-bottom:6px">${acc}</div>`:''}
+  ${m.report?(m.report.errors.length?`<div class="err">Отчёт воркера ${esc(m.report.file)} не прошёл схему: ${m.report.errors.map(esc).join('; ')}</div>`:`<details open><summary>Отчёт воркера <span class="mut">— ${esc(m.report.file)}</span></summary><div class="box res"><ol style="margin:4px 0 4px 18px;padding:0">${m.report.data.done.map(d=>`<li>${esc(d.item)}${(d.links||[]).map(l=>' <a target="_blank" href="'+(/^(https?|file):/.test(l)||l.startsWith('/')?esc(l):art(l))+'">'+esc(l.split('/').pop())+'</a>').join('')}</li>`).join('')}</ol><div class="mut">Где посмотреть</div>${m.report.data.results.map(r=>`<div><a target="_blank" href="${r.url?esc(r.url):(/^(file):/.test(r.path)||r.path.startsWith('/')?esc(r.path):art(r.path))}">${esc(r.label)}</a>${r.note?' <span class="mut">'+esc(r.note)+'</span>':''}</div>`).join('')}${(m.report.data.access||[]).length?'<div class="mut" style="margin-top:4px">Доступ</div>'+m.report.data.access.map(a=>`<div><a target="_blank" href="${esc(a.url)}">${esc(a.url)}</a> · логин <code>${esc(a.login)}</code> · ${a.password?'пароль <code>'+esc(a.password)+'</code>':'пароль в <code>'+esc(a.secretRef)+'</code>'}${a.note?' <span class="mut">'+esc(a.note)+'</span>':''}</div>`).join(''):''}${(m.report.data.notes||[]).length?'<div class="mut" style="margin-top:4px">Заметки</div>'+m.report.data.notes.map(n=>'<div>'+esc(n)+'</div>').join(''):''}</div></details>`):'<div class="mut">Отчёта воркера (artifacts/'+esc(t.id)+'/report.json) нет</div>'}
+  <details open><summary>Что сделано${m.done.source?` <span class="mut">— ${esc(m.done.source)}</span>`:''}</summary><pre>${esc(m.done.text||'(текста нет)')}</pre></details>
+  <details open><summary>Где посмотреть результат</summary><div class="box res">${res.join('<br>')||'<span class="mut">ничего не записано</span>'}</div></details>
+  <details open><summary>Статистика сессии воркера</summary><div class="box"><div class="kv"><div><label>старт (первая запись стенограммы)</label>${st.start||'—'}</div><div><label>последний ход</label>${st.end||'—'}</div><div><label>длительность (старт → последний ход)</label>${st.durationMin==null?'—':st.durationMin+' мин'}</div><div><label>запросов к модели</label>${N(st.requests)}</div><div><label>вызовов инструментов</label>${N(st.toolCalls)}</div><div><label>сообщений оператора</label>${N(st.userMsgs)}</div><div><label>input (без кэша), токенов</label>${N(tk.input)}</div><div><label>output, токенов</label>${N(tk.output)}</div><div><label>cache read, токенов</label>${N(tk.cacheRead)}</div><div><label>cache write, токенов</label>${N(tk.cacheWrite)}</div><div><label>модели (по запросам)</label>${Object.entries(st.models).map(([k,v])=>esc(k)+' ×'+v).join(', ')||'—'}</div><div><label>стенограмм / сабагентов</label>${st.files.length} / ${st.subagents}</div></div><div class="mut" style="margin-top:6px">источник: ${esc(st.method)}${st.files.length?'<br>'+st.files.map(esc).join('<br>'):''}</div></div></details>
+  <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button onclick="showForm['${t.id}']=true;render()">⚙ Параметры и промпт</button><button onclick="screen('${t.id}')">🖥 Экран агента</button>${s.run?`<button onclick="log('${s.run.log.split('/').pop()}')">лог запуска</button>`:''}</div><pre id="x-${c}" hidden></pre>`; }
+async function savePrompt(id){ const t=S.cfg.tasks.find(x=>x.id===id); const c=cssid(id); await fetch('/api/prompt?id='+encodeURIComponent(id),{method:'PUT',body:$('#t-'+c).value}); const patch={model:$('#m-'+c).value,effort:$('#e-'+c).value,lane:$('#l-'+c).value,priority:Number($('#p-'+c).value)||null,deps:$('#d-'+c).value.split(',').map(s=>s.trim()).filter(Boolean)}; if(t.kind==='build') patch.branch=$('#b-'+c).value; else patch.cwd=$('#b-'+c).value; await fetch('/api/task?id='+encodeURIComponent(id),{method:'PUT',body:JSON.stringify(patch)}); editing=false; await load(); }
+async function runTask(id){ await savePrompt(id); await cmd('launch',id); }
+async function cmd(op,id){ const r=await api('/api/cmd',{method:'POST',body:JSON.stringify({op,id})}); if(r.ranInline) alert('Диспетчер не запущен — команда выполнена разово. Запусти run.sh, чтобы очередь шла сама.'); setTimeout(load,800); }
+async function preview(id){ const p=await api('/api/prompt?id='+encodeURIComponent(id)+'&rendered=1'); const x=$('#x-'+cssid(id)); x.hidden=false; x.textContent=p.rendered; }
+async function screen(id){ const x=$('#x-'+cssid(id)); x.hidden=false; x.textContent=await api('/api/screen?id='+encodeURIComponent(id)); }
+async function log(f){ const x=document.querySelector('.det pre'); if(x){x.hidden=false; x.textContent=await api('/api/log?file='+encodeURIComponent(f));} }
+function show(v){ view=v; for(const s of ['tasks','report','events','templates','operator']) $('#'+s).hidden=s!==v; if(v==='operator') loadOp(); if(v==='report') api('/api/report').then(t=>$('#reportPre').textContent=t); if(v==='templates') loadTpls(); }
+async function loadTpls(){ const list=await api('/api/templates'); $('#tplTabs').innerHTML=list.map(n=>`<button class="${tplCur===n?'on':''}" onclick="openTpl('${n}')">${n}</button>`).join(''); if(!tplCur&&list[0]) openTpl(list[0]); }
+async function openTpl(n){ tplCur=n; const t=await api('/api/template?name='+encodeURIComponent(n)); $('#tplText').value=t.text; $('#tplName').textContent=n; loadTpls(); }
+async function saveTpl(){ await fetch('/api/template?name='+encodeURIComponent(tplCur),{method:'PUT',body:$('#tplText').value}); alert('сохранено'); }
+
+// ---------- страница «Оператор» (OPERATOR-SPEC §7) ----------
+// Рендер md — свой, в 40 строк: ни одной внешней библиотеки и ни одного внешнего адреса (правило 27/безопасность).
+const LADDER=['скрипт','haiku','sonnet','opus','fable'];
+function mdInline(t){ let h=esc(t);
+  h=h.replace(/`([^`]+)`/g,(m,c)=>'<code>'+c+'</code>');
+  const fileUrl=s=>(/^file:\/\//.test(s)||/^\/(Users|Volumes|opt|private|tmp)\//.test(s))?('/api/file?f='+encodeURIComponent(s.replace(/^file:\/\//,''))):s;
+  h=h.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(m,alt,src)=>'<a href="'+esc(fileUrl(src))+'" target="_blank"><img alt="'+esc(alt)+'" src="'+esc(fileUrl(src))+'" style="max-width:100%;border:1px solid var(--line);border-radius:6px;margin:4px 0"></a>');
+  h=h.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(m,txt,href)=>{ const u=fileUrl(href); return '<a href="'+esc(u)+'" target="_blank">'+txt+'</a>'; });
+  h=h.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  h=h.replace(/(^|[\s(])_([^_]+)_($|[\s).,;])/g,'$1<i>$2</i>$3');
+  return h; }
+function mdToHtml(md){ const out=[]; const lines=String(md).split('\n'); let i=0, mode=null, buf=[];
+  const close=()=>{ if(mode==='q'){out.push('<blockquote>'+buf.join('\n')+'</blockquote>');} else if(mode==='ul'){out.push('<ul>'+buf.join('')+'</ul>');} else if(mode==='pre'){out.push('<pre>'+buf.join('\n')+'</pre>');} else if(mode==='tbl'){out.push('<table>'+buf.join('')+'</table>');} mode=null; buf=[]; };
+  while(i<lines.length){ const l=lines[i];
+    if(/^\s*<!--/.test(l)){ i++; continue; }
+    if(/^\s*```/.test(l)){ close(); mode='pre'; i++; while(i<lines.length&&!/^\s*```/.test(lines[i])){ buf.push(esc(lines[i])); i++; } close(); i++; continue; }
+    const h=/^(#{1,6})\s+(.*)$/.exec(l); if(h){ close(); out.push('<h'+Math.min(h[1].length+0,4)+'>'+mdInline(h[2])+'</h'+Math.min(h[1].length,4)+'>'); i++; continue; }
+    if(/^\s*(---|\*\*\*)\s*$/.test(l)){ close(); out.push('<hr>'); i++; continue; }
+    const q=/^\s*>\s?(.*)$/.exec(l); if(q){ if(mode!=='q')close(); mode='q'; buf.push(mdInline(q[1])); i++; continue; }
+    const li=/^\s*[-*]\s+(.*)$/.exec(l); if(li){ if(mode!=='ul')close(); mode='ul'; buf.push('<li>'+mdInline(li[1])+'</li>'); i++; continue; }
+    if(/^\s*\|.*\|\s*$/.test(l)){ if(mode!=='tbl')close(); mode='tbl';
+      if(/^\s*\|[\s:|-]+\|\s*$/.test(l)){ i++; continue; }
+      const cells=l.trim().replace(/^\||\|$/g,'').split('|');
+      const tag=(buf.length===0)?'th':'td';
+      buf.push('<tr>'+cells.map(c=>'<'+tag+'>'+mdInline(c.trim())+'</'+tag+'>').join('')+'</tr>'); i++; continue; }
+    if(!l.trim()){ close(); i++; continue; }
+    close(); out.push('<p>'+mdInline(l)+'</p>'); i++; }
+  close(); return out.join('\n'); }
+
+let opData=null, opDocs={}, opBusy=false;
+function opKey(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); opSend(); } }
+async function opSend(){ const el=$('#opText'); const t=el.value.trim(); if(!t||opBusy) return; opBusy=true; el.value=''; $('#opNote').textContent='отправлено, оператор разбирает промпт…';
+  try{ await fetch('/api/op/prompt',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:t})}); }catch(e){ $('#opNote').textContent='не отправилось: '+e; }
+  opBusy=false; setTimeout(loadOp,1200); }
+async function opVerdict(id,v){ await fetch('/api/op/verdict',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({record_id:id,verdict:v})}); loadOp(); }
+async function loadOp(){ const r=await api('/api/op/thread?n=30'); opData=r;
+  $('#opNote').textContent=r.error?('оператор недоступен: '+r.error):(r.note||('лента обновлена '+(r.now||'')));
+  const host=$('#opThread'); const parts=[];
+  for(const p of (r.thread||[])){
+    parts.push('<div class="op-msg"><span class="mut">'+esc(String(p.ts).replace('T',' ').slice(0,19))+' · '+esc(p.source||'ui')+' · разбор '+esc(p.parse||'…')+'</span>\n'+esc(p.text)+'</div>');
+    for(const rec of (p.records||[])){
+      const a=rec.answer; const waiting=!a&&rec.status!=='awaiting-ivan';
+      const ageSec=Math.max(0,Math.round((Date.now()-Date.parse(rec.ts))/1000));
+      const bad=(rec.refs_missing||[]).length?'<span class="badge red">не найдены на диске: '+esc(rec.refs_missing.join(', '))+'</span>':'';
+      let head='<div class="op-head"><span class="badge">'+esc(rec.kind)+'</span><span class="badge">'+esc(rec.area)+'</span><b>'+esc(rec.title)+'</b>'+bad+'<span style="flex:1"></span>';
+      if(a&&a.gate&&a.gate.ok) head+='<span class="badge lvl">уровень: '+esc(a.level)+'</span><span class="badge green">гейт зелёный</span><span class="mut">'+esc(String(a.ts).replace('T',' ').slice(11,19))+' · '+(a.seconds||0).toFixed(1)+' с</span>';
+      else if(a) head+='<span class="badge red">гейт красный</span>';
+      else if(rec.status==='awaiting-ivan') head+='<span class="badge wait">ждёт вашей кнопки</span>';
+      if(rec.verdict_ivan) head+='<span class="badge">ваш вердикт: '+esc(rec.verdict_ivan)+'</span>';
+      head+='</div>';
+      let bodyHtml='';
+      if(a&&a.gate&&a.gate.ok){ const d=opDocs[rec.id]; bodyHtml='<div class="op-doc" id="opdoc-'+esc(rec.id)+'">'+(d?mdToHtml(d):'<span class="mut">загружаю документ…</span>')+'</div>';
+        if(!d) fetch('/api/op/answer?id='+encodeURIComponent(rec.id)).then(x=>x.text()).then(t=>{ opDocs[rec.id]=t; const n=document.getElementById('opdoc-'+rec.id); if(n) n.innerHTML=mdToHtml(t); }); }
+      else if(a){ const esc2=(rec.escalations||[]).map(e=>e.from_level+' → '+e.to_level+': '+e.reason).join(' · ');
+        bodyHtml='<div class="op-doc"><p class="err">Гейт не пропустил ответ уровня «'+esc(a.level)+'»: '+esc((a.gate&&a.gate.reasons||[]).join(' · '))+'</p><p class="mut">ищет дальше: '+LADDER.join(' → ')+'</p>'+(esc2?'<p class="mut">'+esc(esc2)+'</p>':'')+'</div>'; }
+      else if(waiting) bodyHtml='<div class="op-doc mut">ищет: '+LADDER.join(' → ')+' · '+ageSec+' с</div>';
+      else bodyHtml='<div class="op-doc mut">Задачи и баги оператор не «отвечает» — он их готовит. Нажмите «в очередь», и запись уйдёт штабу.</div>';
+      let src='';
+      if(a&&(a.sources||[]).length) src='<div class="op-src">источники: '+a.sources.map(s=>'<a href="/api/file?f='+encodeURIComponent(s.path)+'" target="_blank" title="'+esc(s.path)+'">'+esc((s.path||'').split('/').slice(-2).join('/'))+'</a>').join('')+'</div>';
+      const act='<div class="op-act"><button onclick="opVerdict(\''+rec.id+'\',\'ok\')">ок</button><button onclick="opVerdict(\''+rec.id+'\',\'wrong\')">не то → выше</button><button onclick="opVerdict(\''+rec.id+'\',\'queue\')">в очередь</button><span class="mut">'+esc(rec.id)+'</span></div>';
+      parts.push('<div class="op-rec">'+head+bodyHtml+src+act+'</div>');
+    }
+  }
+  host.innerHTML=parts.join('')||'<div class="mut">Лента пуста. Напишите оператору — он разберёт промпт и ответит документом со ссылками на источники.</div>';
+}
+
+// Глубокая ссылка на вкладку: #view=operator открывает ленту сразу (и это же адрес для кадров приёмки).
+try{ if(/view=operator/.test(location.hash)) setTimeout(()=>show('operator'),0); }catch(e){}
+try{ const m=location.hash.match(/open=([^&]+)/); if(m){ open=decodeURIComponent(m[1]); scrollOnce=true; } if(open&&/form=1/.test(location.hash)) showForm[open]=true; }catch(e){}
+load(); setInterval(load, 10000);
+</script></body></html>

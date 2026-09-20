@@ -103,7 +103,8 @@ const pinned = (): Resolution => ({
 const resolve = async (
   request: NextRequest,
   regionMap: RegionMap,
-  locale: string | null
+  locale: string | null,
+  localeCountryMap?: Map<string, string> | null
 ): Promise<Resolution> => {
   const existing = request.cookies.get(COUNTRY_COOKIE)?.value
   const chosen = request.cookies.get(COUNTRY_CHOICE_COOKIE)?.value === "1"
@@ -115,10 +116,11 @@ const resolve = async (
     return fromCookie(existing)
   }
 
-  // The locale of the page being served, when this deployment maps one
-  // (`LOCALE_COUNTRY_MAP`). Above the pin, because the pin names ONE country for
-  // the whole deployment and the map is what makes /ru and /en differ.
-  const mapped = countryForLocale(locale)
+  // The locale of the page being served, when this deployment (or this TENANT,
+  // `localeCountryMap` — t06-locale-currency) maps one. Above the pin, because
+  // the pin names ONE country for the whole deployment and the map is what
+  // makes /ru and /en differ.
+  const mapped = countryForLocale(locale, localeCountryMap)
 
   if (mapped && regionMap.has(mapped)) {
     return fromLocale(mapped)
@@ -166,9 +168,10 @@ const resolve = async (
 export const resolveCountry = async (
   request: NextRequest,
   regionMap: RegionMap,
-  locale: string | null = null
+  locale: string | null = null,
+  localeCountryMap: Map<string, string> | null = null
 ): Promise<CountryResolution> => {
-  const resolution = await resolve(request, regionMap, locale)
+  const resolution = await resolve(request, regionMap, locale, localeCountryMap)
 
   const apply: ApplyCountry = (res) => {
     res.cookies.set(COUNTRY_COOKIE, resolution.countryCode, {

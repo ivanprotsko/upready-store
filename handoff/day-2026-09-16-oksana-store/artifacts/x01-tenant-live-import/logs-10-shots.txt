@@ -1,0 +1,13 @@
+home 1280x900 → 200 {"url":"https://cherkashino.shipshift.dev/ru","status":200,"title":"Оксана Черкашина","file":"/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant
+catalog 1280x900 → 200 {"url":"https://cherkashino.shipshift.dev/ru/store","status":200,"title":"Магазин | Оксана Черкашина","file":"/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/arti
+category-dobavki 1280x900 → 200 {"url":"https://cherkashino.shipshift.dev/ru/categories/dobavki-cherkashino","status":200,"title":"Добавки | Оксана Черкашина","file":"/Users/ivanprotsko/upready/projects/upready-store/handoff/day-202
+home 390x844 → 200 {"url":"https://cherkashino.shipshift.dev/ru","status":200,"title":"Оксана Черкашина","file":"/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant
+catalog 390x844 → 200 {"url":"https://cherkashino.shipshift.dev/ru/store","status":200,"title":"Магазин | Оксана Черкашина","file":"/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/arti
+category-dobavki 390x844 → 200 {"url":"https://cherkashino.shipshift.dev/ru/categories/dobavki-cherkashino","status":200,"title":"Добавки | Оксана Черкашина","file":"/Users/ivanprotsko/upready/projects/upready-store/handoff/day-202
+product: {"url":"https://cherkashino.shipshift.dev/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino","title":"Зубная паста тайская отбеливающая | Оксана Черкашина","h1":"Зубная паста тайская отбеливающая","images":23,"brokenImages":["https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2
+cart: {"clicked":true,"cartUrl":"https://cherkashino.shipshift.dev/ru/cart","cartLineItems":1,"bodyHasEmptyWord":false,"file":"/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x01-tenant-live-import/cart-1280x900.png"}
+page offer: {"url":"https://cherkashino.shipshift.dev/ru/pages/offer","status":404,"hasCyrillic":false,"excerpt":"ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ 1 Страница не найдена Страница, которую вы ищете, 
+page contacts: {"url":"https://cherkashino.shipshift.dev/ru/pages/contacts","status":404,"hasCyrillic":false,"excerpt":""}
+page privacy: {"url":"https://cherkashino.shipshift.dev/ru/pages/privacy","status":404,"hasCyrillic":false,"excerpt":"ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ 1 Страница не найдена Страница, которую вы ищете
+page about: {"url":"https://cherkashino.shipshift.dev/ru/pages/about","status":200,"hasCyrillic":false,"excerpt":"ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ 1 Oksana Cherkashina Oksana Cherkashina's health s
+checks written

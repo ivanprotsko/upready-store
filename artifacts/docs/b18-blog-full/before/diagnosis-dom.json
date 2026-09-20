@@ -1,0 +1,65 @@
+{
+  "steps": [
+    "shot 00-login → /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-blog-full/artifacts/docs/b18-blog-full/before/00-login.png",
+    "after login url=https://panel-store.upready.dev/",
+    "shot 01-after-login → /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-blog-full/artifacts/docs/b18-blog-full/before/01-after-login.png",
+    "shot 02-journal-list → /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-blog-full/artifacts/docs/b18-blog-full/before/02-journal-list.png",
+    "в списке нет ни одной статьи — редактор не открыть",
+    "shot 04-pages-for-comparison → /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-blog-full/artifacts/docs/b18-blog-full/before/04-pages-for-comparison.png"
+  ],
+  "console": [
+    "Failed to load resource: the server responded with a status of 401 ()"
+  ],
+  "failed": [],
+  "api": {
+    "GET /tenants/articles": {
+      "status": 200,
+      "body": "{\"articles\":[],\"count\":0}"
+    }
+  },
+  "journal": {
+    "url": "https://panel-store.upready.dev/journal",
+    "h2": [
+      "Журнал"
+    ],
+    "headers": [
+      "Статья",
+      "Публичный адрес",
+      "Языки",
+      "Дата",
+      ""
+    ],
+    "rows": 1,
+    "rowTexts": [
+      "Статей пока нет. Создайте первую — форма ниже."
+    ],
+    "labels": [
+      "Адрес статьи",
+      "Язык",
+      "Заголовок"
+    ],
+    "buttons": [
+      "ООксана Черкашина",
+      "Товары",
+      "Акции",
+      "ООксана Черкашина",
+      "",
+      "",
+      " Новая статья"
+    ],
+    "navItems": [
+      "Обзор",
+      "Товары",
+      "Заказы",
+      "Клиенты",
+      "Категории",
+      "Акции",
+      "Страницы",
+      "Главная страница",
+      "Журнал",
+      "Доставка",
+      "Отзывы"
+    ]
+  },
+  "editor": null
+}

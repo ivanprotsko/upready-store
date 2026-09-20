@@ -1,0 +1,19 @@
+200 ssl=0 https://shipshift.dev/health
+200 ssl=0 https://start.upready.dev/start/onboarding
+200 ssl=0 https://panel-store.upready.dev/
+200 ssl=0 https://cherkashino.shipshift.dev/ru
+302 ssl=0 https://zolotaya-nit-1057.shipshift.dev/
+200 ssl=0 https://shipshift.dev/static/store-profiles/abstract/home-hero.webp
+200 ssl=0 https://cherkashino.shipshift.dev/ru/journal
+200 ssl=0 https://hooks.svgnoon.upready.dev/health
+КОНТРОЛЬ выдуманный адрес: 404
+webhook Tribute (подпись жива): {"status":"invalid signature"}
+mt-backend Up 21 minutes (healthy)
+mt-panel Up 32 minutes (healthy)
+mt-storefront Up 32 minutes (healthy)
+upreadystore-bot Up 2 days
+mt-ingress-sync Up 4 days
+coolify-proxy Up 4 days (healthy)
+mt-postgres Up 4 days (healthy)
+--- диск:
+/dev/sda1       193G  102G   92G  53% /

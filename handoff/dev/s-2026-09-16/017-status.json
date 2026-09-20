@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 17,
+  "action": "status-set",
+  "ts": "2026-09-16T04:56:44+08:00",
+  "status": "2026-09-16 04:56 WITA: приёмка w02-yandex-id-auth round 1 — REJECTED по одной причине: личный логин Яндекс-аккаунта (YANDEX_ID_LOGIN) уехал в коммит, artifacts/docs/w02-yandex-id-auth/report.md:213, поле yandex_login в дампе БД — почта в той же строке замаскирована, логин нет. client_id, секрет и пароль чисты (0 вхождений). Существо принято и перемерено мной: юниты провайдера 3 сюиты / 33 теста, HTTP-сюита auth-yandex 11/11 с загруженными YANDEX_*, провайдер зарегистрирован в medusa-config рядом с emailpass, кнопка на странице входа скрыта без NEXT_PUBLIC_YANDEX_LOGIN_ENABLED, .env.template без значений. Раунд 2 — только маскировка одной строки."
+}

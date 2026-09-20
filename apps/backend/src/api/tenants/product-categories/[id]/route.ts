@@ -7,7 +7,13 @@ import {
   updateProductCategoriesWorkflow,
 } from "@medusajs/medusa/core-flows";
 import { TENANT_MODULE } from "../../../../modules/tenant";
+import type TenantModuleService from "../../../../modules/tenant/service";
 import { assertOwnedCategory, getTenantScope } from "../../tenant-scope";
+import {
+  assertHandleFree,
+  getTenantEnabledLocales,
+  recordSlugRedirect,
+} from "../../redirect-helpers";
 
 /**
  * `GET /tenants/product-categories/:id` — the Admin's retrieve, behind the
@@ -60,9 +66,40 @@ export const POST = async (
     await assertOwnedCategory(req, parentId);
   }
 
+  const newHandle = req.validatedBody.handle;
+  let previousHandle: string | null = null;
+
+  if (newHandle) {
+    await assertHandleFree(req, "product_category", newHandle, id);
+
+    const {
+      data: [before],
+    } = await refetchEntities({
+      entity: "product_category",
+      idOrFilter: { id },
+      scope: req.scope,
+      fields: ["handle"],
+    });
+    previousHandle = (before?.handle as string | undefined) ?? null;
+  }
+
   await updateProductCategoriesWorkflow(req.scope).run({
     input: { selector: { id }, update: req.validatedBody },
   });
+
+  if (previousHandle && newHandle && previousHandle !== newHandle) {
+    const tenant = await getTenantScope(req);
+    const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
+    const locales = await getTenantEnabledLocales(tenantModuleService, tenant.id);
+    await recordSlugRedirect(
+      tenantModuleService,
+      tenant.id,
+      "categories",
+      previousHandle,
+      newHandle,
+      locales,
+    );
+  }
 
   const {
     data: [category],

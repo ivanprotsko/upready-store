@@ -1,0 +1,18 @@
+| Вид | Всего | migrated | skipped | pending | failed |
+|---|---|---|---|---|---|
+| banner | 3 | 1 | 0 | 2 | 0 |
+| category | 9 | 9 | 0 | 0 | 0 |
+| category_link | 36 | 36 | 0 | 0 | 0 |
+| dataset | 20 | 0 | 13 | 7 | 0 |
+| file | 335 | 334 | 1 | 0 | 0 |
+| image | 336 | 331 | 5 | 0 | 0 |
+| layout_configuration | 1 | 0 | 1 | 0 | 0 |
+| legacy_page | 39 | 0 | 39 | 0 | 0 |
+| page | 16 | 5 | 1 | 10 | 0 |
+| price | 78 | 78 | 0 | 0 | 0 |
+| product | 38 | 38 | 0 | 0 | 0 |
+| product_translation | 6 | 0 | 0 | 6 | 0 |
+| tenant | 1 | 1 | 0 | 0 | 0 |
+| variant | 38 | 38 | 0 | 0 | 0 |
+
+TOTAL failed rows: 0 | total rows: 956

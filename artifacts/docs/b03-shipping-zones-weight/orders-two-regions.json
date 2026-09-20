@@ -1,0 +1,66 @@
+[
+  {
+    "case": "Москва",
+    "display_id": 21,
+    "id": "order_01M2JPHQZWP59WEMQSJAD0T6M0",
+    "shipping_method": {
+      "name": "СДЭК (расчёт по тарифу магазина) — Москва и область",
+      "amount": 570,
+      "zone": "Москва и область",
+      "carrier": "cdek"
+    },
+    "shipping_address": {
+      "city": "Москва",
+      "province": "г Москва"
+    },
+    "item_total": 11202,
+    "shipping_total": 570,
+    "total": 11772,
+    "items": [
+      {
+        "title": "Мультиварка для дома и авто 12 Вт / 24 Вт / 220 Вт",
+        "variant": "Мультиварка для дома и авто 2 л 12 Вт/ 24 Вт/220 Вт",
+        "quantity": 1,
+        "unit_price": 9034
+      },
+      {
+        "title": "Иван чай ферментированный крепкий черный",
+        "variant": "Иван чай ферментированный крепкий черный",
+        "quantity": 2,
+        "unit_price": 1084
+      }
+    ]
+  },
+  {
+    "case": "Екатеринбург (Свердловская обл)",
+    "display_id": 22,
+    "id": "order_01M2JPHR83K7FR3S66TGF9J4KY",
+    "shipping_method": {
+      "name": "СДЭК (расчёт по тарифу магазина) — Урал",
+      "amount": 885,
+      "zone": "Урал",
+      "carrier": "cdek"
+    },
+    "shipping_address": {
+      "city": "Екатеринбург",
+      "province": "Свердловская обл"
+    },
+    "item_total": 11202,
+    "shipping_total": 885,
+    "total": 12087,
+    "items": [
+      {
+        "title": "Мультиварка для дома и авто 12 Вт / 24 Вт / 220 Вт",
+        "variant": "Мультиварка для дома и авто 2 л 12 Вт/ 24 Вт/220 Вт",
+        "quantity": 1,
+        "unit_price": 9034
+      },
+      {
+        "title": "Иван чай ферментированный крепкий черный",
+        "variant": "Иван чай ферментированный крепкий черный",
+        "quantity": 2,
+        "unit_price": 1084
+      }
+    ]
+  }
+]

@@ -1,7 +1,13 @@
 "use client"
 
-import { isManual, isPaymentSessionReady, isStripeLike } from "@lib/constants"
+import {
+  isManual,
+  isPaymentSessionReady,
+  isRobokassa,
+  isStripeLike,
+} from "@lib/constants"
 import { convertToLocale } from "@lib/util/money"
+import { cartShippingAddressGaps } from "@lib/util/shipping-address"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
@@ -13,6 +19,7 @@ import {
 import { useLocale, useTranslations } from "next-intl"
 import type React from "react"
 import ManualPaymentButton from "./providers/manual"
+import RobokassaPaymentButton from "./providers/robokassa"
 import StripePaymentButton from "./providers/stripe"
 
 type PaymentButtonProps = {
@@ -47,11 +54,19 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       !isDemoCardComplete(demoCard ?? EMPTY_DEMO_CARD)
   )
 
+  // f04-address-without-city: a shipping address that exists is not an address
+  // a carrier accepts. An order without city and index cannot be posted, so the
+  // button stays disabled until those fields are filled;
+  // `checkout-payment-section` renders the reason above it. A pickup cart has
+  // its address blanked on purpose and is not held here.
+  const addressIncomplete = cartShippingAddressGaps(cart).length > 0
+
   const notReady =
     !cart ||
     !cart.shipping_address ||
     !cart.billing_address ||
     !cart.email ||
+    addressIncomplete ||
     (cart.shipping_methods?.length ?? 0) < 1 ||
     !activePaymentMethod ||
     !isPaymentSessionReady(activePaymentMethod, cart) ||
@@ -82,6 +97,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       return <StripePaymentButton {...providerProps} />
     case isManual(activePaymentMethod):
       return <ManualPaymentButton {...providerProps} />
+    case isRobokassa(activePaymentMethod):
+      return <RobokassaPaymentButton {...providerProps} />
     default:
       return (
         <Button disabled size="large" className="w-full">

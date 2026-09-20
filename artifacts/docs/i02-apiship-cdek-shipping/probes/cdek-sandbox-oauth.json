@@ -1,0 +1,8 @@
+{
+  "name": "cdek-sandbox-oauth",
+  "url": "https://api.edu.cdek.ru/v2/oauth/token?parameters",
+  "method": "POST",
+  "status": 200,
+  "ms": 1257,
+  "body": "{\"access_token\":\"<redacted>\",\"scope\":\"location:all order:all payment:all\",\"token_type\":\"bearer\",\"expires_in\":3599,\"jti\":\"b69c8c34-87c1-47b6-80f5-90adc25bb748\"}"
+}

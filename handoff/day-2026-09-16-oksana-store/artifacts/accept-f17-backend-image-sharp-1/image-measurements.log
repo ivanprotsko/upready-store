@@ -1,0 +1,33 @@
++ docker run --rm --entrypoint node mt-backend:accept-f17-bench -e 'require("sharp"); console.log("REQUIRE_SHARP_OK", require("sharp").versions.vips)'
+REQUIRE_SHARP_OK 8.18.6
+rc_sharp=0
++ echo rc_sharp=0
++ docker run --rm --entrypoint node mt-backend:accept-f17-bench -e 'require("/app/src/api/tenants/branding/upload/route.js"); console.log("ROUTE_MODULE_OK")'
+ROUTE_MODULE_OK
+rc_route=0
++ echo rc_route=0
++ docker run --rm --entrypoint node mt-backend:accept-f17-bench /usr/local/bin/verify-runtime-modules.mjs /app
+verify-runtime-modules: 324 boot modules required, all imports resolve
+rc_guard=0
++ echo rc_guard=0
++ docker run --rm --entrypoint sh mt-backend:accept-f17-bench -c 'ls node_modules/@img; node -e "const p=require(1+\/app/package.json\.slice(0));" 2>/dev/null; node -e "const p=require(\/app/package.json\);console.log(\deps.sharp=\+p.dependencies.sharp, \devDeps.sharp=\+(p.devDependencies&&p.devDependencies.sharp))"; uname -m; node -v'
+colour
+sharp-libvips-linuxmusl-x64
+sharp-linuxmusl-x64
+sharp-wasm32
+[eval]:1
+const p=require(\/app/package.json\);console.log(\deps.sharp=\+p.dependencies.sharp, \devDeps.sharp=\+(p.devDependencies&&p.devDependencies.sharp))
+                ^
+Expected ident
+
+SyntaxError: Invalid or unexpected token
+    at makeContextifyScript (node:internal/vm:185:14)
+    at compileScript (node:internal/process/execution:383:10)
+    at evalTypeScript (node:internal/process/execution:256:22)
+    at node:internal/main/eval_string:74:3
+
+Node.js v22.23.2
+x86_64
+v22.23.2
+rc_meta=0
++ echo rc_meta=0

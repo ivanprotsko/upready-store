@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 28,
+  "action": "status-set",
+  "ts": "2026-09-16T07:12:18+08:00",
+  "status": "2026-09-16 07:12 WITA: штаб 7b183b97. Антибот WB забанил внешний IP машины (HTTP 498, скриншот Ивана 07:07) — воркеры w21/w23 ходили на dev.wildberries.ru (WebFetch + headed Playwright), хотя копии документации лежат в artifacts/docs/w01-wb-readonly-client/docs и w10-marketplace-spec/docs. Указание «только сохранённые копии» отправлено в терминалы w21/w23/w03, вписано в _worker-preamble.md и промпт w22 (коммит 30b2821a). Порог промпта /compact поднят Иваном до 190k. w20 merged (PR #75), w13 merged (PR #77), w21/w23/w11 running, d07 running, w03 PR #76 pr_open."
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Локальный upready-store всегда поднят (заказ Ивана 2026-09-17 01:35 WITA, п. 0.1 и 6: «пусть он будет запущен всегда, а в случае падения перезапускается автоматически»).
+       KeepAlive поставлен по этому заказу (SUPERVISOR_OK). Снятие только по просьбе Ивана: launchctl bootout gui/$(id -u)/dev.upready.store-local-backend -->
+  <key>Label</key><string>dev.upready.store-local-backend</string>
+  <key>ProgramArguments</key><array><string>/bin/bash</string><string>-c</string><string>cd /Users/ivanprotsko/upready/projects/upready-store/apps/backend &amp;&amp; exec pnpm run dev</string></array>
+  <key>EnvironmentVariables</key><dict><key>PATH</key><string>/opt/homebrew/bin:/opt/homebrew/opt/postgresql@16/bin:/usr/local/bin:/usr/bin:/bin</string><key>HOME</key><string>/Users/ivanprotsko</string></dict>
+  <key>KeepAlive</key><true/>
+  <key>RunAtLoad</key><true/>
+  <key>ThrottleInterval</key><integer>20</integer>
+  <key>ProcessType</key><string>Background</string>
+  <key>LowPriorityIO</key><true/>
+  <key>LimitLoadToSessionType</key><string>Aqua</string>
+  <key>StandardOutPath</key><string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/local-backend.log</string>
+  <key>StandardErrorPath</key><string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/local-backend.log</string>
+</dict>
+</plist>

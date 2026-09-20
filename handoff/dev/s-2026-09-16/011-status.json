@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 11,
+  "action": "status-set",
+  "ts": "2026-09-16T03:12:05+08:00",
+  "status": "2026-09-16 03:12 WITA: штаб дня Оксаны — ключи WB/Yandex в .env.cherkashino (вне git), проба WB API: 7 категорий ping 200, seller-info «ФНП», флаг read-only в токене не подтверждён по докам (антибот); откат b08/b14 второй раз — причина: прямая запись в state.json во время тика теряется; движок: команда set-task через очередь + защита tick() от отката, диспетчер перезапущен pid 24120; b15 #68 merged, b08 #69 в приёмке, b10 running, b16 blocked; далее: задачи волны 6 (w01 WB read-only клиент, w02 Yandex ID OAuth)"
+}

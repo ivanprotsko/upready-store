@@ -1,0 +1,108 @@
+URL: https://dev.wildberries.ru/en/sandbox
+FINAL-URL: https://dev.wildberries.ru/en/sandbox
+HTTP: 200
+TITLE: Sandbox — WB API
+SAVED: 2026-09-15T20:53:21.235Z (UTC) — headed Google Chrome over CDP, Ivan's permission 2026-09-16 04:41 WITA
+TEXT-CHARS: 3579  LINKS: 57
+==============================================================================
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+More
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+Sign In
+Sandbox
+
+You can test API methods on random data. For this, you will need a token with the Test scope option.
+
+The data in the test scope is randomly generated and does not belong to real sellers. Using the test environment does not carry the risk of unintentional disclosure of information.
+
+List of categories for testing:
+Categories	Limitations	Test scope URL
+Categories, Subcategories and Characteristics
+Listing Items
+Listings
+Media Files
+Tags	1. In all methods, there is no locale parameter. All data is returned in Russian.
+2. The listing is created immediately.
+3. The request for the Listings method does not use the allowedCategoriesOnly parameters.
+4. A maximum of 1 request per second in total for all methods.
+5. You can delete listings from the trash	
+https://content-api-sandbox.wildberries.ru
+
+Prices and Discounts
+	1. You can create listing cards in the content sandbox and then edit the cards prices in this sandbox.
+2. A maximum of 1 request per second in total for all methods.	
+https://discounts-prices-api-sandbox.wildberries.ru
+
+FBS Assembly Orders
+FBS Label Identifiers
+FBS Supplies
+FBS Passes
+Seller Warehouses
+Seller Warehouses Inventory	1. Test methods for FBS orders are available.
+2. Maximum 1 request per second for every method.
+3. Cross-border stickers and status history methods always return an empty 200 response.
+4. Specifying the label identifiers for the assembly order is optional.	
+https://marketplace-api-sandbox.wildberries.ru
+
+DBS Assembly Orders
+DBS Label Identifiers
+Seller Warehouses
+Seller Warehouses Inventory
+	1. Test methods for DBS orders are available.
+2. Maximum 1 request per second for every method.
+3. Specifying the label identifiers for the assembly order is optional.	
+https://marketplace-api-sandbox.wildberries.ru
+
+In-⁠Store Pickup Assembly Orders
+In-⁠Store Pickup Label Identifiers
+Seller Warehouses
+Seller Warehouses Inventory
+	1. Test methods for In-⁠Store Pickup orders are available.
+2. Maximum 1 request per second for every method.
+3. Specifying the label identifiers for the assembly order is optional.	
+https://marketplace-api-sandbox.wildberries.ru
+
+FBW Supplies	1. You can create product cards in the content sandbox and then use the barcode from the card in this sandbox.
+2. Maximum 1 request per second for every method.	
+https://supplies-api-sandbox.wildberries.ru
+
+Campaigns
+Campaigns Creation
+Campaigns Management
+Search Clusters
+Finances
+Statistics	1. Test balance top-up is available.
+2. Statistics for promotion campaigns are available for the last 30 days and generated only for campaigns in the Launched status once a day.	
+https://advert-api-sandbox.wildberries.ru
+
+Questions
+Feedbacks	1. Test methods for creating and deleting feedbacks and questions are available.
+2. Test questions and feedbacks will be deleted 5 days after the last modifications are made.	
+https://feedbacks-api-sandbox.wildberries.ru
+
+Main Reports
+	For the parameters dateFrom and dateTo, a range of 4 months back from the current date is available.	
+https://statistics-api-sandbox.wildberries.ru
+Russia
+User Agreement of the WB API Service
+WB API Platform Access Agreement
+Policy on the Processing of Personal Data of RWB
+WB API Price List for Third-Party Services
+FAQ. Frequently Asked Questions
+
+© Wildberries 2004-2026. All rights reserved. Contact Information: dev-info@rwb.ru
+
+We use cookies to collect statistics and improve our service
+Accept

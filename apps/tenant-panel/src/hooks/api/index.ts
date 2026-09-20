@@ -14,6 +14,8 @@ export * from "./collections"
 export * from "./shipping-profiles"
 export * from "./products"
 export * from "./product-options"
+// t15-product-attributes: the shop's own product characteristics.
+export * from "./product-attributes"
 export * from "./orders"
 // tenant-panel: added by piece 3, rewritten by wave-2 piece 5. See the comment
 // atop categories.tsx: /tenants/product-categories is the tenant's own tree.
@@ -48,3 +50,11 @@ export * from "./promotions"
 export * from "./campaigns"
 // tenant-panel: added by wave 2, piece 8 (home page document).
 export * from "./home"
+export * from "./payment-settings"
+// tenant-panel: added by t09-reviews (product reviews). The panel's own
+// module, no Admin counterpart.
+export * from "./reviews"
+// b10-panel-gaps: the shop's redirect table and its search-console codes.
+// Both are the panel's own modules, no Admin counterpart.
+export * from "./redirects"
+export * from "./seo-verification"

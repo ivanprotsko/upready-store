@@ -1,0 +1,325 @@
+{
+ "api": [
+  {
+   "method": "GET",
+   "url": "/tenants/payment-settings",
+   "status": 200,
+   "body": {
+    "settings": {
+     "id": "tis_01M2MDHK70XD0DBB54JHA7B49G",
+     "provider": "robokassa",
+     "is_test": true,
+     "is_enabled": true,
+     "merchant_login": "<вырезано, 6 символов>",
+     "hash_algorithm": "sha256",
+     "password1": {
+      "set": false,
+      "last4": null
+     },
+     "password2": {
+      "set": false,
+      "last4": null
+     },
+     "test_password1": {
+      "set": true,
+      "last4": "XzML"
+     },
+     "test_password2": {
+      "set": true,
+      "last4": "Cyrs"
+     }
+    },
+    "result_url": "https://shipshift.dev/robokassa/result",
+    "providers": [
+     {
+      "id": "robokassa",
+      "title": "Robokassa"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "/tenants/payment-settings",
+   "status": 200,
+   "body": {
+    "settings": {
+     "id": "tis_01M2MDHK70XD0DBB54JHA7B49G",
+     "provider": "robokassa",
+     "is_test": true,
+     "is_enabled": true,
+     "merchant_login": "<вырезано, 6 символов>",
+     "hash_algorithm": "sha256",
+     "password1": {
+      "set": false,
+      "last4": null
+     },
+     "password2": {
+      "set": false,
+      "last4": null
+     },
+     "test_password1": {
+      "set": true,
+      "last4": "XzML"
+     },
+     "test_password2": {
+      "set": true,
+      "last4": "Cyrs"
+     }
+    },
+    "result_url": "https://shipshift.dev/robokassa/result",
+    "providers": [
+     {
+      "id": "robokassa",
+      "title": "Robokassa"
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "url": "/tenants/payment-settings",
+   "status": 200,
+   "body": {
+    "settings": {
+     "id": "tis_01M2MDHK70XD0DBB54JHA7B49G",
+     "provider": "robokassa",
+     "is_test": true,
+     "is_enabled": true,
+     "merchant_login": "<вырезано, 6 символов>",
+     "hash_algorithm": "sha256",
+     "password1": {
+      "set": false,
+      "last4": null
+     },
+     "password2": {
+      "set": false,
+      "last4": null
+     },
+     "test_password1": {
+      "set": true,
+      "last4": "XzML"
+     },
+     "test_password2": {
+      "set": true,
+      "last4": "Cyrs"
+     }
+    },
+    "result_url": "https://shipshift.dev/robokassa/result",
+    "providers": [
+     {
+      "id": "robokassa",
+      "title": "Robokassa"
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "url": "/tenants/delivery-settings",
+   "status": 200,
+   "body": {
+    "settings": null,
+    "webhook_url": null,
+    "methods": [],
+    "pricing": {
+     "markup_amount": 0,
+     "markup_percent": 0,
+     "free_above_total": null
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "/tenants/delivery-settings",
+   "status": 200,
+   "body": {
+    "settings": {
+     "id": "tis_01M2ME3W6HTH1BNRJVW4WDWWGY",
+     "provider": "cdek",
+     "is_test": true,
+     "is_enabled": true,
+     "account": "",
+     "test_account": "<вырезано, 32 символов>",
+     "password": {
+      "set": false,
+      "last4": null
+     },
+     "test_password": {
+      "set": true,
+      "last4": "xcP5"
+     },
+     "sender_mode": "warehouse",
+     "sender_city_code": 44,
+     "sender_city_name": "Москва",
+     "sender_address": null,
+     "sender_name": "Магазин Черкашина",
+     "sender_phone": null,
+     "shipment_point": null,
+     "webhook_registered": false
+    },
+    "webhook_url": "https://shipshift.dev/cdek/webhook?tenant=ten_01M2GQVGEN1204CN90C510DNRG&token=3e97516d3de142f625b4652de6041a2e",
+    "methods": [
+     {
+      "id": "so_01M2ME3W9XCDXBDWQXAYNDWYBF",
+      "name": "СДЭК — курьером до двери",
+      "kind": "courier",
+      "enabled": true
+     },
+     {
+      "id": "so_01M2ME3W9Y6S7GR7KYKBN9FESW",
+      "name": "СДЭК — пункт выдачи",
+      "kind": "pickup",
+      "enabled": true
+     }
+    ],
+    "pricing": {
+     "markup_amount": 0,
+     "markup_percent": 0,
+     "free_above_total": null
+    },
+    "verified": {
+     "tariffs": 24
+    },
+    "webhook": {
+     "registered": false,
+     "error": "CDEK /webhooks answered 400"
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "url": "/tenants/delivery-settings",
+   "status": 200,
+   "body": {
+    "settings": {
+     "id": "tis_01M2ME3W6HTH1BNRJVW4WDWWGY",
+     "provider": "cdek",
+     "is_test": true,
+     "is_enabled": true,
+     "account": "",
+     "test_account": "<вырезано, 32 символов>",
+     "password": {
+      "set": false,
+      "last4": null
+     },
+     "test_password": {
+      "set": true,
+      "last4": "xcP5"
+     },
+     "sender_mode": "warehouse",
+     "sender_city_code": 44,
+     "sender_city_name": "Москва",
+     "sender_address": null,
+     "sender_name": "Магазин Черкашина",
+     "sender_phone": null,
+     "shipment_point": null,
+     "webhook_registered": false
+    },
+    "webhook_url": "https://shipshift.dev/cdek/webhook?tenant=ten_01M2GQVGEN1204CN90C510DNRG&token=3e97516d3de142f625b4652de6041a2e",
+    "methods": [
+     {
+      "id": "so_01M2ME3W9XCDXBDWQXAYNDWYBF",
+      "name": "СДЭК — курьером до двери",
+      "kind": "courier",
+      "enabled": true
+     },
+     {
+      "id": "so_01M2ME3W9Y6S7GR7KYKBN9FESW",
+      "name": "СДЭК — пункт выдачи",
+      "kind": "pickup",
+      "enabled": true
+     }
+    ],
+    "pricing": {
+     "markup_amount": 0,
+     "markup_percent": 0,
+     "free_above_total": null
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "url": "/tenants/payment-settings",
+   "status": 200,
+   "body": {
+    "settings": {
+     "id": "tis_01M2MDHK70XD0DBB54JHA7B49G",
+     "provider": "robokassa",
+     "is_test": true,
+     "is_enabled": true,
+     "merchant_login": "<вырезано, 6 символов>",
+     "hash_algorithm": "sha256",
+     "password1": {
+      "set": false,
+      "last4": null
+     },
+     "password2": {
+      "set": false,
+      "last4": null
+     },
+     "test_password1": {
+      "set": true,
+      "last4": "XzML"
+     },
+     "test_password2": {
+      "set": true,
+      "last4": "Cyrs"
+     }
+    },
+    "result_url": "https://shipshift.dev/robokassa/result",
+    "providers": [
+     {
+      "id": "robokassa",
+      "title": "Robokassa"
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "url": "/tenants/payment-settings",
+   "status": 200,
+   "body": {
+    "settings": {
+     "id": "tis_01M2MDHK70XD0DBB54JHA7B49G",
+     "provider": "robokassa",
+     "is_test": true,
+     "is_enabled": true,
+     "merchant_login": "<вырезано, 6 символов>",
+     "hash_algorithm": "sha256",
+     "password1": {
+      "set": false,
+      "last4": null
+     },
+     "password2": {
+      "set": false,
+      "last4": null
+     },
+     "test_password1": {
+      "set": true,
+      "last4": "XzML"
+     },
+     "test_password2": {
+      "set": true,
+      "last4": "Cyrs"
+     }
+    },
+    "result_url": "https://shipshift.dev/robokassa/result",
+    "providers": [
+     {
+      "id": "robokassa",
+      "title": "Robokassa"
+     }
+    ]
+   }
+  }
+ ],
+ "results": {
+  "resultUrl": "https://shipshift.dev/robokassa/result",
+  "cdekMethods": "на кассе\n\nСДЭК — курьером до двери\n\nна кассе\n\nСДЭК — пункт выдачи",
+  "panel-05-marketplaces-hub": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nМаркетплейсы\n\nКаталог\n\nЦены и остатки\n\nЗаказы площадок\n\nОтзывы площадок\n\nСинхронизация\n\nПодключение площадок\n\nWildberries\n\nOzon\n\nО\n\nОксана Черкашина\n\nМаркетплейсы\nМаркетплейсы\n\nWildberries и Ozon: ключ, его права, что уже загружено к нам и как это связано с вашим каталогом\n\nСинхронизация\nАналитика маркетплейсов\nОтзывы и вопросы покупателей\nWildberries\n\nданные едут только в одну сторону: площадка → наш магазин\n\nКлюч API\n\nКлюч вводится здесь, в поле «Токен Wildberries»: он",
+  "panel-06-wildberries-key-form": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nМаркетплейсы\n\nКаталог\n\nЦены и остатки\n\nЗаказы площадок\n\nОтзывы площадок\n\nСинхронизация\n\nПодключение площадок\n\nWildberries\n\nOzon\n\nО\n\nОксана Черкашина\n\nМаркетплейсы\nМаркетплейсы\n\nWildberries и Ozon: ключ, его права, что уже загружено к нам и как это связано с вашим каталогом\n\nСинхронизация\nАналитика маркетплейсов\nОтзывы и вопросы покупателей\nWildberries\n\nданные едут только в одну сторону: площадка → наш магазин\n\nКлюч API\n\nКлюч вводится здесь, в поле «Токен Wildberries»: он",
+  "panel-07-journal-editor": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nМаркетплейсы\n\nО\n\nОксана Черкашина\n\nЖурнал\nЖурнал\n\nСтатьи магазина: их читают покупатели и по ним магазин находят в поиске. Опубликованная статья появляется в ленте /journal и в карте сайта. У одной статьи может быть текст на нескольких языках — посетителю показывается его язык, а если такого текста нет, любой другой.\n\nНовая статья\nВсе статусы\n\n0 из 0\n\nСтатья\tСтатус\tРубрика\tЯзыки\tДата\t\n\n\nСтатей пока нет. Нажмите «Новая статья» — откроется страница, где можно сразу писать."
+ }
+}

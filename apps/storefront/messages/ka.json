@@ -62,6 +62,11 @@
     "description": "იხილეთ და განაახლეთ თქვენი მიწოდების მისამართები — შეგიძლიათ დაამატოთ სასურველი რაოდენობა. შენახული მისამართები ხელმისაწვდომი იქნება შეკვეთის გაფორმებისას.",
     "heading": "მიწოდების მისამართები"
   },
+  "AnalyticsConsent": {
+    "message": "ჩვენ ვიყენებთ ქუქიებს, რათა გავიგოთ, როგორ იყენებენ ვიზიტორები ამ საიტს.",
+    "accept": "დათანხმება",
+    "decline": "უარყოფა"
+  },
   "Breadcrumb": {
     "home": "მთავარი",
     "store": "მაღაზია"
@@ -98,6 +103,25 @@
     "title": "კატეგორიები",
     "viewAll": "ყველას ნახვა"
   },
+  "CdekPoint": {
+    "heading": "CDEK-ის გატანის პუნქტი",
+    "chooseHeading": "აირჩიეთ CDEK-ის გატანის პუნქტი",
+    "searchPlaceholder": "ძებნა მისამართით ან მეტროთი",
+    "cityLabel": "ქალაქი",
+    "cityPlaceholder": "დაიწყეთ ქალაქის აკრეფა",
+    "choose": "არჩევა",
+    "chosen": "არჩეულია",
+    "found": "ნაპოვნია პუნქტი: {count}",
+    "noResults": "ქალაქში {city} გატანის პუნქტები ვერ მოიძებნა.",
+    "needCity": "მიუთითეთ მიწოდების ქალაქი პუნქტების სანახავად.",
+    "loading": "იტვირთება გატანის პუნქტები…",
+    "notConfigured": "CDEK-ით მიწოდება ჯერ არ არის კონფიგურირებული ამ მაღაზიაში.",
+    "change": "პუნქტის შეცვლა",
+    "tabList": "სია",
+    "tabMap": "რუკა",
+    "mapEmpty": "ამ ქალაქისთვის რუკაზე გასაცემი პუნქტები არ არის.",
+    "mapFailed": "რუკა მიუწვდომელია. აირჩიეთ პუნქტი სიიდან."
+  },
   "CheckoutPage": {
     "addNewAddress": "ახალი მისამართის დამატება",
     "addressHeading": "მიწოდების მისამართი",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} ნივთი} other {{count} ნივთი}}",
     "legal": "«გადახდაზე» დაწკაპუნებით, თქვენ ეთანხმებით ჩვენს <terms>პირობებს</terms>, <termsOfUse>გამოყენების პირობებს</termsOfUse> და <returnPolicy>დაბრუნების პოლიტიკას</returnPolicy>, ასევე ეთანხმებით ჩვენს <privacyPolicy>კონფიდენციალურობის პოლიტიკას</privacyPolicy>.",
     "manualInput": "მისამართის ხელით შეყვანა",
+    "addressIncomplete": "შეავსეთ მისამართის სავალდებულო ველები. ქალაქისა და საფოსტო ინდექსის გარეშე შეკვეთის გაგზავნა შეუძლებელია.",
     "orderComposition": "შეკვეთის შეჯამება",
     "paymentHeading": "გადახდის მეთოდი",
     "recipientCheckbox": "მიმღები სხვა პირია",
@@ -145,7 +170,16 @@
     "shippingLink": "მიწოდება",
     "shippingUnavailable": "მიწოდების მეთოდები არ არის ხელმისაწვდომი",
     "signIn": "შესვლა",
-    "total": "ჯამი"
+    "total": "ჯამი",
+    "shippingZone": "ზონა: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "შეკვეთა ანგარიშის გარეშე გააკეთეთ?",
+    "description": "თუ იმავე ელფოსტის მისამართით სტუმრად გააფორმეთ შეკვეთა, ჩვენ მას თქვენს ანგარიშს დავუკავშირებთ.",
+    "button": "ჩემი შეკვეთების პოვნა",
+    "claimed": "დაკავშირებული შეკვეთები: {count}",
+    "none": "ამ მაღაზიაში თქვენი ელფოსტის მისამართით სტუმრის შეკვეთა ვერ მოიძებნა.",
+    "failed": "ვერ შევამოწმეთ თქვენი შეკვეთები. სცადეთ ცოტა ხანში."
   },
   "Common": {
     "clear": "გასუფთავება",
@@ -306,8 +340,12 @@
     "unauthorized": "გასაგრძელებლად გთხოვთ შეხვიდეთ სისტემაში."
   },
   "Filters": {
+    "from": "დან",
+    "no": "არა",
     "sort": "დალაგება",
-    "title": "ფილტრები"
+    "title": "ფილტრები",
+    "to": "მდე",
+    "yes": "დიახ"
   },
   "Footer": {
     "categoriesHeading": "კატეგორიები",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "დახურვა",
+    "counter": "სურათი {index} / {total}",
     "goToImage": "გადასვლა სურათზე {index}",
-    "openFullImage": "სრული სურათის გახსნა"
+    "nextImage": "შემდეგი სურათი",
+    "openFullImage": "სრული სურათის გახსნა",
+    "previousImage": "წინა სურათი",
+    "showImage": "სურათი {index}-ის ჩვენება",
+    "thumbnails": "პროდუქტის მინიატურები"
+  },
+  "Journal": {
+    "navLabel": "ჟურნალი",
+    "feedTitle": "ჟურნალი",
+    "feedDescription": "{siteName}-ის სტატიები.",
+    "empty": "სტატიები ჯერ არ არის.",
+    "backToFeed": "ყველა სტატია",
+    "previous": "წინა",
+    "next": "შემდეგი",
+    "pageOf": "გვერდი {page} / {lastPage}",
+    "pagination": "ჟურნალის გვერდები",
+    "readingTime": "{minutes} წთ საკითხავი",
+    "related": "წაიკითხეთ ასევე",
+    "share": "გაზიარება",
+    "copyLink": "ბმულის კოპირება",
+    "linkCopied": "ბმული დაკოპირდა",
+    "allCategories": "ყველა რუბრიკა",
+    "categories": "რუბრიკები"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "შემოგვიერთდით",
     "notMember": "არ ხართ წევრი?",
     "password": "პაროლი",
-    "signIn": "შესვლა"
+    "signIn": "შესვლა",
+    "yandexCta": "შესვლა Yandex ID-ით",
+    "yandexDivider": "ან",
+    "yandexErrorDenied": "თქვენ გააუქმეთ შესვლა Yandex-ის გვერდზე.",
+    "yandexErrorEmailTaken": "ამ ელფოსტით ანგარიში უკვე არსებობს. შედით პაროლით.",
+    "yandexErrorExpired": "შესვლის ბმულს ვადა გაუვიდა. დაიწყეთ თავიდან.",
+    "yandexErrorFailed": "შესვლა ვერ მოხერხდა. სცადეთ ცოტა ხანში.",
+    "yandexErrorNoEmail": "Yandex-მა ელფოსტის მისამართი არ გადმოგვცა, ამიტომ ანგარიშის შექმნა ვერ ხერხდება.",
+    "yandexErrorRejected": "Yandex-მა ვერ დაადასტურა ეს შესვლა. სცადეთ თავიდან.",
+    "yandexErrorUnconfigured": "Yandex-ით შესვლა ამ მაღაზიაში ჯერ არ არის ჩართული."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "დეტალების ნახვა"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "შეინახეთ შეკვეთის ნომერი. დაგჭირდებათ მაღაზიასთან დაკავშირებისას.",
     "orderSuccess": "თქვენი შეკვეთა წარმატებით გაფორმდა.",
     "thankYou": "გმადლობთ!"
   },
   "OrderDetails": {
     "backToOrders": "შეკვეთებზე დაბრუნება",
-    "confirmationSentBefore": "შეკვეთის დადასტურების დეტალები გამოგზავნილია მისამართზე",
+    "contactEmailBefore": "ამ შეკვეთის საკონტაქტო მისამართია",
     "fulfillmentStatuses": {
       "canceled": "გაუქმებული",
       "delivered": "მიწოდებული",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "გადახდა ჯერ კიდევ დასტურდება. დაელოდეთ ერთ წუთს და გახსენით შეკვეთა ანგარიშიდან, ან სცადეთ თავიდან.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "თვალთვალის ნომერი"
   },
   "OrdersPage": {
     "description": "იხილეთ თქვენი წინა შეკვეთები და მათი სტატუსი.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "გადახდა",
+    "redirectUnavailable": "გადახდის გვერდი ჯერ მიუწვდომელია. სცადეთ ხელახლა ცოტა ხანში.",
     "selectPaymentMethod": "აირჩიეთ გადახდის მეთოდი"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "საკრედიტო ბარათი",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "საკრედიტო ბარათი",
@@ -682,6 +758,14 @@
     "selectOptions": "აირჩიეთ ოფციები",
     "selectVariant": "აირჩიეთ ვარიანტი"
   },
+  "ProductAttributes": {
+    "no": "არა",
+    "title": "მახასიათებლები",
+    "yes": "დიახ"
+  },
+  "ProductInfo": {
+    "description": "აღწერა"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "კონფიგურაციის გაგრძელება ადმინში",
     "continueSetup": "ახლა შეგიძლიათ გააგრძელოთ მაღაზიის კონფიგურაცია ადმინ პანელში.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "ყველას ნახვა"
+  },
+  "ProductReviews": {
+    "heading": "შეფასებები",
+    "ratingSummary": "{average} 5-დან · {count, plural, one {# შეფასება} other {# შეფასება}}",
+    "ratingValue": "{value} 5-დან",
+    "formHeading": "თქვენი შეფასება",
+    "ratingLabel": "შეფასება",
+    "nameLabel": "თქვენი სახელი",
+    "titleLabel": "სათაური (არასავალდებულო)",
+    "bodyLabel": "შეფასების ტექსტი",
+    "submit": "შეფასების გაგზავნა",
+    "pendingNotice": "გმადლობთ. შეფასება გამოჩნდება მაღაზიის დადასტურების შემდეგ.",
+    "signInPrompt": "შედით სისტემაში შეფასების დასატოვებლად.",
+    "error": "შეფასება ვერ გაიგზავნა. სცადეთ თავიდან.",
+    "ownerReply": "მაღაზიის პასუხი",
+    "previousPage": "წინა",
+    "nextPage": "შემდეგი",
+    "pageOf": "გვერდი {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "მარტივი დაბრუნება",
@@ -809,7 +911,8 @@
       "account": "ანგარიში",
       "cart": "კალათა",
       "home": "მთავარი",
-      "store": "მაღაზია"
+      "store": "მაღაზია",
+      "journal": "ჟურნალი"
     },
     "menuButton": "მენიუ"
   },

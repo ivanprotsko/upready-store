@@ -1,0 +1,8 @@
+{
+  "name": "apiship-test-connections",
+  "url": "https://api.dev.apiship.ru/v1/connections",
+  "method": "GET",
+  "status": 401,
+  "ms": 1639,
+  "body": "{\"code\":\"040101\",\"message\":\"Некорректный ключ безопасности\",\"description\":\"Некорректный ключ безопасности\",\"moreInfo\":\"Вопросы пишите на адрес support@apiship.ru\"}"
+}

@@ -1,0 +1,12 @@
+{
+  "dateInputs": 2,
+  "summaryRequests": [
+    "http://localhost:5317/tenants/analytics/summary?period=7d",
+    "http://localhost:5317/tenants/analytics/summary?period=7d",
+    "http://localhost:5317/tenants/analytics/summary?period=custom&from=2026-09-12&to=2-09-12",
+    "http://localhost:5317/tenants/analytics/summary?period=custom&from=2026-09-12&to=20-09-12",
+    "http://localhost:5317/tenants/analytics/summary?period=custom&from=2026-09-12&to=202-09-12",
+    "http://localhost:5317/tenants/analytics/summary?period=custom&from=2026-09-12&to=2026-09-12"
+  ],
+  "salesBlock": "Продажи\nСегодня\n7 дней\n30 дней\nПроизвольный\nс\n12\n.\n09\n.\n2026\nпо\n12\n.\n09\n.\n2026\nВыручка\n₽ 2,100.00 RUB\nЗаказы\n2\nСредний чек\n₽ 1,050.00 RUB\nВыручка по дням\nТоп товаров\nEspresso Cup\n2 шт — ₽ 2,100.00 RUB"
+}

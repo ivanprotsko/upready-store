@@ -1,0 +1,4 @@
+{
+  "status": 200,
+  "body": "{\"deliveryToDoor\":[{\"providerKey\":\"cdek\",\"tariffs\":[]}],\"deliveryToPoint\":[{\"providerKey\":\"cdek\",\"tariffs\":[]}]}"
+}

@@ -1,10 +1,12 @@
 import { Heading, Input, Select, Text, Textarea } from "@medusajs/ui"
+import { useEffect, useRef } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
 import { Form } from "../../../../../components/common/form"
 import { HandleInput } from "../../../../../components/inputs/handle-input"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
+import { toSlug, toSlugWhileTyping } from "../../../../../lib/slugify"
 import { CreateCategorySchema } from "./schema"
 
 type CreateCategoryDetailsProps = {
@@ -14,6 +16,28 @@ type CreateCategoryDetailsProps = {
 export const CreateCategoryDetails = ({ form }: CreateCategoryDetailsProps) => {
   const { t } = useTranslation()
   const direction = useDocumentDirection()
+
+  /**
+   * Same rule as the product wizard (f11-new-product-404): the code follows
+   * the name, transliterated, until the owner writes one herself. A category
+   * is a storefront address too — `/categories/мёд` is the same broken link as
+   * a product's.
+   */
+  const ownCode = useRef(false)
+  const name = form.watch("name")
+
+  useEffect(() => {
+    if (ownCode.current) {
+      return
+    }
+
+    const next = toSlug(name ?? "")
+
+    if (next !== form.getValues("handle")) {
+      form.setValue("handle", next, { shouldDirty: false })
+    }
+  }, [name, form])
+
   return (
     <div className="flex flex-col items-center p-16">
       <div className="flex w-full max-w-[720px] flex-col gap-y-8">
@@ -49,7 +73,14 @@ export const CreateCategoryDetails = ({ form }: CreateCategoryDetailsProps) => {
                     {t("fields.handle")}
                   </Form.Label>
                   <Form.Control>
-                    <HandleInput {...field} />
+                    <HandleInput
+                      {...field}
+                      onChange={(event) => {
+                        const typed = toSlugWhileTyping(event.target.value)
+                        ownCode.current = typed.length > 0
+                        field.onChange(typed)
+                      }}
+                    />
                   </Form.Control>
                   <Form.ErrorMessage />
                 </Form.Item>

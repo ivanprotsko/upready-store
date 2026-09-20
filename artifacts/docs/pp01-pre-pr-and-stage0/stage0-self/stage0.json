@@ -1,0 +1,46 @@
+{
+  "task": "pp01-pre-pr-and-stage0",
+  "pr": 103,
+  "base": "dev",
+  "generatedAt": "2026-09-17T22:33:15.389Z",
+  "result": "PASS",
+  "failed": [],
+  "checks": [
+    {
+      "check": "pr",
+      "status": "pass",
+      "details": "mergeable=MERGEABLE mergeStateStatus=CLEAN head=feat/day18-pre-pr-stage0 base=dev behind=0",
+      "files": []
+    },
+    {
+      "check": "diff",
+      "status": "pass",
+      "details": "источник: gh pr diff 103 · файлов 9, добавленных строк 1350",
+      "files": []
+    },
+    {
+      "check": "forbidden-files",
+      "status": "pass",
+      "details": "HANDOFF.json, state.json и tasks.json движка не тронуты",
+      "files": []
+    },
+    {
+      "check": "secrets",
+      "status": "pass",
+      "details": "в добавленных строках ключей не найдено",
+      "files": []
+    },
+    {
+      "check": "disabled-tests",
+      "status": "pass",
+      "details": "выключенных тестов в diff нет",
+      "files": []
+    },
+    {
+      "check": "checks:handoff/day-2026-09-16-oksana-store/ui",
+      "status": "pass",
+      "details": "rc=0 · node --test handoff/day-2026-09-16-oksana-store/ui/ · лог /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day18-pre-pr-stage0/artifacts/docs/pp01-pre-pr-and-stage0/stage0-self/checks/checks_handoff_day-2026-09-16-oksana-store_ui.log",
+      "files": []
+    }
+  ]
+}

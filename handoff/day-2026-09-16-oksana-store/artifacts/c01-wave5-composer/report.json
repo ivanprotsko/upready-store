@@ -1,0 +1,13 @@
+{
+  "task": "c01-wave5-composer",
+  "done": [
+    { "item": "Composed wave 5b: 38 findings folded into 10 task batches b07–b16 with priorities and prompts", "links": ["artifacts/c01-wave5-composer/report.md", "artifacts/c01-wave5-composer/tasks.json"] },
+    { "item": "Listed what only Ivan or the owner can decide (CNAME, live Robokassa, 54-FZ, R2 bucket, SMTP, TG bot token, 4 open PRs)", "links": ["artifacts/c01-wave5-composer/needs-ivan.md"] }
+  ],
+  "results": [
+    { "label": "Wave 5b batches (report.md)", "path": "artifacts/c01-wave5-composer/report.md" },
+    { "label": "Questions for Ivan and the owner (needs-ivan.md)", "path": "artifacts/c01-wave5-composer/needs-ivan.md" },
+    { "label": "Queue in the dispatcher UI", "url": "http://localhost:5390/#open=b07-store-api-isolation" }
+  ],
+  "notes": ["b16-media-and-backup stays blocked until Ivan answers B2 (R2 bucket) and OKs deleting the upready_store_* DB clones"]
+}

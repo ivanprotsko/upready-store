@@ -3,6 +3,12 @@ import { clx } from "@medusajs/ui"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import { formatDate } from "@lib/util/date"
+import {
+  TIMELINE_STEP_KEYS,
+  timelineProgress,
+  trackingLines,
+  type TimelineStepKey,
+} from "@lib/util/order-tracking"
 import StatusDot from "@modules/account/components/status-dot"
 
 /**
@@ -16,7 +22,7 @@ import StatusDot from "@modules/account/components/status-dot"
  * `fulfillment_status === "delivered"`.
  */
 
-type StepKey = "placed" | "confirmed" | "atPickupPoint" | "received"
+type StepKey = TimelineStepKey
 type StepState = "done" | "current" | "upcoming"
 
 type Step = {
@@ -29,8 +35,6 @@ type Step = {
 type OrderTimelineProps = {
   order: HttpTypes.StoreOrder
 }
-
-const STEP_KEYS: StepKey[] = ["placed", "confirmed", "atPickupPoint", "received"]
 
 const OrderTimeline = async ({ order }: OrderTimelineProps) => {
   const [t, locale] = await Promise.all([
@@ -57,34 +61,17 @@ const OrderTimeline = async ({ order }: OrderTimelineProps) => {
     )
   }
 
-  const fulfillment = order.fulfillments?.[0]
-  const payment = order.payment_collections?.[0]?.payments?.[0]
+  const { done, dates, current } = timelineProgress(order)
 
-  const done = {
-    placed: true,
-    confirmed: order.payment_status === "captured",
-    atPickupPoint:
-      order.fulfillment_status === "fulfilled" ||
-      order.fulfillment_status === "delivered",
-    received: order.fulfillment_status === "delivered",
-  }
+  // The tracking number(s) the shop owner typed on the shipment, with the
+  // carrier in front («СДЭК 1234567890») — one assembly shared with the
+  // shipping-details section (`@lib/util/order-tracking`).
+  const tracking = trackingLines(order.fulfillments)
 
-  const dates: Record<StepKey, string | Date | null | undefined> = {
-    placed: order.created_at,
-    confirmed: done.confirmed ? payment?.captured_at : null,
-    atPickupPoint: done.atPickupPoint
-      ? fulfillment?.shipped_at ?? fulfillment?.packed_at
-      : null,
-    received: done.received ? fulfillment?.delivered_at : null,
-  }
-
-  const doneFlags = STEP_KEYS.map((key) => done[key])
-  const firstPending = doneFlags.findIndex((flag) => !flag)
-
-  const steps: Step[] = STEP_KEYS.map((key, index) => {
-    const state: StepState = doneFlags[index]
+  const steps: Step[] = TIMELINE_STEP_KEYS.map((key) => {
+    const state: StepState = done[key]
       ? "done"
-      : index === firstPending
+      : key === current
         ? "current"
         : "upcoming"
     const rawDate = dates[key]
@@ -97,10 +84,11 @@ const OrderTimeline = async ({ order }: OrderTimelineProps) => {
   })
 
   return (
+    <div className="flex flex-col gap-y-4">
     <div
       className="flex items-start"
       data-testid="order-timeline"
-      data-value={firstPending === -1 ? "complete" : STEP_KEYS[firstPending]}
+      data-value={current ?? "complete"}
     >
       {steps.map((step, index) => (
         <div
@@ -147,6 +135,23 @@ const OrderTimeline = async ({ order }: OrderTimelineProps) => {
           </div>
         </div>
       ))}
+    </div>
+    {tracking.length > 0 && (
+      <div className="flex flex-col gap-y-0.5" data-testid="order-tracking">
+        <span className="txt-compact-small-plus text-ui-fg-base">
+          {t("trackingNumber")}
+        </span>
+        {tracking.map((line) => (
+          <span
+            key={line}
+            className="txt-compact-small text-ui-fg-subtle tabular-nums"
+            data-testid="order-tracking-number"
+          >
+            {line}
+          </span>
+        ))}
+      </div>
+    )}
     </div>
   )
 }

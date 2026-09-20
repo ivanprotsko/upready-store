@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 71,
+  "action": "status-set",
+  "ts": "2026-09-15T16:00:38+08:00",
+  "status": "2026-09-15 16:00 WITA: приёмка f11-new-product-404 round 1 — PR #47 принят и смержен (merge fcb1665), три товара с русскими названиями открываются на живой витрине 200; отчёт handoff/day-2026-09-16-oksana-store/artifacts/accept-f11-new-product-404-1/REPORT.md"
+}

@@ -1,0 +1,15 @@
+===== mt-backend:d03-new-broken-sharp =====
+  sharp in node_modules: ABSENT
+  require(sharp):        MODULE_NOT_FOUND: Cannot find module 'sharp'
+  branding route file:   PRESENT
+  package.json section:  deps=undefined devDeps=^0.35.4
+===== mt-backend:latest =====
+  sharp in node_modules: ABSENT
+  require(sharp):        MODULE_NOT_FOUND: Cannot find module 'sharp'
+  branding route file:   ABSENT
+  package.json section:  deps=undefined devDeps=^0.35.4
+===== mt-backend:wave2-2508708 =====
+  sharp in node_modules: ABSENT
+  require(sharp):        MODULE_NOT_FOUND: Cannot find module 'sharp'
+  branding route file:   ABSENT
+  package.json section:  deps=undefined devDeps=^0.35.4

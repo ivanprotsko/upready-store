@@ -1,0 +1,36 @@
+/* СГЕНЕРИРОВАНО node build.mjs из src/templates/lending.json — шаблон «Лендинг одного товара» */
+:root {
+  --font-display: "Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --grid-cols: 3;
+  --aspect-card: 1 / 1;
+  --aspect-tile: 3 / 2;
+  --aspect-hero: 16 / 9;
+  --aspect-gallery: 1 / 1;
+  --aspect-thumb: 1 / 1;
+  --media-fit: contain;
+  --background: #ffffff;
+  --foreground: #0d0f12;
+  --card: #ffffff;
+  --card-foreground: #0d0f12;
+  --popover: #ffffff;
+  --popover-foreground: #0d0f12;
+  --primary: #0d0f12;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f5f6;
+  --secondary-foreground: #0d0f12;
+  --muted: #eaecee;
+  --muted-foreground: #50555c;
+  --accent: #fde9d9;
+  --accent-foreground: #7a3908;
+  --border: #e3e5e8;
+  --input: #e3e5e8;
+  --ring: #0d0f12;
+  --link: #b04405;
+  --destructive: #b3271f;
+  --destructive-foreground: #ffffff;
+  --success: #12683c;
+  --warning: #8a4b06;
+  --surface-media: #f4f5f6;
+}

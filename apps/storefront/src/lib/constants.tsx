@@ -36,6 +36,13 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
+  // Robokassa (RUB, card + SBP), a redirect provider with per-shop credentials
+  // (t03-tenant-secrets-robokassa). The backend lists it only for a shop that
+  // saved its account in the panel.
+  pp_robokassa_robokassa: {
+    title: "Robokassa",
+    icon: <CreditCard />,
+  },
   // Add more payment providers here
 }
 
@@ -46,11 +53,51 @@ export const isStripeLike = (providerId?: string) => {
   )
 }
 
+export const isRobokassa = (providerId?: string) => {
+  return providerId?.startsWith("pp_robokassa_")
+}
+
+/**
+ * Where Robokassa sends the customer back. Both outcomes land on the
+ * storefront's payment return route, which reads the order the Result
+ * webhook produced; the browser return itself proves nothing
+ * (`app/api/payment-return/route.ts`). Built in the browser, because the
+ * shop's public origin is the one the customer is on.
+ */
+const robokassaReturnUrl = (cart: HttpTypes.StoreCart, outcome: "success" | "fail") => {
+  const locale =
+    typeof window !== "undefined" ? window.location.pathname.split("/")[1] || "" : ""
+  const params = new URLSearchParams({
+    provider: "robokassa",
+    cart_id: cart.id,
+    outcome,
+  })
+  if (locale) {
+    params.set("locale", locale)
+  }
+  const origin = typeof window !== "undefined" ? window.location.origin : ""
+  return `${origin}/api/payment-return?${params.toString()}`
+}
+
 const paymentSessionDataBuilders: Array<{
   test: (providerId?: string) => boolean | undefined
   isReady?: (cart: HttpTypes.StoreCart) => boolean
   build: (cart: HttpTypes.StoreCart) => Record<string, unknown>
-}> = []
+}> = [
+  {
+    test: isRobokassa,
+    build: (cart) => ({
+      success_url: robokassaReturnUrl(cart, "success"),
+      fail_url: robokassaReturnUrl(cart, "fail"),
+      email: cart.email ?? undefined,
+      culture:
+        typeof window !== "undefined" &&
+        window.location.pathname.split("/")[1] === "ru"
+          ? "ru"
+          : "en",
+    }),
+  },
+]
 
 export const buildPaymentSessionData = (
   providerId: string | undefined,
@@ -77,7 +124,21 @@ export const isManual = (providerId?: string) => {
 export const addressAutocompleteProvider =
   process.env.NEXT_PUBLIC_ADDRESS_AUTOCOMPLETE_PROVIDER
 
+export const addressAutocompleteApiKey =
+  process.env.NEXT_PUBLIC_ADDRESS_AUTOCOMPLETE_PROVIDER_API_KEY
+
 export const isDaData = (provider?: string) => provider === "dadata"
+
+/**
+ * Whether a suggest provider can actually suggest. DaData answers nothing
+ * without its token, and a shop deployed without one (the multi-tenant host
+ * sets neither variable) then shows a single address line that collects a
+ * quarter of an address. The checkout falls back to the structured fields
+ * whenever this is false, so the customer types city and index by hand.
+ */
+export const hasAddressAutocomplete = Boolean(
+  isDaData(addressAutocompleteProvider) && addressAutocompleteApiKey
+)
 
 // Add currencies that don't need to be divided by 100
 export const noDivisionCurrencies = [

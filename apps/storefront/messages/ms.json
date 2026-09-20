@@ -62,6 +62,11 @@
     "description": "Lihat dan kemas kini alamat penghantaran anda, anda boleh menambah seberapa banyak yang anda mahu. Menyimpan alamat anda akan menjadikannya tersedia semasa pembayaran.",
     "heading": "Alamat Penghantaran"
   },
+  "AnalyticsConsent": {
+    "message": "Kami menggunakan kuki untuk memahami cara pelawat menggunakan laman ini.",
+    "accept": "Terima",
+    "decline": "Tolak"
+  },
   "Breadcrumb": {
     "home": "Utama",
     "store": "Kedai"
@@ -98,6 +103,25 @@
     "title": "Kategori",
     "viewAll": "Lihat semua"
   },
+  "CdekPoint": {
+    "heading": "Titik pengambilan CDEK",
+    "chooseHeading": "Pilih titik pengambilan CDEK",
+    "searchPlaceholder": "Cari mengikut alamat atau metro",
+    "cityLabel": "Bandar",
+    "cityPlaceholder": "Mula taip nama bandar",
+    "choose": "Pilih",
+    "chosen": "Dipilih",
+    "found": "Titik pengambilan dijumpai: {count}",
+    "noResults": "Tiada titik pengambilan dijumpai di {city}.",
+    "needCity": "Masukkan bandar penghantaran untuk melihat titik pengambilan.",
+    "loading": "Memuatkan titik pengambilan…",
+    "notConfigured": "Penghantaran CDEK belum disediakan di kedai ini.",
+    "change": "Tukar titik",
+    "tabList": "Senarai",
+    "tabMap": "Peta",
+    "mapEmpty": "Tiada pusat pengambilan untuk ditunjukkan pada peta bagi bandar ini.",
+    "mapFailed": "Peta tidak tersedia. Pilih pusat daripada senarai."
+  },
   "CheckoutPage": {
     "addNewAddress": "Tambah alamat baharu",
     "addressHeading": "Alamat Penghantaran",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, other {{count} barang}}",
     "legal": "Dengan mengklik «Bayar», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta bersetuju dengan <privacyPolicy>dasar privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
+    "addressIncomplete": "Lengkapkan medan alamat yang diwajibkan. Tanpa bandar dan poskod, pesanan tidak dapat dihantar.",
     "orderComposition": "Ringkasan Pesanan",
     "paymentHeading": "Kaedah pembayaran",
     "recipientCheckbox": "Penerima ialah orang lain",
@@ -145,7 +170,16 @@
     "shippingLink": "Penghantaran",
     "shippingUnavailable": "Tiada kaedah penghantaran tersedia",
     "signIn": "Log masuk",
-    "total": "Jumlah"
+    "total": "Jumlah",
+    "shippingZone": "Zon: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Membuat pesanan tanpa akaun?",
+    "description": "Jika anda membuat pesanan sebagai tetamu dengan alamat e-mel yang sama, kami akan memautkan pesanan itu ke akaun anda.",
+    "button": "Cari pesanan saya",
+    "claimed": "Pesanan dipautkan: {count}",
+    "none": "Tiada pesanan tetamu dengan alamat e-mel anda di kedai ini.",
+    "failed": "Kami tidak dapat menyemak pesanan anda. Cuba lagi sebentar lagi."
   },
   "Common": {
     "clear": "Kosongkan",
@@ -306,8 +340,12 @@
     "unauthorized": "Sila log masuk untuk meneruskan."
   },
   "Filters": {
+    "from": "dari",
+    "no": "Tidak",
     "sort": "Isih",
-    "title": "Penapis"
+    "title": "Penapis",
+    "to": "hingga",
+    "yes": "Ya"
   },
   "Footer": {
     "categoriesHeading": "Kategori",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Tutup",
+    "counter": "Imej {index} daripada {total}",
     "goToImage": "Ke imej {index}",
-    "openFullImage": "Buka imej penuh"
+    "nextImage": "Imej seterusnya",
+    "openFullImage": "Buka imej penuh",
+    "previousImage": "Imej sebelumnya",
+    "showImage": "Tunjukkan imej {index}",
+    "thumbnails": "Imej kecil produk"
+  },
+  "Journal": {
+    "navLabel": "Jurnal",
+    "feedTitle": "Jurnal",
+    "feedDescription": "Artikel daripada {siteName}.",
+    "empty": "Belum ada artikel.",
+    "backToFeed": "Semua artikel",
+    "previous": "Sebelumnya",
+    "next": "Seterusnya",
+    "pageOf": "Halaman {page} daripada {lastPage}",
+    "pagination": "Halaman jurnal",
+    "readingTime": "Baca {minutes} min",
+    "related": "Baca juga",
+    "share": "Kongsi",
+    "copyLink": "Salin pautan",
+    "linkCopied": "Pautan disalin",
+    "allCategories": "Semua topik",
+    "categories": "Topik"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Sertai kami",
     "notMember": "Belum menjadi ahli?",
     "password": "Kata laluan",
-    "signIn": "Log masuk"
+    "signIn": "Log masuk",
+    "yandexCta": "Log masuk dengan Yandex ID",
+    "yandexDivider": "atau",
+    "yandexErrorDenied": "Anda membatalkan log masuk di halaman Yandex.",
+    "yandexErrorEmailTaken": "Sudah ada akaun dengan e-mel ini. Log masuk dengan kata laluan anda.",
+    "yandexErrorExpired": "Pautan log masuk sudah tamat tempoh. Mulakan semula.",
+    "yandexErrorFailed": "Log masuk tidak berjaya. Cuba lagi sebentar lagi.",
+    "yandexErrorNoEmail": "Yandex tidak memberikan alamat e-mel, jadi akaun tidak boleh dibuat.",
+    "yandexErrorRejected": "Yandex tidak dapat mengesahkan log masuk ini. Sila cuba lagi.",
+    "yandexErrorUnconfigured": "Log masuk melalui Yandex belum dihidupkan di kedai ini."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Lihat butiran"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Simpan nombor pesanan anda. Anda memerlukannya apabila menghubungi kedai.",
     "orderSuccess": "Pesanan anda berjaya dibuat.",
     "thankYou": "Terima kasih!"
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
-    "confirmationSentBefore": "Kami telah menghantar butiran pengesahan pesanan ke",
+    "contactEmailBefore": "Alamat hubungan untuk pesanan ini ialah",
     "fulfillmentStatuses": {
       "canceled": "Dibatalkan",
       "delivered": "Diterima",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Pembayaran masih disahkan. Tunggu seminit dan buka pesanan dari akaun anda, atau cuba lagi.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Nombor penjejakan"
   },
   "OrdersPage": {
     "description": "Lihat pesanan lepas anda dan statusnya.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bayar",
+    "redirectUnavailable": "Halaman pembayaran belum tersedia. Cuba lagi sebentar.",
     "selectPaymentMethod": "Pilih kaedah pembayaran"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Kad kredit",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kad kredit",
@@ -682,6 +758,14 @@
     "selectOptions": "Pilih Opsyen",
     "selectVariant": "Pilih varian"
   },
+  "ProductAttributes": {
+    "no": "Tidak",
+    "title": "Spesifikasi",
+    "yes": "Ya"
+  },
+  "ProductInfo": {
+    "description": "Penerangan"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Teruskan persediaan di admin",
     "continueSetup": "Kini anda boleh meneruskan persediaan kedai anda di panel admin.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Lihat semua"
+  },
+  "ProductReviews": {
+    "heading": "Ulasan",
+    "ratingSummary": "{average} daripada 5 · {count, plural, other {# ulasan}}",
+    "ratingValue": "{value} daripada 5",
+    "formHeading": "Ulasan anda",
+    "ratingLabel": "Penilaian",
+    "nameLabel": "Nama anda",
+    "titleLabel": "Tajuk (pilihan)",
+    "bodyLabel": "Teks ulasan",
+    "submit": "Hantar ulasan",
+    "pendingNotice": "Terima kasih. Ulasan akan dipaparkan selepas kedai meluluskannya.",
+    "signInPrompt": "Log masuk untuk menulis ulasan.",
+    "error": "Ulasan gagal dihantar. Cuba lagi.",
+    "ownerReply": "Jawapan kedai",
+    "previousPage": "Sebelumnya",
+    "nextPage": "Seterusnya",
+    "pageOf": "Halaman {page} daripada {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Pemulangan mudah",
@@ -809,7 +911,8 @@
       "account": "Akaun",
       "cart": "Troli",
       "home": "Utama",
-      "store": "Kedai"
+      "store": "Kedai",
+      "journal": "Jurnal"
     },
     "menuButton": "Menu"
   },

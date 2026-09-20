@@ -13,20 +13,16 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STOREFRONT_URL,
-  STORE_EMAIL,
-  STORE_PHONE,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
+import { type FulfillmentLabel, trackingLine } from "./lib/tracking";
 
 /**
- * A shipping label as the Fulfillment Module stores it. Tracking lives here and
- * nowhere else: `create-fulfillment` never receives a tracking number, only
- * `create-shipment` does, through its `labels` input.
+ * Tracking lives on the label and nowhere else: `create-fulfillment` never
+ * receives a tracking number, only `create-shipment` does, through its
+ * `labels` input.
  */
-export type FulfillmentLabel = {
-  tracking_number?: string | null;
-  tracking_url?: string | null;
-};
+export type { FulfillmentLabel };
 
 export type OrderShipmentCreatedEmailProps = {
   order: {
@@ -40,14 +36,18 @@ export type OrderShipmentCreatedEmailProps = {
     };
   };
   labels?: FulfillmentLabel[];
+  /** Carrier name the owner typed next to the tracking number (`fulfillment.metadata.carrier`). */
+  carrier?: string | null;
   locale?: EmailLocale;
 };
 
 export function OrderShipmentCreatedEmail({
   order,
   labels = [],
+  carrier = null,
   locale = DEFAULT_EMAIL_LOCALE,
 }: OrderShipmentCreatedEmailProps) {
+  const shop = useEmailShop();
   const { t, html } = getEmailTranslator(locale);
   const id = order.display_id ?? order.id;
   const customerName = [
@@ -57,9 +57,10 @@ export function OrderShipmentCreatedEmail({
     .filter(Boolean)
     .join(" ");
 
-  const ordersUrl = `${STOREFRONT_URL}/account/orders`;
+  const ordersUrl = `${shop.storefrontUrl}/account/orders`;
   const city = order.shipping_address?.city;
   const tracked = labels.filter((label) => label.tracking_number);
+  const trackingText = (label: FulfillmentLabel) => trackingLine(label, carrier);
 
   return (
     <EmailLayout preview={t("Shipment.preview", { id })} locale={locale}>
@@ -91,10 +92,10 @@ export function OrderShipmentCreatedEmail({
                 <Text style={s.trackLabel}>{t("Shipment.trackLabel")}</Text>
                 {label.tracking_url ? (
                   <a href={label.tracking_url} style={s.trackLink}>
-                    {label.tracking_number}
+                    {trackingText(label)}
                   </a>
                 ) : (
-                  <Text style={s.trackValue}>{label.tracking_number}</Text>
+                  <Text style={s.trackValue}>{trackingText(label)}</Text>
                 )}
               </Column>
             </Row>
@@ -116,15 +117,15 @@ export function OrderShipmentCreatedEmail({
 
       <Text style={s.footerNote}>
         {t("Common.questionsPrefix")}{" "}
-        <a href={`mailto:${STORE_EMAIL}`} style={s.link}>
-          {STORE_EMAIL}
+        <a href={`mailto:${shop.email}`} style={s.link}>
+          {shop.email}
         </a>
-        {STORE_PHONE ? (
+        {shop.phone ? (
           <>
             {" "}
             {t("Common.orCall")}{" "}
-            <a href={`tel:${STORE_PHONE.replace(/\s/g, "")}`} style={s.link}>
-              {STORE_PHONE}
+            <a href={`tel:${shop.phone.replace(/\s/g, "")}`} style={s.link}>
+              {shop.phone}
             </a>
           </>
         ) : null}

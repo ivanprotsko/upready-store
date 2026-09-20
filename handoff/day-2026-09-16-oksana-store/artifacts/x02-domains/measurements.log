@@ -1,0 +1,32 @@
+=== measured 2026-09-15 04:35 WITA ===
+--- 1. shop on its technical address (must stay up) ---
+https://cherkashino.shipshift.dev/ru -> 200 ssl_verify=0 time=3.460573s
+--- 2. routing for the new hosts, bypassing DNS (--resolve to ingress IP, port 80) ---
+http://cherkashino.ru/ru (resolve 84.46.251.149) -> 302 redirect=https://cherkashino.ru/ru
+http://www.cherkashino.ru/ru (resolve 84.46.251.149) -> 302 redirect=https://www.cherkashino.ru/ru
+http://xn--80ajkgrgj8cn.xn--p1ai/ru (resolve 84.46.251.149) -> 302 redirect=https://xn--80ajkgrgj8cn.xn--p1ai/ru
+--- 3. https on the new hosts (no certificate yet expected, HTTP-01 needs DNS) ---
+https cherkashino.ru -> http=000 ssl_verify=20
+curl rc=60
+--- 4. by-host resolver knows the new hosts ---
+cherkashino.ru -> {"tenant":{"id":"ten_01M2GQVGEN1204CN90C510DNRG","handle":"cherkashino","name":"Оксана Черкашина"},"primary_host":"cherkashino.shipshift.dev","is_primary_host":false,"base_domain":"shipshift.dev","publisha
+xn--80ajkgrgj8cn.xn--p1ai -> {"tenant":{"id":"ten_01M2GQVGEN1204CN90C510DNRG","handle":"cherkashino","name":"Оксана Черкашина"},"primary_host":"cherkashino.shipshift.dev","is_primary_host":false,"base_domain":"shipshift.dev","publisha
+--- 5. real DNS as it stands now (no change made) ---
+cherkashino.ru A: 31.31.197.78 
+черкашино.рф (xn--80ajkgrgj8cn.xn--p1ai) A: 95.163.244.138 
+stores.shipshift.dev: 84.46.251.149 
+=== zone facts, measured 2026-09-15 04:38 WITA ===
+--- cherkashino.ru ---
+NS:  ns1.hosting.reg.ru. ns2.hosting.reg.ru. 
+A:   31.31.197.78 
+MX:  20 mx2.hosting.reg.ru. 10 mx1.hosting.reg.ru. 
+TXT: "v=spf1 ip4:31.31.197.78 a mx include:_spf.hosting.reg.ru ~all" 
+www: 31.31.197.78 
+--- xn--80ajkgrgj8cn.xn--p1ai ---
+NS:  ns1.reg.ru. ns2.reg.ru. 
+A:   95.163.244.138 
+MX:  
+TXT: 
+www: 95.163.244.138 
+--- target ---
+stores.shipshift.dev A: 84.46.251.149 

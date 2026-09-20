@@ -1,0 +1,16 @@
+## Финальный замер ПОСЛЕ мержа origin/dev — 2026-09-15 23:33 WITA
+### до бэкфилла
+/ru/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya    404
+/ru/ru/categories/dobavki                                  404
+### после бэкфилла (TTL кэша middleware 60 с)
+/ru/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya    301 -> http://127.0.0.1:8202/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino
+/ru/ru/categories/dobavki                                  301 -> http://127.0.0.1:8202/ru/categories/dobavki-cherkashino
+### юр-страницы: вхождений {{ в ответе покупателю
+contacts  0
+offer     0
+privacy   0
+## После мержа b09 (2026-09-15 23:41 WITA) — витрина + редакция вместе
+contacts  0
+offer     0
+privacy   0
+/ru/ru/categories/dobavki                                  301 -> http://127.0.0.1:8202/ru/categories/dobavki-cherkashino

@@ -62,6 +62,11 @@
     "description": "Xem và cập nhật các địa chỉ giao hàng của bạn, bạn có thể thêm bao nhiêu tùy thích. Các địa chỉ đã lưu sẽ có sẵn khi thanh toán.",
     "heading": "Địa chỉ giao hàng"
   },
+  "AnalyticsConsent": {
+    "message": "Chúng tôi sử dụng cookie để hiểu cách khách truy cập sử dụng trang web này.",
+    "accept": "Chấp nhận",
+    "decline": "Từ chối"
+  },
   "Breadcrumb": {
     "home": "Trang chủ",
     "store": "Cửa hàng"
@@ -98,6 +103,25 @@
     "title": "Danh mục",
     "viewAll": "Xem tất cả"
   },
+  "CdekPoint": {
+    "heading": "Điểm nhận hàng CDEK",
+    "chooseHeading": "Chọn điểm nhận hàng CDEK",
+    "searchPlaceholder": "Tìm theo địa chỉ hoặc ga tàu",
+    "cityLabel": "Thành phố",
+    "cityPlaceholder": "Bắt đầu nhập thành phố",
+    "choose": "Chọn",
+    "chosen": "Đã chọn",
+    "found": "Số điểm nhận hàng tìm thấy: {count}",
+    "noResults": "Không tìm thấy điểm nhận hàng ở {city}.",
+    "needCity": "Nhập thành phố giao hàng để xem các điểm nhận hàng.",
+    "loading": "Đang tải điểm nhận hàng…",
+    "notConfigured": "Cửa hàng này chưa thiết lập giao hàng CDEK.",
+    "change": "Đổi điểm",
+    "tabList": "Danh sách",
+    "tabMap": "Bản đồ",
+    "mapEmpty": "Không có điểm nhận hàng nào để hiển thị trên bản đồ cho thành phố này.",
+    "mapFailed": "Không dùng được bản đồ. Hãy chọn điểm nhận hàng trong danh sách."
+  },
   "CheckoutPage": {
     "addNewAddress": "Thêm địa chỉ mới",
     "addressHeading": "Địa chỉ giao hàng",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, other {{count} sản phẩm}}",
     "legal": "Bằng cách nhấn «Thanh toán», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời đồng ý với <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
     "manualInput": "Nhập địa chỉ thủ công",
+    "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ. Không có thành phố và mã bưu chính thì không thể gửi đơn hàng.",
     "orderComposition": "Tóm tắt đơn hàng",
     "paymentHeading": "Phương thức thanh toán",
     "recipientCheckbox": "Người nhận là người khác",
@@ -145,7 +170,16 @@
     "shippingLink": "Vận chuyển",
     "shippingUnavailable": "Không có phương thức vận chuyển khả dụng",
     "signIn": "Đăng nhập",
-    "total": "Tổng cộng"
+    "total": "Tổng cộng",
+    "shippingZone": "Khu vực: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Bạn đã đặt hàng mà không có tài khoản?",
+    "description": "Nếu bạn đặt hàng với tư cách khách bằng chính địa chỉ email này, chúng tôi sẽ gắn những đơn hàng đó vào tài khoản của bạn.",
+    "button": "Tìm đơn hàng của tôi",
+    "claimed": "Đơn hàng đã gắn: {count}",
+    "none": "Không tìm thấy đơn hàng khách nào với địa chỉ email của bạn tại cửa hàng này.",
+    "failed": "Chúng tôi không kiểm tra được đơn hàng của bạn. Hãy thử lại sau giây lát."
   },
   "Common": {
     "clear": "Xóa",
@@ -306,8 +340,12 @@
     "unauthorized": "Vui lòng đăng nhập để tiếp tục."
   },
   "Filters": {
+    "from": "từ",
+    "no": "Không",
     "sort": "Sắp xếp",
-    "title": "Bộ lọc"
+    "title": "Bộ lọc",
+    "to": "đến",
+    "yes": "Có"
   },
   "Footer": {
     "categoriesHeading": "Danh mục",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Đóng",
+    "counter": "Ảnh {index} trên {total}",
     "goToImage": "Đến ảnh {index}",
-    "openFullImage": "Mở ảnh đầy đủ"
+    "nextImage": "Ảnh tiếp theo",
+    "openFullImage": "Mở ảnh đầy đủ",
+    "previousImage": "Ảnh trước",
+    "showImage": "Hiển thị ảnh {index}",
+    "thumbnails": "Ảnh thu nhỏ của sản phẩm"
+  },
+  "Journal": {
+    "navLabel": "Tạp chí",
+    "feedTitle": "Tạp chí",
+    "feedDescription": "Bài viết của {siteName}.",
+    "empty": "Chưa có bài viết nào.",
+    "backToFeed": "Tất cả bài viết",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "pageOf": "Trang {page} trên {lastPage}",
+    "pagination": "Các trang tạp chí",
+    "readingTime": "Đọc {minutes} phút",
+    "related": "Đọc thêm",
+    "share": "Chia sẻ",
+    "copyLink": "Sao chép liên kết",
+    "linkCopied": "Đã sao chép liên kết",
+    "allCategories": "Tất cả chuyên mục",
+    "categories": "Chuyên mục"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Tham gia ngay",
     "notMember": "Chưa có tài khoản?",
     "password": "Mật khẩu",
-    "signIn": "Đăng nhập"
+    "signIn": "Đăng nhập",
+    "yandexCta": "Đăng nhập bằng Yandex ID",
+    "yandexDivider": "hoặc",
+    "yandexErrorDenied": "Bạn đã hủy đăng nhập trên trang Yandex.",
+    "yandexErrorEmailTaken": "Đã có tài khoản dùng email này. Hãy đăng nhập bằng mật khẩu.",
+    "yandexErrorExpired": "Liên kết đăng nhập đã hết hạn. Vui lòng bắt đầu lại.",
+    "yandexErrorFailed": "Đăng nhập chưa thành công. Vui lòng thử lại sau giây lát.",
+    "yandexErrorNoEmail": "Yandex không cung cấp địa chỉ email nên không thể tạo tài khoản.",
+    "yandexErrorRejected": "Yandex không xác nhận được lần đăng nhập này. Vui lòng thử lại.",
+    "yandexErrorUnconfigured": "Cửa hàng này chưa bật đăng nhập bằng Yandex."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Xem chi tiết"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Hãy lưu lại mã đơn hàng. Bạn sẽ cần khi liên hệ với cửa hàng.",
     "orderSuccess": "Đơn hàng của bạn đã được đặt thành công.",
     "thankYou": "Cảm ơn bạn!"
   },
   "OrderDetails": {
     "backToOrders": "Quay lại đơn hàng",
-    "confirmationSentBefore": "Chúng tôi đã gửi xác nhận đơn hàng đến",
+    "contactEmailBefore": "Địa chỉ liên hệ cho đơn hàng này là",
     "fulfillmentStatuses": {
       "canceled": "Đã hủy",
       "delivered": "Đã giao",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Thanh toán vẫn đang được xác nhận. Hãy đợi một phút rồi mở đơn hàng trong tài khoản, hoặc thử lại.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Mã vận đơn"
   },
   "OrdersPage": {
     "description": "Xem các đơn hàng trước đây và trạng thái của chúng.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Thanh toán",
+    "redirectUnavailable": "Trang thanh toán chưa sẵn sàng. Vui lòng thử lại sau giây lát.",
     "selectPaymentMethod": "Chọn phương thức thanh toán"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Thẻ tín dụng",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Thẻ tín dụng",
@@ -682,6 +758,14 @@
     "selectOptions": "Chọn tùy chọn",
     "selectVariant": "Chọn phiên bản"
   },
+  "ProductAttributes": {
+    "no": "Không",
+    "title": "Thông số",
+    "yes": "Có"
+  },
+  "ProductInfo": {
+    "description": "Mô tả"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tiếp tục thiết lập trong trang quản trị",
     "continueSetup": "Giờ đây bạn có thể tiếp tục thiết lập cửa hàng trong trang quản trị.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Xem tất cả"
+  },
+  "ProductReviews": {
+    "heading": "Đánh giá",
+    "ratingSummary": "{average} trên 5 · {count, plural, other {# đánh giá}}",
+    "ratingValue": "{value} trên 5",
+    "formHeading": "Đánh giá của bạn",
+    "ratingLabel": "Điểm",
+    "nameLabel": "Tên của bạn",
+    "titleLabel": "Tiêu đề (không bắt buộc)",
+    "bodyLabel": "Nội dung đánh giá",
+    "submit": "Gửi đánh giá",
+    "pendingNotice": "Cảm ơn bạn. Đánh giá sẽ hiển thị sau khi cửa hàng duyệt.",
+    "signInPrompt": "Đăng nhập để viết đánh giá.",
+    "error": "Không gửi được đánh giá. Hãy thử lại.",
+    "ownerReply": "Phản hồi của cửa hàng",
+    "previousPage": "Trước",
+    "nextPage": "Sau",
+    "pageOf": "Trang {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Trả hàng dễ dàng",
@@ -809,7 +911,8 @@
       "account": "Tài khoản",
       "cart": "Giỏ hàng",
       "home": "Trang chủ",
-      "store": "Cửa hàng"
+      "store": "Cửa hàng",
+      "journal": "Tạp chí"
     },
     "menuButton": "Menu"
   },

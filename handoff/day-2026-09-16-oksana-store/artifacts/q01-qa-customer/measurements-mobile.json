@@ -1,0 +1,231 @@
+[
+  {
+    "step": "01-home",
+    "url": "https://cherkashino.shipshift.dev/ru",
+    "status": 200,
+    "ms": 6679,
+    "err": null,
+    "newErrors": [],
+    "data": {
+      "heroTitle": "Заказ от 5 кг — скидка 10%",
+      "heroText": "Заказ от 5 кг — скидка 10% Берёте курс на семью или впрок? При весе посылки от 5 килограммов автоматически применяется скидка 10% от стоимости товаров. Собрать корзину",
+      "heroHasImage": false,
+      "imgTotal": 12,
+      "imgBroken": [],
+      "categoryTiles": [
+        {
+          "t": "Мультиварки",
+          "href": "/categories/multivarki-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Стевия",
+          "href": "/categories/steviya-cherkashino",
+          "img": false
+        },
+        {
+          "t": "АСД",
+          "href": "/categories/asd-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Стимуляторы",
+          "href": "/categories/stimulyatory-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Мультиварки",
+          "href": "/categories/multivarki-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Стевия",
+          "href": "/categories/steviya-cherkashino",
+          "img": false
+        },
+        {
+          "t": "АСД",
+          "href": "/categories/asd-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Стимуляторы",
+          "href": "/categories/stimulyatory-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Антисептики",
+          "href": "/categories/antiseptiki-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Фито-свечи",
+          "href": "/categories/fito-svechi-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Масла",
+          "href": "/categories/masla-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Мёд",
+          "href": "/categories/myod-cherkashino",
+          "img": false
+        },
+        {
+          "t": "Добавки",
+          "href": "/categories/dobavki-cherkashino",
+          "img": false
+        }
+      ],
+      "latin": [
+        "upready"
+      ],
+      "sections": [
+        "В магазине"
+      ]
+    }
+  },
+  {
+    "step": "01-home-warm",
+    "url": "https://cherkashino.shipshift.dev/ru",
+    "status": 200,
+    "ms": 4699,
+    "err": null,
+    "newErrors": []
+  },
+  {
+    "step": "02-catalog",
+    "url": "https://cherkashino.shipshift.dev/ru/store",
+    "status": 200,
+    "ms": 9535,
+    "err": null,
+    "newErrors": [],
+    "data": {
+      "h1": "Все товары",
+      "cards": 12,
+      "cardTitles": [
+        "Зубная паста тайская отбеливающая 1 084,00 ₽",
+        "Зубная паста тайская с гвоздикой 723,00 ₽",
+        "Зубная паста тайская с углем 723,00 ₽",
+        "Таблетки от варикоза с каштаном 1 355,00 ₽",
+        "Мазь от варикоза и отёков, с каштаном 1 807,00 ₽",
+        "Ингалятор портативный 3 614,00 ₽",
+        "Капли в нос АСД и серебро 1 355,00 ₽",
+        "Шампунь-концентрат для блеска тайский 1 355,00 ₽",
+        "Сила раздельного питания, 250 рецептов полезных блюд 1 355,00 ₽",
+        "Свечи от варикоза и отёков, с каштаном 1 355,00 ₽",
+        "Капсулы от варикоза и отёков, с каштаном 1 807,00 ₽",
+        "Гепачисты 1 807,00 ₽"
+      ],
+      "chips": [],
+      "sortSelect": [
+        "Новинки"
+      ],
+      "pagination": [],
+      "bodyLatin": [
+        "upready"
+      ]
+    }
+  },
+  {
+    "step": "02-catalog-sort-pagination",
+    "url": "https://cherkashino.shipshift.dev/ru/store?page=2",
+    "status": 200,
+    "ms": 8368,
+    "err": null,
+    "newErrors": [
+      "Failed to load resource: the server responded with a status of 502 ()"
+    ],
+    "data": {
+      "sortInfo": "нет элемента сортировки",
+      "page2": {
+        "cards": 12,
+        "h1": "Все товары"
+      }
+    }
+  },
+  {
+    "step": "03-search",
+    "url": "https://cherkashino.shipshift.dev/ru (диалог поиска)",
+    "status": "n/a",
+    "ms": null,
+    "data": {
+      "мёд": {
+        "links": [],
+        "text": "ПОПУЛЯРНЫЕ ТОВАРЫ Свечи АСД с чесноком 1 355,00 ₽ Мумие Бальзам Горного Алтая 1 355,00 ₽ Тройчатка плюс 1 355,00 ₽ Натуральный сорбент от отравлений от температуры 2 710,00 ₽ Стевия в таблетках, сахарозаменитель 1 355,00 ₽ Антисептик-стимулятор Дорогова, таблетки 1 626,00 ₽ Мультиварка для дома и ав",
+        "ms": 11268,
+        "errs": []
+      },
+      "квадрокоптер": {
+        "links": [],
+        "text": "Ничего не найдено по запросу «квадрокоптер»",
+        "ms": 11337,
+        "errs": []
+      }
+    }
+  },
+  {
+    "step": "04-product",
+    "url": "https://cherkashino.shipshift.dev/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino",
+    "status": 200,
+    "ms": 7631,
+    "err": null,
+    "newErrors": [],
+    "data": {
+      "href": "/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino",
+      "title": "Зубная паста тайская отбеливающая",
+      "price": [
+        "\n1 084,00 ₽",
+        "\n\n1 355,00 ₽",
+        "\n\n1 355,00 ₽"
+      ],
+      "hasRub": true,
+      "thumbs": 10,
+      "imgs": 23,
+      "broken": 0,
+      "description": "Главная Магазин Добавки Зубная паста тайская отбеливающая Зубная паста тайская отбеливающая 1 084,00 ₽ В корзину Доставка и возврат Вам может понравиться Свечи АСД с чесноком 1 355,00 ₽ Мумие Бальзам Горного Алтая 1 355,00 ₽ Тройчатка плюс 1 355,00 ₽ Натуральный сорбент от отравлений от температуры ",
+      "latin": [
+        "upready"
+      ],
+      "tabs": [
+        "ru",
+        "₽",
+        "В корзину",
+        "Доставка и возврат",
+        "Вам может понравиться"
+      ],
+      "addToCart": [
+        "В корзину"
+      ]
+    }
+  },
+  {
+    "step": "04-product-actions",
+    "url": "https://cherkashino.shipshift.dev/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino?v_id=variant_01M2GRF25V3EJFQ47STC6R922Y",
+    "status": "n/a",
+    "ms": null,
+    "data": {
+      "galleryOpened": false,
+      "addErrors": []
+    }
+  },
+  {
+    "step": "05-cart",
+    "url": "https://cherkashino.shipshift.dev/ru/cart",
+    "status": 200,
+    "ms": 6810,
+    "err": null,
+    "newErrors": [],
+    "data": {
+      "text": "ОКСАНА ЧЕРКАШИНА Корзина В вашей корзине ничего нет. Воспользуйтесь ссылкой ниже, чтобы начать просматривать наши товары. Смотреть товары ОКСАНА ЧЕРКАШИНА Категории Мультиварки Стевия АСД Стимуляторы Антисептики Фито-свечи Масла Мёд Добавки Информация Контакты и реквизиты Черкашина Оксана Политика конфиденциальности Публичная оферта © 2026 Оксана Черкашина. Все права защищены. создание интернет-магазина — upready",
+      "rows": 0,
+      "hasPromoInput": false,
+      "buttons": [
+        "ru",
+        "₽"
+      ]
+    }
+  }
+]

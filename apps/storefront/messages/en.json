@@ -62,6 +62,11 @@
     "description": "View and update your shipping addresses, and add as many as you like. Saved addresses are offered during checkout.",
     "heading": "Shipping addresses"
   },
+  "AnalyticsConsent": {
+    "message": "We use cookies to see how visitors use this site.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Store"
@@ -98,6 +103,25 @@
     "title": "Categories",
     "viewAll": "View all"
   },
+  "CdekPoint": {
+    "heading": "CDEK pickup point",
+    "chooseHeading": "Choose a CDEK pickup point",
+    "searchPlaceholder": "Search by address or metro",
+    "cityLabel": "City",
+    "cityPlaceholder": "Start typing a city",
+    "choose": "Choose",
+    "chosen": "Chosen",
+    "found": "Pickup points found: {count}",
+    "noResults": "No pickup points found in {city}.",
+    "needCity": "Enter your delivery city to see pickup points.",
+    "loading": "Loading pickup points…",
+    "notConfigured": "CDEK delivery is not set up in this shop yet.",
+    "change": "Change point",
+    "tabList": "List",
+    "tabMap": "Map",
+    "mapEmpty": "No pickup points to show on the map for this city.",
+    "mapFailed": "The map is unavailable. Pick a point from the list."
+  },
   "CheckoutPage": {
     "addNewAddress": "Add new address",
     "addressHeading": "Shipping address",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} item} other {{count} items}}",
     "legal": "By clicking «Pay», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
     "manualInput": "Enter address manually",
+    "addressIncomplete": "Fill in the required address fields. Without a city and a postal code the order cannot be shipped.",
     "orderComposition": "Order summary",
     "paymentHeading": "Payment method",
     "recipientCheckbox": "Recipient is a different person",
@@ -143,9 +168,18 @@
     "shippingDescription": "Choose how you want your order delivered",
     "shippingHeading": "Shipping method",
     "shippingLink": "Shipping",
-    "shippingUnavailable": "No shipping methods available",
+    "shippingUnavailable": "Delivery to this address is not set up yet. Check the country and region, or write to us and we will find a way.",
     "signIn": "Sign in",
-    "total": "Total"
+    "total": "Total",
+    "shippingZone": "Zone: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Ordered without an account?",
+    "description": "If you checked out as a guest with this same email address, we will attach those orders to your account.",
+    "button": "Find my orders",
+    "claimed": "Orders attached: {count}",
+    "none": "No guest orders were found for your email address in this shop.",
+    "failed": "We could not check your orders. Try again in a moment."
   },
   "Common": {
     "clear": "Clear",
@@ -306,8 +340,12 @@
     "unauthorized": "Please sign in to continue."
   },
   "Filters": {
+    "from": "from",
+    "no": "No",
     "sort": "Sort",
-    "title": "Filters"
+    "title": "Filters",
+    "to": "to",
+    "yes": "Yes"
   },
   "Footer": {
     "categoriesHeading": "Categories",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Close",
+    "counter": "Image {index} of {total}",
     "goToImage": "Go to image {index}",
-    "openFullImage": "Open full image"
+    "nextImage": "Next image",
+    "openFullImage": "Open full image",
+    "previousImage": "Previous image",
+    "showImage": "Show image {index}",
+    "thumbnails": "Product thumbnails"
+  },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Articles from {siteName}.",
+    "empty": "No articles yet.",
+    "backToFeed": "All articles",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {page} of {lastPage}",
+    "pagination": "Journal pages",
+    "readingTime": "{minutes} min read",
+    "related": "Read next",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "allCategories": "All topics",
+    "categories": "Journal topics"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Join us",
     "notMember": "Not a member?",
     "password": "Password",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "yandexCta": "Sign in with Yandex ID",
+    "yandexDivider": "or",
+    "yandexErrorDenied": "You cancelled the sign-in on the Yandex page.",
+    "yandexErrorEmailTaken": "An account already uses this email address. Sign in with your password instead.",
+    "yandexErrorExpired": "This sign-in link has expired. Please start again.",
+    "yandexErrorFailed": "The sign-in did not go through. Please try again in a moment.",
+    "yandexErrorNoEmail": "Yandex did not share an email address, so an account cannot be created.",
+    "yandexErrorRejected": "Yandex could not confirm this sign-in. Please try again.",
+    "yandexErrorUnconfigured": "Signing in with Yandex is not switched on in this store yet."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "See details"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Keep the order number. You need it when you contact the shop.",
     "orderSuccess": "Your order was placed successfully.",
     "thankYou": "Thank you!"
   },
   "OrderDetails": {
     "backToOrders": "Back to orders",
-    "confirmationSentBefore": "We have sent the order confirmation details to",
+    "contactEmailBefore": "The contact address for this order is",
     "fulfillmentStatuses": {
       "canceled": "Canceled",
       "delivered": "Delivered",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "The payment is still being confirmed. Wait a minute and open your order from the account, or try the checkout again.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Tracking number"
   },
   "OrdersPage": {
     "description": "View your previous orders and their status.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Pay",
+    "redirectUnavailable": "The payment page is not available yet. Try again in a moment.",
     "selectPaymentMethod": "Select a payment method"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Credit card",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Credit card",
@@ -682,6 +758,14 @@
     "selectOptions": "Select options",
     "selectVariant": "Select variant"
   },
+  "ProductAttributes": {
+    "no": "No",
+    "title": "Specifications",
+    "yes": "Yes"
+  },
+  "ProductInfo": {
+    "description": "Description"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continue setup in admin",
     "continueSetup": "You can now continue setting up your store in the admin.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "View all"
+  },
+  "ProductReviews": {
+    "heading": "Reviews",
+    "ratingSummary": "{average} out of 5 · {count, plural, one {# review} other {# reviews}}",
+    "ratingValue": "{value} out of 5",
+    "formHeading": "Your review",
+    "ratingLabel": "Rating",
+    "nameLabel": "Your name",
+    "titleLabel": "Headline (optional)",
+    "bodyLabel": "Your review",
+    "submit": "Send review",
+    "pendingNotice": "Thank you. Your review will appear once the shop has approved it.",
+    "signInPrompt": "Sign in to leave a review.",
+    "error": "The review could not be sent. Please try again.",
+    "ownerReply": "Shop reply",
+    "previousPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {page} of {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Straightforward returns",
@@ -809,7 +911,8 @@
       "account": "Account",
       "cart": "Cart",
       "home": "Home",
-      "store": "Store"
+      "store": "Store",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 12,
+  "action": "status-set",
+  "ts": "2026-09-15T04:41:50+08:00",
+  "status": "2026-09-15 04:41 WITA: x02-domains — 4 хоста (cherkashino.ru, www, xn--80ajkgrgj8cn.xn--p1ai, www) зарегистрированы на тенанте ten_01M2GQVGEN1204CN90C510DNRG и стоят в ingress; маршрут проверен в обход DNS (--resolve на 84.46.251.149); постраничный 301 проверен живьём впервые; DNS не менял — доступа к зонам reg.ru на машине нет (REGRU_CLOUD_TOKEN = VPS, CF-переменные пустые, зоны на NS reg.ru); инструкция domain-instruction.md; punycode в задании был неверный (xn--80apaahi7a3c = чужой кирилица.рф); магазин 200"
+}

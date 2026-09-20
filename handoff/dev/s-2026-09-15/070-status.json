@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 70,
+  "action": "status-set",
+  "ts": "2026-09-15T15:20:16+08:00",
+  "status": "2026-09-15 15:20 WITA: штаб дня — волна 3 закрыта: 26 PR смёржено, d03 задеплоил (5/5 URL, 5/5 карточек), q03: мерка InSales 11→19 из 169, r02: сводка Ивану artifacts/r02-handover/for-ivan.md и текст Оксане for-oksana.md. Диспетчер написал DONE в 15:15 преждевременно — 8 дефектов владелицы f09–f16 (q02) пропали из tasks.json (в state были queued); восстановлены из промптов и отчёта q02, добавлен d04-deploy-mt-4, DONE убран, диспетчер pid 81388, сторож перевзведён"
+}

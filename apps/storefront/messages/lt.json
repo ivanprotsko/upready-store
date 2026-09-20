@@ -62,6 +62,11 @@
     "description": "Peržiūrėkite ir atnaujinkite savo pristatymo adresus — galite pridėti jų tiek, kiek norite. Išsaugoti adresai bus prieinami atsiskaitymo metu.",
     "heading": "Pristatymo adresai"
   },
+  "AnalyticsConsent": {
+    "message": "Naudojame slapukus, kad suprastume, kaip lankytojai naudojasi šia svetaine.",
+    "accept": "Sutinku",
+    "decline": "Atmesti"
+  },
   "Breadcrumb": {
     "home": "Pradžia",
     "store": "Parduotuvė"
@@ -98,6 +103,25 @@
     "title": "Kategorijos",
     "viewAll": "Žiūrėti visus"
   },
+  "CdekPoint": {
+    "heading": "CDEK atsiėmimo punktas",
+    "chooseHeading": "Pasirinkite CDEK atsiėmimo punktą",
+    "searchPlaceholder": "Ieškoti pagal adresą ar metro",
+    "cityLabel": "Miestas",
+    "cityPlaceholder": "Pradėkite rašyti miestą",
+    "choose": "Pasirinkti",
+    "chosen": "Pasirinkta",
+    "found": "Rasta atsiėmimo punktų: {count}",
+    "noResults": "Mieste {city} atsiėmimo punktų nerasta.",
+    "needCity": "Nurodykite pristatymo miestą, kad matytumėte atsiėmimo punktus.",
+    "loading": "Kraunami atsiėmimo punktai…",
+    "notConfigured": "CDEK pristatymas šioje parduotuvėje dar nesukonfigūruotas.",
+    "change": "Keisti punktą",
+    "tabList": "Sąrašas",
+    "tabMap": "Žemėlapis",
+    "mapEmpty": "Šiam miestui žemėlapyje atsiėmimo punktų nėra.",
+    "mapFailed": "Žemėlapis nepasiekiamas. Pasirinkite punktą iš sąrašo."
+  },
   "CheckoutPage": {
     "addNewAddress": "Pridėti naują adresą",
     "addressHeading": "Pristatymo adresas",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} prekė} few {{count} prekės} many {{count} prekės} other {{count} prekių}}",
     "legal": "Spausdami „Mokėti“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei sutinkate su <privacyPolicy>privatumo politika</privacyPolicy>.",
     "manualInput": "Įvesti adresą rankiniu būdu",
+    "addressIncomplete": "Užpildykite privalomus adreso laukus. Be miesto ir pašto kodo užsakymo išsiųsti negalima.",
     "orderComposition": "Užsakymo santrauka",
     "paymentHeading": "Mokėjimo būdas",
     "recipientCheckbox": "Gavėjas yra kitas asmuo",
@@ -145,7 +170,16 @@
     "shippingLink": "Pristatymas",
     "shippingUnavailable": "Nėra galimų pristatymo būdų",
     "signIn": "Prisijungti",
-    "total": "Iš viso"
+    "total": "Iš viso",
+    "shippingZone": "Zona: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Užsisakėte be paskyros?",
+    "description": "Jei užsakėte kaip svečias tuo pačiu el. pašto adresu, priskirsime tuos užsakymus jūsų paskyrai.",
+    "button": "Rasti mano užsakymus",
+    "claimed": "Priskirti užsakymai: {count}",
+    "none": "Šioje parduotuvėje svečio užsakymų jūsų el. pašto adresu nerasta.",
+    "failed": "Nepavyko patikrinti jūsų užsakymų. Pabandykite dar kartą."
   },
   "Common": {
     "clear": "Išvalyti",
@@ -306,8 +340,12 @@
     "unauthorized": "Prisijunkite, kad galėtumėte tęsti."
   },
   "Filters": {
+    "from": "nuo",
+    "no": "Ne",
     "sort": "Rūšiuoti",
-    "title": "Filtrai"
+    "title": "Filtrai",
+    "to": "iki",
+    "yes": "Taip"
   },
   "Footer": {
     "categoriesHeading": "Kategorijos",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Uždaryti",
+    "counter": "Nuotrauka {index} iš {total}",
     "goToImage": "Pereiti prie vaizdo {index}",
-    "openFullImage": "Atverti visą vaizdą"
+    "nextImage": "Kita nuotrauka",
+    "openFullImage": "Atverti visą vaizdą",
+    "previousImage": "Ankstesnė nuotrauka",
+    "showImage": "Rodyti {index} nuotrauką",
+    "thumbnails": "Prekės miniatiūros"
+  },
+  "Journal": {
+    "navLabel": "Žurnalas",
+    "feedTitle": "Žurnalas",
+    "feedDescription": "{siteName} straipsniai.",
+    "empty": "Straipsnių kol kas nėra.",
+    "backToFeed": "Visi straipsniai",
+    "previous": "Ankstesnis",
+    "next": "Kitas",
+    "pageOf": "{page} puslapis iš {lastPage}",
+    "pagination": "Žurnalo puslapiai",
+    "readingTime": "{minutes} min skaitymo",
+    "related": "Taip pat skaitykite",
+    "share": "Dalintis",
+    "copyLink": "Kopijuoti nuorodą",
+    "linkCopied": "Nuoroda nukopijuota",
+    "allCategories": "Visos rubrikos",
+    "categories": "Rubrikos"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Tapkite nariu",
     "notMember": "Dar nesate narys?",
     "password": "Slaptažodis",
-    "signIn": "Prisijungti"
+    "signIn": "Prisijungti",
+    "yandexCta": "Prisijungti su Yandex ID",
+    "yandexDivider": "arba",
+    "yandexErrorDenied": "Atšaukėte prisijungimą Yandex puslapyje.",
+    "yandexErrorEmailTaken": "Paskyra su šiuo el. pašto adresu jau yra. Prisijunkite slaptažodžiu.",
+    "yandexErrorExpired": "Prisijungimo nuoroda nebegalioja. Pradėkite iš naujo.",
+    "yandexErrorFailed": "Prisijungti nepavyko. Pabandykite po akimirkos.",
+    "yandexErrorNoEmail": "Yandex nepateikė el. pašto adreso, todėl paskyros sukurti negalima.",
+    "yandexErrorRejected": "Yandex nepatvirtino šio prisijungimo. Bandykite dar kartą.",
+    "yandexErrorUnconfigured": "Prisijungimas per Yandex šioje parduotuvėje dar neįjungtas."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Peržiūrėti detales"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Išsaugokite užsakymo numerį. Jo prireiks susisiekiant su parduotuve.",
     "orderSuccess": "Jūsų užsakymas sėkmingai pateiktas.",
     "thankYou": "Ačiū!"
   },
   "OrderDetails": {
     "backToOrders": "Atgal į užsakymus",
-    "confirmationSentBefore": "Užsakymo patvirtinimą išsiuntėme adresu",
+    "contactEmailBefore": "Šio užsakymo kontaktinis adresas yra",
     "fulfillmentStatuses": {
       "canceled": "Atšauktas",
       "delivered": "Pristatytas",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Mokėjimas dar tvirtinamas. Palaukite minutę ir atidarykite užsakymą paskyroje arba bandykite dar kartą.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Siuntos sekimo numeris"
   },
   "OrdersPage": {
     "description": "Peržiūrėkite savo ankstesnius užsakymus ir jų būseną.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Mokėti",
+    "redirectUnavailable": "Mokėjimo puslapis dar nepasiekiamas. Pabandykite dar kartą po akimirkos.",
     "selectPaymentMethod": "Pasirinkite mokėjimo būdą"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Kredito kortelė",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kredito kortelė",
@@ -682,6 +758,14 @@
     "selectOptions": "Pasirinkti parinktis",
     "selectVariant": "Pasirinkite variantą"
   },
+  "ProductAttributes": {
+    "no": "Ne",
+    "title": "Savybės",
+    "yes": "Taip"
+  },
+  "ProductInfo": {
+    "description": "Aprašymas"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tęsti nustatymą administravimo skydelyje",
     "continueSetup": "Dabar galite tęsti savo parduotuvės nustatymą administravimo skydelyje.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Žiūrėti visus"
+  },
+  "ProductReviews": {
+    "heading": "Atsiliepimai",
+    "ratingSummary": "{average} iš 5 · {count, plural, one {# atsiliepimas} few {# atsiliepimai} other {# atsiliepimų}}",
+    "ratingValue": "{value} iš 5",
+    "formHeading": "Jūsų atsiliepimas",
+    "ratingLabel": "Įvertinimas",
+    "nameLabel": "Jūsų vardas",
+    "titleLabel": "Antraštė (nebūtina)",
+    "bodyLabel": "Atsiliepimo tekstas",
+    "submit": "Siųsti atsiliepimą",
+    "pendingNotice": "Ačiū. Atsiliepimas pasirodys, kai parduotuvė jį patvirtins.",
+    "signInPrompt": "Prisijunkite, kad paliktumėte atsiliepimą.",
+    "error": "Atsiliepimo išsiųsti nepavyko. Bandykite dar kartą.",
+    "ownerReply": "Parduotuvės atsakymas",
+    "previousPage": "Atgal",
+    "nextPage": "Pirmyn",
+    "pageOf": "Puslapis {page} iš {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Lengvas grąžinimas",
@@ -809,7 +911,8 @@
       "account": "Paskyra",
       "cart": "Krepšelis",
       "home": "Pradžia",
-      "store": "Parduotuvė"
+      "store": "Parduotuvė",
+      "journal": "Žurnalas"
     },
     "menuButton": "Meniu"
   },

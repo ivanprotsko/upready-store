@@ -1,0 +1,23 @@
+mt-storefront ip=10.0.1.29
+=== Host: cherkashino.ru  path: /ru ===
+HTTP/1.1 301 Moved Permanently
+location: https://cherkashino.shipshift.dev/ru
+=== Host: cherkashino.ru  path: /ru/store ===
+HTTP/1.1 301 Moved Permanently
+location: https://cherkashino.shipshift.dev/ru/store
+=== Host: www.cherkashino.ru  path: /ru ===
+HTTP/1.1 301 Moved Permanently
+location: https://cherkashino.shipshift.dev/ru
+=== Host: www.cherkashino.ru  path: /ru/store ===
+HTTP/1.1 301 Moved Permanently
+location: https://cherkashino.shipshift.dev/ru/store
+=== Host: xn--80ajkgrgj8cn.xn--p1ai  path: /ru ===
+HTTP/1.1 301 Moved Permanently
+location: https://cherkashino.shipshift.dev/ru
+=== Host: xn--80ajkgrgj8cn.xn--p1ai  path: /ru/store ===
+HTTP/1.1 301 Moved Permanently
+location: https://cherkashino.shipshift.dev/ru/store
+=== Host: cherkashino.shipshift.dev  path: /ru ===
+HTTP/1.1 200 OK
+=== Host: cherkashino.shipshift.dev  path: /ru/store ===
+HTTP/1.1 200 OK

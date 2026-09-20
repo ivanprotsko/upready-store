@@ -1,0 +1,672 @@
+   ▲ Next.js 15.5.21 (Turbopack)
+   - Local:        http://localhost:8047
+   - Network:      http://192.168.0.72:8047
+   - Experiments (use with caution):
+     ✓ inlineCss
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Compiled middleware in 160ms
+ ✓ Ready in 1395ms
+Middleware.ts: no publishable key for this request (the host resolves to no tenant and NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY is unset). Serving without regions.
+ ○ Compiling /[locale] ...
+ ✓ Compiled /[locale] in 5.5s
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+getTenantHome: /store/tenant/home did not answer; falling back to the stand's own settings Error: Publishable API key required in the request header: x-publishable-api-key. You can manage your keys in settings in the dashboard.
+    at <unknown> (../../src/client.ts:101:11)
+    at Generator.next (<anonymous>) {
+  statusText: 'Bad Request',
+  status: 400
+}
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+listCategories /store/tenant/product-categories: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Received response with status 400
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+getStorefrontSettings: backend unreachable, falling back to the profile's own default composition Error: Publishable API key required in the request header: x-publishable-api-key. You can manage your keys in settings in the dashboard.
+    at <unknown> (../../src/client.ts:101:11)
+    at Generator.next (<anonymous>) {
+  statusText: 'Bad Request',
+  status: 400
+}
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+listCategories /store/tenant/product-categories: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/product-categories?fields=id%2Cname%2Chandle%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Image with src "http://localhost:9023/static/store-profiles/sneakers/home-hero.webp" is using quality "70" which is not configured in images.qualities. This config will be required starting in Next.js 16.
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+listCategories /store/tenant/product-categories: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Performing request to:
+ URL: http://localhost:9022/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+listRegions /store/regions: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Received response with status 400
+
+listTenantArticles: /store/tenant/articles did not answer; the journal renders empty Error: Publishable API key required in the request header: x-publishable-api-key. You can manage your keys in settings in the dashboard.
+    at <unknown> (../../src/client.ts:101:11)
+    at Generator.next (<anonymous>) {
+  statusText: 'Bad Request',
+  status: 400
+}
+Received response with status 400
+
+listCategories /store/tenant/product-categories: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Performing request to:
+ URL: http://localhost:9022/store/products?limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+listCollections /store/collections: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Performing request to:
+ URL: http://localhost:9022/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+listTopCategoriesWithCounts /store/products: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Received response with status 400
+
+listTenantPages: /store/tenant/pages did not answer; the footer renders without the Information links Error: Publishable API key required in the request header: x-publishable-api-key. You can manage your keys in settings in the dashboard.
+    at <unknown> (../../src/client.ts:101:11)
+    at Generator.next (<anonymous>) {
+  statusText: 'Bad Request',
+  status: 400
+}
+ GET /ru 200 in 7978ms
+ │ GET http://localhost:9022/storefront/by-host?host=localhost 404 in 269ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=localhost 404 in 269ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=localhost 404 in 268ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=localhost 404 in 240ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=localhost 404 in 240ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=localhost 404 in 232ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/store/tenant/home 400 in 63ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 98ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 400 in 102ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 111ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 110ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 111ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 22ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 228ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 148ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 265ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 200ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 94ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 400 in 245ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/customers/me?fields=%2Aorders 400 in 246ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 345ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 400 in 41ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/regions?limit=1000 400 in 439ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/articles?locale=ru&limit=1&offset=0 400 in 382ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/product-categories?fields=id%2Cname%2Chandle%2Cparent_category_id%2C%2Acategory_children&limit=100 400 in 384ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/collections?limit=100&offset=0 400 in 84ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/products?limit=1&fields=id 400 in 35ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/pages?locale=ru 400 in 194ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Initiating Medusa client with default headers:
+ {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+listCategories /store/tenant/product-categories: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/home
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/customers/me?fields=%2Aorders
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/regions?limit=1000
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/storefront-settings
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/articles?locale=ru&limit=1&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Performing request to:
+ URL: http://localhost:9022/store/tenant/product-categories?fields=id%2Cname%2Chandle%2Cparent_category_id%2C%2Acategory_children&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+listCategories /store/tenant/product-categories: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Performing request to:
+ URL: http://localhost:9022/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+Received response with status 400
+
+listCategories /store/tenant/product-categories: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Performing request to:
+ URL: http://localhost:9022/store/collections?limit=100&offset=0
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+listRegions /store/regions: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Received response with status 400
+
+Received response with status 400
+
+listCategories /store/tenant/product-categories: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Performing request to:
+ URL: http://localhost:9022/store/products?limit=1&fields=id
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+listCollections /store/collections: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Performing request to:
+ URL: http://localhost:9022/store/tenant/pages?locale=ru
+ Headers: {
+  "accept": "application/json",
+  "content-type": "application/json",
+  "x-medusa-locale": "ru",
+  "authorization": "<REDACTED>"
+}
+
+Received response with status 400
+
+listTopCategoriesWithCounts /store/products: site-wide read failed, rendering the page without it — the Store API answered 400 because this request carried no publishable key, which means the storefront could not tell which shop the request is for. The shop comes from the Host header: `src/middleware.ts` resolves it through `GET /storefront/by-host` and puts the key on `x-tenant-key`, and `lib/config.ts` getPublishableKeyHeader resolves it again from `host` when that header is missing. Check that the request's Host belongs to a tenant and that `GET /storefront/by-host` answers for it.
+Received response with status 400
+
+ GET /ru 200 in 517ms
+ │ GET http://localhost:9022/storefront/by-host?host=cherkashino.localhost 404 in 146ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=cherkashino.localhost 404 in 146ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=cherkashino.localhost 404 in 145ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=cherkashino.localhost 404 in 142ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=cherkashino.localhost 404 in 141ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/storefront/by-host?host=cherkashino.localhost 404 in 138ms (cache skip)
+ │ │ Cache skipped reason: (cache: no-store)
+ │ GET http://localhost:9022/store/tenant/home 400 in 109ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 112ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 115ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 117ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 120ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 400 in 121ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 33ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 43ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 6ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 49ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/home 400 in 18ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 17ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/storefront-settings 400 in 30ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 400 in 51ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/customers/me?fields=%2Aorders 400 in 57ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 400 in 4ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/regions?limit=1000 400 in 48ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/articles?locale=ru&limit=1&offset=0 400 in 70ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/product-categories?fields=id%2Cname%2Chandle%2Cparent_category_id%2C%2Acategory_children&limit=100 400 in 73ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/collections?limit=100&offset=0 400 in 48ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/products?limit=1&fields=id 400 in 7ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))
+ │ GET http://localhost:9022/store/tenant/pages?locale=ru 400 in 16ms (cache skip)
+ │ │ Cache skipped reason: (cache-control: no-cache (hard refresh))

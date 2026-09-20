@@ -415,19 +415,19 @@ export const ProductCreateVariantsSection = ({
   const createDefaultOptionAndVariant = () => {
     form.setValue("options", [
       {
-        title: "Default option",
-        values: ["Default option value"],
+        title: "Опция по умолчанию",
+        values: ["Значение по умолчанию"],
       },
     ])
     form.setValue(
       "variants",
       decorateVariantsWithDefaultValues([
         {
-          title: "Default variant",
+          title: "Вариант по умолчанию",
           should_create: true,
           variant_rank: 0,
           options: {
-            "Default option": "Default option value",
+            "Опция по умолчанию": "Значение по умолчанию",
           },
           inventory: [{ inventory_item_id: "", required_quantity: "" }],
           is_default: true,

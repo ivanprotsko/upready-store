@@ -7,22 +7,42 @@ import {
 } from "@medusajs/medusa/core-flows";
 import createTenantFulfillmentSetStep from "./steps/create-tenant-fulfillment-set";
 import resolveDefaultShippingProfileStep from "./steps/resolve-default-shipping-profile";
+import {
+  defaultCourierAmount,
+  defaultMethodNames,
+  homeCountryForLocale,
+  storeDefaultLocale,
+} from "../../../shipping-tariffs/default-method-names";
+import {
+  PROVISIONED_DEFAULT_TARIFF,
+  TENANT_METHOD_SCHEMA,
+  type TenantMethodData,
+} from "../../../shipping-tariffs/tariff";
 
 export type ProvisionTenantWarehouseWorkflowInput = {
   sales_channel_id: string;
-  /** Names the warehouse, its service zone and (with a suffix) its options. */
+  /** Names the warehouse and its service zone; the options get human names from `default-method-names.ts`. */
   tenant_name: string;
   /** Physical city of the warehouse; two tenants may share one. */
   city?: string | null;
   /** ISO-2 country of the warehouse address. */
   country_code?: string;
+  /** Locale the two default method names are written in; the store default when omitted. */
+  locale?: string | null;
 };
 
 /** The one fulfillment provider this starter ships with (`manual_manual`). */
 const DEFAULT_PROVIDER_ID = "manual_manual";
-/** Placeholder flat tariffs; the tenant edits these once it owns real rates. */
+/**
+ * Pickup is free because the buyer collects the parcel herself; that one is a
+ * fact, not a placeholder. The courier price comes from
+ * `defaultCourierAmount(currency)` — a starting number per currency, marked
+ * `tariff_source: "provisioned-default"` so the panel asks the owner to
+ * confirm it, and described to the buyer as a price the shop confirms.
+ */
 const DEFAULT_PICKUP_AMOUNT = 0;
-const DEFAULT_COURIER_AMOUNT = 10;
+/** Fallback weight (grams) for a cart line whose variant has none, until the tenant sets its own. */
+const DEFAULT_ITEM_WEIGHT_G = 500;
 
 /**
  * Gives one tenant its own warehouse so its storefront can check out from the
@@ -33,7 +53,9 @@ const DEFAULT_COURIER_AMOUNT = 10;
  * put every tenant on shared inventory and shared shipping options. Here each
  * tenant gets exactly one stock location, one base service zone covering every
  * country the store has a region for, and two flat shipping options (pickup +
- * courier, provider `manual_manual`). The tenant reprices later.
+ * courier, provider `manual_manual`) named in the store's default locale
+ * («Самовывоз» / «Курьером» for ru). The tenant renames and reprices them on
+ * /shipping in the panel.
  *
  * Isolation is the sales-channel <-> stock-location link: a cart in a tenant's
  * channel resolves shipping options through that tenant's warehouse alone. Two
@@ -56,9 +78,15 @@ const provisionTenantWarehouseWorkflow = createWorkflow(
 
     const shippingProfileId = resolveDefaultShippingProfileStep();
 
-    const geography = transform({ regions }, ({ regions }) => {
+    const geography = transform({ regions, input }, ({ regions, input }) => {
       const countries = new Set<string>();
       const currencies = new Set<string>();
+      // The store has one region per country, so «the shop's own currency» is
+      // the currency of the region covering the country it ships from — the
+      // same resolution `api/tenants/shipping-methods/helpers.ts` uses for the
+      // price the panel shows.
+      const homeCountry = homeCountryForLocale(input.locale ?? storeDefaultLocale());
+      let homeCurrency: string | null = null;
       for (const region of regions) {
         if (region.currency_code) {
           currencies.add(region.currency_code);
@@ -66,12 +94,17 @@ const provisionTenantWarehouseWorkflow = createWorkflow(
         for (const country of region.countries ?? []) {
           if (country?.iso_2) {
             countries.add(country.iso_2);
+            if (country.iso_2 === homeCountry && region.currency_code) {
+              homeCurrency = region.currency_code;
+            }
           }
         }
       }
+      const currency_codes = Array.from(currencies);
       return {
         country_codes: Array.from(countries),
-        currency_codes: Array.from(currencies),
+        currency_codes,
+        home_currency: homeCurrency ?? currency_codes[0] ?? "usd",
       };
     });
 
@@ -123,40 +156,52 @@ const provisionTenantWarehouseWorkflow = createWorkflow(
           { attribute: "enabled_in_store", value: "true", operator: "eq" as const },
           { attribute: "is_return", value: "false", operator: "eq" as const },
         ];
+        const names = defaultMethodNames(input.locale ?? storeDefaultLocale());
+        // The same `data` shape the panel writes for a method the owner
+        // creates (`src/api/tenants/shipping-methods`), so the two defaults
+        // show up on /shipping as editable flat methods in the base zone.
+        const methodData = (
+          sortOrder: number,
+          copy: { description: string; delivery_hint: string | null },
+          amount: number,
+          unconfirmed: boolean,
+        ): TenantMethodData => ({
+          schema: TENANT_METHOD_SCHEMA,
+          tariff: { kind: "flat", amount },
+          description: copy.description,
+          delivery_hint: copy.delivery_hint,
+          sort_order: sortOrder,
+          default_weight_g: DEFAULT_ITEM_WEIGHT_G,
+          own_zone: false,
+          zone: null,
+          ...(unconfirmed ? { tariff_source: PROVISIONED_DEFAULT_TARIFF } : {}),
+        });
         const option = (
           code: string,
-          name: string,
-          label: string,
-          description: string,
-          amount: number,
+          copy: { name: string; description: string; delivery_hint: string | null },
+          amountFor: (currencyCode: string) => number,
+          sortOrder: number,
+          unconfirmed: boolean,
         ) => ({
-          name,
+          name: copy.name,
           price_type: "flat" as const,
           provider_id: DEFAULT_PROVIDER_ID,
           service_zone_id: fulfillmentSet.service_zone_id,
           shipping_profile_id: shippingProfileId,
-          type: { label, description, code },
+          type: { label: copy.name, description: copy.description, code },
+          // The tariff the panel edits is the price in the shop's own
+          // currency; the price rows carry the same method in every currency
+          // the store sells in, so a 300 ₽ courier is not also a 300 $ one.
+          data: methodData(sortOrder, copy, amountFor(geography.home_currency), unconfirmed),
           prices: geography.currency_codes.map((currency_code) => ({
             currency_code,
-            amount,
+            amount: amountFor(currency_code),
           })),
           rules,
         });
         return [
-          option(
-            "pickup",
-            `${input.tenant_name} pickup`,
-            "Pickup",
-            "Pick up at the warehouse.",
-            DEFAULT_PICKUP_AMOUNT,
-          ),
-          option(
-            "courier",
-            `${input.tenant_name} courier`,
-            "Courier",
-            "Courier delivery.",
-            DEFAULT_COURIER_AMOUNT,
-          ),
+          option("pickup", names.pickup, () => DEFAULT_PICKUP_AMOUNT, 0, false),
+          option("courier", names.courier, defaultCourierAmount, 1, true),
         ];
       },
     );

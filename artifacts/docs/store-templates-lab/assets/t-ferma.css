@@ -1,0 +1,35 @@
+/* СГЕНЕРИРОВАНО node build.mjs из src/templates/ferma.json — шаблон «Натуральные продукты» */
+:root {
+  --font-display: "Cormorant Garamond", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --grid-cols: 4;
+  --aspect-card: 4 / 5;
+  --aspect-tile: 3 / 2;
+  --aspect-hero: 16 / 9;
+  --aspect-gallery: 4 / 5;
+  --aspect-thumb: 4 / 5;
+  --media-fit: contain;
+  --background: #fbfaf7;
+  --foreground: #1c2620;
+  --card: #ffffff;
+  --card-foreground: #1c2620;
+  --popover: #ffffff;
+  --popover-foreground: #1c2620;
+  --primary: #274534;
+  --primary-foreground: #fbfaf7;
+  --secondary: #f1efe8;
+  --secondary-foreground: #1c2620;
+  --muted: #e9e6dc;
+  --muted-foreground: #4d574f;
+  --accent: #f0e4d6;
+  --accent-foreground: #5a3517;
+  --border: #e0dccf;
+  --input: #e0dccf;
+  --ring: #274534;
+  --link: #1a5f41;
+  --destructive: #9c2f26;
+  --destructive-foreground: #ffffff;
+  --success: #1f6340;
+  --warning: #7a4d0c;
+  --surface-media: #f1efe8;
+}

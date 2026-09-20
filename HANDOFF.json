@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-14T21:54:55+08:00",
-  "status": "2026-09-14 21:54 WITA: upready.dev заменён на страницу агентства из ~/Downloads/upready-dev (Pages upready-landing, деплой 62ebca64, источник ~/upready/projects/upready-dev@48b9342). Прежняя сборка apps/homepage/port снята с домена, но жива: fbdb8855.upready-landing.pages.dev (OFFLINE-NOTICE.md, коммит a478a7c). DNS не трогался, простоя не было; start/panel/hooks по 200. Открыто: @username из формы никуда не уходит, правовые — модалки без URL.",
+  "updated": "2026-09-18T10:07:19+08:00",
+  "status": "2026-09-18 10:07 WITA: штаб после /clear (сессия 2782e8c7): ответы Ивану на 09:46 замером по стенограммам (старт 88.0k токенов = 38.0k префикс + 50.0k первое сообщение, CLAUDE.md ≈42k; 27 сжатий manual, после сжатия 79–109k; Superset считает «сессию» по файлу стенограммы — каждый сабагент отдельно); заказ 09:06 исполняется: DONE снят, диспетчер pid 49437 отвязан, сторож Monitor, волна gw01–gw14 (7 flash / 7 pro, приёмка sonnet) запущена, квота Gemini five-hour 100 % на старте; далее ledger + сводка r06",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1208,63 +1208,97 @@
       "id": "q-lending-upready-dev-vo-vseh",
       "question": "Лендинг upready.dev во всех трёх тарифах обещает «Telegram Mini App» (подсказка: каталог, корзина и оплата внутри мессенджера), а feature/telegram-miniapp (PR #5) пропущен по твоему же указанию. Для заявки в tribute.top это страница, по которой смотрят сервис. Что делаем: поднимаем мини-приложение или убираем/смягчаем строку в apps/homepage/port/src/sections/tariffs/data.ts (строки 125, 156, 196 + TELEGRAM_HINT)?",
       "asked": "2026-09-14"
+    },
+    {
+      "id": "q-volna-deploya-2-dlya-kontentnyh",
+      "question": "Волна деплоя 2 для контентных страниц тенанта cherkashino. Замер 2026-09-15 04:1x: /ru/pages/{offer,contacts,privacy} отдают 404, /ru/pages/about — английский текст, при этом русские строки ЗАПИСАНЫ и опубликованы (offer 19274 б, privacy 15821 б, contacts 3417 б, about 561 б — GET /tenants/pages?locale=ru под владельцем). Потребитель прочитан в задеплоенном sha bd4ced7: apps/backend/src/api/store/tenant/pages/[key]/route.ts:26 подставляет locale: DEFAULT_PAGE_LOCALE (исходниковая константа \"en\" в page-helpers.ts:24, НЕ env — process.env её нигде не читает), селектора-ветки нет, запрос безусловный; ?locale=ru задеплоенный маршрут игнорирует. Фикс (requestedPageLocale + pickPageForLocale с фолбэком) уже в dev коммитом 8b8b482 (PR #21), пришёл ПОСЛЕ деплоя bd4ced7. Рекомендация: выкатить dev >= 8b8b482 — страницы станут русскими без повторного импорта, данные уже лежат. Деплой только по команде Ивана (21c), сам не деплоил.",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-peremezhayuschiysya-502-na-post-auth",
+      "question": "Перемежающийся 502 на POST /auth/tenant/emailpass движка shipshift.dev. Замер 2026-09-15 04:2x: 30 последовательных запросов с заведомо неверным паролем → 29 x 401 и 1 x 502 (~3%), при этом /health 10/10 = 200 — health этого не показывает. За прогон x01 уронил импорт трижды (фазы images, pages, замер картинок), обошёл ретраями. На этом же будет спотыкаться панель владельца и мастер онбординга. Рекомендация: снять логи mt-backend за сутки по auth-маршруту (docker logs mt-backend --since 24h | grep -i auth) и решить, это воркер/пул БД или ingress; завести задачу — сам задачу не заводил (22j).",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-kakoy-cname-adres-panel-vladeltsa-pokazyvaet",
+      "question": "Какой CNAME-адрес панель владельца показывает вживую? В бандле mt-panel (/assets/index-BgEosJYB.js, образ от 2026-09-14) нет ни одной строки stores.*, хотя STORES_DOMAIN=stores.shipshift.dev на стенде задан. Фолбэк в коде (apps/tenant-panel/src/routes/settings/domains/domains.tsx:45) — stores.upready.dev, который НЕ резолвится. Если панель показывает фолбэк, владельцам выдаётся нерабочая инструкция. Проверяется открытием https://panel-store.upready.dev → Настройки → Адрес магазина.",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-dispetcher-dnya-2026-09-16-oksana-cherkashina",
+      "question": "Диспетчер дня 2026-09-16 (Оксана Черкашина) запустил ДВА процесса-воркера на один и тот же таск t07-catalog-filters-hero в один и тот же worktree одновременно (PID 99137+99144, разные SUPERSET_TERMINAL_ID, общий SUPERSET_WORKSPACE_PATH) — оба конкурентно правили те же файлы. Я убил дубликат (99137) и продолжил. Не проверял, был ли этот баг у остальных тасков дня (t05/t06/t08…) — стоит проверить superset ws list на дубли workspace/agent на один task_id и почему dispatcher.mjs это допустил.",
+      "asked": "2026-09-15",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-t08-prinyat-pr-28-merged",
+      "question": "t08 принят (PR #28 MERGED), но сквозная проверка Telegram на БОЕВОМ боте не делалась: нужна одна строка «шли тестовое в мой чат» (отправка наружу, гейт 17b). Плюс живой бот на хосте пока не умеет привязку — в /opt/upready-store-bot/.env нет UPREADY_BACKEND_URL и TELEGRAM_LINK_SECRET, порядок выкатки в apps/bot/DEPLOY.md",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-git-push-origin-dev-zablokirovan",
+      "question": "git push origin dev заблокирован: локальный dev разошёлся с origin (15 непушенных локальных коммитов против 6 на origin — журналы приёмки t03/t05/t06/t07/t08/x01/x02 плюс два чекпойнта d02, все сделаны сегодня разными параллельными сессиями диспетчера дня в ОДНОМ общем checkout upready-store). git rebase origin/dev упёрся в конфликт в HANDOFF.json уже на 3-м из 15 коммитов (2fb6165, статус t03) — не резолвил сам, rebase --abort, откатился без потерь. Мой коммит 7c0978b (d02-deploy-mt-2, отчёт о деплое) остался локально, не запушен. Нужно решение: либо ручной разбор конфликтов HANDOFF.json по всем 15 коммитам, либо переиграть журналы через handoff.mjs заново на чистом origin/dev. Похоже на системную проблему диспетчера дня — общий checkout вместо per-task worktree (rule 21e).",
+      "asked": "2026-09-15",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-priemka-f03-pr-42-smerzhen",
+      "question": "Приёмка f03 (PR #42, смержен) замерила: GET /store/orders/:id отдаёт заказ БЕЗ авторизации вообще, только по publishable-ключу (http=200 без Bearer; чужой аккаунт по прямой ссылке /ru/account/orders/details/<id> видит состав, адрес доставки и телефон покупателя). Это ядровой маршрут Medusa 2.19, не дефект PR #42. Завести задачу вместе с уже названной автором '/store/orders ограничить каналом продаж publishable-ключа'?",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-podtverzhdat-li-e-mail-pri-registratsii",
+      "question": "Подтверждать ли e-mail при регистрации покупателя (сейчас регистрация не проверяет адрес, и после f03 аккаунт на чужой адрес видит гостевые заказы этого адреса)?",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-ogranichivat-li-get-store-orders",
+      "question": "Ограничивать ли GET /store/orders каналом продаж publishable-ключа (сейчас заказы одного магазина видны в кабинете другого)?",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-volna-5-c01-chetyre-pr",
+      "question": "Волна 5 c01: четыре PR вне миссии Оксаны открыты с 13–14 сентября — #5 telegram-miniapp (упирается в токен бота), #7 калькулятор себестоимости, #8 market-intelligence (ветка была форк-точкой инцидента aie-20260914-041518-8d97), #20 снятие сборки homepage с upready.dev. Принимаем их отдельной волной после магазина Оксаны или закрываем как отложенные? Список и контекст — artifacts/c01-wave5-composer/needs-ivan.md, раздел C",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-vshivat-li-backfill-tenant-locale-settings-v-docker-entrypoi",
+      "question": "Вшивать ли backfill-tenant-locale-settings в docker-entrypoint.sh? Без него sitemap живого магазина Оксаны останется на 36 языках (у тенанта нет строки tenant_locale_settings, фолбэк задан задачей b08). Скрипт идемпотентен, но меняет переключатель языков у ВСЕХ 12 магазинов платформы с 36 языков до двух — воркер b08 сознательно не принял это решение сам, приёмка (PR #69) с ним согласна.",
+      "asked": "2026-09-16"
+    },
+    {
+      "id": "q-yandeks-id-posle-merzha-pr",
+      "question": "Яндекс ID после мержа PR #72: (1) приложение в кабинете Яндекса НЕ верифицировано — на экране согласия покупатель видит «Сервис ещё не верифицирован», для боевого магазина это закрывается в кабинете Ивана; (2) Redirect URI регистрируется по одному на каждый хост витрины (/api/yandex-callback) — альтернатива «один колбэк на shipshift.dev + пересылка по подписанному state» описана в docs/auth-yandex.md, переезжать имеет смысл, когда магазинов станет больше, чем хочется регистрировать руками; (3) в истории ветки feat/day16-yandex-id-auth (коммит afbca245) остался личный логин Яндекс-аккаунта Ивана — в dev он не уехал (squash), чистить историю или нет — решение Ивана",
+      "asked": "2026-09-16"
+    },
+    {
+      "id": "q-nahodka-priemki-w10-k-chuzhoy",
+      "question": "Находка приёмки w10 (к ЧУЖОЙ задаче, чинить отдельно): файл artifacts/docs/2026-09-10-mt-vendors-acceptance.md на dev несёт НАСТОЯЩИЕ наши tenant-admin JWT (строки 106, 110, 227) — это артефакт приёмки от 2026-09-10, не этого PR. Токены наши собственные и, вероятно, давно протухли, но выписаны в git целиком. Решение штаба: вычистить файл или оставить",
+      "asked": "2026-09-16"
+    },
+    {
+      "id": "q-pr-74-w07-zhdet-verdikta",
+      "question": "PR #74 (w07) ждёт вердикта: раунд 1 оборван выключением машины, раунд 2 умер на протухшем OAuth. Существо перемерено и зелёное (20 связей, 0 новых товаров, обложка не сдвинулась ни у одного из 88 товаров, юниты 54/54) — замеры в handoff/day-2026-09-16-oksana-store/logs/accept-w07-tenant-catalog-enrich-2.measurements.md, повторять не нужно. Осталось: typecheck бэкенда и панели, раздел «аналог Ozon», три пары скриншотов глазами. Найден дефект, решать блокер ли: в режиме --dry-run каждая характеристика типа select безусловно считается «к записи» (apps/backend/src/catalog-enrich/apply.ts:465), поэтому повторный dry-run вечно показывает 14 вместо нуля, хотя сам apply идемпотентен. Важно для d07: именно dry-run — страховка перед живым хостом",
+      "asked": "2026-09-16"
+    },
+    {
+      "id": "q-q-superset-workspaces-quota",
+      "question": "q-superset-workspaces-quota",
+      "asked": "2026-09-16"
+    },
+    {
+      "id": "q-zavesti-zadachey-defekt-naydennyy-dvazhdy",
+      "question": "Завести задачей дефект, найденный дважды независимо (приёмкой w07 и исполнителем d07, раздел 10 его отчёта): apps/backend/src/catalog-enrich/apply.ts:465 — в режиме --dry-run каждая характеристика типа select безусловно считается «к записи» без сравнения с сохранённым значением, поэтому холостой прогон завышает счётчик (102 против 76 реально записанных на проде) и никогда не сходится к нулю на уже обогащённом каталоге. Код уже на dev. Важно потому, что именно dry-run служит страховкой перед прогоном на живом хосте. Плюс смежное замечание из отчёта d07: отзывы WB ввозятся только на локаль ru, на /en их не будет",
+      "asked": "2026-09-16"
+    },
+    {
+      "id": "q-inn-lookup-watcher-nuzhna-li",
+      "question": "inn_lookup watcher: нужна ли отдельная сессия @ivanprotsko (интерактивный логин) для 24/7 без риска коллизии с .tg_session/.tg_session_cc, и поднимать ли демон как launchd-сервис?",
+      "asked": "2026-09-18",
+      "audience": "ivan"
     }
   ],
   "sessions": [
-    {
-      "date": "2026-09-06",
-      "label": "store-ds-2",
-      "task_ids": [
-        "t-ds-0-foundation",
-        "t-ds-1-seam-tests",
-        "t-ds-0b-theme-presets-panel"
-      ],
-      "summary": "Approved and started t-ds-0-foundation and t-ds-1-seam-tests; resolved q-ds-target-library (a), q-ds-visual-canon (a), q-store-remote (private repo created, origin repointed, dev pushed over SSH after HTTPS 400); wrote 00-program §11, theme presets + hidden panel brief, theme-preset.schema.json; memory + knowledge-index updated (memory 826f9f7)"
-    },
-    {
-      "date": "2026-09-06",
-      "label": "store-ds-3",
-      "task_ids": [
-        "t-ds-0-foundation",
-        "t-ds-1-seam-tests"
-      ],
-      "summary": "Revision 3: Ivan's day goal → T0j/T0k brief; T0e after; push guard fixed (flow-style branches); merge 0cb4a36 accepted; d3 handover; B unblocked; A reached via emit; ai-err aie-20260906-082415-81ec (asked Ivan to relay a message)."
-    },
-    {
-      "date": "2026-09-06",
-      "label": "store-ds-4",
-      "task_ids": [
-        "t-ds-0-foundation",
-        "t-ds-1-seam-tests"
-      ],
-      "summary": "Status read-out for Ivan: both orchestrator sessions gone from ListAgents, work stalled since 09:14 (7 h), results uncommitted in both worktrees, :8002 down, e2e 0/17 verified; 4 ACT records of the update channel reported (single consumer apps/ui-smoke already pinned above them, ack held until the code is in git); no code touched this session."
-    },
-    {
-      "date": "2026-09-06",
-      "label": "store-ds-5",
-      "task_ids": [
-        "t-ds-0-foundation",
-        "t-ds-1-seam-tests",
-        "t-select-allowlist-gap"
-      ],
-      "summary": "Solo, no agents. feat/ds-foundation: committed T0c (dc439f6), T0f (a0e5a67) plus the excludes fix (7c1a2d7), T0d (096f7f9), T0g ui-smoke (a0ac356) and the T0e not-accepted note (1afb627), rebased onto dev@552de62, conflict on ui-inventory.schema.json resolved in favour of the architect version already on dev (b8b6d40). All gates re-run by me: tsc 0, next lint clean, next build 0, ui-lab:test 19 passed (1.2m) with 353 case-viewports and 0 dimensions differ, ui-smoke tsc/build 0 and 1 passed against the shared backend on 9022. Three worker defects fixed with evidence: the missing propsUsedByComponent rollup, two damaged cells in token-map.json, and T0d tailwind globs overwritten by the T0e migration. T0e itself not committed as code — it reached the app as symlinks in node_modules and dies on pnpm install; kept as a patch plus a status note. feat/seam-tests: vitest 25 files / 709 passed + 18 expected fail / coverage statements 92.93 percent, e2e on :8002 in docker 11 passed and 6 failed, every failure traced to a measured cause — four test defects, one harness limit (Secure cookies over plain http on host.docker.internal), one real product defect (header inside main, no banner landmark). Funnel acceptance NOT met. Two questions and two backlog tasks opened."
-    },
-    {
-      "date": "2026-09-07",
-      "label": "store-ds-9",
-      "task_ids": [
-        "t-store-profiles-pilot"
-      ],
-      "summary": "Architect only, no agents. Ivan's ten-store-versions directive → prompt-features extraction (14 features, validate ok), program with 8 forks decided and 10 profiles specified, 3 JSON schemas (Ajv strict), English orchestrator brief S0–S8 for the sneakers pilot, worktree feat/store-profiles, two estimates. Measured: backend static serving 200, seed price/translation structure, Replicate model pages (nano-banana-2 14 refs, flux-2-pro 8 refs, flux-1.1-pro-ultra 0.06 USD; nano-banana-2/flux-2-pro prices not visible). Two questions opened (WIP, deploy topology)."
-    },
-    {
-      "date": "2026-09-08",
-      "label": "architect-window-disabled-remeasure",
-      "task_ids": [
-        "t-store-profiles-pilot"
-      ],
-      "summary": "Перемер d-11 в архитекторском окне: 4.60:1 худшее из 16 ячеек «пресет × режим» на живом :8081 при цели 4.5:1; вписано с датой и списком семи пресетов в вердикт и реестр (коммит 20c40cb, dev запушен). Попутно: свод вердикта считал «десять закрыто, два открыто» против собственной таблицы (одиннадцать, два, один) — исправлено. Инцидент машины: диск был на 100% (120 МиБ свободно из 926 ГиБ), мой же вызов упал с ENOSPC; освобождено 1.2 ГиБ устаревшего скретча чужой сессии app-shell в /private/tmp, стенды не тронуты."
-    },
     {
       "date": "2026-09-12",
       "label": "storefront-wave2-executor",

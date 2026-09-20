@@ -62,6 +62,11 @@
     "description": "Teslimat adreslerinizi görüntüleyin ve güncelleyin, istediğiniz kadar adres ekleyebilirsiniz. Adreslerinizi kaydetmek, ödeme sırasında bunları kullanılabilir hale getirir.",
     "heading": "Teslimat Adresleri"
   },
+  "AnalyticsConsent": {
+    "message": "Ziyaretçilerin bu siteyi nasıl kullandığını anlamak için çerezler kullanıyoruz.",
+    "accept": "Kabul et",
+    "decline": "Reddet"
+  },
   "Breadcrumb": {
     "home": "Ana Sayfa",
     "store": "Mağaza"
@@ -98,6 +103,25 @@
     "title": "Kategoriler",
     "viewAll": "Tümünü gör"
   },
+  "CdekPoint": {
+    "heading": "CDEK teslim noktası",
+    "chooseHeading": "CDEK teslim noktası seçin",
+    "searchPlaceholder": "Adrese veya metroya göre arayın",
+    "cityLabel": "Şehir",
+    "cityPlaceholder": "Şehir yazmaya başlayın",
+    "choose": "Seç",
+    "chosen": "Seçildi",
+    "found": "Bulunan teslim noktası: {count}",
+    "noResults": "{city} şehrinde teslim noktası bulunamadı.",
+    "needCity": "Teslim noktalarını görmek için teslimat şehrinizi girin.",
+    "loading": "Teslim noktaları yükleniyor…",
+    "notConfigured": "Bu mağazada CDEK teslimatı henüz ayarlanmadı.",
+    "change": "Noktayı değiştir",
+    "tabList": "Liste",
+    "tabMap": "Harita",
+    "mapEmpty": "Bu şehir için haritada gösterilecek teslim noktası yok.",
+    "mapFailed": "Harita kullanılamıyor. Listeden bir nokta seçin."
+  },
   "CheckoutPage": {
     "addNewAddress": "Yeni adres ekle",
     "addressHeading": "Teslimat Adresi",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} ürün} other {{count} ürün}}",
     "legal": "«Öde» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
+    "addressIncomplete": "Adresin zorunlu alanlarını doldurun. Şehir ve posta kodu olmadan sipariş gönderilemez.",
     "orderComposition": "Sipariş Özeti",
     "paymentHeading": "Ödeme yöntemi",
     "recipientCheckbox": "Alıcı farklı bir kişi",
@@ -145,7 +170,16 @@
     "shippingLink": "Kargo",
     "shippingUnavailable": "Kullanılabilir teslimat yöntemi yok",
     "signIn": "Giriş yap",
-    "total": "Toplam"
+    "total": "Toplam",
+    "shippingZone": "Bölge: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Hesapsız mı sipariş verdiniz?",
+    "description": "Aynı e-posta adresiyle misafir olarak sipariş verdiyseniz, o siparişleri hesabınıza bağlarız.",
+    "button": "Siparişlerimi bul",
+    "claimed": "Bağlanan sipariş: {count}",
+    "none": "Bu mağazada e-posta adresinize ait misafir siparişi bulunamadı.",
+    "failed": "Siparişlerinizi kontrol edemedik. Birazdan tekrar deneyin."
   },
   "Common": {
     "clear": "Temizle",
@@ -306,8 +340,12 @@
     "unauthorized": "Devam etmek için lütfen giriş yapın."
   },
   "Filters": {
+    "from": "en az",
+    "no": "Hayır",
     "sort": "Sırala",
-    "title": "Filtreler"
+    "title": "Filtreler",
+    "to": "en çok",
+    "yes": "Evet"
   },
   "Footer": {
     "categoriesHeading": "Kategoriler",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Kapat",
+    "counter": "{total} görselden {index}.",
     "goToImage": "{index}. görsele git",
-    "openFullImage": "Görseli tam boyutta aç"
+    "nextImage": "Sonraki görsel",
+    "openFullImage": "Görseli tam boyutta aç",
+    "previousImage": "Önceki görsel",
+    "showImage": "{index}. görseli göster",
+    "thumbnails": "Ürün küçük görselleri"
+  },
+  "Journal": {
+    "navLabel": "Dergi",
+    "feedTitle": "Dergi",
+    "feedDescription": "{siteName} yazıları.",
+    "empty": "Henüz yazı yok.",
+    "backToFeed": "Tüm yazılar",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "pageOf": "Sayfa {page} / {lastPage}",
+    "pagination": "Dergi sayfaları",
+    "readingTime": "{minutes} dk okuma",
+    "related": "Bunu da okuyun",
+    "share": "Paylaş",
+    "copyLink": "Bağlantıyı kopyala",
+    "linkCopied": "Bağlantı kopyalandı",
+    "allCategories": "Tüm konular",
+    "categories": "Konular"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Bize katılın",
     "notMember": "Üye değil misiniz?",
     "password": "Şifre",
-    "signIn": "Giriş yap"
+    "signIn": "Giriş yap",
+    "yandexCta": "Yandex ID ile giriş yap",
+    "yandexDivider": "veya",
+    "yandexErrorDenied": "Yandex sayfasında girişi iptal ettiniz.",
+    "yandexErrorEmailTaken": "Bu e-posta adresiyle zaten bir hesap var. Şifrenizle giriş yapın.",
+    "yandexErrorExpired": "Bu giriş bağlantısının süresi doldu. Baştan başlayın.",
+    "yandexErrorFailed": "Giriş tamamlanamadı. Birazdan tekrar deneyin.",
+    "yandexErrorNoEmail": "Yandex bir e-posta adresi paylaşmadı, bu yüzden hesap oluşturulamıyor.",
+    "yandexErrorRejected": "Yandex bu girişi doğrulayamadı. Lütfen tekrar deneyin.",
+    "yandexErrorUnconfigured": "Bu mağazada Yandex ile giriş henüz açık değil."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Detayları gör"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Sipariş numaranızı saklayın. Mağazayla iletişime geçerken gerekecek.",
     "orderSuccess": "Siparişiniz başarıyla oluşturuldu.",
     "thankYou": "Teşekkürler!"
   },
   "OrderDetails": {
     "backToOrders": "Siparişlere dön",
-    "confirmationSentBefore": "Sipariş onay bilgilerini şu adrese gönderdik:",
+    "contactEmailBefore": "Bu siparişin iletişim adresi",
     "fulfillmentStatuses": {
       "canceled": "İptal edildi",
       "delivered": "Teslim edildi",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Ödeme hâlâ onaylanıyor. Bir dakika bekleyip siparişinizi hesabınızdan açın ya da yeniden deneyin.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Takip numarası"
   },
   "OrdersPage": {
     "description": "Önceki siparişlerinizi ve durumlarını görüntüleyin.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Öde",
+    "redirectUnavailable": "Ödeme sayfası henüz hazır değil. Birazdan tekrar deneyin.",
     "selectPaymentMethod": "Bir ödeme yöntemi seçin"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Kredi kartı",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kredi kartı",
@@ -682,6 +758,14 @@
     "selectOptions": "Seçenekleri Seç",
     "selectVariant": "Varyant seçin"
   },
+  "ProductAttributes": {
+    "no": "Hayır",
+    "title": "Özellikler",
+    "yes": "Evet"
+  },
+  "ProductInfo": {
+    "description": "Açıklama"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kuruluma yönetim panelinde devam et",
     "continueSetup": "Artık yönetim panelinden mağaza kurulumuna devam edebilirsiniz.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Tümünü gör"
+  },
+  "ProductReviews": {
+    "heading": "Değerlendirmeler",
+    "ratingSummary": "5 üzerinden {average} · {count, plural, one {# değerlendirme} other {# değerlendirme}}",
+    "ratingValue": "5 üzerinden {value}",
+    "formHeading": "Değerlendirmeniz",
+    "ratingLabel": "Puan",
+    "nameLabel": "Adınız",
+    "titleLabel": "Başlık (isteğe bağlı)",
+    "bodyLabel": "Değerlendirme metni",
+    "submit": "Değerlendirmeyi gönder",
+    "pendingNotice": "Teşekkürler. Değerlendirmeniz mağaza onayladıktan sonra görünecek.",
+    "signInPrompt": "Değerlendirme yazmak için giriş yapın.",
+    "error": "Değerlendirme gönderilemedi. Tekrar deneyin.",
+    "ownerReply": "Mağazanın yanıtı",
+    "previousPage": "Önceki",
+    "nextPage": "Sonraki",
+    "pageOf": "Sayfa {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Kolay iade",
@@ -809,7 +911,8 @@
       "account": "Hesap",
       "cart": "Sepet",
       "home": "Ana Sayfa",
-      "store": "Mağaza"
+      "store": "Mağaza",
+      "journal": "Dergi"
     },
     "menuButton": "Menü"
   },

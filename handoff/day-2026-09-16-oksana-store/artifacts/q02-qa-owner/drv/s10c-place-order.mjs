@@ -1,0 +1,17 @@
+import { launch, shot, timedGoto, save, SHOP } from './lib.mjs';
+const { browser, page, errors } = await launch({storage:false});
+const log=[];
+await timedGoto(page, SHOP + '/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino', {waitUntil:'load'});
+await page.waitForTimeout(5000);
+await page.locator('button:has-text("В корзину")').first().click(); await page.waitForTimeout(6000);
+await timedGoto(page, SHOP + '/ru/checkout', {waitUntil:'load'}); await page.waitForTimeout(7000);
+await shot(page,'s10-checkout');
+const t=(await page.evaluate(()=>document.body.innerText)).replace(/\n{2,}/g,'\n');
+log.push('CHECKOUT:\n'+t.slice(0,1500));
+const ins = await page.$$eval('input,select,textarea', e=>e.map(x=>({n:x.name,ph:x.placeholder,t:x.type,id:x.id})));
+log.push('INPUTS '+JSON.stringify(ins));
+const btns = await page.$$eval('button', e=>[...new Set(e.map(x=>(x.innerText||'').trim()))].filter(Boolean));
+log.push('BTNS '+JSON.stringify(btns));
+console.log(log.join('\n'));
+save('s10-checkout.json',{log,errors});
+await browser.close();

@@ -28,7 +28,13 @@ import { DEFAULT_REGION } from "@lib/util/env"
 export async function retrieveCart(cartId?: string, fields?: string) {
   const id = cartId || (await getCartId())
   fields ??=
-    "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name"
+    // `+shipping_methods.data` (i02-apiship-cdek-shipping): the CDEK provider
+    // writes the chosen pickup point, the tariff and the delivery term there,
+    // and the checkout card prints them. Without this field the buyer picks a
+    // point and the card never says which one — measured on the stand
+    // 2026-09-16, the flow otherwise complete (radio selected, 185 ₽ in the
+    // totals) and the point line simply absent.
+    "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name, +shipping_methods.data"
 
   if (!id) {
     return null
@@ -241,16 +247,28 @@ export async function deleteLineItem(lineId: string) {
 export async function setShippingMethod({
   cartId,
   shippingMethodId,
+  data,
 }: {
   cartId: string
   shippingMethodId: string
+  /**
+   * Handed to the provider's `validateFulfillmentData` and stored on the
+   * cart's shipping method. A CDEK pickup method needs `cdek_point_code` here
+   * (i02-apiship-cdek-shipping); every other method sends nothing.
+   */
+  data?: Record<string, unknown>
 }) {
   const headers = {
     ...(await getAuthHeaders()),
   }
 
   return sdk.store.cart
-    .addShippingMethod(cartId, { option_id: shippingMethodId }, {}, headers)
+    .addShippingMethod(
+      cartId,
+      data ? { option_id: shippingMethodId, data } : { option_id: shippingMethodId },
+      {},
+      headers
+    )
     .then(async () => {
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)
@@ -470,7 +488,23 @@ export async function placeOrder(cartId?: string) {
     revalidateTag(orderCacheTag)
 
     removeCartId()
-    redirect(`/${locale ?? defaultLocale}/order/${cartRes?.order.id}/confirmed`)
+    /*
+     * `order_token` rides along with the completion response
+     * (`api/store/cart-scope.ts` attachOrderAccessToken). Since
+     * b07-store-api-isolation the Store API refuses `GET /store/orders/:id` to
+     * anyone who is neither the order's owner nor holding this token, and a
+     * guest buyer is neither logged in nor anything else — so the token has to
+     * travel to the confirmation page in the URL, the way the order link in
+     * the email does. A buyer who IS logged in reaches the same page through
+     * their session, and the parameter is simply unused.
+     */
+    const orderToken = (cartRes as { order_token?: string }).order_token
+    const confirmedPath = `/${locale ?? defaultLocale}/order/${cartRes?.order.id}/confirmed`
+    redirect(
+      orderToken
+        ? `${confirmedPath}?token=${encodeURIComponent(orderToken)}`
+        : confirmedPath
+    )
   }
 
   return cartRes.cart

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 21,
+  "action": "status-set",
+  "ts": "2026-09-16T06:30:22+08:00",
+  "status": "2026-09-16 06:30 WITA: приёмка w20-wb-write-core раунд 1 — REJECTED (PR #75). Ядро ворот/реестра/dry-run измерено зелёным (unit 45/484 rc=0, tsc rc=0), не выполнены API write-settings + раздел панели со скриншотом и раздел «Конкурент»/«аналог Ozon» в отчёте. Находки: handoff/day-2026-09-16-oksana-store/logs/accept-w20-wb-write-core-1.findings.md"
+}

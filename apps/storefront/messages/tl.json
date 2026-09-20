@@ -62,6 +62,11 @@
     "description": "Tingnan at i-update ang iyong mga address ng paghahatid, maaari kang magdagdag ng kahit ilan. Ang pag-save ng iyong mga address ay magpapadali sa checkout.",
     "heading": "Mga Address ng Paghahatid"
   },
+  "AnalyticsConsent": {
+    "message": "Gumagamit kami ng cookies upang maunawaan kung paano ginagamit ng mga bisita ang site na ito.",
+    "accept": "Tanggapin",
+    "decline": "Tanggihan"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Tindahan"
@@ -98,6 +103,25 @@
     "title": "Mga Kategorya",
     "viewAll": "Tingnan lahat"
   },
+  "CdekPoint": {
+    "heading": "CDEK pickup point",
+    "chooseHeading": "Pumili ng CDEK pickup point",
+    "searchPlaceholder": "Maghanap ayon sa address o metro",
+    "cityLabel": "Lungsod",
+    "cityPlaceholder": "Simulang i-type ang lungsod",
+    "choose": "Piliin",
+    "chosen": "Napili",
+    "found": "Mga pickup point na nakita: {count}",
+    "noResults": "Walang pickup point na nakita sa {city}.",
+    "needCity": "Ilagay ang lungsod ng paghahatid para makita ang mga pickup point.",
+    "loading": "Nilo-load ang mga pickup point…",
+    "notConfigured": "Hindi pa naka-set up ang paghahatid ng CDEK sa tindahang ito.",
+    "change": "Palitan ang point",
+    "tabList": "Listahan",
+    "tabMap": "Mapa",
+    "mapEmpty": "Walang pickup point na maipapakita sa mapa para sa lungsod na ito.",
+    "mapFailed": "Hindi available ang mapa. Pumili ng pickup point sa listahan."
+  },
   "CheckoutPage": {
     "addNewAddress": "Magdagdag ng bagong address",
     "addressHeading": "Address ng Paghahatid",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} item} other {{count} na item}}",
     "legal": "Sa pag-click ng «Bayaran», tinatanggap mo ang aming <terms>mga tuntunin</terms>, <termsOfUse>mga tuntunin sa paggamit</termsOfUse>, at <returnPolicy>patakaran sa pagsauli</returnPolicy>, at sumasang-ayon ka sa aming <privacyPolicy>patakaran sa privacy</privacyPolicy>.",
     "manualInput": "Ilagay ang address nang manu-mano",
+    "addressIncomplete": "Punan ang mga kinakailangang field ng address. Kung walang lungsod at postal code, hindi maipapadala ang order.",
     "orderComposition": "Buod ng Order",
     "paymentHeading": "Paraan ng bayad",
     "recipientCheckbox": "Ibang tao ang tatanggap",
@@ -145,7 +170,16 @@
     "shippingLink": "Paghahatid",
     "shippingUnavailable": "Walang available na paraan ng paghahatid",
     "signIn": "Mag-sign in",
-    "total": "Kabuuan"
+    "total": "Kabuuan",
+    "shippingZone": "Sona: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Nag-order nang walang account?",
+    "description": "Kung nag-order ka bilang bisita gamit ang parehong email address, iuugnay namin ang mga order na iyon sa iyong account.",
+    "button": "Hanapin ang mga order ko",
+    "claimed": "Mga naiugnay na order: {count}",
+    "none": "Walang nakitang order bilang bisita para sa iyong email address sa tindahang ito.",
+    "failed": "Hindi namin nasuri ang iyong mga order. Subukan ulit mamaya."
   },
   "Common": {
     "clear": "I-clear",
@@ -306,8 +340,12 @@
     "unauthorized": "Mag-sign in muna para magpatuloy."
   },
   "Filters": {
+    "from": "mula",
+    "no": "Hindi",
     "sort": "Ayusin",
-    "title": "Mga Filter"
+    "title": "Mga Filter",
+    "to": "hanggang",
+    "yes": "Oo"
   },
   "Footer": {
     "categoriesHeading": "Mga Kategorya",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Isara",
+    "counter": "Larawang {index} sa {total}",
     "goToImage": "Pumunta sa larawan {index}",
-    "openFullImage": "Buksan ang buong larawan"
+    "nextImage": "Susunod na larawan",
+    "openFullImage": "Buksan ang buong larawan",
+    "previousImage": "Nakaraang larawan",
+    "showImage": "Ipakita ang larawang {index}",
+    "thumbnails": "Mga thumbnail ng produkto"
+  },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Mga artikulo mula sa {siteName}.",
+    "empty": "Wala pang artikulo.",
+    "backToFeed": "Lahat ng artikulo",
+    "previous": "Nakaraan",
+    "next": "Susunod",
+    "pageOf": "Pahina {page} ng {lastPage}",
+    "pagination": "Mga pahina ng journal",
+    "readingTime": "{minutes} min basahin",
+    "related": "Basahin din",
+    "share": "Ibahagi",
+    "copyLink": "Kopyahin ang link",
+    "linkCopied": "Nakopya ang link",
+    "allCategories": "Lahat ng paksa",
+    "categories": "Mga paksa"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Sumali sa amin",
     "notMember": "Hindi pa miyembro?",
     "password": "Password",
-    "signIn": "Mag-sign in"
+    "signIn": "Mag-sign in",
+    "yandexCta": "Mag-sign in gamit ang Yandex ID",
+    "yandexDivider": "o",
+    "yandexErrorDenied": "Kinansela mo ang pag-sign in sa pahina ng Yandex.",
+    "yandexErrorEmailTaken": "May account nang gumagamit ng email na ito. Mag-sign in gamit ang password mo.",
+    "yandexErrorExpired": "Napaso na ang link ng pag-sign in. Magsimula ulit.",
+    "yandexErrorFailed": "Hindi natuloy ang pag-sign in. Subukan ulit maya-maya.",
+    "yandexErrorNoEmail": "Walang ibinigay na email address ang Yandex, kaya hindi magagawa ang account.",
+    "yandexErrorRejected": "Hindi nakumpirma ng Yandex ang pag-sign in na ito. Subukan ulit.",
+    "yandexErrorUnconfigured": "Hindi pa naka-on ang pag-sign in gamit ang Yandex sa tindahang ito."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Tingnan ang detalye"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Itago ang numero ng order. Kakailanganin mo ito kapag kinontak mo ang tindahan.",
     "orderSuccess": "Matagumpay na naisagawa ang iyong order.",
     "thankYou": "Salamat!"
   },
   "OrderDetails": {
     "backToOrders": "Bumalik sa mga order",
-    "confirmationSentBefore": "Ipinadala namin ang detalye ng kumpirmasyon ng order sa",
+    "contactEmailBefore": "Ang contact address para sa order na ito ay",
     "fulfillmentStatuses": {
       "canceled": "Kanselado",
       "delivered": "Naihatid",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Kinukumpirma pa ang bayad. Maghintay ng isang minuto at buksan ang order mula sa iyong account, o subukan muli.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Tracking number"
   },
   "OrdersPage": {
     "description": "Tingnan ang iyong mga nakaraang order at ang kanilang status.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bayaran",
+    "redirectUnavailable": "Hindi pa available ang pahina ng pagbabayad. Subukan muli sa ilang sandali.",
     "selectPaymentMethod": "Pumili ng paraan ng bayad"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Credit card",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Credit card",
@@ -682,6 +758,14 @@
     "selectOptions": "Pumili ng Opsyon",
     "selectVariant": "Pumili ng variant"
   },
+  "ProductAttributes": {
+    "no": "Hindi",
+    "title": "Mga katangian",
+    "yes": "Oo"
+  },
+  "ProductInfo": {
+    "description": "Paglalarawan"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Ipagpatuloy ang setup sa admin",
     "continueSetup": "Maaari mo nang ipagpatuloy ang pag-set up ng iyong tindahan sa admin.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Tingnan lahat"
+  },
+  "ProductReviews": {
+    "heading": "Mga review",
+    "ratingSummary": "{average} sa 5 · {count, plural, one {# review} other {# na review}}",
+    "ratingValue": "{value} sa 5",
+    "formHeading": "Ang iyong review",
+    "ratingLabel": "Rating",
+    "nameLabel": "Ang pangalan mo",
+    "titleLabel": "Pamagat (opsyonal)",
+    "bodyLabel": "Teksto ng review",
+    "submit": "Ipadala ang review",
+    "pendingNotice": "Salamat. Lalabas ang review kapag inaprubahan na ito ng tindahan.",
+    "signInPrompt": "Mag-sign in para mag-iwan ng review.",
+    "error": "Hindi naipadala ang review. Subukan muli.",
+    "ownerReply": "Sagot ng tindahan",
+    "previousPage": "Nakaraan",
+    "nextPage": "Susunod",
+    "pageOf": "Pahina {page} ng {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Madaling Pagsauli",
@@ -809,7 +911,8 @@
       "account": "Account",
       "cart": "Cart",
       "home": "Home",
-      "store": "Tindahan"
+      "store": "Tindahan",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

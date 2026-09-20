@@ -1,15 +1,20 @@
-import type { TenantPage, TenantPageKey } from "../../hooks/api/pages"
+import type { ReservedPageKey, TenantPage } from "../../hooks/api/pages"
 
-// tenant-panel wave 2, piece 7: the five content sections, in plain language.
-// The panel has no Admin counterpart to copy for this screen, so the labels are
-// written here rather than pulled from the Admin's i18n catalogue: the Admin has
-// no string for "the shop's public offer". They are deliberately the words a
-// shop owner would use, not the storage keys ("legal" is "Реквизиты", not
-// "legal"), per the piece prompt and rule 18e. Written in Russian: the panel
-// serves Russian shop owners and every neighbouring screen is Russian.
+// tenant-panel wave 2, piece 7: the five reserved content sections, in plain
+// language. The panel has no Admin counterpart to copy for this screen, so the
+// labels are written here rather than pulled from the Admin's i18n catalogue:
+// the Admin has no string for "the shop's public offer". They are deliberately
+// the words a shop owner would use, not the storage keys ("legal" is
+// "Реквизиты", not "legal"), per the piece prompt and rule 18e. Written in
+// Russian: the panel serves Russian shop owners and every neighbouring screen
+// is Russian.
+//
+// t05-page-keys (2026-09-16): these five no longer exhaust the vocabulary — a
+// tenant's own custom pages (`TenantPage.reserved === false`) have no entry
+// here and fall back to their own title as both label and hint-less row.
 
 export type PageSection = {
-  key: TenantPageKey
+  key: ReservedPageKey
   label: string
   hint: string
 }

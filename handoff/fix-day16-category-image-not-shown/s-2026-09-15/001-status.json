@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-day16-category-image-not-shown",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T17:15:25+08:00",
+  "status": "2026-09-15 17:15 WITA: f16-category-image-not-shown — PR #54 открыт (MERGEABLE/CLEAN). Картинка категории теперь видна на её странице, плиткой в каталоге и на главной с ОДНОЙ загрузки; порог «минимум три» снят; в панели превью в форме и колонка «Изображение» в списке. Замерено на стенде :9046/:8046/:5196 (клон БД upready_store_f16), полный круг панель→витрина 1→0→1, tsc/lint/юниты (195) зелёные, next build зелёный. Прод не трогался."
+}

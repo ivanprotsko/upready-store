@@ -1,13 +1,18 @@
 import {
+  BuildingStorefront,
   ChartBar,
+  ChatBubbleLeftRight,
   DocumentText,
   EllipsisHorizontal,
   Folder,
   House,
+  Key,
+  RocketLaunch,
   OpenRectArrowOut,
   ReceiptPercent,
   ShoppingCart,
   Tag,
+  Users,
 } from "@medusajs/icons"
 import { Avatar, clx, Divider, DropdownMenu, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
@@ -177,11 +182,33 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <Tag />,
       label: t("products.domain"),
       to: "/products",
+      // t15-product-attributes: the shop's own characteristics sit under
+      // Products, the way Campaigns sits under Promotions below.
+      items: [
+        {
+          label: "Характеристики",
+          to: "/product-attributes",
+        },
+      ],
     },
     {
       icon: <ShoppingCart />,
       label: t("orders.domain"),
       to: "/orders",
+      // w15-mp-orders-desk: единая лента заказов площадок висит под «Заказами»
+      // ровно так же, как «Характеристики» висят под «Товарами» выше.
+      items: [
+        {
+          label: t("marketplaceOrders.navLabel"),
+          to: "/marketplace-orders",
+        },
+      ],
+    },
+    {
+      // t13-customers-screen: right after Orders (task step 4).
+      icon: <Users />,
+      label: t("customers.domain"),
+      to: "/customers",
     },
     // tenant-panel wave 2: the sections Ivan listed 2026-09-11 (brief
     // docs/multitenancy/2026-09-11-night-2-panel-brief.md §3). Screens land
@@ -216,6 +243,107 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <House />,
       label: t("app.nav.main.homeSettings", { defaultValue: "Home page" }),
       to: "/home-settings",
+    },
+    {
+      // t10-blog: the shop's journal (routes/journal).
+      icon: <DocumentText />,
+      label: t("app.nav.main.journal", { defaultValue: "Journal" }),
+      to: "/journal",
+    },
+    {
+      // t04-shipping-tariffs: the shop's delivery methods (routes/shipping).
+      icon: <RocketLaunch />,
+      label: t("app.nav.main.shipping", { defaultValue: "Delivery" }),
+      to: "/shipping",
+    },
+    {
+      // t09-reviews: product reviews and their moderation (routes/reviews).
+      icon: <ChatBubbleLeftRight />,
+      label: t("app.nav.main.reviews", { defaultValue: "Reviews" }),
+      to: "/reviews",
+    },
+    {
+      // w14-mp-catalog-link: «Маркетплейсы». The section existed as a screen
+      // (`/settings/marketplaces`, w12) and was reachable ONLY through a tile
+      // on the panel home page — Ivan found it missing from the sidebar on the
+      // live panel, 2026-09-16 09:11. It hangs its own pages the way Campaigns
+      // hangs under Promotions: the catalog is the landing screen because it
+      // is the daily one, the connection settings sit under it, and Ozon gets
+      // its own entry here the day it has a page of its own.
+      //
+      // p01-settings-integrations-restructure: «Подключение» больше НЕ в этой
+      // группе. Реквизиты всех сервисов магазина — маркетплейсы, Robokassa,
+      // ApiShip, СДЭК — живут одним разделом `/settings/integrations`, рядом с
+      // «Приёмом оплат» и «Доставкой» в списке настроек на главной, а не внутри
+      // маркетплейсов (приказ Ивана 2026-09-16 20:22 WITA, пункт 2). Здесь
+      // остались только рабочие экраны площадок.
+      //
+      // The siblings of the same wave land in the same section rather than in
+      // four places: w15 «Заказы площадок» (/marketplace-orders), w18 «Отзывы»
+      // and w16 «Синхронизация» (under /settings/marketplaces) merged into
+      // `dev` while this task was open, and each of them was reachable only by
+      // typing its URL — which is exactly the defect this entry exists to fix.
+      icon: <BuildingStorefront />,
+      label: t("app.nav.main.marketplaces", { defaultValue: "Marketplaces" }),
+      to: "/marketplaces/catalog",
+      items: [
+        {
+          label: t("app.nav.main.mpCatalog", { defaultValue: "Catalog" }),
+          to: "/marketplaces/catalog",
+        },
+        {
+          // w17-mp-price-stock-table: цены и остатки магазина и площадок одной
+          // таблицей. Стоит сразу за каталогом: тот отвечает «какие карточки
+          // есть», этот — «сходятся ли по ним цена и остаток».
+          label: t("app.nav.main.mpPriceStock", { defaultValue: "Prices and stock" }),
+          to: "/marketplaces/price-stock",
+        },
+        {
+          label: t("app.nav.main.mpOrders", { defaultValue: "Marketplace orders" }),
+          to: "/marketplace-orders",
+        },
+        {
+          label: t("app.nav.main.mpReviews", { defaultValue: "Marketplace reviews" }),
+          to: "/settings/marketplaces/reviews",
+        },
+        {
+          label: t("app.nav.main.mpSync", { defaultValue: "Synchronisation" }),
+          to: "/settings/marketplaces/sync",
+        },
+        {
+          // p01-settings-integrations-restructure: каждая площадка — свой
+          // экран, и пункт ведёт ПРЯМО на него. Раньше здесь стояли
+          // `/settings/wildberries` и `/settings/ozon`, которые редиректили на
+          // якоря `#wb` / `#ozon` внутри общего хаба; приказ Ивана 2026-09-16
+          // 20:22 WITA: «не правильно делать отдельный пункт для навигации в
+          // внутри одной страницы через якорь #». В этом массиве больше нет ни
+          // одного `to` с решёткой, и это проверяет тест
+          // `src/__tests__/nav-routes.test.mjs`.
+          label: t("app.nav.main.wildberries", { defaultValue: "Wildberries" }),
+          to: "/settings/marketplaces/wildberries",
+        },
+        {
+          label: t("app.nav.main.ozon", { defaultValue: "Ozon" }),
+          to: "/settings/marketplaces/ozon",
+        },
+      ],
+    },
+    {
+      // p01-settings-integrations-restructure: «Подключение» — реквизиты ВСЕХ
+      // сервисов магазина (площадки, Robokassa, ApiShip, СДЭК). Приказ Ивана
+      // 2026-09-16 20:22 WITA: переименовать «подключение площадок» в
+      // «подключение» и вынести из маркетплейсов, потому что ключи Robokassa и
+      // СДЭК к площадкам отношения не имеют.
+      //
+      // ОДИН пункт и ВЕРХНИЙ уровень, сразу за группой «Маркетплейсы»: раньше
+      // их было три (подключение площадок, Wildberries, Ozon), и два из них
+      // вели на якоря внутри одной страницы. Группы «Настройки» в этом сайдбаре
+      // нет вовсе — `/settings/payments`, `/settings/delivery` и
+      // `/settings/domains` живут строкой ссылок на главной, и «Подключение»
+      // стоит там же (`routes/home/home.tsx`).
+      icon: <Key />,
+      label: t("integrations.title"),
+      to: "/settings/integrations",
     },
   ]
 }

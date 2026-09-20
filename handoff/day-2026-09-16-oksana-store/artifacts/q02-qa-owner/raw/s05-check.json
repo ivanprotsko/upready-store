@@ -1,0 +1,9 @@
+{
+  "t": "ТЕСТ QA — не покупать\nТЕСТ QA — не покупать\nОпубликован\nОписание\nВременный товар живой приёмки q02. Будет удалён.\nПодзаголовок\nИдентификатор\n/тест-qa-не-покупать\nМатериал\n-\nСо скидкой\nИСТИНА\nМедиа\nОпции\nDefault option\nDefault option value\nВарианты\nСоздать\nМетаданные\n0 ключей\nJSON\n32 ключа\nКаналы продаж\nОксана Черкашина\nДоступно в 1 из 1 каналов продаж\nproducts.shippingProfile.header\nDefault Shipping Profile\ndefault\nОрганизация\nТеги\n-\nТип\n-\nКоллекция\n-\nКатегории\nМёд\nАтрибуты\nВысота\n-\nШирина\n-\nДлина\n-\nВес\n-\nMID код\n-\nHS код\n-\nСтрана происхождения",
+  "vhref": [
+    "/products/prod_01M2H554BCXVRS040BSRKGX7Z6/variants/create"
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

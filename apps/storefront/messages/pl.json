@@ -62,6 +62,11 @@
     "description": "Przeglądaj i aktualizuj swoje adresy dostawy — możesz dodać ich dowolną liczbę. Zapisane adresy będą dostępne podczas składania zamówienia.",
     "heading": "Adresy dostawy"
   },
+  "AnalyticsConsent": {
+    "message": "Używamy plików cookie, aby zrozumieć, jak odwiedzający korzystają z tej strony.",
+    "accept": "Akceptuj",
+    "decline": "Odrzuć"
+  },
   "Breadcrumb": {
     "home": "Strona główna",
     "store": "Sklep"
@@ -98,6 +103,25 @@
     "title": "Kategorie",
     "viewAll": "Zobacz wszystkie"
   },
+  "CdekPoint": {
+    "heading": "Punkt odbioru CDEK",
+    "chooseHeading": "Wybierz punkt odbioru CDEK",
+    "searchPlaceholder": "Szukaj po adresie lub metrze",
+    "cityLabel": "Miasto",
+    "cityPlaceholder": "Zacznij wpisywać miasto",
+    "choose": "Wybierz",
+    "chosen": "Wybrany",
+    "found": "Znaleziono punktów odbioru: {count}",
+    "noResults": "W mieście {city} nie znaleziono punktów odbioru.",
+    "needCity": "Podaj miasto dostawy, aby zobaczyć punkty odbioru.",
+    "loading": "Ładowanie punktów odbioru…",
+    "notConfigured": "Dostawa CDEK nie jest jeszcze skonfigurowana w tym sklepie.",
+    "change": "Zmień punkt",
+    "tabList": "Lista",
+    "tabMap": "Mapa",
+    "mapEmpty": "Dla tego miasta nie ma punktów odbioru na mapie.",
+    "mapFailed": "Mapa jest niedostępna. Wybierz punkt z listy."
+  },
   "CheckoutPage": {
     "addNewAddress": "Dodaj nowy adres",
     "addressHeading": "Adres dostawy",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} produkt} few {{count} produkty} many {{count} produktów} other {{count} produktu}}",
     "legal": "Klikając «Zapłać», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
     "manualInput": "Wprowadź adres ręcznie",
+    "addressIncomplete": "Wypełnij wymagane pola adresu. Bez miasta i kodu pocztowego zamówienia nie da się wysłać.",
     "orderComposition": "Podsumowanie zamówienia",
     "paymentHeading": "Sposób płatności",
     "recipientCheckbox": "Odbiorcą jest inna osoba",
@@ -145,7 +170,16 @@
     "shippingLink": "Dostawa",
     "shippingUnavailable": "Brak dostępnych metod dostawy",
     "signIn": "Zaloguj się",
-    "total": "Razem"
+    "total": "Razem",
+    "shippingZone": "Strefa: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Zamawiałeś bez konta?",
+    "description": "Jeśli złożyłeś zamówienie jako gość na ten sam adres e-mail, przypiszemy je do Twojego konta.",
+    "button": "Znajdź moje zamówienia",
+    "claimed": "Przypisane zamówienia: {count}",
+    "none": "Nie znaleźliśmy zamówień gościa na Twój adres e-mail w tym sklepie.",
+    "failed": "Nie udało się sprawdzić zamówień. Spróbuj ponownie za chwilę."
   },
   "Common": {
     "clear": "Wyczyść",
@@ -306,8 +340,12 @@
     "unauthorized": "Zaloguj się, aby kontynuować."
   },
   "Filters": {
+    "from": "od",
+    "no": "Nie",
     "sort": "Sortuj",
-    "title": "Filtry"
+    "title": "Filtry",
+    "to": "do",
+    "yes": "Tak"
   },
   "Footer": {
     "categoriesHeading": "Kategorie",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Zamknij",
+    "counter": "Zdjęcie {index} z {total}",
     "goToImage": "Przejdź do obrazu {index}",
-    "openFullImage": "Otwórz pełny obraz"
+    "nextImage": "Następne zdjęcie",
+    "openFullImage": "Otwórz pełny obraz",
+    "previousImage": "Poprzednie zdjęcie",
+    "showImage": "Pokaż zdjęcie {index}",
+    "thumbnails": "Miniatury produktu"
+  },
+  "Journal": {
+    "navLabel": "Magazyn",
+    "feedTitle": "Magazyn",
+    "feedDescription": "Artykuły sklepu {siteName}.",
+    "empty": "Nie ma jeszcze artykułów.",
+    "backToFeed": "Wszystkie artykuły",
+    "previous": "Poprzednia",
+    "next": "Następna",
+    "pageOf": "Strona {page} z {lastPage}",
+    "pagination": "Strony magazynu",
+    "readingTime": "{minutes} min czytania",
+    "related": "Przeczytaj też",
+    "share": "Udostępnij",
+    "copyLink": "Kopiuj link",
+    "linkCopied": "Link skopiowany",
+    "allCategories": "Wszystkie rubryki",
+    "categories": "Rubryki"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Dołącz do nas",
     "notMember": "Nie masz konta?",
     "password": "Hasło",
-    "signIn": "Zaloguj się"
+    "signIn": "Zaloguj się",
+    "yandexCta": "Zaloguj się przez Yandex ID",
+    "yandexDivider": "lub",
+    "yandexErrorDenied": "Logowanie zostało anulowane na stronie Yandeksa.",
+    "yandexErrorEmailTaken": "Konto z tym adresem e-mail już istnieje. Zaloguj się hasłem.",
+    "yandexErrorExpired": "Ten link do logowania wygasł. Zacznij od nowa.",
+    "yandexErrorFailed": "Logowanie się nie powiodło. Spróbuj za chwilę.",
+    "yandexErrorNoEmail": "Yandex nie przekazał adresu e-mail, więc konta nie można utworzyć.",
+    "yandexErrorRejected": "Yandex nie potwierdził tego logowania. Spróbuj ponownie.",
+    "yandexErrorUnconfigured": "Logowanie przez Yandex nie jest jeszcze włączone w tym sklepie."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Zobacz szczegóły"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Zachowaj numer zamówienia. Będzie potrzebny przy kontakcie ze sklepem.",
     "orderSuccess": "Twoje zamówienie zostało pomyślnie złożone.",
     "thankYou": "Dziękujemy!"
   },
   "OrderDetails": {
     "backToOrders": "Powrót do zamówień",
-    "confirmationSentBefore": "Wysłaliśmy potwierdzenie zamówienia na adres",
+    "contactEmailBefore": "Adres kontaktowy tego zamówienia to",
     "fulfillmentStatuses": {
       "canceled": "Anulowane",
       "delivered": "Dostarczone",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Płatność jest jeszcze potwierdzana. Odczekaj minutę i otwórz zamówienie na koncie lub spróbuj ponownie.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Numer przesyłki"
   },
   "OrdersPage": {
     "description": "Przeglądaj swoje wcześniejsze zamówienia i ich status.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Zapłać",
+    "redirectUnavailable": "Strona płatności nie jest jeszcze dostępna. Spróbuj ponownie za chwilę.",
     "selectPaymentMethod": "Wybierz sposób płatności"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Karta płatnicza",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Karta płatnicza",
@@ -682,6 +758,14 @@
     "selectOptions": "Wybierz opcje",
     "selectVariant": "Wybierz wariant"
   },
+  "ProductAttributes": {
+    "no": "Nie",
+    "title": "Właściwości",
+    "yes": "Tak"
+  },
+  "ProductInfo": {
+    "description": "Opis"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kontynuuj konfigurację w panelu",
     "continueSetup": "Możesz teraz kontynuować konfigurację sklepu w panelu administratora.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Zobacz wszystkie"
+  },
+  "ProductReviews": {
+    "heading": "Opinie",
+    "ratingSummary": "{average} na 5 · {count, plural, one {# opinia} few {# opinie} many {# opinii} other {# opinii}}",
+    "ratingValue": "{value} na 5",
+    "formHeading": "Twoja opinia",
+    "ratingLabel": "Ocena",
+    "nameLabel": "Twoje imię",
+    "titleLabel": "Tytuł (opcjonalnie)",
+    "bodyLabel": "Treść opinii",
+    "submit": "Wyślij opinię",
+    "pendingNotice": "Dziękujemy. Opinia pojawi się po zatwierdzeniu przez sklep.",
+    "signInPrompt": "Zaloguj się, aby dodać opinię.",
+    "error": "Nie udało się wysłać opinii. Spróbuj ponownie.",
+    "ownerReply": "Odpowiedź sklepu",
+    "previousPage": "Wstecz",
+    "nextPage": "Dalej",
+    "pageOf": "Strona {page} z {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Łatwe zwroty",
@@ -809,7 +911,8 @@
       "account": "Konto",
       "cart": "Koszyk",
       "home": "Strona główna",
-      "store": "Sklep"
+      "store": "Sklep",
+      "journal": "Magazyn"
     },
     "menuButton": "Menu"
   },

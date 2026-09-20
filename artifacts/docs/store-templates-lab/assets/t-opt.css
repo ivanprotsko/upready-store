@@ -1,0 +1,36 @@
+/* СГЕНЕРИРОВАНО node build.mjs из src/templates/opt.json — шаблон «Опт и B2B» */
+:root {
+  --font-display: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --grid-cols: 4;
+  --aspect-card: 1 / 1;
+  --aspect-tile: 3 / 2;
+  --aspect-hero: 16 / 9;
+  --aspect-gallery: 1 / 1;
+  --aspect-thumb: 1 / 1;
+  --media-fit: contain;
+  --background: #fcfcfd;
+  --foreground: #14171c;
+  --card: #ffffff;
+  --card-foreground: #14171c;
+  --popover: #ffffff;
+  --popover-foreground: #14171c;
+  --primary: #1b3a5c;
+  --primary-foreground: #fcfcfd;
+  --secondary: #f1f3f6;
+  --secondary-foreground: #14171c;
+  --muted: #e7eaee;
+  --muted-foreground: #4d545e;
+  --accent: #e4edf7;
+  --accent-foreground: #12456f;
+  --border: #dfe3e9;
+  --input: #dfe3e9;
+  --ring: #1b3a5c;
+  --link: #175486;
+  --destructive: #b0272c;
+  --destructive-foreground: #ffffff;
+  --success: #12643d;
+  --warning: #80480a;
+  --surface-media: #f1f3f6;
+}

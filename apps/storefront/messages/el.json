@@ -62,6 +62,11 @@
     "description": "Δείτε και ενημερώστε τις διευθύνσεις αποστολής σας — μπορείτε να προσθέσετε όσες θέλετε. Οι αποθηκευμένες διευθύνσεις θα είναι διαθέσιμες κατά την ολοκλήρωση αγοράς.",
     "heading": "Διευθύνσεις αποστολής"
   },
+  "AnalyticsConsent": {
+    "message": "Χρησιμοποιούμε cookies για να κατανοήσουμε πώς οι επισκέπτες χρησιμοποιούν αυτόν τον ιστότοπο.",
+    "accept": "Αποδοχή",
+    "decline": "Απόρριψη"
+  },
   "Breadcrumb": {
     "home": "Αρχική",
     "store": "Κατάστημα"
@@ -98,6 +103,25 @@
     "title": "Κατηγορίες",
     "viewAll": "Προβολή όλων"
   },
+  "CdekPoint": {
+    "heading": "Σημείο παραλαβής CDEK",
+    "chooseHeading": "Επιλέξτε σημείο παραλαβής CDEK",
+    "searchPlaceholder": "Αναζήτηση με διεύθυνση ή μετρό",
+    "cityLabel": "Πόλη",
+    "cityPlaceholder": "Αρχίστε να πληκτρολογείτε πόλη",
+    "choose": "Επιλογή",
+    "chosen": "Επιλέχθηκε",
+    "found": "Σημεία παραλαβής που βρέθηκαν: {count}",
+    "noResults": "Δεν βρέθηκαν σημεία παραλαβής στην πόλη {city}.",
+    "needCity": "Συμπληρώστε την πόλη παράδοσης για να δείτε σημεία παραλαβής.",
+    "loading": "Φόρτωση σημείων παραλαβής…",
+    "notConfigured": "Η αποστολή CDEK δεν έχει ρυθμιστεί ακόμη σε αυτό το κατάστημα.",
+    "change": "Αλλαγή σημείου",
+    "tabList": "Λίστα",
+    "tabMap": "Χάρτης",
+    "mapEmpty": "Δεν υπάρχουν σημεία στον χάρτη για αυτήν την πόλη.",
+    "mapFailed": "Ο χάρτης δεν είναι διαθέσιμος. Επιλέξτε σημείο από τη λίστα."
+  },
   "CheckoutPage": {
     "addNewAddress": "Προσθήκη νέας διεύθυνσης",
     "addressHeading": "Διεύθυνση αποστολής",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} προϊόν} other {{count} προϊόντα}}",
     "legal": "Κάνοντας κλικ στο «Πληρωμή», αποδέχεστε τους <terms>όρους</terms> μας, τους <termsOfUse>όρους χρήσης</termsOfUse> και την <returnPolicy>πολιτική επιστροφών</returnPolicy>, και συμφωνείτε με την <privacyPolicy>πολιτική απορρήτου</privacyPolicy>.",
     "manualInput": "Εισαγωγή διεύθυνσης χειροκίνητα",
+    "addressIncomplete": "Συμπληρώστε τα υποχρεωτικά πεδία της διεύθυνσης. Χωρίς πόλη και ταχυδρομικό κώδικα η παραγγελία δεν μπορεί να σταλεί.",
     "orderComposition": "Σύνοψη παραγγελίας",
     "paymentHeading": "Τρόπος πληρωμής",
     "recipientCheckbox": "Ο παραλήπτης είναι διαφορετικό άτομο",
@@ -145,7 +170,16 @@
     "shippingLink": "Αποστολή",
     "shippingUnavailable": "Δεν υπάρχουν διαθέσιμοι τρόποι αποστολής",
     "signIn": "Σύνδεση",
-    "total": "Σύνολο"
+    "total": "Σύνολο",
+    "shippingZone": "Ζώνη: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Παραγγείλατε χωρίς λογαριασμό;",
+    "description": "Αν ολοκληρώσατε την παραγγελία ως επισκέπτης με την ίδια διεύθυνση email, θα τη συνδέσουμε με τον λογαριασμό σας.",
+    "button": "Βρείτε τις παραγγελίες μου",
+    "claimed": "Συνδεδεμένες παραγγελίες: {count}",
+    "none": "Δεν βρέθηκαν παραγγελίες επισκέπτη για τη διεύθυνση email σας σε αυτό το κατάστημα.",
+    "failed": "Δεν μπορέσαμε να ελέγξουμε τις παραγγελίες σας. Δοκιμάστε ξανά σε λίγο."
   },
   "Common": {
     "clear": "Καθαρισμός",
@@ -306,8 +340,12 @@
     "unauthorized": "Παρακαλούμε συνδεθείτε για να συνεχίσετε."
   },
   "Filters": {
+    "from": "από",
+    "no": "Όχι",
     "sort": "Ταξινόμηση",
-    "title": "Φίλτρα"
+    "title": "Φίλτρα",
+    "to": "έως",
+    "yes": "Ναι"
   },
   "Footer": {
     "categoriesHeading": "Κατηγορίες",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Κλείσιμο",
+    "counter": "Εικόνα {index} από {total}",
     "goToImage": "Μετάβαση στην εικόνα {index}",
-    "openFullImage": "Άνοιγμα πλήρους εικόνας"
+    "nextImage": "Επόμενη εικόνα",
+    "openFullImage": "Άνοιγμα πλήρους εικόνας",
+    "previousImage": "Προηγούμενη εικόνα",
+    "showImage": "Εμφάνιση εικόνας {index}",
+    "thumbnails": "Μικρογραφίες προϊόντος"
+  },
+  "Journal": {
+    "navLabel": "Άρθρα",
+    "feedTitle": "Άρθρα",
+    "feedDescription": "Άρθρα από το {siteName}.",
+    "empty": "Δεν υπάρχουν ακόμη άρθρα.",
+    "backToFeed": "Όλα τα άρθρα",
+    "previous": "Προηγούμενη",
+    "next": "Επόμενη",
+    "pageOf": "Σελίδα {page} από {lastPage}",
+    "pagination": "Σελίδες άρθρων",
+    "readingTime": "{minutes} λεπτά ανάγνωσης",
+    "related": "Διαβάστε επίσης",
+    "share": "Κοινοποίηση",
+    "copyLink": "Αντιγραφή συνδέσμου",
+    "linkCopied": "Ο σύνδεσμος αντιγράφηκε",
+    "allCategories": "Όλες οι κατηγορίες",
+    "categories": "Κατηγορίες"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Εγγραφείτε",
     "notMember": "Δεν είστε μέλος;",
     "password": "Κωδικός πρόσβασης",
-    "signIn": "Σύνδεση"
+    "signIn": "Σύνδεση",
+    "yandexCta": "Σύνδεση με Yandex ID",
+    "yandexDivider": "ή",
+    "yandexErrorDenied": "Ακυρώσατε τη σύνδεση στη σελίδα της Yandex.",
+    "yandexErrorEmailTaken": "Υπάρχει ήδη λογαριασμός με αυτό το email. Συνδεθείτε με τον κωδικό σας.",
+    "yandexErrorExpired": "Ο σύνδεσμος σύνδεσης έληξε. Ξεκινήστε από την αρχή.",
+    "yandexErrorFailed": "Η σύνδεση δεν ολοκληρώθηκε. Δοκιμάστε ξανά σε λίγο.",
+    "yandexErrorNoEmail": "Η Yandex δεν έδωσε διεύθυνση email, οπότε δεν μπορεί να δημιουργηθεί λογαριασμός.",
+    "yandexErrorRejected": "Η Yandex δεν επιβεβαίωσε αυτή τη σύνδεση. Δοκιμάστε ξανά.",
+    "yandexErrorUnconfigured": "Η σύνδεση μέσω Yandex δεν έχει ενεργοποιηθεί ακόμη σε αυτό το κατάστημα."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Δείτε λεπτομέρειες"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Κρατήστε τον αριθμό παραγγελίας. Θα τον χρειαστείτε όταν επικοινωνήσετε με το κατάστημα.",
     "orderSuccess": "Η παραγγελία σας ολοκληρώθηκε με επιτυχία.",
     "thankYou": "Ευχαριστούμε!"
   },
   "OrderDetails": {
     "backToOrders": "Πίσω στις παραγγελίες",
-    "confirmationSentBefore": "Στείλαμε τα στοιχεία επιβεβαίωσης της παραγγελίας στο",
+    "contactEmailBefore": "Η διεύθυνση επικοινωνίας για αυτήν την παραγγελία είναι",
     "fulfillmentStatuses": {
       "canceled": "Ακυρώθηκε",
       "delivered": "Παραδόθηκε",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Η πληρωμή επιβεβαιώνεται ακόμη. Περιμένετε ένα λεπτό και ανοίξτε την παραγγελία από τον λογαριασμό σας ή δοκιμάστε ξανά.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Αριθμός παρακολούθησης"
   },
   "OrdersPage": {
     "description": "Δείτε τις προηγούμενες παραγγελίες σας και την κατάστασή τους.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Πληρωμή",
+    "redirectUnavailable": "Η σελίδα πληρωμής δεν είναι ακόμη διαθέσιμη. Δοκιμάστε ξανά σε λίγο.",
     "selectPaymentMethod": "Επιλέξτε τρόπο πληρωμής"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Πιστωτική κάρτα",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Πιστωτική κάρτα",
@@ -682,6 +758,14 @@
     "selectOptions": "Επιλέξτε επιλογές",
     "selectVariant": "Επιλέξτε παραλλαγή"
   },
+  "ProductAttributes": {
+    "no": "Όχι",
+    "title": "Χαρακτηριστικά",
+    "yes": "Ναι"
+  },
+  "ProductInfo": {
+    "description": "Περιγραφή"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Συνέχεια ρύθμισης στο διαχειριστικό",
     "continueSetup": "Μπορείτε τώρα να συνεχίσετε τη ρύθμιση του καταστήματός σας στο διαχειριστικό περιβάλλον.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Προβολή όλων"
+  },
+  "ProductReviews": {
+    "heading": "Κριτικές",
+    "ratingSummary": "{average} στα 5 · {count, plural, one {# κριτική} other {# κριτικές}}",
+    "ratingValue": "{value} στα 5",
+    "formHeading": "Η κριτική σας",
+    "ratingLabel": "Βαθμολογία",
+    "nameLabel": "Το όνομά σας",
+    "titleLabel": "Τίτλος (προαιρετικό)",
+    "bodyLabel": "Το κείμενο της κριτικής",
+    "submit": "Αποστολή κριτικής",
+    "pendingNotice": "Ευχαριστούμε. Η κριτική θα εμφανιστεί μόλις την εγκρίνει το κατάστημα.",
+    "signInPrompt": "Συνδεθείτε για να αφήσετε κριτική.",
+    "error": "Η κριτική δεν στάλθηκε. Δοκιμάστε ξανά.",
+    "ownerReply": "Απάντηση καταστήματος",
+    "previousPage": "Προηγούμενη",
+    "nextPage": "Επόμενη",
+    "pageOf": "Σελίδα {page} από {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Εύκολες επιστροφές",
@@ -809,7 +911,8 @@
       "account": "Λογαριασμός",
       "cart": "Καλάθι",
       "home": "Αρχική",
-      "store": "Κατάστημα"
+      "store": "Κατάστημα",
+      "journal": "Άρθρα"
     },
     "menuButton": "Μενού"
   },

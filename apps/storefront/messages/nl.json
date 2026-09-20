@@ -62,6 +62,11 @@
     "description": "Bekijk en werk uw verzendadressen bij, u kunt er zoveel toevoegen als u wilt. Opgeslagen adressen zijn beschikbaar tijdens het afrekenen.",
     "heading": "Verzendadressen"
   },
+  "AnalyticsConsent": {
+    "message": "We gebruiken cookies om te begrijpen hoe bezoekers deze site gebruiken.",
+    "accept": "Accepteren",
+    "decline": "Weigeren"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Winkel"
@@ -98,6 +103,25 @@
     "title": "Categorieën",
     "viewAll": "Alles bekijken"
   },
+  "CdekPoint": {
+    "heading": "CDEK-afhaalpunt",
+    "chooseHeading": "Kies een CDEK-afhaalpunt",
+    "searchPlaceholder": "Zoeken op adres of metro",
+    "cityLabel": "Stad",
+    "cityPlaceholder": "Begin met typen",
+    "choose": "Kiezen",
+    "chosen": "Gekozen",
+    "found": "Gevonden afhaalpunten: {count}",
+    "noResults": "Geen afhaalpunten gevonden in {city}.",
+    "needCity": "Vul je bezorgstad in om afhaalpunten te zien.",
+    "loading": "Afhaalpunten laden…",
+    "notConfigured": "CDEK-bezorging is nog niet ingesteld in deze winkel.",
+    "change": "Punt wijzigen",
+    "tabList": "Lijst",
+    "tabMap": "Kaart",
+    "mapEmpty": "Geen afhaalpunten om op de kaart te tonen voor deze stad.",
+    "mapFailed": "De kaart is niet beschikbaar. Kies een punt uit de lijst."
+  },
   "CheckoutPage": {
     "addNewAddress": "Nieuw adres toevoegen",
     "addressHeading": "Verzendadres",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} artikel} other {{count} artikelen}}",
     "legal": "Door op «Betalen» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
     "manualInput": "Adres handmatig invoeren",
+    "addressIncomplete": "Vul de verplichte adresvelden in. Zonder plaats en postcode kan de bestelling niet worden verzonden.",
     "orderComposition": "Besteloverzicht",
     "paymentHeading": "Betaalmethode",
     "recipientCheckbox": "Ontvanger is een andere persoon",
@@ -145,7 +170,16 @@
     "shippingLink": "Verzending",
     "shippingUnavailable": "Geen verzendmethoden beschikbaar",
     "signIn": "Inloggen",
-    "total": "Totaal"
+    "total": "Totaal",
+    "shippingZone": "Zone: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "Zonder account besteld?",
+    "description": "Als u als gast met hetzelfde e-mailadres hebt besteld, koppelen wij die bestellingen aan uw account.",
+    "button": "Mijn bestellingen zoeken",
+    "claimed": "Gekoppelde bestellingen: {count}",
+    "none": "We vonden geen gastbestellingen op uw e-mailadres in deze winkel.",
+    "failed": "We konden uw bestellingen niet controleren. Probeer het zo nog eens."
   },
   "Common": {
     "clear": "Wissen",
@@ -306,8 +340,12 @@
     "unauthorized": "Log in om verder te gaan."
   },
   "Filters": {
+    "from": "van",
+    "no": "Nee",
     "sort": "Sorteren",
-    "title": "Filters"
+    "title": "Filters",
+    "to": "tot",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Categorieën",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "Sluiten",
+    "counter": "Afbeelding {index} van {total}",
     "goToImage": "Naar afbeelding {index}",
-    "openFullImage": "Volledige afbeelding openen"
+    "nextImage": "Volgende afbeelding",
+    "openFullImage": "Volledige afbeelding openen",
+    "previousImage": "Vorige afbeelding",
+    "showImage": "Afbeelding {index} tonen",
+    "thumbnails": "Miniaturen van het product"
+  },
+  "Journal": {
+    "navLabel": "Magazine",
+    "feedTitle": "Magazine",
+    "feedDescription": "Artikelen van {siteName}.",
+    "empty": "Nog geen artikelen.",
+    "backToFeed": "Alle artikelen",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "pageOf": "Pagina {page} van {lastPage}",
+    "pagination": "Magazinepagina's",
+    "readingTime": "{minutes} min lezen",
+    "related": "Lees ook",
+    "share": "Delen",
+    "copyLink": "Link kopiëren",
+    "linkCopied": "Link gekopieerd",
+    "allCategories": "Alle rubrieken",
+    "categories": "Rubrieken"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "Word lid",
     "notMember": "Nog geen lid?",
     "password": "Wachtwoord",
-    "signIn": "Inloggen"
+    "signIn": "Inloggen",
+    "yandexCta": "Inloggen met Yandex ID",
+    "yandexDivider": "of",
+    "yandexErrorDenied": "Je hebt het inloggen op de Yandex-pagina geannuleerd.",
+    "yandexErrorEmailTaken": "Er bestaat al een account met dit e-mailadres. Log in met je wachtwoord.",
+    "yandexErrorExpired": "Deze inloglink is verlopen. Begin opnieuw.",
+    "yandexErrorFailed": "Het inloggen is niet gelukt. Probeer het zo meteen nog eens.",
+    "yandexErrorNoEmail": "Yandex heeft geen e-mailadres doorgegeven, dus er kan geen account worden aangemaakt.",
+    "yandexErrorRejected": "Yandex kon dit inloggen niet bevestigen. Probeer het opnieuw.",
+    "yandexErrorUnconfigured": "Inloggen via Yandex is in deze winkel nog niet ingeschakeld."
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "Bekijk details"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Bewaar het bestelnummer. U hebt het nodig als u contact opneemt met de winkel.",
     "orderSuccess": "Uw bestelling is succesvol geplaatst.",
     "thankYou": "Bedankt!"
   },
   "OrderDetails": {
     "backToOrders": "Terug naar bestellingen",
-    "confirmationSentBefore": "We hebben de bestelbevestiging verzonden naar",
+    "contactEmailBefore": "Het contactadres voor deze bestelling is",
     "fulfillmentStatuses": {
       "canceled": "Geannuleerd",
       "delivered": "Bezorgd",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "De betaling wordt nog bevestigd. Wacht een minuut en open je bestelling in je account, of probeer het opnieuw.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Trackingnummer"
   },
   "OrdersPage": {
     "description": "Bekijk uw eerdere bestellingen en hun status.",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betalen",
+    "redirectUnavailable": "De betaalpagina is nog niet beschikbaar. Probeer het zo opnieuw.",
     "selectPaymentMethod": "Selecteer een betaalmethode"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Creditcard",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Creditcard",
@@ -682,6 +758,14 @@
     "selectOptions": "Selecteer opties",
     "selectVariant": "Selecteer variant"
   },
+  "ProductAttributes": {
+    "no": "Nee",
+    "title": "Kenmerken",
+    "yes": "Ja"
+  },
+  "ProductInfo": {
+    "description": "Omschrijving"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Installatie voortzetten in admin",
     "continueSetup": "U kunt nu doorgaan met het instellen van uw winkel in de admin.",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "Alles bekijken"
+  },
+  "ProductReviews": {
+    "heading": "Beoordelingen",
+    "ratingSummary": "{average} van 5 · {count, plural, one {# beoordeling} other {# beoordelingen}}",
+    "ratingValue": "{value} van 5",
+    "formHeading": "Jouw beoordeling",
+    "ratingLabel": "Cijfer",
+    "nameLabel": "Jouw naam",
+    "titleLabel": "Kop (optioneel)",
+    "bodyLabel": "Jouw beoordeling",
+    "submit": "Beoordeling versturen",
+    "pendingNotice": "Bedankt. Je beoordeling verschijnt zodra de winkel deze heeft goedgekeurd.",
+    "signInPrompt": "Log in om een beoordeling te schrijven.",
+    "error": "De beoordeling kon niet worden verstuurd. Probeer het opnieuw.",
+    "ownerReply": "Reactie van de winkel",
+    "previousPage": "Vorige",
+    "nextPage": "Volgende",
+    "pageOf": "Pagina {page} van {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Gemakkelijk retourneren",
@@ -809,7 +911,8 @@
       "account": "Account",
       "cart": "Winkelwagen",
       "home": "Home",
-      "store": "Winkel"
+      "store": "Winkel",
+      "journal": "Magazine"
     },
     "menuButton": "Menu"
   },

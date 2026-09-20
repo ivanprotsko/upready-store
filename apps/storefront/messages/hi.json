@@ -62,6 +62,11 @@
     "description": "अपने शिपिंग पते देखें और अपडेट करें, आप जितने चाहें उतने जोड़ सकते हैं। पते सहेजने पर वे चेकआउट के दौरान उपलब्ध हो जाएंगे।",
     "heading": "शिपिंग पते"
   },
+  "AnalyticsConsent": {
+    "message": "हम यह समझने के लिए कुकीज़ का उपयोग करते हैं कि विज़िटर इस साइट का उपयोग कैसे करते हैं।",
+    "accept": "स्वीकार करें",
+    "decline": "अस्वीकार करें"
+  },
   "Breadcrumb": {
     "home": "होम",
     "store": "स्टोर"
@@ -98,6 +103,25 @@
     "title": "श्रेणियां",
     "viewAll": "सभी देखें"
   },
+  "CdekPoint": {
+    "heading": "CDEK पिकअप पॉइंट",
+    "chooseHeading": "CDEK पिकअप पॉइंट चुनें",
+    "searchPlaceholder": "पते या मेट्रो से खोजें",
+    "cityLabel": "शहर",
+    "cityPlaceholder": "शहर टाइप करना शुरू करें",
+    "choose": "चुनें",
+    "chosen": "चुना गया",
+    "found": "मिले पिकअप पॉइंट: {count}",
+    "noResults": "{city} में कोई पिकअप पॉइंट नहीं मिला।",
+    "needCity": "पिकअप पॉइंट देखने के लिए अपना डिलीवरी शहर दर्ज करें।",
+    "loading": "पिकअप पॉइंट लोड हो रहे हैं…",
+    "notConfigured": "इस दुकान में CDEK डिलीवरी अभी सेट नहीं है।",
+    "change": "पॉइंट बदलें",
+    "tabList": "सूची",
+    "tabMap": "मानचित्र",
+    "mapEmpty": "इस शहर के लिए मानचित्र पर कोई पिकअप पॉइंट नहीं है।",
+    "mapFailed": "मानचित्र उपलब्ध नहीं है। सूची से एक पॉइंट चुनें।"
+  },
   "CheckoutPage": {
     "addNewAddress": "नया पता जोड़ें",
     "addressHeading": "शिपिंग पता",
@@ -130,6 +154,7 @@
     "itemsCount": "{count, plural, one {{count} आइटम} other {{count} आइटम}}",
     "legal": "«भुगतान करें» पर क्लिक करके, आप हमारी <terms>शर्तों</terms>, <termsOfUse>उपयोग की शर्तों</termsOfUse> और <returnPolicy>रिटर्न नीति</returnPolicy> को स्वीकार करते हैं, और हमारी <privacyPolicy>गोपनीयता नीति</privacyPolicy> से सहमत होते हैं।",
     "manualInput": "पता मैन्युअल रूप से दर्ज करें",
+    "addressIncomplete": "पते के अनिवार्य फ़ील्ड भरें। शहर और पिन कोड के बिना ऑर्डर भेजा नहीं जा सकता।",
     "orderComposition": "ऑर्डर सारांश",
     "paymentHeading": "भुगतान विधि",
     "recipientCheckbox": "प्राप्तकर्ता कोई अन्य व्यक्ति है",
@@ -145,7 +170,16 @@
     "shippingLink": "शिपिंग",
     "shippingUnavailable": "कोई शिपिंग विधि उपलब्ध नहीं है",
     "signIn": "साइन इन करें",
-    "total": "कुल"
+    "total": "कुल",
+    "shippingZone": "क्षेत्र: {zone}"
+  },
+  "ClaimOrders": {
+    "heading": "क्या आपने बिना खाते के ऑर्डर किया था?",
+    "description": "अगर आपने इसी ईमेल पते से मेहमान के रूप में ऑर्डर किया था, तो हम वे ऑर्डर आपके खाते से जोड़ देंगे।",
+    "button": "मेरे ऑर्डर खोजें",
+    "claimed": "जोड़े गए ऑर्डर: {count}",
+    "none": "इस दुकान में आपके ईमेल पते पर कोई मेहमान ऑर्डर नहीं मिला।",
+    "failed": "हम आपके ऑर्डर जाँच नहीं सके। थोड़ी देर बाद फिर कोशिश करें।"
   },
   "Common": {
     "clear": "साफ़ करें",
@@ -306,8 +340,12 @@
     "unauthorized": "जारी रखने के लिए कृपया साइन इन करें।"
   },
   "Filters": {
+    "from": "से",
+    "no": "नहीं",
     "sort": "क्रमबद्ध करें",
-    "title": "फ़िल्टर"
+    "title": "फ़िल्टर",
+    "to": "तक",
+    "yes": "हाँ"
   },
   "Footer": {
     "categoriesHeading": "श्रेणियां",
@@ -399,8 +437,32 @@
     }
   },
   "ImageGallery": {
+    "close": "बंद करें",
+    "counter": "चित्र {index} / {total}",
     "goToImage": "छवि {index} पर जाएं",
-    "openFullImage": "पूरी छवि खोलें"
+    "nextImage": "अगला चित्र",
+    "openFullImage": "पूरी छवि खोलें",
+    "previousImage": "पिछला चित्र",
+    "showImage": "चित्र {index} दिखाएँ",
+    "thumbnails": "उत्पाद की थंबनेल"
+  },
+  "Journal": {
+    "navLabel": "पत्रिका",
+    "feedTitle": "पत्रिका",
+    "feedDescription": "{siteName} के लेख।",
+    "empty": "अभी कोई लेख नहीं है।",
+    "backToFeed": "सभी लेख",
+    "previous": "पिछला",
+    "next": "अगला",
+    "pageOf": "पृष्ठ {page} / {lastPage}",
+    "pagination": "पत्रिका के पृष्ठ",
+    "readingTime": "{minutes} मिनट पढ़ें",
+    "related": "यह भी पढ़ें",
+    "share": "साझा करें",
+    "copyLink": "लिंक कॉपी करें",
+    "linkCopied": "लिंक कॉपी हो गया",
+    "allCategories": "सभी विषय",
+    "categories": "विषय"
   },
   "LanguageSelect": {
     "locales": {
@@ -454,7 +516,16 @@
     "joinUs": "हमसे जुड़ें",
     "notMember": "सदस्य नहीं हैं?",
     "password": "पासवर्ड",
-    "signIn": "साइन इन करें"
+    "signIn": "साइन इन करें",
+    "yandexCta": "Yandex ID से साइन इन करें",
+    "yandexDivider": "या",
+    "yandexErrorDenied": "आपने Yandex के पेज पर साइन इन रद्द कर दिया।",
+    "yandexErrorEmailTaken": "इस ईमेल पर पहले से खाता है। अपने पासवर्ड से साइन इन करें।",
+    "yandexErrorExpired": "साइन इन लिंक की अवधि समाप्त हो गई। दोबारा शुरू करें।",
+    "yandexErrorFailed": "साइन इन पूरा नहीं हुआ। थोड़ी देर बाद कोशिश करें।",
+    "yandexErrorNoEmail": "Yandex ने ईमेल पता नहीं दिया, इसलिए खाता नहीं बनाया जा सकता।",
+    "yandexErrorRejected": "Yandex इस साइन इन की पुष्टि नहीं कर सका। फिर से कोशिश करें।",
+    "yandexErrorUnconfigured": "इस स्टोर में Yandex से साइन इन अभी चालू नहीं है।"
   },
   "Metadata": {
     "account": {
@@ -565,12 +636,13 @@
     "seeDetails": "विवरण देखें"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "ऑर्डर नंबर सहेज कर रखें। दुकान से संपर्क करते समय इसकी ज़रूरत पड़ेगी।",
     "orderSuccess": "आपका ऑर्डर सफलतापूर्वक दे दिया गया है।",
     "thankYou": "धन्यवाद!"
   },
   "OrderDetails": {
     "backToOrders": "ऑर्डर पर वापस जाएँ",
-    "confirmationSentBefore": "हमने ऑर्डर पुष्टिकरण विवरण भेजे हैं:",
+    "contactEmailBefore": "इस ऑर्डर का संपर्क पता है",
     "fulfillmentStatuses": {
       "canceled": "रद्द किया गया",
       "delivered": "डिलीवर हुआ",
@@ -602,6 +674,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "भुगतान की पुष्टि अभी हो रही है। एक मिनट रुकें और खाते से अपना ऑर्डर खोलें, या फिर से प्रयास करें।",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +697,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "ट्रैकिंग नंबर"
   },
   "OrdersPage": {
     "description": "अपने पिछले ऑर्डर और उनकी स्थिति देखें।",
@@ -642,6 +716,7 @@
   },
   "PaymentButton": {
     "placeOrder": "भुगतान करें",
+    "redirectUnavailable": "भुगतान पृष्ठ अभी उपलब्ध नहीं है। कुछ देर बाद फिर से प्रयास करें।",
     "selectPaymentMethod": "भुगतान विधि चुनें"
   },
   "PaymentContainer": {
@@ -657,6 +732,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "क्रेडिट कार्ड",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "क्रेडिट कार्ड",
@@ -682,6 +758,14 @@
     "selectOptions": "विकल्प चुनें",
     "selectVariant": "वेरिएंट चुनें"
   },
+  "ProductAttributes": {
+    "no": "नहीं",
+    "title": "विशेषताएँ",
+    "yes": "हाँ"
+  },
+  "ProductInfo": {
+    "description": "विवरण"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "एडमिन में सेटअप जारी रखें",
     "continueSetup": "अब आप एडमिन में अपने स्टोर का सेटअप जारी रख सकते हैं।",
@@ -693,6 +777,24 @@
   },
   "ProductRail": {
     "viewAll": "सभी देखें"
+  },
+  "ProductReviews": {
+    "heading": "समीक्षाएँ",
+    "ratingSummary": "5 में से {average} · {count, plural, one {# समीक्षा} other {# समीक्षाएँ}}",
+    "ratingValue": "5 में से {value}",
+    "formHeading": "आपकी समीक्षा",
+    "ratingLabel": "रेटिंग",
+    "nameLabel": "आपका नाम",
+    "titleLabel": "शीर्षक (वैकल्पिक)",
+    "bodyLabel": "समीक्षा का पाठ",
+    "submit": "समीक्षा भेजें",
+    "pendingNotice": "धन्यवाद। दुकान द्वारा स्वीकृत होने के बाद आपकी समीक्षा दिखाई देगी।",
+    "signInPrompt": "समीक्षा लिखने के लिए साइन इन करें।",
+    "error": "समीक्षा नहीं भेजी जा सकी। दोबारा कोशिश करें।",
+    "ownerReply": "दुकान का उत्तर",
+    "previousPage": "पिछला",
+    "nextPage": "अगला",
+    "pageOf": "पृष्ठ {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "आसान रिटर्न",
@@ -809,7 +911,8 @@
       "account": "खाता",
       "cart": "कार्ट",
       "home": "होम",
-      "store": "स्टोर"
+      "store": "स्टोर",
+      "journal": "पत्रिका"
     },
     "menuButton": "मेनू"
   },

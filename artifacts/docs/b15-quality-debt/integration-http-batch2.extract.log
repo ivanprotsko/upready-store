@@ -1,0 +1,5 @@
+PASS integration-tests/http/tenants-reviews.spec.ts (15.328 s)
+PASS integration-tests/http/tenants.spec.ts (78.749 s)
+PASS integration-tests/http/tenants-domains.spec.ts (15.8 s)
+Test Suites: 3 passed, 3 total
+Tests:       50 passed, 50 total

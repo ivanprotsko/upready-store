@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-16T00:56:45+08:00",
+  "status": "2026-09-16 00:56 WITA: приёмка b14-pages-legal-content round 1 — PR #67 смержен (squash). На своём клоне базы Оксаны воспроизвёл 404 на пяти адресах ДО сида и 200 ПОСЛЕ (delivery/faq/returns/legal/terms, кадры 1280x900, ноль токенов в тексте); чекаут через подложенную куку корзины — три ссылки ведут в /pages/offer, /pages/terms, /pages/returns (плюс privacy); legal при заполненных реквизитах без токенов. vitest витрины 229/229, tsc rc=0. Ниты: пересечение ключей terms/termsOfUse и ревалидация сида по мёртвому STOREFRONT_URL."
+}

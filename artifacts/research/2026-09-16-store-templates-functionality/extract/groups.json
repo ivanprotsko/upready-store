@@ -1,0 +1,496 @@
+{
+ "insales-1": [
+  {
+   "template": "Cream",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes/product/cream",
+   "demo_url": "https://demo-cream.myinsales.ru",
+   "files": [
+    "theme-cream.md",
+    "demo-demo-cream-account.md",
+    "demo-demo-cream-blog.md",
+    "demo-demo-cream-cart.md",
+    "demo-demo-cream-collection.md",
+    "demo-demo-cream-page-payment.md",
+    "demo-demo-cream-product.md",
+    "demo-demo-cream.md"
+   ]
+  },
+  {
+   "template": "Minimalism",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes/product/shablon-dlya-internet-magazina-minimalism",
+   "demo_url": "https://demo-minimalism.myinsales.ru",
+   "files": [
+    "theme-shablon-dlya-internet-magazina-minimalism.md",
+    "demo-demo-minimalism-collection.md",
+    "demo-demo-minimalism-product.md",
+    "demo-demo-minimalism.md"
+   ]
+  },
+  {
+   "template": "Base",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-base",
+   "demo_url": "https://demo-base.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-base.md",
+    "demo-demo-base-collection.md",
+    "demo-demo-base-product.md",
+    "demo-demo-base.md"
+   ]
+  },
+  {
+   "template": "Bubble",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-bubble",
+   "demo_url": "https://demo-bubble.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-bubble.md",
+    "demo-demo-bubble-account.md",
+    "demo-demo-bubble-cart.md",
+    "demo-demo-bubble-collection.md",
+    "demo-demo-bubble-product.md",
+    "demo-demo-bubble.md"
+   ]
+  },
+  {
+   "template": "Fine",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-fine",
+   "demo_url": "https://demo-fine.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-fine.md",
+    "demo-demo-fine-account.md",
+    "demo-demo-fine-blog.md",
+    "demo-demo-fine-cart.md",
+    "demo-demo-fine-collection.md",
+    "demo-demo-fine-compare.md",
+    "demo-demo-fine-page-payment.md",
+    "demo-demo-fine-product.md",
+    "demo-demo-fine.md"
+   ]
+  },
+  {
+   "template": "Fourth",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-fourth",
+   "demo_url": "http://demo-fourth.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-fourth.md",
+    "demo-demo-fourth.md"
+   ]
+  },
+  {
+   "template": "Gift",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-gift",
+   "demo_url": "http://demo-gift.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-gift.md",
+    "demo-demo-gift.md"
+   ]
+  }
+ ],
+ "insales-2": [
+  {
+   "template": "Grand",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-grand",
+   "demo_url": "https://demo-grand.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-grand.md",
+    "demo-demo-grand-cart.md",
+    "demo-demo-grand-collection.md",
+    "demo-demo-grand-compare.md",
+    "demo-demo-grand-page-payment.md",
+    "demo-demo-grand-product.md",
+    "demo-demo-grand.md"
+   ]
+  },
+  {
+   "template": "Idea",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-idea",
+   "demo_url": "https://demo-idea.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-idea.md",
+    "demo-demo-idea-collection.md",
+    "demo-demo-idea-product.md",
+    "demo-demo-idea.md"
+   ]
+  },
+  {
+   "template": "Jack",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes/product/shablon-internet-magazina-landing-1",
+   "demo_url": "https://myshop-bcp658.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-landing-1.md",
+    "demo-myshop-bcp658.md"
+   ]
+  },
+  {
+   "template": "Landing",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+   "demo_url": "https://demo-landing2.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-landing.md",
+    "demo-demo-landing2.md"
+   ]
+  },
+  {
+   "template": "Loft",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-loft",
+   "demo_url": "https://demo-loft.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-loft.md",
+    "demo-demo-loft-collection.md",
+    "demo-demo-loft-product.md",
+    "demo-demo-loft.md"
+   ]
+  },
+  {
+   "template": "Markom",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-markom",
+   "demo_url": "http://demo-markom.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-markom.md",
+    "demo-demo-markom.md"
+   ]
+  },
+  {
+   "template": "Mono",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-mono",
+   "demo_url": "http://demo-mono.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-mono.md",
+    "demo-demo-mono.md"
+   ]
+  }
+ ],
+ "insales-3": [
+  {
+   "template": "Moon",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon",
+   "demo_url": "https://demo-moon.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-moon.md",
+    "demo-demo-moon-collection.md",
+    "demo-demo-moon-product.md",
+    "demo-demo-moon.md"
+   ]
+  },
+  {
+   "template": "Newtone 2.0",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-newtone-2",
+   "demo_url": "https://newtone-demo.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-newtone-2.md",
+    "demo-newtone-demo-collection.md",
+    "demo-newtone-demo-product.md",
+    "demo-newtone-demo.md"
+   ]
+  },
+  {
+   "template": "Открытие 4.0",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40",
+   "demo_url": "https://demo-opening.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-otkrytie-40.md",
+    "demo-demo-opening.md"
+   ]
+  },
+  {
+   "template": "Stories",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-stories",
+   "demo_url": "https://demo-stories.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-stories.md",
+    "demo-demo-stories-collection.md",
+    "demo-demo-stories-product.md",
+    "demo-demo-stories.md"
+   ]
+  },
+  {
+   "template": "Vibe",
+   "source": "insales",
+   "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-vibe-2",
+   "demo_url": "https://demo-vibe.myinsales.ru",
+   "files": [
+    "theme-shablon-internet-magazina-vibe-2.md",
+    "demo-demo-vibe-collection.md",
+    "demo-demo-vibe-product.md",
+    "demo-demo-vibe.md"
+   ]
+  }
+ ],
+ "tilda-1": [
+  {
+   "template": "Продажа недвижимости",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=newsfeedrealestateru",
+   "demo_url": "http://examples-ru.tilda.ws/newsfeedrealestateru",
+   "files": [
+    "demo-newsfeedrealestateru.md"
+   ]
+  },
+  {
+   "template": "Шаблон сервиса доставки еды",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=fooddeliveryru",
+   "demo_url": "http://examples-ru.tilda.ws/fooddeliveryru",
+   "files": [
+    "demo-fooddeliveryru.md"
+   ]
+  },
+  {
+   "template": "Магазин комнатных растений",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=plantsshopru",
+   "demo_url": "http://examples-ru.tilda.ws/plantsshopru",
+   "files": [
+    "demo-plantsshopru.md"
+   ]
+  },
+  {
+   "template": "Магазин товаров для дома",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=homegoodsru",
+   "demo_url": "http://examples-ru.tilda.ws/homegoodsru",
+   "files": [
+    "demo-homegoodsru.md"
+   ]
+  },
+  {
+   "template": "Магазин украшений",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=jewelryru",
+   "demo_url": "http://examples-ru.tilda.ws/jewelryru",
+   "files": [
+    "demo-jewelryru.md"
+   ]
+  },
+  {
+   "template": "Магазин мебели",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=furnitureru",
+   "demo_url": "http://examples-ru.tilda.ws/furnitureru",
+   "files": [
+    "demo-furnitureru.md"
+   ]
+  },
+  {
+   "template": "Онлайн-магазин",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=shetukaru",
+   "demo_url": "http://examples-ru.tilda.ws/shetukaru",
+   "files": [
+    "demo-shetukaru.md"
+   ]
+  }
+ ],
+ "tilda-2": [
+  {
+   "template": "Онлайн-магазин",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=instoreru",
+   "demo_url": "http://examples-ru.tilda.ws/instoreru",
+   "files": [
+    "demo-instoreru.md"
+   ]
+  },
+  {
+   "template": "Онлайн-магазин",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=ascentru",
+   "demo_url": "http://examples-ru.tilda.ws/ascentru",
+   "files": [
+    "demo-ascentru.md"
+   ]
+  },
+  {
+   "template": "Магазин цветов",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=floristsru",
+   "demo_url": "http://examples-ru.tilda.ws/floristsru",
+   "files": [
+    "demo-floristsru.md"
+   ]
+  },
+  {
+   "template": "Аксессуары для дома",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=menidyonru",
+   "demo_url": "http://examples-ru.tilda.ws/menidyonru",
+   "files": [
+    "demo-menidyonru.md"
+   ]
+  },
+  {
+   "template": "Магазин ХВОЯ",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=hvoyastoreru",
+   "demo_url": "http://examples-ru.tilda.ws/hvoyastoreru",
+   "files": [
+    "demo-hvoyastoreru.md"
+   ]
+  },
+  {
+   "template": "Одежда и аксессуары",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=mythsru",
+   "demo_url": "http://examples-ru.tilda.ws/mythsru",
+   "files": [
+    "demo-mythsru.md"
+   ]
+  },
+  {
+   "template": "Растения для дома",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=tukaplantsru",
+   "demo_url": "http://examples-ru.tilda.ws/tukaplantsru",
+   "files": [
+    "demo-tukaplantsru.md"
+   ]
+  }
+ ],
+ "tilda-3": [
+  {
+   "template": "Блокноты ручной работы",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=voodoobooksru",
+   "demo_url": "http://examples-ru.tilda.ws/voodoobooksru",
+   "files": [
+    "demo-voodoobooksru.md"
+   ]
+  },
+  {
+   "template": "Магазин постеров",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=posteandcoru",
+   "demo_url": "http://examples-ru.tilda.ws/posteandcoru",
+   "files": [
+    "demo-posteandcoru.md"
+   ]
+  },
+  {
+   "template": "Промо страница товара",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=velottonstrru",
+   "demo_url": "http://examples-ru.tilda.ws/velottonstrru",
+   "files": [
+    "demo-velottonstrru.md"
+   ]
+  },
+  {
+   "template": "Магазин головоломок",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=puzzlesru",
+   "demo_url": "http://examples-ru.tilda.ws/puzzlesru",
+   "files": [
+    "demo-puzzlesru.md"
+   ]
+  },
+  {
+   "template": "Магазин аксессуаров для дома",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=bluerinru",
+   "demo_url": "http://examples-ru.tilda.ws/bluerinru",
+   "files": [
+    "demo-bluerinru.md"
+   ]
+  },
+  {
+   "template": "Магазин мебели",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=happychairru",
+   "demo_url": "http://examples-ru.tilda.ws/happychairru",
+   "files": [
+    "demo-happychairru.md"
+   ]
+  },
+  {
+   "template": "Аксессуары из кожи",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=longriverru",
+   "demo_url": "http://examples-ru.tilda.ws/longriverru",
+   "files": [
+    "demo-longriverru.md"
+   ]
+  }
+ ],
+ "tilda-4": [
+  {
+   "template": "Онлайн-магазин",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=pichyshopru",
+   "demo_url": "http://examples-ru.tilda.ws/pichyshopru",
+   "files": [
+    "demo-pichyshopru.md"
+   ]
+  },
+  {
+   "template": "Онлайн-магазин",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=loadstoneru",
+   "demo_url": "http://examples-ru.tilda.ws/loadstoneru",
+   "files": [
+    "demo-loadstoneru.md"
+   ]
+  },
+  {
+   "template": "Интернет-магазин",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=cannyonlinestoreru",
+   "demo_url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+   "files": [
+    "demo-cannyonlinestoreru.md"
+   ]
+  },
+  {
+   "template": "Страница товара",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=oneproductpageru",
+   "demo_url": "http://examples-ru.tilda.ws/oneproductpageru",
+   "files": [
+    "demo-oneproductpageru.md"
+   ]
+  },
+  {
+   "template": "Страница товара",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=phantomru",
+   "demo_url": "http://examples-ru.tilda.ws/phantomru",
+   "files": [
+    "demo-phantomru.md"
+   ]
+  },
+  {
+   "template": "Магазин украшений",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=jewelrystoreru",
+   "demo_url": "http://examples-ru.tilda.ws/jewelrystoreru",
+   "files": [
+    "demo-jewelrystoreru.md"
+   ]
+  },
+  {
+   "template": "Онлайн-сервис доставки еды",
+   "source": "tilda",
+   "page_url": "https://tilda.cc/tpls/page/?q=sushideliveryru",
+   "demo_url": "http://examples-ru.tilda.ws/sushideliveryru",
+   "files": [
+    "demo-sushideliveryru.md"
+   ]
+  }
+ ]
+}

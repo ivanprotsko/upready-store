@@ -1,0 +1,7 @@
+.announce {
+  background: var(--primary); color: var(--primary-foreground);
+  padding-block: var(--space-2);
+}
+.announce-in { display: flex; align-items: center; justify-content: center; gap: var(--space-4); min-height: var(--space-6); }
+.announce .announce-item { color: var(--primary-foreground); text-align: center; }
+.announce-link { color: var(--primary-foreground); text-decoration: underline; text-underline-offset: var(--space-1); }
