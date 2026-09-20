@@ -198,13 +198,11 @@ export const PARAM_RESOLVERS = {
   },
   import_id: async (api) => {
     const body = await api("/tenants/products/import")
-    const list = body.imports ?? body.product_imports ?? body.items ?? []
-    return first(list, "product imports").id
+    return first(body.product_imports, "product imports").id
   },
   attribute_id: async (api) => {
     const body = await api("/tenants/product-attributes?limit=1")
-    const list = body.product_attributes ?? body.attributes ?? []
-    return first(list, "product attributes").id
+    return first(body.product_attributes, "product attributes").id
   },
   category_id: async (api) => {
     const { product_categories } = await api(
@@ -244,7 +242,7 @@ export const PARAM_RESOLVERS = {
   },
   mp_order_id: async (api) => {
     const body = await api("/tenants/marketplace-orders?limit=20")
-    const list = body.orders ?? body.marketplace_orders ?? body.items ?? []
+    const list = body.orders ?? []
     const mp = list.find((o) => o.source && o.source !== "store") ?? list[0]
     if (!mp) {
       throw new Error("the stand has no marketplace orders")
@@ -276,8 +274,7 @@ export const PARAM_RESOLVERS = {
   },
   shipping_option_id: async (api) => {
     const body = await api("/tenants/shipping-methods")
-    const list = body.shipping_methods ?? body.shipping_options ?? []
-    return first(list, "delivery methods").id
+    return first(body.methods, "delivery methods").id
   },
 }
 
