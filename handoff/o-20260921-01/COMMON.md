@@ -24,6 +24,16 @@ Ivan is asleep for about 8 hours. Nobody answers questions. Never wait for an an
 - PR early, push often: after your first milestone run `git push -u origin <branch>` and `gh pr create --base dev --draft …` (no `--repo`, no `--head`). Keep pushing to the same PR. When everything is done and verified, `gh pr ready <N>` and print the final envelope. The lead reviews the draft while you work and may send findings into your terminal as one line; handle them at your next natural stopping point.
 - Before the PR is marked ready run `bash /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/pre-pr.sh dev` and paste its `PRE-PR …` block into the PR body. If the script itself is broken, say so with its output and do the same steps by hand.
 
+## Load discipline (added 2026-09-21 02:55 WITA after a machine incident)
+
+Around 02:30 WITA this Mac reached a load average above 50 (15-minute figure measured by the lead: 52) from many sessions running installs, builds and dev servers at once, the UI froze, and every agent process was killed by hand. Your earlier session died there; your worktree, branch and commits are intact. From now on:
+
+- One heavy job at a time in your worktree: never run two of `pnpm install`, `next build`, `medusa build`, `medusa develop` start-up, a test suite or a Playwright run concurrently. Wait for one to end before starting the next.
+- Before every heavy job run `uptime`. If the 1-minute load average is above 12, wait two minutes and look again; do not start the job until it is below 12. Another worker of this project runs next to you: builds are serialised across both of you by this rule.
+- One dev server per app, only while you measure, stopped right after. Prefer `tsc --noEmit` and lint while iterating, and a full `next build` only at milestones and before the PR is marked ready.
+- No `agy` run while a build, an install or a test suite is running.
+- Prefix long jobs with `nice -n 10`.
+
 ## Machine and stands
 
 - This Mac has 16 GB of RAM and is shared with other workers tonight. Start only the servers you are measuring with, and stop them as soon as the measurement is done. Before your final message every process you started is stopped: `/usr/sbin/lsof -nP -iTCP -sTCP:LISTEN`, kill by PID, re-measure.

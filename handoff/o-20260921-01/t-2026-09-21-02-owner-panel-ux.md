@@ -65,6 +65,55 @@ At 390 px: no horizontal scroll on any screen, tables become cards or scroll ins
 
 The panel is a copy of Medusa Admin screens. Prefer wrappers, route-level composition and dictionary changes over rewriting copied internals, and list in the PR which copied files you had to change, so a future Medusa update stays feasible.
 
+## Layout artefact (rule 27d): wireframes and the named reference
+
+Canon for tokens, spacing and type: `/Users/ivanprotsko/upready/packages/geist-kit/AGENTS.md` (rule 27: Geist everywhere; the panel keeps `@medusajs/ui` primitives, the canon governs spacing, hierarchy and density decisions). The «before» reference is your own Milestone 1 walker output: every «after» frame is compared against its «before» frame of the same route and width, dimension by dimension (navigation depth, number of visible controls, first actionable element, words an owner would not understand, horizontal overflow), and each claimed improvement is re-verified on the frame.
+
+Shell at 1440 and at 390:
+
+```
+1440                                                   390
+┌ Магазин Оксаны ▾ ┬ Заказы            [Открыть магазин]┐  ┌ ☰  Заказы   [Магазин ↗]┐
+│ Обзор            │                                    │  │                        │
+│ ▾ Продажи        │  screen content                    │  │ cards instead of table │
+│    Заказы     3  │                                    │  │ ┌────────────────────┐ │
+│    Клиенты       │                                    │  │ │ №1042 · 1 355,00 ₽ │ │
+│    Отзывы     2  │                                    │  │ │ Ожидает сборки     │ │
+│ ▸ Каталог        │                                    │  │ │ [ Собрать ]        │ │
+│ ▸ Витрина        │                                    │  │ └────────────────────┘ │
+│ ▸ Маркетинг      │                                    │  │                        │
+│   Площадки       │                                    │  │ drawer: the same groups│
+│ ▸ Настройки      │                                    │  └────────────────────────┘
+└──────────────────┴────────────────────────────────────┘
+```
+
+Overview:
+
+```
+┌ Требует внимания ───────────────────────────────────────┐
+│ ● 3 заказа ждут сборки                        [Открыть] │
+│ ● 2 отзыва без ответа                         [Ответить]│
+│ ● 4 товара без фото                           [Показать]│
+├ Запуск магазина  ████████░░  4 из 6 ────────────────────┤
+│ ✓ Первый товар   ✓ Доставка   ✓ Реквизиты   ✓ Страницы  │
+│ ○ Подключить оплату [Настроить]  ○ Свой домен [Привязать]│
+├ Сегодня / 7 дней ───────────────────────────────────────┤
+│ Заказы 5 · Выручка 8 420,00 ₽ · Средний чек 1 684,00 ₽  │
+└─────────────────────────────────────────────────────────┘
+```
+
+Page editor at 1440: `[toolbar: H  B  I  •  1.  🔗  ▦  —]` above two panes, left «Текст» (the textarea), right «Предпросмотр» (storefront renderer); at 390 the panes are tabs; footer `[Посмотреть на витрине] [Отмена] [Сохранить]`.
+
+## Human-eyes criteria (rule 27d; the lead judges these by looking at the running panel, a screenshot file is not a verdict)
+
+- A person who has never seen Medusa, shown the sidebar for ten seconds, can say where orders, products, the home page and delivery settings live.
+- No screen shows a word the owner would have to ask a developer about (HTTP verbs, flags, table names, «вхолостую», «ворота», «фулфилмент»).
+- No sidebar item overlaps another, at any width, with every group expanded.
+- The overview reads as «what do I do now», not as a dashboard of decorations: the first thing the eye lands on is the attention list.
+- The page editor lets her make a table and a link without knowing Markdown, and the preview looks like the shop page.
+- On the phone every core screen is usable with one thumb: no sideways scrolling, the primary button is visible without hunting.
+- Empty lists look intentional, with one clear next step, not like a broken page.
+
 ## Files you may change
 
 `apps/tenant-panel/**`, docs under `docs/tenant-panel/`, a walker and probes under `scripts/` or `apps/tenant-panel/e2e/`. Backend only for an endpoint the overview or the counters need, smallest possible, with tests and `pnpm check:backend-build` green; say so in the PR. Do not touch `apps/storefront/**` except reading the Markdown renderer (if the shared copy must change, change both copies identically and keep `node scripts/check-shared-markdown.mjs` green).

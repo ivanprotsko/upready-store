@@ -60,6 +60,74 @@ Create one component that every product image goes through (cards, related, cart
 
 No tenant-specific code. The client's character comes from tenant branding (logo, colours, task t16) and theme presets. Verify the result on the cherkashino dataset AND on one seeded demo shop with a different preset, light and dark.
 
+## Layout artefact (rule 27d): wireframes and the named reference
+
+Canon for tokens, spacing and type: `/Users/ivanprotsko/upready/packages/geist-kit/AGENTS.md` (rule 27: Geist everywhere). The «before» reference is the live shop `https://cherkashino.shipshift.dev` at `/ru`, `/ru/store` and a product page, shot at 1440 and 390 at the start of your run; every «after» frame is compared against its «before» frame dimension by dimension (frame ratio, clipping, card height, baseline of title and price, gaps, section spacing, surface colour), and each claimed improvement is re-verified on the frame, not on the CSS.
+
+Product card (all grids use it):
+
+```
+┌──────────────────────┐
+│ ┌──────────────────┐ │  frame 4:5, one neutral surface,
+│ │                  │ │  image object-fit: contain, centred,
+│ │   whole photo    │ │  small even padding, same radius
+│ │   never cropped  │ │
+│ └──────────────────┘ │
+│ Title, max two lines │  reserved height for two lines
+│ 50 гр                │  unit slot (empty slot keeps its height)
+│ 1 355,00 ₽   [sale]  │  price row pinned to the card bottom
+└──────────────────────┘
+```
+
+Catalog at 1440 and at 390:
+
+```
+1440                                              390
+┌ Каталог ─────────────────────────────────────┐  ┌ Все товары ───────────┐
+│ Категории   │ [chip ×][chip ×]  Сбросить всё │  │ [Фильтры •2] [Сорт. ▾]│
+│  Мультиварки│ Сортировка ▾                   │  │ [chip ×][chip ×]      │
+│  Стевия     │ ┌───┐ ┌───┐ ┌───┐ ┌───┐        │  │ ┌────┐ ┌────┐         │
+│ Фильтры     │ │   │ │   │ │   │ │   │        │  │ │    │ │    │         │
+│ ▾ Фасовка   │ └───┘ └───┘ └───┘ └───┘        │  │ └────┘ └────┘         │
+│  ☐ 50 гр (4)│ ┌───┐ ┌───┐ ┌───┐ ┌───┐        │  │ ┌────┐ ┌────┐         │
+│ ▾ Объём     │ │   │ │   │ │   │ │   │        │  │ │    │ │    │         │
+│  от 10 до   │ └───┘ └───┘ └───┘ └───┘        │  │ └────┘ └────┘         │
+│  2000 мл    │           1 2 3                │  │ sheet: groups + sticky│
+└─────────────┴────────────────────────────────┘  │ «Показать 12 товаров» │
+                                                  └───────────────────────┘
+```
+
+Product page at 1440 and at 390:
+
+```
+1440                                              390
+┌ crumbs ──────────────────────────────────────┐  ┌ crumbs ───────────────┐
+│ ┌─┐ ┌──────────────────┐  Title              │  │ ┌───────────────────┐ │
+│ │t│ │                  │  1 355,00 ₽  50 гр  │  │ │ swipe gallery 4:5 │ │
+│ │h│ │  main frame      │  [variant pickers]  │  │ └─────── • ◦ ◦ ─────┘ │
+│ │u│ │  contain, zoom   │  В наличии          │  │ Title                 │
+│ │m│ │                  │  [ В корзину ]      │  │ 1 355,00 ₽   50 гр    │
+│ │b│ └──────────────────┘  ▸ Доставка и возврат│ │ Описание…             │
+│ └─┘                                          │  │ Характеристики…       │
+│ Описание (readable measure) │ Характеристики │  │ ───────────────────── │
+│ Отзывы                                       │  │ sticky: цена [В корзину]│
+│ Вам может понравиться: the same card, 4 cols │  └───────────────────────┘
+└──────────────────────────────────────────────┘
+```
+
+Footer: `[logo or name + one-line description + phone, e-mail, messengers, address, hours] [Категории] [Информация] [Реквизиты + payment and delivery marks]`, then the copyright row.
+
+## Human-eyes criteria (rule 27d; the lead judges these by looking at the running shop, a screenshot file is not a verdict)
+
+- On every card of the client's catalog the captions printed on the photo (for example «ЗУБНАЯ ПАСТА с углем», «ИНГАЛЯТОР», «СРЕДСТВО ОТ 1000 БОЛЕЗНЕЙ») are readable from the first to the last letter.
+- In any grid row the titles start on one line and the prices stand on one line across the row.
+- White packshots, tinted photos and full-bleed infographics next to each other read as one calm grid: no tile looks like a hole or a sticker.
+- A product without photos does not look broken: a buyer would call it «фото скоро будет», not «сайт сломан».
+- The catalog at 390 shows the first product cards within the first screen: filters do not push the goods below the fold.
+- The product page has no unexplained voids: between the header and the title, and between the buy box and the description, the spacing follows one scale.
+- The footer answers «кто продавец и как с ним связаться» without scrolling inside it.
+- The shop looks like one designed thing in light AND in dark mode at 1440 AND at 390.
+
 ## Outstanding recorded tasks folded into this unit
 
 For each: first check on `dev` whether it still reproduces, then fix or record «not reproducible» with the measurement. Read the task with `node /Users/ivanprotsko/upready/.ai/scripts/handoff.mjs --file=/Users/ivanprotsko/upready/projects/upready-store/HANDOFF.json task show <id>` (read only; never write the HANDOFF).
