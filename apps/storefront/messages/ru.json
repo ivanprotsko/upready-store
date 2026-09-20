@@ -961,5 +961,11 @@
     "transferEmailSent": "Письмо с запросом отправлено на {email}",
     "transferRequested": "Перенос заказа {orderId} запрошен",
     "whereToFind": "Откройте письмо с подтверждением того заказа и вставьте ссылку из него сюда."
+  },
+  "ProductMedia": {
+    "photoSoon": "Фото скоро будет"
+  },
+  "ProductCard": {
+    "sale": "Скидка {percent}%"
   }
 }

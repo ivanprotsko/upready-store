@@ -961,5 +961,11 @@
     "transferEmailSent": "{email}-এ হস্তান্তরের অনুরোধ ইমেইল পাঠানো হয়েছে",
     "transferRequested": "অর্ডার {orderId}-এর জন্য হস্তান্তরের অনুরোধ করা হয়েছে",
     "whereToFind": "সেই অর্ডারের নিশ্চিতকরণ ইমেল খুলে তার লিঙ্কটি এখানে পেস্ট করুন।"
+  },
+  "ProductMedia": {
+    "photoSoon": "ছবি শীঘ্রই আসছে"
+  },
+  "ProductCard": {
+    "sale": "{percent}% ছাড়"
   }
 }

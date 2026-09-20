@@ -961,5 +961,11 @@
     "transferEmailSent": "Correo de solicitud de transferencia enviado a {email}",
     "transferRequested": "Transferencia solicitada para el pedido {orderId}",
     "whereToFind": "Abre el correo de confirmación de ese pedido y pega aquí el enlace que contiene."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto disponible pronto"
+  },
+  "ProductCard": {
+    "sale": "{percent} % de descuento"
   }
 }

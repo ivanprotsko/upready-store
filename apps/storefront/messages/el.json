@@ -961,5 +961,11 @@
     "transferEmailSent": "Το email αιτήματος μεταβίβασης στάλθηκε στο {email}",
     "transferRequested": "Το αίτημα μεταβίβασης για την παραγγελία {orderId} υποβλήθηκε",
     "whereToFind": "Ανοίξτε το email επιβεβαίωσης εκείνης της παραγγελίας και επικολλήστε εδώ τον σύνδεσμο."
+  },
+  "ProductMedia": {
+    "photoSoon": "Η φωτογραφία έρχεται σύντομα"
+  },
+  "ProductCard": {
+    "sale": "Έκπτωση {percent}%"
   }
 }

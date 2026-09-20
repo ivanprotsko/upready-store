@@ -961,5 +961,11 @@
     "transferEmailSent": "Transfer request email sent to {email}",
     "transferRequested": "Transfer for order {orderId} requested",
     "whereToFind": "Open the confirmation email for that order and paste the link from it here."
+  },
+  "ProductMedia": {
+    "photoSoon": "Photo coming soon"
+  },
+  "ProductCard": {
+    "sale": "{percent}% off"
   }
 }

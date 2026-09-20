@@ -961,5 +961,11 @@
     "transferEmailSent": "譲渡リクエストのメールを{email}に送信しました",
     "transferRequested": "注文{orderId}の譲渡をリクエストしました",
     "whereToFind": "その注文の確認メールを開き、そこにあるリンクをここに貼り付けてください。"
+  },
+  "ProductMedia": {
+    "photoSoon": "写真は近日公開"
+  },
+  "ProductCard": {
+    "sale": "{percent}%オフ"
   }
 }

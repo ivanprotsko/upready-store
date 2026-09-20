@@ -961,5 +961,11 @@
     "transferEmailSent": "E-mel permintaan pemindahan dihantar ke {email}",
     "transferRequested": "Pemindahan untuk pesanan {orderId} telah dimohon",
     "whereToFind": "Buka e-mel pengesahan pesanan itu dan tampal pautannya di sini."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto akan datang"
+  },
+  "ProductCard": {
+    "sale": "Diskaun {percent}%"
   }
 }

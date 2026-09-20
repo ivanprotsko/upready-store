@@ -961,5 +961,11 @@
     "transferEmailSent": "E-Mail mit Übertragungsanfrage an {email} gesendet",
     "transferRequested": "Übertragung für Bestellung {orderId} angefragt",
     "whereToFind": "Öffnen Sie die Bestätigungsmail zu dieser Bestellung und fügen Sie den Link daraus hier ein."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto folgt in Kürze"
+  },
+  "ProductCard": {
+    "sale": "{percent} % Rabatt"
   }
 }

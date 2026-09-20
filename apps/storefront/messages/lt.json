@@ -961,5 +961,11 @@
     "transferEmailSent": "Perdavimo užklausos el. laiškas išsiųstas adresu {email}",
     "transferRequested": "Užsakymo {orderId} perdavimas užklaustas",
     "whereToFind": "Atidarykite to užsakymo patvirtinimo laišką ir čia įklijuokite iš jo nuorodą."
+  },
+  "ProductMedia": {
+    "photoSoon": "Nuotrauka jau greitai"
+  },
+  "ProductCard": {
+    "sale": "{percent} % nuolaida"
   }
 }

@@ -961,5 +961,11 @@
     "transferEmailSent": "ส่งอีเมลคำขอโอนไปยัง {email} แล้ว",
     "transferRequested": "ส่งคำขอโอนคำสั่งซื้อ {orderId} แล้ว",
     "whereToFind": "เปิดอีเมลยืนยันของคำสั่งซื้อนั้น แล้ววางลิงก์จากในอีเมลลงที่นี่"
+  },
+  "ProductMedia": {
+    "photoSoon": "รูปภาพจะมาเร็ว ๆ นี้"
+  },
+  "ProductCard": {
+    "sale": "ลด {percent}%"
   }
 }

@@ -961,5 +961,11 @@
     "transferEmailSent": "ट्रांसफर अनुरोध ईमेल {email} पर भेजा गया",
     "transferRequested": "ऑर्डर {orderId} के लिए ट्रांसफर का अनुरोध किया गया",
     "whereToFind": "उस ऑर्डर का पुष्टिकरण ईमेल खोलें और उसमें दिया लिंक यहाँ चिपकाएँ."
+  },
+  "ProductMedia": {
+    "photoSoon": "फ़ोटो जल्द आ रही है"
+  },
+  "ProductCard": {
+    "sale": "{percent}% की छूट"
   }
 }

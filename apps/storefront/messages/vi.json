@@ -961,5 +961,11 @@
     "transferEmailSent": "Email yêu cầu chuyển nhượng đã được gửi đến {email}",
     "transferRequested": "Đã gửi yêu cầu chuyển nhượng cho đơn hàng {orderId}",
     "whereToFind": "Mở email xác nhận của đơn hàng đó và dán liên kết trong đó vào đây."
+  },
+  "ProductMedia": {
+    "photoSoon": "Ảnh sẽ sớm có"
+  },
+  "ProductCard": {
+    "sale": "Giảm {percent}%"
   }
 }

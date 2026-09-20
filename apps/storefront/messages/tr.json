@@ -961,5 +961,11 @@
     "transferEmailSent": "Devir talebi e-postası {email} adresine gönderildi",
     "transferRequested": "{orderId} numaralı sipariş için devir talep edildi",
     "whereToFind": "O siparişin onay e-postasını açın ve içindeki bağlantıyı buraya yapıştırın."
+  },
+  "ProductMedia": {
+    "photoSoon": "Fotoğraf yakında"
+  },
+  "ProductCard": {
+    "sale": "%{percent} indirim"
   }
 }

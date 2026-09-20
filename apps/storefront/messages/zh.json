@@ -961,5 +961,11 @@
     "transferEmailSent": "转移申请邮件已发送至 {email}",
     "transferRequested": "订单 {orderId} 的转移申请已提交",
     "whereToFind": "打开该订单的确认邮件，把里面的链接粘贴到这里。"
+  },
+  "ProductMedia": {
+    "photoSoon": "图片即将上线"
+  },
+  "ProductCard": {
+    "sale": "立减 {percent}%"
   }
 }

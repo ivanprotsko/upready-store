@@ -961,5 +961,11 @@
     "transferEmailSent": "تم إرسال بريد إلكتروني بطلب النقل إلى {email}",
     "transferRequested": "تم إرسال طلب نقل الطلب {orderId}",
     "whereToFind": "افتح رسالة تأكيد ذلك الطلب والصق الرابط الموجود فيها هنا."
+  },
+  "ProductMedia": {
+    "photoSoon": "الصورة قريبًا"
+  },
+  "ProductCard": {
+    "sale": "خصم {percent}٪"
   }
 }

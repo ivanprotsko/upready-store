@@ -961,5 +961,11 @@
     "transferEmailSent": "Wiadomość e-mail z prośbą o przeniesienie wysłano na {email}",
     "transferRequested": "Poproszono o przeniesienie zamówienia {orderId}",
     "whereToFind": "Otwórz e-mail z potwierdzeniem tego zamówienia i wklej tutaj link z niego."
+  },
+  "ProductMedia": {
+    "photoSoon": "Zdjęcie wkrótce"
+  },
+  "ProductCard": {
+    "sale": "Rabat {percent}%"
   }
 }

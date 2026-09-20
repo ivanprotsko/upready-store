@@ -961,5 +961,11 @@
     "transferEmailSent": "E-post med överföringsförfrågan skickad till {email}",
     "transferRequested": "Överföring för order {orderId} begärd",
     "whereToFind": "Öppna orderbekräftelsen för den ordern och klistra in länken därifrån här."
+  },
+  "ProductMedia": {
+    "photoSoon": "Bild kommer snart"
+  },
+  "ProductCard": {
+    "sale": "{percent} % rabatt"
   }
 }

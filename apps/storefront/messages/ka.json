@@ -961,5 +961,11 @@
     "transferEmailSent": "გადაცემის მოთხოვნის წერილი გაიგზავნა მისამართზე {email}",
     "transferRequested": "შეკვეთა {orderId}-ის გადაცემა მოთხოვნილია",
     "whereToFind": "გახსენით იმ შეკვეთის დადასტურების წერილი და ჩასვით აქ მისი ბმული."
+  },
+  "ProductMedia": {
+    "photoSoon": "ფოტო მალე გამოჩნდება"
+  },
+  "ProductCard": {
+    "sale": "{percent}% ფასდაკლება"
   }
 }

@@ -961,5 +961,11 @@
     "transferEmailSent": "Emailul de solicitare a transferului a fost trimis la {email}",
     "transferRequested": "Transferul pentru comanda {orderId} a fost solicitat",
     "whereToFind": "Deschide emailul de confirmare al acelei comenzi și lipește aici linkul din el."
+  },
+  "ProductMedia": {
+    "photoSoon": "Fotografia vine în curând"
+  },
+  "ProductCard": {
+    "sale": "Reducere de {percent}%"
   }
 }

@@ -961,5 +961,11 @@
     "transferEmailSent": "אימייל עם בקשת ההעברה נשלח אל {email}",
     "transferRequested": "בקשת ההעברה עבור הזמנה {orderId} נשלחה",
     "whereToFind": "פתח את מייל האישור של אותה הזמנה והדבק כאן את הקישור שבו."
+  },
+  "ProductMedia": {
+    "photoSoon": "התמונה תעלה בקרוב"
+  },
+  "ProductCard": {
+    "sale": "{percent}% הנחה"
   }
 }

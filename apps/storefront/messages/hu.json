@@ -961,5 +961,11 @@
     "transferEmailSent": "Átadási kérelem elküldve a következő címre: {email}",
     "transferRequested": "A(z) {orderId} rendelés átadását kérelmezte",
     "whereToFind": "Nyissa meg az adott rendelés visszaigazoló e-mailjét, és illessze be ide a benne lévő hivatkozást."
+  },
+  "ProductMedia": {
+    "photoSoon": "A fotó hamarosan érkezik"
+  },
+  "ProductCard": {
+    "sale": "{percent}% kedvezmény"
   }
 }

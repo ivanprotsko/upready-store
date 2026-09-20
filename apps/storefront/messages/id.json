@@ -961,5 +961,11 @@
     "transferEmailSent": "Email permintaan transfer telah dikirim ke {email}",
     "transferRequested": "Permintaan transfer untuk pesanan {orderId} telah diajukan",
     "whereToFind": "Buka email konfirmasi pesanan itu dan tempel tautannya di sini."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto segera hadir"
+  },
+  "ProductCard": {
+    "sale": "Diskon {percent}%"
   }
 }

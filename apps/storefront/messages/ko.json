@@ -961,5 +961,11 @@
     "transferEmailSent": "이전 요청 이메일이 {email}로 전송되었습니다",
     "transferRequested": "주문 {orderId}의 이전이 요청되었습니다",
     "whereToFind": "해당 주문의 확인 메일을 열어 그 안의 링크를 여기에 붙여넣으세요."
+  },
+  "ProductMedia": {
+    "photoSoon": "사진 준비 중"
+  },
+  "ProductCard": {
+    "sale": "{percent}% 할인"
   }
 }

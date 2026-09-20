@@ -961,5 +961,11 @@
     "transferEmailSent": "Email so žiadosťou o prevod odoslaný na {email}",
     "transferRequested": "Prevod objednávky {orderId} bol vyžiadaný",
     "whereToFind": "Otvorte potvrdzovací e-mail k tej objednávke a vložte sem odkaz z neho."
+  },
+  "ProductMedia": {
+    "photoSoon": "Fotka bude čoskoro"
+  },
+  "ProductCard": {
+    "sale": "Zľava {percent} %"
   }
 }
