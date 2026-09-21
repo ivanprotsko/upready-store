@@ -1,6 +1,7 @@
 import { Badge, Button, Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
+import { SecretValue, hideQuery } from "../../../components/common/secret-value"
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { CrossLink } from "../integrations/components/cross-link"
 import { CdekBehaviourFields } from "./components/cdek-behaviour-fields"
@@ -116,9 +117,11 @@ export const DeliverySettings = () => {
             <Text className="text-ui-fg-subtle" size="small">
               {t("deliverySettings.webhookHint")}
             </Text>
-            <Text size="small" className="break-all font-mono">
-              {webhookUrl}
-            </Text>
+            <SecretValue
+              value={webhookUrl}
+              hidden={hideQuery(webhookUrl)}
+              testId="delivery-webhook-address"
+            />
             <Badge size="2xsmall" color={settings?.webhook_registered ? "green" : "grey"}>
               {settings?.webhook_registered
                 ? t("deliverySettings.webhookRegistered")

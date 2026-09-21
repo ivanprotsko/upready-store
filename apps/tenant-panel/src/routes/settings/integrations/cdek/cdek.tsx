@@ -34,7 +34,7 @@ export const CdekIntegration = () => {
   return (
     <SingleColumnPage hasOutlet={false} widgets={{ before: [], after: [] }}>
       <Container className="divide-y p-0">
-        <div className="flex items-center justify-between px-6 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-6 py-4">
           <div>
             <Heading>{t("integrations.cdek.title")}</Heading>
             <Text className="text-ui-fg-subtle" size="small">
@@ -42,7 +42,12 @@ export const CdekIntegration = () => {
             </Text>
           </div>
           {settings ? (
-            <Badge size="2xsmall" color={stored ? "green" : "orange"} data-testid="cdek-state">
+            <Badge
+              size="2xsmall"
+              color={stored ? "green" : "orange"}
+              className="shrink-0 whitespace-nowrap"
+              data-testid="cdek-state"
+            >
               {stored
                 ? t("integrations.state.connected", {
                     last4:
