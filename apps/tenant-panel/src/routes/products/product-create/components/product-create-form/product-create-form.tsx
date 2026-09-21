@@ -125,6 +125,12 @@ export const ProductCreateForm = ({
     [watchedVariants]
   )
 
+  const steps = useMemo(
+    () => [Tab.DETAILS, Tab.ORGANIZE, Tab.VARIANTS, ...(showInventoryTab ? [Tab.INVENTORY] : [])],
+    [showInventoryTab]
+  )
+  const stepIndex = Math.max(steps.indexOf(tab), 0)
+
   // o21-owner-panel-ux: a product sold as one thing, with its price typed on
   // the first step, can be published from there. The other steps stay one
   // press away for whoever needs categories or variants.
@@ -334,7 +340,34 @@ export const ProductCreateForm = ({
           className="flex h-full flex-col overflow-hidden"
         >
           <RouteFocusModal.Header>
-            <div className="-my-2 w-full border-l max-md:overflow-x-auto">
+            {/* Gemini critique 2 (4.4): on a phone the tabs were cut to «Категор»,
+                «Вариан». There the header says which step this is, and «Назад»
+                does what a tap on an earlier tab does on a desktop. */}
+            <div className="flex w-full min-w-0 items-center gap-x-2 md:hidden">
+              {stepIndex > 0 ? (
+                <Button
+                  variant="transparent"
+                  size="small"
+                  type="button"
+                  className="min-h-11 shrink-0"
+                  onClick={() => setTab(steps[stepIndex - 1])}
+                  data-testid="product-create-step-back"
+                >
+                  {t("actions.back")}
+                </Button>
+              ) : null}
+              <span
+                className="txt-compact-small-plus min-w-0 truncate"
+                data-testid="product-create-step"
+              >
+                {t("products.create.step", {
+                  current: stepIndex + 1,
+                  total: steps.length,
+                  name: t(`products.create.tabs.${tab}`),
+                })}
+              </span>
+            </div>
+            <div className="-my-2 w-full border-l max-md:hidden">
               <ProgressTabs.List className="justify-start-start flex w-full items-center">
                 <ProgressTabs.Trigger
                   status={tabState[Tab.DETAILS]}

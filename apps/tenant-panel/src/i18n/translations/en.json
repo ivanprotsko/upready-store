@@ -2381,7 +2381,8 @@
       },
       "quickPrice": {
         "hint": "The price of one item for the buyer. Sizes, flavours and different prices are on the “Variants” step."
-      }
+      },
+      "step": "Step {{current}} of {{total}}: {{name}}"
     },
     "deleteVariantWarning": "You are about to delete the variant {{title}}. This action cannot be undone.",
     "deleteWarning": "You are about to delete the product {{title}}. This action cannot be undone.",
