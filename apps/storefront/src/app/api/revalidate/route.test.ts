@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
+import { tenantHomeTag } from "@lib/tenant/cache-tags"
 import type { NextRequest } from "next/server"
 
 const revalidateTag = vi.fn()
@@ -42,16 +43,17 @@ describe("POST /api/revalidate", () => {
     expect(clearedPaths()).toContain("/[locale]/(main)/products/[handle]")
   })
 
-  it.each(["product-type.updated", "product-type.created", "product-type.deleted"])(
-    "clears the product pages for %s",
-    async (type) => {
-      await post({ type, id: "ptyp_1" })
+  it.each([
+    "product-type.updated",
+    "product-type.created",
+    "product-type.deleted",
+  ])("clears the product pages for %s", async (type) => {
+    await post({ type, id: "ptyp_1" })
 
-      expect(revalidateTag).toHaveBeenCalledWith("products")
-      expect(clearedPaths()).toContain("/[locale]/(main)/products/[handle]")
-      expect(clearedPaths()).toContain("/[locale]/(main)/store")
-    }
-  )
+    expect(revalidateTag).toHaveBeenCalledWith("products")
+    expect(clearedPaths()).toContain("/[locale]/(main)/products/[handle]")
+    expect(clearedPaths()).toContain("/[locale]/(main)/store")
+  })
 
   // The values of `InventoryLevelWorkflowEvents` and
   // `ReservationItemWorkflowEvents` in Medusa 2.19, printed from
@@ -89,5 +91,134 @@ describe("POST /api/revalidate", () => {
 
     expect(response.status).toBe(401)
     expect(revalidateTag).not.toHaveBeenCalled()
+  })
+})
+
+/**
+ * The whole answer of the route, pinned call by call and in order: which tags
+ * and which paths every event clears. It was written against the chain of `if`
+ * blocks the route used to be, so the table that replaced the chain had to
+ * reproduce it exactly (architecture review 2026-09-21, finding L-1).
+ */
+describe("what every revalidation event clears", () => {
+  beforeEach(() => {
+    revalidateTag.mockClear()
+    revalidatePath.mockClear()
+    delete process.env.REVALIDATE_SECRET
+  })
+
+  const PRODUCT = ["/[locale]/(main)/products/[handle]", "page"]
+  const STORE = ["/[locale]/(main)/store", "page"]
+  const CATEGORY = ["/[locale]/(main)/categories/[...category]", "page"]
+  const COLLECTION = ["/[locale]/(main)/collections/[handle]", "page"]
+  const HOME = ["/[locale]/(main)", "page"]
+  const LAYOUT = ["/[locale]/(main)", "layout"]
+  const LLMS = ["/llms.txt"]
+  const SITEMAP = ["/sitemap.xml"]
+
+  const each = (names: string[], verbs = ["updated", "created", "deleted"]) =>
+    names.flatMap((name) => verbs.map((verb) => `${name}.${verb}`))
+
+  const groups: { types: string[]; tags: string[]; paths: string[][] }[] = [
+    {
+      types: each([
+        "product",
+        "product-variant",
+        "product-type",
+        "product-tag",
+        "product-option",
+      ]),
+      tags: ["products"],
+      paths: [PRODUCT, STORE, CATEGORY, COLLECTION, HOME, LLMS, SITEMAP],
+    },
+    {
+      types: each(["inventory-level", "reservation-item"]),
+      tags: ["products"],
+      paths: [PRODUCT, STORE, CATEGORY, COLLECTION, HOME],
+    },
+    {
+      types: each(["product-category"]),
+      tags: ["categories"],
+      paths: [PRODUCT, STORE, CATEGORY, COLLECTION, HOME, LLMS, SITEMAP],
+    },
+    {
+      types: each(["product-collection"]),
+      tags: ["collections"],
+      paths: [COLLECTION, STORE, HOME, LLMS, SITEMAP],
+    },
+    {
+      types: each(["translation"]),
+      tags: ["products", "categories", "collections"],
+      paths: [PRODUCT, STORE, CATEGORY, COLLECTION, HOME, LLMS, SITEMAP],
+    },
+    {
+      types: ["tenant.pages"],
+      tags: ["tenant-pages"],
+      paths: [["/[locale]/(main)/pages/[key]", "page"], LAYOUT],
+    },
+    {
+      types: ["tenant.product-attributes"],
+      tags: ["product-attributes"],
+      paths: [PRODUCT, STORE, CATEGORY],
+    },
+    {
+      types: ["tenant.home"],
+      tags: ["tenant-home"],
+      paths: [LAYOUT, HOME],
+    },
+    {
+      types: ["tenant.reviews"],
+      tags: ["product-reviews"],
+      paths: [PRODUCT],
+    },
+    {
+      types: ["tenant.articles"],
+      tags: ["tenant-articles"],
+      paths: [
+        ["/[locale]/(main)/journal", "page"],
+        ["/[locale]/(main)/journal/[slug]", "page"],
+        LAYOUT,
+        SITEMAP,
+      ],
+    },
+  ]
+
+  it.each(
+    groups.flatMap(({ types, tags, paths }) =>
+      types.map((type) => ({ type, tags, paths }))
+    )
+  )("$type", async ({ type, tags, paths }) => {
+    const response = await post({ type, id: "id_1" })
+
+    expect(await response.json()).toEqual({ revalidated: true })
+    expect(revalidateTag.mock.calls).toEqual(tags.map((tag) => [tag]))
+    expect(revalidatePath.mock.calls).toEqual(paths)
+  })
+
+  it("clears one shop's home document as well when the call names the shop", async () => {
+    await post({ type: "tenant.home", handle: "cherkashino" })
+
+    expect(revalidateTag.mock.calls).toEqual([
+      ["tenant-home"],
+      [tenantHomeTag("cherkashino")],
+    ])
+    expect(revalidatePath.mock.calls).toEqual([LAYOUT, HOME])
+  })
+
+  it.each([{ handle: "" }, { handle: 7 }, {}])(
+    "clears only the shared home tag for the handle of %o",
+    async (extra) => {
+      await post({ type: "tenant.home", ...extra })
+
+      expect(revalidateTag.mock.calls).toEqual([["tenant-home"]])
+    }
+  )
+
+  it("answers the same and clears nothing for an event it does not know", async () => {
+    const response = await post({ type: "order.placed", id: "order_1" })
+
+    expect(await response.json()).toEqual({ revalidated: true })
+    expect(revalidateTag).not.toHaveBeenCalled()
+    expect(revalidatePath).not.toHaveBeenCalled()
   })
 })
