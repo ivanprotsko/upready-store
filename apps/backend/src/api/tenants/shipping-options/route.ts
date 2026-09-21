@@ -31,7 +31,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       })
     : { data: [] };
 
-  const owned = locations.flatMap((location: { fulfillment_sets?: Array<{ id: string } | null> }) =>
+  const owned = locations.flatMap((location) =>
     (location.fulfillment_sets ?? []).flatMap((set) => (set?.id ? [set.id] : [])),
   );
   // `maybeApplyLinkFilter` leaves the sets of a `stock_location_id` the caller
