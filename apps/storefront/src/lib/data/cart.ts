@@ -78,6 +78,27 @@ export async function retrieveCart(cartId?: string, fields?: string) {
     .catch(() => null)
 }
 
+/**
+ * Whether the backend answers 404 for this cart. `retrieveCart` answers null
+ * for ANY failure, and a cookie dropped on a backend hiccup would cost a buyer
+ * their cart, so the one status that means «gone» is asked for by name.
+ */
+const isCartGone = async (cartId: string): Promise<boolean> => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  return sdk.client
+    .fetch(`/store/carts/${cartId}`, {
+      method: "GET",
+      query: { fields: "id" },
+      headers,
+      cache: "no-store",
+    })
+    .then(() => false)
+    .catch((error: { status?: number }) => error?.status === 404)
+}
+
 export async function getOrSetCart(countryCode?: string) {
   const cc = countryCode ?? (await getCountryCode()) ?? DEFAULT_REGION
   const region = await getRegion(cc)
@@ -538,8 +559,22 @@ export async function applyRegion(
 
   await setCountryCode(countryCode, { explicit })
 
-  if (cartId) {
-    const existingCart = await retrieveCart(cartId, "*shipping_address")
+  const existingCart = cartId
+    ? await retrieveCart(cartId, "*shipping_address")
+    : null
+
+  // A stale cookie: the cart it names is gone from the backend (a database
+  // reset, a cart of another environment). The update below used to throw on
+  // it and take the country switch down. The cookie is dropped, so the next
+  // add to cart creates a fresh cart in the new region.
+  const cartIsGone =
+    Boolean(cartId) && !existingCart && (await isCartGone(cartId as string))
+
+  if (cartIsGone) {
+    await removeCartId()
+  }
+
+  if (cartId && !cartIsGone) {
     const addr = existingCart?.shipping_address
     const countryChanged =
       Boolean(addr?.country_code) && addr?.country_code !== countryCode
