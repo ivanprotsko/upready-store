@@ -2370,6 +2370,9 @@
         "selectValuesHint": "Select which values to use for each option",
         "subHeadingDescription": "When unchecked, we will create a default variant for you",
         "subHeadingTitle": "Yes, this is a product with variants"
+      },
+      "quickPrice": {
+        "hint": "The price of one item for the buyer. Sizes, flavours and different prices are on the “Variants” step."
       }
     },
     "deleteVariantWarning": "You are about to delete the variant {{title}}. This action cannot be undone.",
