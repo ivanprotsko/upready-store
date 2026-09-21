@@ -106,8 +106,12 @@ export const getCollectionByHandle = async (
   }
 
   return await sdk.client
+    // No `*products` here: a collection is one row for every shop, so its products
+    // are every shop's, drafts included, and the backend drops the field
+    // (`apps/backend/src/api/field-guard.ts`). The page lists the products through
+    // `/store/products`, which the sales channel scopes.
     .fetch<HttpTypes.StoreCollectionListResponse>(`/store/collections`, {
-      query: { handle, fields: "*products" },
+      query: { handle },
       next,
       cache: "force-cache",
     })
