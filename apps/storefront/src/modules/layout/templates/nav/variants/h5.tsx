@@ -2,11 +2,13 @@ import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
-import { getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { listRegions } from "@lib/data/regions"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
+import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
 import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
@@ -31,13 +33,17 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  * 8px 16px }`) — it is not truncated with an ellipsis, it scrolls.
  */
 export default async function NavH5() {
-  const [t, { categories, totalCount }, siteName, showJournal, branding] = await Promise.all([
-    getTranslations(),
-    listTopCategoriesWithCounts(),
-    getSiteName(),
-    hasPublishedArticles(),
-    getSiteBranding(),
-  ])
+  const [t, { categories, totalCount }, siteName, showJournal, branding, regions, countryCode, locales] =
+    await Promise.all([
+      getTranslations(),
+      listTopCategoriesWithCounts(),
+      getSiteName(),
+      hasPublishedArticles(),
+      getSiteBranding(),
+      listRegions(),
+      getCountryCode(),
+      getSwitcherLocales(),
+    ])
 
   return (
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group">
@@ -61,6 +67,16 @@ export default async function NavH5() {
               data-testid="nav-mode-toggle"
             />
             <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
+            {/* Country and language, as in every other header; the phone reaches them from
+                the menu (t-2026-09-12-seeded-hosts-no-locale-controls). */}
+            <div className="hidden min-w-0 lg:flex">
+              <RegionSelect
+                regions={regions}
+                currentCountryCode={countryCode ?? undefined}
+                locales={locales}
+                className="min-w-0"
+              />
+            </div>
             <div className="flex h-full items-center">
               <CartButton />
             </div>
