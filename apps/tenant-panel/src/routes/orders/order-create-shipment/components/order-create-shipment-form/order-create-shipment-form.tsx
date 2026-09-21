@@ -262,7 +262,7 @@ export function OrderCreateShipmentForm({
             </Button>
           </RouteFocusModal.Close>
           <Button size="small" type="submit" isLoading={isMutating}>
-            {t("actions.save")}
+            {t("orders.nextStep.ship.action")}
           </Button>
         </RouteFocusModal.Footer>
       </KeyboundForm>
