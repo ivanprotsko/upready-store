@@ -29,8 +29,6 @@ const UNSCOPED_ON_PURPOSE: Record<string, string> = {
     "Global reference data, Admin list handler re-exported.",
   "regions/route.ts": "Global reference data, Admin list handler re-exported.",
   "shipping-methods/regions/route.ts": "A static table of regions, no query at all.",
-  "shipping-options/route.ts":
-    "Admin list handler re-exported. Review finding T-5: options belong to the store's fulfillment sets, not to a shop.",
   "shipping-profiles/route.ts": "Global reference data, Admin list handler re-exported.",
 };
 
