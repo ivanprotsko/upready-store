@@ -42,6 +42,12 @@ export async function POST(req: NextRequest) {
     body.type === "product-variant.updated" ||
     body.type === "product-variant.created" ||
     body.type === "product-variant.deleted" ||
+    // The backend subscriber has always sent the three product type events,
+    // and this list had no entry for them, so a renamed type stayed on the
+    // storefront until the process restarted.
+    body.type === "product-type.updated" ||
+    body.type === "product-type.created" ||
+    body.type === "product-type.deleted" ||
     body.type === "product-tag.updated" ||
     body.type === "product-tag.created" ||
     body.type === "product-tag.deleted" ||
