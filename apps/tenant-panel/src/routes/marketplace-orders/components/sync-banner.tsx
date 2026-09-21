@@ -2,6 +2,10 @@ import { Alert, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import type { FeedConnection } from "../../../hooks/api/marketplace-orders"
+import {
+  SupportDetails,
+  marketplaceErrorKey,
+} from "../../../components/common/support-details"
 
 /**
  * What the owner is told about each marketplace BEFORE they read the table
@@ -50,10 +54,14 @@ export const SyncBanner = ({ connections }: { connections: FeedConnection[] }) =
           <Text size="small">
             {t(`marketplaceOrders.connection.${one.notice}`, {
               marketplace: one.label,
-              error:
-                one.last_run?.error ?? t("marketplaceOrders.connection.noErrorText"),
+              // The owner reads the reason in plain words; the raw answer of
+              // the marketplace is below, closed (o21-owner-panel-ux, P3).
+              error: t(marketplaceErrorKey(one.last_run?.error)),
             })}
           </Text>
+          {one.notice === "failed" && one.last_run?.error ? (
+            <SupportDetails text={`${one.marketplace}: ${one.last_run.error}`} />
+          ) : null}
         </Alert>
       ))}
     </div>

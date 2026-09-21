@@ -251,6 +251,65 @@
         "general": "General",
         "header": "Settings",
         "myAccount": "My Account"
+      },
+      "owner": {
+        "label": "Shop sections",
+        "overview": "Overview",
+        "orders": "Orders",
+        "customers": "Customers",
+        "reviews": "Reviews",
+        "products": "Products",
+        "categories": "Categories",
+        "attributes": "Characteristics",
+        "homePage": "Home page",
+        "pages": "Pages",
+        "journal": "Journal",
+        "branding": "Look and feel",
+        "promotions": "Promotions",
+        "marketplaces": "Marketplaces",
+        "delivery": "Delivery",
+        "payments": "Payments",
+        "requisites": "Seller details",
+        "domains": "Shop address",
+        "locale": "Language and currency",
+        "notifications": "Notifications",
+        "search": "Search and counters",
+        "profile": "Profile",
+        "openShop": "Open the shop",
+        "openShopShort": "Shop",
+        "openMenu": "Open the menu",
+        "groups": {
+          "sales": "Sales",
+          "catalog": "Catalog",
+          "storefront": "Storefront",
+          "marketing": "Marketing",
+          "marketplaces": "Marketplaces",
+          "settings": "Settings"
+        },
+        "counters": {
+          "ordersToPack": "Orders waiting to be packed: {{count}}",
+          "reviewsToModerate": "Reviews waiting for a check: {{count}}",
+          "inGroup": "Something in this section needs you"
+        },
+        "tabs": {
+          "label": "Section tabs",
+          "mpConnection": "Connection",
+          "mpCatalog": "Catalog",
+          "mpPriceStock": "Prices and stock",
+          "mpOrders": "Orders",
+          "mpReviews": "Reviews",
+          "mpSync": "Marketplace exchange",
+          "mpAnalytics": "Analytics",
+          "promotions": "Promotions",
+          "campaigns": "Campaigns",
+          "deliveryMethods": "Delivery methods",
+          "deliveryCdek": "CDEK",
+          "paymentsMode": "Taking payments",
+          "paymentsAccount": "Robokassa account",
+          "searchVerification": "Search engines",
+          "searchCounters": "Counters",
+          "searchRedirects": "Old addresses"
+        }
       }
     },
     "search": {
@@ -969,7 +1028,8 @@
     "variants": "Variants",
     "weight": "Weight",
     "width": "Width",
-    "years": "Years"
+    "years": "Years",
+    "skuLabelled": "Article {{sku}}"
   },
   "filters": {
     "addFilter": "Add filter",
@@ -1907,6 +1967,31 @@
       "registeredDescription": "Transfer to a registered customer, who must accept the request.",
       "requestSuccess": "Order transfer request sent to: {{email}}.",
       "title": "Transfer ownership"
+    },
+    "nextStep": {
+      "pack": {
+        "title": "The order waits to be packed",
+        "hint": "Pack the parcel and mark it here. The customer gets an email.",
+        "action": "Pack"
+      },
+      "ship": {
+        "title": "The order is packed",
+        "hint": "Hand the parcel to the carrier and enter the tracking number.",
+        "action": "Hand over to delivery"
+      },
+      "waitDelivery": {
+        "title": "The order is on its way",
+        "hint": "When the customer has the parcel, mark it delivered in the block below."
+      },
+      "done": {
+        "title": "The order is complete",
+        "hint": "Nothing more to do."
+      },
+      "canceled": {
+        "title": "The order is canceled",
+        "hint": "Nothing to do with it."
+      },
+      "unpaid": "The payment is not confirmed yet. Check it in the «Payment» block below before you hand the parcel over."
     }
   },
   "permissions": {
@@ -2603,6 +2688,12 @@
     },
     "pricing": {
       "showAllCurrencies": "All currencies ({{count}})"
+    },
+    "owner": {
+      "add": "Add a product",
+      "importAction": "Upload from a file",
+      "exportAction": "Download as a file",
+      "attributesFilled": "Characteristics are filled in for {{filled}} of {{total}} products"
     }
   },
   "profile": {
@@ -3196,7 +3287,8 @@
     "productsPublished": "Published",
     "productsDraft": "Drafts",
     "loading": "Loading…",
-    "developerDetails": "For developers"
+    "developerDetails": "For developers",
+    "shopCode": "Shop code"
   },
   "salesSummary": {
     "title": "Sales",
@@ -3220,7 +3312,11 @@
     "noOrdersYet": "No orders yet",
     "canceledNote": "Cancelled orders in this period: {{count}} for {{amount}}. They are not counted as revenue.",
     "otherCurrenciesNote": "Orders in other currencies: {{list}}. They are not part of the figures above; switch the currency to see them.",
-    "otherCurrencyItem": "{{amount}} — orders: {{count}}"
+    "otherCurrencyItem": "{{amount}} — orders: {{count}}",
+    "singleDay_one": "{{date}}: {{count}} order for {{revenue}}.",
+    "singleDay_other": "{{date}}: {{count}} orders for {{revenue}}.",
+    "noDays": "No sales in this period.",
+    "chartMax": "Best day: {{revenue}}"
   },
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"
@@ -4078,7 +4174,7 @@
     "loading": "loading…"
   },
   "marketplaceSync": {
-    "title": "Synchronisation",
+    "title": "Marketplace exchange",
     "subtitle": "when each kind of data last came in, when the next run is due and what went wrong",
     "backToCards": "← back to the marketplace cards",
     "scheduleHint": "The schedule runs itself: the platform checks every 5 minutes what needs refreshing. One kind of one marketplace imports at a time; a run stuck for more than {{minutes}} min is released and stays visible as a failure. A key is flagged {{days}} days before it expires.",
@@ -4087,8 +4183,10 @@
       "noKey": "{{label}}: no key saved, nothing is being imported.",
       "keyExpired": "{{label}}: the key has expired. Issue a new one in the marketplace account — the import has stopped.",
       "keyExpiring": "{{label}}: the key expires in {{days}} days. Issue a new one in the marketplace account before the import stops.",
-      "failed": "{{where}}: the last run failed — {{error}}",
-      "neverRan": "{{where}}: has never run."
+      "failed": "{{where}}: {{error}}.",
+      "neverRan": "{{where}}: has never run.",
+      "failedGroup": "{{label}}: {{reason}}.",
+      "failedKinds": "Not updating: {{kinds}}."
     },
     "state": "State",
     "lastSuccess": "Last successful run",
@@ -4113,7 +4211,7 @@
     "title": "Marketplaces",
     "subtitle": "Wildberries and Ozon: the key, what it may do, what has already been imported and how it maps onto your catalog",
     "loading": "Loading…",
-    "empty": "No marketplace is registered on the platform. That is a backend configuration error, not an empty list — please contact support.",
+    "empty": "No marketplace can be connected yet. This is an error on our side, please contact support.",
     "card": {
       "subtitle": "data moves one way only: the marketplace into your shop",
       "statusFailed": "The marketplace could not be asked about this key. Everything else on the card comes from our own database and is correct."
@@ -4171,7 +4269,7 @@
     },
     "sync": {
       "title": "Latest imports",
-      "hint": "the wb:sync and ozon:sync scripts import, mp:project normalizes; the last run of each kind is here",
+      "hint": "when the last import of each kind of data ended and how",
       "kind": "What is imported",
       "status": "Outcome",
       "rows": "Rows",
@@ -4193,8 +4291,8 @@
       "questions": "Questions"
     },
     "endpoints": {
-      "title": "What we are allowed to ask for",
-      "hint": "the full list of requests the platform may send this marketplace; nothing beyond it can be sent",
+      "title": "What the shop takes from the marketplace",
+      "hint": "The shop only reads your listings, prices, stock, orders and reviews. It cannot ask the marketplace for anything else.",
       "method": "Method",
       "address": "Address",
       "summary": "What the documentation calls it"
@@ -4278,7 +4376,7 @@
           "5": "5 ★"
         }
       },
-      "emptyNoFilters": "Nothing has been imported yet. The mp:reviews script runs the import.",
+      "emptyNoFilters": "No marketplace reviews or questions yet. They appear by themselves after the first import.",
       "emptyFiltered": "Nothing matches the filters: {{filters}}. Clear a filter or widen the period — this is an empty FILTER result, not an empty marketplace.",
       "emptyImportHint": "Our database holds no row of this kind at all: either the import has not run, or the marketplace returned nothing. The last imports are listed on the «Marketplaces» screen.",
       "draft": {
@@ -4289,7 +4387,9 @@
         "saved": "Draft saved",
         "generated": "Draft written — read it and save",
         "savedAt": "Draft saved {{at}}"
-      }
+      },
+      "generatorOn": "Answer drafts are prepared here and never go to the marketplace by themselves.",
+      "generatorOff": "The answer hint is off for now. You can write the answer yourself."
     }
   },
   "marketplaceOrders": {
@@ -4327,7 +4427,7 @@
     "connection": {
       "missing": "{{marketplace}}: no connection — no key is stored, so this marketplace has no orders in the feed at all.",
       "never_run": "{{marketplace}}: connected, but the order import has never run.",
-      "failed": "{{marketplace}}: the last order import failed — {{error}}. An empty row for this marketplace means a failed import, not an absence of orders.",
+      "failed": "{{marketplace}}: the orders did not load, {{error}}. An empty marketplace row in the table means the orders did not arrive, not that there are none.",
       "rate_limited": "{{marketplace}}: the marketplace refused to serve orders right now (rate limit). That is neither a failure nor an absence of orders — some orders of the period may not be imported yet. Run the import again later.",
       "noErrorText": "the marketplace sent no error text",
       "fixture": "{{marketplace}}: these rows come from recorded answers (fixtures), not from the marketplace."
@@ -4452,7 +4552,7 @@
     "problem": "Problem with the key",
     "sync": {
       "title": "Last import",
-      "hint": "the wb:sync script fetches the data; this is its last run per kind",
+      "hint": "when the last import of each kind of data ended and how",
       "kind": "What is imported",
       "status": "How it ended",
       "rows": "Rows",
@@ -4504,10 +4604,10 @@
       "gate": {
         "open": "open",
         "shut": "shut",
-        "keyStored": "write key in slot {{slot}}, ending {{last4}}",
-        "noKey": "no separate write key (slot {{slot}}); the read key is never used to write",
-        "liveOn": "{{env}}=1 — live mode is on",
-        "liveOff": "{{env}} is not set: every call stays a dry run and nothing leaves the process"
+        "keyStored": "the key for sending is stored, ending {{last4}}",
+        "noKey": "no key for sending; the read key is never used to send",
+        "liveOn": "sending to the marketplace is on",
+        "liveOff": "sending to the marketplace is off, nothing leaves the shop"
       },
       "gates": {
         "credential": "Separate write key",
@@ -4637,8 +4737,8 @@
       "alreadyViewed": "Viewed",
       "savedToast": "Draft saved.",
       "noDraftToast": "Write the answer text first: there is nothing to send.",
-      "liveOff": "Live mode is off ({{env}} is not set): a confirmed answer is checked against the Wildberries documentation and journalled, but it does not reach Wildberries.",
-      "liveOn": "Live mode is on ({{env}}=1): a confirmed answer really goes to Wildberries.",
+      "liveOff": "Sending is off: a confirmed answer is checked and recorded, but it does not reach Wildberries.",
+      "liveOn": "Sending is on: a confirmed answer really goes to Wildberries.",
       "noConsent": "Consent for the class «Feedback and question answers» has not been given. Give it below, in «Writing to Wildberries», or a send is refused at the consent gate.",
       "questionGap": "Answering a customer question is not available yet. {{method}} {{path}} — {{reason}}",
       "statuses": {
@@ -4664,7 +4764,7 @@
       "confirm": {
         "title": "Confirm the answer",
         "body": "The customer will receive exactly this text:\n\n«{{text}}»\n\n{{mode}}",
-        "dryRun": "This is a dry run: {{env}} is not set, so nothing reaches Wildberries and the attempt is journalled.",
+        "dryRun": "This is a trial: nothing reaches Wildberries and the attempt is recorded.",
         "live": "Live mode is on: the answer goes to Wildberries and customers will see it.",
         "ok": "Confirm and send",
         "cancel": "Cancel"
@@ -4796,8 +4896,8 @@
         "skipped": "skipped: {{count}}"
       },
       "gates": {
-        "live": "the live write mode is off ({{env}} in the backend's environment)",
-        "credential": "there is no write key in the separate slot {{slot}}",
+        "live": "sending to the marketplace is off on our side",
+        "credential": "there is no key for sending",
         "switch": "writing to Wildberries is switched off in the section above",
         "consent": "you have not confirmed the class «{{name}}»",
         "allOpen": "Every gate this page can see is open. Sending is still off: this build has no live calls."
@@ -4891,7 +4991,7 @@
     "marketplace": {
       "subtitle": "the key of this marketplace. Everything else is on the marketplace page.",
       "rowSubtitle": "Seller API key",
-      "unknown": "Marketplace «{{slug}}» is not registered in the backend: the page exists, the adapter does not."
+      "unknown": "Marketplace «{{slug}}» cannot be connected yet. Please contact support."
     },
     "robokassa": {
       "title": "Robokassa",
@@ -4930,6 +5030,66 @@
       "probeOkWithCount": "token accepted, carriers connected: {{count}}",
       "probeFailed": "token rejected",
       "deliveryHint": "The delivery methods a buyer sees live on:"
+    }
+  },
+  "supportDetails": {
+    "title": "Details for support",
+    "copy": "Copy",
+    "copied": "Copied. Paste it into your message to support.",
+    "copyFailed": "Could not copy. Select the text and copy it by hand."
+  },
+  "marketplaceErrors": {
+    "key": "the marketplace rejected the key. Issue a new key in the marketplace seller account and paste it on the «Connection» tab",
+    "rights": "the key lacks rights. Issue a key with all read rights in the marketplace seller account and paste it on the «Connection» tab",
+    "wait": "the marketplace asks to wait. Nothing to do, the exchange continues by itself",
+    "down": "the marketplace does not answer right now. Nothing to do, we will try again",
+    "unknown": "the data did not arrive. If it happens again, open the details below and send them to support"
+  },
+  "home": {
+    "attention": {
+      "title": "What to do now",
+      "nothing": "Nothing waits right now: orders are packed, reviews are checked.",
+      "ordersToPack": {
+        "title": "Orders wait to be packed",
+        "hint": "Pack the parcels and hand them over to delivery."
+      },
+      "reviewsToModerate": {
+        "title": "Reviews wait for a check",
+        "hint": "Shoppers see a review after you approve it."
+      },
+      "emptyPages": {
+        "title": "Empty shop pages",
+        "hint": "Shoppers and payment providers need contacts, seller details and the offer."
+      },
+      "draftProducts": {
+        "title": "Products in drafts",
+        "hint": "Shoppers do not see them until you publish them."
+      }
+    },
+    "launch": {
+      "title": "Shop launch",
+      "left_one": "{{count}} step left before the first sale.",
+      "left_other": "{{count}} steps left before the first sale.",
+      "products": {
+        "title": "Products are published",
+        "hint": "Add at least one product with a photo and a price and publish it."
+      },
+      "pages": {
+        "title": "Shop pages are filled in",
+        "hint": "Contacts, payment and delivery, returns: a buyer looks for them before ordering."
+      },
+      "requisites": {
+        "title": "Seller details are filled in",
+        "hint": "They go into the offer and the privacy policy."
+      },
+      "payments": {
+        "title": "Payments are on",
+        "hint": "Connect Robokassa and turn the test mode off so the money reaches your account."
+      },
+      "delivery": {
+        "title": "Delivery is set up",
+        "hint": "Add at least one delivery method, otherwise an order cannot be placed."
+      }
     }
   }
 }

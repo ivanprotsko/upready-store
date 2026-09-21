@@ -18,13 +18,13 @@ export const DataTableQuery = <TData,>({
 }: DataTableQueryProps<TData>) => {
   return (
     (search || orderBy || filters || prefix) && (
-      <div className="flex items-start justify-between gap-x-4 px-6 py-4">
-        <div className="w-full max-w-[60%]">
+      <div className="flex items-start justify-between gap-x-4 px-6 py-4 max-md:flex-col-reverse max-md:gap-y-2">
+        <div className="w-full max-w-[60%] max-md:max-w-full">
           {filters && filters.length > 0 && (
             <DataTableFilter filters={filters} prefix={prefix} />
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-x-2">
+        <div className="flex shrink-0 items-center gap-x-2 max-md:w-full max-md:shrink max-md:[&>*:first-child]:min-w-0 max-md:[&>*:first-child]:flex-1">
           {search && (
             <DataTableSearch
               prefix={prefix}

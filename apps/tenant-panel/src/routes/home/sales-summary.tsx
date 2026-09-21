@@ -86,11 +86,12 @@ export const SalesSummary = () => {
       <div className="flex flex-wrap items-center justify-between gap-y-2">
         <Heading level="h2">{t("salesSummary.title")}</Heading>
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex gap-x-1">
+          <div className="flex flex-wrap gap-1">
             {PERIODS.map((key) => (
               <Button
                 key={key}
                 size="small"
+                className="whitespace-nowrap"
                 variant={period === key ? "primary" : "secondary"}
                 disabled={query !== null && isPending}
                 onClick={() => setPeriod(key)}
@@ -136,7 +137,7 @@ export const SalesSummary = () => {
             breakdown={data.currency_breakdown}
             selected={data.currency_code}
           />
-          <SalesSummaryChart daily={data.daily} />
+          <SalesSummaryChart daily={data.daily} currencyCode={data.currency_code ?? "usd"} />
           <SalesSummaryTopProducts
             products={data.top_products}
             currencyCode={data.currency_code ?? "usd"}

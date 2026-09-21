@@ -1,7 +1,6 @@
-import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { ChevronDownMini, ChevronRightMini } from "@medusajs/icons"
-import { Button, Text } from "@medusajs/ui"
+import { Text } from "@medusajs/ui"
+import { SupportDetails } from "../../components/common/support-details"
 import { PublishableKey } from "./publishable-key"
 
 type Tenant = {
@@ -17,59 +16,38 @@ type Tenant = {
 // the panel currently owns them.
 export const DeveloperDetails = ({ tenant }: { tenant: Tenant | undefined }) => {
   const { t } = useTranslation()
-  const [open, setOpen] = useState(false)
 
   if (!tenant) {
     return null
   }
 
+  // o21-owner-panel-ux (lead review H7): the same closed «Подробности для
+  // поддержки» block every other screen uses, not a block named after a
+  // developer on the owner's first screen.
   return (
-    <div className="border-t pt-4">
-      <Button
-        variant="transparent"
-        size="small"
-        className="text-ui-fg-subtle px-0"
-        onClick={() => setOpen((value) => !value)}
-        data-testid="developer-details-toggle"
-      >
-        {open ? <ChevronDownMini /> : <ChevronRightMini />}
-        {t("overview.developerDetails")}
-      </Button>
-      {open ? (
-        <div className="flex flex-col gap-y-4 pt-4" data-testid="developer-details-body">
-          <div className="flex flex-col gap-y-1">
-            <Text size="small" weight="plus">
-              {t("fields.handle")}
-            </Text>
-            <Text size="small" className="text-ui-fg-subtle">
-              {tenant.handle}
-            </Text>
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <Text size="small" weight="plus">
-              {t("fields.salesChannel")}
-            </Text>
-            <Text size="small" className="text-ui-fg-subtle">
-              {tenant.sales_channel?.name ?? "-"}
-            </Text>
-          </div>
-          <div className="flex flex-col gap-y-1">
-            <Text size="small" weight="plus">
-              {t("apiKeyManagement.domain.publishable")}
-            </Text>
-            {tenant.api_key ? (
-              <PublishableKey
-                redacted={tenant.api_key.redacted}
-                token={tenant.api_key.token}
-              />
-            ) : (
-              <Text size="small" className="text-ui-fg-subtle">
-                -
-              </Text>
-            )}
-          </div>
+    <SupportDetails className="border-t pt-4">
+      <div className="flex flex-col gap-y-4" data-testid="developer-details-body">
+        <div className="flex flex-col gap-y-1">
+          <Text size="small" weight="plus">
+            {t("overview.shopCode")}
+          </Text>
+          <Text size="small" className="text-ui-fg-subtle">
+            {tenant.handle}
+          </Text>
         </div>
-      ) : null}
-    </div>
+        <div className="flex flex-col gap-y-1">
+          <Text size="small" weight="plus">
+            {t("apiKeyManagement.domain.publishable")}
+          </Text>
+          {tenant.api_key ? (
+            <PublishableKey redacted={tenant.api_key.redacted} token={tenant.api_key.token} />
+          ) : (
+            <Text size="small" className="text-ui-fg-subtle">
+              -
+            </Text>
+          )}
+        </div>
+      </div>
+    </SupportDetails>
   )
 }

@@ -28,6 +28,7 @@ import {
   useDeleteVariantLazy,
   useProductVariants,
 } from "../../../../../hooks/api/products"
+import { useOwnerSku } from "../../../../../hooks/use-owner-sku"
 import { useQueryParams } from "../../../../../hooks/use-query-params"
 import { PRODUCT_VARIANT_IDS_KEY } from "../../../common/constants"
 import { Thumbnail } from "../../../../../components/common/thumbnail"
@@ -140,6 +141,7 @@ const columnHelper =
 
 const useColumns = (product: HttpTypes.AdminProduct) => {
   const { t } = useTranslation()
+  const { short: shortSku } = useOwnerSku()
   const navigate = useNavigate()
   const { mutateAsync } = useDeleteVariantLazy(product.id)
   const prompt = usePrompt()
@@ -359,6 +361,11 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
       }),
       columnHelper.accessor("sku", {
         header: t("fields.sku"),
+        // o21-owner-panel-ux: the article code without the shop tail.
+        cell: ({ getValue }) => {
+          const value = getValue()
+          return value ? shortSku(value) : "-"
+        },
         enableSorting: true,
         sortAscLabel: t("filters.sorting.alphabeticallyAsc"),
         sortDescLabel: t("filters.sorting.alphabeticallyDesc"),
@@ -393,7 +400,7 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
         actions: getActions,
       }),
     ]
-  }, [t, optionColumns, getActions, getInventory])
+  }, [t, optionColumns, getActions, getInventory, shortSku])
 }
 
 const filterHelper =

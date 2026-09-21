@@ -75,7 +75,10 @@ const Contact = ({ data }: { data: HttpTypes.AdminOrder }) => {
             leading="compact"
             className="text-pretty break-all"
           >
-            {email}
+            {/* o21-owner-panel-ux (P5): a tap writes to the customer. */}
+            <a href={`mailto:${email}`} className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover">
+              {email}
+            </a>
           </Text>
 
           <div className="flex justify-end">
@@ -89,7 +92,12 @@ const Contact = ({ data }: { data: HttpTypes.AdminOrder }) => {
               leading="compact"
               className="text-pretty break-all"
             >
-              {phone}
+              <a
+                href={`tel:${phone.replace(/[^+\d]/g, "")}`}
+                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              >
+                {phone}
+              </a>
             </Text>
 
             <div className="flex justify-end">

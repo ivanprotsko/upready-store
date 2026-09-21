@@ -26,6 +26,12 @@ export const SingleColumnPage = <TData,>({
   const { before, after } = widgets
   const widgetProps = { data }
 
+  // o21-owner-panel-ux (P3): the owner's panel never shows the «Метаданные» and
+  // «JSON» cards. They are the record as the database keeps it, and no job of
+  // hers needs them. The props stay, so the copied screens need no edits.
+  showJSON = false
+  showMetadata = false
+
   if (showJSON && !data) {
     if (process.env.NODE_ENV === "development") {
       console.warn(

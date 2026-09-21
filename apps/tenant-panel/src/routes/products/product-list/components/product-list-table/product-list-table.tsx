@@ -63,27 +63,34 @@ export const ProductListTable = () => {
 
   return (
     <Container className="divide-y p-0">
-      <div className="flex items-center justify-between px-6 py-4">
+      {/* o21-owner-panel-ux (P1, P6): «Добавить товар» is the primary action and
+          comes first; on a phone the header wraps instead of pushing it off the
+          screen. */}
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4">
         <Heading level="h1">{t("products.domain")}</Heading>
-        <div className="flex items-center justify-center gap-x-2">
-          {attributeProductsTotal ? (
-            <Text size="small" className="text-ui-fg-subtle mr-2">
-              <Link to="/product-attributes" className="hover:text-ui-fg-base transition-fg">
-                Характеристики заполнены у {attributeProductsFilled ?? 0} из{" "}
-                {attributeProductsTotal} товаров
-              </Link>
-            </Text>
-          ) : null}
-          <Button size="small" variant="secondary" asChild>
-            <Link to={`export${location.search}`}>{t("products.csv.exportAction")}</Link>
+        <div className="flex flex-wrap items-center gap-2 max-md:w-full">
+          <Button size="small" variant="primary" className="max-md:min-h-11 max-md:w-full" asChild>
+            <Link to="create" data-testid="products-add">
+              {t("products.owner.add")}
+            </Link>
           </Button>
-          <Button size="small" variant="secondary" asChild>
-            <Link to={`import${location.search}`}>{t("products.csv.importAction")}</Link>
+          <Button size="small" variant="secondary" className="max-md:min-h-11 max-md:flex-1" asChild>
+            <Link to={`import${location.search}`}>{t("products.owner.importAction")}</Link>
           </Button>
-          <Button size="small" variant="secondary" asChild>
-            <Link to="create">{t("actions.create")}</Link>
+          <Button size="small" variant="secondary" className="max-md:min-h-11 max-md:flex-1" asChild>
+            <Link to={`export${location.search}`}>{t("products.owner.exportAction")}</Link>
           </Button>
         </div>
+        {attributeProductsTotal ? (
+          <Text size="small" className="text-ui-fg-subtle basis-full">
+            <Link to="/product-attributes" className="hover:text-ui-fg-base transition-fg">
+              {t("products.owner.attributesFilled", {
+                filled: attributeProductsFilled ?? 0,
+                total: attributeProductsTotal,
+              })}
+            </Link>
+          </Text>
+        ) : null}
       </div>
       <_DataTable
         table={table}
@@ -117,7 +124,12 @@ const useColumns = () => {
 
   const columns = useMemo(
     () => [
-      ...base,
+      // One shop has one sales channel and the owner keeps no collections: the
+      // two columns were the same on every row (o21-owner-panel-ux, P3).
+      ...base.filter((c) => {
+        const key = (c as { accessorKey?: string }).accessorKey
+        return key !== "sales_channels" && key !== "collection"
+      }),
       columnHelper.display({
         id: "actions",
         cell: ({ row }) => {

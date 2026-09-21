@@ -9,6 +9,9 @@ export type SectionRowProps = {
 
 export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
   const isValueString = typeof value === "string" || !value
+  // o21-owner-panel-ux (P6): a long text (a product description) in half of a
+  // phone screen is a column of three words per line. It goes under its label.
+  const isLongText = typeof value === "string" && value.length > 80
 
   return (
     <div
@@ -16,6 +19,7 @@ export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
         `text-ui-fg-subtle grid w-full grid-cols-2 items-center gap-4 px-6 py-4`,
         {
           "grid-cols-[1fr_1fr_28px]": !!actions,
+          "max-md:grid-cols-1 max-md:items-start max-md:gap-1": isLongText && !actions,
         }
       )}
     >

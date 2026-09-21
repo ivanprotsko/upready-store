@@ -56,7 +56,7 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
   }
 
   return (
-    <Container className="flex items-center justify-between px-6 py-4">
+    <Container className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4">
       <div>
         <div className="flex items-center gap-x-1">
           <Heading>#{order.display_id}</Heading>
@@ -69,8 +69,8 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
           })}
         </Text>
       </div>
-      <div className="flex items-center gap-x-4">
-        <div className="flex items-center gap-x-1.5">
+      <div className="flex min-w-0 items-center gap-x-4 max-md:w-full max-md:justify-between">
+        <div className="flex flex-wrap items-center gap-1.5">
           <OrderBadge order={order} />
           <PaymentBadge order={order} />
           <FulfillmentBadge order={order} />

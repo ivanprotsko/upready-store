@@ -10,7 +10,6 @@ import { ProductGeneralSection } from "./components/product-general-section"
 import { ProductMediaSection } from "./components/product-media-section"
 import { ProductOptionSection } from "./components/product-option-section"
 import { ProductOrganizationSection } from "./components/product-organization-section"
-import { ProductSalesChannelSection } from "./components/product-sales-channel-section"
 import { ProductVariantSection } from "./components/product-variant-section"
 import { ExtendedProduct, PRODUCT_DETAIL_FIELDS } from "./constants"
 import { productLoader } from "./loader"
@@ -71,9 +70,9 @@ export const ProductDetail = () => {
         ),
         side: (
           <>
-            <LayoutComposer.Entry id="ProductSalesChannelSection">
-              <ProductSalesChannelSection product={product} />
-            </LayoutComposer.Entry>
+            {/* o21-owner-panel-ux (P3): «Каналы продаж» is off the owner's
+                product card. Her shop is one channel, and the backend puts
+                every product of the shop into it by itself. */}
             <LayoutComposer.Entry id="ProductShippingProfileSection">
               <ProductShippingProfileSection
                 product={product as ExtendedProduct}
