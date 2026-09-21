@@ -29,6 +29,7 @@ import { useDate } from "../../../../../hooks/use-date"
 import { getFulfillmentProviderLabel } from "../../../../../lib/order-helpers"
 import { getLocaleAmount } from "../../../../../lib/money-amount-helpers"
 import { FulfillmentSetType } from "../../../../locations/common/constants"
+import { useOwnerSku } from "../../../../../hooks/use-owner-sku"
 import { ExtendedOrderFulfillment, ExtendedOrder } from "../../constants"
 
 type OrderFulfillmentSectionProps = {
@@ -57,6 +58,8 @@ const UnfulfilledItem = ({
   item: AdminOrderLineItem
   currencyCode: string
 }) => {
+  const sku = useOwnerSku()
+
   return (
     <div
       key={item.id}
@@ -75,7 +78,9 @@ const UnfulfilledItem = ({
           </Text>
           {item.variant_sku && (
             <div className="flex items-center gap-x-1">
-              <Text size="small">{item.variant_sku}</Text>
+              <Text size="small" className="whitespace-nowrap">
+                {sku.labelled(item.variant_sku)}
+              </Text>
               <Copy content={item.variant_sku} className="text-ui-fg-muted" />
             </div>
           )}

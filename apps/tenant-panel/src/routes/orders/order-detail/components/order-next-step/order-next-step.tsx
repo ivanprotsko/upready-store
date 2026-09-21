@@ -42,6 +42,12 @@ const nextStepOf = (order: HttpTypes.AdminOrder): NextStep => {
 export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
   const { t } = useTranslation()
   const step = nextStepOf(order)
+  // Lead review H8: she must not pack a parcel believing it is paid for.
+  const unpaid =
+    (step.key === "pack" || step.key === "ship") &&
+    !["captured", "partially_captured", "refunded", "partially_refunded"].includes(
+      order.payment_status
+    )
 
   return (
     <Container
@@ -53,6 +59,16 @@ export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
         <Text size="small" className="text-ui-fg-subtle">
           {t(`orders.nextStep.${step.key}.hint`)}
         </Text>
+        {unpaid ? (
+          <Text
+            size="small"
+            weight="plus"
+            className="text-ui-tag-orange-text"
+            data-testid="order-next-step-unpaid"
+          >
+            {t("orders.nextStep.unpaid")}
+          </Text>
+        ) : null}
       </div>
       {step.to ? (
         <Button variant="primary" className="max-md:min-h-11 max-md:w-full" asChild>
