@@ -5058,6 +5058,31 @@
         "title": "Products in drafts",
         "hint": "Shoppers do not see them until you publish them."
       }
+    },
+    "launch": {
+      "title": "Shop launch",
+      "left_one": "{{count}} step left before the first sale.",
+      "left_other": "{{count}} steps left before the first sale.",
+      "products": {
+        "title": "Products are published",
+        "hint": "Add at least one product with a photo and a price and publish it."
+      },
+      "pages": {
+        "title": "Shop pages are filled in",
+        "hint": "Contacts, payment and delivery, returns: a buyer looks for them before ordering."
+      },
+      "requisites": {
+        "title": "Seller details are filled in",
+        "hint": "They go into the offer and the privacy policy."
+      },
+      "payments": {
+        "title": "Payments are on",
+        "hint": "Connect Robokassa and turn the test mode off so the money reaches your account."
+      },
+      "delivery": {
+        "title": "Delivery is set up",
+        "hint": "Add at least one delivery method, otherwise an order cannot be placed."
+      }
     }
   }
 }
