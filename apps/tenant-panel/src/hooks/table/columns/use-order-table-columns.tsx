@@ -66,6 +66,7 @@ export const useOrderTableColumns = (props: UseOrderTableColumnsProps) => {
         },
       }),
       columnHelper.accessor("customer", {
+        meta: { phoneWide: true },
         header: () => <CustomerHeader />,
         cell: ({ getValue }) => {
           const customer = getValue()

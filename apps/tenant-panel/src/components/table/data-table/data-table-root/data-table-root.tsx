@@ -25,6 +25,15 @@ import { NoResults } from "../../../common/empty-table-content"
 const isPhoneTop = (meta: unknown): boolean | "end" =>
   (meta as { phoneTop?: boolean | "end" } | undefined)?.phoneTop ?? false
 
+/**
+ * Below that first line such a card has a fixed shape, the same for every row
+ * (Gemini critique 2, 5.1: a long status made one card stack and its neighbour
+ * not): `meta: { phoneWide: true }` takes the whole width, the rest sit two in
+ * a row.
+ */
+const isPhoneWide = (meta: unknown): boolean =>
+  (meta as { phoneWide?: boolean } | undefined)?.phoneWide ?? false
+
 type BulkCommand = {
   label: string
   shortcut: string
@@ -292,9 +301,17 @@ export const DataTableRoot = <TData,>({
                             "max-md:!static max-md:block max-md:h-auto max-md:!w-auto max-md:min-w-0 max-md:border-0 max-md:!bg-transparent max-md:!p-0 max-md:[&_.truncate]:overflow-visible max-md:[&_.truncate]:whitespace-normal",
                             {
                             "max-md:txt-compact-medium-plus max-md:text-ui-fg-base": isFirstCell,
-                            "max-md:basis-full": isFirstCell && !hasPhoneTop,
+                            "max-md:basis-full":
+                              (isFirstCell && !hasPhoneTop) ||
+                              (hasPhoneTop && isPhoneWide(cell.column.columnDef.meta)),
                             "max-md:order-1": phoneTop,
                             "max-md:order-3": hasPhoneTop && !isFirstCell && !phoneTop,
+                            "max-md:basis-[calc(50%-0.625rem)]":
+                              hasPhoneTop &&
+                              !isFirstCell &&
+                              !phoneTop &&
+                              !isSpecialCell &&
+                              !isPhoneWide(cell.column.columnDef.meta),
                             "max-md:ms-auto": cell.column.id === "actions" || phoneTop === "end",
                             "!pe-0 !ps-0": shouldRenderAsLink,
                             "bg-ui-bg-base group-data-[selected=true]/row:bg-ui-bg-highlight group-data-[selected=true]/row:group-hover/row:bg-ui-bg-highlight-hover group-hover/row:bg-ui-bg-base-hover transition-fg group-has-[[data-row-link]:focus-visible]:bg-ui-bg-base-hover sticky start-0 after:absolute after:inset-y-0 after:right-0 after:h-full after:w-px after:bg-transparent after:content-['']":
