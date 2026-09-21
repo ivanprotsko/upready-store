@@ -160,6 +160,24 @@ async function settle(page) {
       await new Promise((r) => setTimeout(r, 120))
     }
     window.scrollTo(0, 0)
+    // The same inside every strip that scrolls on its own (the gallery's thumbnail rail):
+    // thumbnails past its visible part are lazy too and load when the rail is scrolled.
+    for (const box of document.querySelectorAll("*")) {
+      const style = getComputedStyle(box)
+      const scrollsY = /auto|scroll/.test(style.overflowY) && box.scrollHeight > box.clientHeight + 1
+      const scrollsX = /auto|scroll/.test(style.overflowX) && box.scrollWidth > box.clientWidth + 1
+      if ((!scrollsY && !scrollsX) || !box.querySelector("img")) continue
+      for (let y = 0; scrollsY && y <= box.scrollHeight; y += Math.max(box.clientHeight, 1)) {
+        box.scrollTop = y
+        await new Promise((r) => setTimeout(r, 120))
+      }
+      for (let x = 0; scrollsX && x <= box.scrollWidth; x += Math.max(box.clientWidth, 1)) {
+        box.scrollLeft = x
+        await new Promise((r) => setTimeout(r, 120))
+      }
+      box.scrollTop = 0
+      box.scrollLeft = 0
+    }
   })
   await page.waitForLoadState("networkidle", { timeout: 30_000 }).catch(() => {})
   await page
