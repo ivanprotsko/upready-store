@@ -1,7 +1,6 @@
 "use client"
 
 import { addToCart } from "@lib/data/cart"
-import { useIntersection } from "@lib/hooks/use-in-view"
 import { isPlaceholderOption } from "@lib/util/option-filter-groups"
 import { optionsWithUsedValues } from "@lib/util/product"
 import type { HttpTypes } from "@medusajs/types"
@@ -138,7 +137,21 @@ export default function ProductActions({
 
   const actionsRef = useRef<HTMLDivElement>(null)
 
-  const inView = useIntersection(actionsRef, "0px")
+  // The phone's sticky buy bar appears once the buy box has been scrolled PAST, not merely
+  // while it is off screen: on first paint the box is still below the fold (the gallery
+  // fills the first screen), and a bar shown then sat on top of the title and the price.
+  const [scrolledPast, setScrolledPast] = useState(false)
+  useEffect(() => {
+    const box = actionsRef.current
+    if (!box || typeof IntersectionObserver === "undefined") {
+      return
+    }
+    const observer = new IntersectionObserver(([entry]) =>
+      setScrolledPast(!entry.isIntersecting && entry.boundingClientRect.bottom <= 0)
+    )
+    observer.observe(box)
+    return () => observer.disconnect()
+  }, [])
 
   // The phone's sticky buy bar steps aside at the end of the page: over the footer it
   // would cover the seller's contacts, which is content too.
@@ -256,7 +269,7 @@ export default function ProductActions({
           inStock={inStock}
           handleAddToCart={handleAddToCart}
           isAdding={isAdding}
-          show={!inView && !footerInView}
+          show={scrolledPast && !footerInView}
           optionsDisabled={!!disabled || isAdding}
         />
       </div>

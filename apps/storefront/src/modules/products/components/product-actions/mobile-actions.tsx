@@ -66,19 +66,20 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           is not repeated here; the page's own heading is a scroll away and the bar is
           what covers content, so it stays as low as a button. */}
       <div
-        className={clx("lg:hidden inset-x-0 bottom-16 fixed z-30", {
+        className={clx("lg:hidden inset-x-0 bottom-16 fixed z-30 overflow-hidden pt-4", {
           "pointer-events-none": !show,
         })}
       >
         <Transition
           as={Fragment}
           show={show}
-          enter="ease-in-out duration-300"
-          enterFrom="opacity-0 translate-y-2"
-          enterTo="opacity-100 translate-y-0"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 translate-y-2"
+          // Slides, never fades: a half-transparent bar lets the page's text show through its own.
+          enter="ease-out duration-200 motion-reduce:transition-none"
+          enterFrom="translate-y-full"
+          enterTo="translate-y-0"
+          leave="ease-in duration-150 motion-reduce:transition-none"
+          leaveFrom="translate-y-0"
+          leaveTo="translate-y-full"
         >
           <div
             className="flex w-full items-center gap-x-3 border-t border-ui-border-base bg-ui-bg-base px-4 py-2.5 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
