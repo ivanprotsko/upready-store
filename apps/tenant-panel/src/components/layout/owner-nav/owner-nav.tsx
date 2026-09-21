@@ -31,7 +31,7 @@ const readClosed = (): string[] => {
  * What waits for the owner, shown as a number on the menu entry. Both reads
  * are small and fail silently: a menu without a number is still a menu.
  */
-const useCounters = (): Record<OwnerCounter, number | null> => {
+export const useOwnerCounters = (): Record<OwnerCounter, number | null> => {
   const orders = useOrders(
     { limit: 50, fields: "id,status,fulfillment_status" },
     { staleTime: 60_000, retry: false }
@@ -169,7 +169,7 @@ const Group = ({
 export const OwnerNav = () => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
-  const counters = useCounters()
+  const counters = useOwnerCounters()
   const [closed, setClosed] = useState<string[]>(readClosed)
 
   useEffect(() => {

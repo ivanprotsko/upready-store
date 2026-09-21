@@ -5037,5 +5037,27 @@
     "wait": "the marketplace asks to wait. Nothing to do, the exchange continues by itself",
     "down": "the marketplace does not answer right now. Nothing to do, we will try again",
     "unknown": "the data did not arrive. If it happens again, open the details below and send them to support"
+  },
+  "home": {
+    "attention": {
+      "title": "What to do now",
+      "nothing": "Nothing waits right now: orders are packed, reviews are checked.",
+      "ordersToPack": {
+        "title": "Orders wait to be packed",
+        "hint": "Pack the parcels and hand them over to delivery."
+      },
+      "reviewsToModerate": {
+        "title": "Reviews wait for a check",
+        "hint": "Shoppers see a review after you approve it."
+      },
+      "emptyPages": {
+        "title": "Empty shop pages",
+        "hint": "Shoppers and payment providers need contacts, seller details and the offer."
+      },
+      "draftProducts": {
+        "title": "Products in drafts",
+        "hint": "Shoppers do not see them until you publish them."
+      }
+    }
   }
 }

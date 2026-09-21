@@ -10,6 +10,7 @@ import { useTenantLocaleSettings } from "../../hooks/api/locale-settings"
 import { OverviewStats } from "./overview-stats"
 import { SalesSummary } from "./sales-summary"
 import { DeveloperDetails } from "./developer-details"
+import { OwnerAttention } from "./owner-attention"
 
 // tenant-panel: the panel's own Overview page (piece-1 prompt, item 6). Not a
 // copy of the Admin's routes/home/home.tsx, which renders a widget-injected
@@ -50,6 +51,7 @@ export const Home = () => {
       data={tenant}
       hasOutlet={false}
     >
+      <OwnerAttention />
       <Container className="flex flex-col gap-y-6 p-6">
         <div className="flex flex-wrap items-center justify-between gap-y-2">
           <Heading level="h1">
