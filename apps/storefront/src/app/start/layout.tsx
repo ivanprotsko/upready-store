@@ -37,7 +37,7 @@ export default function StartLayout({ children }: { children: ReactNode }) {
         </Link>
         <span className={styles.topbarNote}>три экрана до открытой витрины</span>
       </div>
-      {children}
+      <main>{children}</main>
     </div>
   )
 }

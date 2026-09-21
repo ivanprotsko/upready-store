@@ -82,7 +82,9 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
         <Suspense fallback={null}>
           <CartNotifications />
         </Suspense>
-        {props.children}
+        {/* The page is the one `main` landmark; the header above is `banner` and the
+            footer below `contentinfo` because they sit outside it. */}
+        <main id="main-content">{props.children}</main>
         <Footer />
       </div>
       <BottomNav />
