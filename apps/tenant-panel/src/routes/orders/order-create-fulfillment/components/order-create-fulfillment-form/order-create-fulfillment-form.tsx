@@ -166,6 +166,16 @@ export function OrderCreateFulfillmentForm({
     }
   })
 
+  // o21-owner-panel-ux (P5): a shop with one warehouse has nothing to choose.
+  // The only location is taken by itself, so «Собрать заказ» is one tap away.
+  const onlyLocationId =
+    stockLocations.options.length === 1 ? stockLocations.options[0].value : null
+  useEffect(() => {
+    if (onlyLocationId && !selectedLocationId) {
+      form.setValue("location_id", onlyLocationId)
+    }
+  }, [onlyLocationId, selectedLocationId, form])
+
   useEffect(() => {
     if (shipping_options?.length) {
       const initialShippingOptionId =
@@ -236,7 +246,7 @@ export function OrderCreateFulfillmentForm({
         <RouteFocusModal.Header />
 
         <RouteFocusModal.Body className="flex h-full w-full flex-col items-center divide-y overflow-y-auto">
-          <div className="flex size-full flex-col items-center overflow-auto p-16">
+          <div className="flex size-full flex-col items-center overflow-auto p-16 max-md:p-4">
             <div className="flex w-full max-w-[736px] flex-col justify-center px-2 pb-2">
               <div className="flex flex-col divide-y divide-dashed">
                 <div className="pb-8">
