@@ -11,6 +11,10 @@ import { MpKeyForm } from "./mp-key-form"
 import { MpReadOnlyBadge } from "./mp-read-only-badge"
 import { MpScopeList } from "./mp-scope-list"
 import { MpSyncTable } from "./mp-sync-table"
+import {
+  SupportDetails,
+  marketplaceErrorKey,
+} from "../../../../components/common/support-details"
 
 const NOT_SET = "—"
 
@@ -160,9 +164,7 @@ export const MpCard = ({
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
               <MpReadOnlyBadge value={readOnly} />
               {credentials?.read_only_source ? (
-                <Text className="text-ui-fg-subtle" size="small">
-                  {credentials.read_only_source}
-                </Text>
+                <SupportDetails text={credentials.read_only_source} />
               ) : null}
             </div>
           ) : (
@@ -195,7 +197,10 @@ export const MpCard = ({
         </MpFieldRow>
         {credentials?.error ? (
           <MpFieldRow label={t("marketplaces.problem")}>
-            <span className="text-ui-fg-error">{credentials.error}</span>
+            <div className="flex min-w-0 flex-col">
+              <span className="text-ui-fg-error">{t(marketplaceErrorKey(credentials.error))}</span>
+              <SupportDetails text={credentials.error} />
+            </div>
           </MpFieldRow>
         ) : null}
       </div>
@@ -266,15 +271,19 @@ export const MpCard = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-y-3 px-6 py-4">
-        <div>
-          <Text weight="plus">{t("marketplaces.endpoints.title")}</Text>
-          <Text className="text-ui-fg-subtle" size="small">
-            {t("marketplaces.endpoints.hint")}
-          </Text>
-        </div>
-        <MpEndpointTable endpoints={card.endpoints} />
-        <MpDeniedTable denied={card.denied} />
+      {/* o21-owner-panel-ux (P3): the list of addresses the platform may call is
+          an engineer's table. The owner gets one sentence, support gets the table. */}
+      <div className="flex flex-col gap-y-1 px-6 py-4">
+        <Text weight="plus">{t("marketplaces.endpoints.title")}</Text>
+        <Text className="text-ui-fg-subtle" size="small">
+          {t("marketplaces.endpoints.hint")}
+        </Text>
+        <SupportDetails>
+          <div className="flex flex-col gap-y-3">
+            <MpEndpointTable endpoints={card.endpoints} />
+            <MpDeniedTable denied={card.denied} />
+          </div>
+        </SupportDetails>
       </div>
 
       {card.id === "wb" ? <WbWriteSection /> : null}

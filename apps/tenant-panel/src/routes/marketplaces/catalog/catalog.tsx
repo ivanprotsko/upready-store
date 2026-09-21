@@ -130,7 +130,7 @@ export const MarketplaceCatalog = () => {
             <Heading>Каталог маркетплейсов</Heading>
             <Text className="text-ui-fg-subtle" size="small">
               Один список: товары магазина и карточки площадок, сведённые по артикулу (артикул
-              площадки = SKU товара).
+              площадки совпадает с артикулом товара).
             </Text>
           </div>
 

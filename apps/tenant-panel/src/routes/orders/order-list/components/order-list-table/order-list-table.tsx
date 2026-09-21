@@ -33,7 +33,9 @@ export const OrderListTable = () => {
   )
 
   const filters = useOrderTableFilters()
-  const columns = useOrderTableColumns({})
+  // o21-owner-panel-ux (P3): one shop has one sales channel and sells in one
+  // country, so these two columns told the owner nothing on every row.
+  const columns = useOrderTableColumns({ exclude: ["sales_channel", "country"] })
 
   const { table } = useDataTable({
     data: orders ?? [],

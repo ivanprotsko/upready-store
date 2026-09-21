@@ -29,6 +29,7 @@ import { useDate } from "../../../../../hooks/use-date"
 import { getFulfillmentProviderLabel } from "../../../../../lib/order-helpers"
 import { getLocaleAmount } from "../../../../../lib/money-amount-helpers"
 import { FulfillmentSetType } from "../../../../locations/common/constants"
+import { useOwnerSku } from "../../../../../hooks/use-owner-sku"
 import { ExtendedOrderFulfillment, ExtendedOrder } from "../../constants"
 
 type OrderFulfillmentSectionProps = {
@@ -57,10 +58,12 @@ const UnfulfilledItem = ({
   item: AdminOrderLineItem
   currencyCode: string
 }) => {
+  const sku = useOwnerSku()
+
   return (
     <div
       key={item.id}
-      className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4"
+      className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4 max-md:grid-cols-1 max-md:gap-y-2"
     >
       <div className="flex items-start gap-x-4">
         <Thumbnail src={item.thumbnail} />
@@ -75,7 +78,9 @@ const UnfulfilledItem = ({
           </Text>
           {item.variant_sku && (
             <div className="flex items-center gap-x-1">
-              <Text size="small">{item.variant_sku}</Text>
+              <Text size="small" className="whitespace-nowrap">
+                {sku.labelled(item.variant_sku)}
+              </Text>
               <Copy content={item.variant_sku} className="text-ui-fg-muted" />
             </div>
           )}
@@ -156,10 +161,10 @@ const UnfulfilledItemDisplay = ({
 
   return (
     <Container className="divide-y p-0">
-      <div className="flex items-center justify-between px-6 py-4">
+      <div className="flex flex-wrap items-center justify-between gap-y-2 px-6 py-4">
         <Heading level="h2">{t("orders.fulfillment.unfulfilledItems")}</Heading>
 
-        <div className="flex items-center gap-x-4">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           {requiresShipping && (
             <StatusBadge color="red" className="text-nowrap">
               {t("orders.fulfillment.requiresShipping")}

@@ -1,4 +1,4 @@
-import { PencilSquare, ThumbnailBadge } from "@medusajs/icons"
+import { PencilSquare, Photo, ThumbnailBadge } from "@medusajs/icons"
 import {
   Button,
   Checkbox,
@@ -16,6 +16,28 @@ import { Link, useNavigate } from "react-router-dom"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { useUpdateProduct } from "../../../../../hooks/api/products"
 import { HttpTypes } from "@medusajs/types"
+
+// o21-owner-panel-ux (lead review H2): a photo that does not load gives a
+// neutral tile, never the browser's broken-image icon with the alt text.
+const MediaImage = ({ src, alt }: { src: string; alt: string }) => {
+  const [failed, setFailed] = useState(false)
+
+  if (failed) {
+    return (
+      <div className="bg-ui-bg-component flex size-full items-center justify-center">
+        <Photo className="text-ui-fg-subtle" />
+      </div>
+    )
+  }
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setFailed(true)}
+      className="size-full object-cover"
+    />
+  )
+}
 
 type ProductMedisaSectionProps = {
   product: HttpTypes.AdminProduct
@@ -132,11 +154,7 @@ export const ProductMediaSection = ({ product }: ProductMedisaSectionProps) => {
                   </div>
                 )}
                 <Link to={`media`} state={{ curr: index }}>
-                  <img
-                    src={i.url}
-                    alt={`${product.title} image`}
-                    className="size-full object-cover"
-                  />
+                  <MediaImage src={i.url} alt={product.title} />
                 </Link>
               </div>
             )

@@ -7,6 +7,7 @@ import { Form } from "../../../../../components/common/form"
 import { RouteFocusModal, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { TenantPage, useUpdateTenantPage } from "../../../../../hooks/api/pages"
+import { MarkdownEditor } from "../../../../journal/components/markdown-editor"
 
 // tenant-panel wave 2, piece 7. Own form, no Admin counterpart; built from the
 // same `Form` + `KeyboundForm` + `RouteFocusModal` primitives the copied Admin
@@ -76,8 +77,8 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
   return (
     <RouteFocusModal.Form form={form}>
       <KeyboundForm onSubmit={handleSubmit} className="flex flex-1 flex-col overflow-hidden">
-        <RouteFocusModal.Body className="flex flex-1 flex-col items-center overflow-y-auto py-16">
-          <div className="flex w-full max-w-[720px] flex-col gap-y-8">
+        <RouteFocusModal.Body className="flex flex-1 flex-col items-center overflow-y-auto px-4 py-16 max-md:py-6">
+          <div className="flex w-full max-w-[1080px] flex-col gap-y-8">
             <Form.Field
               control={form.control}
               name="title"
@@ -100,13 +101,16 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
               render={({ field }) => (
                 <Form.Item>
                   <Form.Label>Текст</Form.Label>
-                  <Form.Hint>
-                    Markdown: {"#"} перед строкой — заголовок, {"-"} перед
-                    строкой — пункт списка, [текст](https://example.com) —
-                    ссылка, пустая строка между абзацами.
-                  </Form.Hint>
                   <Form.Control>
-                    <Textarea {...field} rows={18} className="font-mono" />
+                    {/* o21-owner-panel-ux (P4): the journal's editor, so the
+                        owner gets the buttons and a preview drawn by the same
+                        parser the shop page uses, instead of writing blind. */}
+                    <MarkdownEditor
+                      value={field.value}
+                      onChange={(next) => field.onChange(next)}
+                      onBlur={field.onBlur}
+                      invalid={!!form.formState.errors.body}
+                    />
                   </Form.Control>
                   <Form.ErrorMessage />
                 </Form.Item>

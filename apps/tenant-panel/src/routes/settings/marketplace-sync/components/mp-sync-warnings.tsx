@@ -1,6 +1,11 @@
 import { Alert } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
+import {
+  SupportDetails,
+  marketplaceErrorKey,
+  marketplaceErrorReason,
+} from "../../../../components/common/support-details"
 import type { MarketplaceSyncWarning } from "../../../../hooks/api/marketplace-sync"
 
 /** One warning as a sentence, with the kind in the owner's own words. */
@@ -24,7 +29,10 @@ const sentence = (
         days: warning.expires_in_days ?? 0,
       })
     case "failed":
-      return t("marketplaceSync.warnings.failed", { where, error: warning.error ?? "" })
+      return t("marketplaceSync.warnings.failed", {
+        where,
+        error: t(marketplaceErrorKey(warning.error)),
+      })
     case "never_ran":
       return t("marketplaceSync.warnings.neverRan", { where })
     default:
@@ -59,14 +67,49 @@ export const MpSyncWarnings = ({ warnings }: { warnings: MarketplaceSyncWarning[
     )
   }
 
+  // One cause, one message (o21-owner-panel-ux, P3): a rejected key fails every
+  // kind of data at once, and nine red banners with the same raw answer told
+  // the owner nothing. Failures are folded per marketplace and reason; the raw
+  // answers stay available, closed, for support.
+  const kindName = (warning: MarketplaceSyncWarning) =>
+    warning.kind ? t(`marketplaces.kinds.${warning.kind}`, { defaultValue: warning.kind }) : ""
+  const failures = new Map<string, MarketplaceSyncWarning[]>()
+  const others: MarketplaceSyncWarning[] = []
+  for (const warning of warnings) {
+    if (warning.type === "failed") {
+      const key = `${warning.marketplace}:${marketplaceErrorReason(warning.error)}`
+      failures.set(key, [...(failures.get(key) ?? []), warning])
+    } else {
+      others.push(warning)
+    }
+  }
+
   return (
     <div className="flex flex-col gap-y-2">
-      {warnings.map((warning) => (
+      {[...failures.entries()].map(([key, group]) => (
+        <Alert key={key} variant="error">
+          <div className="flex min-w-0 flex-col gap-y-1">
+            <span>
+              {t("marketplaceSync.warnings.failedGroup", {
+                label: group[0].marketplace_label,
+                reason: t(marketplaceErrorKey(group[0].error)),
+              })}
+            </span>
+            <span className="text-ui-fg-subtle">
+              {t("marketplaceSync.warnings.failedKinds", {
+                kinds: group.map(kindName).filter(Boolean).join(", "),
+              })}
+            </span>
+            <SupportDetails
+              text={group.map((w) => `${w.marketplace} / ${w.kind ?? "*"}: ${w.error ?? ""}`).join("\n")}
+            />
+          </div>
+        </Alert>
+      ))}
+      {others.map((warning) => (
         <Alert
           key={`${warning.marketplace}-${warning.kind ?? "*"}-${warning.type}`}
-          variant={
-            warning.type === "key_expired" || warning.type === "failed" ? "error" : "warning"
-          }
+          variant={warning.type === "key_expired" ? "error" : "warning"}
         >
           {sentence(warning, t)}
         </Alert>

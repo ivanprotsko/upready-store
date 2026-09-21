@@ -137,9 +137,12 @@ export const DataTableRoot = <TData,>({
         })}
       >
         {!noResults ? (
-          <Table className="relative w-full">
+          // o21-owner-panel-ux (P6): below `md` a row is a card. The header row
+          // is hidden and every value carries its column name, so a phone shows
+          // the whole record with no sideways scroll and no clipped columns.
+          <Table className="relative w-full max-md:block">
             {!noHeader && (
-              <Table.Header className="border-t-0">
+              <Table.Header className="border-t-0 max-md:hidden">
                 {table.getHeaderGroups().map((headerGroup) => {
                   return (
                     <Table.Row
@@ -198,7 +201,7 @@ export const DataTableRoot = <TData,>({
                 })}
               </Table.Header>
             )}
-            <Table.Body className="border-b-0">
+            <Table.Body className="border-b-0 max-md:block">
               {table.getRowModel().rows.map((row) => {
                 const to = navigateTo ? navigateTo(row) : undefined
                 const isRowDisabled = hasSelect && !row.getCanSelect()
@@ -213,6 +216,7 @@ export const DataTableRoot = <TData,>({
                     data-selected={row.getIsSelected()}
                     className={clx(
                       "transition-fg group/row group relative [&_td:last-of-type]:w-[1%] [&_td:last-of-type]:whitespace-nowrap",
+                      "max-md:flex max-md:h-auto max-md:flex-wrap max-md:items-start max-md:gap-x-5 max-md:gap-y-2 max-md:px-6 max-md:py-3 max-md:[&_td:last-of-type]:w-auto",
                       "has-[[data-row-link]:focus-visible]:bg-ui-bg-base-hover",
                       {
                         "bg-ui-bg-subtle hover:bg-ui-bg-subtle-hover": isOdd,
@@ -255,13 +259,29 @@ export const DataTableRoot = <TData,>({
                         cell.getContext()
                       )
 
+                      // The column name above the value, on a phone only.
+                      const header = table
+                        .getFlatHeaders()
+                        .find((h) => h.column.id === cell.column.id)
+                      const isSpecialCell = isSelectCell || cell.column.id === "actions"
+                      const label =
+                        header && !isSpecialCell && !isFirstCell ? (
+                          <div className="text-ui-fg-muted txt-compact-xsmall md:hidden [&_*]:!p-0">
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                          </div>
+                        ) : null
+
                       const isTabableLink = isFirstCell && !!to
                       const shouldRenderAsLink = !!to && !isSelectCell
 
                       return (
                         <Table.Cell
                           key={cell.id}
-                          className={clx({
+                          className={clx(
+                            "max-md:!static max-md:block max-md:h-auto max-md:!w-auto max-md:min-w-0 max-md:border-0 max-md:!bg-transparent max-md:!p-0 max-md:[&_.truncate]:overflow-visible max-md:[&_.truncate]:whitespace-normal",
+                            {
+                            "max-md:txt-compact-medium-plus max-md:text-ui-fg-base max-md:basis-full": isFirstCell,
+                            "max-md:ms-auto": cell.column.id === "actions",
                             "!pe-0 !ps-0": shouldRenderAsLink,
                             "bg-ui-bg-base group-data-[selected=true]/row:bg-ui-bg-highlight group-data-[selected=true]/row:group-hover/row:bg-ui-bg-highlight-hover group-hover/row:bg-ui-bg-base-hover transition-fg group-has-[[data-row-link]:focus-visible]:bg-ui-bg-base-hover sticky start-0 after:absolute after:inset-y-0 after:right-0 after:h-full after:w-px after:bg-transparent after:content-['']":
                               isStickyCell,
@@ -286,9 +306,10 @@ export const DataTableRoot = <TData,>({
                               data-row-link
                               tabIndex={isTabableLink ? 0 : -1}
                             >
+                              {label}
                               <div
                                 className={clx(
-                                  "flex size-full items-center pe-6",
+                                  "flex size-full items-center pe-6 max-md:!p-0",
                                   {
                                     "ps-6": isTabableLink && !hasLeftOffset,
                                   }
@@ -298,7 +319,10 @@ export const DataTableRoot = <TData,>({
                               </div>
                             </Link>
                           ) : (
-                            Inner
+                            <>
+                              {label}
+                              {Inner}
+                            </>
                           )}
                         </Table.Cell>
                       )

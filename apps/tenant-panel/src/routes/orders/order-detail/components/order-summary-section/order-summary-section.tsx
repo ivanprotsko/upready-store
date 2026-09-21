@@ -69,6 +69,7 @@ import { getReturnableQuantity } from "../../../../../lib/rma"
 import { CopyPaymentLink } from "../copy-payment-link/copy-payment-link"
 import ReturnInfoPopover from "./return-info-popover"
 import ShippingInfoPopover from "./shipping-info-popover"
+import { useOwnerSku } from "../../../../../hooks/use-owner-sku"
 import { formatPercentage } from "../../../../../lib/percentage-helpers.ts"
 
 type OrderSummarySectionProps = {
@@ -400,6 +401,7 @@ const Item = ({
   claims: AdminClaim[]
   exchanges: AdminExchange[]
 }) => {
+  const sku = useOwnerSku()
   const { t } = useTranslation()
 
   const isInventoryManaged = item.variant?.manage_inventory
@@ -417,7 +419,7 @@ const Item = ({
     <>
       <div
         key={item.id}
-        className="text-ui-fg-subtle grid grid-cols-2 items-center gap-x-4 px-6 py-4"
+        className="text-ui-fg-subtle grid grid-cols-2 items-center gap-x-4 px-6 py-4 max-md:grid-cols-1 max-md:gap-y-2"
       >
         <div className=" flex justify-between gap-x-2 ">
           <div className=" group flex items-start gap-x-4">
@@ -429,7 +431,9 @@ const Item = ({
 
               {item.variant_sku && (
                 <div className="flex items-center gap-x-1">
-                  <Text size="small">{item.variant_sku}</Text>
+                  <Text size="small" className="whitespace-nowrap">
+                {sku.labelled(item.variant_sku)}
+              </Text>
                   <Copy
                     content={item.variant_sku}
                     className="text-ui-fg-muted hidden group-hover:block"
@@ -689,6 +693,9 @@ const CostBreakdown = ({
         </div>
       )}
 
+      {/* o21-owner-panel-ux (lead review H8): a zero «Налог» row is noise on
+          the order of a shop that charges no tax. */}
+      {!!order.original_tax_total && (
       <>
         <div className="flex justify-between">
           <div
@@ -741,6 +748,7 @@ const CostBreakdown = ({
           </div>
         )}
       </>
+      )}
       <div className="text-ui-fg-base flex items-center justify-between">
         <Text className="text-ui-fg-subtle" size="small" leading="compact">
           {t("fields.total")}
@@ -808,6 +816,12 @@ const DiscountAndTotalBreakdown = ({
 
   const hasDiscount = discounts.length > 0
   const hasCreditLines = creditLines.length > 0
+
+  // o21-owner-panel-ux (lead review H8): with no discount and no credit the
+  // block is «Скидки 0» and «Итого со скидкой» equal to the total above it.
+  if (!hasDiscount && !hasCreditLines) {
+    return null
+  }
 
   return (
     <div className="text-ui-fg-subtle flex flex-col gap-y-2 px-6 py-4">

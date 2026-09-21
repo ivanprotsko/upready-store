@@ -7,6 +7,7 @@ import {
   useQuery,
 } from "@tanstack/react-query"
 
+import { useTenantLocaleSettings } from "./locale-settings"
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
@@ -75,6 +76,21 @@ export type CreateTenantPageBody = {
   title: string
 }
 
+/**
+ * The language the shop's pages are edited in (o21-owner-panel-ux). Without a
+ * `locale` the backend answers and saves the `en` row, while a shop whose
+ * language is Russian shows its buyers the `ru` row: the owner edited
+ * «Контакты», saw «Страница сохранена», and the shop did not change (measured
+ * by `e2e/owner-page-flow.e2e.mjs`). The panel now reads and writes the row of
+ * the shop's own default language (`ru` when the shop never chose one); until
+ * that is known nothing is asked, so the wrong row is never shown first.
+ */
+const usePageLocale = () => {
+  const { locale_settings: settings, isSuccess, isError } = useTenantLocaleSettings()
+  // A shop that never saved its languages runs on the platform's default, `ru`.
+  return { locale: isError ? undefined : settings?.default_locale ?? "ru", ready: isSuccess || isError }
+}
+
 const PAGES_QUERY_KEY = "tenant-pages" as const
 export const pagesQueryKeys = queryKeysFactory(PAGES_QUERY_KEY)
 
@@ -89,10 +105,15 @@ export const useTenantPages = (
     "queryFn" | "queryKey"
   >
 ) => {
+  const { locale, ready } = usePageLocale()
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.client.fetch<TenantPageListResponse>("/tenants/pages"),
-    queryKey: pagesQueryKeys.lists(),
+    queryFn: () =>
+      sdk.client.fetch<TenantPageListResponse>("/tenants/pages", {
+        query: locale ? { locale } : undefined,
+      }),
+    queryKey: pagesQueryKeys.list({ locale }),
     ...options,
+    enabled: ready && (options?.enabled ?? true),
   })
 
   return { ...data, ...rest }
@@ -105,10 +126,15 @@ export const useTenantPage = (
     "queryFn" | "queryKey"
   >
 ) => {
+  const { locale, ready } = usePageLocale()
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.client.fetch<TenantPageResponse>(`/tenants/pages/${key}`),
-    queryKey: pagesQueryKeys.detail(key),
+    queryFn: () =>
+      sdk.client.fetch<TenantPageResponse>(`/tenants/pages/${key}`, {
+        query: locale ? { locale } : undefined,
+      }),
+    queryKey: pagesQueryKeys.detail(key, { locale }),
     ...options,
+    enabled: ready && (options?.enabled ?? true),
   })
 
   return { ...data, ...rest }
@@ -135,11 +161,12 @@ export const useUpdateTenantPage = (
   key: string,
   options?: UseMutationOptions<TenantPageResponse, FetchError, PutTenantPageBody>
 ) => {
+  const { locale } = usePageLocale()
   return useMutation({
     mutationFn: (payload) =>
       sdk.client.fetch<TenantPageResponse>(`/tenants/pages/${key}`, {
         method: "PUT",
-        body: payload,
+        body: { ...payload, locale: payload.locale ?? locale },
       }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: pagesQueryKeys.lists() })

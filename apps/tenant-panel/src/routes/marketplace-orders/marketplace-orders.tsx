@@ -291,11 +291,12 @@ export const MarketplaceOrders = () => {
                     <Table.Cell>
                       <div className="flex flex-col">
                         <Text size="small">{order.status_label}</Text>
-                        {/* Слово площадки — рядом, целиком, без перевода. */}
-                        {order.status_raw ? (
+                        {/* o21-owner-panel-ux (P3): the marketplace's own status
+                            code stays out of the owner's sight; the detail the
+                            marketplace wrote in words is kept. */}
+                        {order.status_detail ? (
                           <Text className="text-ui-fg-muted" size="xsmall">
-                            {order.status_raw}
-                            {order.status_detail ? ` · ${order.status_detail}` : ""}
+                            {order.status_detail}
                           </Text>
                         ) : null}
                       </div>

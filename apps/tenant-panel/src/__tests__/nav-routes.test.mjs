@@ -32,7 +32,8 @@ import { fileURLToPath } from "node:url"
 const here = dirname(fileURLToPath(import.meta.url))
 const SRC = join(here, "..")
 const APP = join(SRC, "app.tsx")
-const LAYOUT = join(SRC, "components/layout/main-layout/main-layout.tsx")
+// o21-owner-panel-ux: the menu is data now, in the owner nav model.
+const LAYOUT = join(SRC, "components/layout/owner-nav/nav-model.ts")
 
 /** Every `.ts`/`.tsx` file under `src`, so a new screen joins the check by existing. */
 const sourceFiles = (dir) =>
