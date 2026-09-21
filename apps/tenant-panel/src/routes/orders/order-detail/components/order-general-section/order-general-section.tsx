@@ -6,12 +6,9 @@ import {
   Heading,
   StatusBadge,
   Text,
-  toast,
-  usePrompt,
 } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { useCancelOrder } from "../../../../../hooks/api/orders"
 import { useDate } from "../../../../../hooks/use-date"
 import {
   getCanceledOrderStatus,
@@ -19,6 +16,7 @@ import {
   getOrderPaymentStatus,
 } from "../../../../../lib/order-helpers"
 import { ExtendedOrder } from "../../constants"
+import { useCancelOrderPrompt } from "../../hooks/use-cancel-order-prompt"
 
 type OrderGeneralSectionProps = {
   order: ExtendedOrder
@@ -26,34 +24,8 @@ type OrderGeneralSectionProps = {
 
 export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
   const { t } = useTranslation()
-  const prompt = usePrompt()
   const { getFullDate } = useDate()
-
-  const { mutateAsync: cancelOrder } = useCancelOrder(order.id)
-
-  const handleCancel = async () => {
-    const res = await prompt({
-      title: t("general.areYouSure"),
-      description: t("orders.cancelWarning", {
-        id: `#${order.display_id}` as string,
-      }),
-      confirmText: t("actions.continue"),
-      cancelText: t("actions.cancel"),
-    })
-
-    if (!res) {
-      return
-    }
-
-    await cancelOrder(undefined, {
-      onSuccess: () => {
-        toast.success(t("orders.orderCanceled"))
-      },
-      onError: (e) => {
-        toast.error(e.message)
-      },
-    })
-  }
+  const handleCancel = useCancelOrderPrompt(order)
 
   return (
     <Container className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4">
@@ -98,7 +70,12 @@ const FulfillmentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
   const { t } = useTranslation()
 
   // «Отменен» next to «Ждёт сборки» asks her to pack a cancelled order.
-  if (order.status === "canceled" && order.fulfillment_status === "not_fulfilled") {
+  // The same with a cancelled payment: «Оплата отменена» and «Ждёт сборки»
+  // side by side say «no money» and «pack it» at once (Gemini critique 2, 3.2).
+  if (
+    (order.status === "canceled" || order.payment_status === "canceled") &&
+    order.fulfillment_status === "not_fulfilled"
+  ) {
     return null
   }
 
