@@ -1,6 +1,6 @@
 "use client"
 
-import { XMarkMini } from "@medusajs/icons"
+import { ChevronDownMini, XMarkMini } from "@medusajs/icons"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { useCallback, useMemo } from "react"
@@ -106,9 +106,10 @@ const Group = ({
   <details open className="group/filter border-b border-ui-border-base py-3" data-testid={testId}>
     <summary className="flex cursor-pointer list-none items-center justify-between gap-x-2 rounded txt-compact-small-plus text-ui-fg-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-border-interactive [&::-webkit-details-marker]:hidden">
       <span>{title}</span>
-      <span aria-hidden className="text-ui-fg-muted transition-transform group-open/filter:rotate-45">
-        +
-      </span>
+      <ChevronDownMini
+        aria-hidden
+        className="shrink-0 text-ui-fg-muted transition-transform group-open/filter:rotate-180"
+      />
     </summary>
     <div className="flex max-h-64 flex-col gap-y-2 overflow-y-auto p-0.5 pt-3">{children}</div>
   </details>

@@ -397,6 +397,11 @@ const MobileRefinement = ({
                               <span className="txt-large">
                                 {group.title}
                               </span>
+                              {group.values.filter((value) => selectedValueIds.has(value.id)).length > 0 ? (
+                                <span className="ms-auto me-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-ui-bg-interactive px-1.5 txt-compact-xsmall-plus text-ui-fg-on-color" data-testid="mobile-filter-group-count">
+                                  {group.values.filter((value) => selectedValueIds.has(value.id)).length}
+                                </span>
+                              ) : null}
                               <ChevronRightMini className="text-ui-fg-muted rtl:rotate-180" />
                             </button>
                           ))}
@@ -414,6 +419,11 @@ const MobileRefinement = ({
                                   ? `${facet.name}, ${facet.unit}`
                                   : facet.name}
                               </span>
+                              {(attributeSelection[facet.key]?.length ?? 0) > 0 ? (
+                                <span className="ms-auto me-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-ui-bg-interactive px-1.5 txt-compact-xsmall-plus text-ui-fg-on-color" data-testid="mobile-filter-group-count">
+                                  {(attributeSelection[facet.key]?.length ?? 0)}
+                                </span>
+                              ) : null}
                               <ChevronRightMini className="text-ui-fg-muted rtl:rotate-180" />
                             </button>
                           ))}
