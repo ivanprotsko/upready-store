@@ -1,5 +1,5 @@
 import { Input, Textarea } from "@medusajs/ui"
-import { useEffect, useRef } from "react"
+import { ReactNode, useEffect, useRef } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
@@ -10,10 +10,13 @@ import { ProductCreateSchemaType } from "../../../../types"
 
 type ProductCreateGeneralSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
+  /** Shown between the name row and the description (the quick price). */
+  afterName?: ReactNode
 }
 
 export const ProductCreateGeneralSection = ({
   form,
+  afterName,
 }: ProductCreateGeneralSectionProps) => {
   const { t } = useTranslation()
 
@@ -46,14 +49,17 @@ export const ProductCreateGeneralSection = ({
 
   return (
     <div id="general" className="flex flex-col gap-y-6">
-      <div className="flex flex-col gap-y-2">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      {/* o21-owner-panel-ux: on a phone the wrappers dissolve and the fields
+          line up in her order: name, price, description, then the optional
+          subtitle and page address. */}
+      <div className="flex flex-col gap-y-2 max-md:contents">
+        <div className="grid grid-cols-1 gap-4 max-md:contents md:grid-cols-3">
           <Form.Field
             control={form.control}
             name="title"
             render={({ field }) => {
               return (
-                <Form.Item>
+                <Form.Item className="max-md:order-1">
                   <Form.Label>{t("products.fields.title.label")}</Form.Label>
                   <Form.Control>
                     <Input
@@ -70,7 +76,7 @@ export const ProductCreateGeneralSection = ({
             name="subtitle"
             render={({ field }) => {
               return (
-                <Form.Item>
+                <Form.Item className="max-md:order-4">
                   <Form.Label optional>
                     {t("products.fields.subtitle.label")}
                   </Form.Label>
@@ -89,7 +95,7 @@ export const ProductCreateGeneralSection = ({
             name="handle"
             render={({ field }) => {
               return (
-                <Form.Item>
+                <Form.Item className="max-md:order-5">
                   <Form.Label
                     tooltip={t("products.fields.handle.tooltip")}
                     optional
@@ -113,12 +119,13 @@ export const ProductCreateGeneralSection = ({
           />
         </div>
       </div>
+      {afterName ? <div className="max-md:order-2">{afterName}</div> : null}
       <Form.Field
         control={form.control}
         name="description"
         render={({ field }) => {
           return (
-            <Form.Item>
+            <Form.Item className="max-md:order-3">
               <Form.Label optional>
                 {t("products.fields.description.label")}
               </Form.Label>

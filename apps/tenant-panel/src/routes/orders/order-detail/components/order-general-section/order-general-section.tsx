@@ -97,6 +97,11 @@ export const OrderGeneralSection = ({ order }: OrderGeneralSectionProps) => {
 const FulfillmentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
   const { t } = useTranslation()
 
+  // «Отменен» next to «Ждёт сборки» asks her to pack a cancelled order.
+  if (order.status === "canceled" && order.fulfillment_status === "not_fulfilled") {
+    return null
+  }
+
   const { label, color } = getOrderFulfillmentStatus(
     t,
     order.fulfillment_status

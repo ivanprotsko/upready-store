@@ -25,6 +25,9 @@ export const CdekCredentialsFields = ({ form }: { form: CdekForm }) => {
           <Label htmlFor="test_account">{t("deliverySettings.fields.test_account")}</Label>
           <Input
             id="test_account"
+            // The login is half of the key to her CDEK account: hidden until
+            // she presses the eye, like the password next to it.
+            type="password"
             autoComplete="off"
             value={draft.test_account}
             disabled={busy}
@@ -37,6 +40,9 @@ export const CdekCredentialsFields = ({ form }: { form: CdekForm }) => {
           <Label htmlFor="account">{t("deliverySettings.fields.account")}</Label>
           <Input
             id="account"
+            // The login is half of the key to her CDEK account: hidden until
+            // she presses the eye, like the password next to it.
+            type="password"
             autoComplete="off"
             value={draft.account}
             disabled={busy}

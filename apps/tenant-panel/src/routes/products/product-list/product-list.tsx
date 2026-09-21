@@ -12,6 +12,10 @@ export const ProductList = () => {
     <LayoutComposer
       widgetsZonePrefix="product.list"
       preferredLayoutId={CORE_LAYOUT_IDS.SINGLE_COLUMN}
+      // o21-owner-panel-ux: the table renders the `Outlet` itself (as the orders
+      // list does). With the composer's one on top, «Добавить товар» opened two
+      // copies of the wizard, one under the other.
+      hasOutlet={false}
       sections={{
         main: (
           <LayoutComposer.Entry id="ProductListTable">
