@@ -119,6 +119,13 @@ const NEVER_A_COLUMN = [
   "account_holder", "account_holders", "users", "api_keys", "publishable_api_keys",
 ];
 
+/**
+ * Columns the storefront asks for with a star (`*items.thumbnail`, `*items.metadata`
+ * in its cart query). A star on an unknown name stays closed, because a star on
+ * a link nobody listed would expand it, so the columns are named.
+ */
+const STARRED_COLUMNS = new Set(["thumbnail", "metadata"]);
+
 const GUARDED = ["/store", "/tenants"];
 
 const under = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
@@ -156,7 +163,7 @@ export function guardFields(path: string, fields: string): { kept: string[]; dro
     const segments = name.replace(/^\*/, "").replace(/\.\*$/, "").split(".");
     const lastIndex = segments.length - 1;
     const last = segments[lastIndex];
-    const relations = isStar ? segments : segments.slice(0, -1);
+    const relations = isStar && !STARRED_COLUMNS.has(last) ? segments : segments.slice(0, -1);
 
     const passes =
       relations.every((segment, index) => opens(segment, index)) &&

@@ -53,6 +53,14 @@ describe("field guard: what a caller may expand through ?fields=", () => {
     ).toEqual([]);
   });
 
+  it("reads a star on a named column as a column, and on an unknown name as a relation", () => {
+    expect(guardFields("/store/carts/cart_1", "*items.thumbnail,*items.metadata,*customer.addresses.metadata").kept).toEqual([
+      "*items.thumbnail",
+      "*items.metadata",
+    ]);
+    expect(guardFields("/store/carts/cart_1", "*items.some_new_link").kept).toEqual([]);
+  });
+
   it("treats a row that shops share as a leaf", () => {
     // K1: the default shipping profile carries the shipping options of every shop.
     expect(guardFields("/store/products", "id,*shipping_profile,shipping_profile.name,*shipping_profile.shipping_options")).toEqual({
@@ -86,6 +94,10 @@ describe("field guard: what a caller may expand through ?fields=", () => {
       ["/store/products", "id,*options,*options.values,variants.options.id,variants.options.option_id"],
       ["/store/shipping-options", "+metadata,+data,+provider_id,+service_zone.fulfillment_set.type,+service_zone.fulfillment_set.location.*,+service_zone.fulfillment_set.location.address.*"],
       ["/store/customers/me/addresses", "*addresses"],
+      ["/store/carts/cart_1", "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name, +shipping_methods.data"],
+      ["/store/orders", "*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,*fulfillments.labels,+fulfillments.metadata"],
+      ["/store/carts/cart_1", "*shipping_address, *billing_address"],
+      ["/store/product-categories", "id,handle,name,rank,metadata,parent_category_id,*category_children"],
       ["/store/orders/order_1", "*items,+items.metadata,*items.variant,*items.product,*shipping_methods"],
       ["/store/product-categories", "*category_children, +category_children.metadata, +metadata, *products, *parent_category, *parent_category.parent_category"],
       ["/store/product-variants/variant_1", "*images"],
