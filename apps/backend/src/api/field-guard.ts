@@ -20,8 +20,9 @@ import type { MedusaNextFunction, MedusaRequest, MedusaResponse } from "@medusaj
  *
  * So this is an allow list, and it works on the caller's text before any
  * validator reads it. A relation can be expanded when every segment of its path
- * is on the list of the route family. A relation nobody listed stays closed,
- * which is the point: a new link is closed until somebody opens it here.
+ * is on the list of the route family, and the path does not walk on from a row
+ * that shops share. A relation nobody listed stays closed, which is the point:
+ * a new link is closed until somebody opens it here.
  * The defaults of a route are not the caller's text and are not filtered.
  */
 
@@ -60,13 +61,51 @@ const INSIDE_THE_SHOP = [
 
 /**
  * `products` is a way out of a shop from anything that shops share (a tag, a
- * type, a collection), so it opens only where the parent belongs to one shop.
+ * type, a collection), so it opens only where the parent belongs to one shop,
+ * and only as the FIRST segment: `*products` of a category, never
+ * `*category_children.products` or `*products.tags.products`.
  */
-const FAMILY_EXTRAS: Array<[prefix: string, segments: string[]]> = [
+const FIRST_SEGMENT_ONLY: Array<[prefix: string, segments: string[]]> = [
   ["/store/product-categories", ["products"]],
   ["/store/tenant/product-categories", ["products"]],
-  ["/store/collections", ["products"]],
   ["/tenants/product-categories", ["products"]],
+];
+
+/**
+ * Rows that shops share: the default shipping profile, a buyer, a tag, a type,
+ * a collection, a provider, a reason. Such a row is a leaf. Its own columns can
+ * be read (`*customer`, `shipping_profile.name`), and nothing can be expanded
+ * FROM it, because whatever hangs on a shared row belongs to every shop at once:
+ * `*shipping_profile.shipping_options` listed the delivery prices of the whole
+ * deployment to an anonymous visitor, and `*customer.addresses` showed an owner
+ * the address a buyer entered in another shop (measured 2026-09-21, K1 and K4).
+ */
+const SHARED_ROWS = new Set([
+  "shipping_profile", "customer", "tags", "type", "collection", "provider", "fulfillment_provider",
+  "payment_providers", "shipping_option_type", "return_reason", "refund_reason", "reason", "groups",
+]);
+
+/**
+ * Route families whose ROOT row is shared. There the list above does not apply
+ * at all, and only what is named here opens. `/store/collections` answers with
+ * every shop's collections, so `*products` under it returned another shop's
+ * products, drafts included (measured, K3). The longest prefix wins.
+ */
+const SHARED_ROOTS: Array<[prefix: string, segments: string[]]> = [
+  ["/store/collections", []],
+  ["/store/product-tags", []],
+  ["/store/product-types", []],
+  ["/store/payment-providers", []],
+  ["/store/regions", ["countries", "payment_providers"]],
+  ["/tenants/collections", []],
+  ["/tenants/product-tags", []],
+  ["/tenants/product-types", []],
+  ["/tenants/shipping-profiles", []],
+  ["/tenants/fulfillment-providers", []],
+  ["/tenants/regions", ["countries", "payment_providers"]],
+  // A buyer is one row for every shop, and so is the buyer's address book. An
+  // owner reads the addresses of the shop's own orders on the orders.
+  ["/tenants/customers", []],
 ];
 
 /**
@@ -82,21 +121,29 @@ const NEVER_A_COLUMN = [
 
 const GUARDED = ["/store", "/tenants"];
 
-const allowedFor = (path: string): Set<string> => {
-  const allowed = new Set(INSIDE_THE_SHOP);
-  for (const [prefix, segments] of FAMILY_EXTRAS) {
-    if (path === prefix || path.startsWith(`${prefix}/`)) {
-      segments.forEach((segment) => allowed.add(segment));
-    }
-  }
-  return allowed;
+const under = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
+
+const allowedFor = (path: string): { anywhere: Set<string>; first: Set<string> } => {
+  const sharedRoot = SHARED_ROOTS.filter(([prefix]) => under(path, prefix)).sort(
+    (a, b) => b[0].length - a[0].length,
+  )[0];
+  const first = new Set(FIRST_SEGMENT_ONLY.filter(([prefix]) => under(path, prefix)).flatMap(([, names]) => names));
+  return { anywhere: new Set(sharedRoot ? sharedRoot[1] : INSIDE_THE_SHOP), first };
 };
+
+/** Every name this file knows as a relation, so a plain `fields=id,addresses` is not read as a column. */
+const RELATION_NAMES = new Set([
+  ...INSIDE_THE_SHOP,
+  ...NEVER_A_COLUMN,
+  ...FIRST_SEGMENT_ONLY.flatMap(([, names]) => names),
+]);
 
 const isLinkName = (segment: string) => segment.includes("tenant") || segment.endsWith("_link");
 
 /** Splits one requested field into the fields that pass and the ones that do not. */
 export function guardFields(path: string, fields: string): { kept: string[]; dropped: string[] } {
-  const allowed = allowedFor(path);
+  const { anywhere, first } = allowedFor(path);
+  const opens = (segment: string, index: number) => anywhere.has(segment) || (index === 0 && first.has(segment));
   const kept: string[] = [];
   const dropped: string[] = [];
 
@@ -107,12 +154,17 @@ export function guardFields(path: string, fields: string): { kept: string[]; dro
     const name = item.replace(/^[+-]/, "");
     const isStar = name.startsWith("*") || name.endsWith(".*");
     const segments = name.replace(/^\*/, "").replace(/\.\*$/, "").split(".");
-    const last = segments[segments.length - 1];
+    const lastIndex = segments.length - 1;
+    const last = segments[lastIndex];
     const relations = isStar ? segments : segments.slice(0, -1);
 
     const passes =
-      relations.every((segment) => allowed.has(segment)) &&
-      (isStar || allowed.has(last) || !(NEVER_A_COLUMN.includes(last) || isLinkName(last)));
+      relations.every((segment, index) => opens(segment, index)) &&
+      // A shared row is a leaf: it can end the path of relations and cannot continue it.
+      relations.every((segment, index) => index === relations.length - 1 || !SHARED_ROWS.has(segment)) &&
+      (isStar || opens(last, lastIndex) || !(RELATION_NAMES.has(last) || isLinkName(last))) &&
+      // `customer.addresses` without a star names a relation of a shared row all the same.
+      (isStar || !(SHARED_ROWS.has(relations[relations.length - 1]) && RELATION_NAMES.has(last)));
 
     // `-tenant` only takes a field away, so it can stay whatever it names.
     (passes || item.startsWith("-") ? kept : dropped).push(item);

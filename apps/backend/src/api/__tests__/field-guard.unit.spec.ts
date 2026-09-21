@@ -44,6 +44,40 @@ describe("field guard: what a caller may expand through ?fields=", () => {
     expect(guardFields("/tenants/collections", "*products").kept).toEqual([]);
     // A family is a path prefix, not a string prefix.
     expect(guardFields("/store/product-categories-other", "*products").kept).toEqual([]);
+    // Only as the first segment: below it a tag, a type or a collection leads out of the shop.
+    expect(
+      guardFields(
+        "/store/product-categories",
+        "*products.tags.products,*products.type.products,*products.collection.products,*category_children.products",
+      ).kept,
+    ).toEqual([]);
+  });
+
+  it("treats a row that shops share as a leaf", () => {
+    // K1: the default shipping profile carries the shipping options of every shop.
+    expect(guardFields("/store/products", "id,*shipping_profile,shipping_profile.name,*shipping_profile.shipping_options")).toEqual({
+      kept: ["id", "*shipping_profile", "shipping_profile.name"],
+      dropped: ["*shipping_profile.shipping_options"],
+    });
+    // K4: a buyer is one row for every shop, and so is the address book.
+    expect(guardFields("/tenants/orders/order_1", "*customer,customer.email,*customer.addresses,customer.addresses,customer.groups.name").kept).toEqual([
+      "*customer",
+      "customer.email",
+    ]);
+    expect(guardFields("/tenants/orders/order_1", "*shipping_methods.shipping_option.shipping_profile.shipping_options").kept).toEqual([]);
+  });
+
+  it("opens nothing under a route whose own rows are shared, except what is named", () => {
+    // K3: /store/collections lists every shop's collections.
+    expect(guardFields("/store/collections", "id,title,*products,products.id,products").kept).toEqual(["id", "title"]);
+    expect(guardFields("/store/collections/pcol_1", "*products").kept).toEqual([]);
+    expect(guardFields("/tenants/shipping-profiles", "id,name,*shipping_options").kept).toEqual(["id", "name"]);
+    expect(guardFields("/tenants/customers/cus_1", "id,email,*addresses,addresses,*groups").kept).toEqual(["id", "email"]);
+    expect(guardFields("/store/regions", "id,*countries,*payment_providers,*countries.region").dropped).toEqual([
+      "*countries.region",
+    ]);
+    // The buyer's own address book, read by the buyer, stays open.
+    expect(guardFields("/store/customers/me", "*addresses").dropped).toEqual([]);
   });
 
   it("keeps every field list the storefront and the panel send today", () => {
@@ -52,12 +86,10 @@ describe("field guard: what a caller may expand through ?fields=", () => {
       ["/store/products", "id,*options,*options.values,variants.options.id,variants.options.option_id"],
       ["/store/shipping-options", "+metadata,+data,+provider_id,+service_zone.fulfillment_set.type,+service_zone.fulfillment_set.location.*,+service_zone.fulfillment_set.location.address.*"],
       ["/store/customers/me/addresses", "*addresses"],
-      ["/store/collections", "*products"],
       ["/store/orders/order_1", "*items,+items.metadata,*items.variant,*items.product,*shipping_methods"],
       ["/store/product-categories", "*category_children, +category_children.metadata, +metadata, *products, *parent_category, *parent_category.parent_category"],
       ["/store/product-variants/variant_1", "*images"],
       ["/store/carts/cart_1", "payment_collection.payment_sessions.data"],
-      ["/tenants/customers/cus_1", "*addresses"],
       ["/tenants/products/prod_1", "images.id,images.url,images.variants.id,-type,-collection,-options,-tags,-variants,-sales_channels"],
       ["/tenants/products/prod_1", "*shipping_profile,-type,-collection,-options,-tags,-images,-variants,-sales_channels"],
       ["/tenants/products/prod_1/variants", "title,sku,thumbnail,*options,created_at,*inventory_items.inventory.location_levels,inventory_quantity,manage_inventory"],
@@ -74,9 +106,15 @@ describe("field guard: what a caller may expand through ?fields=", () => {
       ["/tenants/product-categories/pcat_1", "products.id"],
       ["/tenants/marketplaces/catalog", "id,sku,title,product.title"],
     ];
-    for (const [path, fields] of sent) {
-      expect([path, guardFields(path, fields).dropped]).toEqual([path, []]);
-    }
+    const lost = sent.flatMap(([path, fields]) => guardFields(path, fields).dropped.map((field) => `${path} ${field}`));
+    expect(lost).toEqual([]);
+  });
+
+  it("names the one list of the panel that loses a field, so the cost is on record", () => {
+    // The buyer screen of the panel asks for the buyer's whole address book, which
+    // holds addresses entered in other shops (K4). The block now shows its empty
+    // state; the addresses of the shop's own orders stay on the orders.
+    expect(guardFields("/tenants/customers/cus_1", "*addresses").dropped).toEqual(["*addresses"]);
   });
 
   describe("as a middleware", () => {
