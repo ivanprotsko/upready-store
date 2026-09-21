@@ -123,3 +123,17 @@ export function groupOptionFilters(
     })),
   }))
 }
+
+/**
+ * One facet per name. A shop can carry «Объём» twice: as a variant option («50 мл») and as
+ * the owner's own characteristic (a number in ml). The characteristic is the one the owner
+ * defined for filtering, with counts and a range, so the option of the same name steps aside
+ * instead of showing the visitor two filters called the same.
+ */
+export function withoutOptionsNamedLikeFacets(
+  groups: ProductOptionFilterGroup[],
+  facets: { name: string }[]
+): ProductOptionFilterGroup[] {
+  const facetNames = new Set(facets.map((facet) => facet.name.trim().toLowerCase()))
+  return groups.filter((group) => !facetNames.has(group.title.trim().toLowerCase()))
+}

@@ -26,6 +26,7 @@ const RangeFilter = ({
   max,
   value,
   onChange,
+  bare = false,
 }: {
   label: string
   unit: string | null
@@ -33,6 +34,8 @@ const RangeFilter = ({
   max: number
   value: string | undefined
   onChange: (value: string) => void
+  /** The sidebar names the range in its group heading, so the field drops its own caption. */
+  bare?: boolean
 }) => {
   const t = useTranslations("Filters")
   // «Очистить» already exists once, in Common — no second copy of the word.
@@ -87,9 +90,11 @@ const RangeFilter = ({
       )}
       data-testid={`range-filter-${label}`}
     >
-      <span className="txt-compact-small text-ui-fg-subtle whitespace-nowrap">
-        {unit ? `${label}, ${unit}` : label}
-      </span>
+      {bare ? null : (
+        <span className="txt-compact-small text-ui-fg-subtle whitespace-nowrap">
+          {unit ? `${label}, ${unit}` : label}
+        </span>
+      )}
       <input
         type="number"
         inputMode="decimal"

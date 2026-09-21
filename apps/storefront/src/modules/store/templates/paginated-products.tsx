@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server"
+
 import { listProductsWithSort } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import type { OptionValueIds } from "@lib/util/product-option-filters"
@@ -9,16 +11,25 @@ import type { SortOptions } from "@modules/store/components/refinement-list/sort
 export const PRODUCT_LIMIT = 12
 
 /**
- * The listing when a filter leaves nothing. Deliberately a grid with no items
- * rather than a message: the filter bar above it is what explains the zero, and
- * the pagination is gone because there is nothing to page through.
+ * The listing when a filter leaves nothing: a sentence that says so and what to do, in the
+ * place the grid would take. It used to be an empty `<ul>`, which on a phone (where the
+ * filters hide in a sheet) read as a page that failed to load. The list element stays, with
+ * a zero total, because the filter sheet and the e2e suites read the count from it.
  */
-const EmptyGrid = () => (
-  <ul
-    className="grid grid-cols-2 w-full small:grid-cols-2 medium:grid-cols-3 gap-x-2 small:gap-x-6 gap-y-8"
-    data-testid="products-list"
-  />
-)
+const EmptyGrid = async () => {
+  const t = await getTranslations("Filters")
+  return (
+    <>
+      <ul className="hidden" data-testid="products-list" data-total-count={0} />
+      <p
+        className="rounded-[var(--radius,8px)] border border-dashed border-ui-border-base px-6 py-16 text-center txt-medium text-ui-fg-subtle"
+        data-testid="products-empty"
+      >
+        {t("empty")}
+      </p>
+    </>
+  )
+}
 
 type PaginatedProductsParams = {
   limit: number
