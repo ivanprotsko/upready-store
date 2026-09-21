@@ -417,7 +417,7 @@ const Item = ({
     <>
       <div
         key={item.id}
-        className="text-ui-fg-subtle grid grid-cols-2 items-center gap-x-4 px-6 py-4"
+        className="text-ui-fg-subtle grid grid-cols-2 items-center gap-x-4 px-6 py-4 max-md:grid-cols-1 max-md:gap-y-2"
       >
         <div className=" flex justify-between gap-x-2 ">
           <div className=" group flex items-start gap-x-4">
