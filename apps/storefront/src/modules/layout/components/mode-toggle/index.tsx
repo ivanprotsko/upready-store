@@ -27,7 +27,7 @@
  * light mode, the macOS/GitHub convention (§Open forks, resolved (a)).
  */
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Moon, Sun } from "@medusajs/icons"
 import { useTranslations } from "next-intl"
 
@@ -41,9 +41,15 @@ type ModeToggleProps = {
 export default function ModeToggle({ className, "data-testid": testId }: ModeToggleProps) {
   const t = useTranslations("Nav")
   // Mirrors the existing studio popover's own `mode` state (`theme-panel/popover.tsx`):
-  // read off `<html>` at mount, since the pre-paint script may already have overwritten
-  // SSR's fallback value from `localStorage` before this component hydrates.
-  const [mode, setMode] = useState(() => readCurrent()["data-mode"] ?? "light")
+  // read off `<html>` once mounted, since the pre-paint script may already have overwritten
+  // SSR's fallback value from `localStorage` before this component hydrates. It is read in
+  // an effect and not in the initial state: the server has no `<html>` to read, so on a shop
+  // whose default is dark the first client render disagreed with the server's markup, and
+  // React leaves such a mismatch as is — the wrong icon and label stayed until a click.
+  const [mode, setMode] = useState("light")
+  useEffect(() => {
+    setMode(readCurrent()["data-mode"] ?? "light")
+  }, [])
   const next = mode === "dark" ? "light" : "dark"
 
   return (
