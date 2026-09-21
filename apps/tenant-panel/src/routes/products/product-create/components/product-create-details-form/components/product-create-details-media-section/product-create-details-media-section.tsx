@@ -20,6 +20,7 @@ import {
 import { CSS } from "@dnd-kit/utilities"
 import {
   DotsSix,
+  EllipsisHorizontal,
   StackPerspective,
   ThumbnailBadge,
   Trash,
@@ -215,7 +216,9 @@ const MediaItem = ({ field, onDelete, onMakeThumbnail }: MediaItemProps) => {
             <ThumbnailPreview url={field.url} />
           </div>
           <div className="flex flex-col">
-            <Text size="small" leading="compact">
+            {/* Gemini critique 2 (4.2): «IMG_20260921_101502.jpg» tells her nothing
+                on a phone, the picture does. */}
+            <Text size="small" leading="compact" className="max-md:hidden">
               {field.file.name}
             </Text>
             <div className="flex items-center gap-x-1">
@@ -231,7 +234,9 @@ const MediaItem = ({ field, onDelete, onMakeThumbnail }: MediaItemProps) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-x-1">
+      {/* Gemini critique 2 (4.5): «…» and «×» sat 4 px apart, so a thumb aimed at
+          the menu deleted the photo. Below md each is a 44 px target. */}
+      <div className="flex items-center gap-x-1 max-md:gap-x-2">
         <ActionMenu
           groups={[
             {
@@ -253,12 +258,24 @@ const MediaItem = ({ field, onDelete, onMakeThumbnail }: MediaItemProps) => {
               ],
             },
           ]}
-        />
+        >
+          <IconButton
+            type="button"
+            size="small"
+            variant="transparent"
+            className="max-md:size-11"
+            data-testid="product-create-media-menu"
+          >
+            <EllipsisHorizontal />
+          </IconButton>
+        </ActionMenu>
         <IconButton
           type="button"
           size="small"
           variant="transparent"
+          className="max-md:size-11"
           onClick={onDelete}
+          data-testid="product-create-media-remove"
         >
           <XMark />
         </IconButton>
@@ -283,7 +300,7 @@ const MediaGridItemOverlay = ({ field }: { field: MediaField }) => {
             <ThumbnailPreview url={field.url} />
           </div>
           <div className="flex flex-col">
-            <Text size="small" leading="compact">
+            <Text size="small" leading="compact" className="max-md:hidden">
               {field.file?.name}
             </Text>
             <div className="flex items-center gap-x-1">

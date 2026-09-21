@@ -1994,7 +1994,10 @@
       },
       "paymentCanceled": {
         "title": "The payment is canceled",
-        "hint": "There is no money for this order. Do not pack the parcel until you agree on the payment with the customer. If the order is no longer needed, cancel it from the menu at the top of the page."
+        "hint": "There is no money for this order. Do not pack the parcel until you agree on the payment with the customer. If the order is no longer needed, cancel it.",
+        "cancelOrder": "Cancel the order",
+        "packAnyway": "I was paid another way — pack it",
+        "shipAnyway": "I was paid another way — hand it over"
       },
       "unpaid": "The payment is not confirmed yet. Check it in the «Payment» block below before you hand the parcel over."
     }
@@ -2378,7 +2381,8 @@
       },
       "quickPrice": {
         "hint": "The price of one item for the buyer. Sizes, flavours and different prices are on the “Variants” step."
-      }
+      },
+      "step": "Step {{current}} of {{total}}: {{name}}"
     },
     "deleteVariantWarning": "You are about to delete the variant {{title}}. This action cannot be undone.",
     "deleteWarning": "You are about to delete the product {{title}}. This action cannot be undone.",

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom"
 
 import { HttpTypes } from "@medusajs/types"
 
+import { useCancelOrderPrompt } from "../../hooks/use-cancel-order-prompt"
+
 type NextStep = { key: "pack" | "ship" | "waitDelivery" | "done" | "canceled"; to?: string }
 
 /**
@@ -42,10 +44,12 @@ const nextStepOf = (order: HttpTypes.AdminOrder): NextStep => {
 export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
   const { t } = useTranslation()
   const step = nextStepOf(order)
+  const cancelOrder = useCancelOrderPrompt(order)
   const toHandOver = step.key === "pack" || step.key === "ship"
   // Lead review of the walk: a cancelled payment is not «not yet»: nobody is
-  // going to pay for this parcel, so the card says that instead of «Собрать»,
-  // and the step stays as a quiet button for the order she was paid for in hand.
+  // going to pay for this parcel, so the card says that instead of «Собрать».
+  // Its own button is «Отменить заказ»; the step stays as a text link for the
+  // order she was paid for in hand (Gemini critique 2, 3.1 and 3.3).
   const paymentCanceled = toHandOver && order.payment_status === "canceled"
   const textKey = paymentCanceled ? "paymentCanceled" : step.key
   // Lead review H8: she must not pack a parcel believing it is paid for.
@@ -83,12 +87,27 @@ export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
           </Text>
         ) : null}
       </div>
-      {step.to ? (
-        <Button
-          variant={paymentCanceled ? "secondary" : "primary"}
-          className="max-md:min-h-11 max-md:w-full"
-          asChild
-        >
+      {step.to && paymentCanceled ? (
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 max-md:w-full">
+          <Button
+            variant="secondary"
+            type="button"
+            className="max-md:min-h-11 max-md:w-full"
+            onClick={cancelOrder}
+            data-testid="order-next-step-cancel-order"
+          >
+            {t("orders.nextStep.paymentCanceled.cancelOrder")}
+          </Button>
+          <Link
+            to={step.to}
+            className="txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover max-md:flex max-md:min-h-11 max-md:w-full max-md:items-center max-md:justify-center"
+            data-testid={`order-next-step-${step.key}`}
+          >
+            {t(`orders.nextStep.paymentCanceled.${step.key}Anyway`)}
+          </Link>
+        </div>
+      ) : step.to ? (
+        <Button variant="primary" className="max-md:min-h-11 max-md:w-full" asChild>
           <Link to={step.to} data-testid={`order-next-step-${step.key}`}>
             {t(`orders.nextStep.${step.key}.action`)}
           </Link>

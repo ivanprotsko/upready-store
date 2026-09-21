@@ -10,10 +10,10 @@ type StatusCellProps = PropsWithChildren<{
  */
 export const StatusCell = ({ color, children }: StatusCellProps) => {
   return (
-    <div className="txt-compact-small text-ui-fg-subtle flex h-full w-full items-center gap-x-2 overflow-hidden">
+    <div className="txt-compact-small text-ui-fg-subtle flex h-full w-full items-center gap-x-2 overflow-hidden max-md:items-start">
       <div
         role="presentation"
-        className="flex h-5 w-2 items-center justify-center"
+        className="flex h-5 w-2 shrink-0 items-center justify-center"
       >
         <div
           className={clx(
