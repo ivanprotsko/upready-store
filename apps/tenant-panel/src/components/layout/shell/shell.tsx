@@ -1,4 +1,4 @@
-import { SidebarLeft, TriangleRightMini, XMark } from "@medusajs/icons"
+import { ArrowUpRightOnBox, SidebarLeft, TriangleRightMini, XMark } from "@medusajs/icons"
 import { IconButton, clx } from "@medusajs/ui"
 import { AnimatePresence } from "motion/react"
 import { Dialog as RadixDialog } from "radix-ui"
@@ -8,15 +8,19 @@ import {
   Link,
   Outlet,
   UIMatch,
+  useLocation,
   useMatches,
   useNavigation,
 } from "react-router-dom"
 
+import { useDomains } from "../../../hooks/api/domains"
+import { useTenantLocaleSettings } from "../../../hooks/api/locale-settings"
 import { DocumentTitle } from "../../../hooks/use-document-title"
 import { KeybindProvider } from "../../../providers/keybind-provider"
 import { useGlobalShortcuts } from "../../../providers/keybind-provider/hooks"
 import { useSidebar } from "../../../providers/sidebar-provider"
 import { ProgressBar } from "../../common/progress-bar"
+import { SectionTabs, findActive } from "../owner-nav"
 
 // tenant-panel: drops the Admin's `LayoutCustomizerHostProvider`,
 // `LayoutCustomizerSlot`, `CustomizerMenu`, `Notifications` and the topbar's
@@ -54,6 +58,7 @@ export const Shell = ({ children }: PropsWithChildren) => {
             )}
           >
             <Gutter>
+              <SectionTabs />
               <Outlet />
             </Gutter>
           </main>
@@ -178,6 +183,7 @@ const Breadcrumbs = () => {
 }
 
 const ToggleSidebar = () => {
+  const { t } = useTranslation()
   const { toggle } = useSidebar()
 
   return (
@@ -191,10 +197,11 @@ const ToggleSidebar = () => {
         <SidebarLeft className="text-ui-fg-muted rtl:rotate-180" />
       </IconButton>
       <IconButton
-        className="hidden max-lg:flex"
+        className="hidden max-lg:flex max-lg:h-11 max-lg:w-11"
         variant="transparent"
         onClick={() => toggle("mobile")}
         size="small"
+        aria-label={t("app.nav.owner.openMenu")}
       >
         <SidebarLeft className="text-ui-fg-muted rtl:rotate-180" />
       </IconButton>
@@ -202,17 +209,69 @@ const ToggleSidebar = () => {
   )
 }
 
+/**
+ * o21-owner-panel-ux: the shop is one tap away from every screen. The address
+ * is built the way the overview builds it (primary host plus default locale);
+ * while it is unknown the button is simply absent.
+ */
+const OpenShop = () => {
+  const { t } = useTranslation()
+  const { primary_host: primaryHost } = useDomains()
+  const { locale_settings: localeSettings } = useTenantLocaleSettings()
+
+  if (!primaryHost) {
+    return null
+  }
+  const href = `https://${primaryHost}/${localeSettings?.default_locale ?? "ru"}`
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      data-testid="topbar-open-shop"
+      className="txt-compact-small-plus text-ui-fg-base shadow-buttons-neutral bg-ui-button-neutral hover:bg-ui-button-neutral-hover transition-fg flex min-h-8 shrink-0 items-center gap-x-1.5 rounded-md px-2.5 outline-none max-lg:min-h-11 focus-visible:shadow-borders-focus"
+    >
+      <span className="max-sm:hidden">{t("app.nav.owner.openShop")}</span>
+      <span className="sm:hidden">{t("app.nav.owner.openShopShort")}</span>
+      <ArrowUpRightOnBox />
+    </a>
+  )
+}
+
+/**
+ * The name of the open screen, from the menu entry it belongs to. On a phone
+ * it replaces the breadcrumb, which collapsed to «…» or to nothing there.
+ */
+const ScreenTitle = () => {
+  const { t } = useTranslation()
+  const { pathname } = useLocation()
+  const active = findActive(pathname)
+
+  if (!active) {
+    return null
+  }
+  return (
+    <span
+      data-testid="topbar-title"
+      className="txt-compact-medium-plus text-ui-fg-base min-w-0 truncate lg:hidden"
+    >
+      {t(active.item.labelKey)}
+    </span>
+  )
+}
+
 const Topbar = () => {
   return (
-    <div className="grid w-full grid-cols-2 border-b p-3">
-      <div className="flex items-center gap-x-1.5">
+    <div className="flex w-full items-center justify-between gap-x-3 border-b p-3">
+      <div className="flex min-w-0 items-center gap-x-1.5">
         <ToggleSidebar />
-        <Breadcrumbs />
+        <ScreenTitle />
+        <div className="max-lg:hidden">
+          <Breadcrumbs />
+        </div>
       </div>
-      {/* tenant-panel: the Admin's right column hosts the layout customizer
-          trigger and the notifications bell, both dropped (see the file
-          header). Nothing replaces them. */}
-      <div className="flex items-center justify-end gap-x-3" />
+      <OpenShop />
     </div>
   )
 }
