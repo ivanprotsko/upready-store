@@ -125,7 +125,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
         <div className="flex flex-col gap-y-10 pt-4 small:gap-y-12 small:pt-8">
           <ProductDescription product={product} />
           <Suspense fallback={null}>
-            <ProductAttributes productId={product.id} />
+            <ProductAttributes productId={product.id} handle={product.handle} />
           </Suspense>
         </div>
       </div>

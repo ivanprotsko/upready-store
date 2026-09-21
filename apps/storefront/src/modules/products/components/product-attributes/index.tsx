@@ -20,11 +20,45 @@ import { listProductAttributes } from "@lib/data/product-attributes"
  * screen for a product with a dozen characteristics. `#product-attributes` is an anchor,
  * so a link can point at it.
  */
-const ProductAttributes = async ({ productId }: { productId: string }) => {
-  const [rows, t] = await Promise.all([
+/**
+ * Handles and article numbers are unique across the whole platform, so an imported shop's
+ * codes end with the shop's own tag (`1199673895-CHERKASHINO`, handle `…-cherkashino`).
+ * That tag is plumbing, not something a buyer should read. The rule knows no tenant: a
+ * text value that ends with the same `-tag` as this product's handle loses it, and a
+ * value that was nothing but the tag is dropped with its row.
+ */
+const withoutShopTag = (value: string, handle?: string | null): string => {
+  const tag = handle?.split("-").pop()
+  if (!tag || !/[a-z]/i.test(tag)) {
+    return value
+  }
+  const suffix = `-${tag}`.toLowerCase()
+  const lower = value.toLowerCase()
+  if (lower === tag.toLowerCase()) {
+    return ""
+  }
+  return lower.endsWith(suffix) ? value.slice(0, -suffix.length) : value
+}
+
+type ProductAttributesProps = {
+  productId: string
+  /** The product's handle; it carries the shop tag that `withoutShopTag` removes. */
+  handle?: string | null
+}
+
+const ProductAttributes = async ({ productId, handle }: ProductAttributesProps) => {
+  const [allRows, t] = await Promise.all([
     listProductAttributes(productId),
     getTranslations("ProductAttributes"),
   ])
+
+  const rows = allRows
+    .map((row) =>
+      row.type === "text" && typeof row.value === "string"
+        ? { ...row, value: withoutShopTag(row.value, handle) }
+        : row
+    )
+    .filter((row) => !(row.type === "text" && row.value === ""))
 
   if (!rows.length) {
     return null
