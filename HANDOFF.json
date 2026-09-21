@@ -1,7 +1,7 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-21T03:33:20+08:00",
+  "updated": "2026-09-21T12:01:48+08:00",
   "status": "2026-09-18 11:25 WITA: разбор по заказу Ивана 11:18 — (1) сторож дня остановлен в 10:18, через 16 мин день закрылся DONE (10:34) с 9 blocked + 1 failed, диспетчер 49437 мёртв, никто не уведомлён; (2) замер knowledge-index.md: 353 КБ / 1064 строки, 30 блоков large-file-edit-guard в 30 сессиях без единой эскалации, обход через Bash >>; ошибка записана aie-20260918-112458-f930 | 2026-09-19 03:44 WITA: штаб-движок перенесён в devops/staff (PR #1 смёржен); копия в handoff/day-2026-09-16-oksana-store — образец, armed:false; см. INTAKE.md пометку штаба unsubbed.co | 2026-09-21 02:48 WITA: lead-upready-store — после перегрузки машины 02:30 возвращены 2 воркера через --resume-session (t-2026-09-21-01 терминал e2f448de, t-2026-09-21-02 терминал 1d5239b9), t-2026-09-21-03 придержан (ws 1c692ef7, сессия в /Users/ivanprotsko/.claude/projects/-Users-ivanprotsko-upready-worktrees-upready-store-refactor-o21-architecture-review/); лимит 2 живых воркера; PR #20 принят живым curl и смержен 8f33ab1d70; ws bb203e09 удалить после 02:51 | 2026-09-21 03:34 WITA lead o-20260921-01: draft PR 105 (t-2026-09-21-01) reviewed on the worker's stand http://cherkashino.localhost:8121 at 1440 and 390, light and dark: rows even, photos whole, placeholder designed; findings sent to the worker: grey bands beside white packshots from the blurred backdrop (decision: frame 3:4, strip continues the photo edge, probe check), hover image fetched on touch devices, phone theme and locale controls, punch list. t-2026-09-21-02: 8 commits, audit in progress, no PR yet. t-2026-09-21-03 resumed at 03:32 WITA (terminal e969e8db-6d19-45d3-ba80-3d0867162678), order changed to review first, defects under the load rule. Load 1-minute 7 to 10.",
   "tasks": [
     {
@@ -904,7 +904,7 @@
     {
       "id": "t-2026-09-21-01",
       "title": "Витрина магазина клиента cherkashino: система кадрирования фото без обрезки, ровные сетки, PDP, фильтры, подвал, мобильная — и открытые дефекты интерфейса витрины",
-      "state": "in_progress",
+      "state": "done",
       "priority": "high",
       "details": "Order o-20260921-01 (Ivan via HQ, 2026-09-21), approved by order o-20260921-01. Ivan verbatim: «качественный сайт cherkashino созданный на upready-store для реального клиента, с классным визуалом, аккуратно оформленными картинками, а не обрезаными как попало»; «с UI там все очень плохо … нужно предпринять всё что можно, чтобы исправить неудобства интерфейса». Lead measurement 2026-09-21 02:09 WITA on https://cherkashino.shipshift.dev: product photos 3:4 rendered into 1:1 frames with object-fit cover (9 of 9 on /ru/store), infographic captions cut, card heights uneven, no-photo products render a taller empty frame, six raw facet selects, empty footer brand block. Folds in outstanding tasks: t-2026-09-12-seed-option-filter-duplicates, t-2026-09-12-seeded-hosts-no-locale-controls, t-header-not-a-landmark, t-select-allowlist-gap, t-port-account-info-alignment, t-2026-09-08-02, t-2026-09-10-02. Branch feat/o21-storefront-visual-cherkashino, worker model fable.\n\nStaffed 2026-09-21 02:25 WITA: workspace 0c939a76-84aa-43e0-b7f4-0b79fd9d90bd, terminal 52ed1463-f8a4-4b39-8159-a933e9533fd4, worktree /Users/ivanprotsko/upready/worktrees/upready-store/feat/o21-storefront-visual-cherkashino, model Fable 5.1, brief /Users/ivanprotsko/upready/projects/upready-store/handoff/o-20260921-01/t-2026-09-21-01-storefront-visual.md",
       "tags": [
@@ -915,7 +915,7 @@
       ],
       "project": "upready-store",
       "created": "2026-09-21T02:13:12+08:00",
-      "updated": "2026-09-21T02:27:11+08:00",
+      "updated": "2026-09-21T12:01:48+08:00",
       "goal": "На витрине магазина клиента каждое фото товара показано целиком в едином кадре, сетки ровные, карточка товара, фильтры, подвал и телефонная версия выглядят как законченный дизайн, а записанные дефекты интерфейса витрины закрыты",
       "acceptance": [
         "Главная, каталог, категория и блок похожих на 1440 и 390: у каждого фото товара object-fit contain и нулевая обрезка, у всех кадров сетки одно соотношение сторон, карточки в ряду одной высоты — замер Playwright-пробой из ветки",
