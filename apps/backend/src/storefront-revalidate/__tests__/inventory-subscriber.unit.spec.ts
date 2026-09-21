@@ -43,6 +43,19 @@ describe("inventory-updated subscriber", () => {
     );
   });
 
+  // The storefront's table of events (`app/api/revalidate/clearings.ts`) is
+  // keyed by these literals, and its test reads this subscriber as text.
+  it("sends the names the storefront's table is keyed by", () => {
+    expect([...(config.event as string[])].sort()).toEqual([
+      "inventory-level.created",
+      "inventory-level.deleted",
+      "inventory-level.updated",
+      "reservation-item.created",
+      "reservation-item.deleted",
+      "reservation-item.updated",
+    ]);
+  });
+
   it("posts the event to the storefront revalidate webhook", async () => {
     await handler({
       event: { name: InventoryLevelWorkflowEvents.UPDATED, data: { id: "ilev_1" } },
