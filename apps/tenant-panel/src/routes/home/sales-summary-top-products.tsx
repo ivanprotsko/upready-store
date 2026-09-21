@@ -21,10 +21,16 @@ export const SalesSummaryTopProducts = ({ products, currencyCode }: SalesSummary
           {t("salesSummary.noSalesThisPeriod")}
         </Text>
       ) : (
-        <ul className="flex flex-col gap-y-2">
+        // Gemini critique 2 (1.1, 6.1): on a phone a name cut after twenty letters
+        // does not tell one balm from another, so it takes two lines; on a wide
+        // screen the list is capped so the money stays next to its name.
+        <ul className="flex flex-col gap-y-2 md:max-w-2xl">
           {products.map((product) => (
-            <li key={product.product_id} className="flex items-center justify-between gap-x-4">
-              <Text size="small" className="truncate">
+            <li
+              key={product.product_id}
+              className="flex items-center justify-between gap-x-4 max-md:items-start"
+            >
+              <Text size="small" className="min-w-0 max-md:line-clamp-2 md:truncate" title={product.title}>
                 {product.title}
               </Text>
               <Text size="small" className="shrink-0 text-ui-fg-subtle">
