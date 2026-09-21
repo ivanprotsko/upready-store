@@ -51,4 +51,23 @@
 
 ## Проверки ветки
 
-(заполняется после отчёта воркера и приёмки лида)
+Ветка `origin/hotfix/o21-tenant-field-leaks-live`, один коммит `3d8a004851995efc8dcfdf1b7be882140b490c97` поверх `3859e6b8`. Черновой PR 111 (https://github.com/ivanprotsko/upready-store/pull/111) существует только как носитель отчёта: НЕ МЕРЖИТЬ, это ветка релиза, не ветка разработки.
+
+`git diff --stat 3859e6b8 origin/hotfix/o21-tenant-field-leaks-live`: 13 файлов, +1284 −32, все в `apps/backend`: `medusa-config.ts`, `src/api/field-guard.ts`, `src/api/middlewares.ts`, `src/api/__tests__/field-guard.unit.spec.ts`, `src/api/tenants/{branding/upload,shipping-options,uploads}/route.ts`, `src/tenant-files/{static-headers,upload-policy}.ts`, четыре integration-спека. Продуктовые файлы побайтно равны тем же файлам в `origin/dev` (`git diff --stat origin/dev` по ним пуст). Миграций нет, витрина и панель не тронуты.
+
+Проверки воркера 03 на ветке (отчёт 2026-09-21 19:16 WITA, логи в `/private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-refactor-o21-architecture-review/a599f988-df72-4c8d-8d6d-bfcc23f84ab6/scratchpad/hotfix/out/`):
+
+- `check:backend-build` exit 0; `check:backend-fixtures` exit 0; `tsc --noEmit` exit 0; `medusa lint` 0 ошибок, 102 предупреждения; unit 1172 из 1172.
+- Integration: 34 спека из 35 зелёные, по одному спеку на процесс. КРАСНЫЙ один: `auth-yandex.spec.ts`, 3 теста из 11. Он так же красный на чистом `3859e6b8` (лог `int-auth-yandex-on-3859e6b8.log`): на этой машине нет `YANDEX_CLIENT_ID`. Релиз этот спек не меняет и не задевает. Это единственное красное; по букве условия «a check is red» лид выносит его Ивану явно, а не решает сам.
+- `next build` витрины `3859e6b8`: exit 0. Проходы по стенду (hotfix backend + витрина и панель `3859e6b8`): воронка покупки 7 PASS, кабинет покупателя 8 PASS, панель 11 PASS.
+- Аудит 140 строк `fields` витрины и панели на `3859e6b8`: гвард срезает три, ни одна не нужна экрану: `*products` на `/store/collections` (шаблон берёт товары отдельным запросом), `*orders` на `/store/customers/me` (это утечка D-1: заказы покупателя из всех магазинов; страница заказов ходит в `/store/orders`), `*addresses` на экране покупателя в панели (адресная книга исчезает, это известная цена).
+
+Приёмка лида на том же стенде (2026-09-21 19:17–19:21 WITA, backend `http://localhost:9341`, витрина `http://acme.localhost:8341`, панель `http://localhost:5341`):
+
+- Свой зонд `/private/tmp/claude-502/-Users-ivanprotsko-upready-projects-upready-store/c9f1f7c6-e09d-43f8-8d8b-963322ee5848/scratchpad/accept109/probe.sh`, лог `…/scratchpad/accept111/probe-hotfix.log`: T-6, K1, K3, K4, K5 закрыты (в ответе только `id`, способов доставки 0, товаров чужого магазина 0, адресов 0), T-5: свои 2 способа, по складу чужого магазина 0, загрузка `.html` отклонена 400.
+- Варианты обхода: завершающий слэш, `/STORE/PRODUCTS`, `/Store/Products/` с `%2A`, повторённый `fields=…&fields=…`, `fields[]=…`: во всех только `id`. `/store//products` и `/store/%70roducts`: 404 (маршрута нет), гвард при этом всё равно срезал поле.
+- Старая витрина глазами на 1440 и 390: каталог, общая коллекция (виден только товар своего магазина), товар, добавление в корзину, корзина с 1 строкой; 0 ошибок страницы, 0 ответов 5xx.
+- Вход владельца в старую панель через форму: заказы, заказ (адрес доставки самого заказа на месте), товары, товар, клиенты, клиент; 0 ответов 4xx/5xx от backend.
+- Чего ждать в логе живой: `[field-guard] GET /store/customers/me dropped fields=*orders` на каждом заходе вошедшего покупателя, `GET /store/collections… dropped fields=*products`, `GET /tenants/customers/<id> dropped fields=*addresses`. Это штатные строки, не повод для отката.
+
+Сухой прогон против живого хоста (лид, 2026-09-21 19:22 WITA, только чтение): `rsync -rlcnv` чистого экспорта `3d8a0048` (`git archive`, 7009 файлов) в `/opt/upready-store/mt/` с исключениями рецепта и `deploy/mt/shipshift.env`, сравнение по контрольным суммам, rc=0. В списке ровно 13 файлов релиза и ни одного другого: дерево на хосте побайтно равно `3859e6b8`. Лог: `/private/tmp/claude-502/-Users-ivanprotsko-upready-projects-upready-store/c9f1f7c6-e09d-43f8-8d8b-963322ee5848/scratchpad/live-t6/rsync-dry.log`. Шаги 5 и 6 деплоя выполняются с теми же флагами `-rlc` (без `-t`: у экспорта свежие времена файлов, без `-c` rsync перечислил бы всё дерево).
