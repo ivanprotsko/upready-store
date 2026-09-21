@@ -126,11 +126,35 @@ const NEVER_A_COLUMN = [
  */
 const STARRED_COLUMNS = new Set(["thumbnail", "metadata"]);
 
+/** The namespaces the guard is mounted on, and the only ones whose families it knows. */
 const GUARDED = ["/store", "/tenants"];
+
+/**
+ * The path the way the router reads it. Express matches a route in any case and
+ * with a trailing slash, so `/STORE/products` and `/tenants/Customers/` are the
+ * routes their lower-case spelling names, and a family told on the caller's
+ * spelling was a way around every list here (measured 2026-09-21, K6).
+ * `null` when the path cannot be decoded.
+ */
+const routerPath = (raw: string): string | null => {
+  let path = raw.split("?")[0];
+  try {
+    path = decodeURIComponent(path);
+  } catch {
+    return null;
+  }
+  path = path.toLowerCase().replace(/\/{2,}/g, "/");
+  return path.length > 1 ? path.replace(/\/$/, "") : path;
+};
 
 const under = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
 
-const allowedFor = (path: string): { anywhere: Set<string>; first: Set<string> } => {
+const allowedFor = (raw: string): { anywhere: Set<string>; first: Set<string> } => {
+  const path = routerPath(raw);
+  // A family that cannot be told gets the strictest list: nothing opens.
+  if (path === null || !GUARDED.some((root) => under(path, root))) {
+    return { anywhere: new Set(), first: new Set() };
+  }
   const sharedRoot = SHARED_ROOTS.filter(([prefix]) => under(path, prefix)).sort(
     (a, b) => b[0].length - a[0].length,
   )[0];
@@ -194,7 +218,9 @@ export function guardRequestedFields(req: MedusaRequest, _res: MedusaResponse, n
   const requested = query?.fields;
   // `req.path` is relative to the matcher the middleware is mounted on.
   const path = (req.originalUrl || req.url || "").split("?")[0];
-  if (requested === undefined || !GUARDED.some((root) => path === root || path.startsWith(`${root}/`))) {
+  // No path test decides whether to act: the middleware is mounted only where it
+  // has to, and a test on the caller's spelling is what let `/STORE/products` by.
+  if (requested === undefined) {
     return next();
   }
 
