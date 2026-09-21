@@ -42,9 +42,16 @@ const nextStepOf = (order: HttpTypes.AdminOrder): NextStep => {
 export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
   const { t } = useTranslation()
   const step = nextStepOf(order)
+  const toHandOver = step.key === "pack" || step.key === "ship"
+  // Lead review of the walk: a cancelled payment is not «not yet»: nobody is
+  // going to pay for this parcel, so the card says that instead of «Собрать»,
+  // and the step stays as a quiet button for the order she was paid for in hand.
+  const paymentCanceled = toHandOver && order.payment_status === "canceled"
+  const textKey = paymentCanceled ? "paymentCanceled" : step.key
   // Lead review H8: she must not pack a parcel believing it is paid for.
   const unpaid =
-    (step.key === "pack" || step.key === "ship") &&
+    toHandOver &&
+    !paymentCanceled &&
     !["captured", "partially_captured", "refunded", "partially_refunded"].includes(
       order.payment_status
     )
@@ -55,9 +62,15 @@ export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
       data-testid="order-next-step"
     >
       <div className="flex min-w-0 flex-col">
-        <Heading level="h2">{t(`orders.nextStep.${step.key}.title`)}</Heading>
+        <Heading
+          level="h2"
+          className={paymentCanceled ? "text-ui-tag-red-text" : undefined}
+          data-testid={paymentCanceled ? "order-next-step-payment-canceled" : undefined}
+        >
+          {t(`orders.nextStep.${textKey}.title`)}
+        </Heading>
         <Text size="small" className="text-ui-fg-subtle">
-          {t(`orders.nextStep.${step.key}.hint`)}
+          {t(`orders.nextStep.${textKey}.hint`)}
         </Text>
         {unpaid ? (
           <Text
@@ -71,7 +84,11 @@ export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
         ) : null}
       </div>
       {step.to ? (
-        <Button variant="primary" className="max-md:min-h-11 max-md:w-full" asChild>
+        <Button
+          variant={paymentCanceled ? "secondary" : "primary"}
+          className="max-md:min-h-11 max-md:w-full"
+          asChild
+        >
           <Link to={step.to} data-testid={`order-next-step-${step.key}`}>
             {t(`orders.nextStep.${step.key}.action`)}
           </Link>

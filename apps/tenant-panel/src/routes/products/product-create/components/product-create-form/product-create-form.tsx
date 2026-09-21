@@ -115,10 +115,27 @@ export const ProductCreateForm = ({
     name: "variants",
   })
 
+  const watchedEnableVariants = useWatch({
+    control: form.control,
+    name: "enable_variants",
+  })
+
   const showInventoryTab = useMemo(
     () => watchedVariants.some((v) => v.manage_inventory && v.inventory_kit),
     [watchedVariants]
   )
+
+  // o21-owner-panel-ux: a product sold as one thing, with its price typed on
+  // the first step, can be published from there. The other steps stay one
+  // press away for whoever needs categories or variants.
+  const canPublishFromDetails = useMemo(() => {
+    if (watchedEnableVariants || watchedVariants.length !== 1) {
+      return false
+    }
+    return Object.values(watchedVariants[0]?.prices ?? {}).some(
+      (price) => price !== "" && price !== null && price !== undefined
+    )
+  }, [watchedEnableVariants, watchedVariants])
 
   const handleSubmit = form.handleSubmit(async (values, e) => {
     let isDraftSubmission = false
@@ -317,7 +334,7 @@ export const ProductCreateForm = ({
           className="flex h-full flex-col overflow-hidden"
         >
           <RouteFocusModal.Header>
-            <div className="-my-2 w-full border-l">
+            <div className="-my-2 w-full border-l max-md:overflow-x-auto">
               <ProgressTabs.List className="justify-start-start flex w-full items-center">
                 <ProgressTabs.Trigger
                   status={tabState[Tab.DETAILS]}
@@ -387,9 +404,10 @@ export const ProductCreateForm = ({
           </RouteFocusModal.Body>
         </ProgressTabs>
         <RouteFocusModal.Footer>
-          <div className="flex items-center justify-end gap-x-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            {/* On a phone the cross in the header already cancels. */}
             <RouteFocusModal.Close asChild>
-              <Button variant="secondary" size="small">
+              <Button variant="secondary" size="small" className="max-md:hidden">
                 {t("actions.cancel")}
               </Button>
             </RouteFocusModal.Close>
@@ -397,6 +415,7 @@ export const ProductCreateForm = ({
               data-name={SAVE_DRAFT_BUTTON}
               size="small"
               type="submit"
+              variant="secondary"
               isLoading={isPending}
               className="whitespace-nowrap"
             >
@@ -407,6 +426,7 @@ export const ProductCreateForm = ({
               next={onNext}
               isLoading={isPending}
               showInventoryTab={showInventoryTab}
+              canPublishFromDetails={canPublishFromDetails}
             />
           </div>
         </RouteFocusModal.Footer>
@@ -420,6 +440,7 @@ type PrimaryButtonProps = {
   next: (tab: Tab) => void
   isLoading?: boolean
   showInventoryTab: boolean
+  canPublishFromDetails: boolean
 }
 
 const PrimaryButton = ({
@@ -427,8 +448,36 @@ const PrimaryButton = ({
   next,
   isLoading,
   showInventoryTab,
+  canPublishFromDetails,
 }: PrimaryButtonProps) => {
   const { t } = useTranslation()
+
+  if (tab === Tab.DETAILS && canPublishFromDetails) {
+    return (
+      <>
+        <Button
+          key="next-button"
+          type="button"
+          variant="secondary"
+          size="small"
+          onClick={() => next(tab)}
+        >
+          {t("actions.continue")}
+        </Button>
+        <Button
+          data-name="publish-button"
+          key="submit-button"
+          type="submit"
+          variant="primary"
+          size="small"
+          isLoading={isLoading}
+          className="max-md:order-first max-md:min-h-11 max-md:w-full"
+        >
+          {t("actions.publish")}
+        </Button>
+      </>
+    )
+  }
 
   if (
     (tab === Tab.VARIANTS && !showInventoryTab) ||

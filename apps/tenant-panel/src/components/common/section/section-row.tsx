@@ -1,5 +1,6 @@
 import { Text, clx } from "@medusajs/ui"
-import { ReactNode } from "react"
+import { ReactNode, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 export type SectionRowProps = {
   title: string
@@ -12,6 +13,12 @@ export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
   // o21-owner-panel-ux (P6): a long text (a product description) in half of a
   // phone screen is a column of three words per line. It goes under its label.
   const isLongText = typeof value === "string" && value.length > 80
+  // A description of two thousand characters filled the first two screens of a
+  // product, with its label in the middle of that wall. It starts folded, the
+  // label stays at its top.
+  const isWall = typeof value === "string" && value.length > 400
+  const { t } = useTranslation()
+  const [unfolded, setUnfolded] = useState(false)
 
   return (
     <div
@@ -19,7 +26,8 @@ export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
         `text-ui-fg-subtle grid w-full grid-cols-2 items-center gap-4 px-6 py-4`,
         {
           "grid-cols-[1fr_1fr_28px]": !!actions,
-          "max-md:grid-cols-1 max-md:items-start max-md:gap-1": isLongText && !actions,
+          "items-start": isLongText,
+          "max-md:grid-cols-1 max-md:gap-1": isLongText && !actions,
         }
       )}
     >
@@ -28,13 +36,27 @@ export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
       </Text>
 
       {isValueString ? (
-        <Text
-          size="small"
-          leading="compact"
-          className="whitespace-pre-line text-pretty"
-        >
-          {value ?? "-"}
-        </Text>
+        <div className="flex min-w-0 flex-col items-start gap-y-1">
+          <Text
+            size="small"
+            leading="compact"
+            className={clx("whitespace-pre-line text-pretty", {
+              "line-clamp-6": isWall && !unfolded,
+            })}
+          >
+            {value ?? "-"}
+          </Text>
+          {isWall ? (
+            <button
+              type="button"
+              className="txt-compact-small-plus text-ui-fg-interactive max-md:min-h-11"
+              aria-expanded={unfolded}
+              onClick={() => setUnfolded((now) => !now)}
+            >
+              {unfolded ? t("actions.hide") : t("actions.showMore")}
+            </button>
+          ) : null}
+        </div>
       ) : (
         <div className="flex flex-wrap gap-1 min-w-0">{value}</div>
       )}

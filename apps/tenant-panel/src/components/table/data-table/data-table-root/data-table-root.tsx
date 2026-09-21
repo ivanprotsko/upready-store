@@ -17,6 +17,14 @@ import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 import { NoResults } from "../../../common/empty-table-content"
 
+/**
+ * `meta: { phoneTop: true | "end" }` on a column keeps its value on the first
+ * line of the phone card, next to the row's name; `"end"` pushes it to the
+ * right edge. The other values go below, each under its column name.
+ */
+const isPhoneTop = (meta: unknown): boolean | "end" =>
+  (meta as { phoneTop?: boolean | "end" } | undefined)?.phoneTop ?? false
+
 type BulkCommand = {
   label: string
   shortcut: string
@@ -209,6 +217,8 @@ export const DataTableRoot = <TData,>({
                 const isOdd = row.depth % 2 !== 0
 
                 const cells = row.getVisibleCells()
+                // Columns a phone card keeps on its first line, next to the name.
+                const hasPhoneTop = cells.some((cell) => isPhoneTop(cell.column.columnDef.meta))
 
                 return (
                   <Table.Row
@@ -264,8 +274,9 @@ export const DataTableRoot = <TData,>({
                         .getFlatHeaders()
                         .find((h) => h.column.id === cell.column.id)
                       const isSpecialCell = isSelectCell || cell.column.id === "actions"
+                      const phoneTop = isPhoneTop(cell.column.columnDef.meta)
                       const label =
-                        header && !isSpecialCell && !isFirstCell ? (
+                        header && !isSpecialCell && !isFirstCell && !phoneTop ? (
                           <div className="text-ui-fg-muted txt-compact-xsmall md:hidden [&_*]:!p-0">
                             {flexRender(header.column.columnDef.header, header.getContext())}
                           </div>
@@ -280,8 +291,11 @@ export const DataTableRoot = <TData,>({
                           className={clx(
                             "max-md:!static max-md:block max-md:h-auto max-md:!w-auto max-md:min-w-0 max-md:border-0 max-md:!bg-transparent max-md:!p-0 max-md:[&_.truncate]:overflow-visible max-md:[&_.truncate]:whitespace-normal",
                             {
-                            "max-md:txt-compact-medium-plus max-md:text-ui-fg-base max-md:basis-full": isFirstCell,
-                            "max-md:ms-auto": cell.column.id === "actions",
+                            "max-md:txt-compact-medium-plus max-md:text-ui-fg-base": isFirstCell,
+                            "max-md:basis-full": isFirstCell && !hasPhoneTop,
+                            "max-md:order-1": phoneTop,
+                            "max-md:order-3": hasPhoneTop && !isFirstCell && !phoneTop,
+                            "max-md:ms-auto": cell.column.id === "actions" || phoneTop === "end",
                             "!pe-0 !ps-0": shouldRenderAsLink,
                             "bg-ui-bg-base group-data-[selected=true]/row:bg-ui-bg-highlight group-data-[selected=true]/row:group-hover/row:bg-ui-bg-highlight-hover group-hover/row:bg-ui-bg-base-hover transition-fg group-has-[[data-row-link]:focus-visible]:bg-ui-bg-base-hover sticky start-0 after:absolute after:inset-y-0 after:right-0 after:h-full after:w-px after:bg-transparent after:content-['']":
                               isStickyCell,
@@ -327,6 +341,12 @@ export const DataTableRoot = <TData,>({
                         </Table.Cell>
                       )
                     })}
+                    {hasPhoneTop ? (
+                      <td
+                        aria-hidden
+                        className="hidden h-0 p-0 max-md:order-2 max-md:-mt-2 max-md:block max-md:basis-full"
+                      />
+                    ) : null}
                   </Table.Row>
                 )
               })}

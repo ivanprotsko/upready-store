@@ -57,6 +57,7 @@ export const useOrderTableColumns = (props: UseOrderTableColumnsProps) => {
         },
       }),
       columnHelper.accessor("created_at", {
+        meta: { phoneTop: true },
         header: () => <DateHeader />,
         cell: ({ getValue }) => {
           const date = new Date(getValue())
@@ -90,13 +91,19 @@ export const useOrderTableColumns = (props: UseOrderTableColumnsProps) => {
       }),
       columnHelper.accessor("fulfillment_status", {
         header: () => <FulfillmentStatusHeader />,
-        cell: ({ getValue }) => {
+        cell: ({ getValue, row }) => {
           const status = getValue()
 
-          return <FulfillmentStatusCell status={status} />
+          return (
+            <FulfillmentStatusCell
+              status={status}
+              orderCanceled={row.original.status === "canceled"}
+            />
+          )
         },
       }),
       columnHelper.accessor("total", {
+        meta: { phoneTop: "end" },
         header: () => <TotalHeader />,
         cell: ({ getValue, row }) => {
           const isFullyRefunded = row.original.payment_status === "refunded"

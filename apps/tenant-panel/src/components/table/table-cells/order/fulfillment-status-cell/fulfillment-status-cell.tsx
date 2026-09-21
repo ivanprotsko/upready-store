@@ -7,12 +7,20 @@ import { StatusCell } from "../../common/status-cell"
 
 type FulfillmentStatusCellProps = {
   status: FulfillmentStatus
+  /** The order itself is cancelled: nothing of it waits for packing. */
+  orderCanceled?: boolean
 }
 
 export const FulfillmentStatusCell = ({
   status,
+  orderCanceled,
 }: FulfillmentStatusCellProps) => {
   const { t } = useTranslation()
+
+  // o21-owner-panel-ux: a cancelled order read «Ждёт сборки» in the list.
+  if (orderCanceled && status === "not_fulfilled") {
+    return <StatusCell color="grey">{t("orders.fulfillment.notNeeded")}</StatusCell>
+  }
 
   if (!status) {
     // TODO: remove this once fulfillment<>order link is added

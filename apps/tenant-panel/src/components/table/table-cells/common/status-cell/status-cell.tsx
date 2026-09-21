@@ -29,7 +29,8 @@ export const StatusCell = ({ color, children }: StatusCellProps) => {
           )}
         />
       </div>
-      <span className="truncate">{children}</span>
+      {/* Between a phone and a wide desktop a long status takes two lines. */}
+      <span className="truncate md:max-xl:whitespace-normal">{children}</span>
     </div>
   )
 }
