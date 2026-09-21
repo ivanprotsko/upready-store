@@ -71,6 +71,28 @@ export async function POST(req: NextRequest) {
     revalidatePath("/sitemap.xml")
   }
 
+  // Stock. The product list caches `+variants.inventory_quantity`, which is the
+  // stocked amount minus the reservations, so a level edited in the Admin and a
+  // reservation made by a placed order both change what these pages show. These
+  // are Medusa's workflow events, the ones the backend subscriber
+  // `inventory-updated.ts` forwards. The sitemap and llms.txt hold no stock, and
+  // a reservation comes with every order, so they stay.
+  if (
+    body.type === "inventory-level.created" ||
+    body.type === "inventory-level.updated" ||
+    body.type === "inventory-level.deleted" ||
+    body.type === "reservation-item.created" ||
+    body.type === "reservation-item.updated" ||
+    body.type === "reservation-item.deleted"
+  ) {
+    revalidateTag("products")
+    revalidatePath(`/[locale]/(main)/products/[handle]`, "page")
+    revalidatePath(`/[locale]/(main)/store`, "page")
+    revalidatePath(`/[locale]/(main)/categories/[...category]`, "page")
+    revalidatePath(`/[locale]/(main)/collections/[handle]`, "page")
+    revalidatePath("/[locale]/(main)", "page")
+  }
+
   if (
     body.type === "product-category.updated" ||
     body.type === "product-category.created" ||

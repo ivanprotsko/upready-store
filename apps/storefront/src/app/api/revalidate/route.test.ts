@@ -53,6 +53,35 @@ describe("POST /api/revalidate", () => {
     }
   )
 
+  // The values of `InventoryLevelWorkflowEvents` and
+  // `ReservationItemWorkflowEvents` in Medusa 2.19, printed from
+  // `@medusajs/framework/utils`. The product list caches
+  // `+variants.inventory_quantity`, which is stock minus reservations.
+  it.each([
+    "inventory-level.created",
+    "inventory-level.updated",
+    "inventory-level.deleted",
+    "reservation-item.created",
+    "reservation-item.updated",
+    "reservation-item.deleted",
+  ])("clears the pages that show stock for %s", async (type) => {
+    await post({ type, id: "ilev_1" })
+
+    expect(revalidateTag).toHaveBeenCalledWith("products")
+    expect(clearedPaths()).toEqual(
+      expect.arrayContaining([
+        "/[locale]/(main)/products/[handle]",
+        "/[locale]/(main)/store",
+        "/[locale]/(main)/categories/[...category]",
+        "/[locale]/(main)/collections/[handle]",
+        "/[locale]/(main)",
+      ])
+    )
+    // Stock is on neither of these, and a reservation is made by every order.
+    expect(clearedPaths()).not.toContain("/sitemap.xml")
+    expect(clearedPaths()).not.toContain("/llms.txt")
+  })
+
   it("refuses a call that carries the wrong secret", async () => {
     process.env.REVALIDATE_SECRET = "expected"
 
