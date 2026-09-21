@@ -10,7 +10,7 @@ import {
 import { revalidateTag } from "next/cache"
 import { cookies as nextCookies } from "next/headers"
 import { applyRegion } from "./cart"
-import { getAuthHeaders, getCacheTag, getCartId } from "./cookies"
+import { getAuthHeaders, getCacheTag, getCartId, removeCartId } from "./cookies"
 
 /**
  * A language pick moves the region too, on a deployment that maps locales to
@@ -89,11 +89,22 @@ export const updateLocale = async (localeCode: string): Promise<string> => {
       ...authHeaders,
     }
 
-    await sdk.store.cart.update(cartId, { locale: localeCode }, {}, headers)
+    try {
+      await sdk.store.cart.update(cartId, { locale: localeCode }, {}, headers)
 
-    const cartCacheTag = await getCacheTag("carts")
-    if (cartCacheTag) {
-      revalidateTag(cartCacheTag)
+      const cartCacheTag = await getCacheTag("carts")
+      if (cartCacheTag) {
+        revalidateTag(cartCacheTag)
+      }
+    } catch (error) {
+      // A stale cookie: the cart it names is gone from the backend (a database
+      // reset, a cart of another environment). The language still switches, and
+      // the cookie goes so the next add to cart creates a fresh one.
+      if ((error as { status?: number }).status !== 404) {
+        throw error
+      }
+
+      await removeCartId()
     }
   }
 
