@@ -1966,6 +1966,30 @@
       "registeredDescription": "Transfer to a registered customer, who must accept the request.",
       "requestSuccess": "Order transfer request sent to: {{email}}.",
       "title": "Transfer ownership"
+    },
+    "nextStep": {
+      "pack": {
+        "title": "The order waits to be packed",
+        "hint": "Pack the parcel and mark it here. The customer gets an email.",
+        "action": "Pack"
+      },
+      "ship": {
+        "title": "The order is packed",
+        "hint": "Hand the parcel to the carrier and enter the tracking number.",
+        "action": "Hand over to delivery"
+      },
+      "waitDelivery": {
+        "title": "The order is on its way",
+        "hint": "When the customer has the parcel, mark it delivered in the block below."
+      },
+      "done": {
+        "title": "The order is complete",
+        "hint": "Nothing more to do."
+      },
+      "canceled": {
+        "title": "The order is canceled",
+        "hint": "Nothing to do with it."
+      }
     }
   },
   "permissions": {

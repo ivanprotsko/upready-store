@@ -13,6 +13,7 @@ import { OrderActivitySection } from "./components/order-activity-section"
 import { OrderCustomerSection } from "./components/order-customer-section"
 import { OrderFulfillmentSection } from "./components/order-fulfillment-section"
 import { OrderGeneralSection } from "./components/order-general-section"
+import { OrderNextStep } from "./components/order-next-step"
 import { OrderPaymentSection } from "./components/order-payment-section"
 import { OrderSummarySection } from "./components/order-summary-section"
 import { DEFAULT_FIELDS, ExtendedOrder } from "./constants"
@@ -85,6 +86,9 @@ export const OrderDetail = () => {
             </LayoutComposer.Entry>
             <LayoutComposer.Entry id="OrderGeneralSection">
               <OrderGeneralSection order={order as ExtendedOrder} />
+            </LayoutComposer.Entry>
+            <LayoutComposer.Entry id="OrderNextStep">
+              <OrderNextStep order={order} />
             </LayoutComposer.Entry>
             <LayoutComposer.Entry id="OrderSummarySection">
               <OrderSummarySection order={order} plugins={plugins} />

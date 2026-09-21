@@ -1,0 +1,66 @@
+import { Button, Container, Heading, Text } from "@medusajs/ui"
+import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
+
+import { HttpTypes } from "@medusajs/types"
+
+type NextStep = { key: "pack" | "ship" | "waitDelivery" | "done" | "canceled"; to?: string }
+
+/**
+ * The one thing to do with this order now (o21-owner-panel-ux, P5). The copied
+ * dashboard keeps «Собрать» and «Отметить как отправленный» inside three-dot
+ * menus further down the screen; the owner opens an order to move it on, so the
+ * next step is the first thing she sees, as one primary button.
+ */
+const nextStepOf = (order: HttpTypes.AdminOrder): NextStep => {
+  if (order.status === "canceled") {
+    return { key: "canceled" }
+  }
+
+  const toPack = (order.items ?? []).filter(
+    (item) => (item.detail?.fulfilled_quantity ?? 0) < item.quantity
+  )
+  if (toPack.length) {
+    const requiresShipping = toPack.some((item) => item.requires_shipping)
+    return {
+      key: "pack",
+      to: `/orders/${order.id}/fulfillment?requires_shipping=${requiresShipping}`,
+    }
+  }
+
+  const live = (order.fulfillments ?? []).filter((f) => !f.canceled_at)
+  const toShip = live.find((f) => f.requires_shipping && !f.shipped_at && !f.delivered_at)
+  if (toShip) {
+    return { key: "ship", to: `/orders/${order.id}/${toShip.id}/create-shipment` }
+  }
+  if (live.some((f) => !f.delivered_at)) {
+    return { key: "waitDelivery" }
+  }
+  return { key: "done" }
+}
+
+export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
+  const { t } = useTranslation()
+  const step = nextStepOf(order)
+
+  return (
+    <Container
+      className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4"
+      data-testid="order-next-step"
+    >
+      <div className="flex min-w-0 flex-col">
+        <Heading level="h2">{t(`orders.nextStep.${step.key}.title`)}</Heading>
+        <Text size="small" className="text-ui-fg-subtle">
+          {t(`orders.nextStep.${step.key}.hint`)}
+        </Text>
+      </div>
+      {step.to ? (
+        <Button variant="primary" className="max-md:min-h-11 max-md:w-full" asChild>
+          <Link to={step.to} data-testid={`order-next-step-${step.key}`}>
+            {t(`orders.nextStep.${step.key}.action`)}
+          </Link>
+        </Button>
+      ) : null}
+    </Container>
+  )
+}

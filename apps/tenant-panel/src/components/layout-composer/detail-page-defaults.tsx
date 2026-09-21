@@ -35,6 +35,12 @@ export function detailPageDefaultEntries(
     permissions = true,
   }: DetailPageDefaultsOptions = {}
 ): ReactNode {
+  // o21-owner-panel-ux (P3): the owner's panel never shows the «Метаданные» and
+  // «JSON» cards, whatever the copied screen asks for. They are the record as
+  // the database keeps it, and no job of hers needs them.
+  metadata = false
+  jsonView = false
+
   return (
     <>
       {metadata && (

@@ -1531,7 +1531,7 @@
         },
         "placed": {
           "fromSalesChannel": "из {{salesChannel}}",
-          "title": "Заказ размещен"
+          "title": "Заказ оформлен"
         },
         "return": {
           "canceled": "Возврат #{{returnId}} отменен",
@@ -1554,7 +1554,7 @@
         }
       },
       "from": "От",
-      "header": "Активность",
+      "header": "История заказа",
       "showMoreActivities_few": "Показать еще {{count}} активности",
       "showMoreActivities_many": "Показать еще {{count}} активностей",
       "showMoreActivities_one": "Показать еще {{count}} активность",
@@ -1855,9 +1855,9 @@
       "statusLabel": "Статус платежа",
       "statusTitle": "Статус платежа",
       "stillPending": "Платёж всё ещё ожидает авторизации.",
-      "title": "Платежи",
+      "title": "Оплата",
       "totalPaidByCustomer": "Клиент оплатил",
-      "totalPending": "Осталось получить",
+      "totalPending": "Осталось оплатить",
       "totalStoreCreditRefunds": "Всего возвращено магазинным кредитом"
     },
     "refund": {
@@ -1971,16 +1971,16 @@
     "summary": {
       "allocateItems": "Распределить товары",
       "discountSubtotal": "Подытог скидок",
-      "discountTotal": "Сумма скидок",
+      "discountTotal": "Скидки",
       "editOrder": "Редактировать заказ",
       "editOrderContinue": "Продолжить редактирование заказа",
       "inventoryKit": "Состоит из {{count}}x складских товаров",
-      "itemSubtotal": "Подытог товаров",
+      "itemSubtotal": "Товары",
       "itemTotal": "Сумма товаров",
       "requestReturn": "Запросить возврат",
-      "shippingSubtotal": "Подытог доставки",
+      "shippingSubtotal": "Доставка",
       "shippingTotal": "Сумма доставки",
-      "taxTotal": "Сумма налога",
+      "taxTotal": "Налог",
       "taxTotalIncl": "Сумма налога (включено)",
       "totalAfterDiscount": "Итого со скидкой"
     },
@@ -1999,6 +1999,30 @@
       "registeredDescription": "Передать зарегистрированному клиенту, который должен принять запрос.",
       "requestSuccess": "Запрос на передачу заказа: {{email}}.",
       "title": "Передать владение"
+    },
+    "nextStep": {
+      "pack": {
+        "title": "Заказ ждёт сборки",
+        "hint": "Соберите посылку и отметьте это здесь. Клиент получит письмо.",
+        "action": "Собрать"
+      },
+      "ship": {
+        "title": "Заказ собран",
+        "hint": "Отдайте посылку в доставку и впишите номер для отслеживания.",
+        "action": "Передать в доставку"
+      },
+      "waitDelivery": {
+        "title": "Заказ в доставке",
+        "hint": "Когда клиент получит посылку, отметьте её доставленной в блоке ниже."
+      },
+      "done": {
+        "title": "Заказ выполнен",
+        "hint": "Делать больше ничего не нужно."
+      },
+      "canceled": {
+        "title": "Заказ отменён",
+        "hint": "Делать с ним ничего не нужно."
+      }
     }
   },
   "priceLists": {
