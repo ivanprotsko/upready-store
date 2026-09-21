@@ -368,10 +368,13 @@ medusaIntegrationTestRunner({
           expect(page.data.count).toBe(0);
         }
 
-        // Global reference data both tenants may read.
+        // Warehouses are the shop's own since b06-order-tracking scoped the list
+        // (review finding T-5): B reads its own and not the one this spec made
+        // outside every shop.
         const locations = await api.get("/tenants/stock-locations", bearer(b.token));
         expect(locations.status).toBe(200);
-        expect(locations.data.stock_locations.map((l: { id: string }) => l.id)).toContain(
+        expect(locations.data.stock_locations.length).toBeGreaterThan(0);
+        expect(locations.data.stock_locations.map((l: { id: string }) => l.id)).not.toContain(
           locationId,
         );
 

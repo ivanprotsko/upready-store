@@ -1,6 +1,11 @@
 import { defineConfig, loadEnv } from "@medusajs/framework/utils";
+import { installStaticFileHeaders } from "./src/tenant-files/static-headers";
 
 loadEnv(process.env.NODE_ENV || "development", process.cwd());
+
+// The framework mounts `static/` before it loads `src/api`, so this file is the
+// last place that runs early enough to give those answers their headers.
+installStaticFileHeaders();
 
 const isProd = process.env.NODE_ENV === "production";
 const redisUrl = process.env.REDIS_URL;
