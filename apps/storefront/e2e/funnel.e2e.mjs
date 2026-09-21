@@ -41,6 +41,10 @@ const PRODUCT_HANDLE = process.env.PRODUCT_HANDLE || ""
 const SHOTS = process.env.SHOTS_DIR || ""
 const TIMEOUT = Number(process.env.STEP_TIMEOUT_MS || "30000")
 
+/** A payment method row, and not the error line that shares its prefix. */
+const PAYMENT_METHOD =
+  '[data-testid^="payment-method-"]:not([data-testid="payment-method-error-message"])'
+
 let failures = 0
 const check = (name, ok, detail = "") => {
   console.log(`${ok ? "PASS" : "FAIL"} ${name}${detail ? ` — ${detail}` : ""}`)
@@ -157,11 +161,9 @@ const steps = [
       const reached = page
         .getByTestId("submit-order-button")
         .or(page.getByTestId("shipping-address-incomplete"))
-        .or(page.locator('[data-testid^="payment-method-"]'))
+        .or(page.locator(PAYMENT_METHOD))
       await reached.first().waitFor()
-      return `${await page
-        .locator('[data-testid^="payment-method-"]')
-        .count()} payment method(s)`
+      return `${await page.locator(PAYMENT_METHOD).count()} payment method(s)`
     },
   ],
 ]
