@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import {
   BarsThree,
   XMark,
@@ -24,6 +26,11 @@ import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
 type CategoryMenuProps = {
   categories: HttpTypes.StoreProductCategory[]
   className?: string
+  /**
+   * Shop-wide controls shown under the category list: on a phone the header has no room
+   * for language, country and theme, so this menu is where a visitor finds them.
+   */
+  settings?: React.ReactNode
 }
 
 type Direction = "forward" | "backward"
@@ -48,7 +55,7 @@ const slideVariants = {
   }),
 }
 
-const CategoryMenu = ({ categories, className }: CategoryMenuProps) => {
+const CategoryMenu = ({ categories, className, settings }: CategoryMenuProps) => {
   const t = useTranslations("CategoryMenu")
   const tc = useTranslations("Common")
   const router = useRouter()
@@ -250,6 +257,15 @@ const CategoryMenu = ({ categories, className }: CategoryMenuProps) => {
                       )}
                     </AnimatePresence>
                   </div>
+
+                  {settings ? (
+                    <div
+                      className="flex items-center justify-between gap-x-4 border-t border-ui-border-base pt-4"
+                      data-testid="category-menu-settings"
+                    >
+                      {settings}
+                    </div>
+                  ) : null}
                 </m.div>
               )}
             </AnimatePresence>

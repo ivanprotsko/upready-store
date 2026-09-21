@@ -310,7 +310,8 @@ const RegionSelect = ({
       </span>
 
       <Transition show={open}>
-        <Dialog onClose={() => setOpen(false)} className="relative z-[65]">
+        {/* Above the phone category menu (z-[70]), which hosts this control below 1024px. */}
+        <Dialog onClose={() => setOpen(false)} className="relative z-[75]">
           <TransitionChild
             enter="ease-out duration-200"
             enterFrom="opacity-0"
