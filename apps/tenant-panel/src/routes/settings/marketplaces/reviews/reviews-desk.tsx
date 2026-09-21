@@ -10,6 +10,7 @@ import {
   type DeskQuery,
 } from "../../../../hooks/api/marketplace-desk"
 import { DeskItemCard } from "./components/desk-item"
+import { SupportDetails } from "../../../../components/common/support-details"
 
 /**
  * «Маркетплейсы → Отзывы» (w18-mp-reviews-desk): отзывы и вопросы покупателей
@@ -251,8 +252,15 @@ export const MarketplaceReviewsDesk = () => {
               className={desk.generator.available ? "text-ui-fg-subtle" : "text-ui-fg-muted"}
               size="xsmall"
             >
-              {desk.generator.reason}
+              {t(
+                desk.generator.available
+                  ? "marketplaces.desk.generatorOn"
+                  : "marketplaces.desk.generatorOff"
+              )}
             </Text>
+            {/* The backend's own reason names a setting of the server; it is
+                for support, not for the owner (o21-owner-panel-ux, P3). */}
+            <SupportDetails text={desk.generator.reason} />
           </div>
         ) : null}
       </Container>

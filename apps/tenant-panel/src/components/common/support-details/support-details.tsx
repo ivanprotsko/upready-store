@@ -1,9 +1,12 @@
 import { Button, clx, toast } from "@medusajs/ui"
+import { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 
 type SupportDetailsProps = {
   /** The technical text: the answer of a marketplace, an address, an id. */
-  text: string
+  text?: string | null
+  /** A table or a list only an engineer reads, shown instead of `text`. */
+  children?: ReactNode
   className?: string
 }
 
@@ -16,16 +19,17 @@ type SupportDetailsProps = {
  * It is a native `<details>`: closed content is not rendered, so it stays out
  * of the screen's `innerText`, and it opens by keyboard without any script.
  */
-export const SupportDetails = ({ text, className }: SupportDetailsProps) => {
+export const SupportDetails = ({ text, children, className }: SupportDetailsProps) => {
   const { t } = useTranslation()
 
-  if (!text.trim()) {
+  const raw = (text ?? "").trim()
+  if (!raw && !children) {
     return null
   }
 
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(text)
+      await navigator.clipboard.writeText(raw)
       toast.success(t("supportDetails.copied"))
     } catch {
       toast.error(t("supportDetails.copyFailed"))
@@ -38,14 +42,20 @@ export const SupportDetails = ({ text, className }: SupportDetailsProps) => {
         {t("supportDetails.title")}
       </summary>
       <div className="bg-ui-bg-subtle mt-1 flex flex-col gap-y-2 rounded-md p-3">
-        <pre className="text-ui-fg-subtle txt-compact-xsmall max-h-48 overflow-auto whitespace-pre-wrap break-all font-mono">
-          {text}
-        </pre>
-        <div>
-          <Button size="small" variant="secondary" type="button" onClick={copy}>
-            {t("supportDetails.copy")}
-          </Button>
-        </div>
+        {children ? (
+          <div className="min-w-0 overflow-x-auto">{children}</div>
+        ) : (
+          <pre className="text-ui-fg-subtle txt-compact-xsmall max-h-48 overflow-auto whitespace-pre-wrap break-all font-mono">
+            {raw}
+          </pre>
+        )}
+        {raw ? (
+          <div>
+            <Button size="small" variant="secondary" type="button" onClick={copy}>
+              {t("supportDetails.copy")}
+            </Button>
+          </div>
+        ) : null}
       </div>
     </details>
   )

@@ -4174,7 +4174,7 @@
     "title": "Marketplaces",
     "subtitle": "Wildberries and Ozon: the key, what it may do, what has already been imported and how it maps onto your catalog",
     "loading": "Loading…",
-    "empty": "No marketplace is registered on the platform. That is a backend configuration error, not an empty list — please contact support.",
+    "empty": "No marketplace can be connected yet. This is an error on our side, please contact support.",
     "card": {
       "subtitle": "data moves one way only: the marketplace into your shop",
       "statusFailed": "The marketplace could not be asked about this key. Everything else on the card comes from our own database and is correct."
@@ -4232,7 +4232,7 @@
     },
     "sync": {
       "title": "Latest imports",
-      "hint": "the wb:sync and ozon:sync scripts import, mp:project normalizes; the last run of each kind is here",
+      "hint": "when the last import of each kind of data ended and how",
       "kind": "What is imported",
       "status": "Outcome",
       "rows": "Rows",
@@ -4254,8 +4254,8 @@
       "questions": "Questions"
     },
     "endpoints": {
-      "title": "What we are allowed to ask for",
-      "hint": "the full list of requests the platform may send this marketplace; nothing beyond it can be sent",
+      "title": "What the shop takes from the marketplace",
+      "hint": "The shop only reads your listings, prices, stock, orders and reviews. It cannot ask the marketplace for anything else.",
       "method": "Method",
       "address": "Address",
       "summary": "What the documentation calls it"
@@ -4339,7 +4339,7 @@
           "5": "5 ★"
         }
       },
-      "emptyNoFilters": "Nothing has been imported yet. The mp:reviews script runs the import.",
+      "emptyNoFilters": "No marketplace reviews or questions yet. They appear by themselves after the first import.",
       "emptyFiltered": "Nothing matches the filters: {{filters}}. Clear a filter or widen the period — this is an empty FILTER result, not an empty marketplace.",
       "emptyImportHint": "Our database holds no row of this kind at all: either the import has not run, or the marketplace returned nothing. The last imports are listed on the «Marketplaces» screen.",
       "draft": {
@@ -4350,7 +4350,9 @@
         "saved": "Draft saved",
         "generated": "Draft written — read it and save",
         "savedAt": "Draft saved {{at}}"
-      }
+      },
+      "generatorOn": "Answer drafts are prepared here and never go to the marketplace by themselves.",
+      "generatorOff": "The answer hint is off for now. You can write the answer yourself."
     }
   },
   "marketplaceOrders": {
@@ -4513,7 +4515,7 @@
     "problem": "Problem with the key",
     "sync": {
       "title": "Last import",
-      "hint": "the wb:sync script fetches the data; this is its last run per kind",
+      "hint": "when the last import of each kind of data ended and how",
       "kind": "What is imported",
       "status": "How it ended",
       "rows": "Rows",
@@ -4565,10 +4567,10 @@
       "gate": {
         "open": "open",
         "shut": "shut",
-        "keyStored": "write key in slot {{slot}}, ending {{last4}}",
-        "noKey": "no separate write key (slot {{slot}}); the read key is never used to write",
-        "liveOn": "{{env}}=1 — live mode is on",
-        "liveOff": "{{env}} is not set: every call stays a dry run and nothing leaves the process"
+        "keyStored": "the key for sending is stored, ending {{last4}}",
+        "noKey": "no key for sending; the read key is never used to send",
+        "liveOn": "sending to the marketplace is on",
+        "liveOff": "sending to the marketplace is off, nothing leaves the shop"
       },
       "gates": {
         "credential": "Separate write key",
@@ -4698,8 +4700,8 @@
       "alreadyViewed": "Viewed",
       "savedToast": "Draft saved.",
       "noDraftToast": "Write the answer text first: there is nothing to send.",
-      "liveOff": "Live mode is off ({{env}} is not set): a confirmed answer is checked against the Wildberries documentation and journalled, but it does not reach Wildberries.",
-      "liveOn": "Live mode is on ({{env}}=1): a confirmed answer really goes to Wildberries.",
+      "liveOff": "Sending is off: a confirmed answer is checked and recorded, but it does not reach Wildberries.",
+      "liveOn": "Sending is on: a confirmed answer really goes to Wildberries.",
       "noConsent": "Consent for the class «Feedback and question answers» has not been given. Give it below, in «Writing to Wildberries», or a send is refused at the consent gate.",
       "questionGap": "Answering a customer question is not available yet. {{method}} {{path}} — {{reason}}",
       "statuses": {
@@ -4725,7 +4727,7 @@
       "confirm": {
         "title": "Confirm the answer",
         "body": "The customer will receive exactly this text:\n\n«{{text}}»\n\n{{mode}}",
-        "dryRun": "This is a dry run: {{env}} is not set, so nothing reaches Wildberries and the attempt is journalled.",
+        "dryRun": "This is a trial: nothing reaches Wildberries and the attempt is recorded.",
         "live": "Live mode is on: the answer goes to Wildberries and customers will see it.",
         "ok": "Confirm and send",
         "cancel": "Cancel"
@@ -4857,8 +4859,8 @@
         "skipped": "skipped: {{count}}"
       },
       "gates": {
-        "live": "the live write mode is off ({{env}} in the backend's environment)",
-        "credential": "there is no write key in the separate slot {{slot}}",
+        "live": "sending to the marketplace is off on our side",
+        "credential": "there is no key for sending",
         "switch": "writing to Wildberries is switched off in the section above",
         "consent": "you have not confirmed the class «{{name}}»",
         "allOpen": "Every gate this page can see is open. Sending is still off: this build has no live calls."
@@ -4952,7 +4954,7 @@
     "marketplace": {
       "subtitle": "the key of this marketplace. Everything else is on the marketplace page.",
       "rowSubtitle": "Seller API key",
-      "unknown": "Marketplace «{{slug}}» is not registered in the backend: the page exists, the adapter does not."
+      "unknown": "Marketplace «{{slug}}» cannot be connected yet. Please contact support."
     },
     "robokassa": {
       "title": "Robokassa",

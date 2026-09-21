@@ -2,6 +2,10 @@ import { Badge } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import type { MarketplaceCard } from "../../../../hooks/api/marketplaces"
+import {
+  SupportDetails,
+  marketplaceErrorKey,
+} from "../../../../components/common/support-details"
 
 const NOT_SET = "—"
 
@@ -58,7 +62,14 @@ export const MpSyncTable = ({ sync }: { sync: MarketplaceCard["sync"] }) => {
               <td className="py-2 pr-4 tabular-nums">{run.rows ?? NOT_SET}</td>
               <td className="py-2 pr-4 tabular-nums">{run.requests ?? NOT_SET}</td>
               <td className="py-2 pr-4">{formatDateTime(run.finished_at, locale)}</td>
-              <td className="text-ui-fg-error py-2">{run.error ?? ""}</td>
+              <td className="text-ui-fg-error py-2">
+                {run.error ? (
+                  <div className="flex min-w-[200px] max-w-[360px] flex-col whitespace-normal">
+                    <span>{t(marketplaceErrorKey(run.error))}</span>
+                    <SupportDetails text={run.error} />
+                  </div>
+                ) : null}
+              </td>
             </tr>
           ))}
         </tbody>
