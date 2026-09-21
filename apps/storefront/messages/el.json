@@ -345,13 +345,20 @@
     "sort": "Ταξινόμηση",
     "title": "Φίλτρα",
     "to": "έως",
-    "yes": "Ναι"
+    "yes": "Ναι",
+    "reset": "Καθαρισμός όλων",
+    "showResults": "Εμφάνιση αποτελεσμάτων: {count}",
+    "empty": "Κανένα προϊόν δεν ταιριάζει στα φίλτρα. Αλλάξτε τα ή καθαρίστε τα."
   },
   "Footer": {
     "categoriesHeading": "Κατηγορίες",
     "collectionsHeading": "Συλλογές",
     "copyright": "© {year} {siteName}. Με επιφύλαξη παντός δικαιώματος.",
-    "infoHeading": "Πληροφορίες"
+    "infoHeading": "Πληροφορίες",
+    "sellerHeading": "Πωλητής",
+    "contactsHeading": "Επικοινωνία",
+    "taxId": "ΑΦΜ (INN): {value}",
+    "regNumber": "Αρ. μητρώου (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Επιστροφή στη σύνδεση",
@@ -756,7 +763,8 @@
     "addToCart": "Προσθήκη στο καλάθι",
     "outOfStock": "Εξαντλήθηκε",
     "selectOptions": "Επιλέξτε επιλογές",
-    "selectVariant": "Επιλέξτε παραλλαγή"
+    "selectVariant": "Επιλέξτε παραλλαγή",
+    "inStock": "Σε απόθεμα"
   },
   "ProductAttributes": {
     "no": "Όχι",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Το email αιτήματος μεταβίβασης στάλθηκε στο {email}",
     "transferRequested": "Το αίτημα μεταβίβασης για την παραγγελία {orderId} υποβλήθηκε",
     "whereToFind": "Ανοίξτε το email επιβεβαίωσης εκείνης της παραγγελίας και επικολλήστε εδώ τον σύνδεσμο."
+  },
+  "ProductMedia": {
+    "photoSoon": "Η φωτογραφία έρχεται σύντομα"
+  },
+  "ProductCard": {
+    "sale": "Έκπτωση {percent}%"
   }
 }

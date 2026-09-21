@@ -345,13 +345,20 @@
     "sort": "排序",
     "title": "筛选",
     "to": "最高",
-    "yes": "是"
+    "yes": "是",
+    "reset": "全部重置",
+    "showResults": "查看结果：{count}",
+    "empty": "没有符合筛选条件的商品。请调整或重置筛选条件。"
   },
   "Footer": {
     "categoriesHeading": "分类",
     "collectionsHeading": "系列",
     "copyright": "© {year} {siteName}. 保留所有权利。",
-    "infoHeading": "信息"
+    "infoHeading": "信息",
+    "sellerHeading": "卖家",
+    "contactsHeading": "联系方式",
+    "taxId": "纳税人识别号：{value}",
+    "regNumber": "注册号：{value}"
   },
   "ForgotPassword": {
     "backToSignIn": "返回登录",
@@ -756,7 +763,8 @@
     "addToCart": "加入购物车",
     "outOfStock": "缺货",
     "selectOptions": "选择选项",
-    "selectVariant": "选择规格"
+    "selectVariant": "选择规格",
+    "inStock": "有货"
   },
   "ProductAttributes": {
     "no": "否",
@@ -961,5 +969,11 @@
     "transferEmailSent": "转移申请邮件已发送至 {email}",
     "transferRequested": "订单 {orderId} 的转移申请已提交",
     "whereToFind": "打开该订单的确认邮件，把里面的链接粘贴到这里。"
+  },
+  "ProductMedia": {
+    "photoSoon": "图片即将上线"
+  },
+  "ProductCard": {
+    "sale": "立减 {percent}%"
   }
 }

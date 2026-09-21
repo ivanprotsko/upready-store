@@ -345,13 +345,20 @@
     "sort": "Urutkan",
     "title": "Filter",
     "to": "sampai",
-    "yes": "Ya"
+    "yes": "Ya",
+    "reset": "Atur ulang semua",
+    "showResults": "Tampilkan hasil: {count}",
+    "empty": "Tidak ada produk yang cocok dengan filter ini. Ubah atau atur ulang filter."
   },
   "Footer": {
     "categoriesHeading": "Kategori",
     "collectionsHeading": "Koleksi",
     "copyright": "© {year} {siteName}. Hak cipta dilindungi.",
-    "infoHeading": "Informasi"
+    "infoHeading": "Informasi",
+    "sellerHeading": "Penjual",
+    "contactsHeading": "Kontak",
+    "taxId": "NPWP (INN): {value}",
+    "regNumber": "No. registrasi (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke masuk",
@@ -756,7 +763,8 @@
     "addToCart": "Tambah ke keranjang",
     "outOfStock": "Stok habis",
     "selectOptions": "Pilih Opsi",
-    "selectVariant": "Pilih varian"
+    "selectVariant": "Pilih varian",
+    "inStock": "Tersedia"
   },
   "ProductAttributes": {
     "no": "Tidak",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Email permintaan transfer telah dikirim ke {email}",
     "transferRequested": "Permintaan transfer untuk pesanan {orderId} telah diajukan",
     "whereToFind": "Buka email konfirmasi pesanan itu dan tempel tautannya di sini."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto segera hadir"
+  },
+  "ProductCard": {
+    "sale": "Diskon {percent}%"
   }
 }

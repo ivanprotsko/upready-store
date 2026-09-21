@@ -345,13 +345,20 @@
     "sort": "الترتيب",
     "title": "الفلاتر",
     "to": "إلى",
-    "yes": "نعم"
+    "yes": "نعم",
+    "reset": "إعادة تعيين الكل",
+    "showResults": "عرض النتائج: {count}",
+    "empty": "لا توجد منتجات مطابقة. غيّر عوامل التصفية أو أعد تعيينها."
   },
   "Footer": {
     "categoriesHeading": "الفئات",
     "collectionsHeading": "المجموعات",
     "copyright": "© {year} {siteName}. جميع الحقوق محفوظة.",
-    "infoHeading": "معلومات"
+    "infoHeading": "معلومات",
+    "sellerHeading": "البائع",
+    "contactsHeading": "جهات الاتصال",
+    "taxId": "الرقم الضريبي: {value}",
+    "regNumber": "رقم التسجيل: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "العودة إلى تسجيل الدخول",
@@ -756,7 +763,8 @@
     "addToCart": "أضف إلى السلة",
     "outOfStock": "غير متوفر",
     "selectOptions": "اختر الخيارات",
-    "selectVariant": "اختر الخيار"
+    "selectVariant": "اختر الخيار",
+    "inStock": "متوفر"
   },
   "ProductAttributes": {
     "no": "لا",
@@ -961,5 +969,11 @@
     "transferEmailSent": "تم إرسال بريد إلكتروني بطلب النقل إلى {email}",
     "transferRequested": "تم إرسال طلب نقل الطلب {orderId}",
     "whereToFind": "افتح رسالة تأكيد ذلك الطلب والصق الرابط الموجود فيها هنا."
+  },
+  "ProductMedia": {
+    "photoSoon": "الصورة قريبًا"
+  },
+  "ProductCard": {
+    "sale": "خصم {percent}٪"
   }
 }

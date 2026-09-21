@@ -345,13 +345,20 @@
     "sort": "Sırala",
     "title": "Filtreler",
     "to": "en çok",
-    "yes": "Evet"
+    "yes": "Evet",
+    "reset": "Tümünü sıfırla",
+    "showResults": "Sonuçları göster: {count}",
+    "empty": "Bu filtrelere uyan ürün yok. Filtreleri değiştirin veya sıfırlayın."
   },
   "Footer": {
     "categoriesHeading": "Kategoriler",
     "collectionsHeading": "Koleksiyonlar",
     "copyright": "© {year} {siteName}. Tüm hakları saklıdır.",
-    "infoHeading": "Bilgi"
+    "infoHeading": "Bilgi",
+    "sellerHeading": "Satıcı",
+    "contactsHeading": "İletişim",
+    "taxId": "Vergi no. (INN): {value}",
+    "regNumber": "Sicil no. (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Girişe dön",
@@ -756,7 +763,8 @@
     "addToCart": "Sepete ekle",
     "outOfStock": "Stokta yok",
     "selectOptions": "Seçenekleri Seç",
-    "selectVariant": "Varyant seçin"
+    "selectVariant": "Varyant seçin",
+    "inStock": "Stokta"
   },
   "ProductAttributes": {
     "no": "Hayır",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Devir talebi e-postası {email} adresine gönderildi",
     "transferRequested": "{orderId} numaralı sipariş için devir talep edildi",
     "whereToFind": "O siparişin onay e-postasını açın ve içindeki bağlantıyı buraya yapıştırın."
+  },
+  "ProductMedia": {
+    "photoSoon": "Fotoğraf yakında"
+  },
+  "ProductCard": {
+    "sale": "%{percent} indirim"
   }
 }

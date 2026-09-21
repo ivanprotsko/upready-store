@@ -345,13 +345,20 @@
     "sort": "Sort",
     "title": "Filters",
     "to": "to",
-    "yes": "Yes"
+    "yes": "Yes",
+    "reset": "Reset all",
+    "showResults": "Show results: {count}",
+    "empty": "No products match these filters. Change them or reset."
   },
   "Footer": {
     "categoriesHeading": "Categories",
     "collectionsHeading": "Collections",
     "copyright": "© {year} {siteName}. All rights reserved.",
-    "infoHeading": "Information"
+    "infoHeading": "Information",
+    "sellerHeading": "Seller",
+    "contactsHeading": "Contacts",
+    "taxId": "Tax ID (INN): {value}",
+    "regNumber": "Registration no. (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Back to sign in",
@@ -756,7 +763,8 @@
     "addToCart": "Add to cart",
     "outOfStock": "Out of stock",
     "selectOptions": "Select options",
-    "selectVariant": "Select variant"
+    "selectVariant": "Select variant",
+    "inStock": "In stock"
   },
   "ProductAttributes": {
     "no": "No",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Transfer request email sent to {email}",
     "transferRequested": "Transfer for order {orderId} requested",
     "whereToFind": "Open the confirmation email for that order and paste the link from it here."
+  },
+  "ProductMedia": {
+    "photoSoon": "Photo coming soon"
+  },
+  "ProductCard": {
+    "sale": "{percent}% off"
   }
 }

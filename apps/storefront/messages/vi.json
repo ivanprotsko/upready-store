@@ -345,13 +345,20 @@
     "sort": "Sắp xếp",
     "title": "Bộ lọc",
     "to": "đến",
-    "yes": "Có"
+    "yes": "Có",
+    "reset": "Đặt lại tất cả",
+    "showResults": "Xem kết quả: {count}",
+    "empty": "Không có sản phẩm nào khớp bộ lọc. Hãy thay đổi hoặc đặt lại bộ lọc."
   },
   "Footer": {
     "categoriesHeading": "Danh mục",
     "collectionsHeading": "Bộ sưu tập",
     "copyright": "© {year} {siteName}. Đã đăng ký bản quyền.",
-    "infoHeading": "Thông tin"
+    "infoHeading": "Thông tin",
+    "sellerHeading": "Người bán",
+    "contactsHeading": "Liên hệ",
+    "taxId": "Mã số thuế: {value}",
+    "regNumber": "Số đăng ký: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Quay lại đăng nhập",
@@ -756,7 +763,8 @@
     "addToCart": "Thêm vào giỏ hàng",
     "outOfStock": "Hết hàng",
     "selectOptions": "Chọn tùy chọn",
-    "selectVariant": "Chọn phiên bản"
+    "selectVariant": "Chọn phiên bản",
+    "inStock": "Còn hàng"
   },
   "ProductAttributes": {
     "no": "Không",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Email yêu cầu chuyển nhượng đã được gửi đến {email}",
     "transferRequested": "Đã gửi yêu cầu chuyển nhượng cho đơn hàng {orderId}",
     "whereToFind": "Mở email xác nhận của đơn hàng đó và dán liên kết trong đó vào đây."
+  },
+  "ProductMedia": {
+    "photoSoon": "Ảnh sẽ sớm có"
+  },
+  "ProductCard": {
+    "sale": "Giảm {percent}%"
   }
 }

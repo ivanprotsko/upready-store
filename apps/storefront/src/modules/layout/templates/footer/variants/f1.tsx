@@ -4,9 +4,11 @@ import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { listTenantPages } from "@lib/data/tenant-pages"
 import { getSiteName } from "@lib/data/cookies"
+import { getTenantSeller } from "@lib/data/tenant-seller"
 
 import SiteAttribution from "@modules/layout/components/site-attribution"
 import FooterCredit from "@modules/layout/components/footer-credit"
+import { FooterContacts, FooterRequisites } from "@modules/layout/components/footer-seller"
 
 /**
  * F1 · "Четыре колонки" — the storefront's original Footer markup, unchanged, moved here
@@ -16,9 +18,10 @@ import FooterCredit from "@modules/layout/components/footer-credit"
  * (`footer/variants/index.ts`).
  */
 export default async function FooterF1() {
-  const [t, siteName] = await Promise.all([
+  const [t, siteName, seller] = await Promise.all([
     getTranslations("Footer"),
     getSiteName(),
+    getTenantSeller(),
   ])
   const productCategories = await listCategories()
   const topLevelCategories = productCategories.filter(
@@ -32,16 +35,20 @@ export default async function FooterF1() {
   return (
     <footer className="border-t border-ui-border-base w-full bg-ui-bg-base">
       <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-8 md:flex-row md:items-start md:justify-between py-10 lg:py-20">
-          <div>
+        {/* [name + contacts] [categories] [collections] [information] [seller]: one row of
+            equal columns from 1024, the brand column a little wider; stacked on a phone. */}
+        <div className="grid grid-cols-1 gap-x-10 gap-y-8 py-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,3fr)] lg:gap-x-16 lg:py-16">
+          <div className="flex flex-col gap-y-5">
             <Link
               href="/"
               className="txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase transition-colors"
             >
               {siteName}
             </Link>
+            {/* The brand column answers «как связаться» right under the shop's name. */}
+            <FooterContacts seller={seller} />
           </div>
-          <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-3 gap-x-10 md:gap-x-16">
+          <div className="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-flow-col lg:auto-cols-fr lg:grid-cols-none">
             {topLevelCategories?.length > 0 && (
               <div className="flex flex-col gap-y-3">
                 <span className="txt-medium-plus text-ui-fg-base font-medium">
@@ -104,6 +111,8 @@ export default async function FooterF1() {
               </ul>
             </div>
             )}
+
+            <FooterRequisites seller={seller} />
           </div>
         </div>
       </div>

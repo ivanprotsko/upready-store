@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useState } from "react"
 import { updateLineItem } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
@@ -9,7 +8,7 @@ import { useLocale } from "next-intl"
 import DeleteButton from "@modules/common/components/delete-button"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { Link } from "@i18n/navigation"
-import PlaceholderImage from "@modules/common/icons/placeholder-image"
+import ProductMedia from "@modules/products/components/product-media"
 import { Loader } from "@medusajs/icons"
 
 type ItemProps = {
@@ -54,19 +53,12 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
       <div className="flex items-center gap-x-3" data-testid="product-row">
         <div className="relative flex-shrink-0">
           <Link href={`/products/${item.product_handle}`}>
-            <div className="w-[72px] h-[72px] rounded-lg overflow-hidden bg-ui-bg-component border border-ui-border-base flex items-center justify-center">
-              {imageUrl ? (
-                <Image
-                  src={imageUrl}
-                  alt={item.product_title ?? ""}
-                  width={72}
-                  height={72}
-                  className="w-full h-full object-cover object-center"
-                />
-              ) : (
-                <PlaceholderImage size={20} />
-              )}
-            </div>
+            <ProductMedia
+              src={imageUrl}
+              alt={item.product_title ?? ""}
+              context="line"
+              className="w-[72px] border border-ui-border-base"
+            />
           </Link>
           <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-ui-fg-base text-ui-bg-base text-[10px] font-medium flex items-center justify-center leading-none">
             {item.quantity}
@@ -104,19 +96,12 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
           href={`/products/${item.product_handle}`}
           className="flex-shrink-0"
         >
-          <div className="w-24 h-24 rounded-[6px] overflow-hidden bg-ui-bg-component shadow-elevation-card-rest flex items-center justify-center">
-            {imageUrl ? (
-              <Image
-                src={imageUrl}
-                alt={item.product_title ?? ""}
-                width={96}
-                height={96}
-                className="w-full h-full object-cover object-center"
-              />
-            ) : (
-              <PlaceholderImage size={24} />
-            )}
-          </div>
+          <ProductMedia
+            src={imageUrl}
+            alt={item.product_title ?? ""}
+            context="line"
+            className="w-24"
+          />
         </Link>
 
         <div className="flex flex-col justify-between h-24 py-1">

@@ -345,13 +345,20 @@
     "sort": "Řadit",
     "title": "Filtry",
     "to": "do",
-    "yes": "Ano"
+    "yes": "Ano",
+    "reset": "Zrušit vše",
+    "showResults": "Zobrazit výsledky: {count}",
+    "empty": "Těmto filtrům nic neodpovídá. Upravte je nebo zrušte."
   },
   "Footer": {
     "categoriesHeading": "Kategorie",
     "collectionsHeading": "Kolekce",
     "copyright": "© {year} {siteName}. Všechna práva vyhrazena.",
-    "infoHeading": "Informace"
+    "infoHeading": "Informace",
+    "sellerHeading": "Prodávající",
+    "contactsHeading": "Kontakty",
+    "taxId": "DIČ (INN): {value}",
+    "regNumber": "Registrační číslo (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Zpět na přihlášení",
@@ -756,7 +763,8 @@
     "addToCart": "Přidat do košíku",
     "outOfStock": "Není skladem",
     "selectOptions": "Vybrat možnosti",
-    "selectVariant": "Vyberte variantu"
+    "selectVariant": "Vyberte variantu",
+    "inStock": "Skladem"
   },
   "ProductAttributes": {
     "no": "Ne",
@@ -961,5 +969,11 @@
     "transferEmailSent": "E-mail se žádostí o převod byl odeslán na {email}",
     "transferRequested": "Převod objednávky {orderId} byl vyžádán",
     "whereToFind": "Otevřete potvrzovací e-mail k té objednávce a vložte sem odkaz z něj."
+  },
+  "ProductMedia": {
+    "photoSoon": "Fotka bude brzy"
+  },
+  "ProductCard": {
+    "sale": "Sleva {percent} %"
   }
 }

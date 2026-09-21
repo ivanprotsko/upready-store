@@ -345,13 +345,20 @@
     "sort": "Подредба",
     "title": "Филтри",
     "to": "до",
-    "yes": "Да"
+    "yes": "Да",
+    "reset": "Изчисти всички",
+    "showResults": "Покажи резултатите: {count}",
+    "empty": "Няма продукти по тези филтри. Променете ги или ги изчистете."
   },
   "Footer": {
     "categoriesHeading": "Категории",
     "collectionsHeading": "Колекции",
     "copyright": "© {year} {siteName}. Всички права запазени.",
-    "infoHeading": "Информация"
+    "infoHeading": "Информация",
+    "sellerHeading": "Продавач",
+    "contactsHeading": "Контакти",
+    "taxId": "ИНН {value}",
+    "regNumber": "ОГРН {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Обратно към входа",
@@ -756,7 +763,8 @@
     "addToCart": "Добави в кошницата",
     "outOfStock": "Изчерпан",
     "selectOptions": "Избери опции",
-    "selectVariant": "Избери вариант"
+    "selectVariant": "Избери вариант",
+    "inStock": "В наличност"
   },
   "ProductAttributes": {
     "no": "Не",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Имейл със заявка за прехвърляне е изпратен на {email}",
     "transferRequested": "Заявено е прехвърляне на поръчка {orderId}",
     "whereToFind": "Отворете имейла с потвърждение за онази поръчка и поставете тук връзката от него."
+  },
+  "ProductMedia": {
+    "photoSoon": "Снимката очаквайте скоро"
+  },
+  "ProductCard": {
+    "sale": "Отстъпка {percent}%"
   }
 }

@@ -1,13 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import type { HttpTypes } from "@medusajs/types"
 import { convertToLocale } from "@lib/util/money"
 import { updateLineItem } from "@lib/data/cart"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
 import DeleteButton from "@modules/common/components/delete-button"
-import PlaceholderImage from "@modules/common/icons/placeholder-image"
+import ProductMedia from "@modules/products/components/product-media"
 import { Link } from "@i18n/navigation"
 import { Loader } from "@medusajs/icons"
 import { useLocale, useTranslations } from "next-intl"
@@ -59,19 +58,12 @@ function CheckoutItem({
           href={`/products/${item.product_handle}`}
           className="flex-shrink-0"
         >
-          <div className="w-24 h-24 rounded-[6px] overflow-hidden bg-ui-bg-component shadow-elevation-card-rest flex items-center justify-center">
-            {imageUrl ? (
-              <Image
-                src={imageUrl}
-                alt={item.product_title ?? ""}
-                width={96}
-                height={96}
-                className="w-full h-full object-cover object-center"
-              />
-            ) : (
-              <PlaceholderImage size={24} />
-            )}
-          </div>
+          <ProductMedia
+            src={imageUrl}
+            alt={item.product_title ?? ""}
+            context="line"
+            className="w-24"
+          />
         </Link>
 
         <div className="flex flex-col h-24 py-1 justify-between">

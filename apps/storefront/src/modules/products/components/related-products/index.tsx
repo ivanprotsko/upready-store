@@ -2,6 +2,10 @@ import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import type { HttpTypes } from "@medusajs/types"
 import { getTranslations } from "next-intl/server"
+import {
+  PRODUCT_GRID_CLASS,
+  PRODUCT_GRID_ROW_BUDGET,
+} from "@modules/products/components/product-card"
 import Product from "../product-preview"
 
 type RelatedProductsProps = {
@@ -50,13 +54,15 @@ export default async function RelatedProducts({
 
   return (
     <div className="product-page-constraint">
-      <div className="flex flex-col items-center text-center mb-16">
-        <h2 className="h3-webs text-ui-fg-base">{t("title")}</h2>
-      </div>
+      {/* The same heading scale and the same grid as a home section; eight cards at most,
+          on a row budget, so the block never ends on a ragged row. */}
+      <h2 className="mb-6 text-xl font-semibold tracking-[-0.02em] text-ui-fg-base small:mb-8 small:text-2xl">
+        {t("title")}
+      </h2>
 
-      <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-2 small:gap-x-6 gap-y-8">
-        {products.map((product) => (
-          <li key={product.id}>
+      <ul className={`${PRODUCT_GRID_CLASS} ${PRODUCT_GRID_ROW_BUDGET.short}`}>
+        {products.slice(0, 8).map((product) => (
+          <li key={product.id} className="min-w-0">
             <Product region={region} product={product} />
           </li>
         ))}

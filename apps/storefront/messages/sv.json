@@ -345,13 +345,20 @@
     "sort": "Sortera",
     "title": "Filter",
     "to": "till",
-    "yes": "Ja"
+    "yes": "Ja",
+    "reset": "Återställ alla",
+    "showResults": "Visa resultat: {count}",
+    "empty": "Inga produkter matchar filtren. Ändra eller återställ dem."
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
     "collectionsHeading": "Kollektioner",
     "copyright": "© {year} {siteName}. Alla rättigheter förbehållna.",
-    "infoHeading": "Information"
+    "infoHeading": "Information",
+    "sellerHeading": "Säljare",
+    "contactsHeading": "Kontakt",
+    "taxId": "Skattenr (INN): {value}",
+    "regNumber": "Registreringsnr (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Tillbaka till inloggningen",
@@ -756,7 +763,8 @@
     "addToCart": "Lägg i varukorgen",
     "outOfStock": "Slut i lager",
     "selectOptions": "Välj alternativ",
-    "selectVariant": "Välj variant"
+    "selectVariant": "Välj variant",
+    "inStock": "I lager"
   },
   "ProductAttributes": {
     "no": "Nej",
@@ -961,5 +969,11 @@
     "transferEmailSent": "E-post med överföringsförfrågan skickad till {email}",
     "transferRequested": "Överföring för order {orderId} begärd",
     "whereToFind": "Öppna orderbekräftelsen för den ordern och klistra in länken därifrån här."
+  },
+  "ProductMedia": {
+    "photoSoon": "Bild kommer snart"
+  },
+  "ProductCard": {
+    "sale": "{percent} % rabatt"
   }
 }

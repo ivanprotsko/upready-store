@@ -345,13 +345,20 @@
     "sort": "Сортировка",
     "title": "Фильтры",
     "to": "до",
-    "yes": "Да"
+    "yes": "Да",
+    "reset": "Сбросить всё",
+    "showResults": "Показать товары: {count}",
+    "empty": "По этим фильтрам ничего не нашлось. Измените их или сбросьте."
   },
   "Footer": {
     "categoriesHeading": "Категории",
     "collectionsHeading": "Коллекции",
     "copyright": "© {year} {siteName}. Все права защищены.",
-    "infoHeading": "Информация"
+    "infoHeading": "Информация",
+    "sellerHeading": "Продавец",
+    "contactsHeading": "Контакты",
+    "taxId": "ИНН {value}",
+    "regNumber": "ОГРН {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Вернуться ко входу",
@@ -756,7 +763,8 @@
     "addToCart": "В корзину",
     "outOfStock": "Нет в наличии",
     "selectOptions": "Выбрать опции",
-    "selectVariant": "Выбрать вариант"
+    "selectVariant": "Выбрать вариант",
+    "inStock": "В наличии"
   },
   "ProductAttributes": {
     "no": "Нет",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Письмо с запросом отправлено на {email}",
     "transferRequested": "Перенос заказа {orderId} запрошен",
     "whereToFind": "Откройте письмо с подтверждением того заказа и вставьте ссылку из него сюда."
+  },
+  "ProductMedia": {
+    "photoSoon": "Фото скоро будет"
+  },
+  "ProductCard": {
+    "sale": "Скидка {percent}%"
   }
 }

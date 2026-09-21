@@ -345,13 +345,20 @@
     "sort": "Sortér",
     "title": "Filtre",
     "to": "til",
-    "yes": "Ja"
+    "yes": "Ja",
+    "reset": "Nulstil alle",
+    "showResults": "Vis resultater: {count}",
+    "empty": "Ingen varer matcher filtrene. Justér eller nulstil dem."
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
     "collectionsHeading": "Kollektioner",
     "copyright": "© {year} {siteName}. Alle rettigheder forbeholdes.",
-    "infoHeading": "Information"
+    "infoHeading": "Information",
+    "sellerHeading": "Sælger",
+    "contactsHeading": "Kontakt",
+    "taxId": "Skattenr. (INN): {value}",
+    "regNumber": "Registreringsnr. (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Tilbage til login",
@@ -756,7 +763,8 @@
     "addToCart": "Læg i kurv",
     "outOfStock": "Udsolgt",
     "selectOptions": "Vælg indstillinger",
-    "selectVariant": "Vælg variant"
+    "selectVariant": "Vælg variant",
+    "inStock": "På lager"
   },
   "ProductAttributes": {
     "no": "Nej",
@@ -961,5 +969,11 @@
     "transferEmailSent": "E-mail med overførselsanmodning sendt til {email}",
     "transferRequested": "Overførsel for ordre {orderId} er anmodet",
     "whereToFind": "Åbn bekræftelsesmailen for den ordre, og indsæt linket derfra her."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto kommer snart"
+  },
+  "ProductCard": {
+    "sale": "{percent} % rabat"
   }
 }

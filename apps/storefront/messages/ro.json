@@ -345,13 +345,20 @@
     "sort": "Sortare",
     "title": "Filtre",
     "to": "până la",
-    "yes": "Da"
+    "yes": "Da",
+    "reset": "Resetează tot",
+    "showResults": "Afișează rezultatele: {count}",
+    "empty": "Niciun produs nu corespunde filtrelor. Modifică-le sau resetează-le."
   },
   "Footer": {
     "categoriesHeading": "Categorii",
     "collectionsHeading": "Colecții",
     "copyright": "© {year} {siteName}. Toate drepturile rezervate.",
-    "infoHeading": "Informații"
+    "infoHeading": "Informații",
+    "sellerHeading": "Vânzător",
+    "contactsHeading": "Contact",
+    "taxId": "Cod fiscal (INN): {value}",
+    "regNumber": "Nr. de înregistrare (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Înapoi la autentificare",
@@ -756,7 +763,8 @@
     "addToCart": "Adaugă în coș",
     "outOfStock": "Stoc epuizat",
     "selectOptions": "Selectează opțiunile",
-    "selectVariant": "Selectează varianta"
+    "selectVariant": "Selectează varianta",
+    "inStock": "În stoc"
   },
   "ProductAttributes": {
     "no": "Nu",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Emailul de solicitare a transferului a fost trimis la {email}",
     "transferRequested": "Transferul pentru comanda {orderId} a fost solicitat",
     "whereToFind": "Deschide emailul de confirmare al acelei comenzi și lipește aici linkul din el."
+  },
+  "ProductMedia": {
+    "photoSoon": "Fotografia vine în curând"
+  },
+  "ProductCard": {
+    "sale": "Reducere de {percent}%"
   }
 }

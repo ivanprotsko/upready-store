@@ -345,13 +345,20 @@
     "sort": "Сортування",
     "title": "Фільтри",
     "to": "до",
-    "yes": "Так"
+    "yes": "Так",
+    "reset": "Скинути все",
+    "showResults": "Показати товари: {count}",
+    "empty": "За цими фільтрами нічого не знайдено. Змініть їх або скиньте."
   },
   "Footer": {
     "categoriesHeading": "Категорії",
     "collectionsHeading": "Колекції",
     "copyright": "© {year} {siteName}. Усі права захищені.",
-    "infoHeading": "Інформація"
+    "infoHeading": "Інформація",
+    "sellerHeading": "Продавець",
+    "contactsHeading": "Контакти",
+    "taxId": "ІПН {value}",
+    "regNumber": "ОДРН {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Повернутися до входу",
@@ -756,7 +763,8 @@
     "addToCart": "У кошик",
     "outOfStock": "Немає в наявності",
     "selectOptions": "Обрати опції",
-    "selectVariant": "Оберіть варіант"
+    "selectVariant": "Оберіть варіант",
+    "inStock": "Є в наявності"
   },
   "ProductAttributes": {
     "no": "Ні",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Лист із запитом на передачу надіслано на {email}",
     "transferRequested": "Запит на передачу замовлення {orderId} надіслано",
     "whereToFind": "Відкрийте лист із підтвердженням того замовлення і вставте сюди посилання з нього."
+  },
+  "ProductMedia": {
+    "photoSoon": "Фото незабаром буде"
+  },
+  "ProductCard": {
+    "sale": "Знижка {percent}%"
   }
 }
