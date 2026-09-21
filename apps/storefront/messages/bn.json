@@ -345,13 +345,20 @@
     "sort": "সাজান",
     "title": "ফিল্টার",
     "to": "পর্যন্ত",
-    "yes": "হ্যাঁ"
+    "yes": "হ্যাঁ",
+    "reset": "সব মুছুন",
+    "showResults": "ফলাফল দেখুন: {count}",
+    "empty": "এই ফিল্টারে কোনো পণ্য নেই। ফিল্টার বদলান বা মুছুন।"
   },
   "Footer": {
     "categoriesHeading": "ক্যাটাগরি",
     "collectionsHeading": "কালেকশন",
     "copyright": "© {year} {siteName}। সর্বস্বত্ব সংরক্ষিত।",
-    "infoHeading": "তথ্য"
+    "infoHeading": "তথ্য",
+    "sellerHeading": "বিক্রেতা",
+    "contactsHeading": "যোগাযোগ",
+    "taxId": "কর নম্বর: {value}",
+    "regNumber": "নিবন্ধন নম্বর: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "সাইন ইনে ফিরে যান",
@@ -756,7 +763,8 @@
     "addToCart": "কার্টে যোগ করুন",
     "outOfStock": "স্টকে নেই",
     "selectOptions": "অপশন নির্বাচন করুন",
-    "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন"
+    "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন",
+    "inStock": "স্টকে আছে"
   },
   "ProductAttributes": {
     "no": "না",
@@ -961,5 +969,11 @@
     "transferEmailSent": "{email}-এ হস্তান্তরের অনুরোধ ইমেইল পাঠানো হয়েছে",
     "transferRequested": "অর্ডার {orderId}-এর জন্য হস্তান্তরের অনুরোধ করা হয়েছে",
     "whereToFind": "সেই অর্ডারের নিশ্চিতকরণ ইমেল খুলে তার লিঙ্কটি এখানে পেস্ট করুন।"
+  },
+  "ProductMedia": {
+    "photoSoon": "ছবি শীঘ্রই আসছে"
+  },
+  "ProductCard": {
+    "sale": "{percent}% ছাড়"
   }
 }

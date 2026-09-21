@@ -125,7 +125,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: themePrePaintScript() }} />
       </head>
       <body>
-        <main className="relative">{props.children}</main>
+        {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside
+            `<main>` is not a `banner` landmark (nor a `<footer>` a `contentinfo`). Each
+            route group marks its own main content: `(main)/layout.tsx`, `(checkout)/layout.tsx`,
+            `start/layout.tsx` and the root `not-found.tsx`. */}
+        <div className="relative">{props.children}</div>
         {/* Renders the hidden settings panel only for a browser that carries the
             studio cookie; null for everybody else, including the HTML of a visitor.
             Wrapped in its own NextIntlClientProvider: this root layout sits OUTSIDE the

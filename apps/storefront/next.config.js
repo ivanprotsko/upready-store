@@ -43,7 +43,10 @@ const nextConfig = {
   // <nextjs-portal> subtree intercepts the pointer events over that corner, so the button
   // is unclickable in dev while the badge is there. This moves the badge, not the button —
   // dev-only, and it changes nothing about a production build.
-  devIndicators: { position: "bottom-right" },
+  // The bottom-right corner is no better: on a phone the bottom navigation spans the whole
+  // bottom edge and the badge sat on its theme toggle (a click on it timed out in review).
+  // No corner is free at 390px, so the badge is off; build errors still show as an overlay.
+  devIndicators: false,
   // Two agents work the storefront in the same worktree during the store-profile
   // build-out; a shared .next/ makes their builds clobber each other. NEXT_DIST_DIR
   // gives each its own output tree and is unset (so ".next") everywhere else.

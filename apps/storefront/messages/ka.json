@@ -345,13 +345,20 @@
     "sort": "დალაგება",
     "title": "ფილტრები",
     "to": "მდე",
-    "yes": "დიახ"
+    "yes": "დიახ",
+    "reset": "ყველას გაუქმება",
+    "showResults": "შედეგების ჩვენება: {count}",
+    "empty": "ამ ფილტრებით პროდუქტ არ მოიძებნა. შეცვალეთ ან გაუქმეთ ფილტრები."
   },
   "Footer": {
     "categoriesHeading": "კატეგორიები",
     "collectionsHeading": "კოლექციები",
     "copyright": "© {year} {siteName}. ყველა უფლება დაცულია.",
-    "infoHeading": "ინფორმაცია"
+    "infoHeading": "ინფორმაცია",
+    "sellerHeading": "გამყიდველი",
+    "contactsHeading": "კონტაქტები",
+    "taxId": "საგადასახადო ნომერი: {value}",
+    "regNumber": "სარეგისტრაციო ნომერი: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "დაბრუნება შესვლაზე",
@@ -756,7 +763,8 @@
     "addToCart": "კალათაში დამატება",
     "outOfStock": "არ არის მარაგში",
     "selectOptions": "აირჩიეთ ოფციები",
-    "selectVariant": "აირჩიეთ ვარიანტი"
+    "selectVariant": "აირჩიეთ ვარიანტი",
+    "inStock": "მარაგშია"
   },
   "ProductAttributes": {
     "no": "არა",
@@ -961,5 +969,11 @@
     "transferEmailSent": "გადაცემის მოთხოვნის წერილი გაიგზავნა მისამართზე {email}",
     "transferRequested": "შეკვეთა {orderId}-ის გადაცემა მოთხოვნილია",
     "whereToFind": "გახსენით იმ შეკვეთის დადასტურების წერილი და ჩასვით აქ მისი ბმული."
+  },
+  "ProductMedia": {
+    "photoSoon": "ფოტო მალე გამოჩნდება"
+  },
+  "ProductCard": {
+    "sale": "{percent}% ფასდაკლება"
   }
 }

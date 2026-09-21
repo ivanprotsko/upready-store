@@ -345,13 +345,20 @@
     "sort": "Isih",
     "title": "Penapis",
     "to": "hingga",
-    "yes": "Ya"
+    "yes": "Ya",
+    "reset": "Tetapkan semula semua",
+    "showResults": "Tunjukkan hasil: {count}",
+    "empty": "Tiada produk sepadan dengan penapis ini. Ubah atau tetapkan semula penapis."
   },
   "Footer": {
     "categoriesHeading": "Kategori",
     "collectionsHeading": "Koleksi",
     "copyright": "© {year} {siteName}. Hak cipta terpelihara.",
-    "infoHeading": "Maklumat"
+    "infoHeading": "Maklumat",
+    "sellerHeading": "Penjual",
+    "contactsHeading": "Hubungi",
+    "taxId": "No. cukai (INN): {value}",
+    "regNumber": "No. pendaftaran (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke log masuk",
@@ -756,7 +763,8 @@
     "addToCart": "Tambah ke troli",
     "outOfStock": "Kehabisan stok",
     "selectOptions": "Pilih Opsyen",
-    "selectVariant": "Pilih varian"
+    "selectVariant": "Pilih varian",
+    "inStock": "Ada stok"
   },
   "ProductAttributes": {
     "no": "Tidak",
@@ -961,5 +969,11 @@
     "transferEmailSent": "E-mel permintaan pemindahan dihantar ke {email}",
     "transferRequested": "Pemindahan untuk pesanan {orderId} telah dimohon",
     "whereToFind": "Buka e-mel pengesahan pesanan itu dan tampal pautannya di sini."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto akan datang"
+  },
+  "ProductCard": {
+    "sale": "Diskaun {percent}%"
   }
 }

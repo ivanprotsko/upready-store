@@ -30,6 +30,7 @@ import {
   parseRangeValue,
 } from "@lib/util/product-attribute-filters"
 import type { SortOptions } from "../refinement-list/sort-products"
+import { useActiveFilterCount } from "../filter-panel"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
 
 type MobileRefinementProps = {
@@ -146,9 +147,15 @@ const MobileRefinement = ({
     setAttributeValues(key, Array.from(current))
   }
 
-  const groups = optionFilters.filter((group) => group.values.length > 0)
-  const facets = attributeFacets.filter(
-    (facet) => facet.values.length > 0 || facet.range !== null
+  // What is not a choice is not listed: one value narrows nothing, a range with equal ends
+  // has nothing to drag. The same rule as the desktop sidebar.
+  const groups = optionFilters.filter(
+    (group) => new Set(group.values.map((value) => value.label.trim().toLowerCase())).size > 1
+  )
+  const facets = attributeFacets.filter((facet) =>
+    facet.type === "number"
+      ? Boolean(facet.range && facet.range.min !== facet.range.max)
+      : facet.values.length > 1
   )
 
   const activeGroup =
@@ -173,15 +180,55 @@ const MobileRefinement = ({
     setActiveFilter(null)
   }
 
+  const activeCount = useActiveFilterCount()
+
+  // The grid is rendered by the server after each change of the URL; its total rides on the
+  // list as `data-total-count`, so the sheet reads it from there instead of a second fetch.
+  const [total, setTotal] = useState<number | null>(null)
+  const searchKey = searchParams.toString()
+  useEffect(() => {
+    if (!open) return
+    const read = () => {
+      const raw = document.querySelector('[data-testid="products-list"]')?.getAttribute("data-total-count")
+      const empty = document.querySelector('[data-testid="products-empty"]')
+      setTotal(raw ? Number(raw) : empty ? 0 : null)
+    }
+    read()
+    const timers = [300, 900, 2000].map((delay) => window.setTimeout(read, delay))
+    return () => timers.forEach((timer) => window.clearTimeout(timer))
+  }, [open, searchKey])
+
+  const resetAll = () => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete(OPTION_VALUE_QUERY_KEY)
+    for (const name of Array.from(params.keys())) {
+      if (name.startsWith("a_")) params.delete(name)
+    }
+    params.delete("page")
+    const query = params.toString()
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false })
+  }
+
   return (
     <>
+      {/* One labelled button, with the number of chosen filters on it: a bare funnel icon
+          said neither what it opens nor that something is already narrowing the list. */}
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={t("Filters.title")}
-        className={className}
+        data-testid="mobile-filters-button"
+        className={`flex h-9 items-center gap-x-2 rounded-full border border-ui-border-base px-3 txt-compact-small-plus ${className ?? ""}`}
       >
         <Funnel />
+        <span>{t("Filters.title")}</span>
+        {activeCount > 0 ? (
+          <span
+            className="flex h-5 min-w-5 items-center justify-center rounded-full bg-ui-fg-base px-1 text-xs tabular-nums text-ui-bg-base"
+            data-testid="mobile-filters-count"
+          >
+            {activeCount}
+          </span>
+        ) : null}
       </button>
 
       <Transition show={open}>
@@ -350,6 +397,11 @@ const MobileRefinement = ({
                               <span className="txt-large">
                                 {group.title}
                               </span>
+                              {group.values.filter((value) => selectedValueIds.has(value.id)).length > 0 ? (
+                                <span className="ms-auto me-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-ui-bg-interactive px-1.5 txt-compact-xsmall-plus text-ui-fg-on-color" data-testid="mobile-filter-group-count">
+                                  {group.values.filter((value) => selectedValueIds.has(value.id)).length}
+                                </span>
+                              ) : null}
                               <ChevronRightMini className="text-ui-fg-muted rtl:rotate-180" />
                             </button>
                           ))}
@@ -367,6 +419,11 @@ const MobileRefinement = ({
                                   ? `${facet.name}, ${facet.unit}`
                                   : facet.name}
                               </span>
+                              {(attributeSelection[facet.key]?.length ?? 0) > 0 ? (
+                                <span className="ms-auto me-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-ui-bg-interactive px-1.5 txt-compact-xsmall-plus text-ui-fg-on-color" data-testid="mobile-filter-group-count">
+                                  {(attributeSelection[facet.key]?.length ?? 0)}
+                                </span>
+                              ) : null}
                               <ChevronRightMini className="text-ui-fg-muted rtl:rotate-180" />
                             </button>
                           ))}
@@ -374,6 +431,28 @@ const MobileRefinement = ({
                       ) : null}
                     </>
                   )}
+                </div>
+                {/* Always in reach at the bottom of the sheet: how many products the current
+                    choice leaves, and the way back to them. */}
+                <div className="flex items-center gap-x-3 border-t border-ui-border-base bg-ui-bg-base px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+                  {activeCount > 0 ? (
+                    <button
+                      type="button"
+                      onClick={resetAll}
+                      data-testid="mobile-filters-reset"
+                      className="h-11 shrink-0 rounded-md px-3 txt-compact-small-plus text-ui-fg-subtle"
+                    >
+                      {t("Filters.reset")}
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={close}
+                    data-testid="mobile-filters-show"
+                    className="h-11 min-w-0 flex-1 rounded-md bg-ui-button-inverted px-4 txt-compact-medium-plus text-ui-fg-on-inverted"
+                  >
+                    {total === null ? t("Common.close") : t("Filters.showResults", { count: total })}
+                  </button>
                 </div>
               </DialogPanel>
             </TransitionChild>

@@ -345,13 +345,20 @@
     "sort": "Sortieren",
     "title": "Filter",
     "to": "bis",
-    "yes": "Ja"
+    "yes": "Ja",
+    "reset": "Alle zurücksetzen",
+    "showResults": "Ergebnisse anzeigen: {count}",
+    "empty": "Keine Produkte passen zu diesen Filtern. Ändern Sie die Filter oder setzen Sie sie zurück."
   },
   "Footer": {
     "categoriesHeading": "Kategorien",
     "collectionsHeading": "Kollektionen",
     "copyright": "© {year} {siteName}. Alle Rechte vorbehalten.",
-    "infoHeading": "Informationen"
+    "infoHeading": "Informationen",
+    "sellerHeading": "Verkäufer",
+    "contactsHeading": "Kontakt",
+    "taxId": "Steuernummer (INN): {value}",
+    "regNumber": "Registernummer (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Zurück zur Anmeldung",
@@ -756,7 +763,8 @@
     "addToCart": "In den Warenkorb",
     "outOfStock": "Nicht auf Lager",
     "selectOptions": "Optionen auswählen",
-    "selectVariant": "Variante auswählen"
+    "selectVariant": "Variante auswählen",
+    "inStock": "Auf Lager"
   },
   "ProductAttributes": {
     "no": "Nein",
@@ -961,5 +969,11 @@
     "transferEmailSent": "E-Mail mit Übertragungsanfrage an {email} gesendet",
     "transferRequested": "Übertragung für Bestellung {orderId} angefragt",
     "whereToFind": "Öffnen Sie die Bestätigungsmail zu dieser Bestellung und fügen Sie den Link daraus hier ein."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto folgt in Kürze"
+  },
+  "ProductCard": {
+    "sale": "{percent} % Rabatt"
   }
 }

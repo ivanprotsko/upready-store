@@ -4,10 +4,24 @@
     "next/typescript"
   ],
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["error", {
-      "argsIgnorePattern": "^_",
-      "varsIgnorePattern": "^_",
-      "caughtErrorsIgnorePattern": "^_"
-    }]
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "Literal[value=/\\[var\\(--[^\\]]*\\)\\]\\x2f[0-9]/]",
+        "message": "An opacity modifier on a bare var() silently paints nothing: Tailwind wraps it as rgb(var(--x) / NN), and the theme tokens are full colours. Use color-mix() in an arbitrary value or an inline style (t-2026-09-08-02)."
+      },
+      {
+        "selector": "TemplateElement[value.raw=/\\[var\\(--[^\\]]*\\)\\]\\x2f[0-9]/]",
+        "message": "An opacity modifier on a bare var() silently paints nothing: Tailwind wraps it as rgb(var(--x) / NN), and the theme tokens are full colours. Use color-mix() in an arbitrary value or an inline style (t-2026-09-08-02)."
+      }
+    ]
   }
 }

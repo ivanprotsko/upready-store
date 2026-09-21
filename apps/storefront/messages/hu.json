@@ -345,13 +345,20 @@
     "sort": "Rendezés",
     "title": "Szűrők",
     "to": "-ig",
-    "yes": "Igen"
+    "yes": "Igen",
+    "reset": "Összes törlése",
+    "showResults": "Találatok megjelenítése: {count}",
+    "empty": "Nincs a szűrőknek megfelelő termék. Módosítsa vagy törölje a szűrőket."
   },
   "Footer": {
     "categoriesHeading": "Kategóriák",
     "collectionsHeading": "Kollekciók",
     "copyright": "© {year} {siteName}. Minden jog fenntartva.",
-    "infoHeading": "Információ"
+    "infoHeading": "Információ",
+    "sellerHeading": "Eladó",
+    "contactsHeading": "Kapcsolat",
+    "taxId": "Adószám (INN): {value}",
+    "regNumber": "Nyilvántartási szám (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Vissza a bejelentkezéshez",
@@ -756,7 +763,8 @@
     "addToCart": "Kosárba",
     "outOfStock": "Elfogyott",
     "selectOptions": "Opciók kiválasztása",
-    "selectVariant": "Válasszon variánst"
+    "selectVariant": "Válasszon variánst",
+    "inStock": "Raktáron"
   },
   "ProductAttributes": {
     "no": "Nem",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Átadási kérelem elküldve a következő címre: {email}",
     "transferRequested": "A(z) {orderId} rendelés átadását kérelmezte",
     "whereToFind": "Nyissa meg az adott rendelés visszaigazoló e-mailjét, és illessze be ide a benne lévő hivatkozást."
+  },
+  "ProductMedia": {
+    "photoSoon": "A fotó hamarosan érkezik"
+  },
+  "ProductCard": {
+    "sale": "{percent}% kedvezmény"
   }
 }

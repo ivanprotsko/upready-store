@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import {
   Popover,
   PopoverPanel,
@@ -14,7 +13,7 @@ import { Button } from "@medusajs/ui"
 import DeleteButton from "@modules/common/components/delete-button"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { Link } from "@i18n/navigation"
-import PlaceholderImage from "@modules/common/icons/placeholder-image"
+import ProductMedia from "@modules/products/components/product-media"
 import { usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
@@ -65,19 +64,12 @@ const CartDropdownItem = ({
             href={`/products/${item.product_handle}`}
             className="flex-shrink-0"
           >
-            <div className="w-[72px] h-[72px] rounded-[6px] overflow-hidden bg-ui-bg-component shadow-elevation-card-rest flex items-center justify-center">
-              {imageUrl ? (
-                <Image
-                  src={imageUrl}
-                  alt={item.product_title ?? ""}
-                  width={72}
-                  height={72}
-                  className="w-full h-full object-cover object-center"
-                />
-              ) : (
-                <PlaceholderImage size={20} />
-              )}
-            </div>
+            <ProductMedia
+              src={imageUrl}
+              alt={item.product_title ?? ""}
+              context="line"
+              className="w-[72px]"
+            />
           </Link>
 
           <div className="flex flex-col h-[72px] py-0.5 justify-between min-w-0">

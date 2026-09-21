@@ -3,21 +3,26 @@ import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
 
 import { listCategories } from "@lib/data/categories"
-import { getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { listRegions } from "@lib/data/regions"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import CategoryMenu from "@modules/layout/components/category-menu"
 import Search from "@modules/layout/components/search"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
+import RegionSelect from "@modules/layout/components/region-select"
 import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 const BottomNav = async () => {
-  const [categories, t, siteName, branding] = await Promise.all([
+  const [categories, t, siteName, branding, regions, countryCode, locales] = await Promise.all([
     listCategories(),
     getTranslations("Nav"),
     getSiteName(),
     getSiteBranding(),
+    listRegions(),
+    getCountryCode(),
+    getSwitcherLocales(),
   ])
   const hasLogo = Boolean(branding.logo_light_url || branding.logo_dark_url)
 
@@ -27,6 +32,22 @@ const BottomNav = async () => {
         <CategoryMenu
           categories={categories}
           className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+          // The header hides language, country and theme below 1024px whatever its
+          // variant, so on a phone they live here, in the one menu every layout has.
+          settings={
+            <>
+              <RegionSelect
+                regions={regions}
+                currentCountryCode={countryCode ?? undefined}
+                locales={locales}
+                className="min-w-0"
+              />
+              <ModeToggle
+                className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                data-testid="category-menu-mode-toggle"
+              />
+            </>
+          }
         />
       </div>
 

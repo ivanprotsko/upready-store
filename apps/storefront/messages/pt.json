@@ -345,13 +345,20 @@
     "sort": "Ordenar",
     "title": "Filtros",
     "to": "até",
-    "yes": "Sim"
+    "yes": "Sim",
+    "reset": "Repor tudo",
+    "showResults": "Ver resultados: {count}",
+    "empty": "Nenhum produto corresponde a estes filtros. Altere-os ou reponha-os."
   },
   "Footer": {
     "categoriesHeading": "Categorias",
     "collectionsHeading": "Coleções",
     "copyright": "© {year} {siteName}. Todos os direitos reservados.",
-    "infoHeading": "Informação"
+    "infoHeading": "Informação",
+    "sellerHeading": "Vendedor",
+    "contactsHeading": "Contactos",
+    "taxId": "NIF (INN): {value}",
+    "regNumber": "N.º de registo (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Voltar ao início de sessão",
@@ -756,7 +763,8 @@
     "addToCart": "Adicionar ao carrinho",
     "outOfStock": "Esgotado",
     "selectOptions": "Selecionar opções",
-    "selectVariant": "Selecionar variante"
+    "selectVariant": "Selecionar variante",
+    "inStock": "Em estoque"
   },
   "ProductAttributes": {
     "no": "Não",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Email de pedido de transferência enviado para {email}",
     "transferRequested": "Transferência da encomenda {orderId} solicitada",
     "whereToFind": "Abra o email de confirmação dessa encomenda e cole aqui o link que ele contém."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto em breve"
+  },
+  "ProductCard": {
+    "sale": "{percent}% de desconto"
   }
 }

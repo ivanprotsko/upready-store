@@ -2,17 +2,7 @@ import { getTranslations } from "next-intl/server"
 
 import { getHomeRegion, resolveHomeListing } from "@lib/data/home"
 import type { HomeListingProps } from "@modules/home/variants/types"
-import ProductCard from "@modules/home/components/product-card"
-
-/** small:grid-cols-N, N = min(product count, 6) — same "no empty column" rule as P1. */
-const SMALL_COLS: Record<number, string> = {
-  1: "small:grid-cols-1",
-  2: "small:grid-cols-2",
-  3: "small:grid-cols-3",
-  4: "small:grid-cols-4",
-  5: "small:grid-cols-5",
-  6: "small:grid-cols-6",
-}
+import ListingSection from "@modules/home/components/listing-section"
 
 /**
  * P2 · Dense 6 (`composer/lib/blocks.js` `key === "p2"`, `blocks.css` `.card-p.min`). Sells
@@ -41,20 +31,15 @@ export default async function ListingP2({ products: source }: HomeListingProps =
   }
   const { products, count, heading } = block
 
-  const cols = SMALL_COLS[Math.min(products.length, 6)] ?? SMALL_COLS[6]
-
+  // Six columns of cropped minis are gone: the section draws the catalog's own grid and
+  // card (`ListingSection`), so a photo is whole and a row is even here too.
   return (
-    <li className="content-container py-12 small:py-24" data-testid="home-listing-p2">
-      <h2 className="mb-6 text-lg font-semibold tracking-[-0.02em] text-ui-fg-base small:mb-8 small:text-xl">
-        {heading ?? t("p2.heading", { count })}
-      </h2>
-      <ul className={`grid grid-cols-3 gap-x-3 gap-y-6 ${cols} small:gap-x-4`}>
-        {products.map((product, i) => (
-          <li key={product.id}>
-            <ProductCard product={product} region={region} meta="min" priority={i < 6} />
-          </li>
-        ))}
-      </ul>
-    </li>
+    <ListingSection
+      heading={heading ?? t("p2.heading", { count })}
+      href="/store"
+      linkLabel={t("seeAll")}
+      products={products}
+      data-testid="home-listing-p2"
+    />
   )
 }

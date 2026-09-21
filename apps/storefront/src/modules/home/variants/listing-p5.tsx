@@ -1,12 +1,13 @@
-import Image from "next/image"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { getHomeRegion, resolveHomeListing } from "@lib/data/home"
 import type { HomeListingProps } from "@modules/home/variants/types"
-import ProductCard from "@modules/home/components/product-card"
 import AddToBagButton from "@modules/home/components/add-to-bag-button"
+import { HOME_SECTION_CLASS, ListingSectionHeader } from "@modules/home/components/listing-section"
+import ProductCard from "@modules/products/components/product-card"
+import ProductMedia from "@modules/products/components/product-media"
 
 /**
  * P5 · Editorial (`composer/lib/blocks.js` `key === "p5"`, `blocks.css` `.listing.p5 .ed`).
@@ -18,8 +19,9 @@ import AddToBagButton from "@modules/home/components/add-to-bag-button"
  * Lead collection, 5 products (first becomes the lead). Returns a single `<li>`.
  */
 export default async function ListingP5({ products: source }: HomeListingProps = {}) {
-  const [t, locale, region] = await Promise.all([
+  const [t, tStore, locale, region] = await Promise.all([
     getTranslations("HomeListing"),
+    getTranslations("Store"),
     getLocale(),
     getHomeRegion(),
   ])
@@ -43,37 +45,26 @@ export default async function ListingP5({ products: source }: HomeListingProps =
   const { cheapestPrice } = getProductPrice({ product: lead, locale })
 
   return (
-    <li className="content-container py-12 small:py-24" data-testid="home-listing-p5">
-      <div className="mb-6 flex items-baseline justify-between gap-4 small:mb-8">
-        <h2 className="text-lg font-semibold tracking-[-0.02em] text-ui-fg-base small:text-xl">
-          {heading}
-        </h2>
-        {href ? (
-          <Link
-            href={href}
-            className="flex shrink-0 items-center gap-1 text-sm font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-          >
-            {t("seeAll")}
-          </Link>
-        ) : null}
-      </div>
-      <div className="grid grid-cols-2 gap-4 small:grid-cols-4 small:gap-[18px]">
-        <div className="col-span-2 flex flex-col small:col-span-2 small:row-span-2">
+    <li className={HOME_SECTION_CLASS} data-testid="home-listing-p5">
+      <ListingSectionHeader
+        heading={heading ?? t("p4.heading")}
+        href={href ?? "/store"}
+        linkLabel={href ? t("seeAll") : tStore("allProducts")}
+      />
+      <div className="grid grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-4 small:gap-x-6 small:gap-y-10">
+        <div className="col-span-2 flex flex-col small:col-span-2 small:row-span-2" data-testid="home-listing-p5-lead">
+          {/* The lead photo goes through the same frame as every product picture: whole,
+              never cropped to fill the two-row slot. */}
           <Link
             href={`/products/${lead.handle}`}
-            className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius,8px)] bg-ui-bg-subtle small:aspect-auto small:min-h-[520px] small:flex-1"
+            className="block rounded-[var(--radius,8px)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
           >
-            {lead.thumbnail ? (
-              <Image
-                src={lead.thumbnail}
-                alt=""
-                fill
-                priority
-                quality={70}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center"
-              />
-            ) : null}
+            <ProductMedia
+              src={lead.thumbnail || lead.images?.[0]?.url || null}
+              alt={lead.title ?? ""}
+              context="gallery"
+              priority
+            />
           </Link>
           <div className="mt-4 flex flex-col gap-1.5">
             <h3 className="text-xl font-semibold leading-[1.15] text-ui-fg-base small:text-2xl">
@@ -93,7 +84,7 @@ export default async function ListingP5({ products: source }: HomeListingProps =
           </div>
         </div>
         {rest.map((product) => (
-          <ProductCard key={product.id} product={product} region={region} meta="full" />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </li>

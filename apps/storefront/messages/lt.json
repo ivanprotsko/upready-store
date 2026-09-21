@@ -345,13 +345,20 @@
     "sort": "Rūšiuoti",
     "title": "Filtrai",
     "to": "iki",
-    "yes": "Taip"
+    "yes": "Taip",
+    "reset": "Išvalyti viską",
+    "showResults": "Rodyti rezultatus: {count}",
+    "empty": "Pagal šiuos filtrus prekių nerasta. Pakeiskite arba išvalykite filtrus."
   },
   "Footer": {
     "categoriesHeading": "Kategorijos",
     "collectionsHeading": "Kolekcijos",
     "copyright": "© {year} {siteName}. Visos teisės saugomos.",
-    "infoHeading": "Informacija"
+    "infoHeading": "Informacija",
+    "sellerHeading": "Pardavėjas",
+    "contactsHeading": "Kontaktai",
+    "taxId": "Mokesčių mokėtojo kodas (INN): {value}",
+    "regNumber": "Registracijos nr. (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Grįžti prie prisijungimo",
@@ -756,7 +763,8 @@
     "addToCart": "Į krepšelį",
     "outOfStock": "Nėra sandėlyje",
     "selectOptions": "Pasirinkti parinktis",
-    "selectVariant": "Pasirinkite variantą"
+    "selectVariant": "Pasirinkite variantą",
+    "inStock": "Turime sandėlyje"
   },
   "ProductAttributes": {
     "no": "Ne",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Perdavimo užklausos el. laiškas išsiųstas adresu {email}",
     "transferRequested": "Užsakymo {orderId} perdavimas užklaustas",
     "whereToFind": "Atidarykite to užsakymo patvirtinimo laišką ir čia įklijuokite iš jo nuorodą."
+  },
+  "ProductMedia": {
+    "photoSoon": "Nuotrauka jau greitai"
+  },
+  "ProductCard": {
+    "sale": "{percent} % nuolaida"
   }
 }

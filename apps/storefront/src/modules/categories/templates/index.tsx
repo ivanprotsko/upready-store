@@ -10,6 +10,8 @@ import type { SortOptions } from "@modules/store/components/refinement-list/sort
 import RefinementList from "@modules/store/components/refinement-list"
 import MobileRefinement from "@modules/store/components/mobile-refinement"
 import CategorySidebar from "@modules/store/components/category-sidebar"
+import { ActiveFilters, FilterSidebar } from "@modules/store/components/filter-panel"
+import { withoutOptionsNamedLikeFacets } from "@lib/util/option-filter-groups"
 import PaginatedProducts, {
   PRODUCT_LIMIT,
 } from "@modules/store/templates/paginated-products"
@@ -56,7 +58,7 @@ export default async function CategoryTemplate({
     ? selectedSubcategories.map((c) => c.id)
     : [category.id, ...subcategories.map((c) => c.id)]
 
-  const [t, locale, categories, optionFilters, attributeFacets] = await Promise.all([
+  const [t, locale, categories, allOptionFilters, attributeFacets] = await Promise.all([
     getTranslations(),
     getLocale(),
     listCategories(),
@@ -68,6 +70,8 @@ export default async function CategoryTemplate({
       selection: attributeSelection,
     }),
   ])
+
+  const optionFilters = withoutOptionsNamedLikeFacets(allOptionFilters, attributeFacets.facets)
 
   const ancestors = getCategoryAncestors(category)
 
@@ -120,12 +124,8 @@ export default async function CategoryTemplate({
           />
         </div>
         <div className="mt-4 hidden lg:mt-0 lg:flex lg:flex-row lg:items-center lg:justify-between">
-          <RefinementList
-            sortBy={sort}
-            display="filters"
-            optionFilters={optionFilters}
-            attributeFacets={attributeFacets.facets}
-          />
+          {/* The filters live in the left column (`FilterSidebar`); this row keeps the sorting. */}
+          <span />
           <RefinementList
             sortBy={sort}
             display="sort"
@@ -142,11 +142,15 @@ export default async function CategoryTemplate({
       ) : null}
 
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
-        <CategorySidebar
-          categories={categories}
-          activeCategoryId={category.id}
-        />
+        <div className="hidden flex-col gap-y-8 lg:flex">
+          <CategorySidebar
+            categories={categories}
+            activeCategoryId={category.id}
+          />
+          <FilterSidebar optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
+        </div>
         <div className="w-full">
+          <ActiveFilters optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
           {category.description && (
             <div className="mb-8 text-base-regular">
               <p>{category.description}</p>

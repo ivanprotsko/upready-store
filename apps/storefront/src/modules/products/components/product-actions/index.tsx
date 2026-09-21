@@ -1,11 +1,10 @@
 "use client"
 
 import { addToCart } from "@lib/data/cart"
-import { useIntersection } from "@lib/hooks/use-in-view"
+import { isPlaceholderOption } from "@lib/util/option-filter-groups"
 import { optionsWithUsedValues } from "@lib/util/product"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
-import Divider from "@modules/common/components/divider"
 import OptionSelect from "@modules/products/components/product-actions/option-select"
 import { isEqual } from "lodash"
 import { usePathname, useSearchParams } from "next/navigation"
@@ -118,9 +117,54 @@ export default function ProductActions({
     return false
   }, [selectedVariant])
 
+  // What a one-variant product is sold as («Фасовка: 50 гр»): its real option values,
+  // never Medusa's "Default option" bookkeeping.
+  const unitLine = useMemo(
+    () =>
+      (product.variants?.length ?? 0) === 1
+        ? (product.options ?? [])
+            .filter((option) => !isPlaceholderOption(option))
+            .map((option) => ({
+              title: option.title ?? "",
+              value:
+                product.variants?.[0]?.options?.find((value) => value.option_id === option.id)
+                  ?.value ?? "",
+            }))
+            .filter((unit) => unit.title && unit.value)
+        : [],
+    [product]
+  )
+
   const actionsRef = useRef<HTMLDivElement>(null)
 
-  const inView = useIntersection(actionsRef, "0px")
+  // The phone's sticky buy bar appears once the buy box has been scrolled PAST, not merely
+  // while it is off screen: on first paint the box is still below the fold (the gallery
+  // fills the first screen), and a bar shown then sat on top of the title and the price.
+  const [scrolledPast, setScrolledPast] = useState(false)
+  useEffect(() => {
+    const box = actionsRef.current
+    if (!box || typeof IntersectionObserver === "undefined") {
+      return
+    }
+    const observer = new IntersectionObserver(([entry]) =>
+      setScrolledPast(!entry.isIntersecting && entry.boundingClientRect.bottom <= 0)
+    )
+    observer.observe(box)
+    return () => observer.disconnect()
+  }, [])
+
+  // The phone's sticky buy bar steps aside at the end of the page: over the footer it
+  // would cover the seller's contacts, which is content too.
+  const [footerInView, setFooterInView] = useState(false)
+  useEffect(() => {
+    const footer = document.querySelector("footer")
+    if (!footer || typeof IntersectionObserver === "undefined") {
+      return
+    }
+    const observer = new IntersectionObserver(([entry]) => setFooterInView(entry.isIntersecting))
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
@@ -138,30 +182,63 @@ export default function ProductActions({
 
   return (
     <>
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
-        <div>
-          {(product.variants?.length ?? 0) > 1 && (
-            <div className="flex flex-col gap-y-4">
-              {optionsWithUsedValues(product).map((option) => {
-                return (
-                  <div key={option.id}>
-                    <OptionSelect
-                      option={option}
-                      current={options[option.id]}
-                      updateOption={setOptionValue}
-                      title={option.title ?? ""}
-                      data-testid="product-options"
-                      disabled={!!disabled || isAdding}
-                    />
-                  </div>
-                )
-              })}
-              <Divider />
-            </div>
-          )}
-        </div>
-
+      {/* The buy box, in the order a buyer reads it: what it costs, what exactly is sold
+          (the unit of a one-variant product, the pickers of a many-variant one), whether
+          it can be had, then the button. */}
+      <div className="flex flex-col gap-y-4" ref={actionsRef}>
         <ProductPrice product={product} variant={selectedVariant} />
+
+        {(product.variants?.length ?? 0) > 1 ? (
+          <div className="flex flex-col gap-y-4">
+            {optionsWithUsedValues(product).map((option) => {
+              return (
+                <div key={option.id}>
+                  <OptionSelect
+                    option={option}
+                    current={options[option.id]}
+                    updateOption={setOptionValue}
+                    title={option.title ?? ""}
+                    data-testid="product-options"
+                    disabled={!!disabled || isAdding}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        ) : unitLine.length > 0 ? (
+          <dl className="flex flex-col gap-y-1" data-testid="product-unit">
+            {unitLine.map((unit) => (
+              <div key={unit.title} className="flex gap-x-2 txt-medium">
+                <dt className="text-ui-fg-subtle">{unit.title}:</dt>
+                <dd className="text-ui-fg-base">{unit.value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+
+        {selectedVariant && !disabled ? (
+          <p
+            className="flex items-center gap-x-2 txt-compact-medium"
+            data-testid="product-stock"
+            data-in-stock={inStock && isValidVariant ? "true" : "false"}
+          >
+            <span
+              aria-hidden
+              className={
+                inStock && isValidVariant
+                  ? "size-2 rounded-full bg-ui-tag-green-icon"
+                  : "size-2 rounded-full bg-ui-fg-muted"
+              }
+            />
+            <span className={inStock && isValidVariant ? "text-ui-fg-base" : "text-ui-fg-subtle"}>
+              {inStock && isValidVariant ? t("inStock") : t("outOfStock")}
+            </span>
+          </p>
+        ) : (
+          // The line keeps its place while the variant is unknown, so the button below
+          // does not move when it appears.
+          <p className="h-5" aria-hidden />
+        )}
 
         <Button
           onClick={handleAddToCart}
@@ -192,7 +269,7 @@ export default function ProductActions({
           inStock={inStock}
           handleAddToCart={handleAddToCart}
           isAdding={isAdding}
-          show={!inView}
+          show={scrolledPast && !footerInView}
           optionsDisabled={!!disabled || isAdding}
         />
       </div>
