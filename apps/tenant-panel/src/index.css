@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * o21-owner-panel-ux (Gemini critique 2, 4.1): a phone has no Escape key, so the
+ * «esc» hint next to the cross of every modal and drawer is noise there. The
+ * selector is the hint of the @medusajs/ui headers: a `kbd` right after the
+ * close button (modal) or right before it (drawer).
+ */
+@media (max-width: 767.98px) {
+  [role="dialog"] button + kbd,
+  [role="dialog"] kbd:has(+ button) {
+    display: none;
+  }
+}
