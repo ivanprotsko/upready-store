@@ -129,6 +129,18 @@ describe("field guard: what a caller may expand through ?fields=", () => {
     expect(guardFields("/tenants/customers/cus_1", "*addresses").dropped).toEqual(["*addresses"]);
   });
 
+  it("tells the family on the path the router sees, not on the caller's spelling", () => {
+    // K6: Express matches in any case, so `/tenants/Customers` is the customers route.
+    expect(guardFields("/tenants/Customers/cus_1", "id,*addresses").kept).toEqual(["id"]);
+    expect(guardFields("/tenants/Shipping-Profiles", "id,*shipping_options").kept).toEqual(["id"]);
+    expect(guardFields("/STORE/Collections/", "*products").kept).toEqual([]);
+    expect(guardFields("/store//collections", "*products").kept).toEqual([]);
+    expect(guardFields("/store/%63ollections", "*products").kept).toEqual([]);
+    expect(guardFields("/STORE/products", "id,*tenant.admins,*variants").kept).toEqual(["id", "*variants"]);
+    // The spelling does not close what the family opens.
+    expect(guardFields("/Store/Product-Categories/", "*products").dropped).toEqual([]);
+  });
+
   describe("as a middleware", () => {
     const run = (originalUrl: string, query: Record<string, unknown>) => {
       const req = { originalUrl, method: "GET", query } as any;
@@ -155,9 +167,15 @@ describe("field guard: what a caller may expand through ?fields=", () => {
       expect(run("/tenants/orders/order_1", { fields: ["id", "*customer.orders"] }).query).toEqual({ fields: "id" });
     });
 
-    it("leaves a clean request and every other namespace alone", () => {
+    it("leaves a clean request alone", () => {
       expect(run("/store/products", { fields: "id,*variants" })).toEqual({ query: { fields: "id,*variants" }, logged: [] });
-      expect(run("/admin/products", { fields: "*tenant" }).query).toEqual({ fields: "*tenant" });
+    });
+
+    it("never stands aside on a path test, because it is mounted only where it has to act", () => {
+      expect(run("/STORE/products?limit=1", { fields: "id,*tenant.admins" }).query).toEqual({ fields: "id" });
+      expect(run("/Tenants/Orders/order_1", { fields: "id,*customer.orders" }).query).toEqual({ fields: "id" });
+      // A path whose family cannot be told gets the strictest list: nothing opens.
+      expect(run("/store/%zz/products", { fields: "id,*variants,*tenant" }).query).toEqual({ fields: "id" });
       expect(run("/store/products", { limit: "1" }).query).toEqual({ limit: "1" });
     });
   });

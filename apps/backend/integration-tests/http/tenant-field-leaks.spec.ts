@@ -283,6 +283,46 @@ medusaIntegrationTestRunner({
         expect(JSON.stringify(customer.data)).not.toContain("Only In Globex");
       });
 
+      it("reads the path the way the router does, whatever case the caller writes it in", async () => {
+        // Express matches a route in any case (K6), so the guard cannot pick its
+        // list, or decide to stand aside, on the caller's spelling of the path.
+        await api.post("/tenants/products", newProduct("Acme lamp"), bearer(a.token));
+        const buyer = await registerCustomer(a, "buyer@example.com");
+        await placeOrder(a, "buyer@example.com", "Acme shirt", buyer.id);
+        await api.post(
+          "/store/customers/me/addresses",
+          { first_name: "Test", last_name: "Buyer", address_1: "7 Only In Globex", city: "Berlin", country_code: "de" },
+          storeHeaders(b, buyer.token),
+        );
+        const ofB = await api.get("/tenants/shipping-options?limit=200&fields=id", bearer(b.token));
+        const foreign: string[] = ofB.data.shipping_options.map((option: { id: string }) => option.id);
+
+        for (const path of ["/STORE/products", "/Store/Products"]) {
+          const visitor = await api.get(
+            `${path}?fields=${encodeURIComponent("id,*tenant,*tenant.admins,*tenant.notification_settings")}`,
+            storeHeaders(a),
+          );
+          expect(visitor.status).toBe(200);
+          expect(visitor.data.products).toHaveLength(1);
+          expect(JSON.stringify(visitor.data)).not.toContain("admin@acme.test");
+        }
+
+        const customer = await api.get(
+          `/tenants/Customers/${buyer.id}?fields=${encodeURIComponent("id,email,*addresses")}`,
+          bearer(a.token),
+        );
+        expect(customer.status).toBe(200);
+        expect(JSON.stringify(customer.data)).not.toContain("Only In Globex");
+
+        const profiles = await api.get(
+          `/tenants/Shipping-Profiles?fields=${encodeURIComponent("id,name,*shipping_options")}`,
+          bearer(a.token),
+        );
+        expect(profiles.status).toBe(200);
+        expect(foreign.length).toBeGreaterThan(0);
+        foreign.forEach((id) => expect(JSON.stringify(profiles.data)).not.toContain(id));
+      });
+
       it("keeps the tenant row behind a product of the panel", async () => {
         const created = await api.post("/tenants/products", newProduct("Acme lamp"), bearer(a.token));
         const read = await api.get(
