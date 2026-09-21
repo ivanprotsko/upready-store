@@ -1,6 +1,6 @@
 # Hotfix unit: the leak fix alone, on top of what the live platform runs (t-2026-09-21-03, order o-20260921-01)
 
-Written by the project lead 2026-09-21 18:35 WITA. Binding together with `/Users/ivanprotsko/upready/projects/upready-store/handoff/o-20260921-01/COMMON.md`.
+Written by the project lead 2026-09-21 18:28 WITA. Binding together with `/Users/ivanprotsko/upready/projects/upready-store/handoff/o-20260921-01/COMMON.md`.
 
 ## Ivan's word (relayed by HQ 2026-09-21 ~18:30 WITA, verbatim)
 
