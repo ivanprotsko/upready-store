@@ -41,14 +41,14 @@ export const OWNER_ROUTES = [
   { path: "/products/:product_id/prices", kind: "overlay" },
   { path: "/products/:product_id/variants/create", kind: "overlay" },
   { path: "/products/:product_id/stock", kind: "overlay" },
-  { path: "/products/:product_id/metadata/edit", kind: "overlay" },
+  { path: "/products/:product_id/metadata/edit", note: "redirects to the parent screen" },
   { path: "/products/:product_id/options/manage", kind: "overlay" },
   { path: "/products/:product_id/variants/:variant_id" },
   { path: "/products/:product_id/variants/:variant_id/edit", kind: "overlay" },
   { path: "/products/:product_id/variants/:variant_id/prices", kind: "overlay" },
   { path: "/products/:product_id/variants/:variant_id/manage-items", kind: "overlay" },
   { path: "/products/:product_id/variants/:variant_id/media", kind: "overlay" },
-  { path: "/products/:product_id/variants/:variant_id/metadata/edit", kind: "overlay" },
+  { path: "/products/:product_id/variants/:variant_id/metadata/edit", note: "redirects to the parent screen" },
 
   // Характеристики
   { path: "/product-attributes" },
@@ -62,7 +62,7 @@ export const OWNER_ROUTES = [
   { path: "/categories/:category_id/edit", kind: "overlay" },
   { path: "/categories/:category_id/products", kind: "overlay" },
   { path: "/categories/:category_id/organize", kind: "overlay" },
-  { path: "/categories/:category_id/metadata/edit", kind: "overlay" },
+  { path: "/categories/:category_id/metadata/edit", note: "redirects to the parent screen" },
 
   // Заказы
   { path: "/orders", core: true },
@@ -82,7 +82,7 @@ export const OWNER_ROUTES = [
   { path: "/orders/:order_id/shipping-address", kind: "placeholder" },
   { path: "/orders/:order_id/billing-address", kind: "placeholder" },
   { path: "/orders/:order_id/allocate-items", kind: "placeholder" },
-  { path: "/orders/:order_id/metadata/edit", kind: "placeholder" },
+  { path: "/orders/:order_id/metadata/edit", note: "redirects to the parent screen" },
   { path: "/marketplace-orders" },
   { path: "/marketplace-orders/:mp_order_id" },
 

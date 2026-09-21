@@ -1,6 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import {
   createBrowserRouter,
+  Navigate,
   Outlet,
   RouteObject,
   RouterProvider,
@@ -162,9 +163,10 @@ const routes: RouteObject[] = [
                         lazy: () => import("./routes/products/product-stock"),
                       },
                       {
+                        // o21-owner-panel-ux: the record's raw fields are no job of the owner's;
+                        // the address stays, and answers with the screen it belongs to.
                         path: "metadata/edit",
-                        lazy: () =>
-                          import("./routes/products/product-metadata"),
+                        element: <Navigate to=".." replace />,
                       },
                       {
                         path: "options/manage",
@@ -220,10 +222,7 @@ const routes: RouteObject[] = [
                       },
                       {
                         path: "metadata/edit",
-                        lazy: () =>
-                          import(
-                            "./routes/product-variants/product-variant-metadata"
-                          ),
+                        element: <Navigate to=".." replace />,
                       },
                     ],
                   },
@@ -359,9 +358,8 @@ const routes: RouteObject[] = [
                     lazy: () => import("./routes/not-built"),
                   },
                   {
-                    // Edit the order's metadata; no order update route.
                     path: "metadata/edit",
-                    lazy: () => import("./routes/not-built"),
+                    element: <Navigate to=".." replace />,
                   },
                 ],
               },
@@ -478,8 +476,7 @@ const routes: RouteObject[] = [
                   },
                   {
                     path: "metadata/edit",
-                    lazy: () =>
-                      import("./routes/categories/categories-metadata"),
+                    element: <Navigate to=".." replace />,
                   },
                 ],
               },
