@@ -4,6 +4,7 @@ import { MedusaError } from "@medusajs/framework/utils";
 import sharp from "sharp";
 import { getTenantScope } from "../../tenant-scope";
 import { tenantFilePrefix } from "../../../../tenant-files";
+import { assertSafeSvg } from "../../../../tenant-files/upload-policy";
 
 /**
  * `POST /tenants/branding/upload` (t16-owner-branding, step 2) — logo,
@@ -44,31 +45,6 @@ const DIMENSION_LIMITS: Record<Kind, { minW: number; minH: number; maxW: number;
   logo_dark: { minW: 16, minH: 16, maxW: 2000, maxH: 2000 },
   favicon: { minW: 32, minH: 32, maxW: 1024, maxH: 1024 },
   og_image: { minW: 600, minH: 315, maxW: 4000, maxH: 4000 },
-};
-
-/**
- * A crude but real guard, not a full sanitizer (the task asks to "validate
- * SVG content or rasterise it", and rasterising a vector logo would defeat
- * the point of shipping one): reject the shapes that turn an <img> upload
- * into script execution — an inline `<script>`, an event-handler attribute,
- * a `javascript:` URI, or `<foreignObject>`, which can carry arbitrary HTML.
- * Anything else in a well-formed SVG document is left untouched.
- */
-const SVG_DANGER = /<script|on[a-z]+\s*=|javascript:|<foreignobject/i;
-
-const assertSafeSvg = (buffer: Buffer): void => {
-  const text = buffer.toString("utf8");
-
-  if (!text.includes("<svg")) {
-    throw new MedusaError(MedusaError.Types.INVALID_DATA, "The file is not a valid SVG document.");
-  }
-
-  if (SVG_DANGER.test(text)) {
-    throw new MedusaError(
-      MedusaError.Types.INVALID_DATA,
-      "This SVG carries a script or an event handler and cannot be used as branding.",
-    );
-  }
 };
 
 export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {

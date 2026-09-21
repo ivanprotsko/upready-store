@@ -3,6 +3,7 @@ import { uploadFilesWorkflow } from "@medusajs/medusa/core-flows";
 import { MedusaError } from "@medusajs/framework/utils";
 import { getTenantScope } from "../tenant-scope";
 import { tenantFilePrefix } from "../../../tenant-files";
+import { assertUploadIsAPicture } from "../../../tenant-files/upload-policy";
 
 /**
  * `POST /tenants/uploads` — the tenant's own upload handler. Multer's memory
@@ -24,6 +25,10 @@ import { tenantFilePrefix } from "../../../tenant-files";
  * form posts to and reads; `id` here is the provider storage key itself,
  * `tenants/<tenant_id>/<name>-<ulid>.<ext>` (see `src/tenant-files/index.ts`
  * for why — `@medusajs/file`'s module service has no database of its own).
+ *
+ * Only pictures pass (`src/tenant-files/upload-policy.ts`, review finding S-4):
+ * the file is public and the engine's own host serves it, so a page or a
+ * script uploaded here would run under the platform's name.
  */
 
 type UploadedFile = { originalname: string; mimetype: string; buffer: Buffer };
@@ -34,6 +39,8 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   if (!files?.length) {
     throw new MedusaError(MedusaError.Types.INVALID_DATA, "No files were uploaded");
   }
+
+  files.forEach(assertUploadIsAPicture);
 
   const tenant = await getTenantScope(req);
   const prefix = tenantFilePrefix(tenant.id);

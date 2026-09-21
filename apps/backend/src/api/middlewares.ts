@@ -224,6 +224,7 @@ import {
 } from "./admin/tenants/validators";
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
+import { guardRequestedFields } from "./field-guard";
 import { StoreGetPaymentProvidersParams } from "@medusajs/medusa/api/store/payment-providers/validators";
 import { listTransformPaymentProvidersQueryConfig } from "@medusajs/medusa/api/store/payment-providers/query-config";
 
@@ -289,6 +290,12 @@ export default defineMiddlewares({
         validateAndTransformBody(PostTenantCreateSchema),
       ],
     },
+    // What a caller may expand through `?fields=` (review 2026-09-21, T-6). Both
+    // matchers are wildcards, and a wildcard sorts before every static and
+    // parametric route, Medusa's own included, so the guard runs before any
+    // `validateAndTransformQuery` reads the fields.
+    { matcher: "/store/*", middlewares: [guardRequestedFields] },
+    { matcher: "/tenants/*", middlewares: [guardRequestedFields] },
     {
       matcher: "/tenants/*",
       // `blockArchivedTenantAdmin` runs right after `authenticate`, on the
