@@ -491,7 +491,17 @@ export async function middleware(request: NextRequest) {
     secure: process.env.NODE_ENV === "production",
   }
 
+  // A Server Action POST carries the URL of the page it was submitted from, so
+  // the country and the locale derived above are the OLD ones. The actions set
+  // their own cookies (`applyRegion`, `setLocaleCookie`), and writing the
+  // URL-derived pair next to them put the visitor who switched country and
+  // language together back on the pair they had just left.
+  const isServerAction = request.headers.has("next-action")
+
   function withCookies(res: NextResponse, locale: string): NextResponse {
+    if (isServerAction) {
+      return res
+    }
     if (!cacheIdCookie) {
       res.cookies.set("_medusa_cache_id", cacheId, { maxAge: 60 * 60 * 24 })
     }

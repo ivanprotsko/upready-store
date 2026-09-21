@@ -33,12 +33,13 @@ export const retrieveCustomer =
       ...(await getCacheOptions("customers")),
     }
 
+    // No `fields`: the backend's defaults are the customer and the addresses.
+    // This used to ask for `*orders`, which nothing read, and a customer is one
+    // row for the whole platform, so it cached the buyer's orders from every
+    // shop. The account pages list orders through `listOrders`.
     return await sdk.client
       .fetch<{ customer: HttpTypes.StoreCustomer }>(`/store/customers/me`, {
         method: "GET",
-        query: {
-          fields: "*orders",
-        },
         headers,
         next,
         cache: "force-cache",

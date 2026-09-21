@@ -19,10 +19,11 @@ import type { AttributeType } from "../modules/tenant/models/tenant-product-attr
 import type TenantModuleService from "../modules/tenant/service";
 import { ensureChoice, ensureDefaultSchema } from "../product-attributes-fill/apply-default-schema";
 import { DEFAULT_ATTRIBUTE_PRESET } from "../product-attributes-fill/default-schema";
-import { parseCharacteristics } from "../product-attributes-fill/parse-characteristics";
+import { countryChoice, parseCharacteristics } from "../product-attributes-fill/parse-characteristics";
 import { pricePayload } from "../product-csv/apply";
 import { readPrices, type CatalogPrice, type GraphPrice } from "../product-csv/catalog";
 import { fetchImage } from "../product-csv/images";
+import { toSlug } from "../product-csv/slugify";
 import { tenantFilePrefix } from "../tenant-files";
 import { attributeKeyFromName } from "./attributes";
 import type { DatasetProduct, EnrichDataset } from "./dataset";
@@ -406,7 +407,7 @@ const sameTypedValue = (
   (stored.value_number ?? null) === typed.value_number &&
   (stored.value_boolean ?? null) === typed.value_boolean;
 
-const applyCharacteristics = async (
+export const applyCharacteristics = async (
   container: MedusaContainer,
   tenantId: string,
   schema: SchemaCache,
@@ -467,23 +468,40 @@ const applyCharacteristics = async (
       // A `select` refuses a value it has not declared, so a country the
       // preset never listed is declared from the label the card carries.
       if (options.dryRun) {
-        counters.characteristics_written += 1;
-        continue;
+        // The dry run is the safety check before a live run, so it has to
+        // reach the same comparison with the stored value the live run does.
+        // It resolves the choice the way `ensureChoice` does and declares
+        // nothing: a choice the shop lacks stands in the list for this one
+        // product only. Counting every `select` as written here meant a second
+        // dry run over an already filled shop never came down to zero.
+        const wantedChoice = countryChoice(String(item.raw), toSlug);
+        if (!wantedChoice) {
+          counters.characteristics_dropped += 1;
+          continue;
+        }
+        if (!choices.some((choice) => choice.value === wantedChoice.value)) {
+          choices = [
+            ...choices,
+            { id: "", value: wantedChoice.value, label: wantedChoice.label, position: choices.length },
+          ];
+        }
+        raw = wantedChoice.value;
+      } else {
+        const choice = await ensureChoice(container, attribute.id, String(item.raw));
+        if (!choice) {
+          counters.characteristics_dropped += 1;
+          continue;
+        }
+        if (choice.created) {
+          choices = (await container
+            .resolve<TenantModuleService>(TENANT_MODULE)
+            .listTenantProductAttributeOptions({
+              attribute_id: attribute.id,
+            })) as unknown as AttributeOptionRow[];
+          schema.optionsByAttribute.set(attribute.id, choices);
+        }
+        raw = choice.value;
       }
-      const choice = await ensureChoice(container, attribute.id, String(item.raw));
-      if (!choice) {
-        counters.characteristics_dropped += 1;
-        continue;
-      }
-      if (choice.created) {
-        choices = (await container
-          .resolve<TenantModuleService>(TENANT_MODULE)
-          .listTenantProductAttributeOptions({
-            attribute_id: attribute.id,
-          })) as unknown as AttributeOptionRow[];
-        schema.optionsByAttribute.set(attribute.id, choices);
-      }
-      raw = choice.value;
     }
 
     let typed: { value_text: string | null; value_number: number | null; value_boolean: boolean | null } | null;
