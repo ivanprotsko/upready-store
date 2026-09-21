@@ -62,13 +62,13 @@ const ProductDescription = async ({ product }: ProductDescriptionProps) => {
         {t("description")}
       </h2>
       <div
-        className="flex flex-col gap-y-3 max-w-3xl"
+        className="flex max-w-[70ch] flex-col gap-y-4"
         data-testid="product-description"
       >
         {paragraphs.map((paragraph, position) => (
           <p
             key={position}
-            className="txt-medium text-ui-fg-subtle whitespace-pre-line"
+            className="text-base leading-7 text-ui-fg-base whitespace-pre-line"
           >
             {paragraph}
           </p>

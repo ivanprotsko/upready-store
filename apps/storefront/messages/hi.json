@@ -345,13 +345,20 @@
     "sort": "क्रमबद्ध करें",
     "title": "फ़िल्टर",
     "to": "तक",
-    "yes": "हाँ"
+    "yes": "हाँ",
+    "reset": "सभी रीसेट करें",
+    "showResults": "परिणाम दिखाएँ: {count}",
+    "empty": "इन फ़िल्टर से कोई उत्पाद नहीं मिला। फ़िल्टर बदलें या रीसेट करें।"
   },
   "Footer": {
     "categoriesHeading": "श्रेणियां",
     "collectionsHeading": "संग्रह",
     "copyright": "© {year} {siteName}. सर्वाधिकार सुरक्षित।",
-    "infoHeading": "जानकारी"
+    "infoHeading": "जानकारी",
+    "sellerHeading": "विक्रेता",
+    "contactsHeading": "संपर्क",
+    "taxId": "कर संख्या: {value}",
+    "regNumber": "पंजीकरण संख्या: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "साइन इन पर लौटें",
@@ -756,7 +763,8 @@
     "addToCart": "कार्ट में जोड़ें",
     "outOfStock": "स्टॉक में नहीं",
     "selectOptions": "विकल्प चुनें",
-    "selectVariant": "वेरिएंट चुनें"
+    "selectVariant": "वेरिएंट चुनें",
+    "inStock": "स्टॉक में"
   },
   "ProductAttributes": {
     "no": "नहीं",
@@ -961,5 +969,11 @@
     "transferEmailSent": "ट्रांसफर अनुरोध ईमेल {email} पर भेजा गया",
     "transferRequested": "ऑर्डर {orderId} के लिए ट्रांसफर का अनुरोध किया गया",
     "whereToFind": "उस ऑर्डर का पुष्टिकरण ईमेल खोलें और उसमें दिया लिंक यहाँ चिपकाएँ."
+  },
+  "ProductMedia": {
+    "photoSoon": "फ़ोटो जल्द आ रही है"
+  },
+  "ProductCard": {
+    "sale": "{percent}% की छूट"
   }
 }

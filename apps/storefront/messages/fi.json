@@ -345,13 +345,20 @@
     "sort": "Lajittele",
     "title": "Suodattimet",
     "to": "asti",
-    "yes": "Kyllä"
+    "yes": "Kyllä",
+    "reset": "Tyhjennä kaikki",
+    "showResults": "Näytä tulokset: {count}",
+    "empty": "Suodattimilla ei löytynyt tuotteita. Muuta suodattimia tai tyhjennä ne."
   },
   "Footer": {
     "categoriesHeading": "Kategoriat",
     "collectionsHeading": "Kokoelmat",
     "copyright": "© {year} {siteName}. Kaikki oikeudet pidätetään.",
-    "infoHeading": "Tietoa"
+    "infoHeading": "Tietoa",
+    "sellerHeading": "Myyjä",
+    "contactsHeading": "Yhteystiedot",
+    "taxId": "Verotunnus (INN): {value}",
+    "regNumber": "Rekisterinumero (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Takaisin kirjautumiseen",
@@ -756,7 +763,8 @@
     "addToCart": "Lisää ostoskoriin",
     "outOfStock": "Ei varastossa",
     "selectOptions": "Valitse vaihtoehdot",
-    "selectVariant": "Valitse versio"
+    "selectVariant": "Valitse versio",
+    "inStock": "Varastossa"
   },
   "ProductAttributes": {
     "no": "Ei",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Siirtopyyntö lähetetty osoitteeseen {email}",
     "transferRequested": "Tilauksen {orderId} siirtoa pyydetty",
     "whereToFind": "Avaa kyseisen tilauksen vahvistusviesti ja liitä siinä oleva linkki tähän."
+  },
+  "ProductMedia": {
+    "photoSoon": "Kuva tulossa pian"
+  },
+  "ProductCard": {
+    "sale": "Alennus {percent} %"
   }
 }

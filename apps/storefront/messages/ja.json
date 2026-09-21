@@ -345,13 +345,20 @@
     "sort": "並び替え",
     "title": "フィルター",
     "to": "最大",
-    "yes": "はい"
+    "yes": "はい",
+    "reset": "すべてリセット",
+    "showResults": "結果を表示：{count}件",
+    "empty": "条件に合う商品がありません。フィルターを変更するかリセットしてください。"
   },
   "Footer": {
     "categoriesHeading": "カテゴリー",
     "collectionsHeading": "コレクション",
     "copyright": "© {year} {siteName}. 無断転載を禁じます。",
-    "infoHeading": "インフォメーション"
+    "infoHeading": "インフォメーション",
+    "sellerHeading": "販売者",
+    "contactsHeading": "お問い合わせ",
+    "taxId": "納税者番号：{value}",
+    "regNumber": "登録番号：{value}"
   },
   "ForgotPassword": {
     "backToSignIn": "ログインに戻る",
@@ -756,7 +763,8 @@
     "addToCart": "カートに追加",
     "outOfStock": "在庫切れ",
     "selectOptions": "オプションを選択",
-    "selectVariant": "バリエーションを選択"
+    "selectVariant": "バリエーションを選択",
+    "inStock": "在庫あり"
   },
   "ProductAttributes": {
     "no": "いいえ",
@@ -961,5 +969,11 @@
     "transferEmailSent": "譲渡リクエストのメールを{email}に送信しました",
     "transferRequested": "注文{orderId}の譲渡をリクエストしました",
     "whereToFind": "その注文の確認メールを開き、そこにあるリンクをここに貼り付けてください。"
+  },
+  "ProductMedia": {
+    "photoSoon": "写真は近日公開"
+  },
+  "ProductCard": {
+    "sale": "{percent}%オフ"
   }
 }

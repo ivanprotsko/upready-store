@@ -8,7 +8,9 @@ import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-g
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import RefinementList from "@modules/store/components/refinement-list"
 import MobileRefinement from "@modules/store/components/mobile-refinement"
+import { ActiveFilters, FilterSidebar } from "@modules/store/components/filter-panel"
 import CategorySidebar from "@modules/store/components/category-sidebar"
+import { withoutOptionsNamedLikeFacets } from "@lib/util/option-filter-groups"
 import { listCategories } from "@lib/data/categories"
 import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
 import { categoriesWithImages } from "@lib/util/category-image"
@@ -42,7 +44,7 @@ const StoreTemplate = async ({
 }) => {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
-  const [t, categories, optionFilters, attributeFacets] = await Promise.all([
+  const [t, categories, allOptionFilters, attributeFacets] = await Promise.all([
     getTranslations(),
     listCategories(),
     listProductOptionFilters(),
@@ -53,6 +55,8 @@ const StoreTemplate = async ({
   // that uploaded none, and CategoryImageTiles then renders nothing at all, so this
   // strip appears only where there is something to show (f16-category-image-not-shown:
   // the catalog was one of the three pages that drew the picture nowhere).
+  const optionFilters = withoutOptionsNamedLikeFacets(allOptionFilters, attributeFacets.facets)
+
   const picturedCategories = categoriesWithImages(categories, CATALOG_TILE_LIMIT)
 
   return (
@@ -80,12 +84,9 @@ const StoreTemplate = async ({
           />
         </div>
         <div className="mt-4 hidden lg:mt-0 lg:flex lg:flex-row lg:items-center lg:justify-between">
-          <RefinementList
-            sortBy={sort}
-            display="filters"
-            optionFilters={optionFilters}
-            attributeFacets={attributeFacets.facets}
-          />
+          {/* The filters live in the left column now (`FilterSidebar`); this row keeps the
+              sorting, on the right where the grid ends. */}
+          <span />
           <RefinementList
             sortBy={sort}
             display="sort"
@@ -99,8 +100,12 @@ const StoreTemplate = async ({
       <CategoryImageTiles categories={picturedCategories} dense />
 
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
-        <CategorySidebar categories={categories} />
+        <div className="hidden flex-col gap-y-8 lg:flex">
+          <CategorySidebar categories={categories} />
+          <FilterSidebar optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
+        </div>
         <div className="w-full">
+          <ActiveFilters optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
           <Suspense fallback={<SkeletonProductGrid />}>
             <PaginatedProducts
               sortBy={sort}

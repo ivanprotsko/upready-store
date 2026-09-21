@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronLeft, ChevronRight, XMark } from "@medusajs/icons"
+import { ChevronLeft, ChevronRight, MagnifyingGlass, XMark } from "@medusajs/icons"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import {
@@ -12,10 +12,12 @@ import {
 } from "react"
 import { createPortal } from "react-dom"
 
+import { FRAME_ASPECT } from "@modules/products/components/product-media"
+import ProductMediaBackdrop from "@modules/products/components/product-media/backdrop"
+
 import GalleryDots from "./dots"
 import {
   neighbourIndexes,
-  parseAspect,
   swipeDirection,
   wrapIndex,
   type GalleryItem,
@@ -23,19 +25,29 @@ import {
 
 type GalleryProps = {
   items: GalleryItem[]
-  /** `metadata.aspect_ratio` of the product, e.g. "3/4". Sizes the hero box. */
-  aspectRatio?: string
+  /** The product's title: the accessible name of its photos. */
+  title?: string
 }
+
+const FOCUS_RING =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-fg-interactive"
 
 const SWIPE_THRESHOLD = 40
 const HERO_SIZES =
   "(max-width: 512px) 100vw, (max-width: 1024px) 60vw, (max-width: 1440px) 42vw, 600px"
 
 /**
- * One photo at a time, the way the chrxnasdmds product page shows them: a hero
- * box of fixed aspect so nothing on the page jumps while an image loads, a
- * thumbnail rail beside it (below it on a phone), a photo counter, arrows,
- * dots, and a full-screen viewer.
+ * One photo at a time: a main frame, a thumbnail rail beside it on a desktop, dots under
+ * it on a phone, arrows, swipe, and a full-screen viewer.
+ *
+ * The main frame is the shared product frame (`FRAME_ASPECT.gallery`, `contain`, the
+ * blurred backdrop, `data-product-media`): its ratio is fixed, so neither loading nor
+ * switching a photo moves anything on the page. It used to follow the natural ratio of
+ * the ACTIVE photo, which shifted the whole page under the reader on every switch.
+ * Nothing is drawn over the photo at rest: a marketplace photo carries its own caption
+ * to the very edge, so the dots sit under the frame and the position is announced to a
+ * screen reader instead of being painted on the picture. The arrows and the zoom button
+ * appear on hover and on keyboard focus only.
  *
  * Behaviour ported from `chrxnasdmds/apps/storefront/src/modules/products/
  * components/image-gallery`, and from what its own suite pins down there: the
@@ -52,28 +64,35 @@ const HERO_SIZES =
  * Mounted through `./index`, which keys it by the image list so a variant swap
  * starts again at slide 1.
  */
-const Gallery = ({ items, aspectRatio }: GalleryProps) => {
+const Gallery = ({ items, title }: GalleryProps) => {
   const t = useTranslations("ImageGallery")
   const total = items.length
-  const aspect = parseAspect(aspectRatio)
-  const aspectCss = `${aspect.w} / ${aspect.h}`
 
   const [index, setIndex] = useState(0)
   const [viewerOpen, setViewerOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
-  // Natural ratio of each image, learned from its own `onLoad`. The hero box
-  // follows the ACTIVE image once measured, so a portrait photo followed by a
-  // square one does not leave white bands; `aspect` from the product's
-  // metadata is what the box uses until the first measurement lands.
-  const [measured, setMeasured] = useState<
-    Record<string, { w: number; h: number }>
-  >({})
 
   const dragStartX = useRef<number | null>(null)
   const dragMoved = useRef(false)
   const dragCaptured = useRef(false)
   const railRef = useRef<HTMLUListElement | null>(null)
+  const [railEdges, setRailEdges] = useState({ top: false, bottom: false })
+  const updateRailEdges = useCallback(() => {
+    const rail = railRef.current
+    if (!rail) return
+    const top = rail.scrollTop > 1
+    const bottom = rail.scrollTop + rail.clientHeight < rail.scrollHeight - 1
+    setRailEdges((edges) => (edges.top === top && edges.bottom === bottom ? edges : { top, bottom }))
+  }, [])
+  useEffect(() => {
+    updateRailEdges()
+    window.addEventListener("resize", updateRailEdges)
+    return () => window.removeEventListener("resize", updateRailEdges)
+  }, [updateRailEdges, items.length])
   const rootRef = useRef<HTMLDivElement | null>(null)
+  const closeRef = useRef<HTMLButtonElement | null>(null)
+  const viewerRef = useRef<HTMLDivElement | null>(null)
+  const returnFocusTo = useRef<HTMLElement | null>(null)
 
   const next = useCallback(
     () => setIndex((i) => wrapIndex(i, +1, total)),
@@ -84,11 +103,13 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
     [total]
   )
 
-  const onImageLoad = useCallback((id: string, w: number, h: number) => {
-    if (!w || !h) {
-      return
-    }
-    setMeasured((prev) => (prev[id] ? prev : { ...prev, [id]: { w, h } }))
+  const openViewer = useCallback(() => {
+    returnFocusTo.current = document.activeElement as HTMLElement | null
+    setViewerOpen(true)
+  }, [])
+  const closeViewer = useCallback(() => {
+    setViewerOpen(false)
+    returnFocusTo.current?.focus?.()
   }, [])
 
   useEffect(() => setMounted(true), [])
@@ -142,7 +163,21 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
     }
     const onKey = (event: KeyboardEvent) => {
       if (viewerOpen && event.key === "Escape") {
-        setViewerOpen(false)
+        closeViewer()
+        return
+      }
+      // The viewer is modal: Tab stays among its own buttons.
+      if (viewerOpen && event.key === "Tab") {
+        const buttons = Array.from(
+          viewerRef.current?.querySelectorAll<HTMLElement>("button") ?? []
+        )
+        if (buttons.length) {
+          const position = buttons.indexOf(document.activeElement as HTMLElement)
+          const nextPosition =
+            (position + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length
+          event.preventDefault()
+          buttons[nextPosition].focus()
+        }
         return
       }
       const inGallery =
@@ -161,7 +196,13 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [next, previous, total, viewerOpen])
+  }, [closeViewer, next, previous, total, viewerOpen])
+
+  useEffect(() => {
+    if (viewerOpen) {
+      closeRef.current?.focus()
+    }
+  }, [viewerOpen])
 
   useEffect(() => {
     if (!viewerOpen) {
@@ -227,8 +268,9 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
   }
 
   const active = items[index] ?? items[0]
-  const activeAspect = measured[active.id] ?? aspect
   const hasChrome = total > 1
+  const photoName = (position: number) =>
+    title ? `${title} — ${t("counter", { index: position + 1, total })}` : t("showImage", { index: position + 1 })
 
   return (
     <>
@@ -241,7 +283,11 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
         // the row height, the rail cell stretches to it, and the list inside
         // that cell is absolutely positioned so its own 38 thumbnails never
         // push the row taller (see the rail's classes below).
-        className="flex flex-col-reverse items-start gap-3 small:grid small:grid-cols-[72px_minmax(0,1fr)] small:gap-2"
+        className={
+          hasChrome
+            ? "flex flex-col-reverse items-start gap-3 small:grid small:grid-cols-[72px_minmax(0,1fr)] small:gap-3"
+            : "flex flex-col items-start"
+        }
         data-testid="product-gallery"
         // Set only once the effects have run, so a test has a real signal for
         // "the buttons answer now" instead of a sleep. The markup is server
@@ -250,11 +296,21 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
         data-hydrated={mounted ? "true" : undefined}
       >
         {hasChrome && (
-          <div className="w-full small:relative small:h-full">
+          // A phone swipes and reads the dots; the rail is the desktop's.
+          <div className="hidden w-full small:relative small:block small:h-full">
             <ul
               ref={railRef}
               aria-label={t("thumbnails")}
-              className="flex w-full flex-row gap-2 overflow-x-auto no-scrollbar small:absolute small:inset-0 small:flex-col small:overflow-x-visible small:overflow-y-auto"
+              onScroll={updateRailEdges}
+              // The rail is as tall as the main frame, rounded DOWN to whole thumbnails
+              // (a 104px pitch: 96px tile + 8px gap), so it never ends in half a photo.
+              // When more photos wait above or below, that end fades out as the hint.
+              style={{
+                maskImage: `linear-gradient(to bottom, ${railEdges.top ? "transparent" : "#000"} 0, #000 40px, #000 calc(100% - 40px), ${railEdges.bottom ? "transparent" : "#000"} 100%)`,
+              }}
+              data-more-above={railEdges.top ? "true" : undefined}
+              data-more-below={railEdges.bottom ? "true" : undefined}
+              className="flex w-full flex-row gap-2 overflow-x-auto no-scrollbar small:absolute small:inset-x-0 small:top-0 small:h-full small:max-h-[calc(round(down,100%_+_8px,104px)_-_8px)] small:flex-col small:overflow-x-visible small:overflow-y-auto"
               data-testid="product-gallery-thumbnails"
             >
               {items.map((item, position) => (
@@ -264,8 +320,7 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
                     onClick={() => setIndex(position)}
                     aria-label={t("showImage", { index: position + 1 })}
                     aria-current={position === index ? "true" : undefined}
-                    style={{ aspectRatio: aspectCss }}
-                    className={`relative block w-[72px] overflow-hidden rounded-rounded bg-ui-bg-subtle transition-all ${
+                    className={`relative m-0.5 block h-[92px] w-[69px] overflow-hidden rounded-rounded bg-ui-bg-subtle transition-shadow ${FOCUS_RING} ${
                       position === index
                         ? "ring-2 ring-ui-border-interactive"
                         : "ring-1 ring-ui-border-base hover:ring-ui-border-strong"
@@ -286,13 +341,16 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
           </div>
         )}
 
+        <div className="flex w-full min-w-0 flex-col self-start">
         <div
-          style={{ aspectRatio: `${activeAspect.w} / ${activeAspect.h}` }}
-          // `self-start`: the hero keeps the height its aspect ratio asks for
+          style={{ aspectRatio: FRAME_ASPECT.gallery }}
+          // `self-start` on the wrapper: the frame keeps the height its ratio asks for
           // and so sets the grid row height. Stretching it instead would let
           // the rail decide, and the photo would grow with the number of
           // thumbnails.
-          className="group relative w-full min-w-0 self-start overflow-hidden rounded-large bg-ui-bg-subtle select-none touch-pan-y cursor-zoom-in transition-[aspect-ratio] duration-300 ease-out"
+          className="group relative w-full min-w-0 overflow-hidden rounded-[var(--radius,8px)] bg-ui-bg-subtle select-none touch-pan-y cursor-zoom-in"
+          data-product-media="gallery"
+          data-product-media-state="photo"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={(event) => finishPointer(event, true)}
@@ -301,40 +359,43 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
             if (dragMoved.current) {
               return
             }
-            setViewerOpen(true)
+            openViewer()
           }}
           onDragStart={(event) => event.preventDefault()}
           data-testid="product-gallery-hero"
         >
+          <ProductMediaBackdrop key={`backdrop-${active.id}`} src={active.url} />
           <Image
             key={active.id}
             src={active.url}
-            alt={t("showImage", { index: index + 1 })}
+            alt={photoName(index)}
             fill
             priority
             sizes={HERO_SIZES}
-            className="object-contain"
+            className="object-contain object-center"
             draggable={false}
-            onLoad={(event) => {
-              const img = event.currentTarget
-              onImageLoad(active.id, img.naturalWidth, img.naturalHeight)
-            }}
             data-testid="product-gallery-hero-image"
           />
+          <span aria-hidden className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]" />
+
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              openViewer()
+            }}
+            aria-label={t("openFullImage")}
+            className={`absolute end-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 transition-opacity hover:bg-ui-bg-base-hover focus-visible:opacity-100 group-hover:opacity-100 ${FOCUS_RING}`}
+            data-testid="product-gallery-zoom"
+          >
+            <MagnifyingGlass className="pointer-events-none" />
+          </button>
 
           {hasChrome && (
             <>
-              <div
-                aria-label={t("counter", { index: index + 1, total })}
-                className="pointer-events-none absolute top-3 left-1/2 -translate-x-1/2 z-10 rounded-circle bg-ui-bg-base/90 px-3 py-1 txt-compact-xsmall-plus text-ui-fg-base shadow-elevation-card-rest"
-                data-testid="product-gallery-counter"
-              >
-                <span>{index + 1}</span>
-                <span aria-hidden className="mx-1.5 text-ui-fg-muted">
-                  ·
-                </span>
-                <span aria-hidden>{total}</span>
-              </div>
+              <span className="sr-only" aria-live="polite" data-testid="product-gallery-counter">
+                {t("counter", { index: index + 1, total })}
+              </span>
 
               <button
                 type="button"
@@ -346,7 +407,7 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
                   previous()
                 }}
                 aria-label={t("previousImage")}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-ui-bg-base-hover transition-opacity"
+                className={`absolute left-3 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-ui-bg-base-hover transition-opacity ${FOCUS_RING}`}
                 data-testid="product-gallery-previous"
               >
                 <ChevronLeft className="pointer-events-none" />
@@ -361,19 +422,22 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
                   next()
                 }}
                 aria-label={t("nextImage")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-ui-bg-base-hover transition-opacity"
+                className={`absolute right-3 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-ui-bg-base-hover transition-opacity ${FOCUS_RING}`}
                 data-testid="product-gallery-next"
               >
                 <ChevronRight className="pointer-events-none" />
               </button>
 
-              <GalleryDots
-                total={total}
-                index={index}
-                label={(position) => t("goToImage", { index: position + 1 })}
-                onSelect={setIndex}
-              />
             </>
+          )}
+        </div>
+          {hasChrome && (
+            <GalleryDots
+              total={total}
+              index={index}
+              label={(position) => t("goToImage", { index: position + 1 })}
+              onSelect={setIndex}
+            />
           )}
         </div>
       </div>
@@ -390,19 +454,21 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
             // the sticky header stayed on top and swallowed the close button:
             // the viewer opened and could not be left by mouse.
             className="fixed inset-0 z-[100] flex items-center justify-center bg-ui-bg-overlay backdrop-blur-sm"
-            onClick={() => setViewerOpen(false)}
+            onClick={closeViewer}
+            ref={viewerRef}
             data-testid="product-gallery-viewer"
           >
             <button
               type="button"
               aria-label={t("close")}
+              ref={closeRef}
               onClick={(event) => {
                 event.stopPropagation()
-                setViewerOpen(false)
+                closeViewer()
               }}
               // Above the picture in paint order, or the full-bleed image
               // swallows the click and the viewer cannot be left by mouse.
-              className="absolute top-4 right-4 z-20 grid h-11 w-11 place-items-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest hover:bg-ui-bg-base-hover transition-colors"
+              className={`absolute top-4 right-4 z-20 grid h-11 w-11 place-items-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest hover:bg-ui-bg-base-hover transition-colors ${FOCUS_RING}`}
               data-testid="product-gallery-viewer-close"
             >
               <XMark />
@@ -417,7 +483,7 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
                   allows, so there is no width for the optimizer to target. */}
               <img
                 src={active.url}
-                alt={t("showImage", { index: index + 1 })}
+                alt={photoName(index)}
                 draggable={false}
                 className="max-h-[90vh] max-w-[90vw] rounded-large object-contain"
                 data-testid="product-gallery-viewer-image"
@@ -433,7 +499,7 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
                     event.stopPropagation()
                     previous()
                   }}
-                  className="absolute left-4 small:left-8 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest hover:bg-ui-bg-base-hover transition-colors"
+                  className={`absolute left-4 small:left-8 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest hover:bg-ui-bg-base-hover transition-colors ${FOCUS_RING}`}
                   data-testid="product-gallery-viewer-previous"
                 >
                   <ChevronLeft />
@@ -445,7 +511,7 @@ const Gallery = ({ items, aspectRatio }: GalleryProps) => {
                     event.stopPropagation()
                     next()
                   }}
-                  className="absolute right-4 small:right-8 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest hover:bg-ui-bg-base-hover transition-colors"
+                  className={`absolute right-4 small:right-8 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest hover:bg-ui-bg-base-hover transition-colors ${FOCUS_RING}`}
                   data-testid="product-gallery-viewer-next"
                 >
                   <ChevronRight />

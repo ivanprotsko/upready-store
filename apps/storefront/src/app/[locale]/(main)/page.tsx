@@ -22,6 +22,7 @@ import { listCategories } from "@lib/data/categories"
 import { categoriesWithImages, categoryImage } from "@lib/util/category-image"
 import { categoryTiles as profileCategoryTiles } from "@lib/profile"
 import type { ProfileCategoryTile } from "@lib/profile/types"
+import { HOME_SECTION_CLASS } from "@modules/home/components/listing-section"
 
 /**
  * The category tiles THIS shop may show. The list in the build profile belongs to the
@@ -170,11 +171,12 @@ export default async function Home() {
     categories:
       tiles === "on" ? <CategoryTiles heading={t("title")} tiles={tileList} /> : null,
     products: Listing ? (
-      <div className="py-12">
+      // No padding of its own: the section's rhythm is `HOME_SECTION_CLASS`, once.
+      <div>
         <ul className="flex flex-col gap-x-6">
           <Suspense
             fallback={
-              <li className="content-container py-12 small:py-24">
+              <li className={HOME_SECTION_CLASS}>
                 <SkeletonProductGrid numberOfProducts={4} />
               </li>
             }

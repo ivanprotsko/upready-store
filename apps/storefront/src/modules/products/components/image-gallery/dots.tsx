@@ -11,18 +11,15 @@ type GalleryDotsProps = {
 }
 
 /**
- * Pagination dots over the gallery's hero image, as on the chrxnasdmds product
- * page.
+ * Pagination dots under the gallery's main frame, on a phone (a desktop has the
+ * thumbnail rail). They are under the frame, not over it: a marketplace photo carries its
+ * own caption down to the edge, and nothing is painted on a product photo.
  *
  * Up to seven photos every dot keeps its own place. From eight on the row
  * would outgrow the hero, so it becomes a window of seven centred on the
  * active slide: each dot keys on its real photo index, which lets React keep
  * the node and animate the size as the window slides instead of redrawing the
  * whole row.
- *
- * The row itself takes no pointer events, or the gaps between dots would eat
- * the hero's own click (which opens the full-screen viewer); each dot takes
- * them back.
  */
 const GalleryDots = ({ total, index, label, onSelect }: GalleryDotsProps) => {
   const sizeFor = (distance: number) => {
@@ -47,7 +44,7 @@ const GalleryDots = ({ total, index, label, onSelect }: GalleryDotsProps) => {
 
   return (
     <div
-      className="pointer-events-none absolute bottom-3 left-0 right-0 flex items-center justify-center gap-1.5"
+      className="flex h-8 items-center justify-center gap-1.5 small:hidden"
       data-testid="product-gallery-dots"
     >
       {positions.map((position) => {
@@ -65,7 +62,7 @@ const GalleryDots = ({ total, index, label, onSelect }: GalleryDotsProps) => {
               event.stopPropagation()
               onSelect(position)
             }}
-            className={`pointer-events-auto rounded-circle transition-all duration-200 ${sizeFor(
+            className={`rounded-circle focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-fg-interactive transition-all duration-200 ${sizeFor(
               distance
             )} ${isActive ? "bg-ui-fg-base" : "bg-ui-fg-muted"}`}
           />

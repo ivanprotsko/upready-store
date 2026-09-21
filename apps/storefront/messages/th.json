@@ -345,13 +345,20 @@
     "sort": "เรียงลำดับ",
     "title": "ตัวกรอง",
     "to": "ถึง",
-    "yes": "ใช่"
+    "yes": "ใช่",
+    "reset": "ล้างทั้งหมด",
+    "showResults": "แสดงผลลัพธ์: {count}",
+    "empty": "ไม่พบสินค้าที่ตรงกับตัวกรอง ลองเปลี่ยนหรือล้างตัวกรอง"
   },
   "Footer": {
     "categoriesHeading": "หมวดหมู่",
     "collectionsHeading": "คอลเลกชัน",
     "copyright": "© {year} {siteName} สงวนลิขสิทธิ์",
-    "infoHeading": "ข้อมูล"
+    "infoHeading": "ข้อมูล",
+    "sellerHeading": "ผู้ขาย",
+    "contactsHeading": "ติดต่อ",
+    "taxId": "เลขประจำตัวผู้เสียภาษี: {value}",
+    "regNumber": "เลขทะเบียน: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "กลับไปเข้าสู่ระบบ",
@@ -756,7 +763,8 @@
     "addToCart": "เพิ่มลงตะกร้า",
     "outOfStock": "สินค้าหมด",
     "selectOptions": "เลือกตัวเลือก",
-    "selectVariant": "เลือกตัวเลือกสินค้า"
+    "selectVariant": "เลือกตัวเลือกสินค้า",
+    "inStock": "มีสินค้า"
   },
   "ProductAttributes": {
     "no": "ไม่ใช่",
@@ -961,5 +969,11 @@
     "transferEmailSent": "ส่งอีเมลคำขอโอนไปยัง {email} แล้ว",
     "transferRequested": "ส่งคำขอโอนคำสั่งซื้อ {orderId} แล้ว",
     "whereToFind": "เปิดอีเมลยืนยันของคำสั่งซื้อนั้น แล้ววางลิงก์จากในอีเมลลงที่นี่"
+  },
+  "ProductMedia": {
+    "photoSoon": "รูปภาพจะมาเร็ว ๆ นี้"
+  },
+  "ProductCard": {
+    "sale": "ลด {percent}%"
   }
 }

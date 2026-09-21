@@ -345,13 +345,20 @@
     "sort": "Sorteren",
     "title": "Filters",
     "to": "tot",
-    "yes": "Ja"
+    "yes": "Ja",
+    "reset": "Alles wissen",
+    "showResults": "Resultaten tonen: {count}",
+    "empty": "Geen producten voldoen aan deze filters. Pas ze aan of wis ze."
   },
   "Footer": {
     "categoriesHeading": "Categorieën",
     "collectionsHeading": "Collecties",
     "copyright": "© {year} {siteName}. Alle rechten voorbehouden.",
-    "infoHeading": "Informatie"
+    "infoHeading": "Informatie",
+    "sellerHeading": "Verkoper",
+    "contactsHeading": "Contact",
+    "taxId": "Belastingnummer (INN): {value}",
+    "regNumber": "Registratienummer (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Terug naar inloggen",
@@ -756,7 +763,8 @@
     "addToCart": "In winkelwagen",
     "outOfStock": "Niet op voorraad",
     "selectOptions": "Selecteer opties",
-    "selectVariant": "Selecteer variant"
+    "selectVariant": "Selecteer variant",
+    "inStock": "Op voorraad"
   },
   "ProductAttributes": {
     "no": "Nee",
@@ -961,5 +969,11 @@
     "transferEmailSent": "E-mail met overdrachtsverzoek verzonden naar {email}",
     "transferRequested": "Overdracht voor bestelling {orderId} aangevraagd",
     "whereToFind": "Open de bevestigingsmail van die bestelling en plak de link eruit hier."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto volgt binnenkort"
+  },
+  "ProductCard": {
+    "sale": "{percent}% korting"
   }
 }

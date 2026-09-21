@@ -7,6 +7,7 @@ import type { SortOptions } from "@modules/store/components/refinement-list/sort
 import RefinementList from "@modules/store/components/refinement-list"
 import MobileRefinement from "@modules/store/components/mobile-refinement"
 import CategorySidebar from "@modules/store/components/category-sidebar"
+import { ActiveFilters, FilterSidebar } from "@modules/store/components/filter-panel"
 import PaginatedProducts, {
   PRODUCT_LIMIT,
 } from "@modules/store/templates/paginated-products"
@@ -70,11 +71,8 @@ export default async function CollectionTemplate({
           />
         </div>
         <div className="mt-4 hidden lg:mt-0 lg:flex lg:flex-row lg:items-center lg:justify-between">
-          <RefinementList
-            sortBy={sort}
-            display="filters"
-            optionFilters={optionFilters}
-          />
+          {/* The filters live in the left column (`FilterSidebar`); this row keeps the sorting. */}
+          <span />
           <RefinementList
             sortBy={sort}
             display="sort"
@@ -84,8 +82,12 @@ export default async function CollectionTemplate({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
-        <CategorySidebar categories={categories} />
+        <div className="hidden flex-col gap-y-8 lg:flex">
+          <CategorySidebar categories={categories} />
+          <FilterSidebar optionFilters={optionFilters} />
+        </div>
         <div className="w-full">
+          <ActiveFilters optionFilters={optionFilters} />
           <Suspense
             fallback={
               <SkeletonProductGrid

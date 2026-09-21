@@ -345,13 +345,20 @@
     "sort": "Ordina",
     "title": "Filtri",
     "to": "a",
-    "yes": "Sì"
+    "yes": "Sì",
+    "reset": "Reimposta tutto",
+    "showResults": "Mostra risultati: {count}",
+    "empty": "Nessun prodotto corrisponde a questi filtri. Modificali o reimpostali."
   },
   "Footer": {
     "categoriesHeading": "Categorie",
     "collectionsHeading": "Collezioni",
     "copyright": "© {year} {siteName}. Tutti i diritti riservati.",
-    "infoHeading": "Informazioni"
+    "infoHeading": "Informazioni",
+    "sellerHeading": "Venditore",
+    "contactsHeading": "Contatti",
+    "taxId": "Codice fiscale (INN): {value}",
+    "regNumber": "N. di registrazione (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Torna all'accesso",
@@ -756,7 +763,8 @@
     "addToCart": "Aggiungi al carrello",
     "outOfStock": "Esaurito",
     "selectOptions": "Seleziona opzioni",
-    "selectVariant": "Seleziona variante"
+    "selectVariant": "Seleziona variante",
+    "inStock": "Disponibile"
   },
   "ProductAttributes": {
     "no": "No",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Email di richiesta trasferimento inviata a {email}",
     "transferRequested": "Trasferimento richiesto per l'ordine {orderId}",
     "whereToFind": "Apri l'email di conferma di quell'ordine e incolla qui il link che contiene."
+  },
+  "ProductMedia": {
+    "photoSoon": "Foto in arrivo"
+  },
+  "ProductCard": {
+    "sale": "Sconto del {percent}%"
   }
 }

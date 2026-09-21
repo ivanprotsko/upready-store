@@ -345,13 +345,20 @@
     "sort": "מיון",
     "title": "מסננים",
     "to": "עד",
-    "yes": "כן"
+    "yes": "כן",
+    "reset": "איפוס הכול",
+    "showResults": "הצגת תוצאות: {count}",
+    "empty": "אין מוצרים שתואמים למסננים. שנו אותם או אפסו."
   },
   "Footer": {
     "categoriesHeading": "קטגוריות",
     "collectionsHeading": "קולקציות",
     "copyright": "© {year} {siteName}. כל הזכויות שמורות.",
-    "infoHeading": "מידע"
+    "infoHeading": "מידע",
+    "sellerHeading": "המוכר",
+    "contactsHeading": "יצירת קשר",
+    "taxId": "מספר מס: {value}",
+    "regNumber": "מספר רישום: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "חזרה להתחברות",
@@ -756,7 +763,8 @@
     "addToCart": "הוספה לעגלה",
     "outOfStock": "אזל מהמלאי",
     "selectOptions": "בחירת אפשרויות",
-    "selectVariant": "בחר וריאציה"
+    "selectVariant": "בחר וריאציה",
+    "inStock": "במלאי"
   },
   "ProductAttributes": {
     "no": "לא",
@@ -961,5 +969,11 @@
     "transferEmailSent": "אימייל עם בקשת ההעברה נשלח אל {email}",
     "transferRequested": "בקשת ההעברה עבור הזמנה {orderId} נשלחה",
     "whereToFind": "פתח את מייל האישור של אותה הזמנה והדבק כאן את הקישור שבו."
+  },
+  "ProductMedia": {
+    "photoSoon": "התמונה תעלה בקרוב"
+  },
+  "ProductCard": {
+    "sale": "{percent}% הנחה"
   }
 }

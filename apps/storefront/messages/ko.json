@@ -345,13 +345,20 @@
     "sort": "정렬",
     "title": "필터",
     "to": "최대",
-    "yes": "예"
+    "yes": "예",
+    "reset": "모두 초기화",
+    "showResults": "결과 보기: {count}개",
+    "empty": "조건에 맞는 상품이 없습니다. 필터를 변경하거나 초기화하세요."
   },
   "Footer": {
     "categoriesHeading": "카테고리",
     "collectionsHeading": "컬렉션",
     "copyright": "© {year} {siteName}. 모든 권리 보유.",
-    "infoHeading": "정보"
+    "infoHeading": "정보",
+    "sellerHeading": "판매자",
+    "contactsHeading": "연락처",
+    "taxId": "납세자 번호: {value}",
+    "regNumber": "등록 번호: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "로그인으로 돌아가기",
@@ -756,7 +763,8 @@
     "addToCart": "장바구니에 담기",
     "outOfStock": "품절",
     "selectOptions": "옵션 선택",
-    "selectVariant": "옵션 선택"
+    "selectVariant": "옵션 선택",
+    "inStock": "재고 있음"
   },
   "ProductAttributes": {
     "no": "아니오",
@@ -961,5 +969,11 @@
     "transferEmailSent": "이전 요청 이메일이 {email}로 전송되었습니다",
     "transferRequested": "주문 {orderId}의 이전이 요청되었습니다",
     "whereToFind": "해당 주문의 확인 메일을 열어 그 안의 링크를 여기에 붙여넣으세요."
+  },
+  "ProductMedia": {
+    "photoSoon": "사진 준비 중"
+  },
+  "ProductCard": {
+    "sale": "{percent}% 할인"
   }
 }

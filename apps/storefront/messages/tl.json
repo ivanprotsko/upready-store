@@ -345,13 +345,20 @@
     "sort": "Ayusin",
     "title": "Mga Filter",
     "to": "hanggang",
-    "yes": "Oo"
+    "yes": "Oo",
+    "reset": "I-reset ang lahat",
+    "showResults": "Ipakita ang mga resulta: {count}",
+    "empty": "Walang produktong tumutugma sa mga filter. Baguhin o i-reset ang mga ito."
   },
   "Footer": {
     "categoriesHeading": "Mga Kategorya",
     "collectionsHeading": "Mga Koleksyon",
     "copyright": "© {year} {siteName}. Lahat ng karapatan ay nakalaan.",
-    "infoHeading": "Impormasyon"
+    "infoHeading": "Impormasyon",
+    "sellerHeading": "Nagbebenta",
+    "contactsHeading": "Makipag-ugnayan",
+    "taxId": "Numero ng buwis (INN): {value}",
+    "regNumber": "Numero ng rehistro (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Bumalik sa pag-sign in",
@@ -756,7 +763,8 @@
     "addToCart": "Idagdag sa cart",
     "outOfStock": "Wala nang stock",
     "selectOptions": "Pumili ng Opsyon",
-    "selectVariant": "Pumili ng variant"
+    "selectVariant": "Pumili ng variant",
+    "inStock": "May stock"
   },
   "ProductAttributes": {
     "no": "Hindi",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Naipadala ang email ng kahilingan sa {email}",
     "transferRequested": "Hiniling na ang paglipat para sa order {orderId}",
     "whereToFind": "Buksan ang confirmation email ng order na iyon at i-paste dito ang link mula roon."
+  },
+  "ProductMedia": {
+    "photoSoon": "Paparating ang larawan"
+  },
+  "ProductCard": {
+    "sale": "{percent}% diskwento"
   }
 }

@@ -345,13 +345,20 @@
     "sort": "Эрэмбэлэх",
     "title": "Шүүлтүүр",
     "to": "хүртэл",
-    "yes": "Тийм"
+    "yes": "Тийм",
+    "reset": "Бүгдийг цэвэрлэх",
+    "showResults": "Үр дүнг харах: {count}",
+    "empty": "Эдгээр шүүлтүүрт тохирох бараа алга. Шүүлтүүрээ өөрчлөх эсвэл цэвэрлэнэ үү."
   },
   "Footer": {
     "categoriesHeading": "Ангилал",
     "collectionsHeading": "Цуглуулга",
     "copyright": "© {year} {siteName}. Бүх эрх хуулиар хамгаалагдсан.",
-    "infoHeading": "Мэдээлэл"
+    "infoHeading": "Мэдээлэл",
+    "sellerHeading": "Худалдагч",
+    "contactsHeading": "Холбоо барих",
+    "taxId": "Татвар төлөгчийн дугаар: {value}",
+    "regNumber": "Бүртгэлийн дугаар: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Нэвтрэх рүү буцах",
@@ -756,7 +763,8 @@
     "addToCart": "Сагслах",
     "outOfStock": "Дууссан",
     "selectOptions": "Сонголт хийх",
-    "selectVariant": "Хувилбар сонгох"
+    "selectVariant": "Хувилбар сонгох",
+    "inStock": "Бэлэн байгаа"
   },
   "ProductAttributes": {
     "no": "Үгүй",
@@ -961,5 +969,11 @@
     "transferEmailSent": "Шилжүүлгийн хүсэлтийн и-мэйлийг {email} хаяг руу илгээлээ",
     "transferRequested": "Захиалга {orderId}-ийн шилжүүлгийг хүслээ",
     "whereToFind": "Тухайн захиалгын баталгаажуулах захидлыг нээж, доторх холбоосыг энд буулгана уу."
+  },
+  "ProductMedia": {
+    "photoSoon": "Зураг удахгүй нэмэгдэнэ"
+  },
+  "ProductCard": {
+    "sale": "{percent}% хөнгөлөлт"
   }
 }

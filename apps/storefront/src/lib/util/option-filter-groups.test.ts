@@ -6,6 +6,7 @@ import {
   MEDUSA_DEFAULT_OPTION_VALUE,
   groupOptionFilters,
   isPlaceholderOption,
+  withoutOptionsNamedLikeFacets,
 } from "./option-filter-groups"
 
 type Product = HttpTypes.StoreProduct
@@ -137,5 +138,21 @@ describe("groupOptionFilters", () => {
     expect(groups).toHaveLength(1)
     expect(groups[0].title).toBe("Количество")
     expect(groups[0].values.map((v) => v.label)).toEqual(["1 шт", "2 шт", "3 шт"])
+  })
+})
+
+describe("withoutOptionsNamedLikeFacets", () => {
+  const group = (title: string) => ({ id: title, title, values: [{ id: "v", label: "50 мл" }] })
+
+  it("drops the option whose name a characteristic already carries, whatever the case", () => {
+    const left = withoutOptionsNamedLikeFacets(
+      [group("Объём"), group("Фасовка")],
+      [{ name: " объём " }, { name: "Страна производства" }]
+    )
+    expect(left.map((item) => item.title)).toEqual(["Фасовка"])
+  })
+
+  it("keeps every option when the shop has no characteristics", () => {
+    expect(withoutOptionsNamedLikeFacets([group("Объём")], [])).toHaveLength(1)
   })
 })
