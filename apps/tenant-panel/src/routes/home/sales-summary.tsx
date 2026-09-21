@@ -86,12 +86,13 @@ export const SalesSummary = () => {
       <div className="flex flex-wrap items-center justify-between gap-y-2">
         <Heading level="h2">{t("salesSummary.title")}</Heading>
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 max-md:gap-2">
             {PERIODS.map((key) => (
               <Button
                 key={key}
                 size="small"
-                className="whitespace-nowrap"
+                // A finger needs 44 px (Gemini critique 2, 1.2).
+                className="whitespace-nowrap max-md:min-h-11 max-md:px-3"
                 variant={period === key ? "primary" : "secondary"}
                 disabled={query !== null && isPending}
                 onClick={() => setPeriod(key)}
