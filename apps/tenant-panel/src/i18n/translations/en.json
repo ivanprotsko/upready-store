@@ -1028,7 +1028,8 @@
     "variants": "Variants",
     "weight": "Weight",
     "width": "Width",
-    "years": "Years"
+    "years": "Years",
+    "skuLabelled": "Article {{sku}}"
   },
   "filters": {
     "addFilter": "Add filter",
@@ -1989,7 +1990,8 @@
       "canceled": {
         "title": "The order is canceled",
         "hint": "Nothing to do with it."
-      }
+      },
+      "unpaid": "The payment is not confirmed yet. Check it in the «Payment» block below before you hand the parcel over."
     }
   },
   "permissions": {
@@ -3285,7 +3287,8 @@
     "productsPublished": "Published",
     "productsDraft": "Drafts",
     "loading": "Loading…",
-    "developerDetails": "For developers"
+    "developerDetails": "For developers",
+    "shopCode": "Shop code"
   },
   "salesSummary": {
     "title": "Sales",
@@ -3309,7 +3312,11 @@
     "noOrdersYet": "No orders yet",
     "canceledNote": "Cancelled orders in this period: {{count}} for {{amount}}. They are not counted as revenue.",
     "otherCurrenciesNote": "Orders in other currencies: {{list}}. They are not part of the figures above; switch the currency to see them.",
-    "otherCurrencyItem": "{{amount}} — orders: {{count}}"
+    "otherCurrencyItem": "{{amount}} — orders: {{count}}",
+    "singleDay_one": "{{date}}: {{count}} order for {{revenue}}.",
+    "singleDay_other": "{{date}}: {{count}} orders for {{revenue}}.",
+    "noDays": "No sales in this period.",
+    "chartMax": "Best day: {{revenue}}"
   },
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"

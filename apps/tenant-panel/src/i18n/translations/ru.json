@@ -1060,7 +1060,8 @@
     "reference": "Основание",
     "reference_id": "ID основания",
     "resource": "Ресурс",
-    "serviceZone": "Зона обслуживания"
+    "serviceZone": "Зона обслуживания",
+    "skuLabelled": "Артикул {{sku}}"
   },
   "filters": {
     "addFilter": "Добавить фильтр",
@@ -2022,7 +2023,8 @@
       "canceled": {
         "title": "Заказ отменён",
         "hint": "Делать с ним ничего не нужно."
-      }
+      },
+      "unpaid": "Оплата ещё не подтверждена. Проверьте её в блоке «Оплата» ниже, прежде чем отдавать посылку."
     }
   },
   "priceLists": {
@@ -3068,7 +3070,8 @@
     "productsPublished": "Опубликовано",
     "productsDraft": "Черновики",
     "loading": "Загрузка…",
-    "developerDetails": "Для разработчика"
+    "developerDetails": "Для разработчика",
+    "shopCode": "Код магазина"
   },
   "salesSummary": {
     "title": "Продажи",
@@ -3092,7 +3095,13 @@
     "noOrdersYet": "Заказов пока нет",
     "canceledNote": "Отменённых заказов за период: {{count}} на {{amount}}. В выручку они не входят.",
     "otherCurrenciesNote": "Ещё заказы в других валютах: {{list}}. В цифры выше они не входят — переключите валюту, чтобы посмотреть.",
-    "otherCurrencyItem": "{{amount}} — заказов: {{count}}"
+    "otherCurrencyItem": "{{amount}} — заказов: {{count}}",
+    "singleDay_one": "{{date}}: {{count}} заказ на {{revenue}}.",
+    "singleDay_few": "{{date}}: {{count}} заказа на {{revenue}}.",
+    "singleDay_many": "{{date}}: {{count}} заказов на {{revenue}}.",
+    "singleDay_other": "{{date}}: {{count}} заказа на {{revenue}}.",
+    "noDays": "За этот период продаж нет.",
+    "chartMax": "Самый большой день: {{revenue}}"
   },
   "sales_channels": {
     "availableIn": "Доступно в <0>{{x}}</0> из <1>{{y}}</1> каналов продаж"

@@ -1,6 +1,6 @@
-import { ChartBar, TriangleRightMini } from "@medusajs/icons"
+import { BuildingStorefront, ChartBar, TriangleRightMini } from "@medusajs/icons"
 import { Text, clx } from "@medusajs/ui"
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
 
@@ -79,11 +79,13 @@ const ItemLink = ({
   active,
   counter,
   nested,
+  icon,
 }: {
   item: OwnerNavItem
   active: boolean
   counter: number | null
   nested: boolean
+  icon?: ReactNode
 }) => {
   const { t } = useTranslation()
   return (
@@ -92,7 +94,7 @@ const ItemLink = ({
       aria-current={active ? "page" : undefined}
       className={clx(ROW, active ? ROW_ACTIVE : ROW_IDLE, nested && "ps-8")}
     >
-      {!nested && <ChartBar className="text-ui-fg-subtle shrink-0" />}
+      {!nested && (icon ?? <ChartBar className="text-ui-fg-subtle shrink-0" />)}
       <Text size="small" weight="plus" leading="compact" className="min-w-0 break-words">
         {t(item.labelKey)}
       </Text>
@@ -206,7 +208,18 @@ export const OwnerNav = () => {
             counter={null}
           />
         </li>
-        {OWNER_NAV.map((group) => (
+        {OWNER_NAV.map((group) =>
+          group.flat ? (
+            <li key={group.id}>
+              <ItemLink
+                item={group.items[0]}
+                nested={false}
+                icon={<BuildingStorefront className="text-ui-fg-subtle shrink-0" />}
+                active={activeTo === group.items[0].to}
+                counter={null}
+              />
+            </li>
+          ) : (
           <Group
             key={group.id}
             group={group}
@@ -215,7 +228,8 @@ export const OwnerNav = () => {
             activeTo={activeTo}
             counters={counters}
           />
-        ))}
+          )
+        )}
       </ul>
     </nav>
   )

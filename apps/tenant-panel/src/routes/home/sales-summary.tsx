@@ -136,7 +136,7 @@ export const SalesSummary = () => {
             breakdown={data.currency_breakdown}
             selected={data.currency_code}
           />
-          <SalesSummaryChart daily={data.daily} />
+          <SalesSummaryChart daily={data.daily} currencyCode={data.currency_code ?? "usd"} />
           <SalesSummaryTopProducts
             products={data.top_products}
             currencyCode={data.currency_code ?? "usd"}

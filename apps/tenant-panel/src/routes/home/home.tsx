@@ -1,12 +1,8 @@
-import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { ArrowUpRightMini } from "@medusajs/icons"
-import { Button, Container, Heading, Text } from "@medusajs/ui"
+import { Container, Heading } from "@medusajs/ui"
 
 import { SingleColumnPage } from "../../components/layout/pages"
 import { useMe } from "../../hooks/api/users"
-import { useDomains } from "../../hooks/api/domains"
-import { useTenantLocaleSettings } from "../../hooks/api/locale-settings"
 import { OverviewStats } from "./overview-stats"
 import { SalesSummary } from "./sales-summary"
 import { DeveloperDetails } from "./developer-details"
@@ -27,24 +23,10 @@ import { OwnerLaunch } from "./owner-launch"
 export const Home = () => {
   const { t } = useTranslation()
   const { user, isPending, isError, error } = useMe()
-  const {
-    primary_host: primaryHost,
-    isPending: isDomainsPending,
-    isError: isDomainsError,
-    error: domainsError,
-  } = useDomains()
-  const { locale_settings: localeSettings } = useTenantLocaleSettings()
-
   if (isError) {
     throw error
   }
-  if (isDomainsError) {
-    throw domainsError
-  }
-
   const tenant = user?.tenant
-  const defaultLocale = localeSettings?.default_locale ?? "ru"
-  const shopUrl = primaryHost ? `https://${primaryHost}/${defaultLocale}` : null
 
   return (
     <SingleColumnPage
@@ -59,128 +41,11 @@ export const Home = () => {
           <Heading level="h1">
             {isPending ? t("general.loading") : tenant?.name}
           </Heading>
-          {shopUrl ? (
-            <Button asChild variant="secondary" size="small">
-              <a
-                href={shopUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-testid="open-storefront-link"
-              >
-                {t("overview.openStorefront")}
-                <ArrowUpRightMini />
-              </a>
-            </Button>
-          ) : isDomainsPending ? (
-            <Text size="small" className="text-ui-fg-subtle">
-              {t("overview.loading")}
-            </Text>
-          ) : null}
         </div>
 
         <OverviewStats />
 
         <SalesSummary />
-
-        <div className="flex flex-wrap items-center gap-x-4 border-t pt-6">
-          <Link
-            to="/products"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("products.domain")}
-          </Link>
-          <Link
-            to="/orders"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("orders.domain")}
-          </Link>
-          {/* The shop's address (t-2026-09-12-tenant-address-canonical). Its
-              own key now: the screen went from "Domains" to the address a shop
-              lives on, and it is read by shop owners, not by staff. */}
-          <Link
-            to="/settings/domains"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("tenantAddress.title")}
-          </Link>
-          {/* t06-locale-currency: the shop's own default language and its
-              enabled subset of the storefront's 36 locales. */}
-          <Link
-            to="/settings/locale"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("localeSettings.title", { defaultValue: "Язык и валюта" })}
-          </Link>
-          <Link
-            to="/settings/payments"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("paymentSettings.title")}
-          </Link>
-          {/* i02-apiship-cdek-shipping: реквизиты СДЭК и способы доставки,
-              которые магазин показывает на кассе. */}
-          <Link
-            to="/settings/delivery"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("deliverySettings.title")}
-          </Link>
-          <Link
-            to="/settings/notifications"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("notificationSettings.title")}
-          </Link>
-          {/* t12-legal-requisites: значения, подставляемые вместо {{ТОКЕНОВ}}
-              в оферте, политике конфиденциальности и контактах магазина. */}
-          <Link
-            to="/settings/requisites"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            Реквизиты продавца
-          </Link>
-          {/* b10-panel-gaps: старые адреса магазина и коды подтверждения в
-              поисковиках — две половины одного переезда со старого сайта. */}
-          <Link
-            to="/settings/redirects"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("redirects.title")}
-          </Link>
-          <Link
-            to="/settings/seo"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("seoVerification.title")}
-          </Link>
-          {/* t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids. */}
-          <Link
-            to="/settings/analytics"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("analyticsSettings.title")}
-          </Link>
-          {/* p01-settings-integrations-restructure: «Подключение» — реквизиты
-              всех сервисов магазина одним разделом. Стоит здесь, рядом с
-              «Приёмом оплат» и «Доставкой», а не внутри маркетплейсов: ключи
-              Robokassa и СДЭК к площадкам отношения не имеют (приказ Ивана
-              2026-09-16 20:22 WITA). Прежняя ссылка вела на хаб
-              `/settings/marketplaces`, который теперь редиректит сюда. */}
-          <Link
-            to="/settings/integrations"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("integrations.title")}
-          </Link>
-          {/* t16-owner-branding: logo, favicon, og image, primary colour, footer credit. */}
-          <Link
-            to="/settings/branding"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-          >
-            {t("brandingSettings.title", { defaultValue: "Бренд" })}
-          </Link>
-        </div>
 
         <DeveloperDetails tenant={tenant} />
       </Container>

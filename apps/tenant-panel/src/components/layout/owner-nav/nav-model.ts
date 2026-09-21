@@ -20,6 +20,8 @@ export type OwnerNavItem = {
 export type OwnerNavGroup = {
   id: string
   labelKey: string
+  /** A group of one screen with the group's own name is drawn as one top-level entry. */
+  flat?: boolean
   items: OwnerNavItem[]
 }
 
@@ -67,6 +69,7 @@ export const OWNER_NAV: OwnerNavGroup[] = [
   {
     id: "marketplaces",
     labelKey: "app.nav.owner.groups.marketplaces",
+    flat: true,
     items: [
       {
         labelKey: "app.nav.owner.marketplaces",
