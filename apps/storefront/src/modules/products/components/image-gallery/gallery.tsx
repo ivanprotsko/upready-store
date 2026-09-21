@@ -76,6 +76,19 @@ const Gallery = ({ items, title }: GalleryProps) => {
   const dragMoved = useRef(false)
   const dragCaptured = useRef(false)
   const railRef = useRef<HTMLUListElement | null>(null)
+  const [railEdges, setRailEdges] = useState({ top: false, bottom: false })
+  const updateRailEdges = useCallback(() => {
+    const rail = railRef.current
+    if (!rail) return
+    const top = rail.scrollTop > 1
+    const bottom = rail.scrollTop + rail.clientHeight < rail.scrollHeight - 1
+    setRailEdges((edges) => (edges.top === top && edges.bottom === bottom ? edges : { top, bottom }))
+  }, [])
+  useEffect(() => {
+    updateRailEdges()
+    window.addEventListener("resize", updateRailEdges)
+    return () => window.removeEventListener("resize", updateRailEdges)
+  }, [updateRailEdges, items.length])
   const rootRef = useRef<HTMLDivElement | null>(null)
   const closeRef = useRef<HTMLButtonElement | null>(null)
   const viewerRef = useRef<HTMLDivElement | null>(null)
@@ -288,7 +301,16 @@ const Gallery = ({ items, title }: GalleryProps) => {
             <ul
               ref={railRef}
               aria-label={t("thumbnails")}
-              className="flex w-full flex-row gap-2 overflow-x-auto no-scrollbar small:absolute small:inset-0 small:flex-col small:overflow-x-visible small:overflow-y-auto"
+              onScroll={updateRailEdges}
+              // The rail is as tall as the main frame, rounded DOWN to whole thumbnails
+              // (a 104px pitch: 96px tile + 8px gap), so it never ends in half a photo.
+              // When more photos wait above or below, that end fades out as the hint.
+              style={{
+                maskImage: `linear-gradient(to bottom, ${railEdges.top ? "transparent" : "#000"} 0, #000 40px, #000 calc(100% - 40px), ${railEdges.bottom ? "transparent" : "#000"} 100%)`,
+              }}
+              data-more-above={railEdges.top ? "true" : undefined}
+              data-more-below={railEdges.bottom ? "true" : undefined}
+              className="flex w-full flex-row gap-2 overflow-x-auto no-scrollbar small:absolute small:inset-x-0 small:top-0 small:h-full small:max-h-[calc(round(down,100%_+_8px,104px)_-_8px)] small:flex-col small:overflow-x-visible small:overflow-y-auto"
               data-testid="product-gallery-thumbnails"
             >
               {items.map((item, position) => (
@@ -298,8 +320,7 @@ const Gallery = ({ items, title }: GalleryProps) => {
                     onClick={() => setIndex(position)}
                     aria-label={t("showImage", { index: position + 1 })}
                     aria-current={position === index ? "true" : undefined}
-                    style={{ aspectRatio: FRAME_ASPECT.gallery }}
-                    className={`relative m-0.5 block w-[68px] overflow-hidden rounded-rounded bg-ui-bg-subtle transition-shadow ${FOCUS_RING} ${
+                    className={`relative m-0.5 block h-[92px] w-[69px] overflow-hidden rounded-rounded bg-ui-bg-subtle transition-shadow ${FOCUS_RING} ${
                       position === index
                         ? "ring-2 ring-ui-border-interactive"
                         : "ring-1 ring-ui-border-base hover:ring-ui-border-strong"
