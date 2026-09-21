@@ -1,5 +1,9 @@
 import { useTranslation } from "react-i18next"
 
+import {
+  SupportDetails,
+  marketplaceErrorKey,
+} from "../../../../components/common/support-details"
 import type { MarketplaceSyncEntry } from "../../../../hooks/api/marketplace-sync"
 import { MpSyncStateCell } from "./mp-sync-state-cell"
 
@@ -114,10 +118,11 @@ export const MpSyncOpsTable = ({ entry, now }: { entry: MarketplaceSyncEntry; no
               <td className="py-2">
                 {row.last_failure_error ? (
                   <div className="text-ui-fg-error max-w-[420px] whitespace-pre-wrap break-words">
-                    {row.last_failure_error}
+                    {t(marketplaceErrorKey(row.last_failure_error))}
                     <div className="text-ui-fg-subtle txt-compact-xsmall">
                       {formatDateTime(row.last_failure_at, locale)}
                     </div>
+                    <SupportDetails text={row.last_failure_error} />
                   </div>
                 ) : (
                   <span className="text-ui-fg-muted">{t("marketplaceSync.noFailures")}</span>

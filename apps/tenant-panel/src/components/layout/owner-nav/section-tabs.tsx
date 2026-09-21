@@ -1,4 +1,5 @@
 import { clx } from "@medusajs/ui"
+import { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
 
@@ -13,6 +14,16 @@ export const SectionTabs = () => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
   const section = findTabs(pathname)
+  const row = useRef<HTMLElement>(null)
+  const current = section?.current ?? null
+
+  // On a phone the row is wider than the screen: bring the open tab into view,
+  // so she sees where she is without scrolling the row herself.
+  useEffect(() => {
+    row.current
+      ?.querySelector('[aria-current="page"]')
+      ?.scrollIntoView({ block: "nearest", inline: "center" })
+  }, [current])
 
   if (!section) {
     return null
@@ -20,6 +31,7 @@ export const SectionTabs = () => {
 
   return (
     <nav
+      ref={row}
       aria-label={t("app.nav.owner.tabs.label")}
       className="border-ui-border-base -mx-3 -mt-3 mb-1 overflow-x-auto border-b px-3"
     >

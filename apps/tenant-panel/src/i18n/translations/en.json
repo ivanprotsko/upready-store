@@ -4137,7 +4137,7 @@
     "loading": "loading…"
   },
   "marketplaceSync": {
-    "title": "Synchronisation",
+    "title": "Marketplace exchange",
     "subtitle": "when each kind of data last came in, when the next run is due and what went wrong",
     "backToCards": "← back to the marketplace cards",
     "scheduleHint": "The schedule runs itself: the platform checks every 5 minutes what needs refreshing. One kind of one marketplace imports at a time; a run stuck for more than {{minutes}} min is released and stays visible as a failure. A key is flagged {{days}} days before it expires.",
@@ -4146,8 +4146,10 @@
       "noKey": "{{label}}: no key saved, nothing is being imported.",
       "keyExpired": "{{label}}: the key has expired. Issue a new one in the marketplace account — the import has stopped.",
       "keyExpiring": "{{label}}: the key expires in {{days}} days. Issue a new one in the marketplace account before the import stops.",
-      "failed": "{{where}}: the last run failed — {{error}}",
-      "neverRan": "{{where}}: has never run."
+      "failed": "{{where}}: {{error}}.",
+      "neverRan": "{{where}}: has never run.",
+      "failedGroup": "{{label}}: {{reason}}.",
+      "failedKinds": "Not updating: {{kinds}}."
     },
     "state": "State",
     "lastSuccess": "Last successful run",
@@ -4386,7 +4388,7 @@
     "connection": {
       "missing": "{{marketplace}}: no connection — no key is stored, so this marketplace has no orders in the feed at all.",
       "never_run": "{{marketplace}}: connected, but the order import has never run.",
-      "failed": "{{marketplace}}: the last order import failed — {{error}}. An empty row for this marketplace means a failed import, not an absence of orders.",
+      "failed": "{{marketplace}}: the orders did not load, {{error}}. An empty marketplace row in the table means the orders did not arrive, not that there are none.",
       "rate_limited": "{{marketplace}}: the marketplace refused to serve orders right now (rate limit). That is neither a failure nor an absence of orders — some orders of the period may not be imported yet. Run the import again later.",
       "noErrorText": "the marketplace sent no error text",
       "fixture": "{{marketplace}}: these rows come from recorded answers (fixtures), not from the marketplace."
@@ -4990,5 +4992,18 @@
       "probeFailed": "token rejected",
       "deliveryHint": "The delivery methods a buyer sees live on:"
     }
+  },
+  "supportDetails": {
+    "title": "Details for support",
+    "copy": "Copy",
+    "copied": "Copied. Paste it into your message to support.",
+    "copyFailed": "Could not copy. Select the text and copy it by hand."
+  },
+  "marketplaceErrors": {
+    "key": "the marketplace rejected the key. Issue a new key in the marketplace seller account and paste it on the «Connection» tab",
+    "rights": "the key lacks rights. Issue a key with all read rights in the marketplace seller account and paste it on the «Connection» tab",
+    "wait": "the marketplace asks to wait. Nothing to do, the exchange continues by itself",
+    "down": "the marketplace does not answer right now. Nothing to do, we will try again",
+    "unknown": "the data did not arrive. If it happens again, open the details below and send them to support"
   }
 }
