@@ -345,7 +345,10 @@
     "sort": "Ayusin",
     "title": "Mga Filter",
     "to": "hanggang",
-    "yes": "Oo"
+    "yes": "Oo",
+    "reset": "I-reset ang lahat",
+    "showResults": "Ipakita ang mga resulta: {count}",
+    "empty": "Walang produktong tumutugma sa mga filter. Baguhin o i-reset ang mga ito."
   },
   "Footer": {
     "categoriesHeading": "Mga Kategorya",

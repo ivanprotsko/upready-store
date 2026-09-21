@@ -345,7 +345,10 @@
     "sort": "Isih",
     "title": "Penapis",
     "to": "hingga",
-    "yes": "Ya"
+    "yes": "Ya",
+    "reset": "Tetapkan semula semua",
+    "showResults": "Tunjukkan hasil: {count}",
+    "empty": "Tiada produk sepadan dengan penapis ini. Ubah atau tetapkan semula penapis."
   },
   "Footer": {
     "categoriesHeading": "Kategori",

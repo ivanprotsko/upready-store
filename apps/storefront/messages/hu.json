@@ -345,7 +345,10 @@
     "sort": "Rendezés",
     "title": "Szűrők",
     "to": "-ig",
-    "yes": "Igen"
+    "yes": "Igen",
+    "reset": "Összes törlése",
+    "showResults": "Találatok megjelenítése: {count}",
+    "empty": "Nincs a szűrőknek megfelelő termék. Módosítsa vagy törölje a szűrőket."
   },
   "Footer": {
     "categoriesHeading": "Kategóriák",

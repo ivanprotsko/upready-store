@@ -345,7 +345,10 @@
     "sort": "Tri",
     "title": "Filtres",
     "to": "à",
-    "yes": "Oui"
+    "yes": "Oui",
+    "reset": "Tout réinitialiser",
+    "showResults": "Voir les résultats : {count}",
+    "empty": "Aucun produit ne correspond à ces filtres. Modifiez-les ou réinitialisez-les."
   },
   "Footer": {
     "categoriesHeading": "Catégories",

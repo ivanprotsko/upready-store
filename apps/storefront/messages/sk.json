@@ -345,7 +345,10 @@
     "sort": "Zoradiť",
     "title": "Filtre",
     "to": "do",
-    "yes": "Áno"
+    "yes": "Áno",
+    "reset": "Zrušiť všetko",
+    "showResults": "Zobraziť výsledky: {count}",
+    "empty": "Týmto filtrom nič nezodpovedá. Upravte ich alebo zrušte."
   },
   "Footer": {
     "categoriesHeading": "Kategórie",

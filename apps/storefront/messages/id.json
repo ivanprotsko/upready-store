@@ -345,7 +345,10 @@
     "sort": "Urutkan",
     "title": "Filter",
     "to": "sampai",
-    "yes": "Ya"
+    "yes": "Ya",
+    "reset": "Atur ulang semua",
+    "showResults": "Tampilkan hasil: {count}",
+    "empty": "Tidak ada produk yang cocok dengan filter ini. Ubah atau atur ulang filter."
   },
   "Footer": {
     "categoriesHeading": "Kategori",

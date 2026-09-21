@@ -345,7 +345,10 @@
     "sort": "Ordenar",
     "title": "Filtros",
     "to": "até",
-    "yes": "Sim"
+    "yes": "Sim",
+    "reset": "Repor tudo",
+    "showResults": "Ver resultados: {count}",
+    "empty": "Nenhum produto corresponde a estes filtros. Altere-os ou reponha-os."
   },
   "Footer": {
     "categoriesHeading": "Categorias",

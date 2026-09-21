@@ -345,7 +345,10 @@
     "sort": "Sortér",
     "title": "Filtre",
     "to": "til",
-    "yes": "Ja"
+    "yes": "Ja",
+    "reset": "Nulstil alle",
+    "showResults": "Vis resultater: {count}",
+    "empty": "Ingen varer matcher filtrene. Justér eller nulstil dem."
   },
   "Footer": {
     "categoriesHeading": "Kategorier",

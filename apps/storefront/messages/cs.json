@@ -345,7 +345,10 @@
     "sort": "Řadit",
     "title": "Filtry",
     "to": "do",
-    "yes": "Ano"
+    "yes": "Ano",
+    "reset": "Zrušit vše",
+    "showResults": "Zobrazit výsledky: {count}",
+    "empty": "Těmto filtrům nic neodpovídá. Upravte je nebo zrušte."
   },
   "Footer": {
     "categoriesHeading": "Kategorie",

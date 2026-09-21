@@ -345,7 +345,10 @@
     "sort": "정렬",
     "title": "필터",
     "to": "최대",
-    "yes": "예"
+    "yes": "예",
+    "reset": "모두 초기화",
+    "showResults": "결과 보기: {count}개",
+    "empty": "조건에 맞는 상품이 없습니다. 필터를 변경하거나 초기화하세요."
   },
   "Footer": {
     "categoriesHeading": "카테고리",

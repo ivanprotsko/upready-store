@@ -345,7 +345,10 @@
     "sort": "Sắp xếp",
     "title": "Bộ lọc",
     "to": "đến",
-    "yes": "Có"
+    "yes": "Có",
+    "reset": "Đặt lại tất cả",
+    "showResults": "Xem kết quả: {count}",
+    "empty": "Không có sản phẩm nào khớp bộ lọc. Hãy thay đổi hoặc đặt lại bộ lọc."
   },
   "Footer": {
     "categoriesHeading": "Danh mục",

@@ -345,7 +345,10 @@
     "sort": "Sorteren",
     "title": "Filters",
     "to": "tot",
-    "yes": "Ja"
+    "yes": "Ja",
+    "reset": "Alles wissen",
+    "showResults": "Resultaten tonen: {count}",
+    "empty": "Geen producten voldoen aan deze filters. Pas ze aan of wis ze."
   },
   "Footer": {
     "categoriesHeading": "Categorieën",

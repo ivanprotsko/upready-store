@@ -345,7 +345,10 @@
     "sort": "Rūšiuoti",
     "title": "Filtrai",
     "to": "iki",
-    "yes": "Taip"
+    "yes": "Taip",
+    "reset": "Išvalyti viską",
+    "showResults": "Rodyti rezultatus: {count}",
+    "empty": "Pagal šiuos filtrus prekių nerasta. Pakeiskite arba išvalykite filtrus."
   },
   "Footer": {
     "categoriesHeading": "Kategorijos",

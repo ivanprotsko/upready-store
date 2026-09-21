@@ -345,7 +345,10 @@
     "sort": "排序",
     "title": "筛选",
     "to": "最高",
-    "yes": "是"
+    "yes": "是",
+    "reset": "全部重置",
+    "showResults": "查看结果：{count}",
+    "empty": "没有符合筛选条件的商品。请调整或重置筛选条件。"
   },
   "Footer": {
     "categoriesHeading": "分类",

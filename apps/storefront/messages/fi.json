@@ -345,7 +345,10 @@
     "sort": "Lajittele",
     "title": "Suodattimet",
     "to": "asti",
-    "yes": "Kyllä"
+    "yes": "Kyllä",
+    "reset": "Tyhjennä kaikki",
+    "showResults": "Näytä tulokset: {count}",
+    "empty": "Suodattimilla ei löytynyt tuotteita. Muuta suodattimia tai tyhjennä ne."
   },
   "Footer": {
     "categoriesHeading": "Kategoriat",

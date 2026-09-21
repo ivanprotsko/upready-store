@@ -345,7 +345,10 @@
     "sort": "並び替え",
     "title": "フィルター",
     "to": "最大",
-    "yes": "はい"
+    "yes": "はい",
+    "reset": "すべてリセット",
+    "showResults": "結果を表示：{count}件",
+    "empty": "条件に合う商品がありません。フィルターを変更するかリセットしてください。"
   },
   "Footer": {
     "categoriesHeading": "カテゴリー",

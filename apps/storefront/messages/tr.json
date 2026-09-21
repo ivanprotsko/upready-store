@@ -345,7 +345,10 @@
     "sort": "Sırala",
     "title": "Filtreler",
     "to": "en çok",
-    "yes": "Evet"
+    "yes": "Evet",
+    "reset": "Tümünü sıfırla",
+    "showResults": "Sonuçları göster: {count}",
+    "empty": "Bu filtrelere uyan ürün yok. Filtreleri değiştirin veya sıfırlayın."
   },
   "Footer": {
     "categoriesHeading": "Kategoriler",

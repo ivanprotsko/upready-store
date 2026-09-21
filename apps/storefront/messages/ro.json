@@ -345,7 +345,10 @@
     "sort": "Sortare",
     "title": "Filtre",
     "to": "până la",
-    "yes": "Da"
+    "yes": "Da",
+    "reset": "Resetează tot",
+    "showResults": "Afișează rezultatele: {count}",
+    "empty": "Niciun produs nu corespunde filtrelor. Modifică-le sau resetează-le."
   },
   "Footer": {
     "categoriesHeading": "Categorii",
