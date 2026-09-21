@@ -2662,6 +2662,12 @@
     },
     "pricing": {
       "showAllCurrencies": "All currencies ({{count}})"
+    },
+    "owner": {
+      "add": "Add a product",
+      "importAction": "Upload from a file",
+      "exportAction": "Download as a file",
+      "attributesFilled": "Characteristics are filled in for {{filled}} of {{total}} products"
     }
   },
   "profile": {

@@ -15,6 +15,7 @@ import {
   statusOf,
 } from "../page-sections"
 import { CustomPageRow } from "./custom-page-row"
+import { PHONE_CARDS } from "../../../components/table/phone-cards"
 
 // tenant-panel wave 2, piece 7: the panel's own screen, no Admin counterpart
 // (the native Admin has no per-store content pages). Built from the same
@@ -102,80 +103,83 @@ export const PageList = () => {
             «Информация», в выбранном вами порядке.
           </Text>
         </div>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Страница</Table.HeaderCell>
-              <Table.HeaderCell>Публичный адрес</Table.HeaderCell>
-              <Table.HeaderCell>Статус</Table.HeaderCell>
-              <Table.HeaderCell>В подвале</Table.HeaderCell>
-              <Table.HeaderCell />
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {PAGE_SECTIONS.map((section) => {
-              const page = byKey.get(section.key)
-              const status = page ? statusOf(page) : "empty"
+        <div className={PHONE_CARDS}>
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Страница</Table.HeaderCell>
+                <Table.HeaderCell>Публичный адрес</Table.HeaderCell>
+                <Table.HeaderCell>Статус</Table.HeaderCell>
+                <Table.HeaderCell>В подвале</Table.HeaderCell>
+                <Table.HeaderCell />
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {PAGE_SECTIONS.map((section) => {
+                const page = byKey.get(section.key)
+                const status = page ? statusOf(page) : "empty"
 
-              return (
-                <Table.Row key={section.key}>
-                  <Table.Cell>
-                    <Link
-                      to={section.key}
-                      className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
-                    >
-                      <Text size="small" weight="plus">
-                        {page?.title?.trim() ||
-                          sectionOf(section.key)?.label ||
-                          section.key}
+                return (
+                  <Table.Row key={section.key}>
+                    <Table.Cell>
+                      <Link
+                        to={section.key}
+                        className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
+                      >
+                        <Text size="small" weight="plus">
+                          {page?.title?.trim() ||
+                            sectionOf(section.key)?.label ||
+                            section.key}
+                        </Text>
+                      </Link>
+                      <Text size="small" className="text-ui-fg-subtle">
+                        {section.hint}
                       </Text>
-                    </Link>
-                    <Text size="small" className="text-ui-fg-subtle">
-                      {section.hint}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text size="small" className="text-ui-fg-subtle font-mono">
-                      {publicPageUrl(primaryHost, section.key)}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <StatusBadge color={STATUS_COLOR[status]}>
-                      {STATUS_LABEL[status]}
-                    </StatusBadge>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text size="small" className="text-ui-fg-subtle">
-                      {page?.in_footer ? "Да" : "Нет"}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell />
-                </Table.Row>
-              )
-            })}
-            {customPages.map((page) => {
-              const footerIndex = footerPages.findIndex((entry) => entry.key === page.key)
-              return (
-                <CustomPageRow
-                  key={page.key}
-                  page={page}
-                  publicUrl={publicPageUrl(primaryHost, page.key)}
-                  neighbourUp={footerIndex > 0 ? footerPages[footerIndex - 1] : undefined}
-                  neighbourDown={
-                    footerIndex >= 0 && footerIndex < footerPages.length - 1
-                      ? footerPages[footerIndex + 1]
-                      : undefined
-                  }
-                />
-              )
-            })}
-          </Table.Body>
-        </Table>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Text size="small" className="text-ui-fg-subtle font-mono">
+                        {publicPageUrl(primaryHost, section.key)}
+                      </Text>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <StatusBadge color={STATUS_COLOR[status]}>
+                        {STATUS_LABEL[status]}
+                      </StatusBadge>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Text size="small" className="text-ui-fg-subtle">
+                        <span className="md:hidden">В подвале: </span>
+                        {page?.in_footer ? "Да" : "Нет"}
+                      </Text>
+                    </Table.Cell>
+                    <Table.Cell />
+                  </Table.Row>
+                )
+              })}
+              {customPages.map((page) => {
+                const footerIndex = footerPages.findIndex((entry) => entry.key === page.key)
+                return (
+                  <CustomPageRow
+                    key={page.key}
+                    page={page}
+                    publicUrl={publicPageUrl(primaryHost, page.key)}
+                    neighbourUp={footerIndex > 0 ? footerPages[footerIndex - 1] : undefined}
+                    neighbourDown={
+                      footerIndex >= 0 && footerIndex < footerPages.length - 1
+                        ? footerPages[footerIndex + 1]
+                        : undefined
+                    }
+                  />
+                )
+              })}
+            </Table.Body>
+          </Table>
+        </div>
         <form
           onSubmit={handleCreate}
           className="flex flex-wrap items-end gap-x-3 gap-y-2 px-6 py-4"
         >
-          <div className="flex flex-col gap-y-1">
+          <div className="flex flex-col gap-y-1 max-md:w-full">
             <Text size="small" className="text-ui-fg-subtle">
               Адрес страницы
             </Text>
@@ -183,10 +187,10 @@ export const PageList = () => {
               value={slug}
               onChange={(event) => setSlug(event.target.value)}
               placeholder="delivery"
-              className="font-mono w-[200px]"
+              className="font-mono w-[200px] max-md:w-full"
             />
           </div>
-          <div className="flex flex-col gap-y-1">
+          <div className="flex flex-col gap-y-1 max-md:w-full">
             <Text size="small" className="text-ui-fg-subtle">
               Заголовок
             </Text>
@@ -194,7 +198,7 @@ export const PageList = () => {
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               placeholder="Доставка"
-              className="w-[280px]"
+              className="w-[280px] max-md:w-full"
             />
           </div>
           <Button size="small" type="submit" isLoading={isCreating}>
