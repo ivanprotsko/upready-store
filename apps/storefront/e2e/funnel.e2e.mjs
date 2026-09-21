@@ -114,12 +114,18 @@ const steps = [
     "the product goes into the cart",
     async () => {
       // A product with options needs one value of each before the button wakes.
+      // A click that lands before hydration is lost, and choosing the chosen
+      // value again changes nothing, so repeat until the button wakes.
       const groups = page.getByTestId("product-options")
-      for (let index = 0; index < (await groups.count()); index++) {
-        const option = groups.nth(index).getByTestId("option-button").first()
-        if (await option.isEnabled()) await option.click()
-      }
       const button = page.getByTestId("add-product-button").first()
+      const wakeBy = Date.now() + TIMEOUT / 2
+      while (!(await button.isEnabled()) && Date.now() < wakeBy) {
+        for (let index = 0; index < (await groups.count()); index++) {
+          const option = groups.nth(index).getByTestId("option-button").first()
+          if (await option.isEnabled()) await option.click()
+        }
+        await page.waitForTimeout(500)
+      }
       if (!(await button.isEnabled())) {
         throw new Error(
           `the button is disabled and reads "${await button.innerText()}"`
