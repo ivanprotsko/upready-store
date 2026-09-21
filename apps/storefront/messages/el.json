@@ -351,7 +351,11 @@
     "categoriesHeading": "Κατηγορίες",
     "collectionsHeading": "Συλλογές",
     "copyright": "© {year} {siteName}. Με επιφύλαξη παντός δικαιώματος.",
-    "infoHeading": "Πληροφορίες"
+    "infoHeading": "Πληροφορίες",
+    "sellerHeading": "Πωλητής",
+    "contactsHeading": "Επικοινωνία",
+    "taxId": "ΑΦΜ (INN): {value}",
+    "regNumber": "Αρ. μητρώου (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Επιστροφή στη σύνδεση",

@@ -351,7 +351,11 @@
     "categoriesHeading": "الفئات",
     "collectionsHeading": "المجموعات",
     "copyright": "© {year} {siteName}. جميع الحقوق محفوظة.",
-    "infoHeading": "معلومات"
+    "infoHeading": "معلومات",
+    "sellerHeading": "البائع",
+    "contactsHeading": "جهات الاتصال",
+    "taxId": "الرقم الضريبي: {value}",
+    "regNumber": "رقم التسجيل: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "العودة إلى تسجيل الدخول",

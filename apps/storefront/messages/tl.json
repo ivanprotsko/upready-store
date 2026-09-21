@@ -351,7 +351,11 @@
     "categoriesHeading": "Mga Kategorya",
     "collectionsHeading": "Mga Koleksyon",
     "copyright": "© {year} {siteName}. Lahat ng karapatan ay nakalaan.",
-    "infoHeading": "Impormasyon"
+    "infoHeading": "Impormasyon",
+    "sellerHeading": "Nagbebenta",
+    "contactsHeading": "Makipag-ugnayan",
+    "taxId": "Numero ng buwis (INN): {value}",
+    "regNumber": "Numero ng rehistro (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Bumalik sa pag-sign in",

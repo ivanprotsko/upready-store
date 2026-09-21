@@ -351,7 +351,11 @@
     "categoriesHeading": "หมวดหมู่",
     "collectionsHeading": "คอลเลกชัน",
     "copyright": "© {year} {siteName} สงวนลิขสิทธิ์",
-    "infoHeading": "ข้อมูล"
+    "infoHeading": "ข้อมูล",
+    "sellerHeading": "ผู้ขาย",
+    "contactsHeading": "ติดต่อ",
+    "taxId": "เลขประจำตัวผู้เสียภาษี: {value}",
+    "regNumber": "เลขทะเบียน: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "กลับไปเข้าสู่ระบบ",

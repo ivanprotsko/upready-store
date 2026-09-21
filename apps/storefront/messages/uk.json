@@ -351,7 +351,11 @@
     "categoriesHeading": "Категорії",
     "collectionsHeading": "Колекції",
     "copyright": "© {year} {siteName}. Усі права захищені.",
-    "infoHeading": "Інформація"
+    "infoHeading": "Інформація",
+    "sellerHeading": "Продавець",
+    "contactsHeading": "Контакти",
+    "taxId": "ІПН {value}",
+    "regNumber": "ОДРН {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Повернутися до входу",

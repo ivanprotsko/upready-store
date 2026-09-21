@@ -351,7 +351,11 @@
     "categoriesHeading": "Kategoriler",
     "collectionsHeading": "Koleksiyonlar",
     "copyright": "© {year} {siteName}. Tüm hakları saklıdır.",
-    "infoHeading": "Bilgi"
+    "infoHeading": "Bilgi",
+    "sellerHeading": "Satıcı",
+    "contactsHeading": "İletişim",
+    "taxId": "Vergi no. (INN): {value}",
+    "regNumber": "Sicil no. (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Girişe dön",

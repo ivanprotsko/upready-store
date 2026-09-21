@@ -351,7 +351,11 @@
     "categoriesHeading": "分类",
     "collectionsHeading": "系列",
     "copyright": "© {year} {siteName}. 保留所有权利。",
-    "infoHeading": "信息"
+    "infoHeading": "信息",
+    "sellerHeading": "卖家",
+    "contactsHeading": "联系方式",
+    "taxId": "纳税人识别号：{value}",
+    "regNumber": "注册号：{value}"
   },
   "ForgotPassword": {
     "backToSignIn": "返回登录",

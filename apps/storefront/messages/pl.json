@@ -351,7 +351,11 @@
     "categoriesHeading": "Kategorie",
     "collectionsHeading": "Kolekcje",
     "copyright": "© {year} {siteName}. Wszelkie prawa zastrzeżone.",
-    "infoHeading": "Informacje"
+    "infoHeading": "Informacje",
+    "sellerHeading": "Sprzedawca",
+    "contactsHeading": "Kontakt",
+    "taxId": "NIP (INN): {value}",
+    "regNumber": "Nr rejestracyjny (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Powrót do logowania",

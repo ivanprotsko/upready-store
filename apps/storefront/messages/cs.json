@@ -351,7 +351,11 @@
     "categoriesHeading": "Kategorie",
     "collectionsHeading": "Kolekce",
     "copyright": "© {year} {siteName}. Všechna práva vyhrazena.",
-    "infoHeading": "Informace"
+    "infoHeading": "Informace",
+    "sellerHeading": "Prodávající",
+    "contactsHeading": "Kontakty",
+    "taxId": "DIČ (INN): {value}",
+    "regNumber": "Registrační číslo (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Zpět na přihlášení",

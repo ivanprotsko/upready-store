@@ -351,7 +351,11 @@
     "categoriesHeading": "Kategorier",
     "collectionsHeading": "Kolleksjoner",
     "copyright": "© {year} {siteName}. Alle rettigheter forbeholdt.",
-    "infoHeading": "Informasjon"
+    "infoHeading": "Informasjon",
+    "sellerHeading": "Selger",
+    "contactsHeading": "Kontakt",
+    "taxId": "Skattenr. (INN): {value}",
+    "regNumber": "Registreringsnr. (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Tilbake til innlogging",

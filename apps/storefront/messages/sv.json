@@ -351,7 +351,11 @@
     "categoriesHeading": "Kategorier",
     "collectionsHeading": "Kollektioner",
     "copyright": "© {year} {siteName}. Alla rättigheter förbehållna.",
-    "infoHeading": "Information"
+    "infoHeading": "Information",
+    "sellerHeading": "Säljare",
+    "contactsHeading": "Kontakt",
+    "taxId": "Skattenr (INN): {value}",
+    "regNumber": "Registreringsnr (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Tillbaka till inloggningen",

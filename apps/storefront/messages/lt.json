@@ -351,7 +351,11 @@
     "categoriesHeading": "Kategorijos",
     "collectionsHeading": "Kolekcijos",
     "copyright": "© {year} {siteName}. Visos teisės saugomos.",
-    "infoHeading": "Informacija"
+    "infoHeading": "Informacija",
+    "sellerHeading": "Pardavėjas",
+    "contactsHeading": "Kontaktai",
+    "taxId": "Mokesčių mokėtojo kodas (INN): {value}",
+    "regNumber": "Registracijos nr. (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Grįžti prie prisijungimo",

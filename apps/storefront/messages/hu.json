@@ -351,7 +351,11 @@
     "categoriesHeading": "Kategóriák",
     "collectionsHeading": "Kollekciók",
     "copyright": "© {year} {siteName}. Minden jog fenntartva.",
-    "infoHeading": "Információ"
+    "infoHeading": "Információ",
+    "sellerHeading": "Eladó",
+    "contactsHeading": "Kapcsolat",
+    "taxId": "Adószám (INN): {value}",
+    "regNumber": "Nyilvántartási szám (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Vissza a bejelentkezéshez",

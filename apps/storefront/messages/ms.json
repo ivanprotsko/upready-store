@@ -351,7 +351,11 @@
     "categoriesHeading": "Kategori",
     "collectionsHeading": "Koleksi",
     "copyright": "© {year} {siteName}. Hak cipta terpelihara.",
-    "infoHeading": "Maklumat"
+    "infoHeading": "Maklumat",
+    "sellerHeading": "Penjual",
+    "contactsHeading": "Hubungi",
+    "taxId": "No. cukai (INN): {value}",
+    "regNumber": "No. pendaftaran (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke log masuk",

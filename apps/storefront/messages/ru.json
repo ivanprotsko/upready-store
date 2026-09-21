@@ -351,7 +351,11 @@
     "categoriesHeading": "Категории",
     "collectionsHeading": "Коллекции",
     "copyright": "© {year} {siteName}. Все права защищены.",
-    "infoHeading": "Информация"
+    "infoHeading": "Информация",
+    "sellerHeading": "Продавец",
+    "contactsHeading": "Контакты",
+    "taxId": "ИНН {value}",
+    "regNumber": "ОГРН {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Вернуться ко входу",

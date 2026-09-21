@@ -351,7 +351,11 @@
     "categoriesHeading": "Categorii",
     "collectionsHeading": "Colecții",
     "copyright": "© {year} {siteName}. Toate drepturile rezervate.",
-    "infoHeading": "Informații"
+    "infoHeading": "Informații",
+    "sellerHeading": "Vânzător",
+    "contactsHeading": "Contact",
+    "taxId": "Cod fiscal (INN): {value}",
+    "regNumber": "Nr. de înregistrare (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Înapoi la autentificare",

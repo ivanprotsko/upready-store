@@ -351,7 +351,11 @@
     "categoriesHeading": "კატეგორიები",
     "collectionsHeading": "კოლექციები",
     "copyright": "© {year} {siteName}. ყველა უფლება დაცულია.",
-    "infoHeading": "ინფორმაცია"
+    "infoHeading": "ინფორმაცია",
+    "sellerHeading": "გამყიდველი",
+    "contactsHeading": "კონტაქტები",
+    "taxId": "საგადასახადო ნომერი: {value}",
+    "regNumber": "სარეგისტრაციო ნომერი: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "დაბრუნება შესვლაზე",

@@ -351,7 +351,11 @@
     "categoriesHeading": "カテゴリー",
     "collectionsHeading": "コレクション",
     "copyright": "© {year} {siteName}. 無断転載を禁じます。",
-    "infoHeading": "インフォメーション"
+    "infoHeading": "インフォメーション",
+    "sellerHeading": "販売者",
+    "contactsHeading": "お問い合わせ",
+    "taxId": "納税者番号：{value}",
+    "regNumber": "登録番号：{value}"
   },
   "ForgotPassword": {
     "backToSignIn": "ログインに戻る",

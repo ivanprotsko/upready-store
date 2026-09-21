@@ -351,7 +351,11 @@
     "categoriesHeading": "Danh mục",
     "collectionsHeading": "Bộ sưu tập",
     "copyright": "© {year} {siteName}. Đã đăng ký bản quyền.",
-    "infoHeading": "Thông tin"
+    "infoHeading": "Thông tin",
+    "sellerHeading": "Người bán",
+    "contactsHeading": "Liên hệ",
+    "taxId": "Mã số thuế: {value}",
+    "regNumber": "Số đăng ký: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Quay lại đăng nhập",

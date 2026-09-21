@@ -351,7 +351,11 @@
     "categoriesHeading": "ক্যাটাগরি",
     "collectionsHeading": "কালেকশন",
     "copyright": "© {year} {siteName}। সর্বস্বত্ব সংরক্ষিত।",
-    "infoHeading": "তথ্য"
+    "infoHeading": "তথ্য",
+    "sellerHeading": "বিক্রেতা",
+    "contactsHeading": "যোগাযোগ",
+    "taxId": "কর নম্বর: {value}",
+    "regNumber": "নিবন্ধন নম্বর: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "সাইন ইনে ফিরে যান",

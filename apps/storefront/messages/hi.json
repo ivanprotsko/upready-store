@@ -351,7 +351,11 @@
     "categoriesHeading": "श्रेणियां",
     "collectionsHeading": "संग्रह",
     "copyright": "© {year} {siteName}. सर्वाधिकार सुरक्षित।",
-    "infoHeading": "जानकारी"
+    "infoHeading": "जानकारी",
+    "sellerHeading": "विक्रेता",
+    "contactsHeading": "संपर्क",
+    "taxId": "कर संख्या: {value}",
+    "regNumber": "पंजीकरण संख्या: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "साइन इन पर लौटें",

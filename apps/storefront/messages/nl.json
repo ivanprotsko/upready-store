@@ -351,7 +351,11 @@
     "categoriesHeading": "Categorieën",
     "collectionsHeading": "Collecties",
     "copyright": "© {year} {siteName}. Alle rechten voorbehouden.",
-    "infoHeading": "Informatie"
+    "infoHeading": "Informatie",
+    "sellerHeading": "Verkoper",
+    "contactsHeading": "Contact",
+    "taxId": "Belastingnummer (INN): {value}",
+    "regNumber": "Registratienummer (OGRN): {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Terug naar inloggen",

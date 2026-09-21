@@ -351,7 +351,11 @@
     "categoriesHeading": "Ангилал",
     "collectionsHeading": "Цуглуулга",
     "copyright": "© {year} {siteName}. Бүх эрх хуулиар хамгаалагдсан.",
-    "infoHeading": "Мэдээлэл"
+    "infoHeading": "Мэдээлэл",
+    "sellerHeading": "Худалдагч",
+    "contactsHeading": "Холбоо барих",
+    "taxId": "Татвар төлөгчийн дугаар: {value}",
+    "regNumber": "Бүртгэлийн дугаар: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "Нэвтрэх рүү буцах",

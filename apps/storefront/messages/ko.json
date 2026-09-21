@@ -351,7 +351,11 @@
     "categoriesHeading": "카테고리",
     "collectionsHeading": "컬렉션",
     "copyright": "© {year} {siteName}. 모든 권리 보유.",
-    "infoHeading": "정보"
+    "infoHeading": "정보",
+    "sellerHeading": "판매자",
+    "contactsHeading": "연락처",
+    "taxId": "납세자 번호: {value}",
+    "regNumber": "등록 번호: {value}"
   },
   "ForgotPassword": {
     "backToSignIn": "로그인으로 돌아가기",
