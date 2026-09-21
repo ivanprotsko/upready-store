@@ -5,9 +5,17 @@ name: PR Checks
 # Nothing here needs a database, a secret or a running server: the integration
 # specs and the browser runs stay on the development machine.
 
+# Manual start only, for now. The first run on a pull request (run 35558214895,
+# 2026-09-21) was refused before any step: "The job was not started because an
+# Actions budget is preventing further use". With the pull request trigger on,
+# every pull request to dev would carry three red checks that say nothing about
+# its code. Lifting the budget is Ivan's decision (review, Decisions For Ivan);
+# after it, restore the trigger below. NO JOB OF THIS FILE HAS EVER RUN.
+#
+#   pull_request:
+#     branches: [ dev ]
+
 on:
-  pull_request:
-    branches: [ dev ]
   workflow_dispatch:
 
 permissions:
