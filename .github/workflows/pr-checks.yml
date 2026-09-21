@@ -1,0 +1,112 @@
+name: PR Checks
+
+# The checks a worker runs by hand before a pull request, run on the pull
+# request itself (architecture review 2026-09-21, findings Q-1 and Q-2).
+# Nothing here needs a database, a secret or a running server: the integration
+# specs and the browser runs stay on the development machine.
+
+on:
+  pull_request:
+    branches: [ dev ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        working-directory: apps/backend
+        run: npx tsc --noEmit
+      - name: Lint
+        if: ${{ !cancelled() }}
+        working-directory: apps/backend
+        run: npx medusa lint
+      - name: Unit suites
+        if: ${{ !cancelled() }}
+        working-directory: apps/backend
+        run: pnpm run test:unit
+      - name: Production build
+        if: ${{ !cancelled() }}
+        run: pnpm check:backend-build
+      - name: Fixtures typecheck
+        if: ${{ !cancelled() }}
+        run: pnpm check:backend-fixtures
+
+  storefront:
+    name: Storefront
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        working-directory: apps/storefront
+        run: npx tsc --noEmit
+      - name: Lint
+        if: ${{ !cancelled() }}
+        working-directory: apps/storefront
+        run: npx next lint
+      - name: Unit suites
+        if: ${{ !cancelled() }}
+        working-directory: apps/storefront
+        run: pnpm run test:unit
+
+  panel-and-repository:
+    name: Panel And Repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Panel typecheck
+        working-directory: apps/tenant-panel
+        run: pnpm run typecheck
+      - name: Panel lint
+        if: ${{ !cancelled() }}
+        working-directory: apps/tenant-panel
+        run: pnpm run lint
+      - name: Panel tests
+        if: ${{ !cancelled() }}
+        working-directory: apps/tenant-panel
+        run: pnpm run test
+      - name: Locale catalogs
+        if: ${{ !cancelled() }}
+        run: pnpm check:locale-catalogs
+      - name: Shared markdown
+        if: ${{ !cancelled() }}
+        run: pnpm check:shared-markdown
