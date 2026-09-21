@@ -3,6 +3,7 @@ import {
   createOrdersWorkflow,
   createRegionsWorkflow,
 } from "@medusajs/medusa/core-flows";
+import { Modules } from "@medusajs/framework/utils";
 import linkOrderToTenantWorkflow from "../../src/workflows/tenant/link-order-to-tenant";
 
 jest.setTimeout(180_000);
@@ -208,6 +209,78 @@ medusaIntegrationTestRunner({
         expect(read.data.order.customer.email).toBe("buyer@example.com");
         expect(read.data.order.customer.orders).toBeUndefined();
         expect(JSON.stringify(read.data)).not.toContain(inB.id);
+      });
+
+      it("keeps the shipping options of other shops behind the shared shipping profile", async () => {
+        await api.post("/tenants/products", newProduct("Acme lamp"), bearer(a.token));
+        const ofB = await api.get("/tenants/shipping-options?limit=200&fields=id", bearer(b.token));
+        const foreign: string[] = ofB.data.shipping_options.map((option: { id: string }) => option.id);
+        expect(foreign.length).toBeGreaterThan(0);
+
+        const visitor = await api.get(
+          `/store/products?fields=${encodeURIComponent("id,*shipping_profile,*shipping_profile.shipping_options")}`,
+          storeHeaders(a),
+        );
+        expect(visitor.status).toBe(200);
+        expect(visitor.data.products).toHaveLength(1);
+        foreign.forEach((id) => expect(JSON.stringify(visitor.data)).not.toContain(id));
+
+        // The same walk from a route whose own rows are shared.
+        const owner = await api.get(
+          `/tenants/shipping-profiles?fields=${encodeURIComponent("id,name,*shipping_options")}`,
+          bearer(a.token),
+        );
+        expect(owner.status).toBe(200);
+        expect(owner.data.shipping_profiles.length).toBeGreaterThan(0);
+        foreign.forEach((id) => expect(JSON.stringify(owner.data)).not.toContain(id));
+      });
+
+      it("keeps the products of other shops, drafts included, behind a shared collection", async () => {
+        const products = getContainer().resolve(Modules.PRODUCT);
+        const collection = await products.createProductCollections({ title: "Shared", handle: "shared" });
+        const ofA = await api.post("/tenants/products", newProduct("Acme lamp"), bearer(a.token));
+        const ofB = await api.post(
+          "/tenants/products",
+          { ...newProduct("Globex secret"), status: "draft" },
+          bearer(b.token),
+        );
+        for (const id of [ofA.data.product.id, ofB.data.product.id]) {
+          await products.updateProducts(id, { collection_id: collection.id });
+        }
+
+        for (const path of ["/store/collections?handle=shared&", `/store/collections/${collection.id}?`]) {
+          const read = await api.get(`${path}fields=${encodeURIComponent("id,title,*products")}`, storeHeaders(a));
+          expect(read.status).toBe(200);
+          expect(JSON.stringify(read.data)).toContain(collection.id);
+          expect(JSON.stringify(read.data)).not.toContain(ofB.data.product.id);
+        }
+      });
+
+      it("keeps an address the buyer entered in another shop from a shop owner", async () => {
+        const buyer = await registerCustomer(a, "buyer@example.com");
+        const inA = await placeOrder(a, "buyer@example.com", "Acme shirt", buyer.id);
+        const added = await api.post(
+          "/store/customers/me/addresses",
+          { first_name: "Test", last_name: "Buyer", address_1: "7 Only In Globex", city: "Berlin", country_code: "de" },
+          storeHeaders(b, buyer.token),
+        );
+        expect(added.status).toBe(200);
+
+        const order = await api.get(
+          `/tenants/orders/${inA.id}?fields=${encodeURIComponent("id,*customer,*customer.addresses,customer.addresses")}`,
+          bearer(a.token),
+        );
+        expect(order.status).toBe(200);
+        expect(order.data.order.customer.email).toBe("buyer@example.com");
+        expect(JSON.stringify(order.data)).not.toContain("Only In Globex");
+
+        const customer = await api.get(
+          `/tenants/customers/${buyer.id}?fields=${encodeURIComponent("id,email,*addresses")}`,
+          bearer(a.token),
+        );
+        expect(customer.status).toBe(200);
+        expect(customer.data.customer.email).toBe("buyer@example.com");
+        expect(JSON.stringify(customer.data)).not.toContain("Only In Globex");
       });
 
       it("keeps the tenant row behind a product of the panel", async () => {
