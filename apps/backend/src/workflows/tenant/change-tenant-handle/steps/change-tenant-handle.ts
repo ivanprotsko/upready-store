@@ -40,23 +40,23 @@ const changeTenantHandleStep = createStep(
       );
     }
 
-    const [existingAlias] = await tenantModuleService.listTenantHandleAlias({
+    const [existingAlias] = await tenantModuleService.listTenantHandleAliases({
       handle: previousHandle,
     });
 
     if (!existingAlias) {
-      await tenantModuleService.createTenantHandleAlias({
+      await tenantModuleService.createTenantHandleAliases({
         handle: previousHandle,
         tenant_id: input.tenant_id,
       });
     }
 
-    const [aliasOfNewHandle] = await tenantModuleService.listTenantHandleAlias({
+    const [aliasOfNewHandle] = await tenantModuleService.listTenantHandleAliases({
       handle: input.handle,
     });
 
     if (aliasOfNewHandle) {
-      await tenantModuleService.deleteTenantHandleAlias([aliasOfNewHandle.id]);
+      await tenantModuleService.deleteTenantHandleAliases([aliasOfNewHandle.id]);
     }
 
     const updated = await tenantModuleService.updateTenants({
@@ -85,12 +85,12 @@ const changeTenantHandleStep = createStep(
       handle: compensation.handle,
     });
 
-    const [alias] = await tenantModuleService.listTenantHandleAlias({
+    const [alias] = await tenantModuleService.listTenantHandleAliases({
       handle: compensation.handle,
     });
 
     if (alias) {
-      await tenantModuleService.deleteTenantHandleAlias([alias.id]);
+      await tenantModuleService.deleteTenantHandleAliases([alias.id]);
     }
   },
 );
