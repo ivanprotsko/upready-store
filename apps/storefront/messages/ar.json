@@ -539,6 +539,35 @@
     "yandexErrorRejected": "لم يتمكن Yandex من تأكيد تسجيل الدخول. حاول مرة أخرى.",
     "yandexErrorUnconfigured": "تسجيل الدخول عبر Yandex غير مُفعَّل بعد في هذا المتجر."
   },
+  "ManualPayment": {
+    "awaitingPayment": "Awaiting payment",
+    "contactEmail": "Email",
+    "contactNow": "You can message the manager right now:",
+    "contactTelegram": "Telegram",
+    "contactWhatsapp": "WhatsApp",
+    "copied": "Copied",
+    "copy": "Copy",
+    "cryptoConfirm": "After the transfer, message the manager to confirm the payment. Once the shop confirms it, the order becomes «Paid» and you can follow it in your account.",
+    "cryptoDesc": "Transfer stablecoins to the shop wallet.",
+    "cryptoTitle": "Cryptocurrency",
+    "emailSubject": "Order #{orderNumber}",
+    "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
+    "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
+    "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
+    "handoverCryptoTitle": "Transfer the payment and confirm it with the manager",
+    "handoverMessage": "Hello! I have just placed order #{orderNumber} for {total} and chose payment via manager. How can I pay?",
+    "handoverTitle": "Contact the manager to pay",
+    "kindHeading": "How would you like to pay?",
+    "managerHint": "After you place the order, a manager will contact you and offer a convenient way to pay. The order is reserved for you and ships once the payment arrives.",
+    "methodCrypto": "Cryptocurrency",
+    "methodOther": "Card via manager",
+    "noContacts": "A manager will contact you after the order is placed.",
+    "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
+    "otherTitle": "Card via manager",
+    "qrAlt": "QR code of the {currency} address",
+    "walletCopyLabel": "Copy the {currency} address"
+  },
   "Metadata": {
     "account": {
       "description": "نظرة عامة على نشاط حسابك.",
@@ -728,6 +757,7 @@
   },
   "PaymentButton": {
     "placeOrder": "ادفع",
+    "placeOrderManual": "Place order",
     "redirectUnavailable": "صفحة الدفع غير متاحة بعد. حاول مرة أخرى بعد قليل.",
     "selectPaymentMethod": "اختر طريقة الدفع"
   },

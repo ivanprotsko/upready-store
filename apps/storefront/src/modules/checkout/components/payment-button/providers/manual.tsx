@@ -1,5 +1,7 @@
 "use client"
 
+import { updateCart } from "@lib/data/cart"
+import { MANUAL_PAYMENT_KIND_METADATA_KEY } from "@lib/tenant/manual-payment"
 import {
   classifyDemoCard,
   EMPTY_DEMO_CARD,
@@ -26,10 +28,12 @@ import {
  * provider shares.
  */
 const ManualPaymentButton = ({
+  cart,
   notReady,
   label,
   cartUpdating,
   demoCard,
+  manualKind,
   "data-testid": dataTestId,
 }: PaymentProviderButtonProps) => {
   const t = useTranslations("DemoCard")
@@ -38,8 +42,31 @@ const ManualPaymentButton = ({
   const { submitting, setSubmitting, errorMessage, setErrorMessage, completeOrder } =
     usePlaceOrder()
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     setSubmitting(true)
+
+    // An offline kind (olavka-payments): nothing is paid here. The kind is
+    // stamped on the cart so the confirmation page and the owner's panel can
+    // tell a crypto order from a manager order — Medusa copies `cart.metadata`
+    // onto the order at completion — and the order is placed as is. It stays
+    // «awaiting payment» until the owner captures it in the panel; the
+    // storefront never captures anything.
+    if (manualKind) {
+      try {
+        await updateCart({
+          metadata: {
+            ...((cart.metadata ?? {}) as Record<string, unknown>),
+            [MANUAL_PAYMENT_KIND_METADATA_KEY]: manualKind,
+          },
+        })
+      } catch (error) {
+        setErrorMessage(error instanceof Error ? error.message : String(error))
+        setSubmitting(false)
+        return
+      }
+      await completeOrder()
+      return
+    }
 
     const outcome = classifyDemoCard(demoCard ?? EMPTY_DEMO_CARD)
 

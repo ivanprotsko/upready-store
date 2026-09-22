@@ -1,6 +1,7 @@
 import { Container } from "@medusajs/ui"
 
-import { isStripeLike, paymentInfoMap } from "@lib/constants"
+import { isManual, isStripeLike, paymentInfoMap } from "@lib/constants"
+import { readManualPaymentKind } from "@lib/tenant/manual-payment"
 import { paymentMethodName } from "@lib/util/payment"
 import { formatDateTime } from "@lib/util/date"
 import { convertToLocale } from "@lib/util/money"
@@ -13,9 +14,10 @@ type PaymentDetailsProps = {
 }
 
 const PaymentDetails = async ({ order }: PaymentDetailsProps) => {
-  const [t, tm, locale] = await Promise.all([
+  const [t, tm, tmp, locale] = await Promise.all([
     getTranslations("PaymentDetails"),
     getTranslations("PaymentMethods"),
+    getTranslations("ManualPayment"),
     getLocale(),
   ])
   const payment = order.payment_collections?.[0]?.payments?.[0]
@@ -26,11 +28,27 @@ const PaymentDetails = async ({ order }: PaymentDetailsProps) => {
 
   const card = isStripeLike(payment.provider_id) && payment.data?.card_last4
 
+  // olavka-payments: an order placed through one of the shop's offline kinds
+  // on the manual provider carries the kind in its metadata (stamped on the
+  // cart at checkout). Such an order has not been paid on the storefront, so
+  // the column says which offline kind was chosen and «awaiting payment»
+  // instead of an amount «paid at» a date — until the owner captures it in the
+  // panel, after which the usual line applies.
+  const manualKind = isManual(payment.provider_id)
+    ? readManualPaymentKind(
+        order.metadata as Record<string, unknown> | null | undefined
+      )
+    : null
+  const awaitingManualPayment =
+    manualKind !== null && order.payment_status !== "captured"
+
   return (
     <div className="grid grid-cols-1 small:grid-cols-3 gap-6">
       <OrderDetailColumn label={t("paymentMethod")}>
         <span data-testid="payment-method">
-          {paymentMethodName(tm, payment.provider_id)}
+          {manualKind
+            ? tmp(manualKind === "crypto" ? "methodCrypto" : "methodOther")
+            : paymentMethodName(tm, payment.provider_id)}
         </span>
       </OrderDetailColumn>
 
@@ -42,14 +60,20 @@ const PaymentDetails = async ({ order }: PaymentDetailsProps) => {
           <span data-testid="payment-amount">
             {card
               ? `**** **** **** ${payment.data?.card_last4}`
-              : `${convertToLocale({
-                  amount: payment.amount,
-                  currency_code: order.currency_code,
-                  locale,
-                })} ${t("paidAt")} ${formatDateTime({
-                  date: payment.created_at ?? "",
-                  locale,
-                })}`}
+              : awaitingManualPayment
+                ? `${convertToLocale({
+                    amount: payment.amount,
+                    currency_code: order.currency_code,
+                    locale,
+                  })} — ${tmp("awaitingPayment")}`
+                : `${convertToLocale({
+                    amount: payment.amount,
+                    currency_code: order.currency_code,
+                    locale,
+                  })} ${t("paidAt")} ${formatDateTime({
+                    date: payment.created_at ?? "",
+                    locale,
+                  })}`}
           </span>
         </div>
       </OrderDetailColumn>
