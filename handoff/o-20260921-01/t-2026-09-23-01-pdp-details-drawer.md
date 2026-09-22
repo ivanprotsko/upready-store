@@ -1,13 +1,17 @@
 # t-2026-09-23-01 — «Характеристики и описание» as a side drawer like Wildberries (draft brief, not yet approved by Ivan)
 
 Order: o-20260921-01, follow-up to t-2026-09-22-01 (product page after Ivan's Figma mockup). Written 2026-09-23 ~04:45 WITA by the outgoing
-lead (session a71e7cdc) for the next lead; status: Ivan's words received, branching fork raised to Ivan, no code written.
+lead (session a71e7cdc) for the next lead; status: Ivan's words received, ONE opener button decided by Ivan (04:42 WITA), branching fork raised to Ivan, no code written.
+Vocabulary with Ivan: he asked «что такое "панель"?» — say «шторка» or his own «сайдбар», never «панель» (that is the owner panel for him).
 
 ## Ivan's words (2026-09-23 ~04:30 WITA, verbatim)
 
 «1. давай сделаем блок с описанием и характеристиками аналогично как и у wildberries [Image #6] [Image #7]
 1.1. он появляется справа в сайдбаре над оверлеем, внизу кнопки которые остаются на месте при прокрутке, а тело может скроллиться
 1.2. хедер и кнопка закрыть остаются при прокрутке»
+
+Follow-up (2026-09-23 04:42 WITA, verbatim): «мы оставим одну кнопку, сейчас пришлю скриншот [Image #9]» — the screenshot is
+`/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/mockups/wb-center-card-one-button-2026-09-23.png` (Wildberries centre card, 1098×1168), and «запиши это в сейв для передачи другой сессии».
 
 ## Design stage (rule 27d)
 
@@ -35,8 +39,12 @@ lead (session a71e7cdc) for the next lead; status: Ivan's words received, branch
 3. Footer: the selected variant's price (`ProductPrice`, no delivery date — no source) at the left; «Купить» (secondary pill = add to cart and go to
    `/checkout?step=address`) and «В корзину» (primary pill) at the right — the SAME handlers as the buy box, extracted from `product-actions/index.tsx`
    into a shared hook on the `ProductSelectionProvider` so the cart logic exists once; disabled states identical to the buy box.
-4. Openers: «Все характеристики» (`product-attributes/summary.tsx`) and «Всё описание» (`product-description/excerpt.tsx`) become buttons that open the
-   drawer; the second scrolls the body to the «Описание» heading. The under-cards block `#product-details` (`templates/index.tsx`) is retired —
+4. Opener — ONE button (Ivan's decision, «мы оставим одну кнопку»): the centre card ends with a single bold text button «Характеристики и описание»
+   under the description excerpt, exactly as the Wildberries screenshot draws it; it opens the drawer at the top. The two links of unit A
+   («Все характеристики» in `product-attributes/summary.tsx`, «Всё описание» in `product-description/excerpt.tsx`) are removed — no other opener.
+   What else the screenshot shows for the card (compare with the PR #114 card on stand 8122 before touching anything): title, rating chips, «100 мл»
+   photo swatches, six attribute rows in TWO columns with dotted leaders (a long name is cut with an ellipsis there: «Страна производст…»), the
+   description cut to three lines with an ellipsis, then the button. The under-cards block `#product-details` (`templates/index.tsx`) is retired —
    Ivan's «блок с описанием и характеристиками» moves into the drawer. `tests/pdp/layout.spec.ts` is re-read and updated for the new positions.
 5. Phone (390): the drawer takes the full width, header and footer stay fixed, the body scrolls; the phone buy bar (`MobileActions`) is hidden
    while the drawer is open so two buy bars are never on screen.
@@ -57,7 +65,8 @@ Do not start until he answers. Stand for (a): http://cherkashino.localhost:8122 
   price and both buttons stay at the bottom while the body scrolls; the body scrolls to the end of the description.
 - Names and values are joined by a dotted leader; no name is cut with an ellipsis; long values wrap under themselves, not under the name.
 - «В корзину» in the drawer puts the selected variant in the cart exactly as the buy box does (cart count grows by one); «Купить» lands on the checkout.
-- Esc, the X and a click on the overlay close it; focus returns to the link that opened it.
+- Esc, the X and a click on the overlay close it; focus returns to the button that opened it.
+- The centre card shows exactly one opener, «Характеристики и описание», under the description excerpt; «Все характеристики» and «Всё описание» are gone.
 - At 390 the drawer is full-width, header and footer fixed, the body scrolls, no second buy bar is visible.
 - Side by side with the Wildberries panel at similar width the two read as the same layout (title, leaders, footer with price + two pills).
 - Machine gates on top: tsc 0, lint 0, vitest green, parity 36 catalogs, `next build` green, `e2e/product-page.e2e.mjs` PASSED, console errors 0, CLS < 0.1.
