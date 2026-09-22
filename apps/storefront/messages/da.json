@@ -872,7 +872,7 @@
     "termsOfUse": "Brugsbetingelserne"
   },
   "RelatedProducts": {
-    "title": "Du vil måske også synes om"
+    "title": "Købes sammen med denne vare"
   },
   "ResetPassword": {
     "confirmPassword": "Gentag adgangskode",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "{percent} % rabat"
+  },
+  "RecentlyViewed": {
+    "title": "Senest set"
   }
 }

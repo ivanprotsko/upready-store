@@ -872,7 +872,7 @@
     "termsOfUse": "Naudojimo sąlygomis"
   },
   "RelatedProducts": {
-    "title": "Jums gali patikti"
+    "title": "Perkama kartu su šia preke"
   },
   "ResetPassword": {
     "confirmPassword": "Pakartokite slaptažodį",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "{percent} % nuolaida"
+  },
+  "RecentlyViewed": {
+    "title": "Neseniai peržiūrėta"
   }
 }

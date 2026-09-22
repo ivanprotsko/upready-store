@@ -872,7 +872,7 @@
     "termsOfUse": "Podmínkami užívání"
   },
   "RelatedProducts": {
-    "title": "Mohlo by se vám líbit"
+    "title": "Kupují se společně s tímto zbožím"
   },
   "ResetPassword": {
     "confirmPassword": "Zopakujte heslo",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "Sleva {percent} %"
+  },
+  "RecentlyViewed": {
+    "title": "Naposledy prohlížené"
   }
 }

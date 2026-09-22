@@ -872,7 +872,7 @@
     "termsOfUse": "使用条款"
   },
   "RelatedProducts": {
-    "title": "您可能还喜欢"
+    "title": "购买此商品的顾客还买了"
   },
   "ResetPassword": {
     "confirmPassword": "确认密码",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "立减 {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "最近浏览"
   }
 }

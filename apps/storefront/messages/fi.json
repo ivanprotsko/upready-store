@@ -872,7 +872,7 @@
     "termsOfUse": "Käyttöehdot"
   },
   "RelatedProducts": {
-    "title": "Saatat pitää tästä"
+    "title": "Ostetaan yhdessä tämän tuotteen kanssa"
   },
   "ResetPassword": {
     "confirmPassword": "Toista salasana",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "Alennus {percent} %"
+  },
+  "RecentlyViewed": {
+    "title": "Viimeksi katsotut"
   }
 }

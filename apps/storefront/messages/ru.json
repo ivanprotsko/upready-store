@@ -872,7 +872,7 @@
     "termsOfUse": "Условиями использования"
   },
   "RelatedProducts": {
-    "title": "Вам может понравиться"
+    "title": "С этим товаром покупают"
   },
   "ResetPassword": {
     "confirmPassword": "Повторите пароль",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "Скидка {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "Вы недавно просматривали"
   }
 }

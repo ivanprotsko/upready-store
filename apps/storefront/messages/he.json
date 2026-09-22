@@ -872,7 +872,7 @@
     "termsOfUse": "תנאי השימוש"
   },
   "RelatedProducts": {
-    "title": "אולי יעניין אותך"
+    "title": "נרכשים יחד עם פריט זה"
   },
   "ResetPassword": {
     "confirmPassword": "אימות סיסמה",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% הנחה"
+  },
+  "RecentlyViewed": {
+    "title": "נצפו לאחרונה"
   }
 }

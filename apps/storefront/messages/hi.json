@@ -872,7 +872,7 @@
     "termsOfUse": "उपयोग की शर्तें"
   },
   "RelatedProducts": {
-    "title": "आपको यह पसंद आ सकता है"
+    "title": "इस उत्पाद के साथ खरीदे जाने वाले"
   },
   "ResetPassword": {
     "confirmPassword": "पासवर्ड दोहराएँ",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% की छूट"
+  },
+  "RecentlyViewed": {
+    "title": "हाल ही में देखे गए"
   }
 }

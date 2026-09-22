@@ -872,7 +872,7 @@
     "termsOfUse": "ব্যবহারের শর্তাবলী"
   },
   "RelatedProducts": {
-    "title": "আপনার পছন্দ হতে পারে"
+    "title": "এই পণ্যের সাথে কেনা হয়"
   },
   "ResetPassword": {
     "confirmPassword": "পাসওয়ার্ড আবার লিখুন",
@@ -975,5 +975,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% ছাড়"
+  },
+  "RecentlyViewed": {
+    "title": "সম্প্রতি দেখা হয়েছে"
   }
 }
