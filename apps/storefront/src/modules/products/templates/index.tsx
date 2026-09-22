@@ -40,12 +40,12 @@ type ProductTemplateProps = {
   reviewsPage: number
 }
 
-/** A white card on the page's grey: 1px hairline, the large radius of the config. */
+/** A card on the page: 1px hairline on the page's own base colour, the large radius of the config. */
 const CARD = "rounded-large border border-ui-border-base bg-ui-bg-base"
 
 /**
  * The product page, laid out after Ivan's Figma mockup (frame «ProductPage», 1184 wide,
- * `handoff/o-20260921-01/t-2026-09-22-01-pdp-figma-layout.md`): on a light grey page,
+ * `handoff/o-20260921-01/t-2026-09-22-01-pdp-figma-layout.md`): on the page's own base colour,
  * three white cards in a row — the gallery, the summary (breadcrumb pill, title, rating,
  * variant pickers, six characteristics with dotted leaders, a three-line excerpt of the
  * description), and the buy box — then the full description and characteristics in one
@@ -111,7 +111,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
     <>
       <JsonLd data={jsonLd} />
 
-      <div className="bg-ui-bg-subtle" data-testid="product-page">
+      <div data-testid="product-page">
         <div
           className="content-container flex flex-col gap-y-6 pb-6 pt-8 small:gap-y-8 small:pb-8 small:pt-10"
           data-testid="product-container"
