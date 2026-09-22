@@ -7,7 +7,10 @@ import type { ProductAttributeRow } from "@lib/data/product-attributes"
  * text value that ends with the same `-tag` as this product's handle loses it, and a
  * value that was nothing but the tag is dropped with its row.
  */
-export const withoutShopTag = (value: string, handle?: string | null): string => {
+export const withoutShopTag = (
+  value: string,
+  handle?: string | null
+): string => {
   const tag = handle?.split("-").pop()
   if (!tag || !/[a-z]/i.test(tag)) {
     return value

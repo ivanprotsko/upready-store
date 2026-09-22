@@ -36,7 +36,10 @@ const AttributesSummary = async ({ rows }: AttributesSummaryProps) => {
             className="flex min-w-0 items-baseline gap-x-1.5 text-sm leading-6"
             data-testid={`product-attribute-summary-${row.key}`}
           >
-            <dt className="min-w-0 shrink truncate text-ui-fg-subtle" title={row.name}>
+            <dt
+              className="min-w-0 shrink truncate text-ui-fg-subtle"
+              title={row.name}
+            >
               {row.name}
             </dt>
             <span

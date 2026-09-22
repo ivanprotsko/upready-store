@@ -14,7 +14,9 @@ const FOCUS_RING =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-fg-interactive"
 
 /** The first usable image a variant carries (`*variants.images` is in the product fields). */
-const variantImage = (variant: HttpTypes.StoreProductVariant): string | null => {
+const variantImage = (
+  variant: HttpTypes.StoreProductVariant
+): string | null => {
   const images = (variant as { images?: { url?: string | null }[] }).images
   return images?.find((image) => image.url)?.url ?? null
 }
@@ -41,7 +43,8 @@ export default function VariantPicker() {
       .map((option) => ({
         title: option.title ?? "",
         value:
-          variants[0]?.options?.find((value) => value.option_id === option.id)?.value ?? "",
+          variants[0]?.options?.find((value) => value.option_id === option.id)
+            ?.value ?? "",
       }))
       .filter((unit) => unit.title && unit.value)
 
@@ -50,7 +53,10 @@ export default function VariantPicker() {
     }
 
     return (
-      <dl className="flex flex-wrap gap-x-4 gap-y-1 text-sm leading-6" data-testid="product-unit">
+      <dl
+        className="flex flex-wrap gap-x-4 gap-y-1 text-sm leading-6"
+        data-testid="product-unit"
+      >
         {units.map((unit) => (
           <div key={unit.title} className="flex gap-x-1.5">
             <dt className="text-ui-fg-subtle">{unit.title}:</dt>
@@ -76,13 +82,18 @@ export default function VariantPicker() {
                 variantImage(variant) &&
                 variant.options?.some(
                   (variantOption) =>
-                    variantOption.option_id === option.id && variantOption.value === value.value
+                    variantOption.option_id === option.id &&
+                    variantOption.value === value.value
                 )
             )
             ownPhoto.set(value.value, owner ? variantImage(owner) : null)
           }
-          const distinctPhotos = new Set(Array.from(ownPhoto.values()).filter(Boolean))
-          const asPhotos = distinctPhotos.size > 1 && (fallbackPhoto || distinctPhotos.size === values.length)
+          const distinctPhotos = new Set(
+            Array.from(ownPhoto.values()).filter(Boolean)
+          )
+          const asPhotos =
+            distinctPhotos.size > 1 &&
+            (fallbackPhoto || distinctPhotos.size === values.length)
 
           if (!asPhotos) {
             return (
@@ -103,9 +114,16 @@ export default function VariantPicker() {
             <div key={option.id} className="flex flex-col gap-y-2">
               <span className="text-sm leading-6 text-ui-fg-subtle">
                 {option.title}
-                {current ? <span className="text-ui-fg-base">: {current}</span> : null}
+                {current ? (
+                  <span className="text-ui-fg-base">: {current}</span>
+                ) : null}
               </span>
-              <div className="flex flex-wrap gap-2" role="group" aria-label={option.title ?? undefined} data-testid="product-options">
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-label={option.title ?? undefined}
+                data-testid="product-options"
+              >
                 {values.map((value) => {
                   const photo = ownPhoto.get(value.value) ?? fallbackPhoto
                   const isSelected = value.value === current
@@ -128,7 +146,13 @@ export default function VariantPicker() {
                       )}
                     >
                       {photo ? (
-                        <Image src={photo} alt="" fill sizes="72px" className="object-contain p-1" />
+                        <Image
+                          src={photo}
+                          alt=""
+                          fill
+                          sizes="72px"
+                          className="object-contain p-1"
+                        />
                       ) : (
                         <span className="absolute inset-0 flex items-center justify-center px-1 text-center text-xs text-ui-fg-base">
                           {value.value}

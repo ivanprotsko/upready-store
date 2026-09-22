@@ -1,6 +1,11 @@
 "use client"
 
-import { ChevronLeft, ChevronRight, MagnifyingGlass, XMark } from "@medusajs/icons"
+import {
+  ChevronLeft,
+  ChevronRight,
+  MagnifyingGlass,
+  XMark,
+} from "@medusajs/icons"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import {
@@ -88,7 +93,9 @@ const Gallery = ({ items, title }: GalleryProps) => {
     if (!rail) return
     const start = rail.scrollLeft > 1
     const end = rail.scrollLeft + rail.clientWidth < rail.scrollWidth - 1
-    setRailEdges((edges) => (edges.start === start && edges.end === end ? edges : { start, end }))
+    setRailEdges((edges) =>
+      edges.start === start && edges.end === end ? edges : { start, end }
+    )
   }, [])
   useEffect(() => {
     updateRailEdges()
@@ -178,9 +185,12 @@ const Gallery = ({ items, title }: GalleryProps) => {
           viewerRef.current?.querySelectorAll<HTMLElement>("button") ?? []
         )
         if (buttons.length) {
-          const position = buttons.indexOf(document.activeElement as HTMLElement)
+          const position = buttons.indexOf(
+            document.activeElement as HTMLElement
+          )
           const nextPosition =
-            (position + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length
+            (position + (event.shiftKey ? -1 : 1) + buttons.length) %
+            buttons.length
           event.preventDefault()
           buttons[nextPosition].focus()
         }
@@ -276,7 +286,9 @@ const Gallery = ({ items, title }: GalleryProps) => {
   const active = items[index] ?? items[0]
   const hasChrome = total > 1
   const photoName = (position: number) =>
-    title ? `${title} — ${t("counter", { index: position + 1, total })}` : t("showImage", { index: position + 1 })
+    title
+      ? `${title} — ${t("counter", { index: position + 1, total })}`
+      : t("showImage", { index: position + 1 })
 
   return (
     <>
@@ -293,130 +305,140 @@ const Gallery = ({ items, title }: GalleryProps) => {
         data-hydrated={mounted ? "true" : undefined}
       >
         <div className="flex w-full min-w-0 flex-col gap-3 self-start">
-        <div
-          style={{ aspectRatio: FRAME_ASPECT.gallery }}
-          className="group relative w-full min-w-0 overflow-hidden rounded-[var(--radius,8px)] bg-ui-bg-base select-none touch-pan-y cursor-zoom-in"
-          data-product-media="gallery"
-          data-product-media-state="photo"
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={(event) => finishPointer(event, true)}
-          onPointerCancel={(event) => finishPointer(event, false)}
-          onClick={() => {
-            if (dragMoved.current) {
-              return
-            }
-            openViewer()
-          }}
-          onDragStart={(event) => event.preventDefault()}
-          data-testid="product-gallery-hero"
-        >
-          <ProductMediaBackdrop key={`backdrop-${active.id}`} src={active.url} />
-          <Image
-            key={active.id}
-            src={active.url}
-            alt={photoName(index)}
-            fill
-            priority
-            sizes={HERO_SIZES}
-            className="object-contain object-center"
-            draggable={false}
-            data-testid="product-gallery-hero-image"
-          />
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation()
+          <div
+            style={{ aspectRatio: FRAME_ASPECT.gallery }}
+            className="group relative w-full min-w-0 overflow-hidden rounded-[var(--radius,8px)] bg-ui-bg-base select-none touch-pan-y cursor-zoom-in"
+            data-product-media="gallery"
+            data-product-media-state="photo"
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={(event) => finishPointer(event, true)}
+            onPointerCancel={(event) => finishPointer(event, false)}
+            onClick={() => {
+              if (dragMoved.current) {
+                return
+              }
               openViewer()
             }}
-            aria-label={t("openFullImage")}
-            className={`absolute end-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 transition-opacity hover:bg-ui-bg-base-hover focus-visible:opacity-100 group-hover:opacity-100 ${FOCUS_RING}`}
-            data-testid="product-gallery-zoom"
+            onDragStart={(event) => event.preventDefault()}
+            data-testid="product-gallery-hero"
           >
-            <MagnifyingGlass className="pointer-events-none" />
-          </button>
+            <ProductMediaBackdrop
+              key={`backdrop-${active.id}`}
+              src={active.url}
+            />
+            <Image
+              key={active.id}
+              src={active.url}
+              alt={photoName(index)}
+              fill
+              priority
+              sizes={HERO_SIZES}
+              className="object-contain object-center"
+              draggable={false}
+              data-testid="product-gallery-hero-image"
+            />
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation()
+                openViewer()
+              }}
+              aria-label={t("openFullImage")}
+              className={`absolute end-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 transition-opacity hover:bg-ui-bg-base-hover focus-visible:opacity-100 group-hover:opacity-100 ${FOCUS_RING}`}
+              data-testid="product-gallery-zoom"
+            >
+              <MagnifyingGlass className="pointer-events-none" />
+            </button>
 
-          {hasChrome && (
-            <>
-              <span className="sr-only" aria-live="polite" data-testid="product-gallery-counter">
-                {t("counter", { index: index + 1, total })}
-              </span>
+            {hasChrome && (
+              <>
+                <span
+                  className="sr-only"
+                  aria-live="polite"
+                  data-testid="product-gallery-counter"
+                >
+                  {t("counter", { index: index + 1, total })}
+                </span>
 
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  if (dragMoved.current) {
-                    return
-                  }
-                  previous()
-                }}
-                aria-label={t("previousImage")}
-                className={`absolute left-3 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-ui-bg-base-hover transition-opacity ${FOCUS_RING}`}
-                data-testid="product-gallery-previous"
-              >
-                <ChevronLeft className="pointer-events-none" />
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  if (dragMoved.current) {
-                    return
-                  }
-                  next()
-                }}
-                aria-label={t("nextImage")}
-                className={`absolute right-3 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-ui-bg-base-hover transition-opacity ${FOCUS_RING}`}
-                data-testid="product-gallery-next"
-              >
-                <ChevronRight className="pointer-events-none" />
-              </button>
-
-            </>
-          )}
-        </div>
-        {hasChrome && (
-          // A phone swipes and reads the dots; the strip is the desktop's.
-          <ul
-            ref={railRef}
-            aria-label={t("thumbnails")}
-            onScroll={updateRailEdges}
-            // When more photos wait past either end, that end fades out as the hint.
-            style={{
-              maskImage: `linear-gradient(to right, ${railEdges.start ? "transparent" : "#000"} 0, #000 32px, #000 calc(100% - 32px), ${railEdges.end ? "transparent" : "#000"} 100%)`,
-            }}
-            data-more-before={railEdges.start ? "true" : undefined}
-            data-more-after={railEdges.end ? "true" : undefined}
-            className="hidden w-full flex-row gap-2 overflow-x-auto no-scrollbar small:flex"
-            data-testid="product-gallery-thumbnails"
-          >
-            {items.map((item, position) => (
-              <li key={item.id} className="shrink-0 flex leading-none">
                 <button
                   type="button"
-                  onClick={() => setIndex(position)}
-                  aria-label={t("showImage", { index: position + 1 })}
-                  aria-current={position === index ? "true" : undefined}
-                  className={`relative m-0.5 block h-[75px] w-14 overflow-hidden rounded-rounded bg-ui-bg-base transition-shadow ${FOCUS_RING} ${
-                    position === index
-                      ? "ring-2 ring-ui-border-interactive"
-                      : "ring-1 ring-ui-border-base hover:ring-ui-border-strong"
-                  }`}
-                  data-testid={`product-gallery-thumbnail-${position + 1}`}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    if (dragMoved.current) {
+                      return
+                    }
+                    previous()
+                  }}
+                  aria-label={t("previousImage")}
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-ui-bg-base-hover transition-opacity ${FOCUS_RING}`}
+                  data-testid="product-gallery-previous"
                 >
-                  <Image
-                    src={item.url}
-                    alt=""
-                    fill
-                    sizes="56px"
-                    className="object-contain"
-                  />
+                  <ChevronLeft className="pointer-events-none" />
                 </button>
-              </li>
-            ))}
-          </ul>
-        )}
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    if (dragMoved.current) {
+                      return
+                    }
+                    next()
+                  }}
+                  aria-label={t("nextImage")}
+                  className={`absolute right-3 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-circle bg-ui-bg-base text-ui-fg-base shadow-elevation-card-rest opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-ui-bg-base-hover transition-opacity ${FOCUS_RING}`}
+                  data-testid="product-gallery-next"
+                >
+                  <ChevronRight className="pointer-events-none" />
+                </button>
+              </>
+            )}
+          </div>
+          {hasChrome && (
+            // A phone swipes and reads the dots; the strip is the desktop's.
+            <ul
+              ref={railRef}
+              aria-label={t("thumbnails")}
+              onScroll={updateRailEdges}
+              // When more photos wait past either end, that end fades out as the hint.
+              style={{
+                maskImage: `linear-gradient(to right, ${
+                  railEdges.start ? "transparent" : "#000"
+                } 0, #000 32px, #000 calc(100% - 32px), ${
+                  railEdges.end ? "transparent" : "#000"
+                } 100%)`,
+              }}
+              data-more-before={railEdges.start ? "true" : undefined}
+              data-more-after={railEdges.end ? "true" : undefined}
+              className="hidden w-full flex-row gap-2 overflow-x-auto no-scrollbar small:flex"
+              data-testid="product-gallery-thumbnails"
+            >
+              {items.map((item, position) => (
+                <li key={item.id} className="shrink-0 flex leading-none">
+                  <button
+                    type="button"
+                    onClick={() => setIndex(position)}
+                    aria-label={t("showImage", { index: position + 1 })}
+                    aria-current={position === index ? "true" : undefined}
+                    className={`relative m-0.5 block h-[75px] w-14 overflow-hidden rounded-rounded bg-ui-bg-base transition-shadow ${FOCUS_RING} ${
+                      position === index
+                        ? "ring-2 ring-ui-border-interactive"
+                        : "ring-1 ring-ui-border-base hover:ring-ui-border-strong"
+                    }`}
+                    data-testid={`product-gallery-thumbnail-${position + 1}`}
+                  >
+                    <Image
+                      src={item.url}
+                      alt=""
+                      fill
+                      sizes="56px"
+                      className="object-contain"
+                    />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
           {hasChrome && (
             <GalleryDots
               total={total}

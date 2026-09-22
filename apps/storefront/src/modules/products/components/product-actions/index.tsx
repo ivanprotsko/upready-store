@@ -26,16 +26,27 @@ type ProductActionsProps = {
  * from the page's own product; the price and the stock are read off THIS component's
  * product, the one fetched with the region's prices.
  */
-export default function ProductActions({ product, disabled }: ProductActionsProps) {
+export default function ProductActions({
+  product,
+  disabled,
+}: ProductActionsProps) {
   const t = useTranslations("ProductActions")
   const router = useRouter()
-  const { options, setOptionValue, selectedVariant: chosen, isValidVariant, setBusy } =
-    useProductSelection()
+  const {
+    options,
+    setOptionValue,
+    selectedVariant: chosen,
+    isValidVariant,
+    setBusy,
+  } = useProductSelection()
 
   const [isAdding, setIsAdding] = useState(false)
 
   const selectedVariant = useMemo(
-    () => (chosen ? product.variants?.find((variant) => variant.id === chosen.id) : undefined),
+    () =>
+      chosen
+        ? product.variants?.find((variant) => variant.id === chosen.id)
+        : undefined,
     [product.variants, chosen]
   )
 
@@ -75,7 +86,9 @@ export default function ProductActions({ product, disabled }: ProductActionsProp
       return
     }
     const observer = new IntersectionObserver(([entry]) =>
-      setScrolledPast(!entry.isIntersecting && entry.boundingClientRect.bottom <= 0)
+      setScrolledPast(
+        !entry.isIntersecting && entry.boundingClientRect.bottom <= 0
+      )
     )
     observer.observe(box)
     return () => observer.disconnect()
@@ -89,12 +102,19 @@ export default function ProductActions({ product, disabled }: ProductActionsProp
     if (!footer || typeof IntersectionObserver === "undefined") {
       return
     }
-    const observer = new IntersectionObserver(([entry]) => setFooterInView(entry.isIntersecting))
+    const observer = new IntersectionObserver(([entry]) =>
+      setFooterInView(entry.isIntersecting)
+    )
     observer.observe(footer)
     return () => observer.disconnect()
   }, [])
 
-  const canBuy = Boolean(selectedVariant) && inStock && isValidVariant && !disabled && !isAdding
+  const canBuy =
+    Boolean(selectedVariant) &&
+    inStock &&
+    isValidVariant &&
+    !disabled &&
+    !isAdding
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
@@ -159,7 +179,13 @@ export default function ProductActions({ product, disabled }: ProductActionsProp
                   : "size-2 rounded-full bg-ui-fg-muted"
               }
             />
-            <span className={inStock && isValidVariant ? "text-ui-fg-base" : "text-ui-fg-subtle"}>
+            <span
+              className={
+                inStock && isValidVariant
+                  ? "text-ui-fg-base"
+                  : "text-ui-fg-subtle"
+              }
+            >
               {inStock && isValidVariant ? t("inStock") : t("outOfStock")}
             </span>
           </p>

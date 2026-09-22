@@ -32,7 +32,9 @@ const DescriptionExcerpt = async ({ product }: DescriptionExcerptProps) => {
       className="flex flex-col gap-y-3 border-t border-dashed border-ui-border-base pt-5"
       data-testid="product-description-excerpt"
     >
-      <p className="line-clamp-3 text-sm leading-6 text-ui-fg-base">{description}</p>
+      <p className="line-clamp-3 text-sm leading-6 text-ui-fg-base">
+        {description}
+      </p>
       <a
         href="#product-description"
         className="inline-flex w-fit items-center gap-x-1 text-sm font-medium text-ui-fg-base underline-offset-4 hover:underline"

@@ -29,17 +29,24 @@ export default function ProductPrice({
   const selectedPrice = variant ? variantPrice : cheapestPrice
 
   if (!selectedPrice) {
-    return <div className="block h-8 w-32 animate-pulse rounded-rounded bg-ui-bg-component" />
+    return (
+      <div className="block h-8 w-32 animate-pulse rounded-rounded bg-ui-bg-component" />
+    )
   }
 
   const onSale = selectedPrice.price_type === "sale"
 
   return (
-    <div className="flex items-center justify-between gap-x-3" data-testid="product-price-row">
+    <div
+      className="flex items-center justify-between gap-x-3"
+      data-testid="product-price-row"
+    >
       <span className="inline-flex min-w-0 items-center gap-x-2 text-2xl font-semibold leading-8 tabular-nums text-ui-fg-base">
         <Wallet className="shrink-0 text-ui-fg-interactive" aria-hidden />
         {!variant && (
-          <span className="text-base font-normal text-ui-fg-subtle">{t("from")}</span>
+          <span className="text-base font-normal text-ui-fg-subtle">
+            {t("from")}
+          </span>
         )}
         <span
           data-testid="product-price"

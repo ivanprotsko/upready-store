@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest"
 
 import type { ProductAttributeRow } from "@lib/data/product-attributes"
 
-import { displayAttributeValue, prepareAttributeRows, withoutShopTag } from "./rows"
+import {
+  displayAttributeValue,
+  prepareAttributeRows,
+  withoutShopTag,
+} from "./rows"
 
 const row = (partial: Partial<ProductAttributeRow>): ProductAttributeRow => ({
   key: "k",
@@ -17,7 +21,9 @@ const row = (partial: Partial<ProductAttributeRow>): ProductAttributeRow => ({
 
 describe("withoutShopTag", () => {
   it("drops the shop tag the product's handle ends with", () => {
-    expect(withoutShopTag("1199673895-CHERKASHINO", "kastorka-cherkashino")).toBe("1199673895")
+    expect(
+      withoutShopTag("1199673895-CHERKASHINO", "kastorka-cherkashino")
+    ).toBe("1199673895")
   })
 
   it("leaves a value that does not end with the tag", () => {
@@ -54,13 +60,29 @@ describe("displayAttributeValue", () => {
   const words = { yes: "Да", no: "Нет" }
 
   it("says yes or no for a flag, in the visitor's words", () => {
-    expect(displayAttributeValue(row({ type: "boolean", value: true }), words)).toBe("Да")
-    expect(displayAttributeValue(row({ type: "boolean", value: false }), words)).toBe("Нет")
+    expect(
+      displayAttributeValue(row({ type: "boolean", value: true }), words)
+    ).toBe("Да")
+    expect(
+      displayAttributeValue(row({ type: "boolean", value: false }), words)
+    ).toBe("Нет")
   })
 
   it("prefers a choice's label and joins a number to its unit", () => {
-    expect(displayAttributeValue(row({ type: "select", value: "ru", label: "Россия" }), words)).toBe("Россия")
-    expect(displayAttributeValue(row({ type: "number", value: 250, unit: "мл" }), words)).toBe("250 мл")
-    expect(displayAttributeValue(row({ type: "number", value: 3 }), words)).toBe("3")
+    expect(
+      displayAttributeValue(
+        row({ type: "select", value: "ru", label: "Россия" }),
+        words
+      )
+    ).toBe("Россия")
+    expect(
+      displayAttributeValue(
+        row({ type: "number", value: 250, unit: "мл" }),
+        words
+      )
+    ).toBe("250 мл")
+    expect(
+      displayAttributeValue(row({ type: "number", value: 3 }), words)
+    ).toBe("3")
   })
 })

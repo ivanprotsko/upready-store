@@ -24,7 +24,10 @@ type ProductInfoProps = {
  * `product-description/excerpt`), under the three-line excerpt it continues.
  */
 const ProductInfo = async ({ product, reviews }: ProductInfoProps) => {
-  const [t, format] = await Promise.all([getTranslations("ProductReviews"), getFormatter()])
+  const [t, format] = await Promise.all([
+    getTranslations("ProductReviews"),
+    getFormatter(),
+  ])
   const hasReviews = !!reviews && reviews.count > 0 && reviews.average !== null
 
   return (
@@ -37,7 +40,9 @@ const ProductInfo = async ({ product, reviews }: ProductInfoProps) => {
           {product.title}
         </h1>
         {product.subtitle && (
-          <p className="text-sm leading-6 text-ui-fg-subtle">{product.subtitle}</p>
+          <p className="text-sm leading-6 text-ui-fg-subtle">
+            {product.subtitle}
+          </p>
         )}
       </div>
       {hasReviews && (
@@ -52,7 +57,9 @@ const ProductInfo = async ({ product, reviews }: ProductInfoProps) => {
         >
           <StarSolid className="h-4 w-4 shrink-0" aria-hidden />
           <span className="font-medium tabular-nums">
-            {format.number(reviews.average as number, { maximumFractionDigits: 1 })}
+            {format.number(reviews.average as number, {
+              maximumFractionDigits: 1,
+            })}
           </span>
           <span className="truncate text-ui-fg-subtle">
             {t("reviewCount", { count: reviews.count })}

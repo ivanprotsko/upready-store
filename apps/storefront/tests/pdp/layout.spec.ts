@@ -1,4 +1,4 @@
-import {expect, test} from "@playwright/test"
+import { expect, test } from "@playwright/test"
 
 /**
  * Where the blocks of the product page sit, checked against a running stand.
@@ -29,12 +29,14 @@ const box = async (page: import("@playwright/test").Page, testId: string) => {
   return found as NonNullable<typeof found>
 }
 
-test.beforeEach(async ({page}) => {
-  await page.goto(PDP_URL as string, {waitUntil: "domcontentloaded"})
+test.beforeEach(async ({ page }) => {
+  await page.goto(PDP_URL as string, { waitUntil: "domcontentloaded" })
   // `data-hydrated` appears when the gallery's effects have run. Server
   // markup looks finished long before it answers a click, and waiting on the
   // picture instead would time the suite to the network.
-  await expect(page.locator('[data-testid="product-gallery"][data-hydrated="true"]')).toBeVisible()
+  await expect(
+    page.locator('[data-testid="product-gallery"][data-hydrated="true"]')
+  ).toBeVisible()
 })
 
 test("the gallery is left of the title, and both are above the description", async ({
@@ -62,14 +64,16 @@ test("the characteristics sit under the rating, in the same column as the title"
   expect(Math.abs(attributes.x - title.x)).toBeLessThan(4)
 })
 
-test("the description runs wider than the summary column", async ({page}) => {
+test("the description runs wider than the summary column", async ({ page }) => {
   const title = await box(page, "product-title")
   const description = await box(page, "product-description-block")
 
   expect(description.width).toBeGreaterThan(title.width)
 })
 
-test("the link next to the title scrolls to the description", async ({page}) => {
+test("the link next to the title scrolls to the description", async ({
+  page,
+}) => {
   await page
     .getByTestId("product-container")
     .getByTestId("product-description-link")
@@ -83,7 +87,7 @@ test("the link next to the title scrolls to the description", async ({page}) => 
     .toBeLessThan(400)
 })
 
-test("the rating links to the reviews block", async ({page}) => {
+test("the rating links to the reviews block", async ({ page }) => {
   await expect(
     page.getByTestId("product-container").getByTestId("product-rating")
   ).toHaveAttribute("href", "#product-reviews")

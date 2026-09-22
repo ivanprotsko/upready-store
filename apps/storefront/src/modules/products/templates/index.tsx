@@ -94,7 +94,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
       limit: REVIEWS_PAGE_SIZE,
       offset: (Math.max(1, reviewsPage) - 1) * REVIEWS_PAGE_SIZE,
     }),
-    listProductAttributes(product.id).then((rows) => prepareAttributeRows(rows, product.handle)),
+    listProductAttributes(product.id).then((rows) =>
+      prepareAttributeRows(rows, product.handle)
+    ),
   ])
 
   const jsonLd = await buildProductJsonLd({
@@ -104,7 +106,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
     reviews: reviews.summary,
   })
 
-  const hasDescription = Boolean(product.description && stripHtml(product.description))
+  const hasDescription = Boolean(
+    product.description && stripHtml(product.description)
+  )
   const hasDetails = hasDescription || attributeRows.length > 0
 
   return (
@@ -120,7 +124,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             {/* Three cards from 1024: the gallery, the summary (the widest), the buy box
                 that stays in view beside them. On a phone they stack in that order. */}
             <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1fr)] small:gap-6">
-              <div className={`${CARD} p-3 small:p-4`} data-testid="product-gallery-card">
+              <div
+                className={`${CARD} p-3 small:p-4`}
+                data-testid="product-gallery-card"
+              >
                 <ImageGallery images={images} title={product.title} />
               </div>
 
@@ -131,7 +138,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                 {/* The trail hangs on the card's top edge, centred, without the product's
                     own title: that is the heading right under it. */}
                 <div className="absolute inset-x-4 top-0 flex -translate-y-1/2 justify-center">
-                  <Breadcrumb items={breadcrumbItems.slice(0, -1)} variant="pill" />
+                  <Breadcrumb
+                    items={breadcrumbItems.slice(0, -1)}
+                    variant="pill"
+                  />
                 </div>
                 <ProductInfo product={product} reviews={reviews.summary} />
                 <VariantPicker />

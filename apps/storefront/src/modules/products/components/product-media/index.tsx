@@ -81,7 +81,11 @@ export default function ProductMedia({
   "data-testid": dataTestid,
 }: ProductMediaProps) {
   const slot = sizes ?? FRAME_SIZES[context]
-  const showSecond = context === "card" && Boolean(src) && Boolean(secondSrc) && secondSrc !== src
+  const showSecond =
+    context === "card" &&
+    Boolean(src) &&
+    Boolean(secondSrc) &&
+    secondSrc !== src
 
   return (
     <div
@@ -111,13 +115,22 @@ export default function ProductMedia({
             draggable={false}
             className="object-contain object-center"
           />
-          {showSecond ? <HoverImage src={secondSrc as string} sizes={slot} quality={quality} /> : null}
+          {showSecond ? (
+            <HoverImage
+              src={secondSrc as string}
+              sizes={slot}
+              quality={quality}
+            />
+          ) : null}
         </>
       ) : (
         <ProductMediaPlaceholder compact={context === "line"} />
       )}
       {!flat && (
-        <span aria-hidden className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]" />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]"
+        />
       )}
     </div>
   )

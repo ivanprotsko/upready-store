@@ -29,11 +29,18 @@ const Breadcrumb = ({ items, variant = "trail" }: BreadcrumbProps) => {
           <Fragment key={index}>
             {index > 0 && <span aria-hidden>/</span>}
             {item.href ? (
-              <Link href={item.href} className="shrink-0 transition-colors hover:text-ui-fg-base">
+              <Link
+                href={item.href}
+                className="shrink-0 transition-colors hover:text-ui-fg-base"
+              >
                 {item.label}
               </Link>
             ) : (
-              <span className="min-w-0 truncate text-ui-fg-base" title={item.label} aria-current="page">
+              <span
+                className="min-w-0 truncate text-ui-fg-base"
+                title={item.label}
+                aria-current="page"
+              >
                 {item.label}
               </span>
             )}
@@ -51,9 +58,15 @@ const Breadcrumb = ({ items, variant = "trail" }: BreadcrumbProps) => {
       {items.map((item, index) => (
         <span
           key={index}
-          className={item.href ? "flex shrink-0 items-center gap-1" : "flex min-w-0 items-center gap-1"}
+          className={
+            item.href
+              ? "flex shrink-0 items-center gap-1"
+              : "flex min-w-0 items-center gap-1"
+          }
         >
-          {index > 0 && <TriangleRightMini className="shrink-0 rtl:rotate-180" />}
+          {index > 0 && (
+            <TriangleRightMini className="shrink-0 rtl:rotate-180" />
+          )}
           {item.href ? (
             <Link
               href={item.href}
@@ -62,7 +75,11 @@ const Breadcrumb = ({ items, variant = "trail" }: BreadcrumbProps) => {
               {item.label}
             </Link>
           ) : (
-            <span className="truncate text-ui-fg-base" title={item.label} aria-current="page">
+            <span
+              className="truncate text-ui-fg-base"
+              title={item.label}
+              aria-current="page"
+            >
               {item.label}
             </span>
           )}

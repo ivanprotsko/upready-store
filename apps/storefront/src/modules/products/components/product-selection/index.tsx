@@ -64,7 +64,9 @@ export function ProductSelectionProvider({
   const searchParams = useSearchParams()
 
   const [options, setOptions] = useState<Options>(() =>
-    product.variants?.length === 1 ? optionsAsKeymap(product.variants[0].options) : {}
+    product.variants?.length === 1
+      ? optionsAsKeymap(product.variants[0].options)
+      : {}
   )
   const [busy, setBusy] = useState(false)
 
@@ -114,14 +116,18 @@ export function ProductSelectionProvider({
   )
 
   return (
-    <ProductSelectionContext.Provider value={value}>{children}</ProductSelectionContext.Provider>
+    <ProductSelectionContext.Provider value={value}>
+      {children}
+    </ProductSelectionContext.Provider>
   )
 }
 
 export function useProductSelection(): ProductSelection {
   const selection = useContext(ProductSelectionContext)
   if (!selection) {
-    throw new Error("useProductSelection needs a ProductSelectionProvider above it")
+    throw new Error(
+      "useProductSelection needs a ProductSelectionProvider above it"
+    )
   }
   return selection
 }
