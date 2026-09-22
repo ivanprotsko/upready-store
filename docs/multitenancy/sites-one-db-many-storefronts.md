@@ -121,14 +121,33 @@
 
 ## 4. Как это ложится на olavka
 
-| | olavka.com (сайт 1) | olavka.ru (сайт 2) |
-|---|---|---|
-| тенант | `ten_01M2GQVGEN1204CN90C510DNRG` (бывш. cherkashino; handle → `olavka`) | новый, клон сайта 1 |
-| домены | olavka.com, www.olavka.com (**сделано 22.09**) | olavka.ru, www.olavka.ru — A-запись на 84.46.251.149 у reg.ru ставит Иван |
-| доставка | DHL (carrier `dhl`, новый), Почта России (`post_ru`), СДЭК (API) — **сделано 22.09**, тарифы-заглушки | Почта России + СДЭК |
-| оплата | крипта + карта через менеджера (по материалам агента olavka-payments-shots); до готовности — `pp_system_default` «Оплата вручную» | те же |
-| каталог | товары cherkashino (владелец — этот тенант) | **весь каталог WB клиента** |
-| дизайн | общий: клон копирует `tenant_home_config` + branding | |
+Уточнение Ивана 22.09: сайтов три. Третий — cherkashino.ru:
+
+> а cherkashino.ru это буде третий вариант, на котором будут интеграции с
+> робокассой, яндекс айди, apiship, cdek, то есть эта та версия которую мы никак
+> не можем сделать из-за различных проблем … на эту версию сегодня не надо
+> уделять внимание, она должна числиться, учитываться, что она будет, но задач
+> по ней не делать
+
+| | olavka.com (сайт 1) | olavka.ru (сайт 2) | cherkashino.ru (сайт 3, только числится) |
+|---|---|---|---|
+| тенант | `ten_01M2GQVGEN1204CN90C510DNRG` (бывш. cherkashino; handle → `olavka`) | новый, клон сайта 1 | новый, клон; handle `cherkashino` — сейчас зарезервирован алиасом после переименования, перед созданием алиас снять |
+| домены | olavka.com, www.olavka.com (**сделано 22.09**) | olavka.ru, www.olavka.ru — A-запись на 84.46.251.149 у reg.ru ставит Иван | cherkashino.ru |
+| доставка | DHL (carrier `dhl`, новый), Почта России (`post_ru`), СДЭК (API) — **сделано 22.09**, тарифы-заглушки | Почта России + СДЭК | ApiShip + СДЭК (интеграции) |
+| оплата | крипта + карта через менеджера (по материалам агента olavka-payments-shots); до готовности — `pp_system_default` «Оплата вручную» | те же | Robokassa |
+| вход покупателя | e-mail | e-mail | Yandex ID |
+| каталог | товары cherkashino (владелец — этот тенант) | **весь каталог WB клиента** | по решению Ивана |
+| дизайн | общий: клон копирует `tenant_home_config` + branding | | |
+
+Из третьего сайта для модели следует: **провайдеры оплаты, входа и доставки —
+per-site**, и это уже так: Robokassa — `tenant_integration_secret`
+provider=robokassa (+ `pp_system_default` везде), ApiShip/СДЭК — те же
+секреты provider=apiship/cdek, методы доставки — per-tenant `shipping_option`.
+Yandex ID как способ входа покупателя на платформе нет — это новый auth-провайдер
+с per-tenant client_id/secret (`tenant_integration_secret` provider=yandex_id)
+и включением в `tenant.metadata.auth_providers`; заводится, когда дойдёт
+очередь сайта 3. Существующие пути Robokassa/CDEK/ApiShip в коде не трогаются
+ни одним шагом §5.
 
 **Каталог WB для сайта 2 — отдельная работа.** Сегодня WB-карточка *не становится*
 товаром: `wb_product` → `mp_product` → `autoLink` по `vendorCode` = `product_variant.sku`
