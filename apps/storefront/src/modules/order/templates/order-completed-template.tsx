@@ -3,6 +3,7 @@ import { cookies as nextCookies } from "next/headers"
 
 import Help from "@modules/order/components/help"
 import Items from "@modules/order/components/items"
+import ManualPaymentHandover from "@modules/order/components/manual-payment-handover"
 import OnboardingCta from "@modules/order/components/onboarding-cta"
 import OrderDetails from "@modules/order/components/order-details"
 import OrderSection from "@modules/order/components/order-section"
@@ -73,6 +74,11 @@ export default async function OrderCompletedTemplate({
             {t("keepOrderNumber")}
           </Text>
         </div>
+
+        {/* olavka-payments: how to pay now, for an order placed through one of
+            the shop's offline kinds on the manual provider. Renders nothing for
+            every other order. */}
+        <ManualPaymentHandover order={order} />
 
         <OrderSection title={td("items")}>
           <Items order={order} />

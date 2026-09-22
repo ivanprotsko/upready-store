@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest"
 
 import { resolveShopOfRequest } from "./request-shop"
 import { EMPTY_BRANDING } from "./branding"
+import { EMPTY_MANUAL_PAYMENT } from "./manual-payment"
 import type { ResolvedTenant } from "./resolve"
 
 const tenant = (handle: string): ResolvedTenant => ({
@@ -16,6 +17,7 @@ const tenant = (handle: string): ResolvedTenant => ({
   seoVerification: null,
   analytics: null,
   branding: EMPTY_BRANDING,
+  manualPayment: EMPTY_MANUAL_PAYMENT,
 })
 
 /** A backend that knows exactly the hosts it is given. */

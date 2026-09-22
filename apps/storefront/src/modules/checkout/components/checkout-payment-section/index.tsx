@@ -22,6 +22,13 @@ import DemoCardFields, {
   type DemoCardValue,
 } from "@modules/checkout/components/demo-card-fields"
 import CheckoutBillingSheet from "@modules/checkout/components/checkout-billing-sheet"
+import ManualPaymentKindSelect from "@modules/checkout/components/manual-payment-kind-select"
+import ManualPaymentInstructions from "@modules/checkout/components/manual-payment-instructions"
+import {
+  availableManualPaymentKinds,
+  type ManualPaymentKind,
+  type TenantManualPayment,
+} from "@lib/tenant/manual-payment"
 import { Link } from "@i18n/navigation"
 import {
   consentHref,
@@ -40,12 +47,20 @@ interface CheckoutPaymentSectionProps {
    * tenant headers itself (rule 19g).
    */
   legal: LegalLinkContext
+  /**
+   * The shop's offline ways to pay on the manual provider (olavka-payments),
+   * from the same server parent: crypto wallets and manager contacts the
+   * owner entered in the panel. Both off means the manual provider renders
+   * exactly as it did before, with the demo card.
+   */
+  manualPayment: TenantManualPayment
 }
 
 export default function CheckoutPaymentSection({
   cart,
   availablePaymentMethods,
   legal,
+  manualPayment,
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
@@ -59,6 +74,16 @@ export default function CheckoutPaymentSection({
   const [billingOpen, setBillingOpen] = useState(false)
   const [showBillingDetails, setShowBillingDetails] = useState(false)
   const [demoCard, setDemoCard] = useState<DemoCardValue>(EMPTY_DEMO_CARD)
+
+  // The kinds this shop offers inside the manual provider (olavka-payments).
+  // An empty list is the single-store case and every shop that configured
+  // neither section: the manual provider then keeps its demo card and the
+  // button its demo gate. With at least one kind the first is preselected, so
+  // the buyer who never touches the choice still places a coherent order.
+  const manualKinds = availableManualPaymentKinds(manualPayment)
+  const [manualKind, setManualKind] = useState<ManualPaymentKind | null>(
+    manualKinds[0] ?? null
+  )
 
   /**
    * Creating a payment session is not idempotent: `POST
@@ -265,12 +290,30 @@ export default function CheckoutPaymentSection({
             </div>
           )}
 
-          {/* Demo card input — the manual provider, checkout mockup frames 6-8 */}
-          {isManual(selectedPaymentMethod) && (
-            <div className="mt-2">
-              <DemoCardFields value={demoCard} onChange={setDemoCard} />
-            </div>
-          )}
+          {/* The manual provider (olavka-payments): the shop's offline kinds when
+              the owner enabled any, else the demo card of checkout mockup
+              frames 6-8, exactly as before. */}
+          {isManual(selectedPaymentMethod) &&
+            (manualKinds.length > 0 ? (
+              <div className="mt-2 flex flex-col gap-y-4">
+                <ManualPaymentKindSelect
+                  kinds={manualKinds}
+                  wallets={manualPayment.crypto.wallets}
+                  value={manualKind}
+                  onChange={setManualKind}
+                />
+                {manualKind && (
+                  <ManualPaymentInstructions
+                    kind={manualKind}
+                    manualPayment={manualPayment}
+                  />
+                )}
+              </div>
+            ) : (
+              <div className="mt-2">
+                <DemoCardFields value={demoCard} onChange={setDemoCard} />
+              </div>
+            ))}
         </div>
       )}
 
@@ -340,6 +383,7 @@ export default function CheckoutPaymentSection({
           cart={cart}
           selectedPaymentMethod={selectedPaymentMethod}
           demoCard={demoCard}
+          manualKind={manualKinds.length > 0 ? manualKind : null}
           data-testid="submit-order-button"
         />
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">
