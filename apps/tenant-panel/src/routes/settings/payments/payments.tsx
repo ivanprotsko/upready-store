@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { CrossLink } from "../integrations/components/cross-link"
+import { ManualPaymentCard } from "./components/manual-payment-card"
 import { RobokassaBehaviourFields } from "./components/robokassa-behaviour-fields"
 import { useRobokassaForm } from "./use-robokassa-form"
 
@@ -110,6 +111,9 @@ export const PaymentSettings = () => {
           </code>
         </div>
       </Container>
+
+      {/* olavka-payments: crypto wallets and manager contacts on the manual provider. */}
+      <ManualPaymentCard />
     </SingleColumnPage>
   )
 }
