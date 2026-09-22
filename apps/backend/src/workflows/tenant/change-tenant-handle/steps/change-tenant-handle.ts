@@ -16,6 +16,22 @@ export type ChangeTenantHandleStepInput = {
 type Compensation = { tenant_id: string; handle: string; changed: boolean };
 
 /**
+ * The alias model's name already ends in "s", and Medusa's TYPE-level pluraliser
+ * leaves such a name alone (`listTenantHandleAlias`) while the RUNTIME one
+ * (`pluralize`) makes it `listTenantHandleAliases`. Calling the typed name threw
+ * "is not a function" on the live server (22.09.2026), so the runtime names are
+ * addressed explicitly, typed by the declarations that do exist.
+ */
+type TenantHandleAliasMethods = {
+  listTenantHandleAliases: TenantModuleService["listTenantHandleAlias"];
+  createTenantHandleAliases: TenantModuleService["createTenantHandleAlias"];
+  deleteTenantHandleAliases: TenantModuleService["deleteTenantHandleAlias"];
+};
+
+const aliasMethods = (service: TenantModuleService): TenantHandleAliasMethods =>
+  service as unknown as TenantHandleAliasMethods;
+
+/**
  * Moves the shop to its new address: the current handle becomes an alias and the
  * new one takes its place (`specs/tenant-address/CANONICAL.md` §1.2).
  *
@@ -40,23 +56,23 @@ const changeTenantHandleStep = createStep(
       );
     }
 
-    const [existingAlias] = await tenantModuleService.listTenantHandleAliases({
+    const [existingAlias] = await aliasMethods(tenantModuleService).listTenantHandleAliases({
       handle: previousHandle,
     });
 
     if (!existingAlias) {
-      await tenantModuleService.createTenantHandleAliases({
+      await aliasMethods(tenantModuleService).createTenantHandleAliases({
         handle: previousHandle,
         tenant_id: input.tenant_id,
       });
     }
 
-    const [aliasOfNewHandle] = await tenantModuleService.listTenantHandleAliases({
+    const [aliasOfNewHandle] = await aliasMethods(tenantModuleService).listTenantHandleAliases({
       handle: input.handle,
     });
 
     if (aliasOfNewHandle) {
-      await tenantModuleService.deleteTenantHandleAliases([aliasOfNewHandle.id]);
+      await aliasMethods(tenantModuleService).deleteTenantHandleAliases([aliasOfNewHandle.id]);
     }
 
     const updated = await tenantModuleService.updateTenants({
@@ -85,12 +101,12 @@ const changeTenantHandleStep = createStep(
       handle: compensation.handle,
     });
 
-    const [alias] = await tenantModuleService.listTenantHandleAliases({
+    const [alias] = await aliasMethods(tenantModuleService).listTenantHandleAliases({
       handle: compensation.handle,
     });
 
     if (alias) {
-      await tenantModuleService.deleteTenantHandleAliases([alias.id]);
+      await aliasMethods(tenantModuleService).deleteTenantHandleAliases([alias.id]);
     }
   },
 );
