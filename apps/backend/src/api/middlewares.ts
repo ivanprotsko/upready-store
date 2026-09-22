@@ -167,6 +167,7 @@ import {
   PutTenantApishipKeySchema,
   PutTenantDeliverySettingsSchema,
   PutTenantPaymentSettingsSchema,
+  PutTenantManualPaymentSchema,
   PutTenantNotificationSettingsSchema,
   PutTenantRequisitesSchema,
   PostTenantHandleSchema,
@@ -351,6 +352,13 @@ export default defineMiddlewares({
       matcher: "/tenants/payment-settings",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantPaymentSettingsSchema)],
+    },
+    {
+      // The shop's offline ways to pay on `pp_system_default`: crypto wallets
+      // and «card via manager» (olavka-payments).
+      matcher: "/tenants/payment-settings/manual",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantManualPaymentSchema)],
     },
     {
       // The shop's CDEK account and the delivery kinds it offers

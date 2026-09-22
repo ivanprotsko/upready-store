@@ -304,6 +304,64 @@ export const PutTenantPaymentSettingsSchema = z.strictObject({
 export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
 
 /**
+ * `PUT /tenants/payment-settings/manual` (olavka-payments) — the shop's two
+ * offline ways to pay on `pp_system_default`: crypto wallets and «card via
+ * manager». Each section is optional so a PUT changes only the section it
+ * names; inside a section the whole section is replaced, because a wallet list
+ * has no field-by-field merge that makes sense. An empty contact clears it, the
+ * convention `PutTenantSeoVerificationSchema` above already uses.
+ *
+ * `whatsapp` is the number `https://wa.me/<number>` takes (digits, optional
+ * leading `+`), `telegram` the username `https://t.me/<username>` takes (the
+ * `@` is stripped). Neither is a default anywhere: an empty section is a
+ * method the checkout does not offer.
+ */
+const optionalContact = (pattern: RegExp, message: string) =>
+  z
+    .string()
+    .trim()
+    .max(200)
+    .regex(pattern, message)
+    .nullable()
+    .optional()
+    .transform((value) => (value ? value : null));
+
+export const PutTenantManualPaymentSchema = z.strictObject({
+  crypto: z
+    .strictObject({
+      enabled: z.boolean(),
+      wallets: z
+        .array(
+          z.strictObject({
+            network: z.string().trim().min(1).max(40),
+            currency: z.string().trim().min(1).max(20),
+            address: z.string().trim().min(1).max(200),
+          }),
+        )
+        .max(10),
+    })
+    .optional(),
+  manager: z
+    .strictObject({
+      enabled: z.boolean(),
+      whatsapp: optionalContact(/^$|^\+?\d{7,15}$/, "a phone number in international format, digits only"),
+      telegram: optionalContact(/^$|^@?[A-Za-z0-9_]{4,32}$/, "a Telegram username").transform(
+        (value) => (value ? value.replace(/^@/, "") : null),
+      ),
+      email: optionalContact(/^$|^[^\s@]+@[^\s@]+\.[^\s@]+$/, "an email address"),
+      note: z
+        .string()
+        .trim()
+        .max(500)
+        .nullable()
+        .optional()
+        .transform((value) => (value ? value : null)),
+    })
+    .optional(),
+});
+export type PutTenantManualPaymentBody = z.infer<typeof PutTenantManualPaymentSchema>;
+
+/**
  * `POST /tenants/redirects` (t11-seo-redirects) — a manual redirect row. Both
  * paths are exact pathnames: a leading slash, no host, no query string, so the
  * storefront middleware can compare them to `request.nextUrl.pathname` byte for
