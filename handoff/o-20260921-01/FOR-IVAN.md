@@ -31,7 +31,7 @@
 
 ## Новый заказ Ивана 2026-09-22: страница товара по макету Figma
 
-Слова Ивана (~18:05 WITA): «хочу, чтобы ты сделал такую же вёрстку, но после /compact». Макет: https://www.figma.com/design/bjRl8KdydT35JigupFZdHd/Untitled?node-id=9-70418 (кадр «ProductPage», 1184 × 3098), копия PNG: `/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/mockups/ProductPage-figma-9-70418.png`, та же страница на стенде сейчас: `…/mockups/stand-pdp-1184-2026-09-22.png`. Бриф с разбором блоков, решениями по умолчанию и приёмкой: `/Users/ivanprotsko/upready/projects/upready-store/handoff/o-20260921-01/t-2026-09-22-01-pdp-figma-layout.md`. Делает лид сам после /compact, ветка `feat/o22-pdp-figma-layout` от `dev`, стенд витрины на 8122 поверх backend 9121.
+Слова Ивана (~17:55 WITA): «хочу, чтобы ты сделал такую же вёрстку, но после /compact». Макет: https://www.figma.com/design/bjRl8KdydT35JigupFZdHd/Untitled?node-id=9-70418 (кадр «ProductPage», 1184 × 3098), копия PNG: `/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/mockups/ProductPage-figma-9-70418.png`, та же страница на стенде сейчас: `…/mockups/stand-pdp-1184-2026-09-22.png`. Бриф с разбором блоков, решениями по умолчанию и приёмкой: `/Users/ivanprotsko/upready/projects/upready-store/handoff/o-20260921-01/t-2026-09-22-01-pdp-figma-layout.md`. Делает лид сам после /compact, ветка `feat/o22-pdp-figma-layout` от `dev`, стенд витрины на 8122 поверх backend 9121.
 
 Развилки, которые лид закрывает по умолчанию, пока Иван не скажет иначе:
 

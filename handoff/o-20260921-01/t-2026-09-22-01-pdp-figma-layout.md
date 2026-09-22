@@ -1,11 +1,11 @@
 # t-2026-09-22-01 — product page laid out after Ivan's Figma mockup (cherkashino)
 
-Written by the lead of upready-store 2026-09-22 18:20 WITA, right before a `/compact` Ivan asked for. Executor: the lead itself, solo (rule 3b), model Fable (order o-20260921-01: Fable on interfaces). Read `COMMON.md` next to this file for the shared rules of the order.
+Written by the lead of upready-store 2026-09-22 17:58 WITA, right before a `/compact` Ivan asked for. Executor: the lead itself, solo (rule 3b), model Fable (order o-20260921-01: Fable on interfaces). Read `COMMON.md` next to this file for the shared rules of the order.
 
 ## Ivan's words (verbatim, in the lead's terminal, not via HQ)
 
 - 2026-09-22 ~17:45 WITA: «посмотри этот макет» + https://www.figma.com/design/bjRl8KdydT35JigupFZdHd/Untitled?node-id=9-70418&t=0AHtQjIAZuuTvf5S-1
-- 2026-09-22 ~18:05 WITA: «хочу, чтобы ты сделал такую же вёрстку, но после /compact»
+- 2026-09-22 ~17:55 WITA: «хочу, чтобы ты сделал такую же вёрстку, но после /compact»
 
 ## Design stage (rule 27d)
 
@@ -16,7 +16,7 @@ Written by the lead of upready-store 2026-09-22 18:20 WITA, right before a `/com
 
 ## What the mockup shows, top to bottom, and what to do with each block
 
-Defaults below are the lead's reading of the mockup; each one is a fork that Ivan may overrule at any time (the forks are listed to him in the chat reply of 18:20 WITA and in FOR-IVAN.md).
+Defaults below are the lead's reading of the mockup; each one is a fork that Ivan may overrule at any time (the forks are listed to him in the chat reply of 17:58 WITA and in FOR-IVAN.md).
 
 1. **Header**: burger, country + currency at the left, logo «ЧЕРКАШИНО» centred, at the right wishlist heart, account, «Корзина», a chat button. Default: burger opens the category menu that the current header shows inline; country and currency are the existing region/currency controls; wishlist heart and chat button are rendered only if a wishlist/chat feature exists (it does not today) — otherwise omitted, not stubbed.
 2. **Three cards in a row** (gallery / centre / buy box), page background light grey, cards white with 1 px border and large radius:
@@ -33,7 +33,7 @@ Placeholders in the mockup that are NOT to be copied: card prices in «$» and �
 
 ## Where the code is
 
-- Base branch: `dev` (local `dev` was rebased onto `origin/dev` and pushed 2026-09-22 18:12 WITA: `080f95dc`, ahead 0 / behind 0). PRs 105–110 are in it.
+- Base branch: `dev` (local `dev` was rebased onto `origin/dev` and pushed 2026-09-22 17:57 WITA: `080f95dc`, ahead 0 / behind 0). PRs 105–110 are in it.
 - PDP template `apps/storefront/src/modules/products/templates/index.tsx`; components under `apps/storefront/src/modules/products/components/` (`image-gallery/gallery.tsx`, `product-actions`, `product-attributes`, `product-description`, `product-price`, `product-reviews`, `product-tabs`, `related-products`, `thumbnail`); layout header/footer under `src/modules/layout`.
 - Do NOT touch the stand worktree `feat/o21-storefront-visual-cherkashino` (it serves http://cherkashino.localhost:8121) except to read its `.env.local`.
 
