@@ -4141,6 +4141,37 @@
     "resultUrlTitle": "Result URL for the Robokassa dashboard",
     "resultUrlHint": "Paste this address into your shop's settings in Robokassa (Technical settings → Result URL, method POST). Robokassa reports payments to it; without it an order never becomes paid."
   },
+  "manualPayment": {
+    "title": "Payment outside a gateway",
+    "subtitle": "cryptocurrency and card via manager: the customer places the order without paying on the site, you confirm the payment on the order",
+    "save": "Save",
+    "saved": "Offline payment settings saved",
+    "walletIncomplete": "Fill in the network, the currency and the address of every wallet, or remove the empty row",
+    "walletRequired": "Add at least one wallet or switch cryptocurrency off",
+    "contactRequired": "Enter at least one contact or switch payment via manager off",
+    "crypto": {
+      "enabled": "Accept cryptocurrency",
+      "hint": "The customer sees each wallet with a QR code and a copy button, transfers the money and confirms with you.",
+      "network": "Network",
+      "networkPlaceholder": "Tron (TRC-20)",
+      "currency": "Currency",
+      "currencyPlaceholder": "USDT",
+      "address": "Wallet address",
+      "addWallet": "Add wallet",
+      "removeWallet": "Remove wallet"
+    },
+    "manager": {
+      "enabled": "Accept card via manager",
+      "hint": "After placing the order the customer gets your contacts with a prepared message that names the order number and the total.",
+      "whatsapp": "WhatsApp",
+      "whatsappPlaceholder": "number with country code",
+      "telegram": "Telegram",
+      "telegramPlaceholder": "username without @",
+      "email": "Email",
+      "note": "Note to the customer",
+      "notePlaceholder": "shown on the order page, for example when the manager answers"
+    }
+  },
   "redirects": {
     "title": "Old addresses",
     "subtitle": "where to send a visitor who arrives from a link on your old site, or at a page that no longer exists",
