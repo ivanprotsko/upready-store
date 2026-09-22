@@ -764,15 +764,18 @@
     "outOfStock": "Není skladem",
     "selectOptions": "Vybrat možnosti",
     "selectVariant": "Vyberte variantu",
-    "inStock": "Skladem"
+    "inStock": "Skladem",
+    "buyNow": "Koupit"
   },
   "ProductAttributes": {
     "no": "Ne",
     "title": "Parametry",
-    "yes": "Ano"
+    "yes": "Ano",
+    "all": "Všechny parametry"
   },
   "ProductInfo": {
-    "description": "Popis"
+    "description": "Popis",
+    "fullDescription": "Celý popis"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovat v nastavení v administraci",
@@ -802,7 +805,8 @@
     "ownerReply": "Odpověď obchodu",
     "previousPage": "Zpět",
     "nextPage": "Další",
-    "pageOf": "Strana {page} z {pages}"
+    "pageOf": "Strana {page} z {pages}",
+    "reviewCount": "{count, plural, one {# recenze} few {# recenze} many {# recenze} other {# recenzí}}"
   },
   "ProductTabs": {
     "easyReturns": "Snadné vrácení",

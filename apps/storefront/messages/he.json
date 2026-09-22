@@ -764,15 +764,18 @@
     "outOfStock": "אזל מהמלאי",
     "selectOptions": "בחירת אפשרויות",
     "selectVariant": "בחר וריאציה",
-    "inStock": "במלאי"
+    "inStock": "במלאי",
+    "buyNow": "לתשלום"
   },
   "ProductAttributes": {
     "no": "לא",
     "title": "מפרט",
-    "yes": "כן"
+    "yes": "כן",
+    "all": "כל המפרט"
   },
   "ProductInfo": {
-    "description": "תיאור"
+    "description": "תיאור",
+    "fullDescription": "התיאור המלא"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "המשך ההגדרה בממשק הניהול",
@@ -802,7 +805,8 @@
     "ownerReply": "תשובת החנות",
     "previousPage": "הקודם",
     "nextPage": "הבא",
-    "pageOf": "עמוד {page} מתוך {pages}"
+    "pageOf": "עמוד {page} מתוך {pages}",
+    "reviewCount": "{count, plural, one {ביקורת אחת} two {שתי ביקורות} other {# ביקורות}}"
   },
   "ProductTabs": {
     "easyReturns": "החזרות קלות",

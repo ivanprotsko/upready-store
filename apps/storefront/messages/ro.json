@@ -764,15 +764,18 @@
     "outOfStock": "Stoc epuizat",
     "selectOptions": "Selectează opțiunile",
     "selectVariant": "Selectează varianta",
-    "inStock": "În stoc"
+    "inStock": "În stoc",
+    "buyNow": "Cumpără"
   },
   "ProductAttributes": {
     "no": "Nu",
     "title": "Caracteristici",
-    "yes": "Da"
+    "yes": "Da",
+    "all": "Toate caracteristicile"
   },
   "ProductInfo": {
-    "description": "Descriere"
+    "description": "Descriere",
+    "fullDescription": "Descrierea completă"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuă configurarea în admin",
@@ -802,7 +805,8 @@
     "ownerReply": "Răspunsul magazinului",
     "previousPage": "Înapoi",
     "nextPage": "Înainte",
-    "pageOf": "Pagina {page} din {pages}"
+    "pageOf": "Pagina {page} din {pages}",
+    "reviewCount": "{count, plural, one {# recenzie} few {# recenzii} other {# de recenzii}}"
   },
   "ProductTabs": {
     "easyReturns": "Retururi ușoare",

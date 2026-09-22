@@ -764,15 +764,18 @@
     "outOfStock": "Нет в наличии",
     "selectOptions": "Выбрать опции",
     "selectVariant": "Выбрать вариант",
-    "inStock": "В наличии"
+    "inStock": "В наличии",
+    "buyNow": "Оплатить"
   },
   "ProductAttributes": {
     "no": "Нет",
     "title": "Характеристики",
-    "yes": "Да"
+    "yes": "Да",
+    "all": "Все характеристики"
   },
   "ProductInfo": {
-    "description": "Описание"
+    "description": "Описание",
+    "fullDescription": "Всё описание"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продолжить настройку в панели",
@@ -802,7 +805,8 @@
     "ownerReply": "Ответ магазина",
     "previousPage": "Назад",
     "nextPage": "Вперёд",
-    "pageOf": "Страница {page} из {pages}"
+    "pageOf": "Страница {page} из {pages}",
+    "reviewCount": "{count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}"
   },
   "ProductTabs": {
     "easyReturns": "Лёгкий возврат",

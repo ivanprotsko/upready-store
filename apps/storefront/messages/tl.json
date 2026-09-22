@@ -764,15 +764,18 @@
     "outOfStock": "Wala nang stock",
     "selectOptions": "Pumili ng Opsyon",
     "selectVariant": "Pumili ng variant",
-    "inStock": "May stock"
+    "inStock": "May stock",
+    "buyNow": "Bilhin ngayon"
   },
   "ProductAttributes": {
     "no": "Hindi",
     "title": "Mga katangian",
-    "yes": "Oo"
+    "yes": "Oo",
+    "all": "Lahat ng katangian"
   },
   "ProductInfo": {
-    "description": "Paglalarawan"
+    "description": "Paglalarawan",
+    "fullDescription": "Buong paglalarawan"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Ipagpatuloy ang setup sa admin",
@@ -802,7 +805,8 @@
     "ownerReply": "Sagot ng tindahan",
     "previousPage": "Nakaraan",
     "nextPage": "Susunod",
-    "pageOf": "Pahina {page} ng {pages}"
+    "pageOf": "Pahina {page} ng {pages}",
+    "reviewCount": "{count, plural, one {# review} other {# na review}}"
   },
   "ProductTabs": {
     "easyReturns": "Madaling Pagsauli",

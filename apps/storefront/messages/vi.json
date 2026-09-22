@@ -764,15 +764,18 @@
     "outOfStock": "Hết hàng",
     "selectOptions": "Chọn tùy chọn",
     "selectVariant": "Chọn phiên bản",
-    "inStock": "Còn hàng"
+    "inStock": "Còn hàng",
+    "buyNow": "Mua ngay"
   },
   "ProductAttributes": {
     "no": "Không",
     "title": "Thông số",
-    "yes": "Có"
+    "yes": "Có",
+    "all": "Tất cả thông số"
   },
   "ProductInfo": {
-    "description": "Mô tả"
+    "description": "Mô tả",
+    "fullDescription": "Xem toàn bộ mô tả"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tiếp tục thiết lập trong trang quản trị",
@@ -802,7 +805,8 @@
     "ownerReply": "Phản hồi của cửa hàng",
     "previousPage": "Trước",
     "nextPage": "Sau",
-    "pageOf": "Trang {page} / {pages}"
+    "pageOf": "Trang {page} / {pages}",
+    "reviewCount": "{count, plural, other {# đánh giá}}"
   },
   "ProductTabs": {
     "easyReturns": "Trả hàng dễ dàng",

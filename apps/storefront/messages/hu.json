@@ -764,15 +764,18 @@
     "outOfStock": "Elfogyott",
     "selectOptions": "Opciók kiválasztása",
     "selectVariant": "Válasszon variánst",
-    "inStock": "Raktáron"
+    "inStock": "Raktáron",
+    "buyNow": "Vásárlás"
   },
   "ProductAttributes": {
     "no": "Nem",
     "title": "Jellemzők",
-    "yes": "Igen"
+    "yes": "Igen",
+    "all": "Összes jellemző"
   },
   "ProductInfo": {
-    "description": "Leírás"
+    "description": "Leírás",
+    "fullDescription": "Teljes leírás"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Beállítás folytatása az adminban",
@@ -802,7 +805,8 @@
     "ownerReply": "A bolt válasza",
     "previousPage": "Előző",
     "nextPage": "Következő",
-    "pageOf": "{pages} oldalból a(z) {page}."
+    "pageOf": "{pages} oldalból a(z) {page}.",
+    "reviewCount": "{count, plural, one {# vélemény} other {# vélemény}}"
   },
   "ProductTabs": {
     "easyReturns": "Könnyű visszaküldés",

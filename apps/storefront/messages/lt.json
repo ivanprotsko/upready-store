@@ -764,15 +764,18 @@
     "outOfStock": "Nėra sandėlyje",
     "selectOptions": "Pasirinkti parinktis",
     "selectVariant": "Pasirinkite variantą",
-    "inStock": "Turime sandėlyje"
+    "inStock": "Turime sandėlyje",
+    "buyNow": "Pirkti"
   },
   "ProductAttributes": {
     "no": "Ne",
     "title": "Savybės",
-    "yes": "Taip"
+    "yes": "Taip",
+    "all": "Visos savybės"
   },
   "ProductInfo": {
-    "description": "Aprašymas"
+    "description": "Aprašymas",
+    "fullDescription": "Visas aprašymas"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tęsti nustatymą administravimo skydelyje",
@@ -802,7 +805,8 @@
     "ownerReply": "Parduotuvės atsakymas",
     "previousPage": "Atgal",
     "nextPage": "Pirmyn",
-    "pageOf": "Puslapis {page} iš {pages}"
+    "pageOf": "Puslapis {page} iš {pages}",
+    "reviewCount": "{count, plural, one {# atsiliepimas} few {# atsiliepimai} other {# atsiliepimų}}"
   },
   "ProductTabs": {
     "easyReturns": "Lengvas grąžinimas",

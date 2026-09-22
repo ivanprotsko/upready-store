@@ -764,15 +764,18 @@
     "outOfStock": "Nicht auf Lager",
     "selectOptions": "Optionen auswählen",
     "selectVariant": "Variante auswählen",
-    "inStock": "Auf Lager"
+    "inStock": "Auf Lager",
+    "buyNow": "Jetzt kaufen"
   },
   "ProductAttributes": {
     "no": "Nein",
     "title": "Eigenschaften",
-    "yes": "Ja"
+    "yes": "Ja",
+    "all": "Alle Eigenschaften"
   },
   "ProductInfo": {
-    "description": "Beschreibung"
+    "description": "Beschreibung",
+    "fullDescription": "Vollständige Beschreibung"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Einrichtung im Adminbereich fortsetzen",
@@ -802,7 +805,8 @@
     "ownerReply": "Antwort des Shops",
     "previousPage": "Zurück",
     "nextPage": "Weiter",
-    "pageOf": "Seite {page} von {pages}"
+    "pageOf": "Seite {page} von {pages}",
+    "reviewCount": "{count, plural, one {# Bewertung} other {# Bewertungen}}"
   },
   "ProductTabs": {
     "easyReturns": "Einfache Rückgabe",

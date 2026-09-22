@@ -764,15 +764,18 @@
     "outOfStock": "품절",
     "selectOptions": "옵션 선택",
     "selectVariant": "옵션 선택",
-    "inStock": "재고 있음"
+    "inStock": "재고 있음",
+    "buyNow": "바로 구매"
   },
   "ProductAttributes": {
     "no": "아니오",
     "title": "사양",
-    "yes": "예"
+    "yes": "예",
+    "all": "사양 전체 보기"
   },
   "ProductInfo": {
-    "description": "상품 설명"
+    "description": "상품 설명",
+    "fullDescription": "상품 설명 전체 보기"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "관리자에서 설정 계속하기",
@@ -802,7 +805,8 @@
     "ownerReply": "상점 답변",
     "previousPage": "이전",
     "nextPage": "다음",
-    "pageOf": "{pages}페이지 중 {page}페이지"
+    "pageOf": "{pages}페이지 중 {page}페이지",
+    "reviewCount": "{count, plural, other {리뷰 #개}}"
   },
   "ProductTabs": {
     "easyReturns": "쉬운 반품",

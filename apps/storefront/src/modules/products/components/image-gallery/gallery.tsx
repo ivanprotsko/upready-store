@@ -37,13 +37,19 @@ const HERO_SIZES =
   "(max-width: 512px) 100vw, (max-width: 1024px) 60vw, (max-width: 1440px) 42vw, 600px"
 
 /**
- * One photo at a time: a main frame, a thumbnail rail beside it on a desktop, dots under
- * it on a phone, arrows, swipe, and a full-screen viewer.
+ * One photo at a time: a main frame, a strip of thumbnails under it on a desktop, dots
+ * under it on a phone, arrows, swipe, and a full-screen viewer.
  *
  * The main frame is the shared product frame (`FRAME_ASPECT.gallery`, `contain`, the
- * blurred backdrop, `data-product-media`): its ratio is fixed, so neither loading nor
- * switching a photo moves anything on the page. It used to follow the natural ratio of
- * the ACTIVE photo, which shifted the whole page under the reader on every switch.
+ * edge-continuing backdrop, `data-product-media`): its ratio is fixed, so neither loading
+ * nor switching a photo moves anything on the page. It used to follow the natural ratio
+ * of the ACTIVE photo, which shifted the whole page under the reader on every switch.
+ * The frame is flat: the photo sits on the gallery card's own white, with no veil, the
+ * way Ivan's Figma mockup shows it (the catalog cards keep their veil).
+ *
+ * The thumbnails run in one horizontal strip under the photo (they used to stand in a
+ * column at its left), as in the mockup; when more wait past either end, that end fades
+ * out as the hint.
  * Nothing is drawn over the photo at rest: a marketplace photo carries its own caption
  * to the very edge, so the dots sit under the frame and the position is announced to a
  * screen reader instead of being painted on the picture. The arrows and the zoom button
@@ -76,13 +82,13 @@ const Gallery = ({ items, title }: GalleryProps) => {
   const dragMoved = useRef(false)
   const dragCaptured = useRef(false)
   const railRef = useRef<HTMLUListElement | null>(null)
-  const [railEdges, setRailEdges] = useState({ top: false, bottom: false })
+  const [railEdges, setRailEdges] = useState({ start: false, end: false })
   const updateRailEdges = useCallback(() => {
     const rail = railRef.current
     if (!rail) return
-    const top = rail.scrollTop > 1
-    const bottom = rail.scrollTop + rail.clientHeight < rail.scrollHeight - 1
-    setRailEdges((edges) => (edges.top === top && edges.bottom === bottom ? edges : { top, bottom }))
+    const start = rail.scrollLeft > 1
+    const end = rail.scrollLeft + rail.clientWidth < rail.scrollWidth - 1
+    setRailEdges((edges) => (edges.start === start && edges.end === end ? edges : { start, end }))
   }, [])
   useEffect(() => {
     updateRailEdges()
@@ -276,18 +282,9 @@ const Gallery = ({ items, title }: GalleryProps) => {
     <>
       <div
         ref={rootRef}
-        // Phone: a column, hero first, the rail a horizontal strip under it
-        // (`flex-col-reverse`, since the rail comes first in the DOM).
-        // Desktop: a two-track grid, rail then hero. A grid is what lets the
-        // rail be exactly as tall as the photo — the hero's aspect box sets
-        // the row height, the rail cell stretches to it, and the list inside
-        // that cell is absolutely positioned so its own 38 thumbnails never
-        // push the row taller (see the rail's classes below).
-        className={
-          hasChrome
-            ? "flex flex-col-reverse items-start gap-3 small:grid small:grid-cols-[72px_minmax(0,1fr)] small:gap-3"
-            : "flex flex-col items-start"
-        }
+        // A column at every width: the hero, then (from 1024) the strip of
+        // thumbnails under it; a phone gets the dots instead of the strip.
+        className="flex w-full flex-col items-start gap-3"
         data-testid="product-gallery"
         // Set only once the effects have run, so a test has a real signal for
         // "the buttons answer now" instead of a sleep. The markup is server
@@ -295,60 +292,10 @@ const Gallery = ({ items, title }: GalleryProps) => {
         // this the first click of a suite lands on a dead gallery.
         data-hydrated={mounted ? "true" : undefined}
       >
-        {hasChrome && (
-          // A phone swipes and reads the dots; the rail is the desktop's.
-          <div className="hidden w-full small:relative small:block small:h-full">
-            <ul
-              ref={railRef}
-              aria-label={t("thumbnails")}
-              onScroll={updateRailEdges}
-              // The rail is as tall as the main frame, rounded DOWN to whole thumbnails
-              // (a 104px pitch: 96px tile + 8px gap), so it never ends in half a photo.
-              // When more photos wait above or below, that end fades out as the hint.
-              style={{
-                maskImage: `linear-gradient(to bottom, ${railEdges.top ? "transparent" : "#000"} 0, #000 40px, #000 calc(100% - 40px), ${railEdges.bottom ? "transparent" : "#000"} 100%)`,
-              }}
-              data-more-above={railEdges.top ? "true" : undefined}
-              data-more-below={railEdges.bottom ? "true" : undefined}
-              className="flex w-full flex-row gap-2 overflow-x-auto no-scrollbar small:absolute small:inset-x-0 small:top-0 small:h-full small:max-h-[calc(round(down,100%_+_8px,104px)_-_8px)] small:flex-col small:overflow-x-visible small:overflow-y-auto"
-              data-testid="product-gallery-thumbnails"
-            >
-              {items.map((item, position) => (
-                <li key={item.id} className="shrink-0 flex leading-none">
-                  <button
-                    type="button"
-                    onClick={() => setIndex(position)}
-                    aria-label={t("showImage", { index: position + 1 })}
-                    aria-current={position === index ? "true" : undefined}
-                    className={`relative m-0.5 block h-[92px] w-[69px] overflow-hidden rounded-rounded bg-ui-bg-subtle transition-shadow ${FOCUS_RING} ${
-                      position === index
-                        ? "ring-2 ring-ui-border-interactive"
-                        : "ring-1 ring-ui-border-base hover:ring-ui-border-strong"
-                    }`}
-                    data-testid={`product-gallery-thumbnail-${position + 1}`}
-                  >
-                    <Image
-                      src={item.url}
-                      alt=""
-                      fill
-                      sizes="72px"
-                      className="object-contain"
-                    />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <div className="flex w-full min-w-0 flex-col self-start">
+        <div className="flex w-full min-w-0 flex-col gap-3 self-start">
         <div
           style={{ aspectRatio: FRAME_ASPECT.gallery }}
-          // `self-start` on the wrapper: the frame keeps the height its ratio asks for
-          // and so sets the grid row height. Stretching it instead would let
-          // the rail decide, and the photo would grow with the number of
-          // thumbnails.
-          className="group relative w-full min-w-0 overflow-hidden rounded-[var(--radius,8px)] bg-ui-bg-subtle select-none touch-pan-y cursor-zoom-in"
+          className="group relative w-full min-w-0 overflow-hidden rounded-[var(--radius,8px)] bg-ui-bg-base select-none touch-pan-y cursor-zoom-in"
           data-product-media="gallery"
           data-product-media-state="photo"
           onPointerDown={onPointerDown}
@@ -376,8 +323,6 @@ const Gallery = ({ items, title }: GalleryProps) => {
             draggable={false}
             data-testid="product-gallery-hero-image"
           />
-          <span aria-hidden className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]" />
-
           <button
             type="button"
             onClick={(event) => {
@@ -431,6 +376,47 @@ const Gallery = ({ items, title }: GalleryProps) => {
             </>
           )}
         </div>
+        {hasChrome && (
+          // A phone swipes and reads the dots; the strip is the desktop's.
+          <ul
+            ref={railRef}
+            aria-label={t("thumbnails")}
+            onScroll={updateRailEdges}
+            // When more photos wait past either end, that end fades out as the hint.
+            style={{
+              maskImage: `linear-gradient(to right, ${railEdges.start ? "transparent" : "#000"} 0, #000 32px, #000 calc(100% - 32px), ${railEdges.end ? "transparent" : "#000"} 100%)`,
+            }}
+            data-more-before={railEdges.start ? "true" : undefined}
+            data-more-after={railEdges.end ? "true" : undefined}
+            className="hidden w-full flex-row gap-2 overflow-x-auto no-scrollbar small:flex"
+            data-testid="product-gallery-thumbnails"
+          >
+            {items.map((item, position) => (
+              <li key={item.id} className="shrink-0 flex leading-none">
+                <button
+                  type="button"
+                  onClick={() => setIndex(position)}
+                  aria-label={t("showImage", { index: position + 1 })}
+                  aria-current={position === index ? "true" : undefined}
+                  className={`relative m-0.5 block h-[75px] w-14 overflow-hidden rounded-rounded bg-ui-bg-base transition-shadow ${FOCUS_RING} ${
+                    position === index
+                      ? "ring-2 ring-ui-border-interactive"
+                      : "ring-1 ring-ui-border-base hover:ring-ui-border-strong"
+                  }`}
+                  data-testid={`product-gallery-thumbnail-${position + 1}`}
+                >
+                  <Image
+                    src={item.url}
+                    alt=""
+                    fill
+                    sizes="56px"
+                    className="object-contain"
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
           {hasChrome && (
             <GalleryDots
               total={total}

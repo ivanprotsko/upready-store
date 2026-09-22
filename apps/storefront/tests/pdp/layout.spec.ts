@@ -3,11 +3,11 @@ import {expect, test} from "@playwright/test"
 /**
  * Where the blocks of the product page sit, checked against a running stand.
  *
- * The order is the chrxnasdmds page's: the photo on the left, the title and
- * the rating and the characteristics beside it, the buy card to the right of
- * both, and the description under the first two columns. Positions are read
- * from the boxes the browser actually laid out, so a change of grid that
- * happens to keep every class name still fails here.
+ * The order is Ivan's Figma mockup's (t-2026-09-22-01-pdp-figma-layout): three cards
+ * in a row — the photo on the left, the title, the rating and the first characteristics
+ * in the centre, the buy card to the right — and the full description under the cards.
+ * Positions are read from the boxes the browser actually laid out, so a change of grid
+ * that happens to keep every class name still fails here.
  */
 
 const PDP_URL = process.env.PDP_URL

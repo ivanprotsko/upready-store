@@ -1,43 +1,23 @@
 import type { HttpTypes } from "@medusajs/types"
 import { getTranslations } from "next-intl/server"
 
+import { descriptionParagraphs, stripHtml } from "@lib/util/strip-html"
+
 type ProductDescriptionProps = {
   product: HttpTypes.StoreProduct
 }
 
 /**
- * Strip the HTML an imported description sometimes arrives wrapped in, keeping
- * the line structure the tags carried: `<br>` and the end of a block element
- * each become a newline, and the entities a scraper leaves behind become their
- * characters. Runs of three or more newlines collapse to one blank line, so a
- * source with generous spacing does not open a hole in the page.
- */
-const stripHtml = (html: string) =>
-  html
-    .replace(/<\s*br\s*\/?\s*>/gi, "\n")
-    .replace(/<\/(p|div|li|h[1-6])\s*>/gi, "\n")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/[ \t]+\n/g, "\n")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim()
-
-/**
- * The «Описание» block of the product page, full width under the gallery and
- * the summary, where the chrxnasdmds page puts it (`templates/product-info`
- * there).
+ * The «Описание» block of the product page, full width under the three cards,
+ * where the chrxnasdmds page puts it (`templates/product-info` there).
  *
  * It used to live inside `ProductTabs`, above the shipping accordion and
  * squeezed into the narrow right-hand column. A description is the longest
  * text on the page, so it reads at full width and carries its own heading.
  *
- * `#product-description` is the anchor the chip next to the title jumps to.
- * A product with no description renders nothing — not an empty heading.
+ * `#product-description` is the anchor the «Всё описание» link in the product
+ * card jumps to (`./excerpt`). A product with no description renders nothing —
+ * not an empty heading.
  */
 const ProductDescription = async ({ product }: ProductDescriptionProps) => {
   const t = await getTranslations("ProductInfo")
@@ -47,7 +27,7 @@ const ProductDescription = async ({ product }: ProductDescriptionProps) => {
     return null
   }
 
-  const paragraphs = description.split(/\n{2,}/).filter(Boolean)
+  const paragraphs = descriptionParagraphs(description)
 
   return (
     <div

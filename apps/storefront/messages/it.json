@@ -764,15 +764,18 @@
     "outOfStock": "Esaurito",
     "selectOptions": "Seleziona opzioni",
     "selectVariant": "Seleziona variante",
-    "inStock": "Disponibile"
+    "inStock": "Disponibile",
+    "buyNow": "Acquista"
   },
   "ProductAttributes": {
     "no": "No",
     "title": "Caratteristiche",
-    "yes": "Sì"
+    "yes": "Sì",
+    "all": "Tutte le caratteristiche"
   },
   "ProductInfo": {
-    "description": "Descrizione"
+    "description": "Descrizione",
+    "fullDescription": "Descrizione completa"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continua la configurazione nel pannello",
@@ -802,7 +805,8 @@
     "ownerReply": "Risposta del negozio",
     "previousPage": "Precedente",
     "nextPage": "Successiva",
-    "pageOf": "Pagina {page} di {pages}"
+    "pageOf": "Pagina {page} di {pages}",
+    "reviewCount": "{count, plural, one {# recensione} other {# recensioni}}"
   },
   "ProductTabs": {
     "easyReturns": "Resi facili",

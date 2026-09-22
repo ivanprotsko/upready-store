@@ -764,15 +764,18 @@
     "outOfStock": "Out of stock",
     "selectOptions": "Select options",
     "selectVariant": "Select variant",
-    "inStock": "In stock"
+    "inStock": "In stock",
+    "buyNow": "Buy now"
   },
   "ProductAttributes": {
     "no": "No",
     "title": "Specifications",
-    "yes": "Yes"
+    "yes": "Yes",
+    "all": "All specifications"
   },
   "ProductInfo": {
-    "description": "Description"
+    "description": "Description",
+    "fullDescription": "Full description"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continue setup in admin",
@@ -802,7 +805,8 @@
     "ownerReply": "Shop reply",
     "previousPage": "Previous",
     "nextPage": "Next",
-    "pageOf": "Page {page} of {pages}"
+    "pageOf": "Page {page} of {pages}",
+    "reviewCount": "{count, plural, one {# review} other {# reviews}}"
   },
   "ProductTabs": {
     "easyReturns": "Straightforward returns",

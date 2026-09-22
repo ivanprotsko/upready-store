@@ -764,15 +764,18 @@
     "outOfStock": "缺货",
     "selectOptions": "选择选项",
     "selectVariant": "选择规格",
-    "inStock": "有货"
+    "inStock": "有货",
+    "buyNow": "立即购买"
   },
   "ProductAttributes": {
     "no": "否",
     "title": "规格参数",
-    "yes": "是"
+    "yes": "是",
+    "all": "查看全部规格"
   },
   "ProductInfo": {
-    "description": "商品描述"
+    "description": "商品描述",
+    "fullDescription": "查看完整描述"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "前往管理后台继续设置",
@@ -802,7 +805,8 @@
     "ownerReply": "店铺回复",
     "previousPage": "上一页",
     "nextPage": "下一页",
-    "pageOf": "第 {page} 页，共 {pages} 页"
+    "pageOf": "第 {page} 页，共 {pages} 页",
+    "reviewCount": "{count, plural, other {# 条评价}}"
   },
   "ProductTabs": {
     "easyReturns": "轻松退货",

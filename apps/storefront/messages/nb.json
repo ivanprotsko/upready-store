@@ -764,15 +764,18 @@
     "outOfStock": "Utsolgt",
     "selectOptions": "Velg alternativer",
     "selectVariant": "Velg variant",
-    "inStock": "På lager"
+    "inStock": "På lager",
+    "buyNow": "Kjøp"
   },
   "ProductAttributes": {
     "no": "Nei",
     "title": "Spesifikasjoner",
-    "yes": "Ja"
+    "yes": "Ja",
+    "all": "Alle spesifikasjoner"
   },
   "ProductInfo": {
-    "description": "Beskrivelse"
+    "description": "Beskrivelse",
+    "fullDescription": "Hele beskrivelsen"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsett oppsett i admin",
@@ -802,7 +805,8 @@
     "ownerReply": "Svar fra butikken",
     "previousPage": "Forrige",
     "nextPage": "Neste",
-    "pageOf": "Side {page} av {pages}"
+    "pageOf": "Side {page} av {pages}",
+    "reviewCount": "{count, plural, one {# anmeldelse} other {# anmeldelser}}"
   },
   "ProductTabs": {
     "easyReturns": "Enkel retur",

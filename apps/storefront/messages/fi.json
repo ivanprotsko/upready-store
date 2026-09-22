@@ -764,15 +764,18 @@
     "outOfStock": "Ei varastossa",
     "selectOptions": "Valitse vaihtoehdot",
     "selectVariant": "Valitse versio",
-    "inStock": "Varastossa"
+    "inStock": "Varastossa",
+    "buyNow": "Osta"
   },
   "ProductAttributes": {
     "no": "Ei",
     "title": "Ominaisuudet",
-    "yes": "Kyllä"
+    "yes": "Kyllä",
+    "all": "Kaikki ominaisuudet"
   },
   "ProductInfo": {
-    "description": "Kuvaus"
+    "description": "Kuvaus",
+    "fullDescription": "Koko kuvaus"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Jatka asetusten määrittämistä hallintapaneelissa",
@@ -802,7 +805,8 @@
     "ownerReply": "Kaupan vastaus",
     "previousPage": "Edellinen",
     "nextPage": "Seuraava",
-    "pageOf": "Sivu {page} / {pages}"
+    "pageOf": "Sivu {page} / {pages}",
+    "reviewCount": "{count, plural, one {# arvostelu} other {# arvostelua}}"
   },
   "ProductTabs": {
     "easyReturns": "Helppo palautus",

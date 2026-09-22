@@ -764,15 +764,18 @@
     "outOfStock": "在庫切れ",
     "selectOptions": "オプションを選択",
     "selectVariant": "バリエーションを選択",
-    "inStock": "在庫あり"
+    "inStock": "在庫あり",
+    "buyNow": "今すぐ購入"
   },
   "ProductAttributes": {
     "no": "いいえ",
     "title": "仕様",
-    "yes": "はい"
+    "yes": "はい",
+    "all": "仕様をすべて見る"
   },
   "ProductInfo": {
-    "description": "商品説明"
+    "description": "商品説明",
+    "fullDescription": "商品説明をすべて見る"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "管理画面で設定を続ける",
@@ -802,7 +805,8 @@
     "ownerReply": "ショップからの返信",
     "previousPage": "前へ",
     "nextPage": "次へ",
-    "pageOf": "{pages}ページ中{page}ページ"
+    "pageOf": "{pages}ページ中{page}ページ",
+    "reviewCount": "{count, plural, other {#件のレビュー}}"
   },
   "ProductTabs": {
     "easyReturns": "簡単な返品",
