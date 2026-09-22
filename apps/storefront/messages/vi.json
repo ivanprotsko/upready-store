@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Cột có khung kèm huy hiệu",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Ba cột liên kết có khung, một hàng huy hiệu giao hàng và thanh toán, rồi đến dòng pháp lý.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Người bán",
     "contactsHeading": "Liên hệ",
     "taxId": "Mã số thuế: {value}",
-    "regNumber": "Số đăng ký: {value}"
+    "regNumber": "Số đăng ký: {value}",
+    "aboutHeading": "Về cửa hàng",
+    "trackOrder": "Theo dõi đơn hàng",
+    "badgesLabel": "Giao hàng và thanh toán"
   },
   "ForgotPassword": {
     "backToSignIn": "Quay lại đăng nhập",

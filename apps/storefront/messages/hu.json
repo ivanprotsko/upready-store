@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Keretes oszlopok jelvényekkel",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Három keretes hivatkozásoszlop, egy sor szállítási és fizetési jelvény, alattuk a jogi sor.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Eladó",
     "contactsHeading": "Kapcsolat",
     "taxId": "Adószám (INN): {value}",
-    "regNumber": "Nyilvántartási szám (OGRN): {value}"
+    "regNumber": "Nyilvántartási szám (OGRN): {value}",
+    "aboutHeading": "Az üzletről",
+    "trackOrder": "Rendelés követése",
+    "badgesLabel": "Szállítás és fizetés"
   },
   "ForgotPassword": {
     "backToSignIn": "Vissza a bejelentkezéshez",

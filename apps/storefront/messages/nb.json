@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Kolonner i ramme med merker",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Tre lenkekolonner i ramme, en rad med merker for levering og betaling, deretter den juridiske linjen.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Selger",
     "contactsHeading": "Kontakt",
     "taxId": "Skattenr. (INN): {value}",
-    "regNumber": "Registreringsnr. (OGRN): {value}"
+    "regNumber": "Registreringsnr. (OGRN): {value}",
+    "aboutHeading": "Om butikken",
+    "trackOrder": "Spor bestillingen",
+    "badgesLabel": "Levering og betaling"
   },
   "ForgotPassword": {
     "backToSignIn": "Tilbake til innlogging",

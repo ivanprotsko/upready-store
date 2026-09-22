@@ -21,7 +21,7 @@ export type StorefrontSettingsInput = {
   hero: "none" | "g" | "h" | "j" | "k" | "l" | "m" | "ga" | "gb";
   tiles: "on" | "off";
   listing: "none" | "p1" | "p2" | "p3" | "p4" | "p5";
-  footer: "none" | "f1" | "f2" | "f3" | "f4" | "f5" | "f6";
+  footer: "none" | "f1" | "f2" | "f3" | "f4" | "f5" | "f6" | "f7";
 };
 
 export type StorefrontSettings = StorefrontSettingsInput & { updatedAt: string };
@@ -34,7 +34,7 @@ const ENUMS: Record<keyof StorefrontSettingsInput, readonly string[]> = {
   hero: ["none", "g", "h", "j", "k", "l", "m", "ga", "gb"],
   tiles: ["on", "off"],
   listing: ["none", "p1", "p2", "p3", "p4", "p5"],
-  footer: ["none", "f1", "f2", "f3", "f4", "f5", "f6"],
+  footer: ["none", "f1", "f2", "f3", "f4", "f5", "f6", "f7"],
 };
 
 export type ForbiddenRule = {

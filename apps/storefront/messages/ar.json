@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "أعمدة مؤطرة مع شارات",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "ثلاثة أعمدة روابط داخل إطار، صف من شارات التوصيل والدفع، ثم السطر القانوني.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "البائع",
     "contactsHeading": "جهات الاتصال",
     "taxId": "الرقم الضريبي: {value}",
-    "regNumber": "رقم التسجيل: {value}"
+    "regNumber": "رقم التسجيل: {value}",
+    "aboutHeading": "عن المتجر",
+    "trackOrder": "تتبع طلبك",
+    "badgesLabel": "التوصيل والدفع"
   },
   "ForgotPassword": {
     "backToSignIn": "العودة إلى تسجيل الدخول",

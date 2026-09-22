@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Stĺpce v rámčeku so štítkami",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Tri stĺpce odkazov v rámčeku, rad štítkov dopravy a platby a pod nimi právny riadok.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Predávajúci",
     "contactsHeading": "Kontakty",
     "taxId": "DIČ (INN): {value}",
-    "regNumber": "Registračné číslo (OGRN): {value}"
+    "regNumber": "Registračné číslo (OGRN): {value}",
+    "aboutHeading": "O obchode",
+    "trackOrder": "Sledovať objednávku",
+    "badgesLabel": "Doprava a platba"
   },
   "ForgotPassword": {
     "backToSignIn": "Späť na prihlásenie",

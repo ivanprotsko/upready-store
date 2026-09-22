@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "फ़्रेम वाले कॉलम और बैज",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "फ़्रेम में लिंक के तीन कॉलम, डिलीवरी और भुगतान बैज की एक पंक्ति, फिर कानूनी पंक्ति।",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "विक्रेता",
     "contactsHeading": "संपर्क",
     "taxId": "कर संख्या: {value}",
-    "regNumber": "पंजीकरण संख्या: {value}"
+    "regNumber": "पंजीकरण संख्या: {value}",
+    "aboutHeading": "स्टोर के बारे में",
+    "trackOrder": "अपना ऑर्डर ट्रैक करें",
+    "badgesLabel": "डिलीवरी और भुगतान"
   },
   "ForgotPassword": {
     "backToSignIn": "साइन इन पर लौटें",

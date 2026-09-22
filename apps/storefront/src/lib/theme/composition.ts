@@ -25,7 +25,7 @@ export type HeaderKey = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 export type HeroKey = "none" | "g" | "h" | "j" | "k" | "l" | "m" | "ga" | "gb"
 export type TilesKey = "on" | "off"
 export type ListingKey = "none" | "p1" | "p2" | "p3" | "p4" | "p5"
-export type FooterKey = "none" | "f1" | "f2" | "f3" | "f4" | "f5" | "f6"
+export type FooterKey = "none" | "f1" | "f2" | "f3" | "f4" | "f5" | "f6" | "f7"
 
 /** The five operator-set slots, before the server stamps `updatedAt`. */
 export type StorefrontSettingsInput = {
@@ -57,6 +57,7 @@ export const FOOTER_KEYS: readonly FooterKey[] = [
   "f4",
   "f5",
   "f6",
+  "f7",
 ]
 
 /**
@@ -107,6 +108,7 @@ export const FOOTER_LABELS: Record<FooterKey, string> = {
   f4: "Composition.footer.f4",
   f5: "Composition.footer.f5",
   f6: "Composition.footer.f6",
+  f7: "Composition.footer.f7",
 }
 
 /** A blocking pair: saving `field: value` while `against: againstValue` 422s. */

@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Columnas enmarcadas con distintivos",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Tres columnas de enlaces enmarcadas, una fila de distintivos de envío y pago y, debajo, la línea legal.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Vendedor",
     "contactsHeading": "Contacto",
     "taxId": "NIF (INN): {value}",
-    "regNumber": "N.º de registro (OGRN): {value}"
+    "regNumber": "N.º de registro (OGRN): {value}",
+    "aboutHeading": "Sobre la tienda",
+    "trackOrder": "Seguimiento del pedido",
+    "badgesLabel": "Envío y pago"
   },
   "ForgotPassword": {
     "backToSignIn": "Volver al inicio de sesión",

@@ -70,7 +70,8 @@
         { "key": "f3", "label": "F3 · Гигантский wordmark" },
         { "key": "f4", "label": "F4 · Инверсия с рассылкой" },
         { "key": "f5", "label": "F5 · Условия плитками" },
-        { "key": "f6", "label": "F6 · Инверсия с гигантским wordmark", "note": "not a lab cut; authored directly in composer 2026-09-09, blocks.js:271-275" }
+        { "key": "f6", "label": "F6 · Инверсия с гигантским wordmark", "note": "not a lab cut; authored directly in composer 2026-09-09, blocks.js:271-275" },
+        { "key": "f7", "label": "F7 · Три колонки в рамке, значки оплаты", "note": "not a composer cut; Ivan's Figma frame 9-70418, added by t-2026-09-22-01 unit C" }
       ]
     }
   },

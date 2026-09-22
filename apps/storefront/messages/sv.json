@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Inramade kolumner med märken",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Tre inramade länkkolumner, en rad med märken för leverans och betalning och därunder den juridiska raden.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Säljare",
     "contactsHeading": "Kontakt",
     "taxId": "Skattenr (INN): {value}",
-    "regNumber": "Registreringsnr (OGRN): {value}"
+    "regNumber": "Registreringsnr (OGRN): {value}",
+    "aboutHeading": "Om butiken",
+    "trackOrder": "Spåra din beställning",
+    "badgesLabel": "Leverans och betalning"
   },
   "ForgotPassword": {
     "backToSignIn": "Tillbaka till inloggningen",

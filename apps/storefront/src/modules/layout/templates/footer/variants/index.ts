@@ -7,6 +7,7 @@ import FooterF2 from "./f2"
 import FooterF3 from "./f3"
 import FooterF5 from "./f5"
 import FooterF6 from "./f6"
+import FooterF7 from "./f7"
 
 /**
  * Footer composition registry: every non-"none" `footer` key (F1-F6,
@@ -23,6 +24,11 @@ import FooterF6 from "./f6"
  * `FooterF1` as a placeholder — it needs a newsletter subscribe endpoint that does not
  * exist in this storefront (`block-port-map.md` §7 f4 row), out of this package's scope.
  * A future F4 package replaces exactly that one entry.
+ *
+ * F7 (t-2026-09-22-01 unit C) is Ivan's Figma footer: three columns inside one bordered
+ * panel, a row of delivery and payment pills, then the copyright and the seller's
+ * requisites. It is a NEW key rather than a rewrite of F4, so every tenant that saved F4
+ * keeps the F1 markup it renders today.
  */
 export const FOOTER_VARIANTS: Record<
   Exclude<FooterKey, "none">,
@@ -34,6 +40,7 @@ export const FOOTER_VARIANTS: Record<
   f4: FooterF1,
   f5: FooterF5,
   f6: FooterF6,
+  f7: FooterF7,
 }
 
 /**

@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "ফ্রেমযুক্ত কলাম ও ব্যাজ",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "ফ্রেমে তিনটি লিঙ্ক কলাম, ডেলিভারি ও পেমেন্ট ব্যাজের সারি, তারপর আইনি লাইন।",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "বিক্রেতা",
     "contactsHeading": "যোগাযোগ",
     "taxId": "কর নম্বর: {value}",
-    "regNumber": "নিবন্ধন নম্বর: {value}"
+    "regNumber": "নিবন্ধন নম্বর: {value}",
+    "aboutHeading": "দোকান সম্পর্কে",
+    "trackOrder": "আপনার অর্ডার ট্র্যাক করুন",
+    "badgesLabel": "ডেলিভারি ও পেমেন্ট"
   },
   "ForgotPassword": {
     "backToSignIn": "সাইন ইনে ফিরে যান",

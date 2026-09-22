@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Колони в рамка със значки",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Три колони с връзки в рамка, ред със значки за доставка и плащане, след това юридическият ред.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Продавач",
     "contactsHeading": "Контакти",
     "taxId": "ИНН {value}",
-    "regNumber": "ОГРН {value}"
+    "regNumber": "ОГРН {value}",
+    "aboutHeading": "За магазина",
+    "trackOrder": "Проследяване на поръчка",
+    "badgesLabel": "Доставка и плащане"
   },
   "ForgotPassword": {
     "backToSignIn": "Обратно към входа",
