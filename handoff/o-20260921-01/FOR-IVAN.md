@@ -253,6 +253,25 @@ PR: https://github.com/ivanprotsko/upready-store/pull/116 (ветка `feat/o22-
 
 Субагентов у лида нет (страж запретил ролью), оба воркера — агенты Superset в своих workspace. На машине: бэкенд 9121, витрина 8121 (dev), витрина 8122 (PR #114) и два воркера; лид следит за памятью.
 
+## Ночь 2026-09-24: работу ведёт lead-devops по вашему слову, три воркера Sonnet запущены в 06:40 WITA
+
+Ваши вопросы 1–8 решил lead-devops по вашему ночному разрешению (всё обратимо, только локально, утром можно отменить):
+плашка — да (фиксированный размер, при наведении только плотнее, шторка слева); мерж #117, #114, #115, #116 после зелёной сборки и тестов, без деплоя;
+3 воркера; уроки в базе с редактором в панели; баннер — «Очищение печени»; переименование по доменам (olavka → olavka-com), только локально;
+app@root.dev только локально; домены — модель PR #112 + «Настройки → Сайты». Вопрос 9 («Площадки» → «Маркетплейсы») ждёт вас.
+Заказ lead-devops: /Users/ivanprotsko/upready/memory/lead-upready-store/night-order-20260924.md
+
+| Что | Состояние | Где смотреть |
+|---|---|---|
+| PR #117 правки аудита, партия 1 | **смержен в dev** 06:2x, коммит 4a26d5bd; перед мержем 1209 тестов backend зелёные, typecheck панели и витрины чистый; деплоя нет | https://github.com/ivanprotsko/upready-store/pull/117 |
+| Бэкапы D-01: скрипты бэкапа и восстановления + runbook (на живой не ставились) | **смержен PR #118** (8537170d); лид сам повторил проверку восстановления: 37 = 37 строк | https://github.com/ivanprotsko/upready-store/pull/118, /Users/ivanprotsko/upready/projects/upready-store/deploy/backup/RUNBOOK.md |
+| #111 утечка между магазинами на живом | **закрыта**, проверено только чтением | /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w2/pr111-live-verdict.md |
+| W1: автотесты Playwright (в корзину, корзина, чекаут, сверка скриншотов) → плашка и шторка слева → мерж #114, #115, #116 | в работе | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w1-storefront-e2e-pdp.md, скриншоты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w1/ |
+| W2: A-05, D-02…D-06 | на паузе с 06:35 (lead-devops: не больше 2 воркеров из-за расхода лимита) | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w2-audit.md, результаты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w2/ |
+| W3: «Профиль» в панели (язык списком, «Пароль» + «Изменить» → панель, «Электронная почта», «Show password» по-русски) | в работе | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w3-owner-profile.md, панель воркера http://localhost:5382/settings/profile |
+
+Потом: редизайн всех страниц + баннер курса, курсы, olavka (переименование, «Сайты», шаги 2–6), app@root.dev локально.
+
 ## 2026-09-24 00:46 WITA: новые задачи Ивана собраны в группы, ничего не запущено (Иван: «пока предлагаю собирать их в группы»)
 
 Стенд (лид, 2026-09-23 15:5x WITA): витрина ветки PR #114 собрана `next build` и запущена `next start` на 8122, без turbopack, под `nice`: http://cherkashino.localhost:8122/ru/products/kastorovoe-maslo-kastorka-indiyskaya-cherkashino, http://olavka.localhost:8122/ru, http://olavka-ru.localhost:8122/ru; бэкенд 9121 и панель 5381 те же. Лог `/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/stand-storefront-8122.log`.

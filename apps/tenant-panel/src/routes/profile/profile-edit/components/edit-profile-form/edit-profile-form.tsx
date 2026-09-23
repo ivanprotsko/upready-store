@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Input, Select, toast } from "@medusajs/ui"
+import { Button, Input, toast } from "@medusajs/ui"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
@@ -9,8 +9,6 @@ import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 // tenant-panel: `TenantAdmin` instead of the Admin's `HttpTypes.AdminUser`.
 import { TenantAdmin, useUpdateUser } from "../../../../../hooks/api/users"
-import { languages } from "../../../../../i18n/languages"
-import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
 
 type EditProfileProps = {
   user: TenantAdmin
@@ -20,37 +18,29 @@ type EditProfileProps = {
 const EditProfileSchema = zod.object({
   first_name: zod.string().optional(),
   last_name: zod.string().optional(),
-  language: zod.string(),
   // usage_insights: zod.boolean(),
 })
 
+// o24-owner-profile (t-2026-09-24-n3): the language field that used to live
+// here moved into `ProfileGeneralSection`'s «Язык» row (Ivan's own words —
+// he wants the select right where the value sits, not behind this drawer).
+// This drawer stays for the name fields only, so there is exactly one place
+// that changes the language.
 export const EditProfileForm = ({ user }: EditProfileProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
-  const direction = useDocumentDirection()
   const form = useForm<zod.infer<typeof EditProfileSchema>>({
     defaultValues: {
       first_name: user.first_name ?? "",
       last_name: user.last_name ?? "",
-      language: i18n.language,
       // usage_insights: usageInsights,
     },
     resolver: zodResolver(EditProfileSchema),
   })
 
-  const changeLanguage = async (code: string) => {
-    await i18n.changeLanguage(code)
-  }
-
-  const sortedLanguages = languages.sort((a, b) =>
-    a.display_name.localeCompare(b.display_name)
-  )
-
   // tenant-panel: `useUpdateUser()` takes no id — `POST /tenants/me` always
   // updates the caller behind the bearer token (docs/tenant-panel/api-contract.md,
   // "Piece 4: profile"). The Admin calls `useUpdateUser(user.id!)` here.
-  // `metadata.language` persists the language choice server-side, alongside
-  // the client-only `i18n.changeLanguage` call the Admin already makes.
   const { mutateAsync, isPending } = useUpdateUser()
 
   const handleSubmit = form.handleSubmit(async (values) => {
@@ -58,20 +48,18 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
       {
         first_name: values.first_name,
         last_name: values.last_name,
-        metadata: { ...user.metadata, language: values.language },
       },
       {
         onError: (error) => {
           toast.error(error.message)
           return
         },
+        onSuccess: () => {
+          toast.success(t("profile.toast.edit"))
+          handleSuccess()
+        },
       }
     )
-
-    await changeLanguage(values.language)
-
-    toast.success(t("profile.toast.edit"))
-    handleSuccess()
   })
 
   return (
@@ -107,50 +95,6 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
                 )}
               />
             </div>
-            <Form.Field
-              control={form.control}
-              name="language"
-              render={({ field: { ref, ...field } }) => (
-                <Form.Item className="gap-y-4">
-                  <div>
-                    <Form.Label>{t("profile.fields.languageLabel")}</Form.Label>
-                    <Form.Hint>{t("profile.edit.languageHint")}</Form.Hint>
-                  </div>
-                  <div>
-                    <Form.Control>
-                      <Select
-                        dir={direction}
-                        {...field}
-                        onValueChange={field.onChange}
-                      >
-                        <Select.Trigger ref={ref} className="py-1 text-[13px]">
-                          <Select.Value
-                            placeholder={t("profile.edit.languagePlaceholder")}
-                          >
-                            {
-                              sortedLanguages.find(
-                                (language) => language.code === field.value
-                              )?.display_name
-                            }
-                          </Select.Value>
-                        </Select.Trigger>
-                        <Select.Content>
-                          {languages.map((language) => (
-                            <Select.Item
-                              key={language.code}
-                              value={language.code}
-                            >
-                              {language.display_name}
-                            </Select.Item>
-                          ))}
-                        </Select.Content>
-                      </Select>
-                    </Form.Control>
-                    <Form.ErrorMessage />
-                  </div>
-                </Form.Item>
-              )}
-            />
             {/* TODO: Do we want to implement usage insights in V2? */}
             {/* <Form.Field
               control={form.control}

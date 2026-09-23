@@ -764,15 +764,20 @@
     "outOfStock": "স্টকে নেই",
     "selectOptions": "অপশন নির্বাচন করুন",
     "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন",
-    "inStock": "স্টকে আছে"
+    "inStock": "স্টকে আছে",
+    "buyNow": "কিনুন",
+    "buy": "কিনুন"
   },
   "ProductAttributes": {
     "no": "না",
     "title": "বৈশিষ্ট্য",
-    "yes": "হ্যাঁ"
+    "yes": "হ্যাঁ",
+    "all": "সব বৈশিষ্ট্য"
   },
   "ProductInfo": {
-    "description": "বিবরণ"
+    "description": "বিবরণ",
+    "fullDescription": "সম্পূর্ণ বিবরণ",
+    "details": "বৈশিষ্ট্য ও বিবরণ"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "অ্যাডমিনে সেটআপ চালিয়ে যান",
@@ -802,7 +807,8 @@
     "ownerReply": "দোকানের উত্তর",
     "previousPage": "পূর্ববর্তী",
     "nextPage": "পরবর্তী",
-    "pageOf": "পৃষ্ঠা {page} / {pages}"
+    "pageOf": "পৃষ্ঠা {page} / {pages}",
+    "reviewCount": "{count, plural, one {# রিভিউ} other {# রিভিউ}}"
   },
   "ProductTabs": {
     "easyReturns": "সহজ রিটার্ন",

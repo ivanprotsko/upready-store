@@ -124,6 +124,7 @@ export const OWNER_ROUTES = [
   // Настройки
   { path: "/settings/profile" },
   { path: "/settings/profile/edit", kind: "overlay" },
+  { path: "/settings/profile/password", kind: "overlay" },
   { path: "/settings/domains" },
   { path: "/settings/notifications" },
   { path: "/settings/locale" },
