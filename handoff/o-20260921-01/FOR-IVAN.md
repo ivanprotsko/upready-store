@@ -216,7 +216,7 @@ PR: https://github.com/ivanprotsko/upready-store/pull/116 (ветка `feat/o22-
 
 Каждый вызов Bash печатает три «PreToolUse:Bash hook error … loader:1573» (Write/Edit — два, Agent — один): четыре хука пакета devops `o2242-guards` записаны в `/Users/ivanprotsko/.claude/settings.json` с удвоенным путём `…/devops/staff/guards/staff/guards/o2242-guards/…`, файлов там нет. Установщик запускали с `--hooks-root …/devops/staff/guards`, а он сам добавляет `staff/guards/o2242-guards/`. Ошибки не блокируют, но эти четыре стража сейчас ничего не проверяют. Чинится одной командой (установщик заменяет свои записи по метке в пути): `node /Users/ivanprotsko/upready/projects/devops/staff/guards/o2242-guards/install.mjs`. Жду слова «чини» — или это делает лид devops, чей это пакет.
 
-## Всесторонний аудит проекта по слову Ивана 2026-09-23 10:22 WITA — готов в 10:45, общая оценка D (2026-09-23 10:47 WITA)
+## Всесторонний аудит проекта по слову Ивана 2026-09-23 10:22 WITA — готов в 10:45 по часам машины, общая оценка D
 
 Сводка лида: `/Users/ivanprotsko/upready/projects/upready-store/handoff/audit-2026-09-23/README.md` (оценка, десять главных находок, что хорошо, что не покрыто, порядок правок, приложение с таблицами). Рамка стандартов: `…/audit-2026-09-23/standards.md`. Четыре отчёта агентов Opus в той же папке: `security.md` (D), `storefront.md` (C), `backend.md` (C), `engineering.md` (C). Всего 59 находок: Critical 3, High 13, Medium 26, Low 11, Info 6.
 
