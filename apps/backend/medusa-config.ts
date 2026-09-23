@@ -168,7 +168,9 @@ module.exports = defineConfig({
     },
     cookieOptions: {
       sameSite: "lax",
-      secure: process.env.COOKIE_SECURE === "true",
+      // Closed by default in production, off on plain-http local runs
+      // (audit 2026-09-23, A-03): src/config/production-env.ts.
+      secure: cookieSecure(),
     },
   },
   featureFlags: {

@@ -139,10 +139,10 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `DB_NAME` | Database name interpolated into `DATABASE_URL` | `medusa_dtc_starter` |
 | `STORE_CORS` | Allowed origins for the Store API | `http://localhost:8000,…` |
 | `ADMIN_CORS` | Allowed origins for the Admin API | `http://localhost:5173,http://localhost:9000,…` |
-| `AUTH_CORS` | Allowed origins for authentication | `http://localhost:5173,http://localhost:9000,…` |
-| `JWT_SECRET` | Signing secret for JWTs | `supersecret` |
-| `COOKIE_SECRET` | Signing secret for cookies | `supersecret` |
-| `COOKIE_SECURE` | Set to `true` to send cookies over HTTPS only | `false` |
+| `AUTH_CORS` | Allowed origins for authentication. `STORE_CORS`, `ADMIN_CORS` and `AUTH_CORS` are required in production (the backend refuses to start without them) | `http://localhost:5173,http://localhost:9000,…` |
+| `JWT_SECRET` | Signing secret for JWTs. Required when `NODE_ENV=production`: the backend refuses to start without it | `supersecret` outside production |
+| `COOKIE_SECRET` | Signing secret for cookies. Required in production, like `JWT_SECRET` | `supersecret` outside production |
+| `COOKIE_SECURE` | The session cookie's `Secure` flag. In production it is on unless this is exactly `false`; outside production it is always off (local runs are plain http) | on in production, off elsewhere |
 | `REDIS_URL` | Redis instance for the cache, event bus, and workflow engine in production | `redis://localhost:6379` |
 | `USE_REDIS` | Set it to `true` to use `REDIS_URL` in development too | unset |
 | `CACHE_REDIS_URL` | Separate Redis instance for the cache | `REDIS_URL` |
