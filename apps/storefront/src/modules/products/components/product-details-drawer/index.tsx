@@ -50,8 +50,11 @@ export default function ProductDetailsDrawer({
     <Drawer open={detailsOpen} onOpenChange={setDetailsOpen}>
       <Drawer.Content
         // Placed with the storefront's own screens: a phone gets the whole screen, from
-        // 512 px it is a card on the right, 640 px wide like the Wildberries one.
-        className="inset-0 z-[80] w-full max-w-none rounded-none border-0 max-sm:inset-x-0 max-sm:w-full xsmall:inset-y-2 xsmall:left-auto xsmall:right-2 xsmall:max-w-[640px] sm:max-w-[640px] xsmall:rounded-lg xsmall:border"
+        // 512 px it is a card on the LEFT, 640 px wide like the Wildberries one (Ivan,
+        // 2026-09-24: «1.2 сайдбар должен выезжать слева»). `!` forces the left position
+        // and slide-in direction over @medusajs/ui's own right-side defaults regardless
+        // of Tailwind's generated rule order across the xsmall/sm breakpoints.
+        className="inset-0 z-[80] w-full max-w-none rounded-none border-0 max-sm:inset-x-0 max-sm:w-full xsmall:inset-y-2 xsmall:!right-auto xsmall:!left-2 xsmall:max-w-[640px] sm:!right-auto sm:!left-2 sm:max-w-[640px] xsmall:rounded-lg xsmall:border data-[state=open]:!slide-in-from-left-1/2 data-[state=closed]:!slide-out-to-left-1/2"
         overlayProps={{ className: "z-[80]" }}
         aria-describedby={undefined}
         onCloseAutoFocus={(event) => {
