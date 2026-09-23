@@ -299,27 +299,21 @@ medusaIntegrationTestRunner({
         const displayA = String(detailA.data.order.display_id);
         const displayB = String(detailB.data.order.display_id);
 
+        // The CSV comes back in the response itself, never as a stored file
+        // behind a public URL (audit 2026-09-23, A-02).
         const exportA = await api.post("/tenants/orders/export", {}, bearer(a.token));
         expect(exportA.status).toBe(200);
-        expect(exportA.data.url).toEqual(expect.any(String));
-        expect(exportA.data.count).toBe(1);
+        expect(exportA.headers["content-type"]).toContain("text/csv");
+        expect(exportA.headers["content-disposition"]).toMatch(/^attachment; filename="orders-export-.+\.csv"$/);
+        expect(exportA.headers["x-export-count"]).toBe("1");
+        expect(exportA.data.url).toBeUndefined();
 
         const exportB = await api.post("/tenants/orders/export", {}, bearer(b.token));
         expect(exportB.status).toBe(200);
-        expect(exportB.data.count).toBe(1);
+        expect(exportB.headers["x-export-count"]).toBe("1");
 
-        // The file itself: the local file provider writes into
-        // apps/backend/static, so the rows are read from disk rather than from
-        // the URL, whose port belongs to the provider's own configuration.
-        const readCsv = async (url: string) => {
-          const name = url.split("/").pop()!;
-          const fs = await import("node:fs/promises");
-          const path = await import("node:path");
-          return fs.readFile(path.join(process.cwd(), "static", name), "utf8");
-        };
-
-        const csvA = await readCsv(exportA.data.url);
-        const csvB = await readCsv(exportB.data.url);
+        const csvA = String(exportA.data);
+        const csvB = String(exportB.data);
 
         expect(csvA.split("\n")[0]).toBe(
           '"display_id","created_at","status","payment_status","fulfillment_status","email","currency","total","items_count","sales_channel"',

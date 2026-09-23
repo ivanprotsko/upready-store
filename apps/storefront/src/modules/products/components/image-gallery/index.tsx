@@ -34,7 +34,7 @@ const ImageGallery = ({ images, title }: ImageGalleryProps) => {
   if (items.length === 0) {
     return (
       <div data-testid="product-gallery" data-hydrated="true">
-        <ProductMedia src={null} alt={title ?? ""} context="gallery" />
+        <ProductMedia src={null} alt={title ?? ""} context="gallery" flat />
       </div>
     )
   }

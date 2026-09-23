@@ -769,15 +769,20 @@
     "outOfStock": "غير متوفر",
     "selectOptions": "اختر الخيارات",
     "selectVariant": "اختر الخيار",
-    "inStock": "متوفر"
+    "inStock": "متوفر",
+    "buyNow": "اشترِ الآن",
+    "buy": "شراء"
   },
   "ProductAttributes": {
     "no": "لا",
     "title": "المواصفات",
-    "yes": "نعم"
+    "yes": "نعم",
+    "all": "جميع المواصفات"
   },
   "ProductInfo": {
-    "description": "الوصف"
+    "description": "الوصف",
+    "fullDescription": "الوصف الكامل",
+    "details": "المواصفات والوصف"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "متابعة الإعداد في لوحة التحكم",
@@ -807,7 +812,8 @@
     "ownerReply": "رد المتجر",
     "previousPage": "السابق",
     "nextPage": "التالي",
-    "pageOf": "صفحة {page} من {pages}"
+    "pageOf": "صفحة {page} من {pages}",
+    "reviewCount": "{count, plural, one {تقييم واحد} two {تقييمان} few {# تقييمات} many {# تقييمًا} other {# تقييم}}"
   },
   "ProductTabs": {
     "easyReturns": "إرجاع سهل",

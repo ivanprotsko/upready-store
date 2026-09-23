@@ -769,15 +769,20 @@
     "outOfStock": "Udsolgt",
     "selectOptions": "Vælg indstillinger",
     "selectVariant": "Vælg variant",
-    "inStock": "På lager"
+    "inStock": "På lager",
+    "buyNow": "Køb",
+    "buy": "Køb"
   },
   "ProductAttributes": {
     "no": "Nej",
     "title": "Specifikationer",
-    "yes": "Ja"
+    "yes": "Ja",
+    "all": "Alle specifikationer"
   },
   "ProductInfo": {
-    "description": "Beskrivelse"
+    "description": "Beskrivelse",
+    "fullDescription": "Hele beskrivelsen",
+    "details": "Egenskaber og beskrivelse"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsæt opsætning i admin",
@@ -807,7 +812,8 @@
     "ownerReply": "Svar fra butikken",
     "previousPage": "Forrige",
     "nextPage": "Næste",
-    "pageOf": "Side {page} af {pages}"
+    "pageOf": "Side {page} af {pages}",
+    "reviewCount": "{count, plural, one {# anmeldelse} other {# anmeldelser}}"
   },
   "ProductTabs": {
     "easyReturns": "Nem retur",

@@ -769,15 +769,20 @@
     "outOfStock": "स्टॉक में नहीं",
     "selectOptions": "विकल्प चुनें",
     "selectVariant": "वेरिएंट चुनें",
-    "inStock": "स्टॉक में"
+    "inStock": "स्टॉक में",
+    "buyNow": "खरीदें",
+    "buy": "खरीदें"
   },
   "ProductAttributes": {
     "no": "नहीं",
     "title": "विशेषताएँ",
-    "yes": "हाँ"
+    "yes": "हाँ",
+    "all": "सभी विशेषताएँ"
   },
   "ProductInfo": {
-    "description": "विवरण"
+    "description": "विवरण",
+    "fullDescription": "पूरा विवरण",
+    "details": "विशेषताएँ और विवरण"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "एडमिन में सेटअप जारी रखें",
@@ -807,7 +812,8 @@
     "ownerReply": "दुकान का उत्तर",
     "previousPage": "पिछला",
     "nextPage": "अगला",
-    "pageOf": "पृष्ठ {page} / {pages}"
+    "pageOf": "पृष्ठ {page} / {pages}",
+    "reviewCount": "{count, plural, one {# समीक्षा} other {# समीक्षाएँ}}"
   },
   "ProductTabs": {
     "easyReturns": "आसान रिटर्न",

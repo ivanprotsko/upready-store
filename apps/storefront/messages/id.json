@@ -769,15 +769,20 @@
     "outOfStock": "Stok habis",
     "selectOptions": "Pilih Opsi",
     "selectVariant": "Pilih varian",
-    "inStock": "Tersedia"
+    "inStock": "Tersedia",
+    "buyNow": "Beli sekarang",
+    "buy": "Beli"
   },
   "ProductAttributes": {
     "no": "Tidak",
     "title": "Spesifikasi",
-    "yes": "Ya"
+    "yes": "Ya",
+    "all": "Semua spesifikasi"
   },
   "ProductInfo": {
-    "description": "Deskripsi"
+    "description": "Deskripsi",
+    "fullDescription": "Deskripsi lengkap",
+    "details": "Spesifikasi dan deskripsi"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Lanjutkan pengaturan di admin",
@@ -807,7 +812,8 @@
     "ownerReply": "Balasan toko",
     "previousPage": "Sebelumnya",
     "nextPage": "Berikutnya",
-    "pageOf": "Halaman {page} dari {pages}"
+    "pageOf": "Halaman {page} dari {pages}",
+    "reviewCount": "{count, plural, other {# ulasan}}"
   },
   "ProductTabs": {
     "easyReturns": "Pengembalian mudah",

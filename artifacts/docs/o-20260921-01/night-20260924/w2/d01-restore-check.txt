@@ -1,0 +1,46 @@
+=== D-01 restore check, 2026-09-23T22:20:50Z ===
+Source: 127.0.0.1:5433 upready_store_t2026092101 (read-only, local stand)
+Target: 127.0.0.1:5433 upready_store_restore_check (new scratch DB, dropped after)
+
+--- row counts BEFORE (source) ---
+    t     | count 
+----------+-------
+ customer |    15
+ order    |    17
+ product  |   116
+ tenant   |    14
+(4 rows)
+
+
+--- pg-backup.sh ---
+[pg-backup] dumping to /tmp/d01-restore-check-dump/upready_store_t2026092101-20260923-222050.dump
+[pg-backup] verifying archive with pg_restore -l
+[pg-backup] archive lists 1395 objects
+[pg-backup] checksum written to /tmp/d01-restore-check-dump/upready_store_t2026092101-20260923-222050.dump.sha256
+[pg-backup] applying retention: deleting dumps older than 7 days
+[pg-backup] done: /tmp/d01-restore-check-dump/upready_store_t2026092101-20260923-222050.dump (2494208 bytes, 1395 objects)
+
+--- pg-restore.sh (creates upready_store_restore_check) ---
+[pg-restore] verifying checksum against /tmp/d01-restore-check-dump/upready_store_t2026092101-20260923-222050.dump.sha256
+upready_store_t2026092101-20260923-222050.dump: OK
+[pg-restore] creating database upready_store_restore_check
+CREATE DATABASE
+[pg-restore] restoring into postgres://ivanprotsko@127.0.0.1:5433/upready_store_restore_check
+[pg-restore] done
+
+--- row counts AFTER (restored scratch DB) ---
+    t     | count 
+----------+-------
+ customer |    15
+ order    |    17
+ product  |   116
+ tenant   |    14
+(4 rows)
+
+
+--- verdict ---
+tenant/product/order/customer row counts match exactly between source and restored scratch DB.
+dropping scratch DB upready_store_restore_check
+DROP DATABASE
+0
+0 (confirmed dropped)

@@ -769,15 +769,20 @@
     "outOfStock": "Εξαντλήθηκε",
     "selectOptions": "Επιλέξτε επιλογές",
     "selectVariant": "Επιλέξτε παραλλαγή",
-    "inStock": "Σε απόθεμα"
+    "inStock": "Σε απόθεμα",
+    "buyNow": "Αγορά",
+    "buy": "Αγορά"
   },
   "ProductAttributes": {
     "no": "Όχι",
     "title": "Χαρακτηριστικά",
-    "yes": "Ναι"
+    "yes": "Ναι",
+    "all": "Όλα τα χαρακτηριστικά"
   },
   "ProductInfo": {
-    "description": "Περιγραφή"
+    "description": "Περιγραφή",
+    "fullDescription": "Πλήρης περιγραφή",
+    "details": "Χαρακτηριστικά και περιγραφή"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Συνέχεια ρύθμισης στο διαχειριστικό",
@@ -807,7 +812,8 @@
     "ownerReply": "Απάντηση καταστήματος",
     "previousPage": "Προηγούμενη",
     "nextPage": "Επόμενη",
-    "pageOf": "Σελίδα {page} από {pages}"
+    "pageOf": "Σελίδα {page} από {pages}",
+    "reviewCount": "{count, plural, one {# κριτική} other {# κριτικές}}"
   },
   "ProductTabs": {
     "easyReturns": "Εύκολες επιστροφές",

@@ -769,15 +769,20 @@
     "outOfStock": "Дууссан",
     "selectOptions": "Сонголт хийх",
     "selectVariant": "Хувилбар сонгох",
-    "inStock": "Бэлэн байгаа"
+    "inStock": "Бэлэн байгаа",
+    "buyNow": "Худалдан авах",
+    "buy": "Худалдан авах"
   },
   "ProductAttributes": {
     "no": "Үгүй",
     "title": "Үзүүлэлт",
-    "yes": "Тийм"
+    "yes": "Тийм",
+    "all": "Бүх үзүүлэлт"
   },
   "ProductInfo": {
-    "description": "Тайлбар"
+    "description": "Тайлбар",
+    "fullDescription": "Бүрэн тайлбар",
+    "details": "Шинж чанар ба тайлбар"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Админ хэсэгт тохиргоог үргэлжлүүлэх",
@@ -807,7 +812,8 @@
     "ownerReply": "Дэлгүүрийн хариу",
     "previousPage": "Өмнөх",
     "nextPage": "Дараах",
-    "pageOf": "{pages}-аас {page} хуудас"
+    "pageOf": "{pages}-аас {page} хуудас",
+    "reviewCount": "{count, plural, one {# сэтгэгдэл} other {# сэтгэгдэл}}"
   },
   "ProductTabs": {
     "easyReturns": "Хялбар буцаалт",

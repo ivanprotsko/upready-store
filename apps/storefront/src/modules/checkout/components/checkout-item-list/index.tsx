@@ -66,7 +66,7 @@ function CheckoutItem({
           />
         </Link>
 
-        <div className="flex flex-col h-24 py-1 justify-between">
+        <div className="flex flex-col min-h-24 py-1 justify-between">
           <span className="txt-medium text-ui-fg-base">
             {item.product_title}
           </span>
@@ -79,7 +79,7 @@ function CheckoutItem({
         </div>
       </div>
 
-      <div className="flex flex-col items-end justify-end h-24 py-1 flex-shrink-0 gap-2">
+      <div className="flex flex-col items-end justify-end min-h-24 py-1 flex-shrink-0 gap-2">
         <span className="txt-medium-plus text-ui-fg-base">
           {item.quantity > 1 ? `${item.quantity} x ${unitPrice}` : total}
         </span>

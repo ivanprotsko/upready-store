@@ -8,6 +8,7 @@ import {
   useQuery,
 } from "@tanstack/react-query"
 import { sdk } from "../../lib/client"
+import { CsvExport, readCsvExport } from "../../lib/csv-download"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 import { TenantCustomerFilters } from "../table/query/use-customer-table-query"
 
@@ -99,14 +100,10 @@ export const useCustomers = (
 /**
  * `POST /tenants/customers/export` — same synchronous-CSV contract as
  * `useExportOrders` (`hooks/api/orders.tsx`): the panel has no notification
- * feed, so the route builds the file inline and answers `{ url }`, which the
- * caller opens directly.
+ * feed, so the route builds the file inline and answers with the CSV itself,
+ * which the caller saves (`lib/csv-download.ts`).
  */
-export type TenantCustomerExportResponse = {
-  url: string
-  filename: string
-  count: number
-}
+export type TenantCustomerExportResponse = CsvExport
 
 export const useExportCustomers = (
   query?: Pick<TenantCustomerFilters, "q">,
@@ -117,14 +114,16 @@ export const useExportCustomers = (
   >
 ) => {
   return useMutation({
-    mutationFn: () =>
-      sdk.client.fetch<TenantCustomerExportResponse>(
-        "/tenants/customers/export",
-        {
-          method: "POST",
-          query,
-        }
-      ),
+    mutationFn: async () => {
+      // `accept: text/csv` makes the SDK hand back the raw `Response`.
+      const response = (await sdk.client.fetch("/tenants/customers/export", {
+        method: "POST",
+        headers: { accept: "text/csv" },
+        query,
+      })) as unknown as Response
+
+      return readCsvExport(response, "customers-export.csv")
+    },
     ...options,
   })
 }

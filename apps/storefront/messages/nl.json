@@ -769,15 +769,20 @@
     "outOfStock": "Niet op voorraad",
     "selectOptions": "Selecteer opties",
     "selectVariant": "Selecteer variant",
-    "inStock": "Op voorraad"
+    "inStock": "Op voorraad",
+    "buyNow": "Nu kopen",
+    "buy": "Kopen"
   },
   "ProductAttributes": {
     "no": "Nee",
     "title": "Kenmerken",
-    "yes": "Ja"
+    "yes": "Ja",
+    "all": "Alle kenmerken"
   },
   "ProductInfo": {
-    "description": "Omschrijving"
+    "description": "Omschrijving",
+    "fullDescription": "Volledige omschrijving",
+    "details": "Kenmerken en beschrijving"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Installatie voortzetten in admin",
@@ -807,7 +812,8 @@
     "ownerReply": "Reactie van de winkel",
     "previousPage": "Vorige",
     "nextPage": "Volgende",
-    "pageOf": "Pagina {page} van {pages}"
+    "pageOf": "Pagina {page} van {pages}",
+    "reviewCount": "{count, plural, one {# beoordeling} other {# beoordelingen}}"
   },
   "ProductTabs": {
     "easyReturns": "Gemakkelijk retourneren",

@@ -769,15 +769,20 @@
     "outOfStock": "Esgotado",
     "selectOptions": "Selecionar opções",
     "selectVariant": "Selecionar variante",
-    "inStock": "Em estoque"
+    "inStock": "Em estoque",
+    "buyNow": "Comprar",
+    "buy": "Comprar"
   },
   "ProductAttributes": {
     "no": "Não",
     "title": "Características",
-    "yes": "Sim"
+    "yes": "Sim",
+    "all": "Todas as características"
   },
   "ProductInfo": {
-    "description": "Descrição"
+    "description": "Descrição",
+    "fullDescription": "Descrição completa",
+    "details": "Características e descrição"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuar configuração no admin",
@@ -807,7 +812,8 @@
     "ownerReply": "Resposta da loja",
     "previousPage": "Anterior",
     "nextPage": "Seguinte",
-    "pageOf": "Página {page} de {pages}"
+    "pageOf": "Página {page} de {pages}",
+    "reviewCount": "{count, plural, one {# avaliação} other {# avaliações}}"
   },
   "ProductTabs": {
     "easyReturns": "Devoluções fáceis",

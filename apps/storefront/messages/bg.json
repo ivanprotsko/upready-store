@@ -769,15 +769,20 @@
     "outOfStock": "Изчерпан",
     "selectOptions": "Избери опции",
     "selectVariant": "Избери вариант",
-    "inStock": "В наличност"
+    "inStock": "В наличност",
+    "buyNow": "Плати",
+    "buy": "Купи"
   },
   "ProductAttributes": {
     "no": "Не",
     "title": "Характеристики",
-    "yes": "Да"
+    "yes": "Да",
+    "all": "Всички характеристики"
   },
   "ProductInfo": {
-    "description": "Описание"
+    "description": "Описание",
+    "fullDescription": "Пълно описание",
+    "details": "Характеристики и описание"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продължи настройката в администрацията",
@@ -807,7 +812,8 @@
     "ownerReply": "Отговор от магазина",
     "previousPage": "Назад",
     "nextPage": "Напред",
-    "pageOf": "Страница {page} от {pages}"
+    "pageOf": "Страница {page} от {pages}",
+    "reviewCount": "{count, plural, one {# отзив} other {# отзива}}"
   },
   "ProductTabs": {
     "easyReturns": "Лесно връщане",

@@ -769,15 +769,20 @@
     "outOfStock": "არ არის მარაგში",
     "selectOptions": "აირჩიეთ ოფციები",
     "selectVariant": "აირჩიეთ ვარიანტი",
-    "inStock": "მარაგშია"
+    "inStock": "მარაგშია",
+    "buyNow": "ყიდვა",
+    "buy": "ყიდვა"
   },
   "ProductAttributes": {
     "no": "არა",
     "title": "მახასიათებლები",
-    "yes": "დიახ"
+    "yes": "დიახ",
+    "all": "ყველა მახასიათებელი"
   },
   "ProductInfo": {
-    "description": "აღწერა"
+    "description": "აღწერა",
+    "fullDescription": "სრული აღწერა",
+    "details": "მახასიათებლები და აღწერა"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "კონფიგურაციის გაგრძელება ადმინში",
@@ -807,7 +812,8 @@
     "ownerReply": "მაღაზიის პასუხი",
     "previousPage": "წინა",
     "nextPage": "შემდეგი",
-    "pageOf": "გვერდი {page} / {pages}"
+    "pageOf": "გვერდი {page} / {pages}",
+    "reviewCount": "{count, plural, one {# შეფასება} other {# შეფასება}}"
   },
   "ProductTabs": {
     "easyReturns": "მარტივი დაბრუნება",
