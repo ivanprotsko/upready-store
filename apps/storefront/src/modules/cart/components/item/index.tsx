@@ -104,7 +104,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
           />
         </Link>
 
-        <div className="flex flex-col justify-between h-24 py-1">
+        <div className="flex flex-col justify-between min-h-24 py-1">
           <span
             className="txt-medium text-ui-fg-base"
             data-testid="product-title"
@@ -120,7 +120,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col items-end justify-end h-24 py-1 flex-shrink-0 gap-2">
+      <div className="flex flex-col items-end justify-end min-h-24 py-1 flex-shrink-0 gap-2">
         <span
           className="txt-medium-plus text-ui-fg-base"
           data-testid="product-unit-price"

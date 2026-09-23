@@ -59,6 +59,11 @@ type ProductMediaProps = {
   /** Overrides `FRAME_SIZES[context]` when the slot is not the context's usual one. */
   sizes?: string
   quality?: number
+  /**
+   * The product page's gallery card: the picture on the card's own base colour with no
+   * veil (the photo IS the card's content, not a tile in a grid). Cards keep the veil.
+   */
+  flat?: boolean
   className?: string
   "data-testid"?: string
 }
@@ -71,16 +76,22 @@ export default function ProductMedia({
   priority,
   sizes,
   quality = 70,
+  flat = false,
   className,
   "data-testid": dataTestid,
 }: ProductMediaProps) {
   const slot = sizes ?? FRAME_SIZES[context]
-  const showSecond = context === "card" && Boolean(src) && Boolean(secondSrc) && secondSrc !== src
+  const showSecond =
+    context === "card" &&
+    Boolean(src) &&
+    Boolean(secondSrc) &&
+    secondSrc !== src
 
   return (
     <div
       className={clx(
-        "product-media group/media relative block overflow-hidden bg-ui-bg-subtle",
+        "product-media group/media relative block overflow-hidden",
+        flat ? "bg-ui-bg-base" : "bg-ui-bg-subtle",
         // Full width of its slot unless the caller sizes it.
         !/(^|\s)w-/.test(className ?? "") && "w-full",
         context === "line" ? "rounded-md" : "rounded-[var(--radius,8px)]",
@@ -104,12 +115,23 @@ export default function ProductMedia({
             draggable={false}
             className="object-contain object-center"
           />
-          {showSecond ? <HoverImage src={secondSrc as string} sizes={slot} quality={quality} /> : null}
+          {showSecond ? (
+            <HoverImage
+              src={secondSrc as string}
+              sizes={slot}
+              quality={quality}
+            />
+          ) : null}
         </>
       ) : (
         <ProductMediaPlaceholder compact={context === "line"} />
       )}
-      <span aria-hidden className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]" />
+      {!flat && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]"
+        />
+      )}
     </div>
   )
 }

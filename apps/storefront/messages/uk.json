@@ -764,15 +764,20 @@
     "outOfStock": "Немає в наявності",
     "selectOptions": "Обрати опції",
     "selectVariant": "Оберіть варіант",
-    "inStock": "Є в наявності"
+    "inStock": "Є в наявності",
+    "buyNow": "Оплатити",
+    "buy": "Купити"
   },
   "ProductAttributes": {
     "no": "Ні",
     "title": "Характеристики",
-    "yes": "Так"
+    "yes": "Так",
+    "all": "Усі характеристики"
   },
   "ProductInfo": {
-    "description": "Опис"
+    "description": "Опис",
+    "fullDescription": "Увесь опис",
+    "details": "Характеристики та опис"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продовжити налаштування в адмін-панелі",
@@ -802,7 +807,8 @@
     "ownerReply": "Відповідь магазину",
     "previousPage": "Назад",
     "nextPage": "Далі",
-    "pageOf": "Сторінка {page} з {pages}"
+    "pageOf": "Сторінка {page} з {pages}",
+    "reviewCount": "{count, plural, one {# відгук} few {# відгуки} many {# відгуків} other {# відгуку}}"
   },
   "ProductTabs": {
     "easyReturns": "Легке повернення",

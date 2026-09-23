@@ -764,15 +764,20 @@
     "outOfStock": "สินค้าหมด",
     "selectOptions": "เลือกตัวเลือก",
     "selectVariant": "เลือกตัวเลือกสินค้า",
-    "inStock": "มีสินค้า"
+    "inStock": "มีสินค้า",
+    "buyNow": "ซื้อเลย",
+    "buy": "ซื้อ"
   },
   "ProductAttributes": {
     "no": "ไม่ใช่",
     "title": "ข้อมูลจำเพาะ",
-    "yes": "ใช่"
+    "yes": "ใช่",
+    "all": "ข้อมูลจำเพาะทั้งหมด"
   },
   "ProductInfo": {
-    "description": "รายละเอียดสินค้า"
+    "description": "รายละเอียดสินค้า",
+    "fullDescription": "รายละเอียดทั้งหมด",
+    "details": "คุณสมบัติและรายละเอียด"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "ตั้งค่าต่อในหน้าผู้ดูแลระบบ",
@@ -802,7 +807,8 @@
     "ownerReply": "คำตอบจากร้านค้า",
     "previousPage": "ก่อนหน้า",
     "nextPage": "ถัดไป",
-    "pageOf": "หน้า {page} จาก {pages}"
+    "pageOf": "หน้า {page} จาก {pages}",
+    "reviewCount": "{count, plural, other {# รีวิว}}"
   },
   "ProductTabs": {
     "easyReturns": "คืนสินค้าง่ายๆ",
