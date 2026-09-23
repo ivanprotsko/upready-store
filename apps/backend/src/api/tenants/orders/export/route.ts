@@ -1,16 +1,18 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
-import { getOrdersListWorkflow, uploadFilesWorkflow } from "@medusajs/medusa/core-flows";
+import { getOrdersListWorkflow } from "@medusajs/medusa/core-flows";
 import { listTenantOrderIds, scopeIdFilter } from "../../tenant-scope";
 
 /**
  * `POST /tenants/orders/export` — a CSV of the tenant's own orders, built
- * synchronously and stored through the file module, answered as `{ url }`.
+ * synchronously and answered as the FILE: `text/csv` attachment, row count in
+ * `x-export-count`.
  *
  * The Admin's `POST /admin/orders/export` runs `exportOrdersWorkflow` and
  * answers `202 { transaction_id }`; the file then arrives by notification.
- * The tenant panel has no notification feed, so the contract
- * (docs/tenant-panel/api-contract.md, "Piece 3") specifies the synchronous
- * form with a URL the panel opens.
+ * The tenant panel has no notification feed, so the route builds the file
+ * synchronously and the panel saves it from its own authenticated fetch. It
+ * used to store the file publicly and answer `{ url }`; that exposed buyers'
+ * personal data by URL (audit 2026-09-23, A-02).
  *
  * Filters arrive in the query string, parsed by the Admin's own
  * `AdminGetOrdersParams` + `exportTransformQueryConfig` in middlewares.ts, the
@@ -18,12 +20,6 @@ import { listTenantOrderIds, scopeIdFilter } from "../../tenant-scope";
  * `POST /admin/orders/export?<filters>`). The tenant's own ids are intersected
  * with whatever the caller asked for, and an empty intersection produces a
  * header-only CSV rather than an unfiltered export.
- *
- * Where the file lands: on the stands the file module falls back to Medusa's
- * local provider, which writes into `apps/backend/static` and returns a URL on
- * port 9000 whatever port the backend listens on. The panel opens the URL as
- * given; that mismatch is a stand configuration gap, not a route gap (same
- * note as `POST /tenants/uploads`).
  */
 
 const CSV_COLUMNS = [
@@ -129,18 +125,14 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   const csv = toCsv(rows ?? []);
   const filename = `orders-export-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
 
-  const { result: files } = await uploadFilesWorkflow(req.scope).run({
-    input: {
-      files: [
-        {
-          filename,
-          mimeType: "text/csv",
-          content: Buffer.from(csv, "utf8").toString("base64"),
-          access: "public",
-        },
-      ],
-    },
-  });
+  // The bytes go back in this response, never to the file module: a stored
+  // file got a public, unauthenticated URL, and this CSV holds buyers' personal
+  // data (audit 2026-09-23, A-01/A-02).
+  res.setHeader("content-type", "text/csv; charset=utf-8");
+  res.setHeader("content-disposition", `attachment; filename="${filename}"`);
+  // The panel reads it to report the row count without parsing the body.
+  res.setHeader("x-export-count", String(rows.length));
+  res.setHeader("access-control-expose-headers", "content-disposition, x-export-count");
 
-  res.status(200).json({ url: files[0]?.url, filename, count: rows.length });
+  res.status(200).send(csv);
 };

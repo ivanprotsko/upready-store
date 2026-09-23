@@ -8,6 +8,7 @@ import {
   useQuery,
 } from "@tanstack/react-query"
 import { sdk } from "../../lib/client"
+import { CsvExport, readCsvExport } from "../../lib/csv-download"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory, TQueryKey } from "../../lib/query-key-factory"
 import { notBuiltMutation } from "./not-built"
@@ -332,15 +333,10 @@ export const useMarkOrderFulfillmentAsDelivered = (
  * tenant-panel: the Admin's export starts a background workflow and answers
  * `202 { transaction_id }`; the file arrives later by notification. The panel
  * has no notification feed, so `POST /tenants/orders/export` builds the CSV
- * synchronously and answers `200 { url, filename, count }`
- * (docs/tenant-panel/api-contract.md, "Piece 3"). The filters ride in the query
- * string, the way the Admin's own SDK sends them.
+ * synchronously and answers with the CSV itself (`lib/csv-download.ts`). The
+ * filters ride in the query string, the way the Admin's own SDK sends them.
  */
-export type TenantOrderExportResponse = {
-  url: string
-  filename: string
-  count: number
-}
+export type TenantOrderExportResponse = CsvExport
 
 export const useExportOrders = (
   query?: HttpTypes.AdminOrderFilters,
@@ -351,11 +347,16 @@ export const useExportOrders = (
   >
 ) => {
   return useMutation({
-    mutationFn: () =>
-      sdk.client.fetch<TenantOrderExportResponse>("/tenants/orders/export", {
+    mutationFn: async () => {
+      // `accept: text/csv` makes the SDK hand back the raw `Response`.
+      const response = (await sdk.client.fetch("/tenants/orders/export", {
         method: "POST",
+        headers: { accept: "text/csv" },
         query,
-      }),
+      })) as unknown as Response
+
+      return readCsvExport(response, "orders-export.csv")
+    },
     onSuccess: (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
     },
