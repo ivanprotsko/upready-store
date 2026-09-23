@@ -68,6 +68,9 @@ services:
       # The session cookie is Secure in production unless this is `false`
       # (medusa-config.ts, audit A-03). Unset = Secure.
       COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      # Traefik sits in front: the login/registration rate limit takes the
+      # client from the first X-Forwarded-For hop (src/api/rate-limit.ts).
+      TRUST_PROXY: "1"
       INTEGRATION_ENCRYPTION_KEY: ${INTEGRATION_ENCRYPTION_KEY}
       REVALIDATE_SECRET: ${REVALIDATE_SECRET}
       STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}

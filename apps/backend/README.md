@@ -143,6 +143,7 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `JWT_SECRET` | Signing secret for JWTs. Required when `NODE_ENV=production`: the backend refuses to start without it | `supersecret` outside production |
 | `COOKIE_SECRET` | Signing secret for cookies. Required in production, like `JWT_SECRET` | `supersecret` outside production |
 | `COOKIE_SECURE` | The session cookie's `Secure` flag. In production it is on unless this is exactly `false`; outside production it is always off (local runs are plain http) | on in production, off elsewhere |
+| `TRUST_PROXY` | Set to `1` when a reverse proxy you control (traefik on the deployments) writes `X-Forwarded-For`: the login and registration rate limit (10 per minute per client, `src/api/rate-limit.ts`) then keys on its first hop. Unset, it keys on the socket address and ignores the header | unset |
 | `REDIS_URL` | Redis instance for the cache, event bus, and workflow engine in production | `redis://localhost:6379` |
 | `USE_REDIS` | Set it to `true` to use `REDIS_URL` in development too | unset |
 | `CACHE_REDIS_URL` | Separate Redis instance for the cache | `REDIS_URL` |

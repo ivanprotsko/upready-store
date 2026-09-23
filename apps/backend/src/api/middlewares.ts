@@ -225,6 +225,7 @@ import {
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { guardRequestedFields } from "./field-guard";
+import { rateLimit } from "./rate-limit";
 import { StoreGetPaymentProvidersParams } from "@medusajs/medusa/api/store/payment-providers/validators";
 import { listTransformPaymentProvidersQueryConfig } from "@medusajs/medusa/api/store/payment-providers/query-config";
 
@@ -284,6 +285,8 @@ export default defineMiddlewares({
       matcher: "/tenants",
       method: ["POST"],
       middlewares: [
+        // Audit 2026-09-23, A-04: 10 registrations a minute per client.
+        rateLimit(),
         authenticate(TENANT_ACTOR_TYPE, ["session", "bearer"], {
           allowUnregistered: true,
         }),
@@ -307,7 +310,8 @@ export default defineMiddlewares({
       // Medusa's own emailpass handler runs.
       matcher: "/auth/tenant/emailpass",
       method: ["POST"],
-      middlewares: [blockArchivedTenantLogin],
+      // Audit 2026-09-23, A-04: 10 login attempts a minute per client.
+      middlewares: [rateLimit(), blockArchivedTenantLogin],
     },
     {
       // The owner ties one marketplace card to one variant of her shop by hand
