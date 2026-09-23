@@ -259,6 +259,8 @@ PR: https://github.com/ivanprotsko/upready-store/pull/116 (ветка `feat/o22-
 
 Хосты `cherkashino.ru` и `olavka.ru` бэкенд локально не знает (нет строки в `tenant_domain`), локально магазины открываются только по `<handle>.localhost`. Тенанты `olavka` и `olavka-ru` созданы 22.09 сессией заказа o-20260922-44; товары `olavka-ru`, если нужны локально, — отдельная задача Ивана (лид данные не выдумывает и общую базу не трогает).
 
+Панель владельца поднята по слову Ивана «дай мне доступ в админку» (13:38 WITA): `http://localhost:5381` (vite, тот же backend 9121 и та же база), лог `/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/stand-panel-5381.log`. Владельцы в базе стенда: cherkashino — `owner-cherkashino@example.test` (пароль стенда в строке 20 файла `/Users/ivanprotsko/upready/worktrees/upready-store/feat/o21-owner-panel-ux/artifacts/docs/t-2026-09-21-02/WORKLOG.md`, в чат и в git не пишется) и `owner-o21@stand.test`; olavka — `owner@olavka.example`; olavka-ru — `owner@olavka-ru.example` (их пароли лид не проверял; сброс паролем стенда — запись в базу, только по слову Ивана). Админка Medusa: `http://localhost:9121/app`, суперадмин — переменные `MEDUSA_ADMIN_EMAIL` / `MEDUSA_ADMIN_PASSWORD` в `apps/backend/.env` того же worktree.
+
 Бэкенд `http://localhost:9121` (`medusa develop`, база `upready_store_t2026092101` на 127.0.0.1:5433). Логи: `/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/stand-backend-9121.log`, `…/stand-storefront-8121.log`. Остановить: `pkill -f "next dev --turbopack -p 8121"; pkill -f "medusa develop"`.
 
 
