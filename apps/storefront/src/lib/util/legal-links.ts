@@ -152,3 +152,42 @@ export function starterPageVerdict(
 
   return href ? { kind: "redirect", to: href } : { kind: "gone" }
 }
+
+/** The documents every footer links to (audit 2026-09-23, B-01, 152-ФЗ). */
+export const FOOTER_LEGAL_SLOTS = ["terms", "privacy"] as const satisfies readonly LegalSlot[]
+
+export type FooterLegalLink = { slot: LegalSlot; href: string; label: string }
+
+/**
+ * The legal row under every footer variant: the shop's offer and privacy policy.
+ *
+ * Only a tenant's own PUBLISHED pages are linked. A deployment with no tenant,
+ * or a tenant that has published neither, gets an empty list and the row is not
+ * rendered: a starter placeholder is not a document a buyer can rely on, and a
+ * dead link is worse than none.
+ *
+ * The label is the page's own title when the footer page list carries it
+ * (`titles`, keyed by page key), otherwise the slot's generic title
+ * (`fallbackLabels`, from the existing `Metadata.<slot>.title` messages).
+ */
+export function footerLegalLinks(
+  context: LegalLinkContext,
+  titles: Readonly<Record<string, string>>,
+  fallbackLabels: Readonly<Record<(typeof FOOTER_LEGAL_SLOTS)[number], string>>
+): FooterLegalLink[] {
+  if (!context.hasTenant) {
+    return []
+  }
+
+  return FOOTER_LEGAL_SLOTS.flatMap((slot) => {
+    const href = legalHref(slot, context)
+
+    if (!href) {
+      return []
+    }
+
+    const key = href.replace(/^\/pages\//, "")
+
+    return [{ slot, href, label: titles[key] || fallbackLabels[slot] }]
+  })
+}
