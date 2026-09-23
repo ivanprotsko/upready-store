@@ -264,8 +264,10 @@ app@root.dev только локально; домены — модель PR #11
 | Что | Состояние | Где смотреть |
 |---|---|---|
 | PR #117 правки аудита, партия 1 | **смержен в dev** 06:2x, коммит 4a26d5bd; перед мержем 1209 тестов backend зелёные, typecheck панели и витрины чистый; деплоя нет | https://github.com/ivanprotsko/upready-store/pull/117 |
+| Бэкапы D-01: скрипты бэкапа и восстановления + runbook (на живой не ставились) | **смержен PR #118** (8537170d); лид сам повторил проверку восстановления: 37 = 37 строк | https://github.com/ivanprotsko/upready-store/pull/118, /Users/ivanprotsko/upready/projects/upready-store/deploy/backup/RUNBOOK.md |
+| #111 утечка между магазинами на живом | **закрыта**, проверено только чтением | /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w2/pr111-live-verdict.md |
 | W1: автотесты Playwright (в корзину, корзина, чекаут, сверка скриншотов) → плашка и шторка слева → мерж #114, #115, #116 | в работе | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w1-storefront-e2e-pdp.md, скриншоты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w1/ |
-| W2: бэкапы D-01 (скрипт, runbook, проверка восстановления на локальной базе), проверка утечки #111 на живом только чтением → A-05, D-02…D-06 | в работе | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w2-audit.md, результаты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w2/ |
+| W2: A-05, D-02…D-06 | на паузе с 06:35 (lead-devops: не больше 2 воркеров из-за расхода лимита) | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w2-audit.md, результаты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w2/ |
 | W3: «Профиль» в панели (язык списком, «Пароль» + «Изменить» → панель, «Электронная почта», «Show password» по-русски) | в работе | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w3-owner-profile.md, панель воркера http://localhost:5382/settings/profile |
 
 Потом: редизайн всех страниц + баннер курса, курсы, olavka (переименование, «Сайты», шаги 2–6), app@root.dev локально.
