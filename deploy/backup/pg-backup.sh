@@ -36,15 +36,28 @@
 #   PG_DUMP_BIN      path to pg_dump. Default "pg_dump" (resolved on PATH).
 #   PG_RESTORE_BIN   path to pg_restore, used only for the `-l` sanity check
 #                     against the archive just written. Default "pg_restore".
+#   PSQL_BIN         path to psql, used only for the client/server version
+#                     check below (DATABASE_URL mode only). Default "psql".
+#
+# In DATABASE_URL mode, refuses to run when pg_dump's major version differs
+# from the server's (see version-guard.sh: a newer pg_dump can embed GUCs an
+# older server's own pg_restore/server does not know, breaking restore later
+# even though the dump itself "succeeds"). Docker-exec mode skips this check:
+# the client always matches the server there.
 #
 # Exit codes:
 #   0  backup written, verified, retention applied
-#   1  usage or configuration error (missing env, bad combination)
+#   1  usage or configuration error (missing env, bad combination, or a
+#      client/server major version mismatch)
 #   2  the dump command itself failed
 #   3  the dump file is missing or empty after a reported success
 #   4  pg_restore -l could not read the archive, or it listed zero objects
 #   5  could not write the checksum sidecar
 set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./version-guard.sh
+. "$SCRIPT_DIR/version-guard.sh"
 
 log() { echo "[pg-backup] $*" >&2; }
 
@@ -55,6 +68,7 @@ fi
 
 PG_DUMP_BIN="${PG_DUMP_BIN:-pg_dump}"
 PG_RESTORE_BIN="${PG_RESTORE_BIN:-pg_restore}"
+PSQL_BIN="${PSQL_BIN:-psql}"
 RETENTION_DAYS="${RETENTION_DAYS:-7}"
 BACKUP_LABEL="${BACKUP_LABEL:-medusa}"
 
@@ -65,6 +79,9 @@ if [[ -n "${PG_DUMP_DOCKER_CONTAINER:-}" ]]; then
   fi
   DUMP_CMD=(docker exec "$PG_DUMP_DOCKER_CONTAINER" "$PG_DUMP_BIN" -U "$PG_DUMP_DB_USER" -Fc "$PG_DUMP_DB_NAME")
 elif [[ -n "${DATABASE_URL:-}" ]]; then
+  if ! pg_backup_require_matching_version "$PG_DUMP_BIN" "$DATABASE_URL" "$PSQL_BIN"; then
+    exit 1
+  fi
   DUMP_CMD=("$PG_DUMP_BIN" -Fc "$DATABASE_URL")
 else
   log "error: set either DATABASE_URL or PG_DUMP_DOCKER_CONTAINER (+ PG_DUMP_DB_USER, PG_DUMP_DB_NAME)"

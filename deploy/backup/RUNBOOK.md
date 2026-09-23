@@ -24,6 +24,14 @@ change to the live host does.
   server: creates a throwaway source database, seeds it, backs it up, restores into a second
   throwaway database, compares row counts, drops both. Does not touch any project database.
 
+All three refuse to run, in `DATABASE_URL` mode, when the `pg_dump`/`pg_restore` binary's major
+version differs from the server's (`deploy/backup/version-guard.sh`): measured 2026-09-24, a Homebrew
+`libpq` client at 18.6 against this stand's 16.13 server produced a dump that then failed to restore
+with `unrecognized configuration parameter "transaction_timeout"`, because pg_dump 18 embeds a GUC
+that does not exist before Postgres 17. Point `PG_DUMP_BIN`/`PG_RESTORE_BIN`/`PSQL_BIN` at a client
+from the server's own major version, or use `PG_DUMP_DOCKER_CONTAINER`/`PG_RESTORE_DOCKER_CONTAINER`
+(docker-exec mode is never affected: the client lives inside the server's own image).
+
 Both scripts talk to Postgres two ways: a `DATABASE_URL` pg_dump/pg_restore can reach directly, or a
 `docker exec` into a named container when Postgres has no published port. **The live mt host is the
 second case:** `deploy/compose.mt.yml` keeps `mt-postgres` on the internal `coolify` network only, no

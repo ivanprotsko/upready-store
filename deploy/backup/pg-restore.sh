@@ -22,17 +22,26 @@
 #
 # Optional:
 #   PG_RESTORE_BIN       path to pg_restore. Default "pg_restore".
-#   PSQL_BIN             path to psql, used only by --create. Default "psql".
+#   PSQL_BIN             path to psql, used by --create and by the version
+#                         check below. Default "psql".
 #   SKIP_CHECKSUM_CHECK  set to "1" to restore a dump with no .sha256 sidecar
 #                         (e.g. one produced by an older run). Default off.
 #
+# In direct mode, refuses to run when pg_restore's major version differs from
+# the target server's (see version-guard.sh). Docker-exec mode skips this
+# check: the client always matches the server there.
+#
 # Exit codes:
 #   0  restored and pg_restore reported no error
-#   1  usage or configuration error
+#   1  usage or configuration error, or a client/server major version mismatch
 #   2  the dump file's sha256 does not match its .sha256 sidecar
 #   3  --create failed to create the target database
 #   4  pg_restore failed
 set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./version-guard.sh
+. "$SCRIPT_DIR/version-guard.sh"
 
 log() { echo "[pg-restore] $*" >&2; }
 
@@ -98,10 +107,18 @@ if [[ "${3:-}" == "--create" ]]; then
   CREATE=1
 fi
 
+DB_NAME="${TARGET_URL##*/}"
+DB_NAME="${DB_NAME%%\?*}"
+MAINTENANCE_URL="${TARGET_URL%/*}/postgres"
+PROBE_URL="$TARGET_URL"
 if [[ "$CREATE" -eq 1 ]]; then
-  DB_NAME="${TARGET_URL##*/}"
-  DB_NAME="${DB_NAME%%\?*}"
-  MAINTENANCE_URL="${TARGET_URL%/*}/postgres"
+  PROBE_URL="$MAINTENANCE_URL"
+fi
+if ! pg_backup_require_matching_version "$PG_RESTORE_BIN" "$PROBE_URL" "$PSQL_BIN"; then
+  exit 1
+fi
+
+if [[ "$CREATE" -eq 1 ]]; then
   log "creating database $DB_NAME"
   if ! "$PSQL_BIN" "$MAINTENANCE_URL" -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"$DB_NAME\";"; then
     log "error: could not create $DB_NAME"

@@ -20,14 +20,22 @@
 #   PG_DUMP_BIN, PG_RESTORE_BIN, PSQL_BIN   same meaning as in the two
 #                                            scripts this test drives.
 #
+# Checks pg_dump's major version against the server's before creating
+# anything (see version-guard.sh) — a mismatch there would otherwise surface
+# confusingly, mid-drill, as a pg-restore.sh failure instead.
+#
 # Exit codes:
 #   0  row counts matched after restore
-#   1  usage or configuration error
+#   1  usage or configuration error, or a client/server major version mismatch
 #   2  setup (create/seed source database) failed
 #   3  pg-backup.sh failed
 #   4  pg-restore.sh failed
 #   5  row counts did not match
 set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./version-guard.sh
+. "$SCRIPT_DIR/version-guard.sh"
 
 log() { echo "[test-backup-restore] $*" >&2; }
 
@@ -36,8 +44,12 @@ if [[ -z "${TEST_ADMIN_DATABASE_URL:-}" ]]; then
   exit 1
 fi
 
+PG_DUMP_BIN="${PG_DUMP_BIN:-pg_dump}"
 PSQL_BIN="${PSQL_BIN:-psql}"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if ! pg_backup_require_matching_version "$PG_DUMP_BIN" "$TEST_ADMIN_DATABASE_URL" "$PSQL_BIN"; then
+  exit 1
+fi
 
 RUN_ID="$$_$(date +%s)"
 SRC_DB="pgbackup_test_src_${RUN_ID}"
