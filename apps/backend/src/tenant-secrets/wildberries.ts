@@ -23,6 +23,8 @@ export type ResolvedWildberriesSecret = {
   id: string;
   tenant_id: string;
   is_enabled: boolean;
+  /** When the key was last saved; the scheduler's `auth_failed` gate reads it. */
+  updated_at?: Date | null;
   credentials: WildberriesCredentials;
 };
 
@@ -56,11 +58,17 @@ export const readWildberriesSecret = async (
   options: { includeDisabled?: boolean } = {},
 ): Promise<ResolvedWildberriesSecret | null> => {
   const row = (await pg("tenant_integration_secret")
-    .select("id", "tenant_id", "payload", "is_enabled")
+    .select("id", "tenant_id", "payload", "is_enabled", "updated_at")
     .where({ tenant_id: tenantId, provider: "wildberries" })
     .whereNull("deleted_at")
     .first()) as
-    | { id: string; tenant_id: string; payload: string; is_enabled: boolean }
+    | {
+        id: string;
+        tenant_id: string;
+        payload: string;
+        is_enabled: boolean;
+        updated_at?: Date | string | null;
+      }
     | undefined;
 
   if (!row || (!row.is_enabled && !options.includeDisabled)) {
@@ -71,6 +79,7 @@ export const readWildberriesSecret = async (
     id: row.id,
     tenant_id: row.tenant_id,
     is_enabled: row.is_enabled,
+    updated_at: row.updated_at ? new Date(row.updated_at) : null,
     credentials: decryptJson<WildberriesCredentials>(row.payload, keyFromEnv()),
   };
 };

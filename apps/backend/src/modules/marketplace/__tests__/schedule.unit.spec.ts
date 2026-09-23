@@ -5,6 +5,9 @@ import {
   MP_SCHEDULER_CRON,
   MP_STALE_LOCK_MS,
   MP_SYNC_INTERVAL_MS,
+  MP_AUTH_FAILED_RETRY_MS,
+  consecutiveFailures,
+  failureBackoffMs,
   intervalMsFor,
   isStaleLock,
   nextDueAt,
@@ -170,6 +173,81 @@ describe("nextDueAt", () => {
       },
       "stocks",
       now,
+    );
+    expect(verdict.due).toBe(true);
+  });
+
+  // ---- audit 2026-09-23, C-01: failures back off, a refused key waits.
+
+  it("a second failure in a row waits twice the interval", () => {
+    const run = {
+      status: "failed",
+      started_at: ago(20 * MINUTE),
+      finished_at: ago(20 * MINUTE),
+      consecutive_failures: 2,
+    };
+    // stocks: 15 min interval, so 30 min after a second failure.
+    const verdict = nextDueAt(run, "stocks", now);
+    expect(verdict.due).toBe(false);
+    expect(verdict.reason).toBe("waiting");
+    expect(verdict.nextAt?.toISOString()).toBe("2026-09-16T10:10:00.000Z");
+
+    expect(nextDueAt({ ...run, started_at: ago(30 * MINUTE) }, "stocks", now).due).toBe(true);
+  });
+
+  it("the failure backoff doubles per failure and stops at six hours", () => {
+    expect(failureBackoffMs(15 * MINUTE, 1)).toBe(15 * MINUTE);
+    expect(failureBackoffMs(15 * MINUTE, 3)).toBe(60 * MINUTE);
+    expect(failureBackoffMs(15 * MINUTE, 10)).toBe(6 * HOUR);
+    // A daily kind is never retried MORE often than its own interval.
+    expect(failureBackoffMs(24 * HOUR, 3)).toBe(24 * HOUR);
+  });
+
+  it("counts only the failures at the head of the runs", () => {
+    expect(
+      consecutiveFailures([
+        { status: "failed" },
+        { status: "auth_failed" },
+        { status: "succeeded" },
+        { status: "failed" },
+      ]),
+    ).toBe(2);
+    expect(consecutiveFailures([{ status: "succeeded" }, { status: "failed" }])).toBe(0);
+  });
+
+  it("an auth_failed run is not retried on the interval while the key is unchanged", () => {
+    const run = {
+      status: "auth_failed",
+      started_at: ago(2 * HOUR),
+      finished_at: ago(2 * HOUR),
+    };
+    const keySavedBefore = ago(3 * HOUR);
+
+    const verdict = nextDueAt(run, "stocks", now, keySavedBefore);
+    expect(verdict.due).toBe(false);
+    expect(verdict.reason).toBe("waiting");
+    expect(verdict.nextAt?.getTime()).toBe(ago(2 * HOUR).getTime() + MP_AUTH_FAILED_RETRY_MS);
+
+    // Without a known key date the same six hours hold.
+    expect(nextDueAt(run, "stocks", now).due).toBe(false);
+  });
+
+  it("an auth_failed run is due as soon as the owner saves a new key", () => {
+    const verdict = nextDueAt(
+      { status: "auth_failed", started_at: ago(2 * HOUR), finished_at: ago(2 * HOUR) },
+      "stocks",
+      now,
+      ago(1 * MINUTE),
+    );
+    expect(verdict.due).toBe(true);
+  });
+
+  it("an auth_failed run is retried after six hours even with the same key", () => {
+    const verdict = nextDueAt(
+      { status: "auth_failed", started_at: ago(6 * HOUR), finished_at: ago(6 * HOUR) },
+      "stocks",
+      now,
+      ago(24 * HOUR),
     );
     expect(verdict.due).toBe(true);
   });
