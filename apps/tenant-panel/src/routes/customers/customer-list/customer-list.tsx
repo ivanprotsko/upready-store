@@ -8,6 +8,7 @@ import { useCustomers, useExportCustomers } from "../../../hooks/api/customers"
 import { useCustomerTableColumns } from "../../../hooks/table/columns"
 import { useCustomerTableQuery } from "../../../hooks/table/query"
 import { useDataTable } from "../../../hooks/use-data-table"
+import { saveCsv } from "../../../lib/csv-download"
 
 // tenant-panel: t13-customers-screen. Own screen, no Admin counterpart at
 // this path — the Admin's own `/customers` is a store-wide list; this is
@@ -44,16 +45,15 @@ export const CustomerList = () => {
 
   const handleExport = async () => {
     await exportCustomers(undefined, {
-      onSuccess: ({ url, count: rowCount }) => {
+      onSuccess: (file) => {
+        saveCsv(file)
+
+        const rowCount = file.count
         toast.success(t("customers.export.success.title"), {
           description: t("customers.export.success.description", {
             count: rowCount,
           }),
         })
-
-        if (url) {
-          window.open(url, "_blank", "noopener,noreferrer")
-        }
       },
       onError: (err) => {
         toast.error(err.message)

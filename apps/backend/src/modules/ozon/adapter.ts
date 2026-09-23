@@ -197,6 +197,7 @@ const readCredentials = async (pg: unknown, tenantId: string): Promise<Credentia
       apiKey: key,
     },
     isEnabled: secret.is_enabled,
+    updatedAt: secret.updated_at ?? null,
     last4: key ? (key.length >= 4 ? key.slice(-4) : "•".repeat(key.length)) : null,
   };
 };

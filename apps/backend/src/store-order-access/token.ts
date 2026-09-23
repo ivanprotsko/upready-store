@@ -23,8 +23,22 @@ import crypto from "node:crypto";
 /** sha256, base64url — the length is public and only used to reject junk early. */
 const TOKEN_LENGTH = 43;
 
-const accessSecret = (): string =>
-  process.env.ORDER_ACCESS_SECRET || process.env.JWT_SECRET || "supersecret";
+/**
+ * In production the public `supersecret` fallback is gone (audit 2026-09-23,
+ * A-06): with neither ORDER_ACCESS_SECRET nor JWT_SECRET set, anyone could mint
+ * a guest token for any order. JWT_SECRET stays an accepted fallback because
+ * the deployed composes pass it and not ORDER_ACCESS_SECRET.
+ */
+export const accessSecret = (env: Record<string, string | undefined> = process.env): string => {
+  const secret = env.ORDER_ACCESS_SECRET || env.JWT_SECRET;
+  if (secret) {
+    return secret;
+  }
+  if (env.NODE_ENV === "production") {
+    throw new Error("ORDER_ACCESS_SECRET (or JWT_SECRET) must be set in production");
+  }
+  return "supersecret";
+};
 
 export const guestOrderToken = (orderId: string): string =>
   crypto

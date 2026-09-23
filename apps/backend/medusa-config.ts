@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from "@medusajs/framework/utils";
 import { installStaticFileHeaders } from "./src/tenant-files/static-headers";
+import { assertProductionEnv, cookieSecure, DEV_SECRET } from "./src/config/production-env";
 
 loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
@@ -111,7 +112,7 @@ const yandexAuthProvider = {
     // The state is signed, not stored: see src/modules/auth-yandex/lib/state.ts
     // for why the framework's own state store cannot carry this flow.
     stateSecret:
-      process.env.JWT_SECRET || process.env.COOKIE_SECRET || "supersecret",
+      process.env.JWT_SECRET || process.env.COOKIE_SECRET || DEV_SECRET,
     allowedCallbackOrigins: (process.env.YANDEX_CALLBACK_ORIGINS || "")
       .split(",")
       .map((origin) => origin.trim())
@@ -148,6 +149,11 @@ const localFileModule = {
   },
 };
 
+// Production refuses to start without its secrets and CORS instead of falling
+// back to `supersecret` / undefined (audit 2026-09-23, A-06/C-02). The dev
+// defaults below only ever apply outside production.
+assertProductionEnv();
+
 module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
@@ -157,12 +163,14 @@ module.exports = defineConfig({
       storeCors: process.env.STORE_CORS!,
       adminCors: process.env.ADMIN_CORS!,
       authCors: process.env.AUTH_CORS!,
-      jwtSecret: process.env.JWT_SECRET || "supersecret",
-      cookieSecret: process.env.COOKIE_SECRET || "supersecret",
+      jwtSecret: process.env.JWT_SECRET || DEV_SECRET,
+      cookieSecret: process.env.COOKIE_SECRET || DEV_SECRET,
     },
     cookieOptions: {
       sameSite: "lax",
-      secure: process.env.COOKIE_SECURE === "true",
+      // Closed by default in production, off on plain-http local runs
+      // (audit 2026-09-23, A-03): src/config/production-env.ts.
+      secure: cookieSecure(),
     },
   },
   featureFlags: {

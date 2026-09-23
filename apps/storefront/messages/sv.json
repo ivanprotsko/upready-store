@@ -764,15 +764,20 @@
     "outOfStock": "Slut i lager",
     "selectOptions": "Välj alternativ",
     "selectVariant": "Välj variant",
-    "inStock": "I lager"
+    "inStock": "I lager",
+    "buyNow": "Köp",
+    "buy": "Köp"
   },
   "ProductAttributes": {
     "no": "Nej",
     "title": "Specifikationer",
-    "yes": "Ja"
+    "yes": "Ja",
+    "all": "Alla specifikationer"
   },
   "ProductInfo": {
-    "description": "Beskrivning"
+    "description": "Beskrivning",
+    "fullDescription": "Hela beskrivningen",
+    "details": "Egenskaper och beskrivning"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsätt konfigurationen i adminpanelen",
@@ -802,7 +807,8 @@
     "ownerReply": "Svar från butiken",
     "previousPage": "Föregående",
     "nextPage": "Nästa",
-    "pageOf": "Sida {page} av {pages}"
+    "pageOf": "Sida {page} av {pages}",
+    "reviewCount": "{count, plural, one {# omdöme} other {# omdömen}}"
   },
   "ProductTabs": {
     "easyReturns": "Enkla returer",
