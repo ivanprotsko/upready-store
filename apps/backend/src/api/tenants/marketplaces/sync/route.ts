@@ -5,8 +5,10 @@ import { EXPIRY_WARNING_DAYS } from "../../../../modules/marketplace/contract";
 import { MARKETPLACE_MODULE } from "../../../../modules/marketplace";
 import { MARKETPLACES } from "../../../../modules/marketplace/registry";
 import {
+  MP_FAILURE_STATUSES,
   MP_SCHEDULER_CRON,
   MP_STALE_LOCK_MS,
+  consecutiveFailures,
   intervalMsFor,
   nextDueAt,
 } from "../../../../modules/marketplace/schedule";
@@ -106,7 +108,8 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
         const ofKind = runs.filter((run) => run.kind === kind);
         const newest = ofKind[0] ?? null;
         const lastSuccess = ofKind.find((run) => run.status === "succeeded") ?? null;
-        const lastFailure = ofKind.find((run) => run.status === "failed") ?? null;
+        const lastFailure =
+          ofKind.find((run) => MP_FAILURE_STATUSES.includes(run.status)) ?? null;
         const lastLimited = ofKind.find((run) => run.status === "rate_limited") ?? null;
 
         const verdict = nextDueAt(
@@ -116,10 +119,12 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
                 started_at: asDate(newest.started_at) ?? now,
                 finished_at: asDate(newest.finished_at),
                 retry_at: asDate(newest.retry_at),
+                consecutive_failures: Math.max(consecutiveFailures(ofKind), 1),
               }
             : null,
           kind,
           now,
+          slot?.updatedAt ?? null,
         );
 
         return {
@@ -228,7 +233,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     }
 
     for (const kind of entry.kinds) {
-      if (kind.status === "failed") {
+      if (kind.status !== null && MP_FAILURE_STATUSES.includes(kind.status)) {
         found.push({
           marketplace: entry.id,
           marketplace_label: entry.label,

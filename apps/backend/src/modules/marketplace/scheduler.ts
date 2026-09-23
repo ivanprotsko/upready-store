@@ -2,7 +2,15 @@ import { MP_MAX_ATTEMPTS, backoffForMs, sleep } from "./backoff";
 import type { MarketplaceAdapter, SyncDeps, SyncOutcome } from "./contract";
 import { MARKETPLACE_MODULE } from "./index";
 import { projectFromMirrors } from "./project";
-import { MP_SCHEDULED_KINDS, MP_STALE_LOCK_MS, nextDueAt, type LastRun } from "./schedule";
+import {
+  consecutiveFailures,
+  MP_AUTH_FAILED,
+  MP_FAILURE_STATUSES,
+  MP_SCHEDULED_KINDS,
+  MP_STALE_LOCK_MS,
+  nextDueAt,
+  type LastRun,
+} from "./schedule";
 import type MarketplaceModuleService from "./service";
 
 /**
@@ -52,7 +60,7 @@ export type ScheduledRun = {
   marketplace: string;
   kind: string;
   /** `skipped` means the triple was not due; the reason says why. */
-  outcome: "succeeded" | "rate_limited" | "failed" | "skipped";
+  outcome: "succeeded" | "rate_limited" | "failed" | "auth_failed" | "skipped";
   reason: string;
   runId: string | null;
   rows: number;
@@ -283,22 +291,41 @@ export const runOneSync = async (
   adapter: MarketplaceAdapter,
   kind: string,
   credentials: unknown,
+  /** `CredentialSlot.updatedAt`: when the key was last saved. */
+  credentialsUpdatedAt: Date | null = null,
 ): Promise<ScheduledRun> => {
   const mp = service(deps);
   const clock = deps.now ?? (() => new Date());
   const now = clock();
 
   const last = await lockOrNewest(mp, deps.tenantId, adapter.id, kind);
+
+  /**
+   * The failure streak feeds the backoff (audit 2026-09-23, C-01). Read only
+   * when the newest run failed, so a healthy tick costs no extra query; ten
+   * rows are enough, since 2^9 intervals is far past the six-hour cap.
+   */
+  const streak =
+    last && MP_FAILURE_STATUSES.includes(last.status)
+      ? consecutiveFailures(
+          (await mp.listMpSyncRuns(
+            { tenant_id: deps.tenantId, marketplace: adapter.id, kind },
+            { order: { started_at: "DESC" }, take: 10 },
+          )) as RunRow[],
+        )
+      : 0;
+
   const lastRun: LastRun | null = last
     ? {
         status: last.status,
         started_at: asDate(last.started_at) ?? now,
         finished_at: asDate(last.finished_at),
         retry_at: asDate(last.retry_at),
+        consecutive_failures: Math.max(streak, 1),
       }
     : null;
 
-  const verdict = nextDueAt(lastRun, kind, now);
+  const verdict = nextDueAt(lastRun, kind, now, credentialsUpdatedAt);
 
   if (!verdict.due) {
     return {
@@ -440,9 +467,24 @@ export const runOneSync = async (
 
   const retryAt = outcome.retryAt ?? null;
 
+  /**
+   * The endpoint and status of the call that broke the run, from the transport
+   * journal of this very run. Read BEFORE the row is closed: a 401 or 403 is
+   * recorded as `auth_failed`, which `nextDueAt` does not retry until the key
+   * changes (audit 2026-09-23, C-01).
+   */
+  const call =
+    outcome.status === "succeeded" || kind === "projection"
+      ? null
+      : await failureCall(adapter, syncDeps, outcome.runId);
+  const status: ScheduledRun["outcome"] =
+    outcome.status === "failed" && (call?.status === 401 || call?.status === 403)
+      ? MP_AUTH_FAILED
+      : outcome.status;
+
   await mp.updateMpSyncRuns({
     id: lock.id,
-    status: outcome.status,
+    status,
     finished_at: finishedAt,
     rows: outcome.rows,
     requests: outcome.requests,
@@ -468,11 +510,9 @@ export const runOneSync = async (
      * status (spec 2.6). The endpoint and status come from the transport
      * journal of this very run, not from the message.
      */
-    const call =
-      kind === "projection" ? null : await failureCall(adapter, syncDeps, outcome.runId);
     const where = `endpoint ${call?.endpointId ?? "unknown"}, status ${call?.status ?? "unknown"}`;
     const line =
-      `[mp-sync] ${adapter.id} ${kind}: ${outcome.status} after ${attempts} attempt(s), ` +
+      `[mp-sync] ${adapter.id} ${kind}: ${status} after ${attempts} attempt(s), ` +
       `${where}: ${outcome.error ?? "без текста ошибки"}`;
 
     if (outcome.status === "rate_limited") {
@@ -488,7 +528,7 @@ export const runOneSync = async (
   return {
     marketplace: adapter.id,
     kind,
-    outcome: outcome.status,
+    outcome: status,
     reason: verdict.reason,
     runId: lock.id,
     rows: outcome.rows,
@@ -543,7 +583,9 @@ export const runDueSyncs = async (
     );
 
     for (const kind of kinds) {
-      done.push(await runOneSync(deps, adapter, kind, slot.credentials));
+      done.push(
+        await runOneSync(deps, adapter, kind, slot.credentials, slot.updatedAt ?? null),
+      );
     }
   }
 
