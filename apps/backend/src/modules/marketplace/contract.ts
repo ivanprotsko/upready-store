@@ -322,6 +322,12 @@ export type CredentialSlot = {
   isEnabled: boolean;
   /** Last four characters of the key. Never the key. */
   last4: string | null;
+  /**
+   * When the key was last saved (`tenant_integration_secret.updated_at`). The
+   * scheduler retries an `auth_failed` kind as soon as this moves past the
+   * refused run (audit 2026-09-23, C-01).
+   */
+  updatedAt?: Date | null;
 };
 
 /**

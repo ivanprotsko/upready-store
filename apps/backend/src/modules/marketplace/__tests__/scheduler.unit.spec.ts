@@ -412,3 +412,64 @@ describe("the 429 backoff", () => {
     expect(String(mp.rows[0].error)).toContain("not registered");
   });
 });
+
+describe("a refused key and repeated failures (audit 2026-09-23, C-01)", () => {
+  const unauthorized = (): SyncOutcome => ({
+    kind: "stocks",
+    runId: "wbrun_401",
+    rows: 0,
+    requests: 1,
+    status: "failed",
+    error: "WB stocks answered 401: token is invalid",
+    retryAt: null,
+  });
+
+  /** The adapter's journal says the call that broke the run got `status`. */
+  const withJournal = (adapter: MarketplaceAdapter, status: number): MarketplaceAdapter => ({
+    ...adapter,
+    loadJournal: async () => ({
+      runs: [],
+      calls: [{ sync_run_id: "wbrun_401", endpoint_id: "stocks.list", status, error: "denied" }],
+    }),
+  }) as unknown as MarketplaceAdapter;
+
+  it("a 401 on the breaking call is recorded as auth_failed", async () => {
+    const mp = fakeService();
+    const adapter = withJournal(fakeAdapter(async () => unauthorized()), 401);
+
+    const result = await runOneSync(deps(mp), adapter, "stocks", "token");
+
+    expect(result.outcome).toBe("auth_failed");
+    expect(mp.rows[0].status).toBe("auth_failed");
+  });
+
+  it("an auth_failed kind is skipped on the next ticks until the key is saved again", async () => {
+    const mp = fakeService();
+    const first = new Date("2026-09-16T10:00:00.000Z");
+    const adapter = withJournal(fakeAdapter(async () => unauthorized()), 403);
+    await runOneSync(deps(mp, first), adapter, "stocks", "token");
+
+    const hourLater = new Date(first.getTime() + 60 * 60_000);
+    const skipped = await runOneSync(deps(mp, hourLater), adapter, "stocks", "token", first);
+    expect(skipped.outcome).toBe("skipped");
+
+    const keySaved = new Date(first.getTime() + 30 * 60_000);
+    const retried = await runOneSync(deps(mp, hourLater), adapter, "stocks", "token", keySaved);
+    expect(retried.outcome).toBe("auth_failed");
+    expect(mp.rows).toHaveLength(2);
+  });
+
+  it("a 500 stays failed, and a second failure waits twice the interval", async () => {
+    const mp = fakeService();
+    const adapter = withJournal(fakeAdapter(async () => unauthorized()), 500);
+    const t0 = new Date("2026-09-16T10:00:00.000Z");
+    const at = (minutes: number) => new Date(t0.getTime() + minutes * 60_000);
+
+    expect((await runOneSync(deps(mp, t0), adapter, "stocks", "token")).outcome).toBe("failed");
+    // stocks run every 15 min: the first failure waits one interval.
+    expect((await runOneSync(deps(mp, at(15)), adapter, "stocks", "token")).outcome).toBe("failed");
+    // Two failures in a row: 30 min from the last start, not 15.
+    expect((await runOneSync(deps(mp, at(30)), adapter, "stocks", "token")).outcome).toBe("skipped");
+    expect((await runOneSync(deps(mp, at(45)), adapter, "stocks", "token")).outcome).toBe("failed");
+  });
+});

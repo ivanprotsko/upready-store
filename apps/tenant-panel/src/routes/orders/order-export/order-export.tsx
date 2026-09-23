@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { RouteDrawer, useRouteModal } from "../../../components/modals"
 import { useExportOrders } from "../../../hooks/api"
 import { useOrderTableQuery } from "../../../hooks/table/query"
+import { saveCsv } from "../../../lib/csv-download"
 import { ExportFilters } from "./components/export-filters"
 
 export const OrderExport = () => {
@@ -35,18 +36,14 @@ const OrderExportContent = () => {
       // tenant-panel: the Admin's export starts a background workflow and the
       // file arrives by notification, so its own handler only shows the
       // "started" toast. `POST /tenants/orders/export` builds the CSV
-      // synchronously and answers `{ url }` (docs/tenant-panel/api-contract.md,
-      // "Piece 3"), and the panel has no notification feed, so the file is
-      // opened here instead. `noopener,noreferrer` because the URL is served
-      // by the file provider, not by the panel.
-      onSuccess: ({ url }) => {
+      // synchronously and answers with the file itself, and the panel has no
+      // notification feed, so the file is saved here instead.
+      onSuccess: (file) => {
+        saveCsv(file)
+
         toast.info(t("orders.export.success.title"), {
           description: t("orders.export.success.description"),
         })
-
-        if (url) {
-          window.open(url, "_blank", "noopener,noreferrer")
-        }
 
         handleSuccess()
       },

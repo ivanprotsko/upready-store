@@ -139,7 +139,53 @@ export type LastRun = {
   started_at: Date;
   finished_at: Date | null;
   retry_at?: Date | null;
+  /**
+   * How many runs in a row, this one included, ended `failed` or
+   * `auth_failed` (`consecutiveFailures`). Absent = one.
+   */
+  consecutive_failures?: number;
 };
+
+/**
+ * A run the marketplace refused for its KEY: HTTP 401 or 403 on the call that
+ * broke it (`scheduler.ts` reads the status from the transport journal). Kept
+ * apart from `failed` because retrying it cannot help until the owner fixes
+ * the key (audit 2026-09-23, C-01).
+ */
+export const MP_AUTH_FAILED = "auth_failed";
+
+/** The statuses that count as a failure for the backoff. */
+export const MP_FAILURE_STATUSES: readonly string[] = ["failed", MP_AUTH_FAILED];
+
+/** The longest a failing kind waits between two tries: six hours. */
+export const MP_FAILURE_BACKOFF_CAP_MS = 6 * HOUR;
+
+/**
+ * How long an `auth_failed` kind waits when its key has NOT changed since the
+ * run: the same six hours, so a key the marketplace refused by mistake heals
+ * without the owner, at four requests a day instead of one every interval.
+ */
+export const MP_AUTH_FAILED_RETRY_MS = MP_FAILURE_BACKOFF_CAP_MS;
+
+/** Consecutive failures at the head of a triple's runs, newest first. */
+export const consecutiveFailures = (runsNewestFirst: readonly { status: string }[]): number => {
+  let count = 0;
+  for (const run of runsNewestFirst) {
+    if (!MP_FAILURE_STATUSES.includes(run.status)) {
+      break;
+    }
+    count += 1;
+  }
+  return count;
+};
+
+/**
+ * The wait after a failed run: the kind's own interval, doubled for every
+ * further failure in a row, capped at six hours. The first failure waits
+ * exactly the interval, as every failure did before.
+ */
+export const failureBackoffMs = (interval: number, consecutive: number): number =>
+  Math.min(interval * 2 ** Math.max(0, consecutive - 1), Math.max(interval, MP_FAILURE_BACKOFF_CAP_MS));
 
 export type DueVerdict = {
   due: boolean;
@@ -163,7 +209,17 @@ export const isStaleLock = (run: LastRun, now: Date): boolean =>
  * interval. Flattening "waiting" into "not due" would lose the only number
  * that tells the owner when the data comes (w03's acceptance lesson).
  */
-export const nextDueAt = (last: LastRun | null, kind: string, now: Date): DueVerdict => {
+export const nextDueAt = (
+  last: LastRun | null,
+  kind: string,
+  now: Date,
+  /**
+   * When the tenant's key for this marketplace was last written
+   * (`tenant_integration_secret.updated_at`). Only an `auth_failed` run reads
+   * it: a key saved after the refused run is a new key and is tried at once.
+   */
+  credentialsUpdatedAt?: Date | null,
+): DueVerdict => {
   if (!last) {
     return { due: true, reason: "never_ran", nextAt: null };
   }
@@ -184,6 +240,21 @@ export const nextDueAt = (last: LastRun | null, kind: string, now: Date): DueVer
   }
 
   /**
+   * A refused key (audit 2026-09-23, C-01). Retrying it every interval spends
+   * requests the marketplace has already answered and can get the key banned,
+   * so the kind waits for the owner to save a new key, or six hours.
+   */
+  if (last.status === MP_AUTH_FAILED) {
+    if (credentialsUpdatedAt && credentialsUpdatedAt.getTime() > last.started_at.getTime()) {
+      return { due: true, reason: "interval_elapsed", nextAt: null };
+    }
+    const retryAt = new Date(last.started_at.getTime() + MP_AUTH_FAILED_RETRY_MS);
+    return retryAt.getTime() <= now.getTime()
+      ? { due: true, reason: "interval_elapsed", nextAt: null }
+      : { due: false, reason: "waiting", nextAt: retryAt };
+  }
+
+  /**
    * The interval counts from the START of the last run, not from its end: the
    * question is "how often does this data refresh", and measuring from the end
    * would stretch every interval by however long the import took.
@@ -199,7 +270,17 @@ export const nextDueAt = (last: LastRun | null, kind: string, now: Date): DueVer
     return { due: false, reason: "waiting", nextAt: null };
   }
 
-  const nextAt = new Date(last.started_at.getTime() + interval);
+  /**
+   * A failed run waits longer each time it fails again (audit 2026-09-23,
+   * C-01): before, a broken kind was retried every interval forever, exactly
+   * like a healthy one.
+   */
+  const wait =
+    last.status === "failed"
+      ? failureBackoffMs(interval, last.consecutive_failures ?? 1)
+      : interval;
+
+  const nextAt = new Date(last.started_at.getTime() + wait);
   return nextAt.getTime() <= now.getTime()
     ? { due: true, reason: "interval_elapsed", nextAt: null }
     : { due: false, reason: "waiting", nextAt };

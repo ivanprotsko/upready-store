@@ -1,14 +1,13 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { uploadFilesWorkflow } from "@medusajs/medusa/core-flows";
 import { getTenantCustomerAggregates, zeroAggregate } from "../helpers";
 import type { TenantExportCustomersQuery } from "../validators";
 
 /**
  * `POST /tenants/customers/export` — a CSV of the tenant's own customers,
- * built synchronously and stored through the file module, same contract as
- * `POST /tenants/orders/export` (`{ url, filename, count }`, opened by the
- * panel directly since it has no notification feed).
+ * built synchronously and answered as the FILE (`text/csv` attachment, row
+ * count in `x-export-count`), same contract as `POST /tenants/orders/export`.
+ * The panel saves it from its own authenticated fetch.
  *
  * Ships every row that matches the search, not one page — this is the one
  * route under `/tenants/customers` that is allowed to read the whole set,
@@ -88,18 +87,14 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   const csv = `${lines.join("\n")}\n`;
   const filename = `customers-export-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
 
-  const { result: files } = await uploadFilesWorkflow(req.scope).run({
-    input: {
-      files: [
-        {
-          filename,
-          mimeType: "text/csv",
-          content: Buffer.from(csv, "utf8").toString("base64"),
-          access: "public",
-        },
-      ],
-    },
-  });
+  // The bytes go back in this response, never to the file module: a stored
+  // file got a public, unauthenticated URL, and this CSV holds buyers' personal
+  // data (audit 2026-09-23, A-01/A-02).
+  res.setHeader("content-type", "text/csv; charset=utf-8");
+  res.setHeader("content-disposition", `attachment; filename="${filename}"`);
+  // The panel reads it to report the row count without parsing the body.
+  res.setHeader("x-export-count", String(rows.length));
+  res.setHeader("access-control-expose-headers", "content-disposition, x-export-count");
 
-  res.status(200).json({ url: files[0]?.url, filename, count: rows.length });
+  res.status(200).send(csv);
 };

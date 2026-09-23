@@ -1,4 +1,5 @@
 import { getEffectiveSettings } from "@lib/data/tenant-home"
+import FooterLegal from "@modules/layout/components/footer-legal"
 
 import { DEFAULT_FOOTER, FOOTER_VARIANTS } from "./variants"
 
@@ -20,11 +21,20 @@ export default async function Footer() {
   const settings = await getEffectiveSettings()
   const footer = settings?.footer ?? DEFAULT_FOOTER
 
+  // The legal row (offer, privacy policy) is rendered here, under the variant,
+  // and not inside each variant file: every variant, today's and the next one,
+  // gets it the same way (audit 2026-09-23, B-01). It stays even when the shop
+  // switched its footer off, because the privacy policy has to stay reachable.
   if (footer === "none") {
-    return null
+    return <FooterLegal />
   }
 
   const Variant = FOOTER_VARIANTS[footer] ?? FOOTER_VARIANTS[DEFAULT_FOOTER]
 
-  return <Variant />
+  return (
+    <>
+      <Variant />
+      <FooterLegal />
+    </>
+  )
 }
