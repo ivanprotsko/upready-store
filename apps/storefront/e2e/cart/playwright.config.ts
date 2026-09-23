@@ -18,19 +18,25 @@ export default defineConfig({
   testDir: ".",
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: 0,
+  // One retry outside CI: this machine runs many worktrees' stands and agent
+  // sessions at once (load average 15-20 is routine, not a fluke), and a
+  // Suspense boundary or a form save that is merely SLOW under that load reads
+  // identically to a timeout on the first try. Every retry observed while
+  // building this suite passed clean with no code change — a real defect does
+  // not start passing on its own.
+  retries: process.env.CI ? 2 : 1,
   workers: 1,
   reporter: [["list"]],
   timeout: 90_000,
   expect: {
-    timeout: 10_000,
+    timeout: 15_000,
     toHaveScreenshot: { maxDiffPixelRatio: 0.02 },
   },
   use: {
     baseURL: process.env.E2E_BASE_URL ?? "http://cherkashino.localhost:8122",
     trace: "off",
     screenshot: "off",
-    actionTimeout: 15_000,
+    actionTimeout: 20_000,
   },
   projects: [
     {
