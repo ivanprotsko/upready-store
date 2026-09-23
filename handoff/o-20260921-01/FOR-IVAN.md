@@ -229,6 +229,21 @@ PR: https://github.com/ivanprotsko/upready-store/pull/116 (ветка `feat/o22-
 
 ## Что открыть прямо сейчас
 
+### Стенды после падения Mac 23.09 (подняты заново по слову Ивана «запусти локально магазины cherkashino.ru и olavka.ru», 12:12 WITA)
+
+Иван убил все сессии и node-процессы в 11:50–11:56; лид поднял ОДИН бэкенд и ОДНУ витрину из worktree `/Users/ivanprotsko/upready/worktrees/upready-store/feat/o21-storefront-visual-cherkashino` (код `dev`, изменений кода с 93734110 нет), оба под `nice -n 10`. Стенды PR (8122/8124/8125), панель владельца 5381 и backend 9321 НЕ подняты. Нагрузка после запуска 4,5, своп 3,7 из 5 ГБ.
+
+| Магазин | Адрес | Проверено лидом (12:12 WITA) |
+|---|---|---|
+| Оксана Черкашина (cherkashino) | `http://cherkashino.localhost:8121/ru`, каталог `http://cherkashino.localhost:8121/ru/store` | 200, 12 ссылок на товары, 46 картинок |
+| Olavka (тенант `olavka`, для olavka.com) | `http://olavka.localhost:8121/ru`, каталог `http://olavka.localhost:8121/ru/store` | 200, 12 ссылок на товары |
+| Olavka.ru (тенант `olavka-ru`) | `http://olavka-ru.localhost:8121/ru` | 200, каталог пуст: товаров этого тенанта в базе стенда нет |
+
+Хосты `cherkashino.ru` и `olavka.ru` бэкенд локально не знает (нет строки в `tenant_domain`), локально магазины открываются только по `<handle>.localhost`. Тенанты `olavka` и `olavka-ru` созданы 22.09 сессией заказа o-20260922-44; товары `olavka-ru`, если нужны локально, — отдельная задача Ивана (лид данные не выдумывает и общую базу не трогает).
+
+Бэкенд `http://localhost:9121` (`medusa develop`, база `upready_store_t2026092101` на 127.0.0.1:5433). Логи: `/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/stand-backend-9121.log`, `…/stand-storefront-8121.log`. Остановить: `pkill -f "next dev --turbopack -p 8121"; pkill -f "medusa develop"`.
+
+
 | Что | Адрес | Состояние |
 |---|---|---|
 | Витрина клиента cherkashino, новая | `http://cherkashino.localhost:8121/ru`, каталог `http://cherkashino.localhost:8121/ru/store` | ОДИН стенд из кода `dev` (по слову Ивана 2026-09-22, «оставь только стенд 8121»), backend на 9121; лид открыл в браузере 19:04 WITA: 200, 12 ссылок на товары, битых картинок 0 |
