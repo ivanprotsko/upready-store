@@ -765,7 +765,8 @@
     "selectOptions": "Valitse vaihtoehdot",
     "selectVariant": "Valitse versio",
     "inStock": "Varastossa",
-    "buyNow": "Osta"
+    "buyNow": "Osta",
+    "buy": "Osta"
   },
   "ProductAttributes": {
     "no": "Ei",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Kuvaus",
-    "fullDescription": "Koko kuvaus"
+    "fullDescription": "Koko kuvaus",
+    "details": "Ominaisuudet ja kuvaus"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Jatka asetusten määrittämistä hallintapaneelissa",

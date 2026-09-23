@@ -765,7 +765,8 @@
     "selectOptions": "Vybrať možnosti",
     "selectVariant": "Vyberte variant",
     "inStock": "Skladom",
-    "buyNow": "Kúpiť"
+    "buyNow": "Kúpiť",
+    "buy": "Kúpiť"
   },
   "ProductAttributes": {
     "no": "Nie",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Popis",
-    "fullDescription": "Celý popis"
+    "fullDescription": "Celý popis",
+    "details": "Parametre a popis"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovať v nastavení v administrácii",

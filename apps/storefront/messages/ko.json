@@ -765,7 +765,8 @@
     "selectOptions": "옵션 선택",
     "selectVariant": "옵션 선택",
     "inStock": "재고 있음",
-    "buyNow": "바로 구매"
+    "buyNow": "바로 구매",
+    "buy": "구매"
   },
   "ProductAttributes": {
     "no": "아니오",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "상품 설명",
-    "fullDescription": "상품 설명 전체 보기"
+    "fullDescription": "상품 설명 전체 보기",
+    "details": "사양 및 설명"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "관리자에서 설정 계속하기",

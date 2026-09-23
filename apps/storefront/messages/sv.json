@@ -765,7 +765,8 @@
     "selectOptions": "Välj alternativ",
     "selectVariant": "Välj variant",
     "inStock": "I lager",
-    "buyNow": "Köp"
+    "buyNow": "Köp",
+    "buy": "Köp"
   },
   "ProductAttributes": {
     "no": "Nej",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Beskrivning",
-    "fullDescription": "Hela beskrivningen"
+    "fullDescription": "Hela beskrivningen",
+    "details": "Egenskaper och beskrivning"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsätt konfigurationen i adminpanelen",

@@ -765,7 +765,8 @@
     "selectOptions": "Обрати опції",
     "selectVariant": "Оберіть варіант",
     "inStock": "Є в наявності",
-    "buyNow": "Оплатити"
+    "buyNow": "Оплатити",
+    "buy": "Купити"
   },
   "ProductAttributes": {
     "no": "Ні",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Опис",
-    "fullDescription": "Увесь опис"
+    "fullDescription": "Увесь опис",
+    "details": "Характеристики та опис"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продовжити налаштування в адмін-панелі",

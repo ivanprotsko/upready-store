@@ -17,6 +17,7 @@ module.exports = {
     "./node_modules/@medusajs/ui/dist/esm/components/button/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/checkbox/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/container/**/*.js",
+    "./node_modules/@medusajs/ui/dist/esm/components/drawer/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/dropdown-menu/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/heading/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/icon-badge/**/*.js",

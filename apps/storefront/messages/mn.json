@@ -765,7 +765,8 @@
     "selectOptions": "Сонголт хийх",
     "selectVariant": "Хувилбар сонгох",
     "inStock": "Бэлэн байгаа",
-    "buyNow": "Худалдан авах"
+    "buyNow": "Худалдан авах",
+    "buy": "Худалдан авах"
   },
   "ProductAttributes": {
     "no": "Үгүй",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Тайлбар",
-    "fullDescription": "Бүрэн тайлбар"
+    "fullDescription": "Бүрэн тайлбар",
+    "details": "Шинж чанар ба тайлбар"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Админ хэсэгт тохиргоог үргэлжлүүлэх",

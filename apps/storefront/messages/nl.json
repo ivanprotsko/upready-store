@@ -765,7 +765,8 @@
     "selectOptions": "Selecteer opties",
     "selectVariant": "Selecteer variant",
     "inStock": "Op voorraad",
-    "buyNow": "Nu kopen"
+    "buyNow": "Nu kopen",
+    "buy": "Kopen"
   },
   "ProductAttributes": {
     "no": "Nee",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Omschrijving",
-    "fullDescription": "Volledige omschrijving"
+    "fullDescription": "Volledige omschrijving",
+    "details": "Kenmerken en beschrijving"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Installatie voortzetten in admin",

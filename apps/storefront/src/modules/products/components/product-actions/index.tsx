@@ -1,11 +1,10 @@
 "use client"
 
-import { addToCart } from "@lib/data/cart"
-import { useRouter } from "@i18n/navigation"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useProductSelection } from "@modules/products/components/product-selection"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useProductPurchase } from "@modules/products/components/product-selection/use-product-purchase"
+import { useEffect, useRef, useState } from "react"
 import { useTranslations } from "next-intl"
 import ProductPrice from "../product-price"
 import MobileActions from "./mobile-actions"
@@ -31,48 +30,27 @@ export default function ProductActions({
   disabled,
 }: ProductActionsProps) {
   const t = useTranslations("ProductActions")
-  const router = useRouter()
+  const { options, setOptionValue, detailsOpen, setPricedProduct } =
+    useProductSelection()
   const {
-    options,
-    setOptionValue,
-    selectedVariant: chosen,
+    selectedVariant,
+    inStock,
     isValidVariant,
-    setBusy,
-  } = useProductSelection()
+    isAdding,
+    canBuy,
+    handleAddToCart,
+    handleBuyNow,
+  } = useProductPurchase(product, disabled)
 
-  const [isAdding, setIsAdding] = useState(false)
-
-  const selectedVariant = useMemo(
-    () =>
-      chosen
-        ? product.variants?.find((variant) => variant.id === chosen.id)
-        : undefined,
-    [product.variants, chosen]
-  )
-
-  // check if the selected variant is in stock
-  const inStock = useMemo(() => {
-    // If we don't manage inventory, we can always add to cart
-    if (selectedVariant && !selectedVariant.manage_inventory) {
-      return true
+  // The details drawer sells from the same priced product; the Suspense fallback (no
+  // prices, disabled) does not publish, so the drawer never shows a price-less footer.
+  useEffect(() => {
+    if (disabled) {
+      return
     }
-
-    // If we allow back orders on the variant, we can add to cart
-    if (selectedVariant?.allow_backorder) {
-      return true
-    }
-
-    // If there is inventory available, we can add to cart
-    if (
-      selectedVariant?.manage_inventory &&
-      (selectedVariant?.inventory_quantity || 0) > 0
-    ) {
-      return true
-    }
-
-    // Otherwise, we can't add to cart
-    return false
-  }, [selectedVariant])
+    setPricedProduct(product)
+    return () => setPricedProduct(undefined)
+  }, [product, disabled, setPricedProduct])
 
   const actionsRef = useRef<HTMLDivElement>(null)
 
@@ -108,49 +86,6 @@ export default function ProductActions({
     observer.observe(footer)
     return () => observer.disconnect()
   }, [])
-
-  const canBuy =
-    Boolean(selectedVariant) &&
-    inStock &&
-    isValidVariant &&
-    !disabled &&
-    !isAdding
-
-  // add the selected variant to the cart
-  const handleAddToCart = async () => {
-    if (!selectedVariant?.id) return null
-
-    setIsAdding(true)
-    setBusy(true)
-    try {
-      await addToCart({
-        variantId: selectedVariant.id,
-        quantity: 1,
-      })
-    } finally {
-      setIsAdding(false)
-      setBusy(false)
-    }
-  }
-
-  // «Оплатить»: the same line in the cart, then straight to the checkout's first step.
-  // The cart page is skipped on purpose; it is one click away from the checkout anyway.
-  const handleBuyNow = async () => {
-    if (!selectedVariant?.id) return null
-
-    setIsAdding(true)
-    setBusy(true)
-    try {
-      await addToCart({
-        variantId: selectedVariant.id,
-        quantity: 1,
-      })
-      router.push("/checkout?step=address")
-    } finally {
-      setIsAdding(false)
-      setBusy(false)
-    }
-  }
 
   const buttonLabel = !selectedVariant
     ? t("selectVariant")
@@ -225,7 +160,9 @@ export default function ProductActions({
           inStock={inStock}
           handleAddToCart={handleAddToCart}
           isAdding={isAdding}
-          show={scrolledPast && !footerInView}
+          // Hidden while the details drawer is open: it has its own buy footer, and two
+          // buy bars on one phone screen is one too many.
+          show={scrolledPast && !footerInView && !detailsOpen}
           optionsDisabled={!!disabled || isAdding}
         />
       </div>

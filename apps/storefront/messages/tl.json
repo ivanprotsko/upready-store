@@ -765,7 +765,8 @@
     "selectOptions": "Pumili ng Opsyon",
     "selectVariant": "Pumili ng variant",
     "inStock": "May stock",
-    "buyNow": "Bilhin ngayon"
+    "buyNow": "Bilhin ngayon",
+    "buy": "Bilhin"
   },
   "ProductAttributes": {
     "no": "Hindi",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Paglalarawan",
-    "fullDescription": "Buong paglalarawan"
+    "fullDescription": "Buong paglalarawan",
+    "details": "Mga katangian at paglalarawan"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Ipagpatuloy ang setup sa admin",

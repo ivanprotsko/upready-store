@@ -765,7 +765,8 @@
     "selectOptions": "Pilih Opsi",
     "selectVariant": "Pilih varian",
     "inStock": "Tersedia",
-    "buyNow": "Beli sekarang"
+    "buyNow": "Beli sekarang",
+    "buy": "Beli"
   },
   "ProductAttributes": {
     "no": "Tidak",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Deskripsi",
-    "fullDescription": "Deskripsi lengkap"
+    "fullDescription": "Deskripsi lengkap",
+    "details": "Spesifikasi dan deskripsi"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Lanjutkan pengaturan di admin",

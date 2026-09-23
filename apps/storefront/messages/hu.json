@@ -765,7 +765,8 @@
     "selectOptions": "Opciók kiválasztása",
     "selectVariant": "Válasszon variánst",
     "inStock": "Raktáron",
-    "buyNow": "Vásárlás"
+    "buyNow": "Vásárlás",
+    "buy": "Megveszem"
   },
   "ProductAttributes": {
     "no": "Nem",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Leírás",
-    "fullDescription": "Teljes leírás"
+    "fullDescription": "Teljes leírás",
+    "details": "Jellemzők és leírás"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Beállítás folytatása az adminban",

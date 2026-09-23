@@ -765,7 +765,8 @@
     "selectOptions": "选择选项",
     "selectVariant": "选择规格",
     "inStock": "有货",
-    "buyNow": "立即购买"
+    "buyNow": "立即购买",
+    "buy": "购买"
   },
   "ProductAttributes": {
     "no": "否",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "商品描述",
-    "fullDescription": "查看完整描述"
+    "fullDescription": "查看完整描述",
+    "details": "规格与描述"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "前往管理后台继续设置",

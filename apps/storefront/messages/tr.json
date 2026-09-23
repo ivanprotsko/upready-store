@@ -765,7 +765,8 @@
     "selectOptions": "Seçenekleri Seç",
     "selectVariant": "Varyant seçin",
     "inStock": "Stokta",
-    "buyNow": "Satın al"
+    "buyNow": "Satın al",
+    "buy": "Satın al"
   },
   "ProductAttributes": {
     "no": "Hayır",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Açıklama",
-    "fullDescription": "Tam açıklama"
+    "fullDescription": "Tam açıklama",
+    "details": "Özellikler ve açıklama"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kuruluma yönetim panelinde devam et",

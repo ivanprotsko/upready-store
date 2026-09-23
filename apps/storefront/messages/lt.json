@@ -765,7 +765,8 @@
     "selectOptions": "Pasirinkti parinktis",
     "selectVariant": "Pasirinkite variantą",
     "inStock": "Turime sandėlyje",
-    "buyNow": "Pirkti"
+    "buyNow": "Pirkti",
+    "buy": "Pirkti"
   },
   "ProductAttributes": {
     "no": "Ne",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Aprašymas",
-    "fullDescription": "Visas aprašymas"
+    "fullDescription": "Visas aprašymas",
+    "details": "Savybės ir aprašymas"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tęsti nustatymą administravimo skydelyje",

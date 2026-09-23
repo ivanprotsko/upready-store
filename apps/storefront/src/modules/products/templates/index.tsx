@@ -4,10 +4,10 @@ import { getLocale, getTranslations } from "next-intl/server"
 
 import ImageGallery from "@modules/products/components/image-gallery"
 import ProductActions from "@modules/products/components/product-actions"
-import ProductAttributes from "@modules/products/components/product-attributes"
 import AttributesSummary from "@modules/products/components/product-attributes/summary"
-import ProductDescription from "@modules/products/components/product-description"
 import DescriptionExcerpt from "@modules/products/components/product-description/excerpt"
+import ProductDetailsDrawer from "@modules/products/components/product-details-drawer"
+import ProductDetailsOpener from "@modules/products/components/product-details-drawer/opener"
 import ProductOnboardingCta from "@modules/products/components/product-onboarding-cta"
 import { ProductSelectionProvider } from "@modules/products/components/product-selection"
 import VariantPicker from "@modules/products/components/product-selection/variant-picker"
@@ -48,9 +48,11 @@ const CARD = "rounded-large border border-ui-border-base bg-ui-bg-base"
  * `handoff/o-20260921-01/t-2026-09-22-01-pdp-figma-layout.md`): on the page's own base colour,
  * three white cards in a row — the gallery, the summary (breadcrumb pill, title, rating,
  * variant pickers, six characteristics with dotted leaders, a three-line excerpt of the
- * description), and the buy box — then the full description and characteristics in one
- * more card, the reviews, and the related products. On a phone the three cards stack in
- * that order and the buy box's sticky bar keeps the button reachable.
+ * description, then the one «Характеристики и описание» button), and the buy box — then
+ * the reviews and the related products. The button opens a шторка from the right with
+ * all the characteristics and the whole description (t-2026-09-23-01, after Wildberries);
+ * the block that used to hold them under the cards is gone. On a phone the three cards
+ * stack in that order and the buy box's sticky bar keeps the button reachable.
  */
 const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   product,
@@ -88,7 +90,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   // the title, the block below the cards, and the product's JSON-LD. Fetching
   // it in each place would let the three disagree on the same page. The
   // characteristics likewise: fetched once, shown twice (six in the card, all
-  // in the table).
+  // in the drawer).
   const [reviews, attributeRows] = await Promise.all([
     listProductReviews(product.id, {
       limit: REVIEWS_PAGE_SIZE,
@@ -106,10 +108,8 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
     reviews: reviews.summary,
   })
 
-  const hasDescription = Boolean(
-    product.description && stripHtml(product.description)
-  )
-  const hasDetails = hasDescription || attributeRows.length > 0
+  const description = product.description ? stripHtml(product.description) : ""
+  const hasDetails = Boolean(description) || attributeRows.length > 0
 
   return (
     <>
@@ -147,6 +147,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                 <VariantPicker />
                 <AttributesSummary rows={attributeRows} />
                 <DescriptionExcerpt product={product} />
+                {hasDetails && <ProductDetailsOpener />}
               </div>
 
               <aside
@@ -167,22 +168,13 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                 </Suspense>
               </aside>
             </div>
+            {hasDetails && (
+              <ProductDetailsDrawer
+                rows={attributeRows}
+                description={description}
+              />
+            )}
           </ProductSelectionProvider>
-
-          {/* Under the cards, on one spacing scale: what the product is (the longest text
-              on the page, at a measure that reads), then all its characteristics as a
-              table. Both «Всё …» links of the summary card land here. A product with
-              neither renders neither, and no empty card. */}
-          {hasDetails && (
-            <div
-              id="product-details"
-              className={`${CARD} flex flex-col gap-y-10 p-4 small:gap-y-12 small:p-8`}
-              data-testid="product-details"
-            >
-              <ProductDescription product={product} />
-              <ProductAttributes rows={attributeRows} />
-            </div>
-          )}
         </div>
 
         <ProductReviews

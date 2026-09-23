@@ -1,4 +1,3 @@
-import { ChevronRight } from "@medusajs/icons"
 import { getTranslations } from "next-intl/server"
 
 import type { ProductAttributeRow } from "@lib/data/product-attributes"
@@ -12,8 +11,8 @@ type AttributesSummaryProps = {
 /**
  * The characteristics a buyer sees first, inside the product card: the first six rows in
  * two columns, each name joined to its value by a dotted leader, the way Ivan's Figma
- * mockup draws them («Состав ······ АСД»). A product with more rows gets a link to the
- * full table under the cards; one with six or fewer shows them all and no link.
+ * mockup draws them («Состав ······ АСД»). All of them are in the «Характеристики и
+ * описание» drawer, opened by the one button at the bottom of the card.
  *
  * The leader is a flexible dotted border between the two words, not a string of full
  * stops, so it always ends exactly at the value whatever the font renders.
@@ -55,16 +54,6 @@ const AttributesSummary = async ({ rows }: AttributesSummaryProps) => {
           </div>
         ))}
       </dl>
-      {rows.length > SUMMARY_ROWS && (
-        <a
-          href="#product-attributes"
-          className="inline-flex w-fit items-center gap-x-1 text-sm font-medium text-ui-fg-base underline-offset-4 hover:underline"
-          data-testid="product-attributes-link"
-        >
-          {t("all")}
-          <ChevronRight className="pointer-events-none" />
-        </a>
-      )}
     </div>
   )
 }

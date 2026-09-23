@@ -765,7 +765,8 @@
     "selectOptions": "Wybierz opcje",
     "selectVariant": "Wybierz wariant",
     "inStock": "W magazynie",
-    "buyNow": "Kup teraz"
+    "buyNow": "Kup teraz",
+    "buy": "Kup"
   },
   "ProductAttributes": {
     "no": "Nie",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Opis",
-    "fullDescription": "Pełny opis"
+    "fullDescription": "Pełny opis",
+    "details": "Parametry i opis"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kontynuuj konfigurację w panelu",

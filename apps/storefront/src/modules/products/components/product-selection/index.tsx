@@ -9,8 +9,10 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
+  type RefObject,
 } from "react"
 
 type Options = Record<string, string | undefined>
@@ -27,6 +29,18 @@ export type ProductSelection = {
   /** True while a cart request runs: the pickers disable themselves meanwhile. */
   busy: boolean
   setBusy: (busy: boolean) => void
+  /**
+   * The product WITH the region's prices, published by the buy box once
+   * `ProductActionsWrapper` has fetched it; the details drawer's footer reads the price
+   * and the stock off it. Undefined until then.
+   */
+  pricedProduct: HttpTypes.StoreProduct | undefined
+  setPricedProduct: (product: HttpTypes.StoreProduct | undefined) => void
+  /** Whether the «Характеристики и описание» drawer is open. */
+  detailsOpen: boolean
+  setDetailsOpen: (open: boolean) => void
+  /** The button that opens the drawer: focus goes back to it when the drawer closes. */
+  detailsOpenerRef: RefObject<HTMLButtonElement | null>
 }
 
 /** A variant's options as `{ [option_id]: value }`, the shape a choice is compared in. */
@@ -69,6 +83,11 @@ export function ProductSelectionProvider({
       : {}
   )
   const [busy, setBusy] = useState(false)
+  const [pricedProduct, setPricedProduct] = useState<
+    HttpTypes.StoreProduct | undefined
+  >(undefined)
+  const [detailsOpen, setDetailsOpen] = useState(false)
+  const detailsOpenerRef = useRef<HTMLButtonElement | null>(null)
 
   const setOptionValue = useCallback((optionId: string, value: string) => {
     setOptions((prev) => ({ ...prev, [optionId]: value }))
@@ -111,8 +130,22 @@ export function ProductSelectionProvider({
       isValidVariant,
       busy,
       setBusy,
+      pricedProduct,
+      setPricedProduct,
+      detailsOpen,
+      setDetailsOpen,
+      detailsOpenerRef,
     }),
-    [product, options, setOptionValue, selectedVariant, isValidVariant, busy]
+    [
+      product,
+      options,
+      setOptionValue,
+      selectedVariant,
+      isValidVariant,
+      busy,
+      pricedProduct,
+      detailsOpen,
+    ]
   )
 
   return (

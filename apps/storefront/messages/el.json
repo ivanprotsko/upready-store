@@ -765,7 +765,8 @@
     "selectOptions": "Επιλέξτε επιλογές",
     "selectVariant": "Επιλέξτε παραλλαγή",
     "inStock": "Σε απόθεμα",
-    "buyNow": "Αγορά"
+    "buyNow": "Αγορά",
+    "buy": "Αγορά"
   },
   "ProductAttributes": {
     "no": "Όχι",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "Περιγραφή",
-    "fullDescription": "Πλήρης περιγραφή"
+    "fullDescription": "Πλήρης περιγραφή",
+    "details": "Χαρακτηριστικά και περιγραφή"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Συνέχεια ρύθμισης στο διαχειριστικό",

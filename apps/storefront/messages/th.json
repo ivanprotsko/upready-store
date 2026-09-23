@@ -765,7 +765,8 @@
     "selectOptions": "เลือกตัวเลือก",
     "selectVariant": "เลือกตัวเลือกสินค้า",
     "inStock": "มีสินค้า",
-    "buyNow": "ซื้อเลย"
+    "buyNow": "ซื้อเลย",
+    "buy": "ซื้อ"
   },
   "ProductAttributes": {
     "no": "ไม่ใช่",
@@ -775,7 +776,8 @@
   },
   "ProductInfo": {
     "description": "รายละเอียดสินค้า",
-    "fullDescription": "รายละเอียดทั้งหมด"
+    "fullDescription": "รายละเอียดทั้งหมด",
+    "details": "คุณสมบัติและรายละเอียด"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "ตั้งค่าต่อในหน้าผู้ดูแลระบบ",
