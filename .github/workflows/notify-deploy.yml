@@ -42,55 +42,58 @@ on:
         default: false
 
 jobs:
-  # # Run the same checks as test.yml; deploy is gated on success.
-  # test:
-  #   name: Test (${{ matrix.app }})
-  #   runs-on: ubuntu-latest
-  #   if: github.repository == 'gorgojs/medusa-dtc-starter'
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       app: [ backend, storefront ]
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: pnpm/action-setup@v4
-  #       with:
-  #         version: 10.11.1
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 22
-  #         cache: pnpm
-  #     - name: Install
-  #       run: pnpm install --frozen-lockfile
-  #     - name: Typecheck
-  #       working-directory: apps/${{ matrix.app }}
-  #       continue-on-error: true
-  #       run: pnpm exec tsc --noEmit
-  #     - name: Lint
-  #       working-directory: apps/${{ matrix.app }}
-  #       env:
-  #         # `next lint` loads next.config.js which calls checkEnvVariables();
-  #         # provide a placeholder so it doesn't exit(1) during CI lint runs.
-  #         NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: pk_lint_placeholder
-  #       run: |
-  #         if node -e "process.exit(require('./package.json').scripts?.lint ? 0 : 1)"; then
-  #           pnpm run lint
-  #         else
-  #           echo "no lint script — skipping"
-  #         fi
-  #     - name: Unit tests
-  #       if: matrix.app == 'backend'
-  #       working-directory: apps/${{ matrix.app }}
-  #       run: |
-  #         if node -e "process.exit(require('./package.json').scripts?.['test:unit'] ? 0 : 1)"; then
-  #           pnpm run test:unit
-  #         else   
-  #           echo "no test:unit script — skipping"
-  #         fi
+  # Restored 2026-09-24 (audit D-03, t-2026-09-24-n2): this job was fully
+  # commented out while the comment on `notify` still claimed "deploy is
+  # gated on success" — there was no gate. `continue-on-error: true` on
+  # Typecheck below is also fixed (removed): a step that can never fail the
+  # job was never a real gate either, even before the whole job was disabled.
+  test:
+    name: Test (${{ matrix.app }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [ backend, storefront ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        working-directory: apps/${{ matrix.app }}
+        run: pnpm exec tsc --noEmit
+      - name: Lint
+        working-directory: apps/${{ matrix.app }}
+        env:
+          # `next lint` loads next.config.js which calls checkEnvVariables();
+          # provide a placeholder so it doesn't exit(1) during CI lint runs.
+          NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: pk_lint_placeholder
+        run: |
+          if node -e "process.exit(require('./package.json').scripts?.lint ? 0 : 1)"; then
+            pnpm run lint
+          else
+            echo "no lint script — skipping"
+          fi
+      - name: Unit tests
+        if: matrix.app == 'backend'
+        working-directory: apps/${{ matrix.app }}
+        run: |
+          if node -e "process.exit(require('./package.json').scripts?.['test:unit'] ? 0 : 1)"; then
+            pnpm run test:unit
+          else
+            echo "no test:unit script — skipping"
+          fi
 
   notify:
     name: Notify automation
     runs-on: ubuntu-latest
+    needs: test
     if: github.repository == 'gorgojs/medusa-dtc-starter'
 
     steps:

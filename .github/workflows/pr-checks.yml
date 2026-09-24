@@ -5,17 +5,19 @@ name: PR Checks
 # Nothing here needs a database, a secret or a running server: the integration
 # specs and the browser runs stay on the development machine.
 
-# Manual start only, for now. The first run on a pull request (run 35558214895,
-# 2026-09-21) was refused before any step: "The job was not started because an
-# Actions budget is preventing further use". With the pull request trigger on,
-# every pull request to dev would carry three red checks that say nothing about
-# its code. Lifting the budget is Ivan's decision (review, Decisions For Ivan);
-# after it, restore the trigger below. NO JOB OF THIS FILE HAS EVER RUN.
-#
-#   pull_request:
-#     branches: [ dev ]
+# The first run on a pull request (run 35558214895, 2026-09-21) was refused
+# before any step: "The job was not started because an Actions budget is
+# preventing further use". The pull_request trigger was disabled to avoid
+# every PR to dev carrying three red checks that said nothing about its code
+# (audit D-02, t-2026-09-24-n2). Trigger restored below on Ivan's instruction;
+# if the budget is still exhausted the next PR's checks will fail the same
+# way — that failure now at least reflects the repo's actual Actions quota,
+# not a config bug. workflow_dispatch stays for a manual re-run without a new
+# commit.
 
 on:
+  pull_request:
+    branches: [ dev ]
   workflow_dispatch:
 
 permissions:

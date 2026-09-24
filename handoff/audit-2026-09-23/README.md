@@ -101,7 +101,13 @@
   `@medusajs/*`/`next`/сборочного тулинга, не закрывается точечным бампом, отдельная задача на апгрейд Medusa. `tsc --noEmit` зелёный в
   `apps/backend` и `apps/storefront`; `@types/nodemailer@^6.4.24` оставлен как есть — nodemailer сам своих типов не поставляет (`types`
   не задан в его `package.json`), конфликтов нет.
-  Остаются открытыми из High: D-02/D-03 (бюджет Actions, решение Ивана), D-04, D-05, D-06; Critical D-01 (бэкапы — закрыто отдельно, см.
+- **Закрыто в ветке `hotfix/audit-2026-09-24-high`** (t-2026-09-24-n2): D-02/D-03 — `pr-checks.yml` вернул триггер `pull_request: branches:
+  [dev]` (оставлен и `workflow_dispatch` для ручного повтора); Actions budget, который его отключил (run 35558214895, 2026-09-21), не
+  снят отдельно — если он всё ещё исчерпан, следующий прогон на PR упадёт по квоте, а не по конфигу, что и было целью. В
+  `notify-deploy.yml` job `test` (typecheck/lint/юнит-тесты backend и storefront) раскомментирован, снят `continue-on-error: true` на
+  Typecheck (он и раньше не был настоящим гейтом, даже до полного отключения job-а), `notify` получил `needs: test` — комментарий «deploy
+  is gated on success» теперь правда, а не ложь.
+  Остаются открытыми из High: D-04, D-05, D-06; Critical D-01 (бэкапы — закрыто отдельно, см.
   `deploy/backup/RUNBOOK.md`, PR #118).
 
 ### Что сделано хорошо (по четырём отчётам)
