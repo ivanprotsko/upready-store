@@ -105,6 +105,18 @@ medusaIntegrationTestRunner({
         expect(createdA.status).toBe(201);
         shopA = { id: createdA.data.tenant.id, handle: "w25-shop-a" };
 
+        // Shop A also gets its own, unrelated second admin: DELETE
+        // /admin/tenants/:id/admins/:adminId refuses to remove the LAST
+        // admin of a tenant, and the "removed from its default shop" test
+        // below needs the platform email's removal from A to actually
+        // succeed.
+        const secondAdminA = await api.post(
+          `/admin/tenants/${shopA.id}/admins`,
+          { email: "owner-a@w25-platform.test", password: PASSWORD, first_name: "Owner" },
+          adminHeaders,
+        );
+        expect(secondAdminA.status).toBe(201);
+
         const platformLogin = await api.post("/auth/tenant/emailpass", {
           email: PLATFORM_EMAIL,
           password: PASSWORD,
@@ -228,6 +240,37 @@ medusaIntegrationTestRunner({
           .post("/tenants/me/switch", { tenant_id: shopB.id }, bearer(login.data.token))
           .catch((error) => error.response);
         expect(switchToRemoved.status).toBe(403);
+      });
+
+      it("removing the platform email from its DEFAULT shop repoints the login instead of leaving a dead actor id", async () => {
+        // Shop A is the identity's default (app_metadata.tenant_id, set at
+        // registration in beforeAll) — the exact case a first pass at the
+        // removal-safety fix missed: the row deleted here is the very row
+        // the token's actor_id is minted from on every future login.
+        const detailA = await api.get(`/admin/tenants/${shopA.id}`, adminHeaders);
+        const platformRowInA = detailA.data.tenant.admins.find(
+          (admin: { email: string }) => admin.email === PLATFORM_EMAIL,
+        );
+        expect(platformRowInA).toBeTruthy();
+
+        const removed = await api.delete(
+          `/admin/tenants/${shopA.id}/admins/${platformRowInA.id}`,
+          adminHeaders,
+        );
+        expect(removed.status).toBe(200);
+
+        // The identity survives (rows remain in B and C) — proven by a REAL
+        // login, not just the 200 on the delete call.
+        const login = await api.post("/auth/tenant/emailpass", { email: PLATFORM_EMAIL, password: PASSWORD });
+        expect(login.status).toBe(200);
+
+        // Before the fix, app_metadata.tenant_id still named the row just
+        // removed, so the token's actor_id resolved to nothing and this
+        // answered 404 "Tenant admin ... was not found" — a login that
+        // looks alive (200) but is dead on every /tenants/* call after it.
+        const me = await api.get("/tenants/me", bearer(login.data.token));
+        expect(me.status).toBe(200);
+        expect([shopB.id, shopC.id]).toContain(me.data.tenant_admin.tenant.id);
       });
     });
   },

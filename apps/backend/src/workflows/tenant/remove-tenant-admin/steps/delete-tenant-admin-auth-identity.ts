@@ -1,10 +1,12 @@
 import { Modules } from "@medusajs/framework/utils";
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 import type { IAuthModuleService } from "@medusajs/framework/types";
-import { TENANT_MODULE } from "../../../../modules/tenant";
+import { TENANT_ACTOR_TYPE, TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
 
 export type DeleteTenantAdminAuthIdentityStepInput = { email: string };
+
+const ENTITY_ID_KEY = `${TENANT_ACTOR_TYPE}_id`;
 
 /**
  * Deletes the emailpass auth identity behind a tenant admin's email — but
@@ -20,6 +22,16 @@ export type DeleteTenantAdminAuthIdentityStepInput = { email: string };
  *   `user`'s login (the platform admin, or staff who doubles as a tenant
  *   admin); removing them from one shop must never lock them out of
  *   `/app`.
+ * - When the identity survives, its `app_metadata.tenant_id` — the DEFAULT
+ *   row the next plain login opens (`generateJwtTokenForAuthIdentity`) — is
+ *   repointed to a surviving row if it still names the one just removed.
+ *   Left stale, the next login answers 200 (the identity is real) but mints
+ *   a token whose `actor_id` is a `tenant_admin` id that no longer exists:
+ *   every `/tenants/*` call after it 404s "Tenant admin ... was not found",
+ *   so the login LOOKS alive and is dead everywhere (review finding,
+ *   PR #140, caught before merge). No compensation for the repoint: nothing
+ *   runs after this step, and app_metadata restores cheaply if it ever
+ *   needed to.
  *
  * No compensation is possible for a deleted identity (the password hash is
  * gone with it), which is why `removeTenantAdminWorkflow` runs this step
@@ -35,6 +47,24 @@ const deleteTenantAdminAuthIdentityStep = createStep(
     const remainingRows = await tenantModuleService.listTenantAdmins({ email: input.email });
 
     if (remainingRows.length > 0) {
+      const [identity] = await authModuleService.listAuthIdentities({
+        provider_identities: { entity_id: input.email, provider: "emailpass" },
+      });
+
+      const currentDefault = identity?.app_metadata?.[ENTITY_ID_KEY] as string | undefined;
+      const defaultStillValid =
+        currentDefault && remainingRows.some((row) => row.id === currentDefault);
+
+      if (identity && !defaultStillValid) {
+        await authModuleService.updateAuthIdentities({
+          id: identity.id,
+          app_metadata: {
+            ...(identity.app_metadata ?? {}),
+            [ENTITY_ID_KEY]: remainingRows[0].id,
+          },
+        });
+      }
+
       return new StepResponse({ deleted: false });
     }
 
