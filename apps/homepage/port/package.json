@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@types/react": "19.0.5",
-    "@types/react-dom": "19.0.5",
+    "@types/react-dom": "19.1.11",
     "@vitejs/plugin-react": "^4.3.4",
     "pixelmatch": "^6.0.0",
     "pngjs": "^7.0.0",
