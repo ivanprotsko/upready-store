@@ -41,7 +41,9 @@ or access arrives; the lead asked Ivan for one (poll 19).
 - `npx tsc --noEmit` — clean.
 - `npx vitest run src/modules/layout src/lib/tenant src/lib/theme` — 11 files, 106 tests passed.
 - `npx next lint --file …` on the 11 touched files — no warnings or errors.
-- `npx next build` — see the line below (filled in when the build finished).
+- `npx next build` (into `.next-build`, `NEXT_DIST_DIR`) — exit 0: compiled in 4.3 min on the loaded machine, types and lint
+  passed, middleware 39.5 kB. The custom dist dir makes Next rewrite `tsconfig.json`/`next-env.d.ts`; both reverted, not committed.
+- Draft PR for diff visibility: https://github.com/ivanprotsko/upready-store/pull/153 (never merged by the worker).
 
 ## Token report
 
