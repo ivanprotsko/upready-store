@@ -9,6 +9,8 @@ import { getLocale } from "next-intl/server"
 import { fontClassName, isAllowed, readProfileTheme, themePrePaintScript } from "@lib/theme"
 // Branch-local (`redesign-olavka`): the Figma node's three typefaces, see the module.
 import { olavkaFontClassName } from "@lib/theme/olavka-fonts"
+import { olavkaZoomScript } from "@lib/theme/olavka-zoom"
+import { DEMO_HEADER } from "@modules/layout/templates/nav/variants"
 import {
   getEffectiveSettings,
   getTenantModeDefault,
@@ -126,6 +128,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         {/* Applies the visitor's stored choice before the first paint, so a reload
             does not flash the profile default. Allow-listed, idempotent, never throws. */}
         <script dangerouslySetInnerHTML={{ __html: themePrePaintScript() }} />
+        {/* Branch-local: the olavka desktop scale 1440 → 1920 (`lib/theme/olavka-zoom.ts`). */}
+        {DEMO_HEADER === "h7" ? (
+          <script dangerouslySetInnerHTML={{ __html: olavkaZoomScript() }} />
+        ) : null}
       </head>
       <body>
         {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside

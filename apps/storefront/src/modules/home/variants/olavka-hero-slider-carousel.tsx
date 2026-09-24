@@ -62,7 +62,7 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
             data-testid="olavka-hero-slide"
             data-source={slide.source}
           >
-            <BannerCard slide={slide} eager={index < 2} />
+            <BannerCard slide={slide} eager={index < 2} layout={layout} />
           </li>
         ))}
       </ul>
@@ -70,7 +70,18 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
   )
 }
 
-const SIZES = "(max-width: 639px) 80vw, 572px"
+/**
+ * The card's rendered width per layout, for `srcset`: phone 288 / 336, tablet 572 / 672,
+ * desktop half / all of the 1440 container — and above 1440 the page is zoomed
+ * (`lib/theme/olavka-zoom.ts`), so the desktop widths are in `vw` there, never in px.
+ */
+const SIZES = {
+  single:
+    "(max-width: 639px) calc(100vw - 24px), (max-width: 1023px) calc(100vw - 48px), (max-width: 1440px) calc(100vw - 48px), 97vw",
+  pair: "(max-width: 639px) 80vw, (max-width: 1023px) 572px, (max-width: 1440px) calc(50vw - 36px), 48vw",
+  carousel:
+    "(max-width: 639px) 80vw, (max-width: 1023px) 572px, (max-width: 1440px) calc(50vw - 36px), 48vw",
+} as const
 
 /**
  * One «BannerLabel» of the node: the outer `surface` (4px ring, 7px padding, background
@@ -98,7 +109,15 @@ function Chip({
   )
 }
 
-function BannerCard({ slide, eager }: { slide: OlavkaHeroSlide; eager: boolean }) {
+function BannerCard({
+  slide,
+  eager,
+  layout,
+}: {
+  slide: OlavkaHeroSlide
+  eager: boolean
+  layout: keyof typeof SIZES
+}) {
   const inner = (
     <>
       {slide.image ? (
@@ -106,7 +125,7 @@ function BannerCard({ slide, eager }: { slide: OlavkaHeroSlide; eager: boolean }
         <img
           src={slide.image.src}
           srcSet={slide.image.srcSet ?? undefined}
-          sizes={slide.image.srcSet ? SIZES : undefined}
+          sizes={slide.image.srcSet ? SIZES[layout] : undefined}
           width={slide.image.width ?? undefined}
           height={slide.image.height ?? undefined}
           alt={slide.image.alt}

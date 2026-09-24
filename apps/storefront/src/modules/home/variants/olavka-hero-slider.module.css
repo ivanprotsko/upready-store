@@ -25,9 +25,12 @@
  */
 
 .slider {
-  max-width: 1216px;
+  /* The page's one container (`content-container`: 1440, 24px sides), so the cards stand
+     on the same lines as the header and the catalog (Ivan's remark 1.1). */
+  max-width: 1440px;
   margin: 0 auto;
   padding: 16px 0;
+  container-type: inline-size;
 }
 
 /* Base = carousel (`Items=2+`): scroll-snap, cards centred, neighbours peeking. */
@@ -67,25 +70,33 @@
   scroll-snap-align: start;
 }
 
-/* `Items=2` on desktop: the pair side by side, nothing scrolls. */
+/* Desktop (≥1024): fluid up to the 1440 container, the cards keep the frame's
+   proportions — a pair / carousel card is half the content (572 at 1216, 684 at 1440),
+   572×400; one banner is the whole content, 1168×400. `100cqi` = the slider's width. */
 @media (min-width: 1024px) {
   .pair {
     overflow: visible;
   }
-  .pair .item {
-    flex-basis: calc((100% - 24px) / 2);
+  .pair .item,
+  .carousel .item {
+    flex-basis: calc((100cqi - 72px) / 2);
     max-width: none;
+  }
+  .pair .card,
+  .carousel .card {
+    height: auto;
+    aspect-ratio: 572 / 400;
+  }
+  .single .card {
+    height: auto;
+    aspect-ratio: 1168 / 400;
   }
 
-  /* `Items=2+` on desktop (239:17719): the current card centred (x 322 at 1216), the next
-     peeking right at 918 — the padding is what centres the first card at rest. */
+  /* `Items=2+` (239:17719): the current card centred (x 322 at 1216), the next peeking
+     right (918) — the padding is what centres the first card at rest. */
   .carousel {
-    padding-inline: calc(50% - 286px);
-    scroll-padding-inline: calc(50% - 286px);
-  }
-  /* The centring padding leaves 572px of content box: no peek cap here. */
-  .carousel .item {
-    max-width: none;
+    padding-inline: calc(50cqi - (100cqi - 72px) / 4);
+    scroll-padding-inline: calc(50cqi - (100cqi - 72px) / 4);
   }
 }
 

@@ -35,12 +35,15 @@
   }
 }
 
-/* Desktop 227:9200: padding 0 1, three equal columns 10px apart, 24px inside each. */
+/* Desktop 227:9200: three equal columns 10px apart, 24px inside each. */
+/* The page's one container (1440, the columns' own 24px sides = `content-container`'s
+   px-6), so the burger and «Корзина» stand on the catalog's lines (Ivan's remark 1.2).
+   The node's 1px frame padding is dropped for that: burger x 24, not 25. */
 .inner {
-  max-width: 1216px;
+  max-width: 1440px;
   height: 100%;
   margin: 0 auto;
-  padding: 0 1px 1px;
+  padding: 0;
   display: flex;
   align-items: center;
   gap: 10px;

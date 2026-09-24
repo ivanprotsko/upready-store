@@ -39,7 +39,7 @@ const FOCUS_RING =
 
 const SWIPE_THRESHOLD = 40
 const HERO_SIZES =
-  "(max-width: 512px) 100vw, (max-width: 1024px) 60vw, (max-width: 1440px) 42vw, 600px"
+  "(max-width: 512px) 100vw, (max-width: 1024px) 60vw, 42vw"
 
 /**
  * One photo at a time: a main frame, a strip of thumbnails under it on a desktop, dots

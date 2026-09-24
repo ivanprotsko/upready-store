@@ -23,6 +23,7 @@ Home order on every width: Header → HeroSliders → «В магазине» (p
 | `hero-slider-3plus/` | THREE banners (the third — «%» / «Коллекция» / «Товары от варикоза» / «Выбрать», the node's own picture 239:17763 — saved on the worker's database only, NOT in the fixture): a scroll-snap carousel on every width; at 1440 the first card is centred (x 322, 572 wide, as in the frame) with the next peeking right at x 918 — the frame shows the SECOND banner centred with the first peeking left; which one the track opens on is Ivan's open decision (C3), switchable by `CAROUSEL_REST_INDEX` in `olavka-hero-slider-carousel.tsx`; at 768 and 390 the first card sits at the left padding with the next peeking (`Swiped=false`). |
 | `hero-slider-3plus-swiped/` | The three-banner carousel at 768 and 390 after a swipe: the second card centred, neighbours peeking on both sides. |
 | `store/` | `/ru/store` viewport: the header above the catalog page, proving it is site-wide. |
+| `desktop-scale/` | Ivan's remark 1: the home page at 1440 / 1680 / 1920 / 2200 (light, dark) with the container's edge lines drawn in red — header, banners and catalog on the same lines; 1920 = the 1440 layout × 1.333, 2200 = the same scale centred. |
 
 Every banner card is ONE link (`<Link>` for a product or a site path, `<a target="_blank" rel="noopener
 noreferrer">` for an external URL) with the four chips as plain spans inside; the card's own focus ring is the
@@ -33,7 +34,7 @@ Notes on the dev render: Next's dev overlay (`nextjs-portal`) is hidden in the s
 carries one hydration warning on `<html data-mode>` and next/image `qualities` deprecation warnings, both
 pre-existing on `dev` (not touched).
 
-48 PNG in the nine groups above (1440 / 768 / 390 × light / dark; the swiped and menu groups at 768 / 390 only).
+48 PNG in the nine 27f groups above (plus 8 in `desktop-scale/`) (1440 / 768 / 390 × light / dark; the swiped and menu groups at 768 / 390 only).
 
 ## Round 3 · pixel check against the Figma exports (lead's method)
 
@@ -127,3 +128,33 @@ viewport), against the node. x, y, w, h in px; «Δ» = render − node.
   the frame's picture in Chromium (checked once: current card x 322, previous peeking left).
 - Not in this round, waiting for Ivan: the catalog under the slider (G1: no «В магазине» heading, 4 columns ×
   280) and the mobile bottom tab bar (G2).
+
+## Remark 1 · desktop container and scale (Ivan 2026-09-25)
+
+«нужно сделать, чтобы на десктопе ширина контента тянулась до 1440, а потом масштабировалась пропорционально
+до 1920px, затем все центрировалось … баннер должен … выравниваться по красным линиям … в шапке элементы справа
+и слева также должны выравниваться по этим линиям.»
+
+- One container for the header, the banners and the catalog: `content-container` (max 1440, 24px sides).
+  Desktop banners are fluid in it with the frame's proportions (pair / carousel card = half the content,
+  572×400 at 1216, 684×478 at 1440; one banner = the content, 1168×400).
+- 1440 → 1920: the whole page is the 1440 layout scaled by `innerWidth / 1440` (CSS `zoom` on `<html>`, set
+  before paint by `lib/theme/olavka-zoom.ts`, branch-local, only with the h7 demo); above 1920 the scale stays
+  1.333 and the container centres. Viewport units are zoomed too, so `--page-zoom` divides the two desktop
+  viewport caps (checkout modal `90dvh`, studio panel) and px `sizes` became `vw` above 1440 (banners, product
+  gallery, journal, course page).
+- Measured edges (left / right, px), header burger · first banner · «В магазине» vs «Корзина» · last banner ·
+  «Все товары», light and dark identical:
+
+| Viewport | zoom | container lines | header | banners | catalog |
+|---|---|---|---|---|---|
+| 1440 | 1 | 24 / 1416 | 24 / 1416 | 24 / 1416 | 24 / 1416 |
+| 1680 | 1.167 | 28 / 1652 | 28 / 1652 | 28 / 1652 | 28 / 1652 |
+| 1920 | 1.333 | 32 / 1888 | 32 / 1888 | 32 / 1888 | 32 / 1888 |
+| 2200 | 1.333 | 172 / 2028 | 172 / 2028 | 172 / 2028 | 172 / 2028 |
+
+- Checked under zoom at 1920: no horizontal overflow (scrollWidth = viewport), sticky header at top 0 after
+  scrolling, side menu / region dialog / cart dropdown open in place, the carousel wheel-scrolls and snaps the
+  next card to the centre, the banner picks the 1080w variant for its 912px box (768w at 1440), no page errors.
+- 1216 pairs after the change: slider unchanged (7.1), header 4.8; the burger moved from the node's x 25 to 24
+  (the node's 1px frame padding dropped so the burger stands on the catalog's line).
