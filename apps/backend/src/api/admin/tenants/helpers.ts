@@ -78,6 +78,7 @@ const TENANT_SUMMARY_FIELDS = [
   "api_key.token",
   "api_key.revoked_at",
   "admins.id",
+  "admins.email",
   "products.id",
   "orders.id",
 ];
@@ -107,6 +108,22 @@ const TENANT_DETAIL_FIELDS = [
 
 const countIds = (rows: RawLinkRow[] | undefined): number => (rows ?? []).filter((row) => Boolean(row?.id)).length;
 
+/**
+ * `PLATFORM_ADMIN_EMAIL` (o25-platform-admin-all-shops) is invisible to a
+ * shop's own bookkeeping: it holds a real `tenant_admin` row in every shop
+ * (so it can log in), but a shop owner never added it and never sees it as
+ * one of their team. Every place that counts, lists or guards a tenant's
+ * admins reads through this, so a shop with one real owner always shows
+ * `admins_count: 1`, never 2.
+ */
+export const isPlatformAdminEmail = (email: string | null | undefined): boolean => {
+  const platformEmail = process.env.PLATFORM_ADMIN_EMAIL?.trim();
+  return Boolean(platformEmail) && email === platformEmail;
+};
+
+const countAdmins = (rows: RawTenantRow["admins"] | undefined): number =>
+  (rows ?? []).filter((row) => Boolean(row?.id) && !isPlatformAdminEmail(row?.email)).length;
+
 const toSummary = (row: RawTenantRow): TenantSummary => ({
   id: row.id,
   handle: row.handle,
@@ -129,13 +146,19 @@ const toSummary = (row: RawTenantRow): TenantSummary => ({
         revoked_at: row.api_key.revoked_at ?? null,
       }
     : null,
-  admins_count: countIds(row.admins),
+  admins_count: countAdmins(row.admins),
   products_count: countIds(row.products),
   orders_count: countIds(row.orders),
 });
 
 const toDetail = (row: RawTenantRow): TenantDetail => ({
   ...toSummary(row),
+  // Kept in this array on purpose, unlike admins_count and the last-admin
+  // guard below: staff is the only reader of GET /admin/tenants/:id (there
+  // is no owner-facing admins/team list anywhere in this codebase — grepped
+  // before making this call), and staff needs the platform row's id to
+  // remove it from one shop, the exact operation this PR's own tests
+  // exercise through this same response.
   admins: (row.admins ?? [])
     .filter((admin): admin is Required<Pick<NonNullable<typeof admin>, "id" | "email">> & typeof admin =>
       Boolean(admin?.id && admin?.email),

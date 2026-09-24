@@ -4,6 +4,7 @@ import { TENANT_MODULE } from "../../../../../../modules/tenant";
 import type TenantModuleService from "../../../../../../modules/tenant/service";
 import removeTenantAdminWorkflow from "../../../../../../workflows/tenant/remove-tenant-admin";
 import { updateTenantAdminByStaffWorkflow as updateTenantAdminWorkflow } from "../../../../../../workflows/tenant/update-tenant-admin";
+import { isPlatformAdminEmail } from "../../../helpers";
 import type { PostAdminTenantAdminUpdateBody } from "../../../validators";
 
 const adminNotFound = (tenantId: string, adminId: string) =>
@@ -60,21 +61,31 @@ export const POST = async (
 };
 
 /**
- * `DELETE /admin/tenants/:id/admins/:adminId` (contract §3). The last admin
- * of a tenant cannot be removed (`400`) — checked here, a plain count, with
- * nothing to compensate, rather than as a workflow step.
+ * `DELETE /admin/tenants/:id/admins/:adminId` (contract §3). The last REAL
+ * admin of a tenant cannot be removed (`400`) — checked here, a plain
+ * count, with nothing to compensate, rather than as a workflow step.
+ *
+ * `PLATFORM_ADMIN_EMAIL` (o25-platform-admin-all-shops) never counts
+ * towards that guard in either direction: it holds a row in every shop, so
+ * counting it would let a shop owner remove THEMSELVES and leave only the
+ * platform row behind (real bug, review finding on PR #140) — and removing
+ * the platform's OWN row is never blocked by it either, since that removal
+ * never changes how many real admins the shop has.
  */
 export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
   const admin = await assertOwnedAdmin(tenantModuleService, req.params.id, req.params.adminId);
 
-  const [, count] = await tenantModuleService.listAndCountTenantAdmins({ tenant_id: req.params.id });
+  if (!isPlatformAdminEmail(admin.email)) {
+    const [rows] = await tenantModuleService.listAndCountTenantAdmins({ tenant_id: req.params.id });
+    const realAdminsCount = rows.filter((row) => !isPlatformAdminEmail(row.email)).length;
 
-  if (count <= 1) {
-    throw new MedusaError(
-      MedusaError.Types.INVALID_DATA,
-      `Tenant "${req.params.id}" has only one admin left; it cannot be removed.`,
-    );
+    if (realAdminsCount <= 1) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `Tenant "${req.params.id}" has only one admin left; it cannot be removed.`,
+      );
+    }
   }
 
   await removeTenantAdminWorkflow(req.scope).run({

@@ -272,6 +272,41 @@ medusaIntegrationTestRunner({
         expect(me.status).toBe(200);
         expect([shopB.id, shopC.id]).toContain(me.data.tenant_admin.tenant.id);
       });
+
+      it("the platform email is invisible to a shop's own admin bookkeeping", async () => {
+        // Shop B: owner-b (real) + the auto-added platform row. The count
+        // must read 1, not 2, and the last-admin guard must treat owner-b
+        // as the only real admin — refusing to remove them, even though the
+        // platform row is technically a second `tenant_admin` row.
+        const detail = await api.get(`/admin/tenants/${shopB.id}`, adminHeaders);
+        expect(detail.status).toBe(200);
+        expect(detail.data.tenant.admins_count).toBe(1);
+        // The row itself is still visible to staff (who needs its id to
+        // remove it from one shop) — only the COUNT and the GUARD treat it
+        // as if it were not there.
+        expect(detail.data.tenant.admins).toHaveLength(2);
+
+        const ownerB = detail.data.tenant.admins.find(
+          (admin: { email: string }) => admin.email === "owner-b@w25-platform.test",
+        );
+        expect(ownerB).toBeTruthy();
+
+        const refused = await api
+          .delete(`/admin/tenants/${shopB.id}/admins/${ownerB.id}`, adminHeaders)
+          .catch((error) => error.response);
+        expect(refused.status).toBe(400);
+
+        // Removing the PLATFORM row itself is never blocked by the guard —
+        // it doesn't change how many real admins the shop has.
+        const platformRowInB = detail.data.tenant.admins.find(
+          (admin: { email: string }) => admin.email === PLATFORM_EMAIL,
+        );
+        const removedPlatform = await api.delete(
+          `/admin/tenants/${shopB.id}/admins/${platformRowInB.id}`,
+          adminHeaders,
+        );
+        expect(removedPlatform.status).toBe(200);
+      });
     });
   },
 });
