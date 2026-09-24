@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "最近浏览"
+  },
+  "CoursePage": {
+    "about": "关于课程",
+    "faq": "问题与解答",
+    "testimonials": "学员评价"
   }
 }

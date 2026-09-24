@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "شوهدت مؤخرًا"
+  },
+  "CoursePage": {
+    "about": "عن البرنامج",
+    "faq": "أسئلة وأجوبة",
+    "testimonials": "آراء المشاركين"
   }
 }

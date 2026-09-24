@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Nemrég megtekintett"
+  },
+  "CoursePage": {
+    "about": "A programról",
+    "faq": "Kérdések és válaszok",
+    "testimonials": "A résztvevők véleménye"
   }
 }
