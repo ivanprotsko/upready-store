@@ -5,6 +5,8 @@
 export * from "./auth"
 export * from "./users"
 export * from "./store"
+// o25-platform-admin-all-shops: the header's shop switcher.
+export * from "./shops"
 export * from "./sales-channels"
 export * from "./regions"
 export * from "./price-preferences"

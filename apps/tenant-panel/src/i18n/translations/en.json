@@ -204,6 +204,9 @@
       "actions": {
         "logout": "Log out"
       },
+      "shopSwitcher": {
+        "switch": "Switch shop"
+      },
       "store": {
         "label": "Store",
         "storeSettings": "Store settings"

@@ -2,6 +2,8 @@ import { EllipsisHorizontal, OpenRectArrowOut } from "@medusajs/icons"
 import { Avatar, clx, Divider, DropdownMenu, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
+import { useMe } from "../../../hooks/api/users"
+import { useMyShops, useSwitchShop } from "../../../hooks/api/shops"
 import { useStore } from "../../../hooks/api/store"
 import { Skeleton } from "../../common/skeleton"
 import { OwnerNav } from "../../layout/owner-nav"
@@ -83,6 +85,67 @@ const Logout = () => {
   )
 }
 
+/**
+ * o25-platform-admin-all-shops: shown only when the caller's email has a
+ * `tenant_admin` row in more than one shop (most owners have exactly one and
+ * never see this) — same header dropdown the shop name already opens,
+ * `DropdownMenu.SubMenu` the same way `ThemeToggle`
+ * (`components/layout/user-menu/user-menu.tsx`) nests a submenu in a
+ * dropdown already open. Picking a shop calls `POST /tenants/me/switch`,
+ * turns the new token into this session's cookie the same way login does
+ * (`useSwitchShop`), and reloads to the overview: every screen's cached
+ * data (`useStore`, `useMe`, products, orders, …) belongs to the shop that
+ * was open when it was fetched, and a client-side navigation would keep
+ * serving the OLD shop's cache under the new session.
+ */
+const ShopSwitcher = () => {
+  const { t } = useTranslation()
+  const { user } = useMe()
+  const { shops } = useMyShops({ enabled: !!user })
+  const { mutate: switchShop, isPending } = useSwitchShop({
+    onSuccess: () => {
+      window.location.assign("/")
+    },
+  })
+
+  if (!shops || shops.length <= 1) {
+    return null
+  }
+
+  const currentTenantId = user?.tenant.id
+
+  return (
+    <>
+      <DropdownMenu.SubMenu>
+        <DropdownMenu.SubMenuTrigger>
+          <span>{t("app.menus.shopSwitcher.switch")}</span>
+        </DropdownMenu.SubMenuTrigger>
+        <DropdownMenu.SubMenuContent>
+          <DropdownMenu.RadioGroup value={currentTenantId}>
+            {shops.map((shop) => (
+              <DropdownMenu.RadioItem
+                key={shop.id}
+                value={shop.id}
+                disabled={isPending}
+                onClick={(event) => {
+                  event.preventDefault()
+                  if (shop.id === currentTenantId || isPending) {
+                    return
+                  }
+                  switchShop({ tenant_id: shop.id })
+                }}
+              >
+                {shop.name}
+              </DropdownMenu.RadioItem>
+            ))}
+          </DropdownMenu.RadioGroup>
+        </DropdownMenu.SubMenuContent>
+      </DropdownMenu.SubMenu>
+      <DropdownMenu.Separator />
+    </>
+  )
+}
+
 const Header = () => {
   // tenant-panel: verbatim Admin behaviour; `GET /tenants/store` exists since
   // the backend piece of this task, so a failure here is a real one.
@@ -146,6 +209,7 @@ const Header = () => {
               </div>
             </div>
             <DropdownMenu.Separator />
+            <ShopSwitcher />
             <Logout />
           </DropdownMenu.Content>
         )}
