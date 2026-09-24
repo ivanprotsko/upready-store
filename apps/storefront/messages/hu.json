@@ -893,6 +893,7 @@
     "goToSignIn": "Bejelentkezés",
     "heading": "Új jelszó",
     "missingToken": "Ebből a hivatkozásból hiányzik a token. Kérjen újat a bejelentkezési oldalon.",
+    "notAvailable": "Ez a bolt csak Yandex ID-vel engedi a bejelentkezést, így nincs jelszó, amit vissza lehetne állítani.",
     "password": "Új jelszó",
     "submit": "Jelszó mentése"
   },

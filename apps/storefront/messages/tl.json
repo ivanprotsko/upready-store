@@ -893,6 +893,7 @@
     "goToSignIn": "Mag-sign in",
     "heading": "Bagong password",
     "missingToken": "Walang token ang link na ito. Humiling ng bago sa pahina ng pag-sign in.",
+    "notAvailable": "Sa tindahang ito, Yandex ID lang ang paraan ng pag-sign in, kaya walang password na ire-reset.",
     "password": "Bagong password",
     "submit": "I-save ang password"
   },

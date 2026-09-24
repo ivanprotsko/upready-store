@@ -893,6 +893,7 @@
     "goToSignIn": "登录",
     "heading": "新密码",
     "missingToken": "此链接缺少令牌，请在登录页重新获取。",
+    "notAvailable": "该店铺仅支持通过 Yandex ID 登录，因此没有可重置的密码。",
     "password": "新密码",
     "submit": "保存密码"
   },

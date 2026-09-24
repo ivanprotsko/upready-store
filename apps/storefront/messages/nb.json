@@ -893,6 +893,7 @@
     "goToSignIn": "Logg inn",
     "heading": "Nytt passord",
     "missingToken": "Lenken mangler token. Be om en ny fra innloggingssiden.",
+    "notAvailable": "Denne butikken tillater kun innlogging med Yandex ID, så det finnes ikke noe passord å tilbakestille.",
     "password": "Nytt passord",
     "submit": "Lagre passordet"
   },

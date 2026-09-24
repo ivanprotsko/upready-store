@@ -1,6 +1,7 @@
 "use client"
 
 import { login } from "@lib/data/customer"
+import { allowsEmailLogin, yandexLoginAvailable, type TenantLoginSettings } from "@lib/tenant/login-settings"
 import { LOGIN_VIEW } from "@modules/account/templates/login-template"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
@@ -11,11 +12,15 @@ import { useTranslations } from "next-intl"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
+  /** From the server page, through `LoginTemplate` (rule 19g) — which forms this shop's buyers get. */
+  loginSettings: TenantLoginSettings
 }
 
-const Login = ({ setCurrentView }: Props) => {
+const Login = ({ setCurrentView, loginSettings }: Props) => {
   const t = useTranslations("Login")
   const [message, formAction] = useActionState(login, null)
+  const emailEnabled = allowsEmailLogin(loginSettings.method)
+  const yandexEnabled = yandexLoginAvailable(loginSettings)
 
   return (
     <div
@@ -26,59 +31,63 @@ const Login = ({ setCurrentView }: Props) => {
       <p className="text-center text-base-regular text-ui-fg-base mb-8">
         {t("description")}
       </p>
-      <form className="w-full" action={formAction}>
-        <div className="flex flex-col w-full gap-y-2">
-          <Input
-            label={t("email")}
-            name="email"
-            type="email"
-            title={t("emailTitle")}
-            autoComplete="email"
-            required
-            data-testid="email-input"
-          />
-          <Input
-            label={t("password")}
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            data-testid="password-input"
-          />
-        </div>
-        <div className="flex justify-end mt-2">
-          <button
-            type="button"
-            onClick={() => setCurrentView(LOGIN_VIEW.FORGOT_PASSWORD)}
-            className="text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline"
-            data-testid="forgot-password-button"
+      {emailEnabled && (
+        <form className="w-full" action={formAction}>
+          <div className="flex flex-col w-full gap-y-2">
+            <Input
+              label={t("email")}
+              name="email"
+              type="email"
+              title={t("emailTitle")}
+              autoComplete="email"
+              required
+              data-testid="email-input"
+            />
+            <Input
+              label={t("password")}
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              data-testid="password-input"
+            />
+          </div>
+          <div className="flex justify-end mt-2">
+            <button
+              type="button"
+              onClick={() => setCurrentView(LOGIN_VIEW.FORGOT_PASSWORD)}
+              className="text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline"
+              data-testid="forgot-password-button"
+            >
+              {t("forgotPassword")}
+            </button>
+          </div>
+          <ErrorMessage error={message} data-testid="login-error-message" />
+          <SubmitButton
+            size="large"
+            data-testid="sign-in-button"
+            className="w-full mt-6"
           >
-            {t("forgotPassword")}
+            {t("signIn")}
+          </SubmitButton>
+        </form>
+      )}
+      {/* Renders nothing when this shop turned Yandex ID off, or the platform
+          has no keys at all — o25-login-methods, @lib/tenant/login-settings. */}
+      <YandexLogin available={yandexEnabled} />
+      {emailEnabled && (
+        <span className="text-center text-ui-fg-base text-small-regular mt-6">
+          {t("notMember")}{" "}
+          <button
+            onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)}
+            className="underline"
+            data-testid="register-button"
+          >
+            {t("joinUs")}
           </button>
-        </div>
-        <ErrorMessage error={message} data-testid="login-error-message" />
-        <SubmitButton
-          size="large"
-          data-testid="sign-in-button"
-          className="w-full mt-6"
-        >
-          {t("signIn")}
-        </SubmitButton>
-      </form>
-      {/* Renders nothing until NEXT_PUBLIC_YANDEX_LOGIN_ENABLED is on, so a
-          deployment without Yandex keys keeps exactly the form above. */}
-      <YandexLogin />
-      <span className="text-center text-ui-fg-base text-small-regular mt-6">
-        {t("notMember")}{" "}
-        <button
-          onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)}
-          className="underline"
-          data-testid="register-button"
-        >
-          {t("joinUs")}
-        </button>
-        .
-      </span>
+          .
+        </span>
+      )}
     </div>
   )
 }

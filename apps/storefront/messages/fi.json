@@ -893,6 +893,7 @@
     "goToSignIn": "Kirjaudu sisään",
     "heading": "Uusi salasana",
     "missingToken": "Linkistä puuttuu tunniste. Pyydä uusi kirjautumissivulta.",
+    "notAvailable": "Tässä kaupassa voi kirjautua vain Yandex ID:llä, joten palautettavaa salasanaa ei ole.",
     "password": "Uusi salasana",
     "submit": "Tallenna salasana"
   },

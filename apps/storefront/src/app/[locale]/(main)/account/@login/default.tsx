@@ -1,6 +1,7 @@
 import LoginTemplate from "@modules/account/templates/login-template"
 import { getSiteName } from "@lib/data/cookies"
 import { getLegalLinkContext } from "@lib/data/legal-links"
+import { getSiteLoginSettings } from "@lib/data/tenant-login-settings"
 
 /**
  * The `@login` slot only has a page for `/account` itself. Without this, a
@@ -12,9 +13,12 @@ import { getLegalLinkContext } from "@lib/data/legal-links"
  * present but no longer valid.
  */
 export default async function LoginDefault() {
-  const [siteName, legal] = await Promise.all([
+  const [siteName, legal, loginSettings] = await Promise.all([
     getSiteName(),
     getLegalLinkContext(),
+    getSiteLoginSettings(),
   ])
-  return <LoginTemplate siteName={siteName} legal={legal} />
+  return (
+    <LoginTemplate siteName={siteName} legal={legal} loginSettings={loginSettings} />
+  )
 }

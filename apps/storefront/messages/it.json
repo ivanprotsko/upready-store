@@ -893,6 +893,7 @@
     "goToSignIn": "Accedi",
     "heading": "Nuova password",
     "missingToken": "In questo link manca il token. Richiedine uno nuovo dalla pagina di accesso.",
+    "notAvailable": "Questo negozio consente l'accesso solo con Yandex ID, quindi non c'è nessuna password da reimpostare.",
     "password": "Nuova password",
     "submit": "Salva la password"
   },

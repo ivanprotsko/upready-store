@@ -893,6 +893,7 @@
     "goToSignIn": "Anmelden",
     "heading": "Neues Passwort",
     "missingToken": "In diesem Link fehlt das Token. Fordern Sie auf der Anmeldeseite einen neuen an.",
+    "notAvailable": "Dieser Shop bietet die Anmeldung nur über Yandex ID an, daher gibt es kein Passwort zum Zurücksetzen.",
     "password": "Neues Passwort",
     "submit": "Passwort speichern"
   },

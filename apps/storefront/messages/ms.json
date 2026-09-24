@@ -893,6 +893,7 @@
     "goToSignIn": "Log masuk",
     "heading": "Kata laluan baharu",
     "missingToken": "Pautan ini tiada token. Minta pautan baharu di halaman log masuk.",
+    "notAvailable": "Kedai ini hanya membenarkan log masuk dengan Yandex ID, jadi tiada kata laluan untuk ditetapkan semula.",
     "password": "Kata laluan baharu",
     "submit": "Simpan kata laluan"
   },

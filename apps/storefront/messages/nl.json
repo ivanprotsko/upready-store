@@ -893,6 +893,7 @@
     "goToSignIn": "Inloggen",
     "heading": "Nieuw wachtwoord",
     "missingToken": "In deze link ontbreekt het token. Vraag een nieuwe aan op de inlogpagina.",
+    "notAvailable": "Deze winkel biedt alleen inloggen met Yandex ID, dus er is geen wachtwoord om opnieuw in te stellen.",
     "password": "Nieuw wachtwoord",
     "submit": "Wachtwoord opslaan"
   },
