@@ -45,7 +45,15 @@ export const toLessonDto = (row: LessonRow) => ({
   video_url: row.video_url,
 });
 
-export const byOrderAsc = (a: LessonRow, b: LessonRow) => a.order - b.order;
+/**
+ * `order` is not unique (the o24-courses seed groups several lessons under one
+ * module number), so a tie needs a second key or two reads of the same course
+ * can hand the panel and the storefront the lessons in a different sequence —
+ * caught manually clicking through the new panel screen against
+ * `upready_store_e2e`'s seeded «Очищение печени» course.
+ */
+export const byOrderAsc = (a: LessonRow, b: LessonRow) =>
+  a.order - b.order || a.id.localeCompare(b.id);
 
 /**
  * 404 for a course another tenant owns, worded like every other tenant-scoped

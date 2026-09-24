@@ -49,7 +49,11 @@ describe("grant-course-on-paid", () => {
       courses: [{ id: "crs_1", tenant_id: "ten_1", product_id: "prod_course" }],
     });
 
-    await grantCourseOnPaidHandler({ event: { name: "payment.captured", data: { id: "pay_1" } }, container: container as any });
+    await grantCourseOnPaidHandler({
+      event: { name: "payment.captured", data: { id: "pay_1" } },
+      container: container as any,
+      pluginOptions: {},
+    });
 
     expect(createCourseEntitlements).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -69,7 +73,11 @@ describe("grant-course-on-paid", () => {
       existingEntitlements: [{ id: "cent_1", course_id: "crs_1", order_id: "order_1" }],
     });
 
-    await grantCourseOnPaidHandler({ event: { name: "payment.captured", data: { id: "pay_1" } }, container: container as any });
+    await grantCourseOnPaidHandler({
+      event: { name: "payment.captured", data: { id: "pay_1" } },
+      container: container as any,
+      pluginOptions: {},
+    });
 
     expect(createCourseEntitlements).not.toHaveBeenCalled();
   });
@@ -80,7 +88,11 @@ describe("grant-course-on-paid", () => {
       courses: [],
     });
 
-    await grantCourseOnPaidHandler({ event: { name: "payment.captured", data: { id: "pay_1" } }, container: container as any });
+    await grantCourseOnPaidHandler({
+      event: { name: "payment.captured", data: { id: "pay_1" } },
+      container: container as any,
+      pluginOptions: {},
+    });
 
     expect(createCourseEntitlements).not.toHaveBeenCalled();
   });
@@ -91,7 +103,11 @@ describe("grant-course-on-paid", () => {
       courses: [{ id: "crs_1", tenant_id: "ten_1", product_id: "prod_course" }],
     });
 
-    await grantCourseOnPaidHandler({ event: { name: "payment.captured", data: { id: "pay_1" } }, container: container as any });
+    await grantCourseOnPaidHandler({
+      event: { name: "payment.captured", data: { id: "pay_1" } },
+      container: container as any,
+      pluginOptions: {},
+    });
 
     expect(createCourseEntitlements).not.toHaveBeenCalled();
   });
@@ -99,7 +115,11 @@ describe("grant-course-on-paid", () => {
   it("does nothing when the payment carries no linked order", async () => {
     const { container, createCourseEntitlements } = buildContainer({ order: null, courses: [] });
 
-    await grantCourseOnPaidHandler({ event: { name: "payment.captured", data: { id: "pay_1" } }, container: container as any });
+    await grantCourseOnPaidHandler({
+      event: { name: "payment.captured", data: { id: "pay_1" } },
+      container: container as any,
+      pluginOptions: {},
+    });
 
     expect(createCourseEntitlements).not.toHaveBeenCalled();
   });

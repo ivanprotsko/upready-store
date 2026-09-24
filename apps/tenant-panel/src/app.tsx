@@ -426,6 +426,36 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // o24-courses: the shop's online courses. Hangs under Каталог,
+            // next to Характеристики. The list owns no children of its own
+            // (course creation is a quick-add row, same shape as
+            // /product-attributes); the course page owns the two lesson
+            // drawers, since a lesson's text runs long enough to need one.
+            path: "/courses",
+            handle: { breadcrumb: () => t("app.nav.main.courses", { defaultValue: "Курсы" }) },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/courses/course-list"),
+              },
+              {
+                path: ":id",
+                lazy: () => import("./routes/courses/course-detail"),
+                children: [
+                  {
+                    path: "lessons/new",
+                    lazy: () => import("./routes/courses/lesson-new"),
+                  },
+                  {
+                    path: "lessons/:lessonId",
+                    lazy: () => import("./routes/courses/lesson-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
             // tenant-panel wave 2, piece 5 (categories). Same shape as the
             // Admin's get-route.map.tsx `/categories` subtree: the list owns
             // `create` and `organize` as children (both are modals over it), the
