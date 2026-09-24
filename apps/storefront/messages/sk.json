@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Účet",
     "addresses": "Adresy",
+    "courses": "Kurzy",
     "logOut": "Odhlásiť sa",
     "orders": "Objednávky",
     "overview": "Prehľad",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Táto stránka je ukážkový text dodávaný so starterom. Pred spustením ho nahraďte vlastným."
   },
+  "CourseBlock": {
+    "heading": "Program kurzu",
+    "progress": "{completed}/{total} lekcií dokončených",
+    "markViewed": "Označiť ako zhliadnuté",
+    "lessonViewed": "Zhliadnuté",
+    "locked": "Lekcia je uzamknutá",
+    "lockedHint": "Kúpte si kurz na stránke produktu a odomknite lekcie.",
+    "backToCourse": "Späť na kurz",
+    "lessonLabel": "Lekcia {order}",
+    "prev": "Predchádzajúca lekcia",
+    "next": "Ďalšia lekcia",
+    "finish": "Dokončiť kurz"
+  },
+  "CoursesPage": {
+    "heading": "Moje kurzy",
+    "description": "Kurzy, ktoré ste si kúpili, a váš postup v nich.",
+    "empty": "Zatiaľ ste si nekúpili žiadny kurz.",
+    "start": "Začať",
+    "continue": "Pokračovať",
+    "review": "Zopakovať"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -565,6 +587,10 @@
     "contact": {
       "description": "Napíšte nám ohľadom objednávky, produktu alebo čohokoľvek iného.",
       "title": "Kontakt"
+    },
+    "courses": {
+      "title": "Moje kurzy",
+      "description": "Kurzy, ktoré ste si kúpili, a váš postup v nich."
     },
     "customerService": {
       "description": "Odpovede na najčastejšie otázky a spôsoby, ako nás kontaktovať.",

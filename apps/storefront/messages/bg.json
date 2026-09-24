@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Профил",
     "addresses": "Адреси",
+    "courses": "Курсове",
     "logOut": "Изход",
     "orders": "Поръчки",
     "overview": "Преглед",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Тази страница идва със стартера като примерен текст. Заменете го със собствен преди старта."
   },
+  "CourseBlock": {
+    "heading": "Програма на курса",
+    "progress": "{completed}/{total} завършени урока",
+    "markViewed": "Маркирай като гледано",
+    "lessonViewed": "Гледано",
+    "locked": "Урокът е заключен",
+    "lockedHint": "Купете курса от страницата на продукта, за да отключите уроците.",
+    "backToCourse": "Обратно към курса",
+    "lessonLabel": "Урок {order}",
+    "prev": "Предишен урок",
+    "next": "Следващ урок",
+    "finish": "Завърши курса"
+  },
+  "CoursesPage": {
+    "heading": "Моите курсове",
+    "description": "Курсовете, които сте купили, и напредъкът ви в тях.",
+    "empty": "Все още не сте купили курс.",
+    "start": "Начало",
+    "continue": "Продължи",
+    "review": "Повтори"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -565,6 +587,10 @@
     "contact": {
       "description": "Пишете ни за поръчка, продукт или нещо друго.",
       "title": "Контакти"
+    },
+    "courses": {
+      "title": "Моите курсове",
+      "description": "Курсовете, които сте купили, и напредъкът ви в тях."
     },
     "customerService": {
       "description": "Отговори на най-честите въпроси и начини да се свържете с нас.",

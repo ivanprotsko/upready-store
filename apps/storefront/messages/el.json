@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Λογαριασμός",
     "addresses": "Διευθύνσεις",
+    "courses": "Μαθήματα",
     "logOut": "Αποσύνδεση",
     "orders": "Παραγγελίες",
     "overview": "Επισκόπηση",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Η σελίδα συνοδεύει το starter ως δείγμα κειμένου. Αντικαταστήστε το με το δικό σας πριν τη δημοσίευση."
   },
+  "CourseBlock": {
+    "heading": "Πρόγραμμα μαθήματος",
+    "progress": "{completed}/{total} μαθήματα ολοκληρώθηκαν",
+    "markViewed": "Σήμανση ως προβεβλημένο",
+    "lessonViewed": "Προβλήθηκε",
+    "locked": "Το μάθημα είναι κλειδωμένο",
+    "lockedHint": "Αγοράστε το μάθημα από τη σελίδα προϊόντος για να ξεκλειδώσετε τα μαθήματα.",
+    "backToCourse": "Πίσω στο μάθημα",
+    "lessonLabel": "Μάθημα {order}",
+    "prev": "Προηγούμενο μάθημα",
+    "next": "Επόμενο μάθημα",
+    "finish": "Ολοκλήρωση μαθήματος"
+  },
+  "CoursesPage": {
+    "heading": "Τα μαθήματά μου",
+    "description": "Τα μαθήματα που αγοράσατε και η πρόοδός σας σε αυτά.",
+    "empty": "Δεν έχετε αγοράσει ακόμα κανένα μάθημα.",
+    "start": "Έναρξη",
+    "continue": "Συνέχεια",
+    "review": "Επανάληψη"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -565,6 +587,10 @@
     "contact": {
       "description": "Γράψτε μας για μια παραγγελία, ένα προϊόν ή οτιδήποτε άλλο.",
       "title": "Επικοινωνία"
+    },
+    "courses": {
+      "title": "Τα μαθήματά μου",
+      "description": "Τα μαθήματα που αγοράσατε και η πρόοδός σας σε αυτά."
     },
     "customerService": {
       "description": "Απαντήσεις στις πιο συχνές ερωτήσεις και τρόποι επικοινωνίας μαζί μας.",

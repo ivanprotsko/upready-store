@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Paskyra",
     "addresses": "Adresai",
+    "courses": "Kursai",
     "logOut": "Atsijungti",
     "orders": "Užsakymai",
     "overview": "Apžvalga",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Šis puslapis pateikiamas su starteriu kaip pavyzdinis tekstas. Prieš startą pakeiskite jį savu."
   },
+  "CourseBlock": {
+    "heading": "Kurso programa",
+    "progress": "{completed}/{total} pamokų baigta",
+    "markViewed": "Žymėti kaip peržiūrėtą",
+    "lessonViewed": "Peržiūrėta",
+    "locked": "Pamoka užrakinta",
+    "lockedHint": "Nusipirkite kursą produkto puslapyje, kad atrakintumėte pamokas.",
+    "backToCourse": "Grįžti į kursą",
+    "lessonLabel": "{order} pamoka",
+    "prev": "Ankstesnė pamoka",
+    "next": "Kita pamoka",
+    "finish": "Baigti kursą"
+  },
+  "CoursesPage": {
+    "heading": "Mano kursai",
+    "description": "Kursai, kuriuos įsigijote, ir jūsų pažanga juose.",
+    "empty": "Kol kas neįsigijote jokio kurso.",
+    "start": "Pradėti",
+    "continue": "Tęsti",
+    "review": "Kartoti"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -565,6 +587,10 @@
     "contact": {
       "description": "Parašykite mums dėl užsakymo, prekės ar bet ko kito.",
       "title": "Kontaktai"
+    },
+    "courses": {
+      "title": "Mano kursai",
+      "description": "Kursai, kuriuos įsigijote, ir jūsų pažanga juose."
     },
     "customerService": {
       "description": "Atsakymai į dažniausiai užduodamus klausimus ir būdai su mumis susisiekti.",

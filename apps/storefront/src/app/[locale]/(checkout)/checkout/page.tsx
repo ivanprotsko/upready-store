@@ -1,4 +1,5 @@
 import { retrieveCart } from "@lib/data/cart"
+import { ensureDigitalDelivery } from "@lib/data/checkout-digital"
 import { retrieveCustomer } from "@lib/data/customer"
 import PaymentWrapper from "@modules/checkout/components/payment-wrapper"
 import { CartUpdateProvider } from "@modules/checkout/context/cart-update-context"
@@ -19,12 +20,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Checkout() {
-  const cart = await retrieveCart()
+  const initialCart = await retrieveCart()
 
-  if (!cart) {
+  if (!initialCart) {
     return notFound()
   }
 
+  const cart = await ensureDigitalDelivery(initialCart)
   const customer = await retrieveCustomer()
 
   return (

@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "账户",
     "addresses": "地址",
+    "courses": "课程",
     "logOut": "退出登录",
     "orders": "订单",
     "overview": "概览",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "此页面随 starter 提供，仅为示例文本。上线前请替换为您自己的内容。"
   },
+  "CourseBlock": {
+    "heading": "课程大纲",
+    "progress": "已完成 {completed}/{total} 节课",
+    "markViewed": "标记为已观看",
+    "lessonViewed": "已观看",
+    "locked": "课程已锁定",
+    "lockedHint": "请在商品页面购买课程以解锁课时。",
+    "backToCourse": "返回课程",
+    "lessonLabel": "第 {order} 课",
+    "prev": "上一课",
+    "next": "下一课",
+    "finish": "完成课程"
+  },
+  "CoursesPage": {
+    "heading": "我的课程",
+    "description": "您购买的课程及学习进度。",
+    "empty": "您还没有购买任何课程。",
+    "start": "开始",
+    "continue": "继续",
+    "review": "复习"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -565,6 +587,10 @@
     "contact": {
       "description": "有关订单、商品或其他任何问题，请与我们联系。",
       "title": "联系我们"
+    },
+    "courses": {
+      "title": "我的课程",
+      "description": "您购买的课程及学习进度。"
     },
     "customerService": {
       "description": "常见问题的解答，以及联系我们的方式。",

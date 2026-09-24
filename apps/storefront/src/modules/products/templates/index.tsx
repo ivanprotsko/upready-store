@@ -14,6 +14,7 @@ import VariantPicker from "@modules/products/components/product-selection/varian
 import RelatedProducts from "@modules/products/components/related-products"
 import RecentlyViewed from "@modules/products/components/recently-viewed"
 import ProductInfo from "@modules/products/templates/product-info"
+import CourseBlock from "@modules/products/components/course-block"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import Breadcrumb, {
   type BreadcrumbItem,
@@ -177,6 +178,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             )}
           </ProductSelectionProvider>
         </div>
+
+        <CourseBlock
+          productId={product.id}
+          productHandle={product.handle ?? ""}
+        />
 
         <ProductReviews
           productId={product.id}

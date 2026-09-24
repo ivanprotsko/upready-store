@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Tili",
     "addresses": "Osoitteet",
+    "courses": "Kurssit",
     "logOut": "Kirjaudu ulos",
     "orders": "Tilaukset",
     "overview": "Yleiskatsaus",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Tämä sivu tulee starterin mukana esimerkkitekstinä. Korvaa se omallasi ennen julkaisua."
   },
+  "CourseBlock": {
+    "heading": "Kurssin ohjelma",
+    "progress": "{completed}/{total} oppituntia suoritettu",
+    "markViewed": "Merkitse katsotuksi",
+    "lessonViewed": "Katsottu",
+    "locked": "Oppitunti lukittu",
+    "lockedHint": "Osta kurssi sen tuotesivulta avataksesi oppitunnit.",
+    "backToCourse": "Takaisin kurssiin",
+    "lessonLabel": "Oppitunti {order}",
+    "prev": "Edellinen oppitunti",
+    "next": "Seuraava oppitunti",
+    "finish": "Päätä kurssi"
+  },
+  "CoursesPage": {
+    "heading": "Omat kurssini",
+    "description": "Ostamasi kurssit ja edistymisesi niissä.",
+    "empty": "Et ole vielä ostanut yhtään kurssia.",
+    "start": "Aloita",
+    "continue": "Jatka",
+    "review": "Kertaa"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -565,6 +587,10 @@
     "contact": {
       "description": "Ota yhteyttä tilaukseen, tuotteeseen tai mihin tahansa muuhun liittyen.",
       "title": "Yhteystiedot"
+    },
+    "courses": {
+      "title": "Omat kurssini",
+      "description": "Ostamasi kurssit ja edistymisesi niissä."
     },
     "customerService": {
       "description": "Vastaukset yleisimpiin kysymyksiin ja tavat ottaa meihin yhteyttä.",

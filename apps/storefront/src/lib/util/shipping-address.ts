@@ -71,6 +71,27 @@ export const isPickupCart = (cart: HttpTypes.StoreCart) =>
   )
 
 /**
+ * A cart holding only digital products (o24-courses: `metadata.digital ===
+ * "true"` on the product, the seed's own contract — `o24-seed-courses.ts`).
+ * Such a cart has nothing to post either, the same way a pickup cart does
+ * not: `ensureDigitalDelivery` (`lib/data/checkout-digital.ts`) blanks its
+ * address and attaches the tenant's ₽0 "Цифровая доставка" shipping option
+ * on the checkout page's first render, before the buyer sees anything.
+ * Derived from the items themselves rather than a cart-metadata flag —
+ * unlike pickup, which shipping method to use is not the buyer's choice.
+ */
+export const isDigitalDeliveryCart = (cart: HttpTypes.StoreCart): boolean => {
+  const items = cart.items ?? []
+  if (items.length === 0) return false
+
+  return items.every(
+    (item) =>
+      (item.product?.metadata as Record<string, unknown> | null | undefined)
+        ?.digital === "true"
+  )
+}
+
+/**
  * The gaps that keep this cart from being paid for. Reads the cart's own
  * country, so a shop selling outside Russia is not asked for a region it has
  * no list for.
@@ -78,7 +99,7 @@ export const isPickupCart = (cart: HttpTypes.StoreCart) =>
 export const cartShippingAddressGaps = (
   cart: HttpTypes.StoreCart
 ): ShippingAddressField[] => {
-  if (isPickupCart(cart)) return []
+  if (isPickupCart(cart) || isDigitalDeliveryCart(cart)) return []
 
   return shippingAddressGaps(cart.shipping_address, cartCountryCode(cart))
 }

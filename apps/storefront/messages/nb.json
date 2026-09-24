@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Konto",
     "addresses": "Adresser",
+    "courses": "Kurs",
     "logOut": "Logg ut",
     "orders": "Bestillinger",
     "overview": "Oversikt",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Denne siden følger med starteren som eksempeltekst. Erstatt den med din egen før du går live."
   },
+  "CourseBlock": {
+    "heading": "Kursprogram",
+    "progress": "{completed}/{total} leksjoner fullført",
+    "markViewed": "Merk som sett",
+    "lessonViewed": "Sett",
+    "locked": "Leksjonen er låst",
+    "lockedHint": "Kjøp kurset på produktsiden for å låse opp leksjonene.",
+    "backToCourse": "Tilbake til kurset",
+    "lessonLabel": "Leksjon {order}",
+    "prev": "Forrige leksjon",
+    "next": "Neste leksjon",
+    "finish": "Fullfør kurset"
+  },
+  "CoursesPage": {
+    "heading": "Mine kurs",
+    "description": "Kursene du har kjøpt, og fremgangen din i dem.",
+    "empty": "Du har ikke kjøpt noen kurs ennå.",
+    "start": "Start",
+    "continue": "Fortsett",
+    "review": "Gjennomgå"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -565,6 +587,10 @@
     "contact": {
       "description": "Skriv til oss om en bestilling, et produkt eller noe annet.",
       "title": "Kontakt"
+    },
+    "courses": {
+      "title": "Mine kurs",
+      "description": "Kursene du har kjøpt, og fremgangen din i dem."
     },
     "customerService": {
       "description": "Svar på spørsmålene vi får oftest, og hvordan du når oss.",

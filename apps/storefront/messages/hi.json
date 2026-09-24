@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "खाता",
     "addresses": "पते",
+    "courses": "कोर्स",
     "logOut": "लॉग आउट करें",
     "orders": "ऑर्डर",
     "overview": "अवलोकन",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "यह पेज स्टार्टर के साथ नमूना टेक्स्ट के रूप में आता है। लाइव करने से पहले इसे अपने टेक्स्ट से बदलें।"
   },
+  "CourseBlock": {
+    "heading": "कोर्स कार्यक्रम",
+    "progress": "{completed}/{total} पाठ पूर्ण",
+    "markViewed": "देखा हुआ चिह्नित करें",
+    "lessonViewed": "देखा गया",
+    "locked": "पाठ लॉक है",
+    "lockedHint": "पाठ अनलॉक करने के लिए उत्पाद पृष्ठ से कोर्स खरीदें।",
+    "backToCourse": "कोर्स पर वापस जाएं",
+    "lessonLabel": "पाठ {order}",
+    "prev": "पिछला पाठ",
+    "next": "अगला पाठ",
+    "finish": "कोर्स समाप्त करें"
+  },
+  "CoursesPage": {
+    "heading": "मेरे कोर्स",
+    "description": "आपके द्वारा खरीदे गए कोर्स और उनमें आपकी प्रगति।",
+    "empty": "आपने अभी तक कोई कोर्स नहीं खरीदा है।",
+    "start": "शुरू करें",
+    "continue": "जारी रखें",
+    "review": "दोहराएं"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -565,6 +587,10 @@
     "contact": {
       "description": "ऑर्डर, उत्पाद या किसी और बात के बारे में हमें लिखें।",
       "title": "संपर्क करें"
+    },
+    "courses": {
+      "title": "मेरे कोर्स",
+      "description": "आपके द्वारा खरीदे गए कोर्स और उनमें आपकी प्रगति।"
     },
     "customerService": {
       "description": "सबसे आम सवालों के जवाब और हमसे संपर्क करने के तरीके।",
