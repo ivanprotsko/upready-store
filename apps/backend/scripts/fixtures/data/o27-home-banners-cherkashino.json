@@ -1,0 +1,52 @@
+{
+  "task": "t-2026-09-24-n15",
+  "source": "Figma 2zPDDEfMdYM1tbv5xKfnLX node 238:17551 «HeroSliders», Ivan 2026-09-25",
+  "tenant_handle": "cherkashino",
+  "static_dir": "home-banners",
+  "banners": [
+    {
+      "id": "chistka-pecheni",
+      "image": {
+        "slug": "chistka-pecheni",
+        "alt": "Чистка печени: печень среди лечебных трав, корней и цветов",
+        "width": 2752,
+        "height": 1536,
+        "variants": [
+          { "w": 480, "h": 268 },
+          { "w": 768, "h": 429 },
+          { "w": 1080, "h": 603 },
+          { "w": 1440, "h": 804 },
+          { "w": 1920, "h": 1072 }
+        ]
+      },
+      "kicker": "10 октября",
+      "label": "Курс",
+      "title": "Чистка печени",
+      "button": "Смотреть",
+      "link": { "type": "product", "product_handle": "course-ochishchenie-pecheni" },
+      "sort": 0
+    },
+    {
+      "id": "chistka-limfy",
+      "image": {
+        "slug": "chistka-limfy",
+        "alt": "Чистка лимфы: кишечник среди лечебных трав и плодов",
+        "width": 2752,
+        "height": 1536,
+        "variants": [
+          { "w": 480, "h": 268 },
+          { "w": 768, "h": 429 },
+          { "w": 1080, "h": 603 },
+          { "w": 1440, "h": 804 },
+          { "w": 1920, "h": 1072 }
+        ]
+      },
+      "kicker": "17 августа",
+      "label": "Курс",
+      "title": "Чистка лимфы",
+      "button": "Смотреть",
+      "link": { "type": "url", "href": "/ru/store" },
+      "sort": 1
+    }
+  ]
+}
