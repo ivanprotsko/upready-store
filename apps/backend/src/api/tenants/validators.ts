@@ -417,6 +417,18 @@ export const PutTenantBrandingSchema = z.strictObject({
 export type PutTenantBrandingBody = z.infer<typeof PutTenantBrandingSchema>;
 
 /**
+ * `PUT /tenants/login-settings` (o25-login-methods) — how this shop's buyers
+ * sign in. One required field, not three optional booleans: a body always
+ * names exactly one of the three methods, which is what keeps "zero methods
+ * enabled" unrepresentable.
+ */
+export const PutTenantLoginSettingsSchema = z.strictObject({
+  method: z.enum(["email", "yandex", "both"]),
+});
+
+export type PutTenantLoginSettingsBody = z.infer<typeof PutTenantLoginSettingsSchema>;
+
+/**
  * `PUT /tenants/notification-settings` — the two fields the owner controls over
  * their customers' letters (t08-order-notifications). The `From` ADDRESS is
  * deliberately absent: the platform's SMTP account sends for every shop, and an

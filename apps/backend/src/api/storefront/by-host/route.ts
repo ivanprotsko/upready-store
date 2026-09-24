@@ -2,6 +2,7 @@ import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { resolveAttribution } from "./attribution";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
+import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
 import {
   baseDomains,
   handleFromTechnicalHost,
@@ -207,6 +208,12 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     // credit — served with the rest of this document so the storefront's
     // very first render already has them, no extra round trip.
     branding: brandingResponse(readBranding(tenant.metadata as Record<string, unknown> | null)),
+    // o25-login-methods: which sign-in forms the storefront renders for THIS
+    // shop's buyers. Enforcement lives on the backend routes themselves
+    // (`login-method-gate.ts`); this is only what decides what to show.
+    login: loginSettingsResponse(
+      readBuyerLoginMethod(tenant.metadata as Record<string, unknown> | null),
+    ),
     settings,
     home,
     // t06-locale-currency: absent (null) for a tenant that never saved
