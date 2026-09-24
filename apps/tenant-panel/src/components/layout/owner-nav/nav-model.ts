@@ -47,6 +47,7 @@ export const OWNER_NAV: OwnerNavGroup[] = [
       { labelKey: "app.nav.owner.products", to: "/products" },
       { labelKey: "app.nav.owner.categories", to: "/categories" },
       { labelKey: "app.nav.owner.attributes", to: "/product-attributes" },
+      { labelKey: "app.nav.owner.courses", to: "/courses" },
     ],
   },
   {

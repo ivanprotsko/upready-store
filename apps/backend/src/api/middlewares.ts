@@ -195,6 +195,14 @@ import {
 // ---- t09-reviews: moderation body (tenant side) and the storefront's form.
 import { PostTenantReviewSchema } from "./tenants/reviews/validators";
 import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
+// ---- o24-courses: course/lesson CRUD bodies (tenant side, panel editor).
+import {
+  PostTenantCourseSchema,
+  PutTenantCourseSchema,
+  PostTenantLessonSchema,
+  PutTenantLessonSchema,
+  PostTenantLessonsReorderSchema,
+} from "./tenants/courses/validators";
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
@@ -1410,6 +1418,57 @@ export default defineMiddlewares({
         authenticate("customer", ["session", "bearer"]),
         validateAndTransformBody(PostStoreReviewSchema),
       ],
+    },
+
+    // ---- o24-courses: online courses. The tenant side rides the
+    // "/tenants/*" authenticate above and needs a body schema for every write
+    // verb. The storefront's course-page read allows an anonymous visitor
+    // (every lesson comes back locked); every other storefront route needs a
+    // customer, checked again for entitlement inside the route itself.
+    {
+      matcher: "/tenants/courses",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantCourseSchema)],
+    },
+    {
+      matcher: "/tenants/courses/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PutTenantCourseSchema)],
+    },
+    {
+      matcher: "/tenants/courses/:id/lessons",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantLessonSchema)],
+    },
+    {
+      matcher: "/tenants/courses/:id/lessons/:lessonId",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PutTenantLessonSchema)],
+    },
+    {
+      matcher: "/tenants/courses/:id/lessons/reorder",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantLessonsReorderSchema)],
+    },
+    {
+      matcher: "/store/tenant/courses",
+      method: ["GET"],
+      middlewares: [authenticate("customer", ["session", "bearer"], { allowUnauthenticated: true })],
+    },
+    {
+      matcher: "/store/tenant/courses/mine",
+      method: ["GET"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
+      matcher: "/store/tenant/courses/:id/lessons/:lessonId",
+      method: ["GET"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
+      matcher: "/store/tenant/courses/:id/lessons/:lessonId/viewed",
+      method: ["POST"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
     },
 
     // ---- f03-guest-order-not-in-account: the buyer takes over the orders

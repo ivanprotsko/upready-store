@@ -54,6 +54,12 @@ export const OWNER_ROUTES = [
   { path: "/product-attributes" },
   { path: "/product-attributes/:attribute_id" },
 
+  // Курсы
+  { path: "/courses", core: true },
+  { path: "/courses/:course_id", core: true },
+  { path: "/courses/:course_id/lessons/new", kind: "overlay" },
+  { path: "/courses/:course_id/lessons/:lesson_id", kind: "overlay" },
+
   // Категории
   { path: "/categories", core: true },
   { path: "/categories/create", kind: "overlay" },
@@ -211,6 +217,14 @@ export const PARAM_RESOLVERS = {
       "/tenants/product-categories?limit=1"
     )
     return first(product_categories, "categories").id
+  },
+  course_id: async (api) => {
+    const { courses } = await api("/tenants/courses?limit=1")
+    return first(courses, "courses").id
+  },
+  lesson_id: async (api, got) => {
+    const { lessons } = await api(`/tenants/courses/${got.course_id}/lessons`)
+    return first(lessons, "lessons on the sample course").id
   },
   order_id: async (api) => {
     const { orders } = await api(
