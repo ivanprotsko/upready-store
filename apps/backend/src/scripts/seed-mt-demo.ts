@@ -5,6 +5,7 @@ import type { IAuthModuleService, Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError, Modules } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../modules/tenant";
 import TenantModuleService from "../modules/tenant/service";
+import { isTestShop, markTestShopMetadata } from "../modules/tenant/test-shop";
 import tenantProductCategoryLink from "../links/tenant-product-category";
 import createTenantWorkflow from "../workflows/tenant/create-tenant";
 import createTenantDomainWorkflow from "../workflows/tenant/create-tenant-domain";
@@ -289,6 +290,14 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
       logger.info(`seed-mt-demo: created ${demo.handle} (${result.tenant.id}), key ${result.tenant.api_key.token}`);
     } else {
       logger.info(`seed-mt-demo: ${demo.handle} already exists (${tenant.id})`);
+    }
+
+    if (!isTestShop(tenant.metadata as Record<string, unknown> | null)) {
+      await tenantModuleService.updateTenants({
+        id: tenant.id,
+        metadata: markTestShopMetadata(tenant.metadata as Record<string, unknown> | null),
+      });
+      logger.info(`seed-mt-demo: ${demo.handle} marked test_shop`);
     }
 
     // The tenant's own sales channel, through the link the workflow made.

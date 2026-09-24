@@ -4,6 +4,7 @@ import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { TENANT_MODULE } from "../../src/modules/tenant";
 import TenantModuleService from "../../src/modules/tenant/service";
+import { isTestShop, markTestShopMetadata } from "../../src/modules/tenant/test-shop";
 import createTenantWorkflow from "../../src/workflows/tenant/create-tenant";
 import linkOrderToTenantWorkflow from "../../src/workflows/tenant/link-order-to-tenant";
 
@@ -39,6 +40,12 @@ export default async function seedT13TestTenant({ container }: { container: Medu
     let [tenant] = await tenantModuleService.listTenants({ handle });
 
     if (tenant) {
+      if (!isTestShop(tenant.metadata as Record<string, unknown> | null)) {
+        await tenantModuleService.updateTenants({
+          id: tenant.id,
+          metadata: markTestShopMetadata(tenant.metadata as Record<string, unknown> | null),
+        });
+      }
       logger.info(`t13-seed: ${handle} already exists (${tenant.id})`);
       return tenant;
     }
@@ -58,6 +65,11 @@ export default async function seedT13TestTenant({ container }: { container: Medu
         admin: { email: adminEmail, first_name: "Test", last_name: "Owner" },
         authIdentityId: registered.authIdentity.id,
       },
+    });
+
+    await tenantModuleService.updateTenants({
+      id: result.tenant.id,
+      metadata: markTestShopMetadata(result.tenant.metadata as Record<string, unknown> | null),
     });
 
     logger.info(`t13-seed: created ${handle} (${result.tenant.id}), key ${result.tenant.api_key.token}`);
