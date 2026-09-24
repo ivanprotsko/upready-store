@@ -21,7 +21,7 @@
       },
       "kicker": "10 октября",
       "label": "Курс",
-      "title": "Чистка печени",
+      "title": "Чистка\nпечени",
       "button": "Смотреть",
       "link": { "type": "product", "product_handle": "course-ochishchenie-pecheni" },
       "sort": 0
@@ -43,7 +43,7 @@
       },
       "kicker": "17 августа",
       "label": "Курс",
-      "title": "Чистка лимфы",
+      "title": "Чистка\nлимфы",
       "button": "Смотреть",
       "link": { "type": "url", "href": "/ru/store" },
       "sort": 1

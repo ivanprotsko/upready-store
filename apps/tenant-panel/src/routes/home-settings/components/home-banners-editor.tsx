@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Button, IconButton, Input, Label, Select, Text } from "@medusajs/ui"
+import { Button, IconButton, Input, Label, Select, Text, Textarea } from "@medusajs/ui"
 import { ArrowDownMini, ArrowUpMini, Trash } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
 
@@ -189,13 +189,25 @@ const BannerRow = ({ banner, index, total, error, onPatch, onMove, onRemove, upl
       <Label size="small" weight="plus" htmlFor={`banner-${banner.id}-${key}`}>
         {label}
       </Label>
-      <Input
-        id={`banner-${banner.id}-${key}`}
-        data-testid={`banner-${key}`}
-        maxLength={BANNER_TEXT_MAX}
-        value={banner[key]}
-        onChange={(e) => onPatch({ [key]: e.target.value })}
-      />
+      {/* The title is the node's two-line chip: the owner's own line break is kept. */}
+      {key === "title" ? (
+        <Textarea
+          id={`banner-${banner.id}-${key}`}
+          data-testid={`banner-${key}`}
+          maxLength={BANNER_TEXT_MAX}
+          rows={2}
+          value={banner[key]}
+          onChange={(e) => onPatch({ [key]: e.target.value })}
+        />
+      ) : (
+        <Input
+          id={`banner-${banner.id}-${key}`}
+          data-testid={`banner-${key}`}
+          maxLength={BANNER_TEXT_MAX}
+          value={banner[key]}
+          onChange={(e) => onPatch({ [key]: e.target.value })}
+        />
+      )}
     </div>
   )
 
@@ -399,7 +411,7 @@ const BannerPreview = ({ banner }: { banner: HomeBanner }) => {
         ) : null}
         {banner.title ? (
           <span
-            className={`${chip} absolute bottom-4 left-4 max-w-[45%] whitespace-normal rounded-[14px] bg-[#312721] px-3 py-2 text-[14px] leading-tight text-white ring-2 ring-[#312721]`}
+            className={`${chip} absolute bottom-4 left-4 max-w-[45%] whitespace-pre-line rounded-[14px] bg-[#312721] px-3 py-2 text-[14px] leading-tight text-white ring-2 ring-[#312721]`}
           >
             {banner.title}
           </span>
