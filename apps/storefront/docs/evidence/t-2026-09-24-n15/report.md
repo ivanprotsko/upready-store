@@ -194,3 +194,18 @@ Scroll-snap, wheel and swipe stay native. `CAROUSEL_REST_INDEX` is removed.
 | Swiped back from the first d / t / m | — | settles on the real LAST card at 322 / 74 / 36, the one before it peeking left | `pixel/<device>-items2plus-back-render.png` |
 
 Checks: Tab walks the three real links only; no hydration warnings or page errors in the console.
+
+## Product cards without the grey underlay (Ivan 2026-09-25)
+
+«убрать полупрозачную пленку … карточки товаров … выглядят так, как будто они лежат на светлосером фоне».
+Cause, in `ProductMedia` (every grid card, home «В магазине» and `/store`): a 3% black veil over the picture
+(`bg-black/[0.03]`, white photo → #f7f7f7) and the tile colour `bg-ui-bg-subtle` under it (a card without a
+photo → #e6edea). Both removed; cards are transparent, the photo lies on the page. The product page's own
+gallery (`flat`) is unchanged. `product-card-bg/<page>-<width>-<theme>-{before,after}.png`.
+
+| Page · width · theme | tile before | tile after | page | hover after |
+|---|---|---|---|---|
+| home 1216 / 360 light | #f7f7f7 | #ffffff | #ffffff | #ffffff |
+| store 1216 / 360 light | #e6edea | #ffffff | #ffffff | #ffffff |
+| store 1216 / 360 dark | #212c28 | #0a1310 | #0a1310 | #0a1310 |
+| home 1216 / 360 dark | #ffffff | #ffffff | #0a1310 | #ffffff — the first product's photo has its own white background (in the file, not a veil) |
