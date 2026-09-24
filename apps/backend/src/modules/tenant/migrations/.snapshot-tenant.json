@@ -22,22 +22,6 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "handle": {
-          "name": "handle",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "unique": false,
-          "length": null,
-          "precision": null,
-          "scale": null,
-          "default": null,
-          "comment": null,
-          "enumItems": [],
-          "mappedType": "text"
-        },
         "name": {
           "name": "name",
           "type": "text",
@@ -119,29 +103,20 @@
           "mappedType": "datetime"
         }
       },
-      "name": "tenant",
+      "name": "tenant_group",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "IDX_tenant_handle_unique",
+          "keyName": "IDX_tenant_group_deleted_at",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_handle_unique\" ON \"tenant\" (\"handle\") WHERE deleted_at IS NULL"
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_group_deleted_at\" ON \"tenant_group\" (\"deleted_at\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "IDX_tenant_deleted_at",
-          "columnNames": [],
-          "composite": false,
-          "constraint": false,
-          "primary": false,
-          "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_deleted_at\" ON \"tenant\" (\"deleted_at\") WHERE deleted_at IS NULL"
-        },
-        {
-          "keyName": "tenant_pkey",
+          "keyName": "tenant_group_pkey",
           "columnNames": [
             "id"
           ],
@@ -173,8 +148,8 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "email": {
-          "name": "email",
+        "handle": {
+          "name": "handle",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -189,29 +164,13 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "first_name": {
-          "name": "first_name",
+        "name": {
+          "name": "name",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
-          "unique": false,
-          "length": null,
-          "precision": null,
-          "scale": null,
-          "default": null,
-          "comment": null,
-          "enumItems": [],
-          "mappedType": "text"
-        },
-        "last_name": {
-          "name": "last_name",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
+          "nullable": false,
           "unique": false,
           "length": null,
           "precision": null,
@@ -236,6 +195,180 @@
           "comment": null,
           "enumItems": [],
           "mappedType": "json"
+        },
+        "group_id": {
+          "name": "group_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        }
+      },
+      "name": "tenant",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "IDX_tenant_handle_unique",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_handle_unique\" ON \"tenant\" (\"handle\") WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_tenant_group_id",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_group_id\" ON \"tenant\" (\"group_id\") WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_tenant_deleted_at",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_deleted_at\" ON \"tenant\" (\"deleted_at\") WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "tenant_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "tenant_group_id_foreign": {
+          "constraintName": "tenant_group_id_foreign",
+          "columnNames": [
+            "group_id"
+          ],
+          "localTableName": "public.tenant",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.tenant_group",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "host": {
+          "name": "host",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "is_primary": {
+          "name": "is_primary",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "false",
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "boolean"
         },
         "tenant_id": {
           "name": "tenant_id",
@@ -302,38 +435,38 @@
           "mappedType": "datetime"
         }
       },
-      "name": "tenant_admin",
+      "name": "tenant_domain",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "IDX_tenant_admin_email_tenant_id_unique",
+          "keyName": "IDX_tenant_domain_host_unique",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_admin_email_tenant_id_unique\" ON \"tenant_admin\" (\"email\", \"tenant_id\") WHERE deleted_at IS NULL"
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_domain_host_unique\" ON \"tenant_domain\" (\"host\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "IDX_tenant_admin_tenant_id",
+          "keyName": "IDX_tenant_domain_tenant_id",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_admin_tenant_id\" ON \"tenant_admin\" (\"tenant_id\") WHERE deleted_at IS NULL"
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_domain_tenant_id\" ON \"tenant_domain\" (\"tenant_id\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "IDX_tenant_admin_deleted_at",
+          "keyName": "IDX_tenant_domain_deleted_at",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_admin_deleted_at\" ON \"tenant_admin\" (\"deleted_at\") WHERE deleted_at IS NULL"
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_domain_deleted_at\" ON \"tenant_domain\" (\"deleted_at\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "tenant_admin_pkey",
+          "keyName": "tenant_domain_pkey",
           "columnNames": [
             "id"
           ],
@@ -345,12 +478,12 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "tenant_admin_tenant_id_foreign": {
-          "constraintName": "tenant_admin_tenant_id_foreign",
+        "tenant_domain_tenant_id_foreign": {
+          "constraintName": "tenant_domain_tenant_id_foreign",
           "columnNames": [
             "tenant_id"
           ],
-          "localTableName": "public.tenant_admin",
+          "localTableName": "public.tenant_domain",
           "referencedColumnNames": [
             "id"
           ],
@@ -736,8 +869,8 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "host": {
-          "name": "host",
+        "email": {
+          "name": "email",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -752,21 +885,53 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "is_primary": {
-          "name": "is_primary",
-          "type": "boolean",
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "unique": false,
           "length": null,
           "precision": null,
           "scale": null,
-          "default": "false",
+          "default": null,
           "comment": null,
           "enumItems": [],
-          "mappedType": "boolean"
+          "mappedType": "text"
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "json"
         },
         "tenant_id": {
           "name": "tenant_id",
@@ -833,38 +998,38 @@
           "mappedType": "datetime"
         }
       },
-      "name": "tenant_domain",
+      "name": "tenant_admin",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "IDX_tenant_domain_host_unique",
+          "keyName": "IDX_tenant_admin_tenant_id",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_domain_host_unique\" ON \"tenant_domain\" (\"host\") WHERE deleted_at IS NULL"
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_admin_tenant_id\" ON \"tenant_admin\" (\"tenant_id\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "IDX_tenant_domain_tenant_id",
+          "keyName": "IDX_tenant_admin_deleted_at",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_domain_tenant_id\" ON \"tenant_domain\" (\"tenant_id\") WHERE deleted_at IS NULL"
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_admin_deleted_at\" ON \"tenant_admin\" (\"deleted_at\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "IDX_tenant_domain_deleted_at",
+          "keyName": "IDX_tenant_admin_email_tenant_id_unique",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_domain_deleted_at\" ON \"tenant_domain\" (\"deleted_at\") WHERE deleted_at IS NULL"
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_admin_email_tenant_id_unique\" ON \"tenant_admin\" (\"email\", \"tenant_id\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "tenant_domain_pkey",
+          "keyName": "tenant_admin_pkey",
           "columnNames": [
             "id"
           ],
@@ -876,12 +1041,12 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "tenant_domain_tenant_id_foreign": {
-          "constraintName": "tenant_domain_tenant_id_foreign",
+        "tenant_admin_tenant_id_foreign": {
+          "constraintName": "tenant_admin_tenant_id_foreign",
           "columnNames": [
             "tenant_id"
           ],
-          "localTableName": "public.tenant_domain",
+          "localTableName": "public.tenant_admin",
           "referencedColumnNames": [
             "id"
           ],

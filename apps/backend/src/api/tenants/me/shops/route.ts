@@ -1,6 +1,6 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
-import { isTestShop } from "../../../../modules/tenant/test-shop";
+import { listGroupTenants, mergeSwitchableShops, readCallerTenant } from "../group-sites";
 
 /**
  * `GET /tenants/me/shops` (o25-platform-admin-all-shops, o25-hide-test-shops):
@@ -20,17 +20,16 @@ import { isTestShop } from "../../../../modules/tenant/test-shop";
  * The email is read off the caller's OWN row (`req.auth_context.actor_id`),
  * never off the request, so this can never be turned into a lookup for
  * someone else's shops.
+ *
+ * t-2026-09-24-n12: the other sites of the caller's current client
+ * (`tenant.group_id`, `group-sites.ts`) join the list, whether or not the
+ * email holds a row there yet; the switch creates that row on first use. A
+ * shop without a group gets exactly the list it got before.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
-  const {
-    data: [caller],
-  } = await query.graph({
-    entity: "tenant_admin",
-    fields: ["id", "email"],
-    filters: { id: [req.auth_context.actor_id] },
-  });
+  const caller = await readCallerTenant(req.scope, req.auth_context.actor_id);
 
   if (!caller) {
     throw new MedusaError(
@@ -42,17 +41,16 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   const { data: rows } = await query.graph({
     entity: "tenant_admin",
     fields: ["id", "tenant.id", "tenant.name", "tenant.handle", "tenant.metadata"],
-    filters: { email: [caller.email as string] },
+    filters: { email: [caller.email] },
   });
 
-  const shops = rows
-    .filter((row) => Boolean(row.tenant?.id))
-    .filter((row) => row.id === caller.id || !isTestShop(row.tenant?.metadata))
-    .map((row) => ({
-      id: row.tenant!.id as string,
-      name: row.tenant!.name as string,
-      handle: row.tenant!.handle as string,
-    }));
+  const siblings = await listGroupTenants(req.scope, caller.group_id);
+
+  const shops = mergeSwitchableShops(
+    caller.tenant_id,
+    rows.map((row) => row.tenant ?? {}),
+    siblings,
+  );
 
   res.json({ shops });
 };
