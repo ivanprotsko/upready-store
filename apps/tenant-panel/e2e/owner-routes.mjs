@@ -133,6 +133,7 @@ export const OWNER_ROUTES = [
   { path: "/settings/profile/password", kind: "overlay" },
   { path: "/settings/domains" },
   { path: "/settings/notifications" },
+  { path: "/settings/customer-login" },
   { path: "/settings/locale" },
   { path: "/settings/payments", core: true },
   { path: "/settings/delivery", core: true },
@@ -141,7 +142,7 @@ export const OWNER_ROUTES = [
   { path: "/settings/seo" },
   { path: "/settings/analytics" },
 
-  // Площадки и подключения
+  // Торговые площадки и подключения
   { path: "/marketplaces/catalog" },
   { path: "/marketplaces/price-stock" },
   { path: "/settings/marketplaces" },

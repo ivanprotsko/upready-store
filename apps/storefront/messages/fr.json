@@ -893,6 +893,7 @@
     "goToSignIn": "Se connecter",
     "heading": "Nouveau mot de passe",
     "missingToken": "Il manque le jeton dans ce lien. Demandez-en un nouveau depuis la page de connexion.",
+    "notAvailable": "Cette boutique ne permet de se connecter qu'avec Yandex ID, il n'y a donc aucun mot de passe à réinitialiser.",
     "password": "Nouveau mot de passe",
     "submit": "Enregistrer"
   },

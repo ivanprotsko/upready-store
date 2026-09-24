@@ -175,6 +175,7 @@ import {
   PostTenantRedirectSchema,
   PutTenantRedirectSchema,
   PutTenantBrandingSchema,
+  PutTenantLoginSettingsSchema,
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
   PostTenantSwitchShopSchema,
@@ -232,6 +233,7 @@ import {
   PostAdminTenantUpdateSchema,
 } from "./admin/tenants/validators";
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
+import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { guardRequestedFields } from "./field-guard";
 import { rateLimit } from "./rate-limit";
@@ -1319,6 +1321,41 @@ export default defineMiddlewares({
       matcher: "/tenants/branding/upload",
       method: ["POST"],
       middlewares: adminUploadPostMiddlewares,
+    },
+    // o25-login-methods: email/Yandex ID/both, per shop.
+    {
+      matcher: "/tenants/login-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantLoginSettingsSchema)],
+    },
+    // Enforcement, not only UI (o25-login-methods, see the doc comment in
+    // `login-method-gate.ts` for why each flow is resolved differently). Both
+    // gates run BEFORE Medusa's own auth handler for the same route, the same
+    // shape `blockArchivedTenantLogin` uses on `/auth/tenant/emailpass` above.
+    {
+      matcher: "/auth/customer/emailpass",
+      method: ["POST"],
+      middlewares: [gateBuyerEmailpassAuth],
+    },
+    {
+      matcher: "/auth/customer/emailpass/register",
+      method: ["POST"],
+      middlewares: [gateBuyerEmailpassAuth],
+    },
+    {
+      matcher: "/auth/customer/emailpass/reset-password",
+      method: ["POST"],
+      middlewares: [gateBuyerEmailpassAuth],
+    },
+    {
+      matcher: "/auth/customer/emailpass/update",
+      method: ["POST"],
+      middlewares: [gateBuyerEmailpassAuth],
+    },
+    {
+      matcher: "/auth/customer/yandex",
+      method: ["POST"],
+      middlewares: [gateBuyerYandexAuth],
     },
     // `/admin/tenants*` (contract §3): the platform staff's own tenant
     // management API. Auth is the framework's default `/admin/*` middleware

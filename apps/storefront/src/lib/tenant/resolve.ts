@@ -19,6 +19,7 @@ import {
   type TenantAttribution,
 } from "./attribution"
 import { EMPTY_BRANDING, type TenantBranding } from "./branding"
+import { EMPTY_LOGIN_SETTINGS, type TenantLoginSettings } from "./login-settings"
 
 export type { TenantAttribution }
 export type { TenantBranding }
@@ -63,6 +64,8 @@ export type ResolvedTenant = {
   analytics: { yandexMetricaId: string | null; ga4MeasurementId: string | null } | null
   /** Logo, favicon, og image, primary colour, footer credit (t16-owner-branding). */
   branding: TenantBranding
+  /** Which sign-in forms this shop's buyers get (o25-login-methods): email, Yandex ID, or both. */
+  login: TenantLoginSettings
 }
 
 const TTL_MS = 60_000
@@ -126,6 +129,7 @@ export async function resolveTenantByHost(
         seo_verification?: { yandex?: string | null; google?: string | null } | null
         analytics?: { yandex_metrica_id?: string | null; ga4_measurement_id?: string | null } | null
         branding?: Partial<TenantBranding> | null
+        login?: Partial<TenantLoginSettings> | null
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -168,6 +172,7 @@ export async function resolveTenantByHost(
                 }
               : null,
           branding: { ...EMPTY_BRANDING, ...(body.branding ?? {}) },
+          login: { ...EMPTY_LOGIN_SETTINGS, ...(body.login ?? {}) },
         }
       }
     }

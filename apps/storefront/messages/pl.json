@@ -893,6 +893,7 @@
     "goToSignIn": "Zaloguj się",
     "heading": "Nowe hasło",
     "missingToken": "W tym linku brakuje tokenu. Poproś o nowy na stronie logowania.",
+    "notAvailable": "Ten sklep umożliwia logowanie wyłącznie przez Yandex ID, więc nie ma hasła do zresetowania.",
     "password": "Nowe hasło",
     "submit": "Zapisz hasło"
   },

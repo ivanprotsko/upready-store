@@ -754,6 +754,17 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/notifications"),
           },
           {
+            // «Вход покупателей» (o25-login-methods, t-2026-09-24-n8): email
+            // and password, Yandex ID, or both, per shop. Next to
+            // /settings/notifications, the other storefront/customer-facing
+            // setting with no Admin counterpart — a native install has no
+            // per-tenant choice here at all.
+            path: "/settings/customer-login",
+            handle: { breadcrumb: () => t("customerLogin.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/customer-login"),
+          },
+          {
             // t06-locale-currency: which of the storefront's 36 locales this
             // shop offers, its default, and the currency its default prices
             // in. Same shape as /settings/domains next to it — one screen,

@@ -10,10 +10,13 @@
  * here with `?yandex_error=<code>` when something went wrong, which is what the
  * message below renders.
  *
- * Rendering is gated on `NEXT_PUBLIC_YANDEX_LOGIN_ENABLED`, so the control stays
- * invisible until the Yandex application is configured on BOTH sides (this
- * variable and the backend's `YANDEX_CLIENT_ID`). A deployment without the keys
- * degrades to email and password with nothing broken on screen.
+ * Rendering is gated on `available` (o25-login-methods), which the caller
+ * computes from the shop's OWN sign-in setting AND whether this deployment
+ * has Yandex ID keys at all (`yandexLoginAvailable` in `@lib/tenant/login-settings`,
+ * read from the server through `getSiteLoginSettings` — rule 19g, this
+ * component is client and must never read `next/headers` itself). A shop that
+ * chose «По email и паролю» degrades to email and password with nothing
+ * broken on screen, the same as a deployment with no Yandex keys at all.
  */
 
 import { usePathname, useSearchParams } from "next/navigation"
@@ -21,9 +24,6 @@ import { Button } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 
 import YandexMark from "./yandex-mark"
-
-export const YANDEX_LOGIN_ENABLED =
-  process.env.NEXT_PUBLIC_YANDEX_LOGIN_ENABLED === "true"
 
 /** `?yandex_error=<code>` to message key. An unknown code falls back to the generic one. */
 const ERROR_KEYS: Record<string, string> = {
@@ -36,12 +36,12 @@ const ERROR_KEYS: Record<string, string> = {
   failed: "yandexErrorFailed",
 }
 
-const YandexLogin = () => {
+const YandexLogin = ({ available }: { available: boolean }) => {
   const t = useTranslations("Login")
   const pathname = usePathname() ?? "/"
   const searchParams = useSearchParams()
 
-  if (!YANDEX_LOGIN_ENABLED) {
+  if (!available) {
     return null
   }
 

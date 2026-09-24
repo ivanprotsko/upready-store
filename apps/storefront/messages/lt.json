@@ -893,6 +893,7 @@
     "goToSignIn": "Prisijungti",
     "heading": "Naujas slaptažodis",
     "missingToken": "Šioje nuorodoje trūksta prieigos rakto. Užsisakykite naują prisijungimo puslapyje.",
+    "notAvailable": "Ši parduotuvė prisijungimui naudoja tik Yandex ID, todėl nėra slaptažodžio, kurį būtų galima atkurti.",
     "password": "Naujas slaptažodis",
     "submit": "Išsaugoti slaptažodį"
   },

@@ -333,6 +333,14 @@ function tenantRequestHeaders(
       "x-tenant-branding",
       encodeTenantHeaderValue(JSON.stringify(tenant.branding))
     )
+    // o25-login-methods: email/Yandex ID/both, per shop. Same channel, always
+    // set (the value is never null on a resolved tenant, the same shape
+    // branding above uses) so the login page's very first render already
+    // knows which forms to draw.
+    headers.set(
+      "x-tenant-login",
+      encodeTenantHeaderValue(JSON.stringify(tenant.login))
+    )
   }
 
   return headers

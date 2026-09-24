@@ -893,6 +893,7 @@
     "goToSignIn": "Giriş yap",
     "heading": "Yeni şifre",
     "missingToken": "Bu bağlantıda token eksik. Giriş sayfasından yenisini isteyin.",
+    "notAvailable": "Bu mağazada yalnızca Yandex ID ile giriş yapılabilir, bu yüzden sıfırlanacak bir parola yok.",
     "password": "Yeni şifre",
     "submit": "Şifreyi kaydet"
   },

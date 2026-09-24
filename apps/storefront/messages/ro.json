@@ -893,6 +893,7 @@
     "goToSignIn": "Autentificare",
     "heading": "Parolă nouă",
     "missingToken": "Acestui link îi lipsește tokenul. Cere unul nou din pagina de autentificare.",
+    "notAvailable": "Acest magazin permite autentificarea doar prin Yandex ID, așa că nu există nicio parolă de resetat.",
     "password": "Parolă nouă",
     "submit": "Salvează parola"
   },

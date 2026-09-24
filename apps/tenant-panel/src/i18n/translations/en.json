@@ -279,6 +279,7 @@
         "domains": "Shop address",
         "locale": "Language and currency",
         "notifications": "Notifications",
+        "customerLogin": "Buyer sign-in",
         "search": "Search and counters",
         "profile": "Profile",
         "openShop": "Open the shop",
@@ -1406,6 +1407,28 @@
     "header": "Metadata",
     "numberOfKeys_one": "{{count}} key",
     "numberOfKeys_other": "{{count}} keys"
+  },
+  "customerLogin": {
+    "title": "Buyer sign-in",
+    "subtitle": "how buyers sign in to their account on the storefront",
+    "loading": "loading…",
+    "save": "Save",
+    "saved": "Sign-in method saved",
+    "options": {
+      "email": {
+        "label": "Email and password",
+        "description": "A buyer registers and signs in with email and password, as usual."
+      },
+      "yandex": {
+        "label": "Via Yandex ID",
+        "description": "A buyer signs in through their own Yandex account, no password on the site."
+      },
+      "both": {
+        "label": "Both",
+        "description": "A buyer picks either email and password or Yandex ID."
+      }
+    },
+    "yandexUnavailableHint": "Yandex ID is not available yet: the platform has no Yandex ID keys configured. Contact support to turn it on."
   },
   "notificationSettings": {
     "title": "Notifications",

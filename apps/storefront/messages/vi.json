@@ -893,6 +893,7 @@
     "goToSignIn": "Đăng nhập",
     "heading": "Mật khẩu mới",
     "missingToken": "Liên kết này thiếu mã. Hãy yêu cầu liên kết mới từ trang đăng nhập.",
+    "notAvailable": "Cửa hàng này chỉ cho phép đăng nhập bằng Yandex ID, vì vậy không có mật khẩu nào để đặt lại.",
     "password": "Mật khẩu mới",
     "submit": "Lưu mật khẩu"
   },

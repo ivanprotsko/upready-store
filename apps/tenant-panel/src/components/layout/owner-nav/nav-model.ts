@@ -108,6 +108,7 @@ export const OWNER_NAV: OwnerNavGroup[] = [
       { labelKey: "app.nav.owner.domains", to: "/settings/domains" },
       { labelKey: "app.nav.owner.locale", to: "/settings/locale" },
       { labelKey: "app.nav.owner.notifications", to: "/settings/notifications" },
+      { labelKey: "app.nav.owner.customerLogin", to: "/settings/customer-login" },
       {
         labelKey: "app.nav.owner.search",
         to: "/settings/seo",

@@ -893,6 +893,7 @@
     "goToSignIn": "Iniciar sessão",
     "heading": "Nova palavra-passe",
     "missingToken": "Falta o token neste link. Peça um novo na página de início de sessão.",
+    "notAvailable": "Esta loja permite entrar apenas com Yandex ID, portanto não há nenhuma senha para redefinir.",
     "password": "Nova palavra-passe",
     "submit": "Guardar"
   },

@@ -893,6 +893,7 @@
     "goToSignIn": "Sign in",
     "heading": "New password",
     "missingToken": "This link is missing its token. Request a new one from the sign-in page.",
+    "notAvailable": "This shop signs in with Yandex ID only, so there is no password to reset.",
     "password": "New password",
     "submit": "Save password"
   },

@@ -893,6 +893,7 @@
     "goToSignIn": "Prihlásiť sa",
     "heading": "Nové heslo",
     "missingToken": "V odkaze chýba token. Vyžiadajte si nový na prihlasovacej stránke.",
+    "notAvailable": "Tento obchod umožňuje prihlásenie iba cez Yandex ID, takže neexistuje žiadne heslo na obnovenie.",
     "password": "Nové heslo",
     "submit": "Uložiť heslo"
   },

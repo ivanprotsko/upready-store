@@ -893,6 +893,7 @@
     "goToSignIn": "로그인",
     "heading": "새 비밀번호",
     "missingToken": "이 링크에 토큰이 없습니다. 로그인 페이지에서 새로 요청하세요.",
+    "notAvailable": "이 상점은 Yandex ID로만 로그인할 수 있어 재설정할 비밀번호가 없습니다.",
     "password": "새 비밀번호",
     "submit": "비밀번호 저장"
   },

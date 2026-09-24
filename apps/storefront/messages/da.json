@@ -893,6 +893,7 @@
     "goToSignIn": "Log ind",
     "heading": "Ny adgangskode",
     "missingToken": "Linket mangler sit token. Bed om et nyt fra login-siden.",
+    "notAvailable": "Denne butik giver kun adgang via Yandex ID, så der er ingen adgangskode at nulstille.",
     "password": "Ny adgangskode",
     "submit": "Gem adgangskode"
   },

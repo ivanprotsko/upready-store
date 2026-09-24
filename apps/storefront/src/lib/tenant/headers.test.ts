@@ -63,6 +63,7 @@ describe("tenant header values", () => {
       "x-tenant-seo-verification",
       "x-tenant-analytics",
       "x-tenant-branding",
+      "x-tenant-login",
     ])
   })
 })

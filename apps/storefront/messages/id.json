@@ -893,6 +893,7 @@
     "goToSignIn": "Masuk",
     "heading": "Kata sandi baru",
     "missingToken": "Tautan ini tidak memuat token. Minta tautan baru dari halaman masuk.",
+    "notAvailable": "Toko ini hanya bisa masuk dengan Yandex ID, jadi tidak ada kata sandi yang perlu direset.",
     "password": "Kata sandi baru",
     "submit": "Simpan kata sandi"
   },

@@ -60,10 +60,11 @@ These may appear only inside the collapsed «Подробности для по�
 | tenant admin | владелец, сотрудник | |
 | storefront | витрина, магазин | The button is «Открыть магазин». The link is «Посмотреть на витрине». |
 | region | страна продаж | |
-| marketplace | площадка | The section is «Площадки». |
-| sync, синхронизация | обмен с площадкой | The tab is «Обмен с площадкой», the short form is «Обмен». The word «синхронизация» is not used. |
+| marketplace | площадка | The section is «Торговые площадки». |
+| sync, синхронизация | обмен с площадкой | The tab is «Обмен с торговой площадкой», the short form is «Обмен». The word «синхронизация» is not used. |
 | article code such as `168523959-CHERKASHINO` | артикул | Shown as «Артикул 168523959», never as a subtitle without a label. |
 | FBS | продажа со своего склада (FBS) | The abbreviation is Wildberries' own word, so it stays in brackets. |
+| buyer login method, `buyer_login_method` | вход покупателей | The block is «Вход покупателей», next to the other storefront settings. Options «По email и паролю», «Через Яндекс ID», «Оба способа». |
 
 ## Formats
 
