@@ -20,9 +20,11 @@ import {
 } from "./attribution"
 import { EMPTY_BRANDING, type TenantBranding } from "./branding"
 import { EMPTY_LOGIN_SETTINGS, type TenantLoginSettings } from "./login-settings"
+import { readManualPayment, type TenantManualPayment } from "./manual-payment"
 
 export type { TenantAttribution }
 export type { TenantBranding }
+export type { TenantManualPayment }
 
 export type ResolvedTenant = {
   handle: string
@@ -66,6 +68,13 @@ export type ResolvedTenant = {
   branding: TenantBranding
   /** Which sign-in forms this shop's buyers get (o25-login-methods): email, Yandex ID, or both. */
   login: TenantLoginSettings
+  /**
+   * The shop's offline ways to pay on `pp_system_default` (olavka-payments):
+   * crypto wallets and manager contacts, both off for a shop that configured
+   * neither. Never a build-time default — every address here was typed by the
+   * owner of this shop.
+   */
+  manualPayment: TenantManualPayment
 }
 
 const TTL_MS = 60_000
@@ -130,6 +139,7 @@ export async function resolveTenantByHost(
         analytics?: { yandex_metrica_id?: string | null; ga4_measurement_id?: string | null } | null
         branding?: Partial<TenantBranding> | null
         login?: Partial<TenantLoginSettings> | null
+        manual_payment?: unknown
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -173,6 +183,7 @@ export async function resolveTenantByHost(
               : null,
           branding: { ...EMPTY_BRANDING, ...(body.branding ?? {}) },
           login: { ...EMPTY_LOGIN_SETTINGS, ...(body.login ?? {}) },
+          manualPayment: readManualPayment(body.manual_payment),
         }
       }
     }

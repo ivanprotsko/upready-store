@@ -4,6 +4,10 @@ import { resolveAttribution } from "./attribution";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
 import {
+  manualPaymentPublicView,
+  readManualPayment,
+} from "../../tenants/payment-settings/manual/manual-payment";
+import {
   baseDomains,
   handleFromTechnicalHost,
   isTenantIdLabel,
@@ -213,6 +217,13 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     // (`login-method-gate.ts`); this is only what decides what to show.
     login: loginSettingsResponse(
       readBuyerLoginMethod(tenant.metadata as Record<string, unknown> | null),
+    ),
+    // olavka-payments: the shop's offline ways to pay on `pp_system_default`
+    // (`PUT /tenants/payment-settings/manual`). A section that is off carries
+    // no wallets and no contacts; the checkout offers only what is on, and a
+    // shop that configured neither keeps the single «manual payment» it has.
+    manual_payment: manualPaymentPublicView(
+      readManualPayment(tenant.metadata as Record<string, unknown> | null),
     ),
     settings,
     home,

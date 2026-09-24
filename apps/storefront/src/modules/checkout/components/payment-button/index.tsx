@@ -6,6 +6,7 @@ import {
   isRobokassa,
   isStripeLike,
 } from "@lib/constants"
+import type { ManualPaymentKind } from "@lib/tenant/manual-payment"
 import { convertToLocale } from "@lib/util/money"
 import { cartShippingAddressGaps } from "@lib/util/shipping-address"
 import type { HttpTypes } from "@medusajs/types"
@@ -26,6 +27,8 @@ type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
   selectedPaymentMethod?: string
   demoCard?: DemoCardValue
+  /** The offline kind chosen inside the manual provider (olavka-payments); null keeps the demo card gate. */
+  manualKind?: ManualPaymentKind | null
   "data-testid": string
 }
 
@@ -38,6 +41,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   cart,
   selectedPaymentMethod,
   demoCard,
+  manualKind = null,
   "data-testid": dataTestId,
 }) => {
   const t = useTranslations("PaymentButton")
@@ -49,8 +53,11 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     cart.payment_collection?.payment_sessions?.[0]?.provider_id ??
     ""
 
+  // The demo card gates the manual provider only while it IS the manual
+  // provider's form; an offline kind (olavka-payments) has no card to fill in.
   const manualCardIncomplete = Boolean(
     isManual(activePaymentMethod) &&
+      !manualKind &&
       !isDemoCardComplete(demoCard ?? EMPTY_DEMO_CARD)
   )
 
@@ -77,9 +84,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     notReady,
     cartUpdating: isCartUpdating,
     demoCard,
+    manualKind,
     label: (
       <>
-        {t("placeOrder")}
+        {/* An offline kind places the order without paying here, so the
+            button says so rather than «Pay». */}
+        {manualKind && isManual(activePaymentMethod)
+          ? t("placeOrderManual")
+          : t("placeOrder")}
         <span className="text-ui-fg-disabled">
           {convertToLocale({
             amount: cart.total ?? 0,

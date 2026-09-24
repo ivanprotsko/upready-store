@@ -5,6 +5,7 @@ import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import type { DemoCardValue } from "@modules/checkout/components/demo-card-fields"
+import type { ManualPaymentKind } from "@lib/tenant/manual-payment"
 import { unstable_rethrow } from "next/navigation"
 import { type ReactNode, useCallback, useState } from "react"
 
@@ -20,6 +21,12 @@ export type PaymentProviderButtonProps = {
   label: ReactNode
   cartUpdating: boolean
   demoCard?: DemoCardValue
+  /**
+   * The offline kind the buyer chose inside the manual provider
+   * (olavka-payments): crypto or «card via manager». Read by `providers/
+   * manual.tsx` alone; null keeps the demo card flow.
+   */
+  manualKind?: ManualPaymentKind | null
   "data-testid"?: string
 }
 

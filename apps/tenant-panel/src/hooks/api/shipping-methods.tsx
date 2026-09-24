@@ -47,7 +47,7 @@ export type TenantShippingMethod = {
   zone: MethodZone | null
   /** The zone's name as the buyer reads it; always filled by the backend. */
   zone_label: string
-  /** Delivery service key (`cdek`, `post_ru`, `courier`, `pickup`), or null. */
+  /** Delivery service key (`cdek`, `post_ru`, `dhl`, `courier`, `pickup`), or null. */
   carrier: string | null
   sort_order: number
   price_type: "flat" | "calculated"
