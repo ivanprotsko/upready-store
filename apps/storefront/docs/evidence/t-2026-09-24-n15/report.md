@@ -284,3 +284,35 @@ Remark 7 holds — caps centre − controls centre, glyph pixels at dpr 4:
 Pairs against the round-2 exports (mean |Δ|): top 2.5 / 2.9 / 5.0; scrolled on white 2.9 / 4.2 / 12.4 (mobile:
 the new pill is 129 wide with padding 12, the export's is 120); scrolled over the banners 106.7 / 91.0 / 76.5.
 Close-ups `logo-pill-v3/1216-scrolled-{light,dark}-x3.png`; 27f `header/`, `header-scrolled/` re-shot.
+
+## Remark 11 · desktop scrolled bar 56, sides 12 (Ivan 2026-09-25)
+
+«да вывысоту нужно уменьшить при скролле на десктопе» + «там отступы тоже становятся меньше». Frame 227:9549 as of
+06:51 (`files-ids-header-v3.json`): 1006×56, columns padding 12, controls at y 8. Desktop only; at rest 76 / 24
+(remark 1's lines) stay; tablet 57 and mobile 53 unchanged. 200ms transitions (none under reduced motion).
+
+No jump: the 20px the bar gives up become the sticky wrapper's `margin-bottom` (height and margin animate on the
+same curve), so the content always starts 76px down; a margin is not hit-tested, so a click in that strip reaches
+the page. Measured (`scratchpad/r11.log`, `r11t.log`):
+
+| scrollY 0 → 11 → 13 → 300 → 13 → 11 → 0 | state | bar | wrapper margin | content top (document) | click 10px under the bar |
+|---|---|---|---|---|---|
+| 1216 and 1440 | false / false / true / true / true / false / false | 76 / 76 / 56 / 56 / 56 / 76 / 76 | 0 / 0 / 20 / 20 / 20 / 0 / 0 | 76 at every step | the slider (section / ul / img), never the header |
+| 720 · 360 | as before | 57 · 53 constant | 0 | 57 · 53 | the slider |
+| mid-transition, every 3rd frame | | 76 → 68.4 → 62.3 → 57.9 → 56 | 0 → 7.6 → 13.7 → 18.1 → 20 | 76 ± 0.02 | |
+
+1216 scrolled against the frame (the export is still round 2, 76 high, so the pixel pair
+`pixel/desktop-header-scrolled-onwhite-*` shows mean |Δ| 10.7 — structure below is the check):
+
+| Element | Frame 227:9549 (x, y, w×h; right = from the right edge) | Render 1216 | Δ |
+|---|---|---|---|
+| Bar height | 56 | 56 | 0 |
+| Burger | 12, 8, 40×40 | 12, 8, 40×40 | 0 |
+| Country + currency pill | 64, 8, 147×40 | 64, 8, 138.8×40 | w −8: «Россия» vs «Тайланд» |
+| Logo pill | centred, 8, 137×40; text y 22, 104×12 | centre 608 = bar centre, 8, 137.2×40; text y 22, 103.2×12 | 0 / +0.2 |
+| Account | right 133, 8, 40×40 | right 133, 8, 40×40 | 0 |
+| Cart | right 12, 8, 113×40 | right 12, 8, 113×40 | 0 |
+
+Remark 7 holds: caps centre − controls centre at 1216 rest 0 / −0.12 (light / dark), scrolled −0.12 / −0.12
+(controls centre 28 in the 56 bar); 720 and 360 unchanged (0 … −0.37). Pill v3 computed unchanged.
+27f `header-scrolled/` re-shot.

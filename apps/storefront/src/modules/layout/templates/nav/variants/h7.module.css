@@ -355,7 +355,38 @@
   background: var(--h7-divider);
 }
 
+/* Desktop scrolled (227:9549, Ivan's remark 11): the bar is 56 high, the sides 12 (at rest
+   76 and 24, the content's lines). The 20px it gives up become the sticky wrapper's bottom
+   margin, so the page under it never moves on the threshold (76 in flow in both states, no
+   flip-flop at scrollY 12), and a margin is not hit-tested — clicks there reach the page. */
+@media (min-width: 1024px) {
+  .root {
+    transition: margin-bottom 200ms ease-out;
+  }
+  .bar {
+    transition: height 200ms ease-out;
+  }
+  .leading,
+  .trailing {
+    transition: padding 200ms ease-out;
+  }
+  .root[data-scrolled="true"] {
+    margin-bottom: 20px;
+  }
+  .root[data-scrolled="true"] .bar {
+    height: 56px;
+  }
+  .root[data-scrolled="true"] .leading,
+  .root[data-scrolled="true"] .trailing {
+    padding: 0 12px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .root,
+  .bar,
+  .leading,
+  .trailing,
   .wordmark,
   .compactPill,
   .divider,
