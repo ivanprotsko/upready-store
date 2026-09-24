@@ -1,0 +1,13 @@
+by-host: tenant=cherkashino payment_methods={"robokassa":false,"manualCrypto":false,"manualManager":false,"demo":true}
+product: Свечи АСД с чесноком (svechi-asd-s-chesnokom-10-sht-cherkashino) variant variant_01M29Q5AYXB2544DZ6YE1AQFCY
+cart: cart_01M39VD3ZCEK6W0MNN3NG5WGT8
+shipping options: Оксана Черкашина pickup | Оксана Черкашина courier
+payment providers offered by API for this shop: pp_system_default
+goto step=delivery [1440] -> 200 http://olavka-com.localhost:8122/ru/checkout?step=delivery
+goto step=payment [1440] -> 200 http://olavka-com.localhost:8122/ru/checkout?step=payment
+payment step [1440]: Robokassa=false «Оплата вручную»=true «крипто»=false «менеджер»=false демо=true
+payment block text [1440]: Способ оплаты Тестовая оплата — деньги не списываются. Оплата вручную Номер карты Срок действия CVC Демокарта — реальный платёж не списывается. Номер, оканчивающийся на 0000, отклоняется сразу. Номер, оканчивающийся на 9999, имитирует платёж, который не проходит после отправки. Платежный адрес Изменить ул. Тестовая, 1, Москва, 101000 Заполните обязательные поля адреса. Без города и почтового индекса заказ не о
+goto step=delivery [390] -> 200 http://olavka-com.localhost:8122/ru/checkout?step=delivery
+goto step=payment [390] -> 200 http://olavka-com.localhost:8122/ru/checkout?step=payment
+payment step [390]: Robokassa=false «Оплата вручную»=true «крипто»=false «менеджер»=false демо=true
+payment block text [390]: Способ оплаты Тестовая оплата — деньги не списываются. Оплата вручную Номер карты Срок действия CVC Демокарта — реальный платёж не списывается. Номер, оканчивающийся на 0000, отклоняется сразу. Номер, оканчивающийся на 9999, имитирует платёж, который не проходит после отправки. Платежный адрес Изменить ул. Тестовая, 1, Москва, 101000 Заполните обязательные поля адреса. Без города и почтового индекса заказ не о
