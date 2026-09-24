@@ -177,6 +177,7 @@ import {
   PutTenantBrandingSchema,
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
+  PostTenantSwitchShopSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
   PutTenantArticleSchema,
@@ -539,6 +540,13 @@ export default defineMiddlewares({
       matcher: "/tenants/me/password",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantUpdatePasswordSchema)],
+    },
+    // o25-platform-admin-all-shops: the shop switcher. GET takes no body; it
+    // reads only what the caller's OWN token already grants.
+    {
+      matcher: "/tenants/me/switch",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantSwitchShopSchema)],
     },
 
     // ---- t14-product-import: catalogue export and import (/tenants/products/export,

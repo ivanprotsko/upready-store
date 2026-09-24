@@ -210,6 +210,9 @@
       "actions": {
         "logout": "Выйти"
       },
+      "shopSwitcher": {
+        "switch": "Сменить магазин"
+      },
       "store": {
         "label": "Магазин",
         "storeSettings": "Настройки магазина"

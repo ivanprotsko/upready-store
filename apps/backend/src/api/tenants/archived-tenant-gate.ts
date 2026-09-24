@@ -4,7 +4,9 @@ import type {
   MedusaRequest,
   MedusaResponse,
 } from "@medusajs/framework/http";
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
+import type { IAuthModuleService } from "@medusajs/framework/types";
+import { TENANT_ACTOR_TYPE } from "../../modules/tenant";
 
 const ARCHIVED_MESSAGE = "Tenant is archived";
 
@@ -55,10 +57,19 @@ export const blockArchivedTenantAdmin = async (
 };
 
 /**
- * `POST /auth/tenant/emailpass` gate (contract §4). Looks the body's `email`
- * up in `tenant_admin`; if its tenant is archived, answers `401` before
- * Medusa's own emailpass handler runs, so an archived tenant's admin never
- * gets a working token in the first place.
+ * `POST /auth/tenant/emailpass` gate (contract §4). Checks the ONE tenant the
+ * login is actually about to open, not "any `tenant_admin` row this email
+ * happens to have": since o25-platform-admin-all-shops, one email
+ * (`PLATFORM_ADMIN_EMAIL` chief among them) can hold a row in several
+ * tenants, and Medusa's own login resolves the actor from the auth
+ * identity's `app_metadata.tenant_id` (`generateJwtTokenForAuthIdentity`,
+ * `@medusajs/medusa/api/auth/utils/generate-jwt-token.js`) — the same field
+ * this reads. Answers `401` before Medusa's own emailpass handler runs, so
+ * an archived tenant's admin never gets a working token for THAT shop.
+ *
+ * An identity with no `app_metadata.tenant_id` yet (freshly registered,
+ * never logged in) has nothing to gate on and passes through; Medusa's own
+ * handler answers `NOT_FOUND` for it regardless.
  */
 export const blockArchivedTenantLogin = async (
   req: MedusaRequest<{ email?: unknown }>,
@@ -72,6 +83,19 @@ export const blockArchivedTenantLogin = async (
     return;
   }
 
+  const authModuleService: IAuthModuleService = req.scope.resolve(Modules.AUTH);
+
+  const [identity] = await authModuleService.listAuthIdentities({
+    provider_identities: { entity_id: email, provider: "emailpass" },
+  });
+
+  const tenantAdminId = identity?.app_metadata?.[`${TENANT_ACTOR_TYPE}_id`] as string | undefined;
+
+  if (!tenantAdminId) {
+    next();
+    return;
+  }
+
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
   const {
@@ -79,7 +103,7 @@ export const blockArchivedTenantLogin = async (
   } = await query.graph({
     entity: "tenant_admin",
     fields: ["id", "tenant.metadata"],
-    filters: { email: [email] },
+    filters: { id: [tenantAdminId] },
   });
 
   if (isArchived(tenantAdmin?.tenant?.metadata)) {

@@ -78,6 +78,12 @@ services:
       MEDUSA_ADMIN_PASSWORD: ${MEDUSA_ADMIN_PASSWORD:-}
       DEMO_CUSTOMER_EMAIL: ${DEMO_CUSTOMER_EMAIL:-}
       DEMO_CUSTOMER_PASSWORD: ${DEMO_CUSTOMER_PASSWORD:-}
+      # The platform's own login (o25-platform-admin-all-shops): unset = off,
+      # no shop gets a tenant_admin row for it. Set it and every NEW shop gets
+      # one automatically (createTenantWorkflow); backfilling every EXISTING
+      # shop is a separate, explicit run of
+      # scripts/fixtures/o25-platform-admin-all-shops.ts, never this boot.
+      PLATFORM_ADMIN_EMAIL: ${PLATFORM_ADMIN_EMAIL:-}
       # The profile the FIRST boot seeds (store, 241 regions, stock locations,
       # fulfillment + this profile's catalog). The other two demo catalogs are
       # seeded by re-running the same seed with another STORE_PROFILE —
