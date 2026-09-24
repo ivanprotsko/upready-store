@@ -132,6 +132,7 @@ export const OWNER_ROUTES = [
   { path: "/settings/profile/edit", kind: "overlay" },
   { path: "/settings/profile/password", kind: "overlay" },
   { path: "/settings/domains" },
+  { path: "/settings/sites" },
   { path: "/settings/notifications" },
   { path: "/settings/customer-login" },
   { path: "/settings/locale" },

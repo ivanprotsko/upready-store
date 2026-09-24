@@ -316,7 +316,8 @@
           "searchVerification": "Search engines",
           "searchCounters": "Counters",
           "searchRedirects": "Old addresses"
-        }
+        },
+        "sites": "Sites"
       }
     },
     "search": {
@@ -5199,6 +5200,33 @@
         "title": "Delivery is set up",
         "hint": "Add at least one delivery method, otherwise an order cannot be placed."
       }
+    }
+  },
+  "sites": {
+    "title": "Sites",
+    "description": "Your sites share one catalogue. Each has its own address, delivery, payment and orders.",
+    "current": "This site",
+    "open": "Open",
+    "primary": "main",
+    "certificate": {
+      "platform": "Platform certificate",
+      "valid": "Certificate valid",
+      "validUntil": "Certificate until {{date}}",
+      "invalid": "Certificate not issued yet",
+      "unreachable": "Domain does not answer"
+    },
+    "created": "Site “{{name}}” created. Open it from the list above or from the shop menu.",
+    "create": {
+      "title": "Create a site",
+      "description": "The new site copies “{{name}}”: branding, home page, language, legal details, notifications, product attributes and every product shown on all sites.",
+      "name": "Name",
+      "namePlaceholder": "For example, “Olavka for Russia”",
+      "handle": "Platform address",
+      "handleHint": "Latin letters, digits and hyphens, at least 3 characters. You can connect your own domain later in “Shop address”.",
+      "copyPages": "Copy pages (offer, contacts and others)",
+      "copyShipping": "Copy delivery methods with their rates",
+      "notCopied": "Not copied: integration keys (marketplaces, CDEK, Robokassa), domains, orders and old addresses. You set them up on the new site.",
+      "submit": "Create site"
     }
   }
 }
