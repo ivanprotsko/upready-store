@@ -5,6 +5,16 @@
  * bar follows the theme's own tokens.
  */
 
+.root {
+  --h7-divider: #e4e4e7;
+  --h7-logo-pill: #f5f5f5;
+}
+
+:global([data-mode="dark"]) .root {
+  --h7-divider: var(--border);
+  --h7-logo-pill: var(--muted);
+}
+
 .bar {
   --h7-ink: #18181b;
   --h7-surface: #ffffff;
@@ -183,8 +193,24 @@
   flex: none;
   display: flex;
   align-items: center;
-  gap: 1px;
   padding: 8px;
+}
+
+.compactPill {
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  transition:
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.divider {
+  flex: none;
+  width: 1px;
+  height: 12px;
+  background: transparent;
+  transition: background-color 200ms ease-out;
 }
 
 .compactGroup .iconButton {
@@ -216,5 +242,69 @@
 @media (min-width: 1024px) {
   .mobileOnly {
     display: none;
+  }
+}
+
+/* ── `Scrolled=true` (227:9549 / 235:16802 / 238:16965) ─────────────────────────── */
+.wordmark {
+  border-radius: 32px;
+  transition:
+    background-color 200ms ease-out,
+    font-size 200ms ease-out;
+}
+
+.root[data-scrolled="true"] .wordmark {
+  background: var(--h7-logo-pill);
+}
+
+.root[data-scrolled="true"] .main .wordmark {
+  font-size: min(24px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
+}
+
+.root[data-scrolled="true"] .compactMain .wordmark {
+  font-size: min(24px, calc((100cqi - 16px) / (var(--wm-chars, 6) * 0.72)));
+}
+
+.root[data-scrolled="true"] .compactMain .wordmark {
+  height: 37px;
+}
+
+@media (min-width: 640px) {
+  .root[data-scrolled="true"] .compactMain .wordmark {
+    height: 40px;
+    font-size: min(24px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
+  }
+}
+
+.trailing .iconButton {
+  transition:
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.root[data-scrolled="true"] .trailing .iconButton {
+  background: var(--h7-surface);
+  box-shadow:
+    0 0 0 1px var(--h7-ring),
+    0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.root[data-scrolled="true"] .compactPill {
+  background: var(--h7-surface);
+  box-shadow:
+    0 0 0 1px var(--h7-ring),
+    0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.root[data-scrolled="true"] .divider {
+  background: var(--h7-divider);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark,
+  .compactPill,
+  .divider,
+  .trailing .iconButton {
+    transition: none;
   }
 }

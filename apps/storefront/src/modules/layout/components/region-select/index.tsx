@@ -300,7 +300,7 @@ const RegionSelect = ({
           currency the prices are in. Both open the same dialog, which has a section
           for each. */}
       {variant === "icons" ? (
-        <span className={clx("flex items-center gap-x-px", className)}>
+        <span className={clx("flex items-center", className)}>
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -314,6 +314,10 @@ const RegionSelect = ({
               className="shrink-0 rounded-full"
             />
           </button>
+          <span
+            aria-hidden
+            className="h-3 w-px shrink-0 bg-transparent transition-colors duration-200 group-data-[scrolled=true]:bg-[var(--h7-divider,#e4e4e7)]"
+          />
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -325,7 +329,7 @@ const RegionSelect = ({
           </button>
         </span>
       ) : variant === "text" ? (
-        <span className={clx("flex items-center gap-x-px", className)}>
+        <span className={clx("flex h-10 items-center rounded-[32px] transition-[background-color,box-shadow] duration-200 group-data-[scrolled=true]:bg-[var(--h7-surface,var(--background))] group-data-[scrolled=true]:shadow-[0_0_0_1px_var(--h7-ring,rgba(0,0,0,0.08)),0_1px_2px_rgba(0,0,0,0.12)]", className)}>
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -340,6 +344,10 @@ const RegionSelect = ({
             />
             <span>{selectedCountryOption.label}</span>
           </button>
+          <span
+            aria-hidden
+            className="h-3 w-px shrink-0 bg-transparent transition-colors duration-200 group-data-[scrolled=true]:bg-[var(--h7-divider,#e4e4e7)]"
+          />
           <button
             type="button"
             onClick={() => setOpen(true)}

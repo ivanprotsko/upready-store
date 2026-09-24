@@ -9,6 +9,7 @@ import { getSiteBranding } from "@lib/data/tenant-branding"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
 import RegionSelect from "@modules/layout/components/region-select"
+import ScrollFlag from "@modules/layout/components/scroll-flag"
 import SideMenu from "@modules/layout/components/side-menu"
 import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
@@ -32,6 +33,13 @@ import styles from "./h7.module.css"
  * LEFT at 28px, then flag · currency sign · cart · burger as plain 40px / 36px icon
  * buttons, 1px apart (the node's dividers are at opacity 0), no fills, no rings.
  *
+ * `Scrolled=true` (227:9549 / 235:16802 / 238:16965): past 12px of scroll `ScrollFlag`
+ * sets `data-scrolled="true"` and the same DOM changes skin — country + currency join in
+ * one white pill with a 1×12 divider, the wordmark sits in a #f5f5f5 pill at 24px, the
+ * account icon gets the white shadowed disc; on tablet/mobile the four icons join in one
+ * white pill with dividers. The bar keeps its height (the node's tablet 57 → 56 is not
+ * followed: no jump while scrolling). 200ms transitions.
+ *
  * A long tenant name never truncates: the wordmark's size is capped by the column width
  * over the character count (`--wm-chars`, container units), so «Оксана Черкашина» steps
  * down while «Олавка» stays at the node's size.
@@ -51,7 +59,13 @@ export default async function NavH7() {
   } as CSSProperties
 
   return (
-    <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group" data-testid="nav-h7">
+    <div
+      id="nav-h7"
+      className={`${styles.root} sticky top-0 inset-x-0 z-[60] group`}
+      data-testid="nav-h7"
+      data-scrolled="false"
+    >
+      <ScrollFlag targetId="nav-h7" />
       <header className={styles.bar}>
         {/* Desktop: three equal columns. */}
         <nav className={`${styles.inner} ${styles.desktopOnly}`} data-testid="nav-h7-desktop">
@@ -110,20 +124,25 @@ export default async function NavH7() {
             </BrandUnlock>
           </div>
           <div className={styles.compactGroup}>
-            <RegionSelect
-              regions={regions}
-              currentCountryCode={countryCode ?? undefined}
-              locales={locales}
-              variant="icons"
-            />
-            <span className={styles.iconButton}>
-              <CartButton />
-            </span>
-            <SideMenu
-              siteName={siteName}
-              showJournal={showJournal}
-              buttonClassName={styles.iconButton}
-            />
+            {/* `Scrolled=true`: this row becomes one white pill with 1×12 dividers. */}
+            <div className={styles.compactPill}>
+              <RegionSelect
+                regions={regions}
+                currentCountryCode={countryCode ?? undefined}
+                locales={locales}
+                variant="icons"
+              />
+              <span aria-hidden className={styles.divider} />
+              <span className={styles.iconButton}>
+                <CartButton />
+              </span>
+              <span aria-hidden className={styles.divider} />
+              <SideMenu
+                siteName={siteName}
+                showJournal={showJournal}
+                buttonClassName={styles.iconButton}
+              />
+            </div>
           </div>
         </nav>
       </header>

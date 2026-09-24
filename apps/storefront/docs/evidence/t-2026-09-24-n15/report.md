@@ -23,6 +23,7 @@ Home order on every width: Header → HeroSliders → «В магазине» (p
 | `hero-slider-3plus/` | THREE banners (the third — «%» / «Коллекция» / «Товары от варикоза» / «Выбрать», the node's own picture 239:17763 — saved on the worker's database only, NOT in the fixture): a scroll-snap carousel on every width; at 1440 the first card is centred (x 322, 572 wide, as in the frame) with the next peeking right at x 918 — the frame shows the SECOND banner centred with the first peeking left; which one the track opens on is Ivan's open decision (C3), switchable by `CAROUSEL_REST_INDEX` in `olavka-hero-slider-carousel.tsx`; at 768 and 390 the first card sits at the left padding with the next peeking (`Swiped=false`). |
 | `hero-slider-3plus-swiped/` | The three-banner carousel at 768 and 390 after a swipe: the second card centred, neighbours peeking on both sides. |
 | `store/` | `/ru/store` viewport: the header above the catalog page, proving it is site-wide. |
+| `header-scrolled/` | The header in its `Scrolled=true` state (page scrolled 300px): 1440 / 768 / 390 × light / dark. |
 | `desktop-scale/` | Ivan's remark 1: the home page at 1440 / 1680 / 1920 / 2200 (light, dark) with the container's edge lines drawn in red — header, banners and catalog on the same lines; 1920 = the 1440 layout × 1.333, 2200 = the same scale centred. |
 
 Every banner card is ONE link (`<Link>` for a product or a site path, `<a target="_blank" rel="noopener
@@ -158,3 +159,21 @@ viewport), against the node. x, y, w, h in px; «Δ» = render − node.
   next card to the centre, the banner picks the 1080w variant for its 912px box (768w at 1440), no page errors.
 - 1216 pairs after the change: slider unchanged (7.1), header 4.8; the burger moved from the node's x 25 to 24
   (the node's 1px frame padding dropped so the burger stands on the catalog's line).
+
+## Header `Scrolled=true` (227:9549 / 235:16802 / 238:16965)
+
+Past 12px of scroll `ScrollFlag` sets `data-scrolled="true"` on the sticky header wrapper; the same DOM changes
+skin with 200ms transitions (none under `prefers-reduced-motion`). Pairs `pixel/<device>-header-scrolled-*`,
+rendered at scrollY 300; the desktop export (1006 wide) is laid out on 1216 by its three columns
+(leading +0, main +105, trailing +210), as the layout does. Mean |Δ|: desktop 3.7, tablet 4.9, mobile 10.0.
+
+| Element | Node | Render | Δ px |
+|---|---|---|---|
+| Desktop country + currency pill | 77,18 147×40 r32, white, shadows, divider 1×12 #e4e4e7 | 76,18 139×40 r32, same | x −1 (burger line 24), w −8 = «Россия» vs «Тайланд» |
+| Desktop wordmark pill | 136×40 #f5f5f5 r32, Ruslan 24 | 135×40 rgb(245,245,245) r32, 24px | w −1 |
+| Desktop account | white 40 disc, shadows | 1031,18 40×40 white, shadows | 0 |
+| Tablet wordmark pill | 8,8 136×40, 24px | 8,9 135×40, 24px | y +1: the bar keeps 57 (node 56) so the height does not jump while scrolling |
+| Tablet icon pill | 549,8 163×40 r32, dividers | 549,9 163×40 | y +1 (same reason) |
+| Mobile wordmark pill | 9,8 120×37, 24px | 9,8 119×37, 24px | w −1 |
+| Mobile icon pill | 204,8 147×36 r999, dividers | 204,8 147×36 | 0 |
+| Bar height d / t / m | 76 / 56 / 53 | 76 / 57 / 53 | tablet +1 (no jump) |
