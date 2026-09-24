@@ -9,13 +9,13 @@ Figma pass.
 
 | Group | What it shows |
 |---|---|
-| `home/` | The whole home page `/ru`, full height: h7 header, Cover, Navigation, HeroSlider, then the tenant's own composed blocks (hero k, category tiles, listing p4) and the footer. |
-| `header/` | The h7 header element alone: logo (shop name), five category links + «Все товары», mode toggle, search, RU/₽ switcher, account, cart at 1440; burger + logo + cart at 768 and 390 (the rest lives in the bottom nav). |
+| `home/` | The whole home page `/ru`, full height: h7 header, Cover, Navigation, HeroSlider, then the tenant's listing p4 and the footer (the category-tiles block self-suppresses on this tenant: none of its categories has an image, the same as on `dev`). The composed hero k is skipped under the demo blocks (the Cover carries the shop's promo once). Shots of `home/`, `hero-slider/`, `hero-slider-slide-2/` are from commit 589cda70; the other groups from 7e2631b1 (unchanged there). |
+| `header/` | The h7 header element alone: logo (shop name), five category links + «Все товары», mode toggle, search, RU/₽ switcher, account, cart at 1440; burger + logo + cart at 768 and 390 (the rest lives in the bottom nav). **Visually = h2 until the Figma mockup arrives**: nothing was invented for it. |
 | `header-mobile-menu-open/` | The header's side menu opened from the burger; 768 and 390 only — at 1440 the burger does not exist, so there is no such state. |
 | `cover/` | The Cover block: tenant hero copy («Заказ от 5 кг — скидка 10%», subtitle, CTA) over the tenant's hero photograph with a left scrim. |
 | `navigation/` | The Navigation block: all nine top-level categories in the owner's order plus «Все товары»; scrolls horizontally at 390. |
-| `hero-slider/` | The HeroSlider block on slide 1 of 4 (the tenant's hero), with dots and arrows. |
-| `hero-slider-slide-2/` | The same block after one «Далее» click: slide 2 of 4, the first category («Мультиварки») illustrated by one of its own product photographs. |
+| `hero-slider/` | The HeroSlider block on slide 1 of 3 (the first category, «Мультиварки», illustrated by one of its own product photographs), with dots and arrows. |
+| `hero-slider-slide-2/` | The same block after one «Далее» click: slide 2 of 3, the second category («Стевия»). |
 | `store/` | `/ru/store` viewport: the h7 header above the catalog page, proving the header is site-wide. |
 
 Notes on the dev render: Next's dev overlay (`nextjs-portal`) is hidden in the shots. In `dark` the console carries
