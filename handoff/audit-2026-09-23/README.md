@@ -93,7 +93,52 @@
   `deleteTenantAdmins`); агент аудита читал только `index.ts`, где шаги импортируются из `./steps`. Находка неверна, High → снята.
   Итог High по проекту: 12, а не 13.
 - **Закрыто в PR #117** (ветка `hotfix/audit-2026-09-23-batch-1`, ждёт «мержи» Ивана): A-01/A-02, A-06/C-02, A-03, B-01, C-01, A-04.
-  Остаются открытыми из High: A-05 (зависимости, нужен `pnpm install`), D-02/D-03 (бюджет Actions, решение Ивана), D-04, D-05, D-06; Critical D-01 (бэкапы).
+- **Закрыто в ветке `hotfix/audit-2026-09-24-high`** (t-2026-09-24-n2): A-05 — прямые зависимости подняты (`nodemailer` ^6.10.1 → ^10.0.10,
+  `lodash` ^4.17.21 → ^4.18.1 в `apps/storefront` плюс `pnpm.overrides` до `>=4.18.1` для транзитивного `lodash@4.17.21` через
+  `@medusajs/cli>…>@graphql-codegen/plugin-helpers`, `sharp` через `pnpm.overrides` до `>=0.35.4` вместо транзитивного `0.34.5` из `next`).
+  `pnpm audit --prod --json`: 0 находок по всем трём пакетам после фикса (было critical 3 / high 54 / moderate 52 / low 7 → стало
+  critical 3 / high 48 / moderate 42 / low 6). Остаток — транзитивный `protobufjs` через `@opentelemetry/sdk-node` и другие пакеты из
+  `@medusajs/*`/`next`/сборочного тулинга, не закрывается точечным бампом, отдельная задача на апгрейд Medusa. `tsc --noEmit` зелёный в
+  `apps/backend` и `apps/storefront`; `@types/nodemailer@^6.4.24` оставлен как есть — nodemailer сам своих типов не поставляет (`types`
+  не задан в его `package.json`), конфликтов нет.
+- **Закрыто в ветке `hotfix/audit-2026-09-24-high`** (t-2026-09-24-n2): D-02/D-03 — `pr-checks.yml` вернул триггер `pull_request: branches:
+  [dev]` (оставлен и `workflow_dispatch` для ручного повтора); Actions budget, который его отключил (run 35558214895, 2026-09-21), не
+  снят отдельно — если он всё ещё исчерпан, следующий прогон на PR упадёт по квоте, а не по конфигу, что и было целью. В
+  `notify-deploy.yml` job `test` (typecheck/lint/юнит-тесты backend и storefront) раскомментирован, снят `continue-on-error: true` на
+  Typecheck (он и раньше не был настоящим гейтом, даже до полного отключения job-а), `notify` получил `needs: test` — комментарий «deploy
+  is gated on success» теперь правда, а не ложь.
+- **Закрыто в ветке `hotfix/audit-2026-09-24-high`** (t-2026-09-24-n2): D-04 — здоровье уже было правильным
+  (`deploy/compose.mt.yml:20-21,232-235,291-292`), не хватало алерта на его отказ. Раннбук
+  `deploy/observability/RUNBOOK.md`: подключить бесплатный внешний пробник (UptimeRobot free tier
+  или Better Stack Uptime free tier как альтернатива) к трём публичным URL, алерт — вебхуком прямо
+  в Telegram Bot API токеном `@upreadystore_bot`, который уже в репозитории (`apps/bot`), без
+  нового кода и без раннера GitHub Actions (Actions budget уже один раз отказал, см. D-02 — держать
+  внешний пробник вне этого бюджета осознанно). Регистрация в сервисе и chat_id — действие Ивана,
+  автоматизировать из воркера нельзя.
+- **Закрыто в ветке `hotfix/audit-2026-09-24-high`** (t-2026-09-24-n2): D-05 — панель ставит `node --test`,
+  не vitest (нет jsdom/RTL и конфига под них нигде в `apps/tenant-panel`; вводить рендер-раннер ради
+  одной задачи — отдельное решение по инфраструктуре, не сделано). Вместо этого два новых файла тем
+  же методом, что уже применили `nav-routes.test.mjs`/`profile-password.test.mjs` — тест по исходнику,
+  но на поведенческую ветку, а не на манифест: `error-boundary-auth.test.mjs` (401 уводит на `/login`
+  до общего экрана ошибки, `isFetchError` прогоняется по-настоящему, не текстом) и
+  `pricing-edit-price-save.test.mjs` — регрессия ровно на `f10-price-save-silently-lost`
+  (`handoff/day-2026-09-16-oksana-store/artifacts/accept-f10-price-save-silently-lost-1/`, PR #51):
+  нечитаемая цена не должна уходить на сервер, а упавший запрос не должен закрывать дровер как
+  успешный; `castNumber` (запятая как разделитель) тоже прогоняется по-настоящему. `pnpm run test` —
+  15/15 зелёных, `pnpm run typecheck` зелёный.
+- **Закрыто в ветке `hotfix/audit-2026-09-24-high`** (t-2026-09-24-n2): D-06 — добавлен `.github/dependabot.yml`
+  (`npm` на корневой pnpm-воркспейс и отдельно на `apps/homepage/port`, у которого свой lock-файл, плюс
+  `github-actions`, все еженедельно); `@medusajs/*` явно исключён из `npm`-записи — версии этой связки
+  уже держит в один шаг `medusajs/medusa-update-action` в `update.yaml`, и пускать туда ещё и dependabot
+  значило бы две конкурирующие PR на один и тот же пакет. Из двух вариантов брифа для `update.yaml`
+  (снять как дубликат / закрепить по SHA) выбран **закрепить**: `medusajs/medusa-update-action@v1`
+  запиннен на текущий SHA тега (`02eca016…`, тег уже двигался хотя бы раз с релиза `v1.0.0` — ровно
+  тот floating-tag риск, который называл аудит, и на job с `contents: write` + `pull-requests: write`
+  это не абстрактный риск), `actions/checkout@v3` поднят до `v4`. Не удалено — специализированный экшн
+  держит версии `@medusajs/*` синхронно, а обычный dependabot-бамп по одному пакету такой гарантии не
+  даёт.
+  Остаются открытыми: Critical D-01 (бэкапы — закрыто отдельно, см. `deploy/backup/RUNBOOK.md`, PR #118).
+  Все High из этого брифа (A-05, D-02/D-03, D-04, D-05, D-06) закрыты в этой ветке.
 
 ### Что сделано хорошо (по четырём отчётам)
 
