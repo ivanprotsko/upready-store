@@ -306,13 +306,13 @@
       "schema": "public",
       "indexes": [
         {
-          "keyName": "IDX_tenant_admin_email_unique",
+          "keyName": "IDX_tenant_admin_email_tenant_id_unique",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_admin_email_unique\" ON \"tenant_admin\" (\"email\") WHERE deleted_at IS NULL"
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_admin_email_tenant_id_unique\" ON \"tenant_admin\" (\"email\", \"tenant_id\") WHERE deleted_at IS NULL"
         },
         {
           "keyName": "IDX_tenant_admin_tenant_id",

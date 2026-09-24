@@ -66,6 +66,18 @@ export const PostTenantUpdatePasswordSchema = z.strictObject({
 
 export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswordSchema>;
 
+/**
+ * `POST /tenants/me/switch` body (o25-platform-admin-all-shops): `tenant_id`
+ * is the TENANT's id (`GET /tenants/me/shops` names it `id`), never a
+ * `tenant_admin` row id — the route resolves the caller's own row in that
+ * tenant itself, from the token's email.
+ */
+export const PostTenantSwitchShopSchema = z.strictObject({
+  tenant_id: z.string().min(1),
+});
+
+export type PostTenantSwitchShopBody = z.infer<typeof PostTenantSwitchShopSchema>;
+
 // ---- piece 7: content pages (/tenants/pages/**)
 
 /**

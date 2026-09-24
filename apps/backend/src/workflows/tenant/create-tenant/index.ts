@@ -11,6 +11,7 @@ import {
 } from "@medusajs/medusa/core-flows";
 import { TENANT_ACTOR_TYPE, TENANT_MODULE } from "../../../modules/tenant";
 import provisionTenantWarehouseWorkflow from "../provision-tenant-warehouse";
+import addPlatformAdminToTenantStep from "./steps/add-platform-admin-to-tenant";
 import createTenantAdminStep from "./steps/create-tenant-admin";
 import createTenantStep from "./steps/create-tenant";
 
@@ -109,6 +110,10 @@ const createTenantWorkflow = createWorkflow(
     ]);
 
     createRemoteLinkStep(linksToCreate);
+
+    const platformAdminInput = transform({ tenant }, (data) => ({ tenant_id: data.tenant.id }));
+
+    addPlatformAdminToTenantStep(platformAdminInput);
 
     const tenantAdminData = transform({ input, tenant }, (data) => ({
       ...data.input.admin,
