@@ -18,7 +18,7 @@ type Compensation = { new_tenant_id: string; created_group_id: string | null; so
  * sees it, the panel says «мои сайты».
  */
 const joinGroupStep = createStep(
-  "join-tenant-group",
+  "join-group",
   async (input: JoinGroupInput, { container }) => {
     const service: TenantModuleService = container.resolve(TENANT_MODULE);
 

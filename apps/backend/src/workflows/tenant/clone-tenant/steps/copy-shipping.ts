@@ -79,7 +79,7 @@ export const methodsToCopy = (stockLocations: unknown[]): MethodCopy[] => {
  * go with the whole warehouse when `create-tenant` compensates.
  */
 const copyShippingStep = createStep(
-  "copy-shipping-methods",
+  "copy-shipping",
   async (
     input: { tenant_id: string; sales_channel_id: string; stock_locations: unknown[] },
     { container },
