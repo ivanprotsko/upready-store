@@ -1,17 +1,27 @@
 /*
- * HeroSliders · Olavka (t-2026-09-24-n15), Figma 238:17551, three device variants:
- *   desktop 1216×496 — content padding 32/24, two banners 572×400 at a 24px gap;
- *   tablet   720×432 — padding 0/24, one banner 572×400, the next peeking (gap 12);
- *   mobile   360×432 — padding 0/12, one banner 288×400 (radius 24), the next peeking.
- * Banner: radius 48 with a 3px white border inset 4px (radius 44); chips are the node's
- * «BannerLabel»: white box with #1a1b09 text (kicker, button) or #312721 box with white
- * text (label, title), Roboto Flex uppercase — 14px for the small chips, ~28px for the
- * two-line title (the node's 56px text measures 107×90 at 1×, i.e. 28px). Insets 40
- * (title 36) on desktop, 20 on mobile.
+ * HeroSliders · Olavka (t-2026-09-24-n15), Figma 238:17551, values from the node dump
+ * (w15-cache-nodes3.json), three device variants:
+ *   desktop 1216×496 — content padding 32/24, banners 572×400 (one: 1168), gap 24;
+ *   tablet   720×432 — padding 0/24, banner 572×400 (one: 672), the next peeking, gap 24;
+ *   mobile   360×432 — padding 0/12, banner 288×400 (one: 336), radius 24, gap 12.
+ * Banner: radius 48 (mobile 24), a 3px white ring inset 4px (radius 44 / 20).
+ * Chips = the node's «BannerLabel»: `surface` (4px ring, padding 7, background blur 100)
+ * around `inner` (fill). The node marks both LUMINOSITY, but Figma's own export paints the
+ * dark fill as plain #312721 (sampled #332720 on both pictures), and a CSS
+ * `mix-blend-mode: luminosity` turns it olive (#342a0d) — so no blend here. Two sizes:
+ *   m  surface 64 high r18, inner r11, padding 0 16 — Roboto Flex 28/90% (mobile: 50 high
+ *      r12, inner r6, padding 0 10, 20px);
+ *   L  (title) surface r36, inner r29, padding 24/20 — Roboto Flex 56/90%, weight 425
+ *      (mobile: r20 / r16, padding 16/12, 48px).
+ * Type: Roboto Flex, width axis 25 (the node's condensed named instances), uppercase,
+ * leading trimmed to the cap height (the node's `leadingTrim: CAP_HEIGHT`). The wdth value
+ * is not in the REST dump; 25 is fitted by width against the node's text boxes (±1px).
+ * Offsets of the surface from the banner edge: desktop 40 (title 36), tablet 28, mobile 20.
+ * Mobile shows only the date (top left) and the title (bottom left).
  *
  * The track is native scroll-snap: no measuring, no state, swipe and wheel for free.
  * Breakpoints: mobile below 640, tablet 640–1023, desktop from 1024 (the storefront's
- * `small` screen) — stated in the evidence report, the file has no other mobile frame.
+ * `small` screen).
  */
 
 .slider {
@@ -45,6 +55,11 @@
   scroll-snap-align: center;
 }
 
+/* `CAROUSEL_REST_INDEX` (carousel.tsx): the card the track opens on. */
+.rest {
+  scroll-initial-target: nearest;
+}
+
 /* `Items=1`: one card, the whole content width. */
 .single .item {
   flex-basis: 100%;
@@ -67,6 +82,10 @@
   .carousel {
     padding-inline: calc(50% - 286px);
     scroll-padding-inline: calc(50% - 286px);
+  }
+  /* The centring padding leaves 572px of content box: no peek cap here. */
+  .carousel .item {
+    max-width: none;
   }
 }
 
@@ -114,24 +133,55 @@
 
 .chip {
   position: absolute;
-  display: inline-block;
+  z-index: 1;
+  display: flex;
   max-width: calc(100% - 80px);
-  padding: 12px 16px;
+  padding: 3px;
+  border: 4px solid;
   border-radius: 18px;
-  background: #ffffff;
-  color: #1a1b09;
-  font-family: var(--font-olavka-flex), var(--font-body), sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
 }
 
-.chipDark {
+.inner {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 50px;
+  padding: 0 16px;
+  border-radius: 11px;
+}
+
+.text {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--font-olavka-flex), var(--font-body), sans-serif;
+  font-size: 28px;
+  font-weight: 532;
+  font-variation-settings: "wdth" 25;
+  letter-spacing: 0;
+  line-height: 0.9;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-box: trim-both cap alphabetic;
+}
+
+/* `Property 2=soft|contrast` light: white ring and fill, #1a1b09 text. */
+.soft {
+  border-color: #ffffff;
+}
+.soft .inner {
+  background: #ffffff;
+  color: #1a1b09;
+}
+
+/* Dark: #312721 ring and fill, white text. */
+.dark {
+  border-color: #312721;
+}
+.dark .inner {
   background: #312721;
   color: #ffffff;
 }
@@ -146,32 +196,73 @@
   right: 40px;
 }
 
+.label .text {
+  font-weight: 475;
+  letter-spacing: 1.4px;
+}
+
 .button {
   bottom: 40px;
   right: 40px;
 }
 
+/* «BannerLabel» L: the title, the editor's own line breaks, never wider than half. */
 .title {
   bottom: 36px;
   left: 36px;
-  max-width: 42%;
-  padding: 18px 20px;
+  max-width: calc(100% - 72px);
   border-radius: 36px;
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 0.95;
-  white-space: normal;
-  text-wrap: balance;
-  overflow: visible;
 }
 
+.title .inner {
+  height: auto;
+  padding: 24px 20px;
+  border-radius: 29px;
+}
+
+.title .text {
+  font-size: 56px;
+  font-weight: 425;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* No cap trimming (Firefox): take the half-leading back from the padding. */
+@supports not (text-box: trim-both cap alphabetic) {
+  .title .inner {
+    padding-block: 19px;
+  }
+}
+
+/* Tablet (238:17548): every chip 28px from the banner edge (label padding 24 + 4). */
 @media (max-width: 1023px) {
   .track {
     padding: 0 24px;
   }
+  .kicker {
+    top: 28px;
+    left: 28px;
+  }
+  .label {
+    top: 28px;
+    right: 28px;
+  }
+  .label .text {
+    font-weight: 532;
+    letter-spacing: 0;
+  }
+  .button {
+    bottom: 28px;
+    right: 28px;
+  }
+  .title {
+    bottom: 28px;
+    left: 28px;
+    max-width: calc(100% - 56px);
+  }
 }
 
+/* Mobile (238:17549 / 239:18881): date and title only, 20px from the edge. */
 @media (max-width: 639px) {
   .track {
     gap: 12px;
@@ -188,30 +279,41 @@
   .border {
     border-radius: 20px;
   }
+  .label,
+  .button {
+    display: none;
+  }
   .chip {
-    padding: 9px 12px;
     border-radius: 12px;
-    font-size: 11px;
     max-width: calc(100% - 40px);
+  }
+  .inner {
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 6px;
+  }
+  .text {
+    font-size: 20px;
   }
   .kicker {
     top: 20px;
     left: 20px;
   }
-  .label {
-    top: 20px;
-    right: 20px;
-  }
-  .button {
-    bottom: 20px;
-    right: 20px;
-  }
   .title {
     bottom: 20px;
     left: 20px;
-    max-width: 58%;
-    padding: 14px 16px;
     border-radius: 20px;
-    font-size: 22px;
+  }
+  .title .inner {
+    padding: 16px 12px;
+    border-radius: 16px;
+  }
+  .title .text {
+    font-size: 48px;
+  }
+  @supports not (text-box: trim-both cap alphabetic) {
+    .title .inner {
+      padding-block: 11px;
+    }
   }
 }

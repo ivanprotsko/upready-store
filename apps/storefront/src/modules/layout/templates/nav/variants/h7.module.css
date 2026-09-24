@@ -1,22 +1,31 @@
 /*
- * H7 · Olavka header (t-2026-09-24-n15), values from Figma 227:9557 «Header», variant
- * `Property 1=initial`: 76px bar, three equal columns (leading / main / trailing), 40px
- * controls, 24px column padding, 12px gap. Colours are the theme's own tokens
- * (`src/styles/themes.css`), so the bar follows the preset in both modes; the node's
- * literal values are #ffffff bar, #f5f5f5 pills, #18181b ink, #1a1b09 wordmark.
+ * H7 · Olavka header (t-2026-09-24-n15), Figma 227:9557 «Header», `Scrolled=false`
+ * (values from `w15-cache-nodes2.json`): bar #ffffff with no visible bottom line (the
+ * node's 0.5px stroke is hidden), ink #18181b, wordmark #1a1b09. In the dark mode the
+ * bar follows the theme's own tokens.
  */
 
-/* Node heights: desktop 76, tablet 57, mobile 53 (Figma 227:9557, Scrolled=false). */
 .bar {
-  height: 52px;
-  background: var(--background);
-  color: var(--foreground);
-  border-bottom: 1px solid var(--border);
+  --h7-ink: #18181b;
+  --h7-surface: #ffffff;
+  --h7-wordmark: #1a1b09;
+  --h7-ring: rgba(0, 0, 0, 0.08);
+  height: 53px;
+  background: var(--h7-surface);
+  color: var(--h7-ink);
+}
+
+:global([data-mode="dark"]) .bar {
+  --h7-ink: var(--foreground);
+  --h7-surface: var(--background);
+  --h7-wordmark: var(--foreground);
+  /* A black 8% ring vanishes on a dark bar: the outline turns light. */
+  --h7-ring: rgba(255, 255, 255, 0.16);
 }
 
 @media (min-width: 640px) {
   .bar {
-    height: 56px;
+    height: 57px;
   }
 }
 
@@ -26,58 +35,12 @@
   }
 }
 
-/* Tablet / mobile (Device=tablet|mobile, Scrolled=false): the wordmark LEFT, then a
-   trailing group flag · currency · cart · burger separated by 1×12 dividers. */
-.compact {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  height: 100%;
-  padding: 0 12px;
-}
-
-@media (min-width: 640px) {
-  .compact {
-    padding: 0 24px;
-  }
-}
-
-.compactGroup {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: none;
-}
-
-@media (min-width: 640px) {
-  .compactGroup {
-    gap: 10px;
-  }
-}
-
-/* The wordmark yields to the trailing group: a long tenant name shrinks, then clips. */
-.compact .wordmark {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: left;
-  font-size: clamp(16px, 4.4vw, 28px);
-}
-
-.divider {
-  width: 1px;
-  height: 12px;
-  background: var(--border);
-}
-
-
-
+/* Desktop 227:9200: padding 0 1, three equal columns 10px apart, 24px inside each. */
 .inner {
   max-width: 1216px;
   height: 100%;
   margin: 0 auto;
+  padding: 0 1px 1px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -90,64 +53,64 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
   height: 100%;
-  padding: 0 16px;
 }
 
-.main {
-  justify-content: center;
-  overflow: visible;
+.leading,
+.trailing {
+  gap: 12px;
+  padding: 0 24px;
 }
 
 .trailing {
   justify-content: flex-end;
-}
-
-@media (min-width: 1024px) {
-  .leading,
-  .trailing {
-    padding: 0 24px;
-  }
-}
-
-.group {
-  display: flex;
-  align-items: center;
   gap: 8px;
 }
 
-/* IconButton, Style=Primary on white: a 40px disc with the node's two drop shadows
-   (0 0 0 1px 8%, 0 1px 2px 12%). */
+.main {
+  justify-content: center;
+  container-type: inline-size;
+}
+
+/* IconButton Style=Primary (burger): 40px white disc, the node's two drop shadows. */
 .disc {
+  flex: none;
+  align-self: center;
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--h7-surface);
+  color: var(--h7-ink);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 0 0 1px var(--h7-ring),
     0 1px 2px rgba(0, 0, 0, 0.12);
   transition: background-color 150ms ease-out;
 }
 
-/* IconButton on --muted (heart, account). */
-.discMuted {
-  composes: disc;
-  background: var(--muted);
-  box-shadow: none;
+/* A plain icon button: no fill, no ring (account; the compact bar's cart and burger). */
+.iconButton {
+  flex: none;
+  align-self: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  color: var(--h7-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 150ms ease-out;
 }
 
 .disc:hover,
-.discMuted:hover {
+.iconButton:hover {
   background: var(--accent);
 }
 
 .disc:focus-visible,
-.discMuted:focus-visible {
+.iconButton:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
@@ -157,24 +120,79 @@
   height: 15px;
 }
 
-/* Ruslan Display 32px, the node's «Олавка»; 24px is the `scrolled` variant, not built. */
-/* The node's wordmark is one short word; a tenant name can be two long ones («Оксана
-   Черкашина»), so the size steps down with the viewport rather than truncating — the
-   panel's `shop_name_short` is where a shop puts its short mark. */
+/* Logo 227:9200 → 235:16880: Ruslan Display 32 in a 40px box, padding 0 16 (tablet
+   0 16 / 28px, mobile 0 8 / 28px). A long name shrinks to fit its column: the column is
+   the container, `--wm-chars` the name's length, 0.72em the face's mean letter width. */
 .wordmark {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
   font-family: var(--font-olavka-wordmark), serif;
-  font-size: clamp(18px, 5vw, 24px);
+  font-size: min(32px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
   line-height: 1.085;
   font-weight: 400;
-  color: var(--foreground);
+  color: var(--h7-wordmark);
   text-decoration: none;
   white-space: nowrap;
-  text-align: center;
+  /* The node's text box is the cap height (32px → 16), centred in the 40px logo box. */
+  text-box: trim-both cap alphabetic;
 }
 
-@media (min-width: 1024px) {
-  .wordmark {
-    font-size: clamp(22px, 2.1vw, 32px);
+/* Tablet 235:16409 / mobile 235:16816. */
+.compact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  padding: 0 1px 1px;
+}
+
+@media (min-width: 640px) {
+  .compact {
+    padding: 1px 0 0;
+  }
+}
+
+.compactMain {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 8px;
+  container-type: inline-size;
+}
+
+.compactMain .wordmark {
+  padding: 0 8px;
+  font-size: min(28px, calc((100cqi - 16px) / (var(--wm-chars, 6) * 0.72)));
+}
+
+@media (min-width: 640px) {
+  .compactMain .wordmark {
+    padding: 0 16px;
+    font-size: min(28px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
+  }
+}
+
+.compactGroup {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 8px;
+}
+
+.compactGroup .iconButton {
+  width: 36px;
+  height: 36px;
+}
+
+@media (min-width: 640px) {
+  .compactGroup .iconButton {
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -195,25 +213,5 @@
 @media (min-width: 1024px) {
   .mobileOnly {
     display: none;
-  }
-}
-
-.cartIcon {
-  display: inline-flex;
-  align-items: center;
-  color: var(--foreground);
-}
-
-/* `composes` must follow `.disc`. 36px discs below 640, 40px from 640 (the node's Large (36) / Xlarge (40)). */
-.discSmall {
-  composes: disc;
-  width: 36px;
-  height: 36px;
-}
-
-@media (min-width: 640px) {
-  .discSmall {
-    width: 40px;
-    height: 40px;
   }
 }

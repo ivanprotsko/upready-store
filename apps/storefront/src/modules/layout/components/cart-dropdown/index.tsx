@@ -147,8 +147,9 @@ const CartDropdown = ({
   cart?: HttpTypes.StoreCart | null
   /**
    * `"pill"` (branch `redesign-olavka`, t-2026-09-24-n15): the trigger drawn as the Figma
-   * header's cart ToggleButton — cart icon + «Корзина» in a 40px pill on `--muted`, the
-   * count badge on the icon as before. Default: today's bare icon.
+   * header's cart ToggleButton (227:9165) — cart icon + «Корзина» in a 40px white pill whose
+   * outline is the node's two drop shadows (0 0 0 1px 8%, 0 1px 2px 12%), the count badge on
+   * the icon as before. Default: today's bare icon.
    */
   variant?: "icon" | "pill"
 }) => {
@@ -208,15 +209,15 @@ const CartDropdown = ({
 
   return (
     <div
-      className="h-full z-50"
+      className={variant === "pill" ? "h-full z-50 flex items-center" : "h-full z-50"}
       onMouseEnter={openAndCancel}
       onMouseLeave={close}
     >
-      <Popover className="relative h-full">
+      <Popover className={variant === "pill" ? "relative" : "relative h-full"}>
         <Link
           className={
             variant === "pill"
-              ? "inline-flex h-10 items-center gap-x-1.5 rounded-full bg-[var(--muted)] px-4 text-sm font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+              ? "inline-flex h-10 items-center gap-x-2 rounded-full bg-[var(--h7-surface,var(--background))] px-4 font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] shadow-[0_0_0_1px_var(--h7-ring,rgba(0,0,0,0.08)),0_1px_2px_rgba(0,0,0,0.12)] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
               : "flex h-full items-center hover:text-ui-fg-base"
           }
           href="/cart"

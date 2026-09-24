@@ -18,9 +18,8 @@ type Props = {
  * node's `Swiped=true` state being any scroll position past the first card. The node
  * draws no arrows and no dots, so there are none: a finger swipes, a wheel or a trackpad
  * scrolls, and the Tab key walks the cards and scrolls each into view. No client state,
- * so this is a server component. One deliberate difference from the desktop `Items=2+`
- * frame: it shows a previous banner peeking already at rest (an endless loop); here the
- * first card starts at the left padding, the way the tablet `Swiped=false` frame does.
+ * so this is a server component. The desktop `Items=2+` rest position is an open decision,
+ * see `CAROUSEL_REST_INDEX`.
  *
  * Every card is ONE link over the whole picture (Ivan 2.3): the four chips are plain
  * spans inside it — the «Смотреть» button is decorative, never a second control — and
@@ -28,6 +27,15 @@ type Props = {
  * page in the current locale (`Link`); a URL link opens as given, a `http(s)://` one in
  * a new tab with `rel="noopener noreferrer"`, a site path in the same tab.
  */
+/**
+ * Which card the `Items=2+` track shows at rest. The desktop frame (239:17719) draws the
+ * SECOND banner centred with the first peeking left; whether that is the start or an
+ * endless loop is Ivan's open decision (C3/E2), so today the track starts at the first
+ * card. `1` switches to the node's picture: that card gets `scroll-initial-target`
+ * (Chromium 133+; elsewhere the track still starts at the first card).
+ */
+const CAROUSEL_REST_INDEX: 0 | 1 = 0
+
 export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
   const t = await getTranslations("OlavkaHome.slider")
   // Layout by the NUMBER of banners (Ivan 2026-09-25, set 238:17551 `Items=1 / 2 / 2+`):
@@ -46,7 +54,11 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
         {slides.map((slide, index) => (
           <li
             key={slide.id}
-            className={styles.item}
+            className={
+              layout === "carousel" && CAROUSEL_REST_INDEX > 0 && index === CAROUSEL_REST_INDEX
+                ? `${styles.item} ${styles.rest}`
+                : styles.item
+            }
             data-testid="olavka-hero-slide"
             data-source={slide.source}
           >
@@ -59,6 +71,32 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
 }
 
 const SIZES = "(max-width: 639px) 80vw, 572px"
+
+/**
+ * One «BannerLabel» of the node: the outer `surface` (4px ring, 7px padding, background
+ * blur) around the filled `inner`. An empty text →
+ * no chip. The title keeps the editor's line breaks (`white-space: pre-line`).
+ */
+function Chip({
+  text,
+  className,
+  testId,
+}: {
+  text: string | null
+  className: string
+  testId: string
+}) {
+  if (!text) {
+    return null
+  }
+  return (
+    <span className={`${styles.chip} ${className}`} data-testid={`olavka-hero-slide-${testId}`}>
+      <span className={styles.inner}>
+        <span className={styles.text}>{text}</span>
+      </span>
+    </span>
+  )
+}
 
 function BannerCard({ slide, eager }: { slide: OlavkaHeroSlide; eager: boolean }) {
   const inner = (
@@ -79,32 +117,10 @@ function BannerCard({ slide, eager }: { slide: OlavkaHeroSlide; eager: boolean }
         />
       ) : null}
       <span className={styles.border} aria-hidden />
-      {slide.kicker ? (
-        <span className={`${styles.chip} ${styles.kicker}`} data-testid="olavka-hero-slide-kicker">
-          {slide.kicker}
-        </span>
-      ) : null}
-      {slide.label ? (
-        <span
-          className={`${styles.chip} ${styles.chipDark} ${styles.label}`}
-          data-testid="olavka-hero-slide-label"
-        >
-          {slide.label}
-        </span>
-      ) : null}
-      {slide.title ? (
-        <span
-          className={`${styles.chip} ${styles.chipDark} ${styles.title}`}
-          data-testid="olavka-hero-slide-title"
-        >
-          {slide.title}
-        </span>
-      ) : null}
-      {slide.button ? (
-        <span className={`${styles.chip} ${styles.button}`} data-testid="olavka-hero-slide-button">
-          {slide.button}
-        </span>
-      ) : null}
+      <Chip text={slide.kicker} className={`${styles.soft} ${styles.kicker}`} testId="kicker" />
+      <Chip text={slide.label} className={`${styles.dark} ${styles.label}`} testId="label" />
+      <Chip text={slide.title} className={`${styles.dark} ${styles.title}`} testId="title" />
+      <Chip text={slide.button} className={`${styles.soft} ${styles.button}`} testId="button" />
     </>
   )
 
