@@ -1,5 +1,6 @@
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
 import { createRegionsWorkflow } from "@medusajs/medusa/core-flows";
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../src/modules/tenant";
 import type TenantModuleService from "../../src/modules/tenant/service";
 
@@ -163,7 +164,12 @@ medusaIntegrationTestRunner({
         expect(await service().listTenantDomains({ tenant_id: b })).toEqual([]);
         expect(await service().listTenantIntegrationSecrets({ tenant_id: b })).toEqual([]);
         expect(await service().listTenantRedirects({ tenant_id: b })).toEqual([]);
-        expect(await service().listTenantHandleAlias({ tenant_id: b })).toEqual([]);
+        const {
+          data: [withAliases],
+        } = await getContainer()
+          .resolve(ContainerRegistrationKeys.QUERY)
+          .graph({ entity: "tenant", fields: ["id", "handle_aliases.id"], filters: { id: b } });
+        expect(withAliases.handle_aliases ?? []).toEqual([]);
       });
 
       it("copies delivery with its tariff instead of the provisioned defaults", async () => {
