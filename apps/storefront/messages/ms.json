@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Lajur berbingkai dengan lencana",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Tiga lajur pautan berbingkai, satu baris lencana penghantaran dan pembayaran, kemudian baris perundangan.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Penjual",
     "contactsHeading": "Hubungi",
     "taxId": "No. cukai (INN): {value}",
-    "regNumber": "No. pendaftaran (OGRN): {value}"
+    "regNumber": "No. pendaftaran (OGRN): {value}",
+    "aboutHeading": "Tentang kedai",
+    "trackOrder": "Jejak pesanan anda",
+    "badgesLabel": "Penghantaran dan pembayaran"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke log masuk",

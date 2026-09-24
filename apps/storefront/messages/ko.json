@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "테두리 칼럼과 배지",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "테두리 안 링크 3개 칼럼, 배송과 결제 배지 줄, 그 아래 법적 고지 줄.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "판매자",
     "contactsHeading": "연락처",
     "taxId": "납세자 번호: {value}",
-    "regNumber": "등록 번호: {value}"
+    "regNumber": "등록 번호: {value}",
+    "aboutHeading": "쇼핑몰 소개",
+    "trackOrder": "주문 조회",
+    "badgesLabel": "배송 및 결제"
   },
   "ForgotPassword": {
     "backToSignIn": "로그인으로 돌아가기",

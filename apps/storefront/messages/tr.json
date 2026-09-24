@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Çerçeveli sütunlar ve rozetler",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Çerçeveli üç bağlantı sütunu, teslimat ve ödeme rozetlerinden bir sıra, ardından yasal satır.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Satıcı",
     "contactsHeading": "İletişim",
     "taxId": "Vergi no. (INN): {value}",
-    "regNumber": "Sicil no. (OGRN): {value}"
+    "regNumber": "Sicil no. (OGRN): {value}",
+    "aboutHeading": "Mağaza hakkında",
+    "trackOrder": "Siparişini takip et",
+    "badgesLabel": "Teslimat ve ödeme"
   },
   "ForgotPassword": {
     "backToSignIn": "Girişe dön",

@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Mga hanay sa kahon na may badge",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Tatlong hanay ng link sa loob ng kahon, isang hilera ng badge para sa paghahatid at pagbabayad, tapos ang legal na linya.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Nagbebenta",
     "contactsHeading": "Makipag-ugnayan",
     "taxId": "Numero ng buwis (INN): {value}",
-    "regNumber": "Numero ng rehistro (OGRN): {value}"
+    "regNumber": "Numero ng rehistro (OGRN): {value}",
+    "aboutHeading": "Tungkol sa tindahan",
+    "trackOrder": "Subaybayan ang order",
+    "badgesLabel": "Paghahatid at pagbabayad"
   },
   "ForgotPassword": {
     "backToSignIn": "Bumalik sa pag-sign in",

@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "枠付き列とバッジ",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "枠で囲んだ3列のリンク、配送と支払いのバッジの行、その下に法的表記。",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "販売者",
     "contactsHeading": "お問い合わせ",
     "taxId": "納税者番号：{value}",
-    "regNumber": "登録番号：{value}"
+    "regNumber": "登録番号：{value}",
+    "aboutHeading": "ショップについて",
+    "trackOrder": "注文状況を確認",
+    "badgesLabel": "配送と支払い"
   },
   "ForgotPassword": {
     "backToSignIn": "ログインに戻る",

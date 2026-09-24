@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Хүрээтэй багана, тэмдэгтэй",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Хүрээн доторх гурван холбоосын багана, хүргэлт ба төлбөрийн тэмдгийн эгнээ, дараа нь хуулийн мөр.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Худалдагч",
     "contactsHeading": "Холбоо барих",
     "taxId": "Татвар төлөгчийн дугаар: {value}",
-    "regNumber": "Бүртгэлийн дугаар: {value}"
+    "regNumber": "Бүртгэлийн дугаар: {value}",
+    "aboutHeading": "Дэлгүүрийн тухай",
+    "trackOrder": "Захиалгаа хянах",
+    "badgesLabel": "Хүргэлт ба төлбөр"
   },
   "ForgotPassword": {
     "backToSignIn": "Нэвтрэх рүү буцах",

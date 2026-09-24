@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "带徽标的框线分栏",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "三栏框线链接、一行配送与支付徽标，下方是法律信息行。",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "卖家",
     "contactsHeading": "联系方式",
     "taxId": "纳税人识别号：{value}",
-    "regNumber": "注册号：{value}"
+    "regNumber": "注册号：{value}",
+    "aboutHeading": "关于本店",
+    "trackOrder": "查询订单",
+    "badgesLabel": "配送与支付"
   },
   "ForgotPassword": {
     "backToSignIn": "返回登录",

@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Coloane încadrate cu insigne",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Trei coloane de linkuri încadrate, un rând de insigne de livrare și plată, apoi rândul juridic.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Vânzător",
     "contactsHeading": "Contact",
     "taxId": "Cod fiscal (INN): {value}",
-    "regNumber": "Nr. de înregistrare (OGRN): {value}"
+    "regNumber": "Nr. de înregistrare (OGRN): {value}",
+    "aboutHeading": "Despre magazin",
+    "trackOrder": "Urmărește comanda",
+    "badgesLabel": "Livrare și plată"
   },
   "ForgotPassword": {
     "backToSignIn": "Înapoi la autentificare",

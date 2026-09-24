@@ -20,7 +20,7 @@ export type HeaderKey = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 export type HeroKey = "none" | "g" | "h" | "j" | "k" | "l" | "m" | "ga" | "gb"
 export type TilesKey = "on" | "off"
 export type ListingKey = "none" | "p1" | "p2" | "p3" | "p4" | "p5"
-export type FooterKey = "none" | "f1" | "f2" | "f3" | "f4" | "f5" | "f6"
+export type FooterKey = "none" | "f1" | "f2" | "f3" | "f4" | "f5" | "f6" | "f7"
 
 export type StorefrontSettingsInput = {
   defaultMode: Mode
@@ -259,6 +259,11 @@ export const FOOTER_OPTIONS: Option<FooterKey>[] = [
     value: "f6",
     label: "Инвертированный огромный логотип",
     why: "Ряды ссылок над инвертированным огромным логотипом.",
+  },
+  {
+    value: "f7",
+    label: "Три колонки в рамке, значки оплаты",
+    why: "Три колонки ссылок в рамке, ряд значков доставки и оплаты, затем юридическая строка.",
   },
 ]
 

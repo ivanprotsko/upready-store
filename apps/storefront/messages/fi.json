@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Kehystetyt sarakkeet ja merkit",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Kolme kehystettyä linkkisaraketta, rivi toimitus- ja maksumerkkejä ja sen alla juridinen rivi.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Myyjä",
     "contactsHeading": "Yhteystiedot",
     "taxId": "Verotunnus (INN): {value}",
-    "regNumber": "Rekisterinumero (OGRN): {value}"
+    "regNumber": "Rekisterinumero (OGRN): {value}",
+    "aboutHeading": "Tietoa kaupasta",
+    "trackOrder": "Seuraa tilaustasi",
+    "badgesLabel": "Toimitus ja maksu"
   },
   "ForgotPassword": {
     "backToSignIn": "Takaisin kirjautumiseen",

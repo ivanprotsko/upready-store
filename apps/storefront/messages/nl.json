@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Omkaderde kolommen met badges",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Drie omkaderde linkkolommen, een rij badges voor bezorging en betaling en daaronder de juridische regel.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Verkoper",
     "contactsHeading": "Contact",
     "taxId": "Belastingnummer (INN): {value}",
-    "regNumber": "Registratienummer (OGRN): {value}"
+    "regNumber": "Registratienummer (OGRN): {value}",
+    "aboutHeading": "Over de winkel",
+    "trackOrder": "Bestelling volgen",
+    "badgesLabel": "Bezorging en betaling"
   },
   "ForgotPassword": {
     "backToSignIn": "Terug naar inloggen",

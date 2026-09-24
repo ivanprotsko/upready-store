@@ -97,6 +97,7 @@ const FOOTER_WHY: Partial<Record<FooterKey, string>> = {
   f4: "Composition.footerWhy.f4",
   f5: "Composition.footerWhy.f5",
   f6: "Composition.footerWhy.f6",
+  f7: "Composition.footerWhy.f7",
 }
 // Tiles is a plain on/off switch — no "Markup shows" prose exists for either value
 // (block-port-map.md §5), so this row shows no why line, only the advisory note.

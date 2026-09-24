@@ -197,6 +197,7 @@
       "f4": "Inverted, with newsletter",
       "f5": "Terms as tiles",
       "f6": "Inverted giant wordmark",
+      "f7": "Колонки в рамці зі значками",
       "none": "None"
     },
     "footerWhy": {
@@ -206,6 +207,7 @@
       "f4": "Inverted colours: a newsletter form beside categories and collections.",
       "f5": "Three fact cards above the usual columns.",
       "f6": "Link rows above an inverted, giant wordmark.",
+      "f7": "Три колонки посилань у рамці, ряд значків доставки й оплати, далі юридичний рядок.",
       "none": "No footer."
     },
     "header": {
@@ -358,7 +360,10 @@
     "sellerHeading": "Продавець",
     "contactsHeading": "Контакти",
     "taxId": "ІПН {value}",
-    "regNumber": "ОДРН {value}"
+    "regNumber": "ОДРН {value}",
+    "aboutHeading": "Про магазин",
+    "trackOrder": "Відстежити замовлення",
+    "badgesLabel": "Доставка й оплата"
   },
   "ForgotPassword": {
     "backToSignIn": "Повернутися до входу",
