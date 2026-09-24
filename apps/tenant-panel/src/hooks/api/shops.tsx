@@ -16,7 +16,14 @@ import { queryKeysFactory } from "../../lib/query-key-factory"
 // without a second login. Own hook file, no Admin counterpart: a staff Admin
 // `user` has no notion of "shops" at all.
 
-export type TenantShop = { id: string; name: string; handle: string }
+// `same_group`: a site of the caller's own client (t-2026-09-24-n12), what the
+// product card's «Сайты» section offers; absent on any other shop.
+export type TenantShop = {
+  id: string
+  name: string
+  handle: string
+  same_group?: true
+}
 
 const SHOPS_QUERY_KEY = "tenant-shops" as const
 const shopsQueryKeys = queryKeysFactory(SHOPS_QUERY_KEY)

@@ -1,5 +1,8 @@
 import { z } from "@medusajs/framework/zod";
 import { AdminGetProductOptionsParams } from "@medusajs/medusa/api/admin/product-options/validators";
+import { UpdateProduct } from "@medusajs/medusa/api/admin/products/validators";
+import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
+import { SiteScopeSchema } from "./products/site-scope";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
 
 /**
@@ -72,6 +75,15 @@ export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswo
  * `tenant_admin` row id — the route resolves the caller's own row in that
  * tenant itself, from the token's email.
  */
+/**
+ * `POST /tenants/products/:id` body: the Admin's `AdminUpdateProduct` plus
+ * `site_scope` (t-2026-09-24-n12), which sites of the client show the
+ * product. `"all"` or `{ tenant_ids }`; absent leaves the sites as they are.
+ */
+export const PostTenantUpdateProductSchema = WithAdditionalData(
+  UpdateProduct.extend({ site_scope: SiteScopeSchema.optional() }),
+);
+
 export const PostTenantSwitchShopSchema = z.strictObject({
   tenant_id: z.string().min(1),
 });

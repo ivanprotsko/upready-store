@@ -178,7 +178,10 @@ medusaIntegrationTestRunner({
         expect((await switchTo(ownerCToken, siteA.id)).status).toBe(403);
       });
 
-      it("keeps each site's catalogue its own after the switch (the group shares no products yet)", async () => {
+      it("after the switch the other site reads the product, but only the owner writes it", async () => {
+        // Step 3 (`tenants-shared-catalog.spec.ts`): one catalogue for the sites of
+        // a client. Here only the switch side of it: the session in site B sees
+        // site A's product as not its own, and cannot change it.
         const product = await api.post("/tenants/products", productBody("W12 site A shirt"), bearer(ownerAToken));
         expect(product.status).toBe(201);
 
@@ -187,7 +190,18 @@ medusaIntegrationTestRunner({
 
         const productsAsB = await api.get("/tenants/products", bearer(switched.data.token));
         expect(productsAsB.status).toBe(200);
-        expect((productsAsB.data.products as { id: string }[]).map((p) => p.id)).not.toContain(
+        const seen = (productsAsB.data.products as { id: string; owned?: boolean }[]).find(
+          (p) => p.id === product.data.product.id,
+        );
+        expect(seen?.owned).toBe(false);
+
+        const write = await api
+          .post(`/tenants/products/${product.data.product.id}`, { title: "from B" }, bearer(switched.data.token))
+          .catch((error) => error.response);
+        expect(write.status).toBe(404);
+
+        const productsAsC = await api.get("/tenants/products", bearer(ownerCToken));
+        expect((productsAsC.data.products as { id: string }[]).map((p) => p.id)).not.toContain(
           product.data.product.id,
         );
       });

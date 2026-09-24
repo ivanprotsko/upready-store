@@ -1,6 +1,6 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { refetchEntities } from "@medusajs/framework/http";
-import { assertOwnedProduct } from "../../../tenant-scope";
+import { assertReadableProduct } from "../../../tenant-scope";
 
 /**
  * `GET /tenants/products/:id/options` — the options of one of the tenant's own
@@ -14,7 +14,7 @@ import { assertOwnedProduct } from "../../../tenant-scope";
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const productId = req.params.id;
 
-  await assertOwnedProduct(req, productId);
+  await assertReadableProduct(req, productId);
 
   const { data: product_options, metadata } = await refetchEntities({
     entity: "product_option",

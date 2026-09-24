@@ -7,7 +7,7 @@ import {
   remapKeysForVariant,
 } from "@medusajs/medusa/api/admin/products/helpers";
 import { wrapVariantsWithTotalInventoryQuantity } from "@medusajs/medusa/api/utils/middlewares/index";
-import { assertOwnedProduct } from "../../../tenant-scope";
+import { assertOwnedProduct, assertReadableProduct } from "../../../tenant-scope";
 import { remapTenantProduct, remapTenantVariant } from "../../helpers";
 
 /**
@@ -25,7 +25,7 @@ import { remapTenantProduct, remapTenantVariant } from "../../helpers";
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const productId = req.params.id;
 
-  await assertOwnedProduct(req, productId);
+  await assertReadableProduct(req, productId);
 
   const withInventoryQuantity = req.queryConfig.fields.some((field) =>
     field.includes("inventory_quantity"),

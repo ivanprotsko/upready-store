@@ -2735,6 +2735,13 @@
       "importAction": "Upload from a file",
       "exportAction": "Download as a file",
       "attributesFilled": "Characteristics are filled in for {{filled}} of {{total}} products"
+    },
+    "sites": {
+      "header": "Sites",
+      "all": "On all my sites",
+      "selected": "On selected sites",
+      "saved": "Sites saved",
+      "readOnly": "This product belongs to another of your sites. Switch to that site to change where it is shown."
     }
   },
   "profile": {
