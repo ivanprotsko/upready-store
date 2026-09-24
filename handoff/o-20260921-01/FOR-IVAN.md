@@ -253,7 +253,7 @@ PR: https://github.com/ivanprotsko/upready-store/pull/116 (ветка `feat/o22-
 
 Субагентов у лида нет (страж запретил ролью), оба воркера — агенты Superset в своих workspace. На машине: бэкенд 9121, витрина 8121 (dev), витрина 8122 (PR #114) и два воркера; лид следит за памятью.
 
-## Ночь 2026-09-24: работу ведёт lead-devops по вашему слову, три воркера Sonnet запущены в 06:40 WITA
+## Ночь 2026-09-24: все 5 ключевых пунктов сделаны к 09:00 WITA (смержены #117, #118, #114, #119, #115, #116, #120; деплоя нет). Работу ведёт lead-devops по вашему слову, три воркера Sonnet запущены в 06:40 WITA
 
 Ваши вопросы 1–8 решил lead-devops по вашему ночному разрешению (всё обратимо, только локально, утром можно отменить):
 плашка — да (фиксированный размер, при наведении только плотнее, шторка слева); мерж #117, #114, #115, #116 после зелёной сборки и тестов, без деплоя;
@@ -267,7 +267,7 @@ app@root.dev только локально; домены — модель PR #11
 | Бэкапы D-01: скрипты бэкапа и восстановления + runbook (на живой не ставились) | **смержен PR #118** (8537170d); лид сам повторил проверку восстановления: 37 = 37 строк | https://github.com/ivanprotsko/upready-store/pull/118, /Users/ivanprotsko/upready/projects/upready-store/deploy/backup/RUNBOOK.md |
 | #111 утечка между магазинами на живом | **закрыта**, проверено только чтением | /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w2/pr111-live-verdict.md |
 | Ряды товаров #115 и футер #116 | **смержены** (bc18c4a8, 48caab00); автотесты: корзина и чекаут 8/8, футер 2/2 | витрина на dev: http://cherkashino.localhost:8122/ru (поднимается к утру) | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w1-storefront-e2e-pdp.md, скриншоты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w1/ |
-| W2: A-05, D-02…D-06 | снова в работе с 08:00 | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w2-audit.md, результаты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w2/ |
+| Аудит High: A-05, D-02…D-06 | **смержен PR #120** (8ace6a96). A-05: уязвимостей 116 → 99, остаток лечится только крупным обновлением Medusa/Next. D-02/D-03: проверки в CI снова включены, но GitHub Actions отказывает по бюджету — решение за вами. D-04: инструкция по мониторингу, регистрация в бесплатном сервисе — ваш шаг. D-05: тесты панели 15/15. D-06: dependabot | https://github.com/ivanprotsko/upready-store/pull/120 | задание /Users/ivanprotsko/upready/prompts/2026-09-24-night-w2-audit.md, результаты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w2/ |
 | «Профиль» в панели (язык списком, «Пароль» + «Изменить» → панель, «Электронная почта», «Show password» по-русски) | **смержен PR #119** (c33651f6) | http://localhost:5382/settings/profile, скриншоты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w3/ |
 | Страница товара: автотесты корзины и чекаута (8/8), плашка, шторка слева | **смержен PR #114** (617547d1) | скриншоты /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/o-20260921-01/night-20260924/w1/ |
 
