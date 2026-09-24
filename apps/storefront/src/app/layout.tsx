@@ -13,6 +13,7 @@ import {
   getTenantThemePreset,
 } from "@lib/data/tenant-home"
 import StudioMount from "@modules/studio/components/studio-mount"
+import MiniAppBridge from "@modules/telegram/components/mini-app-bridge"
 import "styles/globals.css"
 
 // Per request: the base a relative metadata URL (an Open Graph image) resolves
@@ -130,6 +131,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             route group marks its own main content: `(main)/layout.tsx`, `(checkout)/layout.tsx`,
             `start/layout.tsx` and the root `not-found.tsx`. */}
         <div className="relative">{props.children}</div>
+        {/* Telegram Mini App bridge: inert in a browser, active only when a Telegram
+            client opened the page (src/modules/telegram/components/mini-app-bridge). */}
+        <MiniAppBridge />
         {/* Renders the hidden settings panel only for a browser that carries the
             studio cookie; null for everybody else, including the HTML of a visitor.
             Wrapped in its own NextIntlClientProvider: this root layout sits OUTSIDE the
