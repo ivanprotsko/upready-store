@@ -7,12 +7,22 @@
 
 .root {
   --h7-divider: #e4e4e7;
-  --h7-logo-pill: #f5f5f5;
+  /* The logo pill v3 (Ivan's remark 10, Header 227:9557 as of 2026-09-25 06:51): #f0f0f0
+     and a white 0.5px ring, both clear at rest, 80% / 75% scrolled; the text's white glow. */
+  --h7-logo-pill: rgba(240, 240, 240, 0.8);
+  --h7-logo-pill-ring: rgba(255, 255, 255, 0.75);
+  --h7-logo-glow: #ffffff;
+  --h7-logo-glow-half: rgba(255, 255, 255, 0.5);
 }
 
+/* Dark (no values from Ivan): the theme's muted surface at 80%, the bar's 16% white ring,
+   and the glow in the page colour, so the light wordmark keeps its contrast. */
 :global([data-mode="dark"]) .root {
   --h7-divider: var(--border);
-  --h7-logo-pill: var(--muted);
+  --h7-logo-pill: color-mix(in srgb, var(--muted) 80%, transparent);
+  --h7-logo-pill-ring: rgba(255, 255, 255, 0.16);
+  --h7-logo-glow: var(--background);
+  --h7-logo-glow-half: color-mix(in srgb, var(--background) 50%, transparent);
 }
 
 .bar {
@@ -201,12 +211,14 @@
 }
 
 .compactMain .wordmark {
+  height: 37px;
   padding: 0 8px;
   font-size: min(28px, calc((100cqi - 16px) / (var(--wm-chars, 6) * 0.72)));
 }
 
 @media (min-width: 640px) {
   .compactMain .wordmark {
+    height: 40px;
     padding: 0 16px;
     font-size: min(28px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
   }
@@ -269,15 +281,38 @@
 }
 
 /* ── `Scrolled=true` (227:9549 / 235:16802 / 238:16965) ─────────────────────────── */
+/* The logo pill is there in both states (Ivan's remark 10): clear at rest, frosted when
+   scrolled. The ring is in the pill's size, as the node's `strokesIncludedInLayout`. */
 .wordmark {
+  border: 0.5px solid transparent;
   border-radius: 32px;
+  background-color: rgba(240, 240, 240, 0);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   transition:
     background-color 200ms ease-out,
+    border-color 200ms ease-out,
+    box-shadow 200ms ease-out,
+    text-shadow 200ms ease-out,
     font-size 200ms ease-out;
 }
 
 .root[data-scrolled="true"] .wordmark {
-  background: var(--h7-logo-pill);
+  background-color: var(--h7-logo-pill);
+  border-color: var(--h7-logo-pill-ring);
+  box-shadow:
+    0 0 0 1px var(--h7-ring),
+    0 1px 2px 0 rgba(0, 0, 0, 0.12);
+  /* The node's eight white drop shadows on the text, offset 0. */
+  text-shadow:
+    0 0 1px var(--h7-logo-glow),
+    0 0 1px var(--h7-logo-glow),
+    0 0 1px var(--h7-logo-glow),
+    0 0 5px var(--h7-logo-glow-half),
+    0 0 15px var(--h7-logo-glow),
+    0 0 15px var(--h7-logo-glow),
+    0 0 15px var(--h7-logo-glow),
+    0 0 15px var(--h7-logo-glow);
 }
 
 .root[data-scrolled="true"] .main .wordmark {
@@ -285,16 +320,13 @@
 }
 
 .root[data-scrolled="true"] .compactMain .wordmark {
-  font-size: min(24px, calc((100cqi - 16px) / (var(--wm-chars, 6) * 0.72)));
-}
-
-.root[data-scrolled="true"] .compactMain .wordmark {
-  height: 37px;
+  padding: 0 12px;
+  font-size: min(24px, calc((100cqi - 24px) / (var(--wm-chars, 6) * 0.72)));
 }
 
 @media (min-width: 640px) {
   .root[data-scrolled="true"] .compactMain .wordmark {
-    height: 40px;
+    padding: 0 16px;
     font-size: min(24px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
   }
 }

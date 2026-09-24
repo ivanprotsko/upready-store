@@ -249,3 +249,38 @@ Pairs (`pixel/`): `<device>-header-{figma,render,overlay}` (top, mean |Δ| 2.5 /
 106.1 / 89.6 / 70.4 — the backdrop, not the controls), `<device>-header-scrolled-onwhite-*` (the scrolled skin
 over the white page top, mean |Δ| 2.6 / 3.6 / 4.1, before 3.7 / 4.9 / 10.0). Rule 27f: `header/`,
 `header-scrolled/` at 1440 / 768 / 390 light + dark, re-shot.
+
+## Remark 10 · logo pill v3 (Ivan 2026-09-25, Header 227:9557 modified 06:51 WITA)
+
+Values: Ivan's words verbatim + `/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/figma-2026-09-25-header-v3/logo-pill-v3-spec.md`
+(read by `GET /v1/files?ids=`; `/nodes` and `/images` are 429, so the Figma PNG exports in `pixel/` are still the
+round-2 frames — the pill there is the old #f5f5f5 one). Ivan's explicit numbers win over the node (ring .75,
+blur 10px in both states), the shadows come from the node. The pill exists in both states on all devices; the
+old #f5f5f5 fill is gone; transitions 200ms like the other scrolled properties; the bar geometry is unchanged
+(the node's desktop scrolled 56 / 12 is waiting for Ivan).
+
+| Property | Node / Ivan | Render (computed, light) | Δ |
+|---|---|---|---|
+| Rest fill · ring · blur | rgba(240,240,240,0) · 0.5px rgba(255,255,255,0) · blur(10px) | same | 0 |
+| Scrolled fill · ring · blur | rgba(240,240,240,.8) · 0.5px rgba(255,255,255,.75) · blur(10px) | same (Chromium reports the 0.5px width as 1px; the layout uses 0.5) | 0 |
+| Scrolled pill shadow | 0 0 0 1px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.12) | same | 0 |
+| Scrolled text shadow | 3 × 0 0 1px #fff, 0 0 5px rgba(255,255,255,.5), 4 × 0 0 15px #fff | same, 8 layers | 0 |
+| Rest text | #1a1b09, no effects | rgb(26,27,9), none | 0 |
+| Pill d / t / m rest | 172×40 / 155×40 / 139×37 (padding 16 / 16 / 8, stroke 1 in layout) | 171.6×40 / 154.4×40 / 138.4×37 | −0.5: Ivan's 0.5px ring vs the node's 1px |
+| Pill d / t / m scrolled | 137×40 / 137×40 / 129×37 (padding 16 / 16 / 12) | 137.2×40 / 137.2×40 / 129.2×37 | +0.2 |
+
+Dark (no values from Ivan): fill `color-mix(var(--muted) 80%)` = rgb(24,36,32) at 0.8, ring rgba(255,255,255,.16)
+(the bar's dark ring), pill shadow ring rgba(255,255,255,.16) + 0 1px 2px rgba(0,0,0,.12), text glow in the page
+colour `var(--background)` #0a1310 (a white glow around the light wordmark would wash it out).
+
+Remark 7 holds — caps centre − controls centre, glyph pixels at dpr 4:
+
+| Width | rest light / dark | scrolled light / dark |
+|---|---|---|
+| 1216 | 0 / −0.12 | −0.12 / −0.12 |
+| 720 | −0.12 / 0 | −0.12 / −0.12 |
+| 360 | −0.37 / −0.37 | −0.12 / −0.12 |
+
+Pairs against the round-2 exports (mean |Δ|): top 2.5 / 2.9 / 5.0; scrolled on white 2.9 / 4.2 / 12.4 (mobile:
+the new pill is 129 wide with padding 12, the export's is 120); scrolled over the banners 106.7 / 91.0 / 76.5.
+Close-ups `logo-pill-v3/1216-scrolled-{light,dark}-x3.png`; 27f `header/`, `header-scrolled/` re-shot.
