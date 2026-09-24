@@ -3,6 +3,7 @@ import Tenant from "./models/tenant";
 import TenantAdmin from "./models/tenant-admin";
 import TenantArticle from "./models/tenant-article";
 import TenantDomain from "./models/tenant-domain";
+import TenantGroup from "./models/tenant-group";
 import TenantHandleAlias from "./models/tenant-handle-alias";
 import TenantHomeConfig from "./models/tenant-home-config";
 import TenantIntegrationSecret from "./models/tenant-integration-secret";
@@ -18,6 +19,7 @@ import TenantRequisites from "./models/tenant-requisites";
 
 class TenantModuleService extends MedusaService({
   Tenant,
+  TenantGroup,
   TenantAdmin,
   TenantPage,
   TenantArticle,

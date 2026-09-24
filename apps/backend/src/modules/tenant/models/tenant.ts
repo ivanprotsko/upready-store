@@ -2,6 +2,7 @@ import { model } from "@medusajs/framework/utils";
 import TenantAdmin from "./tenant-admin";
 import TenantArticle from "./tenant-article";
 import TenantDomain from "./tenant-domain";
+import TenantGroup from "./tenant-group";
 import TenantHandleAlias from "./tenant-handle-alias";
 import TenantHomeConfig from "./tenant-home-config";
 import TenantIntegrationSecret from "./tenant-integration-secret";
@@ -33,6 +34,14 @@ const Tenant = model.define("tenant", {
   handle: model.text().unique(),
   name: model.text(),
   metadata: model.json().nullable(),
+  // The client this site belongs to, when the client has several sites
+  // (`tenant-group.ts`, t-2026-09-24-n12). Null for a shop with one site,
+  // which is every shop created before groups existed.
+  group: model
+    .belongsTo(() => TenantGroup, {
+      mappedBy: "tenants",
+    })
+    .nullable(),
   admins: model.hasMany(() => TenantAdmin, {
     mappedBy: "tenant",
   }),

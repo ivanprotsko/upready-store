@@ -4,6 +4,7 @@ import { ContainerRegistrationKeys, generateJwtToken, MedusaError, Modules } fro
 import { TENANT_ACTOR_TYPE, TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
 import type { PostTenantSwitchShopBody } from "../../validators";
+import { listGroupTenants, readCallerTenant } from "../group-sites";
 
 const ENTITY_ID_KEY = `${TENANT_ACTOR_TYPE}_id`;
 const PROVIDER = "emailpass";
@@ -25,25 +26,29 @@ const PROVIDER = "emailpass";
  * (what `req.auth_context.actor_id` reads back on the next request). That
  * `app_metadata` is also PERSISTED on the auth identity, so the next plain
  * login opens the shop last switched to, not the shop first registered in.
+ *
+ * t-2026-09-24-n12 (`docs/multitenancy/sites-one-db-many-storefronts.md`
+ * §3.1): a tenant of the caller's own group is the second reason a switch is
+ * allowed. The design named that `POST /tenants/switch/:tenantId`; it is this
+ * route instead, so the panel keeps one switcher. The token's actor has to be
+ * a `tenant_admin` row of the target (every `/tenants/*` route resolves the
+ * tenant from it), so the first switch into a sibling site creates the
+ * caller's row there, same email and name, marked `metadata.via_group` with
+ * the group id. A tenant outside the group, like any tenant the email has no
+ * row in, keeps answering the same `403` for an existing and an unknown id
+ * alike, which tells the caller nothing a `404` would hide.
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<PostTenantSwitchShopBody>,
   res: MedusaResponse,
 ) => {
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
   const configModule = req.scope.resolve(ContainerRegistrationKeys.CONFIG_MODULE);
   const authModuleService: IAuthModuleService = req.scope.resolve(Modules.AUTH);
   const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
 
   const { tenant_id } = req.validatedBody;
 
-  const {
-    data: [caller],
-  } = await query.graph({
-    entity: "tenant_admin",
-    fields: ["id", "email"],
-    filters: { id: [req.auth_context.actor_id] },
-  });
+  const caller = await readCallerTenant(req.scope, req.auth_context.actor_id);
 
   if (!caller) {
     throw new MedusaError(
@@ -52,13 +57,25 @@ export const POST = async (
     );
   }
 
-  const [target] = await tenantModuleService.listTenantAdmins({
-    email: caller.email as string,
+  let [target] = await tenantModuleService.listTenantAdmins({
+    email: caller.email,
     tenant_id,
   });
 
   if (!target) {
-    throw new MedusaError(MedusaError.Types.FORBIDDEN, `No access to tenant "${tenant_id}".`);
+    const siblings = await listGroupTenants(req.scope, caller.group_id);
+
+    if (!siblings.some((tenant) => tenant.id === tenant_id)) {
+      throw new MedusaError(MedusaError.Types.FORBIDDEN, `No access to tenant "${tenant_id}".`);
+    }
+
+    target = await tenantModuleService.createTenantAdmins({
+      email: caller.email,
+      first_name: caller.first_name,
+      last_name: caller.last_name,
+      tenant_id,
+      metadata: { via_group: caller.group_id },
+    });
   }
 
   const authIdentityId = req.auth_context.auth_identity_id;
