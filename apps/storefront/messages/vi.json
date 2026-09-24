@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Tài khoản",
     "addresses": "Địa chỉ",
+    "courses": "Khóa học",
     "logOut": "Đăng xuất",
     "orders": "Đơn hàng",
     "overview": "Tổng quan",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Trang này đi kèm starter dưới dạng văn bản mẫu. Hãy thay bằng nội dung của bạn trước khi ra mắt."
   },
+  "CourseBlock": {
+    "heading": "Chương trình khóa học",
+    "progress": "Đã hoàn thành {completed}/{total} bài học",
+    "markViewed": "Đánh dấu đã xem",
+    "lessonViewed": "Đã xem",
+    "locked": "Bài học đã khóa",
+    "lockedHint": "Mua khóa học tại trang sản phẩm để mở khóa các bài học.",
+    "backToCourse": "Quay lại khóa học",
+    "lessonLabel": "Bài học {order}",
+    "prev": "Bài học trước",
+    "next": "Bài học tiếp theo",
+    "finish": "Hoàn thành khóa học"
+  },
+  "CoursesPage": {
+    "heading": "Khóa học của tôi",
+    "description": "Các khóa học bạn đã mua và tiến độ của bạn trong đó.",
+    "empty": "Bạn chưa mua khóa học nào.",
+    "start": "Bắt đầu",
+    "continue": "Tiếp tục",
+    "review": "Ôn lại"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -594,6 +616,10 @@
     "contact": {
       "description": "Liên hệ với chúng tôi về đơn hàng, sản phẩm hoặc bất kỳ điều gì khác.",
       "title": "Liên hệ"
+    },
+    "courses": {
+      "title": "Khóa học của tôi",
+      "description": "Các khóa học bạn đã mua và tiến độ của bạn trong đó."
     },
     "customerService": {
       "description": "Giải đáp những câu hỏi thường gặp nhất và cách liên hệ với chúng tôi.",

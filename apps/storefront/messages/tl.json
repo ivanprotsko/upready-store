@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Account",
     "addresses": "Mga Address",
+    "courses": "Mga kurso",
     "logOut": "Mag-log out",
     "orders": "Mga Order",
     "overview": "Buod",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Kasama ang pahinang ito sa starter bilang halimbawang teksto. Palitan ito ng sarili mo bago mag-live."
   },
+  "CourseBlock": {
+    "heading": "Programa ng kurso",
+    "progress": "{completed}/{total} aralin ang tapos na",
+    "markViewed": "Markahan bilang napanood",
+    "lessonViewed": "Napanood na",
+    "locked": "Naka-lock ang aralin",
+    "lockedHint": "Bilhin ang kurso sa page ng produkto upang ma-unlock ang mga aralin.",
+    "backToCourse": "Bumalik sa kurso",
+    "lessonLabel": "Aralin {order}",
+    "prev": "Nakaraang aralin",
+    "next": "Susunod na aralin",
+    "finish": "Tapusin ang kurso"
+  },
+  "CoursesPage": {
+    "heading": "Aking mga kurso",
+    "description": "Ang mga kursong binili mo at ang iyong progreso sa mga ito.",
+    "empty": "Wala ka pang binibiling kurso.",
+    "start": "Simulan",
+    "continue": "Ipagpatuloy",
+    "review": "Balikan"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -594,6 +616,10 @@
     "contact": {
       "description": "Mag-message sa amin tungkol sa order, produkto o kahit ano pa.",
       "title": "Kontak"
+    },
+    "courses": {
+      "title": "Aking mga kurso",
+      "description": "Ang mga kursong binili mo at ang iyong progreso sa mga ito."
     },
     "customerService": {
       "description": "Mga sagot sa pinakamadalas na tanong at kung paano kami makokontak.",

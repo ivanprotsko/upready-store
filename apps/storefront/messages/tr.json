@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Hesap",
     "addresses": "Adresler",
+    "courses": "Kurslar",
     "logOut": "Çıkış yap",
     "orders": "Siparişler",
     "overview": "Genel Bakış",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Bu sayfa starter ile birlikte örnek metin olarak gelir. Yayına almadan önce kendi metninizle değiştirin."
   },
+  "CourseBlock": {
+    "heading": "Kurs programı",
+    "progress": "{completed}/{total} ders tamamlandı",
+    "markViewed": "İzlendi olarak işaretle",
+    "lessonViewed": "İzlendi",
+    "locked": "Ders kilitli",
+    "lockedHint": "Dersleri açmak için kursu ürün sayfasından satın alın.",
+    "backToCourse": "Kursa dön",
+    "lessonLabel": "Ders {order}",
+    "prev": "Önceki ders",
+    "next": "Sonraki ders",
+    "finish": "Kursu bitir"
+  },
+  "CoursesPage": {
+    "heading": "Kurslarım",
+    "description": "Satın aldığınız kurslar ve bunlardaki ilerlemeniz.",
+    "empty": "Henüz hiç kurs satın almadınız.",
+    "start": "Başla",
+    "continue": "Devam et",
+    "review": "Tekrar et"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -594,6 +616,10 @@
     "contact": {
       "description": "Sipariş, ürün veya başka bir konu için bize yazın.",
       "title": "İletişim"
+    },
+    "courses": {
+      "title": "Kurslarım",
+      "description": "Satın aldığınız kurslar ve bunlardaki ilerlemeniz."
     },
     "customerService": {
       "description": "En sık gelen soruların yanıtları ve bize ulaşma yolları.",

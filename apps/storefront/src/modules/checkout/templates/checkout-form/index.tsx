@@ -4,6 +4,7 @@ import { getCountryCode } from "@lib/data/cookies"
 import { getLegalLinkContext } from "@lib/data/legal-links"
 import { legalHref } from "@lib/util/legal-links"
 import { retrieveCustomerAddresses } from "@lib/data/customer"
+import { isDigitalDeliveryCart } from "@lib/util/shipping-address"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutShippingSection from "@modules/checkout/components/checkout-shipping-section"
 import CheckoutInfoRows from "@modules/checkout/components/checkout-info-rows"
@@ -47,24 +48,33 @@ export default async function CheckoutForm({
     cart.region?.countries?.[0]?.iso_2 ||
     ""
 
+  // o24-courses: a cart of only digital products has its delivery already
+  // decided (`ensureDigitalDelivery`, called by the checkout page before this
+  // template renders) — no shipping-method picker, no pickup sheet, no
+  // address row, just the contacts row `CheckoutInfoRows` still shows.
+  const isDigital = isDigitalDeliveryCart(cart)
+
   return (
     <div className="flex flex-col px-4 py-6 lg:pe-10 lg:py-10 lg:ps-0 gap-y-6">
       {!customer && <SignInPrompt />}
 
       <PickupSheetProvider cart={cart} shippingOptions={shippingOptions}>
-        <CheckoutShippingSection
-          cart={cart}
-          availableShippingOptions={shippingOptions}
-          regions={regions ?? []}
-          currentCountry={resolvedCountry}
-        />
+        {!isDigital && (
+          <CheckoutShippingSection
+            cart={cart}
+            availableShippingOptions={shippingOptions}
+            regions={regions ?? []}
+            currentCountry={resolvedCountry}
+          />
+        )}
         <CheckoutInfoRows
           cart={cart}
           customer={customer}
           addresses={addresses}
           availableShippingMethods={shippingOptions}
+          isDigital={isDigital}
         />
-        <CheckoutPickupPointSheet />
+        {!isDigital && <CheckoutPickupPointSheet />}
       </PickupSheetProvider>
 
       <CheckoutItemList cart={cart} />
@@ -72,12 +82,18 @@ export default async function CheckoutForm({
       {(shippingLink || returnsLink) && (
         <div className="hidden lg:flex gap-x-4 mt-auto">
           {shippingLink && (
-            <Link href={shippingLink} className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors">
+            <Link
+              href={shippingLink}
+              className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
+            >
               {t("shippingLink")}
             </Link>
           )}
           {returnsLink && (
-            <Link href={returnsLink} className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors">
+            <Link
+              href={returnsLink}
+              className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
+            >
               {t("returnsLink")}
             </Link>
           )}

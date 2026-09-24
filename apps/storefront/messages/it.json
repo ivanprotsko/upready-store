@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Account",
     "addresses": "Indirizzi",
+    "courses": "Corsi",
     "logOut": "Esci",
     "orders": "Ordini",
     "overview": "Panoramica",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Questa pagina arriva con lo starter come testo di esempio. Sostituiscilo con il tuo prima della pubblicazione."
   },
+  "CourseBlock": {
+    "heading": "Programma del corso",
+    "progress": "{completed}/{total} lezioni completate",
+    "markViewed": "Segna come visto",
+    "lessonViewed": "Visto",
+    "locked": "Lezione bloccata",
+    "lockedHint": "Acquista il corso nella sua pagina prodotto per sbloccare le lezioni.",
+    "backToCourse": "Torna al corso",
+    "lessonLabel": "Lezione {order}",
+    "prev": "Lezione precedente",
+    "next": "Lezione successiva",
+    "finish": "Termina corso"
+  },
+  "CoursesPage": {
+    "heading": "I miei corsi",
+    "description": "I corsi che hai acquistato e i tuoi progressi.",
+    "empty": "Non hai ancora acquistato nessun corso.",
+    "start": "Inizia",
+    "continue": "Continua",
+    "review": "Rivedi"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -594,6 +616,10 @@
     "contact": {
       "description": "Scrivici per un ordine, un prodotto o qualsiasi altra cosa.",
       "title": "Contatti"
+    },
+    "courses": {
+      "title": "I miei corsi",
+      "description": "I corsi che hai acquistato e i tuoi progressi."
     },
     "customerService": {
       "description": "Le risposte alle domande più frequenti e i modi per contattarci.",

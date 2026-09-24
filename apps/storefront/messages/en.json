@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Account",
     "addresses": "Addresses",
+    "courses": "Courses",
     "logOut": "Log out",
     "orders": "Orders",
     "overview": "Overview",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "This page ships with the starter as placeholder text. Replace it with your own before you go live."
   },
+  "CourseBlock": {
+    "heading": "Course programme",
+    "progress": "{completed}/{total} lessons completed",
+    "markViewed": "Mark as viewed",
+    "lessonViewed": "Viewed",
+    "locked": "Lesson locked",
+    "lockedHint": "Buy the course on its product page to unlock the lessons.",
+    "backToCourse": "Back to course",
+    "lessonLabel": "Lesson {order}",
+    "prev": "Previous lesson",
+    "next": "Next lesson",
+    "finish": "Finish course"
+  },
+  "CoursesPage": {
+    "heading": "My courses",
+    "description": "The courses you bought and your progress in each.",
+    "empty": "You have not bought any courses yet.",
+    "start": "Start",
+    "continue": "Continue",
+    "review": "Review"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -594,6 +616,10 @@
     "contact": {
       "description": "Get in touch about an order, a product or anything else.",
       "title": "Contact"
+    },
+    "courses": {
+      "title": "My courses",
+      "description": "The courses you bought and your progress in each."
     },
     "customerService": {
       "description": "Answers to the questions we get most often, and how to reach us.",

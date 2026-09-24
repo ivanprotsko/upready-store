@@ -16,7 +16,11 @@ interface CheckoutInfoRowsProps {
   cart: HttpTypes.StoreCart
   customer: HttpTypes.StoreCustomer | null
   addresses: HttpTypes.StoreCustomerAddress[] | null
-  availableShippingMethods: HttpTypes.StoreCartShippingOptionWithServiceZone[] | null
+  availableShippingMethods:
+    | HttpTypes.StoreCartShippingOptionWithServiceZone[]
+    | null
+  /** o24-courses: a digital-only cart has no delivery address row at all. */
+  isDigital?: boolean
 }
 
 export default function CheckoutInfoRows({
@@ -24,6 +28,7 @@ export default function CheckoutInfoRows({
   customer,
   addresses,
   availableShippingMethods,
+  isDigital,
 }: CheckoutInfoRowsProps) {
   const t = useTranslations("CheckoutPage")
   const tPickup = useTranslations("PickupPoint")
@@ -34,7 +39,8 @@ export default function CheckoutInfoRows({
   const addr = cart.shipping_address
   const meta = cart.metadata as Record<string, string> | null
 
-  const selectedShippingOptionId = cart.shipping_methods?.at(-1)?.shipping_option_id
+  const selectedShippingOptionId =
+    cart.shipping_methods?.at(-1)?.shipping_option_id
   const selectedShippingOption = availableShippingMethods?.find(
     (option) => option.id === selectedShippingOptionId
   )
@@ -66,67 +72,73 @@ export default function CheckoutInfoRows({
 
   return (
     <div className="flex flex-col gap-y-6">
-      <div className="h-px bg-ui-border-base w-full" />
+      {!isDigital && (
+        <>
+          <div className="h-px bg-ui-border-base w-full" />
 
-      {isPickup ? (
-        <button
-          onClick={openPickupSheet}
-          className="flex items-center justify-between w-full gap-x-2 py-2 text-start"
-          data-testid="checkout-pickup-point-row"
-        >
-          <div className="flex items-center gap-x-2 min-w-0">
-            <span className="flex-shrink-0 text-ui-fg-base">
-              <MapPin size={24} />
-            </span>
-            <div className="flex flex-col min-w-0">
-              <h2 className="h2-docs text-ui-fg-muted">{tPickup("label")}</h2>
-              {hasPickupPoint ? (
-                <>
-                  <span className="txt-small text-ui-fg-base">
-                    {pickupPointName}
-                  </span>
-                  <span className="txt-small text-ui-fg-subtle">
-                    {pickupPointAddress}
-                  </span>
-                  {pickupPointHours && (
-                    <span className="txt-small text-ui-fg-subtle flex items-center gap-x-1">
-                      <Clock className="h-3.5 w-3.5 shrink-0" />
-                      {pickupPointHours}
+          {isPickup ? (
+            <button
+              onClick={openPickupSheet}
+              className="flex items-center justify-between w-full gap-x-2 py-2 text-start"
+              data-testid="checkout-pickup-point-row"
+            >
+              <div className="flex items-center gap-x-2 min-w-0">
+                <span className="flex-shrink-0 text-ui-fg-base">
+                  <MapPin size={24} />
+                </span>
+                <div className="flex flex-col min-w-0">
+                  <h2 className="h2-docs text-ui-fg-muted">
+                    {tPickup("label")}
+                  </h2>
+                  {hasPickupPoint ? (
+                    <>
+                      <span className="txt-small text-ui-fg-base">
+                        {pickupPointName}
+                      </span>
+                      <span className="txt-small text-ui-fg-subtle">
+                        {pickupPointAddress}
+                      </span>
+                      {pickupPointHours && (
+                        <span className="txt-small text-ui-fg-subtle flex items-center gap-x-1">
+                          <Clock className="h-3.5 w-3.5 shrink-0" />
+                          {pickupPointHours}
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <span className="txt-small text-ui-fg-muted">
+                      {tPickup("choose")}
                     </span>
                   )}
-                </>
-              ) : (
-                <span className="txt-small text-ui-fg-muted">
-                  {tPickup("choose")}
+                </div>
+              </div>
+              <ChevronRight className="text-ui-fg-base flex-shrink-0 rtl:rotate-180" />
+            </button>
+          ) : (
+            <button
+              onClick={() => setAddressOpen(true)}
+              className="flex items-center justify-between w-full gap-x-2 py-2 text-start"
+              data-testid="checkout-address-row"
+            >
+              <div className="flex items-center gap-x-2">
+                <span className="flex-shrink-0 text-ui-fg-base">
+                  <MapPin size={24} />
                 </span>
-              )}
-            </div>
-          </div>
-          <ChevronRight className="text-ui-fg-base flex-shrink-0 rtl:rotate-180" />
-        </button>
-      ) : (
-        <button
-          onClick={() => setAddressOpen(true)}
-          className="flex items-center justify-between w-full gap-x-2 py-2 text-start"
-          data-testid="checkout-address-row"
-        >
-          <div className="flex items-center gap-x-2">
-            <span className="flex-shrink-0 text-ui-fg-base">
-              <MapPin size={24} />
-            </span>
-            <div className="flex flex-col">
-              <h2 className="h2-docs text-ui-fg-muted">
-                {t("addressHeading")}
-              </h2>
-              {addressText && (
-                <span className="txt-small text-ui-fg-base">
-                  {addressText}
-                </span>
-              )}
-            </div>
-          </div>
-          <ChevronRight className="text-ui-fg-base flex-shrink-0 rtl:rotate-180" />
-        </button>
+                <div className="flex flex-col">
+                  <h2 className="h2-docs text-ui-fg-muted">
+                    {t("addressHeading")}
+                  </h2>
+                  {addressText && (
+                    <span className="txt-small text-ui-fg-base">
+                      {addressText}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <ChevronRight className="text-ui-fg-base flex-shrink-0 rtl:rotate-180" />
+            </button>
+          )}
+        </>
       )}
 
       <div className="h-px bg-ui-border-base w-full" />

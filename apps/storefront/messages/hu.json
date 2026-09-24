@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Fiók",
     "addresses": "Címek",
+    "courses": "Kurzusok",
     "logOut": "Kijelentkezés",
     "orders": "Rendelések",
     "overview": "Áttekintés",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "Ez az oldal mintaszövegként érkezik a starterrel. Cserélje le a sajátjára az indulás előtt."
   },
+  "CourseBlock": {
+    "heading": "Kurzus programja",
+    "progress": "{completed}/{total} lecke elvégezve",
+    "markViewed": "Megtekintettnek jelölés",
+    "lessonViewed": "Megtekintve",
+    "locked": "A lecke zárolva van",
+    "lockedHint": "Vásárolja meg a kurzust a termékoldalon a leckék feloldásához.",
+    "backToCourse": "Vissza a kurzushoz",
+    "lessonLabel": "{order}. lecke",
+    "prev": "Előző lecke",
+    "next": "Következő lecke",
+    "finish": "Kurzus befejezése"
+  },
+  "CoursesPage": {
+    "heading": "Kurzusaim",
+    "description": "Az Ön által megvásárolt kurzusok és az azokban elért haladása.",
+    "empty": "Még nem vásárolt kurzust.",
+    "start": "Kezdés",
+    "continue": "Folytatás",
+    "review": "Ismétlés"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -594,6 +616,10 @@
     "contact": {
       "description": "Írjon nekünk rendeléssel, termékkel vagy bármi mással kapcsolatban.",
       "title": "Kapcsolat"
+    },
+    "courses": {
+      "title": "Kurzusaim",
+      "description": "Az Ön által megvásárolt kurzusok és az azokban elért haladása."
     },
     "customerService": {
       "description": "Válaszok a leggyakoribb kérdésekre és elérhetőségeink.",

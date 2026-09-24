@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "アカウント",
     "addresses": "住所",
+    "courses": "コース",
     "logOut": "ログアウト",
     "orders": "注文履歴",
     "overview": "概要",
@@ -313,6 +314,27 @@
     ],
     "placeholder": "このページはスターターに付属するサンプルテキストです。公開前にご自身の内容に差し替えてください。"
   },
+  "CourseBlock": {
+    "heading": "コースのプログラム",
+    "progress": "{completed}/{total} レッスン完了",
+    "markViewed": "視聴済みにする",
+    "lessonViewed": "視聴済み",
+    "locked": "レッスンはロックされています",
+    "lockedHint": "レッスンのロックを解除するには、商品ページでコースを購入してください。",
+    "backToCourse": "コースに戻る",
+    "lessonLabel": "レッスン {order}",
+    "prev": "前のレッスン",
+    "next": "次のレッスン",
+    "finish": "コースを終了"
+  },
+  "CoursesPage": {
+    "heading": "マイコース",
+    "description": "購入したコースとその進捗状況です。",
+    "empty": "まだコースを購入していません。",
+    "start": "開始",
+    "continue": "続ける",
+    "review": "復習"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -594,6 +616,10 @@
     "contact": {
       "description": "ご注文や商品など、どんなことでもご連絡ください。",
       "title": "お問い合わせ"
+    },
+    "courses": {
+      "title": "マイコース",
+      "description": "購入したコースとその進捗状況です。"
     },
     "customerService": {
       "description": "よくいただくご質問への回答と、お問い合わせ方法をご案内します。",
