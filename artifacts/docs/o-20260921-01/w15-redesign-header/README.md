@@ -11,6 +11,7 @@ URL: http://olavka-com.localhost:8233/ru (also /ru/store, /ru/account; 390 wide 
 | Stage | Commit | State |
 |---|---|---|
 | Groundwork, no mockup yet | 7e2631b1 | h7 header + Cover / Navigation / HeroSlider wired and rendering with real tenant data; layout neutral, to be reshaped after the Figma node |
+| Demo clean-up after Ivan's first look | (see git log) | The composed hero k no longer renders under the new blocks (Cover takes its place; tiles and listing stay); the slider is three category slides, the shop's promo is shown once, in the Cover. **The header is visually = h2 until the mockup arrives** — no design was invented for it. |
 
 Figma node `227-8180` of `2zPDDEfMdYM1tbv5xKfnLX` was NOT readable while this was built: the Superset browser
 pane hits Figma's login wall and the stored REST token answers 401/403. `figma/` stays empty until a PNG export
@@ -26,8 +27,8 @@ or access arrives; the lead asked Ivan for one (poll 19).
   (+ `olavka-hero-slider-carousel.tsx` client island, `olavka-hero-slider.module.css`), types in `olavka-types.ts`,
   data in `apps/storefront/src/lib/data/olavka-home.ts`. `home/variants/index.ts` `DEMO_HOME_ORDER` renders the three
   above the tenant's own composed blocks from `(main)/page.tsx`.
-- HeroSlider data: the tenant document has no `slides` field, so the list is assembled from real data (the tenant's
-  hero, then three top-level categories illustrated by one of their own product thumbnails). TODO for the panel:
+- HeroSlider data: the tenant document has no `slides` field, so the list is assembled from real data (three top-level
+  categories illustrated by one of their own product thumbnails; the tenant's hero is the Cover, not a slide). TODO for the panel:
   a slides editor whose rows map onto `OlavkaHeroSlide`.
 - Strings `OlavkaHome.slider.*` exist in `messages/en.json` and `messages/ru.json`; the other 34 catalogs are a
   Locale-stage TODO (`scripts/messages-fill-from-en.mjs`).

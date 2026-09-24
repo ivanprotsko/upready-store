@@ -1,12 +1,8 @@
 "use server"
 
-import { getLocale } from "next-intl/server"
-
 import { listCategories } from "./categories"
 import { getHomeRegion } from "./home"
 import { listProducts } from "./products"
-import { getTenantHome } from "./tenant-home"
-import { localizedHero } from "@lib/util/localized-hero"
 import { categoryImage } from "@lib/util/category-image"
 import type { OlavkaHeroSlide, OlavkaNavItem } from "@modules/home/variants/olavka-types"
 
@@ -32,39 +28,21 @@ export async function getOlavkaNavItems(): Promise<OlavkaNavItem[]> {
     }))
 }
 
-/** How many category slides follow the tenant's own hero slide. */
+/** How many category slides the slider shows. */
 const CATEGORY_SLIDES = 3
 
 /**
  * Slides for the hero slider — see `OlavkaHeroSlide`'s TODO: assembled from real tenant
- * data, never invented copy. Slide 1 is the tenant's hero (its home document, in the
- * visitor's language); the next `CATEGORY_SLIDES` are the first top-level categories,
- * each illustrated by the thumbnail of one of its own products (the tenant's categories
- * carry no `image_url` today — measured on stand `cherkashino`, 2026-09-24). A category
- * with no photographed product still makes a slide, with no image.
+ * data, never invented copy. The first `CATEGORY_SLIDES` top-level categories, each
+ * illustrated by the thumbnail of one of its own products (the tenant's categories carry
+ * no `image_url` today — measured on stand `cherkashino`, 2026-09-24). A category with no
+ * photographed product still makes a slide, with no image.
+ *
+ * The tenant's own hero is NOT a slide: the Cover block above the slider already shows it,
+ * and the same promo twice on one screen was the first thing Ivan noticed (2026-09-24).
  */
 export async function getOlavkaHeroSlides(): Promise<OlavkaHeroSlide[]> {
-  const [locale, home, region, nav] = await Promise.all([
-    getLocale(),
-    getTenantHome(),
-    getHomeRegion(),
-    getOlavkaNavItems(),
-  ])
-
-  const slides: OlavkaHeroSlide[] = []
-
-  const hero = localizedHero(home?.content.hero, locale)
-  if (hero?.title) {
-    slides.push({
-      id: "tenant-hero",
-      source: "tenant-hero",
-      title: hero.title,
-      subtitle: hero.subtitle || null,
-      ctaLabel: hero.cta_label || null,
-      ctaHref: hero.cta_href || null,
-      image: hero.image_url || null,
-    })
-  }
+  const [region, nav] = await Promise.all([getHomeRegion(), getOlavkaNavItems()])
 
   const picked = nav.slice(0, CATEGORY_SLIDES)
   const thumbnails = region
@@ -80,17 +58,13 @@ export async function getOlavkaHeroSlides(): Promise<OlavkaHeroSlide[]> {
       )
     : picked.map(() => null)
 
-  picked.forEach((item, index) => {
-    slides.push({
-      id: item.handle,
-      source: "category",
-      title: item.name,
-      subtitle: null,
-      ctaLabel: null,
-      ctaHref: `/categories/${item.handle}`,
-      image: item.image ?? thumbnails[index],
-    })
-  })
-
-  return slides
+  return picked.map((item, index) => ({
+    id: item.handle,
+    source: "category",
+    title: item.name,
+    subtitle: null,
+    ctaLabel: null,
+    ctaHref: `/categories/${item.handle}`,
+    image: item.image ?? thumbnails[index],
+  }))
 }

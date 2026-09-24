@@ -164,9 +164,16 @@ export default async function Home() {
       }
     : {}
 
-  const order: readonly HomeBlockKey[] = home?.content.order?.length
+  const savedOrder: readonly HomeBlockKey[] = home?.content.order?.length
     ? home.content.order
     : DEFAULT_BLOCK_ORDER
+  // Branch-local demo (`redesign-olavka`): the Cover block above takes the hero's place, so
+  // the composed hero is skipped while `DEMO_HOME_ORDER` is on — Ivan saw three heroes on
+  // one page (2026-09-24). Tiles and listing keep rendering below the new blocks. With the
+  // demo list empty this is the saved order, untouched.
+  const order: readonly HomeBlockKey[] = DEMO_HOME_ORDER.length
+    ? savedOrder.filter((block) => block !== "hero")
+    : savedOrder
 
   const blocks: Record<HomeBlockKey, React.ReactNode> = {
     hero: Hero ? <Hero {...heroProps} /> : null,

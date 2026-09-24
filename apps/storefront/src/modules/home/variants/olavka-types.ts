@@ -7,16 +7,16 @@
 
 /**
  * One slide of the hero slider. TODO(panel editor): today the list is ASSEMBLED
- * (`lib/data/olavka-home.ts`) — the tenant's hero from its home document first, then
- * top-level categories illustrated by one of their own product photographs — because the
- * tenant document (`upready.tenant-home/v1`) has no `slides` field yet. When the panel
- * grows a slides editor, its rows map 1:1 onto this shape and the assembly goes away.
+ * (`lib/data/olavka-home.ts`) — top-level categories illustrated by one of their own
+ * product photographs — because the tenant document (`upready.tenant-home/v1`) has no
+ * `slides` field yet. When the panel grows a slides editor, its rows map 1:1 onto this
+ * shape (with `source: "custom"` for owner-written slides) and the assembly goes away.
  */
 export type OlavkaHeroSlide = {
   /** Stable key — the hero's own id or the category handle. */
   id: string
   /** Where the slide came from; the carousel reads it only for `data-*` attributes. */
-  source: "tenant-hero" | "category"
+  source: "category"
   title: string
   subtitle: string | null
   ctaLabel: string | null
