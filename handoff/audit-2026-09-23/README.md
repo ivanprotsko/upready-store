@@ -93,7 +93,16 @@
   `deleteTenantAdmins`); агент аудита читал только `index.ts`, где шаги импортируются из `./steps`. Находка неверна, High → снята.
   Итог High по проекту: 12, а не 13.
 - **Закрыто в PR #117** (ветка `hotfix/audit-2026-09-23-batch-1`, ждёт «мержи» Ивана): A-01/A-02, A-06/C-02, A-03, B-01, C-01, A-04.
-  Остаются открытыми из High: A-05 (зависимости, нужен `pnpm install`), D-02/D-03 (бюджет Actions, решение Ивана), D-04, D-05, D-06; Critical D-01 (бэкапы).
+- **Закрыто в ветке `hotfix/audit-2026-09-24-high`** (t-2026-09-24-n2): A-05 — прямые зависимости подняты (`nodemailer` ^6.10.1 → ^10.0.10,
+  `lodash` ^4.17.21 → ^4.18.1 в `apps/storefront` плюс `pnpm.overrides` до `>=4.18.1` для транзитивного `lodash@4.17.21` через
+  `@medusajs/cli>…>@graphql-codegen/plugin-helpers`, `sharp` через `pnpm.overrides` до `>=0.35.4` вместо транзитивного `0.34.5` из `next`).
+  `pnpm audit --prod --json`: 0 находок по всем трём пакетам после фикса (было critical 3 / high 54 / moderate 52 / low 7 → стало
+  critical 3 / high 48 / moderate 42 / low 6). Остаток — транзитивный `protobufjs` через `@opentelemetry/sdk-node` и другие пакеты из
+  `@medusajs/*`/`next`/сборочного тулинга, не закрывается точечным бампом, отдельная задача на апгрейд Medusa. `tsc --noEmit` зелёный в
+  `apps/backend` и `apps/storefront`; `@types/nodemailer@^6.4.24` оставлен как есть — nodemailer сам своих типов не поставляет (`types`
+  не задан в его `package.json`), конфликтов нет.
+  Остаются открытыми из High: D-02/D-03 (бюджет Actions, решение Ивана), D-04, D-05, D-06; Critical D-01 (бэкапы — закрыто отдельно, см.
+  `deploy/backup/RUNBOOK.md`, PR #118).
 
 ### Что сделано хорошо (по четырём отчётам)
 
