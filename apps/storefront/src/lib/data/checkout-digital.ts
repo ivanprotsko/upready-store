@@ -15,8 +15,12 @@
  * `notReady` (`checkout/components/payment-button/index.tsx`) requires
  * `cart.shipping_address` to be truthy regardless of delivery method.
  *
- * Called once from the checkout page, before `CheckoutForm` renders; a no-op
- * once the cart already carries a shipping method.
+ * Called from `app/api/checkout/digital-delivery/route.ts`, NOT from the
+ * checkout page's own render: this function reaches `setShippingMethod` /
+ * `updateCart`, both of which call `revalidateTag`, and Next.js forbids that
+ * during a Server Component render. The page only reads the cart and
+ * redirects here the one time a digital cart has no shipping method yet; a
+ * no-op once it does.
  */
 
 import { retrieveCart, setShippingMethod, updateCart } from "./cart"

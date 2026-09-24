@@ -1,13 +1,13 @@
 import { retrieveCart } from "@lib/data/cart"
-import { ensureDigitalDelivery } from "@lib/data/checkout-digital"
 import { retrieveCustomer } from "@lib/data/customer"
+import { isDigitalDeliveryCart } from "@lib/util/shipping-address"
 import PaymentWrapper from "@modules/checkout/components/payment-wrapper"
 import { CartUpdateProvider } from "@modules/checkout/context/cart-update-context"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
-import { getTranslations } from "next-intl/server"
+import { notFound, redirect } from "next/navigation"
+import { getLocale, getTranslations } from "next-intl/server"
 import { pageTitle } from "@lib/util/page-title"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -26,7 +26,15 @@ export default async function Checkout() {
     return notFound()
   }
 
-  const cart = await ensureDigitalDelivery(initialCart)
+  if (
+    isDigitalDeliveryCart(initialCart) &&
+    (initialCart.shipping_methods?.length ?? 0) === 0
+  ) {
+    const locale = await getLocale()
+    redirect(`/api/checkout/digital-delivery?locale=${locale}`)
+  }
+
+  const cart = initialCart
   const customer = await retrieveCustomer()
 
   return (

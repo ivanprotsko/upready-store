@@ -25,11 +25,58 @@ const ARTIFACTS_DIR =
 
 const DEMO_CARD = { number: "4111111111111111", expiry: "1230", cvc: "123" }
 
+// `pp_system_default`'s own `authorizePayment` returns AUTHORIZED, never
+// CAPTURED (`@medusajs/payment`'s `SystemPaymentProvider`) — placing the
+// order never fires `payment.captured`, so `grant-course-on-paid` never runs
+// on its own (found live: the course stayed locked after a successful
+// checkout). The tenant admin capturing the payment from the panel is what
+// actually fires it; this calls the same API that panel button does
+// (`POST /tenants/payments/:id/capture`), standing in for that click.
+const BACKEND_URL = process.env.E2E_EXPECTED_BACKEND_URL ?? "http://localhost:9131"
+const OWNER_EMAIL = "owner-cherkashino@example.test"
+// Set by `apps/backend/scripts/fixtures/o24-reset-owner-password.ts`, which
+// must have been run against this suite's own database beforehand — this
+// suite does not run backend fixtures itself, same as it relies on
+// `o24-seed-courses.ts` / `o24-seed-digital-shipping-option.ts` already
+// having seeded the course and its shipping option.
+const OWNER_PASSWORD = "o24-courses-manual-check"
+
 const saveSheet = async (page: Page) => {
   await page
     .getByRole("button", { name: /Сохранить|Save/i })
     .last()
     .click()
+}
+
+const captureOrderPayment = async (page: Page, orderId: string) => {
+  const login = await page.request.post(`${BACKEND_URL}/auth/tenant/emailpass`, {
+    data: { email: OWNER_EMAIL, password: OWNER_PASSWORD },
+  })
+  const { token } = (await login.json()) as { token: string }
+
+  const orderResponse = await page.request.get(
+    `${BACKEND_URL}/tenants/orders/${orderId}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  )
+  const { order } = (await orderResponse.json()) as {
+    order: {
+      payment_collections?: { payments?: { id: string }[] }[]
+    }
+  }
+  const paymentId = order.payment_collections?.[0]?.payments?.[0]?.id
+  if (!paymentId) {
+    throw new Error(`captureOrderPayment: order ${orderId} has no payment to capture`)
+  }
+
+  const capture = await page.request.post(
+    `${BACKEND_URL}/tenants/payments/${paymentId}/capture`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  )
+  if (!capture.ok()) {
+    throw new Error(
+      `captureOrderPayment: capture failed with ${capture.status()}: ${await capture.text()}`
+    )
+  }
 }
 
 let sharedPage: Page
@@ -53,6 +100,7 @@ test.describe("course purchase", () => {
           height: number
         } | null) ?? null,
       baseURL: testInfo.project.use.baseURL,
+      locale: testInfo.project.use.locale,
     })
     buyerEmail = `e2e-course-${
       testInfo.project.name
@@ -100,12 +148,16 @@ test.describe("course purchase", () => {
       fullPage: true,
     })
 
-    await page
+    // Scoped to product-buy-card: the mobile sticky action bar
+    // (`mobile-actions.tsx`) can mount its OWN add-product-button in the same
+    // DOM depending on scroll/intersection state, and the unscoped locator
+    // then hits Playwright's strict-mode violation (found live, flaky on
+    // first run).
+    const addToCartButton = page
+      .getByTestId("product-buy-card")
       .locator("[data-testid=add-product-button]:not([disabled])")
-      .waitFor({ state: "visible" })
-    await page
-      .locator("[data-testid=add-product-button]:not([disabled])")
-      .click()
+    await addToCartButton.waitFor({ state: "visible" })
+    await addToCartButton.click()
     await expect(
       page.locator("[data-testid=cart-item-count]").first()
     ).toHaveText("1")
@@ -140,25 +192,20 @@ test.describe("course purchase", () => {
     await page.getByTestId("shipping-email-input").fill(buyerEmail)
     await page.getByTestId("shipping-phone-input").fill("+79995554433")
     await saveSheet(page)
+    // Waiting for the row to reflect the save (not just the button click) is
+    // what actually waits out the sheet's closing transition — without it the
+    // next click lands while headlessui's portal still intercepts pointer
+    // events (found live: `cart-checkout.spec.ts` does the same after every
+    // `saveSheet`).
+    await expect(page.getByTestId("checkout-contacts-row")).toContainText(
+      "Ирина"
+    )
 
-    // Billing has nothing to copy "same as shipping" from (the digital cart's
-    // shipping address carries no street), so this fills it directly rather
-    // than toggling that checkbox.
-    await page.getByRole("button", { name: /Изменить|Edit/i }).click()
-    await page.locator('input[name="address_1"]').waitFor({ state: "visible" })
-    await page.locator('input[name="address_1"]').fill("ул. Тестовая, д. 10")
-    await page.locator('input[name="postal_code"]').fill("101000")
-    await page.locator('input[name="city"]').fill("Москва")
-    const provinceSelect = page.locator("[data-testid=address-province-select]")
-    if (await provinceSelect.count()) {
-      const value = await provinceSelect
-        .locator("option")
-        .nth(1)
-        .getAttribute("value")
-      await provinceSelect.selectOption(value ?? "")
-    }
-    await saveSheet(page)
-
+    // No billing address step: "Платежный адрес совпадает с адресом доставки"
+    // is checked by default and stays that way here (same as
+    // `cart-checkout.spec.ts`, which never touches billing either) — billing
+    // ends up the same blanked-but-named address `ensureDigitalDelivery` put
+    // on shipping, which is enough for `completeCartWorkflow`.
     await page.locator("[data-testid=payment-method-pp_system_default]").click()
     await page
       .locator("[data-testid=demo-card-fields]")
@@ -184,6 +231,12 @@ test.describe("course purchase", () => {
     await page
       .locator("[data-testid=order-complete-container]")
       .waitFor({ state: "visible" })
+
+    const orderId = page.url().match(/\/order\/([^/]+)\/confirmed/)?.[1]
+    if (!orderId) {
+      throw new Error(`Could not read the order id from ${page.url()}`)
+    }
+    await captureOrderPayment(page, orderId)
   })
 
   test("product page: the course is unlocked and the lesson player marks progress", async ({
