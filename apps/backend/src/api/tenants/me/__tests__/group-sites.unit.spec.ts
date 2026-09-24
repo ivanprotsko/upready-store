@@ -21,10 +21,9 @@ describe("mergeSwitchableShops", () => {
   });
 
   it("adds the group's sites once, even when the email already holds a row there", () => {
-    const ids = mergeSwitchableShops("a", [shop("a"), shop("b")], [shop("a"), shop("b"), shop("c")]).map(
-      (s) => s.id,
-    );
-    expect(ids).toEqual(["a", "b", "c"]);
+    const shops = mergeSwitchableShops("a", [shop("a"), shop("x")], [shop("a"), shop("c")]);
+    expect(shops.map((s) => s.id)).toEqual(["a", "x", "c"]);
+    expect(shops.map((s) => s.same_group ?? false)).toEqual([true, false, true]);
   });
 
   it("hides a test shop from either source unless it is the current one", () => {

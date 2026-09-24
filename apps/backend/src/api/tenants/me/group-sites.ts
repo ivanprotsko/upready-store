@@ -12,7 +12,12 @@ import { isTestShop } from "../../../modules/tenant/test-shop";
  * `POST /tenants/switch/:tenantId` is this route with one more reason.
  */
 
-export type SwitchableShop = { id: string; name: string; handle: string };
+/**
+ * `same_group` is set on the sites of the caller's own client only (the
+ * current one included), so the panel can tell «мои сайты» from other shops
+ * the same email happens to hold a row in (the platform admin's case).
+ */
+export type SwitchableShop = { id: string; name: string; handle: string; same_group?: true };
 
 type TenantRow = {
   id?: string | null;
@@ -99,6 +104,7 @@ export const mergeSwitchableShops = (
 ): SwitchableShop[] => {
   const seen = new Set<string>();
   const shops: SwitchableShop[] = [];
+  const groupIds = new Set(bySameGroup.map((tenant) => tenant.id).filter(Boolean));
 
   for (const tenant of [...byEmail, ...bySameGroup]) {
     const id = tenant.id;
@@ -109,7 +115,12 @@ export const mergeSwitchableShops = (
       continue;
     }
     seen.add(id);
-    shops.push({ id, name: tenant.name as string, handle: tenant.handle as string });
+    shops.push({
+      id,
+      name: tenant.name as string,
+      handle: tenant.handle as string,
+      ...(groupIds.has(id) ? { same_group: true as const } : {}),
+    });
   }
 
   return shops;

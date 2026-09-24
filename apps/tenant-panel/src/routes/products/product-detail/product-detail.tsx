@@ -15,6 +15,7 @@ import { ExtendedProduct, PRODUCT_DETAIL_FIELDS } from "./constants"
 import { productLoader } from "./loader"
 
 import { ProductShippingProfileSection } from "./components/product-shipping-profile-section"
+import { ProductSitesSection } from "./components/product-sites-section"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -73,6 +74,11 @@ export const ProductDetail = () => {
             {/* o21-owner-panel-ux (P3): «Каналы продаж» is off the owner's
                 product card. Her shop is one channel, and the backend puts
                 every product of the shop into it by itself. */}
+            {/* t-2026-09-24-n12: «Сайты», on which of the owner's sites the
+                product is shown. Renders nothing for a shop with one site. */}
+            <LayoutComposer.Entry id="ProductSitesSection">
+              <ProductSitesSection product={product} />
+            </LayoutComposer.Entry>
             <LayoutComposer.Entry id="ProductShippingProfileSection">
               <ProductShippingProfileSection
                 product={product as ExtendedProduct}
