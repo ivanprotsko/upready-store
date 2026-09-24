@@ -1,0 +1,51 @@
+response 200 GET https://olavka.com/ru/checkout?step=delivery
+response 200 GET https://olavka.com/_next/static/chunks/app/%5Blocale%5D/(checkout)/layout-c5bf906d4d372026.js
+response 200 GET https://olavka.com/_next/static/chunks/app/%5Blocale%5D/(checkout)/checkout/page-629ff942235a969e.js
+POST https://olavka.com/ru/checkout?step=delivery next-action=7f71e7f18bd7960cfcaec1b872a9b07469f7d7a0b6
+response 200 POST https://olavka.com/ru/checkout?step=delivery
+POST https://olavka.com/ru/checkout?step=delivery next-action=7f71e7f18bd7960cfcaec1b872a9b07469f7d7a0b6
+requestfailed: POST https://olavka.com/ru/checkout?step=delivery net::ERR_ABORTED
+requestfailed: GET https://olavka.com/ru net::ERR_ABORTED
+requestfailed: GET https://olavka.com/ru/pages/offer net::ERR_ABORTED
+requestfailed: GET https://olavka.com/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino net::ERR_ABORTED
+response 200 POST https://olavka.com/ru/checkout?step=delivery
+POST https://olavka.com/ru/checkout?step=delivery next-action=7fc13f633e8fed112b583dd267bce18b5554ba5a46
+requestfailed: POST https://olavka.com/ru/checkout?step=delivery net::ERR_ABORTED
+response 200 POST https://olavka.com/ru/checkout?step=delivery
+POST https://olavka.com/ru/checkout?step=delivery next-action=7fc13f633e8fed112b583dd267bce18b5554ba5a46
+response 200 POST https://olavka.com/ru/checkout?step=delivery
+requestfailed: GET https://olavka.com/ru/account net::ERR_ABORTED
+requestfailed: GET https://olavka.com/ru/cart net::ERR_ABORTED
+goto step=delivery -> 200 https://olavka.com/ru/checkout?step=delivery
+response 200 GET https://olavka.com/ru/checkout?step=payment
+response 200 GET https://olavka.com/_next/static/chunks/app/%5Blocale%5D/(checkout)/checkout/page-629ff942235a969e.js
+response 200 GET https://olavka.com/_next/static/chunks/app/%5Blocale%5D/(checkout)/layout-c5bf906d4d372026.js
+POST https://olavka.com/ru/checkout?step=payment next-action=7f71e7f18bd7960cfcaec1b872a9b07469f7d7a0b6
+response 200 POST https://olavka.com/ru/checkout?step=payment
+POST https://olavka.com/ru/checkout?step=payment next-action=7f71e7f18bd7960cfcaec1b872a9b07469f7d7a0b6
+requestfailed: GET https://olavka.com/ru/pages/offer net::ERR_ABORTED
+requestfailed: GET https://olavka.com/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino net::ERR_ABORTED
+requestfailed: GET https://olavka.com/ru net::ERR_ABORTED
+response 200 POST https://olavka.com/ru/checkout?step=payment
+POST https://olavka.com/ru/checkout?step=payment next-action=7fc13f633e8fed112b583dd267bce18b5554ba5a46
+response 200 POST https://olavka.com/ru/checkout?step=payment
+POST https://olavka.com/ru/checkout?step=payment next-action=7fc13f633e8fed112b583dd267bce18b5554ba5a46
+response 200 POST https://olavka.com/ru/checkout?step=payment
+requestfailed: GET https://olavka.com/ru/cart net::ERR_ABORTED
+requestfailed: GET https://olavka.com/ru/account net::ERR_ABORTED
+goto step=payment -> 200 https://olavka.com/ru/checkout?step=payment
+payment step text has Robokassa: true, has «Оплата вручную»: true
+POST https://olavka.com/ru/checkout?step=payment next-action=606d6f46140f2b3341672bb522bf5e3038ad90d603
+response 200 POST https://olavka.com/ru/checkout?step=payment
+POST https://olavka.com/ru/checkout?step=payment next-action=7f71e7f18bd7960cfcaec1b872a9b07469f7d7a0b6
+response 200 POST https://olavka.com/ru/checkout?step=payment
+POST https://olavka.com/ru/checkout?step=payment next-action=7f71e7f18bd7960cfcaec1b872a9b07469f7d7a0b6
+requestfailed: POST https://olavka.com/ru/checkout?step=payment net::ERR_ABORTED
+response 200 POST https://olavka.com/ru/checkout?step=payment
+POST https://olavka.com/ru/checkout?step=payment next-action=7fc13f633e8fed112b583dd267bce18b5554ba5a46
+response 200 POST https://olavka.com/ru/checkout?step=payment
+POST https://olavka.com/ru/checkout?step=payment next-action=7fc13f633e8fed112b583dd267bce18b5554ba5a46
+response 200 POST https://olavka.com/ru/checkout?step=payment
+requestfailed: POST https://olavka.com/ru/checkout?step=payment net::ERR_ABORTED
+after click error text: none
+submit button present=1 disabled=true
