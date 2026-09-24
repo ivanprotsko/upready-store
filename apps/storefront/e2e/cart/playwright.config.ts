@@ -8,14 +8,21 @@ import { defineConfig, devices } from "@playwright/test"
  * already running (backend + storefront) with `E2E_BASE_URL`.
  *
  *   E2E_BASE_URL=http://cherkashino.localhost:8122 \
+ *   E2E_DATABASE_URL=postgres://ivanprotsko@127.0.0.1:5433/upready_store_e2e \
+ *   E2E_EXPECTED_BACKEND_URL=http://localhost:9131 \
  *     npx playwright test --config e2e/cart/playwright.config.ts
  *
  * DATA SAFETY: this suite adds to cart, fills addresses and places real orders.
  * Never point E2E_BASE_URL at a storefront backed by the shared stand database
  * (see apps/backend README "e2e" section) — only at a backend on its own clone.
+ * `globalSetup` (`../lib/verify-e2e-backend.mjs`) enforces this before the first
+ * test: it refuses to run unless `E2E_DATABASE_URL` names an e2e-labelled
+ * database AND the storefront's own compiled build has `E2E_EXPECTED_BACKEND_URL`
+ * baked in — see that file's header for the incident (2026-09-24) this closes.
  */
 export default defineConfig({
   testDir: ".",
+  globalSetup: "../lib/verify-e2e-backend.mjs",
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   // One retry outside CI: this machine runs many worktrees' stands and agent
