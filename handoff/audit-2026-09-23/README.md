@@ -107,7 +107,15 @@
   `notify-deploy.yml` job `test` (typecheck/lint/юнит-тесты backend и storefront) раскомментирован, снят `continue-on-error: true` на
   Typecheck (он и раньше не был настоящим гейтом, даже до полного отключения job-а), `notify` получил `needs: test` — комментарий «deploy
   is gated on success» теперь правда, а не ложь.
-  Остаются открытыми из High: D-04, D-05, D-06; Critical D-01 (бэкапы — закрыто отдельно, см.
+- **Закрыто в ветке `hotfix/audit-2026-09-24-high`** (t-2026-09-24-n2): D-04 — здоровье уже было правильным
+  (`deploy/compose.mt.yml:20-21,232-235,291-292`), не хватало алерта на его отказ. Раннбук
+  `deploy/observability/RUNBOOK.md`: подключить бесплатный внешний пробник (UptimeRobot free tier
+  или Better Stack Uptime free tier как альтернатива) к трём публичным URL, алерт — вебхуком прямо
+  в Telegram Bot API токеном `@upreadystore_bot`, который уже в репозитории (`apps/bot`), без
+  нового кода и без раннера GitHub Actions (Actions budget уже один раз отказал, см. D-02 — держать
+  внешний пробник вне этого бюджета осознанно). Регистрация в сервисе и chat_id — действие Ивана,
+  автоматизировать из воркера нельзя.
+  Остаются открытыми из High: D-05, D-06; Critical D-01 (бэкапы — закрыто отдельно, см.
   `deploy/backup/RUNBOOK.md`, PR #118).
 
 ### Что сделано хорошо (по четырём отчётам)
