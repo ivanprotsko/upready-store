@@ -138,6 +138,7 @@
     "deliveryDateFrom": "à partir du {date}",
     "deliveryDateUntil": "jusqu'au {date}",
     "deliveryToday": "Aujourd'hui",
+    "demoPaymentNotice": "Paiement test — aucun montant n'est prélevé.",
     "discount": "Remise",
     "edit": "Modifier",
     "fieldAddress": "Adresse",

@@ -138,6 +138,7 @@
     "deliveryDateFrom": "mulai {date}",
     "deliveryDateUntil": "paling lambat {date}",
     "deliveryToday": "Hari ini",
+    "demoPaymentNotice": "Pembayaran uji coba — tidak ada uang yang dipotong.",
     "discount": "Diskon",
     "edit": "Ubah",
     "fieldAddress": "Alamat",

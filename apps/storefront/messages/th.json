@@ -138,6 +138,7 @@
     "deliveryDateFrom": "จาก {date}",
     "deliveryDateUntil": "ภายใน {date}",
     "deliveryToday": "วันนี้",
+    "demoPaymentNotice": "การชำระเงินทดสอบ — ไม่มีการหักเงิน",
     "discount": "ส่วนลด",
     "edit": "แก้ไข",
     "fieldAddress": "ที่อยู่",

@@ -138,6 +138,7 @@
     "deliveryDateFrom": "מ-{date}",
     "deliveryDateUntil": "עד {date}",
     "deliveryToday": "היום",
+    "demoPaymentNotice": "תשלום בדיקה — לא נגבה כסף.",
     "discount": "הנחה",
     "edit": "עריכה",
     "fieldAddress": "כתובת",

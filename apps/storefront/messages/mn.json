@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date}-с эхлэн",
     "deliveryDateUntil": "{date} хүртэл",
     "deliveryToday": "Өнөөдөр",
+    "demoPaymentNotice": "Туршилтын төлбөр — мөнгө хасагдахгүй.",
     "discount": "Хөнгөлөлт",
     "edit": "Засах",
     "fieldAddress": "Хаяг",

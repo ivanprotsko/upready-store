@@ -31,12 +31,26 @@ export type PaymentSettings = {
   test_password2: MaskedSecret
 }
 
+/**
+ * Which payment methods the buyer sees right now (t-2026-09-24-n10): the
+ * same resolver `/store/payment-providers` and `/storefront/by-host` use.
+ * `demo` is `pp_system_default`'s test card, never a method the owner
+ * "connects" — it is the fallback a shop with nothing else falls back on.
+ */
+export type TenantPaymentMethods = {
+  robokassa: boolean
+  manualCrypto: boolean
+  manualManager: boolean
+  demo: boolean
+}
+
 export type PaymentSettingsResponse = {
   /** `null` until the owner saves an account. */
   settings: PaymentSettings | null
   /** What to paste into Robokassa's «Result URL» field. */
   result_url: string
   providers: Array<{ id: "robokassa"; title: string }>
+  methods: TenantPaymentMethods
 }
 
 export type PutPaymentSettingsBody = {

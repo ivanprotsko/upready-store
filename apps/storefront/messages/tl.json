@@ -138,6 +138,7 @@
     "deliveryDateFrom": "mula {date}",
     "deliveryDateUntil": "hanggang {date}",
     "deliveryToday": "Ngayon",
+    "demoPaymentNotice": "Pansubok na bayad — walang pera na sisingilin.",
     "discount": "Diskwento",
     "edit": "I-edit",
     "fieldAddress": "Address",

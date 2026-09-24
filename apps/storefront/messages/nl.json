@@ -138,6 +138,7 @@
     "deliveryDateFrom": "vanaf {date}",
     "deliveryDateUntil": "voor {date}",
     "deliveryToday": "Vandaag",
+    "demoPaymentNotice": "Testbetaling — er wordt geen geld afgeschreven.",
     "discount": "Korting",
     "edit": "Bewerken",
     "fieldAddress": "Adres",

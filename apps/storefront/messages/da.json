@@ -138,6 +138,7 @@
     "deliveryDateFrom": "fra {date}",
     "deliveryDateUntil": "senest {date}",
     "deliveryToday": "I dag",
+    "demoPaymentNotice": "Testbetaling — der trækkes ingen penge.",
     "discount": "Rabat",
     "edit": "Rediger",
     "fieldAddress": "Adresse",

@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date}から",
     "deliveryDateUntil": "{date}まで",
     "deliveryToday": "本日",
+    "demoPaymentNotice": "テスト決済 — 引き落としは発生しません。",
     "discount": "割引",
     "edit": "編集",
     "fieldAddress": "住所",

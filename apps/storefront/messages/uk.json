@@ -138,6 +138,7 @@
     "deliveryDateFrom": "з {date}",
     "deliveryDateUntil": "до {date}",
     "deliveryToday": "Сьогодні",
+    "demoPaymentNotice": "Тестова оплата — гроші не списуються.",
     "discount": "Знижка",
     "edit": "Змінити",
     "fieldAddress": "Адреса",

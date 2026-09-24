@@ -138,6 +138,7 @@
     "deliveryDateFrom": "a partir de {date}",
     "deliveryDateUntil": "até {date}",
     "deliveryToday": "Hoje",
+    "demoPaymentNotice": "Pagamento de teste — nenhum valor é cobrado.",
     "discount": "Desconto",
     "edit": "Editar",
     "fieldAddress": "Morada",

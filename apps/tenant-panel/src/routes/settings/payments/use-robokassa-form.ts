@@ -80,7 +80,14 @@ const draftFrom = (record: PaymentSettingsRecord | null): RobokassaDraft =>
 
 export const useRobokassaForm = () => {
   const { t } = useTranslation()
-  const { settings, result_url: resultUrl, isPending, isError, error } = usePaymentSettings()
+  const {
+    settings,
+    result_url: resultUrl,
+    methods,
+    isPending,
+    isError,
+    error,
+  } = usePaymentSettings()
 
   // `null` = the saved record has not answered yet; a boolean once it has.
   const [loaded, setLoaded] = useState<boolean | null>(null)
@@ -156,6 +163,7 @@ export const useRobokassaForm = () => {
   return {
     settings: settings ?? null,
     resultUrl,
+    methods: methods ?? null,
     loaded,
     draft,
     update,

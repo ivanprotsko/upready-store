@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date} से",
     "deliveryDateUntil": "{date} तक",
     "deliveryToday": "आज",
+    "demoPaymentNotice": "परीक्षण भुगतान — कोई पैसा नहीं कटेगा।",
     "discount": "छूट",
     "edit": "संपादित करें",
     "fieldAddress": "पता",

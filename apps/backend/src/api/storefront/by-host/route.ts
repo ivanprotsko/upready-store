@@ -1,5 +1,6 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
+import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { resolveAttribution } from "./attribution";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
@@ -7,6 +8,8 @@ import {
   manualPaymentPublicView,
   readManualPayment,
 } from "../../tenants/payment-settings/manual/manual-payment";
+import { readRobokassaSecret } from "../../../tenant-secrets/robokassa";
+import { manualPaymentMethods, resolveTenantPaymentMethods } from "../../../tenant-secrets/payment-methods";
 import {
   baseDomains,
   handleFromTechnicalHost,
@@ -142,6 +145,25 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   const settings = home?.settings ?? null;
   const preset = home?.theme?.preset ?? null;
 
+  // olavka-payments: the shop's offline ways to pay on `pp_system_default`
+  // (`PUT /tenants/payment-settings/manual`), read once and reused below both
+  // for the checkout's manual-kind UI (`manual_payment`) and for the
+  // connected-methods resolver (`payment_methods`) — one parse of the raw
+  // metadata document, not two.
+  const manualPayment = readManualPayment(tenant.metadata as Record<string, unknown> | null);
+
+  // t-2026-09-24-n10: which payment methods THIS shop has connected, so the
+  // storefront can label `pp_system_default`'s demo card honestly instead of
+  // presenting it as a real "manual payment" once it is the last resort.
+  // `/store/payment-providers` (the checkout's own filter) uses the same
+  // resolver against the same facts.
+  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
+  const robokassaSecret = await readRobokassaSecret(pg, tenant.id as string);
+  const paymentMethods = resolveTenantPaymentMethods({
+    robokassaEnabled: Boolean(robokassaSecret),
+    ...manualPaymentMethods(manualPayment),
+  });
+
   const primaryDomain = ((tenant.domains ?? []) as { host?: string; is_primary?: boolean }[]).find(
     (domain) => domain?.is_primary && domain.host,
   )?.host;
@@ -222,9 +244,13 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     // (`PUT /tenants/payment-settings/manual`). A section that is off carries
     // no wallets and no contacts; the checkout offers only what is on, and a
     // shop that configured neither keeps the single «manual payment» it has.
-    manual_payment: manualPaymentPublicView(
-      readManualPayment(tenant.metadata as Record<string, unknown> | null),
-    ),
+    manual_payment: manualPaymentPublicView(manualPayment),
+    // t-2026-09-24-n10: which of Robokassa and the manual provider's offline
+    // kinds this shop has connected, and whether the demo card is still its
+    // only way to pay. `/store/payment-providers` already filters the
+    // checkout's own provider list off the same resolver; this copy is for
+    // the honest demo-card label, which needs the fact and not just the list.
+    payment_methods: paymentMethods,
     settings,
     home,
     // t06-locale-currency: absent (null) for a tenant that never saved

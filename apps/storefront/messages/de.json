@@ -138,6 +138,7 @@
     "deliveryDateFrom": "ab {date}",
     "deliveryDateUntil": "bis {date}",
     "deliveryToday": "Heute",
+    "demoPaymentNotice": "Testzahlung — es wird kein Geld abgebucht.",
     "discount": "Rabatt",
     "edit": "Bearbeiten",
     "fieldAddress": "Adresse",

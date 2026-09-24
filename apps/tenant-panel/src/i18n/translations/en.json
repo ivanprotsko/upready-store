@@ -4173,7 +4173,18 @@
     "saved": "Payment settings saved",
     "removed": "Account removed — Robokassa is no longer offered at checkout",
     "resultUrlTitle": "Result URL for the Robokassa dashboard",
-    "resultUrlHint": "Paste this address into your shop's settings in Robokassa (Technical settings → Result URL, method POST). Robokassa reports payments to it; without it an order never becomes paid."
+    "resultUrlHint": "Paste this address into your shop's settings in Robokassa (Technical settings → Result URL, method POST). Robokassa reports payments to it; without it an order never becomes paid.",
+    "methodsSummary": {
+      "title": "What the buyer sees",
+      "robokassa": "Robokassa",
+      "manualCrypto": "Crypto payment",
+      "manualManager": "Payment via manager",
+      "connected": "Connected",
+      "notConnected": "Not connected",
+      "listSeparator": ", ",
+      "buyerSees": "The buyer can pay with: {{methods}}",
+      "buyerSeesDemoOnly": "The buyer only sees a test payment — no money is charged"
+    }
   },
   "manualPayment": {
     "title": "Payment outside a gateway",

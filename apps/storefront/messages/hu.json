@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date}-tól",
     "deliveryDateUntil": "{date}-ig",
     "deliveryToday": "Ma",
+    "demoPaymentNotice": "Teszt fizetés — nem történik terhelés.",
     "discount": "Kedvezmény",
     "edit": "Szerkesztés",
     "fieldAddress": "Cím",

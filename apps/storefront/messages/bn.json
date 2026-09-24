@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date} থেকে",
     "deliveryDateUntil": "{date}-এর মধ্যে",
     "deliveryToday": "আজ",
+    "demoPaymentNotice": "পরীক্ষামূলক পেমেন্ট — কোনো অর্থ কাটা হয় না।",
     "discount": "ছাড়",
     "edit": "সম্পাদনা করুন",
     "fieldAddress": "ঠিকানা",

@@ -352,6 +352,13 @@ function tenantRequestHeaders(
         encodeTenantHeaderValue(JSON.stringify(tenant.manualPayment))
       )
     }
+    // Which payment methods this shop connected (t-2026-09-24-n10): the
+    // checkout reads it to label `pp_system_default`'s demo card honestly
+    // once it is the shop's only way to pay.
+    headers.set(
+      "x-tenant-payment-methods",
+      encodeTenantHeaderValue(JSON.stringify(tenant.paymentMethods))
+    )
   }
 
   return headers

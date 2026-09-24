@@ -138,6 +138,7 @@
     "deliveryDateFrom": "od {date}",
     "deliveryDateUntil": "do {date}",
     "deliveryToday": "Dnes",
+    "demoPaymentNotice": "Testovacia platba — peniaze sa nestrhávajú.",
     "discount": "Zľava",
     "edit": "Upraviť",
     "fieldAddress": "Adresa",

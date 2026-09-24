@@ -21,10 +21,12 @@ import {
 import { EMPTY_BRANDING, type TenantBranding } from "./branding"
 import { EMPTY_LOGIN_SETTINGS, type TenantLoginSettings } from "./login-settings"
 import { readManualPayment, type TenantManualPayment } from "./manual-payment"
+import { EMPTY_TENANT_PAYMENT_METHODS, readTenantPaymentMethods, type TenantPaymentMethods } from "./payment-methods"
 
 export type { TenantAttribution }
 export type { TenantBranding }
 export type { TenantManualPayment }
+export type { TenantPaymentMethods }
 
 export type ResolvedTenant = {
   handle: string
@@ -75,6 +77,13 @@ export type ResolvedTenant = {
    * owner of this shop.
    */
   manualPayment: TenantManualPayment
+  /**
+   * Which payment methods this shop has connected (t-2026-09-24-n10):
+   * Robokassa and the manual provider's two offline kinds, plus whether the
+   * demo card is still its only way to pay. `EMPTY_TENANT_PAYMENT_METHODS`
+   * for a tenant that connected nothing, same as a single-store install.
+   */
+  paymentMethods: TenantPaymentMethods
 }
 
 const TTL_MS = 60_000
@@ -140,6 +149,7 @@ export async function resolveTenantByHost(
         branding?: Partial<TenantBranding> | null
         login?: Partial<TenantLoginSettings> | null
         manual_payment?: unknown
+        payment_methods?: unknown
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -184,6 +194,9 @@ export async function resolveTenantByHost(
           branding: { ...EMPTY_BRANDING, ...(body.branding ?? {}) },
           login: { ...EMPTY_LOGIN_SETTINGS, ...(body.login ?? {}) },
           manualPayment: readManualPayment(body.manual_payment),
+          paymentMethods: body.payment_methods
+            ? readTenantPaymentMethods(body.payment_methods)
+            : EMPTY_TENANT_PAYMENT_METHODS,
         }
       }
     }

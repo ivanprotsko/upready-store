@@ -138,6 +138,7 @@
     "deliveryDateFrom": "από {date}",
     "deliveryDateUntil": "έως {date}",
     "deliveryToday": "Σήμερα",
+    "demoPaymentNotice": "Δοκιμαστική πληρωμή — δεν χρεώνεστε.",
     "discount": "Έκπτωση",
     "edit": "Επεξεργασία",
     "fieldAddress": "Διεύθυνση",

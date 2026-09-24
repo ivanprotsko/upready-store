@@ -7,6 +7,12 @@ import {
   readRobokassaSecret,
   type MaskedRobokassaSettings,
 } from "../../../tenant-secrets/robokassa";
+import {
+  manualPaymentMethods,
+  resolveTenantPaymentMethods,
+  type TenantPaymentMethods,
+} from "../../../tenant-secrets/payment-methods";
+import { readManualPayment } from "./manual/manual-payment";
 
 /**
  * A host served over plain HTTP for real: a local stand. Everything else on
@@ -52,6 +58,13 @@ export type PaymentSettingsResponse = {
   result_url: string;
   /** The value Robokassa shows as the payment page's SuccessUrl2/FailUrl2 origin, informational. */
   providers: Array<{ id: "robokassa"; title: string }>;
+  /**
+   * Which methods the buyer sees right now (t-2026-09-24-n10), the same
+   * resolver `/store/payment-providers` and `/storefront/by-host` use — the
+   * panel's «Приём оплат» renders this as a status per method, not just
+   * Robokassa's own.
+   */
+  methods: TenantPaymentMethods;
 };
 
 /**
@@ -64,11 +77,21 @@ export const readOwnPaymentSettings = async (
 ): Promise<PaymentSettingsResponse> => {
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  const secret = await readRobokassaSecret(pg, tenant.id, { includeDisabled: true });
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+  const [secret, tenantResult] = await Promise.all([
+    readRobokassaSecret(pg, tenant.id, { includeDisabled: true }),
+    query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
+  ]);
+  const metadata = (tenantResult.data[0]?.metadata ?? null) as Record<string, unknown> | null;
+  const manualPayment = readManualPayment(metadata);
   return {
     settings: secret ? maskRobokassaSettings(secret) : null,
     result_url: resultUrlFor(req),
     providers: [{ id: "robokassa", title: "Robokassa" }],
+    methods: resolveTenantPaymentMethods({
+      robokassaEnabled: Boolean(secret?.is_enabled),
+      ...manualPaymentMethods(manualPayment),
+    }),
   };
 };
 

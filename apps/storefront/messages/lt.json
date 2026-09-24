@@ -138,6 +138,7 @@
     "deliveryDateFrom": "nuo {date}",
     "deliveryDateUntil": "iki {date}",
     "deliveryToday": "Šiandien",
+    "demoPaymentNotice": "Bandomasis mokėjimas — pinigai nenurašomi.",
     "discount": "Nuolaida",
     "edit": "Redaguoti",
     "fieldAddress": "Adresas",

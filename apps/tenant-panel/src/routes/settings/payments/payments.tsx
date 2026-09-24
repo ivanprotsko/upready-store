@@ -2,10 +2,21 @@ import { Badge, Button, Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
+import {
+  connectedMethodKeys,
+  isDemoOnly,
+  type PaymentMethodKey,
+} from "../../../lib/payment-methods-summary"
 import { CrossLink } from "../integrations/components/cross-link"
 import { ManualPaymentCard } from "./components/manual-payment-card"
 import { RobokassaBehaviourFields } from "./components/robokassa-behaviour-fields"
 import { useRobokassaForm } from "./use-robokassa-form"
+
+const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
+  robokassa: "paymentSettings.methodsSummary.robokassa",
+  manualCrypto: "paymentSettings.methodsSummary.manualCrypto",
+  manualManager: "paymentSettings.methodsSummary.manualManager",
+}
 
 // «Приём оплат» (t03-tenant-secrets-robokassa, restructured by
 // p01-settings-integrations-restructure).
@@ -28,7 +39,8 @@ import { useRobokassaForm } from "./use-robokassa-form"
 export const PaymentSettings = () => {
   const { t } = useTranslation()
   const form = useRobokassaForm()
-  const { settings, resultUrl, loaded, busy, isSaving, isError, error, handleSubmit } = form
+  const { settings, resultUrl, methods, loaded, busy, isSaving, isError, error, handleSubmit } =
+    form
 
   if (isError) {
     throw error
@@ -39,6 +51,9 @@ export const PaymentSettings = () => {
   // this screen no longer shows. Say where it is instead of offering a button
   // that cannot work (rule 19h — the real control, disabled, plus the reason).
   const noAccount = loaded !== null && !settings
+
+  const connected = methods ? connectedMethodKeys(methods) : []
+  const buyerSeesDemoOnly = methods ? isDemoOnly(methods) : false
 
   return (
     <SingleColumnPage hasOutlet={false} widgets={{ before: [], after: [] }}>
@@ -64,6 +79,43 @@ export const PaymentSettings = () => {
             </Badge>
           ) : null}
         </div>
+
+        {methods ? (
+          <div className="flex flex-col gap-y-3 px-6 py-4" data-testid="payment-methods-summary">
+            <Text size="small" weight="plus">
+              {t("paymentSettings.methodsSummary.title")}
+            </Text>
+            <ul className="flex flex-col gap-y-2">
+              {(Object.keys(METHOD_LABEL_KEYS) as PaymentMethodKey[]).map((key) => (
+                <li key={key} className="flex items-center justify-between">
+                  <Text size="small">{t(METHOD_LABEL_KEYS[key])}</Text>
+                  <Badge
+                    size="2xsmall"
+                    color={methods[key] ? "green" : "grey"}
+                    data-testid={`payment-method-status-${key}`}
+                  >
+                    {methods[key]
+                      ? t("paymentSettings.methodsSummary.connected")
+                      : t("paymentSettings.methodsSummary.notConnected")}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
+            <Text
+              size="small"
+              className="text-ui-fg-subtle"
+              data-testid="payment-methods-buyer-hint"
+            >
+              {buyerSeesDemoOnly
+                ? t("paymentSettings.methodsSummary.buyerSeesDemoOnly")
+                : t("paymentSettings.methodsSummary.buyerSees", {
+                    methods: connected
+                      .map((key) => t(METHOD_LABEL_KEYS[key]))
+                      .join(t("paymentSettings.methodsSummary.listSeparator")),
+                  })}
+            </Text>
+          </div>
+        ) : null}
 
         <div className="px-6 py-4">
           <CrossLink
