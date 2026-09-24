@@ -1,7 +1,14 @@
 import { FetchError } from "@medusajs/js-sdk"
-import { QueryKey, UseQueryOptions, useQuery } from "@tanstack/react-query"
+import {
+  QueryKey,
+  UseMutationOptions,
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query"
 
 import { sdk } from "../../lib/client"
+import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 
 // tenant-panel: own hook, no Admin counterpart — GET /tenants/marketplaces/sync
@@ -106,4 +113,48 @@ export const useMarketplaceSync = (
   // response field of that name would be overwritten by it (measured on the
   // Wildberries card, 2026-09-16).
   return { sync: data, ...rest }
+}
+
+// «Обновить сейчас» — POST /tenants/marketplaces/sync (t-2026-09-24-n6, w6).
+//
+// Starts every connected marketplace's every kind for THIS tenant, ignoring
+// how long is left of the normal interval. It does NOT bypass a marketplace's
+// own rate-limit wait or a refused key: those kinds come back `skipped` with
+// their reason, never silently dropped (rule 20a). The backend does not wait
+// for the sync itself before answering, so this mutation resolves as soon as
+// every kind has been told to start or told why it was not.
+
+export type SyncNowOutcome = "started" | "skipped"
+
+export type SyncNowResult = {
+  marketplace: string
+  /** `"*"` for a marketplace skipped whole (no key, integration off). */
+  kind: string
+  outcome: SyncNowOutcome
+  /** `never_ran | forced | stale_lock_taken_over | locked | waiting | no_key | integration_disabled`. */
+  reason: string
+}
+
+export type SyncNowResponse = {
+  results: SyncNowResult[]
+  now: string
+}
+
+export const useSyncMarketplacesNow = (
+  options?: UseMutationOptions<SyncNowResponse, FetchError, void>
+) => {
+  return useMutation({
+    mutationFn: () =>
+      sdk.client.fetch<SyncNowResponse>("/tenants/marketplaces/sync", {
+        method: "POST",
+      }),
+    onSuccess: (data, variables, context) => {
+      // A kind that started writes a `running` row the instant this answers:
+      // without this the table would keep showing the OLD status until the
+      // next poll, and the screen would look like the click did nothing.
+      queryClient.invalidateQueries({ queryKey: marketplaceSyncQueryKeys.all })
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
 }

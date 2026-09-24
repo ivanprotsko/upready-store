@@ -6,6 +6,7 @@ import { SingleColumnPage } from "../../../components/layout/pages"
 import { useMarketplaceSync } from "../../../hooks/api/marketplace-sync"
 import { MpSyncOpsTable } from "./components/mp-sync-ops-table"
 import { MpSyncWarnings } from "./components/mp-sync-warnings"
+import { SyncNowButton } from "./components/sync-now-button"
 
 /**
  * «Маркетплейсы → Синхронизация» (w16-mp-scheduler-ops, spec 2.6 and 2.7).
@@ -18,9 +19,12 @@ import { MpSyncWarnings } from "./components/mp-sync-warnings"
  * days is a warning at the top, because Ozon keys live three months and this
  * fires four times a year per shop.
  *
- * There is no «запустить сейчас» button. The schedule is a job
- * (`src/jobs/marketplace-sync.ts`) and a manual trigger would be a second way
- * to start a run, with its own idea of the lock.
+ * «Обновить сейчас» (t-2026-09-24-n6) asks the schedule's own job
+ * (`src/jobs/marketplace-sync.ts` → `modules/marketplace/scheduler.ts`) to
+ * run every connected kind immediately instead of waiting for its next tick.
+ * It is not a second way to start a run with a lock of its own: the button
+ * goes through `runOneSync`, the exact function the cron job calls, and the
+ * same `running` row still holds the one-run-per-triple rule.
  *
  * Design system: @medusajs/ui, like every other screen of this panel, which is
  * a fork of Medusa Admin 2.19. The divergence from the Geist canon is the one
@@ -39,17 +43,20 @@ export const MarketplaceSyncSettings = () => {
   return (
     <SingleColumnPage hasOutlet={false} widgets={{ before: [], after: [] }}>
       <Container className="p-0">
-        <div className="px-6 py-4">
-          <Heading>{t("marketplaceSync.title")}</Heading>
-          <Text className="text-ui-fg-subtle" size="small">
-            {t("marketplaceSync.subtitle")}
-          </Text>
-          <Link
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
-            to="/settings/marketplaces"
-          >
-            {t("marketplaceSync.backToCards")}
-          </Link>
+        <div className="flex items-start justify-between gap-x-4 px-6 py-4">
+          <div>
+            <Heading>{t("marketplaceSync.title")}</Heading>
+            <Text className="text-ui-fg-subtle" size="small">
+              {t("marketplaceSync.subtitle")}
+            </Text>
+            <Link
+              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+              to="/settings/marketplaces"
+            >
+              {t("marketplaceSync.backToCards")}
+            </Link>
+          </div>
+          {sync ? <SyncNowButton marketplaces={sync.marketplaces} /> : null}
         </div>
       </Container>
 

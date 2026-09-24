@@ -9,6 +9,7 @@ import {
   MP_SCHEDULED_KINDS,
   MP_STALE_LOCK_MS,
   nextDueAt,
+  type DueVerdict,
   type LastRun,
 } from "./schedule";
 import type MarketplaceModuleService from "./service";
@@ -279,21 +280,30 @@ const runProjection = async (
   };
 };
 
+export type DueDecision = {
+  verdict: DueVerdict;
+  /** The row the verdict was decided from: the `running` lock, or the newest. */
+  last: RunRow | null;
+};
+
 /**
- * Runs ONE triple: takes the lock, calls the adapter, retries a rate-limited
- * answer inside the shared policy, and records what happened.
+ * Whether one triple may run now, without starting anything: no lock row, no
+ * adapter call, two or three cheap reads of `mp_sync_run`.
  *
- * `runSync` is the only thing it calls. `projection` is the core's own kind
- * and goes to `projectFromMirrors`, which spends no request at all.
+ * `runOneSync` calls it to gate the real run. The «Обновить сейчас» route
+ * (w6-mp-orders-sync-now) calls it ON ITS OWN, with `force: true`, to answer
+ * the HTTP request with which kinds started and which were skipped BEFORE the
+ * sync itself — which can take as long as a marketplace's own rate limit
+ * does — has even begun.
  */
-export const runOneSync = async (
+export const decideDue = async (
   deps: SchedulerDeps,
   adapter: MarketplaceAdapter,
   kind: string,
-  credentials: unknown,
   /** `CredentialSlot.updatedAt`: when the key was last saved. */
-  credentialsUpdatedAt: Date | null = null,
-): Promise<ScheduledRun> => {
+  credentialsUpdatedAt: Date | null,
+  force = false,
+): Promise<DueDecision> => {
   const mp = service(deps);
   const clock = deps.now ?? (() => new Date());
   const now = clock();
@@ -325,7 +335,31 @@ export const runOneSync = async (
       }
     : null;
 
-  const verdict = nextDueAt(lastRun, kind, now, credentialsUpdatedAt);
+  return { verdict: nextDueAt(lastRun, kind, now, credentialsUpdatedAt, force), last };
+};
+
+/**
+ * Runs ONE triple: takes the lock, calls the adapter, retries a rate-limited
+ * answer inside the shared policy, and records what happened.
+ *
+ * `runSync` is the only thing it calls. `projection` is the core's own kind
+ * and goes to `projectFromMirrors`, which spends no request at all.
+ */
+export const runOneSync = async (
+  deps: SchedulerDeps,
+  adapter: MarketplaceAdapter,
+  kind: string,
+  credentials: unknown,
+  /** `CredentialSlot.updatedAt`: when the key was last saved. */
+  credentialsUpdatedAt: Date | null = null,
+  /** «Обновить сейчас»: ignores this triple's interval, not its lock or its rate limit. */
+  force = false,
+): Promise<ScheduledRun> => {
+  const mp = service(deps);
+  const clock = deps.now ?? (() => new Date());
+  const now = clock();
+
+  const { verdict, last } = await decideDue(deps, adapter, kind, credentialsUpdatedAt, force);
 
   if (!verdict.due) {
     return {
