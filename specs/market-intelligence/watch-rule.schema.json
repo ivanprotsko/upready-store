@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://upready.dev/specs/market-intelligence/watch-rule.schema.json",
+  "title": "Правило владельца магазина",
+  "description": "Принадлежит владельцу, не источнику: два владельца могут смотреть одну страницу по-разному, а собирается она один раз. Правило решает, что делать при подтверждённом изменении.",
+  "type": "object",
+  "required": ["id", "tenant_id", "anchor_ref", "trigger", "action", "created_by", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "tenant_id": { "type": "string" },
+    "title": { "type": "string" },
+    "anchor_ref": {
+      "type": "object",
+      "required": ["watched_page_id", "anchor_id", "field"],
+      "additionalProperties": false,
+      "properties": {
+        "watched_page_id": { "type": "string" },
+        "anchor_id": { "type": "string" },
+        "field": { "type": "string" }
+      }
+    },
+    "own_product_id": {
+      "type": ["string", "null"],
+      "description": "Наш товар, с которым сопоставлен якорь. Обязателен для action=advise_price и action=reprice."
+    },
+    "trigger": {
+      "type": "object",
+      "required": ["direction"],
+      "additionalProperties": false,
+      "properties": {
+        "direction": { "type": "string", "enum": ["down", "up", "any"] },
+        "threshold_rel": { "type": ["number", "null"], "minimum": 0, "description": "Порог в долях, например 0.03" },
+        "threshold_abs": { "type": ["number", "null"], "minimum": 0 },
+        "crosses_value": { "type": ["number", "null"], "description": "Сработать, когда значение пересечёт эту величину" }
+      }
+    },
+    "action": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["notify", "advise_price", "reprice"],
+          "description": "notify — только уведомить; advise_price — предложить цену; reprice — изменить цену автоматически"
+        },
+        "channel": { "type": "string", "enum": ["digest", "email", "telegram"], "default": "digest" },
+        "pricing": {
+          "type": ["object", "null"],
+          "description": "Обязателен при kind=advise_price и kind=reprice",
+          "required": ["strategy", "floor_manual"],
+          "additionalProperties": false,
+          "properties": {
+            "strategy": { "type": "string", "enum": ["undercut_abs", "undercut_rel", "match"] },
+            "undercut_abs": { "type": ["number", "null"], "minimum": 0 },
+            "undercut_rel": { "type": ["number", "null"], "minimum": 0 },
+            "floor_manual": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Пол, заданный владельцем вручную. Обязателен: без него автоматическая переоценка недоступна. Задаёт ТОЛЬКО владелец — не поставщик, не мы, не агент (ст. 11 ч. 2 п. 1 ФЗ-135)."
+            },
+            "floor_margin_source": {
+              "type": ["string", "null"],
+              "enum": ["cost_calculator", null],
+              "description": "Маржинальный пол из калькулятора стоимости товара (t-2026-09-14-02). Действует БОЛЬШИЙ из двух полов."
+            },
+            "max_daily_step_rel": { "type": "number", "minimum": 0, "default": 0.1 },
+            "max_changes_per_day": { "type": "integer", "minimum": 1, "default": 2 },
+            "quiet_period_hours": { "type": "integer", "minimum": 0, "default": 12 }
+          }
+        }
+      }
+    },
+    "guards": {
+      "type": "object",
+      "description": "Условия, без выполнения которых action=reprice не исполняется. Проверяются кодом, не агентом.",
+      "additionalProperties": false,
+      "properties": {
+        "require_confirmed_change": { "type": "boolean", "default": true },
+        "require_selector_method": { "type": "boolean", "default": true },
+        "require_human_confirmed_match": { "type": "boolean", "default": true },
+        "halt_on_mirror_pair": { "type": "boolean", "default": true }
+      }
+    },
+    "state": { "type": "string", "enum": ["active", "paused", "halted"], "default": "active" },
+    "halt_reason": { "type": ["string", "null"] },
+    "created_by": { "type": "string", "enum": ["human", "agent_draft_confirmed"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}
