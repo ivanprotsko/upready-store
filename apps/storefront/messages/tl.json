@@ -883,7 +883,7 @@
     "termsOfUse": "Mga Tuntunin sa Paggamit"
   },
   "RelatedProducts": {
-    "title": "Maaaring magustuhan mo"
+    "title": "Binibili kasama ng produktong ito"
   },
   "ResetPassword": {
     "confirmPassword": "Ulitin ang password",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% diskwento"
+  },
+  "RecentlyViewed": {
+    "title": "Kamakailang tiningnan"
   }
 }

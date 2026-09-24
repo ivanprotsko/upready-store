@@ -883,7 +883,7 @@
     "termsOfUse": "Умовами використання"
   },
   "RelatedProducts": {
-    "title": "Вам може сподобатися"
+    "title": "З цим товаром купують"
   },
   "ResetPassword": {
     "confirmPassword": "Повторіть пароль",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "Знижка {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "Ви нещодавно переглядали"
   }
 }

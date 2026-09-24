@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import * as z from "zod"
 
 import { Form } from "../../../components/common/form"
+import { PasswordInput } from "../../../components/common/password-input"
 import { useSignInWithEmailPass } from "../../../hooks/api"
 import { isFetchError } from "../../../lib/is-fetch-error"
 
@@ -114,8 +115,7 @@ export const EmailPassLogin = ({ onMfaChallenge }: EmailPassLoginProps) => {
                 <Form.Item>
                   <Form.Label>{}</Form.Label>
                   <Form.Control>
-                    <Input
-                      type="password"
+                    <PasswordInput
                       autoComplete="current-password"
                       {...field}
                       className="bg-ui-bg-field-component"

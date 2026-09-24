@@ -883,7 +883,7 @@
     "termsOfUse": "Användarvillkoren"
   },
   "RelatedProducts": {
-    "title": "Du kanske gillar"
+    "title": "Köps tillsammans med den här varan"
   },
   "ResetPassword": {
     "confirmPassword": "Upprepa lösenordet",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "{percent} % rabatt"
+  },
+  "RecentlyViewed": {
+    "title": "Nyligen visade"
   }
 }

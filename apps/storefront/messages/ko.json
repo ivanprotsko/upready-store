@@ -883,7 +883,7 @@
     "termsOfUse": "이용약관"
   },
   "RelatedProducts": {
-    "title": "이 상품도 좋아하실 것 같아요"
+    "title": "이 상품과 함께 구매한 상품"
   },
   "ResetPassword": {
     "confirmPassword": "비밀번호 확인",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% 할인"
+  },
+  "RecentlyViewed": {
+    "title": "최근 본 상품"
   }
 }

@@ -883,7 +883,7 @@
     "termsOfUse": "เงื่อนไขการใช้งาน"
   },
   "RelatedProducts": {
-    "title": "คุณอาจจะชอบ"
+    "title": "ซื้อพร้อมกับสินค้านี้"
   },
   "ResetPassword": {
     "confirmPassword": "ยืนยันรหัสผ่าน",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "ลด {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "ดูล่าสุด"
   }
 }

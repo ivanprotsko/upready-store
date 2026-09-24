@@ -883,7 +883,7 @@
     "termsOfUse": "Điều khoản sử dụng"
   },
   "RelatedProducts": {
-    "title": "Có thể bạn sẽ thích"
+    "title": "Thường được mua cùng sản phẩm này"
   },
   "ResetPassword": {
     "confirmPassword": "Nhập lại mật khẩu",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "Giảm {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "Đã xem gần đây"
   }
 }

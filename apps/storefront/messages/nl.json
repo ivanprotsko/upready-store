@@ -883,7 +883,7 @@
     "termsOfUse": "Gebruiksvoorwaarden"
   },
   "RelatedProducts": {
-    "title": "Dit vind je misschien ook leuk"
+    "title": "Samen met dit artikel gekocht"
   },
   "ResetPassword": {
     "confirmPassword": "Herhaal wachtwoord",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% korting"
+  },
+  "RecentlyViewed": {
+    "title": "Recent bekeken"
   }
 }

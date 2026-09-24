@@ -883,7 +883,7 @@
     "termsOfUse": "las condiciones de uso"
   },
   "RelatedProducts": {
-    "title": "Puede que te guste"
+    "title": "Comprados junto con este producto"
   },
   "ResetPassword": {
     "confirmPassword": "Repite la contraseña",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "{percent} % de descuento"
+  },
+  "RecentlyViewed": {
+    "title": "Vistos recientemente"
   }
 }

@@ -883,7 +883,7 @@
     "termsOfUse": "Termenii de utilizare"
   },
   "RelatedProducts": {
-    "title": "Ți-ar putea plăcea"
+    "title": "Cumpărate împreună cu acest produs"
   },
   "ResetPassword": {
     "confirmPassword": "Repetă parola",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "Reducere de {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "Văzute recent"
   }
 }

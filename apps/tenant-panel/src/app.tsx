@@ -389,6 +389,9 @@ const routes: RouteObject[] = [
             // tenant-panel wave 2, piece 4 (profile): the copied
             // routes/profile/profile-detail tree, with profile-edit as its
             // "edit" child (RouteDrawer), same nesting the Admin uses.
+            // o24-owner-profile (t-2026-09-24-n3): "password" is the same
+            // shape of child route, for the «Изменить» button next to the
+            // «Пароль» row.
             path: "/settings/profile",
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/profile/profile-detail"),
@@ -396,6 +399,10 @@ const routes: RouteObject[] = [
               {
                 path: "edit",
                 lazy: () => import("./routes/profile/profile-edit"),
+              },
+              {
+                path: "password",
+                lazy: () => import("./routes/profile/password-edit"),
               },
             ],
           },

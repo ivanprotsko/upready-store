@@ -883,7 +883,7 @@
     "termsOfUse": "Felhasználási feltételeket"
   },
   "RelatedProducts": {
-    "title": "Ez is tetszhet"
+    "title": "Ezzel a termékkel együtt vásárolják"
   },
   "ResetPassword": {
     "confirmPassword": "Jelszó megismétlése",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% kedvezmény"
+  },
+  "RecentlyViewed": {
+    "title": "Nemrég megtekintett"
   }
 }

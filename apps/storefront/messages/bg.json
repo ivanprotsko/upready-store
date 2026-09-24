@@ -883,7 +883,7 @@
     "termsOfUse": "Условия за ползване"
   },
   "RelatedProducts": {
-    "title": "Може да ви хареса"
+    "title": "Купуват се заедно с този продукт"
   },
   "ResetPassword": {
     "confirmPassword": "Повторете паролата",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "Отстъпка {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "Наскоро разгледани"
   }
 }

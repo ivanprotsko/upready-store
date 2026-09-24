@@ -883,7 +883,7 @@
     "termsOfUse": "Terma Penggunaan"
   },
   "RelatedProducts": {
-    "title": "Anda mungkin suka"
+    "title": "Dibeli bersama-sama produk ini"
   },
   "ResetPassword": {
     "confirmPassword": "Ulang kata laluan",
@@ -986,5 +986,8 @@
   },
   "ProductCard": {
     "sale": "Diskaun {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "Baru-baru ini dilihat"
   }
 }
