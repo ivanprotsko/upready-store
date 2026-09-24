@@ -58,7 +58,7 @@ export const POST = async (
   });
 
   if (!target) {
-    throw new MedusaError(MedusaError.Types.NOT_ALLOWED, `No access to tenant "${tenant_id}".`);
+    throw new MedusaError(MedusaError.Types.FORBIDDEN, `No access to tenant "${tenant_id}".`);
   }
 
   const authIdentityId = req.auth_context.auth_identity_id;
