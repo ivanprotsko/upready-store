@@ -1,8 +1,8 @@
 /*
  * H7 · Olavka header (t-2026-09-24-n15), Figma 227:9557 «Header», `Scrolled=false`
- * (values from `w15-cache-nodes2.json`): bar #ffffff with no visible bottom line (the
- * node's 0.5px stroke is hidden), ink #18181b, wordmark #1a1b09. In the dark mode the
- * bar follows the theme's own tokens.
+ * (values from `w15-cache-nodes2.json`): a bar with no fill (Ivan's remark 7.1.1) and no
+ * visible bottom line (the node's 0.5px stroke is hidden), ink #18181b, wordmark #1a1b09.
+ * In the dark mode the controls follow the theme's own tokens.
  */
 
 .root {
@@ -21,7 +21,9 @@
   --h7-wordmark: #1a1b09;
   --h7-ring: rgba(0, 0, 0, 0.08);
   height: 53px;
-  background: var(--h7-surface);
+  /* No fill of its own (Ivan's remark 7.1.1): the page shows through, the pills, discs and
+     the logo pill keep theirs. The node frame's #ffffff fill is the component's backdrop. */
+  background: transparent;
   color: var(--h7-ink);
 }
 
@@ -143,13 +145,34 @@
   padding: 0 16px;
   font-family: var(--font-olavka-wordmark), serif;
   font-size: min(32px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
-  line-height: 1.085;
+  line-height: 1;
   font-weight: 400;
   color: var(--h7-wordmark);
   text-decoration: none;
   white-space: nowrap;
-  /* The node's text box is the cap height (32px → 16), centred in the 40px logo box. */
+}
+
+/* The node's text box is the cap height (`leadingTrim: CAP_HEIGHT`, 32px → 16) centred in
+   the 40px logo box, so the caps' centre is the controls' centre (Ivan's remark 7.1.2).
+   Trimming applies to a block, not to the flex link, hence this block of its own. */
+.wordmarkText {
+  display: block;
   text-box: trim-both cap alphabetic;
+}
+
+/* No cap trimming (older Safari / Firefox): Ruslan Display's line box is ascent 0.688 +
+   descent 0.397, cap height 0.5 (read from the font), so the caps' centre stands
+   (0.688 − 0.397 − 0.5) / 2 = 0.1045em above the line's centre; a 0.209em top padding
+   moves it down onto the centre of the flex box. */
+@supports not (text-box: trim-both cap alphabetic) {
+  .wordmarkText {
+    padding-top: 0.209em;
+  }
+}
+
+/* An uploaded logo image is centred as a box, no text metrics. */
+.wordmarkText:has(img) {
+  display: contents;
 }
 
 /* Tablet 235:16409 / mobile 235:16816. */

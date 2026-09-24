@@ -91,7 +91,9 @@ export default async function NavH7() {
                 style={wordmarkStyle}
                 data-testid="nav-store-link"
               >
-                <SiteLogo siteName={siteName} branding={branding} />
+                <span className={styles.wordmarkText}>
+                  <SiteLogo siteName={siteName} branding={branding} />
+                </span>
               </Link>
             </BrandUnlock>
           </div>
@@ -119,7 +121,9 @@ export default async function NavH7() {
                 style={wordmarkStyle}
                 data-testid="nav-store-link-compact"
               >
-                <SiteLogo siteName={siteName} branding={branding} />
+                <span className={styles.wordmarkText}>
+                  <SiteLogo siteName={siteName} branding={branding} />
+                </span>
               </Link>
             </BrandUnlock>
           </div>

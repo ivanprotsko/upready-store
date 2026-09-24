@@ -209,3 +209,43 @@ gallery (`flat`) is unchanged. `product-card-bg/<page>-<width>-<theme>-{before,a
 | store 1216 / 360 light | #e6edea | #ffffff | #ffffff | #ffffff |
 | store 1216 / 360 dark | #212c28 | #0a1310 | #0a1310 | #0a1310 |
 | home 1216 / 360 dark | #ffffff | #ffffff | #0a1310 | #ffffff — the first product's photo has its own white background (in the file, not a veil) |
+
+## Remark 7 · header: no white bar, the wordmark on the controls' centre (Ivan 2026-09-25)
+
+«1.1. Нужно убрать белый фон 1.2. надпись ОЛАВКА нужно выровнять по вертикальному центру относительно других
+элементов в хедере» — desktop, tablet, mobile, both states.
+
+**1.1** The bar's fill was removed per remark 1.1; in the nodes the frame had a white fill (227:9200, 227:9549,
+235:16409, 235:16802, 235:16816, 238:16965 — SOLID #ffffff, the component's backdrop). `.bar` and the sticky
+wrapper `#nav-h7` are `rgba(0,0,0,0)` in both states and both themes; the burger disc, the pills, the icon pill
+and the wordmark pill keep their fills and shadows. Scrolled, the page shows between the pills.
+
+**1.2** Cause: the wordmark is an `inline-flex` link, and `text-box` does not apply to a flex container, so the
+link's line kept Ruslan Display's ascent 0.688 / descent 0.397 (cap height 0.5, read from the font in the
+browser) — the caps' centre stood (0.688 − 0.397 − 0.5) / 2 = 0.1045em above the box's centre: 3.3px at 32px.
+Fix: the text sits in a block of its own (`.wordmarkText`) trimmed to the cap height (`text-box: trim-both cap
+alphabetic`, line-height 1) and centred by the 40px box; where trimming is not supported, a 0.209em top padding
+(the same metrics) moves the caps' centre onto the box's. An uploaded logo image is not touched (`:has(img)`).
+
+Measured on glyph pixels at dpr 4 (quarter-pixel), caps centre − controls centre (burger disc on desktop, the
+icon row on tablet / mobile; scrolled, also the wordmark pill's centre — the same number):
+
+| Width · state | Node: caps centre / controls centre | Render light: caps / controls, Δ | Render dark, Δ | No-`text-box` path, Δ |
+|---|---|---|---|---|
+| 1216 top | 37.5 / 38 | 38 / 38, **0** | −0.12 | −1 (baseline snapped to a whole pixel) |
+| 1216 scrolled | 37.5 / 38 | 37.88 / 38, **−0.12** | −0.12 | −0.12 |
+| 720 top | 28.5 / 29 | 28.88 / 29, **−0.12** | 0 | −0.12 |
+| 720 scrolled | 28 / 28 (bar 56) | 28.88 / 29, **−0.12** (bar 57) | −0.12 | −0.12 |
+| 360 top | 26 / 26 | 25.63 / 26, **−0.37** | −0.37 | −0.37 |
+| 360 scrolled | 26 / 26 | 25.63 / 26, **−0.37** | −0.37 | −0.37 |
+| before the fix, 1216 top (Ivan's #24) | | ≈ −3.3 by the metrics | | |
+
+The node itself sets the caps 0.5px above the controls' centre on desktop and tablet (37.5 vs 38); the render
+follows Ivan's rule (centres equal), so against the node it is +0.5 there. The no-`text-box` column is Chromium
+with `text-box` switched off and the padding on, standing in for browsers without cap trimming.
+
+Pairs (`pixel/`): `<device>-header-{figma,render,overlay}` (top, mean |Δ| 2.5 / 2.3 / 3.9, before 4.8 / 5.3 / 11.8),
+`<device>-header-scrolled-*` (scrollY 300: the banners show through the bar where the frame is white, mean |Δ|
+106.1 / 89.6 / 70.4 — the backdrop, not the controls), `<device>-header-scrolled-onwhite-*` (the scrolled skin
+over the white page top, mean |Δ| 2.6 / 3.6 / 4.1, before 3.7 / 4.9 / 10.0). Rule 27f: `header/`,
+`header-scrolled/` at 1440 / 768 / 390 light + dark, re-shot.
