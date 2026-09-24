@@ -9,7 +9,7 @@ import {
   remapKeysForProduct,
   remapKeysForVariant,
 } from "@medusajs/medusa/api/admin/products/helpers";
-import { assertOwnedProduct } from "../../../../tenant-scope";
+import { assertOwnedProduct, assertReadableProduct } from "../../../../tenant-scope";
 import { assertProductVariant, remapTenantProduct, remapTenantVariant } from "../../../helpers";
 
 /** `GET /tenants/products/:id/variants/:variant_id` → `{ variant }`. */
@@ -17,7 +17,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   const productId = req.params.id;
   const variantId = req.params.variant_id;
 
-  await assertOwnedProduct(req, productId);
+  await assertReadableProduct(req, productId);
   await assertProductVariant(req, productId, variantId);
 
   const variant = await refetchEntity({

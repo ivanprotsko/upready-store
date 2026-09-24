@@ -11,7 +11,7 @@ import {
 } from "../../../product-attributes/helpers";
 import type { PostTenantProductAttributeValuesBody } from "../../../product-attributes/validators";
 import { notifyStorefrontRevalidate } from "../../../../../storefront-revalidate";
-import { assertOwnedProduct, getTenantScope } from "../../../tenant-scope";
+import { assertOwnedProduct, assertReadableProduct, getTenantScope } from "../../../tenant-scope";
 
 /**
  * The «Характеристики» section of the panel's product screen
@@ -59,7 +59,7 @@ const readAttributes = async (req: AuthenticatedMedusaRequest, tenantId: string)
 
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const scope = await getTenantScope(req);
-  await assertOwnedProduct(req, req.params.id);
+  await assertReadableProduct(req, req.params.id);
 
   const product_attributes = await readAttributes(req, scope.id);
 

@@ -143,11 +143,21 @@ medusaIntegrationTestRunner({
         expect(readByB.status).toBe(200);
         expect(readByB.data.product.owned).toBe(false);
 
-        for (const outsider of [c, d]) {
-          const response = await api
-            .get(`/tenants/products/${product.id}`, bearer(outsider.token))
+        // The product page's own sub-reads work for the other site too.
+        for (const path of ["variants", "options", "attributes", `variants/${product.variants[0].id}`]) {
+          const sub = await api
+            .get(`/tenants/products/${product.id}/${path}`, bearer(b.token))
             .catch((error) => error.response);
-          expect(response.status).toBe(404);
+          expect([path, sub.status]).toEqual([path, 200]);
+        }
+
+        for (const outsider of [c, d]) {
+          for (const path of ["", "/variants", "/options", "/attributes"]) {
+            const response = await api
+              .get(`/tenants/products/${product.id}${path}`, bearer(outsider.token))
+              .catch((error) => error.response);
+            expect([path, response.status]).toEqual([path, 404]);
+          }
         }
       });
 
