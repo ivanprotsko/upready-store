@@ -1,0 +1,13 @@
+{
+  "name": "@upready/price-cost-calculator",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Модель и калькулятор себестоимости и цены дополнительного товара сверх включённых в тариф (t-2026-09-14-02)",
+  "main": "model.js",
+  "types": "model.d.ts",
+  "scripts": {
+    "test": "node --test",
+    "serve": "python3 -m http.server 5399"
+  }
+}
