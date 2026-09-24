@@ -61,6 +61,13 @@
     flex-basis: calc((100% - 24px) / 2);
     max-width: none;
   }
+
+  /* `Items=2+` on desktop (239:17719): the current card centred (x 322 at 1216), the next
+     peeking right at 918 — the padding is what centres the first card at rest. */
+  .carousel {
+    padding-inline: calc(50% - 286px);
+    scroll-padding-inline: calc(50% - 286px);
+  }
 }
 
 .card {
