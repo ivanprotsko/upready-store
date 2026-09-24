@@ -106,6 +106,8 @@ export const OWNER_NAV: OwnerNavGroup[] = [
       },
       { labelKey: "app.nav.owner.requisites", to: "/settings/requisites" },
       { labelKey: "app.nav.owner.domains", to: "/settings/domains" },
+      // t-2026-09-24-n12: the owner's sites with one catalogue, «Создать сайт».
+      { labelKey: "app.nav.owner.sites", to: "/settings/sites" },
       { labelKey: "app.nav.owner.locale", to: "/settings/locale" },
       { labelKey: "app.nav.owner.notifications", to: "/settings/notifications" },
       { labelKey: "app.nav.owner.customerLogin", to: "/settings/customer-login" },
