@@ -3,6 +3,7 @@ import type { IAuthModuleService, Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../src/modules/tenant";
 import TenantModuleService from "../../src/modules/tenant/service";
+import { isTestShop, markTestShopMetadata } from "../../src/modules/tenant/test-shop";
 import createTenantWorkflow from "../../src/workflows/tenant/create-tenant";
 import upsertTenantLocaleSettingsWorkflow from "../../src/workflows/tenant/upsert-tenant-locale-settings";
 import { relocalizeDefaultShippingMethods } from "../../src/shipping-tariffs/relocalize-default-methods";
@@ -33,6 +34,12 @@ export default async function seedB13LocaleShippingNames({ container }: { contai
   const ensureTenant = async (handle: string, name: string, adminEmail: string) => {
     let [tenant] = await tenantModuleService.listTenants({ handle });
     if (tenant) {
+      if (!isTestShop(tenant.metadata as Record<string, unknown> | null)) {
+        await tenantModuleService.updateTenants({
+          id: tenant.id,
+          metadata: markTestShopMetadata(tenant.metadata as Record<string, unknown> | null),
+        });
+      }
       logger.info(`b13-seed: ${handle} already exists (${tenant.id})`);
       return tenant;
     }
@@ -52,6 +59,11 @@ export default async function seedB13LocaleShippingNames({ container }: { contai
         authIdentityId: registered.authIdentity.id,
       },
     });
+    await tenantModuleService.updateTenants({
+      id: result.tenant.id,
+      metadata: markTestShopMetadata(result.tenant.metadata as Record<string, unknown> | null),
+    });
+
     logger.info(`b13-seed: created ${handle} (${result.tenant.id})`);
     return result.tenant as typeof tenant;
   };

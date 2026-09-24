@@ -307,6 +307,57 @@ medusaIntegrationTestRunner({
         );
         expect(removedPlatform.status).toBe(200);
       });
+
+      // o25-hide-test-shops: `metadata.test_shop`, marked here through
+      // `POST /admin/tenants/:id` (the same route the marking fixture and
+      // the seed scripts write through). The database resets to the
+      // post-beforeAll snapshot before every `it` (this file's own header
+      // note), so marking a shop in one test never leaks into the next.
+      const markTestShop = async (tenantId: string) => {
+        const marked = await api.post(`/admin/tenants/${tenantId}`, { metadata: { test_shop: true } }, adminHeaders);
+        expect(marked.status).toBe(200);
+      };
+
+      it("shops list hides a shop marked test_shop", async () => {
+        await markTestShop(shopC.id);
+
+        const shops = await api.get("/tenants/me/shops", bearer(platformToken));
+        expect(shops.status).toBe(200);
+
+        const ids = (shops.data.shops as { id: string }[]).map((shop) => shop.id).sort();
+        expect(ids).toEqual([shopA.id, shopB.id].sort());
+        expect(ids).not.toContain(shopC.id);
+      });
+
+      it("shops list keeps the CURRENT shop even when it is marked test_shop", async () => {
+        // platformToken's actor is shop A (the identity's default, set at
+        // registration in beforeAll) — marking it must not hide it from its
+        // own admin, or a platform admin logged into a marked shop would see
+        // an empty switcher with no way back to a real one.
+        await markTestShop(shopA.id);
+
+        const shops = await api.get("/tenants/me/shops", bearer(platformToken));
+        expect(shops.status).toBe(200);
+
+        const ids = (shops.data.shops as { id: string }[]).map((shop) => shop.id).sort();
+        expect(ids).toEqual([shopA.id, shopB.id, shopC.id].sort());
+      });
+
+      it("switch into a shop marked test_shop still 200s — only the LIST hides it", async () => {
+        await markTestShop(shopC.id);
+
+        const switched = await api.post(
+          "/tenants/me/switch",
+          { tenant_id: shopC.id },
+          bearer(platformToken),
+        );
+        expect(switched.status).toBe(200);
+        expect(typeof switched.data.token).toBe("string");
+
+        const me = await api.get("/tenants/me", bearer(switched.data.token));
+        expect(me.status).toBe(200);
+        expect(me.data.tenant_admin.tenant.id).toBe(shopC.id);
+      });
     });
   },
 });

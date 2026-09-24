@@ -3,6 +3,7 @@ import type { IAuthModuleService, Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError, Modules } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../modules/tenant";
 import TenantModuleService from "../modules/tenant/service";
+import { isTestShop, markTestShopMetadata } from "../modules/tenant/test-shop";
 import createTenantWorkflow from "../workflows/tenant/create-tenant";
 
 /**
@@ -45,6 +46,12 @@ export default async function seedTenants({ container }: { container: MedusaCont
   for (const seed of SEED_TENANTS) {
     const [existing] = await tenantModuleService.listTenants({ handle: seed.handle });
     if (existing) {
+      if (!isTestShop(existing.metadata as Record<string, unknown> | null)) {
+        await tenantModuleService.updateTenants({
+          id: existing.id,
+          metadata: markTestShopMetadata(existing.metadata as Record<string, unknown> | null),
+        });
+      }
       logger.info(`seed-tenants: ${seed.handle} already exists (${existing.id}) — skipped.`);
       continue;
     }
@@ -70,8 +77,13 @@ export default async function seedTenants({ container }: { container: MedusaCont
       },
     });
 
+    await tenantModuleService.updateTenants({
+      id: result.tenant.id,
+      metadata: markTestShopMetadata(result.tenant.metadata as Record<string, unknown> | null),
+    });
+
     logger.info(
-      `seed-tenants: ${seed.handle} → ${result.tenant.id}, admin ${seed.admin.email}, sales channel ${result.tenant.sales_channel.id}, publishable key ${result.tenant.api_key.token}.`,
+      `seed-tenants: ${seed.handle} → ${result.tenant.id}, admin ${seed.admin.email}, sales channel ${result.tenant.sales_channel.id}, publishable key ${result.tenant.api_key.token}, marked test_shop.`,
     );
   }
 }
