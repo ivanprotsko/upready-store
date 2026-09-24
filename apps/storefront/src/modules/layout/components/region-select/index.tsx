@@ -51,8 +51,13 @@ type RegionSelectProps = {
    * 40px rounded pill on the theme's `--muted`. The language keeps its tab inside the same
    * dialog; the node shows no language control in the bar. Default: today's two text links.
    */
-  variant?: "links" | "pills"
+  variant?: "links" | "pills" | "discs"
 }
+
+/** `"discs"` (same branch): the tablet/mobile header of Figma 227:9557 — a flag disc
+ *  and a currency-sign disc, 36px below 640 and 40px above, on the bar's own surface. */
+const DISC_CLASS =
+  "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--background)] text-sm font-medium text-[var(--foreground)] shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.12)] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] sm:h-10 sm:w-10"
 
 const PILL_CLASS =
   "inline-flex h-10 items-center gap-x-1.5 rounded-full bg-[var(--muted)] px-4 text-sm font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
@@ -292,7 +297,33 @@ const RegionSelect = ({
           The language shows as its code alone; the country as its flag plus the
           currency the prices are in. Both open the same dialog, which has a section
           for each. */}
-      {variant === "pills" ? (
+      {variant === "discs" ? (
+        <span className={clx("flex items-center gap-x-2.5", className)}>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            data-testid="nav-country-select-button"
+            aria-label={`${t("tabCountry")}: ${selectedCountryOption.label}`}
+            className={DISC_CLASS}
+          >
+            <CountryFlag
+              countryCode={triggerFlagCode}
+              style={{ width: "15px", height: "15px" }}
+              className="shrink-0 rounded-full"
+            />
+          </button>
+          <span aria-hidden className="h-3 w-px bg-[var(--border)]" />
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            data-testid="nav-region-select-button"
+            aria-label={`${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`}
+            className={DISC_CLASS}
+          >
+            <span>{selectedCountryOption.currencySymbol}</span>
+          </button>
+        </span>
+      ) : variant === "pills" ? (
         <span className={clx("flex items-center gap-x-2", className)}>
           <button
             type="button"

@@ -137,9 +137,9 @@ export const DEMO_HOME_BLOCKS = {
   olavkaHeroSlider: OlavkaHeroSlider,
 } as const
 export type DemoHomeBlockKey = keyof typeof DEMO_HOME_BLOCKS
-/** Figma order, top to bottom, as Ivan listed the components (Header, then these three). */
-export const DEMO_HOME_ORDER: readonly DemoHomeBlockKey[] = [
-  "olavkaCover",
-  "olavkaNavigation",
-  "olavkaHeroSlider",
-]
+/**
+ * The new mockup 233:15256 (Ivan, 2026-09-25: «давай выключим блоки … и блок с
+ * навигацией») has no Cover and no Navigation: Header → HeroSliders → catalog → footer.
+ * Both components stay in the branch (registered above), only this order names them no more.
+ */
+export const DEMO_HOME_ORDER: readonly DemoHomeBlockKey[] = ["olavkaHeroSlider"]

@@ -699,7 +699,7 @@
     "slider": {
       "course": "Course",
       "goTo": "Go to “{title}”",
-      "label": "Courses",
+      "label": "Banners",
       "next": "Next",
       "position": "{current} of {total}",
       "previous": "Previous",

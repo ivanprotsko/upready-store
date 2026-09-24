@@ -699,7 +699,7 @@
     "slider": {
       "course": "Курс",
       "goTo": "К слайду «{title}»",
-      "label": "Курсы",
+      "label": "Баннеры",
       "next": "Далее",
       "position": "{current} из {total}",
       "previous": "Назад",

@@ -6,12 +6,73 @@
  * literal values are #ffffff bar, #f5f5f5 pills, #18181b ink, #1a1b09 wordmark.
  */
 
+/* Node heights: desktop 76, tablet 57, mobile 53 (Figma 227:9557, Scrolled=false). */
 .bar {
-  height: 76px;
+  height: 52px;
   background: var(--background);
   color: var(--foreground);
   border-bottom: 1px solid var(--border);
 }
+
+@media (min-width: 640px) {
+  .bar {
+    height: 56px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bar {
+    height: 76px;
+  }
+}
+
+/* Tablet / mobile (Device=tablet|mobile, Scrolled=false): the wordmark LEFT, then a
+   trailing group flag · currency · cart · burger separated by 1×12 dividers. */
+.compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 100%;
+  padding: 0 12px;
+}
+
+@media (min-width: 640px) {
+  .compact {
+    padding: 0 24px;
+  }
+}
+
+.compactGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+@media (min-width: 640px) {
+  .compactGroup {
+    gap: 10px;
+  }
+}
+
+/* The wordmark yields to the trailing group: a long tenant name shrinks, then clips. */
+.compact .wordmark {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  font-size: clamp(16px, 4.4vw, 28px);
+}
+
+.divider {
+  width: 1px;
+  height: 12px;
+  background: var(--border);
+}
+
+
 
 .inner {
   max-width: 1216px;
@@ -134,5 +195,25 @@
 @media (min-width: 1024px) {
   .mobileOnly {
     display: none;
+  }
+}
+
+.cartIcon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--foreground);
+}
+
+/* `composes` must follow `.disc`. 36px discs below 640, 40px from 640 (the node's Large (36) / Xlarge (40)). */
+.discSmall {
+  composes: disc;
+  width: 36px;
+  height: 36px;
+}
+
+@media (min-width: 640px) {
+  .discSmall {
+    width: 40px;
+    height: 40px;
   }
 }

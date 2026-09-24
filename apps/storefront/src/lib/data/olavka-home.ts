@@ -1,10 +1,12 @@
 "use server"
 
 import type { HttpTypes } from "@medusajs/types"
+import { getTranslations } from "next-intl/server"
 
 import { listCategories } from "./categories"
 import { getHomeRegion } from "./home"
 import { listProducts } from "./products"
+import { getTenantHome } from "./tenant-home"
 import type { OlavkaHeroSlide, OlavkaNavItem } from "@modules/home/variants/olavka-types"
 
 /**
@@ -33,7 +35,7 @@ export async function getOlavkaNavItems(): Promise<OlavkaNavItem[]> {
     .sort((a, b) => a.name.localeCompare(b.name, "ru"))
 }
 
-/** At most this many course slides; the node shows three banners. */
+/** At most this many course slides in the fallback; the node shows two banners. */
 const MAX_SLIDES = 6
 
 type CourseMetadata = {
@@ -48,14 +50,53 @@ const isCourse = (product: HttpTypes.StoreProduct): boolean => {
   return meta.digital === true || meta.digital === "true" || Boolean(meta.course_page)
 }
 
-/**
- * Slides for the hero slider: the tenant's course products, newest catalog order, each
- * with its cover (`metadata.cover.src`, the course page's own hero) or thumbnail. Real
- * tenant data, never invented copy; see `OlavkaHeroSlide` for the fields the node draws
- * that have no data yet.
- */
-export async function getOlavkaHeroSlides(): Promise<OlavkaHeroSlide[]> {
-  const region = await getHomeRegion()
+const isExternal = (href: string) => /^https?:\/\//i.test(href)
+
+/** The tenant's saved banners as slides, in `sort` order — or null when none is saved. */
+async function bannerSlides(): Promise<OlavkaHeroSlide[] | null> {
+  const home = await getTenantHome()
+  const banners = home?.content.banners ?? []
+  if (!banners.length) {
+    return null
+  }
+
+  return [...banners]
+    .sort((a, b) => a.sort - b.sort)
+    .map((banner) => {
+      const href =
+        banner.link.type === "product"
+          ? banner.link.handle
+            ? `/products/${banner.link.handle}`
+            : "/store"
+          : banner.link.href
+      return {
+        id: banner.id,
+        source: "banner",
+        kicker: banner.kicker || null,
+        label: banner.label || null,
+        title: banner.title,
+        button: banner.button || null,
+        image: banner.image.src
+          ? {
+              src: banner.image.src,
+              alt: banner.image.alt ?? "",
+              srcSet: banner.image.srcset?.length
+                ? banner.image.srcset.map((v) => `${v.url} ${v.w}w`).join(", ")
+                : null,
+              width: banner.image.width ?? null,
+              height: banner.image.height ?? null,
+            }
+          : null,
+        href,
+        external: banner.link.type === "url" && isExternal(href),
+      }
+    })
+}
+
+/** The fallback: the tenant's course products, newest catalog order, each with its
+ *  cover (`metadata.cover.src`) or thumbnail. Real tenant data, never invented copy. */
+async function courseSlides(): Promise<OlavkaHeroSlide[]> {
+  const [t, region] = await Promise.all([getTranslations("OlavkaHome.slider"), getHomeRegion()])
   if (!region) {
     return []
   }
@@ -71,14 +112,33 @@ export async function getOlavkaHeroSlides(): Promise<OlavkaHeroSlide[]> {
     .map((product) => {
       const meta = (product.metadata ?? {}) as CourseMetadata
       const cover = typeof meta.cover?.src === "string" ? meta.cover.src : null
+      const src = cover ?? product.thumbnail ?? null
       return {
         id: product.handle as string,
         source: "course",
-        title: product.title,
         kicker: null,
-        image: cover ?? product.thumbnail ?? null,
-        imageAlt: typeof meta.cover?.alt === "string" ? meta.cover.alt : "",
+        label: t("course"),
+        title: product.title,
+        button: t("watch"),
+        image: src
+          ? {
+              src,
+              alt: typeof meta.cover?.alt === "string" ? meta.cover.alt : "",
+              srcSet: null,
+              width: null,
+              height: null,
+            }
+          : null,
         href: `/products/${product.handle}`,
+        external: false,
       }
     })
+}
+
+/**
+ * Slides for the HeroSliders block: the tenant's banners (`content.banners`, the panel's
+ * «Баннеры на главной», t-2026-09-24-n15) when any are saved, else the course fallback.
+ */
+export async function getOlavkaHeroSlides(): Promise<OlavkaHeroSlide[]> {
+  return (await bannerSlides()) ?? courseSlides()
 }

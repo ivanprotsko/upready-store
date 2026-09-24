@@ -1,91 +1,100 @@
 /*
- * HeroSlider · Olavka (t-2026-09-24-n15), Figma 227:9298 «HeroSliders» (1216×416):
- * block padding 16/0, content padding 32/48; the active banner 800×320 centred, its
- * neighbours 800×280 at a 24px gap, clipped by the 1216 edge (184px of each visible);
- * banner radius 48 with a 3px white border inset 4px (radius 44); two 48px round arrows
- * (white 85%, shadow 0 2 8 15%) 32px from the edges; 8px dots (#b3b3b3 / #333333) gap
- * 10 right under the active banner. Labels are «BannerLabel»: a 4px ring (white or the
- * dark #2b2e0e) around a translucent white (75%) or dark inner box, Roboto Flex uppercase.
+ * HeroSliders · Olavka (t-2026-09-24-n15), Figma 238:17551, three device variants:
+ *   desktop 1216×496 — content padding 32/24, two banners 572×400 at a 24px gap;
+ *   tablet   720×432 — padding 0/24, one banner 572×400, the next peeking (gap 12);
+ *   mobile   360×432 — padding 0/12, one banner 288×400 (radius 24), the next peeking.
+ * Banner: radius 48 with a 3px white border inset 4px (radius 44); chips are the node's
+ * «BannerLabel»: white box with #1a1b09 text (kicker, button) or #312721 box with white
+ * text (label, title), Roboto Flex uppercase — 14px for the small chips, ~28px for the
+ * two-line title (the node's 56px text measures 107×90 at 1×, i.e. 28px). Insets 40
+ * (title 36) on desktop, 20 on mobile.
  *
- * The geometry is CSS custom properties so the track needs no measuring: the active
- * slide is centred by `calc()` from `--i`. Below 1024px (no mobile frame in the file):
- * the banner is the viewport minus 80px, 2.5:1 down to 1.6:1, labels scaled.
+ * The track is native scroll-snap: no measuring, no state, swipe and wheel for free.
+ * Breakpoints: mobile below 640, tablet 640–1023, desktop from 1024 (the storefront's
+ * `small` screen) — stated in the evidence report, the file has no other mobile frame.
  */
 
 .slider {
-  --slide-w: 800px;
-  --slide-h: 320px;
-  --gap: 24px;
-  --inset: 40px;
-  --label-l: 28px;
-  --label-m: 14px;
-  position: relative;
   max-width: 1216px;
   margin: 0 auto;
   padding: 16px 0;
 }
 
-@media (max-width: 1023px) {
-  .slider {
-    --slide-w: min(800px, calc(100vw - 80px));
-    --slide-h: clamp(200px, calc(var(--slide-w) * 0.5), 320px);
-    --gap: 16px;
-    --inset: 16px;
-    --label-l: 20px;
-    --label-m: 12px;
-  }
-}
-
-.viewport {
-  position: relative;
-  overflow: hidden;
-  padding: 32px 0;
-  touch-action: pan-y;
-}
-
+/* Base = carousel (`Items=2+`): scroll-snap, cards centred, neighbours peeking. */
 .track {
   display: flex;
-  align-items: center;
-  gap: var(--gap);
-  height: var(--slide-h);
-  will-change: transform;
-  transform: translateX(calc(50% - var(--slide-w) / 2 - var(--i, 0) * (var(--slide-w) + var(--gap))));
+  gap: 24px;
+  margin: 0;
+  padding: 32px 24px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 24px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .track.animated {
-    transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  flex: 0 0 572px;
+  max-width: calc(100% - 100px);
+  scroll-snap-align: center;
+}
+
+/* `Items=1`: one card, the whole content width. */
+.single .item {
+  flex-basis: 100%;
+  max-width: none;
+  scroll-snap-align: start;
+}
+
+/* `Items=2` on desktop: the pair side by side, nothing scrolls. */
+@media (min-width: 1024px) {
+  .pair {
+    overflow: visible;
+  }
+  .pair .item {
+    flex-basis: calc((100% - 24px) / 2);
+    max-width: none;
   }
 }
 
-.slide {
+.card {
   position: relative;
-  flex: 0 0 var(--slide-w);
-  height: calc(var(--slide-h) * 0.875);
+  display: block;
+  height: 400px;
   border-radius: 48px;
   overflow: hidden;
   background: var(--muted);
-  color: var(--foreground);
+  color: #ffffff;
+  text-decoration: none;
+  isolation: isolate;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .slide {
-    transition: height 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-}
-
-.slide.on {
-  height: var(--slide-h);
-}
-
-@media (max-width: 1023px) {
-  .slide {
-    border-radius: 28px;
-  }
+.card:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 4px;
 }
 
 .image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .image {
+    transition: transform 400ms ease-out;
+  }
+  .card:hover .image {
+    transform: scale(1.02);
+  }
 }
 
 .border {
@@ -96,203 +105,106 @@
   pointer-events: none;
 }
 
-@media (max-width: 1023px) {
-  .border {
-    border-radius: 24px;
-  }
-}
-
-/* The whole banner opens the course; the labels sit on top of it. */
-.cover {
+.chip {
   position: absolute;
-  inset: 0;
-  display: block;
-}
-
-.cover:focus-visible {
-  outline: 3px solid var(--ring);
-  outline-offset: -6px;
-}
-
-/* Labels belong to the active banner only; a neighbour is a plain picture on the node. */
-.label {
-  position: absolute;
-  display: inline-flex;
-  opacity: 0;
-  padding: 3px;
+  display: inline-block;
+  max-width: calc(100% - 80px);
+  padding: 12px 16px;
   border-radius: 18px;
-  box-shadow: 0 0 0 4px #ffffff;
+  background: #ffffff;
+  color: #1a1b09;
   font-family: var(--font-olavka-flex), var(--font-body), sans-serif;
-  text-transform: uppercase;
-  color: #000000;
-  pointer-events: none;
-}
-
-.labelInner {
-  border-radius: 11px;
-  background: rgba(255, 255, 255, 0.75);
-  padding: 9px 12px;
-  font-size: var(--label-m);
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.05em;
   line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.label.dark {
-  box-shadow: 0 0 0 4px #2b2e0e;
-  color: #e5e5cb;
-}
-
-.label.dark .labelInner {
-  background: #2b2e0e;
-  color: #bcbe9f;
-}
-
-.slide.on .label {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .label {
-    transition: opacity 0.35s ease-out;
-  }
-}
-
-.label.title {
-  border-radius: 36px;
-  max-width: calc(var(--slide-w) * 0.34);
-}
-
-@media (max-width: 1023px) {
-  .label.title {
-    max-width: calc(var(--slide-w) * 0.5);
-  }
-}
-
-.label.title .labelInner {
-  border-radius: 29px;
-  padding: 14px 16px;
-  font-size: var(--label-l);
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 0.95;
-  text-wrap: balance;
-}
-
-.label.title.dark .labelInner {
-  color: #e5e5cb;
+.chipDark {
+  background: #312721;
+  color: #ffffff;
 }
 
 .kicker {
-  top: var(--inset);
-  left: var(--inset);
+  top: 40px;
+  left: 40px;
 }
 
-.tag {
-  top: var(--inset);
-  right: var(--inset);
+.label {
+  top: 40px;
+  right: 40px;
+}
+
+.button {
+  bottom: 40px;
+  right: 40px;
 }
 
 .title {
-  bottom: var(--inset);
-  left: var(--inset);
-}
-
-.cta {
-  bottom: var(--inset);
-  right: var(--inset);
-  pointer-events: auto;
-  text-decoration: none;
-}
-
-.cta:hover .labelInner {
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.cta:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 6px;
-}
-
-.arrow {
-  position: absolute;
-  top: 50%;
-  width: 48px;
-  height: 48px;
-  margin-top: -24px;
-  border: 0;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.85);
-  color: #262626;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-body), sans-serif;
+  bottom: 36px;
+  left: 36px;
+  max-width: 42%;
+  padding: 18px 20px;
+  border-radius: 36px;
   font-size: 28px;
-  font-weight: 700;
-  line-height: 1;
-  padding: 0 0 4px;
-  z-index: 2;
-}
-
-.arrow:hover {
-  background: #ffffff;
-}
-
-.arrow:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
-}
-
-.arrowLeft {
-  left: 32px;
-}
-
-.arrowRight {
-  right: 32px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 0.95;
+  white-space: normal;
+  text-wrap: balance;
+  overflow: visible;
 }
 
 @media (max-width: 1023px) {
-  .arrow {
-    width: 36px;
-    height: 36px;
-    margin-top: -18px;
+  .track {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 639px) {
+  .track {
+    gap: 12px;
+    padding: 0 12px;
+    scroll-padding-inline: 12px;
+  }
+  .item {
+    flex-basis: 288px;
+    max-width: calc(100% - 48px);
+  }
+  .card {
+    border-radius: 24px;
+  }
+  .border {
+    border-radius: 20px;
+  }
+  .chip {
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    max-width: calc(100% - 40px);
+  }
+  .kicker {
+    top: 20px;
+    left: 20px;
+  }
+  .label {
+    top: 20px;
+    right: 20px;
+  }
+  .button {
+    bottom: 20px;
+    right: 20px;
+  }
+  .title {
+    bottom: 20px;
+    left: 20px;
+    max-width: 58%;
+    padding: 14px 16px;
+    border-radius: 20px;
     font-size: 22px;
   }
-  .arrowLeft {
-    left: 8px;
-  }
-  .arrowRight {
-    right: 8px;
-  }
-}
-
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 12px 0 0;
-  margin-top: -32px;
-  position: relative;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: #b3b3b3;
-  cursor: pointer;
-}
-
-.dot.on {
-  background: #333333;
-}
-
-.dot:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
 }

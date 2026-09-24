@@ -6,24 +6,30 @@
  */
 
 /**
- * One slide of the hero slider — Figma 227:9298 «HeroSliders» draws a course banner: a
- * kicker top-left («17 августа»), a tag top-right («Курс»), the title bottom-left, a
- * button bottom-right («Смотреть»). TODO(panel editor): today the list is ASSEMBLED from
- * the tenant's course products (`lib/data/olavka-home.ts`) because the tenant document
- * (`upready.tenant-home/v1`) has no `slides` field; the node's start date has no data
- * behind it yet, so `kicker` is null until the panel writes one. When the panel grows a
- * slides editor, its rows map 1:1 onto this shape and the assembly goes away.
+ * One card of the HeroSliders block (Figma 238:17551): a picture, four corner chips —
+ * kicker top-left, label top-right, title bottom-left, button bottom-right — and ONE
+ * link the whole card carries. Built from the tenant's `content.banners` (the panel's
+ * «Баннеры на главной»); with no banners saved, from the shop's course products
+ * (`source: "course"`), so an untouched tenant does not get an empty block.
  */
 export type OlavkaHeroSlide = {
-  /** Stable key — the product handle. */
   id: string
-  source: "course"
-  title: string
-  /** Small uppercase line top-left (a date on the node); null = not drawn. */
+  source: "banner" | "course"
   kicker: string | null
-  image: string | null
-  imageAlt: string
+  label: string | null
+  title: string
+  button: string | null
+  image: {
+    src: string
+    alt: string
+    /** Ready `srcset` attribute value (`url 480w, …`) when the picture has variants. */
+    srcSet: string | null
+    width: number | null
+    height: number | null
+  } | null
   href: string
+  /** `http(s)://` somewhere else: opens in a new tab with `rel="noopener noreferrer"`. */
+  external: boolean
 }
 
 /** One entry of the category navigation row. */
