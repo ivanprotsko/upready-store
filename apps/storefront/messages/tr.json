@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Son görüntülenenler"
+  },
+  "CoursePage": {
+    "about": "Program hakkında",
+    "faq": "Sorular ve cevaplar",
+    "testimonials": "Katılımcı yorumları"
   }
 }

@@ -27,6 +27,24 @@ export const PostTenantCreateSchema = z.strictObject({
 export type PostTenantCreateBody = z.infer<typeof PostTenantCreateSchema>;
 
 /**
+ * `POST /tenants/sites` (t-2026-09-24-n12): «Создать сайт», a copy of the
+ * caller's current site. Same handle rule as `PostTenantCreateSchema`; the
+ * admin is always the caller, so there is no `admin` field to name another.
+ */
+export const PostTenantSiteSchema = z.strictObject({
+  name: z.string().trim().min(1).max(200),
+  handle: z
+    .string()
+    .min(3)
+    .max(63)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens"),
+  copy_pages: z.boolean().default(true),
+  copy_shipping: z.boolean().default(true),
+});
+
+export type PostTenantSiteBody = z.infer<typeof PostTenantSiteSchema>;
+
+/**
  * The Admin's product-option list params plus `product_id`, which the Admin's
  * own route does not take. `GET /tenants/product-options` is scoped to the
  * tenant's products, and the panel narrows it to one of them; without this

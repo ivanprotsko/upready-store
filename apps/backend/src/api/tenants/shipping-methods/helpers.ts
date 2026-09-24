@@ -1,5 +1,5 @@
 import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
-import type { IFulfillmentModuleService } from "@medusajs/framework/types";
+import type { IFulfillmentModuleService, MedusaContainer } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError, Modules } from "@medusajs/framework/utils";
 import { TARIFF_PROVIDER_ID } from "../../../modules/tariff-fulfillment";
 import { TENANT_MODULE } from "../../../modules/tenant";
@@ -53,7 +53,19 @@ export const WEIGHT_METADATA_KEY = "shipping_default_weight_g";
 /** The tenant's warehouse and zones; throws 404 when provisioning never ran for it. */
 export const getTenantWarehouse = async (req: AuthenticatedMedusaRequest): Promise<TenantWarehouse> => {
   const scope = await getTenantScope(req);
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+  return warehouseOf(req.scope, { id: scope.id, sales_channel_id: scope.sales_channel_id });
+};
+
+/**
+ * `getTenantWarehouse` for a tenant named by id rather than by the token:
+ * `clone-tenant` (t-2026-09-24-n12) writes delivery methods into a site the
+ * caller is not logged into yet.
+ */
+export const warehouseOf = async (
+  container: MedusaContainer,
+  scope: { id: string; sales_channel_id: string | null },
+): Promise<TenantWarehouse> => {
+  const query = container.resolve(ContainerRegistrationKeys.QUERY);
 
   if (!scope.sales_channel_id) {
     throw new MedusaError(MedusaError.Types.NOT_FOUND, "The shop has no sales channel; delivery cannot be configured.");

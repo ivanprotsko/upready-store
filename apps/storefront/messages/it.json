@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Visti di recente"
+  },
+  "CoursePage": {
+    "about": "Informazioni sul programma",
+    "faq": "Domande e risposte",
+    "testimonials": "Testimonianze dei partecipanti"
   }
 }

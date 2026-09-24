@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "最近チェックした商品"
+  },
+  "CoursePage": {
+    "about": "プログラムについて",
+    "faq": "よくある質問",
+    "testimonials": "参加者の声"
   }
 }

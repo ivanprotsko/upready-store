@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Nylig sett"
+  },
+  "CoursePage": {
+    "about": "Om programmet",
+    "faq": "Spørsmål og svar",
+    "testimonials": "Deltakernes erfaringer"
   }
 }

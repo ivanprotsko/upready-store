@@ -178,6 +178,7 @@ import {
   PutTenantLoginSettingsSchema,
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
+  PostTenantSiteSchema,
   PostTenantSwitchShopSchema,
   PostTenantUpdateProductSchema,
   PostTenantUpdateMeSchema,
@@ -550,6 +551,13 @@ export default defineMiddlewares({
       matcher: "/tenants/me/password",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantUpdatePasswordSchema)],
+    },
+    // t-2026-09-24-n12: «Настройки → Сайты», the sites of one client and
+    // «Создать сайт». GET takes no parameters.
+    {
+      matcher: "/tenants/sites",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantSiteSchema)],
     },
     // o25-platform-admin-all-shops: the shop switcher. GET takes no body; it
     // reads only what the caller's OWN token already grants.

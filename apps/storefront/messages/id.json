@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Baru saja dilihat"
+  },
+  "CoursePage": {
+    "about": "Tentang program",
+    "faq": "Tanya jawab",
+    "testimonials": "Testimoni peserta"
   }
 }

@@ -745,6 +745,14 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/domains"),
           },
           {
+            // «Сайты» (t-2026-09-24-n12): the owner's sites of one client and
+            // «Создать сайт». No Admin counterpart. One screen, no children.
+            path: "/settings/sites",
+            handle: { breadcrumb: () => t("sites.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/sites"),
+          },
+          {
             // «Уведомления» (t08-order-notifications): who hears about a new
             // order — the customer by e-mail, the owner in Telegram. No Admin
             // counterpart: a native install notifies from medusa-config alone.

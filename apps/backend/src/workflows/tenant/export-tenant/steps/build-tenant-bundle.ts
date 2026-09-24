@@ -1,7 +1,9 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
+import type { MedusaContainer } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import medusaPackageJson from "@medusajs/medusa/package.json";
 import { listTenantFiles } from "../../../../tenant-files";
+import { readSiteSection, type SiteSection } from "../../../../tenant-sites/site-section";
 
 export type BuildTenantBundleStepInput = {
   tenant_id: string;
@@ -37,6 +39,8 @@ export type TenantBundle = {
   regions: unknown[];
   files: Array<{ key: string; url: string; size: number | null }>;
   pages: null;
+  /** The site's own settings (`tenant-sites/site-section.ts`), what `clone-tenant` copies. */
+  site: SiteSection;
   manifest: TenantBundleManifest;
 };
 
@@ -180,7 +184,37 @@ const WAREHOUSE_FIELDS = [
   "stock_locations.fulfillment_sets.service_zones.shipping_options.type.code",
   "stock_locations.fulfillment_sets.service_zones.shipping_options.prices.currency_code",
   "stock_locations.fulfillment_sets.service_zones.shipping_options.prices.amount",
+  // t-2026-09-24-n12: the tariff (`data`) and the «enabled in store» rule are
+  // what makes a delivery method of the owner's; `clone-tenant` copies them.
+  "stock_locations.fulfillment_sets.service_zones.shipping_options.data",
+  "stock_locations.fulfillment_sets.service_zones.shipping_options.rules.attribute",
+  "stock_locations.fulfillment_sets.service_zones.shipping_options.rules.operator",
+  "stock_locations.fulfillment_sets.service_zones.shipping_options.rules.value",
+  "stock_locations.fulfillment_sets.service_zones.shipping_options.created_at",
 ];
+
+/**
+ * The stock locations of one sales channel, with fulfillment sets, zones and
+ * shipping options (tariff `data` and rules included): the bundle's
+ * `warehouse.stock_locations`, and what `clone-tenant` copies delivery from.
+ */
+export const readChannelWarehouse = async (
+  container: MedusaContainer,
+  salesChannelId: string | null,
+): Promise<unknown[]> => {
+  if (!salesChannelId) {
+    return [];
+  }
+  const query = container.resolve(ContainerRegistrationKeys.QUERY);
+  const {
+    data: [channel],
+  } = await query.graph({
+    entity: "sales_channel",
+    fields: WAREHOUSE_FIELDS,
+    filters: { id: salesChannelId },
+  });
+  return (channel?.stock_locations ?? []) as unknown[];
+};
 
 /**
  * Assembles the whole `upready.tenant-bundle/v1` document for one tenant: one
@@ -309,20 +343,13 @@ const buildTenantBundleStep = createStep(
       : [];
 
     // --- warehouse, through the tenant's sales channel ---
-    let stockLocations: unknown[] = [];
-    if (salesChannelId) {
-      const {
-        data: [channel],
-      } = await query.graph({
-        entity: "sales_channel",
-        fields: WAREHOUSE_FIELDS,
-        filters: { id: salesChannelId },
-      });
-      stockLocations = (channel?.stock_locations ?? []) as unknown[];
-    }
+    const stockLocations = await readChannelWarehouse(container, salesChannelId);
 
     // --- files, from the shared tenant-files helper (owner W2) ---
     const files = await listTenantFiles(container, tenant_id);
+
+    // --- the site's own settings (t-2026-09-24-n12) ---
+    const site = await readSiteSection(container, tenant_id);
 
     const admins = (tenant.admins ?? []) as TenantBundle["admins"];
     const apiKey = tenant.api_key as TenantBundle["api_key"];
@@ -353,6 +380,7 @@ const buildTenantBundleStep = createStep(
       regions,
       files,
       pages: null,
+      site,
       manifest: { counts: {}, bytes: 0 },
     };
 

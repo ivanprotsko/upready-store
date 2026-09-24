@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Naposledy prezerané"
+  },
+  "CoursePage": {
+    "about": "O programe",
+    "faq": "Otázky a odpovede",
+    "testimonials": "Ohlasy účastníkov"
   }
 }
