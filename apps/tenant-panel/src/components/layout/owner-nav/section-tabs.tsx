@@ -6,8 +6,8 @@ import { Link, useLocation } from "react-router-dom"
 import { findTabs } from "./nav-model"
 
 /**
- * The tab row of a section that spans several screens («Площадки», «Акции»,
- * «Доставка», «Оплата», «Поиск и счётчики»). On a narrow screen the row scrolls
+ * The tab row of a section that spans several screens («Торговые площадки»,
+ * «Акции», «Доставка», «Оплата», «Поиск и счётчики»). On a narrow screen the row scrolls
  * inside itself, so the page never scrolls sideways.
  */
 export const SectionTabs = () => {
