@@ -45,7 +45,17 @@ type RegionSelectProps = {
   currentCountryCode?: string
   locales: Locale[]
   className?: string
+  /**
+   * `"pills"` (branch `redesign-olavka`, t-2026-09-24-n15): the two triggers drawn as the
+   * Figma header's ToggleButtons — flag + country name, then currency symbol + code, each a
+   * 40px rounded pill on the theme's `--muted`. The language keeps its tab inside the same
+   * dialog; the node shows no language control in the bar. Default: today's two text links.
+   */
+  variant?: "links" | "pills"
 }
+
+const PILL_CLASS =
+  "inline-flex h-10 items-center gap-x-1.5 rounded-full bg-[var(--muted)] px-4 text-sm font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
 
 /**
  * The currency SYMBOL for a code, in the reader's own locale: "₽", "$", "€".
@@ -151,6 +161,7 @@ const RegionSelect = ({
   currentCountryCode,
   locales,
   className,
+  variant = "links",
 }: RegionSelectProps) => {
   const t = useTranslations("RegionSelect")
   const dir = useLocaleDirection()
@@ -281,6 +292,34 @@ const RegionSelect = ({
           The language shows as its code alone; the country as its flag plus the
           currency the prices are in. Both open the same dialog, which has a section
           for each. */}
+      {variant === "pills" ? (
+        <span className={clx("flex items-center gap-x-2", className)}>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            data-testid="nav-country-select-button"
+            aria-label={t("tabCountry")}
+            className={PILL_CLASS}
+          >
+            <CountryFlag
+              countryCode={triggerFlagCode}
+              style={{ width: "15px", height: "15px" }}
+              className="shrink-0 rounded-full"
+            />
+            <span>{selectedCountryOption.label}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            data-testid="nav-region-select-button"
+            aria-label={t("tabLanguage")}
+            className={PILL_CLASS}
+          >
+            <span>{selectedCountryOption.currencySymbol}</span>
+            <span>{selectedCountryOption.currencyCode}</span>
+          </button>
+        </span>
+      ) : (
       <span className={clx("flex items-center gap-x-3 text-ui-fg-subtle", className)}>
         <button
           type="button"
@@ -308,6 +347,7 @@ const RegionSelect = ({
           <ChevronDown className="shrink-0 w-2.5 h-2.5" />
         </button>
       </span>
+      )}
 
       <Transition show={open}>
         {/* Above the phone category menu (z-[70]), which hosts this control below 1024px. */}

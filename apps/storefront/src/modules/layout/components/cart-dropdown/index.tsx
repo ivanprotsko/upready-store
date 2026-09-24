@@ -142,8 +142,15 @@ const CartDropdownItem = ({
 
 const CartDropdown = ({
   cart: cartState,
+  variant = "icon",
 }: {
   cart?: HttpTypes.StoreCart | null
+  /**
+   * `"pill"` (branch `redesign-olavka`, t-2026-09-24-n15): the trigger drawn as the Figma
+   * header's cart ToggleButton — cart icon + «Корзина» in a 40px pill on `--muted`, the
+   * count badge on the icon as before. Default: today's bare icon.
+   */
+  variant?: "icon" | "pill"
 }) => {
   const t = useTranslations("CartDropdown")
   const tNav = useTranslations("Nav")
@@ -207,13 +214,17 @@ const CartDropdown = ({
     >
       <Popover className="relative h-full">
         <Link
-          className="flex h-full items-center hover:text-ui-fg-base"
+          className={
+            variant === "pill"
+              ? "inline-flex h-10 items-center gap-x-1.5 rounded-full bg-[var(--muted)] px-4 text-sm font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+              : "flex h-full items-center hover:text-ui-fg-base"
+          }
           href="/cart"
           aria-label={tNav("cart", { count: totalItems })}
           data-testid="nav-cart-link"
         >
           <div className="relative flex items-center leading-none">
-            <ShoppingCart />
+            <ShoppingCart className={variant === "pill" ? "h-[15px] w-[15px]" : undefined} />
             {totalItems > 0 && (
               <span
                 className="absolute -top-2 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-ui-contrast-bg-base text-ui-contrast-fg-primary text-[10px] font-medium leading-none"
@@ -223,6 +234,7 @@ const CartDropdown = ({
               </span>
             )}
           </div>
+          {variant === "pill" ? <span className="hidden sm:inline">{t("heading")}</span> : null}
         </Link>
         <Transition
           show={cartDropdownOpen}

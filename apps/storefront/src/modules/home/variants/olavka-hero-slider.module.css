@@ -1,190 +1,298 @@
 /*
- * HeroSlider · Olavka redesign (t-2026-09-24-n15). Theme tokens only
- * (`--background`/`--foreground`/`--card`/`--border`/`--muted`/`--radius`, defined per
- * preset in `src/styles/themes.css`), so the block follows the active preset in both modes.
- * Every transition sits under `prefers-reduced-motion: no-preference`.
+ * HeroSlider · Olavka (t-2026-09-24-n15), Figma 227:9298 «HeroSliders» (1216×416):
+ * block padding 16/0, content padding 32/48; the active banner 800×320 centred, its
+ * neighbours 800×280 at a 24px gap, clipped by the 1216 edge (184px of each visible);
+ * banner radius 48 with a 3px white border inset 4px (radius 44); two 48px round arrows
+ * (white 85%, shadow 0 2 8 15%) 32px from the edges; 8px dots (#b3b3b3 / #333333) gap
+ * 10 right under the active banner. Labels are «BannerLabel»: a 4px ring (white or the
+ * dark #2b2e0e) around a translucent white (75%) or dark inner box, Roboto Flex uppercase.
  *
- * GROUNDWORK STATE: values are a neutral first cut, to be replaced by the Figma node's own.
+ * The geometry is CSS custom properties so the track needs no measuring: the active
+ * slide is centred by `calc()` from `--i`. Below 1024px (no mobile frame in the file):
+ * the banner is the viewport minus 80px, 2.5:1 down to 1.6:1, labels scaled.
  */
 
 .slider {
-  max-width: 1440px;
+  --slide-w: 800px;
+  --slide-h: 320px;
+  --gap: 24px;
+  --inset: 40px;
+  --label-l: 28px;
+  --label-m: 14px;
+  position: relative;
+  max-width: 1216px;
   margin: 0 auto;
-  padding: 24px 16px 8px;
+  padding: 16px 0;
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1023px) {
   .slider {
-    padding: 28px 24px 12px;
+    --slide-w: min(800px, calc(100vw - 80px));
+    --slide-h: clamp(200px, calc(var(--slide-w) * 0.5), 320px);
+    --gap: 16px;
+    --inset: 16px;
+    --label-l: 20px;
+    --label-m: 12px;
   }
 }
 
 .viewport {
+  position: relative;
   overflow: hidden;
-  border-radius: var(--radius);
+  padding: 32px 0;
   touch-action: pan-y;
 }
 
 .track {
   display: flex;
+  align-items: center;
+  gap: var(--gap);
+  height: var(--slide-h);
   will-change: transform;
+  transform: translateX(calc(50% - var(--slide-w) / 2 - var(--i, 0) * (var(--slide-w) + var(--gap))));
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .track {
-    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  .track.animated {
+    transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 }
 
 .slide {
-  flex: 0 0 100%;
-  display: grid;
-  grid-template-rows: 220px auto;
-  background: var(--card);
-  color: var(--card-foreground);
+  position: relative;
+  flex: 0 0 var(--slide-w);
+  height: calc(var(--slide-h) * 0.875);
+  border-radius: 48px;
+  overflow: hidden;
+  background: var(--muted);
+  color: var(--foreground);
 }
 
-@media (min-width: 1024px) {
+@media (prefers-reduced-motion: no-preference) {
   .slide {
-    grid-template-rows: none;
-    grid-template-columns: 1.5fr 1fr;
-    height: 440px;
+    transition: height 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 }
 
-.frame {
-  position: relative;
-  background: var(--muted);
+.slide.on {
+  height: var(--slide-h);
+}
+
+@media (max-width: 1023px) {
+  .slide {
+    border-radius: 28px;
+  }
 }
 
 .image {
   object-fit: cover;
 }
 
-.pane {
-  min-width: 0;
-  padding: 24px 20px 28px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 12px;
+.border {
+  position: absolute;
+  inset: 4px;
+  border: 3px solid #ffffff;
+  border-radius: 44px;
+  pointer-events: none;
 }
 
-@media (min-width: 1024px) {
-  .pane {
-    padding: 44px 40px;
+@media (max-width: 1023px) {
+  .border {
+    border-radius: 24px;
   }
 }
 
-.pane h2 {
-  margin: 0;
-  font-size: 28px;
+/* The whole banner opens the course; the labels sit on top of it. */
+.cover {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.cover:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: -6px;
+}
+
+/* Labels belong to the active banner only; a neighbour is a plain picture on the node. */
+.label {
+  position: absolute;
+  display: inline-flex;
+  opacity: 0;
+  padding: 3px;
+  border-radius: 18px;
+  box-shadow: 0 0 0 4px #ffffff;
+  font-family: var(--font-olavka-flex), var(--font-body), sans-serif;
+  text-transform: uppercase;
+  color: #000000;
+  pointer-events: none;
+}
+
+.labelInner {
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.75);
+  padding: 9px 12px;
+  font-size: var(--label-m);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.label.dark {
+  box-shadow: 0 0 0 4px #2b2e0e;
+  color: #e5e5cb;
+}
+
+.label.dark .labelInner {
+  background: #2b2e0e;
+  color: #bcbe9f;
+}
+
+.slide.on .label {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .label {
+    transition: opacity 0.35s ease-out;
+  }
+}
+
+.label.title {
+  border-radius: 36px;
+  max-width: calc(var(--slide-w) * 0.34);
+}
+
+@media (max-width: 1023px) {
+  .label.title {
+    max-width: calc(var(--slide-w) * 0.5);
+  }
+}
+
+.label.title .labelInner {
+  border-radius: 29px;
+  padding: 14px 16px;
+  font-size: var(--label-l);
   font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  line-height: 0.95;
   text-wrap: balance;
 }
 
-@media (min-width: 1024px) {
-  .pane h2 {
-    font-size: 38px;
-  }
+.label.title.dark .labelInner {
+  color: #e5e5cb;
 }
 
-.pane p {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--muted-foreground);
+.kicker {
+  top: var(--inset);
+  left: var(--inset);
+}
+
+.tag {
+  top: var(--inset);
+  right: var(--inset);
+}
+
+.title {
+  bottom: var(--inset);
+  left: var(--inset);
 }
 
 .cta {
-  margin-top: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  height: 40px;
-  padding: 0 20px;
-  border-radius: 9999px;
-  background: var(--foreground);
-  color: var(--background);
-  font-size: 14px;
-  font-weight: 500;
+  bottom: var(--inset);
+  right: var(--inset);
+  pointer-events: auto;
   text-decoration: none;
 }
 
-.cta:hover {
-  opacity: 0.86;
+.cta:hover .labelInner {
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .cta:focus-visible {
   outline: 2px solid var(--ring);
+  outline-offset: 6px;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  border: 0;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #262626;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body), sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 0 4px;
+  z-index: 2;
+}
+
+.arrow:hover {
+  background: #ffffff;
+}
+
+.arrow:focus-visible {
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 12px;
+.arrowLeft {
+  left: 32px;
+}
+
+.arrowRight {
+  right: 32px;
+}
+
+@media (max-width: 1023px) {
+  .arrow {
+    width: 36px;
+    height: 36px;
+    margin-top: -18px;
+    font-size: 22px;
+  }
+  .arrowLeft {
+    left: 8px;
+  }
+  .arrowRight {
+    right: 8px;
+  }
 }
 
 .dots {
   display: flex;
-  gap: 6px;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 0 0;
+  margin-top: -32px;
+  position: relative;
 }
 
 .dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  border: 0;
   padding: 0;
-  background: var(--border);
+  border: 0;
+  border-radius: 50%;
+  background: #b3b3b3;
   cursor: pointer;
 }
 
 .dot.on {
-  background: var(--foreground);
+  background: #333333;
 }
 
 .dot:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
-}
-
-.arrows {
-  display: flex;
-  gap: 8px;
-  flex: none;
-}
-
-.arrowButton {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--background);
-  color: var(--foreground);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-
-.arrowButton:hover {
-  background: var(--muted);
-}
-
-.arrowButton:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
-}
-
-.arrowIcon {
-  width: 16px;
-  height: 16px;
 }

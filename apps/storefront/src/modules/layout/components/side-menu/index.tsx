@@ -38,9 +38,12 @@ const JOURNAL_ITEM = { key: "journal" as const, href: "/journal" }
 const SideMenu = ({
   siteName,
   showJournal = false,
+  buttonClassName,
 }: {
   siteName: string
   showJournal?: boolean
+  /** Replaces the trigger's classes (branch `redesign-olavka`: a 40px round white button). */
+  buttonClassName?: string
 }) => {
   const t = useTranslations()
   const items = showJournal
@@ -58,7 +61,10 @@ const SideMenu = ({
                 <PopoverButton
                   aria-label={t("SideMenu.menuButton")}
                   data-testid="nav-menu-button"
-                  className="relative h-full flex gap-1 items-center transition-all ease-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] hover:text-ui-fg-base txt-compact-xsmall"
+                  className={
+                    buttonClassName ??
+                    "relative h-full flex gap-1 items-center transition-all ease-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] hover:text-ui-fg-base txt-compact-xsmall"
+                  }
                 >
                   <BarsThree />
                 </PopoverButton>

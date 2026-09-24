@@ -692,14 +692,18 @@
     "goHome": "Go to frontpage",
     "title": "Page not found"
   },
+  "OlavkaHeader": {
+    "contact": "Contact the shop"
+  },
   "OlavkaHome": {
     "slider": {
+      "course": "Course",
       "goTo": "Go to “{title}”",
-      "label": "Featured",
+      "label": "Courses",
       "next": "Next",
-      "open": "Open {title}",
       "position": "{current} of {total}",
-      "previous": "Previous"
+      "previous": "Previous",
+      "watch": "Watch"
     }
   },
   "OnboardingCta": {

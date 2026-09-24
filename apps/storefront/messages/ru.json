@@ -692,14 +692,18 @@
     "goHome": "На главную",
     "title": "Страница не найдена"
   },
+  "OlavkaHeader": {
+    "contact": "Связаться с магазином"
+  },
   "OlavkaHome": {
     "slider": {
+      "course": "Курс",
       "goTo": "К слайду «{title}»",
-      "label": "Главное",
+      "label": "Курсы",
       "next": "Далее",
-      "open": "Открыть {title}",
       "position": "{current} из {total}",
-      "previous": "Назад"
+      "previous": "Назад",
+      "watch": "Смотреть"
     }
   },
   "OnboardingCta": {

@@ -7,6 +7,8 @@ import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
 import { fontClassName, isAllowed, readProfileTheme, themePrePaintScript } from "@lib/theme"
+// Branch-local (`redesign-olavka`): the Figma node's three typefaces, see the module.
+import { olavkaFontClassName } from "@lib/theme/olavka-fonts"
 import {
   getEffectiveSettings,
   getTenantModeDefault,
@@ -117,7 +119,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       dir={getLocaleDir(locale)}
       data-theme={theme}
       data-mode={mode}
-      className={fontClassName || undefined}
+      className={[fontClassName, olavkaFontClassName].filter(Boolean).join(" ") || undefined}
       style={brandStyle}
     >
       <head>

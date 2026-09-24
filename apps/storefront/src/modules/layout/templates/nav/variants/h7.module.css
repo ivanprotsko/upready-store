@@ -1,0 +1,138 @@
+/*
+ * H7 · Olavka header (t-2026-09-24-n15), values from Figma 227:9557 «Header», variant
+ * `Property 1=initial`: 76px bar, three equal columns (leading / main / trailing), 40px
+ * controls, 24px column padding, 12px gap. Colours are the theme's own tokens
+ * (`src/styles/themes.css`), so the bar follows the preset in both modes; the node's
+ * literal values are #ffffff bar, #f5f5f5 pills, #18181b ink, #1a1b09 wordmark.
+ */
+
+.bar {
+  height: 76px;
+  background: var(--background);
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+}
+
+.inner {
+  max-width: 1216px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.leading,
+.main,
+.trailing {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  padding: 0 16px;
+}
+
+.main {
+  justify-content: center;
+  overflow: visible;
+}
+
+.trailing {
+  justify-content: flex-end;
+}
+
+@media (min-width: 1024px) {
+  .leading,
+  .trailing {
+    padding: 0 24px;
+  }
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* IconButton, Style=Primary on white: a 40px disc with the node's two drop shadows
+   (0 0 0 1px 8%, 0 1px 2px 12%). */
+.disc {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--background);
+  color: var(--foreground);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.12);
+  transition: background-color 150ms ease-out;
+}
+
+/* IconButton on --muted (heart, account). */
+.discMuted {
+  composes: disc;
+  background: var(--muted);
+  box-shadow: none;
+}
+
+.disc:hover,
+.discMuted:hover {
+  background: var(--accent);
+}
+
+.disc:focus-visible,
+.discMuted:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* Ruslan Display 32px, the node's «Олавка»; 24px is the `scrolled` variant, not built. */
+/* The node's wordmark is one short word; a tenant name can be two long ones («Оксана
+   Черкашина»), so the size steps down with the viewport rather than truncating — the
+   panel's `shop_name_short` is where a shop puts its short mark. */
+.wordmark {
+  font-family: var(--font-olavka-wordmark), serif;
+  font-size: clamp(18px, 5vw, 24px);
+  line-height: 1.085;
+  font-weight: 400;
+  color: var(--foreground);
+  text-decoration: none;
+  white-space: nowrap;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .wordmark {
+    font-size: clamp(22px, 2.1vw, 32px);
+  }
+}
+
+.desktopOnly {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktopOnly {
+    display: flex;
+  }
+}
+
+.mobileOnly {
+  display: flex;
+}
+
+@media (min-width: 1024px) {
+  .mobileOnly {
+    display: none;
+  }
+}

@@ -1,110 +1,102 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { listCategories } from "@lib/data/categories"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getSiteBranding } from "@lib/data/tenant-branding"
-import { User } from "@medusajs/icons"
+import { ChatBubble, User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
-import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
-import Search from "@modules/layout/components/search"
 import SideMenu from "@modules/layout/components/side-menu"
 import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
+import styles from "./h7.module.css"
+
 /**
- * H7 · Olavka redesign header (t-2026-09-24-n15, branch `redesign-olavka`), after Ivan's
- * Figma node `227-8180` of file `2zPDDEfMdYM1tbv5xKfnLX`. Same zero-prop server-component
- * shape as H1-H6 (`nav/variants/index.ts`), same building blocks (logo, category links from
- * the tenant's own categories, search, mode toggle, locale + currency, account, cart) —
- * the Figma node decides layout, sizes and states.
+ * H7 · Olavka header (t-2026-09-24-n15, branch `redesign-olavka`), after Ivan's Figma
+ * component set 227:9557 «Header», variant `Property 1=initial` (the other variant,
+ * `scrolled`, shrinks the wordmark to 24px inside a pill; Ivan's later states land here).
+ * Same zero-prop server-component shape as H1-H6 (`nav/variants/index.ts`).
  *
- * GROUNDWORK STATE: the mockup was not readable when this file was written (Figma login
- * wall in the browser pane, REST token invalid), so the markup below is the wiring plus a
- * neutral layout, to be reshaped line by line against the node once it is visible.
+ * Node → storefront, column by column (1216px content, 76px bar):
+ *   leading  · burger (white disc with shadow) → `SideMenu`; country pill + currency pill
+ *              → `RegionSelect variant="pills"` (the same dialog as every other header).
+ *   main     · wordmark «Олавка», Ruslan Display 32px → `SiteLogo`, i.e. the tenant's
+ *              short name or its name; the shop sets «Олавка» in the panel as
+ *              `shop_name_short`, nothing is hard-coded here.
+ *   trailing · heart disc — NOT built: the storefront has no wishlist to open, so a dead
+ *              button was left out and reported; account disc → `/account`; cart pill
+ *              → `CartButton variant="pill"`; chat disc (white, shadow) → `/contact`.
+ *
+ * Not on the node, so not in the bar: the search (it is the first chip of the Navigation
+ * block on the home page) and the light/dark toggle (a phone reaches it from the bottom
+ * nav; on desktop the studio panel still has it).
+ *
+ * Below 1024px (no mobile frame in the file — an adaptation, stated in the report): burger,
+ * wordmark 24px, cart pill without its label; country/currency live in the bottom nav's
+ * menu as on every other header.
  */
 export default async function NavH7() {
   const t = await getTranslations()
-  const [categories, regions, countryCode, siteName, locales, showJournal, branding] =
-    await Promise.all([
-      listCategories({ fields: "id,name,handle,parent_category_id,rank" }),
-      listRegions(),
-      getCountryCode(),
-      getSiteName(),
-      getSwitcherLocales(),
-      hasPublishedArticles(),
-      getSiteBranding(),
-    ])
-  const topLevel = categories.filter((category) => !category.parent_category_id)
+  const [regions, countryCode, siteName, locales, showJournal, branding] = await Promise.all([
+    listRegions(),
+    getCountryCode(),
+    getSiteName(),
+    getSwitcherLocales(),
+    hasPublishedArticles(),
+    getSiteBranding(),
+  ])
 
   return (
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group" data-testid="nav-h7">
-      <header className="relative h-[64px] border-b mx-auto duration-200 bg-ui-bg-base">
-        <nav className="content-container txt-compact-xsmall text-ui-fg-subtle flex items-center gap-x-4 w-full h-full">
-          <div className="flex items-center h-full lg:hidden">
-            <SideMenu siteName={siteName} showJournal={showJournal} />
+      <header className={styles.bar}>
+        <nav className={styles.inner}>
+          <div className={styles.leading}>
+            <SideMenu
+              siteName={siteName}
+              showJournal={showJournal}
+              buttonClassName={styles.disc}
+            />
+            <div className={`${styles.group} ${styles.desktopOnly}`}>
+              <RegionSelect
+                regions={regions}
+                currentCountryCode={countryCode ?? undefined}
+                locales={locales}
+                variant="pills"
+              />
+            </div>
           </div>
 
-          <div className="flex-1 flex items-center h-full">
+          <div className={styles.main}>
             <BrandUnlock>
-              <Link
-                href="/"
-                className="shrink-0 txt-compact-medium font-semibold text-ui-fg-base uppercase hover:text-ui-fg-subtle transition-colors"
-                data-testid="nav-store-link"
-              >
+              <Link href="/" className={styles.wordmark} data-testid="nav-store-link">
                 <SiteLogo siteName={siteName} branding={branding} />
               </Link>
             </BrandUnlock>
           </div>
 
-          <div className="hidden lg:flex items-center gap-x-6 txt-compact-small">
-            {topLevel.slice(0, 5).map((category) => (
+          <div className={styles.trailing}>
+            <div className={styles.group}>
               <Link
-                key={category.id}
-                href={`/categories/${category.handle}`}
-                className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                data-testid="nav-category-link"
+                href="/account"
+                aria-label={t("Nav.account")}
+                className={`${styles.discMuted} ${styles.desktopOnly}`}
+                data-testid="nav-account-link"
               >
-                {category.name}
+                <User className={styles.icon} />
               </Link>
-            ))}
-            <Link
-              href="/store"
-              className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-              data-testid="nav-all-products-link"
-            >
-              {t("Store.allProducts")}
-            </Link>
-          </div>
-
-          <div className="flex-1 flex h-full items-center justify-end gap-x-4">
-            <ModeToggle
-              className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-              data-testid="nav-mode-toggle"
-            />
-            <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
-            <div className="hidden lg:flex min-w-0">
-              <RegionSelect
-                regions={regions}
-                currentCountryCode={countryCode ?? undefined}
-                locales={locales}
-                className="min-w-0"
-              />
+              <CartButton variant="pill" />
             </div>
             <Link
-              className="hidden lg:block hover:text-ui-fg-base"
-              href="/account"
-              aria-label={t("Nav.account")}
-              data-testid="nav-account-link"
+              href="/contact"
+              aria-label={t("OlavkaHeader.contact")}
+              className={`${styles.disc} ${styles.desktopOnly}`}
+              data-testid="nav-contact-link"
             >
-              <User />
+              <ChatBubble className={styles.icon} />
             </Link>
-            <div className="flex h-full items-center">
-              <CartButton />
-            </div>
           </div>
         </nav>
       </header>
