@@ -150,6 +150,21 @@
       "description": "Content pages / home config of the panel branch (feat/mt-panel-2). Not on this branch tonight — always null here.",
       "const": null
     },
+    "site": {
+      "description": "The site's own settings (t-2026-09-24-n12, src/tenant-sites/site-section.ts): tenant.metadata branding/analytics/shipping_default_weight_g, locale settings, home config, requisites, notification settings without the Telegram link code, product attributes with their options, and every content page. What clone-tenant copies into a new site of the same client. Optional, so a bundle written before it existed still validates.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metadata", "locale_settings", "home_config", "requisites", "notification_settings", "product_attributes", "pages"],
+      "properties": {
+        "metadata": { "type": "object" },
+        "locale_settings": { "type": ["object", "null"] },
+        "home_config": { "type": ["object", "null"] },
+        "requisites": { "type": ["object", "null"] },
+        "notification_settings": { "type": ["object", "null"] },
+        "product_attributes": { "type": "array", "items": { "type": "object" } },
+        "pages": { "type": "array", "items": { "type": "object" } }
+      }
+    },
     "manifest": {
       "type": "object",
       "additionalProperties": false,

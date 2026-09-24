@@ -1,6 +1,6 @@
 import type { LinkDefinition } from "@medusajs/framework/types";
 import { Modules } from "@medusajs/framework/utils";
-import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
+import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
 import assertHandleAvailableStep from "../shared/steps/assert-handle-available";
 import {
   createApiKeysWorkflow,
@@ -23,8 +23,14 @@ export type CreateTenantWorkflowInput = {
     first_name?: string;
     last_name?: string;
   };
-  /** The actorless auth identity from `/auth/tenant/emailpass/register`. */
-  authIdentityId: string;
+  /**
+   * The actorless auth identity from `/auth/tenant/emailpass/register`, which
+   * this workflow points at the new admin row. Absent when the admin already
+   * logs in elsewhere and keeps doing so: `clone-tenant` (t-2026-09-24-n12)
+   * adds a site for an owner whose login must keep opening the site it opens
+   * today, and who reaches the new one through `POST /tenants/me/switch`.
+   */
+  authIdentityId?: string;
 };
 
 /**
@@ -122,10 +128,12 @@ const createTenantWorkflow = createWorkflow(
 
     const tenantAdmin = createTenantAdminStep(tenantAdminData);
 
-    setAuthAppMetadataStep({
-      authIdentityId: input.authIdentityId,
-      actorType: TENANT_ACTOR_TYPE,
-      value: tenantAdmin.id,
+    when("point-auth-identity", input, (input) => Boolean(input.authIdentityId)).then(() => {
+      setAuthAppMetadataStep({
+        authIdentityId: input.authIdentityId as string,
+        actorType: TENANT_ACTOR_TYPE,
+        value: tenantAdmin.id,
+      });
     });
 
     // The same shape `GET /tenants/me` returns through the links, so a client
