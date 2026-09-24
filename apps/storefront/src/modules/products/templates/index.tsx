@@ -15,6 +15,13 @@ import RelatedProducts from "@modules/products/components/related-products"
 import RecentlyViewed from "@modules/products/components/recently-viewed"
 import ProductInfo from "@modules/products/templates/product-info"
 import CourseBlock from "@modules/products/components/course-block"
+import CourseCover from "@modules/products/components/course-page/cover"
+import CourseDescription from "@modules/products/components/course-page/description"
+import {
+  CourseAbout,
+  CourseFaq,
+  CourseTestimonials,
+} from "@modules/products/components/course-page/sections"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import Breadcrumb, {
   type BreadcrumbItem,
@@ -24,9 +31,11 @@ import ProductReviews, {
   REVIEWS_PAGE_SIZE,
 } from "@modules/products/components/product-reviews"
 import { prepareAttributeRows } from "@modules/products/components/product-attributes/rows"
+import { getProductCourse } from "@lib/data/courses"
 import { listProductAttributes } from "@lib/data/product-attributes"
 import { listProductReviews } from "@lib/data/product-reviews"
 import { buildProductJsonLd } from "@lib/util/json-ld"
+import { readCourseCover, readCoursePage } from "@lib/util/course-page"
 import { stripHtml } from "@lib/util/strip-html"
 import { notFound } from "next/navigation"
 import type { HttpTypes } from "@medusajs/types"
@@ -55,6 +64,13 @@ const CARD = "rounded-large border border-ui-border-base bg-ui-bg-base"
  * all the characteristics and the whole description (t-2026-09-23-01, after Wildberries);
  * the block that used to hold them under the cards is gone. On a phone the three cards
  * stack in that order and the buy box's sticky bar keeps the button reachable.
+ *
+ * A course (a product `getProductCourse` answers for) is laid out as two columns from
+ * 1024 instead (t-2026-09-24-n23): the content column holds the cover, the centre card
+ * with the course's whole description, then «О программе», the lesson list, «Вопросы и
+ * ответы» and the testimonials; the right column is the buy box alone, sticky under the
+ * header all the way down that column. On a phone the order is cover, centre card, buy
+ * box, sections, and the sticky bar keeps «В корзину» reachable as on any product.
  */
 const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   product,
@@ -93,7 +109,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   // it in each place would let the three disagree on the same page. The
   // characteristics likewise: fetched once, shown twice (six in the card, all
   // in the drawer).
-  const [reviews, attributeRows] = await Promise.all([
+  // The course, if this product sells one: its lesson list, and the switch to the
+  // course layout below.
+  const [reviews, attributeRows, course] = await Promise.all([
     listProductReviews(product.id, {
       limit: REVIEWS_PAGE_SIZE,
       offset: (Math.max(1, reviewsPage) - 1) * REVIEWS_PAGE_SIZE,
@@ -101,6 +119,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
     listProductAttributes(product.id).then((rows) =>
       prepareAttributeRows(rows, product.handle)
     ),
+    getProductCourse(product.id),
   ])
 
   const jsonLd = await buildProductJsonLd({
@@ -112,6 +131,136 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
 
   const description = product.description ? stripHtml(product.description) : ""
   const hasDetails = Boolean(description) || attributeRows.length > 0
+
+  const breadcrumbPill = (
+    <div className="absolute inset-x-4 top-0 flex -translate-y-1/2 justify-center">
+      <Breadcrumb items={breadcrumbItems.slice(0, -1)} variant="pill" />
+    </div>
+  )
+  const buyBox = (
+    <>
+      <ProductOnboardingCta />
+      <Suspense
+        fallback={
+          <ProductActions disabled={true} product={product} region={region} />
+        }
+      >
+        <ProductActionsWrapper id={product.id} region={region} />
+      </Suspense>
+    </>
+  )
+
+  if (course) {
+    const metadata = product.metadata as Record<string, unknown> | null
+    const cover = readCourseCover(metadata)
+    const page = readCoursePage(metadata)
+
+    const summaryCard = (
+      <div
+        className={`${CARD} relative flex min-w-0 flex-col gap-y-5 px-4 pb-5 pt-7 small:px-6 small:pb-6 small:pt-9`}
+        data-testid="product-summary-card"
+      >
+        {breadcrumbPill}
+        <ProductInfo product={product} reviews={reviews.summary} />
+        <VariantPicker />
+        <AttributesSummary rows={attributeRows} />
+        <CourseDescription description={product.description} />
+        {hasDetails && <ProductDetailsOpener />}
+      </div>
+    )
+
+    return (
+      <>
+        <JsonLd data={jsonLd} />
+
+        <div data-testid="product-page" data-layout="course">
+          <div
+            className="content-container flex flex-col gap-y-6 pb-6 pt-8 small:gap-y-8 small:pb-8 small:pt-10"
+            data-testid="product-container"
+          >
+            <ProductSelectionProvider product={product}>
+              {/* Two columns from 1024: the content (row 1: cover and centre card, row 2:
+                  the sections) and the buy box, which spans both rows so that its
+                  sticky box has the whole height of the content to travel along. */}
+              <div className="grid grid-cols-1 gap-4 small:grid-cols-[minmax(0,1fr)_24rem] small:gap-6">
+                <div className="flex min-w-0 flex-col gap-4 small:col-start-1 small:row-start-1 small:gap-6">
+                  {cover ? (
+                    <>
+                      <div
+                        className={`${CARD} p-3 small:p-4`}
+                        data-testid="product-gallery-card"
+                      >
+                        <CourseCover cover={cover} />
+                      </div>
+                      {summaryCard}
+                    </>
+                  ) : (
+                    <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] small:gap-6">
+                      <div
+                        className={`${CARD} p-3 small:p-4`}
+                        data-testid="product-gallery-card"
+                      >
+                        <ImageGallery images={images} title={product.title} />
+                      </div>
+                      {summaryCard}
+                    </div>
+                  )}
+                </div>
+
+                <div className="min-w-0 small:col-start-2 small:row-span-2 small:row-start-1">
+                  <aside
+                    className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
+                    data-testid="product-buy-card"
+                  >
+                    {buyBox}
+                  </aside>
+                </div>
+
+                <div
+                  className="flex min-w-0 flex-col gap-4 small:col-start-1 small:row-start-2 small:gap-6"
+                  data-testid="course-sections"
+                >
+                  {page && <CourseAbout sections={page.about} />}
+                  <CourseBlock
+                    data={course}
+                    productHandle={product.handle ?? ""}
+                  />
+                  {page && <CourseFaq items={page.faq} />}
+                  {page && <CourseTestimonials items={page.testimonials} />}
+                </div>
+              </div>
+              {hasDetails && (
+                <ProductDetailsDrawer
+                  rows={attributeRows}
+                  description={description}
+                />
+              )}
+            </ProductSelectionProvider>
+          </div>
+
+          <ProductReviews
+            productId={product.id}
+            productHandle={product.handle ?? ""}
+            page={reviewsPage}
+            data={reviews}
+          />
+
+          <div
+            className="content-container flex flex-col gap-y-12 py-12 small:gap-y-16 small:py-16"
+            data-testid="related-products-container"
+          >
+            <Suspense fallback={<SkeletonRelatedProducts />}>
+              <RelatedProducts product={product} countryCode={countryCode} />
+            </Suspense>
+            <RecentlyViewed
+              currentHandle={product.handle ?? ""}
+              countryCode={countryCode}
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
 
   return (
     <>
@@ -178,11 +327,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             )}
           </ProductSelectionProvider>
         </div>
-
-        <CourseBlock
-          productId={product.id}
-          productHandle={product.handle ?? ""}
-        />
 
         <ProductReviews
           productId={product.id}

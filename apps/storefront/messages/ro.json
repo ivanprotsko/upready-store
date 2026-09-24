@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Văzute recent"
+  },
+  "CoursePage": {
+    "about": "Despre program",
+    "faq": "Întrebări și răspunsuri",
+    "testimonials": "Mărturii ale participanților"
   }
 }

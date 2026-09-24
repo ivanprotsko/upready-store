@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Recent bekeken"
+  },
+  "CoursePage": {
+    "about": "Over het programma",
+    "faq": "Vragen en antwoorden",
+    "testimonials": "Ervaringen van deelnemers"
   }
 }

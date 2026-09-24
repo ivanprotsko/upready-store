@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Viimeksi katsotut"
+  },
+  "CoursePage": {
+    "about": "Tietoa ohjelmasta",
+    "faq": "Kysymykset ja vastaukset",
+    "testimonials": "Osallistujien kokemuksia"
   }
 }

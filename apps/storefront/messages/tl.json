@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Kamakailang tiningnan"
+  },
+  "CoursePage": {
+    "about": "Tungkol sa programa",
+    "faq": "Mga tanong at sagot",
+    "testimonials": "Mga patotoo ng mga kalahok"
   }
 }

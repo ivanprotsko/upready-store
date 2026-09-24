@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Neseniai peržiūrėta"
+  },
+  "CoursePage": {
+    "about": "Apie programą",
+    "faq": "Klausimai ir atsakymai",
+    "testimonials": "Dalyvių atsiliepimai"
   }
 }

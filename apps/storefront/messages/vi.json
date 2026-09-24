@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "Đã xem gần đây"
+  },
+  "CoursePage": {
+    "about": "Về chương trình",
+    "faq": "Hỏi và đáp",
+    "testimonials": "Cảm nhận của học viên"
   }
 }

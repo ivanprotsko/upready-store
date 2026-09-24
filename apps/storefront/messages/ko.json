@@ -1047,5 +1047,10 @@
   },
   "RecentlyViewed": {
     "title": "최근 본 상품"
+  },
+  "CoursePage": {
+    "about": "프로그램 소개",
+    "faq": "자주 묻는 질문",
+    "testimonials": "참가자 후기"
   }
 }
