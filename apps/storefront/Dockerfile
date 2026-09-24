@@ -77,6 +77,10 @@ ARG NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN
 # and with an empty key the component renders its «карта не загрузилась»
 # state instead of the points (checkout-pickup-map/index.tsx:160).
 ARG NEXT_PUBLIC_YANDEX_MAPS_KEY
+# «Войти с Яндекс ID» for buyers (y01, docs/auth-yandex.md). Same rule as the
+# maps key: yandex-login/index.tsx is a "use client" component and Next inlines
+# NEXT_PUBLIC_YANDEX_LOGIN_ENABLED at build time, so it has to be an ARG here.
+ARG NEXT_PUBLIC_YANDEX_LOGIN_ENABLED=false
 ENV NEXT_PUBLIC_STORE_PROFILE=$NEXT_PUBLIC_STORE_PROFILE \
     NEXT_PUBLIC_MEDUSA_BACKEND_URL=$NEXT_PUBLIC_MEDUSA_BACKEND_URL \
     NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY \
@@ -87,6 +91,7 @@ ENV NEXT_PUBLIC_STORE_PROFILE=$NEXT_PUBLIC_STORE_PROFILE \
     STORE_MEDIA_BASE_URL=$STORE_MEDIA_BASE_URL \
     NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN=$NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN \
     NEXT_PUBLIC_YANDEX_MAPS_KEY=$NEXT_PUBLIC_YANDEX_MAPS_KEY \
+    NEXT_PUBLIC_YANDEX_LOGIN_ENABLED=$NEXT_PUBLIC_YANDEX_LOGIN_ENABLED \
     NODE_ENV=production \
     REGION_PIN=true
 WORKDIR /repo/apps/storefront
