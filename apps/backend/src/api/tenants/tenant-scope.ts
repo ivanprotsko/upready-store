@@ -91,6 +91,96 @@ export const listTenantProductIds = async (req: AuthenticatedMedusaRequest): Pro
   return idsOf(tenantAdmin.tenant.products);
 };
 
+/**
+ * One site of the caller's client (t-2026-09-24-n12, `tenant_group`): the
+ * tenant and the sales channel its storefront sells through.
+ */
+export type GroupSite = { tenant_id: string; sales_channel_id: string | null };
+
+/**
+ * The sites the caller's product decisions range over. For a tenant with a
+ * `group_id` that is every live tenant of its group, the caller's own first;
+ * for a tenant without one it is the caller alone, which keeps every rule
+ * built on this list identical to the single-shop behaviour.
+ */
+export const listGroupSites = async (
+  req: AuthenticatedMedusaRequest,
+): Promise<{ group_id: string | null; sites: GroupSite[] }> => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [tenantAdmin],
+  } = await query.graph({
+    entity: "tenant_admin",
+    fields: ["id", "tenant.id", "tenant.group.id", "tenant.sales_channel.id"],
+    filters: {
+      id: [req.auth_context.actor_id],
+    },
+  });
+
+  const tenant = tenantAdmin?.tenant as
+    | { id?: string; group?: { id?: string } | null; sales_channel?: { id?: string } | null }
+    | undefined;
+
+  if (!tenant?.id) {
+    throw tenantAdminNotFound(req.auth_context.actor_id);
+  }
+
+  const own: GroupSite = { tenant_id: tenant.id, sales_channel_id: tenant.sales_channel?.id ?? null };
+  const groupId = tenant.group?.id ?? null;
+
+  if (!groupId) {
+    return { group_id: null, sites: [own] };
+  }
+
+  const { data: members } = await query.graph({
+    entity: "tenant",
+    fields: ["id", "metadata", "group.id", "sales_channel.id"],
+    filters: { group_id: [groupId] } as Record<string, unknown>,
+  });
+
+  const others = (members as {
+    id?: string;
+    metadata?: Record<string, unknown> | null;
+    group?: { id?: string } | null;
+    sales_channel?: { id?: string } | null;
+  }[])
+    .filter(
+      (member) =>
+        member.id &&
+        member.id !== tenant.id &&
+        member.group?.id === groupId &&
+        typeof member.metadata?.["archived_at"] !== "string",
+    )
+    .map((member) => ({ tenant_id: member.id as string, sales_channel_id: member.sales_channel?.id ?? null }));
+
+  return { group_id: groupId, sites: [own, ...others] };
+};
+
+/**
+ * Every product id the caller may READ (t-2026-09-24-n12, design §3.2): for a
+ * tenant in a group, the products owned by any tenant of the group; for any
+ * other tenant, exactly `listTenantProductIds`. Writes never use this set:
+ * price, photos and attributes stay with the owner (`assertOwnedProduct`), and
+ * another site reaches them by switching into the owner.
+ */
+export const listReadableProductIds = async (req: AuthenticatedMedusaRequest): Promise<string[]> => {
+  const { group_id, sites } = await listGroupSites(req);
+
+  if (!group_id) {
+    return listTenantProductIds(req);
+  }
+
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+  const { data: tenants } = await query.graph({
+    entity: "tenant",
+    fields: ["id", "products.id"],
+    filters: { id: sites.map((site) => site.tenant_id) },
+  });
+
+  return [...new Set((tenants as { products?: { id?: string | null }[] | null }[]).flatMap((t) => idsOf(t.products)))];
+};
+
 /** Every order id linked to the tenant by `linkOrderToTenantWorkflow`. */
 export const listTenantOrderIds = async (req: AuthenticatedMedusaRequest): Promise<string[]> => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
@@ -174,6 +264,21 @@ export const emptyPage = (req: AuthenticatedMedusaRequest) => ({
   offset: req.queryConfig?.pagination?.skip ?? 0,
   limit: req.queryConfig?.pagination?.take ?? 0,
 });
+
+/** 404 for a product outside `listReadableProductIds`, worded like `assertOwnedProduct`. */
+export const assertReadableProduct = async (
+  req: AuthenticatedMedusaRequest,
+  productId: string,
+): Promise<void> => {
+  const readableIds = await listReadableProductIds(req);
+
+  if (!readableIds.includes(productId)) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_FOUND,
+      `Product with id "${productId}" was not found`,
+    );
+  }
+};
 
 /** 404 for a product the tenant does not own, worded like Medusa's own miss. */
 export const assertOwnedProduct = async (

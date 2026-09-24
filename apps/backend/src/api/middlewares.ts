@@ -89,7 +89,6 @@ import {
   AdminGetProductVariantParams,
   AdminGetProductsParams,
   AdminLinkProductOptions,
-  AdminUpdateProduct,
   AdminUpdateProductVariant,
   AdminUpdateVariantInventoryItem,
   CreateProductVariant,
@@ -180,6 +179,7 @@ import {
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
   PostTenantSwitchShopSchema,
+  PostTenantUpdateProductSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
   PutTenantArticleSchema,
@@ -583,7 +583,8 @@ export default defineMiddlewares({
       matcher: "/tenants/products/:id",
       method: ["POST"],
       middlewares: [
-        validateAndTransformBody(AdminUpdateProduct),
+        // The Admin's `AdminUpdateProduct` plus `site_scope` (t-2026-09-24-n12).
+        validateAndTransformBody(PostTenantUpdateProductSchema),
         validateAndTransformQuery(AdminGetProductParams, retrieveProductQueryConfig),
       ],
     },

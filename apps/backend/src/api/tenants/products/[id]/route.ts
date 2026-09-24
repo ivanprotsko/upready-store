@@ -6,8 +6,20 @@ import { deleteProductsWorkflow, updateProductsWorkflow } from "@medusajs/medusa
 import { remapKeysForProduct } from "@medusajs/medusa/api/admin/products/helpers";
 import { TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
-import { assertOwnedProduct, getTenantScope } from "../../tenant-scope";
+import {
+  assertOwnedProduct,
+  assertReadableProduct,
+  getTenantScope,
+  listGroupSites,
+  listTenantProductIds,
+} from "../../tenant-scope";
 import { remapTenantProduct } from "../helpers";
+import {
+  channelsForSiteScope,
+  readProductChannels,
+  withSiteFields,
+  type SiteScope,
+} from "../site-scope";
 import {
   assertHandleFree,
   getTenantEnabledLocales,
@@ -18,9 +30,13 @@ import {
  * `GET /tenants/products/:id` — one of the tenant's own products, in the
  * Admin's retrieve shape. A product another tenant owns answers 404, the same
  * as an id that does not exist: the response never confirms a foreign row.
+ *
+ * t-2026-09-24-n12: a tenant in a group also reads a product another site of
+ * its client owns, with `site_scope` and `owned: false` so the panel opens it
+ * read-only. Every write verb below still requires ownership.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
-  await assertOwnedProduct(req, req.params.id);
+  await assertReadableProduct(req, req.params.id);
 
   const product = await refetchEntity({
     entity: "product",
@@ -36,7 +52,11 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     );
   }
 
-  res.status(200).json({ product: remapTenantProduct(product) });
+  const group = await listGroupSites(req);
+  const ownedIds = group.group_id ? await listTenantProductIds(req) : [];
+  const [withSites] = await withSiteFields(req, [remapTenantProduct(product)], group, ownedIds);
+
+  res.status(200).json({ product: withSites });
 };
 
 /**
@@ -52,6 +72,14 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
  * copied product-sales-channels drawer can be opened and saved without moving
  * the product anywhere. A tenant whose channel link is gone gets no
  * `sales_channels` key at all rather than an invented one.
+ *
+ * t-2026-09-24-n12, `site_scope` (`site-scope.ts`): `"all"` puts the product
+ * into the channel of every site of the client, `{ tenant_ids }` into exactly
+ * those sites' channels; channels outside the group are kept. For a tenant in
+ * a group a save WITHOUT `site_scope` leaves the channels as they are, so an
+ * edit of the title does not pull the product off the other sites. A tenant
+ * without a group is its own one-site group: `"all"` and `{ tenant_ids: [self] }`
+ * write its own channel, which is what every save did before.
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<HttpTypes.AdminUpdateProduct>,
@@ -62,9 +90,21 @@ export const POST = async (
   await assertOwnedProduct(req, id);
 
   const tenant = await getTenantScope(req);
-  const { additional_data, sales_channels: _ignored, ...update } = req.validatedBody as
+  const { additional_data, sales_channels: _ignored, site_scope, ...update } = req.validatedBody as
     & HttpTypes.AdminUpdateProduct
-    & { additional_data?: Record<string, unknown> };
+    & { additional_data?: Record<string, unknown>; site_scope?: SiteScope };
+
+  const group = await listGroupSites(req);
+  let salesChannels: { id: string }[] | undefined;
+
+  if (site_scope) {
+    const current = (await readProductChannels(req, [id])).get(id) ?? [];
+    salesChannels = channelsForSiteScope(site_scope, group.sites, current).map((channelId) => ({
+      id: channelId,
+    }));
+  } else if (!group.group_id && tenant.sales_channel_id) {
+    salesChannels = [{ id: tenant.sales_channel_id }];
+  }
 
   let previousHandle: string | null = null;
 
@@ -83,9 +123,7 @@ export const POST = async (
   const { result } = await updateProductsWorkflow(req.scope).run({
     input: {
       selector: { id },
-      update: tenant.sales_channel_id
-        ? { ...update, sales_channels: [{ id: tenant.sales_channel_id }] }
-        : update,
+      update: salesChannels ? { ...update, sales_channels: salesChannels } : update,
       additional_data,
     },
   });
@@ -110,7 +148,10 @@ export const POST = async (
     fields: remapKeysForProduct(req.queryConfig.fields ?? []),
   });
 
-  res.status(200).json({ product: remapTenantProduct(product) });
+  const ownedIds = group.group_id ? await listTenantProductIds(req) : [];
+  const [withSites] = await withSiteFields(req, [remapTenantProduct(product)], group, ownedIds);
+
+  res.status(200).json({ product: withSites });
 };
 
 /**
