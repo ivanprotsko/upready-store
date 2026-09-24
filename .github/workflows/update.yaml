@@ -15,10 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
+      # Pinned by commit SHA, not the floating `v1` tag (audit D-06): `v1` has
+      # already moved at least once since the `v1.0.0` release (`v1.0.0` is
+      # 793e4635..., `v1` resolved to 02eca016... on 2026-09-24) - a widest-
+      # permissions job (contents: write, pull-requests: write) is exactly the
+      # one that should not trust a tag a third party can repoint at will.
+      # Bump the SHA by hand when medusajs/medusa-update-action cuts a new
+      # release worth taking.
       - name: Update Medusa
-        uses: medusajs/medusa-update-action@v1
+        uses: medusajs/medusa-update-action@02eca016e5b0024bf4ff3beaeff4530bc18fa6e3 # v1, resolved 2026-09-24
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           

@@ -1,0 +1,30 @@
+version: 2
+updates:
+  # Main pnpm workspace: apps/backend, apps/storefront, apps/tenant-panel,
+  # apps/bot and the root devDependencies all share this lockfile
+  # (pnpm-workspace.yaml excludes only apps/backend/.medusa, apps/storefront/.next
+  # and apps/homepage, see below).
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    ignore:
+      # .github/workflows/update.yaml already owns @medusajs/* version bumps
+      # (medusajs/medusa-update-action keeps the whole @medusajs/* set in
+      # lockstep, which a per-package dependabot PR cannot guarantee). Letting
+      # both propose the same bump would just be two competing, conflicting
+      # PRs for one package (audit D-06).
+      - dependency-name: "@medusajs/*"
+
+  # apps/homepage/port installs standalone with its own lockfile (see the
+  # comment in the root pnpm-workspace.yaml).
+  - package-ecosystem: "npm"
+    directory: "/apps/homepage/port"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
