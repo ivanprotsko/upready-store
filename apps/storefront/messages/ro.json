@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Cont",
     "addresses": "Adrese",
+    "courses": "Cursuri",
     "logOut": "Deconectare",
     "orders": "Comenzi",
     "overview": "Prezentare generală",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "Această pagină vine cu starterul ca text de exemplu. Înlocuiți-l cu textul dvs. înainte de lansare."
   },
+  "CourseBlock": {
+    "heading": "Programul cursului",
+    "progress": "{completed}/{total} lecții finalizate",
+    "markViewed": "Marchează ca vizionat",
+    "lessonViewed": "Vizionat",
+    "locked": "Lecție blocată",
+    "lockedHint": "Cumpărați cursul pe pagina produsului pentru a debloca lecțiile.",
+    "backToCourse": "Înapoi la curs",
+    "lessonLabel": "Lecția {order}",
+    "prev": "Lecția anterioară",
+    "next": "Lecția următoare",
+    "finish": "Finalizează cursul"
+  },
+  "CoursesPage": {
+    "heading": "Cursurile mele",
+    "description": "Cursurile pe care le-ați cumpărat și progresul dvs. în ele.",
+    "empty": "Nu ați cumpărat încă niciun curs.",
+    "start": "Începe",
+    "continue": "Continuă",
+    "review": "Recapitulează"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "Scrieți-ne despre o comandă, un produs sau orice altceva.",
       "title": "Contact"
+    },
+    "courses": {
+      "title": "Cursurile mele",
+      "description": "Cursurile pe care le-ați cumpărat și progresul dvs. în ele."
     },
     "customerService": {
       "description": "Răspunsuri la cele mai frecvente întrebări și modalitățile de a ne contacta.",

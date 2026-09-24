@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "חשבון",
     "addresses": "כתובות",
+    "courses": "קורסים",
     "logOut": "התנתקות",
     "orders": "הזמנות",
     "overview": "סקירה כללית",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "העמוד הזה מגיע עם הסטארטר כטקסט לדוגמה. החליפו אותו בטקסט שלכם לפני העלייה לאוויר."
   },
+  "CourseBlock": {
+    "heading": "תוכנית הקורס",
+    "progress": "{completed}/{total} שיעורים הושלמו",
+    "markViewed": "סמן כנצפה",
+    "lessonViewed": "נצפה",
+    "locked": "השיעור נעול",
+    "lockedHint": "רכשו את הקורס בעמוד המוצר כדי לפתוח את השיעורים.",
+    "backToCourse": "חזרה לקורס",
+    "lessonLabel": "שיעור {order}",
+    "prev": "השיעור הקודם",
+    "next": "השיעור הבא",
+    "finish": "סיום הקורס"
+  },
+  "CoursesPage": {
+    "heading": "הקורסים שלי",
+    "description": "הקורסים שרכשת וההתקדמות שלך בהם.",
+    "empty": "עדיין לא רכשת אף קורס.",
+    "start": "התחל",
+    "continue": "המשך",
+    "review": "חזור על החומר"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "כתבו לנו בנוגע להזמנה, למוצר או לכל נושא אחר.",
       "title": "יצירת קשר"
+    },
+    "courses": {
+      "title": "הקורסים שלי",
+      "description": "הקורסים שרכשת וההתקדמות שלך בהם."
     },
     "customerService": {
       "description": "תשובות לשאלות הנפוצות ביותר ודרכים ליצור איתנו קשר.",

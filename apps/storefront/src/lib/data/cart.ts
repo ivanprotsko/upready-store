@@ -34,7 +34,12 @@ export async function retrieveCart(cartId?: string, fields?: string) {
     // point and the card never says which one — measured on the stand
     // 2026-09-16, the flow otherwise complete (radio selected, 185 ₽ in the
     // totals) and the point line simply absent.
-    "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name, +shipping_methods.data"
+    // `+items.product.metadata` (o24-courses): `*items.product` alone does not
+    // reliably expand a JSON column, and the checkout's digital-cart check
+    // (`isDigitalDeliveryCart`, `lib/util/shipping-address.ts`) reads
+    // `product.metadata.digital` on every line to decide whether to show the
+    // delivery step at all.
+    "*items, *region, *items.product, +items.product.metadata, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name, +shipping_methods.data"
 
   if (!id) {
     return null
@@ -286,7 +291,9 @@ export async function setShippingMethod({
   return sdk.store.cart
     .addShippingMethod(
       cartId,
-      data ? { option_id: shippingMethodId, data } : { option_id: shippingMethodId },
+      data
+        ? { option_id: shippingMethodId, data }
+        : { option_id: shippingMethodId },
       {},
       headers
     )
@@ -458,15 +465,23 @@ export async function setAddresses(input: SetAddressesInput) {
     const currentShipping = (cart?.shipping_address ?? {}) as AddressPayload
     const currentBilling = (cart?.billing_address ?? {}) as AddressPayload
 
-    const shippingAddress = mergeAddress(currentShipping, input.shipping_address)
+    const shippingAddress = mergeAddress(
+      currentShipping,
+      input.shipping_address
+    )
 
-    const data: HttpTypes.StoreUpdateCart = { shipping_address: shippingAddress }
+    const data: HttpTypes.StoreUpdateCart = {
+      shipping_address: shippingAddress,
+    }
 
     if (input.email?.trim()) {
       data.email = input.email
     }
 
-    if (input.same_as_billing || isSameAddress(currentShipping, currentBilling)) {
+    if (
+      input.same_as_billing ||
+      isSameAddress(currentShipping, currentBilling)
+    ) {
       data.billing_address = shippingAddress
     }
 
@@ -520,7 +535,9 @@ export async function placeOrder(cartId?: string) {
      * their session, and the parameter is simply unused.
      */
     const orderToken = (cartRes as { order_token?: string }).order_token
-    const confirmedPath = `/${locale ?? defaultLocale}/order/${cartRes?.order.id}/confirmed`
+    const confirmedPath = `/${locale ?? defaultLocale}/order/${
+      cartRes?.order.id
+    }/confirmed`
     redirect(
       orderToken
         ? `${confirmedPath}?token=${encodeURIComponent(orderToken)}`
@@ -614,7 +631,6 @@ export async function applyRegion(
 
   const productsCacheTag = await getCacheTag("products")
   revalidateTag(productsCacheTag)
-
 }
 
 /**

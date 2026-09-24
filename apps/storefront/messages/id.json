@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Akun",
     "addresses": "Alamat",
+    "courses": "Kursus",
     "logOut": "Keluar",
     "orders": "Pesanan",
     "overview": "Ringkasan",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "Halaman ini hadir bersama starter sebagai teks contoh. Ganti dengan teks Anda sendiri sebelum tayang."
   },
+  "CourseBlock": {
+    "heading": "Program kursus",
+    "progress": "{completed}/{total} pelajaran selesai",
+    "markViewed": "Tandai sudah dilihat",
+    "lessonViewed": "Sudah dilihat",
+    "locked": "Pelajaran terkunci",
+    "lockedHint": "Beli kursus di halaman produknya untuk membuka pelajaran.",
+    "backToCourse": "Kembali ke kursus",
+    "lessonLabel": "Pelajaran {order}",
+    "prev": "Pelajaran sebelumnya",
+    "next": "Pelajaran berikutnya",
+    "finish": "Selesaikan kursus"
+  },
+  "CoursesPage": {
+    "heading": "Kursus saya",
+    "description": "Kursus yang Anda beli dan progres Anda di dalamnya.",
+    "empty": "Anda belum membeli kursus apa pun.",
+    "start": "Mulai",
+    "continue": "Lanjutkan",
+    "review": "Tinjau ulang"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "Hubungi kami soal pesanan, produk, atau hal lainnya.",
       "title": "Kontak"
+    },
+    "courses": {
+      "title": "Kursus saya",
+      "description": "Kursus yang Anda beli dan progres Anda di dalamnya."
     },
     "customerService": {
       "description": "Jawaban atas pertanyaan yang paling sering diajukan dan cara menghubungi kami.",

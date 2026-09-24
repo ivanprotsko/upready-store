@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "অ্যাকাউন্ট",
     "addresses": "ঠিকানাসমূহ",
+    "courses": "কোর্স",
     "logOut": "লগ আউট",
     "orders": "অর্ডারসমূহ",
     "overview": "সারসংক্ষেপ",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "এই পাতাটি স্টার্টারের সঙ্গে আসা নমুনা লেখা। চালু করার আগে নিজের লেখা দিয়ে বদলে নিন।"
   },
+  "CourseBlock": {
+    "heading": "কোর্স প্রোগ্রাম",
+    "progress": "{completed}/{total} পাঠ সম্পন্ন",
+    "markViewed": "দেখা হয়েছে চিহ্নিত করুন",
+    "lessonViewed": "দেখা হয়েছে",
+    "locked": "পাঠটি লক করা আছে",
+    "lockedHint": "পাঠগুলো আনলক করতে পণ্যের পৃষ্ঠা থেকে কোর্সটি কিনুন।",
+    "backToCourse": "কোর্সে ফিরে যান",
+    "lessonLabel": "পাঠ {order}",
+    "prev": "আগের পাঠ",
+    "next": "পরবর্তী পাঠ",
+    "finish": "কোর্স শেষ করুন"
+  },
+  "CoursesPage": {
+    "heading": "আমার কোর্সসমূহ",
+    "description": "আপনি যে কোর্সগুলো কিনেছেন এবং সেগুলোতে আপনার অগ্রগতি।",
+    "empty": "আপনি এখনো কোনো কোর্স কেনেননি।",
+    "start": "শুরু করুন",
+    "continue": "চালিয়ে যান",
+    "review": "পুনরালোচনা করুন"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "অর্ডার, পণ্য বা অন্য যেকোনো বিষয়ে আমাদের লিখুন।",
       "title": "যোগাযোগ"
+    },
+    "courses": {
+      "title": "আমার কোর্সসমূহ",
+      "description": "আপনি যে কোর্সগুলো কিনেছেন এবং সেগুলোতে আপনার অগ্রগতি।"
     },
     "customerService": {
       "description": "সবচেয়ে বেশি জিজ্ঞাসা করা প্রশ্নের উত্তর এবং আমাদের সঙ্গে যোগাযোগের উপায়।",

@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRightOnRectangle } from "@medusajs/icons"
+import { AcademicCap, ArrowRightOnRectangle } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { usePathname } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
@@ -84,6 +84,19 @@ const AccountNav = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    href="/account/courses"
+                    className="flex items-center justify-between py-4 border-b border-ui-border-base"
+                    data-testid="courses-link"
+                  >
+                    <div className="flex items-center gap-x-2">
+                      <AcademicCap />
+                      <span>{t("courses")}</span>
+                    </div>
+                    <ChevronDown className="transform -rotate-90 rtl:rotate-90" />
+                  </Link>
+                </li>
+                <li>
                   <button
                     type="button"
                     className="flex items-center justify-between py-4 border-b border-ui-border-base w-full"
@@ -143,6 +156,15 @@ const AccountNav = () => {
                   data-testid="orders-link"
                 >
                   {t("orders")}
+                </AccountNavLink>
+              </li>
+              <li>
+                <AccountNavLink
+                  href="/account/courses"
+                  route={route!}
+                  data-testid="courses-link"
+                >
+                  {t("courses")}
                 </AccountNavLink>
               </li>
               <li className="text-ui-fg-subtle">

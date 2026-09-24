@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Account",
     "addresses": "Adressen",
+    "courses": "Cursussen",
     "logOut": "Uitloggen",
     "orders": "Bestellingen",
     "overview": "Overzicht",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "Deze pagina hoort als voorbeeldtekst bij de starter. Vervang hem door uw eigen tekst voordat u live gaat."
   },
+  "CourseBlock": {
+    "heading": "Cursusprogramma",
+    "progress": "{completed}/{total} lessen voltooid",
+    "markViewed": "Markeren als bekeken",
+    "lessonViewed": "Bekeken",
+    "locked": "Les vergrendeld",
+    "lockedHint": "Koop de cursus op de productpagina om de lessen te ontgrendelen.",
+    "backToCourse": "Terug naar cursus",
+    "lessonLabel": "Les {order}",
+    "prev": "Vorige les",
+    "next": "Volgende les",
+    "finish": "Cursus afronden"
+  },
+  "CoursesPage": {
+    "heading": "Mijn cursussen",
+    "description": "De cursussen die u heeft gekocht en uw voortgang daarin.",
+    "empty": "U heeft nog geen cursussen gekocht.",
+    "start": "Beginnen",
+    "continue": "Doorgaan",
+    "review": "Herhalen"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "Neem contact op over een bestelling, een product of iets anders.",
       "title": "Contact"
+    },
+    "courses": {
+      "title": "Mijn cursussen",
+      "description": "De cursussen die u heeft gekocht en uw voortgang daarin."
     },
     "customerService": {
       "description": "Antwoorden op de vragen die we het vaakst krijgen en hoe u ons bereikt.",

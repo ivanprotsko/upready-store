@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "الحساب",
     "addresses": "العناوين",
+    "courses": "الدورات",
     "logOut": "تسجيل الخروج",
     "orders": "الطلبات",
     "overview": "نظرة عامة",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "هذه الصفحة نص مؤقت يأتي مع القالب. استبدله بنصك قبل الإطلاق."
   },
+  "CourseBlock": {
+    "heading": "برنامج الدورة",
+    "progress": "{completed}/{total} دروس مكتملة",
+    "markViewed": "وضع علامة كمُشاهَد",
+    "lessonViewed": "تمت المشاهدة",
+    "locked": "الدرس مقفل",
+    "lockedHint": "اشترِ الدورة من صفحة المنتج لفتح الدروس.",
+    "backToCourse": "العودة إلى الدورة",
+    "lessonLabel": "الدرس {order}",
+    "prev": "الدرس السابق",
+    "next": "الدرس التالي",
+    "finish": "إنهاء الدورة"
+  },
+  "CoursesPage": {
+    "heading": "دوراتي",
+    "description": "الدورات التي اشتريتها وتقدمك فيها.",
+    "empty": "لم تشترِ أي دورة بعد.",
+    "start": "ابدأ",
+    "continue": "متابعة",
+    "review": "مراجعة"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "راسلنا بشأن طلب أو منتج أو أي أمر آخر.",
       "title": "اتصل بنا"
+    },
+    "courses": {
+      "title": "دوراتي",
+      "description": "الدورات التي اشتريتها وتقدمك فيها."
     },
     "customerService": {
       "description": "إجابات عن الأسئلة الأكثر شيوعًا وطرق التواصل معنا.",

@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "บัญชี",
     "addresses": "ที่อยู่",
+    "courses": "คอร์ส",
     "logOut": "ออกจากระบบ",
     "orders": "คำสั่งซื้อ",
     "overview": "ภาพรวม",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "หน้านี้มาพร้อมกับสตาร์ทเตอร์เป็นข้อความตัวอย่าง แทนที่ด้วยข้อความของคุณก่อนเปิดร้าน"
   },
+  "CourseBlock": {
+    "heading": "โปรแกรมของคอร์ส",
+    "progress": "เรียนจบแล้ว {completed}/{total} บทเรียน",
+    "markViewed": "ทำเครื่องหมายว่าดูแล้ว",
+    "lessonViewed": "ดูแล้ว",
+    "locked": "บทเรียนถูกล็อก",
+    "lockedHint": "ซื้อคอร์สที่หน้าสินค้าเพื่อปลดล็อกบทเรียน",
+    "backToCourse": "กลับไปที่คอร์ส",
+    "lessonLabel": "บทเรียนที่ {order}",
+    "prev": "บทเรียนก่อนหน้า",
+    "next": "บทเรียนถัดไป",
+    "finish": "จบคอร์ส"
+  },
+  "CoursesPage": {
+    "heading": "คอร์สของฉัน",
+    "description": "คอร์สที่คุณซื้อและความคืบหน้าของคุณในแต่ละคอร์ส",
+    "empty": "คุณยังไม่ได้ซื้อคอร์สใดๆ",
+    "start": "เริ่ม",
+    "continue": "ดำเนินการต่อ",
+    "review": "ทบทวน"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "ติดต่อเราเรื่องคำสั่งซื้อ สินค้า หรือเรื่องอื่นใดก็ได้",
       "title": "ติดต่อเรา"
+    },
+    "courses": {
+      "title": "คอร์สของฉัน",
+      "description": "คอร์สที่คุณซื้อและความคืบหน้าของคุณในแต่ละคอร์ส"
     },
     "customerService": {
       "description": "คำตอบสำหรับคำถามที่พบบ่อยและช่องทางติดต่อเรา",

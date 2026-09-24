@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Акаунт",
     "addresses": "Адреси",
+    "courses": "Курси",
     "logOut": "Вийти",
     "orders": "Замовлення",
     "overview": "Огляд",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "Ця сторінка є прикладом тексту зі стартера. Замініть його власним до запуску."
   },
+  "CourseBlock": {
+    "heading": "Програма курсу",
+    "progress": "{completed}/{total} уроків пройдено",
+    "markViewed": "Позначити переглянутим",
+    "lessonViewed": "Переглянуто",
+    "locked": "Урок закрито",
+    "lockedHint": "Купіть курс на сторінці товару, щоб відкрити уроки.",
+    "backToCourse": "Назад до курсу",
+    "lessonLabel": "Урок {order}",
+    "prev": "Попередній урок",
+    "next": "Наступний урок",
+    "finish": "Завершити курс"
+  },
+  "CoursesPage": {
+    "heading": "Мої курси",
+    "description": "Курси, які ви придбали, та ваш прогрес у них.",
+    "empty": "Ви ще не придбали жодного курсу.",
+    "start": "Почати",
+    "continue": "Продовжити",
+    "review": "Повторити"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "Напишіть нам про замовлення, товар або будь-що інше.",
       "title": "Контакти"
+    },
+    "courses": {
+      "title": "Мої курси",
+      "description": "Курси, які ви придбали, та ваш прогрес у них."
     },
     "customerService": {
       "description": "Відповіді на найчастіші запитання та способи зв'язатися з нами.",

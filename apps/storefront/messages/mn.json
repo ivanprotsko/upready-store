@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "Бүртгэл",
     "addresses": "Хаягууд",
+    "courses": "Курсууд",
     "logOut": "Гарах",
     "orders": "Захиалгууд",
     "overview": "Тойм",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "Энэ хуудас нь стартертай хамт ирсэн жишээ текст. Нээхээсээ өмнө өөрийн текстээр солино уу."
   },
+  "CourseBlock": {
+    "heading": "Курсын хөтөлбөр",
+    "progress": "{completed}/{total} хичээл дууссан",
+    "markViewed": "Үзсэн гэж тэмдэглэх",
+    "lessonViewed": "Үзсэн",
+    "locked": "Хичээл түгжигдсэн",
+    "lockedHint": "Хичээлүүдийг нээхийн тулд бүтээгдэхүүний хуудаснаас курсыг худалдан аваарай.",
+    "backToCourse": "Курс руу буцах",
+    "lessonLabel": "Хичээл {order}",
+    "prev": "Өмнөх хичээл",
+    "next": "Дараагийн хичээл",
+    "finish": "Курсыг дуусгах"
+  },
+  "CoursesPage": {
+    "heading": "Миний курсууд",
+    "description": "Таны худалдаж авсан курсууд болон тэдгээрийн явц.",
+    "empty": "Та одоогоор ямар ч курс худалдаж аваагүй байна.",
+    "start": "Эхлэх",
+    "continue": "Үргэлжлүүлэх",
+    "review": "Давтах"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "Захиалга, бараа болон бусад асуудлаар бидэнд бичээрэй.",
       "title": "Холбоо барих"
+    },
+    "courses": {
+      "title": "Миний курсууд",
+      "description": "Таны худалдаж авсан курсууд болон тэдгээрийн явц."
     },
     "customerService": {
       "description": "Хамгийн түгээмэл асуултын хариулт болон бидэнтэй холбогдох арга замууд.",

@@ -14,6 +14,7 @@
   "AccountNav": {
     "account": "ანგარიში",
     "addresses": "მისამართები",
+    "courses": "კურსები",
     "logOut": "გასვლა",
     "orders": "შეკვეთები",
     "overview": "მიმოხილვა",
@@ -314,6 +315,27 @@
     ],
     "placeholder": "ეს გვერდი სტარტერს ახლავს ნიმუშის ტექსტად. ჩაანაცვლეთ საკუთარით გაშვებამდე."
   },
+  "CourseBlock": {
+    "heading": "კურსის პროგრამა",
+    "progress": "{completed}/{total} გაკვეთილი დასრულებულია",
+    "markViewed": "მონიშნეთ ნანახად",
+    "lessonViewed": "ნანახია",
+    "locked": "გაკვეთილი დაბლოკილია",
+    "lockedHint": "შეიძინეთ კურსი პროდუქტის გვერდზე გაკვეთილების განსაბლოკად.",
+    "backToCourse": "უკან კურსში",
+    "lessonLabel": "გაკვეთილი {order}",
+    "prev": "წინა გაკვეთილი",
+    "next": "შემდეგი გაკვეთილი",
+    "finish": "კურსის დასრულება"
+  },
+  "CoursesPage": {
+    "heading": "ჩემი კურსები",
+    "description": "თქვენ მიერ შეძენილი კურსები და თქვენი პროგრესი მათში.",
+    "empty": "თქვენ ჯერ არ შეგიძენიათ არცერთი კურსი.",
+    "start": "დაწყება",
+    "continue": "გაგრძელება",
+    "review": "გამეორება"
+  },
   "DemoCard": {
     "cvcLabel": "CVC",
     "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
@@ -595,6 +617,10 @@
     "contact": {
       "description": "მოგვწერეთ შეკვეთის, პროდუქტის ან ნებისმიერი სხვა საკითხის შესახებ.",
       "title": "კონტაქტი"
+    },
+    "courses": {
+      "title": "ჩემი კურსები",
+      "description": "თქვენ მიერ შეძენილი კურსები და თქვენი პროგრესი მათში."
     },
     "customerService": {
       "description": "პასუხები ყველაზე ხშირ კითხვებზე და ჩვენთან დაკავშირების გზები.",
