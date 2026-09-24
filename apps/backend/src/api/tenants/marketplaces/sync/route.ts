@@ -1,4 +1,5 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
+import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { EXPIRY_WARNING_DAYS } from "../../../../modules/marketplace/contract";
@@ -6,12 +7,14 @@ import { MARKETPLACE_MODULE } from "../../../../modules/marketplace";
 import { MARKETPLACES } from "../../../../modules/marketplace/registry";
 import {
   MP_FAILURE_STATUSES,
+  MP_SCHEDULED_KINDS,
   MP_SCHEDULER_CRON,
   MP_STALE_LOCK_MS,
   consecutiveFailures,
   intervalMsFor,
   nextDueAt,
 } from "../../../../modules/marketplace/schedule";
+import { decideDue, runOneSync, type SchedulerDeps } from "../../../../modules/marketplace/scheduler";
 import type MarketplaceModuleService from "../../../../modules/marketplace/service";
 import { getTenantScope } from "../../tenant-scope";
 
@@ -267,4 +270,113 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     /** The server's own clock, so the screen counts «через сколько» from it. */
     now: now.toISOString(),
   });
+};
+
+export type SyncNowResult = {
+  marketplace: string;
+  kind: string;
+  outcome: "started" | "skipped";
+  /** `DueVerdict["reason"]`, or `no_key` / `integration_disabled` for a whole marketplace. */
+  reason: string;
+};
+
+/**
+ * `POST /tenants/marketplaces/sync` — «Обновить сейчас» (t-2026-09-24-n6).
+ *
+ * Ivan, 2026-09-24: after saving a key the owner had no way to ask for the
+ * first import without waiting for the scheduler's own tick, up to ten
+ * minutes away for orders and up to an hour for cards and prices. This starts
+ * every connected marketplace's every kind AT ONCE, for THIS tenant only,
+ * ignoring how long is left of each kind's normal interval — it does NOT
+ * ignore a `running` lock, a marketplace's own rate-limit wait or a refused
+ * key, because those are the marketplace's or the concurrency rule's own
+ * refusal and not our pacing to override (`decideDue`, `force: true`,
+ * `schedule.ts`).
+ *
+ * DOES NOT BLOCK ON THE SYNC ITSELF. `decideDue` answers which kinds may run
+ * from a few cheap reads of `mp_sync_run`, no adapter call; the response is
+ * built from that alone, and each due kind is then handed to `runOneSync`
+ * WITHOUT an `await`, so a rate-limit wait or a slow request never holds the
+ * HTTP response open. A background failure is logged, never thrown back at a
+ * request that has already answered.
+ */
+export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
+  const tenant = await getTenantScope(req);
+  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
+  const mp = req.scope.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE);
+  const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
+  const now = new Date();
+
+  /**
+   * «Уже идёт», tenant-wide: any kind of any marketplace still inside a
+   * `running` row younger than the stale-lock timeout. A crashed process's
+   * abandoned lock does not count — `runOneSync` takes those over on its own
+   * — or one dead run would lock this button forever (w16-mp-scheduler-ops).
+   */
+  const runningRows = (await mp.listMpSyncRuns({
+    tenant_id: tenant.id,
+    status: "running",
+  })) as RunRow[];
+
+  const stillRunning = runningRows.some((row) => {
+    const startedAt = row.started_at instanceof Date ? row.started_at : new Date(row.started_at);
+    return now.getTime() - startedAt.getTime() < MP_STALE_LOCK_MS;
+  });
+
+  if (stillRunning) {
+    res.status(409).json({
+      type: "sync_in_progress",
+      message: "Обмен уже идёт для этого магазина — дождитесь, пока текущий прогон закончится.",
+    });
+    return;
+  }
+
+  const deps: SchedulerDeps = { container: req.scope, tenantId: tenant.id, logger };
+  const results: SyncNowResult[] = [];
+
+  for (const adapter of MARKETPLACES) {
+    const slot = await adapter.readCredentials(pg, tenant.id);
+
+    if (!slot || !slot.isEnabled) {
+      results.push({
+        marketplace: adapter.id,
+        kind: "*",
+        outcome: "skipped",
+        reason: slot ? "integration_disabled" : "no_key",
+      });
+      continue;
+    }
+
+    const kinds = [...adapter.syncKinds, "projection"].filter((kind) =>
+      MP_SCHEDULED_KINDS.includes(kind),
+    );
+
+    for (const kind of kinds) {
+      const { verdict } = await decideDue(deps, adapter, kind, slot.updatedAt ?? null, true);
+
+      if (!verdict.due) {
+        results.push({ marketplace: adapter.id, kind, outcome: "skipped", reason: verdict.reason });
+        continue;
+      }
+
+      results.push({ marketplace: adapter.id, kind, outcome: "started", reason: verdict.reason });
+
+      /**
+       * Fire-and-forget on purpose (see the doc comment above): the response
+       * has already promised this kind started, and awaiting it here would
+       * hold the request open for exactly the rate-limit wait `force` is not
+       * allowed to skip.
+       */
+      void runOneSync(deps, adapter, kind, slot.credentials, slot.updatedAt ?? null, true).catch(
+        (error: unknown) => {
+          logger.error(
+            `[mp-sync] «Обновить сейчас» ${adapter.id} ${kind}: ` +
+              `${error instanceof Error ? error.message : String(error)}`,
+          );
+        },
+      );
+    }
+  }
+
+  res.json({ results, now: now.toISOString() });
 };

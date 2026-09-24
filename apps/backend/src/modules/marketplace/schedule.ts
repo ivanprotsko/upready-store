@@ -190,7 +190,13 @@ export const failureBackoffMs = (interval: number, consecutive: number): number 
 export type DueVerdict = {
   due: boolean;
   /** One of the reasons below. The screen and the log both print it. */
-  reason: "never_ran" | "interval_elapsed" | "stale_lock_taken_over" | "locked" | "waiting";
+  reason:
+    | "never_ran"
+    | "interval_elapsed"
+    | "stale_lock_taken_over"
+    | "locked"
+    | "waiting"
+    | "forced";
   /** When this triple may run next. `null` when it may run now. */
   nextAt: Date | null;
 };
@@ -219,6 +225,15 @@ export const nextDueAt = (
    * it: a key saved after the refused run is a new key and is tried at once.
    */
   credentialsUpdatedAt?: Date | null,
+  /**
+   * «Обновить сейчас» (w6-mp-orders-sync-now): the owner's own request to
+   * import now, ignoring how long is left of the normal or the backed-off
+   * interval. It does NOT ignore a `running` lock, a marketplace's own
+   * rate-limit wait or a refused key — those are the marketplace's or the
+   * concurrency rule's own refusal, not this triple's interval, and forcing
+   * past them would spend a request the marketplace has already said no to.
+   */
+  force = false,
 ): DueVerdict => {
   if (!last) {
     return { due: true, reason: "never_ran", nextAt: null };
@@ -252,6 +267,15 @@ export const nextDueAt = (
     return retryAt.getTime() <= now.getTime()
       ? { due: true, reason: "interval_elapsed", nextAt: null }
       : { due: false, reason: "waiting", nextAt: retryAt };
+  }
+
+  /**
+   * Past the lock, the rate limit and a refused key, `force` is «Обновить
+   * сейчас» itself: the owner asked for this kind regardless of its interval
+   * or its failure backoff, and both are OUR pacing, not the marketplace's.
+   */
+  if (force) {
+    return { due: true, reason: "forced", nextAt: null };
   }
 
   /**

@@ -4326,7 +4326,21 @@
     "neverRan": "ещё ни разу не приходили",
     "attempts": "попыток: {{count}}",
     "keySet": "ключ оканчивается на {{last4}}, действует до {{until}}",
-    "noExpiry": "срок не указан"
+    "noExpiry": "срок не указан",
+    "syncNow": {
+      "button": "Обновить сейчас",
+      "running": "Обновляется…",
+      "toastTitle": "Запущено: {{count}}",
+      "toastTitleNone": "Обновлять прямо сейчас нечего",
+      "toastStarted": "Запущено — {{list}}.",
+      "toastSkipped": "Пропущено — {{list}}.",
+      "reasons": {
+        "no_key": "ключ не сохранён",
+        "integration_disabled": "интеграция выключена",
+        "locked": "уже выполняется",
+        "waiting": "площадка просит подождать"
+      }
+    }
   },
   "marketplaces": {
     "title": "Маркетплейсы",

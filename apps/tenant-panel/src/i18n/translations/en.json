@@ -4228,7 +4228,21 @@
     "neverRan": "never ran",
     "attempts": "attempts: {{count}}",
     "keySet": "key ends with {{last4}}, valid until {{until}}",
-    "noExpiry": "no expiry stated"
+    "noExpiry": "no expiry stated",
+    "syncNow": {
+      "button": "Sync now",
+      "running": "Syncing…",
+      "toastTitle": "Started: {{count}}",
+      "toastTitleNone": "Nothing to sync right now",
+      "toastStarted": "Started — {{list}}.",
+      "toastSkipped": "Skipped — {{list}}.",
+      "reasons": {
+        "no_key": "no key saved",
+        "integration_disabled": "integration disabled",
+        "locked": "already running",
+        "waiting": "the marketplace asks to wait"
+      }
+    }
   },
   "marketplaces": {
     "title": "Marketplaces",

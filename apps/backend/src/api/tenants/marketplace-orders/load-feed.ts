@@ -6,6 +6,7 @@ import type MarketplaceModuleService from "../../../modules/marketplace/service"
 import { MARKETPLACES } from "../../../modules/marketplace/registry";
 import {
   byDateDesc,
+  compactLinkedRows,
   facetsOf,
   inPeriod,
   matchesFilters,
@@ -166,8 +167,9 @@ export const loadFeed = async (
     filters: { id: [tenant.id] },
   });
 
-  const shopOrders = ((tenantRows?.[0] as { orders?: unknown[] } | undefined)?.orders ??
-    []) as Record<string, unknown>[];
+  const shopOrders = compactLinkedRows(
+    (tenantRows?.[0] as { orders?: unknown[] } | undefined)?.orders,
+  ) as Record<string, unknown>[];
 
   const shopRows: FeedRow[] = [];
   for (const order of shopOrders) {

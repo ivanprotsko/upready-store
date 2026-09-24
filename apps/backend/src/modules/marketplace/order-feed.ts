@@ -226,6 +226,16 @@ export const matchesFilters = (row: FeedRow, filters: FeedFilters): boolean => {
   return true;
 };
 
+/**
+ * A module link (`tenant.orders`, `tenant.products`, …) answers one entry per
+ * LINK ROW, not per surviving order: a soft-deleted order still has its link
+ * row, and the graph hands back `undefined` in its place instead of dropping
+ * the slot. Every loader over such a list runs it through this first, or a
+ * shop with one soft-deleted order 500s on its own order screen.
+ */
+export const compactLinkedRows = <T>(rows: (T | null | undefined)[] | null | undefined): T[] =>
+  (rows ?? []).filter((row): row is T => Boolean(row));
+
 /** Newest first, and a row with no date last rather than first. */
 export const byDateDesc = (left: FeedRow, right: FeedRow): number => {
   const a = left.ordered_at ? new Date(left.ordered_at).getTime() : Number.NEGATIVE_INFINITY;
