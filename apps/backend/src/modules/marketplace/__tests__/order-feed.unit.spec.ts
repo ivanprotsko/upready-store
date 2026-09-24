@@ -2,6 +2,7 @@ import {
   CSV_COLUMNS,
   DEFAULT_PERIOD_DAYS,
   byDateDesc,
+  compactLinkedRows,
   facetsOf,
   inPeriod,
   matchesFilters,
@@ -97,6 +98,22 @@ describe("заказ без даты", () => {
     const undated = mpRow({ id: "mporder_2", ordered_at: null });
 
     expect([undated, dated].sort(byDateDesc)[0].id).toBe("mporder_1");
+  });
+});
+
+describe("заказ, чья ссылка ведёт на удалённый заказ", () => {
+  it("пропускается, а не роняет загрузку ленты", () => {
+    const survivor = { id: "order_1", created_at: new Date("2026-09-10T10:00:00.000Z") };
+    const linked = [survivor, undefined, null, survivor];
+
+    expect(() => compactLinkedRows(linked)).not.toThrow();
+    expect(compactLinkedRows(linked)).toEqual([survivor, survivor]);
+  });
+
+  it("список пустой или отсутствующий — тоже без ошибки", () => {
+    expect(compactLinkedRows([])).toEqual([]);
+    expect(compactLinkedRows(undefined)).toEqual([]);
+    expect(compactLinkedRows(null)).toEqual([]);
   });
 });
 
