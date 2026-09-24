@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
 
+import OlavkaLoopTrack from "./olavka-loop-track"
 import type { OlavkaHeroSlide } from "./olavka-types"
 import styles from "./olavka-hero-slider.module.css"
 
@@ -18,8 +19,8 @@ type Props = {
  * node's `Swiped=true` state being any scroll position past the first card. The node
  * draws no arrows and no dots, so there are none: a finger swipes, a wheel or a trackpad
  * scrolls, and the Tab key walks the cards and scrolls each into view. No client state,
- * so this is a server component. The desktop `Items=2+` rest position is an open decision,
- * see `CAROUSEL_REST_INDEX`.
+ * so this is a server component; the 3+ carousel loops (Ivan 2026-09-25, C3) through the
+ * small `OlavkaLoopTrack` island — at rest the first card centred, the last peeking left.
  *
  * Every card is ONE link over the whole picture (Ivan 2.3): the four chips are plain
  * spans inside it — the «Смотреть» button is decorative, never a second control — and
@@ -27,15 +28,6 @@ type Props = {
  * page in the current locale (`Link`); a URL link opens as given, a `http(s)://` one in
  * a new tab with `rel="noopener noreferrer"`, a site path in the same tab.
  */
-/**
- * Which card the `Items=2+` track shows at rest. The desktop frame (239:17719) draws the
- * SECOND banner centred with the first peeking left; whether that is the start or an
- * endless loop is Ivan's open decision (C3/E2), so today the track starts at the first
- * card. `1` switches to the node's picture: that card gets `scroll-initial-target`
- * (Chromium 133+; elsewhere the track still starts at the first card).
- */
-const CAROUSEL_REST_INDEX: 0 | 1 = 0
-
 export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
   const t = await getTranslations("OlavkaHome.slider")
   // Layout by the NUMBER of banners (Ivan 2026-09-25, set 238:17551 `Items=1 / 2 / 2+`):
@@ -50,22 +42,45 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
       data-testid="olavka-hero-slider"
       data-layout={layout}
     >
-      <ul className={`${styles.track} ${styles[layout]}`}>
-        {slides.map((slide, index) => (
-          <li
-            key={slide.id}
-            className={
-              layout === "carousel" && CAROUSEL_REST_INDEX > 0 && index === CAROUSEL_REST_INDEX
-                ? `${styles.item} ${styles.rest}`
-                : styles.item
-            }
-            data-testid="olavka-hero-slide"
-            data-source={slide.source}
-          >
-            <BannerCard slide={slide} eager={index < 2} layout={layout} />
-          </li>
-        ))}
-      </ul>
+      {layout === "carousel" ? (
+        // 3+ banners loop (Ivan 2026-09-25): clone · real · clone, see OlavkaLoopTrack.
+        <OlavkaLoopTrack className={`${styles.track} ${styles.carousel}`} setSize={slides.length}>
+          {(["before", "real", "after"] as const).flatMap((copy) =>
+            slides.map((slide, index) => {
+              const clone = copy !== "real"
+              return (
+                <li
+                  key={`${copy}-${slide.id}`}
+                  className={styles.item}
+                  data-testid={clone ? "olavka-hero-slide-clone" : "olavka-hero-slide"}
+                  data-source={slide.source}
+                  aria-hidden={clone || undefined}
+                  inert={clone || undefined}
+                >
+                  <BannerCard
+                    slide={slide}
+                    eager={!clone ? index < 2 : index === slides.length - 1 && copy === "before"}
+                    layout={layout}
+                  />
+                </li>
+              )
+            })
+          )}
+        </OlavkaLoopTrack>
+      ) : (
+        <ul className={`${styles.track} ${styles[layout]}`}>
+          {slides.map((slide, index) => (
+            <li
+              key={slide.id}
+              className={styles.item}
+              data-testid="olavka-hero-slide"
+              data-source={slide.source}
+            >
+              <BannerCard slide={slide} eager={index < 2} layout={layout} />
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   )
 }

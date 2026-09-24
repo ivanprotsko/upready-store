@@ -48,6 +48,11 @@
   -ms-overflow-style: none;
 }
 
+/* The loop track measures its cards with `offsetLeft`: it is their offset parent. */
+.carousel {
+  position: relative;
+}
+
 .track::-webkit-scrollbar {
   display: none;
 }
@@ -56,11 +61,6 @@
   flex: 0 0 572px;
   max-width: calc(100% - 100px);
   scroll-snap-align: center;
-}
-
-/* `CAROUSEL_REST_INDEX` (carousel.tsx): the card the track opens on. */
-.rest {
-  scroll-initial-target: nearest;
 }
 
 /* `Items=1`: one card, the whole content width. */

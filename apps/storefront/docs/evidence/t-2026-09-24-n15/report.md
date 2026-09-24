@@ -20,7 +20,7 @@ Home order on every width: Header → HeroSliders → «В магазине» (p
 | `hero-slider-1/` | The slider with ONE banner saved: one card the whole content width (1168 / 672 / 336 in the file). |
 | `hero-slider-2/` | TWO banners (the fixture): a pair 572×400 side by side at 1440 (no scrolling); one card with the next peeking at 768 and 390. |
 | `hero-slider-2-swiped/` | The same two banners at 768 and 390 after a swipe: the second card centred, the first peeking left (`Swiped=true`). |
-| `hero-slider-3plus/` | THREE banners (the third — «%» / «Коллекция» / «Товары от варикоза» / «Выбрать», the node's own picture 239:17763 — saved on the worker's database only, NOT in the fixture): a scroll-snap carousel on every width; at 1440 the first card is centred (x 322, 572 wide, as in the frame) with the next peeking right at x 918 — the frame shows the SECOND banner centred with the first peeking left; which one the track opens on is Ivan's open decision (C3), switchable by `CAROUSEL_REST_INDEX` in `olavka-hero-slider-carousel.tsx`; at 768 and 390 the first card sits at the left padding with the next peeking (`Swiped=false`). |
+| `hero-slider-3plus/` | THREE banners (the third — «%» / «Коллекция» / «Товары от варикоза» / «Выбрать», the node's own picture 239:17763 — saved on the worker's database only, NOT in the fixture): a scroll-snap carousel on every width; at 1440 the first card is centred (x 322, 572 wide, as in the frame) with the next peeking right at x 918 — the frame shows the SECOND banner centred with the first peeking left; — superseded by the loop below (Ivan's C3 decision); at 768 and 390 the first card sits at the left padding with the next peeking (`Swiped=false`). |
 | `hero-slider-3plus-swiped/` | The three-banner carousel at 768 and 390 after a swipe: the second card centred, neighbours peeking on both sides. |
 | `store/` | `/ru/store` viewport: the header above the catalog page, proving it is site-wide. |
 | `header-scrolled/` | The header in its `Scrolled=true` state (page scrolled 300px): 1440 / 768 / 390 × light / dark. |
@@ -177,3 +177,20 @@ rendered at scrollY 300; the desktop export (1006 wide) is laid out on 1216 by i
 | Mobile wordmark pill | 9,8 120×37, 24px | 9,8 119×37, 24px | w −1 |
 | Mobile icon pill | 204,8 147×36 r999, dividers | 204,8 147×36 | 0 |
 | Bar height d / t / m | 76 / 56 / 53 | 76 / 57 / 53 | tablet +1 (no jump) |
+
+## Loop for 3+ banners (Ivan 2026-09-25, C3: «слева в ленте 3+ пусть будет последний баннер, зациклить»)
+
+The server renders the set three times (clone · real · clone; clones `inert` + `aria-hidden`), the
+`OlavkaLoopTrack` island centres the first real card at rest and, when a scroll settles on a clone, jumps by
+exactly one set to the identical real card (layout px via `offsetLeft`, so the page zoom does not skew it).
+Scroll-snap, wheel and swipe stay native. `CAROUSEL_REST_INDEX` is removed.
+
+| State | Frame | Render (card lefts, px) | Note |
+|---|---|---|---|
+| Desktop rest 1216 | 239:17719: −274 / 322 / 918 | −274 (last) / 322 (first) / 918 (second) | geometry 0; mean |Δ| 43.1 because the frame's centre card is «Лимфа», ours is the first banner |
+| Tablet rest 720 | 238:17548 draws the first card at x 24, no left neighbour | −522 (last) / 74 (first) / 670 (second) | deviation by Ivan's rule (loop on all devices); matches the tablet `Swiped=true` geometry (74) |
+| Mobile rest 360 | 233:15251: card centred, peeks 24, gap 12 | −264 / 36 / 336 | 0 |
+| Swiped (next) t / m | 239:17830 / 239:18368 | 74 / 36 | mean |Δ| 10.1 / 10.3 |
+| Swiped back from the first d / t / m | — | settles on the real LAST card at 322 / 74 / 36, the one before it peeking left | `pixel/<device>-items2plus-back-render.png` |
+
+Checks: Tab walks the three real links only; no hydration warnings or page errors in the console.
