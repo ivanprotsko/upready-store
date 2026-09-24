@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date} itibarıyla",
     "deliveryDateUntil": "{date} tarihine kadar",
     "deliveryToday": "Bugün",
+    "demoPaymentNotice": "Test ödemesi — para çekilmez.",
     "discount": "İndirim",
     "edit": "Düzenle",
     "fieldAddress": "Adres",

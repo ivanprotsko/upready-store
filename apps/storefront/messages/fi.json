@@ -138,6 +138,7 @@
     "deliveryDateFrom": "alkaen {date}",
     "deliveryDateUntil": "viimeistään {date}",
     "deliveryToday": "Tänään",
+    "demoPaymentNotice": "Testimaksu — rahaa ei veloiteta.",
     "discount": "Alennus",
     "edit": "Muokkaa",
     "fieldAddress": "Osoite",

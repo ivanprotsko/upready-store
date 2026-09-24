@@ -138,6 +138,7 @@
     "deliveryDateFrom": "od {date}",
     "deliveryDateUntil": "do {date}",
     "deliveryToday": "Dnes",
+    "demoPaymentNotice": "Testovací platba — peníze se nestrhávají.",
     "discount": "Sleva",
     "edit": "Upravit",
     "fieldAddress": "Adresa",

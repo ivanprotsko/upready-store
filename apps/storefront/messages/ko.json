@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date}부터",
     "deliveryDateUntil": "{date}까지",
     "deliveryToday": "오늘",
+    "demoPaymentNotice": "테스트 결제 — 실제로 결제되지 않습니다.",
     "discount": "할인",
     "edit": "수정",
     "fieldAddress": "주소",

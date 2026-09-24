@@ -138,6 +138,7 @@
     "deliveryDateFrom": "từ {date}",
     "deliveryDateUntil": "trước {date}",
     "deliveryToday": "Hôm nay",
+    "demoPaymentNotice": "Thanh toán thử nghiệm — không có khoản tiền nào bị trừ.",
     "discount": "Giảm giá",
     "edit": "Chỉnh sửa",
     "fieldAddress": "Địa chỉ",

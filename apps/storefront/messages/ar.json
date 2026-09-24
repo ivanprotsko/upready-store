@@ -138,6 +138,7 @@
     "deliveryDateFrom": "من {date}",
     "deliveryDateUntil": "بحلول {date}",
     "deliveryToday": "اليوم",
+    "demoPaymentNotice": "دفع تجريبي — لا يتم خصم أي أموال.",
     "discount": "الخصم",
     "edit": "تعديل",
     "fieldAddress": "العنوان",

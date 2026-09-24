@@ -138,6 +138,7 @@
     "deliveryDateFrom": "din {date}",
     "deliveryDateUntil": "până la {date}",
     "deliveryToday": "Astăzi",
+    "demoPaymentNotice": "Plată de test — nu se retrag bani.",
     "discount": "Reducere",
     "edit": "Editează",
     "fieldAddress": "Adresă",

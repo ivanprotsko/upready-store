@@ -138,6 +138,7 @@
     "deliveryDateFrom": "от {date}",
     "deliveryDateUntil": "до {date}",
     "deliveryToday": "Днес",
+    "demoPaymentNotice": "Тестово плащане — не се удържат средства.",
     "discount": "Отстъпка",
     "edit": "Редактирай",
     "fieldAddress": "Адрес",

@@ -138,6 +138,7 @@
     "deliveryDateFrom": "från {date}",
     "deliveryDateUntil": "senast {date}",
     "deliveryToday": "Idag",
+    "demoPaymentNotice": "Testbetalning — inga pengar dras.",
     "discount": "Rabatt",
     "edit": "Redigera",
     "fieldAddress": "Adress",

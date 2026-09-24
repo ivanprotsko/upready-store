@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date}-დან",
     "deliveryDateUntil": "{date}-მდე",
     "deliveryToday": "დღეს",
+    "demoPaymentNotice": "სატესტო გადახდა — თანხა არ ჩამოიჭრება.",
     "discount": "ფასდაკლება",
     "edit": "რედაქტირება",
     "fieldAddress": "მისამართი",

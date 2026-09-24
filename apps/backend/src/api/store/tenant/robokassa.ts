@@ -10,8 +10,10 @@ export const ROBOKASSA_PROVIDER_ID = "pp_robokassa_robokassa";
  * The shop behind the request's publishable key, or `null` when the key is
  * the platform's single-store one (no tenant link). Robokassa is a per-shop
  * account, so a keyless or tenantless request simply does not have it.
+ * Exported for `tenant/payment-methods.ts`, which resolves the same tenant
+ * for the wider "which methods are connected" question.
  */
-const tenantOrNull = async (req: MedusaStoreRequest): Promise<StoreTenant | null> => {
+export const tenantOrNull = async (req: MedusaStoreRequest): Promise<StoreTenant | null> => {
   try {
     return await resolveTenantFromPublishableKey(req);
   } catch (error) {

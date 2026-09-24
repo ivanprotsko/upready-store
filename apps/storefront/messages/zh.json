@@ -138,6 +138,7 @@
     "deliveryDateFrom": "{date} 起",
     "deliveryDateUntil": "{date} 前",
     "deliveryToday": "今天",
+    "demoPaymentNotice": "测试支付 — 不会扣款。",
     "discount": "折扣",
     "edit": "编辑",
     "fieldAddress": "地址",

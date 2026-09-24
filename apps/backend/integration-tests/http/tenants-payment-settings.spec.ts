@@ -1,6 +1,8 @@
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import { createHash } from "node:crypto";
+import { TENANT_MODULE } from "../../src/modules/tenant";
+import type TenantModuleService from "../../src/modules/tenant/service";
 
 jest.setTimeout(240_000);
 
@@ -162,17 +164,72 @@ medusaIntegrationTestRunner({
         expect(bRead.data.settings).toBeNull();
       });
 
-      it("offers Robokassa at checkout only to the shop that saved an account", async () => {
+      it("offers Robokassa at checkout only to the shop that saved an account, and hides the demo card once a real method is connected", async () => {
+        // A saved a live Robokassa account (t-2026-09-24-n10): the demo card is
+        // no longer this shop's only way to pay, so `pp_system_default`
+        // disappears from its list — a buyer never sees a "pay with anything"
+        // fallback next to a real payment method.
         const forA = await api.get(`/store/payment-providers?region_id=${regionId}`, withKey(a.tenant.api_key.token));
         expect(forA.status).toBe(200);
-        expect(forA.data.payment_providers.map((p: { id: string }) => p.id)).toEqual(
-          expect.arrayContaining(["pp_system_default", PROVIDER]),
-        );
+        expect(forA.data.payment_providers.map((p: { id: string }) => p.id)).toEqual([PROVIDER]);
+        expect(forA.data.count).toBe(1);
 
+        // B connected nothing: the demo card is B's only way to pay, so it stays.
         const forB = await api.get(`/store/payment-providers?region_id=${regionId}`, withKey(b.tenant.api_key.token));
         expect(forB.status).toBe(200);
         expect(forB.data.payment_providers.map((p: { id: string }) => p.id)).toEqual(["pp_system_default"]);
         expect(forB.data.count).toBe(1);
+      });
+
+      describe("the manual provider's offline kinds (t-2026-09-24-n10)", () => {
+        // Written directly through the tenant module rather than through
+        // `PUT /tenants/payment-settings/manual` (#146/#113): this suite only
+        // needs the metadata document on disk, the same shape
+        // `manualPaymentMethods` reads once `readManualPayment` has parsed it.
+        const setManualPayment = async (
+          tenantId: string,
+          manual: Record<string, unknown>,
+        ) => {
+          const query = getContainer().resolve(ContainerRegistrationKeys.QUERY);
+          const tenantModule = getContainer().resolve<TenantModuleService>(TENANT_MODULE);
+          const {
+            data: [current],
+          } = await query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenantId] } });
+          const metadata = (current?.metadata ?? {}) as Record<string, unknown>;
+          await tenantModule.updateTenants({ id: tenantId, metadata: { ...metadata, manual_payment: manual } });
+        };
+
+        it("shows the demo card for its manual kind even though the shop also has Robokassa", async () => {
+          await setManualPayment(a.tenant.id, {
+            crypto: { enabled: true, wallets: [{ network: "TRC-20", currency: "USDT", address: "Taaa" }] },
+          });
+
+          const forA = await api.get(`/store/payment-providers?region_id=${regionId}`, withKey(a.tenant.api_key.token));
+          expect(forA.data.payment_providers.map((p: { id: string }) => p.id).sort()).toEqual(
+            [PROVIDER, "pp_system_default"].sort(),
+          );
+
+          // Tenant B never sees tenant A's manual settings.
+          const forB = await api.get(`/store/payment-providers?region_id=${regionId}`, withKey(b.tenant.api_key.token));
+          expect(forB.data.payment_providers.map((p: { id: string }) => p.id)).toEqual(["pp_system_default"]);
+
+          await setManualPayment(a.tenant.id, { crypto: { enabled: false, wallets: [] } });
+        });
+
+        it("shows the demo card for the manager kind too, on top of a connected Robokassa account", async () => {
+          await setManualPayment(a.tenant.id, { manager: { enabled: true, whatsapp: "+79990000000" } });
+
+          const forA = await api.get(`/store/payment-providers?region_id=${regionId}`, withKey(a.tenant.api_key.token));
+          expect(forA.data.payment_providers.map((p: { id: string }) => p.id).sort()).toEqual(
+            [PROVIDER, "pp_system_default"].sort(),
+          );
+
+          await setManualPayment(a.tenant.id, { manager: { enabled: false } });
+
+          // Back to nothing manual: the demo card disappears again, Robokassa alone is enough.
+          const after = await api.get(`/store/payment-providers?region_id=${regionId}`, withKey(a.tenant.api_key.token));
+          expect(after.data.payment_providers.map((p: { id: string }) => p.id)).toEqual([PROVIDER]);
+        });
       });
 
       describe("payment session and Result webhook", () => {

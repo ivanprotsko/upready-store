@@ -5,20 +5,32 @@ import {
   remoteQueryObjectFromString,
 } from "@medusajs/framework/utils";
 import type { HttpTypes } from "@medusajs/framework/types";
-import { ROBOKASSA_PROVIDER_ID, robokassaAvailableFor } from "../tenant/robokassa";
+import { ROBOKASSA_PROVIDER_ID } from "../tenant/robokassa";
+import { tenantPaymentMethodsFor } from "../tenant/payment-methods";
+import { offersSystemDefault } from "../../../tenant-secrets/payment-methods";
+
+const SYSTEM_DEFAULT_PROVIDER_ID = "pp_system_default";
 
 /**
  * `GET /store/payment-providers` with the shop's own answer
- * (t03-tenant-secrets-robokassa, step 5).
+ * (t03-tenant-secrets-robokassa, step 5; t-2026-09-24-n10 adds the demo card).
  *
- * Medusa's own route lists every enabled provider of the region. Robokassa is
- * one registration for every shop, so the region says «yes» for all of them;
- * whether THIS shop can take money through it is a fact about the tenant
- * behind the publishable key. This file shadows the core route (same path,
- * measured on the stand: the project's `src/api` is mounted before the
- * framework's own routes) and hides Robokassa unless the shop has an enabled
- * account. The query parsing is the core's own (`StoreGetPaymentProvidersParams`
- * in `src/api/middlewares.ts`), so `region_id` and `fields` behave as before.
+ * Medusa's own route lists every enabled provider of the region. Both
+ * providers this starter ships are one registration for every shop, so the
+ * region says «yes» to both for all of them regardless of what any one shop
+ * has actually connected; that fact lives on the tenant behind the
+ * publishable key (`tenantPaymentMethodsFor`). This file shadows the core
+ * route (same path, measured on the stand: the project's `src/api` is
+ * mounted before the framework's own routes) and hides:
+ *
+ * - Robokassa, unless the shop has an enabled account;
+ * - `pp_system_default`'s demo card, once the shop has connected a real
+ *   method (Robokassa or a manual kind) and configured no manual kind of its
+ *   own — a buyer never sees a "pay with anything" fallback next to a real
+ *   payment method.
+ *
+ * The query parsing is the core's own (`StoreGetPaymentProvidersParams` in
+ * `src/api/middlewares.ts`), so `region_id` and `fields` behave as before.
  */
 export const GET = async (
   req: MedusaStoreRequest<HttpTypes.StorePaymentProviderFilters>,
@@ -48,13 +60,24 @@ export const GET = async (
     (relation) => relation.payment_provider,
   );
 
+  const methods = await tenantPaymentMethodsFor(req);
+
   const withRobokassa = providers.some((provider) => provider.id === ROBOKASSA_PROVIDER_ID);
-  const hide = withRobokassa && !(await robokassaAvailableFor(req));
-  const visible = hide ? providers.filter((provider) => provider.id !== ROBOKASSA_PROVIDER_ID) : providers;
+  const hideRobokassa = withRobokassa && !methods.robokassa;
+
+  const withSystemDefault = providers.some((provider) => provider.id === SYSTEM_DEFAULT_PROVIDER_ID);
+  const hideSystemDefault = withSystemDefault && !offersSystemDefault(methods);
+
+  const visible = providers.filter((provider) => {
+    if (provider.id === ROBOKASSA_PROVIDER_ID && hideRobokassa) return false;
+    if (provider.id === SYSTEM_DEFAULT_PROVIDER_ID && hideSystemDefault) return false;
+    return true;
+  });
+  const hiddenCount = (hideRobokassa ? 1 : 0) + (hideSystemDefault ? 1 : 0);
 
   res.json({
     payment_providers: visible,
-    count: hide ? metadata.count - 1 : metadata.count,
+    count: metadata.count - hiddenCount,
     offset: metadata.skip,
     limit: metadata.take,
   });

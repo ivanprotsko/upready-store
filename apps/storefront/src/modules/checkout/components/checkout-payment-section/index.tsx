@@ -12,6 +12,8 @@ import {
 import compareAddresses from "@lib/util/compare-addresses"
 import { cartShippingAddressGaps } from "@lib/util/shipping-address"
 import { paymentMethodName } from "@lib/util/payment"
+import { pickActivePaymentMethod } from "@lib/util/pick-payment-method"
+import type { TenantPaymentMethods } from "@lib/tenant/resolve"
 import { CreditCard } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
 import PaymentButton from "@modules/checkout/components/payment-button"
@@ -54,6 +56,13 @@ interface CheckoutPaymentSectionProps {
    * exactly as it did before, with the demo card.
    */
   manualPayment: TenantManualPayment
+  /**
+   * Which payment methods this shop has connected (t-2026-09-24-n10), from
+   * the same server parent: whether `pp_system_default` is offered for a real
+   * manual kind or only as the last-resort demo card, which decides how the
+   * checkout labels it.
+   */
+  tenantPaymentMethods: TenantPaymentMethods
 }
 
 export default function CheckoutPaymentSection({
@@ -61,13 +70,14 @@ export default function CheckoutPaymentSection({
   availablePaymentMethods,
   legal,
   manualPayment,
+  tenantPaymentMethods,
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
   const latestSession = cart.payment_collection?.payment_sessions?.[0]
 
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
-    latestSession?.provider_id ?? ""
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(() =>
+    pickActivePaymentMethod(latestSession?.provider_id ?? "", availablePaymentMethods)
   )
   const [error, setError] = useState<string | null>(null)
   const [, setPaymentComplete] = useState(false)
@@ -84,6 +94,18 @@ export default function CheckoutPaymentSection({
   const [manualKind, setManualKind] = useState<ManualPaymentKind | null>(
     manualKinds[0] ?? null
   )
+
+  // t-2026-09-24-n10: a method the shop offered when the page first rendered
+  // can stop being connected before the buyer pays (the owner turns Robokassa
+  // off, or its account expires mid-checkout) — the server parent re-fetches
+  // `availablePaymentMethods` on every render, so this is where the stale
+  // pick is caught and swapped for the first one still on offer, never a
+  // crash on a provider the shop no longer has.
+  useEffect(() => {
+    setSelectedPaymentMethod((current) =>
+      pickActivePaymentMethod(current, availablePaymentMethods)
+    )
+  }, [availablePaymentMethods])
 
   /**
    * Creating a payment session is not idempotent: `POST
@@ -236,6 +258,18 @@ export default function CheckoutPaymentSection({
       {!paidByGiftcard && availablePaymentMethods.length > 0 && (
         <div className="flex flex-col gap-y-3">
           <h2 className="h2-docs">{t("paymentHeading")}</h2>
+
+          {/* t-2026-09-24-n10: honest about pp_system_default's demo card once it
+              is this shop's only way to pay, so a buyer never mistakes it for a
+              real accepted method. */}
+          {tenantPaymentMethods.demo && (
+            <p
+              className="txt-compact-xsmall text-ui-fg-subtle"
+              data-testid="demo-payment-notice"
+            >
+              {t("demoPaymentNotice")}
+            </p>
+          )}
 
           <div className="flex gap-x-2 overflow-x-auto no-scrollbar pb-1">
             {availablePaymentMethods.map((method) => {

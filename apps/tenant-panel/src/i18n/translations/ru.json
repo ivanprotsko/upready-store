@@ -3894,7 +3894,18 @@
     "saved": "Настройки оплаты сохранены",
     "removed": "Счёт удалён — Robokassa больше не предлагается на кассе",
     "resultUrlTitle": "Result URL для кабинета Robokassa",
-    "resultUrlHint": "Вставьте этот адрес в настройки магазина в Robokassa (Технические настройки → Result URL, метод POST). По нему Robokassa сообщает нам об оплате; без него заказ не станет оплаченным."
+    "resultUrlHint": "Вставьте этот адрес в настройки магазина в Robokassa (Технические настройки → Result URL, метод POST). По нему Robokassa сообщает нам об оплате; без него заказ не станет оплаченным.",
+    "methodsSummary": {
+      "title": "Что видит покупатель",
+      "robokassa": "Robokassa",
+      "manualCrypto": "Оплата криптовалютой",
+      "manualManager": "Оплата через менеджера",
+      "connected": "Подключена",
+      "notConnected": "Не подключена",
+      "listSeparator": ", ",
+      "buyerSees": "Покупателю доступны: {{methods}}",
+      "buyerSeesDemoOnly": "Покупателю доступна только тестовая оплата — деньги не списываются"
+    }
   },
   "manualPayment": {
     "title": "Оплата вне шлюза",
