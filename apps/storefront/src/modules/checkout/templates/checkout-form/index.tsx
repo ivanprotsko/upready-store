@@ -49,9 +49,10 @@ export default async function CheckoutForm({
     ""
 
   // o24-courses: a cart of only digital products has its delivery already
-  // decided (`ensureDigitalDelivery`, called by the checkout page before this
-  // template renders) — no shipping-method picker, no pickup sheet, no
-  // address row, just the contacts row `CheckoutInfoRows` still shows.
+  // decided (`ensureDigitalDelivery`, reached via a redirect through
+  // `app/api/checkout/digital-delivery` before this template ever renders) —
+  // no shipping-method picker, no pickup sheet, no address row, just the
+  // contacts row `CheckoutInfoRows` still shows.
   const isDigital = isDigitalDeliveryCart(cart)
 
   return (

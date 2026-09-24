@@ -26,6 +26,15 @@ import { REGIONS_BY_COUNTRY } from "../../shipping-tariffs/ru-regions";
  *   (`modules/checkout/context/pickup-sheet-context.tsx`), so an empty address
  *   is the correct state. That is decided here from the shipping option's own
  *   fulfillment set rather than from the metadata, which a client writes.
+ * - a cart of only digital products (o24-courses part (c)): the checkout
+ *   blanks its address the same way, and attaches the tenant's own ₽0
+ *   shipping option carrying `metadata.digital_delivery = "true"`
+ *   (`scripts/fixtures/o24-seed-digital-shipping-option.ts`). That option
+ *   lives in the SHIPPING fulfillment set (grouped with "Курьером", not
+ *   "Самовывоз" — the seed's own comment), so `allMethodsArePickup` alone
+ *   does not exempt it; matched on the option's own `metadata`, same as
+ *   `allMethodsArePickup` matches on the option's own fulfillment set, rather
+ *   than trusting `cart.metadata`, which a client writes.
  *
  * `province` is required only where the tariff module ships a region list for
  * the country (`REGIONS_BY_COUNTRY`, Russia today), because a delivery zone
@@ -66,7 +75,9 @@ export const missingPostableFields = (
   return required.filter((field) => !address?.[field]?.trim());
 };
 
-const allMethodsArePickup = async (
+const DIGITAL_DELIVERY_METADATA_KEY = "digital_delivery";
+
+const allMethodsHaveNoParcel = async (
   container: MedusaContainer,
   optionIds: string[],
 ): Promise<boolean> => {
@@ -77,13 +88,17 @@ const allMethodsArePickup = async (
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const { data: options } = await query.graph({
     entity: "shipping_option",
-    fields: ["id", "service_zone.fulfillment_set.type"],
+    fields: ["id", "metadata", "service_zone.fulfillment_set.type"],
     filters: { id: optionIds },
   });
 
   return (
     options.length === optionIds.length &&
-    options.every((option) => option.service_zone?.fulfillment_set?.type === "pickup")
+    options.every(
+      (option) =>
+        option.service_zone?.fulfillment_set?.type === "pickup" ||
+        (option.metadata as Record<string, unknown> | null)?.[DIGITAL_DELIVERY_METADATA_KEY] === "true",
+    )
   );
 };
 
@@ -103,7 +118,7 @@ export const assertPostableShippingAddress = async (
     return;
   }
 
-  if (await allMethodsArePickup(container, optionIds)) {
+  if (await allMethodsHaveNoParcel(container, optionIds)) {
     return;
   }
 

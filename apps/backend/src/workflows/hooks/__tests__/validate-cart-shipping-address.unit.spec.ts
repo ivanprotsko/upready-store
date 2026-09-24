@@ -18,12 +18,16 @@ const FULL = {
   country_code: "ru",
 };
 
-const containerWith = (types: string[]) =>
+const containerWith = (
+  types: string[],
+  metadata: (Record<string, unknown> | null)[] = [],
+) =>
   ({
     resolve: () => ({
       graph: async () => ({
         data: types.map((type, index) => ({
           id: `so_0${index}`,
+          metadata: metadata[index] ?? null,
           service_zone: { fulfillment_set: { type } },
         })),
       }),
@@ -31,6 +35,7 @@ const containerWith = (types: string[]) =>
   }) as never;
 
 const COURIER = containerWith(["shipping"]);
+const DIGITAL_DELIVERY = containerWith(["shipping"], [{ digital_delivery: "true" }]);
 
 describe("missingPostableFields", () => {
   it("accepts a complete Russian address", () => {
@@ -116,6 +121,36 @@ describe("assertPostableShippingAddress", () => {
           { shipping_option_id: "so_01" },
         ],
       }),
+    ).rejects.toThrow(/city/);
+  });
+
+  it("lets a digital-delivery cart through with its address blanked on purpose (o24-courses)", async () => {
+    await expect(
+      assertPostableShippingAddress(DIGITAL_DELIVERY, {
+        shipping_address: {
+          address_1: "",
+          postal_code: "",
+          city: "",
+          province: "",
+          country_code: "ru",
+        },
+        shipping_methods: [{ shipping_option_id: "so_00" }],
+      }),
+    ).resolves.toBeUndefined();
+  });
+
+  it("still guards a cart that mixes a digital-delivery option with a courier one", async () => {
+    await expect(
+      assertPostableShippingAddress(
+        containerWith(["shipping", "shipping"], [{ digital_delivery: "true" }]),
+        {
+          shipping_address: { ...FULL, city: "" },
+          shipping_methods: [
+            { shipping_option_id: "so_00" },
+            { shipping_option_id: "so_01" },
+          ],
+        },
+      ),
     ).rejects.toThrow(/city/);
   });
 

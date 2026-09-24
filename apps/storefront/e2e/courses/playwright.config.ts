@@ -30,6 +30,17 @@ export default defineConfig({
     trace: "off",
     screenshot: "off",
     actionTimeout: 20_000,
+    // The lesson player is reached by clicking a `next-intl` `Link`
+    // (`localePrefix: "never"`, `src/i18n/routing.ts`), which renders an
+    // UNPREFIXED href — the middleware then negotiates the locale for that
+    // navigation fresh from `Accept-Language` (deliberately, not from the
+    // referring page's own locale: `src/middleware.ts`'s own comment on
+    // `chosenLocale`, fixing incident t-2026-09-10-01). Playwright's default
+    // Chromium profile sends `en-US`, so without this the click away from
+    // `/ru/...` landed on `/en/...` (found live: the lesson player rendered in
+    // English). A real Russian-speaking visitor's browser already sends `ru`
+    // and never sees this; this only fixes the TEST's browser to match one.
+    locale: "ru-RU",
   },
   projects: [
     {

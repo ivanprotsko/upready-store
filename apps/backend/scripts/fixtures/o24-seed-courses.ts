@@ -126,6 +126,13 @@ export default async function seedO24Courses({ container }: { container: MedusaC
               {
                 title: data.title,
                 options: { [DEFAULT_OPTION_TITLE]: DEFAULT_OPTION_VALUE },
+                // A course is not a physical good; there is no stock to run out of.
+                // Left at the framework default (`manage_inventory: true`) with no
+                // stock level ever set, the variant reads "Нет в наличии" and the
+                // add-to-cart button stays disabled forever — found live by
+                // `e2e/courses/course-purchase.spec.ts`'s first run (o24-courses
+                // part (e)).
+                manage_inventory: false,
                 prices: [
                   { currency_code: "rub", amount: PLACEHOLDER_PRICE_RUB[data.slug] ?? 4990 },
                   { currency_code: "usd", amount: PLACEHOLDER_PRICE_USD[data.slug] ?? 50 },
