@@ -7,25 +7,25 @@ import type TenantModuleService from "../../src/modules/tenant/service";
 import { notifyStorefrontRevalidate } from "../../src/storefront-revalidate";
 
 /**
- * Renames the shop `cherkashino` (host olavka.com) to «Олавка» — Ivan 2026-09-25,
+ * Renames the shop `cherkashino` (host olavka.com) to «ОЛАВКА» — Ivan 2026-09-25,
  * remark 2 on the olavka redesign (t-2026-09-24-n15): «название магазина нужно
  * указать "ОЛАВКА" вместо "Оксана Черкашина"». The field is `tenant.name`: the
  * storefront reads it through `/storefront/by-host` (middleware → `x-tenant-name`
  * → `getSiteName()`) for the header wordmark, the page titles, the footer and the
- * emails. «Олавка» is written the way the mockup's wordmark node spells it
- * (Figma 235:16880); Ruslan Display draws it in capitals either way. The legal
- * seller block (ИП) lives in the tenant's legal settings and is not touched.
+ * emails. Capitals by Ivan's decision (2026-09-25: «по названию — пиши «ОЛАВКА»
+ * капсом везде»). The legal seller block (ИП) lives in the tenant's legal
+ * settings and is not touched.
  *
  *   npx medusa exec ./scripts/fixtures/o27-tenant-name-olavka.ts
  *   DRY_RUN=1 npx medusa exec ./scripts/fixtures/o27-tenant-name-olavka.ts
  *
- * Idempotent: a tenant already named «Олавка» is left alone. The storefront
+ * Idempotent: a tenant already named «ОЛАВКА» is left alone. The storefront
  * picks the new name up when its by-host cache entry expires (in-memory TTL,
  * `lib/tenant/resolve.ts`) — or on restart.
  */
 
 const TENANT_HANDLE = "cherkashino";
-const NAME = "Олавка";
+const NAME = "ОЛАВКА";
 
 export default async function renameTenantOlavka({ container }: { container: MedusaContainer }) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER) as Logger;
