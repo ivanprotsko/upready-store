@@ -878,7 +878,7 @@
     "termsOfUse": "Όρους χρήσης"
   },
   "RelatedProducts": {
-    "title": "Μπορεί να σας αρέσει"
+    "title": "Αγοράζονται μαζί με αυτό το προϊόν"
   },
   "ResetPassword": {
     "confirmPassword": "Επανάληψη κωδικού",
@@ -981,5 +981,8 @@
   },
   "ProductCard": {
     "sale": "Έκπτωση {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "Είδατε πρόσφατα"
   }
 }

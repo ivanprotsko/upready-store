@@ -878,7 +878,7 @@
     "termsOfUse": "Ашиглалтын нөхцөл"
   },
   "RelatedProducts": {
-    "title": "Танд таалагдаж магадгүй"
+    "title": "Энэ бараатай хамт худалдан авдаг"
   },
   "ResetPassword": {
     "confirmPassword": "Нууц үгээ давтана уу",
@@ -981,5 +981,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% хөнгөлөлт"
+  },
+  "RecentlyViewed": {
+    "title": "Саяхан үзсэн"
   }
 }

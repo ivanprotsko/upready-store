@@ -12,6 +12,7 @@ import ProductOnboardingCta from "@modules/products/components/product-onboardin
 import { ProductSelectionProvider } from "@modules/products/components/product-selection"
 import VariantPicker from "@modules/products/components/product-selection/variant-picker"
 import RelatedProducts from "@modules/products/components/related-products"
+import RecentlyViewed from "@modules/products/components/recently-viewed"
 import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import Breadcrumb, {
@@ -184,13 +185,20 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
           data={reviews}
         />
 
+        {/* The rows under everything, after Ivan's Figma mockup: what is bought with this
+            product (server-rendered, the related query), then what this browser looked at
+            before it (client-rendered from localStorage, absent until it has two tiles). */}
         <div
-          className="content-container pb-12 pt-6 small:pb-16 small:pt-8"
+          className="content-container flex flex-col gap-y-12 py-12 small:gap-y-16 small:py-16"
           data-testid="related-products-container"
         >
           <Suspense fallback={<SkeletonRelatedProducts />}>
             <RelatedProducts product={product} countryCode={countryCode} />
           </Suspense>
+          <RecentlyViewed
+            currentHandle={product.handle ?? ""}
+            countryCode={countryCode}
+          />
         </div>
       </div>
     </>

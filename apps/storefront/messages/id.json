@@ -878,7 +878,7 @@
     "termsOfUse": "Ketentuan Penggunaan"
   },
   "RelatedProducts": {
-    "title": "Anda mungkin suka"
+    "title": "Dibeli bersama produk ini"
   },
   "ResetPassword": {
     "confirmPassword": "Ulangi kata sandi",
@@ -981,5 +981,8 @@
   },
   "ProductCard": {
     "sale": "Diskon {percent}%"
+  },
+  "RecentlyViewed": {
+    "title": "Baru saja dilihat"
   }
 }

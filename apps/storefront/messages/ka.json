@@ -878,7 +878,7 @@
     "termsOfUse": "გამოყენების პირობებს"
   },
   "RelatedProducts": {
-    "title": "შესაძლოა მოგეწონოთ"
+    "title": "ამ პროდუქტთან ერთად ყიდულობენ"
   },
   "ResetPassword": {
     "confirmPassword": "გაიმეორეთ პაროლი",
@@ -981,5 +981,8 @@
   },
   "ProductCard": {
     "sale": "{percent}% ფასდაკლება"
+  },
+  "RecentlyViewed": {
+    "title": "ბოლოს ნანახი"
   }
 }

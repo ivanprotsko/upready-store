@@ -878,7 +878,7 @@
     "termsOfUse": "利用規約"
   },
   "RelatedProducts": {
-    "title": "おすすめの商品"
+    "title": "この商品と一緒に購入されています"
   },
   "ResetPassword": {
     "confirmPassword": "パスワードの確認",
@@ -981,5 +981,8 @@
   },
   "ProductCard": {
     "sale": "{percent}%オフ"
+  },
+  "RecentlyViewed": {
+    "title": "最近チェックした商品"
   }
 }

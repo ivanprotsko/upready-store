@@ -878,7 +878,7 @@
     "termsOfUse": "Kullanım Koşulları"
   },
   "RelatedProducts": {
-    "title": "Beğenebilirsiniz"
+    "title": "Bu ürünle birlikte alınanlar"
   },
   "ResetPassword": {
     "confirmPassword": "Şifreyi tekrarlayın",
@@ -981,5 +981,8 @@
   },
   "ProductCard": {
     "sale": "%{percent} indirim"
+  },
+  "RecentlyViewed": {
+    "title": "Son görüntülenenler"
   }
 }
