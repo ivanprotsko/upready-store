@@ -8,6 +8,7 @@ import NavH3 from "./h3"
 import NavH4 from "./h4"
 import NavH5 from "./h5"
 import NavH6 from "./h6"
+import NavH7 from "./h7"
 
 /**
  * Header composition registry: every operator-set `header` key (H1-H6,
@@ -24,14 +25,28 @@ import NavH6 from "./h6"
  * CSS — see each variant file's own doc comment for its `blocks.js`/`blocks.css`
  * source lines.
  */
-export const NAV_VARIANTS: Record<HeaderKey, ComponentType> = {
+export const NAV_VARIANTS: Record<DemoHeaderKey, ComponentType> = {
   h1: NavH1,
   h2: NavH2,
   h3: NavH3,
   h4: NavH4,
   h5: NavH5,
   h6: NavH6,
+  h7: NavH7,
 }
 
 /** `panel-composition-mockup.md` §C1 "Absent" row: no saved settings → today's baseline. */
 export const DEFAULT_HEADER: HeaderKey = "h1"
+
+/**
+ * BRANCH-LOCAL DEMO SWITCH (`redesign-olavka`, t-2026-09-24-n15). `h7` is the Olavka
+ * redesign header (`./h7.tsx`), built after Ivan's Figma node 227-8180. It is NOT part of
+ * the composition contract (`lib/theme/composition.ts` `HeaderKey`, the panel picker, the
+ * backend enum and `composition-contract.json` all still end at `h6`), so no tenant can
+ * save it and no existing document changes meaning. `nav/index.tsx` renders this key for
+ * EVERY shop on this branch when it is set, ahead of the saved `settings.header`; `null`
+ * restores the saved composition exactly. Set to `null` (or delete the switch and the
+ * type below) before this branch is ever merged.
+ */
+export type DemoHeaderKey = HeaderKey | "h7"
+export const DEMO_HEADER: DemoHeaderKey | null = "h7"

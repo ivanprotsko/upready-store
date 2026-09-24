@@ -692,6 +692,16 @@
     "goHome": "На главную",
     "title": "Страница не найдена"
   },
+  "OlavkaHome": {
+    "slider": {
+      "goTo": "К слайду «{title}»",
+      "label": "Главное",
+      "next": "Далее",
+      "open": "Открыть {title}",
+      "position": "{current} из {total}",
+      "previous": "Назад"
+    }
+  },
   "OnboardingCta": {
     "completeInAdmin": "Завершить настройку в панели",
     "completeSetup": "Теперь вы можете завершить настройку магазина в панели администратора.",

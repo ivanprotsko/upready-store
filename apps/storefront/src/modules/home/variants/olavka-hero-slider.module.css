@@ -1,0 +1,190 @@
+/*
+ * HeroSlider · Olavka redesign (t-2026-09-24-n15). Theme tokens only
+ * (`--background`/`--foreground`/`--card`/`--border`/`--muted`/`--radius`, defined per
+ * preset in `src/styles/themes.css`), so the block follows the active preset in both modes.
+ * Every transition sits under `prefers-reduced-motion: no-preference`.
+ *
+ * GROUNDWORK STATE: values are a neutral first cut, to be replaced by the Figma node's own.
+ */
+
+.slider {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 16px 8px;
+}
+
+@media (min-width: 1024px) {
+  .slider {
+    padding: 28px 24px 12px;
+  }
+}
+
+.viewport {
+  overflow: hidden;
+  border-radius: var(--radius);
+  touch-action: pan-y;
+}
+
+.track {
+  display: flex;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .track {
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+
+.slide {
+  flex: 0 0 100%;
+  display: grid;
+  grid-template-rows: 220px auto;
+  background: var(--card);
+  color: var(--card-foreground);
+}
+
+@media (min-width: 1024px) {
+  .slide {
+    grid-template-rows: none;
+    grid-template-columns: 1.5fr 1fr;
+    height: 440px;
+  }
+}
+
+.frame {
+  position: relative;
+  background: var(--muted);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.pane {
+  min-width: 0;
+  padding: 24px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+@media (min-width: 1024px) {
+  .pane {
+    padding: 44px 40px;
+  }
+}
+
+.pane h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+@media (min-width: 1024px) {
+  .pane h2 {
+    font-size: 38px;
+  }
+}
+
+.pane p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+
+.cta {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 9999px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.cta:hover {
+  opacity: 0.86;
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: var(--border);
+  cursor: pointer;
+}
+
+.dot.on {
+  background: var(--foreground);
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.arrows {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+
+.arrowButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.arrowButton:hover {
+  background: var(--muted);
+}
+
+.arrowButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.arrowIcon {
+  width: 16px;
+  height: 16px;
+}

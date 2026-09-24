@@ -8,6 +8,8 @@ import {
   DEFAULT_HERO,
   DEFAULT_LISTING,
   DEFAULT_TILES,
+  DEMO_HOME_BLOCKS,
+  DEMO_HOME_ORDER,
   HERO_VARIANTS,
   LISTING_VARIANTS,
   type HomeBlockKey,
@@ -190,6 +192,17 @@ export default async function Home() {
 
   return (
     <>
+      {/* Branch-local demo (`redesign-olavka`): the Figma blocks first, in Figma order —
+          see `DEMO_HOME_ORDER`'s own doc comment in `home/variants/index.ts`. The Cover
+          takes the same tenant hero copy the composed hero does. */}
+      {DEMO_HOME_ORDER.map((block) => {
+        const Block = DEMO_HOME_BLOCKS[block]
+        return (
+          <Fragment key={block}>
+            {block === "olavkaCover" ? <Block {...heroProps} /> : <Block />}
+          </Fragment>
+        )
+      })}
       {order.map((block) => (
         <Fragment key={block}>{blocks[block]}</Fragment>
       ))}

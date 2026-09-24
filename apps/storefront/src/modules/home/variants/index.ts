@@ -15,6 +15,9 @@ import ListingP5 from "@modules/home/variants/listing-p5"
 
 import HeroGA from "./hero-ga"
 import HeroGB from "./hero-gb"
+import OlavkaCover from "./olavka-cover"
+import OlavkaHeroSlider from "./olavka-hero-slider"
+import OlavkaNavigation from "./olavka-navigation"
 
 /**
  * Home-slot composition registries — hero and listing (`(main)/page.tsx` only; header and
@@ -117,3 +120,26 @@ export const DEFAULT_LISTING: Exclude<ListingKey, "none"> = "p1"
  */
 export const DEFAULT_BLOCK_ORDER = ["hero", "categories", "products"] as const
 export type HomeBlockKey = (typeof DEFAULT_BLOCK_ORDER)[number]
+
+/**
+ * BRANCH-LOCAL DEMO (`redesign-olavka`, t-2026-09-24-n15): the three home blocks built
+ * after Ivan's Figma node 227-8180 — Cover, Navigation, HeroSlider — and the order they
+ * render in, ABOVE the tenant's own composed blocks (`(main)/page.tsx` reads this list
+ * first, then `content.order`). None of the three is a key of the tenant document
+ * (`HomeBlock` in `lib/data/tenant-home.ts` still names hero/categories/products only),
+ * so no saved document changes meaning and the stand's DB is never written. An empty
+ * list restores today's page exactly. Empty it (or delete it) before this branch is ever
+ * merged; the panel then needs real block keys for these.
+ */
+export const DEMO_HOME_BLOCKS = {
+  olavkaCover: OlavkaCover,
+  olavkaNavigation: OlavkaNavigation,
+  olavkaHeroSlider: OlavkaHeroSlider,
+} as const
+export type DemoHomeBlockKey = keyof typeof DEMO_HOME_BLOCKS
+/** Figma order, top to bottom, as Ivan listed the components (Header, then these three). */
+export const DEMO_HOME_ORDER: readonly DemoHomeBlockKey[] = [
+  "olavkaCover",
+  "olavkaNavigation",
+  "olavkaHeroSlider",
+]

@@ -1,6 +1,6 @@
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 
-import { DEFAULT_HEADER, NAV_VARIANTS } from "./variants"
+import { DEFAULT_HEADER, DEMO_HEADER, NAV_VARIANTS } from "./variants"
 
 /**
  * Site-wide header switch (`(main)/layout.tsx` renders this once, wrapping every route
@@ -22,7 +22,10 @@ import { DEFAULT_HEADER, NAV_VARIANTS } from "./variants"
  */
 export default async function Nav() {
   const settings = await getEffectiveSettings()
-  const header = settings?.header ?? DEFAULT_HEADER
+  // Branch-local demo (`redesign-olavka`): `DEMO_HEADER` outranks the saved composition so
+  // the Figma header shows on every route of every shop served from this branch. See the
+  // constant's own doc comment in `./variants/index.ts`; `null` there = today's behaviour.
+  const header = DEMO_HEADER ?? settings?.header ?? DEFAULT_HEADER
   const Variant = NAV_VARIANTS[header] ?? NAV_VARIANTS[DEFAULT_HEADER]
 
   return <Variant />

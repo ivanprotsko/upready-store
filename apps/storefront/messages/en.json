@@ -692,6 +692,16 @@
     "goHome": "Go to frontpage",
     "title": "Page not found"
   },
+  "OlavkaHome": {
+    "slider": {
+      "goTo": "Go to “{title}”",
+      "label": "Featured",
+      "next": "Next",
+      "open": "Open {title}",
+      "position": "{current} of {total}",
+      "previous": "Previous"
+    }
+  },
   "OnboardingCta": {
     "completeInAdmin": "Complete setup in admin",
     "completeSetup": "You can now complete setting up your store in the admin.",
