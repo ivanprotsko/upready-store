@@ -1,22 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Container, Heading, Input, Text, toast } from "@medusajs/ui"
+import { Button, toast } from "@medusajs/ui"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
 
 import { Form } from "../../../../../components/common/form"
+import { PasswordInput } from "../../../../../components/common/password-input"
+import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
+import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
+import { isFetchError } from "../../../../../lib/is-fetch-error"
 import { useUpdatePassword } from "../../../../../hooks/api/users"
 
-// tenant-panel wave 2, piece 4: own component, no Admin counterpart (the
-// Admin only ever changes a password through the unauthenticated
-// reset-password link flow). This panel has its own separate reset-password
-// flow too (`routes/forgot-password`, `routes/reset-password`,
-// f14-no-password-reset), for a tenant admin who is not logged in at all;
-// this section stays for one who is, and wants the current-password check
-// the unauthenticated flow does not have. Uses the same Form/Input/Button
-// primitives and toast pattern as the copied `edit-profile-form`, posting to
-// `POST /tenants/me/password` (docs/tenant-panel/api-contract.md,
-// "Piece 4: profile").
+// o24-owner-profile (t-2026-09-24-n3): moved out of the profile card's
+// standing `ChangePasswordSection` into this drawer, same fields, same
+// `POST /tenants/me/password` hook. `PasswordInput` replaces `@medusajs/ui`'s
+// `Input type="password"` so the eye toggle reads in Russian (acceptance
+// line 5). The backend answers a wrong current password with
+// `MedusaError.Types.UNAUTHORIZED` (401, `apps/backend/src/api/tenants/me/password/route.ts`);
+// that one case gets a Russian inline error instead of the raw English
+// `error.message` a generic toast would otherwise show.
 
 const ChangePasswordSchema = zod
   .object({
@@ -31,8 +33,9 @@ const ChangePasswordSchema = zod
 
 type ChangePasswordFormValues = zod.infer<typeof ChangePasswordSchema>
 
-export const ChangePasswordSection = () => {
+export const ChangePasswordForm = () => {
   const { t } = useTranslation()
+  const { handleSuccess } = useRouteModal()
 
   const form = useForm<ChangePasswordFormValues>({
     defaultValues: {
@@ -53,27 +56,29 @@ export const ChangePasswordSection = () => {
       },
       {
         onError: (error) => {
-          toast.error(error.message)
+          if (isFetchError(error) && error.status === 401) {
+            form.setError("current_password", {
+              type: "manual",
+              message: t("profile.changePassword.currentPasswordIncorrect"),
+            })
+            return
+          }
+
+          toast.error(t("profile.changePassword.updateFailed"))
         },
         onSuccess: () => {
           toast.success(t("profile.toast.passwordChanged"))
-          form.reset()
+          handleSuccess()
         },
       }
     )
   })
 
   return (
-    <Container className="divide-y p-0">
-      <div className="px-6 py-4">
-        <Heading level="h2">{t("profile.changePassword.title")}</Heading>
-        <Text className="text-ui-fg-subtle" size="small">
-          {t("profile.changePassword.description")}
-        </Text>
-      </div>
-      <Form {...form}>
-        <form onSubmit={handleSubmit} className="px-6 py-4">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+    <RouteDrawer.Form form={form}>
+      <KeyboundForm onSubmit={handleSubmit} className="flex flex-1 flex-col">
+        <RouteDrawer.Body>
+          <div className="flex flex-col gap-y-8">
             <Form.Field
               control={form.control}
               name="current_password"
@@ -83,7 +88,7 @@ export const ChangePasswordSection = () => {
                     {t("profile.changePassword.currentPasswordLabel")}
                   </Form.Label>
                   <Form.Control>
-                    <Input type="password" autoComplete="current-password" {...field} />
+                    <PasswordInput autoComplete="current-password" {...field} />
                   </Form.Control>
                   <Form.ErrorMessage />
                 </Form.Item>
@@ -98,7 +103,7 @@ export const ChangePasswordSection = () => {
                     {t("profile.changePassword.newPasswordLabel")}
                   </Form.Label>
                   <Form.Control>
-                    <Input type="password" autoComplete="new-password" {...field} />
+                    <PasswordInput autoComplete="new-password" {...field} />
                   </Form.Control>
                   <Form.ErrorMessage>
                     {form.formState.errors.new_password
@@ -117,7 +122,7 @@ export const ChangePasswordSection = () => {
                     {t("profile.changePassword.confirmPasswordLabel")}
                   </Form.Label>
                   <Form.Control>
-                    <Input type="password" autoComplete="new-password" {...field} />
+                    <PasswordInput autoComplete="new-password" {...field} />
                   </Form.Control>
                   <Form.ErrorMessage>
                     {form.formState.errors.confirm_password
@@ -128,13 +133,20 @@ export const ChangePasswordSection = () => {
               )}
             />
           </div>
-          <div className="flex justify-end pt-4">
+        </RouteDrawer.Body>
+        <RouteDrawer.Footer>
+          <div className="flex items-center gap-x-2">
+            <RouteDrawer.Close asChild>
+              <Button size="small" variant="secondary">
+                {t("actions.cancel")}
+              </Button>
+            </RouteDrawer.Close>
             <Button size="small" type="submit" isLoading={isPending}>
               {t("actions.save")}
             </Button>
           </div>
-        </form>
-      </Form>
-    </Container>
+        </RouteDrawer.Footer>
+      </KeyboundForm>
+    </RouteDrawer.Form>
   )
 }

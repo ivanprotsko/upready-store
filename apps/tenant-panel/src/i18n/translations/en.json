@@ -10,6 +10,7 @@
     "browse": "Browse",
     "cancel": "Cancel",
     "cannotUndo": "This action cannot be undone",
+    "change": "Change",
     "clear": "Clear",
     "clearAll": "Clear all",
     "close": "Close",
@@ -2711,12 +2712,14 @@
   "profile": {
     "changePassword": {
       "confirmPasswordLabel": "Confirm new password",
+      "currentPasswordIncorrect": "The current password is incorrect.",
       "currentPasswordLabel": "Current password",
       "description": "Update the password you use to sign in.",
       "newPasswordLabel": "New password",
       "passwordsDontMatch": "The new passwords don't match.",
       "title": "Change password",
-      "tooShort": "The new password must be at least 8 characters."
+      "tooShort": "The new password must be at least 8 characters.",
+      "updateFailed": "Could not change the password. Please try again."
     },
     "domain": "Profile",
     "edit": {
@@ -2726,7 +2729,9 @@
       "usageInsightsHint": "Share usage insights and help us improve Medusa. You can read more about what we collect and how we use it in our <0>documentation</0>."
     },
     "fields": {
+      "emailLabel": "Email",
       "languageLabel": "Language",
+      "passwordLabel": "Password",
       "usageInsightsLabel": "Usage insights"
     },
     "manageYourProfileDetails": "Manage your profile details.",
@@ -2757,6 +2762,7 @@
     },
     "toast": {
       "edit": "Profiles changes saved",
+      "languageChanged": "Language updated",
       "passwordChanged": "Password changed"
     }
   },
