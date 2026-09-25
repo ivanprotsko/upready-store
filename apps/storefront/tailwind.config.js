@@ -70,6 +70,10 @@ module.exports = {
       screens: {
         "2xsmall": "320px",
         xsmall: "512px",
+        // t-2026-09-25-18: the product grid's own third-column breakpoint,
+        // narrower than `small`. Named for what it does, not where it sits in
+        // the scale, since nothing else in the theme needs 960px today.
+        "grid-3": "960px",
         small: "1024px",
         medium: "1280px",
         large: "1440px",

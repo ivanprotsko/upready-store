@@ -17,11 +17,11 @@ import ProductMedia from "@modules/products/components/product-media"
  * that stretches to the height of its grid row. So across a row the titles start on one
  * line and the prices stand on one line.
  *
- * The grid itself is `PRODUCT_GRID_CLASS`: two columns on a phone, three from 1024 and
+ * The grid itself is `PRODUCT_GRID_CLASS`: two columns on a phone, three from 960 and
  * four from 1440, on one gap scale.
  */
 export const PRODUCT_GRID_CLASS =
-  "grid w-full grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-3 small:gap-x-6 small:gap-y-10 large:grid-cols-4"
+  "grid w-full grid-cols-2 gap-x-3 gap-y-8 grid-3:grid-cols-3 grid-3:gap-x-6 grid-3:gap-y-10 large:grid-cols-4"
 
 /**
  * A row budget for a grid that is a teaser, not a listing (a home section, the related
