@@ -1,0 +1,23 @@
+node --test src/__tests__/  (run from apps/tenant-panel, after the fix)
+
+ℹ tests 56
+ℹ pass 55
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+
+The one failure (src/__tests__/error-boundary-auth.test.mjs) is a pre-existing
+environment defect unrelated to this task: ERR_MODULE_NOT_FOUND for
+'@medusajs/js-sdk', imported from src/lib/is-fetch-error.ts. Verified by
+stashing this task's changes (git stash apply, then git stash drop after
+restoring) and re-running that single test file against the unmodified
+apps/tenant-panel/src/components/layout/user-menu/user-menu.tsx: the same
+ERR_MODULE_NOT_FOUND occurs, so it predates and is independent of this change
+(the package is simply missing from apps/tenant-panel/node_modules in this
+workspace).
+
+The three new tests in user-menu-no-medusa-links.test.mjs pass:
+  ok - the user menu links to neither the Medusa docs nor the Medusa changelog
+  ok - the user menu imports no icon used only by the removed links
+  ok - removing the two items leaves no doubled separator

@@ -1,0 +1,3 @@
+$ cd apps/tenant-panel && corepack pnpm exec tsc --noEmit
+(no output)
+EXIT_CODE:0
