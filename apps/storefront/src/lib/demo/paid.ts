@@ -17,3 +17,34 @@ export type PaidRecord = {
   price: number
   at: string
 }
+
+/**
+ * The same cookie, written by the till when it was entered from a pricing
+ * button (t-2026-09-25-08) rather than from one of the four funnels. `kind`
+ * says which button: `paid` for «оплата сначала», `trial` for «карта и пробный
+ * период». Either way the till is the demo one and nothing was charged or bound.
+ */
+export type TariffPaidRecord = {
+  kind: "paid" | "trial"
+  tariff: string
+  trialDays: number | null
+  at: string
+}
+
+export function readTariffPaidRecord(raw: string | undefined): TariffPaidRecord | null {
+  if (!raw) return null
+  try {
+    const value = JSON.parse(raw) as Partial<TariffPaidRecord>
+    if ((value.kind === "paid" || value.kind === "trial") && typeof value.tariff === "string") {
+      return {
+        kind: value.kind,
+        tariff: value.tariff,
+        trialDays: typeof value.trialDays === "number" ? value.trialDays : null,
+        at: String(value.at ?? ""),
+      }
+    }
+  } catch {
+    // Not ours, or not readable: the caller falls back to what the URL says.
+  }
+  return null
+}

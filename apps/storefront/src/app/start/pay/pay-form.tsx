@@ -24,17 +24,13 @@ type Outcome = "decline" | "redirect" | "approve"
  * paid, because a client that never asked could otherwise walk straight into
  * onboarding.
  */
-export default function PayForm({
-  funnel,
-  serviceId,
-  planId,
-  amountLabel,
-}: {
-  funnel: number
-  serviceId: string
-  planId: string
-  amountLabel: string
-}) {
+export default function PayForm(
+  props:
+    | { funnel: number; serviceId: string; planId: string; amountLabel: string }
+    // Entered from a pricing button (t-2026-09-25-08): the tariff and, for a
+    // card trial, its length travel instead of a funnel's answers.
+    | { tariff: { id: string; trialDays: number | null }; submitLabel: string }
+) {
   const router = useRouter()
   const [card, setCard] = useState(EMPTY_DEMO_CARD)
   const [holder, setHolder] = useState("")
@@ -43,6 +39,17 @@ export default function PayForm({
   const [outcome, setOutcome] = useState<Outcome | null>(null)
   const [failure, setFailure] = useState<string | null>(null)
 
+  // The wizard is told which tariff it opens a shop for; the old funnels
+  // carry theirs in the paid cookie and go to the bare address as before.
+  const onboardingHref =
+    "tariff" in props
+      ? `/start/onboarding?${new URLSearchParams({
+          tariff: props.tariff.id,
+          ...(props.tariff.trialDays !== null ? { trial: String(props.tariff.trialDays) } : {}),
+        })}`
+      : "/start/onboarding"
+  const submitLabel = "tariff" in props ? props.submitLabel : `Оплатить ${props.amountLabel}`
+
   const numberError = numberTouched ? cardNumberError(card.number) : null
   const complete = isDemoCardComplete(card)
 
@@ -50,10 +57,14 @@ export default function PayForm({
     setBusy(true)
     setFailure(null)
     try {
+      const offer =
+        "tariff" in props
+          ? { tariff: props.tariff.id, trialDays: props.tariff.trialDays }
+          : { funnel: props.funnel, serviceId: props.serviceId, planId: props.planId }
       const response = await fetch("/api/demo/pay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ funnel, serviceId, planId, card, confirmed }),
+        body: JSON.stringify({ ...offer, card, confirmed }),
       })
       const body = (await response.json()) as { outcome?: Outcome; message?: string }
 
@@ -67,7 +78,7 @@ export default function PayForm({
 
       setOutcome(body.outcome)
       if (body.outcome === "approve") {
-        router.push("/start/onboarding")
+        router.push(onboardingHref)
       }
     } catch (error) {
       console.error("demo pay failed", error)
@@ -197,7 +208,7 @@ export default function PayForm({
           onClick={() => submit(false)}
           data-testid="demo-pay-submit"
         >
-          {busy ? "Проводим платёж…" : `Оплатить ${amountLabel}`}
+          {busy ? "Проводим платёж…" : submitLabel}
         </button>
       )}
     </div>
