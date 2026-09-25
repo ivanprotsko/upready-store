@@ -43,6 +43,24 @@ if [ -z "$DIR" ] || [ -z "$PORT" ]; then
   echo "usage: $0 [--dry-run] <apps/backend dir with medusa-config> <port> [log file]" >&2
   exit 2
 fi
+
+# t-2026-09-25-17 (found by a real incident, W22/t-2026-09-25-18): every match below
+# compares $DIR as a literal path segment against process cwd/command lines. A RELATIVE
+# $DIR ("apps/backend") is a substring of every OTHER stand's backend too, so it matched
+# and killed an unrelated worker's tree and this box's own :9251 in one call. $DIR is
+# resolved to its absolute, physical form before it is used for anything else, and must
+# name a real Medusa backend — not a throwaway or unrelated directory — in both real and
+# --dry-run mode, since --dry-run is what this fix's own proof runs against real worktrees.
+if [ ! -d "$DIR" ]; then
+  echo "no such directory: $DIR" >&2
+  exit 2
+fi
+DIR="$(cd "$DIR" && pwd -P)" || { echo "cannot resolve $DIR to an absolute path" >&2; exit 2; }
+if [ ! -f "$DIR/package.json" ] || ! grep -q '"@medusajs/medusa"' "$DIR/package.json"; then
+  echo "not a medusa backend dir (no @medusajs/medusa dependency in package.json): $DIR" >&2
+  exit 2
+fi
+
 if [ "$DRY_RUN" -eq 0 ] && [ ! -f "$DIR/medusa-config.ts" ] && [ ! -f "$DIR/medusa-config.js" ]; then
   echo "usage: $0 [--dry-run] <apps/backend dir with medusa-config> <port> [log file]" >&2
   exit 2
@@ -57,6 +75,14 @@ case "$PORT" in ''|*[!0-9]*) echo "port must be a number, got '$PORT'" >&2; exit
 # into awk's own argv, which `ps` then reports back, so the search matched awk's OWN row too. A plain env var
 # never shows up in `ps`'s COMMAND column.
 #
+# Two more conditions, both from the same t-2026-09-25-17 incident: (1) $DIR must match as a whole path
+# segment — immediately followed by `/`, a space, or the end of the string — not a bare substring, so
+# ".../apps/backend" does not also claim ".../apps/backend-v2"; (2) the command-line match keeps only
+# node/npm/npx processes (by the last path segment of `ps`'s own `comm` column, whose first word covers the
+# `npm exec medusa develop`-style rewritten titles too), never a shell or an agent's own `claude` process,
+# either of which can carry $DIR as plain text somewhere in a much longer command line without running
+# anything IN it.
+#
 # Every `cwd_pids`/`cmdline_pids` candidate is dropped if it is this very script ($$), an ANCESTOR of $$, a
 # DESCENDANT of $$, or already dead by the time we look. `$DIR` is this script's own `$1`/`$2`, so it is a
 # literal substring of the running script's own command line — and of every process ABOVE it too: whatever
@@ -69,14 +95,40 @@ case "$PORT" in ''|*[!0-9]*) echo "port must be a number, got '$PORT'" >&2; exit
 # what tells those apart from a real, unrelated process that merely happens to run inside $DIR.
 stand_pids() {
   local port="$1" dir="$2"
-  local listeners cwd_pids cmdline_pids tree children
+  local listeners cwd_pids cmdline_pids node_pids tree children
   listeners="$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null | tr '\n' ' ')"
   cwd_pids="$(lsof -a -d cwd -Fpn 2>/dev/null | MATCH_DIR="$dir" awk '
     /^p/ { pid = substr($0, 2) }
-    /^n/ { if (index($0, ENVIRON["MATCH_DIR"]) > 0) print pid }
+    /^n/ {
+      d = ENVIRON["MATCH_DIR"]
+      idx = index($0, d)
+      if (idx == 0) next
+      nc = substr($0, idx + length(d), 1)
+      if (nc == "" || nc == "/" || nc == " ") print pid
+    }
   ' | tr '\n' ' ')"
-  cmdline_pids="$(ps -Awwo pid=,command= 2>/dev/null | MATCH_DIR="$dir" awk '
-    index($0, ENVIRON["MATCH_DIR"]) > 0 { print $1 }
+  node_pids="$(ps -Awwo pid=,comm= 2>/dev/null | awk '
+    match($0, /^[ ]*[0-9]+/) {
+      pid = substr($0, RSTART, RLENGTH) + 0
+      rest = substr($0, RSTART + RLENGTH)
+      sub(/^[ ]+/, "", rest)
+      n = split(rest, segs, "/")
+      split(segs[n], toks, " ")
+      base = toks[1]
+      if (base == "node" || base == "npm" || base == "npx") print pid
+    }
+  ' | tr '\n' ' ')"
+  cmdline_pids="$(ps -Awwo pid=,command= 2>/dev/null | MATCH_DIR="$dir" NODE_PIDS=" $node_pids " awk '
+    {
+      pid = $1
+      d = ENVIRON["MATCH_DIR"]
+      idx = index($0, d)
+      if (idx == 0) next
+      nc = substr($0, idx + length(d), 1)
+      if (nc != "" && nc != "/" && nc != " ") next
+      if (index(ENVIRON["NODE_PIDS"], " " pid " ") == 0) next
+      print pid
+    }
   ' | tr '\n' ' ')"
 
   local self="$$" ancestors ap candidate cur hops is_ancestor self_chain
