@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server"
 
 import { classifyDemoCard, isDemoCardComplete, type DemoCardValue } from "@lib/demo-card"
 import { parseFunnel, resolveOffer } from "@lib/demo/catalog"
-import { PAID_COOKIE } from "@lib/demo/paid"
+import { PAID_COOKIE, type TariffPaidRecord } from "@lib/demo/paid"
+import { resolveTariffLink } from "@lib/demo/tariff"
 
 /**
  * The demo till (t-2026-09-12-paywall-onboarding-demo). No money, no provider,
@@ -19,8 +20,62 @@ type Body = {
   funnel?: number | string
   serviceId?: string
   planId?: string
+  /** Set instead of the three above when the till was entered from a pricing button. */
+  tariff?: string
+  trialDays?: number | null
   card?: DemoCardValue
   confirmed?: boolean
+}
+
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  sameSite: "lax" as const,
+  secure: process.env.NODE_ENV === "production",
+  path: "/",
+  maxAge: 60 * 60 * 6,
+}
+
+/**
+ * The till of a pricing button (t-2026-09-25-08). The tariff is looked up in
+ * the pricing document again here, for the same reason the funnels' offer is
+ * resolved here: the cookie says «оплачено», so the browser does not get to
+ * name what was bought. The card goes through the same demo rules; nothing is
+ * charged and nothing is bound, trial or not.
+ */
+async function payTariff(body: Body) {
+  const resolved = await resolveTariffLink({
+    tariff: body.tariff,
+    trial: body.trialDays === null || body.trialDays === undefined ? undefined : String(body.trialDays),
+  })
+  if (!resolved || resolved.broken) {
+    return NextResponse.json(
+      { message: "Тариф из ссылки не найден на странице тарифов — выберите его заново." },
+      { status: 400 }
+    )
+  }
+
+  const card = body.card
+  if (!card || !isDemoCardComplete(card)) {
+    return NextResponse.json({ message: "Данные карты неполные." }, { status: 400 })
+  }
+
+  const outcome = classifyDemoCard(card)
+  if (outcome === "decline") {
+    return NextResponse.json({ outcome: "decline" })
+  }
+  if (outcome === "redirect" && !body.confirmed) {
+    return NextResponse.json({ outcome: "redirect" })
+  }
+
+  const record: TariffPaidRecord = {
+    kind: resolved.trialDays === null ? "paid" : "trial",
+    tariff: resolved.tier.id,
+    trialDays: resolved.trialDays,
+    at: new Date().toISOString(),
+  }
+  const response = NextResponse.json({ outcome: "approve" })
+  response.cookies.set(PAID_COOKIE, JSON.stringify(record), COOKIE_OPTIONS)
+  return response
 }
 
 export async function POST(request: NextRequest) {
@@ -29,6 +84,10 @@ export async function POST(request: NextRequest) {
     body = (await request.json()) as Body
   } catch {
     return NextResponse.json({ message: "Тело запроса не разобрано." }, { status: 400 })
+  }
+
+  if (body.tariff !== undefined) {
+    return payTariff(body)
   }
 
   const funnel = parseFunnel(String(body.funnel ?? ""))
@@ -67,12 +126,6 @@ export async function POST(request: NextRequest) {
     planId: offer.plan.id,
     price: offer.plan.price,
     at: new Date().toISOString(),
-  }), {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: 60 * 60 * 6,
-  })
+  }), COOKIE_OPTIONS)
   return response
 }

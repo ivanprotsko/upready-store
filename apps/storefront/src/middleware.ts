@@ -86,8 +86,15 @@ function demoHostResponse(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl
   // A file request (`.ico`, `.png`, a source map) is served as-is; everything
   // else on this host is the demo, including the `/en` a crawler or an old
-  // bookmark asks for.
-  if (pathname === "/start" || pathname.startsWith("/start/") || pathname.includes(".")) {
+  // bookmark asks for. `/pricing` is the platform's tariff table
+  // (t-2026-09-25-08), which lives outside `[locale]` next to `/start` and
+  // reads only the backend's public `/platform/pricing`.
+  if (
+    pathname === "/start" ||
+    pathname.startsWith("/start/") ||
+    pathname === "/pricing" ||
+    pathname.includes(".")
+  ) {
     return NextResponse.next({ request: { headers } })
   }
 
