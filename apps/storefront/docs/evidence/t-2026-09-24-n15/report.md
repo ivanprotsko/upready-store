@@ -373,3 +373,34 @@ and button — as the code draws them. No change.
 
 Seen, not changed: a date chip longer than the space left of the label runs under it (its max-width ignores the label);
 pre-existing, only with an extreme text.
+
+## Remark 13 · footer: «© Черкашино» column, product-grid columns, no lines (Ivan 2026-09-25)
+
+Ivan's words and the addition («нужно убрать все горизонтальные линии»):
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-13-header-name-footer-columns.md`.
+Item 1 (header «ЧЕРКАШИНО») is data, done by the lead in the stand's DB. Items 2.x — code, Olavka only:
+`footer/variants/olavka.tsx` (`FooterOlavka`), chosen by the footer switch for the tenant handles `olavka` (production
+copy) and `cherkashino` (older stand data), the same per-handle stopgap as `f7-tenant-config.ts`; every other shop keeps
+the footer its settings pick.
+
+- Columns: Категории → Информация → «© {tenant name}» (from `tenant.name`, «Черкашино» here) with «Публичная оферта»,
+  «Политика конфиденциальности» (the shop's published legal pages, as the legal row links them) and «Создание
+  интернет-магазина» (the attribution link: same href, `rel`, and the shop's own anchor text, capitalised).
+- Removed: «© 2026 … Все права защищены.» and «создание интернет-магазина — upready» (the row under the columns).
+- Grid: the product grid's own class (`PRODUCT_GRID_CLASS`) inside the same `content-container`, so the columns sit on the
+  product tracks; the 4th track stays empty (the seller's requisites take it if the shop ever fills them).
+- Lines: the footer's top border and the legal row's top border are gone for Olavka (`FooterLegal bare`); other shops
+  keep both.
+
+| Page · width | product columns x | footer headings x before | after | horizontal lines under the grid before → after |
+|---|---|---|---|---|
+| olavka 1440 | 24 / 378 / 732 / 1086 | name 24, Категории 467.4, Информация 961.7 | Категории 24, Информация 378, © Черкашино 732, 4th empty | 3 → 0 |
+| olavka 390 | 16 / 201 | 16 / 16 / 16 (stacked) | 16 / 201, © Черкашино 16 on the next row | 3 → 0 |
+| nochlavka 1440 / 390 (another shop) | — | «Ночная лавка» 24 / 16, © line, attribution | unchanged | 2 → 2 |
+
+Shots `footer-columns/<olavka|nochlavka>-<1440|390>-<before|after>.png` (header and bottom bar hidden for the shot).
+
+Open for Ivan: «Публичная оферта» and «Политика конфиденциальности» now show three times — in «Информация» (they are
+the owner's published pages), in «© Черкашино» (asked), and in the legal row under the footer (every shop has it, audit
+B-01). Removing the legal row for Olavka, or those two pages from «Информация», is one line each; not done without his
+word.
