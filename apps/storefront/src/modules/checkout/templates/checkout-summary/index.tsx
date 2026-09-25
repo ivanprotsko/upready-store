@@ -29,7 +29,7 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
   const pickupPointAddress = meta?.[PICKUP_METADATA_KEYS.address]
 
   return (
-    <div className="flex flex-col gap-y-8 px-4 py-4 lg:py-10 lg:ps-10  bg-ui-bg-subtle lg:-me-[9999px] lg:pe-[9999px]">
+    <div className="flex flex-col gap-y-8 px-4 py-4 lg:py-10 bg-ui-bg-subtle lg:bg-transparent">
       <CheckoutTotals cart={cart} />
 
       {pickupPointName && (
