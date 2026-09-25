@@ -1,0 +1,89 @@
+✔ productsWithoutCourse drops a product that already has one (0.969125ms)
+✔ productsWithoutCourse returns every product when no course exists yet (0.078042ms)
+✔ productTitleById maps a course's product_id to the product's own title (0.090875ms)
+✔ a failed lesson reorder puts the list back the way it was (0.539458ms)
+✔ the lesson form refuses an empty title before it ever calls onSubmit (0.358375ms)
+✔ the lesson form refuses a video link with no http(s) scheme before it ever calls onSubmit (0.129417ms)
+✔ deleting a course warns that a buyer's own access survives it (2.485ms)
+✔ offers exactly the three methods the task named, each backed by its own i18n key (3.632875ms)
+✔ the Yandex-inclusive options are disabled without platform keys; email alone is not (0.15575ms)
+✔ the honest hint about missing Yandex keys is conditioned on the same flag that disables the options (0.07975ms)
+✔ yandexAvailable comes from the backend's own platform flag, never guessed on the panel side (0.0595ms)
+✔ the block disables itself while the setting is loading or saving, the same rule-19h shape as SEO verification (0.107792ms)
+✔ a save reports its own outcome as a toast, success and failure both (0.082ms)
+✔ the setting round-trips through GET/PUT /tenants/login-settings, one field, no per-field merge (0.34525ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@medusajs/js-sdk' imported from /Users/ivanprotsko/upready/worktrees/upready-store/fix/panel-menu-medusa-links/apps/tenant-panel/src/lib/is-fetch-error.ts
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:708:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:728:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:766:56)
+    at #resolve (node:internal/modules/esm/loader:690:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:610:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:277:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v26.8.1
+✖ src/__tests__/error-boundary-auth.test.mjs (230.635833ms)
+✔ the button is disabled while the mutation is pending (3.383041ms)
+✔ while running the button shows the spinner and the running label, not the idle one (0.175666ms)
+✔ a successful run reports what started and what was skipped, never just one of them (0.078167ms)
+✔ a failed request (e.g. 409 «уже идёт») reports the backend's own message, not a silent failure (0.07425ms)
+✔ a finished run invalidates the sync query so the status table refreshes on its own (0.072458ms)
+✔ no navigation target in the panel carries an anchor (296.383709ms)
+✔ every sidebar target resolves to a route registered in app.tsx (1.59425ms)
+✔ the addresses Ivan named on 2026-09-16 are registered (0.212459ms)
+✔ every route of app.tsx is listed in the owner route manifest (3.281167ms)
+✔ the manifest lists no screen the router does not have (0.497916ms)
+✔ connectedMethodKeys lists nothing when the shop connected nothing (1.422792ms)
+✔ connectedMethodKeys names Robokassa and each manual kind that is connected (0.1855ms)
+✔ connectedMethodKeys never lists the demo card as a connected method (0.069375ms)
+✔ isDemoOnly mirrors the resolver's own demo flag (0.080542ms)
+✔ castNumber accepts a comma decimal separator and rejects garbage (0.538541ms)
+✔ an unparsable price aborts the save before it reaches the server (0.137875ms)
+✔ the drawer only closes after the save actually succeeds (0.081416ms)
+✔ the section renders nothing for a shop with one site (0.645459ms)
+✔ a product another site owns is read-only (0.081542ms)
+✔ only the sites of the owner's own client are offered (0.062375ms)
+✔ saves site_scope through POST /tenants/products/:id (0.059833ms)
+✔ the product card mounts the section (0.058625ms)
+✔ Russian copy: «Сайты», «на всех моих сайтах», never the word group (1.152708ms)
+✔ the profile card no longer renders the standing ChangePasswordSection (1.247708ms)
+✔ the profile card's «Пароль» row opens the password drawer route (1.293292ms)
+✔ /settings/profile/password is registered next to /settings/profile/edit (0.368375ms)
+✔ every password field in login and profile uses the Russian PasswordInput (1.057166ms)
+✔ ShopSwitcher hides itself with one shop or fewer (1.162792ms)
+✔ ShopSwitcher lists every shop GET /tenants/me/shops returns, by name (0.098541ms)
+✔ ShopSwitcher calls the switch mutation with the chosen shop's id, and reloads on success (0.064291ms)
+✔ useMyShops reads GET /tenants/me/shops (0.057167ms)
+✔ useSwitchShop posts to /tenants/me/switch and turns the token into this session's cookie (0.060625ms)
+✔ the section is «Сайты» in the settings menu and a registered route (0.532583ms)
+✔ reads GET /tenants/sites and creates through POST /tenants/sites (0.1715ms)
+✔ a new site refreshes the header's shop switcher too (0.065959ms)
+✔ another site opens through the existing switcher, not a second one (0.065ms)
+✔ the form sends name, handle and the two copy flags, and nothing naming a source (0.063958ms)
+✔ Russian copy never says «группа», and en/ru carry the same keys (0.612ms)
+✔ the user menu links to neither the Medusa docs nor the Medusa changelog (0.459625ms)
+✔ the user menu imports no icon used only by the removed links (0.077334ms)
+✔ removing the two items leaves no doubled separator (0.7635ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 55
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 395.32975
+
+✖ failing tests:
+
+test at src/__tests__/error-boundary-auth.test.mjs:1:1
+✖ src/__tests__/error-boundary-auth.test.mjs (230.635833ms)
+  'test failed'

@@ -1,0 +1,47 @@
+✖ the user menu links to neither the Medusa docs nor the Medusa changelog (3.516708ms)
+✖ the user menu imports no icon used only by the removed links (36.750334ms)
+✔ removing the two items leaves no doubled separator (13.278709ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 470.571792
+
+✖ failing tests:
+
+test at src/__tests__/user-menu-no-medusa-links.test.mjs:26:1
+✖ the user menu links to neither the Medusa docs nor the Medusa changelog (3.516708ms)
+  AssertionError [ERR_ASSERTION]: user-menu.tsx must not link to docs.medusajs.com («документация»)
+      at TestContext.<anonymous> (file:///Users/ivanprotsko/upready/worktrees/upready-store/fix/panel-menu-medusa-links/apps/tenant-panel/src/__tests__/user-menu-no-medusa-links.test.mjs:27:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at src/__tests__/user-menu-no-medusa-links.test.mjs:37:1
+✖ the user menu imports no icon used only by the removed links (36.750334ms)
+  AssertionError [ERR_ASSERTION]: BookOpen was only used by the removed «Документация» item
+      at TestContext.<anonymous> (file:///Users/ivanprotsko/upready/worktrees/upready-store/fix/panel-menu-medusa-links/apps/tenant-panel/src/__tests__/user-menu-no-medusa-links.test.mjs:41:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
