@@ -10,14 +10,9 @@ import { footerLegalLinks } from "@lib/util/legal-links"
 import { PRODUCT_GRID_CLASS } from "@modules/products/components/product-card"
 import { FooterContacts, FooterRequisites } from "@modules/layout/components/footer-seller"
 
-/**
- * BRANCH-LOCAL (`redesign-olavka`, t-2026-09-24-n15, Ivan's remark 13): the Olavka shop's
- * footer. The shops it is for, by the tenant handle the middleware resolves from the Host
- * (`getTenantHandle`): `olavka` on the production copy, `cherkashino` on the older stand
- * data. Every other shop keeps the footer its settings pick (F1 by default). A stopgap like
- * `f7-tenant-config.ts`: a footer key the panel offers replaces this list.
- */
-export const OLAVKA_FOOTER_HANDLES: ReadonlySet<string> = new Set(["olavka", "cherkashino"])
+// BRANCH-LOCAL (`redesign-olavka`, t-2026-09-24-n15, Ivan's remark 13): the Olavka shop's
+// footer, for the shops in `OLAVKA_SHOP_HANDLES` (`@lib/data/olavka-shop`). Every other shop
+// keeps the footer its settings pick (F1 by default).
 
 const HEADING = "txt-medium-plus text-ui-fg-base font-medium"
 const LINK = "txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"

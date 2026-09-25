@@ -1,9 +1,9 @@
-import { getTenantHandle } from "@lib/data/cookies"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 import FooterLegal from "@modules/layout/components/footer-legal"
 
 import { DEFAULT_FOOTER, FOOTER_VARIANTS } from "./variants"
-import FooterOlavka, { OLAVKA_FOOTER_HANDLES } from "./variants/olavka"
+import FooterOlavka from "./variants/olavka"
 
 /**
  * Site-wide footer switch (`(main)/layout.tsx` renders this once, wrapping every route
@@ -20,7 +20,7 @@ import FooterOlavka, { OLAVKA_FOOTER_HANDLES } from "./variants/olavka"
  * prefers the tenant's own home-page document and falls back to the stand's settings.
  */
 export default async function Footer() {
-  const [settings, handle] = await Promise.all([getEffectiveSettings(), getTenantHandle()])
+  const [settings, olavka] = await Promise.all([getEffectiveSettings(), isOlavkaShop()])
   const footer = settings?.footer ?? DEFAULT_FOOTER
 
   // The legal row (offer, privacy policy) is rendered here, under the variant,
@@ -32,8 +32,7 @@ export default async function Footer() {
   }
 
   // BRANCH-LOCAL (redesign-olavka, Ivan's remark 13): the Olavka shop's own footer, with
-  // no horizontal lines, the legal row included.
-  const olavka = handle !== null && OLAVKA_FOOTER_HANDLES.has(handle)
+  // no horizontal lines, the legal row included (`OLAVKA_SHOP_HANDLES`).
   const Variant = olavka
     ? FooterOlavka
     : (FOOTER_VARIANTS[footer] ?? FOOTER_VARIANTS[DEFAULT_FOOTER])

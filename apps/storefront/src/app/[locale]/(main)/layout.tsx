@@ -6,6 +6,7 @@ import {
   getRequestBaseURL,
   getTenantHandle,
 } from "@lib/data/cookies"
+import { OLAVKA_SHOP_HANDLES } from "@lib/data/olavka-shop"
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 import { getSeoVerification } from "@lib/data/seo-verification"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
@@ -78,7 +79,13 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
           `PromoBanner`'s H3 suppression above — a cache hit against `Nav`'s read,
           never a second source of truth. */}
       <Nav />
-      <div className="pb-16 lg:pb-0">
+      {/* BRANCH-LOCAL (redesign-olavka, Ivan's remark 17): marks an Olavka shop's page for
+          the few styles a client component cannot learn from the server (the product row
+          tile's 1rem type). */}
+      <div
+        className="pb-16 lg:pb-0"
+        data-shop={tenantHandle !== null && OLAVKA_SHOP_HANDLES.has(tenantHandle) ? "olavka" : undefined}
+      >
         <Suspense fallback={null}>
           <CartNotifications />
         </Suspense>

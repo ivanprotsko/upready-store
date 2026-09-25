@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 import { getOptionValueHex, isColorOption } from "@lib/util/color-option"
 import { getProductPrice } from "@lib/util/get-product-price"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { isPlaceholderOption } from "@lib/util/option-filter-groups"
 import ProductMedia from "@modules/products/components/product-media"
 
@@ -19,6 +20,11 @@ import ProductMedia from "@modules/products/components/product-media"
  *
  * The grid itself is `PRODUCT_GRID_CLASS`: two columns on a phone, three from 1024 and
  * four from 1440, on one gap scale.
+ *
+ * BRANCH-LOCAL (`redesign-olavka`, Ivan's remark 17): the Olavka shops
+ * (`OLAVKA_SHOP_HANDLES`) show only the price and, under it, the title, both at 1rem. There
+ * is no unit line (no «100 мл», «1 шт» or swatches) and the title reserves no second line,
+ * so a row's cards may differ in height.
  */
 export const PRODUCT_GRID_CLASS =
   "grid w-full grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-3 small:gap-x-6 small:gap-y-10 large:grid-cols-4"
@@ -43,7 +49,11 @@ export default async function ProductCard({
   product: HttpTypes.StoreProduct
   priority?: boolean
 }) {
-  const [locale, t] = await Promise.all([getLocale(), getTranslations("ProductCard")])
+  const [locale, t, olavka] = await Promise.all([
+    getLocale(),
+    getTranslations("ProductCard"),
+    isOlavkaShop(),
+  ])
   const { cheapestPrice } = getProductPrice({ product, locale })
 
   const usedOptionValueIds = new Set(
@@ -67,24 +77,57 @@ export default async function ProductCard({
   const first = product.thumbnail || images[0]?.url || null
   const second = images.find((image) => image.url && image.url !== first)?.url ?? null
 
-  return (
-    <Link
-      href={`/products/${product.handle}`}
-      className="group flex h-full flex-col rounded-[var(--radius,8px)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
-      data-testid="product-wrapper"
-    >
-      <div className="relative">
-        <ProductMedia src={first} secondSrc={second} alt={product.title ?? ""} priority={priority} />
-        {onSale && cheapestPrice?.percentage_diff ? (
-          <span
-            className="absolute start-2 top-2 rounded-full bg-ui-tag-red-bg px-2 py-0.5 text-xs font-medium tabular-nums text-ui-tag-red-text"
-            data-testid="product-sale-badge"
+  const media = (
+    <div className="relative">
+      <ProductMedia src={first} secondSrc={second} alt={product.title ?? ""} priority={priority} />
+      {onSale && cheapestPrice?.percentage_diff ? (
+        <span
+          className="absolute start-2 top-2 rounded-full bg-ui-tag-red-bg px-2 py-0.5 text-xs font-medium tabular-nums text-ui-tag-red-text"
+          data-testid="product-sale-badge"
+        >
+          <span aria-hidden>−{cheapestPrice.percentage_diff}%</span>
+          <span className="sr-only">{t("sale", { percent: cheapestPrice.percentage_diff })}</span>
+        </span>
+      ) : null}
+    </div>
+  )
+  const linkClassName =
+    "group flex h-full flex-col rounded-[var(--radius,8px)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
+
+  if (olavka) {
+    return (
+      <Link href={`/products/${product.handle}`} className={linkClassName} data-testid="product-wrapper">
+        {media}
+        <div className="mt-3 flex flex-col gap-y-1">
+          {cheapestPrice ? (
+            <div className="flex flex-wrap items-baseline gap-x-2 text-base tabular-nums">
+              <span
+                className={onSale ? "font-semibold text-ui-fg-error" : "font-semibold text-ui-fg-base"}
+                data-testid="price"
+              >
+                {cheapestPrice.calculated_price}
+              </span>
+              {onSale ? (
+                <span className="text-ui-fg-muted line-through decoration-1" data-testid="original-price">
+                  {cheapestPrice.original_price}
+                </span>
+              ) : null}
+            </div>
+          ) : null}
+          <h3
+            className="line-clamp-2 break-words text-base font-medium text-ui-fg-base group-hover:underline group-hover:underline-offset-2"
+            data-testid="product-title"
           >
-            <span aria-hidden>−{cheapestPrice.percentage_diff}%</span>
-            <span className="sr-only">{t("sale", { percent: cheapestPrice.percentage_diff })}</span>
-          </span>
-        ) : null}
-      </div>
+            {product.title}
+          </h3>
+        </div>
+      </Link>
+    )
+  }
+
+  return (
+    <Link href={`/products/${product.handle}`} className={linkClassName} data-testid="product-wrapper">
+      {media}
 
       <div className="mt-3 flex flex-1 flex-col">
         <h3

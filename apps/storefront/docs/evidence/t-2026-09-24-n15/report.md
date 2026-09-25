@@ -516,3 +516,43 @@ pixels of every dark chip are sampled (`chip-ring/r16w.mjs`, logs `real-*.log`):
 A background Firefox window is not repainted on macOS, so these runs need the scratch window in front. That takes focus
 from the desktop: one stray «y» landed in the scratch window's address bar. So I stopped after these runs. The proof that
 the white rings are gone has to come from Ivan's own Firefox on :8233: reload, then swipe both ways.
+
+## Remark 17 · product card: 1rem, price above the title, no 2-line reserve, no meta line (Ivan 2026-09-25)
+
+«По дизайну карточек товаров 1. нужно сделать размер текста 1rem, 2. цены поставить НАД заголовком товара, 3. НЕ
+резервировать высоту в две строки для заголовка. 4. граммы, количество и другие отметки уменьшенным размером текста и менее
+контрастным цветом — убираем совсем. Остается только заголовок и цена.»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-17-product-card-text.md`.
+
+Two components draw a product card:
+- `ProductCard` (`src/modules/products/components/product-card/index.tsx`): home «В магазине», /store, category pages. It
+  has its own Olavka branch, chosen on the server with `isOlavkaShop()`. Order: image → price → title. Both are
+  `text-base` (1rem, 24px line). The title keeps `line-clamp-2` as a cap but has no `min-h`. There is no unit line and no
+  colour swatches. A card with no price shows only the title.
+- `ProductRowTile` (`product-row/tile.tsx`): the product page's rows («С этим товаром покупают», «Вы недавно
+  просматривали»). It already had price → title and no meta line; now it is 1rem too. The «recently viewed» row renders
+  on the client, so the tile learns the shop from `data-shop="olavka"`, which `(main)/layout.tsx` puts on the page
+  wrapper.
+
+The shop list is now one place, `OLAVKA_SHOP_HANDLES` / `isOlavkaShop()` in `src/lib/data/olavka-shop.ts`, and the remark
+13 footer reads it too. Its old `OLAVKA_FOOTER_HANDLES` is gone and the list is the same.
+
+Measured on the first four cards per page, identical in headless Chromium and Firefox:
+
+| Page (1440 / 390) | title before → after | price before → after | order after | meta line before → after | title min-height before → after |
+|---|---|---|---|---|---|
+| home «В магазине» | 14/20 px, 500 → 16/24, 500 | 16 px, 600 → 16 px, 600 | price above | «10 шт», «2 банки», «100 шт» → none | 40px → auto |
+| /store | 14/20 → 16/24 | 16 → 16 | price above | «30 гр», «100 мл», «1 шт» → none | 40px → auto |
+| category (Мультиварки) | 14/20 → 16/24 | 16 → 16 | price above | «2 л» → none | 40px → auto |
+| product page row | 14/20, 400 → 16/24, 400 | 14 px → 16 px | price above (as before) | none → none | auto → auto |
+
+A title now takes 1 or 2 lines as it needs: 1440 home 1/2, /store 2/1. The card box still stretches to its grid row, but
+nothing inside reserves space.
+
+Another shop is unchanged: **acme** (acme.localhost) home, /store, a category and a product page, at 1440 and 390. The
+card metrics are identical before and after, and the screenshots are identical pixel for pixel (0 differing channels in
+all 8 pairs).
+
+Shots `product-card-text/<chromium|firefox>-<olavka|acme>-<1440|390>-<home|store|category|product>-<before|after>.jpg`
+(acme in Chromium only). Logs `r17-*.log`, script `card17.mjs`. Before = :8233 at b825bfdb, after = dev :8234.
+The /store sidebar filter «Количество» (10 шт, 100 шт …) is a filter, not a card mark, and stays.
