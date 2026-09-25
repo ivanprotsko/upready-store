@@ -25,16 +25,18 @@
  */
 
 .slider {
-  /* The page's one container (`content-container`: 1440, 24px sides), so the cards stand
-     on the same lines as the header and the catalog (Ivan's remark 1.1). */
-  max-width: 1440px;
-  margin: 0 auto;
+  /* The whole window wide, so a carousel's neighbours run to the window edges instead of
+     stopping at a 1440 box (Ivan's remark 14.1.1, the frame 239:17719 cuts them only at its
+     own edge). The cards keep the page's one container (`content-container`: 1440, 24px
+     sides) through `--content` below, on the header's and the catalog's lines (remark 1.1). */
   padding: 16px 0;
   container-type: inline-size;
 }
 
 /* Base = carousel (`Items=2+`): scroll-snap, cards centred, neighbours peeking. */
 .track {
+  /* The content width: the window up to 1440, as `content-container`. */
+  --content: min(100cqi, 1440px);
   display: flex;
   gap: 24px;
   margin: 0;
@@ -63,6 +65,13 @@
   scroll-snap-align: center;
 }
 
+/* One or two cards never scroll: their row stays inside the content container. */
+.single,
+.pair {
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
 /* `Items=1`: one card, the whole content width. */
 .single .item {
   flex-basis: 100%;
@@ -72,14 +81,14 @@
 
 /* Desktop (≥1024): fluid up to the 1440 container, the cards keep the frame's
    proportions — a pair / carousel card is half the content (572 at 1216, 684 at 1440),
-   572×400; one banner is the whole content, 1168×400. `100cqi` = the slider's width. */
+   572×400; one banner is the whole content, 1168×400. `--content` = the content width. */
 @media (min-width: 1024px) {
   .pair {
     overflow: visible;
   }
   .pair .item,
   .carousel .item {
-    flex-basis: calc((100cqi - 72px) / 2);
+    flex-basis: calc((var(--content) - 72px) / 2);
     max-width: none;
   }
   .pair .card,
@@ -95,8 +104,8 @@
   /* `Items=2+` (239:17719): the current card centred (x 322 at 1216), the next peeking
      right (918) — the padding is what centres the first card at rest. */
   .carousel {
-    padding-inline: calc(50cqi - (100cqi - 72px) / 4);
-    scroll-padding-inline: calc(50cqi - (100cqi - 72px) / 4);
+    padding-inline: calc(50cqi - (var(--content) - 72px) / 4);
+    scroll-padding-inline: calc(50cqi - (var(--content) - 72px) / 4);
   }
 }
 

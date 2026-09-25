@@ -404,3 +404,33 @@ Open for Ivan: «Публичная оферта» and «Политика кон
 the owner's published pages), in «© Черкашино» (asked), and in the legal row under the footer (every shop has it, audit
 B-01). Removing the legal row for Olavka, or those two pages from «Информация», is one line each; not done without his
 word.
+
+## Remark 14 · banners run to the window edges; Firefox rings (Ivan 2026-09-25)
+
+«баннеры в слайдере не должны обрезаться» + Ivan's Firefox 100 % / Chrome 75 % shots:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-14-slider-clipped-firefox-rings-repro.md`.
+
+**14.1.1 · Clipping.** Ivan's window is wider than 1920 css px (his shot: the content is 86 % of the window, so the page zoom
+sits at its 1.333 cap and the page is centred). `.slider` had `max-width: 1440px`, so above 1920 the carousel's
+neighbours stopped at that box, short of the window. Now `.slider` is the whole window; the card width and the
+carousel's centring padding use `--content: min(100cqi, 1440px)` (the content container's width), so the centred card
+does not move; one or two banners (`.single`, `.pair`, which never scroll) keep a 1440 row. Frame 239:17719 cuts the
+neighbours only at its own edge. Chromium, `slider-edges/<width>-<before|after>.png`:
+
+| Width | zoom | track before → after | centred card | leftmost card left (off-window = runs to the edge) |
+|---|---|---|---|---|
+| 1216 / 1440 / 1680 / 1920 | 1 … 1.333 | whole window → same | unchanged | −274 / −330 / −385 / −440, unchanged |
+| 2240 | 1.333 | 160 … 2080 → 0 … 2240 | 664 … 1576, unchanged | −280 (was cut at 160) |
+| 2560 | 1.333 | 320 … 2240 → 0 … 2560 | 824 … 1736, unchanged | −120 (was cut at 320) |
+| 720 / 360 | 1 | whole window → same | 74 / 36, unchanged | unchanged |
+| pair (class swapped in the page) 1440 / 2240 | | 0 … 1440 / 160 … 2080, unchanged | cards 24 … 1416 / 192 … 2048, unchanged | — |
+
+Real Firefox 156 at 2240, dpr 1 (the scratch profile forces `layout.css.devPixelsPerPx` 1): `firefox-real-156-2240-dpr1-
+<before|after>.png` — before, cut at the 1440×1.333 box as in Ivan's shot; after, to the window edges.
+
+**14.1 · Firefox rings — still not reproduced here.** Real Firefox 156 (GUI, the window captured) at 1440, 1920, 2000,
+2240, 2560 with dpr 2 and at 2240 with dpr 1 (Ivan's layout exactly): the dark chips of the side cards («Коллекция»,
+«Чистка лимфы») have the #312721 ring (`firefox-real-156-2240-dpr1-{kollekciya,limfy}-ring.png`), computed
+`border-color` rgb(49,39,33) everywhere. In Ivan's Firefox the same chips are white-ringed while the centred card's are
+dark. No change to the rings until it is reproduced; one console line from Ivan's Firefox tells a cascade problem from a
+paint one (in the report to the lead).
