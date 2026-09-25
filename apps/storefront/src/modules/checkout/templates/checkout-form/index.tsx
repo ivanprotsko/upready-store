@@ -56,7 +56,7 @@ export default async function CheckoutForm({
   const isDigital = isDigitalDeliveryCart(cart)
 
   return (
-    <div className="flex flex-col px-4 py-6 lg:pe-10 lg:py-10 lg:ps-0 gap-y-6">
+    <div className="flex flex-col px-4 py-6 lg:px-0 lg:py-10 gap-y-6">
       {!customer && <SignInPrompt />}
 
       <PickupSheetProvider cart={cart} shippingOptions={shippingOptions}>

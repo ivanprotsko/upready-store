@@ -41,9 +41,11 @@ export default async function Checkout() {
     <PaymentWrapper cart={cart}>
       <CartUpdateProvider>
         <div className="overflow-x-hidden">
-          <div className="lg:content-container flex flex-col lg:grid lg:grid-cols-[7fr_5fr] min-h-screen">
-            <CheckoutForm cart={cart} customer={customer} />
-            <CheckoutSummary cart={cart} />
+          <div className="lg:content-container min-h-screen lg:min-h-0">
+            <div className="flex flex-col lg:mx-auto lg:max-w-checkout">
+              <CheckoutForm cart={cart} customer={customer} />
+              <CheckoutSummary cart={cart} />
+            </div>
           </div>
         </div>
       </CartUpdateProvider>
