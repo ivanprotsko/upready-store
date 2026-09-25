@@ -29,9 +29,32 @@ import type TenantModuleService from "../modules/tenant/service";
  * MULTI-TENANT. Every shop of the stand is walked, and a shop without a key
  * for a marketplace is skipped rather than failed: not having connected Ozon
  * is a normal state of a shop.
+ *
+ * MP_SCHEDULER=off (Ivan, 2026-09-25 ~21:30 WITA, t-2026-09-25-23): the local
+ * backend now holds a copy of the live database next to the live encryption
+ * key, so its own five-minute tick must not call Wildberries or Ozon next to
+ * production. Off means off before anything else runs — no tenant lookup, no
+ * `runDueSyncs`, no marketplace request, no `mp_sync_run` row — and is logged
+ * once per process, not on every tick, or the log would be as noisy as the
+ * schedule it replaces. Unset, or any other value, changes nothing: production
+ * does not set this variable. `POST /tenants/marketplaces/sync` («Обновить
+ * сейчас») does not read it and keeps working with the switch on.
  */
+let loggedSchedulerOff = false;
+
 export default async function marketplaceSyncJob(container: MedusaContainer) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
+
+  if (process.env.MP_SCHEDULER === "off") {
+    if (!loggedSchedulerOff) {
+      logger.info(
+        "[mp-sync] расписание выключено (MP_SCHEDULER=off) — синхронизация только по кнопке «Обновить сейчас»",
+      );
+      loggedSchedulerOff = true;
+    }
+    return;
+  }
+
   const pg = container.resolve(ContainerRegistrationKeys.PG_CONNECTION);
   const tenantModule = container.resolve<TenantModuleService>(TENANT_MODULE);
 
