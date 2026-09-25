@@ -1,5 +1,6 @@
 import { getLocaleDir } from "@i18n/config"
 import { getRequestBaseURL } from "@lib/data/cookies"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getTenantAnalytics } from "@lib/data/analytics"
 import Analytics from "@modules/common/components/analytics"
 import { getSiteBranding } from "@lib/data/tenant-branding"
@@ -76,12 +77,13 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode, analytics, branding] = await Promise.all([
+  const [settings, tenantPreset, tenantMode, analytics, branding, olavka] = await Promise.all([
     getEffectiveSettings(),
     getTenantThemePreset(),
     getTenantModeDefault(),
     getTenantAnalytics(),
     getSiteBranding(),
+    isOlavkaShop(),
   ])
   // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
   // this parse only ever produces a clean integer or null, never NaN reaching
@@ -123,6 +125,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       data-mode={mode}
       className={[fontClassName, olavkaFontClassName].filter(Boolean).join(" ") || undefined}
       style={brandStyle}
+      // Branch-local (`redesign-olavka`): marks an Olavka shop (`OLAVKA_SHOP_HANDLES`) for
+      // the styles a client component or a portal cannot learn from the server: the product
+      // row tile's 1rem type (remark 17), the search input's focus ring (remark 18).
+      data-shop={olavka ? "olavka" : undefined}
     >
       <head>
         {/* Applies the visitor's stored choice before the first paint, so a reload

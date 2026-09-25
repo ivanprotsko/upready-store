@@ -22,7 +22,7 @@ const FOCUS_RING =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
 
 // BRANCH-LOCAL (`redesign-olavka`, Ivan's remark 17): the Olavka shops' price and name at
-// 1rem, as their catalog card. By the `data-shop` mark `(main)/layout.tsx` puts on the page,
+// 1rem, as their catalog card. By the `data-shop` mark the root layout puts on `<html>`,
 // because the «recently viewed» row renders this tile on the client.
 const OLAVKA_TEXT = "[[data-shop=olavka]_&]:text-base"
 

@@ -556,3 +556,34 @@ all 8 pairs).
 Shots `product-card-text/<chromium|firefox>-<olavka|acme>-<1440|390>-<home|store|category|product>-<before|after>.jpg`
 (acme in Chromium only). Logs `r17-*.log`, script `card17.mjs`. Before = :8233 at b825bfdb, after = dev :8234.
 The /store sidebar filter «Количество» (10 шт, 100 шт …) is a filter, not a card mark, and stays.
+
+## Remark 18 · the search overlay opens without a focus ring on its field (Ivan 2026-09-25)
+
+«нужно сделать так, чтобы когда поиск появлялся, то не появлялось фокусной состояние у строки поиска»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-18-search-no-focus-ring.md`.
+
+**The overlay is shared by all shops.** `src/modules/layout/components/search/index.tsx` is used by the Olavka navigation
+row, the bottom bar and headers h1–h6. Its field has `focus-visible:ring-2 ring-[var(--ring)]`, and a text field matches
+`:focus-visible` whenever it has focus, so the ring showed on every opening. Changed for Olavka only, as asked: the field
+gets `[[data-shop=olavka]_&]:focus-visible:ring-0`. Other shops keep the ring until Ivan decides for them.
+
+The dialog is a portal at the end of `<body>`, outside the page wrapper. So the Olavka mark `data-shop="olavka"` moved
+from the `(main)` wrapper (remark 17) to `<html>` in the root layout. The remark 17 row tile reads the same mark and is
+still 16/24 on olavka and 14/20 on acme after the move (re-measured on the product page at 1440 and 390).
+
+Headless Chromium and Firefox. At 1440 the overlay is opened with Cmd/Ctrl+K; Olavka has no visible search button there.
+At 390 it is opened with the bottom bar's button. Olavka values, identical in both engines:
+
+| | before | after |
+|---|---|---|
+| focus on open | the field («Поиск товаров»), `:focus-visible` | the same |
+| field ring (box-shadow) | 2px rgb(10,106,82) | 0px, no ring |
+| field outline / row border | transparent / rgb(215,227,222) | unchanged |
+| typing «асд» right away | goes into the field | the same |
+| Tab to «Очистить» | outline 2px rgb(10,106,82) | the same: other controls keep their ring |
+| Esc | overlay closed (0 dialogs) | the same |
+
+acme (another shop, Chromium, 1440 Cmd+K and 390 button): the ring is 2px rgb(214,255,59) before and after, unchanged.
+
+Shots `search-focus/<chromium|firefox>-<olavka|acme>-<1440-cmdk|390-button>-<before|after>.jpg`, crops of the field
+`search-focus/olavka-input-crops-before-after.png`, logs `r18-*.log`, script `search18.mjs`.
