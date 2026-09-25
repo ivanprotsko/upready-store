@@ -8,7 +8,7 @@ import type { PricingDocument } from "../schema";
  * Tiers, sections, rows, chips and tooltips come from the file's
  * `window.PRICING`, word for word; each tooltip sits on the card feature or row
  * whose text was its key there. The page texts come from its markup, with its
- * non-breaking spaces kept (` `), `<br>` as `\n` and `<b>` as `**`. Every
+ * non-breaking spaces kept (`\u00a0`), `<br>` as `\n` and `<b>` as `**`. Every
  * button keeps the file's `href`. The tier ids and the final block's
  * `tier_id` are this document's own: the file has neither.
  *

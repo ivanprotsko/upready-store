@@ -54,7 +54,7 @@ function readPricing(html: string): SourcePricing {
 /** A markup text the way the seed stores it: `&nbsp;` kept, `<br>` → `\n`, `<b>` → `**`. */
 function markup(fragment: string): string {
   return fragment
-    .replace(/&nbsp;/g, " ")
+    .replace(/&nbsp;/g, "\u00a0")
     .replace(/<br>/g, "\n")
     .replace(/<\/?b>/g, "**")
     .trim();
