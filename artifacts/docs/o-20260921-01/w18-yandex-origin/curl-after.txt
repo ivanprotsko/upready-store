@@ -1,0 +1,30 @@
+$ curl -sI -H 'Host: olavka.com' -H 'x-forwarded-proto: https' http://127.0.0.1:8273/api/yandex-callback
+HTTP/1.1 307 Temporary Redirect
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+location: https://olavka.com/en/account?yandex_error=rejected
+set-cookie: _yandex_return=; Path=/; Expires=Fri, 25 Sep 2026 02:58:50 GMT; Max-Age=-1
+set-cookie: _yandex_nonce=; Path=/; Expires=Fri, 25 Sep 2026 02:58:50 GMT; Max-Age=-1
+Date: Fri, 25 Sep 2026 02:58:51 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+$ curl -sI -H 'Host: olavka.com' -H 'x-forwarded-proto: https' -H 'Cookie: _medusa_locale=ru' http://127.0.0.1:8273/api/yandex-callback
+HTTP/1.1 307 Temporary Redirect
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+location: https://olavka.com/ru/account?yandex_error=rejected
+set-cookie: _yandex_return=; Path=/; Expires=Fri, 25 Sep 2026 02:58:50 GMT; Max-Age=-1
+set-cookie: _yandex_nonce=; Path=/; Expires=Fri, 25 Sep 2026 02:58:50 GMT; Max-Age=-1
+Date: Fri, 25 Sep 2026 02:58:51 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+$ curl -sI -H 'Host: olavka-com.localhost:8273' http://127.0.0.1:8273/api/yandex-callback
+HTTP/1.1 307 Temporary Redirect
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+location: http://olavka-com.localhost:8273/en/account?yandex_error=rejected
+set-cookie: _yandex_return=; Path=/; Expires=Fri, 25 Sep 2026 02:58:50 GMT; Max-Age=-1
+set-cookie: _yandex_nonce=; Path=/; Expires=Fri, 25 Sep 2026 02:58:50 GMT; Max-Age=-1
+Date: Fri, 25 Sep 2026 02:58:51 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+

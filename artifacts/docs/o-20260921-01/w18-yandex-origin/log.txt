@@ -1,0 +1,60 @@
+# W18 t-2026-09-25-01 — checks on 1236ac65 (2026-09-25T03:00:19Z)
+
+$ git grep -n "nextUrl.origin" apps/storefront/src/app/api/yandex-*
+apps/storefront/src/app/api/yandex-callback/route.ts:73:    requestOrigin(req.headers, req.nextUrl.protocol) || req.nextUrl.origin
+apps/storefront/src/app/api/yandex-login/route.ts:46:    requestOrigin(req.headers, req.nextUrl.protocol) || req.nextUrl.origin
+
+$ git grep -n "NextResponse.redirect\|secure:" -- "apps/storefront/src/app/api/yandex-*/route.ts"
+apps/storefront/src/app/api/yandex-callback/route.ts:83:      NextResponse.redirect(new URL(withError(returnTo, code), origin)),
+apps/storefront/src/app/api/yandex-callback/route.ts:248:    NextResponse.redirect(new URL(returnTo, origin)),
+apps/storefront/src/app/api/yandex-callback/route.ts:257:    secure: requestScheme(req.headers, req.nextUrl.protocol) === "https",
+apps/storefront/src/app/api/yandex-login/route.ts:81:      return NextResponse.redirect(
+apps/storefront/src/app/api/yandex-login/route.ts:88:    return NextResponse.redirect(new URL(withError(returnTo, "failed"), origin))
+apps/storefront/src/app/api/yandex-login/route.ts:91:  const response = NextResponse.redirect(location)
+apps/storefront/src/app/api/yandex-login/route.ts:98:    secure: requestScheme(req.headers, req.nextUrl.protocol) === "https",
+
+$ cd apps/storefront && npx tsc --noEmit
+exit 0
+
+$ cd apps/storefront && ESLINT_USE_FLAT_CONFIG=false npx eslint <4 changed .ts files>   (bare npx eslint 9 finds no flat config; the project lints through .eslintrc.json)
+exit 0
+
+$ cd apps/storefront && npx next lint --file <4 changed .ts files>
+✔ No ESLint warnings or errors
+exit 0
+
+$ cd apps/storefront && npx vitest run src/app/api/yandex-callback src/app/api/yandex-login
+ Test Files  2 passed (2)
+      Tests  10 passed (10)
+exit 0
+
+$ pnpm -C apps/storefront test   (corepack pnpm 10.11.1)
+> vitest run --passWithNoTests --exclude "**/node_modules/**" --exclude "**/.next/**" --exclude "tests/ui-lab/**" --exclude "tests/pdp/**" --exclude "e2e/**"
+ Test Files  48 passed (48)
+      Tests  415 passed (415)
+exit 0
+
+# mutation run (earlier, fallback "|| req.nextUrl.origin" removed from both routes, then restored):
+     × falls back to the request URL's origin when there is no Host header 3ms
+     × falls back to the request URL's origin when there is no Host header 2ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/app/api/yandex-callback/route.test.ts > GET /api/yandex-callback > falls back to the request URL's origin when there is no Host header
+TypeError: Invalid URL
+     81|   const fail = (code: YandexErrorCode) =>
+     83|       NextResponse.redirect(new URL(withError(returnTo, code), origin)…
+ FAIL  src/app/api/yandex-login/route.test.ts > GET /api/yandex-login > falls back to the request URL's origin when there is no Host header
+TypeError: Invalid URL
+     88|     return NextResponse.redirect(new URL(withError(returnTo, "failed")…
+      Tests  2 failed | 8 passed (10)
+
+# git apply --check (earlier, in a git archive a0e63d09 copy):
+Checking patch apps/storefront/src/app/api/yandex-callback/route.test.ts...
+Checking patch apps/storefront/src/app/api/yandex-callback/route.ts...
+Checking patch apps/storefront/src/app/api/yandex-login/route.test.ts...
+Checking patch apps/storefront/src/app/api/yandex-login/route.ts...
+Checking patch docs/auth-yandex.md...
+git apply --check exit 0
+
+# production builds (next build, node 22.22.3):
+unfixed: build exit 0
+fixed:   build exit 0

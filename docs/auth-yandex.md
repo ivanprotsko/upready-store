@@ -41,7 +41,7 @@ Yandex consent screen
 | [apps/storefront/src/app/api/yandex-callback](../apps/storefront/src/app/api/yandex-callback) | leg 2, the Redirect URI, sets the session |
 | [apps/storefront/src/modules/account/components/yandex-login](../apps/storefront/src/modules/account/components/yandex-login) | the control on the login page |
 
-## Three things that are easy to get wrong
+## Four things that are easy to get wrong
 
 **Declaring the auth module replaces Medusa's own.** `resolveModules` in
 `@medusajs/utils/dist/common/define-config.js` adds the auth module with
@@ -64,6 +64,21 @@ with HMAC-SHA256 under `JWT_SECRET` (else `COOKIE_SECRET`) and valid for ten
 minutes, which is how long a Yandex code lives. A signature alone is not a CSRF
 guard, so the storefront writes the state's `nonce` into an httpOnly cookie and
 the callback refuses a state carrying a different one.
+
+**Every redirect goes to the buyer's address, not to the URL Next parsed.**
+The image starts the standalone server with `HOSTNAME=0.0.0.0 PORT=8000`
+([Dockerfile](../apps/storefront/Dockerfile)) behind traefik, and in a route
+handler there `req.nextUrl.origin` is that bind address,
+`https://0.0.0.0:8000`. A callback built on it set `_medusa_jwt` on the shop's
+host and then sent the buyer to `https://0.0.0.0:8000/ru/account` (measured on
+olavka.com on 2026-09-25). Both route handlers therefore build every redirect
+on `requestOrigin` from
+[lib/tenant/origin.ts](../apps/storefront/src/lib/tenant/origin.ts), which reads
+the Host header and `x-forwarded-proto`, and the login leg builds the callback
+URL it hands to Yandex on the same value. `req.nextUrl.origin` is the fallback
+for a request with no Host only. The cookies' `Secure` flag follows the same
+scheme (`requestScheme`), so a stand on plain http still reads its cookies back.
+Keep `req.nextUrl.origin` out of any new redirect in these two files.
 
 ## What the Yandex application has to have
 

@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import crypto from "node:crypto"
 
+import { requestOrigin, requestScheme } from "@lib/tenant/origin"
 import {
   LOCALE_COOKIE,
   NONCE_COOKIE,
@@ -37,11 +38,12 @@ export async function GET(req: NextRequest) {
   // actually on, so every tenant domain works from its own address, and it
   // carries no locale: a locale in the path would mean 36 registrations per
   // host instead of one (the language travels inside the signed `state`).
+  // The error redirects below use the same origin: the URL Next parsed is the
+  // server's own bind address behind the proxy (on live
+  // `https://0.0.0.0:8000`), the fallback for a request with no Host only.
   const host = req.headers.get("host")
-  const proto =
-    req.headers.get("x-forwarded-proto") ??
-    req.nextUrl.protocol.replace(":", "")
-  const origin = host ? `${proto}://${host}` : req.nextUrl.origin
+  const origin =
+    requestOrigin(req.headers, req.nextUrl.protocol) || req.nextUrl.origin
   const callbackUrl = `${origin}/api/yandex-callback`
 
   const { handle } = await resolveShop(host)
@@ -77,15 +79,13 @@ export async function GET(req: NextRequest) {
         data.message ?? "",
       )
       return NextResponse.redirect(
-        new URL(withError(returnTo, "unconfigured"), req.nextUrl.origin),
+        new URL(withError(returnTo, "unconfigured"), origin),
       )
     }
     location = data.location
   } catch (err) {
     console.error("[yandex-login] backend unreachable:", err)
-    return NextResponse.redirect(
-      new URL(withError(returnTo, "failed"), req.nextUrl.origin),
-    )
+    return NextResponse.redirect(new URL(withError(returnTo, "failed"), origin))
   }
 
   const response = NextResponse.redirect(location)
@@ -95,7 +95,7 @@ export async function GET(req: NextRequest) {
     // cross-site GET, on which a "strict" cookie is withheld — the same reason
     // the payment return cookies are lax (AGENTS.md, «Cookie sameSite»).
     sameSite: "lax" as const,
-    secure: req.nextUrl.protocol === "https:",
+    secure: requestScheme(req.headers, req.nextUrl.protocol) === "https",
     path: "/",
     maxAge: TEN_MINUTES,
   }

@@ -1,0 +1,153 @@
+
+ RUN  v4.1.11 /Users/ivanprotsko/upready/worktrees/upready-store/fix/yandex-callback-origin/apps/storefront
+
+ ❯ src/app/api/yandex-login/route.test.ts (4 tests | 3 failed) 87ms
+     × reports an unconfigured backend on the shop's own address 80ms
+     × reports an unreachable backend on the shop's own address 1ms
+     × sends the buyer to the consent screen with Secure crossing cookies behind a TLS proxy 3ms
+ ❯ src/app/api/yandex-callback/route.test.ts (6 tests | 5 failed) 90ms
+     × sends a callback without code and state back to the shop's own address 79ms
+     × reports a denied consent on the shop's own address 3ms
+     × reports a nonce mismatch on the shop's own address 2ms
+     × returns a signed-in buyer to the page they started from, with a Secure session cookie 3ms
+     × keeps a plain-http stand on its own host and port, with a cookie that is not Secure 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/app/api/yandex-callback/route.test.ts > GET /api/yandex-callback > sends a callback without code and state back to the shop's own address
+AssertionError: expected 'http://0.0.0.0:8000/ru/account?yandex…' to be 'https://olavka.com/ru/account?yandex_…' // Object.is equality
+
+Expected: "https://olavka.com/ru/account?yandex_error=rejected"
+Received: "http://0.0.0.0:8000/ru/account?yandex_error=rejected"
+
+ ❯ src/app/api/yandex-callback/route.test.ts:84:41
+     82|
+     83|     expect(res.status).toBe(307)
+     84|     expect(res.headers.get("location")).toBe(
+       |                                         ^
+     85|       "https://olavka.com/ru/account?yandex_error=rejected",
+     86|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/app/api/yandex-callback/route.test.ts > GET /api/yandex-callback > reports a denied consent on the shop's own address
+AssertionError: expected 'http://0.0.0.0:8000/ru/account?yandex…' to be 'https://olavka.com/ru/account?yandex_…' // Object.is equality
+
+Expected: "https://olavka.com/ru/account?yandex_error=denied"
+Received: "http://0.0.0.0:8000/ru/account?yandex_error=denied"
+
+ ❯ src/app/api/yandex-callback/route.test.ts:96:41
+     94|
+     95|     expect(res.status).toBe(307)
+     96|     expect(res.headers.get("location")).toBe(
+       |                                         ^
+     97|       "https://olavka.com/ru/account?yandex_error=denied",
+     98|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/app/api/yandex-callback/route.test.ts > GET /api/yandex-callback > reports a nonce mismatch on the shop's own address
+AssertionError: expected 'http://0.0.0.0:8000/ru/account?yandex…' to be 'https://olavka.com/ru/account?yandex_…' // Object.is equality
+
+Expected: "https://olavka.com/ru/account?yandex_error=expired"
+Received: "http://0.0.0.0:8000/ru/account?yandex_error=expired"
+
+ ❯ src/app/api/yandex-callback/route.test.ts:109:41
+    107|
+    108|     expect(res.status).toBe(307)
+    109|     expect(res.headers.get("location")).toBe(
+       |                                         ^
+    110|       "https://olavka.com/ru/account?yandex_error=expired",
+    111|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/app/api/yandex-callback/route.test.ts > GET /api/yandex-callback > returns a signed-in buyer to the page they started from, with a Secure session cookie
+AssertionError: expected 'http://0.0.0.0:8000/ru/products/liver…' to be 'https://olavka.com/ru/products/liver-…' // Object.is equality
+
+Expected: "https://olavka.com/ru/products/liver-cleanse?variant=2"
+Received: "http://0.0.0.0:8000/ru/products/liver-cleanse?variant=2"
+
+ ❯ src/app/api/yandex-callback/route.test.ts:128:41
+    126|
+    127|     expect(res.status).toBe(307)
+    128|     expect(res.headers.get("location")).toBe(
+       |                                         ^
+    129|       "https://olavka.com/ru/products/liver-cleanse?variant=2",
+    130|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/app/api/yandex-callback/route.test.ts > GET /api/yandex-callback > keeps a plain-http stand on its own host and port, with a cookie that is not Secure
+AssertionError: expected 'http://0.0.0.0:8273/ru/account' to be 'http://olavka-com.localhost:8273/ru/a…' // Object.is equality
+
+Expected: "http://olavka-com.localhost:8273/ru/account"
+Received: "http://0.0.0.0:8273/ru/account"
+
+ ❯ src/app/api/yandex-callback/route.test.ts:146:41
+    144|
+    145|     expect(res.status).toBe(307)
+    146|     expect(res.headers.get("location")).toBe(
+       |                                         ^
+    147|       "http://olavka-com.localhost:8273/ru/account",
+    148|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/app/api/yandex-login/route.test.ts > GET /api/yandex-login > reports an unconfigured backend on the shop's own address
+AssertionError: expected 'http://0.0.0.0:8000/ru/account?yandex…' to be 'https://olavka.com/ru/account?yandex_…' // Object.is equality
+
+Expected: "https://olavka.com/ru/account?yandex_error=unconfigured"
+Received: "http://0.0.0.0:8000/ru/account?yandex_error=unconfigured"
+
+ ❯ src/app/api/yandex-login/route.test.ts:55:41
+     53|
+     54|     expect(res.status).toBe(307)
+     55|     expect(res.headers.get("location")).toBe(
+       |                                         ^
+     56|       "https://olavka.com/ru/account?yandex_error=unconfigured",
+     57|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/app/api/yandex-login/route.test.ts > GET /api/yandex-login > reports an unreachable backend on the shop's own address
+AssertionError: expected 'http://0.0.0.0:8000/ru/account?yandex…' to be 'https://olavka.com/ru/account?yandex_…' // Object.is equality
+
+Expected: "https://olavka.com/ru/account?yandex_error=failed"
+Received: "http://0.0.0.0:8000/ru/account?yandex_error=failed"
+
+ ❯ src/app/api/yandex-login/route.test.ts:69:41
+     67|
+     68|     expect(res.status).toBe(307)
+     69|     expect(res.headers.get("location")).toBe(
+       |                                         ^
+     70|       "https://olavka.com/ru/account?yandex_error=failed",
+     71|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  src/app/api/yandex-login/route.test.ts > GET /api/yandex-login > sends the buyer to the consent screen with Secure crossing cookies behind a TLS proxy
+AssertionError: expected '_yandex_return=%2Fru%2Faccount; Path=…' to match /;\s*Secure/i
+
+- Expected:
+/;\s*Secure/i
+
++ Received:
+"_yandex_return=%2Fru%2Faccount; Path=/; Expires=Fri, 25 Sep 2026 03:04:34 GMT; Max-Age=600; HttpOnly; SameSite=lax"
+
+ ❯ src/app/api/yandex-login/route.test.ts:97:20
+     95|     expect(crossing).toHaveLength(2)
+     96|     for (const line of crossing) {
+     97|       expect(line).toMatch(/;\s*Secure/i)
+       |                    ^
+     98|     }
+     99|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  8 failed | 2 passed (10)
+   Start at  10:54:33
+   Duration  381ms (transform 195ms, setup 0ms, import 238ms, tests 177ms, environment 0ms)
+
