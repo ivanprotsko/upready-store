@@ -585,6 +585,14 @@ export default defineMiddlewares({
       method: ["POST"],
       middlewares: adminUploadPostMiddlewares,
     },
+    // t-2026-09-25-n17: a packshot may start from a fresh upload (multipart
+    // `files`) instead of one of the product's images; JSON bodies pass multer
+    // untouched. The route validates its own body (`packshot/validators.ts`).
+    {
+      matcher: "/tenants/products/:id/packshot",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
+    },
 
     // ---- piece 1: product detail (/tenants/products/:id/**, variants, options)
     {
