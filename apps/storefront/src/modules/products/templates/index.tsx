@@ -181,9 +181,13 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             <ProductSelectionProvider product={product}>
               {/* Two columns from 1024: the content (row 1: cover and centre card, row 2:
                   the sections) and the buy box, which spans both rows so that its
-                  sticky box has the whole height of the content to travel along. */}
-              <div className="grid grid-cols-1 gap-4 small:grid-cols-[minmax(0,1fr)_24rem] small:gap-6">
-                <div className="flex min-w-0 flex-col gap-4 small:col-start-1 small:row-start-1 small:gap-6">
+                  sticky box has the whole height of the content to travel along. This
+                  reuses the normal product page's own three-way grid template, with the
+                  content spanning the first two columns, so the buy box lands on exactly
+                  the same width as on every other product page (t-2026-09-25-18, 2.2) —
+                  a fixed-width column here used to disagree with it. */}
+              <div className="grid grid-cols-1 gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1fr)] small:gap-6">
+                <div className="flex min-w-0 flex-col gap-4 small:col-span-2 small:col-start-1 small:row-start-1 small:gap-6">
                   {cover ? (
                     <>
                       <div
@@ -207,7 +211,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                   )}
                 </div>
 
-                <div className="min-w-0 small:col-start-2 small:row-span-2 small:row-start-1">
+                <div className="min-w-0 small:col-start-3 small:row-span-2 small:row-start-1">
                   <aside
                     className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
                     data-testid="product-buy-card"
@@ -217,7 +221,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                 </div>
 
                 <div
-                  className="flex min-w-0 flex-col gap-4 small:col-start-1 small:row-start-2 small:gap-6"
+                  className="flex min-w-0 flex-col gap-4 small:col-span-2 small:col-start-1 small:row-start-2 small:gap-6"
                   data-testid="course-sections"
                 >
                   {page && <CourseAbout sections={page.about} />}
