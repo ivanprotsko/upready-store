@@ -6,6 +6,7 @@ import {
   matchBrowserLocale,
 } from "@i18n/config"
 import { COUNTRY_HEADER, resolveCountry, type RegionMap } from "@lib/geolocation"
+import { matchCourseSlugPath, resolveCourseProductHandle } from "@lib/tenant/course-redirect"
 import {
   TENANT_HEADERS,
   encodeTenantHeaderValue,
@@ -499,6 +500,29 @@ export async function middleware(request: NextRequest) {
   // The locale of THIS request, whether it came from the URL or was just
   // negotiated. The country is resolved from it, so it has to be known first.
   const locale = hasLocaleInUrl ? (firstSegment as string) : entryLocale
+
+  // A course's old `/course-<slug>` (or `/<locale>/course-<slug>`) address
+  // (t-2026-09-25-17): the panel used to print this as the course's own
+  // address, but no storefront route ever served it — a course is sold on
+  // its product's own page. An unknown slug (or no course module reachable)
+  // falls through to this app's normal 404, the locale-prefix redirect above
+  // included: a locale-less unknown slug still gets ONE 302 to
+  // `/${locale}/course-<slug>` before that.
+  const courseSlugMatch = matchCourseSlugPath(segments, isAppLocale)
+  if (courseSlugMatch) {
+    const handle = await resolveCourseProductHandle(
+      BACKEND_URL ?? "",
+      publishableKey,
+      courseSlugMatch.slug
+    )
+    if (handle) {
+      const target = new URL(
+        `/${courseSlugMatch.locale ?? locale}/products/${handle}${request.nextUrl.search}`,
+        request.url
+      )
+      return NextResponse.redirect(target, 308)
+    }
+  }
 
   // Region detection is owned by @lib/geolocation. It reads the visitor's
   // country from the _medusa_country cookie, or the locale map, or resolves it

@@ -89,3 +89,86 @@ describe("middleware cookies", () => {
     expect(setCookieNames(response)).not.toContain("_medusa_locale")
   })
 })
+
+/**
+ * t-2026-09-25-17: the panel used to print `/course-<slug>` as a course's own
+ * address, but no storefront route ever served it. The wiring under test:
+ * `middleware.ts` matching the path and calling the new
+ * `/store/tenant/courses/by-slug/:slug` lookup; `course-redirect.test.ts`
+ * covers `matchCourseSlugPath`/`resolveCourseProductHandle` themselves in
+ * isolation.
+ */
+describe("course slug redirect", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.unstubAllEnvs()
+  })
+
+  const stubFetch = () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+
+        if (url.includes("/store/regions")) {
+          return json({ regions: [{ id: "reg_ru", countries: [{ iso_2: "ru" }] }] })
+        }
+        if (url.includes("/store/tenant/courses/by-slug/superkurs")) {
+          return json({ product_handle: "liver-cleanse" })
+        }
+        // Every other backend call this request touches (tenant-by-host, the
+        // redirect table, an unknown course slug): single-store mode, no
+        // redirect rows, no course.
+        return json({}, 404)
+      })
+    )
+  }
+
+  it("308s a bare /course-<slug> to the negotiated locale's product page", async () => {
+    stubFetch()
+    const middleware = await loadMiddleware()
+
+    const response = await middleware(
+      new NextRequest("http://shop.test/course-superkurs", {
+        headers: { host: "shop.test", "accept-language": "ru" },
+      })
+    )
+
+    expect(response.status).toBe(308)
+    expect(response.headers.get("location")).toBe(
+      "http://shop.test/ru/products/liver-cleanse"
+    )
+  })
+
+  it("308s /<locale>/course-<slug> to that same locale's product page", async () => {
+    stubFetch()
+    const middleware = await loadMiddleware()
+
+    const response = await middleware(
+      new NextRequest("http://shop.test/en/course-superkurs", {
+        headers: { host: "shop.test" },
+      })
+    )
+
+    expect(response.status).toBe(308)
+    expect(response.headers.get("location")).toBe(
+      "http://shop.test/en/products/liver-cleanse"
+    )
+  })
+
+  it("falls through to the normal 302 locale redirect for an unknown slug, no invented 308", async () => {
+    stubFetch()
+    const middleware = await loadMiddleware()
+
+    const response = await middleware(
+      new NextRequest("http://shop.test/course-does-not-exist", {
+        headers: { host: "shop.test", "accept-language": "ru" },
+      })
+    )
+
+    expect(response.status).toBe(302)
+    expect(response.headers.get("location")).toBe(
+      "http://shop.test/ru/course-does-not-exist"
+    )
+  })
+})

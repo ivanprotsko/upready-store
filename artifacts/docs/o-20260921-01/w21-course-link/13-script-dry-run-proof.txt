@@ -1,0 +1,37 @@
+=== reviewer's blocker (t-2026-09-25-17, PR #160 review): stand_pids() excluded descendants of $$
+    but not ANCESTORS. Fix: exclude $$ AND its whole ancestor chain up to pid 1, in addition to
+    descendants. Proof below uses LITERAL directory paths (not shell variables) in every invocation,
+    exactly like a real caller would, and the reviewer's own case: running the script through a
+    `zsh -c` wrapper whose own command line names the target dir (that IS how this agent's Bash tool
+    itself invokes every command here, confirmed by inspecting $$'s own ppid chain first).
+
+dir A = /private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-fix-olavka-course-link-cleanup/0fe1f93a-ebb2-4f78-937b-06aa86709720/scratchpad/w21v2-a
+dir B = /private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-fix-olavka-course-link-cleanup/0fe1f93a-ebb2-4f78-937b-06aa86709720/scratchpad/w21v2-b
+PID_A=73846 PID_B=73847
+73846 73843 npm exec medusa develop 600
+73847 73843 npm exec medusa develop 600
+
+=== 1) plain --dry-run against dir A, literal path, x3 — must list ONLY PID_A ===
+dry-run: would stop: 73846 
+73846 73843 Fri Sep 25 17:27:00 2026     npm exec medusa develop 600
+dry-run: would stop: 73846 
+73846 73843 Fri Sep 25 17:27:00 2026     npm exec medusa develop 600
+dry-run: would stop: 73846 
+73846 73843 Fri Sep 25 17:27:00 2026     npm exec medusa develop 600
+
+=== 2) plain --dry-run against dir B, literal path — must list ONLY PID_B ===
+dry-run: would stop: 73847 
+73847 73843 Fri Sep 25 17:27:00 2026     npm exec medusa develop 600
+
+=== 3) the reviewer's exact ancestor-shell case: script invoked via a wrapper shell whose OWN command
+    line names the dir (my Bash tool's own zsh -c wrapper already does this for every call below;
+    also nesting one more explicit zsh -c to match their repro literally) ===
+--- via zsh -c, dir A ---
+dry-run: would stop: 73846 
+73846 73843 Fri Sep 25 17:27:00 2026     npm exec medusa develop 600
+--- via zsh -c, dir B ---
+dry-run: would stop: 73847 
+73847 73843 Fri Sep 25 17:27:00 2026     npm exec medusa develop 600
+
+=== cleanup: killing only the two dummy PIDs by exact number ===
+(no rows above = both dummies gone)

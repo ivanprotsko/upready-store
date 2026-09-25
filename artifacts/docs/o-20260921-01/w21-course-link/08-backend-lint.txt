@@ -1,0 +1,260 @@
+[32minfo[39m:    Linting project...
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/b07-emit-order-placed.ts
+  24:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/b07-seed-isolation-orders.ts
+  138:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  151:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  184:12  warning  `total: 1355` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+  210:12  warning  `total: 4200` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/b08-collections-stand.ts
+  34:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  44:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/b08-seed-delivery-page.ts
+  35:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/b12-seed-analytics-accuracy.ts
+  60:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  65:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  73:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/b13-locale-shipping-names.ts
+  51:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/f12-seed-test-order.ts
+  42:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  46:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/o24-seed-courses.ts
+  87:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/o24-seed-digital-shipping-option.ts
+   49:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+   88:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+   99:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  124:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/o26-course-page-payload.ts
+  65:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/o26-seed-course-page-content.ts
+  41:9   warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  59:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/p01-stand-setup.ts
+  62:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/t13-seed-test-tenant.ts
+   58:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+   92:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  105:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/t17-seed-test-tenant.ts
+   52:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+   93:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  128:28  warning  `total: 2500` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+  129:28  warning  `total: 1800` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+  130:28  warning  `total: 3200` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+  131:28  warning  `total: 1200` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/w14-ambiguous-article.ts
+  41:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/scripts/fixtures/w14-stand-owner-password.ts
+  28:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/cdek/webhook/route.ts
+  113:9  warning  Avoid calling `fulfillmentModule.updateFulfillment(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/store/tenant/courses/[id]/lessons/[lessonId]/viewed/route.ts
+  58:11  warning  Avoid calling `courseService.createCourseProgresses(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/store/tenant/reviews/route.ts
+  185:25  warning  Avoid calling `reviewService.createProductReviews(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/telegram/link/route.ts
+  105:9  warning  Avoid calling `tenantModule.updateTenantNotificationSettings(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/analytics/route.ts
+  58:25  warning  Avoid calling `tenantModuleService.updateTenants(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/articles/[slug]/route.ts
+  135:13  warning  Avoid calling `tenantModuleService.updateTenantArticles(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  140:23  warning  Avoid calling `tenantModuleService.updateTenantArticles(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  189:9   warning  Avoid calling `tenantModuleService.deleteTenantArticles(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/articles/route.ts
+  99:25  warning  Avoid calling `tenantModuleService.createTenantArticles(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/branding/route.ts
+  54:25  warning  Avoid calling `tenantModuleService.updateTenants(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/courses/[id]/lessons/[lessonId]/route.ts
+  28:25  warning  Avoid calling `courseService.updateLessons(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  48:9   warning  Avoid calling `courseService.deleteLessons(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/courses/[id]/lessons/reorder/route.ts
+  43:44  warning  Avoid calling `courseService.updateLessons(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/courses/[id]/lessons/route.ts
+  42:25  warning  Avoid calling `courseService.createLessons(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/courses/[id]/route.ts
+  61:25  warning  Avoid calling `courseService.updateCourses(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  91:11  warning  Avoid calling `courseService.deleteLessons(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  93:9   warning  Avoid calling `courseService.deleteCourses(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/courses/route.ts
+  67:25  warning  Avoid calling `courseService.createCourses(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/delivery-settings/route.ts
+  127:17  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status                                                          @medusajs/use-medusa-error-not-generic-error
+  153:11  warning  Avoid calling `tenantModule.updateTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  160:11  warning  Avoid calling `tenantModule.createTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  213:15  warning  Avoid calling `tenantModule.updateTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  237:11  warning  Avoid calling `tenantModule.softDeleteTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/domains/[id]/primary/route.ts
+   86:11  warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+   89:9   warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  115:9   warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/login-settings/route.ts
+  35:25  warning  Avoid calling `tenantModuleService.updateTenants(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/marketplaces/catalog/links/[id]/route.ts
+  29:9  warning  Avoid calling `mp.softDeleteMpLinks(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/marketplaces/catalog/links/route.ts
+  67:13  warning  Avoid calling `mp.updateMpLinks(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  68:13  warning  Avoid calling `mp.createMpLinks(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/marketplaces/sync/route.ts
+  96:17  warning  Avoid calling `mp.createMpApiCalls(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/me/password/route.ts
+  76:45  warning  Avoid calling `authModuleService.updateProvider(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/me/switch/route.ts
+   72:20  warning  Avoid calling `tenantModuleService.createTenantAdmins(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  110:9   warning  Avoid calling `authModuleService.updateAuthIdentities(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/ozon/status/route.ts
+  84:15  warning  Avoid calling `ozon.createOzonApiCalls(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/pages/[key]/route.ts
+  108:13  warning  Avoid calling `tenantModuleService.updateTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  118:13  warning  Avoid calling `tenantModuleService.createTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  170:9   warning  Avoid calling `tenantModuleService.deleteTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/pages/route.ts
+  78:25  warning  Avoid calling `tenantModuleService.createTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/payment-settings/manual/route.ts
+  66:25  warning  Avoid calling `tenantModuleService.updateTenants(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/product-attributes/[id]/route.ts
+   85:13  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`   @medusajs/no-service-mutations-in-api-route
+   92:9   warning  Avoid calling `tenantModuleService.updateTenantProductAttributes(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`        @medusajs/no-service-mutations-in-api-route
+  120:13  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`   @medusajs/no-service-mutations-in-api-route
+  125:11  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  133:13  warning  Avoid calling `tenantModuleService.updateTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  148:27  warning  Avoid calling `tenantModuleService.createTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  194:11  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`   @medusajs/no-service-mutations-in-api-route
+  203:11  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  208:9   warning  Avoid calling `tenantModuleService.deleteTenantProductAttributes(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`        @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/product-attributes/route.ts
+  78:25  warning  Avoid calling `tenantModuleService.createTenantProductAttributes(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`        @medusajs/no-service-mutations-in-api-route
+  95:33  warning  Avoid calling `tenantModuleService.createTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/products/[id]/attributes/route.ts
+  131:13  warning  Avoid calling `tenantModuleService.updateTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  138:11  warning  Avoid calling `tenantModuleService.createTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  147:11  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/products/import/[import_id]/confirm/route.ts
+   89:27  warning  Avoid calling `tenantModule.updateTenantProductImports(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  114:25  warning  Avoid calling `tenantModule.updateTenantProductImports(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/products/import/[import_id]/route.ts
+  35:9  warning  Avoid calling `tenantModule.deleteTenantProductImports(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/products/import/route.ts
+  143:25  warning  Avoid calling `tenantModule.createTenantProductImports(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/redirects/[id]/route.ts
+  27:9   warning  Avoid calling `tenantModuleService.deleteTenantRedirects(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  74:25  warning  Avoid calling `tenantModuleService.updateTenantRedirects(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/redirects/route.ts
+  63:25  warning  Avoid calling `tenantModuleService.createTenantRedirects(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/reviews/[id]/route.ts
+  55:9  warning  Avoid calling `reviewService.updateProductReviews(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  84:9  warning  Avoid calling `reviewService.softDeleteProductReviews(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/seo-verification/route.ts
+  48:25  warning  Avoid calling `tenantModuleService.updateTenants(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/wb/fbs-orders/validators.ts
+  1:19  warning  Import Zod from `@medusajs/framework/zod` instead of `zod`  @medusajs/zod-import-source
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/api/tenants/wb/write-settings/route.ts
+  187:13  warning  Avoid calling `service.updateMarketplaceWriteSettings(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  193:13  warning  Avoid calling `service.createMarketplaceWriteSettings(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  213:15  warning  Avoid calling `service.deleteMarketplaceWriteConsents(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  221:13  warning  Avoid calling `service.updateMarketplaceWriteConsents(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  228:13  warning  Avoid calling `service.createMarketplaceWriteConsents(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/config/production-env.ts
+  36:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/modules/marketplace-write/types.ts
+  1:30  warning  Import Zod from `@medusajs/framework/zod` instead of `zod`  @medusajs/zod-import-source
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/modules/marketplace/registry.ts
+  29:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/modules/ozon/adapter.ts
+   73:9   warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  210:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/modules/ozon/fixtures.ts
+  262:16  warning  `price: 1290` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)  @medusajs/prices-in-major-units
+  393:20  warning  `price: 1290` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)  @medusajs/prices-in-major-units
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/modules/tariff-fulfillment/service.ts
+  66:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/modules/wb-write/write-endpoints.ts
+  1:19  warning  Import Zod from `@medusajs/framework/zod` instead of `zod`  @medusajs/zod-import-source
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/modules/wb/adapter.ts
+   55:9   warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  148:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/scripts/import-cherkashina-reviews.ts
+   81:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  194:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  228:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/shipping-tariffs/ru-zone-presets.ts
+  163:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/shipping-tariffs/tariff.ts
+  225:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  240:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  246:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  256:15  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  272:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/backend/src/store-order-access/token.ts
+  38:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+✖ 125 problems (0 errors, 125 warnings)
+  0 errors and 3 warnings potentially fixable with the `--fix` option.
+[33mwarn[39m:    Lint produced 125 warning(s).

@@ -1,0 +1,100 @@
+file:///Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/tenant-panel/src/__tests__/course-editor.test.mjs:8
+  buildCourseStorefrontUrl,
+  ^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module '../routes/courses/course-labels.ts' does not provide an export named 'buildCourseStorefrontUrl'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:463:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:561:5)
+    at async node:internal/modules/esm/loader:650:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v26.8.1
+✖ src/__tests__/course-editor.test.mjs (113.134375ms)
+✔ offers exactly the three methods the task named, each backed by its own i18n key (5.021583ms)
+✔ the Yandex-inclusive options are disabled without platform keys; email alone is not (0.119875ms)
+✔ the honest hint about missing Yandex keys is conditioned on the same flag that disables the options (0.082875ms)
+✔ yandexAvailable comes from the backend's own platform flag, never guessed on the panel side (0.065917ms)
+✔ the block disables itself while the setting is loading or saving, the same rule-19h shape as SEO verification (0.068ms)
+✔ a save reports its own outcome as a toast, success and failure both (0.068125ms)
+✔ the setting round-trips through GET/PUT /tenants/login-settings, one field, no per-field merge (0.053333ms)
+✔ isFetchError recognizes a 401 FetchError and rejects a plain Error (0.488583ms)
+✔ a 401 redirects to /login before the generic error screen is built (0.249083ms)
+✔ a non-auth failure (e.g. 500) falls through to the generic error screen, not a redirect (0.188041ms)
+✔ the button is disabled while the mutation is pending (5.096666ms)
+✔ while running the button shows the spinner and the running label, not the idle one (0.228917ms)
+✔ a successful run reports what started and what was skipped, never just one of them (0.240833ms)
+✔ a failed request (e.g. 409 «уже идёт») reports the backend's own message, not a silent failure (0.262292ms)
+✔ a finished run invalidates the sync query so the status table refreshes on its own (0.096584ms)
+✔ no navigation target in the panel carries an anchor (264.419ms)
+✔ every sidebar target resolves to a route registered in app.tsx (1.467417ms)
+✔ the addresses Ivan named on 2026-09-16 are registered (0.219084ms)
+✖ no file under apps/tenant-panel/src links to a medusajs.com URL (240.0015ms)
+✔ every route of app.tsx is listed in the owner route manifest (1.631542ms)
+✔ the manifest lists no screen the router does not have (1.566125ms)
+✔ connectedMethodKeys lists nothing when the shop connected nothing (1.395042ms)
+✔ connectedMethodKeys names Robokassa and each manual kind that is connected (0.199875ms)
+✔ connectedMethodKeys never lists the demo card as a connected method (0.073208ms)
+✔ isDemoOnly mirrors the resolver's own demo flag (1.644ms)
+✔ castNumber accepts a comma decimal separator and rejects garbage (1.601625ms)
+✔ an unparsable price aborts the save before it reaches the server (0.150542ms)
+✔ the drawer only closes after the save actually succeeds (0.183ms)
+✔ the section renders nothing for a shop with one site (0.815042ms)
+✔ a product another site owns is read-only (0.107708ms)
+✔ only the sites of the owner's own client are offered (0.064083ms)
+✔ saves site_scope through POST /tenants/products/:id (0.063584ms)
+✔ the product card mounts the section (0.057166ms)
+✔ Russian copy: «Сайты», «на всех моих сайтах», never the word group (0.791542ms)
+✔ the profile card no longer renders the standing ChangePasswordSection (1.59275ms)
+✔ the profile card's «Пароль» row opens the password drawer route (1.680792ms)
+✔ /settings/profile/password is registered next to /settings/profile/edit (0.596791ms)
+✔ every password field in login and profile uses the Russian PasswordInput (1.22225ms)
+✔ ShopSwitcher hides itself with one shop or fewer (3.262ms)
+✔ ShopSwitcher lists every shop GET /tenants/me/shops returns, by name (0.493916ms)
+✔ ShopSwitcher calls the switch mutation with the chosen shop's id, and reloads on success (0.078834ms)
+✔ useMyShops reads GET /tenants/me/shops (0.293916ms)
+✔ useSwitchShop posts to /tenants/me/switch and turns the token into this session's cookie (0.166542ms)
+✔ the section is «Сайты» in the settings menu and a registered route (0.560584ms)
+✔ reads GET /tenants/sites and creates through POST /tenants/sites (0.165833ms)
+✔ a new site refreshes the header's shop switcher too (0.070334ms)
+✔ another site opens through the existing switcher, not a second one (0.067083ms)
+✔ the form sends name, handle and the two copy flags, and nothing naming a source (0.082416ms)
+✔ Russian copy never says «группа», and en/ru carry the same keys (0.646167ms)
+✔ the user menu links to neither the Medusa docs nor the Medusa changelog (0.491833ms)
+✔ the user menu imports no icon used only by the removed links (0.081ms)
+✔ removing the two items leaves no doubled separator (0.764041ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 51
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 335.074333
+
+✖ failing tests:
+
+test at src/__tests__/course-editor.test.mjs:1:1
+✖ src/__tests__/course-editor.test.mjs (113.134375ms)
+  'test failed'
+
+test at src/__tests__/no-medusajs-com-links.test.mjs:42:1
+✖ no file under apps/tenant-panel/src links to a medusajs.com URL (240.0015ms)
+  AssertionError [ERR_ASSERTION]: medusajs.com URL found outside __tests__ in: /Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx
+  + actual - expected
+  
+  + [
+  +   '/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/tenant-panel/src/__tests__/no-medusajs-com-links.test.mjs:47:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ '/Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

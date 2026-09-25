@@ -14,6 +14,10 @@ import {
   useTenantCourse,
   useUpdateTenantCourse,
 } from "../../../hooks/api/courses"
+import { useDomains } from "../../../hooks/api/domains"
+import { useTenantLocaleSettings } from "../../../hooks/api/locale-settings"
+import { useProduct } from "../../../hooks/api/products"
+import { buildCourseStorefrontUrl } from "../course-labels"
 
 // o24-courses: one page for everything an owner does with a course, the same
 // shape `product-attributes/attribute-edit` uses (view and edit share the page,
@@ -30,6 +34,22 @@ export const CourseDetail = () => {
   const { mutateAsync: remove, isPending: isDeleting } = useDeleteTenantCourse(id)
   const { mutateAsync: reorder } = useReorderTenantLessons(id)
   const { mutateAsync: deleteLesson, isPending: isDeletingLesson } = useDeleteTenantLesson(id)
+
+  // The course's real, clickable storefront address (t-2026-09-25-17): the
+  // shop's own host, the same `OpenShop` (`layout/shell/shell.tsx`) already
+  // reads, plus the product page the course sells on. `useProduct` is only
+  // enabled once the course itself has loaded, so it never fires with an
+  // empty `product_id`.
+  const { primary_host: primaryHost } = useDomains()
+  const { locale_settings: localeSettings } = useTenantLocaleSettings()
+  const { product } = useProduct(course?.product_id ?? "", undefined, {
+    enabled: Boolean(course?.product_id),
+  })
+  const storefrontUrl = buildCourseStorefrontUrl(
+    primaryHost,
+    localeSettings?.default_locale,
+    product?.handle
+  )
 
   const [title, setTitle] = useState("")
   const [slug, setSlug] = useState("")
@@ -126,7 +146,21 @@ export const CourseDetail = () => {
           <div className="flex flex-col gap-y-1">
             <Heading level="h2">{course.title}</Heading>
             <Text size="small" className="text-ui-fg-subtle font-mono">
-              /course-{course.slug}
+              {storefrontUrl ? (
+                <a
+                  href={storefrontUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-testid="course-storefront-link"
+                  className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline"
+                >
+                  {storefrontUrl}
+                </a>
+              ) : product?.handle ? (
+                `/${localeSettings?.default_locale ?? "ru"}/products/${product.handle}`
+              ) : (
+                "…"
+              )}
             </Text>
           </div>
           <div className="flex items-center gap-x-2">

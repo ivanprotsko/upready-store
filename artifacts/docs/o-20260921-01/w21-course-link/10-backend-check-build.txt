@@ -1,0 +1,18 @@
+
+> gorgo-medusa-dtc-starter-monorepo@ check:backend-build /Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup
+> cd apps/backend && npx medusa build --lint false
+
+npm warn Unknown env config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown env config "enable-pre-post-scripts". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    Generating types...
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.
+[32minfo[39m:    Types generated successfully
+[32minfo[39m:    Starting build...
+[32minfo[39m:    Compiling backend source...
+[32minfo[39m:    Removing existing ".medusa/server" folder
+[32minfo[39m:    Compiling frontend source...
+[32minfo[39m:    Backend build completed successfully (61.53s)
+[32minfo[39m:    Frontend build completed successfully (125.17s)
