@@ -43,6 +43,17 @@ export type ProductSelection = {
   detailsOpenerRef: RefObject<HTMLButtonElement | null>
 }
 
+/**
+ * The value `?v_id=` should carry, or `null` to remove it. A product with exactly one
+ * variant has no choice to mirror: the parameter would only ever name that one variant,
+ * noise on a link that already resolves to it without it. A product with a real choice
+ * (more than one variant) keeps the parameter, naming whichever variant is selected.
+ */
+export const variantIdForUrl = (
+  variantCount: number,
+  selectedVariantId: string | undefined
+): string | null => (variantCount > 1 ? selectedVariantId ?? null : null)
+
 /** A variant's options as `{ [option_id]: value }`, the shape a choice is compared in. */
 export const optionsAsKeymap = (
   variantOptions: HttpTypes.StoreProductVariant["options"]
@@ -64,7 +75,10 @@ const ProductSelectionContext = createContext<ProductSelection | null>(null)
  *
  * A one-variant product is chosen from the first render, on the server as well, so the
  * price and the button never flash through a "select a variant" state. The chosen
- * variant is mirrored into `?v_id=` so a shared link opens on the same choice.
+ * variant is mirrored into `?v_id=` so a shared link opens on the same choice, except
+ * on a one-variant product: there is no choice to name, so the parameter never appears
+ * (and is stripped if a link somehow arrives carrying it, e.g. its own JSON-LD offer URL,
+ * which always names the variant).
  */
 export function ProductSelectionProvider({
   product,
@@ -104,9 +118,11 @@ export function ProductSelectionProvider({
 
   const isValidVariant = selectedVariant !== undefined
 
+  const variantCount = product.variants?.length ?? 0
+
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString())
-    const value = selectedVariant?.id ?? null
+    const value = variantIdForUrl(variantCount, selectedVariant?.id)
 
     if (params.get("v_id") === value) {
       return
@@ -119,7 +135,7 @@ export function ProductSelectionProvider({
     }
 
     router.replace(pathname + "?" + params.toString(), { scroll: false })
-  }, [selectedVariant, pathname, router, searchParams])
+  }, [selectedVariant, variantCount, pathname, router, searchParams])
 
   const value = useMemo<ProductSelection>(
     () => ({
