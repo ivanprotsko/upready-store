@@ -118,15 +118,7 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
                     <span>
                       <Trans
                         i18nKey="profile.edit.usageInsightsHint"
-                        components={[
-                          <a
-                            key="hint-link"
-                            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover transition-fg underline"
-                            href="https://docs.medusajs.com/resources/usage#admin-analytics"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          />,
-                        ]}
+                        components={[<span key="hint-link" />]}
                       />
                     </span>
                   </Form.Hint>
