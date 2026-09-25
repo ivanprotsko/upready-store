@@ -21,6 +21,7 @@
 import { revalidateTag } from "next/cache"
 import { NextRequest, NextResponse } from "next/server"
 
+import { requestOrigin, requestScheme } from "@lib/tenant/origin"
 import {
   LOCALE_COOKIE,
   NONCE_COOKIE,
@@ -64,6 +65,13 @@ export async function GET(req: NextRequest) {
   // login page is where the error message is rendered.
   const returnTo = sanitizeReturnPath(cookieReturn ?? accountPath(locale))
 
+  // Every redirect goes back to the address the buyer is on. The URL Next
+  // parsed is the server's own bind address behind the proxy (on live
+  // `https://0.0.0.0:8000`), so it is only the fallback for a request with no
+  // Host at all (docs/auth-yandex.md, «Four things that are easy to get wrong»).
+  const origin =
+    requestOrigin(req.headers, req.nextUrl.protocol) || req.nextUrl.origin
+
   const clearCrossing = (res: NextResponse) => {
     res.cookies.set(RETURN_COOKIE, "", { path: "/", maxAge: -1 })
     res.cookies.set(NONCE_COOKIE, "", { path: "/", maxAge: -1 })
@@ -72,9 +80,7 @@ export async function GET(req: NextRequest) {
 
   const fail = (code: YandexErrorCode) =>
     clearCrossing(
-      NextResponse.redirect(
-        new URL(withError(returnTo, code), req.nextUrl.origin),
-      ),
+      NextResponse.redirect(new URL(withError(returnTo, code), origin)),
     )
 
   const query = req.nextUrl.searchParams
@@ -239,15 +245,16 @@ export async function GET(req: NextRequest) {
 
   // --- 4. session cookie, cart transfer, cache invalidation ------------------
   const response = clearCrossing(
-    NextResponse.redirect(new URL(returnTo, req.nextUrl.origin)),
+    NextResponse.redirect(new URL(returnTo, origin)),
   )
 
-  // Same semantics as setAuthToken() in lib/data/cookies.ts.
+  // Same semantics as setAuthToken() in lib/data/cookies.ts. Secure on the
+  // scheme the buyer is on, which behind a TLS proxy is not the URL's.
   response.cookies.set("_medusa_jwt", token, {
     maxAge: 60 * 60 * 24 * 7,
     httpOnly: true,
     sameSite: "lax",
-    secure: req.nextUrl.protocol === "https:",
+    secure: requestScheme(req.headers, req.nextUrl.protocol) === "https",
     path: "/",
   })
 
