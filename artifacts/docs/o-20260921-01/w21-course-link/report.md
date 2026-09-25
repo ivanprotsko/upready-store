@@ -74,7 +74,7 @@ process as this stand's own when: the listener is on THIS stand's `$PORT`, or th
 process's own working directory (`lsof -a -d cwd`) or full command line names THIS stand's
 `$DIR` — never the bare "medusa develop" pattern, which names no stand at all.
 
-Getting this right took three iterations, documented in the script's own comments:
+Getting this right took four iterations, documented in the script's own comments:
 
 1. `awk -v dir="$DIR" '...'` bakes `$DIR` into **awk's own argv**, which `ps` then reports
    back, so the search matched awk's own helper process. Fixed by passing `$DIR` through
@@ -87,10 +87,26 @@ Getting this right took three iterations, documented in the script's own comment
    helper subshells (each with a different pid). Fixed by walking each `cwd`/`cmdline`
    candidate's ppid chain and dropping it if that chain leads back to `$$`, or if the
    candidate is already dead by the time it's checked.
-3. Verified against the actual proof recipe from the brief (see
+3. **PR review caught a fourth case** (t-2026-09-25-17, `upready-store-04`): the walk above
+   only excluded `$$` and its *descendants*, never its *ancestors* — so whatever invoked
+   the script (a caller's own shell, an agent's `sh -c "… stand-restart-backend.sh $DIR …"`
+   wrapper) self-matched too, since `$DIR` sits right there in ITS command line one level
+   up. A real run would have killed the shell that started it. My own first proof round
+   missed this because I had passed the directory through a shell VARIABLE
+   (`"$DIR_A"`) inside my own test commands — `ps` shows a process's argv as the literal
+   bytes it was exec'd with, so the wrapping shell's own row still read the unexpanded
+   `$DIR_A` text, never the real path, which hid the bug. The reviewer's repro used a
+   literal path directly, the way `AGENTS.md`'s own usage example and any real caller
+   would, which is what surfaced it. Fixed by also computing the full ancestor chain of
+   `$$` up to pid 1 once per call and excluding every pid in it, in addition to the
+   existing descendant walk.
+4. Re-verified against the brief's proof recipe with **literal paths** this time (see
    `13-script-dry-run-proof.txt`): two dummy `npm exec medusa develop`-named processes, one
-   with cwd in dir A, one in dir B, `--dry-run` against A lists only A's pid, run three
-   times in a row plus once against B, never any noise.
+   with cwd in dir A, one in dir B; `--dry-run` against A lists only A's pid (three runs in
+   a row), against B lists only B's pid, and — the reviewer's exact case — the same two
+   checks run again through an explicit `zsh -c "… stand-restart-backend.sh $DIR …"`
+   wrapper (on top of this agent's own Bash tool already wrapping every command the same
+   way, confirmed by inspecting `$$`'s own ppid chain first). Never any noise, either way.
 
 Added `--dry-run`: prints the PIDs the script would stop and exits 0 without touching
 anything or starting a new tree. It skips the `medusa-config.ts`/`.js` existence check (the
@@ -115,7 +131,7 @@ Test totals (raw output in this folder):
 | 10 | `pnpm check:backend-build` (the image's own build step) | backend + frontend compiled successfully |
 | 11 | `pnpm check:backend-fixtures` | clean, 0 errors |
 | 12 | `bash -n scripts/stand-restart-backend.sh` | OK, no syntax errors |
-| 13 | pgrep dry-run proof (brief's exact recipe, run against both A and B, A three times) | **only the matching dir's own pid, every time** |
+| 13 | pgrep dry-run proof, literal paths: A×3, B×1, plus A and B again each through an explicit `zsh -c` ancestor-shell wrapper (the review round's repro) | **only the matching dir's own pid, every time, ancestor shell included** |
 
 No new backend **unit** spec (`*.unit.spec.ts`) was added: the new route
 (`store/tenant/courses/by-slug/[slug]/route.ts`) is thin composition over

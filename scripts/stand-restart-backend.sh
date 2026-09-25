@@ -57,13 +57,16 @@ case "$PORT" in ''|*[!0-9]*) echo "port must be a number, got '$PORT'" >&2; exit
 # into awk's own argv, which `ps` then reports back, so the search matched awk's OWN row too. A plain env var
 # never shows up in `ps`'s COMMAND column.
 #
-# Every `cwd_pids`/`cmdline_pids` candidate is walked up its ppid chain and dropped if that chain leads back
-# to `$$` (this very script), or if the candidate is already dead by the time we look. `$DIR` is this script's
-# own `$1`/`$2`, so it is always a literal substring of the running script's own command line — and a `$(...)`
-# subshell is a fork, not an exec, so `ps` reports EVERY subshell this script forks (each pipeline stage above
-# included) under that SAME command line, each with a different pid. A plain `command line contains $DIR`
-# search therefore matches not just this script's own pid but the whole tree of its own helper subshells; the
-# walk below is what tells those apart from a real, unrelated process that merely happens to run inside $DIR.
+# Every `cwd_pids`/`cmdline_pids` candidate is dropped if it is this very script ($$), an ANCESTOR of $$, a
+# DESCENDANT of $$, or already dead by the time we look. `$DIR` is this script's own `$1`/`$2`, so it is a
+# literal substring of the running script's own command line — and of every process ABOVE it too: whatever
+# invoked this script (a caller's shell, an agent's `sh -c "… stand-restart-backend.sh $DIR …"` wrapper) has
+# that same `$DIR` sitting right there in ITS OWN command line, one level up or more. A `$(...)` subshell is a
+# fork, not an exec, so `ps` also reports EVERY subshell this script forks (each pipeline stage above included)
+# under that SAME command line, each with a different pid — the whole tree of this script's own helper
+# subshells, not just its own single pid. A plain `command line contains $DIR` search therefore matches this
+# script's entire lineage in both directions; the ancestor list plus the per-candidate descendant walk below is
+# what tells those apart from a real, unrelated process that merely happens to run inside $DIR.
 stand_pids() {
   local port="$1" dir="$2"
   local listeners cwd_pids cmdline_pids tree children
@@ -76,10 +79,26 @@ stand_pids() {
     index($0, ENVIRON["MATCH_DIR"]) > 0 { print $1 }
   ' | tr '\n' ' ')"
 
-  local self="$$" candidate cur hops self_chain
+  local self="$$" ancestors ap candidate cur hops is_ancestor self_chain
+  ancestors=""
+  ap="$self"; hops=0
+  while [ -n "$ap" ] && [ "$hops" -lt 50 ]; do
+    ancestors="$ancestors $ap"
+    [ "$ap" = "1" ] && break
+    ap="$(ps -o ppid= -p "$ap" 2>/dev/null | tr -d ' ')"
+    hops=$((hops + 1))
+  done
+
   tree=""
   for candidate in $cwd_pids $cmdline_pids; do
     kill -0 "$candidate" 2>/dev/null || continue
+
+    is_ancestor=0
+    for ap in $ancestors; do
+      [ "$candidate" = "$ap" ] && { is_ancestor=1; break; }
+    done
+    [ "$is_ancestor" -eq 1 ] && continue
+
     cur="$candidate"; hops=0; self_chain=0
     while [ -n "$cur" ] && [ "$cur" != "0" ] && [ "$cur" != "1" ] && [ "$hops" -lt 50 ]; do
       [ "$cur" = "$self" ] && { self_chain=1; break; }
