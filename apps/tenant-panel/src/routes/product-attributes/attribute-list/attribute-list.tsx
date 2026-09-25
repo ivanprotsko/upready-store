@@ -203,18 +203,17 @@ export const AttributeList = () => {
                     to={attribute.id}
                     className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
                   >
-                    <Text size="small" weight="plus">
+                    <Text size="small" weight="plus" className="truncate" title={attribute.name}>
                       {attribute.name}
                     </Text>
                   </Link>
-                  {attribute.type === "select" && attribute.options.length ? (
-                    <Text size="small" className="text-ui-fg-subtle line-clamp-1">
-                      {attribute.options.map((option) => option.label).join(", ")}
-                    </Text>
-                  ) : null}
                 </Table.Cell>
                 <Table.Cell>
-                  <Text size="small" className="text-ui-fg-subtle font-mono">
+                  <Text
+                    size="small"
+                    className="text-ui-fg-subtle font-mono truncate"
+                    title={attribute.key}
+                  >
                     {attribute.key}
                   </Text>
                 </Table.Cell>
@@ -225,7 +224,11 @@ export const AttributeList = () => {
                   </Text>
                 </Table.Cell>
                 <Table.Cell>
-                  <Text size="small" className="text-ui-fg-subtle">
+                  <Text
+                    size="small"
+                    className="text-ui-fg-subtle truncate"
+                    title={categoryName(attribute.category_id)}
+                  >
                     {categoryName(attribute.category_id)}
                   </Text>
                 </Table.Cell>

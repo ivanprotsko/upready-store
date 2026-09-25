@@ -67,11 +67,13 @@ export const CardsTable = ({ cards, currency, locale, marketplaceLabels }: Props
         {cards.map((card) => (
           <Table.Row key={`${card.marketplace}-${card.card_id ?? "no-id"}`}>
             <Table.Cell>
-              <Text size="small" weight="plus">
+              <Text
+                size="small"
+                weight="plus"
+                className="truncate"
+                title={[card.vendor_code, card.card_id].filter(Boolean).join(" · ") || undefined}
+              >
                 {card.title ?? card.vendor_code ?? card.card_id ?? "без названия"}
-              </Text>
-              <Text className="text-ui-fg-muted" size="xsmall">
-                {[card.vendor_code, card.card_id].filter(Boolean).join(" · ") || "—"}
               </Text>
             </Table.Cell>
             <Table.Cell>{marketplaceLabels[card.marketplace] ?? card.marketplace}</Table.Cell>
@@ -84,57 +86,55 @@ export const CardsTable = ({ cards, currency, locale, marketplaceLabels }: Props
                 money(card.revenue)
               )}
             </Table.Cell>
-            <Table.Cell className="text-right">
+            <Table.Cell
+              className="text-right"
+              title={card.cancelled_units > 0 ? `отменено ${card.cancelled_units} шт` : undefined}
+            >
               {card.units === 0 ? "—" : number(card.units, "шт")}
-              {card.cancelled_units > 0 ? (
-                <Text className="text-ui-fg-muted" size="xsmall">
-                  {`отменено ${card.cancelled_units} шт`}
-                </Text>
-              ) : null}
             </Table.Cell>
             <Table.Cell className="text-right">{money(card.avg_price)}</Table.Cell>
             <Table.Cell className="text-right">
               {`${card.revenue_share.toFixed(1)} %`}
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell title={ABC_HINT[card.abc]}>
               <Badge size="2xsmall" color={card.abc === "A" ? "green" : card.abc === "B" ? "blue" : "grey"}>
                 {card.abc}
               </Badge>
-              <Text className="text-ui-fg-muted" size="xsmall">
-                {ABC_HINT[card.abc]}
-              </Text>
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell
+              title={
+                card.xyz === null
+                  ? undefined
+                  : `${XYZ_HINT[card.xyz]}, CV ${Math.round(card.variation ?? 0)} %`
+              }
+            >
               {card.xyz === null ? (
                 <Text className="text-ui-fg-muted" size="xsmall">
                   нет класса: сравнивать не с чем
                 </Text>
               ) : (
-                <>
-                  <Badge
-                    size="2xsmall"
-                    color={card.xyz === "X" ? "green" : card.xyz === "Y" ? "blue" : "orange"}
-                  >
-                    {card.xyz}
-                  </Badge>
-                  <Text className="text-ui-fg-muted" size="xsmall">
-                    {`${XYZ_HINT[card.xyz]}, CV ${Math.round(card.variation ?? 0)} %`}
-                  </Text>
-                </>
+                <Badge
+                  size="2xsmall"
+                  color={card.xyz === "X" ? "green" : card.xyz === "Y" ? "blue" : "orange"}
+                >
+                  {card.xyz}
+                </Badge>
               )}
             </Table.Cell>
-            <Table.Cell className="text-right">
+            <Table.Cell
+              className="text-right"
+              title={
+                card.turnover.stock === null
+                  ? undefined
+                  : `строк остатка: ${card.turnover.offer_lines}`
+              }
+            >
               {card.turnover.stock === null ? (
                 <Text className="text-ui-fg-muted" size="xsmall">
                   площадка не прислала
                 </Text>
               ) : (
-                <>
-                  {number(card.turnover.stock, "шт")}
-                  <Text className="text-ui-fg-muted" size="xsmall">
-                    {`строк остатка: ${card.turnover.offer_lines}`}
-                  </Text>
-                </>
+                number(card.turnover.stock, "шт")
               )}
             </Table.Cell>
             <Table.Cell className="text-right">
@@ -142,7 +142,14 @@ export const CardsTable = ({ cards, currency, locale, marketplaceLabels }: Props
                 ? `${card.turnover.rate_per_day.toFixed(2)} шт/день`
                 : "—"}
             </Table.Cell>
-            <Table.Cell className="text-right">
+            <Table.Cell
+              className="text-right"
+              title={
+                card.turnover.stock !== 0 && card.turnover.days_to_zero !== null && card.turnover.zero_on
+                  ? `до ${card.turnover.zero_on}`
+                  : undefined
+              }
+            >
               {card.turnover.stock === 0 ? (
                 /* Ноль на складе — это «кончился», а не «кончится через 0 дней». */
                 <Text className="text-ui-fg-muted" size="xsmall">
@@ -153,16 +160,9 @@ export const CardsTable = ({ cards, currency, locale, marketplaceLabels }: Props
                   {card.turnover.stock === null ? "площадка не прислала остаток" : "продаж за период нет"}
                 </Text>
               ) : (
-                <>
-                  {`${new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(
-                    card.turnover.days_to_zero
-                  )} дн.`}
-                  {card.turnover.zero_on ? (
-                    <Text className="text-ui-fg-muted" size="xsmall">
-                      {`до ${card.turnover.zero_on}`}
-                    </Text>
-                  ) : null}
-                </>
+                `${new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(
+                  card.turnover.days_to_zero
+                )} дн.`
               )}
             </Table.Cell>
           </Table.Row>

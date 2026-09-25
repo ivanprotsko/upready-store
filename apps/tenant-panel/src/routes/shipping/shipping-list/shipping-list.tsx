@@ -244,38 +244,40 @@ export const ShippingList = () => {
                       </IconButton>
                     </div>
                   </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex flex-col">
-                      <Text size="small" weight="plus">
-                        {method.name}
-                      </Text>
-                      {carrierLabel(method.carrier) && (
-                        <Text size="xsmall" className="text-ui-fg-muted">
-                          Служба: {carrierLabel(method.carrier)}
-                        </Text>
-                      )}
-                      {method.description && (
-                        <Text size="xsmall" className="text-ui-fg-subtle">
-                          {method.description}
-                        </Text>
-                      )}
-                    </div>
+                  <Table.Cell
+                    title={
+                      [
+                        carrierLabel(method.carrier) ? `Служба: ${carrierLabel(method.carrier)}` : null,
+                        method.description,
+                      ]
+                        .filter(Boolean)
+                        .join(" — ") || undefined
+                    }
+                  >
+                    <Text size="small" weight="plus" className="truncate">
+                      {method.name}
+                    </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text size="small">{methodZoneSummary(method)}</Text>
+                    <Text size="small" className="truncate">
+                      {methodZoneSummary(method)}
+                    </Text>
                   </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex flex-col">
-                      <Text size="small">{tariffSummary(method.tariff, method.currency_code)}</Text>
-                      <Text size="xsmall" className="text-ui-fg-subtle">
-                        {TARIFF_KIND_LABEL[method.tariff.kind]}
-                      </Text>
-                      {method.tariff_source === "provisioned-default" && (
-                        <Text size="xsmall" className="text-ui-fg-interactive">
-                          Стоимость по умолчанию — укажите свою
-                        </Text>
-                      )}
-                    </div>
+                  <Table.Cell
+                    title={
+                      [
+                        TARIFF_KIND_LABEL[method.tariff.kind],
+                        method.tariff_source === "provisioned-default"
+                          ? "Стоимость по умолчанию — укажите свою"
+                          : null,
+                      ]
+                        .filter(Boolean)
+                        .join(" — ")
+                    }
+                  >
+                    <Text size="small" className="truncate">
+                      {tariffSummary(method.tariff, method.currency_code)}
+                    </Text>
                   </Table.Cell>
                   <Table.Cell>
                     <Text size="small">{method.delivery_hint ?? "—"}</Text>

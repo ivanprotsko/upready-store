@@ -61,16 +61,10 @@ export const RedirectRow = ({ redirect, primaryHost }: RedirectRowProps) => {
 
   return (
     <Table.Row>
-      <Table.Cell>
-        <Text size="small" className="font-mono">
+      <Table.Cell title={primaryHost ? `${primaryHost}${redirect.from_path}` : undefined}>
+        <Text size="small" className="font-mono truncate">
           {redirect.from_path}
         </Text>
-        {primaryHost ? (
-          <Text size="xsmall" className="text-ui-fg-subtle font-mono">
-            {primaryHost}
-            {redirect.from_path}
-          </Text>
-        ) : null}
       </Table.Cell>
       <Table.Cell>
         {editing ? (

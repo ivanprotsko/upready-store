@@ -49,16 +49,13 @@ export const CustomPageRow = ({
     <Table.Row>
       <Table.Cell>
         <Link to={page.key} className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg">
-          <Text size="small" weight="plus">
+          <Text size="small" weight="plus" className="truncate" title={page.key}>
             {page.title.trim() || page.key}
           </Text>
         </Link>
-        <Text size="small" className="text-ui-fg-subtle font-mono">
-          {page.key}
-        </Text>
       </Table.Cell>
       <Table.Cell>
-        <Text size="small" className="text-ui-fg-subtle font-mono">
+        <Text size="small" className="text-ui-fg-subtle font-mono truncate" title={publicUrl}>
           {publicUrl}
         </Text>
       </Table.Cell>
