@@ -6,34 +6,67 @@ Branch `fix/olavka-batch-2`, base `origin/dev` 42e910fa.
 
 1. `apps/storefront/src/app/[locale]/(checkout)/checkout/page.tsx:44`
    `lg:content-container flex flex-col lg:grid lg:grid-cols-[7fr_5fr] min-h-screen`
-   → `flex flex-col lg:content-container lg:max-w-checkout min-h-screen lg:min-h-0`.
-   Drops the desktop grid (`lg:grid lg:grid-cols-[7fr_5fr]`), so the column stays `flex flex-col` at
-   every width — the form then the summary, same DOM order as mobile. `lg:content-container` keeps
-   the page's normal side padding and centering; `lg:max-w-checkout` caps the column at 736 px only
-   from `lg` up. `min-h-screen` stays unprefixed (mobile, unchanged); `lg:min-h-0` resets it on
-   desktop — it existed to stretch both columns to viewport height so their backgrounds lined up,
-   which no longer applies to a single column.
+   →
+   ```
+   <div className="lg:content-container min-h-screen lg:min-h-0">
+     <div className="flex flex-col lg:mx-auto lg:max-w-checkout">
+       <CheckoutForm cart={cart} customer={customer} />
+       <CheckoutSummary cart={cart} />
+     </div>
+   </div>
+   ```
+   Two nested divs, not one — see "Fix-up" below for why. The outer keeps `lg:content-container`
+   (the page's normal side padding + centering + 1440 px cap, the fallback for a hypothetical width
+   where 736 doesn't fit) and `min-h-screen`/`lg:min-h-0` (mobile keeps the full-height wrapper;
+   desktop drops it — it existed only to stretch both grid columns to viewport height so their
+   backgrounds lined up, which doesn't apply once there is one column). The inner div drops the grid
+   (`lg:grid lg:grid-cols-[7fr_5fr]`) and stays `flex flex-col` at every width — form then summary,
+   same DOM order as mobile — and adds `lg:mx-auto lg:max-w-checkout` to center and cap it at 736 px
+   with **no padding of its own**, so 736 px is the box that the form/summary content actually fills,
+   not a box that still has padding subtracted from it.
 
 2. `tailwind.config.js` `theme.extend.maxWidth` gains `checkout: "736px"` (used as `max-w-checkout`,
    not a bare arbitrary value). PR #161 (`fix/olavka-batch-1`) also edits this file (`grid-3` token);
    my only change here is the one new key, so a merge conflict there is one line.
 
-3. `checkout-form/index.tsx`: `lg:pe-10 lg:ps-0` dropped from the root div (these existed to build the
-   7fr/5fr gutter against the summary column; with no grid they'd just skew the form's own padding
-   inside the 736 px box). `lg:py-10` (vertical desktop padding, unrelated to the two-column split)
-   stays.
+3. `checkout-form/index.tsx`: root div `px-4 py-6 lg:pe-10 lg:py-10 lg:ps-0 gap-y-6` →
+   `px-4 py-6 lg:px-0 lg:py-10 gap-y-6`. `lg:pe-10 lg:ps-0` (the 7fr/5fr gutter against the old summary
+   column) is gone; `lg:px-0` cancels the mobile `px-4` on desktop so the form's own content (cards,
+   dividers) reaches the 736 px inner box's edges instead of sitting 16 px inset from it. `lg:py-10`
+   (vertical desktop padding, unrelated to the column width) stays.
 
 4. `checkout-summary/index.tsx`: root div was
    `flex flex-col gap-y-8 px-4 py-4 lg:py-10 lg:ps-10  bg-ui-bg-subtle lg:-me-[9999px] lg:pe-[9999px]`
-   → `flex flex-col gap-y-8 px-4 py-4 lg:py-10 bg-ui-bg-subtle lg:bg-transparent`. Classes dropped on
-   desktop only (mobile keeps them, unchanged pixel for pixel):
+   → `flex flex-col gap-y-8 px-4 py-4 lg:px-0 lg:py-10 bg-ui-bg-subtle lg:bg-transparent`. Classes
+   dropped on desktop only (mobile keeps them, unchanged pixel for pixel — see byte-identical 390
+   PNGs below):
    - `lg:-me-[9999px] lg:pe-[9999px]` — the full-bleed trick that stretched the summary's background
      past its 5fr grid column to the browser's right edge. Meaningless with no grid; left in it would
      have blown the column out to the right of the 736 px box.
-   - `lg:ps-10` — the left half of the 7fr/5fr gutter, same reasoning as the form's `lg:pe-10`.
-   - Added `lg:bg-transparent` to cancel `bg-ui-bg-subtle` from `lg` up, so the desktop column reads
-     as one flow instead of a highlighted side panel (rule 4 of the brief). `bg-ui-bg-subtle` itself
-     stays in the class list for mobile.
+   - `lg:ps-10` — the left half of the 7fr/5fr gutter, same reasoning as the form's old `lg:pe-10`.
+   - Added `lg:px-0` for the same reason as the form (content flush to the 736 px box, not inset by
+     16 px), and `lg:bg-transparent` to cancel `bg-ui-bg-subtle` from `lg` up, so the desktop column
+     reads as one flow instead of a highlighted side panel (rule 4 of the brief). `bg-ui-bg-subtle`
+     itself stays in the class list for mobile.
+
+### Fix-up: 736 px has to be the visible content, not the padded wrapper
+
+First version of this diff (still visible in PR #162's first commit) put `lg:max-w-checkout` directly
+on the single wrapper together with `lg:content-container`. Since `max-width` includes padding
+(border-box) and `content-container` itself carries `lg:px-6`, and the form/summary kept their own
+`px-4`, the **box** measured 736 px but the **visible content** — divider lines, delivery/payment
+cards, the «Оформить заказа» button — measured 736 − 2×24 (content-container's `lg:px-6`) − 2×16
+(the children's own `px-4`) = 656 px. Lead caught this on review (Ivan's «максимальная ширина 736»
+meant what he sees, not an invisible wrapper) and asked for a re-measure keyed to the button and a
+divider, not the wrapper div. Fixed by splitting "the box that gets the page's normal padding and
+centers the whole thing" (outer, `lg:content-container`, unchanged width math) from "the box that
+caps at 736 px with zero padding of its own" (new inner wrapper), and by zeroing the children's own
+horizontal padding on desktop (`lg:px-0` on both `checkout-form` and `checkout-summary`). Re-measured
+against `[data-testid="submit-order-button"]` and the `.h-px.bg-ui-border-base` divider directly (not
+just the wrapper) — see the updated table below; both now read exactly 736 px with the same gaps as
+before (352/272/144 at 1440/1280/1024), because the total left/right offset from the viewport edge to
+the centered box is unchanged by moving padding from inside the box to margin outside it — only where
+the visible content starts moved, by the padding that used to eat into it.
 
 No changes to `(checkout)/layout.tsx` (header/footer) or to any `?step=` logic. Confirmed by reading
 the live checkout components (`checkout-shipping-section`, `checkout-info-rows`,
@@ -64,6 +97,30 @@ mobile is untouched.
 
 Raw JSON: `/private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-fix-olavka-batch-2/14f19bad-f1e0-4c0a-8324-7c765ec403e0/scratchpad/measurements.json`.
 
+### Visible-content table (after the fix-up above)
+
+Same method, but measuring the actual rendered content instead of the wrapper:
+`[data-testid="submit-order-button"]` (the «Оформить заказ» button) and the first
+`.h-px.bg-ui-border-base` divider (`checkout-info-rows`'s row separator), physical cart,
+`?step=address`, light theme.
+
+| Width | Button: width / left gap / right gap | Divider: width / left gap / right gap |
+|---|---|---|
+| 1440 | 736 / 352 / 352 | 736 / 352 / 352 |
+| 1280 | 736 / 272 / 272 | 736 / 272 / 272 |
+| 1024 | 736 / 144 / 144 | 736 / 144 / 144 |
+| 768  | 736 / 16 / 16 (mobile `px-4`, unchanged — 768 − 2×16 = 736 is a coincidence of this width, not the `max-w-checkout` token) | same |
+| 390  | 358 / 16 / 16 (mobile `px-4`, unchanged) | same |
+
+Button and divider now match the wrapper measurement exactly at every width — the visible content
+*is* the 736 px box, with nothing eating into it from either side. Raw JSON:
+`/private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-fix-olavka-batch-2/14f19bad-f1e0-4c0a-8324-7c765ec403e0/scratchpad/measurements-visible-content.json`.
+
+The "before" side has no equivalent single-column number here: the original two-column layout puts
+the button inside a 5fr grid column of a different, non-736-related width, so there is nothing
+directly comparable to measure "before" — the point of this table is proving the *after* content
+width, which is what the fix-up corrected.
+
 ## Screenshots
 
 `artifacts/docs/o-20260921-01/w23-batch-2/`, `{before,after}-{physical,course}-{address,payment}-{1440,390}.png`
@@ -81,9 +138,16 @@ don't break the column:
   instead of opening `checkout-pickup-point-sheet` — a stand data quirk, not something this diff
   touches; the sheet component itself was still exercised via the address sheet above.
 
-Physical cart: `cart_01M3C4G3QY56VDHPFHS2MW1330` (`Свечи АСД с чесноком`, courier/pickup delivery).
-Course-only cart: `cart_01M3C4G4A6718QPG4735XG2AWX` (`course-ochishchenie-pecheni`, digital delivery,
-no address/shipping section — matches `isDigitalDeliveryCart`).
+Physical cart (after-* screenshots and the visible-content table): `cart_01M3C5NJ0SZ6R7Y6AR1EJ880M6` —
+the original physical cart (`cart_01M3C4G3QY56VDHPFHS2MW1330`, used for the `before-*` shots and the
+first wrapper-measurement table) got its shipping method set to "pickup" as a side effect of an
+earlier interactive Playwright probe into the pickup sheet during this same session, so it no longer
+matches the `before` cart's default (nothing selected) state; re-created a clean cart instead of
+reusing the polluted one. Confirmed the four `after-*-390.png` regenerated with the clean cart are
+byte-identical (`cmp -s`) to the corresponding `before-*-390.png` — mobile is untouched by either this
+diff or the fix-up. Course-only cart (unaffected by the pollution, reused as-is):
+`cart_01M3C4G4A6718QPG4735XG2AWX` (`course-ochishchenie-pecheni`, digital delivery, no
+address/shipping section — matches `isDigitalDeliveryCart`).
 
 ## Checks
 
@@ -125,4 +189,7 @@ ports; nothing here needed a separate ok beyond the task brief itself.
 ## Spend
 
 `node /Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/tools/worker-spend.mjs olavka-batch-2`
-— tracked throughout, stayed under 55% of the 8 USD budget at the last check before this report.
+— $5.20 (65%) right after the first PR; the fix-up round (re-read the diff, rebuild/restart the stand
+twice, re-measure, chase and fix a polluted cart, redo screenshots, update this report) pushed it to
+$7.50 (93.75%), past the lead's $7.20 stop line. Stopping here: this commit, push and the done envelope
+are the last actions this run takes.
