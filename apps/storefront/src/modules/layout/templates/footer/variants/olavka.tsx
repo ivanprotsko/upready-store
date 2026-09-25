@@ -26,10 +26,17 @@ const LINK = "txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transit
  * Three columns — Категории, Информация, «© {shop}» with the offer, the privacy policy and
  * «Создание интернет-магазина» under it — on the product grid's own tracks
  * (`PRODUCT_GRID_CLASS` inside the same `content-container`), so each column's text starts
- * where a product column starts: with four product columns the rightmost one stays empty
- * (the seller's requisites take it when the shop has them). No copyright line and no
- * attribution line under the columns: both now live in the «©» column.
+ * where a product column starts. No copyright line and no attribution line under the
+ * columns: both now live in the «©» column.
+ *
+ * With four product columns the first one stays empty and the content takes columns 2–4
+ * (Ivan's remark 15): every row starts at column 2 (`SKIP_FIRST_COLUMN`), so the seller's
+ * requisites, when the shop has them, open the next row under Категории. With two or three
+ * product columns the footer starts at column 1 as before: an empty column there would
+ * squeeze the text or push «©» onto a second row.
  */
+const SKIP_FIRST_COLUMN = "large:[&>*:nth-child(3n+1)]:col-start-2"
+
 export default async function FooterOlavka() {
   const [t, tMeta, siteName, seller, categories, tenantPages, legal, attribution] =
     await Promise.all([
@@ -56,7 +63,7 @@ export default async function FooterOlavka() {
     // legal row under it is rendered `bare` by the footer switch.
     <footer className="w-full bg-ui-bg-base" data-testid="footer-olavka">
       <div className="content-container py-10 lg:py-16">
-        <div className={PRODUCT_GRID_CLASS}>
+        <div className={`${PRODUCT_GRID_CLASS} ${SKIP_FIRST_COLUMN}`}>
           {topLevelCategories.length > 0 && (
             <div className="flex min-w-0 flex-col gap-y-3">
               <span className={HEADING}>{t("categoriesHeading")}</span>

@@ -434,3 +434,32 @@ Real Firefox 156 at 2240, dpr 1 (the scratch profile forces `layout.css.devPixel
 `border-color` rgb(49,39,33) everywhere. In Ivan's Firefox the same chips are white-ringed while the centred card's are
 dark. No change to the rings until it is reproduced; one console line from Ivan's Firefox tells a cascade problem from a
 paint one (in the report to the lead).
+
+## Remark 15 · footer: first column empty, content one column right (Ivan 2026-09-25)
+
+«в футере давай первую колонку оставим пустой, т.е. чтобы все колонки с контентом футера сместились на 1 колонку вправо»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-15-footer-shift-right.md`.
+
+`FooterOlavka` (`src/modules/layout/templates/footer/variants/olavka.tsx`) adds `large:[&>*:nth-child(3n+1)]:col-start-2`
+to its grid: from 1440 (four product columns) every footer row starts at column 2. Below 1440 (three columns at
+1024–1439, two on a tablet and a phone) the footer starts at column 1 as before. With an empty column, three columns would
+push «© Черкашино» onto a second row, and two columns would squeeze the text. A fourth cell (the seller's requisites; Olavka
+has none) opens the next row at column 2 under Категории. Checked with a probe cell appended in the page: x 378, next row
+(`footer-shift/req15.mjs`). Other shops keep their footer.
+
+Heading x (Chromium, header and bottom bar hidden for the shot, `footer-shift/foot15.mjs`):
+
+| Shop, width | product columns | before | after |
+|---|---|---|---|
+| olavka 1440 | 24 / 378 / 732 / 1086 | Категории 24, Информация 378, © Черкашино 732, col 4 empty | col 1 empty, Категории 378, Информация 732, © Черкашино 1086 |
+| olavka 1920 (zoom 1.333) | 32 / 504 / 976 / 1448 | — | Категории 504, Информация 976, © Черкашино 1448 |
+| olavka 1280 (3 columns) | 24 / 442.7 / 861.3 | 24 / 442.7 / 861.3 | unchanged |
+| olavka 390 (2 columns) | 16 / 201 | 16 / 201, © Черкашино 16 on the next row | unchanged |
+| nochlavka 1440 / 390 | — | F1 footer | unchanged |
+
+Shots: `footer-shift/<olavka|nochlavka>-<width>-<before|after>.png` (before from :8233 at e4346db9, after from dev :8234).
+The 390 pair is identical because the phone layout is unchanged. The pair is there for Ivan to decide whether the phone
+should get the empty column too. With two columns that leaves a single content column of about 170 px.
+
+Not moved: the legal row under the columns («Публичная оферта · Политика конфиденциальности», x 24). It is a row, not a
+column, and it is part of the duplicates question still open with Ivan (remark 13).
