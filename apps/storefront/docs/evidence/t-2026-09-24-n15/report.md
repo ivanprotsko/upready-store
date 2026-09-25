@@ -463,3 +463,56 @@ should get the empty column too. With two columns that leaves a single content c
 
 Not moved: the legal row under the columns («Публичная оферта · Политика конфиденциальности», x 24). It is a row, not a
 column, and it is part of the duplicates question still open with Ivan (remark 13).
+
+## Remark 16 · Firefox ring colours after a scroll; empty slot on the left after a reload (Ivan 2026-09-25)
+
+Ivan's words and the lead's reading, with the addition («если снять стиль "display: flex" с контейнера у которого рамка,
+баг исчезает. Там кстати также не нужен стиль с backdrop-blur»):
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-16-firefox-rings-repaint-left-gap.md`.
+
+**16.2 · Empty slot on the left: the cause and the fix.** The server rendered clone · real · clone with the track at
+scroll 0. That centres the FIRST LEADING CLONE on the start padding, with nothing to its left. Only the `OlavkaLoopTrack`
+island, after hydration, scrolled the track to the rest position (first real card centred, the last clone peeking left).
+So until hydration, the first paint had an empty slot left of the centred card. A slow hydration (a dev build, a busy tab)
+kept it on screen. Fix:
+- CSS draws the rest position before the island runs (`.carousel:not([data-loop-ready])`). The leading clones are
+  `display: none` except the last one (`data-peek`), which gets `margin-inline-start: -(card + gap)`. The start padding
+  is `50cqi − card/2`, which centres the first real card at scroll 0.
+- The island sets `data-loop-ready`, which brings the clones back, and in the same layout effect scrolls to the card
+  that is centred at that moment. That is the first real card, or the one a visitor swiped to before hydration. There is
+  no frame in between, so there is no jump.
+- One source for the card width and the gap: `--item` / `--gap` on the track, also used by `.carousel > .item`.
+
+Visible cards: server markup (JS off = the first paint; above 1440 the inline zoom is added by hand, since with JS on it
+runs before the first paint) and after hydration. Same numbers in Chromium and in Firefox (Playwright):
+
+| Width | first paint before | first paint after | after hydration (before = after) |
+|---|---|---|---|
+| 1440 | clone «Чистка печени» 378…1062, **nothing left** | «Товары от варикоза» −330…354, «Чистка печени» 378…1062, «Чистка лимфы» 1086…1770 | the same three at the same x |
+| 2240 (zoom 1.333) | 664…1576, **nothing left** | −280…632, 664…1576, 1608…2520 | the same |
+| 720 | 24…596 (not centred) | −522…50, 74…646, 670…1242 | the same |
+| 360 | 12…300 (not centred) | −264…24, 36…324, 336…624 | the same |
+
+Shots `slider-first-paint/<chromium|firefox>-<width>-nojs-<before|after>.jpg`, `chromium-<width>-js-after.jpg`. Logs
+`slider-first-paint/chip-*.log`, script `chip16.mjs`. No hydration warning or page error in either engine at 1440 and 360
+(`cons16.mjs`; the only console lines are the product images' existing `quality` warnings).
+
+**16.1 · Rings: Ivan's fix.** `.chip` is now `display: block` with no `backdrop-filter` / `-webkit-backdrop-filter`. The
+Figma background blur is dropped on Ivan's word. In both engines the block lays `inner` out exactly as the flex row did.
+Every chip's border box, `inner` box and text box is identical to 0.01 px before and after: 46 chips at 1440, 2240, 720
+and 360, in Chromium and in Firefox (`chip-before-*.log` against `chip-after-*.log`). The only pixels that change in Chromium
+are the 3 px band between the ring and the fill, which now shows the picture sharp instead of blurred
+(`chip-ring/chromium-<1440|720|360>-diff-before-after.png`, red = changed). The text, the fill and the ring are the same.
+
+**Real Firefox 156 with GPU: the white rings did not reproduce here.** Scratch profile, window captured with
+`screencapture -l`. Each run: reload, then 12 wheel swipes both ways, including the loop jumps. After every swipe the ring
+pixels of every dark chip are sampled (`chip-ring/r16w.mjs`, logs `real-*.log`):
+- 1440 window, dpr 1: every dark ring #312721, before the fix.
+- 2240 window (Ivan's >1920 case), dpr 1: #312721 at every step, before and after the fix
+  (`chip-ring/firefox-real-156-2240-swipes-before-after.jpg`).
+- 1728 window (the built-in display's full width), dpr 2: #312721 on the first swipes before and after. Then the window
+  lost focus and the rest of that run is void (`out`).
+
+A background Firefox window is not repainted on macOS, so these runs need the scratch window in front. That takes focus
+from the desktop: one stray «y» landed in the scratch window's address bar. So I stopped after these runs. The proof that
+the white rings are gone has to come from Ivan's own Firefox on :8233: reload, then swipe both ways.

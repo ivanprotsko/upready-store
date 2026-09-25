@@ -5,10 +5,11 @@
  *   tablet   720×432 — padding 0/24, banner 572×400 (one: 672), the next peeking, gap 24;
  *   mobile   360×432 — padding 0/12, banner 288×400 (one: 336), radius 24, gap 12.
  * Banner: radius 48 (mobile 24), a 3px white ring inset 4px (radius 44 / 20).
- * Chips = the node's «BannerLabel»: `surface` (4px ring, padding 7, background blur 100)
- * around `inner` (fill). The node marks both LUMINOSITY, but Figma's own export paints the
- * dark fill as plain #312721 (sampled #332720 on both pictures), and a CSS
- * `mix-blend-mode: luminosity` turns it olive (#342a0d) — so no blend here. Two sizes:
+ * Chips = the node's «BannerLabel»: `surface` (4px ring, padding 7; the node's background
+ * blur 100 dropped on Ivan's word, remark 16) around `inner` (fill). The node marks both
+ * LUMINOSITY, but Figma's own export paints the dark fill as plain #312721 (sampled #332720
+ * on both pictures), and a CSS `mix-blend-mode: luminosity` turns it olive (#342a0d) — so
+ * no blend here. Two sizes:
  *   m  surface 64 high r18, inner r11, padding 0 16 — Roboto Flex 28/90% (mobile: 50 high
  *      r12, inner r6, padding 0 10, 20px);
  *   L  (title) surface r36, inner r29, padding 24/20 — Roboto Flex 56/90%, weight 425
@@ -37,8 +38,9 @@
 .track {
   /* The content width: the window up to 1440, as `content-container`. */
   --content: min(100cqi, 1440px);
+  --gap: 24px;
   display: flex;
-  gap: 24px;
+  gap: var(--gap);
   margin: 0;
   padding: 32px 24px;
   list-style: none;
@@ -50,9 +52,35 @@
   -ms-overflow-style: none;
 }
 
-/* The loop track measures its cards with `offsetLeft`: it is their offset parent. */
+/* The loop track measures its cards with `offsetLeft`: it is their offset parent. A carousel
+   card is `--item` wide (tablet here: 572, never wider than the track less 100). */
 .carousel {
+  --item: min(572px, 100cqi - 148px);
   position: relative;
+}
+
+.carousel > .item {
+  flex: 0 0 var(--item);
+  max-width: none;
+}
+
+/* The server's first paint, until `OlavkaLoopTrack` marks the track `data-loop-ready` (Ivan's
+   remark 16: after a reload the slot left of the centred card stayed empty — at scroll 0 the
+   first leading clone sat centred on the start padding, and only the island's scroll after
+   hydration brought the rest position). Without the island the rest position is drawn by CSS:
+   the leading clones are out but the last one, which stands one card left of the first real
+   card, and the start padding centres that real card. The island then puts the clones back
+   and scrolls to the same card in one frame. */
+.carousel:not([data-loop-ready]) {
+  padding-inline-start: calc(50cqi - var(--item) / 2);
+}
+
+.carousel:not([data-loop-ready]) > [data-copy="before"]:not([data-peek]) {
+  display: none;
+}
+
+.carousel:not([data-loop-ready]) > [data-peek] {
+  margin-inline-start: calc(-1 * (var(--item) + var(--gap)));
 }
 
 .track::-webkit-scrollbar {
@@ -86,8 +114,7 @@
   .pair {
     overflow: visible;
   }
-  .pair .item,
-  .carousel .item {
+  .pair .item {
     flex-basis: calc((var(--content) - 72px) / 2);
     max-width: none;
   }
@@ -104,6 +131,7 @@
   /* `Items=2+` (239:17719): the current card centred (x 322 at 1216), the next peeking
      right (918) — the padding is what centres the first card at rest. */
   .carousel {
+    --item: calc((var(--content) - 72px) / 2);
     padding-inline: calc(50cqi - (var(--content) - 72px) / 4);
     scroll-padding-inline: calc(50cqi - (var(--content) - 72px) / 4);
   }
@@ -151,16 +179,18 @@
   pointer-events: none;
 }
 
+/* A plain block, no background blur (Ivan's remark 16): in Firefox the ring of a dark chip
+   on a scrolled card painted white until the next full repaint, and Ivan found it gone with
+   the chip's `display: flex` off; the blur he does not want. The block lays `inner` out
+   exactly as the flex row did: the same width (the chip shrinks to it), the same height. */
 .chip {
   position: absolute;
   z-index: 1;
-  display: flex;
+  display: block;
   max-width: calc(100% - 80px);
   padding: 3px;
   border: 4px solid;
   border-radius: 18px;
-  -webkit-backdrop-filter: blur(50px);
-  backdrop-filter: blur(50px);
 }
 
 .inner {
@@ -295,13 +325,16 @@
 /* Mobile (238:17549 / 239:18881): date and title only, 20px from the edge. */
 @media (max-width: 639px) {
   .track {
-    gap: 12px;
+    --gap: 12px;
     padding: 0 12px;
     scroll-padding-inline: 12px;
   }
   .item {
     flex-basis: 288px;
     max-width: calc(100% - 48px);
+  }
+  .carousel {
+    --item: min(288px, 100cqi - 72px);
   }
   .card {
     border-radius: 24px;

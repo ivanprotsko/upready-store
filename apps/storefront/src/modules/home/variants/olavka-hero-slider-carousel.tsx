@@ -54,6 +54,9 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
                   className={styles.item}
                   data-testid={clone ? "olavka-hero-slide-clone" : "olavka-hero-slide"}
                   data-source={slide.source}
+                  data-copy={copy}
+                  // The card left of the first real one at rest: kept in the server's first paint.
+                  data-peek={(copy === "before" && index === slides.length - 1) || undefined}
                   aria-hidden={clone || undefined}
                   inert={clone || undefined}
                 >
@@ -99,8 +102,8 @@ const SIZES = {
 } as const
 
 /**
- * One «BannerLabel» of the node: the outer `surface` (4px ring, 7px padding, background
- * blur) around the filled `inner`. An empty text →
+ * One «BannerLabel» of the node: the outer `surface` (4px ring, 7px padding; no background
+ * blur since Ivan's remark 16) around the filled `inner`. An empty text →
  * no chip. The title keeps the editor's line breaks (`white-space: pre-line`).
  */
 function Chip({
