@@ -63,12 +63,9 @@ const label = (max: number) => z.string().min(1).max(max);
 const text = (max: number) => z.string().max(max);
 
 export const ButtonActionSchema = z.discriminatedUnion("type", [
-  z.strictObject({
-    type: z.literal("link"),
-    href: z.string().min(1).max(500).refine(isAllowedHref, {
-      message: "href: an #anchor, a /path or an http(s), mailto or tel address",
-    }),
-  }),
+  // What the address may be is checked in `PricingDocumentSchema` below, where
+  // the path of the button is known and goes into the message.
+  z.strictObject({ type: z.literal("link"), href: z.string().min(1).max(500) }),
   z.strictObject({ type: z.literal("onboarding_free") }),
   z.strictObject({ type: z.literal("pay_first") }),
   z.strictObject({
@@ -235,6 +232,16 @@ export const PricingDocumentSchema = PricingDocumentShape.superRefine((doc, ctx)
   }
   if (button.action.type !== "link" && tier_id === null) {
     issue(["final", "tier_id"], `action "${button.action.type}" needs a tariff`);
+  }
+
+  const buttons: Array<[Array<string | number>, PricingButton]> = [
+    ...doc.tiers.map((tier, i): [Array<string | number>, PricingButton] => [["tiers", i, "button"], tier.button]),
+    [["final", "button"], doc.final.button],
+  ];
+  for (const [path, btn] of buttons) {
+    if (btn.action.type === "link" && !isAllowedHref(btn.action.href)) {
+      issue([...path, "action", "href"], "an #anchor, a /path or an http(s), mailto or tel address");
+    }
   }
 
   for (const [path, value] of richTexts(doc)) {

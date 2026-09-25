@@ -72,6 +72,14 @@ describe("PricingDocumentSchema", () => {
     expect(messages(doc)).toEqual(["page.note: unbalanced ** (bold) marks"]);
   });
 
+  it("refuses a link that could run code, naming the button", () => {
+    const doc = page();
+    doc.tiers[1].button.action = { type: "link", href: "javascript:alert(1)" };
+    expect(messages(doc)).toEqual([
+      "tiers.1.button.action.href: an #anchor, a /path or an http(s), mailto or tel address",
+    ]);
+  });
+
   it("allows anchors, paths and web addresses in a link, and nothing that runs", () => {
     for (const ok of ["#final", "#", "/start", "https://upready.dev/", "mailto:a@b.c", "tel:+7900"]) {
       expect(isAllowedHref(ok)).toBe(true);

@@ -81,6 +81,14 @@ medusaIntegrationTestRunner({
           .catch((error) => error.response);
         expect(trial.status).toBe(400);
         expect(trial.data.message).toContain("tiers, 2, button, action");
+
+        const script = page();
+        script.tiers[1].button.action = { type: "link", href: "javascript:alert(1)" };
+        const unsafe = await api
+          .post("/admin/platform-pricing", { pricing: script, revision: null }, adminHeaders)
+          .catch((error) => error.response);
+        expect(unsafe.status).toBe(400);
+        expect(unsafe.data.message).toContain("tiers.1.button.action.href");
       });
 
       it("serves the saved page publicly, with no key and a short cache", async () => {
@@ -128,6 +136,7 @@ medusaIntegrationTestRunner({
           .post("/admin/platform-pricing", { pricing: page(), revision: 1 }, adminHeaders)
           .catch((error) => error.response);
         expect(stale.status).toBe(409);
+        expect(stale.data.message).toContain("changed since it was loaded (revision 2, the editor had 1)");
 
         const recreate = await api
           .post("/admin/platform-pricing", { pricing: page(), revision: null }, adminHeaders)

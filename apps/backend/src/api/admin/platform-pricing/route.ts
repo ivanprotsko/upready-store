@@ -1,4 +1,5 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
+import { MedusaError } from "@medusajs/framework/utils";
 import { PLATFORM_PRICING_MODULE } from "../../../modules/platform-pricing";
 import type PlatformPricingModuleService from "../../../modules/platform-pricing/service";
 import type { PostAdminPlatformPricingBody } from "../../../modules/platform-pricing/schema";
@@ -39,11 +40,23 @@ export const POST = async (
   const service: PlatformPricingModuleService = req.scope.resolve(PLATFORM_PRICING_MODULE);
   const { pricing, revision } = req.validatedBody;
 
-  const saved = await service.savePage({
-    document: pricing,
-    expectedRevision: revision,
-    updatedBy: req.auth_context?.actor_id ?? null,
-  });
+  let saved;
+  try {
+    saved = await service.savePage({
+      document: pricing,
+      expectedRevision: revision,
+      updatedBy: req.auth_context?.actor_id ?? null,
+    });
+  } catch (error) {
+    // The framework's error handler answers every CONFLICT with its own
+    // idempotency-key sentence, which would tell the editor nothing. A stale
+    // revision is answered here, with the service's own words.
+    if (MedusaError.isMedusaError(error) && error.type === MedusaError.Types.CONFLICT) {
+      res.status(409).json({ type: "conflict", message: error.message });
+      return;
+    }
+    throw error;
+  }
 
   res.status(200).json(pricingResponse(saved));
 };
