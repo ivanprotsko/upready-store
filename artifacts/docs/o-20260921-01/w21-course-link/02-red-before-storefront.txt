@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/storefront
+
+ ❯ src/middleware.test.ts (5 tests | 2 failed) 88ms
+     × 308s a bare /course-<slug> to the negotiated locale's product page 5ms
+     × 308s /<locale>/course-<slug> to that same locale's product page 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/middleware.test.ts > course slug redirect > 308s a bare /course-<slug> to the negotiated locale's product page
+AssertionError: expected 302 to be 308 // Object.is equality
+
+- Expected
++ Received
+
+- 308
++ 302
+
+ ❯ src/middleware.test.ts:137:29
+    135|     )
+    136|
+    137|     expect(response.status).toBe(308)
+       |                             ^
+    138|     expect(response.headers.get("location")).toBe(
+    139|       "http://shop.test/ru/products/liver-cleanse"
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/middleware.test.ts > course slug redirect > 308s /<locale>/course-<slug> to that same locale's product page
+AssertionError: expected 200 to be 308 // Object.is equality
+
+- Expected
++ Received
+
+- 308
++ 200
+
+ ❯ src/middleware.test.ts:153:29
+    151|     )
+    152|
+    153|     expect(response.status).toBe(308)
+       |                             ^
+    154|     expect(response.headers.get("location")).toBe(
+    155|       "http://shop.test/en/products/liver-cleanse"
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 15 passed (17)
+   Start at  17:16:04
+   Duration  265ms (transform 115ms, setup 0ms, import 111ms, tests 104ms, environment 0ms)
+

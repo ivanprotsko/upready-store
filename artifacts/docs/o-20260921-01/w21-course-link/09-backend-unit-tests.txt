@@ -1,0 +1,208 @@
+PASS src/modules/marketplace/__tests__/schedule.unit.spec.ts (7.925 s)
+PASS src/modules/ozon/__tests__/credentials.unit.spec.ts (8.005 s)
+PASS src/modules/marketplace/__tests__/price-stock.unit.spec.ts (8.501 s)
+PASS src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts (8.529 s)
+PASS src/modules/marketplace/__tests__/normalize.unit.spec.ts (8.697 s)
+PASS src/modules/marketplace/__tests__/scheduler.unit.spec.ts (9.329 s)
+PASS src/modules/wb/__tests__/fbs-sync.unit.spec.ts
+PASS src/catalog-enrich/__tests__/wb-source.unit.spec.ts
+PASS src/modules/wb-write/__tests__/no-live-write-call-site.unit.spec.ts
+PASS src/modules/auth-yandex/__tests__/service.unit.spec.ts (8.527 s)
+PASS src/api/tenants/payment-settings/manual/__tests__/manual-payment.unit.spec.ts (5.978 s)
+PASS src/api/tenants/marketplaces/__tests__/reviews-desk-read-only.unit.spec.ts (8.776 s)
+PASS src/product-csv/__tests__/prices.unit.spec.ts (18.6 s)
+PASS src/workflows/tenant/clone-tenant/__tests__/methods-to-copy.unit.spec.ts (18.648 s)
+PASS src/catalog-enrich/__tests__/apply-dry-run.unit.spec.ts (18.652 s)
+PASS src/workflows/hooks/__tests__/complete-cart-validate.unit.spec.ts
+PASS src/modules/marketplace/__tests__/single-call-site.unit.spec.ts (8.031 s)
+PASS src/api/tenants/reviews/__tests__/review-helpers.unit.spec.ts
+PASS src/modules/marketplace/__tests__/order-feed-read-only.unit.spec.ts
+PASS src/product-csv/__tests__/currencies.unit.spec.ts
+PASS src/catalog-enrich/__tests__/reviews.unit.spec.ts (13.45 s)
+PASS src/api/tenants/me/__tests__/group-sites.unit.spec.ts (5.156 s)
+PASS src/api/tenants/products/__tests__/site-scope.unit.spec.ts (5.482 s)
+PASS src/modules/wb/__tests__/upsert-batch.unit.spec.ts (5.012 s)
+PASS src/api/store/tenant/courses/__tests__/compute-course-progress.unit.spec.ts (5.156 s)
+PASS src/modules/wb/__tests__/service-methods.unit.spec.ts (5.092 s)
+PASS src/modules/marketplace/__tests__/price-stock-read-only.unit.spec.ts (6.929 s)
+PASS src/modules/wb/__tests__/rate-limit-status.unit.spec.ts (5.546 s)
+PASS src/migration-scripts/__tests__/profile-data.unit.spec.ts
+PASS src/telegram/__tests__/mini-app.unit.spec.ts (5.236 s)
+PASS src/api/storefront/by-host/__tests__/attribution.unit.spec.ts
+PASS src/modules/platform-pricing/__tests__/seed-matches-html.unit.spec.ts
+PASS src/tenant-notifications/__tests__/notifications.unit.spec.ts
+PASS src/tenant-secrets/__tests__/crypto.unit.spec.ts
+PASS src/modules/ozon/__tests__/transport-single-call-site.unit.spec.ts
+PASS src/modules/ozon/__tests__/transport.unit.spec.ts
+PASS src/modules/auth-yandex/__tests__/state.unit.spec.ts
+PASS src/storefront-revalidate/__tests__/inventory-subscriber.unit.spec.ts
+PASS src/modules/wb/__tests__/transport-single-call-site.unit.spec.ts
+PASS src/product-attributes-fill/__tests__/parse-characteristics.unit.spec.ts
+PASS src/modules/wb-write/__tests__/feedback-answers.unit.spec.ts
+PASS src/modules/wb-write/__tests__/write-registry.unit.spec.ts
+PASS src/modules/marketplace/__tests__/analytics-read-only.unit.spec.ts (7.609 s)
+PASS src/tenant-secrets/__tests__/robokassa.unit.spec.ts (5.868 s)
+PASS src/modules/marketplace/__tests__/analytics.unit.spec.ts
+PASS src/modules/marketplace/__tests__/order-feed.unit.spec.ts
+PASS src/modules/wb/__tests__/transport.unit.spec.ts
+  ● Console
+
+    console.info
+      [wb] POST marketplace-api.wildberries.ru/api/v3/stocks/42 -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET common-api.wildberries.ru/api/v1/seller-info -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET common-api.wildberries.ru/ping -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET common-api.wildberries.ru/api/v1/seller-info -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] POST content-api.wildberries.ru/content/v2/get/cards/list -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET content-api.wildberries.ru/content/v2/cards/limits -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET discounts-prices-api.wildberries.ru/api/v2/list/goods/filter -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET marketplace-api.wildberries.ru/api/v3/warehouses -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET statistics-api.wildberries.ru/api/v1/supplier/orders -> 200 in 1 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET marketplace-api.wildberries.ru/api/v3/orders/new -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET marketplace-api.wildberries.ru/api/v3/orders -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] POST marketplace-api.wildberries.ru/api/v3/orders/status -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET marketplace-api.wildberries.ru/api/v3/supplies -> 200 in 1 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] POST marketplace-api.wildberries.ru/api/v3/orders/stickers -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET statistics-api.wildberries.ru/api/v1/supplier/sales -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET feedbacks-api.wildberries.ru/api/v1/feedbacks -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] GET feedbacks-api.wildberries.ru/api/v1/questions -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] POST seller-analytics-api.wildberries.ru/api/analytics/v3/sales-funnel/products/history -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] POST seller-analytics-api.wildberries.ru/api/v2/stocks-report/products/products -> 200 in 0 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+    console.info
+      [wb] POST seller-analytics-api.wildberries.ru/api/analytics/v2/item-rating -> 200 in 1 ms (Authorization: ***)
+
+      at info (src/modules/wb/transport.ts:244:14)
+
+PASS src/product-csv/__tests__/slugify-twin.unit.spec.ts
+PASS src/modules/auth-yandex/__tests__/oauth.unit.spec.ts (5.447 s)
+PASS src/emails/__tests__/tracking.unit.spec.ts
+PASS src/api/tenants/__tests__/marketplace-keys.unit.spec.ts (7.401 s)
+PASS src/wb-write-diff/__tests__/diff.unit.spec.ts
+PASS src/migration-scripts/__tests__/abstract-datasets.unit.spec.ts (8.685 s)
+PASS src/migration-scripts/__tests__/prices.unit.spec.ts (6.638 s)
+PASS src/shipping-tariffs/__tests__/default-method-names.unit.spec.ts
+PASS src/apiship/__tests__/client.unit.spec.ts
+PASS src/telegram/__tests__/provision.unit.spec.ts
+PASS src/catalog-enrich/__tests__/images.unit.spec.ts
+PASS src/api/tenants/marketplaces/__tests__/reviews-desk.unit.spec.ts
+PASS src/api/__tests__/rate-limit.unit.spec.ts
+PASS src/tenant-redirects/__tests__/registry-parity.unit.spec.ts
+PASS src/config/__tests__/production-env.unit.spec.ts
+PASS src/tenant-redirects/__tests__/migrated-pages-parity.unit.spec.ts
+PASS src/workflows/hooks/__tests__/validate-cart-shipping-address.unit.spec.ts
+PASS src/modules/ozon/__tests__/fixtures.unit.spec.ts
+PASS src/wb-write-diff/__tests__/push.unit.spec.ts (5.069 s)
+PASS src/modules/platform-pricing/__tests__/schema.unit.spec.ts
+PASS src/tenant-redirects/__tests__/migrated-redirects.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/ru-zone-presets.unit.spec.ts
+PASS src/api/storefront/by-host/__tests__/hosts.unit.spec.ts
+PASS src/subscribers/__tests__/grant-course-on-paid.unit.spec.ts (5.581 s)
+PASS src/tenant-legal/__tests__/redact.unit.spec.ts
+PASS src/scripts/__tests__/fixtures-outside-src.unit.spec.ts
+PASS src/tenant-legal/__tests__/requisites.unit.spec.ts
+PASS src/modules/marketplace/__tests__/link-plan.unit.spec.ts
+PASS src/modules/wb-write/__tests__/write-gates.unit.spec.ts
+PASS src/wb-write-diff/__tests__/batches.unit.spec.ts
+PASS src/migration-scripts/__tests__/store-profile.unit.spec.ts
+PASS src/product-csv/__tests__/plan.unit.spec.ts
+PASS src/modules/wb-write/__tests__/fbs-orders.unit.spec.ts
+PASS src/modules/wb/__tests__/token.unit.spec.ts
+PASS src/api/tenants/__tests__/tenant-scope-guard.unit.spec.ts
+PASS src/analytics-summary/__tests__/top-products.unit.spec.ts
+PASS src/analytics-summary/__tests__/currency.unit.spec.ts
+PASS src/tenant-secrets/__tests__/payment-methods.unit.spec.ts
+PASS src/cdek/__tests__/method.unit.spec.ts
+PASS src/modules/marketplace/__tests__/catalog.unit.spec.ts
+PASS src/modules/marketplace/__tests__/link.unit.spec.ts
+PASS src/tenant-redirects/__tests__/migrated-pages.unit.spec.ts
+PASS src/product-csv/__tests__/columns.unit.spec.ts
+PASS src/product-csv/__tests__/images.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/weight-from-metadata.unit.spec.ts
+PASS src/product-csv/__tests__/csv.unit.spec.ts
+PASS src/catalog-enrich/__tests__/match.unit.spec.ts
+PASS src/cdek/__tests__/client.unit.spec.ts
+PASS src/guest-order-claim/__tests__/select-claimable-orders.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/tariff.unit.spec.ts
+PASS src/reviews-import/__tests__/cherkashina-rules.unit.spec.ts
+PASS src/product-csv/__tests__/rows.unit.spec.ts
+PASS src/api/__tests__/field-guard.unit.spec.ts
+
+Test Suites: 100 passed, 100 total
+Tests:       1284 passed, 1284 total
+Snapshots:   0 total
+Time:        40.875 s
+Ran all test suites.

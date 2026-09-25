@@ -1,0 +1,13 @@
+
+> @dtc/gorgo-medusa-storefront@1.0.0 test
+> vitest run --passWithNoTests --exclude "**/node_modules/**" --exclude "**/.next/**" --exclude "tests/ui-lab/**" --exclude "tests/pdp/**" --exclude "e2e/**"
+
+
+ RUN  v4.1.11 /Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup/apps/storefront
+
+
+ Test Files  52 passed (52)
+      Tests  450 passed (450)
+   Start at  17:16:36
+   Duration  1.28s (transform 1.57s, setup 0ms, import 2.37s, tests 1.74s, environment 3ms)
+

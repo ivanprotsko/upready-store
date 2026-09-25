@@ -1,0 +1,6 @@
+
+> gorgo-medusa-dtc-starter-monorepo@ check:backend-fixtures /Users/ivanprotsko/upready/worktrees/upready-store/fix/olavka-course-link-cleanup
+> cd apps/backend && npx tsc -p scripts/fixtures/tsconfig.json
+
+npm warn Unknown env config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown env config "enable-pre-post-scripts". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.

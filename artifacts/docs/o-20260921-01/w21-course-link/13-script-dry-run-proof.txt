@@ -1,0 +1,17 @@
+=== proof: two dummy stand backends, cwd-scoped, unique per-session dirs ===
+dir A = /private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-fix-olavka-course-link-cleanup/0fe1f93a-ebb2-4f78-937b-06aa86709720/scratchpad/w21-proof-a
+dir B = /private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-fix-olavka-course-link-cleanup/0fe1f93a-ebb2-4f78-937b-06aa86709720/scratchpad/w21-proof-b
+PID_A=79993 PID_B=79994
+79993 79990 npm exec medusa develop 600
+79994 79990 npm exec medusa develop 600
+
+=== --dry-run against dir A: must list ONLY PID_A (79993), never PID_B (79994) ===
+dry-run: would stop: 79993 
+79993 79990 Fri Sep 25 17:20:18 2026     npm exec medusa develop 600
+
+=== --dry-run against dir B: must list ONLY PID_B (79994), never PID_A (79993) ===
+dry-run: would stop: 79994 
+79994 79990 Fri Sep 25 17:20:18 2026     npm exec medusa develop 600
+
+=== killing both dummies (test cleanup only, no real stand touched) ===
+(no rows above = both dummies gone)
