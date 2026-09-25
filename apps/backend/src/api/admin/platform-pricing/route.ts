@@ -15,13 +15,16 @@ import { pricingResponse } from "../../platform/pricing/response";
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const service: PlatformPricingModuleService = req.scope.resolve(PLATFORM_PRICING_MODULE);
   const row = await service.retrievePage();
+  // Where the editor's «Открыть /pricing» points: the page lives on the
+  // storefront's platform host, which this backend cannot derive by itself.
+  const preview_url = process.env.PLATFORM_PRICING_URL || null;
 
   if (!row) {
-    res.status(200).json({ pricing: null, revision: null, updated_at: null });
+    res.status(200).json({ pricing: null, revision: null, updated_at: null, preview_url });
     return;
   }
 
-  res.status(200).json(pricingResponse(row));
+  res.status(200).json({ ...pricingResponse(row), preview_url });
 };
 
 /**

@@ -1,6 +1,6 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 
 import { PLATFORM_PRICING_MODULE } from "../../src/modules/platform-pricing";
 import { PricingDocumentSchema } from "../../src/modules/platform-pricing/schema";
@@ -77,7 +77,10 @@ export default async function seedPlatformPricing({ container }: { container: Me
       return;
     }
     if (!overwrite) {
-      throw new Error(`${tag}: the stored page was edited; rerun with OVERWRITE=1 to replace it with the seed`);
+      throw new MedusaError(
+        MedusaError.Types.NOT_ALLOWED,
+        `${tag}: the stored page was edited; rerun with OVERWRITE=1 to replace it with the seed`,
+      );
     }
 
     const saved = await service.savePage({ document: seed, expectedRevision: current.revision, updatedBy: null });
