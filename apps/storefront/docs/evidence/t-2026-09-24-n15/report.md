@@ -316,3 +316,60 @@ the page. Measured (`scratchpad/r11.log`, `r11t.log`):
 Remark 7 holds: caps centre − controls centre at 1216 rest 0 / −0.12 (light / dark), scrolled −0.12 / −0.12
 (controls centre 28 in the 56 bar); 720 and 360 unchanged (0 … −0.37). Pill v3 computed unchanged.
 27f `header-scrolled/` re-shot.
+
+## Remark 12 · banner font, clipped «С» in Chrome, Firefox rings (Ivan 2026-09-25)
+
+Ivan's words and the lead's findings: `/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-12-slider-banner-font-clip-firefox.md`.
+Crops `banner-font-clip/<chromium|firefox>-<1440|390>-<title|kicker>-<before|after>.png` (Playwright, dpr 2; before =
+production :8233 at 4339f102, after = this commit), `chromium-1440-title-c-top-before-after-zoom.png`,
+`firefox-real-156-1440-after.png` (Firefox.app 156, GUI, dpr 2, driven over WebDriver BiDi, window captured).
+
+**1 · Font.** `.text` read `font-family: var(--font-olavka-flex), var(--font-body), sans-serif`. `pnpm build` runs the
+`build-profile.mjs` prebuild, which on this stand writes the «default» profile with no font pair, so `--font-body` is
+undefined, the whole declaration is invalid at computed-value time and the text inherited Inter; Roboto Flex was never
+requested. Now `var(--font-olavka-flex, "Roboto Flex"), sans-serif` — no other variable in the stack.
+
+| Browser | computed family before → after | Roboto Flex files in `document.fonts` after |
+|---|---|---|
+| Chromium (Playwright) | Inter → "Roboto Flex", "Roboto Flex Fallback", sans-serif | 2 loaded (the cyrillic + latin subsets in use) |
+| Firefox 153 (Playwright) | Inter → same | 2 loaded |
+| Firefox.app 156 (real) | Inter (unloaded) → same | 2 loaded |
+
+Axes: the REST dump has family Roboto Flex, `RobotoFlex-Bold` / `RobotoFlex-Thin` named styles, weights 425 / 532 / 475,
+sizes and 90 % line height, but no variable axes. `"wdth" 25` stays a fit by width (подбор, не из Figma) until Ivan
+sends the Width / Optical size / Grade values from Figma (asked by the lead).
+
+**2 · «С» clipped in Chrome.** The text box is trimmed to the cap height (`text-box: trim-both cap alphabetic`, the
+node's `leadingTrim: CAP_HEIGHT`) and it clipped its own overflow (kept for the ellipsis), so the overshoot of round
+letters was cut flat. The clip now has 0.25em of room above and below (`padding-block: 0.25em`, given back by
+`margin-block: -0.25em`), enough for overshoots, «Й»/«Ё» marks and «Д»/«Щ» tails; the ellipsis still works (checked
+with a long «ЁЖИК Й …» date in both browsers). Layout unchanged: inner heights 138.2 / 50 (1440), 109.3 / 36 (390) in
+both browsers.
+
+**2.1 · Firefox looked different.** Firefox has no `text-box`; the old fallback only shifted the title's padding. Now one
+fallback for every chip from Roboto Flex's metrics (ascent 0.928, descent 0.244, cap 0.711, line-height 0.9 → the line
+box reaches 0.081em above the caps and 0.108em below the baseline, taken back by margins), so the text box is the cap
+height in Firefox too. Glyph ink from the fill edge (css px, top / bottom), node 24 / 24 (desktop title) and 16 (mobile):
+
+| Chip · width | Chromium after | Firefox after | Firefox before |
+|---|---|---|---|
+| title 1440 | 23.5 / 24.0 | 23.5 / 24.0 | 23.5 / 23.0 (Inter) |
+| date 1440 | 14.5 / 15.0 | 14.5 / 15.0 | 14.5 / 14.5 (Inter) |
+| title 390 | 15.5 / 15.5 | 16.0 / 15.0 | 14.5 / 14.0 (Inter) |
+| date 390 | 10.5 / 11.0 | 11.0 / 10.5 | 10.5 / 10.5 (Inter) |
+
+**3 · Firefox ring colours — not reproduced.** Firefox.app 156 (GPU, dpr 2) at 1440 at rest, hovering the left and the
+centre card, at 1640 (page zoom 1.139) and after a swipe back: every dark ring is #312721 by pixels (4 css px), the gap
+shows the blurred picture, the fill #312721; computed `border-color` rgb(49,39,33) in Playwright Firefox 153 too. In
+Ivan's screenshot only the two dark chips of the LEFT banner (varicose: «Коллекция», the title) have a #ffffff ring; the
+liver title on the right banner is #312721 — the classes are fixed per chip in the code (`dark` for label and title), so
+this is not the cascade. Details asked from Ivan by the lead (Firefox version, window width / zoom, pointer position,
+extensions, whether it survives a reload). No change made.
+
+**Strokes 75 %.** In 238:17551 the 75 % white surfaces (and 75 % white fills) belong only to the two all-white banners
+not on the storefront (pictures 3ad1c160 «всё чистки для Почек», b639e905 «Профилактика и лечение варикоза»). The
+three banners in use (liver, lymph, «Товары от варикоза») have 100 %: dark #312721 title and label, white #ffffff date
+and button — as the code draws them. No change.
+
+Seen, not changed: a date chip longer than the space left of the label runs under it (its max-width ignores the label);
+pre-existing, only with an extreme text.

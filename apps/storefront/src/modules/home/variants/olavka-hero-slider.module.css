@@ -166,8 +166,15 @@
 .text {
   display: block;
   min-width: 0;
+  /* The box is trimmed to the cap height, so its own clip (kept for the ellipsis) cut the
+     overshoot of «С», «О» (Ivan's remark 12.2). The clip gets 0.25em of room above and below
+     — overshoots, «Й»/«Ё» marks, «Д»/«Щ» tails — and the margins give it back to the layout. */
   overflow: hidden;
-  font-family: var(--font-olavka-flex), var(--font-body), sans-serif;
+  padding-block: 0.25em;
+  margin-block: -0.25em;
+  /* No other variable in the stack: an undefined one (the profile's `--font-body` when the
+     build has no font pair) invalidates the whole declaration and the text falls to Inter. */
+  font-family: var(--font-olavka-flex, "Roboto Flex"), sans-serif;
   font-size: 28px;
   font-weight: 532;
   font-variation-settings: "wdth" 25;
@@ -238,10 +245,13 @@
   overflow-wrap: anywhere;
 }
 
-/* No cap trimming (Firefox): take the half-leading back from the padding. */
+/* No cap trimming (Firefox, remark 12.2.1): the same trim from Roboto Flex's own metrics
+   (ascent 0.928, descent 0.244, cap height 0.711, line-height 0.9 → the line box reaches
+   0.081em above the caps and 0.108em below the baseline), taken back by negative margins,
+   so the text box is the cap height here too and every chip lays out alike. */
 @supports not (text-box: trim-both cap alphabetic) {
-  .title .inner {
-    padding-block: 19px;
+  .text {
+    margin-block: calc(-0.25em - 0.081em) calc(-0.25em - 0.108em);
   }
 }
 
@@ -321,10 +331,5 @@
   }
   .title .text {
     font-size: 48px;
-  }
-  @supports not (text-box: trim-both cap alphabetic) {
-    .title .inner {
-      padding-block: 11px;
-    }
   }
 }
