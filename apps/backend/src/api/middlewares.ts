@@ -234,6 +234,7 @@ import {
   PostAdminTenantCreateSchema,
   PostAdminTenantUpdateSchema,
 } from "./admin/tenants/validators";
+import { PostAdminPlatformPricingSchema } from "../modules/platform-pricing/schema";
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
@@ -1410,6 +1411,15 @@ export default defineMiddlewares({
       matcher: "/admin/tenants/:id/admins/:adminId",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostAdminTenantAdminUpdateSchema)],
+    },
+    // t-2026-09-25-08: the platform pricing page. Staff auth is the default
+    // `/admin/*` middleware; the body is the whole page, checked by the one
+    // schema the public read (`GET /platform/pricing`, no entry here: no auth,
+    // no key, nothing to validate) parses the stored row with.
+    {
+      matcher: "/admin/platform-pricing",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostAdminPlatformPricingSchema)],
     },
 
     // ---- t04-shipping-tariffs (day-2026-09-16): the shop's own delivery

@@ -220,6 +220,9 @@ module.exports = defineConfig({
     { resolve: "./src/modules/product-review" },
     // Online courses: course + lesson content, entitlement and progress — o24-courses.
     { resolve: "./src/modules/course" },
+    // The platform's own pricing page (/pricing on the platform hosts), one
+    // validated document edited in the admin at «Тарифы» — t-2026-09-25-08.
+    { resolve: "./src/modules/platform-pricing" },
     // Wildberries Seller API mirror, read-only by construction — w01-wb-readonly-client.
     // The module owns the wb_* tables; the client is src/modules/wb/transport.ts,
     // the only file here that calls *.wildberries.ru, and it can send nothing
