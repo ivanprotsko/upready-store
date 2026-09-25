@@ -105,16 +105,17 @@ export const CourseList = () => {
                     to={course.id}
                     className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
                   >
-                    <Text size="small" weight="plus">
+                    <Text size="small" weight="plus" className="truncate" title={course.slug}>
                       {course.title}
                     </Text>
                   </Link>
-                  <Text size="small" className="text-ui-fg-subtle font-mono">
-                    {course.slug}
-                  </Text>
                 </Table.Cell>
                 <Table.Cell>
-                  <Text size="small" className="text-ui-fg-subtle">
+                  <Text
+                    size="small"
+                    className="text-ui-fg-subtle truncate"
+                    title={titleById.get(course.product_id) ?? "Товар удалён"}
+                  >
                     {titleById.get(course.product_id) ?? "Товар удалён"}
                   </Text>
                 </Table.Cell>

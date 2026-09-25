@@ -295,11 +295,13 @@ export const ReviewList = () => {
               {reviews.map((review) => (
                 <Table.Row key={review.id}>
                   <Table.Cell className="align-top">
-                    <Text size="small" weight="plus">
+                    <Text
+                      size="small"
+                      weight="plus"
+                      className="truncate"
+                      title={`${REVIEW_SOURCE_LABEL[review.source]}, ${languageLabel(review.language)}`}
+                    >
                       {review.product?.title ?? "Товар удалён"}
-                    </Text>
-                    <Text size="small" className="text-ui-fg-subtle">
-                      {REVIEW_SOURCE_LABEL[review.source]}, {languageLabel(review.language)}
                     </Text>
                   </Table.Cell>
                   <Table.Cell className="max-w-xl align-top">
@@ -327,12 +329,12 @@ export const ReviewList = () => {
                   </Table.Cell>
                   <Table.Cell className="align-top">
                     <div className="flex flex-col gap-y-2 py-2">
-                      <StatusBadge color={REVIEW_STATUS_COLOR[review.status]}>
+                      <StatusBadge
+                        color={REVIEW_STATUS_COLOR[review.status]}
+                        title={REVIEW_STATUS_HINT[review.status]}
+                      >
                         {REVIEW_STATUS_LABEL[review.status]}
                       </StatusBadge>
-                      <Text size="small" className="text-ui-fg-subtle">
-                        {REVIEW_STATUS_HINT[review.status]}
-                      </Text>
                       <StatusActions review={review} />
                     </div>
                   </Table.Cell>

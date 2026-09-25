@@ -233,19 +233,25 @@ export const ArticleList = () => {
                       to={group.slug}
                       className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
                     >
-                      <Text size="small" weight="plus">
+                      <Text
+                        size="small"
+                        weight="plus"
+                        className="truncate"
+                        title={publicArticleUrl(primaryHost, group.slug)}
+                      >
                         {group.primary.title.trim() || group.slug}
                       </Text>
                     </Link>
-                    <Text size="small" className="text-ui-fg-subtle font-mono line-clamp-1">
-                      {publicArticleUrl(primaryHost, group.slug)}
-                    </Text>
                   </Table.Cell>
                   <Table.Cell>
                     <StatusBadge color={badge.color}>{badge.label}</StatusBadge>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text size="small" className="text-ui-fg-subtle">
+                    <Text
+                      size="small"
+                      className="text-ui-fg-subtle truncate"
+                      title={group.primary.category || "—"}
+                    >
                       {group.primary.category || "—"}
                     </Text>
                   </Table.Cell>

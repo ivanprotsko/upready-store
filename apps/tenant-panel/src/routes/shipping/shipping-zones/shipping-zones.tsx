@@ -260,28 +260,23 @@ const ZonesScreen = () => {
                           aria-label={preset.name}
                         />
                       </Table.Cell>
-                      <Table.Cell>
-                        <div className="flex flex-col">
-                          <div className="flex items-center gap-x-2">
-                            <Text size="small" weight="plus">
-                              {preset.name}
-                            </Text>
-                            <Tooltip
-                              content={preset.regions
-                                .map((region) => region.name)
-                                .join(", ")}
-                            >
-                              <Text size="xsmall" className="text-ui-fg-muted">
-                                {preset.regions.length}{" "}
-                                {regionWord(preset.regions.length)}
-                              </Text>
-                            </Tooltip>
-                          </div>
-                          <Text size="xsmall" className="text-ui-fg-subtle">
-                            {exists
-                              ? "Такой способ уже создан"
-                              : preset.description}
+                      <Table.Cell
+                        title={exists ? "Такой способ уже создан" : preset.description}
+                      >
+                        <div className="flex items-center gap-x-2">
+                          <Text size="small" weight="plus" className="truncate">
+                            {preset.name}
                           </Text>
+                          <Tooltip
+                            content={preset.regions
+                              .map((region) => region.name)
+                              .join(", ")}
+                          >
+                            <Text size="xsmall" className="text-ui-fg-muted text-nowrap">
+                              {preset.regions.length}{" "}
+                              {regionWord(preset.regions.length)}
+                            </Text>
+                          </Tooltip>
                         </div>
                       </Table.Cell>
                       <Table.Cell>

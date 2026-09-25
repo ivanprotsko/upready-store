@@ -288,18 +288,13 @@ export const MarketplaceOrders = () => {
                     </Table.Cell>
                     <Table.Cell>{formatDate(order.ordered_at, locale)}</Table.Cell>
                     <Table.Cell>{order.scheme ?? "—"}</Table.Cell>
-                    <Table.Cell>
-                      <div className="flex flex-col">
-                        <Text size="small">{order.status_label}</Text>
-                        {/* o21-owner-panel-ux (P3): the marketplace's own status
-                            code stays out of the owner's sight; the detail the
-                            marketplace wrote in words is kept. */}
-                        {order.status_detail ? (
-                          <Text className="text-ui-fg-muted" size="xsmall">
-                            {order.status_detail}
-                          </Text>
-                        ) : null}
-                      </div>
+                    <Table.Cell title={order.status_detail ?? undefined}>
+                      {/* o21-owner-panel-ux (P3): the marketplace's own status
+                          code stays out of the owner's sight; the detail the
+                          marketplace wrote in words is kept, in the title. */}
+                      <Text size="small" className="truncate">
+                        {order.status_label}
+                      </Text>
                     </Table.Cell>
                     <Table.Cell>{order.buyer_region ?? "—"}</Table.Cell>
                     <Table.Cell className="text-right">
