@@ -31,3 +31,18 @@ export const productsWithoutCourse = <TProduct extends MinimalProduct>(
 
 export const productTitleById = (products: MinimalProduct[]): Map<string, string> =>
   new Map(products.map((product) => [product.id, product.title]))
+
+/**
+ * t-2026-09-25-17: the course's REAL storefront address — the product page it
+ * is sold on, `/<locale>/products/<handle>`, not the `/course-<slug>` address
+ * no storefront route ever served. `primaryHost` is the same field
+ * `OpenShop` (`components/layout/shell/shell.tsx`) already builds the "open
+ * shop" button from; `null` while either the host or the handle has not
+ * loaded yet, so the caller can fall back to a plain, non-clickable path.
+ */
+export const buildCourseStorefrontUrl = (
+  primaryHost: string | undefined,
+  locale: string | undefined,
+  handle: string | undefined
+): string | null =>
+  primaryHost && handle ? `https://${primaryHost}/${locale ?? "ru"}/products/${handle}` : null

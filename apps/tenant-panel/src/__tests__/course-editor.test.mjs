@@ -4,7 +4,11 @@ import { readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { productsWithoutCourse, productTitleById } from "../routes/courses/course-labels.ts"
+import {
+  buildCourseStorefrontUrl,
+  productsWithoutCourse,
+  productTitleById,
+} from "../routes/courses/course-labels.ts"
 
 /**
  * o24-courses, the panel's course editor (`/courses`, `/courses/:id`,
@@ -94,6 +98,28 @@ test("the lesson form refuses a video link with no http(s) scheme before it ever
   const submitIndex = source.indexOf("await onSubmit(")
   assert.notEqual(guardIndex, -1, "the video-url guard is missing")
   assert.ok(guardIndex < submitIndex, "the video-url guard must run before the request is sent")
+})
+
+test("buildCourseStorefrontUrl reads the real product-page address of the course, on the shop's own host", () => {
+  assert.equal(
+    buildCourseStorefrontUrl("shop.upready.store", "ru", "superkurs"),
+    "https://shop.upready.store/ru/products/superkurs"
+  )
+})
+
+test("buildCourseStorefrontUrl defaults to ru when the shop has no default locale saved yet", () => {
+  assert.equal(
+    buildCourseStorefrontUrl("shop.upready.store", undefined, "superkurs"),
+    "https://shop.upready.store/ru/products/superkurs"
+  )
+})
+
+test("buildCourseStorefrontUrl never invents a host: no primaryHost, no URL", () => {
+  assert.equal(buildCourseStorefrontUrl(undefined, "ru", "superkurs"), null)
+})
+
+test("buildCourseStorefrontUrl answers null while the product handle has not loaded yet", () => {
+  assert.equal(buildCourseStorefrontUrl("shop.upready.store", "ru", undefined), null)
 })
 
 test("deleting a course warns that a buyer's own access survives it", () => {
