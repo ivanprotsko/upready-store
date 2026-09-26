@@ -829,7 +829,10 @@
     "selectVariant": "Variante auswählen",
     "inStock": "Auf Lager",
     "buyNow": "Jetzt kaufen",
-    "buy": "Kaufen"
+    "buy": "Kaufen",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nein",

@@ -829,7 +829,10 @@
     "selectVariant": "Оберіть варіант",
     "inStock": "Є в наявності",
     "buyNow": "Оплатити",
-    "buy": "Купити"
+    "buy": "Купити",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Ні",

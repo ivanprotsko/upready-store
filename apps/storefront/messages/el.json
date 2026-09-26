@@ -829,7 +829,10 @@
     "selectVariant": "Επιλέξτε παραλλαγή",
     "inStock": "Σε απόθεμα",
     "buyNow": "Αγορά",
-    "buy": "Αγορά"
+    "buy": "Αγορά",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Όχι",

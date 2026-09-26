@@ -829,7 +829,10 @@
     "selectVariant": "Chọn phiên bản",
     "inStock": "Còn hàng",
     "buyNow": "Mua ngay",
-    "buy": "Mua"
+    "buy": "Mua",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Không",

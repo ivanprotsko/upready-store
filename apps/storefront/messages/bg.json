@@ -829,7 +829,10 @@
     "selectVariant": "Избери вариант",
     "inStock": "В наличност",
     "buyNow": "Плати",
-    "buy": "Купи"
+    "buy": "Купи",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Не",

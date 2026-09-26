@@ -829,7 +829,10 @@
     "selectVariant": "Pilih varian",
     "inStock": "Tersedia",
     "buyNow": "Beli sekarang",
-    "buy": "Beli"
+    "buy": "Beli",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Tidak",

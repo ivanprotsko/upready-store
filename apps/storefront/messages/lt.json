@@ -829,7 +829,10 @@
     "selectVariant": "Pasirinkite variantą",
     "inStock": "Turime sandėlyje",
     "buyNow": "Pirkti",
-    "buy": "Pirkti"
+    "buy": "Pirkti",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Ne",

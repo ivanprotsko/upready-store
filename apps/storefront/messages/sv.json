@@ -829,7 +829,10 @@
     "selectVariant": "Välj variant",
     "inStock": "I lager",
     "buyNow": "Köp",
-    "buy": "Köp"
+    "buy": "Köp",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nej",

@@ -789,3 +789,40 @@ Shots: menus `dark-toggle/<engine>-<1440|390>-menu-<light|dark>.png`, the sheet 
 switch `<engine>-<width>-toggle-focus-<light|dark>.png`. Logs `toggle-chromium.log`, `toggle-firefox.log`; script
 `toggle20.mjs`. The dark scan ran in Chromium. Firefox checked the switch's behaviour. One Firefox launch was refused by
 macOS («library load denied by system policy»), and the next one ran normally.
+
+## Remark 24 · «В КОРЗИНЕ − N +» after «В корзину» (Ivan 2026-09-27), part 1: code and unit tests
+
+«я ранее просил сделать кнопку "В корзине" со счетчиком предметов в корзине после нажатия на кнопку "В корзину", но это до
+сих пор не готово»: `/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-24-in-cart-button-counter.md`,
+section 2 of `/Users/ivanprotsko/upready/prompts/2026-09-25-w25-olavka-home-rails-journal-incart.md`.
+
+**Where.** On Olavka the button is on the product page only: the buy box and the phone's sticky bar. Olavka's product
+cards have no «В корзину» button to turn into a stepper: remark 17 left title and price only («Остается только заголовок и
+цена»). Whether cards should get a cart button is a question for Ivan. The «Характеристики и описание» drawer keeps its own
+«В корзину», which adds one more to the same line.
+
+**What.**
+- `in-cart-stepper/logic.ts` is pure state logic:
+  - not in the cart, «+» → add one;
+  - N, «+» → N + 1, but not over the stock of a tracked variant without back orders (the `variantInStock` rule);
+  - N > 1, «−» → N − 1;
+  - 1, «−» → the line is removed and the button is «В корзину» again.
+- 8 unit tests in `logic.test.ts`.
+- `InCartStepper` takes the add button's place, size (40px, round) and fill (`ui-button-inverted`, the same green): «В
+  КОРЗИНЕ» on the left links to /cart, «− N +» on the right. No new colours.
+  - «+» and «−» change the number at once and send `updateLineItem` / `deleteLineItem`. Those revalidate the cart, so the
+    page, the header count included, comes back with the server's numbers; a failed request falls back to them.
+  - Accessibility: `role="group"`, «Убрать одну» / «Добавить ещё одну» labels, the number in `aria-live`.
+  - Keys `ProductActions.inCart/decreaseQuantity/increaseQuantity` are in all 36 locales.
+- `ProductActionsWrapper` reads the visitor's cart on the Olavka shop only (`retrieveCart`: a read, and none at all without
+  a cart cookie). Other shops read nothing and render as before.
+
+**Checked so far** (no cart was created: writes to `upready_store_live_copy` wait for Ivan's ok through the lead):
+- vitest 413/413, 8 of them new;
+- tsc 0; lint 0 errors;
+- the product page without a cart on :8233, olavka and acme, 1440/390: «В корзину» / «Выбрать вариант» as before. At 390
+  the buy box shots are byte-identical; at 1440 26–27 bytes differ on both shops, and acme's code path is unchanged
+  (`in-cart-button/chromium-<shop>-<width>-buybox-<before|after>.png`).
+
+**Waiting:** the stepper in a real cart. Add, «+» to 2, «−» back to 1, «−» to «В корзину», and the header count, in
+Chromium and Firefox at 1440 and 390. This runs once Ivan allows test carts on :9251.

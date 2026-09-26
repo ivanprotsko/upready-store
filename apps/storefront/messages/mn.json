@@ -829,7 +829,10 @@
     "selectVariant": "Хувилбар сонгох",
     "inStock": "Бэлэн байгаа",
     "buyNow": "Худалдан авах",
-    "buy": "Худалдан авах"
+    "buy": "Худалдан авах",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Үгүй",

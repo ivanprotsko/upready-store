@@ -829,7 +829,10 @@
     "selectVariant": "バリエーションを選択",
     "inStock": "在庫あり",
     "buyNow": "今すぐ購入",
-    "buy": "購入"
+    "buy": "購入",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "いいえ",

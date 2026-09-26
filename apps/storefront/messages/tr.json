@@ -829,7 +829,10 @@
     "selectVariant": "Varyant seçin",
     "inStock": "Stokta",
     "buyNow": "Satın al",
-    "buy": "Satın al"
+    "buy": "Satın al",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Hayır",

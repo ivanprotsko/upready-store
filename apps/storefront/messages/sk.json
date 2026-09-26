@@ -829,7 +829,10 @@
     "selectVariant": "Vyberte variant",
     "inStock": "Skladom",
     "buyNow": "Kúpiť",
-    "buy": "Kúpiť"
+    "buy": "Kúpiť",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nie",

@@ -829,7 +829,10 @@
     "selectVariant": "Válasszon variánst",
     "inStock": "Raktáron",
     "buyNow": "Vásárlás",
-    "buy": "Megveszem"
+    "buy": "Megveszem",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nem",

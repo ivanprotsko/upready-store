@@ -829,7 +829,10 @@
     "selectVariant": "Pumili ng variant",
     "inStock": "May stock",
     "buyNow": "Bilhin ngayon",
-    "buy": "Bilhin"
+    "buy": "Bilhin",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Hindi",

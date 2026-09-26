@@ -840,7 +840,10 @@
     "selectVariant": "Select variant",
     "inStock": "In stock",
     "buyNow": "Buy now",
-    "buy": "Buy"
+    "buy": "Buy",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "No",

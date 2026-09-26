@@ -829,7 +829,10 @@
     "selectVariant": "Selecteer variant",
     "inStock": "Op voorraad",
     "buyNow": "Nu kopen",
-    "buy": "Kopen"
+    "buy": "Kopen",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nee",

@@ -829,7 +829,10 @@
     "selectVariant": "בחר וריאציה",
     "inStock": "במלאי",
     "buyNow": "לתשלום",
-    "buy": "קנייה"
+    "buy": "קנייה",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "לא",

@@ -829,7 +829,10 @@
     "selectVariant": "اختر الخيار",
     "inStock": "متوفر",
     "buyNow": "اشترِ الآن",
-    "buy": "شراء"
+    "buy": "شراء",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "لا",

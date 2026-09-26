@@ -829,7 +829,10 @@
     "selectVariant": "Selectează varianta",
     "inStock": "În stoc",
     "buyNow": "Cumpără",
-    "buy": "Cumpără"
+    "buy": "Cumpără",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nu",

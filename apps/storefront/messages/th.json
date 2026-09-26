@@ -829,7 +829,10 @@
     "selectVariant": "เลือกตัวเลือกสินค้า",
     "inStock": "มีสินค้า",
     "buyNow": "ซื้อเลย",
-    "buy": "ซื้อ"
+    "buy": "ซื้อ",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "ไม่ใช่",

@@ -829,7 +829,10 @@
     "selectVariant": "选择规格",
     "inStock": "有货",
     "buyNow": "立即购买",
-    "buy": "购买"
+    "buy": "购买",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "否",

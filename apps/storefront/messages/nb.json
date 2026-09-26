@@ -829,7 +829,10 @@
     "selectVariant": "Velg variant",
     "inStock": "På lager",
     "buyNow": "Kjøp",
-    "buy": "Kjøp"
+    "buy": "Kjøp",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nei",

@@ -829,7 +829,10 @@
     "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন",
     "inStock": "স্টকে আছে",
     "buyNow": "কিনুন",
-    "buy": "কিনুন"
+    "buy": "কিনুন",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "না",

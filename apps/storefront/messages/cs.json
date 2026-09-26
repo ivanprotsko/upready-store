@@ -829,7 +829,10 @@
     "selectVariant": "Vyberte variantu",
     "inStock": "Skladem",
     "buyNow": "Koupit",
-    "buy": "Koupit"
+    "buy": "Koupit",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Ne",
