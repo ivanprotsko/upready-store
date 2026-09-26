@@ -888,3 +888,54 @@ Ivan and the lead to decide.
 
 Shots `filter-counts/sheet-olavka-390.png`, `sidebar-olavka-1440.png`; logs `counts-olavka-store-*.log`; scripts
 `mcounts23.mjs`, `counts23.mjs`.
+
+
+## Remark «hero arrows» · the slider's arrows on the header's edge lines, in the burger's size (Ivan 2026-09-27)
+
+«контролы переключатели нужно выровнять на таком же расстоянии от границ экрана как и крайние контролы в хедере с кнопкой
+"меню" и "корзина" и с таким же размером как у контрола "меню"»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-27/remark-hero-arrows/remark-hero-arrows.md`.
+
+**Before** (lead's table, re-measured with the same evaluate): «Назад» left 242 / 346 / 461 at 1024 / 1440 / 1920, «Далее»
+right the same, while «Меню» and «Корзина» stand 24 / 24 / 32 in; the arrow 40×40 with a 20px chevron (27 at 1920), the
+burger 40×40 with a 15px icon (20 at 1920); in the dark mode the arrows stayed white, the burger turned dark.
+
+**Fix.**
+- Each arrow now IS the burger: `OlavkaLoopTrack` gives it the header's h7 `disc` class, so the box, the icon size (the
+  icons' own 15px, no override), the ring, the shadow, the hover (`--accent`), the focus ring and the dark tokens are the
+  burger's rules, not copies. The slider's `.arrow` keeps only the position.
+- The header's outer padding is a token now, `--h7-edge: 24px` in `h7.module.css`: the desktop columns' `padding: 0
+  var(--h7-edge)` and the arrows' `left` / `right` = the content's side margin + `var(--h7-edge)`. The bar's control tokens
+  (`--h7-ink`, `--h7-surface`, `--h7-ring`, `--h7-edge`) are declared on `.bar, .disc`, so the disc carries them outside
+  the bar too. The same values as before: the header does not move.
+- «Назад» stands on the burger's left line, «Далее» on «Корзина»'s right line; the vertical position is unchanged (the
+  cards' middle). The 1440→1920 page zoom scales the offset and the size with the header (24 → 32, 40 → 53).
+- Below 1024 nothing changes: no arrows. The header's scrolled state (sides 12) is not touched.
+
+**After**, :8233 rebuilt, headless (`slider-arrows-edges/measure-after-light.txt`, `lead-measure-after.txt` = the lead's
+`measure.mjs` with its output path moved here):
+
+| width | «Меню» left | «Назад» left | «Корзина» right | «Далее» right | box menu / arrow | icon menu / arrow | Chromium | Firefox |
+|---|---|---|---|---|---|---|---|---|
+| 1024 | 24 | 24 | 24 | 24 | 40×40 / 40×40 | 15 / 15 | ✓ | ✓ |
+| 1440 | 24 | 24 | 24 | 24 | 40×40 / 40×40 | 15 / 15 | ✓ | ✓ |
+| 1920 | 32 | 32 | 32 | 32 | 53×53 / 53×53 | 20 / 20 | ✓ | ✓ |
+| 2560 | 352 | 352 | 352 | 352 | 53×53 / 53×53 | 20 / 20 | ✓ | ✓ |
+| 1023 | — | no arrows | — | no arrows | | | ✓ | ✓ |
+
+- Computed colour, fill, ring + shadow, radius, cursor and transition of the arrow equal the burger's at every width, light
+  and dark (`sameStyle: true`); hover fill equal (light rgb(226,238,233), dark rgb(30,43,38)); keyboard focus ring equal
+  (2px rgb(10,106,82), offset 2, radius 999px; at 1920 both 1.5px, the zoom).
+- The arrows' middle = the track's middle (290 / 363 / 484 at 1024 / 1440 / 1920), as before.
+- One click on «Далее» moves the centred card to the next banner, one on «Назад» brings it back: 10 of 10 runs (both
+  engines, every width, light and dark).
+- acme (the other shop, h7 header, no hero slider): after, burger left 24, «Корзина» right 24, its dark fill and 16%
+  ring (`acme-header-after.txt`). acme was not measured before this change; the token values are the old numbers, moved.
+- **Dark mode changes with it:** the arrows are now dark discs with the light 16% ring, like the burger (before: white).
+  That follows «с таким же размером как у контрола "меню"» + the lead's «ring/shadow/hover/focus = the burger's»; if Ivan
+  wants them white on the pictures in the dark mode, it is one token.
+
+Shots (header + slider, cropped at 700): `before-<chromium|firefox>-1440-light.png`, `before-chromium-<1024|1920>-light.png`;
+after `<chromium|firefox>-1440-light.png`, `<chromium|firefox>-1440-dark.png`, `<chromium|firefox>-1440-<light|dark>-focus-prev.png`
+(Tab focus on «Назад»), `chromium-<1024|1920|2560>-light.png`, `chromium-1023-light.png`. Scripts `arrows27.mjs`,
+`lead-measure-after.mjs`, `acme27.mjs`.

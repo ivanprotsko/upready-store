@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "@medusajs/icons"
 import { useEffect, useId, useLayoutEffect, useRef, type ReactNode } from "react"
+import headerStyles from "@modules/layout/templates/nav/variants/h7.module.css"
 
 import styles from "./olavka-hero-slider.module.css"
 
@@ -23,6 +24,8 @@ const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayout
  * scroll sideways) move the centred card by one, through the same loop. Clicks faster than
  * the scroll count from the card the last click aims at, so three quick clicks move three
  * cards. The arrows show from the desktop breakpoint up, once the island is ready (CSS).
+ * Each arrow is the header's burger disc (h7 `disc`: box, icon, ring, shadow, hover, focus)
+ * at the header's edge offsets (Ivan's remark of 2026-09-27).
  */
 export default function OlavkaLoopTrack({
   className,
@@ -160,7 +163,7 @@ export default function OlavkaLoopTrack({
       </ul>
       <button
         type="button"
-        className={`${styles.arrow} ${styles.arrowPrevious}`}
+        className={`${headerStyles.disc} ${styles.arrow} ${styles.arrowPrevious}`}
         onClick={() => stepRef.current(-1)}
         aria-label={labels.previous}
         aria-controls={trackId}
@@ -170,7 +173,7 @@ export default function OlavkaLoopTrack({
       </button>
       <button
         type="button"
-        className={`${styles.arrow} ${styles.arrowNext}`}
+        className={`${headerStyles.disc} ${styles.arrow} ${styles.arrowNext}`}
         onClick={() => stepRef.current(1)}
         aria-label={labels.next}
         aria-controls={trackId}

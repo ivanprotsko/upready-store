@@ -32,12 +32,13 @@
      sides) through `--content` below, on the header's and the catalog's lines (remark 1.1). */
   padding: 16px 0;
   container-type: inline-size;
+  /* The content width: the window up to 1440, as `content-container`. Read (in the
+     slider's container units) by the track and by the arrows beside it. */
+  --content: min(100cqi, 1440px);
 }
 
 /* Base = carousel (`Items=2+`): scroll-snap, cards centred, neighbours peeking. */
 .track {
-  /* The content width: the window up to 1440, as `content-container`. */
-  --content: min(100cqi, 1440px);
   --gap: 24px;
   display: flex;
   gap: var(--gap);
@@ -87,71 +88,41 @@
   display: none;
 }
 
-/* Previous / next arrows of the loop (Ivan's remark 22; the node has none): round 40px
-   buttons after the chrxnasdmds carousels', drawn like the header's burger disc — white,
-   a hairline ring, a soft shadow. Each sits on the gap between the centred card and its
-   neighbour, at the cards' middle, and only on desktop: below 1024 the track is swiped.
-   Hidden until `OlavkaLoopTrack` is ready, so a click is never lost before hydration. */
+/* Previous / next arrows of the loop (Ivan's remark 22; the node has none), only on desktop:
+   below 1024 the track is swiped. Each arrow IS the header's burger — `OlavkaLoopTrack` gives
+   it the h7 `disc` class, so its box, icon, ring, shadow, hover and focus are the burger's —
+   and stands the header's `--h7-edge` in from the content's sides: «Назад» on the burger's
+   left line, «Далее» on «Корзина»'s right line (Ivan's remark of 2026-09-27), at the cards'
+   middle. The page zoom above 1440 scales both alike. Hidden until `OlavkaLoopTrack` is
+   ready, so a click is never lost before hydration. */
 .loop {
   position: relative;
 }
 
 .arrow {
-  display: none;
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
 }
 
-@media (min-width: 1024px) {
-  .arrow {
-    /* The desktop carousel card (`.carousel` below): half the content less the gaps. */
-    --item: calc((min(100cqi, 1440px) - 72px) / 2);
-    position: absolute;
-    top: 50%;
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: #ffffff;
-    color: #1a1b09;
-    box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.08),
-      0 1px 2px rgba(0, 0, 0, 0.12);
-    cursor: pointer;
-    transform: translate(-50%, -50%);
-    transition: background-color 150ms ease-out;
-  }
+.arrowPrevious {
+  left: calc((100cqi - var(--content)) / 2 + var(--h7-edge));
+}
 
-  .arrowPrevious {
-    left: calc(50% - var(--item) / 2 - 12px);
-  }
+.arrowNext {
+  right: calc((100cqi - var(--content)) / 2 + var(--h7-edge));
+}
 
-  .arrowNext {
-    left: calc(50% + var(--item) / 2 + 12px);
+/* Two classes: the burger's own `inline-flex` is in the header's stylesheet. */
+@media (max-width: 1023px) {
+  .loop > .arrow {
+    display: none;
   }
+}
 
-  .arrow:hover {
-    background: var(--accent);
-  }
-
-  /* Its own radius kept on focus (the app-wide ring inherits the parent's, remark 21). */
-  .arrow:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-    border-radius: 999px;
-  }
-
-  .arrow svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .carousel:not([data-loop-ready]) ~ .arrow {
-    visibility: hidden;
-  }
+.carousel:not([data-loop-ready]) ~ .arrow {
+  visibility: hidden;
 }
 
 .item {

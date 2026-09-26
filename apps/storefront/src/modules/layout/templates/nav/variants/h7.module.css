@@ -25,11 +25,20 @@
   --h7-logo-glow-half: color-mix(in srgb, var(--background) 50%, transparent);
 }
 
-.bar {
+/* The bar's control tokens. The burger's `disc` carries them too, for a copy of it drawn
+   outside the bar: the hero slider's arrows are this disc, `--h7-edge` in from the window's
+   sides like the burger and «Корзина» (Ivan's remark of 2026-09-27 on the hero slider). */
+.bar,
+.disc {
   --h7-ink: #18181b;
   --h7-surface: #ffffff;
-  --h7-wordmark: #1a1b09;
   --h7-ring: rgba(0, 0, 0, 0.08);
+  /* The desktop columns' outer padding: the burger's left, «Корзина»'s right. */
+  --h7-edge: 24px;
+}
+
+.bar {
+  --h7-wordmark: #1a1b09;
   height: 53px;
   /* No fill of its own (Ivan's remark 7.1.1): the page shows through, the pills, discs and
      the logo pill keep theirs. The node frame's #ffffff fill is the component's backdrop. */
@@ -37,12 +46,16 @@
   color: var(--h7-ink);
 }
 
-:global([data-mode="dark"]) .bar {
+:global([data-mode="dark"]) .bar,
+:global([data-mode="dark"]) .disc {
   --h7-ink: var(--foreground);
   --h7-surface: var(--background);
-  --h7-wordmark: var(--foreground);
   /* A black 8% ring vanishes on a dark bar: the outline turns light. */
   --h7-ring: rgba(255, 255, 255, 0.16);
+}
+
+:global([data-mode="dark"]) .bar {
+  --h7-wordmark: var(--foreground);
 }
 
 @media (min-width: 640px) {
@@ -84,7 +97,7 @@
 .leading,
 .trailing {
   gap: 12px;
-  padding: 0 24px;
+  padding: 0 var(--h7-edge);
 }
 
 .trailing {

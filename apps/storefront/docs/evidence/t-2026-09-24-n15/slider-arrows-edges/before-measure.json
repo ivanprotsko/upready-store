@@ -1,0 +1,428 @@
+{
+ "chromium-1024-light": {
+  "summary": {
+   "menuL": 24,
+   "arrowPrevL": 242,
+   "cartR": 24,
+   "arrowNextR": 242,
+   "menuBox": "40x40",
+   "arrowBox": "40x40",
+   "menuIcon": "15x15",
+   "arrowIcon": "20x20",
+   "arrowMidY": 290,
+   "trackMidY": 290,
+   "sameStyle": false,
+   "hover": {
+    "menu": "rgb(226, 238, 233)",
+    "arrow": "rgb(226, 238, 233)"
+   },
+   "focus": {
+    "menu": {
+     "id": "nav-menu-button",
+     "outline": "solid 2px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    },
+    "arrow": {
+     "id": "olavka-hero-slider-prev",
+     "outline": "solid 2px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    }
+   },
+   "click": {
+    "start": {
+     "scrollLeft": 2500,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "afterNext": {
+     "scrollLeft": 1500,
+     "i": 3,
+     "href": "/products/course-ochishchenie-pecheni-cherkashino",
+     "copy": "real"
+    },
+    "afterPrev": {
+     "scrollLeft": 2500,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "nextMoved": true,
+    "prevBack": true
+   }
+  },
+  "menuStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(26, 27, 9)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ },
+ "chromium-1440-light": {
+  "summary": {
+   "menuL": 24,
+   "arrowPrevL": 346,
+   "cartR": 24,
+   "arrowNextR": 346,
+   "menuBox": "40x40",
+   "arrowBox": "40x40",
+   "menuIcon": "15x15",
+   "arrowIcon": "20x20",
+   "arrowMidY": 363,
+   "trackMidY": 363,
+   "sameStyle": false,
+   "hover": {
+    "menu": "rgb(226, 238, 233)",
+    "arrow": "rgb(226, 238, 233)"
+   },
+   "focus": {
+    "menu": {
+     "id": "nav-menu-button",
+     "outline": "solid 2px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    },
+    "arrow": {
+     "id": "olavka-hero-slider-prev",
+     "outline": "solid 2px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    }
+   },
+   "click": {
+    "start": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "afterNext": {
+     "scrollLeft": 2124,
+     "i": 3,
+     "href": "/products/course-ochishchenie-pecheni-cherkashino",
+     "copy": "real"
+    },
+    "afterPrev": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "nextMoved": true,
+    "prevBack": true
+   }
+  },
+  "menuStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(26, 27, 9)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ },
+ "chromium-1920-light": {
+  "summary": {
+   "menuL": 32,
+   "arrowPrevL": 461,
+   "cartR": 32,
+   "arrowNextR": 461,
+   "menuBox": "53x53",
+   "arrowBox": "53x53",
+   "menuIcon": "20x20",
+   "arrowIcon": "27x27",
+   "arrowMidY": 484.5,
+   "trackMidY": 484,
+   "sameStyle": false,
+   "hover": {
+    "menu": "rgb(226, 238, 233)",
+    "arrow": "rgb(226, 238, 233)"
+   },
+   "focus": {
+    "menu": {
+     "id": "nav-menu-button",
+     "outline": "solid 1.5px rgb(10, 106, 82)",
+     "offset": "1.5px",
+     "radius": "999px"
+    },
+    "arrow": {
+     "id": "olavka-hero-slider-prev",
+     "outline": "solid 1.5px rgb(10, 106, 82)",
+     "offset": "1.5px",
+     "radius": "999px"
+    }
+   },
+   "click": {
+    "start": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "afterNext": {
+     "scrollLeft": 2124,
+     "i": 3,
+     "href": "/products/course-ochishchenie-pecheni-cherkashino",
+     "copy": "real"
+    },
+    "afterPrev": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "nextMoved": true,
+    "prevBack": true
+   }
+  },
+  "menuStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(26, 27, 9)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ },
+ "firefox-1024-light": {
+  "summary": {
+   "menuL": 24,
+   "arrowPrevL": 242,
+   "cartR": 24,
+   "arrowNextR": 242,
+   "menuBox": "40x40",
+   "arrowBox": "40x40",
+   "menuIcon": "15x15",
+   "arrowIcon": "20x20",
+   "arrowMidY": 290,
+   "trackMidY": 290,
+   "sameStyle": false,
+   "hover": {
+    "menu": "rgb(226, 238, 233)",
+    "arrow": "rgb(226, 238, 233)"
+   },
+   "focus": {
+    "menu": {
+     "id": "nav-menu-button",
+     "outline": "solid 2px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    },
+    "arrow": {
+     "id": "olavka-hero-slider-prev",
+     "outline": "solid 2px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    }
+   },
+   "click": {
+    "start": {
+     "scrollLeft": 2500,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "afterNext": {
+     "scrollLeft": 1500,
+     "i": 3,
+     "href": "/products/course-ochishchenie-pecheni-cherkashino",
+     "copy": "real"
+    },
+    "afterPrev": {
+     "scrollLeft": 2500,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "nextMoved": true,
+    "prevBack": true
+   }
+  },
+  "menuStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(26, 27, 9)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ },
+ "firefox-1440-light": {
+  "summary": {
+   "menuL": 24,
+   "arrowPrevL": 346,
+   "cartR": 24,
+   "arrowNextR": 346,
+   "menuBox": "40x40",
+   "arrowBox": "40x40",
+   "menuIcon": "15x15",
+   "arrowIcon": "20x20",
+   "arrowMidY": 363,
+   "trackMidY": 363,
+   "sameStyle": false,
+   "hover": {
+    "menu": "rgb(226, 238, 233)",
+    "arrow": "rgb(226, 238, 233)"
+   },
+   "focus": {
+    "menu": {
+     "id": "nav-menu-button",
+     "outline": "solid 2px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    },
+    "arrow": {
+     "id": "olavka-hero-slider-prev",
+     "outline": "solid 2px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    }
+   },
+   "click": {
+    "start": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "afterNext": {
+     "scrollLeft": 2124,
+     "i": 3,
+     "href": "/products/course-ochishchenie-pecheni-cherkashino",
+     "copy": "real"
+    },
+    "afterPrev": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "nextMoved": true,
+    "prevBack": true
+   }
+  },
+  "menuStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(26, 27, 9)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ },
+ "firefox-1920-light": {
+  "summary": {
+   "menuL": 32,
+   "arrowPrevL": 461,
+   "cartR": 32,
+   "arrowNextR": 461,
+   "menuBox": "53x53",
+   "arrowBox": "53x53",
+   "menuIcon": "20x20",
+   "arrowIcon": "27x27",
+   "arrowMidY": 484.5,
+   "trackMidY": 484,
+   "sameStyle": false,
+   "hover": {
+    "menu": "rgb(226, 238, 233)",
+    "arrow": "rgb(226, 238, 233)"
+   },
+   "focus": {
+    "menu": {
+     "id": "nav-menu-button",
+     "outline": "solid 1.5px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    },
+    "arrow": {
+     "id": "olavka-hero-slider-prev",
+     "outline": "solid 1.5px rgb(10, 106, 82)",
+     "offset": "2px",
+     "radius": "999px"
+    }
+   },
+   "click": {
+    "start": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "afterNext": {
+     "scrollLeft": 2124,
+     "i": 3,
+     "href": "/products/course-ochishchenie-pecheni-cherkashino",
+     "copy": "real"
+    },
+    "afterPrev": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "nextMoved": true,
+    "prevBack": true
+   }
+  },
+  "menuStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(26, 27, 9)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ }
+}
