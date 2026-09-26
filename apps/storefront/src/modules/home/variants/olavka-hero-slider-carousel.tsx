@@ -17,10 +17,12 @@ type Props = {
  * gap 24) and scroll below; three or more scroll on every device — 572-wide cards
  * centred with the previous and next peeking (288 wide, radius 24, on a phone), the
  * node's `Swiped=true` state being any scroll position past the first card. The node
- * draws no arrows and no dots, so there are none: a finger swipes, a wheel or a trackpad
- * scrolls, and the Tab key walks the cards and scrolls each into view. No client state,
- * so this is a server component; the 3+ carousel loops (Ivan 2026-09-25, C3) through the
- * small `OlavkaLoopTrack` island — at rest the first card centred, the last peeking left.
+ * draws no arrows and no dots: a finger swipes, a wheel or a trackpad scrolls, and the Tab
+ * key walks the cards and scrolls each into view. No client state, so this is a server
+ * component; the 3+ carousel loops (Ivan 2026-09-25, C3) through the small
+ * `OlavkaLoopTrack` island — at rest the first card centred, the last peeking left — which
+ * also draws round previous / next arrows on desktop, for a mouse with no horizontal
+ * scroll (Ivan's remark 22).
  *
  * Every card is ONE link over the whole picture (Ivan 2.3): the four chips are plain
  * spans inside it — the «Смотреть» button is decorative, never a second control — and
@@ -44,11 +46,18 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
     >
       {layout === "carousel" ? (
         // 3+ banners loop (Ivan 2026-09-25): clone · real · clone, see OlavkaLoopTrack.
-        <OlavkaLoopTrack className={`${styles.track} ${styles.carousel}`} setSize={slides.length}>
+        <OlavkaLoopTrack
+          className={`${styles.track} ${styles.carousel}`}
+          setSize={slides.length}
+          labels={{ previous: t("previous"), next: t("next") }}
+        >
           {(["before", "real", "after"] as const).flatMap((copy) =>
             slides.map((slide, index) => {
               const clone = copy !== "real"
               return (
+                // A clone is out of the tab order and the accessibility tree, but a click on
+                // it opens its link (Ivan's remark 22): the neighbour peeking on either side
+                // is often a clone — always the left one at rest — and `inert` made it dead.
                 <li
                   key={`${copy}-${slide.id}`}
                   className={styles.item}
@@ -58,12 +67,12 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
                   // The card left of the first real one at rest: kept in the server's first paint.
                   data-peek={(copy === "before" && index === slides.length - 1) || undefined}
                   aria-hidden={clone || undefined}
-                  inert={clone || undefined}
                 >
                   <BannerCard
                     slide={slide}
                     eager={!clone ? index < 2 : index === slides.length - 1 && copy === "before"}
                     layout={layout}
+                    clone={clone}
                   />
                 </li>
               )
@@ -131,10 +140,13 @@ function BannerCard({
   slide,
   eager,
   layout,
+  clone = false,
 }: {
   slide: OlavkaHeroSlide
   eager: boolean
   layout: keyof typeof SIZES
+  /** A loop clone: clickable, never reached by Tab. */
+  clone?: boolean
 }) {
   const inner = (
     <>
@@ -169,6 +181,7 @@ function BannerCard({
         rel="noopener noreferrer"
         className={styles.card}
         aria-label={slide.title}
+        tabIndex={clone ? -1 : undefined}
         data-testid="olavka-hero-slide-link"
       >
         {inner}
@@ -181,6 +194,7 @@ function BannerCard({
       href={slide.href}
       className={styles.card}
       aria-label={slide.title}
+      tabIndex={clone ? -1 : undefined}
       data-testid="olavka-hero-slide-link"
     >
       {inner}

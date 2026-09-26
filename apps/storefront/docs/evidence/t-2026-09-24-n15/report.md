@@ -673,3 +673,53 @@ Crops of the logo `logo-focus/<engine>-olavka-com-<1440|390>-<top|scrolled>-<bef
 in turn: `logo-focus/header-controls-<engine>-<width>-<state>-<before|after>.png`, at 3×. Before-crops were shot in Chromium;
 the Firefox before-values are in the table. Radii: `logo-focus/radius-after.log`. Scripts: `logo21.mjs`, `hdrfocus21.mjs`,
 `hdrshot21.mjs`, `hold21.mjs`.
+
+## Remark 22 · every visible banner opens its link; arrows on desktop (Ivan 2026-09-27)
+
+«когда в слайдере с баннерами 3 баннера … на первые два можно кликнуть, а на третий нет» and «нужны какие-то контролы для
+прокрутки влево и в право для тех кто на desktop не имеет tochpad»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-22-slider-third-banner-click-arrows.md`.
+
+**Cause.** The loop renders the banners three times, as clone · real · clone, and the clones were `inert`. An inert element
+takes no pointer events, so a click on it reached the `ul` and no link. One neighbour of the centred card is a clone
+whenever the first or the last real banner is centred. At rest it is always the left one, and with the last banner centred
+it is the right one: Ivan's «ЧИСТКА ПЕЧЕНИ». Measured on :8233 before the fix, with a real mouse click at the visible centre
+of every card in view, at rest and after one-card scrolls 4 times forward and 5 times back: 42 of 180 clicks failed, all on
+clones, in both engines and at every width (`slider-click-arrows/before-click.log`).
+
+**Fix.**
+- The clones lose `inert`. They stay `aria-hidden`, and their link gets `tabIndex={-1}`, so they are still out of the
+  accessibility tree and the tab order, but a click opens the same link as the real card.
+- `OlavkaLoopTrack` draws two round buttons, «Назад» / «Далее» (the existing `OlavkaHome.slider.previous/next` keys), with
+  `aria-controls` pointing at the track.
+- The look follows the chrxnasdmds carousel arrows, drawn like the header's burger disc: 40px, white, a hairline ring, a
+  soft shadow, a 20px chevron, `--accent` on hover. The keyboard ring is 2px `--ring` and stays round (the remark 21 lesson).
+  Figma 238:17551 has no arrows.
+- Each arrow sits on the gap between the centred card and its neighbour, at the cards' middle. Absolute positioning, so the
+  slider's layout does not move. The arrows are hidden until the island is ready.
+- An arrow moves the centred card by one, through the loop. Quick clicks count from the card the last click aims at.
+  Clicks beyond the clones (more than the number of banners at once) run after the loop has jumped back and the browser
+  has re-snapped. Chrome cuts a smooth scroll that starts inside that re-snap, which showed up as lost clicks until this
+  was handled. A wheel, a touch or a key on the track takes over from the arrows.
+- **390 and tablet: no arrows** (below 1024). The track is swiped there, and at 390 a 40px disc on a 12px gap would
+  cover the card's edge.
+
+After, on :8233, headless Chromium and Firefox:
+
+| check | result |
+|---|---|
+| a click at every visible card, at rest, 4 × forward, 5 × back, by scroll and by arrows, at 1440 / 1920 / 2240 | 360 of 360 clicks reach the card's link (`after-click-scroll.log`, `after-click-arrows.log`) |
+| arrow geometry at 1440 | 40×40 at x 346 / 1054, centred on the 24px gaps of the 684px card; at 1920 and 2240 the zoomed 53.3px |
+| 1023 and 390 | arrows `display: none` |
+| 5 × next quickly, then 7 × previous | «Товары от варикоза», then «Чистка лимфы»: the right cards |
+| 10 clicks at 60 / 250 / 700 ms apart, both ways; 7 at 90 ms at 1920 / 2240 | always ends on the right REAL card (`after-burst.log`) |
+| Enter and Space on a focused arrow | one card each |
+| Tab | real cards → Назад → Далее; clones never; ring 2px rgb(10,106,82), radius 999px |
+| clones | all `aria-hidden="true"`, links `tabIndex -1` |
+
+Firefox also stops Tab on the track itself before the first card, because Firefox makes a scroll container
+keyboard-focusable. This was the same before and is not changed.
+
+Shots: `slider-click-arrows/<engine>-<1440|1920|2240>-arrows-after.jpg`; Tab focus on «Далее»
+`<engine>-<1440|1920>-next-tab-focus-after.png` and `next-tab-focus-strip.png` at 4×. Scripts: `click22.mjs`,
+`arrows22.mjs`, `burst22.mjs`, `tabfocus22.mjs`.
