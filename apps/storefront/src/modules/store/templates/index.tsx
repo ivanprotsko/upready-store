@@ -90,6 +90,7 @@ const StoreTemplate = async ({
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
+            optionCounts={optionCounts?.byValue}
             attributeFacets={attributeFacets.facets}
             className="lg:hidden text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
           />
@@ -116,7 +117,7 @@ const StoreTemplate = async ({
           <FilterSidebar
             optionFilters={optionFilters}
             attributeFacets={attributeFacets.facets}
-            optionCounts={optionCounts}
+            optionCounts={optionCounts?.byBucket}
           />
         </div>
         <div className="w-full">

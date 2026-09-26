@@ -36,6 +36,11 @@ import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
 type MobileRefinementProps = {
   sortBy: SortOptions
   optionFilters?: ProductOptionFilterGroup[]
+  /**
+   * Branch `redesign-olavka` (Ivan's remark 23, the Olavka shop): how many products the list
+   * will hold with each option value turned on, by value id. Absent: no counts.
+   */
+  optionCounts?: Record<string, number>
   /** The shop's own characteristics, t15-product-attributes. */
   attributeFacets?: AttributeFacet[]
   className?: string
@@ -54,6 +59,7 @@ type ActiveFilter =
 const MobileRefinement = ({
   sortBy,
   optionFilters = [],
+  optionCounts,
   attributeFacets = [],
   className,
 }: MobileRefinementProps) => {
@@ -303,6 +309,14 @@ const MobileRefinement = ({
                           <span className="txt-compact-large text-ui-fg-base">
                             {value.label}
                           </span>
+                          {optionCounts ? (
+                            <span
+                              className="ms-auto txt-compact-small text-ui-fg-muted tabular-nums"
+                              data-testid="filter-option-count"
+                            >
+                              {optionCounts[value.id] ?? 0}
+                            </span>
+                          ) : null}
                         </label>
                       ))}
                     </div>

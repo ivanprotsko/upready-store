@@ -858,3 +858,33 @@ does (`isOlavkaShop()`, in the store and category templates); acme's sidebar has
 collection page show no counts yet. Other shops wait for the lead's word.
 
 Shot `filter-counts/sidebar-olavka-1440.png`.
+
+### Remark 23, second part: the phone's filter sheet and the collection page (lead, 2026-09-27)
+
+- **Phone sheet (`MobileRefinement`)**:
+  - It lists one row per option value, not per label, and applies a tick at once. So `countOptionBuckets` now also answers
+    per value (`byValue`). A label carried by one value reuses its checkbox's count, and a label shared by several values
+    asks once per value.
+  - The count sits at the row's right like the characteristics' counts (`ms-auto txt-compact-small text-ui-fg-muted
+    tabular-nums`).
+- **Collection page**: the same counts are wired in (`collection_id`). Olavka has no collection with products on this live
+  copy (`/ru/collections/new-arrivals`, `bestsellers`, `the-morning-table` → 0 products, no sidebar), so there is nothing to
+  show there yet.
+
+**Proof, :8233, Olavka /ru/store.** Each shown count equals the list's `data-total-count` after clicking it, with no filter
+and with the first value already on:
+
+| | Chromium | Firefox |
+|---|---|---|
+| 390, phone sheet (14 rows × 2 states) | 28/28 | 28/28 |
+| 1440, sidebar (12 checkboxes × 2 states) | 24/24 | 24/24 |
+
+acme: 0 counts in its sidebar and no `optionCounts` passed anywhere. No option is hidden, 0 included (that is Ivan's call).
+
+**Found, not changed:** the sheet shows «30 гр» and «100 гр» twice. Two products each carry the label, and each row counts
+1. The sidebar merges each pair into one checkbox that sends both value ids, and the backend combines ids with AND, so that
+checkbox gives an empty list: its count 0 says exactly that. Whether same-label values should combine with OR is a fix for
+Ivan and the lead to decide.
+
+Shots `filter-counts/sheet-olavka-390.png`, `sidebar-olavka-1440.png`; logs `counts-olavka-store-*.log`; scripts
+`mcounts23.mjs`, `counts23.mjs`.

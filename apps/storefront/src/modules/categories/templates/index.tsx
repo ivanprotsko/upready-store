@@ -131,6 +131,7 @@ export default async function CategoryTemplate({
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
+            optionCounts={optionCounts?.byValue}
             attributeFacets={attributeFacets.facets}
             className="lg:hidden text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
           />
@@ -162,7 +163,7 @@ export default async function CategoryTemplate({
           <FilterSidebar
             optionFilters={optionFilters}
             attributeFacets={attributeFacets.facets}
-            optionCounts={optionCounts}
+            optionCounts={optionCounts?.byBucket}
           />
         </div>
         <div className="w-full">
