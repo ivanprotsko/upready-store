@@ -66,6 +66,28 @@ const service = (deps: Deps): MarketplaceModuleService =>
   deps.container.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE);
 
 /**
+ * The most rows one `create`/`update` call is handed at once.
+ *
+ * MEASURED, not guessed: a single `updateMpOffers` / `updateMpOrders` call
+ * over the whole normalized table (12 035 offers, 29 007 orders on the
+ * production mirror) died with `select "m0".* from "mp_offer" as "m0" where
+ * ... ("m0"."id" = '…' or "m0"."id" = '…' or …)` — the generated repository
+ * loads every targeted row by an OR-chain before it writes, and a chain that
+ * long either blows the statement past what the driver will send or the
+ * planner will parse. Splitting the call keeps every generated statement
+ * bounded regardless of how many rows a projection touches.
+ */
+const UPSERT_BATCH_SIZE = 500;
+
+const chunk = <T>(items: T[], size: number): T[][] => {
+  const batches: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    batches.push(items.slice(i, i + size));
+  }
+  return batches;
+};
+
+/**
  * Writes a set of drafts into one table, keyed by `keyOf`.
  *
  * Rows that exist are UPDATED, rows that do not are CREATED, and rows that the
@@ -95,11 +117,11 @@ const upsert = async <T extends Record<string, unknown>>(
     }
   }
 
-  if (toCreate.length) {
-    await create(toCreate);
+  for (const batch of chunk(toCreate, UPSERT_BATCH_SIZE)) {
+    await create(batch);
   }
-  if (toUpdate.length) {
-    await update(toUpdate);
+  for (const batch of chunk(toUpdate, UPSERT_BATCH_SIZE)) {
+    await update(batch);
   }
 
   return toCreate.length + toUpdate.length;
@@ -197,7 +219,23 @@ const carryJournal = async (
       requests: Number(run.requests ?? 0),
       error: (run.error ?? null) as string | null,
     }))
-    .filter((run) => !knownRuns.has(run.id));
+    /**
+     * A `running` row in the ADAPTER'S OWN log is not history yet, carried or
+     * not: it is either a sync genuinely in flight (its terminal row will
+     * carry cleanly once it finishes) or a process that crashed without
+     * closing it (`modules/wb/sync.ts` is untouched by this task, so a stuck
+     * row there stays stuck). Either way this table only carries ONE running
+     * row per (tenant, marketplace, kind) — the scheduler's own lock — and the
+     * adapter's log can hold many, one per triple, going back to whenever a
+     * process last died mid-run. Carrying them all made every single one of
+     * them a duplicate `running` insert of the SAME triple within the SAME
+     * batch, and the partial unique index of `Migration20260916014707` refused
+     * it with `Mp sync run with tenant_id: …, kind: orders, already exists.`
+     * — the projection died on its own bookkeeping, having read no mirror row
+     * yet (measured on `upready_store_w28_wbsync`, 34 stuck `orders` rows in
+     * `wb_sync_run` going back to 2026-09-16).
+     */
+    .filter((run) => run.status !== "running" && !knownRuns.has(run.id));
 
   const callDrafts = calls
     .map((call) => ({
@@ -217,11 +255,18 @@ const carryJournal = async (
     }))
     .filter((call) => !knownCalls.has(call.id));
 
-  if (runDrafts.length) {
-    await mp.createMpSyncRuns(runDrafts);
+  /**
+   * Batched for the same reason `upsert` is: the first carry after this task
+   * had 6 000+ uncarried `wb_api_call` rows waiting (nothing had carried
+   * cleanly since 2026-09-16), and one INSERT of that size is the same risk
+   * `upsert`'s doc comment measures, just on the journal tables instead of the
+   * normalized ones.
+   */
+  for (const batch of chunk(runDrafts, UPSERT_BATCH_SIZE)) {
+    await mp.createMpSyncRuns(batch);
   }
-  if (callDrafts.length) {
-    await mp.createMpApiCalls(callDrafts);
+  for (const batch of chunk(callDrafts, UPSERT_BATCH_SIZE)) {
+    await mp.createMpApiCalls(batch);
   }
 
   return { runs: runDrafts.length, calls: callDrafts.length };
