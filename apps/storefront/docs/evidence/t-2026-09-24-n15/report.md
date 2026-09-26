@@ -587,3 +587,36 @@ acme (another shop, Chromium, 1440 Cmd+K and 390 button): the ring is 2px rgb(21
 
 Shots `search-focus/<chromium|firefox>-<olavka|acme>-<1440-cmdk|390-button>-<before|after>.jpg`, crops of the field
 `search-focus/olavka-input-crops-before-after.png`, logs `r18-*.log`, script `search18.mjs`.
+
+## Remark 19 · footer: no offer/privacy row under the columns (Ivan 2026-09-27)
+
+«в футере нужно бурать дубль ссылок "Публичная оферта Политика конфиденциальности" который в самом низу под всеми
+колонками идут»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-19-footer-legal-row-duplicate.md`.
+
+The footer switch `src/modules/layout/templates/footer/index.tsx` no longer puts `FooterLegal` under the Olavka footer.
+Both links stay in the «© Черкашино» column, which is built from the same `footerLegalLinks`, so the privacy policy is
+still one click from every page (audit B-01). `FooterLegal` loses the `bare` prop that remark 13 added for Olavka and is
+byte-identical to its state before remark 13. Other shops keep the row, and a shop with its footer switched off
+(`footer: "none"`) still gets the row alone, Olavka included.
+
+Headless Chromium, prod :8233, home page:
+
+| | before | after |
+|---|---|---|
+| olavka 1440: `[data-testid=footer-legal-links]` | «Публичная оферта · Политика конфиденциальности» under the columns | none |
+| olavka 1440: columns | Категории 378 · Информация 732 · © Черкашино 1086 | the same |
+| olavka 390: `[data-testid=footer-legal-links]` | the same row | none |
+| olavka 390: columns | Категории 16 · Информация 201 · © Черкашино 16 (second row) | the same |
+| olavka «©» column | Публичная оферта · Политика конфиденциальности · Создание интернет-магазина | the same |
+| horizontal lines below the product grid | none | none |
+
+Other shops cannot show the row on this live copy: none of acme, barhst, globex, initech, nochlavka, testovyy-magazin, tstr,
+zolotaya-nit-1057 and night-tribute-1045 has published an offer or a privacy page, so none rendered the row before either.
+acme's footer is the same before and after. At 390 the shots are pixel-identical. At 1440 the whole crop is 3 px higher,
+because the crop is cut from a full-page shot, while the footer text and lines are the same.
+
+One duplicate is still there: «Информация» lists the shop's own pages, and two of them are «Политика конфиденциальности»
+and «Публичная оферта». Remark 19 names only the bottom row, so this list is untouched.
+
+Shots `footer-legal-row/<olavka-com|acme>-<1440|390>-<before|after>.jpg`, script `footer-legal-row/foot19.mjs`.

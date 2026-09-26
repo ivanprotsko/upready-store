@@ -54,8 +54,8 @@ export default async function FooterOlavka() {
   const creditLabel = attribution.anchor.charAt(0).toUpperCase() + attribution.anchor.slice(1)
 
   return (
-    // No horizontal line anywhere (Ivan's remark 13 addition): no top border here, and the
-    // legal row under it is rendered `bare` by the footer switch.
+    // No horizontal line anywhere (Ivan's remark 13 addition), and no legal row under it
+    // (remark 19): the offer and the privacy policy are in the «©» column.
     <footer className="w-full bg-ui-bg-base" data-testid="footer-olavka">
       <div className="content-container py-10 lg:py-16">
         <div className={`${PRODUCT_GRID_CLASS} ${SKIP_FIRST_COLUMN}`}>

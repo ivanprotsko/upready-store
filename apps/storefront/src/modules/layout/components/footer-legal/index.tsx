@@ -13,7 +13,7 @@ import { footerLegalLinks } from "@lib/util/legal-links"
  * it. Nothing is rendered when the shop has published neither document
  * (`footerLegalLinks`).
  */
-export default async function FooterLegal({ bare = false }: { bare?: boolean } = {}) {
+export default async function FooterLegal() {
   const [legal, footerPages, t] = await Promise.all([
     getLegalLinkContext(),
     listTenantPages(),
@@ -31,8 +31,7 @@ export default async function FooterLegal({ bare = false }: { bare?: boolean } =
   }
 
   return (
-    // `bare`: no top border, for a footer drawn without horizontal lines (the Olavka one).
-    <div className={bare ? "w-full bg-ui-bg-base" : "w-full border-t border-ui-border-base bg-ui-bg-base"}>
+    <div className="w-full border-t border-ui-border-base bg-ui-bg-base">
       <ul
         className="content-container flex flex-wrap gap-x-6 gap-y-2 py-4"
         data-testid="footer-legal-links"

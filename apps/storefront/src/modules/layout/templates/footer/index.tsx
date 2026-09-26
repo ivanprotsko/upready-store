@@ -31,16 +31,19 @@ export default async function Footer() {
     return <FooterLegal />
   }
 
-  // BRANCH-LOCAL (redesign-olavka, Ivan's remark 13): the Olavka shop's own footer, with
-  // no horizontal lines, the legal row included (`OLAVKA_SHOP_HANDLES`).
-  const Variant = olavka
-    ? FooterOlavka
-    : (FOOTER_VARIANTS[footer] ?? FOOTER_VARIANTS[DEFAULT_FOOTER])
+  // BRANCH-LOCAL (redesign-olavka, Ivan's remarks 13 and 19): the Olavka shop's own footer
+  // (`OLAVKA_SHOP_HANDLES`) and no legal row under it — its «© shop» column already links the
+  // offer and the privacy policy from every page, the row only repeated them.
+  if (olavka) {
+    return <FooterOlavka />
+  }
+
+  const Variant = FOOTER_VARIANTS[footer] ?? FOOTER_VARIANTS[DEFAULT_FOOTER]
 
   return (
     <>
       <Variant />
-      <FooterLegal bare={olavka} />
+      <FooterLegal />
     </>
   )
 }
