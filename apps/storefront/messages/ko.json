@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "장바구니 ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "접속하려는 장바구니가 존재하지 않습니다. 쿠키를 삭제한 후 다시 시도해 주세요.",

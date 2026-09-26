@@ -723,3 +723,69 @@ keyboard-focusable. This was the same before and is not changed.
 Shots: `slider-click-arrows/<engine>-<1440|1920|2240>-arrows-after.jpg`; Tab focus on «Далее»
 `<engine>-<1440|1920>-next-tab-focus-after.png` and `next-tab-focus-strip.png` at 4×. Scripts: `click22.mjs`,
 `arrows22.mjs`, `burst22.mjs`, `tabfocus22.mjs`.
+
+## Remark 20 · the light/dark switch as an icon at the bottom of the burger menu (Ivan 2026-09-27)
+
+«мы можем сделать переключение темной темы и добавить его внизу всплывающего меню в виде иконки вместо надписи "© 2026
+Черкашино. Все права защищены."»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-20-dark-mode-toggle-in-menu.md`.
+
+### 1. Olavka in dark mode today, measured before building
+
+The dark mode is the visitor's stored choice (`localStorage["upready-store.mode"] = "dark"`), applied by the existing
+pre-paint script. Pages checked, headless Chromium, 1440 and 390, on :8233 before the change: home, home scrolled, burger
+menu, search overlay with results, all products, a category, a product page, cart.
+
+A scan of every element on each page looked for two things: text under 3:1 contrast against its real background, and light
+surfaces (L > 0.6, over 1500 px²) left on the dark page. The banner slider is left out of the scan because its chips sit on
+the pictures.
+
+| page | 1440 low-contrast / light surfaces | 390 |
+|---|---|---|
+| home, menu, search, all products, category, cart | 0 / 0 | 0 / 0 |
+| product page | 0 / 1: the active tab pill in `bg-ui-fg-base`, inverted on purpose | 0 / 1, the same |
+
+Everything dark comes from tokens that already exist: the `supplements` preset's `[data-mode="dark"]` block in
+`src/styles/themes.css`, plus the h7 header's own dark rules from remark 10. **No new colour was needed, and none was added.**
+These dark colours are not from Figma: Figma has no dark olavka, as far as I could reach it.
+
+What Ivan should see and decide:
+- **Product photos stay white tiles** on the dark page. The white is in the pictures themselves, not in CSS: home, store,
+  category and product page (`dark-toggle/pages/1440-dark-home.jpg`).
+- The banner chips keep their light and dark fills in both modes, because they are drawn on the pictures.
+- The 404 page stays light even with dark stored: its `<html>` goes back to `light` about 0.7 s after load.
+- A content finding: the banner «Чистка печени» links to `/products/course-ochishchenie-pecheni-cherkashino`, which is a
+  404 on this live copy.
+
+Shots: `dark-toggle/pages/<1440|390>-dark-<page>.jpg`, the 1440 sheet `pages/sheet-1440-dark.jpg`, scan `dark-scan.log`,
+script `dark20.mjs`.
+
+### 2. The switch
+
+- **Olavka only.** `SideMenu` (shared with h1, and h7 is on every shop of the branch) gets the prop `modeToggle`. h7 passes
+  `isOlavkaShop()`. With the prop on, the «© year shop» line gives way to a 40px round icon button with a hairline
+  `ui-border-base` ring and a 20px icon. acme's menu still ends with «© 2026 Acme. Все права защищены.»
+- **The same `ModeToggle` as the other headers**, so the choice is kept in `localStorage` and applied by the pre-paint
+  script before the first paint. The icon shows the mode a click switches to: a moon in light, a sun in dark.
+- **Accessibility.** A new prop `pressed` gives the button a fixed name, «Тёмная тема» (new key `Nav.modeDark` in all 36
+  locales; English text outside ru, as the neighbouring keys), and `aria-pressed` true/false. Without the prop the other
+  headers keep their action labels («Переключить на тёмную тему») and no `aria-pressed`.
+- **Focus.** Keyboard focus draws the 2px `--ring` ring, and it stays round (`focus-visible:rounded-full`, the remark 21
+  lesson).
+
+Checked on :8233, headless Chromium and Firefox, at 1440 and 390, all the same:
+
+| step | result |
+|---|---|
+| first visit | SSR `data-mode="light"`; menu: switch «Тёмная тема», `aria-pressed="false"`, moon; no «©» line |
+| Tab ×6 from the open menu | the switch has `:focus-visible`, a 2px ring rgb(10,106,82), radius 9999px |
+| Enter | `<html data-mode="dark">`, stored `dark`, `aria-pressed="true"`, sun |
+| reload | SSR still sends `light`; **at the first animation frame, before the first paint, the page is already `dark`** |
+| click, then Space | light / stored `light`, then dark / stored `dark` |
+| another page (`/ru/store`) | dark from the first frame |
+| acme | no switch; «© 2026 Acme. Все права защищены.» |
+
+Shots: menus `dark-toggle/<engine>-<1440|390>-menu-<light|dark>.png`, the sheet `menus-1440-390-light-dark.jpg`; the focused
+switch `<engine>-<width>-toggle-focus-<light|dark>.png`. Logs `toggle-chromium.log`, `toggle-firefox.log`; script
+`toggle20.mjs`. The dark scan ran in Chromium. Firefox checked the switch's behaviour. One Firefox launch was refused by
+macOS («library load denied by system policy»), and the next one ran normally.

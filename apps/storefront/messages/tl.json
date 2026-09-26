@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Cart ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Hindi umiiral ang cart na sinubukan mong buksan. I-clear ang iyong cookies at subukang muli.",

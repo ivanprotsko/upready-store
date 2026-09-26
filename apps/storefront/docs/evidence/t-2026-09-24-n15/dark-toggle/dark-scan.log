@@ -1,0 +1,95 @@
+## chromium 1440 dark: html data-mode=dark
+== chromium 1440 dark home: low-contrast 0, light surfaces 0
+== chromium 1440 dark menu: low-contrast 0, light surfaces 0
+== chromium 1440 dark search: low-contrast 0, light surfaces 0
+== chromium 1440 dark store: low-contrast 0, light surfaces 0
+== chromium 1440 dark category: low-contrast 0, light surfaces 0
+== chromium 1440 dark product: low-contrast 0, light surfaces 1
+   LIGHT span@product-details-opener.absolute inset-0 rounded-md bg-ui-fg-bas 227×40 bg rgb(233, 241, 238)
+== chromium 1440 dark cart: low-contrast 0, light surfaces 0
+## chromium 390 dark: html data-mode=dark
+== chromium 390 dark home: low-contrast 0, light surfaces 0
+== chromium 390 dark menu: low-contrast 0, light surfaces 0
+== chromium 390 dark search: low-contrast 0, light surfaces 0
+== chromium 390 dark store: low-contrast 0, light surfaces 0
+== chromium 390 dark category: low-contrast 0, light surfaces 0
+== chromium 390 dark product: low-contrast 0, light surfaces 1
+   LIGHT span@product-details-opener.absolute inset-0 rounded-md bg-ui-fg-bas 227×40 bg rgb(233, 241, 238)
+== chromium 390 dark cart: low-contrast 0, light surfaces 0
+## chromium 1440 light: html data-mode=light
+== chromium 1440 light home: low-contrast 0, light surfaces 3
+   LIGHT button@nav-menu-button.h7_disc__2tZK_ 40×40 bg rgb(255, 255, 255)
+   LIGHT a@nav-cart-link.inline-flex h-10 items-center gap-x-2 ro 113×40 bg rgb(255, 255, 255)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 1440×442 bg rgb(255, 255, 255)
+== chromium 1440 light menu: low-contrast 0, light surfaces 4
+   LIGHT button@nav-menu-button.h7_disc__2tZK_ 40×40 bg rgb(255, 255, 255)
+   LIGHT div@nav-menu-popup.flex flex-col h-full bg-ui-bg-base borde 480×884 bg rgb(255, 255, 255)
+   LIGHT a@nav-cart-link.inline-flex h-10 items-center gap-x-2 ro 113×40 bg rgb(255, 255, 255)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 1440×442 bg rgb(255, 255, 255)
+== chromium 1440 light search: low-contrast 0, light surfaces 4
+   LIGHT button@nav-menu-button.h7_disc__2tZK_ 40×40 bg rgb(255, 255, 255)
+   LIGHT a@nav-cart-link.inline-flex h-10 items-center gap-x-2 ro 113×40 bg rgb(255, 255, 255)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 1440×442 bg rgb(255, 255, 255)
+   LIGHT div.w-full max-w-xl overflow-hidden rounded- 576×339 bg rgb(255, 255, 255)
+== chromium 1440 light store: low-contrast 0, light surfaces 5
+   LIGHT button@nav-menu-button.h7_disc__2tZK_ 40×40 bg rgb(255, 255, 255)
+   LIGHT a@nav-cart-link.inline-flex h-10 items-center gap-x-2 ro 113×40 bg rgb(255, 255, 255)
+   LIGHT button@category-container.shadow-buttons-neutral transition-fg fle 180×32 bg rgb(255, 255, 255)
+   LIGHT div@range-filter-Объём.flex h-8 items-center gap-x-1 rounded-md 244×32 bg rgb(255, 255, 255)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 1440×442 bg rgb(255, 255, 255)
+== chromium 1440 light category: low-contrast 0, light surfaces 5
+   LIGHT button@nav-menu-button.h7_disc__2tZK_ 40×40 bg rgb(255, 255, 255)
+   LIGHT a@nav-cart-link.inline-flex h-10 items-center gap-x-2 ro 113×40 bg rgb(255, 255, 255)
+   LIGHT button@category-container.shadow-buttons-neutral transition-fg fle 180×32 bg rgb(255, 255, 255)
+   LIGHT a@category-container.txt-compact-small hover:text-ui-fg-base  248×28 bg rgb(226, 238, 233)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 1440×442 bg rgb(255, 255, 255)
+== chromium 1440 light product: low-contrast 1, light surfaces 13
+   LOW  button@buy-now-button «Оплатить» rgb(16, 32, 27) on color(srgb 1 1 1) 1.24
+   LIGHT button@nav-menu-button.h7_disc__2tZK_ 40×40 bg rgb(255, 255, 255)
+   LIGHT a@nav-cart-link.inline-flex h-10 items-center gap-x-2 ro 113×40 bg rgb(255, 255, 255)
+   LIGHT div@product-gallery-card.rounded-large border border-ui-border-ba 354×551 bg rgb(255, 255, 255)
+   LIGHT div@product-gallery-hero.group relative w-full min-w-0 overflow-h 320×426 bg rgb(255, 255, 255)
+   LIGHT button@product-gallery-thumbnail-1.relative m-0.5 block h-[75px] w-14 overf 56×75 bg rgb(255, 255, 255)
+   LIGHT button@product-gallery-thumbnail-2.relative m-0.5 block h-[75px] w-14 overf 56×75 bg rgb(255, 255, 255)
+   LIGHT button@product-gallery-thumbnail-3.relative m-0.5 block h-[75px] w-14 overf 56×75 bg rgb(255, 255, 255)
+   LIGHT button@product-gallery-thumbnail-4.relative m-0.5 block h-[75px] w-14 overf 56×75 bg rgb(255, 255, 255)
+   LIGHT div@product-summary-card.rounded-large border border-ui-border-ba 637×472 bg rgb(255, 255, 255)
+   LIGHT nav@breadcrumb-pill.inline-flex max-w-full items-center gap- 200×30 bg rgb(255, 255, 255)
+   LIGHT aside@product-buy-card.rounded-large border border-ui-border-ba 354×210 bg rgb(255, 255, 255)
+   LIGHT div@product-wrapper.product-media group/media relative block 330×440 bg rgb(255, 255, 255)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 1440×442 bg rgb(255, 255, 255)
+== chromium 1440 light cart: low-contrast 0, light surfaces 3
+   LIGHT button@nav-menu-button.h7_disc__2tZK_ 40×40 bg rgb(255, 255, 255)
+   LIGHT a@nav-cart-link.inline-flex h-10 items-center gap-x-2 ro 113×40 bg rgb(255, 255, 255)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 1440×442 bg rgb(255, 255, 255)
+## chromium 390 light: html data-mode=light
+== chromium 390 light home: low-contrast 0, light surfaces 2
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 390×597 bg rgb(255, 255, 255)
+   LIGHT nav.lg:hidden fixed bottom-0 left-1 right-1  382×64 bg rgb(255, 255, 255)
+== chromium 390 light menu: low-contrast 0, light surfaces 3
+   LIGHT div@nav-menu-popup.flex flex-col h-full bg-ui-bg-base borde 374×884 bg rgb(255, 255, 255)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 390×597 bg rgb(255, 255, 255)
+   LIGHT nav.lg:hidden fixed bottom-0 left-1 right-1  382×64 bg rgb(255, 255, 255)
+== chromium 390 light search: low-contrast 0, light surfaces 3
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 390×597 bg rgb(255, 255, 255)
+   LIGHT nav.lg:hidden fixed bottom-0 left-1 right-1  382×64 bg rgb(255, 255, 255)
+   LIGHT div.w-full max-w-xl overflow-hidden rounded- 358×339 bg rgb(255, 255, 255)
+== chromium 390 light store: low-contrast 0, light surfaces 2
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 390×597 bg rgb(255, 255, 255)
+   LIGHT nav.lg:hidden fixed bottom-0 left-1 right-1  382×64 bg rgb(255, 255, 255)
+== chromium 390 light category: low-contrast 0, light surfaces 2
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 390×597 bg rgb(255, 255, 255)
+   LIGHT nav.lg:hidden fixed bottom-0 left-1 right-1  382×64 bg rgb(255, 255, 255)
+== chromium 390 light product: low-contrast 1, light surfaces 8
+   LOW  button@buy-now-button «Оплатить» rgb(16, 32, 27) on color(srgb 1 1 1) 1.24
+   LIGHT div@product-gallery-card.rounded-large border border-ui-border-ba 358×513 bg rgb(255, 255, 255)
+   LIGHT div@product-gallery-hero.group relative w-full min-w-0 overflow-h 332×443 bg rgb(255, 255, 255)
+   LIGHT div@product-summary-card.rounded-large border border-ui-border-ba 358×551 bg rgb(255, 255, 255)
+   LIGHT nav@breadcrumb-pill.inline-flex max-w-full items-center gap- 200×30 bg rgb(255, 255, 255)
+   LIGHT aside@product-buy-card.rounded-large border border-ui-border-ba 358×202 bg rgb(255, 255, 255)
+   LIGHT div@product-wrapper.product-media group/media relative block 164×218 bg rgb(255, 255, 255)
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 390×597 bg rgb(255, 255, 255)
+   LIGHT nav.lg:hidden fixed bottom-0 left-1 right-1  382×64 bg rgb(255, 255, 255)
+== chromium 390 light cart: low-contrast 0, light surfaces 2
+   LIGHT footer@footer-olavka.w-full bg-ui-bg-base 390×597 bg rgb(255, 255, 255)
+   LIGHT nav.lg:hidden fixed bottom-0 left-1 right-1  382×64 bg rgb(255, 255, 255)

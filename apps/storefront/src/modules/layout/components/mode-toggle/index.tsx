@@ -36,9 +36,19 @@ import { applyMode, readCurrent } from "@lib/theme/apply"
 type ModeToggleProps = {
   className?: string
   "data-testid"?: string
+  /**
+   * Branch `redesign-olavka` (Ivan's remark 20): a toggle button with a fixed name,
+   * «Тёмная тема», and its state in `aria-pressed`, instead of the name of the action
+   * («Переключить на тёмную тему»). Off: today's labels, no `aria-pressed`.
+   */
+  pressed?: boolean
 }
 
-export default function ModeToggle({ className, "data-testid": testId }: ModeToggleProps) {
+export default function ModeToggle({
+  className,
+  "data-testid": testId,
+  pressed = false,
+}: ModeToggleProps) {
   const t = useTranslations("Nav")
   // Mirrors the existing studio popover's own `mode` state (`theme-panel/popover.tsx`):
   // read off `<html>` once mounted, since the pre-paint script may already have overwritten
@@ -58,7 +68,10 @@ export default function ModeToggle({ className, "data-testid": testId }: ModeTog
       onClick={() => {
         if (applyMode(next)) setMode(next)
       }}
-      aria-label={next === "light" ? t("modeToggleLight") : t("modeToggleDark")}
+      aria-label={
+        pressed ? t("modeDark") : next === "light" ? t("modeToggleLight") : t("modeToggleDark")
+      }
+      aria-pressed={pressed ? mode === "dark" : undefined}
       data-testid={testId}
       className={className}
     >

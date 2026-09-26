@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "কার্ট ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "আপনি যে কার্টে প্রবেশ করার চেষ্টা করছেন তা বিদ্যমান নেই। আপনার কুকিজ মুছে আবার চেষ্টা করুন।",

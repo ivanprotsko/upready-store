@@ -684,7 +684,8 @@
     "allWithCount": "Все, {count}",
     "cart": "Корзина ({count})",
     "modeToggleDark": "Переключить на тёмную тему",
-    "modeToggleLight": "Переключить на светлую тему"
+    "modeToggleLight": "Переключить на светлую тему",
+    "modeDark": "Тёмная тема"
   },
   "NotFound": {
     "cartDescription": "Корзина, которую вы ищете, не существует. Очистите куки и попробуйте ещё раз.",

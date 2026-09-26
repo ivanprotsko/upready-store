@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getSiteBranding } from "@lib/data/tenant-branding"
@@ -23,7 +24,8 @@ import styles from "./h7.module.css"
  * zero-prop server-component shape as H1-H6 (`nav/variants/index.ts`).
  *
  * Desktop (≥1024, 227:9200, 76px, three equal columns, padding 24):
- *   leading  · burger: 40px white disc outlined by the node's two drop shadows → `SideMenu`;
+ *   leading  · burger: 40px white disc outlined by the node's two drop shadows → `SideMenu`
+ *              (the Olavka shop: the light/dark switch at its bottom, Ivan's remark 20);
  *              flag + country name as plain text, the currency sign alone
  *              → `RegionSelect variant="text"` (the same dialog as every header).
  *   main     · wordmark, Ruslan Display 32px → `SiteLogo` (the tenant's short name or name).
@@ -46,14 +48,16 @@ import styles from "./h7.module.css"
  */
 export default async function NavH7() {
   const t = await getTranslations()
-  const [regions, countryCode, siteName, locales, showJournal, branding] = await Promise.all([
-    listRegions(),
-    getCountryCode(),
-    getSiteName(),
-    getSwitcherLocales(),
-    hasPublishedArticles(),
-    getSiteBranding(),
-  ])
+  const [regions, countryCode, siteName, locales, showJournal, branding, olavka] =
+    await Promise.all([
+      listRegions(),
+      getCountryCode(),
+      getSiteName(),
+      getSwitcherLocales(),
+      hasPublishedArticles(),
+      getSiteBranding(),
+      isOlavkaShop(),
+    ])
   const wordmarkStyle = {
     "--wm-chars": Array.from(branding.shop_name_short || siteName).length,
   } as CSSProperties
@@ -74,6 +78,7 @@ export default async function NavH7() {
               siteName={siteName}
               showJournal={showJournal}
               buttonClassName={styles.disc}
+              modeToggle={olavka}
             />
             <RegionSelect
               regions={regions}
@@ -145,6 +150,7 @@ export default async function NavH7() {
                 siteName={siteName}
                 showJournal={showJournal}
                 buttonClassName={styles.iconButton}
+                modeToggle={olavka}
               />
             </div>
           </div>

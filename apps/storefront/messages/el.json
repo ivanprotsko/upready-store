@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Καλάθι ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Το καλάθι που προσπαθήσατε να επισκεφθείτε δεν υπάρχει. Καθαρίστε τα cookies σας και δοκιμάστε ξανά.",

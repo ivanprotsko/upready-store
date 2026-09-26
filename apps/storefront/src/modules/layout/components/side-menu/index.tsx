@@ -5,6 +5,7 @@ import useScrollLock from "@lib/hooks/use-scroll-lock"
 import { BarsThree, XMark } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
 import { Text } from "@medusajs/ui"
+import ModeToggle from "@modules/layout/components/mode-toggle"
 import { useTranslations } from "next-intl"
 import { Fragment } from "react"
 
@@ -39,11 +40,19 @@ const SideMenu = ({
   siteName,
   showJournal = false,
   buttonClassName,
+  modeToggle = false,
 }: {
   siteName: string
   showJournal?: boolean
   /** Replaces the trigger's classes (branch `redesign-olavka`: a 40px round white button). */
   buttonClassName?: string
+  /**
+   * Branch `redesign-olavka` (Ivan's remark 20, the Olavka shop): the light/dark switch as an
+   * icon at the bottom of the panel, in place of the «© year shop» line. The same
+   * `ModeToggle` as the other headers' — the choice is kept in the browser and applied before
+   * the first paint.
+   */
+  modeToggle?: boolean
 }) => {
   const t = useTranslations()
   const items = showJournal
@@ -126,12 +135,20 @@ const SideMenu = ({
                       ))}
                     </ul>
                     <div className="flex flex-col gap-y-6">
-                      <Text className="flex justify-between txt-compact-small">
-                        {t("SideMenu.copyright", {
-                          year: new Date().getFullYear(),
-                          siteName,
-                        })}
-                      </Text>
+                      {modeToggle ? (
+                        <ModeToggle
+                          pressed
+                          data-testid="side-menu-mode-toggle"
+                          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ui-border-base text-ui-fg-base transition-colors hover:bg-ui-bg-base-hover focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] [&>svg]:h-5 [&>svg]:w-5"
+                        />
+                      ) : (
+                        <Text className="flex justify-between txt-compact-small">
+                          {t("SideMenu.copyright", {
+                            year: new Date().getFullYear(),
+                            siteName,
+                          })}
+                        </Text>
+                      )}
                     </div>
                   </div>
                 </PopoverPanel>

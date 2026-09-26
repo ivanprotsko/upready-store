@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Сагс ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Таны хандах гэсэн сагс байхгүй байна. Күүкигээ цэвэрлээд дахин оролдоно уу.",
