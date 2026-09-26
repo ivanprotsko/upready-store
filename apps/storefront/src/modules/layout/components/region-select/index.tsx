@@ -56,10 +56,10 @@ type RegionSelectProps = {
 }
 
 const TEXT_CLASS =
-  "inline-flex h-10 items-center gap-x-2 rounded-full px-[12.5px] font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+  "inline-flex h-10 items-center gap-x-2 rounded-full px-[12.5px] font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
 
 const ICON_CLASS =
-  "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] sm:h-10 sm:w-10"
+  "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] sm:h-10 sm:w-10"
 
 /** The node's «Currency / USD»: the sign alone, Rubik Medium 15. */
 const SIGN_CLASS = "font-[family-name:var(--font-olavka-sign)] text-[15px] font-medium leading-[1.1] tracking-[0.01em]"

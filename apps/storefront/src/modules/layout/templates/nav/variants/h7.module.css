@@ -134,10 +134,30 @@
   background: var(--accent);
 }
 
+/* Every control keeps its own round shape on keyboard focus (Ivan's remark 21). The app-wide
+   ring in `globals.css` sets `border-radius: inherit`, so that a control with no corners of
+   its own follows its container; each control here has its own and sits in a square box, so
+   on focus the ring, the logo's pill and the burger's disc all turned square. */
 .disc:focus-visible,
 .iconButton:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+  border-radius: 999px;
+}
+
+.wordmark:focus-visible {
+  border-radius: 32px;
+}
+
+/* The compact bar's cart is the shared icon link, a narrow box inside this disc: the disc
+   carries its ring. */
+.iconButton:has([data-testid="nav-cart-link"]:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.iconButton [data-testid="nav-cart-link"]:focus-visible {
+  outline-color: transparent;
 }
 
 .icon {

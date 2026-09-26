@@ -620,3 +620,56 @@ One duplicate is still there: «Информация» lists the shop's own page
 and «Публичная оферта». Remark 19 names only the bottom row, so this list is untouched.
 
 Shots `footer-legal-row/<olavka-com|acme>-<1440|390>-<before|after>.jpg`, script `footer-legal-row/foot19.mjs`.
+
+## Remark 21 · the logo's focus ring with rounded corners (Ivan 2026-09-27)
+
+«нужно сделать чтобы "фокусное" состояние на контейнере логотипа также было со скруглением а не так как сейчас с острыми
+углами»: `/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-21-logo-focus-rounded.md`.
+
+**Cause.** The app-wide keyboard ring in `src/styles/globals.css` (since 00abd2a0, 2026-09-08, shared by every shop) is
+`:where(a[href], button, …):focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: inherit }`.
+With `inherit`, a control that has no corners of its own follows its container. It also overrides the corners a control
+does have, because both rules have the same specificity and the global one comes later. The logo link sits in
+`BrandUnlock`'s `display: contents` span with 0 radius, so on focus its 32px went to 0. That squared the ring and, in the
+scrolled state, the logo's grey pill as well.
+
+The same defect was on every other control in the h7 header, including the menu button the lead named as the model. Before,
+measured by Tab on :8233, identical in headless Chromium and Firefox:
+
+| control | radius at rest | on focus, before | on focus, after |
+|---|---|---|---|
+| logo (1440 and 390, rest and scrolled) | 32px | 0px (ring and pill square) | 32px |
+| burger disc (1440), burger icon (390) | 999px | 0px (the white disc itself square) | 999px |
+| account (1440) | 999px | 0px | 999px |
+| «Корзина» pill (1440) | 9999px | 0px | 9999px |
+| «Россия» / «₽» (1440) | 9999px | 32px, from the parent pill | 9999px |
+| «Россия» / «₽» (390) | 9999px | 0px | 9999px |
+| cart icon (390) | a narrow 0px link inside a 36px disc | square ring around the link | the disc carries the ring, round |
+
+**Fix, in the h7 header only.** The global rule is not touched.
+- `h7.module.css`: the focused burger and icon buttons get `border-radius: 999px` and the focused logo gets `32px` (the
+  selectors have higher specificity than the global rule). The compact bar's cart disc draws the ring when its link has focus
+  (`:has`), and the link's own ring goes transparent.
+- The branch-local header variants get `focus-visible:rounded-full`: `RegionSelect` `text` / `icons` and `CartDropdown`
+  `pill` (added by this task, used only by h7).
+
+Outline colour, width and offset are unchanged: 2px rgb(10,106,82), offset 2px.
+
+**Scope.** h7 is on every shop of this branch through the demo switch `DEMO_HEADER = "h7"` (`nav/variants/index.ts`), so
+acme and the others get the same rounded rings in this header, as with remarks 7, 10 and 11. Headers h1–h6 and every other
+focus ring on the site are unchanged.
+
+The long press on the logo still opens the studio dialog, checked in Chromium and Firefox at 1440 and 390: a 2.3 s hold opens
+it and keeps the page, and Esc closes it. A short click and Tab + Enter still follow the link.
+
+Found on the way, not changed:
+- Other shops have the same square ring wherever a rounded control's focus is not styled by its own component. Fixing that
+  means dropping `border-radius: inherit` from the global rule, a change shared by every shop, so it waits for the lead and
+  Ivan.
+- The logo's `href` is `/` with no locale, and the middleware redirects `/` by the browser's Accept-Language. A visitor on
+  `/ru` with an English browser lands on `/en` after a click on the logo. Headless Chromium and Firefox did exactly that.
+
+Crops of the logo `logo-focus/<engine>-olavka-com-<1440|390>-<top|scrolled>-<before|after>.png`. Every header control focused
+in turn: `logo-focus/header-controls-<engine>-<width>-<state>-<before|after>.png`, at 3×. Before-crops were shot in Chromium;
+the Firefox before-values are in the table. Radii: `logo-focus/radius-after.log`. Scripts: `logo21.mjs`, `hdrfocus21.mjs`,
+`hdrshot21.mjs`, `hold21.mjs`.

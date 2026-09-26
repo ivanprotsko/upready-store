@@ -217,7 +217,7 @@ const CartDropdown = ({
         <Link
           className={
             variant === "pill"
-              ? "inline-flex h-10 items-center gap-x-2 rounded-full bg-[var(--h7-surface,var(--background))] px-4 font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] shadow-[0_0_0_1px_var(--h7-ring,rgba(0,0,0,0.08)),0_1px_2px_rgba(0,0,0,0.12)] transition-colors hover:bg-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+              ? "inline-flex h-10 items-center gap-x-2 rounded-full bg-[var(--h7-surface,var(--background))] px-4 font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] shadow-[0_0_0_1px_var(--h7-ring,rgba(0,0,0,0.08)),0_1px_2px_rgba(0,0,0,0.12)] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
               : "flex h-full items-center hover:text-ui-fg-base"
           }
           href="/cart"
