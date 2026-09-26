@@ -16,7 +16,8 @@ import PaginatedProducts, {
   PRODUCT_LIMIT,
 } from "@modules/store/templates/paginated-products"
 import { listCategories } from "@lib/data/categories"
-import { listProductOptionFilters } from "@lib/data/products"
+import { countOptionBuckets, listProductOptionFilters } from "@lib/data/products"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
 import CategoryHeaderImage from "@modules/categories/components/category-header-image"
 import { getCategoryAncestors } from "@lib/util/category-ancestors"
@@ -58,7 +59,7 @@ export default async function CategoryTemplate({
     ? selectedSubcategories.map((c) => c.id)
     : [category.id, ...subcategories.map((c) => c.id)]
 
-  const [t, locale, categories, allOptionFilters, attributeFacets] = await Promise.all([
+  const [t, locale, categories, allOptionFilters, attributeFacets, olavka] = await Promise.all([
     getTranslations(),
     getLocale(),
     listCategories(),
@@ -69,9 +70,20 @@ export default async function CategoryTemplate({
       categoryId: category.id,
       selection: attributeSelection,
     }),
+    isOlavkaShop(),
   ])
 
   const optionFilters = withoutOptionsNamedLikeFacets(allOptionFilters, attributeFacets.facets)
+  // The count next to each option checkbox, on the Olavka shop (Ivan's remark 23).
+  const optionCounts = olavka
+    ? await countOptionBuckets({
+        groups: optionFilters,
+        optionValueIds,
+        queryParams: { category_id: categoryIds },
+        narrowedIds: attributeFacets.productIds,
+        countryCode,
+      })
+    : undefined
 
   const ancestors = getCategoryAncestors(category)
 
@@ -147,7 +159,11 @@ export default async function CategoryTemplate({
             categories={categories}
             activeCategoryId={category.id}
           />
-          <FilterSidebar optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
+          <FilterSidebar
+            optionFilters={optionFilters}
+            attributeFacets={attributeFacets.facets}
+            optionCounts={optionCounts}
+          />
         </div>
         <div className="w-full">
           <ActiveFilters optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />

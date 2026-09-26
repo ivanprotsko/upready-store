@@ -5,6 +5,8 @@ import type { OptionValueIds } from "@lib/util/product-option-filters"
 import { sortProducts } from "@lib/util/sort-products"
 import {
   groupOptionFilters,
+  optionBucketKey,
+  optionBuckets,
   type ProductOptionFilterGroup,
 } from "@lib/util/option-filter-groups"
 import type { HttpTypes } from "@medusajs/types"
@@ -129,6 +131,52 @@ export const listProductOptionFilters = async (
     .catch(() => ({ products: [] as HttpTypes.StoreProduct[] }))
 
   return groupOptionFilters(products)
+}
+
+/**
+ * BRANCH-LOCAL (`redesign-olavka`, Ivan's remark 23): the number next to each option
+ * checkbox of the catalog — how many products the list will hold once that checkbox is on,
+ * with the filters already on. Asked of the backend with the listing's own query (the same
+ * category / collection / characteristic narrowing, `option_value_id` = the checked values
+ * plus this checkbox's), `limit: 1`, `fields: id`: the answer's `count` is the list's total
+ * by construction. One small cached request per checkbox. A checked box answers the current
+ * total. `narrowedIds`: `[]` means the characteristics left nothing, so every count is 0.
+ */
+export const countOptionBuckets = async ({
+  groups,
+  optionValueIds = [],
+  queryParams = {},
+  narrowedIds,
+  countryCode,
+}: {
+  groups: ProductOptionFilterGroup[]
+  optionValueIds?: OptionValueIds
+  queryParams?: Pick<ProductListQueryParams, "category_id" | "collection_id">
+  narrowedIds?: string[] | null
+  countryCode: string
+}): Promise<Record<string, number>> => {
+  const active = Array.from(new Set(optionValueIds.filter(Boolean)))
+  const entries = await Promise.all(
+    groups.flatMap((group) =>
+      optionBuckets(group).map(async (bucket): Promise<[string, number]> => {
+        const key = optionBucketKey(group.id, bucket.label)
+        if (narrowedIds && narrowedIds.length === 0) return [key, 0]
+        const ids = Array.from(new Set([...active, ...bucket.ids]))
+        const { response } = await listProducts({
+          queryParams: {
+            ...queryParams,
+            ...(narrowedIds ? { id: narrowedIds } : {}),
+            option_value_id: ids,
+            limit: 1,
+            fields: "id",
+          },
+          countryCode,
+        }).catch(() => ({ response: { products: [], count: 0 } }))
+        return [key, response.count]
+      })
+    )
+  )
+  return Object.fromEntries(entries)
 }
 
 export const listProductsWithSort = async ({

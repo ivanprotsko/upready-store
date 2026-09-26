@@ -137,3 +137,29 @@ export function withoutOptionsNamedLikeFacets(
   const facetNames = new Set(facets.map((facet) => facet.name.trim().toLowerCase()))
   return groups.filter((group) => !facetNames.has(group.title.trim().toLowerCase()))
 }
+
+/** One checkbox of an option group: a label and every value id carrying it. */
+export type OptionFilterBucket = { label: string; ids: string[] }
+
+/**
+ * An option group's checkboxes, one per label. Inside one group the same label can come
+ * from several products (each product mints its own value ids), and one checkbox drives
+ * all of its ids together.
+ */
+export function optionBuckets(group: ProductOptionFilterGroup): OptionFilterBucket[] {
+  const byLabel = new Map<string, OptionFilterBucket>()
+  for (const value of group.values) {
+    const key = value.label.trim().toLowerCase()
+    const bucket = byLabel.get(key)
+    if (bucket) {
+      bucket.ids.push(value.id)
+    } else {
+      byLabel.set(key, { label: value.label.trim(), ids: [value.id] })
+    }
+  }
+  return Array.from(byLabel.values())
+}
+
+/** The key of a checkbox's count (branch `redesign-olavka`, Ivan's remark 23). */
+export const optionBucketKey = (groupId: string, label: string): string =>
+  `${groupId}|${label.trim().toLowerCase()}`

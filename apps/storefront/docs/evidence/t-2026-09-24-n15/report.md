@@ -826,3 +826,35 @@ cards have no «В корзину» button to turn into a stepper: remark 17 lef
 
 **Waiting:** the stepper in a real cart. Add, «+» to 2, «−» back to 1, «−» to «В корзину», and the header count, in
 Chromium and Firefox at 1440 and 390. This runs once Ivan allows test carts on :9251.
+
+## Remark 23 · a count next to each option filter in the catalog sidebar (Ivan 2026-09-27)
+
+«Показывать напротив пункта фильтра справа кол-во элементов которое будет показано при активации данного пункта»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-25/remark-23-catalog-filter-counts.md`.
+
+**Where the counts come from: the backend, through the listing's own query.** For each checkbox of an option group
+(«Количество», «Фасовка»), `countOptionBuckets` (`src/lib/data/products.ts`) asks `/store/products` with the same narrowing
+the list uses and `limit: 1, fields: id`. The narrowing is: the category and its subtree on a category page; the products the
+characteristics left; `option_value_id` = the values already checked plus this checkbox's. The answer's `count` is the
+list's total by construction. A checked box shows the current total. If the characteristics left nothing, every count is 0.
+
+**Cost per page load:** one small request per checkbox, in parallel (12 on olavka's /store), cached under the `products` tag
+like the listing. A new filter combination pays them once. Measured render of /ru/store: 0.15–0.18 s. The characteristic
+facets keep the counts the backend already sends; they are untouched.
+
+**Semantics, measured.** The backend combines checked values with AND. On /ru/store: no filter 19, «10 шт» 1, «2 банки» 1,
+both 0. So the counts fall to 0 once one box is on, and they say so before the click.
+
+**Proof, on :8233, headless Chromium 1440:** every checkbox's shown count equals `data-total-count` of the list after
+clicking it, first with no filter and then with «10 шт» already on (a combination). **24 of 24 equal**
+(`filter-counts/counts-olavka-store-chromium-1440.log`, script `counts23.mjs`; semantics `sem23.mjs`).
+- Two checkboxes show 0 with no filter at all: «Фасовка: 30 гр» and «100 гр». Their values belong to no product in the
+  listing, so the list really comes out empty.
+
+**Scope.** `FilterSidebar` is shared. The counts render only when the page passes `optionCounts`, and only the Olavka shop
+does (`isOlavkaShop()`, in the store and category templates); acme's sidebar has none (0 `filter-option-count` on its
+/ru/store). The checkbox grouping moved unchanged from `filter-panel` to `optionBuckets` in
+`src/lib/util/option-filter-groups.ts`, so the server builds the same checkboxes. The phone's filter sheet and the
+collection page show no counts yet. Other shops wait for the lead's word.
+
+Shot `filter-counts/sidebar-olavka-1440.png`.
