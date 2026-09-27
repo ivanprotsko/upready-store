@@ -5,6 +5,8 @@ import TenantModuleService from "../../../../modules/tenant/service";
 export type CreateTenantStepInput = {
   name: string;
   handle: string;
+  plan_id: string | null;
+  plan_trial_ends_at: Date | null;
 };
 
 const createTenantStep = createStep(

@@ -31,6 +31,20 @@ export type CreateTenantWorkflowInput = {
    * today, and who reaches the new one through `POST /tenants/me/switch`.
    */
   authIdentityId?: string;
+  /**
+   * The pricing document's tier id this tenant is created on
+   * (t-2026-09-27-05), already resolved by the caller against
+   * `GET /platform/pricing`; null for a tenant created through a path that
+   * names no tariff.
+   */
+  plan_id?: string | null;
+  /**
+   * The tariff's trial length in days, from the SAME pricing document the
+   * caller resolved `plan_id` against; null for a tariff with no trial. This
+   * workflow, not the caller, turns it into `plan_trial_ends_at`, so the trial
+   * end reflects this tenant's own creation moment.
+   */
+  plan_trial_days?: number | null;
 };
 
 /**
@@ -100,6 +114,10 @@ const createTenantWorkflow = createWorkflow(
     const tenantData = transform({ input }, ({ input }) => ({
       name: input.name,
       handle: input.handle,
+      plan_id: input.plan_id ?? null,
+      plan_trial_ends_at: input.plan_trial_days
+        ? new Date(Date.now() + input.plan_trial_days * 24 * 60 * 60 * 1000)
+        : null,
     }));
 
     const tenant = createTenantStep(tenantData);

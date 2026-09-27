@@ -27,6 +27,8 @@ export const POST = async (
   const { result } = await createTenantWorkflow(req.scope).run({
     input: {
       ...req.validatedBody,
+      plan_id: req.validatedBody.plan_id ?? null,
+      plan_trial_days: req.validatedBody.plan_trial_days ?? null,
       authIdentityId: req.auth_context.auth_identity_id,
     },
   });

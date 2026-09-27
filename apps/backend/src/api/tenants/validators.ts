@@ -22,6 +22,21 @@ export const PostTenantCreateSchema = z.strictObject({
     first_name: z.string().optional(),
     last_name: z.string().optional(),
   }),
+  /**
+   * The tariff this tenant is created on (t-2026-09-27-05), the pricing
+   * document's own tier id. The caller (the onboarding wizard's server route)
+   * has already resolved it against `GET /platform/pricing`; this route trusts
+   * that resolution, the same way it trusts `name`/`handle`.
+   */
+  plan_id: z
+    .string()
+    .min(1)
+    .max(40)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens")
+    .nullable()
+    .optional(),
+  /** The tariff's trial length in days, from the same resolved pricing document; absent or null for no trial. */
+  plan_trial_days: z.number().int().min(1).max(365).nullable().optional(),
 });
 
 export type PostTenantCreateBody = z.infer<typeof PostTenantCreateSchema>;
