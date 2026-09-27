@@ -6,7 +6,11 @@ import { useTranslations } from "next-intl"
 import { useCallback, useMemo } from "react"
 
 import type { AttributeFacet } from "@lib/data/product-attributes"
-import type { ProductOptionFilterGroup } from "@lib/util/option-filter-groups"
+import {
+  optionBucketKey,
+  optionBuckets,
+  type ProductOptionFilterGroup,
+} from "@lib/util/option-filter-groups"
 import {
   ATTRIBUTE_PARAM_PREFIX,
   applyAttributeValues,
@@ -32,22 +36,12 @@ import RangeFilter from "@modules/store/components/refinement-list/attributes-pi
 type FilterPanelProps = {
   optionFilters?: ProductOptionFilterGroup[]
   attributeFacets?: AttributeFacet[]
-}
-
-type LabelBucket = { label: string; ids: string[] }
-
-const bucketsOf = (group: ProductOptionFilterGroup): LabelBucket[] => {
-  const byLabel = new Map<string, LabelBucket>()
-  for (const value of group.values) {
-    const key = value.label.trim().toLowerCase()
-    const bucket = byLabel.get(key)
-    if (bucket) {
-      bucket.ids.push(value.id)
-    } else {
-      byLabel.set(key, { label: value.label.trim(), ids: [value.id] })
-    }
-  }
-  return Array.from(byLabel.values())
+  /**
+   * Branch `redesign-olavka` (Ivan's remark 23, the Olavka shop): how many products the
+   * list will hold with each option checkbox turned on, by `optionBucketKey`. Absent: no
+   * counts, as before.
+   */
+  optionCounts?: Record<string, number>
 }
 
 const useFilterQuery = () => {
@@ -115,12 +109,16 @@ const Group = ({
   </details>
 )
 
-export const FilterSidebar = ({ optionFilters = [], attributeFacets = [] }: FilterPanelProps) => {
+export const FilterSidebar = ({
+  optionFilters = [],
+  attributeFacets = [],
+  optionCounts,
+}: FilterPanelProps) => {
   const t = useTranslations("Filters")
   const { optionIds, attributes, setOptionIds, setAttribute } = useFilterQuery()
 
   const optionGroups = optionFilters
-    .map((group) => ({ group, buckets: bucketsOf(group) }))
+    .map((group) => ({ group, buckets: optionBuckets(group) }))
     .filter(({ buckets }) => buckets.length > 1)
   const facets = attributeFacets.filter((facet) =>
     facet.type === "number"
@@ -156,7 +154,12 @@ export const FilterSidebar = ({ optionFilters = [], attributeFacets = [] }: Filt
                     )
                   }
                 />
-                <span className="min-w-0 break-words">{bucket.label}</span>
+                <span className="min-w-0 flex-1 break-words">{bucket.label}</span>
+                {optionCounts ? (
+                  <span className="tabular-nums text-ui-fg-muted" data-testid="filter-option-count">
+                    {optionCounts[optionBucketKey(group.id, bucket.label)] ?? 0}
+                  </span>
+                ) : null}
               </label>
             )
           })}
@@ -237,7 +240,7 @@ export const ActiveFilters = ({ optionFilters = [], attributeFacets = [] }: Filt
   const chips: { key: string; label: string; remove: () => void }[] = []
 
   for (const group of optionFilters) {
-    for (const bucket of bucketsOf(group)) {
+    for (const bucket of optionBuckets(group)) {
       if (bucket.ids.some((id) => optionIds.includes(id))) {
         chips.push({
           key: `${group.id}:${bucket.label}`,

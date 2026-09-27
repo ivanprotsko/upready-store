@@ -26,7 +26,7 @@ Idempotent: a registry row already \`migrated\` is verified, not redone.
                       markdown are read from; default /Users/ivanprotsko/upready/projects/chrxnasdmds
   --pages-out         directory the page markdown is written to (optional)
   --handle            tenant handle / subdomain; default cherkashino
-  --name              tenant name; default "Оксана Черкашина"
+  --name              tenant name; default "ОЛАВКА" (Ivan 2026-09-25)
   --admin-email       tenant owner's login (required; created on first run)
   --admin-password    tenant owner's password (required)
   --admin-first-name  default Оксана
@@ -47,7 +47,7 @@ Writes: --registry, --pages-out, and the tenant behind --backend. Reads: --snaps
   node import.mjs --backend https://shipshift.dev \\
     --snapshot artifacts/…/source-snapshot.json --registry artifacts/…/02-mapping-registry.json \\
     --source-root ~/upready/projects/chrxnasdmds --pages-out artifacts/…/pages \\
-    --handle cherkashino --name "Оксана Черкашина" --storefront-origin https://cherkashino.shipshift.dev \\
+    --handle cherkashino --name "ОЛАВКА" --storefront-origin https://cherkashino.shipshift.dev \\
     --admin-email owner@example.test --admin-password '…' --dry-run
 `;
 
@@ -64,7 +64,7 @@ const REGISTRY = opt("--registry", null);
 const SOURCE_ROOT = opt("--source-root", "/Users/ivanprotsko/upready/projects/chrxnasdmds");
 const PAGES_OUT = opt("--pages-out", null);
 const HANDLE = opt("--handle", "cherkashino");
-const NAME = opt("--name", "Оксана Черкашина");
+const NAME = opt("--name", "ОЛАВКА");
 const ADMIN_EMAIL = opt("--admin-email", null);
 const ADMIN_PASSWORD = opt("--admin-password", null);
 const ADMIN_FIRST = opt("--admin-first-name", "Оксана");

@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "კალათა ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "კალათა, რომელზეც სცადეთ წვდომა, არ არსებობს. გაასუფთავეთ ქუქიები და სცადეთ ხელახლა.",
@@ -828,7 +829,10 @@
     "selectVariant": "აირჩიეთ ვარიანტი",
     "inStock": "მარაგშია",
     "buyNow": "ყიდვა",
-    "buy": "ყიდვა"
+    "buy": "ყიდვა",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "არა",

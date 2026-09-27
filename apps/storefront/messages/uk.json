@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Кошик ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Кошик, який ви намагаєтеся відкрити, не існує. Очистіть кукі та спробуйте ще раз.",
@@ -828,7 +829,10 @@
     "selectVariant": "Оберіть варіант",
     "inStock": "Є в наявності",
     "buyNow": "Оплатити",
-    "buy": "Купити"
+    "buy": "Купити",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Ні",

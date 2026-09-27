@@ -1,0 +1,42 @@
+   data-mode: dark
+== chromium 1440 dark {"menuL":24,"arrowPrevL":24,"cartR":24,"arrowNextR":24,"menuBox":"40x40","arrowBox":"40x40","menuIcon":"15x15","arrowIcon":"15x15","arrowMidY":363,"trackMidY":363,"sameStyle":true,"hover":{"menu":"rgb(30, 43, 38)","arrow":"rgb(30, 43, 38)"},"focus":{"menu":{"id":"nav-menu-button","outline":"solid 2px rgb(87, 224, 176)","offset":"2px","radius":"999px"},"arrow":{"id":"olavka-hero-slider-prev","outline":"solid 2px rgb(87, 224, 176)","offset":"2px","radius":"999px"}},"click":{"start":{"scrollLeft":3540,"i":5,"href":"/ru/store","copy":"real"},"afterNext":{"scrollLeft":2124,"i":3,"href":"/products/course-ochishchenie-pecheni-cherkashino","copy":"real"},"afterPrev":{"scrollLeft":3540,"i":5,"href":"/ru/store","copy":"real"},"nextMoved":true,"prevBack":true}}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+browserType.launch: Failed to launch the browser process.
+Browser logs:
+
+<launching> /Users/ivanprotsko/Library/Caches/ms-playwright/firefox-1538/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/v8/3b52bknd39ldrr5r44nbjywc0000gp/T/playwright_firefoxdev_profile-RTP7fr -juggler-pipe -silent
+<launched> pid=3204
+[pid=3204] <process did exit: exitCode=null, signal=SIGKILL>
+[pid=3204] starting temporary directories cleanup
+Call log:
+[2m  - <launching> /Users/ivanprotsko/Library/Caches/ms-playwright/firefox-1538/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/v8/3b52bknd39ldrr5r44nbjywc0000gp/T/playwright_firefoxdev_profile-RTP7fr -juggler-pipe -silent[22m
+[2m  - <launched> pid=3204[22m
+[2m  - [pid=3204] <process did exit: exitCode=null, signal=SIGKILL>[22m
+[2m  - [pid=3204] starting temporary directories cleanup[22m
+[2m  - [pid=3204] <gracefully close start>[22m
+[2m  - [pid=3204] <kill>[22m
+[2m  - [pid=3204] <skipped force kill spawnedProcess.killed=false processClosed=true>[22m
+[2m  - [pid=3204] finished temporary directories cleanup[22m
+[2m  - [pid=3204] <gracefully close end>[22m
+
+    at /private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-redesign-olavka/833624ac-3af0-4dd5-8c98-d7660d727746/scratchpad/arrows27.mjs:8:50 {
+  log: [
+    '  - <launching> /Users/ivanprotsko/Library/Caches/ms-playwright/firefox-1538/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/v8/3b52bknd39ldrr5r44nbjywc0000gp/T/playwright_firefoxdev_profile-RTP7fr -juggler-pipe -silent',
+    '  - <launched> pid=3204',
+    '  - [pid=3204] <process did exit: exitCode=null, signal=SIGKILL>',
+    '  - [pid=3204] starting temporary directories cleanup',
+    '  - [pid=3204] <gracefully close start>',
+    '  - [pid=3204] <kill>',
+    '  - [pid=3204] <skipped force kill spawnedProcess.killed=false processClosed=true>',
+    '  - [pid=3204] finished temporary directories cleanup',
+    '  - [pid=3204] <gracefully close end>'
+  ],
+  name: 'Error'
+}
+
+Node.js v26.8.1
+   data-mode: dark
+== firefox 1440 dark {"menuL":24,"arrowPrevL":24,"cartR":24,"arrowNextR":24,"menuBox":"40x40","arrowBox":"40x40","menuIcon":"15x15","arrowIcon":"15x15","arrowMidY":363,"trackMidY":363,"sameStyle":true,"hover":{"menu":"rgb(30, 43, 38)","arrow":"rgb(30, 43, 38)"},"focus":{"menu":{"id":"nav-menu-button","outline":"solid 2px rgb(87, 224, 176)","offset":"2px","radius":"999px"},"arrow":{"id":"olavka-hero-slider-prev","outline":"solid 2px rgb(87, 224, 176)","offset":"2px","radius":"999px"}},"click":{"start":{"scrollLeft":3540,"i":5,"href":"/ru/store","copy":"real"},"afterNext":{"scrollLeft":2124,"i":3,"href":"/products/course-ochishchenie-pecheni-cherkashino","copy":"real"},"afterPrev":{"scrollLeft":3540,"i":5,"href":"/ru/store","copy":"real"},"nextMoved":true,"prevBack":true}}

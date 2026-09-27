@@ -6,6 +6,16 @@ import ProductRowTile, { type ProductRowItem } from "./tile"
 export type ProductRowColumns = 4 | 6
 
 /**
+ * BRANCH-LOCAL (`redesign-olavka`, Ivan's remark of 2026-09-27 on three columns only at
+ * ≤ 960): on the Olavka shops, by the `data-shop` mark on `<html>`, the row is its grid above
+ * 960 instead of from 1024, like the catalog's four columns (`PRODUCT_GRID_CLASS`); below,
+ * the four-tile strip shows two tiles and a bit under 720 and three and a bit from 720.
+ */
+const OLAVKA_ROW_LIST =
+  "[[data-shop=olavka]_&]:min-[961px]:mx-0 [[data-shop=olavka]_&]:min-[961px]:grid [[data-shop=olavka]_&]:min-[961px]:snap-none [[data-shop=olavka]_&]:min-[961px]:overflow-visible [[data-shop=olavka]_&]:min-[961px]:px-0 [[data-shop=olavka]_&]:min-[961px]:pb-0"
+const OLAVKA_ROW_ITEM_4 = "[[data-shop=olavka]_&]:w-[42vw] [[data-shop=olavka]_&]:min-[720px]:w-[28vw]"
+
+/**
  * The list of a row. From 1024 a grid of exactly `columns` tiles in one line; below that
  * the same tiles in a strip that scrolls sideways and bleeds to the screen's edge (the
  * container's own 16px padding, undone and re-added inside), so a phone shows the row's
@@ -18,13 +28,19 @@ export const productRowListClass = (columns: ProductRowColumns) =>
   clx(
     "-mx-4 flex snap-x snap-mandatory gap-x-3 overflow-x-auto px-4 pb-1 scroll-px-4 no-scrollbar",
     "small:mx-0 small:grid small:snap-none small:gap-x-6 small:overflow-visible small:px-0 small:pb-0",
-    columns === 4 ? "small:grid-cols-4" : "small:grid-cols-6"
+    columns === 4 ? "small:grid-cols-4" : "small:grid-cols-6",
+    OLAVKA_ROW_LIST,
+    columns === 4
+      ? "[[data-shop=olavka]_&]:min-[961px]:grid-cols-4"
+      : "[[data-shop=olavka]_&]:min-[961px]:grid-cols-6"
   )
 
 export const productRowItemClass = (columns: ProductRowColumns) =>
   clx(
     "shrink-0 snap-start small:w-auto small:min-w-0",
-    columns === 4 ? "w-[42vw] xsmall:w-[28vw]" : "w-[38vw] xsmall:w-[22vw]"
+    columns === 4 ? "w-[42vw] xsmall:w-[28vw]" : "w-[38vw] xsmall:w-[22vw]",
+    columns === 4 && OLAVKA_ROW_ITEM_4,
+    "[[data-shop=olavka]_&]:min-[961px]:w-auto [[data-shop=olavka]_&]:min-[961px]:min-w-0"
   )
 
 /** What the browser fetches for a tile: about half a phone screen, a quarter or a sixth of a desktop one. */

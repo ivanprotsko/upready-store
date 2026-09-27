@@ -14,7 +14,8 @@ import { withoutOptionsNamedLikeFacets } from "@lib/util/option-filter-groups"
 import { listCategories } from "@lib/data/categories"
 import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
 import { categoriesWithImages } from "@lib/util/category-image"
-import { listProductOptionFilters } from "@lib/data/products"
+import { countOptionBuckets, listProductOptionFilters } from "@lib/data/products"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 
 import PaginatedProducts from "./paginated-products"
 import Breadcrumb from "@modules/common/components/breadcrumb"
@@ -44,11 +45,12 @@ const StoreTemplate = async ({
 }) => {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
-  const [t, categories, allOptionFilters, attributeFacets] = await Promise.all([
+  const [t, categories, allOptionFilters, attributeFacets, olavka] = await Promise.all([
     getTranslations(),
     listCategories(),
     listProductOptionFilters(),
     listProductAttributeFacets({ selection: attributeSelection }),
+    isOlavkaShop(),
   ])
 
   // The categories whose picture the owner uploaded in the panel. Empty for a shop
@@ -56,6 +58,15 @@ const StoreTemplate = async ({
   // strip appears only where there is something to show (f16-category-image-not-shown:
   // the catalog was one of the three pages that drew the picture nowhere).
   const optionFilters = withoutOptionsNamedLikeFacets(allOptionFilters, attributeFacets.facets)
+  // The count next to each option checkbox, on the Olavka shop (Ivan's remark 23).
+  const optionCounts = olavka
+    ? await countOptionBuckets({
+        groups: optionFilters,
+        optionValueIds,
+        narrowedIds: attributeFacets.productIds,
+        countryCode,
+      })
+    : undefined
 
   const picturedCategories = categoriesWithImages(categories, CATALOG_TILE_LIMIT)
 
@@ -79,6 +90,7 @@ const StoreTemplate = async ({
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
+            optionCounts={optionCounts?.byValue}
             attributeFacets={attributeFacets.facets}
             className="lg:hidden text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
           />
@@ -102,7 +114,11 @@ const StoreTemplate = async ({
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
         <div className="hidden flex-col gap-y-8 lg:flex">
           <CategorySidebar categories={categories} />
-          <FilterSidebar optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
+          <FilterSidebar
+            optionFilters={optionFilters}
+            attributeFacets={attributeFacets.facets}
+            optionCounts={optionCounts?.byBucket}
+          />
         </div>
         <div className="w-full">
           <ActiveFilters optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />

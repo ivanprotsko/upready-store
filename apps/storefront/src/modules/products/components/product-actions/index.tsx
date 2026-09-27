@@ -4,6 +4,11 @@ import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useProductSelection } from "@modules/products/components/product-selection"
 import { useProductPurchase } from "@modules/products/components/product-selection/use-product-purchase"
+import InCartStepper from "@modules/products/components/in-cart-stepper"
+import {
+  maxQuantity,
+  type CartLinesByVariant,
+} from "@modules/products/components/in-cart-stepper/logic"
 import { useEffect, useRef, useState } from "react"
 import { useTranslations } from "next-intl"
 import ProductPrice from "../product-price"
@@ -14,6 +19,11 @@ type ProductActionsProps = {
   product: HttpTypes.StoreProduct
   region: HttpTypes.StoreRegion
   disabled?: boolean
+  /**
+   * The cart's lines by variant (the Olavka shop, Ivan's remark 24): with them a variant in
+   * the cart shows «В КОРЗИНЕ − N +» in place of «В корзину». Absent: today's button.
+   */
+  cartLines?: CartLinesByVariant
 }
 
 /**
@@ -28,6 +38,7 @@ type ProductActionsProps = {
 export default function ProductActions({
   product,
   disabled,
+  cartLines,
 }: ProductActionsProps) {
   const t = useTranslations("ProductActions")
   const { options, setOptionValue, detailsOpen, setPricedProduct } =
@@ -93,6 +104,26 @@ export default function ProductActions({
     ? t("outOfStock")
     : t("addToCart")
 
+  // The variant's cart line, or null; undefined when the shop has no «В корзине» state.
+  const inCart =
+    cartLines && selectedVariant && !disabled
+      ? { line: cartLines[selectedVariant.id] ?? null, max: maxQuantity(selectedVariant) }
+      : undefined
+
+  const addButton = (
+    <Button
+      onClick={handleAddToCart}
+      disabled={!canBuy}
+      size="large"
+      className="w-full rounded-full"
+      variant="primary"
+      isLoading={isAdding}
+      data-testid="add-product-button"
+    >
+      {buttonLabel}
+    </Button>
+  )
+
   return (
     <>
       {/* In the order a buyer reads it: what it costs, whether it can be had, then the
@@ -130,17 +161,11 @@ export default function ProductActions({
           <p className="h-5" aria-hidden />
         )}
 
-        <Button
-          onClick={handleAddToCart}
-          disabled={!canBuy}
-          size="large"
-          className="w-full rounded-full"
-          variant="primary"
-          isLoading={isAdding}
-          data-testid="add-product-button"
-        >
-          {buttonLabel}
-        </Button>
+        {inCart ? (
+          <InCartStepper line={inCart.line} max={inCart.max} addButton={addButton} />
+        ) : (
+          addButton
+        )}
         <Button
           onClick={handleBuyNow}
           disabled={!canBuy}
@@ -160,6 +185,7 @@ export default function ProductActions({
           inStock={inStock}
           handleAddToCart={handleAddToCart}
           isAdding={isAdding}
+          inCart={inCart}
           // Hidden while the details drawer is open: it has its own buy footer, and two
           // buy bars on one phone screen is one too many.
           show={scrolledPast && !footerInView && !detailsOpen}

@@ -684,13 +684,25 @@
     "allWithCount": "All {count}",
     "cart": "Cart ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "The cart you tried to access does not exist. Clear your cookies and try again.",
     "description": "The page you tried to access does not exist.",
     "goHome": "Go to frontpage",
     "title": "Page not found"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Course",
+      "goTo": "Go to “{title}”",
+      "label": "Banners",
+      "next": "Next",
+      "position": "{current} of {total}",
+      "previous": "Previous",
+      "watch": "Watch"
+    }
   },
   "OnboardingCta": {
     "completeInAdmin": "Complete setup in admin",
@@ -828,7 +840,10 @@
     "selectVariant": "Select variant",
     "inStock": "In stock",
     "buyNow": "Buy now",
-    "buy": "Buy"
+    "buy": "Buy",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "No",

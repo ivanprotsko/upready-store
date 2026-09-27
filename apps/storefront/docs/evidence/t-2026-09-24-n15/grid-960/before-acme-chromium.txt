@@ -1,0 +1,21 @@
+chromium /ru 390             home-home: 2col row1=2 cards=8 last=2 gap=12px 
+chromium /ru 719             home-home: 2col row1=2 cards=8 last=2 gap=12px 
+chromium /ru 720             home-home: 2col row1=2 cards=8 last=2 gap=12px 
+chromium /ru 960             home-home: 2col row1=2 cards=8 last=2 gap=12px 
+chromium /ru 961             home-home: 2col row1=2 cards=8 last=2 gap=12px 
+chromium /ru 1024            home-home: 3col row1=3 cards=12 last=3 gap=24px 
+chromium /ru 1440            home-home: 4col row1=4 cards=12 last=4 gap=24px 
+chromium /ru/store 390       store-list: 2col row1=2 cards=12 last=2 gap=12px 
+chromium /ru/store 719       store-list: 2col row1=2 cards=12 last=2 gap=12px 
+chromium /ru/store 720       store-list: 2col row1=2 cards=12 last=2 gap=12px 
+chromium /ru/store 960       store-list: 2col row1=2 cards=12 last=2 gap=12px 
+chromium /ru/store 961       store-list: 2col row1=2 cards=12 last=2 gap=12px 
+chromium /ru/store 1024      store-list: 3col row1=3 cards=12 last=3 gap=24px 
+chromium /ru/store 1440      store-list: 4col row1=4 cards=12 last=4 gap=24px 
+chromium PDP 390             rail1: strip(2 in view) row1=4 cards=4 last=4 gap=12px 
+chromium PDP 719             rail1: strip(3 in view) row1=4 cards=4 last=4 gap=12px 
+chromium PDP 720             rail1: strip(3 in view) row1=4 cards=4 last=4 gap=12px 
+chromium PDP 960             rail1: strip(3 in view) row1=4 cards=4 last=4 gap=12px 
+chromium PDP 961             rail1: strip(3 in view) row1=4 cards=4 last=4 gap=12px 
+chromium PDP 1024            rail1: 4col row1=4 cards=4 last=4 gap=24px 
+chromium PDP 1440            rail1: 4col row1=4 cards=4 last=4 gap=24px 

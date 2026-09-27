@@ -1,0 +1,384 @@
+== 1024 {
+ "vw": 1024,
+ "menu": {
+  "l": 24,
+  "r": 960,
+  "t": 18,
+  "w": 40,
+  "h": 40,
+  "bg": "rgb(255, 255, 255)",
+  "radius": "999px",
+  "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+  "label": "Меню"
+ },
+ "hdrCtl": [
+  {
+   "l": 24,
+   "r": 960,
+   "t": 18,
+   "w": 40,
+   "h": 40,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Меню"
+  },
+  {
+   "l": 76,
+   "r": 850,
+   "t": 18,
+   "w": 98,
+   "h": 40,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "9999px",
+   "shadow": "none",
+   "label": "Страна"
+  },
+  {
+   "l": 175,
+   "r": 809,
+   "t": 18,
+   "w": 40,
+   "h": 40,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "9999px",
+   "shadow": "none",
+   "label": "Язык: RUB"
+  },
+  {
+   "l": 386,
+   "r": 387,
+   "t": 18,
+   "w": 251,
+   "h": 40,
+   "bg": "rgba(240, 240, 240, 0)",
+   "radius": "32px",
+   "shadow": "none",
+   "label": "ЧЕРКАШИНО"
+  },
+  {
+   "l": 839,
+   "r": 145,
+   "t": 18,
+   "w": 40,
+   "h": 40,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "999px",
+   "shadow": "none",
+   "label": "Профиль"
+  },
+  {
+   "l": 887,
+   "r": 24,
+   "t": 18,
+   "w": 113,
+   "h": 40,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "9999px",
+   "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
+   "label": "Корзина (0)"
+  }
+ ],
+ "arrows": [
+  {
+   "l": 24,
+   "r": 960,
+   "t": 270,
+   "w": 40,
+   "h": 40,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Назад"
+  },
+  {
+   "l": 960,
+   "r": 24,
+   "t": 270,
+   "w": 40,
+   "h": 40,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Далее"
+  }
+ ],
+ "menuSvg": {
+  "l": 37,
+  "r": 973,
+  "t": 31,
+  "w": 15,
+  "h": 15,
+  "bg": "rgba(0, 0, 0, 0)",
+  "radius": "0px",
+  "shadow": "none",
+  "label": ""
+ },
+ "arrowSvg": {
+  "l": 37,
+  "r": 973,
+  "t": 283,
+  "w": 15,
+  "h": 15,
+  "bg": "rgba(0, 0, 0, 0)",
+  "radius": "0px",
+  "shadow": "none",
+  "label": ""
+ }
+}
+== 1440 {
+ "vw": 1440,
+ "menu": {
+  "l": 24,
+  "r": 1376,
+  "t": 18,
+  "w": 40,
+  "h": 40,
+  "bg": "rgb(255, 255, 255)",
+  "radius": "999px",
+  "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+  "label": "Меню"
+ },
+ "hdrCtl": [
+  {
+   "l": 24,
+   "r": 1376,
+   "t": 18,
+   "w": 40,
+   "h": 40,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Меню"
+  },
+  {
+   "l": 76,
+   "r": 1266,
+   "t": 18,
+   "w": 98,
+   "h": 40,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "9999px",
+   "shadow": "none",
+   "label": "Страна"
+  },
+  {
+   "l": 175,
+   "r": 1225,
+   "t": 18,
+   "w": 40,
+   "h": 40,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "9999px",
+   "shadow": "none",
+   "label": "Язык: RUB"
+  },
+  {
+   "l": 595,
+   "r": 595,
+   "t": 18,
+   "w": 251,
+   "h": 40,
+   "bg": "rgba(240, 240, 240, 0)",
+   "radius": "32px",
+   "shadow": "none",
+   "label": "ЧЕРКАШИНО"
+  },
+  {
+   "l": 1255,
+   "r": 145,
+   "t": 18,
+   "w": 40,
+   "h": 40,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "999px",
+   "shadow": "none",
+   "label": "Профиль"
+  },
+  {
+   "l": 1303,
+   "r": 24,
+   "t": 18,
+   "w": 113,
+   "h": 40,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "9999px",
+   "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
+   "label": "Корзина (0)"
+  }
+ ],
+ "arrows": [
+  {
+   "l": 24,
+   "r": 1376,
+   "t": 343,
+   "w": 40,
+   "h": 40,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Назад"
+  },
+  {
+   "l": 1376,
+   "r": 24,
+   "t": 343,
+   "w": 40,
+   "h": 40,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Далее"
+  }
+ ],
+ "menuSvg": {
+  "l": 37,
+  "r": 1389,
+  "t": 31,
+  "w": 15,
+  "h": 15,
+  "bg": "rgba(0, 0, 0, 0)",
+  "radius": "0px",
+  "shadow": "none",
+  "label": ""
+ },
+ "arrowSvg": {
+  "l": 37,
+  "r": 1389,
+  "t": 356,
+  "w": 15,
+  "h": 15,
+  "bg": "rgba(0, 0, 0, 0)",
+  "radius": "0px",
+  "shadow": "none",
+  "label": ""
+ }
+}
+== 1920 {
+ "vw": 1920,
+ "menu": {
+  "l": 32,
+  "r": 1835,
+  "t": 24,
+  "w": 53,
+  "h": 53,
+  "bg": "rgb(255, 255, 255)",
+  "radius": "999px",
+  "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+  "label": "Меню"
+ },
+ "hdrCtl": [
+  {
+   "l": 32,
+   "r": 1835,
+   "t": 24,
+   "w": 53,
+   "h": 53,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Меню"
+  },
+  {
+   "l": 101,
+   "r": 1688,
+   "t": 24,
+   "w": 130,
+   "h": 53,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "9999px",
+   "shadow": "none",
+   "label": "Страна"
+  },
+  {
+   "l": 233,
+   "r": 1634,
+   "t": 24,
+   "w": 53,
+   "h": 53,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "9999px",
+   "shadow": "none",
+   "label": "Язык: RUB"
+  },
+  {
+   "l": 793,
+   "r": 793,
+   "t": 24,
+   "w": 334,
+   "h": 53,
+   "bg": "rgba(240, 240, 240, 0)",
+   "radius": "32px",
+   "shadow": "none",
+   "label": "ЧЕРКАШИНО"
+  },
+  {
+   "l": 1673,
+   "r": 193,
+   "t": 24,
+   "w": 53,
+   "h": 53,
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "999px",
+   "shadow": "none",
+   "label": "Профиль"
+  },
+  {
+   "l": 1737,
+   "r": 32,
+   "t": 24,
+   "w": 151,
+   "h": 53,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "9999px",
+   "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
+   "label": "Корзина (0)"
+  }
+ ],
+ "arrows": [
+  {
+   "l": 32,
+   "r": 1835,
+   "t": 458,
+   "w": 53,
+   "h": 53,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Назад"
+  },
+  {
+   "l": 1835,
+   "r": 32,
+   "t": 458,
+   "w": 53,
+   "h": 53,
+   "bg": "rgb(255, 255, 255)",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "label": "Далее"
+  }
+ ],
+ "menuSvg": {
+  "l": 49,
+  "r": 1851,
+  "t": 41,
+  "w": 20,
+  "h": 20,
+  "bg": "rgba(0, 0, 0, 0)",
+  "radius": "0px",
+  "shadow": "none",
+  "label": ""
+ },
+ "arrowSvg": {
+  "l": 49,
+  "r": 1851,
+  "t": 474,
+  "w": 20,
+  "h": 20,
+  "bg": "rgba(0, 0, 0, 0)",
+  "radius": "0px",
+  "shadow": "none",
+  "label": ""
+ }
+}

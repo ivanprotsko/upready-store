@@ -60,8 +60,9 @@ type ProductMediaProps = {
   sizes?: string
   quality?: number
   /**
-   * The product page's gallery card: the picture on the card's own base colour with no
-   * veil (the photo IS the card's content, not a tile in a grid). Cards keep the veil.
+   * The product page's gallery card: the picture on the card's own base colour. Grid
+   * cards are transparent (the 3% veil and the subtle tile colour were removed on
+   * Ivan's remark, t-2026-09-24-n15).
    */
   flat?: boolean
   className?: string
@@ -91,7 +92,9 @@ export default function ProductMedia({
     <div
       className={clx(
         "product-media group/media relative block overflow-hidden",
-        flat ? "bg-ui-bg-base" : "bg-ui-bg-subtle",
+        // Cards: no tile colour of their own — the picture lies on the page (Ivan
+        // 2026-09-25, t-2026-09-24-n15: no «светлосерый фон» under product cards).
+        flat ? "bg-ui-bg-base" : "bg-transparent",
         // Full width of its slot unless the caller sizes it.
         !/(^|\s)w-/.test(className ?? "") && "w-full",
         context === "line" ? "rounded-md" : "rounded-[var(--radius,8px)]",
@@ -125,12 +128,6 @@ export default function ProductMedia({
         </>
       ) : (
         <ProductMediaPlaceholder compact={context === "line"} />
-      )}
-      {!flat && (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]"
-        />
       )}
     </div>
   )

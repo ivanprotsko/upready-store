@@ -1,0 +1,20 @@
+firefox 1440
+   first load: SSR data-mode=light, first frame light; menu {"html":"light","stored":null,"label":"Тёмная тема","pressed":"false","icon":"M11.056 9.94","copyright":false}
+   Tab ×6 → switch focused: fv=true shadow=rgb(255, 255, 255) 0px 0px 0px 0px, rgb(10, 106, 82) 0px 0px r=9999px
+   Enter → {"html":"dark","stored":"dark","label":"Тёмная тема","pressed":"true","icon":"M7.5 1.042v.","copyright":false}
+   reload: SSR data-mode=light, first frame dark, now dark
+   menu after reload {"html":"dark","stored":"dark","label":"Тёмная тема","pressed":"true","icon":"M7.5 1.042v.","copyright":false}
+   click → {"html":"light","stored":"light","label":"Тёмная тема","pressed":"false","icon":"M11.056 9.94","copyright":false}
+   Space → {"html":"dark","stored":"dark","label":"Тёмная тема","pressed":"true","icon":"M7.5 1.042v.","copyright":false}
+   /ru/store: first frame dark
+   acme.localhost menu: switch 0, footer line «© 2026 Acme. Все права защищены.»
+firefox 390
+   first load: SSR data-mode=light, first frame light; menu {"html":"light","stored":null,"label":"Тёмная тема","pressed":"false","icon":"M11.056 9.94","copyright":false}
+   Tab ×6 → switch focused: fv=true shadow=rgb(255, 255, 255) 0px 0px 0px 0px, rgb(10, 106, 82) 0px 0px r=9999px
+   Enter → {"html":"dark","stored":"dark","label":"Тёмная тема","pressed":"true","icon":"M7.5 1.042v.","copyright":false}
+   reload: SSR data-mode=light, first frame dark, now dark
+   menu after reload {"html":"dark","stored":"dark","label":"Тёмная тема","pressed":"true","icon":"M7.5 1.042v.","copyright":false}
+   click → {"html":"light","stored":"light","label":"Тёмная тема","pressed":"false","icon":"M11.056 9.94","copyright":false}
+   Space → {"html":"dark","stored":"dark","label":"Тёмная тема","pressed":"true","icon":"M7.5 1.042v.","copyright":false}
+   /ru/store: first frame dark
+   acme.localhost menu: switch 0, footer line «© 2026 Acme. Все права защищены.»

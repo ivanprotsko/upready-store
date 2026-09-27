@@ -330,6 +330,38 @@ export const BLOCK_LABELS: Record<HomeBlock, string> = {
   products: "Товары",
 }
 
+/**
+ * One banner of the storefront's HeroSliders block (t-2026-09-24-n15, backend
+ * `api/tenants/home/validators.ts` `HomeBannerSchema`): a picture, four corner
+ * texts and ONE link the whole card carries — a product of the shop or a URL.
+ */
+export type HomeBannerLink =
+  | { type: "product"; product_id: string; handle: string }
+  | { type: "url"; href: string }
+
+export type HomeBanner = {
+  id: string
+  image: {
+    src: string
+    alt: string
+    width?: number
+    height?: number
+    srcset?: Array<{ w: number; url: string }>
+  }
+  kicker: string
+  label: string
+  title: string
+  button: string
+  link: HomeBannerLink
+  sort: number
+}
+
+/** Backend caps: `HOME_BANNER_TEXT_MAX`, `HOME_BANNERS_MAX`, `isAllowedBannerHref`. */
+export const BANNER_TEXT_MAX = 60
+export const BANNERS_MAX = 10
+export const isAllowedBannerHref = (href: string): boolean =>
+  /^https?:\/\/[^\s]+$/i.test(href) || (/^\/[^\s]*$/.test(href) && !href.startsWith("//"))
+
 export type TenantHomeContent = {
   hero: {
     title: string
@@ -342,6 +374,8 @@ export type TenantHomeContent = {
     | { source: "popular" }
     | { source: "category"; category_id: string; title: string }
   order: HomeBlock[]
+  /** Absent on documents saved before the banners existed; treated as `[]`. */
+  banners?: HomeBanner[]
 }
 
 export type TenantHomeDocument = {
@@ -373,5 +407,6 @@ export const DEFAULT_DOCUMENT: TenantHomeDocument = {
     hero: { title: "", subtitle: "", cta_label: "", cta_href: "", image_url: null },
     products: { source: "popular" },
     order: ["hero", "categories", "products"],
+    banners: [],
   },
 }

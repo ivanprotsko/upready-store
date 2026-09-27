@@ -187,7 +187,7 @@ export default async function JournalArticle(props: Props) {
             src={cover}
             alt={article.title}
             fill
-            sizes="(max-width: 768px) 100vw, 672px"
+            sizes="(max-width: 768px) 100vw, (max-width: 1440px) 672px, 47vw"
             className="object-cover"
             priority
             data-testid="journal-article-cover"
@@ -237,7 +237,7 @@ export default async function JournalArticle(props: Props) {
                         src={absolute(base, item.cover_url)}
                         alt={item.title}
                         fill
-                        sizes="(max-width: 640px) 100vw, 224px"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1440px) 224px, 16vw"
                         className="object-cover transition-transform duration-200 group-hover:scale-105"
                       />
                     ) : null}

@@ -1,0 +1,42 @@
+chromium /ru 390             home-home: 2col row1=2 cards=8 last=2 gap=12px | footer: 2col row1=2 cards=3 last=1 gap=12px | footer x@y 16@0 201@0 16@346
+chromium /ru 719             home-home: 2col row1=2 cards=8 last=2 gap=12px | footer: 2col row1=2 cards=3 last=1 gap=12px | footer x@y 16@0 366@0 16@346
+chromium /ru 720             home-home: 3col row1=3 cards=12 last=3 gap=12px | footer: 3col row1=3 cards=3 last=3 gap=12px | footer x@y 16@0 249@0 483@0
+chromium /ru 960             home-home: 3col row1=3 cards=12 last=3 gap=12px | footer: 3col row1=3 cards=3 last=3 gap=12px | footer x@y 16@0 329@0 643@0
+chromium /ru 961             home-home: 4col row1=4 cards=12 last=4 gap=12px | footer: 4col row1=3 cards=3 last=3 gap=12px | footer x@y 251@0 487@0 722@0
+chromium /ru 1024            home-home: 4col row1=4 cards=12 last=4 gap=24px | footer: 4col row1=3 cards=3 last=3 gap=24px | footer x@y 274@0 524@0 774@0
+chromium /ru 1440            home-home: 4col row1=4 cards=12 last=4 gap=24px | footer: 4col row1=3 cards=3 last=3 gap=24px | footer x@y 378@0 732@0 1086@0
+chromium /ru/store 390       store-list: 2col row1=2 cards=12 last=2 gap=12px | footer: 2col row1=2 cards=3 last=1 gap=12px | footer x@y 16@0 201@0 16@346
+chromium /ru/store 719       store-list: 2col row1=2 cards=12 last=2 gap=12px | footer: 2col row1=2 cards=3 last=1 gap=12px | footer x@y 16@0 366@0 16@346
+chromium /ru/store 720       store-list: 3col row1=3 cards=12 last=3 gap=12px | footer: 3col row1=3 cards=3 last=3 gap=12px | footer x@y 16@0 249@0 483@0
+chromium /ru/store 960       store-list: 3col row1=3 cards=12 last=3 gap=12px | footer: 3col row1=3 cards=3 last=3 gap=12px | footer x@y 16@0 329@0 643@0
+chromium /ru/store 961       store-list: 4col row1=4 cards=12 last=4 gap=12px | footer: 4col row1=3 cards=3 last=3 gap=12px | footer x@y 251@0 487@0 722@0
+chromium /ru/store 1024      store-list: 4col row1=4 cards=12 last=4 gap=24px | footer: 4col row1=3 cards=3 last=3 gap=24px | footer x@y 274@0 524@0 774@0
+chromium /ru/store 1440      store-list: 4col row1=4 cards=12 last=4 gap=24px | footer: 4col row1=3 cards=3 last=3 gap=24px | footer x@y 378@0 732@0 1086@0
+chromium PDP 390             footer: 2col row1=2 cards=3 last=1 gap=12px | rail1: strip(2 in view) row1=4 cards=4 last=4 gap=12px | footer x@y 16@0 201@0 16@346
+chromium PDP 719             footer: 2col row1=2 cards=3 last=1 gap=12px | rail1: strip(2 in view) row1=4 cards=4 last=4 gap=12px | footer x@y 16@0 366@0 16@346
+chromium PDP 720             footer: 3col row1=3 cards=3 last=3 gap=12px | rail1: strip(3 in view) row1=4 cards=4 last=4 gap=12px | footer x@y 16@0 249@0 483@0
+chromium PDP 960             footer: 3col row1=3 cards=3 last=3 gap=12px | rail1: strip(3 in view) row1=4 cards=4 last=4 gap=12px | footer x@y 16@0 329@0 643@0
+chromium PDP 961             footer: 4col row1=3 cards=3 last=3 gap=12px | rail1: 4col row1=4 cards=4 last=4 gap=12px | footer x@y 251@0 487@0 722@0
+chromium PDP 1024            footer: 4col row1=3 cards=3 last=3 gap=24px | rail1: 4col row1=4 cards=4 last=4 gap=24px | footer x@y 274@0 524@0 774@0
+chromium PDP 1440            footer: 4col row1=3 cards=3 last=3 gap=24px | rail1: 4col row1=4 cards=4 last=4 gap=24px | footer x@y 378@0 732@0 1086@0
+firefox /ru 390              home-home: 2col row1=2 cards=8 last=2 gap=12px | footer: 2col row1=2 cards=3 last=1 gap=12px | footer x@y 16@0 201@0 16@346
+firefox /ru 719              home-home: 2col row1=2 cards=8 last=2 gap=12px | footer: 2col row1=2 cards=3 last=1 gap=12px | footer x@y 16@0 366@0 16@346
+firefox /ru 720              home-home: 3col row1=3 cards=12 last=3 gap=12px | footer: 3col row1=3 cards=3 last=3 gap=12px | footer x@y 16@0 249@0 483@0
+firefox /ru 960              home-home: 3col row1=3 cards=12 last=3 gap=12px | footer: 3col row1=3 cards=3 last=3 gap=12px | footer x@y 16@0 329@0 643@0
+firefox /ru 961              home-home: 4col row1=4 cards=12 last=4 gap=12px | footer: 4col row1=3 cards=3 last=3 gap=12px | footer x@y 251@0 487@0 722@0
+firefox /ru 1024             home-home: 4col row1=4 cards=12 last=4 gap=24px | footer: 4col row1=3 cards=3 last=3 gap=24px | footer x@y 274@0 524@0 774@0
+firefox /ru 1440             home-home: 4col row1=4 cards=12 last=4 gap=24px | footer: 4col row1=3 cards=3 last=3 gap=24px | footer x@y 378@0 732@0 1086@0
+firefox /ru/store 390        store-list: 2col row1=2 cards=12 last=2 gap=12px | footer: 2col row1=2 cards=3 last=1 gap=12px | footer x@y 16@0 201@0 16@346
+firefox /ru/store 719        store-list: 2col row1=2 cards=12 last=2 gap=12px | footer: 2col row1=2 cards=3 last=1 gap=12px | footer x@y 16@0 366@0 16@346
+firefox /ru/store 720        store-list: 3col row1=3 cards=12 last=3 gap=12px | footer: 3col row1=3 cards=3 last=3 gap=12px | footer x@y 16@0 249@0 483@0
+firefox /ru/store 960        store-list: 3col row1=3 cards=12 last=3 gap=12px | footer: 3col row1=3 cards=3 last=3 gap=12px | footer x@y 16@0 329@0 643@0
+firefox /ru/store 961        store-list: 4col row1=4 cards=12 last=4 gap=12px | footer: 4col row1=3 cards=3 last=3 gap=12px | footer x@y 251@0 487@0 722@0
+firefox /ru/store 1024       store-list: 4col row1=4 cards=12 last=4 gap=24px | footer: 4col row1=3 cards=3 last=3 gap=24px | footer x@y 274@0 524@0 774@0
+firefox /ru/store 1440       store-list: 4col row1=4 cards=12 last=4 gap=24px | footer: 4col row1=3 cards=3 last=3 gap=24px | footer x@y 378@0 732@0 1086@0
+firefox PDP 390              footer: 2col row1=2 cards=3 last=1 gap=12px | rail1: strip(2 in view) row1=4 cards=4 last=4 gap=12px | footer x@y 16@0 201@0 16@346
+firefox PDP 719              footer: 2col row1=2 cards=3 last=1 gap=12px | rail1: strip(2 in view) row1=4 cards=4 last=4 gap=12px | footer x@y 16@0 366@0 16@346
+firefox PDP 720              footer: 3col row1=3 cards=3 last=3 gap=12px | rail1: strip(3 in view) row1=4 cards=4 last=4 gap=12px | footer x@y 16@0 249@0 483@0
+firefox PDP 960              footer: 3col row1=3 cards=3 last=3 gap=12px | rail1: strip(3 in view) row1=4 cards=4 last=4 gap=12px | footer x@y 16@0 329@0 643@0
+firefox PDP 961              footer: 4col row1=3 cards=3 last=3 gap=12px | rail1: 4col row1=4 cards=4 last=4 gap=12px | footer x@y 251@0 487@0 722@0
+firefox PDP 1024             footer: 4col row1=3 cards=3 last=3 gap=24px | rail1: 4col row1=4 cards=4 last=4 gap=24px | footer x@y 274@0 524@0 774@0
+firefox PDP 1440             footer: 4col row1=3 cards=3 last=3 gap=24px | rail1: 4col row1=4 cards=4 last=4 gap=24px | footer x@y 378@0 732@0 1086@0

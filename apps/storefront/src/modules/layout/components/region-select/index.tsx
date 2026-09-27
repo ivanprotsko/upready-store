@@ -45,7 +45,24 @@ type RegionSelectProps = {
   currentCountryCode?: string
   locales: Locale[]
   className?: string
+  /**
+   * Branch `redesign-olavka` (t-2026-09-24-n15), the Figma header 227:9557:
+   * `"text"` — desktop: flag + country name as plain text, then the currency sign alone
+   * in a 40px square, no fills; `"icons"` — tablet/mobile: a flag button and a
+   * currency-sign button, 36px below 640 and 40px above, no fills, no dividers.
+   * The language keeps its tab inside the same dialog. Default: today's two text links.
+   */
+  variant?: "links" | "text" | "icons"
 }
+
+const TEXT_CLASS =
+  "inline-flex h-10 items-center gap-x-2 rounded-full px-[12.5px] font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+
+const ICON_CLASS =
+  "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] sm:h-10 sm:w-10"
+
+/** The node's «Currency / USD»: the sign alone, Rubik Medium 15. */
+const SIGN_CLASS = "font-[family-name:var(--font-olavka-sign)] text-[15px] font-medium leading-[1.1] tracking-[0.01em]"
 
 /**
  * The currency SYMBOL for a code, in the reader's own locale: "₽", "$", "€".
@@ -151,6 +168,7 @@ const RegionSelect = ({
   currentCountryCode,
   locales,
   className,
+  variant = "links",
 }: RegionSelectProps) => {
   const t = useTranslations("RegionSelect")
   const dir = useLocaleDirection()
@@ -281,6 +299,66 @@ const RegionSelect = ({
           The language shows as its code alone; the country as its flag plus the
           currency the prices are in. Both open the same dialog, which has a section
           for each. */}
+      {variant === "icons" ? (
+        <span className={clx("flex items-center", className)}>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            data-testid="nav-country-select-button"
+            aria-label={`${t("tabCountry")}: ${selectedCountryOption.label}`}
+            className={ICON_CLASS}
+          >
+            <CountryFlag
+              countryCode={triggerFlagCode}
+              style={{ width: "15px", height: "15px" }}
+              className="shrink-0 rounded-full"
+            />
+          </button>
+          <span
+            aria-hidden
+            className="h-3 w-px shrink-0 bg-transparent transition-colors duration-200 group-data-[scrolled=true]:bg-[var(--h7-divider,#e4e4e7)]"
+          />
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            data-testid="nav-region-select-button"
+            aria-label={`${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`}
+            className={ICON_CLASS}
+          >
+            <span className={SIGN_CLASS}>{selectedCountryOption.currencySymbol}</span>
+          </button>
+        </span>
+      ) : variant === "text" ? (
+        <span className={clx("flex h-10 items-center rounded-[32px] transition-[background-color,box-shadow] duration-200 group-data-[scrolled=true]:bg-[var(--h7-surface,var(--background))] group-data-[scrolled=true]:shadow-[0_0_0_1px_var(--h7-ring,rgba(0,0,0,0.08)),0_1px_2px_rgba(0,0,0,0.12)]", className)}>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            data-testid="nav-country-select-button"
+            aria-label={t("tabCountry")}
+            className={TEXT_CLASS}
+          >
+            <CountryFlag
+              countryCode={triggerFlagCode}
+              style={{ width: "15px", height: "15px" }}
+              className="shrink-0 rounded-full"
+            />
+            <span>{selectedCountryOption.label}</span>
+          </button>
+          <span
+            aria-hidden
+            className="h-3 w-px shrink-0 bg-transparent transition-colors duration-200 group-data-[scrolled=true]:bg-[var(--h7-divider,#e4e4e7)]"
+          />
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            data-testid="nav-region-select-button"
+            aria-label={`${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`}
+            className={ICON_CLASS.replace("h-9 w-9", "h-10 w-10")}
+          >
+            <span className={SIGN_CLASS}>{selectedCountryOption.currencySymbol}</span>
+          </button>
+        </span>
+      ) : (
       <span className={clx("flex items-center gap-x-3 text-ui-fg-subtle", className)}>
         <button
           type="button"
@@ -308,6 +386,7 @@ const RegionSelect = ({
           <ChevronDown className="shrink-0 w-2.5 h-2.5" />
         </button>
       </span>
+      )}
 
       <Transition show={open}>
         {/* Above the phone category menu (z-[70]), which hosts this control below 1024px. */}

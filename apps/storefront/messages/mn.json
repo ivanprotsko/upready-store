@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Сагс ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Таны хандах гэсэн сагс байхгүй байна. Күүкигээ цэвэрлээд дахин оролдоно уу.",
@@ -828,7 +829,10 @@
     "selectVariant": "Хувилбар сонгох",
     "inStock": "Бэлэн байгаа",
     "buyNow": "Худалдан авах",
-    "buy": "Худалдан авах"
+    "buy": "Худалдан авах",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Үгүй",

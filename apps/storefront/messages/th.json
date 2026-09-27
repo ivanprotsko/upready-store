@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "ตะกร้า ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "ตะกร้าที่คุณพยายามเข้าถึงไม่มีอยู่จริง กรุณาล้างคุกกี้แล้วลองใหม่อีกครั้ง",
@@ -828,7 +829,10 @@
     "selectVariant": "เลือกตัวเลือกสินค้า",
     "inStock": "มีสินค้า",
     "buyNow": "ซื้อเลย",
-    "buy": "ซื้อ"
+    "buy": "ซื้อ",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "ไม่ใช่",

@@ -1,0 +1,73 @@
+{
+ "firefox-1440-dark": {
+  "summary": {
+   "menuL": 24,
+   "arrowPrevL": 24,
+   "cartR": 24,
+   "arrowNextR": 24,
+   "menuBox": "40x40",
+   "arrowBox": "40x40",
+   "menuIcon": "15x15",
+   "arrowIcon": "15x15",
+   "arrowMidY": 363,
+   "trackMidY": 363,
+   "sameStyle": true,
+   "hover": {
+    "menu": "rgb(30, 43, 38)",
+    "arrow": "rgb(30, 43, 38)"
+   },
+   "focus": {
+    "menu": {
+     "id": "nav-menu-button",
+     "outline": "solid 2px rgb(87, 224, 176)",
+     "offset": "2px",
+     "radius": "999px"
+    },
+    "arrow": {
+     "id": "olavka-hero-slider-prev",
+     "outline": "solid 2px rgb(87, 224, 176)",
+     "offset": "2px",
+     "radius": "999px"
+    }
+   },
+   "click": {
+    "start": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "afterNext": {
+     "scrollLeft": 2124,
+     "i": 3,
+     "href": "/products/course-ochishchenie-pecheni-cherkashino",
+     "copy": "real"
+    },
+    "afterPrev": {
+     "scrollLeft": 3540,
+     "i": 5,
+     "href": "/ru/store",
+     "copy": "real"
+    },
+    "nextMoved": true,
+    "prevBack": true
+   }
+  },
+  "menuStyle": {
+   "color": "rgb(233, 241, 238)",
+   "bg": "rgb(10, 19, 16)",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(233, 241, 238)",
+   "bg": "rgb(10, 19, 16)",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ }
+}

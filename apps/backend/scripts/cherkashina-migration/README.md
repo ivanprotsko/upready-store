@@ -46,7 +46,7 @@ node apps/backend/scripts/cherkashina-migration/import.mjs \
   --registry /path/to/02-mapping-registry.json \
   --source-root ~/upready/projects/chrxnasdmds \
   --pages-out /path/to/pages \
-  --handle cherkashino --name "Оксана Черкашина" \
+  --handle cherkashino --name "ОЛАВКА" \
   --storefront-origin https://cherkashino.shipshift.dev \
   --admin-email owner@example.test --admin-password "$TENANT_OWNER_PASSWORD" \
   --dry-run

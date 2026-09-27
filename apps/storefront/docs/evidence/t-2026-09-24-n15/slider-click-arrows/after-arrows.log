@@ -1,0 +1,26 @@
+chromium 1440 rest real:Чистка печени | prev [346,343.2,40,40] next [1054,343.2,40,40] card [378,124,684,478.3]
+   5×next → real:Товары от варикоза; then 7×prev → real:Чистка лимфы; Enter → real:Товары от варикоза; Space → real:Чистка печени; focus olavka-hero-slider-next fv=true 2px solid r=999px
+   Tab: real:Чистка печен → real:Чистка лимфы → real:Товары от ва → prev → next | clones aria-hidden + tabIndex -1: true
+chromium 1920 rest real:Чистка печени | prev [461.3,457.5,53.3,53.3] next [1405.3,457.5,53.3,53.3] card [504,165.3,912,637.8]
+   5×next → real:Товары от варикоза; then 7×prev → before:Чистка лимфы; Enter → real:Товары от варикоза; Space → real:Чистка печени; focus olavka-hero-slider-next fv=true 1.5px solid r=999px
+   Tab: real:Чистка печен → real:Чистка лимфы → real:Товары от ва → prev → next | clones aria-hidden + tabIndex -1: true
+chromium 2240 rest real:Чистка печени | prev [621.3,457.5,53.3,53.3] next [1565.3,457.5,53.3,53.3] card [664,165.3,912,637.8]
+   5×next → real:Товары от варикоза; then 7×prev → before:Чистка лимфы; Enter → real:Товары от варикоза; Space → real:Чистка печени; focus olavka-hero-slider-next fv=true 1.5px solid r=999px
+   Tab: real:Чистка печен → real:Чистка лимфы → real:Товары от ва → prev → next | clones aria-hidden + tabIndex -1: true
+chromium 1023 rest real:Чистка печени | prev "hidden" next "hidden" card [225,73,572,400]
+   Tab: real:Чистка печен → real:Чистка лимфы → real:Товары от ва | clones aria-hidden + tabIndex -1: true
+chromium 390 rest real:Чистка печени | prev "hidden" next "hidden" card [51,69,288,400]
+   Tab: real:Чистка печен → real:Чистка лимфы → real:Товары от ва | clones aria-hidden + tabIndex -1: true
+firefox 1440 rest real:Чистка печени | prev [346,343.1,40,40] next [1054,343.1,40,40] card [378,124,684,478.3]
+   5×next → real:Товары от варикоза; then 7×prev → real:Чистка лимфы; Enter → real:Товары от варикоза; Space → real:Чистка печени; focus olavka-hero-slider-next fv=false 3px none r=999px
+   Tab: ul(scroller) → real:Чистка печен → real:Чистка лимфы → real:Товары от ва → prev → next | clones aria-hidden + tabIndex -1: true
+firefox 1920 rest real:Чистка печени | prev [461.3,457.5,53.3,53.3] next [1405.3,457.5,53.3,53.3] card [504,165.3,912,637.8]
+   5×next → real:Товары от варикоза; then 7×prev → real:Чистка лимфы; Enter → real:Товары от варикоза; Space → real:Чистка печени; focus olavka-hero-slider-next fv=false 2.25px none r=999px
+   Tab: ul(scroller) → real:Чистка печен → real:Чистка лимфы → real:Товары от ва → prev → next | clones aria-hidden + tabIndex -1: true
+firefox 2240 rest real:Чистка печени | prev [621.3,457.5,53.3,53.3] next [1565.3,457.5,53.3,53.3] card [664,165.3,912,637.8]
+   5×next → real:Товары от варикоза; then 7×prev → real:Чистка лимфы; Enter → real:Товары от варикоза; Space → real:Чистка печени; focus olavka-hero-slider-next fv=false 2.25px none r=999px
+   Tab: ul(scroller) → real:Чистка печен → real:Чистка лимфы → real:Товары от ва → prev → next | clones aria-hidden + tabIndex -1: true
+firefox 1023 rest real:Чистка печени | prev "hidden" next "hidden" card [225.5,73,572,400]
+   Tab: ul(scroller) → real:Чистка печен → real:Чистка лимфы → real:Товары от ва | clones aria-hidden + tabIndex -1: true
+firefox 390 rest real:Чистка печени | prev "hidden" next "hidden" card [51,69,288,400]
+   Tab: ul(scroller) → real:Чистка печен → real:Чистка лимфы → real:Товары от ва | clones aria-hidden + tabIndex -1: true

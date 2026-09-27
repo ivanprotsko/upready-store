@@ -1,5 +1,6 @@
 import { getLocaleDir } from "@i18n/config"
 import { getRequestBaseURL } from "@lib/data/cookies"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getTenantAnalytics } from "@lib/data/analytics"
 import Analytics from "@modules/common/components/analytics"
 import { getSiteBranding } from "@lib/data/tenant-branding"
@@ -7,6 +8,10 @@ import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
 import { fontClassName, isAllowed, readProfileTheme, themePrePaintScript } from "@lib/theme"
+// Branch-local (`redesign-olavka`): the Figma node's three typefaces, see the module.
+import { olavkaFontClassName } from "@lib/theme/olavka-fonts"
+import { olavkaZoomScript } from "@lib/theme/olavka-zoom"
+import { DEMO_HEADER } from "@modules/layout/templates/nav/variants"
 import {
   getEffectiveSettings,
   getTenantModeDefault,
@@ -72,12 +77,13 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode, analytics, branding] = await Promise.all([
+  const [settings, tenantPreset, tenantMode, analytics, branding, olavka] = await Promise.all([
     getEffectiveSettings(),
     getTenantThemePreset(),
     getTenantModeDefault(),
     getTenantAnalytics(),
     getSiteBranding(),
+    isOlavkaShop(),
   ])
   // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
   // this parse only ever produces a clean integer or null, never NaN reaching
@@ -117,13 +123,21 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       dir={getLocaleDir(locale)}
       data-theme={theme}
       data-mode={mode}
-      className={fontClassName || undefined}
+      className={[fontClassName, olavkaFontClassName].filter(Boolean).join(" ") || undefined}
       style={brandStyle}
+      // Branch-local (`redesign-olavka`): marks an Olavka shop (`OLAVKA_SHOP_HANDLES`) for
+      // the styles a client component or a portal cannot learn from the server: the product
+      // row tile's 1rem type (remark 17), the search input's focus ring (remark 18).
+      data-shop={olavka ? "olavka" : undefined}
     >
       <head>
         {/* Applies the visitor's stored choice before the first paint, so a reload
             does not flash the profile default. Allow-listed, idempotent, never throws. */}
         <script dangerouslySetInnerHTML={{ __html: themePrePaintScript() }} />
+        {/* Branch-local: the olavka desktop scale 1440 → 1920 (`lib/theme/olavka-zoom.ts`). */}
+        {DEMO_HEADER === "h7" ? (
+          <script dangerouslySetInnerHTML={{ __html: olavkaZoomScript() }} />
+        ) : null}
       </head>
       <body>
         {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside

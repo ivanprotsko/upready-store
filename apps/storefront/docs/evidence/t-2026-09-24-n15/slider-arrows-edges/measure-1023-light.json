@@ -1,0 +1,44 @@
+{
+ "chromium-1023-light": {
+  "summary": {
+   "arrows": 0
+  },
+  "menuStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgba(0, 0, 0, 0)",
+   "shadow": "none",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ },
+ "firefox-1023-light": {
+  "summary": {
+   "arrows": 0
+  },
+  "menuStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgba(0, 0, 0, 0)",
+   "shadow": "none",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "arrowStyle": {
+   "color": "rgb(24, 24, 27)",
+   "bg": "rgb(255, 255, 255)",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "radius": "999px",
+   "cursor": "pointer",
+   "transition": "background-color 0.15s ease-out"
+  }
+ }
+}

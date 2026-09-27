@@ -5,6 +5,8 @@ import type { OptionValueIds } from "@lib/util/product-option-filters"
 import { sortProducts } from "@lib/util/sort-products"
 import {
   groupOptionFilters,
+  optionBucketKey,
+  optionBuckets,
   type ProductOptionFilterGroup,
 } from "@lib/util/option-filter-groups"
 import type { HttpTypes } from "@medusajs/types"
@@ -129,6 +131,67 @@ export const listProductOptionFilters = async (
     .catch(() => ({ products: [] as HttpTypes.StoreProduct[] }))
 
   return groupOptionFilters(products)
+}
+
+/**
+ * BRANCH-LOCAL (`redesign-olavka`, Ivan's remark 23): the number next to each option
+ * checkbox of the catalog — how many products the list will hold once that checkbox is on,
+ * with the filters already on. Asked of the backend with the listing's own query (the same
+ * category / collection / characteristic narrowing, `option_value_id` = the checked values
+ * plus this checkbox's), `limit: 1`, `fields: id`: the answer's `count` is the list's total
+ * by construction. One small cached request per checkbox. A checked box answers the current
+ * total. `narrowedIds`: `[]` means the characteristics left nothing, so every count is 0.
+ * `byBucket` feeds the sidebar's checkboxes (one per label), `byValue` the phone's sheet
+ * (one row per value).
+ */
+export const countOptionBuckets = async ({
+  groups,
+  optionValueIds = [],
+  queryParams = {},
+  narrowedIds,
+  countryCode,
+}: {
+  groups: ProductOptionFilterGroup[]
+  optionValueIds?: OptionValueIds
+  queryParams?: Pick<ProductListQueryParams, "category_id" | "collection_id">
+  narrowedIds?: string[] | null
+  countryCode: string
+}): Promise<{ byBucket: Record<string, number>; byValue: Record<string, number> }> => {
+  const active = Array.from(new Set(optionValueIds.filter(Boolean)))
+  const count = async (valueIds: string[]): Promise<number> => {
+    if (narrowedIds && narrowedIds.length === 0) return 0
+    const { response } = await listProducts({
+      queryParams: {
+        ...queryParams,
+        ...(narrowedIds ? { id: narrowedIds } : {}),
+        option_value_id: Array.from(new Set([...active, ...valueIds])),
+        limit: 1,
+        fields: "id",
+      },
+      countryCode,
+    }).catch(() => ({ response: { products: [], count: 0 } }))
+    return response.count
+  }
+  const byBucket: Record<string, number> = {}
+  const byValue: Record<string, number> = {}
+  await Promise.all(
+    groups.flatMap((group) =>
+      optionBuckets(group).map(async (bucket) => {
+        const n = await count(bucket.ids)
+        byBucket[optionBucketKey(group.id, bucket.label)] = n
+        // The phone's sheet lists every value on its own row: a label carried by one value
+        // has the same count, a label shared by several values asks once per value.
+        if (bucket.ids.length === 1) byValue[bucket.ids[0]] = n
+        else
+          await Promise.all(
+            bucket.ids.map(async (id) => {
+              byValue[id] = await count([id])
+            })
+          )
+      })
+    )
+  )
+  return { byBucket, byValue }
 }
 
 export const listProductsWithSort = async ({

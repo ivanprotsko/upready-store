@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "עגלה ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "העגלה שניסית לגשת אליה אינה קיימת. נקה את העוגיות ונסה שוב.",
@@ -828,7 +829,10 @@
     "selectVariant": "בחר וריאציה",
     "inStock": "במלאי",
     "buyNow": "לתשלום",
-    "buy": "קנייה"
+    "buy": "קנייה",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "לא",

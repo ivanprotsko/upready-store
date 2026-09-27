@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Keranjang ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Keranjang yang Anda coba akses tidak ada. Hapus cookie Anda dan coba lagi.",
@@ -828,7 +829,10 @@
     "selectVariant": "Pilih varian",
     "inStock": "Tersedia",
     "buyNow": "Beli sekarang",
-    "buy": "Beli"
+    "buy": "Beli",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Tidak",

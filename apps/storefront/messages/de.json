@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Warenkorb ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Der Warenkorb, auf den Sie zugreifen wollten, existiert nicht. Löschen Sie Ihre Cookies und versuchen Sie es erneut.",
@@ -828,7 +829,10 @@
     "selectVariant": "Variante auswählen",
     "inStock": "Auf Lager",
     "buyNow": "Jetzt kaufen",
-    "buy": "Kaufen"
+    "buy": "Kaufen",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nein",

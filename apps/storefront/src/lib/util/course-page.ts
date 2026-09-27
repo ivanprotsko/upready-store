@@ -91,7 +91,7 @@ export function coverSrcSet(cover: CourseCover): string {
  * desktop each download a different file.
  */
 export const COURSE_COVER_SIZES =
-  "(min-width: 1440px) 984px, (min-width: 1024px) calc(100vw - 456px), calc(100vw - 32px)"
+  "(min-width: 1440px) 69vw, (min-width: 1024px) calc(100vw - 456px), calc(100vw - 32px)"
 
 /** `metadata.course_page`, each list filtered to well-formed entries; `null` when nothing is left. */
 export function readCoursePage(metadata: Metadata): CoursePageContent | null {

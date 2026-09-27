@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Košík ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Košík, který se snažíte zobrazit, neexistuje. Vymažte soubory cookie a zkuste to znovu.",
@@ -828,7 +829,10 @@
     "selectVariant": "Vyberte variantu",
     "inStock": "Skladem",
     "buyNow": "Koupit",
-    "buy": "Koupit"
+    "buy": "Koupit",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Ne",

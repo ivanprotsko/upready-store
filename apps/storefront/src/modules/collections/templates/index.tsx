@@ -12,7 +12,8 @@ import PaginatedProducts, {
   PRODUCT_LIMIT,
 } from "@modules/store/templates/paginated-products"
 import { listCategories } from "@lib/data/categories"
-import { listProductOptionFilters } from "@lib/data/products"
+import { countOptionBuckets, listProductOptionFilters } from "@lib/data/products"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import type { HttpTypes } from "@medusajs/types"
 import Breadcrumb, {
   type BreadcrumbItem,
@@ -36,12 +37,22 @@ export default async function CollectionTemplate({
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
 
-  const [t, locale, categories, optionFilters] = await Promise.all([
+  const [t, locale, categories, optionFilters, olavka] = await Promise.all([
     getTranslations(),
     getLocale(),
     listCategories(),
     listProductOptionFilters({ collection_id: [collection.id] }),
+    isOlavkaShop(),
   ])
+  // The count next to each option checkbox, on the Olavka shop (Ivan's remark 23).
+  const optionCounts = olavka
+    ? await countOptionBuckets({
+        groups: optionFilters,
+        optionValueIds,
+        queryParams: { collection_id: [collection.id] },
+        countryCode,
+      })
+    : undefined
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: t("Breadcrumb.home"), href: "/" },
@@ -67,6 +78,7 @@ export default async function CollectionTemplate({
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
+            optionCounts={optionCounts?.byValue}
             className="lg:hidden text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
           />
         </div>
@@ -84,7 +96,7 @@ export default async function CollectionTemplate({
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
         <div className="hidden flex-col gap-y-8 lg:flex">
           <CategorySidebar categories={categories} />
-          <FilterSidebar optionFilters={optionFilters} />
+          <FilterSidebar optionFilters={optionFilters} optionCounts={optionCounts?.byBucket} />
         </div>
         <div className="w-full">
           <ActiveFilters optionFilters={optionFilters} />

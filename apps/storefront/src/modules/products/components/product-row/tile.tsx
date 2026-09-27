@@ -21,6 +21,11 @@ export type ProductRowItem = {
 const FOCUS_RING =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
 
+// BRANCH-LOCAL (`redesign-olavka`, Ivan's remark 17): the Olavka shops' price and name at
+// 1rem, as their catalog card. By the `data-shop` mark the root layout puts on `<html>`,
+// because the «recently viewed» row renders this tile on the client.
+const OLAVKA_TEXT = "[[data-shop=olavka]_&]:text-base"
+
 /**
  * A tile of the product page's rows, after Ivan's Figma mockup: the photo on the page's
  * own colour with no frame and no veil (`ProductMedia flat`, still the shared 3:4 frame
@@ -57,7 +62,7 @@ export default function ProductRowTile({
         {/* The price slot keeps its line when the region has no price, so a row of tiles
             stays level. */}
         <span
-          className="flex h-5 items-baseline gap-x-2 text-sm font-semibold leading-5 tabular-nums text-ui-fg-base"
+          className={`flex h-5 items-baseline gap-x-2 text-sm font-semibold leading-5 tabular-nums text-ui-fg-base ${OLAVKA_TEXT} [[data-shop=olavka]_&]:h-6`}
           data-testid="price"
         >
           {item.price}
@@ -71,7 +76,7 @@ export default function ProductRowTile({
           ) : null}
         </span>
         <span
-          className="line-clamp-2 text-sm leading-5 text-ui-fg-subtle group-hover:underline group-hover:underline-offset-2"
+          className={`line-clamp-2 text-sm leading-5 text-ui-fg-subtle group-hover:underline group-hover:underline-offset-2 ${OLAVKA_TEXT}`}
           data-testid="product-title"
         >
           {item.title}

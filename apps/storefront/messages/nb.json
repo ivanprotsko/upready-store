@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Handlekurv ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "Handlekurven du prøvde å åpne finnes ikke. Slett informasjonskapslene dine og prøv igjen.",
@@ -828,7 +829,10 @@
     "selectVariant": "Velg variant",
     "inStock": "På lager",
     "buyNow": "Kjøp",
-    "buy": "Kjøp"
+    "buy": "Kjøp",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "Nei",

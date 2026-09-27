@@ -33,6 +33,12 @@ const highlightMatch = (text: string, query: string) => {
   )
 }
 
+// BRANCH-LOCAL (`redesign-olavka`, Ivan's remark 18): in an Olavka shop the field the overlay
+// opens on shows no focus ring. The open overlay is itself the sign of where typing goes, and
+// the caret stays in the field. By the `data-shop` mark on `<html>`, because the dialog is a
+// portal outside the page. Every other shop keeps the ring until Ivan decides for them.
+const QUIET_INPUT_FOCUS = "[[data-shop=olavka]_&]:focus-visible:ring-0"
+
 const Search = ({
   className = "text-ui-fg-subtle hover:text-ui-fg-base transition-colors",
 }: {
@@ -116,7 +122,7 @@ const Search = ({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("placeholder")}
-                className="h-12 w-full bg-transparent txt-compact-medium text-base text-ui-fg-base outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] placeholder:text-ui-fg-muted"
+                className={`h-12 w-full bg-transparent txt-compact-medium text-base text-ui-fg-base outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] placeholder:text-ui-fg-muted ${QUIET_INPUT_FOCUS}`}
               />
               {query && (
                 <button

@@ -64,7 +64,7 @@ export function CheckoutModal({
           >
             <DialogPanel
               className={clx(
-                "relative w-full sm:w-[540px] max-h-[90dvh] overflow-y-auto bg-ui-bg-base rounded-t-xl sm:rounded-xl shadow-elevation-modal",
+                "relative w-full sm:w-[540px] max-h-[calc(90dvh/var(--page-zoom,1))] overflow-y-auto bg-ui-bg-base rounded-t-xl sm:rounded-xl shadow-elevation-modal",
                 wide && "small:w-[880px]"
               )}
             >

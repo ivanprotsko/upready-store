@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "カート（{count}）",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "アクセスしようとしたカートは存在しません。Cookieを削除してもう一度お試しください。",
@@ -828,7 +829,10 @@
     "selectVariant": "バリエーションを選択",
     "inStock": "在庫あり",
     "buyNow": "今すぐ購入",
-    "buy": "購入"
+    "buy": "購入",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "いいえ",

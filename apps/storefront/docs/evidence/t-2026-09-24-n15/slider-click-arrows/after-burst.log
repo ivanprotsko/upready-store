@@ -1,0 +1,20 @@
+chromium gap 60ms 10×next (expect end idx 4): start idx 3 end idx 4 
+chromium gap 60ms 10×prev (expect end idx 5): start idx 3 end idx 5 
+chromium gap 250ms 10×next (expect end idx 4): start idx 3 end idx 4 
+chromium gap 250ms 10×prev (expect end idx 5): start idx 3 end idx 5 
+chromium gap 700ms 10×next (expect end idx 4): start idx 3 end idx 4 
+chromium gap 700ms 10×prev (expect end idx 5): start idx 3 end idx 5 
+firefox gap 60ms 10×next (expect end idx 4): start idx 3 end idx 4 
+firefox gap 60ms 10×prev (expect end idx 5): start idx 3 end idx 5 
+firefox gap 250ms 10×next (expect end idx 4): start idx 3 end idx 4 
+firefox gap 250ms 10×prev (expect end idx 5): start idx 3 end idx 5 
+firefox gap 700ms 10×next (expect end idx 4): start idx 3 end idx 4 
+firefox gap 700ms 10×prev (expect end idx 5): start idx 3 end idx 5 
+chromium 1920 gap 90ms 7×next (expect end idx 4): start idx 3 end idx 4 
+chromium 1920 gap 90ms 7×prev (expect end idx 5): start idx 3 end idx 5 
+chromium 2240 gap 90ms 7×next (expect end idx 4): start idx 3 end idx 4 
+chromium 2240 gap 90ms 7×prev (expect end idx 5): start idx 3 end idx 5 
+chromium 1440 {"id":"olavka-hero-slider-next","fv":true,"ring":"2px solid rgb(10, 106, 82) off 2px r=999px"}
+chromium 1920 {"id":"olavka-hero-slider-next","fv":true,"ring":"1.5px solid rgb(10, 106, 82) off 1.5px r=999px"}
+firefox 1440 {"id":"olavka-hero-slider-next","fv":true,"ring":"2px solid rgb(10, 106, 82) off 2px r=999px"}
+firefox 1920 {"id":"olavka-hero-slider-next","fv":true,"ring":"1.5px solid rgb(10, 106, 82) off 2px r=999px"}

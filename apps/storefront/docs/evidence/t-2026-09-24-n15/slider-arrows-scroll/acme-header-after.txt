@@ -1,0 +1,2 @@
+acme 1440 scroll 0 {"scrolled":"false","menuL":24,"cartR":24,"menuBg":"rgb(10, 10, 10)","menuShadow":"rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px","leadingTransition":"padding 0.2s ease-out"}
+acme 1440 scroll 400 {"scrolled":"true","menuL":12,"cartR":12,"menuBg":"rgb(10, 10, 10)","menuShadow":"rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px","leadingTransition":"padding 0.2s ease-out"}

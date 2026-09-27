@@ -8,6 +8,8 @@ import {
   DEFAULT_HERO,
   DEFAULT_LISTING,
   DEFAULT_TILES,
+  DEMO_HOME_BLOCKS,
+  DEMO_HOME_ORDER,
   HERO_VARIANTS,
   LISTING_VARIANTS,
   type HomeBlockKey,
@@ -162,9 +164,16 @@ export default async function Home() {
       }
     : {}
 
-  const order: readonly HomeBlockKey[] = home?.content.order?.length
+  const savedOrder: readonly HomeBlockKey[] = home?.content.order?.length
     ? home.content.order
     : DEFAULT_BLOCK_ORDER
+  // Branch-local demo (`redesign-olavka`): the Cover block above takes the hero's place, so
+  // the composed hero is skipped while `DEMO_HOME_ORDER` is on — Ivan saw three heroes on
+  // one page (2026-09-24). Tiles and listing keep rendering below the new blocks. With the
+  // demo list empty this is the saved order, untouched.
+  const order: readonly HomeBlockKey[] = DEMO_HOME_ORDER.length
+    ? savedOrder.filter((block) => block !== "hero")
+    : savedOrder
 
   const blocks: Record<HomeBlockKey, React.ReactNode> = {
     hero: Hero ? <Hero {...heroProps} /> : null,
@@ -190,6 +199,17 @@ export default async function Home() {
 
   return (
     <>
+      {/* Branch-local demo (`redesign-olavka`): the Figma blocks first, in Figma order —
+          see `DEMO_HOME_ORDER`'s own doc comment in `home/variants/index.ts`. The Cover
+          takes the same tenant hero copy the composed hero does. */}
+      {DEMO_HOME_ORDER.map((block) => {
+        const Block = DEMO_HOME_BLOCKS[block]
+        return (
+          <Fragment key={block}>
+            {block === "olavkaCover" ? <Block {...heroProps} /> : <Block />}
+          </Fragment>
+        )
+      })}
       {order.map((block) => (
         <Fragment key={block}>{blocks[block]}</Fragment>
       ))}
