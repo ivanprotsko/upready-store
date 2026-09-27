@@ -1001,3 +1001,76 @@ stayed at 24 / 32. The arrows had the burger's fill: white in light mode, dark i
 
 Shots `slider-arrows-scroll/<chromium|firefox>-1440-<light|dark>-<rest|scrolled>.png`, focus crops
 `<engine>-1440-<light|dark>-focus-prev.png`. Scripts `arrows27b.mjs`, `acme27b.mjs`.
+
+
+## Remark «grid 960» · three product cards per row only at widths ≤ 960 (Ivan 2026-09-27)
+
+«и еще, я ранее говорил, что 3 колонки в 1 ряд с товарами должно появляться только при ширине <=960»:
+`/Users/ivanprotsko/upready/memory/lead-upready-store/o-20260921-01/ivan-remarks-2026-09-27/remark-grid-960/remark-grid-960.md`.
+The target is the lead's table: 2 columns below 720, 3 at 720–960, 4 above 960. 720 is the lead's default (the mockup's tablet
+frame), and Ivan may move it.
+
+**Before (:8233, b3a40ed1 + the arrows, Chromium, `grid-960/before-olavka-chromium.txt`):**
+- Olavka `/ru` and `/ru/store`: 2 columns up to 1023, 3 at 1024–1439, 4 from 1440.
+- The PDP row «С этим товаром покупают»: a swipe strip up to 1023, a grid of 4 from 1024.
+
+**Fix.** Olavka shops only, by the `data-shop="olavka"` mark the root layout puts on `<html>`: the pattern of remarks 17
+and 18. Other shops get no new rule that applies to them.
+- `PRODUCT_GRID_CLASS` (product-card/index.tsx) is the one grid of the home listings, `/store`, categories, collections
+  and the loading skeleton. It gets `[[data-shop=olavka]_&]:min-[720px]:grid-cols-3` and `…:min-[961px]:grid-cols-4`.
+  They are more specific than `small:` / `large:`, so they win on Olavka at every width.
+- `PRODUCT_GRID_ROW_BUDGET` (the home teaser never ends on a ragged row) follows the same columns.
+  - `long` (12 cards): 8 below 720, all 12 from 720, so 4 rows of 3 or 3 rows of 4.
+  - `short` (8 cards): 6 at 720–960, 8 above 960.
+  - Olavka's home uses `long`. `short` belongs to the P1 listing, which Olavka does not use: it is changed to match the
+    columns but not measured.
+- The Olavka footer stays on the grid's tracks. Its «skip the first column with four columns» rule now starts at 961,
+  where the four columns start: `min-[961px]:[&>*:nth-child(3n+1)]:col-start-2`.
+- The PDP rows (product-row) become their grid above 960, not from 1024. Below that they stay the swipe strip. The
+  four-tile strip shows 2 tiles and a bit under 720 and 3 and a bit from 720. The six-tile row («Вы недавно
+  просматривали») keeps its tile widths and only turns into its grid at 961.
+- The gaps keep their scale: 12 below 1024 and 24 from 1024, together with the page's side padding (16 / 24). If Ivan
+  wants the 24px gap as soon as there are 3–4 columns, that is one class.
+
+**After, :8233 rebuilt** (`grid-960/after-olavka.txt`). Chromium and Firefox give identical numbers:
+
+| width | 390 | 719 | 720 | 960 | 961 | 1024 | 1440 |
+|---|---|---|---|---|---|---|---|
+| `/ru` «В магазине»: columns (cards) | 2 (8) | 2 (8) | 3 (12) | 3 (12) | 4 (12) | 4 (12) | 4 (12) |
+| `/ru/store`: columns | 2 | 2 | 3 | 3 | 4 | 4 | 4 |
+| PDP row: tiles in view / grid | strip 2 | strip 2 | strip 3 | strip 3 | grid 4 | grid 4 | grid 4 |
+| footer: tracks, where its 3 columns start | 2: x 16/·, © under | 2 | 3: 16/249/483 | 3: 16/329/643 | 4: 251/487/722 | 4: 274/524/774 | 4: 378/732/1086 |
+
+- Every grid's last row is full: no ragged row.
+- The footer columns start exactly at the product tracks' starts. At 961, (961 − 32 − 36) / 4 = 223.25 per track, so the
+  tracks start at 16 / 251 / 487 / 722.
+
+**What changes between 961 and 1439 (Olavka):**
+- **961–1023:**
+  - 4 columns instead of 2.
+  - The home listing shows 12 cards in 3 rows instead of 8 in 4 rows.
+  - The footer moves to tracks 2–4 instead of Категории + Информация with © on a second row.
+  - The PDP row is a grid of 4 instead of a strip.
+  - Gaps stay 12.
+- **1024–1439:**
+  - 4 columns instead of 3.
+  - The footer takes tracks 2–4 instead of 1–3: x 274/524/774 at 1024, was 24/357/691.
+  - Everything else is as it was.
+- **720–960:**
+  - 3 columns instead of 2.
+  - The home listing shows 12 cards instead of 8.
+  - The footer's three columns share one row instead of two.
+- **512–719:** the PDP strip shows 2 tiles and a bit instead of 3 and a bit.
+
+**acme (the other shop), before = after** at all seven widths:
+- `/ru`: 2/2/2/2/2/3/4 columns.
+- `/ru/store`: the same.
+- The PDP strip up to 961, a grid of 4 from 1024.
+- `diff` of `before-acme-chromium.txt` and `after-acme-chromium.txt` is empty.
+
+Shots (full page, Chromium):
+- after: `after-olavka-com-_ru-<960|961>-chromium.png`, `after-olavka-com-_ru_store-<960|961>-chromium.png`;
+- the same pairs `before-…`.
+
+The fixed bottom bar crosses the full-page shots mid-page: that is the screenshot tool, not the layout. Script
+`cols960.mjs`, data `cols-*.json`.

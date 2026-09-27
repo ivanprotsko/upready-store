@@ -28,9 +28,10 @@ const LINK = "txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transit
  * (Ivan's remark 15): every row starts at column 2 (`SKIP_FIRST_COLUMN`), so the seller's
  * requisites, when the shop has them, open the next row under Категории. With two or three
  * product columns the footer starts at column 1 as before: an empty column there would
- * squeeze the text or push «©» onto a second row.
+ * squeeze the text or push «©» onto a second row. Four columns start above 960 on these
+ * shops (`PRODUCT_GRID_CLASS`, Ivan's remark of 2026-09-27), and so does the skip.
  */
-const SKIP_FIRST_COLUMN = "large:[&>*:nth-child(3n+1)]:col-start-2"
+const SKIP_FIRST_COLUMN = "min-[961px]:[&>*:nth-child(3n+1)]:col-start-2"
 
 export default async function FooterOlavka() {
   const [t, tMeta, siteName, seller, categories, tenantPages, legal, attribution] =

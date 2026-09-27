@@ -21,13 +21,20 @@ import ProductMedia from "@modules/products/components/product-media"
  * The grid itself is `PRODUCT_GRID_CLASS`: two columns on a phone, three from 1024 and
  * four from 1440, on one gap scale.
  *
+ * BRANCH-LOCAL (`redesign-olavka`, Ivan's remark of 2026-09-27, «3 колонки в 1 ряд с
+ * товарами должно появляться только при ширине <=960»): on the Olavka shops two columns
+ * below 720, three from 720 to 960 and four above 960, by the `data-shop` mark the root
+ * layout puts on `<html>`. The gaps keep their scale (12 below 1024, 24 from it). The row
+ * budgets follow the same columns.
+ *
  * BRANCH-LOCAL (`redesign-olavka`, Ivan's remark 17): the Olavka shops
  * (`OLAVKA_SHOP_HANDLES`) show only the price and, under it, the title, both at 1rem. There
  * is no unit line (no «100 мл», «1 шт» or swatches) and the title reserves no second line,
  * so a row's cards may differ in height.
  */
 export const PRODUCT_GRID_CLASS =
-  "grid w-full grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-3 small:gap-x-6 small:gap-y-10 large:grid-cols-4"
+  "grid w-full grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-3 small:gap-x-6 small:gap-y-10 large:grid-cols-4 " +
+  "[[data-shop=olavka]_&]:min-[720px]:grid-cols-3 [[data-shop=olavka]_&]:min-[961px]:grid-cols-4"
 
 /**
  * A row budget for a grid that is a teaser, not a listing (a home section, the related
@@ -36,8 +43,12 @@ export const PRODUCT_GRID_CLASS =
  * eight: two rows of four, four of two, and six at three columns.
  */
 export const PRODUCT_GRID_ROW_BUDGET = {
-  long: "[&>li:nth-child(n+9)]:hidden small:[&>li:nth-child(n+9)]:block",
-  short: "small:[&>li:nth-child(n+7)]:hidden large:[&>li:nth-child(n+7)]:block",
+  long:
+    "[&>li:nth-child(n+9)]:hidden small:[&>li:nth-child(n+9)]:block " +
+    "[[data-shop=olavka]_&]:min-[720px]:[&>li:nth-child(n+9)]:block",
+  short:
+    "small:[&>li:nth-child(n+7)]:hidden large:[&>li:nth-child(n+7)]:block " +
+    "[[data-shop=olavka]_&]:min-[720px]:[&>li:nth-child(n+7)]:hidden [[data-shop=olavka]_&]:min-[961px]:[&>li:nth-child(n+7)]:block",
 } as const
 
 const MAX_SWATCHES = 5
