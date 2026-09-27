@@ -5,6 +5,8 @@ import { useState } from "react"
 import { Steps } from "../components"
 import styles from "../demo.module.css"
 import { THEME_IDS, THEME_LABELS } from "@lib/theme/presets.generated"
+import Eye from "@modules/common/icons/eye"
+import EyeOff from "@modules/common/icons/eye-off"
 
 const STEP_LABELS = ["Магазин", "Доступ", "Оформление"]
 
@@ -65,6 +67,7 @@ export default function Wizard({ paidLine, tariff }: { paidLine: string | null; 
   const [handleTouched, setHandleTouched] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [passwordShown, setPasswordShown] = useState(false)
   const [preset, setPreset] = useState<string>("geist")
   const [mode, setMode] = useState<"light" | "dark">("light")
   const [busy, setBusy] = useState(false)
@@ -300,15 +303,27 @@ export default function Wizard({ paidLine, tariff }: { paidLine: string | null; 
 
           <div className={styles.field}>
             <label htmlFor="owner-password">Пароль</label>
-            <input
-              id="owner-password"
-              className={`${styles.input} ${styles.inputMono}`}
-              type="password"
-              autoComplete="new-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              data-testid="demo-owner-password"
-            />
+            <div className={styles.passwordField}>
+              <input
+                id="owner-password"
+                className={`${styles.input} ${styles.inputMono}`}
+                type={passwordShown ? "text" : "password"}
+                autoComplete="new-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                data-testid="demo-owner-password"
+              />
+              <button
+                type="button"
+                className={styles.passwordToggle}
+                onClick={() => setPasswordShown((shown) => !shown)}
+                aria-label={passwordShown ? "Скрыть пароль" : "Показать пароль"}
+                aria-pressed={passwordShown}
+                data-testid="demo-owner-password-toggle"
+              >
+                {passwordShown ? <Eye size="18" /> : <EyeOff size="18" />}
+              </button>
+            </div>
             <span className={styles.hint}>Не короче восьми знаков.</span>
           </div>
 
