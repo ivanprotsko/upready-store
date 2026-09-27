@@ -6,9 +6,12 @@
  *   onboarding_free  → the shop wizard straight away, no payment
  *   pay_first        → the till, then the wizard
  *   card_trial       → the till in card-entry mode with the trial length, then the wizard
+ *   onboarding_trial → the shop wizard straight away, with the trial length, no card and no till
  *
  * There is no payment provider behind the till yet (t-2026-09-25-06): it is the
- * demo till of `/start/pay`, and the till says so on screen.
+ * demo till of `/start/pay`, and the till says so on screen. `onboarding_trial`
+ * (t-2026-09-27-05) never touches the till at all, by design: Ivan's answer 3b
+ * puts paid tiers into a trial with no card.
  *
  * A missing or unknown action, a trial with no valid length or a funnel action
  * with no tariff THROWS. A button that silently fell back to some default would
@@ -88,6 +91,16 @@ export function pricingButtonHref(action: unknown, tierId: string | null): strin
       }
       const params = new URLSearchParams({ tariff, trial: String(action.trial_days) })
       return `${TILL_PATH}?${params}`
+    }
+    case "onboarding_trial": {
+      const tariff = funnelTier(tierId, action.type)
+      if (!isValidTrialDays(action.trial_days)) {
+        throw new PricingActionError(
+          `onboarding_trial needs trial_days between ${TRIAL_DAYS_MIN} and ${TRIAL_DAYS_MAX}, got ${JSON.stringify(action.trial_days)}`
+        )
+      }
+      const params = new URLSearchParams({ tariff, trial: String(action.trial_days) })
+      return `${ONBOARDING_PATH}?${params}`
     }
     default:
       throw new PricingActionError(`unknown pricing button action "${action.type}"`)

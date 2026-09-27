@@ -14,6 +14,7 @@ export type ButtonAction =
   | { type: "onboarding_free" }
   | { type: "pay_first" }
   | { type: "card_trial"; trial_days: number }
+  | { type: "onboarding_trial"; trial_days: number }
 
 export type PricingButton = {
   label: string
@@ -21,17 +22,21 @@ export type PricingButton = {
   action: ButtonAction
 }
 
+export type PricingTierPrice = { amount: string; period: string; note: string }
+
 export type PricingTier = {
   id: string
   name: string
   short_name: string
   price: string
   price_note: string
+  price_annual: PricingTierPrice | null
   recommended: boolean
   description: string
   plus: string
-  features: { text: string; tip: string }[]
+  features: { text: string; tip: string; note: string }[]
   button: PricingButton
+  trial_days: number | null
 }
 
 export type PricingCellValue =

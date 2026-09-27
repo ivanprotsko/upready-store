@@ -34,6 +34,23 @@ describe("pricingButtonHref", () => {
     }
   })
 
+  it("onboarding_trial: straight into the shop wizard, with the trial length, no till", () => {
+    expect(pricingButtonHref({ type: "onboarding_trial", trial_days: 3 }, "pro")).toBe(
+      "/start/onboarding?tariff=pro&trial=3"
+    )
+    expect(pricingButtonHref({ type: "onboarding_trial", trial_days: 7 }, "master")).toBe(
+      "/start/onboarding?tariff=master&trial=7"
+    )
+  })
+
+  it("onboarding_trial without a trial length, or with a broken one, throws", () => {
+    for (const trial_days of [undefined, 0, -3, 1.5, "14", 366, null]) {
+      expect(() => pricingButtonHref({ type: "onboarding_trial", trial_days }, "pro")).toThrow(
+        PricingActionError
+      )
+    }
+  })
+
   it("an unknown action throws instead of picking a default", () => {
     expect(() => pricingButtonHref({ type: "subscribe" }, "start")).toThrow(
       'unknown pricing button action "subscribe"'
@@ -47,7 +64,7 @@ describe("pricingButtonHref", () => {
   })
 
   it("a funnel action with no tariff throws", () => {
-    for (const type of ["onboarding_free", "pay_first"]) {
+    for (const type of ["onboarding_free", "pay_first", "onboarding_trial"]) {
       expect(() => pricingButtonHref({ type }, null)).toThrow("needs a tariff id")
       expect(() => pricingButtonHref({ type }, "Bad Id")).toThrow("needs a tariff id")
     }
