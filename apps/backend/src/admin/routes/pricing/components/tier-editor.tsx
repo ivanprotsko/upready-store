@@ -1,4 +1,4 @@
-import { Button, Label, Switch, Text } from "@medusajs/ui"
+import { Button, Input, Label, Switch, Text } from "@medusajs/ui"
 
 import type { PricingTier } from "../../../lib/platform-pricing-api"
 import { ButtonEditor } from "./button-editor"
@@ -66,6 +66,55 @@ export function TierEditor({
             <Switch checked={tier.recommended} onCheckedChange={(recommended) => onChange({ ...tier, recommended })} />
           </div>
         </div>
+        <div className="flex flex-col gap-y-1">
+          <Label size="small">Пробный период, дней</Label>
+          <Input
+            size="small"
+            type="number"
+            min={1}
+            max={365}
+            value={tier.trial_days ?? ""}
+            placeholder="без пробного периода"
+            onChange={(e) =>
+              onChange({ ...tier, trial_days: e.target.value === "" ? null : Number.parseInt(e.target.value, 10) })
+            }
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+        <div className="flex flex-col gap-y-1">
+          <Label size="small">Годовая цена</Label>
+          <div className="flex h-8 items-center">
+            <Switch
+              checked={tier.price_annual !== null}
+              onCheckedChange={(on) =>
+                onChange({
+                  ...tier,
+                  price_annual: on ? (tier.price_annual ?? { amount: "", period: "", note: "" }) : null,
+                })
+              }
+            />
+          </div>
+        </div>
+        {tier.price_annual ? (
+          <>
+            <TextField
+              label="Цена в год"
+              value={tier.price_annual.amount}
+              onChange={(amount) => onChange({ ...tier, price_annual: { ...tier.price_annual!, amount } })}
+            />
+            <TextField
+              label="Период"
+              value={tier.price_annual.period}
+              onChange={(period) => onChange({ ...tier, price_annual: { ...tier.price_annual!, period } })}
+            />
+            <TextField
+              label="Приписка"
+              value={tier.price_annual.note}
+              onChange={(note) => onChange({ ...tier, price_annual: { ...tier.price_annual!, note } })}
+            />
+          </>
+        ) : null}
       </div>
       <AreaField label="Описание" value={tier.description} onChange={(description) => onChange({ ...tier, description })} />
       <TextField label="Строка над списком" value={tier.plus} onChange={(plus) => onChange({ ...tier, plus })} />
@@ -80,6 +129,14 @@ export function TierEditor({
                   label={`Пункт ${f + 1}`}
                   value={feature.text}
                   onChange={(text) => setFeatures((list) => (list[f].text = text))}
+                />
+              </div>
+              <div className="w-16">
+                <TextField
+                  label="Сноска"
+                  value={feature.note}
+                  onChange={(note) => setFeatures((list) => (list[f].note = note))}
+                  hint="¹²³…, пусто — нет"
                 />
               </div>
               <div className="pt-5">
@@ -100,7 +157,12 @@ export function TierEditor({
           </div>
         ))}
         <div>
-          <Button type="button" size="small" variant="secondary" onClick={() => setFeatures((list) => list.push({ text: "Новый пункт", tip: "" }))}>
+          <Button
+            type="button"
+            size="small"
+            variant="secondary"
+            onClick={() => setFeatures((list) => list.push({ text: "Новый пункт", tip: "", note: "" }))}
+          >
             Добавить пункт
           </Button>
         </div>

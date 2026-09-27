@@ -44,7 +44,7 @@ export default async function OnboardingPage(props: {
     }
     return (
       <div className={`${styles.page} ${styles.narrow}`}>
-        <Wizard paidLine={line} />
+        <Wizard paidLine={line} tariff={tariff ?? null} />
       </div>
     )
   }
@@ -66,7 +66,7 @@ export default async function OnboardingPage(props: {
 
   return (
     <div className={`${styles.page} ${styles.narrow}`}>
-      <Wizard paidLine={paidLine} />
+      <Wizard paidLine={paidLine} tariff={tariff ?? null} />
     </div>
   )
 }

@@ -3342,7 +3342,14 @@
     "productsDraft": "Drafts",
     "loading": "Loading…",
     "developerDetails": "For developers",
-    "shopCode": "Shop code"
+    "shopCode": "Shop code",
+    "plan": "Plan",
+    "planTrialUntil": "Trial until {{date}}",
+    "planNames": {
+      "novice": "Novice",
+      "pro": "Pro",
+      "master": "Master"
+    }
   },
   "salesSummary": {
     "title": "Sales",

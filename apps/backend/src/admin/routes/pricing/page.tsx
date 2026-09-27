@@ -140,11 +140,13 @@ const PricingPage = () => {
         short_name: "",
         price: "по запросу",
         price_note: "",
+        price_annual: null,
         recommended: false,
         description: "",
         plus: "",
         features: [],
         button: { label: "Выбрать", style: "outline", action: { type: "link", href: "#final" } },
+        trial_days: null,
       }
       d.tiers.push(tier)
       for (const section of d.sections) {

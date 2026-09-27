@@ -79,5 +79,7 @@ export function describeHref(action: ButtonAction, tierId: string | null): strin
       return tierId ? `/start/pay?tariff=${tierId}` : "— выберите тариф"
     case "card_trial":
       return tierId ? `/start/pay?tariff=${tierId}&trial=${action.trial_days}` : "— выберите тариф"
+    case "onboarding_trial":
+      return tierId ? `/start/onboarding?tariff=${tierId}&trial=${action.trial_days}` : "— выберите тариф"
   }
 }

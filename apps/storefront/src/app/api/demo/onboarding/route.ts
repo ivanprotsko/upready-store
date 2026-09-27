@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 
+import { getPlatformPricing } from "@lib/data/platform-pricing"
+import { resolveOnboardingPlan } from "@lib/demo/onboarding-plan"
 import { THEME_IDS } from "@lib/theme/presets.generated"
 
 /**
@@ -7,20 +9,25 @@ import { THEME_IDS } from "@lib/theme/presets.generated"
  * REAL tenant on this deployment, through the product path that already exists,
  * because a wizard that only draws a form proves nothing.
  *
- *   1. POST /auth/tenant/emailpass/register  → a registration token
- *   2. POST /tenants (with that token)       → tenant + sales channel + key
- *   3. POST /auth/tenant/emailpass           → the owner's session token
- *   4. POST /tenants/seed (with that token)  → the starter catalog, so the shop opens NON-empty
+ *   1. GET  /platform/pricing (no token)     → the tariff this tenant is created on (t-2026-09-27-05):
+ *                                              this is the ONLY place the tariff comes from — the
+ *                                              wizard's own `tariff` field is the URL's raw string,
+ *                                              never trusted for the tier or the trial length
+ *   2. POST /auth/tenant/emailpass/register  → a registration token
+ *   3. POST /tenants (with that token)       → tenant + sales channel + key, `plan_id` and the trial
+ *                                              length from step 1
+ *   4. POST /auth/tenant/emailpass           → the owner's session token
+ *   5. POST /tenants/seed (with that token)  → the starter catalog, so the shop opens NON-empty
  *                                              (specs/catalog-taxonomy/ABSTRACT-DATASETS.md §4)
- *   5. PUT  /tenants/home (with that token)  → the theme the wizard picked, hero image from step 4
+ *   6. PUT  /tenants/home (with that token)  → the theme the wizard picked, hero image from step 5
  *
  * It runs on the SERVER, not in the browser, for a reason that is not style:
  * Medusa puts CORS on `/admin|/store|/auth` only, so `/tenants/*` has none —
  * that is why the tenant panel is served behind an nginx that proxies it
- * (deploy/compose.mt.yml). From a demo host the browser could not call step 2
- * or step 4 at all.
+ * (deploy/compose.mt.yml). From a demo host the browser could not call step 3
+ * or step 5 at all.
  *
- * After step 2 the technical subdomain `<handle>.<base>` is published by
+ * After step 3 the technical subdomain `<handle>.<base>` is published by
  * `mt-ingress-sync` within its 15s interval and traefik issues the certificate;
  * measured end to end on 2026-09-11 at 70s. The reply says so rather than
  * claiming the shop is already up.
@@ -39,6 +46,8 @@ type Body = {
   password?: string
   preset?: string
   mode?: string
+  /** The `?tariff=` of the wizard's own URL, forwarded as is — the browser's word for it, never trusted. */
+  tariff?: string
 }
 
 const HANDLE_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -111,7 +120,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Неизвестное оформление." }, { status: 400 })
   }
 
-  // 1. the login
+  // 1. the tariff. The ONLY source of truth: the browser's `tariff` field (the
+  // wizard's own URL, forwarded verbatim) is looked up here, against the SAME
+  // document `/pricing` reads — never trusted for the tier or the trial length
+  // (t-2026-09-27-05, order o-20260921-01 answer 3b/7a). Missing or not on the
+  // page falls back to the free tier; a pricing page that failed to load at all
+  // leaves the shop with no tariff rather than failing the whole wizard.
+  const pricing = await getPlatformPricing()
+  const tiers = pricing?.pricing.tiers ?? []
+  const requestedTariff = typeof body.tariff === "string" ? body.tariff : null
+  const { tier: resolvedTier, unknown: planUnknown } = resolveOnboardingPlan(tiers, requestedTariff)
+
+  // 2. the login
   const registered = await backend("/auth/tenant/emailpass/register", {
     method: "POST",
     body: JSON.stringify({ email, password }),
@@ -128,11 +148,17 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // 2. the shop
+  // 3. the shop
   const created = await backend("/tenants", {
     method: "POST",
     token: registered.body.token,
-    body: JSON.stringify({ name, handle, admin: { email } }),
+    body: JSON.stringify({
+      name,
+      handle,
+      admin: { email },
+      plan_id: resolvedTier?.id ?? null,
+      plan_trial_days: resolvedTier?.trial_days ?? null,
+    }),
   })
   if (!created.ok) {
     return NextResponse.json(
@@ -141,14 +167,14 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // 3. the owner's session — also what the panel would have given them
+  // 4. the owner's session — also what the panel would have given them
   const session = await backend("/auth/tenant/emailpass", {
     method: "POST",
     body: JSON.stringify({ email, password }),
   })
   const sessionToken = typeof session.body.token === "string" ? session.body.token : null
 
-  // 4. the starter catalog. Measured before this step existed: a shop created here opened
+  // 5. the starter catalog. Measured before this step existed: a shop created here opened
   //    EMPTY (acceptance wave 2, 2026-09-12). A failure is NOT fatal for the same reason the
   //    theme's is not: the shop exists, and the reason is reported, never swallowed (rule 20).
   let catalogSeeded = false
@@ -175,7 +201,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // 5. the look. A failure here is NOT fatal: the shop exists and the visitor
+  // 6. the look. A failure here is NOT fatal: the shop exists and the visitor
   //    must be told it exists — the theme is the one thing they can change in
   //    the panel in ten seconds. Reported, never swallowed (rule 20).
   let themeApplied = false
@@ -201,7 +227,7 @@ export async function POST(request: NextRequest) {
             subtitle: "Новый магазин на общем движке, со своим адресом.",
             cta_label: "В каталог",
             cta_href: "/store",
-            // The starter set's banner (step 4); null when the seed did not run, and then the
+            // The starter set's banner (step 5); null when the seed did not run, and then the
             // hero variant paints its own fallback.
             image_url: heroImageUrl,
             // The wizard speaks Russian; an English visitor of the new shop gets the same
@@ -243,5 +269,15 @@ export async function POST(request: NextRequest) {
     catalogSeeded,
     catalogProducts,
     catalogProblem,
+    // The tariff the shop was actually created on (t-2026-09-27-05): never a
+    // charge or a bound card, whatever `resolvedTier` names — there is no
+    // payment provider behind this wizard (rule 20a).
+    plan: {
+      id: resolvedTier?.id ?? null,
+      name: resolvedTier?.name ?? null,
+      trialDays: resolvedTier?.trial_days ?? null,
+      trialEndsAt: typeof tenant.plan_trial_ends_at === "string" ? tenant.plan_trial_ends_at : null,
+      unknown: planUnknown,
+    },
   })
 }

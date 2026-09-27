@@ -5,6 +5,8 @@ import { useState } from "react"
 import { Steps } from "../components"
 import styles from "../demo.module.css"
 import { THEME_IDS, THEME_LABELS } from "@lib/theme/presets.generated"
+import Eye from "@modules/common/icons/eye"
+import EyeOff from "@modules/common/icons/eye-off"
 
 const STEP_LABELS = ["Магазин", "Доступ", "Оформление"]
 
@@ -44,15 +46,28 @@ type Created = {
   catalogSeeded: boolean
   catalogProducts: number
   catalogProblem: string | null
+  plan: {
+    id: string | null
+    name: string | null
+    trialDays: number | null
+    trialEndsAt: string | null
+    unknown: boolean
+  }
 }
 
-export default function Wizard({ paidLine }: { paidLine: string | null }) {
+/** «до 30 сентября 2026 г.» — the trial end the way the result screen names it. */
+function trialEndsLabel(iso: string): string {
+  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" })
+}
+
+export default function Wizard({ paidLine, tariff }: { paidLine: string | null; tariff: string | null }) {
   const [step, setStep] = useState(1)
   const [name, setName] = useState("")
   const [handle, setHandle] = useState("")
   const [handleTouched, setHandleTouched] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [passwordShown, setPasswordShown] = useState(false)
   const [preset, setPreset] = useState<string>("geist")
   const [mode, setMode] = useState<"light" | "dark">("light")
   const [busy, setBusy] = useState(false)
@@ -70,7 +85,7 @@ export default function Wizard({ paidLine }: { paidLine: string | null }) {
       const response = await fetch("/api/demo/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, handle: effectiveHandle, email, password, preset, mode }),
+        body: JSON.stringify({ name, handle: effectiveHandle, email, password, preset, mode, tariff }),
       })
       const body = (await response.json()) as Created & { message?: string }
       if (!response.ok) {
@@ -88,6 +103,7 @@ export default function Wizard({ paidLine }: { paidLine: string | null }) {
   }
 
   if (created) {
+    const { plan } = created
     return (
       <div data-testid="demo-onboarding-done">
         <div className={styles.lede}>
@@ -97,6 +113,21 @@ export default function Wizard({ paidLine }: { paidLine: string | null }) {
             около минуты после создания.
           </p>
         </div>
+
+        {plan.name ? (
+          <div className={styles.banner} data-testid="demo-done-plan">
+            <span className={styles.dot} />
+            <span>
+              Тариф «{plan.name}»
+              {plan.trialDays !== null
+                ? plan.trialEndsAt
+                  ? `: пробный период до ${trialEndsLabel(plan.trialEndsAt)}. Карта не запрашивалась, ничего не списано.`
+                  : ": пробный период. Карта не запрашивалась, ничего не списано."
+                : "."}
+              {plan.unknown ? " Тариф из ссылки не найден на странице тарифов — магазин создан на бесплатном." : ""}
+            </span>
+          </div>
+        ) : null}
 
         <div className={styles.links}>
           {created.storefrontUrl ? (
@@ -272,15 +303,27 @@ export default function Wizard({ paidLine }: { paidLine: string | null }) {
 
           <div className={styles.field}>
             <label htmlFor="owner-password">Пароль</label>
-            <input
-              id="owner-password"
-              className={`${styles.input} ${styles.inputMono}`}
-              type="password"
-              autoComplete="new-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              data-testid="demo-owner-password"
-            />
+            <div className={styles.passwordField}>
+              <input
+                id="owner-password"
+                className={`${styles.input} ${styles.inputMono}`}
+                type={passwordShown ? "text" : "password"}
+                autoComplete="new-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                data-testid="demo-owner-password"
+              />
+              <button
+                type="button"
+                className={styles.passwordToggle}
+                onClick={() => setPasswordShown((shown) => !shown)}
+                aria-label={passwordShown ? "Скрыть пароль" : "Показать пароль"}
+                aria-pressed={passwordShown}
+                data-testid="demo-owner-password-toggle"
+              >
+                {passwordShown ? <Eye size="18" /> : <EyeOff size="18" />}
+              </button>
+            </div>
             <span className={styles.hint}>Не короче восьми знаков.</span>
           </div>
 

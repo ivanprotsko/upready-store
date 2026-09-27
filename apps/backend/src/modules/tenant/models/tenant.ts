@@ -34,6 +34,16 @@ const Tenant = model.define("tenant", {
   handle: model.text().unique(),
   name: model.text(),
   metadata: model.json().nullable(),
+  // The platform tariff this shop was created on (`novice`/`pro`/`master`,
+  // t-2026-09-27-05, order o-20260921-01 answers 3b/7a): the pricing document's
+  // own tier id, stamped by the onboarding wizard's server route, which never
+  // trusts the browser for it. Null for a tenant created before this column
+  // existed — no backfill — and for any other creation path that names none.
+  plan_id: model.text().nullable(),
+  // When the tariff's trial ends: created + the tier's trial days from the
+  // pricing document, or null for a tariff with no trial (the free tier) or a
+  // tenant with no `plan_id`.
+  plan_trial_ends_at: model.dateTime().nullable(),
   // The client this site belongs to, when the client has several sites
   // (`tenant-group.ts`, t-2026-09-24-n12). Null for a shop with one site,
   // which is every shop created before groups existed.
