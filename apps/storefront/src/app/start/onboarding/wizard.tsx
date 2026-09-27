@@ -44,9 +44,21 @@ type Created = {
   catalogSeeded: boolean
   catalogProducts: number
   catalogProblem: string | null
+  plan: {
+    id: string | null
+    name: string | null
+    trialDays: number | null
+    trialEndsAt: string | null
+    unknown: boolean
+  }
 }
 
-export default function Wizard({ paidLine }: { paidLine: string | null }) {
+/** «до 30 сентября 2026 г.» — the trial end the way the result screen names it. */
+function trialEndsLabel(iso: string): string {
+  return new Date(iso).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" })
+}
+
+export default function Wizard({ paidLine, tariff }: { paidLine: string | null; tariff: string | null }) {
   const [step, setStep] = useState(1)
   const [name, setName] = useState("")
   const [handle, setHandle] = useState("")
@@ -70,7 +82,7 @@ export default function Wizard({ paidLine }: { paidLine: string | null }) {
       const response = await fetch("/api/demo/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, handle: effectiveHandle, email, password, preset, mode }),
+        body: JSON.stringify({ name, handle: effectiveHandle, email, password, preset, mode, tariff }),
       })
       const body = (await response.json()) as Created & { message?: string }
       if (!response.ok) {
@@ -88,6 +100,7 @@ export default function Wizard({ paidLine }: { paidLine: string | null }) {
   }
 
   if (created) {
+    const { plan } = created
     return (
       <div data-testid="demo-onboarding-done">
         <div className={styles.lede}>
@@ -97,6 +110,21 @@ export default function Wizard({ paidLine }: { paidLine: string | null }) {
             около минуты после создания.
           </p>
         </div>
+
+        {plan.name ? (
+          <div className={styles.banner} data-testid="demo-done-plan">
+            <span className={styles.dot} />
+            <span>
+              Тариф «{plan.name}»
+              {plan.trialDays !== null
+                ? plan.trialEndsAt
+                  ? `: пробный период до ${trialEndsLabel(plan.trialEndsAt)}. Карта не запрашивалась, ничего не списано.`
+                  : ": пробный период. Карта не запрашивалась, ничего не списано."
+                : "."}
+              {plan.unknown ? " Тариф из ссылки не найден на странице тарифов — магазин создан на бесплатном." : ""}
+            </span>
+          </div>
+        ) : null}
 
         <div className={styles.links}>
           {created.storefrontUrl ? (
