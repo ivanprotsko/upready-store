@@ -939,3 +939,65 @@ Shots (header + slider, cropped at 700): `before-<chromium|firefox>-1440-light.p
 after `<chromium|firefox>-1440-light.png`, `<chromium|firefox>-1440-dark.png`, `<chromium|firefox>-1440-<light|dark>-focus-prev.png`
 (Tab focus on «Назад»), `chromium-<1024|1920|2560>-light.png`, `chromium-1023-light.png`. Scripts `arrows27.mjs`,
 `lead-measure-after.mjs`, `acme27.mjs`.
+
+
+### Remark «hero arrows», addition: out to the edges on scroll, black discs (Ivan 2026-09-27)
+
+«по поводу стрелок в слайдере, давай сделаем так, чтоб они при прокрутке также смещались ближе к краям границ браузера, а
+также сделаем их на чернмо фоне» (section «Addition» of the brief above).
+
+**Before (b3a40ed1, the lead's scroll probe):** scrolled, «Меню» / «Корзина» moved to 12 (1440) / 16 (1920), and the arrows
+stayed at 24 / 32. The arrows had the burger's fill: white in light mode, dark in dark mode.
+
+**Fix.**
+- **Scroll.**
+  - The arrows read the header's own state, `#nav-h7[data-scrolled="true"]`, through `html:has(…)`. It is the same
+    `ScrollFlag` with the same 12px threshold, not a second listener.
+  - Scrolled, they shift by `--h7-edge-scrolled − --h7-edge` using `translate`, with `--h7-motion` (200ms ease-out): the
+    same duration and easing as the header's padding.
+  - The scrolled edge and the motion are h7 tokens now. The header uses them too: `padding: 0 var(--h7-edge-scrolled)` and
+    `transition: padding var(--h7-motion)`, with the same values as before.
+  - Back at the top the arrows return. With reduced motion there is no transition.
+- **Structure.**
+  - Each arrow sits in a slot that carries the header's tokens (h7 `tokens`) and does the placing and the motion.
+  - The button inside is the burger's `disc` + `discInverse`.
+  - The tokens are declared on `.bar, .tokens`, no longer on `.disc`.
+- **Black.**
+  - `discInverse` gives the disc a #000 fill and a #fff icon in both modes, and #262626 on hover.
+  - The box, icon size, radius, ring + shadow and focus ring stay the burger's.
+  - On focus, the ring's 2px gap is filled white, so the ring shows on the black disc and on a dark picture.
+  - «Меню» and every other header disc are unchanged: they do not carry `discInverse`.
+
+**After, :8233 rebuilt, Chromium + Firefox, light + dark** (`slider-arrows-scroll/measure-after.txt`, 12 runs):
+
+| width | at rest: menu / «Назад» · cart / «Далее» | scrolled 120 | back at 0 | box menu / arrow | icon |
+|---|---|---|---|---|---|
+| 1024 | 24 / 24 · 24 / 24 | 12 / 12 · 12 / 12 | 24 / 24 · 24 / 24 | 40×40 / 40×40 | 15 |
+| 1440 | 24 / 24 · 24 / 24 | 12 / 12 · 12 / 12 | 24 / 24 · 24 / 24 | 40×40 / 40×40 | 15 |
+| 1920 | 32 / 32 · 32 / 32 | 16 / 16 · 16 / 16 | 32 / 32 · 32 / 32 | 53×53 / 53×53 | 20 |
+| 1023 | no arrows (`measure-1023.txt`) | | | | |
+
+- **In motion:** 100 ms after crossing the threshold, «Назад» is at the same x as «Меню» to 0.1px in every run
+  (15.7–16.2 at 1024/1440, 21.0–21.9 at 1920). The two move together.
+- **Colours:**
+
+  | | light | dark |
+  |---|---|---|
+  | arrow fill / icon | rgb(0,0,0) / rgb(255,255,255) | the same |
+  | arrow hover | rgb(38,38,38) | the same |
+  | «Меню» fill / icon | rgb(255,255,255) / rgb(24,24,27) | rgb(10,19,16) / rgb(233,241,238) |
+
+  The «Меню» values are what they were before this change.
+- **Shape:** the box-shadow (ring + drop) equals the burger's (12/12), radius 999px.
+- **Focus (Tab):**
+  - Light: a 2px rgb(10,106,82) outline, offset 2.
+  - Dark: a 2px rgb(87,224,176) outline, offset 2.
+  - In both modes the 2px gap under the outline is filled white.
+  - At 1920 Chrome reports the zoomed 1.5px.
+- **Vertical:** the arrows' middle = the track's middle at rest and scrolled.
+- **Clicks:** one click on «Далее» moves the slide, one on «Назад» brings it back: 12 of 12 runs.
+- **acme** (h7 header, no slider): at 1440 the burger and «Корзина» are 24 at rest and 12 scrolled, the padding transition
+  is 0.2s ease-out, and the dark fill and ring are the same values as before (`acme-header-after.txt`).
+
+Shots `slider-arrows-scroll/<chromium|firefox>-1440-<light|dark>-<rest|scrolled>.png`, focus crops
+`<engine>-1440-<light|dark>-focus-prev.png`. Scripts `arrows27b.mjs`, `acme27b.mjs`.

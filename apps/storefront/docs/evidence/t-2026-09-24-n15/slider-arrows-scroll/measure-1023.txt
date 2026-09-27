@@ -1,0 +1,2 @@
+== chromium 1023 light(light) rest {"scrolled":"false","menuL":975,"cartR":1023,"box":null,"prevMidY":null,"trackMid":273} | scrolled {"scrolled":"true","menuL":975,"cartR":1023,"box":null,"prevMidY":
+== firefox 1023 light(light) rest {"scrolled":"false","menuL":975,"cartR":1023,"box":null,"prevMidY":null,"trackMid":273} | scrolled {"scrolled":"true","menuL":975,"cartR":1023,"box":null,"prevMidY":n

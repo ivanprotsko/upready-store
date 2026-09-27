@@ -1,0 +1,818 @@
+{
+ "chromium-1024-light": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 290,
+   "trackMid": 290
+  },
+  "mode": "light",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(255, 255, 255)",
+   "color": "rgb(24, 24, 27)",
+   "iconFill": "none|rgb(24, 24, 27)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 12,
+   "prevL": 12,
+   "cartR": 12,
+   "nextR": 12,
+   "box": "40x40/40x40",
+   "prevMidY": 170,
+   "trackMid": 170
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 290,
+   "trackMid": 290
+  },
+  "at100ms": {
+   "menuL": 15.8,
+   "prevL": 15.8
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 2px rgb(10, 106, 82)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "chromium-1440-light": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 363,
+   "trackMid": 363
+  },
+  "mode": "light",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(255, 255, 255)",
+   "color": "rgb(24, 24, 27)",
+   "iconFill": "none|rgb(24, 24, 27)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 12,
+   "prevL": 12,
+   "cartR": 12,
+   "nextR": 12,
+   "box": "40x40/40x40",
+   "prevMidY": 243,
+   "trackMid": 243
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 363,
+   "trackMid": 363
+  },
+  "at100ms": {
+   "menuL": 15.8,
+   "prevL": 15.8
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 2px rgb(10, 106, 82)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "chromium-1920-light": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 32,
+   "prevL": 32,
+   "cartR": 32,
+   "nextR": 32,
+   "box": "53x53/53x53",
+   "prevMidY": 484.5,
+   "trackMid": 484
+  },
+  "mode": "light",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "20x20",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(255, 255, 255)",
+   "color": "rgb(24, 24, 27)",
+   "iconFill": "none|rgb(24, 24, 27)",
+   "icon": "20x20",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 16,
+   "prevL": 16,
+   "cartR": 16,
+   "nextR": 16,
+   "box": "53x53/53x53",
+   "prevMidY": 364.5,
+   "trackMid": 364
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 32,
+   "prevL": 32,
+   "cartR": 32,
+   "nextR": 32,
+   "box": "53x53/53x53",
+   "prevMidY": 484.5,
+   "trackMid": 484
+  },
+  "at100ms": {
+   "menuL": 21,
+   "prevL": 21
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 1.5px rgb(10, 106, 82)",
+   "offset": "1.5px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "chromium-1024-dark": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 290,
+   "trackMid": 290
+  },
+  "mode": "dark",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(10, 19, 16)",
+   "color": "rgb(233, 241, 238)",
+   "iconFill": "none|rgb(233, 241, 238)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 12,
+   "prevL": 12,
+   "cartR": 12,
+   "nextR": 12,
+   "box": "40x40/40x40",
+   "prevMidY": 170,
+   "trackMid": 170
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 290,
+   "trackMid": 290
+  },
+  "at100ms": {
+   "menuL": 15.8,
+   "prevL": 15.8
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 2px rgb(87, 224, 176)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "chromium-1440-dark": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 363,
+   "trackMid": 363
+  },
+  "mode": "dark",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(10, 19, 16)",
+   "color": "rgb(233, 241, 238)",
+   "iconFill": "none|rgb(233, 241, 238)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 12,
+   "prevL": 12,
+   "cartR": 12,
+   "nextR": 12,
+   "box": "40x40/40x40",
+   "prevMidY": 243,
+   "trackMid": 243
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 363,
+   "trackMid": 363
+  },
+  "at100ms": {
+   "menuL": 15.8,
+   "prevL": 15.8
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 2px rgb(87, 224, 176)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "chromium-1920-dark": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 32,
+   "prevL": 32,
+   "cartR": 32,
+   "nextR": 32,
+   "box": "53x53/53x53",
+   "prevMidY": 484.5,
+   "trackMid": 484
+  },
+  "mode": "dark",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "20x20",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(10, 19, 16)",
+   "color": "rgb(233, 241, 238)",
+   "iconFill": "none|rgb(233, 241, 238)",
+   "icon": "20x20",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 16,
+   "prevL": 16,
+   "cartR": 16,
+   "nextR": 16,
+   "box": "53x53/53x53",
+   "prevMidY": 364.5,
+   "trackMid": 364
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 32,
+   "prevL": 32,
+   "cartR": 32,
+   "nextR": 32,
+   "box": "53x53/53x53",
+   "prevMidY": 484.5,
+   "trackMid": 484
+  },
+  "at100ms": {
+   "menuL": 21,
+   "prevL": 21
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 1.5px rgb(87, 224, 176)",
+   "offset": "1.5px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "firefox-1024-light": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 290,
+   "trackMid": 290
+  },
+  "mode": "light",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(255, 255, 255)",
+   "color": "rgb(24, 24, 27)",
+   "iconFill": "none|rgb(24, 24, 27)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 12,
+   "prevL": 12,
+   "cartR": 12,
+   "nextR": 12,
+   "box": "40x40/40x40",
+   "prevMidY": 170,
+   "trackMid": 170
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 290,
+   "trackMid": 290
+  },
+  "at100ms": {
+   "menuL": 15.9,
+   "prevL": 15.9
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 2px rgb(10, 106, 82)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "firefox-1440-light": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 363,
+   "trackMid": 363
+  },
+  "mode": "light",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(255, 255, 255)",
+   "color": "rgb(24, 24, 27)",
+   "iconFill": "none|rgb(24, 24, 27)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 12,
+   "prevL": 12,
+   "cartR": 12,
+   "nextR": 12,
+   "box": "40x40/40x40",
+   "prevMidY": 243,
+   "trackMid": 243
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 363,
+   "trackMid": 363
+  },
+  "at100ms": {
+   "menuL": 15.9,
+   "prevL": 15.9
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 2px rgb(10, 106, 82)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "firefox-1920-light": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 32,
+   "prevL": 32,
+   "cartR": 32,
+   "nextR": 32,
+   "box": "53x53/53x53",
+   "prevMidY": 484.5,
+   "trackMid": 484
+  },
+  "mode": "light",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "20x20",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(255, 255, 255)",
+   "color": "rgb(24, 24, 27)",
+   "iconFill": "none|rgb(24, 24, 27)",
+   "icon": "20x20",
+   "radius": "999px",
+   "shadow": "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 16,
+   "prevL": 16,
+   "cartR": 16,
+   "nextR": 16,
+   "box": "53x53/53x53",
+   "prevMidY": 364.5,
+   "trackMid": 364
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 32,
+   "prevL": 32,
+   "cartR": 32,
+   "nextR": 32,
+   "box": "53x53/53x53",
+   "prevMidY": 484.5,
+   "trackMid": 484
+  },
+  "at100ms": {
+   "menuL": 21.9,
+   "prevL": 21.9
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 1.5px rgb(10, 106, 82)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "firefox-1024-dark": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 290,
+   "trackMid": 290
+  },
+  "mode": "dark",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(10, 19, 16)",
+   "color": "rgb(233, 241, 238)",
+   "iconFill": "none|rgb(233, 241, 238)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 12,
+   "prevL": 12,
+   "cartR": 12,
+   "nextR": 12,
+   "box": "40x40/40x40",
+   "prevMidY": 170,
+   "trackMid": 170
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 290,
+   "trackMid": 290
+  },
+  "at100ms": {
+   "menuL": 16.2,
+   "prevL": 16.2
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 2px rgb(87, 224, 176)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "firefox-1440-dark": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 363,
+   "trackMid": 363
+  },
+  "mode": "dark",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(10, 19, 16)",
+   "color": "rgb(233, 241, 238)",
+   "iconFill": "none|rgb(233, 241, 238)",
+   "icon": "15x15",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 12,
+   "prevL": 12,
+   "cartR": 12,
+   "nextR": 12,
+   "box": "40x40/40x40",
+   "prevMidY": 243,
+   "trackMid": 243
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 24,
+   "prevL": 24,
+   "cartR": 24,
+   "nextR": 24,
+   "box": "40x40/40x40",
+   "prevMidY": 363,
+   "trackMid": 363
+  },
+  "at100ms": {
+   "menuL": 15.7,
+   "prevL": 15.7
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 2px rgb(87, 224, 176)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ },
+ "firefox-1920-dark": {
+  "rest": {
+   "scrolled": "false",
+   "menuL": 32,
+   "prevL": 32,
+   "cartR": 32,
+   "nextR": 32,
+   "box": "53x53/53x53",
+   "prevMidY": 484.5,
+   "trackMid": 484
+  },
+  "mode": "dark",
+  "arrowLook": {
+   "bg": "rgb(0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "iconFill": "none|rgb(255, 255, 255)",
+   "icon": "20x20",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "menuLook": {
+   "bg": "rgb(10, 19, 16)",
+   "color": "rgb(233, 241, 238)",
+   "iconFill": "none|rgb(233, 241, 238)",
+   "icon": "20x20",
+   "radius": "999px",
+   "shadow": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.12) 0px 1px 2px 0px",
+   "transition": "background-color 0.15s ease-out"
+  },
+  "slotTransition": "translate 0.2s ease-out",
+  "scrolled": {
+   "scrolled": "true",
+   "menuL": 16,
+   "prevL": 16,
+   "cartR": 16,
+   "nextR": 16,
+   "box": "53x53/53x53",
+   "prevMidY": 364.5,
+   "trackMid": 364
+  },
+  "restAgain": {
+   "scrolled": "false",
+   "menuL": 32,
+   "prevL": 32,
+   "cartR": 32,
+   "nextR": 32,
+   "box": "53x53/53x53",
+   "prevMidY": 484.5,
+   "trackMid": 484
+  },
+  "at100ms": {
+   "menuL": 21.5,
+   "prevL": 21.5
+  },
+  "hoverBg": "rgb(38, 38, 38)",
+  "focus": {
+   "id": "olavka-hero-slider-prev",
+   "outline": "solid 1.5px rgb(87, 224, 176)",
+   "offset": "2px",
+   "shadow": "rgb(255, 255, 255) 0px 0px 0px 2px",
+   "radius": "999px"
+  },
+  "click": {
+   "nextMoved": true,
+   "prevBack": true
+  }
+ }
+}

@@ -25,16 +25,20 @@
   --h7-logo-glow-half: color-mix(in srgb, var(--background) 50%, transparent);
 }
 
-/* The bar's control tokens. The burger's `disc` carries them too, for a copy of it drawn
-   outside the bar: the hero slider's arrows are this disc, `--h7-edge` in from the window's
-   sides like the burger and «Корзина» (Ivan's remark of 2026-09-27 on the hero slider). */
+/* The bar's control tokens. `tokens` carries them outside the bar, for header controls drawn
+   elsewhere: the hero slider's arrows are this header's disc, `--h7-edge` in from the
+   window's sides like the burger and «Корзина», moving out with them on scroll (Ivan's
+   remark of 2026-09-27 on the hero slider and its addition). */
 .bar,
-.disc {
+.tokens {
   --h7-ink: #18181b;
   --h7-surface: #ffffff;
   --h7-ring: rgba(0, 0, 0, 0.08);
-  /* The desktop columns' outer padding: the burger's left, «Корзина»'s right. */
+  /* The desktop columns' outer padding: the burger's left, «Корзина»'s right; scrolled. */
   --h7-edge: 24px;
+  --h7-edge-scrolled: 12px;
+  /* The scrolled state's change (Ivan's remark 11). */
+  --h7-motion: 200ms ease-out;
 }
 
 .bar {
@@ -47,7 +51,7 @@
 }
 
 :global([data-mode="dark"]) .bar,
-:global([data-mode="dark"]) .disc {
+:global([data-mode="dark"]) .tokens {
   --h7-ink: var(--foreground);
   --h7-surface: var(--background);
   /* A black 8% ring vanishes on a dark bar: the outline turns light. */
@@ -147,6 +151,18 @@
   background: var(--accent);
 }
 
+/* The inverse disc, black with a white icon in both modes, a touch lighter on hover: the
+   hero slider's arrows (Ivan's addition of 2026-09-27, «на черном фоне»). The burger's
+   box, icon, ring, shadow and focus ring otherwise. */
+.disc.discInverse {
+  background: #000000;
+  color: #ffffff;
+}
+
+.disc.discInverse:hover {
+  background: #262626;
+}
+
 /* Every control keeps its own round shape on keyboard focus (Ivan's remark 21). The app-wide
    ring in `globals.css` sets `border-radius: inherit`, so that a control with no corners of
    its own follows its container; each control here has its own and sits in a square box, so
@@ -156,6 +172,12 @@
   outline: 2px solid var(--ring);
   outline-offset: 2px;
   border-radius: 999px;
+}
+
+/* On the black disc the ring's 2px gap is filled white, so the ring reads against the disc
+   and against a dark picture behind it. */
+.disc.discInverse:focus-visible {
+  box-shadow: 0 0 0 2px #ffffff;
 }
 
 .wordmark:focus-visible {
@@ -401,7 +423,7 @@
   }
   .leading,
   .trailing {
-    transition: padding 200ms ease-out;
+    transition: padding var(--h7-motion);
   }
   .root[data-scrolled="true"] {
     margin-bottom: 20px;
@@ -411,7 +433,7 @@
   }
   .root[data-scrolled="true"] .leading,
   .root[data-scrolled="true"] .trailing {
-    padding: 0 12px;
+    padding: 0 var(--h7-edge-scrolled);
   }
 }
 

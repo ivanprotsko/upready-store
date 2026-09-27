@@ -6,6 +6,8 @@ import headerStyles from "@modules/layout/templates/nav/variants/h7.module.css"
 
 import styles from "./olavka-hero-slider.module.css"
 
+const ARROW_CLASS = `${headerStyles.disc} ${headerStyles.discInverse}`
+
 // useLayoutEffect warns on the server; this island only ever positions in a browser.
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect
 
@@ -24,8 +26,9 @@ const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayout
  * scroll sideways) move the centred card by one, through the same loop. Clicks faster than
  * the scroll count from the card the last click aims at, so three quick clicks move three
  * cards. The arrows show from the desktop breakpoint up, once the island is ready (CSS).
- * Each arrow is the header's burger disc (h7 `disc`: box, icon, ring, shadow, hover, focus)
- * at the header's edge offsets (Ivan's remark of 2026-09-27).
+ * Each arrow is the header's burger disc in black (h7 `disc discInverse`: the burger's box,
+ * icon, ring, shadow and focus) at the header's edge offsets, following them on scroll (Ivan's
+ * remark of 2026-09-27 and its addition); the slot around it places it.
  */
 export default function OlavkaLoopTrack({
   className,
@@ -161,26 +164,30 @@ export default function OlavkaLoopTrack({
       <ul ref={ref} id={trackId} className={className} data-loop="true">
         {children}
       </ul>
-      <button
-        type="button"
-        className={`${headerStyles.disc} ${styles.arrow} ${styles.arrowPrevious}`}
-        onClick={() => stepRef.current(-1)}
-        aria-label={labels.previous}
-        aria-controls={trackId}
-        data-testid="olavka-hero-slider-prev"
-      >
-        <ChevronLeft aria-hidden />
-      </button>
-      <button
-        type="button"
-        className={`${headerStyles.disc} ${styles.arrow} ${styles.arrowNext}`}
-        onClick={() => stepRef.current(1)}
-        aria-label={labels.next}
-        aria-controls={trackId}
-        data-testid="olavka-hero-slider-next"
-      >
-        <ChevronRight aria-hidden />
-      </button>
+      <div className={`${headerStyles.tokens} ${styles.arrow} ${styles.arrowPrevious}`}>
+        <button
+          type="button"
+          className={ARROW_CLASS}
+          onClick={() => stepRef.current(-1)}
+          aria-label={labels.previous}
+          aria-controls={trackId}
+          data-testid="olavka-hero-slider-prev"
+        >
+          <ChevronLeft aria-hidden />
+        </button>
+      </div>
+      <div className={`${headerStyles.tokens} ${styles.arrow} ${styles.arrowNext}`}>
+        <button
+          type="button"
+          className={ARROW_CLASS}
+          onClick={() => stepRef.current(1)}
+          aria-label={labels.next}
+          aria-controls={trackId}
+          data-testid="olavka-hero-slider-next"
+        >
+          <ChevronRight aria-hidden />
+        </button>
+      </div>
     </div>
   )
 }
