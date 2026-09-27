@@ -8,6 +8,7 @@ const ACTION_OPTIONS: { value: ButtonAction["type"]; label: string }[] = [
   { value: "onboarding_free", label: "Сразу онбординг, без оплаты" },
   { value: "pay_first", label: "Сначала оплата, потом онбординг" },
   { value: "card_trial", label: "Ввод карты и пробный период, потом онбординг" },
+  { value: "onboarding_trial", label: "Пробный период без карты, сразу онбординг" },
 ]
 
 const DEFAULT_TRIAL_DAYS = 14
@@ -21,7 +22,13 @@ function actionOf(type: ButtonAction["type"], previous: ButtonAction): ButtonAct
     case "pay_first":
       return { type }
     case "card_trial":
-      return { type, trial_days: previous.type === "card_trial" ? previous.trial_days : DEFAULT_TRIAL_DAYS }
+    case "onboarding_trial":
+      return {
+        type,
+        trial_days: previous.type === "card_trial" || previous.type === "onboarding_trial"
+          ? previous.trial_days
+          : DEFAULT_TRIAL_DAYS,
+      }
   }
 }
 
@@ -82,7 +89,7 @@ export function ButtonEditor({
         />
       ) : null}
 
-      {action.type === "card_trial" ? (
+      {action.type === "card_trial" || action.type === "onboarding_trial" ? (
         <div className="flex flex-col gap-y-1 md:w-1/3">
           <Label size="small">Пробный период, дней</Label>
           <Input
@@ -93,7 +100,7 @@ export function ButtonEditor({
             max={365}
             value={Number.isFinite(action.trial_days) ? String(action.trial_days) : ""}
             onChange={(e) =>
-              onChange({ ...button, action: { type: "card_trial", trial_days: Number.parseInt(e.target.value, 10) } })
+              onChange({ ...button, action: { type: action.type, trial_days: Number.parseInt(e.target.value, 10) } })
             }
           />
         </div>
@@ -103,6 +110,12 @@ export function ButtonEditor({
         <Text size="small" className="text-ui-fg-subtle" data-testid="pricing-demo-till-note">
           Оплата не подключена — демо-касса: деньги не списываются, карта не привязывается. Настоящая
           оплата появится вместе с платёжным провайдером.
+        </Text>
+      ) : null}
+
+      {action.type === "onboarding_trial" ? (
+        <Text size="small" className="text-ui-fg-subtle" data-testid="pricing-no-card-trial-note">
+          Без демо-кассы: карта не запрашивается — визитёр идёт прямо в мастер создания магазина.
         </Text>
       ) : null}
 
