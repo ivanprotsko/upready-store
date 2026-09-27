@@ -14,6 +14,7 @@ import provisionTenantWarehouseWorkflow from "../provision-tenant-warehouse";
 import addPlatformAdminToTenantStep from "./steps/add-platform-admin-to-tenant";
 import createTenantAdminStep from "./steps/create-tenant-admin";
 import createTenantStep from "./steps/create-tenant";
+import { planTrialEndsAt } from "./plan";
 
 export type CreateTenantWorkflowInput = {
   name: string;
@@ -115,9 +116,7 @@ const createTenantWorkflow = createWorkflow(
       name: input.name,
       handle: input.handle,
       plan_id: input.plan_id ?? null,
-      plan_trial_ends_at: input.plan_trial_days
-        ? new Date(Date.now() + input.plan_trial_days * 24 * 60 * 60 * 1000)
-        : null,
+      plan_trial_ends_at: planTrialEndsAt(input.plan_trial_days),
     }));
 
     const tenant = createTenantStep(tenantData);

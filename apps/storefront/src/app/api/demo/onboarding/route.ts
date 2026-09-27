@@ -1,10 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { getPlatformPricing } from "@lib/data/platform-pricing"
+import { resolveOnboardingPlan } from "@lib/demo/onboarding-plan"
 import { THEME_IDS } from "@lib/theme/presets.generated"
-
-/** The tariff a shop is created on when the link names none, or one that is not on the pricing page. */
-const DEFAULT_TARIFF = "novice"
 
 /**
  * The demo's onboarding (t-2026-09-12-paywall-onboarding-demo): it creates a
@@ -131,9 +129,7 @@ export async function POST(request: NextRequest) {
   const pricing = await getPlatformPricing()
   const tiers = pricing?.pricing.tiers ?? []
   const requestedTariff = typeof body.tariff === "string" ? body.tariff : null
-  const resolvedTier =
-    tiers.find((t) => t.id === requestedTariff) ?? tiers.find((t) => t.id === DEFAULT_TARIFF) ?? null
-  const planUnknown = requestedTariff !== null && resolvedTier?.id !== requestedTariff
+  const { tier: resolvedTier, unknown: planUnknown } = resolveOnboardingPlan(tiers, requestedTariff)
 
   // 2. the login
   const registered = await backend("/auth/tenant/emailpass/register", {
