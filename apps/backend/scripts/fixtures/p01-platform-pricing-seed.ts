@@ -5,12 +5,15 @@ import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/util
 import { PLATFORM_PRICING_MODULE } from "../../src/modules/platform-pricing";
 import { PricingDocumentSchema } from "../../src/modules/platform-pricing/schema";
 import type PlatformPricingModuleService from "../../src/modules/platform-pricing/service";
-import { OKSANA_3TIER_PRICING } from "../../src/modules/platform-pricing/seed/oksana-3tier";
+import { LANDING_3TIER_PRICING } from "../../src/modules/platform-pricing/seed/landing-3tier";
 
 /**
- * t-2026-09-25-08: fills the platform's pricing page (`/pricing` on the platform
- * hosts) with the tariffs of Ivan's `oksana-3tier-pricing.html`
- * (`src/modules/platform-pricing/seed/oksana-3tier.ts`).
+ * t-2026-09-25-08, then t-2026-09-27-05: fills the platform's pricing page
+ * (`/pricing` on the platform hosts) with the platform's three tariffs —
+ * Новичок, Профи, Мастер — the landing's own
+ * (`src/modules/platform-pricing/seed/landing-3tier.ts`). This replaced the
+ * four-tier Oksana template (`seed/oksana-3tier.ts`, still on file for its own
+ * `seed-matches-html` comparison) as the default seed.
  *
  *   DRY_RUN=1 npx medusa exec ./scripts/fixtures/p01-platform-pricing-seed.ts   # the plan, no write
  *   npx medusa exec ./scripts/fixtures/p01-platform-pricing-seed.ts             # create it
@@ -44,7 +47,7 @@ export default async function seedPlatformPricing({ container }: { container: Me
   const overwrite = process.env.OVERWRITE === "1";
   const tag = "p01-platform-pricing-seed";
 
-  const seed = PricingDocumentSchema.parse(OKSANA_3TIER_PRICING);
+  const seed = PricingDocumentSchema.parse(LANDING_3TIER_PRICING);
   const rows = seed.sections.reduce((n, s) => n + s.rows.length, 0);
   const features = seed.tiers.reduce((n, t) => n + t.features.length, 0);
   const tips =

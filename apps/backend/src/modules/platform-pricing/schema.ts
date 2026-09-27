@@ -38,17 +38,20 @@ export type PricingIcon = (typeof PRICING_ICONS)[number];
 
 /**
  * What a button does (Ivan's 4.1.1). Only `link` leaves the funnel; the other
- * three enter `/start` with the tariff. There is NO payment provider behind
+ * four enter `/start` with the tariff. There is NO payment provider behind
  * `pay_first` and `card_trial` yet (t-2026-09-25-06): both land in the demo
- * till, and the storefront says so.
+ * till, and the storefront says so. `onboarding_trial` (t-2026-09-27-05,
+ * order o-20260921-01 answer 3b) is the paid tiers' trial WITHOUT a card: it
+ * skips the till and goes straight into the wizard, carrying the trial length
+ * the way `card_trial` does.
  */
-export const BUTTON_ACTIONS = ["link", "onboarding_free", "pay_first", "card_trial"] as const;
+export const BUTTON_ACTIONS = ["link", "onboarding_free", "pay_first", "card_trial", "onboarding_trial"] as const;
 export type ButtonActionType = (typeof BUTTON_ACTIONS)[number];
 
 export const TRIAL_DAYS_MIN = 1;
 export const TRIAL_DAYS_MAX = 365;
 
-const TIER_ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const TIER_ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /**
  * An anchor on the page, a path on the same site, or an absolute http(s),
@@ -72,6 +75,10 @@ export const ButtonActionSchema = z.discriminatedUnion("type", [
     type: z.literal("card_trial"),
     trial_days: z.number().int().min(TRIAL_DAYS_MIN).max(TRIAL_DAYS_MAX),
   }),
+  z.strictObject({
+    type: z.literal("onboarding_trial"),
+    trial_days: z.number().int().min(TRIAL_DAYS_MIN).max(TRIAL_DAYS_MAX),
+  }),
 ]);
 export type ButtonAction = z.infer<typeof ButtonActionSchema>;
 
@@ -86,7 +93,21 @@ export const TierFeatureSchema = z.strictObject({
   text: label(200),
   /** The drawer text behind a dashed underline; empty means no drawer. */
   tip: text(1000),
+  /**
+   * A footnote marker printed next to the value (the landing's superscript
+   * ¹²³⁴); empty means none. The footnote's own text lives in `tip` — the
+   * landing carries no separate footnote list (t-2026-09-27-05).
+   */
+  note: text(4).default(""),
 });
+
+/** One billing period's price of a tier, as the landing shows it. */
+export const TierPriceSchema = z.strictObject({
+  amount: label(30),
+  period: text(30),
+  note: text(120),
+});
+export type TierPrice = z.infer<typeof TierPriceSchema>;
 
 export const TierSchema = z.strictObject({
   /** Stable slug, carried into `/start` as `?tariff=`. Never shown. */
@@ -94,14 +115,30 @@ export const TierSchema = z.strictObject({
   name: label(60),
   /** The mobile tab label when the name is too long for it; empty = the name. */
   short_name: text(20),
+  /** The headline price (monthly billing) and the text next to it, e.g. "699 ₽" + "в месяц". */
   price: label(60),
   price_note: text(120),
+  /**
+   * The same tier billed yearly, when the landing shows a different figure for
+   * it (t-2026-09-27-05); null when a tier bills the same regardless of period
+   * (the free tier). Not rendered on `/pricing` today — kept so the landing's
+   * yearly price is not dropped from the document (Ivan's 7a).
+   */
+  price_annual: TierPriceSchema.nullable().default(null),
   recommended: z.boolean(),
   description: text(300),
   /** «Входит в «Старт»:», «Всё из «Старта», плюс:». */
   plus: text(120),
   features: z.array(TierFeatureSchema).max(30),
   button: ButtonSchema,
+  /**
+   * The tier's own trial length, the single source of truth `/start/onboarding`
+   * resolves against (t-2026-09-27-05): null for a tier with no trial (the free
+   * tier). A button's own `card_trial`/`onboarding_trial.trial_days` is what it
+   * links with; this is what the wizard's server route stores on the tenant, and
+   * it never trusts the URL for it.
+   */
+  trial_days: z.number().int().min(TRIAL_DAYS_MIN).max(TRIAL_DAYS_MAX).nullable().default(null),
 });
 export type PricingTier = z.infer<typeof TierSchema>;
 
