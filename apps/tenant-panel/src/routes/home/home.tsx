@@ -8,6 +8,7 @@ import { SalesSummary } from "./sales-summary"
 import { DeveloperDetails } from "./developer-details"
 import { OwnerAttention } from "./owner-attention"
 import { OwnerLaunch } from "./owner-launch"
+import { PlanInfo } from "./plan-info"
 
 // tenant-panel: the panel's own Overview page (piece-1 prompt, item 6). Not a
 // copy of the Admin's routes/home/home.tsx, which renders a widget-injected
@@ -41,6 +42,7 @@ export const Home = () => {
           <Heading level="h1">
             {isPending ? t("general.loading") : tenant?.name}
           </Heading>
+          <PlanInfo tenant={tenant} />
         </div>
 
         <OverviewStats />

@@ -3125,7 +3125,14 @@
     "productsDraft": "Черновики",
     "loading": "Загрузка…",
     "developerDetails": "Для разработчика",
-    "shopCode": "Код магазина"
+    "shopCode": "Код магазина",
+    "plan": "Тариф",
+    "planTrialUntil": "Пробный период до {{date}}",
+    "planNames": {
+      "novice": "Новичок",
+      "pro": "Профи",
+      "master": "Мастер"
+    }
   },
   "salesSummary": {
     "title": "Продажи",

@@ -47,6 +47,12 @@ export type TenantAdmin = {
       title: string
       type: string
     } | null
+    // t-2026-09-27-05: the platform tariff this shop was created on
+    // (`novice`/`pro`/`master`) and, for a paid tariff, when its trial ends.
+    // Null for a tenant created before this column existed, or with no
+    // tariff at all.
+    plan_id: string | null
+    plan_trial_ends_at: string | null
   }
 }
 
