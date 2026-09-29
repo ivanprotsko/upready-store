@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "Hindi natapos ang pagbabayad: kinansela ito o tinanggihan. Walang nagbago sa iyong cart.",
     "paymentPendingReason": "Kinukumpirma pa ang bayad. Maghintay ng isang minuto at buksan ang order mula sa iyong account, o subukan muli.",
     "retryCheckout": "Return to checkout"
   },

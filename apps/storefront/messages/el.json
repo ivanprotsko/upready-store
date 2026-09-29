@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "Η πληρωμή δεν ολοκληρώθηκε: ακυρώθηκε ή απορρίφθηκε. Το καλάθι σας δεν άλλαξε.",
     "paymentPendingReason": "Η πληρωμή επιβεβαιώνεται ακόμη. Περιμένετε ένα λεπτό και ανοίξτε την παραγγελία από τον λογαριασμό σας ή δοκιμάστε ξανά.",
     "retryCheckout": "Return to checkout"
   },

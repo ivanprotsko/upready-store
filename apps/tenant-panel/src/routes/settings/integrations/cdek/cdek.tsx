@@ -5,6 +5,7 @@ import { SingleColumnPage } from "../../../../components/layout/pages"
 import { CdekCredentialsFields } from "../../delivery/components/cdek-credentials-fields"
 import { useCdekForm } from "../../delivery/use-cdek-form"
 import { CrossLink } from "../components/cross-link"
+import { UnreadableSecretAlert } from "../components/unreadable-secret-alert"
 
 /**
  * «Подключение → СДЭК» — the shop's CDEK account and nothing else
@@ -22,8 +23,18 @@ import { CrossLink } from "../components/cross-link"
 export const CdekIntegration = () => {
   const { t } = useTranslation()
   const form = useCdekForm()
-  const { settings, loaded, busy, isSaving, isRemoving, isError, error, handleSubmit, handleRemove } =
-    form
+  const {
+    settings,
+    unreadable,
+    loaded,
+    busy,
+    isSaving,
+    isRemoving,
+    isError,
+    error,
+    handleSubmit,
+    handleRemove,
+  } = form
 
   if (isError) {
     throw error
@@ -41,7 +52,16 @@ export const CdekIntegration = () => {
               {t("integrations.cdek.subtitle")}
             </Text>
           </div>
-          {settings ? (
+          {unreadable ? (
+            <Badge
+              size="2xsmall"
+              color="red"
+              className="shrink-0 whitespace-nowrap"
+              data-testid="cdek-state"
+            >
+              {t("integrations.state.unreadable")}
+            </Badge>
+          ) : settings ? (
             <Badge
               size="2xsmall"
               color={stored ? "green" : "orange"}
@@ -64,6 +84,7 @@ export const CdekIntegration = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-6 px-6 py-6">
+          {unreadable ? <UnreadableSecretAlert testId="cdek-unreadable" /> : null}
           <CdekCredentialsFields form={form} />
 
           <div className="flex items-center gap-x-2">
@@ -76,7 +97,7 @@ export const CdekIntegration = () => {
             >
               {t("deliverySettings.save")}
             </Button>
-            {settings ? (
+            {settings || unreadable ? (
               <Button
                 type="button"
                 size="small"

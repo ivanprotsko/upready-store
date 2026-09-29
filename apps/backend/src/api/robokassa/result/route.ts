@@ -6,6 +6,7 @@ import { processPaymentWorkflow } from "@medusajs/medusa/core-flows";
 import {
   readRobokassaSecret,
   verifyResultSignature,
+  type ResolvedRobokassaSecret,
   type RobokassaResultPayload,
 } from "../../../tenant-secrets/robokassa";
 import type { RobokassaSessionData } from "../../../modules/payment-robokassa/service";
@@ -17,9 +18,10 @@ import type { RobokassaSessionData } from "../../../modules/payment-robokassa/se
  * server-to-server after the customer pays, with
  * `OutSum`, `InvId`, `SignatureValue` and every `Shp_*` the payment URL
  * carried. The signature is `OutSum:InvId:Password#2:Shp_SessionID=<id>`,
- * password #2 (the test one in test mode) of the shop the session belongs to,
- * so the shop is resolved from the session, not from anything the caller
- * says about itself.
+ * password #2 of the shop the session belongs to, in the mode (test or live)
+ * the session was created in, so the shop is resolved from the session, not
+ * from anything the caller says about itself. A test invoice never pays an
+ * order once the shop has been switched to live: no money moved.
  *
  * On a valid signature the session is stamped with `result_confirmed_at`
  * through the provider's `updatePayment`, and `processPaymentWorkflow` runs
@@ -50,6 +52,23 @@ const payloadFrom = (req: MedusaRequest): RobokassaResultPayload => {
   };
 };
 
+/**
+ * The shop's credentials in the mode the payment session was CREATED in (46df
+ * D2). Robokassa signs the Result of a test invoice with test password #2 and
+ * of a live one with password #2, for the whole life of the invoice, retries
+ * included. The shop's `is_test` is the owner's switch and may have flipped
+ * since the payment page was built; checking against it turned a genuine live
+ * Result into `bad_signature`, money taken and no order. A session written
+ * before `is_test` was stored on it falls back to the shop's mode.
+ */
+const secretInSessionMode = (
+  secret: ResolvedRobokassaSecret,
+  sessionIsTest: unknown,
+): ResolvedRobokassaSecret =>
+  typeof sessionIsTest === "boolean" && sessionIsTest !== secret.is_test
+    ? { ...secret, is_test: sessionIsTest }
+    : secret;
+
 const handle = async (req: MedusaRequest, res: MedusaResponse) => {
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
   const payload = payloadFrom(req);
@@ -75,12 +94,18 @@ const handle = async (req: MedusaRequest, res: MedusaResponse) => {
 
   const data = (session.data ?? {}) as Partial<RobokassaSessionData>;
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  const secret = data.tenant_id ? await readRobokassaSecret(pg, data.tenant_id, { includeDisabled: true }) : null;
-  if (!secret) {
+  const shopSecret = data.tenant_id
+    ? await readRobokassaSecret(pg, data.tenant_id, { includeDisabled: true })
+    : null;
+  if (!shopSecret) {
     return reject(400, "shop_not_configured");
   }
+  const secret = secretInSessionMode(shopSecret, data.is_test);
   if (!verifyResultSignature(payload, secret)) {
     return reject(400, "bad_signature");
+  }
+  if (secret.is_test && !shopSecret.is_test) {
+    return reject(400, "test_payment_in_live_mode");
   }
   if (payload.InvId !== data.invoice_id || payload.OutSum !== data.out_sum) {
     return reject(400, "invoice_mismatch");

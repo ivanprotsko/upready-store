@@ -1,7 +1,12 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
-import type { CredentialField, MarketplaceAdapter } from "../../modules/marketplace/contract";
+import type { Logger } from "@medusajs/framework/types";
+import type {
+  CredentialField,
+  CredentialSlot,
+  MarketplaceAdapter,
+} from "../../modules/marketplace/contract";
 import { MARKETPLACE_MODULE } from "../../modules/marketplace";
 import { requireAdapter } from "../../modules/marketplace/registry";
 import type MarketplaceModuleService from "../../modules/marketplace/service";
@@ -12,11 +17,12 @@ import {
   type TenantIntegrationProvider,
 } from "../../modules/tenant/models/tenant-integration-secret";
 import { maskSecret } from "../../tenant-secrets/crypto";
+import { readTenantSecretSlot, writeTenantSecretSlot } from "../../tenant-secrets/slot";
 import {
-  deleteTenantSecretSlot,
-  readTenantSecretSlot,
-  writeTenantSecretSlot,
-} from "../../tenant-secrets/slot";
+  forgetTenantSecretSlot,
+  tryReadTenantSecret,
+  type UnreadableTenantSecret,
+} from "../../tenant-secrets/unreadable";
 import { getTenantScope } from "./tenant-scope";
 
 /**
@@ -71,7 +77,12 @@ export type MarketplaceKeyResponse = {
   marketplace: string;
   label: string;
   connection: {
-    key: { set: boolean; last4: string | null };
+    /**
+     * `unreadable`: a key is stored but does not decrypt with this
+     * deployment's key (46df D1). `set` is then `false`, because nothing can be
+     * used, and the panel asks the owner to enter the key again.
+     */
+    key: { set: boolean; last4: string | null; unreadable: boolean };
     is_enabled: boolean;
     how_to_store: string;
   };
@@ -136,6 +147,35 @@ export const readRawCredentials = async (
 };
 
 /**
+ * Both readings of one marketplace's slot, the adapter's credential and the raw
+ * payload, taken together so that a row which does not decrypt turns into
+ * `unreadable` once instead of a 500 from either reader (46df D1). The card,
+ * the key routes and the save all read through here.
+ */
+export const readMarketplaceKey = async (
+  pg: Knex,
+  adapter: MarketplaceAdapter,
+  tenantId: string,
+  logger?: Pick<Logger, "warn">,
+): Promise<{
+  slot: CredentialSlot | null;
+  values: Record<string, unknown> | null;
+  unreadable: UnreadableTenantSecret | null;
+}> => {
+  const { secret, unreadable } = await tryReadTenantSecret(
+    pg,
+    tenantId,
+    slotOf(adapter),
+    async () => ({
+      slot: await adapter.readCredentials(pg, tenantId),
+      values: await readRawCredentials(pg, adapter, tenantId),
+    }),
+    logger,
+  );
+  return { slot: secret?.slot ?? null, values: secret?.values ?? null, unreadable };
+};
+
+/**
  * The form, as the panel renders it: one entry per declared field, carrying
  * what is stored today. ONE builder for the key routes and for the marketplace
  * card, so the two screens cannot disagree about what is saved (rule 20).
@@ -169,8 +209,12 @@ const readState = async (
 ): Promise<MarketplaceKeyResponse> => {
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  const values = await readRawCredentials(pg, adapter, tenant.id);
-  const slot = await adapter.readCredentials(pg, tenant.id);
+  const { slot, values, unreadable } = await readMarketplaceKey(
+    pg,
+    adapter,
+    tenant.id,
+    req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER),
+  );
 
   /**
    * Asking costs one request on Ozon and nothing on Wildberries, and it is the
@@ -204,7 +248,7 @@ const readState = async (
     connection: {
       // `last4` comes from the adapter, the same value the card shows: the
       // adapter knows WHICH of its fields is the key.
-      key: { set: Boolean(slot), last4: slot?.last4 ?? null },
+      key: { set: Boolean(slot), last4: slot?.last4 ?? null, unreadable: Boolean(unreadable) },
       is_enabled: slot?.isEnabled ?? false,
       how_to_store: adapter.credentialHowTo,
     },
@@ -284,7 +328,14 @@ export const putMarketplaceKey = async (
     );
   }
 
-  const stored = await readRawCredentials(pg, adapter, tenant.id);
+  // An unreadable row keeps nothing: every secret field counts as not stored,
+  // so the owner is told which ones to type (46df D1).
+  const { values: stored } = await readMarketplaceKey(
+    pg,
+    adapter,
+    tenant.id,
+    req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER),
+  );
   const { credentials, missing } = buildCredentials(adapter.credentialFields, stored ?? {}, body);
 
   if (missing.length) {
@@ -321,7 +372,8 @@ export const deleteMarketplaceKey = async (
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const tenantModule = req.scope.resolve<TenantModuleService>(TENANT_MODULE);
 
-  await deleteTenantSecretSlot(pg, tenantModule, tenant.id, slotOf(adapter));
+  // By row id, without decrypting it, so an unreadable key can be removed too.
+  await forgetTenantSecretSlot(pg, tenantModule, tenant.id, slotOf(adapter));
 
   res.json(await readState(req, adapter));
 };

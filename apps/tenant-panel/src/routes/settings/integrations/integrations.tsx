@@ -8,6 +8,7 @@ import { usePochta } from "../../../hooks/api/pochta"
 import { useDeliverySettings } from "../../../hooks/api/delivery-settings"
 import { useMarketplaceStatus, useMarketplaces } from "../../../hooks/api/marketplaces"
 import { usePaymentSettings } from "../../../hooks/api/payment-settings"
+import { integrationTone, type IntegrationTone } from "../../../lib/integration-state"
 import { MARKETPLACE_ID_BY_SLUG, slugForMarketplaceId } from "./marketplace-slug"
 
 /**
@@ -26,9 +27,13 @@ import { MARKETPLACE_ID_BY_SLUG, slugForMarketplaceId } from "./marketplace-slug
  * ••••last4» when a credential is stored. The marketplaces add the key's own
  * account of itself — rights and expiry — which costs one call to the
  * marketplace per stored key and is therefore asked only for a key that exists.
+ *
+ * A fourth state since 46df D1: a credential that is stored but does not
+ * decrypt on this server reads «не читается — введите заново», in red, with the
+ * same line under it on every service (`lib/integration-state.ts`).
  */
 
-type RowTone = "connected" | "missing" | "pending"
+type RowTone = IntegrationTone
 
 type Row = {
   id: string
@@ -52,6 +57,13 @@ const StateBadge = ({ tone, last4 }: { tone: RowTone; last4: string | null }) =>
       </Badge>
     )
   }
+  if (tone === "unreadable") {
+    return (
+      <Badge size="2xsmall" color="red">
+        {t("integrations.state.unreadable")}
+      </Badge>
+    )
+  }
   return (
     <Badge size="2xsmall" color={tone === "connected" ? "green" : "orange"}>
       {tone === "connected"
@@ -69,11 +81,13 @@ const MarketplaceRow = ({
   marketplaceId,
   label,
   keySet,
+  unreadable,
   last4,
 }: {
   marketplaceId: string
   label: string
   keySet: boolean
+  unreadable: boolean
   last4: string | null
 }) => {
   const { t } = useTranslation()
@@ -82,6 +96,9 @@ const MarketplaceRow = ({
   const credentials = card?.credentials ?? null
 
   const note = (() => {
+    if (unreadable) {
+      return t("integrations.unreadable.rowNote")
+    }
     if (!keySet) {
       return null
     }
@@ -113,10 +130,10 @@ const MarketplaceRow = ({
         title: label,
         subtitle: t("integrations.marketplace.rowSubtitle"),
         to: slug ? `/settings/integrations/${slug}` : "/settings/integrations",
-        tone: keySet ? "connected" : "missing",
+        tone: integrationTone({ pending: false, stored: keySet, unreadable }),
         last4,
         note,
-        noteIsError: Boolean(credentials?.error) || credentials?.expired === true,
+        noteIsError: unreadable || Boolean(credentials?.error) || credentials?.expired === true,
       }}
     />
   )
@@ -161,8 +178,16 @@ export const IntegrationsHub = () => {
   const { t } = useTranslation()
 
   const { marketplaces, isPending: mpPending, isError, error } = useMarketplaces()
-  const { settings: payment, isPending: paymentPending } = usePaymentSettings()
-  const { settings: delivery, isPending: deliveryPending } = useDeliverySettings()
+  const {
+    settings: payment,
+    unreadable: paymentUnreadable,
+    isPending: paymentPending,
+  } = usePaymentSettings()
+  const {
+    settings: delivery,
+    unreadable: deliveryUnreadable,
+    isPending: deliveryPending,
+  } = useDeliverySettings()
   const { apiship, isPending: apishipPending } = useApishipKey()
   const { pochta, isPending: pochtaPending } = usePochta()
 
@@ -205,6 +230,7 @@ export const IntegrationsHub = () => {
               marketplaceId={card.id}
               label={card.label}
               keySet={card.connection.key.set}
+              unreadable={Boolean(card.connection.key.unreadable)}
               last4={card.connection.key.last4}
             />
           ))
@@ -216,9 +242,14 @@ export const IntegrationsHub = () => {
             title: t("integrations.robokassa.title"),
             subtitle: t("integrations.robokassa.rowSubtitle"),
             to: "/settings/integrations/robokassa",
-            tone: paymentPending ? "pending" : payment ? "connected" : "missing",
+            tone: integrationTone({
+              pending: paymentPending,
+              stored: Boolean(payment),
+              unreadable: Boolean(paymentUnreadable),
+            }),
             last4: payment?.password1?.last4 ?? payment?.test_password1?.last4 ?? null,
-            note: null,
+            note: paymentUnreadable ? t("integrations.unreadable.rowNote") : null,
+            noteIsError: Boolean(paymentUnreadable),
           }}
         />
 
@@ -244,9 +275,14 @@ export const IntegrationsHub = () => {
             title: t("integrations.cdek.title"),
             subtitle: t("integrations.cdek.rowSubtitle"),
             to: "/settings/integrations/cdek",
-            tone: deliveryPending ? "pending" : cdekStored ? "connected" : "missing",
+            tone: integrationTone({
+              pending: deliveryPending,
+              stored: cdekStored,
+              unreadable: Boolean(deliveryUnreadable),
+            }),
             last4: cdekLast4,
-            note: null,
+            note: deliveryUnreadable ? t("integrations.unreadable.rowNote") : null,
+            noteIsError: Boolean(deliveryUnreadable),
           }}
         />
 

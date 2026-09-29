@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "お支払いは完了していません。キャンセルされたか、承認されませんでした。カートの内容は変わっていません。",
     "paymentPendingReason": "お支払いはまだ確認中です。1分ほど待ってアカウントから注文を開くか、もう一度お試しください。",
     "retryCheckout": "Return to checkout"
   },

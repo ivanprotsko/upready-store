@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "付款未完成：已被取消或被拒绝。购物车内容未改变。",
     "paymentPendingReason": "付款仍在确认中。请稍等一分钟后在账户中查看订单，或重新结账。",
     "retryCheckout": "Return to checkout"
   },

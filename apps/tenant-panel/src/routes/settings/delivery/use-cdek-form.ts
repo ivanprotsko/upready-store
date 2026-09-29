@@ -83,7 +83,14 @@ export const EMPTY_DRAFT: CdekDraft = {
 
 const draftFrom = (response: DeliverySettingsResponse | undefined): CdekDraft => {
   const record: DeliverySettingsRecord | null = response?.settings ?? null
-  if (!record) return EMPTY_DRAFT
+  if (!record) {
+    // An unreadable row (46df D1) keeps its mode and switch; every field is
+    // typed again, because nothing in the row can be read back.
+    const unreadable = response?.unreadable
+    return unreadable
+      ? { ...EMPTY_DRAFT, is_test: unreadable.is_test, is_enabled: unreadable.is_enabled }
+      : EMPTY_DRAFT
+  }
   const kinds = response?.methods?.filter((m) => m.enabled).map((m) => m.kind) ?? []
   return {
     ...EMPTY_DRAFT,
@@ -241,6 +248,7 @@ export const useCdekForm = () => {
 
   return {
     settings: settings ?? null,
+    unreadable: response.unreadable ?? null,
     methods,
     webhookUrl,
     loaded,

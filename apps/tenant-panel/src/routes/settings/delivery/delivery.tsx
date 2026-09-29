@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 import { SecretValue, hideQuery } from "../../../components/common/secret-value"
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { CrossLink } from "../integrations/components/cross-link"
+import { UnreadableSecretAlert } from "../integrations/components/unreadable-secret-alert"
 import { CdekBehaviourFields } from "./components/cdek-behaviour-fields"
 import { useCdekForm } from "./use-cdek-form"
 
@@ -25,8 +26,18 @@ import { useCdekForm } from "./use-cdek-form"
 export const DeliverySettings = () => {
   const { t } = useTranslation()
   const form = useCdekForm()
-  const { settings, methods, webhookUrl, loaded, busy, isSaving, isError, error, handleSubmit } =
-    form
+  const {
+    settings,
+    unreadable,
+    methods,
+    webhookUrl,
+    loaded,
+    busy,
+    isSaving,
+    isError,
+    error,
+    handleSubmit,
+  } = form
 
   if (isError) {
     throw error
@@ -48,7 +59,11 @@ export const DeliverySettings = () => {
               {t("deliverySettings.subtitle")}
             </Text>
           </div>
-          {settings ? (
+          {unreadable ? (
+            <Badge size="2xsmall" color="red" data-testid="delivery-state">
+              {t("integrations.state.unreadable")}
+            </Badge>
+          ) : settings ? (
             <Badge size="2xsmall" color={settings.is_enabled ? "green" : "grey"}>
               {settings.is_enabled
                 ? settings.is_test
@@ -63,7 +78,8 @@ export const DeliverySettings = () => {
           ) : null}
         </div>
 
-        <div className="px-6 py-4">
+        <div className="flex flex-col gap-y-3 px-6 py-4">
+          {unreadable ? <UnreadableSecretAlert testId="delivery-unreadable" /> : null}
           <CrossLink
             to="/settings/integrations/cdek"
             hint={t("integrations.crossLink.credentialsHint")}
@@ -73,7 +89,7 @@ export const DeliverySettings = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-6 px-6 py-6">
-          {noAccount ? (
+          {noAccount && !unreadable ? (
             <Text size="small" className="text-ui-fg-subtle" data-testid="delivery-no-account">
               {t("integrations.cdek.noAccount")}
             </Text>

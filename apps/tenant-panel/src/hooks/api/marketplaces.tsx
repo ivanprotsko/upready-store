@@ -63,6 +63,11 @@ export type MarketplaceCard = {
     key: {
       set: boolean
       last4: string | null
+      /**
+       * A key is stored but the server cannot decrypt it (46df D1). `set` is
+       * `false` then: nothing usable is stored, and the owner enters it again.
+       */
+      unreadable: boolean
       /** One line from the adapter: how this shop's key gets stored. */
       how_to_store: string
     }
@@ -162,7 +167,7 @@ export type MarketplaceKeyResponse = {
   marketplace: string
   label: string
   connection: {
-    key: { set: boolean; last4: string | null }
+    key: { set: boolean; last4: string | null; unreadable: boolean }
     is_enabled: boolean
     how_to_store: string
   }
