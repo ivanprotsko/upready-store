@@ -277,6 +277,13 @@ the `@medusajs/ui` components this storefront actually imports, one glob each, b
 whole kit cost about 19 KB of unused CSS. Importing a new primitive from `@medusajs/ui` means adding
 its glob there. Skip that and the component renders unstyled, with no error anywhere.
 
+**An opacity modifier on a bare var() colour.** Every `ui-*` colour of the Medusa preset is a bare
+`var(--…)`, and Tailwind cannot put an alpha into one. `bg-ui-bg-base/90` or
+`from-[var(--foreground)]/70` is dropped whole, so the element keeps the colour it inherits.
+[check-var-colour-opacity.mjs](apps/storefront/scripts/check-var-colour-opacity.mjs) fails the
+storefront `lint` script on one. Carry the alpha inside the value instead, with `color-mix()` or
+`rgba()` in an arbitrary value.
+
 **The middleware matcher.** `config.matcher` in [middleware.ts](apps/storefront/src/middleware.ts)
 excludes `/api`, so a route handler under `src/app/api` gets no locale prefix and no country cookie
 resolution. Take the locale from a query parameter or a cookie there, the way
