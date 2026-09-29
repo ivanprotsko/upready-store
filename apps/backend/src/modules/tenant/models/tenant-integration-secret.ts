@@ -31,6 +31,13 @@ import Tenant from "./tenant";
  * answering zero tariffs for this account and the checkout quotes CDEK
  * directly (`artifacts/docs/i02-apiship-cdek-shipping/decision.md`).
  *
+ * `pochta` is the shop's Russian Post «Отправка» access, `{ token, user_key,
+ * sender_index, default_weight_g }` (46df-pochta). The application token alone
+ * opens the delivery-point directory (`GET /1.0/delivery-point/findAll`, HTTP
+ * 200 measured 2026-09-29) and nothing else: the tariff and the post-office
+ * directory answer 401 until the cabinet's user key rides along as
+ * `X-User-Authorization`, so both are stored and the key is optional.
+ *
  * This list is not decoration — `model.enum` renders it as a CHECK constraint
  * on `provider`, so a slot absent here cannot hold a row at all. Measured on
  * the local stand 2026-09-16: an insert into `wildberries_write` died on
@@ -44,6 +51,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "ozon",
   "cdek",
   "apiship",
+  "pochta",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 

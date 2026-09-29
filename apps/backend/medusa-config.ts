@@ -207,6 +207,11 @@ module.exports = defineConfig({
           // provider costs nothing until a shop has a row and a method
           // (i02-apiship-cdek-shipping).
           { resolve: "./src/modules/cdek-fulfillment", id: "cdek" },
+          // Russian Post (`pochta_pochta`, src/modules/pochta-fulfillment): a
+          // pickup-point method priced per shop from its own «Отправка» token,
+          // read per tenant like CDEK's. Directory and tariff calls only, it
+          // never creates a shipment (46df-pochta).
+          { resolve: "./src/modules/pochta-fulfillment", id: "pochta" },
         ],
       },
     },

@@ -50,7 +50,7 @@ describe("the completion gate", () => {
     ]);
   });
 
-  it("runs both cart rules, sales channel first", async () => {
+  it("runs the three cart rules, sales channel first and the Russian Post point last", async () => {
     expect(registered).toHaveLength(1);
 
     const calls: string[] = [];
@@ -81,6 +81,8 @@ describe("the completion gate", () => {
       { container },
     );
 
-    expect(calls).toEqual(["variant", "shipping_option"]);
+    // The address rule reads the option's fulfillment set, the Russian Post
+    // rule its provider (validate-cart-pochta-point.ts).
+    expect(calls).toEqual(["variant", "shipping_option", "shipping_option"]);
   });
 });
