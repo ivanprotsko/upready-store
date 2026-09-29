@@ -7,6 +7,7 @@ import {
   useSaveMarketplaceKey,
   type MarketplaceCard,
 } from "../../../../hooks/api/marketplaces"
+import { UnreadableSecretAlert } from "../../integrations/components/unreadable-secret-alert"
 
 /**
  * «Ключ API» — the owner connects this marketplace herself
@@ -61,6 +62,9 @@ export const MpKeyForm = ({ card }: { card: MarketplaceCard }) => {
 
   const busy = isSaving || isRemoving
   const stored = card.connection.key.set
+  // Stored but not decryptable on this server (46df D1): nothing usable, yet a
+  // row exists, so the owner can overwrite it or remove it.
+  const unreadable = Boolean(card.connection.key.unreadable)
 
   const update = (name: string, value: string) => {
     touchedRef.current = true
@@ -155,15 +159,19 @@ export const MpKeyForm = ({ card }: { card: MarketplaceCard }) => {
         </div>
         <Badge
           size="2xsmall"
-          color={stored ? "green" : "grey"}
+          color={unreadable ? "red" : stored ? "green" : "grey"}
           className="shrink-0 whitespace-nowrap"
           data-testid={`mp-key-state-${card.id}`}
         >
-          {stored
-            ? t("marketplaces.key.set", { last4: card.connection.key.last4 })
-            : t("marketplaces.key.missing")}
+          {unreadable
+            ? t("integrations.state.unreadable")
+            : stored
+              ? t("marketplaces.key.set", { last4: card.connection.key.last4 })
+              : t("marketplaces.key.missing")}
         </Badge>
       </div>
+
+      {unreadable ? <UnreadableSecretAlert testId={`mp-key-unreadable-${card.id}`} /> : null}
 
       {writeRights ? (
         <Alert variant="warning">{t("marketplaces.key.form.writeRights")}</Alert>
@@ -223,7 +231,7 @@ export const MpKeyForm = ({ card }: { card: MarketplaceCard }) => {
           >
             {t("marketplaces.key.form.save")}
           </Button>
-          {stored ? (
+          {stored || unreadable ? (
             <Button
               type="button"
               size="small"

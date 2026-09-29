@@ -44,9 +44,23 @@ export type TenantPaymentMethods = {
   demo: boolean
 }
 
+/**
+ * A stored row the server cannot decrypt (46df D1): restored under another
+ * encryption key or damaged. Nothing in it can be used or shown; the owner
+ * enters the requisites again, or deletes the row.
+ */
+export type UnreadableSecret = {
+  id: string
+  provider: string
+  is_test: boolean
+  is_enabled: boolean
+}
+
 export type PaymentSettingsResponse = {
-  /** `null` until the owner saves an account. */
+  /** `null` until the owner saves an account, and while the stored one is unreadable. */
   settings: PaymentSettings | null
+  /** Set when a Robokassa row exists but does not decrypt. */
+  unreadable: UnreadableSecret | null
   /** What to paste into Robokassa's «Result URL» field. */
   result_url: string
   providers: Array<{ id: "robokassa"; title: string }>

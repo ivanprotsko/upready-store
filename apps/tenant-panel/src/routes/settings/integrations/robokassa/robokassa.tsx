@@ -5,6 +5,7 @@ import { SingleColumnPage } from "../../../../components/layout/pages"
 import { RobokassaCredentialsFields } from "../../payments/components/robokassa-credentials-fields"
 import { useRobokassaForm } from "../../payments/use-robokassa-form"
 import { CrossLink } from "../components/cross-link"
+import { UnreadableSecretAlert } from "../components/unreadable-secret-alert"
 
 /**
  * «Подключение → Robokassa» — the shop's payment REQUISITES and nothing else
@@ -22,8 +23,18 @@ import { CrossLink } from "../components/cross-link"
 export const RobokassaIntegration = () => {
   const { t } = useTranslation()
   const form = useRobokassaForm()
-  const { settings, loaded, busy, isSaving, isRemoving, isError, error, handleSubmit, handleRemove } =
-    form
+  const {
+    settings,
+    unreadable,
+    loaded,
+    busy,
+    isSaving,
+    isRemoving,
+    isError,
+    error,
+    handleSubmit,
+    handleRemove,
+  } = form
 
   if (isError) {
     throw error
@@ -41,7 +52,11 @@ export const RobokassaIntegration = () => {
           </div>
           {/* Three states, not two: while the record is in flight the badge is
               absent rather than saying «не подключено» (rule 19h). */}
-          {settings ? (
+          {unreadable ? (
+            <Badge size="2xsmall" color="red" data-testid="robokassa-state">
+              {t("integrations.state.unreadable")}
+            </Badge>
+          ) : settings ? (
             <Badge size="2xsmall" color="green" data-testid="robokassa-state">
               {t("integrations.state.connected", {
                 last4: settings.password1.last4 ?? settings.test_password1.last4 ?? "",
@@ -55,6 +70,7 @@ export const RobokassaIntegration = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-6 px-6 py-6">
+          {unreadable ? <UnreadableSecretAlert testId="robokassa-unreadable" /> : null}
           <RobokassaCredentialsFields form={form} />
 
           <div className="flex items-center gap-x-2">
@@ -67,7 +83,7 @@ export const RobokassaIntegration = () => {
             >
               {t("paymentSettings.save")}
             </Button>
-            {settings ? (
+            {settings || unreadable ? (
               <Button
                 type="button"
                 size="small"

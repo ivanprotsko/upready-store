@@ -5093,7 +5093,8 @@
     "state": {
       "connected": "connected ••••{{last4}}",
       "missing": "not connected",
-      "asking": "asking…"
+      "asking": "asking…",
+      "unreadable": "unreadable, enter again"
     },
     "rights": {
       "readOnly": "read-only key",
@@ -5189,6 +5190,10 @@
       "orderIndex": "Postcode {{index}}",
       "orderTerm": "Term: {{term}}",
       "orderEstimate": "Priced as an estimate at the retail Parcel rate"
+    },
+    "unreadable": {
+      "alert": "The saved credentials can't be read. They were encrypted with a different server key or are damaged, and this service stays off until they are entered again. Enter them again and save, or remove the connection.",
+      "rowNote": "The saved credentials can't be read. Enter them again."
     }
   },
   "supportDetails": {
