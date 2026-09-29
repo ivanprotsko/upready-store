@@ -1,17 +1,7 @@
 import { Text } from "@medusajs/ui"
 import { HttpTypes } from "@medusajs/types"
 import { useTranslation } from "react-i18next"
-
-type PochtaData = {
-  provider?: string
-  pochta_point_index?: string
-  pochta_point_name?: string | null
-  pochta_point_address?: string | null
-  pochta_point_city?: string | null
-  pochta_point_region?: string | null
-  term_label?: string | null
-  tariff_source?: string | null
-}
+import { orderPochtaPoint } from "../../../../../lib/order-pickup-point"
 
 /**
  * The Russian Post pickup point the buyer chose (46df-pochta), read off the
@@ -22,9 +12,7 @@ type PochtaData = {
  */
 export const OrderPochtaPoint = ({ order }: { order: HttpTypes.AdminOrder }) => {
   const { t } = useTranslation()
-  const data = (order.shipping_methods ?? [])
-    .map((method) => method.data as PochtaData | null | undefined)
-    .find((entry) => entry?.provider === "pochta" && entry.pochta_point_index)
+  const data = orderPochtaPoint(order)
 
   if (!data?.pochta_point_index) {
     return null

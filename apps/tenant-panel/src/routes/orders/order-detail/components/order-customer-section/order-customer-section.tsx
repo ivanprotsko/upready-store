@@ -5,20 +5,27 @@ import { ActionMenu } from "../../../../../components/common/action-menu"
 import { CustomerInfo } from "../../../../../components/common/customer-info"
 import { HttpTypes } from "@medusajs/types"
 import { OrderPochtaPoint } from "./order-pochta-point"
+import { orderPochtaPoint } from "../../../../../lib/order-pickup-point"
 
 type OrderCustomerSectionProps = {
   order: HttpTypes.AdminOrder
 }
 
 export const OrderCustomerSection = ({ order }: OrderCustomerSectionProps) => {
+  // U-04 (46df): an order posted to a pickup point has one destination, the
+  // point. It comes first, and the address the buyer typed at checkout is
+  // labelled as theirs rather than «Адрес доставки», so the packer does not
+  // see two places to send the parcel.
+  const toPickupPoint = orderPochtaPoint(order) !== null
+
   return (
     <Container className="divide-y p-0">
       <Header />
       <CustomerInfo.ID data={order} />
       <CustomerInfo.Contact data={order} />
       <CustomerInfo.Company data={order} />
-      <CustomerInfo.Addresses data={order} />
-      <OrderPochtaPoint order={order} />
+      {toPickupPoint && <OrderPochtaPoint order={order} />}
+      <CustomerInfo.Addresses data={order} buyerAddress={toPickupPoint} />
     </Container>
   )
 }

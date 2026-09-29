@@ -117,7 +117,7 @@ const AddressPrint = ({
   address:
     | HttpTypes.AdminOrder["shipping_address"]
     | HttpTypes.AdminOrder["billing_address"]
-  type: "shipping" | "billing"
+  type: "shipping" | "billing" | "buyer"
 }) => {
   const { t } = useTranslation()
 
@@ -126,7 +126,9 @@ const AddressPrint = ({
       <Text size="small" leading="compact" weight="plus">
         {type === "shipping"
           ? t("addresses.shippingAddress.label")
-          : t("addresses.billingAddress.label")}
+          : type === "buyer"
+            ? t("addresses.buyerAddress.label")
+            : t("addresses.billingAddress.label")}
       </Text>
       {address ? (
         <div className="grid grid-cols-[1fr_20px] items-start gap-x-2">
@@ -156,12 +158,25 @@ const AddressPrint = ({
   )
 }
 
-const Addresses = ({ data }: { data: HttpTypes.AdminOrder }) => {
+/**
+ * `buyerAddress`: the order goes to a pickup point, so its shipping address is
+ * where the buyer lives, not where the parcel goes (U-04, 46df UX audit).
+ */
+const Addresses = ({
+  data,
+  buyerAddress = false,
+}: {
+  data: HttpTypes.AdminOrder
+  buyerAddress?: boolean
+}) => {
   const { t } = useTranslation()
 
   return (
     <div className="divide-y">
-      <AddressPrint address={data.shipping_address} type="shipping" />
+      <AddressPrint
+        address={data.shipping_address}
+        type={buyerAddress ? "buyer" : "shipping"}
+      />
       {!isSameAddress(data.shipping_address, data.billing_address) ? (
         <AddressPrint address={data.billing_address} type="billing" />
       ) : (
@@ -175,7 +190,9 @@ const Addresses = ({ data }: { data: HttpTypes.AdminOrder }) => {
             {t("addresses.billingAddress.label")}
           </Text>
           <Text size="small" leading="compact" className="text-ui-fg-muted">
-            {t("addresses.billingAddress.sameAsShipping")}
+            {buyerAddress
+              ? t("addresses.billingAddress.sameAsBuyer")
+              : t("addresses.billingAddress.sameAsShipping")}
           </Text>
         </div>
       )}
