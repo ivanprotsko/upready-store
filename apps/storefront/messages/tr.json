@@ -1052,5 +1052,13 @@
     "about": "Program hakkında",
     "faq": "Sorular ve cevaplar",
     "testimonials": "Katılımcı yorumları"
+  },
+  "PochtaPoint": {
+    "heading": "Rus Postası teslim alma noktası",
+    "chooseHeading": "Bir Rus Postası teslim alma noktası seçin",
+    "notConfigured": "Rus Postası ile gönderim bu mağazada henüz ayarlanmadı.",
+    "estimate": "Standart koli tarifesine göre tahmini",
+    "quoteFailed": "Bu noktaya gönderim ücreti hesaplanamadı. Başka bir nokta seçin.",
+    "postcode": "Posta kodu {index}"
   }
 }

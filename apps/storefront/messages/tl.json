@@ -1052,5 +1052,13 @@
     "about": "Tungkol sa programa",
     "faq": "Mga tanong at sagot",
     "testimonials": "Mga patotoo ng mga kalahok"
+  },
+  "PochtaPoint": {
+    "heading": "Pickup point ng Russian Post",
+    "chooseHeading": "Pumili ng pickup point ng Russian Post",
+    "notConfigured": "Hindi pa naka-set up ang delivery sa Russian Post sa tindahang ito.",
+    "estimate": "Tantya ayon sa karaniwang singil sa parsela",
+    "quoteFailed": "Hindi makalkula ang delivery papunta sa puntong ito. Pumili ng iba.",
+    "postcode": "Postal code {index}"
   }
 }
