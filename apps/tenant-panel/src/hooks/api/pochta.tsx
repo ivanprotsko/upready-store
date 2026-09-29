@@ -11,6 +11,7 @@ import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 import type { MaskedSecret } from "./apiship"
+import { shippingMethodsQueryKeys } from "./shipping-methods"
 
 // The shop's Russian Post «Отправка» access (46df-pochta). Same two-query shape
 // as ApiShip: the stored state renders the form from our own database, and the
@@ -32,6 +33,8 @@ export type PochtaResponse = {
   settings: PochtaSettings | null
   /** The «Почта России — до отделения» option, once provisioned. */
   method: { id: string; name: string; enabled: boolean } | null
+  /** The shop's shown options named like that one, which a buyer would see as a second Russian Post card. */
+  duplicates?: Array<{ id: string; name: string }>
   verified?: { points: number } | null
 }
 
@@ -104,4 +107,19 @@ export const useDeletePochta = (options?: UseMutationOptions<PochtaResponse, Fet
       options?.onSuccess?.(data, variables, context)
     },
     ...options,
+  })
+
+/**
+ * Switches off a manual option the checkout shows next to Russian Post under
+ * the same name (t-2026-09-30-01). The option stays in «Доставка» and can be
+ * switched back on there.
+ */
+export const useSwitchOffPochtaDuplicate = () =>
+  useMutation({
+    mutationFn: (id: string) =>
+      sdk.client.fetch(`/tenants/shipping-methods/${id}`, { method: "POST", body: { enabled: false } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: pochtaQueryKeys.all })
+      queryClient.invalidateQueries({ queryKey: shippingMethodsQueryKeys.all })
+    },
   })

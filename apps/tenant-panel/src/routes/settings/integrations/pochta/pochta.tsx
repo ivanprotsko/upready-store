@@ -3,7 +3,13 @@ import { Alert, Badge, Button, Container, Heading, Input, Label, Switch, Text, t
 import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../../components/layout/pages"
-import { useDeletePochta, usePochta, usePochtaProbe, useSavePochta } from "../../../../hooks/api/pochta"
+import {
+  useDeletePochta,
+  usePochta,
+  usePochtaProbe,
+  useSavePochta,
+  useSwitchOffPochtaDuplicate,
+} from "../../../../hooks/api/pochta"
 
 /**
  * «Настройки → Интеграции → Почта России» (46df-pochta).
@@ -18,6 +24,11 @@ import { useDeletePochta, usePochta, usePochtaProbe, useSavePochta } from "../..
  * never holds the form, and it has three answers per credential: not stored,
  * rejected, accepted. The page says in plain words what the user key adds,
  * because without it the checkout price is an estimate.
+ *
+ * A manual tariff named like the Russian Post option (the owner's old way of
+ * charging for it) would stand next to it in the checkout as a second card
+ * with another price. While the method is on, the page names each such tariff
+ * and switches it off in one click (t-2026-09-30-01).
  */
 export const PochtaIntegration = () => {
   const { t } = useTranslation()
@@ -44,12 +55,14 @@ export const PochtaIntegration = () => {
 
   const { mutateAsync: save, isPending: isSaving } = useSavePochta()
   const { mutateAsync: remove, isPending: isRemoving } = useDeletePochta()
+  const { mutateAsync: switchOff, isPending: isSwitchingOff, variables: switchingOffId } = useSwitchOffPochtaDuplicate()
+  const duplicates = pochta?.method?.enabled ? (pochta.duplicates ?? []) : []
 
   if (isError) {
     throw error
   }
 
-  const busy = isPending || isSaving || isRemoving
+  const busy = isPending || isSaving || isRemoving || isSwitchingOff
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -79,6 +92,15 @@ export const PochtaIntegration = () => {
       toast.success(t("integrations.pochta.userKeyCleared"))
     } catch (saveError) {
       toast.error(saveError instanceof Error ? saveError.message : String(saveError))
+    }
+  }
+
+  const handleSwitchOff = async (duplicate: { id: string; name: string }) => {
+    try {
+      await switchOff(duplicate.id)
+      toast.success(t("integrations.pochta.duplicateSwitchedOff", { name: duplicate.name }))
+    } catch (switchError) {
+      toast.error(switchError instanceof Error ? switchError.message : String(switchError))
     }
   }
 
@@ -145,6 +167,34 @@ export const PochtaIntegration = () => {
             {t("integrations.pochta.userKeyNote")}
           </Alert>
         </div>
+
+        {duplicates.length ? (
+          <div className="px-6 py-4">
+            <Alert variant="warning" data-testid="pochta-duplicates">
+              <div className="flex flex-col gap-y-3">
+                <span>{t("integrations.pochta.duplicatesNote")}</span>
+                {duplicates.map((duplicate) => (
+                  <div key={duplicate.id} className="flex flex-wrap items-center justify-between gap-2">
+                    <Text size="small" weight="plus">
+                      «{duplicate.name}»
+                    </Text>
+                    <Button
+                      type="button"
+                      size="small"
+                      variant="secondary"
+                      isLoading={isSwitchingOff && switchingOffId === duplicate.id}
+                      disabled={busy}
+                      onClick={() => handleSwitchOff(duplicate)}
+                      data-testid="pochta-duplicate-off"
+                    >
+                      {t("integrations.pochta.duplicateOff")}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </Alert>
+          </div>
+        ) : null}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-5 px-6 py-6">
           <div className="flex items-center gap-x-3">
