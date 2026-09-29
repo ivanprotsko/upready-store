@@ -20,4 +20,9 @@ export default defineConfig({
       "@i18n": src("i18n"),
     },
   },
+  test: {
+    // next-intl's ESM build imports `next/navigation` without an extension,
+    // which Node's own resolver rejects; run it through Vite's instead.
+    server: { deps: { inline: ["next-intl"] } },
+  },
 })

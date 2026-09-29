@@ -4185,6 +4185,18 @@
     "emptyPlaceholder": "paste from the Robokassa dashboard",
     "testHint": "In test mode the customer pays with Robokassa's test card and no money moves. Live mode is for after Robokassa has approved the shop.",
     "merchantLoginRequired": "Enter the shop identifier",
+    "modeNeedsPasswords": {
+      "live": "Live mode is missing: {{fields}}. Enter them on the Robokassa page or keep the shop in test mode.",
+      "test": "Test mode is missing: {{fields}}. Enter them on the Robokassa page."
+    },
+    "liveNeedsPasswordsHint": "The shop is in live mode but has no live passwords #1 and #2. Enter them, or save the test passwords with «Save in test mode»: the shop switches to test mode, buyers pay with a test card and no money is charged. Live mode is switched back on from «Payments».",
+    "saveInTestMode": "Save in test mode",
+    "removeConfirm": {
+      "title": "Remove the Robokassa account?",
+      "description": "The shop identifier and all four passwords are erased and buyers no longer see Robokassa at checkout. The only way back is to enter the credentials again.",
+      "confirm": "Remove account",
+      "cancel": "Cancel"
+    },
     "save": "Save",
     "remove": "Remove account",
     "saved": "Payment settings saved",
@@ -5118,7 +5130,8 @@
       "subtitle": "the shop's merchant login and the passwords that sign its payments.",
       "rowSubtitle": "payments on the shop's site",
       "behaviourHint": "The test mode and the hash algorithm live on «Payments»: they are how the shop behaves, not who it is.",
-      "noAccount": "Robokassa has no credentials yet, so there is nothing to save here. Enter the login and passwords on the connection page."
+      "noAccount": "Robokassa has no credentials yet, so there is nothing to save here. Enter the login and passwords on the connection page.",
+      "unreadableBehaviour": "The mode and the signature algorithm are saved together with the credentials, which cannot be read right now. Enter them again on the Robokassa page — you can also save the test passwords there and switch the shop to test mode."
     },
     "cdek": {
       "title": "CDEK",
