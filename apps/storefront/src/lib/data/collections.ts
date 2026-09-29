@@ -8,6 +8,9 @@ import { siteWideRead } from "./site-wide"
 export const retrieveCollection = async (id: string) => {
   const next = {
     ...(await getCacheOptions("collections")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
   }
 
   return await sdk.client
@@ -26,6 +29,9 @@ export const listCollections = async (
 ): Promise<{ collections: HttpTypes.StoreCollection[]; count: number }> => {
   const next = {
     ...(await getCacheOptions("collections")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
   }
 
   queryParams.limit = queryParams.limit || "100"
@@ -74,6 +80,9 @@ const ownedByThisShop = async (
 
   const next = {
     ...(await getCacheOptions("products")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
   }
 
   const owned = await Promise.all(
@@ -103,6 +112,9 @@ export const getCollectionByHandle = async (
 ): Promise<HttpTypes.StoreCollection | null> => {
   const next = {
     ...(await getCacheOptions("collections")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
   }
 
   return await sdk.client

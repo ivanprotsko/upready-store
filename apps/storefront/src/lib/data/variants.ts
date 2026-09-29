@@ -18,6 +18,9 @@ export const retrieveVariant = async (
 
   const next = {
     ...(await getCacheOptions("variants")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
   }
 
   return await sdk.client
