@@ -4187,7 +4187,9 @@
     "merchantLoginRequired": "Enter the shop identifier",
     "modeNeedsPasswords": {
       "live": "Live mode is missing: {{fields}}. Enter them on the Robokassa page or keep the shop in test mode.",
-      "test": "Test mode is missing: {{fields}}. Enter them on the Robokassa page."
+      "test": "Test mode is missing: {{fields}}. Enter them on the Robokassa page.",
+      "liveHere": "Live mode is missing: {{fields}}. Fill in these fields in the form on this page or keep the shop in test mode.",
+      "testHere": "Test mode is missing: {{fields}}. Fill in these fields in the form on this page."
     },
     "liveNeedsPasswordsHint": "The shop is in live mode but has no live passwords #1 and #2. Enter them, or save the test passwords with «Save in test mode»: the shop switches to test mode, buyers pay with a test card and no money is charged. Live mode is switched back on from «Payments».",
     "saveInTestMode": "Save in test mode",

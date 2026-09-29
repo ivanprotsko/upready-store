@@ -18,7 +18,7 @@ jest.setTimeout(180_000);
  * - group 2 = site D + site E;
  * - site C has no group.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 const bearer = (token: string) => ({ headers: { authorization: `Bearer ${token}` } });
 

@@ -19,7 +19,7 @@ jest.setTimeout(180_000);
  * - group 2 = site C + site E, each with its own owner;
  * - site D has no group, like every shop before this change.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const OWNER_A = "owner-a@w12-group.test";
 
 const bearer = (token: string) => ({ headers: { authorization: `Bearer ${token}` } });

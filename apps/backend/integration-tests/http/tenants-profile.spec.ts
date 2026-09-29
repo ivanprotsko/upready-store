@@ -17,7 +17,7 @@ jest.setTimeout(180_000);
  * only ever touches tenant B's row, leaving tenant A's name and password
  * exactly as they were.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 type Registered = {
   token: string;

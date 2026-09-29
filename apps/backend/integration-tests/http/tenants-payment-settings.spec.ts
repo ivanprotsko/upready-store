@@ -35,7 +35,7 @@ type Registered = {
   tenant: { id: string; handle: string; api_key: { id: string; token: string }; sales_channel: { id: string } };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const PROVIDER = "pp_robokassa_robokassa";
 const CREDENTIALS = {
   provider: "robokassa" as const,

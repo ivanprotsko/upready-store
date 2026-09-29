@@ -29,7 +29,7 @@ type Registered = {
   publishableKey: { id: string; token: string };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 /** A valid document: the composition vocabulary `upready.storefront-settings/v1`
  *  plus the tenant's own content for those blocks. */

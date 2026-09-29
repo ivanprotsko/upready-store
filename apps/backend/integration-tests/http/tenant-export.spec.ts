@@ -22,7 +22,7 @@ jest.setTimeout(180_000);
  * the literal `localhost`, and the database resets between tests, so every
  * `it` block below registers its own tenant and admin.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 const productBody = (title: string) => ({
   title,

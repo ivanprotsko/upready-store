@@ -26,7 +26,7 @@ jest.setTimeout(240_000);
  * its post-`beforeAll` snapshot before every test (AGENTS.md, "Verifying Your
  * Work"), so nothing an earlier `it` wrote is on file here.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 type Registered = {
   token: string;

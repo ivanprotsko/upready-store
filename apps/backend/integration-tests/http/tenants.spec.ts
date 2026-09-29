@@ -38,7 +38,7 @@ type Registered = {
   publishableKey: { id: string; token: string };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 const productBody = (title: string) => ({
   title,

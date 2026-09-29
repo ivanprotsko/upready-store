@@ -22,7 +22,7 @@ jest.setTimeout(180_000);
  * `afterAll` cleans them up explicitly.
  */
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 // A minimal valid 1x1 transparent PNG.
 const PNG_BUFFER = Buffer.from(

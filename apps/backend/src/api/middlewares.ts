@@ -330,10 +330,15 @@ export default defineMiddlewares({
       middlewares: [rateLimit(), blockArchivedTenantLogin],
     },
     // 46df A-22: the reset-password link sets a new password through Medusa's
-    // own `/update` handler, which checks no length. The owner (actor
-    // `tenant`) and platform staff (actor `user`) get the same 12-character
-    // floor as `POST /tenants/me/password`; buyers' `/auth/customer/*` is not
-    // touched.
+    // own `/update` handler, which checks no length, and so does `/register`,
+    // where the owner's first password is set. The owner (actor `tenant`) and
+    // platform staff (actor `user`) get the same 12-character floor as
+    // `POST /tenants/me/password`; buyers' `/auth/customer/*` is not touched.
+    {
+      matcher: "/auth/tenant/emailpass/register",
+      method: ["POST"],
+      middlewares: [requireOwnerPasswordLength],
+    },
     {
       matcher: "/auth/tenant/emailpass/update",
       method: ["POST"],

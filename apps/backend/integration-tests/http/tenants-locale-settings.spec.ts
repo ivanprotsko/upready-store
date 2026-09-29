@@ -24,7 +24,7 @@ type Registered = {
   tenant: Tenant;
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 const document = (overrides: Record<string, unknown> = {}) => ({
   default_locale: "ru",

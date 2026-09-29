@@ -40,7 +40,7 @@ type Registered = {
   tenant: { id: string; handle: string; sales_channel: { id: string } };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 medusaIntegrationTestRunner({
   testSuite: ({ api, getContainer }) => {

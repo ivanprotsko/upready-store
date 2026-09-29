@@ -44,7 +44,7 @@ type Registered = {
   };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const CUSTOMER_PASSWORD = "supersecret-customer";
 
 medusaIntegrationTestRunner({

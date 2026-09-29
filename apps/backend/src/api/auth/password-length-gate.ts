@@ -19,6 +19,10 @@ export const OWNER_PASSWORD_TOO_SHORT_MESSAGE = `Password must be at least ${OWN
  * the gate runs here, before the core handler, and answers `400` with the
  * same text the panel shows to the owner. A stored shorter password is never
  * read here; only the one being set.
+ *
+ * `POST /auth/tenant/emailpass/register` (the owner's first password, set by
+ * the storefront's onboarding wizard) goes through `EmailPassAuthService.register`
+ * with the same lack of a check, so the same gate runs there too.
  */
 export const requireOwnerPasswordLength = (
   req: MedusaRequest<{ password?: unknown }>,

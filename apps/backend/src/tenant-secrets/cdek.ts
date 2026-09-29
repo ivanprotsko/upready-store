@@ -144,6 +144,33 @@ export const readCdekSecret = async (
   };
 };
 
+/**
+ * `readCdekSecret` for a PUBLIC path (46df A-02), the same shape as
+ * `readRobokassaSecretPublic`: a row this deployment cannot decrypt (a database
+ * restored under another `INTEGRATION_ENCRYPTION_KEY`, a rotated key) used to
+ * answer `GET /store/cdek/cities` and `/store/cdek/points` with a 500. Here the
+ * failure is logged once at `warn` with the tenant id (never the payload, never
+ * the key) and the shop reads as "CDEK not connected". Panel routes and the
+ * fulfillment provider keep calling `readCdekSecret` and let the error surface.
+ */
+export const readCdekSecretPublic = async (
+  pg: Knex,
+  tenantId: string,
+  logger: { warn: (message: string) => void },
+  options: { includeDisabled?: boolean } = {},
+): Promise<ResolvedCdekSecret | null> => {
+  try {
+    return await readCdekSecret(pg, tenantId, options);
+  } catch (error) {
+    logger.warn(
+      `CDEK secret for tenant ${tenantId} could not be read; treating CDEK as not connected on this public read (${
+        error instanceof Error ? error.name : "unknown error"
+      })`,
+    );
+    return null;
+  }
+};
+
 /** An empty payload, so a first save does not have to spell every field out. */
 export const emptyCdekCredentials = (): CdekCredentialsPayload => ({
   account: "",

@@ -44,7 +44,7 @@ type Registered = {
   tenant: { id: string; handle: string };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const A_TOKEN = "seam-apiship-token-aaaa1111";
 const B_TOKEN = "seam-apiship-token-bbbb2222";
 

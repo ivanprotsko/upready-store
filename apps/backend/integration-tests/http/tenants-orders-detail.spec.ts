@@ -34,7 +34,7 @@ type Registered = {
   };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 medusaIntegrationTestRunner({
   testSuite: ({ api, getContainer }) => {

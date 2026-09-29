@@ -35,7 +35,7 @@ type Registered = {
   tenant: { id: string; handle: string };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 /**
  * A WB-shaped token: three base64url parts whose payload carries `s` with bit
