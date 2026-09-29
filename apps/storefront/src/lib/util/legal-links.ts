@@ -91,14 +91,31 @@ export const NO_TENANT: LegalLinkContext = { hasTenant: false, pageKeys: [] }
  */
 export function legalHref(
   slot: LegalSlot,
-  { hasTenant, pageKeys }: LegalLinkContext
+  context: LegalLinkContext
 ): string | null {
+  const { hasTenant, pageKeys } = context
+
   if (!hasTenant) {
     return LEGAL_SLOTS[slot].starter
   }
 
-  const key = LEGAL_SLOTS[slot].keys.find((candidate) =>
-    pageKeys.includes(candidate)
+  // A-23 (46df audit): `termsOfUse.keys` carries `"terms"` as its own fallback
+  // — a shop with no dedicated usage-terms page still answers through the
+  // contract — but resolving it HERE, via the exact key the `terms` slot
+  // itself would claim, meant a shop whose only page is literally named
+  // `terms` (not `offer`) got BOTH slots pointing at `/pages/terms` directly,
+  // rather than through `consentHref`'s own explicit, documented fallback
+  // below. Exclude whatever key `terms` itself already resolved to (a KEY,
+  // not a blanket `"terms"` — `terms` resolving through `offer` instead still
+  // leaves the literal `terms` page free for this slot, `OKSANA_AFTER` in
+  // `legal-links.test.ts`), and let the explicit fallback carry the shop that
+  // still has none.
+  const claimedByTerms =
+    slot === "termsOfUse" ? legalHref("terms", context) : null
+  const claimedKey = claimedByTerms?.replace(/^\/pages\//, "") ?? null
+
+  const key = LEGAL_SLOTS[slot].keys.find(
+    (candidate) => pageKeys.includes(candidate) && candidate !== claimedKey
   )
 
   return key ? `/pages/${key}` : null

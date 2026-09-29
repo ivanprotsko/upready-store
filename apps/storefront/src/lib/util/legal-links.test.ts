@@ -88,6 +88,26 @@ describe("legalHref", () => {
     expect(legalHref("terms", shop)).toBeNull()
     expect(legalHref("termsOfUse", shop)).toBeNull()
   })
+
+  /**
+   * A-23 (46df audit): a shop whose only legal page is literally named `terms`
+   * (not `offer`) had `termsOfUse` resolve through that SAME key directly —
+   * both slots pointed at `/pages/terms`, invisibly, because every shop this
+   * was tested against (Oksana included) has an `offer` page, not a bare
+   * `terms` one.
+   */
+  it("terms without offer: termsOfUse does not also claim the terms page", () => {
+    const shop = { hasTenant: true, pageKeys: ["terms", "privacy"] }
+    expect(legalHref("terms", shop)).toBe("/pages/terms")
+    expect(legalHref("termsOfUse", shop)).toBeNull()
+    expect(legalHref("termsOfUse", shop)).not.toBe(legalHref("terms", shop))
+  })
+
+  it("terms without offer, but a dedicated terms-of-use page: each slot gets its own", () => {
+    const shop = { hasTenant: true, pageKeys: ["terms", "terms-of-use"] }
+    expect(legalHref("terms", shop)).toBe("/pages/terms")
+    expect(legalHref("termsOfUse", shop)).toBe("/pages/terms-of-use")
+  })
 })
 
 describe("consentHref", () => {
