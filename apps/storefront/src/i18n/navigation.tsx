@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react"
 import NextLink from "next/link"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import { createNavigation } from "next-intl/navigation"
 import { isAppLocale } from "./config"
 import { routing } from "./routing"
@@ -35,5 +36,12 @@ export function Link(props: ComponentProps<typeof navigation.Link>) {
     // next/link does (`popover="hint"`); the props themselves are the same.
     return <NextLink {...(rest as ComponentProps<typeof NextLink>)} />
   }
-  return <navigation.Link {...props} />
+  // In a Server Component next-intl's Link suspends on the locale, so the RSC
+  // payload carries it as a lazy row; the slot keeps that lazy off the parent
+  // `<div>`'s own children, where a replay breaks hydration (46df U-06).
+  return (
+    <HydrationSlot>
+      <navigation.Link {...props} />
+    </HydrationSlot>
+  )
 }
