@@ -38,7 +38,7 @@ type Registered = {
   };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const CUSTOMER_PASSWORD = "supersecret-customer";
 
 const productBody = (title: string) => ({

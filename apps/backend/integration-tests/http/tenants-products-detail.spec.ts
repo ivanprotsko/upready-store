@@ -30,7 +30,7 @@ type Product = {
   variants: { id: string; title: string; prices: { amount: number; currency_code: string }[] }[];
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 const productBody = (title: string) => ({
   title,

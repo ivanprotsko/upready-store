@@ -20,7 +20,7 @@ jest.setTimeout(180_000);
  *   draft, an unwritten page and a NEIGHBOUR's page all answer 404, which is the
  *   property a visitor could otherwise probe.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 type Registered = {
   token: string;

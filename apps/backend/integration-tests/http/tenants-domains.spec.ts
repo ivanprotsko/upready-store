@@ -22,7 +22,7 @@ type Registered = {
   tenant: { id: string; handle: string; api_key: { id: string; token: string } };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 medusaIntegrationTestRunner({
   testSuite: ({ api }) => {

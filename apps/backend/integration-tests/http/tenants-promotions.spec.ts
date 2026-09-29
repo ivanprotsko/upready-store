@@ -44,7 +44,7 @@ type Promotion = {
   rules: PromotionRule[];
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const CURRENCY = "eur";
 
 const productBody = (title: string) => ({

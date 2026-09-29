@@ -15,7 +15,7 @@ type Registered = {
   publishableKey: { id: string; token: string };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 /**
  * Seam test of the two delivery lists the panel reads (architecture review

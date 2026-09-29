@@ -23,7 +23,7 @@ jest.setTimeout(180_000);
  * documents): `DB_HOST` must be the literal `localhost`, and the database is
  * restored before every test, so each `it` registers its own tenant.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 const productBody = (title: string, handle: string, sku: string, amount: number) => ({
   title,

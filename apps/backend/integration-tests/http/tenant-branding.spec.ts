@@ -14,7 +14,7 @@ jest.setTimeout(180_000);
  * no extra tenant round trip.
  */
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 // A minimal valid 1x1 transparent PNG — far too small for any of this
 // route's dimension floors, used only to exercise the "too small" rejection.

@@ -18,7 +18,7 @@ jest.setTimeout(180_000);
  * job).
  */
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const YANDEX_CALLBACK = "http://localhost:8000/api/yandex-callback";
 
 type Registered = {

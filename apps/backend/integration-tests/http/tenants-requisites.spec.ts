@@ -27,7 +27,7 @@ jest.setTimeout(180_000);
  *   scoped the same way `/tenants/pages` already is, by the bearer token for
  *   writes and the publishable key for the storefront read.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 type Registered = {
   token: string;

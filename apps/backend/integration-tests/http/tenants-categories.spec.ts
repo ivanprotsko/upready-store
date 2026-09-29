@@ -35,7 +35,7 @@ type Category = {
   parent_category_id: string | null;
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 const productBody = (title: string) => ({
   title,

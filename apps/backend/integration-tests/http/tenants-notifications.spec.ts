@@ -63,7 +63,7 @@ type Registered = {
   tenant: { id: string; handle: string; name: string; api_key: { token: string } };
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 medusaIntegrationTestRunner({
   testSuite: ({ api, getContainer }) => {

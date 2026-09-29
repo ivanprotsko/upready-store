@@ -51,7 +51,7 @@ medusaIntegrationTestRunner({
         const email = `admin@${handle}.test`;
         const registration = await api.post("/auth/tenant/emailpass/register", {
           email,
-          password: "supersecret",
+          password: "supersecret-owner",
         });
         const created = await api.post(
           "/tenants",

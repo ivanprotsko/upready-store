@@ -16,7 +16,7 @@ jest.setTimeout(240_000);
  * one delivery method with a tariff, a custom page, a domain, two products;
  * and an unrelated shop C.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const OWNER_A = "owner@w12-clone.test";
 
 const bearer = (token: string) => ({ headers: { authorization: `Bearer ${token}` } });

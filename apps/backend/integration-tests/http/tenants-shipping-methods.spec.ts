@@ -25,7 +25,7 @@ type Registered = {
   publishableKey: string;
 };
 
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 
 medusaIntegrationTestRunner({
   testSuite: ({ api, getContainer }) => {

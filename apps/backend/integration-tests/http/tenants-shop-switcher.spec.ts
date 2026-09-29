@@ -21,7 +21,7 @@ jest.setTimeout(180_000);
  * and cleared in `afterAll` so no other spec file sharing this Jest worker
  * ever sees it.
  */
-const PASSWORD = "supersecret";
+const PASSWORD = "supersecret-owner";
 const PLATFORM_EMAIL = "app@w25-platform.test";
 
 const bearer = (token: string) => ({ headers: { authorization: `Bearer ${token}` } });
