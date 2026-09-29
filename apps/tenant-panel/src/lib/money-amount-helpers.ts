@@ -1,21 +1,22 @@
 import { currencies } from "./data/currencies"
+import { panelLocale } from "./panel-locale"
 
 export const getDecimalDigits = (currency: string) => {
   return currencies[currency.toUpperCase()]?.decimal_digits ?? 0
 }
 
 /**
- * Returns a formatted amount based on the currency code using the browser's locale
+ * Returns a formatted amount based on the currency code in the panel's language (U-07)
  * @param amount - The amount to format
  * @param currencyCode - The currency code to format the amount in
  * @returns - The formatted amount
  *
  * @example
- * getFormattedAmount(10, "usd") // '$10.00' if the browser's locale is en-US
- * getFormattedAmount(10, "usd") // '10,00 $' if the browser's locale is fr-FR
+ * getFormattedAmount(10, "usd") // '$10.00' if the panel's language is en
+ * getFormattedAmount(10, "usd") // '10,00 $' if the panel's language is fr
  */
 export const getLocaleAmount = (amount: number, currencyCode: string) => {
-  const formatter = new Intl.NumberFormat([], {
+  const formatter = new Intl.NumberFormat(panelLocale(), {
     style: "currency",
     currencyDisplay: "narrowSymbol",
     currency: currencyCode,
@@ -25,7 +26,7 @@ export const getLocaleAmount = (amount: number, currencyCode: string) => {
 }
 
 export const getNativeSymbol = (currencyCode: string) => {
-  const formatted = new Intl.NumberFormat([], {
+  const formatted = new Intl.NumberFormat(panelLocale(), {
     style: "currency",
     currency: currencyCode,
     currencyDisplay: "narrowSymbol",
@@ -38,7 +39,7 @@ export const getNativeSymbol = (currencyCode: string) => {
  * Formats an amount for emphasis (totals, summaries): full decimal precision
  * for the currency plus the sign convention for near-zero amounts. Unlike
  * `getStylizedAmount`'s previous "symbol amount CODE" shape, this follows the
- * browser's locale for symbol placement (e.g. "1 084,00 ₽" under ru), because
+ * panel's language for symbol placement (e.g. "1 084,00 ₽" under ru), because
  * showing both the native symbol and the ISO code together read as a raw,
  * doubled-up value on a single-locale storefront.
  */
@@ -50,7 +51,7 @@ export const getStylizedAmount = (amount: number, currencyCode: string) => {
     currencyCode
   )
 
-  const formatter = new Intl.NumberFormat([], {
+  const formatter = new Intl.NumberFormat(panelLocale(), {
     style: "currency",
     currencyDisplay: "narrowSymbol",
     currency: currencyCode,
