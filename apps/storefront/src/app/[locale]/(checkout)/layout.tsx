@@ -7,6 +7,7 @@ import { Link } from "@i18n/navigation"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import SiteAttribution from "@modules/layout/components/site-attribution"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import { NOINDEX } from "@lib/util/robots"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
@@ -108,7 +109,10 @@ export default async function CheckoutLayout({
           <span className="txt-compact-medium font-semibold text-ui-fg-subtle uppercase">
             {siteName}
           </span>
-          <SiteAttribution />
+          {/* Async Server Component: see HydrationSlot (46df U-06). */}
+          <HydrationSlot>
+            <SiteAttribution />
+          </HydrationSlot>
         </div>
       </footer>
     </div>

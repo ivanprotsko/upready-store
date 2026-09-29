@@ -20,6 +20,10 @@ export default defineConfig({
       "@i18n": src("i18n"),
     },
   },
+  // tsconfig says "preserve" because Next compiles the JSX itself; a suite that
+  // calls a component needs it compiled the way Next does, with the automatic
+  // runtime, or it dies on "React is not defined".
+  esbuild: { jsx: "automatic" },
   test: {
     // next-intl's ESM build imports `next/navigation` without an extension,
     // which Node's own resolver rejects; run it through Vite's instead.

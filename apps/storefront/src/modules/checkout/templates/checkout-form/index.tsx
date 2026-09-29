@@ -13,6 +13,7 @@ import CheckoutPickupPointSheet from "@modules/checkout/components/checkout-pick
 import SignInPrompt from "@modules/checkout/components/sign-in-prompt"
 import RobokassaRetryNotice from "@modules/checkout/components/robokassa-retry-notice"
 import { PickupSheetProvider } from "@modules/checkout/context/pickup-sheet-context"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
 
@@ -58,50 +59,55 @@ export default async function CheckoutForm({
 
   return (
     <div className="flex flex-col px-4 py-6 lg:px-0 lg:py-10 gap-y-6">
-      <RobokassaRetryNotice cart={cart} />
-      {!customer && <SignInPrompt />}
+      {/* SignInPrompt is async, and everything after the shipping options comes
+          past Flight's 3200-byte row limit, so this <div>'s children arrive as
+          lazy rows: one slot around all of them, see HydrationSlot (46df U-06). */}
+      <HydrationSlot>
+        <RobokassaRetryNotice cart={cart} />
+        {!customer && <SignInPrompt />}
 
-      <PickupSheetProvider cart={cart} shippingOptions={shippingOptions}>
-        {!isDigital && (
-          <CheckoutShippingSection
+        <PickupSheetProvider cart={cart} shippingOptions={shippingOptions}>
+          {!isDigital && (
+            <CheckoutShippingSection
+              cart={cart}
+              availableShippingOptions={shippingOptions}
+              regions={regions ?? []}
+              currentCountry={resolvedCountry}
+            />
+          )}
+          <CheckoutInfoRows
             cart={cart}
-            availableShippingOptions={shippingOptions}
-            regions={regions ?? []}
-            currentCountry={resolvedCountry}
+            customer={customer}
+            addresses={addresses}
+            availableShippingMethods={shippingOptions}
+            isDigital={isDigital}
           />
+          {!isDigital && <CheckoutPickupPointSheet />}
+        </PickupSheetProvider>
+
+        <CheckoutItemList cart={cart} />
+
+        {(shippingLink || returnsLink) && (
+          <div className="hidden lg:flex gap-x-4 mt-auto">
+            {shippingLink && (
+              <Link
+                href={shippingLink}
+                className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
+              >
+                {t("shippingLink")}
+              </Link>
+            )}
+            {returnsLink && (
+              <Link
+                href={returnsLink}
+                className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
+              >
+                {t("returnsLink")}
+              </Link>
+            )}
+          </div>
         )}
-        <CheckoutInfoRows
-          cart={cart}
-          customer={customer}
-          addresses={addresses}
-          availableShippingMethods={shippingOptions}
-          isDigital={isDigital}
-        />
-        {!isDigital && <CheckoutPickupPointSheet />}
-      </PickupSheetProvider>
-
-      <CheckoutItemList cart={cart} />
-
-      {(shippingLink || returnsLink) && (
-        <div className="hidden lg:flex gap-x-4 mt-auto">
-          {shippingLink && (
-            <Link
-              href={shippingLink}
-              className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
-            >
-              {t("shippingLink")}
-            </Link>
-          )}
-          {returnsLink && (
-            <Link
-              href={returnsLink}
-              className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
-            >
-              {t("returnsLink")}
-            </Link>
-          )}
-        </div>
-      )}
+      </HydrationSlot>
     </div>
   )
 }
