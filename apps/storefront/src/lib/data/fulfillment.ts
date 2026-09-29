@@ -2,9 +2,16 @@
 
 import { sdk } from "@lib/config"
 import type { HttpTypes } from "@medusajs/types"
+import { cache } from "react"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 
-export const listCartShippingMethods = async (cartId: string) => {
+// A-14 (46df audit): the cart's own shipping options and price were
+// `force-cache` — an owner's price change or a disabled method never reached
+// a checkout already open on the page, only a `force-cache` entry expiring on
+// its own schedule. `no-store` on both; `React.cache()` wraps each so a
+// checkout page that reads the same cart's options from more than one
+// component in the same render still costs one request, not several.
+export const listCartShippingMethods = cache(async (cartId: string) => {
   const headers = {
     ...(await getAuthHeaders()),
   }
@@ -43,14 +50,14 @@ export const listCartShippingMethods = async (cartId: string) => {
         },
         headers,
         next,
-        cache: "force-cache",
+        cache: "no-store",
       }
     )
     .then(({ shipping_options }) => shipping_options)
     .catch(() => {
       return null
     })
-}
+})
 
 export type StorePickupPoint = {
   id: string
@@ -87,7 +94,12 @@ export const listPickupPoints = async () => {
     })
 }
 
-export const calculatePriceForShippingOption = async (
+// A-14 (46df audit): same reasoning as `listCartShippingMethods` above — this
+// never carried `force-cache` explicitly, but named neither `cache` option
+// either, which the framework's own default has changed across versions; an
+// explicit `no-store` says so rather than leaning on whatever that default is
+// today.
+export const calculatePriceForShippingOption = cache(async (
   optionId: string,
   cartId: string,
   data?: Record<string, unknown>
@@ -114,13 +126,14 @@ export const calculatePriceForShippingOption = async (
         body,
         headers,
         next,
+        cache: "no-store",
       }
     )
     .then(({ shipping_option }) => shipping_option)
     .catch((_e) => {
       return null
     })
-}
+})
 
 export type ShippingQuote = {
   shipping_option_id: string
