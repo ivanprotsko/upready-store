@@ -245,9 +245,14 @@ console.log("checked",files.length,"catalogs against",ref.length,"keys");'
 
 Two pieces of locale plumbing are worth knowing before you touch either.
 
-Routing does not use next-intl's own prefixing. [routing.ts](apps/storefront/src/i18n/routing.ts)
-sets `localePrefix` to `never`, and [middleware.ts](apps/storefront/src/middleware.ts) does the work
-by hand. A prefixed path is served as is. A prefix-less path is redirected to `/{locale}/…`, where
+Routing does not use next-intl's own middleware. [routing.ts](apps/storefront/src/i18n/routing.ts)
+sets `localePrefix` to `always`, so the `Link` and `useRouter` of
+[navigation.tsx](apps/storefront/src/i18n/navigation.tsx) write the current locale into every
+internal href and a click never takes a redirect hop. [middleware.ts](apps/storefront/src/middleware.ts)
+does the negotiation by hand. A prefixed path is served as is, unless the shop saved its languages
+and this one is not among them: that answers 301 to the same path in the shop's default language
+(`shopLocaleRedirect` in [shop-locales.ts](apps/storefront/src/lib/util/shop-locales.ts)). A
+prefix-less path is redirected to `/{locale}/…`, where
 the locale is the `_medusa_locale_choice` cookie (written only by the language switcher, through
 `setLocaleCookie` in [locale-actions.ts](apps/storefront/src/lib/data/locale-actions.ts)), else
 `matchBrowserLocale` over the whole `Accept-Language` list (a `preferredLocales` entry — Russian —
