@@ -2,6 +2,16 @@
 # Runs inside the backend runtime image, cwd /app (= the built .medusa/server
 # output copied verbatim in the Dockerfile's runtime stage).
 #
+# 0. warn, loudly, when SMTP_HOST is empty in production. The backend boots and
+#    serves exactly the same without it, because medusa-config.ts registers the
+#    SMTP provider only when SMTP_HOST is set, so the one symptom is that no
+#    e-mail ever leaves: no order confirmation, no password reset, no owner
+#    notice. The live host ran like that from 2026-09-24 at the latest to
+#    2026-09-30, and nothing in its log said so (audit 46df A-03).
+#    The block is printed first and again right before the server starts, so it
+#    is in view whether you read the boot log from the top or `docker logs
+#    --tail` from the bottom. A warning, not a refusal: a stand with no mailbox
+#    is a legitimate deployment.
 # 1. migrate — always safe to re-run, Medusa's own migration runner tracks
 #    what already applied (README.md "Run migrations and sync links").
 # 2. seed — the seed script itself is the guard, not this script: AGENTS.md
@@ -80,6 +90,19 @@
 #    holding the process, matching Docker's own stop/restart expectations.
 set -eu
 
+warn_if_no_smtp() {
+  if [ "${NODE_ENV:-}" = "production" ] && [ -z "${SMTP_HOST:-}" ]; then
+    echo "[entrypoint] ######################################################################"
+    echo "[entrypoint] WARNING: SMTP_HOST is empty in production. This backend sends NO e-mail:"
+    echo "[entrypoint]   no order confirmation, no password reset, no owner notification."
+    echo "[entrypoint]   Set SMTP_HOST, SMTP_USER, SMTP_PASS and SMTP_FROM in the backend env"
+    echo "[entrypoint]   (deploy/mt/shipshift.env.example lists them) and restart the backend."
+    echo "[entrypoint] ######################################################################"
+  fi
+}
+
+warn_if_no_smtp
+
 echo "[entrypoint] running database migrations"
 node_modules/.bin/medusa db:migrate
 
@@ -127,6 +150,8 @@ set -e
 if [ "$orphans_status" -ne 0 ]; then
   echo "[entrypoint] WARNING: link-orphan-orders exited $orphans_status; some orders may still be missing from their owner's panel"
 fi
+
+warn_if_no_smtp
 
 echo "[entrypoint] starting: $*"
 exec "$@"

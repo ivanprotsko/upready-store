@@ -96,7 +96,7 @@ The two apps have their own READMEs: [`apps/backend`](apps/backend/README.md) an
 - [Node.js](https://nodejs.org/) v20.19 or later, or v22.12 or later. The backend's `engines` field excludes v21.
 - [PostgreSQL](https://www.postgresql.org/) v15 or later
 - A package manager: npm, yarn, or [pnpm](https://pnpm.io/). See [Package Managers](#package-managers).
-- [Redis](https://redis.io/), optional in development. Development runs the in-memory cache, event bus, and workflow engine unless you set `USE_REDIS=true` alongside `REDIS_URL`. Production uses Redis whenever `REDIS_URL` is set.
+- [Redis](https://redis.io/), optional in development. Development runs the in-memory cache, event bus, workflow engine, and locks unless you set `USE_REDIS=true` alongside `REDIS_URL`. Production uses Redis whenever `REDIS_URL` is set.
 
 ### Package Managers
 
@@ -244,7 +244,7 @@ With npm or yarn, run each app's own scripts instead. `apps/backend` defines `de
 Both apps deploy like any Medusa 2 and Next.js pair. A few starter-specific notes:
 
 - The backend's `build` script also runs [`scripts/copy-migration-data.js`](apps/backend/scripts/copy-migration-data.js), which copies the seed JSON into the build output so the seed script can run from a build.
-- Set `REDIS_URL` in production. The backend then uses Redis for its cache, event bus, and workflow engine instead of the in-memory defaults.
+- Set `REDIS_URL` in production. The backend then uses Redis for its cache, event bus, workflow engine, and locks instead of the in-memory defaults, so a restart no longer drops the events and workflow steps still in flight.
 - Set `S3_BUCKET`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, and `S3_REGION` to move file uploads to S3-compatible storage in production.
 - Add the storefront and Admin origins to `STORE_CORS`, `ADMIN_CORS`, and `AUTH_CORS`, and set `STOREFRONT_URL` so revalidation webhooks and email links point at the real domain.
 - On [Medusa Cloud](https://cloud.medusajs.com), set `MEDUSA_CLOUD_S3_HOSTNAME` and `MEDUSA_CLOUD_S3_PATHNAME` in the storefront so Next.js accepts images from the bucket.

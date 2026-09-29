@@ -49,6 +49,48 @@ services:
         reservations:
           memory: 256M
 
+  # Medusa's event bus, workflow engine and locks (audit 46df A-04). Without
+  # it all three live in the backend's memory, so every restart dropped what
+  # was in flight: an `order.placed` caught by a deploy never ran its
+  # subscribers, the one that files the order under its shop included. The
+  # backend switches over on REDIS_URL alone (apps/backend/src/config/redis.ts).
+  #
+  # `noeviction` because BullMQ, which carries the event bus and the workflow
+  # engine, loses jobs under any eviction policy; when the ceiling is reached
+  # Redis refuses writes loudly instead. The cache's keys all carry a TTL, so
+  # the ceiling is not something it fills. `appendonly` so a queued job
+  # survives Redis' own restart, not only the backend's.
+  #
+  # Only on `mt-private`, never on `coolify`: that network is shared with every
+  # other stack on this host, and this Redis has no password.
+  redis:
+    image: redis:7-alpine
+    container_name: mt-redis
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --maxmemory
+      - 256mb
+      - --maxmemory-policy
+      - noeviction
+    volumes:
+      - redis-data:/data
+    networks:
+      - mt-private
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+        reservations:
+          memory: 64M
+
   backend:
     build:
       context: ../.
@@ -59,10 +101,16 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       NODE_ENV: production
       PORT: "9000"
       DATABASE_URL: postgres://medusa:${POSTGRES_PASSWORD}@mt-postgres:5432/${DB_NAME:-medusa_mt}
+      # The `redis` service above. Production needs REDIS_URL alone; USE_REDIS
+      # is spelled out so nobody reads its absence as "Redis is off".
+      REDIS_URL: redis://mt-redis:6379
+      USE_REDIS: "true"
       JWT_SECRET: ${JWT_SECRET}
       COOKIE_SECRET: ${COOKIE_SECRET}
       # The session cookie is Secure in production unless this is `false`
@@ -168,7 +216,10 @@ services:
       # owner uploads is destroyed by the next `up -d --build`.
       - ${TENANT_MEDIA_HOST_PATH:-/opt/upready-store/media-tenants}:/app/static/tenants
     networks:
+      # traefik reaches the backend on `coolify` (the traefik.docker.network
+      # label below pins it); Redis only on `mt-private`.
       - coolify
+      - mt-private
     healthcheck: *backend-healthcheck
     deploy:
       resources:
@@ -371,6 +422,9 @@ services:
 networks:
   coolify:
     external: true
+  # The backend and Redis, nothing else.
+  mt-private: {}
 
 volumes:
   db-data:
+  redis-data:

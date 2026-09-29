@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from "@medusajs/framework/utils";
 import { installStaticFileHeaders } from "./src/tenant-files/static-headers";
 import { assertProductionEnv, cookieSecure, DEV_SECRET } from "./src/config/production-env";
+import { redisModules, useRedis } from "./src/config/redis";
 
 loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
@@ -9,11 +10,10 @@ loadEnv(process.env.NODE_ENV || "development", process.cwd());
 installStaticFileHeaders();
 
 const isProd = process.env.NODE_ENV === "production";
-const redisUrl = process.env.REDIS_URL;
 
-// create-medusa-app writes REDIS_URL into every generated .env whether Redis runs
-// or not, so development requires an explicit opt-in.
-const useRedis = Boolean(redisUrl) && (isProd || process.env.USE_REDIS === "true");
+// Event bus, workflow engine, locks and cache on Redis once REDIS_URL is set in
+// production (USE_REDIS=true opts development in): src/config/redis.ts.
+const redisEnabled = useRedis();
 const useSmtp = Boolean(process.env.SMTP_HOST);
 const useS3 = isProd && Boolean(process.env.S3_BUCKET);
 
@@ -34,21 +34,6 @@ const smtpProvider = {
     reply_to: process.env.SMTP_REPLY_TO,
   },
 };
-
-const redisModules = [
-  {
-    resolve: "@medusajs/medusa/cache-redis",
-    options: { redisUrl: process.env.CACHE_REDIS_URL || redisUrl },
-  },
-  {
-    resolve: "@medusajs/medusa/event-bus-redis",
-    options: { redisUrl },
-  },
-  {
-    resolve: "@medusajs/medusa/workflow-engine-redis",
-    options: { redis: { url: redisUrl } },
-  },
-];
 
 const s3Module = {
   resolve: "@medusajs/medusa/file",
@@ -158,7 +143,7 @@ module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
     databaseDriverOptions: { connection: { ssl: false } },
-    redisUrl: useRedis ? redisUrl : undefined,
+    redisUrl: redisEnabled ? process.env.REDIS_URL : undefined,
     http: {
       storeCors: process.env.STORE_CORS!,
       adminCors: process.env.ADMIN_CORS!,
@@ -278,7 +263,7 @@ module.exports = defineConfig({
         ],
       },
     },
-    ...(useRedis ? redisModules : []),
+    ...(redisEnabled ? redisModules() : []),
     ...(useS3 ? [s3Module] : [localFileModule]),
     {
       // Payment. The framework registers the manual provider
