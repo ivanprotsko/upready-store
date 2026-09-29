@@ -721,7 +721,7 @@
       "canceled": "ยกเลิกแล้ว",
       "delivered": "ส่งถึงแล้ว",
       "fulfilled": "จัดเตรียมแล้ว",
-      "not_fulfilled": "ยังไม่จัดเตรียม",
+      "not_fulfilled": "กำลังจัดเตรียมเพื่อจัดส่ง",
       "partially_delivered": "ส่งถึงบางส่วน",
       "partially_fulfilled": "จัดเตรียมบางส่วน",
       "partially_shipped": "จัดส่งบางส่วน",

@@ -721,7 +721,7 @@
       "canceled": "Dibatalkan",
       "delivered": "Diterima",
       "fulfilled": "Diproses",
-      "not_fulfilled": "Belum diproses",
+      "not_fulfilled": "Sedang disiapkan untuk pengiriman",
       "partially_delivered": "Diterima sebagian",
       "partially_fulfilled": "Diproses sebagian",
       "partially_shipped": "Dikirim sebagian",

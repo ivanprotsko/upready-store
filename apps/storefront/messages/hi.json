@@ -721,7 +721,7 @@
       "canceled": "रद्द किया गया",
       "delivered": "डिलीवर हुआ",
       "fulfilled": "पूरा हुआ",
-      "not_fulfilled": "पूरा नहीं हुआ",
+      "not_fulfilled": "भेजने के लिए तैयार किया जा रहा है",
       "partially_delivered": "आंशिक रूप से डिलीवर हुआ",
       "partially_fulfilled": "आंशिक रूप से पूरा हुआ",
       "partially_shipped": "आंशिक रूप से भेजा गया",

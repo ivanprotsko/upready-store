@@ -721,7 +721,7 @@
       "canceled": "Peruutettu",
       "delivered": "Toimitettu",
       "fulfilled": "Käsitelty",
-      "not_fulfilled": "Ei käsitelty",
+      "not_fulfilled": "Valmistellaan lähetystä",
       "partially_delivered": "Osittain toimitettu",
       "partially_fulfilled": "Osittain käsitelty",
       "partially_shipped": "Osittain lähetetty",

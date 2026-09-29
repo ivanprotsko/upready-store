@@ -721,7 +721,7 @@
       "canceled": "已取消",
       "delivered": "已送达",
       "fulfilled": "已处理",
-      "not_fulfilled": "未处理",
+      "not_fulfilled": "正在准备发货",
       "partially_delivered": "部分送达",
       "partially_fulfilled": "部分处理",
       "partially_shipped": "部分发货",

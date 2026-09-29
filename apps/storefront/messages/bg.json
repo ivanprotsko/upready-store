@@ -721,7 +721,7 @@
       "canceled": "Отказана",
       "delivered": "Доставена",
       "fulfilled": "Обработена",
-      "not_fulfilled": "Необработена",
+      "not_fulfilled": "Подготвяме за изпращане",
       "partially_delivered": "Частично доставена",
       "partially_fulfilled": "Частично обработена",
       "partially_shipped": "Частично изпратена",

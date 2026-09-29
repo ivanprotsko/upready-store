@@ -721,7 +721,7 @@
       "canceled": "İptal edildi",
       "delivered": "Teslim edildi",
       "fulfilled": "Hazırlandı",
-      "not_fulfilled": "Hazırlanmadı",
+      "not_fulfilled": "Gönderime hazırlanıyor",
       "partially_delivered": "Kısmen teslim edildi",
       "partially_fulfilled": "Kısmen hazırlandı",
       "partially_shipped": "Kısmen gönderildi",

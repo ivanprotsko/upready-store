@@ -721,7 +721,7 @@
       "canceled": "취소됨",
       "delivered": "배송 완료",
       "fulfilled": "처리됨",
-      "not_fulfilled": "미처리",
+      "not_fulfilled": "배송 준비 중",
       "partially_delivered": "부분 배송 완료",
       "partially_fulfilled": "부분 처리됨",
       "partially_shipped": "부분 발송됨",

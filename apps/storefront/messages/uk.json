@@ -721,7 +721,7 @@
       "canceled": "Скасовано",
       "delivered": "Доставлено",
       "fulfilled": "Зібрано",
-      "not_fulfilled": "Не зібрано",
+      "not_fulfilled": "Готуємо до відправки",
       "partially_delivered": "Доставлено частково",
       "partially_fulfilled": "Зібрано частково",
       "partially_shipped": "Відправлено частково",

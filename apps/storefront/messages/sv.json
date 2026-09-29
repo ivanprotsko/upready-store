@@ -721,7 +721,7 @@
       "canceled": "Avbruten",
       "delivered": "Levererad",
       "fulfilled": "Behandlad",
-      "not_fulfilled": "Ej behandlad",
+      "not_fulfilled": "Förbereder frakt",
       "partially_delivered": "Delvis levererad",
       "partially_fulfilled": "Delvis behandlad",
       "partially_shipped": "Delvis skickad",
