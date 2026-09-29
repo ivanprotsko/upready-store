@@ -112,8 +112,14 @@ ordinary deploy needs no manual follow-up. In order:
    answer 301 after a plain deploy; before this step existed, the rows were written by hand with
    `import-cherkashino-redirects.ts` against one task's registry JSON, and the live platform ran for
    three days with an empty `tenant_redirect` and a 404 on every old address.
+7. `link-robokassa-regions.js` — offers Robokassa in every RUB region.
+8. `link-orphan-orders.js` — links every placed order in a shop's sales channel that has no
+   tenant-order link (`src/tenant-orders/link-orphan-orders.ts`). The `order.placed` subscriber
+   writes that link once, and the panel lists orders only through it. The `link-orphan-orders` job
+   runs the same code every ten minutes. `npx medusa exec ./src/scripts/link-orphan-orders.ts dry-run`
+   counts the orphans without linking them.
 
-Steps 5 and 6 are convergence, not correctness: `set -e` is lifted for them and a failure is logged
+Steps 5 to 8 are convergence, not correctness: `set -e` is lifted for them and a failure is logged
 rather than kept the backend down. Both are idempotent, and step 6 additionally stamps each tenant
 it seeded (`tenant.metadata.redirects_seeded_from`) so a redirect the OWNER deleted in the panel is
 not resurrected on the next boot. To seed a catalogue imported after that stamp by hand:
