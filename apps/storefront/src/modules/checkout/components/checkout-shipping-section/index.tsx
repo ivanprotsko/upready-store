@@ -582,8 +582,10 @@ export default function CheckoutShippingSection({
                   key={itemValue}
                   className={clx(
                     "relative flex w-[180px] shrink-0 flex-col gap-2 justify-between rounded-md border bg-ui-bg-base p-3 text-start transition-colors",
+                    // Dashed and without a fill: a filled card reads as the
+                    // chosen one in a theme that tints the selection.
                     unpriced
-                      ? "border-ui-border-base bg-ui-bg-disabled"
+                      ? "border-dashed border-ui-border-base"
                       : isSelected
                         ? "border-ui-border-interactive hover:bg-ui-bg-base-hover"
                         : "border-ui-border-base hover:bg-ui-bg-base-hover hover:border-ui-border-interactive/50"
@@ -717,7 +719,12 @@ export default function CheckoutShippingSection({
                         )}
                       </div>
 
-                      <div className="flex h-5 w-5 shrink-0 items-center justify-center">
+                      <div
+                        className={clx(
+                          "flex h-5 w-5 shrink-0 items-center justify-center",
+                          unpriced && "invisible"
+                        )}
+                      >
                         <div
                           className={clx(
                             "flex h-3.5 w-3.5 items-center justify-center rounded-full border bg-ui-bg-base shadow-borders-base",
