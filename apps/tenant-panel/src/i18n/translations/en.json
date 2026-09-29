@@ -58,7 +58,11 @@
       "editLabel": "Billing address",
       "header": "Billing Address",
       "label": "Billing address",
-      "sameAsShipping": "Same as shipping address"
+      "sameAsShipping": "Same as shipping address",
+      "sameAsBuyer": "Same as the buyer's address"
+    },
+    "buyerAddress": {
+      "label": "Buyer's address"
     },
     "contactHeading": "Contact",
     "locationHeading": "Location",
@@ -1835,6 +1839,7 @@
       "pendingAuthorization": "Payment is awaiting authorization from the payment provider.",
       "provider": {
         "manual": "Manual payment",
+        "robokassa": "Robokassa",
         "unknown": "Unknown provider"
       },
       "refund": "Refund",
@@ -5201,7 +5206,7 @@
       "removeDescription": "The token and the key are deleted and the delivery method leaves the cart.",
       "removed": "Russian Post disconnected",
       "cancel": "Cancel",
-      "orderHeading": "Russian Post pickup point",
+      "orderHeading": "Ship to: Russian Post pickup point",
       "orderIndex": "Postcode {{index}}",
       "orderTerm": "Term: {{term}}",
       "orderEstimate": "Priced as an estimate at the retail Parcel rate",

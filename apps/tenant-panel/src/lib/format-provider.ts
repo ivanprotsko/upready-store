@@ -13,6 +13,7 @@ export const formatProvider = (id: string) => {
     name
       .split("-")
       .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-      .join(" ") + (type ? ` (${type.toUpperCase()})` : "")
+      // `pp_robokassa_robokassa` read «Robokassa (ROBOKASSA)» (U-16, 46df).
+      .join(" ") + (type && type !== name ? ` (${type.toUpperCase()})` : "")
   )
 }

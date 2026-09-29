@@ -171,7 +171,8 @@ const UnfulfilledItemDisplay = ({
             </StatusBadge>
           )}
 
-          <StatusBadge color="red" className="text-nowrap">
+          {/* Blue «in progress» like the order's own «Не собран» (U-16). */}
+          <StatusBadge color="blue" className="text-nowrap">
             {t("orders.fulfillment.awaitingFulfillmentBadge")}
           </StatusBadge>
 
