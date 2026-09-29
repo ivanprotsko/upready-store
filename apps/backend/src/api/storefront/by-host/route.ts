@@ -1,6 +1,7 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
+import type { Logger } from "@medusajs/framework/types";
 import { resolveAttribution } from "./attribution";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
@@ -8,7 +9,7 @@ import {
   manualPaymentPublicView,
   readManualPayment,
 } from "../../tenants/payment-settings/manual/manual-payment";
-import { readRobokassaSecret } from "../../../tenant-secrets/robokassa";
+import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
 import { manualPaymentMethods, resolveTenantPaymentMethods } from "../../../tenant-secrets/payment-methods";
 import {
   baseDomains,
@@ -158,7 +159,8 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   // `/store/payment-providers` (the checkout's own filter) uses the same
   // resolver against the same facts.
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  const robokassaSecret = await readRobokassaSecret(pg, tenant.id as string);
+  const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
+  const robokassaSecret = await readRobokassaSecretPublic(pg, tenant.id as string, logger);
   const paymentMethods = resolveTenantPaymentMethods({
     robokassaEnabled: Boolean(robokassaSecret),
     ...manualPaymentMethods(manualPayment),

@@ -111,6 +111,37 @@ export const readRobokassaSecret = async (
 };
 
 /**
+ * `readRobokassaSecret` for a PUBLIC path (46df A-02): a wrong `INTEGRATION_ENCRYPTION_KEY`, a
+ * restored database on a different one, or a tampered row makes `decryptJson` throw, and that
+ * throw used to reach `GET /storefront/by-host` uncaught — the resolver 500s, the storefront gets
+ * no publishable key, and the WHOLE shop stops opening over one shop's one bad Robokassa secret.
+ * Here the decrypt failure is caught, logged once at `warn` (never the payload, never the key),
+ * and the shop reads as "Robokassa not connected" instead — the same shape `readRobokassaSecret`
+ * already returns for "no row"/"disabled row", so every existing caller of THIS function needs no
+ * further change. An owner-authenticated panel route (`/tenants/payment-settings`) should keep
+ * calling `readRobokassaSecret` directly and let the error surface, so the owner is told the key
+ * needs re-entering rather than silently seeing "not connected" (finding's own point 4; the panel
+ * message itself is out of this task's scope — see the report).
+ */
+export const readRobokassaSecretPublic = async (
+  pg: Knex,
+  tenantId: string,
+  logger: { warn: (message: string) => void },
+  options: { includeDisabled?: boolean } = {},
+): Promise<ResolvedRobokassaSecret | null> => {
+  try {
+    return await readRobokassaSecret(pg, tenantId, options);
+  } catch (error) {
+    logger.warn(
+      `Robokassa secret for tenant ${tenantId} could not be decrypted; treating Robokassa as not connected on this public read (${
+        error instanceof Error ? error.message : String(error)
+      })`,
+    );
+    return null;
+  }
+};
+
+/**
  * Robokassa's signature: the listed values joined with `:` and hashed with the
  * merchant's chosen algorithm, hex. Empty values are dropped from the join,
  * exactly as `@gorgo/medusa-payment-robokassa`'s `createSignature` does (read
