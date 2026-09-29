@@ -17,6 +17,7 @@ import type { TenantPaymentMethods } from "@lib/tenant/resolve"
 import { CreditCard } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
 import PaymentButton from "@modules/checkout/components/payment-button"
+import { CHECKOUT_PAYMENT_ANCHOR } from "@modules/checkout/components/robokassa-retry-notice"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { StripePaymentContainer } from "@modules/checkout/components/payment-container"
 import DemoCardFields, {
@@ -253,7 +254,10 @@ export default function CheckoutPaymentSection({
   }
 
   return (
-    <div className="flex flex-col gap-y-6">
+    <div
+      id={CHECKOUT_PAYMENT_ANCHOR}
+      className="flex flex-col gap-y-6 scroll-mt-4"
+    >
       {/* Payment methods */}
       {!paidByGiftcard && availablePaymentMethods.length > 0 && (
         <div className="flex flex-col gap-y-3">
