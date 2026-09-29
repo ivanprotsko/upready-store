@@ -324,7 +324,7 @@ export default function Wizard({ paidLine, tariff }: { paidLine: string | null; 
                 {passwordShown ? <Eye size="18" /> : <EyeOff size="18" />}
               </button>
             </div>
-            <span className={styles.hint}>Не короче восьми знаков.</span>
+            <span className={styles.hint}>Не короче двенадцати знаков.</span>
           </div>
 
           <div className={styles.actions}>
