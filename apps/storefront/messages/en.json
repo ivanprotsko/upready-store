@@ -1053,5 +1053,13 @@
     "about": "About the programme",
     "faq": "Questions and answers",
     "testimonials": "Participant testimonials"
+  },
+  "PochtaPoint": {
+    "heading": "Russian Post pickup point",
+    "chooseHeading": "Choose a Russian Post pickup point",
+    "notConfigured": "Russian Post delivery is not set up in this shop yet.",
+    "estimate": "Estimate at the retail Parcel rate",
+    "quoteFailed": "Delivery to this point could not be priced. Choose another one.",
+    "postcode": "Postcode {index}"
   }
 }

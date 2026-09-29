@@ -42,8 +42,9 @@ export const retrieveOrder = async (id: string, token?: string) => {
         fields:
           // +fulfillments.labels / +fulfillments.metadata: the tracking number and
           // the carrier the shop owner typed on the shipment (t04-shipping-tariffs),
-          // shown under the account order-timeline.
-          "*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,*fulfillments.labels,+fulfillments.metadata",
+          // shown under the account order-timeline. +shipping_methods.data: the
+          // Russian Post pickup point the provider recorded (46df-pochta).
+          "*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at,*fulfillments.labels,+fulfillments.metadata,+shipping_methods.data",
       },
       headers,
       next,

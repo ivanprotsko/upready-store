@@ -21,6 +21,13 @@ import {
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
 import { usePickupSheet } from "@modules/checkout/context/pickup-sheet-context"
 import CheckoutCdekPointSheet from "@modules/checkout/components/checkout-cdek-point-sheet"
+import CheckoutPochtaPointSheet from "@modules/checkout/components/checkout-pochta-point-sheet"
+import {
+  chosenPochtaPoint,
+  cityForPochtaSearch,
+  isPochtaOption,
+  type PochtaStorePoint,
+} from "@lib/util/pochta"
 import { Loader, CursorDefault } from "@medusajs/icons"
 import { DropdownMenu, RadioGroup, clx } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
@@ -108,6 +115,7 @@ export default function CheckoutShippingSection({
 }: CheckoutShippingSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tCdek = useTranslations("CdekPoint")
+  const tPochta = useTranslations("PochtaPoint")
   const dir = useLocaleDirection()
   const getErrorMessage = useErrorMessage()
   const locale = useLocale()
@@ -140,6 +148,14 @@ export default function CheckoutShippingSection({
   const [cdekSheetOptionId, setCdekSheetOptionId] = useState<string | null>(null)
   const cdekChosen = chosenCdekPoint(cart)
   const cdekTerm = cdekTermOf(cart)
+
+  /**
+   * The Russian Post method whose point sheet is open, and the point already on
+   * the cart (46df-pochta). Same shape as CDEK's: the provider refuses the
+   * method without a point, so the sheet performs the `setShippingMethod`.
+   */
+  const [pochtaSheetOptionId, setPochtaSheetOptionId] = useState<string | null>(null)
+  const pochtaChosen = chosenPochtaPoint(cart)
 
   const [now, setNow] = useState<Date | null>(null)
   useEffect(() => {
@@ -335,8 +351,37 @@ export default function CheckoutShippingSection({
     return null
   }
 
+  /** Sets the Russian Post method with the point; the error goes back to the sheet. */
+  const handleChoosePochtaPoint = async (point: PochtaStorePoint): Promise<string | null> => {
+    if (!pochtaSheetOptionId) return null
+    setShippingError(null)
+    const prev = shippingMethodId
+    setShippingMethodId(pochtaSheetOptionId)
+    const err = await trackCartUpdate(() =>
+      setShippingMethod({
+        cartId: cart.id,
+        shippingMethodId: pochtaSheetOptionId,
+        data: {
+          pochta_point_index: point.index,
+          pochta_point_kind: point.kind,
+          pochta_point_name: point.name,
+          pochta_point_address: point.address,
+        },
+      })
+    ).catch((e: Error) => e.message)
+    if (err) {
+      setShippingMethodId(prev)
+      return getErrorMessage(err as string)
+    }
+    return null
+  }
+
   const handleValueChange = (value: string) => {
     const option = (availableShippingOptions ?? []).find((sm) => sm.id === value)
+    if (isPochtaOption(option)) {
+      setPochtaSheetOptionId(value)
+      return
+    }
     if (cdekNeedsPoint(option)) {
       // The provider refuses a pickup method with no point, so the sheet runs
       // `setShippingMethod` once the buyer has chosen one.
@@ -490,8 +535,19 @@ export default function CheckoutShippingSection({
                           })
                           : null
 
+              // A Russian Post price depends on the point, so once the method
+              // is the cart's the card shows what the cart is charged, not the
+              // list quote to the buyer's own postcode (46df-pochta).
+              const pochtaMethodAmount =
+                isPochtaOption(option) && pochtaChosen
+                  ? (cart.shipping_methods ?? []).find(
+                      (sm) => sm.shipping_option_id === option.id
+                    )?.amount
+                  : undefined
               const priceAmount =
-                option.price_type === "flat"
+                typeof pochtaMethodAmount === "number"
+                  ? pochtaMethodAmount
+                  : option.price_type === "flat"
                   ? option.amount!
                   : calculatedPricesMap[option.id] !== undefined
                     ? calculatedPricesMap[option.id]
@@ -577,6 +633,35 @@ export default function CheckoutShippingSection({
                     stand). It sits above the radio's own full-card hit area,
                     which is `absolute inset-0 z-10`.
                   */}
+                  {isSelected && isPochtaOption(option) && pochtaChosen && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-base"
+                      data-testid="delivery-option-pochta-point"
+                    >
+                      {[pochtaChosen.pochta_point_address, pochtaChosen.pochta_point_city]
+                        .filter(Boolean)
+                        .join(", ")}{" "}
+                      · {tPochta("postcode", { index: pochtaChosen.pochta_point_index })}
+                    </span>
+                  )}
+                  {isSelected && isPochtaOption(option) && pochtaChosen?.term_label && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-subtle"
+                      data-testid="delivery-option-pochta-term"
+                    >
+                      {pochtaChosen.term_label}
+                    </span>
+                  )}
+                  {isSelected && isPochtaOption(option) && (
+                    <button
+                      type="button"
+                      onClick={() => setPochtaSheetOptionId(option.id)}
+                      className="relative z-20 w-fit txt-compact-xsmall text-ui-fg-interactive underline focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                      data-testid="delivery-option-pochta-change"
+                    >
+                      {tCdek("change")}
+                    </button>
+                  )}
                   {isSelected && cdekNeedsPoint(option) && cdekChosen && (
                     <button
                       type="button"
@@ -662,6 +747,17 @@ export default function CheckoutShippingSection({
           onChoose={handleChooseCdekPoint}
           priceLabel={cdekSheetPriceLabel}
           termLabel={cdekTerm}
+        />
+      )}
+
+      {pochtaSheetOptionId && (
+        <CheckoutPochtaPointSheet
+          open
+          onClose={() => setPochtaSheetOptionId(null)}
+          initialCity={pochtaChosen?.pochta_point_city ?? cityForPochtaSearch(cart)}
+          selectedIndex={pochtaChosen?.pochta_point_index ?? null}
+          onChoose={handleChoosePochtaPoint}
+          currencyCode={cart.currency_code}
         />
       )}
     </div>

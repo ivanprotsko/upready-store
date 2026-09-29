@@ -4,6 +4,7 @@ import { ArrowPath, CurrencyDollar, Envelope, FlyingBox } from "@medusajs/icons"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { CustomerInfo } from "../../../../../components/common/customer-info"
 import { HttpTypes } from "@medusajs/types"
+import { OrderPochtaPoint } from "./order-pochta-point"
 
 type OrderCustomerSectionProps = {
   order: HttpTypes.AdminOrder
@@ -17,6 +18,7 @@ export const OrderCustomerSection = ({ order }: OrderCustomerSectionProps) => {
       <CustomerInfo.Contact data={order} />
       <CustomerInfo.Company data={order} />
       <CustomerInfo.Addresses data={order} />
+      <OrderPochtaPoint order={order} />
     </Container>
   )
 }

@@ -1053,5 +1053,13 @@
     "about": "关于课程",
     "faq": "问题与解答",
     "testimonials": "学员评价"
+  },
+  "PochtaPoint": {
+    "heading": "俄罗斯邮政自提点",
+    "chooseHeading": "选择俄罗斯邮政自提点",
+    "notConfigured": "本店尚未设置俄罗斯邮政配送。",
+    "estimate": "按普通包裹零售价估算",
+    "quoteFailed": "无法计算寄往该自提点的运费，请选择其他自提点。",
+    "postcode": "邮编 {index}"
   }
 }

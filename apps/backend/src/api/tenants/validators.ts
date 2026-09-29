@@ -90,14 +90,16 @@ export const PostTenantUpdateMeSchema = z.strictObject({
 export type PostTenantUpdateMeBody = z.infer<typeof PostTenantUpdateMeSchema>;
 
 /**
- * `POST /tenants/me/password` body. `new_password` shorter than 8 characters
- * is `INVALID_DATA` (zod raises before the route runs); a wrong
- * `current_password` is the route's own `401 UNAUTHORIZED`, never a zod issue,
- * because zod cannot see the stored hash.
+ * `POST /tenants/me/password` body. `new_password` shorter than 12 characters
+ * (46df A-22, ASVS L2 §2.1.1) is `INVALID_DATA` (zod raises before the route
+ * runs) — an existing password already shorter than 12 is untouched, this
+ * only gates a NEW one; a wrong `current_password` is the route's own
+ * `401 UNAUTHORIZED`, never a zod issue, because zod cannot see the stored
+ * hash.
  */
 export const PostTenantUpdatePasswordSchema = z.strictObject({
   current_password: z.string().min(1),
-  new_password: z.string().min(8),
+  new_password: z.string().min(12, "New password must be at least 12 characters long."),
 });
 
 export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswordSchema>;
@@ -644,3 +646,26 @@ export const PutTenantApishipKeySchema = z.strictObject({
   is_enabled: z.boolean().optional(),
 });
 export type PutTenantApishipKeyBody = z.infer<typeof PutTenantApishipKeySchema>;
+
+/**
+ * `PUT /tenants/pochta` (46df-pochta) — the shop's Russian Post «Отправка»
+ * access and the two settings a quote needs.
+ *
+ * A secret absent from the body keeps the stored one, so the panel can show a
+ * masked value and save the rest of the form without re-typing it.
+ * `clear_user_key` is the one way to remove the user key: an empty string is
+ * never «delete», for the reason `PutTenantApishipKeySchema` gives.
+ */
+export const PutTenantPochtaSchema = z.strictObject({
+  token: z.string().max(500).optional().transform((value) => (value && value.trim() ? value.trim() : undefined)),
+  user_key: z.string().max(500).optional().transform((value) => (value && value.trim() ? value.trim() : undefined)),
+  clear_user_key: z.boolean().optional(),
+  sender_index: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, "Индекс отделения — шесть цифр.")
+    .optional(),
+  default_weight_g: z.number().int().min(1).max(50_000).optional(),
+  is_enabled: z.boolean().optional(),
+});
+export type PutTenantPochtaBody = z.infer<typeof PutTenantPochtaSchema>;

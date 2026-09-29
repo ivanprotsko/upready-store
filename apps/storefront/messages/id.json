@@ -1053,5 +1053,13 @@
     "about": "Tentang program",
     "faq": "Tanya jawab",
     "testimonials": "Testimoni peserta"
+  },
+  "PochtaPoint": {
+    "heading": "Titik ambil Pos Rusia",
+    "chooseHeading": "Pilih titik ambil Pos Rusia",
+    "notConfigured": "Pengiriman dengan Pos Rusia belum diatur di toko ini.",
+    "estimate": "Perkiraan dengan tarif paket reguler",
+    "quoteFailed": "Ongkos kirim ke titik ini tidak dapat dihitung. Pilih titik lain.",
+    "postcode": "Kode pos {index}"
   }
 }

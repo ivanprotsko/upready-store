@@ -2,6 +2,7 @@ import { formatAddressLines, joinFilled } from "@lib/util/address"
 import { convertToLocale } from "@lib/util/money"
 import { trackingLines } from "@lib/util/order-tracking"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
+import { pochtaPointOf } from "@lib/util/pochta"
 import type { HttpTypes } from "@medusajs/types"
 
 import { OrderDetailColumn } from "@modules/order/components/order-section"
@@ -54,7 +55,19 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
   )
   const isPickupOrder = Boolean(pickupPointName)
 
-  const addressLines = isPickupOrder
+  // A Russian Post pickup point lives on the shipping method's `data`, written
+  // by the provider from the carrier's directory (46df-pochta).
+  const tPochta = await getTranslations("PochtaPoint")
+  const pochtaPoint = pochtaPointOf(order)
+
+  const addressLines = pochtaPoint
+    ? [
+        pochtaPoint.pochta_point_address,
+        joinFilled([pochtaPoint.pochta_point_city, pochtaPoint.pochta_point_region], ", "),
+        tPochta("postcode", { index: pochtaPoint.pochta_point_index }),
+        pochtaPoint.pochta_point_name,
+      ].filter((line): line is string => Boolean(line))
+    : isPickupOrder
     ? [pickupPointName, pickupPointAddress, pickupPointHours].filter(
         (line): line is string => Boolean(line)
       )
@@ -83,9 +96,19 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
   return (
     <div className="grid grid-cols-1 small:grid-cols-3 gap-6">
       <OrderDetailColumn
-        label={isPickupOrder ? tPickup("label") : t("shippingAddress")}
+        label={
+          pochtaPoint
+            ? tPochta("heading")
+            : isPickupOrder
+            ? tPickup("label")
+            : t("shippingAddress")
+        }
         data-testid={
-          isPickupOrder ? "pickup-point-summary" : "shipping-address-summary"
+          pochtaPoint
+            ? "pochta-point-summary"
+            : isPickupOrder
+            ? "pickup-point-summary"
+            : "shipping-address-summary"
         }
       >
         {addressLines.map((line) => (

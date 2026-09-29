@@ -165,6 +165,7 @@ import {
   PostTenantDomainSchema,
   PutTenantApishipKeySchema,
   PutTenantDeliverySettingsSchema,
+  PutTenantPochtaSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
   PutTenantNotificationSettingsSchema,
@@ -363,6 +364,12 @@ export default defineMiddlewares({
       matcher: "/tenants/apiship/key",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantApishipKeySchema)],
+    },
+    {
+      // The shop's Russian Post «Отправка» access (46df-pochta).
+      matcher: "/tenants/pochta",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantPochtaSchema)],
     },
     {
       // The shop's payment account (t03-tenant-secrets-robokassa).

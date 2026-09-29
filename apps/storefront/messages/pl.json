@@ -1053,5 +1053,13 @@
     "about": "O programie",
     "faq": "Pytania i odpowiedzi",
     "testimonials": "Opinie uczestników"
+  },
+  "PochtaPoint": {
+    "heading": "Punkt odbioru Poczty Rosyjskiej",
+    "chooseHeading": "Wybierz punkt odbioru Poczty Rosyjskiej",
+    "notConfigured": "Wysyłka Pocztą Rosyjską nie jest jeszcze skonfigurowana w tym sklepie.",
+    "estimate": "Szacunek według detalicznej taryfy paczkowej",
+    "quoteFailed": "Nie udało się obliczyć dostawy do tego punktu. Wybierz inny.",
+    "postcode": "Kod pocztowy {index}"
   }
 }

@@ -1053,5 +1053,13 @@
     "about": "Om programmet",
     "faq": "Spørsmål og svar",
     "testimonials": "Deltakernes erfaringer"
+  },
+  "PochtaPoint": {
+    "heading": "Russisk posts hentested",
+    "chooseHeading": "Velg et hentested hos Russisk post",
+    "notConfigured": "Levering med Russisk post er ikke satt opp i denne butikken ennå.",
+    "estimate": "Anslag etter ordinær pakketakst",
+    "quoteFailed": "Frakten til dette hentestedet kunne ikke beregnes. Velg et annet.",
+    "postcode": "Postnummer {index}"
   }
 }

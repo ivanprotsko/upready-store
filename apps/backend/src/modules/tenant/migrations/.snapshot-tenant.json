@@ -1430,7 +1430,8 @@
             "wildberries_write",
             "ozon",
             "cdek",
-            "apiship"
+            "apiship",
+            "pochta"
           ],
           "mappedType": "enum"
         },

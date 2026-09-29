@@ -160,6 +160,7 @@ export const OWNER_ROUTES = [
   { path: "/settings/integrations/robokassa" },
   { path: "/settings/integrations/apiship" },
   { path: "/settings/integrations/cdek" },
+  { path: "/settings/integrations/pochta" },
 
   // Без входа и «не найдено»
   { path: "/this-screen-does-not-exist", note: "404 inside the shell" },

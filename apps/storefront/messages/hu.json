@@ -1053,5 +1053,13 @@
     "about": "A programról",
     "faq": "Kérdések és válaszok",
     "testimonials": "A résztvevők véleménye"
+  },
+  "PochtaPoint": {
+    "heading": "Orosz Posta átvételi pont",
+    "chooseHeading": "Válasszon Orosz Posta átvételi pontot",
+    "notConfigured": "Az Orosz Postával történő szállítás még nincs beállítva ebben a boltban.",
+    "estimate": "Becslés a normál csomagtarifa alapján",
+    "quoteFailed": "Nem sikerült kiszámítani a szállítást erre a pontra. Válasszon másikat.",
+    "postcode": "Irányítószám: {index}"
   }
 }

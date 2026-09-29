@@ -1053,5 +1053,13 @@
     "about": "プログラムについて",
     "faq": "よくある質問",
     "testimonials": "参加者の声"
+  },
+  "PochtaPoint": {
+    "heading": "ロシア郵便の受取拠点",
+    "chooseHeading": "ロシア郵便の受取拠点を選択",
+    "notConfigured": "このショップではロシア郵便での配送がまだ設定されていません。",
+    "estimate": "通常小包料金による概算",
+    "quoteFailed": "この拠点への配送料金を計算できませんでした。別の拠点を選んでください。",
+    "postcode": "郵便番号 {index}"
   }
 }

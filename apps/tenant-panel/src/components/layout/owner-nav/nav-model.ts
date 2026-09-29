@@ -97,6 +97,7 @@ export const OWNER_NAV: OwnerNavGroup[] = [
           "/settings/delivery",
           "/settings/integrations/cdek",
           "/settings/integrations/apiship",
+          "/settings/integrations/pochta",
         ],
       },
       {
@@ -190,6 +191,10 @@ export const OWNER_TABS: { owner: string; tabs: OwnerTab[] }[] = [
         labelKey: "app.nav.owner.tabs.deliveryCdek",
         to: "/settings/delivery",
         match: ["/settings/integrations/cdek", "/settings/integrations/apiship"],
+      },
+      {
+        labelKey: "app.nav.owner.tabs.deliveryPochta",
+        to: "/settings/integrations/pochta",
       },
     ],
   },

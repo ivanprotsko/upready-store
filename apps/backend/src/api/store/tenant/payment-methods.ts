@@ -1,7 +1,8 @@
 import type { MedusaStoreRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
-import { readRobokassaSecret } from "../../../tenant-secrets/robokassa";
+import type { Logger } from "@medusajs/framework/types";
+import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
 import {
   manualPaymentMethods,
   resolveTenantPaymentMethods,
@@ -30,10 +31,11 @@ export const tenantPaymentMethodsFor = async (req: MedusaStoreRequest): Promise<
   }
 
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
+  const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
   const [secret, tenantResult] = await Promise.all([
-    readRobokassaSecret(pg, tenant.id),
+    readRobokassaSecretPublic(pg, tenant.id, logger),
     query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
   ]);
 

@@ -23,7 +23,7 @@ import { useUpdatePassword } from "../../../../../hooks/api/users"
 const ChangePasswordSchema = zod
   .object({
     current_password: zod.string().min(1),
-    new_password: zod.string().min(8),
+    new_password: zod.string().min(12),
     confirm_password: zod.string().min(1),
   })
   .refine((data) => data.new_password === data.confirm_password, {

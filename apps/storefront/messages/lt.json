@@ -1053,5 +1053,13 @@
     "about": "Apie programą",
     "faq": "Klausimai ir atsakymai",
     "testimonials": "Dalyvių atsiliepimai"
+  },
+  "PochtaPoint": {
+    "heading": "Rusijos pašto atsiėmimo punktas",
+    "chooseHeading": "Pasirinkite Rusijos pašto atsiėmimo punktą",
+    "notConfigured": "Pristatymas Rusijos paštu šioje parduotuvėje dar nenustatytas.",
+    "estimate": "Apytiksliai pagal įprastą siuntinio tarifą",
+    "quoteFailed": "Nepavyko apskaičiuoti pristatymo į šį punktą. Pasirinkite kitą.",
+    "postcode": "Pašto kodas {index}"
   }
 }

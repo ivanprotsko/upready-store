@@ -1053,5 +1053,13 @@
     "about": "Informazioni sul programma",
     "faq": "Domande e risposte",
     "testimonials": "Testimonianze dei partecipanti"
+  },
+  "PochtaPoint": {
+    "heading": "Punto di ritiro di Poste Russe",
+    "chooseHeading": "Scegli un punto di ritiro di Poste Russe",
+    "notConfigured": "La spedizione con Poste Russe non è ancora configurata in questo negozio.",
+    "estimate": "Stima alla tariffa pacco standard",
+    "quoteFailed": "Impossibile calcolare la spedizione verso questo punto. Scegline un altro.",
+    "postcode": "CAP {index}"
   }
 }
