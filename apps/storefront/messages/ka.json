@@ -721,7 +721,7 @@
       "canceled": "გაუქმებული",
       "delivered": "მიწოდებული",
       "fulfilled": "დამუშავებული",
-      "not_fulfilled": "არ არის დამუშავებული",
+      "not_fulfilled": "მზადდება გასაგზავნად",
       "partially_delivered": "ნაწილობრივ მიწოდებული",
       "partially_fulfilled": "ნაწილობრივ დამუშავებული",
       "partially_shipped": "ნაწილობრივ გაგზავნილი",

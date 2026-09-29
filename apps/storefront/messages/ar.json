@@ -721,7 +721,7 @@
       "canceled": "ملغى",
       "delivered": "تم التسليم",
       "fulfilled": "مُجهَّز",
-      "not_fulfilled": "لم يُجهَّز",
+      "not_fulfilled": "قيد التجهيز للشحن",
       "partially_delivered": "سُلّم جزئيًا",
       "partially_fulfilled": "مُجهَّز جزئيًا",
       "partially_shipped": "أُرسل جزئيًا",

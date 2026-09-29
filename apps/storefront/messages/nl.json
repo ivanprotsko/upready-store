@@ -721,7 +721,7 @@
       "canceled": "Geannuleerd",
       "delivered": "Bezorgd",
       "fulfilled": "Verwerkt",
-      "not_fulfilled": "Niet verwerkt",
+      "not_fulfilled": "Wordt voorbereid voor verzending",
       "partially_delivered": "Deels bezorgd",
       "partially_fulfilled": "Deels verwerkt",
       "partially_shipped": "Deels verzonden",

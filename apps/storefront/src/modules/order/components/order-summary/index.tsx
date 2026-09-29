@@ -45,10 +45,12 @@ const OrderSummary = async ({ order }: OrderSummaryProps) => {
         <span>{t("shipping")}</span>
         <span data-testid="order-shipping">{amount(order.shipping_total)}</span>
       </div>
-      <div className="flex items-center justify-between">
-        <span>{t("taxes")}</span>
-        <span data-testid="order-taxes">{amount(order.tax_total)}</span>
-      </div>
+      {order.tax_total > 0 && (
+        <div className="flex items-center justify-between">
+          <span>{t("taxes")}</span>
+          <span data-testid="order-taxes">{amount(order.tax_total)}</span>
+        </div>
+      )}
 
       <div className="h-px w-full bg-ui-border-base my-3" />
 

@@ -721,7 +721,7 @@
       "canceled": "Anulată",
       "delivered": "Livrată",
       "fulfilled": "Pregătită",
-      "not_fulfilled": "Nepregătită",
+      "not_fulfilled": "Se pregătește pentru expediere",
       "partially_delivered": "Parțial livrată",
       "partially_fulfilled": "Parțial pregătită",
       "partially_shipped": "Parțial expediată",

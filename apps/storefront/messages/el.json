@@ -721,7 +721,7 @@
       "canceled": "Ακυρώθηκε",
       "delivered": "Παραδόθηκε",
       "fulfilled": "Εκτελέστηκε",
-      "not_fulfilled": "Δεν έχει εκτελεστεί",
+      "not_fulfilled": "Ετοιμάζεται για αποστολή",
       "partially_delivered": "Παραδόθηκε μερικώς",
       "partially_fulfilled": "Εκτελέστηκε μερικώς",
       "partially_shipped": "Απεστάλη μερικώς",

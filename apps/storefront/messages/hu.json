@@ -721,7 +721,7 @@
       "canceled": "Törölve",
       "delivered": "Kézbesítve",
       "fulfilled": "Teljesítve",
-      "not_fulfilled": "Nincs teljesítve",
+      "not_fulfilled": "Küldésre előkészítjük",
       "partially_delivered": "Részben kézbesítve",
       "partially_fulfilled": "Részben teljesítve",
       "partially_shipped": "Részben feladva",

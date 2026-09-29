@@ -721,7 +721,7 @@
       "canceled": "Цуцалсан",
       "delivered": "Хүргэсэн",
       "fulfilled": "Бэлдсэн",
-      "not_fulfilled": "Бэлдээгүй",
+      "not_fulfilled": "Илгээхэд бэлтгэж байна",
       "partially_delivered": "Хэсэгчлэн хүргэсэн",
       "partially_fulfilled": "Хэсэгчлэн бэлдсэн",
       "partially_shipped": "Хэсэгчлэн илгээсэн",

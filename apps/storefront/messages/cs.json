@@ -721,7 +721,7 @@
       "canceled": "Zrušeno",
       "delivered": "Doručeno",
       "fulfilled": "Vyřízeno",
-      "not_fulfilled": "Nevyřízeno",
+      "not_fulfilled": "Připravujeme k odeslání",
       "partially_delivered": "Částečně doručeno",
       "partially_fulfilled": "Částečně vyřízeno",
       "partially_shipped": "Částečně odesláno",

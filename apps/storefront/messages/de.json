@@ -721,7 +721,7 @@
       "canceled": "Storniert",
       "delivered": "Zugestellt",
       "fulfilled": "Bearbeitet",
-      "not_fulfilled": "Nicht bearbeitet",
+      "not_fulfilled": "Wird für den Versand vorbereitet",
       "partially_delivered": "Teilweise zugestellt",
       "partially_fulfilled": "Teilweise bearbeitet",
       "partially_shipped": "Teilweise versandt",

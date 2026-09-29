@@ -721,7 +721,7 @@
       "canceled": "Annulleret",
       "delivered": "Leveret",
       "fulfilled": "Ekspederet",
-      "not_fulfilled": "Ikke ekspederet",
+      "not_fulfilled": "Forbereder afsendelse",
       "partially_delivered": "Delvist leveret",
       "partially_fulfilled": "Delvist ekspederet",
       "partially_shipped": "Delvist afsendt",

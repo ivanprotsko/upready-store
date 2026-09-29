@@ -721,7 +721,7 @@
       "canceled": "キャンセル済み",
       "delivered": "配達済み",
       "fulfilled": "処理済み",
-      "not_fulfilled": "未処理",
+      "not_fulfilled": "発送準備中",
       "partially_delivered": "一部配達済み",
       "partially_fulfilled": "一部処理済み",
       "partially_shipped": "一部発送済み",

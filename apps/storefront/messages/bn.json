@@ -721,7 +721,7 @@
       "canceled": "বাতিল",
       "delivered": "পৌঁছেছে",
       "fulfilled": "প্রস্তুত",
-      "not_fulfilled": "প্রস্তুত হয়নি",
+      "not_fulfilled": "পাঠানোর জন্য প্রস্তুত করা হচ্ছে",
       "partially_delivered": "আংশিক পৌঁছেছে",
       "partially_fulfilled": "আংশিক প্রস্তুত",
       "partially_shipped": "আংশিক পাঠানো হয়েছে",

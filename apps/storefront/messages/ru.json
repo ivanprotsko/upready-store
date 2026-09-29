@@ -716,12 +716,12 @@
   },
   "OrderDetails": {
     "backToOrders": "Назад к заказам",
-    "contactEmailBefore": "Заказ оформлен на адрес",
+    "contactEmailBefore": "Контакт для уведомлений:",
     "fulfillmentStatuses": {
       "canceled": "Отменён",
       "delivered": "Доставлен",
       "fulfilled": "Собран",
-      "not_fulfilled": "Не собран",
+      "not_fulfilled": "Готовим к отправке",
       "partially_delivered": "Доставлен частично",
       "partially_fulfilled": "Собран частично",
       "partially_shipped": "Отправлен частично",

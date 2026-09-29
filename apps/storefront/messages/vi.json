@@ -721,7 +721,7 @@
       "canceled": "Đã hủy",
       "delivered": "Đã giao",
       "fulfilled": "Đã xử lý",
-      "not_fulfilled": "Chưa xử lý",
+      "not_fulfilled": "Đang chuẩn bị để giao hàng",
       "partially_delivered": "Giao một phần",
       "partially_fulfilled": "Xử lý một phần",
       "partially_shipped": "Gửi một phần",
