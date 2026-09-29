@@ -92,7 +92,10 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         {manualKind && isManual(activePaymentMethod)
           ? t("placeOrderManual")
           : t("placeOrder")}
-        <span className="text-ui-fg-disabled">
+        {/* U-09 (46df): the amount takes the label's own color. The disabled
+            token it wore read at under 2:1 on a filled button; the lighter
+            weight is what sets it apart now. */}
+        <span className="font-normal">
           {convertToLocale({
             amount: cart.total ?? 0,
             currency_code: cart.currency_code,
