@@ -102,16 +102,20 @@ export const useUpdatePaymentSettings = (
   options?: UseMutationOptions<PaymentSettingsResponse, FetchError, PutPaymentSettingsBody>
 ) => {
   return useMutation({
+    ...options,
     mutationFn: (payload) =>
       sdk.client.fetch<PaymentSettingsResponse>("/tenants/payment-settings", {
         method: "PUT",
         body: payload,
       }),
     onSuccess: (data, variables, context) => {
+      // The PUT answers with the state it just wrote. Put it in the cache at
+      // once: waiting for the refetch left «не читается — введите заново» on
+      // screen next to the «saved» toast for a whole GET (46df final walk).
+      queryClient.setQueryData(paymentSettingsQueryKeys.details(), data)
       queryClient.invalidateQueries({ queryKey: paymentSettingsQueryKeys.all })
       options?.onSuccess?.(data, variables, context)
     },
-    ...options,
   })
 }
 
@@ -119,6 +123,7 @@ export const useDeletePaymentSettings = (
   options?: UseMutationOptions<{ deleted: boolean }, FetchError, void>
 ) => {
   return useMutation({
+    ...options,
     mutationFn: () =>
       sdk.client.fetch<{ deleted: boolean }>("/tenants/payment-settings", {
         method: "DELETE",
@@ -127,6 +132,5 @@ export const useDeletePaymentSettings = (
       queryClient.invalidateQueries({ queryKey: paymentSettingsQueryKeys.all })
       options?.onSuccess?.(data, variables, context)
     },
-    ...options,
   })
 }
