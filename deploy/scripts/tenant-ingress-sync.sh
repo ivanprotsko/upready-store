@@ -33,6 +33,11 @@
 #   TRAEFIK_DYNAMIC_DIR  default /traefik-dynamic
 #   STOREFRONT_SERVICE   default http://mt-storefront:8000
 #   SYNC_INTERVAL        seconds between polls, default 15
+#
+# `--once` writes the file once and exits; `--list` prints the hosts it would
+# publish, one per line, writes nothing and exits 1 when the database cannot be
+# read. deploy/scripts/mt-hosts-smoke.sh reads the list that way, so "a tenant
+# host" has one definition, this file's.
 set -eu
 
 DIR="${TRAEFIK_DYNAMIC_DIR:-/traefik-dynamic}"
@@ -60,15 +65,29 @@ hosts() {
     # migration, and on the deploy where the image is newer than the database a
     # union would fail WHOLE and take every shop's router down with it. Each
     # query stands or falls alone.
+    #
+    # Only the alias query may fail and be skipped, though. `tenant` exists
+    # since the first migration, so a failure there is the database, not the
+    # schema, and publishing what the other queries returned would drop every
+    # technical subdomain until the next poll: measured on the live host
+    # 2026-09-30 (audit 46df A-01), the file flipping between 12 hosts (custom
+    # domains only) and 26 from one poll to the next. Such a poll now keeps
+    # the previous file, like an unreachable database already did.
     for statement in \
       "select handle from tenant where deleted_at is null order by handle" \
       "select lower(id) from tenant where deleted_at is null order by 1" \
       "select handle from tenant_handle_alias where deleted_at is null order by handle"
     do
-      psql "$DATABASE_URL" -At -c "$statement" 2>/dev/null \
-        | while read -r label; do
-            [ -n "$label" ] && echo "$label.$base"
-          done
+      labels=$(psql "$DATABASE_URL" -At -c "$statement" 2>/dev/null) || {
+        case "$statement" in
+          *tenant_handle_alias*) continue ;;
+          *) return 1 ;;
+        esac
+      }
+      [ -n "$labels" ] || continue
+      echo "$labels" | while read -r label; do
+        if [ -n "$label" ]; then echo "$label.$base"; fi
+      done
     done
   done
 }
@@ -139,9 +158,8 @@ sync_once() {
   echo
 }
 
-mkdir -p "$DIR"
-
 case "${1:-}" in
-  --once) sync_once ;;
-  *) while true; do sync_once; sleep "$INTERVAL"; done ;;
+  --list) hosts ;;
+  --once) mkdir -p "$DIR"; sync_once ;;
+  *) mkdir -p "$DIR"; while true; do sync_once; sleep "$INTERVAL"; done ;;
 esac
