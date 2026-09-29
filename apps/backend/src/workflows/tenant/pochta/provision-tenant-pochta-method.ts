@@ -4,7 +4,7 @@ import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import type { IFulfillmentModuleService } from "@medusajs/framework/types";
 
 import { POCHTA_METHOD_SCHEMA, type PochtaMethodData } from "../../../pochta/method";
-import { planPochtaOptionNames } from "../../../pochta/method-name";
+import { planPochtaOptionNames, POCHTA_METHOD_NAMES } from "../../../pochta/method-name";
 import { POCHTA_PROVIDER_ID } from "../../../modules/pochta-fulfillment";
 import ensureLocationProviderLinkStep from "../shipping-methods/steps/ensure-location-provider-link";
 
@@ -15,7 +15,7 @@ import ensureLocationProviderLinkStep from "../shipping-methods/steps/ensure-loc
  * stands next to an identical card.
  */
 export const POCHTA_METHOD_COPY = {
-  name: "Почта России — до отделения",
+  name: POCHTA_METHOD_NAMES[0],
   description: "Заберите заказ в пункте выдачи Почты России.",
 };
 
