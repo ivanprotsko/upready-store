@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Keranjang ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "skipToContent": "Lewati ke konten"
   },
   "NotFound": {
     "cartDescription": "Keranjang yang Anda coba akses tidak ada. Hapus cookie Anda dan coba lagi.",

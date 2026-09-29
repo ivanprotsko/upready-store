@@ -6,7 +6,7 @@ import { CartUpdateProvider } from "@modules/checkout/context/cart-update-contex
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import type { Metadata } from "next"
-import { notFound, redirect } from "next/navigation"
+import { redirect } from "next/navigation"
 import { getLocale, getTranslations } from "next-intl/server"
 import { pageTitle } from "@lib/util/page-title"
 
@@ -20,17 +20,19 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Checkout() {
-  const initialCart = await retrieveCart()
+  const [initialCart, locale] = await Promise.all([retrieveCart(), getLocale()])
 
+  // A-11 (46df audit): no cart is not a 404 — a buyer whose cart expired, or who
+  // bookmarked /checkout, is better sent to the cart (empty or not, with its own
+  // "browse products" way forward) than told the page does not exist.
   if (!initialCart) {
-    return notFound()
+    redirect(`/${locale}/cart`)
   }
 
   if (
     isDigitalDeliveryCart(initialCart) &&
     (initialCart.shipping_methods?.length ?? 0) === 0
   ) {
-    const locale = await getLocale()
     redirect(`/api/checkout/digital-delivery?locale=${locale}`)
   }
 

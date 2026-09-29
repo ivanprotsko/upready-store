@@ -17,6 +17,7 @@ const ErrorMessage = ({
 
   return (
     <div
+      role="alert"
       className="pt-2 text-rose-500 text-small-regular"
       data-testid={dataTestid}
     >

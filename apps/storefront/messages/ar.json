@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "السلة ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "skipToContent": "تخطي إلى المحتوى"
   },
   "NotFound": {
     "cartDescription": "السلة التي حاولت الوصول إليها غير موجودة. امسح ملفات تعريف الارتباط وحاول مرة أخرى.",
