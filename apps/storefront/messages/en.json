@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "The payment was cancelled or declined before it completed. Your cart is unchanged.",
     "paymentPendingReason": "The payment is still being confirmed. Wait a minute and open your order from the account, or try the checkout again.",
     "retryCheckout": "Return to checkout"
   },

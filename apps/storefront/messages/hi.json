@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "भुगतान पूरा नहीं हुआ: इसे रद्द या अस्वीकार कर दिया गया। आपकी कार्ट में कोई बदलाव नहीं हुआ है।",
     "paymentPendingReason": "भुगतान की पुष्टि अभी हो रही है। एक मिनट रुकें और खाते से अपना ऑर्डर खोलें, या फिर से प्रयास करें।",
     "retryCheckout": "Return to checkout"
   },
