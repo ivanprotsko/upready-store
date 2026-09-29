@@ -157,6 +157,7 @@
     "legal": "Нажимая «Оплатить», вы принимаете <terms>условия</terms>, <termsOfUse>условия использования</termsOfUse> и <returnPolicy>политику возврата</returnPolicy>, а также соглашаетесь с <privacyPolicy>политикой конфиденциальности</privacyPolicy>.",
     "manualInput": "Ввести адрес вручную",
     "addressIncomplete": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить.",
+    "provinceRequired": "Выберите область из списка.",
     "orderComposition": "Состав заказа",
     "paymentHeading": "Способ оплаты",
     "paymentInterruptedHeading": "Оплата не прошла или была прервана",

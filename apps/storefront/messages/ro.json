@@ -157,6 +157,7 @@
     "legal": "Făcând clic pe «Plătește», acceptați <terms>termenii</terms>, <termsOfUse>termenii de utilizare</termsOfUse> și <returnPolicy>politica de retur</returnPolicy>, și sunteți de acord cu <privacyPolicy>politica de confidențialitate</privacyPolicy>.",
     "manualInput": "Introdu adresa manual",
     "addressIncomplete": "Completați câmpurile obligatorii ale adresei. Fără oraș și cod poștal comanda nu poate fi expediată.",
+    "provinceRequired": "Alegeți regiunea din listă.",
     "orderComposition": "Rezumatul comenzii",
     "paymentHeading": "Metodă de plată",
     "paymentInterruptedHeading": "Plata nu a reușit sau a fost întreruptă",

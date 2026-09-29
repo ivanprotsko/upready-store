@@ -157,6 +157,7 @@
     "legal": "Mit Klick auf «Bezahlen» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und stimmen unserer <privacyPolicy>Datenschutzerklärung</privacyPolicy> zu.",
     "manualInput": "Adresse manuell eingeben",
     "addressIncomplete": "Füllen Sie die Pflichtfelder der Adresse aus. Ohne Stadt und Postleitzahl kann die Bestellung nicht versandt werden.",
+    "provinceRequired": "Wähle die Region aus der Liste.",
     "orderComposition": "Bestellübersicht",
     "paymentHeading": "Zahlungsart",
     "paymentInterruptedHeading": "Die Zahlung ist fehlgeschlagen oder wurde abgebrochen",

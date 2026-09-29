@@ -157,6 +157,7 @@
     "legal": "Cliccando su «Paga», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e accetti la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
     "manualInput": "Inserisci l'indirizzo manualmente",
     "addressIncomplete": "Compila i campi obbligatori dell'indirizzo. Senza città e codice postale l'ordine non può essere spedito.",
+    "provinceRequired": "Scegli la regione dall’elenco.",
     "orderComposition": "Riepilogo ordine",
     "paymentHeading": "Metodo di pagamento",
     "paymentInterruptedHeading": "Il pagamento non è andato a buon fine o è stato interrotto",

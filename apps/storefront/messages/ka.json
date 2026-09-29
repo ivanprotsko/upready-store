@@ -157,6 +157,7 @@
     "legal": "«გადახდაზე» დაწკაპუნებით, თქვენ ეთანხმებით ჩვენს <terms>პირობებს</terms>, <termsOfUse>გამოყენების პირობებს</termsOfUse> და <returnPolicy>დაბრუნების პოლიტიკას</returnPolicy>, ასევე ეთანხმებით ჩვენს <privacyPolicy>კონფიდენციალურობის პოლიტიკას</privacyPolicy>.",
     "manualInput": "მისამართის ხელით შეყვანა",
     "addressIncomplete": "შეავსეთ მისამართის სავალდებულო ველები. ქალაქისა და საფოსტო ინდექსის გარეშე შეკვეთის გაგზავნა შეუძლებელია.",
+    "provinceRequired": "აირჩიეთ რეგიონი სიიდან.",
     "orderComposition": "შეკვეთის შეჯამება",
     "paymentHeading": "გადახდის მეთოდი",
     "paymentInterruptedHeading": "გადახდა ვერ შესრულდა ან შეწყდა",

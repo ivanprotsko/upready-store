@@ -157,6 +157,7 @@
     "legal": "«भुगतान करें» पर क्लिक करके, आप हमारी <terms>शर्तों</terms>, <termsOfUse>उपयोग की शर्तों</termsOfUse> और <returnPolicy>रिटर्न नीति</returnPolicy> को स्वीकार करते हैं, और हमारी <privacyPolicy>गोपनीयता नीति</privacyPolicy> से सहमत होते हैं।",
     "manualInput": "पता मैन्युअल रूप से दर्ज करें",
     "addressIncomplete": "पते के अनिवार्य फ़ील्ड भरें। शहर और पिन कोड के बिना ऑर्डर भेजा नहीं जा सकता।",
+    "provinceRequired": "सूची से क्षेत्र चुनें।",
     "orderComposition": "ऑर्डर सारांश",
     "paymentHeading": "भुगतान विधि",
     "paymentInterruptedHeading": "भुगतान नहीं हुआ या बीच में रुक गया",

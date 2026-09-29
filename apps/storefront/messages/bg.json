@@ -157,6 +157,7 @@
     "legal": "С натискането на «Плати» приемате нашите <terms>условия</terms>, <termsOfUse>условия за ползване</termsOfUse> и <returnPolicy>политика за връщане</returnPolicy>, и се съгласявате с нашата <privacyPolicy>политика за поверителност</privacyPolicy>.",
     "manualInput": "Въведи адрес ръчно",
     "addressIncomplete": "Попълнете задължителните полета на адреса. Без град и пощенски код поръчката не може да бъде изпратена.",
+    "provinceRequired": "Изберете област от списъка.",
     "orderComposition": "Обобщение на поръчката",
     "paymentHeading": "Начин на плащане",
     "paymentInterruptedHeading": "Плащането не мина или беше прекъснато",

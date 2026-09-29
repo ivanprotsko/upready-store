@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 import type { HttpTypes } from "@medusajs/types"
 import {
+  addressGapMessageKeys,
   cartShippingAddressGaps,
   isPickupCart,
   requiresProvince,
@@ -85,5 +86,26 @@ describe("cartShippingAddressGaps", () => {
     expect(
       cartShippingAddressGaps(cartWith({ ...full, country_code: "ru" }))
     ).toEqual([])
+  })
+})
+
+describe("addressGapMessageKeys (U-08, 46df)", () => {
+  it("names the province on its own, so the buyer is not left guessing which field is missing", () => {
+    expect(addressGapMessageKeys(["province"])).toEqual(["provinceRequired"])
+  })
+
+  it("keeps the general sentence for city, index and street", () => {
+    expect(addressGapMessageKeys(["city", "postal_code"])).toEqual(["addressIncomplete"])
+  })
+
+  it("says both when both are missing", () => {
+    expect(addressGapMessageKeys(["address_1", "province"])).toEqual([
+      "addressIncomplete",
+      "provinceRequired",
+    ])
+  })
+
+  it("says nothing for a complete address", () => {
+    expect(addressGapMessageKeys([])).toEqual([])
   })
 })

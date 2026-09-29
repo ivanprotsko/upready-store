@@ -157,6 +157,7 @@
     "legal": "Κάνοντας κλικ στο «Πληρωμή», αποδέχεστε τους <terms>όρους</terms> μας, τους <termsOfUse>όρους χρήσης</termsOfUse> και την <returnPolicy>πολιτική επιστροφών</returnPolicy>, και συμφωνείτε με την <privacyPolicy>πολιτική απορρήτου</privacyPolicy>.",
     "manualInput": "Εισαγωγή διεύθυνσης χειροκίνητα",
     "addressIncomplete": "Συμπληρώστε τα υποχρεωτικά πεδία της διεύθυνσης. Χωρίς πόλη και ταχυδρομικό κώδικα η παραγγελία δεν μπορεί να σταλεί.",
+    "provinceRequired": "Επιλέξτε περιοχή από τη λίστα.",
     "orderComposition": "Σύνοψη παραγγελίας",
     "paymentHeading": "Τρόπος πληρωμής",
     "paymentInterruptedHeading": "Η πληρωμή δεν ολοκληρώθηκε ή διακόπηκε",

@@ -157,6 +157,7 @@
     "legal": "„Fizetés” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
     "manualInput": "Cím megadása kézzel",
     "addressIncomplete": "Töltse ki a cím kötelező mezőit. Város és irányítószám nélkül a rendelés nem adható fel.",
+    "provinceRequired": "Válassza ki a régiót a listából.",
     "orderComposition": "Rendelés összesítése",
     "paymentHeading": "Fizetési mód",
     "paymentInterruptedHeading": "A fizetés nem sikerült vagy megszakadt",

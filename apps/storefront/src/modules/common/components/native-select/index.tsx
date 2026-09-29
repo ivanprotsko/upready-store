@@ -66,6 +66,19 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             </option>
             {children}
           </select>
+          {/* The same red mark `Input` puts after a required field's label,
+              placed right after the placeholder: an invisible copy of its
+              text holds the width (U-08, 46df). */}
+          {props.required && isPlaceholder && (
+            <span
+              aria-hidden
+              className="absolute inset-y-0 start-2 flex items-center pointer-events-none"
+              data-testid="native-select-required-mark"
+            >
+              <span className="invisible">{resolvedPlaceholder}</span>
+              <span className="text-rose-500">*</span>
+            </span>
+          )}
           <span className="absolute inset-y-0 end-2 flex items-center pointer-events-none ">
             <ChevronUpDown className="text-ui-fg-muted" />
           </span>

@@ -157,6 +157,7 @@
     "legal": "Ved at klikke på «Betal» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy>, og accepterer vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
     "manualInput": "Indtast adresse manuelt",
     "addressIncomplete": "Udfyld de obligatoriske adressefelter. Uden by og postnummer kan ordren ikke sendes.",
+    "provinceRequired": "Vælg region på listen.",
     "orderComposition": "Ordreoversigt",
     "paymentHeading": "Betalingsmetode",
     "paymentInterruptedHeading": "Betalingen gik ikke igennem eller blev afbrudt",

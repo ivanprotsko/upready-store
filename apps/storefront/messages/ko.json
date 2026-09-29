@@ -157,6 +157,7 @@
     "legal": "«결제» 버튼을 클릭하면 당사의 <terms>약관</terms>, <termsOfUse>이용약관</termsOfUse> 및 <returnPolicy>반품 정책</returnPolicy>에 동의하고, <privacyPolicy>개인정보 처리방침</privacyPolicy>에 동의하는 것으로 간주됩니다.",
     "manualInput": "주소 직접 입력",
     "addressIncomplete": "주소의 필수 항목을 입력하세요. 도시와 우편번호가 없으면 주문을 배송할 수 없습니다.",
+    "provinceRequired": "목록에서 지역을 선택하세요.",
     "orderComposition": "주문 요약",
     "paymentHeading": "결제 방법",
     "paymentInterruptedHeading": "결제가 완료되지 않았거나 중단되었습니다",

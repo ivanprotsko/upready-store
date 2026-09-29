@@ -13,18 +13,31 @@ import AddressAutocomplete, {
 } from "@modules/common/components/address-autocomplete"
 import { Button, RadioGroup } from "@medusajs/ui"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
-import { cartCountryCode, shippingAddressGaps } from "@lib/util/shipping-address"
+import {
+  addressGapMessageKeys,
+  cartCountryCode,
+  shippingAddressGaps,
+  type ShippingAddressField,
+} from "@lib/util/shipping-address"
 
-/** The one sentence a customer can act on when the address cannot be posted. */
-function AddressIncompleteMessage({ show }: { show: boolean }) {
+/**
+ * The sentences a customer can act on when the address cannot be posted: the
+ * general one for street, city and index, and one of its own for the province
+ * (U-08, 46df UX audit).
+ */
+function AddressIncompleteMessage({ gaps }: { gaps: ShippingAddressField[] }) {
   const t = useTranslations("CheckoutPage")
-  if (!show) return null
+  const keys = addressGapMessageKeys(gaps)
+  if (keys.length === 0) return null
   return (
     <div
-      className="pt-2 text-rose-500 text-small-regular"
+      role="alert"
+      className="pt-2 flex flex-col gap-y-1 text-rose-500 text-small-regular"
       data-testid="address-incomplete-message"
     >
-      <span>{t("addressIncomplete")}</span>
+      {keys.map((key) => (
+        <span key={key}>{t(key)}</span>
+      ))}
     </div>
   )
 }
@@ -82,7 +95,7 @@ export default function CheckoutAddressSheet({
   // `Errors.*` keys — an already-translated sentence handed to it comes out as
   // the generic message (measured on the f04 stand, 2026-09-15: the sheet
   // rendered nothing a customer could act on).
-  const [addressIncomplete, setAddressIncomplete] = useState(false)
+  const [addressGaps, setAddressGaps] = useState<ShippingAddressField[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [applyingId, setApplyingId] = useState<string | null>(null)
 
@@ -119,7 +132,7 @@ export default function CheckoutAddressSheet({
     })
     setCompany(manualAddress?.company ?? "")
     setError(null)
-    setAddressIncomplete(false)
+    setAddressGaps([])
   }, [open, initialMode, matchingAddress, manualAddress])
 
   const countryName = (code?: string | null) =>
@@ -142,14 +155,15 @@ export default function CheckoutAddressSheet({
     // f04-address-without-city: an address saved before this rule existed can
     // itself be missing a city, and applying it would put the cart back in the
     // state the fix exists to prevent.
-    if (shippingAddressGaps(address, address.country_code).length > 0) {
+    const savedGaps = shippingAddressGaps(address, address.country_code)
+    if (savedGaps.length > 0) {
       setSelectedId(undefined)
-      setAddressIncomplete(true)
+      setAddressGaps(savedGaps)
       return
     }
     setApplyingId(address.id)
     setError(null)
-    setAddressIncomplete(false)
+    setAddressGaps([])
     const result = await setAddresses({
       shipping_address: {
         company: address.company ?? undefined,
@@ -185,16 +199,16 @@ export default function CheckoutAddressSheet({
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // f04-address-without-city: the browser's own `required` gate is the first
-    // line, this is the one that survives an autofill, a saved address and a
+    // f04-address-without-city: the only gate since the form went `noValidate`
+    // (U-08), and the one that survives an autofill, a saved address and a
     // form submitted programmatically. A parcel cannot be posted without city
     // and index, so a half-filled address is never written to the cart.
     const gaps = shippingAddressGaps(addressFields, countryCode)
     if (gaps.length > 0) {
-      setAddressIncomplete(true)
+      setAddressGaps(gaps)
       return
     }
-    setAddressIncomplete(false)
+    setAddressGaps([])
     setIsSubmitting(true)
     setError(null)
     const result = await setAddresses({
@@ -233,7 +247,7 @@ export default function CheckoutAddressSheet({
           </RadioGroup>
 
           <ErrorMessage error={error} />
-          <AddressIncompleteMessage show={addressIncomplete} />
+          <AddressIncompleteMessage gaps={addressGaps} />
 
           <Button
             type="button"
@@ -245,7 +259,10 @@ export default function CheckoutAddressSheet({
           </Button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col">
+        // `noValidate`: the browser's own bubble spoke the browser's language,
+        // not the page's, and a required select got no mark (U-08, 46df).
+        // `handleSubmit` checks the same fields through `shippingAddressGaps`.
+        <form onSubmit={handleSubmit} noValidate className="flex flex-col">
           <div className="flex flex-col gap-y-3">
             <AddressAutocomplete
               values={addressFields}
@@ -263,7 +280,7 @@ export default function CheckoutAddressSheet({
             />
           </div>
           <ErrorMessage error={error} />
-          <AddressIncompleteMessage show={addressIncomplete} />
+          <AddressIncompleteMessage gaps={addressGaps} />
           <div className="flex gap-x-2 mt-4">
             <Button
               type="button"

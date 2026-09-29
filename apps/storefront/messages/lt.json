@@ -157,6 +157,7 @@
     "legal": "Spausdami „Mokėti“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei sutinkate su <privacyPolicy>privatumo politika</privacyPolicy>.",
     "manualInput": "Įvesti adresą rankiniu būdu",
     "addressIncomplete": "Užpildykite privalomus adreso laukus. Be miesto ir pašto kodo užsakymo išsiųsti negalima.",
+    "provinceRequired": "Pasirinkite regioną iš sąrašo.",
     "orderComposition": "Užsakymo santrauka",
     "paymentHeading": "Mokėjimo būdas",
     "paymentInterruptedHeading": "Mokėjimas nepavyko arba buvo nutrauktas",

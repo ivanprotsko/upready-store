@@ -157,6 +157,7 @@
     "legal": "Klikkaamalla «Maksa» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
     "manualInput": "Syötä osoite manuaalisesti",
     "addressIncomplete": "Täytä osoitteen pakolliset kentät. Ilman kaupunkia ja postinumeroa tilausta ei voi lähettää.",
+    "provinceRequired": "Valitse alue luettelosta.",
     "orderComposition": "Tilauksen yhteenveto",
     "paymentHeading": "Maksutapa",
     "paymentInterruptedHeading": "Maksu ei onnistunut tai se keskeytyi",

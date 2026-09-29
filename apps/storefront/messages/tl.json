@@ -157,6 +157,7 @@
     "legal": "Sa pag-click ng «Bayaran», tinatanggap mo ang aming <terms>mga tuntunin</terms>, <termsOfUse>mga tuntunin sa paggamit</termsOfUse>, at <returnPolicy>patakaran sa pagsauli</returnPolicy>, at sumasang-ayon ka sa aming <privacyPolicy>patakaran sa privacy</privacyPolicy>.",
     "manualInput": "Ilagay ang address nang manu-mano",
     "addressIncomplete": "Punan ang mga kinakailangang field ng address. Kung walang lungsod at postal code, hindi maipapadala ang order.",
+    "provinceRequired": "Piliin ang rehiyon mula sa listahan.",
     "orderComposition": "Buod ng Order",
     "paymentHeading": "Paraan ng bayad",
     "paymentInterruptedHeading": "Hindi natuloy o naantala ang bayad",

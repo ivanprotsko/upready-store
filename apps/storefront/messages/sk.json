@@ -157,6 +157,7 @@
     "legal": "Kliknutím na «Zaplatiť» prijímate naše <terms>podmienky</terms>, <termsOfUse>podmienky používania</termsOfUse> a <returnPolicy>podmienky vrátenia</returnPolicy> a súhlasíte s našimi <privacyPolicy>zásadami ochrany osobných údajov</privacyPolicy>.",
     "manualInput": "Zadať adresu manuálne",
     "addressIncomplete": "Vyplňte povinné polia adresy. Bez mesta a PSČ sa objednávka nedá odoslať.",
+    "provinceRequired": "Vyberte kraj zo zoznamu.",
     "orderComposition": "Súhrn objednávky",
     "paymentHeading": "Spôsob platby",
     "paymentInterruptedHeading": "Platba neprebehla alebo bola prerušená",

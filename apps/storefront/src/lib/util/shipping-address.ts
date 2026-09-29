@@ -56,6 +56,18 @@ export const shippingAddressGaps = (
 }
 
 /**
+ * Which `CheckoutPage` sentences the address form shows for these gaps. The
+ * province gets its own: it is a list to pick from, not a field to type, and
+ * the general sentence names only city and index (U-08, 46df UX audit).
+ */
+export const addressGapMessageKeys = (
+  gaps: ShippingAddressField[]
+): ("addressIncomplete" | "provinceRequired")[] => [
+  ...(gaps.some((field) => field !== "province") ? (["addressIncomplete"] as const) : []),
+  ...(gaps.includes("province") ? (["provinceRequired"] as const) : []),
+]
+
+/**
  * A cart the customer sends to a pickup point carries no delivery address at
  * all: `pickup-sheet-context.tsx` blanks every address field on purpose and
  * writes the point onto `cart.metadata`, and `checkout-info-rows` hides the

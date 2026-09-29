@@ -157,6 +157,7 @@
     "legal": "By clicking «Pay», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
     "manualInput": "Enter address manually",
     "addressIncomplete": "Fill in the required address fields. Without a city and a postal code the order cannot be shipped.",
+    "provinceRequired": "Choose your region from the list.",
     "orderComposition": "Order summary",
     "paymentHeading": "Payment method",
     "paymentInterruptedHeading": "Your payment did not go through or was interrupted",

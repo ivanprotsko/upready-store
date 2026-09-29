@@ -157,6 +157,7 @@
     "legal": "«Öde» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
     "addressIncomplete": "Adresin zorunlu alanlarını doldurun. Şehir ve posta kodu olmadan sipariş gönderilemez.",
+    "provinceRequired": "Listeden bölgenizi seçin.",
     "orderComposition": "Sipariş Özeti",
     "paymentHeading": "Ödeme yöntemi",
     "paymentInterruptedHeading": "Ödeme gerçekleşmedi veya yarıda kesildi",

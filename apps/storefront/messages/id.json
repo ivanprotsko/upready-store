@@ -157,6 +157,7 @@
     "legal": "Dengan mengklik «Bayar», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta menyetujui <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapi kolom alamat yang wajib diisi. Tanpa kota dan kode pos, pesanan tidak dapat dikirim.",
+    "provinceRequired": "Pilih wilayah dari daftar.",
     "orderComposition": "Ringkasan Pesanan",
     "paymentHeading": "Metode pembayaran",
     "paymentInterruptedHeading": "Pembayaran gagal atau terputus",

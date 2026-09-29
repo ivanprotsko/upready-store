@@ -157,6 +157,7 @@
     "legal": "Genom att klicka på ”Betala” godkänner du våra <terms>villkor</terms>, <termsOfUse>användarvillkor</termsOfUse> och <returnPolicy>returpolicy</returnPolicy>, samt godkänner vår <privacyPolicy>integritetspolicy</privacyPolicy>.",
     "manualInput": "Ange adress manuellt",
     "addressIncomplete": "Fyll i adressens obligatoriska fält. Utan ort och postnummer kan beställningen inte skickas.",
+    "provinceRequired": "Välj region i listan.",
     "orderComposition": "Ordersammanfattning",
     "paymentHeading": "Betalningsmetod",
     "paymentInterruptedHeading": "Betalningen gick inte igenom eller avbröts",
