@@ -50,6 +50,25 @@ describe("build-profile · default fallback", () => {
     expect(DEFAULT_PROFILE.home.categoryTiles).toHaveLength(0)
     expect(DEFAULT_PROFILE.layout.imageTreatment).toBeNull()
   })
+
+  /**
+   * A-29 (46df audit): `generatedAt` used to be stamped with `new Date()` even for
+   * the default profile, so a clean checkout's very first `pnpm storefront:dev`
+   * (no `NEXT_PUBLIC_STORE_PROFILE`, hence this exact branch) rewrote a different
+   * timestamp into the COMMITTED `profile.generated.json` on every single run —
+   * `git status` was never clean. Not stamping the default profile at all keeps
+   * two runs, any distance apart, byte-identical.
+   */
+  it("never stamps generatedAt on the default profile — two runs a tick apart agree", () => {
+    const first = buildProfile({ profileId: "default", profilesDir: "/definitely/not/a/path" })
+    const second = buildProfile({
+      profileId: "sneakers",
+      profilesDir: join(FIXTURES, "no-such-directory"),
+    })
+    expect(first.generatedAt).toBeUndefined()
+    expect(second.generatedAt).toBeUndefined()
+    expect(JSON.stringify(first)).toBe(JSON.stringify(second))
+  })
 })
 
 describe("build-profile · generated shape", () => {

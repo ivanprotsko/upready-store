@@ -1,70 +1,16 @@
 {
   "schema": "upready.storefront-profile/v0",
-  "id": "sneakers",
-  "source": "backend",
-  "brand": {
-    "name": "Kerbstone",
-    "tagline": "Street-built sneakers for the long way home",
-    "wordmark": {
-      "text": "KERBSTONE",
-      "style": "wordmark"
-    }
-  },
-  "theme": {
-    "presetId": "sneakers",
-    "defaultMode": "dark",
-    "typography": {
-      "display": "Space Grotesk",
-      "body": "Inter"
-    },
-    "radius": "md"
-  },
+  "id": "default",
+  "source": "default",
+  "brand": null,
+  "theme": null,
   "home": {
-    "hero": {
-      "layout": "full-bleed",
-      "headline": "Made for the kerb, not the catwalk",
-      "subheadline": "Ink-black silhouettes with one acid detail. Cut for city miles, built to be worn out.",
-      "cta": {
-        "label": "Shop the drop",
-        "href": "/store"
-      },
-      "image": "http://localhost:9023/static/store-profiles/sneakers/home-hero.webp"
-    },
-    "categoryTiles": [
-      {
-        "categoryHandle": "low-tops",
-        "label": "Low tops",
-        "image": "http://localhost:9023/static/store-profiles/sneakers/tile-low-tops.webp"
-      },
-      {
-        "categoryHandle": "high-tops",
-        "label": "High tops",
-        "image": "http://localhost:9023/static/store-profiles/sneakers/tile-high-tops.webp"
-      },
-      {
-        "categoryHandle": "runners",
-        "label": "Runners",
-        "image": "http://localhost:9023/static/store-profiles/sneakers/tile-runners.webp"
-      },
-      {
-        "categoryHandle": "trail",
-        "label": "Trail",
-        "image": "http://localhost:9023/static/store-profiles/sneakers/tile-trail.webp"
-      }
-    ],
-    "promoStrip": {
-      "enabled": true,
-      "text": "Free shipping over $120 · 30-day returns · every pair ships in 48 hours"
-    }
+    "hero": null,
+    "categoryTiles": [],
+    "promoStrip": null
   },
   "layout": {
-    "imageTreatment": {
-      "aspect": "1:1",
-      "fit": "cover",
-      "radius": "md",
-      "hover": "none"
-    }
+    "imageTreatment": null
   },
-  "i18n": {},
-  "generatedAt": "2026-09-07T14:00:36.588Z"
+  "i18n": {}
 }

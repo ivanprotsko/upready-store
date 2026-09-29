@@ -114,10 +114,19 @@ export function readLocaleOverrides(profileDir) {
  * Narrows a profile.json to what the storefront renders. Anything the profile omits
  * stays null/empty rather than being defaulted to a guess, because an absent section
  * must produce absent markup, not a placeholder.
+ *
+ * The `default` profile never stamps `generatedAt` (A-29, 46df audit): it is not the
+ * output of a bake, it is what "nothing to bake" looks like, and `new Date()` there
+ * meant a committed `profile.generated.json` went stale on read — `pnpm storefront:dev`
+ * on a totally clean checkout (no `NEXT_PUBLIC_STORE_PROFILE`) rewrote a different
+ * timestamp into it every single run, so `git status` was never clean even right after
+ * `pnpm install`. `types.ts` already types the field `generatedAt?: string`, and its one
+ * reader (`storefront-settings.ts`) already falls back to `""`, so omitting it here is
+ * not a new case either has to learn.
  */
 export function buildProfile({ profileId, profilesDir, mediaBaseUrl, heroEnabled = true }) {
   if (!profileId || profileId === "default") {
-    return { ...DEFAULT_PROFILE, generatedAt: new Date().toISOString() }
+    return { ...DEFAULT_PROFILE }
   }
 
   const profileDir = join(profilesDir, profileId)
@@ -126,7 +135,7 @@ export function buildProfile({ profileId, profilesDir, mediaBaseUrl, heroEnabled
     console.warn(
       `[build-profile] no profile.json at ${profilePath} — falling back to profile "default"`
     )
-    return { ...DEFAULT_PROFILE, generatedAt: new Date().toISOString() }
+    return { ...DEFAULT_PROFILE }
   }
 
   const raw = readJson(profilePath)
