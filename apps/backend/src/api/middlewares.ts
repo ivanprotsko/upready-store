@@ -237,6 +237,7 @@ import {
 } from "./admin/tenants/validators";
 import { PostAdminPlatformPricingSchema } from "../modules/platform-pricing/schema";
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
+import { requireOwnerPasswordLength } from "./auth/password-length-gate";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { guardRequestedFields } from "./field-guard";
@@ -327,6 +328,21 @@ export default defineMiddlewares({
       method: ["POST"],
       // Audit 2026-09-23, A-04: 10 login attempts a minute per client.
       middlewares: [rateLimit(), blockArchivedTenantLogin],
+    },
+    // 46df A-22: the reset-password link sets a new password through Medusa's
+    // own `/update` handler, which checks no length. The owner (actor
+    // `tenant`) and platform staff (actor `user`) get the same 12-character
+    // floor as `POST /tenants/me/password`; buyers' `/auth/customer/*` is not
+    // touched.
+    {
+      matcher: "/auth/tenant/emailpass/update",
+      method: ["POST"],
+      middlewares: [requireOwnerPasswordLength],
+    },
+    {
+      matcher: "/auth/user/emailpass/update",
+      method: ["POST"],
+      middlewares: [requireOwnerPasswordLength],
     },
     {
       // The owner ties one marketplace card to one variant of her shop by hand
