@@ -208,6 +208,42 @@ Its only existence check is the sales channel named in `data/store/json/store.js
 
 See [Customize Seed Data](https://docs.gorgojs.com/tools/medusa-dtc-starter/customize-seed-data) for the file formats, currency rules, and the pre-launch checklist.
 
+## Switching a Stand to a Copy of the Live Database
+
+[`scripts/stand-use-live-copy.mjs`](scripts/stand-use-live-copy.mjs) moves the stand of this checkout onto a fresh copy of a database restored from live. It never drops a database and writes only to the copy it creates.
+
+```bash
+node scripts/stand-use-live-copy.mjs --target upready_store_ex_17c --restart
+pnpm stand:use-live-copy --target upready_store_ex_17c --restart    # the same, through package.json
+```
+
+| Flag | Default | What it does |
+|---|---|---|
+| `--target <db>` | required | The database to create. The run stops when it already exists. |
+| `--source <db>` | `upready_store_live_copy` | The database to copy from. |
+| `--restart` | off | Restarts this checkout's `medusa develop` on `PORT` once `.env` is switched, and refuses when another directory holds that port. |
+| `--allow-undecryptable` | off | Switches even when the copy's shop secrets do not decrypt under your key. |
+| `--probe-port <port>` | a free port | The port of the probe backend. |
+| `--storefront-dir <path>` | `../storefront` | The storefront whose fetch cache the run clears. |
+| `--log <path>` | `$TMPDIR/stand-backend-<PORT>.log` | The log of the restarted backend. |
+
+The script runs these steps in order and stops at the first failure:
+
+1. Preflight. `DATABASE_URL` in `.env` has to point at a local Postgres, the source has to exist and the target must not, and `.env` has to set `INTEGRATION_ENCRYPTION_KEY` and `MP_SCHEDULER=off`.
+2. Copy with `pg_dump -Fc | pg_restore --no-owner --no-acl`, because `createdb -T` refuses a source that has open connections.
+3. `medusa db:migrate --skip-scripts --execute-safe-links`.
+4. Every shop whose main address is a public domain gets a local one (`olavka.com` becomes `olavka-com.localhost`), and the local one becomes primary. Without it the storefront answers every other address of the shop with a 301 to the live domain.
+5. The encryption probe decrypts every shop secret of the copy and prints `ok` or `fail` per row, never a value.
+6. The storefront's `.next/cache/fetch-cache` is removed.
+7. A probe backend boots against the copy on a spare port. The run asks it for `/health` and for `/storefront/by-host` of every local main address, then stops it.
+8. The switch backs `.env` up to `.env.bak-<date>-<time>` and rewrites `DATABASE_URL` and `DB_NAME`.
+
+Two of those steps guard against what a copy of live data does to a plain `db:migrate` and `medusa develop`. A live database records its migration scripts under their compiled names, such as `initial-data-seed.js`. Run from sources, Medusa takes `initial-data-seed.ts` for a new script and seeds a second store profile, «My Store», into the copy. `--skip-scripts` prevents that, and the script counts the rows of `store` and `sales_channel` after the copy and after every later step, failing on any growth. `MP_SCHEDULER=off` keeps the five-minute marketplace sync in [`src/jobs/marketplace-sync.ts`](src/jobs/marketplace-sync.ts) from calling Wildberries or Ozon with the shops' own keys.
+
+A `fail` from the encryption probe means the copy was encrypted under another `INTEGRATION_ENCRYPTION_KEY`. Put that key into `.env`, or run again on a new target with `--allow-undecryptable`, and those integrations show as unreadable on the stand. The run leaves its target in place whenever it stops, so drop it with `dropdb <name>` once you no longer need it.
+
+Restart the storefront after the switch. Its middleware keeps the shop behind each host in memory for a minute (`TTL_MS` in `apps/storefront/src/lib/tenant/resolve.ts`).
+
 ## What is Medusa?
 
 Medusa is a set of commerce modules and tools for building commerce applications without reinventing core commerce logic. The modules are open source, published on npm, and can be composed into stores, marketplaces, or anything else that needs commerce primitives.
