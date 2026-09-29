@@ -1,5 +1,7 @@
 /dist
 .env
+# Backups scripts/stand-use-live-copy.mjs writes before it switches .env; they carry the same secrets.
+.env.bak-*
 .DS_Store
 /uploads
 /node_modules
