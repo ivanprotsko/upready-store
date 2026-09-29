@@ -135,6 +135,11 @@ meant for the script.
 A new convergence script belongs in this list, in `src/scripts/`, idempotent, with one log line
 saying what it changed — not in a runbook step someone has to remember.
 
+With `NODE_ENV=production` and `SMTP_HOST` empty, the entrypoint also prints a framed
+`WARNING: SMTP_HOST is empty in production` block, once before step 1 and once right before
+`medusa start`. The backend boots the same without SMTP, so without the block the only symptom is
+that no order confirmation, password reset or owner notification is ever delivered.
+
 ## Environment Variables
 
 Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be set for the application to boot, and every `supersecret` value has to be replaced before production.
