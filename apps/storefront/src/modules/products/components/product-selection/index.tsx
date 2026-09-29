@@ -63,8 +63,14 @@ const ProductSelectionContext = createContext<ProductSelection | null>(null)
  * inside `ProductActions`, which owned the pickers too; now it sits above all of them.
  *
  * A one-variant product is chosen from the first render, on the server as well, so the
- * price and the button never flash through a "select a variant" state. The chosen
- * variant is mirrored into `?v_id=` so a shared link opens on the same choice.
+ * price and the button never flash through a "select a variant" state. Its URL is left
+ * alone: there is no choice to share, and mirroring `?v_id=` on mount was a
+ * `router.replace` whose RSC request re-rendered the page while the buyer's first
+ * «В корзину» POST was in flight and cut it off (46df A-09).
+ *
+ * A product with several variants mirrors the chosen one into `?v_id=`, and a link that
+ * carries `?v_id=` opens on that choice: the first render, on the server and on the
+ * client alike, reads it from the URL, so nothing is replaced on mount either.
  */
 export function ProductSelectionProvider({
   product,
@@ -77,11 +83,16 @@ export function ProductSelectionProvider({
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const [options, setOptions] = useState<Options>(() =>
-    product.variants?.length === 1
-      ? optionsAsKeymap(product.variants[0].options)
-      : {}
-  )
+  const singleVariant = product.variants?.length === 1
+
+  const [options, setOptions] = useState<Options>(() => {
+    if (product.variants?.length === 1) {
+      return optionsAsKeymap(product.variants[0].options)
+    }
+    const linkedId = searchParams.get("v_id")
+    const linked = product.variants?.find((variant) => variant.id === linkedId)
+    return linked ? optionsAsKeymap(linked.options) : {}
+  })
   const [busy, setBusy] = useState(false)
   const [pricedProduct, setPricedProduct] = useState<
     HttpTypes.StoreProduct | undefined
@@ -105,6 +116,10 @@ export function ProductSelectionProvider({
   const isValidVariant = selectedVariant !== undefined
 
   useEffect(() => {
+    if (singleVariant) {
+      return
+    }
+
     const params = new URLSearchParams(searchParams.toString())
     const value = selectedVariant?.id ?? null
 
@@ -119,7 +134,7 @@ export function ProductSelectionProvider({
     }
 
     router.replace(pathname + "?" + params.toString(), { scroll: false })
-  }, [selectedVariant, pathname, router, searchParams])
+  }, [singleVariant, selectedVariant, pathname, router, searchParams])
 
   const value = useMemo<ProductSelection>(
     () => ({
