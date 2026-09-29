@@ -16,6 +16,12 @@ updates:
       # both propose the same bump would just be two competing, conflicting
       # PRs for one package (audit D-06).
       - dependency-name: "@medusajs/*"
+      # Next stays on 15 (audit A-28): a major of next or its lint config
+      # would need its own migration, not a batched patch/minor PR.
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint-config-next"
+        update-types: ["version-update:semver-major"]
 
   # apps/homepage/port installs standalone with its own lockfile (see the
   # comment in the root pnpm-workspace.yaml).
