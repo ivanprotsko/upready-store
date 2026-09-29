@@ -716,7 +716,7 @@
   },
   "OrderDetails": {
     "backToOrders": "Назад к заказам",
-    "contactEmailBefore": "Заказ оформлен на адрес",
+    "contactEmailBefore": "Контакт для уведомлений:",
     "fulfillmentStatuses": {
       "canceled": "Отменён",
       "delivered": "Доставлен",
