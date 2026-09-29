@@ -60,6 +60,68 @@ async function fetchTenantCategories(
   )
 }
 
+const DEFAULT_CATEGORY_FIELDS =
+  "*category_children, +category_children.metadata, +metadata, *products, *parent_category, *parent_category.parent_category"
+
+/**
+ * True when this category, or any descendant, carries at least one product
+ * (A-13, 46df audit). A leaf with zero products is empty outright; a parent
+ * is not, as long as some child or grandchild still has stock — products
+ * attach to leaves, so a parent's OWN `products` relation is empty by design
+ * even for a perfectly stocked shop (the same assumption
+ * `listTopCategoriesWithCounts`'s own subtree count already makes, a few
+ * lines below). `byId` resolves a child by its full record — the flat array
+ * `listCategories` returns carries every category with `products` expanded,
+ * while the SAME child embedded inside a parent's `category_children` does
+ * not (the fields string never asks for `category_children.products`).
+ */
+function categoryHasProducts(
+  category: HttpTypes.StoreProductCategory,
+  byId: Map<string, HttpTypes.StoreProductCategory>
+): boolean {
+  if ((category.products?.length ?? 0) > 0) {
+    return true
+  }
+
+  return (category.category_children ?? []).some((child) =>
+    categoryHasProducts(byId.get(child.id) ?? child, byId)
+  )
+}
+
+/**
+ * Drops a category from the tree, at every level, when neither it nor any
+ * descendant has a product — the menu entry the audit found leading to an
+ * empty list (A-13: "Стимуляторы" on olavka.com, 9 categories, one of them
+ * `count: 0`). `category_children` is rebuilt the same way on every surviving
+ * category, so a drill-in submenu (`CategoryMenu`'s own two-level nav) never
+ * opens on an empty leaf either.
+ *
+ * Gated on the caller having asked for `products` at all — `listCategories`
+ * below only calls this when the resolved `fields` string names it, so a
+ * caller that fetches `id,handle` alone (home.ts's tile matching, an id
+ * lookup) is untouched: `products: undefined` cannot tell empty from
+ * "never asked", and guessing empty would hide every category for them.
+ */
+function withoutEmptyCategories(
+  categories: HttpTypes.StoreProductCategory[]
+): HttpTypes.StoreProductCategory[] {
+  const byId = new Map(categories.map((category) => [category.id, category]))
+
+  const prune = (
+    category: HttpTypes.StoreProductCategory
+  ): HttpTypes.StoreProductCategory => ({
+    ...category,
+    category_children: (category.category_children ?? [])
+      .map((child) => byId.get(child.id) ?? child)
+      .filter((child) => categoryHasProducts(child, byId))
+      .map(prune),
+  })
+
+  return categories
+    .filter((category) => categoryHasProducts(category, byId))
+    .map(prune)
+}
+
 export const listCategories = async (query?: Record<string, unknown>) => {
   const next = {
     ...(await getCacheOptions("categories")),
@@ -69,11 +131,11 @@ export const listCategories = async (query?: Record<string, unknown>) => {
   }
 
   const limit = query?.limit || 100
+  const fields = (query?.fields as string | undefined) ?? DEFAULT_CATEGORY_FIELDS
 
   const product_categories = await fetchTenantCategories(
     {
-      fields:
-        "*category_children, +category_children.metadata, +metadata, *products, *parent_category, *parent_category.parent_category",
+      fields,
       limit,
       ...query,
     },
@@ -108,7 +170,16 @@ export const listCategories = async (query?: Record<string, unknown>) => {
     }
   }
 
-  return product_categories
+  // A-13 (46df audit): only when this call actually asked for `products` —
+  // `fields.includes("products")` covers both `*products` (the default) and
+  // an explicit `handle,*products` override (hero-gallery-data.ts); a caller
+  // that never requested it (home.ts's `id,handle`) gets its result back
+  // unfiltered. Applied AFTER the zero-category log above on purpose: that
+  // check asks "does this tenant own any category at all" (a seeding bug),
+  // and must see the raw count, not one this filter has already thinned.
+  return fields.includes("products")
+    ? withoutEmptyCategories(product_categories)
+    : product_categories
 }
 
 export type TopCategoryWithCount = {
