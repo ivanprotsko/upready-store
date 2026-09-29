@@ -7,6 +7,7 @@ import { listRegions } from "@lib/data/regions"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import CartButton from "@modules/layout/components/cart-button"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
@@ -62,24 +63,29 @@ export default async function NavH5() {
           </div>
 
           <div className="flex-1 flex h-full items-center justify-end gap-x-4">
-            <ModeToggle
-              className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-              data-testid="nav-mode-toggle"
-            />
-            <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
-            {/* Country and language, as in every other header; the phone reaches them from
-                the menu (t-2026-09-12-seeded-hosts-no-locale-controls). */}
-            <div className="hidden min-w-0 lg:flex">
-              <RegionSelect
-                regions={regions}
-                currentCountryCode={countryCode ?? undefined}
-                locales={locales}
-                className="min-w-0"
+            {/* RegionSelect carries every region with its countries, far past Flight's
+                3200-byte row limit, so what follows it arrives as lazy rows: one slot
+                around the whole cluster, see HydrationSlot (46df U-06). */}
+            <HydrationSlot>
+              <ModeToggle
+                className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                data-testid="nav-mode-toggle"
               />
-            </div>
-            <div className="flex h-full items-center">
-              <CartButton />
-            </div>
+              <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
+              {/* Country and language, as in every other header; the phone reaches them from
+                  the menu (t-2026-09-12-seeded-hosts-no-locale-controls). */}
+              <div className="hidden min-w-0 lg:flex">
+                <RegionSelect
+                  regions={regions}
+                  currentCountryCode={countryCode ?? undefined}
+                  locales={locales}
+                  className="min-w-0"
+                />
+              </div>
+              <div className="flex h-full items-center">
+                <CartButton />
+              </div>
+            </HydrationSlot>
           </div>
         </nav>
       </header>

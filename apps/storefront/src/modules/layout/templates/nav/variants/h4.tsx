@@ -9,6 +9,7 @@ import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
@@ -105,30 +106,35 @@ export default async function NavH4() {
           </div>
 
           <div className="flex-1 flex h-full items-center justify-end gap-x-4">
-            <ModeToggle
-              className="hidden lg:inline-flex hover:opacity-80 transition-opacity"
-              data-testid="nav-mode-toggle"
-            />
-            <Search className="hidden lg:inline-flex hover:opacity-80 transition-opacity" />
-            <div className="hidden lg:flex min-w-0">
-              <RegionSelect
-                regions={regions}
-                currentCountryCode={countryCode ?? undefined}
-                locales={locales}
-                className="min-w-0"
+            {/* RegionSelect carries every region with its countries, far past Flight's
+                3200-byte row limit, so what follows it arrives as lazy rows: one slot
+                around the whole cluster, see HydrationSlot (46df U-06). */}
+            <HydrationSlot>
+              <ModeToggle
+                className="hidden lg:inline-flex hover:opacity-80 transition-opacity"
+                data-testid="nav-mode-toggle"
               />
-            </div>
-            <Link
-              className="hidden lg:block hover:opacity-80 transition-opacity"
-              href="/account"
-              aria-label={t("Nav.account")}
-              data-testid="nav-account-link"
-            >
-              <User />
-            </Link>
-            <div className="flex h-full items-center">
-              <CartButton />
-            </div>
+              <Search className="hidden lg:inline-flex hover:opacity-80 transition-opacity" />
+              <div className="hidden lg:flex min-w-0">
+                <RegionSelect
+                  regions={regions}
+                  currentCountryCode={countryCode ?? undefined}
+                  locales={locales}
+                  className="min-w-0"
+                />
+              </div>
+              <Link
+                className="hidden lg:block hover:opacity-80 transition-opacity"
+                href="/account"
+                aria-label={t("Nav.account")}
+                data-testid="nav-account-link"
+              >
+                <User />
+              </Link>
+              <div className="flex h-full items-center">
+                <CartButton />
+              </div>
+            </HydrationSlot>
           </div>
         </nav>
       </header>

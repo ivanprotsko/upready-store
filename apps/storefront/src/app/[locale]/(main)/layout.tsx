@@ -10,6 +10,7 @@ import {
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 import { getSeoVerification } from "@lib/data/seo-verification"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import BottomNav from "@modules/layout/components/bottom-nav"
 import CartNotifications from "@modules/layout/components/cart-notifications"
 import PromoBanner from "@modules/layout/components/promo-banner"
@@ -92,13 +93,17 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
           never a second source of truth. */}
       <Nav />
       <div className="pb-16 lg:pb-0">
-        <Suspense fallback={null}>
-          <CartNotifications />
-        </Suspense>
-        {/* The page is the one `main` landmark; the header above is `banner` and the
-            footer below `contentinfo` because they sit outside it. */}
-        <main id="main-content">{props.children}</main>
-        <Footer />
+        {/* Footer is async, so a lazy row in the RSC payload: the slot keeps it
+            off this <div>'s own children, see HydrationSlot (46df U-06). */}
+        <HydrationSlot>
+          <Suspense fallback={null}>
+            <CartNotifications />
+          </Suspense>
+          {/* The page is the one `main` landmark; the header above is `banner` and the
+              footer below `contentinfo` because they sit outside it. */}
+          <main id="main-content">{props.children}</main>
+          <Footer />
+        </HydrationSlot>
       </div>
       <BottomNav />
     </>
