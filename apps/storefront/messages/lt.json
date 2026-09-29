@@ -157,8 +157,12 @@
     "legal": "Spausdami „Mokėti“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei sutinkate su <privacyPolicy>privatumo politika</privacyPolicy>.",
     "manualInput": "Įvesti adresą rankiniu būdu",
     "addressIncomplete": "Užpildykite privalomus adreso laukus. Be miesto ir pašto kodo užsakymo išsiųsti negalima.",
+    "provinceRequired": "Pasirinkite regioną iš sąrašo.",
     "orderComposition": "Užsakymo santrauka",
     "paymentHeading": "Mokėjimo būdas",
+    "paymentInterruptedHeading": "Mokėjimas nepavyko arba buvo nutrauktas",
+    "paymentInterruptedText": "Krepšelis išsaugotas. Mokėkite dar kartą arba pasirinkite kitą mokėjimo būdą.",
+    "paymentInterruptedAction": "Į mokėjimą",
     "recipientCheckbox": "Gavėjas yra kitas asmuo",
     "recipientHeading": "Gavėjo duomenys",
     "recipientLabel": "Gavėjas:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Pristatymo būdas",
     "shippingLink": "Pristatymas",
     "shippingUnavailable": "Nėra galimų pristatymo būdų",
+    "shippingPriceUnavailable": "Nepasiekiama: nepavyko apskaičiuoti kainos",
     "signIn": "Prisijungti",
     "total": "Iš viso",
     "shippingZone": "Zona: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Rusijos pašto atsiėmimo punktas",
     "chooseHeading": "Pasirinkite Rusijos pašto atsiėmimo punktą",
     "notConfigured": "Pristatymas Rusijos paštu šioje parduotuvėje dar nenustatytas.",
-    "estimate": "Apytiksliai pagal įprastą siuntinio tarifą",
     "quoteFailed": "Nepavyko apskaičiuoti pristatymo į šį punktą. Pasirinkite kitą.",
     "postcode": "Pašto kodas {index}"
   }

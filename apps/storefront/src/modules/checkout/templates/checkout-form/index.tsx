@@ -11,6 +11,7 @@ import CheckoutInfoRows from "@modules/checkout/components/checkout-info-rows"
 import CheckoutItemList from "@modules/checkout/components/checkout-item-list"
 import CheckoutPickupPointSheet from "@modules/checkout/components/checkout-pickup-point-sheet"
 import SignInPrompt from "@modules/checkout/components/sign-in-prompt"
+import RobokassaRetryNotice from "@modules/checkout/components/robokassa-retry-notice"
 import { PickupSheetProvider } from "@modules/checkout/context/pickup-sheet-context"
 import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
@@ -57,6 +58,7 @@ export default async function CheckoutForm({
 
   return (
     <div className="flex flex-col px-4 py-6 lg:px-0 lg:py-10 gap-y-6">
+      <RobokassaRetryNotice cart={cart} />
       {!customer && <SignInPrompt />}
 
       <PickupSheetProvider cart={cart} shippingOptions={shippingOptions}>

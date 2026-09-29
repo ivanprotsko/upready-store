@@ -157,8 +157,12 @@
     "legal": "«भुगतान करें» पर क्लिक करके, आप हमारी <terms>शर्तों</terms>, <termsOfUse>उपयोग की शर्तों</termsOfUse> और <returnPolicy>रिटर्न नीति</returnPolicy> को स्वीकार करते हैं, और हमारी <privacyPolicy>गोपनीयता नीति</privacyPolicy> से सहमत होते हैं।",
     "manualInput": "पता मैन्युअल रूप से दर्ज करें",
     "addressIncomplete": "पते के अनिवार्य फ़ील्ड भरें। शहर और पिन कोड के बिना ऑर्डर भेजा नहीं जा सकता।",
+    "provinceRequired": "सूची से क्षेत्र चुनें।",
     "orderComposition": "ऑर्डर सारांश",
     "paymentHeading": "भुगतान विधि",
+    "paymentInterruptedHeading": "भुगतान नहीं हुआ या बीच में रुक गया",
+    "paymentInterruptedText": "आपका कार्ट सहेजा गया है। फिर से भुगतान करें या कोई दूसरा भुगतान तरीका चुनें।",
+    "paymentInterruptedAction": "भुगतान पर जाएँ",
     "recipientCheckbox": "प्राप्तकर्ता कोई अन्य व्यक्ति है",
     "recipientHeading": "प्राप्तकर्ता विवरण",
     "recipientLabel": "प्राप्तकर्ता:",
@@ -171,6 +175,7 @@
     "shippingHeading": "शिपिंग विधि",
     "shippingLink": "शिपिंग",
     "shippingUnavailable": "कोई शिपिंग विधि उपलब्ध नहीं है",
+    "shippingPriceUnavailable": "उपलब्ध नहीं: कीमत की गणना नहीं हो सकी",
     "signIn": "साइन इन करें",
     "total": "कुल",
     "shippingZone": "क्षेत्र: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "रूसी डाक का पिकअप पॉइंट",
     "chooseHeading": "रूसी डाक का पिकअप पॉइंट चुनें",
     "notConfigured": "इस दुकान में रूसी डाक से डिलीवरी अभी सेट नहीं है।",
-    "estimate": "सामान्य पार्सल दर के अनुसार अनुमान",
     "quoteFailed": "इस पॉइंट तक डिलीवरी की गणना नहीं हो सकी। कोई दूसरा चुनें।",
     "postcode": "पिन कोड {index}"
   }

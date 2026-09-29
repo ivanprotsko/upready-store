@@ -157,8 +157,12 @@
     "legal": "Klikając «Zapłać», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
     "manualInput": "Wprowadź adres ręcznie",
     "addressIncomplete": "Wypełnij wymagane pola adresu. Bez miasta i kodu pocztowego zamówienia nie da się wysłać.",
+    "provinceRequired": "Wybierz region z listy.",
     "orderComposition": "Podsumowanie zamówienia",
     "paymentHeading": "Sposób płatności",
+    "paymentInterruptedHeading": "Płatność nie powiodła się lub została przerwana",
+    "paymentInterruptedText": "Koszyk został zachowany. Zapłać ponownie lub wybierz inną metodę płatności.",
+    "paymentInterruptedAction": "Przejdź do płatności",
     "recipientCheckbox": "Odbiorcą jest inna osoba",
     "recipientHeading": "Dane odbiorcy",
     "recipientLabel": "Odbiorca:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Sposób dostawy",
     "shippingLink": "Dostawa",
     "shippingUnavailable": "Brak dostępnych metod dostawy",
+    "shippingPriceUnavailable": "Niedostępne: nie udało się obliczyć ceny",
     "signIn": "Zaloguj się",
     "total": "Razem",
     "shippingZone": "Strefa: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Punkt odbioru Poczty Rosyjskiej",
     "chooseHeading": "Wybierz punkt odbioru Poczty Rosyjskiej",
     "notConfigured": "Wysyłka Pocztą Rosyjską nie jest jeszcze skonfigurowana w tym sklepie.",
-    "estimate": "Szacunek według detalicznej taryfy paczkowej",
     "quoteFailed": "Nie udało się obliczyć dostawy do tego punktu. Wybierz inny.",
     "postcode": "Kod pocztowy {index}"
   }

@@ -157,8 +157,12 @@
     "legal": "Genom att klicka på ”Betala” godkänner du våra <terms>villkor</terms>, <termsOfUse>användarvillkor</termsOfUse> och <returnPolicy>returpolicy</returnPolicy>, samt godkänner vår <privacyPolicy>integritetspolicy</privacyPolicy>.",
     "manualInput": "Ange adress manuellt",
     "addressIncomplete": "Fyll i adressens obligatoriska fält. Utan ort och postnummer kan beställningen inte skickas.",
+    "provinceRequired": "Välj region i listan.",
     "orderComposition": "Ordersammanfattning",
     "paymentHeading": "Betalningsmetod",
+    "paymentInterruptedHeading": "Betalningen gick inte igenom eller avbröts",
+    "paymentInterruptedText": "Din varukorg är sparad. Betala igen eller välj ett annat betalsätt.",
+    "paymentInterruptedAction": "Till betalning",
     "recipientCheckbox": "Mottagaren är en annan person",
     "recipientHeading": "Mottagarens uppgifter",
     "recipientLabel": "Mottagare:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Fraktmetod",
     "shippingLink": "Frakt",
     "shippingUnavailable": "Inga fraktmetoder tillgängliga",
+    "shippingPriceUnavailable": "Inte tillgängligt: priset kunde inte beräknas",
     "signIn": "Logga in",
     "total": "Totalt",
     "shippingZone": "Zon: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Ryska postens utlämningsställe",
     "chooseHeading": "Välj ett utlämningsställe hos Ryska posten",
     "notConfigured": "Leverans med Ryska posten är inte inställd i den här butiken än.",
-    "estimate": "Uppskattning enligt ordinarie pakettaxa",
     "quoteFailed": "Frakten till det här stället kunde inte beräknas. Välj ett annat.",
     "postcode": "Postnummer {index}"
   }

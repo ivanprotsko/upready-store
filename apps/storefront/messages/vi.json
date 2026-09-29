@@ -157,8 +157,12 @@
     "legal": "Bằng cách nhấn «Thanh toán», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời đồng ý với <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
     "manualInput": "Nhập địa chỉ thủ công",
     "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ. Không có thành phố và mã bưu chính thì không thể gửi đơn hàng.",
+    "provinceRequired": "Chọn khu vực từ danh sách.",
     "orderComposition": "Tóm tắt đơn hàng",
     "paymentHeading": "Phương thức thanh toán",
+    "paymentInterruptedHeading": "Thanh toán không thành công hoặc bị gián đoạn",
+    "paymentInterruptedText": "Giỏ hàng của bạn đã được lưu. Hãy thanh toán lại hoặc chọn phương thức thanh toán khác.",
+    "paymentInterruptedAction": "Đến thanh toán",
     "recipientCheckbox": "Người nhận là người khác",
     "recipientHeading": "Thông tin người nhận",
     "recipientLabel": "Người nhận:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Phương thức vận chuyển",
     "shippingLink": "Vận chuyển",
     "shippingUnavailable": "Không có phương thức vận chuyển khả dụng",
+    "shippingPriceUnavailable": "Không khả dụng: không tính được giá",
     "signIn": "Đăng nhập",
     "total": "Tổng cộng",
     "shippingZone": "Khu vực: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Điểm nhận hàng của Bưu điện Nga",
     "chooseHeading": "Chọn điểm nhận hàng của Bưu điện Nga",
     "notConfigured": "Cửa hàng này chưa thiết lập giao hàng qua Bưu điện Nga.",
-    "estimate": "Ước tính theo giá bưu kiện thông thường",
     "quoteFailed": "Không tính được phí giao hàng đến điểm này. Hãy chọn điểm khác.",
     "postcode": "Mã bưu chính {index}"
   }

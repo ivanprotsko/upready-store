@@ -157,8 +157,12 @@
     "legal": "Ved å klikke på «Betal» godtar du våre <terms>vilkår</terms>, <termsOfUse>brukervilkår</termsOfUse> og <returnPolicy>returvilkår</returnPolicy>, og aksepterer vår <privacyPolicy>personvernerklæring</privacyPolicy>.",
     "manualInput": "Skriv inn adresse manuelt",
     "addressIncomplete": "Fyll ut de obligatoriske adressefeltene. Uten by og postnummer kan ikke bestillingen sendes.",
+    "provinceRequired": "Velg region fra listen.",
     "orderComposition": "Ordresammendrag",
     "paymentHeading": "Betalingsmetode",
+    "paymentInterruptedHeading": "Betalingen gikk ikke gjennom eller ble avbrutt",
+    "paymentInterruptedText": "Handlekurven er lagret. Betal på nytt eller velg en annen betalingsmåte.",
+    "paymentInterruptedAction": "Til betaling",
     "recipientCheckbox": "Mottakeren er en annen person",
     "recipientHeading": "Mottakerdetaljer",
     "recipientLabel": "Mottaker:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Fraktmetode",
     "shippingLink": "Frakt",
     "shippingUnavailable": "Ingen fraktmetoder tilgjengelig",
+    "shippingPriceUnavailable": "Ikke tilgjengelig: prisen kunne ikke beregnes",
     "signIn": "Logg inn",
     "total": "Totalt",
     "shippingZone": "Sone: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Russisk posts hentested",
     "chooseHeading": "Velg et hentested hos Russisk post",
     "notConfigured": "Levering med Russisk post er ikke satt opp i denne butikken ennå.",
-    "estimate": "Anslag etter ordinær pakketakst",
     "quoteFailed": "Frakten til dette hentestedet kunne ikke beregnes. Velg et annet.",
     "postcode": "Postnummer {index}"
   }

@@ -12,6 +12,7 @@ import {
   fetchPochtaCities,
   fetchPochtaPoints,
   fetchPochtaQuote,
+  pochtaQuoteLabel,
   type PochtaCity,
   type PochtaQuote,
   type PochtaStorePoint,
@@ -292,17 +293,9 @@ export default function CheckoutPochtaPointSheet({
                   {quoteState === "loading"
                     ? "…"
                     : quote
-                      ? [
-                          `${quote.tariff_source === "public-retail-estimate" ? "≈ " : ""}${priceLabel(quote.amount)}`,
-                          quote.term_label,
-                        ]
-                          .filter(Boolean)
-                          .join(" · ")
+                      ? pochtaQuoteLabel(quote, priceLabel)
                       : null}
                 </span>
-                {quote?.tariff_source === "public-retail-estimate" && (
-                  <span className="txt-compact-xsmall text-ui-fg-muted">{t("estimate")}</span>
-                )}
                 {quoteState === "failed" && (
                   <span className="txt-compact-small text-rose-500">{t("quoteFailed")}</span>
                 )}

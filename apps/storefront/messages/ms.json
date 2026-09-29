@@ -157,8 +157,12 @@
     "legal": "Dengan mengklik «Bayar», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta bersetuju dengan <privacyPolicy>dasar privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapkan medan alamat yang diwajibkan. Tanpa bandar dan poskod, pesanan tidak dapat dihantar.",
+    "provinceRequired": "Pilih wilayah daripada senarai.",
     "orderComposition": "Ringkasan Pesanan",
     "paymentHeading": "Kaedah pembayaran",
+    "paymentInterruptedHeading": "Pembayaran tidak berjaya atau terganggu",
+    "paymentInterruptedText": "Troli anda disimpan. Bayar semula atau pilih kaedah pembayaran lain.",
+    "paymentInterruptedAction": "Ke pembayaran",
     "recipientCheckbox": "Penerima ialah orang lain",
     "recipientHeading": "Butiran penerima",
     "recipientLabel": "Penerima:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Kaedah penghantaran",
     "shippingLink": "Penghantaran",
     "shippingUnavailable": "Tiada kaedah penghantaran tersedia",
+    "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dikira",
     "signIn": "Log masuk",
     "total": "Jumlah",
     "shippingZone": "Zon: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Titik ambil Pos Rusia",
     "chooseHeading": "Pilih titik ambil Pos Rusia",
     "notConfigured": "Penghantaran dengan Pos Rusia belum disediakan di kedai ini.",
-    "estimate": "Anggaran mengikut kadar bungkusan biasa",
     "quoteFailed": "Kos penghantaran ke titik ini tidak dapat dikira. Pilih titik lain.",
     "postcode": "Poskod {index}"
   }

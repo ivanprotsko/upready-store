@@ -157,8 +157,12 @@
     "legal": "Ao clicar em «Pagar», aceita os nossos <terms>termos</terms>, <termsOfUse>termos de utilização</termsOfUse> e <returnPolicy>política de devolução</returnPolicy>, e concorda com a nossa <privacyPolicy>política de privacidade</privacyPolicy>.",
     "manualInput": "Introduzir morada manualmente",
     "addressIncomplete": "Preencha os campos obrigatórios do endereço. Sem cidade e código postal o pedido não pode ser enviado.",
+    "provinceRequired": "Escolha a região na lista.",
     "orderComposition": "Resumo da Encomenda",
     "paymentHeading": "Método de pagamento",
+    "paymentInterruptedHeading": "O pagamento não foi concluído ou foi interrompido",
+    "paymentInterruptedText": "O seu carrinho foi guardado. Pague novamente ou escolha outro método de pagamento.",
+    "paymentInterruptedAction": "Ir para o pagamento",
     "recipientCheckbox": "O destinatário é outra pessoa",
     "recipientHeading": "Dados do destinatário",
     "recipientLabel": "Destinatário:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Método de envio",
     "shippingLink": "Envio",
     "shippingUnavailable": "Não existem métodos de envio disponíveis",
+    "shippingPriceUnavailable": "Indisponível: não foi possível calcular o preço",
     "signIn": "Iniciar sessão",
     "total": "Total",
     "shippingZone": "Zona: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Ponto de retirada dos Correios da Rússia",
     "chooseHeading": "Escolha um ponto de retirada dos Correios da Rússia",
     "notConfigured": "O envio pelos Correios da Rússia ainda não está configurado nesta loja.",
-    "estimate": "Estimativa pela tarifa de encomenda padrão",
     "quoteFailed": "Não foi possível calcular o envio para este ponto. Escolha outro.",
     "postcode": "Código postal {index}"
   }

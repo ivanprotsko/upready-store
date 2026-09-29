@@ -157,8 +157,12 @@
     "legal": "Нажимая «Оплатить», вы принимаете <terms>условия</terms>, <termsOfUse>условия использования</termsOfUse> и <returnPolicy>политику возврата</returnPolicy>, а также соглашаетесь с <privacyPolicy>политикой конфиденциальности</privacyPolicy>.",
     "manualInput": "Ввести адрес вручную",
     "addressIncomplete": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить.",
+    "provinceRequired": "Выберите область из списка.",
     "orderComposition": "Состав заказа",
     "paymentHeading": "Способ оплаты",
+    "paymentInterruptedHeading": "Оплата не прошла или была прервана",
+    "paymentInterruptedText": "Корзина сохранена. Оплатите ещё раз или выберите другой способ оплаты.",
+    "paymentInterruptedAction": "К оплате",
     "recipientCheckbox": "Получать будет другой человек",
     "recipientHeading": "Данные получателя",
     "recipientLabel": "Получатель:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Способ доставки",
     "shippingLink": "Доставка",
     "shippingUnavailable": "Доставка по этому адресу пока не настроена. Проверьте страну и регион или напишите нам — подберём способ.",
+    "shippingPriceUnavailable": "Недоступно: не удалось рассчитать стоимость",
     "signIn": "Войти",
     "total": "Итого",
     "shippingZone": "Зона: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Пункт выдачи Почты России",
     "chooseHeading": "Выберите пункт выдачи Почты России",
     "notConfigured": "Доставка Почтой России пока не настроена в этом магазине.",
-    "estimate": "Предварительно, по тарифу «Посылка»",
     "quoteFailed": "Не удалось рассчитать доставку в этот пункт. Выберите другой.",
     "postcode": "Индекс {index}"
   }

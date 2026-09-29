@@ -157,8 +157,12 @@
     "legal": "„Fizetés” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
     "manualInput": "Cím megadása kézzel",
     "addressIncomplete": "Töltse ki a cím kötelező mezőit. Város és irányítószám nélkül a rendelés nem adható fel.",
+    "provinceRequired": "Válassza ki a régiót a listából.",
     "orderComposition": "Rendelés összesítése",
     "paymentHeading": "Fizetési mód",
+    "paymentInterruptedHeading": "A fizetés nem sikerült vagy megszakadt",
+    "paymentInterruptedText": "A kosár megmaradt. Fizessen újra, vagy válasszon másik fizetési módot.",
+    "paymentInterruptedAction": "Tovább a fizetéshez",
     "recipientCheckbox": "A címzett más személy",
     "recipientHeading": "Címzett adatai",
     "recipientLabel": "Címzett:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Szállítási mód",
     "shippingLink": "Szállítás",
     "shippingUnavailable": "Nincs elérhető szállítási mód",
+    "shippingPriceUnavailable": "Nem elérhető: az árat nem sikerült kiszámítani",
     "signIn": "Bejelentkezés",
     "total": "Összesen",
     "shippingZone": "Zóna: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Orosz Posta átvételi pont",
     "chooseHeading": "Válasszon Orosz Posta átvételi pontot",
     "notConfigured": "Az Orosz Postával történő szállítás még nincs beállítva ebben a boltban.",
-    "estimate": "Becslés a normál csomagtarifa alapján",
     "quoteFailed": "Nem sikerült kiszámítani a szállítást erre a pontra. Válasszon másikat.",
     "postcode": "Irányítószám: {index}"
   }

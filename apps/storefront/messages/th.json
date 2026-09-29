@@ -157,8 +157,12 @@
     "legal": "เมื่อคลิก «ชำระเงิน» คุณยอมรับ<terms>ข้อกำหนด</terms> <termsOfUse>เงื่อนไขการใช้งาน</termsOfUse> และ<returnPolicy>นโยบายการคืนสินค้า</returnPolicy> และยินยอมตาม<privacyPolicy>นโยบายความเป็นส่วนตัว</privacyPolicy>ของเรา",
     "manualInput": "กรอกที่อยู่ด้วยตนเอง",
     "addressIncomplete": "กรอกช่องที่จำเป็นของที่อยู่ให้ครบ หากไม่มีเมืองและรหัสไปรษณีย์ จะจัดส่งคำสั่งซื้อไม่ได้",
+    "provinceRequired": "เลือกภูมิภาคจากรายการ",
     "orderComposition": "สรุปคำสั่งซื้อ",
     "paymentHeading": "วิธีการชำระเงิน",
+    "paymentInterruptedHeading": "การชำระเงินไม่สำเร็จหรือถูกขัดจังหวะ",
+    "paymentInterruptedText": "ตะกร้าของคุณถูกบันทึกไว้แล้ว ชำระเงินอีกครั้งหรือเลือกวิธีชำระเงินอื่น",
+    "paymentInterruptedAction": "ไปที่การชำระเงิน",
     "recipientCheckbox": "ผู้รับเป็นคนละคนกับผู้สั่งซื้อ",
     "recipientHeading": "รายละเอียดผู้รับ",
     "recipientLabel": "ผู้รับ:",
@@ -171,6 +175,7 @@
     "shippingHeading": "วิธีการจัดส่ง",
     "shippingLink": "การจัดส่ง",
     "shippingUnavailable": "ไม่มีวิธีการจัดส่งที่ใช้ได้",
+    "shippingPriceUnavailable": "ไม่พร้อมใช้งาน: คำนวณราคาไม่ได้",
     "signIn": "เข้าสู่ระบบ",
     "total": "ยอดรวม",
     "shippingZone": "โซน: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "จุดรับพัสดุของไปรษณีย์รัสเซีย",
     "chooseHeading": "เลือกจุดรับพัสดุของไปรษณีย์รัสเซีย",
     "notConfigured": "ร้านนี้ยังไม่ได้ตั้งค่าการจัดส่งทางไปรษณีย์รัสเซีย",
-    "estimate": "ประมาณการตามอัตราพัสดุทั่วไป",
     "quoteFailed": "ไม่สามารถคำนวณค่าจัดส่งไปยังจุดนี้ได้ โปรดเลือกจุดอื่น",
     "postcode": "รหัสไปรษณีย์ {index}"
   }

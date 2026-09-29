@@ -157,8 +157,12 @@
     "legal": "«পে করুন»-এ ক্লিক করে, আপনি আমাদের <terms>শর্তাবলী</terms>, <termsOfUse>ব্যবহারের শর্তাবলী</termsOfUse> এবং <returnPolicy>রিটার্ন নীতি</returnPolicy> গ্রহণ করছেন এবং আমাদের <privacyPolicy>গোপনীয়তা নীতি</privacyPolicy>-তে সম্মত হচ্ছেন।",
     "manualInput": "ঠিকানা ম্যানুয়ালি লিখুন",
     "addressIncomplete": "ঠিকানার আবশ্যক ঘরগুলো পূরণ করুন। শহর ও পোস্টাল কোড ছাড়া অর্ডারটি পাঠানো যাবে না।",
+    "provinceRequired": "তালিকা থেকে অঞ্চল বেছে নিন।",
     "orderComposition": "অর্ডার সারসংক্ষেপ",
     "paymentHeading": "পেমেন্ট পদ্ধতি",
+    "paymentInterruptedHeading": "পেমেন্ট সম্পন্ন হয়নি বা বাধাপ্রাপ্ত হয়েছে",
+    "paymentInterruptedText": "আপনার কার্ট সংরক্ষিত আছে। আবার পেমেন্ট করুন বা অন্য পেমেন্ট পদ্ধতি বেছে নিন।",
+    "paymentInterruptedAction": "পেমেন্টে যান",
     "recipientCheckbox": "প্রাপক একজন ভিন্ন ব্যক্তি",
     "recipientHeading": "প্রাপকের বিবরণ",
     "recipientLabel": "প্রাপক:",
@@ -171,6 +175,7 @@
     "shippingHeading": "শিপিং পদ্ধতি",
     "shippingLink": "শিপিং",
     "shippingUnavailable": "কোনো শিপিং পদ্ধতি উপলব্ধ নেই",
+    "shippingPriceUnavailable": "অনুপলব্ধ: খরচ হিসাব করা যায়নি",
     "signIn": "সাইন ইন করুন",
     "total": "মোট",
     "shippingZone": "অঞ্চল: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "রাশিয়ান পোস্টের পিকআপ পয়েন্ট",
     "chooseHeading": "রাশিয়ান পোস্টের একটি পিকআপ পয়েন্ট বেছে নিন",
     "notConfigured": "এই দোকানে রাশিয়ান পোস্টে ডেলিভারি এখনও চালু করা হয়নি।",
-    "estimate": "সাধারণ পার্সেল রেট অনুযায়ী আনুমানিক",
     "quoteFailed": "এই পয়েন্টে ডেলিভারির খরচ হিসাব করা যায়নি। অন্য একটি বেছে নিন।",
     "postcode": "পোস্টকোড {index}"
   }

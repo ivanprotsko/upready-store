@@ -157,8 +157,12 @@
     "legal": "Door op «Betalen» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
     "manualInput": "Adres handmatig invoeren",
     "addressIncomplete": "Vul de verplichte adresvelden in. Zonder plaats en postcode kan de bestelling niet worden verzonden.",
+    "provinceRequired": "Kies je regio uit de lijst.",
     "orderComposition": "Besteloverzicht",
     "paymentHeading": "Betaalmethode",
+    "paymentInterruptedHeading": "De betaling is mislukt of onderbroken",
+    "paymentInterruptedText": "Je winkelwagen is bewaard. Betaal opnieuw of kies een andere betaalmethode.",
+    "paymentInterruptedAction": "Naar betalen",
     "recipientCheckbox": "Ontvanger is een andere persoon",
     "recipientHeading": "Gegevens ontvanger",
     "recipientLabel": "Ontvanger:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Verzendmethode",
     "shippingLink": "Verzending",
     "shippingUnavailable": "Geen verzendmethoden beschikbaar",
+    "shippingPriceUnavailable": "Niet beschikbaar: de prijs kon niet worden berekend",
     "signIn": "Inloggen",
     "total": "Totaal",
     "shippingZone": "Zone: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Afhaalpunt van de Russische Post",
     "chooseHeading": "Kies een afhaalpunt van de Russische Post",
     "notConfigured": "Verzending met de Russische Post is in deze winkel nog niet ingesteld.",
-    "estimate": "Schatting tegen het standaard pakkettarief",
     "quoteFailed": "De verzending naar dit punt kon niet worden berekend. Kies een ander punt.",
     "postcode": "Postcode {index}"
   }

@@ -157,8 +157,12 @@
     "legal": "点击「支付」即表示您接受我们的<terms>条款</terms>、<termsOfUse>使用条款</termsOfUse>和<returnPolicy>退货政策</returnPolicy>，并同意我们的<privacyPolicy>隐私政策</privacyPolicy>。",
     "manualInput": "手动输入地址",
     "addressIncomplete": "请填写地址的必填项。没有城市和邮政编码，订单无法发货。",
+    "provinceRequired": "请从列表中选择地区。",
     "orderComposition": "订单摘要",
     "paymentHeading": "支付方式",
+    "paymentInterruptedHeading": "付款未成功或已中断",
+    "paymentInterruptedText": "您的购物车已保存。请重新付款或选择其他付款方式。",
+    "paymentInterruptedAction": "前往付款",
     "recipientCheckbox": "收件人为他人",
     "recipientHeading": "收件人信息",
     "recipientLabel": "收件人：",
@@ -171,6 +175,7 @@
     "shippingHeading": "配送方式",
     "shippingLink": "配送",
     "shippingUnavailable": "暂无可用的配送方式",
+    "shippingPriceUnavailable": "不可用：无法计算运费",
     "signIn": "登录",
     "total": "总计",
     "shippingZone": "配送区域：{zone}"
@@ -1058,7 +1063,6 @@
     "heading": "俄罗斯邮政自提点",
     "chooseHeading": "选择俄罗斯邮政自提点",
     "notConfigured": "本店尚未设置俄罗斯邮政配送。",
-    "estimate": "按普通包裹零售价估算",
     "quoteFailed": "无法计算寄往该自提点的运费，请选择其他自提点。",
     "postcode": "邮编 {index}"
   }

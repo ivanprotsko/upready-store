@@ -157,8 +157,12 @@
     "legal": "Mit Klick auf «Bezahlen» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und stimmen unserer <privacyPolicy>Datenschutzerklärung</privacyPolicy> zu.",
     "manualInput": "Adresse manuell eingeben",
     "addressIncomplete": "Füllen Sie die Pflichtfelder der Adresse aus. Ohne Stadt und Postleitzahl kann die Bestellung nicht versandt werden.",
+    "provinceRequired": "Wähle die Region aus der Liste.",
     "orderComposition": "Bestellübersicht",
     "paymentHeading": "Zahlungsart",
+    "paymentInterruptedHeading": "Die Zahlung ist fehlgeschlagen oder wurde abgebrochen",
+    "paymentInterruptedText": "Dein Warenkorb ist gespeichert. Bezahle erneut oder wähle eine andere Zahlungsart.",
+    "paymentInterruptedAction": "Zur Zahlung",
     "recipientCheckbox": "Empfänger ist eine andere Person",
     "recipientHeading": "Empfängerdaten",
     "recipientLabel": "Empfänger:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Versandart",
     "shippingLink": "Versand",
     "shippingUnavailable": "Keine Versandarten verfügbar",
+    "shippingPriceUnavailable": "Nicht verfügbar: Preis konnte nicht berechnet werden",
     "signIn": "Anmelden",
     "total": "Gesamt",
     "shippingZone": "Zone: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Abholstelle der Russischen Post",
     "chooseHeading": "Abholstelle der Russischen Post wählen",
     "notConfigured": "Der Versand mit der Russischen Post ist in diesem Shop noch nicht eingerichtet.",
-    "estimate": "Schätzung zum Paket-Normaltarif",
     "quoteFailed": "Der Versand zu dieser Abholstelle konnte nicht berechnet werden. Wählen Sie eine andere.",
     "postcode": "PLZ {index}"
   }

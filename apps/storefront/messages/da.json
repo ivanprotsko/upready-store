@@ -157,8 +157,12 @@
     "legal": "Ved at klikke på «Betal» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy>, og accepterer vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
     "manualInput": "Indtast adresse manuelt",
     "addressIncomplete": "Udfyld de obligatoriske adressefelter. Uden by og postnummer kan ordren ikke sendes.",
+    "provinceRequired": "Vælg region på listen.",
     "orderComposition": "Ordreoversigt",
     "paymentHeading": "Betalingsmetode",
+    "paymentInterruptedHeading": "Betalingen gik ikke igennem eller blev afbrudt",
+    "paymentInterruptedText": "Din kurv er gemt. Betal igen, eller vælg en anden betalingsmetode.",
+    "paymentInterruptedAction": "Gå til betaling",
     "recipientCheckbox": "Modtager er en anden person",
     "recipientHeading": "Modtageroplysninger",
     "recipientLabel": "Modtager:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Leveringsmetode",
     "shippingLink": "Levering",
     "shippingUnavailable": "Ingen leveringsmetoder tilgængelige",
+    "shippingPriceUnavailable": "Ikke tilgængelig: prisen kunne ikke beregnes",
     "signIn": "Log ind",
     "total": "I alt",
     "shippingZone": "Zone: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Russisk Posts udleveringssted",
     "chooseHeading": "Vælg et udleveringssted hos Russisk Post",
     "notConfigured": "Levering med Russisk Post er endnu ikke sat op i denne butik.",
-    "estimate": "Anslået efter standard pakketakst",
     "quoteFailed": "Leveringen til dette sted kunne ikke beregnes. Vælg et andet.",
     "postcode": "Postnummer {index}"
   }

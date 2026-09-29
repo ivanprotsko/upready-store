@@ -157,8 +157,12 @@
     "legal": "Sa pag-click ng «Bayaran», tinatanggap mo ang aming <terms>mga tuntunin</terms>, <termsOfUse>mga tuntunin sa paggamit</termsOfUse>, at <returnPolicy>patakaran sa pagsauli</returnPolicy>, at sumasang-ayon ka sa aming <privacyPolicy>patakaran sa privacy</privacyPolicy>.",
     "manualInput": "Ilagay ang address nang manu-mano",
     "addressIncomplete": "Punan ang mga kinakailangang field ng address. Kung walang lungsod at postal code, hindi maipapadala ang order.",
+    "provinceRequired": "Piliin ang rehiyon mula sa listahan.",
     "orderComposition": "Buod ng Order",
     "paymentHeading": "Paraan ng bayad",
+    "paymentInterruptedHeading": "Hindi natuloy o naantala ang bayad",
+    "paymentInterruptedText": "Naka-save ang iyong cart. Magbayad muli o pumili ng ibang paraan ng pagbabayad.",
+    "paymentInterruptedAction": "Pumunta sa bayad",
     "recipientCheckbox": "Ibang tao ang tatanggap",
     "recipientHeading": "Detalye ng tatanggap",
     "recipientLabel": "Tatanggap:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Paraan ng paghahatid",
     "shippingLink": "Paghahatid",
     "shippingUnavailable": "Walang available na paraan ng paghahatid",
+    "shippingPriceUnavailable": "Hindi available: hindi makalkula ang presyo",
     "signIn": "Mag-sign in",
     "total": "Kabuuan",
     "shippingZone": "Sona: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Pickup point ng Russian Post",
     "chooseHeading": "Pumili ng pickup point ng Russian Post",
     "notConfigured": "Hindi pa naka-set up ang delivery sa Russian Post sa tindahang ito.",
-    "estimate": "Tantya ayon sa karaniwang singil sa parsela",
     "quoteFailed": "Hindi makalkula ang delivery papunta sa puntong ito. Pumili ng iba.",
     "postcode": "Postal code {index}"
   }

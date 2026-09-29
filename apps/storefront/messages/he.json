@@ -157,8 +157,12 @@
     "legal": "בלחיצה על «לתשלום», אתה מאשר את <terms>התנאים</terms> שלנו, את <termsOfUse>תנאי השימוש</termsOfUse> ואת <returnPolicy>מדיניות ההחזרות</returnPolicy>, ומסכים ל<privacyPolicy>מדיניות הפרטיות</privacyPolicy> שלנו.",
     "manualInput": "הזנת כתובת ידנית",
     "addressIncomplete": "מלאו את שדות החובה בכתובת. בלי עיר ומיקוד לא ניתן לשלוח את ההזמנה.",
+    "provinceRequired": "בחר אזור מהרשימה.",
     "orderComposition": "סיכום הזמנה",
     "paymentHeading": "אמצעי תשלום",
+    "paymentInterruptedHeading": "התשלום לא עבר או שהופסק",
+    "paymentInterruptedText": "העגלה שלך נשמרה. שלם שוב או בחר אמצעי תשלום אחר.",
+    "paymentInterruptedAction": "למעבר לתשלום",
     "recipientCheckbox": "הנמען הוא אדם אחר",
     "recipientHeading": "פרטי הנמען",
     "recipientLabel": "נמען:",
@@ -171,6 +175,7 @@
     "shippingHeading": "שיטת משלוח",
     "shippingLink": "משלוח",
     "shippingUnavailable": "אין שיטות משלוח זמינות",
+    "shippingPriceUnavailable": "לא זמין: לא ניתן לחשב את המחיר",
     "signIn": "התחברות",
     "total": "סה״כ",
     "shippingZone": "אזור: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "נקודת איסוף של הדואר הרוסי",
     "chooseHeading": "בחרו נקודת איסוף של הדואר הרוסי",
     "notConfigured": "משלוח בדואר הרוסי עדיין לא הוגדר בחנות הזו.",
-    "estimate": "הערכה לפי תעריף חבילה רגיל",
     "quoteFailed": "לא הצלחנו לחשב משלוח לנקודה הזו. בחרו נקודה אחרת.",
     "postcode": "מיקוד {index}"
   }

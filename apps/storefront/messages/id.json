@@ -157,8 +157,12 @@
     "legal": "Dengan mengklik «Bayar», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta menyetujui <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapi kolom alamat yang wajib diisi. Tanpa kota dan kode pos, pesanan tidak dapat dikirim.",
+    "provinceRequired": "Pilih wilayah dari daftar.",
     "orderComposition": "Ringkasan Pesanan",
     "paymentHeading": "Metode pembayaran",
+    "paymentInterruptedHeading": "Pembayaran gagal atau terputus",
+    "paymentInterruptedText": "Keranjang Anda tersimpan. Bayar lagi atau pilih metode pembayaran lain.",
+    "paymentInterruptedAction": "Ke pembayaran",
     "recipientCheckbox": "Penerima adalah orang lain",
     "recipientHeading": "Detail penerima",
     "recipientLabel": "Penerima:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Metode pengiriman",
     "shippingLink": "Pengiriman",
     "shippingUnavailable": "Tidak ada metode pengiriman yang tersedia",
+    "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dihitung",
     "signIn": "Masuk",
     "total": "Total",
     "shippingZone": "Zona: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Titik ambil Pos Rusia",
     "chooseHeading": "Pilih titik ambil Pos Rusia",
     "notConfigured": "Pengiriman dengan Pos Rusia belum diatur di toko ini.",
-    "estimate": "Perkiraan dengan tarif paket reguler",
     "quoteFailed": "Ongkos kirim ke titik ini tidak dapat dihitung. Pilih titik lain.",
     "postcode": "Kode pos {index}"
   }

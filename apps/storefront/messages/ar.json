@@ -157,8 +157,12 @@
     "legal": "بالنقر على «الدفع»، فإنك توافق على <terms>الشروط</terms> و<termsOfUse>شروط الاستخدام</termsOfUse> و<returnPolicy>سياسة الإرجاع</returnPolicy> الخاصة بنا، كما توافق على <privacyPolicy>سياسة الخصوصية</privacyPolicy> الخاصة بنا.",
     "manualInput": "إدخال العنوان يدويًا",
     "addressIncomplete": "املأ حقول العنوان المطلوبة. بدون المدينة والرمز البريدي لا يمكن شحن الطلب.",
+    "provinceRequired": "اختر المنطقة من القائمة.",
     "orderComposition": "ملخص الطلب",
     "paymentHeading": "طريقة الدفع",
+    "paymentInterruptedHeading": "لم تتم عملية الدفع أو تمت مقاطعتها",
+    "paymentInterruptedText": "سلتك محفوظة. ادفع مرة أخرى أو اختر طريقة دفع أخرى.",
+    "paymentInterruptedAction": "إلى الدفع",
     "recipientCheckbox": "المستلم شخص آخر",
     "recipientHeading": "بيانات المستلم",
     "recipientLabel": "المستلم:",
@@ -171,6 +175,7 @@
     "shippingHeading": "طريقة الشحن",
     "shippingLink": "الشحن",
     "shippingUnavailable": "لا توجد طرق شحن متاحة",
+    "shippingPriceUnavailable": "غير متاح: تعذّر حساب التكلفة",
     "signIn": "تسجيل الدخول",
     "total": "الإجمالي",
     "shippingZone": "المنطقة: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "نقطة استلام البريد الروسي",
     "chooseHeading": "اختر نقطة استلام البريد الروسي",
     "notConfigured": "لم يتم إعداد التوصيل عبر البريد الروسي في هذا المتجر بعد.",
-    "estimate": "تقدير وفق تعرفة الطرود العادية",
     "quoteFailed": "تعذّر حساب تكلفة التوصيل إلى هذه النقطة. اختر نقطة أخرى.",
     "postcode": "الرمز البريدي {index}"
   }

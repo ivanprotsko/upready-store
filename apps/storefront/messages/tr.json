@@ -157,8 +157,12 @@
     "legal": "«Öde» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
     "addressIncomplete": "Adresin zorunlu alanlarını doldurun. Şehir ve posta kodu olmadan sipariş gönderilemez.",
+    "provinceRequired": "Listeden bölgenizi seçin.",
     "orderComposition": "Sipariş Özeti",
     "paymentHeading": "Ödeme yöntemi",
+    "paymentInterruptedHeading": "Ödeme gerçekleşmedi veya yarıda kesildi",
+    "paymentInterruptedText": "Sepetiniz kaydedildi. Yeniden ödeyin veya başka bir ödeme yöntemi seçin.",
+    "paymentInterruptedAction": "Ödemeye geç",
     "recipientCheckbox": "Alıcı farklı bir kişi",
     "recipientHeading": "Alıcı bilgileri",
     "recipientLabel": "Alıcı:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Teslimat yöntemi",
     "shippingLink": "Kargo",
     "shippingUnavailable": "Kullanılabilir teslimat yöntemi yok",
+    "shippingPriceUnavailable": "Kullanılamıyor: ücret hesaplanamadı",
     "signIn": "Giriş yap",
     "total": "Toplam",
     "shippingZone": "Bölge: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Rus Postası teslim alma noktası",
     "chooseHeading": "Bir Rus Postası teslim alma noktası seçin",
     "notConfigured": "Rus Postası ile gönderim bu mağazada henüz ayarlanmadı.",
-    "estimate": "Standart koli tarifesine göre tahmini",
     "quoteFailed": "Bu noktaya gönderim ücreti hesaplanamadı. Başka bir nokta seçin.",
     "postcode": "Posta kodu {index}"
   }

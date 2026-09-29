@@ -157,8 +157,12 @@
     "legal": "En cliquant sur « Payer », vous acceptez nos <terms>conditions</terms>, nos <termsOfUse>conditions d'utilisation</termsOfUse> et notre <returnPolicy>politique de retour</returnPolicy>, et consentez à notre <privacyPolicy>politique de confidentialité</privacyPolicy>.",
     "manualInput": "Saisir l'adresse manuellement",
     "addressIncomplete": "Renseignez les champs obligatoires de l'adresse. Sans ville ni code postal, la commande ne peut pas être expédiée.",
+    "provinceRequired": "Choisissez la région dans la liste.",
     "orderComposition": "Récapitulatif de la commande",
     "paymentHeading": "Mode de paiement",
+    "paymentInterruptedHeading": "Le paiement n’a pas abouti ou a été interrompu",
+    "paymentInterruptedText": "Votre panier est conservé. Payez à nouveau ou choisissez un autre moyen de paiement.",
+    "paymentInterruptedAction": "Aller au paiement",
     "recipientCheckbox": "Le destinataire est une autre personne",
     "recipientHeading": "Détails du destinataire",
     "recipientLabel": "Destinataire :",
@@ -171,6 +175,7 @@
     "shippingHeading": "Mode de livraison",
     "shippingLink": "Livraison",
     "shippingUnavailable": "Aucun mode de livraison disponible",
+    "shippingPriceUnavailable": "Indisponible : le prix n’a pas pu être calculé",
     "signIn": "Se connecter",
     "total": "Total",
     "shippingZone": "Zone : {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Point relais de la Poste russe",
     "chooseHeading": "Choisissez un point relais de la Poste russe",
     "notConfigured": "La livraison par la Poste russe n’est pas encore configurée dans cette boutique.",
-    "estimate": "Estimation au tarif Colis standard",
     "quoteFailed": "Impossible de calculer la livraison vers ce point. Choisissez-en un autre.",
     "postcode": "Code postal {index}"
   }

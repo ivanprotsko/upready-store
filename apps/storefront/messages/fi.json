@@ -157,8 +157,12 @@
     "legal": "Klikkaamalla «Maksa» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
     "manualInput": "Syötä osoite manuaalisesti",
     "addressIncomplete": "Täytä osoitteen pakolliset kentät. Ilman kaupunkia ja postinumeroa tilausta ei voi lähettää.",
+    "provinceRequired": "Valitse alue luettelosta.",
     "orderComposition": "Tilauksen yhteenveto",
     "paymentHeading": "Maksutapa",
+    "paymentInterruptedHeading": "Maksu ei onnistunut tai se keskeytyi",
+    "paymentInterruptedText": "Ostoskorisi on tallessa. Maksa uudelleen tai valitse toinen maksutapa.",
+    "paymentInterruptedAction": "Siirry maksamaan",
     "recipientCheckbox": "Vastaanottaja on eri henkilö",
     "recipientHeading": "Vastaanottajan tiedot",
     "recipientLabel": "Vastaanottaja:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Toimitustapa",
     "shippingLink": "Toimitus",
     "shippingUnavailable": "Toimitustapoja ei ole saatavilla",
+    "shippingPriceUnavailable": "Ei käytettävissä: hintaa ei voitu laskea",
     "signIn": "Kirjaudu sisään",
     "total": "Yhteensä",
     "shippingZone": "Vyöhyke: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Venäjän postin noutopiste",
     "chooseHeading": "Valitse Venäjän postin noutopiste",
     "notConfigured": "Venäjän postin toimitusta ei ole vielä otettu käyttöön tässä kaupassa.",
-    "estimate": "Arvio tavallisen pakettihinnan mukaan",
     "quoteFailed": "Toimitusta tähän noutopisteeseen ei voitu laskea. Valitse toinen.",
     "postcode": "Postinumero {index}"
   }

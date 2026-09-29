@@ -157,8 +157,12 @@
     "legal": "Kliknutím na tlačítko „Zaplatit“ přijímáte naše <terms>podmínky</terms>, <termsOfUse>podmínky užívání</termsOfUse> a <returnPolicy>zásady vracení zboží</returnPolicy> a souhlasíte s našimi <privacyPolicy>zásadami ochrany osobních údajů</privacyPolicy>.",
     "manualInput": "Zadat adresu ručně",
     "addressIncomplete": "Vyplňte povinná pole adresy. Bez města a PSČ nelze objednávku odeslat.",
+    "provinceRequired": "Vyberte kraj ze seznamu.",
     "orderComposition": "Souhrn objednávky",
     "paymentHeading": "Způsob platby",
+    "paymentInterruptedHeading": "Platba neproběhla nebo byla přerušena",
+    "paymentInterruptedText": "Košík zůstal uložený. Zaplaťte znovu nebo zvolte jiný způsob platby.",
+    "paymentInterruptedAction": "K platbě",
     "recipientCheckbox": "Příjemce je jiná osoba",
     "recipientHeading": "Údaje příjemce",
     "recipientLabel": "Příjemce:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Způsob dopravy",
     "shippingLink": "Doprava",
     "shippingUnavailable": "Žádné dostupné způsoby dopravy",
+    "shippingPriceUnavailable": "Nedostupné: cenu se nepodařilo spočítat",
     "signIn": "Přihlásit se",
     "total": "Celkem",
     "shippingZone": "Zóna: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Výdejní místo Ruské pošty",
     "chooseHeading": "Vyberte výdejní místo Ruské pošty",
     "notConfigured": "Doprava Ruskou poštou zatím v tomto obchodě není nastavena.",
-    "estimate": "Odhad podle běžného tarifu Balík",
     "quoteFailed": "Dopravu na toto místo se nepodařilo spočítat. Vyberte jiné.",
     "postcode": "PSČ {index}"
   }

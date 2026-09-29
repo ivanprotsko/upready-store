@@ -157,8 +157,12 @@
     "legal": "«결제» 버튼을 클릭하면 당사의 <terms>약관</terms>, <termsOfUse>이용약관</termsOfUse> 및 <returnPolicy>반품 정책</returnPolicy>에 동의하고, <privacyPolicy>개인정보 처리방침</privacyPolicy>에 동의하는 것으로 간주됩니다.",
     "manualInput": "주소 직접 입력",
     "addressIncomplete": "주소의 필수 항목을 입력하세요. 도시와 우편번호가 없으면 주문을 배송할 수 없습니다.",
+    "provinceRequired": "목록에서 지역을 선택하세요.",
     "orderComposition": "주문 요약",
     "paymentHeading": "결제 방법",
+    "paymentInterruptedHeading": "결제가 완료되지 않았거나 중단되었습니다",
+    "paymentInterruptedText": "장바구니는 저장되어 있습니다. 다시 결제하거나 다른 결제 수단을 선택하세요.",
+    "paymentInterruptedAction": "결제로 이동",
     "recipientCheckbox": "수령인이 다른 사람입니다",
     "recipientHeading": "수령인 정보",
     "recipientLabel": "수령인:",
@@ -171,6 +175,7 @@
     "shippingHeading": "배송 방법",
     "shippingLink": "배송",
     "shippingUnavailable": "이용 가능한 배송 방법이 없습니다",
+    "shippingPriceUnavailable": "사용할 수 없음: 요금을 계산하지 못했습니다",
     "signIn": "로그인",
     "total": "합계",
     "shippingZone": "지역: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "러시아 우체국 픽업 지점",
     "chooseHeading": "러시아 우체국 픽업 지점을 선택하세요",
     "notConfigured": "이 상점에는 아직 러시아 우체국 배송이 설정되지 않았습니다.",
-    "estimate": "일반 소포 요금 기준 예상 금액",
     "quoteFailed": "이 지점으로의 배송비를 계산할 수 없습니다. 다른 지점을 선택하세요.",
     "postcode": "우편번호 {index}"
   }

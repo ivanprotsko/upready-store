@@ -157,8 +157,12 @@
     "legal": "«გადახდაზე» დაწკაპუნებით, თქვენ ეთანხმებით ჩვენს <terms>პირობებს</terms>, <termsOfUse>გამოყენების პირობებს</termsOfUse> და <returnPolicy>დაბრუნების პოლიტიკას</returnPolicy>, ასევე ეთანხმებით ჩვენს <privacyPolicy>კონფიდენციალურობის პოლიტიკას</privacyPolicy>.",
     "manualInput": "მისამართის ხელით შეყვანა",
     "addressIncomplete": "შეავსეთ მისამართის სავალდებულო ველები. ქალაქისა და საფოსტო ინდექსის გარეშე შეკვეთის გაგზავნა შეუძლებელია.",
+    "provinceRequired": "აირჩიეთ რეგიონი სიიდან.",
     "orderComposition": "შეკვეთის შეჯამება",
     "paymentHeading": "გადახდის მეთოდი",
+    "paymentInterruptedHeading": "გადახდა ვერ შესრულდა ან შეწყდა",
+    "paymentInterruptedText": "კალათა შენახულია. გადაიხადეთ ხელახლა ან აირჩიეთ გადახდის სხვა მეთოდი.",
+    "paymentInterruptedAction": "გადახდაზე გადასვლა",
     "recipientCheckbox": "მიმღები სხვა პირია",
     "recipientHeading": "მიმღების მონაცემები",
     "recipientLabel": "მიმღები:",
@@ -171,6 +175,7 @@
     "shippingHeading": "მიწოდების მეთოდი",
     "shippingLink": "მიწოდება",
     "shippingUnavailable": "მიწოდების მეთოდები არ არის ხელმისაწვდომი",
+    "shippingPriceUnavailable": "მიუწვდომელია: ფასის გამოთვლა ვერ მოხერხდა",
     "signIn": "შესვლა",
     "total": "ჯამი",
     "shippingZone": "ზონა: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "რუსეთის ფოსტის მიღების პუნქტი",
     "chooseHeading": "აირჩიეთ რუსეთის ფოსტის მიღების პუნქტი",
     "notConfigured": "რუსეთის ფოსტით მიწოდება ამ მაღაზიაში ჯერ არ არის დაყენებული.",
-    "estimate": "სავარაუდო ფასი ამანათის ჩვეულებრივი ტარიფით",
     "quoteFailed": "ამ პუნქტამდე მიწოდების ღირებულება ვერ გამოითვალა. აირჩიეთ სხვა.",
     "postcode": "საფოსტო ინდექსი {index}"
   }

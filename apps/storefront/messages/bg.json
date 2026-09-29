@@ -157,8 +157,12 @@
     "legal": "С натискането на «Плати» приемате нашите <terms>условия</terms>, <termsOfUse>условия за ползване</termsOfUse> и <returnPolicy>политика за връщане</returnPolicy>, и се съгласявате с нашата <privacyPolicy>политика за поверителност</privacyPolicy>.",
     "manualInput": "Въведи адрес ръчно",
     "addressIncomplete": "Попълнете задължителните полета на адреса. Без град и пощенски код поръчката не може да бъде изпратена.",
+    "provinceRequired": "Изберете област от списъка.",
     "orderComposition": "Обобщение на поръчката",
     "paymentHeading": "Начин на плащане",
+    "paymentInterruptedHeading": "Плащането не мина или беше прекъснато",
+    "paymentInterruptedText": "Количката е запазена. Платете отново или изберете друг начин на плащане.",
+    "paymentInterruptedAction": "Към плащането",
     "recipientCheckbox": "Получателят е друго лице",
     "recipientHeading": "Данни на получателя",
     "recipientLabel": "Получател:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Метод на доставка",
     "shippingLink": "Доставка",
     "shippingUnavailable": "Няма налични методи за доставка",
+    "shippingPriceUnavailable": "Недостъпно: цената не може да се изчисли",
     "signIn": "Вход",
     "total": "Общо",
     "shippingZone": "Зона: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Пункт за получаване на Руска поща",
     "chooseHeading": "Изберете пункт за получаване на Руска поща",
     "notConfigured": "Доставката с Руска поща все още не е настроена в този магазин.",
-    "estimate": "Ориентировъчно, по тарифа „Колет“",
     "quoteFailed": "Не успяхме да изчислим доставката до този пункт. Изберете друг.",
     "postcode": "Пощенски код {index}"
   }

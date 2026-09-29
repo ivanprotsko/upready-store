@@ -157,8 +157,12 @@
     "legal": "Al hacer clic en «Pagar», aceptas nuestros <terms>términos</terms>, nuestras <termsOfUse>condiciones de uso</termsOfUse> y nuestra <returnPolicy>política de devoluciones</returnPolicy>, y consientes nuestra <privacyPolicy>política de privacidad</privacyPolicy>.",
     "manualInput": "Introducir la dirección manualmente",
     "addressIncomplete": "Complete los campos obligatorios de la dirección. Sin ciudad y código postal el pedido no se puede enviar.",
+    "provinceRequired": "Elige la región de la lista.",
     "orderComposition": "Resumen del pedido",
     "paymentHeading": "Método de pago",
+    "paymentInterruptedHeading": "El pago no se completó o se interrumpió",
+    "paymentInterruptedText": "Tu carrito se ha guardado. Vuelve a pagar o elige otro método de pago.",
+    "paymentInterruptedAction": "Ir al pago",
     "recipientCheckbox": "El destinatario es otra persona",
     "recipientHeading": "Datos del destinatario",
     "recipientLabel": "Destinatario:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Método de envío",
     "shippingLink": "Envío",
     "shippingUnavailable": "No hay métodos de envío disponibles",
+    "shippingPriceUnavailable": "No disponible: no se pudo calcular el precio",
     "signIn": "Iniciar sesión",
     "total": "Total",
     "shippingZone": "Zona: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Punto de recogida de Correos de Rusia",
     "chooseHeading": "Elige un punto de recogida de Correos de Rusia",
     "notConfigured": "El envío con Correos de Rusia aún no está configurado en esta tienda.",
-    "estimate": "Estimación con la tarifa minorista de paquete",
     "quoteFailed": "No se pudo calcular el envío a este punto. Elige otro.",
     "postcode": "Código postal {index}"
   }

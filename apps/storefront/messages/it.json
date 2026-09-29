@@ -157,8 +157,12 @@
     "legal": "Cliccando su «Paga», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e accetti la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
     "manualInput": "Inserisci l'indirizzo manualmente",
     "addressIncomplete": "Compila i campi obbligatori dell'indirizzo. Senza città e codice postale l'ordine non può essere spedito.",
+    "provinceRequired": "Scegli la regione dall’elenco.",
     "orderComposition": "Riepilogo ordine",
     "paymentHeading": "Metodo di pagamento",
+    "paymentInterruptedHeading": "Il pagamento non è andato a buon fine o è stato interrotto",
+    "paymentInterruptedText": "Il carrello è salvato. Paga di nuovo o scegli un altro metodo di pagamento.",
+    "paymentInterruptedAction": "Vai al pagamento",
     "recipientCheckbox": "Il destinatario è una persona diversa",
     "recipientHeading": "Dati del destinatario",
     "recipientLabel": "Destinatario:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Metodo di spedizione",
     "shippingLink": "Spedizione",
     "shippingUnavailable": "Nessun metodo di spedizione disponibile",
+    "shippingPriceUnavailable": "Non disponibile: impossibile calcolare il prezzo",
     "signIn": "Accedi",
     "total": "Totale",
     "shippingZone": "Zona: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Punto di ritiro di Poste Russe",
     "chooseHeading": "Scegli un punto di ritiro di Poste Russe",
     "notConfigured": "La spedizione con Poste Russe non è ancora configurata in questo negozio.",
-    "estimate": "Stima alla tariffa pacco standard",
     "quoteFailed": "Impossibile calcolare la spedizione verso questo punto. Scegline un altro.",
     "postcode": "CAP {index}"
   }

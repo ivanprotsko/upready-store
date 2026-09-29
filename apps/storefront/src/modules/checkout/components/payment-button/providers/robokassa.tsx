@@ -2,8 +2,9 @@
 
 import type { HttpTypes } from "@medusajs/types"
 import { useTranslations } from "next-intl"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { retrieveCart } from "@lib/data/cart"
+import { markRobokassaPaymentStarted } from "@lib/util/robokassa-return"
 import { PaymentButtonShell, type PaymentProviderButtonProps } from "../shared"
 
 /**
@@ -24,6 +25,17 @@ const RobokassaPaymentButton = ({
   const t = useTranslations("PaymentButton")
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  // U-02 (46df): Back from Robokassa can restore this page from the
+  // back/forward cache with the button still spinning from the click that
+  // left it.
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setSubmitting(false)
+    }
+    window.addEventListener("pageshow", onPageShow)
+    return () => window.removeEventListener("pageshow", onPageShow)
+  }, [])
 
   const sessionUrlOf = (candidate: HttpTypes.StoreCart | null) => {
     const session = candidate?.payment_collection?.payment_sessions?.find(
@@ -69,6 +81,9 @@ const RobokassaPaymentButton = ({
       setErrorMessage(t("redirectUnavailable"))
       return
     }
+    // Lets the checkout tell a buyer who comes back unpaid what happened
+    // (`robokassa-retry-notice`).
+    markRobokassaPaymentStarted(cart.id)
     window.location.assign(current)
   }
 

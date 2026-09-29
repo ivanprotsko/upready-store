@@ -9,6 +9,7 @@ import {
 import { TARIFF_PROVIDER_ID } from "@lib/util/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
+import { isShippingCardUnpriced } from "@lib/util/shipping-card"
 import {
   cdekKindOf,
   cdekNeedsPoint,
@@ -553,6 +554,15 @@ export default function CheckoutShippingSection({
                     ? calculatedPricesMap[option.id]
                     : null
               const isFreeShipping = priceAmount === 0
+              // U-12 (46df): no price means the method cannot be charged, so
+              // the card says why and cannot be chosen.
+              const unpriced =
+                !isPickupCard &&
+                isShippingCardUnpriced({
+                  priceAmount,
+                  isLoadingPrices,
+                  pricedPerPoint: isPochtaOption(option),
+                })
               const price = isFreeShipping
                 ? t("freeShipping")
                 : priceAmount !== null
@@ -563,17 +573,24 @@ export default function CheckoutShippingSection({
                   })
                   : isLoadingPrices
                     ? null
-                    : "—"
+                    : unpriced
+                      ? t("shippingPriceUnavailable")
+                      : "—"
 
               return (
                 <div
                   key={itemValue}
                   className={clx(
-                    "relative flex w-[180px] shrink-0 flex-col gap-2 justify-between rounded-md border bg-ui-bg-base p-3 text-start transition-colors hover:bg-ui-bg-base-hover",
-                    isSelected
-                      ? "border-ui-border-interactive"
-                      : "border-ui-border-base hover:border-ui-border-interactive/50"
+                    "relative flex w-[180px] shrink-0 flex-col gap-2 justify-between rounded-md border bg-ui-bg-base p-3 text-start transition-colors",
+                    // Dashed and without a fill: a filled card reads as the
+                    // chosen one in a theme that tints the selection.
+                    unpriced
+                      ? "border-dashed border-ui-border-base"
+                      : isSelected
+                        ? "border-ui-border-interactive hover:bg-ui-bg-base-hover"
+                        : "border-ui-border-base hover:bg-ui-bg-base-hover hover:border-ui-border-interactive/50"
                   )}
+                  data-unavailable={unpriced || undefined}
                   data-testid={
                     isPickupCard ? "delivery-option-pickup" : "delivery-option-radio"
                   }
@@ -581,7 +598,8 @@ export default function CheckoutShippingSection({
                   <RadioGroup.Item
                     value={itemValue}
                     aria-label={option.name}
-                    className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-md bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
+                    disabled={unpriced}
+                    className="absolute inset-0 z-10 h-full w-full cursor-pointer disabled:cursor-not-allowed rounded-md bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
                   />
                   <span className="txt-compact-medium-plus text-ui-fg-base">
                     {option.name}
@@ -683,11 +701,16 @@ export default function CheckoutShippingSection({
                     <div className="flex items-end justify-between gap-x-3">
                       <div
                         className={clx(
-                          "txt-compact-small-plus flex min-h-[20px] items-end",
-                          isFreeShipping
-                            ? "text-ui-tag-green-icon"
-                            : "text-ui-fg-subtle"
+                          "flex min-h-[20px] items-end",
+                          unpriced
+                            ? "txt-compact-xsmall text-ui-fg-subtle"
+                            : isFreeShipping
+                              ? "txt-compact-small-plus text-ui-tag-green-icon"
+                              : "txt-compact-small-plus text-ui-fg-subtle"
                         )}
+                        data-testid={
+                          unpriced ? "delivery-option-unavailable" : undefined
+                        }
                       >
                         {price === null ? (
                           <Loader className="h-3 w-3 animate-spin" />
@@ -696,7 +719,12 @@ export default function CheckoutShippingSection({
                         )}
                       </div>
 
-                      <div className="flex h-5 w-5 shrink-0 items-center justify-center">
+                      <div
+                        className={clx(
+                          "flex h-5 w-5 shrink-0 items-center justify-center",
+                          unpriced && "invisible"
+                        )}
+                      >
                         <div
                           className={clx(
                             "flex h-3.5 w-3.5 items-center justify-center rounded-full border bg-ui-bg-base shadow-borders-base",

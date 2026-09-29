@@ -157,8 +157,12 @@
     "legal": "Натискаючи «Оплатити», ви приймаєте <terms>умови</terms>, <termsOfUse>умови використання</termsOfUse> та <returnPolicy>політику повернення</returnPolicy>, а також погоджуєтеся з <privacyPolicy>політикою конфіденційності</privacyPolicy>.",
     "manualInput": "Ввести адресу вручну",
     "addressIncomplete": "Заповніть обов'язкові поля адреси. Без міста та поштового індексу замовлення не відправити.",
+    "provinceRequired": "Виберіть область зі списку.",
     "orderComposition": "Склад замовлення",
     "paymentHeading": "Спосіб оплати",
+    "paymentInterruptedHeading": "Оплата не пройшла або була перервана",
+    "paymentInterruptedText": "Кошик збережено. Оплатіть ще раз або виберіть інший спосіб оплати.",
+    "paymentInterruptedAction": "До оплати",
     "recipientCheckbox": "Отримувач — інша особа",
     "recipientHeading": "Дані отримувача",
     "recipientLabel": "Отримувач:",
@@ -171,6 +175,7 @@
     "shippingHeading": "Спосіб доставки",
     "shippingLink": "Доставка",
     "shippingUnavailable": "Немає доступних способів доставки",
+    "shippingPriceUnavailable": "Недоступно: не вдалося розрахувати вартість",
     "signIn": "Увійти",
     "total": "Разом",
     "shippingZone": "Зона: {zone}"
@@ -1058,7 +1063,6 @@
     "heading": "Пункт видачі Пошти Росії",
     "chooseHeading": "Оберіть пункт видачі Пошти Росії",
     "notConfigured": "Доставку Поштою Росії в цьому магазині ще не налаштовано.",
-    "estimate": "Попередньо, за тарифом «Посилка»",
     "quoteFailed": "Не вдалося розрахувати доставку до цього пункту. Оберіть інший.",
     "postcode": "Індекс {index}"
   }

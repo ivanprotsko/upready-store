@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { compactWorkTime, pochtaPointOf } from "./pochta"
+import { compactWorkTime, pochtaPointOf, pochtaQuoteLabel, type PochtaQuote } from "./pochta"
 
 describe("compactWorkTime", () => {
   it("folds a week of equal days into one run", () => {
@@ -51,5 +51,30 @@ describe("pochtaPointOf", () => {
       pochta_point_address: "пр-кт Ленинский, 148",
       term_label: "1 день",
     })
+  })
+})
+
+describe("pochtaQuoteLabel (U-10, 46df)", () => {
+  const quote = (tariff_source: PochtaQuote["tariff_source"]): PochtaQuote => ({
+    amount: 28901,
+    carrier_amount: 28901,
+    period_min: 1,
+    period_max: 1,
+    term_label: "1 день",
+    tariff_source,
+    weight_g: 200,
+  })
+  const price = (amount: number) => `${(amount / 100).toFixed(2).replace(".", ",")} ₽`
+
+  it("shows the regional estimate as the plain price, because the buyer is charged exactly that", () => {
+    expect(pochtaQuoteLabel(quote("public-retail-estimate"), price)).toBe("289,01 ₽ · 1 день")
+  })
+
+  it("shows an office price the same way", () => {
+    expect(pochtaQuoteLabel(quote("public-retail"), price)).toBe("289,01 ₽ · 1 день")
+  })
+
+  it("leaves out an empty term", () => {
+    expect(pochtaQuoteLabel({ ...quote("otpravka"), term_label: "" }, price)).toBe("289,01 ₽")
   })
 })
