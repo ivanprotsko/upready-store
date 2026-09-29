@@ -22,7 +22,7 @@ import { UnreadableSecretAlert } from "../components/unreadable-secret-alert"
  */
 export const RobokassaIntegration = () => {
   const { t } = useTranslation()
-  const form = useRobokassaForm()
+  const form = useRobokassaForm({ credentialsOnPage: true })
   const {
     settings,
     unreadable,

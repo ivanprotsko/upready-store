@@ -10,6 +10,7 @@ import {
   usePaymentSettings,
   useUpdatePaymentSettings,
 } from "../../../hooks/api/payment-settings"
+import { modeNeedsPasswordsKey } from "./mode-needs-passwords-key"
 
 /**
  * ONE Robokassa form, rendered on TWO screens
@@ -109,7 +110,13 @@ const draftFrom = (
       ? { ...EMPTY_DRAFT, is_test: unreadable.is_test, is_enabled: unreadable.is_enabled }
       : EMPTY_DRAFT
 
-export const useRobokassaForm = () => {
+/**
+ * `credentialsOnPage`: the screen renders the password fields itself (the
+ * Robokassa integration page), so a refusal points the owner at the form in
+ * front of them; «Приём оплат» has no password fields and sends them to the
+ * Robokassa page instead.
+ */
+export const useRobokassaForm = ({ credentialsOnPage = false }: { credentialsOnPage?: boolean } = {}) => {
   const { t } = useTranslation()
   const {
     settings,
@@ -149,7 +156,7 @@ export const useRobokassaForm = () => {
   const prompt = usePrompt()
 
   const modeError = (isTest: boolean, fields: SecretField[]) =>
-    t(isTest ? "paymentSettings.modeNeedsPasswords.test" : "paymentSettings.modeNeedsPasswords.live", {
+    t(modeNeedsPasswordsKey(isTest, credentialsOnPage), {
       fields: fields.map((field) => t(`paymentSettings.fields.${field}`)).join(", "),
     })
 
