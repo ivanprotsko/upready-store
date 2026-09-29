@@ -60,6 +60,81 @@ async function fetchTenantCategories(
   )
 }
 
+type VisibleProductsResponse = {
+  products: { id: string; categories?: { id: string }[] | null }[]
+  count: number
+}
+
+const VISIBLE_PRODUCTS_PAGE = 1000
+
+/**
+ * Ids of every category that holds at least one product the buyer can open
+ * (U-17, 46df audit). A category's own `*products` relation lists EVERY linked
+ * product, drafts and products outside the storefront's sales channel
+ * included: on olavka «Антисептики» stayed in the header with one linked
+ * product that is not published, and its page was empty. The category page
+ * lists products through `/store/products`, which is published-only and
+ * scoped to the publishable key's sales channel, so the menu asks the SAME
+ * route which categories those products sit in.
+ *
+ * One request for the whole menu, not one per category: `fields=id,categories.id`
+ * with a page of 1000 products; a bigger shop takes one more page per
+ * thousand. Cached with the `products` tag, so publishing a product clears it
+ * along with the listing it appears in; header, footer, `CategoryMenu` and the
+ * H5/H6 chip row share the same fetch within a render.
+ *
+ * `null` when the read failed: the caller falls back to the category's own
+ * `products` relation rather than emptying the menu.
+ */
+async function fetchCategoryIdsWithVisibleProducts(): Promise<Set<string> | null> {
+  const next = {
+    ...(await getCacheOptions("products")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
+  }
+
+  try {
+    const ids = new Set<string>()
+    let offset = 0
+    let count = 0
+
+    do {
+      const page = await sdk.client.fetch<VisibleProductsResponse>(
+        "/store/products",
+        {
+          query: {
+            limit: VISIBLE_PRODUCTS_PAGE,
+            offset,
+            fields: "id,categories.id",
+          },
+          next,
+          cache: "force-cache",
+        }
+      )
+      for (const product of page.products) {
+        for (const category of product.categories ?? []) {
+          ids.add(category.id)
+        }
+      }
+      count = page.count
+      offset += page.products.length
+      if (page.products.length === 0) {
+        break
+      }
+    } while (offset < count)
+
+    return ids
+  } catch (error) {
+    console.error(
+      "listCategories: /store/products could not say which categories hold a published product; " +
+        "the menu falls back to each category's own products relation",
+      error
+    )
+    return null
+  }
+}
+
 const DEFAULT_CATEGORY_FIELDS =
   "*category_children, +category_children.metadata, +metadata, *products, *parent_category, *parent_category.parent_category"
 
@@ -77,14 +152,17 @@ const DEFAULT_CATEGORY_FIELDS =
  */
 function categoryHasProducts(
   category: HttpTypes.StoreProductCategory,
-  byId: Map<string, HttpTypes.StoreProductCategory>
+  byId: Map<string, HttpTypes.StoreProductCategory>,
+  visible: Set<string> | null
 ): boolean {
-  if ((category.products?.length ?? 0) > 0) {
+  // U-17: with the storefront's own answer at hand, only a product the buyer
+  // can open counts; the `products` relation is the fallback for a failed read.
+  if (visible ? visible.has(category.id) : (category.products?.length ?? 0) > 0) {
     return true
   }
 
   return (category.category_children ?? []).some((child) =>
-    categoryHasProducts(byId.get(child.id) ?? child, byId)
+    categoryHasProducts(byId.get(child.id) ?? child, byId, visible)
   )
 }
 
@@ -103,7 +181,8 @@ function categoryHasProducts(
  * "never asked", and guessing empty would hide every category for them.
  */
 function withoutEmptyCategories(
-  categories: HttpTypes.StoreProductCategory[]
+  categories: HttpTypes.StoreProductCategory[],
+  visible: Set<string> | null
 ): HttpTypes.StoreProductCategory[] {
   const byId = new Map(categories.map((category) => [category.id, category]))
 
@@ -113,12 +192,12 @@ function withoutEmptyCategories(
     ...category,
     category_children: (category.category_children ?? [])
       .map((child) => byId.get(child.id) ?? child)
-      .filter((child) => categoryHasProducts(child, byId))
+      .filter((child) => categoryHasProducts(child, byId, visible))
       .map(prune),
   })
 
   return categories
-    .filter((category) => categoryHasProducts(category, byId))
+    .filter((category) => categoryHasProducts(category, byId, visible))
     .map(prune)
 }
 
@@ -178,7 +257,7 @@ export const listCategories = async (query?: Record<string, unknown>) => {
   // check asks "does this tenant own any category at all" (a seeding bug),
   // and must see the raw count, not one this filter has already thinned.
   return fields.includes("products")
-    ? withoutEmptyCategories(product_categories)
+    ? withoutEmptyCategories(product_categories, await fetchCategoryIdsWithVisibleProducts())
     : product_categories
 }
 
@@ -239,10 +318,21 @@ const readTopCategoriesWithCounts = async (): Promise<{
     revalidate: 3600,
   }
 
-  const categories = await listCategories({
-    fields: "id,name,handle,parent_category_id,*category_children",
-  })
-  const topLevel = categories.filter((category) => !category.parent_category_id)
+  const [categories, visible] = await Promise.all([
+    listCategories({
+      fields: "id,name,handle,parent_category_id,*category_children",
+    }),
+    fetchCategoryIdsWithVisibleProducts(),
+  ])
+  // U-17 (46df audit): the chip row follows the same rule as the menus — a
+  // top category is shown only when its page lists at least one product. A
+  // failed read keeps every chip, as before, rather than emptying the row.
+  const byId = new Map(categories.map((category) => [category.id, category]))
+  const topLevel = categories.filter(
+    (category) =>
+      !category.parent_category_id &&
+      (!visible || categoryHasProducts(category, byId, visible))
+  )
 
   const countOf = (categoryIds?: string[]) =>
     sdk.client
