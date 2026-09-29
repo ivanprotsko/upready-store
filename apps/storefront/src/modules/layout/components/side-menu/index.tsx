@@ -66,7 +66,7 @@ const SideMenu = ({
 
               {open && (
                 <div
-                  className="fixed inset-0 z-[50] bg-ui-bg-overlay/0 pointer-events-auto"
+                  className="fixed inset-0 z-[50] bg-transparent pointer-events-auto"
                   onClick={close}
                   data-testid="side-menu-backdrop"
                 />
