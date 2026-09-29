@@ -8,6 +8,7 @@ import {
   assertPostableShippingAddress,
   type CartLike as ShippingAddressCart,
 } from "./validate-cart-shipping-address";
+import { assertPochtaPointChosen, type CartLike as PochtaPointCart } from "./validate-cart-pochta-point";
 
 /**
  * Everything that must hold before a cart becomes an order.
@@ -36,4 +37,6 @@ completeCartWorkflow.hooks.validate(async ({ cart }, { container }) => {
     container,
     cart as unknown as ShippingAddressCart,
   );
+
+  await assertPochtaPointChosen(container, cart as unknown as PochtaPointCart);
 });

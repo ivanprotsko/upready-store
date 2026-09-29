@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useApishipKey } from "../../../hooks/api/apiship"
+import { usePochta } from "../../../hooks/api/pochta"
 import { useDeliverySettings } from "../../../hooks/api/delivery-settings"
 import { useMarketplaceStatus, useMarketplaces } from "../../../hooks/api/marketplaces"
 import { usePaymentSettings } from "../../../hooks/api/payment-settings"
@@ -163,6 +164,7 @@ export const IntegrationsHub = () => {
   const { settings: payment, isPending: paymentPending } = usePaymentSettings()
   const { settings: delivery, isPending: deliveryPending } = useDeliverySettings()
   const { apiship, isPending: apishipPending } = useApishipKey()
+  const { pochta, isPending: pochtaPending } = usePochta()
 
   if (isError) {
     throw error
@@ -244,6 +246,22 @@ export const IntegrationsHub = () => {
             to: "/settings/integrations/cdek",
             tone: deliveryPending ? "pending" : cdekStored ? "connected" : "missing",
             last4: cdekLast4,
+            note: null,
+          }}
+        />
+
+        <IntegrationRow
+          row={{
+            id: "pochta",
+            title: t("integrations.pochta.title"),
+            subtitle: t("integrations.pochta.rowSubtitle"),
+            to: "/settings/integrations/pochta",
+            tone: pochtaPending
+              ? "pending"
+              : pochta?.settings?.token.set && pochta.settings.is_enabled
+                ? "connected"
+                : "missing",
+            last4: pochta?.settings?.token.last4 ?? null,
             note: null,
           }}
         />

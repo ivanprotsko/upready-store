@@ -953,6 +953,14 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/integrations/apiship"),
           },
           {
+            // «Почта России» (46df-pochta): токен и ключ пользователя «Отправки»,
+            // индекс отделения отправителя, вес по умолчанию, проба подключения.
+            path: "/settings/integrations/pochta",
+            handle: { breadcrumb: () => t("integrations.pochta.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/pochta"),
+          },
+          {
             // Аккаунт СДЭК. Отправитель, виды доставки, наценка и порог
             // бесплатной доставки остались на /settings/delivery.
             path: "/settings/integrations/cdek",

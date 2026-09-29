@@ -315,7 +315,8 @@
           "paymentsAccount": "Robokassa account",
           "searchVerification": "Search engines",
           "searchCounters": "Counters",
-          "searchRedirects": "Old addresses"
+          "searchRedirects": "Old addresses",
+          "deliveryPochta": "Russian Post"
         },
         "sites": "Sites"
       }
@@ -5147,6 +5148,46 @@
       "probeOkWithCount": "token accepted, carriers connected: {{count}}",
       "probeFailed": "token rejected",
       "deliveryHint": "The delivery methods a buyer sees live on:"
+    },
+    "pochta": {
+      "title": "Russian Post",
+      "subtitle": "Delivery to a Russian Post pickup point: points on a map in the cart, the price by the carrier's tariff.",
+      "rowSubtitle": "Pickup points on a map and tariff calculation",
+      "stateOff": "switched off",
+      "userKeyNote": "The application token opens the pickup-point directory. The user key adds the exact tariff of your contract and post offices; without it the buyer sees an estimate at the retail Parcel rate.",
+      "enabledLabel": "Offer «Russian Post to a pickup point» in the cart",
+      "tokenLabel": "Application token",
+      "tokenHint": "otpravka.pochta.ru → Settings → API settings → application authorization token.",
+      "tokenRequired": "Enter the Russian Post application token.",
+      "keepPlaceholder": "saved ••••{{last4}}, leave empty to keep it",
+      "emptyPlaceholder": "paste the token",
+      "userKeyLabel": "User key (optional)",
+      "userKeyPlaceholder": "Base64 of login:password, or login:password",
+      "userKeyHint": "Same page, user authorization key. Paste the ready key, or the cabinet login and password joined by a colon, and it is stored as the key.",
+      "userKeyClear": "Remove the user key",
+      "userKeyCleared": "User key removed",
+      "senderIndexLabel": "Sender's post office postcode",
+      "senderIndexHint": "The office you hand parcels to. The tariff is calculated from it.",
+      "weightLabel": "Default parcel weight, g",
+      "weightHint": "For products with no weight set.",
+      "methodOn": "In the cart: «{{name}}»",
+      "methodOff": "Method «{{name}}» is switched off",
+      "save": "Save",
+      "saved": "Russian Post settings saved",
+      "probe": "Check the connection",
+      "probeOk": "token accepted · pickup points: {{count}}",
+      "probeFailed": "Russian Post did not accept the key",
+      "userKeyOk": "user key accepted",
+      "userKeyMissing": "no user key, the price is an estimate",
+      "remove": "Disconnect",
+      "removeTitle": "Disconnect Russian Post?",
+      "removeDescription": "The token and the key are deleted and the delivery method leaves the cart.",
+      "removed": "Russian Post disconnected",
+      "cancel": "Cancel",
+      "orderHeading": "Russian Post pickup point",
+      "orderIndex": "Postcode {{index}}",
+      "orderTerm": "Term: {{term}}",
+      "orderEstimate": "Priced as an estimate at the retail Parcel rate"
     }
   },
   "supportDetails": {

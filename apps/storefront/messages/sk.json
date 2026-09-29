@@ -1052,5 +1052,13 @@
     "about": "O programe",
     "faq": "Otázky a odpovede",
     "testimonials": "Ohlasy účastníkov"
+  },
+  "PochtaPoint": {
+    "heading": "Výdajné miesto Ruskej pošty",
+    "chooseHeading": "Vyberte výdajné miesto Ruskej pošty",
+    "notConfigured": "Doprava Ruskou poštou zatiaľ v tomto obchode nie je nastavená.",
+    "estimate": "Odhad podľa bežnej tarify Balík",
+    "quoteFailed": "Dopravu na toto miesto sa nepodarilo vypočítať. Vyberte iné.",
+    "postcode": "PSČ {index}"
   }
 }
