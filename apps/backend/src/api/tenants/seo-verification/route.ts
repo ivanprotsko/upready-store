@@ -1,6 +1,7 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
+import { notifyStorefrontRevalidate } from "../../../storefront-revalidate";
 import { getTenantScope } from "../tenant-scope";
 import type { PutTenantSeoVerificationBody } from "../validators";
 
@@ -49,6 +50,14 @@ export const PUT = async (
     id: scope.id,
     metadata: { ...metadata, seo_verification: { yandex, google } },
   });
+
+  // A-18 (46df audit): the shop's own head previously stayed on whatever tags
+  // it had at build time — a webmaster verifying ownership got no confirmation
+  // the tag was live without a manual reload well past the storefront's own
+  // caches. `tenant.home` is the existing, tested clearing (`tenants/home/route.ts`
+  // sends the same type for the same reason) rather than a new one — no
+  // storefront-side change to add it.
+  await notifyStorefrontRevalidate({ type: "tenant.home", handle: updated.handle });
 
   res.json({ seo_verification: (updated.metadata as Record<string, unknown>).seo_verification });
 };

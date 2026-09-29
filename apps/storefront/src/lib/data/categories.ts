@@ -63,6 +63,9 @@ async function fetchTenantCategories(
 export const listCategories = async (query?: Record<string, unknown>) => {
   const next = {
     ...(await getCacheOptions("categories")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
   }
 
   const limit = query?.limit || 100
@@ -160,6 +163,9 @@ const readTopCategoriesWithCounts = async (): Promise<{
 }> => {
   const next = {
     ...(await getCacheOptions("categories")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
   }
 
   const categories = await listCategories({
@@ -206,6 +212,9 @@ export const getCategoryByHandle = async (categoryHandle: string[]) => {
 
   const next = {
     ...(await getCacheOptions("categories")),
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    revalidate: 3600,
   }
 
   const product_categories = await fetchTenantCategories(

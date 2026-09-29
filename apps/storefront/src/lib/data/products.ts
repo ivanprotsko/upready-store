@@ -64,6 +64,12 @@ export const listProducts = async ({
 
   const next = {
     ...(await getCacheOptions("products")),
+    // A-15 (46df audit): a tag clears on a write, but nothing else ever did —
+    // a dropped revalidation webhook (`notifyStorefrontRevalidate`, now
+    // retried, but still not guaranteed) left a stale price or an out-of-stock
+    // item on the shelf indefinitely. An hour is the ceiling, not the norm:
+    // the tag still clears it within seconds on the ordinary path.
+    revalidate: 3600,
   }
 
   return sdk.client
@@ -107,6 +113,12 @@ export const listProductOptionFilters = async (
 
   const next = {
     ...(await getCacheOptions("products")),
+    // A-15 (46df audit): a tag clears on a write, but nothing else ever did —
+    // a dropped revalidation webhook (`notifyStorefrontRevalidate`, now
+    // retried, but still not guaranteed) left a stale price or an out-of-stock
+    // item on the shelf indefinitely. An hour is the ceiling, not the norm:
+    // the tag still clears it within seconds on the ordinary path.
+    revalidate: 3600,
   }
 
   const { products } = await sdk.client
@@ -200,6 +212,12 @@ export const searchProducts = async (
   const needle = trimmed.toLowerCase()
   const next = {
     ...(await getCacheOptions("products")),
+    // A-15 (46df audit): a tag clears on a write, but nothing else ever did —
+    // a dropped revalidation webhook (`notifyStorefrontRevalidate`, now
+    // retried, but still not guaranteed) left a stale price or an out-of-stock
+    // item on the shelf indefinitely. An hour is the ceiling, not the norm:
+    // the tag still clears it within seconds on the ordinary path.
+    revalidate: 3600,
   }
 
   const perLocale = await Promise.all(

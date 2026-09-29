@@ -89,7 +89,9 @@ export const listProductAttributes = async (
   productId: string
 ): Promise<ProductAttributeRow[]> => {
   try {
-    const next = { ...(await getCacheOptions(ATTRIBUTES_TAG)) }
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    const next = { ...(await getCacheOptions(ATTRIBUTES_TAG)), revalidate: 3600 }
     const { product_attributes } = await sdk.client.fetch<{
       product_attributes: ProductAttributeRow[]
     }>("/store/tenant/product-attributes", {
@@ -116,7 +118,9 @@ export const listProductAttributeFacets = async ({
   selection?: AttributeSelection
 }): Promise<AttributeFacets> => {
   try {
-    const next = { ...(await getCacheOptions(ATTRIBUTES_TAG)) }
+    // A-15 (46df audit): a ceiling for a dropped revalidation webhook — see
+    // the same note in products.ts.
+    const next = { ...(await getCacheOptions(ATTRIBUTES_TAG)), revalidate: 3600 }
     const data = await sdk.client.fetch<{
       facets: AttributeFacet[]
       product_ids: string[] | null

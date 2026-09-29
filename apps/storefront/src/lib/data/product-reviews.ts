@@ -72,7 +72,12 @@ export async function listProductReviews(
     const result = await sdk.client.fetch<ProductReviewPage>(
       `/store/tenant/reviews?product_id=${encodeURIComponent(productId)}` +
         `&limit=${limit}&offset=${offset}&locale=${encodeURIComponent(locale)}`,
-      { next: { tags: [REVIEWS_TAG] }, cache: "force-cache" }
+      {
+        // A-15 (46df audit): a ceiling for a dropped revalidation webhook —
+        // see the same note in products.ts.
+        next: { tags: [REVIEWS_TAG], revalidate: 3600 },
+        cache: "force-cache",
+      }
     )
     return {
       reviews: result?.reviews ?? [],
