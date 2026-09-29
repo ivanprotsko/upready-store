@@ -207,6 +207,26 @@ export const distanceKm = (a: { lat: number; lng: number }, b: { lat: number; ln
   return 2 * EARTH_KM * Math.asin(Math.sqrt(h));
 };
 
+const median = (values: number[]): number => {
+  const sorted = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+};
+
+/**
+ * One settlement's points without the ones whose coordinates cannot be right:
+ * farther than `maxKm` from the median of the settlement. Measured on
+ * 2026-09-29, one of Moscow's 137 directory points sits near Vitebsk, so the
+ * map fitted to the list opened on half of central Russia, and a buyer who
+ * picked that marker would have chosen a point the carrier places in Moscow.
+ * The median, not the mean, so one outlier cannot drag the centre toward itself.
+ */
+export const withoutFarOutliers = (points: PochtaStorePoint[], maxKm = 100): PochtaStorePoint[] => {
+  if (points.length < 3) return points;
+  const centre = { lat: median(points.map((p) => p.lat)), lng: median(points.map((p) => p.lng)) };
+  return points.filter((point) => distanceKm(centre, point) <= maxKm);
+};
+
 /** Points within `radiusKm` of a map centre, nearest first, at most `limit`. */
 export const pointsNear = (
   points: PochtaStorePoint[],

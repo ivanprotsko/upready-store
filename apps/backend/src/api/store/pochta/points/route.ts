@@ -6,6 +6,7 @@ import {
   fromPostOffice,
   pointsInCity,
   pointsNear,
+  withoutFarOutliers,
   type PochtaStorePoint,
 } from "../../../../pochta/method";
 import { buyerPoints, pochtaContext } from "../helpers";
@@ -48,7 +49,7 @@ export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
   let city: { name: string; region: string | null; lat: number; lng: number } | null = null;
 
   if (cityName) {
-    points = pointsInCity(all, cityName, region);
+    points = withoutFarOutliers(pointsInCity(all, cityName, region));
     const match = citiesMatching(points, cityName, 1)[0];
     if (match) city = { name: match.name, region: match.region, lat: match.lat, lng: match.lng };
   } else if (Number.isFinite(lat) && Number.isFinite(lng) && (lat !== 0 || lng !== 0)) {

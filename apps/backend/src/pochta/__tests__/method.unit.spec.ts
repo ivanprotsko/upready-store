@@ -6,6 +6,7 @@ import {
   pointsInCity,
   pointsNear,
   requestedPoint,
+  withoutFarOutliers,
 } from "../method";
 import { referenceIndexForRegion } from "../regions";
 import { forgetPochtaQuotes, quoteToAddress, quoteToPoint } from "../quote";
@@ -72,6 +73,16 @@ describe("the directory as a buyer sees it", () => {
     expect(pointsInCity(POINTS, "г. Москва", "г. Москва")).toHaveLength(2);
     expect(pointsInCity(POINTS, "Москва", "обл. Московская")).toHaveLength(0);
     expect(pointsNear(POINTS, { lat: 55.75, lng: 37.62 }, 5).map((p) => p.index)).toEqual(["980001", "980002"]);
+  });
+
+  it("drops a point whose coordinates sit far from its own city", () => {
+    const moscow = [
+      ...POINTS.slice(0, 2),
+      fromDeliveryPoint(raw("980007", "г. Москва", "г. Москва", 55.8, 37.5)),
+      fromDeliveryPoint(raw("980008", "г. Москва", "г. Москва", 55.2, 30.2)),
+    ];
+    expect(withoutFarOutliers(moscow).map((p) => p.index)).toEqual(["980001", "980002", "980007"]);
+    expect(withoutFarOutliers(moscow.slice(2))).toHaveLength(2);
   });
 
   it("accepts only a six-digit index from the client", () => {
