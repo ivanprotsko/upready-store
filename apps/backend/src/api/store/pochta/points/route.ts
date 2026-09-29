@@ -9,7 +9,7 @@ import {
   withoutFarOutliers,
   type PochtaStorePoint,
 } from "../../../../pochta/method";
-import { buyerPoints, pochtaContext } from "../helpers";
+import { buyerPoints, pochtaContext, pochtaUnavailable } from "../helpers";
 
 const MAX_RADIUS_KM = 50;
 
@@ -24,7 +24,7 @@ const MAX_RADIUS_KM = 50;
  * leaves the directory points alone).
  */
 export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
-  const { credentials } = await pochtaContext(req);
+  const { tenant, credentials } = await pochtaContext(req);
   if (!credentials) {
     res.status(200).json({ configured: false, city: null, points: [] });
     return;
@@ -41,7 +41,12 @@ export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
   try {
     all = await buyerPoints(credentials);
   } catch (error) {
-    res.status(200).json({ configured: true, city: null, points: [], error: (error as Error).message });
+    res.status(200).json({
+      configured: true,
+      city: null,
+      points: [],
+      ...pochtaUnavailable(req, "/store/pochta/points", tenant.id, error),
+    });
     return;
   }
 

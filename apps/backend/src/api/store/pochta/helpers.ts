@@ -1,6 +1,7 @@
 import type { MedusaStoreRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
+import type { Logger } from "@medusajs/framework/types";
 
 import { listDeliveryPoints, type PochtaCredentials } from "../../../pochta/client";
 import { fromDeliveryPoint, isBuyerPoint, type PochtaStorePoint } from "../../../pochta/method";
@@ -25,3 +26,23 @@ export const pochtaContext = async (
 /** The buyer points of the directory, in the storefront's shape. Cached by the client for six hours. */
 export const buyerPoints = async (credentials: PochtaCredentials): Promise<PochtaStorePoint[]> =>
   (await listDeliveryPoints(credentials)).filter(isBuyerPoint).map(fromDeliveryPoint);
+
+/**
+ * Logs why a buyer-facing Russian Post read failed and returns the flag the
+ * route answers with instead (t-2026-09-30-01). The carrier's text, a status
+ * code or our own configuration message is for the shop's owner and for us,
+ * never for the buyer's browser: the storefront only needs to know the carrier
+ * is unavailable right now.
+ */
+export const pochtaUnavailable = (
+  req: MedusaStoreRequest,
+  route: string,
+  tenantId: string,
+  error: unknown,
+): { unavailable: true } => {
+  const detail = error instanceof Error ? error.message : String(error);
+  req.scope
+    .resolve<Logger>(ContainerRegistrationKeys.LOGGER)
+    .warn(`[pochta] ${route} failed for tenant ${tenantId}: ${detail}`);
+  return { unavailable: true };
+};
