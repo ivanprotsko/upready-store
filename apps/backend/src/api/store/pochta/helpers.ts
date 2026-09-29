@@ -5,7 +5,7 @@ import type { Logger } from "@medusajs/framework/types";
 
 import { listDeliveryPoints, type PochtaCredentials } from "../../../pochta/client";
 import { fromDeliveryPoint, isBuyerPoint, type PochtaStorePoint } from "../../../pochta/method";
-import { pochtaApiCredentials, readPochtaSecret, type ResolvedPochtaSecret } from "../../../tenant-secrets/pochta";
+import { pochtaApiCredentials, readPochtaSecretPublic, type ResolvedPochtaSecret } from "../../../tenant-secrets/pochta";
 import { resolveTenantFromPublishableKey, type StoreTenant } from "../tenant/resolve-tenant";
 
 /**
@@ -19,7 +19,7 @@ export const pochtaContext = async (
 ): Promise<{ tenant: StoreTenant; secret: ResolvedPochtaSecret | null; credentials: PochtaCredentials | null }> => {
   const tenant = await resolveTenantFromPublishableKey(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  const secret = await readPochtaSecret(pg, tenant.id);
+  const secret = await readPochtaSecretPublic(pg, tenant.id, req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER));
   return { tenant, secret, credentials: pochtaApiCredentials(secret) };
 };
 

@@ -82,6 +82,32 @@ export const readPochtaSecret = async (
   };
 };
 
+/**
+ * `readPochtaSecret` for a PUBLIC path (46df A-02), the same shape as
+ * `readRobokassaSecretPublic`: a row this deployment cannot decrypt used to
+ * answer the buyer's `/store/pochta/*` with a 500. Here the failure is logged
+ * once at `warn` with the tenant id (never the payload, never the key) and the
+ * shop reads as "Russian Post not connected". Panel routes and the fulfillment
+ * provider keep calling `readPochtaSecret` and let the error surface.
+ */
+export const readPochtaSecretPublic = async (
+  pg: Knex,
+  tenantId: string,
+  logger: { warn: (message: string) => void },
+  options: { includeDisabled?: boolean } = {},
+): Promise<ResolvedPochtaSecret | null> => {
+  try {
+    return await readPochtaSecret(pg, tenantId, options);
+  } catch (error) {
+    logger.warn(
+      `Russian Post secret for tenant ${tenantId} could not be read; treating Russian Post as not connected on this public read (${
+        error instanceof Error ? error.name : "unknown error"
+      })`,
+    );
+    return null;
+  }
+};
+
 /** What a response may carry: the state of each secret, never the secret. */
 export const maskPochtaSettings = (secret: ResolvedPochtaSecret): MaskedPochtaSettings => ({
   id: secret.id,

@@ -3,7 +3,7 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 
 import { listCities, listDeliveryPoints, type CdekPoint } from "../../../../cdek/client";
-import { cdekApiCredentials, readCdekSecret } from "../../../../tenant-secrets/cdek";
+import { cdekApiCredentials, readCdekSecretPublic } from "../../../../tenant-secrets/cdek";
 import { resolveTenantFromPublishableKey } from "../../tenant/resolve-tenant";
 
 /**
@@ -29,7 +29,7 @@ export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
   const tenant = await resolveTenantFromPublishableKey(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
 
-  const secret = await readCdekSecret(pg, tenant.id);
+  const secret = await readCdekSecretPublic(pg, tenant.id, req.scope.resolve(ContainerRegistrationKeys.LOGGER));
   const credentials = secret && cdekApiCredentials(secret);
   if (!secret || !credentials) {
     // Not «an error»: a shop without CDEK simply has no CDEK points, and the

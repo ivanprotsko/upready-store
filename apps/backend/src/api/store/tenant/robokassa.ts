@@ -1,7 +1,7 @@
 import type { MedusaNextFunction, MedusaResponse, MedusaStoreRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
-import { readRobokassaSecret } from "../../../tenant-secrets/robokassa";
+import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
 import { resolveTenantFromPublishableKey, type StoreTenant } from "./resolve-tenant";
 
 export const ROBOKASSA_PROVIDER_ID = "pp_robokassa_robokassa";
@@ -31,7 +31,7 @@ export const robokassaAvailableFor = async (req: MedusaStoreRequest): Promise<bo
     return false;
   }
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  return Boolean(await readRobokassaSecret(pg, tenant.id));
+  return Boolean(await readRobokassaSecretPublic(pg, tenant.id, req.scope.resolve(ContainerRegistrationKeys.LOGGER)));
 };
 
 /**
@@ -62,7 +62,10 @@ export const injectRobokassaTenant = async (
 
   const tenant = await tenantOrNull(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  const secret = tenant ? await readRobokassaSecret(pg, tenant.id) : null;
+  // An unreadable secret reads as "not connected" (46df A-02): the same 404 as a shop without Robokassa.
+  const secret = tenant
+    ? await readRobokassaSecretPublic(pg, tenant.id, req.scope.resolve(ContainerRegistrationKeys.LOGGER))
+    : null;
   if (!tenant || !secret) {
     throw new MedusaError(
       MedusaError.Types.NOT_FOUND,
