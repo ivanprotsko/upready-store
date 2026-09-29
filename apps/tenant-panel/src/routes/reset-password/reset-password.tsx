@@ -18,7 +18,7 @@ import { useResetPasswordForEmailPass } from "../../hooks/api/auth"
 
 const ResetPasswordSchema = z
   .object({
-    new_password: z.string().min(8),
+    new_password: z.string().min(12),
     confirm_password: z.string().min(1),
   })
   .refine((data) => data.new_password === data.confirm_password, {
@@ -107,6 +107,11 @@ export const ResetPassword = () => {
                           placeholder={t("resetPassword.newPassword")}
                         />
                       </Form.Control>
+                      <Form.ErrorMessage>
+                        {form.formState.errors.new_password
+                          ? t("resetPassword.passwordTooShort")
+                          : undefined}
+                      </Form.ErrorMessage>
                     </Form.Item>
                   )}
                 />

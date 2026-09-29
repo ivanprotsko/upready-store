@@ -90,14 +90,16 @@ export const PostTenantUpdateMeSchema = z.strictObject({
 export type PostTenantUpdateMeBody = z.infer<typeof PostTenantUpdateMeSchema>;
 
 /**
- * `POST /tenants/me/password` body. `new_password` shorter than 8 characters
- * is `INVALID_DATA` (zod raises before the route runs); a wrong
- * `current_password` is the route's own `401 UNAUTHORIZED`, never a zod issue,
- * because zod cannot see the stored hash.
+ * `POST /tenants/me/password` body. `new_password` shorter than 12 characters
+ * (46df A-22, ASVS L2 §2.1.1) is `INVALID_DATA` (zod raises before the route
+ * runs) — an existing password already shorter than 12 is untouched, this
+ * only gates a NEW one; a wrong `current_password` is the route's own
+ * `401 UNAUTHORIZED`, never a zod issue, because zod cannot see the stored
+ * hash.
  */
 export const PostTenantUpdatePasswordSchema = z.strictObject({
   current_password: z.string().min(1),
-  new_password: z.string().min(8),
+  new_password: z.string().min(12, "New password must be at least 12 characters long."),
 });
 
 export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswordSchema>;
