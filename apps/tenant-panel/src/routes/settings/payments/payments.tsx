@@ -151,6 +151,16 @@ export const PaymentSettings = () => {
 
           <RobokassaBehaviourFields form={form} />
 
+          {unreadable ? (
+            <Text
+              size="small"
+              className="text-ui-fg-subtle"
+              data-testid="payments-unreadable-hint"
+            >
+              {t("integrations.robokassa.unreadableBehaviour")}
+            </Text>
+          ) : null}
+
           <div className="flex items-center gap-x-2">
             <Button
               type="submit"

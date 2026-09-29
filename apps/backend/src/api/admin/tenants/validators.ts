@@ -1,4 +1,11 @@
 import { z } from "@medusajs/framework/zod";
+import { OWNER_PASSWORD_MIN_LENGTH, OWNER_PASSWORD_TOO_SHORT_MESSAGE } from "../../auth/password-length-gate";
+
+/**
+ * 46df A-22: a staff-issued password for a shop admin has the same floor as
+ * one the owner sets herself (`POST /tenants/me/password`, the reset link).
+ */
+const tenantAdminPassword = () => z.string().min(OWNER_PASSWORD_MIN_LENGTH, OWNER_PASSWORD_TOO_SHORT_MESSAGE);
 
 /**
  * Query params for `GET /admin/tenants` (contract §3). `q` matches `handle`
@@ -19,9 +26,8 @@ export type AdminGetTenantsParamsType = z.infer<typeof AdminGetTenantsParams>;
  * `POST /admin/tenants` body (contract §3). The handle rules mirror
  * `PostTenantCreateSchema` in `src/api/tenants/validators.ts`: lowercase
  * letters, digits and single hyphens, 3 to 63 characters, because it is the
- * same technical subdomain either route mints. Password floor of 8 chars is
- * this route's own rule (staff-issued passwords), not shared with the
- * self-registration flow.
+ * same technical subdomain either route mints. The password floor is the
+ * shared 12-character one (`OWNER_PASSWORD_MIN_LENGTH`).
  */
 export const PostAdminTenantCreateSchema = z.strictObject({
   name: z.string().min(1).max(200),
@@ -32,7 +38,7 @@ export const PostAdminTenantCreateSchema = z.strictObject({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens"),
   admin: z.strictObject({
     email: z.string().email(),
-    password: z.string().min(8),
+    password: tenantAdminPassword(),
     first_name: z.string().optional(),
     last_name: z.string().optional(),
   }),
@@ -71,7 +77,7 @@ export type DeleteAdminTenantParamsType = z.infer<typeof DeleteAdminTenantParams
 /** `POST /admin/tenants/:id/admins` body (contract §3). */
 export const PostAdminTenantAdminCreateSchema = z.strictObject({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: tenantAdminPassword(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
 });
@@ -81,7 +87,7 @@ export type PostAdminTenantAdminCreateBody = z.infer<typeof PostAdminTenantAdmin
 /** `POST /admin/tenants/:id/admins/:adminId` body (contract §3). */
 export const PostAdminTenantAdminUpdateSchema = z.strictObject({
   email: z.string().email().optional(),
-  password: z.string().min(8).optional(),
+  password: tenantAdminPassword().optional(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
 });

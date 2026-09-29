@@ -30,8 +30,8 @@ export function EditAdminDrawer({
       input.email = email.trim()
     }
     if (password.length > 0) {
-      if (password.length < 8) {
-        setError("Пароль должен быть не короче 8 символов.")
+      if (password.length < 12) {
+        setError("Пароль должен быть не короче 12 символов.")
         return
       }
       input.password = password
