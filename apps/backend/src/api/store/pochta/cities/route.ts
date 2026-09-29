@@ -1,7 +1,7 @@
 import type { MedusaStoreRequest, MedusaResponse } from "@medusajs/framework/http";
 
 import { citiesMatching } from "../../../../pochta/method";
-import { buyerPoints, pochtaContext } from "../helpers";
+import { buyerPoints, pochtaContext, pochtaUnavailable } from "../helpers";
 
 /**
  * `GET /store/pochta/cities?q=Мос` — the settlements that have Russian Post
@@ -12,7 +12,7 @@ import { buyerPoints, pochtaContext } from "../helpers";
  * Post answers `configured: false` and an empty list, not an error.
  */
 export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
-  const { credentials } = await pochtaContext(req);
+  const { tenant, credentials } = await pochtaContext(req);
   if (!credentials) {
     res.status(200).json({ configured: false, cities: [] });
     return;
@@ -22,6 +22,10 @@ export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
     const points = await buyerPoints(credentials);
     res.status(200).json({ configured: true, cities: citiesMatching(points, term, 10) });
   } catch (error) {
-    res.status(200).json({ configured: true, cities: [], error: (error as Error).message });
+    res.status(200).json({
+      configured: true,
+      cities: [],
+      ...pochtaUnavailable(req, "/store/pochta/cities", tenant.id, error),
+    });
   }
 }

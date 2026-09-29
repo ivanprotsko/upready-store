@@ -2,10 +2,10 @@ import type { MedusaStoreRequest, MedusaResponse } from "@medusajs/framework/htt
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Logger } from "@medusajs/framework/types";
 
-import { cartWeightGrams, requestedPoint } from "../../../../pochta/method";
+import { cartWeightGrams, requestedPoint, type PochtaStorePoint } from "../../../../pochta/method";
 import { findPochtaPoint, quoteToPoint } from "../../../../pochta/quote";
 import { quoteItemsOf } from "../../../../modules/pochta-fulfillment/service";
-import { pochtaContext } from "../helpers";
+import { pochtaContext, pochtaUnavailable } from "../helpers";
 
 /**
  * `GET /store/pochta/quote?cart_id=…&pochta_point_index=980063&pochta_point_kind=pvz`
@@ -51,7 +51,17 @@ export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
     return;
   }
 
-  const point = await findPochtaPoint(credentials, requested).catch(() => null);
+  let point: PochtaStorePoint | null;
+  try {
+    point = await findPochtaPoint(credentials, requested);
+  } catch (error) {
+    res.status(200).json({
+      configured: true,
+      quote: null,
+      ...pochtaUnavailable(req, "/store/pochta/quote", tenant.id, error),
+    });
+    return;
+  }
   if (!point) {
     res.status(200).json({ configured: true, quote: null, error: "Пункт выдачи не найден в справочнике Почты России" });
     return;
@@ -69,6 +79,10 @@ export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
     );
     res.status(200).json({ configured: true, currency_code: cart.currency_code ?? "rub", quote });
   } catch (error) {
-    res.status(200).json({ configured: true, quote: null, error: (error as Error).message });
+    res.status(200).json({
+      configured: true,
+      quote: null,
+      ...pochtaUnavailable(req, "/store/pochta/quote", tenant.id, error),
+    });
   }
 }

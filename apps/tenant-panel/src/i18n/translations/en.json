@@ -5189,7 +5189,10 @@
       "orderHeading": "Russian Post pickup point",
       "orderIndex": "Postcode {{index}}",
       "orderTerm": "Term: {{term}}",
-      "orderEstimate": "Priced as an estimate at the retail Parcel rate"
+      "orderEstimate": "Priced as an estimate at the retail Parcel rate",
+      "duplicatesNote": "Your cart also shows a manual tariff named like Russian Post, so a buyer sees two Russian Post cards with different prices. Switch the manual one off and Russian Post prices the parcel. The tariff stays under Delivery, and you can switch it back on there.",
+      "duplicateOff": "Switch the manual tariff off",
+      "duplicateSwitchedOff": "Manual tariff «{{name}}» switched off"
     },
     "unreadable": {
       "alert": "The saved credentials can't be read. They were encrypted with a different server key or are damaged, and this service stays off until they are entered again. Enter them again and save, or remove the connection.",
