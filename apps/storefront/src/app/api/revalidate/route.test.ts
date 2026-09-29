@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
 import { tenantHomeTag } from "@lib/tenant/cache-tags"
 import type { NextRequest } from "next/server"
@@ -11,10 +11,13 @@ vi.mock("next/cache", () => ({
   revalidatePath: (...args: unknown[]) => revalidatePath(...args),
 }))
 
-const post = async (body: Record<string, unknown>) => {
+const post = async (
+  body: Record<string, unknown>,
+  headers: Record<string, string> = {}
+) => {
   const { POST } = await import("./route")
   const request = {
-    headers: new Headers(),
+    headers: new Headers(headers),
     json: async () => body,
   } as unknown as NextRequest
 
@@ -91,6 +94,69 @@ describe("POST /api/revalidate", () => {
 
     expect(response.status).toBe(401)
     expect(revalidateTag).not.toHaveBeenCalled()
+  })
+
+  it("accepts a call that carries the right secret", async () => {
+    process.env.REVALIDATE_SECRET = "expected"
+
+    const response = await post(
+      { type: "product.updated" },
+      { "x-revalidate-secret": "expected" }
+    )
+
+    expect(response.status).toBe(200)
+    expect(revalidateTag).toHaveBeenCalledWith("products")
+  })
+
+  it("refuses a secret of a different length without throwing (timingSafeEqual needs equal-length buffers)", async () => {
+    process.env.REVALIDATE_SECRET = "a-fairly-long-expected-secret"
+
+    const response = await post(
+      { type: "product.updated" },
+      { "x-revalidate-secret": "short" }
+    )
+
+    expect(response.status).toBe(401)
+    expect(revalidateTag).not.toHaveBeenCalled()
+  })
+})
+
+/**
+ * 46df A-16: an unset `REVALIDATE_SECRET` used to mean "open to anyone" (the old `&&` short-
+ * circuit) — the real risk is production, where the deploy compose file (`deploy/compose.mt.yml`)
+ * always sets the variable, so a missing one there is a genuine misconfiguration, not a template
+ * default. Outside production (a template clone's first run, this repo's own dev/test) it still
+ * means "not configured yet" and the route stays open, exactly as before this fix.
+ */
+describe("POST /api/revalidate: REVALIDATE_SECRET not configured", () => {
+  const originalNodeEnv = process.env.NODE_ENV
+
+  beforeEach(() => {
+    revalidateTag.mockClear()
+    revalidatePath.mockClear()
+    delete process.env.REVALIDATE_SECRET
+  })
+
+  afterEach(() => {
+    vi.stubEnv("NODE_ENV", originalNodeEnv ?? "test")
+  })
+
+  it("in production, no secret configured: 503, clears nothing", async () => {
+    vi.stubEnv("NODE_ENV", "production")
+
+    const response = await post({ type: "product.updated" })
+
+    expect(response.status).toBe(503)
+    expect(revalidateTag).not.toHaveBeenCalled()
+  })
+
+  it("outside production, no secret configured: still open, unchanged behaviour", async () => {
+    vi.stubEnv("NODE_ENV", "development")
+
+    const response = await post({ type: "product.updated" })
+
+    expect(response.status).toBe(200)
+    expect(revalidateTag).toHaveBeenCalledWith("products")
   })
 })
 
