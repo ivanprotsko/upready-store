@@ -24,7 +24,8 @@ import { guestOrderTokenMatches } from "../../store-order-access/token";
  * The rules this module enforces, in order:
  *
  *   1. The order has to belong to a sales channel the request's publishable
- *      key names. A shop's key never reaches another shop's order.
+ *      key names. A shop's key never reaches another shop's order, and a key
+ *      that names no channel reaches no order at all.
  *   2. A logged-in customer may read their own order (`order.customer_id`).
  *   3. Anyone else needs the order's own access token, which is the guest
  *      mechanism: it rides the confirmation link the storefront redirects to
@@ -89,6 +90,21 @@ export const requestSalesChannelIds = (req: MedusaStoreRequest): string[] =>
   req.publishable_key_context?.sales_channel_ids ?? [];
 
 /**
+ * Whether an order sits in one of the shop channels the request's key names.
+ *
+ * A key that names no channel names no shop, so it reaches no order at all
+ * (review-2026-09-21 T-2). Until 2026-09-30 every check in this file ran only
+ * `if (channelIds.length)`, so a publishable key that had lost its channel
+ * link read across every shop again, held back by the owner and token rules
+ * alone. No key this repository mints is refused by it: the single-store seed
+ * binds its key to its channel (`migration-scripts/lib/store.ts`) and so does
+ * `createTenantWorkflow`. An order with no channel cannot be shown to be THIS
+ * shop's either, so it is refused rather than waved through.
+ */
+export const orderInRequestShop = (channelIds: string[], salesChannelId: unknown): boolean =>
+  typeof salesChannelId === "string" && channelIds.includes(salesChannelId);
+
+/**
  * Loads the order and refuses it unless the caller is allowed to read it.
  * Throws `MedusaError.Types.NOT_FOUND` (→ HTTP 404) in every other case.
  */
@@ -109,14 +125,9 @@ export const assertOrderAccess = async (
     throw notFound(orderId);
   }
 
-  const channelIds = requestSalesChannelIds(req);
-  if (channelIds.length) {
-    // An order with no channel cannot be shown to be THIS shop's, so it is
-    // refused rather than waved through: a fail-open here is the whole defect
-    // this module exists to close.
-    if (!order.sales_channel_id || !channelIds.includes(order.sales_channel_id as string)) {
-      throw notFound(orderId);
-    }
+  // A fail-open here is the whole defect this module exists to close.
+  if (!orderInRequestShop(requestSalesChannelIds(req), order.sales_channel_id)) {
+    throw notFound(orderId);
   }
 
   const customerId = (req as { auth_context?: { actor_id?: string } }).auth_context?.actor_id;
@@ -173,17 +184,26 @@ export const ensureOrderAccess = async (
  */
 export const scopeOrderListToShop = (
   req: MedusaRequest,
-  _res: MedusaResponse,
+  res: MedusaResponse,
   next: MedusaNextFunction,
 ) => {
   const channelIds = requestSalesChannelIds(req as unknown as MedusaStoreRequest);
-  if (channelIds.length) {
-    const request = req as unknown as { filterableFields?: Record<string, unknown> };
-    request.filterableFields = {
-      ...(request.filterableFields ?? {}),
-      sales_channel_id: channelIds,
-    };
+  if (!channelIds.length) {
+    // A key with no channel names no shop, so its list is empty
+    // (`orderInRequestShop`). It is answered here in the core handler's shape
+    // rather than by an empty `sales_channel_id` filter, whose meaning is up to
+    // the query layer.
+    const pagination = (
+      req as unknown as { queryConfig?: { pagination?: { skip?: number; take?: number } } }
+    ).queryConfig?.pagination;
+    res.json({ orders: [], count: 0, offset: pagination?.skip ?? 0, limit: pagination?.take ?? 0 });
+    return;
   }
+  const request = req as unknown as { filterableFields?: Record<string, unknown> };
+  request.filterableFields = {
+    ...(request.filterableFields ?? {}),
+    sales_channel_id: channelIds,
+  };
   next();
 };
 
@@ -212,22 +232,20 @@ export const guardOrderTransferRequest = async (
     const orderId = orderIdFromRequest(storeReq);
     const channelIds = requestSalesChannelIds(storeReq);
 
-    if (channelIds.length) {
-      const query = storeReq.scope.resolve(ContainerRegistrationKeys.QUERY);
-      const {
-        data: [order],
-      } = await query.graph({
-        entity: "order",
-        fields: ["id", "sales_channel_id"],
-        filters: { id: orderId },
-      });
-      if (
-        !order?.id ||
-        !order.sales_channel_id ||
-        !channelIds.includes(order.sales_channel_id as string)
-      ) {
-        throw notFound(orderId);
-      }
+    if (!channelIds.length) {
+      throw notFound(orderId);
+    }
+
+    const query = storeReq.scope.resolve(ContainerRegistrationKeys.QUERY);
+    const {
+      data: [order],
+    } = await query.graph({
+      entity: "order",
+      fields: ["id", "sales_channel_id"],
+      filters: { id: orderId },
+    });
+    if (!order?.id || !orderInRequestShop(channelIds, order.sales_channel_id)) {
+      throw notFound(orderId);
     }
 
     const queryConfig = (req as unknown as { queryConfig?: { fields: string[] } }).queryConfig;

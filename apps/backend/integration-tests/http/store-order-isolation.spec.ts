@@ -1,4 +1,5 @@
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
+import { Modules } from "@medusajs/framework/utils";
 import {
   createOrdersWorkflow,
   createRegionsWorkflow,
@@ -24,6 +25,7 @@ jest.setTimeout(180_000);
  *   - a logged-in customer who is not the owner;
  *   - the owner, under another shop's key;
  *   - a guest access token that belongs to a different order;
+ *   - a publishable key that names no sales channel at all (review T-2);
  *   - the same three doors on `POST /store/orders/:id/transfer/request`,
  *     `POST /store/returns` and `GET /store/carts/:id`.
  *
@@ -238,6 +240,48 @@ medusaIntegrationTestRunner({
           guestOrderToken(guestOrder.id),
         );
         expect(wrongShop.status).toBe(404);
+      });
+
+      it("refuses every order read under a key that names no sales channel", async () => {
+        const buyer = await registerCustomer(a, "owner@example.com");
+        const order = await placeOrder(a, "owner@example.com", "Acme shirt", buyer.id);
+        const apiKeyModule = getContainer().resolve(Modules.API_KEY);
+        const [unbound] = await apiKeyModule.createApiKeys([
+          { title: "No channel", type: "publishable", created_by: "store-order-isolation" },
+        ]);
+        const headers = (extra: Record<string, string>) => ({
+          headers: { "x-publishable-api-key": unbound.token, ...extra },
+        });
+
+        const withToken = await failed(
+          api.get(
+            `/store/orders/${order.id}?fields=id,email`,
+            headers({ "x-order-token": guestOrderToken(order.id) }),
+          ),
+        );
+        expect(withToken.status).toBe(404);
+
+        const asOwner = await failed(
+          api.get(`/store/orders/${order.id}`, headers({ authorization: `Bearer ${buyer.token}` })),
+        );
+        expect(asOwner.status).toBe(404);
+
+        const listed = await api.get(
+          "/store/orders?limit=50",
+          headers({ authorization: `Bearer ${buyer.token}` }),
+        );
+        expect(listed.status).toBe(200);
+        expect(listed.data.orders).toEqual([]);
+        expect(listed.data.count).toBe(0);
+
+        const transfer = await failed(
+          api.post(
+            `/store/orders/${order.id}/transfer/request`,
+            {},
+            headers({ authorization: `Bearer ${buyer.token}` }),
+          ),
+        );
+        expect(transfer.status).toBe(404);
       });
 
       it("scopes GET /store/orders to the shop whose key the call carries", async () => {
