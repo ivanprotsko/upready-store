@@ -59,8 +59,8 @@ export async function guardStarterLegalPage(slot: LegalSlot): Promise<void> {
   const verdict = starterPageVerdict(slot, await getLegalLinkContext())
 
   if (verdict.kind === "redirect") {
-    // Every page of this storefront is under `/<locale>`: `src/i18n/routing.ts`
-    // sets `localePrefix: "never"`, so nothing adds the prefix for us and a bare
+    // Every page of this storefront is under `/<locale>`, and `next/navigation`'s
+    // `redirect` adds no prefix, so a bare
     // `/pages/offer` would be redirected a second time by the middleware,
     // guessing the language from the visitor's cookie rather than keeping the
     // one they are reading in.
