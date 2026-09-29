@@ -26,6 +26,7 @@ import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-relat
 import Breadcrumb, {
   type BreadcrumbItem,
 } from "@modules/common/components/breadcrumb"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import JsonLd from "@modules/common/components/json-ld"
 import ProductReviews, {
   REVIEWS_PAGE_SIZE,
@@ -160,12 +161,17 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
         className={`${CARD} relative flex min-w-0 flex-col gap-y-5 px-4 pb-5 pt-7 small:px-6 small:pb-6 small:pt-9`}
         data-testid="product-summary-card"
       >
-        {breadcrumbPill}
-        <ProductInfo product={product} reviews={reviews.summary} />
-        <VariantPicker />
-        <AttributesSummary rows={attributeRows} />
-        <CourseDescription description={product.description} />
-        {hasDetails && <ProductDetailsOpener />}
+        {/* ProductInfo and AttributesSummary are async, so lazy rows in the RSC
+            payload: the slot keeps them off this <div>'s own children, see
+            HydrationSlot (46df U-06). The same in every card below. */}
+        <HydrationSlot>
+          {breadcrumbPill}
+          <ProductInfo product={product} reviews={reviews.summary} />
+          <VariantPicker />
+          <AttributesSummary rows={attributeRows} />
+          <CourseDescription description={product.description} />
+          {hasDetails && <ProductDetailsOpener />}
+        </HydrationSlot>
       </div>
     )
 
@@ -174,60 +180,166 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
         <JsonLd data={jsonLd} />
 
         <div data-testid="product-page" data-layout="course">
+          <HydrationSlot>
+            <div
+              className="content-container flex flex-col gap-y-6 pb-6 pt-8 small:gap-y-8 small:pb-8 small:pt-10"
+              data-testid="product-container"
+            >
+              <ProductSelectionProvider product={product}>
+                {/* Two columns from 1024: the content (row 1: cover and centre card, row 2:
+                    the sections) and the buy box, which spans both rows so that its
+                    sticky box has the whole height of the content to travel along. */}
+                <div className="grid grid-cols-1 gap-4 small:grid-cols-[minmax(0,1fr)_24rem] small:gap-6">
+                  <div className="flex min-w-0 flex-col gap-4 small:col-start-1 small:row-start-1 small:gap-6">
+                    {cover ? (
+                      <>
+                        <div
+                          className={`${CARD} p-3 small:p-4`}
+                          data-testid="product-gallery-card"
+                        >
+                          <CourseCover cover={cover} />
+                        </div>
+                        {summaryCard}
+                      </>
+                    ) : (
+                      <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] small:gap-6">
+                        <div
+                          className={`${CARD} p-3 small:p-4`}
+                          data-testid="product-gallery-card"
+                        >
+                          <ImageGallery images={images} title={product.title} />
+                        </div>
+                        {summaryCard}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="min-w-0 small:col-start-2 small:row-span-2 small:row-start-1">
+                    <aside
+                      className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
+                      data-testid="product-buy-card"
+                    >
+                      <HydrationSlot>{buyBox}</HydrationSlot>
+                    </aside>
+                  </div>
+
+                  <div
+                    className="flex min-w-0 flex-col gap-4 small:col-start-1 small:row-start-2 small:gap-6"
+                    data-testid="course-sections"
+                  >
+                    <HydrationSlot>
+                      {page && <CourseAbout sections={page.about} />}
+                      <CourseBlock
+                        data={course}
+                        productHandle={product.handle ?? ""}
+                      />
+                      {page && <CourseFaq items={page.faq} />}
+                      {page && <CourseTestimonials items={page.testimonials} />}
+                    </HydrationSlot>
+                  </div>
+                </div>
+                {hasDetails && (
+                  <ProductDetailsDrawer
+                    rows={attributeRows}
+                    description={description}
+                  />
+                )}
+              </ProductSelectionProvider>
+            </div>
+
+            <ProductReviews
+              productId={product.id}
+              productHandle={product.handle ?? ""}
+              page={reviewsPage}
+              data={reviews}
+            />
+
+            <div
+              className="content-container flex flex-col gap-y-12 py-12 small:gap-y-16 small:py-16"
+              data-testid="related-products-container"
+            >
+              <Suspense fallback={<SkeletonRelatedProducts />}>
+                <RelatedProducts product={product} countryCode={countryCode} />
+              </Suspense>
+              <RecentlyViewed
+                currentHandle={product.handle ?? ""}
+                countryCode={countryCode}
+              />
+            </div>
+          </HydrationSlot>
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+
+      <div data-testid="product-page">
+        {/* ProductReviews is async, and the related products come past Flight's
+            3200-byte row limit (the product handed to ProductSelectionProvider fills
+            the row first), so this <div>'s children arrive as lazy rows: see
+            HydrationSlot (46df U-06). The course layout above is wrapped the same way. */}
+        <HydrationSlot>
           <div
             className="content-container flex flex-col gap-y-6 pb-6 pt-8 small:gap-y-8 small:pb-8 small:pt-10"
             data-testid="product-container"
           >
             <ProductSelectionProvider product={product}>
-              {/* Two columns from 1024: the content (row 1: cover and centre card, row 2:
-                  the sections) and the buy box, which spans both rows so that its
-                  sticky box has the whole height of the content to travel along. */}
-              <div className="grid grid-cols-1 gap-4 small:grid-cols-[minmax(0,1fr)_24rem] small:gap-6">
-                <div className="flex min-w-0 flex-col gap-4 small:col-start-1 small:row-start-1 small:gap-6">
-                  {cover ? (
-                    <>
-                      <div
-                        className={`${CARD} p-3 small:p-4`}
-                        data-testid="product-gallery-card"
-                      >
-                        <CourseCover cover={cover} />
-                      </div>
-                      {summaryCard}
-                    </>
-                  ) : (
-                    <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] small:gap-6">
-                      <div
-                        className={`${CARD} p-3 small:p-4`}
-                        data-testid="product-gallery-card"
-                      >
-                        <ImageGallery images={images} title={product.title} />
-                      </div>
-                      {summaryCard}
-                    </div>
-                  )}
-                </div>
-
-                <div className="min-w-0 small:col-start-2 small:row-span-2 small:row-start-1">
-                  <aside
-                    className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
-                    data-testid="product-buy-card"
-                  >
-                    {buyBox}
-                  </aside>
+              {/* Three cards from 1024: the gallery, the summary (the widest), the buy box
+                  that stays in view beside them. On a phone they stack in that order. */}
+              <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1fr)] small:gap-6">
+                <div
+                  className={`${CARD} p-3 small:p-4`}
+                  data-testid="product-gallery-card"
+                >
+                  <ImageGallery images={images} title={product.title} />
                 </div>
 
                 <div
-                  className="flex min-w-0 flex-col gap-4 small:col-start-1 small:row-start-2 small:gap-6"
-                  data-testid="course-sections"
+                  className={`${CARD} relative flex min-w-0 flex-col gap-y-5 px-4 pb-5 pt-7 small:px-6 small:pb-6 small:pt-9`}
+                  data-testid="product-summary-card"
                 >
-                  {page && <CourseAbout sections={page.about} />}
-                  <CourseBlock
-                    data={course}
-                    productHandle={product.handle ?? ""}
-                  />
-                  {page && <CourseFaq items={page.faq} />}
-                  {page && <CourseTestimonials items={page.testimonials} />}
+                  {/* ProductInfo, AttributesSummary and DescriptionExcerpt are async:
+                      see HydrationSlot (46df U-06). */}
+                  <HydrationSlot>
+                    {/* The trail hangs on the card's top edge, centred, without the product's
+                        own title: that is the heading right under it. */}
+                    <div className="absolute inset-x-4 top-0 flex -translate-y-1/2 justify-center">
+                      <Breadcrumb
+                        items={breadcrumbItems.slice(0, -1)}
+                        variant="pill"
+                      />
+                    </div>
+                    <ProductInfo product={product} reviews={reviews.summary} />
+                    <VariantPicker />
+                    <AttributesSummary rows={attributeRows} />
+                    <DescriptionExcerpt product={product} />
+                    {hasDetails && <ProductDetailsOpener />}
+                  </HydrationSlot>
                 </div>
+
+                <aside
+                  className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
+                  data-testid="product-buy-card"
+                >
+                  {/* ProductOnboardingCta is async: see HydrationSlot (46df U-06). */}
+                  <HydrationSlot>
+                    <ProductOnboardingCta />
+                    <Suspense
+                      fallback={
+                        <ProductActions
+                          disabled={true}
+                          product={product}
+                          region={region}
+                        />
+                      }
+                    >
+                      <ProductActionsWrapper id={product.id} region={region} />
+                    </Suspense>
+                  </HydrationSlot>
+                </aside>
               </div>
               {hasDetails && (
                 <ProductDetailsDrawer
@@ -245,6 +357,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             data={reviews}
           />
 
+          {/* The rows under everything, after Ivan's Figma mockup: what is bought with this
+              product (server-rendered, the related query), then what this browser looked at
+              before it (client-rendered from localStorage, absent until it has two tiles). */}
           <div
             className="content-container flex flex-col gap-y-12 py-12 small:gap-y-16 small:py-16"
             data-testid="related-products-container"
@@ -257,99 +372,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
               countryCode={countryCode}
             />
           </div>
-        </div>
-      </>
-    )
-  }
-
-  return (
-    <>
-      <JsonLd data={jsonLd} />
-
-      <div data-testid="product-page">
-        <div
-          className="content-container flex flex-col gap-y-6 pb-6 pt-8 small:gap-y-8 small:pb-8 small:pt-10"
-          data-testid="product-container"
-        >
-          <ProductSelectionProvider product={product}>
-            {/* Three cards from 1024: the gallery, the summary (the widest), the buy box
-                that stays in view beside them. On a phone they stack in that order. */}
-            <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1fr)] small:gap-6">
-              <div
-                className={`${CARD} p-3 small:p-4`}
-                data-testid="product-gallery-card"
-              >
-                <ImageGallery images={images} title={product.title} />
-              </div>
-
-              <div
-                className={`${CARD} relative flex min-w-0 flex-col gap-y-5 px-4 pb-5 pt-7 small:px-6 small:pb-6 small:pt-9`}
-                data-testid="product-summary-card"
-              >
-                {/* The trail hangs on the card's top edge, centred, without the product's
-                    own title: that is the heading right under it. */}
-                <div className="absolute inset-x-4 top-0 flex -translate-y-1/2 justify-center">
-                  <Breadcrumb
-                    items={breadcrumbItems.slice(0, -1)}
-                    variant="pill"
-                  />
-                </div>
-                <ProductInfo product={product} reviews={reviews.summary} />
-                <VariantPicker />
-                <AttributesSummary rows={attributeRows} />
-                <DescriptionExcerpt product={product} />
-                {hasDetails && <ProductDetailsOpener />}
-              </div>
-
-              <aside
-                className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
-                data-testid="product-buy-card"
-              >
-                <ProductOnboardingCta />
-                <Suspense
-                  fallback={
-                    <ProductActions
-                      disabled={true}
-                      product={product}
-                      region={region}
-                    />
-                  }
-                >
-                  <ProductActionsWrapper id={product.id} region={region} />
-                </Suspense>
-              </aside>
-            </div>
-            {hasDetails && (
-              <ProductDetailsDrawer
-                rows={attributeRows}
-                description={description}
-              />
-            )}
-          </ProductSelectionProvider>
-        </div>
-
-        <ProductReviews
-          productId={product.id}
-          productHandle={product.handle ?? ""}
-          page={reviewsPage}
-          data={reviews}
-        />
-
-        {/* The rows under everything, after Ivan's Figma mockup: what is bought with this
-            product (server-rendered, the related query), then what this browser looked at
-            before it (client-rendered from localStorage, absent until it has two tiles). */}
-        <div
-          className="content-container flex flex-col gap-y-12 py-12 small:gap-y-16 small:py-16"
-          data-testid="related-products-container"
-        >
-          <Suspense fallback={<SkeletonRelatedProducts />}>
-            <RelatedProducts product={product} countryCode={countryCode} />
-          </Suspense>
-          <RecentlyViewed
-            currentHandle={product.handle ?? ""}
-            countryCode={countryCode}
-          />
-        </div>
+        </HydrationSlot>
       </div>
     </>
   )

@@ -1,5 +1,6 @@
 import { clx } from "@medusajs/ui"
 import { getSiteBranding } from "@lib/data/tenant-branding"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 
 /**
  * The owner's own footer credit line (t16-owner-branding, step 6): a field,
@@ -7,7 +8,16 @@ import { getSiteBranding } from "@lib/data/tenant-branding"
  * next to it, which is upready's own «создание интернет-магазина» line and
  * always present. This one renders nothing unless a tenant turned it on.
  */
-export default async function FooterCredit({ className }: { className?: string }) {
+export default function FooterCredit(props: { className?: string }) {
+  // Async, next to `SiteAttribution` in the same `<div>`: see the slot there.
+  return (
+    <HydrationSlot>
+      <FooterCreditContent {...props} />
+    </HydrationSlot>
+  )
+}
+
+async function FooterCreditContent({ className }: { className?: string }) {
   const { footer_credit: credit } = await getSiteBranding()
 
   if (!credit?.enabled || !credit.text) {

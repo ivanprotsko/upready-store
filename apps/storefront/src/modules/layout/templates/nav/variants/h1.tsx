@@ -8,6 +8,7 @@ import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
@@ -57,33 +58,38 @@ export default async function NavH1() {
           </BrandUnlock>
 
           <div className="ms-auto flex h-full flex-1 items-center justify-end gap-x-4 lg:ms-0">
-            {/* First in the cluster, before Search — panel-composition-mockup.md §S11.
-                `lg:` only: a mobile visitor gets the same control from the bottom-nav's
-                6th slot instead. */}
-            <ModeToggle
-              className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-              data-testid="nav-mode-toggle"
-            />
-            <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
-            <div className="flex min-w-0">
-              <RegionSelect
-                regions={regions}
-                currentCountryCode={countryCode ?? undefined}
-                locales={locales}
-                className="min-w-0"
+            {/* RegionSelect carries every region with its countries, far past Flight's
+                3200-byte row limit, so what follows it arrives as lazy rows: one slot
+                around the whole cluster, see HydrationSlot (46df U-06). */}
+            <HydrationSlot>
+              {/* First in the cluster, before Search — panel-composition-mockup.md §S11.
+                  `lg:` only: a mobile visitor gets the same control from the bottom-nav's
+                  6th slot instead. */}
+              <ModeToggle
+                className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                data-testid="nav-mode-toggle"
               />
-            </div>
-            <Link
-              className="hidden lg:block hover:text-ui-fg-base"
-              href="/account"
-              aria-label={t("Nav.account")}
-              data-testid="nav-account-link"
-            >
-              <User />
-            </Link>
-            <div className="hidden h-full items-center lg:flex">
-              <CartButton />
-            </div>
+              <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
+              <div className="flex min-w-0">
+                <RegionSelect
+                  regions={regions}
+                  currentCountryCode={countryCode ?? undefined}
+                  locales={locales}
+                  className="min-w-0"
+                />
+              </div>
+              <Link
+                className="hidden lg:block hover:text-ui-fg-base"
+                href="/account"
+                aria-label={t("Nav.account")}
+                data-testid="nav-account-link"
+              >
+                <User />
+              </Link>
+              <div className="hidden h-full items-center lg:flex">
+                <CartButton />
+              </div>
+            </HydrationSlot>
           </div>
         </nav>
       </header>

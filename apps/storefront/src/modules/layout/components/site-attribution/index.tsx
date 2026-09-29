@@ -1,5 +1,6 @@
 import { clx } from "@medusajs/ui"
 import { getSiteAttribution } from "@lib/data/attribution"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 
 /**
  * «создание интернет-магазина — upready» in the footer, the anchor being a link
@@ -15,7 +16,18 @@ import { getSiteAttribution } from "@lib/data/attribution"
  * shop and the brand is a name, so both come from data rather than
  * `messages/*.json` (the same rule `SITE_NAME` already follows).
  */
-export default async function SiteAttribution({
+export default function SiteAttribution(props: { className?: string }) {
+  // Async, so a lazy row in the RSC payload, and every footer puts it straight
+  // into a `<div>`: the slot keeps that lazy off the `<div>`'s own children
+  // (46df U-06, HydrationSlot).
+  return (
+    <HydrationSlot>
+      <SiteAttributionContent {...props} />
+    </HydrationSlot>
+  )
+}
+
+async function SiteAttributionContent({
   className,
 }: {
   className?: string

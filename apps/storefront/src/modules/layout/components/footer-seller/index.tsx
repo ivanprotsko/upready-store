@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server"
 
 import type { TenantSeller } from "@lib/data/tenant-seller"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 
 const HEADING = "txt-medium-plus font-medium text-ui-fg-base"
 const LINE = "txt-compact-medium text-ui-fg-subtle"
@@ -11,7 +12,26 @@ const LINK = `${LINE} transition-colors hover:text-ui-fg-base`
  * the shop's own requisites (`getTenantSeller`). Each renders nothing when the owner has
  * filled none of its fields, so a footer never shows a heading over an empty column.
  */
-export async function FooterContacts({ seller }: { seller: TenantSeller | null }) {
+export function FooterContacts(props: { seller: TenantSeller | null }) {
+  // Both halves are async, so lazy rows in the RSC payload, and every footer
+  // puts them straight into a `<div>`: the slot keeps that lazy off the
+  // `<div>`'s own children (46df U-06, HydrationSlot).
+  return (
+    <HydrationSlot>
+      <FooterContactsContent {...props} />
+    </HydrationSlot>
+  )
+}
+
+export function FooterRequisites(props: { seller: TenantSeller | null }) {
+  return (
+    <HydrationSlot>
+      <FooterRequisitesContent {...props} />
+    </HydrationSlot>
+  )
+}
+
+async function FooterContactsContent({ seller }: { seller: TenantSeller | null }) {
   if (!seller?.phone && !seller?.email) {
     return null
   }
@@ -34,7 +54,7 @@ export async function FooterContacts({ seller }: { seller: TenantSeller | null }
   )
 }
 
-export async function FooterRequisites({ seller }: { seller: TenantSeller | null }) {
+async function FooterRequisitesContent({ seller }: { seller: TenantSeller | null }) {
   if (!seller?.legal_name && !seller?.inn && !seller?.ogrn && !seller?.legal_address) {
     return null
   }
