@@ -174,6 +174,7 @@
     "shippingHeading": "طريقة الشحن",
     "shippingLink": "الشحن",
     "shippingUnavailable": "لا توجد طرق شحن متاحة",
+    "shippingPriceUnavailable": "غير متاح: تعذّر حساب التكلفة",
     "signIn": "تسجيل الدخول",
     "total": "الإجمالي",
     "shippingZone": "المنطقة: {zone}"

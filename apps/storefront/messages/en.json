@@ -174,6 +174,7 @@
     "shippingHeading": "Shipping method",
     "shippingLink": "Shipping",
     "shippingUnavailable": "Delivery to this address is not set up yet. Check the country and region, or write to us and we will find a way.",
+    "shippingPriceUnavailable": "Unavailable: the price could not be calculated",
     "signIn": "Sign in",
     "total": "Total",
     "shippingZone": "Zone: {zone}"

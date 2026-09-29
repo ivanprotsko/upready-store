@@ -174,6 +174,7 @@
     "shippingHeading": "Kaedah penghantaran",
     "shippingLink": "Penghantaran",
     "shippingUnavailable": "Tiada kaedah penghantaran tersedia",
+    "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dikira",
     "signIn": "Log masuk",
     "total": "Jumlah",
     "shippingZone": "Zon: {zone}"

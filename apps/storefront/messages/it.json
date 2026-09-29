@@ -174,6 +174,7 @@
     "shippingHeading": "Metodo di spedizione",
     "shippingLink": "Spedizione",
     "shippingUnavailable": "Nessun metodo di spedizione disponibile",
+    "shippingPriceUnavailable": "Non disponibile: impossibile calcolare il prezzo",
     "signIn": "Accedi",
     "total": "Totale",
     "shippingZone": "Zona: {zone}"
