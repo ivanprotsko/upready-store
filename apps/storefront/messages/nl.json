@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Winkelwagen ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "skipToContent": "Ga naar inhoud"
   },
   "NotFound": {
     "cartDescription": "De winkelwagen die u probeerde te bezoeken bestaat niet. Wis uw cookies en probeer het opnieuw.",

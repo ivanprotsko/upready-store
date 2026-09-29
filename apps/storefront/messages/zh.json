@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "购物车（{count}）",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "skipToContent": "跳转到内容"
   },
   "NotFound": {
     "cartDescription": "您访问的购物车不存在。请清除浏览器 Cookie 后重试。",

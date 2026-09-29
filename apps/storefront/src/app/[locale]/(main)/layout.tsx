@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
+import { getTranslations } from "next-intl/server"
 
 import {
   getPromoBannerDismissed,
@@ -39,10 +40,11 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   // The promo-banner cookie is a cookie lookup, not a fetch. The settings read
   // shares its cache tag with `Nav`'s own read below (`storefront-settings`,
   // Next's fetch request memoization) so this costs no second round trip.
-  const [promoBannerDismissed, settings, tenantHandle] = await Promise.all([
+  const [promoBannerDismissed, settings, tenantHandle, t] = await Promise.all([
     getPromoBannerDismissed(),
     getEffectiveSettings(),
     getTenantHandle(),
+    getTranslations("Nav"),
   ])
   // Two reasons the site-wide strip does not render.
   //
@@ -64,6 +66,17 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
 
   return (
     <>
+      {/* A-20 (46df audit, B-07, WCAG 2.2 SC 2.4.1): the first focusable element
+          on every `(main)` page, ahead of even `PromoBanner`'s own close
+          button — a keyboard or screen-reader visitor's very first Tab lands
+          here, not several header controls in. `sr-only` until focused, the
+          same convention the rest of this app uses for visually-hidden text. */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-md focus:border focus:border-ui-border-base focus:bg-ui-bg-base focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-ui-fg-base"
+      >
+        {t("skipToContent")}
+      </a>
       <PromoBanner
         dismissed={promoBannerDismissed}
         suppressed={suppressPromoBanner}

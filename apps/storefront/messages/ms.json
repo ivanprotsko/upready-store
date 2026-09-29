@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Troli ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "skipToContent": "Langkau ke kandungan"
   },
   "NotFound": {
     "cartDescription": "Troli yang cuba anda akses tidak wujud. Kosongkan kuki anda dan cuba lagi.",

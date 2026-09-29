@@ -684,7 +684,8 @@
     "allWithCount": "All {count}",
     "cart": "Giỏ hàng ({count})",
     "modeToggleDark": "Switch to dark mode",
-    "modeToggleLight": "Switch to light mode"
+    "modeToggleLight": "Switch to light mode",
+    "skipToContent": "Bỏ qua đến nội dung"
   },
   "NotFound": {
     "cartDescription": "Giỏ hàng bạn đang truy cập không tồn tại. Vui lòng xóa cookie và thử lại.",
