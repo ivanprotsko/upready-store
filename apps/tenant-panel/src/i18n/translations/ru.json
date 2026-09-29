@@ -321,7 +321,8 @@
           "paymentsAccount": "Счёт Robokassa",
           "searchVerification": "Поисковики",
           "searchCounters": "Счётчики",
-          "searchRedirects": "Старые адреса"
+          "searchRedirects": "Старые адреса",
+          "deliveryPochta": "Почта России"
         },
         "sites": "Сайты"
       }

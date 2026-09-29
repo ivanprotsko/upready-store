@@ -315,7 +315,8 @@
           "paymentsAccount": "Robokassa account",
           "searchVerification": "Search engines",
           "searchCounters": "Counters",
-          "searchRedirects": "Old addresses"
+          "searchRedirects": "Old addresses",
+          "deliveryPochta": "Russian Post"
         },
         "sites": "Sites"
       }
