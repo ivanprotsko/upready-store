@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
+import type { Logger } from "@medusajs/framework/types";
 
 import { getTenantScope } from "../tenant-scope";
 import { backendPublicOrigin } from "../payment-settings/helpers";
@@ -11,6 +12,11 @@ import {
   type MaskedCdekSettings,
   type ResolvedCdekSecret,
 } from "../../../tenant-secrets/cdek";
+import {
+  tryReadTenantSecret,
+  type TriedTenantSecret,
+  type UnreadableTenantSecret,
+} from "../../../tenant-secrets/unreadable";
 import { CDEK_PROVIDER_ID } from "../../../modules/cdek-fulfillment";
 import type { CdekDeliveryKind, CdekMethodData } from "../../../cdek/method";
 
@@ -22,8 +28,14 @@ export type CdekMethodSummary = {
 };
 
 export type DeliverySettingsResponse = {
-  /** `null` while the shop has no CDEK row yet. */
+  /** `null` while the shop has no CDEK row yet, or while its row does not decrypt. */
   settings: MaskedCdekSettings | null;
+  /**
+   * The shop's CDEK row exists but does not decrypt with this deployment's key
+   * (46df D1). The panel asks for the account again; `PUT` overwrites the row
+   * and `DELETE` removes it without reading it.
+   */
+  unreadable: UnreadableTenantSecret | null;
   /** The URL CDEK posts statuses to; shown so the owner can see it was registered. */
   webhook_url: string | null;
   /** The CDEK options that exist right now, with their store rule. */
@@ -96,15 +108,30 @@ export const pricingFromMethods = (
   };
 };
 
+/**
+ * The caller's CDEK row, disabled included. A row that does not decrypt comes
+ * back as `unreadable` instead of throwing (46df D1).
+ */
+export const readOwnCdekSecret = (
+  req: AuthenticatedMedusaRequest,
+  tenantId: string,
+): Promise<TriedTenantSecret<ResolvedCdekSecret>> => {
+  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
+  return tryReadTenantSecret(
+    pg,
+    tenantId,
+    "cdek",
+    () => readCdekSecret(pg, tenantId, { includeDisabled: true }),
+    req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER),
+  );
+};
+
 export const readOwnDeliverySettings = async (
   req: AuthenticatedMedusaRequest,
   serviceZoneIds: string[],
 ): Promise<DeliverySettingsResponse> => {
   const tenant = await getTenantScope(req);
-  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  const secret: ResolvedCdekSecret | null = await readCdekSecret(pg, tenant.id, {
-    includeDisabled: true,
-  });
+  const { secret, unreadable } = await readOwnCdekSecret(req, tenant.id);
 
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
   const { data: rows } = serviceZoneIds.length
@@ -120,6 +147,7 @@ export const readOwnDeliverySettings = async (
 
   return {
     settings: secret ? maskCdekSettings(secret) : null,
+    unreadable,
     webhook_url:
       secret?.credentials.webhook_token
         ? cdekWebhookUrl(req, tenant.id, secret.credentials.webhook_token)

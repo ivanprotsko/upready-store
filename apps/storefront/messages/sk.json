@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "Platba nebola dokončená: bola zrušená alebo zamietnutá. Obsah košíka sa nezmenil.",
     "paymentPendingReason": "Platba sa ešte potvrdzuje. Počkajte minútu a otvorte objednávku v účte alebo to skúste znova.",
     "retryCheckout": "Return to checkout"
   },

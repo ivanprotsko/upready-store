@@ -3,15 +3,15 @@ import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/util
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
-import { deleteTenantSecretSlot, writeTenantSecretSlot } from "../../../tenant-secrets/slot";
+import { writeTenantSecretSlot } from "../../../tenant-secrets/slot";
+import { forgetTenantSecretSlot } from "../../../tenant-secrets/unreadable";
 import {
-  readRobokassaSecret,
   ROBOKASSA_SECRET_FIELDS,
   type RobokassaCredentials,
 } from "../../../tenant-secrets/robokassa";
 import { getTenantScope } from "../tenant-scope";
 import type { PutTenantPaymentSettingsBody } from "../validators";
-import { readOwnPaymentSettings } from "./helpers";
+import { readOwnPaymentSettings, readOwnRobokassaSecret } from "./helpers";
 
 /**
  * `GET /tenants/payment-settings` — the shop's payment account, masked
@@ -39,7 +39,10 @@ export const PUT = async (
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const tenantModule = req.scope.resolve<TenantModuleService>(TENANT_MODULE);
 
-  const existing = await readRobokassaSecret(pg, tenant.id, { includeDisabled: true });
+  // A row that does not decrypt keeps its mode and switch, never its
+  // passwords: the owner types the pair again, and the check below says which
+  // ones are missing (46df D1).
+  const { secret: existing, unreadable } = await readOwnRobokassaSecret(req, tenant.id, pg);
   const previous: Partial<RobokassaCredentials> = existing?.credentials ?? {};
 
   const credentials: RobokassaCredentials = {
@@ -50,8 +53,8 @@ export const PUT = async (
     test_password1: body.test_password1 ?? previous.test_password1 ?? "",
     test_password2: body.test_password2 ?? previous.test_password2 ?? "",
   };
-  const isTest = body.is_test ?? existing?.is_test ?? true;
-  const isEnabled = body.is_enabled ?? existing?.is_enabled ?? true;
+  const isTest = body.is_test ?? existing?.is_test ?? unreadable?.is_test ?? true;
+  const isEnabled = body.is_enabled ?? existing?.is_enabled ?? unreadable?.is_enabled ?? true;
 
   const pair: Array<(typeof ROBOKASSA_SECRET_FIELDS)[number]> = isTest
     ? ["test_password1", "test_password2"]
@@ -79,11 +82,15 @@ export const PUT = async (
   res.json(await readOwnPaymentSettings(req));
 };
 
-/** `DELETE /tenants/payment-settings` — forget the account; the checkout stops offering Robokassa. */
+/**
+ * `DELETE /tenants/payment-settings` — forget the account; the checkout stops
+ * offering Robokassa. By row id, without decrypting it, so an unreadable row
+ * can be removed too (46df D1).
+ */
 export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const tenantModule = req.scope.resolve<TenantModuleService>(TENANT_MODULE);
-  const removed = await deleteTenantSecretSlot(pg, tenantModule, tenant.id, "robokassa");
+  const removed = await forgetTenantSecretSlot(pg, tenantModule, tenant.id, "robokassa");
   res.json({ id: removed.id, object: "payment_settings", deleted: removed.deleted });
 };

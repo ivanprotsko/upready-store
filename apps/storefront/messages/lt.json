@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "Mokėjimas neužbaigtas: jis buvo atšauktas arba atmestas. Krepšelio turinys nepasikeitė.",
     "paymentPendingReason": "Mokėjimas dar tvirtinamas. Palaukite minutę ir atidarykite užsakymą paskyroje arba bandykite dar kartą.",
     "retryCheckout": "Return to checkout"
   },

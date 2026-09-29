@@ -6,6 +6,7 @@ import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
 import { POCHTA_PROVIDER_ID } from "../../../modules/pochta-fulfillment";
 import { forgetPochtaDirectory, listDeliveryPoints } from "../../../pochta/client";
+import { duplicatesOfPochtaMethod } from "../../../pochta/method-name";
 import { deleteTenantSecretSlot, writeTenantSecretSlot } from "../../../tenant-secrets/slot";
 import {
   emptyPochtaCredentials,
@@ -32,6 +33,10 @@ import type { PutTenantPochtaBody } from "../validators";
  * the way the CDEK form proves its account: a saved-but-wrong token would show
  * the owner a green form and the buyer no delivery. Then the row is written
  * and the «Почта России — до отделения» option provisioned.
+ *
+ * The read-back also names the shop's shown options a buyer would take for
+ * that one (`duplicates`, t-2026-09-30-01): typically the manual tariff the
+ * owner charged Russian Post with before. The panel offers to switch each off.
  */
 
 const view = async (req: AuthenticatedMedusaRequest) => {
@@ -40,6 +45,7 @@ const view = async (req: AuthenticatedMedusaRequest) => {
   const secret = await readPochtaSecret(pg, tenant.id, { includeDisabled: true });
 
   let method: { id: string; name: string; enabled: boolean } | null = null;
+  let duplicates: Array<{ id: string; name: string }> = [];
   try {
     const warehouse = await getTenantWarehouse(req);
     if (warehouse.service_zone_ids.length) {
@@ -49,19 +55,26 @@ const view = async (req: AuthenticatedMedusaRequest) => {
         fields: ["id", "name", "provider_id", "rules.attribute", "rules.value"],
         filters: { service_zone_id: warehouse.service_zone_ids },
       });
-      const row = (rows as unknown as Array<{
+      const options = rows as unknown as Array<{
         id: string;
         name: string;
         provider_id: string;
         rules?: Array<{ attribute: string; value: string }>;
-      }>).find((option) => option.provider_id === POCHTA_PROVIDER_ID);
+      }>;
+      const storeRule = (option: (typeof options)[number]) =>
+        (option.rules ?? []).find((rule) => rule.attribute === "enabled_in_store")?.value;
+      const row = options.find((option) => option.provider_id === POCHTA_PROVIDER_ID);
       if (row) {
-        method = {
-          id: row.id,
-          name: row.name,
-          enabled: (row.rules ?? []).find((rule) => rule.attribute === "enabled_in_store")?.value === "true",
-        };
+        method = { id: row.id, name: row.name, enabled: storeRule(row) === "true" };
       }
+      // An option without the store rule is shown in the checkout, the way
+      // `/tenants/shipping-methods` reads it.
+      duplicates = duplicatesOfPochtaMethod(
+        row?.name ?? null,
+        options
+          .filter((option) => option.provider_id !== POCHTA_PROVIDER_ID)
+          .map((option) => ({ id: option.id, name: option.name, enabled: storeRule(option) !== "false" })),
+      ).map(({ id, name }) => ({ id, name }));
     }
   } catch {
     // A shop whose warehouse was never provisioned has no method to show; the
@@ -73,6 +86,7 @@ const view = async (req: AuthenticatedMedusaRequest) => {
     label: "Почта России",
     settings: secret ? maskPochtaSettings(secret) : null,
     method,
+    duplicates,
   };
 };
 

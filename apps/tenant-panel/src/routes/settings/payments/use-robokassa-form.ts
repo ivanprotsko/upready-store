@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import {
   type PaymentSettings as PaymentSettingsRecord,
   type RobokassaHashAlgorithm,
+  type UnreadableSecret,
   useDeletePaymentSettings,
   usePaymentSettings,
   useUpdatePaymentSettings,
@@ -67,7 +68,15 @@ export const EMPTY_DRAFT: RobokassaDraft = {
 
 export const HASH_ALGORITHMS: RobokassaHashAlgorithm[] = ["sha256", "md5", "sha384", "sha512"]
 
-const draftFrom = (record: PaymentSettingsRecord | null): RobokassaDraft =>
+/**
+ * An unreadable row (46df D1) keeps its mode and switch, which live in plain
+ * columns; the login and the passwords are inside the payload nobody can read,
+ * so the owner types them again.
+ */
+const draftFrom = (
+  record: PaymentSettingsRecord | null,
+  unreadable: UnreadableSecret | null = null
+): RobokassaDraft =>
   record
     ? {
         ...EMPTY_DRAFT,
@@ -76,12 +85,15 @@ const draftFrom = (record: PaymentSettingsRecord | null): RobokassaDraft =>
         is_test: record.is_test,
         is_enabled: record.is_enabled,
       }
-    : EMPTY_DRAFT
+    : unreadable
+      ? { ...EMPTY_DRAFT, is_test: unreadable.is_test, is_enabled: unreadable.is_enabled }
+      : EMPTY_DRAFT
 
 export const useRobokassaForm = () => {
   const { t } = useTranslation()
   const {
     settings,
+    unreadable,
     result_url: resultUrl,
     methods,
     isPending,
@@ -100,9 +112,9 @@ export const useRobokassaForm = () => {
     }
     setLoaded(true)
     if (!touchedRef.current) {
-      setDraft(draftFrom(settings ?? null))
+      setDraft(draftFrom(settings ?? null, unreadable ?? null))
     }
-  }, [isPending, settings])
+  }, [isPending, settings, unreadable])
 
   const { mutateAsync: save, isPending: isSaving } = useUpdatePaymentSettings()
   const { mutateAsync: remove, isPending: isRemoving } = useDeletePaymentSettings()
@@ -141,7 +153,7 @@ export const useRobokassaForm = () => {
           // The saved record is the truth again: clear the typed passwords and
           // let the masked view show what is stored.
           touchedRef.current = false
-          setDraft(draftFrom(response.settings))
+          setDraft(draftFrom(response.settings, response.unreadable))
           toast.success(t("paymentSettings.saved"))
         },
         onError: (saveError) => toast.error(saveError.message),
@@ -162,6 +174,7 @@ export const useRobokassaForm = () => {
 
   return {
     settings: settings ?? null,
+    unreadable: unreadable ?? null,
     resultUrl,
     methods: methods ?? null,
     loaded,

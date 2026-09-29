@@ -8,6 +8,7 @@ import {
   type PaymentMethodKey,
 } from "../../../lib/payment-methods-summary"
 import { CrossLink } from "../integrations/components/cross-link"
+import { UnreadableSecretAlert } from "../integrations/components/unreadable-secret-alert"
 import { ManualPaymentCard } from "./components/manual-payment-card"
 import { RobokassaBehaviourFields } from "./components/robokassa-behaviour-fields"
 import { useRobokassaForm } from "./use-robokassa-form"
@@ -39,8 +40,18 @@ const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
 export const PaymentSettings = () => {
   const { t } = useTranslation()
   const form = useRobokassaForm()
-  const { settings, resultUrl, methods, loaded, busy, isSaving, isError, error, handleSubmit } =
-    form
+  const {
+    settings,
+    unreadable,
+    resultUrl,
+    methods,
+    loaded,
+    busy,
+    isSaving,
+    isError,
+    error,
+    handleSubmit,
+  } = form
 
   if (isError) {
     throw error
@@ -65,7 +76,11 @@ export const PaymentSettings = () => {
               {t("paymentSettings.subtitle")}
             </Text>
           </div>
-          {settings ? (
+          {unreadable ? (
+            <Badge size="2xsmall" color="red" data-testid="payments-state">
+              {t("integrations.state.unreadable")}
+            </Badge>
+          ) : settings ? (
             <Badge size="2xsmall" color={settings.is_enabled ? "green" : "grey"}>
               {settings.is_enabled
                 ? settings.is_test
@@ -117,7 +132,8 @@ export const PaymentSettings = () => {
           </div>
         ) : null}
 
-        <div className="px-6 py-4">
+        <div className="flex flex-col gap-y-3 px-6 py-4">
+          {unreadable ? <UnreadableSecretAlert testId="payments-unreadable" /> : null}
           <CrossLink
             to="/settings/integrations/robokassa"
             hint={t("integrations.crossLink.credentialsHint")}
@@ -127,7 +143,7 @@ export const PaymentSettings = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-6 px-6 py-6">
-          {noAccount ? (
+          {noAccount && !unreadable ? (
             <Text size="small" className="text-ui-fg-subtle" data-testid="payments-no-account">
               {t("integrations.robokassa.noAccount")}
             </Text>

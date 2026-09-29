@@ -9,6 +9,7 @@ import {
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
+import type { UnreadableSecret } from "./payment-settings"
 
 // The shop's CDEK account (i02-apiship-cdek-shipping): the panel's own hook, no
 // Admin counterpart. Reads `/tenants/delivery-settings`; the passwords arrive
@@ -47,8 +48,10 @@ export type CdekMethodSummary = {
 }
 
 export type DeliverySettingsResponse = {
-  /** `null` until the owner saves an account. */
+  /** `null` until the owner saves an account, and while the stored one is unreadable. */
   settings: DeliverySettings | null
+  /** Set when a CDEK row exists but does not decrypt (46df D1). */
+  unreadable: UnreadableSecret | null
   webhook_url: string | null
   methods: CdekMethodSummary[]
   pricing: {

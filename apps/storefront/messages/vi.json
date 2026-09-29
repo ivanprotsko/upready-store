@@ -742,7 +742,7 @@
     "contact": "Contact us",
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
-    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentFailedReason": "Thanh toán chưa hoàn tất: giao dịch đã bị hủy hoặc bị từ chối. Giỏ hàng của bạn không thay đổi.",
     "paymentPendingReason": "Thanh toán vẫn đang được xác nhận. Hãy đợi một phút rồi mở đơn hàng trong tài khoản, hoặc thử lại.",
     "retryCheckout": "Return to checkout"
   },
