@@ -535,8 +535,19 @@ export default function CheckoutShippingSection({
                           })
                           : null
 
+              // A Russian Post price depends on the point, so once the method
+              // is the cart's the card shows what the cart is charged, not the
+              // list quote to the buyer's own postcode (46df-pochta).
+              const pochtaMethodAmount =
+                isPochtaOption(option) && pochtaChosen
+                  ? (cart.shipping_methods ?? []).find(
+                      (sm) => sm.shipping_option_id === option.id
+                    )?.amount
+                  : undefined
               const priceAmount =
-                option.price_type === "flat"
+                typeof pochtaMethodAmount === "number"
+                  ? pochtaMethodAmount
+                  : option.price_type === "flat"
                   ? option.amount!
                   : calculatedPricesMap[option.id] !== undefined
                     ? calculatedPricesMap[option.id]

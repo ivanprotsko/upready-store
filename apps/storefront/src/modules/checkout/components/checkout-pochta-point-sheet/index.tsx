@@ -8,6 +8,7 @@ import { useLocale, useTranslations } from "next-intl"
 
 import { convertToLocale } from "@lib/util/money"
 import {
+  compactWorkTime,
   fetchPochtaCities,
   fetchPochtaPoints,
   fetchPochtaQuote,
@@ -205,10 +206,10 @@ export default function CheckoutPochtaPointSheet({
                 {point.name} · {t("postcode", { index: point.index })}
               </span>
             </span>
-            {point.work_time[0] && (
+            {point.work_time.length > 0 && (
               <span className="txt-compact-small text-ui-fg-subtle flex items-center gap-x-1.5">
                 <Clock className="shrink-0" />
-                <span>{point.work_time[0]}</span>
+                <span>{compactWorkTime(point.work_time)}</span>
               </span>
             )}
           </li>
@@ -281,7 +282,7 @@ export default function CheckoutPochtaPointSheet({
                 </span>
                 {preview.work_time.length > 0 && (
                   <span className="txt-compact-small text-ui-fg-subtle">
-                    {preview.work_time.join("; ")}
+                    {compactWorkTime(preview.work_time)}
                   </span>
                 )}
                 {preview.directions && (

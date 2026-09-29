@@ -107,6 +107,28 @@ export const pochtaPointOf = (
   return null
 }
 
+/**
+ * The carrier's week («пн, открыто: 09:00 - 21:00», one line a day) folded into
+ * runs of days with the same hours: «пн–пт 09:00 - 21:00; сб–вс 10:00 - 18:00».
+ * A line that does not follow the pattern is kept as it is.
+ */
+export const compactWorkTime = (lines: string[]): string => {
+  const parsed = lines.map((line) => {
+    const match = line.match(/^\s*([а-яё]{2}),\s*(.+?)\s*$/i)
+    return match ? { day: match[1], hours: match[2].replace(/^открыто:\s*/i, "") } : null
+  })
+  if (!parsed.length || parsed.some((entry) => !entry)) return lines.join("; ")
+  const runs: Array<{ from: string; to: string; hours: string }> = []
+  for (const entry of parsed as Array<{ day: string; hours: string }>) {
+    const last = runs[runs.length - 1]
+    if (last && last.hours === entry.hours) last.to = entry.day
+    else runs.push({ from: entry.day, to: entry.day, hours: entry.hours })
+  }
+  return runs
+    .map((run) => `${run.from === run.to ? run.from : `${run.from}–${run.to}`} ${run.hours}`)
+    .join("; ")
+}
+
 export const chosenPochtaPoint = (cart?: HttpTypes.StoreCart | null) => pochtaPointOf(cart)
 
 /** The city a point search starts from: the one the buyer's address names. */

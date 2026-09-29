@@ -50,6 +50,8 @@ export default function PochtaMap({ points, selectedIndex, onSelect, className }
   const layerRef = useRef<L.LayerGroup | null>(null)
   const markersRef = useRef<Record<string, L.CircleMarker>>({})
   const onSelectRef = useRef(onSelect)
+  /** Bounds still to be applied once the box has a size; see the resize observer. */
+  const pendingFitRef = useRef<L.LatLngBounds | null>(null)
 
   useEffect(() => {
     onSelectRef.current = onSelect
@@ -63,9 +65,19 @@ export default function PochtaMap({ points, selectedIndex, onSelect, className }
     layerRef.current = L.layerGroup().addTo(map)
     mapRef.current = map
 
-    // The sheet animates open, so the first measured size is often zero; a
-    // resize observer keeps the tiles filling the box on every layout change.
-    const observer = new ResizeObserver(() => map.invalidateSize())
+    // The sheet animates open and the map chunk loads late, so the first
+    // measured size is often zero, and bounds fitted into a zero box land on
+    // the lowest zoom (measured: Moscow opened on half of central Russia). The
+    // observer re-measures on every layout change and applies a fit that was
+    // asked for before the box had a size.
+    const observer = new ResizeObserver(() => {
+      map.invalidateSize()
+      const size = map.getSize()
+      if (pendingFitRef.current && size.x > 0 && size.y > 0) {
+        map.fitBounds(pendingFitRef.current, { padding: [24, 24], maxZoom: 15 })
+        pendingFitRef.current = null
+      }
+    })
     observer.observe(elementRef.current)
     return () => {
       observer.disconnect()
@@ -90,13 +102,15 @@ export default function PochtaMap({ points, selectedIndex, onSelect, className }
       marker.addTo(layer)
       markersRef.current[point.index] = marker
     }
-    if (located.length === 1) {
-      map.setView([located[0].lat, located[0].lng], 15)
-    } else if (located.length > 1) {
-      map.fitBounds(L.latLngBounds(located.map((point) => [point.lat, point.lng] as L.LatLngTuple)), {
-        padding: [24, 24],
-        maxZoom: 15,
-      })
+    if (!located.length) return
+    const bounds = L.latLngBounds(located.map((point) => [point.lat, point.lng] as L.LatLngTuple))
+    map.invalidateSize()
+    const size = map.getSize()
+    if (size.x > 0 && size.y > 0) {
+      map.fitBounds(bounds, { padding: [24, 24], maxZoom: 15 })
+      pendingFitRef.current = null
+    } else {
+      pendingFitRef.current = bounds
     }
   }, [points])
 
@@ -106,7 +120,8 @@ export default function PochtaMap({ points, selectedIndex, onSelect, className }
       marker.setStyle(index === selectedIndex ? SELECTED_STYLE : BASE_STYLE)
       if (index === selectedIndex) {
         marker.bringToFront()
-        if (map) map.panTo(marker.getLatLng())
+        // Close enough to see the street the point is on.
+        if (map) map.setView(marker.getLatLng(), Math.max(map.getZoom(), 14))
       }
     }
   }, [selectedIndex, points])
