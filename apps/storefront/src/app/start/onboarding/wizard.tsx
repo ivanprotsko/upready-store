@@ -338,7 +338,7 @@ export default function Wizard({ paidLine, tariff }: { paidLine: string | null; 
             <button
               type="button"
               className={`${styles.btn} ${styles.btnPrimary} ${styles.grow}`}
-              disabled={!email.includes("@") || password.length < 8}
+              disabled={!email.includes("@") || password.length < 12}
               onClick={() => setStep(3)}
               data-testid="demo-step2-next"
             >
