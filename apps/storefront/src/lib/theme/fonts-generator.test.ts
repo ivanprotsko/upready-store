@@ -13,6 +13,15 @@ import { FONT_NAMES } from "./fonts"
  * profiles and read what it emitted.
  */
 
+// A-24 (46df audit): each test below spawns `node scripts/build-themes.mjs` as a real
+// child process — vitest's 5000ms default is comfortable when the machine is idle
+// (measured ~1-2s each) but not under load: `pnpm test:unit` on `dev` 081f3330 timed
+// out at 10.5s with load average ~60, while a lone repeat was 6/6 green. 30s matches
+// the finding's own smaller-fix proposal (over rewriting the generator to be callable
+// in-process, a materially bigger change for a process-boundary test that exists
+// specifically to prove what the CLI itself emits).
+const GENERATOR_TIMEOUT = 30_000
+
 const SF = join(__dirname, "../../..")
 const SCRIPT = join(SF, "scripts/build-themes.mjs")
 
@@ -46,32 +55,32 @@ describe("the generated font module", () => {
       if (name === "Sora" || name === "Inter") continue
       expect(out, `${name} must not be instantiated`).not.toContain(name.replace(/ /g, "_"))
     }
-  })
+  }, GENERATOR_TIMEOUT)
 
   it("adds the explicit weight a family with no variable axis needs", () => {
     const out = generate(withFonts("Playfair Display", "IBM Plex Mono"))
     expect(out).toContain('import { Playfair_Display, IBM_Plex_Mono } from "next/font/google"')
     expect(out).toContain('variable: "--font-display" }') // variable family: no weight
     expect(out).toContain('weight: ["400", "500", "600", "700"] })')
-  })
+  }, GENERATOR_TIMEOUT)
 
   it("emits one import when both roles ask for the same family", () => {
     const out = generate(withFonts("Geist", "Geist"))
     expect(out).toContain('import { Geist } from "next/font/google"')
     expect(out.match(/^const \w+ = \w+\(/gm) ?? []).toHaveLength(2)
-  })
+  }, GENERATOR_TIMEOUT)
 
   it("instantiates nothing when the profile is absent", () => {
     const out = generate(null)
     expect(out).toContain('export const fontClassName = ""')
     expect(out).not.toContain("next/font/google")
-  })
+  }, GENERATOR_TIMEOUT)
 
   it("instantiates nothing when the profile names no typography", () => {
     const out = generate({ theme: { presetId: "medusa", defaultMode: "light" } })
     expect(out).toContain('export const fontClassName = ""')
     expect(out).not.toContain("next/font/google")
-  })
+  }, GENERATOR_TIMEOUT)
 
   it("fails the build on a family outside the allow-list, naming it", () => {
     let message = ""
@@ -84,5 +93,5 @@ describe("the generated font module", () => {
     }
     expect(message, "a rejected font must not fail silently").toContain("Comic Sans MS")
     expect(message).toContain("not one of the twelve allow-listed fonts")
-  })
+  }, GENERATOR_TIMEOUT)
 })
