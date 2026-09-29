@@ -158,7 +158,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       cache: "force-cache",
     })
 
+    // A page saved in a language the shop does not publish answers 301 to the
+    // shop's own language (`shopLocaleRedirect`, 46df A-12), so it is not an
+    // address to index.
     for (const page of pages) {
+      if (!sitemapLocales.some((locale) => locale === page.locale)) {
+        continue
+      }
       entries.push({
         url: url(base, page.locale, `/pages/${page.key}`),
         lastModified: page.updated_at ? new Date(page.updated_at) : now,

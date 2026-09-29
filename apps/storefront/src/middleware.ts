@@ -3,6 +3,7 @@ import {
   LOCALE_COOKIE,
   defaultLocale,
   isAppLocale,
+  locales,
   matchBrowserLocale,
 } from "@i18n/config"
 import { COUNTRY_HEADER, resolveCountry, type RegionMap } from "@lib/geolocation"
@@ -15,6 +16,7 @@ import { originForHost, publicHost } from "@lib/tenant/origin"
 import { resolveShopOfRequest } from "@lib/tenant/request-shop"
 import { getTenantRedirects, resolveRedirect } from "@lib/tenant/redirects"
 import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
+import { shopLocaleRedirect } from "@lib/util/shop-locales"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
 
@@ -567,6 +569,21 @@ export async function middleware(request: NextRequest) {
   }
 
   if (hasLocaleInUrl) {
+    // A language the shop does not publish answers with the same page in the
+    // shop's own language (46df A-12), permanently, the way a search engine
+    // should drop the duplicate. A Server Action posts to the page it came
+    // from and is left alone.
+    const shopPath = isServerAction
+      ? null
+      : shopLocaleRedirect(request.nextUrl.pathname, tenantLocale, locales)
+    if (shopPath) {
+      const res = NextResponse.redirect(
+        new URL(`${shopPath}${request.nextUrl.search}`, request.url),
+        301
+      )
+      return withCookies(res, shopPath.split("/")[1])
+    }
+
     // Every page under /account beyond the entry point belongs to a signed-in
     // customer, and the account layout only renders the sign-in form for
     // /account itself. Send a signed-out visitor there rather than letting the

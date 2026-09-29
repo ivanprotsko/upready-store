@@ -39,3 +39,39 @@ export function shopLocales<T extends string>(
   // locale every deployment can render carries it.
   return shipped.includes(fallbackLocale) ? [fallbackLocale] : [...shipped]
 }
+
+/**
+ * Where an address under a language the shop does not publish goes (46df
+ * A-12): the same path under the shop's own default language, or `null` when
+ * the language is one of the shop's, or the shop saved no list at all (the
+ * case `shopLocales` above keeps wide open, for the reason it gives).
+ *
+ * Without this, `/en/pages/offer` on a Russian-only shop answered 200 with the
+ * Russian page under `lang="en"`: a duplicate for search engines and a mixed
+ * page for the buyer. The sitemap and the switcher already leave such a
+ * language out; this closes the direct address.
+ */
+export function shopLocaleRedirect(
+  pathname: string,
+  shop: { defaultLocale: string; enabledLocales: string[] } | null | undefined,
+  shipped: readonly string[],
+): string | null {
+  if (!shop || shop.enabledLocales.length === 0) {
+    return null
+  }
+
+  const [, urlLocale, ...rest] = pathname.split("/")
+
+  if (!urlLocale || shop.enabledLocales.includes(urlLocale)) {
+    return null
+  }
+
+  const published = shop.enabledLocales.filter((locale) => shipped.includes(locale))
+  const target = published.includes(shop.defaultLocale) ? shop.defaultLocale : published[0]
+
+  if (!target) {
+    return null
+  }
+
+  return `/${[target, ...rest].join("/")}`
+}
