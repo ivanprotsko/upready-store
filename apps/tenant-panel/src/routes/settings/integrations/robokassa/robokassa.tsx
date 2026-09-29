@@ -33,6 +33,8 @@ export const RobokassaIntegration = () => {
     isError,
     error,
     handleSubmit,
+    handleSubmitInTestMode,
+    liveNeedsPasswords,
     handleRemove,
   } = form
 
@@ -73,7 +75,17 @@ export const RobokassaIntegration = () => {
           {unreadable ? <UnreadableSecretAlert testId="robokassa-unreadable" /> : null}
           <RobokassaCredentialsFields form={form} />
 
-          <div className="flex items-center gap-x-2">
+          {liveNeedsPasswords ? (
+            <Text
+              size="small"
+              className="text-ui-fg-subtle"
+              data-testid="robokassa-live-needs-passwords"
+            >
+              {t("paymentSettings.liveNeedsPasswordsHint")}
+            </Text>
+          ) : null}
+
+          <div className="flex flex-wrap items-center gap-2">
             <Button
               type="submit"
               size="small"
@@ -83,6 +95,18 @@ export const RobokassaIntegration = () => {
             >
               {t("paymentSettings.save")}
             </Button>
+            {liveNeedsPasswords ? (
+              <Button
+                type="button"
+                size="small"
+                variant="secondary"
+                disabled={busy}
+                onClick={handleSubmitInTestMode}
+                data-testid="robokassa-save-test-mode"
+              >
+                {t("paymentSettings.saveInTestMode")}
+              </Button>
+            ) : null}
             {settings || unreadable ? (
               <Button
                 type="button"

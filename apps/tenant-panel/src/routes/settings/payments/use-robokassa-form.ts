@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { toast } from "@medusajs/ui"
+import { toast, usePrompt } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import {
@@ -66,6 +66,26 @@ export const EMPTY_DRAFT: RobokassaDraft = {
   test_password2: "",
 }
 
+const TEST_PAIR: SecretField[] = ["test_password1", "test_password2"]
+const LIVE_PAIR: SecretField[] = ["password1", "password2"]
+
+/**
+ * The passwords a mode still lacks: neither typed into the draft nor stored
+ * on a readable record. The same rule `PUT /tenants/payment-settings` applies
+ * before it enables a mode, checked here first so the owner reads it in her
+ * language instead of the API's (46df U-01).
+ */
+export const missingPasswordsFor = (
+  isTest: boolean,
+  draft: RobokassaDraft,
+  record: PaymentSettingsRecord | null
+): SecretField[] =>
+  (isTest ? TEST_PAIR : LIVE_PAIR).filter(
+    (field) => !draft[field].trim() && !record?.[field]?.set
+  )
+
+const SERVER_MODE_ERROR = /^(Test|Live) mode needs (.+) before it can be enabled\.$/
+
 export const HASH_ALGORITHMS: RobokassaHashAlgorithm[] = ["sha256", "md5", "sha384", "sha512"]
 
 /**
@@ -126,10 +146,34 @@ export const useRobokassaForm = () => {
 
   const busy = loaded === null || isSaving || isRemoving
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
+  const prompt = usePrompt()
+
+  const modeError = (isTest: boolean, fields: SecretField[]) =>
+    t(isTest ? "paymentSettings.modeNeedsPasswords.test" : "paymentSettings.modeNeedsPasswords.live", {
+      fields: fields.map((field) => t(`paymentSettings.fields.${field}`)).join(", "),
+    })
+
+  // The API answers in English; the one refusal an owner meets in normal use
+  // is said in the panel's language, anything else is passed through as is.
+  const saveErrorText = (message: string) => {
+    const match = SERVER_MODE_ERROR.exec(message)
+    if (!match) {
+      return message
+    }
+    const fields = match[2]
+      .split(" and ")
+      .filter((field): field is SecretField => (SECRET_FIELDS as string[]).includes(field))
+    return modeError(match[1] === "Test", fields)
+  }
+
+  const submit = async (isTest: boolean) => {
     if (!draft.merchant_login.trim()) {
       toast.error(t("paymentSettings.merchantLoginRequired"))
+      return
+    }
+    const missing = missingPasswordsFor(isTest, draft, settings ?? null)
+    if (draft.is_enabled && missing.length) {
+      toast.error(modeError(isTest, missing))
       return
     }
     const secrets = Object.fromEntries(
@@ -144,7 +188,7 @@ export const useRobokassaForm = () => {
         provider: "robokassa",
         merchant_login: draft.merchant_login.trim(),
         hash_algorithm: draft.hash_algorithm,
-        is_test: draft.is_test,
+        is_test: isTest,
         is_enabled: draft.is_enabled,
         ...secrets,
       },
@@ -156,12 +200,44 @@ export const useRobokassaForm = () => {
           setDraft(draftFrom(response.settings, response.unreadable))
           toast.success(t("paymentSettings.saved"))
         },
-        onError: (saveError) => toast.error(saveError.message),
+        onError: (saveError) => toast.error(saveErrorText(saveError.message)),
       }
     )
   }
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    await submit(draft.is_test)
+  }
+
+  /**
+   * 46df U-01: a live shop whose live passwords are gone (an unreadable row,
+   * or never entered) could only be deleted. This is the way out that keeps
+   * the account: save the test pair and switch the shop to test mode, on the
+   * owner's own click, never silently.
+   */
+  const liveNeedsPasswords =
+    loaded === true &&
+    !draft.is_test &&
+    draft.is_enabled &&
+    missingPasswordsFor(false, draft, settings ?? null).length > 0
+
+  const handleSubmitInTestMode = async () => {
+    await submit(true)
+  }
+
+  // 46df U-05: removing the account is not undoable (the passwords are never
+  // shown again), so it asks first.
   const handleRemove = async () => {
+    const confirmed = await prompt({
+      title: t("paymentSettings.removeConfirm.title"),
+      description: t("paymentSettings.removeConfirm.description"),
+      confirmText: t("paymentSettings.removeConfirm.confirm"),
+      cancelText: t("paymentSettings.removeConfirm.cancel"),
+    })
+    if (!confirmed) {
+      return
+    }
     await remove(undefined, {
       onSuccess: () => {
         touchedRef.current = false
@@ -186,6 +262,8 @@ export const useRobokassaForm = () => {
     isError,
     error,
     handleSubmit,
+    handleSubmitInTestMode,
+    liveNeedsPasswords,
     handleRemove,
   }
 }
