@@ -165,8 +165,10 @@ const UnfulfilledItemDisplay = ({
         <Heading level="h2">{t("orders.fulfillment.unfulfilledItems")}</Heading>
 
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          {/* Grey: a property of the items, not a status and never an error;
+              red on a panel is kept for errors (46df final walk). */}
           {requiresShipping && (
-            <StatusBadge color="red" className="text-nowrap">
+            <StatusBadge color="grey" className="text-nowrap">
               {t("orders.fulfillment.requiresShipping")}
             </StatusBadge>
           )}
