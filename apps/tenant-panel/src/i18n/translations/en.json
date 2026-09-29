@@ -1835,6 +1835,7 @@
       "pendingAuthorization": "Payment is awaiting authorization from the payment provider.",
       "provider": {
         "manual": "Manual payment",
+        "robokassa": "Robokassa",
         "unknown": "Unknown provider"
       },
       "refund": "Refund",

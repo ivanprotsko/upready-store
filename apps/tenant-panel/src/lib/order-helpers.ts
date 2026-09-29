@@ -1,6 +1,6 @@
-import { TFunction } from "i18next"
+import type { TFunction } from "i18next"
 
-import { formatProvider } from "./format-provider"
+import { formatProvider } from "./format-provider.ts"
 
 export const getCanceledOrderStatus = (
   t: TFunction<"translation">,
@@ -47,7 +47,9 @@ export const getOrderFulfillmentStatus = (
   status: string
 ) => {
   const [label, color] = {
-    not_fulfilled: [t("orders.fulfillment.status.notFulfilled"), "red"],
+    // Blue «in progress», not red (U-16, 46df): an order waiting to be packed
+    // is ordinary work, and red is kept for what went wrong.
+    not_fulfilled: [t("orders.fulfillment.status.notFulfilled"), "blue"],
     partially_fulfilled: [
       t("orders.fulfillment.status.partiallyFulfilled"),
       "orange",
@@ -70,7 +72,7 @@ export const getOrderFulfillmentStatus = (
     returned: [t("orders.fulfillment.status.returned"), "green"],
     canceled: [t("orders.fulfillment.status.canceled"), "red"],
     requires_action: [t("orders.fulfillment.status.requiresAction"), "orange"],
-  }[status] as [string, "red" | "orange" | "green"]
+  }[status] as [string, "red" | "orange" | "green" | "blue"]
 
   return { label, color }
 }
@@ -92,6 +94,10 @@ export const getPaymentProviderLabel = (
 
   if (providerId === "pp_system_default") {
     return t("orders.payment.provider.manual")
+  }
+
+  if (providerId.startsWith("pp_robokassa_")) {
+    return t("orders.payment.provider.robokassa")
   }
 
   return formatProvider(providerId)

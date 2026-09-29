@@ -1867,6 +1867,7 @@
       "pendingAuthorization": "Платёж ожидает авторизации от платёжного провайдера.",
       "provider": {
         "manual": "Оплата вручную",
+        "robokassa": "Robokassa",
         "unknown": "Неизвестный провайдер"
       },
       "refund": "Возврат",
