@@ -36,8 +36,20 @@ const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
 /**
  * @type {import('next').NextConfig}
  */
+// 46df A-21: which origins may frame the storefront in an <iframe>. Telegram's Mini App bridge
+// (`src/modules/telegram/components/mini-app-bridge`, entry at `/mini`) redirects into the SAME
+// regular pages (`/store`, `/products/<handle>`, `/cart`, …) every other visitor uses — there is
+// no separate "embeddable" subtree to scope this to, so the allowance has to be site-wide.
+// Telegram Web (web.telegram.org) is documented to open a bot's Mini App inside an iframe; native
+// Telegram clients render it in their own WebView, which is unaffected by frame-ancestors either
+// way. `'self'` covers the storefront's own iframes (none known today, kept for safety).
+const FRAME_ANCESTORS = "'self' https://web.telegram.org https://*.telegram.org"
+
 const nextConfig = {
   output: "standalone",
+  // A-21: stop naming the framework on every response (`x-powered-by: Next.js`) — free
+  // reconnaissance for an attacker with nothing the storefront needs to advertise.
+  poweredByHeader: false,
   // The dev overlay's badge defaults to the bottom-left corner, which is exactly where the
   // hidden settings panel's button sits (src/modules/studio). Measured on the stand: the
   // <nextjs-portal> subtree intercepts the pointer events over that corner, so the button
@@ -89,6 +101,29 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        // A-21: no full Content-Security-Policy tonight (a real one needs an inventory of every
+        // script/style/connect origin the storefront actually uses, a separate, bigger pass) —
+        // only `frame-ancestors`, delivered as its own minimal CSP since that is the one
+        // mechanism that can allow specific cross-origin framers (`X-Frame-Options` cannot list
+        // more than one origin, and its `ALLOW-FROM` value was removed from browsers).
+        source: "/:path*",
+        headers: [
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains",
+          },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: `frame-ancestors ${FRAME_ANCESTORS};`,
           },
         ],
       },
