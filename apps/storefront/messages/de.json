@@ -1062,7 +1062,6 @@
     "heading": "Abholstelle der Russischen Post",
     "chooseHeading": "Abholstelle der Russischen Post wählen",
     "notConfigured": "Der Versand mit der Russischen Post ist in diesem Shop noch nicht eingerichtet.",
-    "estimate": "Schätzung zum Paket-Normaltarif",
     "quoteFailed": "Der Versand zu dieser Abholstelle konnte nicht berechnet werden. Wählen Sie eine andere.",
     "postcode": "PLZ {index}"
   }

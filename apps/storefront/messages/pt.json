@@ -1062,7 +1062,6 @@
     "heading": "Ponto de retirada dos Correios da Rússia",
     "chooseHeading": "Escolha um ponto de retirada dos Correios da Rússia",
     "notConfigured": "O envio pelos Correios da Rússia ainda não está configurado nesta loja.",
-    "estimate": "Estimativa pela tarifa de encomenda padrão",
     "quoteFailed": "Não foi possível calcular o envio para este ponto. Escolha outro.",
     "postcode": "Código postal {index}"
   }

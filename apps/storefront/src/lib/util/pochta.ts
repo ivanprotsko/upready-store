@@ -62,6 +62,19 @@ export type PochtaQuoteResponse = {
   error?: string
 }
 
+/**
+ * The price and term a pickup point shows in the point sheet. The amount is
+ * the one the buyer pays for any tariff source: choosing the point prices the
+ * shipping method with the same quote. `public-retail-estimate` says the SHOP's
+ * own postage to a «Почта Еком» point is approximate, which the owner reads in
+ * the panel. Shown to the buyer as «≈ … Предварительно» it made a fixed price
+ * look like it could still change (U-10, 46df UX audit).
+ */
+export const pochtaQuoteLabel = (
+  quote: PochtaQuote,
+  priceLabel: (amount: number) => string
+): string => [priceLabel(quote.amount), quote.term_label].filter(Boolean).join(" · ")
+
 type OptionWithProvider = { provider_id?: string | null }
 
 export const isPochtaOption = (option?: OptionWithProvider | null): boolean =>

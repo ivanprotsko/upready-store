@@ -1062,7 +1062,6 @@
     "heading": "Punct de ridicare Poșta Rusă",
     "chooseHeading": "Alegeți un punct de ridicare Poșta Rusă",
     "notConfigured": "Livrarea prin Poșta Rusă nu este încă configurată în acest magazin.",
-    "estimate": "Estimare la tariful standard pentru colete",
     "quoteFailed": "Livrarea către acest punct nu a putut fi calculată. Alegeți altul.",
     "postcode": "Cod poștal {index}"
   }

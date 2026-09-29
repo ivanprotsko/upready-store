@@ -1062,7 +1062,6 @@
     "heading": "Russisk Posts udleveringssted",
     "chooseHeading": "Vælg et udleveringssted hos Russisk Post",
     "notConfigured": "Levering med Russisk Post er endnu ikke sat op i denne butik.",
-    "estimate": "Anslået efter standard pakketakst",
     "quoteFailed": "Leveringen til dette sted kunne ikke beregnes. Vælg et andet.",
     "postcode": "Postnummer {index}"
   }

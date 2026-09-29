@@ -1062,7 +1062,6 @@
     "heading": "Venäjän postin noutopiste",
     "chooseHeading": "Valitse Venäjän postin noutopiste",
     "notConfigured": "Venäjän postin toimitusta ei ole vielä otettu käyttöön tässä kaupassa.",
-    "estimate": "Arvio tavallisen pakettihinnan mukaan",
     "quoteFailed": "Toimitusta tähän noutopisteeseen ei voitu laskea. Valitse toinen.",
     "postcode": "Postinumero {index}"
   }

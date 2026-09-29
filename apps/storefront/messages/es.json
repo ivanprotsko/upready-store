@@ -1062,7 +1062,6 @@
     "heading": "Punto de recogida de Correos de Rusia",
     "chooseHeading": "Elige un punto de recogida de Correos de Rusia",
     "notConfigured": "El envío con Correos de Rusia aún no está configurado en esta tienda.",
-    "estimate": "Estimación con la tarifa minorista de paquete",
     "quoteFailed": "No se pudo calcular el envío a este punto. Elige otro.",
     "postcode": "Código postal {index}"
   }

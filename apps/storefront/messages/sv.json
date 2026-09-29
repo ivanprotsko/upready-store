@@ -1062,7 +1062,6 @@
     "heading": "Ryska postens utlämningsställe",
     "chooseHeading": "Välj ett utlämningsställe hos Ryska posten",
     "notConfigured": "Leverans med Ryska posten är inte inställd i den här butiken än.",
-    "estimate": "Uppskattning enligt ordinarie pakettaxa",
     "quoteFailed": "Frakten till det här stället kunde inte beräknas. Välj ett annat.",
     "postcode": "Postnummer {index}"
   }

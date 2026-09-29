@@ -1062,7 +1062,6 @@
     "heading": "Point relais de la Poste russe",
     "chooseHeading": "Choisissez un point relais de la Poste russe",
     "notConfigured": "La livraison par la Poste russe n’est pas encore configurée dans cette boutique.",
-    "estimate": "Estimation au tarif Colis standard",
     "quoteFailed": "Impossible de calculer la livraison vers ce point. Choisissez-en un autre.",
     "postcode": "Code postal {index}"
   }

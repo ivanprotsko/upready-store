@@ -1062,7 +1062,6 @@
     "heading": "Afhaalpunt van de Russische Post",
     "chooseHeading": "Kies een afhaalpunt van de Russische Post",
     "notConfigured": "Verzending met de Russische Post is in deze winkel nog niet ingesteld.",
-    "estimate": "Schatting tegen het standaard pakkettarief",
     "quoteFailed": "De verzending naar dit punt kon niet worden berekend. Kies een ander punt.",
     "postcode": "Postcode {index}"
   }
