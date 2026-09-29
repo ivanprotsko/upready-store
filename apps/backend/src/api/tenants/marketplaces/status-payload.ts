@@ -1,13 +1,13 @@
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
-import type { MedusaContainer } from "@medusajs/framework/types";
+import type { Logger, MedusaContainer } from "@medusajs/framework/types";
 import type { MarketplaceAdapter } from "../../../modules/marketplace/contract";
 import { MP_KINDS } from "../../../modules/marketplace/contract";
 import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
 import type MarketplaceModuleService from "../../../modules/marketplace/service";
 import { linkSummary, matchByVendorCode } from "../../../modules/marketplace/link";
 import { tenantVariants } from "../../../modules/marketplace/project";
-import { credentialFieldViews, readRawCredentials } from "../marketplace-keys";
+import { credentialFieldViews, readMarketplaceKey } from "../marketplace-keys";
 
 /**
  * The body of one marketplace card, built once and served by both
@@ -54,14 +54,25 @@ export const buildCard = async (
   const pg = scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const mp = scope.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE);
 
-  const slot = await adapter.readCredentials(pg, tenantId);
   /**
    * The RAW payload beside the adapter-shaped credential: the form's fields are
    * named after the payload keys, while `slot.credentials` is whatever that
    * adapter's transport wants (a bare string on WB). Reading fields out of the
    * latter yields nothing and renders «ключ не сохранён» over a stored key.
+   *
+   * A stored key that does not decrypt is `unreadable`, not a 500 that takes
+   * the whole «Подключение» screen down with it (46df D1).
    */
-  const rawCredentials = await readRawCredentials(pg, adapter, tenantId);
+  const {
+    slot,
+    values: rawCredentials,
+    unreadable,
+  } = await readMarketplaceKey(
+    pg,
+    adapter,
+    tenantId,
+    scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER),
+  );
 
   /**
    * Asking the key what it may do costs a network request on Ozon and nothing
@@ -132,6 +143,8 @@ export const buildCard = async (
       key: {
         set: Boolean(slot),
         last4: slot?.last4 ?? null,
+        /** Stored but not decryptable with this deployment's key (46df D1). */
+        unreadable: Boolean(unreadable),
         /**
          * How this shop's key gets stored, for the panel to show INSTEAD of a
          * three-state verdict when there is no key at all (w14-mp-catalog-link,

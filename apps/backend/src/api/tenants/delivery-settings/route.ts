@@ -18,7 +18,12 @@ import provisionTenantCdekMethodsWorkflow from "../../../workflows/tenant/cdek/p
 import { getTenantScope } from "../tenant-scope";
 import { getTenantWarehouse, resolveShippingProfileId } from "../shipping-methods/helpers";
 import type { PutTenantDeliverySettingsBody } from "../validators";
-import { cdekWebhookUrl, newWebhookToken, readOwnDeliverySettings } from "./helpers";
+import {
+  cdekWebhookUrl,
+  newWebhookToken,
+  readOwnCdekSecret,
+  readOwnDeliverySettings,
+} from "./helpers";
 
 /**
  * `GET /tenants/delivery-settings` — the shop's CDEK account, masked, plus the
@@ -55,8 +60,11 @@ export const PUT = async (
   const tenantModule = req.scope.resolve<TenantModuleService>(TENANT_MODULE);
   const warehouse = await getTenantWarehouse(req);
 
-  const existing = await readCdekSecret(pg, tenant.id, { includeDisabled: true });
+  // A row that does not decrypt is overwritten in place, keeping its mode and
+  // switch but none of its fields: the owner enters the account again (46df D1).
+  const { secret: existing, unreadable } = await readOwnCdekSecret(req, tenant.id);
   const previous: CdekCredentialsPayload = existing?.credentials ?? emptyCdekCredentials();
+  const rowId = existing?.id ?? unreadable?.id ?? null;
 
   const credentials: CdekCredentialsPayload = {
     account: body.account ?? previous.account,
@@ -75,8 +83,8 @@ export const PUT = async (
     webhook_uuid: previous.webhook_uuid,
   };
 
-  const isTest = body.is_test ?? existing?.is_test ?? true;
-  const isEnabled = body.is_enabled ?? existing?.is_enabled ?? true;
+  const isTest = body.is_test ?? existing?.is_test ?? unreadable?.is_test ?? true;
+  const isEnabled = body.is_enabled ?? existing?.is_enabled ?? unreadable?.is_enabled ?? true;
 
   const account = isTest ? credentials.test_account : credentials.account;
   const password = isTest ? credentials.test_password : credentials.password;
@@ -99,7 +107,7 @@ export const PUT = async (
   let verified: { tariffs: number } | null = null;
   if (isEnabled) {
     const api = cdekApiCredentials({
-      id: existing?.id ?? "new",
+      id: rowId ?? "new",
       tenant_id: tenant.id,
       is_test: isTest,
       is_enabled: true,
@@ -149,9 +157,9 @@ export const PUT = async (
 
   // Step 2 — write the row.
   const payload = encryptJson(credentials, keyFromEnv());
-  if (existing) {
+  if (rowId) {
     await tenantModule.updateTenantIntegrationSecrets({
-      id: existing.id,
+      id: rowId,
       payload,
       is_test: isTest,
       is_enabled: isEnabled,
@@ -189,7 +197,7 @@ export const PUT = async (
   let webhook: { registered: boolean; error: string | null } = { registered: false, error: null };
   if (isEnabled) {
     const api = cdekApiCredentials({
-      id: existing?.id ?? "new",
+      id: rowId ?? "new",
       tenant_id: tenant.id,
       is_test: isTest,
       is_enabled: true,
@@ -225,16 +233,19 @@ export const PUT = async (
   res.json({ ...settings, verified, webhook });
 };
 
-/** `DELETE /tenants/delivery-settings` — forget the account and switch the CDEK methods off. */
+/**
+ * `DELETE /tenants/delivery-settings` — forget the account and switch the CDEK
+ * methods off. An unreadable row is removed by id like any other (46df D1).
+ */
 export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await getTenantScope(req);
-  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const tenantModule = req.scope.resolve<TenantModuleService>(TENANT_MODULE);
   const warehouse = await getTenantWarehouse(req);
-  const existing = await readCdekSecret(pg, tenant.id, { includeDisabled: true });
+  const { secret: existing, unreadable } = await readOwnCdekSecret(req, tenant.id);
+  const rowId = existing?.id ?? unreadable?.id ?? null;
 
-  if (existing) {
-    await tenantModule.softDeleteTenantIntegrationSecrets([existing.id]);
+  if (rowId) {
+    await tenantModule.softDeleteTenantIntegrationSecrets([rowId]);
     // The options stay, switched off: a cart that already chose one keeps working.
     await provisionTenantCdekMethodsWorkflow(req.scope).run({
       input: {
@@ -249,10 +260,10 @@ export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaRespons
         markup_amount: 0,
         markup_percent: 0,
         free_above_total: null,
-        sender_mode: existing.credentials.sender_mode,
+        sender_mode: (existing?.credentials ?? emptyCdekCredentials()).sender_mode,
       },
     });
   }
 
-  res.json({ id: existing?.id ?? null, object: "delivery_settings", deleted: Boolean(existing) });
+  res.json({ id: rowId, object: "delivery_settings", deleted: Boolean(rowId) });
 };

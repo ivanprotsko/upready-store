@@ -1,6 +1,7 @@
 import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
+import type { Logger } from "@medusajs/framework/types";
 import { getTenantScope } from "../tenant-scope";
 import {
   maskRobokassaSettings,
@@ -12,6 +13,10 @@ import {
   resolveTenantPaymentMethods,
   type TenantPaymentMethods,
 } from "../../../tenant-secrets/payment-methods";
+import {
+  tryReadTenantSecret,
+  type UnreadableTenantSecret,
+} from "../../../tenant-secrets/unreadable";
 import { readManualPayment } from "./manual/manual-payment";
 
 /**
@@ -53,8 +58,14 @@ export const resultUrlFor = (req: AuthenticatedMedusaRequest): string =>
   `${backendPublicOrigin(req)}/robokassa/result`;
 
 export type PaymentSettingsResponse = {
-  /** `null` while the shop has no Robokassa row yet. */
+  /** `null` while the shop has no Robokassa row yet, or while its row does not decrypt. */
   settings: MaskedRobokassaSettings | null;
+  /**
+   * The shop's Robokassa row exists but does not decrypt with this
+   * deployment's key (46df D1). The panel says so and asks for the requisites
+   * again; `PUT` overwrites the row and `DELETE` removes it without reading it.
+   */
+  unreadable: UnreadableTenantSecret | null;
   result_url: string;
   /** The value Robokassa shows as the payment page's SuccessUrl2/FailUrl2 origin, informational. */
   providers: Array<{ id: "robokassa"; title: string }>;
@@ -68,6 +79,25 @@ export type PaymentSettingsResponse = {
 };
 
 /**
+ * The caller's Robokassa row, disabled included. A row that does not decrypt
+ * comes back as `unreadable` instead of throwing (46df D1), so neither the
+ * panel's read nor its overwrite depends on the old payload.
+ */
+export const readOwnRobokassaSecret = (
+  req: AuthenticatedMedusaRequest,
+  tenantId: string,
+  pg: Knex = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION),
+  logger: Logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER),
+) =>
+  tryReadTenantSecret(
+    pg,
+    tenantId,
+    "robokassa",
+    () => readRobokassaSecret(pg, tenantId, { includeDisabled: true }),
+    logger,
+  );
+
+/**
  * The masked view of the caller's own Robokassa row, `null` when there is
  * none. Disabled rows are included: the panel shows a switched-off account as
  * switched off, it does not pretend the credentials are gone.
@@ -78,14 +108,16 @@ export const readOwnPaymentSettings = async (
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
-  const [secret, tenantResult] = await Promise.all([
-    readRobokassaSecret(pg, tenant.id, { includeDisabled: true }),
+  const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
+  const [{ secret, unreadable }, tenantResult] = await Promise.all([
+    readOwnRobokassaSecret(req, tenant.id, pg, logger),
     query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
   ]);
   const metadata = (tenantResult.data[0]?.metadata ?? null) as Record<string, unknown> | null;
   const manualPayment = readManualPayment(metadata);
   return {
     settings: secret ? maskRobokassaSettings(secret) : null,
+    unreadable,
     result_url: resultUrlFor(req),
     providers: [{ id: "robokassa", title: "Robokassa" }],
     methods: resolveTenantPaymentMethods({
