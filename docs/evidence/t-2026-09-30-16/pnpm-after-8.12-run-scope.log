@@ -1,0 +1,10 @@
+$ (root) pnpm run check:locale-catalogs   (pnpm 8.12.0)
+ ERR_PNPM_UNSUPPORTED_ENGINE  Unsupported environment (bad pnpm and/or Node.js version)
+
+exit: 1
+$ (apps/storefront) pnpm run themes:build   (pnpm 8.12.0)
+exit: 0
+$ (root) corepack pnpm run check:locale-catalogs
+
+check-locale-catalogs: OK — 3 catalogs, 36 codes each, all agree.
+exit: 0

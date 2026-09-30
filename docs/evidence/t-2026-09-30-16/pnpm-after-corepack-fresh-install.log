@@ -1,0 +1,33 @@
+$ corepack pnpm --version
+10.11.1
+$ corepack pnpm install   (fresh copy: origin/dev + engines.pnpm, no node_modules)
+Scope: all 5 workspace projects
+Lockfile is up to date, resolution step is skipped
+Packages: +1886
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+(node:36541) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+devDependencies:
++ prettier 3.7.4
++ turbo 2.6.3
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: @medusajs/telemetry, @parcel/watcher, @swc/core,    │
+│   esbuild, msgpackr-extract, protobufjs, unrs-resolver.                      │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Done in 13.9s using pnpm v10.11.1
+real 13.99
+user 4.84
+sys 34.63
+exit: 0
+$ cmp pnpm-lock.yaml <origin/dev lockfile>
+lockfile unchanged (byte-identical)
+241ec08af4acec8e5124f47c0c1fda018ff4d15b9f1edf12e2931cfb09f8ce0a  pnpm-lock.yaml
+241ec08af4acec8e5124f47c0c1fda018ff4d15b9f1edf12e2931cfb09f8ce0a  /private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-upready-store-audit-46df/f7937248-1e1d-4828-a185-14d2a29fc86f/scratch/lock.origin-dev.yaml
+lockfileVersion: '9.0'
+$ ls node_modules/.modules.yaml
+layoutVersion: 5
+packageManager: pnpm@10.11.1
