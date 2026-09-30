@@ -126,18 +126,24 @@ export const PageList = () => {
                         to={section.key}
                         className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
                       >
-                        <Text size="small" weight="plus">
+                        <Text
+                          size="small"
+                          weight="plus"
+                          className="truncate"
+                          title={section.hint}
+                        >
                           {page?.title?.trim() ||
                             sectionOf(section.key)?.label ||
                             section.key}
                         </Text>
                       </Link>
-                      <Text size="small" className="text-ui-fg-subtle">
-                        {section.hint}
-                      </Text>
                     </Table.Cell>
                     <Table.Cell>
-                      <Text size="small" className="text-ui-fg-subtle font-mono">
+                      <Text
+                        size="small"
+                        className="text-ui-fg-subtle font-mono truncate"
+                        title={publicPageUrl(primaryHost, section.key)}
+                      >
                         {publicPageUrl(primaryHost, section.key)}
                       </Text>
                     </Table.Cell>

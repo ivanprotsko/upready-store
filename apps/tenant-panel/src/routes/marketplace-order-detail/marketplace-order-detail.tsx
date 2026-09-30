@@ -158,14 +158,23 @@ export const MarketplaceOrderDetail = () => {
               {lines.map((line) => (
                 <Table.Row key={line.id} data-testid="order-line">
                   <Table.Cell>{line.vendor_code ?? dash}</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell
+                    title={line.product ? (line.product.title ?? line.product.id) : undefined}
+                  >
                     {line.product ? (
-                      <Link className="text-ui-fg-interactive" to={`/products/${line.product.id}`}>
+                      <Link
+                        className="text-ui-fg-interactive block truncate"
+                        to={`/products/${line.product.id}`}
+                      >
                         {line.product.title ?? line.product.id}
                       </Link>
                     ) : (
                       /* Артикул виден, чтобы владелица знала, КАКОГО товара нет. */
-                      <Text className="text-ui-fg-muted" size="small" data-testid="line-unlinked">
+                      <Text
+                        className="text-ui-fg-muted truncate"
+                        size="small"
+                        data-testid="line-unlinked"
+                      >
                         {t("marketplaceOrders.detail.notInShop")}
                         {line.marketplace_title ? ` · ${line.marketplace_title}` : ""}
                       </Text>
