@@ -20,10 +20,14 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  * "All {total}" then each top-level category with its own product count — composer
  * source `blocks.js:151-152`, CSS `blocks.css:105-110`.
  *
- * Region and account are absent from this variant's own utility cluster, matching the
- * composer's `utilities(p, { region: false, user: false })` call: the 52px bar keeps
- * only what fits without crowding the chip row underneath it. Both stay reachable
- * from `BottomNav` (site-wide) and from every account/checkout page's own header.
+ * Account is absent from this variant's own utility cluster, matching the composer's
+ * `utilities(p, { region: false, user: false })` call; it stays reachable from
+ * `BottomNav` (site-wide) and from every account/checkout page's own header. Language
+ * and country are NOT left out, although the composer leaves out region too: H5 is
+ * what the seeded shops carry, and without them a Russian visitor had no control to
+ * leave dollars with (t-2026-09-12-seeded-hosts-no-locale-controls). They sit in the
+ * bar at every width, as in H1, the header a regular tenant storefront gets; the
+ * wordmark gives way to them on a phone, cut with an ellipsis.
  *
  * Category counts: `listTopCategoriesWithCounts()` (`lib/data/categories.ts`) — see
  * that loader's own doc comment for how the count is measured cheaply, live-verified
@@ -50,11 +54,11 @@ export default async function NavH5() {
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group">
       <header className="relative h-[52px] border-b mx-auto duration-200 bg-ui-bg-base">
         <nav className="content-container txt-compact-xsmall text-ui-fg-subtle flex items-center gap-x-4 w-full h-full">
-          <div className="flex-1 flex items-center h-full">
+          <div className="flex-1 min-w-0 flex items-center h-full">
             <BrandUnlock>
               <Link
                 href="/"
-                className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
+                className="min-w-0 truncate txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
                 data-testid="nav-store-link"
               >
                 <SiteLogo siteName={siteName} branding={branding} />
@@ -72,9 +76,9 @@ export default async function NavH5() {
                 data-testid="nav-mode-toggle"
               />
               <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
-              {/* Country and language, as in every other header; the phone reaches them from
-                  the menu (t-2026-09-12-seeded-hosts-no-locale-controls). */}
-              <div className="hidden min-w-0 lg:flex">
+              {/* Country and language at every width, as in H1: on a phone too, not only
+                  behind the bottom bar's menu (t-2026-09-12-seeded-hosts-no-locale-controls). */}
+              <div className="flex min-w-0">
                 <RegionSelect
                   regions={regions}
                   currentCountryCode={countryCode ?? undefined}
