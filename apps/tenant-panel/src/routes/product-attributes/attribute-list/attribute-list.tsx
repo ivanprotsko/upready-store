@@ -170,82 +170,87 @@ export const AttributeList = () => {
             Добавить стандартные
           </Button>
         </div>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Характеристика</Table.HeaderCell>
-              <Table.HeaderCell>Служебное имя</Table.HeaderCell>
-              <Table.HeaderCell>Тип</Table.HeaderCell>
-              <Table.HeaderCell>Где применяется</Table.HeaderCell>
-              <Table.HeaderCell>Где видна</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {attributes.length === 0 ? (
+        {/* One line per cell at every width (t-2026-09-25-18, 0.1.1): on a phone the
+            table scrolls sideways instead of folding «Выбор из списка» into three lines
+            (t-2026-09-27-06, measured at 390). */}
+        <div className="overflow-x-auto">
+          <Table>
+            <Table.Header>
               <Table.Row>
-                {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
-                    state fills the first cell and the rest stay blank. */}
-                <Table.Cell>
-                  <Text size="small" className="text-ui-fg-subtle">
-                    Характеристик пока нет. Создайте первую — форма ниже.
-                  </Text>
-                </Table.Cell>
-                <Table.Cell />
-                <Table.Cell />
-                <Table.Cell />
-                <Table.Cell />
+                <Table.HeaderCell>Характеристика</Table.HeaderCell>
+                <Table.HeaderCell>Служебное имя</Table.HeaderCell>
+                <Table.HeaderCell>Тип</Table.HeaderCell>
+                <Table.HeaderCell>Где применяется</Table.HeaderCell>
+                <Table.HeaderCell>Где видна</Table.HeaderCell>
               </Table.Row>
-            ) : null}
-            {attributes.map((attribute) => (
-              <Table.Row key={attribute.id}>
-                <Table.Cell>
-                  <Link
-                    to={attribute.id}
-                    className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
-                  >
-                    <Text size="small" weight="plus" className="truncate" title={attribute.name}>
-                      {attribute.name}
+            </Table.Header>
+            <Table.Body>
+              {attributes.length === 0 ? (
+                <Table.Row>
+                  {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
+                      state fills the first cell and the rest stay blank. */}
+                  <Table.Cell>
+                    <Text size="small" className="text-ui-fg-subtle">
+                      Характеристик пока нет. Создайте первую — форма ниже.
                     </Text>
-                  </Link>
-                </Table.Cell>
-                <Table.Cell>
-                  <Text
-                    size="small"
-                    className="text-ui-fg-subtle font-mono truncate"
-                    title={attribute.key}
-                  >
-                    {attribute.key}
-                  </Text>
-                </Table.Cell>
-                <Table.Cell>
-                  <Text size="small" className="text-ui-fg-subtle">
-                    {TYPE_LABELS[attribute.type]}
-                    {attribute.unit ? `, ${attribute.unit}` : ""}
-                  </Text>
-                </Table.Cell>
-                <Table.Cell>
-                  <Text
-                    size="small"
-                    className="text-ui-fg-subtle truncate"
-                    title={categoryName(attribute.category_id)}
-                  >
-                    {categoryName(attribute.category_id)}
-                  </Text>
-                </Table.Cell>
-                <Table.Cell>
-                  <div className="flex flex-wrap items-center gap-1">
-                    <StatusBadge color={attribute.show_on_product ? "green" : "grey"}>
-                      На карточке
-                    </StatusBadge>
-                    <StatusBadge color={attribute.use_as_filter ? "green" : "grey"}>
-                      В фильтрах
-                    </StatusBadge>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+                  </Table.Cell>
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                </Table.Row>
+              ) : null}
+              {attributes.map((attribute) => (
+                <Table.Row key={attribute.id}>
+                  <Table.Cell>
+                    <Link
+                      to={attribute.id}
+                      className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
+                    >
+                      <Text size="small" weight="plus" className="truncate" title={attribute.name}>
+                        {attribute.name}
+                      </Text>
+                    </Link>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text
+                      size="small"
+                      className="text-ui-fg-subtle font-mono truncate"
+                      title={attribute.key}
+                    >
+                      {attribute.key}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text size="small" className="text-ui-fg-subtle whitespace-nowrap">
+                      {TYPE_LABELS[attribute.type]}
+                      {attribute.unit ? `, ${attribute.unit}` : ""}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text
+                      size="small"
+                      className="text-ui-fg-subtle truncate"
+                      title={categoryName(attribute.category_id)}
+                    >
+                      {categoryName(attribute.category_id)}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className="flex items-center gap-1 whitespace-nowrap">
+                      <StatusBadge color={attribute.show_on_product ? "green" : "grey"}>
+                        На карточке
+                      </StatusBadge>
+                      <StatusBadge color={attribute.use_as_filter ? "green" : "grey"}>
+                        В фильтрах
+                      </StatusBadge>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
         <form
           onSubmit={handleCreate}
           className="flex flex-wrap items-end gap-x-3 gap-y-2 px-6 py-4"

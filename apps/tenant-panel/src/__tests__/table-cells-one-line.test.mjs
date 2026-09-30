@@ -46,6 +46,24 @@ test("attribute list: the row shows only the characteristic's name, no options p
   )
 })
 
+// t-2026-09-27-06, measured at 390: the name was one line, but «Выбор из списка» folded
+// into three and the two flag badges into two, because the table was squeezed into the
+// card. It now scrolls sideways and neither cell wraps.
+test("attribute list: type and flags stay on one line, the table scrolls on a phone", () => {
+  const source = read("routes/product-attributes/attribute-list/attribute-list.tsx")
+  assert.match(source, /<div className="overflow-x-auto">\s*<Table>/, "the table must scroll sideways")
+  assert.match(
+    source,
+    /<Text size="small" className="text-ui-fg-subtle whitespace-nowrap">\s*\{TYPE_LABELS\[attribute\.type\]\}/,
+    "the type cell must not wrap"
+  )
+  assert.ok(
+    source.includes('<div className="flex items-center gap-1 whitespace-nowrap">'),
+    "the flag badges must not wrap onto a second line"
+  )
+  assert.ok(!source.includes('"flex flex-wrap items-center gap-1"'), "no wrapping flex row is left")
+})
+
 test("page list: the reserved-section row shows only the title, no hint line", () => {
   const source = read("routes/pages/page-list/page-list.tsx")
   assert.ok(
