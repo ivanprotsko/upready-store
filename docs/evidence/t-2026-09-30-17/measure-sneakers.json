@@ -1,0 +1,245 @@
+{
+  "tag": "sneakers",
+  "base": "http://localhost:8614",
+  "measuredAt": "2026-09-30T03:22:44.913Z",
+  "runs": [
+    {
+      "url": "http://localhost:8614/en",
+      "status": 200,
+      "requestedMode": "light",
+      "width": 1440,
+      "screenshot": "shots/sneakers-light-1440.webp",
+      "starterLinkMatches": 0,
+      "mode": "light",
+      "listing": {
+        "variant": "home-listing-p2",
+        "heading": "All 14 products",
+        "products": 12
+      },
+      "grid": {
+        "productCount": 12,
+        "display": "grid",
+        "gridLeft": 24,
+        "gridWidth": 1392,
+        "visibleCards": 12,
+        "cards": [
+          {
+            "left": 24,
+            "top": 597,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 597,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 597,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 597,
+            "width": 330
+          },
+          {
+            "left": 24,
+            "top": 1185,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 1185,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 1185,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 1185,
+            "width": 330
+          },
+          {
+            "left": 24,
+            "top": 1773,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 1773,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 1773,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 1773,
+            "width": 330
+          }
+        ]
+      },
+      "tiles": null,
+      "footer": {
+        "count": 1,
+        "links": [
+          {
+            "text": "Accessories",
+            "href": "/en/categories/accessories",
+            "external": false
+          },
+          {
+            "text": "Footwear",
+            "href": "/en/categories/footwear",
+            "external": false
+          },
+          {
+            "text": "New arrivals",
+            "href": "/en/collections/new-arrivals",
+            "external": false
+          },
+          {
+            "text": "Bestsellers",
+            "href": "/en/collections/bestsellers",
+            "external": false
+          },
+          {
+            "text": "Kerbstone",
+            "href": "/en",
+            "external": false
+          },
+          {
+            "text": "создание интернет-магазина",
+            "href": "https://upready.dev",
+            "external": true
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8614/en",
+      "status": 200,
+      "requestedMode": "dark",
+      "width": 1440,
+      "screenshot": "shots/sneakers-dark-1440.webp",
+      "starterLinkMatches": 0,
+      "mode": "dark",
+      "listing": {
+        "variant": "home-listing-p2",
+        "heading": "All 14 products",
+        "products": 12
+      },
+      "grid": {
+        "productCount": 12,
+        "display": "grid",
+        "gridLeft": 24,
+        "gridWidth": 1392,
+        "visibleCards": 12,
+        "cards": [
+          {
+            "left": 24,
+            "top": 597,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 597,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 597,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 597,
+            "width": 330
+          },
+          {
+            "left": 24,
+            "top": 1185,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 1185,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 1185,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 1185,
+            "width": 330
+          },
+          {
+            "left": 24,
+            "top": 1773,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 1773,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 1773,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 1773,
+            "width": 330
+          }
+        ]
+      },
+      "tiles": null,
+      "footer": {
+        "count": 1,
+        "links": [
+          {
+            "text": "Accessories",
+            "href": "/en/categories/accessories",
+            "external": false
+          },
+          {
+            "text": "Footwear",
+            "href": "/en/categories/footwear",
+            "external": false
+          },
+          {
+            "text": "New arrivals",
+            "href": "/en/collections/new-arrivals",
+            "external": false
+          },
+          {
+            "text": "Bestsellers",
+            "href": "/en/collections/bestsellers",
+            "external": false
+          },
+          {
+            "text": "Kerbstone",
+            "href": "/en",
+            "external": false
+          },
+          {
+            "text": "создание интернет-магазина",
+            "href": "https://upready.dev",
+            "external": true
+          }
+        ]
+      }
+    }
+  ]
+}

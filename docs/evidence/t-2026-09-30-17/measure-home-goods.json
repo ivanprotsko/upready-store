@@ -1,0 +1,253 @@
+{
+  "tag": "home-goods",
+  "base": "http://localhost:8614",
+  "measuredAt": "2026-09-30T03:25:26.464Z",
+  "runs": [
+    {
+      "url": "http://localhost:8614/en",
+      "status": 200,
+      "requestedMode": "light",
+      "width": 1440,
+      "screenshot": "shots/home-goods-light-1440.webp",
+      "starterLinkMatches": 0,
+      "mode": "light",
+      "listing": {
+        "variant": "home-listing-p4",
+        "heading": "In the shop",
+        "products": 12
+      },
+      "grid": {
+        "productCount": 12,
+        "display": "grid",
+        "gridLeft": 24,
+        "gridWidth": 1392,
+        "visibleCards": 12,
+        "cards": [
+          {
+            "left": 24,
+            "top": 1392,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 1392,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 1392,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 1392,
+            "width": 330
+          },
+          {
+            "left": 24,
+            "top": 1980,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 1980,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 1980,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 1980,
+            "width": 330
+          },
+          {
+            "left": 24,
+            "top": 2568,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 2568,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 2568,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 2568,
+            "width": 330
+          }
+        ]
+      },
+      "tiles": {
+        "count": 4,
+        "imagesDecoded": 4,
+        "images": 4
+      },
+      "footer": {
+        "count": 1,
+        "links": [
+          {
+            "text": "Long Morning",
+            "href": "/en",
+            "external": false
+          },
+          {
+            "text": "The kitchen",
+            "href": "/en/categories/the-kitchen",
+            "external": false
+          },
+          {
+            "text": "The house",
+            "href": "/en/categories/the-house",
+            "external": false
+          },
+          {
+            "text": "The morning table",
+            "href": "/en/collections/the-morning-table",
+            "external": false
+          },
+          {
+            "text": "Made to be used",
+            "href": "/en/collections/made-to-be-used",
+            "external": false
+          },
+          {
+            "text": "создание интернет-магазина",
+            "href": "https://upready.dev",
+            "external": true
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8614/en",
+      "status": 200,
+      "requestedMode": "dark",
+      "width": 1440,
+      "screenshot": "shots/home-goods-dark-1440.webp",
+      "starterLinkMatches": 0,
+      "mode": "dark",
+      "listing": {
+        "variant": "home-listing-p4",
+        "heading": "In the shop",
+        "products": 12
+      },
+      "grid": {
+        "productCount": 12,
+        "display": "grid",
+        "gridLeft": 24,
+        "gridWidth": 1392,
+        "visibleCards": 12,
+        "cards": [
+          {
+            "left": 24,
+            "top": 1392,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 1392,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 1392,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 1392,
+            "width": 330
+          },
+          {
+            "left": 24,
+            "top": 1980,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 1980,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 1980,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 1980,
+            "width": 330
+          },
+          {
+            "left": 24,
+            "top": 2568,
+            "width": 330
+          },
+          {
+            "left": 378,
+            "top": 2568,
+            "width": 330
+          },
+          {
+            "left": 732,
+            "top": 2568,
+            "width": 330
+          },
+          {
+            "left": 1086,
+            "top": 2568,
+            "width": 330
+          }
+        ]
+      },
+      "tiles": {
+        "count": 4,
+        "imagesDecoded": 4,
+        "images": 4
+      },
+      "footer": {
+        "count": 1,
+        "links": [
+          {
+            "text": "Long Morning",
+            "href": "/en",
+            "external": false
+          },
+          {
+            "text": "The kitchen",
+            "href": "/en/categories/the-kitchen",
+            "external": false
+          },
+          {
+            "text": "The house",
+            "href": "/en/categories/the-house",
+            "external": false
+          },
+          {
+            "text": "The morning table",
+            "href": "/en/collections/the-morning-table",
+            "external": false
+          },
+          {
+            "text": "Made to be used",
+            "href": "/en/collections/made-to-be-used",
+            "external": false
+          },
+          {
+            "text": "создание интернет-магазина",
+            "href": "https://upready.dev",
+            "external": true
+          }
+        ]
+      }
+    }
+  ]
+}
