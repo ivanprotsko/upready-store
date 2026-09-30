@@ -156,7 +156,7 @@
     "itemsCount": "{count, plural, one {{count} termék} other {{count} termék}}",
     "legal": "„Fizetés” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
     "manualInput": "Cím megadása kézzel",
-    "addressIncomplete": "Töltse ki a cím kötelező mezőit. Város és irányítószám nélkül a rendelés nem adható fel.",
+    "addressIncomplete": "Töltse ki a cím kötelező mezőit: {fields}.",
     "provinceRequired": "Válassza ki a régiót a listából.",
     "orderComposition": "Rendelés összesítése",
     "paymentHeading": "Fizetési mód",

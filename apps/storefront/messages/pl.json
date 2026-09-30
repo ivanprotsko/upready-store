@@ -156,7 +156,7 @@
     "itemsCount": "{count, plural, one {{count} produkt} few {{count} produkty} many {{count} produktów} other {{count} produktu}}",
     "legal": "Klikając «Zapłać», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
     "manualInput": "Wprowadź adres ręcznie",
-    "addressIncomplete": "Wypełnij wymagane pola adresu. Bez miasta i kodu pocztowego zamówienia nie da się wysłać.",
+    "addressIncomplete": "Wypełnij wymagane pola adresu: {fields}.",
     "provinceRequired": "Wybierz region z listy.",
     "orderComposition": "Podsumowanie zamówienia",
     "paymentHeading": "Sposób płatności",

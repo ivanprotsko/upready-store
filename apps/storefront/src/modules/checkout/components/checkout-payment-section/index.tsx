@@ -16,6 +16,7 @@ import { pickActivePaymentMethod } from "@lib/util/pick-payment-method"
 import type { TenantPaymentMethods } from "@lib/tenant/resolve"
 import { CreditCard } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
+import AddressGapMessage from "@modules/checkout/components/address-gap-message"
 import PaymentButton from "@modules/checkout/components/payment-button"
 import { CHECKOUT_PAYMENT_ANCHOR } from "@modules/checkout/components/robokassa-retry-notice"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -220,8 +221,9 @@ export default function CheckoutPaymentSection({
   )
   // f04-address-without-city: `PaymentButton` disables itself on the same test.
   // A disabled button with no reason next to it reads as a broken shop, so the
-  // missing half of the address is named here.
-  const addressIncomplete = cartShippingAddressGaps(cart).length > 0
+  // missing half of the address is named here, field by field, with the same
+  // sentences the address sheet shows (t-2026-09-24-n19).
+  const addressGaps = cartShippingAddressGaps(cart)
   const billingText = billingAddr
     ? [billingAddr.address_1, billingAddr.city, billingAddr.postal_code]
         .filter(Boolean)
@@ -407,14 +409,10 @@ export default function CheckoutPaymentSection({
 
       <ErrorMessage error={error} data-testid="payment-method-error-message" />
 
-      {addressIncomplete && (
-        <div
-          className="text-rose-500 text-small-regular"
-          data-testid="shipping-address-incomplete"
-        >
-          <span>{t("addressIncomplete")}</span>
-        </div>
-      )}
+      <AddressGapMessage
+        gaps={addressGaps}
+        data-testid="shipping-address-incomplete"
+      />
 
       <div className="flex flex-col gap-y-3">
         <PaymentButton

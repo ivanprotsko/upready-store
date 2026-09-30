@@ -156,7 +156,7 @@
     "itemsCount": "{count, plural, one {{count} artikel} other {{count} artikelen}}",
     "legal": "Door op «Betalen» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
     "manualInput": "Adres handmatig invoeren",
-    "addressIncomplete": "Vul de verplichte adresvelden in. Zonder plaats en postcode kan de bestelling niet worden verzonden.",
+    "addressIncomplete": "Vul de verplichte adresvelden in: {fields}.",
     "provinceRequired": "Kies je regio uit de lijst.",
     "orderComposition": "Besteloverzicht",
     "paymentHeading": "Betaalmethode",

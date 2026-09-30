@@ -55,17 +55,73 @@ export const shippingAddressGaps = (
   return required.filter((field) => !address?.[field]?.trim())
 }
 
+/** The fields a buyer types, as against the province, which is picked from a list. */
+export type TypedAddressField = Exclude<ShippingAddressField, "province">
+
+export type AddressGapMessage =
+  | { key: "addressIncomplete"; fields: TypedAddressField[] }
+  | { key: "provinceRequired" }
+
 /**
- * Which `CheckoutPage` sentences the address form shows for these gaps. The
- * province gets its own: it is a list to pick from, not a field to type, and
- * the general sentence names only city and index (U-08, 46df UX audit).
+ * Which `CheckoutPage` sentences name these gaps, in the address sheet and above
+ * «Оплатить» alike. The typed fields are listed by name, in the order the form
+ * shows them; the province gets a sentence of its own, because it is a list to
+ * pick from, not a field to type (U-08, 46df UX audit).
+ *
+ * t-2026-09-24-n19: the general sentence used to be one fixed text naming city
+ * and index, shown for a missing street too, and the payment step showed it for
+ * any gap at all, the province included. A cart addressed through the store API
+ * with street, city and index but no province read «Без города и почтового
+ * индекса заказ не отправить» next to a grey «Оплатить».
  */
-export const addressGapMessageKeys = (
+export const addressGapMessages = (
   gaps: ShippingAddressField[]
-): ("addressIncomplete" | "provinceRequired")[] => [
-  ...(gaps.some((field) => field !== "province") ? (["addressIncomplete"] as const) : []),
-  ...(gaps.includes("province") ? (["provinceRequired"] as const) : []),
-]
+): AddressGapMessage[] => {
+  const typed = gaps.filter(
+    (field): field is TypedAddressField => field !== "province"
+  )
+
+  return [
+    ...(typed.length > 0 ? [{ key: "addressIncomplete" as const, fields: typed }] : []),
+    ...(gaps.includes("province") ? [{ key: "provinceRequired" as const }] : []),
+  ]
+}
+
+/** The `CheckoutPage` label of each typed field, the one its input carries. */
+const FIELD_LABEL_KEYS = {
+  address_1: "fieldAddress",
+  postal_code: "fieldPostalCode",
+  city: "fieldCity",
+} as const satisfies Record<TypedAddressField, string>
+
+type GapTranslate = (
+  key:
+    | "addressIncomplete"
+    | "provinceRequired"
+    | (typeof FIELD_LABEL_KEYS)[TypedAddressField],
+  values?: { fields: string }
+) => string
+
+/**
+ * The sentences themselves, read from the `CheckoutPage` catalog through `t`:
+ * the missing fields go into `addressIncomplete` under the same labels the
+ * form's inputs carry, joined the way `locale` joins a list («Адрес и Город»,
+ * "Address and City").
+ */
+export const addressGapSentences = (
+  gaps: ShippingAddressField[],
+  t: GapTranslate,
+  locale: string
+): string[] =>
+  addressGapMessages(gaps).map((message) =>
+    message.key === "provinceRequired"
+      ? t("provinceRequired")
+      : t("addressIncomplete", {
+          fields: new Intl.ListFormat(locale, { type: "conjunction" }).format(
+            message.fields.map((field) => t(FIELD_LABEL_KEYS[field]))
+          ),
+        })
+  )
 
 /**
  * A cart the customer sends to a pickup point carries no delivery address at

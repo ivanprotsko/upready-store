@@ -14,31 +14,24 @@ import AddressAutocomplete, {
 import { Button, RadioGroup } from "@medusajs/ui"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
 import {
-  addressGapMessageKeys,
   cartCountryCode,
   shippingAddressGaps,
   type ShippingAddressField,
 } from "@lib/util/shipping-address"
+import AddressGapMessage from "@modules/checkout/components/address-gap-message"
 
 /**
  * The sentences a customer can act on when the address cannot be posted: the
- * general one for street, city and index, and one of its own for the province
- * (U-08, 46df UX audit).
+ * typed fields named one by one, and one of its own for the province (U-08,
+ * 46df UX audit; t-2026-09-24-n19).
  */
 function AddressIncompleteMessage({ gaps }: { gaps: ShippingAddressField[] }) {
-  const t = useTranslations("CheckoutPage")
-  const keys = addressGapMessageKeys(gaps)
-  if (keys.length === 0) return null
   return (
-    <div
-      role="alert"
-      className="pt-2 flex flex-col gap-y-1 text-rose-500 text-small-regular"
+    <AddressGapMessage
+      gaps={gaps}
+      className="pt-2"
       data-testid="address-incomplete-message"
-    >
-      {keys.map((key) => (
-        <span key={key}>{t(key)}</span>
-      ))}
-    </div>
+    />
   )
 }
 

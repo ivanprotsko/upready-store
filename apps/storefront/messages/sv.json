@@ -156,7 +156,7 @@
     "itemsCount": "{count, plural, one {{count} vara} other {{count} varor}}",
     "legal": "Genom att klicka på ”Betala” godkänner du våra <terms>villkor</terms>, <termsOfUse>användarvillkor</termsOfUse> och <returnPolicy>returpolicy</returnPolicy>, samt godkänner vår <privacyPolicy>integritetspolicy</privacyPolicy>.",
     "manualInput": "Ange adress manuellt",
-    "addressIncomplete": "Fyll i adressens obligatoriska fält. Utan ort och postnummer kan beställningen inte skickas.",
+    "addressIncomplete": "Fyll i adressens obligatoriska fält: {fields}.",
     "provinceRequired": "Välj region i listan.",
     "orderComposition": "Ordersammanfattning",
     "paymentHeading": "Betalningsmetod",
