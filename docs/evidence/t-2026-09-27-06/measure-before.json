@@ -1,0 +1,186 @@
+{
+  "tag": "before",
+  "measuredAt": "2026-09-30T06:19:33.571Z",
+  "runs": [
+    {
+      "part": "A",
+      "screen": "product-attributes",
+      "width": 1440,
+      "cells": 5,
+      "maxLines": 2,
+      "multiLine": [
+        {
+          "lines": 2,
+          "text": "Страна производства Россия, Китай, Таиланд, Индия"
+        }
+      ],
+      "shot": "shots/before-panel-product-attributes-1440.webp"
+    },
+    {
+      "part": "A",
+      "screen": "pages",
+      "width": 1440,
+      "cells": 25,
+      "maxLines": 2,
+      "multiLine": [
+        {
+          "lines": 2,
+          "text": "Контакты Адрес, телефон, часы работы, как вас найти."
+        },
+        {
+          "lines": 2,
+          "text": "Реквизиты Название, регистрационные и налоговые номера, банк"
+        },
+        {
+          "lines": 2,
+          "text": "О магазине Кто вы и что продаёте."
+        },
+        {
+          "lines": 2,
+          "text": "Политика конфиденциальности Какие данные покупателей вы соби"
+        },
+        {
+          "lines": 2,
+          "text": "Публичная оферта Условия, которые покупатель принимает, офор"
+        }
+      ],
+      "shot": "shots/before-panel-pages-1440.webp"
+    },
+    {
+      "part": "A",
+      "screen": "settings/redirects",
+      "width": 1440,
+      "cells": 4,
+      "maxLines": 2,
+      "multiLine": [
+        {
+          "lines": 2,
+          "text": "/old-catalog/vitamins https://w22-check-munpneyz.upready.dev"
+        }
+      ],
+      "shot": "shots/before-panel-settings-redirects-1440.webp"
+    },
+    {
+      "part": "C+D",
+      "page": "course",
+      "width": 1440,
+      "buyCardWidth": 384,
+      "url": "http://olavka-com.localhost:8611/ru/products/course-ochishchenie-pecheni-cherkashino",
+      "hasVid": false,
+      "shot": "shots/before-shop-course-1440.webp"
+    },
+    {
+      "part": "C+D",
+      "page": "product",
+      "width": 1440,
+      "buyCardWidth": 354,
+      "url": "http://olavka-com.localhost:8611/ru/products/steviya-v-tabletkah-saharozamenitel-100-sht-cherkashino",
+      "hasVid": false,
+      "shot": "shots/before-shop-product-1440.webp"
+    },
+    {
+      "part": "A",
+      "screen": "product-attributes",
+      "width": 390,
+      "cells": 5,
+      "maxLines": 4,
+      "multiLine": [
+        {
+          "lines": 4,
+          "text": "Страна производства Россия, Китай, Таиланд, Индия"
+        },
+        {
+          "lines": 3,
+          "text": "Выбор из списка"
+        },
+        {
+          "lines": 2,
+          "text": "На карточке В фильтрах"
+        }
+      ],
+      "shot": "shots/before-panel-product-attributes-390.webp"
+    },
+    {
+      "part": "A",
+      "screen": "pages",
+      "width": 390,
+      "cells": 25,
+      "maxLines": 3,
+      "multiLine": [
+        {
+          "lines": 2,
+          "text": "Контакты Адрес, телефон, часы работы, как вас найти."
+        },
+        {
+          "lines": 2,
+          "text": "w22-check-munpneyz.upready.dev/pages/contacts"
+        },
+        {
+          "lines": 3,
+          "text": "Реквизиты Название, регистрационные и налоговые номера, банк"
+        },
+        {
+          "lines": 2,
+          "text": "w22-check-munpneyz.upready.dev/pages/legal"
+        },
+        {
+          "lines": 2,
+          "text": "О магазине Кто вы и что продаёте."
+        },
+        {
+          "lines": 2,
+          "text": "w22-check-munpneyz.upready.dev/pages/about"
+        },
+        {
+          "lines": 3,
+          "text": "Политика конфиденциальности Какие данные покупателей вы соби"
+        },
+        {
+          "lines": 2,
+          "text": "w22-check-munpneyz.upready.dev/pages/privacy"
+        },
+        {
+          "lines": 3,
+          "text": "Публичная оферта Условия, которые покупатель принимает, офор"
+        },
+        {
+          "lines": 2,
+          "text": "w22-check-munpneyz.upready.dev/pages/offer"
+        }
+      ],
+      "shot": "shots/before-panel-pages-390.webp"
+    },
+    {
+      "part": "A",
+      "screen": "settings/redirects",
+      "width": 390,
+      "cells": 4,
+      "maxLines": 4,
+      "multiLine": [
+        {
+          "lines": 4,
+          "text": "/old-catalog/vitamins https://w22-check-munpneyz.upready.dev"
+        }
+      ],
+      "shot": "shots/before-panel-settings-redirects-390.webp"
+    },
+    {
+      "part": "C+D",
+      "page": "course",
+      "width": 390,
+      "buyCardWidth": 358,
+      "url": "http://olavka-com.localhost:8611/ru/products/course-ochishchenie-pecheni-cherkashino",
+      "hasVid": false,
+      "shot": "shots/before-shop-course-390.webp"
+    },
+    {
+      "part": "C+D",
+      "page": "product",
+      "width": 390,
+      "buyCardWidth": 358,
+      "url": "http://olavka-com.localhost:8611/ru/products/steviya-v-tabletkah-saharozamenitel-100-sht-cherkashino",
+      "hasVid": false,
+      "shot": "shots/before-shop-product-390.webp"
+    }
+  ]
+}

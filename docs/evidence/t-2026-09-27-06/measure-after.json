@@ -1,0 +1,96 @@
+{
+  "tag": "after",
+  "measuredAt": "2026-09-30T06:24:48.701Z",
+  "runs": [
+    {
+      "part": "A",
+      "screen": "product-attributes",
+      "width": 1440,
+      "cells": 5,
+      "maxLines": 1,
+      "multiLine": [],
+      "shot": "shots/after-panel-product-attributes-1440.webp"
+    },
+    {
+      "part": "A",
+      "screen": "pages",
+      "width": 1440,
+      "cells": 25,
+      "maxLines": 1,
+      "multiLine": [],
+      "shot": "shots/after-panel-pages-1440.webp"
+    },
+    {
+      "part": "A",
+      "screen": "settings/redirects",
+      "width": 1440,
+      "cells": 4,
+      "maxLines": 1,
+      "multiLine": [],
+      "shot": "shots/after-panel-settings-redirects-1440.webp"
+    },
+    {
+      "part": "C+D",
+      "page": "course",
+      "width": 1440,
+      "buyCardWidth": 354,
+      "url": "http://olavka-com.localhost:8611/ru/products/course-ochishchenie-pecheni-cherkashino",
+      "hasVid": false,
+      "shot": "shots/after-shop-course-1440.webp"
+    },
+    {
+      "part": "C+D",
+      "page": "product",
+      "width": 1440,
+      "buyCardWidth": 354,
+      "url": "http://olavka-com.localhost:8611/ru/products/steviya-v-tabletkah-saharozamenitel-100-sht-cherkashino",
+      "hasVid": false,
+      "shot": "shots/after-shop-product-1440.webp"
+    },
+    {
+      "part": "A",
+      "screen": "product-attributes",
+      "width": 390,
+      "cells": 5,
+      "maxLines": 1,
+      "multiLine": [],
+      "shot": "shots/after-panel-product-attributes-390.webp"
+    },
+    {
+      "part": "A",
+      "screen": "pages",
+      "width": 390,
+      "cells": 25,
+      "maxLines": 1,
+      "multiLine": [],
+      "shot": "shots/after-panel-pages-390.webp"
+    },
+    {
+      "part": "A",
+      "screen": "settings/redirects",
+      "width": 390,
+      "cells": 4,
+      "maxLines": 1,
+      "multiLine": [],
+      "shot": "shots/after-panel-settings-redirects-390.webp"
+    },
+    {
+      "part": "C+D",
+      "page": "course",
+      "width": 390,
+      "buyCardWidth": 358,
+      "url": "http://olavka-com.localhost:8611/ru/products/course-ochishchenie-pecheni-cherkashino",
+      "hasVid": false,
+      "shot": "shots/after-shop-course-390.webp"
+    },
+    {
+      "part": "C+D",
+      "page": "product",
+      "width": 390,
+      "buyCardWidth": 358,
+      "url": "http://olavka-com.localhost:8611/ru/products/steviya-v-tabletkah-saharozamenitel-100-sht-cherkashino",
+      "hasVid": false,
+      "shot": "shots/after-shop-product-390.webp"
+    }
+  ]
+}
