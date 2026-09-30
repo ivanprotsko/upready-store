@@ -4,6 +4,9 @@ import { clx } from "@medusajs/ui"
 import { Link } from "@i18n/navigation"
 import ProductCard, {
   PRODUCT_GRID_CLASS,
+  PRODUCT_GRID_COLLAPSE_BELOW,
+  PRODUCT_GRID_COLLAPSED_CLASS,
+  PRODUCT_GRID_COLLAPSED_ITEM_CLASS,
   PRODUCT_GRID_ROW_BUDGET,
 } from "@modules/products/components/product-card"
 
@@ -45,7 +48,8 @@ export function ListingSectionHeader({
 /**
  * The grid itself is the catalog's: the same card, the same columns, the same gaps. What
  * a home section adds is a row budget (`PRODUCT_GRID_ROW_BUDGET`), so the grid never ends
- * on a ragged row.
+ * on a ragged row, and, with fewer than four products, the collapsed grid, so it never
+ * shows one row that is mostly empty.
  */
 const ROW_BUDGET = PRODUCT_GRID_ROW_BUDGET
 
@@ -64,13 +68,24 @@ export default function ListingSection({
   rows?: keyof typeof ROW_BUDGET
   "data-testid"?: string
 }) {
+  const collapsed = products.length < PRODUCT_GRID_COLLAPSE_BELOW
+
   // Eager loading follows what is on the first screen: the first row of the widest grid.
   return (
     <li className={HOME_SECTION_CLASS} data-testid={dataTestid}>
       <ListingSectionHeader heading={heading} href={href} linkLabel={linkLabel} />
-      <ul className={clx(PRODUCT_GRID_CLASS, ROW_BUDGET[rows])} data-product-grid="home">
+      <ul
+        className={
+          collapsed ? PRODUCT_GRID_COLLAPSED_CLASS : clx(PRODUCT_GRID_CLASS, ROW_BUDGET[rows])
+        }
+        data-product-grid="home"
+        data-product-count={products.length}
+      >
         {products.map((product, index) => (
-          <li key={product.id} className="min-w-0">
+          <li
+            key={product.id}
+            className={clx("min-w-0", collapsed && PRODUCT_GRID_COLLAPSED_ITEM_CLASS)}
+          >
             <ProductCard product={product} priority={index < 4} />
           </li>
         ))}

@@ -31,7 +31,8 @@ import { resolveProfileDir } from "../migration-scripts/data/store-profile";
  * (hero `l`, which has no storefront schema at all — zero `frames` on any profile)
  * to hero `k`, the only hero fully implemented today — `composition.ts`'s own doc
  * comment on `PROFILE_DEFAULTS.sneakers` carries the full reasoning and the fork it
- * was reported under (`.ai/reports/C1.json`).
+ * was reported under (`.ai/reports/C1.json`). `supplements` deviates too, tiles `on`
+ * where the contract says `off`, for the reason given on the same doc comment.
  */
 
 type ProfileId = "sneakers" | "electronics" | "supplements" | "womens-fashion" | "home-goods";
@@ -66,7 +67,7 @@ const PROFILE_DEFAULTS: Record<ProfileId, StorefrontSettingsInput> = {
     defaultMode: "light",
     header: "h6",
     hero: "k",
-    tiles: "off",
+    tiles: "on",
     listing: "p3",
     footer: "f6",
   },

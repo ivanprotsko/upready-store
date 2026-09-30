@@ -196,7 +196,7 @@ describe("PROFILE_DEFAULTS", () => {
     expect(Object.keys(PROFILE_DEFAULTS).sort()).toEqual([...ids].sort())
   })
 
-  it("matches composition-contract.json's profileDefaults field-for-field, except sneakers' hero", () => {
+  it("matches composition-contract.json's profileDefaults field-for-field, except sneakers' hero and supplements' tiles", () => {
     const contract = readJson(CONTRACT)
     for (const [id, doc] of Object.entries(PROFILE_DEFAULTS)) {
       const source = contract.profileDefaults[id]
@@ -205,6 +205,10 @@ describe("PROFILE_DEFAULTS", () => {
       if (id === "sneakers") {
         // deliberate deviation — see the doc comment on PROFILE_DEFAULTS
         expect(doc).toEqual({ ...expected, hero: "k" })
+      } else if (id === "supplements") {
+        // deliberate deviation — see the doc comment on PROFILE_DEFAULTS
+        expect(expected.tiles).toBe("off")
+        expect(doc).toEqual({ ...expected, tiles: "on" })
       } else {
         expect(doc).toEqual(expected)
       }

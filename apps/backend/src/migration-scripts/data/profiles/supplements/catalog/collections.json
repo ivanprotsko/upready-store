@@ -15,15 +15,10 @@
     "handle": "third-party-tested",
     "title": "Third-party tested",
     "products": [
-      "baseline-daily",
       "baseline-fifty-plus",
       "baseline-prenatal",
-      "vitamin-d3-k2",
-      "magnesium-glycinate",
       "zinc-picolinate",
-      "omega-3-rtg",
-      "collagen-peptides",
-      "probiotic-12-strain"
+      "collagen-peptides"
     ]
   }
 ]

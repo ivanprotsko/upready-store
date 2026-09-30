@@ -45,7 +45,7 @@ export type CompositionDoc = {
 export const PROFILE_DEFAULTS: Record<ProfileId, CompositionDoc> = {
   sneakers: { defaultMode: "dark", header: "h5", hero: "k", tiles: "off", listing: "p2", footer: "f3" },
   electronics: { defaultMode: "dark", header: "h3", hero: "k", tiles: "on", listing: "p3", footer: "f5" },
-  supplements: { defaultMode: "light", header: "h6", hero: "k", tiles: "off", listing: "p3", footer: "f6" },
+  supplements: { defaultMode: "light", header: "h6", hero: "k", tiles: "on", listing: "p3", footer: "f6" },
   "womens-fashion": { defaultMode: "light", header: "h6", hero: "g", tiles: "off", listing: "p4", footer: "f6" },
   "home-goods": { defaultMode: "light", header: "h2", hero: "h", tiles: "on", listing: "p4", footer: "f4" },
 }
