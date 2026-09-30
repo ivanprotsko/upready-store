@@ -1,0 +1,147 @@
+{
+  "base": "http://localhost:8612",
+  "tag": "electronics",
+  "taken": "2026-09-30T03:02:24.610Z",
+  "profile": "electronics",
+  "brand": "Ferrite",
+  "heroLayout": "announcement",
+  "media": [
+    {
+      "slot": "hero",
+      "url": "http://localhost:9612/static/store-profiles/electronics/home-hero.webp",
+      "direct": {
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 34808
+      },
+      "nextImage": {
+        "status": 200,
+        "type": "image/jpeg"
+      },
+      "onPage": {
+        "rendered": 0,
+        "decoded": 0,
+        "alt": null
+      }
+    },
+    {
+      "slot": "tile:headphones",
+      "url": "http://localhost:9612/static/store-profiles/electronics/tile-headphones.webp",
+      "direct": {
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 36422
+      },
+      "nextImage": {
+        "status": 200,
+        "type": "image/jpeg"
+      },
+      "onPage": {
+        "rendered": 1,
+        "decoded": 1,
+        "alt": ""
+      }
+    },
+    {
+      "slot": "tile:earbuds",
+      "url": "http://localhost:9612/static/store-profiles/electronics/tile-earbuds.webp",
+      "direct": {
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 31120
+      },
+      "nextImage": {
+        "status": 200,
+        "type": "image/jpeg"
+      },
+      "onPage": {
+        "rendered": 1,
+        "decoded": 1,
+        "alt": ""
+      }
+    },
+    {
+      "slot": "tile:speakers",
+      "url": "http://localhost:9612/static/store-profiles/electronics/tile-speakers.webp",
+      "direct": {
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 75988
+      },
+      "nextImage": {
+        "status": 200,
+        "type": "image/jpeg"
+      },
+      "onPage": {
+        "rendered": 1,
+        "decoded": 1,
+        "alt": ""
+      }
+    },
+    {
+      "slot": "tile:power-banks",
+      "url": "http://localhost:9612/static/store-profiles/electronics/tile-power-banks.webp",
+      "direct": {
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 66616
+      },
+      "nextImage": {
+        "status": 200,
+        "type": "image/jpeg"
+      },
+      "onPage": {
+        "rendered": 1,
+        "decoded": 1,
+        "alt": ""
+      }
+    },
+    {
+      "slot": "tile:cables-and-chargers",
+      "url": "http://localhost:9612/static/store-profiles/electronics/tile-cables-and-chargers.webp",
+      "direct": {
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 65804
+      },
+      "nextImage": {
+        "status": 200,
+        "type": "image/jpeg"
+      },
+      "onPage": {
+        "rendered": 1,
+        "decoded": 1,
+        "alt": ""
+      }
+    }
+  ],
+  "page": {
+    "url": "http://localhost:8612/en",
+    "status": 200,
+    "imagesOnPage": 41,
+    "wordmark": "FERRITE",
+    "title": "Ferrite",
+    "mediaResponses": [
+      {
+        "url": "http://localhost:8612/_next/image?url=http%3A%2F%2Flocalhost%3A9612%2Fstatic%2Fstore-profiles%2Felectronics%2Ftile-headphones.webp&w=384&q=60",
+        "status": 200
+      },
+      {
+        "url": "http://localhost:8612/_next/image?url=http%3A%2F%2Flocalhost%3A9612%2Fstatic%2Fstore-profiles%2Felectronics%2Ftile-earbuds.webp&w=384&q=60",
+        "status": 200
+      },
+      {
+        "url": "http://localhost:8612/_next/image?url=http%3A%2F%2Flocalhost%3A9612%2Fstatic%2Fstore-profiles%2Felectronics%2Ftile-speakers.webp&w=384&q=60",
+        "status": 200
+      },
+      {
+        "url": "http://localhost:8612/_next/image?url=http%3A%2F%2Flocalhost%3A9612%2Fstatic%2Fstore-profiles%2Felectronics%2Ftile-power-banks.webp&w=384&q=60",
+        "status": 200
+      },
+      {
+        "url": "http://localhost:8612/_next/image?url=http%3A%2F%2Flocalhost%3A9612%2Fstatic%2Fstore-profiles%2Felectronics%2Ftile-cables-and-chargers.webp&w=384&q=60",
+        "status": 200
+      }
+    ]
+  }
+}

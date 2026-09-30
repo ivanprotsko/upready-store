@@ -18,8 +18,17 @@
  *                              ../backend/src/migration-scripts/data/profiles,
  *                              resolved against the storefront root. Tests point it
  *                              at their own fixtures.
- *   STORE_MEDIA_BASE_URL       prefix for the profile's media refs. Unset means the
- *                              refs are served from the storefront's own origin.
+ *   STORE_MEDIA_BASE_URL       prefix for the profile's media refs, exported or written
+ *                              into .env.local / .env. Unset means the directory
+ *                              store-profile-up.mjs copies the media into on this
+ *                              storefront's own backend:
+ *                              <NEXT_PUBLIC_MEDUSA_BACKEND_URL>/static/store-profiles/<id>.
+ *   NEXT_PUBLIC_SITE_NAME      the wordmark on screen (src/lib/util/env.ts). Checked, with
+ *                              brand.name and brand.wordmark.text, against the name section
+ *                              «1. Brand» of the profile's design/style-board.md settled on.
+ *                              A mismatch fails the build.
+ *   STORE_SITE_NAME_GATE=off   skip that check. For a build whose name is meant to differ
+ *                              from its fallback profile (the multi-tenant image).
  *   SKIP_THEME_BUILD=1         write the profile only, do not call the theme build.
  *   STORE_PROFILE_HERO=off     drop home.hero from the generated profile. The profile.json
  *                              keeps its authored hero; only the bundle loses it, so the
@@ -35,8 +44,12 @@ import { fileURLToPath, pathToFileURL } from "node:url"
 import { spawnSync } from "node:child_process"
 
 const STOREFRONT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..")
-const OUTPUT_PATH = join(STOREFRONT_ROOT, "src/lib/profile/profile.generated.json")
+const OUTPUT_FILE = "src/lib/profile/profile.generated.json"
 const DEFAULT_PROFILES_DIR = "../backend/src/migration-scripts/data/profiles"
+// The same fallback src/lib/config.ts gives the SDK when NEXT_PUBLIC_MEDUSA_BACKEND_URL is unset.
+const DEFAULT_BACKEND_URL = "http://localhost:9000"
+// The same fallback src/lib/util/env.ts renders when neither the variable nor a brand names the shop.
+const DEFAULT_SITE_NAME = "Gorgo Medusa Store"
 
 /**
  * The `default` profile: every profile-driven section switched off. This is the
@@ -80,6 +93,133 @@ export function mediaUrl(ref, baseUrl) {
   if (!baseUrl) return `/${ref.replace(/^\/+/, "")}`
   const file = ref.replace(/^\/+/, "").replace(/^media\//, "")
   return `${baseUrl.replace(/\/+$/, "")}/${file}`
+}
+
+/**
+ * Where a profile's media is served from. STORE_MEDIA_BASE_URL wins, whether it was
+ * exported or only written into .env.local / .env (loadDotEnv has folded those in by
+ * now). Unset, it is the directory store-profile-up.mjs copies the media into on the
+ * backend this storefront talks to, with the same localhost:9000 default the SDK uses.
+ *
+ * Unset used to mean "the storefront's own origin", where nothing serves the files. The
+ * 08.09 electronics stand kept STORE_MEDIA_BASE_URL in the backend's .env only, and its
+ * hero and all five category tiles rendered as 404 blanks.
+ */
+export function resolveMediaBaseUrl(env, profileId) {
+  if (env.STORE_MEDIA_BASE_URL) {
+    return { url: env.STORE_MEDIA_BASE_URL, from: "STORE_MEDIA_BASE_URL" }
+  }
+  if (!profileId || profileId === "default") {
+    return { url: undefined, from: null }
+  }
+  const backend = (env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || DEFAULT_BACKEND_URL).replace(/\/+$/, "")
+  return {
+    url: `${backend}/static/store-profiles/${profileId}`,
+    from: env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+      ? "NEXT_PUBLIC_MEDUSA_BACKEND_URL"
+      : `the default backend ${DEFAULT_BACKEND_URL}`,
+  }
+}
+
+const normaliseName = (value) =>
+  String(value).normalize("NFKC").replace(/\s+/g, " ").trim().toLowerCase()
+
+/**
+ * The shop name the profile's style board settled on, read from its section «1. Brand».
+ * The boards are prose written by different hands, so this reads three shapes. A
+ * `brand.name` table row (sneakers), a `**Name — X.**` lead (electronics, home-goods,
+ * supplements), and a section that opens on the bare name in bold (womens-fashion).
+ *
+ * A null name with `unreadable` false leaves nothing to check against, because there is no
+ * board or the board has no Brand section (the abstract starter set). With `unreadable`
+ * true the section is there and names nothing this reader recognises, and the gate treats
+ * that as a failure rather than a pass.
+ */
+export function readStyleBoardName(profileDir) {
+  const path = join(profileDir, "design", "style-board.md")
+  if (!existsSync(path)) {
+    return { name: null, unreadable: false, reason: "the profile has no design/style-board.md" }
+  }
+  const text = readFileSync(path, "utf8")
+  const heading = /^##\s+1\.\s+Brand\b.*$/m.exec(text)
+  if (!heading) {
+    return {
+      name: null,
+      unreadable: false,
+      reason: "design/style-board.md has no section «1. Brand»",
+    }
+  }
+  const rest = text.slice(heading.index + heading[0].length)
+  const next = rest.search(/^##\s/m)
+  const section = (next < 0 ? rest : rest.slice(0, next)).trim()
+  const found =
+    /^\|\s*`brand\.name`\s*\|\s*([^|]+?)\s*\|/m.exec(section)?.[1] ??
+    /\*\*Name\s*[—–:-]+\s*([^*]+?)\.?\*\*/.exec(section)?.[1] ??
+    /^\*\*([^*]+?)\.?\*\*/.exec(section)?.[1]
+  const name = found?.replace(/[`"«»]/g, "").trim()
+  if (!name) {
+    return {
+      name: null,
+      unreadable: true,
+      reason:
+        "section «1. Brand» of design/style-board.md names no brand this gate can read " +
+        "(write it as **Name — X.** or as a `brand.name` table row)",
+    }
+  }
+  return { name, unreadable: false, reason: null }
+}
+
+/**
+ * The name gate (q-site-name-unchecked). The home-goods stand once shipped the wordmark
+ * QUERNSTONE, a name its own style board had rejected, and only a human looking at a
+ * screenshot caught it. So every name this build puts on screen or into the bundle has to
+ * be the one the board settled on. That covers brand.name, brand.wordmark.text and the
+ * wordmark src/lib/util/env.ts renders (NEXT_PUBLIC_SITE_NAME, else brand.name). Case and
+ * spacing are ignored, because the wordmark is set in capitals by design.
+ */
+export function checkSiteName({ profileId, profilesDir, brand, env = process.env }) {
+  if (env.STORE_SITE_NAME_GATE === "off") {
+    return { status: "off", message: "site-name gate off (STORE_SITE_NAME_GATE=off)" }
+  }
+  if (!profileId || profileId === "default") {
+    return { status: "skipped", message: 'site-name gate skipped: profile "default" has no style board' }
+  }
+  const board = readStyleBoardName(join(profilesDir, profileId))
+  if (!board.name) {
+    return {
+      status: board.unreadable ? "failed" : "skipped",
+      message: `site-name gate ${board.unreadable ? "FAILED" : "skipped"} for profile "${profileId}": ${board.reason}`,
+    }
+  }
+
+  const onScreen = env.NEXT_PUBLIC_SITE_NAME
+    ? ["NEXT_PUBLIC_SITE_NAME, the wordmark on screen", env.NEXT_PUBLIC_SITE_NAME]
+    : [
+        "the wordmark on screen (NEXT_PUBLIC_SITE_NAME unset)",
+        brand?.name || DEFAULT_SITE_NAME,
+      ]
+  const checks = [
+    ["profile.json brand.name", brand?.name],
+    ["profile.json brand.wordmark.text", brand?.wordmark?.text],
+    onScreen,
+  ]
+  const wanted = normaliseName(board.name)
+  const wrong = checks.filter(([, value]) => value != null && normaliseName(value) !== wanted)
+  if (wrong.length) {
+    return {
+      status: "failed",
+      message:
+        `site-name gate FAILED for profile "${profileId}": design/style-board.md «1. Brand» ` +
+        `settled on "${board.name}", but\n` +
+        wrong.map(([label, value]) => `  - ${label} is "${value}"`).join("\n") +
+        "\nFix the name, or set STORE_SITE_NAME_GATE=off for a build whose name is meant " +
+        "to differ from its fallback profile.",
+    }
+  }
+  return {
+    status: "ok",
+    message: `site name "${onScreen[1]}" matches design/style-board.md «1. Brand» ("${board.name}")`,
+  }
 }
 
 /**
@@ -248,8 +388,10 @@ export function runThemeBuild({ root = STOREFRONT_ROOT, env = process.env } = {}
  * `default` profile. Precedence matches Next: a real environment variable wins, then
  * .env.local, then .env. @next/env is not resolvable from this package, hence the hand
  * parse; it deliberately understands only KEY=VALUE, comments and surrounding quotes.
+ * `origins` collects which file each key came from, so the build log can say where the
+ * media base was read (a key that was already set records nothing).
  */
-export function loadDotEnv(env = process.env, root = STOREFRONT_ROOT) {
+export function loadDotEnv(env = process.env, root = STOREFRONT_ROOT, origins = {}) {
   for (const file of [".env.local", ".env"]) {
     const path = join(root, file)
     if (!existsSync(path)) continue
@@ -262,25 +404,44 @@ export function loadDotEnv(env = process.env, root = STOREFRONT_ROOT) {
       const quoted = /^(['"])(.*)\1$/.exec(value)
       value = quoted ? quoted[2] : value.replace(/\s+#.*$/, "").trim()
       env[key] = value
+      origins[key] = file
     }
   }
   return env
 }
 
-export function main(env = process.env) {
-  loadDotEnv(env)
+/**
+ * Throws when the site-name gate fails, before anything is written, so a failed build
+ * leaves the previous profile.generated.json in place. `root` is the storefront root the
+ * .env files are read from and the output is written under. Tests point it elsewhere.
+ */
+export function main(env = process.env, { root = STOREFRONT_ROOT } = {}) {
+  const origins = {}
+  loadDotEnv(env, root, origins)
   const profileId = env.NEXT_PUBLIC_STORE_PROFILE || "default"
-  const profilesDir = resolveProfilesDir(env)
+  const profilesDir = resolveProfilesDir(env, root)
   const heroEnabled = env.STORE_PROFILE_HERO !== "off"
+  const media = resolveMediaBaseUrl(env, profileId)
   const profile = buildProfile({
     profileId,
     profilesDir,
-    mediaBaseUrl: env.STORE_MEDIA_BASE_URL,
+    mediaBaseUrl: media.url,
     heroEnabled,
   })
 
-  mkdirSync(dirname(OUTPUT_PATH), { recursive: true })
-  writeFileSync(OUTPUT_PATH, `${JSON.stringify(profile, null, 2)}\n`)
+  const gate = checkSiteName({
+    profileId: profile.source === "backend" ? profileId : "default",
+    profilesDir,
+    brand: profile.brand,
+    env,
+  })
+  if (gate.status === "failed") {
+    throw new Error(gate.message)
+  }
+
+  const outputPath = join(root, OUTPUT_FILE)
+  mkdirSync(dirname(outputPath), { recursive: true })
+  writeFileSync(outputPath, `${JSON.stringify(profile, null, 2)}\n`)
   console.log(
     `[build-profile] profile "${profile.id}" (source: ${profile.source}) -> ` +
       `src/lib/profile/profile.generated.json · hero: ${
@@ -293,11 +454,21 @@ export function main(env = process.env) {
       ` · tiles: ${profile.home.categoryTiles.length}` +
       ` · aspect: ${profile.layout.imageTreatment?.aspect ?? "none"}`
   )
+  if (media.url && profile.source === "backend") {
+    const file = origins[media.from] ? `, ${origins[media.from]}` : ""
+    console.log(`[build-profile] media base: ${media.url} (from ${media.from}${file})`)
+  }
+  console.log(`[build-profile] ${gate.message}`)
 
-  runThemeBuild({ env })
+  runThemeBuild({ root, env })
   return profile
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  main()
+  try {
+    main()
+  } catch (error) {
+    console.error(`[build-profile] ${error.message}`)
+    process.exit(1)
+  }
 }

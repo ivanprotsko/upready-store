@@ -83,7 +83,12 @@ pnpm 10.11.1, pinned by `packageManager` in the root [package.json](package.json
 later, or 22.12 or later. `engines` excludes v21.
 
 When the pnpm on `PATH` is a different major, run `corepack pnpm <command>`. A mismatched major asks
-to delete and reinstall every `node_modules` in the workspace.
+to delete and reinstall every `node_modules` in the workspace. `engines.pnpm` (`^10.11.1`) makes an
+older pnpm fail with `ERR_PNPM_UNSUPPORTED_ENGINE` before it writes anything. That covers every
+command run at the repository root, `pnpm dev` and `pnpm build` included, and not the scripts of one
+app run from its own directory. Without it pnpm 8.12
+exits 0 after rewriting `pnpm-lock.yaml` from format 9.0 to 6.0, about 26,000 changed lines. Never
+commit such a rewrite.
 
 The starter is meant to install under npm and yarn as well, so never put a pnpm-only construct into a
 package script, and never add a second lockfile.

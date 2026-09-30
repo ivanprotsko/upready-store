@@ -63,7 +63,14 @@ ARG NEXT_PUBLIC_DEFAULT_REGION=us
 # it has to be baked at build time; LOCALE_PIN and LOCALE_COUNTRY_MAP are read by
 # the middleware at runtime and stay out of the image.
 ARG NEXT_PUBLIC_DEFAULT_LOCALE=en
-ARG NEXT_PUBLIC_SITE_NAME="Gorgo Medusa Store"
+# No default on purpose. Left empty, the wordmark is the profile's brand.name
+# (src/lib/util/env.ts). build-profile.mjs checks the name against the profile's
+# design/style-board.md and fails the build on a mismatch. STORE_SITE_NAME_GATE=off
+# skips that check for an image whose name is meant to differ from its fallback
+# profile (deploy/compose.mt.yml). The old default "Gorgo Medusa Store" put the
+# starter's name on every profile built without this argument.
+ARG NEXT_PUBLIC_SITE_NAME
+ARG STORE_SITE_NAME_GATE
 ARG STORE_MEDIA_BASE_URL
 # The zone a new shop's technical subdomain lands in, e.g. `shipshift.dev`. It is
 # NEXT_PUBLIC_ because the onboarding wizard is a client component and prints it
@@ -89,6 +96,7 @@ ENV NEXT_PUBLIC_STORE_PROFILE=$NEXT_PUBLIC_STORE_PROFILE \
     NEXT_PUBLIC_DEFAULT_LOCALE=$NEXT_PUBLIC_DEFAULT_LOCALE \
     NEXT_PUBLIC_SITE_NAME=$NEXT_PUBLIC_SITE_NAME \
     STORE_MEDIA_BASE_URL=$STORE_MEDIA_BASE_URL \
+    STORE_SITE_NAME_GATE=$STORE_SITE_NAME_GATE \
     NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN=$NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN \
     NEXT_PUBLIC_YANDEX_MAPS_KEY=$NEXT_PUBLIC_YANDEX_MAPS_KEY \
     NEXT_PUBLIC_YANDEX_LOGIN_ENABLED=$NEXT_PUBLIC_YANDEX_LOGIN_ENABLED \

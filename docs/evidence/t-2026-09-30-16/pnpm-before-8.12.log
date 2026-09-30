@@ -1,0 +1,34 @@
+$ pnpm --version
+8.12.0
+$ pnpm install --lockfile-only   (pnpm 8.12.0 from PATH, clean copy of origin/dev 8ab6fba1)
+Progress: resolved 1667, reused 1532, downloaded 2, added 0
+Progress: resolved 1705, reused 1569, downloaded 2, added 0
+ WARN  23 deprecated subdependencies found: @react-email/body@0.3.0, @react-email/button@0.2.1, @react-email/code-block@0.2.1, @react-email/code-inline@0.0.6, @react-email/column@0.0.14, @react-email/container@0.0.16, @react-email/font@0.0.10, @react-email/head@0.0.13, @react-email/heading@0.0.16, @react-email/hr@0.0.12, @react-email/html@0.0.12, @react-email/img@0.0.12, @react-email/link@0.0.13, @react-email/markdown@0.0.18, @react-email/preview@0.0.14, @react-email/row@0.0.13, @react-email/section@0.0.17, @react-email/tailwind@2.0.7, @react-email/text@0.1.6, cron-parser@4.9.0, glob@7.2.3, inflight@1.0.6, uuid@9.0.1
+Progress: resolved 1710, reused 1574, downloaded 2, added 0
+Progress: resolved 1710, reused 1574, downloaded 3, added 0, done
+
+ WARN  Issues with peer dependencies found
+apps/backend
+├─┬ @medusajs/dashboard 2.19.0
+│ └─┬ @hookform/resolvers 5.5.7
+│   └── ✕ unmet peer ajv-formats@^2.1.1: found 3.0.1
+└─┬ @medusajs/medusa 2.19.0
+  └─┬ @medusajs/file-s3 2.19.0
+    └─┬ @aws-sdk/lib-storage 3.1143.0
+      └── ✕ unmet peer @aws-sdk/client-s3@^3.1143.0: found 3.1094.0 in @medusajs/file-s3
+
+apps/storefront
+├─┬ eslint-config-next 15.5.21
+│ └─┬ @typescript-eslint/eslint-plugin 8.71.0
+│   └── ✕ unmet peer @typescript-eslint/parser@^8.71.0: found 8.49.0 in eslint-config-next
+└─┬ @medusajs/ui 4.2.1
+  ├── ✕ unmet peer react@^18.3.1: found 19.0.5
+  └── ✕ unmet peer react-dom@^18.3.1: found 19.0.5
+
+Done in 15.6s
+pnpm install --lockfile-only 2>&1  13.13s user 4.69s system 113% cpu 15.737 total
+tail -25  0.00s user 0.00s system 0% cpu 15.737 total
+exit: 0
+$ git diff --no-index --shortstat (origin/dev lockfile vs after install)
+ 1 file changed, 10999 insertions(+), 15603 deletions(-)
+lockfileVersion: '6.0'

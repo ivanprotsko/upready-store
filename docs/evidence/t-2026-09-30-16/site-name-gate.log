@@ -1,0 +1,27 @@
+$ NEXT_PUBLIC_STORE_PROFILE=home-goods NEXT_PUBLIC_SITE_NAME=QUERNSTONE corepack pnpm run build
+> @dtc/gorgo-medusa-storefront@1.0.0 prebuild /Users/ivanprotsko/upready/worktrees/upready-store/audit/46df/apps/storefront
+> node scripts/build-profile.mjs
+[build-profile] site-name gate FAILED for profile "home-goods": design/style-board.md «1. Brand» settled on "Long Morning", but
+  - NEXT_PUBLIC_SITE_NAME, the wordmark on screen is "QUERNSTONE"
+Fix the name, or set STORE_SITE_NAME_GATE=off for a build whose name is meant to differ from its fallback profile.
+ ELIFECYCLE  Command failed with exit code 1.
+exit: 1
+profile.generated.json sha256 before/after: d77488e1fc889334 / d77488e1fc889334
+
+$ NEXT_PUBLIC_STORE_PROFILE=home-goods NEXT_PUBLIC_SITE_NAME="LONG MORNING" SKIP_THEME_BUILD=1 node scripts/build-profile.mjs
+[build-profile] profile "home-goods" (source: backend) -> src/lib/profile/profile.generated.json · hero: announcement · tiles: 4 · aspect: 4:5
+[build-profile] media base: http://localhost:9471/static/store-profiles/home-goods (from NEXT_PUBLIC_MEDUSA_BACKEND_URL, .env.local)
+[build-profile] site name "LONG MORNING" matches design/style-board.md «1. Brand» ("Long Morning")
+exit: 0
+
+$ NEXT_PUBLIC_STORE_PROFILE=sneakers NEXT_PUBLIC_SITE_NAME=Shipshift STORE_SITE_NAME_GATE=off SKIP_THEME_BUILD=1 node scripts/build-profile.mjs   (the compose.mt.yml case)
+[build-profile] profile "sneakers" (source: backend) -> src/lib/profile/profile.generated.json · hero: announcement · tiles: 4 · aspect: 1:1
+[build-profile] media base: http://localhost:9471/static/store-profiles/sneakers (from NEXT_PUBLIC_MEDUSA_BACKEND_URL, .env.local)
+[build-profile] site-name gate off (STORE_SITE_NAME_GATE=off)
+exit: 0
+
+$ NEXT_PUBLIC_STORE_PROFILE=sneakers NEXT_PUBLIC_SITE_NAME=Shipshift SKIP_THEME_BUILD=1 node scripts/build-profile.mjs   (the same without the switch)
+[build-profile] site-name gate FAILED for profile "sneakers": design/style-board.md «1. Brand» settled on "Kerbstone", but
+  - NEXT_PUBLIC_SITE_NAME, the wordmark on screen is "Shipshift"
+Fix the name, or set STORE_SITE_NAME_GATE=off for a build whose name is meant to differ from its fallback profile.
+exit: 1

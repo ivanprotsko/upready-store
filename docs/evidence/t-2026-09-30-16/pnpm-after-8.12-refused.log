@@ -1,0 +1,25 @@
+$ pnpm --version   (PATH)
+8.12.0
+$ pnpm install --lockfile-only   (pnpm 8.12.0, origin/dev + engines.pnpm ^10.11.1)
+Expected version: ^10.11.1
+Got: 8.12.0
+
+This is happening because the package's manifest has an engines.pnpm field specified.
+To fix this issue, install the required pnpm version globally.
+
+To install the latest version of pnpm, run "pnpm i -g pnpm".
+To check your pnpm version, run "pnpm -v".
+exit: 1
+$ pnpm install   (pnpm 8.12.0)
+Expected version: ^10.11.1
+Got: 8.12.0
+
+This is happening because the package's manifest has an engines.pnpm field specified.
+To fix this issue, install the required pnpm version globally.
+
+To install the latest version of pnpm, run "pnpm i -g pnpm".
+To check your pnpm version, run "pnpm -v".
+exit: 1
+$ cmp pnpm-lock.yaml <origin/dev lockfile>
+lockfile unchanged
+ls: node_modules: No such file or directory
