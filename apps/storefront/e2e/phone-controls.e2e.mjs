@@ -1,6 +1,6 @@
 // Phone controls probe: at 390px a visitor must reach theme, language and country.
 //
-// The header hides all three below 1024px, so they live in the bottom navigation (theme)
+// Most headers hide all three below 1024px, so they live in the bottom navigation (theme)
 // and in the category menu it opens (language + country dialog, theme). The probe taps
 // them the way a finger does; a control that is in the DOM but covered fails the tap.
 //

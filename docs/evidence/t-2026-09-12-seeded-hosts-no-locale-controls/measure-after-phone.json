@@ -1,0 +1,106 @@
+{
+  "tag": "after-phone",
+  "port": "8611",
+  "measuredAt": "2026-09-30T05:30:17.814Z",
+  "runs": [
+    {
+      "host": "acme",
+      "width": 390,
+      "url": "http://acme.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-store-link": true,
+        "nav-mode-toggle": false,
+        "nav-region-select-button": true,
+        "nav-country-select-button": true,
+        "nav-cart-link": true,
+        "nav-category-band": true,
+        "nav-category-strip": true,
+        "nav-category-chip-all": true,
+        "nav-category-chip": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [
+        "11 170,99 ₽",
+        "13 768,99 ₽",
+        "10 304,99 ₽"
+      ],
+      "shot": "shots/after-phone-acme-390.webp",
+      "menu": {
+        "settingsVisible": true,
+        "language": {
+          "count": 2,
+          "visible": 2,
+          "texts": [
+            "RU",
+            "RU"
+          ]
+        },
+        "currency": {
+          "count": 2,
+          "visible": 2,
+          "texts": [
+            "₽",
+            "₽"
+          ]
+        },
+        "shot": "shots/after-phone-acme-390-menu.webp"
+      }
+    }
+  ],
+  "switched": {
+    "host": "acme",
+    "width": 390,
+    "before": {
+      "url": "http://acme.localhost:8611/en",
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "$"
+        ]
+      },
+      "prices": [
+        "$128.99",
+        "$158.99",
+        "$118.99"
+      ]
+    },
+    "after": {
+      "url": "http://acme.localhost:8611/ru",
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [
+        "11 170,99 ₽",
+        "13 768,99 ₽",
+        "10 304,99 ₽"
+      ],
+      "shot": "shots/after-phone-acme-390-switched.webp"
+    }
+  }
+}

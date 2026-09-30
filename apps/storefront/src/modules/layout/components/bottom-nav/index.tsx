@@ -35,8 +35,9 @@ const BottomNav = async () => {
           <CategoryMenu
             categories={categories}
             className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-            // The header hides language, country and theme below 1024px whatever its
-            // variant, so on a phone they live here, in the one menu every layout has.
+            // Below 1024px most headers hide language, country and theme (H1 and H5 keep
+            // language and country in the bar), so on a phone they live here, in the one
+            // menu every layout has.
             settings={
               <>
                 <RegionSelect

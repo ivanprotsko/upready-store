@@ -1,0 +1,477 @@
+{
+  "tag": "before",
+  "port": "8611",
+  "measuredAt": "2026-09-30T05:25:01.480Z",
+  "runs": [
+    {
+      "host": "acme",
+      "width": 1440,
+      "url": "http://acme.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-store-link": true,
+        "nav-mode-toggle": true,
+        "nav-region-select-button": true,
+        "nav-country-select-button": true,
+        "nav-cart-link": true,
+        "nav-category-band": true,
+        "nav-category-strip": true,
+        "nav-category-chip-all": true,
+        "nav-category-chip": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [
+        "11 170,99 ₽",
+        "13 768,99 ₽",
+        "10 304,99 ₽"
+      ],
+      "shot": "shots/before-acme-1440.webp"
+    },
+    {
+      "host": "acme",
+      "width": 390,
+      "url": "http://acme.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-store-link": true,
+        "nav-mode-toggle": false,
+        "nav-region-select-button": false,
+        "nav-country-select-button": false,
+        "nav-cart-link": true,
+        "nav-category-band": true,
+        "nav-category-strip": true,
+        "nav-category-chip-all": true,
+        "nav-category-chip": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 0,
+        "texts": []
+      },
+      "currency": {
+        "count": 1,
+        "visible": 0,
+        "texts": []
+      },
+      "prices": [
+        "11 170,99 ₽",
+        "13 768,99 ₽",
+        "10 304,99 ₽"
+      ],
+      "shot": "shots/before-acme-390.webp",
+      "menu": {
+        "settingsVisible": true,
+        "language": {
+          "count": 2,
+          "visible": 1,
+          "texts": [
+            "RU"
+          ]
+        },
+        "currency": {
+          "count": 2,
+          "visible": 1,
+          "texts": [
+            "₽"
+          ]
+        },
+        "shot": "shots/before-acme-390-menu.webp"
+      }
+    },
+    {
+      "host": "globex",
+      "width": 1440,
+      "url": "http://globex.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-store-link": true,
+        "nav-mode-toggle": true,
+        "nav-region-select-button": true,
+        "nav-country-select-button": true,
+        "nav-cart-link": true,
+        "nav-category-band": true,
+        "nav-category-strip": true,
+        "nav-category-chip-all": true,
+        "nav-category-chip": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [
+        "5 888,99 ₽",
+        "3 636,99 ₽",
+        "2 770,99 ₽"
+      ],
+      "shot": "shots/before-globex-1440.webp"
+    },
+    {
+      "host": "globex",
+      "width": 390,
+      "url": "http://globex.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-store-link": true,
+        "nav-mode-toggle": false,
+        "nav-region-select-button": false,
+        "nav-country-select-button": false,
+        "nav-cart-link": true,
+        "nav-category-band": true,
+        "nav-category-strip": true,
+        "nav-category-chip-all": true,
+        "nav-category-chip": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 0,
+        "texts": []
+      },
+      "currency": {
+        "count": 1,
+        "visible": 0,
+        "texts": []
+      },
+      "prices": [
+        "5 888,99 ₽",
+        "3 636,99 ₽",
+        "2 770,99 ₽"
+      ],
+      "shot": "shots/before-globex-390.webp",
+      "menu": {
+        "settingsVisible": true,
+        "language": {
+          "count": 2,
+          "visible": 1,
+          "texts": [
+            "RU"
+          ]
+        },
+        "currency": {
+          "count": 2,
+          "visible": 1,
+          "texts": [
+            "₽"
+          ]
+        },
+        "shot": "shots/before-globex-390-menu.webp"
+      }
+    },
+    {
+      "host": "initech",
+      "width": 1440,
+      "url": "http://initech.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-store-link": true,
+        "nav-mode-toggle": true,
+        "nav-region-select-button": true,
+        "nav-country-select-button": true,
+        "nav-cart-link": true,
+        "nav-category-band": true,
+        "nav-category-strip": true,
+        "nav-category-chip-all": true,
+        "nav-category-chip": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [
+        "16 366,99 ₽",
+        "37 150,99 ₽",
+        "4 242,99 ₽"
+      ],
+      "shot": "shots/before-initech-1440.webp"
+    },
+    {
+      "host": "initech",
+      "width": 390,
+      "url": "http://initech.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-store-link": true,
+        "nav-mode-toggle": false,
+        "nav-region-select-button": false,
+        "nav-country-select-button": false,
+        "nav-cart-link": true,
+        "nav-category-band": true,
+        "nav-category-strip": true,
+        "nav-category-chip-all": true,
+        "nav-category-chip": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 0,
+        "texts": []
+      },
+      "currency": {
+        "count": 1,
+        "visible": 0,
+        "texts": []
+      },
+      "prices": [
+        "16 366,99 ₽",
+        "37 150,99 ₽",
+        "4 242,99 ₽"
+      ],
+      "shot": "shots/before-initech-390.webp",
+      "menu": {
+        "settingsVisible": true,
+        "language": {
+          "count": 2,
+          "visible": 1,
+          "texts": [
+            "RU"
+          ]
+        },
+        "currency": {
+          "count": 2,
+          "visible": 1,
+          "texts": [
+            "₽"
+          ]
+        },
+        "shot": "shots/before-initech-390-menu.webp"
+      }
+    },
+    {
+      "host": "nochlavka",
+      "width": 1440,
+      "url": "http://nochlavka.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-menu-button": true,
+        "nav-store-link": true,
+        "nav-mode-toggle": true,
+        "nav-region-select-button": true,
+        "nav-country-select-button": true,
+        "nav-account-link": true,
+        "nav-cart-link": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [],
+      "shot": "shots/before-nochlavka-1440.webp"
+    },
+    {
+      "host": "nochlavka",
+      "width": 390,
+      "url": "http://nochlavka.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-menu-button": true,
+        "nav-store-link": false,
+        "nav-mode-toggle": false,
+        "nav-region-select-button": true,
+        "nav-country-select-button": true,
+        "nav-account-link": false,
+        "nav-cart-link": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [],
+      "shot": "shots/before-nochlavka-390.webp",
+      "menu": {
+        "settingsVisible": true,
+        "language": {
+          "count": 2,
+          "visible": 2,
+          "texts": [
+            "RU",
+            "RU"
+          ]
+        },
+        "currency": {
+          "count": 2,
+          "visible": 2,
+          "texts": [
+            "₽",
+            "₽"
+          ]
+        },
+        "shot": "shots/before-nochlavka-390-menu.webp"
+      }
+    },
+    {
+      "host": "testovyy-magazin",
+      "width": 1440,
+      "url": "http://testovyy-magazin.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-menu-button": true,
+        "nav-store-link": true,
+        "nav-mode-toggle": true,
+        "nav-region-select-button": true,
+        "nav-country-select-button": true,
+        "nav-account-link": true,
+        "nav-cart-link": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [],
+      "shot": "shots/before-testovyy-magazin-1440.webp"
+    },
+    {
+      "host": "testovyy-magazin",
+      "width": 390,
+      "url": "http://testovyy-magazin.localhost:8611/ru",
+      "status": 200,
+      "header": {
+        "nav-menu-button": true,
+        "nav-store-link": false,
+        "nav-mode-toggle": false,
+        "nav-region-select-button": true,
+        "nav-country-select-button": true,
+        "nav-account-link": false,
+        "nav-cart-link": true
+      },
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [],
+      "shot": "shots/before-testovyy-magazin-390.webp",
+      "menu": {
+        "settingsVisible": true,
+        "language": {
+          "count": 2,
+          "visible": 2,
+          "texts": [
+            "RU",
+            "RU"
+          ]
+        },
+        "currency": {
+          "count": 2,
+          "visible": 2,
+          "texts": [
+            "₽",
+            "₽"
+          ]
+        },
+        "shot": "shots/before-testovyy-magazin-390-menu.webp"
+      }
+    }
+  ],
+  "switched": {
+    "host": "acme",
+    "before": {
+      "url": "http://acme.localhost:8611/en",
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "$"
+        ]
+      },
+      "prices": [
+        "$128.99",
+        "$158.99",
+        "$118.99"
+      ]
+    },
+    "after": {
+      "url": "http://acme.localhost:8611/ru",
+      "language": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "RU"
+        ]
+      },
+      "currency": {
+        "count": 1,
+        "visible": 1,
+        "texts": [
+          "₽"
+        ]
+      },
+      "prices": [
+        "11 170,99 ₽",
+        "13 768,99 ₽",
+        "10 304,99 ₽"
+      ],
+      "shot": "shots/before-acme-1440-switched.webp"
+    },
+    "width": 1440
+  }
+}
