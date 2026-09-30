@@ -78,7 +78,28 @@ export default function ProfileHero(props: HomeHeroProps = {}) {
 
 type ResolvedHero = ReturnType<typeof resolveHero>
 
-function Cta({ onImage, cta }: { onImage: boolean; cta: ResolvedHero["cta"] }) {
+/*
+ * The CTA carries the preset's accent (electronics style board §3.2: the primary button is
+ * one of the five places --primary appears), in whichever form its surface allows:
+ *
+ *   page     — the primary button itself: --button-inverted (bridged to --primary) under
+ *              --contrast-fg-primary, which globals.css re-points to --primary-foreground on
+ *              exactly this class. It used to be --contrast-bg-base, the fixed dark surface
+ *              of tooltips and badges, which rendered the accent graphite;
+ *   accent   — on the announcement band, which already IS --primary: the same pair
+ *              inverted, a --primary-foreground chip with an accent label. Inside the band
+ *              --contrast-fg-primary is --primary-foreground, so the chip needs no new token;
+ *   image    — on a photograph under its scrim: a pill in the page's own --bg/--fg.
+ */
+type CtaSurface = "page" | "accent" | "image"
+
+const CTA_SURFACE: Record<CtaSurface, string> = {
+  page: "bg-ui-button-inverted text-ui-contrast-fg-primary hover:bg-ui-button-inverted-hover",
+  accent: "bg-ui-contrast-fg-primary text-ui-button-inverted hover:underline underline-offset-4",
+  image: "bg-ui-bg-base text-ui-fg-base hover:bg-ui-bg-component-hover",
+}
+
+function Cta({ on, cta }: { on: CtaSurface; cta: ResolvedHero["cta"] }) {
   if (!cta) return null
 
   return (
@@ -86,11 +107,9 @@ function Cta({ onImage, cta }: { onImage: boolean; cta: ResolvedHero["cta"] }) {
       href={cta.href}
       data-testid="profile-hero-cta"
       className={
-        "inline-flex h-11 items-center justify-center rounded-full px-6 text-base font-medium " +
+        "inline-flex h-11 w-fit items-center justify-center rounded-full px-6 text-base font-medium " +
         "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-border-interactive focus-visible:ring-2 focus-visible:ring-[var(--ring)] " +
-        (onImage
-          ? "w-fit bg-ui-bg-base text-ui-fg-base hover:bg-ui-bg-component-hover"
-          : "w-fit bg-ui-contrast-bg-base text-ui-contrast-fg-primary hover:bg-ui-contrast-bg-base-hover")
+        CTA_SURFACE[on]
       }
     >
       {cta.label}
@@ -107,9 +126,10 @@ function Cta({ onImage, cta }: { onImage: boolean; cta: ResolvedHero["cta"] }) {
  *    Tailwind cannot put an alpha into a bare var() colour and drops the whole class in
  *    silence, which left `--tw-gradient-stops` unset and computed the band to
  *    `background-image: none` — there was no scrim on any stand at all;
- *  - the copy carries its alpha inside the value (`text-[rgba(255,255,255,0.86)]`) instead
- *    of behind a `/86` modifier, for the same reason. The subheadline used to lose its rule
- *    entirely and inherit the page ink: black text on a light photograph, 1.0-1.4:1.
+ *  - the subheadline takes --contrast-fg-secondary, the second ink of the surface that is
+ *    dark in both modes, and no opacity modifier: `text-ui-contrast-fg-primary/80` lost its
+ *    rule entirely and inherited the page ink, black text on a photograph at 1.0-1.4:1. The
+ *    alpha lives inside the token (the bridge row), where Tailwind cannot drop it.
  *
  * The gradient runs sideways on desktop, where the copy is anchored left, and upwards on
  * mobile, where it sits at the bottom — two elements rather than one responsive class,
@@ -149,12 +169,12 @@ function FullBleedHero({ headline, subheadline, image, cta }: ResolvedHero) {
             {headline}
           </h1>
           {subheadline ? (
-            <p className="mt-4 max-w-[46ch] text-balance text-sm leading-relaxed text-[rgba(255,255,255,0.86)] small:text-base">
+            <p className="mt-4 max-w-[46ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-secondary small:text-base">
               {subheadline}
             </p>
           ) : null}
           <div className="mt-7">
-            <Cta onImage cta={cta} />
+            <Cta on="image" cta={cta} />
           </div>
         </div>
       </div>
@@ -177,9 +197,8 @@ function FullBleedHero({ headline, subheadline, image, cta }: ResolvedHero) {
  * 3.66:1 terracotta. The lab's block K never muted the subheadline (`color: inherit`), and
  * that is what Ivan approved; size alone tells the two lines apart.
  *
- * The CTA stays the `onImage` variant: a pill in the page's own --bg/--fg, unaffected by the
- * section's re-pointed custom properties (they only reach the two --contrast-fg-* names),
- * so it reads as a light or dark chip standing off the accent band rather than inheriting it.
+ * The CTA is the `accent` surface of Cta above: the band's own pair turned over, so its label
+ * is the accent and it stands off the band as a chip.
  */
 function AnnouncementHero({ headline, subheadline, cta }: ResolvedHero) {
   if (!headline) return null
@@ -203,7 +222,7 @@ function AnnouncementHero({ headline, subheadline, cta }: ResolvedHero) {
           </p>
         ) : null}
         <div className="mt-2">
-          <Cta onImage cta={cta} />
+          <Cta on="accent" cta={cta} />
         </div>
       </div>
     </section>
@@ -245,7 +264,7 @@ function SplitHero({ headline, subheadline, image, cta }: ResolvedHero) {
             </p>
           ) : null}
           <div className="mt-8">
-            <Cta onImage={false} cta={cta} />
+            <Cta on="page" cta={cta} />
           </div>
         </div>
       </div>

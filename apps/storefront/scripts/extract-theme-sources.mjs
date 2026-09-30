@@ -172,6 +172,9 @@ const STOREFRONT_OVERRIDE = {
  *                        values are already identical in both modes, otherwise the
  *                        script blends it with `with` and calls the row `diverged`
  *   { canon, with }      blend partner: 'bg' | 'fg' | 'transparent' | 'black' | 'white'
+ *   { canon, dark }      `dark` names the canon token the dark mode follows instead,
+ *                        for a row whose right anchor flips between the modes; `reason`
+ *                        is recorded on the row
  *   { canon, exact }     follow the canon token verbatim even though the vendor value
  *                        differs; `exact` is the reason, and it is recorded on the row
  *   { open: reason }     no canon counterpart; the row keeps the vendor value
@@ -180,6 +183,11 @@ const STOREFRONT_OVERRIDE = {
  *                        preset per mode against a WCAG ratio on the surfaces named in
  *                        `solve`, and the bridge points at the solved variable
  */
+const CAUSE_E =
+  "cause E: --contrast-bg-base is dark in both modes, so its ink must be light in both. " +
+  "--destructive-foreground is white in every light preset but flips to the page ink in five dark ones " +
+  "(1.0-1.3:1 measured 2026-09-08), so the dark row follows --foreground instead"
+
 const BRIDGE = {
   /* --- surfaces ------------------------------------------------------------- */
   "--bg-base": { canon: "--background" },
@@ -195,7 +203,11 @@ const BRIDGE = {
   "--bg-field-hover": { canon: "--accent", with: "bg" },
   "--bg-field-component": { canon: "--background" },
   "--bg-field-component-hover": { canon: "--secondary", with: "bg" },
-  "--bg-disabled": { canon: "--accent" },
+  // Not --accent: on a preset whose accent is its brand colour (womens-fashion's
+  // terracotta) the disabled control was a solid block louder than the enabled CTA beside
+  // it. A disabled surface recedes toward the page, which is what --muted is for.
+  // build-themes fails when this row stops following --muted.
+  "--bg-disabled": { canon: "--muted" },
   "--bg-highlight": { canon: "--link", with: "bg" },
   "--bg-highlight-hover": { canon: "--link", with: "bg" },
   "--bg-interactive": { canon: "--ring" },
@@ -217,7 +229,7 @@ const BRIDGE = {
   // (contrast can only rise), which is a design call, not an accessibility one.
   "--fg-muted": { canon: "--muted-foreground", exact: "AA on the preset background: the fitted blend reproduced Medusa's #71717a, measured 4.28:1 light / 3.65:1 dark on the sneakers stand 2026-09-08" },
   // d-11, second pass. --fg-disabled is read on TWO surfaces, and they pull in opposite
-  // directions: the disabled Button paints --bg-disabled (= --accent) under it, while every
+  // directions: the disabled Button paints --bg-disabled (= --accent then, --muted now) under it, while every
   // other disabled label (checkout's payment note, the filter combobox rows) sits on the page.
   // A single fixed percentage off --foreground serves the page and abandons the button the
   // moment a preset's --accent stops being a near-neutral: womens-fashion measured 1.04:1 on
@@ -243,8 +255,8 @@ const BRIDGE = {
         {
           variable: "--fg-disabled-on-surface",
           anchors: ["--foreground", "--background"],
-          toward: "--accent",
-          surfaces: ["--accent"],
+          toward: "--muted",
+          surfaces: ["--muted"],
         },
       ],
     },
@@ -257,7 +269,8 @@ const BRIDGE = {
       "both surfaces there — light needs luminance >= 0.576 for the button and <= 0.159 for the " +
       "page — so the percentage is gone: each ink is solved per preset per mode against the " +
       "surfaces it is read on, taking the MOST muted colour that still clears the target, so a " +
-      "disabled control stays visibly disabled instead of being lifted to enabled contrast.",
+      "disabled control stays visibly disabled instead of being lifted to enabled contrast. " +
+      "Since 2026-09-30 --bg-disabled follows --muted, not --accent, so the on-surface ink is solved on --muted.",
   },
   "--fg-on-color": { canon: "--destructive-foreground" },
   "--fg-on-inverted": { canon: "--primary-foreground" },
@@ -282,9 +295,16 @@ const BRIDGE = {
   "--contrast-bg-subtle": { open: "inverted-surface ramp, see --contrast-bg-base" },
   "--contrast-border-top": { open: "inverted-surface ramp, see --contrast-bg-base" },
   "--contrast-border-bot": { open: "inverted-surface ramp, see --contrast-bg-base" },
-  "--contrast-border-base": { open: "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)" },
-  "--contrast-fg-primary": { open: "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)" },
-  "--contrast-fg-secondary": { open: "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)" },
+  // Cause E. The ink of the inverted surface stays in the bridge, with a dark row of its
+  // own. --contrast-bg-base is dark in BOTH modes, so its ink must be light in both, and no
+  // single canon token is: --destructive-foreground is white in every light preset and
+  // flips to the page ink in five dark ones (electronics, geist, home-goods, sneakers,
+  // supplements measured 1.0-1.3:1 on 2026-09-08). Light keeps --destructive-foreground,
+  // dark follows --foreground, which is the light ink of every dark preset. build-themes
+  // measures both inks on --contrast-bg-base for every preset and fails below 4.5:1.
+  "--contrast-border-base": { canon: "--destructive-foreground", with: "transparent", dark: "--foreground", reason: CAUSE_E },
+  "--contrast-fg-primary": { canon: "--destructive-foreground", with: "transparent", dark: "--foreground", reason: CAUSE_E },
+  "--contrast-fg-secondary": { canon: "--destructive-foreground", with: "transparent", dark: "--foreground", reason: CAUSE_E },
 
   /* --- button fills --------------------------------------------------------- */
   "--button-inverted": { canon: "--primary" },
@@ -517,7 +537,7 @@ function main() {
     // diverged: solve the blend per mode (see the header note on Medusa's two ramps)
     const hint = spec.with || "bg"
     const light = solveMix(spec.canon, effective.light, hint, medusaCanon.light)
-    const dark = solveMix(spec.canon, effective.dark, hint, medusaCanon.dark)
+    const dark = solveMix(spec.dark ?? spec.canon, effective.dark, hint, medusaCanon.dark, Boolean(spec.dark))
     const expr = (s) => `color-mix(in srgb, var(${s.canon}) ${s.pct}%, ${PARTNER_EXPR[s.with]})`
     const sameInBothModes = light.canon === dark.canon && light.with === dark.with && light.pct === dark.pct
     rows.push({
@@ -537,6 +557,7 @@ function main() {
       effective,
       storefrontOverride: overridden || undefined,
       medusaResidual: { light: round(light.residual), dark: round(dark.residual) },
+      reason: spec.reason,
     })
     counts.diverged++
   }
@@ -602,9 +623,13 @@ const ANCHOR_GAIN = 8
  * a fixed colour — a bridge that blends with #000 stops following the preset, so that
  * partner is used solely where the authored table asked for it.
  */
-function solveMix(authoredCanon, vendorValue, hint, canonOfMode) {
+function solveMix(authoredCanon, vendorValue, hint, canonOfMode, keepAlpha = false) {
   const target = parseColor(vendorValue)
   if (!target) return { canon: authoredCanon, pct: 100, with: hint, residual: null } // shadow stacks: no colour maths
+  // `keepAlpha` (rows with a `dark` anchor): when the anchor's own colour is the whole
+  // residual, every percentage near the vendor alpha ties, and the first of them is the
+  // dimmest. The tie goes to the vendor's alpha instead, so the ink keeps its weight.
+  const alphaErr = (pct) => Math.abs(pct / 100 - target.a)
 
   const partners = [...new Set([hint, "bg", "fg", "transparent"])]
   const search = (canon) => {
@@ -621,7 +646,8 @@ function solveMix(authoredCanon, vendorValue, hint, canonOfMode) {
         const better =
           !best ||
           err < best.residual - 1e-9 ||
-          (Math.abs(err - best.residual) < 1e-9 && key === hint && best.with !== hint)
+          (Math.abs(err - best.residual) < 1e-9 && key === hint && best.with !== hint) ||
+          (keepAlpha && Math.abs(err - best.residual) < 1e-9 && alphaErr(pct) < alphaErr(best.pct))
         if (better) best = { canon, pct, with: key, residual: err }
       }
     }

@@ -227,11 +227,13 @@
 /*
  * Cause E used to be patched here as a dark-mode-scoped override of
  * --contrast-fg-primary / -fg-secondary / -border-base. It is fixed at the source now:
- * the three rows joined the --contrast-* family that scripts/extract-theme-sources.mjs
- * marks `open` (specs/design-system/token-map.json), because --contrast-bg-base is a
- * FIXED dark surface in both modes and a foreground derived from --destructive-foreground
- * flips to the preset ink and disappears. Regenerate with `pnpm themes:extract` +
- * `pnpm themes:build`; do not re-add a patch here.
+ * the three rows stay in the bridge with a dark row of their own
+ * (specs/design-system/token-map.json, written by scripts/extract-theme-sources.mjs).
+ * --contrast-bg-base is a FIXED dark surface in both modes, so light follows
+ * --destructive-foreground and dark follows --foreground, the light ink of every dark
+ * preset. `pnpm themes:build` measures both inks on that surface for every preset and
+ * fails under 4.5:1. Regenerate with `pnpm themes:extract` + `pnpm themes:build`; do not
+ * re-add a patch here.
  */
 
 
@@ -267,8 +269,10 @@
  *
  * @medusajs/ui pairs `disabled:bg-ui-bg-disabled` with `disabled:text-ui-fg-disabled` on
  * Button, Input and Select, so on those elements --fg-disabled is read on --bg-disabled
- * (bridged to the canon --accent). Everywhere else the same variable is read on the page:
- * checkout's payment note, the filter combobox's unavailable rows, the radio dot.
+ * (bridged to the canon --muted since 2026-09-30; it was --accent, and on womens-fashion
+ * that made the disabled button a terracotta block louder than the live CTA). Everywhere
+ * else the same variable is read on the page: checkout's payment note, the filter
+ * combobox's unavailable rows, the radio dot.
  *
  * Those two surfaces pull apart, and on a preset whose accent is chromatic they pull apart
  * far enough that NO single colour serves both. Measured on womens-fashion light: clearing
@@ -280,7 +284,8 @@
  * So there are two inks now, both solved per preset per mode by scripts/build-themes.mjs
  * against a contrast target rather than a percentage: --fg-disabled-on-page (read on
  * --background / --card / --popover / --secondary / --muted) and --fg-disabled-on-surface
- * (read on --accent). The bridge hands --fg-disabled the page ink; this rule re-points it
+ * (read on --bg-disabled, i.e. --muted). The build fails when either pair drops under
+ * 4.5:1 on any preset, or when --bg-disabled stops following --muted. The bridge hands --fg-disabled the page ink; this rule re-points it
  * to the surface ink on exactly the elements that paint --bg-disabled underneath it. Custom
  * properties inherit, so nothing about the vendor class or the bridge changes — the same
  * call-site trick as .bg-ui-button-inverted above.
