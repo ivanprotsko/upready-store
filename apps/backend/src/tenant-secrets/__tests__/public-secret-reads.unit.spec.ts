@@ -42,10 +42,23 @@ const row = (provider: string, payload: string) => ({
   is_enabled: true,
 });
 
-describe.each([
+/**
+ * What the two wrappers share, and all this table needs. Left to inference, `read`
+ * is the union of the two functions and a call to it a union of two promises, which
+ * `withEnvKey<T>` does not accept: `medusa build` failed on it (t-2026-09-30-18).
+ */
+type PublicSecretRead = (
+  pg: Knex,
+  tenantId: string,
+  logger: { warn: (message: string) => void },
+) => Promise<{ tenant_id: string } | null>;
+
+const READS: { name: string; provider: string; read: PublicSecretRead; value: Record<string, string> }[] = [
   { name: "readCdekSecretPublic", provider: "cdek", read: readCdekSecretPublic, value: { account: "acc" } },
   { name: "readPochtaSecretPublic", provider: "pochta", read: readPochtaSecretPublic, value: { token: "tok" } },
-])("$name", ({ provider, read, value }) => {
+];
+
+describe.each(READS)("$name", ({ provider, read, value }) => {
   it("a row encrypted under a DIFFERENT key: returns null, logs one warn with the tenant id and no key, never throws", async () => {
     const pg = fakePg(row(provider, encryptJson(value, deriveKey("key-A-at-write-time"))));
     const warn = jest.fn();
