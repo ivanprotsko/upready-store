@@ -1,0 +1,23 @@
+## negative 1: --bg-disabled back on --accent (the q-bg-disabled-is-the-accent state)
+exit 1
+themes:build failed — --bg-disabled must follow --muted in both modes; token-map.json has "--bg-disabled: var(--accent);" / undefined
+
+## negative 2: cause E dark rows following --destructive-foreground again (the 2026-09-08 defect)
+exit 1
+themes:build failed — inverted-surface ink under 4.5:1:
+  electronics/dark --contrast-fg-primary: 1.25:1
+  electronics/dark --contrast-fg-secondary: 1.17:1
+  geist/dark --contrast-fg-primary: 1.30:1
+  geist/dark --contrast-fg-secondary: 1.21:1
+  home-goods/dark --contrast-fg-primary: 1.19:1
+  home-goods/dark --contrast-fg-secondary: 1.13:1
+  sneakers/dark --contrast-fg-primary: 1.30:1
+  sneakers/dark --contrast-fg-secondary: 1.21:1
+  supplements/dark --contrast-fg-primary: 1.24:1
+  supplements/dark --contrast-fg-secondary: 1.16:1
+  womens-fashion/dark --contrast-fg-primary: 1.24:1
+  womens-fashion/dark --contrast-fg-secondary: 1.16:1
+
+## negative 3: cause E rows taken out of the bridge again (status open, the 5d4503d2 state)
+exit 1
+themes:build failed — --contrast-fg-primary left the bridge (status open): it needs its bridge and bridgeDark rows back

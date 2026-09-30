@@ -1,0 +1,312 @@
+{
+  "base": "http://olavka-com.localhost:8613",
+  "taken": "2026-09-30T00:35:57.257Z",
+  "presets": [
+    {
+      "theme": "electronics",
+      "mode": "light",
+      "contrastFgPrimaryOnContrastBg": 13.84,
+      "contrastFgSecondaryOnContrastBg": 6.25,
+      "bgDisabled": "rgb(241, 244, 247)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.72,
+      "fgAccent": "rgb(11, 87, 208)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 6.39
+    },
+    {
+      "theme": "electronics",
+      "mode": "dark",
+      "contrastFgPrimaryOnContrastBg": 10.13,
+      "contrastFgSecondaryOnContrastBg": 5.01,
+      "bgDisabled": "rgb(30, 36, 43)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.61,
+      "fgAccent": "rgb(77, 157, 255)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 6.89
+    },
+    {
+      "theme": "geist",
+      "mode": "light",
+      "contrastFgPrimaryOnContrastBg": 13.84,
+      "contrastFgSecondaryOnContrastBg": 6.25,
+      "bgDisabled": "rgb(245, 245, 245)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.61,
+      "fgAccent": "rgb(23, 23, 23)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 17.93
+    },
+    {
+      "theme": "geist",
+      "mode": "dark",
+      "contrastFgPrimaryOnContrastBg": 10.17,
+      "contrastFgSecondaryOnContrastBg": 5.03,
+      "bgDisabled": "rgb(26, 26, 26)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.65,
+      "fgAccent": "rgb(237, 237, 237)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 16.91
+    },
+    {
+      "theme": "home-goods",
+      "mode": "light",
+      "contrastFgPrimaryOnContrastBg": 13.84,
+      "contrastFgSecondaryOnContrastBg": 6.25,
+      "bgDisabled": "rgb(242, 235, 224)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.64,
+      "fgAccent": "rgb(166, 75, 42)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 5.55
+    },
+    {
+      "theme": "home-goods",
+      "mode": "dark",
+      "contrastFgPrimaryOnContrastBg": 10.08,
+      "contrastFgSecondaryOnContrastBg": 4.99,
+      "bgDisabled": "rgb(38, 32, 27)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.65,
+      "fgAccent": "rgb(224, 138, 99)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 6.88
+    },
+    {
+      "theme": "medusa",
+      "mode": "light",
+      "contrastFgPrimaryOnContrastBg": 13.84,
+      "contrastFgSecondaryOnContrastBg": 6.25,
+      "bgDisabled": "rgb(244, 244, 245)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.63,
+      "fgAccent": "rgb(39, 39, 42)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 14.89
+    },
+    {
+      "theme": "medusa",
+      "mode": "dark",
+      "contrastFgPrimaryOnContrastBg": 10.81,
+      "contrastFgSecondaryOnContrastBg": 5.29,
+      "bgDisabled": "rgb(39, 39, 42)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.61,
+      "fgAccent": "rgb(135, 135, 142)",
+      "fgAccentIsPrimary": false,
+      "fgAccentOnPage": 4.5
+    },
+    {
+      "theme": "sneakers",
+      "mode": "light",
+      "contrastFgPrimaryOnContrastBg": 13.84,
+      "contrastFgSecondaryOnContrastBg": 6.25,
+      "bgDisabled": "rgb(245, 245, 245)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.61,
+      "fgAccent": "rgb(10, 10, 10)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 19.8
+    },
+    {
+      "theme": "sneakers",
+      "mode": "dark",
+      "contrastFgPrimaryOnContrastBg": 10.17,
+      "contrastFgSecondaryOnContrastBg": 5.03,
+      "bgDisabled": "rgb(26, 26, 26)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.65,
+      "fgAccent": "rgb(214, 255, 59)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 17.18
+    },
+    {
+      "theme": "supplements",
+      "mode": "light",
+      "contrastFgPrimaryOnContrastBg": 13.84,
+      "contrastFgSecondaryOnContrastBg": 6.25,
+      "bgDisabled": "rgb(238, 245, 242)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.6,
+      "fgAccent": "rgb(10, 106, 82)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 6.57
+    },
+    {
+      "theme": "supplements",
+      "mode": "dark",
+      "contrastFgPrimaryOnContrastBg": 10.36,
+      "contrastFgSecondaryOnContrastBg": 5.11,
+      "bgDisabled": "rgb(24, 36, 32)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.62,
+      "fgAccent": "rgb(87, 224, 176)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 11.4
+    },
+    {
+      "theme": "womens-fashion",
+      "mode": "light",
+      "contrastFgPrimaryOnContrastBg": 12.99,
+      "contrastFgSecondaryOnContrastBg": 5.93,
+      "bgDisabled": "rgb(239, 232, 219)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.62,
+      "fgAccent": "rgb(23, 20, 15)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 16.47
+    },
+    {
+      "theme": "womens-fashion",
+      "mode": "dark",
+      "contrastFgPrimaryOnContrastBg": 9.98,
+      "contrastFgSecondaryOnContrastBg": 4.95,
+      "bgDisabled": "rgb(36, 31, 24)",
+      "bgDisabledIsMuted": true,
+      "fgDisabledOnSurfaceOnBgDisabled": 4.65,
+      "fgAccent": "rgb(242, 234, 220)",
+      "fgAccentIsPrimary": true,
+      "fgAccentOnPage": 15.75
+    }
+  ],
+  "served": {
+    "home-shop-light": {
+      "base": "http://olavka-com.localhost:8613",
+      "theme": "electronics",
+      "mode": "light",
+      "primary": "rgb(11, 87, 208)",
+      "primaryForeground": "rgb(255, 255, 255)",
+      "heroLayout": "full-bleed",
+      "heroBand": {
+        "color": "rgb(13, 16, 19)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "heroCta": {
+        "color": "rgb(13, 16, 19)",
+        "background": "rgb(255, 255, 255)"
+      },
+      "price": null,
+      "cardPrice": {
+        "color": "rgb(11, 87, 208)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "disabledButton": null,
+      "subheadline": {
+        "color": "color(srgb 1 1 1 / 0.56)",
+        "className": "mt-4 max-w-[46ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-secondary small:text-base"
+      }
+    },
+    "home-profile-light": {
+      "base": "http://localhost:8613",
+      "theme": "electronics",
+      "mode": "light",
+      "primary": "rgb(11, 87, 208)",
+      "primaryForeground": "rgb(255, 255, 255)",
+      "heroLayout": "announcement",
+      "heroBand": {
+        "color": "rgb(13, 16, 19)",
+        "background": "rgb(11, 87, 208)"
+      },
+      "heroCta": {
+        "color": "rgb(11, 87, 208)",
+        "background": "rgb(255, 255, 255)"
+      },
+      "price": null,
+      "cardPrice": null,
+      "disabledButton": null,
+      "subheadline": {
+        "color": "rgb(255, 255, 255)",
+        "className": "max-w-[60ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-primary small:text-base"
+      }
+    },
+    "pdp-light": {
+      "path": "/ru/products/zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino",
+      "theme": "electronics",
+      "mode": "light",
+      "primary": "rgb(11, 87, 208)",
+      "primaryForeground": "rgb(255, 255, 255)",
+      "heroLayout": null,
+      "heroBand": null,
+      "heroCta": null,
+      "price": {
+        "color": "rgb(11, 87, 208)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "cardPrice": {
+        "color": "rgb(13, 16, 19)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "disabledButton": null
+    },
+    "home-shop-dark": {
+      "base": "http://olavka-com.localhost:8613",
+      "theme": "electronics",
+      "mode": "dark",
+      "primary": "rgb(77, 157, 255)",
+      "primaryForeground": "rgb(6, 9, 12)",
+      "heroLayout": "full-bleed",
+      "heroBand": {
+        "color": "rgb(233, 237, 241)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "heroCta": {
+        "color": "rgb(233, 237, 241)",
+        "background": "rgb(13, 16, 19)"
+      },
+      "price": null,
+      "cardPrice": {
+        "color": "rgb(77, 157, 255)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "disabledButton": null,
+      "subheadline": {
+        "color": "color(srgb 0.913725 0.929412 0.945098 / 0.56)",
+        "className": "mt-4 max-w-[46ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-secondary small:text-base"
+      }
+    },
+    "home-profile-dark": {
+      "base": "http://localhost:8613",
+      "theme": "electronics",
+      "mode": "dark",
+      "primary": "rgb(77, 157, 255)",
+      "primaryForeground": "rgb(6, 9, 12)",
+      "heroLayout": "announcement",
+      "heroBand": {
+        "color": "rgb(233, 237, 241)",
+        "background": "rgb(77, 157, 255)"
+      },
+      "heroCta": {
+        "color": "rgb(77, 157, 255)",
+        "background": "rgb(6, 9, 12)"
+      },
+      "price": null,
+      "cardPrice": null,
+      "disabledButton": null,
+      "subheadline": {
+        "color": "rgb(6, 9, 12)",
+        "className": "max-w-[60ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-primary small:text-base"
+      }
+    },
+    "pdp-dark": {
+      "path": "/ru/products/zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino",
+      "theme": "electronics",
+      "mode": "dark",
+      "primary": "rgb(77, 157, 255)",
+      "primaryForeground": "rgb(6, 9, 12)",
+      "heroLayout": null,
+      "heroBand": null,
+      "heroCta": null,
+      "price": {
+        "color": "rgb(77, 157, 255)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "cardPrice": {
+        "color": "rgb(233, 237, 241)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "disabledButton": null
+    }
+  }
+}
