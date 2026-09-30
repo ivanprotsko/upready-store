@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -7,10 +7,13 @@ import { fileURLToPath } from "node:url"
 import {
   DEFAULT_PROFILE,
   buildProfile,
+  checkSiteName,
   loadDotEnv,
   main,
   mediaUrl,
   readLocaleOverrides,
+  readStyleBoardName,
+  resolveMediaBaseUrl,
   resolveProfilesDir,
 } from "../../../scripts/build-profile.mjs"
 
@@ -18,6 +21,17 @@ const HERE = dirname(fileURLToPath(import.meta.url))
 const STOREFRONT_ROOT = resolve(HERE, "../../..")
 const FIXTURES = join(HERE, "../fixtures/profiles")
 const GENERATED = join(STOREFRONT_ROOT, "src/lib/profile/profile.generated.json")
+const REAL_PROFILES = resolveProfilesDir({})
+
+/** A throwaway storefront root: its own .env.local, its own profile.generated.json. */
+function scratchRoot(envLocal) {
+  const root = mkdtempSync(join(tmpdir(), "build-profile-root-"))
+  if (envLocal !== undefined) writeFileSync(join(root, ".env.local"), envLocal)
+  return root
+}
+
+const readGenerated = (root) =>
+  JSON.parse(readFileSync(join(root, "src/lib/profile/profile.generated.json"), "utf8"))
 
 describe("build-profile · default fallback", () => {
   it("returns the default profile when the backend profile directory is absent", () => {
@@ -281,5 +295,183 @@ describe("build-profile · main() writes the file", () => {
     const written = JSON.parse(readFileSync(GENERATED, "utf8"))
     expect(written.home.hero).toBeNull()
     expect(written.home.categoryTiles).toHaveLength(4)
+  })
+})
+
+describe("build-profile · media base (q-media-base-url-not-exported)", () => {
+  it("takes STORE_MEDIA_BASE_URL first", () => {
+    expect(
+      resolveMediaBaseUrl(
+        { STORE_MEDIA_BASE_URL: "https://cdn.test/p", NEXT_PUBLIC_MEDUSA_BACKEND_URL: "http://b.test" },
+        "electronics"
+      )
+    ).toEqual({ url: "https://cdn.test/p", from: "STORE_MEDIA_BASE_URL" })
+  })
+
+  it("falls back to the directory store-profile-up.mjs fills on this storefront's backend", () => {
+    expect(
+      resolveMediaBaseUrl({ NEXT_PUBLIC_MEDUSA_BACKEND_URL: "http://localhost:9612/" }, "electronics")
+    ).toEqual({
+      url: "http://localhost:9612/static/store-profiles/electronics",
+      from: "NEXT_PUBLIC_MEDUSA_BACKEND_URL",
+    })
+  })
+
+  it("uses the SDK's own default backend when neither variable is set", () => {
+    expect(resolveMediaBaseUrl({}, "sneakers").url).toBe(
+      "http://localhost:9000/static/store-profiles/sneakers"
+    )
+  })
+
+  it("has no base for the default profile, which carries no media", () => {
+    expect(resolveMediaBaseUrl({}, "default").url).toBeUndefined()
+  })
+
+  it("reads STORE_MEDIA_BASE_URL out of .env.local without an export", () => {
+    const root = scratchRoot(
+      `STORE_PROFILES_DIR=${FIXTURES}\nNEXT_PUBLIC_STORE_PROFILE=testshop\n` +
+        "STORE_MEDIA_BASE_URL=https://media.test/from-dotenv\n"
+    )
+    try {
+      main({ SKIP_THEME_BUILD: "1" }, { root })
+      const written = readGenerated(root)
+      expect(written.home.hero.image).toBe("https://media.test/from-dotenv/hero.webp")
+      expect(written.home.categoryTiles[0].image).toBe("https://media.test/from-dotenv/tile-trail.webp")
+    } finally {
+      rmSync(root, { force: true, recursive: true })
+    }
+  })
+
+  it("builds hero and tile urls on the backend when only the backend url is in .env.local", () => {
+    const root = scratchRoot(
+      `STORE_PROFILES_DIR=${FIXTURES}\nNEXT_PUBLIC_STORE_PROFILE=testshop\n` +
+        "NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9612\n"
+    )
+    try {
+      main({ SKIP_THEME_BUILD: "1" }, { root })
+      const written = readGenerated(root)
+      const base = "http://localhost:9612/static/store-profiles/testshop"
+      expect(written.home.hero.image).toBe(`${base}/hero.webp`)
+      expect(written.home.categoryTiles.every((tile) => tile.image.startsWith(`${base}/`))).toBe(true)
+    } finally {
+      rmSync(root, { force: true, recursive: true })
+    }
+  })
+})
+
+describe("build-profile · site-name gate (q-site-name-unchecked)", () => {
+  it("reads the name out of every real style board, in each of the three shapes they use", () => {
+    const names = {}
+    for (const id of ["electronics", "home-goods", "sneakers", "supplements", "womens-fashion"]) {
+      names[id] = readStyleBoardName(join(REAL_PROFILES, id)).name
+      const brand = JSON.parse(readFileSync(join(REAL_PROFILES, id, "profile.json"), "utf8")).brand
+      expect(names[id]).toBe(brand.name)
+    }
+    expect(names).toEqual({
+      electronics: "Ferrite",
+      "home-goods": "Long Morning",
+      sneakers: "Kerbstone",
+      supplements: "Scruple",
+      "womens-fashion": "Larchant",
+    })
+  })
+
+  it("passes every real profile built with NEXT_PUBLIC_SITE_NAME unset", () => {
+    for (const id of ["electronics", "home-goods", "sneakers", "supplements", "womens-fashion"]) {
+      const { brand } = buildProfile({ profileId: id, profilesDir: REAL_PROFILES })
+      expect(checkSiteName({ profileId: id, profilesDir: REAL_PROFILES, brand, env: {} }).status).toBe("ok")
+    }
+  })
+
+  it("skips a board without a Brand section and a profile without a board", () => {
+    const { brand } = buildProfile({ profileId: "abstract", profilesDir: REAL_PROFILES })
+    expect(checkSiteName({ profileId: "abstract", profilesDir: REAL_PROFILES, brand, env: {} }).status).toBe(
+      "skipped"
+    )
+    expect(checkSiteName({ profileId: "testshop", profilesDir: FIXTURES, brand, env: {} }).status).toBe(
+      "skipped"
+    )
+  })
+
+  it("fails the QUERNSTONE case: home-goods built with the name its board rejected", () => {
+    const root = scratchRoot()
+    try {
+      expect(() =>
+        main(
+          {
+            NEXT_PUBLIC_STORE_PROFILE: "home-goods",
+            STORE_PROFILES_DIR: REAL_PROFILES,
+            NEXT_PUBLIC_SITE_NAME: "QUERNSTONE",
+            SKIP_THEME_BUILD: "1",
+          },
+          { root }
+        )
+      ).toThrow(/settled on "Long Morning"[\s\S]*NEXT_PUBLIC_SITE_NAME, the wordmark on screen is "QUERNSTONE"/)
+      // Nothing is written on a failed gate.
+      expect(existsSync(join(root, "src/lib/profile/profile.generated.json"))).toBe(false)
+    } finally {
+      rmSync(root, { force: true, recursive: true })
+    }
+  })
+
+  it("fails a profile whose own wordmark or brand name drifts from the board", () => {
+    const dir = mkdtempSync(join(tmpdir(), "build-profile-board-"))
+    mkdirSync(join(dir, "home-goods", "design"), { recursive: true })
+    writeFileSync(
+      join(dir, "home-goods", "design", "style-board.md"),
+      "# Board\n\n## 1. Brand\n\n**Name — Long Morning.** Verified.\n\n## 2. Colour\n"
+    )
+    try {
+      const result = checkSiteName({
+        profileId: "home-goods",
+        profilesDir: dir,
+        brand: { name: "Quernstone", wordmark: { text: "QUERNSTONE", style: "wordmark" } },
+        env: {},
+      })
+      expect(result.status).toBe("failed")
+      expect(result.message).toContain('brand.name is "Quernstone"')
+      expect(result.message).toContain('brand.wordmark.text is "QUERNSTONE"')
+    } finally {
+      rmSync(dir, { force: true, recursive: true })
+    }
+  })
+
+  it("ignores case and spacing, because the wordmark is set in capitals", () => {
+    const { brand } = buildProfile({ profileId: "home-goods", profilesDir: REAL_PROFILES })
+    const env = { NEXT_PUBLIC_SITE_NAME: " LONG  MORNING " }
+    expect(checkSiteName({ profileId: "home-goods", profilesDir: REAL_PROFILES, brand, env }).status).toBe("ok")
+  })
+
+  it("fails a Brand section that names nothing it can read", () => {
+    const dir = mkdtempSync(join(tmpdir(), "build-profile-board-"))
+    mkdirSync(join(dir, "shop", "design"), { recursive: true })
+    writeFileSync(join(dir, "shop", "design", "style-board.md"), "## 1. Brand\n\nTo be decided.\n")
+    try {
+      expect(checkSiteName({ profileId: "shop", profilesDir: dir, brand: null, env: {} }).status).toBe(
+        "failed"
+      )
+    } finally {
+      rmSync(dir, { force: true, recursive: true })
+    }
+  })
+
+  it("lets STORE_SITE_NAME_GATE=off through, for the multi-tenant image", () => {
+    const root = scratchRoot()
+    try {
+      const profile = main(
+        {
+          NEXT_PUBLIC_STORE_PROFILE: "sneakers",
+          STORE_PROFILES_DIR: REAL_PROFILES,
+          NEXT_PUBLIC_SITE_NAME: "Shipshift",
+          STORE_SITE_NAME_GATE: "off",
+          SKIP_THEME_BUILD: "1",
+        },
+        { root }
+      )
+      expect(profile.brand.name).toBe("Kerbstone")
+      expect(readGenerated(root).id).toBe("sneakers")
+    } finally {
+      rmSync(root, { force: true, recursive: true })
+    }
   })
 })

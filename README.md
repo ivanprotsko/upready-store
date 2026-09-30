@@ -108,7 +108,7 @@ Both apps are ordinary npm packages, so npm, yarn, and pnpm all install and run 
 | Run a package script | `pnpm <script>` | `npm run <script>` | `yarn <script>` |
 | Run the Medusa CLI | `pnpm medusa <command>` | `npx medusa <command>` | `yarn medusa <command>` |
 
-The repository itself is a pnpm workspace: [`pnpm-workspace.yaml`](pnpm-workspace.yaml), [`pnpm-lock.yaml`](pnpm-lock.yaml), and a `packageManager` field pinning pnpm 10. The root shortcuts under [Commands](#commands) go through that workspace, so with npm or yarn you install and run each app from its own directory, `apps/backend` and `apps/storefront`. If [Corepack](https://nodejs.org/api/corepack.html) is enabled and refuses to run another package manager because of the pinned `packageManager` field, either stay on pnpm or drop that field from the root [`package.json`](package.json).
+The repository itself is a pnpm workspace: [`pnpm-workspace.yaml`](pnpm-workspace.yaml), [`pnpm-lock.yaml`](pnpm-lock.yaml), and a `packageManager` field pinning pnpm 10.11.1. `engines.pnpm` refuses an older pnpm before it touches anything, because pnpm 8 rewrites the whole lockfile in its own format. If the pnpm on your `PATH` is older, run `corepack pnpm install`, which serves the pinned version. The root shortcuts under [Commands](#commands) go through that workspace, so with npm or yarn you install and run each app from its own directory, `apps/backend` and `apps/storefront`. If [Corepack](https://nodejs.org/api/corepack.html) is enabled and refuses to run another package manager because of the pinned `packageManager` field, either stay on pnpm or drop that field from the root [`package.json`](package.json).
 
 ## Getting Started
 
