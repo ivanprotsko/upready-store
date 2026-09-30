@@ -483,7 +483,7 @@
 }
 
 /* bridge: 113 Medusa UI variables follow the canon tokens */
-/* 27 mapped, 55 diverged, 31 open */
+/* 27 mapped, 58 diverged, 28 open */
 :root:not([data-theme-bridge="off"]) {
   --tag-neutral-border: color-mix(in srgb, var(--border) 100%, var(--background));
   --tag-neutral-icon: color-mix(in srgb, var(--muted-foreground) 53%, var(--background));
@@ -491,7 +491,7 @@
   --border-menu-bot: color-mix(in srgb, var(--background) 100%, transparent);
   --border-menu-top: color-mix(in srgb, var(--border) 100%, var(--background));
   --bg-subtle-hover: color-mix(in srgb, var(--secondary) 97.5%, var(--foreground));
-  --contrast-fg-primary: rgba(255, 255, 255, 0.88);
+  --contrast-fg-primary: color-mix(in srgb, var(--destructive-foreground) 88%, transparent);
   --bg-switch-off: color-mix(in srgb, var(--accent) 93%, var(--foreground));
   --contrast-bg-base-pressed: rgba(63, 63, 70, 1);
   --bg-field-component-hover: color-mix(in srgb, var(--secondary) 100%, var(--background));
@@ -500,7 +500,7 @@
   --tag-red-text: color-mix(in srgb, var(--destructive) 63%, var(--foreground));
   --contrast-bg-base: rgba(24, 24, 27, 1);
   --border-strong: color-mix(in srgb, var(--border) 92.5%, var(--foreground));
-  --contrast-border-base: rgba(255, 255, 255, 0.15);
+  --contrast-border-base: color-mix(in srgb, var(--destructive-foreground) 15%, transparent);
   --bg-field: color-mix(in srgb, var(--secondary) 100%, var(--background));
   --tag-blue-text: color-mix(in srgb, var(--chart-1) 51.5%, var(--foreground));
   --button-inverted-pressed: color-mix(in srgb, var(--primary) 78.5%, var(--background));
@@ -508,7 +508,7 @@
   --bg-base-hover: var(--accent);
   --contrast-bg-subtle: rgba(39, 39, 42, 1);
   --bg-highlight: color-mix(in srgb, var(--link) 6.5%, var(--background));
-  --contrast-fg-secondary: rgba(255, 255, 255, 0.56);
+  --contrast-fg-secondary: color-mix(in srgb, var(--destructive-foreground) 56%, transparent);
   --tag-red-bg: color-mix(in srgb, var(--chart-4) 14.5%, var(--background));
   --button-transparent: color-mix(in srgb, var(--background) 0.5%, transparent);
   --button-danger-pressed: color-mix(in srgb, var(--destructive) 72.5%, #000);
@@ -556,7 +556,7 @@
   --bg-subtle-pressed: color-mix(in srgb, var(--secondary) 91%, var(--foreground));
   --fg-error: var(--destructive);
   --bg-component-hover: color-mix(in srgb, var(--accent) 100%, var(--background));
-  --bg-disabled: var(--accent);
+  --bg-disabled: var(--muted);
   --tag-blue-icon: var(--chart-1);
   --fg-subtle: var(--muted-foreground);
   --tag-orange-bg-hover: color-mix(in srgb, var(--chart-5) 33.5%, var(--background));
@@ -608,6 +608,7 @@
   --border-menu-bot: color-mix(in srgb, var(--border) 100%, transparent);
   --border-menu-top: color-mix(in srgb, var(--border) 0%, var(--background));
   --bg-subtle-hover: color-mix(in srgb, var(--secondary) 0%, var(--background));
+  --contrast-fg-primary: color-mix(in srgb, var(--foreground) 88%, transparent);
   --bg-switch-off: color-mix(in srgb, var(--accent) 87.5%, var(--foreground));
   --contrast-bg-base-pressed: rgba(82, 82, 91, 1);
   --bg-field-component-hover: color-mix(in srgb, var(--secondary) 93%, var(--foreground));
@@ -616,12 +617,13 @@
   --tag-red-text: color-mix(in srgb, var(--chart-4) 64.5%, var(--foreground));
   --contrast-bg-base: rgba(39, 39, 42, 1);
   --border-strong: color-mix(in srgb, var(--border) 93.5%, var(--foreground));
-  --contrast-border-base: rgba(255, 255, 255, 0.16);
+  --contrast-border-base: color-mix(in srgb, var(--foreground) 16%, transparent);
   --bg-field: color-mix(in srgb, var(--border) 50%, transparent);
   --tag-blue-text: color-mix(in srgb, var(--chart-1) 65.5%, var(--foreground));
   --button-inverted-pressed: color-mix(in srgb, var(--primary) 50%, var(--foreground));
   --contrast-bg-subtle: rgba(255, 255, 255, 0.04);
   --bg-highlight: color-mix(in srgb, var(--link) 14%, var(--background));
+  --contrast-fg-secondary: color-mix(in srgb, var(--foreground) 56%, transparent);
   --tag-red-bg: color-mix(in srgb, var(--chart-4) 5%, var(--background));
   --button-transparent: color-mix(in srgb, var(--border) 0.5%, transparent);
   --button-danger-pressed: color-mix(in srgb, var(--destructive) 70%, #000);
@@ -687,74 +689,89 @@
 
 /* contrast-targeted inks, solved per preset per mode — see token-map.json */
 /* --fg-disabled: 4.6:1 minimum, most muted colour that clears it */
+/* --fg-accent: 4.5:1 minimum, --primary itself or the nearest colour toward --foreground that clears it */
 [data-theme="electronics"][data-mode="light"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(109, 110, 112);
-  --fg-disabled-on-surface: rgb(101, 105, 109);
+  --fg-disabled-on-surface: rgb(106, 109, 112);
+  --fg-accent: rgb(11, 87, 208);
 }
 
 [data-theme="electronics"][data-mode="dark"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(136, 140, 143);
-  --fg-disabled-on-surface: rgb(144, 150, 155);
+  --fg-disabled-on-surface: rgb(135, 140, 145);
+  --fg-accent: rgb(77, 157, 255);
 }
 
 [data-theme="geist"][data-mode="light"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(111, 111, 111);
   --fg-disabled-on-surface: rgb(111, 111, 111);
+  --fg-accent: rgb(23, 23, 23);
 }
 
 [data-theme="geist"][data-mode="dark"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(133, 133, 133);
-  --fg-disabled-on-surface: rgb(136, 136, 136);
+  --fg-disabled-on-surface: rgb(132, 132, 132);
+  --fg-accent: rgb(237, 237, 237);
 }
 
 [data-theme="home-goods"][data-mode="light"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(110, 104, 99);
-  --fg-disabled-on-surface: rgb(107, 98, 89);
+  --fg-disabled-on-surface: rgb(111, 104, 96);
+  --fg-accent: rgb(166, 75, 42);
 }
 
 [data-theme="home-goods"][data-mode="dark"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(143, 137, 130);
-  --fg-disabled-on-surface: rgb(153, 145, 138);
+  --fg-disabled-on-surface: rgb(143, 137, 129);
+  --fg-accent: rgb(224, 138, 99);
 }
 
 [data-theme="medusa"][data-mode="light"]:not([data-theme-bridge="off"]),
 [data-theme="default"][data-mode="light"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(109, 109, 111);
   --fg-disabled-on-surface: rgb(110, 110, 112);
+  --fg-accent: rgb(39, 39, 42);
 }
 
 [data-theme="medusa"][data-mode="dark"]:not([data-theme-bridge="off"]),
 [data-theme="default"][data-mode="dark"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(143, 143, 145);
   --fg-disabled-on-surface: rgb(143, 143, 145);
+  --fg-accent: rgb(135, 135, 142);
 }
 
 [data-theme="sneakers"][data-mode="light"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(110, 110, 110);
-  --fg-disabled-on-surface: rgb(108, 108, 108);
+  --fg-disabled-on-surface: rgb(111, 111, 111);
+  --fg-accent: rgb(10, 10, 10);
 }
 
 [data-theme="sneakers"][data-mode="dark"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(133, 133, 133);
-  --fg-disabled-on-surface: rgb(136, 136, 136);
+  --fg-disabled-on-surface: rgb(132, 132, 132);
+  --fg-accent: rgb(214, 255, 59);
 }
 
 [data-theme="supplements"][data-mode="light"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(102, 112, 109);
-  --fg-disabled-on-surface: rgb(94, 108, 103);
+  --fg-disabled-on-surface: rgb(100, 113, 109);
+  --fg-accent: rgb(10, 106, 82);
 }
 
 [data-theme="supplements"][data-mode="dark"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(132, 140, 137);
-  --fg-disabled-on-surface: rgb(137, 147, 143);
+  --fg-disabled-on-surface: rgb(130, 140, 136);
+  --fg-accent: rgb(87, 224, 176);
 }
 
 [data-theme="womens-fashion"][data-mode="light"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(101, 98, 91);
-  --fg-disabled-on-surface: rgb(221, 198, 188);
+  --fg-disabled-on-surface: rgb(107, 103, 95);
+  --fg-accent: rgb(23, 20, 15);
 }
 
 [data-theme="womens-fashion"][data-mode="dark"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(147, 141, 131);
-  --fg-disabled-on-surface: rgb(76, 52, 43);
+  --fg-disabled-on-surface: rgb(142, 136, 125);
+  --fg-accent: rgb(242, 234, 220);
 }

@@ -117,7 +117,11 @@ export default async function ProductCard({
           {cheapestPrice ? (
             <>
               <span
-                className={onSale ? "text-base font-semibold text-ui-fg-error" : "text-base font-semibold text-ui-fg-base"}
+                className={
+                  onSale
+                    ? "text-base font-semibold text-ui-fg-error"
+                    : "text-base font-semibold text-[color:var(--fg-accent,var(--fg-base))]"
+                }
                 data-testid="price"
               >
                 {cheapestPrice.calculated_price}

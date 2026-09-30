@@ -1,0 +1,157 @@
+┌─────────┬──────────────────┬─────────┬───────────────────────────────┬─────────────────────────────────┬────────────┬───────────────────┬─────────────────────────────────┬───────────┬───────────────────┬────────────────┐
+│ (index) │ theme            │ mode    │ contrastFgPrimaryOnContrastBg │ contrastFgSecondaryOnContrastBg │ bgDisabled │ bgDisabledIsMuted │ fgDisabledOnSurfaceOnBgDisabled │ fgAccent  │ fgAccentIsPrimary │ fgAccentOnPage │
+├─────────┼──────────────────┼─────────┼───────────────────────────────┼─────────────────────────────────┼────────────┼───────────────────┼─────────────────────────────────┼───────────┼───────────────────┼────────────────┤
+│ 0       │ 'electronics'    │ 'light' │ 13.84                         │ 6.25                            │ undefined  │ true              │ 4.72                            │ undefined │ true              │ 6.39           │
+│ 1       │ 'electronics'    │ 'dark'  │ 10.13                         │ 5.01                            │ undefined  │ true              │ 4.61                            │ undefined │ true              │ 6.89           │
+│ 2       │ 'geist'          │ 'light' │ 13.84                         │ 6.25                            │ undefined  │ true              │ 4.61                            │ undefined │ true              │ 17.93          │
+│ 3       │ 'geist'          │ 'dark'  │ 10.17                         │ 5.03                            │ undefined  │ true              │ 4.65                            │ undefined │ true              │ 16.91          │
+│ 4       │ 'home-goods'     │ 'light' │ 13.84                         │ 6.25                            │ undefined  │ true              │ 4.64                            │ undefined │ true              │ 5.55           │
+│ 5       │ 'home-goods'     │ 'dark'  │ 10.08                         │ 4.99                            │ undefined  │ true              │ 4.65                            │ undefined │ true              │ 6.88           │
+│ 6       │ 'medusa'         │ 'light' │ 13.84                         │ 6.25                            │ undefined  │ true              │ 4.63                            │ undefined │ true              │ 14.89          │
+│ 7       │ 'medusa'         │ 'dark'  │ 10.81                         │ 5.29                            │ undefined  │ true              │ 4.61                            │ undefined │ false             │ 4.5            │
+│ 8       │ 'sneakers'       │ 'light' │ 13.84                         │ 6.25                            │ undefined  │ true              │ 4.61                            │ undefined │ true              │ 19.8           │
+│ 9       │ 'sneakers'       │ 'dark'  │ 10.17                         │ 5.03                            │ undefined  │ true              │ 4.65                            │ undefined │ true              │ 17.18          │
+│ 10      │ 'supplements'    │ 'light' │ 13.84                         │ 6.25                            │ undefined  │ true              │ 4.6                             │ undefined │ true              │ 6.57           │
+│ 11      │ 'supplements'    │ 'dark'  │ 10.36                         │ 5.11                            │ undefined  │ true              │ 4.62                            │ undefined │ true              │ 11.4           │
+│ 12      │ 'womens-fashion' │ 'light' │ 12.99                         │ 5.93                            │ undefined  │ true              │ 4.62                            │ undefined │ true              │ 16.47          │
+│ 13      │ 'womens-fashion' │ 'dark'  │ 9.98                          │ 4.95                            │ undefined  │ true              │ 4.65                            │ undefined │ true              │ 15.75          │
+└─────────┴──────────────────┴─────────┴───────────────────────────────┴─────────────────────────────────┴────────────┴───────────────────┴─────────────────────────────────┴───────────┴───────────────────┴────────────────┘
+{
+ "home-shop-light": {
+  "base": "http://olavka-com.localhost:8613",
+  "theme": "electronics",
+  "mode": "light",
+  "primary": "rgb(11, 87, 208)",
+  "primaryForeground": "rgb(255, 255, 255)",
+  "heroLayout": "full-bleed",
+  "heroBand": {
+   "color": "rgb(13, 16, 19)",
+   "background": "rgba(0, 0, 0, 0)"
+  },
+  "heroCta": {
+   "color": "rgb(13, 16, 19)",
+   "background": "rgb(255, 255, 255)"
+  },
+  "price": null,
+  "cardPrice": {
+   "color": "rgb(11, 87, 208)",
+   "background": "rgba(0, 0, 0, 0)"
+  },
+  "disabledButton": null,
+  "subheadline": {
+   "color": "color(srgb 1 1 1 / 0.56)",
+   "className": "mt-4 max-w-[46ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-secondary small:text-base"
+  }
+ },
+ "home-profile-light": {
+  "base": "http://localhost:8613",
+  "theme": "electronics",
+  "mode": "light",
+  "primary": "rgb(11, 87, 208)",
+  "primaryForeground": "rgb(255, 255, 255)",
+  "heroLayout": "announcement",
+  "heroBand": {
+   "color": "rgb(13, 16, 19)",
+   "background": "rgb(11, 87, 208)"
+  },
+  "heroCta": {
+   "color": "rgb(11, 87, 208)",
+   "background": "rgb(255, 255, 255)"
+  },
+  "price": null,
+  "cardPrice": null,
+  "disabledButton": null,
+  "subheadline": {
+   "color": "rgb(255, 255, 255)",
+   "className": "max-w-[60ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-primary small:text-base"
+  }
+ },
+ "pdp-light": {
+  "path": "/ru/products/zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino",
+  "theme": "electronics",
+  "mode": "light",
+  "primary": "rgb(11, 87, 208)",
+  "primaryForeground": "rgb(255, 255, 255)",
+  "heroLayout": null,
+  "heroBand": null,
+  "heroCta": null,
+  "price": {
+   "color": "rgb(11, 87, 208)",
+   "background": "rgba(0, 0, 0, 0)"
+  },
+  "cardPrice": {
+   "color": "rgb(13, 16, 19)",
+   "background": "rgba(0, 0, 0, 0)"
+  },
+  "disabledButton": null
+ },
+ "home-shop-dark": {
+  "base": "http://olavka-com.localhost:8613",
+  "theme": "electronics",
+  "mode": "dark",
+  "primary": "rgb(77, 157, 255)",
+  "primaryForeground": "rgb(6, 9, 12)",
+  "heroLayout": "full-bleed",
+  "heroBand": {
+   "color": "rgb(233, 237, 241)",
+   "background": "rgba(0, 0, 0, 0)"
+  },
+  "heroCta": {
+   "color": "rgb(233, 237, 241)",
+   "background": "rgb(13, 16, 19)"
+  },
+  "price": null,
+  "cardPrice": {
+   "color": "rgb(77, 157, 255)",
+   "background": "rgba(0, 0, 0, 0)"
+  },
+  "disabledButton": null,
+  "subheadline": {
+   "color": "color(srgb 0.913725 0.929412 0.945098 / 0.56)",
+   "className": "mt-4 max-w-[46ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-secondary small:text-base"
+  }
+ },
+ "home-profile-dark": {
+  "base": "http://localhost:8613",
+  "theme": "electronics",
+  "mode": "dark",
+  "primary": "rgb(77, 157, 255)",
+  "primaryForeground": "rgb(6, 9, 12)",
+  "heroLayout": "announcement",
+  "heroBand": {
+   "color": "rgb(233, 237, 241)",
+   "background": "rgb(77, 157, 255)"
+  },
+  "heroCta": {
+   "color": "rgb(77, 157, 255)",
+   "background": "rgb(6, 9, 12)"
+  },
+  "price": null,
+  "cardPrice": null,
+  "disabledButton": null,
+  "subheadline": {
+   "color": "rgb(6, 9, 12)",
+   "className": "max-w-[60ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-primary small:text-base"
+  }
+ },
+ "pdp-dark": {
+  "path": "/ru/products/zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino",
+  "theme": "electronics",
+  "mode": "dark",
+  "primary": "rgb(77, 157, 255)",
+  "primaryForeground": "rgb(6, 9, 12)",
+  "heroLayout": null,
+  "heroBand": null,
+  "heroCta": null,
+  "price": {
+   "color": "rgb(77, 157, 255)",
+   "background": "rgba(0, 0, 0, 0)"
+  },
+  "cardPrice": {
+   "color": "rgb(233, 237, 241)",
+   "background": "rgba(0, 0, 0, 0)"
+  },
+  "disabledButton": null
+ }
+}
+ok: 14 cells

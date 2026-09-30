@@ -51,6 +51,7 @@ export default function ProductPrice({
         <span
           data-testid="product-price"
           data-value={selectedPrice.calculated_price_number}
+          className="text-[color:var(--fg-accent,var(--fg-base))]"
         >
           {selectedPrice.calculated_price}
         </span>

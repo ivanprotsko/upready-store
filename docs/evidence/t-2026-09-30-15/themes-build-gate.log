@@ -1,0 +1,58 @@
+31 keys, 0 missing (7 presets x 2 modes)
+
+contrast targets (minimum 4.6/4.5:1):
+  preset          mode   fg-disabled-on-page     fg-disabled-on-surface  fg-accent               
+  electronics     light  4.62:1 (ceiling 17.28)  4.72:1 (ceiling 17.28)  6.39:1 (ceiling 6.39)   
+  electronics     dark   4.61:1 (ceiling 13.30)  4.61:1 (ceiling 13.30)  6.44:1 (ceiling 6.44)   
+  geist           light  4.61:1 (ceiling 16.44)  4.61:1 (ceiling 16.44)  17.93:1 (ceiling 17.93) 
+  geist           dark   4.72:1 (ceiling 14.87)  4.65:1 (ceiling 14.87)  16.91:1 (ceiling 16.91) 
+  home-goods      light  4.64:1 (ceiling 14.16)  4.64:1 (ceiling 14.16)  5.55:1 (ceiling 5.55)   
+  home-goods      dark   4.65:1 (ceiling 13.61)  4.65:1 (ceiling 13.61)  6.40:1 (ceiling 6.40)   
+  medusa          light  4.70:1 (ceiling 16.12)  4.63:1 (ceiling 16.12)  14.89:1 (ceiling 14.89) 
+  medusa          dark   4.61:1 (ceiling 13.55)  4.61:1 (ceiling 13.55)  4.50:1 (ceiling 14.61)  
+  sneakers        light  4.68:1 (ceiling 18.16)  4.61:1 (ceiling 18.16)  19.80:1 (ceiling 19.80) 
+  sneakers        dark   4.72:1 (ceiling 14.87)  4.65:1 (ceiling 14.87)  16.51:1 (ceiling 16.51) 
+  supplements     light  4.63:1 (ceiling 15.25)  4.60:1 (ceiling 15.25)  6.57:1 (ceiling 6.57)   
+  supplements     dark   4.64:1 (ceiling 13.93)  4.62:1 (ceiling 13.93)  10.76:1 (ceiling 10.76) 
+  womens-fashion  light  4.62:1 (ceiling 13.93)  4.62:1 (ceiling 15.07)  16.47:1 (ceiling 16.47) 
+  womens-fashion  dark   4.65:1 (ceiling 12.81)  4.65:1 (ceiling 13.69)  14.78:1 (ceiling 14.78) 
+
+inverted-surface inks on --contrast-bg-base (gate 4.5:1 on the two inks; the border is printed only):
+  preset          mode   contrast-fg-primary     contrast-fg-secondary   contrast-border-base    
+  electronics     light  13.84:1                 6.25:1                  1.58:1                  
+  electronics     dark   10.13:1                 5.01:1                  1.60:1                  
+  geist           light  13.84:1                 6.25:1                  1.58:1                  
+  geist           dark   10.17:1                 5.03:1                  1.60:1                  
+  home-goods      light  13.84:1                 6.25:1                  1.58:1                  
+  home-goods      dark   10.08:1                 4.99:1                  1.59:1                  
+  medusa          light  13.84:1                 6.25:1                  1.58:1                  
+  medusa          dark   10.81:1                 5.29:1                  1.63:1                  
+  sneakers        light  13.84:1                 6.25:1                  1.58:1                  
+  sneakers        dark   10.17:1                 5.03:1                  1.60:1                  
+  supplements     light  13.84:1                 6.25:1                  1.58:1                  
+  supplements     dark   10.36:1                 5.11:1                  1.61:1                  
+  womens-fashion  light  12.99:1                 5.93:1                  1.55:1                  
+  womens-fashion  dark   9.98:1                  4.95:1                  1.59:1                  
+
+disabled pair (gate 4.5:1; --bg-disabled = --muted; disabled quieter than the CTA):
+  preset          mode   on-surface/--muted    on-page, worst    muted|page    primary|page
+  electronics     light  4.72:1                4.62:1            1.10:1        6.39:1
+  electronics     dark   4.61:1                4.61:1            1.22:1        6.89:1
+  geist           light  4.61:1                4.61:1            1.09:1        17.93:1
+  geist           dark   4.65:1                4.72:1            1.14:1        16.91:1
+  home-goods      light  4.64:1                4.64:1            1.15:1        5.55:1
+  home-goods      dark   4.65:1                4.65:1            1.12:1        6.88:1
+  medusa          light  4.63:1                4.70:1            1.10:1        14.89:1
+  medusa          dark   4.61:1                4.61:1            1.08:1        2.08:1
+  sneakers        light  4.61:1                4.68:1            1.09:1        19.80:1
+  sneakers        dark   4.65:1                4.72:1            1.14:1        17.18:1
+  supplements     light  4.60:1                4.63:1            1.11:1        6.57:1
+  supplements     dark   4.62:1                4.64:1            1.18:1        11.40:1
+  womens-fashion  light  4.62:1                4.62:1            1.09:1        16.47:1
+  womens-fashion  dark   4.65:1                4.65:1            1.15:1        15.75:1
+wrote /Users/ivanprotsko/upready/worktrees/upready-store/audit/46df/apps/storefront/src/styles/themes.css (774 lines)
+wrote /Users/ivanprotsko/upready/worktrees/upready-store/audit/46df/apps/storefront/src/lib/theme/presets.generated.ts
+wrote /Users/ivanprotsko/upready/worktrees/upready-store/audit/46df/apps/storefront/src/lib/theme/fonts.generated.ts (no profile fonts; typography unchanged)
+bridge rows: 27 mapped, 58 diverged, 28 open
+dark-only re-declarations: 83
+open rows (no canon counterpart): --contrast-bg-base-pressed --contrast-bg-base --contrast-bg-subtle --contrast-bg-base-hover --contrast-border-bot --border-transparent --contrast-border-top --bg-overlay --buttons-danger-focus --details-contrast-on-bg-interactive --borders-error --borders-focus --buttons-danger --buttons-inverted-focus --elevation-card-hover --details-switch-handle --buttons-neutral --borders-base --buttons-neutral-focus --details-switch-background-focus --details-switch-background --elevation-tooltip --elevation-code-block --buttons-inverted --elevation-commandbar --borders-interactive-with-focus --borders-interactive-with-shadow --borders-interactive-with-active

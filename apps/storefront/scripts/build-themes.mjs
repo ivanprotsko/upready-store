@@ -178,6 +178,24 @@ function main() {
  * (0,2,0) while still collapsing under [data-theme-bridge="off"].
  * ------------------------------------------------------------------------- */
 
+/**
+ * The accent written as TEXT: the price, the first of the places a style board hands the
+ * accent (electronics §3.2). --primary is a fill colour first, and on some presets it is
+ * not an ink at all — medusa dark's is rgb(82,82,91) on rgb(33,33,36), 2.2:1 — so the price
+ * cannot read var(--primary) raw. This ink IS --primary wherever --primary clears the ratio
+ * on the page, and otherwise the nearest colour toward --foreground that does. Components
+ * read it as var(--fg-accent, var(--fg-base)), so with the bridge off the price keeps the
+ * vendor ink.
+ */
+const ACCENT_INK = {
+  variable: "--fg-accent",
+  ratio: 4.5,
+  anchors: ["--primary"],
+  toward: "--foreground",
+  surfaces: ["--background", "--card"],
+  prefer: "anchor",
+}
+
 function emitContrastTargets(tokenMap, presets) {
   const rows = tokenMap.rows.filter((r) => r.derivation?.kind === "contrast-target")
   if (rows.length === 0) return []
@@ -186,18 +204,24 @@ function emitContrastTargets(tokenMap, presets) {
   for (const row of rows) {
     out.push(`/* ${row.variable}: ${row.derivation.ratio}:1 minimum, most muted colour that clears it */`)
   }
+  out.push(`/* ${ACCENT_INK.variable}: ${ACCENT_INK.ratio}:1 minimum, --primary itself or the nearest colour toward --foreground that clears it */`)
   const table = []
+  const solvedInks = {}
   for (const preset of presets) {
     for (const mode of ["light", "dark"]) {
       const tokens = preset.modes[mode].tokens
       const decls = []
-      for (const row of rows) {
-        for (const ink of row.derivation.solve) {
-          const solved = solveContrast(ink, row.derivation.ratio, tokens, `${preset.id}/${mode}`)
-          decls.push(`  ${ink.variable}: ${rgbStr(solved.colour)};`)
-          table.push({ preset: preset.id, mode, ink: ink.variable, ratio: solved.worst, ceiling: solved.ceiling, short: solved.short })
-        }
+      const inks = (solvedInks[`${preset.id}/${mode}`] = {})
+      const solveOne = (ink, ratio) => {
+        const solved = solveContrast(ink, ratio, tokens, `${preset.id}/${mode}`)
+        decls.push(`  ${ink.variable}: ${rgbStr(solved.colour)};`)
+        inks[ink.variable] = solved.colour
+        table.push({ preset: preset.id, mode, ink: ink.variable, ratio: solved.worst, ceiling: solved.ceiling, short: solved.short })
       }
+      for (const row of rows) {
+        for (const ink of row.derivation.solve) solveOne(ink, row.derivation.ratio)
+      }
+      solveOne(ACCENT_INK, ACCENT_INK.ratio)
       const selectors = [`[data-theme="${preset.id}"][data-mode="${mode}"]:not([data-theme-bridge="off"])`]
       if (preset.id === DEFAULT_ALIAS_OF) selectors.push(`[data-theme="default"][data-mode="${mode}"]:not([data-theme-bridge="off"])`)
       out.push(`${selectors.join(",\n")} {`)
@@ -211,7 +235,7 @@ function emitContrastTargets(tokenMap, presets) {
   // no colour on the anchor-to-surface line can reach.
   const inks = [...new Set(table.map((t) => t.ink))]
   console.log("")
-  console.log(`contrast targets (minimum ${rows.map((r) => r.derivation.ratio).join("/")}:1, most muted colour that clears it):`)
+  console.log(`contrast targets (minimum ${[...rows.map((r) => r.derivation.ratio), ACCENT_INK.ratio].join("/")}:1):`)
   console.log(`  ${"preset".padEnd(16)}${"mode".padEnd(7)}${inks.map((i) => i.replace(/^--/, "").padEnd(24)).join("")}`)
   for (const preset of presets) {
     for (const mode of ["light", "dark"]) {
@@ -229,6 +253,8 @@ function emitContrastTargets(tokenMap, presets) {
         short.map((t) => `${t.preset}/${t.mode} ${t.ink}: best possible ${t.ceiling.toFixed(2)}:1`).join("\n  ")
     )
   }
+  gateInvertedInks(tokenMap, presets)
+  gateDisabledPair(tokenMap, presets, solvedInks)
   return out
 }
 
@@ -243,6 +269,18 @@ function solveContrast(ink, ratio, tokens, where) {
     const c = needColour(tokens, key, where)
     const worst = worstOn(c)
     if (!anchor || worst > anchor.worst) anchor = { colour: c, worst }
+  }
+
+  // an ink that IS a canon colour (the accent) stays that colour when it passes, and
+  // otherwise takes the first step toward `toward` that does: the least departure from it
+  if (ink.prefer === "anchor") {
+    if (anchor.worst + 1e-9 >= ratio) return { ...anchor, ceiling: anchor.worst, short: false }
+    for (let pct = 100; pct >= 0; pct -= 0.5) {
+      const c = mixSrgb(anchor.colour, toward, pct)
+      const worst = worstOn(c)
+      if (worst + 1e-9 >= ratio) return { colour: c, worst, ceiling: worstOn(toward), short: false }
+    }
+    return { ...anchor, ceiling: worstOn(toward), short: true }
   }
 
   // step toward the surface, keeping the last colour of the contiguous passing run
@@ -305,6 +343,112 @@ function contrast(a, b) {
 }
 
 const rgbStr = (c) => `rgb(${c.r}, ${c.g}, ${c.b})`
+
+/* ------------------------------------------------------------------------- *
+ * gates — the build fails when a preset breaks one of these, whoever authored it
+ * ------------------------------------------------------------------------- */
+
+const AA = 4.5
+
+/**
+ * Cause E. --contrast-fg-primary and -secondary are read on --contrast-bg-base, which is
+ * dark in both modes (tooltip, promo banner, cart count badge). Their bridge rows follow
+ * canon tokens that differ per preset, so each preset × mode is resolved here and the ink,
+ * composited over the surface the way the browser paints it, has to clear AA.
+ * --contrast-border-base is printed, not gated: it is a hairline, and WCAG asks nothing of
+ * a decorative edge.
+ */
+function gateInvertedInks(tokenMap, presets) {
+  const row = (v) => tokenMap.rows.find((r) => r.variable === v) ?? fail(`token-map.json has no ${v} row`)
+  const surface = row("--contrast-bg-base")
+  const inks = ["--contrast-fg-primary", "--contrast-fg-secondary", "--contrast-border-base"].map(row)
+  const failures = []
+  console.log("")
+  console.log(`inverted-surface inks on --contrast-bg-base (gate ${AA}:1 on the two inks; the border is printed only):`)
+  console.log(`  ${"preset".padEnd(16)}${"mode".padEnd(7)}${inks.map((r) => r.variable.replace(/^--/, "").padEnd(24)).join("")}`)
+  for (const preset of presets) {
+    for (const mode of ["light", "dark"]) {
+      const tokens = preset.modes[mode].tokens
+      const where = `${preset.id}/${mode}`
+      const bg = parseColour(surface.effective[mode]) ?? fail(`${where}: --contrast-bg-base is not a colour`)
+      const cells = inks.map((r) => {
+        if (r.status === "open") fail(`${r.variable} left the bridge (status open): it needs its bridge and bridgeDark rows back`)
+        const decl = mode === "dark" && r.bridgeDark ? r.bridgeDark : r.bridge
+        const ratio = contrast(over(resolveBridge(decl, tokens, where), bg), bg)
+        if (r.variable !== "--contrast-border-base" && ratio + 1e-9 < AA) failures.push(`${where} ${r.variable}: ${ratio.toFixed(2)}:1`)
+        return `${ratio.toFixed(2)}:1`.padEnd(24)
+      })
+      console.log(`  ${preset.id.padEnd(16)}${mode.padEnd(7)}${cells.join("")}`)
+    }
+  }
+  if (failures.length) fail(`inverted-surface ink under ${AA}:1:\n  ${failures.join("\n  ")}`)
+}
+
+/**
+ * The disabled pair. Three things per preset × mode, measured on the values this run
+ * wrote rather than on the solver's word for them:
+ *   - --bg-disabled follows --muted (a disabled control recedes; bridged to --accent it
+ *     was louder than the enabled CTA on womens-fashion);
+ *   - the ink the button writes on it, --fg-disabled-on-surface, clears AA on --muted, and
+ *     --fg-disabled-on-page clears AA on every page surface it is solved for;
+ *   - the disabled surface stands off the page less than the enabled CTA (--primary) does.
+ */
+function gateDisabledPair(tokenMap, presets, solvedInks) {
+  const bgRow = tokenMap.rows.find((r) => r.variable === "--bg-disabled")
+  if (!bgRow || bgRow.canonToken !== "--muted" || bgRow.bridge !== "--bg-disabled: var(--muted);" || bgRow.bridgeDark) {
+    fail(`--bg-disabled must follow --muted in both modes; token-map.json has ${JSON.stringify(bgRow?.bridge)} / ${JSON.stringify(bgRow?.bridgeDark)}`)
+  }
+  const fgRow = tokenMap.rows.find((r) => r.variable === "--fg-disabled")
+  const pageInk = fgRow?.derivation?.solve?.find((s) => s.variable === "--fg-disabled-on-page")
+  if (!pageInk) fail("token-map.json: --fg-disabled no longer solves --fg-disabled-on-page")
+  const failures = []
+  console.log("")
+  console.log(`disabled pair (gate ${AA}:1; --bg-disabled = --muted; disabled quieter than the CTA):`)
+  console.log(`  ${"preset".padEnd(16)}${"mode".padEnd(7)}${"on-surface/--muted".padEnd(22)}${"on-page, worst".padEnd(18)}${"muted|page".padEnd(14)}primary|page`)
+  for (const preset of presets) {
+    for (const mode of ["light", "dark"]) {
+      const tokens = preset.modes[mode].tokens
+      const where = `${preset.id}/${mode}`
+      const inks = solvedInks[where]
+      const muted = needColour(tokens, "--muted", where)
+      const page = needColour(tokens, "--background", where)
+      const primary = needColour(tokens, "--primary", where)
+      const onSurface = contrast(inks["--fg-disabled-on-surface"], muted)
+      const onPage = Math.min(...pageInk.surfaces.map((k) => contrast(inks["--fg-disabled-on-page"], needColour(tokens, k, where))))
+      const quiet = contrast(muted, page)
+      const loud = contrast(primary, page)
+      if (onSurface + 1e-9 < AA) failures.push(`${where} --fg-disabled-on-surface on --muted: ${onSurface.toFixed(2)}:1`)
+      if (onPage + 1e-9 < AA) failures.push(`${where} --fg-disabled-on-page: ${onPage.toFixed(2)}:1`)
+      if (quiet >= loud) failures.push(`${where} --muted stands off the page (${quiet.toFixed(2)}:1) at least as much as --primary (${loud.toFixed(2)}:1)`)
+      console.log(
+        `  ${preset.id.padEnd(16)}${mode.padEnd(7)}${`${onSurface.toFixed(2)}:1`.padEnd(22)}${`${onPage.toFixed(2)}:1`.padEnd(18)}` +
+          `${`${quiet.toFixed(2)}:1`.padEnd(14)}${loud.toFixed(2)}:1`
+      )
+    }
+  }
+  if (failures.length) fail(`disabled pair:\n  ${failures.join("\n  ")}`)
+}
+
+/**
+ * The two shapes the gated bridge rows are written in: `var(--x)` and
+ * `color-mix(in srgb, var(--x) P%, transparent)`. Anything else is a gate that can no longer
+ * read its row, which fails rather than passing unread.
+ */
+function resolveBridge(decl, tokens, where) {
+  const value = decl.replace(/^[^:]+:\s*/, "").replace(/;\s*$/, "").trim()
+  let m = /^var\((--[\w-]+)\)$/.exec(value)
+  if (m) return { ...needColour(tokens, m[1], where), a: 1 }
+  m = /^color-mix\(in srgb, var\((--[\w-]+)\) ([\d.]+)%, transparent\)$/.exec(value)
+  if (m) return { ...needColour(tokens, m[1], where), a: Number(m[2]) / 100 }
+  fail(`${where}: the gate cannot read "${value}"`)
+}
+
+/** Source-over compositing of a translucent ink onto an opaque surface. */
+function over(ink, surface) {
+  const a = ink.a ?? 1
+  const f = (k) => ink[k] * a + surface[k] * (1 - a)
+  return { r: f("r"), g: f("g"), b: f("b") }
+}
 
 /**
  * The allow-list the pre-paint script and the panel narrow against, generated from the
