@@ -156,7 +156,7 @@
     "itemsCount": "{count, plural, one {{count}টি আইটেম} other {{count}টি আইটেম}}",
     "legal": "«পে করুন»-এ ক্লিক করে, আপনি আমাদের <terms>শর্তাবলী</terms>, <termsOfUse>ব্যবহারের শর্তাবলী</termsOfUse> এবং <returnPolicy>রিটার্ন নীতি</returnPolicy> গ্রহণ করছেন এবং আমাদের <privacyPolicy>গোপনীয়তা নীতি</privacyPolicy>-তে সম্মত হচ্ছেন।",
     "manualInput": "ঠিকানা ম্যানুয়ালি লিখুন",
-    "addressIncomplete": "ঠিকানার আবশ্যক ঘরগুলো পূরণ করুন। শহর ও পোস্টাল কোড ছাড়া অর্ডারটি পাঠানো যাবে না।",
+    "addressIncomplete": "ঠিকানার আবশ্যক ঘরগুলো পূরণ করুন: {fields}।",
     "provinceRequired": "তালিকা থেকে অঞ্চল বেছে নিন।",
     "orderComposition": "অর্ডার সারসংক্ষেপ",
     "paymentHeading": "পেমেন্ট পদ্ধতি",

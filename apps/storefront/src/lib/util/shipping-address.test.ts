@@ -1,7 +1,11 @@
+import { readdirSync, readFileSync } from "node:fs"
+import path from "node:path"
 import { describe, expect, it } from "vitest"
 import type { HttpTypes } from "@medusajs/types"
+import { createTranslator } from "next-intl"
 import {
-  addressGapMessageKeys,
+  addressGapMessages,
+  addressGapSentences,
   cartShippingAddressGaps,
   isPickupCart,
   requiresProvince,
@@ -89,23 +93,85 @@ describe("cartShippingAddressGaps", () => {
   })
 })
 
-describe("addressGapMessageKeys (U-08, 46df)", () => {
+describe("addressGapMessages (U-08, 46df; t-2026-09-24-n19)", () => {
   it("names the province on its own, so the buyer is not left guessing which field is missing", () => {
-    expect(addressGapMessageKeys(["province"])).toEqual(["provinceRequired"])
+    expect(addressGapMessages(["province"])).toEqual([{ key: "provinceRequired" }])
   })
 
-  it("keeps the general sentence for city, index and street", () => {
-    expect(addressGapMessageKeys(["city", "postal_code"])).toEqual(["addressIncomplete"])
+  it("lists exactly the typed fields that are missing, in the form's order", () => {
+    expect(addressGapMessages(["postal_code", "city"])).toEqual([
+      { key: "addressIncomplete", fields: ["postal_code", "city"] },
+    ])
+  })
+
+  it("names the street alone when only the street is missing, not city and index", () => {
+    expect(addressGapMessages(["address_1"])).toEqual([
+      { key: "addressIncomplete", fields: ["address_1"] },
+    ])
   })
 
   it("says both when both are missing", () => {
-    expect(addressGapMessageKeys(["address_1", "province"])).toEqual([
-      "addressIncomplete",
-      "provinceRequired",
+    expect(addressGapMessages(["address_1", "province"])).toEqual([
+      { key: "addressIncomplete", fields: ["address_1"] },
+      { key: "provinceRequired" },
     ])
   })
 
   it("says nothing for a complete address", () => {
-    expect(addressGapMessageKeys([])).toEqual([])
+    expect(addressGapMessages([])).toEqual([])
+  })
+})
+
+const MESSAGES_DIR = path.resolve(__dirname, "../../../messages")
+const catalog = (locale: string) =>
+  JSON.parse(readFileSync(path.join(MESSAGES_DIR, `${locale}.json`), "utf8"))
+const sentencesIn = (locale: string, gaps: Parameters<typeof addressGapSentences>[0]) =>
+  addressGapSentences(
+    gaps,
+    createTranslator({ locale, messages: catalog(locale), namespace: "CheckoutPage" }),
+    locale
+  )
+
+/**
+ * t-2026-09-24-n19, measured on a stand on 30.09: a cart addressed through the
+ * store API with street, city and index but no region, and one with region,
+ * city and index but no street, both read «Без города и почтового индекса заказ
+ * не отправить» above «Оплатить». These run the real catalogs.
+ */
+describe("addressGapSentences (t-2026-09-24-n19)", () => {
+  it("a cart missing only the region is asked for the region, not for city and index", () => {
+    expect(sentencesIn("ru", ["province"])).toEqual(["Выберите область из списка."])
+    expect(sentencesIn("en", ["province"])).toEqual(["Choose your region from the list."])
+  })
+
+  it("a cart missing only the street is asked for the street, under the label its input carries", () => {
+    expect(sentencesIn("ru", ["address_1"])).toEqual([
+      "Заполните обязательные поля адреса: Адрес.",
+    ])
+    expect(sentencesIn("en", ["address_1"])).toEqual([
+      "Fill in the required address fields: Address.",
+    ])
+  })
+
+  it("names every missing typed field, joined the way the locale joins a list", () => {
+    expect(sentencesIn("ru", ["address_1", "postal_code", "city", "province"])).toEqual([
+      "Заполните обязательные поля адреса: Адрес, Почтовый индекс и Город.",
+      "Выберите область из списка.",
+    ])
+    expect(sentencesIn("en", ["postal_code", "city"])).toEqual([
+      "Fill in the required address fields: Postal code and City.",
+    ])
+  })
+
+  it("every catalog names the missing field in the sentence, none of them a fixed text", () => {
+    const locales = readdirSync(MESSAGES_DIR)
+      .filter((file) => file.endsWith(".json"))
+      .map((file) => file.replace(/\.json$/, ""))
+    expect(locales).toHaveLength(36)
+    for (const locale of locales) {
+      const label = catalog(locale).CheckoutPage.fieldPostalCode
+      const [sentence] = sentencesIn(locale, ["postal_code"])
+      expect(sentence, locale).toContain(label)
+    }
   })
 })

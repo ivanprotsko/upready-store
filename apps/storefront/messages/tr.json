@@ -156,7 +156,7 @@
     "itemsCount": "{count, plural, one {{count} ürün} other {{count} ürün}}",
     "legal": "«Öde» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
-    "addressIncomplete": "Adresin zorunlu alanlarını doldurun. Şehir ve posta kodu olmadan sipariş gönderilemez.",
+    "addressIncomplete": "Adresin zorunlu alanlarını doldurun: {fields}.",
     "provinceRequired": "Listeden bölgenizi seçin.",
     "orderComposition": "Sipariş Özeti",
     "paymentHeading": "Ödeme yöntemi",
