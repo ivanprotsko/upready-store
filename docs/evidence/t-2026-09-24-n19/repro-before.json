@@ -1,0 +1,138 @@
+{
+  "tag": "before",
+  "base": "http://olavka-com.localhost:8611",
+  "measuredAt": [
+    "2026-09-30T05:44:35.910Z",
+    "2026-09-30T05:50:22.415Z"
+  ],
+  "runs": [
+    {
+      "cart": "api-no-province",
+      "width": 1440,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "province"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить."
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/before-api-no-province-1440.webp"
+    },
+    {
+      "cart": "api-no-province",
+      "width": 390,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "province"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить."
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/before-api-no-province-390.webp"
+    },
+    {
+      "cart": "api-no-street",
+      "width": 1440,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "address_1"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить."
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/before-api-no-street-1440.webp"
+    },
+    {
+      "cart": "api-no-street",
+      "width": 390,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "address_1"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить."
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/before-api-no-street-390.webp"
+    },
+    {
+      "cart": "form-full",
+      "width": 1440,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [],
+      "red": [],
+      "payDisabled": true,
+      "shot": "shots/before-form-full-1440.webp"
+    },
+    {
+      "cart": "form-full",
+      "width": 390,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [],
+      "red": [],
+      "payDisabled": true,
+      "shot": "shots/before-form-full-390.webp"
+    },
+    {
+      "cart": "form-no-street",
+      "width": 1440,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "address_1",
+        "postal_code",
+        "city",
+        "province"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить."
+        },
+        {
+          "testid": "address-incomplete-message",
+          "text": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить."
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/before-form-no-street-1440.webp"
+    },
+    {
+      "cart": "form-no-street",
+      "width": 390,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "address_1",
+        "postal_code",
+        "city",
+        "province"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить."
+        },
+        {
+          "testid": "address-incomplete-message",
+          "text": "Заполните обязательные поля адреса. Без города и почтового индекса заказ не отправить."
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/before-form-no-street-390.webp"
+    }
+  ]
+}

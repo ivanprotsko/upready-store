@@ -1,0 +1,143 @@
+{
+  "tag": "after",
+  "base": "http://olavka-com.localhost:8611",
+  "measuredAt": "2026-09-30T05:55:30.626Z",
+  "runs": [
+    {
+      "cart": "form-full",
+      "width": 1440,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [],
+      "red": [],
+      "payDisabled": true,
+      "shot": "shots/after-form-full-1440.webp"
+    },
+    {
+      "cart": "form-full",
+      "width": 390,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [],
+      "red": [],
+      "payDisabled": true,
+      "shot": "shots/after-form-full-390.webp"
+    },
+    {
+      "cart": "form-no-street",
+      "width": 1440,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "address_1",
+        "postal_code",
+        "city",
+        "province"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса: Адрес, Почтовый индекс и Город.\nВыберите область из списка.",
+          "color": "rgb(244, 63, 94)"
+        },
+        {
+          "testid": "address-incomplete-message",
+          "text": "Заполните обязательные поля адреса: Адрес.",
+          "color": "rgb(244, 63, 94)"
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/after-form-no-street-1440.webp"
+    },
+    {
+      "cart": "form-no-street",
+      "width": 390,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "address_1",
+        "postal_code",
+        "city",
+        "province"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса: Адрес, Почтовый индекс и Город.\nВыберите область из списка.",
+          "color": "rgb(244, 63, 94)"
+        },
+        {
+          "testid": "address-incomplete-message",
+          "text": "Заполните обязательные поля адреса: Адрес.",
+          "color": "rgb(244, 63, 94)"
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/after-form-no-street-390.webp"
+    },
+    {
+      "cart": "api-no-province",
+      "width": 1440,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "province"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Выберите область из списка.",
+          "color": "rgb(244, 63, 94)"
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/after-api-no-province-1440.webp"
+    },
+    {
+      "cart": "api-no-province",
+      "width": 390,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "province"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Выберите область из списка.",
+          "color": "rgb(244, 63, 94)"
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/after-api-no-province-390.webp"
+    },
+    {
+      "cart": "api-no-street",
+      "width": 1440,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "address_1"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса: Адрес.",
+          "color": "rgb(244, 63, 94)"
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/after-api-no-street-1440.webp"
+    },
+    {
+      "cart": "api-no-street",
+      "width": 390,
+      "url": "http://olavka-com.localhost:8611/ru/checkout",
+      "cartAddressMissing": [
+        "address_1"
+      ],
+      "red": [
+        {
+          "testid": "shipping-address-incomplete",
+          "text": "Заполните обязательные поля адреса: Адрес.",
+          "color": "rgb(244, 63, 94)"
+        }
+      ],
+      "payDisabled": true,
+      "shot": "shots/after-api-no-street-390.webp"
+    }
+  ]
+}
