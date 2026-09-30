@@ -1,0 +1,279 @@
+{
+  "tag": "grid-n1",
+  "base": "http://localhost:8614",
+  "measuredAt": "2026-09-30T03:20:42.867Z",
+  "runs": [
+    {
+      "url": "http://localhost:8614/en",
+      "status": 200,
+      "requestedMode": "light",
+      "width": 1440,
+      "screenshot": "shots/grid-n1-light-1440.webp",
+      "starterLinkMatches": 0,
+      "mode": "light",
+      "listing": {
+        "variant": "home-listing-p1",
+        "heading": "The foundation",
+        "products": 1
+      },
+      "grid": {
+        "productCount": 1,
+        "display": "flex",
+        "gridLeft": 24,
+        "gridWidth": 1392,
+        "visibleCards": 1,
+        "cards": [
+          {
+            "left": 496,
+            "top": 1466,
+            "width": 448
+          }
+        ]
+      },
+      "tiles": {
+        "count": 3,
+        "imagesDecoded": 3,
+        "images": 3
+      },
+      "footer": {
+        "count": 1,
+        "links": [
+          {
+            "text": "Daily foundations",
+            "href": "/en/categories/daily-foundations",
+            "external": false
+          },
+          {
+            "text": "Targeted support",
+            "href": "/en/categories/targeted-support",
+            "external": false
+          },
+          {
+            "text": "The foundation",
+            "href": "/en/collections/the-foundation",
+            "external": false
+          },
+          {
+            "text": "Third-party tested",
+            "href": "/en/collections/third-party-tested",
+            "external": false
+          },
+          {
+            "text": "Scruple",
+            "href": "/en",
+            "external": false
+          },
+          {
+            "text": "создание интернет-магазина",
+            "href": "https://upready.dev",
+            "external": true
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8614/en",
+      "status": 200,
+      "requestedMode": "light",
+      "width": 390,
+      "screenshot": "shots/grid-n1-light-390.webp",
+      "starterLinkMatches": 0,
+      "mode": "light",
+      "listing": {
+        "variant": "home-listing-p1",
+        "heading": "The foundation",
+        "products": 1
+      },
+      "grid": {
+        "productCount": 1,
+        "display": "flex",
+        "gridLeft": 16,
+        "gridWidth": 358,
+        "visibleCards": 1,
+        "cards": [
+          {
+            "left": 109,
+            "top": 1267,
+            "width": 173
+          }
+        ]
+      },
+      "tiles": {
+        "count": 3,
+        "imagesDecoded": 3,
+        "images": 3
+      },
+      "footer": {
+        "count": 1,
+        "links": [
+          {
+            "text": "Daily foundations",
+            "href": "/en/categories/daily-foundations",
+            "external": false
+          },
+          {
+            "text": "Targeted support",
+            "href": "/en/categories/targeted-support",
+            "external": false
+          },
+          {
+            "text": "The foundation",
+            "href": "/en/collections/the-foundation",
+            "external": false
+          },
+          {
+            "text": "Third-party tested",
+            "href": "/en/collections/third-party-tested",
+            "external": false
+          },
+          {
+            "text": "Scruple",
+            "href": "/en",
+            "external": false
+          },
+          {
+            "text": "создание интернет-магазина",
+            "href": "https://upready.dev",
+            "external": true
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8614/en",
+      "status": 200,
+      "requestedMode": "dark",
+      "width": 1440,
+      "screenshot": "shots/grid-n1-dark-1440.webp",
+      "starterLinkMatches": 0,
+      "mode": "dark",
+      "listing": {
+        "variant": "home-listing-p1",
+        "heading": "The foundation",
+        "products": 1
+      },
+      "grid": {
+        "productCount": 1,
+        "display": "flex",
+        "gridLeft": 24,
+        "gridWidth": 1392,
+        "visibleCards": 1,
+        "cards": [
+          {
+            "left": 496,
+            "top": 1466,
+            "width": 448
+          }
+        ]
+      },
+      "tiles": {
+        "count": 3,
+        "imagesDecoded": 3,
+        "images": 3
+      },
+      "footer": {
+        "count": 1,
+        "links": [
+          {
+            "text": "Daily foundations",
+            "href": "/en/categories/daily-foundations",
+            "external": false
+          },
+          {
+            "text": "Targeted support",
+            "href": "/en/categories/targeted-support",
+            "external": false
+          },
+          {
+            "text": "The foundation",
+            "href": "/en/collections/the-foundation",
+            "external": false
+          },
+          {
+            "text": "Third-party tested",
+            "href": "/en/collections/third-party-tested",
+            "external": false
+          },
+          {
+            "text": "Scruple",
+            "href": "/en",
+            "external": false
+          },
+          {
+            "text": "создание интернет-магазина",
+            "href": "https://upready.dev",
+            "external": true
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8614/en",
+      "status": 200,
+      "requestedMode": "dark",
+      "width": 390,
+      "screenshot": "shots/grid-n1-dark-390.webp",
+      "starterLinkMatches": 0,
+      "mode": "dark",
+      "listing": {
+        "variant": "home-listing-p1",
+        "heading": "The foundation",
+        "products": 1
+      },
+      "grid": {
+        "productCount": 1,
+        "display": "flex",
+        "gridLeft": 16,
+        "gridWidth": 358,
+        "visibleCards": 1,
+        "cards": [
+          {
+            "left": 109,
+            "top": 1267,
+            "width": 173
+          }
+        ]
+      },
+      "tiles": {
+        "count": 3,
+        "imagesDecoded": 3,
+        "images": 3
+      },
+      "footer": {
+        "count": 1,
+        "links": [
+          {
+            "text": "Daily foundations",
+            "href": "/en/categories/daily-foundations",
+            "external": false
+          },
+          {
+            "text": "Targeted support",
+            "href": "/en/categories/targeted-support",
+            "external": false
+          },
+          {
+            "text": "The foundation",
+            "href": "/en/collections/the-foundation",
+            "external": false
+          },
+          {
+            "text": "Third-party tested",
+            "href": "/en/collections/third-party-tested",
+            "external": false
+          },
+          {
+            "text": "Scruple",
+            "href": "/en",
+            "external": false
+          },
+          {
+            "text": "создание интернет-магазина",
+            "href": "https://upready.dev",
+            "external": true
+          }
+        ]
+      }
+    }
+  ]
+}

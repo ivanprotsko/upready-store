@@ -254,9 +254,9 @@ export type ProfileId =
   | "home-goods"
 
 /**
- * `composition-contract.json`'s `profileDefaults`, hand-transcribed, with ONE
- * deliberate change from the source JSON: sneakers' own primary default names hero
- * `l` ("In motion"), which has no storefront schema at all — zero `frames` on any
+ * `composition-contract.json`'s `profileDefaults`, hand-transcribed, with TWO
+ * deliberate changes from the source JSON. The first: sneakers' own primary default
+ * names hero `l` ("In motion"), which has no storefront schema at all — zero `frames` on any
  * profile (`block-port-map.md` §4 hero-L row; `grep -c frames
  * .../profiles/sneakers/profile.json` → `0`). Ivan's fork answer F9 says to seed the
  * Kerbstone ALTERNATE composition until hero L ships — but
@@ -271,6 +271,12 @@ export type ProfileId =
  * `2026-09-09-wave1-critique-and-plan.md` §2.10) better than either saved sneakers
  * version does. Reported as a fork in this package's own report; W8 (the seed script)
  * should re-check this the moment hero L ships a real component.
+ *
+ * The second: supplements turns the category tiles `on`, where its saved composer
+ * version (`v-20260909-scruple-apteka`) has none. Under the announcement hero, which
+ * carries no picture, the tiles are the only way into the catalog's three categories
+ * on the first screen (COO decision on q-scruple-home-thin-seed, 2026-09-30, task
+ * t-2026-09-30-17). The contract JSON keeps the composer's own version as it was saved.
  */
 export const PROFILE_DEFAULTS: Record<ProfileId, StorefrontSettingsInput> = {
   sneakers: {
@@ -293,7 +299,7 @@ export const PROFILE_DEFAULTS: Record<ProfileId, StorefrontSettingsInput> = {
     defaultMode: "light",
     header: "h6",
     hero: "k",
-    tiles: "off",
+    tiles: "on",
     listing: "p3",
     footer: "f6",
   },

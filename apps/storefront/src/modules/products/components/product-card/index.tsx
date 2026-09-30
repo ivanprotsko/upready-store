@@ -34,6 +34,23 @@ export const PRODUCT_GRID_ROW_BUDGET = {
   short: "small:[&>li:nth-child(n+7)]:hidden large:[&>li:nth-child(n+7)]:block",
 } as const
 
+/**
+ * Below this many products a teaser grid collapses: one card in a grid of four read as
+ * a missing catalog, in light and dark alike. Collapsed, the cards keep the width they
+ * have in three columns, whatever the viewport offers beyond that, and the row is
+ * centred, so one, two or three cards form a whole row rather than the start of one.
+ * Three cards fill it exactly from 1024 up. On a phone the columns stay two and a
+ * third card is centred under them.
+ */
+export const PRODUCT_GRID_COLLAPSE_BELOW = 4
+
+export const PRODUCT_GRID_COLLAPSED_CLASS =
+  "flex w-full flex-wrap justify-center gap-x-3 gap-y-8 small:gap-x-6 small:gap-y-10"
+
+/** The width of one cell of the collapsed grid, from the gaps of `PRODUCT_GRID_CLASS`. */
+export const PRODUCT_GRID_COLLAPSED_ITEM_CLASS =
+  "w-[calc((100%-0.75rem)/2)] small:w-[calc((100%-3rem)/3)]"
+
 const MAX_SWATCHES = 5
 
 export default async function ProductCard({
