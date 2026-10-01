@@ -49,7 +49,7 @@ jobs:
   # job was never a real gate either, even before the whole job was disabled.
   test:
     name: Test (${{ matrix.app }})
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, upready-store]
     strategy:
       fail-fast: false
       matrix:
@@ -92,7 +92,7 @@ jobs:
 
   notify:
     name: Notify automation
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, upready-store]
     needs: test
     if: github.repository == 'gorgojs/medusa-dtc-starter'
 
