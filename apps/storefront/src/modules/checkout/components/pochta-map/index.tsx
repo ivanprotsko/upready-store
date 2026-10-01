@@ -60,6 +60,11 @@ export default function PochtaMap({ points, selectedIndex, onSelect, className }
   useEffect(() => {
     if (!elementRef.current || mapRef.current) return
     const map = L.map(elementRef.current, { zoomControl: true, attributionControl: true })
+    // Leaflet 1.9's default attribution prefix is a flag-icon link to
+    // leafletjs.com — on a Russia-facing storefront that reads as a political
+    // statement nobody intended (t-2026-10-01-checkout-ivan-3 #4). Plain text
+    // link, no icon; the OSM credit itself stays, its licence requires it.
+    map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>')
     L.tileLayer(TILE_URL, { maxZoom: 19, attribution: ATTRIBUTION }).addTo(map)
     map.setView([55.751, 37.618], 10)
     layerRef.current = L.layerGroup().addTo(map)
