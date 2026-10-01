@@ -31,6 +31,16 @@ describe("isLocalReturnPath", () => {
     expect(isLocalReturnPath("javascript:alert(1)")).toBe(false)
   })
 
+  it("rejects a raw control/whitespace character a browser strips before Location parses it", () => {
+    expect(isLocalReturnPath("/\t/evil.com")).toBe(false)
+    expect(isLocalReturnPath("/\n/evil.com")).toBe(false)
+    expect(isLocalReturnPath("/\r//evil.com")).toBe(false)
+  })
+
+  it("accepts a percent-encoded control character, since it is never auto-decoded", () => {
+    expect(isLocalReturnPath("/%09/evil.com")).toBe(true)
+  })
+
   it("rejects empty, missing or non-absolute input", () => {
     expect(isLocalReturnPath("")).toBe(false)
     expect(isLocalReturnPath(null)).toBe(false)

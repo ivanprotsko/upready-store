@@ -191,6 +191,74 @@ test.describe("#5 full-width sections", () => {
       fullPage: true,
     })
   })
+
+  test("the first delivery/payment card's left edge matches the section heading's left edge, within 1px, at 390/768/1024/1440", async ({
+    page,
+  }) => {
+    test.skip(test.info().project.name !== "desktop", "drives its own viewports")
+    await addFirstProductToCart(page)
+    await page.goto("/ru/checkout")
+    await fillCheckoutAddress(page, {
+      address1: "1 Demo Street",
+      city: "Demo City",
+      postalCode: "10000",
+    })
+    await selectAnyShippingMethod(page)
+
+    for (const width of [390, 768, 1024, 1440] as const) {
+      await page.setViewportSize({ width, height: 1000 })
+
+      const shippingHeading = page.getByText("Способ доставки", { exact: true })
+      const shippingCard = page.getByTestId("delivery-option-radio").first()
+      const shippingHeadingBox = await shippingHeading.boundingBox()
+      const shippingCardBox = await shippingCard.boundingBox()
+      expect(shippingHeadingBox, `shipping heading has no box at ${width}`).not.toBeNull()
+      expect(shippingCardBox, `shipping card has no box at ${width}`).not.toBeNull()
+      expect(
+        Math.abs(shippingCardBox!.x - shippingHeadingBox!.x),
+        `shipping card misaligned with heading at ${width}`
+      ).toBeLessThanOrEqual(1)
+
+      const paymentHeading = page.getByText("Способ оплаты", { exact: true })
+      const paymentCard = page.locator('[data-testid^="payment-method-"]').first()
+      const paymentHeadingBox = await paymentHeading.boundingBox()
+      const paymentCardBox = await paymentCard.boundingBox()
+      expect(paymentHeadingBox, `payment heading has no box at ${width}`).not.toBeNull()
+      expect(paymentCardBox, `payment card has no box at ${width}`).not.toBeNull()
+      expect(
+        Math.abs(paymentCardBox!.x - paymentHeadingBox!.x),
+        `payment card misaligned with heading at ${width}`
+      ).toBeLessThanOrEqual(1)
+    }
+  })
+
+  test("the delivery scroller still reaches its right-hand scroll limit at 390", async ({
+    page,
+  }) => {
+    test.skip(test.info().project.name !== "desktop", "drives its own viewport")
+    await addFirstProductToCart(page)
+    await page.goto("/ru/checkout")
+    await fillCheckoutAddress(page, {
+      address1: "1 Demo Street",
+      city: "Demo City",
+      postalCode: "10000",
+    })
+    await page.setViewportSize({ width: 390, height: 1000 })
+
+    const scroller = page.getByTestId("checkout-container").locator(".overflow-x-auto").first()
+    const { scrollWidth, clientWidth } = await scroller.evaluate((el) => ({
+      scrollWidth: el.scrollWidth,
+      clientWidth: el.clientWidth,
+    }))
+    // nothing to prove if every card already fits the viewport
+    test.skip(scrollWidth <= clientWidth, "fewer cards than fit the viewport on this stand")
+
+    await scroller.evaluate((el) => {
+      el.scrollLeft = el.scrollWidth
+    })
+    const scrollLeft = await scroller.evaluate((el) => el.scrollLeft)
+    expect(scrollLeft).toBeGreaterThanOrEqual(scrollWidth - clientWidth - 2)
+  })
 })
 
 // ── #6: address above delivery method ───────────────────────────────────────

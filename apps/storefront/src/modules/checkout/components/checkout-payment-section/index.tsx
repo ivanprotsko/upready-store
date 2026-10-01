@@ -308,8 +308,10 @@ export default function CheckoutPaymentSection({
 
           {/* 368px is half of `max-w-checkout` (736px) — same full-bleed
               trick as the delivery row, so this one starts on the same
-              column edge and can scroll past it too. */}
-          <div className="flex gap-x-2 overflow-x-auto no-scrollbar pb-1 lg:pl-[calc(50%-368px)] lg:pr-[calc(50%-368px)] lg:scroll-pl-[calc(50%-368px)] lg:scroll-pr-[calc(50%-368px)]">
+              column edge and can scroll past it too. Below `lg`, "the
+              column" is the page gutter (`px-4`, same as .checkout-section-
+              container), not the viewport edge. */}
+          <div className="flex gap-x-2 overflow-x-auto no-scrollbar px-4 scroll-px-4 pb-1 lg:pl-[calc(50%-368px)] lg:pr-[calc(50%-368px)] lg:scroll-pl-[calc(50%-368px)] lg:scroll-pr-[calc(50%-368px)]">
             {availablePaymentMethods.map((method) => {
               const info = paymentInfoMap[method.id]
               const isSelected = selectedPaymentMethod === method.id

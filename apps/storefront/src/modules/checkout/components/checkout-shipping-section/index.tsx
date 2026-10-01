@@ -530,8 +530,10 @@ export default function CheckoutShippingSection({
           ivan-3 #5). 368px is half of `max-w-checkout` (736px, tailwind.
           config.js) — the padding this scroller needs so its first card
           starts exactly where the column above it does, and the row can
-          still scroll to both screen edges past that. */}
-      <div className="overflow-x-auto no-scrollbar px-px pb-1 lg:pl-[calc(50%-368px)] lg:pr-[calc(50%-368px)] lg:scroll-pl-[calc(50%-368px)] lg:scroll-pr-[calc(50%-368px)]">
+          still scroll to both screen edges past that. Below `lg`, "the
+          column" is the page gutter (`px-4`, same as .checkout-section-
+          container), not the viewport edge. */}
+      <div className="overflow-x-auto no-scrollbar px-4 scroll-px-4 pb-1 lg:pl-[calc(50%-368px)] lg:pr-[calc(50%-368px)] lg:scroll-pl-[calc(50%-368px)] lg:scroll-pr-[calc(50%-368px)]">
         {cards.length > 0 ? (
           <RadioGroup
             dir={dir}

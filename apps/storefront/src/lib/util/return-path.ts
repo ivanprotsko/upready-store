@@ -6,12 +6,19 @@
  * Only a local path of this shop survives: a protocol-relative path
  * (`//host`), an absolute URL with any scheme (it never starts with "/"), a
  * backslash-disguised host (`/\host`, which some URL parsers normalise to
- * `//host`) and anything that does not start with "/" are all rejected.
+ * `//host`), a control or whitespace character (browsers strip raw tab/CR/LF
+ * from a URL before parsing it, so `/\t/evil.com` becomes `//evil.com` at
+ * `Location` time — a percent-encoded `/%09/evil.com` is unaffected and stays
+ * local, since it is never auto-decoded) and anything that does not start
+ * with "/" are all rejected.
  */
 export function isLocalReturnPath(
   raw: string | null | undefined
 ): raw is string {
   if (!raw || !raw.startsWith("/")) {
+    return false
+  }
+  if (/[\x00-\x1f\x7f\s]/.test(raw)) {
     return false
   }
   return !raw.replace(/\\/g, "/").startsWith("//")

@@ -26,10 +26,17 @@ const VIEWPORTS = {
 test.describe.configure({ mode: "serial" })
 
 test("empty, partial and full checkout — checkmarks, order, full width", async ({
-  page,
+  browser,
 }) => {
   for (const mode of ["light", "dark"] as const) {
     for (const width of [1440, 1024, 768, 390] as const) {
+      // a fresh context (cookies included) per breakpoint: reusing one
+      // page/cart across all eight combinations left every shot after the
+      // first showing the previous breakpoint's already-filled cart instead
+      // of a genuinely empty one — the cart id lives in a cookie, so a new
+      // `page` alone (same context) would still have carried it over
+      const context = await browser.newContext()
+      const page = await context.newPage()
       await setModeBeforeNav(page, mode)
       await page.setViewportSize(VIEWPORTS[width])
       await addFirstProductToCart(page)
@@ -60,6 +67,7 @@ test("empty, partial and full checkout — checkmarks, order, full width", async
         path: `test-results/ivan3-checkout-full-${width}-${mode}.png`,
         fullPage: true,
       })
+      await context.close()
     }
   }
 })
