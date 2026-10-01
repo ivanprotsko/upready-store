@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState, type FormEvent } from "react"
+import { useEffect, useId, useState, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { updateCart } from "@lib/data/cart"
-import { Button, Checkbox, Text } from "@medusajs/ui"
+import { Button, Checkbox, Label } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
 import { CheckoutModal } from "@modules/checkout/components/checkout-modal"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -29,6 +29,7 @@ export default function CheckoutBillingSheet({
 }: CheckoutBillingSheetProps) {
   const t = useTranslations("CheckoutPage")
   const router = useRouter()
+  const sameAsShippingCheckboxId = useId()
   const shippingAddr = cart.shipping_address
   const billingAddr = cart.billing_address
 
@@ -99,13 +100,15 @@ export default function CheckoutBillingSheet({
         <div className="flex flex-col gap-y-3">
           <div className="flex items-center gap-x-2">
             <Checkbox
+              id={sameAsShippingCheckboxId}
               checked={sameAsShipping}
               onCheckedChange={(checked) => setSameAsShipping(checked === true)} />
-            <Text
-              className="text-ui-fg-subtle"
+            <Label
+              htmlFor={sameAsShippingCheckboxId}
+              className="text-ui-fg-subtle !txt-medium cursor-pointer"
             >
               {t("billingSameAsShipping")}
-            </Text>
+            </Label>
           </div>
 
           {!sameAsShipping && (
