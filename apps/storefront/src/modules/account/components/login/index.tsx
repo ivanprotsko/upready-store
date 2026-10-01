@@ -14,9 +14,11 @@ type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   /** From the server page, through `LoginTemplate` (rule 19g) — which forms this shop's buyers get. */
   loginSettings: TenantLoginSettings
+  /** Where to send the buyer after signing in, from the same server page (rule 19g). */
+  returnTo: string | null
 }
 
-const Login = ({ setCurrentView, loginSettings }: Props) => {
+const Login = ({ setCurrentView, loginSettings, returnTo }: Props) => {
   const t = useTranslations("Login")
   const [message, formAction] = useActionState(login, null)
   const emailEnabled = allowsEmailLogin(loginSettings.method)
@@ -33,6 +35,7 @@ const Login = ({ setCurrentView, loginSettings }: Props) => {
       </p>
       {emailEnabled && (
         <form className="w-full" action={formAction}>
+          {returnTo && <input type="hidden" name="returnTo" value={returnTo} />}
           <div className="flex flex-col w-full gap-y-2">
             <Input
               label={t("email")}

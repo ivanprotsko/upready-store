@@ -8,6 +8,7 @@ import { shopPromoText, shopTagline } from "@lib/data/shop-copy"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
+import AccountLink from "@modules/layout/components/account-link"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
@@ -74,13 +75,12 @@ export default async function NavH3() {
                 locales={locales}
                 className="min-w-0"
               />
-              <Link
-                href="/account"
+              <AccountLink
                 className="hover:text-ui-fg-base transition-colors"
                 data-testid="nav-account-link"
               >
                 {t("Nav.account")}
-              </Link>
+              </AccountLink>
             </div>
           </div>
         </div>

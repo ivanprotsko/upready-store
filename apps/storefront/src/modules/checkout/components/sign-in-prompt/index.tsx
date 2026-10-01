@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server"
 import { Button } from "@medusajs/ui"
-import { Link } from "@i18n/navigation"
+import AccountLink from "@modules/layout/components/account-link"
 
 const SignInPrompt = async () => {
   const t = await getTranslations("SignInPrompt")
@@ -12,7 +12,7 @@ const SignInPrompt = async () => {
           <p className="txt-medium text-ui-fg-muted">{t("description")}</p>
         </div>
         <div>
-          <Link href="/account">
+          <AccountLink>
             <Button
               variant="secondary"
               size="large"
@@ -20,7 +20,7 @@ const SignInPrompt = async () => {
             >
               {t("signIn")}
             </Button>
-          </Link>
+          </AccountLink>
         </div>
       </div>
       <div className="h-px bg-ui-border-base w-full" />

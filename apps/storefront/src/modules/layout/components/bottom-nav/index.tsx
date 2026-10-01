@@ -6,6 +6,7 @@ import { listCategories } from "@lib/data/categories"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import { listRegions } from "@lib/data/regions"
 import { getSiteBranding } from "@lib/data/tenant-branding"
+import AccountLink from "@modules/layout/components/account-link"
 import CategoryMenu from "@modules/layout/components/category-menu"
 import Search from "@modules/layout/components/search"
 import CartButton from "@modules/layout/components/cart-button"
@@ -73,9 +74,9 @@ const BottomNav = async () => {
         </div>
 
         <div className="flex flex-1 items-center justify-center text-ui-fg-subtle hover:text-ui-fg-base transition-colors">
-          <Link href="/account" aria-label={t("account")}>
+          <AccountLink aria-label={t("account")}>
             <User />
-          </Link>
+          </AccountLink>
         </div>
 
         <div className="flex flex-1 items-center justify-center">

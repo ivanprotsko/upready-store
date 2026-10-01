@@ -13,6 +13,8 @@
 import { isAppLocale, defaultLocale, LOCALE_COOKIE } from "@i18n/config"
 import { resolveTenantByHost } from "@lib/tenant/resolve"
 
+export { sanitizeReturnPath } from "./return-path"
+
 /** Carries the page the buyer started the login from, across the Yandex round trip. */
 export const RETURN_COOKIE = "_yandex_return"
 
@@ -75,24 +77,6 @@ export async function resolveShop(
   }
 
   return { handle: null, publishableKey: fallback }
-}
-
-/**
- * Only same-origin absolute paths survive. An attacker-supplied `return` must
- * never turn the login link into an open redirect: `//evil.com` and
- * `https://evil.com` are both rejected, and anything else falls back to `/`.
- */
-export function sanitizeReturnPath(raw: string | null | undefined): string {
-  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) {
-    return "/"
-  }
-  // Strip any marker left over from a previous failed attempt, so a second
-  // failure does not stack two of them on the URL.
-  const [path, query = ""] = raw.split("?")
-  const params = new URLSearchParams(query)
-  params.delete("yandex_error")
-  const rest = params.toString()
-  return rest ? `${path}?${rest}` : path
 }
 
 /** Append `?yandex_error=<code>` to the return path. */
