@@ -17,9 +17,11 @@ type Props = {
   siteName: string
   /** Same journey as `siteName`, for the same reason (f05-checkout-legal-stubs). */
   legal: LegalLinkContext
+  /** Same journey as `siteName` — where to send the buyer once they join. */
+  returnTo: string | null
 }
 
-const Register = ({ setCurrentView, siteName, legal }: Props) => {
+const Register = ({ setCurrentView, siteName, legal, returnTo }: Props) => {
   const t = useTranslations("Register")
   // The signup consent sentence, like the checkout one: the shop's own
   // documents, the contract as the fallback, plain words rather than a link to
@@ -43,6 +45,7 @@ const Register = ({ setCurrentView, siteName, legal }: Props) => {
         {t("description", { siteName: siteName })}
       </p>
       <form className="w-full flex flex-col" action={formAction}>
+        {returnTo && <input type="hidden" name="returnTo" value={returnTo} />}
         <div className="flex flex-col w-full gap-y-2">
           <Input
             label={t("firstName")}

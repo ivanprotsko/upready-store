@@ -43,19 +43,20 @@ export default async function Checkout() {
   return (
     <PaymentWrapper cart={cart}>
       <CartUpdateProvider>
-        <div className="overflow-x-hidden">
-          <div className="lg:content-container min-h-screen lg:min-h-0">
-            <div className="flex flex-col lg:mx-auto lg:max-w-checkout">
-              {/* Both are async Server Components, so the RSC payload
-                  carries them as lazy rows: see HydrationSlot (46df U-06). */}
-              <HydrationSlot>
-                <CheckoutForm cart={cart} customer={customer} />
-              </HydrationSlot>
-              <HydrationSlot>
-                <CheckoutSummary cart={cart} />
-              </HydrationSlot>
-            </div>
-          </div>
+        {/* t-2026-10-01-checkout-ivan-3 #5: this wrapper used to cap the whole
+            page at 736px (lg:content-container → lg:max-w-checkout), which
+            clipped the delivery-card row at that edge. It limits nothing now;
+            `CheckoutForm` and `CheckoutSummary` constrain their OWN content to
+            that same 736px column per section instead
+            (.checkout-section-container, globals.css), so the scroller can
+            bleed past it. */}
+        <div className="overflow-x-hidden flex flex-col min-h-screen lg:min-h-0">
+          <HydrationSlot>
+            <CheckoutForm cart={cart} customer={customer} />
+          </HydrationSlot>
+          <HydrationSlot>
+            <CheckoutSummary cart={cart} />
+          </HydrationSlot>
         </div>
       </CartUpdateProvider>
     </PaymentWrapper>

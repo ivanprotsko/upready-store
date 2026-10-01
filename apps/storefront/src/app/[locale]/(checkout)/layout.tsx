@@ -10,6 +10,7 @@ import SiteAttribution from "@modules/layout/components/site-attribution"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import { NOINDEX } from "@lib/util/robots"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
+import AccountLink from "@modules/layout/components/account-link"
 
 export const metadata: Metadata = {
   robots: NOINDEX,
@@ -70,12 +71,9 @@ export default async function CheckoutLayout({
                 </span>
               </div>
             ) : (
-              <Link
-                href="/account"
-                className="txt-compact-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
-              >
+              <AccountLink className="txt-compact-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors">
                 {t("signIn")}
-              </Link>
+              </AccountLink>
             )}
           </div>
         </div>

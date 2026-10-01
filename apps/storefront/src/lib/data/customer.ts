@@ -18,6 +18,7 @@ import { claimGuestOrders } from "./orders"
 import { getLocale } from "./locale-actions"
 import { defaultLocale } from "@i18n/config"
 import { validatePassword } from "@lib/util/password"
+import { sanitizeAccountReturnPath } from "@lib/util/return-path"
 
 export const retrieveCustomer =
   async (): Promise<HttpTypes.StoreCustomer | null> => {
@@ -121,6 +122,7 @@ async function claimGuestOrdersQuietly(context: string) {
 export async function signup(_currentState: unknown, formData: FormData) {
   const password = formData.get("password") as string
   const locale = (await getLocale()) ?? defaultLocale
+  const returnTo = formData.get("returnTo") as string | null
 
   // Medusa accepts any password, so this is the only gate there is. It has to
   // be the same one the reset flow applies, or a password accepted here would
@@ -150,11 +152,7 @@ export async function signup(_currentState: unknown, formData: FormData) {
       ...(await getAuthHeaders()),
     }
 
-    const { customer: createdCustomer } = await sdk.store.customer.create(
-      customerForm,
-      {},
-      headers
-    )
+    await sdk.store.customer.create(customerForm, {}, headers)
 
     const loginToken = await sdk.auth.login("customer", "emailpass", {
       email: customerForm.email,
@@ -169,11 +167,13 @@ export async function signup(_currentState: unknown, formData: FormData) {
     await transferCart()
 
     await claimGuestOrdersQuietly("signup")
-
-    return createdCustomer
   } catch (error) {
     return String(error)
   }
+
+  // Outside the try/catch: `redirect()` throws a NEXT_REDIRECT control-flow
+  // signal, which the catch above would otherwise swallow into an error string.
+  redirect(sanitizeAccountReturnPath(returnTo, locale))
 }
 
 export async function requestPasswordReset(email: string) {
@@ -262,6 +262,7 @@ export async function resetPassword(
 export async function login(_currentState: unknown, formData: FormData) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
+  const returnTo = formData.get("returnTo") as string | null
 
   try {
     await sdk.auth
@@ -282,6 +283,11 @@ export async function login(_currentState: unknown, formData: FormData) {
   }
 
   await claimGuestOrdersQuietly("login")
+
+  const locale = (await getLocale()) ?? defaultLocale
+  // Outside the try/catch above: `redirect()` throws a NEXT_REDIRECT
+  // control-flow signal, which a catch here would swallow into an error string.
+  redirect(sanitizeAccountReturnPath(returnTo, locale))
 }
 
 export async function signout() {

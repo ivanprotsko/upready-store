@@ -341,14 +341,27 @@ export async function fillCheckoutAddress(
     await cityInput.fill(address.city)
     await page.locator('input[name="postal_code"]').fill(address.postalCode)
   }
-  // A country with a region list requires the province since f04; the select
-  // exists only for such a country, so its absence is the "not required" case.
+  // A country with a region list requires the province since f04. Which of
+  // the two renders depends on `listShippingRegions` (async, fired when the
+  // form mounts): a free-text INPUT the instant the form appears, replaced by
+  // the SELECT once the fetch resolves — for a country with no list (the
+  // "not required" case) the input is permanent. Racing that fetch here (this
+  // can be the very first thing the test does on the page, with none of a
+  // contacts step's own round trip to let it settle first) means giving the
+  // select a real chance to replace the input before falling back to it.
   const provinceSelect = page.getByTestId("address-province-select")
-  if ((await provinceSelect.count()) > 0) {
+  const provinceInput = page.getByTestId("address-province-input")
+  const selectArrived = await provinceSelect
+    .waitFor({ state: "visible", timeout: 8_000 })
+    .then(() => true)
+    .catch(() => false)
+  if (selectArrived) {
     const value =
       address.province ??
       (await provinceSelect.locator("option:not([disabled])").first().getAttribute("value"))
     if (value) await provinceSelect.selectOption(value)
+  } else if ((await provinceInput.count()) > 0) {
+    await provinceInput.fill(address.province ?? address.city)
   }
   await page.locator('form button[type="submit"]:visible').last().click()
   await expect(address1Input).toBeHidden({ timeout: 25_000 })

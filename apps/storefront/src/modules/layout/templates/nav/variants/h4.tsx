@@ -8,6 +8,7 @@ import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cooki
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
+import AccountLink from "@modules/layout/components/account-link"
 import CartButton from "@modules/layout/components/cart-button"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import ModeToggle from "@modules/layout/components/mode-toggle"
@@ -123,14 +124,13 @@ export default async function NavH4() {
                   className="min-w-0"
                 />
               </div>
-              <Link
+              <AccountLink
                 className="hidden lg:block hover:opacity-80 transition-opacity"
-                href="/account"
                 aria-label={t("Nav.account")}
                 data-testid="nav-account-link"
               >
                 <User />
-              </Link>
+              </AccountLink>
               <div className="flex h-full items-center">
                 <CartButton />
               </div>

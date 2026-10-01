@@ -50,10 +50,16 @@ const YandexLogin = ({ available }: { available: boolean }) => {
     ? (ERROR_KEYS[errorCode] ?? "yandexErrorFailed")
     : null
 
-  // Send the buyer back to the page they started from, query string included.
-  // The handler re-validates it as a same-origin path before trusting it.
+  // Send the buyer back to the page they started from. `/account` itself
+  // carries that page in its own `?return=` (cart/checkout's sign-in entries
+  // set it, `lib/util/return-path.ts`), so it wins over this page's own
+  // address; with no explicit `return` the buyer just landed on `/account`
+  // directly and comes back to it, query string included. The handler
+  // re-validates either one as a same-origin path before trusting it.
+  const explicitReturn = searchParams?.get("return")
   const currentQuery = searchParams?.toString()
-  const returnTo = currentQuery ? `${pathname}?${currentQuery}` : pathname
+  const returnTo =
+    explicitReturn ?? (currentQuery ? `${pathname}?${currentQuery}` : pathname)
   const href = `/api/yandex-login?return=${encodeURIComponent(returnTo)}`
 
   return (

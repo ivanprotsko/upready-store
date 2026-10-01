@@ -7,7 +7,8 @@ import { retrieveCustomerAddresses } from "@lib/data/customer"
 import { isDigitalDeliveryCart } from "@lib/util/shipping-address"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutShippingSection from "@modules/checkout/components/checkout-shipping-section"
-import CheckoutInfoRows from "@modules/checkout/components/checkout-info-rows"
+import CheckoutAddressRow from "@modules/checkout/components/checkout-address-row"
+import CheckoutContactsRow from "@modules/checkout/components/checkout-contacts-row"
 import CheckoutItemList from "@modules/checkout/components/checkout-item-list"
 import CheckoutPickupPointSheet from "@modules/checkout/components/checkout-pickup-point-sheet"
 import SignInPrompt from "@modules/checkout/components/sign-in-prompt"
@@ -58,15 +59,38 @@ export default async function CheckoutForm({
   const isDigital = isDigitalDeliveryCart(cart)
 
   return (
-    <div className="flex flex-col px-4 py-6 lg:px-0 lg:py-10 gap-y-6">
+    // t-2026-10-01-checkout-ivan-3 #5: full width — each section below
+    // constrains its OWN content to the 736px column instead (.checkout-
+    // section-container, globals.css); `CheckoutShippingSection` is the one
+    // that does not wrap entirely, so its delivery-card row can bleed past it.
+    <div className="flex flex-col py-6 lg:py-10 gap-y-6">
       {/* SignInPrompt is async, and everything after the shipping options comes
           past Flight's 3200-byte row limit, so this <div>'s children arrive as
           lazy rows: one slot around all of them, see HydrationSlot (46df U-06). */}
       <HydrationSlot>
-        <RobokassaRetryNotice cart={cart} />
-        {!customer && <SignInPrompt />}
+        <div className="checkout-section-container">
+          <RobokassaRetryNotice cart={cart} />
+        </div>
+        {!customer && (
+          <div className="checkout-section-container">
+            <SignInPrompt />
+          </div>
+        )}
 
+        {/* t-2026-10-01-checkout-ivan-3 #6: address above delivery method,
+            contacts after it — «Адрес доставки» → «Способ доставки» →
+            «Контакты». Neither address nor the method picker exists for a
+            digital-only cart (o24-courses); contacts always do. */}
         <PickupSheetProvider cart={cart} shippingOptions={shippingOptions}>
+          {!isDigital && (
+            <div className="checkout-section-container">
+              <CheckoutAddressRow
+                cart={cart}
+                addresses={addresses}
+                availableShippingMethods={shippingOptions}
+              />
+            </div>
+          )}
           {!isDigital && (
             <CheckoutShippingSection
               cart={cart}
@@ -75,20 +99,18 @@ export default async function CheckoutForm({
               currentCountry={resolvedCountry}
             />
           )}
-          <CheckoutInfoRows
-            cart={cart}
-            customer={customer}
-            addresses={addresses}
-            availableShippingMethods={shippingOptions}
-            isDigital={isDigital}
-          />
+          <div className="checkout-section-container">
+            <CheckoutContactsRow cart={cart} />
+          </div>
           {!isDigital && <CheckoutPickupPointSheet />}
         </PickupSheetProvider>
 
-        <CheckoutItemList cart={cart} />
+        <div className="checkout-section-container">
+          <CheckoutItemList cart={cart} />
+        </div>
 
         {(shippingLink || returnsLink) && (
-          <div className="hidden lg:flex gap-x-4 mt-auto">
+          <div className="hidden lg:flex gap-x-4 mt-auto checkout-section-container">
             {shippingLink && (
               <Link
                 href={shippingLink}

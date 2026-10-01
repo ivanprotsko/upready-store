@@ -16,16 +16,31 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Login() {
+type Props = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+export default async function Login({ searchParams }: Props) {
   // LoginTemplate and its children (Register) are client components, so the
   // tenant's name and its legal pages cross as props rather than through the
   // header-reading accessors those modules must never import (rule 19g).
-  const [siteName, legal, loginSettings] = await Promise.all([
+  const [siteName, legal, loginSettings, params] = await Promise.all([
     getSiteName(),
     getLegalLinkContext(),
     getSiteLoginSettings(),
+    searchParams,
   ])
+  // Where the buyer started the login from (cart/checkout's sign-in entries
+  // set it, `lib/util/return-path.ts`); `login`/`signup` sanitise it again
+  // before redirecting, so a hostile value here is harmless.
+  const rawReturn = params.return
+  const returnTo = (Array.isArray(rawReturn) ? rawReturn[0] : rawReturn) ?? null
   return (
-    <LoginTemplate siteName={siteName} legal={legal} loginSettings={loginSettings} />
+    <LoginTemplate
+      siteName={siteName}
+      legal={legal}
+      loginSettings={loginSettings}
+      returnTo={returnTo}
+    />
   )
 }

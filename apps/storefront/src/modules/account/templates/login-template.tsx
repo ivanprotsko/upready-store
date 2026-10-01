@@ -33,10 +33,13 @@ const LoginTemplate = ({
   siteName,
   legal,
   loginSettings,
+  returnTo,
 }: {
   siteName: string
   legal: LegalLinkContext
   loginSettings: TenantLoginSettings
+  /** Where to send the buyer after signing in, from the server page's `?return=` (rule 19g). */
+  returnTo: string | null
 }) => {
   const [currentView, setCurrentView] = useState<LOGIN_VIEW>(
     LOGIN_VIEW.SIGN_IN
@@ -46,13 +49,18 @@ const LoginTemplate = ({
   return (
     <div className="w-full flex justify-center px-8 py-8">
       {currentView === LOGIN_VIEW.SIGN_IN && (
-        <Login setCurrentView={setCurrentView} loginSettings={loginSettings} />
+        <Login
+          setCurrentView={setCurrentView}
+          loginSettings={loginSettings}
+          returnTo={returnTo}
+        />
       )}
       {currentView === LOGIN_VIEW.REGISTER && emailEnabled && (
         <Register
           setCurrentView={setCurrentView}
           siteName={siteName}
           legal={legal}
+          returnTo={returnTo}
         />
       )}
       {currentView === LOGIN_VIEW.FORGOT_PASSWORD && emailEnabled && (

@@ -19,6 +19,11 @@ export default async function LoginDefault() {
     getSiteLoginSettings(),
   ])
   return (
-    <LoginTemplate siteName={siteName} legal={legal} loginSettings={loginSettings} />
+    <LoginTemplate
+      siteName={siteName}
+      legal={legal}
+      loginSettings={loginSettings}
+      returnTo={null}
+    />
   )
 }
