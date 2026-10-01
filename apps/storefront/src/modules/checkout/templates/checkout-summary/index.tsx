@@ -29,17 +29,29 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
   const pickupPointAddress = meta?.[PICKUP_METADATA_KEYS.address]
 
   return (
-    <div className="flex flex-col gap-y-8 px-4 py-4 lg:px-0 lg:py-10 bg-ui-bg-subtle lg:bg-transparent">
-      <CheckoutTotals cart={cart} />
+    // t-2026-10-01-checkout-ivan-3 #5: full width — the page itself no
+    // longer caps it ((checkout)/checkout/page.tsx); each child below
+    // constrains its OWN content to the 736px column instead
+    // (.checkout-section-container, globals.css), except `CheckoutPaymentSection`,
+    // which does the same split internally so its method row can bleed past
+    // it the way the delivery row does.
+    <div className="flex flex-col gap-y-8 py-4 lg:py-10 bg-ui-bg-subtle lg:bg-transparent">
+      <div className="checkout-section-container">
+        <CheckoutTotals cart={cart} />
+      </div>
 
       {pickupPointName && (
-        <CheckoutPickupSummary
-          name={pickupPointName}
-          address={pickupPointAddress ?? ""}
-        />
+        <div className="checkout-section-container">
+          <CheckoutPickupSummary
+            name={pickupPointName}
+            address={pickupPointAddress ?? ""}
+          />
+        </div>
       )}
 
-      <DiscountCode cart={cart} />
+      <div className="checkout-section-container">
+        <DiscountCode cart={cart} />
+      </div>
 
       <CheckoutPaymentSection
         cart={cart}

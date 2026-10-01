@@ -14,7 +14,7 @@ import { cartShippingAddressGaps } from "@lib/util/shipping-address"
 import { paymentMethodName } from "@lib/util/payment"
 import { pickActivePaymentMethod } from "@lib/util/pick-payment-method"
 import type { TenantPaymentMethods } from "@lib/tenant/resolve"
-import { CreditCard } from "@medusajs/icons"
+import { CreditCard, CheckMini } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
 import AddressGapMessage from "@modules/checkout/components/address-gap-message"
 import PaymentButton from "@modules/checkout/components/payment-button"
@@ -23,6 +23,7 @@ import ErrorMessage from "@modules/checkout/components/error-message"
 import { StripePaymentContainer } from "@modules/checkout/components/payment-container"
 import DemoCardFields, {
   EMPTY_DEMO_CARD,
+  isDemoCardComplete,
   type DemoCardValue,
 } from "@modules/checkout/components/demo-card-fields"
 import CheckoutBillingSheet from "@modules/checkout/components/checkout-billing-sheet"
@@ -255,7 +256,24 @@ export default function CheckoutPaymentSection({
     }
   }
 
+  // t-2026-10-01-checkout-ivan-3 #3: the same two gates `PaymentButton` uses
+  // to disable «Place order» — a method is picked, the backend is ready for
+  // it, and (the manual provider's own demo card) it is filled in.
+  const manualCardIncomplete = Boolean(
+    isManual(selectedPaymentMethod) &&
+      !manualKind &&
+      !isDemoCardComplete(demoCard)
+  )
+  const isPaymentComplete =
+    !!selectedPaymentMethod &&
+    isPaymentSessionReady(selectedPaymentMethod, cart) &&
+    !manualCardIncomplete
+
   return (
+    // t-2026-10-01-checkout-ivan-3 #5: full width on its own, like
+    // `CheckoutShippingSection` — every block below is wrapped into the
+    // 736px column (.checkout-section-container, globals.css) except the
+    // method row, which bleeds past it the delivery row's own way.
     <div
       id={CHECKOUT_PAYMENT_ANCHOR}
       className="flex flex-col gap-y-6 scroll-mt-4"
@@ -263,21 +281,35 @@ export default function CheckoutPaymentSection({
       {/* Payment methods */}
       {!paidByGiftcard && availablePaymentMethods.length > 0 && (
         <div className="flex flex-col gap-y-3">
-          <h2 className="h2-docs">{t("paymentHeading")}</h2>
+          <div className="checkout-section-container flex flex-col gap-y-3">
+            <h2 className="h2-docs flex items-center gap-x-1.5">
+              {t("paymentHeading")}
+              {isPaymentComplete && (
+                <CheckMini
+                  className="text-ui-tag-green-icon shrink-0"
+                  aria-hidden
+                  data-testid="payment-section-checkmark"
+                />
+              )}
+            </h2>
 
-          {/* t-2026-09-24-n10: honest about pp_system_default's demo card once it
-              is this shop's only way to pay, so a buyer never mistakes it for a
-              real accepted method. */}
-          {tenantPaymentMethods.demo && (
-            <p
-              className="txt-compact-xsmall text-ui-fg-subtle"
-              data-testid="demo-payment-notice"
-            >
-              {t("demoPaymentNotice")}
-            </p>
-          )}
+            {/* t-2026-09-24-n10: honest about pp_system_default's demo card once it
+                is this shop's only way to pay, so a buyer never mistakes it for a
+                real accepted method. */}
+            {tenantPaymentMethods.demo && (
+              <p
+                className="txt-compact-xsmall text-ui-fg-subtle"
+                data-testid="demo-payment-notice"
+              >
+                {t("demoPaymentNotice")}
+              </p>
+            )}
+          </div>
 
-          <div className="flex gap-x-2 overflow-x-auto no-scrollbar pb-1">
+          {/* 368px is half of `max-w-checkout` (736px) — same full-bleed
+              trick as the delivery row, so this one starts on the same
+              column edge and can scroll past it too. */}
+          <div className="flex gap-x-2 overflow-x-auto no-scrollbar pb-1 lg:pl-[calc(50%-368px)] lg:pr-[calc(50%-368px)] lg:scroll-pl-[calc(50%-368px)] lg:scroll-pr-[calc(50%-368px)]">
             {availablePaymentMethods.map((method) => {
               const info = paymentInfoMap[method.id]
               const isSelected = selectedPaymentMethod === method.id
@@ -317,48 +349,50 @@ export default function CheckoutPaymentSection({
             })}
           </div>
 
-          {/* Stripe card input */}
-          {isStripeLike(selectedPaymentMethod) && (
-            <div className="mt-2">
-              <StripePaymentContainer
-                paymentProviderId={selectedPaymentMethod}
-                selectedPaymentOptionId={selectedPaymentMethod}
-                paymentInfoMap={paymentInfoMap}
-                setError={setError}
-                setPaymentComplete={setPaymentComplete}
-              />
-            </div>
-          )}
-
-          {/* The manual provider (olavka-payments): the shop's offline kinds when
-              the owner enabled any, else the demo card of checkout mockup
-              frames 6-8, exactly as before. */}
-          {isManual(selectedPaymentMethod) &&
-            (manualKinds.length > 0 ? (
-              <div className="mt-2 flex flex-col gap-y-4">
-                <ManualPaymentKindSelect
-                  kinds={manualKinds}
-                  wallets={manualPayment.crypto.wallets}
-                  value={manualKind}
-                  onChange={setManualKind}
+          <div className="checkout-section-container flex flex-col gap-y-3">
+            {/* Stripe card input */}
+            {isStripeLike(selectedPaymentMethod) && (
+              <div>
+                <StripePaymentContainer
+                  paymentProviderId={selectedPaymentMethod}
+                  selectedPaymentOptionId={selectedPaymentMethod}
+                  paymentInfoMap={paymentInfoMap}
+                  setError={setError}
+                  setPaymentComplete={setPaymentComplete}
                 />
-                {manualKind && (
-                  <ManualPaymentInstructions
-                    kind={manualKind}
-                    manualPayment={manualPayment}
+              </div>
+            )}
+
+            {/* The manual provider (olavka-payments): the shop's offline kinds when
+                the owner enabled any, else the demo card of checkout mockup
+                frames 6-8, exactly as before. */}
+            {isManual(selectedPaymentMethod) &&
+              (manualKinds.length > 0 ? (
+                <div className="flex flex-col gap-y-4">
+                  <ManualPaymentKindSelect
+                    kinds={manualKinds}
+                    wallets={manualPayment.crypto.wallets}
+                    value={manualKind}
+                    onChange={setManualKind}
                   />
-                )}
-              </div>
-            ) : (
-              <div className="mt-2">
-                <DemoCardFields value={demoCard} onChange={setDemoCard} />
-              </div>
-            ))}
+                  {manualKind && (
+                    <ManualPaymentInstructions
+                      kind={manualKind}
+                      manualPayment={manualPayment}
+                    />
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <DemoCardFields value={demoCard} onChange={setDemoCard} />
+                </div>
+              ))}
+          </div>
         </div>
       )}
 
       {paidByGiftcard && (
-        <div className="flex flex-col gap-y-1">
+        <div className="checkout-section-container flex flex-col gap-y-1">
           <h2 className="h2-docs">{t("paymentHeading")}</h2>
           <p className="txt-compact-small text-ui-fg-subtle">{t("giftCard")}</p>
         </div>
@@ -366,7 +400,7 @@ export default function CheckoutPaymentSection({
 
       {/* Billing address */}
       {billingSameAsShipping && !showBillingDetails ? (
-        <label className="flex items-center gap-x-2 cursor-pointer">
+        <label className="checkout-section-container flex items-center gap-x-2 cursor-pointer">
           <input
             type="checkbox"
             checked
@@ -378,7 +412,7 @@ export default function CheckoutPaymentSection({
           </span>
         </label>
       ) : (
-        <div className="flex flex-col gap-y-2">
+        <div className="checkout-section-container flex flex-col gap-y-2">
           <div className="flex items-center justify-between">
             <h2 className="h2-docs">{t("billingHeading")}</h2>
             <button
@@ -407,14 +441,18 @@ export default function CheckoutPaymentSection({
         cart={cart}
       />
 
-      <ErrorMessage error={error} data-testid="payment-method-error-message" />
+      <div className="checkout-section-container">
+        <ErrorMessage error={error} data-testid="payment-method-error-message" />
+      </div>
 
-      <AddressGapMessage
-        gaps={addressGaps}
-        data-testid="shipping-address-incomplete"
-      />
+      <div className="checkout-section-container">
+        <AddressGapMessage
+          gaps={addressGaps}
+          data-testid="shipping-address-incomplete"
+        />
+      </div>
 
-      <div className="flex flex-col gap-y-3">
+      <div className="checkout-section-container flex flex-col gap-y-3">
         <PaymentButton
           cart={cart}
           selectedPaymentMethod={selectedPaymentMethod}

@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation"
 import { setAddresses, updateRegion } from "@lib/data/cart"
 import type { HttpTypes } from "@medusajs/types"
 import Input from "@modules/common/components/input"
-import { CheckoutModal } from "@modules/checkout/components/checkout-modal"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { useTranslations } from "next-intl"
 import AddressAutocomplete, {
@@ -35,20 +34,30 @@ function AddressIncompleteMessage({ gaps }: { gaps: ShippingAddressField[] }) {
   )
 }
 
-interface CheckoutAddressSheetProps {
-  open: boolean
-  onClose: () => void
+interface CheckoutAddressFormProps {
   cart: HttpTypes.StoreCart
-  customer: HttpTypes.StoreCustomer | null
   addresses: HttpTypes.StoreCustomerAddress[] | null
+  /** Called once the address is saved — the row collapses back to its summary. */
+  onSaved: () => void
+  /** Called on an explicit cancel — same collapse, nothing written. */
+  onCancel: () => void
 }
 
-export default function CheckoutAddressSheet({
-  open,
-  onClose,
+/**
+ * t-2026-10-01-checkout-ivan-3 #7: inline accordion body, not a popup sheet.
+ * `CheckoutAddressRow` mounts this only while expanded, which also replaces
+ * the old sheet's own re-seed guard: a fresh mount means `useState`'s
+ * initialiser runs once, from the cart as it is right then, and a sibling's
+ * `router.refresh()` while this stays open cannot overwrite what the
+ * customer already typed (rule 19h — the same property the old sheet's
+ * `wasOpen` ref existed to get, for free here).
+ */
+export default function CheckoutAddressForm({
   cart,
   addresses,
-}: CheckoutAddressSheetProps) {
+  onSaved,
+  onCancel,
+}: CheckoutAddressFormProps) {
   const t = useTranslations("CheckoutPage")
   const dir = useLocaleDirection()
   const router = useRouter()
@@ -92,41 +101,22 @@ export default function CheckoutAddressSheet({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [applyingId, setApplyingId] = useState<string | null>(null)
 
-  /**
-   * The sheet is seeded from the cart when it OPENS, and never again while it
-   * stays open.
-   *
-   * It used to re-seed on every change of `cart` (the dependencies below are
-   * all derived from it), which made the checkout's own `router.refresh()` a
-   * race: the refresh is an RSC round trip that lands whenever the network
-   * decides, and the new cart object then wiped whatever the customer had typed
-   * in the meantime — measured 2026-09-16 on the i03 stand, where a city typed
-   * into the open sheet reverted to the cart's saved one a few seconds later
-   * (rule 19h: an async answer must not own state the customer has touched).
-   * A cart that changes while the sheet is open is never newer than the form in
-   * front of the customer.
-   */
-  const wasOpen = useRef(false)
+  // `AddressAutocomplete` picks between two providers and forwards no ref of
+  // its own, so this focuses the region itself rather than one input inside
+  // it — a `tabIndex={-1}` container is the usual way to land focus on a
+  // group with no single obvious first control, and Tab from here still
+  // reaches the real first field next. A callback ref, because the two
+  // branches below root in a `<div>` or a `<form>` and a plain `RefObject`
+  // can only ever be typed to one of them.
+  const containerElRef = useRef<HTMLElement | null>(null)
+  const setContainerRef = (node: HTMLElement | null) => {
+    containerElRef.current = node
+  }
   useEffect(() => {
-    if (!open) {
-      wasOpen.current = false
-      return
-    }
-    if (wasOpen.current) return
-    wasOpen.current = true
-
-    setMode(initialMode)
-    setSelectedId(matchingAddress?.id)
-    setAddressFields({
-      address_1: manualAddress?.address_1 ?? "",
-      postal_code: manualAddress?.postal_code ?? "",
-      city: manualAddress?.city ?? "",
-      province: manualAddress?.province ?? "",
-    })
-    setCompany(manualAddress?.company ?? "")
-    setError(null)
-    setAddressGaps([])
-  }, [open, initialMode, matchingAddress, manualAddress])
+    containerElRef.current?.focus()
+    // Only on mount — the row remounts this form every time it expands.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const countryName = (code?: string | null) =>
     cart.region?.countries?.find((c) => c.iso_2 === code?.toLowerCase())
@@ -173,7 +163,7 @@ export default function CheckoutAddressSheet({
       return
     }
     setApplyingId(null)
-    onClose()
+    onSaved()
     if (
       address.country_code &&
       address.country_code !== shippingAddress?.country_code
@@ -211,90 +201,103 @@ export default function CheckoutAddressSheet({
     if (result) {
       setError(result)
     } else {
-      onClose()
+      onSaved()
       router.refresh()
     }
   }
 
-  return (
-    <CheckoutModal open={open} onClose={onClose} title={t("addressModalTitle")}>
-      {mode === "select" && hasSaved ? (
-        <div className="flex flex-col">
-          <RadioGroup
-            dir={dir}
-            value={selectedId}
-            onValueChange={handleSelect}
-            disabled={!!applyingId}
-            className="flex flex-col gap-[10px]"
-          >
-            {savedAddresses.map((address) => (
-              <RadioGroup.ChoiceBox
-                key={address.id}
-                value={address.id}
-                label={
-                  address.address_name || address.company || t("fieldAddress")
-                }
-                description={formatAddress(address)}
-              />
-            ))}
-          </RadioGroup>
+  return mode === "select" && hasSaved ? (
+    <div className="flex flex-col pt-2" ref={setContainerRef} tabIndex={-1}>
+      <RadioGroup
+        dir={dir}
+        value={selectedId}
+        onValueChange={handleSelect}
+        disabled={!!applyingId}
+        className="flex flex-col gap-[10px]"
+      >
+        {savedAddresses.map((address) => (
+          <RadioGroup.ChoiceBox
+            key={address.id}
+            value={address.id}
+            label={
+              address.address_name || address.company || t("fieldAddress")
+            }
+            description={formatAddress(address)}
+          />
+        ))}
+      </RadioGroup>
 
-          <ErrorMessage error={error} />
-          <AddressIncompleteMessage gaps={addressGaps} />
+      <ErrorMessage error={error} />
+      <AddressIncompleteMessage gaps={addressGaps} />
 
-          <Button
-            type="button"
-            onClick={() => setMode("new")}
-            size="large"
-            className="w-full mt-4"
-          >
-            {t("addNewAddress")}
-          </Button>
-        </div>
-      ) : (
-        // `noValidate`: the browser's own bubble spoke the browser's language,
-        // not the page's, and a required select got no mark (U-08, 46df).
-        // `handleSubmit` checks the same fields through `shippingAddressGaps`.
-        <form onSubmit={handleSubmit} noValidate className="flex flex-col">
-          <div className="flex flex-col gap-y-3">
-            <AddressAutocomplete
-              values={addressFields}
-              onChange={setAddressFields}
-              required
-              countryCode={countryCode}
-            />
-            <Input
-              label={t("fieldCompany")}
-              name="company"
-              autoComplete="organization"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              data-testid="shipping-company-input"
-            />
-          </div>
-          <ErrorMessage error={error} />
-          <AddressIncompleteMessage gaps={addressGaps} />
-          <div className="flex gap-x-2 mt-4">
-            <Button
-              type="button"
-              onClick={() => (hasSaved ? setMode("select") : onClose())}
-              variant="secondary"
-              size="large"
-              className="w-full"
-            >
-              {hasSaved ? t("back") : t("close")}
-            </Button>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              size="large"
-              className="w-full"
-            >
-              {isSubmitting ? t("saving") : t("save")}
-            </Button>
-          </div>
-        </form>
-      )}
-    </CheckoutModal>
+      <div className="flex gap-x-2 mt-4">
+        <Button
+          type="button"
+          onClick={onCancel}
+          variant="secondary"
+          size="large"
+          className="w-full"
+        >
+          {t("close")}
+        </Button>
+        <Button
+          type="button"
+          onClick={() => setMode("new")}
+          size="large"
+          className="w-full"
+        >
+          {t("addNewAddress")}
+        </Button>
+      </div>
+    </div>
+  ) : (
+    // `noValidate`: the browser's own bubble spoke the browser's language,
+    // not the page's, and a required select got no mark (U-08, 46df).
+    // `handleSubmit` checks the same fields through `shippingAddressGaps`.
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="flex flex-col pt-2"
+      ref={setContainerRef}
+      tabIndex={-1}
+    >
+      <div className="flex flex-col gap-y-3">
+        <AddressAutocomplete
+          values={addressFields}
+          onChange={setAddressFields}
+          required
+          countryCode={countryCode}
+        />
+        <Input
+          label={t("fieldCompany")}
+          name="company"
+          autoComplete="organization"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+          data-testid="shipping-company-input"
+        />
+      </div>
+      <ErrorMessage error={error} />
+      <AddressIncompleteMessage gaps={addressGaps} />
+      <div className="flex gap-x-2 mt-4">
+        <Button
+          type="button"
+          onClick={() => (hasSaved ? setMode("select") : onCancel())}
+          variant="secondary"
+          size="large"
+          className="w-full"
+        >
+          {hasSaved ? t("back") : t("close")}
+        </Button>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          size="large"
+          className="w-full"
+        >
+          {isSubmitting ? t("saving") : t("save")}
+        </Button>
+      </div>
+    </form>
   )
 }

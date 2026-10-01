@@ -29,13 +29,14 @@ import {
   isPochtaOption,
   type PochtaStorePoint,
 } from "@lib/util/pochta"
-import { Loader, CursorDefault } from "@medusajs/icons"
+import { Loader, CursorDefault, CheckMini } from "@medusajs/icons"
 import { DropdownMenu, RadioGroup, clx } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
 import { usePathname } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { useErrorMessage } from "@lib/util/use-error-message"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
+import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 
 type CountryOption = {
   country: string
@@ -444,11 +445,42 @@ export default function CheckoutShippingSection({
     ? PICKUP_GROUP_VALUE
     : shippingMethodId ?? undefined
 
+  // t-2026-10-01-checkout-ivan-3 #3: a method is picked, and — for the three
+  // kinds the provider cannot ship without one — a point is too.
+  const selectedOption =
+    (availableShippingOptions ?? []).find((o) => o.id === shippingMethodId) ??
+    null
+  const hasPickupPointMeta = !!(
+    cart.metadata as Record<string, string> | null
+  )?.[PICKUP_METADATA_KEYS.name]
+  const isShippingComplete =
+    !!shippingMethodId &&
+    (isPickupShippingOption(selectedOption)
+      ? hasPickupPointMeta
+      : cdekNeedsPoint(selectedOption)
+        ? !!cdekChosen
+        : isPochtaOption(selectedOption)
+          ? !!pochtaChosen
+          : true)
+
   return (
+    // t-2026-10-01-checkout-ivan-3 #5: full width on its own — the heading
+    // row and the error/sheets below stay in the 736px column
+    // (.checkout-section-container), the delivery-card row alone breaks out
+    // to bleed to the screen edges, padded to start on that column's edge.
     <div className="flex flex-col gap-y-4">
-      <div className="flex flex-row items-start justify-between gap-x-4">
+      <div className="checkout-section-container flex flex-row items-start justify-between gap-x-4">
         <div className="flex flex-col">
-          <h2 className="h2-docs">{t("shippingHeading")}</h2>
+          <h2 className="h2-docs flex items-center gap-x-1.5">
+            {t("shippingHeading")}
+            {isShippingComplete && (
+              <CheckMini
+                className="text-ui-tag-green-icon shrink-0"
+                aria-hidden
+                data-testid="shipping-section-checkmark"
+              />
+            )}
+          </h2>
           <p className="txt-compact-medium text-ui-fg-muted">
             {t("shippingDescription")}
           </p>
@@ -494,8 +526,12 @@ export default function CheckoutShippingSection({
         </DropdownMenu>
       </div>
 
-      {/* Shipping method cards */}
-      <div className="overflow-x-auto no-scrollbar px-px pb-1">
+      {/* Shipping method cards: full-bleed on purpose (t-2026-10-01-checkout-
+          ivan-3 #5). 368px is half of `max-w-checkout` (736px, tailwind.
+          config.js) — the padding this scroller needs so its first card
+          starts exactly where the column above it does, and the row can
+          still scroll to both screen edges past that. */}
+      <div className="overflow-x-auto no-scrollbar px-px pb-1 lg:pl-[calc(50%-368px)] lg:pr-[calc(50%-368px)] lg:scroll-pl-[calc(50%-368px)] lg:scroll-pr-[calc(50%-368px)]">
         {cards.length > 0 ? (
           <RadioGroup
             dir={dir}
@@ -760,7 +796,7 @@ export default function CheckoutShippingSection({
       </div>
 
       {shippingError && (
-        <p className="txt-compact-small text-rose-500">
+        <p className="checkout-section-container txt-compact-small text-rose-500">
           {getErrorMessage(shippingError)}
         </p>
       )}
