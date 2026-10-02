@@ -47,18 +47,20 @@ export function readWishlistStorage(
   }
 }
 
+/** Whether the write actually landed: quota or private mode must not be reported as success. */
 function writeWishlistStorage(
   storage: StorageLike | null | undefined,
   ids: string[]
-): void {
+): boolean {
   try {
     storage?.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(ids))
+    return true
   } catch {
-    // Quota or private mode: this browser simply keeps no memory of the heart.
+    return false
   }
 }
 
-/** Adds `productId` and returns the list as it stands AFTER. */
+/** Adds `productId` and returns the list as it stands AFTER — the list BEFORE if the write silently failed, so a caller never believes an id was saved when it was not. */
 export function addToWishlistStorage(
   storage: StorageLike | null | undefined,
   productId: string
@@ -68,18 +70,17 @@ export function addToWishlistStorage(
     return current
   }
   const next = [productId, ...current].slice(0, WISHLIST_STORAGE_LIMIT)
-  writeWishlistStorage(storage, next)
-  return next
+  return writeWishlistStorage(storage, next) ? next : current
 }
 
-/** Removes `productId` and returns the list as it stands AFTER. */
+/** Removes `productId` and returns the list as it stands AFTER — the list BEFORE if the write silently failed. */
 export function removeFromWishlistStorage(
   storage: StorageLike | null | undefined,
   productId: string
 ): string[] {
-  const next = readWishlistStorage(storage).filter((id) => id !== productId)
-  writeWishlistStorage(storage, next)
-  return next
+  const current = readWishlistStorage(storage)
+  const next = current.filter((id) => id !== productId)
+  return writeWishlistStorage(storage, next) ? next : current
 }
 
 export function clearWishlistStorage(storage: StorageLike | null | undefined): void {
