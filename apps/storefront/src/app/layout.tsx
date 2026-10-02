@@ -134,16 +134,18 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         {/* Applies the visitor's stored choice before the first paint, so a reload
             does not flash the profile default. Allow-listed, idempotent, never throws. */}
         <script dangerouslySetInnerHTML={{ __html: themePrePaintScript() }} />
-        {/* The olavka desktop scale 1440 → 1920 (`lib/theme/olavka-zoom.ts`), Olavka shop only. */}
-        {olavka ? (
-          <script dangerouslySetInnerHTML={{ __html: olavkaZoomScript() }} />
-        ) : null}
         {olavka
           ? OLAVKA_INTER_PRELOAD.map((href) => (
               <link key={href} rel="preload" href={href} as="font" type="font/woff2" crossOrigin="" />
             ))
           : null}
         {olavka ? <style dangerouslySetInnerHTML={{ __html: OLAVKA_INTER_CSS }} /> : null}
+        {/* The olavka desktop scale 1440 → 1920 (`lib/theme/olavka-zoom.ts`), Olavka shop only.
+            Last in <head>: it appends its own <style> there while the page parses, and a
+            React-rendered node after it would be hydrated onto that <style> and wipe the zoom. */}
+        {olavka ? (
+          <script dangerouslySetInnerHTML={{ __html: olavkaZoomScript() }} />
+        ) : null}
       </head>
       <body>
         {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside
