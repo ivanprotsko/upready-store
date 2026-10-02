@@ -1,5 +1,8 @@
-import { Heading, Text } from "@medusajs/ui"
+import { Button, Heading, Text } from "@medusajs/ui"
 import { cookies as nextCookies } from "next/headers"
+
+import { Link } from "@i18n/navigation"
+import { isNoDeliveryLine } from "@lib/util/shipping-address"
 
 import Help from "@modules/order/components/help"
 import Items from "@modules/order/components/items"
@@ -34,6 +37,15 @@ export default async function OrderCompletedTemplate({
   const isOnboarding = cookies.get("_medusa_onboarding")?.value === "true"
   const hasPayment = Boolean(order.payment_collections?.[0]?.payments?.[0])
 
+  // Batch 6: the page by status. Cancelled: no payment details, no «Я оплатил».
+  // Paid: «Оплата подтверждена», the course link for a course line, «готовим к
+  // отправке» only when something is posted. A course alone has no delivery block.
+  const isCanceled = order.status === "canceled"
+  const isPaid = order.payment_status === "captured"
+  const items = order.items ?? []
+  const courseLine = items.find((item) => isNoDeliveryLine(item))
+  const shipsSomething = items.some((item) => !isNoDeliveryLine(item))
+
   // t17-analytics step 4: the standard purchase event, sent once for this
   // order to whichever counters this tenant configured. `getTenantAnalytics`
   // only reads a request header, so this costs no extra round trip; a
@@ -61,18 +73,34 @@ export default async function OrderCompletedTemplate({
       >
         <div className="flex flex-col gap-y-3">
           <Heading level="h1" className="text-2xl-semi text-ui-fg-base">
-            {t("thankYou")}
+            {isCanceled ? t("orderCanceled") : isPaid ? t("paymentConfirmed") : t("thankYou")}
           </Heading>
-          <Text className="txt-medium text-ui-fg-subtle">
-            {t("orderSuccess")}
-          </Text>
+          {isCanceled ? (
+            <Text className="txt-medium text-ui-fg-subtle" data-testid="order-canceled">
+              {t("orderCanceledHint")}
+            </Text>
+          ) : isPaid ? (
+            <div className="flex flex-col gap-y-3" data-testid="order-payment-confirmed">
+              {shipsSomething && (
+                <Text className="txt-medium text-ui-fg-subtle">{t("paidGoodsHint")}</Text>
+              )}
+              {courseLine?.product_handle && (
+                <div>
+                  <Button asChild size="large" data-testid="order-go-to-course">
+                    <Link href={`/products/${courseLine.product_handle}`}>{t("goToCourse")}</Link>
+                  </Button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Text className="txt-medium text-ui-fg-subtle">{t("orderSuccess")}</Text>
+          )}
           <OrderDetails order={order} locale={locale} showStatus />
-          <Text
-            className="txt-medium text-ui-fg-subtle"
-            data-testid="order-keep-number"
-          >
-            {t("keepOrderNumber")}
-          </Text>
+          {!isCanceled && !isPaid && (
+            <Text className="txt-medium text-ui-fg-subtle" data-testid="order-keep-number">
+              {t("keepOrderNumber")}
+            </Text>
+          )}
         </div>
 
         {/* olavka-payments: how to pay now, for an order placed through one of
@@ -88,9 +116,11 @@ export default async function OrderCompletedTemplate({
           <OrderSummary order={order} />
         </OrderSection>
 
-        <OrderSection title={ts("heading")}>
-          <ShippingDetails order={order} />
-        </OrderSection>
+        {shipsSomething && (
+          <OrderSection title={ts("heading")}>
+            <ShippingDetails order={order} />
+          </OrderSection>
+        )}
 
         {hasPayment && (
           <OrderSection title={tp("heading")}>

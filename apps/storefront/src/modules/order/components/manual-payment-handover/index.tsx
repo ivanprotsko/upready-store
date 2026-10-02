@@ -32,11 +32,42 @@ type Props = {
  * Nothing is captured here or anywhere on the storefront: the order stays
  * «awaiting payment» until the owner captures it in the panel.
  */
+/** `order.metadata.payment_receipt`, as the storefront reads it (batch 6, Q3.3 contract). */
+export const readPaymentReceipt = (
+  metadata: Record<string, unknown> | null | undefined
+): { sent: boolean; rejected: { reason: string | null; at: string | null } | null } => {
+  const raw = metadata?.payment_receipt
+  if (!raw || typeof raw !== "object") return { sent: false, rejected: null }
+  const receipt = raw as Record<string, unknown>
+  if (receipt.status === "rejected") {
+    return {
+      sent: false,
+      rejected: {
+        reason: typeof receipt.rejected_reason === "string" ? receipt.rejected_reason : null,
+        at: typeof receipt.rejected_at === "string" ? receipt.rejected_at : null,
+      },
+    }
+  }
+  // No `status` (or any other value): sent and waiting.
+  return { sent: true, rejected: null }
+}
+
+/** Whether the order still waits for the buyer's payment: nothing captured, not cancelled. */
+export const awaitsManualPayment = (order: HttpTypes.StoreOrder): boolean =>
+  order.status !== "canceled" &&
+  !["captured", "refunded", "partially_refunded"].includes(order.payment_status ?? "")
+
 const ManualPaymentHandover = async ({ order }: Props) => {
   const provider = order.payment_collections?.[0]?.payments?.[0]?.provider_id
   if (!isManual(provider)) {
     return null
   }
+  // Batch 6: once the shop confirmed the payment, or the order was cancelled, the
+  // «now pay» block, the cards and «Я оплатил» are gone — the page says the new state.
+  if (!awaitsManualPayment(order)) {
+    return null
+  }
+  const receipt = readPaymentReceipt(order.metadata as Record<string, unknown> | null | undefined)
 
   const kind = readManualPaymentKind(
     order.metadata as Record<string, unknown> | null | undefined
@@ -102,13 +133,7 @@ const ManualPaymentHandover = async ({ order }: Props) => {
           {cards.map((card) => (
             <BankCard key={`${card.bank}-${card.number}`} card={card} />
           ))}
-          <PaymentReceiptForm
-            orderId={order.id}
-            sent={Boolean(
-              (order.metadata as Record<string, unknown> | null | undefined)
-                ?.payment_receipt
-            )}
-          />
+          <PaymentReceiptForm orderId={order.id} sent={receipt.sent} rejected={receipt.rejected} />
         </div>
       )}
 
@@ -134,7 +159,7 @@ const ManualPaymentHandover = async ({ order }: Props) => {
 
       {showContacts && (
         <ManagerContactCTA
-          variant="full"
+          variant="single"
           contacts={contacts}
           message={t(
             kind === "crypto"
