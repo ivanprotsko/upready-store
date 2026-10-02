@@ -10,7 +10,6 @@ import { getLocale } from "next-intl/server"
 import { fontClassName, isAllowed, readProfileTheme, themePrePaintScript } from "@lib/theme"
 // Branch-local (`redesign-olavka`): the Figma node's three typefaces, see the module.
 import { olavkaFontClassName } from "@lib/theme/olavka-fonts"
-import { olavkaZoomScript } from "@lib/theme/olavka-zoom"
 import { OLAVKA_INTER_CSS, OLAVKA_INTER_PRELOAD } from "@lib/theme/olavka-inter"
 import {
   getEffectiveSettings,
@@ -140,12 +139,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             ))
           : null}
         {olavka ? <style dangerouslySetInnerHTML={{ __html: OLAVKA_INTER_CSS }} /> : null}
-        {/* The olavka desktop scale 1440 → 1920 (`lib/theme/olavka-zoom.ts`), Olavka shop only.
-            Last in <head>: it appends its own <style> there while the page parses, and a
-            React-rendered node after it would be hydrated onto that <style> and wipe the zoom. */}
-        {olavka ? (
-          <script dangerouslySetInnerHTML={{ __html: olavkaZoomScript() }} />
-        ) : null}
       </head>
       <body>
         {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside

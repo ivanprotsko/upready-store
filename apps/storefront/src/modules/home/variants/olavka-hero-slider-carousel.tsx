@@ -99,8 +99,7 @@ export default async function OlavkaHeroSliderCarousel({ slides }: Props) {
 
 /**
  * The card's rendered width per layout, for `srcset`: phone 288 / 336, tablet 572 / 672,
- * desktop half / all of the 1440 container — and above 1440 the page is zoomed
- * (`lib/theme/olavka-zoom.ts`), so the desktop widths are in `vw` there, never in px.
+ * desktop half / all of the 1440 container; above 1440 the widths stay in `vw`.
  */
 const SIZES = {
   single:
