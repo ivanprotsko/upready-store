@@ -95,7 +95,7 @@ export default async function OrderCompletedTemplate({
           ) : (
             <Text className="txt-medium text-ui-fg-subtle">{t("orderSuccess")}</Text>
           )}
-          <OrderDetails order={order} locale={locale} showStatus />
+          <OrderDetails order={order} locale={locale} showStatus showFulfillment={shipsSomething} />
           {!isCanceled && !isPaid && (
             <Text className="txt-medium text-ui-fg-subtle" data-testid="order-keep-number">
               {t("keepOrderNumber")}
@@ -109,7 +109,7 @@ export default async function OrderCompletedTemplate({
         <ManualPaymentHandover order={order} />
 
         <OrderSection title={td("items")}>
-          <Items order={order} />
+          <Items order={order} paid={isPaid} />
         </OrderSection>
 
         <OrderSection title={to("heading")}>

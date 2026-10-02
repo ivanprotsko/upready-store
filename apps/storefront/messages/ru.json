@@ -147,7 +147,7 @@
     "freeShipping": "Бесплатно",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} товар} few {{count} товара} many {{count} товаров} other {{count} товаров}}",
-    "legal": "Нажимая «Оплатить», вы принимаете <terms>условия</terms>, <termsOfUse>условия использования</termsOfUse> и <returnPolicy>политику возврата</returnPolicy>, а также соглашаетесь с <privacyPolicy>политикой конфиденциальности</privacyPolicy>.",
+    "legal": "Нажимая «{button}», вы принимаете <terms>условия</terms>, <termsOfUse>условия использования</termsOfUse> и <returnPolicy>политику возврата</returnPolicy>, а также соглашаетесь с <privacyPolicy>политикой конфиденциальности</privacyPolicy>.",
     "manualInput": "Ввести адрес вручную",
     "addressIncomplete": "Заполните обязательные поля адреса: {fields}.",
     "provinceRequired": "Выберите область из списка.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Войдите, чтобы купить курс",
     "courseSignInText": "Курс открывается в вашем аккаунте, поэтому для покупки нужен вход или регистрация.",
     "fieldRequired": "Заполните это поле",
-    "emailInvalid": "Проверьте e-mail: в адресе ошибка"
+    "emailInvalid": "Проверьте e-mail: в адресе ошибка",
+    "signInHeading": "Войдите, чтобы оформить заказ",
+    "signInText": "Заказ появится в вашем аккаунте: там будут реквизиты для оплаты, статус и купленные курсы. Вход или регистрация занимают минуту, корзина сохранится."
   },
   "ClaimOrders": {
     "heading": "Оформляли заказ без регистрации?",
@@ -336,7 +338,10 @@
     "empty": "У вас пока нет купленных курсов.",
     "start": "Начать",
     "continue": "Продолжить",
-    "review": "Повторить"
+    "review": "Повторить",
+    "pendingHeading": "Ожидают оплаты",
+    "pendingHint": "Доступ откроется после того, как магазин подтвердит оплату.",
+    "toOrder": "{order} — оплатить"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "Чек не принят",
     "receiptRejectedReason": "Причина: {reason}",
     "receiptResend": "Отправить другой чек",
-    "contactManager": "Связаться с менеджером"
+    "contactManager": "Связаться с менеджером",
+    "methodRequisites": "Перевод по реквизитам",
+    "requisitesDesc": "После оформления заказа вы увидите реквизиты магазина: карты банков и криптокошельки. Переведите {total} и прикрепите чек об оплате — заказ подтвердит менеджер.",
+    "requisitesPreviewLabel": "Принимаем переводы:",
+    "handoverRequisitesTitle": "Оплатите заказ переводом по реквизитам",
+    "handoverRequisitesBody": "Заказ #{orderNumber} принят. Выберите банк или кошелёк ниже, переведите {total} и прикрепите чек об оплате.",
+    "handoverRequisitesMessage": "Здравствуйте! Я оформил(а) заказ #{orderNumber} на сумму {total} и оплатил(а) переводом по реквизитам. Подтвердите, пожалуйста, оплату.",
+    "contactManagerHint": "Для подтверждения заказа свяжитесь с менеджером.",
+    "showRequisite": "Нажмите, чтобы увидеть номер",
+    "hideRequisite": "Скрыть номер",
+    "numberLabel": "Номер карты или счёта",
+    "holderLabel": "Получатель",
+    "addressLabel": "Адрес кошелька",
+    "networkLabel": "Сеть",
+    "copyNumber": "Скопировать номер",
+    "copyHolder": "Скопировать получателя",
+    "copyAddress": "Скопировать адрес",
+    "copyNetwork": "Скопировать сеть",
+    "cryptoOnlyWarning": "Отправляйте только {currency} в сети {network}: перевод другой монеты или по другой сети не дойдёт.",
+    "receiptPick": "Выбрать файл или фото",
+    "receiptCamera": "Сделать фото",
+    "receiptRemove": "Убрать файл"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "онлайн-курс, без доставки",
     "shipmentNo": "Отправление № {no}",
     "digitalGroup": "Онлайн-курс — доступ после подтверждения оплаты",
-    "accessByEmail": "Доступ к курсу придёт на e-mail после подтверждения оплаты."
+    "accessByEmail": "Доступ к курсу придёт на e-mail после подтверждения оплаты.",
+    "digitalGroupPaid": "Онлайн-курс — доступ открыт"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Ожидает оплаты",
+    "awaitingConfirmation": "Ожидает подтверждения оплаты",
+    "receiptRejected": "Чек не принят",
+    "paid": "Оплачен",
+    "refunded": "Возвращён",
+    "canceled": "Отменён"
   }
 }

@@ -175,7 +175,9 @@
     "courseSignInHeading": "Prisijunkite, kad įsigytumėte kursą",
     "courseSignInText": "Kursas atidaromas jūsų paskyroje, todėl pirkimui reikia prisijungti arba užsiregistruoti.",
     "fieldRequired": "Užpildykite šį lauką",
-    "emailInvalid": "Patikrinkite el. paštą: adrese yra klaida"
+    "emailInvalid": "Patikrinkite el. paštą: adrese yra klaida",
+    "signInHeading": "Prisijunkite, kad pateiktumėte užsakymą",
+    "signInText": "Užsakymas atsiras jūsų paskyroje: ten bus mokėjimo rekvizitai, būsena ir įsigyti kursai. Prisijungimas ar registracija užtrunka minutę, krepšelis išsaugomas."
   },
   "ClaimOrders": {
     "heading": "Užsisakėte be paskyros?",
@@ -336,7 +338,10 @@
     "empty": "Kol kas neįsigijote jokio kurso.",
     "start": "Pradėti",
     "continue": "Tęsti",
-    "review": "Kartoti"
+    "review": "Kartoti",
+    "pendingHeading": "Laukia apmokėjimo",
+    "pendingHint": "Prieiga atsivers, kai parduotuvė patvirtins apmokėjimą.",
+    "toOrder": "{order} — apmokėti"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "Kvitas nepriimtas",
     "receiptRejectedReason": "Priežastis: {reason}",
     "receiptResend": "Siųsti kitą kvitą",
-    "contactManager": "Susisiekti su vadybininku"
+    "contactManager": "Susisiekti su vadybininku",
+    "methodRequisites": "Pavedimas pagal rekvizitus",
+    "requisitesDesc": "Pateikus užsakymą matysite parduotuvės rekvizitus: banko korteles ir kriptovaliutų pinigines. Perveskite {total} ir pridėkite mokėjimo kvitą — užsakymą patvirtins vadybininkas.",
+    "requisitesPreviewLabel": "Priimame pavedimus į:",
+    "handoverRequisitesTitle": "Apmokėkite užsakymą pavedimu",
+    "handoverRequisitesBody": "Užsakymas #{orderNumber} priimtas. Pasirinkite banką ar piniginę žemiau, perveskite {total} ir pridėkite mokėjimo kvitą.",
+    "handoverRequisitesMessage": "Sveiki! Pateikiau užsakymą #{orderNumber} už {total} ir apmokėjau jį pavedimu. Prašau patvirtinti apmokėjimą.",
+    "contactManagerHint": "Dėl užsakymo patvirtinimo susisiekite su vadybininku.",
+    "showRequisite": "Spustelėkite, kad matytumėte numerį",
+    "hideRequisite": "Slėpti numerį",
+    "numberLabel": "Kortelės arba sąskaitos numeris",
+    "holderLabel": "Gavėjas",
+    "addressLabel": "Piniginės adresas",
+    "networkLabel": "Tinklas",
+    "copyNumber": "Kopijuoti numerį",
+    "copyHolder": "Kopijuoti gavėją",
+    "copyAddress": "Kopijuoti adresą",
+    "copyNetwork": "Kopijuoti tinklą",
+    "cryptoOnlyWarning": "Siųskite tik {currency} tinkle {network}: kitos monetos ar kitu tinklu atliktas pavedimas nepasieks.",
+    "receiptPick": "Pasirinkti failą ar nuotrauką",
+    "receiptCamera": "Nufotografuoti",
+    "receiptRemove": "Pašalinti failą"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "internetinis kursas, be pristatymo",
     "shipmentNo": "Siunta Nr. {no}",
     "digitalGroup": "Internetinis kursas — prieiga patvirtinus mokėjimą",
-    "accessByEmail": "Prieiga prie kurso ateis el. paštu, kai mokėjimas bus patvirtintas."
+    "accessByEmail": "Prieiga prie kurso ateis el. paštu, kai mokėjimas bus patvirtintas.",
+    "digitalGroupPaid": "Internetinis kursas — prieiga atverta"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Laukiama apmokėjimo",
+    "awaitingConfirmation": "Laukiama apmokėjimo patvirtinimo",
+    "receiptRejected": "Kvitas nepriimtas",
+    "paid": "Apmokėta",
+    "refunded": "Grąžinta",
+    "canceled": "Atšaukta"
   }
 }

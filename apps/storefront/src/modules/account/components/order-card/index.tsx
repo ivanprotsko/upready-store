@@ -6,8 +6,10 @@ import { Link } from "@i18n/navigation"
 import { formatDate } from "@lib/util/date"
 import { convertToLocale } from "@lib/util/money"
 import { getOrderPickupPoint } from "@lib/util/fulfillment"
+import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { OrderStatusDot } from "@modules/account/components/status-dot"
+import { BuyerStatusDot } from "@modules/order/components/buyer-status"
 
 type OrderCardProps = {
   order: HttpTypes.StoreOrder
@@ -38,10 +40,15 @@ const OrderCard = async ({ order }: OrderCardProps) => {
   // shipping method's real name/price otherwise — never an invented
   // "Standard shipping" placeholder.
   const pickupPoint = getOrderPickupPoint(order)
+  // Batch 7: an order of an online course alone has nothing to post — no shipping
+  // line and no fulfillment dot, only the buyer's payment status.
+  const shipsSomething = (order.items ?? []).some((item) => !isNoDeliveryLine(item))
   const shippingMethod = order.shipping_methods?.[0] as
     | { name?: string; total?: number }
     | undefined
-  const shippingLine = pickupPoint
+  const shippingLine = !shipsSomething
+    ? null
+    : pickupPoint
     ? t("pickupAt", { name: pickupPoint.name })
     : shippingMethod?.name
       ? `${shippingMethod.name} · ${convertToLocale({
@@ -64,8 +71,10 @@ const OrderCard = async ({ order }: OrderCardProps) => {
         >
           {tc("orderNumber", { id: order.display_id ?? order.id })}
         </span>
-        <OrderStatusDot kind="fulfillment" status={order.fulfillment_status} />
-        <OrderStatusDot kind="payment" status={order.payment_status} />
+        <BuyerStatusDot order={order} />
+        {shipsSomething && order.status !== "canceled" && (
+          <OrderStatusDot kind="fulfillment" status={order.fulfillment_status} />
+        )}
       </div>
 
       <div className="flex items-center divide-x rtl:divide-x-reverse divide-ui-border-base txt-small text-ui-fg-subtle">

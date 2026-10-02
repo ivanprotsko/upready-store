@@ -147,7 +147,7 @@
     "freeShipping": "Grátis",
     "giftCard": "Cartão-presente",
     "itemsCount": "{count, plural, one {{count} item} other {{count} itens}}",
-    "legal": "Ao clicar em «Pagar», aceita os nossos <terms>termos</terms>, <termsOfUse>termos de utilização</termsOfUse> e <returnPolicy>política de devolução</returnPolicy>, e concorda com a nossa <privacyPolicy>política de privacidade</privacyPolicy>.",
+    "legal": "Ao clicar em «{button}», aceita os nossos <terms>termos</terms>, <termsOfUse>termos de utilização</termsOfUse> e <returnPolicy>política de devolução</returnPolicy>, e concorda com a nossa <privacyPolicy>política de privacidade</privacyPolicy>.",
     "manualInput": "Introduzir morada manualmente",
     "addressIncomplete": "Preencha os campos obrigatórios do endereço: {fields}.",
     "provinceRequired": "Escolha a região na lista.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Entre para comprar o curso",
     "courseSignInText": "O curso abre na sua conta, por isso a compra exige login ou registo.",
     "fieldRequired": "Preencha este campo",
-    "emailInvalid": "Verifique o e-mail: o endereço tem um erro"
+    "emailInvalid": "Verifique o e-mail: o endereço tem um erro",
+    "signInHeading": "Entre para fazer o pedido",
+    "signInText": "O pedido aparecerá na sua conta: lá estão os dados de pagamento, o status e os cursos comprados. Entrar ou cadastrar-se leva um minuto e o carrinho é mantido."
   },
   "ClaimOrders": {
     "heading": "Fez a encomenda sem conta?",
@@ -336,7 +338,10 @@
     "empty": "Você ainda não comprou nenhum curso.",
     "start": "Começar",
     "continue": "Continuar",
-    "review": "Rever"
+    "review": "Rever",
+    "pendingHeading": "Aguardando pagamento",
+    "pendingHint": "O acesso será liberado quando a loja confirmar o pagamento.",
+    "toOrder": "{order} — pagar"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "Comprovativo não aceite",
     "receiptRejectedReason": "Motivo: {reason}",
     "receiptResend": "Enviar outro comprovativo",
-    "contactManager": "Contactar o gestor"
+    "contactManager": "Contactar o gestor",
+    "methodRequisites": "Transferência para os dados da conta",
+    "requisitesDesc": "Depois de fazer o pedido você verá os dados da loja: cartões bancários e carteiras de criptomoedas. Transfira {total} e anexe o comprovante de pagamento — o gerente confirmará o pedido.",
+    "requisitesPreviewLabel": "Aceitamos transferências para:",
+    "handoverRequisitesTitle": "Pague o pedido por transferência",
+    "handoverRequisitesBody": "O pedido #{orderNumber} foi registrado. Escolha um banco ou uma carteira abaixo, transfira {total} e anexe o comprovante de pagamento.",
+    "handoverRequisitesMessage": "Olá! Fiz o pedido #{orderNumber} no valor de {total} e paguei por transferência. Por favor, confirmem o pagamento.",
+    "contactManagerHint": "Para confirmar o pedido, entre em contato com o gerente.",
+    "showRequisite": "Toque para ver o número",
+    "hideRequisite": "Ocultar o número",
+    "numberLabel": "Número do cartão ou da conta",
+    "holderLabel": "Favorecido",
+    "addressLabel": "Endereço da carteira",
+    "networkLabel": "Rede",
+    "copyNumber": "Copiar o número",
+    "copyHolder": "Copiar o favorecido",
+    "copyAddress": "Copiar o endereço",
+    "copyNetwork": "Copiar a rede",
+    "cryptoOnlyWarning": "Envie apenas {currency} pela rede {network}: uma transferência de outra moeda ou por outra rede não chegará.",
+    "receiptPick": "Escolher arquivo ou foto",
+    "receiptCamera": "Tirar uma foto",
+    "receiptRemove": "Remover o arquivo"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "curso online, sem entrega",
     "shipmentNo": "Remessa n.º {no}",
     "digitalGroup": "Curso online — acesso após a confirmação do pagamento",
-    "accessByEmail": "O acesso ao curso chegará por e-mail após a confirmação do pagamento."
+    "accessByEmail": "O acesso ao curso chegará por e-mail após a confirmação do pagamento.",
+    "digitalGroupPaid": "Curso online — acesso liberado"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Aguardando pagamento",
+    "awaitingConfirmation": "Aguardando confirmação do pagamento",
+    "receiptRejected": "Comprovante não aceito",
+    "paid": "Pago",
+    "refunded": "Reembolsado",
+    "canceled": "Cancelado"
   }
 }

@@ -5,19 +5,18 @@ import { getLegalLinkContext } from "@lib/data/legal-links"
 import { legalHref } from "@lib/util/legal-links"
 import { retrieveCustomerAddresses } from "@lib/data/customer"
 import { cartNeedsShipping, isNoDeliveryLine } from "@lib/util/shipping-address"
-import CourseSignIn from "@modules/checkout/components/course-sign-in"
+import CheckoutSignIn from "@modules/checkout/components/checkout-sign-in"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutShippingSection from "@modules/checkout/components/checkout-shipping-section"
 import CheckoutAddressRow from "@modules/checkout/components/checkout-address-row"
 import CheckoutContactsRow from "@modules/checkout/components/checkout-contacts-row"
 import CheckoutItemList from "@modules/checkout/components/checkout-item-list"
 import CheckoutPickupPointSheet from "@modules/checkout/components/checkout-pickup-point-sheet"
-import SignInPrompt from "@modules/checkout/components/sign-in-prompt"
 import RobokassaRetryNotice from "@modules/checkout/components/robokassa-retry-notice"
 import { PickupSheetProvider } from "@modules/checkout/context/pickup-sheet-context"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import { Link } from "@i18n/navigation"
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 
 export default async function CheckoutForm({
   cart,
@@ -28,7 +27,7 @@ export default async function CheckoutForm({
 }) {
   if (!cart) return null
 
-  const [shippingOptions, regions, currentCountry, addresses, t, legal] =
+  const [shippingOptions, regions, currentCountry, addresses, t, legal, locale] =
     await Promise.all([
       listCartShippingMethods(cart.id),
       listRegions(),
@@ -36,6 +35,7 @@ export default async function CheckoutForm({
       retrieveCustomerAddresses(),
       getTranslations("CheckoutPage"),
       getLegalLinkContext(),
+      getLocale(),
     ])
 
   // Navigation links, not consent: each one is shown only while the shop has a
@@ -58,7 +58,8 @@ export default async function CheckoutForm({
   // no shipping-method picker, no pickup sheet, no address row, just the
   // contacts row `CheckoutInfoRows` still shows.
   const isDigital = !cartNeedsShipping(cart)
-  // Batch 6, Q3.1: a course in the cart needs an account before paying.
+  // Batch 7: every checkout needs an account before paying (batch 6 asked it of a
+  // course cart only); a course retitles the block.
   const hasCourse = (cart.items ?? []).some(isNoDeliveryLine)
 
   return (
@@ -76,7 +77,7 @@ export default async function CheckoutForm({
         </div>
         {!customer && (
           <div className="checkout-section-container">
-            {hasCourse ? <CourseSignIn /> : <SignInPrompt />}
+            <CheckoutSignIn returnTo={`/${locale}/checkout`} hasCourse={hasCourse} />
           </div>
         )}
 

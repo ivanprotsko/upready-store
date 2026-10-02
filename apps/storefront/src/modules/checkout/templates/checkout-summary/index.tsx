@@ -19,10 +19,11 @@ const CheckoutSummary = async ({
   cart: HttpTypes.StoreCart
   customer: HttpTypes.StoreCustomer | null
 }) => {
-  // Batch 6: a course in the cart — the access note under the totals (Q3.2), and a
-  // guest cannot pay for it before signing in (Q3.1, the pay button stays disabled).
+  // Batch 6: a course in the cart — the access note under the totals (Q3.2). Batch 7:
+  // no guest pays at all — every order lands in an account (the pay button stays
+  // disabled until the sign-in, `CheckoutSignIn` above the form says why).
   const hasCourse = (cart.items ?? []).some(isNoDeliveryLine)
-  const requiresSignIn = hasCourse && !customer
+  const requiresSignIn = !customer
   const tShip = await getTranslations("Shipments")
   const [paymentMethods, legal, manualPayment, tenantPaymentMethods] = await Promise.all([
     listCartPaymentMethods(cart.region?.id ?? ""),

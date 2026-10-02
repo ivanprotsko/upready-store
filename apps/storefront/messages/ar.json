@@ -175,7 +175,9 @@
     "courseSignInHeading": "سجّل الدخول لشراء الدورة",
     "courseSignInText": "تُفتح الدورة في حسابك، لذا يتطلب الشراء تسجيل الدخول أو إنشاء حساب.",
     "fieldRequired": "يرجى ملء هذا الحقل",
-    "emailInvalid": "تحقق من البريد الإلكتروني: العنوان يحتوي على خطأ"
+    "emailInvalid": "تحقق من البريد الإلكتروني: العنوان يحتوي على خطأ",
+    "signInHeading": "سجّل الدخول لإتمام الطلب",
+    "signInText": "سيظهر الطلب في حسابك: هناك ستجد بيانات الدفع وحالة الطلب والدورات المشتراة. تسجيل الدخول أو إنشاء حساب يستغرق دقيقة، وستبقى سلة التسوق محفوظة."
   },
   "ClaimOrders": {
     "heading": "هل طلبت دون حساب؟",
@@ -336,7 +338,10 @@
     "empty": "لم تشترِ أي دورة بعد.",
     "start": "ابدأ",
     "continue": "متابعة",
-    "review": "مراجعة"
+    "review": "مراجعة",
+    "pendingHeading": "في انتظار الدفع",
+    "pendingHint": "سيُفتح الوصول بعد أن يؤكد المتجر الدفع.",
+    "toOrder": "{order} — الدفع"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "لم يُقبل الإيصال",
     "receiptRejectedReason": "السبب: {reason}",
     "receiptResend": "إرسال إيصال آخر",
-    "contactManager": "التواصل مع المدير"
+    "contactManager": "التواصل مع المدير",
+    "methodRequisites": "تحويل بنكي حسب البيانات",
+    "requisitesDesc": "بعد تأكيد الطلب ستظهر لك بيانات المتجر: بطاقات البنوك ومحافظ العملات الرقمية. حوّل {total} وأرفق إيصال الدفع، وسيؤكد المدير الطلب.",
+    "requisitesPreviewLabel": "نقبل التحويلات إلى:",
+    "handoverRequisitesTitle": "ادفع الطلب بالتحويل البنكي",
+    "handoverRequisitesBody": "تم استلام الطلب #{orderNumber}. اختر بنكًا أو محفظة أدناه، حوّل {total} وأرفق إيصال الدفع.",
+    "handoverRequisitesMessage": "مرحبًا! لقد قدمت الطلب #{orderNumber} بمبلغ {total} ودفعته بالتحويل البنكي. يرجى تأكيد الدفع.",
+    "contactManagerHint": "لتأكيد الطلب تواصل مع المدير.",
+    "showRequisite": "اضغط لعرض الرقم",
+    "hideRequisite": "إخفاء الرقم",
+    "numberLabel": "رقم البطاقة أو الحساب",
+    "holderLabel": "المستفيد",
+    "addressLabel": "عنوان المحفظة",
+    "networkLabel": "الشبكة",
+    "copyNumber": "نسخ الرقم",
+    "copyHolder": "نسخ اسم المستفيد",
+    "copyAddress": "نسخ العنوان",
+    "copyNetwork": "نسخ اسم الشبكة",
+    "cryptoOnlyWarning": "أرسل {currency} فقط عبر شبكة {network}: تحويل عملة أخرى أو عبر شبكة أخرى لن يصل.",
+    "receiptPick": "اختيار ملف أو صورة",
+    "receiptCamera": "التقاط صورة",
+    "receiptRemove": "إزالة الملف"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "دورة عبر الإنترنت، بدون توصيل",
     "shipmentNo": "الشحنة رقم {no}",
     "digitalGroup": "دورة عبر الإنترنت — الوصول بعد تأكيد الدفع",
-    "accessByEmail": "سيصلك الوصول إلى الدورة عبر البريد الإلكتروني بعد تأكيد الدفع."
+    "accessByEmail": "سيصلك الوصول إلى الدورة عبر البريد الإلكتروني بعد تأكيد الدفع.",
+    "digitalGroupPaid": "دورة إلكترونية — تم فتح الوصول"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "في انتظار الدفع",
+    "awaitingConfirmation": "في انتظار تأكيد الدفع",
+    "receiptRejected": "لم يتم قبول الإيصال",
+    "paid": "مدفوع",
+    "refunded": "تم رد المبلغ",
+    "canceled": "ملغى"
   }
 }

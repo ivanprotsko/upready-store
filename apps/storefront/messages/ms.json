@@ -147,7 +147,7 @@
     "freeShipping": "Percuma",
     "giftCard": "Kad Hadiah",
     "itemsCount": "{count, plural, other {{count} barang}}",
-    "legal": "Dengan mengklik «Bayar», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta bersetuju dengan <privacyPolicy>dasar privasi</privacyPolicy> kami.",
+    "legal": "Dengan mengklik «{button}», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta bersetuju dengan <privacyPolicy>dasar privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapkan medan alamat yang diwajibkan: {fields}.",
     "provinceRequired": "Pilih wilayah daripada senarai.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Log masuk untuk membeli kursus",
     "courseSignInText": "Kursus dibuka dalam akaun anda, jadi pembelian memerlukan log masuk atau pendaftaran.",
     "fieldRequired": "Isi ruangan ini",
-    "emailInvalid": "Semak e-mel: alamat ada kesilapan"
+    "emailInvalid": "Semak e-mel: alamat ada kesilapan",
+    "signInHeading": "Log masuk untuk membuat pesanan",
+    "signInText": "Pesanan akan muncul dalam akaun anda: di sana ada butiran pembayaran, status dan kursus yang dibeli. Log masuk atau mendaftar mengambil masa seminit, troli dikekalkan."
   },
   "ClaimOrders": {
     "heading": "Membuat pesanan tanpa akaun?",
@@ -336,7 +338,10 @@
     "empty": "Anda belum membeli sebarang kursus.",
     "start": "Mula",
     "continue": "Teruskan",
-    "review": "Ulang kaji"
+    "review": "Ulang kaji",
+    "pendingHeading": "Menunggu pembayaran",
+    "pendingHint": "Akses dibuka setelah kedai mengesahkan pembayaran.",
+    "toOrder": "{order} — bayar"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "Resit tidak diterima",
     "receiptRejectedReason": "Sebab: {reason}",
     "receiptResend": "Hantar resit lain",
-    "contactManager": "Hubungi pengurus"
+    "contactManager": "Hubungi pengurus",
+    "methodRequisites": "Pindahan ke butiran akaun",
+    "requisitesDesc": "Selepas membuat pesanan anda akan melihat butiran kedai: kad bank dan dompet kripto. Pindahkan {total} dan lampirkan resit pembayaran — pengurus akan mengesahkan pesanan.",
+    "requisitesPreviewLabel": "Kami menerima pindahan ke:",
+    "handoverRequisitesTitle": "Bayar pesanan melalui pindahan",
+    "handoverRequisitesBody": "Pesanan #{orderNumber} diterima. Pilih bank atau dompet di bawah, pindahkan {total} dan lampirkan resit pembayaran.",
+    "handoverRequisitesMessage": "Hai! Saya telah membuat pesanan #{orderNumber} berjumlah {total} dan membayarnya melalui pindahan. Sila sahkan pembayaran.",
+    "contactManagerHint": "Untuk mengesahkan pesanan, hubungi pengurus.",
+    "showRequisite": "Ketik untuk melihat nombor",
+    "hideRequisite": "Sembunyikan nombor",
+    "numberLabel": "Nombor kad atau akaun",
+    "holderLabel": "Penerima",
+    "addressLabel": "Alamat dompet",
+    "networkLabel": "Rangkaian",
+    "copyNumber": "Salin nombor",
+    "copyHolder": "Salin penerima",
+    "copyAddress": "Salin alamat",
+    "copyNetwork": "Salin rangkaian",
+    "cryptoOnlyWarning": "Hantar {currency} melalui rangkaian {network} sahaja: pindahan syiling lain atau melalui rangkaian lain tidak akan sampai.",
+    "receiptPick": "Pilih fail atau foto",
+    "receiptCamera": "Ambil foto",
+    "receiptRemove": "Buang fail"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "kursus dalam talian, tanpa penghantaran",
     "shipmentNo": "Penghantaran No. {no}",
     "digitalGroup": "Kursus dalam talian — akses selepas pembayaran disahkan",
-    "accessByEmail": "Akses ke kursus akan dihantar melalui e-mel selepas pembayaran disahkan."
+    "accessByEmail": "Akses ke kursus akan dihantar melalui e-mel selepas pembayaran disahkan.",
+    "digitalGroupPaid": "Kursus dalam talian — akses dibuka"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Menunggu pembayaran",
+    "awaitingConfirmation": "Menunggu pengesahan pembayaran",
+    "receiptRejected": "Resit tidak diterima",
+    "paid": "Dibayar",
+    "refunded": "Dibayar balik",
+    "canceled": "Dibatalkan"
   }
 }

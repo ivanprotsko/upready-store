@@ -175,7 +175,9 @@
     "courseSignInHeading": "講座を購入するにはログインしてください",
     "courseSignInText": "講座はアカウント内で開くため、購入にはログインまたは登録が必要です。",
     "fieldRequired": "この項目を入力してください",
-    "emailInvalid": "メールアドレスを確認してください：入力に誤りがあります"
+    "emailInvalid": "メールアドレスを確認してください：入力に誤りがあります",
+    "signInHeading": "注文するにはサインインしてください",
+    "signInText": "注文はアカウントに表示されます。支払い情報、ステータス、購入したコースはそこで確認できます。サインインまたは登録は1分で完了し、カートは保持されます。"
   },
   "ClaimOrders": {
     "heading": "アカウントなしで注文しましたか？",
@@ -336,7 +338,10 @@
     "empty": "まだコースを購入していません。",
     "start": "開始",
     "continue": "続ける",
-    "review": "復習"
+    "review": "復習",
+    "pendingHeading": "支払い待ち",
+    "pendingHint": "ショップが支払いを確認するとアクセスが開放されます。",
+    "toOrder": "{order} — 支払う"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "領収書が受理されませんでした",
     "receiptRejectedReason": "理由：{reason}",
     "receiptResend": "別の領収書を送る",
-    "contactManager": "担当者に連絡する"
+    "contactManager": "担当者に連絡する",
+    "methodRequisites": "口座情報への振込",
+    "requisitesDesc": "注文後にショップの振込先（銀行カードと暗号資産ウォレット）が表示されます。{total} を送金し、支払いの領収書を添付してください。担当者が注文を確認します。",
+    "requisitesPreviewLabel": "振込先：",
+    "handoverRequisitesTitle": "振込で注文をお支払いください",
+    "handoverRequisitesBody": "注文 #{orderNumber} を受け付けました。下の銀行またはウォレットを選び、{total} を送金して支払いの領収書を添付してください。",
+    "handoverRequisitesMessage": "こんにちは。注文 #{orderNumber}（{total}）を振込でお支払いしました。お支払いの確認をお願いします。",
+    "contactManagerHint": "注文の確認には担当者にご連絡ください。",
+    "showRequisite": "タップして番号を表示",
+    "hideRequisite": "番号を隠す",
+    "numberLabel": "カード番号または口座番号",
+    "holderLabel": "受取人",
+    "addressLabel": "ウォレットアドレス",
+    "networkLabel": "ネットワーク",
+    "copyNumber": "番号をコピー",
+    "copyHolder": "受取人をコピー",
+    "copyAddress": "アドレスをコピー",
+    "copyNetwork": "ネットワークをコピー",
+    "cryptoOnlyWarning": "{network} ネットワークで {currency} のみを送金してください。別のコインや別のネットワークでの送金は届きません。",
+    "receiptPick": "ファイルまたは写真を選択",
+    "receiptCamera": "写真を撮る",
+    "receiptRemove": "ファイルを削除"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "オンライン講座、配送なし",
     "shipmentNo": "配送 {no}",
     "digitalGroup": "オンライン講座 — 支払い確認後にアクセス可能",
-    "accessByEmail": "支払い確認後、講座へのアクセスをメールでお送りします。"
+    "accessByEmail": "支払い確認後、講座へのアクセスをメールでお送りします。",
+    "digitalGroupPaid": "オンラインコース — アクセス開放済み"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "支払い待ち",
+    "awaitingConfirmation": "支払い確認待ち",
+    "receiptRejected": "領収書が承認されませんでした",
+    "paid": "支払い済み",
+    "refunded": "返金済み",
+    "canceled": "キャンセル済み"
   }
 }

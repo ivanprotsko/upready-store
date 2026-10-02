@@ -147,7 +147,7 @@
     "freeShipping": "Gratuit",
     "giftCard": "Carte cadeau",
     "itemsCount": "{count, plural, one {{count} article} other {{count} articles}}",
-    "legal": "En cliquant sur « Payer », vous acceptez nos <terms>conditions</terms>, nos <termsOfUse>conditions d'utilisation</termsOfUse> et notre <returnPolicy>politique de retour</returnPolicy>, et consentez à notre <privacyPolicy>politique de confidentialité</privacyPolicy>.",
+    "legal": "En cliquant sur « {button} », vous acceptez nos <terms>conditions</terms>, nos <termsOfUse>conditions d'utilisation</termsOfUse> et notre <returnPolicy>politique de retour</returnPolicy>, et consentez à notre <privacyPolicy>politique de confidentialité</privacyPolicy>.",
     "manualInput": "Saisir l'adresse manuellement",
     "addressIncomplete": "Renseignez les champs obligatoires de l'adresse : {fields}.",
     "provinceRequired": "Choisissez la région dans la liste.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Connectez-vous pour acheter le cours",
     "courseSignInText": "Le cours s'ouvre dans votre compte : l'achat demande une connexion ou une inscription.",
     "fieldRequired": "Renseignez ce champ",
-    "emailInvalid": "Vérifiez l'e-mail : l'adresse contient une erreur"
+    "emailInvalid": "Vérifiez l'e-mail : l'adresse contient une erreur",
+    "signInHeading": "Connectez-vous pour passer la commande",
+    "signInText": "La commande apparaîtra dans votre compte : vous y trouverez les coordonnées de paiement, le statut et les cours achetés. La connexion ou l'inscription prend une minute, le panier est conservé."
   },
   "ClaimOrders": {
     "heading": "Vous avez commandé sans compte ?",
@@ -336,7 +338,10 @@
     "empty": "Vous n'avez encore acheté aucun cours.",
     "start": "Commencer",
     "continue": "Continuer",
-    "review": "Revoir"
+    "review": "Revoir",
+    "pendingHeading": "En attente de paiement",
+    "pendingHint": "L'accès s'ouvrira dès que la boutique aura confirmé le paiement.",
+    "toOrder": "{order} — payer"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "Reçu refusé",
     "receiptRejectedReason": "Motif : {reason}",
     "receiptResend": "Envoyer un autre reçu",
-    "contactManager": "Contacter le responsable"
+    "contactManager": "Contacter le responsable",
+    "methodRequisites": "Virement selon les coordonnées",
+    "requisitesDesc": "Après la commande, vous verrez les coordonnées de la boutique : cartes bancaires et portefeuilles crypto. Virez {total} et joignez le justificatif de paiement ; le gestionnaire confirmera la commande.",
+    "requisitesPreviewLabel": "Nous acceptons les virements vers :",
+    "handoverRequisitesTitle": "Payez la commande par virement",
+    "handoverRequisitesBody": "La commande #{orderNumber} est enregistrée. Choisissez une banque ou un portefeuille ci-dessous, virez {total} et joignez le justificatif de paiement.",
+    "handoverRequisitesMessage": "Bonjour ! J'ai passé la commande #{orderNumber} d'un montant de {total} et l'ai payée par virement. Merci de confirmer le paiement.",
+    "contactManagerHint": "Pour confirmer la commande, contactez le gestionnaire.",
+    "showRequisite": "Appuyez pour voir le numéro",
+    "hideRequisite": "Masquer le numéro",
+    "numberLabel": "Numéro de carte ou de compte",
+    "holderLabel": "Bénéficiaire",
+    "addressLabel": "Adresse du portefeuille",
+    "networkLabel": "Réseau",
+    "copyNumber": "Copier le numéro",
+    "copyHolder": "Copier le bénéficiaire",
+    "copyAddress": "Copier l'adresse",
+    "copyNetwork": "Copier le réseau",
+    "cryptoOnlyWarning": "Envoyez uniquement du {currency} sur le réseau {network} : un virement d'une autre monnaie ou via un autre réseau n'arrivera pas.",
+    "receiptPick": "Choisir un fichier ou une photo",
+    "receiptCamera": "Prendre une photo",
+    "receiptRemove": "Retirer le fichier"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "cours en ligne, sans livraison",
     "shipmentNo": "Expédition n° {no}",
     "digitalGroup": "Cours en ligne — accès après confirmation du paiement",
-    "accessByEmail": "L'accès au cours arrivera par e-mail une fois le paiement confirmé."
+    "accessByEmail": "L'accès au cours arrivera par e-mail une fois le paiement confirmé.",
+    "digitalGroupPaid": "Cours en ligne — accès ouvert"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "En attente de paiement",
+    "awaitingConfirmation": "En attente de confirmation du paiement",
+    "receiptRejected": "Justificatif refusé",
+    "paid": "Payé",
+    "refunded": "Remboursé",
+    "canceled": "Annulé"
   }
 }

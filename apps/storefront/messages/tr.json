@@ -147,7 +147,7 @@
     "freeShipping": "Ücretsiz",
     "giftCard": "Hediye Kartı",
     "itemsCount": "{count, plural, one {{count} ürün} other {{count} ürün}}",
-    "legal": "«Öde» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
+    "legal": "«{button}» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
     "addressIncomplete": "Adresin zorunlu alanlarını doldurun: {fields}.",
     "provinceRequired": "Listeden bölgenizi seçin.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Kursu satın almak için giriş yapın",
     "courseSignInText": "Kurs hesabınızda açılır, bu yüzden satın almak için giriş veya kayıt gerekir.",
     "fieldRequired": "Bu alanı doldurun",
-    "emailInvalid": "E-postayı kontrol edin: adreste hata var"
+    "emailInvalid": "E-postayı kontrol edin: adreste hata var",
+    "signInHeading": "Sipariş vermek için giriş yapın",
+    "signInText": "Sipariş hesabınızda görünecek: ödeme bilgileri, durum ve satın alınan kurslar orada. Giriş veya kayıt bir dakika sürer, sepet korunur."
   },
   "ClaimOrders": {
     "heading": "Hesapsız mı sipariş verdiniz?",
@@ -336,7 +338,10 @@
     "empty": "Henüz hiç kurs satın almadınız.",
     "start": "Başla",
     "continue": "Devam et",
-    "review": "Tekrar et"
+    "review": "Tekrar et",
+    "pendingHeading": "Ödeme bekleyenler",
+    "pendingHint": "Mağaza ödemeyi onayladığında erişim açılır.",
+    "toOrder": "{order} — öde"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "Dekont kabul edilmedi",
     "receiptRejectedReason": "Neden: {reason}",
     "receiptResend": "Başka dekont gönder",
-    "contactManager": "Yöneticiyle iletişime geç"
+    "contactManager": "Yöneticiyle iletişime geç",
+    "methodRequisites": "Hesap bilgilerine havale",
+    "requisitesDesc": "Siparişi verdikten sonra mağazanın bilgilerini göreceksiniz: banka kartları ve kripto cüzdanlar. {total} tutarını gönderin ve ödeme dekontunu ekleyin — siparişi yönetici onaylar.",
+    "requisitesPreviewLabel": "Şuraya havale kabul ediyoruz:",
+    "handoverRequisitesTitle": "Siparişi havale ile ödeyin",
+    "handoverRequisitesBody": "#{orderNumber} numaralı sipariş alındı. Aşağıdan bir banka veya cüzdan seçin, {total} gönderin ve ödeme dekontunu ekleyin.",
+    "handoverRequisitesMessage": "Merhaba! {total} tutarındaki #{orderNumber} numaralı siparişi verdim ve havale ile ödedim. Lütfen ödemeyi onaylayın.",
+    "contactManagerHint": "Siparişi onaylatmak için yöneticiyle iletişime geçin.",
+    "showRequisite": "Numarayı görmek için dokunun",
+    "hideRequisite": "Numarayı gizle",
+    "numberLabel": "Kart veya hesap numarası",
+    "holderLabel": "Alıcı",
+    "addressLabel": "Cüzdan adresi",
+    "networkLabel": "Ağ",
+    "copyNumber": "Numarayı kopyala",
+    "copyHolder": "Alıcıyı kopyala",
+    "copyAddress": "Adresi kopyala",
+    "copyNetwork": "Ağı kopyala",
+    "cryptoOnlyWarning": "Yalnızca {network} ağında {currency} gönderin: başka bir coin veya başka bir ağ üzerinden yapılan transfer ulaşmaz.",
+    "receiptPick": "Dosya veya fotoğraf seç",
+    "receiptCamera": "Fotoğraf çek",
+    "receiptRemove": "Dosyayı kaldır"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "çevrimiçi kurs, teslimat yok",
     "shipmentNo": "Gönderi No. {no}",
     "digitalGroup": "Çevrimiçi kurs — ödeme onaylandıktan sonra erişim",
-    "accessByEmail": "Kursa erişim, ödeme onaylandıktan sonra e-posta ile gelecek."
+    "accessByEmail": "Kursa erişim, ödeme onaylandıktan sonra e-posta ile gelecek.",
+    "digitalGroupPaid": "Çevrimiçi kurs — erişim açıldı"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Ödeme bekleniyor",
+    "awaitingConfirmation": "Ödeme onayı bekleniyor",
+    "receiptRejected": "Dekont kabul edilmedi",
+    "paid": "Ödendi",
+    "refunded": "İade edildi",
+    "canceled": "İptal edildi"
   }
 }

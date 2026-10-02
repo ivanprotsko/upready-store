@@ -147,7 +147,7 @@
     "freeShipping": "Ilmainen",
     "giftCard": "Lahjakortti",
     "itemsCount": "{count, plural, one {{count} tuote} other {{count} tuotetta}}",
-    "legal": "Klikkaamalla «Maksa» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
+    "legal": "Klikkaamalla «{button}» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
     "manualInput": "Syötä osoite manuaalisesti",
     "addressIncomplete": "Täytä osoitteen pakolliset kentät: {fields}.",
     "provinceRequired": "Valitse alue luettelosta.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Kirjaudu sisään ostaaksesi kurssin",
     "courseSignInText": "Kurssi avautuu tilillesi, joten ostaminen vaatii kirjautumisen tai rekisteröitymisen.",
     "fieldRequired": "Täytä tämä kenttä",
-    "emailInvalid": "Tarkista sähköposti: osoitteessa on virhe"
+    "emailInvalid": "Tarkista sähköposti: osoitteessa on virhe",
+    "signInHeading": "Kirjaudu sisään tilataksesi",
+    "signInText": "Tilaus näkyy tililläsi: siellä ovat maksutiedot, tila ja ostetut kurssit. Kirjautuminen tai rekisteröinti vie minuutin, ja ostoskori säilyy."
   },
   "ClaimOrders": {
     "heading": "Tilasitko ilman tiliä?",
@@ -336,7 +338,10 @@
     "empty": "Et ole vielä ostanut yhtään kurssia.",
     "start": "Aloita",
     "continue": "Jatka",
-    "review": "Kertaa"
+    "review": "Kertaa",
+    "pendingHeading": "Odottavat maksua",
+    "pendingHint": "Pääsy avautuu, kun kauppa on vahvistanut maksun.",
+    "toOrder": "{order} – maksa"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -620,7 +625,28 @@
     "receiptRejected": "Kuittia ei hyväksytty",
     "receiptRejectedReason": "Syy: {reason}",
     "receiptResend": "Lähetä toinen kuitti",
-    "contactManager": "Ota yhteyttä hoitajaan"
+    "contactManager": "Ota yhteyttä hoitajaan",
+    "methodRequisites": "Siirto tilitietoihin",
+    "requisitesDesc": "Tilauksen jälkeen näet kaupan tiedot: pankkikortit ja kryptolompakot. Siirrä {total} ja liitä maksukuitti – myyjä vahvistaa tilauksen.",
+    "requisitesPreviewLabel": "Otamme vastaan siirtoja:",
+    "handoverRequisitesTitle": "Maksa tilaus siirrolla",
+    "handoverRequisitesBody": "Tilaus #{orderNumber} on vastaanotettu. Valitse alta pankki tai lompakko, siirrä {total} ja liitä maksukuitti.",
+    "handoverRequisitesMessage": "Hei! Tein tilauksen #{orderNumber} summalla {total} ja maksoin sen siirrolla. Vahvistaisitteko maksun.",
+    "contactManagerHint": "Vahvista tilaus ottamalla yhteyttä myyjään.",
+    "showRequisite": "Napauta nähdäksesi numeron",
+    "hideRequisite": "Piilota numero",
+    "numberLabel": "Kortin tai tilin numero",
+    "holderLabel": "Saaja",
+    "addressLabel": "Lompakon osoite",
+    "networkLabel": "Verkko",
+    "copyNumber": "Kopioi numero",
+    "copyHolder": "Kopioi saaja",
+    "copyAddress": "Kopioi osoite",
+    "copyNetwork": "Kopioi verkko",
+    "cryptoOnlyWarning": "Lähetä vain {currency} verkossa {network}: toisen kolikon tai toisen verkon kautta tehty siirto ei saavu.",
+    "receiptPick": "Valitse tiedosto tai kuva",
+    "receiptCamera": "Ota kuva",
+    "receiptRemove": "Poista tiedosto"
   },
   "Metadata": {
     "account": {
@@ -1152,6 +1178,15 @@
     "noDeliveryBadge": "verkkokurssi, ei toimitusta",
     "shipmentNo": "Lähetys nro {no}",
     "digitalGroup": "Verkkokurssi — pääsy maksun vahvistuksen jälkeen",
-    "accessByEmail": "Pääsy kurssille tulee sähköpostitse, kun maksu on vahvistettu."
+    "accessByEmail": "Pääsy kurssille tulee sähköpostitse, kun maksu on vahvistettu.",
+    "digitalGroupPaid": "Verkkokurssi – pääsy avattu"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Odottaa maksua",
+    "awaitingConfirmation": "Odottaa maksun vahvistusta",
+    "receiptRejected": "Kuittia ei hyväksytty",
+    "paid": "Maksettu",
+    "refunded": "Hyvitetty",
+    "canceled": "Peruttu"
   }
 }
