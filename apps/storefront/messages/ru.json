@@ -78,14 +78,6 @@
     "exploreProducts": "Смотреть товары",
     "heading": "Корзина"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ваша корзина пуста.",
-    "exploreProducts": "Смотреть товары",
-    "goToCart": "Перейти в корзину",
-    "heading": "Корзина",
-    "subtotal": "Промежуточный итог",
-    "subtotalNote": "(без налогов)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Что-то пошло не так при попытке перенести вашу корзину",
     "runTransferAgain": "Повторить перенос",
@@ -1115,5 +1107,18 @@
     "addToCart": "В корзину",
     "chooseOptions": "Выбрать вариант",
     "remove": "Удалить"
+  },
+  "CartSidebar": {
+    "title": "Корзина",
+    "signInPrompt": "Войдите, чтобы видеть историю заказов и быстрее оформлять покупки.",
+    "signInEmail": "По эл. почте",
+    "signInYandex": "Через Яндекс ID",
+    "shipmentNo": "Отправление № {no}",
+    "deliveryEstimate": "Доставим {range}",
+    "digitalGroup": "Онлайн-курс — доступ после подтверждения оплаты",
+    "empty": "В корзине пока пусто.",
+    "exploreProducts": "Смотреть товары",
+    "itemsTotal": "Товаров на сумму",
+    "checkout": "К оформлению"
   }
 }

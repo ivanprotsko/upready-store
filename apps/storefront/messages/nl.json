@@ -78,14 +78,6 @@
     "exploreProducts": "Bekijk producten",
     "heading": "Winkelwagen"
   },
-  "CartDropdown": {
-    "bagEmpty": "Uw winkelwagen is leeg.",
-    "exploreProducts": "Bekijk producten",
-    "goToCart": "Naar winkelwagen",
-    "heading": "Winkelwagen",
-    "subtotal": "Subtotaal",
-    "subtotalNote": "(excl. btw)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Er is iets misgegaan bij het overzetten van uw winkelwagen",
     "runTransferAgain": "Overzetten opnieuw proberen",
@@ -1115,5 +1107,18 @@
     "addToCart": "In winkelwagen",
     "chooseOptions": "Opties kiezen",
     "remove": "Verwijderen"
+  },
+  "CartSidebar": {
+    "title": "Winkelwagen",
+    "signInPrompt": "Log in om je bestelgeschiedenis te zien en sneller af te rekenen.",
+    "signInEmail": "Met e-mail",
+    "signInYandex": "Met Yandex ID",
+    "shipmentNo": "Zending nr. {no}",
+    "deliveryEstimate": "Bezorging {range}",
+    "digitalGroup": "Online cursus — toegang na bevestiging van de betaling",
+    "empty": "Je winkelwagen is leeg.",
+    "exploreProducts": "Producten bekijken",
+    "itemsTotal": "Totaal artikelen",
+    "checkout": "Afrekenen"
   }
 }

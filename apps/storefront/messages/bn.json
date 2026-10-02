@@ -78,14 +78,6 @@
     "exploreProducts": "পণ্য দেখুন",
     "heading": "কার্ট"
   },
-  "CartDropdown": {
-    "bagEmpty": "আপনার শপিং ব্যাগ খালি।",
-    "exploreProducts": "পণ্য দেখুন",
-    "goToCart": "কার্টে যান",
-    "heading": "কার্ট",
-    "subtotal": "সাবটোটাল",
-    "subtotalNote": "(কর ব্যতীত)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "আপনার কার্ট স্থানান্তর করার সময় কিছু একটা সমস্যা হয়েছে",
     "runTransferAgain": "আবার স্থানান্তর চালান",
@@ -1115,5 +1107,18 @@
     "addToCart": "কার্টে যোগ করুন",
     "chooseOptions": "অপশন বেছে নিন",
     "remove": "সরান"
+  },
+  "CartSidebar": {
+    "title": "কার্ট",
+    "signInPrompt": "অর্ডারের ইতিহাস দেখতে এবং দ্রুত কেনাকাটা করতে সাইন ইন করুন।",
+    "signInEmail": "ইমেইল দিয়ে",
+    "signInYandex": "Yandex ID দিয়ে",
+    "shipmentNo": "শিপমেন্ট নং {no}",
+    "deliveryEstimate": "ডেলিভারি {range}",
+    "digitalGroup": "অনলাইন কোর্স — পেমেন্ট নিশ্চিত হওয়ার পর অ্যাক্সেস",
+    "empty": "আপনার কার্ট খালি।",
+    "exploreProducts": "পণ্য দেখুন",
+    "itemsTotal": "পণ্যের মোট মূল্য",
+    "checkout": "চেকআউট"
   }
 }

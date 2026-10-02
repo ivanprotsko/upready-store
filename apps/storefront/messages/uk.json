@@ -78,14 +78,6 @@
     "exploreProducts": "Переглянути товари",
     "heading": "Кошик"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ваш кошик порожній.",
-    "exploreProducts": "Переглянути товари",
-    "goToCart": "Перейти до кошика",
-    "heading": "Кошик",
-    "subtotal": "Проміжний підсумок",
-    "subtotalNote": "(без податків)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Щось пішло не так під час спроби перенести ваш кошик",
     "runTransferAgain": "Повторити перенесення",
@@ -1115,5 +1107,18 @@
     "addToCart": "У кошик",
     "chooseOptions": "Обрати варіант",
     "remove": "Видалити"
+  },
+  "CartSidebar": {
+    "title": "Кошик",
+    "signInPrompt": "Увійдіть, щоб бачити історію замовлень і швидше оформлювати покупки.",
+    "signInEmail": "Через ел. пошту",
+    "signInYandex": "Через Yandex ID",
+    "shipmentNo": "Відправлення № {no}",
+    "deliveryEstimate": "Доставимо {range}",
+    "digitalGroup": "Онлайн-курс — доступ після підтвердження оплати",
+    "empty": "У кошику поки порожньо.",
+    "exploreProducts": "Переглянути товари",
+    "itemsTotal": "Товарів на суму",
+    "checkout": "До оформлення"
   }
 }

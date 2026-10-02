@@ -78,14 +78,6 @@
     "exploreProducts": "Utforsk produkter",
     "heading": "Handlekurv"
   },
-  "CartDropdown": {
-    "bagEmpty": "Handlekurven din er tom.",
-    "exploreProducts": "Utforsk produkter",
-    "goToCart": "Gå til handlekurv",
-    "heading": "Handlekurv",
-    "subtotal": "Delsum",
-    "subtotalNote": "(eks. avgifter)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Noe gikk galt da vi prøvde å overføre handlekurven din",
     "runTransferAgain": "Prøv overføring på nytt",
@@ -1115,5 +1107,18 @@
     "addToCart": "Legg i handlekurv",
     "chooseOptions": "Velg alternativer",
     "remove": "Fjern"
+  },
+  "CartSidebar": {
+    "title": "Handlekurv",
+    "signInPrompt": "Logg inn for å se ordrehistorikken din og handle raskere.",
+    "signInEmail": "Med e-post",
+    "signInYandex": "Med Yandex ID",
+    "shipmentNo": "Forsendelse nr. {no}",
+    "deliveryEstimate": "Levering {range}",
+    "digitalGroup": "Nettkurs — tilgang etter bekreftet betaling",
+    "empty": "Handlekurven din er tom.",
+    "exploreProducts": "Se produkter",
+    "itemsTotal": "Varer totalt",
+    "checkout": "Til kassen"
   }
 }

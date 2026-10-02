@@ -78,14 +78,6 @@
     "exploreProducts": "उत्पाद देखें",
     "heading": "कार्ट"
   },
-  "CartDropdown": {
-    "bagEmpty": "आपका शॉपिंग बैग खाली है।",
-    "exploreProducts": "उत्पाद देखें",
-    "goToCart": "कार्ट पर जाएं",
-    "heading": "कार्ट",
-    "subtotal": "उप-कुल",
-    "subtotalNote": "(कर को छोड़कर)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "आपका कार्ट ट्रांसफर करने की कोशिश करते समय कुछ गड़बड़ हो गई",
     "runTransferAgain": "फिर से ट्रांसफर करें",
@@ -1115,5 +1107,18 @@
     "addToCart": "कार्ट में जोड़ें",
     "chooseOptions": "विकल्प चुनें",
     "remove": "हटाएं"
+  },
+  "CartSidebar": {
+    "title": "कार्ट",
+    "signInPrompt": "ऑर्डर इतिहास देखने और तेज़ी से खरीदारी करने के लिए साइन इन करें।",
+    "signInEmail": "ईमेल से",
+    "signInYandex": "Yandex ID से",
+    "shipmentNo": "शिपमेंट नंबर {no}",
+    "deliveryEstimate": "डिलीवरी {range}",
+    "digitalGroup": "ऑनलाइन कोर्स — भुगतान की पुष्टि के बाद एक्सेस",
+    "empty": "आपका कार्ट खाली है।",
+    "exploreProducts": "उत्पाद देखें",
+    "itemsTotal": "उत्पादों का कुल",
+    "checkout": "चेकआउट"
   }
 }

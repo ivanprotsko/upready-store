@@ -78,14 +78,6 @@
     "exploreProducts": "상품 둘러보기",
     "heading": "장바구니"
   },
-  "CartDropdown": {
-    "bagEmpty": "장바구니가 비어 있습니다.",
-    "exploreProducts": "상품 둘러보기",
-    "goToCart": "장바구니로 이동",
-    "heading": "장바구니",
-    "subtotal": "소계",
-    "subtotalNote": "(세금 별도)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "장바구니를 이전하는 중 문제가 발생했습니다",
     "runTransferAgain": "다시 이전 시도",
@@ -1115,5 +1107,18 @@
     "addToCart": "장바구니에 담기",
     "chooseOptions": "옵션 선택",
     "remove": "삭제"
+  },
+  "CartSidebar": {
+    "title": "장바구니",
+    "signInPrompt": "로그인하면 주문 내역을 확인하고 더 빠르게 구매할 수 있습니다.",
+    "signInEmail": "이메일로",
+    "signInYandex": "Yandex ID로",
+    "shipmentNo": "배송 {no}",
+    "deliveryEstimate": "배송 예정 {range}",
+    "digitalGroup": "온라인 강의 — 결제 확인 후 이용 가능",
+    "empty": "장바구니가 비어 있습니다.",
+    "exploreProducts": "상품 보기",
+    "itemsTotal": "상품 합계",
+    "checkout": "주문하기"
   }
 }

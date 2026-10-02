@@ -78,14 +78,6 @@
     "exploreProducts": "商品を見る",
     "heading": "カート"
   },
-  "CartDropdown": {
-    "bagEmpty": "カートは空です。",
-    "exploreProducts": "商品を見る",
-    "goToCart": "カートへ進む",
-    "heading": "カート",
-    "subtotal": "小計",
-    "subtotalNote": "（税別）"
-  },
   "CartMismatchBanner": {
     "errorMessage": "カートの移行中に問題が発生しました",
     "runTransferAgain": "もう一度移行する",
@@ -1115,5 +1107,18 @@
     "addToCart": "カートに入れる",
     "chooseOptions": "オプションを選択",
     "remove": "削除"
+  },
+  "CartSidebar": {
+    "title": "カート",
+    "signInPrompt": "ログインすると注文履歴を確認でき、より早く購入できます。",
+    "signInEmail": "メールで",
+    "signInYandex": "Yandex IDで",
+    "shipmentNo": "配送 {no}",
+    "deliveryEstimate": "お届け {range}",
+    "digitalGroup": "オンライン講座 — 支払い確認後にアクセス可能",
+    "empty": "カートは空です。",
+    "exploreProducts": "商品を見る",
+    "itemsTotal": "商品合計",
+    "checkout": "レジへ進む"
   }
 }

@@ -78,14 +78,6 @@
     "exploreProducts": "浏览商品",
     "heading": "购物车"
   },
-  "CartDropdown": {
-    "bagEmpty": "您的购物袋是空的。",
-    "exploreProducts": "浏览商品",
-    "goToCart": "前往购物车",
-    "heading": "购物车",
-    "subtotal": "小计",
-    "subtotalNote": "（不含税）"
-  },
   "CartMismatchBanner": {
     "errorMessage": "转移您的购物车时出现问题",
     "runTransferAgain": "重新转移",
@@ -1115,5 +1107,18 @@
     "addToCart": "加入购物车",
     "chooseOptions": "选择规格",
     "remove": "移除"
+  },
+  "CartSidebar": {
+    "title": "购物车",
+    "signInPrompt": "登录后可查看订单记录并更快完成购买。",
+    "signInEmail": "使用邮箱",
+    "signInYandex": "使用 Yandex ID",
+    "shipmentNo": "包裹 {no}",
+    "deliveryEstimate": "预计送达 {range}",
+    "digitalGroup": "在线课程 — 付款确认后开放",
+    "empty": "购物车是空的。",
+    "exploreProducts": "浏览商品",
+    "itemsTotal": "商品合计",
+    "checkout": "去结算"
   }
 }

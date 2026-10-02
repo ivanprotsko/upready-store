@@ -78,14 +78,6 @@
     "exploreProducts": "Δείτε τα προϊόντα",
     "heading": "Καλάθι"
   },
-  "CartDropdown": {
-    "bagEmpty": "Το καλάθι αγορών σας είναι άδειο.",
-    "exploreProducts": "Δείτε τα προϊόντα",
-    "goToCart": "Μετάβαση στο καλάθι",
-    "heading": "Καλάθι",
-    "subtotal": "Μερικό σύνολο",
-    "subtotalNote": "(χωρίς φόρους)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Κάτι πήγε στραβά κατά τη μεταφορά του καλαθιού σας",
     "runTransferAgain": "Επανάληψη μεταφοράς",
@@ -1115,5 +1107,18 @@
     "addToCart": "Προσθήκη στο καλάθι",
     "chooseOptions": "Επιλογή παραλλαγών",
     "remove": "Αφαίρεση"
+  },
+  "CartSidebar": {
+    "title": "Καλάθι",
+    "signInPrompt": "Συνδεθείτε για να βλέπετε το ιστορικό παραγγελιών και να ολοκληρώνετε τις αγορές σας πιο γρήγορα.",
+    "signInEmail": "Με email",
+    "signInYandex": "Με Yandex ID",
+    "shipmentNo": "Αποστολή αρ. {no}",
+    "deliveryEstimate": "Παράδοση {range}",
+    "digitalGroup": "Διαδικτυακό μάθημα — πρόσβαση μετά την επιβεβαίωση πληρωμής",
+    "empty": "Το καλάθι σας είναι άδειο.",
+    "exploreProducts": "Δείτε τα προϊόντα",
+    "itemsTotal": "Σύνολο προϊόντων",
+    "checkout": "Ολοκλήρωση παραγγελίας"
   }
 }

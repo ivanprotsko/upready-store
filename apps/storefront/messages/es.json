@@ -78,14 +78,6 @@
     "exploreProducts": "Explorar productos",
     "heading": "Carrito"
   },
-  "CartDropdown": {
-    "bagEmpty": "Tu bolsa de la compra está vacía.",
-    "exploreProducts": "Explorar productos",
-    "goToCart": "Ir al carrito",
-    "heading": "Carrito",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(impuestos excl.)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Algo salió mal al intentar transferir tu carrito",
     "runTransferAgain": "Ejecutar transferencia de nuevo",
@@ -1115,5 +1107,18 @@
     "addToCart": "Añadir al carrito",
     "chooseOptions": "Elegir opciones",
     "remove": "Quitar"
+  },
+  "CartSidebar": {
+    "title": "Carrito",
+    "signInPrompt": "Inicia sesión para ver tu historial de pedidos y comprar más rápido.",
+    "signInEmail": "Con correo electrónico",
+    "signInYandex": "Con Yandex ID",
+    "shipmentNo": "Envío n.º {no}",
+    "deliveryEstimate": "Entrega {range}",
+    "digitalGroup": "Curso en línea — acceso tras confirmar el pago",
+    "empty": "Tu carrito está vacío.",
+    "exploreProducts": "Ver productos",
+    "itemsTotal": "Total de productos",
+    "checkout": "Tramitar pedido"
   }
 }

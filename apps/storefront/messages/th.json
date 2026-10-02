@@ -78,14 +78,6 @@
     "exploreProducts": "สำรวจสินค้า",
     "heading": "ตะกร้าสินค้า"
   },
-  "CartDropdown": {
-    "bagEmpty": "ตะกร้าสินค้าของคุณว่างเปล่า",
-    "exploreProducts": "สำรวจสินค้า",
-    "goToCart": "ไปที่ตะกร้า",
-    "heading": "ตะกร้าสินค้า",
-    "subtotal": "ยอดรวมย่อย",
-    "subtotalNote": "(ไม่รวมภาษี)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "เกิดข้อผิดพลาดขณะพยายามโอนตะกร้าของคุณ",
     "runTransferAgain": "ลองโอนอีกครั้ง",
@@ -1115,5 +1107,18 @@
     "addToCart": "เพิ่มลงตะกร้า",
     "chooseOptions": "เลือกตัวเลือก",
     "remove": "นำออก"
+  },
+  "CartSidebar": {
+    "title": "ตะกร้า",
+    "signInPrompt": "เข้าสู่ระบบเพื่อดูประวัติการสั่งซื้อและสั่งซื้อได้เร็วขึ้น",
+    "signInEmail": "ด้วยอีเมล",
+    "signInYandex": "ด้วย Yandex ID",
+    "shipmentNo": "การจัดส่งที่ {no}",
+    "deliveryEstimate": "จัดส่ง {range}",
+    "digitalGroup": "คอร์สออนไลน์ — เข้าเรียนได้หลังยืนยันการชำระเงิน",
+    "empty": "ตะกร้าของคุณว่างเปล่า",
+    "exploreProducts": "ดูสินค้า",
+    "itemsTotal": "ยอดรวมสินค้า",
+    "checkout": "ไปชำระเงิน"
   }
 }

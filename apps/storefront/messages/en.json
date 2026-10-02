@@ -78,14 +78,6 @@
     "exploreProducts": "Explore products",
     "heading": "Cart"
   },
-  "CartDropdown": {
-    "bagEmpty": "Your shopping bag is empty.",
-    "exploreProducts": "Explore products",
-    "goToCart": "Go to cart",
-    "heading": "Cart",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(excl. taxes)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Something went wrong when we tried to transfer your cart",
     "runTransferAgain": "Run transfer again",
@@ -1115,5 +1107,18 @@
     "addToCart": "Add to cart",
     "chooseOptions": "Choose options",
     "remove": "Remove"
+  },
+  "CartSidebar": {
+    "title": "Cart",
+    "signInPrompt": "Sign in to see your order history and check out faster.",
+    "signInEmail": "With email",
+    "signInYandex": "With Yandex ID",
+    "shipmentNo": "Shipment No. {no}",
+    "deliveryEstimate": "Delivery {range}",
+    "digitalGroup": "Online course — access after payment confirmation",
+    "empty": "Your cart is empty.",
+    "exploreProducts": "Explore products",
+    "itemsTotal": "Items total",
+    "checkout": "Checkout"
   }
 }

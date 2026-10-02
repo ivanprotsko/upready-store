@@ -78,14 +78,6 @@
     "exploreProducts": "Разгледай продуктите",
     "heading": "Кошница"
   },
-  "CartDropdown": {
-    "bagEmpty": "Кошницата ви е празна.",
-    "exploreProducts": "Разгледай продуктите",
-    "goToCart": "Към кошницата",
-    "heading": "Кошница",
-    "subtotal": "Междинна сума",
-    "subtotalNote": "(без данъци)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Нещо се обърка при опита за прехвърляне на кошницата ви",
     "runTransferAgain": "Опитай прехвърлянето отново",
@@ -1115,5 +1107,18 @@
     "addToCart": "Добави в количката",
     "chooseOptions": "Избери опции",
     "remove": "Премахни"
+  },
+  "CartSidebar": {
+    "title": "Количка",
+    "signInPrompt": "Влезте, за да виждате историята на поръчките си и да пазарувате по-бързо.",
+    "signInEmail": "С имейл",
+    "signInYandex": "С Yandex ID",
+    "shipmentNo": "Пратка № {no}",
+    "deliveryEstimate": "Доставка {range}",
+    "digitalGroup": "Онлайн курс — достъп след потвърждение на плащането",
+    "empty": "Количката е празна.",
+    "exploreProducts": "Разгледайте продуктите",
+    "itemsTotal": "Общо за продуктите",
+    "checkout": "Към поръчката"
   }
 }

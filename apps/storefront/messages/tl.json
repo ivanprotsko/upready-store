@@ -78,14 +78,6 @@
     "exploreProducts": "Tuklasin ang mga produkto",
     "heading": "Cart"
   },
-  "CartDropdown": {
-    "bagEmpty": "Walang laman ang iyong shopping bag.",
-    "exploreProducts": "Tuklasin ang mga produkto",
-    "goToCart": "Pumunta sa cart",
-    "heading": "Cart",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(hindi kasama ang buwis)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "May nagkamali nang sinubukan naming ilipat ang iyong cart",
     "runTransferAgain": "Subukang muli ang paglipat",
@@ -1115,5 +1107,18 @@
     "addToCart": "Idagdag sa cart",
     "chooseOptions": "Pumili ng mga opsyon",
     "remove": "Alisin"
+  },
+  "CartSidebar": {
+    "title": "Kariton",
+    "signInPrompt": "Mag-sign in para makita ang history ng mga order mo at mas mabilis na makabili.",
+    "signInEmail": "Gamit ang email",
+    "signInYandex": "Gamit ang Yandex ID",
+    "shipmentNo": "Padala Blg. {no}",
+    "deliveryEstimate": "Ihahatid {range}",
+    "digitalGroup": "Online na kurso — access pagkatapos makumpirma ang bayad",
+    "empty": "Walang laman ang kariton mo.",
+    "exploreProducts": "Tingnan ang mga produkto",
+    "itemsTotal": "Kabuuan ng mga produkto",
+    "checkout": "Mag-checkout"
   }
 }

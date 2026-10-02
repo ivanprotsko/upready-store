@@ -78,14 +78,6 @@
     "exploreProducts": "Udforsk produkter",
     "heading": "Kurv"
   },
-  "CartDropdown": {
-    "bagEmpty": "Din indkøbskurv er tom.",
-    "exploreProducts": "Udforsk produkter",
-    "goToCart": "Gå til kurv",
-    "heading": "Kurv",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(ekskl. moms)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Der opstod en fejl, da vi forsøgte at overføre din kurv",
     "runTransferAgain": "Prøv overførslen igen",
@@ -1115,5 +1107,18 @@
     "addToCart": "Læg i kurv",
     "chooseOptions": "Vælg muligheder",
     "remove": "Fjern"
+  },
+  "CartSidebar": {
+    "title": "Kurv",
+    "signInPrompt": "Log ind for at se din ordrehistorik og handle hurtigere.",
+    "signInEmail": "Med e-mail",
+    "signInYandex": "Med Yandex ID",
+    "shipmentNo": "Forsendelse nr. {no}",
+    "deliveryEstimate": "Levering {range}",
+    "digitalGroup": "Onlinekursus — adgang efter bekræftet betaling",
+    "empty": "Din kurv er tom.",
+    "exploreProducts": "Se produkter",
+    "itemsTotal": "Varer i alt",
+    "checkout": "Til kassen"
   }
 }

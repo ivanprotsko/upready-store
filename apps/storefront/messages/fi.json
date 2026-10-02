@@ -78,14 +78,6 @@
     "exploreProducts": "Selaa tuotteita",
     "heading": "Ostoskori"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ostoskorisi on tyhjä.",
-    "exploreProducts": "Selaa tuotteita",
-    "goToCart": "Siirry ostoskoriin",
-    "heading": "Ostoskori",
-    "subtotal": "Välisumma",
-    "subtotalNote": "(ilman veroja)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Jokin meni pieleen yritettäessä siirtää ostoskoriasi",
     "runTransferAgain": "Yritä siirtoa uudelleen",
@@ -1115,5 +1107,18 @@
     "addToCart": "Lisää ostoskoriin",
     "chooseOptions": "Valitse vaihtoehdot",
     "remove": "Poista"
+  },
+  "CartSidebar": {
+    "title": "Ostoskori",
+    "signInPrompt": "Kirjaudu sisään nähdäksesi tilaushistoriasi ja tehdäksesi ostokset nopeammin.",
+    "signInEmail": "Sähköpostilla",
+    "signInYandex": "Yandex ID:llä",
+    "shipmentNo": "Lähetys nro {no}",
+    "deliveryEstimate": "Toimitus {range}",
+    "digitalGroup": "Verkkokurssi — pääsy maksun vahvistuksen jälkeen",
+    "empty": "Ostoskorisi on tyhjä.",
+    "exploreProducts": "Selaa tuotteita",
+    "itemsTotal": "Tuotteet yhteensä",
+    "checkout": "Kassalle"
   }
 }

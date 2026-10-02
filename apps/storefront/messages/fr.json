@@ -78,14 +78,6 @@
     "exploreProducts": "Découvrir les produits",
     "heading": "Panier"
   },
-  "CartDropdown": {
-    "bagEmpty": "Votre panier est vide.",
-    "exploreProducts": "Découvrir les produits",
-    "goToCart": "Voir le panier",
-    "heading": "Panier",
-    "subtotal": "Sous-total",
-    "subtotalNote": "(hors taxes)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Une erreur s'est produite lors du transfert de votre panier",
     "runTransferAgain": "Relancer le transfert",
@@ -1115,5 +1107,18 @@
     "addToCart": "Ajouter au panier",
     "chooseOptions": "Choisir les options",
     "remove": "Retirer"
+  },
+  "CartSidebar": {
+    "title": "Panier",
+    "signInPrompt": "Connectez-vous pour voir l'historique de vos commandes et acheter plus vite.",
+    "signInEmail": "Par e-mail",
+    "signInYandex": "Avec Yandex ID",
+    "shipmentNo": "Expédition n° {no}",
+    "deliveryEstimate": "Livraison {range}",
+    "digitalGroup": "Cours en ligne — accès après confirmation du paiement",
+    "empty": "Votre panier est vide.",
+    "exploreProducts": "Voir les produits",
+    "itemsTotal": "Total des articles",
+    "checkout": "Commander"
   }
 }

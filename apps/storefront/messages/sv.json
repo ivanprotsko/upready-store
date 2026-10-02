@@ -78,14 +78,6 @@
     "exploreProducts": "Utforska produkter",
     "heading": "Varukorg"
   },
-  "CartDropdown": {
-    "bagEmpty": "Din varukorg är tom.",
-    "exploreProducts": "Utforska produkter",
-    "goToCart": "Gå till varukorgen",
-    "heading": "Varukorg",
-    "subtotal": "Delsumma",
-    "subtotalNote": "(exkl. moms)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Något gick fel när vi försökte överföra din varukorg",
     "runTransferAgain": "Försök överföra igen",
@@ -1115,5 +1107,18 @@
     "addToCart": "Lägg i varukorgen",
     "chooseOptions": "Välj alternativ",
     "remove": "Ta bort"
+  },
+  "CartSidebar": {
+    "title": "Varukorg",
+    "signInPrompt": "Logga in för att se din orderhistorik och handla snabbare.",
+    "signInEmail": "Med e-post",
+    "signInYandex": "Med Yandex ID",
+    "shipmentNo": "Försändelse nr {no}",
+    "deliveryEstimate": "Leverans {range}",
+    "digitalGroup": "Onlinekurs — åtkomst efter bekräftad betalning",
+    "empty": "Din varukorg är tom.",
+    "exploreProducts": "Se produkter",
+    "itemsTotal": "Varor totalt",
+    "checkout": "Till kassan"
   }
 }

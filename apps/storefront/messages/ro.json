@@ -78,14 +78,6 @@
     "exploreProducts": "Explorează produsele",
     "heading": "Coș"
   },
-  "CartDropdown": {
-    "bagEmpty": "Coșul dvs. de cumpărături este gol.",
-    "exploreProducts": "Explorează produsele",
-    "goToCart": "Mergi la coș",
-    "heading": "Coș",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(fără taxe)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Ceva nu a mers bine la încercarea de a transfera coșul dvs.",
     "runTransferAgain": "Reîncearcă transferul",
@@ -1115,5 +1107,18 @@
     "addToCart": "Adaugă în coș",
     "chooseOptions": "Alege opțiuni",
     "remove": "Elimină"
+  },
+  "CartSidebar": {
+    "title": "Coș",
+    "signInPrompt": "Conectează-te pentru a vedea istoricul comenzilor și a cumpăra mai rapid.",
+    "signInEmail": "Prin e-mail",
+    "signInYandex": "Cu Yandex ID",
+    "shipmentNo": "Expedierea nr. {no}",
+    "deliveryEstimate": "Livrare {range}",
+    "digitalGroup": "Curs online — acces după confirmarea plății",
+    "empty": "Coșul tău este gol.",
+    "exploreProducts": "Vezi produsele",
+    "itemsTotal": "Total produse",
+    "checkout": "Finalizează comanda"
   }
 }

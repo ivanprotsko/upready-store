@@ -78,14 +78,6 @@
     "exploreProducts": "Бүтээгдэхүүн үзэх",
     "heading": "Сагс"
   },
-  "CartDropdown": {
-    "bagEmpty": "Таны сагс хоосон байна.",
-    "exploreProducts": "Бүтээгдэхүүн үзэх",
-    "goToCart": "Сагс руу очих",
-    "heading": "Сагс",
-    "subtotal": "Дэд дүн",
-    "subtotalNote": "(татваргүй)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Таны сагсыг шилжүүлэх гэж оролдох үед ямар нэг зүйл буруу боллоо",
     "runTransferAgain": "Шилжүүлгийг дахин эхлүүлэх",
@@ -1115,5 +1107,18 @@
     "addToCart": "Сагсанд нэмэх",
     "chooseOptions": "Сонголт хийх",
     "remove": "Устгах"
+  },
+  "CartSidebar": {
+    "title": "Сагс",
+    "signInPrompt": "Захиалгын түүхээ харж, илүү хурдан худалдан авахын тулд нэвтэрнэ үү.",
+    "signInEmail": "Имэйлээр",
+    "signInYandex": "Yandex ID-ээр",
+    "shipmentNo": "Илгээмж № {no}",
+    "deliveryEstimate": "Хүргэлт {range}",
+    "digitalGroup": "Онлайн сургалт — төлбөр баталгаажсаны дараа хандах боломжтой",
+    "empty": "Таны сагс хоосон байна.",
+    "exploreProducts": "Бүтээгдэхүүн үзэх",
+    "itemsTotal": "Барааны нийт дүн",
+    "checkout": "Захиалга хийх"
   }
 }

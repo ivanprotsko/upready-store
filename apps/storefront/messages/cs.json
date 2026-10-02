@@ -78,14 +78,6 @@
     "exploreProducts": "Prozkoumat produkty",
     "heading": "Košík"
   },
-  "CartDropdown": {
-    "bagEmpty": "Váš košík je prázdný.",
-    "exploreProducts": "Prozkoumat produkty",
-    "goToCart": "Přejít do košíku",
-    "heading": "Košík",
-    "subtotal": "Mezisoučet",
-    "subtotalNote": "(bez daní)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Při pokusu o převod vašeho košíku došlo k chybě",
     "runTransferAgain": "Zkusit převod znovu",
@@ -1115,5 +1107,18 @@
     "addToCart": "Přidat do košíku",
     "chooseOptions": "Vybrat možnosti",
     "remove": "Odebrat"
+  },
+  "CartSidebar": {
+    "title": "Košík",
+    "signInPrompt": "Přihlaste se, abyste viděli historii objednávek a nakupovali rychleji.",
+    "signInEmail": "E-mailem",
+    "signInYandex": "Přes Yandex ID",
+    "shipmentNo": "Zásilka č. {no}",
+    "deliveryEstimate": "Doručíme {range}",
+    "digitalGroup": "Online kurz — přístup po potvrzení platby",
+    "empty": "Košík je prázdný.",
+    "exploreProducts": "Prohlédnout produkty",
+    "itemsTotal": "Zboží celkem",
+    "checkout": "K pokladně"
   }
 }

@@ -78,14 +78,6 @@
     "exploreProducts": "პროდუქტების დათვალიერება",
     "heading": "კალათა"
   },
-  "CartDropdown": {
-    "bagEmpty": "თქვენი კალათა ცარიელია.",
-    "exploreProducts": "პროდუქტების დათვალიერება",
-    "goToCart": "კალათაზე გადასვლა",
-    "heading": "კალათა",
-    "subtotal": "შუალედური ჯამი",
-    "subtotalNote": "(გადასახადების გარეშე)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "დაფიქსირდა შეცდომა თქვენი კალათის გადატანისას",
     "runTransferAgain": "გადატანის ხელახლა გაშვება",
@@ -1115,5 +1107,18 @@
     "addToCart": "კალათაში დამატება",
     "chooseOptions": "ვარიანტების არჩევა",
     "remove": "წაშლა"
+  },
+  "CartSidebar": {
+    "title": "კალათა",
+    "signInPrompt": "შედით, რომ ნახოთ შეკვეთების ისტორია და უფრო სწრაფად შეიძინოთ.",
+    "signInEmail": "ელფოსტით",
+    "signInYandex": "Yandex ID-ით",
+    "shipmentNo": "გზავნილი № {no}",
+    "deliveryEstimate": "მიწოდება {range}",
+    "digitalGroup": "ონლაინ კურსი — წვდომა გადახდის დადასტურების შემდეგ",
+    "empty": "თქვენი კალათა ცარიელია.",
+    "exploreProducts": "პროდუქტების ნახვა",
+    "itemsTotal": "პროდუქტების ჯამი",
+    "checkout": "შეკვეთის გაფორმება"
   }
 }

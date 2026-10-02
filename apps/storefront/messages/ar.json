@@ -78,14 +78,6 @@
     "exploreProducts": "استكشف المنتجات",
     "heading": "السلة"
   },
-  "CartDropdown": {
-    "bagEmpty": "سلة التسوق فارغة.",
-    "exploreProducts": "استكشف المنتجات",
-    "goToCart": "الانتقال إلى السلة",
-    "heading": "السلة",
-    "subtotal": "المجموع الفرعي",
-    "subtotalNote": "(غير شامل الضرائب)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "حدث خطأ أثناء محاولة نقل سلتك",
     "runTransferAgain": "إعادة محاولة النقل",
@@ -1115,5 +1107,18 @@
     "addToCart": "أضف إلى السلة",
     "chooseOptions": "اختر الخيارات",
     "remove": "إزالة"
+  },
+  "CartSidebar": {
+    "title": "سلة التسوق",
+    "signInPrompt": "سجّل الدخول لعرض سجل طلباتك وإتمام الشراء بشكل أسرع.",
+    "signInEmail": "عبر البريد الإلكتروني",
+    "signInYandex": "عبر Yandex ID",
+    "shipmentNo": "الشحنة رقم {no}",
+    "deliveryEstimate": "التوصيل {range}",
+    "digitalGroup": "دورة عبر الإنترنت — الوصول بعد تأكيد الدفع",
+    "empty": "سلة التسوق فارغة.",
+    "exploreProducts": "تصفح المنتجات",
+    "itemsTotal": "إجمالي المنتجات",
+    "checkout": "إتمام الطلب"
   }
 }

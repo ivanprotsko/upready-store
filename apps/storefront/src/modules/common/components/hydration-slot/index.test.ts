@@ -7,7 +7,7 @@ vi.mock("@lib/data/cart", () => ({ retrieveCart: vi.fn() }))
 vi.mock("@lib/data/attribution", () => ({ getSiteAttribution: vi.fn() }))
 vi.mock("@lib/data/tenant-branding", () => ({ getSiteBranding: vi.fn() }))
 vi.mock("next-intl/server", () => ({ getTranslations: vi.fn() }))
-vi.mock("@modules/layout/components/cart-dropdown", () => ({ default: () => null }))
+vi.mock("@modules/layout/components/cart-trigger", () => ({ default: () => null }))
 
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import CartButton from "@modules/layout/components/cart-button"

@@ -78,14 +78,6 @@
     "exploreProducts": "Jelajahi produk",
     "heading": "Keranjang"
   },
-  "CartDropdown": {
-    "bagEmpty": "Keranjang belanja Anda kosong.",
-    "exploreProducts": "Jelajahi produk",
-    "goToCart": "Lihat keranjang",
-    "heading": "Keranjang",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(belum termasuk pajak)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Terjadi kesalahan saat kami mencoba mentransfer keranjang Anda",
     "runTransferAgain": "Coba transfer lagi",
@@ -1115,5 +1107,18 @@
     "addToCart": "Tambah ke keranjang",
     "chooseOptions": "Pilih opsi",
     "remove": "Hapus"
+  },
+  "CartSidebar": {
+    "title": "Keranjang",
+    "signInPrompt": "Masuk untuk melihat riwayat pesanan dan berbelanja lebih cepat.",
+    "signInEmail": "Dengan email",
+    "signInYandex": "Dengan Yandex ID",
+    "shipmentNo": "Pengiriman No. {no}",
+    "deliveryEstimate": "Pengiriman {range}",
+    "digitalGroup": "Kursus online — akses setelah pembayaran dikonfirmasi",
+    "empty": "Keranjang Anda kosong.",
+    "exploreProducts": "Lihat produk",
+    "itemsTotal": "Total produk",
+    "checkout": "Lanjut ke pembayaran"
   }
 }

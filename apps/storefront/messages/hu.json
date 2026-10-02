@@ -78,14 +78,6 @@
     "exploreProducts": "Termékek böngészése",
     "heading": "Kosár"
   },
-  "CartDropdown": {
-    "bagEmpty": "A kosara üres.",
-    "exploreProducts": "Termékek böngészése",
-    "goToCart": "Tovább a kosárhoz",
-    "heading": "Kosár",
-    "subtotal": "Részösszeg",
-    "subtotalNote": "(áfa nélkül)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Hiba történt a kosár átvitele közben",
     "runTransferAgain": "Átvitel újrapróbálása",
@@ -1115,5 +1107,18 @@
     "addToCart": "Kosárba",
     "chooseOptions": "Opciók kiválasztása",
     "remove": "Eltávolítás"
+  },
+  "CartSidebar": {
+    "title": "Kosár",
+    "signInPrompt": "Jelentkezzen be, hogy lássa rendelési előzményeit és gyorsabban vásárolhasson.",
+    "signInEmail": "E-mailben",
+    "signInYandex": "Yandex ID-val",
+    "shipmentNo": "{no}. küldemény",
+    "deliveryEstimate": "Kézbesítés: {range}",
+    "digitalGroup": "Online tanfolyam — hozzáférés a fizetés megerősítése után",
+    "empty": "A kosara üres.",
+    "exploreProducts": "Termékek megtekintése",
+    "itemsTotal": "Termékek összesen",
+    "checkout": "Tovább a pénztárhoz"
   }
 }

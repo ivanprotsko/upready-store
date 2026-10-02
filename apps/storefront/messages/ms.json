@@ -78,14 +78,6 @@
     "exploreProducts": "Teroka produk",
     "heading": "Troli"
   },
-  "CartDropdown": {
-    "bagEmpty": "Beg beli-belah anda kosong.",
-    "exploreProducts": "Teroka produk",
-    "goToCart": "Pergi ke troli",
-    "heading": "Troli",
-    "subtotal": "Jumlah kecil",
-    "subtotalNote": "(tidak termasuk cukai)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Sesuatu tidak kena semasa kami cuba memindahkan troli anda",
     "runTransferAgain": "Cuba pindah semula",
@@ -1115,5 +1107,18 @@
     "addToCart": "Tambah ke troli",
     "chooseOptions": "Pilih pilihan",
     "remove": "Alih keluar"
+  },
+  "CartSidebar": {
+    "title": "Troli",
+    "signInPrompt": "Log masuk untuk melihat sejarah pesanan dan membeli dengan lebih pantas.",
+    "signInEmail": "Dengan e-mel",
+    "signInYandex": "Dengan Yandex ID",
+    "shipmentNo": "Penghantaran No. {no}",
+    "deliveryEstimate": "Penghantaran {range}",
+    "digitalGroup": "Kursus dalam talian — akses selepas pembayaran disahkan",
+    "empty": "Troli anda kosong.",
+    "exploreProducts": "Lihat produk",
+    "itemsTotal": "Jumlah produk",
+    "checkout": "Teruskan ke pembayaran"
   }
 }

@@ -78,14 +78,6 @@
     "exploreProducts": "עיין במוצרים",
     "heading": "עגלה"
   },
-  "CartDropdown": {
-    "bagEmpty": "עגלת הקניות שלך ריקה.",
-    "exploreProducts": "עיין במוצרים",
-    "goToCart": "מעבר לעגלה",
-    "heading": "עגלה",
-    "subtotal": "סכום ביניים",
-    "subtotalNote": "(לא כולל מיסים)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "משהו השתבש בעת הניסיון להעביר את העגלה שלך",
     "runTransferAgain": "נסה להעביר שוב",
@@ -1115,5 +1107,18 @@
     "addToCart": "הוספה לעגלה",
     "chooseOptions": "בחירת אפשרויות",
     "remove": "הסרה"
+  },
+  "CartSidebar": {
+    "title": "עגלה",
+    "signInPrompt": "התחברו כדי לראות את היסטוריית ההזמנות ולהשלים רכישות מהר יותר.",
+    "signInEmail": "באימייל",
+    "signInYandex": "עם Yandex ID",
+    "shipmentNo": "משלוח מס' {no}",
+    "deliveryEstimate": "משלוח {range}",
+    "digitalGroup": "קורס מקוון — גישה לאחר אישור התשלום",
+    "empty": "העגלה שלכם ריקה.",
+    "exploreProducts": "לצפייה במוצרים",
+    "itemsTotal": "סה\"כ מוצרים",
+    "checkout": "לתשלום"
   }
 }

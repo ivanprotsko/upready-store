@@ -78,14 +78,6 @@
     "exploreProducts": "Ürünlere göz at",
     "heading": "Sepet"
   },
-  "CartDropdown": {
-    "bagEmpty": "Alışveriş sepetiniz boş.",
-    "exploreProducts": "Ürünlere göz at",
-    "goToCart": "Sepete git",
-    "heading": "Sepet",
-    "subtotal": "Ara toplam",
-    "subtotalNote": "(vergiler hariç)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Sepetinizi aktarmaya çalışırken bir şeyler ters gitti",
     "runTransferAgain": "Aktarımı tekrar dene",
@@ -1115,5 +1107,18 @@
     "addToCart": "Sepete ekle",
     "chooseOptions": "Seçenekleri seç",
     "remove": "Kaldır"
+  },
+  "CartSidebar": {
+    "title": "Sepet",
+    "signInPrompt": "Sipariş geçmişinizi görmek ve daha hızlı alışveriş yapmak için giriş yapın.",
+    "signInEmail": "E-posta ile",
+    "signInYandex": "Yandex ID ile",
+    "shipmentNo": "Gönderi No. {no}",
+    "deliveryEstimate": "Teslimat {range}",
+    "digitalGroup": "Çevrimiçi kurs — ödeme onaylandıktan sonra erişim",
+    "empty": "Sepetiniz boş.",
+    "exploreProducts": "Ürünlere göz atın",
+    "itemsTotal": "Ürün toplamı",
+    "checkout": "Ödemeye geç"
   }
 }

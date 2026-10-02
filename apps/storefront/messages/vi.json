@@ -78,14 +78,6 @@
     "exploreProducts": "Khám phá sản phẩm",
     "heading": "Giỏ hàng"
   },
-  "CartDropdown": {
-    "bagEmpty": "Giỏ hàng của bạn đang trống.",
-    "exploreProducts": "Khám phá sản phẩm",
-    "goToCart": "Đi đến giỏ hàng",
-    "heading": "Giỏ hàng",
-    "subtotal": "Tạm tính",
-    "subtotalNote": "(chưa gồm thuế)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Đã xảy ra lỗi khi chúng tôi cố gắng chuyển giỏ hàng của bạn",
     "runTransferAgain": "Thử chuyển lại",
@@ -1115,5 +1107,18 @@
     "addToCart": "Thêm vào giỏ hàng",
     "chooseOptions": "Chọn tùy chọn",
     "remove": "Xóa"
+  },
+  "CartSidebar": {
+    "title": "Giỏ hàng",
+    "signInPrompt": "Đăng nhập để xem lịch sử đơn hàng và mua sắm nhanh hơn.",
+    "signInEmail": "Bằng email",
+    "signInYandex": "Bằng Yandex ID",
+    "shipmentNo": "Kiện hàng số {no}",
+    "deliveryEstimate": "Giao hàng {range}",
+    "digitalGroup": "Khóa học trực tuyến — truy cập sau khi xác nhận thanh toán",
+    "empty": "Giỏ hàng của bạn đang trống.",
+    "exploreProducts": "Xem sản phẩm",
+    "itemsTotal": "Tổng tiền hàng",
+    "checkout": "Thanh toán"
   }
 }

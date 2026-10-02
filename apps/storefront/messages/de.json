@@ -78,14 +78,6 @@
     "exploreProducts": "Produkte entdecken",
     "heading": "Warenkorb"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ihr Warenkorb ist leer.",
-    "exploreProducts": "Produkte entdecken",
-    "goToCart": "Zum Warenkorb",
-    "heading": "Warenkorb",
-    "subtotal": "Zwischensumme",
-    "subtotalNote": "(zzgl. MwSt.)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Beim Übertragen Ihres Warenkorbs ist ein Fehler aufgetreten",
     "runTransferAgain": "Übertragung erneut versuchen",
@@ -1115,5 +1107,18 @@
     "addToCart": "In den Warenkorb",
     "chooseOptions": "Optionen wählen",
     "remove": "Entfernen"
+  },
+  "CartSidebar": {
+    "title": "Warenkorb",
+    "signInPrompt": "Melden Sie sich an, um Ihre Bestellhistorie zu sehen und schneller einzukaufen.",
+    "signInEmail": "Per E-Mail",
+    "signInYandex": "Mit Yandex ID",
+    "shipmentNo": "Sendung Nr. {no}",
+    "deliveryEstimate": "Lieferung {range}",
+    "digitalGroup": "Online-Kurs — Zugang nach Zahlungsbestätigung",
+    "empty": "Ihr Warenkorb ist leer.",
+    "exploreProducts": "Produkte ansehen",
+    "itemsTotal": "Warenwert",
+    "checkout": "Zur Kasse"
   }
 }

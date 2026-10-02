@@ -78,14 +78,6 @@
     "exploreProducts": "Przeglądaj produkty",
     "heading": "Koszyk"
   },
-  "CartDropdown": {
-    "bagEmpty": "Twój koszyk jest pusty.",
-    "exploreProducts": "Przeglądaj produkty",
-    "goToCart": "Przejdź do koszyka",
-    "heading": "Koszyk",
-    "subtotal": "Suma częściowa",
-    "subtotalNote": "(bez podatków)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Coś poszło nie tak podczas próby przeniesienia Twojego koszyka",
     "runTransferAgain": "Spróbuj ponownie przenieść",
@@ -1115,5 +1107,18 @@
     "addToCart": "Dodaj do koszyka",
     "chooseOptions": "Wybierz opcje",
     "remove": "Usuń"
+  },
+  "CartSidebar": {
+    "title": "Koszyk",
+    "signInPrompt": "Zaloguj się, aby widzieć historię zamówień i kupować szybciej.",
+    "signInEmail": "Przez e-mail",
+    "signInYandex": "Przez Yandex ID",
+    "shipmentNo": "Przesyłka nr {no}",
+    "deliveryEstimate": "Dostawa {range}",
+    "digitalGroup": "Kurs online — dostęp po potwierdzeniu płatności",
+    "empty": "Twój koszyk jest pusty.",
+    "exploreProducts": "Zobacz produkty",
+    "itemsTotal": "Wartość produktów",
+    "checkout": "Do kasy"
   }
 }

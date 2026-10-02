@@ -78,14 +78,6 @@
     "exploreProducts": "Prezrieť produkty",
     "heading": "Košík"
   },
-  "CartDropdown": {
-    "bagEmpty": "Váš nákupný košík je prázdny.",
-    "exploreProducts": "Prezrieť produkty",
-    "goToCart": "Prejsť do košíka",
-    "heading": "Košík",
-    "subtotal": "Medzisúčet",
-    "subtotalNote": "(bez daní)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Niečo sa pokazilo pri pokuse o prenos vášho košíka",
     "runTransferAgain": "Skúsiť prenos znova",
@@ -1115,5 +1107,18 @@
     "addToCart": "Pridať do košíka",
     "chooseOptions": "Vybrať možnosti",
     "remove": "Odstrániť"
+  },
+  "CartSidebar": {
+    "title": "Košík",
+    "signInPrompt": "Prihláste sa, aby ste videli históriu objednávok a nakupovali rýchlejšie.",
+    "signInEmail": "E-mailom",
+    "signInYandex": "Cez Yandex ID",
+    "shipmentNo": "Zásielka č. {no}",
+    "deliveryEstimate": "Doručíme {range}",
+    "digitalGroup": "Online kurz — prístup po potvrdení platby",
+    "empty": "Váš košík je prázdny.",
+    "exploreProducts": "Pozrieť produkty",
+    "itemsTotal": "Tovar spolu",
+    "checkout": "K pokladni"
   }
 }

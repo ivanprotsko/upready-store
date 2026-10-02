@@ -78,14 +78,6 @@
     "exploreProducts": "Peržiūrėti produktus",
     "heading": "Krepšelis"
   },
-  "CartDropdown": {
-    "bagEmpty": "Jūsų krepšelis tuščias.",
-    "exploreProducts": "Peržiūrėti produktus",
-    "goToCart": "Eiti į krepšelį",
-    "heading": "Krepšelis",
-    "subtotal": "Tarpinė suma",
-    "subtotalNote": "(be mokesčių)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Kažkas nutiko ne taip bandant perkelti jūsų krepšelį",
     "runTransferAgain": "Bandyti perkelti dar kartą",
@@ -1115,5 +1107,18 @@
     "addToCart": "Į krepšelį",
     "chooseOptions": "Pasirinkti variantus",
     "remove": "Pašalinti"
+  },
+  "CartSidebar": {
+    "title": "Krepšelis",
+    "signInPrompt": "Prisijunkite, kad matytumėte užsakymų istoriją ir pirktumėte greičiau.",
+    "signInEmail": "El. paštu",
+    "signInYandex": "Su Yandex ID",
+    "shipmentNo": "Siunta Nr. {no}",
+    "deliveryEstimate": "Pristatysime {range}",
+    "digitalGroup": "Internetinis kursas — prieiga patvirtinus mokėjimą",
+    "empty": "Jūsų krepšelis tuščias.",
+    "exploreProducts": "Peržiūrėti prekes",
+    "itemsTotal": "Prekių suma",
+    "checkout": "Į apmokėjimą"
   }
 }
