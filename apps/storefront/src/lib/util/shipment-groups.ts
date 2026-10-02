@@ -1,5 +1,7 @@
 import type { HttpTypes } from "@medusajs/types"
 
+import { isNoDeliveryLine } from "./shipping-address"
+
 /**
  * The cart split into shipments («Отправление № N», batch 5 of the cherkashino.com
  * design work, Ivan 03.10: «деление на посылки стоит сверстать … вместо "посылка" писать
@@ -74,14 +76,13 @@ export function shipmentGroups<L extends ShipmentLine>(
 }
 
 /**
- * Whether a cart line posts nothing. The same contract the checkout's digital-cart
- * check reads (`isDigitalDeliveryCart`, `lib/util/shipping-address.ts`): the product's
- * `metadata.digital === "true"` (o24-courses, the seed's own contract). The cart fetch
- * expands `+items.product.metadata` for exactly this read.
+ * Whether a cart line posts nothing: the one rule the checkout reads too
+ * (`isNoDeliveryLine`, `lib/util/shipping-address.ts` — `requires_shipping === false`
+ * or the product's `metadata.digital === "true"`). The cart fetch expands
+ * `+items.product.metadata` for the second half of it.
  */
 export const isDigitalCartLine = (item: HttpTypes.StoreCartLineItem): boolean =>
-  (item.product?.metadata as Record<string, unknown> | null | undefined)
-    ?.digital === "true"
+  isNoDeliveryLine(item)
 
 /** A cart line as `shipmentGroups` reads it, with the line itself kept alongside. */
 export type CartShipmentLine = ShipmentLine & { item: HttpTypes.StoreCartLineItem }

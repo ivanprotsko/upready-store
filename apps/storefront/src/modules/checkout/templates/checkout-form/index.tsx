@@ -4,7 +4,7 @@ import { getCountryCode } from "@lib/data/cookies"
 import { getLegalLinkContext } from "@lib/data/legal-links"
 import { legalHref } from "@lib/util/legal-links"
 import { retrieveCustomerAddresses } from "@lib/data/customer"
-import { isDigitalDeliveryCart } from "@lib/util/shipping-address"
+import { cartNeedsShipping } from "@lib/util/shipping-address"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutShippingSection from "@modules/checkout/components/checkout-shipping-section"
 import CheckoutAddressRow from "@modules/checkout/components/checkout-address-row"
@@ -56,7 +56,7 @@ export default async function CheckoutForm({
   // `app/api/checkout/digital-delivery` before this template ever renders) —
   // no shipping-method picker, no pickup sheet, no address row, just the
   // contacts row `CheckoutInfoRows` still shows.
-  const isDigital = isDigitalDeliveryCart(cart)
+  const isDigital = !cartNeedsShipping(cart)
 
   return (
     // t-2026-10-01-checkout-ivan-3 #5: full width — each section below

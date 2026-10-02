@@ -1,6 +1,6 @@
 import { retrieveCart } from "@lib/data/cart"
 import { retrieveCustomer } from "@lib/data/customer"
-import { isDigitalDeliveryCart } from "@lib/util/shipping-address"
+import { cartNeedsShipping } from "@lib/util/shipping-address"
 import PaymentWrapper from "@modules/checkout/components/payment-wrapper"
 import { CartUpdateProvider } from "@modules/checkout/context/cart-update-context"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
@@ -20,8 +20,16 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Checkout() {
-  const [initialCart, locale] = await Promise.all([retrieveCart(), getLocale()])
+type CheckoutPageProps = {
+  searchParams: Promise<{ digital?: string }>
+}
+
+export default async function Checkout({ searchParams }: CheckoutPageProps) {
+  const [initialCart, locale, params] = await Promise.all([
+    retrieveCart(),
+    getLocale(),
+    searchParams,
+  ])
 
   // A-11 (46df audit): no cart is not a 404 — a buyer whose cart expired, or who
   // bookmarked /checkout, is better sent to the cart (empty or not, with its own
@@ -30,9 +38,15 @@ export default async function Checkout() {
     redirect(`/${locale}/cart`)
   }
 
+  // A cart with nothing to post (batch 6, hotfix Plan B) gets the tenant's ₽0 digital
+  // option attached by the route handler, once. `?digital=skipped` is the handler's
+  // answer that there was nothing to attach (no such option on this shop): the page
+  // then renders as it is instead of redirecting again — that was the loop. A cart
+  // that still ships something takes the normal delivery step.
   if (
-    isDigitalDeliveryCart(initialCart) &&
-    (initialCart.shipping_methods?.length ?? 0) === 0
+    !cartNeedsShipping(initialCart) &&
+    (initialCart.shipping_methods?.length ?? 0) === 0 &&
+    params.digital !== "skipped"
   ) {
     redirect(`/api/checkout/digital-delivery?locale=${locale}`)
   }

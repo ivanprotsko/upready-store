@@ -8,7 +8,7 @@ import {
 } from "@lib/constants"
 import type { ManualPaymentKind } from "@lib/tenant/manual-payment"
 import { convertToLocale } from "@lib/util/money"
-import { cartShippingAddressGaps } from "@lib/util/shipping-address"
+import { cartNeedsShipping, cartShippingAddressGaps } from "@lib/util/shipping-address"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
@@ -68,13 +68,18 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   // its address blanked on purpose and is not held here.
   const addressIncomplete = cartShippingAddressGaps(cart).length > 0
 
+  // Batch 6 (hotfix Plan B): a cart with nothing to post — an online course — needs
+  // no shipping method and no addresses, only the contacts (the e-mail the access
+  // goes to). `cartShippingAddressGaps` is already quiet for such a cart.
+  const needsShipping = cartNeedsShipping(cart)
+
   const notReady =
     !cart ||
-    !cart.shipping_address ||
-    !cart.billing_address ||
+    (needsShipping && !cart.shipping_address) ||
+    (needsShipping && !cart.billing_address) ||
     !cart.email ||
     addressIncomplete ||
-    (cart.shipping_methods?.length ?? 0) < 1 ||
+    (needsShipping && (cart.shipping_methods?.length ?? 0) < 1) ||
     !activePaymentMethod ||
     !isPaymentSessionReady(activePaymentMethod, cart) ||
     manualCardIncomplete
