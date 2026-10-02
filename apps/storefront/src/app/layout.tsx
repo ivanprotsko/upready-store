@@ -11,6 +11,7 @@ import { fontClassName, isAllowed, readProfileTheme, themePrePaintScript } from 
 // Branch-local (`redesign-olavka`): the Figma node's three typefaces, see the module.
 import { olavkaFontClassName } from "@lib/theme/olavka-fonts"
 import { olavkaZoomScript } from "@lib/theme/olavka-zoom"
+import { OLAVKA_INTER_CSS, OLAVKA_INTER_PRELOAD } from "@lib/theme/olavka-inter"
 import {
   getEffectiveSettings,
   getTenantModeDefault,
@@ -137,6 +138,12 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         {olavka ? (
           <script dangerouslySetInnerHTML={{ __html: olavkaZoomScript() }} />
         ) : null}
+        {olavka
+          ? OLAVKA_INTER_PRELOAD.map((href) => (
+              <link key={href} rel="preload" href={href} as="font" type="font/woff2" crossOrigin="" />
+            ))
+          : null}
+        {olavka ? <style dangerouslySetInnerHTML={{ __html: OLAVKA_INTER_CSS }} /> : null}
       </head>
       <body>
         {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside

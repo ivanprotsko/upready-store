@@ -1,4 +1,4 @@
-import { Inter, PT_Serif, Roboto_Flex, Rubik, Ruslan_Display } from "next/font/google"
+import { PT_Serif, Roboto_Flex, Rubik, Ruslan_Display } from "next/font/google"
 
 /**
  * BRANCH-LOCAL (`redesign-olavka`, t-2026-09-24-n15): the three typefaces Ivan's Figma
@@ -10,8 +10,8 @@ import { Inter, PT_Serif, Roboto_Flex, Rubik, Ruslan_Display } from "next/font/g
  *   --font-olavka-wordmark  Ruslan Display 400   the header wordmark (32px / 24px scrolled)
  *   --font-olavka-serif     PT Serif 400/700 italic   the Cover's two lines
  *   --font-olavka-flex      Roboto Flex (variable)    the slider's banner labels, uppercase
- *   --font-olavka-ui        Inter 500 (with cyrillic) the header labels «Россия», «Корзина»
- *                           (the profile's Inter is latin-only, so Cyrillic fell back)
+ *   --font-olavka-ui        Inter 500 (with cyrillic) the header labels «Россия», «Корзина» —
+ *                           NOT loaded here, see `olavka-inter.ts` (a next/font Inter is global)
  *   --font-olavka-sign      Rubik 500                 the currency sign, the node's «Currency / USD»
  *
  * `cyrillic` is in every subset list: the shop and every label on the node are Russian.
@@ -40,13 +40,6 @@ const flex = Roboto_Flex({
   variable: "--font-olavka-flex",
 })
 
-const ui = Inter({
-  weight: "500",
-  subsets: ["cyrillic", "latin"],
-  display: "swap",
-  variable: "--font-olavka-ui",
-})
-
 const sign = Rubik({
   weight: "500",
   subsets: ["cyrillic", "latin"],
@@ -54,4 +47,4 @@ const sign = Rubik({
   variable: "--font-olavka-sign",
 })
 
-export const olavkaFontClassName = [wordmark, serif, flex, ui, sign].map((f) => f.variable).join(" ")
+export const olavkaFontClassName = [wordmark, serif, flex, sign].map((f) => f.variable).join(" ")
