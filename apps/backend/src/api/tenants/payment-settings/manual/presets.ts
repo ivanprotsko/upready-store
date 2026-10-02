@@ -20,7 +20,9 @@ export const PAYMENT_ICON_PRESETS: PaymentIconPreset[] = [
   { key: "kaspi", name: "Kaspi Bank", country: "KZ", kind: "bank" },
   { key: "halyk", name: "Halyk Bank", country: "KZ", kind: "bank" },
   { key: "freedom", name: "Freedom Bank", country: "KZ", kind: "bank" },
-  { key: "jusan", name: "Jusan Bank", country: "KZ", kind: "bank" },
+  // Jusan Bank renamed itself Alatau City Bank (jusan.kz redirects there); the
+  // key stays, the name and the logo are the bank's current ones.
+  { key: "jusan", name: "Alatau City Bank (Jusan)", country: "KZ", kind: "bank" },
   { key: "forte", name: "ForteBank", country: "KZ", kind: "bank" },
   { key: "bcc", name: "Bank CenterCredit", country: "KZ", kind: "bank" },
   { key: "homecredit", name: "Home Credit Bank", country: "KZ", kind: "bank" },
@@ -52,7 +54,7 @@ const BANK_ALIASES: Record<string, string[]> = {
   kaspi: ["kaspi", "каспи"],
   halyk: ["halyk", "халык"],
   freedom: ["freedom", "фридом"],
-  jusan: ["jusan", "жусан"],
+  jusan: ["jusan", "жусан", "alatau", "алатау"],
   forte: ["forte", "форте"],
   bcc: ["centercredit", "center credit", "центркредит", "центр кредит", "bcc"],
   homecredit: ["home credit", "homecredit", "хоум кредит"],
