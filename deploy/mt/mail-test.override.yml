@@ -1,0 +1,30 @@
+# Test-only sink for the `mail` relay (t-2026-10-02-mail-relay). NOT part of
+# the live stack and never referenced by deploy/compose.mt.yml: it adds a
+# throwaway Mailpit container and reroutes `mail`'s outbound queue to it, so
+# the relay, DKIM signing and the sender-domain check can all be exercised
+# without reaching the public internet. See deploy/mt/MAIL.md "Testing
+# Locally, Without the Internet" for the command that uses this file.
+#
+# Mailpit is pinned by digest rather than a tag: it has no stable "vX.Y"
+# release line this image publishes on Docker Hub, and a digest is the one
+# reference that cannot move under this file later.
+services:
+  mail:
+    environment:
+      # Every message `mail` would otherwise try to deliver over the public
+      # internet goes to Mailpit's SMTP port instead.
+      RELAYHOST: mailpit:1025
+
+  mailpit:
+    image: axllent/mailpit@sha256:ed9b00c609e77e99c79b93f1178255ebc271868920f2c69a8d166bd5634ed10d
+    container_name: mt-mail-test-mailpit
+    networks:
+      - mt-private
+    ports:
+      # The one port this file publishes. compose.mt.yml itself still
+      # publishes nothing for `mail`.
+      - "8025:8025"
+    deploy:
+      resources:
+        limits:
+          memory: 64M

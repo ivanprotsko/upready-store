@@ -181,6 +181,12 @@ services:
       # never registered, the backend boots the same, and each undelivered
       # letter is logged with its order id. The links INSIDE a letter are built
       # from the shop the order belongs to, not from STOREFRONT_URL above.
+      #
+      # The `mail` service above (t-2026-10-02-mail-relay) is this stack's own
+      # send-only relay: set SMTP_HOST=mail, SMTP_PORT=587, SMTP_SECURE=false,
+      # SMTP_FROM=noreply@shipshift.dev and leave SMTP_USER/SMTP_PASS empty —
+      # the relay takes no auth, only mail from this network. deploy/mt/MAIL.md
+      # has the DNS records that make `mail`'s output land anywhere at all.
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_PORT: ${SMTP_PORT:-587}
       SMTP_SECURE: ${SMTP_SECURE:-false}
@@ -396,6 +402,63 @@ services:
       - traefik.http.routers.mt-panel.service=mt-panel
       - traefik.http.services.mt-panel.loadbalancer.server.port=8080
 
+  # Send-only relay for the backend's transactional e-mail (t-2026-10-02-mail-relay).
+  # No published ports and no SASL: `mt-private` is the only network it is on,
+  # the same one the backend and Redis use, and boky/postfix's own
+  # `smtpd_recipient_restrictions` (deploy/mt/MAIL.md) rejects an envelope
+  # sender outside ALLOWED_SENDER_DOMAINS rather than relaying it. `mynetworks`
+  # stays the image's default (RFC 1918 ranges), which already covers whatever
+  # subnet Docker assigns `mt-private` — nothing on `coolify` can reach this
+  # service to use it as an open relay.
+  #
+  # Pinned to v5.1.0, the newest tag github.com/bokysan/docker-postfix has
+  # released (2026-01-04, checked against its GitHub releases on 2026-10-02):
+  # its own README already documents rspamd as the default DKIM backend for
+  # an unreleased `master`, but v5.1.0 still signs through OpenDKIM, which is
+  # what every env var and file path below assumes. Alpine keeps the image
+  # small, like every other base image in this compose file.
+  mail:
+    image: boky/postfix:v5.1.0-alpine
+    container_name: mt-mail
+    restart: unless-stopped
+    environment:
+      # The host's own reverse DNS (measured 2026-10-02: PTR of 84.46.251.149
+      # is vmi3137962.contaboserver.net) — HELO/EHLO must match it, or a
+      # receiving MTA's PTR check fails before SPF or DKIM are even read.
+      POSTFIX_myhostname: ${MAIL_HOSTNAME:-vmi3137962.contaboserver.net}
+      # The host's default route is IPv6 with no matching PTR (measured
+      # 2026-10-02); forcing IPv4 keeps every outbound connection on the
+      # address the PTR and the SPF `ip4:` record below actually describe.
+      POSTFIX_inet_protocols: ipv4
+      ALLOWED_SENDER_DOMAINS: shipshift.dev
+      # Generates /etc/opendkim/keys/shipshift.dev.{private,txt} on first boot
+      # if the volume is empty; a key already there is left alone. Reading the
+      # public key and rolling the selector are in deploy/mt/MAIL.md.
+      DKIM_AUTOGENERATE: "1"
+      DKIM_SELECTOR: mt1
+    volumes:
+      # Outside git on purpose: a DKIM private key committed anywhere, even in
+      # a throwaway branch, is a key an attacker can sign shipshift.dev mail
+      # with forever. A fresh checkout boots with an empty volume and
+      # generates its own key, which then needs its own DNS record.
+      - mail-dkim-keys:/etc/opendkim/keys
+    networks:
+      - mt-private
+    healthcheck:
+      # The image's own check (scripts/healthcheck.sh): EHLO on 587, plus the
+      # opendkim milter socket when DKIM is configured.
+      test: ["CMD", "/scripts/healthcheck.sh"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 32M
+
   # The dynamic half of the ingress: every tenant host, pushed into traefik's
   # file provider from the database. postgres:16-alpine is here for `psql` and
   # nothing else — the backend image has no pg client and no `pg` dependency of
@@ -432,3 +495,4 @@ networks:
 volumes:
   db-data:
   redis-data:
+  mail-dkim-keys:
