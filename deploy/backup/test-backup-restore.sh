@@ -105,6 +105,7 @@ SRC_COUNT="$("$PSQL_BIN" "$SRC_URL" -t -A -v ON_ERROR_STOP=1 -c "SELECT count(*)
 TGT_COUNT="$("$PSQL_BIN" "$TGT_URL" -t -A -v ON_ERROR_STOP=1 -c "SELECT count(*) FROM drill_rows;")"
 
 log "source rows: $SRC_COUNT, restored rows: $TGT_COUNT"
+# shellcheck disable=SC2055 # intentional: fail on EITHER mismatch, not only when both differ
 if [[ "$SRC_COUNT" != "$TGT_COUNT" || "$SRC_COUNT" != "$SEED_ROWS" ]]; then
   log "error: row counts did not match (expected $SEED_ROWS)"
   exit 5
