@@ -145,12 +145,12 @@ export const ProductTranslationsForm = ({ productId }: { productId: string }) =>
               />
             </div>
 
-            {options.length > 0 && (
+            {(options?.length ?? 0) > 0 && (
               <div className="flex flex-col gap-y-2">
                 <Label size="small" weight="plus" className="text-ui-fg-subtle">
                   Названия опций
                 </Label>
-                {options.map((option) => (
+                {options!.map((option) => (
                   <div key={option.id} className="flex flex-col gap-y-1">
                     <Text size="xsmall" className="text-ui-fg-subtle">
                       {option.title}
@@ -171,12 +171,12 @@ export const ProductTranslationsForm = ({ productId }: { productId: string }) =>
               </div>
             )}
 
-            {variants.length > 0 && (
+            {(variants?.length ?? 0) > 0 && (
               <div className="flex flex-col gap-y-2">
                 <Label size="small" weight="plus" className="text-ui-fg-subtle">
                   Названия вариантов
                 </Label>
-                {variants.map((variant) => (
+                {variants!.map((variant) => (
                   <div key={variant.id} className="flex flex-col gap-y-1">
                     <Text size="xsmall" className="text-ui-fg-subtle">
                       {variant.title}
