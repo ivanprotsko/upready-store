@@ -17,7 +17,7 @@ import {
   tryReadTenantSecret,
   type UnreadableTenantSecret,
 } from "../../../tenant-secrets/unreadable";
-import { readManualPayment } from "./manual/manual-payment";
+import { legacyManualPayment, readManualPayment } from "./manual/manual-payment";
 
 /**
  * A host served over plain HTTP for real: a local stand. Everything else on
@@ -122,7 +122,7 @@ export const readOwnPaymentSettings = async (
     providers: [{ id: "robokassa", title: "Robokassa" }],
     methods: resolveTenantPaymentMethods({
       robokassaEnabled: Boolean(secret?.is_enabled),
-      ...manualPaymentMethods(manualPayment),
+      ...manualPaymentMethods(legacyManualPayment(manualPayment)),
     }),
   };
 };

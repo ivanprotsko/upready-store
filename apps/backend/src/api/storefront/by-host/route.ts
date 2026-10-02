@@ -6,6 +6,7 @@ import { resolveAttribution } from "./attribution";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
 import {
+  legacyManualPayment,
   manualPaymentPublicView,
   readManualPayment,
 } from "../../tenants/payment-settings/manual/manual-payment";
@@ -163,7 +164,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   const robokassaSecret = await readRobokassaSecretPublic(pg, tenant.id as string, logger);
   const paymentMethods = resolveTenantPaymentMethods({
     robokassaEnabled: Boolean(robokassaSecret),
-    ...manualPaymentMethods(manualPayment),
+    ...manualPaymentMethods(legacyManualPayment(manualPayment)),
   });
 
   const primaryDomain = ((tenant.domains ?? []) as { host?: string; is_primary?: boolean }[]).find(
