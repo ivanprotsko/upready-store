@@ -62,7 +62,7 @@ export function shipmentGroups<L extends ShipmentLine>(
     group.lines.push(line)
   }
 
-  const physical = [...byKey.values()]
+  const physical = Array.from(byKey.values())
     .filter((group) => group.kind === "physical")
     .sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0))
   physical.forEach((group, index) => {
