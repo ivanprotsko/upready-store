@@ -7,15 +7,18 @@ import {
 } from "../legal-entity-patterns";
 
 describe("legal-entity-patterns", () => {
-  it("matches ИП, ОГРНИП, ИНН with digits and the owner's surname, not a word that merely contains them", () => {
+  it("matches ИП, ОГРНИП, ИНН with digits, not a word that merely contains them, and not a bare surname", () => {
     expect(matches("Продавец: ИП Черкашина Оксана Ивановна")).toBe(true);
     expect(matches("ОГРНИП 312774600123456")).toBe(true);
     expect(matches("ИНН 770123456789")).toBe(true);
-    expect(matches("курс ведёт Оксана Черкашина")).toBe(true);
     expect(matches("Автор: индивидуальный предприниматель Иванов")).toBe(true);
     // "ИП" as part of another word (e.g. "типичный") is not a standalone mention.
     expect(matches("Это типичный урок курса")).toBe(false);
     expect(matches("Очищение печени, занятие 3")).toBe(false);
+    // The bare surname, with no «ИП» next to it, is the brand persona (an
+    // expert's bio title), not a legal-entity mention (lead review, 03:01:
+    // this used to blank «Черкашина Оксана», the `about` page's own title).
+    expect(matches("курс ведёт Оксана Черкашина")).toBe(false);
     expect(matches(null)).toBe(false);
   });
 
@@ -33,10 +36,10 @@ describe("legal-entity-patterns", () => {
     expect(removed).toBe(1);
   });
 
-  it("removes just the matched phrase(s) from a short field and tidies the leftover whitespace", () => {
-    // "ИП" and "Черкашина" are two separate matches, so both go, leaving the rest of the sentence intact.
+  it("removes just the matched phrase from a short field and tidies the leftover whitespace", () => {
+    // Only "ИП" matches now — the bare surname is the brand persona, kept.
     expect(stripInline("Производитель: ИП Черкашина Оксана")).toEqual({
-      text: "Производитель: Оксана",
+      text: "Производитель: Черкашина Оксана",
       removed: 1,
     })
     expect(stripInline("Очищение печени")).toEqual({ text: "Очищение печени", removed: 0 })
