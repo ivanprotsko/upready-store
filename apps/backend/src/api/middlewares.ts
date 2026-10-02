@@ -166,6 +166,7 @@ import {
   PutTenantApishipKeySchema,
   PutTenantDeliverySettingsSchema,
   PutTenantPochtaSchema,
+  PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
   PutTenantNotificationSettingsSchema,
@@ -391,6 +392,12 @@ export default defineMiddlewares({
       matcher: "/tenants/pochta",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantPochtaSchema)],
+    },
+    {
+      // The shop's own Telegram bot for buyer sign-in (t-2026-10-02-telegram-auth).
+      matcher: "/tenants/telegram-bot",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantTelegramBotSchema)],
     },
     {
       // The shop's payment account (t03-tenant-secrets-robokassa).
@@ -1594,6 +1601,25 @@ export default defineMiddlewares({
       middlewares: [
         authenticate("customer", ["bearer"], { allowUnregistered: true }),
       ],
+    },
+
+    // ---- t-2026-10-02-telegram-auth: Telegram's own two link legs.
+    // `/telegram-link` is `oauth-link`'s sibling — same `allowUnregistered`
+    // token, from `/auth/customer/telegram` instead of the Yandex callback.
+    // `/me/telegram-link` is the OTHER direction: a buyer already signed in by
+    // e-mail attaching Telegram as a second way in, so it runs with a full,
+    // already-registered customer session, no `allowUnregistered` needed.
+    {
+      matcher: "/store/customers/telegram-link",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["bearer"], { allowUnregistered: true }),
+      ],
+    },
+    {
+      matcher: "/store/customers/me/telegram-link",
+      method: ["POST"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
     },
 
     // ---- b07-store-api-isolation: the Store API stops handing one shop's
