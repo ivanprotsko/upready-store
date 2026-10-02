@@ -558,6 +558,13 @@
     "notMember": "Nu aveți cont?",
     "password": "Parolă",
     "signIn": "Autentificare",
+    "telegramDivider": "sau",
+    "telegramCta": "Autentificare cu Telegram",
+    "telegramPending": "Se autentifică…",
+    "telegramErrorExpired": "Această autentificare cu Telegram a expirat. Începeți din nou.",
+    "telegramErrorFailed": "Autentificarea a eșuat. Încercați din nou peste un minut.",
+    "telegramErrorRejected": "Telegram nu a confirmat această autentificare. Încercați din nou.",
+    "telegramErrorUnconfigured": "Autentificarea cu Telegram nu este încă activată în acest magazin.",
     "yandexCta": "Autentificare cu Yandex ID",
     "yandexDivider": "sau",
     "yandexErrorDenied": "Ați anulat autentificarea pe pagina Yandex.",
@@ -943,6 +950,15 @@
     "label": "Telefon",
     "noPhone": "Niciun număr de telefon",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Asociat: {handle}",
+    "notLinked": "Neasociat",
+    "hint": "Autentificați-vă aici cu Telegram pentru a-l asocia acestui cont. După aceea vă puteți autentifica în ambele moduri.",
+    "errorTaken": "Acest cont Telegram este deja asociat altui cont.",
+    "errorRejected": "Telegram nu a confirmat. Încercați din nou.",
+    "errorFailed": "Telegram nu a putut fi asociat. Încercați din nou peste un minut."
   },
   "PromoBanner": {
     "close": "Închide",

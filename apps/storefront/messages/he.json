@@ -558,6 +558,13 @@
     "notMember": "עדיין אין לך חשבון?",
     "password": "סיסמה",
     "signIn": "התחברות",
+    "telegramDivider": "או",
+    "telegramCta": "כניסה עם Telegram",
+    "telegramPending": "מתבצעת כניסה…",
+    "telegramErrorExpired": "תוקף ההתחברות עם Telegram פג. התחילו מחדש.",
+    "telegramErrorFailed": "ההתחברות נכשלה. נסו שוב בעוד דקה.",
+    "telegramErrorRejected": "Telegram לא אישר את ההתחברות הזו. נסו שוב.",
+    "telegramErrorUnconfigured": "ההתחברות עם Telegram עדיין לא הופעלה בחנות הזו.",
     "yandexCta": "כניסה עם Yandex ID",
     "yandexDivider": "או",
     "yandexErrorDenied": "ביטלת את הכניסה בעמוד של Yandex.",
@@ -943,6 +950,15 @@
     "label": "טלפון",
     "noPhone": "אין מספר טלפון",
     "phone": "טלפון"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "מקושר: {handle}",
+    "notLinked": "לא מקושר",
+    "hint": "התחברו כאן עם Telegram כדי לקשר אותו לחשבון הזה. אחר כך תוכלו להתחבר בכל אחת מהדרכים.",
+    "errorTaken": "חשבון ה-Telegram הזה כבר מקושר לחשבון אחר.",
+    "errorRejected": "Telegram לא אישר זאת. נסו שוב.",
+    "errorFailed": "לא ניתן היה לקשר את Telegram. נסו שוב בעוד דקה."
   },
   "PromoBanner": {
     "close": "סגירה",

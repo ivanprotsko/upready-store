@@ -558,6 +558,13 @@
     "notMember": "Δεν είστε μέλος;",
     "password": "Κωδικός πρόσβασης",
     "signIn": "Σύνδεση",
+    "telegramDivider": "ή",
+    "telegramCta": "Σύνδεση με Telegram",
+    "telegramPending": "Γίνεται σύνδεση…",
+    "telegramErrorExpired": "Αυτή η σύνδεση με Telegram έχει λήξει. Ξεκινήστε από την αρχή.",
+    "telegramErrorFailed": "Η σύνδεση απέτυχε. Δοκιμάστε ξανά σε ένα λεπτό.",
+    "telegramErrorRejected": "Το Telegram δεν επιβεβαίωσε αυτή τη σύνδεση. Δοκιμάστε ξανά.",
+    "telegramErrorUnconfigured": "Η σύνδεση με Telegram δεν έχει ενεργοποιηθεί ακόμη σε αυτό το κατάστημα.",
     "yandexCta": "Σύνδεση με Yandex ID",
     "yandexDivider": "ή",
     "yandexErrorDenied": "Ακυρώσατε τη σύνδεση στη σελίδα της Yandex.",
@@ -943,6 +950,15 @@
     "label": "Τηλέφωνο",
     "noPhone": "Δεν υπάρχει αριθμός τηλεφώνου",
     "phone": "Τηλέφωνο"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Συνδεδεμένο: {handle}",
+    "notLinked": "Μη συνδεδεμένο",
+    "hint": "Συνδεθείτε εδώ με Telegram για να το συνδέσετε με αυτόν τον λογαριασμό. Μετά μπορείτε να συνδέεστε με οποιονδήποτε από τους δύο τρόπους.",
+    "errorTaken": "Αυτός ο λογαριασμός Telegram είναι ήδη συνδεδεμένος με άλλον λογαριασμό.",
+    "errorRejected": "Το Telegram δεν το επιβεβαίωσε. Δοκιμάστε ξανά.",
+    "errorFailed": "Δεν ήταν δυνατή η σύνδεση του Telegram. Δοκιμάστε ξανά σε ένα λεπτό."
   },
   "PromoBanner": {
     "close": "Κλείσιμο",

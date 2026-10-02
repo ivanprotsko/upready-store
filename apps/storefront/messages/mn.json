@@ -558,6 +558,13 @@
     "notMember": "Гишүүн биш үү?",
     "password": "Нууц үг",
     "signIn": "Нэвтрэх",
+    "telegramDivider": "эсвэл",
+    "telegramCta": "Telegram-ээр нэвтрэх",
+    "telegramPending": "Нэвтэрч байна…",
+    "telegramErrorExpired": "Telegram-аар нэвтрэх хугацаа дууссан. Дахин эхлүүлнэ үү.",
+    "telegramErrorFailed": "Нэвтэрч чадсангүй. Нэг минутын дараа дахин оролдоно уу.",
+    "telegramErrorRejected": "Telegram энэ нэвтрэлтийг баталгаажуулсангүй. Дахин оролдоно уу.",
+    "telegramErrorUnconfigured": "Энэ дэлгүүрт Telegram-аар нэвтрэх боломж хараахан идэвхжээгүй байна.",
     "yandexCta": "Яндекс ID-гээр нэвтрэх",
     "yandexDivider": "эсвэл",
     "yandexErrorDenied": "Та Яндексийн хуудсан дээр нэвтрэхээс татгалзлаа.",
@@ -943,6 +950,15 @@
     "label": "Утас",
     "noPhone": "Утасны дугаар алга",
     "phone": "Утас"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Холбогдсон: {handle}",
+    "notLinked": "Холбогдоогүй",
+    "hint": "Энэ бүртгэлтэй холбохын тулд энд Telegram-аар нэвтэрнэ үү. Үүний дараа аль ч аргаар нэвтэрч болно.",
+    "errorTaken": "Энэ Telegram бүртгэл өөр бүртгэлтэй аль хэдийн холбогдсон байна.",
+    "errorRejected": "Telegram үүнийг баталгаажуулсангүй. Дахин оролдоно уу.",
+    "errorFailed": "Telegram-ийг холбож чадсангүй. Нэг минутын дараа дахин оролдоно уу."
   },
   "PromoBanner": {
     "close": "Хаах",

@@ -558,6 +558,13 @@
     "notMember": "Dar nesate narys?",
     "password": "Slaptažodis",
     "signIn": "Prisijungti",
+    "telegramDivider": "arba",
+    "telegramCta": "Prisijungti su Telegram",
+    "telegramPending": "Jungiamasi…",
+    "telegramErrorExpired": "Šis prisijungimas per Telegram nebegalioja. Pradėkite iš naujo.",
+    "telegramErrorFailed": "Prisijungti nepavyko. Bandykite po minutės.",
+    "telegramErrorRejected": "Telegram nepatvirtino šio prisijungimo. Bandykite dar kartą.",
+    "telegramErrorUnconfigured": "Prisijungimas per Telegram šioje parduotuvėje dar neįjungtas.",
     "yandexCta": "Prisijungti su Yandex ID",
     "yandexDivider": "arba",
     "yandexErrorDenied": "Atšaukėte prisijungimą Yandex puslapyje.",
@@ -943,6 +950,15 @@
     "label": "Telefonas",
     "noPhone": "Telefono numerio nėra",
     "phone": "Telefonas"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Susieta: {handle}",
+    "notLinked": "Nesusieta",
+    "hint": "Prisijunkite čia per Telegram, kad susietumėte jį su šia paskyra. Po to galėsite jungtis bet kuriuo būdu.",
+    "errorTaken": "Ši Telegram paskyra jau susieta su kita paskyra.",
+    "errorRejected": "Telegram to nepatvirtino. Bandykite dar kartą.",
+    "errorFailed": "Nepavyko susieti Telegram. Bandykite po minutės."
   },
   "PromoBanner": {
     "close": "Uždaryti",

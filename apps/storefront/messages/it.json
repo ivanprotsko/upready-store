@@ -558,6 +558,13 @@
     "notMember": "Non sei ancora registrato?",
     "password": "Password",
     "signIn": "Accedi",
+    "telegramDivider": "oppure",
+    "telegramCta": "Accedi con Telegram",
+    "telegramPending": "Accesso in corso…",
+    "telegramErrorExpired": "Questo accesso con Telegram è scaduto. Ricomincia.",
+    "telegramErrorFailed": "Accesso non riuscito. Riprova tra un minuto.",
+    "telegramErrorRejected": "Telegram non ha confermato questo accesso. Riprova.",
+    "telegramErrorUnconfigured": "L’accesso con Telegram non è ancora attivo in questo negozio.",
     "yandexCta": "Accedi con Yandex ID",
     "yandexDivider": "oppure",
     "yandexErrorDenied": "Hai annullato l'accesso sulla pagina di Yandex.",
@@ -943,6 +950,15 @@
     "label": "Telefono",
     "noPhone": "Nessun numero di telefono",
     "phone": "Telefono"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Collegato: {handle}",
+    "notLinked": "Non collegato",
+    "hint": "Accedi qui con Telegram per collegarlo a questo account. Dopo potrai accedere in entrambi i modi.",
+    "errorTaken": "Questo account Telegram è già collegato a un altro account.",
+    "errorRejected": "Telegram non ha confermato. Riprova.",
+    "errorFailed": "Impossibile collegare Telegram. Riprova tra un minuto."
   },
   "PromoBanner": {
     "close": "Chiudi",

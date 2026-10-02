@@ -558,6 +558,13 @@
     "notMember": "Még nincs fiókja?",
     "password": "Jelszó",
     "signIn": "Bejelentkezés",
+    "telegramDivider": "vagy",
+    "telegramCta": "Belépés Telegrammal",
+    "telegramPending": "Belépés…",
+    "telegramErrorExpired": "Ez a Telegram-bejelentkezés lejárt. Kezdje újra.",
+    "telegramErrorFailed": "A bejelentkezés nem sikerült. Próbálja újra egy perc múlva.",
+    "telegramErrorRejected": "A Telegram nem erősítette meg ezt a bejelentkezést. Próbálja újra.",
+    "telegramErrorUnconfigured": "A Telegrammal való bejelentkezés ebben a boltban még nincs bekapcsolva.",
     "yandexCta": "Belépés Yandex ID-val",
     "yandexDivider": "vagy",
     "yandexErrorDenied": "A Yandex oldalán megszakította a belépést.",
@@ -943,6 +950,15 @@
     "label": "Telefon",
     "noPhone": "Nincs megadva telefonszám",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Összekapcsolva: {handle}",
+    "notLinked": "Nincs összekapcsolva",
+    "hint": "Jelentkezzen be itt a Telegrammal, hogy összekapcsolja ezzel a fiókkal. Ezután mindkét módon bejelentkezhet.",
+    "errorTaken": "Ez a Telegram-fiók már egy másik fiókhoz van kapcsolva.",
+    "errorRejected": "A Telegram ezt nem erősítette meg. Próbálja újra.",
+    "errorFailed": "Nem sikerült összekapcsolni a Telegramot. Próbálja újra egy perc múlva."
   },
   "PromoBanner": {
     "close": "Bezárás",

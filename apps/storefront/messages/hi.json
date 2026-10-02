@@ -558,6 +558,13 @@
     "notMember": "सदस्य नहीं हैं?",
     "password": "पासवर्ड",
     "signIn": "साइन इन करें",
+    "telegramDivider": "या",
+    "telegramCta": "Telegram से साइन इन करें",
+    "telegramPending": "साइन इन हो रहा है…",
+    "telegramErrorExpired": "Telegram से साइन इन की अवधि समाप्त हो गई। फिर से शुरू करें।",
+    "telegramErrorFailed": "साइन इन नहीं हो सका। एक मिनट बाद फिर से कोशिश करें।",
+    "telegramErrorRejected": "Telegram ने इस साइन इन की पुष्टि नहीं की। फिर से कोशिश करें।",
+    "telegramErrorUnconfigured": "इस दुकान में Telegram से साइन इन अभी चालू नहीं है।",
     "yandexCta": "Yandex ID से साइन इन करें",
     "yandexDivider": "या",
     "yandexErrorDenied": "आपने Yandex के पेज पर साइन इन रद्द कर दिया।",
@@ -943,6 +950,15 @@
     "label": "फ़ोन",
     "noPhone": "कोई फ़ोन नंबर नहीं",
     "phone": "फ़ोन"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "जुड़ा हुआ: {handle}",
+    "notLinked": "जुड़ा नहीं",
+    "hint": "इसे इस खाते से जोड़ने के लिए यहाँ Telegram से साइन इन करें। इसके बाद आप दोनों में से किसी भी तरीके से साइन इन कर सकते हैं।",
+    "errorTaken": "यह Telegram खाता पहले से किसी दूसरे खाते से जुड़ा है।",
+    "errorRejected": "Telegram ने इसकी पुष्टि नहीं की। फिर से कोशिश करें।",
+    "errorFailed": "Telegram नहीं जोड़ा जा सका। एक मिनट बाद फिर से कोशिश करें।"
   },
   "PromoBanner": {
     "close": "बंद करें",

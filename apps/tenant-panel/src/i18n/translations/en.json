@@ -5144,6 +5144,7 @@
     "open": "Open",
     "state": {
       "connected": "connected ••••{{last4}}",
+      "connectedAs": "connected @{{username}}",
       "missing": "not connected",
       "asking": "asking…",
       "unreadable": "unreadable, enter again"
@@ -5246,6 +5247,27 @@
       "duplicatesNote": "Your cart also shows a manual tariff named like Russian Post, so a buyer sees two Russian Post cards with different prices. Switch the manual one off and Russian Post prices the parcel. The tariff stays under Delivery, and you can switch it back on there.",
       "duplicateOff": "Switch the manual tariff off",
       "duplicateSwitchedOff": "Manual tariff «{{name}}» switched off"
+    },
+    "telegramBot": {
+      "title": "Telegram",
+      "subtitle": "this shop's own bot, for buyer sign-in through Telegram.",
+      "rowSubtitle": "buyer sign-in through Telegram",
+      "botFatherHint": "After saving, ask Ivan to register the shop's domain with @BotFather via /setdomain — without that step the Login Widget will not open on the site. This page never touches the bot's menu button or its webhooks.",
+      "usernameLabel": "Bot username (without @)",
+      "usernamePlaceholder": "for example, cherkashinao_bot",
+      "usernameRequired": "Enter the bot's username (without @).",
+      "tokenLabel": "Bot token",
+      "tokenHint": "@BotFather → /mybots → this bot → API Token.",
+      "tokenRequired": "Enter the bot token.",
+      "keepPlaceholder": "keep the stored one",
+      "emptyPlaceholder": "not set",
+      "save": "Save",
+      "remove": "Delete",
+      "cancel": "Cancel",
+      "saved": "Bot @{{username}} saved",
+      "removed": "Telegram bot deleted",
+      "removeTitle": "Delete the Telegram bot?",
+      "removeDescription": "Telegram sign-in stops showing to buyers. You can connect a bot again at any time."
     },
     "unreadable": {
       "alert": "The saved credentials can't be read. They were encrypted with a different server key or are damaged, and this service stays off until they are entered again. Enter them again and save, or remove the connection.",

@@ -558,6 +558,13 @@
     "notMember": "Nie masz konta?",
     "password": "Hasło",
     "signIn": "Zaloguj się",
+    "telegramDivider": "lub",
+    "telegramCta": "Zaloguj się przez Telegram",
+    "telegramPending": "Logowanie…",
+    "telegramErrorExpired": "To logowanie przez Telegram wygasło. Zacznij od nowa.",
+    "telegramErrorFailed": "Nie udało się zalogować. Spróbuj ponownie za minutę.",
+    "telegramErrorRejected": "Telegram nie potwierdził tego logowania. Spróbuj ponownie.",
+    "telegramErrorUnconfigured": "Logowanie przez Telegram nie jest jeszcze włączone w tym sklepie.",
     "yandexCta": "Zaloguj się przez Yandex ID",
     "yandexDivider": "lub",
     "yandexErrorDenied": "Logowanie zostało anulowane na stronie Yandeksa.",
@@ -943,6 +950,15 @@
     "label": "Telefon",
     "noPhone": "Brak numeru telefonu",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Połączono: {handle}",
+    "notLinked": "Nie połączono",
+    "hint": "Zaloguj się tutaj przez Telegram, aby połączyć go z tym kontem. Potem możesz logować się na oba sposoby.",
+    "errorTaken": "To konto Telegram jest już połączone z innym kontem.",
+    "errorRejected": "Telegram tego nie potwierdził. Spróbuj ponownie.",
+    "errorFailed": "Nie udało się połączyć Telegrama. Spróbuj ponownie za minutę."
   },
   "PromoBanner": {
     "close": "Zamknij",
