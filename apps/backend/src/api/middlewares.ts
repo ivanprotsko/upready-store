@@ -241,6 +241,7 @@ import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/ar
 import { requireOwnerPasswordLength } from "./auth/password-length-gate";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
 import { guardSyntheticTelegramEmail } from "./store/customers/synthetic-email-guard";
+import { resolveTelegramTenant } from "./auth/telegram-tenant";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { guardRequestedFields } from "./field-guard";
 import { rateLimit } from "./rate-limit";
@@ -1625,6 +1626,11 @@ export default defineMiddlewares({
       matcher: "/auth/customer/emailpass/register",
       method: ["POST"],
       middlewares: [guardSyntheticTelegramEmail],
+    },
+    {
+      matcher: "/auth/customer/telegram",
+      method: ["GET", "POST"],
+      middlewares: [resolveTelegramTenant],
     },
 
     // ---- b07-store-api-isolation: the Store API stops handing one shop's

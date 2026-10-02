@@ -8,9 +8,8 @@
  *
  * The bot token is per TENANT, not per deployment (`src/tenant-secrets/telegram.ts`),
  * because one backend serves every shop and each shop has its own bot. The
- * tenant is resolved from the request's own publishable key
- * (`AuthenticationInput.headers`), the same way a storefront's every other
- * call already names its shop.
+ * route's middleware resolves the tenant from the request's publishable key
+ * and passes it on a header (`lib/tenant.ts`).
  *
  * Flow (both surfaces, no browser redirect):
  *   storefront  POST /auth/customer/telegram  { ...widget fields }  -> { success, authIdentity }
@@ -38,7 +37,7 @@ import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 
 import { readUsableTelegramBot } from "../../../tenant-secrets/telegram";
 import { authIdentityEntityId } from "../lib/identity";
-import { resolveTenantIdFromHeaders, type GraphQuery } from "../lib/tenant";
+import { tenantIdFromHeaders } from "../lib/tenant";
 import { verifyInitData, verifyLoginWidget, type VerifyFailureReason } from "../lib/verify";
 
 export type TelegramAuthOptions = {
@@ -48,7 +47,6 @@ export type TelegramAuthOptions = {
 
 type InjectedDependencies = {
   logger: Logger;
-  [ContainerRegistrationKeys.QUERY]: GraphQuery;
   [ContainerRegistrationKeys.PG_CONNECTION]: Knex;
 };
 
@@ -75,7 +73,6 @@ export class TelegramAuthService extends AbstractAuthModuleProvider {
 
   protected readonly config_: TelegramAuthOptions;
   protected readonly logger_: Logger;
-  protected readonly query_: GraphQuery;
   protected readonly pg_: Knex;
 
   /**
@@ -99,7 +96,6 @@ export class TelegramAuthService extends AbstractAuthModuleProvider {
     super();
     this.config_ = options;
     this.logger_ = container.logger;
-    this.query_ = container[ContainerRegistrationKeys.QUERY];
     this.pg_ = container[ContainerRegistrationKeys.PG_CONNECTION];
   }
 
@@ -117,7 +113,7 @@ export class TelegramAuthService extends AbstractAuthModuleProvider {
   ): Promise<AuthenticationResponse> {
     const body = (req.body ?? {}) as Record<string, string>;
 
-    const tenantId = await resolveTenantIdFromHeaders(this.query_, req.headers);
+    const tenantId = tenantIdFromHeaders(req.headers);
     if (!tenantId) {
       return {
         success: false,

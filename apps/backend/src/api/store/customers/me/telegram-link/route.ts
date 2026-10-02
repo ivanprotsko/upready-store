@@ -4,8 +4,13 @@ import type {
   MedusaStoreRequest,
 } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError, Modules } from "@medusajs/framework/utils";
-import { setAuthAppMetadataStep } from "@medusajs/medusa/core-flows";
-import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
+import { setAuthAppMetadataStep, updateCustomersStep } from "@medusajs/medusa/core-flows";
+import {
+  createStep,
+  createWorkflow,
+  StepResponse,
+  WorkflowResponse,
+} from "@medusajs/framework/workflows-sdk";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { ICustomerModuleService } from "@medusajs/framework/types";
 
@@ -23,16 +28,55 @@ import { resolveTenantFromPublishableKey } from "../../../tenant/resolve-tenant"
  * belongs to a different customer.
  */
 
+type LinkInput = {
+  entityId: string;
+  userMetadata: Record<string, unknown>;
+  customerId: string;
+  customerMetadata: Record<string, unknown>;
+};
+
+const ensureTelegramAuthIdentityStep = createStep(
+  "ensure-telegram-auth-identity",
+  async (input: { entityId: string; userMetadata: Record<string, unknown> }, { container }) => {
+    const authModule = container.resolve(Modules.AUTH);
+    const [existing] = await authModule.listAuthIdentities({
+      provider_identities: { entity_id: input.entityId, provider: "telegram" },
+    });
+    if (existing) {
+      return new StepResponse(existing.id, null);
+    }
+    const created = await authModule.createAuthIdentities({
+      provider_identities: [
+        { provider: "telegram", entity_id: input.entityId, user_metadata: input.userMetadata },
+      ],
+    });
+    return new StepResponse(created.id, created.id);
+  },
+  async (createdId: string | null, { container }) => {
+    if (createdId) {
+      await container.resolve(Modules.AUTH).deleteAuthIdentities([createdId]);
+    }
+  },
+);
+
 const linkTelegramToCustomerWorkflow = createWorkflow(
   "link-telegram-to-customer",
-  (input: { authIdentityId: string; customerId: string }) => {
+  (input: LinkInput) => {
+    const authIdentityId = ensureTelegramAuthIdentityStep({
+      entityId: input.entityId,
+      userMetadata: input.userMetadata,
+    });
     setAuthAppMetadataStep({
-      authIdentityId: input.authIdentityId,
+      authIdentityId,
       actorType: "customer",
       value: input.customerId,
     });
+    updateCustomersStep({
+      selector: { id: input.customerId },
+      update: { metadata: input.customerMetadata },
+    });
 
-    return new WorkflowResponse(input);
+    return new WorkflowResponse(authIdentityId);
   },
 );
 
@@ -63,24 +107,15 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   }
 
   const telegramId = verdict.user.id;
-  const authModule = req.scope.resolve(Modules.AUTH);
   const entityId = authIdentityEntityId(telegramId);
-  const userMetadata = {
-    telegram_id: telegramId,
-    telegram_username: verdict.user.username ?? null,
-    telegram_first_name: verdict.user.first_name ?? null,
-    telegram_last_name: verdict.user.last_name ?? null,
-    telegram_photo_url: verdict.user.photo_url ?? null,
-  };
-
-  const existing = await authModule.listAuthIdentities({
-    provider_identities: { entity_id: entityId, provider: "telegram" },
-  });
 
   // The auth identity's own `app_metadata` is the link, not `customer.metadata`:
   // a buyer can write their own metadata through `POST /store/customers/me`.
-  const linkedTo = (existing[0]?.app_metadata as Record<string, unknown> | undefined)
-    ?.customer_id;
+  const authModule = req.scope.resolve(Modules.AUTH);
+  const [existing] = await authModule.listAuthIdentities({
+    provider_identities: { entity_id: entityId, provider: "telegram" },
+  });
+  const linkedTo = (existing?.app_metadata as Record<string, unknown> | undefined)?.customer_id;
   if (linkedTo && linkedTo !== customerId) {
     throw new MedusaError(
       MedusaError.Types.NOT_ALLOWED,
@@ -88,23 +123,25 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
     );
   }
 
-  const authIdentity =
-    existing[0] ??
-    (await authModule.createAuthIdentities({
-      provider_identities: [{ provider: "telegram", entity_id: entityId, user_metadata: userMetadata }],
-    }));
-
-  await linkTelegramToCustomerWorkflow(req.scope).run({
-    input: { authIdentityId: authIdentity.id, customerId },
-  });
-
   const customerModule: ICustomerModuleService = req.scope.resolve(Modules.CUSTOMER);
   const customer = await customerModule.retrieveCustomer(customerId);
-  await customerModule.updateCustomers(customerId, {
-    metadata: {
-      ...(customer.metadata ?? {}),
-      telegram_id: telegramId,
-      telegram_username: verdict.user.username ?? null,
+
+  await linkTelegramToCustomerWorkflow(req.scope).run({
+    input: {
+      entityId,
+      userMetadata: {
+        telegram_id: telegramId,
+        telegram_username: verdict.user.username ?? null,
+        telegram_first_name: verdict.user.first_name ?? null,
+        telegram_last_name: verdict.user.last_name ?? null,
+        telegram_photo_url: verdict.user.photo_url ?? null,
+      },
+      customerId,
+      customerMetadata: {
+        ...(customer.metadata ?? {}),
+        telegram_id: telegramId,
+        telegram_username: verdict.user.username ?? null,
+      },
     },
   });
 
