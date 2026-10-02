@@ -132,6 +132,23 @@ const Refund = ({
   )
 }
 
+/**
+ * The buyer's receipt for a card transfer (`metadata.payment_receipt`, written
+ * by the storefront's «Я оплатил», t-cherk-com-hotfix batch 3). The owner opens
+ * it, checks the money arrived and confirms the payment with the button below.
+ */
+const readPaymentReceipt = (
+  metadata: Record<string, unknown> | null | undefined
+): { url: string; uploaded_at: string } | null => {
+  const raw = metadata?.payment_receipt as
+    | { url?: unknown; uploaded_at?: unknown }
+    | null
+    | undefined
+  return raw && typeof raw.url === "string" && typeof raw.uploaded_at === "string"
+    ? { url: raw.url, uploaded_at: raw.uploaded_at }
+    : null
+}
+
 const Payment = ({
   order,
   payment,
@@ -198,6 +215,11 @@ const Payment = ({
   const showCapture =
     payment.captured_at === null && payment.canceled_at === null
 
+  const receipt =
+    payment.provider_id === "pp_system_default"
+      ? readPaymentReceipt(order.metadata)
+      : null
+
   const totalRefunded = (payment.refunds ?? []).reduce(
     (acc, next) => next.amount + acc,
     0
@@ -255,6 +277,26 @@ const Payment = ({
           ]}
         />
       </div>
+      {receipt && (
+        <div
+          className="flex items-center justify-between gap-x-4 px-6 py-4"
+          data-testid="order-payment-receipt"
+        >
+          <Text size="small" leading="compact">
+            {t("orders.payment.receiptSent", {
+              date: getFullDate({ date: receipt.uploaded_at, includeTime: true }),
+            })}
+          </Text>
+          <a
+            href={receipt.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover shrink-0"
+          >
+            {t("orders.payment.receiptOpen")}
+          </a>
+        </div>
+      )}
       {showCapture && (
         <div className="bg-ui-bg-subtle flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-x-2">

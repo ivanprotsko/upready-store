@@ -1864,7 +1864,9 @@
       "title": "Payments",
       "totalPaidByCustomer": "Total paid by customer",
       "totalPending": "Total pending",
-      "totalStoreCreditRefunds": "Total store credit refunds"
+      "totalStoreCreditRefunds": "Total store credit refunds",
+      "receiptSent": "The customer sent a receipt on {{date}}",
+      "receiptOpen": "Open receipt"
     },
     "refund": {
       "error": {

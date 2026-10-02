@@ -1923,7 +1923,9 @@
       "title": "Оплата",
       "totalPaidByCustomer": "Клиент оплатил",
       "totalPending": "Осталось оплатить",
-      "totalStoreCreditRefunds": "Всего возвращено магазинным кредитом"
+      "totalStoreCreditRefunds": "Всего возвращено магазинным кредитом",
+      "receiptSent": "Покупатель прислал чек {{date}}",
+      "receiptOpen": "Открыть чек"
     },
     "refund": {
       "error": {
