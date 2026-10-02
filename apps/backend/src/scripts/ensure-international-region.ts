@@ -176,7 +176,7 @@ export const planRegionAssignment = (
   const toFree = Array.from(toFreeByRegion.values()).map(({ region, countries }) => {
     const remaining = (region.countries ?? [])
       .map((c) => c?.iso_2?.toLowerCase())
-      .filter((code): code is string => Boolean(code) && !countries.has(code));
+      .filter((code): code is string => code !== undefined && !countries.has(code));
     return { region, countries: Array.from(countries), remaining };
   });
 
