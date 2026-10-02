@@ -15,6 +15,9 @@ import ListingP5 from "@modules/home/variants/listing-p5"
 
 import HeroGA from "./hero-ga"
 import HeroGB from "./hero-gb"
+import OlavkaCover from "./olavka-cover"
+import OlavkaHeroSlider from "./olavka-hero-slider"
+import OlavkaNavigation from "./olavka-navigation"
 
 /**
  * Home-slot composition registries — hero and listing (`(main)/page.tsx` only; header and
@@ -117,3 +120,25 @@ export const DEFAULT_LISTING: Exclude<ListingKey, "none"> = "p1"
  */
 export const DEFAULT_BLOCK_ORDER = ["hero", "categories", "products"] as const
 export type HomeBlockKey = (typeof DEFAULT_BLOCK_ORDER)[number]
+
+/**
+ * The three home blocks built after Ivan's Figma node 227-8180 — Cover, Navigation,
+ * HeroSlider — rendered ABOVE the tenant's own composed blocks for the Olavka shop only
+ * (`(main)/page.tsx` checks `isOlavkaShop()` and reads this list first, then
+ * `content.order`). None of the three is a key of the tenant document (`HomeBlock` in
+ * `lib/data/tenant-home.ts` still names hero/categories/products only), so no saved
+ * document changes meaning and no other shop's stand is affected. A future panel key
+ * replaces this with a real `HomeBlockKey` member.
+ */
+export const OLAVKA_HOME_BLOCKS = {
+  olavkaCover: OlavkaCover,
+  olavkaNavigation: OlavkaNavigation,
+  olavkaHeroSlider: OlavkaHeroSlider,
+} as const
+export type OlavkaHomeBlockKey = keyof typeof OLAVKA_HOME_BLOCKS
+/**
+ * The mockup 233:15256 (Ivan, 2026-09-25: «давай выключим блоки … и блок с навигацией»)
+ * has no Cover and no Navigation: Header → HeroSliders → catalog → footer. Both
+ * components stay registered above, only this order names them no more.
+ */
+export const OLAVKA_HOME_ORDER: readonly OlavkaHomeBlockKey[] = ["olavkaHeroSlider"]
