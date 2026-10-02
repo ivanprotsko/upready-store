@@ -559,6 +559,13 @@
     "notMember": "არ ხართ წევრი?",
     "password": "პაროლი",
     "signIn": "შესვლა",
+    "telegramDivider": "ან",
+    "telegramCta": "შესვლა Telegram-ით",
+    "telegramPending": "შესვლა მიმდინარეობს…",
+    "telegramErrorExpired": "Telegram-ით შესვლის ვადა ამოიწურა. დაიწყეთ თავიდან.",
+    "telegramErrorFailed": "შესვლა ვერ მოხერხდა. სცადეთ ერთ წუთში.",
+    "telegramErrorRejected": "Telegram-მა ეს შესვლა არ დაადასტურა. სცადეთ ხელახლა.",
+    "telegramErrorUnconfigured": "Telegram-ით შესვლა ამ მაღაზიაში ჯერ ჩართული არ არის.",
     "yandexCta": "შესვლა Yandex ID-ით",
     "yandexDivider": "ან",
     "yandexErrorDenied": "თქვენ გააუქმეთ შესვლა Yandex-ის გვერდზე.",
@@ -974,6 +981,15 @@
     "label": "ტელეფონი",
     "noPhone": "ტელეფონის ნომერი არ არის მითითებული",
     "phone": "ტელეფონი"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "დაკავშირებულია: {handle}",
+    "notLinked": "არ არის დაკავშირებული",
+    "hint": "შედით აქ Telegram-ით, რომ ის ამ ანგარიშს დაუკავშიროთ. ამის შემდეგ ორივე გზით შეგეძლებათ შესვლა.",
+    "errorTaken": "ეს Telegram ანგარიში უკვე სხვა ანგარიშთანაა დაკავშირებული.",
+    "errorRejected": "Telegram-მა ეს არ დაადასტურა. სცადეთ ხელახლა.",
+    "errorFailed": "Telegram-ის დაკავშირება ვერ მოხერხდა. სცადეთ ერთ წუთში."
   },
   "PromoBanner": {
     "close": "დახურვა",

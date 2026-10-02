@@ -26,7 +26,10 @@ import {
 } from "../../../../../hooks/api/orders"
 import { useStockLocation } from "../../../../../hooks/api/stock-locations"
 import { useDate } from "../../../../../hooks/use-date"
-import { getFulfillmentProviderLabel } from "../../../../../lib/order-helpers"
+import {
+  getFulfillmentProviderLabel,
+  isParcelLine,
+} from "../../../../../lib/order-helpers"
 import { getLocaleAmount } from "../../../../../lib/money-amount-helpers"
 import { FulfillmentSetType } from "../../../../locations/common/constants"
 import { useOwnerSku } from "../../../../../hooks/use-owner-sku"
@@ -116,11 +119,14 @@ const UnfulfilledItem = ({
 const UnfulfilledItemBreakdown = ({ order }: { order: AdminOrder }) => {
   // Create an array of order items that haven't been fulfilled or at least not fully fulfilled
   const unfulfilledItemsWithShipping = order.items!.filter(
-    (i) => i.requires_shipping && i.detail.fulfilled_quantity < i.quantity
+    (i) => isParcelLine(i) && i.detail.fulfilled_quantity < i.quantity
   )
 
-  const unfulfilledItemsWithoutShipping = order.items!.filter(
-    (i) => !i.requires_shipping && i.detail.fulfilled_quantity < i.quantity
+  // t-cherk-com-hotfix batch 5: a line sold without delivery (an online
+  // course) is not packed at all, so it gets no «Собрать» and no «Ждёт
+  // сборки», only a note of what happens to it.
+  const itemsWithoutShipping = order.items!.filter(
+    (i) => !isParcelLine(i) && i.detail.fulfilled_quantity < i.quantity
   )
 
   return (
@@ -133,14 +139,44 @@ const UnfulfilledItemBreakdown = ({ order }: { order: AdminOrder }) => {
         />
       )}
 
-      {!!unfulfilledItemsWithoutShipping.length && (
-        <UnfulfilledItemDisplay
-          order={order}
-          unfulfilledItems={unfulfilledItemsWithoutShipping}
-          requiresShipping={false}
-        />
+      {!!itemsWithoutShipping.length && (
+        <WithoutShippingItemDisplay order={order} items={itemsWithoutShipping} />
       )}
     </>
+  )
+}
+
+const WithoutShippingItemDisplay = ({
+  order,
+  items,
+}: {
+  order: AdminOrder
+  items: AdminOrderLineItem[]
+}) => {
+  const { t } = useTranslation()
+
+  if (order.status === "canceled") {
+    return
+  }
+
+  return (
+    <Container className="divide-y p-0" data-testid="order-items-without-shipping">
+      <div className="flex flex-col gap-y-1 px-6 py-4">
+        <Heading level="h2">{t("orders.fulfillment.withoutShipping")}</Heading>
+        <Text size="small" className="text-ui-fg-subtle">
+          {t("orders.fulfillment.withoutShippingHint")}
+        </Text>
+      </div>
+      <div>
+        {items.map((item: AdminOrderLineItem) => (
+          <UnfulfilledItem
+            key={item.id}
+            item={item}
+            currencyCode={order.currency_code}
+          />
+        ))}
+      </div>
+    </Container>
   )
 }
 

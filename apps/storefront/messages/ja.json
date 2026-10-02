@@ -559,6 +559,13 @@
     "notMember": "アカウントをお持ちでない方",
     "password": "パスワード",
     "signIn": "サインイン",
+    "telegramDivider": "または",
+    "telegramCta": "Telegram でログイン",
+    "telegramPending": "ログインしています…",
+    "telegramErrorExpired": "Telegramでのログインの有効期限が切れました。最初からやり直してください。",
+    "telegramErrorFailed": "ログインできませんでした。1分後にもう一度お試しください。",
+    "telegramErrorRejected": "Telegramがこのログインを確認しませんでした。もう一度お試しください。",
+    "telegramErrorUnconfigured": "このショップではTelegramでのログインがまだ有効になっていません。",
     "yandexCta": "Yandex ID でログイン",
     "yandexDivider": "または",
     "yandexErrorDenied": "Yandex のページでログインをキャンセルしました。",
@@ -974,6 +981,15 @@
     "label": "電話番号",
     "noPhone": "電話番号が登録されていません",
     "phone": "電話番号"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "連携済み: {handle}",
+    "notLinked": "未連携",
+    "hint": "ここでTelegramでログインすると、このアカウントに連携されます。その後はどちらの方法でもログインできます。",
+    "errorTaken": "このTelegramアカウントはすでに別のアカウントに連携されています。",
+    "errorRejected": "Telegramが確認しませんでした。もう一度お試しください。",
+    "errorFailed": "Telegramを連携できませんでした。1分後にもう一度お試しください。"
   },
   "PromoBanner": {
     "close": "閉じる",

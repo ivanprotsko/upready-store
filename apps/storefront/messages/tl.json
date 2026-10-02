@@ -559,6 +559,13 @@
     "notMember": "Hindi pa miyembro?",
     "password": "Password",
     "signIn": "Mag-sign in",
+    "telegramDivider": "o",
+    "telegramCta": "Mag-sign in gamit ang Telegram",
+    "telegramPending": "Nagsa-sign in…",
+    "telegramErrorExpired": "Nag-expire na ang pag-sign in gamit ang Telegram. Magsimula muli.",
+    "telegramErrorFailed": "Hindi makapag-sign in. Subukan muli pagkalipas ng isang minuto.",
+    "telegramErrorRejected": "Hindi kinumpirma ng Telegram ang pag-sign in na ito. Subukan muli.",
+    "telegramErrorUnconfigured": "Hindi pa naka-on ang pag-sign in gamit ang Telegram sa tindahang ito.",
     "yandexCta": "Mag-sign in gamit ang Yandex ID",
     "yandexDivider": "o",
     "yandexErrorDenied": "Kinansela mo ang pag-sign in sa pahina ng Yandex.",
@@ -974,6 +981,15 @@
     "label": "Telepono",
     "noPhone": "Walang numero ng telepono",
     "phone": "Telepono"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Naka-link: {handle}",
+    "notLinked": "Hindi naka-link",
+    "hint": "Mag-sign in dito gamit ang Telegram para i-link ito sa account na ito. Pagkatapos, makakapag-sign in ka sa alinmang paraan.",
+    "errorTaken": "Naka-link na ang Telegram account na ito sa ibang account.",
+    "errorRejected": "Hindi ito kinumpirma ng Telegram. Subukan muli.",
+    "errorFailed": "Hindi ma-link ang Telegram. Subukan muli pagkalipas ng isang minuto."
   },
   "PromoBanner": {
     "close": "Isara",

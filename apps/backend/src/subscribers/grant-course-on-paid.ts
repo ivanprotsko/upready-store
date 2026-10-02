@@ -1,11 +1,14 @@
-import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
+import type { MedusaContainer, SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { COURSE_MODULE } from "../modules/course";
 import type CourseModuleService from "../modules/course/service";
 import type { CourseRow } from "../api/tenants/courses/course-helpers";
+import { type CourseAccessLink, CourseAccessEmail, courseAccessUrl } from "../emails/course-access";
+import { findOrderForEmail, sendOrderEmail } from "../emails/lib/notify";
 
 const TAG = "grant-course-on-paid";
+const ACCESS_TAG = "course-access-email";
 
 type PaidOrder = {
   id: string;
@@ -29,6 +32,13 @@ type EntitlementRow = { id: string; course_id: string; order_id: string | null }
  * An order with no customer (a guest checkout the platform does not support
  * for a digital course, or a payment event arriving before the order link is
  * ready) logs and returns rather than granting an entitlement to nobody.
+ *
+ * t-cherk-com-hotfix batch 5: the buyer then gets «Доступ к курсу открыт»
+ * (`emails/course-access.tsx`) with a «Перейти к курсу» link per course this
+ * run granted, through the same mail path as `payment-captured-email.ts`
+ * (`sendOrderEmail`: the shop's sender name and reply-to, its own domain in
+ * the links). A retry that grants nothing sends nothing, and the idempotency
+ * key keeps a second letter out anyway.
  */
 export default async function grantCourseOnPaidHandler({
   event,
@@ -82,6 +92,8 @@ export default async function grantCourseOnPaidHandler({
     return;
   }
 
+  const granted: CourseRow[] = [];
+
   for (const course of courses) {
     const existing = (await courseService.listCourseEntitlements({
       tenant_id: course.tenant_id,
@@ -102,11 +114,70 @@ export default async function grantCourseOnPaidHandler({
       status: "active",
     });
 
+    granted.push(course);
     logger.info(
       `[${TAG}] Granted course ${course.id} to customer ${order.customer_id} for order ${order.id}`,
     );
   }
+
+  if (granted.length) {
+    // The grant is written; a letter that fails is logged, never thrown back at the event.
+    await sendCourseAccessEmail(container, event.name, order.id, granted).catch((error: unknown) => {
+      logger.error(
+        `[${ACCESS_TAG}] Order ${order.id}: the access letter failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    });
+  }
 }
+
+const sendCourseAccessEmail = async (
+  container: MedusaContainer,
+  eventName: string,
+  orderId: string,
+  courses: CourseRow[],
+) => {
+  const logger = container.resolve(ContainerRegistrationKeys.LOGGER) as Logger;
+  const query = container.resolve(ContainerRegistrationKeys.QUERY);
+  const { data: products } = await query.graph({
+    entity: "product",
+    fields: ["id", "handle"],
+    filters: { id: courses.map((course) => course.product_id) },
+  });
+  const handleById = new Map(
+    (products as { id: string; handle: string | null }[]).map((product) => [product.id, product.handle]),
+  );
+  const links: CourseAccessLink[] = courses
+    .map((course) => ({ title: course.title, handle: handleById.get(course.product_id) ?? "" }))
+    .filter((link) => link.handle);
+
+  if (!links.length) {
+    logger.warn(`[${ACCESS_TAG}] Order ${orderId}: no product handle for the granted course(s), letter not sent`);
+    return;
+  }
+
+  const order = await findOrderForEmail(container, { id: orderId });
+  if (!order) {
+    logger.warn(`[${ACCESS_TAG}] Order ${orderId} not found, letter not sent`);
+    return;
+  }
+
+  await sendOrderEmail({
+    container,
+    tag: ACCESS_TAG,
+    eventName,
+    order,
+    template: "course-access",
+    idempotencyKey: `course-access:${order.id}`,
+    Component: CourseAccessEmail,
+    props: { courses: links },
+    subjectKey: "CourseAccess.subject",
+    text: (t, id, shop) =>
+      [
+        t("CourseAccess.textFallback", { id }),
+        ...links.map((link) => `${link.title}: ${courseAccessUrl(shop.storefrontUrl, link.handle)}`),
+      ].join("\n"),
+  });
+};
 
 export const config: SubscriberConfig = {
   event: "payment.captured",

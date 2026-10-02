@@ -559,6 +559,13 @@
     "notMember": "还不是会员？",
     "password": "密码",
     "signIn": "登录",
+    "telegramDivider": "或",
+    "telegramCta": "使用 Telegram 登录",
+    "telegramPending": "正在登录…",
+    "telegramErrorExpired": "此次 Telegram 登录已过期，请重新开始。",
+    "telegramErrorFailed": "登录失败，请一分钟后重试。",
+    "telegramErrorRejected": "Telegram 未确认此次登录，请重试。",
+    "telegramErrorUnconfigured": "本店尚未开启 Telegram 登录。",
     "yandexCta": "使用 Yandex ID 登录",
     "yandexDivider": "或",
     "yandexErrorDenied": "你在 Yandex 页面上取消了登录。",
@@ -974,6 +981,15 @@
     "label": "电话",
     "noPhone": "暂无电话号码",
     "phone": "电话"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "已关联：{handle}",
+    "notLinked": "未关联",
+    "hint": "在此使用 Telegram 登录即可将其关联到本账户。之后两种方式都可以登录。",
+    "errorTaken": "该 Telegram 账户已关联到其他账户。",
+    "errorRejected": "Telegram 未确认，请重试。",
+    "errorFailed": "无法关联 Telegram，请一分钟后重试。"
   },
   "PromoBanner": {
     "close": "关闭",

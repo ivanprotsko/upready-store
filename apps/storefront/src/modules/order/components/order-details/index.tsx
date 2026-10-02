@@ -1,6 +1,7 @@
 import type { HttpTypes } from "@medusajs/types"
 import { Text } from "@medusajs/ui"
 import { formatDate } from "@lib/util/date"
+import { orderContactLabel } from "@lib/data/order-contact"
 import { BuyerStatusBadge } from "@modules/order/components/buyer-status"
 import OrderStatusBadge from "@modules/order/components/order-status"
 import { getLocale, getTranslations } from "next-intl/server"
@@ -29,13 +30,14 @@ const OrderDetails = async ({
   const locale = localeProp ?? (await getLocale())
 
   const formattedOrderDate = formatDate({ date: order.created_at, locale })
+  const contact = await orderContactLabel(order.email)
 
   return (
     <div className="flex flex-col gap-y-2">
       <Text className="txt-medium text-ui-fg-subtle">
         {t("contactEmailBefore")}{" "}
         <span className="text-ui-fg-base font-medium" data-testid="order-email">
-          {order.email}
+          {contact}
         </span>
         .
       </Text>

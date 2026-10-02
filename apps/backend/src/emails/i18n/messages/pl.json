@@ -12,6 +12,16 @@
     "trackOrder": "Śledź zamówienie",
     "viewOrder": "Zobacz zamówienie"
   },
+  "CourseAccess": {
+    "body": "Płatność za zamówienie <strong>nr {id}</strong> została potwierdzona. Kurs jest już dostępny na Twoim koncie:",
+    "button": "Przejdź do kursu",
+    "headingAnon": "Dostęp do kursu jest otwarty",
+    "headingWithName": "{name}, dostęp do kursu jest otwarty",
+    "preview": "Płatność potwierdzona, kurs czeka na Twoim koncie",
+    "signIn": "Lekcje otworzą się po zalogowaniu na konto z adresem {email}.",
+    "subject": "Zamówienie nr {id} opłacone: dostęp do kursu jest otwarty",
+    "textFallback": "Płatność za zamówienie nr {id} została potwierdzona, dostęp do kursu jest otwarty.\n\nPrzejdź do kursu:"
+  },
   "Delivery": {
     "bodyOrder": "Zamówienie <strong>nr {id}</strong> zostało dostarczone. Mamy nadzieję, że wszystko dotarło w porządku.",
     "headingAnon": "Twoje zamówienie zostało dostarczone",

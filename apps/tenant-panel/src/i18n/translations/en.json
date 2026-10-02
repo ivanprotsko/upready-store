@@ -1814,7 +1814,9 @@
       },
       "trackingLabel": "Tracking",
       "unfulfilledItems": "Unfulfilled Items",
-      "notNeeded": "No packing needed"
+      "notNeeded": "No packing needed",
+      "withoutShipping": "No shipping",
+      "withoutShippingHint": "An online course is not packed or shipped: access opens for the customer automatically once you confirm the payment."
     },
     "giftCardsStoreCreditLines": "Gift cards & credit lines",
     "list": {
@@ -1866,7 +1868,14 @@
       "totalPending": "Total pending",
       "totalStoreCreditRefunds": "Total store credit refunds",
       "receiptSent": "The customer sent a receipt on {{date}}",
-      "receiptOpen": "Open receipt"
+      "receiptOpen": "Open receipt",
+      "receiptRejected": "Receipt rejected: {{reason}}, waiting for a new one",
+      "receiptReject": "Reject receipt",
+      "receiptRejectTitle": "Reject the receipt?",
+      "receiptRejectDescription": "The customer sees the reason on the order page and can send another receipt.",
+      "receiptRejectReason": "Reason",
+      "receiptRejectReasonPlaceholder": "For example: the amount does not match the order",
+      "receiptRejectSuccess": "Receipt rejected, the customer will see the reason"
     },
     "refund": {
       "error": {
@@ -2036,6 +2045,18 @@
         "cancelOrder": "Cancel the order",
         "packAnyway": "I was paid another way — pack it",
         "shipAnyway": "I was paid another way — hand it over"
+      },
+      "digitalAwaitingPayment": {
+        "title": "Awaiting payment",
+        "hint": "Nothing to pack or ship. Once the money arrives, confirm the payment in the Payment section below: the customer gets access to the course and an e-mail."
+      },
+      "digitalDone": {
+        "title": "Order complete",
+        "hint": "The payment is confirmed. Nothing to pack or ship."
+      },
+      "digitalPaymentCanceled": {
+        "title": "Payment canceled",
+        "hint": "There is no money for this order and the course is not open. If the order is no longer needed, cancel it."
       },
       "unpaid": "The payment is not confirmed yet. Check it in the «Payment» block below before you hand the parcel over."
     }
@@ -5123,6 +5144,7 @@
     "open": "Open",
     "state": {
       "connected": "connected ••••{{last4}}",
+      "connectedAs": "connected @{{username}}",
       "missing": "not connected",
       "asking": "asking…",
       "unreadable": "unreadable, enter again"
@@ -5225,6 +5247,27 @@
       "duplicatesNote": "Your cart also shows a manual tariff named like Russian Post, so a buyer sees two Russian Post cards with different prices. Switch the manual one off and Russian Post prices the parcel. The tariff stays under Delivery, and you can switch it back on there.",
       "duplicateOff": "Switch the manual tariff off",
       "duplicateSwitchedOff": "Manual tariff «{{name}}» switched off"
+    },
+    "telegramBot": {
+      "title": "Telegram",
+      "subtitle": "this shop's own bot, for buyer sign-in through Telegram.",
+      "rowSubtitle": "buyer sign-in through Telegram",
+      "botFatherHint": "After saving, ask Ivan to register the shop's domain with @BotFather via /setdomain — without that step the Login Widget will not open on the site. This page never touches the bot's menu button or its webhooks.",
+      "usernameLabel": "Bot username (without @)",
+      "usernamePlaceholder": "for example, cherkashinao_bot",
+      "usernameRequired": "Enter the bot's username (without @).",
+      "tokenLabel": "Bot token",
+      "tokenHint": "@BotFather → /mybots → this bot → API Token.",
+      "tokenRequired": "Enter the bot token.",
+      "keepPlaceholder": "keep the stored one",
+      "emptyPlaceholder": "not set",
+      "save": "Save",
+      "remove": "Delete",
+      "cancel": "Cancel",
+      "saved": "Bot @{{username}} saved",
+      "removed": "Telegram bot deleted",
+      "removeTitle": "Delete the Telegram bot?",
+      "removeDescription": "Telegram sign-in stops showing to buyers. You can connect a bot again at any time."
     },
     "unreadable": {
       "alert": "The saved credentials can't be read. They were encrypted with a different server key or are damaged, and this service stays off until they are entered again. Enter them again and save, or remove the connection.",

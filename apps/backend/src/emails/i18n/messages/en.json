@@ -12,6 +12,16 @@
     "trackOrder": "Track order",
     "viewOrder": "View order"
   },
+  "CourseAccess": {
+    "body": "Payment for order <strong>#{id}</strong> is confirmed. Your course is now open in your account:",
+    "button": "Go to course",
+    "headingAnon": "Your course is open",
+    "headingWithName": "{name}, your course is open",
+    "preview": "Payment confirmed, your course is waiting in your account",
+    "signIn": "The lessons open once you sign in to your account with {email}.",
+    "subject": "Order #{id} paid: your course is open",
+    "textFallback": "Payment for order #{id} is confirmed, your course is open.\n\nGo to course:"
+  },
   "Delivery": {
     "bodyOrder": "Order <strong>#{id}</strong> has been delivered. We hope everything arrived in good shape.",
     "headingAnon": "Your order has been delivered",
