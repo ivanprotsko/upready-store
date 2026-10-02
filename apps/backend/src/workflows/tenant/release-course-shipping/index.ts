@@ -53,7 +53,7 @@ const releaseCourseShippingWorkflow = createWorkflow(
     }).config({ name: "course-shipping-products" });
 
     const plan = transform({ products }, ({ products }) => {
-      const rows = products as ProductShippingRow[];
+      const rows = products as unknown as ProductShippingRow[];
       const links: LinkDefinition[] = rows
         .filter((product) => product.shipping_profile?.id)
         .map((product) => ({
