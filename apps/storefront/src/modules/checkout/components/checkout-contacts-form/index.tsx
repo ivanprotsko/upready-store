@@ -7,6 +7,7 @@ import { Button, Checkbox, Label } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
 import Input from "@modules/common/components/input"
 import ErrorMessage from "@modules/checkout/components/error-message"
+import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 import { useTranslations } from "next-intl"
 
 export type ContactsField =
@@ -80,7 +81,11 @@ export default function CheckoutContactsForm({
   const [formData, setFormData] = useState({
     first_name: meta?.contact_first_name || "",
     last_name: meta?.contact_last_name || "",
-    email: cart.email || "",
+    // A Telegram buyer's cart arrives with the synthetic `tg_<id>@telegram.local`
+    // the sign-in copied from the customer. The field opens empty instead, and
+    // the address typed here is what the order carries: Medusa 2.19 lets a
+    // customer with an account set any email on the cart (`updateCartWorkflow`).
+    email: realEmailOrEmpty(cart.email),
     phone: meta?.contact_phone || "",
     recipient_first_name: wasDifferentRecipient ? addr?.first_name || "" : "",
     recipient_last_name: wasDifferentRecipient ? addr?.last_name || "" : "",

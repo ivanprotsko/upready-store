@@ -554,6 +554,13 @@
     "notMember": "Ikke medlem endnu?",
     "password": "Adgangskode",
     "signIn": "Log ind",
+    "telegramDivider": "eller",
+    "telegramCta": "Log ind med Telegram",
+    "telegramPending": "Logger ind…",
+    "telegramErrorExpired": "Dette log ind med Telegram er udløbet. Start forfra.",
+    "telegramErrorFailed": "Log ind mislykkedes. Prøv igen om et minut.",
+    "telegramErrorRejected": "Telegram bekræftede ikke dette log ind. Prøv igen.",
+    "telegramErrorUnconfigured": "Log ind med Telegram er endnu ikke slået til i denne butik.",
     "yandexCta": "Log ind med Yandex ID",
     "yandexDivider": "eller",
     "yandexErrorDenied": "Du annullerede login på Yandex-siden.",
@@ -948,6 +955,15 @@
     "label": "Telefon",
     "noPhone": "Intet telefonnummer",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Tilknyttet: {handle}",
+    "notLinked": "Ikke tilknyttet",
+    "hint": "Log ind med Telegram her for at knytte det til denne konto. Derefter kan du logge ind på begge måder.",
+    "errorTaken": "Denne Telegram-konto er allerede knyttet til en anden konto.",
+    "errorRejected": "Telegram bekræftede det ikke. Prøv igen.",
+    "errorFailed": "Telegram kunne ikke tilknyttes. Prøv igen om et minut."
   },
   "PromoBanner": {
     "close": "Luk",

@@ -554,6 +554,13 @@
     "notMember": "아직 회원이 아니신가요?",
     "password": "비밀번호",
     "signIn": "로그인",
+    "telegramDivider": "또는",
+    "telegramCta": "Telegram으로 로그인",
+    "telegramPending": "로그인하는 중…",
+    "telegramErrorExpired": "Telegram 로그인이 만료되었습니다. 처음부터 다시 시작해 주세요.",
+    "telegramErrorFailed": "로그인하지 못했습니다. 1분 후에 다시 시도해 주세요.",
+    "telegramErrorRejected": "Telegram이 이 로그인을 확인하지 않았습니다. 다시 시도해 주세요.",
+    "telegramErrorUnconfigured": "이 상점에서는 아직 Telegram 로그인이 켜져 있지 않습니다.",
     "yandexCta": "Yandex ID로 로그인",
     "yandexDivider": "또는",
     "yandexErrorDenied": "Yandex 페이지에서 로그인을 취소했습니다.",
@@ -948,6 +955,15 @@
     "label": "전화번호",
     "noPhone": "등록된 전화번호가 없습니다",
     "phone": "전화번호"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "연결됨: {handle}",
+    "notLinked": "연결되지 않음",
+    "hint": "여기에서 Telegram으로 로그인하면 이 계정에 연결됩니다. 그 후에는 두 방법 중 어느 쪽으로든 로그인할 수 있습니다.",
+    "errorTaken": "이 Telegram 계정은 이미 다른 계정에 연결되어 있습니다.",
+    "errorRejected": "Telegram이 확인하지 않았습니다. 다시 시도해 주세요.",
+    "errorFailed": "Telegram을 연결하지 못했습니다. 1분 후에 다시 시도해 주세요."
   },
   "PromoBanner": {
     "close": "닫기",

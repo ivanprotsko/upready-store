@@ -38,6 +38,7 @@ import {
   robokassaSignature,
   type ResolvedRobokassaSecret,
 } from "../../tenant-secrets/robokassa";
+import { isSyntheticTelegramEmail } from "../auth-telegram/lib/identity";
 
 type InjectedDependencies = {
   logger: Logger;
@@ -185,7 +186,8 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
         params.set(key, value);
       }
     }
-    if (input.email) {
+    // Robokassa mails the receipt to this address; a Telegram buyer's synthetic one would bounce.
+    if (input.email && !isSyntheticTelegramEmail(input.email)) {
       params.set("Email", input.email);
     }
     if (input.culture) {

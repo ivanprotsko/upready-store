@@ -758,3 +758,28 @@ export const PutTenantPochtaSchema = z.strictObject({
   is_enabled: z.boolean().optional(),
 });
 export type PutTenantPochtaBody = z.infer<typeof PutTenantPochtaSchema>;
+
+/**
+ * `PUT /tenants/telegram-bot` (t-2026-10-02-telegram-auth) — the shop's own
+ * Telegram bot, for the Login Widget and the Mini App's `initData`.
+ *
+ * Both fields every time, no «keep» case, for the reason
+ * `PutTenantApishipKeySchema` gives: a bot is being set or replaced as a pair,
+ * never half-changed, so there is nothing to merge with a stored value. The
+ * route itself calls Telegram's `getMe` with the typed token before writing —
+ * a wrong token fails here, in the panel, not at a buyer's click.
+ */
+export const PutTenantTelegramBotSchema = z.strictObject({
+  username: z
+    .string()
+    .trim()
+    .min(1, "Введите имя пользователя бота (без @).")
+    .max(64)
+    .transform((value) => value.replace(/^@/, "")),
+  token: z
+    .string()
+    .trim()
+    .min(1, "Пустое значение не сохраняется: введите токен бота.")
+    .max(200),
+});
+export type PutTenantTelegramBotBody = z.infer<typeof PutTenantTelegramBotSchema>;

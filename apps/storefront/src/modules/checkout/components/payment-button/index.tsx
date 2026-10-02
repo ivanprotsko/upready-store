@@ -22,6 +22,7 @@ import type React from "react"
 import ManualPaymentButton from "./providers/manual"
 import RobokassaPaymentButton from "./providers/robokassa"
 import StripePaymentButton from "./providers/stripe"
+import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
@@ -81,7 +82,9 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     requiresSignIn ||
     (needsShipping && !cart.shipping_address) ||
     (needsShipping && !cart.billing_address) ||
-    !cart.email ||
+    // A Telegram buyer's cart starts with the synthetic `tg_<id>@telegram.local`,
+    // which no letter can reach: the order waits for a real address.
+    !realEmailOrEmpty(cart.email) ||
     addressIncomplete ||
     (needsShipping && (cart.shipping_methods?.length ?? 0) < 1) ||
     !activePaymentMethod ||

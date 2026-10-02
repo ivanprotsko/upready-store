@@ -554,6 +554,13 @@
     "notMember": "Nemáte účet?",
     "password": "Heslo",
     "signIn": "Přihlásit se",
+    "telegramDivider": "nebo",
+    "telegramCta": "Přihlásit se přes Telegram",
+    "telegramPending": "Přihlašování…",
+    "telegramErrorExpired": "Platnost tohoto přihlášení přes Telegram vypršela. Začněte znovu.",
+    "telegramErrorFailed": "Přihlášení se nezdařilo. Zkuste to za minutu.",
+    "telegramErrorRejected": "Telegram toto přihlášení nepotvrdil. Zkuste to znovu.",
+    "telegramErrorUnconfigured": "Přihlášení přes Telegram zatím v tomto obchodě není zapnuté.",
     "yandexCta": "Přihlásit se přes Yandex ID",
     "yandexDivider": "nebo",
     "yandexErrorDenied": "Přihlášení jste na stránce Yandexu zrušili.",
@@ -948,6 +955,15 @@
     "label": "Telefon",
     "noPhone": "Žádné telefonní číslo",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Propojeno: {handle}",
+    "notLinked": "Nepropojeno",
+    "hint": "Přihlaste se zde přes Telegram a propojte ho s tímto účtem. Pak se můžete přihlašovat oběma způsoby.",
+    "errorTaken": "Tento účet Telegram je už propojen s jiným účtem.",
+    "errorRejected": "Telegram to nepotvrdil. Zkuste to znovu.",
+    "errorFailed": "Telegram se nepodařilo propojit. Zkuste to za minutu."
   },
   "PromoBanner": {
     "close": "Zavřít",

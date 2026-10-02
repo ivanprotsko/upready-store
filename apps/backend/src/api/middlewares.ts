@@ -166,6 +166,7 @@ import {
   PutTenantApishipKeySchema,
   PutTenantDeliverySettingsSchema,
   PutTenantPochtaSchema,
+  PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
   PutTenantNotificationSettingsSchema,
@@ -243,6 +244,8 @@ import { PostAdminPlatformPricingSchema } from "../modules/platform-pricing/sche
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { requireOwnerPasswordLength } from "./auth/password-length-gate";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
+import { guardSyntheticTelegramEmail } from "./store/customers/synthetic-email-guard";
+import { resolveTelegramTenant } from "./auth/telegram-tenant";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
@@ -397,6 +400,12 @@ export default defineMiddlewares({
       matcher: "/tenants/pochta",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantPochtaSchema)],
+    },
+    {
+      // The shop's own Telegram bot for buyer sign-in (t-2026-10-02-telegram-auth).
+      matcher: "/tenants/telegram-bot",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantTelegramBotSchema)],
     },
     {
       // The shop's payment account (t03-tenant-secrets-robokassa).
@@ -1659,6 +1668,34 @@ export default defineMiddlewares({
       middlewares: [
         authenticate("customer", ["bearer"], { allowUnregistered: true }),
       ],
+    },
+
+    // ---- t-2026-10-02-telegram-auth. `/me/telegram-link`: a buyer already
+    // signed in by e-mail attaches Telegram as a second way in. The synthetic
+    // `tg_<id>@telegram.local` address is reserved for the Telegram identity
+    // with that id, on both legs that could otherwise claim it first.
+    {
+      matcher: "/store/customers/me/telegram-link",
+      method: ["POST"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
+      matcher: "/store/customers",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"], { allowUnregistered: true }),
+        guardSyntheticTelegramEmail,
+      ],
+    },
+    {
+      matcher: "/auth/customer/emailpass/register",
+      method: ["POST"],
+      middlewares: [guardSyntheticTelegramEmail],
+    },
+    {
+      matcher: "/auth/customer/telegram",
+      method: ["GET", "POST"],
+      middlewares: [resolveTelegramTenant],
     },
 
     // ---- b07-store-api-isolation: the Store API stops handing one shop's

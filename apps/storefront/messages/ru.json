@@ -554,6 +554,13 @@
     "notMember": "Нет аккаунта?",
     "password": "Пароль",
     "signIn": "Войти",
+    "telegramDivider": "или",
+    "telegramCta": "Войти через Телеграм",
+    "telegramPending": "Входим…",
+    "telegramErrorExpired": "Вход через Telegram устарел. Начните заново.",
+    "telegramErrorFailed": "Войти не получилось. Попробуйте через минуту.",
+    "telegramErrorRejected": "Telegram не подтвердил этот вход. Попробуйте ещё раз.",
+    "telegramErrorUnconfigured": "Вход через Telegram в этом магазине пока не включён.",
     "yandexCta": "Войти через Яндекс ID",
     "yandexDivider": "или",
     "yandexErrorDenied": "Вы отменили вход на странице Яндекса.",
@@ -948,6 +955,15 @@
     "label": "Телефон",
     "noPhone": "Нет номера телефона",
     "phone": "Телефон"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Привязан: {handle}",
+    "notLinked": "Не привязан",
+    "hint": "Войдите здесь через Telegram, чтобы привязать его к этому аккаунту. После этого можно входить любым способом.",
+    "errorTaken": "Этот Telegram уже привязан к другому аккаунту.",
+    "errorRejected": "Telegram не подтвердил привязку. Попробуйте ещё раз.",
+    "errorFailed": "Не получилось привязать Telegram. Попробуйте через минуту."
   },
   "PromoBanner": {
     "close": "Закрыть",

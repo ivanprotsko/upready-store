@@ -554,6 +554,13 @@
     "notMember": "¿No eres miembro?",
     "password": "Contraseña",
     "signIn": "Iniciar sesión",
+    "telegramDivider": "o",
+    "telegramCta": "Iniciar sesión con Telegram",
+    "telegramPending": "Iniciando sesión…",
+    "telegramErrorExpired": "Este inicio de sesión con Telegram ha caducado. Empieza de nuevo.",
+    "telegramErrorFailed": "No se pudo iniciar sesión. Inténtalo de nuevo en un minuto.",
+    "telegramErrorRejected": "Telegram no confirmó este inicio de sesión. Inténtalo de nuevo.",
+    "telegramErrorUnconfigured": "El inicio de sesión con Telegram aún no está activado en esta tienda.",
     "yandexCta": "Iniciar sesión con Yandex ID",
     "yandexDivider": "o",
     "yandexErrorDenied": "Cancelaste el inicio de sesión en la página de Yandex.",
@@ -948,6 +955,15 @@
     "label": "Teléfono",
     "noPhone": "Sin número de teléfono",
     "phone": "Teléfono"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Vinculado: {handle}",
+    "notLinked": "No vinculado",
+    "hint": "Inicia sesión aquí con Telegram para vincularlo a esta cuenta. Después podrás entrar de cualquiera de las dos formas.",
+    "errorTaken": "Esta cuenta de Telegram ya está vinculada a otra cuenta.",
+    "errorRejected": "Telegram no lo confirmó. Inténtalo de nuevo.",
+    "errorFailed": "No se pudo vincular Telegram. Inténtalo de nuevo en un minuto."
   },
   "PromoBanner": {
     "close": "Cerrar",

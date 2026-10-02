@@ -554,6 +554,13 @@
     "notMember": "Нямате акаунт?",
     "password": "Парола",
     "signIn": "Вход",
+    "telegramDivider": "или",
+    "telegramCta": "Вход с Telegram",
+    "telegramPending": "Влизане…",
+    "telegramErrorExpired": "Това влизане с Telegram е изтекло. Започнете отначало.",
+    "telegramErrorFailed": "Влизането не беше успешно. Опитайте след минута.",
+    "telegramErrorRejected": "Telegram не потвърди това влизане. Опитайте отново.",
+    "telegramErrorUnconfigured": "Влизането с Telegram все още не е включено в този магазин.",
     "yandexCta": "Вход с Яндекс ID",
     "yandexDivider": "или",
     "yandexErrorDenied": "Отказахте входа на страницата на Яндекс.",
@@ -948,6 +955,15 @@
     "label": "Телефон",
     "noPhone": "Няма телефонен номер",
     "phone": "Телефон"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Свързан: {handle}",
+    "notLinked": "Не е свързан",
+    "hint": "Влезте тук с Telegram, за да го свържете с този профил. След това можете да влизате и по двата начина.",
+    "errorTaken": "Този профил в Telegram вече е свързан с друг профил.",
+    "errorRejected": "Telegram не потвърди. Опитайте отново.",
+    "errorFailed": "Telegram не можа да бъде свързан. Опитайте след минута."
   },
   "PromoBanner": {
     "close": "Затвори",

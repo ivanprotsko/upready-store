@@ -6,6 +6,7 @@ import type { Logger } from "@medusajs/framework/types";
 import type { NotificationTypes } from "@medusajs/framework/types";
 import nodemailer from "nodemailer";
 import type { Transporter } from "nodemailer";
+import { isSyntheticTelegramEmail } from "../../auth-telegram/lib/identity";
 
 type InjectedDependencies = {
   logger: Logger;
@@ -118,6 +119,19 @@ export class SmtpNotificationService extends AbstractNotificationProviderService
 
     if (!content) {
       this.logger.warn("[smtp] No content in notification, skipping");
+      return {};
+    }
+
+    // The ONE place every customer-facing email funnels through (the only
+    // provider registered on the `email` channel). `tg_<id>@telegram.local`
+    // is a key for a Telegram buyer, never a real inbox — live mail is ON
+    // (t08), so a Telegram sign-in that reaches this far without the address
+    // being swapped for the buyer's real contact method must be caught here,
+    // not bounce off a mail server (t-2026-10-02-telegram-auth).
+    if (isSyntheticTelegramEmail(notification.to)) {
+      this.logger.info(
+        `[smtp] Skipping send to synthetic Telegram address ${notification.to}`,
+      );
       return {};
     }
 

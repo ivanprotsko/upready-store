@@ -554,6 +554,13 @@
     "notMember": "Belum jadi anggota?",
     "password": "Kata sandi",
     "signIn": "Masuk",
+    "telegramDivider": "atau",
+    "telegramCta": "Masuk dengan Telegram",
+    "telegramPending": "Sedang masuk…",
+    "telegramErrorExpired": "Proses masuk dengan Telegram ini sudah kedaluwarsa. Silakan mulai lagi.",
+    "telegramErrorFailed": "Gagal masuk. Silakan coba lagi dalam satu menit.",
+    "telegramErrorRejected": "Telegram tidak mengonfirmasi proses masuk ini. Silakan coba lagi.",
+    "telegramErrorUnconfigured": "Masuk dengan Telegram belum diaktifkan di toko ini.",
     "yandexCta": "Masuk dengan Yandex ID",
     "yandexDivider": "atau",
     "yandexErrorDenied": "Anda membatalkan proses masuk di halaman Yandex.",
@@ -948,6 +955,15 @@
     "label": "Telepon",
     "noPhone": "Tidak ada nomor telepon",
     "phone": "Telepon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Tertaut: {handle}",
+    "notLinked": "Belum tertaut",
+    "hint": "Masuk dengan Telegram di sini untuk menautkannya ke akun ini. Setelah itu Anda bisa masuk dengan salah satu cara.",
+    "errorTaken": "Akun Telegram ini sudah tertaut ke akun lain.",
+    "errorRejected": "Telegram tidak mengonfirmasi. Silakan coba lagi.",
+    "errorFailed": "Gagal menautkan Telegram. Silakan coba lagi dalam satu menit."
   },
   "PromoBanner": {
     "close": "Tutup",

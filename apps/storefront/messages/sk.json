@@ -554,6 +554,13 @@
     "notMember": "Ešte nemáte účet?",
     "password": "Heslo",
     "signIn": "Prihlásiť sa",
+    "telegramDivider": "alebo",
+    "telegramCta": "Prihlásiť sa cez Telegram",
+    "telegramPending": "Prihlasovanie…",
+    "telegramErrorExpired": "Platnosť tohto prihlásenia cez Telegram vypršala. Začnite znova.",
+    "telegramErrorFailed": "Prihlásenie sa nepodarilo. Skúste to o minútu.",
+    "telegramErrorRejected": "Telegram toto prihlásenie nepotvrdil. Skúste to znova.",
+    "telegramErrorUnconfigured": "Prihlásenie cez Telegram ešte nie je v tomto obchode zapnuté.",
     "yandexCta": "Prihlásiť sa cez Yandex ID",
     "yandexDivider": "alebo",
     "yandexErrorDenied": "Prihlásenie ste na stránke Yandexu zrušili.",
@@ -948,6 +955,15 @@
     "label": "Telefón",
     "noPhone": "Žiadne telefónne číslo",
     "phone": "Telefón"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Prepojené: {handle}",
+    "notLinked": "Neprepojené",
+    "hint": "Prihláste sa tu cez Telegram a prepojte ho s týmto účtom. Potom sa môžete prihlasovať oboma spôsobmi.",
+    "errorTaken": "Tento účet Telegram je už prepojený s iným účtom.",
+    "errorRejected": "Telegram to nepotvrdil. Skúste to znova.",
+    "errorFailed": "Telegram sa nepodarilo prepojiť. Skúste to o minútu."
   },
   "PromoBanner": {
     "close": "Zavrieť",
