@@ -690,7 +690,8 @@
     "cart": "장바구니 ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "본문으로 건너뛰기"
+    "skipToContent": "본문으로 건너뛰기",
+    "modeDark": "다크 테마"
   },
   "NotFound": {
     "cartDescription": "접속하려는 장바구니가 존재하지 않습니다. 쿠키를 삭제한 후 다시 시도해 주세요.",
@@ -834,7 +835,10 @@
     "selectVariant": "옵션 선택",
     "inStock": "재고 있음",
     "buyNow": "바로 구매",
-    "buy": "구매"
+    "buy": "구매",
+    "inCart": "장바구니에 있음",
+    "decreaseQuantity": "하나 빼기",
+    "increaseQuantity": "하나 더 추가"
   },
   "ProductAttributes": {
     "no": "아니오",
@@ -1065,5 +1069,16 @@
     "notConfigured": "이 상점에는 아직 러시아 우체국 배송이 설정되지 않았습니다.",
     "quoteFailed": "이 지점으로의 배송비를 계산할 수 없습니다. 다른 지점을 선택하세요.",
     "postcode": "우편번호 {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "코스",
+      "goTo": "“{title}”(으)로 이동",
+      "label": "배너",
+      "next": "다음",
+      "position": "{total}장 중 {current}장",
+      "previous": "이전",
+      "watch": "보기"
+    }
   }
 }

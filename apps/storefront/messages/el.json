@@ -690,7 +690,8 @@
     "cart": "Καλάθι ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Μετάβαση στο περιεχόμενο"
+    "skipToContent": "Μετάβαση στο περιεχόμενο",
+    "modeDark": "Σκοτεινό θέμα"
   },
   "NotFound": {
     "cartDescription": "Το καλάθι που προσπαθήσατε να επισκεφθείτε δεν υπάρχει. Καθαρίστε τα cookies σας και δοκιμάστε ξανά.",
@@ -834,7 +835,10 @@
     "selectVariant": "Επιλέξτε παραλλαγή",
     "inStock": "Σε απόθεμα",
     "buyNow": "Αγορά",
-    "buy": "Αγορά"
+    "buy": "Αγορά",
+    "inCart": "Στο καλάθι",
+    "decreaseQuantity": "Αφαίρεση ενός",
+    "increaseQuantity": "Προσθήκη ενός ακόμη"
   },
   "ProductAttributes": {
     "no": "Όχι",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Η αποστολή με τα Ρωσικά Ταχυδρομεία δεν έχει ρυθμιστεί ακόμη σε αυτό το κατάστημα.",
     "quoteFailed": "Δεν ήταν δυνατός ο υπολογισμός της αποστολής σε αυτό το σημείο. Επιλέξτε άλλο.",
     "postcode": "Ταχυδρομικός κώδικας {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Μάθημα",
+      "goTo": "Μετάβαση στο «{title}»",
+      "label": "Μπάνερ",
+      "next": "Επόμενο",
+      "position": "{current} από {total}",
+      "previous": "Προηγούμενο",
+      "watch": "Παρακολούθηση"
+    }
   }
 }

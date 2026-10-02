@@ -690,7 +690,8 @@
     "cart": "Кошница ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Прескочи към съдържанието"
+    "skipToContent": "Прескочи към съдържанието",
+    "modeDark": "Тъмна тема"
   },
   "NotFound": {
     "cartDescription": "Кошницата, до която се опитвате да достъпите, не съществува. Изчистете бисквитките си и опитайте отново.",
@@ -834,7 +835,10 @@
     "selectVariant": "Избери вариант",
     "inStock": "В наличност",
     "buyNow": "Плати",
-    "buy": "Купи"
+    "buy": "Купи",
+    "inCart": "В количката",
+    "decreaseQuantity": "Премахни един",
+    "increaseQuantity": "Добави още един"
   },
   "ProductAttributes": {
     "no": "Не",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Доставката с Руска поща все още не е настроена в този магазин.",
     "quoteFailed": "Не успяхме да изчислим доставката до този пункт. Изберете друг.",
     "postcode": "Пощенски код {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Курс",
+      "goTo": "Към „{title}“",
+      "label": "Банери",
+      "next": "Напред",
+      "position": "{current} от {total}",
+      "previous": "Назад",
+      "watch": "Гледай"
+    }
   }
 }

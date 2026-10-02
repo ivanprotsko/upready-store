@@ -1,7 +1,9 @@
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 import FooterLegal from "@modules/layout/components/footer-legal"
 
 import { DEFAULT_FOOTER, FOOTER_VARIANTS } from "./variants"
+import FooterOlavka from "./variants/olavka"
 
 /**
  * Site-wide footer switch (`(main)/layout.tsx` renders this once, wrapping every route
@@ -18,7 +20,7 @@ import { DEFAULT_FOOTER, FOOTER_VARIANTS } from "./variants"
  * prefers the tenant's own home-page document and falls back to the stand's settings.
  */
 export default async function Footer() {
-  const settings = await getEffectiveSettings()
+  const [settings, olavka] = await Promise.all([getEffectiveSettings(), isOlavkaShop()])
   const footer = settings?.footer ?? DEFAULT_FOOTER
 
   // The legal row (offer, privacy policy) is rendered here, under the variant,
@@ -27,6 +29,13 @@ export default async function Footer() {
   // switched its footer off, because the privacy policy has to stay reachable.
   if (footer === "none") {
     return <FooterLegal />
+  }
+
+  // BRANCH-LOCAL (redesign-olavka, Ivan's remarks 13 and 19): the Olavka shop's own footer
+  // (`OLAVKA_SHOP_HANDLES`) and no legal row under it — its «© shop» column already links the
+  // offer and the privacy policy from every page, the row only repeated them.
+  if (olavka) {
+    return <FooterOlavka />
   }
 
   const Variant = FOOTER_VARIANTS[footer] ?? FOOTER_VARIANTS[DEFAULT_FOOTER]

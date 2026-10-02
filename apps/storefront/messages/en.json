@@ -690,7 +690,8 @@
     "cart": "Cart ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "modeDark": "Dark theme"
   },
   "NotFound": {
     "cartDescription": "The cart you tried to access does not exist. Clear your cookies and try again.",
@@ -834,7 +835,10 @@
     "selectVariant": "Select variant",
     "inStock": "In stock",
     "buyNow": "Buy now",
-    "buy": "Buy"
+    "buy": "Buy",
+    "inCart": "In cart",
+    "decreaseQuantity": "Remove one",
+    "increaseQuantity": "Add one more"
   },
   "ProductAttributes": {
     "no": "No",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Russian Post delivery is not set up in this shop yet.",
     "quoteFailed": "Delivery to this point could not be priced. Choose another one.",
     "postcode": "Postcode {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Course",
+      "goTo": "Go to “{title}”",
+      "label": "Banners",
+      "next": "Next",
+      "position": "{current} of {total}",
+      "previous": "Previous",
+      "watch": "Watch"
+    }
   }
 }

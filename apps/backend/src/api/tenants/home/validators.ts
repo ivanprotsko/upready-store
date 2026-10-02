@@ -94,10 +94,86 @@ const orderSchema = z
     message: "order may name each block at most once.",
   });
 
+/**
+ * Home banners (t-2026-09-24-n15, Ivan 2026-09-25: «в админке возможность
+ * редактировать изображения и тексты во всех углах … кликабельным должен быть
+ * весь баннер … ссылка на продукт или произвольный url»). One row per banner of
+ * the storefront's HeroSliders block (Figma 238:17551): a picture, four corner
+ * texts (kicker top-left, label top-right, title bottom-left, button
+ * bottom-right) and ONE link the whole card carries. Texts are short by design —
+ * they sit in rounded chips over the picture — hence the 60-character cap.
+ *
+ * `image.srcset` is the same list `scripts/media/make-image-variants.mjs` writes
+ * for the course cover, so a fixture-cut picture reaches the storefront as a real
+ * `srcset`; a panel upload has only `src`.
+ *
+ * The product link carries the handle the storefront links to; the route
+ * re-reads it from the product at save time (ownership check + canonical
+ * handle), so a renamed product cannot leave a stale handle behind.
+ */
+export const HOME_BANNER_TEXT_MAX = 60;
+export const HOME_BANNERS_MAX = 10;
+
+/** `http(s)://…` or a site-relative path (`/ru/store`); never a scheme the
+ *  storefront would render as script, never a protocol-relative `//host`. */
+export const isAllowedBannerHref = (href: string): boolean =>
+  /^https?:\/\/[^\s]+$/i.test(href) || (/^\/[^\s]*$/.test(href) && !href.startsWith("//"));
+
+const bannerImageSchema = z.object({
+  src: z.string().min(1).max(1000),
+  alt: z.string().max(200).default(""),
+  width: z.number().int().positive().optional(),
+  height: z.number().int().positive().optional(),
+  srcset: z
+    .array(z.object({ w: z.number().int().positive(), url: z.string().min(1).max(1000) }))
+    .max(10)
+    .optional(),
+});
+
+const bannerLinkSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("product"),
+    product_id: z.string().min(1),
+    handle: z.string().max(200).default(""),
+  }),
+  z.object({
+    type: z.literal("url"),
+    href: z
+      .string()
+      .min(1)
+      .max(1000)
+      .refine(isAllowedBannerHref, {
+        message: "href must be http(s)://… or a site path starting with /.",
+      }),
+  }),
+]);
+
+const bannerTextSchema = z.string().max(HOME_BANNER_TEXT_MAX).default("");
+
+export const HomeBannerSchema = z.object({
+  id: z.string().min(1).max(64),
+  image: bannerImageSchema,
+  kicker: bannerTextSchema,
+  label: bannerTextSchema,
+  title: bannerTextSchema,
+  button: bannerTextSchema,
+  link: bannerLinkSchema,
+  sort: z.number().int().min(0).max(1000).default(0),
+});
+
+const bannersSchema = z
+  .array(HomeBannerSchema)
+  .max(HOME_BANNERS_MAX)
+  .default([])
+  .refine((banners) => new Set(banners.map((b) => b.id)).size === banners.length, {
+    message: "banners must have distinct ids.",
+  });
+
 const contentSchema = z.object({
   hero: heroSchema,
   products: productsSchema,
   order: orderSchema,
+  banners: bannersSchema,
 });
 
 /**
@@ -147,9 +223,13 @@ export type TenantHomeDocument = {
       | { source: "popular" }
       | { source: "category"; category_id: string; title: string };
     order: HomeBlock[];
+    /** Absent on documents saved before t-2026-09-24-n15; the storefront reads it as `[]`. */
+    banners?: HomeBanner[];
   };
   updatedAt: string;
 };
+
+export type HomeBanner = z.infer<typeof HomeBannerSchema>;
 
 /** Re-exported so the route imports the forbidden-pair check from one place. */
 export { isForbidden };

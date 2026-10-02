@@ -690,7 +690,8 @@
     "cart": "Cart ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Lumaktaw sa nilalaman"
+    "skipToContent": "Lumaktaw sa nilalaman",
+    "modeDark": "Madilim na tema"
   },
   "NotFound": {
     "cartDescription": "Hindi umiiral ang cart na sinubukan mong buksan. I-clear ang iyong cookies at subukang muli.",
@@ -834,7 +835,10 @@
     "selectVariant": "Pumili ng variant",
     "inStock": "May stock",
     "buyNow": "Bilhin ngayon",
-    "buy": "Bilhin"
+    "buy": "Bilhin",
+    "inCart": "Nasa cart",
+    "decreaseQuantity": "Alisin ang isa",
+    "increaseQuantity": "Magdagdag ng isa pa"
   },
   "ProductAttributes": {
     "no": "Hindi",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Hindi pa naka-set up ang delivery sa Russian Post sa tindahang ito.",
     "quoteFailed": "Hindi makalkula ang delivery papunta sa puntong ito. Pumili ng iba.",
     "postcode": "Postal code {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kurso",
+      "goTo": "Pumunta sa “{title}”",
+      "label": "Mga banner",
+      "next": "Susunod",
+      "position": "{current} ng {total}",
+      "previous": "Nakaraan",
+      "watch": "Panoorin"
+    }
   }
 }

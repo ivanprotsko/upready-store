@@ -40,6 +40,7 @@ import {
   type TenantHomeDocument,
   type ThemePreset,
 } from "./composition"
+import { HomeBannersEditor, validateBanners } from "./components/home-banners-editor"
 
 // tenant-panel: own screen, no Admin counterpart (`/home-settings`). It writes
 // the tenant's home-page document `upready.tenant-home/v1`
@@ -169,6 +170,26 @@ export const HomeSettings = () => {
   const setHero = (patch: Partial<TenantHomeDocument["content"]["hero"]>) =>
     edit({ ...doc, content: { ...doc.content, hero: { ...doc.content.hero, ...patch } } })
 
+  // t-2026-09-24-n15: the banners of the storefront's HeroSliders block, saved
+  // inside the same document (`content.banners`) by the same Save button.
+  const banners = doc.content.banners ?? []
+  const setBanners = (next: TenantHomeDocument["content"]["banners"]) =>
+    edit({ ...doc, content: { ...doc.content, banners: next } })
+
+  const uploadBannerImage = async (file: File): Promise<string | undefined> => {
+    try {
+      const uploaded = await uploadTenantFile(file)
+      return uploaded?.url
+    } catch (e) {
+      toast.error(
+        e instanceof Error
+          ? e.message
+          : t("homeSettings.uploadFailed", { defaultValue: "The image could not be uploaded." })
+      )
+      return undefined
+    }
+  }
+
   const categories = useComboboxData({
     queryKey: categoriesQueryKeys.lists(),
     queryFn: (params) =>
@@ -219,6 +240,15 @@ export const HomeSettings = () => {
   }
 
   const onSave = async () => {
+    const bannerErrors = validateBanners(banners, t)
+    if (Object.keys(bannerErrors).length) {
+      toast.error(
+        t("homeSettings.banners.saveBlocked", {
+          defaultValue: "Fix the banners marked below before saving.",
+        })
+      )
+      return
+    }
     try {
       await mutateAsync({
         theme: doc.theme,
@@ -460,6 +490,13 @@ export const HomeSettings = () => {
                 </div>
               )}
           </div>
+        </div>
+
+        <div className="flex flex-col gap-y-4" data-testid="home-banners-section">
+          <Heading level="h2">
+            {t("homeSettings.banners.heading", { defaultValue: "Home banners" })}
+          </Heading>
+          <HomeBannersEditor banners={banners} onChange={setBanners} upload={uploadBannerImage} />
         </div>
 
         <div className="flex flex-col gap-y-4">

@@ -1,0 +1,432 @@
+/*
+ * HeroSliders · Olavka (t-2026-09-24-n15), Figma 238:17551, values from the node dump
+ * (w15-cache-nodes3.json), three device variants:
+ *   desktop 1216×496 — content padding 32/24, banners 572×400 (one: 1168), gap 24;
+ *   tablet   720×432 — padding 0/24, banner 572×400 (one: 672), the next peeking, gap 24;
+ *   mobile   360×432 — padding 0/12, banner 288×400 (one: 336), radius 24, gap 12.
+ * Banner: radius 48 (mobile 24), a 3px white ring inset 4px (radius 44 / 20).
+ * Chips = the node's «BannerLabel»: `surface` (4px ring, padding 7; the node's background
+ * blur 100 dropped on Ivan's word, remark 16) around `inner` (fill). The node marks both
+ * LUMINOSITY, but Figma's own export paints the dark fill as plain #312721 (sampled #332720
+ * on both pictures), and a CSS `mix-blend-mode: luminosity` turns it olive (#342a0d) — so
+ * no blend here. Two sizes:
+ *   m  surface 64 high r18, inner r11, padding 0 16 — Roboto Flex 28/90% (mobile: 50 high
+ *      r12, inner r6, padding 0 10, 20px);
+ *   L  (title) surface r36, inner r29, padding 24/20 — Roboto Flex 56/90%, weight 425
+ *      (mobile: r20 / r16, padding 16/12, 48px).
+ * Type: Roboto Flex, width axis 25 (the node's condensed named instances), uppercase,
+ * leading trimmed to the cap height (the node's `leadingTrim: CAP_HEIGHT`). The wdth value
+ * is not in the REST dump; 25 is fitted by width against the node's text boxes (±1px).
+ * Offsets of the surface from the banner edge: desktop 40 (title 36), tablet 28, mobile 20.
+ * Mobile shows only the date (top left) and the title (bottom left).
+ *
+ * The track is native scroll-snap: no measuring, no state, swipe and wheel for free.
+ * Breakpoints: mobile below 640, tablet 640–1023, desktop from 1024 (the storefront's
+ * `small` screen).
+ */
+
+.slider {
+  /* The whole window wide, so a carousel's neighbours run to the window edges instead of
+     stopping at a 1440 box (Ivan's remark 14.1.1, the frame 239:17719 cuts them only at its
+     own edge). The cards keep the page's one container (`content-container`: 1440, 24px
+     sides) through `--content` below, on the header's and the catalog's lines (remark 1.1). */
+  padding: 16px 0;
+  container-type: inline-size;
+  /* The content width: the window up to 1440, as `content-container`. Read (in the
+     slider's container units) by the track and by the arrows beside it. */
+  --content: min(100cqi, 1440px);
+}
+
+/* Base = carousel (`Items=2+`): scroll-snap, cards centred, neighbours peeking. */
+.track {
+  --gap: 24px;
+  display: flex;
+  gap: var(--gap);
+  margin: 0;
+  padding: 32px 24px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 24px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* The loop track measures its cards with `offsetLeft`: it is their offset parent. A carousel
+   card is `--item` wide (tablet here: 572, never wider than the track less 100). */
+.carousel {
+  --item: min(572px, 100cqi - 148px);
+  position: relative;
+}
+
+.carousel > .item {
+  flex: 0 0 var(--item);
+  max-width: none;
+}
+
+/* The server's first paint, until `OlavkaLoopTrack` marks the track `data-loop-ready` (Ivan's
+   remark 16: after a reload the slot left of the centred card stayed empty — at scroll 0 the
+   first leading clone sat centred on the start padding, and only the island's scroll after
+   hydration brought the rest position). Without the island the rest position is drawn by CSS:
+   the leading clones are out but the last one, which stands one card left of the first real
+   card, and the start padding centres that real card. The island then puts the clones back
+   and scrolls to the same card in one frame. */
+.carousel:not([data-loop-ready]) {
+  padding-inline-start: calc(50cqi - var(--item) / 2);
+}
+
+.carousel:not([data-loop-ready]) > [data-copy="before"]:not([data-peek]) {
+  display: none;
+}
+
+.carousel:not([data-loop-ready]) > [data-peek] {
+  margin-inline-start: calc(-1 * (var(--item) + var(--gap)));
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Previous / next arrows of the loop (Ivan's remark 22; the node has none), only on desktop:
+   below 1024 the track is swiped. Each arrow is the header's burger disc in black (h7
+   `disc discInverse`, Ivan's remark of 2026-09-27 and its addition) inside a slot that
+   carries the header's tokens (h7 `tokens`) and places it: «Назад» on the burger's left line,
+   «Далее» on «Корзина»'s right line, `--h7-edge` in from the content's sides, at the cards'
+   middle. Once the header is scrolled (its `data-scrolled`, the same threshold) both move out
+   to `--h7-edge-scrolled` with the header's own motion, and back at the top. The page zoom
+   above 1440 scales them with the header. Hidden until `OlavkaLoopTrack` is ready, so a click
+   is never lost before hydration. */
+.loop {
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  transform: translateY(-50%);
+  transition: translate var(--h7-motion);
+}
+
+.arrowPrevious {
+  left: calc((100cqi - var(--content)) / 2 + var(--h7-edge));
+}
+
+.arrowNext {
+  right: calc((100cqi - var(--content)) / 2 + var(--h7-edge));
+}
+
+:global(html:has(#nav-h7[data-scrolled="true"])) .arrowPrevious {
+  translate: calc(var(--h7-edge-scrolled) - var(--h7-edge)) 0;
+}
+
+:global(html:has(#nav-h7[data-scrolled="true"])) .arrowNext {
+  translate: calc(var(--h7-edge) - var(--h7-edge-scrolled)) 0;
+}
+
+@media (max-width: 1023px) {
+  .arrow {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    transition: none;
+  }
+}
+
+.carousel:not([data-loop-ready]) ~ .arrow {
+  visibility: hidden;
+}
+
+.item {
+  flex: 0 0 572px;
+  max-width: calc(100% - 100px);
+  scroll-snap-align: center;
+}
+
+/* One or two cards never scroll: their row stays inside the content container. */
+.single,
+.pair {
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
+/* `Items=1`: one card, the whole content width. */
+.single .item {
+  flex-basis: 100%;
+  max-width: none;
+  scroll-snap-align: start;
+}
+
+/* Desktop (≥1024): fluid up to the 1440 container, the cards keep the frame's
+   proportions — a pair / carousel card is half the content (572 at 1216, 684 at 1440),
+   572×400; one banner is the whole content, 1168×400. `--content` = the content width. */
+@media (min-width: 1024px) {
+  .pair {
+    overflow: visible;
+  }
+  .pair .item {
+    flex-basis: calc((var(--content) - 72px) / 2);
+    max-width: none;
+  }
+  .pair .card,
+  .carousel .card {
+    height: auto;
+    aspect-ratio: 572 / 400;
+  }
+  .single .card {
+    height: auto;
+    aspect-ratio: 1168 / 400;
+  }
+
+  /* `Items=2+` (239:17719): the current card centred (x 322 at 1216), the next peeking
+     right (918) — the padding is what centres the first card at rest. */
+  .carousel {
+    --item: calc((var(--content) - 72px) / 2);
+    padding-inline: calc(50cqi - (var(--content) - 72px) / 4);
+    scroll-padding-inline: calc(50cqi - (var(--content) - 72px) / 4);
+  }
+}
+
+.card {
+  position: relative;
+  display: block;
+  height: 400px;
+  border-radius: 48px;
+  overflow: hidden;
+  background: var(--muted);
+  color: #ffffff;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 4px;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .image {
+    transition: transform 400ms ease-out;
+  }
+  .card:hover .image {
+    transform: scale(1.02);
+  }
+}
+
+.border {
+  position: absolute;
+  inset: 4px;
+  border: 3px solid #ffffff;
+  border-radius: 44px;
+  pointer-events: none;
+}
+
+/* A plain block, no background blur (Ivan's remark 16): in Firefox the ring of a dark chip
+   on a scrolled card painted white until the next full repaint, and Ivan found it gone with
+   the chip's `display: flex` off; the blur he does not want. The block lays `inner` out
+   exactly as the flex row did: the same width (the chip shrinks to it), the same height. */
+.chip {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  max-width: calc(100% - 80px);
+  padding: 3px;
+  border: 4px solid;
+  border-radius: 18px;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 50px;
+  padding: 0 16px;
+  border-radius: 11px;
+}
+
+.text {
+  display: block;
+  min-width: 0;
+  /* The box is trimmed to the cap height, so its own clip (kept for the ellipsis) cut the
+     overshoot of «С», «О» (Ivan's remark 12.2). The clip gets 0.25em of room above and below
+     — overshoots, «Й»/«Ё» marks, «Д»/«Щ» tails — and the margins give it back to the layout. */
+  overflow: hidden;
+  padding-block: 0.25em;
+  margin-block: -0.25em;
+  /* No other variable in the stack: an undefined one (the profile's `--font-body` when the
+     build has no font pair) invalidates the whole declaration and the text falls to Inter. */
+  font-family: var(--font-olavka-flex, "Roboto Flex"), sans-serif;
+  font-size: 28px;
+  font-weight: 532;
+  font-variation-settings: "wdth" 25;
+  letter-spacing: 0;
+  line-height: 0.9;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-box: trim-both cap alphabetic;
+}
+
+/* `Property 2=soft|contrast` light: white ring and fill, #1a1b09 text. */
+.soft {
+  border-color: #ffffff;
+}
+.soft .inner {
+  background: #ffffff;
+  color: #1a1b09;
+}
+
+/* Dark: #312721 ring and fill, white text. */
+.dark {
+  border-color: #312721;
+}
+.dark .inner {
+  background: #312721;
+  color: #ffffff;
+}
+
+.kicker {
+  top: 40px;
+  left: 40px;
+}
+
+.label {
+  top: 40px;
+  right: 40px;
+}
+
+.label .text {
+  font-weight: 475;
+  letter-spacing: 1.4px;
+}
+
+.button {
+  bottom: 40px;
+  right: 40px;
+}
+
+/* «BannerLabel» L: the title, the editor's own line breaks, never wider than half. */
+.title {
+  bottom: 36px;
+  left: 36px;
+  max-width: calc(100% - 72px);
+  border-radius: 36px;
+}
+
+.title .inner {
+  height: auto;
+  padding: 24px 20px;
+  border-radius: 29px;
+}
+
+.title .text {
+  font-size: 56px;
+  font-weight: 425;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* No cap trimming (Firefox, remark 12.2.1): the same trim from Roboto Flex's own metrics
+   (ascent 0.928, descent 0.244, cap height 0.711, line-height 0.9 → the line box reaches
+   0.081em above the caps and 0.108em below the baseline), taken back by negative margins,
+   so the text box is the cap height here too and every chip lays out alike. */
+@supports not (text-box: trim-both cap alphabetic) {
+  .text {
+    margin-block: calc(-0.25em - 0.081em) calc(-0.25em - 0.108em);
+  }
+}
+
+/* Tablet (238:17548): every chip 28px from the banner edge (label padding 24 + 4). */
+@media (max-width: 1023px) {
+  .track {
+    padding: 0 24px;
+  }
+  .kicker {
+    top: 28px;
+    left: 28px;
+  }
+  .label {
+    top: 28px;
+    right: 28px;
+  }
+  .label .text {
+    font-weight: 532;
+    letter-spacing: 0;
+  }
+  .button {
+    bottom: 28px;
+    right: 28px;
+  }
+  .title {
+    bottom: 28px;
+    left: 28px;
+    max-width: calc(100% - 56px);
+  }
+}
+
+/* Mobile (238:17549 / 239:18881): date and title only, 20px from the edge. */
+@media (max-width: 639px) {
+  .track {
+    --gap: 12px;
+    padding: 0 12px;
+    scroll-padding-inline: 12px;
+  }
+  .item {
+    flex-basis: 288px;
+    max-width: calc(100% - 48px);
+  }
+  .carousel {
+    --item: min(288px, 100cqi - 72px);
+  }
+  .card {
+    border-radius: 24px;
+  }
+  .border {
+    border-radius: 20px;
+  }
+  .label,
+  .button {
+    display: none;
+  }
+  .chip {
+    border-radius: 12px;
+    max-width: calc(100% - 40px);
+  }
+  .inner {
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 6px;
+  }
+  .text {
+    font-size: 20px;
+  }
+  .kicker {
+    top: 20px;
+    left: 20px;
+  }
+  .title {
+    bottom: 20px;
+    left: 20px;
+    border-radius: 20px;
+  }
+  .title .inner {
+    padding: 16px 12px;
+    border-radius: 16px;
+  }
+  .title .text {
+    font-size: 48px;
+  }
+}

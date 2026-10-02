@@ -690,7 +690,8 @@
     "cart": "Giỏ hàng ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Bỏ qua đến nội dung"
+    "skipToContent": "Bỏ qua đến nội dung",
+    "modeDark": "Chủ đề tối"
   },
   "NotFound": {
     "cartDescription": "Giỏ hàng bạn đang truy cập không tồn tại. Vui lòng xóa cookie và thử lại.",
@@ -834,7 +835,10 @@
     "selectVariant": "Chọn phiên bản",
     "inStock": "Còn hàng",
     "buyNow": "Mua ngay",
-    "buy": "Mua"
+    "buy": "Mua",
+    "inCart": "Trong giỏ hàng",
+    "decreaseQuantity": "Bớt một",
+    "increaseQuantity": "Thêm một nữa"
   },
   "ProductAttributes": {
     "no": "Không",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Cửa hàng này chưa thiết lập giao hàng qua Bưu điện Nga.",
     "quoteFailed": "Không tính được phí giao hàng đến điểm này. Hãy chọn điểm khác.",
     "postcode": "Mã bưu chính {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Khóa học",
+      "goTo": "Đi tới “{title}”",
+      "label": "Banner",
+      "next": "Tiếp theo",
+      "position": "{current} trên {total}",
+      "previous": "Trước",
+      "watch": "Xem"
+    }
   }
 }

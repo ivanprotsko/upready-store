@@ -62,6 +62,30 @@ export type TenantProductsContent =
   | { source: "popular" }
   | { source: "category"; category_id: string; title: string }
 
+/**
+ * One banner of the HeroSliders block (t-2026-09-24-n15), `content.banners` of the
+ * document — written by the panel's «Баннеры на главной» section and validated by
+ * `apps/backend/src/api/tenants/home/validators.ts` (`HomeBannerSchema`). A product link
+ * carries the handle the backend resolved at save time; `srcset` exists only for
+ * fixture-cut pictures (`scripts/media/make-image-variants.mjs`), an upload has `src` alone.
+ */
+export type TenantHomeBanner = {
+  id: string
+  image: {
+    src: string
+    alt: string
+    width?: number
+    height?: number
+    srcset?: Array<{ w: number; url: string }>
+  }
+  kicker: string
+  label: string
+  title: string
+  button: string
+  link: { type: "product"; product_id: string; handle: string } | { type: "url"; href: string }
+  sort: number
+}
+
 export type TenantHome = {
   schema: string
   theme: { preset: string }
@@ -70,6 +94,8 @@ export type TenantHome = {
     hero: TenantHeroContent
     products: TenantProductsContent
     order: HomeBlock[]
+    /** Absent on documents saved before the banners existed. */
+    banners?: TenantHomeBanner[]
   }
   updatedAt: string
 }

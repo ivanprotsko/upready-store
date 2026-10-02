@@ -9,6 +9,8 @@ import X from "@modules/common/icons/x"
 
 import { getProductPrice } from "@lib/util/get-product-price"
 import OptionSelect from "./option-select"
+import InCartStepper from "../in-cart-stepper"
+import type { CartLine } from "../in-cart-stepper/logic"
 import type { HttpTypes } from "@medusajs/types"
 import { Button, clx } from "@medusajs/ui"
 import { isSimpleProduct, optionsWithUsedValues } from "@lib/util/product"
@@ -21,6 +23,8 @@ type MobileActionsProps = {
   inStock?: boolean
   handleAddToCart: () => void
   isAdding?: boolean
+  /** The variant's cart line (the Olavka shop, remark 24): «В КОРЗИНЕ − N +» once it is in. */
+  inCart?: { line: CartLine | null; max: number }
   show: boolean
   optionsDisabled: boolean
 }
@@ -33,6 +37,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   inStock,
   handleAddToCart,
   isAdding,
+  inCart,
   show,
   optionsDisabled,
 }) => {
@@ -57,6 +62,23 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   }, [price])
 
   const isSimple = isSimpleProduct(product)
+
+  const addButton = (
+    <Button
+      onClick={handleAddToCart}
+      size="large"
+      disabled={!inStock || !variant}
+      className="min-w-0 flex-1"
+      isLoading={isAdding}
+      data-testid="mobile-cart-button"
+    >
+      {!variant
+        ? t("selectVariant")
+        : !inStock
+        ? t("outOfStock")
+        : t("addToCart")}
+    </Button>
+  )
 
   return (
     <>
@@ -125,20 +147,17 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 </span>
               </Button>
             )}
-            <Button
-              onClick={handleAddToCart}
-              size="large"
-              disabled={!inStock || !variant}
-              className="min-w-0 flex-1"
-              isLoading={isAdding}
-              data-testid="mobile-cart-button"
-            >
-              {!variant
-                ? t("selectVariant")
-                : !inStock
-                ? t("outOfStock")
-                : t("addToCart")}
-            </Button>
+            {inCart ? (
+              <InCartStepper
+                line={inCart.line}
+                max={inCart.max}
+                addButton={addButton}
+                className="min-w-0 flex-1"
+                data-testid="mobile-in-cart-stepper"
+              />
+            ) : (
+              addButton
+            )}
           </div>
         </Transition>
       </div>

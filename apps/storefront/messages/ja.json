@@ -690,7 +690,8 @@
     "cart": "カート（{count}）",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "コンテンツへスキップ"
+    "skipToContent": "コンテンツへスキップ",
+    "modeDark": "ダークテーマ"
   },
   "NotFound": {
     "cartDescription": "アクセスしようとしたカートは存在しません。Cookieを削除してもう一度お試しください。",
@@ -834,7 +835,10 @@
     "selectVariant": "バリエーションを選択",
     "inStock": "在庫あり",
     "buyNow": "今すぐ購入",
-    "buy": "購入"
+    "buy": "購入",
+    "inCart": "カートに追加済み",
+    "decreaseQuantity": "1つ減らす",
+    "increaseQuantity": "1つ追加"
   },
   "ProductAttributes": {
     "no": "いいえ",
@@ -1065,5 +1069,16 @@
     "notConfigured": "このショップではロシア郵便での配送がまだ設定されていません。",
     "quoteFailed": "この拠点への配送料金を計算できませんでした。別の拠点を選んでください。",
     "postcode": "郵便番号 {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "コース",
+      "goTo": "「{title}」に移動",
+      "label": "バナー",
+      "next": "次へ",
+      "position": "{total}枚中{current}枚目",
+      "previous": "前へ",
+      "watch": "視聴する"
+    }
   }
 }

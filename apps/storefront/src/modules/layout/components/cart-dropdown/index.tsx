@@ -142,8 +142,16 @@ const CartDropdownItem = ({
 
 const CartDropdown = ({
   cart: cartState,
+  variant = "icon",
 }: {
   cart?: HttpTypes.StoreCart | null
+  /**
+   * `"pill"` (branch `redesign-olavka`, t-2026-09-24-n15): the trigger drawn as the Figma
+   * header's cart ToggleButton (227:9165) — cart icon + «Корзина» in a 40px white pill whose
+   * outline is the node's two drop shadows (0 0 0 1px 8%, 0 1px 2px 12%), the count badge on
+   * the icon as before. Default: today's bare icon.
+   */
+  variant?: "icon" | "pill"
 }) => {
   const t = useTranslations("CartDropdown")
   const tNav = useTranslations("Nav")
@@ -201,19 +209,23 @@ const CartDropdown = ({
 
   return (
     <div
-      className="h-full z-50"
+      className={variant === "pill" ? "h-full z-50 flex items-center" : "h-full z-50"}
       onMouseEnter={openAndCancel}
       onMouseLeave={close}
     >
-      <Popover className="relative h-full">
+      <Popover className={variant === "pill" ? "relative" : "relative h-full"}>
         <Link
-          className="flex h-full items-center hover:text-ui-fg-base"
+          className={
+            variant === "pill"
+              ? "inline-flex h-10 items-center gap-x-2 rounded-full bg-[var(--h7-surface,var(--background))] px-4 font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] shadow-[0_0_0_1px_var(--h7-ring,rgba(0,0,0,0.08)),0_1px_2px_rgba(0,0,0,0.12)] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+              : "flex h-full items-center hover:text-ui-fg-base"
+          }
           href="/cart"
           aria-label={tNav("cart", { count: totalItems })}
           data-testid="nav-cart-link"
         >
           <div className="relative flex items-center leading-none">
-            <ShoppingCart />
+            <ShoppingCart className={variant === "pill" ? "h-[15px] w-[15px]" : undefined} />
             {totalItems > 0 && (
               <span
                 className="absolute -top-2 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-ui-contrast-bg-base text-ui-contrast-fg-primary text-[10px] font-medium leading-none"
@@ -223,6 +235,7 @@ const CartDropdown = ({
               </span>
             )}
           </div>
+          {variant === "pill" ? <span className="hidden sm:inline">{t("heading")}</span> : null}
         </Link>
         <Transition
           show={cartDropdownOpen}

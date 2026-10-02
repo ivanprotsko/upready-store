@@ -8,12 +8,15 @@ import {
   DEFAULT_HERO,
   DEFAULT_LISTING,
   DEFAULT_TILES,
+  OLAVKA_HOME_BLOCKS,
+  OLAVKA_HOME_ORDER,
   HERO_VARIANTS,
   LISTING_VARIANTS,
   type HomeBlockKey,
 } from "@modules/home/variants"
 import type { HomeHeroProps } from "@modules/home/variants/types"
 import { buildAlternates } from "@lib/util/alternates"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
 import { localizedHero } from "@lib/util/localized-hero"
 import { getTranslations, getLocale } from "next-intl/server"
@@ -132,12 +135,13 @@ export default async function Home() {
   // "this shop's document, else the site-wide one", which is why there is no second
   // fallback here; a single-store deployment resolves no shop and reads exactly what it
   // read before either piece existed.
-  const [t, settings, home, tileList, locale] = await Promise.all([
+  const [t, settings, home, tileList, locale, olavka] = await Promise.all([
     getTranslations("CategoryMenu"),
     getEffectiveSettings(),
     getTenantHome(),
     tilesForThisShop(),
     getLocale(),
+    isOlavkaShop(),
   ])
 
   const hero = settings?.hero ?? DEFAULT_HERO
@@ -162,9 +166,16 @@ export default async function Home() {
       }
     : {}
 
-  const order: readonly HomeBlockKey[] = home?.content.order?.length
+  const savedOrder: readonly HomeBlockKey[] = home?.content.order?.length
     ? home.content.order
     : DEFAULT_BLOCK_ORDER
+  // The Olavka shop's own blocks above take the hero's place, so the composed hero is
+  // skipped for it — Ivan saw three heroes on one page otherwise (2026-09-24). Tiles and
+  // listing keep rendering below the new blocks. Every other shop gets the saved order,
+  // untouched.
+  const order: readonly HomeBlockKey[] = olavka
+    ? savedOrder.filter((block) => block !== "hero")
+    : savedOrder
 
   const blocks: Record<HomeBlockKey, React.ReactNode> = {
     hero: Hero ? <Hero {...heroProps} /> : null,
@@ -190,6 +201,18 @@ export default async function Home() {
 
   return (
     <>
+      {/* The Olavka shop's own Figma blocks first, in Figma order — see `OLAVKA_HOME_ORDER`'s
+          own doc comment in `home/variants/index.ts`. The Cover takes the same tenant hero
+          copy the composed hero does. Every other shop renders none of these. */}
+      {olavka &&
+        OLAVKA_HOME_ORDER.map((block) => {
+          const Block = OLAVKA_HOME_BLOCKS[block]
+          return (
+            <Fragment key={block}>
+              {block === "olavkaCover" ? <Block {...heroProps} /> : <Block />}
+            </Fragment>
+          )
+        })}
       {order.map((block) => (
         <Fragment key={block}>{blocks[block]}</Fragment>
       ))}

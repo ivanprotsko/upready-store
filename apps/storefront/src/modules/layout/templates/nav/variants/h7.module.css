@@ -1,0 +1,451 @@
+/*
+ * H7 · Olavka header (t-2026-09-24-n15), Figma 227:9557 «Header», `Scrolled=false`
+ * (values from `w15-cache-nodes2.json`): a bar with no fill (Ivan's remark 7.1.1) and no
+ * visible bottom line (the node's 0.5px stroke is hidden), ink #18181b, wordmark #1a1b09.
+ * In the dark mode the controls follow the theme's own tokens.
+ */
+
+.root {
+  --h7-divider: #e4e4e7;
+  /* The logo pill v3 (Ivan's remark 10, Header 227:9557 as of 2026-09-25 06:51): #f0f0f0
+     and a white 0.5px ring, both clear at rest, 80% / 75% scrolled; the text's white glow. */
+  --h7-logo-pill: rgba(240, 240, 240, 0.8);
+  --h7-logo-pill-ring: rgba(255, 255, 255, 0.75);
+  --h7-logo-glow: #ffffff;
+  --h7-logo-glow-half: rgba(255, 255, 255, 0.5);
+}
+
+/* Dark (no values from Ivan): the theme's muted surface at 80%, the bar's 16% white ring,
+   and the glow in the page colour, so the light wordmark keeps its contrast. */
+:global([data-mode="dark"]) .root {
+  --h7-divider: var(--border);
+  --h7-logo-pill: color-mix(in srgb, var(--muted) 80%, transparent);
+  --h7-logo-pill-ring: rgba(255, 255, 255, 0.16);
+  --h7-logo-glow: var(--background);
+  --h7-logo-glow-half: color-mix(in srgb, var(--background) 50%, transparent);
+}
+
+/* The bar's control tokens. `tokens` carries them outside the bar, for header controls drawn
+   elsewhere: the hero slider's arrows are this header's disc, `--h7-edge` in from the
+   window's sides like the burger and «Корзина», moving out with them on scroll (Ivan's
+   remark of 2026-09-27 on the hero slider and its addition). */
+.bar,
+.tokens {
+  --h7-ink: #18181b;
+  --h7-surface: #ffffff;
+  --h7-ring: rgba(0, 0, 0, 0.08);
+  /* The desktop columns' outer padding: the burger's left, «Корзина»'s right; scrolled. */
+  --h7-edge: 24px;
+  --h7-edge-scrolled: 12px;
+  /* The scrolled state's change (Ivan's remark 11). */
+  --h7-motion: 200ms ease-out;
+}
+
+.bar {
+  --h7-wordmark: #1a1b09;
+  height: 53px;
+  /* No fill of its own (Ivan's remark 7.1.1): the page shows through, the pills, discs and
+     the logo pill keep theirs. The node frame's #ffffff fill is the component's backdrop. */
+  background: transparent;
+  color: var(--h7-ink);
+}
+
+:global([data-mode="dark"]) .bar,
+:global([data-mode="dark"]) .tokens {
+  --h7-ink: var(--foreground);
+  --h7-surface: var(--background);
+  /* A black 8% ring vanishes on a dark bar: the outline turns light. */
+  --h7-ring: rgba(255, 255, 255, 0.16);
+}
+
+:global([data-mode="dark"]) .bar {
+  --h7-wordmark: var(--foreground);
+}
+
+@media (min-width: 640px) {
+  .bar {
+    height: 57px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bar {
+    height: 76px;
+  }
+}
+
+/* Desktop 227:9200: three equal columns 10px apart, 24px inside each. */
+/* The page's one container (1440, the columns' own 24px sides = `content-container`'s
+   px-6), so the burger and «Корзина» stand on the catalog's lines (Ivan's remark 1.2).
+   The node's 1px frame padding is dropped for that: burger x 24, not 25. */
+.inner {
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.leading,
+.main,
+.trailing {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.leading,
+.trailing {
+  gap: 12px;
+  padding: 0 var(--h7-edge);
+}
+
+.trailing {
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.main {
+  justify-content: center;
+  container-type: inline-size;
+}
+
+/* IconButton Style=Primary (burger): 40px white disc, the node's two drop shadows. */
+.disc {
+  flex: none;
+  align-self: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--h7-surface);
+  color: var(--h7-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 1px var(--h7-ring),
+    0 1px 2px rgba(0, 0, 0, 0.12);
+  transition: background-color 150ms ease-out;
+}
+
+/* A plain icon button: no fill, no ring (account; the compact bar's cart and burger). */
+.iconButton {
+  flex: none;
+  align-self: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  color: var(--h7-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 150ms ease-out;
+}
+
+.disc:hover,
+.iconButton:hover {
+  background: var(--accent);
+}
+
+/* The inverse disc, black with a white icon in both modes, a touch lighter on hover: the
+   hero slider's arrows (Ivan's addition of 2026-09-27, «на черном фоне»). The burger's
+   box, icon, ring, shadow and focus ring otherwise. */
+.disc.discInverse {
+  background: #000000;
+  color: #ffffff;
+}
+
+.disc.discInverse:hover {
+  background: #262626;
+}
+
+/* Every control keeps its own round shape on keyboard focus (Ivan's remark 21). The app-wide
+   ring in `globals.css` sets `border-radius: inherit`, so that a control with no corners of
+   its own follows its container; each control here has its own and sits in a square box, so
+   on focus the ring, the logo's pill and the burger's disc all turned square. */
+.disc:focus-visible,
+.iconButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+/* On the black disc the ring's 2px gap is filled white, so the ring reads against the disc
+   and against a dark picture behind it. */
+.disc.discInverse:focus-visible {
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+.wordmark:focus-visible {
+  border-radius: 32px;
+}
+
+/* The compact bar's cart is the shared icon link, a narrow box inside this disc: the disc
+   carries its ring. */
+.iconButton:has([data-testid="nav-cart-link"]:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.iconButton [data-testid="nav-cart-link"]:focus-visible {
+  outline-color: transparent;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* Logo 227:9200 → 235:16880: Ruslan Display 32 in a 40px box, padding 0 16 (tablet
+   0 16 / 28px, mobile 0 8 / 28px). A long name shrinks to fit its column: the column is
+   the container, `--wm-chars` the name's length, 0.72em the face's mean letter width. */
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  font-family: var(--font-olavka-wordmark), serif;
+  font-size: min(32px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
+  line-height: 1;
+  font-weight: 400;
+  color: var(--h7-wordmark);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* The node's text box is the cap height (`leadingTrim: CAP_HEIGHT`, 32px → 16) centred in
+   the 40px logo box, so the caps' centre is the controls' centre (Ivan's remark 7.1.2).
+   Trimming applies to a block, not to the flex link, hence this block of its own. */
+.wordmarkText {
+  display: block;
+  text-box: trim-both cap alphabetic;
+}
+
+/* No cap trimming (older Safari / Firefox): Ruslan Display's line box is ascent 0.688 +
+   descent 0.397, cap height 0.5 (read from the font), so the caps' centre stands
+   (0.688 − 0.397 − 0.5) / 2 = 0.1045em above the line's centre; a 0.209em top padding
+   moves it down onto the centre of the flex box. */
+@supports not (text-box: trim-both cap alphabetic) {
+  .wordmarkText {
+    padding-top: 0.209em;
+  }
+}
+
+/* An uploaded logo image is centred as a box, no text metrics. */
+.wordmarkText:has(img) {
+  display: contents;
+}
+
+/* Tablet 235:16409 / mobile 235:16816. */
+.compact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  padding: 0 1px 1px;
+}
+
+@media (min-width: 640px) {
+  .compact {
+    padding: 1px 0 0;
+  }
+}
+
+.compactMain {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 8px;
+  container-type: inline-size;
+}
+
+.compactMain .wordmark {
+  height: 37px;
+  padding: 0 8px;
+  font-size: min(28px, calc((100cqi - 16px) / (var(--wm-chars, 6) * 0.72)));
+}
+
+@media (min-width: 640px) {
+  .compactMain .wordmark {
+    height: 40px;
+    padding: 0 16px;
+    font-size: min(28px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
+  }
+}
+
+.compactGroup {
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.compactPill {
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  transition:
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.divider {
+  flex: none;
+  width: 1px;
+  height: 12px;
+  background: transparent;
+  transition: background-color 200ms ease-out;
+}
+
+.compactGroup .iconButton {
+  width: 36px;
+  height: 36px;
+}
+
+@media (min-width: 640px) {
+  .compactGroup .iconButton {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.desktopOnly {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktopOnly {
+    display: flex;
+  }
+}
+
+.mobileOnly {
+  display: flex;
+}
+
+@media (min-width: 1024px) {
+  .mobileOnly {
+    display: none;
+  }
+}
+
+/* ── `Scrolled=true` (227:9549 / 235:16802 / 238:16965) ─────────────────────────── */
+/* The logo pill is there in both states (Ivan's remark 10): clear at rest, frosted when
+   scrolled. The ring is in the pill's size, as the node's `strokesIncludedInLayout`. */
+.wordmark {
+  border: 0.5px solid transparent;
+  border-radius: 32px;
+  background-color: rgba(240, 240, 240, 0);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition:
+    background-color 200ms ease-out,
+    border-color 200ms ease-out,
+    box-shadow 200ms ease-out,
+    text-shadow 200ms ease-out,
+    font-size 200ms ease-out;
+}
+
+.root[data-scrolled="true"] .wordmark {
+  background-color: var(--h7-logo-pill);
+  border-color: var(--h7-logo-pill-ring);
+  box-shadow:
+    0 0 0 1px var(--h7-ring),
+    0 1px 2px 0 rgba(0, 0, 0, 0.12);
+  /* The node's eight white drop shadows on the text, offset 0. */
+  text-shadow:
+    0 0 1px var(--h7-logo-glow),
+    0 0 1px var(--h7-logo-glow),
+    0 0 1px var(--h7-logo-glow),
+    0 0 5px var(--h7-logo-glow-half),
+    0 0 15px var(--h7-logo-glow),
+    0 0 15px var(--h7-logo-glow),
+    0 0 15px var(--h7-logo-glow),
+    0 0 15px var(--h7-logo-glow);
+}
+
+.root[data-scrolled="true"] .main .wordmark {
+  font-size: min(24px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
+}
+
+.root[data-scrolled="true"] .compactMain .wordmark {
+  padding: 0 12px;
+  font-size: min(24px, calc((100cqi - 24px) / (var(--wm-chars, 6) * 0.72)));
+}
+
+@media (min-width: 640px) {
+  .root[data-scrolled="true"] .compactMain .wordmark {
+    padding: 0 16px;
+    font-size: min(24px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
+  }
+}
+
+.trailing .iconButton {
+  transition:
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.root[data-scrolled="true"] .trailing .iconButton {
+  background: var(--h7-surface);
+  box-shadow:
+    0 0 0 1px var(--h7-ring),
+    0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.root[data-scrolled="true"] .compactPill {
+  background: var(--h7-surface);
+  box-shadow:
+    0 0 0 1px var(--h7-ring),
+    0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.root[data-scrolled="true"] .divider {
+  background: var(--h7-divider);
+}
+
+/* Desktop scrolled (227:9549, Ivan's remark 11): the bar is 56 high, the sides 12 (at rest
+   76 and 24, the content's lines). The 20px it gives up become the sticky wrapper's bottom
+   margin, so the page under it never moves on the threshold (76 in flow in both states, no
+   flip-flop at scrollY 12), and a margin is not hit-tested — clicks there reach the page. */
+@media (min-width: 1024px) {
+  .root {
+    transition: margin-bottom 200ms ease-out;
+  }
+  .bar {
+    transition: height 200ms ease-out;
+  }
+  .leading,
+  .trailing {
+    transition: padding var(--h7-motion);
+  }
+  .root[data-scrolled="true"] {
+    margin-bottom: 20px;
+  }
+  .root[data-scrolled="true"] .bar {
+    height: 56px;
+  }
+  .root[data-scrolled="true"] .leading,
+  .root[data-scrolled="true"] .trailing {
+    padding: 0 var(--h7-edge-scrolled);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .bar,
+  .leading,
+  .trailing,
+  .wordmark,
+  .compactPill,
+  .divider,
+  .trailing .iconButton {
+    transition: none;
+  }
+}

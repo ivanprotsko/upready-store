@@ -690,7 +690,8 @@
     "cart": "Koszyk ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Przejdź do treści"
+    "skipToContent": "Przejdź do treści",
+    "modeDark": "Ciemny motyw"
   },
   "NotFound": {
     "cartDescription": "Koszyk, do którego próbujesz uzyskać dostęp, nie istnieje. Wyczyść pliki cookie i spróbuj ponownie.",
@@ -834,7 +835,10 @@
     "selectVariant": "Wybierz wariant",
     "inStock": "W magazynie",
     "buyNow": "Kup teraz",
-    "buy": "Kup"
+    "buy": "Kup",
+    "inCart": "W koszyku",
+    "decreaseQuantity": "Usuń jedną",
+    "increaseQuantity": "Dodaj jeszcze jedną"
   },
   "ProductAttributes": {
     "no": "Nie",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Wysyłka Pocztą Rosyjską nie jest jeszcze skonfigurowana w tym sklepie.",
     "quoteFailed": "Nie udało się obliczyć dostawy do tego punktu. Wybierz inny.",
     "postcode": "Kod pocztowy {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kurs",
+      "goTo": "Przejdź do „{title}”",
+      "label": "Banery",
+      "next": "Dalej",
+      "position": "{current} z {total}",
+      "previous": "Wstecz",
+      "watch": "Obejrzyj"
+    }
   }
 }

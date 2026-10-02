@@ -690,7 +690,8 @@
     "cart": "Sepet ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "İçeriğe geç"
+    "skipToContent": "İçeriğe geç",
+    "modeDark": "Koyu tema"
   },
   "NotFound": {
     "cartDescription": "Erişmeye çalıştığınız sepet mevcut değil. Çerezlerinizi temizleyip tekrar deneyin.",
@@ -834,7 +835,10 @@
     "selectVariant": "Varyant seçin",
     "inStock": "Stokta",
     "buyNow": "Satın al",
-    "buy": "Satın al"
+    "buy": "Satın al",
+    "inCart": "Sepette",
+    "decreaseQuantity": "Bir tane çıkar",
+    "increaseQuantity": "Bir tane daha ekle"
   },
   "ProductAttributes": {
     "no": "Hayır",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Rus Postası ile gönderim bu mağazada henüz ayarlanmadı.",
     "quoteFailed": "Bu noktaya gönderim ücreti hesaplanamadı. Başka bir nokta seçin.",
     "postcode": "Posta kodu {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kurs",
+      "goTo": "“{title}” öğesine git",
+      "label": "Bannerlar",
+      "next": "Sonraki",
+      "position": "{total} içinden {current}",
+      "previous": "Önceki",
+      "watch": "İzle"
+    }
   }
 }

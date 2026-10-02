@@ -690,7 +690,8 @@
     "cart": "Troli ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Langkau ke kandungan"
+    "skipToContent": "Langkau ke kandungan",
+    "modeDark": "Tema gelap"
   },
   "NotFound": {
     "cartDescription": "Troli yang cuba anda akses tidak wujud. Kosongkan kuki anda dan cuba lagi.",
@@ -834,7 +835,10 @@
     "selectVariant": "Pilih varian",
     "inStock": "Ada stok",
     "buyNow": "Beli sekarang",
-    "buy": "Beli"
+    "buy": "Beli",
+    "inCart": "Dalam troli",
+    "decreaseQuantity": "Keluarkan satu",
+    "increaseQuantity": "Tambah satu lagi"
   },
   "ProductAttributes": {
     "no": "Tidak",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Penghantaran dengan Pos Rusia belum disediakan di kedai ini.",
     "quoteFailed": "Kos penghantaran ke titik ini tidak dapat dikira. Pilih titik lain.",
     "postcode": "Poskod {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kursus",
+      "goTo": "Pergi ke “{title}”",
+      "label": "Sepanduk",
+      "next": "Seterusnya",
+      "position": "{current} daripada {total}",
+      "previous": "Sebelumnya",
+      "watch": "Tonton"
+    }
   }
 }

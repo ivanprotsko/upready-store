@@ -690,7 +690,8 @@
     "cart": "Kosár ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Ugrás a tartalomra"
+    "skipToContent": "Ugrás a tartalomra",
+    "modeDark": "Sötét téma"
   },
   "NotFound": {
     "cartDescription": "A keresett kosár nem létezik. Törölje a sütiket, és próbálja újra.",
@@ -834,7 +835,10 @@
     "selectVariant": "Válasszon variánst",
     "inStock": "Raktáron",
     "buyNow": "Vásárlás",
-    "buy": "Megveszem"
+    "buy": "Megveszem",
+    "inCart": "A kosárban",
+    "decreaseQuantity": "Egy eltávolítása",
+    "increaseQuantity": "Még egy hozzáadása"
   },
   "ProductAttributes": {
     "no": "Nem",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Az Orosz Postával történő szállítás még nincs beállítva ebben a boltban.",
     "quoteFailed": "Nem sikerült kiszámítani a szállítást erre a pontra. Válasszon másikat.",
     "postcode": "Irányítószám: {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kurzus",
+      "goTo": "Ugrás ide: „{title}”",
+      "label": "Bannerek",
+      "next": "Következő",
+      "position": "{current}/{total}",
+      "previous": "Előző",
+      "watch": "Megnézem"
+    }
   }
 }

@@ -690,7 +690,8 @@
     "cart": "עגלה ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "דלג לתוכן"
+    "skipToContent": "דלג לתוכן",
+    "modeDark": "מצב כהה"
   },
   "NotFound": {
     "cartDescription": "העגלה שניסית לגשת אליה אינה קיימת. נקה את העוגיות ונסה שוב.",
@@ -834,7 +835,10 @@
     "selectVariant": "בחר וריאציה",
     "inStock": "במלאי",
     "buyNow": "לתשלום",
-    "buy": "קנייה"
+    "buy": "קנייה",
+    "inCart": "בעגלה",
+    "decreaseQuantity": "הסרת אחד",
+    "increaseQuantity": "הוספת אחד נוסף"
   },
   "ProductAttributes": {
     "no": "לא",
@@ -1065,5 +1069,16 @@
     "notConfigured": "משלוח בדואר הרוסי עדיין לא הוגדר בחנות הזו.",
     "quoteFailed": "לא הצלחנו לחשב משלוח לנקודה הזו. בחרו נקודה אחרת.",
     "postcode": "מיקוד {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "קורס",
+      "goTo": "עבור אל ”{title}”",
+      "label": "באנרים",
+      "next": "הבא",
+      "position": "{current} מתוך {total}",
+      "previous": "הקודם",
+      "watch": "צפייה"
+    }
   }
 }

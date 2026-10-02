@@ -690,7 +690,8 @@
     "cart": "Coș ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Sari la conținut"
+    "skipToContent": "Sari la conținut",
+    "modeDark": "Temă întunecată"
   },
   "NotFound": {
     "cartDescription": "Coșul pe care ați încercat să îl accesați nu există. Ștergeți cookie-urile și încercați din nou.",
@@ -834,7 +835,10 @@
     "selectVariant": "Selectează varianta",
     "inStock": "În stoc",
     "buyNow": "Cumpără",
-    "buy": "Cumpără"
+    "buy": "Cumpără",
+    "inCart": "În coș",
+    "decreaseQuantity": "Elimină una",
+    "increaseQuantity": "Adaugă încă una"
   },
   "ProductAttributes": {
     "no": "Nu",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Livrarea prin Poșta Rusă nu este încă configurată în acest magazin.",
     "quoteFailed": "Livrarea către acest punct nu a putut fi calculată. Alegeți altul.",
     "postcode": "Cod poștal {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Curs",
+      "goTo": "Mergi la „{title}”",
+      "label": "Bannere",
+      "next": "Următor",
+      "position": "{current} din {total}",
+      "previous": "Anterior",
+      "watch": "Vizionează"
+    }
   }
 }

@@ -690,7 +690,8 @@
     "cart": "კალათა ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "გადასვლა შინაარსზე"
+    "skipToContent": "გადასვლა შინაარსზე",
+    "modeDark": "მუქი თემა"
   },
   "NotFound": {
     "cartDescription": "კალათა, რომელზეც სცადეთ წვდომა, არ არსებობს. გაასუფთავეთ ქუქიები და სცადეთ ხელახლა.",
@@ -834,7 +835,10 @@
     "selectVariant": "აირჩიეთ ვარიანტი",
     "inStock": "მარაგშია",
     "buyNow": "ყიდვა",
-    "buy": "ყიდვა"
+    "buy": "ყიდვა",
+    "inCart": "კალათშია",
+    "decreaseQuantity": "ერთის მოხსნა",
+    "increaseQuantity": "ერთის დამატება"
   },
   "ProductAttributes": {
     "no": "არა",
@@ -1065,5 +1069,16 @@
     "notConfigured": "რუსეთის ფოსტით მიწოდება ამ მაღაზიაში ჯერ არ არის დაყენებული.",
     "quoteFailed": "ამ პუნქტამდე მიწოდების ღირებულება ვერ გამოითვალა. აირჩიეთ სხვა.",
     "postcode": "საფოსტო ინდექსი {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "კურსი",
+      "goTo": "გადასვლა „{title}“-ზე",
+      "label": "ბანერები",
+      "next": "შემდეგი",
+      "position": "{current} / {total}",
+      "previous": "წინა",
+      "watch": "ყურება"
+    }
   }
 }

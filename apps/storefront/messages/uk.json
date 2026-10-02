@@ -690,7 +690,8 @@
     "cart": "Кошик ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Перейти до вмісту"
+    "skipToContent": "Перейти до вмісту",
+    "modeDark": "Темна тема"
   },
   "NotFound": {
     "cartDescription": "Кошик, який ви намагаєтеся відкрити, не існує. Очистіть кукі та спробуйте ще раз.",
@@ -834,7 +835,10 @@
     "selectVariant": "Оберіть варіант",
     "inStock": "Є в наявності",
     "buyNow": "Оплатити",
-    "buy": "Купити"
+    "buy": "Купити",
+    "inCart": "У кошику",
+    "decreaseQuantity": "Прибрати одну",
+    "increaseQuantity": "Додати ще одну"
   },
   "ProductAttributes": {
     "no": "Ні",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Доставку Поштою Росії в цьому магазині ще не налаштовано.",
     "quoteFailed": "Не вдалося розрахувати доставку до цього пункту. Оберіть інший.",
     "postcode": "Індекс {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Курс",
+      "goTo": "Перейти до «{title}»",
+      "label": "Банери",
+      "next": "Далі",
+      "position": "{current} з {total}",
+      "previous": "Назад",
+      "watch": "Дивитися"
+    }
   }
 }

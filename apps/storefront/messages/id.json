@@ -690,7 +690,8 @@
     "cart": "Keranjang ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Lewati ke konten"
+    "skipToContent": "Lewati ke konten",
+    "modeDark": "Tema gelap"
   },
   "NotFound": {
     "cartDescription": "Keranjang yang Anda coba akses tidak ada. Hapus cookie Anda dan coba lagi.",
@@ -834,7 +835,10 @@
     "selectVariant": "Pilih varian",
     "inStock": "Tersedia",
     "buyNow": "Beli sekarang",
-    "buy": "Beli"
+    "buy": "Beli",
+    "inCart": "Di keranjang",
+    "decreaseQuantity": "Kurangi satu",
+    "increaseQuantity": "Tambah satu lagi"
   },
   "ProductAttributes": {
     "no": "Tidak",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Pengiriman dengan Pos Rusia belum diatur di toko ini.",
     "quoteFailed": "Ongkos kirim ke titik ini tidak dapat dihitung. Pilih titik lain.",
     "postcode": "Kode pos {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kursus",
+      "goTo": "Buka “{title}”",
+      "label": "Banner",
+      "next": "Berikutnya",
+      "position": "{current} dari {total}",
+      "previous": "Sebelumnya",
+      "watch": "Tonton"
+    }
   }
 }

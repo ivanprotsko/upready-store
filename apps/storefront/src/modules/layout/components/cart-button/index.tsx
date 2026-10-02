@@ -5,16 +5,21 @@ import CartDropdown from "../cart-dropdown"
 // Every header variant and the bottom nav put this straight into a `<div>`;
 // being async, it reaches the RSC payload as a lazy row, so the slot keeps
 // that lazy off the `<div>`'s own children (46df U-06, HydrationSlot).
-export default function CartButton() {
+export default function CartButton({
+  variant,
+}: {
+  /** Passed through to `CartDropdown` (`"pill"` on the h7 header). */
+  variant?: "icon" | "pill"
+} = {}) {
   return (
     <HydrationSlot>
-      <CartButtonContent />
+      <CartButtonContent variant={variant} />
     </HydrationSlot>
   )
 }
 
-async function CartButtonContent() {
+async function CartButtonContent({ variant }: { variant?: "icon" | "pill" }) {
   const cart = await retrieveCart().catch(() => null)
 
-  return <CartDropdown cart={cart} />
+  return <CartDropdown cart={cart} variant={variant} />
 }

@@ -1,13 +1,14 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
-import { MedusaError } from "@medusajs/framework/utils";
+import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
 import upsertTenantHomeWorkflow from "../../../workflows/tenant/upsert-tenant-home";
 import { notifyStorefrontRevalidate } from "../../../storefront-revalidate";
-import { getTenantScope, listTenantCategoryIds } from "../tenant-scope";
+import { getTenantScope, listTenantCategoryIds, listTenantProductIds } from "../tenant-scope";
 import {
   isForbidden,
   TENANT_HOME_SCHEMA_ID,
+  type HomeBanner,
   type PutTenantHomeBodyType,
   type TenantHomeDocument,
 } from "./validators";
@@ -45,6 +46,39 @@ const readDocument = async (
   }
 
   return { id: row.id, document: row.config as unknown as TenantHomeDocument };
+};
+
+const resolveBannerLinks = async (
+  req: AuthenticatedMedusaRequest,
+  banners: HomeBanner[],
+): Promise<HomeBanner[]> => {
+  const productIds = banners.flatMap((b) => (b.link.type === "product" ? [b.link.product_id] : []));
+  if (!productIds.length) {
+    return banners;
+  }
+
+  const owned = await listTenantProductIds(req);
+  const foreign = productIds.find((id) => !owned.includes(id));
+  if (foreign) {
+    throw new MedusaError(
+      MedusaError.Types.INVALID_DATA,
+      "content.banners[].link.product_id must name a product of your own.",
+    );
+  }
+
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+  const { data: products } = await query.graph({
+    entity: "product",
+    fields: ["id", "handle"],
+    filters: { id: productIds },
+  });
+  const handleOf = new Map(products.map((p) => [p.id as string, (p.handle as string) ?? ""]));
+
+  return banners.map((banner) =>
+    banner.link.type === "product"
+      ? { ...banner, link: { ...banner.link, handle: handleOf.get(banner.link.product_id) ?? banner.link.handle } }
+      : banner,
+  );
 };
 
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
@@ -101,11 +135,16 @@ export const PUT = async (
     }
   }
 
+  // Banners (t-2026-09-24-n15): a product link must name a product of THIS tenant
+  // — same INVALID_DATA rule as the category above — and the handle stored beside
+  // the id is the product's own, read here rather than trusted from the client.
+  const banners = await resolveBannerLinks(req, body.content.banners ?? []);
+
   const document: TenantHomeDocument = {
     schema: TENANT_HOME_SCHEMA_ID,
     theme: body.theme,
     settings,
-    content: body.content,
+    content: { ...body.content, banners },
     updatedAt: new Date().toISOString(),
   };
 

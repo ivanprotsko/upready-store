@@ -690,7 +690,8 @@
     "cart": "ตะกร้า ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "ข้ามไปยังเนื้อหา"
+    "skipToContent": "ข้ามไปยังเนื้อหา",
+    "modeDark": "ธีมมืด"
   },
   "NotFound": {
     "cartDescription": "ตะกร้าที่คุณพยายามเข้าถึงไม่มีอยู่จริง กรุณาล้างคุกกี้แล้วลองใหม่อีกครั้ง",
@@ -834,7 +835,10 @@
     "selectVariant": "เลือกตัวเลือกสินค้า",
     "inStock": "มีสินค้า",
     "buyNow": "ซื้อเลย",
-    "buy": "ซื้อ"
+    "buy": "ซื้อ",
+    "inCart": "อยู่ในตะกร้า",
+    "decreaseQuantity": "ลดหนึ่งรายการ",
+    "increaseQuantity": "เพิ่มอีกหนึ่งรายการ"
   },
   "ProductAttributes": {
     "no": "ไม่ใช่",
@@ -1065,5 +1069,16 @@
     "notConfigured": "ร้านนี้ยังไม่ได้ตั้งค่าการจัดส่งทางไปรษณีย์รัสเซีย",
     "quoteFailed": "ไม่สามารถคำนวณค่าจัดส่งไปยังจุดนี้ได้ โปรดเลือกจุดอื่น",
     "postcode": "รหัสไปรษณีย์ {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "คอร์ส",
+      "goTo": "ไปที่ “{title}”",
+      "label": "แบนเนอร์",
+      "next": "ถัดไป",
+      "position": "{current} จาก {total}",
+      "previous": "ก่อนหน้า",
+      "watch": "ดู"
+    }
   }
 }
