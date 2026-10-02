@@ -148,26 +148,65 @@ export const isOrderWithoutParcel = (order: {
 
 type ReceiptMeta = { status?: unknown } | null | undefined
 
+const MANUAL_PROVIDER_ID = "pp_system_default"
+const CAPTURED_STATUSES = ["captured", "partially_captured", "refunded", "partially_refunded"]
+
+type OrderForManualStatus = {
+  payment_status: string
+  metadata?: Record<string, unknown> | null
+  payment_collections?: { payments?: { provider_id?: string | null }[] | null }[] | null
+}
+
 /**
- * t-cherk-com-hotfix batch 6, item 5: the manual-provider order reads
- * «Ожидает оплаты» before a receipt and «Ожидает подтверждения оплаты» once
- * one is in, same words as the storefront. `null` means «show the plain
- * payment status», which already says «Ожидает оплаты» for an uncaptured
- * order, so a manual order with no receipt needs no override at all.
+ * Whether ANY payment of this order runs on the manual provider
+ * (`pp_system_default`, olavka-payments): a transfer the owner confirms by
+ * hand, never the generic Medusa flow a gateway like Robokassa uses. Needs
+ * `payment_collections.payments.provider_id` loaded, the one field this
+ * check adds to the list, the customer page and the order page queries.
+ */
+const isManualPaymentOrder = (order: OrderForManualStatus): boolean =>
+  (order.payment_collections ?? []).some((collection) =>
+    (collection.payments ?? []).some((payment) => payment?.provider_id === MANUAL_PROVIDER_ID)
+  )
+
+/**
+ * t-cherk-com-hotfix batch 6, item 5 (and the lead's fix on review, same
+ * night): a manual-provider order reads «Ожидает оплаты» before a receipt
+ * and «Ожидает подтверждения оплаты» once one is in, same words as the
+ * storefront — on the list, the customer page and the order page alike.
+ *
+ * `null` means «show the plain Medusa payment status», which is what a
+ * NON-manual order (Robokassa, an authorized-but-uncaptured gateway payment)
+ * must keep: Medusa's generic `authorized`/`awaiting` texts are real states
+ * of their OWN, not a stand-in for «no receipt yet», and overriding them
+ * for every shop on this panel would be wrong far beyond cherkashino.com.
+ * The first release of this check skipped that gate and showed Medusa's
+ * generic «Ждёт подтверждения оплаты» for a fresh manual order with no
+ * receipt yet instead of «Ожидает оплаты» — caught on the stand (lead
+ * review, 02:46) and fixed here.
  */
 export const manualPaymentStatus = (
   t: TFunction<"translation">,
-  order: { payment_status: string; metadata?: Record<string, unknown> | null }
+  order: OrderForManualStatus
 ): { label: string; color: "red" | "orange" | "green" } | null => {
-  const receipt = (order.metadata?.payment_receipt ?? null) as ReceiptMeta
-  if (!receipt || typeof receipt !== "object") {
+  if (!isManualPaymentOrder(order)) {
     return null
   }
-  if (receipt.status === "rejected") {
-    return { label: t("orders.payment.status.receiptRejected"), color: "red" }
+
+  const receipt = (order.metadata?.payment_receipt ?? null) as ReceiptMeta
+  const captured = CAPTURED_STATUSES.includes(order.payment_status)
+
+  if (receipt && typeof receipt === "object" && !captured) {
+    return receipt.status === "rejected"
+      ? { label: t("orders.payment.status.receiptRejected"), color: "red" }
+      : { label: t("orders.payment.status.awaitingConfirmation"), color: "orange" }
   }
-  if (!["captured", "partially_captured", "refunded", "partially_refunded"].includes(order.payment_status)) {
-    return { label: t("orders.payment.status.awaitingConfirmation"), color: "orange" }
+
+  if (!receipt && !captured) {
+    return { label: t("orders.payment.status.manualAwaitingPayment"), color: "orange" }
   }
+
+  // Captured, or a rejected-then-recaptured edge Medusa itself has no words
+  // for: fall through to the plain status, which already reads «Оплачен».
   return null
 }

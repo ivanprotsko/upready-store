@@ -21,6 +21,9 @@ export const DEFAULT_RELATIONS = [
   "*customer",
   "*sales_channel",
   "*payment_collections",
+  // t-cherk-com-hotfix batch 6: `manualPaymentStatus` needs this to tell a
+  // manual-provider order (olavka-payments) from a Robokassa one.
+  "payment_collections.payments.provider_id",
 ]
 
 export const DEFAULT_FIELDS = `${DEFAULT_PROPERTIES.join(

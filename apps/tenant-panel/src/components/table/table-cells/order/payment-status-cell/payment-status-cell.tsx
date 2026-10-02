@@ -6,13 +6,18 @@ import { StatusCell } from "../../common/status-cell"
 type PaymentStatusCellProps = {
   status: HttpTypes.AdminOrder["payment_status"]
   metadata?: Record<string, unknown> | null
+  paymentCollections?: HttpTypes.AdminOrder["payment_collections"]
 }
 
-export const PaymentStatusCell = ({ status, metadata }: PaymentStatusCellProps) => {
+export const PaymentStatusCell = ({ status, metadata, paymentCollections }: PaymentStatusCellProps) => {
   const { t } = useTranslation()
 
   const { label, color } =
-    manualPaymentStatus(t, { payment_status: status, metadata }) ?? getOrderPaymentStatus(t, status)
+    manualPaymentStatus(t, {
+      payment_status: status,
+      metadata,
+      payment_collections: paymentCollections,
+    }) ?? getOrderPaymentStatus(t, status)
 
   return <StatusCell color={color}>{label}</StatusCell>
 }
