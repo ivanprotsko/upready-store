@@ -1,5 +1,6 @@
 import { locales, defaultLocale } from "@i18n/config"
 import { getRequestBaseURL, getEnabledLocales } from "@lib/data/cookies"
+import { getHreflangSisters } from "@lib/data/hreflang-sisters"
 import { shopLocales } from "@lib/util/shop-locales"
 import { buildAlternatesFor } from "@lib/util/alternates-core"
 
@@ -25,9 +26,18 @@ export { buildAlternatesFor }
  * `hreflang` links, 34 of them pointing at translations the owner never enabled
  * — the same defect the sitemap had, one <head> lower. A shop that has saved no
  * `enabled_locales` keeps all 36, exactly as before.
+ *
+ * `sisters` (t-cherk-31) are the other sites of this shop's own client
+ * (`GET /store/tenant/sites`, `lib/data/hreflang-sisters.ts`): one `hreflang`
+ * each, for a language this shop does not already publish itself. A shop with
+ * no sisters gets an empty list and emits exactly what it did before.
  */
 export async function buildAlternates(locale: string, path: string) {
-  const [base, enabled] = await Promise.all([getRequestBaseURL(), getEnabledLocales()])
+  const [base, enabled, sisters] = await Promise.all([
+    getRequestBaseURL(),
+    getEnabledLocales(),
+    getHreflangSisters(),
+  ])
 
-  return buildAlternatesFor(base, locale, path, shopLocales(locales, enabled, defaultLocale))
+  return buildAlternatesFor(base, locale, path, shopLocales(locales, enabled, defaultLocale), sisters)
 }

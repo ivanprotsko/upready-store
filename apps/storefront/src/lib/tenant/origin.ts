@@ -18,7 +18,19 @@
  * An empty host yields an empty string, never a bare `https://`: the caller then
  * falls back to `NEXT_PUBLIC_BASE_URL` (`getRequestBaseURL` in `lib/data/cookies.ts`).
  */
-export function requestOrigin(headers: Headers, urlProtocol: string): string {
+
+/**
+ * The one method every function below reads. `middleware.ts` calls these with the
+ * edge runtime's own `Headers`; `originForHost` is also called from a Server
+ * Component's data loader (`lib/data/hreflang-sisters.ts`), where `next/headers()`
+ * hands back `ReadonlyHeaders` — `Headers` minus its mutating methods. Typing the
+ * parameter this narrowly accepts both without a cast.
+ */
+export type HeaderReader = {
+  get(name: string): string | null
+}
+
+export function requestOrigin(headers: HeaderReader, urlProtocol: string): string {
   const host = (headers.get("host") ?? "").trim().toLowerCase().replace(/\.$/, "")
 
   if (!host) {
@@ -29,7 +41,7 @@ export function requestOrigin(headers: Headers, urlProtocol: string): string {
 }
 
 /** The scheme to build an absolute URL with: the proxy's word first. */
-export function requestScheme(headers: Headers, urlProtocol: string): string {
+export function requestScheme(headers: HeaderReader, urlProtocol: string): string {
   const forwarded = headers.get("x-forwarded-proto")?.split(",")[0]?.trim()
 
   return (forwarded || urlProtocol || "https").replace(/:$/, "")
@@ -48,7 +60,7 @@ export function requestScheme(headers: Headers, urlProtocol: string): string {
  * which is addressed to the server's own origin and carries the visitor's
  * address on this header alone.
  */
-export function forwardedHost(headers: Headers): string {
+export function forwardedHost(headers: HeaderReader): string {
   const raw = headers.get("x-forwarded-host")?.split(",")[0]?.trim() ?? ""
 
   return raw.toLowerCase().replace(/\.$/, "")
@@ -60,7 +72,7 @@ export function forwardedHost(headers: Headers): string {
  * there — `resolveShopOfRequest` (`lib/tenant/request-shop.ts`) is what decides
  * that, and it only consults the forwarded name when `Host` names no shop.
  */
-export function publicHost(headers: Headers): string {
+export function publicHost(headers: HeaderReader): string {
   const forwarded = forwardedHost(headers)
 
   if (forwarded) {
@@ -78,7 +90,7 @@ export function publicHost(headers: Headers): string {
  * a container) while the shop answers on 443, and a canonical URL rebuilt from
  * the wrong one names an address nothing listens on.
  */
-export function requestPort(headers: Headers): string {
+export function requestPort(headers: HeaderReader): string {
   const match = publicHost(headers).match(/:(\d+)$/)
 
   return match ? `:${match[1]}` : ""
@@ -92,7 +104,7 @@ export function requestPort(headers: Headers): string {
  * port 80 (`specs/tenant-address/CANONICAL.md` §1.1).
  */
 export function originForHost(
-  headers: Headers,
+  headers: HeaderReader,
   urlProtocol: string,
   host: string
 ): string {

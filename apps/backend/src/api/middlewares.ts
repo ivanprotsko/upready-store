@@ -180,6 +180,7 @@ import {
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
   PostTenantSiteSchema,
+  PutTenantHreflangSistersSchema,
   PostTenantSwitchShopSchema,
   PostTenantUpdateProductSchema,
   PostTenantUpdateMeSchema,
@@ -587,6 +588,13 @@ export default defineMiddlewares({
       matcher: "/tenants/sites",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantSiteSchema)],
+    },
+    // t-cherk-31: the owner's override list of sister sites that live outside
+    // this database. GET takes no body.
+    {
+      matcher: "/tenants/hreflang-sisters",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantHreflangSistersSchema)],
     },
     // o25-platform-admin-all-shops: the shop switcher. GET takes no body; it
     // reads only what the caller's OWN token already grants.
