@@ -18,7 +18,8 @@
     "logOut": "تسجيل الخروج",
     "orders": "الطلبات",
     "overview": "نظرة عامة",
-    "profile": "الملف الشخصي"
+    "profile": "الملف الشخصي",
+    "wishlist": "المفضلة"
   },
   "AccountOverview": {
     "addresses": "العناوين",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "اقرأ القواعد التي توافق عليها عند الشراء من متجرنا.",
       "title": "شروط الاستخدام"
+    },
+    "wishlist": {
+      "title": "المفضلة",
+      "description": "المنتجات التي حفظتها لوقت لاحق."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "السابق",
       "watch": "مشاهدة"
     }
+  },
+  "WishlistButton": {
+    "add": "إضافة إلى المفضلة",
+    "remove": "إزالة من المفضلة"
+  },
+  "WishlistPage": {
+    "heading": "المفضلة",
+    "description": "المنتجات التي حفظتها لوقت لاحق.",
+    "empty": "لم تقم بحفظ أي منتجات بعد.",
+    "addToCart": "أضف إلى السلة",
+    "chooseOptions": "اختر الخيارات",
+    "remove": "إزالة"
   }
 }

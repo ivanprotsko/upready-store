@@ -18,7 +18,8 @@
     "logOut": "Kirjaudu ulos",
     "orders": "Tilaukset",
     "overview": "Yleiskatsaus",
-    "profile": "Profiili"
+    "profile": "Profiili",
+    "wishlist": "Toivelista"
   },
   "AccountOverview": {
     "addresses": "Osoitteet",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Lue säännöt, jotka hyväksyt ostaessasi meiltä.",
       "title": "Käyttöehdot"
+    },
+    "wishlist": {
+      "title": "Toivelista",
+      "description": "Tuotteet, jotka tallensit myöhempää varten."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Edellinen",
       "watch": "Katso"
     }
+  },
+  "WishlistButton": {
+    "add": "Lisää toivelistalle",
+    "remove": "Poista toivelistalta"
+  },
+  "WishlistPage": {
+    "heading": "Toivelista",
+    "description": "Tuotteet, jotka tallensit myöhempää varten.",
+    "empty": "Et ole vielä tallentanut yhtään tuotetta.",
+    "addToCart": "Lisää ostoskoriin",
+    "chooseOptions": "Valitse vaihtoehdot",
+    "remove": "Poista"
   }
 }

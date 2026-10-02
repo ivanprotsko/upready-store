@@ -18,7 +18,8 @@
     "logOut": "Logga ut",
     "orders": "Ordrar",
     "overview": "Översikt",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Önskelista"
   },
   "AccountOverview": {
     "addresses": "Adresser",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Läs reglerna du godkänner när du handlar hos oss.",
       "title": "Användarvillkor"
+    },
+    "wishlist": {
+      "title": "Önskelista",
+      "description": "Produkterna du har sparat till senare."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Föregående",
       "watch": "Se"
     }
+  },
+  "WishlistButton": {
+    "add": "Lägg till i önskelistan",
+    "remove": "Ta bort från önskelistan"
+  },
+  "WishlistPage": {
+    "heading": "Önskelista",
+    "description": "Produkterna du har sparat till senare.",
+    "empty": "Du har inte sparat några produkter än.",
+    "addToCart": "Lägg i varukorgen",
+    "chooseOptions": "Välj alternativ",
+    "remove": "Ta bort"
   }
 }

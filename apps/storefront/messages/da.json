@@ -18,7 +18,8 @@
     "logOut": "Log ud",
     "orders": "Ordrer",
     "overview": "Oversigt",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Ønskeliste"
   },
   "AccountOverview": {
     "addresses": "Adresser",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Læs de regler, du accepterer, når du handler hos os.",
       "title": "Brugsbetingelser"
+    },
+    "wishlist": {
+      "title": "Ønskeliste",
+      "description": "Produkter, du har gemt til senere."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Forrige",
       "watch": "Se"
     }
+  },
+  "WishlistButton": {
+    "add": "Føj til ønskeliste",
+    "remove": "Fjern fra ønskeliste"
+  },
+  "WishlistPage": {
+    "heading": "Ønskeliste",
+    "description": "Produkter, du har gemt til senere.",
+    "empty": "Du har endnu ikke gemt nogen produkter.",
+    "addToCart": "Læg i kurv",
+    "chooseOptions": "Vælg muligheder",
+    "remove": "Fjern"
   }
 }

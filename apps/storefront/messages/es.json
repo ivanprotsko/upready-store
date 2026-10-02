@@ -18,7 +18,8 @@
     "logOut": "Cerrar sesión",
     "orders": "Pedidos",
     "overview": "Resumen",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "wishlist": "Lista de deseos"
   },
   "AccountOverview": {
     "addresses": "Direcciones",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Lee las reglas que aceptas al comprar con nosotros.",
       "title": "Términos de uso"
+    },
+    "wishlist": {
+      "title": "Lista de deseos",
+      "description": "Los productos que guardaste para más tarde."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Anterior",
       "watch": "Ver"
     }
+  },
+  "WishlistButton": {
+    "add": "Añadir a la lista de deseos",
+    "remove": "Quitar de la lista de deseos"
+  },
+  "WishlistPage": {
+    "heading": "Lista de deseos",
+    "description": "Los productos que guardaste para más tarde.",
+    "empty": "Todavía no has guardado ningún producto.",
+    "addToCart": "Añadir al carrito",
+    "chooseOptions": "Elegir opciones",
+    "remove": "Quitar"
   }
 }
