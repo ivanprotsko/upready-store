@@ -147,7 +147,7 @@
     "freeShipping": "Kostenlos",
     "giftCard": "Geschenkkarte",
     "itemsCount": "{count, plural, one {{count} Artikel} other {{count} Artikel}}",
-    "legal": "Mit Klick auf «Bezahlen» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und stimmen unserer <privacyPolicy>Datenschutzerklärung</privacyPolicy> zu.",
+    "legal": "Mit Klick auf «{button}» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und stimmen unserer <privacyPolicy>Datenschutzerklärung</privacyPolicy> zu.",
     "manualInput": "Adresse manuell eingeben",
     "addressIncomplete": "Füllen Sie die Pflichtfelder der Adresse aus: {fields}.",
     "provinceRequired": "Wähle die Region aus der Liste.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Melden Sie sich an, um den Kurs zu kaufen",
     "courseSignInText": "Der Kurs wird in Ihrem Konto geöffnet, daher braucht der Kauf eine Anmeldung oder Registrierung.",
     "fieldRequired": "Bitte füllen Sie dieses Feld aus",
-    "emailInvalid": "Prüfen Sie die E-Mail: die Adresse enthält einen Fehler"
+    "emailInvalid": "Prüfen Sie die E-Mail: die Adresse enthält einen Fehler",
+    "signInHeading": "Melden Sie sich an, um zu bestellen",
+    "signInText": "Die Bestellung erscheint in Ihrem Konto: dort finden Sie die Zahlungsdaten, den Status und die gekauften Kurse. Anmeldung oder Registrierung dauern eine Minute, der Warenkorb bleibt erhalten."
   },
   "ClaimOrders": {
     "heading": "Ohne Konto bestellt?",
@@ -336,7 +338,10 @@
     "empty": "Sie haben noch keine Kurse gekauft.",
     "start": "Beginnen",
     "continue": "Fortsetzen",
-    "review": "Wiederholen"
+    "review": "Wiederholen",
+    "pendingHeading": "Warten auf Zahlung",
+    "pendingHint": "Der Zugang wird freigeschaltet, sobald der Shop die Zahlung bestätigt.",
+    "toOrder": "{order} – bezahlen"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Beleg nicht akzeptiert",
     "receiptRejectedReason": "Grund: {reason}",
     "receiptResend": "Anderen Beleg senden",
-    "contactManager": "Manager kontaktieren"
+    "contactManager": "Manager kontaktieren",
+    "methodRequisites": "Überweisung an die Bankdaten",
+    "requisitesDesc": "Nach der Bestellung sehen Sie die Bankdaten des Shops: Bankkarten und Krypto-Wallets. Überweisen Sie {total} und fügen Sie den Zahlungsbeleg bei – der Manager bestätigt die Bestellung.",
+    "requisitesPreviewLabel": "Wir nehmen Überweisungen an:",
+    "handoverRequisitesTitle": "Bezahlen Sie die Bestellung per Überweisung",
+    "handoverRequisitesBody": "Bestellung #{orderNumber} ist eingegangen. Wählen Sie unten eine Bank oder ein Wallet, überweisen Sie {total} und fügen Sie den Zahlungsbeleg bei.",
+    "handoverRequisitesMessage": "Hallo! Ich habe die Bestellung #{orderNumber} über {total} aufgegeben und per Überweisung bezahlt. Bitte bestätigen Sie die Zahlung.",
+    "contactManagerHint": "Zur Bestätigung der Bestellung wenden Sie sich an den Manager.",
+    "showRequisite": "Antippen, um die Nummer zu sehen",
+    "hideRequisite": "Nummer ausblenden",
+    "numberLabel": "Karten- oder Kontonummer",
+    "holderLabel": "Empfänger",
+    "addressLabel": "Wallet-Adresse",
+    "networkLabel": "Netzwerk",
+    "copyNumber": "Nummer kopieren",
+    "copyHolder": "Empfänger kopieren",
+    "copyAddress": "Adresse kopieren",
+    "copyNetwork": "Netzwerk kopieren",
+    "cryptoOnlyWarning": "Senden Sie nur {currency} im Netzwerk {network}: Eine Überweisung einer anderen Münze oder über ein anderes Netzwerk kommt nicht an.",
+    "receiptPick": "Datei oder Foto wählen",
+    "receiptCamera": "Foto aufnehmen",
+    "receiptRemove": "Datei entfernen"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "Online-Kurs, keine Lieferung",
     "shipmentNo": "Sendung Nr. {no}",
     "digitalGroup": "Online-Kurs — Zugang nach Zahlungsbestätigung",
-    "accessByEmail": "Der Zugang zum Kurs kommt per E-Mail, sobald die Zahlung bestätigt ist."
+    "accessByEmail": "Der Zugang zum Kurs kommt per E-Mail, sobald die Zahlung bestätigt ist.",
+    "digitalGroupPaid": "Online-Kurs – Zugang freigeschaltet"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Wartet auf Zahlung",
+    "awaitingConfirmation": "Wartet auf Zahlungsbestätigung",
+    "receiptRejected": "Beleg nicht akzeptiert",
+    "paid": "Bezahlt",
+    "refunded": "Erstattet",
+    "canceled": "Storniert"
   }
 }

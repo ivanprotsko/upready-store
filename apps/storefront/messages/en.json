@@ -147,7 +147,7 @@
     "freeShipping": "Free",
     "giftCard": "Gift card",
     "itemsCount": "{count, plural, one {{count} item} other {{count} items}}",
-    "legal": "By clicking «Pay», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
+    "legal": "By clicking «{button}», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
     "manualInput": "Enter address manually",
     "addressIncomplete": "Fill in the required address fields: {fields}.",
     "provinceRequired": "Choose your region from the list.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Sign in to buy the course",
     "courseSignInText": "The course opens in your account, so buying it takes a sign-in or a registration.",
     "fieldRequired": "Fill in this field",
-    "emailInvalid": "Check the e-mail: the address has a mistake"
+    "emailInvalid": "Check the e-mail: the address has a mistake",
+    "signInHeading": "Sign in to place the order",
+    "signInText": "The order will appear in your account: the payment details, the status and the courses you bought are there. Signing in or registering takes a minute, and the cart is kept."
   },
   "ClaimOrders": {
     "heading": "Ordered without an account?",
@@ -336,7 +338,10 @@
     "empty": "You have not bought any courses yet.",
     "start": "Start",
     "continue": "Continue",
-    "review": "Review"
+    "review": "Review",
+    "pendingHeading": "Awaiting payment",
+    "pendingHint": "Access opens once the shop confirms the payment.",
+    "toOrder": "{order} — pay"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Receipt not accepted",
     "receiptRejectedReason": "Reason: {reason}",
     "receiptResend": "Send another receipt",
-    "contactManager": "Contact the manager"
+    "contactManager": "Contact the manager",
+    "methodRequisites": "Transfer to account details",
+    "requisitesDesc": "After you place the order you will see the shop's details: bank cards and crypto wallets. Transfer {total} and attach the payment receipt — the manager confirms the order.",
+    "requisitesPreviewLabel": "We accept transfers to:",
+    "handoverRequisitesTitle": "Pay the order by transfer",
+    "handoverRequisitesBody": "Order #{orderNumber} is placed. Pick a bank or a wallet below, transfer {total} and attach the payment receipt.",
+    "handoverRequisitesMessage": "Hello! I have placed order #{orderNumber} for {total} and paid it by transfer. Please confirm the payment.",
+    "contactManagerHint": "To confirm the order, contact the manager.",
+    "showRequisite": "Tap to see the number",
+    "hideRequisite": "Hide the number",
+    "numberLabel": "Card or account number",
+    "holderLabel": "Recipient",
+    "addressLabel": "Wallet address",
+    "networkLabel": "Network",
+    "copyNumber": "Copy the number",
+    "copyHolder": "Copy the recipient",
+    "copyAddress": "Copy the address",
+    "copyNetwork": "Copy the network",
+    "cryptoOnlyWarning": "Send {currency} on the {network} network only: a transfer of another coin or over another network will not arrive.",
+    "receiptPick": "Choose a file or photo",
+    "receiptCamera": "Take a photo",
+    "receiptRemove": "Remove the file"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "online course, no delivery",
     "shipmentNo": "Shipment No. {no}",
     "digitalGroup": "Online course — access after payment confirmation",
-    "accessByEmail": "Access to the course will come by e-mail once the payment is confirmed."
+    "accessByEmail": "Access to the course will come by e-mail once the payment is confirmed.",
+    "digitalGroupPaid": "Online course — access open"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Awaiting payment",
+    "awaitingConfirmation": "Awaiting payment confirmation",
+    "receiptRejected": "Receipt not accepted",
+    "paid": "Paid",
+    "refunded": "Refunded",
+    "canceled": "Cancelled"
   }
 }

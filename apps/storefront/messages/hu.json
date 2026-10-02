@@ -147,7 +147,7 @@
     "freeShipping": "Ingyenes",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} termék} other {{count} termék}}",
-    "legal": "„Fizetés” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
+    "legal": "„{button}” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
     "manualInput": "Cím megadása kézzel",
     "addressIncomplete": "Töltse ki a cím kötelező mezőit: {fields}.",
     "provinceRequired": "Válassza ki a régiót a listából.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Jelentkezzen be a tanfolyam megvásárlásához",
     "courseSignInText": "A tanfolyam a fiókjában nyílik meg, ezért a vásárláshoz bejelentkezés vagy regisztráció kell.",
     "fieldRequired": "Töltse ki ezt a mezőt",
-    "emailInvalid": "Ellenőrizze az e-mailt: a cím hibás"
+    "emailInvalid": "Ellenőrizze az e-mailt: a cím hibás",
+    "signInHeading": "Jelentkezzen be a rendeléshez",
+    "signInText": "A rendelés megjelenik a fiókjában: ott találja a fizetési adatokat, az állapotot és a megvásárolt kurzusokat. A belépés vagy a regisztráció egy percet vesz igénybe, a kosár megmarad."
   },
   "ClaimOrders": {
     "heading": "Fiók nélkül rendelt?",
@@ -336,7 +338,10 @@
     "empty": "Még nem vásárolt kurzust.",
     "start": "Kezdés",
     "continue": "Folytatás",
-    "review": "Ismétlés"
+    "review": "Ismétlés",
+    "pendingHeading": "Fizetésre várnak",
+    "pendingHint": "A hozzáférés megnyílik, amint az üzlet megerősíti a fizetést.",
+    "toOrder": "{order} – fizetés"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "A bizonylatot nem fogadtuk el",
     "receiptRejectedReason": "Ok: {reason}",
     "receiptResend": "Másik bizonylat küldése",
-    "contactManager": "Kapcsolat az ügyintézővel"
+    "contactManager": "Kapcsolat az ügyintézővel",
+    "methodRequisites": "Átutalás a megadott adatokra",
+    "requisitesDesc": "A rendelés leadása után látni fogja az üzlet adatait: bankkártyákat és kriptotárcákat. Utaljon át {total} összeget, és csatolja a fizetési bizonylatot – a rendelést a menedzser erősíti meg.",
+    "requisitesPreviewLabel": "Átutalást fogadunk ide:",
+    "handoverRequisitesTitle": "Fizesse ki a rendelést átutalással",
+    "handoverRequisitesBody": "A #{orderNumber} rendelést rögzítettük. Válasszon lent bankot vagy tárcát, utaljon át {total} összeget, és csatolja a fizetési bizonylatot.",
+    "handoverRequisitesMessage": "Üdvözlöm! Leadtam a #{orderNumber} rendelést {total} értékben, és átutalással kifizettem. Kérem, erősítsék meg a fizetést.",
+    "contactManagerHint": "A rendelés megerősítéséhez vegye fel a kapcsolatot a menedzserrel.",
+    "showRequisite": "Koppintson a szám megjelenítéséhez",
+    "hideRequisite": "Szám elrejtése",
+    "numberLabel": "Kártya- vagy számlaszám",
+    "holderLabel": "Kedvezményezett",
+    "addressLabel": "Tárca címe",
+    "networkLabel": "Hálózat",
+    "copyNumber": "Szám másolása",
+    "copyHolder": "Kedvezményezett másolása",
+    "copyAddress": "Cím másolása",
+    "copyNetwork": "Hálózat másolása",
+    "cryptoOnlyWarning": "Csak {currency} küldjön a {network} hálózaton: más érme vagy más hálózaton küldött átutalás nem érkezik meg.",
+    "receiptPick": "Fájl vagy fotó kiválasztása",
+    "receiptCamera": "Fotó készítése",
+    "receiptRemove": "Fájl eltávolítása"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "online tanfolyam, kézbesítés nélkül",
     "shipmentNo": "{no}. küldemény",
     "digitalGroup": "Online tanfolyam — hozzáférés a fizetés megerősítése után",
-    "accessByEmail": "A tanfolyam hozzáférése e-mailben érkezik a fizetés megerősítése után."
+    "accessByEmail": "A tanfolyam hozzáférése e-mailben érkezik a fizetés megerősítése után.",
+    "digitalGroupPaid": "Online kurzus – a hozzáférés megnyitva"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Fizetésre vár",
+    "awaitingConfirmation": "Fizetés megerősítésére vár",
+    "receiptRejected": "A bizonylatot nem fogadták el",
+    "paid": "Kifizetve",
+    "refunded": "Visszatérítve",
+    "canceled": "Törölve"
   }
 }

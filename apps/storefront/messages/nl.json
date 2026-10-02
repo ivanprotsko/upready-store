@@ -147,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Cadeaubon",
     "itemsCount": "{count, plural, one {{count} artikel} other {{count} artikelen}}",
-    "legal": "Door op «Betalen» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
+    "legal": "Door op «{button}» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
     "manualInput": "Adres handmatig invoeren",
     "addressIncomplete": "Vul de verplichte adresvelden in: {fields}.",
     "provinceRequired": "Kies je regio uit de lijst.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Log in om de cursus te kopen",
     "courseSignInText": "De cursus opent in je account, dus voor de aankoop is inloggen of registreren nodig.",
     "fieldRequired": "Vul dit veld in",
-    "emailInvalid": "Controleer het e-mailadres: er zit een fout in"
+    "emailInvalid": "Controleer het e-mailadres: er zit een fout in",
+    "signInHeading": "Log in om de bestelling te plaatsen",
+    "signInText": "De bestelling verschijnt in uw account: daar vindt u de betaalgegevens, de status en de gekochte cursussen. Inloggen of registreren duurt een minuut en de winkelwagen blijft bewaard."
   },
   "ClaimOrders": {
     "heading": "Zonder account besteld?",
@@ -336,7 +338,10 @@
     "empty": "U heeft nog geen cursussen gekocht.",
     "start": "Beginnen",
     "continue": "Doorgaan",
-    "review": "Herhalen"
+    "review": "Herhalen",
+    "pendingHeading": "Wachten op betaling",
+    "pendingHint": "De toegang wordt geopend zodra de winkel de betaling bevestigt.",
+    "toOrder": "{order} – betalen"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Bon niet geaccepteerd",
     "receiptRejectedReason": "Reden: {reason}",
     "receiptResend": "Andere bon sturen",
-    "contactManager": "Contact met de manager"
+    "contactManager": "Contact met de manager",
+    "methodRequisites": "Overboeking naar rekeninggegevens",
+    "requisitesDesc": "Na het plaatsen van de bestelling ziet u de gegevens van de winkel: bankkaarten en cryptowallets. Maak {total} over en voeg het betaalbewijs toe – de beheerder bevestigt de bestelling.",
+    "requisitesPreviewLabel": "Wij accepteren overboekingen naar:",
+    "handoverRequisitesTitle": "Betaal de bestelling via overboeking",
+    "handoverRequisitesBody": "Bestelling #{orderNumber} is geplaatst. Kies hieronder een bank of wallet, maak {total} over en voeg het betaalbewijs toe.",
+    "handoverRequisitesMessage": "Hallo! Ik heb bestelling #{orderNumber} van {total} geplaatst en via overboeking betaald. Kunt u de betaling bevestigen?",
+    "contactManagerHint": "Neem contact op met de beheerder om de bestelling te bevestigen.",
+    "showRequisite": "Tik om het nummer te zien",
+    "hideRequisite": "Nummer verbergen",
+    "numberLabel": "Kaart- of rekeningnummer",
+    "holderLabel": "Begunstigde",
+    "addressLabel": "Walletadres",
+    "networkLabel": "Netwerk",
+    "copyNumber": "Nummer kopiëren",
+    "copyHolder": "Begunstigde kopiëren",
+    "copyAddress": "Adres kopiëren",
+    "copyNetwork": "Netwerk kopiëren",
+    "cryptoOnlyWarning": "Verstuur alleen {currency} via het {network}-netwerk: een overboeking van een andere munt of via een ander netwerk komt niet aan.",
+    "receiptPick": "Bestand of foto kiezen",
+    "receiptCamera": "Foto maken",
+    "receiptRemove": "Bestand verwijderen"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "online cursus, geen bezorging",
     "shipmentNo": "Zending nr. {no}",
     "digitalGroup": "Online cursus — toegang na bevestiging van de betaling",
-    "accessByEmail": "De toegang tot de cursus komt per e-mail zodra de betaling is bevestigd."
+    "accessByEmail": "De toegang tot de cursus komt per e-mail zodra de betaling is bevestigd.",
+    "digitalGroupPaid": "Onlinecursus – toegang geopend"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Wacht op betaling",
+    "awaitingConfirmation": "Wacht op bevestiging van betaling",
+    "receiptRejected": "Bewijs niet geaccepteerd",
+    "paid": "Betaald",
+    "refunded": "Terugbetaald",
+    "canceled": "Geannuleerd"
   }
 }

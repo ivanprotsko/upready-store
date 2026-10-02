@@ -147,7 +147,7 @@
     "freeShipping": "Za darmo",
     "giftCard": "Karta podarunkowa",
     "itemsCount": "{count, plural, one {{count} produkt} few {{count} produkty} many {{count} produktów} other {{count} produktu}}",
-    "legal": "Klikając «Zapłać», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
+    "legal": "Klikając «{button}», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
     "manualInput": "Wprowadź adres ręcznie",
     "addressIncomplete": "Wypełnij wymagane pola adresu: {fields}.",
     "provinceRequired": "Wybierz region z listy.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Zaloguj się, aby kupić kurs",
     "courseSignInText": "Kurs otwiera się na Twoim koncie, dlatego zakup wymaga logowania lub rejestracji.",
     "fieldRequired": "Wypełnij to pole",
-    "emailInvalid": "Sprawdź e-mail: w adresie jest błąd"
+    "emailInvalid": "Sprawdź e-mail: w adresie jest błąd",
+    "signInHeading": "Zaloguj się, aby złożyć zamówienie",
+    "signInText": "Zamówienie pojawi się na Twoim koncie: tam znajdziesz dane do płatności, status i kupione kursy. Logowanie lub rejestracja zajmuje minutę, koszyk zostaje zachowany."
   },
   "ClaimOrders": {
     "heading": "Zamawiałeś bez konta?",
@@ -336,7 +338,10 @@
     "empty": "Nie kupiłeś jeszcze żadnego kursu.",
     "start": "Rozpocznij",
     "continue": "Kontynuuj",
-    "review": "Powtórz"
+    "review": "Powtórz",
+    "pendingHeading": "Oczekują na płatność",
+    "pendingHint": "Dostęp otworzy się, gdy sklep potwierdzi płatność.",
+    "toOrder": "{order} — zapłać"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Potwierdzenie nie zostało przyjęte",
     "receiptRejectedReason": "Powód: {reason}",
     "receiptResend": "Wyślij inne potwierdzenie",
-    "contactManager": "Skontaktuj się z menedżerem"
+    "contactManager": "Skontaktuj się z menedżerem",
+    "methodRequisites": "Przelew na podane dane",
+    "requisitesDesc": "Po złożeniu zamówienia zobaczysz dane sklepu: karty bankowe i portfele kryptowalut. Przelej {total} i załącz potwierdzenie płatności — menedżer potwierdzi zamówienie.",
+    "requisitesPreviewLabel": "Przyjmujemy przelewy na:",
+    "handoverRequisitesTitle": "Zapłać za zamówienie przelewem",
+    "handoverRequisitesBody": "Zamówienie #{orderNumber} zostało przyjęte. Wybierz poniżej bank lub portfel, przelej {total} i załącz potwierdzenie płatności.",
+    "handoverRequisitesMessage": "Dzień dobry! Złożyłem(-am) zamówienie #{orderNumber} na kwotę {total} i zapłaciłem(-am) przelewem. Proszę o potwierdzenie płatności.",
+    "contactManagerHint": "Aby potwierdzić zamówienie, skontaktuj się z menedżerem.",
+    "showRequisite": "Dotknij, aby zobaczyć numer",
+    "hideRequisite": "Ukryj numer",
+    "numberLabel": "Numer karty lub rachunku",
+    "holderLabel": "Odbiorca",
+    "addressLabel": "Adres portfela",
+    "networkLabel": "Sieć",
+    "copyNumber": "Kopiuj numer",
+    "copyHolder": "Kopiuj odbiorcę",
+    "copyAddress": "Kopiuj adres",
+    "copyNetwork": "Kopiuj sieć",
+    "cryptoOnlyWarning": "Wysyłaj tylko {currency} w sieci {network}: przelew innej monety lub inną siecią nie dotrze.",
+    "receiptPick": "Wybierz plik lub zdjęcie",
+    "receiptCamera": "Zrób zdjęcie",
+    "receiptRemove": "Usuń plik"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "kurs online, bez dostawy",
     "shipmentNo": "Przesyłka nr {no}",
     "digitalGroup": "Kurs online — dostęp po potwierdzeniu płatności",
-    "accessByEmail": "Dostęp do kursu przyjdzie e-mailem po potwierdzeniu płatności."
+    "accessByEmail": "Dostęp do kursu przyjdzie e-mailem po potwierdzeniu płatności.",
+    "digitalGroupPaid": "Kurs online — dostęp otwarty"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Oczekuje na płatność",
+    "awaitingConfirmation": "Oczekuje na potwierdzenie płatności",
+    "receiptRejected": "Potwierdzenie nie zostało przyjęte",
+    "paid": "Opłacone",
+    "refunded": "Zwrócone",
+    "canceled": "Anulowane"
   }
 }

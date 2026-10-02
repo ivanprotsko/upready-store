@@ -175,7 +175,9 @@
     "courseSignInHeading": "登录后购买课程",
     "courseSignInText": "课程在您的账户中开放，因此购买需要登录或注册。",
     "fieldRequired": "请填写此项",
-    "emailInvalid": "请检查邮箱：地址有误"
+    "emailInvalid": "请检查邮箱：地址有误",
+    "signInHeading": "登录后下单",
+    "signInText": "订单将显示在您的账户中：那里有付款信息、订单状态和已购课程。登录或注册只需一分钟，购物车会保留。"
   },
   "ClaimOrders": {
     "heading": "没有账户时下过单？",
@@ -336,7 +338,10 @@
     "empty": "您还没有购买任何课程。",
     "start": "开始",
     "continue": "继续",
-    "review": "复习"
+    "review": "复习",
+    "pendingHeading": "等待付款",
+    "pendingHint": "店铺确认付款后即可访问。",
+    "toOrder": "{order}——付款"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "凭证未被接受",
     "receiptRejectedReason": "原因：{reason}",
     "receiptResend": "发送其他凭证",
-    "contactManager": "联系客服经理"
+    "contactManager": "联系客服经理",
+    "methodRequisites": "按账户信息转账",
+    "requisitesDesc": "下单后您将看到店铺的账户信息：银行卡和加密钱包。请转账 {total} 并附上付款凭证，经理将确认订单。",
+    "requisitesPreviewLabel": "可转账至：",
+    "handoverRequisitesTitle": "请通过转账支付订单",
+    "handoverRequisitesBody": "订单 #{orderNumber} 已受理。请在下方选择银行或钱包，转账 {total} 并附上付款凭证。",
+    "handoverRequisitesMessage": "您好！我已下单 #{orderNumber}，金额 {total}，并已通过转账付款。请确认付款。",
+    "contactManagerHint": "如需确认订单，请联系经理。",
+    "showRequisite": "点击查看账号",
+    "hideRequisite": "隐藏账号",
+    "numberLabel": "卡号或账号",
+    "holderLabel": "收款人",
+    "addressLabel": "钱包地址",
+    "networkLabel": "网络",
+    "copyNumber": "复制账号",
+    "copyHolder": "复制收款人",
+    "copyAddress": "复制地址",
+    "copyNetwork": "复制网络",
+    "cryptoOnlyWarning": "请仅通过 {network} 网络发送 {currency}：其他币种或其他网络的转账将无法到账。",
+    "receiptPick": "选择文件或照片",
+    "receiptCamera": "拍照",
+    "receiptRemove": "移除文件"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "在线课程，无需配送",
     "shipmentNo": "包裹 {no}",
     "digitalGroup": "在线课程 — 付款确认后开放",
-    "accessByEmail": "付款确认后，课程访问链接将发送至您的邮箱。"
+    "accessByEmail": "付款确认后，课程访问链接将发送至您的邮箱。",
+    "digitalGroupPaid": "在线课程——已开放访问"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "等待付款",
+    "awaitingConfirmation": "等待付款确认",
+    "receiptRejected": "凭证未通过",
+    "paid": "已付款",
+    "refunded": "已退款",
+    "canceled": "已取消"
   }
 }

@@ -27,8 +27,7 @@ import DemoCardFields, {
   type DemoCardValue,
 } from "@modules/checkout/components/demo-card-fields"
 import CheckoutBillingSheet from "@modules/checkout/components/checkout-billing-sheet"
-import ManualPaymentKindSelect from "@modules/checkout/components/manual-payment-kind-select"
-import ManualPaymentInstructions from "@modules/checkout/components/manual-payment-instructions"
+import { RequisitesPreview } from "@modules/order/components/requisites-list"
 import {
   availableManualPaymentKinds,
   type ManualPaymentKind,
@@ -81,6 +80,8 @@ export default function CheckoutPaymentSection({
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
+  const tmp = useTranslations("ManualPayment")
+  const tb = useTranslations("PaymentButton")
   const locale = useLocale()
   const latestSession = cart.payment_collection?.payment_sessions?.[0]
 
@@ -93,15 +94,14 @@ export default function CheckoutPaymentSection({
   const [showBillingDetails, setShowBillingDetails] = useState(false)
   const [demoCard, setDemoCard] = useState<DemoCardValue>(EMPTY_DEMO_CARD)
 
-  // The kinds this shop offers inside the manual provider (olavka-payments).
-  // An empty list is the single-store case and every shop that configured
-  // neither section: the manual provider then keeps its demo card and the
-  // button its demo gate. With at least one kind the first is preselected, so
-  // the buyer who never touches the choice still places a coherent order.
+  // Batch 7: ONE kind inside the manual provider, «Перевод по реквизитам», when
+  // the owner entered a requisite or a contact; the bank or the wallet is picked
+  // on the order page. An empty list is the single-store case and every shop
+  // that configured nothing: the manual provider then keeps its demo card and
+  // the button its demo gate.
   const manualKinds = availableManualPaymentKinds(manualPayment)
-  const [manualKind, setManualKind] = useState<ManualPaymentKind | null>(
-    manualKinds[0] ?? null
-  )
+  const manualKind: ManualPaymentKind | null = manualKinds[0] ?? null
+  const offersRequisites = manualKind !== null
 
   // t-2026-09-24-n10: a method the shop offered when the page first rendered
   // can stop being connected before the buyer pays (the owner turns Robokassa
@@ -343,7 +343,9 @@ export default function CheckoutPaymentSection({
                     </div>
                     <div className="flex flex-col">
                       <span className="txt-compact-xsmall-plus text-ui-fg-base leading-tight">
-                        {paymentMethodName(tm, method.id)}
+                        {isManual(method.id) && offersRequisites
+                          ? tmp("methodRequisites")
+                          : paymentMethodName(tm, method.id)}
                       </span>
                       <span className="txt-compact-xsmall text-ui-fg-subtle">
                         {method.id.includes("stripe")
@@ -373,29 +375,35 @@ export default function CheckoutPaymentSection({
               </div>
             )}
 
-            {/* The manual provider (olavka-payments): the shop's offline kinds when
-                the owner enabled any, else the demo card of checkout mockup
-                frames 6-8, exactly as before. */}
+            {/* The manual provider (olavka-payments → batch 7): «Перевод по
+                реквизитам» — what happens after «Оформить заказ» and which banks
+                and assets the shop takes (the numbers come on the order page) —
+                else the demo card of checkout mockup frames 6-8, exactly as before. */}
             {isManual(selectedPaymentMethod) &&
-              (manualKinds.length > 0 ? (
-                <div className="flex flex-col gap-y-4">
-                  <ManualPaymentKindSelect
-                    kinds={manualKinds}
-                    wallets={manualPayment.crypto.wallets}
-                    hasCards={manualPayment.manager.cards.length > 0}
-                    value={manualKind}
-                    onChange={setManualKind}
-                  />
-                  {manualKind && (
-                    <ManualPaymentInstructions
-                      kind={manualKind}
-                      manualPayment={manualPayment}
-                      total={convertToLocale({
+              (offersRequisites ? (
+                <div
+                  className="flex flex-col gap-y-3 rounded-[6px] border border-ui-border-base bg-ui-bg-base p-4"
+                  data-testid="manual-payment-requisites"
+                >
+                  <p className="txt-compact-small text-ui-fg-base">
+                    {tmp("requisitesDesc", {
+                      total: convertToLocale({
                         amount: cart.total ?? 0,
                         currency_code: cart.currency_code,
                         locale,
-                      })}
-                    />
+                      }),
+                    })}
+                  </p>
+                  {manualPayment.requisites.length > 0 && (
+                    <>
+                      <p className="txt-compact-xsmall text-ui-fg-subtle">{tmp("requisitesPreviewLabel")}</p>
+                      <RequisitesPreview requisites={manualPayment.requisites} />
+                    </>
+                  )}
+                  {manualPayment.contacts.note && (
+                    <p className="txt-compact-small text-ui-fg-base" data-testid="manager-note">
+                      {manualPayment.contacts.note}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -481,7 +489,12 @@ export default function CheckoutPaymentSection({
           data-testid="submit-order-button"
         />
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">
+          {/* Batch 7: the sentence names the button's own words — «Оформить заказ»
+              for a transfer by requisites, «Оплатить» for a gateway. The catalogs
+              that carry a `{button}` placeholder in `legal` substitute it; the rest
+              keep today's generic wording (the extra value is simply unused). */}
           {t.rich("legal", {
+            button: manualKind && isManual(selectedPaymentMethod) ? tb("placeOrderManual") : tb("placeOrder"),
             terms: legalChunk("terms"),
             // Its own slot since b14-pages-legal-content: the sentence names
             // two documents and used to underline one.

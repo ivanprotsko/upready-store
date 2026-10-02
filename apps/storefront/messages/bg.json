@@ -147,7 +147,7 @@
     "freeShipping": "Безплатно",
     "giftCard": "Подаръчна карта",
     "itemsCount": "{count, plural, one {{count} артикул} other {{count} артикула}}",
-    "legal": "С натискането на «Плати» приемате нашите <terms>условия</terms>, <termsOfUse>условия за ползване</termsOfUse> и <returnPolicy>политика за връщане</returnPolicy>, и се съгласявате с нашата <privacyPolicy>политика за поверителност</privacyPolicy>.",
+    "legal": "С натискането на «{button}» приемате нашите <terms>условия</terms>, <termsOfUse>условия за ползване</termsOfUse> и <returnPolicy>политика за връщане</returnPolicy>, и се съгласявате с нашата <privacyPolicy>политика за поверителност</privacyPolicy>.",
     "manualInput": "Въведи адрес ръчно",
     "addressIncomplete": "Попълнете задължителните полета на адреса: {fields}.",
     "provinceRequired": "Изберете област от списъка.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Влезте, за да купите курса",
     "courseSignInText": "Курсът се отваря във вашия акаунт, затова за покупка е нужен вход или регистрация.",
     "fieldRequired": "Попълнете това поле",
-    "emailInvalid": "Проверете имейла: в адреса има грешка"
+    "emailInvalid": "Проверете имейла: в адреса има грешка",
+    "signInHeading": "Влезте, за да оформите поръчката",
+    "signInText": "Поръчката ще се появи в акаунта ви: там са реквизитите за плащане, статусът и купените курсове. Входът или регистрацията отнемат минута, количката се запазва."
   },
   "ClaimOrders": {
     "heading": "Поръчали сте без регистрация?",
@@ -336,7 +338,10 @@
     "empty": "Все още не сте купили курс.",
     "start": "Начало",
     "continue": "Продължи",
-    "review": "Повтори"
+    "review": "Повтори",
+    "pendingHeading": "Очакват плащане",
+    "pendingHint": "Достъпът ще се отвори, след като магазинът потвърди плащането.",
+    "toOrder": "{order} — плащане"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Разписката не е приета",
     "receiptRejectedReason": "Причина: {reason}",
     "receiptResend": "Изпратете друга разписка",
-    "contactManager": "Свържете се с мениджъра"
+    "contactManager": "Свържете се с мениджъра",
+    "methodRequisites": "Превод по реквизити",
+    "requisitesDesc": "След оформяне на поръчката ще видите реквизитите на магазина: банкови карти и крипто портфейли. Преведете {total} и прикачете бележка за плащането — мениджърът ще потвърди поръчката.",
+    "requisitesPreviewLabel": "Приемаме преводи към:",
+    "handoverRequisitesTitle": "Платете поръчката с превод по реквизити",
+    "handoverRequisitesBody": "Поръчка #{orderNumber} е приета. Изберете банка или портфейл по-долу, преведете {total} и прикачете бележка за плащането.",
+    "handoverRequisitesMessage": "Здравейте! Направих поръчка #{orderNumber} на стойност {total} и я платих с превод по реквизити. Моля, потвърдете плащането.",
+    "contactManagerHint": "За потвърждение на поръчката се свържете с мениджъра.",
+    "showRequisite": "Натиснете, за да видите номера",
+    "hideRequisite": "Скрий номера",
+    "numberLabel": "Номер на карта или сметка",
+    "holderLabel": "Получател",
+    "addressLabel": "Адрес на портфейла",
+    "networkLabel": "Мрежа",
+    "copyNumber": "Копирай номера",
+    "copyHolder": "Копирай получателя",
+    "copyAddress": "Копирай адреса",
+    "copyNetwork": "Копирай мрежата",
+    "cryptoOnlyWarning": "Изпращайте само {currency} в мрежата {network}: превод на друга монета или по друга мрежа няма да пристигне.",
+    "receiptPick": "Избери файл или снимка",
+    "receiptCamera": "Направи снимка",
+    "receiptRemove": "Премахни файла"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "онлайн курс, без доставка",
     "shipmentNo": "Пратка № {no}",
     "digitalGroup": "Онлайн курс — достъп след потвърждение на плащането",
-    "accessByEmail": "Достъпът до курса ще дойде по имейл след потвърждение на плащането."
+    "accessByEmail": "Достъпът до курса ще дойде по имейл след потвърждение на плащането.",
+    "digitalGroupPaid": "Онлайн курс — достъпът е отворен"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Очаква плащане",
+    "awaitingConfirmation": "Очаква потвърждение на плащането",
+    "receiptRejected": "Касовата бележка не е приета",
+    "paid": "Платен",
+    "refunded": "Възстановен",
+    "canceled": "Отменен"
   }
 }

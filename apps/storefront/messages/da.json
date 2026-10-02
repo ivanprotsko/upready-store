@@ -147,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Gavekort",
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
-    "legal": "Ved at klikke på «Betal» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy>, og accepterer vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
+    "legal": "Ved at klikke på «{button}» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy>, og accepterer vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
     "manualInput": "Indtast adresse manuelt",
     "addressIncomplete": "Udfyld de obligatoriske adressefelter: {fields}.",
     "provinceRequired": "Vælg region på listen.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Log ind for at købe kurset",
     "courseSignInText": "Kurset åbnes i din konto, så købet kræver login eller oprettelse.",
     "fieldRequired": "Udfyld dette felt",
-    "emailInvalid": "Tjek e-mailen: der er en fejl i adressen"
+    "emailInvalid": "Tjek e-mailen: der er en fejl i adressen",
+    "signInHeading": "Log ind for at afgive ordren",
+    "signInText": "Ordren vises på din konto: der finder du betalingsoplysninger, status og købte kurser. Login eller oprettelse tager et minut, og kurven bevares."
   },
   "ClaimOrders": {
     "heading": "Bestilte du uden konto?",
@@ -336,7 +338,10 @@
     "empty": "Du har endnu ikke købt nogen kurser.",
     "start": "Start",
     "continue": "Fortsæt",
-    "review": "Gennemgå"
+    "review": "Gennemgå",
+    "pendingHeading": "Afventer betaling",
+    "pendingHint": "Adgangen åbnes, når butikken har bekræftet betalingen.",
+    "toOrder": "{order} – betal"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Kvitteringen blev ikke godkendt",
     "receiptRejectedReason": "Årsag: {reason}",
     "receiptResend": "Send en anden kvittering",
-    "contactManager": "Kontakt manageren"
+    "contactManager": "Kontakt manageren",
+    "methodRequisites": "Overførsel til kontooplysninger",
+    "requisitesDesc": "Når du har afgivet ordren, ser du butikkens oplysninger: bankkort og kryptowallets. Overfør {total} og vedhæft kvitteringen – en medarbejder bekræfter ordren.",
+    "requisitesPreviewLabel": "Vi modtager overførsler til:",
+    "handoverRequisitesTitle": "Betal ordren ved overførsel",
+    "handoverRequisitesBody": "Ordre #{orderNumber} er modtaget. Vælg en bank eller wallet nedenfor, overfør {total} og vedhæft kvitteringen.",
+    "handoverRequisitesMessage": "Hej! Jeg har afgivet ordre #{orderNumber} på {total} og betalt den ved overførsel. Bekræft venligst betalingen.",
+    "contactManagerHint": "Kontakt en medarbejder for at få ordren bekræftet.",
+    "showRequisite": "Tryk for at se nummeret",
+    "hideRequisite": "Skjul nummeret",
+    "numberLabel": "Kort- eller kontonummer",
+    "holderLabel": "Modtager",
+    "addressLabel": "Wallet-adresse",
+    "networkLabel": "Netværk",
+    "copyNumber": "Kopiér nummeret",
+    "copyHolder": "Kopiér modtageren",
+    "copyAddress": "Kopiér adressen",
+    "copyNetwork": "Kopiér netværket",
+    "cryptoOnlyWarning": "Send kun {currency} på {network}-netværket: en overførsel af en anden coin eller via et andet netværk når ikke frem.",
+    "receiptPick": "Vælg fil eller billede",
+    "receiptCamera": "Tag et billede",
+    "receiptRemove": "Fjern filen"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "onlinekursus, uden levering",
     "shipmentNo": "Forsendelse nr. {no}",
     "digitalGroup": "Onlinekursus — adgang efter bekræftet betaling",
-    "accessByEmail": "Adgangen til kurset sendes på e-mail, når betalingen er bekræftet."
+    "accessByEmail": "Adgangen til kurset sendes på e-mail, når betalingen er bekræftet.",
+    "digitalGroupPaid": "Onlinekursus – adgang åbnet"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Afventer betaling",
+    "awaitingConfirmation": "Afventer bekræftelse af betaling",
+    "receiptRejected": "Kvitteringen blev ikke godkendt",
+    "paid": "Betalt",
+    "refunded": "Refunderet",
+    "canceled": "Annulleret"
   }
 }

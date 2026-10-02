@@ -147,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Carta regalo",
     "itemsCount": "{count, plural, one {{count} articolo} other {{count} articoli}}",
-    "legal": "Cliccando su «Paga», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e accetti la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
+    "legal": "Cliccando su «{button}», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e accetti la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
     "manualInput": "Inserisci l'indirizzo manualmente",
     "addressIncomplete": "Compila i campi obbligatori dell'indirizzo: {fields}.",
     "provinceRequired": "Scegli la regione dall’elenco.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Accedi per acquistare il corso",
     "courseSignInText": "Il corso si apre nel tuo account, quindi per acquistarlo serve l'accesso o la registrazione.",
     "fieldRequired": "Compila questo campo",
-    "emailInvalid": "Controlla l'e-mail: l'indirizzo contiene un errore"
+    "emailInvalid": "Controlla l'e-mail: l'indirizzo contiene un errore",
+    "signInHeading": "Accedi per completare l'ordine",
+    "signInText": "L'ordine comparirà nel tuo account: lì troverai i dati di pagamento, lo stato e i corsi acquistati. Accedere o registrarsi richiede un minuto e il carrello viene conservato."
   },
   "ClaimOrders": {
     "heading": "Hai ordinato senza account?",
@@ -336,7 +338,10 @@
     "empty": "Non hai ancora acquistato nessun corso.",
     "start": "Inizia",
     "continue": "Continua",
-    "review": "Rivedi"
+    "review": "Rivedi",
+    "pendingHeading": "In attesa di pagamento",
+    "pendingHint": "L'accesso si aprirà quando il negozio confermerà il pagamento.",
+    "toOrder": "{order} — paga"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Ricevuta non accettata",
     "receiptRejectedReason": "Motivo: {reason}",
     "receiptResend": "Invia un'altra ricevuta",
-    "contactManager": "Contatta il responsabile"
+    "contactManager": "Contatta il responsabile",
+    "methodRequisites": "Bonifico ai dati forniti",
+    "requisitesDesc": "Dopo l'ordine vedrai i dati del negozio: carte bancarie e wallet crypto. Trasferisci {total} e allega la ricevuta del pagamento: il gestore confermerà l'ordine.",
+    "requisitesPreviewLabel": "Accettiamo bonifici su:",
+    "handoverRequisitesTitle": "Paga l'ordine con un bonifico",
+    "handoverRequisitesBody": "L'ordine #{orderNumber} è stato registrato. Scegli una banca o un wallet qui sotto, trasferisci {total} e allega la ricevuta del pagamento.",
+    "handoverRequisitesMessage": "Buongiorno! Ho effettuato l'ordine #{orderNumber} di {total} e l'ho pagato con bonifico. Vi chiedo di confermare il pagamento.",
+    "contactManagerHint": "Per confermare l'ordine, contatta il gestore.",
+    "showRequisite": "Tocca per vedere il numero",
+    "hideRequisite": "Nascondi il numero",
+    "numberLabel": "Numero di carta o conto",
+    "holderLabel": "Beneficiario",
+    "addressLabel": "Indirizzo del wallet",
+    "networkLabel": "Rete",
+    "copyNumber": "Copia il numero",
+    "copyHolder": "Copia il beneficiario",
+    "copyAddress": "Copia l'indirizzo",
+    "copyNetwork": "Copia la rete",
+    "cryptoOnlyWarning": "Invia solo {currency} sulla rete {network}: un trasferimento di un'altra moneta o su un'altra rete non arriverà.",
+    "receiptPick": "Scegli un file o una foto",
+    "receiptCamera": "Scatta una foto",
+    "receiptRemove": "Rimuovi il file"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "corso online, senza consegna",
     "shipmentNo": "Spedizione n. {no}",
     "digitalGroup": "Corso online — accesso dopo la conferma del pagamento",
-    "accessByEmail": "L'accesso al corso arriverà via e-mail dopo la conferma del pagamento."
+    "accessByEmail": "L'accesso al corso arriverà via e-mail dopo la conferma del pagamento.",
+    "digitalGroupPaid": "Corso online — accesso aperto"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "In attesa di pagamento",
+    "awaitingConfirmation": "In attesa di conferma del pagamento",
+    "receiptRejected": "Ricevuta non accettata",
+    "paid": "Pagato",
+    "refunded": "Rimborsato",
+    "canceled": "Annullato"
   }
 }

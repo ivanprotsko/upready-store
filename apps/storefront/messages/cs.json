@@ -147,7 +147,7 @@
     "freeShipping": "Zdarma",
     "giftCard": "Dárková karta",
     "itemsCount": "{count, plural, one {{count} položka} few {{count} položky} many {{count} položky} other {{count} položek}}",
-    "legal": "Kliknutím na tlačítko „Zaplatit“ přijímáte naše <terms>podmínky</terms>, <termsOfUse>podmínky užívání</termsOfUse> a <returnPolicy>zásady vracení zboží</returnPolicy> a souhlasíte s našimi <privacyPolicy>zásadami ochrany osobních údajů</privacyPolicy>.",
+    "legal": "Kliknutím na tlačítko „{button}“ přijímáte naše <terms>podmínky</terms>, <termsOfUse>podmínky užívání</termsOfUse> a <returnPolicy>zásady vracení zboží</returnPolicy> a souhlasíte s našimi <privacyPolicy>zásadami ochrany osobních údajů</privacyPolicy>.",
     "manualInput": "Zadat adresu ručně",
     "addressIncomplete": "Vyplňte povinná pole adresy: {fields}.",
     "provinceRequired": "Vyberte kraj ze seznamu.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Přihlaste se, abyste mohli koupit kurz",
     "courseSignInText": "Kurz se otevírá ve vašem účtu, proto je k nákupu potřeba přihlášení nebo registrace.",
     "fieldRequired": "Vyplňte toto pole",
-    "emailInvalid": "Zkontrolujte e-mail: v adrese je chyba"
+    "emailInvalid": "Zkontrolujte e-mail: v adrese je chyba",
+    "signInHeading": "Přihlaste se a dokončete objednávku",
+    "signInText": "Objednávka se objeví ve vašem účtu: tam budou platební údaje, stav a zakoupené kurzy. Přihlášení nebo registrace zabere minutu, košík zůstane zachován."
   },
   "ClaimOrders": {
     "heading": "Objednávali jste bez účtu?",
@@ -336,7 +338,10 @@
     "empty": "Zatím jste nezakoupili žádný kurz.",
     "start": "Začít",
     "continue": "Pokračovat",
-    "review": "Zopakovat"
+    "review": "Zopakovat",
+    "pendingHeading": "Čekají na platbu",
+    "pendingHint": "Přístup se otevře, až obchod potvrdí platbu.",
+    "toOrder": "{order} — zaplatit"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Doklad nebyl přijat",
     "receiptRejectedReason": "Důvod: {reason}",
     "receiptResend": "Odeslat jiný doklad",
-    "contactManager": "Kontaktovat manažera"
+    "contactManager": "Kontaktovat manažera",
+    "methodRequisites": "Převod podle údajů",
+    "requisitesDesc": "Po odeslání objednávky uvidíte údaje obchodu: bankovní karty a kryptopeněženky. Převeďte {total} a přiložte doklad o platbě — objednávku potvrdí manažer.",
+    "requisitesPreviewLabel": "Přijímáme převody na:",
+    "handoverRequisitesTitle": "Zaplaťte objednávku převodem",
+    "handoverRequisitesBody": "Objednávka #{orderNumber} byla přijata. Vyberte níže banku nebo peněženku, převeďte {total} a přiložte doklad o platbě.",
+    "handoverRequisitesMessage": "Dobrý den! Odeslal(a) jsem objednávku #{orderNumber} na částku {total} a zaplatil(a) ji převodem. Potvrďte prosím platbu.",
+    "contactManagerHint": "Pro potvrzení objednávky kontaktujte manažera.",
+    "showRequisite": "Klepnutím zobrazíte číslo",
+    "hideRequisite": "Skrýt číslo",
+    "numberLabel": "Číslo karty nebo účtu",
+    "holderLabel": "Příjemce",
+    "addressLabel": "Adresa peněženky",
+    "networkLabel": "Síť",
+    "copyNumber": "Kopírovat číslo",
+    "copyHolder": "Kopírovat příjemce",
+    "copyAddress": "Kopírovat adresu",
+    "copyNetwork": "Kopírovat síť",
+    "cryptoOnlyWarning": "Posílejte pouze {currency} v síti {network}: převod jiné mince nebo přes jinou síť nedorazí.",
+    "receiptPick": "Vybrat soubor nebo fotku",
+    "receiptCamera": "Vyfotit",
+    "receiptRemove": "Odebrat soubor"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "online kurz, bez doručení",
     "shipmentNo": "Zásilka č. {no}",
     "digitalGroup": "Online kurz — přístup po potvrzení platby",
-    "accessByEmail": "Přístup ke kurzu přijde e-mailem po potvrzení platby."
+    "accessByEmail": "Přístup ke kurzu přijde e-mailem po potvrzení platby.",
+    "digitalGroupPaid": "Online kurz — přístup otevřen"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Čeká na platbu",
+    "awaitingConfirmation": "Čeká na potvrzení platby",
+    "receiptRejected": "Doklad nebyl přijat",
+    "paid": "Zaplaceno",
+    "refunded": "Vráceno",
+    "canceled": "Zrušeno"
   }
 }

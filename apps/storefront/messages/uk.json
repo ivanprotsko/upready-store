@@ -147,7 +147,7 @@
     "freeShipping": "Безкоштовно",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} товар} few {{count} товари} many {{count} товарів} other {{count} товару}}",
-    "legal": "Натискаючи «Оплатити», ви приймаєте <terms>умови</terms>, <termsOfUse>умови використання</termsOfUse> та <returnPolicy>політику повернення</returnPolicy>, а також погоджуєтеся з <privacyPolicy>політикою конфіденційності</privacyPolicy>.",
+    "legal": "Натискаючи «{button}», ви приймаєте <terms>умови</terms>, <termsOfUse>умови використання</termsOfUse> та <returnPolicy>політику повернення</returnPolicy>, а також погоджуєтеся з <privacyPolicy>політикою конфіденційності</privacyPolicy>.",
     "manualInput": "Ввести адресу вручну",
     "addressIncomplete": "Заповніть обов'язкові поля адреси: {fields}.",
     "provinceRequired": "Виберіть область зі списку.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Увійдіть, щоб купити курс",
     "courseSignInText": "Курс відкривається у вашому акаунті, тому для покупки потрібен вхід або реєстрація.",
     "fieldRequired": "Заповніть це поле",
-    "emailInvalid": "Перевірте e-mail: в адресі помилка"
+    "emailInvalid": "Перевірте e-mail: в адресі помилка",
+    "signInHeading": "Увійдіть, щоб оформити замовлення",
+    "signInText": "Замовлення з'явиться у вашому акаунті: там будуть реквізити для оплати, статус і куплені курси. Вхід або реєстрація займають хвилину, кошик збережеться."
   },
   "ClaimOrders": {
     "heading": "Замовляли без реєстрації?",
@@ -336,7 +338,10 @@
     "empty": "Ви ще не придбали жодного курсу.",
     "start": "Почати",
     "continue": "Продовжити",
-    "review": "Повторити"
+    "review": "Повторити",
+    "pendingHeading": "Очікують оплати",
+    "pendingHint": "Доступ відкриється після того, як магазин підтвердить оплату.",
+    "toOrder": "{order} — оплатити"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "Чек не прийнято",
     "receiptRejectedReason": "Причина: {reason}",
     "receiptResend": "Надіслати інший чек",
-    "contactManager": "Зв'язатися з менеджером"
+    "contactManager": "Зв'язатися з менеджером",
+    "methodRequisites": "Переказ за реквізитами",
+    "requisitesDesc": "Після оформлення замовлення ви побачите реквізити магазину: банківські картки та криптогаманці. Перекажіть {total} і прикріпіть чек про оплату — замовлення підтвердить менеджер.",
+    "requisitesPreviewLabel": "Приймаємо перекази:",
+    "handoverRequisitesTitle": "Оплатіть замовлення переказом за реквізитами",
+    "handoverRequisitesBody": "Замовлення #{orderNumber} прийнято. Виберіть банк або гаманець нижче, перекажіть {total} і прикріпіть чек про оплату.",
+    "handoverRequisitesMessage": "Вітаю! Я оформив(ла) замовлення #{orderNumber} на суму {total} і оплатив(ла) переказом за реквізитами. Підтвердьте, будь ласка, оплату.",
+    "contactManagerHint": "Для підтвердження замовлення зв'яжіться з менеджером.",
+    "showRequisite": "Натисніть, щоб побачити номер",
+    "hideRequisite": "Сховати номер",
+    "numberLabel": "Номер картки або рахунку",
+    "holderLabel": "Отримувач",
+    "addressLabel": "Адреса гаманця",
+    "networkLabel": "Мережа",
+    "copyNumber": "Скопіювати номер",
+    "copyHolder": "Скопіювати отримувача",
+    "copyAddress": "Скопіювати адресу",
+    "copyNetwork": "Скопіювати мережу",
+    "cryptoOnlyWarning": "Надсилайте лише {currency} у мережі {network}: переказ іншої монети або іншою мережею не дійде.",
+    "receiptPick": "Вибрати файл або фото",
+    "receiptCamera": "Зробити фото",
+    "receiptRemove": "Прибрати файл"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "онлайн-курс, без доставки",
     "shipmentNo": "Відправлення № {no}",
     "digitalGroup": "Онлайн-курс — доступ після підтвердження оплати",
-    "accessByEmail": "Доступ до курсу надійде на e-mail після підтвердження оплати."
+    "accessByEmail": "Доступ до курсу надійде на e-mail після підтвердження оплати.",
+    "digitalGroupPaid": "Онлайн-курс — доступ відкрито"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Очікує оплати",
+    "awaitingConfirmation": "Очікує підтвердження оплати",
+    "receiptRejected": "Чек не прийнято",
+    "paid": "Оплачено",
+    "refunded": "Повернено",
+    "canceled": "Скасовано"
   }
 }

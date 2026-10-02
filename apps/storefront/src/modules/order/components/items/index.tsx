@@ -9,6 +9,8 @@ import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
 type ItemsProps = {
   order: HttpTypes.StoreOrder
+  /** Batch 7: once the payment is captured the course group header says the access is open. */
+  paid?: boolean
 }
 
 /**
@@ -17,7 +19,7 @@ type ItemsProps = {
  * `shipmentGroups` the cart sidebar and the checkout read, over the order's own
  * items, so the numbers the buyer saw before paying are the numbers here.
  */
-const Items = async ({ order }: ItemsProps) => {
+const Items = async ({ order, paid = false }: ItemsProps) => {
   const tShip = await getTranslations("Shipments")
   const items = order.items
 
@@ -36,6 +38,7 @@ const Items = async ({ order }: ItemsProps) => {
     sorted.map((item) => ({ id: item.id, digital: isNoDeliveryLine(item), item }))
   )
   const showGroupHeaders = groups.length > 1 || groups.some((group) => group.kind === "digital")
+  const noDeliveryLabel = tShip("noDeliveryBadge")
 
   return (
     <div className="flex flex-col gap-y-6" data-testid="products-table">
@@ -49,12 +52,19 @@ const Items = async ({ order }: ItemsProps) => {
             <p className="txt-compact-small-plus text-ui-fg-subtle mb-2">
               {group.kind === "physical"
                 ? tShip("shipmentNo", { no: group.no ?? 1 })
-                : tShip("digitalGroup")}
+                : paid
+                  ? tShip("digitalGroupPaid")
+                  : tShip("digitalGroup")}
             </p>
           )}
           <ul className="flex flex-col divide-y divide-ui-border-base">
             {group.lines.map(({ item }) => (
-              <Item key={item.id} item={item} currencyCode={order.currency_code} />
+              <Item
+                key={item.id}
+                item={item}
+                currencyCode={order.currency_code}
+                noDeliveryLabel={isNoDeliveryLine(item) ? noDeliveryLabel : null}
+              />
             ))}
           </ul>
         </div>

@@ -17,18 +17,44 @@ export type PaymentReceiptResult =
   | { ok: true }
   | { ok: false; error: "receiptTooLarge" | "receiptWrongType" | "receiptFailed" }
 
+/** The type a camera photo or a shared file arrives without on some phones, read off its name. */
+const TYPE_BY_EXTENSION: Record<string, string> = {
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  png: "image/png",
+  webp: "image/webp",
+  heic: "image/heic",
+  heif: "image/heif",
+  pdf: "application/pdf",
+}
+
+const typeOf = (file: File): string => {
+  if (file.type) {
+    return file.type
+  }
+  const extension = file.name.split(".").pop()?.toLowerCase() ?? ""
+  return TYPE_BY_EXTENSION[extension] ?? ""
+}
+
 export async function submitPaymentReceipt(
   orderId: string,
   formData: FormData
 ): Promise<PaymentReceiptResult> {
-  const file = formData.get("receipt")
+  const raw = formData.get("receipt")
 
-  if (!(file instanceof File) || file.size === 0 || !RECEIPT_TYPES.includes(file.type)) {
+  if (!(raw instanceof File) || raw.size === 0) {
     return { ok: false, error: "receiptWrongType" }
   }
-  if (file.size > RECEIPT_MAX_BYTES) {
+  const type = typeOf(raw)
+  if (!RECEIPT_TYPES.includes(type)) {
+    return { ok: false, error: "receiptWrongType" }
+  }
+  if (raw.size > RECEIPT_MAX_BYTES) {
     return { ok: false, error: "receiptTooLarge" }
   }
+  // Batch 7: a phone's camera can hand over a photo with no MIME type at all; the
+  // backend checks the type it receives, so the inferred one travels with the file.
+  const file = raw.type ? raw : new File([raw], raw.name, { type })
 
   const body = new FormData()
   body.append("files", file, file.name)

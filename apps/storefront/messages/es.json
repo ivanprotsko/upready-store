@@ -147,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Tarjeta de regalo",
     "itemsCount": "{count, plural, one {{count} artículo} other {{count} artículos}}",
-    "legal": "Al hacer clic en «Pagar», aceptas nuestros <terms>términos</terms>, nuestras <termsOfUse>condiciones de uso</termsOfUse> y nuestra <returnPolicy>política de devoluciones</returnPolicy>, y consientes nuestra <privacyPolicy>política de privacidad</privacyPolicy>.",
+    "legal": "Al hacer clic en «{button}», aceptas nuestros <terms>términos</terms>, nuestras <termsOfUse>condiciones de uso</termsOfUse> y nuestra <returnPolicy>política de devoluciones</returnPolicy>, y consientes nuestra <privacyPolicy>política de privacidad</privacyPolicy>.",
     "manualInput": "Introducir la dirección manualmente",
     "addressIncomplete": "Complete los campos obligatorios de la dirección: {fields}.",
     "provinceRequired": "Elige la región de la lista.",
@@ -175,7 +175,9 @@
     "courseSignInHeading": "Inicia sesión para comprar el curso",
     "courseSignInText": "El curso se abre en tu cuenta, así que para comprarlo hace falta iniciar sesión o registrarse.",
     "fieldRequired": "Rellena este campo",
-    "emailInvalid": "Revisa el correo: la dirección tiene un error"
+    "emailInvalid": "Revisa el correo: la dirección tiene un error",
+    "signInHeading": "Inicie sesión para realizar el pedido",
+    "signInText": "El pedido aparecerá en su cuenta: allí están los datos de pago, el estado y los cursos comprados. Iniciar sesión o registrarse lleva un minuto y el carrito se conserva."
   },
   "ClaimOrders": {
     "heading": "¿Compraste sin cuenta?",
@@ -336,7 +338,10 @@
     "empty": "Aún no has comprado ningún curso.",
     "start": "Comenzar",
     "continue": "Continuar",
-    "review": "Repasar"
+    "review": "Repasar",
+    "pendingHeading": "Pendientes de pago",
+    "pendingHint": "El acceso se abrirá cuando la tienda confirme el pago.",
+    "toOrder": "{order} — pagar"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -613,7 +618,28 @@
     "receiptRejected": "El comprobante no fue aceptado",
     "receiptRejectedReason": "Motivo: {reason}",
     "receiptResend": "Enviar otro comprobante",
-    "contactManager": "Contactar con el gestor"
+    "contactManager": "Contactar con el gestor",
+    "methodRequisites": "Transferencia a los datos de cuenta",
+    "requisitesDesc": "Después de realizar el pedido verá los datos de la tienda: tarjetas bancarias y monederos de criptomonedas. Transfiera {total} y adjunte el comprobante de pago; el gestor confirmará el pedido.",
+    "requisitesPreviewLabel": "Aceptamos transferencias a:",
+    "handoverRequisitesTitle": "Pague el pedido por transferencia",
+    "handoverRequisitesBody": "El pedido #{orderNumber} ha sido registrado. Elija un banco o un monedero abajo, transfiera {total} y adjunte el comprobante de pago.",
+    "handoverRequisitesMessage": "¡Hola! He realizado el pedido #{orderNumber} por {total} y lo he pagado por transferencia. Por favor, confirmen el pago.",
+    "contactManagerHint": "Para confirmar el pedido, contacte con el gestor.",
+    "showRequisite": "Toque para ver el número",
+    "hideRequisite": "Ocultar el número",
+    "numberLabel": "Número de tarjeta o cuenta",
+    "holderLabel": "Titular",
+    "addressLabel": "Dirección del monedero",
+    "networkLabel": "Red",
+    "copyNumber": "Copiar el número",
+    "copyHolder": "Copiar el titular",
+    "copyAddress": "Copiar la dirección",
+    "copyNetwork": "Copiar la red",
+    "cryptoOnlyWarning": "Envíe solo {currency} por la red {network}: una transferencia de otra moneda o por otra red no llegará.",
+    "receiptPick": "Elegir archivo o foto",
+    "receiptCamera": "Hacer una foto",
+    "receiptRemove": "Quitar el archivo"
   },
   "Metadata": {
     "account": {
@@ -1136,6 +1162,15 @@
     "noDeliveryBadge": "curso en línea, sin envío",
     "shipmentNo": "Envío n.º {no}",
     "digitalGroup": "Curso en línea — acceso tras confirmar el pago",
-    "accessByEmail": "El acceso al curso llegará por correo electrónico cuando se confirme el pago."
+    "accessByEmail": "El acceso al curso llegará por correo electrónico cuando se confirme el pago.",
+    "digitalGroupPaid": "Curso en línea — acceso abierto"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Pendiente de pago",
+    "awaitingConfirmation": "Pendiente de confirmación del pago",
+    "receiptRejected": "Comprobante no aceptado",
+    "paid": "Pagado",
+    "refunded": "Reembolsado",
+    "canceled": "Cancelado"
   }
 }

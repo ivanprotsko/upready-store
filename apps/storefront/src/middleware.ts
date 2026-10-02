@@ -351,12 +351,12 @@ function tenantRequestHeaders(
       "x-tenant-login",
       encodeTenantHeaderValue(JSON.stringify(tenant.login))
     )
-    // The shop's offline ways to pay on `pp_system_default` (olavka-payments):
-    // wallets and manager contacts the owner entered in the panel, read by the
-    // checkout and the confirmation page through `lib/data/tenant-manual-payment.ts`.
-    // Absent when neither section is on, which every reader takes as «offer
-    // nothing beyond the provider itself».
-    if (tenant.manualPayment.crypto.enabled || tenant.manualPayment.manager.enabled) {
+    // The shop's offline way to pay on `pp_system_default` (olavka-payments,
+    // batch 7): the owner's list of bank and crypto requisites and the manager
+    // contacts, read by the checkout and the order page through
+    // `lib/data/tenant-manual-payment.ts`. Absent when the method is off, which
+    // every reader takes as «offer nothing beyond the provider itself».
+    if (tenant.manualPayment.enabled) {
       headers.set(
         "x-tenant-manual-payment",
         encodeTenantHeaderValue(JSON.stringify(tenant.manualPayment))
