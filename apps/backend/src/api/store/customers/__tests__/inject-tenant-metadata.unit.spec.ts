@@ -25,12 +25,12 @@ const buildRequest = (opts: {
     body: opts.body,
     publishable_key_context: { sales_channel_ids: opts.channelIds ?? [] },
     scope: { resolve: () => ({ graph }) },
-  } as unknown as MedusaStoreRequest;
+  } as unknown as MedusaStoreRequest<{ metadata?: Record<string, unknown> }>;
 
   return { req, graph };
 };
 
-const run = async (req: MedusaStoreRequest) => {
+const run = async (req: MedusaStoreRequest<{ metadata?: Record<string, unknown> }>) => {
   const next = jest.fn() as unknown as MedusaNextFunction;
   await injectCustomerTenantMetadata(req, {} as MedusaResponse, next);
   return next;
