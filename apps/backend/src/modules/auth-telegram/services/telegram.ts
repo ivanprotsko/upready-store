@@ -41,7 +41,7 @@ import { tenantIdFromHeaders } from "../lib/tenant";
 import { verifyInitData, verifyLoginWidget, type VerifyFailureReason } from "../lib/verify";
 
 export type TelegramAuthOptions = {
-  /** `auth_date` freshness bound in seconds, both surfaces. 0 disables it. Default 86400. */
+  /** `auth_date` freshness bound in seconds, both surfaces. Must be positive; default 86400. */
   authDateMaxAgeSec?: number;
 };
 
@@ -83,11 +83,11 @@ export class TelegramAuthService extends AbstractAuthModuleProvider {
   static validateOptions(options: TelegramAuthOptions) {
     if (
       options.authDateMaxAgeSec !== undefined &&
-      (!Number.isFinite(options.authDateMaxAgeSec) || options.authDateMaxAgeSec < 0)
+      (!Number.isFinite(options.authDateMaxAgeSec) || options.authDateMaxAgeSec <= 0)
     ) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
-        "Telegram authDateMaxAgeSec must be a non-negative number of seconds (TELEGRAM_AUTH_MAX_AGE_SEC)",
+        "Telegram authDateMaxAgeSec must be a positive number of seconds (TELEGRAM_AUTH_MAX_AGE_SEC)",
       );
     }
   }

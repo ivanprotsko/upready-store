@@ -122,6 +122,11 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
       "This Telegram account is already linked to another customer.",
     );
   }
+  // Already this buyer's: `setAuthAppMetadataStep` refuses to overwrite the key, so answer as done.
+  if (linkedTo === customerId) {
+    res.status(200).json({ linked: true, telegram_username: verdict.user.username ?? null });
+    return;
+  }
 
   const customerModule: ICustomerModuleService = req.scope.resolve(Modules.CUSTOMER);
   const customer = await customerModule.retrieveCustomer(customerId);

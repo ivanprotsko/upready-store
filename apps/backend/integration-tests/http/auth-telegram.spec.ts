@@ -322,6 +322,14 @@ medusaIntegrationTestRunner({
         expect(linked.status).toBe(200);
         expect(linked.data).toEqual({ linked: true, telegram_username: "boris_tg" });
 
+        // A second press from a stale page is not an error.
+        const again = await api.post(
+          "/store/customers/me/telegram-link",
+          signWidget(user),
+          store(shop, buyer.token),
+        );
+        expect(again.status).toBe(200);
+
         // Signing in with that Telegram now opens the e-mail account itself.
         const viaTelegram = await api.post("/auth/customer/telegram", signWidget(user), store(shop));
         expect(jwtPayload(viaTelegram.data.token).actor_id).toBe(buyer.id);

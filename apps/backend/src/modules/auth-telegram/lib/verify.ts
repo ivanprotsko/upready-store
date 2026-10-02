@@ -42,7 +42,7 @@ export type VerifyResult =
   | { ok: false; reason: VerifyFailureReason };
 
 export type VerifyOptions = {
-  /** `auth_date` must be within this many seconds of now. 0 disables the check. Default 86400 (24h). */
+  /** `auth_date` must be within this many seconds of now. Always on; default 86400 (24h). */
   maxAgeSec?: number;
   /** Only for tests: pin "now" instead of reading the clock. */
   now?: () => number;
@@ -70,10 +70,9 @@ const checkFreshness = (
   authDate: number,
   options: VerifyOptions,
 ): VerifyFailureReason | null => {
-  const maxAgeSec = options.maxAgeSec ?? DEFAULT_MAX_AGE_SEC;
-  if (!maxAgeSec) {
-    return null;
-  }
+  // A zero, negative or NaN bound falls back to the default instead of switching the check off.
+  const maxAgeSec =
+    options.maxAgeSec && options.maxAgeSec > 0 ? options.maxAgeSec : DEFAULT_MAX_AGE_SEC;
   const now = (options.now ?? (() => Date.now()))();
   const ageSec = Math.abs(now / 1000 - authDate);
   return ageSec > maxAgeSec ? "expired" : null;

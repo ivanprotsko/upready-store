@@ -75,10 +75,10 @@ describe("verifyLoginWidget", () => {
     expect(result).toEqual({ ok: false, reason: "expired" });
   });
 
-  it("accepts a stale auth_date when the freshness bound is disabled", () => {
+  it("cannot switch the freshness bound off: 0 falls back to the 24h default", () => {
     const stale = { ...validFields, auth_date: String(now - 100_000) };
     const result = verifyLoginWidget(signWidget(stale), BOT_TOKEN, { maxAgeSec: 0 });
-    expect(result.ok).toBe(true);
+    expect(result).toEqual({ ok: false, reason: "expired" });
   });
 
   it("rejects an empty bot token (the chrxnasdmds b553c540/d87bd117 lesson: falsy, not just undefined)", () => {
