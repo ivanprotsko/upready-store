@@ -53,7 +53,6 @@ export const ProductTranslationsForm = ({ productId }: { productId: string }) =>
     })
     // Re-seeds on every language switch; `locales` itself only changes after a
     // save, which already carries the just-saved language's own draft.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale, locales])
 
   if (isError) {
