@@ -32,6 +32,20 @@ describe("readManualPayment", () => {
     ).toEqual({ enabled: false, wallets: [] })
   })
 
+  it("reads the cards and drops one with no bank or no number", () => {
+    expect(
+      readManualPayment({
+        manager: {
+          enabled: true,
+          cards: [
+            { bank: "Сбербанк", number: "2202 0000 0000 0000", holder: "Иван И." },
+            { bank: "ВТБ", number: "" },
+          ],
+        },
+      }).manager.cards
+    ).toEqual([{ bank: "Сбербанк", number: "2202 0000 0000 0000", holder: "Иван И." }])
+  })
+
   it("reads the wallets and the contacts the backend published", () => {
     expect(
       readManualPayment({
@@ -40,7 +54,7 @@ describe("readManualPayment", () => {
       })
     ).toEqual({
       crypto: { enabled: true, wallets: [WALLET] },
-      manager: { enabled: true, whatsapp: "+79990000000", telegram: null, email: null, note: "note" },
+      manager: { enabled: true, cards: [], whatsapp: "+79990000000", telegram: null, email: null, note: "note" },
     })
   })
 })
@@ -54,7 +68,7 @@ describe("availableManualPaymentKinds", () => {
     expect(
       availableManualPaymentKinds({
         crypto: { enabled: true, wallets: [WALLET] },
-        manager: { enabled: true, whatsapp: null, telegram: "shop", email: null, note: null },
+        manager: { enabled: true, cards: [], whatsapp: null, telegram: "shop", email: null, note: null },
       })
     ).toEqual(["crypto", "other"])
   })
@@ -63,7 +77,7 @@ describe("availableManualPaymentKinds", () => {
     expect(
       availableManualPaymentKinds({
         ...EMPTY_MANUAL_PAYMENT,
-        manager: { enabled: true, whatsapp: null, telegram: null, email: null, note: null },
+        manager: { enabled: true, cards: [], whatsapp: null, telegram: null, email: null, note: null },
       })
     ).toEqual(["other"])
   })
@@ -73,7 +87,7 @@ describe("parseManualPaymentHeader", () => {
   it("reads the header the middleware wrote", () => {
     const doc = {
       crypto: { enabled: true, wallets: [WALLET] },
-      manager: { enabled: false, whatsapp: null, telegram: null, email: null, note: null },
+      manager: { enabled: false, cards: [], whatsapp: null, telegram: null, email: null, note: null },
     }
     expect(parseManualPaymentHeader(JSON.stringify(doc))).toEqual(doc)
   })

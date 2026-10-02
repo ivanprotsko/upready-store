@@ -403,6 +403,22 @@ export const PutTenantManualPaymentSchema = z.strictObject({
   manager: z
     .strictObject({
       enabled: z.boolean(),
+      cards: z
+        .array(
+          z.strictObject({
+            bank: z.string().trim().min(1).max(60),
+            number: z.string().trim().min(1).max(40),
+            holder: z
+              .string()
+              .trim()
+              .max(100)
+              .nullable()
+              .optional()
+              .transform((value) => (value ? value : null)),
+          }),
+        )
+        .max(5)
+        .optional(),
       whatsapp: optionalContact(/^$|^\+?\d{7,15}$/, "a phone number in international format, digits only"),
       telegram: optionalContact(/^$|^@?[A-Za-z0-9_]{4,32}$/, "a Telegram username").transform(
         (value) => (value ? value.replace(/^@/, "") : null),

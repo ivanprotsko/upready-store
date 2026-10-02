@@ -40,7 +40,8 @@ import {
   type LegalLinkContext,
   type LegalSlot,
 } from "@lib/util/legal-links"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
+import { convertToLocale } from "@lib/util/money"
 import { clx } from "@medusajs/ui"
 
 interface CheckoutPaymentSectionProps {
@@ -77,6 +78,7 @@ export default function CheckoutPaymentSection({
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
+  const locale = useLocale()
   const latestSession = cart.payment_collection?.payment_sessions?.[0]
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(() =>
@@ -374,6 +376,7 @@ export default function CheckoutPaymentSection({
                   <ManualPaymentKindSelect
                     kinds={manualKinds}
                     wallets={manualPayment.crypto.wallets}
+                    hasCards={manualPayment.manager.cards.length > 0}
                     value={manualKind}
                     onChange={setManualKind}
                   />
@@ -381,6 +384,11 @@ export default function CheckoutPaymentSection({
                     <ManualPaymentInstructions
                       kind={manualKind}
                       manualPayment={manualPayment}
+                      total={convertToLocale({
+                        amount: cart.total ?? 0,
+                        currency_code: cart.currency_code,
+                        locale,
+                      })}
                     />
                   )}
                 </div>

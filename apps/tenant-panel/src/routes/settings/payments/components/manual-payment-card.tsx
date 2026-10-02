@@ -15,6 +15,7 @@ import {
 import { useTranslation } from "react-i18next"
 
 import {
+  type ManualPaymentCard,
   type ManualPaymentWallet,
   type TenantManualPayment,
   useTenantManualPayment,
@@ -37,6 +38,7 @@ type Draft = {
   cryptoEnabled: boolean
   wallets: ManualPaymentWallet[]
   managerEnabled: boolean
+  cards: { bank: string; number: string; holder: string }[]
   whatsapp: string
   telegram: string
   email: string
@@ -47,6 +49,7 @@ const EMPTY_DRAFT: Draft = {
   cryptoEnabled: false,
   wallets: [],
   managerEnabled: false,
+  cards: [],
   whatsapp: "",
   telegram: "",
   email: "",
@@ -55,12 +58,22 @@ const EMPTY_DRAFT: Draft = {
 
 const EMPTY_WALLET: ManualPaymentWallet = { network: "", currency: "", address: "" }
 
+const EMPTY_CARD: Draft["cards"][number] = { bank: "", number: "", holder: "" }
+
+/** At most this many cards, the backend's own limit. */
+const MAX_CARDS = 5
+
 const draftFrom = (record: TenantManualPayment | undefined): Draft =>
   record
     ? {
         cryptoEnabled: record.crypto.enabled,
         wallets: record.crypto.wallets.map((wallet) => ({ ...wallet })),
         managerEnabled: record.manager.enabled,
+        cards: (record.manager.cards ?? []).map((card) => ({
+          bank: card.bank,
+          number: card.number,
+          holder: card.holder ?? "",
+        })),
         whatsapp: record.manager.whatsapp ?? "",
         telegram: record.manager.telegram ?? "",
         email: record.manager.email ?? "",
@@ -108,6 +121,21 @@ export const ManualPaymentCard = () => {
     }))
   }
 
+  const updateCard = (index: number, key: keyof Draft["cards"][number], value: string) => {
+    touchedRef.current = true
+    setDraft((previous) => ({
+      ...previous,
+      cards: previous.cards.map((card, i) => (i === index ? { ...card, [key]: value } : card)),
+    }))
+  }
+
+  const addCard = () => update("cards", [...draft.cards, { ...EMPTY_CARD }])
+  const removeCard = (index: number) =>
+    update(
+      "cards",
+      draft.cards.filter((_, i) => i !== index)
+    )
+
   const addWallet = () => update("wallets", [...draft.wallets, { ...EMPTY_WALLET }])
   const removeWallet = (index: number) =>
     update(
@@ -132,8 +160,20 @@ export const ManualPaymentCard = () => {
       toast.error(t("manualPayment.walletRequired"))
       return
     }
+    const cards: ManualPaymentCard[] = draft.cards
+      .map((card) => ({
+        bank: card.bank.trim(),
+        number: card.number.trim(),
+        holder: card.holder.trim() || null,
+      }))
+      .filter((card) => card.bank || card.number || card.holder)
+    if (cards.some((card) => !card.bank || !card.number)) {
+      toast.error(t("manualPayment.cardIncomplete"))
+      return
+    }
     if (
       draft.managerEnabled &&
+      cards.length === 0 &&
       !draft.whatsapp.trim() &&
       !draft.telegram.trim() &&
       !draft.email.trim()
@@ -146,6 +186,7 @@ export const ManualPaymentCard = () => {
         crypto: { enabled: draft.cryptoEnabled, wallets },
         manager: {
           enabled: draft.managerEnabled,
+          cards,
           whatsapp: draft.whatsapp.trim() || null,
           telegram: draft.telegram.trim() || null,
           email: draft.email.trim() || null,
@@ -272,6 +313,85 @@ export const ManualPaymentCard = () => {
           <Text size="small" className="text-ui-fg-subtle">
             {t("manualPayment.manager.hint")}
           </Text>
+
+          <div className="flex flex-col gap-y-2" data-testid="manual-payment-cards">
+            <Label>{t("manualPayment.manager.cards")}</Label>
+            <Text size="small" className="text-ui-fg-subtle">
+              {t("manualPayment.manager.cardsHint")}
+            </Text>
+          </div>
+
+          {draft.cards.map((card, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-1 gap-2 md:grid-cols-[1fr_2fr_1fr_auto] md:items-end"
+              data-testid={`manual-payment-card-${index}`}
+            >
+              <div className="flex flex-col gap-y-1">
+                <Label htmlFor={`card_bank_${index}`} size="small">
+                  {t("manualPayment.manager.cardBank")}
+                </Label>
+                <Input
+                  id={`card_bank_${index}`}
+                  size="small"
+                  value={card.bank}
+                  disabled={busy}
+                  placeholder={t("manualPayment.manager.cardBankPlaceholder")}
+                  onChange={(event) => updateCard(index, "bank", event.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-y-1">
+                <Label htmlFor={`card_number_${index}`} size="small">
+                  {t("manualPayment.manager.cardNumber")}
+                </Label>
+                <Input
+                  id={`card_number_${index}`}
+                  size="small"
+                  value={card.number}
+                  disabled={busy}
+                  inputMode="numeric"
+                  onChange={(event) => updateCard(index, "number", event.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-y-1">
+                <Label htmlFor={`card_holder_${index}`} size="small">
+                  {t("manualPayment.manager.cardHolder")}
+                </Label>
+                <Input
+                  id={`card_holder_${index}`}
+                  size="small"
+                  value={card.holder}
+                  disabled={busy}
+                  placeholder={t("manualPayment.manager.cardHolderPlaceholder")}
+                  onChange={(event) => updateCard(index, "holder", event.target.value)}
+                />
+              </div>
+              <IconButton
+                type="button"
+                size="small"
+                variant="transparent"
+                disabled={busy}
+                aria-label={t("manualPayment.manager.removeCard")}
+                onClick={() => removeCard(index)}
+              >
+                <Trash />
+              </IconButton>
+            </div>
+          ))}
+
+          <div>
+            <Button
+              type="button"
+              size="small"
+              variant="secondary"
+              disabled={busy || draft.cards.length >= MAX_CARDS}
+              onClick={addCard}
+              data-testid="manual-payment-add-card"
+            >
+              <Plus />
+              {t("manualPayment.manager.addCard")}
+            </Button>
+          </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="flex flex-col gap-y-2">

@@ -20,6 +20,8 @@ type Props = {
   kinds: ManualPaymentKind[]
   /** The shop's wallets, for the asset marks under the crypto option. */
   wallets: ManualPaymentWallet[]
+  /** Whether the manager option shows the shop's cards, which retitles it «card transfer». */
+  hasCards: boolean
   value: ManualPaymentKind | null
   onChange: (kind: ManualPaymentKind) => void
 }
@@ -30,7 +32,7 @@ type Props = {
  * so the provider strip above shows one method and this radio group is the
  * choice inside it. Only the kinds the owner enabled in the panel are here.
  */
-const ManualPaymentKindSelect = ({ kinds, wallets, value, onChange }: Props) => {
+const ManualPaymentKindSelect = ({ kinds, wallets, hasCards, value, onChange }: Props) => {
   const t = useTranslations("ManualPayment")
   const currencies = Array.from(new Set(wallets.map((wallet) => wallet.currency)))
 
@@ -44,8 +46,8 @@ const ManualPaymentKindSelect = ({ kinds, wallets, value, onChange }: Props) => 
       icon: <CurrencyDollar className="text-ui-fg-subtle" />,
     },
     other: {
-      title: t("otherTitle"),
-      description: t("otherDesc"),
+      title: t(hasCards ? "cardsTitle" : "otherTitle"),
+      description: t(hasCards ? "cardsDesc" : "otherDesc"),
       icon: <ChatBubble className="text-ui-fg-subtle" />,
     },
   }

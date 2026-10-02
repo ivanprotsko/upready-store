@@ -55,6 +55,10 @@ export const PUT = async (
     manager: body.manager
       ? {
           enabled: body.manager.enabled,
+          // A panel build from before the cards existed sends no `cards`; it keeps the stored ones.
+          cards: body.manager.cards
+            ? body.manager.cards.map((card) => ({ bank: card.bank, number: card.number, holder: card.holder ?? null }))
+            : current.manager.cards,
           whatsapp: body.manager.whatsapp ?? null,
           telegram: body.manager.telegram ?? null,
           email: body.manager.email ?? null,

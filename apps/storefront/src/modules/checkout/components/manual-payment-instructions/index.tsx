@@ -1,6 +1,7 @@
 "use client"
 
 import type {
+  ManualPaymentCard,
   ManualPaymentKind,
   ManualPaymentWallet,
   TenantManualPayment,
@@ -84,9 +85,66 @@ export const WalletCard = ({ wallet }: { wallet: ManualPaymentWallet }) => {
   )
 }
 
+/** One bank card of the shop: the bank, the number with a copy button, the holder. */
+export const BankCard = ({ card }: { card: ManualPaymentCard }) => {
+  const t = useTranslations("ManualPayment")
+  const [copied, setCopied] = useState(false)
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(card.number.replace(/\s+/g, ""))
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      // The clipboard is unavailable outside a secure context; the number is
+      // still on screen to select by hand.
+    }
+  }
+
+  return (
+    <div
+      className="flex flex-col gap-y-2 rounded-[6px] border border-ui-border-base bg-ui-bg-base p-4"
+      data-testid="bank-card"
+    >
+      <span className="txt-compact-medium-plus text-ui-fg-base">{card.bank}</span>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={t("cardCopyLabel", { bank: card.bank })}
+        className={clx(
+          "group flex w-full flex-row items-center gap-x-3 rounded-[4px] border border-ui-border-base bg-ui-bg-subtle px-3 py-2 text-start",
+          "transition-colors hover:border-ui-border-strong"
+        )}
+      >
+        <code className="min-w-0 flex-1 truncate font-mono txt-compact-medium text-ui-fg-base">
+          {card.number}
+        </code>
+        <span
+          className={clx(
+            "inline-flex shrink-0 items-center gap-x-1 whitespace-nowrap rounded-[4px] px-2 py-1 txt-compact-xsmall-plus",
+            copied
+              ? "bg-ui-tag-green-bg text-ui-tag-green-text"
+              : "bg-ui-bg-base text-ui-fg-subtle group-hover:text-ui-fg-base"
+          )}
+        >
+          {copied ? <Check /> : <SquareTwoStack />}
+          {copied ? t("copied") : t("copy")}
+        </span>
+      </button>
+      {card.holder && (
+        <span className="txt-compact-small text-ui-fg-subtle">
+          {t("cardHolder", { holder: card.holder })}
+        </span>
+      )}
+    </div>
+  )
+}
+
 type Props = {
   kind: ManualPaymentKind
   manualPayment: TenantManualPayment
+  /** The cart total, formatted, for the line above the cards. */
+  total: string
 }
 
 /**
@@ -96,7 +154,7 @@ type Props = {
  * the order is placed, the owner's own note, and the contacts to write to now.
  * Every address and contact here came from the shop's panel.
  */
-const ManualPaymentInstructions = ({ kind, manualPayment }: Props) => {
+const ManualPaymentInstructions = ({ kind, manualPayment, total }: Props) => {
   const t = useTranslations("ManualPayment")
 
   if (kind === "crypto") {
@@ -106,6 +164,26 @@ const ManualPaymentInstructions = ({ kind, manualPayment }: Props) => {
           <WalletCard key={`${wallet.currency}-${wallet.network}`} wallet={wallet} />
         ))}
         <p className="txt-compact-small text-ui-fg-subtle">{t("cryptoConfirm")}</p>
+      </div>
+    )
+  }
+
+  const cards = manualPayment.manager.cards
+
+  if (cards.length > 0) {
+    return (
+      <div className="flex flex-col gap-y-3" data-testid="manual-payment-cards">
+        <p className="txt-compact-small text-ui-fg-base">{t("cardsHint", { total })}</p>
+        {cards.map((card) => (
+          <BankCard key={`${card.bank}-${card.number}`} card={card} />
+        ))}
+        {manualPayment.manager.note && (
+          <p className="txt-compact-small text-ui-fg-base" data-testid="manager-note">
+            {manualPayment.manager.note}
+          </p>
+        )}
+        <p className="txt-compact-small text-ui-fg-subtle">{t("cardsManagerFallback")}</p>
+        <ManagerContactCTA contacts={manualPayment.manager} />
       </div>
     )
   }

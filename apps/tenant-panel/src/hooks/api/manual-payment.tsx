@@ -21,6 +21,13 @@ export type ManualPaymentWallet = {
   address: string
 }
 
+// Карта для перевода: показывается покупателю до контактов менеджера.
+export type ManualPaymentCard = {
+  bank: string
+  number: string
+  holder: string | null
+}
+
 export type TenantManualPayment = {
   crypto: {
     enabled: boolean
@@ -28,6 +35,7 @@ export type TenantManualPayment = {
   }
   manager: {
     enabled: boolean
+    cards: ManualPaymentCard[]
     whatsapp: string | null
     telegram: string | null
     email: string | null

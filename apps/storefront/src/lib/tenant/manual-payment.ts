@@ -21,6 +21,13 @@ export type ManualPaymentWallet = {
   address: string
 }
 
+/** A bank card to transfer to, shown first under «card via manager», the contacts after it. */
+export type ManualPaymentCard = {
+  bank: string
+  number: string
+  holder: string | null
+}
+
 export type ManualPaymentContacts = {
   /** Digits with an optional leading `+`, what `https://wa.me/<number>` takes. */
   whatsapp: string | null
@@ -33,7 +40,7 @@ export type ManualPaymentContacts = {
 
 export type TenantManualPayment = {
   crypto: { enabled: boolean; wallets: ManualPaymentWallet[] }
-  manager: { enabled: boolean } & ManualPaymentContacts
+  manager: { enabled: boolean; cards: ManualPaymentCard[] } & ManualPaymentContacts
 }
 
 /** The buyer's choice inside the manual provider, stamped on the cart and so on the order. */
@@ -45,7 +52,14 @@ export const MANUAL_PAYMENT_KIND_METADATA_KEY = "manual_payment_kind"
 /** A shop that configured nothing: the checkout then renders exactly as it does today. */
 export const EMPTY_MANUAL_PAYMENT: TenantManualPayment = {
   crypto: { enabled: false, wallets: [] },
-  manager: { enabled: false, whatsapp: null, telegram: null, email: null, note: null },
+  manager: {
+    enabled: false,
+    cards: [],
+    whatsapp: null,
+    telegram: null,
+    email: null,
+    note: null,
+  },
 }
 
 const str = (value: unknown): string | null =>
@@ -74,6 +88,28 @@ const readWallets = (raw: unknown): ManualPaymentWallet[] => {
   return wallets
 }
 
+const readCards = (raw: unknown): ManualPaymentCard[] => {
+  if (!Array.isArray(raw)) {
+    return []
+  }
+
+  const cards: ManualPaymentCard[] = []
+
+  for (const item of raw) {
+    if (!item || typeof item !== "object") {
+      continue
+    }
+    const card = item as Partial<ManualPaymentCard>
+    const bank = str(card.bank)
+    const number = str(card.number)
+    if (bank && number) {
+      cards.push({ bank, number, holder: str(card.holder) })
+    }
+  }
+
+  return cards
+}
+
 /**
  * From whatever the backend answered (or the header carried). A crypto section
  * with no wallet is off, and a section that is off carries nothing, so a
@@ -87,7 +123,7 @@ export const readManualPayment = (raw: unknown): TenantManualPayment => {
 
   const doc = raw as {
     crypto?: { enabled?: unknown; wallets?: unknown } | null
-    manager?: Partial<Record<keyof ManualPaymentContacts | "enabled", unknown>> | null
+    manager?: Partial<Record<keyof ManualPaymentContacts | "enabled" | "cards", unknown>> | null
   }
   const wallets = doc.crypto?.enabled ? readWallets(doc.crypto.wallets) : []
   const manager = doc.manager && typeof doc.manager === "object" ? doc.manager : null
@@ -97,6 +133,7 @@ export const readManualPayment = (raw: unknown): TenantManualPayment => {
     manager: manager?.enabled
       ? {
           enabled: true,
+          cards: readCards(manager.cards),
           whatsapp: str(manager.whatsapp),
           telegram: str(manager.telegram),
           email: str(manager.email),

@@ -6,6 +6,7 @@ import {
 } from "../manual-payment";
 
 const WALLET = { network: "TRC-20", currency: "USDT", address: "TTestWalletAddressForTheUnitSuite" };
+const CARD = { bank: "Сбербанк", number: "2202 0000 0000 0000", holder: "Иван И." };
 
 describe("readManualPayment", () => {
   it("gives a shop that configured nothing both sections off", () => {
@@ -24,8 +25,21 @@ describe("readManualPayment", () => {
 
     expect(read).toEqual({
       crypto: { enabled: true, wallets: [WALLET] },
-      manager: { enabled: true, whatsapp: "+79990000000", telegram: "shop", email: null, note: null },
+      manager: { enabled: true, cards: [], whatsapp: "+79990000000", telegram: "shop", email: null, note: null },
     });
+  });
+
+  it("reads the cards and drops one with no bank or no number", () => {
+    const read = readManualPayment({
+      manual_payment: {
+        manager: {
+          enabled: true,
+          cards: [CARD, { bank: "Тинькофф", number: " " }, { bank: "ВТБ", number: "2200 0000 0000 0001", holder: "" }],
+        },
+      },
+    });
+
+    expect(read.manager.cards).toEqual([CARD, { bank: "ВТБ", number: "2200 0000 0000 0001", holder: null }]);
   });
 });
 
@@ -33,7 +47,7 @@ describe("manualPaymentPublicView", () => {
   it("hides the wallets of a section that is off and the contacts of a manager that is off", () => {
     const view = manualPaymentPublicView({
       crypto: { enabled: false, wallets: [WALLET] },
-      manager: { enabled: false, whatsapp: "+79990000000", telegram: null, email: null, note: null },
+      manager: { enabled: false, cards: [CARD], whatsapp: "+79990000000", telegram: null, email: null, note: null },
     });
 
     expect(view).toEqual({ crypto: { enabled: false }, manager: { enabled: false } });
@@ -51,12 +65,12 @@ describe("manualPaymentPublicView", () => {
   it("publishes wallets and contacts of the sections that are on", () => {
     const view = manualPaymentPublicView({
       crypto: { enabled: true, wallets: [WALLET] },
-      manager: { enabled: true, whatsapp: null, telegram: "shop", email: "shop@example.com", note: "note" },
+      manager: { enabled: true, cards: [CARD], whatsapp: null, telegram: "shop", email: "shop@example.com", note: "note" },
     });
 
     expect(view).toEqual({
       crypto: { enabled: true, wallets: [WALLET] },
-      manager: { enabled: true, whatsapp: null, telegram: "shop", email: "shop@example.com", note: "note" },
+      manager: { enabled: true, cards: [CARD], whatsapp: null, telegram: "shop", email: "shop@example.com", note: "note" },
     });
   });
 });

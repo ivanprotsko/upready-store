@@ -5,7 +5,10 @@ import { convertToLocale } from "@lib/util/money"
 import type { HttpTypes } from "@medusajs/types"
 import { Heading, Text } from "@medusajs/ui"
 import ManagerContactCTA from "@modules/checkout/components/manager-contact-cta"
-import { WalletCard } from "@modules/checkout/components/manual-payment-instructions"
+import {
+  BankCard,
+  WalletCard,
+} from "@modules/checkout/components/manual-payment-instructions"
 import { getLocale, getTranslations } from "next-intl/server"
 
 type Props = {
@@ -44,6 +47,8 @@ const ManualPaymentHandover = async ({ order }: Props) => {
   const manualPayment = await getTenantManualPayment()
   const wallets = kind === "crypto" ? manualPayment.crypto.wallets : []
   const contacts = manualPayment.manager
+  // «Card via manager» with the shop's cards: pay to a card first, the manager only if something goes wrong.
+  const cards = kind === "other" ? contacts.cards : []
   const showContacts = contacts.enabled || kind === "crypto"
 
   if (kind === "crypto" && wallets.length === 0 && !contacts.enabled) {
@@ -72,11 +77,32 @@ const ManualPaymentHandover = async ({ order }: Props) => {
       data-testid="manual-payment-handover"
     >
       <Heading level="h2" className="text-xl-semi text-ui-fg-base">
-        {t(kind === "crypto" ? "handoverCryptoTitle" : "handoverTitle")}
+        {t(
+          kind === "crypto"
+            ? "handoverCryptoTitle"
+            : cards.length > 0
+              ? "handoverCardsTitle"
+              : "handoverTitle"
+        )}
       </Heading>
       <Text className="txt-medium text-ui-fg-subtle">
-        {t(kind === "crypto" ? "handoverCryptoBody" : "handoverBody", values)}
+        {t(
+          kind === "crypto"
+            ? "handoverCryptoBody"
+            : cards.length > 0
+              ? "handoverCardsBody"
+              : "handoverBody",
+          values
+        )}
       </Text>
+
+      {cards.length > 0 && (
+        <div className="flex flex-col gap-y-3" data-testid="manual-payment-cards">
+          {cards.map((card) => (
+            <BankCard key={`${card.bank}-${card.number}`} card={card} />
+          ))}
+        </div>
+      )}
 
       {wallets.length > 0 && (
         <div className="flex flex-col gap-y-3">
@@ -92,11 +118,24 @@ const ManualPaymentHandover = async ({ order }: Props) => {
         </Text>
       )}
 
+      {showContacts && cards.length > 0 && (
+        <Text className="txt-compact-small text-ui-fg-subtle">
+          {t("cardsManagerFallback")}
+        </Text>
+      )}
+
       {showContacts && (
         <ManagerContactCTA
           variant="full"
           contacts={contacts}
-          message={t(kind === "crypto" ? "handoverCryptoMessage" : "handoverMessage", values)}
+          message={t(
+            kind === "crypto"
+              ? "handoverCryptoMessage"
+              : cards.length > 0
+                ? "handoverCardsMessage"
+                : "handoverMessage",
+            values
+          )}
           emailSubject={t("emailSubject", { orderNumber })}
         />
       )}

@@ -30,8 +30,18 @@ export type ManualPaymentCrypto = {
   wallets: ManualPaymentWallet[];
 };
 
+/** A bank card the buyer transfers to, shown with the manager section (Ivan, 02.10: cards first, the manager «just in case»). */
+export type ManualPaymentCard = {
+  bank: string;
+  number: string;
+  /** The holder's name as the buyer's bank shows it on a transfer, or null when the owner leaves it out. */
+  holder: string | null;
+};
+
 export type ManualPaymentManager = {
   enabled: boolean;
+  /** Up to five cards; empty keeps the section a plain «card via manager». */
+  cards: ManualPaymentCard[];
   /** Digits only, with an optional leading `+`: what `https://wa.me/<number>` takes. */
   whatsapp: string | null;
   /** The username without the `@`: what `https://t.me/<username>` takes. */
@@ -48,7 +58,7 @@ export type TenantManualPayment = {
 
 export const EMPTY_MANUAL_PAYMENT: TenantManualPayment = {
   crypto: { enabled: false, wallets: [] },
-  manager: { enabled: false, whatsapp: null, telegram: null, email: null, note: null },
+  manager: { enabled: false, cards: [], whatsapp: null, telegram: null, email: null, note: null },
 };
 
 const str = (value: unknown): string | null =>
@@ -77,6 +87,28 @@ const readWallets = (raw: unknown): ManualPaymentWallet[] => {
   return wallets;
 };
 
+const readCards = (raw: unknown): ManualPaymentCard[] => {
+  if (!Array.isArray(raw)) {
+    return [];
+  }
+
+  const cards: ManualPaymentCard[] = [];
+
+  for (const item of raw) {
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+    const card = item as Partial<ManualPaymentCard>;
+    const bank = str(card.bank);
+    const number = str(card.number);
+    if (bank && number) {
+      cards.push({ bank, number, holder: str(card.holder) });
+    }
+  }
+
+  return cards;
+};
+
 /**
  * `tenant.metadata.manual_payment` as stored, defensively read: a value nobody
  * expects (an old row, a manual edit) is dropped in favour of the safe default
@@ -102,6 +134,7 @@ export const readManualPayment = (
     },
     manager: {
       enabled: Boolean(manager?.enabled),
+      cards: readCards(manager?.cards),
       whatsapp: str(manager?.whatsapp),
       telegram: str(manager?.telegram),
       email: str(manager?.email),
@@ -119,7 +152,14 @@ export const readManualPayment = (
 export type ManualPaymentPublicView = {
   crypto: { enabled: true; wallets: ManualPaymentWallet[] } | { enabled: false };
   manager:
-    | { enabled: true; whatsapp: string | null; telegram: string | null; email: string | null; note: string | null }
+    | {
+        enabled: true;
+        cards: ManualPaymentCard[];
+        whatsapp: string | null;
+        telegram: string | null;
+        email: string | null;
+        note: string | null;
+      }
     | { enabled: false };
 };
 
@@ -133,6 +173,7 @@ export const manualPaymentPublicView = (
   manager: manual.manager.enabled
     ? {
         enabled: true,
+        cards: manual.manager.cards,
         whatsapp: manual.manager.whatsapp,
         telegram: manual.manager.telegram,
         email: manual.manager.email,
