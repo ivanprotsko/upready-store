@@ -124,3 +124,24 @@ export const getFulfillmentProviderLabel = (
 
   return formatProvider(providerId)
 }
+
+type ShippableLine = { requires_shipping?: boolean | null }
+
+/**
+ * t-cherk-com-hotfix batch 5: a line sold without delivery (an online course,
+ * whose product has no shipping profile) comes with `requires_shipping: false`.
+ * Nothing of it is packed or shipped; the buyer gets the course when the
+ * payment is confirmed. A line whose flag was not loaded counts as a parcel.
+ */
+export const isParcelLine = (item: ShippableLine): boolean =>
+  item.requires_shipping !== false
+
+/**
+ * An order every line of which is sold without delivery: no packing, no
+ * shipping, done once paid. `false` when the items were not loaded, so an
+ * order is a parcel unless its lines say otherwise.
+ */
+export const isOrderWithoutParcel = (order: {
+  items?: ShippableLine[] | null
+}): boolean =>
+  !!order.items?.length && order.items.every((item) => !isParcelLine(item))

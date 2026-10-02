@@ -1814,7 +1814,9 @@
       },
       "trackingLabel": "Tracking",
       "unfulfilledItems": "Unfulfilled Items",
-      "notNeeded": "No packing needed"
+      "notNeeded": "No packing needed",
+      "withoutShipping": "No shipping",
+      "withoutShippingHint": "An online course is not packed or shipped: access opens for the customer automatically once you confirm the payment."
     },
     "giftCardsStoreCreditLines": "Gift cards & credit lines",
     "list": {
@@ -2043,6 +2045,18 @@
         "cancelOrder": "Cancel the order",
         "packAnyway": "I was paid another way — pack it",
         "shipAnyway": "I was paid another way — hand it over"
+      },
+      "digitalAwaitingPayment": {
+        "title": "Awaiting payment",
+        "hint": "Nothing to pack or ship. Once the money arrives, confirm the payment in the Payment section below: the customer gets access to the course and an e-mail."
+      },
+      "digitalDone": {
+        "title": "Order complete",
+        "hint": "The payment is confirmed. Nothing to pack or ship."
+      },
+      "digitalPaymentCanceled": {
+        "title": "Payment canceled",
+        "hint": "There is no money for this order and the course is not open. If the order is no longer needed, cancel it."
       },
       "unpaid": "The payment is not confirmed yet. Check it in the «Payment» block below before you hand the parcel over."
     }

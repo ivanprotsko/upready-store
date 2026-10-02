@@ -9,6 +9,7 @@ import { PaymentStatusCell } from "../../../components/table/table-cells/order/p
 import { MoneyAmountCell } from "../../../components/table/table-cells/common/money-amount-cell"
 import { useCustomer } from "../../../hooks/api/customers"
 import { useOrders } from "../../../hooks/api/orders"
+import { isOrderWithoutParcel } from "../../../lib/order-helpers"
 
 // tenant-panel: t13-customers-screen. Own screen, no Admin counterpart at
 // this path (the Admin's customer detail is store-wide and out of scope
@@ -30,6 +31,7 @@ const ORDER_FIELDS = [
   "total",
   "currency_code",
   "created_at",
+  "items.requires_shipping",
 ].join(",")
 
 export const CustomerDetail = () => {
@@ -151,7 +153,11 @@ export const CustomerDetail = () => {
                     <PaymentStatusCell status={order.payment_status} />
                   </Table.Cell>
                   <Table.Cell>
-                    <FulfillmentStatusCell status={order.fulfillment_status} />
+                    <FulfillmentStatusCell
+                      status={order.fulfillment_status}
+                      orderCanceled={order.status === "canceled"}
+                      withoutParcel={isOrderWithoutParcel(order)}
+                    />
                   </Table.Cell>
                   <Table.Cell>
                     <MoneyAmountCell

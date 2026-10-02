@@ -10,6 +10,7 @@ import {
   DateHeader,
 } from "../../../components/table/table-cells/common/date-cell"
 import { countries } from "../../../lib/data/countries"
+import { isOrderWithoutParcel } from "../../../lib/order-helpers"
 import { CountryCell } from "../../../components/table/table-cells/order/country-cell"
 import {
   CustomerCell,
@@ -99,6 +100,7 @@ export const useOrderTableColumns = (props: UseOrderTableColumnsProps) => {
             <FulfillmentStatusCell
               status={status}
               orderCanceled={row.original.status === "canceled"}
+              withoutParcel={isOrderWithoutParcel(row.original)}
             />
           )
         },

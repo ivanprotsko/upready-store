@@ -9,6 +9,9 @@ export const DEFAULT_PROPERTIES = [
   "fulfillment_status",
   "total",
   "currency_code",
+  // t-cherk-com-hotfix batch 5: tells an order of online courses only
+  // (`isOrderWithoutParcel`) from one that waits for packing.
+  "items.requires_shipping",
 ]
 
 export const DEFAULT_RELATIONS = [

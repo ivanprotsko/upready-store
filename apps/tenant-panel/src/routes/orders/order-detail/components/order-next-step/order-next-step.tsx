@@ -4,9 +4,23 @@ import { Link } from "react-router-dom"
 
 import { HttpTypes } from "@medusajs/types"
 
+import { isParcelLine } from "../../../../../lib/order-helpers"
 import { useCancelOrderPrompt } from "../../hooks/use-cancel-order-prompt"
 
-type NextStep = { key: "pack" | "ship" | "waitDelivery" | "done" | "canceled"; to?: string }
+type NextStep = {
+  key:
+    | "pack"
+    | "ship"
+    | "waitDelivery"
+    | "done"
+    | "canceled"
+    | "digitalAwaitingPayment"
+    | "digitalDone"
+    | "digitalPaymentCanceled"
+  to?: string
+}
+
+const PAID_STATUSES = ["captured", "partially_captured", "refunded", "partially_refunded"]
 
 /**
  * The one thing to do with this order now (o21-owner-panel-ux, P5). The copied
@@ -19,7 +33,22 @@ const nextStepOf = (order: HttpTypes.AdminOrder): NextStep => {
     return { key: "canceled" }
   }
 
-  const toPack = (order.items ?? []).filter(
+  // t-cherk-com-hotfix batch 5: a line sold without delivery (an online
+  // course) is never packed. An order of only such lines is done once paid;
+  // a mixed order goes through packing for its parcel lines alone.
+  const parcelLines = (order.items ?? []).filter(isParcelLine)
+  if (order.items?.length && !parcelLines.length) {
+    if (order.payment_status === "canceled") {
+      return { key: "digitalPaymentCanceled" }
+    }
+    return {
+      key: PAID_STATUSES.includes(order.payment_status)
+        ? "digitalDone"
+        : "digitalAwaitingPayment",
+    }
+  }
+
+  const toPack = parcelLines.filter(
     (item) => (item.detail?.fulfilled_quantity ?? 0) < item.quantity
   )
   if (toPack.length) {
@@ -52,13 +81,14 @@ export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
   // order she was paid for in hand (Gemini critique 2, 3.1 and 3.3).
   const paymentCanceled = toHandOver && order.payment_status === "canceled"
   const textKey = paymentCanceled ? "paymentCanceled" : step.key
+  // A course order with its payment cancelled: no parcel to hand over anyway,
+  // so the card offers only «Отменить заказ».
+  const digitalCanceled = step.key === "digitalPaymentCanceled"
   // Lead review H8: she must not pack a parcel believing it is paid for.
   const unpaid =
     toHandOver &&
     !paymentCanceled &&
-    !["captured", "partially_captured", "refunded", "partially_refunded"].includes(
-      order.payment_status
-    )
+    !PAID_STATUSES.includes(order.payment_status)
 
   return (
     <Container
@@ -68,8 +98,10 @@ export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
       <div className="flex min-w-0 flex-col">
         <Heading
           level="h2"
-          className={paymentCanceled ? "text-ui-tag-red-text" : undefined}
-          data-testid={paymentCanceled ? "order-next-step-payment-canceled" : undefined}
+          className={paymentCanceled || digitalCanceled ? "text-ui-tag-red-text" : undefined}
+          data-testid={
+            paymentCanceled || digitalCanceled ? "order-next-step-payment-canceled" : undefined
+          }
         >
           {t(`orders.nextStep.${textKey}.title`)}
         </Heading>
@@ -87,7 +119,17 @@ export const OrderNextStep = ({ order }: { order: HttpTypes.AdminOrder }) => {
           </Text>
         ) : null}
       </div>
-      {step.to && paymentCanceled ? (
+      {digitalCanceled ? (
+        <Button
+          variant="secondary"
+          type="button"
+          className="max-md:min-h-11 max-md:w-full"
+          onClick={cancelOrder}
+          data-testid="order-next-step-cancel-order"
+        >
+          {t("orders.nextStep.paymentCanceled.cancelOrder")}
+        </Button>
+      ) : step.to && paymentCanceled ? (
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 max-md:w-full">
           <Button
             variant="secondary"
