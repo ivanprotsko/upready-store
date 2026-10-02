@@ -15,6 +15,7 @@ import {
   getOrderFulfillmentStatus,
   getOrderPaymentStatus,
   isOrderWithoutParcel,
+  manualPaymentStatus,
 } from "../../../../../lib/order-helpers"
 import { ExtendedOrder } from "../../constants"
 import { useCancelOrderPrompt } from "../../hooks/use-cancel-order-prompt"
@@ -105,7 +106,7 @@ const FulfillmentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
 const PaymentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
   const { t } = useTranslation()
 
-  const { label, color } = getOrderPaymentStatus(t, order.payment_status)
+  const { label, color } = manualPaymentStatus(t, order) ?? getOrderPaymentStatus(t, order.payment_status)
 
   return (
     <StatusBadge color={color} className="text-nowrap">

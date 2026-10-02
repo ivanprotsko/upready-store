@@ -1917,7 +1917,9 @@
         "partiallyCaptured": "Оплачен частично",
         "partiallyRefunded": "Деньги возвращены частично",
         "refunded": "Деньги возвращены",
-        "requiresAction": "Нужно ваше действие"
+        "requiresAction": "Нужно ваше действие",
+        "awaitingConfirmation": "Ожидает подтверждения оплаты",
+        "receiptRejected": "Чек не принят"
       },
       "statusLabel": "Статус платежа",
       "statusTitle": "Статус платежа",

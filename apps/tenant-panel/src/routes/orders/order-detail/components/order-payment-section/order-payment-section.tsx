@@ -33,6 +33,7 @@ import {
 import {
   getOrderPaymentStatus,
   getPaymentProviderLabel,
+  manualPaymentStatus,
 } from "../../../../../lib/order-helpers"
 import { getPaymentsFromOrder } from "../../../../../lib/orders"
 import { getTotalCaptured, getTotalPending } from "../../../../../lib/payment"
@@ -74,7 +75,7 @@ export const OrderPaymentSection = ({
 
 const Header = ({ order }: { order: ExtendedOrder }) => {
   const { t } = useTranslation()
-  const { label, color } = getOrderPaymentStatus(t, order.payment_status)
+  const { label, color } = manualPaymentStatus(t, order) ?? getOrderPaymentStatus(t, order.payment_status)
 
   return (
     <div className="flex items-center justify-between px-6 py-4">

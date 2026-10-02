@@ -1858,7 +1858,9 @@
         "partiallyCaptured": "Partially captured",
         "partiallyRefunded": "Partially refunded",
         "refunded": "Refunded",
-        "requiresAction": "Requires action"
+        "requiresAction": "Requires action",
+        "awaitingConfirmation": "Awaiting payment confirmation",
+        "receiptRejected": "Receipt not accepted"
       },
       "statusLabel": "Payment status",
       "statusTitle": "Payment Status",

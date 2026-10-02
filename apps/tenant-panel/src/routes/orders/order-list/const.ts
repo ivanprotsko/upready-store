@@ -12,6 +12,9 @@ export const DEFAULT_PROPERTIES = [
   // t-cherk-com-hotfix batch 5: tells an order of online courses only
   // (`isOrderWithoutParcel`) from one that waits for packing.
   "items.requires_shipping",
+  // t-cherk-com-hotfix batch 6: `metadata.payment_receipt` drives the
+  // manual-provider payment status (`manualPaymentStatus`).
+  "metadata",
 ]
 
 export const DEFAULT_RELATIONS = [

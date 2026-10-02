@@ -85,10 +85,10 @@ export const useOrderTableColumns = (props: UseOrderTableColumnsProps) => {
       }),
       columnHelper.accessor("payment_status", {
         header: () => <PaymentStatusHeader />,
-        cell: ({ getValue }) => {
+        cell: ({ getValue, row }) => {
           const status = getValue()
 
-          return <PaymentStatusCell status={status} />
+          return <PaymentStatusCell status={status} metadata={row.original.metadata} />
         },
       }),
       columnHelper.accessor("fulfillment_status", {

@@ -32,6 +32,7 @@ const ORDER_FIELDS = [
   "currency_code",
   "created_at",
   "items.requires_shipping",
+  "metadata",
 ].join(",")
 
 export const CustomerDetail = () => {
@@ -150,7 +151,7 @@ export const CustomerDetail = () => {
                     </Link>
                   </Table.Cell>
                   <Table.Cell>
-                    <PaymentStatusCell status={order.payment_status} />
+                    <PaymentStatusCell status={order.payment_status} metadata={order.metadata} />
                   </Table.Cell>
                   <Table.Cell>
                     <FulfillmentStatusCell

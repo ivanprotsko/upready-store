@@ -145,3 +145,29 @@ export const isOrderWithoutParcel = (order: {
   items?: ShippableLine[] | null
 }): boolean =>
   !!order.items?.length && order.items.every((item) => !isParcelLine(item))
+
+type ReceiptMeta = { status?: unknown } | null | undefined
+
+/**
+ * t-cherk-com-hotfix batch 6, item 5: the manual-provider order reads
+ * «Ожидает оплаты» before a receipt and «Ожидает подтверждения оплаты» once
+ * one is in, same words as the storefront. `null` means «show the plain
+ * payment status», which already says «Ожидает оплаты» for an uncaptured
+ * order, so a manual order with no receipt needs no override at all.
+ */
+export const manualPaymentStatus = (
+  t: TFunction<"translation">,
+  order: { payment_status: string; metadata?: Record<string, unknown> | null }
+): { label: string; color: "red" | "orange" | "green" } | null => {
+  const receipt = (order.metadata?.payment_receipt ?? null) as ReceiptMeta
+  if (!receipt || typeof receipt !== "object") {
+    return null
+  }
+  if (receipt.status === "rejected") {
+    return { label: t("orders.payment.status.receiptRejected"), color: "red" }
+  }
+  if (!["captured", "partially_captured", "refunded", "partially_refunded"].includes(order.payment_status)) {
+    return { label: t("orders.payment.status.awaitingConfirmation"), color: "orange" }
+  }
+  return null
+}
