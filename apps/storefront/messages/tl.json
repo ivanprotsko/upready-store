@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Hindi available: hindi makalkula ang presyo",
     "signIn": "Mag-sign in",
     "total": "Kabuuan",
-    "shippingZone": "Sona: {zone}"
+    "shippingZone": "Sona: {zone}",
+    "courseSignInHeading": "Mag-sign in para bilhin ang kurso",
+    "courseSignInText": "Bubukas ang kurso sa account mo, kaya kailangan ng sign-in o pagrehistro para bumili.",
+    "register": "Magrehistro",
+    "fieldRequired": "Punan ang field na ito",
+    "emailInvalid": "Suriin ang email: may mali sa address"
   },
   "ClaimOrders": {
     "heading": "Nag-order nang walang account?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Ipadala ang resibo",
     "receiptTooLarge": "Mas malaki sa 10 MB ang file. I-compress ito o magpadala ng screenshot.",
     "receiptWrongType": "Magpadala ng larawan (JPG, PNG, WEBP, HEIC) o PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Hindi tinanggap ang resibo",
+    "receiptRejectedReason": "Dahilan: {reason}",
+    "receiptResend": "Magpadala ng ibang resibo",
+    "contactManager": "Makipag-ugnayan sa manager"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Itago ang numero ng order. Kakailanganin mo ito kapag kinontak mo ang tindahan.",
     "orderSuccess": "Matagumpay na naisagawa ang iyong order.",
-    "thankYou": "Salamat!"
+    "thankYou": "Salamat!",
+    "paymentConfirmed": "Nakumpirma ang bayad",
+    "goToCourse": "Pumunta sa kurso",
+    "orderCanceled": "Kinansela ang order",
+    "orderCanceledHint": "Hindi na kailangang magbayad. Kung mali ito, sumulat sa amin.",
+    "paidGoodsHint": "Inihahanda na namin ang order mo para ipadala."
   },
   "OrderDetails": {
     "backToOrders": "Bumalik sa mga order",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Mag-sign in para makita ang history ng mga order mo at mas mabilis na makabili.",
     "signInEmail": "Gamit ang email",
     "signInYandex": "Gamit ang Yandex ID",
-    "shipmentNo": "Padala Blg. {no}",
     "deliveryEstimate": "Ihahatid {range}",
-    "digitalGroup": "Online na kurso — access pagkatapos makumpirma ang bayad",
     "empty": "Walang laman ang kariton mo.",
     "exploreProducts": "Tingnan ang mga produkto",
     "itemsTotal": "Kabuuan ng mga produkto",
     "checkout": "Mag-checkout"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online na kurso, walang delivery",
+    "shipmentNo": "Padala Blg. {no}",
+    "digitalGroup": "Online na kurso — access pagkatapos makumpirma ang bayad",
+    "accessByEmail": "Ipapadala sa email ang access sa kurso kapag nakumpirma na ang bayad."
   }
 }

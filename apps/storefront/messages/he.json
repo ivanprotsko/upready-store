@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "לא זמין: לא ניתן לחשב את המחיר",
     "signIn": "התחברות",
     "total": "סה״כ",
-    "shippingZone": "אזור: {zone}"
+    "shippingZone": "אזור: {zone}",
+    "courseSignInHeading": "התחברו כדי לרכוש את הקורס",
+    "courseSignInText": "הקורס נפתח בחשבון שלכם, ולכן הרכישה דורשת התחברות או הרשמה.",
+    "register": "הרשמה",
+    "fieldRequired": "מלאו שדה זה",
+    "emailInvalid": "בדקו את האימייל: יש שגיאה בכתובת"
   },
   "ClaimOrders": {
     "heading": "הזמנת בלי חשבון?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "שליחת הקבלה",
     "receiptTooLarge": "הקובץ גדול מ-10 MB. דחסו אותו או שלחו צילום מסך.",
     "receiptWrongType": "שלחו תמונה (JPG, PNG, WEBP, HEIC) או PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "הקבלה לא התקבלה",
+    "receiptRejectedReason": "סיבה: {reason}",
+    "receiptResend": "שלחו קבלה אחרת",
+    "contactManager": "יצירת קשר עם המנהל"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "שמרו את מספר ההזמנה. תזדקקו לו כשתפנו לחנות.",
     "orderSuccess": "ההזמנה שלך בוצעה בהצלחה.",
-    "thankYou": "תודה!"
+    "thankYou": "תודה!",
+    "paymentConfirmed": "התשלום אושר",
+    "goToCourse": "מעבר לקורס",
+    "orderCanceled": "ההזמנה בוטלה",
+    "orderCanceledHint": "אין צורך לשלם. אם זו טעות, כתבו לנו.",
+    "paidGoodsHint": "אנחנו מכינים את ההזמנה למשלוח."
   },
   "OrderDetails": {
     "backToOrders": "חזרה להזמנות",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "התחברו כדי לראות את היסטוריית ההזמנות ולהשלים רכישות מהר יותר.",
     "signInEmail": "באימייל",
     "signInYandex": "עם Yandex ID",
-    "shipmentNo": "משלוח מס' {no}",
     "deliveryEstimate": "משלוח {range}",
-    "digitalGroup": "קורס מקוון — גישה לאחר אישור התשלום",
     "empty": "העגלה שלכם ריקה.",
     "exploreProducts": "לצפייה במוצרים",
     "itemsTotal": "סה\"כ מוצרים",
     "checkout": "לתשלום"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "קורס מקוון, ללא משלוח",
+    "shipmentNo": "משלוח מס' {no}",
+    "digitalGroup": "קורס מקוון — גישה לאחר אישור התשלום",
+    "accessByEmail": "הגישה לקורס תישלח באימייל לאחר אישור התשלום."
   }
 }

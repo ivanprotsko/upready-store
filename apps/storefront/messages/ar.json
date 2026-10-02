@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "غير متاح: تعذّر حساب التكلفة",
     "signIn": "تسجيل الدخول",
     "total": "الإجمالي",
-    "shippingZone": "المنطقة: {zone}"
+    "shippingZone": "المنطقة: {zone}",
+    "courseSignInHeading": "سجّل الدخول لشراء الدورة",
+    "courseSignInText": "تُفتح الدورة في حسابك، لذا يتطلب الشراء تسجيل الدخول أو إنشاء حساب.",
+    "register": "إنشاء حساب",
+    "fieldRequired": "يرجى ملء هذا الحقل",
+    "emailInvalid": "تحقق من البريد الإلكتروني: العنوان يحتوي على خطأ"
   },
   "ClaimOrders": {
     "heading": "هل طلبت دون حساب؟",
@@ -605,7 +610,11 @@
     "receiptSubmit": "إرسال الإيصال",
     "receiptTooLarge": "حجم الملف أكبر من 10 ميغابايت. قم بضغطه أو أرسل لقطة شاشة.",
     "receiptWrongType": "أرسل صورة (JPG, PNG, WEBP, HEIC) أو ملف PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "لم يُقبل الإيصال",
+    "receiptRejectedReason": "السبب: {reason}",
+    "receiptResend": "إرسال إيصال آخر",
+    "contactManager": "التواصل مع المدير"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "احتفظ برقم الطلب، فستحتاج إليه عند التواصل مع المتجر.",
     "orderSuccess": "تم تقديم طلبك بنجاح.",
-    "thankYou": "شكرًا لك!"
+    "thankYou": "شكرًا لك!",
+    "paymentConfirmed": "تم تأكيد الدفع",
+    "goToCourse": "الانتقال إلى الدورة",
+    "orderCanceled": "تم إلغاء الطلب",
+    "orderCanceledHint": "لا حاجة للدفع. إذا كان هذا خطأ، فراسلنا.",
+    "paidGoodsHint": "نجهّز طلبك للشحن."
   },
   "OrderDetails": {
     "backToOrders": "العودة إلى الطلبات",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "سجّل الدخول لعرض سجل طلباتك وإتمام الشراء بشكل أسرع.",
     "signInEmail": "عبر البريد الإلكتروني",
     "signInYandex": "عبر Yandex ID",
-    "shipmentNo": "الشحنة رقم {no}",
     "deliveryEstimate": "التوصيل {range}",
-    "digitalGroup": "دورة عبر الإنترنت — الوصول بعد تأكيد الدفع",
     "empty": "سلة التسوق فارغة.",
     "exploreProducts": "تصفح المنتجات",
     "itemsTotal": "إجمالي المنتجات",
     "checkout": "إتمام الطلب"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "دورة عبر الإنترنت، بدون توصيل",
+    "shipmentNo": "الشحنة رقم {no}",
+    "digitalGroup": "دورة عبر الإنترنت — الوصول بعد تأكيد الدفع",
+    "accessByEmail": "سيصلك الوصول إلى الدورة عبر البريد الإلكتروني بعد تأكيد الدفع."
   }
 }

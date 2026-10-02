@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "ไม่พร้อมใช้งาน: คำนวณราคาไม่ได้",
     "signIn": "เข้าสู่ระบบ",
     "total": "ยอดรวม",
-    "shippingZone": "โซน: {zone}"
+    "shippingZone": "โซน: {zone}",
+    "courseSignInHeading": "เข้าสู่ระบบเพื่อซื้อคอร์ส",
+    "courseSignInText": "คอร์สจะเปิดในบัญชีของคุณ จึงต้องเข้าสู่ระบบหรือลงทะเบียนก่อนซื้อ",
+    "register": "ลงทะเบียน",
+    "fieldRequired": "กรุณากรอกช่องนี้",
+    "emailInvalid": "ตรวจสอบอีเมล: ที่อยู่อีเมลไม่ถูกต้อง"
   },
   "ClaimOrders": {
     "heading": "สั่งซื้อโดยไม่มีบัญชีใช่ไหม",
@@ -605,7 +610,11 @@
     "receiptSubmit": "ส่งใบเสร็จ",
     "receiptTooLarge": "ไฟล์มีขนาดเกิน 10 MB โปรดบีบอัดไฟล์หรือส่งภาพหน้าจอ",
     "receiptWrongType": "โปรดส่งรูปภาพ (JPG, PNG, WEBP, HEIC) หรือ PDF",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "สลิปไม่ได้รับการยอมรับ",
+    "receiptRejectedReason": "เหตุผล: {reason}",
+    "receiptResend": "ส่งสลิปอื่น",
+    "contactManager": "ติดต่อผู้จัดการ"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "เก็บหมายเลขคำสั่งซื้อไว้ คุณจะต้องใช้เมื่อติดต่อร้านค้า",
     "orderSuccess": "สั่งซื้อสำเร็จแล้ว",
-    "thankYou": "ขอบคุณ!"
+    "thankYou": "ขอบคุณ!",
+    "paymentConfirmed": "ยืนยันการชำระเงินแล้ว",
+    "goToCourse": "ไปที่คอร์ส",
+    "orderCanceled": "ยกเลิกคำสั่งซื้อแล้ว",
+    "orderCanceledHint": "ไม่ต้องชำระเงิน หากเป็นข้อผิดพลาด โปรดติดต่อเรา",
+    "paidGoodsHint": "กำลังเตรียมคำสั่งซื้อของคุณเพื่อจัดส่ง"
   },
   "OrderDetails": {
     "backToOrders": "กลับไปที่คำสั่งซื้อ",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "เข้าสู่ระบบเพื่อดูประวัติการสั่งซื้อและสั่งซื้อได้เร็วขึ้น",
     "signInEmail": "ด้วยอีเมล",
     "signInYandex": "ด้วย Yandex ID",
-    "shipmentNo": "การจัดส่งที่ {no}",
     "deliveryEstimate": "จัดส่ง {range}",
-    "digitalGroup": "คอร์สออนไลน์ — เข้าเรียนได้หลังยืนยันการชำระเงิน",
     "empty": "ตะกร้าของคุณว่างเปล่า",
     "exploreProducts": "ดูสินค้า",
     "itemsTotal": "ยอดรวมสินค้า",
     "checkout": "ไปชำระเงิน"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "คอร์สออนไลน์ ไม่มีการจัดส่ง",
+    "shipmentNo": "การจัดส่งที่ {no}",
+    "digitalGroup": "คอร์สออนไลน์ — เข้าเรียนได้หลังยืนยันการชำระเงิน",
+    "accessByEmail": "สิทธิ์เข้าเรียนจะส่งทางอีเมลหลังยืนยันการชำระเงิน"
   }
 }

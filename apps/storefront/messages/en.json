@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Unavailable: the price could not be calculated",
     "signIn": "Sign in",
     "total": "Total",
-    "shippingZone": "Zone: {zone}"
+    "shippingZone": "Zone: {zone}",
+    "courseSignInHeading": "Sign in to buy the course",
+    "courseSignInText": "The course opens in your account, so buying it takes a sign-in or a registration.",
+    "register": "Register",
+    "fieldRequired": "Fill in this field",
+    "emailInvalid": "Check the e-mail: the address has a mistake"
   },
   "ClaimOrders": {
     "heading": "Ordered without an account?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Send the receipt",
     "receiptTooLarge": "The file is larger than 10 MB. Compress it or send a screenshot.",
     "receiptWrongType": "Send a photo (JPG, PNG, WEBP, HEIC) or a PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Receipt not accepted",
+    "receiptRejectedReason": "Reason: {reason}",
+    "receiptResend": "Send another receipt",
+    "contactManager": "Contact the manager"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Keep the order number. You need it when you contact the shop.",
     "orderSuccess": "Your order was placed successfully.",
-    "thankYou": "Thank you!"
+    "thankYou": "Thank you!",
+    "paymentConfirmed": "Payment confirmed",
+    "goToCourse": "Go to the course",
+    "orderCanceled": "Order cancelled",
+    "orderCanceledHint": "No payment is needed. If this is a mistake, write to us.",
+    "paidGoodsHint": "We are preparing your order for dispatch."
   },
   "OrderDetails": {
     "backToOrders": "Back to orders",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Sign in to see your order history and check out faster.",
     "signInEmail": "With email",
     "signInYandex": "With Yandex ID",
-    "shipmentNo": "Shipment No. {no}",
     "deliveryEstimate": "Delivery {range}",
-    "digitalGroup": "Online course — access after payment confirmation",
     "empty": "Your cart is empty.",
     "exploreProducts": "Explore products",
     "itemsTotal": "Items total",
     "checkout": "Checkout"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online course, no delivery",
+    "shipmentNo": "Shipment No. {no}",
+    "digitalGroup": "Online course — access after payment confirmation",
+    "accessByEmail": "Access to the course will come by e-mail once the payment is confirmed."
   }
 }

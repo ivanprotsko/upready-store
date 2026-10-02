@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "No disponible: no se pudo calcular el precio",
     "signIn": "Iniciar sesión",
     "total": "Total",
-    "shippingZone": "Zona: {zone}"
+    "shippingZone": "Zona: {zone}",
+    "courseSignInHeading": "Inicia sesión para comprar el curso",
+    "courseSignInText": "El curso se abre en tu cuenta, así que para comprarlo hace falta iniciar sesión o registrarse.",
+    "register": "Registrarse",
+    "fieldRequired": "Rellena este campo",
+    "emailInvalid": "Revisa el correo: la dirección tiene un error"
   },
   "ClaimOrders": {
     "heading": "¿Compraste sin cuenta?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Enviar el comprobante",
     "receiptTooLarge": "El archivo pesa más de 10 MB. Comprímalo o envíe una captura de pantalla.",
     "receiptWrongType": "Envíe una foto (JPG, PNG, WEBP, HEIC) o un PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "El comprobante no fue aceptado",
+    "receiptRejectedReason": "Motivo: {reason}",
+    "receiptResend": "Enviar otro comprobante",
+    "contactManager": "Contactar con el gestor"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Guarda el número de pedido. Lo necesitarás para contactar con la tienda.",
     "orderSuccess": "Tu pedido se realizó correctamente.",
-    "thankYou": "¡Gracias!"
+    "thankYou": "¡Gracias!",
+    "paymentConfirmed": "Pago confirmado",
+    "goToCourse": "Ir al curso",
+    "orderCanceled": "Pedido cancelado",
+    "orderCanceledHint": "No hace falta pagar. Si es un error, escríbenos.",
+    "paidGoodsHint": "Estamos preparando tu pedido para el envío."
   },
   "OrderDetails": {
     "backToOrders": "Volver a los pedidos",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Inicia sesión para ver tu historial de pedidos y comprar más rápido.",
     "signInEmail": "Con correo electrónico",
     "signInYandex": "Con Yandex ID",
-    "shipmentNo": "Envío n.º {no}",
     "deliveryEstimate": "Entrega {range}",
-    "digitalGroup": "Curso en línea — acceso tras confirmar el pago",
     "empty": "Tu carrito está vacío.",
     "exploreProducts": "Ver productos",
     "itemsTotal": "Total de productos",
     "checkout": "Tramitar pedido"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "curso en línea, sin envío",
+    "shipmentNo": "Envío n.º {no}",
+    "digitalGroup": "Curso en línea — acceso tras confirmar el pago",
+    "accessByEmail": "El acceso al curso llegará por correo electrónico cuando se confirme el pago."
   }
 }

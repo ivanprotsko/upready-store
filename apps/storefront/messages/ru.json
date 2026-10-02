@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Недоступно: не удалось рассчитать стоимость",
     "signIn": "Войти",
     "total": "Итого",
-    "shippingZone": "Зона: {zone}"
+    "shippingZone": "Зона: {zone}",
+    "courseSignInHeading": "Войдите, чтобы купить курс",
+    "courseSignInText": "Курс открывается в вашем аккаунте, поэтому для покупки нужен вход или регистрация.",
+    "register": "Зарегистрироваться",
+    "fieldRequired": "Заполните это поле",
+    "emailInvalid": "Проверьте e-mail: в адресе ошибка"
   },
   "ClaimOrders": {
     "heading": "Оформляли заказ без регистрации?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Отправить чек",
     "receiptTooLarge": "Файл больше 10 МБ. Сожмите его или пришлите скриншот.",
     "receiptWrongType": "Подойдёт фото (JPG, PNG, WEBP, HEIC) или PDF.",
-    "walletCopyLabel": "Скопировать адрес {currency}"
+    "walletCopyLabel": "Скопировать адрес {currency}",
+    "receiptRejected": "Чек не принят",
+    "receiptRejectedReason": "Причина: {reason}",
+    "receiptResend": "Отправить другой чек",
+    "contactManager": "Связаться с менеджером"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Сохраните номер заказа. Он понадобится, чтобы связаться с магазином.",
     "orderSuccess": "Ваш заказ успешно оформлен.",
-    "thankYou": "Спасибо!"
+    "thankYou": "Спасибо!",
+    "paymentConfirmed": "Оплата подтверждена",
+    "goToCourse": "Перейти к курсу",
+    "orderCanceled": "Заказ отменён",
+    "orderCanceledHint": "Оплачивать его не нужно. Если это ошибка, напишите нам.",
+    "paidGoodsHint": "Готовим заказ к отправке."
   },
   "OrderDetails": {
     "backToOrders": "Назад к заказам",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Войдите, чтобы видеть историю заказов и быстрее оформлять покупки.",
     "signInEmail": "По эл. почте",
     "signInYandex": "Через Яндекс ID",
-    "shipmentNo": "Отправление № {no}",
     "deliveryEstimate": "Доставим {range}",
-    "digitalGroup": "Онлайн-курс — доступ после подтверждения оплаты",
     "empty": "В корзине пока пусто.",
     "exploreProducts": "Смотреть товары",
     "itemsTotal": "Товаров на сумму",
     "checkout": "К оформлению"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "онлайн-курс, без доставки",
+    "shipmentNo": "Отправление № {no}",
+    "digitalGroup": "Онлайн-курс — доступ после подтверждения оплаты",
+    "accessByEmail": "Доступ к курсу придёт на e-mail после подтверждения оплаты."
   }
 }

@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Kullanılamıyor: ücret hesaplanamadı",
     "signIn": "Giriş yap",
     "total": "Toplam",
-    "shippingZone": "Bölge: {zone}"
+    "shippingZone": "Bölge: {zone}",
+    "courseSignInHeading": "Kursu satın almak için giriş yapın",
+    "courseSignInText": "Kurs hesabınızda açılır, bu yüzden satın almak için giriş veya kayıt gerekir.",
+    "register": "Kayıt ol",
+    "fieldRequired": "Bu alanı doldurun",
+    "emailInvalid": "E-postayı kontrol edin: adreste hata var"
   },
   "ClaimOrders": {
     "heading": "Hesapsız mı sipariş verdiniz?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Makbuzu gönder",
     "receiptTooLarge": "Dosya 10 MB'tan büyük. Sıkıştırın veya ekran görüntüsü gönderin.",
     "receiptWrongType": "Fotoğraf (JPG, PNG, WEBP, HEIC) veya PDF gönderin.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Dekont kabul edilmedi",
+    "receiptRejectedReason": "Neden: {reason}",
+    "receiptResend": "Başka dekont gönder",
+    "contactManager": "Yöneticiyle iletişime geç"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Sipariş numaranızı saklayın. Mağazayla iletişime geçerken gerekecek.",
     "orderSuccess": "Siparişiniz başarıyla oluşturuldu.",
-    "thankYou": "Teşekkürler!"
+    "thankYou": "Teşekkürler!",
+    "paymentConfirmed": "Ödeme onaylandı",
+    "goToCourse": "Kursa git",
+    "orderCanceled": "Sipariş iptal edildi",
+    "orderCanceledHint": "Ödeme gerekmiyor. Bu bir hataysa bize yazın.",
+    "paidGoodsHint": "Siparişinizi gönderime hazırlıyoruz."
   },
   "OrderDetails": {
     "backToOrders": "Siparişlere dön",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Sipariş geçmişinizi görmek ve daha hızlı alışveriş yapmak için giriş yapın.",
     "signInEmail": "E-posta ile",
     "signInYandex": "Yandex ID ile",
-    "shipmentNo": "Gönderi No. {no}",
     "deliveryEstimate": "Teslimat {range}",
-    "digitalGroup": "Çevrimiçi kurs — ödeme onaylandıktan sonra erişim",
     "empty": "Sepetiniz boş.",
     "exploreProducts": "Ürünlere göz atın",
     "itemsTotal": "Ürün toplamı",
     "checkout": "Ödemeye geç"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "çevrimiçi kurs, teslimat yok",
+    "shipmentNo": "Gönderi No. {no}",
+    "digitalGroup": "Çevrimiçi kurs — ödeme onaylandıktan sonra erişim",
+    "accessByEmail": "Kursa erişim, ödeme onaylandıktan sonra e-posta ile gelecek."
   }
 }

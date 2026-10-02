@@ -58,6 +58,7 @@ export default function CartSidebar({
   loginSettings: TenantLoginSettings
 }) {
   const t = useTranslations("CartSidebar")
+  const tShip = useTranslations("Shipments")
   const tCommon = useTranslations("Common")
   const locale = useLocale()
   const router = useRouter()
@@ -209,7 +210,7 @@ export default function CartSidebar({
                   {group.kind === "physical" ? (
                     <>
                       <Text size="small" weight="plus" leading="compact" className="shrink-0 text-ui-fg-base">
-                        {t("shipmentNo", { no: group.no ?? 1 })}
+                        {tShip("shipmentNo", { no: group.no ?? 1 })}
                       </Text>
                       {estimate ? (
                         <Text
@@ -224,7 +225,7 @@ export default function CartSidebar({
                     </>
                   ) : (
                     <Text size="small" weight="plus" leading="compact" className="text-ui-fg-base">
-                      {t("digitalGroup")}
+                      {tShip("digitalGroup")}
                     </Text>
                   )}
                 </div>

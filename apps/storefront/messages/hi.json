@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "उपलब्ध नहीं: कीमत की गणना नहीं हो सकी",
     "signIn": "साइन इन करें",
     "total": "कुल",
-    "shippingZone": "क्षेत्र: {zone}"
+    "shippingZone": "क्षेत्र: {zone}",
+    "courseSignInHeading": "कोर्स खरीदने के लिए साइन इन करें",
+    "courseSignInText": "कोर्स आपके अकाउंट में खुलता है, इसलिए खरीदने के लिए साइन इन या रजिस्ट्रेशन ज़रूरी है।",
+    "register": "रजिस्टर करें",
+    "fieldRequired": "यह फ़ील्ड भरें",
+    "emailInvalid": "ईमेल जाँचें: पते में गलती है"
   },
   "ClaimOrders": {
     "heading": "क्या आपने बिना खाते के ऑर्डर किया था?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "रसीद भेजें",
     "receiptTooLarge": "फ़ाइल 10 MB से बड़ी है। उसे कंप्रेस करें या स्क्रीनशॉट भेजें।",
     "receiptWrongType": "फ़ोटो (JPG, PNG, WEBP, HEIC) या PDF भेजें।",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "रसीद स्वीकार नहीं हुई",
+    "receiptRejectedReason": "कारण: {reason}",
+    "receiptResend": "दूसरी रसीद भेजें",
+    "contactManager": "मैनेजर से संपर्क करें"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "ऑर्डर नंबर सहेज कर रखें। दुकान से संपर्क करते समय इसकी ज़रूरत पड़ेगी।",
     "orderSuccess": "आपका ऑर्डर सफलतापूर्वक दे दिया गया है।",
-    "thankYou": "धन्यवाद!"
+    "thankYou": "धन्यवाद!",
+    "paymentConfirmed": "भुगतान की पुष्टि हो गई",
+    "goToCourse": "कोर्स पर जाएँ",
+    "orderCanceled": "ऑर्डर रद्द कर दिया गया",
+    "orderCanceledHint": "भुगतान की ज़रूरत नहीं है। अगर यह गलती है, तो हमें लिखें।",
+    "paidGoodsHint": "हम आपका ऑर्डर भेजने की तैयारी कर रहे हैं।"
   },
   "OrderDetails": {
     "backToOrders": "ऑर्डर पर वापस जाएँ",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "ऑर्डर इतिहास देखने और तेज़ी से खरीदारी करने के लिए साइन इन करें।",
     "signInEmail": "ईमेल से",
     "signInYandex": "Yandex ID से",
-    "shipmentNo": "शिपमेंट नंबर {no}",
     "deliveryEstimate": "डिलीवरी {range}",
-    "digitalGroup": "ऑनलाइन कोर्स — भुगतान की पुष्टि के बाद एक्सेस",
     "empty": "आपका कार्ट खाली है।",
     "exploreProducts": "उत्पाद देखें",
     "itemsTotal": "उत्पादों का कुल",
     "checkout": "चेकआउट"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "ऑनलाइन कोर्स, डिलीवरी नहीं",
+    "shipmentNo": "शिपमेंट नंबर {no}",
+    "digitalGroup": "ऑनलाइन कोर्स — भुगतान की पुष्टि के बाद एक्सेस",
+    "accessByEmail": "भुगतान की पुष्टि के बाद कोर्स का एक्सेस ईमेल से आएगा।"
   }
 }

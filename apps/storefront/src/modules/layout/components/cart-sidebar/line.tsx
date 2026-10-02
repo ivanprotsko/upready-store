@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 
 import { deleteLineItem, updateLineItem } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
+import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import { Link } from "@i18n/navigation"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { maxQuantity } from "@modules/products/components/in-cart-stepper/logic"
@@ -54,6 +55,7 @@ export default function CartSidebarLine({
 }) {
   const t = useTranslations("ProductActions")
   const tCommon = useTranslations("Common")
+  const tShip = useTranslations("Shipments")
   const locale = useLocale()
   const [quantity, setQuantity] = useState(item.quantity)
   const [busy, setBusy] = useState(false)
@@ -66,7 +68,9 @@ export default function CartSidebarLine({
   const imageUrl = item.thumbnail || item.variant?.product?.images?.[0]?.url || null
   const title = item.product_title ?? item.title
   const variant = variantLabel(item)
-  const max = maxQuantity(item.variant)
+  // Batch 6, Q3.5: a course is bought once — no «+» beyond 1 for a no-delivery line.
+  const noDelivery = isNoDeliveryLine(item)
+  const max = noDelivery ? 1 : maxQuantity(item.variant)
 
   const money = (amount: number) =>
     convertToLocale({ amount, currency_code: currencyCode, locale })
@@ -109,7 +113,11 @@ export default function CartSidebarLine({
 
         <div className="flex min-w-0 flex-1 flex-col gap-y-2 border-l border-dotted border-ui-border-strong pl-3">
           <div className="flex min-h-7 items-start justify-between gap-x-2">
-            {variant ? (
+            {noDelivery ? (
+              <Badge size="xsmall" color="blue" className="max-w-full truncate" data-testid="line-no-delivery-badge">
+                {tShip("noDeliveryBadge")}
+              </Badge>
+            ) : variant ? (
               <Badge size="xsmall" className="max-w-full truncate" data-testid="cart-sidebar-line-variant">
                 {variant}
               </Badge>

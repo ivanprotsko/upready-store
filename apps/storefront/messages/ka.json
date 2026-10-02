@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "მიუწვდომელია: ფასის გამოთვლა ვერ მოხერხდა",
     "signIn": "შესვლა",
     "total": "ჯამი",
-    "shippingZone": "ზონა: {zone}"
+    "shippingZone": "ზონა: {zone}",
+    "courseSignInHeading": "შედით კურსის შესაძენად",
+    "courseSignInText": "კურსი თქვენს ანგარიშში იხსნება, ამიტომ შესაძენად საჭიროა შესვლა ან რეგისტრაცია.",
+    "register": "რეგისტრაცია",
+    "fieldRequired": "შეავსეთ ეს ველი",
+    "emailInvalid": "შეამოწმეთ ელფოსტა: მისამართში შეცდომაა"
   },
   "ClaimOrders": {
     "heading": "შეკვეთა ანგარიშის გარეშე გააკეთეთ?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "ქვითრის გაგზავნა",
     "receiptTooLarge": "ფაილი 10 MB-ზე დიდია. შეკუმშეთ ან გამოგზავნეთ სკრინშოტი.",
     "receiptWrongType": "გამოგზავნეთ ფოტო (JPG, PNG, WEBP, HEIC) ან PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "ქვითარი არ მიიღეს",
+    "receiptRejectedReason": "მიზეზი: {reason}",
+    "receiptResend": "სხვა ქვითრის გაგზავნა",
+    "contactManager": "მენეჯერთან დაკავშირება"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "შეინახეთ შეკვეთის ნომერი. დაგჭირდებათ მაღაზიასთან დაკავშირებისას.",
     "orderSuccess": "თქვენი შეკვეთა წარმატებით გაფორმდა.",
-    "thankYou": "გმადლობთ!"
+    "thankYou": "გმადლობთ!",
+    "paymentConfirmed": "გადახდა დადასტურებულია",
+    "goToCourse": "კურსზე გადასვლა",
+    "orderCanceled": "შეკვეთა გაუქმებულია",
+    "orderCanceledHint": "გადახდა საჭირო არ არის. თუ ეს შეცდომაა, მოგვწერეთ.",
+    "paidGoodsHint": "თქვენს შეკვეთას გასაგზავნად ვამზადებთ."
   },
   "OrderDetails": {
     "backToOrders": "შეკვეთებზე დაბრუნება",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "შედით, რომ ნახოთ შეკვეთების ისტორია და უფრო სწრაფად შეიძინოთ.",
     "signInEmail": "ელფოსტით",
     "signInYandex": "Yandex ID-ით",
-    "shipmentNo": "გზავნილი № {no}",
     "deliveryEstimate": "მიწოდება {range}",
-    "digitalGroup": "ონლაინ კურსი — წვდომა გადახდის დადასტურების შემდეგ",
     "empty": "თქვენი კალათა ცარიელია.",
     "exploreProducts": "პროდუქტების ნახვა",
     "itemsTotal": "პროდუქტების ჯამი",
     "checkout": "შეკვეთის გაფორმება"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "ონლაინ კურსი, მიწოდების გარეშე",
+    "shipmentNo": "გზავნილი № {no}",
+    "digitalGroup": "ონლაინ კურსი — წვდომა გადახდის დადასტურების შემდეგ",
+    "accessByEmail": "კურსზე წვდომა ელფოსტით მოვა გადახდის დადასტურების შემდეგ."
   }
 }

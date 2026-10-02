@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dihitung",
     "signIn": "Masuk",
     "total": "Total",
-    "shippingZone": "Zona: {zone}"
+    "shippingZone": "Zona: {zone}",
+    "courseSignInHeading": "Masuk untuk membeli kursus",
+    "courseSignInText": "Kursus dibuka di akun Anda, jadi pembelian memerlukan masuk atau pendaftaran.",
+    "register": "Daftar",
+    "fieldRequired": "Isi kolom ini",
+    "emailInvalid": "Periksa email: alamatnya salah"
   },
   "ClaimOrders": {
     "heading": "Memesan tanpa akun?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Kirim bukti",
     "receiptTooLarge": "Ukuran file lebih dari 10 MB. Kompres file atau kirim tangkapan layar.",
     "receiptWrongType": "Kirim foto (JPG, PNG, WEBP, HEIC) atau PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Bukti bayar tidak diterima",
+    "receiptRejectedReason": "Alasan: {reason}",
+    "receiptResend": "Kirim bukti bayar lain",
+    "contactManager": "Hubungi manajer"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Simpan nomor pesanan Anda. Anda memerlukannya saat menghubungi toko.",
     "orderSuccess": "Pesanan Anda berhasil dibuat.",
-    "thankYou": "Terima kasih!"
+    "thankYou": "Terima kasih!",
+    "paymentConfirmed": "Pembayaran dikonfirmasi",
+    "goToCourse": "Buka kursus",
+    "orderCanceled": "Pesanan dibatalkan",
+    "orderCanceledHint": "Tidak perlu membayar. Jika ini keliru, hubungi kami.",
+    "paidGoodsHint": "Kami sedang menyiapkan pesanan Anda untuk dikirim."
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Masuk untuk melihat riwayat pesanan dan berbelanja lebih cepat.",
     "signInEmail": "Dengan email",
     "signInYandex": "Dengan Yandex ID",
-    "shipmentNo": "Pengiriman No. {no}",
     "deliveryEstimate": "Pengiriman {range}",
-    "digitalGroup": "Kursus online — akses setelah pembayaran dikonfirmasi",
     "empty": "Keranjang Anda kosong.",
     "exploreProducts": "Lihat produk",
     "itemsTotal": "Total produk",
     "checkout": "Lanjut ke pembayaran"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "kursus online, tanpa pengiriman",
+    "shipmentNo": "Pengiriman No. {no}",
+    "digitalGroup": "Kursus online — akses setelah pembayaran dikonfirmasi",
+    "accessByEmail": "Akses ke kursus akan dikirim lewat email setelah pembayaran dikonfirmasi."
   }
 }

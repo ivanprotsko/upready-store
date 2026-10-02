@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Nedostupné: cenu se nepodařilo spočítat",
     "signIn": "Přihlásit se",
     "total": "Celkem",
-    "shippingZone": "Zóna: {zone}"
+    "shippingZone": "Zóna: {zone}",
+    "courseSignInHeading": "Přihlaste se, abyste mohli koupit kurz",
+    "courseSignInText": "Kurz se otevírá ve vašem účtu, proto je k nákupu potřeba přihlášení nebo registrace.",
+    "register": "Zaregistrovat se",
+    "fieldRequired": "Vyplňte toto pole",
+    "emailInvalid": "Zkontrolujte e-mail: v adrese je chyba"
   },
   "ClaimOrders": {
     "heading": "Objednávali jste bez účtu?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Odeslat doklad",
     "receiptTooLarge": "Soubor je větší než 10 MB. Zmenšete ho nebo pošlete snímek obrazovky.",
     "receiptWrongType": "Pošlete fotku (JPG, PNG, WEBP, HEIC) nebo PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Doklad nebyl přijat",
+    "receiptRejectedReason": "Důvod: {reason}",
+    "receiptResend": "Odeslat jiný doklad",
+    "contactManager": "Kontaktovat manažera"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Uschovejte si číslo objednávky. Budete ho potřebovat při kontaktu s obchodem.",
     "orderSuccess": "Vaše objednávka byla úspěšně vytvořena.",
-    "thankYou": "Děkujeme!"
+    "thankYou": "Děkujeme!",
+    "paymentConfirmed": "Platba potvrzena",
+    "goToCourse": "Přejít ke kurzu",
+    "orderCanceled": "Objednávka zrušena",
+    "orderCanceledHint": "Platit nemusíte. Pokud jde o omyl, napište nám.",
+    "paidGoodsHint": "Připravujeme objednávku k odeslání."
   },
   "OrderDetails": {
     "backToOrders": "Zpět na objednávky",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Přihlaste se, abyste viděli historii objednávek a nakupovali rychleji.",
     "signInEmail": "E-mailem",
     "signInYandex": "Přes Yandex ID",
-    "shipmentNo": "Zásilka č. {no}",
     "deliveryEstimate": "Doručíme {range}",
-    "digitalGroup": "Online kurz — přístup po potvrzení platby",
     "empty": "Košík je prázdný.",
     "exploreProducts": "Prohlédnout produkty",
     "itemsTotal": "Zboží celkem",
     "checkout": "K pokladně"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online kurz, bez doručení",
+    "shipmentNo": "Zásilka č. {no}",
+    "digitalGroup": "Online kurz — přístup po potvrzení platby",
+    "accessByEmail": "Přístup ke kurzu přijde e-mailem po potvrzení platby."
   }
 }

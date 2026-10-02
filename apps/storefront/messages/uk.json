@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Недоступно: не вдалося розрахувати вартість",
     "signIn": "Увійти",
     "total": "Разом",
-    "shippingZone": "Зона: {zone}"
+    "shippingZone": "Зона: {zone}",
+    "courseSignInHeading": "Увійдіть, щоб купити курс",
+    "courseSignInText": "Курс відкривається у вашому акаунті, тому для покупки потрібен вхід або реєстрація.",
+    "register": "Зареєструватися",
+    "fieldRequired": "Заповніть це поле",
+    "emailInvalid": "Перевірте e-mail: в адресі помилка"
   },
   "ClaimOrders": {
     "heading": "Замовляли без реєстрації?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Надіслати квитанцію",
     "receiptTooLarge": "Файл більший за 10 МБ. Стисніть його або надішліть скриншот.",
     "receiptWrongType": "Підійде фото (JPG, PNG, WEBP, HEIC) або PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Чек не прийнято",
+    "receiptRejectedReason": "Причина: {reason}",
+    "receiptResend": "Надіслати інший чек",
+    "contactManager": "Зв'язатися з менеджером"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Збережіть номер замовлення. Він знадобиться для зв'язку з магазином.",
     "orderSuccess": "Ваше замовлення успішно оформлено.",
-    "thankYou": "Дякуємо!"
+    "thankYou": "Дякуємо!",
+    "paymentConfirmed": "Оплату підтверджено",
+    "goToCourse": "Перейти до курсу",
+    "orderCanceled": "Замовлення скасовано",
+    "orderCanceledHint": "Оплачувати його не потрібно. Якщо це помилка, напишіть нам.",
+    "paidGoodsHint": "Готуємо замовлення до відправлення."
   },
   "OrderDetails": {
     "backToOrders": "Назад до замовлень",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Увійдіть, щоб бачити історію замовлень і швидше оформлювати покупки.",
     "signInEmail": "Через ел. пошту",
     "signInYandex": "Через Yandex ID",
-    "shipmentNo": "Відправлення № {no}",
     "deliveryEstimate": "Доставимо {range}",
-    "digitalGroup": "Онлайн-курс — доступ після підтвердження оплати",
     "empty": "У кошику поки порожньо.",
     "exploreProducts": "Переглянути товари",
     "itemsTotal": "Товарів на суму",
     "checkout": "До оформлення"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "онлайн-курс, без доставки",
+    "shipmentNo": "Відправлення № {no}",
+    "digitalGroup": "Онлайн-курс — доступ після підтвердження оплати",
+    "accessByEmail": "Доступ до курсу надійде на e-mail після підтвердження оплати."
   }
 }

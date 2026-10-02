@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Ikke tilgjengelig: prisen kunne ikke beregnes",
     "signIn": "Logg inn",
     "total": "Totalt",
-    "shippingZone": "Sone: {zone}"
+    "shippingZone": "Sone: {zone}",
+    "courseSignInHeading": "Logg inn for å kjøpe kurset",
+    "courseSignInText": "Kurset åpnes i kontoen din, så kjøpet krever innlogging eller registrering.",
+    "register": "Registrer deg",
+    "fieldRequired": "Fyll ut dette feltet",
+    "emailInvalid": "Sjekk e-posten: adressen inneholder en feil"
   },
   "ClaimOrders": {
     "heading": "Bestilte du uten konto?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Send kvitteringen",
     "receiptTooLarge": "Filen er større enn 10 MB. Komprimer den eller send et skjermbilde.",
     "receiptWrongType": "Send et bilde (JPG, PNG, WEBP, HEIC) eller en PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Kvitteringen ble ikke godkjent",
+    "receiptRejectedReason": "Årsak: {reason}",
+    "receiptResend": "Send en annen kvittering",
+    "contactManager": "Kontakt manageren"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Ta vare på bestillingsnummeret. Du trenger det når du kontakter butikken.",
     "orderSuccess": "Bestillingen din ble fullført.",
-    "thankYou": "Takk!"
+    "thankYou": "Takk!",
+    "paymentConfirmed": "Betaling bekreftet",
+    "goToCourse": "Gå til kurset",
+    "orderCanceled": "Ordren er kansellert",
+    "orderCanceledHint": "Du trenger ikke betale. Skriv til oss hvis dette er en feil.",
+    "paidGoodsHint": "Vi gjør ordren din klar til sending."
   },
   "OrderDetails": {
     "backToOrders": "Tilbake til bestillinger",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Logg inn for å se ordrehistorikken din og handle raskere.",
     "signInEmail": "Med e-post",
     "signInYandex": "Med Yandex ID",
-    "shipmentNo": "Forsendelse nr. {no}",
     "deliveryEstimate": "Levering {range}",
-    "digitalGroup": "Nettkurs — tilgang etter bekreftet betaling",
     "empty": "Handlekurven din er tom.",
     "exploreProducts": "Se produkter",
     "itemsTotal": "Varer totalt",
     "checkout": "Til kassen"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "nettkurs, ingen levering",
+    "shipmentNo": "Forsendelse nr. {no}",
+    "digitalGroup": "Nettkurs — tilgang etter bekreftet betaling",
+    "accessByEmail": "Tilgangen til kurset kommer på e-post når betalingen er bekreftet."
   }
 }

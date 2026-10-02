@@ -171,7 +171,12 @@
     "shippingPriceUnavailable": "Niedostępne: nie udało się obliczyć ceny",
     "signIn": "Zaloguj się",
     "total": "Razem",
-    "shippingZone": "Strefa: {zone}"
+    "shippingZone": "Strefa: {zone}",
+    "courseSignInHeading": "Zaloguj się, aby kupić kurs",
+    "courseSignInText": "Kurs otwiera się na Twoim koncie, dlatego zakup wymaga logowania lub rejestracji.",
+    "register": "Zarejestruj się",
+    "fieldRequired": "Wypełnij to pole",
+    "emailInvalid": "Sprawdź e-mail: w adresie jest błąd"
   },
   "ClaimOrders": {
     "heading": "Zamawiałeś bez konta?",
@@ -605,7 +610,11 @@
     "receiptSubmit": "Wyślij potwierdzenie",
     "receiptTooLarge": "Plik jest większy niż 10 MB. Skompresuj go lub wyślij zrzut ekranu.",
     "receiptWrongType": "Wyślij zdjęcie (JPG, PNG, WEBP, HEIC) lub PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Potwierdzenie nie zostało przyjęte",
+    "receiptRejectedReason": "Powód: {reason}",
+    "receiptResend": "Wyślij inne potwierdzenie",
+    "contactManager": "Skontaktuj się z menedżerem"
   },
   "Metadata": {
     "account": {
@@ -728,7 +737,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Zachowaj numer zamówienia. Będzie potrzebny przy kontakcie ze sklepem.",
     "orderSuccess": "Twoje zamówienie zostało pomyślnie złożone.",
-    "thankYou": "Dziękujemy!"
+    "thankYou": "Dziękujemy!",
+    "paymentConfirmed": "Płatność potwierdzona",
+    "goToCourse": "Przejdź do kursu",
+    "orderCanceled": "Zamówienie anulowane",
+    "orderCanceledHint": "Nie trzeba płacić. Jeśli to pomyłka, napisz do nas.",
+    "paidGoodsHint": "Przygotowujemy zamówienie do wysyłki."
   },
   "OrderDetails": {
     "backToOrders": "Powrót do zamówień",
@@ -1113,12 +1127,16 @@
     "signInPrompt": "Zaloguj się, aby widzieć historię zamówień i kupować szybciej.",
     "signInEmail": "Przez e-mail",
     "signInYandex": "Przez Yandex ID",
-    "shipmentNo": "Przesyłka nr {no}",
     "deliveryEstimate": "Dostawa {range}",
-    "digitalGroup": "Kurs online — dostęp po potwierdzeniu płatności",
     "empty": "Twój koszyk jest pusty.",
     "exploreProducts": "Zobacz produkty",
     "itemsTotal": "Wartość produktów",
     "checkout": "Do kasy"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "kurs online, bez dostawy",
+    "shipmentNo": "Przesyłka nr {no}",
+    "digitalGroup": "Kurs online — dostęp po potwierdzeniu płatności",
+    "accessByEmail": "Dostęp do kursu przyjdzie e-mailem po potwierdzeniu płatności."
   }
 }
