@@ -1,3 +1,4 @@
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 
 import { DEFAULT_HEADER, NAV_VARIANTS } from "./variants"
@@ -21,8 +22,11 @@ import { DEFAULT_HEADER, NAV_VARIANTS } from "./variants"
  * otherwise — the five old stands are unaffected.
  */
 export default async function Nav() {
-  const settings = await getEffectiveSettings()
-  const header = settings?.header ?? DEFAULT_HEADER
+  const [settings, olavka] = await Promise.all([getEffectiveSettings(), isOlavkaShop()])
+  // The Olavka shop's own header (`h7`, Ivan's Figma node 227-8180) outranks its saved
+  // composition, the same precedence `footer/index.tsx` already gives `FooterOlavka`.
+  // Every other shop keeps reading its saved `settings.header` exactly as before.
+  const header = olavka ? "h7" : settings?.header ?? DEFAULT_HEADER
   const Variant = NAV_VARIANTS[header] ?? NAV_VARIANTS[DEFAULT_HEADER]
 
   return <Variant />
