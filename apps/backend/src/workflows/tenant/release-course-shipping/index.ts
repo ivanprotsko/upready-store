@@ -7,14 +7,12 @@ import {
   useQueryGraphStep,
 } from "@medusajs/medusa/core-flows";
 
+export { isDigitalProduct } from "./digital";
+
 export type ReleaseCourseShippingWorkflowInput = {
   /** Never empty: the callers run this only for the products they mean. */
   product_ids: string[];
 };
-
-/** `product.metadata.digital === "true"`: the course marker the storefront and the seeds already use. */
-export const isDigitalProduct = (metadata: Record<string, unknown> | null | undefined): boolean =>
-  metadata?.digital === "true";
 
 type ProductShippingRow = {
   id: string;
