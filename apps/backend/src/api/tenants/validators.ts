@@ -4,6 +4,7 @@ import { UpdateProduct } from "@medusajs/medusa/api/admin/products/validators";
 import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
 import { SiteScopeSchema } from "./products/site-scope";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
+import { ROBOKASSA_SNO_VALUES, ROBOKASSA_TAX_VALUES } from "../../tenant-secrets/robokassa";
 
 /**
  * A handle is the tenant's stable slug (subdomain-shaped): lowercase letters,
@@ -359,6 +360,15 @@ export const PutTenantPaymentSettingsSchema = z.strictObject({
   password2: optionalSecret,
   test_password1: optionalSecret,
   test_password2: optionalSecret,
+  /**
+   * t-cherk-30: the 54-FZ receipt (`Receipt`) Robokassa prints when the shop
+   * sends it — mandatory in practice for an ИП (Ivan, 2026-10-02: «ИП, а разве
+   * робокасса чеки не делает?»). Off by default, same as every other switch
+   * on this form.
+   */
+  fiscalization_enabled: z.boolean().optional(),
+  sno: z.enum(ROBOKASSA_SNO_VALUES).optional(),
+  default_tax: z.enum(ROBOKASSA_TAX_VALUES).optional(),
 });
 export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
 

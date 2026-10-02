@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next"
 import {
   type PaymentSettings as PaymentSettingsRecord,
   type RobokassaHashAlgorithm,
+  type RobokassaSno,
+  type RobokassaTax,
   type UnreadableSecret,
   useDeletePaymentSettings,
   usePaymentSettings,
@@ -54,6 +56,10 @@ export type RobokassaDraft = {
   password2: string
   test_password1: string
   test_password2: string
+  /** t-cherk-30: the 54-FZ receipt (`Receipt`), per shop. */
+  fiscalization_enabled: boolean
+  sno: RobokassaSno
+  default_tax: RobokassaTax
 }
 
 export const EMPTY_DRAFT: RobokassaDraft = {
@@ -65,6 +71,9 @@ export const EMPTY_DRAFT: RobokassaDraft = {
   password2: "",
   test_password1: "",
   test_password2: "",
+  fiscalization_enabled: false,
+  sno: "osn",
+  default_tax: "none",
 }
 
 const TEST_PAIR: SecretField[] = ["test_password1", "test_password2"]
@@ -105,6 +114,9 @@ const draftFrom = (
         hash_algorithm: record.hash_algorithm,
         is_test: record.is_test,
         is_enabled: record.is_enabled,
+        fiscalization_enabled: record.fiscalization_enabled,
+        sno: record.sno,
+        default_tax: record.default_tax,
       }
     : unreadable
       ? { ...EMPTY_DRAFT, is_test: unreadable.is_test, is_enabled: unreadable.is_enabled }
@@ -197,6 +209,9 @@ export const useRobokassaForm = ({ credentialsOnPage = false }: { credentialsOnP
         hash_algorithm: draft.hash_algorithm,
         is_test: isTest,
         is_enabled: draft.is_enabled,
+        fiscalization_enabled: draft.fiscalization_enabled,
+        sno: draft.sno,
+        default_tax: draft.default_tax,
         ...secrets,
       },
       {

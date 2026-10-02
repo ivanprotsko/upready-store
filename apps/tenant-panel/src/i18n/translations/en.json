@@ -4182,8 +4182,33 @@
       "test_password2": "Test password #2",
       "hash_algorithm": "Signature algorithm",
       "is_test": "Test mode",
-      "is_enabled": "Accept payments"
+      "is_enabled": "Accept payments",
+      "fiscalization_enabled": "Fiscal receipt (54-FZ)",
+      "sno": "Taxation system",
+      "default_tax": "Default VAT"
     },
+    "sno": {
+      "osn": "General (ОСН)",
+      "usn_income": "Simplified, income (УСН доходы)",
+      "usn_income_outcome": "Simplified, income minus expenses (УСН доходы минус расходы)",
+      "esn": "Unified agricultural tax (ЕСН)",
+      "patent": "Patent"
+    },
+    "tax": {
+      "none": "No VAT",
+      "vat0": "VAT 0%",
+      "vat10": "VAT 10%",
+      "vat20": "VAT 20%",
+      "vat110": "VAT 10/110",
+      "vat120": "VAT 20/120",
+      "vat5": "VAT 5%",
+      "vat7": "VAT 7%",
+      "vat105": "VAT 5/105",
+      "vat107": "VAT 7/107",
+      "vat22": "VAT 22%",
+      "vat122": "VAT 22/122"
+    },
+    "fiscalizationHint": "Robokassa only issues a 54-FZ receipt («Робочеки») once the shop sends the order's item list. This is mandatory in practice for an ИП — turn on fiscalization and pick the taxation system, and also turn on «Робочеки» in the Robokassa dashboard.",
     "secretSet": "set ····{{last4}}",
     "secretNotSet": "not set",
     "keepPlaceholder": "leave empty to keep the current one",
