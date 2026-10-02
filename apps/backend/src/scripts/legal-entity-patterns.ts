@@ -2,9 +2,8 @@
  * «никаких ссылок на ИП Черкашина и т.д. Быть не должно» (t-cherk-com-hotfix
  * batch 6, item 8, Ivan 03.10). The textual markers of a Russian sole
  * proprietor / legal entity: ИП as a standalone word (not inside another
- * word), ОГРНИП/ОГРН, ИНН followed by digits, and the owner's own surname.
- * Kept in one file so `strip-legal-entity.ts` and its test share one source
- * of truth.
+ * word), ОГРНИП/ОГРН, and ИНН followed by digits. Kept in one file so
+ * `strip-legal-entity.ts` and its test share one source of truth.
  *
  * `\b` is an ASCII notion in JavaScript regex — it never fires next to a
  * Cyrillic letter even with the `u` flag, so `\bИП\b` would match nowhere at
@@ -12,12 +11,19 @@
  * spelled out with `\p{L}`/`\p{N}` lookaround instead, which is what keeps
  * «типичный» (ИП buried inside a word) from matching while «ИП Черкашина»
  * does.
+ *
+ * NOT matched: the owner's bare surname. The stand's dry run caught it
+ * matching the expert's bio page title «Черкашина Оксана» (key `about`, the
+ * brand persona, not the legal entity) and blanking it (lead review,
+ * 03:01). Ivan's words target «ИП Черкашина» specifically, which the ИП
+ * marker alone already catches — a surname on its own is not a legal-entity
+ * mention.
  */
 const NOT_LETTER_OR_DIGIT = "[\\p{L}\\p{N}_]";
 const wordMarker = (word: string) => `(?<!${NOT_LETTER_OR_DIGIT})${word}(?!${NOT_LETTER_OR_DIGIT})`;
 
 export const LEGAL_ENTITY_PATTERN = new RegExp(
-  `(?:${wordMarker("ИП")}|ОГРНИП|${wordMarker("ОГРН")}|ИНН\\s*\\d|Черкашин[аы]|индивидуальн(?:ый|ого)\\s+предпринимател[ья])`,
+  `(?:${wordMarker("ИП")}|ОГРНИП|${wordMarker("ОГРН")}|ИНН\\s*\\d|индивидуальн(?:ый|ого)\\s+предпринимател[ья])`,
   "giu",
 );
 
