@@ -12,6 +12,16 @@
     "trackOrder": "查询物流",
     "viewOrder": "查看订单"
   },
+  "CourseAccess": {
+    "body": "订单 <strong>#{id}</strong> 的付款已确认。课程现已在您的账户中开放：",
+    "button": "前往课程",
+    "headingAnon": "课程已开放",
+    "headingWithName": "{name}，课程已开放",
+    "preview": "付款已确认，课程已在您的账户中等您",
+    "signIn": "使用 {email} 登录账户后即可打开课程内容。",
+    "subject": "订单 #{id} 已支付：课程已开放",
+    "textFallback": "订单 #{id} 的付款已确认，课程已开放。\n\n前往课程："
+  },
   "Delivery": {
     "bodyOrder": "订单 <strong>#{id}</strong> 已送达。希望一切完好。",
     "headingAnon": "您的订单已送达",
