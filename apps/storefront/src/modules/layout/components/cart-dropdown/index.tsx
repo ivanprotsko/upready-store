@@ -199,9 +199,13 @@ const CartDropdown = ({
 
   const pathname = usePathname()
 
+  // The olavka h7 header (`"pill"`) keeps it closed on a product page: there the dropdown lies
+  // over the buy box's «В КОРЗИНЕ − N +» stepper, which with the badge already shows the change.
+  const skipAutoOpen = variant === "pill" && pathname.includes("/products/")
+
   // open cart dropdown when modifying the cart items, but only if we're not on the cart page
   useEffect(() => {
-    if (itemRef.current !== totalItems && !pathname.includes("/cart")) {
+    if (itemRef.current !== totalItems && !pathname.includes("/cart") && !skipAutoOpen) {
       timedOpen()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
