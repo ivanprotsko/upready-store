@@ -1866,7 +1866,14 @@
       "totalPending": "Total pending",
       "totalStoreCreditRefunds": "Total store credit refunds",
       "receiptSent": "The customer sent a receipt on {{date}}",
-      "receiptOpen": "Open receipt"
+      "receiptOpen": "Open receipt",
+      "receiptRejected": "Receipt rejected: {{reason}}, waiting for a new one",
+      "receiptReject": "Reject receipt",
+      "receiptRejectTitle": "Reject the receipt?",
+      "receiptRejectDescription": "The customer sees the reason on the order page and can send another receipt.",
+      "receiptRejectReason": "Reason",
+      "receiptRejectReasonPlaceholder": "For example: the amount does not match the order",
+      "receiptRejectSuccess": "Receipt rejected, the customer will see the reason"
     },
     "refund": {
       "error": {

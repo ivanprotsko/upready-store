@@ -20,6 +20,15 @@ import { resolveTenantFromPublishableKey } from "../../../resolve-tenant";
  * in the shop's Telegram chat with the receipt link and the panel link.
  * Nothing is captured here: the owner confirms the payment in the panel.
  *
+ * Batch 5: the owner may reject a receipt
+ * (`POST /tenants/orders/:id/payment-receipt/reject` adds `status: "rejected"`,
+ * `rejected_reason`, `rejected_at`). The buyer's next upload is accepted the
+ * same way and writes a fresh `{ url, uploaded_at }`: Medusa merges order
+ * metadata one top-level key at a time, so the whole `payment_receipt` object
+ * is replaced and the rejection goes with it, and the owner gets the same
+ * Telegram message again. The earlier file stays in storage. A cancelled
+ * order takes no receipt.
+ *
  * Multipart, field `files`, parsed by the Admin's multer array
  * (`adminUploadPostMiddlewares` in `api/middlewares.ts`). The order must sit in
  * this publishable key's sales channel, be paid through `pp_system_default`
@@ -51,6 +60,7 @@ type UploadedFile = { originalname: string; mimetype: string; buffer: Buffer };
 type ReceiptOrder = {
   id: string;
   display_id: number | null;
+  status: string;
   sales_channel_id: string | null;
   metadata: Record<string, unknown> | null;
   payment_collections: { payments: { provider_id: string; captured_at: Date | string | null }[] | null }[] | null;
@@ -78,6 +88,7 @@ export const POST = async (req: MedusaStoreRequest, res: MedusaResponse) => {
     fields: [
       "id",
       "display_id",
+      "status",
       "sales_channel_id",
       "metadata",
       "payment_collections.payments.provider_id",
@@ -89,6 +100,10 @@ export const POST = async (req: MedusaStoreRequest, res: MedusaResponse) => {
 
   if (!order || order.sales_channel_id !== tenant.sales_channel_id) {
     throw new MedusaError(MedusaError.Types.NOT_FOUND, `Order with id: ${req.params.id} was not found`);
+  }
+
+  if (order.status === "canceled") {
+    throw new MedusaError(MedusaError.Types.NOT_ALLOWED, "This order is cancelled");
   }
 
   const payments = (order.payment_collections ?? []).flatMap((collection) => collection.payments ?? []);
