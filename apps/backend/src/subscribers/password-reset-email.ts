@@ -11,9 +11,11 @@ import {
   getEmailTranslator,
   getLocaleFromMetadata,
   resolveEmailLocale,
-  STOREFRONT_URL,
 } from "../emails/i18n";
+import { emailShopFrom } from "../emails/lib/notify";
+import { renderForShop } from "../emails/lib/shop";
 import { panelResetPasswordUrl } from "../tenant-notifications/storefront-origin";
+import { lastOrderTenantId, resolveShopForTenantId, tenantIdFromMetadata } from "../tenant-notifications/shop";
 
 export default async function passwordResetEmailHandler({
   event,
@@ -49,7 +51,7 @@ export default async function passwordResetEmailHandler({
     Modules.NOTIFICATION,
   ) as INotificationModuleService;
 
-  let storedLocale: string | undefined;
+  let storedRow: { id?: string; metadata?: Record<string, unknown> | null } | undefined;
 
   try {
     const { data: rows } = await query.graph({
@@ -57,19 +59,47 @@ export default async function passwordResetEmailHandler({
       fields: ["id", "metadata"],
       filters: { email },
     } as any);
-    storedLocale = getLocaleFromMetadata((rows[0] as any)?.metadata);
-  } catch {}
+    storedRow = rows[0] as { id?: string; metadata?: Record<string, unknown> | null } | undefined;
+  } catch (error) {
+    logger.warn(
+      `[password-reset-email] Could not read the stored ${actor_type} row for ${email}: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+  }
 
   const locale = resolveEmailLocale(
     getLocaleFromMetadata(metadata),
-    storedLocale,
+    getLocaleFromMetadata(storedRow?.metadata),
   );
   const { t } = getEmailTranslator(locale);
+
+  // WHICH shop a CUSTOMER'S reset link opens. Never the request's own
+  // publishable key: any shop owner can request a reset for someone else's
+  // e-mail through THEIR OWN key, and the request is otherwise
+  // indistinguishable from a legitimate one — a security review of this task
+  // found that a reset mailed under a trusted, DKIM-signed identity would
+  // still carry a link (and the token in it) to the REQUESTER's own domain,
+  // readable off their own analytics. The only two trustworthy sources left:
+  // the shop recorded on the customer's OWN row at registration
+  // (`inject-tenant-metadata.ts`, `customer.metadata.tenant_id`, which the
+  // buyer's own profile update cannot rewrite — `strip-tenant-metadata.ts`),
+  // or, for a customer who predates that metadata, the shop of their most
+  // recent order (`lastOrderTenantId`). The panel (tenant) branch addresses
+  // one specific tenant already and never resolves a shop here, exactly as
+  // before this task.
+  const customerTenantId =
+    actor_type === "customer" && storedRow?.id
+      ? tenantIdFromMetadata(storedRow.metadata) ?? (await lastOrderTenantId(container, storedRow.id))
+      : null;
+  const shop =
+    actor_type === "customer" ? await resolveShopForTenantId(container, customerTenantId) : null;
+  const emailShop = shop ? emailShopFrom(shop) : null;
 
   const resetUrl =
     actor_type === "tenant"
       ? panelResetPasswordUrl(token, email)
-      : `${STOREFRONT_URL}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+      : `${emailShop!.storefrontUrl}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
 
   if (!resetUrl) {
     // No `PANEL_PUBLIC_URL`/`DEMO_PANEL_URL` set on this deployment: mailing a
@@ -81,9 +111,14 @@ export default async function passwordResetEmailHandler({
     return;
   }
 
-  const html = await render(
-    createElement(PasswordResetEmail, { email, token, resetUrl, locale }),
-  );
+  const html = emailShop
+    ? await renderForShop(
+        emailShop,
+        createElement(PasswordResetEmail, { email, token, resetUrl, locale }),
+      )
+    : await render(
+        createElement(PasswordResetEmail, { email, token, resetUrl, locale }),
+      );
 
   const text = t("PasswordReset.textFallback", { url: resetUrl });
 
@@ -101,9 +136,26 @@ export default async function passwordResetEmailHandler({
         html,
         text,
       },
+      // Read by the SMTP provider, the same contract order letters use. Only
+      // the customer branch has a shop to sign as; the panel letter keeps
+      // whatever default sender the provider already applies.
+      ...(shop
+        ? {
+            data: {
+              sender: {
+                name: shop.fromName,
+                reply_to: shop.replyTo,
+              },
+            },
+          }
+        : {}),
     } as any);
 
-    logger.info(`[password-reset-email] Sent to ${email} (locale: ${locale})`);
+    logger.info(
+      `[password-reset-email] Sent to ${email} (locale: ${locale}, shop: ${
+        shop ? (shop.tenantId ?? "platform") : "n/a"
+      })`,
+    );
   } catch (err: any) {
     logger.error(
       `[password-reset-email] Failed to send notification: ${err?.message}`,
