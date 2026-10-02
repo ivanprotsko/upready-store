@@ -111,6 +111,14 @@ docker compose -p mt-mail-test \
 ```
 
 Mailpit's web UI is published on `localhost:8025` by that override file alone; `compose.mt.yml`
-itself still publishes nothing. `docker compose -p mt-mail-test down -v` removes the throwaway
-project, including its own `mail-dkim-keys` volume, without touching anything the real `mt` project
-owns (different compose project name, different volume).
+itself still publishes nothing.
+
+```bash
+docker compose -p mt-mail-test \
+  -f deploy/compose.mt.yml -f deploy/mt/mail-test.override.yml \
+  --env-file deploy/mt/shipshift.env.example \
+  down -v
+```
+
+removes the throwaway project, including its own `mail-dkim-keys` volume, without touching
+anything the real `mt` project owns (different compose project name, different volume).
