@@ -174,7 +174,6 @@
     "shippingZone": "Bölge: {zone}",
     "courseSignInHeading": "Kursu satın almak için giriş yapın",
     "courseSignInText": "Kurs hesabınızda açılır, bu yüzden satın almak için giriş veya kayıt gerekir.",
-    "register": "Kayıt ol",
     "fieldRequired": "Bu alanı doldurun",
     "emailInvalid": "E-postayı kontrol edin: adreste hata var"
   },

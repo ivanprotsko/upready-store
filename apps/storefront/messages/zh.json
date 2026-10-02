@@ -174,7 +174,6 @@
     "shippingZone": "配送区域：{zone}",
     "courseSignInHeading": "登录后购买课程",
     "courseSignInText": "课程在您的账户中开放，因此购买需要登录或注册。",
-    "register": "注册",
     "fieldRequired": "请填写此项",
     "emailInvalid": "请检查邮箱：地址有误"
   },

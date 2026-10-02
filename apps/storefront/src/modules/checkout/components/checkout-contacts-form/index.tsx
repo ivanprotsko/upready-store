@@ -9,6 +9,45 @@ import Input from "@modules/common/components/input"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { useTranslations } from "next-intl"
 
+export type ContactsField =
+  | "first_name"
+  | "last_name"
+  | "email"
+  | "recipient_first_name"
+  | "recipient_last_name"
+
+/** Plain e-mail shape: something, `@`, something, a dot, something — the typo «anna@» fails it. */
+export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+/**
+ * Which field says what (batch 6): a required field left empty says «Заполните это
+ * поле», an e-mail that is not an address says so in words — the browser's own
+ * tooltip is not a text the buyer can read later. Returns the catalog KEY per field
+ * (`CheckoutPage.*`), nothing for a field that is fine.
+ */
+export function contactsFieldErrors(
+  values: {
+    first_name: string
+    last_name: string
+    email: string
+    recipient_first_name: string
+    recipient_last_name: string
+  },
+  differentRecipient: boolean
+): Partial<Record<ContactsField, "fieldRequired" | "emailInvalid">> {
+  const errors: Partial<Record<ContactsField, "fieldRequired" | "emailInvalid">> = {}
+  if (!values.first_name.trim()) errors.first_name = "fieldRequired"
+  if (!values.last_name.trim()) errors.last_name = "fieldRequired"
+  const email = values.email.trim()
+  if (!email) errors.email = "fieldRequired"
+  else if (!EMAIL_RE.test(email)) errors.email = "emailInvalid"
+  if (differentRecipient) {
+    if (!values.recipient_first_name.trim()) errors.recipient_first_name = "fieldRequired"
+    if (!values.recipient_last_name.trim()) errors.recipient_last_name = "fieldRequired"
+  }
+  return errors
+}
+
 interface CheckoutContactsFormProps {
   cart: HttpTypes.StoreCart
   /** Called once the contacts are saved — the row collapses back to its summary. */
@@ -49,6 +88,10 @@ export default function CheckoutContactsForm({
   })
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  // Batch 6: a field's error shows under it only after the field was left (blur) or
+  // the form was submitted — never before the buyer has typed anything.
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     firstFieldRef.current?.focus()
@@ -58,8 +101,40 @@ export default function CheckoutContactsForm({
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setTouched((current) => ({ ...current, [e.target.name]: true }))
+  }
+
+  const fieldErrors = contactsFieldErrors(formData, isDifferentRecipient)
+  const errorFor = (name: ContactsField): string | null => {
+    const key = fieldErrors[name]
+    if (!key || !(submitted || touched[name])) return null
+    return t(key)
+  }
+  const fieldError = (name: ContactsField) => {
+    const message = errorFor(name)
+    return message ? (
+      <p
+        className="txt-compact-small text-ui-fg-error pt-1"
+        role="alert"
+        data-testid={`contacts-field-error-${name}`}
+      >
+        {message}
+      </p>
+    ) : null
+  }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setSubmitted(true)
+    const firstInvalid = (Object.keys(fieldErrors) as ContactsField[]).find(
+      (name) => fieldErrors[name]
+    )
+    if (firstInvalid) {
+      const field = e.currentTarget.elements.namedItem(firstInvalid)
+      if (field instanceof HTMLInputElement) field.focus()
+      return
+    }
     setIsSubmitting(true)
     setError(null)
 
@@ -101,40 +176,60 @@ export default function CheckoutContactsForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col pt-2" data-testid="checkout-contacts-form">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="flex flex-col pt-2"
+      data-testid="checkout-contacts-form"
+    >
       <div className="flex flex-col gap-y-3">
         <div className="grid grid-cols-2 gap-3">
-          <Input
-            ref={firstFieldRef}
-            label={t("fieldFirstName")}
-            name="first_name"
-            autoComplete="given-name"
-            value={formData.first_name}
-            onChange={handleChange}
-            required
-            data-testid="shipping-first-name-input"
-          />
-          <Input
-            label={t("fieldLastName")}
-            name="last_name"
-            autoComplete="family-name"
-            value={formData.last_name}
-            onChange={handleChange}
-            required
-            data-testid="shipping-last-name-input"
-          />
+          <div>
+            <Input
+              ref={firstFieldRef}
+              label={t("fieldFirstName")}
+              name="first_name"
+              autoComplete="given-name"
+              value={formData.first_name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              required
+              aria-invalid={Boolean(errorFor("first_name"))}
+              data-testid="shipping-first-name-input"
+            />
+            {fieldError("first_name")}
+          </div>
+          <div>
+            <Input
+              label={t("fieldLastName")}
+              name="last_name"
+              autoComplete="family-name"
+              value={formData.last_name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              required
+              aria-invalid={Boolean(errorFor("last_name"))}
+              data-testid="shipping-last-name-input"
+            />
+            {fieldError("last_name")}
+          </div>
         </div>
 
-        <Input
-          label={t("fieldEmail")}
-          name="email"
-          type="email"
-          autoComplete="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          data-testid="shipping-email-input"
-        />
+        <div>
+          <Input
+            label={t("fieldEmail")}
+            name="email"
+            type="email"
+            autoComplete="email"
+            value={formData.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            required
+            aria-invalid={Boolean(errorFor("email"))}
+            data-testid="shipping-email-input"
+          />
+          {fieldError("email")}
+        </div>
 
         <Input
           label={t("fieldPhone")}
@@ -164,22 +259,32 @@ export default function CheckoutContactsForm({
               {t("recipientHeading")}
             </p>
             <div className="grid grid-cols-2 gap-3">
-              <Input
-                label={t("fieldFirstName")}
-                name="recipient_first_name"
-                autoComplete="given-name"
-                value={formData.recipient_first_name}
-                onChange={handleChange}
-                required
-              />
-              <Input
-                label={t("fieldLastName")}
-                name="recipient_last_name"
-                autoComplete="family-name"
-                value={formData.recipient_last_name}
-                onChange={handleChange}
-                required
-              />
+              <div>
+                <Input
+                  label={t("fieldFirstName")}
+                  name="recipient_first_name"
+                  autoComplete="given-name"
+                  value={formData.recipient_first_name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  aria-invalid={Boolean(errorFor("recipient_first_name"))}
+                />
+                {fieldError("recipient_first_name")}
+              </div>
+              <div>
+                <Input
+                  label={t("fieldLastName")}
+                  name="recipient_last_name"
+                  autoComplete="family-name"
+                  value={formData.recipient_last_name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  aria-invalid={Boolean(errorFor("recipient_last_name"))}
+                />
+                {fieldError("recipient_last_name")}
+              </div>
             </div>
             <Input
               label={t("fieldPhone")}

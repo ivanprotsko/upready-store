@@ -174,7 +174,6 @@
     "shippingZone": "Zona: {zone}",
     "courseSignInHeading": "Prisijunkite, kad įsigytumėte kursą",
     "courseSignInText": "Kursas atidaromas jūsų paskyroje, todėl pirkimui reikia prisijungti arba užsiregistruoti.",
-    "register": "Registruotis",
     "fieldRequired": "Užpildykite šį lauką",
     "emailInvalid": "Patikrinkite el. paštą: adrese yra klaida"
   },

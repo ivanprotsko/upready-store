@@ -69,7 +69,7 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
             <CheckoutForm cart={cart} customer={customer} />
           </HydrationSlot>
           <HydrationSlot>
-            <CheckoutSummary cart={cart} />
+            <CheckoutSummary cart={cart} customer={customer} />
           </HydrationSlot>
         </div>
       </CartUpdateProvider>

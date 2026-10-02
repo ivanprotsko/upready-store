@@ -29,6 +29,8 @@ type PaymentButtonProps = {
   demoCard?: DemoCardValue
   /** The offline kind chosen inside the manual provider (olavka-payments); null keeps the demo card gate. */
   manualKind?: ManualPaymentKind | null
+  /** Batch 6, Q3.1: a guest with a course in the cart cannot place the order before signing in. */
+  requiresSignIn?: boolean
   "data-testid": string
 }
 
@@ -42,6 +44,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   selectedPaymentMethod,
   demoCard,
   manualKind = null,
+  requiresSignIn = false,
   "data-testid": dataTestId,
 }) => {
   const t = useTranslations("PaymentButton")
@@ -75,6 +78,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
 
   const notReady =
     !cart ||
+    requiresSignIn ||
     (needsShipping && !cart.shipping_address) ||
     (needsShipping && !cart.billing_address) ||
     !cart.email ||

@@ -174,7 +174,6 @@
     "shippingZone": "Zóna: {zone}",
     "courseSignInHeading": "Přihlaste se, abyste mohli koupit kurz",
     "courseSignInText": "Kurz se otevírá ve vašem účtu, proto je k nákupu potřeba přihlášení nebo registrace.",
-    "register": "Zaregistrovat se",
     "fieldRequired": "Vyplňte toto pole",
     "emailInvalid": "Zkontrolujte e-mail: v adrese je chyba"
   },

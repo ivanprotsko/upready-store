@@ -174,7 +174,6 @@
     "shippingZone": "Vyöhyke: {zone}",
     "courseSignInHeading": "Kirjaudu sisään ostaaksesi kurssin",
     "courseSignInText": "Kurssi avautuu tilillesi, joten ostaminen vaatii kirjautumisen tai rekisteröitymisen.",
-    "register": "Rekisteröidy",
     "fieldRequired": "Täytä tämä kenttä",
     "emailInvalid": "Tarkista sähköposti: osoitteessa on virhe"
   },

@@ -174,7 +174,6 @@
     "shippingZone": "Zon: {zone}",
     "courseSignInHeading": "Logga in för att köpa kursen",
     "courseSignInText": "Kursen öppnas i ditt konto, så köpet kräver inloggning eller registrering.",
-    "register": "Registrera dig",
     "fieldRequired": "Fyll i det här fältet",
     "emailInvalid": "Kontrollera e-posten: adressen innehåller ett fel"
   },

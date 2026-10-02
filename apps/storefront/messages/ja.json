@@ -174,7 +174,6 @@
     "shippingZone": "地域: {zone}",
     "courseSignInHeading": "講座を購入するにはログインしてください",
     "courseSignInText": "講座はアカウント内で開くため、購入にはログインまたは登録が必要です。",
-    "register": "登録する",
     "fieldRequired": "この項目を入力してください",
     "emailInvalid": "メールアドレスを確認してください：入力に誤りがあります"
   },

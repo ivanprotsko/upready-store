@@ -174,7 +174,6 @@
     "shippingZone": "지역: {zone}",
     "courseSignInHeading": "강의를 구매하려면 로그인하세요",
     "courseSignInText": "강의는 계정에서 열리므로 구매하려면 로그인 또는 회원가입이 필요합니다.",
-    "register": "회원가입",
     "fieldRequired": "이 항목을 입력하세요",
     "emailInvalid": "이메일을 확인하세요: 주소에 오류가 있습니다"
   },

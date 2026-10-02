@@ -174,7 +174,6 @@
     "shippingZone": "Zone : {zone}",
     "courseSignInHeading": "Connectez-vous pour acheter le cours",
     "courseSignInText": "Le cours s'ouvre dans votre compte : l'achat demande une connexion ou une inscription.",
-    "register": "S'inscrire",
     "fieldRequired": "Renseignez ce champ",
     "emailInvalid": "Vérifiez l'e-mail : l'adresse contient une erreur"
   },

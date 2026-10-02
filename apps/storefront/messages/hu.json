@@ -174,7 +174,6 @@
     "shippingZone": "Zóna: {zone}",
     "courseSignInHeading": "Jelentkezzen be a tanfolyam megvásárlásához",
     "courseSignInText": "A tanfolyam a fiókjában nyílik meg, ezért a vásárláshoz bejelentkezés vagy regisztráció kell.",
-    "register": "Regisztráció",
     "fieldRequired": "Töltse ki ezt a mezőt",
     "emailInvalid": "Ellenőrizze az e-mailt: a cím hibás"
   },

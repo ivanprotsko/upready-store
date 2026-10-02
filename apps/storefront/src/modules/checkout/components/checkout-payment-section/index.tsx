@@ -67,6 +67,8 @@ interface CheckoutPaymentSectionProps {
    * checkout labels it.
    */
   tenantPaymentMethods: TenantPaymentMethods
+  /** Batch 6, Q3.1: a guest with a course in the cart — the pay button waits for a sign-in. */
+  requiresSignIn?: boolean
 }
 
 export default function CheckoutPaymentSection({
@@ -75,6 +77,7 @@ export default function CheckoutPaymentSection({
   legal,
   manualPayment,
   tenantPaymentMethods,
+  requiresSignIn = false,
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
@@ -463,6 +466,7 @@ export default function CheckoutPaymentSection({
       <div className="checkout-section-container">
         <AddressGapMessage
           gaps={addressGaps}
+          tone="hint"
           data-testid="shipping-address-incomplete"
         />
       </div>
@@ -473,6 +477,7 @@ export default function CheckoutPaymentSection({
           selectedPaymentMethod={selectedPaymentMethod}
           demoCard={demoCard}
           manualKind={manualKinds.length > 0 ? manualKind : null}
+          requiresSignIn={requiresSignIn}
           data-testid="submit-order-button"
         />
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">

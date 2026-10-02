@@ -4,12 +4,26 @@ import { getTenantManualPayment } from "@lib/data/tenant-manual-payment"
 import { getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
+import { Text } from "@medusajs/ui"
+import { getTranslations } from "next-intl/server"
+import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import CheckoutPickupSummary from "@modules/checkout/components/checkout-pickup-summary"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import CheckoutPaymentSection from "@modules/checkout/components/checkout-payment-section"
 import CheckoutTotals from "@modules/checkout/components/checkout-totals"
 
-const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
+const CheckoutSummary = async ({
+  cart,
+  customer,
+}: {
+  cart: HttpTypes.StoreCart
+  customer: HttpTypes.StoreCustomer | null
+}) => {
+  // Batch 6: a course in the cart — the access note under the totals (Q3.2), and a
+  // guest cannot pay for it before signing in (Q3.1, the pay button stays disabled).
+  const hasCourse = (cart.items ?? []).some(isNoDeliveryLine)
+  const requiresSignIn = hasCourse && !customer
+  const tShip = await getTranslations("Shipments")
   const [paymentMethods, legal, manualPayment, tenantPaymentMethods] = await Promise.all([
     listCartPaymentMethods(cart.region?.id ?? ""),
     // The consent sentence under the Pay button names four documents; this is
@@ -36,8 +50,13 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
     // which does the same split internally so its method row can bleed past
     // it the way the delivery row does.
     <div className="flex flex-col gap-y-8 py-4 lg:py-10 bg-ui-bg-subtle lg:bg-transparent">
-      <div className="checkout-section-container">
+      <div className="checkout-section-container flex flex-col gap-y-3">
         <CheckoutTotals cart={cart} />
+        {hasCourse && (
+          <Text size="small" className="text-ui-fg-subtle" data-testid="checkout-access-note">
+            {tShip("accessByEmail")}
+          </Text>
+        )}
       </div>
 
       {pickupPointName && (
@@ -59,6 +78,7 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
         legal={legal}
         manualPayment={manualPayment}
         tenantPaymentMethods={tenantPaymentMethods}
+        requiresSignIn={requiresSignIn}
       />
     </div>
   )

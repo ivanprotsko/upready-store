@@ -174,7 +174,6 @@
     "shippingZone": "Zone: {zone}",
     "courseSignInHeading": "Log ind for at købe kurset",
     "courseSignInText": "Kurset åbnes i din konto, så købet kræver login eller oprettelse.",
-    "register": "Opret konto",
     "fieldRequired": "Udfyld dette felt",
     "emailInvalid": "Tjek e-mailen: der er en fejl i adressen"
   },
