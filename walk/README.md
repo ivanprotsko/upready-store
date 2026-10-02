@@ -76,6 +76,33 @@ Every setting has a default for the stand `ivan-1001` and can be overridden from
 | `WALK_PANEL` | [Панель магазина · Upready](http://localhost:5700) | `{stand.panel}` |
 | `WALK_TMP` | `<os tmpdir>/upready-walk` | receipt files and the check's output |
 
+## Live Mode
+
+The same graph runs against the live shop after a deploy. Set `WALK_MODE=live`, or give an https
+`WALK_STOREFRONT`. In live mode:
+
+- **No database and no JWT secret are read.** Nothing is minted.
+- **The owner session comes from the lead.** `WALK_OWNER_TOKEN_FILE` is the path of a file that holds
+  the owner's bearer token. `login("owner")` trades it for a panel session at `POST /auth/session`, and
+  `api` sends it as is. Without the file, every owner step stops with «no fixture».
+- **Each buyer is a new [mail.tm](https://mail.tm) inbox.** `fx.buyer.email` is its address, and
+  `fx.buyer.mailbox` keeps the address and the inbox password, so the shop's letters (order placed,
+  course access) can be read afterwards. A path that registers gets a second inbox for
+  `fx.buyer.newEmail`. The account is registered through the Store API, as on the stand.
+- **The shop's card and manager contact come from the public `GET /storefront/by-host`.** The first
+  lesson comes only from `WALK_LESSON1`. Without it, the lesson steps stop with «no fixture».
+- **`{run.paymentId}` is looked up through `GET /tenants/orders/:id` with the owner token.**
+
+| Variable | Live default |
+|---|---|
+| `WALK_STOREFRONT` | [Черкашино](https://cherkashino.com) |
+| `WALK_BACKEND` | [shipshift.dev](https://shipshift.dev) |
+| `WALK_PANEL` | none: set it, or owner paths stop with «no fixture» |
+| `WALK_OWNER_TOKEN_FILE` | none: the lead gives it |
+| `WALK_LESSON1` | none |
+
+Every test buyer and order on live is a real record: a `mail.tm` customer with `metadata.walk = true`.
+
 No id is written into the code. The fixtures look these up by the shop handle:
 
 - the owner, an admin of the shop and the emailpass identity behind the admin's e-mail;

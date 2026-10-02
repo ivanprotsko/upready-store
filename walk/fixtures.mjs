@@ -14,12 +14,26 @@ import path from "node:path"
 
 const env = process.env
 
-/** Where the stand is. Every value can be overridden by the environment. */
-export const stand = {
-  storefront: env.WALK_STOREFRONT ?? "http://cherkashino-com.localhost:8700",
-  backend: env.WALK_BACKEND ?? "http://localhost:9700",
-  panel: env.WALK_PANEL ?? "http://localhost:5700",
-}
+/**
+ * Live mode runs the same graph against https://cherkashino.com: no database and no JWT secret.
+ * The owner's session token comes from a file the lead gives (WALK_OWNER_TOKEN_FILE), never minted
+ * here; the buyer registers with a disposable mail.tm inbox; the shop's card and manager contact
+ * come from the public GET /storefront/by-host. On by WALK_MODE=live or an https storefront.
+ */
+export const LIVE = (env.WALK_MODE ?? (/^https:/.test(env.WALK_STOREFRONT ?? "") ? "live" : "stand")) === "live"
+
+/** Where the stand is. Every value can be overridden by the environment. Live has no default panel URL. */
+export const stand = LIVE
+  ? {
+      storefront: env.WALK_STOREFRONT ?? "https://cherkashino.com",
+      backend: env.WALK_BACKEND ?? "https://shipshift.dev",
+      panel: env.WALK_PANEL,
+    }
+  : {
+      storefront: env.WALK_STOREFRONT ?? "http://cherkashino-com.localhost:8700",
+      backend: env.WALK_BACKEND ?? "http://localhost:9700",
+      panel: env.WALK_PANEL ?? "http://localhost:5700",
+    }
 
 const SHOP_HANDLE = env.WALK_SHOP ?? "cherkashino-com"
 const STAND_ENV = env.WALK_STAND_ENV ?? "/Users/ivanprotsko/upready/worktrees/upready-store/stand/ivan-1001/apps/backend/.env"
@@ -101,8 +115,18 @@ export function ownerIds() {
   return ownerIdsCache
 }
 
-/** A bearer token the backend accepts as the shop admin (actor_type "tenant"). Never printed. */
+/**
+ * A bearer token the backend accepts as the shop admin (actor_type "tenant"). Never printed.
+ * Live: read from the lead's token file, never minted.
+ */
 export function ownerToken() {
+  if (LIVE) {
+    const file = env.WALK_OWNER_TOKEN_FILE
+    if (!file) throw new Error("live: set WALK_OWNER_TOKEN_FILE to the owner token file the lead gives")
+    const token = fs.readFileSync(file, "utf8").trim()
+    if (!token) throw new Error(`live: the owner token file is empty`)
+    return token
+  }
   const secret = standEnv().JWT_SECRET
   if (!secret) throw new Error(`JWT_SECRET is not set in ${STAND_ENV}`)
   const { adminId, authIdentityId } = ownerIds()
@@ -132,12 +156,22 @@ function shopData() {
   const doc = manual.length ? JSON.parse(manual[0][0]) : null
   const card = doc?.manager?.cards?.[0] ?? null
 
+  return shopFields(lesson[0]?.[0] ?? null, doc)
+}
+
+const shopFields = (lesson1, doc) => {
+  const card = doc?.manager?.cards?.[0] ?? null
   return {
-    lesson1: lesson[0]?.[0] ?? null,
+    lesson1,
     card: card ? { bank: card.bank, number: card.number, holder: card.holder ?? null } : null,
     telegram: doc?.manager?.telegram ?? null,
     manualKinds: { card: Boolean(doc?.manager?.enabled && doc?.manager?.cards?.length), crypto: Boolean(doc?.crypto?.enabled) },
   }
+}
+
+/** Live: the same fields from the public by-host answer; the first lesson only from WALK_LESSON1. */
+async function shopDataLive() {
+  return shopFields(env.WALK_LESSON1 ?? null, (await byHost()).manual_payment ?? null)
 }
 
 // ───────── receipt files, written at run time ─────────
@@ -164,16 +198,41 @@ function receiptFiles() {
 
 // ───────── buyer accounts through the same Store API calls the storefront's signup makes ─────────
 
-let publishableKeyCache = null
-async function publishableKey() {
-  if (publishableKeyCache) return publishableKeyCache
+let byHostCache = null
+async function byHost() {
+  if (byHostCache) return byHostCache
   const host = new URL(stand.storefront).host
   const res = await fetch(`${stand.backend}/storefront/by-host?host=${encodeURIComponent(host)}`)
   if (!res.ok) throw new Error(`by-host ${host}: ${res.status}`)
-  const key = (await res.json())?.publishable_key
-  if (!key) throw new Error(`by-host ${host}: no publishable key`)
-  publishableKeyCache = key
+  byHostCache = (await res.json()) ?? {}
+  return byHostCache
+}
+async function publishableKey() {
+  const key = (await byHost()).publishable_key
+  if (!key) throw new Error(`by-host ${new URL(stand.storefront).host}: no publishable key`)
   return key
+}
+
+// ───────── live: a disposable mail.tm inbox per buyer, so the shop's e-mails can be read ─────────
+
+const mailTm = async (urlPath, { method = "GET", body, token } = {}) => {
+  const res = await fetch(`https://api.mail.tm${urlPath}`, {
+    method,
+    headers: { "content-type": "application/json", ...(token ? { authorization: `Bearer ${token}` } : {}) },
+    body: body ? JSON.stringify(body) : undefined,
+  })
+  const json = await res.json().catch(() => null)
+  if (!res.ok) throw new Error(`mail.tm ${method} ${urlPath}: ${res.status}`)
+  return json
+}
+/** A new mail.tm address and its password; the inbox is read with mailTm('/messages', { token }). */
+async function mailTmInbox(prefix) {
+  const domain = (await mailTm("/domains"))?.["hydra:member"]?.[0]?.domain
+  if (!domain) throw new Error("mail.tm: no domain")
+  const address = `${prefix}${Date.now().toString(36)}${crypto.randomInt(100, 999)}@${domain}`
+  const password = `Mt-${crypto.randomBytes(9).toString("base64url")}`
+  await mailTm("/accounts", { method: "POST", body: { address, password } })
+  return { address, password }
 }
 
 async function storeFetch(urlPath, { method = "GET", body, token } = {}) {
@@ -210,6 +269,10 @@ function pathSignsIn(walkPath) {
   if (!Array.isArray(edges)) return true // unknown shape: prepare the account rather than fail the path
   return edges.some((e) => typeof e !== "object" || (SIGN_IN_BRANCHES.has(e.branch) && String(e.from).includes("login")))
 }
+const pathRegisters = (walkPath) => {
+  const edges = Array.isArray(walkPath) ? walkPath : walkPath?.edges
+  return !Array.isArray(edges) || edges.some((e) => typeof e !== "object" || e.branch === "register-ok")
+}
 
 // ═════════ the hooks ═════════
 
@@ -228,10 +291,15 @@ export async function reset({ context } = {}) {
  */
 export async function seed(walkPath) {
   const ts = `${Date.now()}${crypto.randomInt(100, 999)}`
-  const shop = shopData()
+  const shop = LIVE ? await shopDataLive() : shopData()
+  // Live: real inboxes on mail.tm (the access e-mail and the shop's letters can be read there);
+  // the second one is made only for a path that registers with {fx.buyer.newEmail}.
+  const inbox = LIVE ? await mailTmInbox("cherkwalk") : null
+  const newInbox = LIVE && pathRegisters(walkPath) ? await mailTmInbox("cherkwalknew") : null
   const buyer = {
-    email: `demo.buyer+${ts}@example.com`,
-    newEmail: `demo.buyer+${ts}-new@example.com`,
+    email: inbox?.address ?? `demo.buyer+${ts}@example.com`,
+    newEmail: newInbox?.address ?? (LIVE ? null : `demo.buyer+${ts}-new@example.com`),
+    ...(inbox ? { mailbox: { address: inbox.address, password: inbox.password } } : {}),
     password: `Walk-${ts}-pass`,
     wrongPassword: `Wrong-${ts}-pass`,
     firstName: "Анна",
@@ -280,9 +348,19 @@ export async function login(actor, { browser, context, fx, contextOptions } = {}
   throw new Error(`login: unknown actor ${actor}`)
 }
 
-/** The payment of an order, for {run.paymentId}. */
-export function paymentIdOf(orderId) {
+/** The payment of an order, for {run.paymentId}. Live: through the owner's API, no database. */
+export async function paymentIdOf(orderId) {
   const id = safe(orderId, ORDER_ID, "order id")
+  if (LIVE) {
+    const res = await fetch(`${stand.backend}/tenants/orders/${id}?fields=id,*payment_collections,*payment_collections.payments`, {
+      headers: { authorization: `Bearer ${ownerToken()}` },
+    })
+    if (!res.ok) throw new Error(`live: payment of ${id}: ${res.status}`)
+    const order = (await res.json())?.order
+    const payment = (order?.payment_collections ?? []).flatMap((pc) => pc.payments ?? []).at(-1)
+    if (!payment?.id) throw new Error(`live: no payment for ${id}`)
+    return payment.id
+  }
   const rows = sql(`
     select p.id from payment p
     join payment_collection pc on pc.id = p.payment_collection_id
@@ -315,7 +393,7 @@ export async function api(step, { run = {}, fx = {} } = {}) {
   }
   if (step.url.includes("{run.paymentId}") && !run.paymentId) {
     if (!run.orderId) throw new Error("api: {run.paymentId} needs run.orderId")
-    run.paymentId = paymentIdOf(run.orderId)
+    run.paymentId = await paymentIdOf(run.orderId)
   }
   const url = fill(step.url, { stand, run, fx })
   if (/\{[a-z]+\./.test(url)) throw new Error(`api: unresolved placeholder in ${step.url}`)
