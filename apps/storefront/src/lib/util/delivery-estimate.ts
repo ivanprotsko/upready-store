@@ -1,6 +1,15 @@
 import type { HttpTypes } from "@medusajs/types"
 
-import { getDeliveryDays, isPickupShippingOption, type DeliveryDays } from "./fulfillment"
+import { getDeliveryDays, type DeliveryDays } from "./fulfillment"
+
+/**
+ * `isPickupShippingOption` (`./fulfillment`) wants the option WITH its service zone; the
+ * cart's option list (`listCartShippingMethods`) is typed without it although it asks
+ * for `+service_zone.fulfillment_set.type`. Read the same field through a partial view.
+ */
+const isPickupOption = (option: HttpTypes.StoreCartShippingOption): boolean =>
+  (option as Partial<HttpTypes.StoreCartShippingOptionWithServiceZone>).service_zone
+    ?.fulfillment_set?.type === "pickup"
 
 /**
  * The delivery term the cart sidebar may quote next to «Отправление № N» BEFORE the
@@ -14,7 +23,7 @@ import { getDeliveryDays, isPickupShippingOption, type DeliveryDays } from "./fu
  */
 export const cartDeliveryDays = (
   cart: Pick<HttpTypes.StoreCart, "shipping_methods">,
-  options: readonly HttpTypes.StoreCartShippingOptionWithServiceZone[] | null | undefined
+  options: readonly HttpTypes.StoreCartShippingOption[] | null | undefined
 ): DeliveryDays | null => {
   const all = options ?? []
   const chosenId = cart.shipping_methods?.[0]?.shipping_option_id
@@ -23,7 +32,7 @@ export const cartDeliveryDays = (
     return chosen ? getDeliveryDays(chosen) : null
   }
 
-  const delivery = all.filter((option) => !isPickupShippingOption(option))
+  const delivery = all.filter((option) => !isPickupOption(option))
   return delivery.length === 1 ? getDeliveryDays(delivery[0]) : null
 }
 
