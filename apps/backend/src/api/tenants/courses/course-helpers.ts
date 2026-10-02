@@ -1,7 +1,11 @@
 import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
-import { MedusaError } from "@medusajs/framework/utils";
+import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
+import { updateProductsWorkflow } from "@medusajs/medusa/core-flows";
 import { COURSE_MODULE } from "../../../modules/course";
 import type CourseModuleService from "../../../modules/course/service";
+import releaseCourseShippingWorkflow, {
+  isDigitalProduct,
+} from "../../../workflows/tenant/release-course-shipping";
 
 export type CourseRow = {
   id: string;
@@ -98,4 +102,29 @@ export const assertOwnedLesson = async (
   }
 
   return lesson;
+};
+
+/**
+ * A product that sells a course is a course (t-cherk-com-hotfix batch 5):
+ * `metadata.digital = "true"`, the marker the storefront checkout and the
+ * cart sidebar read, and no shipping (`release-course-shipping`), so a buyer
+ * of the course is asked for no address and no delivery. The rest of the
+ * metadata is kept.
+ */
+export const markProductAsCourse = async (req: AuthenticatedMedusaRequest, productId: string) => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+  const { data } = await query.graph({
+    entity: "product",
+    fields: ["id", "metadata"],
+    filters: { id: productId },
+  });
+  const metadata = (data[0] as { metadata?: Record<string, unknown> | null } | undefined)?.metadata ?? null;
+
+  if (!isDigitalProduct(metadata)) {
+    await updateProductsWorkflow(req.scope).run({
+      input: { selector: { id: productId }, update: { metadata: { ...(metadata ?? {}), digital: "true" } } },
+    });
+  }
+
+  await releaseCourseShippingWorkflow(req.scope).run({ input: { product_ids: [productId] } });
 };

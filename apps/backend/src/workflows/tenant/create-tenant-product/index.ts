@@ -1,6 +1,6 @@
 import type { CreateProductWorkflowInputDTO } from "@medusajs/framework/types";
 import { Modules } from "@medusajs/framework/utils";
-import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
+import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
 import {
   createProductsWorkflow,
   type CreateProductsWorkflowInput,
@@ -8,6 +8,7 @@ import {
   useQueryGraphStep,
 } from "@medusajs/medusa/core-flows";
 import { TENANT_MODULE } from "../../../modules/tenant";
+import releaseCourseShippingWorkflow, { isDigitalProduct } from "../release-course-shipping";
 import assertTenantSalesChannelStep from "./steps/assert-tenant-sales-channel";
 
 export type CreateTenantProductWorkflowInput = {
@@ -50,6 +51,8 @@ const createTenantProductWorkflow = createWorkflow(
     // profile, so a weightless-by-omission product priced a 2.4 kg cart as
     // 0 kg (measured 2026-09-15 on :9051). The panel's form sends the profile;
     // an API client that omits it gets the store's default one.
+    // t-cherk-com-hotfix batch 5: except a course (`metadata.digital`), which
+    // is sold without delivery and so gets no profile unless one is sent.
     const { data: shippingProfiles } = useQueryGraphStep({
       entity: "shipping_profile",
       fields: ["id"],
@@ -57,8 +60,10 @@ const createTenantProductWorkflow = createWorkflow(
     }).config({ name: "default-shipping-profile-query" });
 
     const productData = transform({ input, salesChannelId, shippingProfiles }, (data) => {
-      const shippingProfileId =
-        data.input.product.shipping_profile_id ?? data.shippingProfiles[0]?.id ?? undefined;
+      const defaultProfileId = isDigitalProduct(data.input.product.metadata)
+        ? undefined
+        : data.shippingProfiles[0]?.id;
+      const shippingProfileId = data.input.product.shipping_profile_id ?? defaultProfileId ?? undefined;
       return {
         products: [
           {
@@ -92,6 +97,19 @@ const createTenantProductWorkflow = createWorkflow(
     });
 
     createRemoteLinkStep(linksToCreate);
+
+    // A course variant that manages inventory gets a default inventory item
+    // with `requires_shipping: true` (`createProductVariantsWorkflow`), which
+    // alone puts the course line back on shipping.
+    const digitalProductIds = transform({ createdProducts, input }, (data) =>
+      isDigitalProduct(data.input.product.metadata) && !data.input.product.shipping_profile_id
+        ? data.createdProducts.map((product) => product.id)
+        : [],
+    );
+
+    when("create-tenant-product-course-shipping", digitalProductIds, (ids) => ids.length > 0).then(() => {
+      releaseCourseShippingWorkflow.runAsStep({ input: { product_ids: digitalProductIds } });
+    });
 
     const { data: products } = useQueryGraphStep({
       entity: "product",
