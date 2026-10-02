@@ -78,14 +78,6 @@
     "exploreProducts": "Khám phá sản phẩm",
     "heading": "Giỏ hàng"
   },
-  "CartDropdown": {
-    "bagEmpty": "Giỏ hàng của bạn đang trống.",
-    "exploreProducts": "Khám phá sản phẩm",
-    "goToCart": "Đi đến giỏ hàng",
-    "heading": "Giỏ hàng",
-    "subtotal": "Tạm tính",
-    "subtotalNote": "(chưa gồm thuế)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Đã xảy ra lỗi khi chúng tôi cố gắng chuyển giỏ hàng của bạn",
     "runTransferAgain": "Thử chuyển lại",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Không khả dụng: không tính được giá",
     "signIn": "Đăng nhập",
     "total": "Tổng cộng",
-    "shippingZone": "Khu vực: {zone}"
+    "shippingZone": "Khu vực: {zone}",
+    "courseSignInHeading": "Đăng nhập để mua khóa học",
+    "courseSignInText": "Khóa học mở trong tài khoản của bạn, nên cần đăng nhập hoặc đăng ký để mua.",
+    "fieldRequired": "Hãy điền vào trường này",
+    "emailInvalid": "Kiểm tra email: địa chỉ có lỗi"
   },
   "ClaimOrders": {
     "heading": "Bạn đã đặt hàng mà không có tài khoản?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Gửi biên lai",
     "receiptTooLarge": "Tệp lớn hơn 10 MB. Hãy nén tệp hoặc gửi ảnh chụp màn hình.",
     "receiptWrongType": "Hãy gửi ảnh (JPG, PNG, WEBP, HEIC) hoặc PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Biên lai không được chấp nhận",
+    "receiptRejectedReason": "Lý do: {reason}",
+    "receiptResend": "Gửi biên lai khác",
+    "contactManager": "Liên hệ quản lý"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Hãy lưu lại mã đơn hàng. Bạn sẽ cần khi liên hệ với cửa hàng.",
     "orderSuccess": "Đơn hàng của bạn đã được đặt thành công.",
-    "thankYou": "Cảm ơn bạn!"
+    "thankYou": "Cảm ơn bạn!",
+    "paymentConfirmed": "Thanh toán đã được xác nhận",
+    "goToCourse": "Đến khóa học",
+    "orderCanceled": "Đơn hàng đã bị hủy",
+    "orderCanceledHint": "Không cần thanh toán. Nếu đây là nhầm lẫn, hãy liên hệ với chúng tôi.",
+    "paidGoodsHint": "Chúng tôi đang chuẩn bị gửi đơn hàng của bạn."
   },
   "OrderDetails": {
     "backToOrders": "Quay lại đơn hàng",
@@ -1115,5 +1120,22 @@
     "addToCart": "Thêm vào giỏ hàng",
     "chooseOptions": "Chọn tùy chọn",
     "remove": "Xóa"
+  },
+  "CartSidebar": {
+    "title": "Giỏ hàng",
+    "signInPrompt": "Đăng nhập để xem lịch sử đơn hàng và mua sắm nhanh hơn.",
+    "signInEmail": "Bằng email",
+    "signInYandex": "Bằng Yandex ID",
+    "deliveryEstimate": "Giao hàng {range}",
+    "empty": "Giỏ hàng của bạn đang trống.",
+    "exploreProducts": "Xem sản phẩm",
+    "itemsTotal": "Tổng tiền hàng",
+    "checkout": "Thanh toán"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "khóa học trực tuyến, không giao hàng",
+    "shipmentNo": "Kiện hàng số {no}",
+    "digitalGroup": "Khóa học trực tuyến — truy cập sau khi xác nhận thanh toán",
+    "accessByEmail": "Quyền truy cập khóa học sẽ được gửi qua email sau khi xác nhận thanh toán."
   }
 }

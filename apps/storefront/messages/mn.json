@@ -78,14 +78,6 @@
     "exploreProducts": "Бүтээгдэхүүн үзэх",
     "heading": "Сагс"
   },
-  "CartDropdown": {
-    "bagEmpty": "Таны сагс хоосон байна.",
-    "exploreProducts": "Бүтээгдэхүүн үзэх",
-    "goToCart": "Сагс руу очих",
-    "heading": "Сагс",
-    "subtotal": "Дэд дүн",
-    "subtotalNote": "(татваргүй)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Таны сагсыг шилжүүлэх гэж оролдох үед ямар нэг зүйл буруу боллоо",
     "runTransferAgain": "Шилжүүлгийг дахин эхлүүлэх",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Боломжгүй: үнийг тооцоолж чадсангүй",
     "signIn": "Нэвтрэх",
     "total": "Нийт",
-    "shippingZone": "Бүс: {zone}"
+    "shippingZone": "Бүс: {zone}",
+    "courseSignInHeading": "Сургалт худалдан авахын тулд нэвтэрнэ үү",
+    "courseSignInText": "Сургалт таны бүртгэлд нээгдэх тул худалдан авахад нэвтрэх эсвэл бүртгүүлэх шаардлагатай.",
+    "fieldRequired": "Энэ талбарыг бөглөнө үү",
+    "emailInvalid": "Имэйлээ шалгана уу: хаягт алдаа байна"
   },
   "ClaimOrders": {
     "heading": "Бүртгэлгүйгээр захиалсан уу?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Баримт илгээх",
     "receiptTooLarge": "Файл 10 МБ-аас том байна. Шахах эсвэл дэлгэцийн зураг илгээнэ үү.",
     "receiptWrongType": "Зураг (JPG, PNG, WEBP, HEIC) эсвэл PDF илгээнэ үү.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Баримт хүлээн авагдсангүй",
+    "receiptRejectedReason": "Шалтгаан: {reason}",
+    "receiptResend": "Өөр баримт илгээх",
+    "contactManager": "Менежертэй холбогдох"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Захиалгын дугаараа хадгална уу. Дэлгүүртэй холбогдоход шаардлагатай.",
     "orderSuccess": "Таны захиалга амжилттай баталгаажлаа.",
-    "thankYou": "Баярлалаа!"
+    "thankYou": "Баярлалаа!",
+    "paymentConfirmed": "Төлбөр баталгаажлаа",
+    "goToCourse": "Сургалт руу очих",
+    "orderCanceled": "Захиалга цуцлагдлаа",
+    "orderCanceledHint": "Төлбөр төлөх шаардлагагүй. Хэрэв энэ алдаа бол бидэнд бичнэ үү.",
+    "paidGoodsHint": "Таны захиалгыг илгээхээр бэлтгэж байна."
   },
   "OrderDetails": {
     "backToOrders": "Захиалга руу буцах",
@@ -1115,5 +1120,22 @@
     "addToCart": "Сагсанд нэмэх",
     "chooseOptions": "Сонголт хийх",
     "remove": "Устгах"
+  },
+  "CartSidebar": {
+    "title": "Сагс",
+    "signInPrompt": "Захиалгын түүхээ харж, илүү хурдан худалдан авахын тулд нэвтэрнэ үү.",
+    "signInEmail": "Имэйлээр",
+    "signInYandex": "Yandex ID-ээр",
+    "deliveryEstimate": "Хүргэлт {range}",
+    "empty": "Таны сагс хоосон байна.",
+    "exploreProducts": "Бүтээгдэхүүн үзэх",
+    "itemsTotal": "Барааны нийт дүн",
+    "checkout": "Захиалга хийх"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "онлайн сургалт, хүргэлтгүй",
+    "shipmentNo": "Илгээмж № {no}",
+    "digitalGroup": "Онлайн сургалт — төлбөр баталгаажсаны дараа хандах боломжтой",
+    "accessByEmail": "Төлбөр баталгаажсаны дараа сургалтын хандалт имэйлээр ирнэ."
   }
 }

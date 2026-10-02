@@ -78,14 +78,6 @@
     "exploreProducts": "Разгледай продуктите",
     "heading": "Кошница"
   },
-  "CartDropdown": {
-    "bagEmpty": "Кошницата ви е празна.",
-    "exploreProducts": "Разгледай продуктите",
-    "goToCart": "Към кошницата",
-    "heading": "Кошница",
-    "subtotal": "Междинна сума",
-    "subtotalNote": "(без данъци)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Нещо се обърка при опита за прехвърляне на кошницата ви",
     "runTransferAgain": "Опитай прехвърлянето отново",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Недостъпно: цената не може да се изчисли",
     "signIn": "Вход",
     "total": "Общо",
-    "shippingZone": "Зона: {zone}"
+    "shippingZone": "Зона: {zone}",
+    "courseSignInHeading": "Влезте, за да купите курса",
+    "courseSignInText": "Курсът се отваря във вашия акаунт, затова за покупка е нужен вход или регистрация.",
+    "fieldRequired": "Попълнете това поле",
+    "emailInvalid": "Проверете имейла: в адреса има грешка"
   },
   "ClaimOrders": {
     "heading": "Поръчали сте без регистрация?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Изпрати разписката",
     "receiptTooLarge": "Файлът е по-голям от 10 МБ. Компресирайте го или изпратете скрийншот.",
     "receiptWrongType": "Подходящи са снимка (JPG, PNG, WEBP, HEIC) или PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Разписката не е приета",
+    "receiptRejectedReason": "Причина: {reason}",
+    "receiptResend": "Изпратете друга разписка",
+    "contactManager": "Свържете се с мениджъра"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Запазете номера на поръчката. Той ще ви трябва при връзка с магазина.",
     "orderSuccess": "Поръчката ви беше направена успешно.",
-    "thankYou": "Благодарим ви!"
+    "thankYou": "Благодарим ви!",
+    "paymentConfirmed": "Плащането е потвърдено",
+    "goToCourse": "Към курса",
+    "orderCanceled": "Поръчката е отменена",
+    "orderCanceledHint": "Не е нужно да плащате. Ако това е грешка, пишете ни.",
+    "paidGoodsHint": "Подготвяме поръчката за изпращане."
   },
   "OrderDetails": {
     "backToOrders": "Назад към поръчките",
@@ -1115,5 +1120,22 @@
     "addToCart": "Добави в количката",
     "chooseOptions": "Избери опции",
     "remove": "Премахни"
+  },
+  "CartSidebar": {
+    "title": "Количка",
+    "signInPrompt": "Влезте, за да виждате историята на поръчките си и да пазарувате по-бързо.",
+    "signInEmail": "С имейл",
+    "signInYandex": "С Yandex ID",
+    "deliveryEstimate": "Доставка {range}",
+    "empty": "Количката е празна.",
+    "exploreProducts": "Разгледайте продуктите",
+    "itemsTotal": "Общо за продуктите",
+    "checkout": "Към поръчката"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "онлайн курс, без доставка",
+    "shipmentNo": "Пратка № {no}",
+    "digitalGroup": "Онлайн курс — достъп след потвърждение на плащането",
+    "accessByEmail": "Достъпът до курса ще дойде по имейл след потвърждение на плащането."
   }
 }

@@ -78,14 +78,6 @@
     "exploreProducts": "Selaa tuotteita",
     "heading": "Ostoskori"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ostoskorisi on tyhjä.",
-    "exploreProducts": "Selaa tuotteita",
-    "goToCart": "Siirry ostoskoriin",
-    "heading": "Ostoskori",
-    "subtotal": "Välisumma",
-    "subtotalNote": "(ilman veroja)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Jokin meni pieleen yritettäessä siirtää ostoskoriasi",
     "runTransferAgain": "Yritä siirtoa uudelleen",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Ei käytettävissä: hintaa ei voitu laskea",
     "signIn": "Kirjaudu sisään",
     "total": "Yhteensä",
-    "shippingZone": "Vyöhyke: {zone}"
+    "shippingZone": "Vyöhyke: {zone}",
+    "courseSignInHeading": "Kirjaudu sisään ostaaksesi kurssin",
+    "courseSignInText": "Kurssi avautuu tilillesi, joten ostaminen vaatii kirjautumisen tai rekisteröitymisen.",
+    "fieldRequired": "Täytä tämä kenttä",
+    "emailInvalid": "Tarkista sähköposti: osoitteessa on virhe"
   },
   "ClaimOrders": {
     "heading": "Tilasitko ilman tiliä?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Lähetä kuitti",
     "receiptTooLarge": "Tiedosto on suurempi kuin 10 MB. Pienennä se tai lähetä kuvakaappaus.",
     "receiptWrongType": "Lähetä valokuva (JPG, PNG, WEBP, HEIC) tai PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Kuittia ei hyväksytty",
+    "receiptRejectedReason": "Syy: {reason}",
+    "receiptResend": "Lähetä toinen kuitti",
+    "contactManager": "Ota yhteyttä hoitajaan"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Säilytä tilausnumero. Tarvitset sitä, kun otat yhteyttä kauppaan.",
     "orderSuccess": "Tilauksesi on tehty onnistuneesti.",
-    "thankYou": "Kiitos!"
+    "thankYou": "Kiitos!",
+    "paymentConfirmed": "Maksu vahvistettu",
+    "goToCourse": "Siirry kurssille",
+    "orderCanceled": "Tilaus peruttu",
+    "orderCanceledHint": "Maksua ei tarvita. Jos tämä on virhe, ota yhteyttä.",
+    "paidGoodsHint": "Valmistelemme tilaustasi lähetettäväksi."
   },
   "OrderDetails": {
     "backToOrders": "Takaisin tilauksiin",
@@ -1115,5 +1120,22 @@
     "addToCart": "Lisää ostoskoriin",
     "chooseOptions": "Valitse vaihtoehdot",
     "remove": "Poista"
+  },
+  "CartSidebar": {
+    "title": "Ostoskori",
+    "signInPrompt": "Kirjaudu sisään nähdäksesi tilaushistoriasi ja tehdäksesi ostokset nopeammin.",
+    "signInEmail": "Sähköpostilla",
+    "signInYandex": "Yandex ID:llä",
+    "deliveryEstimate": "Toimitus {range}",
+    "empty": "Ostoskorisi on tyhjä.",
+    "exploreProducts": "Selaa tuotteita",
+    "itemsTotal": "Tuotteet yhteensä",
+    "checkout": "Kassalle"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "verkkokurssi, ei toimitusta",
+    "shipmentNo": "Lähetys nro {no}",
+    "digitalGroup": "Verkkokurssi — pääsy maksun vahvistuksen jälkeen",
+    "accessByEmail": "Pääsy kurssille tulee sähköpostitse, kun maksu on vahvistettu."
   }
 }

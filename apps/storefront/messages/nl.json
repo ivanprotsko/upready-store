@@ -78,14 +78,6 @@
     "exploreProducts": "Bekijk producten",
     "heading": "Winkelwagen"
   },
-  "CartDropdown": {
-    "bagEmpty": "Uw winkelwagen is leeg.",
-    "exploreProducts": "Bekijk producten",
-    "goToCart": "Naar winkelwagen",
-    "heading": "Winkelwagen",
-    "subtotal": "Subtotaal",
-    "subtotalNote": "(excl. btw)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Er is iets misgegaan bij het overzetten van uw winkelwagen",
     "runTransferAgain": "Overzetten opnieuw proberen",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Niet beschikbaar: de prijs kon niet worden berekend",
     "signIn": "Inloggen",
     "total": "Totaal",
-    "shippingZone": "Zone: {zone}"
+    "shippingZone": "Zone: {zone}",
+    "courseSignInHeading": "Log in om de cursus te kopen",
+    "courseSignInText": "De cursus opent in je account, dus voor de aankoop is inloggen of registreren nodig.",
+    "fieldRequired": "Vul dit veld in",
+    "emailInvalid": "Controleer het e-mailadres: er zit een fout in"
   },
   "ClaimOrders": {
     "heading": "Zonder account besteld?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Bewijs versturen",
     "receiptTooLarge": "Het bestand is groter dan 10 MB. Comprimeer het of stuur een screenshot.",
     "receiptWrongType": "Stuur een foto (JPG, PNG, WEBP, HEIC) of een PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Bon niet geaccepteerd",
+    "receiptRejectedReason": "Reden: {reason}",
+    "receiptResend": "Andere bon sturen",
+    "contactManager": "Contact met de manager"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Bewaar het bestelnummer. U hebt het nodig als u contact opneemt met de winkel.",
     "orderSuccess": "Uw bestelling is succesvol geplaatst.",
-    "thankYou": "Bedankt!"
+    "thankYou": "Bedankt!",
+    "paymentConfirmed": "Betaling bevestigd",
+    "goToCourse": "Naar de cursus",
+    "orderCanceled": "Bestelling geannuleerd",
+    "orderCanceledHint": "Betalen is niet nodig. Is dit een vergissing, schrijf ons dan.",
+    "paidGoodsHint": "We maken je bestelling klaar voor verzending."
   },
   "OrderDetails": {
     "backToOrders": "Terug naar bestellingen",
@@ -1115,5 +1120,22 @@
     "addToCart": "In winkelwagen",
     "chooseOptions": "Opties kiezen",
     "remove": "Verwijderen"
+  },
+  "CartSidebar": {
+    "title": "Winkelwagen",
+    "signInPrompt": "Log in om je bestelgeschiedenis te zien en sneller af te rekenen.",
+    "signInEmail": "Met e-mail",
+    "signInYandex": "Met Yandex ID",
+    "deliveryEstimate": "Bezorging {range}",
+    "empty": "Je winkelwagen is leeg.",
+    "exploreProducts": "Producten bekijken",
+    "itemsTotal": "Totaal artikelen",
+    "checkout": "Afrekenen"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online cursus, geen bezorging",
+    "shipmentNo": "Zending nr. {no}",
+    "digitalGroup": "Online cursus — toegang na bevestiging van de betaling",
+    "accessByEmail": "De toegang tot de cursus komt per e-mail zodra de betaling is bevestigd."
   }
 }

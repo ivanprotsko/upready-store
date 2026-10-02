@@ -78,14 +78,6 @@
     "exploreProducts": "পণ্য দেখুন",
     "heading": "কার্ট"
   },
-  "CartDropdown": {
-    "bagEmpty": "আপনার শপিং ব্যাগ খালি।",
-    "exploreProducts": "পণ্য দেখুন",
-    "goToCart": "কার্টে যান",
-    "heading": "কার্ট",
-    "subtotal": "সাবটোটাল",
-    "subtotalNote": "(কর ব্যতীত)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "আপনার কার্ট স্থানান্তর করার সময় কিছু একটা সমস্যা হয়েছে",
     "runTransferAgain": "আবার স্থানান্তর চালান",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "অনুপলব্ধ: খরচ হিসাব করা যায়নি",
     "signIn": "সাইন ইন করুন",
     "total": "মোট",
-    "shippingZone": "অঞ্চল: {zone}"
+    "shippingZone": "অঞ্চল: {zone}",
+    "courseSignInHeading": "কোর্স কিনতে সাইন ইন করুন",
+    "courseSignInText": "কোর্সটি আপনার অ্যাকাউন্টে খোলে, তাই কিনতে সাইন ইন বা নিবন্ধন প্রয়োজন।",
+    "fieldRequired": "এই ঘরটি পূরণ করুন",
+    "emailInvalid": "ইমেইল যাচাই করুন: ঠিকানায় ভুল আছে"
   },
   "ClaimOrders": {
     "heading": "অ্যাকাউন্ট ছাড়াই অর্ডার করেছেন?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "রসিদ পাঠান",
     "receiptTooLarge": "ফাইলটি 10 MB-এর চেয়ে বড়। এটি কমপ্রেস করুন বা স্ক্রিনশট পাঠান।",
     "receiptWrongType": "ছবি (JPG, PNG, WEBP, HEIC) বা PDF পাঠান।",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "রসিদ গৃহীত হয়নি",
+    "receiptRejectedReason": "কারণ: {reason}",
+    "receiptResend": "অন্য রসিদ পাঠান",
+    "contactManager": "ম্যানেজারের সাথে যোগাযোগ করুন"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "অর্ডার নম্বরটি সংরক্ষণ করুন। দোকানের সঙ্গে যোগাযোগ করতে এটি প্রয়োজন হবে।",
     "orderSuccess": "আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।",
-    "thankYou": "ধন্যবাদ!"
+    "thankYou": "ধন্যবাদ!",
+    "paymentConfirmed": "পেমেন্ট নিশ্চিত হয়েছে",
+    "goToCourse": "কোর্সে যান",
+    "orderCanceled": "অর্ডার বাতিল হয়েছে",
+    "orderCanceledHint": "পেমেন্টের প্রয়োজন নেই। ভুল হলে আমাদের জানান।",
+    "paidGoodsHint": "আমরা আপনার অর্ডার পাঠানোর জন্য প্রস্তুত করছি।"
   },
   "OrderDetails": {
     "backToOrders": "অর্ডারে ফিরে যান",
@@ -1115,5 +1120,22 @@
     "addToCart": "কার্টে যোগ করুন",
     "chooseOptions": "অপশন বেছে নিন",
     "remove": "সরান"
+  },
+  "CartSidebar": {
+    "title": "কার্ট",
+    "signInPrompt": "অর্ডারের ইতিহাস দেখতে এবং দ্রুত কেনাকাটা করতে সাইন ইন করুন।",
+    "signInEmail": "ইমেইল দিয়ে",
+    "signInYandex": "Yandex ID দিয়ে",
+    "deliveryEstimate": "ডেলিভারি {range}",
+    "empty": "আপনার কার্ট খালি।",
+    "exploreProducts": "পণ্য দেখুন",
+    "itemsTotal": "পণ্যের মোট মূল্য",
+    "checkout": "চেকআউট"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "অনলাইন কোর্স, ডেলিভারি নেই",
+    "shipmentNo": "শিপমেন্ট নং {no}",
+    "digitalGroup": "অনলাইন কোর্স — পেমেন্ট নিশ্চিত হওয়ার পর অ্যাক্সেস",
+    "accessByEmail": "পেমেন্ট নিশ্চিত হওয়ার পর কোর্সে প্রবেশের লিংক ইমেইলে আসবে।"
   }
 }

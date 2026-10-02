@@ -78,14 +78,6 @@
     "exploreProducts": "Peržiūrėti produktus",
     "heading": "Krepšelis"
   },
-  "CartDropdown": {
-    "bagEmpty": "Jūsų krepšelis tuščias.",
-    "exploreProducts": "Peržiūrėti produktus",
-    "goToCart": "Eiti į krepšelį",
-    "heading": "Krepšelis",
-    "subtotal": "Tarpinė suma",
-    "subtotalNote": "(be mokesčių)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Kažkas nutiko ne taip bandant perkelti jūsų krepšelį",
     "runTransferAgain": "Bandyti perkelti dar kartą",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Nepasiekiama: nepavyko apskaičiuoti kainos",
     "signIn": "Prisijungti",
     "total": "Iš viso",
-    "shippingZone": "Zona: {zone}"
+    "shippingZone": "Zona: {zone}",
+    "courseSignInHeading": "Prisijunkite, kad įsigytumėte kursą",
+    "courseSignInText": "Kursas atidaromas jūsų paskyroje, todėl pirkimui reikia prisijungti arba užsiregistruoti.",
+    "fieldRequired": "Užpildykite šį lauką",
+    "emailInvalid": "Patikrinkite el. paštą: adrese yra klaida"
   },
   "ClaimOrders": {
     "heading": "Užsisakėte be paskyros?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Siųsti kvitą",
     "receiptTooLarge": "Failas didesnis nei 10 MB. Suspausk jį arba atsiųsk ekrano nuotrauką.",
     "receiptWrongType": "Atsiųsk nuotrauką (JPG, PNG, WEBP, HEIC) arba PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Kvitas nepriimtas",
+    "receiptRejectedReason": "Priežastis: {reason}",
+    "receiptResend": "Siųsti kitą kvitą",
+    "contactManager": "Susisiekti su vadybininku"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Išsaugokite užsakymo numerį. Jo prireiks susisiekiant su parduotuve.",
     "orderSuccess": "Jūsų užsakymas sėkmingai pateiktas.",
-    "thankYou": "Ačiū!"
+    "thankYou": "Ačiū!",
+    "paymentConfirmed": "Mokėjimas patvirtintas",
+    "goToCourse": "Eiti į kursą",
+    "orderCanceled": "Užsakymas atšauktas",
+    "orderCanceledHint": "Mokėti nereikia. Jei tai klaida, parašykite mums.",
+    "paidGoodsHint": "Ruošiame jūsų užsakymą išsiuntimui."
   },
   "OrderDetails": {
     "backToOrders": "Atgal į užsakymus",
@@ -1115,5 +1120,22 @@
     "addToCart": "Į krepšelį",
     "chooseOptions": "Pasirinkti variantus",
     "remove": "Pašalinti"
+  },
+  "CartSidebar": {
+    "title": "Krepšelis",
+    "signInPrompt": "Prisijunkite, kad matytumėte užsakymų istoriją ir pirktumėte greičiau.",
+    "signInEmail": "El. paštu",
+    "signInYandex": "Su Yandex ID",
+    "deliveryEstimate": "Pristatysime {range}",
+    "empty": "Jūsų krepšelis tuščias.",
+    "exploreProducts": "Peržiūrėti prekes",
+    "itemsTotal": "Prekių suma",
+    "checkout": "Į apmokėjimą"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "internetinis kursas, be pristatymo",
+    "shipmentNo": "Siunta Nr. {no}",
+    "digitalGroup": "Internetinis kursas — prieiga patvirtinus mokėjimą",
+    "accessByEmail": "Prieiga prie kurso ateis el. paštu, kai mokėjimas bus patvirtintas."
   }
 }

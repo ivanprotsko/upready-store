@@ -78,14 +78,6 @@
     "exploreProducts": "Utforska produkter",
     "heading": "Varukorg"
   },
-  "CartDropdown": {
-    "bagEmpty": "Din varukorg är tom.",
-    "exploreProducts": "Utforska produkter",
-    "goToCart": "Gå till varukorgen",
-    "heading": "Varukorg",
-    "subtotal": "Delsumma",
-    "subtotalNote": "(exkl. moms)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Något gick fel när vi försökte överföra din varukorg",
     "runTransferAgain": "Försök överföra igen",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Inte tillgängligt: priset kunde inte beräknas",
     "signIn": "Logga in",
     "total": "Totalt",
-    "shippingZone": "Zon: {zone}"
+    "shippingZone": "Zon: {zone}",
+    "courseSignInHeading": "Logga in för att köpa kursen",
+    "courseSignInText": "Kursen öppnas i ditt konto, så köpet kräver inloggning eller registrering.",
+    "fieldRequired": "Fyll i det här fältet",
+    "emailInvalid": "Kontrollera e-posten: adressen innehåller ett fel"
   },
   "ClaimOrders": {
     "heading": "Beställde du utan konto?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Skicka kvittot",
     "receiptTooLarge": "Filen är större än 10 MB. Komprimera den eller skicka en skärmdump.",
     "receiptWrongType": "Skicka ett foto (JPG, PNG, WEBP, HEIC) eller en PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Kvittot godkändes inte",
+    "receiptRejectedReason": "Orsak: {reason}",
+    "receiptResend": "Skicka ett annat kvitto",
+    "contactManager": "Kontakta ansvarig"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Spara ordernumret. Du behöver det när du kontaktar butiken.",
     "orderSuccess": "Din order har lagts.",
-    "thankYou": "Tack!"
+    "thankYou": "Tack!",
+    "paymentConfirmed": "Betalning bekräftad",
+    "goToCourse": "Gå till kursen",
+    "orderCanceled": "Beställningen är avbruten",
+    "orderCanceledHint": "Ingen betalning behövs. Skriv till oss om detta är ett misstag.",
+    "paidGoodsHint": "Vi förbereder din beställning för leverans."
   },
   "OrderDetails": {
     "backToOrders": "Tillbaka till beställningar",
@@ -1115,5 +1120,22 @@
     "addToCart": "Lägg i varukorgen",
     "chooseOptions": "Välj alternativ",
     "remove": "Ta bort"
+  },
+  "CartSidebar": {
+    "title": "Varukorg",
+    "signInPrompt": "Logga in för att se din orderhistorik och handla snabbare.",
+    "signInEmail": "Med e-post",
+    "signInYandex": "Med Yandex ID",
+    "deliveryEstimate": "Leverans {range}",
+    "empty": "Din varukorg är tom.",
+    "exploreProducts": "Se produkter",
+    "itemsTotal": "Varor totalt",
+    "checkout": "Till kassan"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "onlinekurs, ingen leverans",
+    "shipmentNo": "Försändelse nr {no}",
+    "digitalGroup": "Onlinekurs — åtkomst efter bekräftad betalning",
+    "accessByEmail": "Tillgången till kursen kommer via e-post när betalningen är bekräftad."
   }
 }

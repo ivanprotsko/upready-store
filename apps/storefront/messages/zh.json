@@ -78,14 +78,6 @@
     "exploreProducts": "浏览商品",
     "heading": "购物车"
   },
-  "CartDropdown": {
-    "bagEmpty": "您的购物袋是空的。",
-    "exploreProducts": "浏览商品",
-    "goToCart": "前往购物车",
-    "heading": "购物车",
-    "subtotal": "小计",
-    "subtotalNote": "（不含税）"
-  },
   "CartMismatchBanner": {
     "errorMessage": "转移您的购物车时出现问题",
     "runTransferAgain": "重新转移",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "不可用：无法计算运费",
     "signIn": "登录",
     "total": "总计",
-    "shippingZone": "配送区域：{zone}"
+    "shippingZone": "配送区域：{zone}",
+    "courseSignInHeading": "登录后购买课程",
+    "courseSignInText": "课程在您的账户中开放，因此购买需要登录或注册。",
+    "fieldRequired": "请填写此项",
+    "emailInvalid": "请检查邮箱：地址有误"
   },
   "ClaimOrders": {
     "heading": "没有账户时下过单？",
@@ -613,7 +609,11 @@
     "receiptSubmit": "发送凭证",
     "receiptTooLarge": "文件超过 10 MB。请压缩文件或发送截图。",
     "receiptWrongType": "请发送照片（JPG、PNG、WEBP、HEIC）或 PDF。",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "凭证未被接受",
+    "receiptRejectedReason": "原因：{reason}",
+    "receiptResend": "发送其他凭证",
+    "contactManager": "联系客服经理"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "请保存订单编号，联系商店时需要用到。",
     "orderSuccess": "您的订单已成功提交。",
-    "thankYou": "感谢您！"
+    "thankYou": "感谢您！",
+    "paymentConfirmed": "付款已确认",
+    "goToCourse": "前往课程",
+    "orderCanceled": "订单已取消",
+    "orderCanceledHint": "无需付款。如有误，请联系我们。",
+    "paidGoodsHint": "我们正在为您的订单准备发货。"
   },
   "OrderDetails": {
     "backToOrders": "返回订单",
@@ -1115,5 +1120,22 @@
     "addToCart": "加入购物车",
     "chooseOptions": "选择规格",
     "remove": "移除"
+  },
+  "CartSidebar": {
+    "title": "购物车",
+    "signInPrompt": "登录后可查看订单记录并更快完成购买。",
+    "signInEmail": "使用邮箱",
+    "signInYandex": "使用 Yandex ID",
+    "deliveryEstimate": "预计送达 {range}",
+    "empty": "购物车是空的。",
+    "exploreProducts": "浏览商品",
+    "itemsTotal": "商品合计",
+    "checkout": "去结算"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "在线课程，无需配送",
+    "shipmentNo": "包裹 {no}",
+    "digitalGroup": "在线课程 — 付款确认后开放",
+    "accessByEmail": "付款确认后，课程访问链接将发送至您的邮箱。"
   }
 }

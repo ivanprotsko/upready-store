@@ -78,14 +78,6 @@
     "exploreProducts": "Prezrieť produkty",
     "heading": "Košík"
   },
-  "CartDropdown": {
-    "bagEmpty": "Váš nákupný košík je prázdny.",
-    "exploreProducts": "Prezrieť produkty",
-    "goToCart": "Prejsť do košíka",
-    "heading": "Košík",
-    "subtotal": "Medzisúčet",
-    "subtotalNote": "(bez daní)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Niečo sa pokazilo pri pokuse o prenos vášho košíka",
     "runTransferAgain": "Skúsiť prenos znova",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Nedostupné: cenu sa nepodarilo vypočítať",
     "signIn": "Prihlásiť sa",
     "total": "Spolu",
-    "shippingZone": "Zóna: {zone}"
+    "shippingZone": "Zóna: {zone}",
+    "courseSignInHeading": "Prihláste sa, aby ste si kúpili kurz",
+    "courseSignInText": "Kurz sa otvára vo vašom účte, preto je na nákup potrebné prihlásenie alebo registrácia.",
+    "fieldRequired": "Vyplňte toto pole",
+    "emailInvalid": "Skontrolujte e-mail: v adrese je chyba"
   },
   "ClaimOrders": {
     "heading": "Objednávali ste bez účtu?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Odoslať doklad",
     "receiptTooLarge": "Súbor je väčší ako 10 MB. Zmenšite ho alebo pošlite snímku obrazovky.",
     "receiptWrongType": "Pošlite fotku (JPG, PNG, WEBP, HEIC) alebo PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Doklad nebol prijatý",
+    "receiptRejectedReason": "Dôvod: {reason}",
+    "receiptResend": "Odoslať iný doklad",
+    "contactManager": "Kontaktovať manažéra"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Uschovajte si číslo objednávky. Budete ho potrebovať pri kontakte s obchodom.",
     "orderSuccess": "Vaša objednávka bola úspešne vytvorená.",
-    "thankYou": "Ďakujeme!"
+    "thankYou": "Ďakujeme!",
+    "paymentConfirmed": "Platba potvrdená",
+    "goToCourse": "Prejsť na kurz",
+    "orderCanceled": "Objednávka zrušená",
+    "orderCanceledHint": "Platiť netreba. Ak ide o omyl, napíšte nám.",
+    "paidGoodsHint": "Pripravujeme objednávku na odoslanie."
   },
   "OrderDetails": {
     "backToOrders": "Späť na objednávky",
@@ -1115,5 +1120,22 @@
     "addToCart": "Pridať do košíka",
     "chooseOptions": "Vybrať možnosti",
     "remove": "Odstrániť"
+  },
+  "CartSidebar": {
+    "title": "Košík",
+    "signInPrompt": "Prihláste sa, aby ste videli históriu objednávok a nakupovali rýchlejšie.",
+    "signInEmail": "E-mailom",
+    "signInYandex": "Cez Yandex ID",
+    "deliveryEstimate": "Doručíme {range}",
+    "empty": "Váš košík je prázdny.",
+    "exploreProducts": "Pozrieť produkty",
+    "itemsTotal": "Tovar spolu",
+    "checkout": "K pokladni"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online kurz, bez doručenia",
+    "shipmentNo": "Zásielka č. {no}",
+    "digitalGroup": "Online kurz — prístup po potvrdení platby",
+    "accessByEmail": "Prístup ku kurzu príde e-mailom po potvrdení platby."
   }
 }

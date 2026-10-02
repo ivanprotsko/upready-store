@@ -78,14 +78,6 @@
     "exploreProducts": "Produkte entdecken",
     "heading": "Warenkorb"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ihr Warenkorb ist leer.",
-    "exploreProducts": "Produkte entdecken",
-    "goToCart": "Zum Warenkorb",
-    "heading": "Warenkorb",
-    "subtotal": "Zwischensumme",
-    "subtotalNote": "(zzgl. MwSt.)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Beim Übertragen Ihres Warenkorbs ist ein Fehler aufgetreten",
     "runTransferAgain": "Übertragung erneut versuchen",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Nicht verfügbar: Preis konnte nicht berechnet werden",
     "signIn": "Anmelden",
     "total": "Gesamt",
-    "shippingZone": "Zone: {zone}"
+    "shippingZone": "Zone: {zone}",
+    "courseSignInHeading": "Melden Sie sich an, um den Kurs zu kaufen",
+    "courseSignInText": "Der Kurs wird in Ihrem Konto geöffnet, daher braucht der Kauf eine Anmeldung oder Registrierung.",
+    "fieldRequired": "Bitte füllen Sie dieses Feld aus",
+    "emailInvalid": "Prüfen Sie die E-Mail: die Adresse enthält einen Fehler"
   },
   "ClaimOrders": {
     "heading": "Ohne Konto bestellt?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Beleg senden",
     "receiptTooLarge": "Die Datei ist größer als 10 MB. Komprimieren Sie sie oder senden Sie einen Screenshot.",
     "receiptWrongType": "Senden Sie ein Foto (JPG, PNG, WEBP, HEIC) oder eine PDF-Datei.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Beleg nicht akzeptiert",
+    "receiptRejectedReason": "Grund: {reason}",
+    "receiptResend": "Anderen Beleg senden",
+    "contactManager": "Manager kontaktieren"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Bewahren Sie die Bestellnummer auf. Sie brauchen sie, wenn Sie den Shop kontaktieren.",
     "orderSuccess": "Ihre Bestellung wurde erfolgreich aufgegeben.",
-    "thankYou": "Vielen Dank!"
+    "thankYou": "Vielen Dank!",
+    "paymentConfirmed": "Zahlung bestätigt",
+    "goToCourse": "Zum Kurs",
+    "orderCanceled": "Bestellung storniert",
+    "orderCanceledHint": "Eine Zahlung ist nicht nötig. Falls das ein Irrtum ist, schreiben Sie uns.",
+    "paidGoodsHint": "Wir bereiten Ihre Bestellung für den Versand vor."
   },
   "OrderDetails": {
     "backToOrders": "Zurück zu den Bestellungen",
@@ -1115,5 +1120,22 @@
     "addToCart": "In den Warenkorb",
     "chooseOptions": "Optionen wählen",
     "remove": "Entfernen"
+  },
+  "CartSidebar": {
+    "title": "Warenkorb",
+    "signInPrompt": "Melden Sie sich an, um Ihre Bestellhistorie zu sehen und schneller einzukaufen.",
+    "signInEmail": "Per E-Mail",
+    "signInYandex": "Mit Yandex ID",
+    "deliveryEstimate": "Lieferung {range}",
+    "empty": "Ihr Warenkorb ist leer.",
+    "exploreProducts": "Produkte ansehen",
+    "itemsTotal": "Warenwert",
+    "checkout": "Zur Kasse"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "Online-Kurs, keine Lieferung",
+    "shipmentNo": "Sendung Nr. {no}",
+    "digitalGroup": "Online-Kurs — Zugang nach Zahlungsbestätigung",
+    "accessByEmail": "Der Zugang zum Kurs kommt per E-Mail, sobald die Zahlung bestätigt ist."
   }
 }

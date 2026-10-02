@@ -78,14 +78,6 @@
     "exploreProducts": "Teroka produk",
     "heading": "Troli"
   },
-  "CartDropdown": {
-    "bagEmpty": "Beg beli-belah anda kosong.",
-    "exploreProducts": "Teroka produk",
-    "goToCart": "Pergi ke troli",
-    "heading": "Troli",
-    "subtotal": "Jumlah kecil",
-    "subtotalNote": "(tidak termasuk cukai)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Sesuatu tidak kena semasa kami cuba memindahkan troli anda",
     "runTransferAgain": "Cuba pindah semula",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dikira",
     "signIn": "Log masuk",
     "total": "Jumlah",
-    "shippingZone": "Zon: {zone}"
+    "shippingZone": "Zon: {zone}",
+    "courseSignInHeading": "Log masuk untuk membeli kursus",
+    "courseSignInText": "Kursus dibuka dalam akaun anda, jadi pembelian memerlukan log masuk atau pendaftaran.",
+    "fieldRequired": "Isi ruangan ini",
+    "emailInvalid": "Semak e-mel: alamat ada kesilapan"
   },
   "ClaimOrders": {
     "heading": "Membuat pesanan tanpa akaun?",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Hantar resit",
     "receiptTooLarge": "Fail melebihi 10 MB. Mampatkannya atau hantar tangkapan skrin.",
     "receiptWrongType": "Hantar foto (JPG, PNG, WEBP, HEIC) atau PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Resit tidak diterima",
+    "receiptRejectedReason": "Sebab: {reason}",
+    "receiptResend": "Hantar resit lain",
+    "contactManager": "Hubungi pengurus"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Simpan nombor pesanan anda. Anda memerlukannya apabila menghubungi kedai.",
     "orderSuccess": "Pesanan anda berjaya dibuat.",
-    "thankYou": "Terima kasih!"
+    "thankYou": "Terima kasih!",
+    "paymentConfirmed": "Pembayaran disahkan",
+    "goToCourse": "Ke kursus",
+    "orderCanceled": "Pesanan dibatalkan",
+    "orderCanceledHint": "Tidak perlu membayar. Jika ini silap, hubungi kami.",
+    "paidGoodsHint": "Kami sedang menyediakan pesanan anda untuk penghantaran."
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
@@ -1115,5 +1120,22 @@
     "addToCart": "Tambah ke troli",
     "chooseOptions": "Pilih pilihan",
     "remove": "Alih keluar"
+  },
+  "CartSidebar": {
+    "title": "Troli",
+    "signInPrompt": "Log masuk untuk melihat sejarah pesanan dan membeli dengan lebih pantas.",
+    "signInEmail": "Dengan e-mel",
+    "signInYandex": "Dengan Yandex ID",
+    "deliveryEstimate": "Penghantaran {range}",
+    "empty": "Troli anda kosong.",
+    "exploreProducts": "Lihat produk",
+    "itemsTotal": "Jumlah produk",
+    "checkout": "Teruskan ke pembayaran"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "kursus dalam talian, tanpa penghantaran",
+    "shipmentNo": "Penghantaran No. {no}",
+    "digitalGroup": "Kursus dalam talian — akses selepas pembayaran disahkan",
+    "accessByEmail": "Akses ke kursus akan dihantar melalui e-mel selepas pembayaran disahkan."
   }
 }

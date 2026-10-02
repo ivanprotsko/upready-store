@@ -10,7 +10,7 @@ import {
   paymentInfoMap,
 } from "@lib/constants"
 import compareAddresses from "@lib/util/compare-addresses"
-import { cartShippingAddressGaps } from "@lib/util/shipping-address"
+import { cartNeedsShipping, cartShippingAddressGaps } from "@lib/util/shipping-address"
 import { paymentMethodName } from "@lib/util/payment"
 import { pickActivePaymentMethod } from "@lib/util/pick-payment-method"
 import type { TenantPaymentMethods } from "@lib/tenant/resolve"
@@ -67,6 +67,8 @@ interface CheckoutPaymentSectionProps {
    * checkout labels it.
    */
   tenantPaymentMethods: TenantPaymentMethods
+  /** Batch 6, Q3.1: a guest with a course in the cart — the pay button waits for a sign-in. */
+  requiresSignIn?: boolean
 }
 
 export default function CheckoutPaymentSection({
@@ -75,6 +77,7 @@ export default function CheckoutPaymentSection({
   legal,
   manualPayment,
   tenantPaymentMethods,
+  requiresSignIn = false,
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
@@ -227,6 +230,9 @@ export default function CheckoutPaymentSection({
   // missing half of the address is named here, field by field, with the same
   // sentences the address sheet shows (t-2026-09-24-n19).
   const addressGaps = cartShippingAddressGaps(cart)
+  // Batch 6 (hotfix Plan B): no «Платежный адрес» for a cart with nothing to post —
+  // there is no delivery address for it to match or differ from.
+  const needsShipping = cartNeedsShipping(cart)
   const billingText = billingAddr
     ? [billingAddr.address_1, billingAddr.city, billingAddr.postal_code]
         .filter(Boolean)
@@ -409,7 +415,7 @@ export default function CheckoutPaymentSection({
       )}
 
       {/* Billing address */}
-      {billingSameAsShipping && !showBillingDetails ? (
+      {!needsShipping ? null : billingSameAsShipping && !showBillingDetails ? (
         <label className="checkout-section-container flex items-center gap-x-2 cursor-pointer">
           <input
             type="checkbox"
@@ -443,6 +449,7 @@ export default function CheckoutPaymentSection({
         </div>
       )}
 
+      {needsShipping && (
       <CheckoutBillingSheet
         open={billingOpen}
         onClose={() => setBillingOpen(false)}
@@ -450,6 +457,7 @@ export default function CheckoutPaymentSection({
         onSaved={(sameAsShipping) => setShowBillingDetails(!sameAsShipping)}
         cart={cart}
       />
+      )}
 
       <div className="checkout-section-container">
         <ErrorMessage error={error} data-testid="payment-method-error-message" />
@@ -458,6 +466,7 @@ export default function CheckoutPaymentSection({
       <div className="checkout-section-container">
         <AddressGapMessage
           gaps={addressGaps}
+          tone="hint"
           data-testid="shipping-address-incomplete"
         />
       </div>
@@ -468,6 +477,7 @@ export default function CheckoutPaymentSection({
           selectedPaymentMethod={selectedPaymentMethod}
           demoCard={demoCard}
           manualKind={manualKinds.length > 0 ? manualKind : null}
+          requiresSignIn={requiresSignIn}
           data-testid="submit-order-button"
         />
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">

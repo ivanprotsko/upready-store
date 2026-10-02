@@ -78,14 +78,6 @@
     "exploreProducts": "Δείτε τα προϊόντα",
     "heading": "Καλάθι"
   },
-  "CartDropdown": {
-    "bagEmpty": "Το καλάθι αγορών σας είναι άδειο.",
-    "exploreProducts": "Δείτε τα προϊόντα",
-    "goToCart": "Μετάβαση στο καλάθι",
-    "heading": "Καλάθι",
-    "subtotal": "Μερικό σύνολο",
-    "subtotalNote": "(χωρίς φόρους)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Κάτι πήγε στραβά κατά τη μεταφορά του καλαθιού σας",
     "runTransferAgain": "Επανάληψη μεταφοράς",
@@ -179,7 +171,11 @@
     "shippingPriceUnavailable": "Μη διαθέσιμο: δεν ήταν δυνατός ο υπολογισμός του κόστους",
     "signIn": "Σύνδεση",
     "total": "Σύνολο",
-    "shippingZone": "Ζώνη: {zone}"
+    "shippingZone": "Ζώνη: {zone}",
+    "courseSignInHeading": "Συνδεθείτε για να αγοράσετε το μάθημα",
+    "courseSignInText": "Το μάθημα ανοίγει στον λογαριασμό σας, γι' αυτό η αγορά απαιτεί σύνδεση ή εγγραφή.",
+    "fieldRequired": "Συμπληρώστε αυτό το πεδίο",
+    "emailInvalid": "Ελέγξτε το email: η διεύθυνση έχει λάθος"
   },
   "ClaimOrders": {
     "heading": "Παραγγείλατε χωρίς λογαριασμό;",
@@ -613,7 +609,11 @@
     "receiptSubmit": "Αποστολή απόδειξης",
     "receiptTooLarge": "Το αρχείο είναι μεγαλύτερο από 10 MB. Συμπιέστε το ή στείλτε στιγμιότυπο οθόνης.",
     "receiptWrongType": "Στείλτε φωτογραφία (JPG, PNG, WEBP, HEIC) ή PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Η απόδειξη δεν έγινε δεκτή",
+    "receiptRejectedReason": "Αιτία: {reason}",
+    "receiptResend": "Στείλτε άλλη απόδειξη",
+    "contactManager": "Επικοινωνία με τον διαχειριστή"
   },
   "Metadata": {
     "account": {
@@ -736,7 +736,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Κρατήστε τον αριθμό παραγγελίας. Θα τον χρειαστείτε όταν επικοινωνήσετε με το κατάστημα.",
     "orderSuccess": "Η παραγγελία σας ολοκληρώθηκε με επιτυχία.",
-    "thankYou": "Ευχαριστούμε!"
+    "thankYou": "Ευχαριστούμε!",
+    "paymentConfirmed": "Η πληρωμή επιβεβαιώθηκε",
+    "goToCourse": "Μετάβαση στο μάθημα",
+    "orderCanceled": "Η παραγγελία ακυρώθηκε",
+    "orderCanceledHint": "Δεν χρειάζεται πληρωμή. Αν πρόκειται για λάθος, γράψτε μας.",
+    "paidGoodsHint": "Ετοιμάζουμε την παραγγελία σας για αποστολή."
   },
   "OrderDetails": {
     "backToOrders": "Πίσω στις παραγγελίες",
@@ -1115,5 +1120,22 @@
     "addToCart": "Προσθήκη στο καλάθι",
     "chooseOptions": "Επιλογή παραλλαγών",
     "remove": "Αφαίρεση"
+  },
+  "CartSidebar": {
+    "title": "Καλάθι",
+    "signInPrompt": "Συνδεθείτε για να βλέπετε το ιστορικό παραγγελιών και να ολοκληρώνετε τις αγορές σας πιο γρήγορα.",
+    "signInEmail": "Με email",
+    "signInYandex": "Με Yandex ID",
+    "deliveryEstimate": "Παράδοση {range}",
+    "empty": "Το καλάθι σας είναι άδειο.",
+    "exploreProducts": "Δείτε τα προϊόντα",
+    "itemsTotal": "Σύνολο προϊόντων",
+    "checkout": "Ολοκλήρωση παραγγελίας"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "διαδικτυακό μάθημα, χωρίς παράδοση",
+    "shipmentNo": "Αποστολή αρ. {no}",
+    "digitalGroup": "Διαδικτυακό μάθημα — πρόσβαση μετά την επιβεβαίωση πληρωμής",
+    "accessByEmail": "Η πρόσβαση στο μάθημα θα σταλεί με email μετά την επιβεβαίωση της πληρωμής."
   }
 }
