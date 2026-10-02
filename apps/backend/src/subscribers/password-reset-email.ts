@@ -11,9 +11,11 @@ import {
   getEmailTranslator,
   getLocaleFromMetadata,
   resolveEmailLocale,
-  STOREFRONT_URL,
 } from "../emails/i18n";
+import { emailShopFrom } from "../emails/lib/notify";
+import { renderForShop } from "../emails/lib/shop";
 import { panelResetPasswordUrl } from "../tenant-notifications/storefront-origin";
+import { resolveShopForTenantId, tenantIdFromMetadata } from "../tenant-notifications/shop";
 
 export default async function passwordResetEmailHandler({
   event,
@@ -66,10 +68,22 @@ export default async function passwordResetEmailHandler({
   );
   const { t } = getEmailTranslator(locale);
 
+  // WHICH shop a CUSTOMER'S reset request came through, resolved at request
+  // time from the publishable key (`customer-reset-password-tenant.ts`) and
+  // carried here on the event's own `metadata.tenant_id` — nothing links a
+  // customer to a shop, so the request is the only place that still knows it.
+  // The panel (tenant) branch addresses one specific tenant already and never
+  // resolves a shop here, exactly as before this task.
+  const shop =
+    actor_type === "customer"
+      ? await resolveShopForTenantId(container, tenantIdFromMetadata(metadata))
+      : null;
+  const emailShop = shop ? emailShopFrom(shop) : null;
+
   const resetUrl =
     actor_type === "tenant"
       ? panelResetPasswordUrl(token, email)
-      : `${STOREFRONT_URL}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+      : `${emailShop!.storefrontUrl}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
 
   if (!resetUrl) {
     // No `PANEL_PUBLIC_URL`/`DEMO_PANEL_URL` set on this deployment: mailing a
@@ -81,9 +95,14 @@ export default async function passwordResetEmailHandler({
     return;
   }
 
-  const html = await render(
-    createElement(PasswordResetEmail, { email, token, resetUrl, locale }),
-  );
+  const html = emailShop
+    ? await renderForShop(
+        emailShop,
+        createElement(PasswordResetEmail, { email, token, resetUrl, locale }),
+      )
+    : await render(
+        createElement(PasswordResetEmail, { email, token, resetUrl, locale }),
+      );
 
   const text = t("PasswordReset.textFallback", { url: resetUrl });
 
@@ -101,9 +120,26 @@ export default async function passwordResetEmailHandler({
         html,
         text,
       },
+      // Read by the SMTP provider, the same contract order letters use. Only
+      // the customer branch has a shop to sign as; the panel letter keeps
+      // whatever default sender the provider already applies.
+      ...(shop
+        ? {
+            data: {
+              sender: {
+                name: shop.fromName,
+                reply_to: shop.replyTo,
+              },
+            },
+          }
+        : {}),
     } as any);
 
-    logger.info(`[password-reset-email] Sent to ${email} (locale: ${locale})`);
+    logger.info(
+      `[password-reset-email] Sent to ${email} (locale: ${locale}, shop: ${
+        shop ? (shop.tenantId ?? "platform") : "n/a"
+      })`,
+    );
   } catch (err: any) {
     logger.error(
       `[password-reset-email] Failed to send notification: ${err?.message}`,

@@ -238,8 +238,10 @@ import {
 import { PostAdminPlatformPricingSchema } from "../modules/platform-pricing/schema";
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { requireOwnerPasswordLength } from "./auth/password-length-gate";
+import { injectTenantIntoPasswordResetMetadata } from "./auth/customer-reset-password-tenant";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
+import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
 import { rateLimit } from "./rate-limit";
 import { StoreGetPaymentProvidersParams } from "@medusajs/medusa/api/store/payment-providers/validators";
@@ -1389,9 +1391,13 @@ export default defineMiddlewares({
       middlewares: [gateBuyerEmailpassAuth],
     },
     {
+      // t-2026-10-02-shop-aware-account-emails: `injectTenantIntoPasswordResetMetadata`
+      // runs after the login-method gate so a refused shop never gets this far,
+      // and writes the shop the reset link must open into `metadata.tenant_id`
+      // for `password-reset-email.ts` to read off the event.
       matcher: "/auth/customer/emailpass/reset-password",
       method: ["POST"],
-      middlewares: [gateBuyerEmailpassAuth],
+      middlewares: [gateBuyerEmailpassAuth, injectTenantIntoPasswordResetMetadata],
     },
     {
       matcher: "/auth/customer/emailpass/update",
@@ -1580,6 +1586,16 @@ export default defineMiddlewares({
       matcher: "/store/customers/me/claim-orders",
       method: ["POST"],
       middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+
+    // ---- t-2026-10-02-shop-aware-account-emails: this is the one request
+    // that ever learns which shop a buyer signed up in (no customer↔tenant
+    // link exists). The publishable key behind it is written into
+    // `metadata.tenant_id`, for `customer-created.ts`'s welcome letter to read.
+    {
+      matcher: "/store/customers",
+      method: ["POST"],
+      middlewares: [injectCustomerTenantMetadata],
     },
 
     // ---- w02-yandex-id-auth: the buyer who already has an account signs in

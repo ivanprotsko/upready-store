@@ -224,3 +224,45 @@ export const resolveShopForTenant = async (
   container: MedusaContainer,
   tenantId: string,
 ): Promise<ShopIdentity> => identityFor(container, await tenantById(container, tenantId));
+
+/**
+ * {@link resolveShopForTenant}, for a caller that only has a MAYBE tenant id
+ * and must never fail outright (t-2026-10-02-shop-aware-account-emails): the
+ * welcome and customer password-reset letters, where a shop-less publishable
+ * key, a customer created before this metadata existed, or a tenant that no
+ * longer resolves must still produce a valid letter under the platform
+ * identity, exactly what they sent before shops existed.
+ */
+export const resolveShopForTenantId = async (
+  container: MedusaContainer,
+  tenantId: string | null | undefined,
+): Promise<ShopIdentity> => {
+  if (!tenantId) {
+    return platformShop();
+  }
+
+  try {
+    return await resolveShopForTenant(container, tenantId);
+  } catch (error) {
+    const logger = container.resolve(ContainerRegistrationKeys.LOGGER) as Logger;
+    logger.warn(
+      `[tenant-notifications] Could not resolve the shop of tenant ${tenantId}: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+    return platformShop();
+  }
+};
+
+/**
+ * Reads `tenant_id` off a customer row's `metadata` or an event's own
+ * `metadata` — the one field `inject-tenant-metadata.ts` and
+ * `customer-reset-password-tenant.ts` write it into, since neither a customer
+ * nor an `auth.password_reset` event carries a dedicated column for it.
+ */
+export const tenantIdFromMetadata = (
+  metadata: Record<string, unknown> | null | undefined,
+): string | null => {
+  const value = metadata?.tenant_id;
+  return typeof value === "string" && value.length > 0 ? value : null;
+};
