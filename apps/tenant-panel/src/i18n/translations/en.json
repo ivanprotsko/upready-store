@@ -1860,7 +1860,8 @@
         "refunded": "Refunded",
         "requiresAction": "Requires action",
         "awaitingConfirmation": "Awaiting payment confirmation",
-        "receiptRejected": "Receipt not accepted"
+        "receiptRejected": "Receipt not accepted",
+        "manualAwaitingPayment": "Awaiting payment"
       },
       "statusLabel": "Payment status",
       "statusTitle": "Payment Status",
@@ -4238,8 +4239,7 @@
     "methodsSummary": {
       "title": "What the buyer sees",
       "robokassa": "Robokassa",
-      "manualCrypto": "Crypto payment",
-      "manualManager": "Payment via manager",
+      "manual": "Transfer to requisites",
       "connected": "Connected",
       "notConnected": "Not connected",
       "listSeparator": ", ",

@@ -1919,7 +1919,8 @@
         "refunded": "Деньги возвращены",
         "requiresAction": "Нужно ваше действие",
         "awaitingConfirmation": "Ожидает подтверждения оплаты",
-        "receiptRejected": "Чек не принят"
+        "receiptRejected": "Чек не принят",
+        "manualAwaitingPayment": "Ожидает оплаты"
       },
       "statusLabel": "Статус платежа",
       "statusTitle": "Статус платежа",
@@ -3986,8 +3987,7 @@
     "methodsSummary": {
       "title": "Что видит покупатель",
       "robokassa": "Robokassa",
-      "manualCrypto": "Оплата криптовалютой",
-      "manualManager": "Оплата через менеджера",
+      "manual": "Перевод по реквизитам",
       "connected": "Подключена",
       "notConnected": "Не подключена",
       "listSeparator": ", ",
