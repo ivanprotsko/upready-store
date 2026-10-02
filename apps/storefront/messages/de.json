@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Der Beleg konnte nicht gesendet werden. Versuchen Sie es erneut oder schreiben Sie dem Manager.",
+    "receiptHint": "Ein Foto oder Screenshot der Überweisung (JPG, PNG, WEBP, HEIC) oder eine PDF-Datei, bis zu 10 MB.",
+    "receiptLabel": "Zahlungsbeleg",
+    "receiptPaid": "Ich habe bezahlt",
+    "receiptSent": "Beleg gesendet, warten auf Bestätigung",
+    "receiptSentHint": "Der Shop prüft die Überweisung und bestätigt die Zahlung, danach erhält die Bestellung den Status «Bezahlt».",
+    "receiptSubmit": "Beleg senden",
+    "receiptTooLarge": "Die Datei ist größer als 10 MB. Komprimieren Sie sie oder senden Sie einen Screenshot.",
+    "receiptWrongType": "Senden Sie ein Foto (JPG, PNG, WEBP, HEIC) oder eine PDF-Datei.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

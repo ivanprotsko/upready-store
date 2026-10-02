@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Não foi possível enviar o comprovativo. Tente novamente ou escreva ao gestor.",
+    "receiptHint": "Uma foto ou captura de ecrã da transferência (JPG, PNG, WEBP, HEIC) ou um PDF, até 10 MB.",
+    "receiptLabel": "Comprovativo de pagamento",
+    "receiptPaid": "Já paguei",
+    "receiptSent": "Comprovativo enviado, a aguardar confirmação",
+    "receiptSentHint": "A loja irá verificar a transferência e confirmar o pagamento, e depois o pedido passará ao estado «Pago».",
+    "receiptSubmit": "Enviar o comprovativo",
+    "receiptTooLarge": "O ficheiro tem mais de 10 MB. Comprima-o ou envie uma captura de ecrã.",
+    "receiptWrongType": "Envie uma foto (JPG, PNG, WEBP, HEIC) ou um PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

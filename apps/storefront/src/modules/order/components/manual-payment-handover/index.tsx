@@ -9,6 +9,7 @@ import {
   BankCard,
   WalletCard,
 } from "@modules/checkout/components/manual-payment-instructions"
+import PaymentReceiptForm from "@modules/order/components/payment-receipt-form"
 import { getLocale, getTranslations } from "next-intl/server"
 
 type Props = {
@@ -101,6 +102,13 @@ const ManualPaymentHandover = async ({ order }: Props) => {
           {cards.map((card) => (
             <BankCard key={`${card.bank}-${card.number}`} card={card} />
           ))}
+          <PaymentReceiptForm
+            orderId={order.id}
+            sent={Boolean(
+              (order.metadata as Record<string, unknown> | null | undefined)
+                ?.payment_receipt
+            )}
+          />
         </div>
       )}
 

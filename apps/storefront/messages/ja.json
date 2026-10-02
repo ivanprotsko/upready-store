@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "領収書を送信できませんでした。もう一度お試しいただくか、マネージャーにメッセージをお送りください。",
+    "receiptHint": "振込の写真またはスクリーンショット（JPG、PNG、WEBP、HEIC）、もしくはPDF、10 MBまで。",
+    "receiptLabel": "支払いの領収書",
+    "receiptPaid": "支払いました",
+    "receiptSent": "領収書を送信しました。確認をお待ちください",
+    "receiptSentHint": "ショップが振込を確認し、入金を承認すると、注文のステータスが«支払い済み»になります。",
+    "receiptSubmit": "領収書を送信",
+    "receiptTooLarge": "ファイルが10 MBを超えています。圧縮するか、スクリーンショットを送ってください。",
+    "receiptWrongType": "写真（JPG、PNG、WEBP、HEIC）またはPDFを送ってください。",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

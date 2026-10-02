@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Impossibile inviare la ricevuta. Riprovi o scriva al manager.",
+    "receiptHint": "Una foto o uno screenshot del bonifico (JPG, PNG, WEBP, HEIC) o un PDF, fino a 10 MB.",
+    "receiptLabel": "Ricevuta di pagamento",
+    "receiptPaid": "Ho pagato",
+    "receiptSent": "Ricevuta inviata, in attesa di conferma",
+    "receiptSentHint": "Il negozio verificherà il bonifico e confermerà il pagamento, poi l'ordine passerà allo stato «Pagato».",
+    "receiptSubmit": "Invia la ricevuta",
+    "receiptTooLarge": "Il file supera i 10 MB. Lo comprima o invii uno screenshot.",
+    "receiptWrongType": "Invii una foto (JPG, PNG, WEBP, HEIC) o un PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Hindi naipadala ang resibo. Subukan muli o mag-message sa manager.",
+    "receiptHint": "Larawan o screenshot ng paglilipat (JPG, PNG, WEBP, HEIC) o PDF, hanggang 10 MB.",
+    "receiptLabel": "Resibo ng bayad",
+    "receiptPaid": "Nagbayad na ako",
+    "receiptSent": "Naipadala na ang resibo, hinihintay ang kumpirmasyon",
+    "receiptSentHint": "Susuriin ng tindahan ang paglilipat at kukumpirmahin ang bayad, pagkatapos ay magiging «Bayad na» ang status ng order.",
+    "receiptSubmit": "Ipadala ang resibo",
+    "receiptTooLarge": "Mas malaki sa 10 MB ang file. I-compress ito o magpadala ng screenshot.",
+    "receiptWrongType": "Magpadala ng larawan (JPG, PNG, WEBP, HEIC) o PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "रसीद नहीं भेजी जा सकी। फिर से कोशिश करें या मैनेजर को संदेश भेजें।",
+    "receiptHint": "ट्रांसफ़र की फ़ोटो या स्क्रीनशॉट (JPG, PNG, WEBP, HEIC) या PDF, 10 MB तक।",
+    "receiptLabel": "भुगतान की रसीद",
+    "receiptPaid": "मैंने भुगतान कर दिया",
+    "receiptSent": "रसीद भेज दी गई है, पुष्टि की प्रतीक्षा है",
+    "receiptSentHint": "दुकान ट्रांसफ़र की जाँच करेगी और भुगतान की पुष्टि करेगी, उसके बाद ऑर्डर की स्थिति «भुगतान हो गया» हो जाएगी।",
+    "receiptSubmit": "रसीद भेजें",
+    "receiptTooLarge": "फ़ाइल 10 MB से बड़ी है। उसे कंप्रेस करें या स्क्रीनशॉट भेजें।",
+    "receiptWrongType": "फ़ोटो (JPG, PNG, WEBP, HEIC) या PDF भेजें।",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Het bewijs kon niet worden verzonden. Probeer het opnieuw of stuur een bericht naar de manager.",
+    "receiptHint": "Een foto of screenshot van de overschrijving (JPG, PNG, WEBP, HEIC) of een PDF, tot 10 MB.",
+    "receiptLabel": "Betalingsbewijs",
+    "receiptPaid": "Ik heb betaald",
+    "receiptSent": "Bewijs verzonden, wachten op bevestiging",
+    "receiptSentHint": "De winkel controleert de overschrijving en bevestigt de betaling, daarna krijgt de bestelling de status «Betaald».",
+    "receiptSubmit": "Bewijs versturen",
+    "receiptTooLarge": "Het bestand is groter dan 10 MB. Comprimeer het of stuur een screenshot.",
+    "receiptWrongType": "Stuur een foto (JPG, PNG, WEBP, HEIC) of een PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

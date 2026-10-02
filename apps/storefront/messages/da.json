@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Kvitteringen kunne ikke sendes. Prøv igen, eller skriv til manageren.",
+    "receiptHint": "Et foto eller skærmbillede af overførslen (JPG, PNG, WEBP, HEIC) eller en PDF, op til 10 MB.",
+    "receiptLabel": "Kvittering for betaling",
+    "receiptPaid": "Jeg har betalt",
+    "receiptSent": "Kvittering sendt, afventer bekræftelse",
+    "receiptSentHint": "Butikken tjekker overførslen og bekræfter betalingen, hvorefter ordren får status «Betalt».",
+    "receiptSubmit": "Send kvitteringen",
+    "receiptTooLarge": "Filen er større end 10 MB. Komprimer den, eller send et skærmbillede.",
+    "receiptWrongType": "Send et foto (JPG, PNG, WEBP, HEIC) eller en PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

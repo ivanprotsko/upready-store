@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Δεν ήταν δυνατή η αποστολή της απόδειξης. Δοκιμάστε ξανά ή στείλτε μήνυμα στον διαχειριστή.",
+    "receiptHint": "Φωτογραφία ή στιγμιότυπο της μεταφοράς (JPG, PNG, WEBP, HEIC) ή PDF, έως 10 MB.",
+    "receiptLabel": "Απόδειξη πληρωμής",
+    "receiptPaid": "Έχω πληρώσει",
+    "receiptSent": "Η απόδειξη στάλθηκε, αναμένεται επιβεβαίωση",
+    "receiptSentHint": "Το κατάστημα θα ελέγξει τη μεταφορά και θα επιβεβαιώσει την πληρωμή, και στη συνέχεια η παραγγελία θα αποκτήσει την κατάσταση «Πληρωμένη».",
+    "receiptSubmit": "Αποστολή απόδειξης",
+    "receiptTooLarge": "Το αρχείο είναι μεγαλύτερο από 10 MB. Συμπιέστε το ή στείλτε στιγμιότυπο οθόνης.",
+    "receiptWrongType": "Στείλτε φωτογραφία (JPG, PNG, WEBP, HEIC) ή PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

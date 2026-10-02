@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "A bizonylatot nem sikerült elküldeni. Próbálja újra, vagy írjon a menedzsernek.",
+    "receiptHint": "Fotó vagy képernyőkép az átutalásról (JPG, PNG, WEBP, HEIC) vagy PDF, legfeljebb 10 MB.",
+    "receiptLabel": "Fizetési bizonylat",
+    "receiptPaid": "Fizettem",
+    "receiptSent": "Bizonylat elküldve, megerősítésre várunk",
+    "receiptSentHint": "A bolt ellenőrzi az átutalást és visszaigazolja a fizetést, ezután a rendelés állapota «Fizetve» lesz.",
+    "receiptSubmit": "Bizonylat küldése",
+    "receiptTooLarge": "A fájl nagyobb, mint 10 MB. Tömörítse, vagy küldjön képernyőképet.",
+    "receiptWrongType": "Küldjön fotót (JPG, PNG, WEBP, HEIC) vagy PDF-et.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Dovada nu a putut fi trimisă. Încercați din nou sau scrieți managerului.",
+    "receiptHint": "O fotografie sau o captură de ecran a transferului (JPG, PNG, WEBP, HEIC) sau un PDF, până la 10 MB.",
+    "receiptLabel": "Dovada plății",
+    "receiptPaid": "Am plătit",
+    "receiptSent": "Dovada a fost trimisă, așteptăm confirmarea",
+    "receiptSentHint": "Magazinul va verifica transferul și va confirma plata, apoi comanda va primi statusul «Plătită».",
+    "receiptSubmit": "Trimiteți dovada",
+    "receiptTooLarge": "Fișierul este mai mare de 10 MB. Comprimați-l sau trimiteți o captură de ecran.",
+    "receiptWrongType": "Trimiteți o fotografie (JPG, PNG, WEBP, HEIC) sau un PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

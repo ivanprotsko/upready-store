@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Баримтыг илгээж чадсангүй. Дахин оролдох эсвэл менежерт бичнэ үү.",
+    "receiptHint": "Шилжүүлгийн зураг эсвэл дэлгэцийн зураг (JPG, PNG, WEBP, HEIC) эсвэл PDF, 10 МБ хүртэл.",
+    "receiptLabel": "Төлбөрийн баримт",
+    "receiptPaid": "Би төлсөн",
+    "receiptSent": "Баримт илгээгдлээ, баталгаажуулалтыг хүлээж байна",
+    "receiptSentHint": "Дэлгүүр шилжүүлгийг шалгаж, төлбөрийг баталгаажуулсны дараа захиалга «Төлөгдсөн» төлөвтэй болно.",
+    "receiptSubmit": "Баримт илгээх",
+    "receiptTooLarge": "Файл 10 МБ-аас том байна. Шахах эсвэл дэлгэцийн зураг илгээнэ үү.",
+    "receiptWrongType": "Зураг (JPG, PNG, WEBP, HEIC) эсвэл PDF илгээнэ үү.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

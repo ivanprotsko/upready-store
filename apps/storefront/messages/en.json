@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "The receipt could not be sent. Try again or message the manager.",
+    "receiptHint": "A photo or screenshot of the transfer (JPG, PNG, WEBP, HEIC) or a PDF, up to 10 MB.",
+    "receiptLabel": "Payment receipt",
+    "receiptPaid": "I have paid",
+    "receiptSent": "Receipt sent, awaiting confirmation",
+    "receiptSentHint": "The shop will check the transfer and confirm the payment, then the order becomes «Paid».",
+    "receiptSubmit": "Send the receipt",
+    "receiptTooLarge": "The file is larger than 10 MB. Compress it or send a screenshot.",
+    "receiptWrongType": "Send a photo (JPG, PNG, WEBP, HEIC) or a PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "ქვითრის გაგზავნა ვერ მოხერხდა. სცადეთ თავიდან ან მისწერეთ მენეჯერს.",
+    "receiptHint": "გადარიცხვის ფოტო ან სკრინშოტი (JPG, PNG, WEBP, HEIC) ან PDF, 10 MB-მდე.",
+    "receiptLabel": "გადახდის ქვითარი",
+    "receiptPaid": "გადავიხადე",
+    "receiptSent": "ქვითარი გაგზავნილია, ველოდებით დადასტურებას",
+    "receiptSentHint": "მაღაზია გადარიცხვას შეამოწმებს და გადახდას დაადასტურებს, ამის შემდეგ შეკვეთის სტატუსი გახდება «გადახდილი».",
+    "receiptSubmit": "ქვითრის გაგზავნა",
+    "receiptTooLarge": "ფაილი 10 MB-ზე დიდია. შეკუმშეთ ან გამოგზავნეთ სკრინშოტი.",
+    "receiptWrongType": "გამოგზავნეთ ფოტო (JPG, PNG, WEBP, HEIC) ან PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

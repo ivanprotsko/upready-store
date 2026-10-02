@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Bukti tidak dapat dikirim. Coba lagi atau hubungi manajer.",
+    "receiptHint": "Foto atau tangkapan layar transfer (JPG, PNG, WEBP, HEIC) atau PDF, maksimal 10 MB.",
+    "receiptLabel": "Bukti pembayaran",
+    "receiptPaid": "Saya sudah bayar",
+    "receiptSent": "Bukti terkirim, menunggu konfirmasi",
+    "receiptSentHint": "Toko akan memeriksa transfer dan mengonfirmasi pembayaran, setelah itu pesanan akan berstatus «Dibayar».",
+    "receiptSubmit": "Kirim bukti",
+    "receiptTooLarge": "Ukuran file lebih dari 10 MB. Kompres file atau kirim tangkapan layar.",
+    "receiptWrongType": "Kirim foto (JPG, PNG, WEBP, HEIC) atau PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

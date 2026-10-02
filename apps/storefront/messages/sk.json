@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Doklad sa nepodarilo odoslať. Skúste to znova alebo napíšte manažérovi.",
+    "receiptHint": "Fotka alebo snímka obrazovky prevodu (JPG, PNG, WEBP, HEIC) alebo PDF, do 10 MB.",
+    "receiptLabel": "Doklad o platbe",
+    "receiptPaid": "Zaplatil som",
+    "receiptSent": "Doklad odoslaný, čakáme na potvrdenie",
+    "receiptSentHint": "Obchod prevod skontroluje a potvrdí platbu, potom objednávka získa stav «Zaplatená».",
+    "receiptSubmit": "Odoslať doklad",
+    "receiptTooLarge": "Súbor je väčší ako 10 MB. Zmenšite ho alebo pošlite snímku obrazovky.",
+    "receiptWrongType": "Pošlite fotku (JPG, PNG, WEBP, HEIC) alebo PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

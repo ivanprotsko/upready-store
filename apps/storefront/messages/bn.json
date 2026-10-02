@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "রসিদ পাঠানো যায়নি। আবার চেষ্টা করুন বা ম্যানেজারকে মেসেজ করুন।",
+    "receiptHint": "ট্রান্সফারের ছবি বা স্ক্রিনশট (JPG, PNG, WEBP, HEIC) অথবা PDF, 10 MB পর্যন্ত।",
+    "receiptLabel": "পেমেন্টের রসিদ",
+    "receiptPaid": "আমি পেমেন্ট করেছি",
+    "receiptSent": "রসিদ পাঠানো হয়েছে, নিশ্চিতকরণের অপেক্ষায়",
+    "receiptSentHint": "দোকান ট্রান্সফার যাচাই করে পেমেন্ট নিশ্চিত করবে, তারপর অর্ডারের স্ট্যাটাস হবে «পরিশোধিত»।",
+    "receiptSubmit": "রসিদ পাঠান",
+    "receiptTooLarge": "ফাইলটি 10 MB-এর চেয়ে বড়। এটি কমপ্রেস করুন বা স্ক্রিনশট পাঠান।",
+    "receiptWrongType": "ছবি (JPG, PNG, WEBP, HEIC) বা PDF পাঠান।",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

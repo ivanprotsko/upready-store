@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "영수증을 보내지 못했습니다. 다시 시도하거나 매니저에게 메시지를 보내 주세요.",
+    "receiptHint": "이체 내역 사진 또는 스크린샷(JPG, PNG, WEBP, HEIC) 또는 PDF, 최대 10 MB.",
+    "receiptLabel": "결제 영수증",
+    "receiptPaid": "결제했습니다",
+    "receiptSent": "영수증이 전송되었습니다. 확인을 기다리는 중입니다",
+    "receiptSentHint": "상점이 이체를 확인하고 결제를 승인하면 주문 상태가 «결제 완료»로 바뀝니다.",
+    "receiptSubmit": "영수증 보내기",
+    "receiptTooLarge": "파일이 10 MB보다 큽니다. 압축하거나 스크린샷을 보내 주세요.",
+    "receiptWrongType": "사진(JPG, PNG, WEBP, HEIC) 또는 PDF를 보내 주세요.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

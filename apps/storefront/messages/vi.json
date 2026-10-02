@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Không thể gửi biên lai. Hãy thử lại hoặc nhắn cho quản lý.",
+    "receiptHint": "Ảnh hoặc ảnh chụp màn hình giao dịch chuyển khoản (JPG, PNG, WEBP, HEIC) hoặc PDF, tối đa 10 MB.",
+    "receiptLabel": "Biên lai thanh toán",
+    "receiptPaid": "Tôi đã thanh toán",
+    "receiptSent": "Đã gửi biên lai, đang chờ xác nhận",
+    "receiptSentHint": "Cửa hàng sẽ kiểm tra giao dịch chuyển khoản và xác nhận thanh toán, sau đó đơn hàng sẽ chuyển sang trạng thái «Đã thanh toán».",
+    "receiptSubmit": "Gửi biên lai",
+    "receiptTooLarge": "Tệp lớn hơn 10 MB. Hãy nén tệp hoặc gửi ảnh chụp màn hình.",
+    "receiptWrongType": "Hãy gửi ảnh (JPG, PNG, WEBP, HEIC) hoặc PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

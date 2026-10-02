@@ -1584,6 +1584,12 @@ export default defineMiddlewares({
       middlewares: [authenticate("customer", ["session", "bearer"], { allowUnauthenticated: true })],
     },
     {
+      // t-cherk-com-hotfix batch 3: the buyer's receipt for a card transfer, multipart like `/tenants/uploads`.
+      matcher: "/store/tenant/orders/:id/payment-receipt",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
+    },
+    {
       matcher: "/store/tenant/courses/mine",
       method: ["GET"],
       middlewares: [authenticate("customer", ["session", "bearer"])],

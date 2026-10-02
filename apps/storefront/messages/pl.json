@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Nie udało się wysłać potwierdzenia. Spróbuj ponownie lub napisz do menedżera.",
+    "receiptHint": "Zdjęcie lub zrzut ekranu przelewu (JPG, PNG, WEBP, HEIC) albo PDF, do 10 MB.",
+    "receiptLabel": "Potwierdzenie płatności",
+    "receiptPaid": "Zapłaciłem",
+    "receiptSent": "Potwierdzenie wysłane, czekamy na akceptację",
+    "receiptSentHint": "Sklep sprawdzi przelew i potwierdzi płatność, a następnie zamówienie otrzyma status «Opłacone».",
+    "receiptSubmit": "Wyślij potwierdzenie",
+    "receiptTooLarge": "Plik jest większy niż 10 MB. Skompresuj go lub wyślij zrzut ekranu.",
+    "receiptWrongType": "Wyślij zdjęcie (JPG, PNG, WEBP, HEIC) lub PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

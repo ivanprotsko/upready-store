@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Makbuz gönderilemedi. Tekrar deneyin veya yöneticiye yazın.",
+    "receiptHint": "Havalenin fotoğrafı veya ekran görüntüsü (JPG, PNG, WEBP, HEIC) ya da PDF, en fazla 10 MB.",
+    "receiptLabel": "Ödeme makbuzu",
+    "receiptPaid": "Ödeme yaptım",
+    "receiptSent": "Makbuz gönderildi, onay bekleniyor",
+    "receiptSentHint": "Mağaza havaleyi kontrol edip ödemeyi onaylayacak, ardından sipariş «Ödendi» durumuna geçecek.",
+    "receiptSubmit": "Makbuzu gönder",
+    "receiptTooLarge": "Dosya 10 MB'tan büyük. Sıkıştırın veya ekran görüntüsü gönderin.",
+    "receiptWrongType": "Fotoğraf (JPG, PNG, WEBP, HEIC) veya PDF gönderin.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

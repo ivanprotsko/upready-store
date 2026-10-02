@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Nepavyko išsiųsti kvito. Bandyk dar kartą arba parašyk vadybininkui.",
+    "receiptHint": "Pervedimo nuotrauka ar ekrano nuotrauka (JPG, PNG, WEBP, HEIC) arba PDF, iki 10 MB.",
+    "receiptLabel": "Mokėjimo kvitas",
+    "receiptPaid": "Sumokėjau",
+    "receiptSent": "Kvitas išsiųstas, laukiame patvirtinimo",
+    "receiptSentHint": "Parduotuvė patikrins pervedimą ir patvirtins apmokėjimą, tada užsakymas gaus būseną «Apmokėtas».",
+    "receiptSubmit": "Siųsti kvitą",
+    "receiptTooLarge": "Failas didesnis nei 10 MB. Suspausk jį arba atsiųsk ekrano nuotrauką.",
+    "receiptWrongType": "Atsiųsk nuotrauką (JPG, PNG, WEBP, HEIC) arba PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

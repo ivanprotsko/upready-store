@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "凭证发送失败。请重试或联系客服经理。",
+    "receiptHint": "转账的照片或截图（JPG、PNG、WEBP、HEIC）或 PDF，不超过 10 MB。",
+    "receiptLabel": "付款凭证",
+    "receiptPaid": "我已付款",
+    "receiptSent": "凭证已发送，等待确认",
+    "receiptSentHint": "店铺核实转账并确认收款后，订单状态将变为«已付款»。",
+    "receiptSubmit": "发送凭证",
+    "receiptTooLarge": "文件超过 10 MB。请压缩文件或发送截图。",
+    "receiptWrongType": "请发送照片（JPG、PNG、WEBP、HEIC）或 PDF。",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {

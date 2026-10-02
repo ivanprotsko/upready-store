@@ -604,6 +604,15 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
+    "receiptFailed": "Не вдалося надіслати квитанцію. Спробуйте ще раз або напишіть менеджеру.",
+    "receiptHint": "Фото або скриншот переказу (JPG, PNG, WEBP, HEIC) або PDF, до 10 МБ.",
+    "receiptLabel": "Квитанція про оплату",
+    "receiptPaid": "Я оплатив",
+    "receiptSent": "Квитанцію надіслано, чекаємо на підтвердження",
+    "receiptSentHint": "Магазин перевірить переказ і підтвердить оплату, після чого замовлення отримає статус «Оплачено».",
+    "receiptSubmit": "Надіслати квитанцію",
+    "receiptTooLarge": "Файл більший за 10 МБ. Стисніть його або надішліть скриншот.",
+    "receiptWrongType": "Підійде фото (JPG, PNG, WEBP, HEIC) або PDF.",
     "walletCopyLabel": "Copy the {currency} address"
   },
   "Metadata": {
