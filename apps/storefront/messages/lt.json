@@ -18,7 +18,8 @@
     "logOut": "Atsijungti",
     "orders": "Užsakymai",
     "overview": "Apžvalga",
-    "profile": "Profilis"
+    "profile": "Profilis",
+    "wishlist": "Norų sąrašas"
   },
   "AccountOverview": {
     "addresses": "Adresai",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Perskaitykite taisykles, su kuriomis sutinkate pirkdami.",
       "title": "Naudojimo sąlygos"
+    },
+    "wishlist": {
+      "title": "Norų sąrašas",
+      "description": "Produktai, kuriuos išsaugojote vėlesniam laikui."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Ankstesnis",
       "watch": "Žiūrėti"
     }
+  },
+  "WishlistButton": {
+    "add": "Pridėti į norų sąrašą",
+    "remove": "Pašalinti iš norų sąrašo"
+  },
+  "WishlistPage": {
+    "heading": "Norų sąrašas",
+    "description": "Produktai, kuriuos išsaugojote vėlesniam laikui.",
+    "empty": "Kol kas neišsaugojote jokių produktų.",
+    "addToCart": "Į krepšelį",
+    "chooseOptions": "Pasirinkti variantus",
+    "remove": "Pašalinti"
   }
 }

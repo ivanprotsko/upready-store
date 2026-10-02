@@ -18,7 +18,8 @@
     "logOut": "Mag-log out",
     "orders": "Mga Order",
     "overview": "Buod",
-    "profile": "Profile"
+    "profile": "Profile",
+    "wishlist": "Wishlist"
   },
   "AccountOverview": {
     "addresses": "Mga Address",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Basahin ang mga patakarang sinasang-ayunan mo kapag bumibili ka sa amin.",
       "title": "Mga tuntunin ng paggamit"
+    },
+    "wishlist": {
+      "title": "Wishlist",
+      "description": "Ang mga produktong nai-save mo para sa susunod."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Nakaraan",
       "watch": "Panoorin"
     }
+  },
+  "WishlistButton": {
+    "add": "Idagdag sa wishlist",
+    "remove": "Alisin sa wishlist"
+  },
+  "WishlistPage": {
+    "heading": "Wishlist",
+    "description": "Ang mga produktong nai-save mo para sa susunod.",
+    "empty": "Wala ka pang na-save na produkto.",
+    "addToCart": "Idagdag sa cart",
+    "chooseOptions": "Pumili ng mga opsyon",
+    "remove": "Alisin"
   }
 }

@@ -200,6 +200,8 @@ import {
 // ---- t09-reviews: moderation body (tenant side) and the storefront's form.
 import { PostTenantReviewSchema } from "./tenants/reviews/validators";
 import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
+// ---- t-cherk-32: the wishlist's one write body (`DELETE` takes none).
+import { PostStoreWishlistSchema } from "./store/wishlist/validators";
 // ---- o24-courses: course/lesson CRUD bodies (tenant side, panel editor).
 import {
   PostTenantCourseSchema,
@@ -1520,6 +1522,30 @@ export default defineMiddlewares({
         authenticate("customer", ["session", "bearer"]),
         validateAndTransformBody(PostStoreReviewSchema),
       ],
+    },
+
+    // ---- t-cherk-32: the wishlist. Every verb needs a customer behind the
+    // call — there is no guest server state, only the browser's own
+    // localStorage (merged in on sign-in, `lib/data/customer.ts` on the
+    // storefront) — so all three carry `authenticate("customer", …)` WITHOUT
+    // `allowUnauthenticated`.
+    {
+      matcher: "/store/wishlist",
+      method: ["GET"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
+      matcher: "/store/wishlist",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        validateAndTransformBody(PostStoreWishlistSchema),
+      ],
+    },
+    {
+      matcher: "/store/wishlist/:product_id",
+      method: ["DELETE"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
     },
 
     // ---- o24-courses: online courses. The tenant side rides the

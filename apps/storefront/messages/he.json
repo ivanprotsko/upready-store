@@ -18,7 +18,8 @@
     "logOut": "התנתקות",
     "orders": "הזמנות",
     "overview": "סקירה כללית",
-    "profile": "פרופיל"
+    "profile": "פרופיל",
+    "wishlist": "רשימת משאלות"
   },
   "AccountOverview": {
     "addresses": "כתובות",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "קראו את הכללים שאתם מאשרים בעת הרכישה.",
       "title": "תנאי שימוש"
+    },
+    "wishlist": {
+      "title": "רשימת משאלות",
+      "description": "המוצרים ששמרת לאחר כך."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "הקודם",
       "watch": "צפייה"
     }
+  },
+  "WishlistButton": {
+    "add": "הוספה לרשימת המשאלות",
+    "remove": "הסרה מרשימת המשאלות"
+  },
+  "WishlistPage": {
+    "heading": "רשימת משאלות",
+    "description": "המוצרים ששמרת לאחר כך.",
+    "empty": "עדיין לא שמרת מוצרים.",
+    "addToCart": "הוספה לעגלה",
+    "chooseOptions": "בחירת אפשרויות",
+    "remove": "הסרה"
   }
 }

@@ -18,7 +18,8 @@
     "logOut": "Log keluar",
     "orders": "Pesanan",
     "overview": "Gambaran keseluruhan",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Senarai Hajat"
   },
   "AccountOverview": {
     "addresses": "Alamat",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Baca peraturan yang anda persetujui semasa membeli-belah.",
       "title": "Syarat penggunaan"
+    },
+    "wishlist": {
+      "title": "Senarai Hajat",
+      "description": "Produk yang anda simpan untuk kemudian."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Sebelumnya",
       "watch": "Tonton"
     }
+  },
+  "WishlistButton": {
+    "add": "Tambah ke senarai hajat",
+    "remove": "Alih keluar daripada senarai hajat"
+  },
+  "WishlistPage": {
+    "heading": "Senarai Hajat",
+    "description": "Produk yang anda simpan untuk kemudian.",
+    "empty": "Anda belum menyimpan sebarang produk lagi.",
+    "addToCart": "Tambah ke troli",
+    "chooseOptions": "Pilih pilihan",
+    "remove": "Alih keluar"
   }
 }

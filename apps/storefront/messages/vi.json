@@ -18,7 +18,8 @@
     "logOut": "Đăng xuất",
     "orders": "Đơn hàng",
     "overview": "Tổng quan",
-    "profile": "Hồ sơ"
+    "profile": "Hồ sơ",
+    "wishlist": "Danh sách yêu thích"
   },
   "AccountOverview": {
     "addresses": "Địa chỉ",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Đọc các quy định bạn chấp nhận khi mua hàng của chúng tôi.",
       "title": "Điều khoản sử dụng"
+    },
+    "wishlist": {
+      "title": "Danh sách yêu thích",
+      "description": "Các sản phẩm bạn đã lưu để mua sau."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Trước",
       "watch": "Xem"
     }
+  },
+  "WishlistButton": {
+    "add": "Thêm vào danh sách yêu thích",
+    "remove": "Xóa khỏi danh sách yêu thích"
+  },
+  "WishlistPage": {
+    "heading": "Danh sách yêu thích",
+    "description": "Các sản phẩm bạn đã lưu để mua sau.",
+    "empty": "Bạn chưa lưu sản phẩm nào.",
+    "addToCart": "Thêm vào giỏ hàng",
+    "chooseOptions": "Chọn tùy chọn",
+    "remove": "Xóa"
   }
 }

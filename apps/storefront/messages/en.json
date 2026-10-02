@@ -18,7 +18,8 @@
     "logOut": "Log out",
     "orders": "Orders",
     "overview": "Overview",
-    "profile": "Profile"
+    "profile": "Profile",
+    "wishlist": "Wishlist"
   },
   "AccountOverview": {
     "addresses": "Addresses",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Read the rules you agree to when you shop with us.",
       "title": "Terms of use"
+    },
+    "wishlist": {
+      "title": "Wishlist",
+      "description": "The products you saved for later."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Previous",
       "watch": "Watch"
     }
+  },
+  "WishlistButton": {
+    "add": "Add to wishlist",
+    "remove": "Remove from wishlist"
+  },
+  "WishlistPage": {
+    "heading": "Wishlist",
+    "description": "The products you saved for later.",
+    "empty": "You have not saved any products yet.",
+    "addToCart": "Add to cart",
+    "chooseOptions": "Choose options",
+    "remove": "Remove"
   }
 }

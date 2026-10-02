@@ -18,7 +18,8 @@
     "logOut": "Çıkış yap",
     "orders": "Siparişler",
     "overview": "Genel Bakış",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "İstek listesi"
   },
   "AccountOverview": {
     "addresses": "Adresler",
@@ -679,6 +680,10 @@
     "terms": {
       "description": "Bizden alışveriş ederken kabul ettiğiniz kuralları okuyun.",
       "title": "Kullanım koşulları"
+    },
+    "wishlist": {
+      "title": "İstek listesi",
+      "description": "Sonra almak için kaydettiğiniz ürünler."
     }
   },
   "NativeSelect": {
@@ -1080,5 +1085,17 @@
       "previous": "Önceki",
       "watch": "İzle"
     }
+  },
+  "WishlistButton": {
+    "add": "İstek listesine ekle",
+    "remove": "İstek listesinden kaldır"
+  },
+  "WishlistPage": {
+    "heading": "İstek listesi",
+    "description": "Sonra almak için kaydettiğiniz ürünler.",
+    "empty": "Henüz hiç ürün kaydetmediniz.",
+    "addToCart": "Sepete ekle",
+    "chooseOptions": "Seçenekleri seç",
+    "remove": "Kaldır"
   }
 }
