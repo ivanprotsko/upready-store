@@ -11,6 +11,12 @@ import { useTranslations } from "next-intl"
 
 interface CheckoutContactsFormProps {
   cart: HttpTypes.StoreCart
+  /**
+   * A Telegram buyer's @handle. Their cart carries the synthetic address, and
+   * Medusa keeps a signed-in customer's own email on the cart whatever is
+   * typed, so the email field gives way to this read-only line.
+   */
+  telegramContact: string | null
   /** Called once the contacts are saved — the row collapses back to its summary. */
   onSaved: () => void
   /** Called on an explicit cancel — same collapse, nothing written. */
@@ -25,6 +31,7 @@ interface CheckoutContactsFormProps {
  */
 export default function CheckoutContactsForm({
   cart,
+  telegramContact,
   onSaved,
   onCancel,
 }: CheckoutContactsFormProps) {
@@ -125,16 +132,26 @@ export default function CheckoutContactsForm({
           />
         </div>
 
-        <Input
-          label={t("fieldEmail")}
-          name="email"
-          type="email"
-          autoComplete="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          data-testid="shipping-email-input"
-        />
+        {telegramContact ? (
+          <Input
+            label="Telegram"
+            name="telegram"
+            value={telegramContact}
+            readOnly
+            data-testid="shipping-telegram-contact"
+          />
+        ) : (
+          <Input
+            label={t("fieldEmail")}
+            name="email"
+            type="email"
+            autoComplete="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            data-testid="shipping-email-input"
+          />
+        )}
 
         <Input
           label={t("fieldPhone")}

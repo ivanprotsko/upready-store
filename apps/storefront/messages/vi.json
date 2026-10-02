@@ -557,6 +557,11 @@
     "notMember": "Chưa có tài khoản?",
     "password": "Mật khẩu",
     "signIn": "Đăng nhập",
+    "telegramDivider": "hoặc",
+    "telegramErrorExpired": "Lần đăng nhập bằng Telegram này đã hết hạn. Vui lòng bắt đầu lại.",
+    "telegramErrorFailed": "Không thể đăng nhập. Vui lòng thử lại sau một phút.",
+    "telegramErrorRejected": "Telegram không xác nhận lần đăng nhập này. Vui lòng thử lại.",
+    "telegramErrorUnconfigured": "Cửa hàng này chưa bật đăng nhập bằng Telegram.",
     "yandexCta": "Đăng nhập bằng Yandex ID",
     "yandexDivider": "hoặc",
     "yandexErrorDenied": "Bạn đã hủy đăng nhập trên trang Yandex.",
@@ -920,6 +925,15 @@
     "label": "Số điện thoại",
     "noPhone": "Chưa có số điện thoại",
     "phone": "Số điện thoại"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Đã liên kết: {handle}",
+    "notLinked": "Chưa liên kết",
+    "hint": "Đăng nhập bằng Telegram tại đây để liên kết với tài khoản này. Sau đó bạn có thể đăng nhập bằng cả hai cách.",
+    "errorTaken": "Tài khoản Telegram này đã được liên kết với một tài khoản khác.",
+    "errorRejected": "Telegram không xác nhận. Vui lòng thử lại.",
+    "errorFailed": "Không thể liên kết Telegram. Vui lòng thử lại sau một phút."
   },
   "PromoBanner": {
     "close": "Đóng",

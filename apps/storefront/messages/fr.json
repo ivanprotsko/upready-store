@@ -557,6 +557,11 @@
     "notMember": "Pas encore membre ?",
     "password": "Mot de passe",
     "signIn": "Se connecter",
+    "telegramDivider": "ou",
+    "telegramErrorExpired": "Cette connexion Telegram a expiré. Veuillez recommencer.",
+    "telegramErrorFailed": "Connexion impossible. Veuillez réessayer dans une minute.",
+    "telegramErrorRejected": "Telegram n’a pas confirmé cette connexion. Veuillez réessayer.",
+    "telegramErrorUnconfigured": "La connexion avec Telegram n’est pas encore activée dans cette boutique.",
     "yandexCta": "Se connecter avec Yandex ID",
     "yandexDivider": "ou",
     "yandexErrorDenied": "Vous avez annulé la connexion sur la page Yandex.",
@@ -920,6 +925,15 @@
     "label": "Téléphone",
     "noPhone": "Aucun numéro de téléphone",
     "phone": "Téléphone"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Associé : {handle}",
+    "notLinked": "Non associé",
+    "hint": "Connectez-vous ici avec Telegram pour l’associer à ce compte. Vous pourrez ensuite vous connecter de l’une ou l’autre façon.",
+    "errorTaken": "Ce compte Telegram est déjà associé à un autre compte.",
+    "errorRejected": "Telegram n’a pas confirmé. Veuillez réessayer.",
+    "errorFailed": "Impossible d’associer Telegram. Veuillez réessayer dans une minute."
   },
   "PromoBanner": {
     "close": "Fermer",

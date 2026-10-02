@@ -557,6 +557,11 @@
     "notMember": "Noch kein Mitglied?",
     "password": "Passwort",
     "signIn": "Anmelden",
+    "telegramDivider": "oder",
+    "telegramErrorExpired": "Diese Telegram-Anmeldung ist abgelaufen. Bitte beginnen Sie erneut.",
+    "telegramErrorFailed": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es in einer Minute erneut.",
+    "telegramErrorRejected": "Telegram hat diese Anmeldung nicht bestätigt. Bitte versuchen Sie es erneut.",
+    "telegramErrorUnconfigured": "Die Anmeldung mit Telegram ist in diesem Shop noch nicht aktiviert.",
     "yandexCta": "Mit Yandex ID anmelden",
     "yandexDivider": "oder",
     "yandexErrorDenied": "Sie haben die Anmeldung auf der Yandex-Seite abgebrochen.",
@@ -920,6 +925,15 @@
     "label": "Telefon",
     "noPhone": "Keine Telefonnummer",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Verknüpft: {handle}",
+    "notLinked": "Nicht verknüpft",
+    "hint": "Melden Sie sich hier mit Telegram an, um es mit diesem Konto zu verknüpfen. Danach können Sie sich auf beide Arten anmelden.",
+    "errorTaken": "Dieses Telegram-Konto ist bereits mit einem anderen Konto verknüpft.",
+    "errorRejected": "Telegram hat dies nicht bestätigt. Bitte versuchen Sie es erneut.",
+    "errorFailed": "Telegram konnte nicht verknüpft werden. Bitte versuchen Sie es in einer Minute erneut."
   },
   "PromoBanner": {
     "close": "Schließen",

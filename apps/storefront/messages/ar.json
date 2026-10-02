@@ -557,6 +557,11 @@
     "notMember": "لست عضوًا؟",
     "password": "كلمة المرور",
     "signIn": "تسجيل الدخول",
+    "telegramDivider": "أو",
+    "telegramErrorExpired": "انتهت صلاحية تسجيل الدخول عبر Telegram. ابدأ من جديد.",
+    "telegramErrorFailed": "تعذّر تسجيل الدخول. حاول مرة أخرى بعد دقيقة.",
+    "telegramErrorRejected": "لم يؤكد Telegram تسجيل الدخول هذا. حاول مرة أخرى.",
+    "telegramErrorUnconfigured": "تسجيل الدخول عبر Telegram غير مفعّل في هذا المتجر بعد.",
     "yandexCta": "تسجيل الدخول عبر Yandex ID",
     "yandexDivider": "أو",
     "yandexErrorDenied": "لقد ألغيت تسجيل الدخول في صفحة Yandex.",
@@ -920,6 +925,15 @@
     "label": "الهاتف",
     "noPhone": "لا يوجد رقم هاتف",
     "phone": "الهاتف"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "مرتبط: {handle}",
+    "notLinked": "غير مرتبط",
+    "hint": "سجّل الدخول هنا عبر Telegram لربطه بهذا الحساب. بعد ذلك يمكنك تسجيل الدخول بأي من الطريقتين.",
+    "errorTaken": "حساب Telegram هذا مرتبط بالفعل بحساب آخر.",
+    "errorRejected": "لم يؤكد Telegram ذلك. حاول مرة أخرى.",
+    "errorFailed": "تعذّر ربط Telegram. حاول مرة أخرى بعد دقيقة."
   },
   "PromoBanner": {
     "close": "إغلاق",

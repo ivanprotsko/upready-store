@@ -557,6 +557,11 @@
     "notMember": "Nog geen lid?",
     "password": "Wachtwoord",
     "signIn": "Inloggen",
+    "telegramDivider": "of",
+    "telegramErrorExpired": "Deze Telegram-aanmelding is verlopen. Begin opnieuw.",
+    "telegramErrorFailed": "Inloggen is mislukt. Probeer het over een minuut opnieuw.",
+    "telegramErrorRejected": "Telegram heeft deze aanmelding niet bevestigd. Probeer het opnieuw.",
+    "telegramErrorUnconfigured": "Inloggen met Telegram is in deze winkel nog niet ingeschakeld.",
     "yandexCta": "Inloggen met Yandex ID",
     "yandexDivider": "of",
     "yandexErrorDenied": "Je hebt het inloggen op de Yandex-pagina geannuleerd.",
@@ -920,6 +925,15 @@
     "label": "Telefoon",
     "noPhone": "Geen telefoonnummer",
     "phone": "Telefoon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Gekoppeld: {handle}",
+    "notLinked": "Niet gekoppeld",
+    "hint": "Log hier in met Telegram om het aan dit account te koppelen. Daarna kun je op beide manieren inloggen.",
+    "errorTaken": "Dit Telegram-account is al aan een ander account gekoppeld.",
+    "errorRejected": "Telegram heeft dit niet bevestigd. Probeer het opnieuw.",
+    "errorFailed": "Telegram koppelen is mislukt. Probeer het over een minuut opnieuw."
   },
   "PromoBanner": {
     "close": "Sluiten",

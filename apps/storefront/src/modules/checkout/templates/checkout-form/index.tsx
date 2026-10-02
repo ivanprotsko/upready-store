@@ -5,6 +5,7 @@ import { getLegalLinkContext } from "@lib/data/legal-links"
 import { legalHref } from "@lib/util/legal-links"
 import { retrieveCustomerAddresses } from "@lib/data/customer"
 import { isDigitalDeliveryCart } from "@lib/util/shipping-address"
+import { customerContactLabel, isSyntheticTelegramEmail } from "@lib/util/telegram-contact"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutShippingSection from "@modules/checkout/components/checkout-shipping-section"
 import CheckoutAddressRow from "@modules/checkout/components/checkout-address-row"
@@ -100,7 +101,12 @@ export default async function CheckoutForm({
             />
           )}
           <div className="checkout-section-container">
-            <CheckoutContactsRow cart={cart} />
+            <CheckoutContactsRow
+              cart={cart}
+              telegramContact={
+                isSyntheticTelegramEmail(customer?.email) ? customerContactLabel(customer) : null
+              }
+            />
           </div>
           {!isDigital && <CheckoutPickupPointSheet />}
         </PickupSheetProvider>

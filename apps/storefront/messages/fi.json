@@ -557,6 +557,11 @@
     "notMember": "Eikö sinulla ole vielä tiliä?",
     "password": "Salasana",
     "signIn": "Kirjaudu sisään",
+    "telegramDivider": "tai",
+    "telegramErrorExpired": "Tämä Telegram-kirjautuminen on vanhentunut. Aloita alusta.",
+    "telegramErrorFailed": "Kirjautuminen epäonnistui. Yritä minuutin päästä uudelleen.",
+    "telegramErrorRejected": "Telegram ei vahvistanut tätä kirjautumista. Yritä uudelleen.",
+    "telegramErrorUnconfigured": "Telegram-kirjautuminen ei ole vielä käytössä tässä kaupassa.",
     "yandexCta": "Kirjaudu Yandex ID:llä",
     "yandexDivider": "tai",
     "yandexErrorDenied": "Peruutit kirjautumisen Yandexin sivulla.",
@@ -920,6 +925,15 @@
     "label": "Puhelin",
     "noPhone": "Ei puhelinnumeroa",
     "phone": "Puhelin"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Yhdistetty: {handle}",
+    "notLinked": "Ei yhdistetty",
+    "hint": "Kirjaudu tässä Telegramilla yhdistääksesi sen tähän tiliin. Sen jälkeen voit kirjautua kummalla tavalla tahansa.",
+    "errorTaken": "Tämä Telegram-tili on jo yhdistetty toiseen tiliin.",
+    "errorRejected": "Telegram ei vahvistanut tätä. Yritä uudelleen.",
+    "errorFailed": "Telegramin yhdistäminen epäonnistui. Yritä minuutin päästä uudelleen."
   },
   "PromoBanner": {
     "close": "Sulje",

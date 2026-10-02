@@ -557,6 +557,11 @@
     "notMember": "Üye değil misiniz?",
     "password": "Şifre",
     "signIn": "Giriş yap",
+    "telegramDivider": "veya",
+    "telegramErrorExpired": "Bu Telegram girişinin süresi doldu. Lütfen baştan başlayın.",
+    "telegramErrorFailed": "Giriş yapılamadı. Lütfen bir dakika sonra tekrar deneyin.",
+    "telegramErrorRejected": "Telegram bu girişi onaylamadı. Lütfen tekrar deneyin.",
+    "telegramErrorUnconfigured": "Bu mağazada Telegram ile giriş henüz etkin değil.",
     "yandexCta": "Yandex ID ile giriş yap",
     "yandexDivider": "veya",
     "yandexErrorDenied": "Yandex sayfasında girişi iptal ettiniz.",
@@ -920,6 +925,15 @@
     "label": "Telefon",
     "noPhone": "Telefon numarası yok",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Bağlı: {handle}",
+    "notLinked": "Bağlı değil",
+    "hint": "Bu hesaba bağlamak için burada Telegram ile giriş yapın. Ardından iki yoldan biriyle giriş yapabilirsiniz.",
+    "errorTaken": "Bu Telegram hesabı zaten başka bir hesaba bağlı.",
+    "errorRejected": "Telegram bunu onaylamadı. Lütfen tekrar deneyin.",
+    "errorFailed": "Telegram bağlanamadı. Lütfen bir dakika sonra tekrar deneyin."
   },
   "PromoBanner": {
     "close": "Kapat",

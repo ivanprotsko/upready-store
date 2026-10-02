@@ -557,6 +557,11 @@
     "notMember": "Inte medlem än?",
     "password": "Lösenord",
     "signIn": "Logga in",
+    "telegramDivider": "eller",
+    "telegramErrorExpired": "Den här Telegram-inloggningen har gått ut. Börja om.",
+    "telegramErrorFailed": "Inloggningen misslyckades. Försök igen om en minut.",
+    "telegramErrorRejected": "Telegram bekräftade inte den här inloggningen. Försök igen.",
+    "telegramErrorUnconfigured": "Inloggning med Telegram är ännu inte aktiverad i den här butiken.",
     "yandexCta": "Logga in med Yandex ID",
     "yandexDivider": "eller",
     "yandexErrorDenied": "Du avbröt inloggningen på Yandex sida.",
@@ -920,6 +925,15 @@
     "label": "Telefon",
     "noPhone": "Inget telefonnummer",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Kopplat: {handle}",
+    "notLinked": "Inte kopplat",
+    "hint": "Logga in med Telegram här för att koppla det till det här kontot. Sedan kan du logga in på båda sätten.",
+    "errorTaken": "Det här Telegram-kontot är redan kopplat till ett annat konto.",
+    "errorRejected": "Telegram bekräftade inte detta. Försök igen.",
+    "errorFailed": "Det gick inte att koppla Telegram. Försök igen om en minut."
   },
   "PromoBanner": {
     "close": "Stäng",

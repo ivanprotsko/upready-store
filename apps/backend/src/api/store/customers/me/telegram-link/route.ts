@@ -15,19 +15,12 @@ import { readUsableTelegramBot } from "../../../../../tenant-secrets/telegram";
 import { resolveTenantFromPublishableKey } from "../../../tenant/resolve-tenant";
 
 /**
- * `POST /store/customers/me/telegram-link` — «Привязать Telegram» from the
- * account profile, for a buyer already signed in by e-mail
- * (t-2026-10-02-telegram-auth).
+ * `POST /store/customers/me/telegram-link` — «Привязать Telegram» for a buyer
+ * already signed in by e-mail. The Login Widget payload is verified inline
+ * with the shop's own bot token; the caller's e-mail session stays as it is.
  *
- * The OTHER direction from `/store/customers/telegram-link`: that route
- * starts from an unlinked Telegram identity looking for a customer; this one
- * starts from an authenticated customer and attaches a FRESH Telegram Login
- * Widget payload to them directly, verifying it inline rather than bouncing
- * through `/auth/customer/telegram` first — there is no second session to
- * juggle, since the caller's own e-mail session is kept throughout.
- *
- * One person, one account: refused if this `telegram_id` already belongs to
- * a DIFFERENT customer, so two people cannot end up sharing a login.
+ * One person, one account: refused when this Telegram identity already
+ * belongs to a different customer.
  */
 
 const linkTelegramToCustomerWorkflow = createWorkflow(
@@ -70,20 +63,6 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   }
 
   const telegramId = verdict.user.id;
-
-  const clash = await pg("customer")
-    .select("id")
-    .whereRaw("metadata->>'telegram_id' = ?", [String(telegramId)])
-    .whereNot({ id: customerId })
-    .whereNull("deleted_at")
-    .first();
-  if (clash) {
-    throw new MedusaError(
-      MedusaError.Types.NOT_ALLOWED,
-      "This Telegram account is already linked to another customer.",
-    );
-  }
-
   const authModule = req.scope.resolve(Modules.AUTH);
   const entityId = authIdentityEntityId(telegramId);
   const userMetadata = {
@@ -97,6 +76,17 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   const existing = await authModule.listAuthIdentities({
     provider_identities: { entity_id: entityId, provider: "telegram" },
   });
+
+  // The auth identity's own `app_metadata` is the link, not `customer.metadata`:
+  // a buyer can write their own metadata through `POST /store/customers/me`.
+  const linkedTo = (existing[0]?.app_metadata as Record<string, unknown> | undefined)
+    ?.customer_id;
+  if (linkedTo && linkedTo !== customerId) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_ALLOWED,
+      "This Telegram account is already linked to another customer.",
+    );
+  }
 
   const authIdentity =
     existing[0] ??

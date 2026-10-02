@@ -557,6 +557,11 @@
     "notMember": "Not a member?",
     "password": "Password",
     "signIn": "Sign in",
+    "telegramDivider": "or",
+    "telegramErrorExpired": "This Telegram sign-in has expired. Please start again.",
+    "telegramErrorFailed": "Could not sign in. Please try again in a minute.",
+    "telegramErrorRejected": "Telegram did not confirm this sign-in. Please try again.",
+    "telegramErrorUnconfigured": "Sign-in with Telegram is not enabled in this shop yet.",
     "yandexCta": "Sign in with Yandex ID",
     "yandexDivider": "or",
     "yandexErrorDenied": "You cancelled the sign-in on the Yandex page.",
@@ -920,6 +925,15 @@
     "label": "Phone",
     "noPhone": "No phone number",
     "phone": "Phone"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Linked: {handle}",
+    "notLinked": "Not linked",
+    "hint": "Sign in with Telegram here to link it to this account. After that you can sign in either way.",
+    "errorTaken": "This Telegram account is already linked to another account.",
+    "errorRejected": "Telegram did not confirm this. Please try again.",
+    "errorFailed": "Could not link Telegram. Please try again in a minute."
   },
   "PromoBanner": {
     "close": "Close",

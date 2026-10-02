@@ -16,10 +16,11 @@
  *   storefront  POST /auth/customer/telegram  { ...widget fields }  -> { success, authIdentity }
  *   storefront  POST /auth/customer/telegram  { initData }          -> { success, authIdentity }
  *
- * A brand new buyer's `authIdentity.app_metadata.customer_id` is still empty
- * after this call succeeds — finding or creating the actual Customer row is
- * `POST /store/customers/telegram-link` plus the standard `/store/customers`,
- * the same two-call shape `oauth-link` already uses for Yandex ID.
+ * A brand new buyer's token carries no `actor_id`; the storefront then creates
+ * the customer with the standard `POST /store/customers`, which also links it
+ * to this identity. There is no match-an-existing-account leg: Telegram has no
+ * verified email to match on, so an e-mail buyer links Telegram explicitly
+ * from the profile (`/store/customers/me/telegram-link`).
  */
 
 import {

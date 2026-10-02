@@ -557,6 +557,11 @@
     "notMember": "Belum menjadi ahli?",
     "password": "Kata laluan",
     "signIn": "Log masuk",
+    "telegramDivider": "atau",
+    "telegramErrorExpired": "Log masuk Telegram ini telah tamat tempoh. Sila mula semula.",
+    "telegramErrorFailed": "Tidak dapat log masuk. Sila cuba lagi dalam seminit.",
+    "telegramErrorRejected": "Telegram tidak mengesahkan log masuk ini. Sila cuba lagi.",
+    "telegramErrorUnconfigured": "Log masuk dengan Telegram belum didayakan di kedai ini.",
     "yandexCta": "Log masuk dengan Yandex ID",
     "yandexDivider": "atau",
     "yandexErrorDenied": "Anda membatalkan log masuk di halaman Yandex.",
@@ -920,6 +925,15 @@
     "label": "Telefon",
     "noPhone": "Tiada nombor telefon",
     "phone": "Telefon"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Dipautkan: {handle}",
+    "notLinked": "Belum dipautkan",
+    "hint": "Log masuk dengan Telegram di sini untuk memautkannya ke akaun ini. Selepas itu anda boleh log masuk dengan mana-mana cara.",
+    "errorTaken": "Akaun Telegram ini sudah dipautkan ke akaun lain.",
+    "errorRejected": "Telegram tidak mengesahkannya. Sila cuba lagi.",
+    "errorFailed": "Tidak dapat memautkan Telegram. Sila cuba lagi dalam seminit."
   },
   "PromoBanner": {
     "close": "Tutup",

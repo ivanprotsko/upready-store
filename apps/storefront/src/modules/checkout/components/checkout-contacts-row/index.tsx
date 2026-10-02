@@ -6,9 +6,12 @@ import User from "@modules/common/icons/user"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutContactsForm from "@modules/checkout/components/checkout-contacts-form"
 import { useTranslations } from "next-intl"
+import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 
 interface CheckoutContactsRowProps {
   cart: HttpTypes.StoreCart
+  /** A Telegram buyer's @handle, shown instead of their synthetic address; null otherwise. */
+  telegramContact: string | null
 }
 
 /**
@@ -19,7 +22,7 @@ interface CheckoutContactsRowProps {
  * returns focus to the row. Never gated on a digital-only cart — a buyer
  * still needs to be reachable with no delivery at all.
  */
-export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) {
+export default function CheckoutContactsRow({ cart, telegramContact }: CheckoutContactsRowProps) {
   const t = useTranslations("CheckoutPage")
   const panelId = useId()
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -32,7 +35,7 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
   const buyerLastName = meta?.contact_last_name || ""
   const buyerPhone = meta?.contact_phone || ""
   const buyerName = [buyerFirstName, buyerLastName].filter(Boolean).join(" ")
-  const hasContacts = !!(buyerName || cart.email)
+  const hasContacts = !!(buyerName || realEmailOrEmpty(cart.email))
 
   const hasDifferentRecipient = meta?.has_different_recipient === "true"
   const recipientName = [addr?.first_name, addr?.last_name]
@@ -112,7 +115,12 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
 
         {expanded && (
           <div id={panelId}>
-            <CheckoutContactsForm cart={cart} onSaved={collapse} onCancel={collapse} />
+            <CheckoutContactsForm
+              cart={cart}
+              telegramContact={telegramContact}
+              onSaved={collapse}
+              onCancel={collapse}
+            />
           </div>
         )}
       </div>

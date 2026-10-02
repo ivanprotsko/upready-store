@@ -240,6 +240,7 @@ import { PostAdminPlatformPricingSchema } from "../modules/platform-pricing/sche
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { requireOwnerPasswordLength } from "./auth/password-length-gate";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
+import { guardSyntheticTelegramEmail } from "./store/customers/synthetic-email-guard";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { guardRequestedFields } from "./field-guard";
 import { rateLimit } from "./rate-limit";
@@ -1603,23 +1604,27 @@ export default defineMiddlewares({
       ],
     },
 
-    // ---- t-2026-10-02-telegram-auth: Telegram's own two link legs.
-    // `/telegram-link` is `oauth-link`'s sibling — same `allowUnregistered`
-    // token, from `/auth/customer/telegram` instead of the Yandex callback.
-    // `/me/telegram-link` is the OTHER direction: a buyer already signed in by
-    // e-mail attaching Telegram as a second way in, so it runs with a full,
-    // already-registered customer session, no `allowUnregistered` needed.
-    {
-      matcher: "/store/customers/telegram-link",
-      method: ["POST"],
-      middlewares: [
-        authenticate("customer", ["bearer"], { allowUnregistered: true }),
-      ],
-    },
+    // ---- t-2026-10-02-telegram-auth. `/me/telegram-link`: a buyer already
+    // signed in by e-mail attaches Telegram as a second way in. The synthetic
+    // `tg_<id>@telegram.local` address is reserved for the Telegram identity
+    // with that id, on both legs that could otherwise claim it first.
     {
       matcher: "/store/customers/me/telegram-link",
       method: ["POST"],
       middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
+      matcher: "/store/customers",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"], { allowUnregistered: true }),
+        guardSyntheticTelegramEmail,
+      ],
+    },
+    {
+      matcher: "/auth/customer/emailpass/register",
+      method: ["POST"],
+      middlewares: [guardSyntheticTelegramEmail],
     },
 
     // ---- b07-store-api-isolation: the Store API stops handing one shop's

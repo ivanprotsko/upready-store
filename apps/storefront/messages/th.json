@@ -557,6 +557,11 @@
     "notMember": "ยังไม่ได้เป็นสมาชิก?",
     "password": "รหัสผ่าน",
     "signIn": "เข้าสู่ระบบ",
+    "telegramDivider": "หรือ",
+    "telegramErrorExpired": "การเข้าสู่ระบบด้วย Telegram หมดอายุแล้ว โปรดเริ่มใหม่",
+    "telegramErrorFailed": "เข้าสู่ระบบไม่สำเร็จ โปรดลองอีกครั้งในอีกหนึ่งนาที",
+    "telegramErrorRejected": "Telegram ไม่ได้ยืนยันการเข้าสู่ระบบนี้ โปรดลองอีกครั้ง",
+    "telegramErrorUnconfigured": "ร้านนี้ยังไม่ได้เปิดการเข้าสู่ระบบด้วย Telegram",
     "yandexCta": "เข้าสู่ระบบด้วย Yandex ID",
     "yandexDivider": "หรือ",
     "yandexErrorDenied": "คุณยกเลิกการเข้าสู่ระบบบนหน้า Yandex",
@@ -920,6 +925,15 @@
     "label": "เบอร์โทรศัพท์",
     "noPhone": "ไม่มีเบอร์โทรศัพท์",
     "phone": "เบอร์โทรศัพท์"
+  },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "เชื่อมแล้ว: {handle}",
+    "notLinked": "ยังไม่ได้เชื่อม",
+    "hint": "เข้าสู่ระบบด้วย Telegram ที่นี่เพื่อเชื่อมกับบัญชีนี้ หลังจากนั้นคุณจะเข้าสู่ระบบได้ทั้งสองวิธี",
+    "errorTaken": "บัญชี Telegram นี้เชื่อมกับบัญชีอื่นอยู่แล้ว",
+    "errorRejected": "Telegram ไม่ได้ยืนยัน โปรดลองอีกครั้ง",
+    "errorFailed": "เชื่อม Telegram ไม่สำเร็จ โปรดลองอีกครั้งในอีกหนึ่งนาที"
   },
   "PromoBanner": {
     "close": "ปิด",
