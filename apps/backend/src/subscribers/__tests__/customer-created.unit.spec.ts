@@ -4,6 +4,7 @@
 // which a plain jest unit test never provides — stub it out rather than
 // dragging a whole app bootstrap into this suite.
 jest.mock("../../links/tenant-sales-channel", () => ({ __esModule: true, default: {} }));
+jest.mock("../../links/tenant-order", () => ({ __esModule: true, default: { entryPoint: "tenant_order" } }));
 
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import { STORE_NAME, STOREFRONT_URL } from "../../emails/i18n";

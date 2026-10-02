@@ -15,7 +15,7 @@ import {
 import { emailShopFrom } from "../emails/lib/notify";
 import { renderForShop } from "../emails/lib/shop";
 import { panelResetPasswordUrl } from "../tenant-notifications/storefront-origin";
-import { resolveShopForTenantId, tenantIdFromMetadata } from "../tenant-notifications/shop";
+import { lastOrderTenantId, resolveShopForTenantId, tenantIdFromMetadata } from "../tenant-notifications/shop";
 
 export default async function passwordResetEmailHandler({
   event,
@@ -51,7 +51,7 @@ export default async function passwordResetEmailHandler({
     Modules.NOTIFICATION,
   ) as INotificationModuleService;
 
-  let storedLocale: string | undefined;
+  let storedRow: { id?: string; metadata?: Record<string, unknown> | null } | undefined;
 
   try {
     const { data: rows } = await query.graph({
@@ -59,25 +59,41 @@ export default async function passwordResetEmailHandler({
       fields: ["id", "metadata"],
       filters: { email },
     } as any);
-    storedLocale = getLocaleFromMetadata((rows[0] as any)?.metadata);
-  } catch {}
+    storedRow = rows[0] as { id?: string; metadata?: Record<string, unknown> | null } | undefined;
+  } catch (error) {
+    logger.warn(
+      `[password-reset-email] Could not read the stored ${actor_type} row for ${email}: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+  }
 
   const locale = resolveEmailLocale(
     getLocaleFromMetadata(metadata),
-    storedLocale,
+    getLocaleFromMetadata(storedRow?.metadata),
   );
   const { t } = getEmailTranslator(locale);
 
-  // WHICH shop a CUSTOMER'S reset request came through, resolved at request
-  // time from the publishable key (`customer-reset-password-tenant.ts`) and
-  // carried here on the event's own `metadata.tenant_id` — nothing links a
-  // customer to a shop, so the request is the only place that still knows it.
-  // The panel (tenant) branch addresses one specific tenant already and never
-  // resolves a shop here, exactly as before this task.
-  const shop =
-    actor_type === "customer"
-      ? await resolveShopForTenantId(container, tenantIdFromMetadata(metadata))
+  // WHICH shop a CUSTOMER'S reset link opens. Never the request's own
+  // publishable key: any shop owner can request a reset for someone else's
+  // e-mail through THEIR OWN key, and the request is otherwise
+  // indistinguishable from a legitimate one — a security review of this task
+  // found that a reset mailed under a trusted, DKIM-signed identity would
+  // still carry a link (and the token in it) to the REQUESTER's own domain,
+  // readable off their own analytics. The only two trustworthy sources left:
+  // the shop recorded on the customer's OWN row at registration
+  // (`inject-tenant-metadata.ts`, `customer.metadata.tenant_id`, which the
+  // buyer's own profile update cannot rewrite — `strip-tenant-metadata.ts`),
+  // or, for a customer who predates that metadata, the shop of their most
+  // recent order (`lastOrderTenantId`). The panel (tenant) branch addresses
+  // one specific tenant already and never resolves a shop here, exactly as
+  // before this task.
+  const customerTenantId =
+    actor_type === "customer" && storedRow?.id
+      ? tenantIdFromMetadata(storedRow.metadata) ?? (await lastOrderTenantId(container, storedRow.id))
       : null;
+  const shop =
+    actor_type === "customer" ? await resolveShopForTenantId(container, customerTenantId) : null;
   const emailShop = shop ? emailShopFrom(shop) : null;
 
   const resetUrl =
