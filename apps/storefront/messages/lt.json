@@ -690,7 +690,8 @@
     "cart": "Krepšelis ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Praleisti ir pereiti prie turinio"
+    "skipToContent": "Praleisti ir pereiti prie turinio",
+    "modeDark": "Tamsi tema"
   },
   "NotFound": {
     "cartDescription": "Krepšelio, kurį bandėte pasiekti, nėra. Išvalykite slapukus ir bandykite dar kartą.",
@@ -834,7 +835,10 @@
     "selectVariant": "Pasirinkite variantą",
     "inStock": "Turime sandėlyje",
     "buyNow": "Pirkti",
-    "buy": "Pirkti"
+    "buy": "Pirkti",
+    "inCart": "Krepšelyje",
+    "decreaseQuantity": "Pašalinti vieną",
+    "increaseQuantity": "Pridėti dar vieną"
   },
   "ProductAttributes": {
     "no": "Ne",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Pristatymas Rusijos paštu šioje parduotuvėje dar nenustatytas.",
     "quoteFailed": "Nepavyko apskaičiuoti pristatymo į šį punktą. Pasirinkite kitą.",
     "postcode": "Pašto kodas {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kursas",
+      "goTo": "Eiti į „{title}“",
+      "label": "Baneriai",
+      "next": "Kitas",
+      "position": "{current} iš {total}",
+      "previous": "Ankstesnis",
+      "watch": "Žiūrėti"
+    }
   }
 }

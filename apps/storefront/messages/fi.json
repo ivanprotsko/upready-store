@@ -690,7 +690,8 @@
     "cart": "Ostoskori ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Siirry sisältöön"
+    "skipToContent": "Siirry sisältöön",
+    "modeDark": "Tumma teema"
   },
   "NotFound": {
     "cartDescription": "Yrittämääsi ostoskoria ei ole olemassa. Tyhjennä evästeet ja yritä uudelleen.",
@@ -834,7 +835,10 @@
     "selectVariant": "Valitse versio",
     "inStock": "Varastossa",
     "buyNow": "Osta",
-    "buy": "Osta"
+    "buy": "Osta",
+    "inCart": "Ostoskorissa",
+    "decreaseQuantity": "Poista yksi",
+    "increaseQuantity": "Lisää yksi"
   },
   "ProductAttributes": {
     "no": "Ei",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Venäjän postin toimitusta ei ole vielä otettu käyttöön tässä kaupassa.",
     "quoteFailed": "Toimitusta tähän noutopisteeseen ei voitu laskea. Valitse toinen.",
     "postcode": "Postinumero {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kurssi",
+      "goTo": "Siirry kohteeseen “{title}”",
+      "label": "Bannerit",
+      "next": "Seuraava",
+      "position": "{current}/{total}",
+      "previous": "Edellinen",
+      "watch": "Katso"
+    }
   }
 }

@@ -690,7 +690,8 @@
     "cart": "Handlekurv ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Hopp til innhold"
+    "skipToContent": "Hopp til innhold",
+    "modeDark": "Mørkt tema"
   },
   "NotFound": {
     "cartDescription": "Handlekurven du prøvde å åpne finnes ikke. Slett informasjonskapslene dine og prøv igjen.",
@@ -834,7 +835,10 @@
     "selectVariant": "Velg variant",
     "inStock": "På lager",
     "buyNow": "Kjøp",
-    "buy": "Kjøp"
+    "buy": "Kjøp",
+    "inCart": "I kurven",
+    "decreaseQuantity": "Fjern én",
+    "increaseQuantity": "Legg til én til"
   },
   "ProductAttributes": {
     "no": "Nei",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Levering med Russisk post er ikke satt opp i denne butikken ennå.",
     "quoteFailed": "Frakten til dette hentestedet kunne ikke beregnes. Velg et annet.",
     "postcode": "Postnummer {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kurs",
+      "goTo": "Gå til «{title}»",
+      "label": "Bannere",
+      "next": "Neste",
+      "position": "{current} av {total}",
+      "previous": "Forrige",
+      "watch": "Se"
+    }
   }
 }

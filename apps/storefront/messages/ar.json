@@ -690,7 +690,8 @@
     "cart": "السلة ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "تخطي إلى المحتوى"
+    "skipToContent": "تخطي إلى المحتوى",
+    "modeDark": "الوضع الداكن"
   },
   "NotFound": {
     "cartDescription": "السلة التي حاولت الوصول إليها غير موجودة. امسح ملفات تعريف الارتباط وحاول مرة أخرى.",
@@ -834,7 +835,10 @@
     "selectVariant": "اختر الخيار",
     "inStock": "متوفر",
     "buyNow": "اشترِ الآن",
-    "buy": "شراء"
+    "buy": "شراء",
+    "inCart": "في السلة",
+    "decreaseQuantity": "إزالة واحدة",
+    "increaseQuantity": "إضافة واحدة أخرى"
   },
   "ProductAttributes": {
     "no": "لا",
@@ -1065,5 +1069,16 @@
     "notConfigured": "لم يتم إعداد التوصيل عبر البريد الروسي في هذا المتجر بعد.",
     "quoteFailed": "تعذّر حساب تكلفة التوصيل إلى هذه النقطة. اختر نقطة أخرى.",
     "postcode": "الرمز البريدي {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "دورة",
+      "goTo": "الانتقال إلى «{title}»",
+      "label": "لافتات",
+      "next": "التالي",
+      "position": "{current} من {total}",
+      "previous": "السابق",
+      "watch": "مشاهدة"
+    }
   }
 }

@@ -690,7 +690,8 @@
     "cart": "কার্ট ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "মূল বিষয়বস্তুতে যান"
+    "skipToContent": "মূল বিষয়বস্তুতে যান",
+    "modeDark": "ডার্ক থিম"
   },
   "NotFound": {
     "cartDescription": "আপনি যে কার্টে প্রবেশ করার চেষ্টা করছেন তা বিদ্যমান নেই। আপনার কুকিজ মুছে আবার চেষ্টা করুন।",
@@ -834,7 +835,10 @@
     "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন",
     "inStock": "স্টকে আছে",
     "buyNow": "কিনুন",
-    "buy": "কিনুন"
+    "buy": "কিনুন",
+    "inCart": "কার্টে আছে",
+    "decreaseQuantity": "একটি কমান",
+    "increaseQuantity": "আরও একটি যুক্ত করুন"
   },
   "ProductAttributes": {
     "no": "না",
@@ -1065,5 +1069,16 @@
     "notConfigured": "এই দোকানে রাশিয়ান পোস্টে ডেলিভারি এখনও চালু করা হয়নি।",
     "quoteFailed": "এই পয়েন্টে ডেলিভারির খরচ হিসাব করা যায়নি। অন্য একটি বেছে নিন।",
     "postcode": "পোস্টকোড {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "কোর্স",
+      "goTo": "“{title}”-এ যান",
+      "label": "ব্যানার",
+      "next": "পরবর্তী",
+      "position": "{current} / {total}",
+      "previous": "পূর্ববর্তী",
+      "watch": "দেখুন"
+    }
   }
 }

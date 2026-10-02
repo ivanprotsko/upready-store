@@ -690,7 +690,8 @@
     "cart": "Košík ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Přeskočit na obsah"
+    "skipToContent": "Přeskočit na obsah",
+    "modeDark": "Tmavý režim"
   },
   "NotFound": {
     "cartDescription": "Košík, který se snažíte zobrazit, neexistuje. Vymažte soubory cookie a zkuste to znovu.",
@@ -834,7 +835,10 @@
     "selectVariant": "Vyberte variantu",
     "inStock": "Skladem",
     "buyNow": "Koupit",
-    "buy": "Koupit"
+    "buy": "Koupit",
+    "inCart": "V košíku",
+    "decreaseQuantity": "Odebrat jeden",
+    "increaseQuantity": "Přidat další"
   },
   "ProductAttributes": {
     "no": "Ne",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Doprava Ruskou poštou zatím v tomto obchodě není nastavena.",
     "quoteFailed": "Dopravu na toto místo se nepodařilo spočítat. Vyberte jiné.",
     "postcode": "PSČ {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Kurz",
+      "goTo": "Přejít na „{title}“",
+      "label": "Bannery",
+      "next": "Další",
+      "position": "{current} z {total}",
+      "previous": "Předchozí",
+      "watch": "Sledovat"
+    }
   }
 }

@@ -690,7 +690,8 @@
     "cart": "Winkelwagen ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Ga naar inhoud"
+    "skipToContent": "Ga naar inhoud",
+    "modeDark": "Donker thema"
   },
   "NotFound": {
     "cartDescription": "De winkelwagen die u probeerde te bezoeken bestaat niet. Wis uw cookies en probeer het opnieuw.",
@@ -834,7 +835,10 @@
     "selectVariant": "Selecteer variant",
     "inStock": "Op voorraad",
     "buyNow": "Nu kopen",
-    "buy": "Kopen"
+    "buy": "Kopen",
+    "inCart": "In winkelwagen",
+    "decreaseQuantity": "Eén verwijderen",
+    "increaseQuantity": "Nog één toevoegen"
   },
   "ProductAttributes": {
     "no": "Nee",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Verzending met de Russische Post is in deze winkel nog niet ingesteld.",
     "quoteFailed": "De verzending naar dit punt kon niet worden berekend. Kies een ander punt.",
     "postcode": "Postcode {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Cursus",
+      "goTo": "Ga naar “{title}”",
+      "label": "Banners",
+      "next": "Volgende",
+      "position": "{current} van {total}",
+      "previous": "Vorige",
+      "watch": "Bekijken"
+    }
   }
 }

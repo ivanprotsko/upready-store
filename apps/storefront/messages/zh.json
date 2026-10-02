@@ -690,7 +690,8 @@
     "cart": "购物车（{count}）",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "跳转到内容"
+    "skipToContent": "跳转到内容",
+    "modeDark": "深色主题"
   },
   "NotFound": {
     "cartDescription": "您访问的购物车不存在。请清除浏览器 Cookie 后重试。",
@@ -834,7 +835,10 @@
     "selectVariant": "选择规格",
     "inStock": "有货",
     "buyNow": "立即购买",
-    "buy": "购买"
+    "buy": "购买",
+    "inCart": "已加入购物车",
+    "decreaseQuantity": "减少一个",
+    "increaseQuantity": "增加一个"
   },
   "ProductAttributes": {
     "no": "否",
@@ -1065,5 +1069,16 @@
     "notConfigured": "本店尚未设置俄罗斯邮政配送。",
     "quoteFailed": "无法计算寄往该自提点的运费，请选择其他自提点。",
     "postcode": "邮编 {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "课程",
+      "goTo": "前往「{title}」",
+      "label": "横幅",
+      "next": "下一个",
+      "position": "第{current}张，共{total}张",
+      "previous": "上一个",
+      "watch": "观看"
+    }
   }
 }

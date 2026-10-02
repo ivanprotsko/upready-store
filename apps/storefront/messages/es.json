@@ -690,7 +690,8 @@
     "cart": "Carrito ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Saltar al contenido"
+    "skipToContent": "Saltar al contenido",
+    "modeDark": "Tema oscuro"
   },
   "NotFound": {
     "cartDescription": "El carrito al que intentaste acceder no existe. Borra tus cookies e inténtalo de nuevo.",
@@ -834,7 +835,10 @@
     "selectVariant": "Seleccionar variante",
     "inStock": "En stock",
     "buyNow": "Comprar",
-    "buy": "Comprar"
+    "buy": "Comprar",
+    "inCart": "En el carrito",
+    "decreaseQuantity": "Quitar uno",
+    "increaseQuantity": "Añadir uno más"
   },
   "ProductAttributes": {
     "no": "No",
@@ -1065,5 +1069,16 @@
     "notConfigured": "El envío con Correos de Rusia aún no está configurado en esta tienda.",
     "quoteFailed": "No se pudo calcular el envío a este punto. Elige otro.",
     "postcode": "Código postal {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Curso",
+      "goTo": "Ir a “{title}”",
+      "label": "Banners",
+      "next": "Siguiente",
+      "position": "{current} de {total}",
+      "previous": "Anterior",
+      "watch": "Ver"
+    }
   }
 }

@@ -690,7 +690,8 @@
     "cart": "Сагс ({count})",
     "modeToggleDark": "Switch to dark mode",
     "modeToggleLight": "Switch to light mode",
-    "skipToContent": "Агуулга руу шилжих"
+    "skipToContent": "Агуулга руу шилжих",
+    "modeDark": "Бараан горим"
   },
   "NotFound": {
     "cartDescription": "Таны хандах гэсэн сагс байхгүй байна. Күүкигээ цэвэрлээд дахин оролдоно уу.",
@@ -834,7 +835,10 @@
     "selectVariant": "Хувилбар сонгох",
     "inStock": "Бэлэн байгаа",
     "buyNow": "Худалдан авах",
-    "buy": "Худалдан авах"
+    "buy": "Худалдан авах",
+    "inCart": "Сагсанд байна",
+    "decreaseQuantity": "Нэгийг хасах",
+    "increaseQuantity": "Нэгийг нэмэх"
   },
   "ProductAttributes": {
     "no": "Үгүй",
@@ -1065,5 +1069,16 @@
     "notConfigured": "Энэ дэлгүүрт Оросын шуудангаар хүргэх үйлчилгээ хараахан тохируулагдаагүй байна.",
     "quoteFailed": "Энэ цэг хүртэлх хүргэлтийг тооцоолж чадсангүй. Өөр цэг сонгоно уу.",
     "postcode": "Шуудангийн код {index}"
+  },
+  "OlavkaHome": {
+    "slider": {
+      "course": "Курс",
+      "goTo": "«{title}» руу очих",
+      "label": "Баннер",
+      "next": "Дараах",
+      "position": "{current}/{total}",
+      "previous": "Өмнөх",
+      "watch": "Үзэх"
+    }
   }
 }
