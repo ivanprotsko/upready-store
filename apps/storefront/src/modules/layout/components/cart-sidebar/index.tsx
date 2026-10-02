@@ -8,12 +8,14 @@ import { useLocale, useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 
 import { getCartDeliveryDays } from "@lib/data/cart-delivery"
+import type { TelegramBot } from "@lib/data/telegram-bot"
 import { useRouter } from "@i18n/navigation"
 import { allowsEmailLogin, yandexLoginAvailable, type TenantLoginSettings } from "@lib/tenant/login-settings"
 import { formatDeliveryRange } from "@lib/util/delivery-estimate"
 import type { DeliveryDays } from "@lib/util/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { cartShipmentLines, shipmentGroups } from "@lib/util/shipment-groups"
+import TelegramLogin from "@modules/account/components/telegram-login"
 import YandexMark from "@modules/account/components/yandex-login/yandex-mark"
 
 import { useCartSidebar } from "./context"
@@ -39,9 +41,10 @@ const checkoutStep = (cart: HttpTypes.StoreCart): "address" | "delivery" | "paym
  * any navigation close it (`./context.tsx`). @medusajs/ui's `Drawer` (Radix Dialog)
  * traps focus and returns it to where it was.
  *
- * In the frame, not here (no feature behind them): the checkbox on every line, the
- * gift icon on a line, «Через Телеграм» (the storefront has no Telegram sign-in; the
- * second button is Yandex ID when the shop offers it, `lib/tenant/login-settings.ts`).
+ * In the frame, not here (no feature behind it): the checkbox on every line, the
+ * gift icon on a line. The sign-in block itself offers e-mail, Yandex ID and
+ * Telegram per the shop's own settings (`lib/tenant/login-settings.ts`,
+ * `lib/data/telegram-bot.ts`).
  */
 export default function CartSidebar({
   cart,
@@ -49,6 +52,7 @@ export default function CartSidebar({
   wishlistLoggedIn,
   wishlistProductIds,
   loginSettings,
+  telegramBot,
 }: {
   cart: HttpTypes.StoreCart | null
   /** The buyer has an account session: the sign-in block is not shown. */
@@ -56,6 +60,8 @@ export default function CartSidebar({
   wishlistLoggedIn: boolean
   wishlistProductIds: readonly string[]
   loginSettings: TenantLoginSettings
+  /** This shop's own Telegram bot, or null when it has none (`getTelegramBot`). */
+  telegramBot: TelegramBot | null
 }) {
   const t = useTranslations("CartSidebar")
   const tShip = useTranslations("Shipments")
@@ -97,7 +103,7 @@ export default function CartSidebar({
   const returnTo = query ? `${pathname}?${query}` : pathname
   const emailSignIn = allowsEmailLogin(loginSettings.method)
   const yandexSignIn = yandexLoginAvailable(loginSettings)
-  const showSignIn = !isLoggedIn && (emailSignIn || yandexSignIn)
+  const showSignIn = !isLoggedIn && (emailSignIn || yandexSignIn || telegramBot !== null)
 
   const goodsTotal = cart ? (cart.item_subtotal ?? cart.subtotal ?? 0) : 0
   const currencyCode = cart?.currency_code ?? "RUB"
@@ -174,6 +180,9 @@ export default function CartSidebar({
                   </Button>
                 ) : null}
               </div>
+              {/* Renders nothing without the shop's own bot (`getTelegramBot`); the
+                  divider only when a button already sits above it. */}
+              <TelegramLogin bot={telegramBot} returnTo={returnTo} withDivider={emailSignIn || yandexSignIn} />
             </section>
           ) : null}
 

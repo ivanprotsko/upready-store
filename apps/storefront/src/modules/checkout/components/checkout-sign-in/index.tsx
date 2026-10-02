@@ -1,9 +1,11 @@
 import { Button, Text } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
 
+import { getTelegramBot } from "@lib/data/telegram-bot"
 import { getSiteLoginSettings } from "@lib/data/tenant-login-settings"
 import { allowsEmailLogin, yandexLoginAvailable } from "@lib/tenant/login-settings"
 import AccountLink from "@modules/layout/components/account-link"
+import TelegramLogin from "@modules/account/components/telegram-login"
 import YandexMark from "@modules/account/components/yandex-login/yandex-mark"
 
 type Props = {
@@ -22,14 +24,16 @@ type Props = {
  * `lib/data/customer.ts`).
  *
  * The ways in are the shop's own (`lib/tenant/login-settings.ts`): e-mail and
- * password (with registration on the same page), Yandex ID when the shop has it,
- * and Telegram once its component lands (see the slot below).
+ * password (with registration on the same page), Yandex ID when the shop has
+ * it, and Telegram when the shop has connected its own bot (`getTelegramBot`,
+ * null renders nothing).
  */
 export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
-  const [t, tSide, loginSettings] = await Promise.all([
+  const [t, tSide, loginSettings, telegramBot] = await Promise.all([
     getTranslations("CheckoutPage"),
     getTranslations("CartSidebar"),
     getSiteLoginSettings(),
+    getTelegramBot(),
   ])
   const emailSignIn = allowsEmailLogin(loginSettings.method)
   const yandexSignIn = yandexLoginAvailable(loginSettings)
@@ -60,12 +64,10 @@ export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
             </a>
           </Button>
         )}
-        {/* TELEGRAM SLOT (batch 7): «Войти через Телеграм» goes here once the Telegram
-            worker's component lands (`modules/account/components/telegram-login`,
-            branch feat/telegram-login). It renders only when the shop's login settings
-            have Telegram on; the lead passes the import path and the props. Not
-            written here on purpose — no second Telegram implementation. */}
       </div>
+      {/* Renders nothing when this shop has no bot of its own (`getTelegramBot`
+          returns null); the divider only when there is another method above it. */}
+      <TelegramLogin bot={telegramBot} returnTo={returnTo} withDivider={emailSignIn || yandexSignIn} />
     </div>
   )
 }
