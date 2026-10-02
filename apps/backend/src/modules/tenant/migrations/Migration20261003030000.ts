@@ -11,7 +11,7 @@ import { Migration } from "@medusajs/framework/mikro-orm/migrations";
  * `down()` restores the list that was in force before this migration and
  * removes the rows of the slot first so the narrower CHECK can be added back.
  */
-export class Migration20261002120000 extends Migration {
+export class Migration20261003030000 extends Migration {
   override async up(): Promise<void> {
     this.addSql(
       `alter table if exists "tenant_integration_secret" drop constraint if exists "tenant_integration_secret_provider_check";`,
