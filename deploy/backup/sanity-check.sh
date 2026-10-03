@@ -68,13 +68,24 @@ pg_backup_sanity_check() {
   echo "[sanity-check] $label: $newest ok (size=$size bytes, age=${age_hours}h)" >&2
 }
 
-# BSD `stat` (macOS) takes `-f %m`; GNU `stat` (the Linux hosts this runs on)
-# takes `-c %Y`. Try BSD first, since `-c` on BSD stat prints the literal
-# string "%Y" instead of failing, which would silently misread as mtime 0.
+# GNU `stat` (the Linux hosts this runs on) takes `-c %Y`; BSD `stat` (macOS)
+# takes `-f %m`. Neither flag can simply be "tried first" by exit status: on
+# GNU, `-f` means --file-system, so `stat -f %m <file>` prints a multi-line
+# "File: … ID: … Type: …" block to stdout (exit 1, because "%m" is not a
+# mount point) and the caller's arithmetic then dies with
+# "File: unbound variable" (seen on the RU host, 2026-10-03). On BSD, `-c`
+# can print the literal "%Y". So each form's output is accepted only when it
+# is a bare epoch number.
 _pg_backup_file_mtime_epoch() {
-  local f="$1"
-  if stat -f %m "$f" 2>/dev/null; then
+  local f="$1" out
+  if out="$(stat -c %Y "$f" 2>/dev/null)" && [[ "$out" =~ ^[0-9]+$ ]]; then
+    printf '%s\n' "$out"
     return 0
   fi
-  stat -c %Y "$f"
+  if out="$(stat -f %m "$f" 2>/dev/null)" && [[ "$out" =~ ^[0-9]+$ ]]; then
+    printf '%s\n' "$out"
+    return 0
+  fi
+  echo "[sanity-check] error: cannot read the mtime of $f with GNU or BSD stat" >&2
+  return 1
 }
