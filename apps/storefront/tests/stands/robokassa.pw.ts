@@ -91,7 +91,7 @@ async function fillShippingAddress(
     const provinceInput = page.getByTestId("address-province-input")
     if ((await provinceInput.count()) > 0) await provinceInput.fill("Москва")
   }
-  await page.locator('form button[type="submit"]:visible').last().click()
+  await page.locator('form:has(input[name="address_1"]) button[type="submit"]').click()
   await expect(address1).toBeHidden({ timeout: 25_000 })
 }
 

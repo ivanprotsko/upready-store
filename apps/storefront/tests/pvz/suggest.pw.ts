@@ -65,7 +65,7 @@ test.describe("checkout address suggest", () => {
     // answer closes when the buyer moves on (the address form's submit is the
     // control this would otherwise hide).
     await page.locator('input[name="postal_code"]').fill("238530")
-    const submit = page.locator('form button[type="submit"]:visible').last()
+    const submit = page.locator('form:has(input[name="address_1"]) button[type="submit"]')
     await expect(submit).toBeVisible()
     await submit.click({ trial: true })
   })
