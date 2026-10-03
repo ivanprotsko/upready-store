@@ -89,7 +89,14 @@ esac
 [ -n "$IP" ] || { echo "no host IP for instance $INSTANCE (set CONTABO_SERVER_IP / RU_HOST_IP in ~/upready/.env.keys)" >&2; exit 2; }
 HOST="root@$IP"
 REMOTE_DIR="/opt/upready-store/mt"
-ENV_FILE="${ENV_FILE_OVERRIDE:-$REPO_ROOT/deploy/mt/$INSTANCE.env}"
+if [ -n "$ENV_FILE_OVERRIDE" ]; then
+  case "$ENV_FILE_OVERRIDE" in
+    /*) ENV_FILE="$ENV_FILE_OVERRIDE" ;;
+    *) ENV_FILE="$REPO_ROOT/$ENV_FILE_OVERRIDE" ;;
+  esac
+else
+  ENV_FILE="$REPO_ROOT/deploy/mt/$INSTANCE.env"
+fi
 [ -f "$ENV_FILE" ] || { echo "missing env file $ENV_FILE (copy deploy/mt/shipshift.env.example, or pass --env-file)" >&2; exit 2; }
 REMOTE_ENV="$REMOTE_DIR/$(basename "$ENV_FILE")"
 COMPOSE="docker compose -p mt -f $REMOTE_DIR/deploy/compose.mt.yml --env-file $REMOTE_ENV"
