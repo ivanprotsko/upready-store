@@ -13,6 +13,28 @@ export type TenantFooterCredit = {
   href: string | null
 }
 
+/**
+ * The app-icon set the backend builds from a `favicon` upload (t-2026-10-03-61,
+ * `apps/backend/src/tenant-files/icon-set.ts`): every size a PWA, iOS, Android, Windows or macOS
+ * install asks for. `null` for a tenant that has not uploaded a favicon since; the storefront then
+ * falls back to `favicon_url` alone, as before. `background_color` is the field behind the opaque
+ * icons, used for the manifest and the Windows tile when the shop set no primary colour;
+ * `mark_color` is the mark's own colour, for Safari's pinned tab when the field is the lighter one.
+ */
+export type TenantAppIcons = {
+  icon_svg_url: string | null
+  favicon_ico_url: string | null
+  apple_touch_icon_url: string | null
+  icon_192_url: string | null
+  icon_512_url: string | null
+  icon_maskable_512_url: string | null
+  mstile_150_url: string | null
+  mstile_310_url: string | null
+  mask_icon_url: string | null
+  background_color: string | null
+  mark_color: string | null
+}
+
 export type TenantBranding = {
   logo_light_url: string | null
   logo_dark_url: string | null
@@ -25,6 +47,7 @@ export type TenantBranding = {
   low_contrast: boolean
   shop_name_short: string | null
   footer_credit: TenantFooterCredit | null
+  app_icons: TenantAppIcons | null
 }
 
 /** A tenant that configured nothing: the storefront then renders exactly as it does today. */
@@ -38,6 +61,7 @@ export const EMPTY_BRANDING: TenantBranding = {
   low_contrast: false,
   shop_name_short: null,
   footer_credit: null,
+  app_icons: null,
 }
 
 /** From the request header the middleware wrote. Malformed JSON is not a 500 — the

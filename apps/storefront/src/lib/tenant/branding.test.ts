@@ -2,6 +2,20 @@ import { describe, expect, it } from "vitest"
 
 import { EMPTY_BRANDING, parseBrandingHeader } from "./branding"
 
+const FULL_APP_ICONS = {
+  icon_svg_url: "https://cdn.example.com/icon.svg",
+  favicon_ico_url: "https://cdn.example.com/favicon.ico",
+  apple_touch_icon_url: "https://cdn.example.com/apple-touch-icon.png",
+  icon_192_url: "https://cdn.example.com/icon-192.png",
+  icon_512_url: "https://cdn.example.com/icon-512.png",
+  icon_maskable_512_url: "https://cdn.example.com/icon-maskable-512.png",
+  mstile_150_url: "https://cdn.example.com/mstile-150.png",
+  mstile_310_url: "https://cdn.example.com/mstile-310.png",
+  mask_icon_url: "https://cdn.example.com/mask-icon.svg",
+  background_color: "#0a6a52",
+  mark_color: "#ffffff",
+}
+
 const FULL = {
   logo_light_url: "https://cdn.example.com/logo-light.svg",
   logo_dark_url: "https://cdn.example.com/logo-dark.svg",
@@ -12,6 +26,7 @@ const FULL = {
   low_contrast: false,
   shop_name_short: "Тест",
   footer_credit: { enabled: true, text: "Создание сайта — Иван Процко", href: "https://upready.dev" },
+  app_icons: FULL_APP_ICONS,
 }
 
 describe("parseBrandingHeader", () => {
@@ -30,5 +45,13 @@ describe("parseBrandingHeader", () => {
       ...EMPTY_BRANDING,
       primary_color: "#000000",
     })
+  })
+
+  it("defaults app_icons to null for a tenant with no icon set", () => {
+    expect(parseBrandingHeader(JSON.stringify({ primary_color: "#000000" }))?.app_icons).toBeNull()
+  })
+
+  it("reads a full app_icons object through unchanged", () => {
+    expect(parseBrandingHeader(JSON.stringify(FULL))?.app_icons).toEqual(FULL_APP_ICONS)
   })
 })

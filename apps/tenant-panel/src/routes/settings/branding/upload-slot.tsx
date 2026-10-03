@@ -1,17 +1,26 @@
 import { useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Label, Text, toast } from "@medusajs/ui"
-import { uploadBrandingFile, type UploadBrandingKind } from "../../../hooks/api/branding"
+import {
+  uploadBrandingFile,
+  type TenantAppIcons,
+  type UploadBrandingKind,
+} from "../../../hooks/api/branding"
 
 /** One branding upload slot: preview thumbnail, file input, remove button.
  * Split out of `branding.tsx` (rule: one component per file) — reused for the
- * light logo, the dark logo, the favicon and the og image. */
+ * light logo, the dark logo, the favicon and the og image, and for the two
+ * optional app-icon masters (t-2026-10-03-61). An icon kind also hands up the
+ * `app_icons` fields its upload built. */
 export const UploadSlot = ({
   label,
   hint,
   kind,
   url,
   busy,
+  disabled = false,
+  removable = true,
+  accept = "image/svg+xml,image/png,image/webp",
   onChange,
 }: {
   label: string
@@ -19,7 +28,10 @@ export const UploadSlot = ({
   kind: UploadBrandingKind
   url: string | null
   busy: boolean
-  onChange: (url: string | null) => void
+  disabled?: boolean
+  removable?: boolean
+  accept?: string
+  onChange: (url: string | null, appIcons?: Partial<TenantAppIcons>) => void
 }) => {
   const { t } = useTranslation()
   const [uploading, setUploading] = useState(false)
@@ -32,7 +44,7 @@ export const UploadSlot = ({
     setUploading(true)
     try {
       const uploaded = await uploadBrandingFile(file, kind)
-      onChange(uploaded.url)
+      onChange(uploaded.file.url, uploaded.app_icons)
     } catch (error) {
       toast.error((error as Error).message)
     } finally {
@@ -67,17 +79,17 @@ export const UploadSlot = ({
           <input
             ref={inputRef}
             type="file"
-            accept="image/svg+xml,image/png,image/webp"
-            disabled={busy || uploading}
+            accept={accept}
+            disabled={busy || uploading || disabled}
             onChange={(event) => handleFile(event.target.files?.[0])}
             className="txt-compact-small"
           />
-          {url ? (
+          {url && removable ? (
             <button
               type="button"
               className="txt-compact-small text-ui-fg-muted hover:text-ui-fg-base underline text-left"
               onClick={() => onChange(null)}
-              disabled={busy || uploading}
+              disabled={busy || uploading || disabled}
             >
               {t("brandingSettings.remove", { defaultValue: "Убрать" })}
             </button>

@@ -379,6 +379,44 @@
       "provisioningFailed": "We couldn't complete your sign in. Please contact an administrator."
     }
   },
+  "brandingSettings": {
+    "title": "Branding",
+    "subtitle": "The shop's logo, favicon, social sharing image and primary color.",
+    "saved": "Branding saved",
+    "remove": "Remove",
+    "preview": "Header preview",
+    "previewShopName": "Shop",
+    "previewButton": "Add to cart",
+    "fields": {
+      "logoLight": "Logo (light theme)",
+      "logoDark": "Logo (dark theme)",
+      "logoDarkHint": "Optional. Without it, the light logo is used.",
+      "favicon": "Favicon",
+      "faviconHint": "An SVG, or a square PNG of 512 to 1024 pixels. The app icon is built from it.",
+      "ogImage": "Social sharing image",
+      "ogImageHint": "Shown when someone shares a link to the shop. At least 600×315.",
+      "primaryColor": "Primary color",
+      "primaryColorInvalid": "Enter the color as #RRGGBB.",
+      "lowContrast": "This color reads poorly with both white and black text, so buttons will be hard to make out. It is saved as it is, but consider a higher-contrast color.",
+      "shopNameShort": "Short name",
+      "shopNameShortHint": "Shown in the header when no logo is uploaded.",
+      "footerCreditEnabled": "Footer credit line",
+      "footerCreditText": "Text",
+      "footerCreditHref": "Link (optional)"
+    },
+    "appIcons": {
+      "title": "App icon",
+      "subtitle": "The favicon has been turned into a set for the browser tab, the iOS home screen, Android, Windows tiles and the macOS Dock.",
+      "empty": "Upload a favicon to build the icon set for browsers, iOS, Android, Windows and macOS from it.",
+      "previewTab": "Browser tab",
+      "previewIos": "iOS home screen",
+      "previewAndroid": "Android",
+      "maskable": "Android icon (optional)",
+      "maskableHint": "A full-bleed square with the mark inside the central 80%: Android crops the edges to its icon shape. Without it, the icon is built from the favicon.",
+      "mono": "One-color silhouette (optional)",
+      "monoHint": "An SVG with one shape on a transparent background, for Safari's pinned tab. Without it, the silhouette is built from the favicon."
+    }
+  },
   "campaigns": {
     "budget": {
       "attribute": {

@@ -4,6 +4,7 @@ import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getTenantAnalytics } from "@lib/data/analytics"
 import Analytics from "@modules/common/components/analytics"
 import { getSiteBranding } from "@lib/data/tenant-branding"
+import { buildIconMetadata } from "@lib/tenant/icons"
 import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
@@ -32,16 +33,17 @@ import "styles/globals.css"
 // static `opengraph-image.png`/`twitter-image.png` file convention always
 // wins over a same-named field set from `generateMetadata` — setting it here
 // too would risk a duplicate `og:image` tag once both are present.
+//
+// t-2026-10-03-61: with an icon set (`branding.app_icons`, built by the
+// backend from the favicon upload) the single favicon becomes one `<link>` per
+// size and purpose, plus Safari's `mask-icon` and the Windows tile tags
+// (`lib/tenant/icons.ts`). A tenant with no set keeps the icons it had.
+// The PWA manifest is not linked here: the `app/manifest.ts` file convention
+// links `/manifest.webmanifest` from every page itself.
 export async function generateMetadata(): Promise<Metadata> {
   const [baseURL, branding] = await Promise.all([getRequestBaseURL(), getSiteBranding()])
 
-  const metadata: Metadata = { metadataBase: new URL(baseURL) }
-
-  if (branding.favicon_url) {
-    metadata.icons = { icon: branding.favicon_url, shortcut: branding.favicon_url, apple: branding.favicon_url }
-  }
-
-  return metadata
+  return { metadataBase: new URL(baseURL), ...buildIconMetadata(branding) }
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

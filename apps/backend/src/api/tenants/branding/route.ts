@@ -3,7 +3,7 @@ import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
 import { getTenantScope } from "../tenant-scope";
 import type { PutTenantBrandingBody } from "../validators";
-import { brandingResponse, readBranding, type TenantBranding } from "./branding";
+import { brandingResponse, mergeAppIcons, readBranding, type TenantBranding } from "./branding";
 
 /**
  * `GET/PUT /tenants/branding` (t16-owner-branding) — the owner's brand
@@ -49,6 +49,7 @@ export const PUT = async (
             href: body.footer_credit.href ?? null,
           }
         : current.footer_credit,
+    app_icons: mergeAppIcons(body, current),
   };
 
   const updated = await tenantModuleService.updateTenants({

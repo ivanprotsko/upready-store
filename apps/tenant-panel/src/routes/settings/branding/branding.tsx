@@ -4,10 +4,14 @@ import { Button, Container, Heading, Input, Label, Switch, Text, toast } from "@
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import {
+  EMPTY_APP_ICONS,
+  type TenantAppIcons,
   type TenantFooterCredit,
   useTenantBranding,
   useUpdateTenantBranding,
 } from "../../../hooks/api/branding"
+import { useStore } from "../../../hooks/api/store"
+import { AppIcons } from "./app-icons"
 import { UploadSlot } from "./upload-slot"
 import { bestForeground, contrastIsLow } from "./contrast"
 
@@ -19,6 +23,10 @@ import { bestForeground, contrastIsLow } from "./contrast"
 // рисуются настоящие контролы, только выключенные, а форма заполняется из
 // ответа только если владелец её ещё не трогал (touchedRef) — медленный ответ
 // не затирает набранное.
+//
+// t-2026-10-03-61: блок «Иконка приложения» (`app-icons.tsx`) показывает
+// набор, который бэкенд собрал из фавикона, так, как его рисуют вкладка
+// браузера, iOS и Android, и принимает два необязательных мастера.
 
 type Draft = {
   logo_light_url: string | null
@@ -28,6 +36,7 @@ type Draft = {
   primary_color: string
   shop_name_short: string
   footer_credit: TenantFooterCredit
+  app_icons: TenantAppIcons | null
 }
 
 const EMPTY_CREDIT: TenantFooterCredit = { enabled: false, text: "", href: null }
@@ -40,11 +49,13 @@ const EMPTY_DRAFT: Draft = {
   primary_color: "",
   shop_name_short: "",
   footer_credit: EMPTY_CREDIT,
+  app_icons: null,
 }
 
 export const BrandingSettings = () => {
   const { t } = useTranslation()
   const { branding, isPending, isError, error } = useTenantBranding()
+  const { store } = useStore()
   const [loaded, setLoaded] = useState<boolean | null>(null)
   const [draft, setDraft] = useState<Draft>(EMPTY_DRAFT)
   const touchedRef = useRef(false)
@@ -63,6 +74,7 @@ export const BrandingSettings = () => {
         primary_color: branding.primary_color ?? "",
         shop_name_short: branding.shop_name_short ?? "",
         footer_credit: branding.footer_credit ?? EMPTY_CREDIT,
+        app_icons: branding.app_icons ?? null,
       })
     }
   }, [isPending, branding])
@@ -78,6 +90,25 @@ export const BrandingSettings = () => {
   const update = <K extends keyof Draft>(key: K, value: Draft[K]) => {
     touchedRef.current = true
     setDraft((previous) => ({ ...previous, [key]: value }))
+  }
+
+  // t-2026-10-03-61: a favicon upload answers the whole icon set built from it, so the set is
+  // replaced with the favicon and cleared with it; the two optional masters only patch their own
+  // fields of the set already there.
+  const updateFavicon = (url: string | null, icons?: Partial<TenantAppIcons>) => {
+    touchedRef.current = true
+    setDraft((previous) => ({
+      ...previous,
+      favicon_url: url,
+      app_icons: url && icons ? { ...EMPTY_APP_ICONS, ...icons } : null,
+    }))
+  }
+
+  const refineAppIcons = (icons: Partial<TenantAppIcons>) => {
+    touchedRef.current = true
+    setDraft((previous) =>
+      previous.app_icons ? { ...previous, app_icons: { ...previous.app_icons, ...icons } } : previous
+    )
   }
 
   const updateCredit = <K extends keyof TenantFooterCredit>(key: K, value: TenantFooterCredit[K]) => {
@@ -98,6 +129,7 @@ export const BrandingSettings = () => {
         logo_light_url: draft.logo_light_url,
         logo_dark_url: draft.logo_dark_url,
         favicon_url: draft.favicon_url,
+        app_icons: draft.app_icons,
         og_image_url: draft.og_image_url,
         primary_color: draft.primary_color ? draft.primary_color : null,
         shop_name_short: draft.shop_name_short.trim() ? draft.shop_name_short.trim() : null,
@@ -149,12 +181,12 @@ export const BrandingSettings = () => {
             <UploadSlot
               label={t("brandingSettings.fields.favicon", { defaultValue: "Фавикон" })}
               hint={t("brandingSettings.fields.faviconHint", {
-                defaultValue: "Квадратное изображение, 32–1024 пикселей.",
+                defaultValue: "SVG или квадратный PNG от 512 до 1024 пикселей. Из него собирается иконка приложения.",
               })}
               kind="favicon"
               url={draft.favicon_url}
               busy={busy}
-              onChange={(url) => update("favicon_url", url)}
+              onChange={updateFavicon}
             />
             <UploadSlot
               label={t("brandingSettings.fields.ogImage", { defaultValue: "Картинка для соцсетей" })}
@@ -167,6 +199,14 @@ export const BrandingSettings = () => {
               onChange={(url) => update("og_image_url", url)}
             />
           </div>
+
+          <AppIcons
+            icons={draft.app_icons}
+            faviconUrl={draft.favicon_url}
+            shopName={draft.shop_name_short || store?.name || t("brandingSettings.previewShopName", { defaultValue: "Магазин" })}
+            busy={busy}
+            onRefine={refineAppIcons}
+          />
 
           <div className="flex flex-col gap-y-4 px-6 py-6">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -236,7 +276,7 @@ export const BrandingSettings = () => {
                   {draft.logo_light_url ? (
                     <img src={draft.logo_light_url} alt="" className="h-6 w-auto max-w-[8rem] object-contain" />
                   ) : (
-                    draft.shop_name_short || t("brandingSettings.preview", { defaultValue: "Магазин" })
+                    draft.shop_name_short || t("brandingSettings.previewShopName", { defaultValue: "Магазин" })
                   )}
                 </span>
                 <span

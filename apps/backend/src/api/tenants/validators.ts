@@ -620,16 +620,42 @@ export type PutTenantAnalyticsBody = z.infer<typeof PutTenantAnalyticsSchema>;
  */
 const brandingUrl = z.string().min(1).max(2048).nullable().optional();
 
+const brandingHexColor = z
+  .string()
+  .regex(/^#[0-9a-fA-F]{6}$/, "a 6-digit hex color, e.g. #1a2b3c")
+  .nullable()
+  .optional();
+
+/**
+ * t-2026-10-03-61: the app-icon set `POST /tenants/branding/upload` answers for a `favicon`
+ * upload (and refines for `favicon_maskable`/`favicon_mono`). Every field optional and nullable,
+ * the same reasoning as `brandingUrl` above: an SVG master gives `icon_svg_url` and
+ * `mask_icon_url`, a raster one gives neither, and the panel PUTs back the object the upload
+ * answered.
+ */
+const brandingAppIconsSchema = z
+  .strictObject({
+    icon_svg_url: brandingUrl,
+    favicon_ico_url: brandingUrl,
+    apple_touch_icon_url: brandingUrl,
+    icon_192_url: brandingUrl,
+    icon_512_url: brandingUrl,
+    icon_maskable_512_url: brandingUrl,
+    mstile_150_url: brandingUrl,
+    mstile_310_url: brandingUrl,
+    mask_icon_url: brandingUrl,
+    background_color: brandingHexColor,
+    mark_color: brandingHexColor,
+  })
+  .nullable()
+  .optional();
+
 export const PutTenantBrandingSchema = z.strictObject({
   logo_light_url: brandingUrl,
   logo_dark_url: brandingUrl,
   favicon_url: brandingUrl,
   og_image_url: brandingUrl,
-  primary_color: z
-    .string()
-    .regex(/^#[0-9a-fA-F]{6}$/, "a 6-digit hex color, e.g. #1a2b3c")
-    .nullable()
-    .optional(),
+  primary_color: brandingHexColor,
   shop_name_short: z.string().max(60).nullable().optional(),
   footer_credit: z
     .strictObject({
@@ -639,6 +665,7 @@ export const PutTenantBrandingSchema = z.strictObject({
     })
     .nullable()
     .optional(),
+  app_icons: brandingAppIconsSchema,
 });
 
 export type PutTenantBrandingBody = z.infer<typeof PutTenantBrandingSchema>;
