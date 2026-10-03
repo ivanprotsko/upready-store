@@ -26,7 +26,8 @@ export type TenantFooterCredit = {
  * uploaded since this task) has `null` here, and the storefront falls back to `favicon_url` alone,
  * as before. `background_color` is the colour behind the opaque icons, the master's own field when
  * it has one; the storefront uses it for the manifest and the Windows tile when the shop set no
- * primary colour.
+ * primary colour. `mark_color` is the mark's own colour, which Safari's pinned tab takes when the
+ * field is lighter than the mark.
  */
 export type TenantAppIcons = {
   icon_svg_url: string | null;
@@ -39,6 +40,7 @@ export type TenantAppIcons = {
   mstile_310_url: string | null;
   mask_icon_url: string | null;
   background_color: string | null;
+  mark_color: string | null;
 };
 
 export const EMPTY_APP_ICONS: TenantAppIcons = {
@@ -52,6 +54,7 @@ export const EMPTY_APP_ICONS: TenantAppIcons = {
   mstile_310_url: null,
   mask_icon_url: null,
   background_color: null,
+  mark_color: null,
 };
 
 export type TenantBranding = {
@@ -126,6 +129,7 @@ const readAppIcons = (raw: unknown): TenantAppIcons | null => {
     mstile_310_url: str(source.mstile_310_url),
     mask_icon_url: str(source.mask_icon_url),
     background_color: isValidHexColor(source.background_color) ? (source.background_color as string) : null,
+    mark_color: isValidHexColor(source.mark_color) ? (source.mark_color as string) : null,
   };
 };
 

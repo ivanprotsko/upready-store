@@ -1,4 +1,5 @@
 import sharp from "sharp";
+import { bestForeground, contrastRatio } from "../api/tenants/branding/contrast";
 import { encodeIco } from "./ico-encoder";
 
 /**
@@ -6,7 +7,7 @@ import { encodeIco } from "./ico-encoder";
  * the branding uploads (t-2026-10-03-61). `POST /tenants/branding/upload`
  * calls `buildIconSet` for kind `favicon`, `buildMaskableIcon` for the
  * optional `favicon_maskable` master and `buildMonoIcons` for the optional
- * `favicon_mono` one; every other kind is untouched.
+ * `favicon_mono` one (Safari's `mask-icon` only); every other kind is untouched.
  */
 
 export type IconSetKey =
@@ -38,12 +39,16 @@ export type IconSet = {
   /** The colour behind every opaque icon: the master's own field when it has one, else
    * `fallbackBackground`. The storefront reuses it for `theme_color` and the Windows tile. */
   backgroundColor: string;
+  /** The mark's own colour: the most common opaque colour that is not the field, `null` when
+   * there is none. The tiles and Safari's pinned tab need it once the field itself is light. */
+  markColor: string | null;
 };
 
 /** The W3C maskable-icon safe zone: a launcher may crop anything outside the inner 80%. */
 const MASKABLE_SAFE_ZONE = 0.8;
 
-/** How much of a Windows tile the white silhouette takes, centred, the rest is the tile colour. */
+/** How much of a Windows tile the silhouette takes (its trimmed larger side), centred; the rest
+ * is the tile colour. */
 const TILE_MARK_RATIO = 0.5;
 
 const ICO_SIZES = [16, 32, 48];
@@ -95,6 +100,44 @@ export const fieldColor = async (raster: Buffer): Promise<string | null> => {
   return uniform ? toHex(first[0], first[1], first[2]) : null;
 };
 
+/**
+ * The mark's colour: the most frequent fully opaque colour at least a clear step away from the
+ * field. Sampled at 128px with nearest-neighbour, so antialiased edges do not blend into it.
+ */
+export const markColor = async (raster: Buffer, field: string | null): Promise<string | null> => {
+  const { data, info } = await sharp(raster)
+    .resize(128, 128, { fit: "contain", background: TRANSPARENT, kernel: "nearest" })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const base = field ? [1, 3, 5].map((index) => parseInt(field.slice(index, index + 2), 16)) : null;
+  const counts = new Map<number, number>();
+
+  for (let offset = 0; offset < data.length; offset += info.channels) {
+    if (data[offset + 3] !== 255) continue;
+    const [r, g, b] = [data[offset], data[offset + 1], data[offset + 2]];
+    if (base && Math.abs(r - base[0]) + Math.abs(g - base[1]) + Math.abs(b - base[2]) < 96) continue;
+    const key = (r << 16) | (g << 8) | b;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+
+  let best: number | null = null;
+  let bestCount = 0;
+  for (const [key, count] of counts) {
+    if (count > bestCount) {
+      best = key;
+      bestCount = count;
+    }
+  }
+
+  return best === null ? null : toHex((best >> 16) & 255, (best >> 8) & 255, best & 255);
+};
+
+/** The silhouette colour on a tile painted `background`: the mark's own colour when it reads there
+ * (3:1, the WCAG bound for graphics), else whichever of white and black does. */
+export const tileInk = (background: string, mark: string | null): string =>
+  mark && contrastRatio(mark, background) >= 3 ? mark : bestForeground(background);
+
 /** Resized to fit `size`×`size`, alpha intact: the favicon frames and the `any`-purpose icons. */
 const transparentSquare = (source: Buffer, size: number): Promise<Buffer> =>
   sharp(source).resize(size, size, { fit: "contain", background: TRANSPARENT }).png().toBuffer();
@@ -118,15 +161,19 @@ const opaqueSquare = async (source: Buffer, size: number, background: string, sc
 };
 
 /**
- * A white silhouette on a transparent tile, the shape Windows expects: it paints
- * `msapplication-TileColor` behind it itself. `mono` is a black-on-transparent raster.
+ * The silhouette in `ink` on a transparent tile, the shape Windows expects: it paints
+ * `msapplication-TileColor` behind it itself. `mono` is a black-on-transparent raster; its empty
+ * margins are trimmed first, so a drawing's own padding does not shrink the mark.
  */
-const whiteTile = async (mono: Buffer, size: number): Promise<Buffer> => {
+const inkTile = async (mono: Buffer, size: number, ink: string): Promise<Buffer> => {
   const inner = Math.round(size * TILE_MARK_RATIO);
-  const mark = await sharp(mono)
+  const shape = await sharp(mono)
+    .trim()
     .resize(inner, inner, { fit: "contain", background: TRANSPARENT })
-    .ensureAlpha()
-    .negate({ alpha: false })
+    .png()
+    .toBuffer();
+  const mark = await sharp({ create: { width: inner, height: inner, channels: 4, background: ink } })
+    .composite([{ input: shape, blend: "dest-in" }])
     .png()
     .toBuffer();
 
@@ -199,9 +246,9 @@ const isUsableSilhouette = async (raster: Buffer): Promise<boolean> => {
   return cornersClear && inked;
 };
 
-/** `mask-icon.svg` and the two white Windows tiles out of one black silhouette, or nothing when
- * the silhouette is not usable. */
-const monoFiles = async (silhouetteSvg: string): Promise<IconSetFiles> => {
+/** `mask-icon.svg` out of one black silhouette, plus the two Windows tiles in `ink` when one is
+ * given; nothing when the silhouette is not usable. */
+const monoFiles = async (silhouetteSvg: string, ink: string | null): Promise<IconSetFiles> => {
   const svg = Buffer.from(silhouetteSvg, "utf8");
   const raster = await rasteriseSvg(svg);
 
@@ -209,19 +256,22 @@ const monoFiles = async (silhouetteSvg: string): Promise<IconSetFiles> => {
     return {};
   }
 
-  const [tile150, tile310] = await Promise.all([whiteTile(raster, 150), whiteTile(raster, 310)]);
+  const files: IconSetFiles = { mask_icon: { name: "mask-icon.svg", buffer: svg, mimeType: "image/svg+xml" } };
 
-  return {
-    mask_icon: { name: "mask-icon.svg", buffer: svg, mimeType: "image/svg+xml" },
-    mstile_150: { name: "mstile-150.png", buffer: tile150, mimeType: "image/png" },
-    mstile_310: { name: "mstile-310.png", buffer: tile310, mimeType: "image/png" },
-  };
+  if (ink) {
+    const [tile150, tile310] = await Promise.all([inkTile(raster, 150, ink), inkTile(raster, 310, ink)]);
+    files.mstile_150 = { name: "mstile-150.png", buffer: tile150, mimeType: "image/png" };
+    files.mstile_310 = { name: "mstile-310.png", buffer: tile310, mimeType: "image/png" };
+  }
+
+  return files;
 };
 
 export const buildIconSet = async ({ buffer, isSvg, fallbackBackground }: IconSetSource): Promise<IconSet> => {
   const raster = isSvg ? await rasteriseSvg(buffer) : buffer;
   const field = await fieldColor(raster);
   const backgroundColor = field ?? fallbackBackground;
+  const mark = await markColor(raster, field);
   // A full-bleed master already carries its own margin; a bare logo gets one, so iOS's squircle
   // and the Windows tile do not clip it.
   const opaqueScale = field ? 1 : MASKABLE_SAFE_ZONE;
@@ -232,7 +282,9 @@ export const buildIconSet = async ({ buffer, isSvg, fallbackBackground }: IconSe
     transparentSquare(raster, 192),
     transparentSquare(raster, 512),
     opaqueSquare(raster, 512, backgroundColor, MASKABLE_SAFE_ZONE),
-    isSvg ? monoFiles(monoSvg(buffer.toString("utf8"))) : Promise.resolve<IconSetFiles>({}),
+    isSvg
+      ? monoFiles(monoSvg(buffer.toString("utf8")), tileInk(backgroundColor, mark))
+      : Promise.resolve<IconSetFiles>({}),
   ]);
 
   const files: IconSetFiles = {
@@ -264,7 +316,7 @@ export const buildIconSet = async ({ buffer, isSvg, fallbackBackground }: IconSe
     files.mstile_310 = { name: "mstile-310.png", buffer: tile310, mimeType: "image/png" };
   }
 
-  return { files, backgroundColor };
+  return { files, backgroundColor, markColor: mark };
 };
 
 /**
@@ -285,9 +337,10 @@ export const buildMaskableIcon = async ({ buffer, isSvg, fallbackBackground }: I
 };
 
 /**
- * The optional dedicated one-colour master (SVG only): Safari's `mask-icon` and the white Windows
- * tiles. Recoloured through `monoSvg` all the same, so a silhouette drawn in a brand colour still
- * comes out as the single black shape Safari expects. Empty when the drawing is not a shape on a
+ * The optional dedicated one-colour master (SVG only): Safari's `mask-icon`. Recoloured through
+ * `monoSvg` all the same, so a silhouette drawn in a brand colour still comes out as the single
+ * black shape Safari expects. The Windows tiles stay with the favicon upload, which knows the
+ * field and mark colours the tile is drawn in. Empty when the drawing is not a shape on a
  * transparent canvas.
  */
-export const buildMonoIcons = (svg: Buffer): Promise<IconSetFiles> => monoFiles(monoSvg(svg.toString("utf8")));
+export const buildMonoIcons = (svg: Buffer): Promise<IconSetFiles> => monoFiles(monoSvg(svg.toString("utf8")), null);

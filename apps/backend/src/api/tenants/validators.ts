@@ -645,6 +645,7 @@ const brandingAppIconsSchema = z
     mstile_310_url: brandingUrl,
     mask_icon_url: brandingUrl,
     background_color: brandingHexColor,
+    mark_color: brandingHexColor,
   })
   .nullable()
   .optional();

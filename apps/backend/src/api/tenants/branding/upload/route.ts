@@ -32,7 +32,7 @@ import type TenantModuleService from "../../../../modules/tenant/service";
  * `file`. Two optional kinds refine that set afterwards and answer only the
  * fields they replace: `favicon_maskable` (the Android icon, the mark already
  * inside the 80% safe zone) and `favicon_mono` (an SVG silhouette for Safari's
- * pinned tab and the Windows tiles). Like every other kind, nothing is saved
+ * pinned tab). Like every other kind, nothing is saved
  * here; the panel PUTs the URLs to `/tenants/branding`.
  */
 
@@ -74,7 +74,7 @@ const DIMENSION_LIMITS: Record<Exclude<Kind, "favicon_mono">, { minW: number; mi
 };
 
 /** Which `app_icons` field each generated file fills. */
-const APP_ICON_FIELDS: Record<IconSetKey, Exclude<keyof TenantAppIcons, "background_color">> = {
+const APP_ICON_FIELDS: Record<IconSetKey, Exclude<keyof TenantAppIcons, "background_color" | "mark_color">> = {
   icon_svg: "icon_svg_url",
   favicon_ico: "favicon_ico_url",
   apple_touch_icon: "apple_touch_icon_url",
@@ -163,6 +163,7 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
 
   let iconFiles: IconSetFiles = {};
   let backgroundColor: string | null = null;
+  let markColor: string | null = null;
 
   if (ICON_KINDS.has(kind)) {
     if (kind === "favicon") {
@@ -173,6 +174,7 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
       });
       iconFiles = set.files;
       backgroundColor = set.backgroundColor;
+      markColor = set.markColor;
     } else if (kind === "favicon_maskable") {
       iconFiles = await buildMaskableIcon({
         buffer: file.buffer,
@@ -222,7 +224,8 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   }
 
   // `createFiles` answers in the order it was given the files, the original first.
-  const appIcons: Partial<TenantAppIcons> = kind === "favicon" ? { ...EMPTY_APP_ICONS, background_color: backgroundColor } : {};
+  const appIcons: Partial<TenantAppIcons> =
+    kind === "favicon" ? { ...EMPTY_APP_ICONS, background_color: backgroundColor, mark_color: markColor } : {};
 
   iconKeys.forEach((key, index) => {
     appIcons[APP_ICON_FIELDS[key]] = result[index + 1].url;
