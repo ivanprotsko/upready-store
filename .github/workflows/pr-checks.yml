@@ -120,6 +120,17 @@ jobs:
       - name: Shared markdown
         if: ${{ !cancelled() }}
         run: pnpm check:shared-markdown
+      # A screenshot from a stand on a copy of live data shows real buyers
+      # (t-2026-10-03-59). The checkout is one shallow merge commit, so the
+      # base tip is fetched to see what the pull request adds or changes.
+      - name: Evidence screenshots
+        if: ${{ !cancelled() }}
+        env:
+          BASE_REF: ${{ github.base_ref || 'dev' }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BASE_REF"
+          node --test scripts/__tests__/check-evidence-manifest.test.mjs
+          EVIDENCE_BASE=FETCH_HEAD pnpm check:evidence
 
   deploy-checks:
     name: Deploy Checks
