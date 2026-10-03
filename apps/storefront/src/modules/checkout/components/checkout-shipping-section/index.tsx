@@ -798,7 +798,7 @@ export default function CheckoutShippingSection({
       </div>
 
       {shippingError && (
-        <p className="checkout-section-container txt-compact-small text-rose-500">
+        <p className="checkout-section-container txt-compact-small text-ui-fg-error">
           {getErrorMessage(shippingError)}
         </p>
       )}

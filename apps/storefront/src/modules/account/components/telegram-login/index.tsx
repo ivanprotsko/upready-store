@@ -88,7 +88,7 @@ const TelegramLogin = ({
       />
       {error && (
         <div
-          className="pt-3 w-full text-center text-rose-500 text-small-regular"
+          className="pt-3 w-full text-center text-ui-fg-error text-small-regular"
           data-testid="telegram-login-error"
         >
           <span>{t(ERROR_KEYS[error])}</span>

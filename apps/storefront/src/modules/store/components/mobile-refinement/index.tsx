@@ -501,7 +501,7 @@ const MobileRangeFields = ({
   }
 
   const fieldClassName =
-    "txt-compact-large text-ui-fg-base h-10 w-full rounded-md bg-ui-bg-field px-3 outline-none tabular-nums shadow-borders-base"
+    "txt-compact-large text-ui-fg-base h-10 w-full rounded-md bg-ui-bg-field px-3 outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] tabular-nums shadow-borders-base"
 
   return (
     <div className="flex items-end gap-3 pt-2">

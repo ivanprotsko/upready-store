@@ -37,10 +37,10 @@ export default function AddressGapMessage({
     <div
       role={tone === "hint" ? undefined : "alert"}
       // Joined, not merged with `clx`: tailwind-merge reads `text-small-regular`
-      // as a text colour and drops `text-rose-500`, and the sentence turns black.
+      // as a text colour and drops `text-ui-fg-error`, and the sentence turns black.
       className={[
         "flex flex-col gap-y-1 text-small-regular",
-        tone === "hint" ? "text-ui-fg-subtle" : "text-rose-500",
+        tone === "hint" ? "text-ui-fg-subtle" : "text-ui-fg-error",
         className,
       ]
         .filter(Boolean)

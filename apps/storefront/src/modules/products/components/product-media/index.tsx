@@ -129,6 +129,9 @@ export default function ProductMedia({
       {!flat && (
         <span
           aria-hidden
+          // theme-colours allowlist: a mode-inverted edge-darkening overlay, not a brand colour —
+          // `bg-[var(--foreground)]/[0.03]` is the themed form, but Tailwind drops any opacity
+          // modifier applied to a bare var() arbitrary colour (see profile-hero's SCRIM comment).
           className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]"
         />
       )}

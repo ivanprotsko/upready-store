@@ -52,7 +52,7 @@ const ForgotPassword = ({ setCurrentView }: Props) => {
                 "something went wrong". */}
             {state.error ? (
               <div
-                className="pt-2 text-rose-500 text-small-regular"
+                className="pt-2 text-ui-fg-error text-small-regular"
                 data-testid="forgot-password-error-message"
               >
                 <span>{t(state.error)}</span>
