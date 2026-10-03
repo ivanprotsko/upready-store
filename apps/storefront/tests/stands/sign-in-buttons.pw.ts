@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test"
 
-import { addOpenProductToCart, openFirstProduct } from "./helpers"
+import { openFirstProduct } from "./helpers"
 
 /**
  * Buttons that stand next to each other are one size (t-2026-10-03-65, Ivan: «в сайдбаре с
@@ -60,11 +60,30 @@ function expectOneSize(group: string, found: Box[], { stacked = false } = {}) {
   }
 }
 
+/**
+ * The first product into the cart. Not `addOpenProductToCart`: it waits for «В корзину» to
+ * enable again, and a shop whose product page turns that button into an «in the cart»
+ * stepper (Cherkashino, measured 2026-10-03) never does. The header's count is the signal
+ * here instead.
+ */
 async function addProductToCart(page: Page) {
   await page.goto("/ru/store")
   await expect(page.getByTestId("products-list")).toBeVisible({ timeout: 20_000 })
   await openFirstProduct(page)
-  await addOpenProductToCart(page)
+  const addButton = page.getByTestId("add-product-button")
+  const optionGroups = page.getByTestId("product-options")
+  // One option per group enables the button on a multi-variant product; retried, because
+  // a click before hydration lands on the inert server-rendered button.
+  for (let attempt = 0; attempt < 5 && !(await addButton.isEnabled()); attempt += 1) {
+    for (let i = 0; i < (await optionGroups.count()); i += 1) {
+      const firstEnabled = optionGroups.nth(i).locator('[data-testid="option-button"]:not([disabled])').first()
+      if ((await firstEnabled.count()) > 0) await firstEnabled.click()
+    }
+    await page.waitForTimeout(400)
+  }
+  await expect(addButton).toBeEnabled({ timeout: 10_000 })
+  await addButton.click()
+  await expect(page.locator('[data-testid="cart-item-count"]:visible').first()).toBeVisible({ timeout: 20_000 })
 }
 
 test.describe("sign-in buttons that stand together are one size", () => {
@@ -77,6 +96,7 @@ test.describe("sign-in buttons that stand together are one size", () => {
     await expect(signIn).toBeVisible()
 
     const methods = signIn.getByTestId("cart-sidebar-sign-in-methods")
+    await expect(methods).toBeVisible()
     expectOneSize(
       "sidebar methods",
       await boxes(methods, ["cart-sidebar-sign-in-email", "telegram-login-cta", "cart-sidebar-sign-in-yandex"])
@@ -113,9 +133,11 @@ test.describe("sign-in buttons that stand together are one size", () => {
       await page.goto("/ru/checkout")
       const block = page.getByTestId("checkout-sign-in")
       await expect(block).toBeVisible({ timeout: 20_000 })
+      const methods = block.getByTestId("checkout-sign-in-methods")
+      await expect(methods).toBeVisible()
       expectOneSize(
         `checkout sign-in ${width}`,
-        await boxes(block.getByTestId("checkout-sign-in-methods"), [
+        await boxes(methods, [
           "checkout-sign-in-button",
           "telegram-login-cta",
           "checkout-sign-in-yandex",
