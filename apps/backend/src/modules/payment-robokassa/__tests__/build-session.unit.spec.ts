@@ -113,7 +113,13 @@ describe("buildRobokassaSession: fiscalization on (t-cherk-30)", () => {
 
     const encodedReceipt = encodeURIComponent(JSON.stringify(session.receipt));
     const url = new URL(session.payment_url);
-    expect(url.searchParams.get("Receipt")).toBe(encodedReceipt);
+    // url.searchParams.get() percent-decodes; the raw query string must carry the
+    // exact same encoded bytes that went into the signature, never re-encoded.
+    const rawReceiptParam = url.search
+      .slice(1)
+      .split("&")
+      .find((pair) => pair.startsWith("Receipt="));
+    expect(rawReceiptParam).toBe(`Receipt=${encodedReceipt}`);
 
     // docs.robokassa.ru/ru/fiscalization: "MerchantLogin:OutSum:InvId:Receipt:Пароль#1".
     const expectedSignature = digest(
