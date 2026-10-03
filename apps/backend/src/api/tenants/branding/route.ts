@@ -49,6 +49,20 @@ export const PUT = async (
             href: body.footer_credit.href ?? null,
           }
         : current.footer_credit,
+    app_icons:
+      body.app_icons !== undefined
+        ? body.app_icons && {
+            icon_svg_url: body.app_icons.icon_svg_url ?? null,
+            favicon_ico_url: body.app_icons.favicon_ico_url ?? null,
+            apple_touch_icon_url: body.app_icons.apple_touch_icon_url ?? null,
+            icon_192_url: body.app_icons.icon_192_url ?? null,
+            icon_512_url: body.app_icons.icon_512_url ?? null,
+            icon_maskable_512_url: body.app_icons.icon_maskable_512_url ?? null,
+            mstile_150_url: body.app_icons.mstile_150_url ?? null,
+            mstile_310_url: body.app_icons.mstile_310_url ?? null,
+            mask_icon_url: body.app_icons.mask_icon_url ?? null,
+          }
+        : current.app_icons,
   };
 
   const updated = await tenantModuleService.updateTenants({

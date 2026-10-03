@@ -620,6 +620,27 @@ export type PutTenantAnalyticsBody = z.infer<typeof PutTenantAnalyticsSchema>;
  */
 const brandingUrl = z.string().min(1).max(2048).nullable().optional();
 
+/**
+ * t-2026-10-03-61: the derived app-icon set `POST /tenants/branding/upload` returns for a
+ * `favicon` upload. Every field optional and nullable, same reasoning as `brandingUrl` above — an
+ * SVG master gives `icon_svg_url`/`mask_icon_url`, a PNG master gives neither, and the panel PUTs
+ * back exactly the object the upload response handed it.
+ */
+const brandingAppIconsSchema = z
+  .strictObject({
+    icon_svg_url: brandingUrl,
+    favicon_ico_url: brandingUrl,
+    apple_touch_icon_url: brandingUrl,
+    icon_192_url: brandingUrl,
+    icon_512_url: brandingUrl,
+    icon_maskable_512_url: brandingUrl,
+    mstile_150_url: brandingUrl,
+    mstile_310_url: brandingUrl,
+    mask_icon_url: brandingUrl,
+  })
+  .nullable()
+  .optional();
+
 export const PutTenantBrandingSchema = z.strictObject({
   logo_light_url: brandingUrl,
   logo_dark_url: brandingUrl,
@@ -639,6 +660,7 @@ export const PutTenantBrandingSchema = z.strictObject({
     })
     .nullable()
     .optional(),
+  app_icons: brandingAppIconsSchema,
 });
 
 export type PutTenantBrandingBody = z.infer<typeof PutTenantBrandingSchema>;

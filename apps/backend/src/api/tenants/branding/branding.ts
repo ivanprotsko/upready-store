@@ -19,6 +19,37 @@ export type TenantFooterCredit = {
   href: string | null;
 };
 
+/**
+ * The full app-icon set `POST /tenants/branding/upload` builds from a `favicon` upload
+ * (t-2026-10-03-61, `tenant-files/icon-set.ts`): every size a PWA, iOS, Android, Windows or macOS
+ * install asks for. `favicon_url` on `TenantBranding` stays as the single legacy URL; a tenant with
+ * no set here (an upload from before this task, or one still pending) gets `null`, and every
+ * consumer falls back to `favicon_url` alone — today's behaviour, unchanged.
+ */
+export type TenantAppIcons = {
+  icon_svg_url: string | null;
+  favicon_ico_url: string | null;
+  apple_touch_icon_url: string | null;
+  icon_192_url: string | null;
+  icon_512_url: string | null;
+  icon_maskable_512_url: string | null;
+  mstile_150_url: string | null;
+  mstile_310_url: string | null;
+  mask_icon_url: string | null;
+};
+
+export const EMPTY_APP_ICONS: TenantAppIcons = {
+  icon_svg_url: null,
+  favicon_ico_url: null,
+  apple_touch_icon_url: null,
+  icon_192_url: null,
+  icon_512_url: null,
+  icon_maskable_512_url: null,
+  mstile_150_url: null,
+  mstile_310_url: null,
+  mask_icon_url: null,
+};
+
 export type TenantBranding = {
   logo_light_url: string | null;
   logo_dark_url: string | null;
@@ -27,6 +58,7 @@ export type TenantBranding = {
   primary_color: string | null;
   shop_name_short: string | null;
   footer_credit: TenantFooterCredit | null;
+  app_icons: TenantAppIcons | null;
 };
 
 export const EMPTY_BRANDING: TenantBranding = {
@@ -37,6 +69,7 @@ export const EMPTY_BRANDING: TenantBranding = {
   primary_color: null,
   shop_name_short: null,
   footer_credit: null,
+  app_icons: null,
 };
 
 const str = (value: unknown): string | null => (typeof value === "string" && value ? value : null);
@@ -67,6 +100,27 @@ export const readBranding = (metadata: Record<string, unknown> | null | undefine
       credit && typeof credit === "object"
         ? { enabled: Boolean(credit.enabled), text: str(credit.text) ?? "", href: str(credit.href) }
         : null,
+    app_icons: readAppIcons(raw.app_icons),
+  };
+};
+
+const readAppIcons = (raw: unknown): TenantAppIcons | null => {
+  if (!raw || typeof raw !== "object") {
+    return null;
+  }
+
+  const source = raw as Partial<TenantAppIcons>;
+
+  return {
+    icon_svg_url: str(source.icon_svg_url),
+    favicon_ico_url: str(source.favicon_ico_url),
+    apple_touch_icon_url: str(source.apple_touch_icon_url),
+    icon_192_url: str(source.icon_192_url),
+    icon_512_url: str(source.icon_512_url),
+    icon_maskable_512_url: str(source.icon_maskable_512_url),
+    mstile_150_url: str(source.mstile_150_url),
+    mstile_310_url: str(source.mstile_310_url),
+    mask_icon_url: str(source.mask_icon_url),
   };
 };
 

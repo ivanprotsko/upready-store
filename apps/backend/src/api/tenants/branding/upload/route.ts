@@ -5,6 +5,10 @@ import sharp from "sharp";
 import { getTenantScope } from "../../tenant-scope";
 import { tenantFilePrefix } from "../../../../tenant-files";
 import { assertSafeSvg } from "../../../../tenant-files/upload-policy";
+import { buildIconSet, type IconSetFiles } from "../../../../tenant-files/icon-set";
+import { readBranding, type TenantAppIcons } from "../branding";
+import { TENANT_MODULE } from "../../../../modules/tenant";
+import type TenantModuleService from "../../../../modules/tenant/service";
 
 /**
  * `POST /tenants/branding/upload` (t16-owner-branding, step 2) — logo,
@@ -39,12 +43,31 @@ const MAX_BYTES: Record<Kind, number> = {
 };
 
 /** Width/height bounds per kind. A favicon far outside "icon-shaped" is
- * rejected outright rather than silently squeezed into one. */
+ * rejected outright rather than silently squeezed into one.
+ *
+ * t-2026-10-03-61: `favicon`'s floor moved from 32 to 512 — `buildIconSet`
+ * below renders `icon-512`/`icon-maskable-512` out of this same upload, and a
+ * raster master under 512px would upscale into a soft, blocky result at that
+ * size. An SVG master has no pixel size to check at all (the `extension ===
+ * "svg"` branch below skips this block entirely), so it is unaffected. */
 const DIMENSION_LIMITS: Record<Kind, { minW: number; minH: number; maxW: number; maxH: number }> = {
   logo_light: { minW: 16, minH: 16, maxW: 2000, maxH: 2000 },
   logo_dark: { minW: 16, minH: 16, maxW: 2000, maxH: 2000 },
-  favicon: { minW: 32, minH: 32, maxW: 1024, maxH: 1024 },
+  favicon: { minW: 512, minH: 512, maxW: 1024, maxH: 1024 },
   og_image: { minW: 600, minH: 315, maxW: 4000, maxH: 4000 },
+};
+
+/** Which `app_icons` field each generated file fills, in the order `buildIconSet` returns them. */
+const APP_ICON_FIELDS: Record<keyof IconSetFiles, keyof TenantAppIcons> = {
+  icon_svg: "icon_svg_url",
+  favicon_ico: "favicon_ico_url",
+  apple_touch_icon: "apple_touch_icon_url",
+  icon_192: "icon_192_url",
+  icon_512: "icon_512_url",
+  icon_maskable_512: "icon_maskable_512_url",
+  mstile_150: "mstile_150_url",
+  mstile_310: "mstile_310_url",
+  mask_icon: "mask_icon_url",
 };
 
 export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
@@ -104,22 +127,69 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
 
   const tenant = await getTenantScope(req);
   const prefix = tenantFilePrefix(tenant.id);
+  const timestamp = Date.now();
 
   // The timestamp is the cache-busting contract (step 7): every upload is a
   // new name, so a changed logo/favicon is a new URL rather than the same
-  // path with stale bytes behind a browser or CDN cache.
-  const { result } = await uploadFilesWorkflow(req.scope).run({
-    input: {
-      files: [
-        {
-          filename: `${prefix}branding-${kind}-${Date.now()}.${extension}`,
-          mimeType: file.mimetype,
-          content: file.buffer.toString("base64"),
-          access: "public" as const,
-        },
-      ],
+  // path with stale bytes behind a browser or CDN cache. The icon set below
+  // reuses the same timestamp, so one upload's files land together.
+  const uploads = [
+    {
+      filename: `${prefix}branding-${kind}-${timestamp}.${extension}`,
+      mimeType: file.mimetype,
+      content: file.buffer.toString("base64"),
+      access: "public" as const,
     },
-  });
+  ];
 
-  res.status(200).json({ file: result[0], kind });
+  // t-2026-10-03-61: a `favicon` upload also builds the full PWA/iOS/Android/
+  // Windows/macOS icon set (`buildIconSet`) and uploads every file alongside
+  // the original — one `favicon_url` becomes a dozen sized, purpose-built
+  // files rather than one image stretched everywhere. The tenant's own brand
+  // colour backs every icon that cannot be transparent (the apple touch icon,
+  // the Windows tiles, the maskable icon's safe-zone padding); a shop with no
+  // colour set yet gets white rather than failing the upload over it.
+  let iconSetOrder: (keyof IconSetFiles)[] = [];
+
+  if (kind === "favicon") {
+    const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
+    const fullTenant = await tenantModuleService.retrieveTenant(tenant.id);
+    const backgroundColor =
+      readBranding(fullTenant.metadata as Record<string, unknown> | null).primary_color ?? "#ffffff";
+
+    const iconSet = await buildIconSet({
+      buffer: file.buffer,
+      isSvg: extension === "svg",
+      backgroundColor,
+    });
+
+    iconSetOrder = Object.keys(iconSet) as (keyof IconSetFiles)[];
+
+    for (const key of iconSetOrder) {
+      const iconFile = iconSet[key]!;
+      uploads.push({
+        filename: `${prefix}branding-${timestamp}-${iconFile.name}`,
+        mimeType: iconFile.mimeType,
+        content: iconFile.buffer.toString("base64"),
+        access: "public" as const,
+      });
+    }
+  }
+
+  const { result } = await uploadFilesWorkflow(req.scope).run({ input: { files: uploads } });
+
+  const response: { file: typeof result[0]; kind: Kind; app_icons?: Partial<TenantAppIcons> } = {
+    file: result[0],
+    kind,
+  };
+
+  if (iconSetOrder.length > 0) {
+    const appIcons: Partial<TenantAppIcons> = {};
+    iconSetOrder.forEach((key, index) => {
+      appIcons[APP_ICON_FIELDS[key]] = result[index + 1].url;
+    });
+    response.app_icons = appIcons;
+  }
+
+  res.status(200).json(response);
 };
