@@ -56,7 +56,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     filters: { customer_id: customerId, sales_channel_id: tenant.sales_channel_id },
   });
 
-  const pendingByProduct = collectPendingProducts(orders as OrderForPendingCourse[]);
+  const pendingByProduct = collectPendingProducts(orders as unknown as OrderForPendingCourse[]);
 
   const [grantedCourses, pendingCourseCandidates] = await Promise.all([
     entitledCourseIds.size
