@@ -8,7 +8,13 @@ import { COURSE_MODULE } from "../../../../../modules/course";
 import type CourseModuleService from "../../../../../modules/course/service";
 import type { CourseRow, LessonRow } from "../../../../tenants/courses/course-helpers";
 import { resolveTenantFromPublishableKey } from "../../resolve-tenant";
-import { computeCourseProgress, type EntitlementRow, type ProgressRow } from "../store-course-helpers";
+import {
+  collectPendingProducts,
+  computeCourseProgress,
+  type EntitlementRow,
+  type OrderForPendingCourse,
+  type ProgressRow,
+} from "../store-course-helpers";
 
 type ProductCard = { id: string; title: string; handle: string; thumbnail: string | null };
 
@@ -17,6 +23,14 @@ type ProductCard = { id: string; title: string; handle: string; thumbnail: strin
  * this customer holds a live entitlement for, in the storefront's own tenant,
  * each with its progress. A course whose entitlement was revoked, or that
  * belongs to another tenant, is not in this list.
+ *
+ * t-cherk-com-hotfix batch 6, item 6: a course the customer ordered but has
+ * not paid for yet is listed too, `access: false`, `progress: null`, with the
+ * `order` it is pending on — so a buyer paying by transfer sees the course
+ * they are waiting on, not just the ones already open. Access itself still
+ * opens only on `payment.captured` (`grant-course-on-paid.ts`); nothing here
+ * grants it. A product already entitled is never listed twice as pending,
+ * even if its order's `payment_status` lags behind (a webhook retry window).
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -27,46 +41,74 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   }
 
   const courseService: CourseModuleService = req.scope.resolve(COURSE_MODULE);
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
   const entitlements = (await courseService.listCourseEntitlements({
     tenant_id: tenant.id,
     customer_id: customerId,
     status: "active",
   })) as EntitlementRow[];
+  const entitledCourseIds = new Set(entitlements.map((row) => row.course_id));
 
-  if (!entitlements.length) {
+  const { data: orders } = await query.graph({
+    entity: "order",
+    fields: ["id", "display_id", "status", "payment_status", "items.product_id"],
+    filters: { customer_id: customerId, sales_channel_id: tenant.sales_channel_id },
+  });
+
+  const pendingByProduct = collectPendingProducts(orders as OrderForPendingCourse[]);
+
+  const [grantedCourses, pendingCourseCandidates] = await Promise.all([
+    entitledCourseIds.size
+      ? (courseService.listCourses({
+          id: [...entitledCourseIds],
+          tenant_id: tenant.id,
+        }) as Promise<CourseRow[]>)
+      : Promise.resolve([] as CourseRow[]),
+    pendingByProduct.size
+      ? (courseService.listCourses({
+          product_id: [...pendingByProduct.keys()],
+          tenant_id: tenant.id,
+        }) as Promise<CourseRow[]>)
+      : Promise.resolve([] as CourseRow[]),
+  ]);
+
+  const pendingCourses = pendingCourseCandidates.filter((course) => !entitledCourseIds.has(course.id));
+  const courses = [...grantedCourses, ...pendingCourses];
+
+  if (!courses.length) {
     res.json({ courses: [] });
     return;
   }
 
-  const courseIds = [...new Set(entitlements.map((row) => row.course_id))];
-  const courses = (await courseService.listCourses({
-    id: courseIds,
-    tenant_id: tenant.id,
-  })) as CourseRow[];
-
   const productIds = courses.map((course) => course.product_id);
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
-  const { data: products } = productIds.length
-    ? await query.graph({
-        entity: "product",
-        fields: ["id", "title", "handle", "thumbnail"],
-        filters: { id: productIds },
-      })
-    : { data: [] as ProductCard[] };
+  const { data: products } = await query.graph({
+    entity: "product",
+    fields: ["id", "title", "handle", "thumbnail"],
+    filters: { id: productIds },
+  });
   const productById = new Map((products as ProductCard[]).map((product) => [product.id, product]));
 
   const result = await Promise.all(
     courses.map(async (course) => {
-      const lessons = (await courseService.listLessons({
-        tenant_id: tenant.id,
-        course_id: course.id,
-      })) as LessonRow[];
-      const progressRows = (await courseService.listCourseProgresses({
-        tenant_id: tenant.id,
-        customer_id: customerId,
-        course_id: course.id,
-      })) as ProgressRow[];
+      const access = entitledCourseIds.has(course.id);
       const product = productById.get(course.product_id);
+
+      const lessons = access
+        ? ((await courseService.listLessons({
+            tenant_id: tenant.id,
+            course_id: course.id,
+          })) as LessonRow[])
+        : [];
+      const progressRows = access
+        ? ((await courseService.listCourseProgresses({
+            tenant_id: tenant.id,
+            customer_id: customerId,
+            course_id: course.id,
+          })) as ProgressRow[])
+        : [];
+
+      const pendingOrder = pendingByProduct.get(course.product_id);
 
       return {
         id: course.id,
@@ -75,7 +117,9 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
         product: product
           ? { id: product.id, title: product.title, handle: product.handle, thumbnail: product.thumbnail ?? null }
           : null,
-        progress: computeCourseProgress(lessons, progressRows),
+        access,
+        progress: access ? computeCourseProgress(lessons, progressRows) : null,
+        order: access || !pendingOrder ? null : { id: pendingOrder.id, display_id: pendingOrder.display_id },
       };
     }),
   );

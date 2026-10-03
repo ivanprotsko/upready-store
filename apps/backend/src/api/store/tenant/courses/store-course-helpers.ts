@@ -93,3 +93,45 @@ export const computeCourseProgress = (
 
   return { completed, total, percent };
 };
+
+export type OrderForPendingCourse = {
+  id: string;
+  display_id: number | null;
+  status: string;
+  payment_status: string;
+  items: Array<{ product_id: string | null } | null> | null;
+};
+
+export type PendingOrderRef = { id: string; display_id: number | null };
+
+/**
+ * Payment states that mean the order has been captured at least once, so an
+ * entitlement for it already exists (or should — `grant-course-on-paid.ts`
+ * runs on `payment.captured`) rather than being merely awaited.
+ */
+export const CAPTURED_PAYMENT_STATUSES = ["captured", "partially_captured", "refunded", "partially_refunded"];
+
+/**
+ * t-cherk-com-hotfix batch 6, item 6: a product id → the first still-unpaid
+ * order of the customer's that carries it. A cancelled order, and an order
+ * already captured at least once, name nothing here — the entitlement for a
+ * captured order already exists or is on its way through `payment.captured`,
+ * not something to show as "pending". A buyer with two unpaid orders for the
+ * same course gets one pending entry, the earlier order in the list.
+ */
+export const collectPendingProducts = (orders: OrderForPendingCourse[]): Map<string, PendingOrderRef> => {
+  const pendingByProduct = new Map<string, PendingOrderRef>();
+
+  for (const order of orders) {
+    if (order.status === "canceled" || CAPTURED_PAYMENT_STATUSES.includes(order.payment_status)) {
+      continue;
+    }
+    for (const item of order.items ?? []) {
+      if (item?.product_id && !pendingByProduct.has(item.product_id)) {
+        pendingByProduct.set(item.product_id, { id: order.id, display_id: order.display_id });
+      }
+    }
+  }
+
+  return pendingByProduct;
+};
