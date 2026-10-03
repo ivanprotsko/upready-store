@@ -45,7 +45,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M
+          # Per instance from its env file. The RU host sets 1536M: at 512M the
+          # nightly pg_dump, which runs inside this container, was OOM-killed twice
+          # on 03-04.10.2026 (lead-upready-store, Ivan's standing order 04.10).
+          memory: ${MT_POSTGRES_MEMORY_LIMIT:-512M}
         reservations:
           memory: 256M
 

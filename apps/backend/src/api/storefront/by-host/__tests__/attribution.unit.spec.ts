@@ -1,5 +1,6 @@
 import {
   ATTRIBUTION_FALLBACK,
+  isAttributionHidden,
   parseAttributionGroups,
   resolveAttribution,
 } from "../attribution";
@@ -67,5 +68,15 @@ describe("parseAttributionGroups", () => {
 
   it("is empty when the variable is unset", () => {
     expect(parseAttributionGroups(undefined)).toEqual({});
+  });
+});
+
+describe("isAttributionHidden", () => {
+  it("switches the line off only on an explicit attribution_hidden", () => {
+    expect(isAttributionHidden({ attribution_hidden: true })).toBe(true);
+    expect(isAttributionHidden({ attribution_hidden: "true" })).toBe(true);
+    expect(isAttributionHidden({ attribution_hidden: false })).toBe(false);
+    expect(isAttributionHidden({ attribution: { anchor: "" } })).toBe(false);
+    expect(isAttributionHidden(null)).toBe(false);
   });
 });
