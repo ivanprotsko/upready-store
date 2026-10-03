@@ -12,6 +12,10 @@ import {
   REQUISITES_MAX,
 } from "./payment-settings/manual/manual-payment";
 import { BANK_ICON_KEYS } from "./payment-settings/manual/presets";
+import {
+  PAYMENT_PRE_NOTICE_PROVIDER_KEYS,
+  PAYMENT_PRE_NOTICE_REDIRECT_KINDS,
+} from "../../tenant-legal/payment-pre-notice";
 
 /**
  * A handle is the tenant's stable slug (subdomain-shaped): lowercase letters,
@@ -508,6 +512,24 @@ export const PutTenantManualPaymentSchema = z.strictObject({
     .optional(),
 });
 export type PutTenantManualPaymentBody = z.infer<typeof PutTenantManualPaymentSchema>;
+
+/**
+ * `PUT /tenants/payment-settings/pre-notice` (rule 5zd, t-2026-10-03-32) —
+ * one payment method's fields for the pre-payment notice. Every field but
+ * `provider_key` is optional, and a field left out keeps its stored value
+ * (same convention as `PUT /tenants/requisites`); a field sent as an empty
+ * string or `null` clears it.
+ */
+export const PutTenantPaymentPreNoticeSchema = z.strictObject({
+  provider_key: z.enum(PAYMENT_PRE_NOTICE_PROVIDER_KEYS),
+  charge_currency_code: z.string().trim().max(10).optional(),
+  is_foreign_card: z.boolean().optional(),
+  redirect_kind: z.enum(PAYMENT_PRE_NOTICE_REDIRECT_KINDS).nullable().optional(),
+  redirect_value: z.string().trim().max(200).optional(),
+  rate_source: z.string().trim().max(200).optional(),
+  refund_terms: z.string().trim().max(1000).optional(),
+});
+export type PutTenantPaymentPreNoticeBody = z.infer<typeof PutTenantPaymentPreNoticeSchema>;
 
 /**
  * `POST /tenants/redirects` (t11-seo-redirects) — a manual redirect row. Both

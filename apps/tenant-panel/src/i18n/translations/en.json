@@ -4312,6 +4312,49 @@
       "nothingToOffer": "Add at least one requisite or a manager contact before switching transfers on"
     }
   },
+  "paymentPreNotice": {
+    "title": "Pre-payment notice",
+    "subtitle": "What the buyer sees right above the pay button when the charge currency differs from the cart's, the card is foreign, or another company or site takes the payment",
+    "method": "Payment method",
+    "methods": {
+      "tribute": "Tribute",
+      "card": "Foreign card (Stripe, PayPal)"
+    },
+    "isForeignCard": "This is a foreign card",
+    "chargeCurrency": "Charge currency",
+    "chargeCurrencyPlaceholder": "usd, usdt…",
+    "redirectKind": {
+      "label": "Where the payment goes",
+      "none": "Stays on this site, same seller",
+      "domain": "Another domain",
+      "telegram_bot": "A Telegram bot",
+      "crypto_network": "A wallet on a network",
+      "bank": "Through a bank"
+    },
+    "redirectValue": "Domain, bot, network or bank",
+    "redirectValuePlaceholder": "e.g. timewebcloud.kz or TRC20",
+    "rateSource": "Rate source",
+    "rateSourcePlaceholder": "e.g. the Central Bank of Russia's rate",
+    "refundTerms": "Refund terms",
+    "refundTermsPlaceholder": "e.g. refund within 14 days",
+    "previewLabel": "Preview",
+    "previewCartCurrency": "Cart currency:",
+    "previewHidden": "At this cart currency, the notice is not shown",
+    "previewValuePlaceholder": "…",
+    "preview": {
+      "redirect": {
+        "domain": "To pay, you will be redirected to {{value}}.",
+        "telegram_bot": "To pay, you will be redirected to the {{value}} Telegram bot.",
+        "crypto_network": "To pay, you will send the transfer to a wallet on the {{value}} network.",
+        "bank": "To pay, you will transfer the amount through {{value}}."
+      },
+      "chargeWithSource": "The charge will be in {{currency}}, at the rate of {{rateSource}} at the time of payment.",
+      "chargeNoSource": "The charge will be in {{currency}}.",
+      "refund": "Refund: {{terms}}."
+    },
+    "save": "Save",
+    "saved": "Saved"
+  },
   "redirects": {
     "title": "Old addresses",
     "subtitle": "where to send a visitor who arrives from a link on your old site, or at a page that no longer exists",

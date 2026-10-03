@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, type ReactNode } from "react"
 import { initiatePaymentSession } from "@lib/data/cart"
+import { getChargeEstimate } from "@lib/data/payment"
 import {
   buildPaymentSessionData,
   isManual,
@@ -18,6 +19,7 @@ import { CreditCard, CheckMini } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
 import AddressGapMessage from "@modules/checkout/components/address-gap-message"
 import PaymentButton from "@modules/checkout/components/payment-button"
+import PaymentPreNotice from "@modules/checkout/components/payment-pre-notice"
 import { CHECKOUT_PAYMENT_ANCHOR } from "@modules/checkout/components/robokassa-retry-notice"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { StripePaymentContainer } from "@modules/checkout/components/payment-container"
@@ -39,6 +41,12 @@ import {
   type LegalLinkContext,
   type LegalSlot,
 } from "@lib/util/legal-links"
+import {
+  EMPTY_PRE_NOTICE_ENTRY,
+  preNoticeProviderKey,
+  shouldShowPrePaymentNotice,
+  type TenantPaymentPreNotice,
+} from "@lib/util/payment-pre-notice"
 import { useLocale, useTranslations } from "next-intl"
 import { convertToLocale } from "@lib/util/money"
 import { clx } from "@medusajs/ui"
@@ -68,6 +76,10 @@ interface CheckoutPaymentSectionProps {
   tenantPaymentMethods: TenantPaymentMethods
   /** Batch 6, Q3.1: a guest with a course in the cart — the pay button waits for a sign-in. */
   requiresSignIn?: boolean
+  /** The pre-payment notice's per-method fields (rule 5zd, t-2026-10-03-32), from the same server parent. */
+  prePaymentNotice: TenantPaymentPreNotice
+  /** The seller named in the notice (`sellerLabel`), from the same server parent — a client component must not read the tenant's requisites itself (rule 19g). */
+  seller: string
 }
 
 export default function CheckoutPaymentSection({
@@ -77,6 +89,8 @@ export default function CheckoutPaymentSection({
   manualPayment,
   tenantPaymentMethods,
   requiresSignIn = false,
+  prePaymentNotice,
+  seller,
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
@@ -276,6 +290,48 @@ export default function CheckoutPaymentSection({
     !!selectedPaymentMethod &&
     isPaymentSessionReady(selectedPaymentMethod, cart) &&
     !manualCardIncomplete
+
+  // Rule 5zd (t-2026-10-03-32): the pre-payment notice. The method just
+  // picked decides which of the four configured entries applies; a method
+  // this rule has no bucket for (a gift card, say) gets the empty entry,
+  // which never triggers the notice.
+  const activePreNoticeKey = selectedPaymentMethod ? preNoticeProviderKey(selectedPaymentMethod) : null
+  const activePreNoticeEntry = activePreNoticeKey ? prePaymentNotice[activePreNoticeKey] : EMPTY_PRE_NOTICE_ENTRY
+  const showPreNotice =
+    !!selectedPaymentMethod && !paidByGiftcard && shouldShowPrePaymentNotice(activePreNoticeEntry, cart.currency_code)
+
+  // The «≈ amount» needs a round trip only while it could ever be shown: a
+  // charge currency that differs from the cart's, with a rate source on
+  // file. Anything else renders with no amount and asks the backend for
+  // nothing.
+  const estimateCurrency = activePreNoticeEntry.chargeCurrencyCode
+  const needsChargeEstimate =
+    showPreNotice &&
+    !!estimateCurrency &&
+    !!activePreNoticeEntry.rateSource &&
+    estimateCurrency !== cart.currency_code.trim().toLowerCase()
+
+  const [chargeEstimate, setChargeEstimate] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (!needsChargeEstimate || !estimateCurrency) {
+      setChargeEstimate(null)
+      return
+    }
+
+    let stillActive = true
+    getChargeEstimate(cart.id, estimateCurrency).then((amount) => {
+      if (stillActive) {
+        setChargeEstimate(amount)
+      }
+    })
+
+    return () => {
+      stillActive = false
+    }
+  }, [needsChargeEstimate, estimateCurrency, cart.id])
+
+  const buttonText = manualKind && isManual(selectedPaymentMethod) ? tb("placeOrderManual") : tb("placeOrder")
 
   return (
     // t-2026-10-01-checkout-ivan-3 #5: full width on its own, like
@@ -480,6 +536,17 @@ export default function CheckoutPaymentSection({
       </div>
 
       <div className="checkout-section-container flex flex-col gap-y-3">
+        {/* Rule 5zd (t-2026-10-03-32): right above the button and the total,
+            never a modal — the buyer sees it before clicking «Pay». */}
+        {showPreNotice && (
+          <PaymentPreNotice
+            entry={activePreNoticeEntry}
+            buttonText={buttonText}
+            seller={seller}
+            legal={legal}
+            amount={chargeEstimate}
+          />
+        )}
         <PaymentButton
           cart={cart}
           selectedPaymentMethod={selectedPaymentMethod}
@@ -494,7 +561,7 @@ export default function CheckoutPaymentSection({
               that carry a `{button}` placeholder in `legal` substitute it; the rest
               keep today's generic wording (the extra value is simply unused). */}
           {t.rich("legal", {
-            button: manualKind && isManual(selectedPaymentMethod) ? tb("placeOrderManual") : tb("placeOrder"),
+            button: buttonText,
             terms: legalChunk("terms"),
             // Its own slot since b14-pages-legal-content: the sentence names
             // two documents and used to underline one.

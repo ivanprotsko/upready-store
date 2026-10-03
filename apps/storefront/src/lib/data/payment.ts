@@ -60,3 +60,38 @@ export const listCartPaymentMethods = async (regionId: string) => {
       return null
     })
 }
+
+/**
+ * The cart's total converted into `currencyCode`, for rule 5zd's pre-payment
+ * notice («≈ <сумма>»). `null` when the backend has no reliable,
+ * already-stamped rate to use (`tenant-legal/charge-estimate.ts`): the
+ * notice then names the rate source with no sum, never a guess.
+ *
+ * Called directly from the client (`CheckoutPaymentSection`, a server action,
+ * the same way `initiatePaymentSession` is), because it has to re-run every
+ * time the buyer switches to a method whose charge currency differs from the
+ * cart's — a server parent re-rendering on every method click would be the
+ * wrong trade.
+ */
+export const getChargeEstimate = async (
+  cartId: string,
+  currencyCode: string
+): Promise<number | null> => {
+  return sdk.client
+    .fetch<{ currency_code: string; amount: number | null }>(
+      `/store/payment-settings/charge-estimate`,
+      {
+        method: "POST",
+        body: { cart_id: cartId, currency_code: currencyCode },
+        cache: "no-store",
+      }
+    )
+    .then(({ amount }) => amount)
+    .catch((error) => {
+      console.error(
+        `[charge-estimate] cart=${cartId} currency=${currencyCode} could not be estimated:`,
+        error
+      )
+      return null
+    })
+}

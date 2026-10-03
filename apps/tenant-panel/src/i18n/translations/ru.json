@@ -4060,6 +4060,49 @@
       "nothingToOffer": "Добавьте хотя бы один реквизит или контакт менеджера, прежде чем включать переводы"
     }
   },
+  "paymentPreNotice": {
+    "title": "Предупреждение перед оплатой",
+    "subtitle": "Что видит покупатель прямо над кнопкой оплаты, когда валюта списания отличается от валюты корзины, карта — иностранная, или оплату принимает другое лицо или сайт",
+    "method": "Способ оплаты",
+    "methods": {
+      "tribute": "Tribute",
+      "card": "Иностранная карта (Stripe, PayPal)"
+    },
+    "isForeignCard": "Это иностранная карта",
+    "chargeCurrency": "Валюта списания",
+    "chargeCurrencyPlaceholder": "usd, usdt…",
+    "redirectKind": {
+      "label": "Куда уходит оплата",
+      "none": "Остаётся на сайте, тот же продавец",
+      "domain": "На другой домен",
+      "telegram_bot": "В Telegram-бот",
+      "crypto_network": "На кошелёк в сети",
+      "bank": "Через банк"
+    },
+    "redirectValue": "Домен, бот, сеть или банк",
+    "redirectValuePlaceholder": "например, timewebcloud.kz или TRC20",
+    "rateSource": "Источник курса",
+    "rateSourcePlaceholder": "например, курс ЦБ РФ",
+    "refundTerms": "Условия возврата",
+    "refundTermsPlaceholder": "например, возврат в течение 14 дней",
+    "previewLabel": "Предпросмотр",
+    "previewCartCurrency": "Валюта корзины:",
+    "previewHidden": "При такой валюте корзины уведомление не показывается",
+    "previewValuePlaceholder": "…",
+    "preview": {
+      "redirect": {
+        "domain": "Для оплаты вы перейдёте на {{value}}.",
+        "telegram_bot": "Для оплаты вы перейдёте в Telegram-бот {{value}}.",
+        "crypto_network": "Для оплаты вы переведёте средства на кошелёк в сети {{value}}.",
+        "bank": "Для оплаты вы переведёте средства через {{value}}."
+      },
+      "chargeWithSource": "Сумма будет списана в {{currency}} по курсу {{rateSource}} на момент оплаты.",
+      "chargeNoSource": "Сумма будет списана в {{currency}}.",
+      "refund": "Возврат: {{terms}}."
+    },
+    "save": "Сохранить",
+    "saved": "Сохранено"
+  },
   "auth": {
     "login": {
       "authenticationFailed": "Не удалось войти",

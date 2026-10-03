@@ -5,6 +5,7 @@ import { EMPTY_BRANDING } from "./branding"
 import { EMPTY_LOGIN_SETTINGS } from "./login-settings"
 import { EMPTY_MANUAL_PAYMENT } from "./manual-payment"
 import { EMPTY_TENANT_PAYMENT_METHODS } from "./payment-methods"
+import { EMPTY_PAYMENT_PRE_NOTICE } from "../util/payment-pre-notice"
 import type { ResolvedTenant } from "./resolve"
 
 const tenant = (handle: string): ResolvedTenant => ({
@@ -22,6 +23,7 @@ const tenant = (handle: string): ResolvedTenant => ({
   login: EMPTY_LOGIN_SETTINGS,
   manualPayment: EMPTY_MANUAL_PAYMENT,
   paymentMethods: EMPTY_TENANT_PAYMENT_METHODS,
+  paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
 })
 
 /** A backend that knows exactly the hosts it is given. */

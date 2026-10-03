@@ -1,7 +1,10 @@
 import { getLegalLinkContext } from "@lib/data/legal-links"
 import { listCartPaymentMethods } from "@lib/data/payment"
 import { getTenantManualPayment } from "@lib/data/tenant-manual-payment"
+import { getTenantPaymentPreNotice } from "@lib/data/tenant-payment-pre-notice"
+import { getTenantSeller } from "@lib/data/tenant-seller"
 import { getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
+import { sellerLabel } from "@lib/util/payment-pre-notice"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
 import { Text } from "@medusajs/ui"
@@ -25,20 +28,26 @@ const CheckoutSummary = async ({
   const hasCourse = (cart.items ?? []).some(isNoDeliveryLine)
   const requiresSignIn = !customer
   const tShip = await getTranslations("Shipments")
-  const [paymentMethods, legal, manualPayment, tenantPaymentMethods] = await Promise.all([
-    listCartPaymentMethods(cart.region?.id ?? ""),
-    // The consent sentence under the Pay button names four documents; this is
-    // where the shop's own pages are read for it, because the section itself is
-    // a client component (rule 19g, f05-checkout-legal-stubs).
-    getLegalLinkContext(),
-    // The shop's crypto wallets and manager contacts for the manual provider
-    // (olavka-payments), read from the tenant header here for the same reason.
-    getTenantManualPayment(),
-    // t-2026-09-24-n10: which methods this shop connected, so the manual
-    // provider's demo card can be labelled honestly once it is offered only
-    // as a last resort.
-    getSitePaymentMethods(),
-  ])
+  const [paymentMethods, legal, manualPayment, tenantPaymentMethods, prePaymentNotice, seller] =
+    await Promise.all([
+      listCartPaymentMethods(cart.region?.id ?? ""),
+      // The consent sentence under the Pay button names four documents; this is
+      // where the shop's own pages are read for it, because the section itself is
+      // a client component (rule 19g, f05-checkout-legal-stubs).
+      getLegalLinkContext(),
+      // The shop's crypto wallets and manager contacts for the manual provider
+      // (olavka-payments), read from the tenant header here for the same reason.
+      getTenantManualPayment(),
+      // t-2026-09-24-n10: which methods this shop connected, so the manual
+      // provider's demo card can be labelled honestly once it is offered only
+      // as a last resort.
+      getSitePaymentMethods(),
+      // Rule 5zd (t-2026-10-03-32): the pre-payment notice's per-method fields.
+      getTenantPaymentPreNotice(),
+      // The seller the notice names — legal name, or the shop's display name
+      // while there is none; never an INN or an OGRN (`sellerLabel`).
+      getTenantSeller(),
+    ])
   const meta = cart.metadata as Record<string, string> | null
   const pickupPointName = meta?.[PICKUP_METADATA_KEYS.name]
   const pickupPointAddress = meta?.[PICKUP_METADATA_KEYS.address]
@@ -80,6 +89,8 @@ const CheckoutSummary = async ({
         manualPayment={manualPayment}
         tenantPaymentMethods={tenantPaymentMethods}
         requiresSignIn={requiresSignIn}
+        prePaymentNotice={prePaymentNotice}
+        seller={sellerLabel(seller ?? { name: null, legal_name: null })}
       />
     </div>
   )

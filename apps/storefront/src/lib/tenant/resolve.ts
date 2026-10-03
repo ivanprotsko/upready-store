@@ -22,11 +22,17 @@ import { EMPTY_BRANDING, type TenantBranding } from "./branding"
 import { EMPTY_LOGIN_SETTINGS, type TenantLoginSettings } from "./login-settings"
 import { readManualPayment, type TenantManualPayment } from "./manual-payment"
 import { EMPTY_TENANT_PAYMENT_METHODS, readTenantPaymentMethods, type TenantPaymentMethods } from "./payment-methods"
+import {
+  EMPTY_PAYMENT_PRE_NOTICE,
+  readPaymentPreNotice,
+  type TenantPaymentPreNotice,
+} from "../util/payment-pre-notice"
 
 export type { TenantAttribution }
 export type { TenantBranding }
 export type { TenantManualPayment }
 export type { TenantPaymentMethods }
+export type { TenantPaymentPreNotice }
 
 export type ResolvedTenant = {
   handle: string
@@ -84,6 +90,12 @@ export type ResolvedTenant = {
    * for a tenant that connected nothing, same as a single-store install.
    */
   paymentMethods: TenantPaymentMethods
+  /**
+   * The pre-payment notice's per-method fields (rule 5zd, t-2026-10-03-32):
+   * `EMPTY_PAYMENT_PRE_NOTICE` for a shop that configured none, which the
+   * checkout's own rule then reads as "show no notice for any method".
+   */
+  paymentPreNotice: TenantPaymentPreNotice
 }
 
 const TTL_MS = 60_000
@@ -150,6 +162,7 @@ export async function resolveTenantByHost(
         login?: Partial<TenantLoginSettings> | null
         manual_payment?: unknown
         payment_methods?: unknown
+        payment_pre_notice?: unknown
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -197,6 +210,9 @@ export async function resolveTenantByHost(
           paymentMethods: body.payment_methods
             ? readTenantPaymentMethods(body.payment_methods)
             : EMPTY_TENANT_PAYMENT_METHODS,
+          paymentPreNotice: body.payment_pre_notice
+            ? readPaymentPreNotice(body.payment_pre_notice)
+            : EMPTY_PAYMENT_PRE_NOTICE,
         }
       }
     }
