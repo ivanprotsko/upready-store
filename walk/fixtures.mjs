@@ -399,6 +399,13 @@ export async function api(step, { run = {}, fx = {} } = {}) {
   if (step.method === "STUB") {
     throw new Error("unsupported: the receipt upload runs in a Next server action, so a browser stub cannot fail it; needs a backend fault switch")
   }
+  // The runner fills {run.*} itself and stops on a missing value, so the graph names the order instead:
+  // `url: …/tenants/payments/:paymentOfOrder/capture` with `order: "<order id>"`.
+  if (step.url.includes(":paymentOfOrder")) {
+    if (!step.order || !ORDER_ID.test(step.order)) throw new Error("api: :paymentOfOrder needs step.order with an order id")
+    run.paymentId = await paymentIdOf(step.order)
+    step = { ...step, url: step.url.replace(":paymentOfOrder", run.paymentId) }
+  }
   if (step.url.includes("{run.paymentId}") && !run.paymentId) {
     if (!run.orderId) throw new Error("api: {run.paymentId} needs run.orderId")
     run.paymentId = await paymentIdOf(run.orderId)
