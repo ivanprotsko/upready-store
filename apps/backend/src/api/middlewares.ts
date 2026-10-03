@@ -223,6 +223,7 @@ import {
   PostTenantProductAttributeUpdateSchema,
   PostTenantProductAttributeValuesSchema,
 } from "./tenants/product-attributes/validators";
+import { PutTenantProductTranslationBody } from "./tenants/products/translations-validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import {
   PostTenantWbFeedbackAnswerSendBody,
@@ -1304,6 +1305,14 @@ export default defineMiddlewares({
       matcher: "/tenants/products/:id/attributes",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantProductAttributeValuesSchema)],
+    },
+
+    // t-cherk-37: one locale of a product's own title/subtitle/description,
+    // option titles and variant titles.
+    {
+      matcher: "/tenants/products/:id/translations",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantProductTranslationBody)],
     },
 
     // t06-locale-currency: the tenant's default storefront locale, its enabled

@@ -10,6 +10,7 @@ import { ProductGeneralSection } from "./components/product-general-section"
 import { ProductMediaSection } from "./components/product-media-section"
 import { ProductOptionSection } from "./components/product-option-section"
 import { ProductOrganizationSection } from "./components/product-organization-section"
+import { ProductTranslationSection } from "./components/product-translation-section"
 import { ProductVariantSection } from "./components/product-variant-section"
 import { ExtendedProduct, PRODUCT_DETAIL_FIELDS } from "./constants"
 import { productLoader } from "./loader"
@@ -86,6 +87,11 @@ export const ProductDetail = () => {
             </LayoutComposer.Entry>
             <LayoutComposer.Entry id="ProductOrganizationSection">
               <ProductOrganizationSection product={product} />
+            </LayoutComposer.Entry>
+            {/* t-cherk-37: which of the shop's languages this product's own
+                title/subtitle/description are translated into. */}
+            <LayoutComposer.Entry id="ProductTranslationSection">
+              <ProductTranslationSection product={product} />
             </LayoutComposer.Entry>
             <LayoutComposer.Entry id="ProductAttributeSection">
               <ProductAttributeSection product={product} />
