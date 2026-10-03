@@ -52,6 +52,9 @@ export const PUT = async (
     password2: body.password2 ?? previous.password2 ?? "",
     test_password1: body.test_password1 ?? previous.test_password1 ?? "",
     test_password2: body.test_password2 ?? previous.test_password2 ?? "",
+    fiscalization_enabled: body.fiscalization_enabled ?? previous.fiscalization_enabled ?? false,
+    sno: body.sno ?? previous.sno ?? "osn",
+    default_tax: body.default_tax ?? previous.default_tax ?? "none",
   };
   const isTest = body.is_test ?? existing?.is_test ?? unreadable?.is_test ?? true;
   const isEnabled = body.is_enabled ?? existing?.is_enabled ?? unreadable?.is_enabled ?? true;

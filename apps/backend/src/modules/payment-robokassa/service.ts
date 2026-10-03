@@ -31,48 +31,17 @@ import {
 } from "@medusajs/framework/utils";
 import {
   formatOutSum,
-  invoiceIdFor,
-  passwordFor,
   readRobokassaSecret,
-  ROBOKASSA_PAYMENT_URL,
-  robokassaSignature,
   type ResolvedRobokassaSecret,
+  type RobokassaReceiptLineInput,
 } from "../../tenant-secrets/robokassa";
-import { isSyntheticTelegramEmail } from "../auth-telegram/lib/identity";
+import { buildRobokassaSession, type RobokassaSessionData } from "./build-session";
+
+export type { RobokassaSessionData } from "./build-session";
 
 type InjectedDependencies = {
   logger: Logger;
   [ContainerRegistrationKeys.PG_CONNECTION]: Knex;
-};
-
-/**
- * What the provider keeps on `payment_session.data`. Everything here is safe to
- * hand to the storefront (`/store/carts/:id?fields=payment_collection.payment_sessions.data`
- * returns it to the browser): the payment URL carries a signature, not a
- * password, and the credentials themselves never leave `initiatePayment`.
- *
- * `tenant_id` is written by the server (`src/api/middlewares.ts` overwrites
- * whatever the client sent before the provider runs) and `result_*` only by
- * the Result webhook route through `updatePayment`, never from the storefront:
- * `initiatePayment` builds this object from scratch, so a client-supplied
- * `result_confirmed_at` is dropped on the floor.
- */
-export type RobokassaSessionData = {
-  provider: "robokassa";
-  tenant_id: string;
-  session_id: string;
-  invoice_id: string;
-  out_sum: string;
-  currency_code: string;
-  is_test: boolean;
-  merchant_login: string;
-  payment_url: string;
-  success_url: string | null;
-  fail_url: string | null;
-  /** ISO time the signed Result webhook was accepted; `null` until then. */
-  result_confirmed_at: string | null;
-  /** `OutSum` verbatim from the accepted Result webhook. */
-  result_out_sum: string | null;
 };
 
 const CURRENCY_CODE = "rub";
@@ -131,91 +100,30 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
     return secret;
   }
 
-  /**
-   * Robokassa's payment URL with the signature
-   * `MerchantLogin:OutSum:InvId:[SuccessUrl2:SuccessUrl2Method:][FailUrl2:FailUrl2Method:]Password#1:Shp_SessionID=<id>`,
-   * the order `@gorgo/medusa-payment-robokassa` 1.0.0 uses (read from the old
-   * project's installed copy, measured there against Robokassa's test page).
-   */
-  private buildSession(input: {
-    secret: ResolvedRobokassaSecret;
-    sessionId: string;
-    amount: number | string;
-    currencyCode: string;
-    successUrl: string | null;
-    failUrl: string | null;
-    email: string | null;
-    culture: string | null;
-    description: string | null;
-  }): RobokassaSessionData {
-    const { secret, sessionId } = input;
-    const outSum = formatOutSum(input.amount);
-    const invoiceId = invoiceIdFor(sessionId);
-    const urlParams = {
-      SuccessUrl2: input.successUrl,
-      SuccessUrl2Method: input.successUrl ? "GET" : null,
-      FailUrl2: input.failUrl,
-      FailUrl2Method: input.failUrl ? "GET" : null,
-    };
-    const signature = robokassaSignature(
-      [
-        secret.credentials.merchant_login,
-        outSum,
-        invoiceId,
-        urlParams.SuccessUrl2,
-        urlParams.SuccessUrl2Method,
-        urlParams.FailUrl2,
-        urlParams.FailUrl2Method,
-        passwordFor(secret, 1),
-        `Shp_SessionID=${sessionId}`,
-      ],
-      secret.credentials.hash_algorithm,
-    );
-
-    const params = new URLSearchParams();
-    params.set("MerchantLogin", secret.credentials.merchant_login);
-    params.set("OutSum", outSum);
-    params.set("InvId", invoiceId);
-    if (input.description) {
-      params.set("Description", input.description.slice(0, 100));
-    }
-    params.set("SignatureValue", signature);
-    params.set("Shp_SessionID", sessionId);
-    for (const [key, value] of Object.entries(urlParams)) {
-      if (value) {
-        params.set(key, value);
-      }
-    }
-    // Robokassa mails the receipt to this address; a Telegram buyer's synthetic one would bounce.
-    if (input.email && !isSyntheticTelegramEmail(input.email)) {
-      params.set("Email", input.email);
-    }
-    if (input.culture) {
-      params.set("Culture", input.culture);
-    }
-    if (secret.is_test) {
-      params.set("IsTest", "1");
-    }
-
-    return {
-      provider: "robokassa",
-      tenant_id: secret.tenant_id,
-      session_id: sessionId,
-      invoice_id: invoiceId,
-      out_sum: outSum,
-      currency_code: input.currencyCode,
-      is_test: secret.is_test,
-      merchant_login: secret.credentials.merchant_login,
-      payment_url: `${ROBOKASSA_PAYMENT_URL}?${params.toString()}`,
-      success_url: input.successUrl,
-      fail_url: input.failUrl,
-      result_confirmed_at: null,
-      result_out_sum: null,
-    };
-  }
-
   private static text(value: unknown, max = 2048): string | null {
     return typeof value === "string" && value.length > 0 ? value.slice(0, max) : null;
+  }
+
+  /**
+   * `data.receipt_lines` as `src/api/store/tenant/robokassa.ts` wrote it:
+   * server-set, same trust level as `data.tenant_id`, but still walked field
+   * by field rather than cast wholesale, because `data` crosses the HTTP
+   * boundary as `Record<string, unknown>` either way.
+   */
+  private static receiptLines(value: unknown): RobokassaReceiptLineInput[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+    return value.flatMap((entry) => {
+      const line = entry as Partial<RobokassaReceiptLineInput> | null;
+      const name = RobokassaPaymentProviderService.text(line?.name, 128);
+      const amount = Number(line?.amount);
+      const quantity = Number(line?.quantity);
+      if (!name || !Number.isFinite(amount) || !Number.isFinite(quantity)) {
+        return [];
+      }
+      return [{ name, amount, quantity, kind: line?.kind === "shipping" ? "shipping" : "item" }];
+    });
   }
 
   private static isConfirmed(data: Record<string, unknown> | undefined): boolean {
@@ -238,7 +146,7 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
       throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "Payment session id is missing.");
     }
 
-    const session = this.buildSession({
+    const session = buildRobokassaSession({
       secret,
       sessionId,
       amount: input.amount as number,
@@ -248,6 +156,7 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
       email: RobokassaPaymentProviderService.text(input.context?.customer?.email ?? data.email, 254),
       culture: RobokassaPaymentProviderService.text(data.culture, 5),
       description: RobokassaPaymentProviderService.text(data.description, 100),
+      receiptLines: RobokassaPaymentProviderService.receiptLines(data.receipt_lines),
     });
 
     this.logger_.info(
@@ -273,7 +182,7 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
       return { data };
     }
     const secret = await this.secretFor(data.tenant_id);
-    const rebuilt = this.buildSession({
+    const rebuilt = buildRobokassaSession({
       secret,
       sessionId: data.session_id,
       amount: input.amount as number,
@@ -283,6 +192,7 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
       email: RobokassaPaymentProviderService.text(input.context?.customer?.email, 254),
       culture: null,
       description: null,
+      receiptLines: data.receipt_lines ?? [],
     });
     this.logger_.info(
       `[robokassa] session ${data.session_id}: total changed ${data.out_sum} → ${nextOutSum} RUB, payment URL rebuilt`,

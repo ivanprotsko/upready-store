@@ -59,6 +59,9 @@ describe("tenant-secrets/robokassa", () => {
       password2: "live-two",
       test_password1: "test-one",
       test_password2: "test-two",
+      fiscalization_enabled: false,
+      sno: "osn",
+      default_tax: "none",
     },
   };
 

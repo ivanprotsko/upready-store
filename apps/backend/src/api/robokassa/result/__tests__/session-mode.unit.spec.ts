@@ -51,6 +51,9 @@ const shopIn = (isTest: boolean): ResolvedRobokassaSecret => ({
     test_password1: "test-one",
     test_password2: "test-two",
     hash_algorithm: "sha256",
+    fiscalization_enabled: false,
+    sno: "osn",
+    default_tax: "none",
   },
 });
 
