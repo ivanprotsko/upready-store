@@ -34,6 +34,7 @@ export const OWNER_ROUTES = [
   { path: "/products/:product_id/sales-channels", kind: "overlay" },
   { path: "/products/:product_id/attributes", kind: "overlay" },
   { path: "/products/:product_id/custom-attributes", kind: "overlay" },
+  { path: "/products/:product_id/translations", kind: "overlay" },
   { path: "/products/:product_id/organization", kind: "overlay" },
   { path: "/products/:product_id/shipping-profile", kind: "overlay" },
   { path: "/products/:product_id/media", kind: "overlay" },
