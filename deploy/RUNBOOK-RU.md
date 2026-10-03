@@ -124,7 +124,7 @@ ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_do root@$RU_HOST_IP \
 
 A `200` here (over plain HTTP, no TLS yet, since the certificate needs the real DNS record first)
 means the backend/storefront/panel triple is up and traefik is routing correctly; `/etc/hosts` on
-your own machine with `$RU_HOST_IP cherkashino.ru panel.cherkashino.ru stores.cherkashino.ru` lets you
+your own machine with `$RU_HOST_IP cherkashino.ru api.cherkashino.ru panel.cherkashino.ru stores.cherkashino.ru` lets you
 check the same thing from a browser before DNS exists anywhere public. This is an empty-stack check —
 acceptance criterion #4 of this task ("пустой стек отвечает по https на тестовом домене") is this
 step, run by the lead once DNS for a test domain (not `cherkashino.ru` itself, to avoid any
@@ -141,6 +141,7 @@ number into this file):
 |---|---|---|
 | `cherkashino.ru` | A | `$RU_HOST_IP` |
 | `www.cherkashino.ru` | A | `$RU_HOST_IP` |
+| `api.cherkashino.ru` | A | `$RU_HOST_IP` |
 | `panel.cherkashino.ru` | A | `$RU_HOST_IP` |
 | `stores.cherkashino.ru` | A | `$RU_HOST_IP` |
 
@@ -180,7 +181,7 @@ call — no new bot, no new token, same mechanism `deploy/observability/RUNBOOK.
 ```bash
 ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_do root@$RU_HOST_IP 'mkdir -p /etc/ru-host-monitor'
 cat <<'EOF' | ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_do root@$RU_HOST_IP 'cat > /etc/ru-host-monitor/env'
-MONITOR_HEALTH_URL=https://cherkashino.ru/healthz
+MONITOR_HEALTH_URL=https://api.cherkashino.ru/health
 MONITOR_TELEGRAM_BOT_TOKEN=<the same token deploy/observability/RUNBOOK.md's step 2 already found>
 MONITOR_TELEGRAM_CHAT_ID=<the same ops chat id from that step>
 EOF
