@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useId, useRef, useState, type FormEvent } from "react"
+import { useEffect, useId, useRef, useState, useTransition, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { setAddresses, updateCart } from "@lib/data/cart"
 import { Button, Checkbox, Label } from "@medusajs/ui"
@@ -99,6 +99,10 @@ export default function CheckoutContactsForm({
   })
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  // Batch 6 part 1: an incomplete section keeps this form on screen until the
+  // refreshed cart arrives, so «Сохранение…» lasts until then rather than the
+  // button reading «Сохранить» again over the values just sent.
+  const [isRefreshing, startRefresh] = useTransition()
   // Batch 6: a field's error shows under it only after the field was left (blur) or
   // the form was submitted — never before the buyer has typed anything.
   const [touched, setTouched] = useState<Record<string, boolean>>({})
@@ -183,7 +187,7 @@ export default function CheckoutContactsForm({
 
     setIsSubmitting(false)
     onSaved()
-    router.refresh()
+    startRefresh(() => router.refresh())
   }
 
   return (
@@ -324,11 +328,11 @@ export default function CheckoutContactsForm({
         )}
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isRefreshing}
           size="large"
           className="w-full"
         >
-          {isSubmitting ? t("saving") : t("save")}
+          {isSubmitting || isRefreshing ? t("saving") : t("save")}
         </Button>
       </div>
     </form>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, type FormEvent } from "react"
+import { useEffect, useRef, useState, useTransition, type FormEvent } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { setAddresses, updateRegion } from "@lib/data/cart"
 import type { HttpTypes } from "@medusajs/types"
@@ -105,6 +105,9 @@ export default function CheckoutAddressForm({
   // rendered nothing a customer could act on).
   const [addressGaps, setAddressGaps] = useState<ShippingAddressField[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  // Batch 6 part 1: an incomplete section keeps this form on screen until the
+  // refreshed cart arrives, so «Сохранение…» lasts until then.
+  const [isRefreshing, startRefresh] = useTransition()
   const [applyingId, setApplyingId] = useState<string | null>(null)
 
   // `AddressAutocomplete` picks between two providers and forwards no ref of
@@ -174,7 +177,7 @@ export default function CheckoutAddressForm({
     ) {
       await updateRegion(address.country_code, pathname)
     } else {
-      router.refresh()
+      startRefresh(() => router.refresh())
     }
   }
 
@@ -206,7 +209,7 @@ export default function CheckoutAddressForm({
       setError(result)
     } else {
       onSaved()
-      router.refresh()
+      startRefresh(() => router.refresh())
     }
   }
 
@@ -216,7 +219,7 @@ export default function CheckoutAddressForm({
         dir={dir}
         value={selectedId}
         onValueChange={handleSelect}
-        disabled={!!applyingId}
+        disabled={!!applyingId || isRefreshing}
         className="flex flex-col gap-[10px]"
       >
         {savedAddresses.map((address) => (
@@ -299,11 +302,11 @@ export default function CheckoutAddressForm({
         )}
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isRefreshing}
           size="large"
           className="w-full"
         >
-          {isSubmitting ? t("saving") : t("save")}
+          {isSubmitting || isRefreshing ? t("saving") : t("save")}
         </Button>
       </div>
     </form>
