@@ -12,6 +12,16 @@
     "trackOrder": "Sekti užsakymą",
     "viewOrder": "Peržiūrėti užsakymą"
   },
+  "CourseAccess": {
+    "body": "Užsakymo <strong>Nr. {id}</strong> apmokėjimas patvirtintas. Kursas jau atidarytas jūsų paskyroje:",
+    "button": "Eiti į kursą",
+    "headingAnon": "Prieiga prie kurso atidaryta",
+    "headingWithName": "{name}, prieiga prie kurso atidaryta",
+    "preview": "Apmokėjimas patvirtintas, kursas laukia jūsų paskyroje",
+    "signIn": "Pamokos atsidarys prisijungus prie paskyros adresu {email}.",
+    "subject": "Užsakymas Nr. {id} apmokėtas: prieiga prie kurso atidaryta",
+    "textFallback": "Užsakymo Nr. {id} apmokėjimas patvirtintas, prieiga prie kurso atidaryta.\n\nEiti į kursą:"
+  },
   "Delivery": {
     "bodyOrder": "Užsakymas <strong>Nr. {id}</strong> pristatytas. Tikimės, kad viskas atkeliavo tvarkingai.",
     "headingAnon": "Jūsų užsakymas pristatytas",

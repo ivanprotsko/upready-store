@@ -12,6 +12,16 @@
     "trackOrder": "Seuraa tilausta",
     "viewOrder": "Näytä tilaus"
   },
+  "CourseAccess": {
+    "body": "Tilauksen <strong>#{id}</strong> maksu on vahvistettu. Kurssi on nyt avattu tililläsi:",
+    "button": "Siirry kurssille",
+    "headingAnon": "Kurssi on avattu",
+    "headingWithName": "{name}, kurssi on avattu",
+    "preview": "Maksu vahvistettu, kurssi odottaa tililläsi",
+    "signIn": "Oppitunnit avautuvat, kun kirjaudut tilille osoitteella {email}.",
+    "subject": "Tilaus #{id} maksettu: kurssi on avattu",
+    "textFallback": "Tilauksen #{id} maksu on vahvistettu, ja kurssi on avattu.\n\nSiirry kurssille:"
+  },
   "Delivery": {
     "bodyOrder": "Tilaus <strong>#{id}</strong> on toimitettu. Toivottavasti kaikki saapui hyvässä kunnossa.",
     "headingAnon": "Tilauksesi on toimitettu",

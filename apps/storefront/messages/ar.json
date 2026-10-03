@@ -78,14 +78,6 @@
     "exploreProducts": "استكشف المنتجات",
     "heading": "السلة"
   },
-  "CartDropdown": {
-    "bagEmpty": "سلة التسوق فارغة.",
-    "exploreProducts": "استكشف المنتجات",
-    "goToCart": "الانتقال إلى السلة",
-    "heading": "السلة",
-    "subtotal": "المجموع الفرعي",
-    "subtotalNote": "(غير شامل الضرائب)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "حدث خطأ أثناء محاولة نقل سلتك",
     "runTransferAgain": "إعادة محاولة النقل",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "غير متاح: تعذّر حساب التكلفة",
     "signIn": "تسجيل الدخول",
     "total": "الإجمالي",
-    "shippingZone": "المنطقة: {zone}"
+    "shippingZone": "المنطقة: {zone}",
+    "courseSignInHeading": "سجّل الدخول لشراء الدورة",
+    "courseSignInText": "تُفتح الدورة في حسابك، لذا يتطلب الشراء تسجيل الدخول أو إنشاء حساب.",
+    "fieldRequired": "يرجى ملء هذا الحقل",
+    "emailInvalid": "تحقق من البريد الإلكتروني: العنوان يحتوي على خطأ",
+    "signInHeading": "سجّل الدخول لإتمام الطلب",
+    "signInText": "سيظهر الطلب في حسابك: هناك ستجد بيانات الدفع وحالة الطلب والدورات المشتراة. تسجيل الدخول أو إنشاء حساب يستغرق دقيقة، وستبقى سلة التسوق محفوظة."
   },
   "ClaimOrders": {
     "heading": "هل طلبت دون حساب؟",
@@ -340,7 +338,10 @@
     "empty": "لم تشترِ أي دورة بعد.",
     "start": "ابدأ",
     "continue": "متابعة",
-    "review": "مراجعة"
+    "review": "مراجعة",
+    "pendingHeading": "في انتظار الدفع",
+    "pendingHint": "سيُفتح الوصول بعد أن يؤكد المتجر الدفع.",
+    "toOrder": "{order} — الدفع"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "لست عضوًا؟",
     "password": "كلمة المرور",
     "signIn": "تسجيل الدخول",
+    "telegramDivider": "أو",
+    "telegramCta": "تسجيل الدخول عبر Telegram",
+    "telegramPending": "جارٍ تسجيل الدخول…",
+    "telegramErrorExpired": "انتهت صلاحية تسجيل الدخول عبر Telegram. ابدأ من جديد.",
+    "telegramErrorFailed": "تعذّر تسجيل الدخول. حاول مرة أخرى بعد دقيقة.",
+    "telegramErrorRejected": "لم يؤكد Telegram تسجيل الدخول هذا. حاول مرة أخرى.",
+    "telegramErrorUnconfigured": "تسجيل الدخول عبر Telegram غير مفعّل في هذا المتجر بعد.",
     "yandexCta": "تسجيل الدخول عبر Yandex ID",
     "yandexDivider": "أو",
     "yandexErrorDenied": "لقد ألغيت تسجيل الدخول في صفحة Yandex.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "نسخ رقم بطاقة {bank}",
+    "cardHolder": "المستلم: {holder}",
+    "cardsDesc": "حوّل إجمالي الطلب إلى بطاقة المتجر.",
+    "cardsHint": "حوّل {total} إلى إحدى البطاقات أدناه.",
+    "cardsManagerFallback": "إذا حدث خطأ ما، راسل المدير:",
+    "cardsTitle": "تحويل إلى البطاقة",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "تم تسجيل الطلب #{orderNumber} وحجزه. حوّل {total} إلى إحدى البطاقات أدناه. بعد أن يؤكد المتجر الدفع، تصبح حالة الطلب «مدفوع».",
+    "handoverCardsMessage": "مرحبًا! لدي سؤال بخصوص دفع الطلب #{orderNumber} بمبلغ {total} عن طريق التحويل إلى البطاقة.",
+    "handoverCardsTitle": "حوّل الدفعة إلى البطاقة",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "تعذّر إرسال الإيصال. حاول مرة أخرى أو راسل المدير.",
+    "receiptHint": "صورة أو لقطة شاشة للتحويل (JPG, PNG, WEBP, HEIC) أو ملف PDF، حتى 10 ميغابايت.",
+    "receiptLabel": "إيصال الدفع",
+    "receiptPaid": "لقد دفعت",
+    "receiptSent": "تم إرسال الإيصال، بانتظار التأكيد",
+    "receiptSentHint": "سيتحقق المتجر من التحويل ويؤكد الدفع، وبعدها تصبح حالة الطلب «مدفوع».",
+    "receiptSubmit": "إرسال الإيصال",
+    "receiptTooLarge": "حجم الملف أكبر من 10 ميغابايت. قم بضغطه أو أرسل لقطة شاشة.",
+    "receiptWrongType": "أرسل صورة (JPG, PNG, WEBP, HEIC) أو ملف PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "لم يُقبل الإيصال",
+    "receiptRejectedReason": "السبب: {reason}",
+    "receiptResend": "إرسال إيصال آخر",
+    "contactManager": "التواصل مع المدير",
+    "methodRequisites": "تحويل بنكي حسب البيانات",
+    "requisitesDesc": "بعد تأكيد الطلب ستظهر لك بيانات المتجر: بطاقات البنوك ومحافظ العملات الرقمية. حوّل {total} وأرفق إيصال الدفع، وسيؤكد المدير الطلب.",
+    "requisitesPreviewLabel": "نقبل التحويلات إلى:",
+    "handoverRequisitesTitle": "ادفع الطلب بالتحويل البنكي",
+    "handoverRequisitesBody": "تم استلام الطلب #{orderNumber}. اختر بنكًا أو محفظة أدناه، حوّل {total} وأرفق إيصال الدفع.",
+    "handoverRequisitesMessage": "مرحبًا! لقد قدمت الطلب #{orderNumber} بمبلغ {total} ودفعته بالتحويل البنكي. يرجى تأكيد الدفع.",
+    "contactManagerHint": "لتأكيد الطلب تواصل مع المدير.",
+    "showRequisite": "اضغط لعرض الرقم",
+    "hideRequisite": "إخفاء الرقم",
+    "numberLabel": "رقم البطاقة أو الحساب",
+    "holderLabel": "المستفيد",
+    "addressLabel": "عنوان المحفظة",
+    "networkLabel": "الشبكة",
+    "copyNumber": "نسخ الرقم",
+    "copyHolder": "نسخ اسم المستفيد",
+    "copyAddress": "نسخ العنوان",
+    "copyNetwork": "نسخ اسم الشبكة",
+    "cryptoOnlyWarning": "أرسل {currency} فقط عبر شبكة {network}: تحويل عملة أخرى أو عبر شبكة أخرى لن يصل.",
+    "receiptPick": "اختيار ملف أو صورة",
+    "receiptCamera": "التقاط صورة",
+    "receiptRemove": "إزالة الملف"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "احتفظ برقم الطلب، فستحتاج إليه عند التواصل مع المتجر.",
     "orderSuccess": "تم تقديم طلبك بنجاح.",
-    "thankYou": "شكرًا لك!"
+    "thankYou": "شكرًا لك!",
+    "paymentConfirmed": "تم تأكيد الدفع",
+    "goToCourse": "الانتقال إلى الدورة",
+    "orderCanceled": "تم إلغاء الطلب",
+    "orderCanceledHint": "لا حاجة للدفع. إذا كان هذا خطأ، فراسلنا.",
+    "paidGoodsHint": "نجهّز طلبك للشحن."
   },
   "OrderDetails": {
     "backToOrders": "العودة إلى الطلبات",
@@ -926,6 +982,15 @@
     "noPhone": "لا يوجد رقم هاتف",
     "phone": "الهاتف"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "مرتبط: {handle}",
+    "notLinked": "غير مرتبط",
+    "hint": "سجّل الدخول هنا عبر Telegram لربطه بهذا الحساب. بعد ذلك يمكنك تسجيل الدخول بأي من الطريقتين.",
+    "errorTaken": "حساب Telegram هذا مرتبط بالفعل بحساب آخر.",
+    "errorRejected": "لم يؤكد Telegram ذلك. حاول مرة أخرى.",
+    "errorFailed": "تعذّر ربط Telegram. حاول مرة أخرى بعد دقيقة."
+  },
   "PromoBanner": {
     "close": "إغلاق",
     "message": "قالب DTC متكامل المميزات وجاهز للإنتاج."
@@ -1097,5 +1162,31 @@
     "addToCart": "أضف إلى السلة",
     "chooseOptions": "اختر الخيارات",
     "remove": "إزالة"
+  },
+  "CartSidebar": {
+    "title": "سلة التسوق",
+    "signInPrompt": "سجّل الدخول لعرض سجل طلباتك وإتمام الشراء بشكل أسرع.",
+    "signInEmail": "عبر البريد الإلكتروني",
+    "signInYandex": "عبر Yandex ID",
+    "deliveryEstimate": "التوصيل {range}",
+    "empty": "سلة التسوق فارغة.",
+    "exploreProducts": "تصفح المنتجات",
+    "itemsTotal": "إجمالي المنتجات",
+    "checkout": "إتمام الطلب"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "دورة عبر الإنترنت، بدون توصيل",
+    "shipmentNo": "الشحنة رقم {no}",
+    "digitalGroup": "دورة عبر الإنترنت — الوصول بعد تأكيد الدفع",
+    "accessByEmail": "سيصلك الوصول إلى الدورة عبر البريد الإلكتروني بعد تأكيد الدفع.",
+    "digitalGroupPaid": "دورة إلكترونية — تم فتح الوصول"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "في انتظار الدفع",
+    "awaitingConfirmation": "في انتظار تأكيد الدفع",
+    "receiptRejected": "لم يتم قبول الإيصال",
+    "paid": "مدفوع",
+    "refunded": "تم رد المبلغ",
+    "canceled": "ملغى"
   }
 }

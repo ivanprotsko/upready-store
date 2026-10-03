@@ -78,14 +78,6 @@
     "exploreProducts": "Δείτε τα προϊόντα",
     "heading": "Καλάθι"
   },
-  "CartDropdown": {
-    "bagEmpty": "Το καλάθι αγορών σας είναι άδειο.",
-    "exploreProducts": "Δείτε τα προϊόντα",
-    "goToCart": "Μετάβαση στο καλάθι",
-    "heading": "Καλάθι",
-    "subtotal": "Μερικό σύνολο",
-    "subtotalNote": "(χωρίς φόρους)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Κάτι πήγε στραβά κατά τη μεταφορά του καλαθιού σας",
     "runTransferAgain": "Επανάληψη μεταφοράς",
@@ -155,7 +147,7 @@
     "freeShipping": "Δωρεάν",
     "giftCard": "Δωροκάρτα",
     "itemsCount": "{count, plural, one {{count} προϊόν} other {{count} προϊόντα}}",
-    "legal": "Κάνοντας κλικ στο «Πληρωμή», αποδέχεστε τους <terms>όρους</terms> μας, τους <termsOfUse>όρους χρήσης</termsOfUse> και την <returnPolicy>πολιτική επιστροφών</returnPolicy>, και συμφωνείτε με την <privacyPolicy>πολιτική απορρήτου</privacyPolicy>.",
+    "legal": "Κάνοντας κλικ στο «{button}», αποδέχεστε τους <terms>όρους</terms> μας, τους <termsOfUse>όρους χρήσης</termsOfUse> και την <returnPolicy>πολιτική επιστροφών</returnPolicy>, και συμφωνείτε με την <privacyPolicy>πολιτική απορρήτου</privacyPolicy>.",
     "manualInput": "Εισαγωγή διεύθυνσης χειροκίνητα",
     "addressIncomplete": "Συμπληρώστε τα υποχρεωτικά πεδία της διεύθυνσης: {fields}.",
     "provinceRequired": "Επιλέξτε περιοχή από τη λίστα.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Μη διαθέσιμο: δεν ήταν δυνατός ο υπολογισμός του κόστους",
     "signIn": "Σύνδεση",
     "total": "Σύνολο",
-    "shippingZone": "Ζώνη: {zone}"
+    "shippingZone": "Ζώνη: {zone}",
+    "courseSignInHeading": "Συνδεθείτε για να αγοράσετε το μάθημα",
+    "courseSignInText": "Το μάθημα ανοίγει στον λογαριασμό σας, γι' αυτό η αγορά απαιτεί σύνδεση ή εγγραφή.",
+    "fieldRequired": "Συμπληρώστε αυτό το πεδίο",
+    "emailInvalid": "Ελέγξτε το email: η διεύθυνση έχει λάθος",
+    "signInHeading": "Συνδεθείτε για να ολοκληρώσετε την παραγγελία",
+    "signInText": "Η παραγγελία θα εμφανιστεί στον λογαριασμό σας: εκεί θα βρείτε τα στοιχεία πληρωμής, την κατάσταση και τα αγορασμένα μαθήματα. Η σύνδεση ή η εγγραφή παίρνει ένα λεπτό, το καλάθι διατηρείται."
   },
   "ClaimOrders": {
     "heading": "Παραγγείλατε χωρίς λογαριασμό;",
@@ -340,7 +338,10 @@
     "empty": "Δεν έχετε αγοράσει ακόμα κανένα μάθημα.",
     "start": "Έναρξη",
     "continue": "Συνέχεια",
-    "review": "Επανάληψη"
+    "review": "Επανάληψη",
+    "pendingHeading": "Σε αναμονή πληρωμής",
+    "pendingHint": "Η πρόσβαση θα ανοίξει μόλις το κατάστημα επιβεβαιώσει την πληρωμή.",
+    "toOrder": "{order} — πληρωμή"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Δεν είστε μέλος;",
     "password": "Κωδικός πρόσβασης",
     "signIn": "Σύνδεση",
+    "telegramDivider": "ή",
+    "telegramCta": "Σύνδεση με Telegram",
+    "telegramPending": "Γίνεται σύνδεση…",
+    "telegramErrorExpired": "Αυτή η σύνδεση με Telegram έχει λήξει. Ξεκινήστε από την αρχή.",
+    "telegramErrorFailed": "Η σύνδεση απέτυχε. Δοκιμάστε ξανά σε ένα λεπτό.",
+    "telegramErrorRejected": "Το Telegram δεν επιβεβαίωσε αυτή τη σύνδεση. Δοκιμάστε ξανά.",
+    "telegramErrorUnconfigured": "Η σύνδεση με Telegram δεν έχει ενεργοποιηθεί ακόμη σε αυτό το κατάστημα.",
     "yandexCta": "Σύνδεση με Yandex ID",
     "yandexDivider": "ή",
     "yandexErrorDenied": "Ακυρώσατε τη σύνδεση στη σελίδα της Yandex.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Αντιγραφή αριθμού κάρτας {bank}",
+    "cardHolder": "Παραλήπτης: {holder}",
+    "cardsDesc": "Μεταφέρετε το σύνολο της παραγγελίας στην κάρτα του καταστήματος.",
+    "cardsHint": "Μεταφέρετε {total} σε μία από τις κάρτες παρακάτω.",
+    "cardsManagerFallback": "Αν κάτι δεν πάει καλά, στείλτε μήνυμα στον διαχειριστή:",
+    "cardsTitle": "Μεταφορά σε κάρτα",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Η παραγγελία #{orderNumber} έχει καταχωρηθεί και δεσμευτεί. Μεταφέρετε {total} σε μία από τις κάρτες παρακάτω. Μόλις το κατάστημα επιβεβαιώσει την πληρωμή, η παραγγελία θα αποκτήσει την κατάσταση «Πληρωμένη».",
+    "handoverCardsMessage": "Γεια σας! Έχω μια ερώτηση σχετικά με την πληρωμή της παραγγελίας #{orderNumber} ύψους {total} με μεταφορά σε κάρτα.",
+    "handoverCardsTitle": "Μεταφέρετε την πληρωμή σε κάρτα",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Δεν ήταν δυνατή η αποστολή της απόδειξης. Δοκιμάστε ξανά ή στείλτε μήνυμα στον διαχειριστή.",
+    "receiptHint": "Φωτογραφία ή στιγμιότυπο της μεταφοράς (JPG, PNG, WEBP, HEIC) ή PDF, έως 10 MB.",
+    "receiptLabel": "Απόδειξη πληρωμής",
+    "receiptPaid": "Έχω πληρώσει",
+    "receiptSent": "Η απόδειξη στάλθηκε, αναμένεται επιβεβαίωση",
+    "receiptSentHint": "Το κατάστημα θα ελέγξει τη μεταφορά και θα επιβεβαιώσει την πληρωμή, και στη συνέχεια η παραγγελία θα αποκτήσει την κατάσταση «Πληρωμένη».",
+    "receiptSubmit": "Αποστολή απόδειξης",
+    "receiptTooLarge": "Το αρχείο είναι μεγαλύτερο από 10 MB. Συμπιέστε το ή στείλτε στιγμιότυπο οθόνης.",
+    "receiptWrongType": "Στείλτε φωτογραφία (JPG, PNG, WEBP, HEIC) ή PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Η απόδειξη δεν έγινε δεκτή",
+    "receiptRejectedReason": "Αιτία: {reason}",
+    "receiptResend": "Στείλτε άλλη απόδειξη",
+    "contactManager": "Επικοινωνία με τον διαχειριστή",
+    "methodRequisites": "Μεταφορά στα στοιχεία λογαριασμού",
+    "requisitesDesc": "Μετά την παραγγελία θα δείτε τα στοιχεία του καταστήματος: τραπεζικές κάρτες και κρυπτο-πορτοφόλια. Μεταφέρετε {total} και επισυνάψτε την απόδειξη — ο διαχειριστής θα επιβεβαιώσει την παραγγελία.",
+    "requisitesPreviewLabel": "Δεχόμαστε μεταφορές σε:",
+    "handoverRequisitesTitle": "Πληρώστε την παραγγελία με μεταφορά",
+    "handoverRequisitesBody": "Η παραγγελία #{orderNumber} καταχωρήθηκε. Επιλέξτε τράπεζα ή πορτοφόλι παρακάτω, μεταφέρετε {total} και επισυνάψτε την απόδειξη πληρωμής.",
+    "handoverRequisitesMessage": "Γεια σας! Έκανα την παραγγελία #{orderNumber} ποσού {total} και την πλήρωσα με μεταφορά. Παρακαλώ επιβεβαιώστε την πληρωμή.",
+    "contactManagerHint": "Για την επιβεβαίωση της παραγγελίας επικοινωνήστε με τον διαχειριστή.",
+    "showRequisite": "Πατήστε για να δείτε τον αριθμό",
+    "hideRequisite": "Απόκρυψη αριθμού",
+    "numberLabel": "Αριθμός κάρτας ή λογαριασμού",
+    "holderLabel": "Δικαιούχος",
+    "addressLabel": "Διεύθυνση πορτοφολιού",
+    "networkLabel": "Δίκτυο",
+    "copyNumber": "Αντιγραφή αριθμού",
+    "copyHolder": "Αντιγραφή δικαιούχου",
+    "copyAddress": "Αντιγραφή διεύθυνσης",
+    "copyNetwork": "Αντιγραφή δικτύου",
+    "cryptoOnlyWarning": "Στείλτε μόνο {currency} στο δίκτυο {network}: μεταφορά άλλου νομίσματος ή μέσω άλλου δικτύου δεν θα φτάσει.",
+    "receiptPick": "Επιλογή αρχείου ή φωτογραφίας",
+    "receiptCamera": "Λήψη φωτογραφίας",
+    "receiptRemove": "Αφαίρεση αρχείου"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Κρατήστε τον αριθμό παραγγελίας. Θα τον χρειαστείτε όταν επικοινωνήσετε με το κατάστημα.",
     "orderSuccess": "Η παραγγελία σας ολοκληρώθηκε με επιτυχία.",
-    "thankYou": "Ευχαριστούμε!"
+    "thankYou": "Ευχαριστούμε!",
+    "paymentConfirmed": "Η πληρωμή επιβεβαιώθηκε",
+    "goToCourse": "Μετάβαση στο μάθημα",
+    "orderCanceled": "Η παραγγελία ακυρώθηκε",
+    "orderCanceledHint": "Δεν χρειάζεται πληρωμή. Αν πρόκειται για λάθος, γράψτε μας.",
+    "paidGoodsHint": "Ετοιμάζουμε την παραγγελία σας για αποστολή."
   },
   "OrderDetails": {
     "backToOrders": "Πίσω στις παραγγελίες",
@@ -926,6 +982,15 @@
     "noPhone": "Δεν υπάρχει αριθμός τηλεφώνου",
     "phone": "Τηλέφωνο"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Συνδεδεμένο: {handle}",
+    "notLinked": "Μη συνδεδεμένο",
+    "hint": "Συνδεθείτε εδώ με Telegram για να το συνδέσετε με αυτόν τον λογαριασμό. Μετά μπορείτε να συνδέεστε με οποιονδήποτε από τους δύο τρόπους.",
+    "errorTaken": "Αυτός ο λογαριασμός Telegram είναι ήδη συνδεδεμένος με άλλον λογαριασμό.",
+    "errorRejected": "Το Telegram δεν το επιβεβαίωσε. Δοκιμάστε ξανά.",
+    "errorFailed": "Δεν ήταν δυνατή η σύνδεση του Telegram. Δοκιμάστε ξανά σε ένα λεπτό."
+  },
   "PromoBanner": {
     "close": "Κλείσιμο",
     "message": "Πλήρες, έτοιμο για παραγωγή DTC starter."
@@ -1097,5 +1162,31 @@
     "addToCart": "Προσθήκη στο καλάθι",
     "chooseOptions": "Επιλογή παραλλαγών",
     "remove": "Αφαίρεση"
+  },
+  "CartSidebar": {
+    "title": "Καλάθι",
+    "signInPrompt": "Συνδεθείτε για να βλέπετε το ιστορικό παραγγελιών και να ολοκληρώνετε τις αγορές σας πιο γρήγορα.",
+    "signInEmail": "Με email",
+    "signInYandex": "Με Yandex ID",
+    "deliveryEstimate": "Παράδοση {range}",
+    "empty": "Το καλάθι σας είναι άδειο.",
+    "exploreProducts": "Δείτε τα προϊόντα",
+    "itemsTotal": "Σύνολο προϊόντων",
+    "checkout": "Ολοκλήρωση παραγγελίας"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "διαδικτυακό μάθημα, χωρίς παράδοση",
+    "shipmentNo": "Αποστολή αρ. {no}",
+    "digitalGroup": "Διαδικτυακό μάθημα — πρόσβαση μετά την επιβεβαίωση πληρωμής",
+    "accessByEmail": "Η πρόσβαση στο μάθημα θα σταλεί με email μετά την επιβεβαίωση της πληρωμής.",
+    "digitalGroupPaid": "Διαδικτυακό μάθημα — η πρόσβαση ανοίχτηκε"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Αναμονή πληρωμής",
+    "awaitingConfirmation": "Αναμονή επιβεβαίωσης πληρωμής",
+    "receiptRejected": "Η απόδειξη δεν έγινε δεκτή",
+    "paid": "Εξοφλήθηκε",
+    "refunded": "Επιστράφηκε",
+    "canceled": "Ακυρώθηκε"
   }
 }

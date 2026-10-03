@@ -78,14 +78,6 @@
     "exploreProducts": "Khám phá sản phẩm",
     "heading": "Giỏ hàng"
   },
-  "CartDropdown": {
-    "bagEmpty": "Giỏ hàng của bạn đang trống.",
-    "exploreProducts": "Khám phá sản phẩm",
-    "goToCart": "Đi đến giỏ hàng",
-    "heading": "Giỏ hàng",
-    "subtotal": "Tạm tính",
-    "subtotalNote": "(chưa gồm thuế)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Đã xảy ra lỗi khi chúng tôi cố gắng chuyển giỏ hàng của bạn",
     "runTransferAgain": "Thử chuyển lại",
@@ -155,7 +147,7 @@
     "freeShipping": "Miễn phí",
     "giftCard": "Thẻ quà tặng",
     "itemsCount": "{count, plural, other {{count} sản phẩm}}",
-    "legal": "Bằng cách nhấn «Thanh toán», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời đồng ý với <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
+    "legal": "Bằng cách nhấn «{button}», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời đồng ý với <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
     "manualInput": "Nhập địa chỉ thủ công",
     "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ: {fields}.",
     "provinceRequired": "Chọn khu vực từ danh sách.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Không khả dụng: không tính được giá",
     "signIn": "Đăng nhập",
     "total": "Tổng cộng",
-    "shippingZone": "Khu vực: {zone}"
+    "shippingZone": "Khu vực: {zone}",
+    "courseSignInHeading": "Đăng nhập để mua khóa học",
+    "courseSignInText": "Khóa học mở trong tài khoản của bạn, nên cần đăng nhập hoặc đăng ký để mua.",
+    "fieldRequired": "Hãy điền vào trường này",
+    "emailInvalid": "Kiểm tra email: địa chỉ có lỗi",
+    "signInHeading": "Đăng nhập để đặt hàng",
+    "signInText": "Đơn hàng sẽ xuất hiện trong tài khoản của bạn: ở đó có thông tin thanh toán, trạng thái và các khóa học đã mua. Đăng nhập hoặc đăng ký chỉ mất một phút, giỏ hàng được giữ lại."
   },
   "ClaimOrders": {
     "heading": "Bạn đã đặt hàng mà không có tài khoản?",
@@ -340,7 +338,10 @@
     "empty": "Bạn chưa mua khóa học nào.",
     "start": "Bắt đầu",
     "continue": "Tiếp tục",
-    "review": "Ôn lại"
+    "review": "Ôn lại",
+    "pendingHeading": "Chờ thanh toán",
+    "pendingHint": "Quyền truy cập sẽ mở sau khi cửa hàng xác nhận thanh toán.",
+    "toOrder": "{order} — thanh toán"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Chưa có tài khoản?",
     "password": "Mật khẩu",
     "signIn": "Đăng nhập",
+    "telegramDivider": "hoặc",
+    "telegramCta": "Đăng nhập bằng Telegram",
+    "telegramPending": "Đang đăng nhập…",
+    "telegramErrorExpired": "Lần đăng nhập bằng Telegram này đã hết hạn. Vui lòng bắt đầu lại.",
+    "telegramErrorFailed": "Không thể đăng nhập. Vui lòng thử lại sau một phút.",
+    "telegramErrorRejected": "Telegram không xác nhận lần đăng nhập này. Vui lòng thử lại.",
+    "telegramErrorUnconfigured": "Cửa hàng này chưa bật đăng nhập bằng Telegram.",
     "yandexCta": "Đăng nhập bằng Yandex ID",
     "yandexDivider": "hoặc",
     "yandexErrorDenied": "Bạn đã hủy đăng nhập trên trang Yandex.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Sao chép số thẻ {bank}",
+    "cardHolder": "Người nhận: {holder}",
+    "cardsDesc": "Chuyển tổng giá trị đơn hàng vào thẻ của cửa hàng.",
+    "cardsHint": "Chuyển {total} vào một trong các thẻ bên dưới.",
+    "cardsManagerFallback": "Nếu có trục trặc, hãy nhắn cho quản lý:",
+    "cardsTitle": "Chuyển khoản vào thẻ",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Đơn hàng #{orderNumber} đã được tiếp nhận và giữ chỗ. Chuyển {total} vào một trong các thẻ bên dưới. Khi cửa hàng xác nhận thanh toán, đơn hàng sẽ chuyển sang trạng thái «Đã thanh toán».",
+    "handoverCardsMessage": "Xin chào! Tôi có câu hỏi về việc thanh toán đơn hàng #{orderNumber} trị giá {total} bằng chuyển khoản vào thẻ.",
+    "handoverCardsTitle": "Chuyển khoản thanh toán vào thẻ",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Không thể gửi biên lai. Hãy thử lại hoặc nhắn cho quản lý.",
+    "receiptHint": "Ảnh hoặc ảnh chụp màn hình giao dịch chuyển khoản (JPG, PNG, WEBP, HEIC) hoặc PDF, tối đa 10 MB.",
+    "receiptLabel": "Biên lai thanh toán",
+    "receiptPaid": "Tôi đã thanh toán",
+    "receiptSent": "Đã gửi biên lai, đang chờ xác nhận",
+    "receiptSentHint": "Cửa hàng sẽ kiểm tra giao dịch chuyển khoản và xác nhận thanh toán, sau đó đơn hàng sẽ chuyển sang trạng thái «Đã thanh toán».",
+    "receiptSubmit": "Gửi biên lai",
+    "receiptTooLarge": "Tệp lớn hơn 10 MB. Hãy nén tệp hoặc gửi ảnh chụp màn hình.",
+    "receiptWrongType": "Hãy gửi ảnh (JPG, PNG, WEBP, HEIC) hoặc PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Biên lai không được chấp nhận",
+    "receiptRejectedReason": "Lý do: {reason}",
+    "receiptResend": "Gửi biên lai khác",
+    "contactManager": "Liên hệ quản lý",
+    "methodRequisites": "Chuyển khoản theo thông tin tài khoản",
+    "requisitesDesc": "Sau khi đặt hàng bạn sẽ thấy thông tin của cửa hàng: thẻ ngân hàng và ví tiền mã hóa. Chuyển {total} và đính kèm biên lai thanh toán — người quản lý sẽ xác nhận đơn hàng.",
+    "requisitesPreviewLabel": "Chúng tôi nhận chuyển khoản qua:",
+    "handoverRequisitesTitle": "Thanh toán đơn hàng bằng chuyển khoản",
+    "handoverRequisitesBody": "Đơn hàng #{orderNumber} đã được tiếp nhận. Chọn ngân hàng hoặc ví bên dưới, chuyển {total} và đính kèm biên lai thanh toán.",
+    "handoverRequisitesMessage": "Xin chào! Tôi đã đặt đơn hàng #{orderNumber} trị giá {total} và thanh toán bằng chuyển khoản. Vui lòng xác nhận thanh toán.",
+    "contactManagerHint": "Để xác nhận đơn hàng, hãy liên hệ người quản lý.",
+    "showRequisite": "Nhấn để xem số",
+    "hideRequisite": "Ẩn số",
+    "numberLabel": "Số thẻ hoặc số tài khoản",
+    "holderLabel": "Người nhận",
+    "addressLabel": "Địa chỉ ví",
+    "networkLabel": "Mạng",
+    "copyNumber": "Sao chép số",
+    "copyHolder": "Sao chép người nhận",
+    "copyAddress": "Sao chép địa chỉ",
+    "copyNetwork": "Sao chép mạng",
+    "cryptoOnlyWarning": "Chỉ gửi {currency} trên mạng {network}: chuyển đồng khác hoặc qua mạng khác sẽ không đến.",
+    "receiptPick": "Chọn tệp hoặc ảnh",
+    "receiptCamera": "Chụp ảnh",
+    "receiptRemove": "Xóa tệp"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Hãy lưu lại mã đơn hàng. Bạn sẽ cần khi liên hệ với cửa hàng.",
     "orderSuccess": "Đơn hàng của bạn đã được đặt thành công.",
-    "thankYou": "Cảm ơn bạn!"
+    "thankYou": "Cảm ơn bạn!",
+    "paymentConfirmed": "Thanh toán đã được xác nhận",
+    "goToCourse": "Đến khóa học",
+    "orderCanceled": "Đơn hàng đã bị hủy",
+    "orderCanceledHint": "Không cần thanh toán. Nếu đây là nhầm lẫn, hãy liên hệ với chúng tôi.",
+    "paidGoodsHint": "Chúng tôi đang chuẩn bị gửi đơn hàng của bạn."
   },
   "OrderDetails": {
     "backToOrders": "Quay lại đơn hàng",
@@ -926,6 +982,15 @@
     "noPhone": "Chưa có số điện thoại",
     "phone": "Số điện thoại"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Đã liên kết: {handle}",
+    "notLinked": "Chưa liên kết",
+    "hint": "Đăng nhập bằng Telegram tại đây để liên kết với tài khoản này. Sau đó bạn có thể đăng nhập bằng cả hai cách.",
+    "errorTaken": "Tài khoản Telegram này đã được liên kết với một tài khoản khác.",
+    "errorRejected": "Telegram không xác nhận. Vui lòng thử lại.",
+    "errorFailed": "Không thể liên kết Telegram. Vui lòng thử lại sau một phút."
+  },
   "PromoBanner": {
     "close": "Đóng",
     "message": "DTC starter đầy đủ tính năng, sẵn sàng cho production."
@@ -1097,5 +1162,31 @@
     "addToCart": "Thêm vào giỏ hàng",
     "chooseOptions": "Chọn tùy chọn",
     "remove": "Xóa"
+  },
+  "CartSidebar": {
+    "title": "Giỏ hàng",
+    "signInPrompt": "Đăng nhập để xem lịch sử đơn hàng và mua sắm nhanh hơn.",
+    "signInEmail": "Bằng email",
+    "signInYandex": "Bằng Yandex ID",
+    "deliveryEstimate": "Giao hàng {range}",
+    "empty": "Giỏ hàng của bạn đang trống.",
+    "exploreProducts": "Xem sản phẩm",
+    "itemsTotal": "Tổng tiền hàng",
+    "checkout": "Thanh toán"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "khóa học trực tuyến, không giao hàng",
+    "shipmentNo": "Kiện hàng số {no}",
+    "digitalGroup": "Khóa học trực tuyến — truy cập sau khi xác nhận thanh toán",
+    "accessByEmail": "Quyền truy cập khóa học sẽ được gửi qua email sau khi xác nhận thanh toán.",
+    "digitalGroupPaid": "Khóa học trực tuyến — đã mở quyền truy cập"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Chờ thanh toán",
+    "awaitingConfirmation": "Chờ xác nhận thanh toán",
+    "receiptRejected": "Biên lai không được chấp nhận",
+    "paid": "Đã thanh toán",
+    "refunded": "Đã hoàn tiền",
+    "canceled": "Đã hủy"
   }
 }

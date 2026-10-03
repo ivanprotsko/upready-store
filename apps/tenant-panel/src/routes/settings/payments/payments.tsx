@@ -5,6 +5,7 @@ import { SingleColumnPage } from "../../../components/layout/pages"
 import {
   connectedMethodKeys,
   isDemoOnly,
+  isMethodConnected,
   type PaymentMethodKey,
 } from "../../../lib/payment-methods-summary"
 import { CrossLink } from "../integrations/components/cross-link"
@@ -15,8 +16,7 @@ import { useRobokassaForm } from "./use-robokassa-form"
 
 const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
   robokassa: "paymentSettings.methodsSummary.robokassa",
-  manualCrypto: "paymentSettings.methodsSummary.manualCrypto",
-  manualManager: "paymentSettings.methodsSummary.manualManager",
+  manual: "paymentSettings.methodsSummary.manual",
 }
 
 // «Приём оплат» (t03-tenant-secrets-robokassa, restructured by
@@ -106,10 +106,10 @@ export const PaymentSettings = () => {
                   <Text size="small">{t(METHOD_LABEL_KEYS[key])}</Text>
                   <Badge
                     size="2xsmall"
-                    color={methods[key] ? "green" : "grey"}
+                    color={isMethodConnected(methods, key) ? "green" : "grey"}
                     data-testid={`payment-method-status-${key}`}
                   >
-                    {methods[key]
+                    {isMethodConnected(methods, key)
                       ? t("paymentSettings.methodsSummary.connected")
                       : t("paymentSettings.methodsSummary.notConnected")}
                   </Badge>

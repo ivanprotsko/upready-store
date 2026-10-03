@@ -1,3 +1,4 @@
+import { Fragment } from "react"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
@@ -14,6 +15,9 @@ import LessonViewedButton from "@modules/products/components/lesson-viewed-butto
 type Props = {
   params: Promise<{ handle: string; lessonId: string }>
 }
+
+/** A lesson body is plain text; its URLs (the course PDFs) become links. */
+const BODY_URL = /(https?:\/\/[^\s]+)/
 
 const resolveCourse = async (handle: string) => {
   const countryCode = (await getCountryCode()) ?? DEFAULT_REGION
@@ -121,7 +125,24 @@ export default async function LessonPage(props: Props) {
                 className="w-full rounded-large"
               />
             )}
-            <p className="whitespace-pre-line text-ui-fg-base">{lesson.body}</p>
+            <p className="whitespace-pre-line text-ui-fg-base">
+              {lesson.body.split(BODY_URL).map((part, index) =>
+                // split() with a capturing group puts every URL at an odd index
+                index % 2 === 1 ? (
+                  <a
+                    key={index}
+                    href={part}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="break-all underline hover:text-ui-fg-subtle"
+                  >
+                    {part}
+                  </a>
+                ) : (
+                  <Fragment key={index}>{part}</Fragment>
+                )
+              )}
+            </p>
 
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ui-border-base pt-6">
               <LessonViewedButton

@@ -5,7 +5,7 @@ import type CourseModuleService from "../../../modules/course/service";
 import { firstFreeSlug, toSlug } from "../../../product-csv/slugify";
 import { assertOwnedProduct, getTenantScope } from "../tenant-scope";
 import type { PostTenantCourseBody } from "./validators";
-import { type CourseRow, toCourseDto } from "./course-helpers";
+import { type CourseRow, markProductAsCourse, toCourseDto } from "./course-helpers";
 
 /**
  * `GET /tenants/courses` — every course of the tenant behind the token
@@ -32,6 +32,9 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
  * through); a product may sell at most one course, enforced by the unique
  * index on (`tenant_id`, `product_id`) and checked here first so the caller
  * gets a clear message instead of a database error.
+ *
+ * The product becomes a course product (`markProductAsCourse`): marked
+ * digital and taken off shipping, before the course row is written.
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<PostTenantCourseBody>,
@@ -63,6 +66,8 @@ export const POST = async (
   );
   const baseSlug = toSlug(body.slug ?? body.title) || "course";
   const slug = firstFreeSlug(baseSlug, existingSlugs);
+
+  await markProductAsCourse(req, body.product_id);
 
   const created = await courseService.createCourses({
     tenant_id: scope.id,

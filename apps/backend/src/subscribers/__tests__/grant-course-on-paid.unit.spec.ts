@@ -1,3 +1,9 @@
+// The access letter (batch 5) reaches `tenant-notifications/shop.ts`, which
+// imports two module links; `defineLink` needs a booted Medusa, so they are
+// stubbed the way the other subscriber specs stub them.
+jest.mock("../../links/tenant-sales-channel", () => ({ __esModule: true, default: {} }));
+jest.mock("../../links/tenant-order", () => ({ __esModule: true, default: { entryPoint: "tenant_order" } }));
+
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { COURSE_MODULE } from "../../modules/course";
 import grantCourseOnPaidHandler from "../grant-course-on-paid";
