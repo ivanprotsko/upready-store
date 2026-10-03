@@ -12,7 +12,8 @@ import { failedChecks, runTenantOnly, type TenantOnlyResult } from "../../src/sc
  *   npx ts-node scripts/fixtures/t-cherk-14-tenant-only-acceptance.ts \
  *     --server postgres://user@127.0.0.1:5433 --template <copy-of-a-stand> \
  *     --keep olavka [--media-host-from shipshift.dev --media-host-to api.cherkashino.ru]
- *     [--forbid-host upready.dev,cherkashino.com] [--out summary.json]
+ *     [--forbid-host upready.dev,cherkashino.com] [--rewrite-host a.dev=b.ru,c.dev=d.ru]
+ *     [--out summary.json]
  *
  * Rounds:
  *   1. a fresh copy without the marker: the run must be refused (exit 2)
@@ -33,6 +34,7 @@ type Args = {
   mediaHostFrom: string | null;
   mediaHostTo: string | null;
   forbidHosts: string[];
+  rewriteHosts: string[];
 };
 
 const parseArgs = (argv: string[]): Args => {
@@ -54,6 +56,7 @@ const parseArgs = (argv: string[]): Args => {
     mediaHostFrom: get("--media-host-from"),
     mediaHostTo: get("--media-host-to"),
     forbidHosts: (get("--forbid-host") ?? "").split(",").filter(Boolean),
+    rewriteHosts: (get("--rewrite-host") ?? "").split(",").filter(Boolean),
   };
 };
 
@@ -110,6 +113,7 @@ const main = async () => {
         mediaHostFrom: null,
         mediaHostTo: null,
         forbidHosts: [],
+        rewriteHosts: [],
         ...over,
       };
       const result = await runTenantOnly(client, options, sql);
@@ -133,8 +137,17 @@ const main = async () => {
     const trimmed = await makeCopy("trim");
     expect(await run(trimmed, "1. unmarked copy is refused", { keep: args.keep }), 2);
     expect(await run(trimmed, "2a. mark", { mode: "mark", source: args.template }), 0);
-    const move = { mediaHostFrom: args.mediaHostFrom, mediaHostTo: args.mediaHostTo, forbidHosts: args.forbidHosts };
-    const forbidden = [...args.forbidHosts, ...(args.mediaHostFrom ? [args.mediaHostFrom] : [])];
+    const move = {
+      mediaHostFrom: args.mediaHostFrom,
+      mediaHostTo: args.mediaHostTo,
+      forbidHosts: args.forbidHosts,
+      rewriteHosts: args.rewriteHosts,
+    };
+    const forbidden = [
+      ...args.forbidHosts,
+      ...(args.mediaHostFrom ? [args.mediaHostFrom] : []),
+      ...args.rewriteHosts.map((pair) => pair.split("=")[0]),
+    ];
     expect(await run(trimmed, "2b. dry run", { keep: args.keep, dryRun: true, ...move }), 0);
     expect(await run(trimmed, "2c. trim", { keep: args.keep, ...move }), 0);
     expect(await run(trimmed, "2d. verify --keep --forbid-host", { mode: "verify", keep: args.keep, forbidHosts: forbidden }), 0);

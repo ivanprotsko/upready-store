@@ -4,12 +4,17 @@
 # operator; it never writes to the live database.
 #
 #   deploy/scripts/tenant-only-dump.sh <handle> [--dry-run]
-#       [--media-host-from <host> --media-host-to <host>] [--forbid-host <host>]...
+#       [--media-host-from <host> --media-host-to <host>] [--rewrite-host <from>=<to>]...
+#       [--forbid-host <host>]...
 #
 #   For cherkashino.ru moving to the RU host (t-cherk-14):
 #   deploy/scripts/tenant-only-dump.sh olavka \
 #       --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
+#       --rewrite-host cherkashino.shipshift.dev=cherkashino.ru \
 #       --forbid-host upready.dev --forbid-host cherkashino.com
+#
+#   A dry run that fails on a host lists every host name still linked
+#   ("still linked: …"); map each with --rewrite-host and run again.
 #
 #   1. pg_dump of the live database (read-only), inside the postgres container
 #   2. pg_restore into a fresh temporary database that carries the scratch-copy
@@ -54,7 +59,7 @@ SQL_FILE="$REPO_ROOT/apps/backend/src/scripts/tenant-only/tenant-only.sql"
 log() { echo "[tenant-only-dump] $*" >&2; }
 die() { local code="$1"; shift; log "error: $*"; exit "$code"; }
 
-USAGE="usage: $(basename "$0") <handle> [--dry-run] [--media-host-from <host> --media-host-to <host>] [--forbid-host <host>]..."
+USAGE="usage: $(basename "$0") <handle> [--dry-run] [--media-host-from <host> --media-host-to <host>] [--rewrite-host <from>=<to>]... [--forbid-host <host>]..."
 HOST_RE='^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$'
 HANDLE="${1:-}"
 [[ "$HANDLE" =~ ^[a-z0-9][a-z0-9-]*$ ]] || die 1 "$USAGE  (handle: lowercase letters, digits, dashes)"
@@ -63,12 +68,14 @@ DRY_RUN=0
 MEDIA_FROM=""
 MEDIA_TO=""
 FORBID=()
+REWRITES=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run) DRY_RUN=1; shift ;;
     --media-host-from) MEDIA_FROM="${2:-}"; shift 2 || die 1 "$USAGE" ;;
     --media-host-to) MEDIA_TO="${2:-}"; shift 2 || die 1 "$USAGE" ;;
     --forbid-host) FORBID+=("${2:-}"); shift 2 || die 1 "$USAGE" ;;
+    --rewrite-host) REWRITES+=("${2:-}"); shift 2 || die 1 "$USAGE" ;;
     *) die 1 "unknown argument \"$1\"; $USAGE" ;;
   esac
 done
@@ -77,11 +84,17 @@ if [[ -n "$MEDIA_FROM" || -n "$MEDIA_TO" ]]; then
   [[ "$MEDIA_FROM" != "$MEDIA_TO" ]] || die 1 "--media-host-to must differ from --media-host-from"
   FORBID+=("$MEDIA_FROM")
 fi
+for pair in ${REWRITES[@]+"${REWRITES[@]}"}; do
+  [[ "$pair" == *=* && "${pair%%=*}" != "${pair#*=}" && "${pair#*=}" != *=* ]] || die 1 "--rewrite-host \"$pair\" must be <from>=<to>"
+  [[ "${pair#*=}" =~ $HOST_RE ]] || die 1 "\"${pair#*=}\" is not a lowercase host name"
+  FORBID+=("${pair%%=*}")
+done
 for host in ${MEDIA_TO:+"$MEDIA_TO"} ${FORBID[@]+"${FORBID[@]}"}; do
   [[ "$host" =~ $HOST_RE ]] || die 1 "\"$host\" is not a lowercase host name"
 done
 # A Postgres text[] literal; the hosts were validated above, so no quoting is needed.
 HOSTS_ARRAY="{$(IFS=,; echo "${FORBID[*]+${FORBID[*]}}")}"
+REWRITES_ARRAY="{$(IFS=,; echo "${REWRITES[*]+${REWRITES[*]}}")}"
 [[ -f "$SQL_FILE" ]] || die 1 "$SQL_FILE is missing; run this from a checkout of upready-store"
 
 PG_CONTAINER="${PG_CONTAINER:-mt-postgres}"
@@ -156,6 +169,7 @@ chmod 600 "$LOG_FILE"
 
 log "source $SOURCE_DB, keep \"$HANDLE\", temporary database $TMP_DB$([[ $DRY_RUN == 1 ]] && echo ', DRY RUN')"
 [[ -n "$MEDIA_FROM" ]] && log "media host //$MEDIA_FROM -> //$MEDIA_TO"
+[[ "$REWRITES_ARRAY" != "{}" ]] && log "host rewrites $REWRITES_ARRAY"
 [[ "$HOSTS_ARRAY" != "{}" ]] && log "forbidden hosts $HOSTS_ARRAY"
 
 # 1-2. Copy of the live database into a marked temporary database.
@@ -174,11 +188,11 @@ FINISH="SELECT pg_temp.tenant_only_assert_clean(); COMMIT;"
 [[ "$DRY_RUN" == "1" ]] && FINISH="ROLLBACK;"
 log "trimming to \"$HANDLE\"$([[ $DRY_RUN == 1 ]] && echo ' (dry run, rolled back at the end)')"
 run_sql_step "trim" "$TMP_DB" "$LOG_FILE" -v keep="$HANDLE" -v source="$SOURCE_DB" \
-  -v mfrom="$MEDIA_FROM" -v mto="$MEDIA_TO" -v hosts="$HOSTS_ARRAY" <<SQL
+  -v mfrom="$MEDIA_FROM" -v mto="$MEDIA_TO" -v hosts="$HOSTS_ARRAY" -v rewrites="$REWRITES_ARRAY" <<SQL
 BEGIN;
 CREATE TEMP TABLE tok_out ON COMMIT DROP AS
   SELECT * FROM pg_temp.tenant_only_run(:'keep', false, ARRAY[:'source'],
-    NULLIF(:'mfrom', ''), NULLIF(:'mto', ''), :'hosts'::text[]);
+    NULLIF(:'mfrom', ''), NULLIF(:'mto', ''), :'hosts'::text[], :'rewrites'::text[]);
 \echo '== tables: before, removed, left'
 SELECT name AS "table", before_n AS before, before_n - after_n AS removed, after_n AS "left"
   FROM tok_out WHERE section = 'table' AND before_n <> after_n ORDER BY name;

@@ -25,6 +25,8 @@ export type TenantOnlyOptions = {
   mediaHostTo: string | null;
   /** Hosts no row may mention after the run (subdomains included). */
   forbidHosts: string[];
+  /** Further hosts to move, `from=to` each (an old storefront subdomain). */
+  rewriteHosts: string[];
 };
 
 export const USAGE = `Usage: npx ts-node src/scripts/tenant-only/cli.ts --db <postgres-url> [options]
@@ -39,8 +41,10 @@ export const USAGE = `Usage: npx ts-node src/scripts/tenant-only/cli.ts --db <po
   --media-refs        list /static/ prefixes the data references (with --keep)
   --media-host-from <host> --media-host-to <host>
                       rewrite every URL on the first host to the second
+  --rewrite-host <from>=<to>
+                      rewrite URLs on another host as well (repeatable)
   --forbid-host <host>  fail when any row mentions this host or a subdomain
-                      (repeatable; --media-host-from is always forbidden)
+                      (repeatable; every rewritten host is forbidden too)
   --protect <db>      refuse this database name as well (repeatable)
 
 Exit codes: 0 done, 1 usage, 2 guard refused, 3 verification failed, 4 error.`;
@@ -53,7 +57,16 @@ const HANDLE = /^[a-z0-9][a-z0-9-]*$/;
 const DB_NAME = /^[A-Za-z0-9_-]+$/;
 const HOST = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$/;
 
-const VALUE_FLAGS = new Set(["--db", "--keep", "--protect", "--source", "--media-host-from", "--media-host-to", "--forbid-host"]);
+const VALUE_FLAGS = new Set([
+  "--db",
+  "--keep",
+  "--protect",
+  "--source",
+  "--media-host-from",
+  "--media-host-to",
+  "--forbid-host",
+  "--rewrite-host",
+]);
 const BOOLEAN_FLAGS = new Set(["--anonymize", "--dry-run", "--verify", "--mark", "--unmark", "--media-refs", "--help"]);
 
 export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" => {
@@ -112,7 +125,15 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
   const mediaHostFrom = single("--media-host-from");
   const mediaHostTo = single("--media-host-to");
   const forbidHosts = values.get("--forbid-host") ?? [];
-  for (const host of [mediaHostFrom, mediaHostTo, ...forbidHosts]) {
+  const rewriteHosts = values.get("--rewrite-host") ?? [];
+  const rewriteParts = rewriteHosts.map((pair) => {
+    const parts = pair.split("=");
+    if (parts.length !== 2 || parts[0] === parts[1]) {
+      throw new TenantOnlyUsageError(`--rewrite-host "${pair}" must be <from>=<to> with two different hosts`);
+    }
+    return parts;
+  });
+  for (const host of [mediaHostFrom, mediaHostTo, ...forbidHosts, ...rewriteParts.flat()]) {
     if (host !== null && !HOST.test(host)) {
       throw new TenantOnlyUsageError(`"${host}" is not a lowercase host name`);
     }
@@ -142,13 +163,13 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
   if ((mode === "mark" || mode === "unmark") && (keep !== null || anonymize || dryRun)) {
     throw new TenantOnlyUsageError(`--${mode} takes no --keep, --anonymize or --dry-run`);
   }
-  if (mediaHostFrom !== null && mode !== "run") {
-    throw new TenantOnlyUsageError("--media-host-from only goes with a run; verify with --forbid-host");
+  if ((mediaHostFrom !== null || rewriteHosts.length > 0) && mode !== "run") {
+    throw new TenantOnlyUsageError("--media-host-from and --rewrite-host only go with a run; verify with --forbid-host");
   }
   if (forbidHosts.length > 0 && mode !== "run" && mode !== "verify") {
     throw new TenantOnlyUsageError("--forbid-host goes with a run or --verify");
   }
-  if (mode === "run" && keep === null && !anonymize && mediaHostFrom === null) {
+  if (mode === "run" && keep === null && !anonymize && mediaHostFrom === null && rewriteHosts.length === 0) {
     throw new TenantOnlyUsageError("name a tenant with --keep, ask for --anonymize, change the media host, or any of them");
   }
   if (mode === "verify" && keep === null && !anonymize && forbidHosts.length === 0) {
@@ -161,5 +182,5 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
     throw new TenantOnlyUsageError("--media-refs takes --keep and nothing else");
   }
 
-  return { mode, db, keep, anonymize, dryRun, protect, source, mediaHostFrom, mediaHostTo, forbidHosts };
+  return { mode, db, keep, anonymize, dryRun, protect, source, mediaHostFrom, mediaHostTo, forbidHosts, rewriteHosts };
 };

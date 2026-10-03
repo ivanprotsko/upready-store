@@ -15,6 +15,7 @@ const options = (over: Partial<TenantOnlyOptions> = {}): TenantOnlyOptions => ({
   mediaHostFrom: null,
   mediaHostTo: null,
   forbidHosts: [],
+  rewriteHosts: [],
   ...over,
 });
 
@@ -54,7 +55,13 @@ describe("runTenantOnly", () => {
     const { client, statements, calls } = fakeClient([[/tenant_only_run/, runRows(0)]]);
     const result = await runTenantOnly(
       client,
-      options({ protect: ["medusa_mt"], mediaHostFrom: "shipshift.dev", mediaHostTo: "api.cherkashino.ru", forbidHosts: ["upready.dev"] }),
+      options({
+        protect: ["medusa_mt"],
+        mediaHostFrom: "shipshift.dev",
+        mediaHostTo: "api.cherkashino.ru",
+        forbidHosts: ["upready.dev"],
+        rewriteHosts: ["cherkashino.shipshift.dev=cherkashino.ru"],
+      }),
       SQL,
     );
 
@@ -65,7 +72,15 @@ describe("runTenantOnly", () => {
       "SELECT pg_temp.tenant_only_assert_clean",
       "COMMIT",
     ]);
-    expect(calls[2].values).toEqual(["olavka", false, ["medusa_mt"], "shipshift.dev", "api.cherkashino.ru", ["upready.dev"]]);
+    expect(calls[2].values).toEqual([
+      "olavka",
+      false,
+      ["medusa_mt"],
+      "shipshift.dev",
+      "api.cherkashino.ru",
+      ["upready.dev"],
+      ["cherkashino.shipshift.dev=cherkashino.ru"],
+    ]);
     expect(result).toMatchObject({ exitCode: 0, committed: true, error: null });
     expect(result.checks).toEqual([
       { name: "tenant rows other than the kept one", severity: "fail", findings: 0 },

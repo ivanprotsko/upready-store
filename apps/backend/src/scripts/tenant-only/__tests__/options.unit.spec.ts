@@ -17,14 +17,17 @@ describe("parseTenantOnlyArgs", () => {
       mediaHostFrom: null,
       mediaHostTo: null,
       forbidHosts: [],
+      rewriteHosts: [],
     });
   });
 
   it("reads a media host change and forbidden hosts", () => {
     expect(
       parse("--keep", "olavka", "--media-host-from", "shipshift.dev", "--media-host-to", "api.cherkashino.ru",
-        "--forbid-host", "upready.dev", "--forbid-host", "cherkashino.com"),
+        "--forbid-host", "upready.dev", "--forbid-host", "cherkashino.com",
+        "--rewrite-host", "cherkashino.shipshift.dev=cherkashino.ru"),
     ).toMatchObject({
+      rewriteHosts: ["cherkashino.shipshift.dev=cherkashino.ru"],
       mode: "run",
       mediaHostFrom: "shipshift.dev",
       mediaHostTo: "api.cherkashino.ru",
@@ -82,8 +85,12 @@ describe("parseTenantOnlyArgs", () => {
     [["--db", DB, "--keep", "olavka", "--media-host-from", "a.dev", "--media-host-to", "a.dev"], "must differ"],
     [["--db", DB, "--keep", "olavka", "--media-host-from", "Shipshift.dev", "--media-host-to", "b.ru"], "lowercase host"],
     [["--db", DB, "--keep", "olavka", "--forbid-host", "https://x.dev"], "lowercase host"],
-    [["--db", DB, "--verify", "--keep", "o", "--media-host-from", "a.dev", "--media-host-to", "b.ru"], "only goes with a run"],
+    [["--db", DB, "--verify", "--keep", "o", "--media-host-from", "a.dev", "--media-host-to", "b.ru"], "only go with a run"],
     [["--db", DB, "--mark", "--forbid-host", "a.dev"], "--forbid-host goes with"],
+    [["--db", DB, "--keep", "olavka", "--rewrite-host", "a.dev"], "must be <from>=<to>"],
+    [["--db", DB, "--keep", "olavka", "--rewrite-host", "a.dev=a.dev"], "must be <from>=<to>"],
+    [["--db", DB, "--keep", "olavka", "--rewrite-host", "a.dev=B.ru"], "lowercase host"],
+    [["--db", DB, "--verify", "--keep", "o", "--rewrite-host", "a.dev=b.ru"], "only go with a run"],
   ])("refuses %j", (argv, message) => {
     expect(() => parseTenantOnlyArgs(argv as string[])).toThrow(TenantOnlyUsageError);
     expect(() => parseTenantOnlyArgs(argv as string[])).toThrow(message);

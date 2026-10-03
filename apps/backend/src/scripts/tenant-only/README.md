@@ -35,9 +35,11 @@ is one command. For cherkashino.ru moving to the RU host:
 ```bash
 deploy/scripts/tenant-only-dump.sh olavka --dry-run \
   --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
+  --rewrite-host cherkashino.shipshift.dev=cherkashino.ru \
   --forbid-host upready.dev --forbid-host cherkashino.com
 deploy/scripts/tenant-only-dump.sh olavka \
   --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
+  --rewrite-host cherkashino.shipshift.dev=cherkashino.ru \
   --forbid-host upready.dev --forbid-host cherkashino.com
 ```
 
@@ -104,12 +106,24 @@ branding and home page, metadata, page bodies. Only the host itself is rewritten
 never a subdomain of it. The path stays, so the uploads only have to be served
 from the new host under the same `/static/` path.
 
+`--rewrite-host <from>=<to>` (repeatable) moves one more host the same way. A
+shop's old storefront subdomain needs it: the Robokassa return links in its
+payment sessions name it, URL-encoded inside the payment link, and the rewrite
+handles that form too. Those are links of finished or abandoned sessions, so the
+signature inside a rewritten payment link no longer matters.
+
 `--forbid-host <host>` (repeatable) names hosts no row may mention after the run,
-subdomains included. `--media-host-from` is always on that list, and inside the
+subdomains included. Every rewritten host is always on that list, and inside the
 trim's own transaction so is every host name of a removed tenant. Shop addresses
 (`tenant_domain`) on a forbidden host are deleted, because on the new server they
 would point back at the old one. Any other mention fails the run with a count per
-column, and the operator fixes it in the source shop before running again.
+column and a `still linked: <host>` line per host name found, so the operator
+maps it with `--rewrite-host` or fixes it in the source shop before running again.
+
+A host inside an e-mail address is counted apart, as a warning: a buyer or an
+admin whose mailbox is on that domain is a person, not a link to the old server,
+and rewriting their address would break their login. On the stand copy these are
+the platform team's test buyers on `upready.dev`.
 
 Decisions behind the less obvious rows:
 
