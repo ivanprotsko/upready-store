@@ -120,3 +120,15 @@ jobs:
       - name: Shared markdown
         if: ${{ !cancelled() }}
         run: pnpm check:shared-markdown
+
+  deploy-checks:
+    name: Deploy Checks
+    runs-on: [self-hosted, upready-store]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: instance-check unit tests
+        run: node --test deploy/scripts/__tests__/*.test.mjs
