@@ -21,6 +21,34 @@ export type TenantFooterCredit = {
   href: string | null
 }
 
+/** The app-icon set the backend builds from a favicon upload (t-2026-10-03-61): every size a PWA,
+ * iOS, Android, Windows or macOS install asks for, and the colour behind the opaque ones. */
+export type TenantAppIcons = {
+  icon_svg_url: string | null
+  favicon_ico_url: string | null
+  apple_touch_icon_url: string | null
+  icon_192_url: string | null
+  icon_512_url: string | null
+  icon_maskable_512_url: string | null
+  mstile_150_url: string | null
+  mstile_310_url: string | null
+  mask_icon_url: string | null
+  background_color: string | null
+}
+
+export const EMPTY_APP_ICONS: TenantAppIcons = {
+  icon_svg_url: null,
+  favicon_ico_url: null,
+  apple_touch_icon_url: null,
+  icon_192_url: null,
+  icon_512_url: null,
+  icon_maskable_512_url: null,
+  mstile_150_url: null,
+  mstile_310_url: null,
+  mask_icon_url: null,
+  background_color: null,
+}
+
 export type TenantBranding = {
   logo_light_url: string | null
   logo_dark_url: string | null
@@ -31,6 +59,7 @@ export type TenantBranding = {
   low_contrast: boolean
   shop_name_short: string | null
   footer_credit: TenantFooterCredit | null
+  app_icons: TenantAppIcons | null
 }
 
 export type PutTenantBrandingBody = Partial<{
@@ -41,11 +70,22 @@ export type PutTenantBrandingBody = Partial<{
   primary_color: string | null
   shop_name_short: string | null
   footer_credit: TenantFooterCredit | null
+  app_icons: TenantAppIcons | null
 }>
 
-export type UploadBrandingKind = "logo_light" | "logo_dark" | "favicon" | "og_image"
+export type UploadBrandingKind =
+  | "logo_light"
+  | "logo_dark"
+  | "favicon"
+  | "favicon_maskable"
+  | "favicon_mono"
+  | "og_image"
 
 export type UploadedBrandingFile = { id: string; url: string }
+
+/** What one upload answers: the stored file, and for the three icon kinds the `app_icons` fields
+ * it built (the whole set for `favicon`, only what it replaces for the other two). */
+export type UploadedBranding = { file: UploadedBrandingFile; app_icons?: Partial<TenantAppIcons> }
 
 const BRANDING_QUERY_KEY = "branding" as const
 export const brandingQueryKeys = queryKeysFactory(BRANDING_QUERY_KEY)
@@ -89,15 +129,14 @@ export const useUpdateTenantBranding = (
 export const uploadBrandingFile = async (
   file: File,
   kind: UploadBrandingKind
-): Promise<UploadedBrandingFile> => {
+): Promise<UploadedBranding> => {
   const form = new FormData()
   form.append("files", file)
   form.append("kind", kind)
 
-  const { file: uploaded } = await sdk.client.fetch<{ file: UploadedBrandingFile }>(
-    "/tenants/branding/upload",
-    { method: "POST", headers: { "Content-Type": null }, body: form }
-  )
-
-  return uploaded
+  return sdk.client.fetch<UploadedBranding>("/tenants/branding/upload", {
+    method: "POST",
+    headers: { "Content-Type": null },
+    body: form,
+  })
 }
