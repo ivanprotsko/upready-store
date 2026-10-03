@@ -4,6 +4,7 @@ import { cartNeedsShipping } from "@lib/util/shipping-address"
 import PaymentWrapper from "@modules/checkout/components/payment-wrapper"
 import { CartUpdateProvider } from "@modules/checkout/context/cart-update-context"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
+import CheckoutPayment from "@modules/checkout/templates/checkout-payment"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import type { Metadata } from "next"
@@ -57,20 +58,29 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
   return (
     <PaymentWrapper cart={cart}>
       <CartUpdateProvider>
-        {/* t-2026-10-01-checkout-ivan-3 #5: this wrapper used to cap the whole
-            page at 736px (lg:content-container → lg:max-w-checkout), which
-            clipped the delivery-card row at that edge. It limits nothing now;
-            `CheckoutForm` and `CheckoutSummary` constrain their OWN content to
-            that same 736px column per section instead
-            (.checkout-section-container, globals.css), so the scroller can
-            bleed past it. */}
-        <div className="overflow-x-hidden flex flex-col min-h-screen lg:min-h-0">
-          <HydrationSlot>
-            <CheckoutForm cart={cart} customer={customer} />
-          </HydrationSlot>
-          <HydrationSlot>
-            <CheckoutSummary cart={cart} customer={customer} />
-          </HydrationSlot>
+        {/* Batch 6 part 1: the page was one 736px column with empty sides at 1440 and
+            the summary in the middle of the form. From 1024 px it is two columns now,
+            the Medusa starter checkout's own split: the form and the payment on the
+            left, the order summary on the right, sticky under the 64px header. Below
+            1024 px it stays one column in the old order: form, summary, payment. */}
+        <div className="content-container grid grid-cols-1 gap-y-8 py-6 small:grid-cols-[minmax(0,1fr)_400px] small:grid-rows-[auto_1fr] small:gap-x-12 small:gap-y-10 small:py-10 large:gap-x-20">
+          <div className="min-w-0 small:col-start-1 small:row-start-1">
+            <HydrationSlot>
+              <CheckoutForm cart={cart} customer={customer} />
+            </HydrationSlot>
+          </div>
+          <div className="min-w-0 small:col-start-2 small:row-start-1 small:row-span-2">
+            <div className="small:sticky small:top-24">
+              <HydrationSlot>
+                <CheckoutSummary cart={cart} />
+              </HydrationSlot>
+            </div>
+          </div>
+          <div className="min-w-0 small:col-start-1 small:row-start-2">
+            <HydrationSlot>
+              <CheckoutPayment cart={cart} customer={customer} />
+            </HydrationSlot>
+          </div>
         </div>
       </CartUpdateProvider>
     </PaymentWrapper>

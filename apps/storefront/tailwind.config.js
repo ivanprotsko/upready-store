@@ -17,6 +17,7 @@ module.exports = {
     "./node_modules/@medusajs/ui/dist/esm/components/button/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/checkbox/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/container/**/*.js",
+    "./node_modules/@medusajs/ui/dist/esm/components/divider/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/drawer/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/dropdown-menu/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/heading/**/*.js",
@@ -66,7 +67,6 @@ module.exports = {
       },
       maxWidth: {
         "8xl": "100rem",
-        checkout: "736px",
       },
       screens: {
         "2xsmall": "320px",

@@ -39,8 +39,13 @@ interface CheckoutAddressFormProps {
   addresses: HttpTypes.StoreCustomerAddress[] | null
   /** Called once the address is saved — the row collapses back to its summary. */
   onSaved: () => void
-  /** Called on an explicit cancel — same collapse, nothing written. */
-  onCancel: () => void
+  /**
+   * Called on an explicit cancel — same collapse, nothing written. Absent while the
+   * address is not complete (batch 6 part 1): the form then has no «Закрыть».
+   */
+  onCancel?: () => void
+  /** Focus the form on mount: only when the buyer opened it themselves. */
+  autoFocus?: boolean
 }
 
 /**
@@ -57,6 +62,7 @@ export default function CheckoutAddressForm({
   addresses,
   onSaved,
   onCancel,
+  autoFocus = true,
 }: CheckoutAddressFormProps) {
   const t = useTranslations("CheckoutPage")
   const dir = useLocaleDirection()
@@ -113,10 +119,8 @@ export default function CheckoutAddressForm({
     containerElRef.current = node
   }
   useEffect(() => {
-    containerElRef.current?.focus()
-    // Only on mount — the row remounts this form every time it expands.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    if (autoFocus) containerElRef.current?.focus()
+  }, [autoFocus])
 
   const countryName = (code?: string | null) =>
     cart.region?.countries?.find((c) => c.iso_2 === code?.toLowerCase())
@@ -231,15 +235,17 @@ export default function CheckoutAddressForm({
       <AddressIncompleteMessage gaps={addressGaps} />
 
       <div className="flex gap-x-2 mt-4">
-        <Button
-          type="button"
-          onClick={onCancel}
-          variant="secondary"
-          size="large"
-          className="w-full"
-        >
-          {t("close")}
-        </Button>
+        {onCancel && (
+          <Button
+            type="button"
+            onClick={onCancel}
+            variant="secondary"
+            size="large"
+            className="w-full"
+          >
+            {t("close")}
+          </Button>
+        )}
         <Button
           type="button"
           onClick={() => setMode("new")}
@@ -280,15 +286,17 @@ export default function CheckoutAddressForm({
       <ErrorMessage error={error} />
       <AddressIncompleteMessage gaps={addressGaps} />
       <div className="flex gap-x-2 mt-4">
-        <Button
-          type="button"
-          onClick={() => (hasSaved ? setMode("select") : onCancel())}
-          variant="secondary"
-          size="large"
-          className="w-full"
-        >
-          {hasSaved ? t("back") : t("close")}
-        </Button>
+        {(hasSaved || onCancel) && (
+          <Button
+            type="button"
+            onClick={() => (hasSaved ? setMode("select") : onCancel?.())}
+            variant="secondary"
+            size="large"
+            className="w-full"
+          >
+            {hasSaved ? t("back") : t("close")}
+          </Button>
+        )}
         <Button
           type="submit"
           disabled={isSubmitting}

@@ -53,20 +53,26 @@ interface CheckoutContactsFormProps {
   cart: HttpTypes.StoreCart
   /** Called once the contacts are saved — the row collapses back to its summary. */
   onSaved: () => void
-  /** Called on an explicit cancel — same collapse, nothing written. */
-  onCancel: () => void
+  /**
+   * Called on an explicit cancel — same collapse, nothing written. Absent while the
+   * contacts are not complete (batch 6 part 1): the form then has no «Закрыть».
+   */
+  onCancel?: () => void
+  /** Focus the first field on mount: only when the buyer opened the form themselves. */
+  autoFocus?: boolean
 }
 
 /**
  * t-2026-10-01-checkout-ivan-3 #7: inline accordion body, not a popup sheet.
- * `CheckoutContactsRow` mounts this only while expanded, which is also what
+ * `CheckoutContactsRow` mounts this only while it is open, which is also what
  * gives it "focus the first field on open" for free (the effect below runs
- * once, on that mount).
+ * once, on that mount, and only when the buyer asked for the form).
  */
 export default function CheckoutContactsForm({
   cart,
   onSaved,
   onCancel,
+  autoFocus = true,
 }: CheckoutContactsFormProps) {
   const t = useTranslations("CheckoutPage")
   const router = useRouter()
@@ -99,8 +105,8 @@ export default function CheckoutContactsForm({
   const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
-    firstFieldRef.current?.focus()
-  }, [])
+    if (autoFocus) firstFieldRef.current?.focus()
+  }, [autoFocus])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -305,15 +311,17 @@ export default function CheckoutContactsForm({
       <ErrorMessage error={error} />
 
       <div className="flex gap-x-2 mt-4">
-        <Button
-          type="button"
-          onClick={onCancel}
-          variant="secondary"
-          size="large"
-          className="w-full"
-        >
-          {t("close")}
-        </Button>
+        {onCancel && (
+          <Button
+            type="button"
+            onClick={onCancel}
+            variant="secondary"
+            size="large"
+            className="w-full"
+          >
+            {t("close")}
+          </Button>
+        )}
         <Button
           type="submit"
           disabled={isSubmitting}

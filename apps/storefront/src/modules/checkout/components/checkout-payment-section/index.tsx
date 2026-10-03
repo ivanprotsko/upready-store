@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, type ReactNode } from "react"
+import { useId, useState, useEffect, useRef, type ReactNode } from "react"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { getChargeConversionFactor } from "@lib/data/payment"
 import {
@@ -49,7 +49,8 @@ import {
 } from "@lib/util/payment-pre-notice"
 import { useLocale, useTranslations } from "next-intl"
 import { convertToLocale } from "@lib/util/money"
-import { clx } from "@medusajs/ui"
+import { Checkbox, Label, RadioGroup, clx } from "@medusajs/ui"
+import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
 
 interface CheckoutPaymentSectionProps {
   cart: HttpTypes.StoreCart
@@ -97,6 +98,8 @@ export default function CheckoutPaymentSection({
   const tmp = useTranslations("ManualPayment")
   const tb = useTranslations("PaymentButton")
   const locale = useLocale()
+  const dir = useLocaleDirection()
+  const billingCheckboxId = useId()
   const latestSession = cart.payment_collection?.payment_sessions?.[0]
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(() =>
@@ -244,6 +247,13 @@ export default function CheckoutPaymentSection({
   // missing half of the address is named here, field by field, with the same
   // sentences the address sheet shows (t-2026-09-24-n19).
   const addressGaps = cartShippingAddressGaps(cart)
+  // Batch 6 part 1: the sentences name what an address the buyer started still lacks.
+  // Before anything is typed the address form is open above with its own fields, and
+  // a list of «missing» fields under the button read as an error before any input.
+  const shipping = cart.shipping_address
+  const addressStarted = Boolean(
+    shipping?.address_1 || shipping?.postal_code || shipping?.city
+  )
   // Batch 6 (hotfix Plan B): no «Платежный адрес» for a cart with nothing to post —
   // there is no delivery address for it to match or differ from.
   const needsShipping = cartNeedsShipping(cart)
@@ -341,165 +351,189 @@ export default function CheckoutPaymentSection({
   const buttonText = manualKind && isManual(selectedPaymentMethod) ? tb("placeOrderManual") : tb("placeOrder")
 
   return (
-    // t-2026-10-01-checkout-ivan-3 #5: full width on its own, like
-    // `CheckoutShippingSection` — every block below is wrapped into the
-    // 736px column (.checkout-section-container, globals.css) except the
-    // method row, which bleeds past it the delivery row's own way.
+    // Batch 6 part 1: one choice, one list. The methods are full-width rows in the
+    // Medusa `RadioGroup.ChoiceBox` look, like the delivery methods above; what the
+    // chosen one needs (the card fields, the requisites note) follows under the list.
+    // Before, a tile («Оплата вручную», then «Перевод по реквизитам») stood above a
+    // second card, two levels for one choice.
     <div
       id={CHECKOUT_PAYMENT_ANCHOR}
-      className="flex flex-col gap-y-6 scroll-mt-4"
+      className="flex flex-col gap-y-6 scroll-mt-24"
     >
       {/* Payment methods */}
       {!paidByGiftcard && availablePaymentMethods.length > 0 && (
         <div className="flex flex-col gap-y-3">
-          <div className="checkout-section-container flex flex-col gap-y-3">
-            <h2 className="h2-docs flex items-center gap-x-1.5">
-              {t("paymentHeading")}
-              {isPaymentComplete && (
-                <CheckMini
-                  className="text-ui-tag-green-icon shrink-0"
-                  aria-hidden
-                  data-testid="payment-section-checkmark"
-                />
-              )}
-            </h2>
-
-            {/* t-2026-09-24-n10: honest about pp_system_default's demo card once it
-                is this shop's only way to pay, so a buyer never mistakes it for a
-                real accepted method. */}
-            {tenantPaymentMethods.demo && (
-              <p
-                className="txt-compact-xsmall text-ui-fg-subtle"
-                data-testid="demo-payment-notice"
-              >
-                {t("demoPaymentNotice")}
-              </p>
+          <h2 className="h2-docs flex items-center gap-x-1.5">
+            {t("paymentHeading")}
+            {isPaymentComplete && (
+              <CheckMini
+                className="text-ui-tag-green-icon shrink-0"
+                aria-hidden
+                data-testid="payment-section-checkmark"
+              />
             )}
-          </div>
+          </h2>
 
-          {/* 368px is half of `max-w-checkout` (736px) — same full-bleed
-              trick as the delivery row, so this one starts on the same
-              column edge and can scroll past it too. Below `lg`, "the
-              column" is the page gutter (`px-4`, same as .checkout-section-
-              container), not the viewport edge. */}
-          <div className="flex gap-x-2 overflow-x-auto no-scrollbar px-4 scroll-px-4 pb-1 lg:pl-[calc(50%-368px)] lg:pr-[calc(50%-368px)] lg:scroll-pl-[calc(50%-368px)] lg:scroll-pr-[calc(50%-368px)]">
+          {/* t-2026-09-24-n10: honest about pp_system_default's demo card once it
+              is this shop's only way to pay, so a buyer never mistakes it for a
+              real accepted method. */}
+          {tenantPaymentMethods.demo && (
+            <p
+              className="txt-compact-xsmall text-ui-fg-subtle"
+              data-testid="demo-payment-notice"
+            >
+              {t("demoPaymentNotice")}
+            </p>
+          )}
+
+          <RadioGroup
+            dir={dir}
+            value={selectedPaymentMethod}
+            onValueChange={handleSelectPayment}
+            className="flex flex-col gap-y-2"
+          >
             {availablePaymentMethods.map((method) => {
               const info = paymentInfoMap[method.id]
               const isSelected = selectedPaymentMethod === method.id
+              const label =
+                isManual(method.id) && offersRequisites
+                  ? tmp("methodRequisites")
+                  : paymentMethodName(tm, method.id)
+              const processor = method.id.includes("stripe")
+                ? "Stripe"
+                : method.id.includes("paypal")
+                  ? "PayPal"
+                  : ""
 
               return (
-                <button
+                <div
                   key={method.id}
-                  type="button"
-                  data-testid={`payment-method-${method.id}`}
-                  onClick={() => handleSelectPayment(method.id)}
                   className={clx(
-                    "flex-shrink-0 w-[111px] p-[10px] rounded-[6px] border text-start transition-colors",
+                    "relative flex items-center gap-x-3 rounded-lg px-4 py-3 text-start transition-colors",
                     isSelected
-                      ? "border-ui-border-interactive bg-ui-bg-base"
-                      : "border-ui-border-base bg-ui-bg-base hover:border-ui-border-interactive/50"
+                      ? "bg-ui-bg-base shadow-borders-interactive-with-shadow"
+                      : "bg-ui-bg-base shadow-borders-base hover:bg-ui-bg-base-hover"
                   )}
                 >
-                  <div className="flex flex-col gap-y-2">
-                    <div className="w-6 h-6 rounded-full bg-ui-bg-component border border-ui-border-base flex items-center justify-center">
-                      {info?.icon || <CreditCard className="w-3 h-3" />}
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="txt-compact-xsmall-plus text-ui-fg-base leading-tight">
-                        {isManual(method.id) && offersRequisites
-                          ? tmp("methodRequisites")
-                          : paymentMethodName(tm, method.id)}
-                      </span>
-                      <span className="txt-compact-xsmall text-ui-fg-subtle">
-                        {method.id.includes("stripe")
-                          ? "Stripe"
-                          : method.id.includes("paypal")
-                          ? "PayPal"
-                          : ""}
-                      </span>
+                  <RadioGroup.Item
+                    value={method.id}
+                    aria-label={label}
+                    data-testid={`payment-method-${method.id}`}
+                    className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
+                  />
+                  {/* The radio mark of `RadioGroup.ChoiceBox`, the same as the
+                      delivery rows draw. */}
+                  <div className="flex h-5 w-5 shrink-0 items-center justify-center">
+                    <div
+                      className={clx(
+                        "flex h-3.5 w-3.5 items-center justify-center rounded-full",
+                        isSelected
+                          ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
+                          : "bg-ui-bg-base shadow-borders-base"
+                      )}
+                    >
+                      {isSelected && (
+                        <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
+                      )}
                     </div>
                   </div>
-                </button>
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ui-bg-component shadow-borders-base">
+                    {info?.icon || <CreditCard className="w-3 h-3" />}
+                  </span>
+                  <span className="flex min-w-0 flex-col">
+                    <span className="txt-compact-medium-plus text-ui-fg-base">
+                      {label}
+                    </span>
+                    {processor && (
+                      <span className="txt-compact-small text-ui-fg-subtle">
+                        {processor}
+                      </span>
+                    )}
+                  </span>
+                </div>
               )
             })}
-          </div>
+          </RadioGroup>
 
-          <div className="checkout-section-container flex flex-col gap-y-3">
-            {/* Stripe card input */}
-            {isStripeLike(selectedPaymentMethod) && (
-              <div>
-                <StripePaymentContainer
-                  paymentProviderId={selectedPaymentMethod}
-                  selectedPaymentOptionId={selectedPaymentMethod}
-                  paymentInfoMap={paymentInfoMap}
-                  setError={setError}
-                  setPaymentComplete={setPaymentComplete}
-                />
-              </div>
-            )}
+          {/* Stripe card input */}
+          {isStripeLike(selectedPaymentMethod) && (
+            <div>
+              <StripePaymentContainer
+                paymentProviderId={selectedPaymentMethod}
+                selectedPaymentOptionId={selectedPaymentMethod}
+                paymentInfoMap={paymentInfoMap}
+                setError={setError}
+                setPaymentComplete={setPaymentComplete}
+              />
+            </div>
+          )}
 
-            {/* The manual provider (olavka-payments → batch 7): «Перевод по
-                реквизитам» — what happens after «Оформить заказ» and which banks
-                and assets the shop takes (the numbers come on the order page) —
-                else the demo card of checkout mockup frames 6-8, exactly as before. */}
-            {isManual(selectedPaymentMethod) &&
-              (offersRequisites ? (
-                <div
-                  className="flex flex-col gap-y-3 rounded-[6px] border border-ui-border-base bg-ui-bg-base p-4"
-                  data-testid="manual-payment-requisites"
-                >
-                  <p className="txt-compact-small text-ui-fg-base">
-                    {tmp("requisitesDesc", {
-                      total: convertToLocale({
-                        amount: cart.total ?? 0,
-                        currency_code: cart.currency_code,
-                        locale,
-                      }),
-                    })}
+          {/* The manual provider (olavka-payments → batch 7): «Перевод по
+              реквизитам» — what happens after «Оформить заказ» and which banks
+              and assets the shop takes (the numbers come on the order page) —
+              else the demo card of checkout mockup frames 6-8, exactly as before. */}
+          {isManual(selectedPaymentMethod) &&
+            (offersRequisites ? (
+              <div
+                className="flex flex-col gap-y-3 rounded-lg bg-ui-bg-subtle px-4 py-3"
+                data-testid="manual-payment-requisites"
+              >
+                <p className="txt-compact-small text-ui-fg-base">
+                  {tmp("requisitesDesc", {
+                    total: convertToLocale({
+                      amount: cart.total ?? 0,
+                      currency_code: cart.currency_code,
+                      locale,
+                    }),
+                  })}
+                </p>
+                {manualPayment.requisites.length > 0 && (
+                  <>
+                    <p className="txt-compact-xsmall text-ui-fg-subtle">{tmp("requisitesPreviewLabel")}</p>
+                    <RequisitesPreview requisites={manualPayment.requisites} />
+                  </>
+                )}
+                {manualPayment.contacts.note && (
+                  <p className="txt-compact-small text-ui-fg-base" data-testid="manager-note">
+                    {manualPayment.contacts.note}
                   </p>
-                  {manualPayment.requisites.length > 0 && (
-                    <>
-                      <p className="txt-compact-xsmall text-ui-fg-subtle">{tmp("requisitesPreviewLabel")}</p>
-                      <RequisitesPreview requisites={manualPayment.requisites} />
-                    </>
-                  )}
-                  {manualPayment.contacts.note && (
-                    <p className="txt-compact-small text-ui-fg-base" data-testid="manager-note">
-                      {manualPayment.contacts.note}
-                    </p>
-                  )}
-                </div>
-              ) : (
-                <div>
-                  <DemoCardFields value={demoCard} onChange={setDemoCard} />
-                </div>
-              ))}
-          </div>
+                )}
+              </div>
+            ) : (
+              <div>
+                <DemoCardFields value={demoCard} onChange={setDemoCard} />
+              </div>
+            ))}
         </div>
       )}
 
       {paidByGiftcard && (
-        <div className="checkout-section-container flex flex-col gap-y-1">
+        <div className="flex flex-col gap-y-1">
           <h2 className="h2-docs">{t("paymentHeading")}</h2>
           <p className="txt-compact-small text-ui-fg-subtle">{t("giftCard")}</p>
         </div>
       )}
 
-      {/* Billing address */}
-      {!needsShipping ? null : billingSameAsShipping && !showBillingDetails ? (
-        <label className="checkout-section-container flex items-center gap-x-2 cursor-pointer">
-          <input
-            type="checkbox"
+      {/* Billing address: a card processor's question only. A transfer by requisites,
+          the demo card or a redirect gateway asks nothing of it, and a cart with
+          nothing to post has no delivery address for it to match (batch 6). The
+          cart's billing address follows the delivery one on its own (`setAddresses`). */}
+      {!needsShipping || !isStripeLike(selectedPaymentMethod) ? null : billingSameAsShipping && !showBillingDetails ? (
+        <div className="flex items-center gap-x-2">
+          <Checkbox
+            id={billingCheckboxId}
             checked
-            onChange={() => setShowBillingDetails(true)}
-            className="w-4 h-4 rounded border-ui-border-base accent-ui-fg-interactive"
+            onCheckedChange={() => setShowBillingDetails(true)}
           />
-          <span className="txt-compact-small text-ui-fg-base">
+          <Label
+            htmlFor={billingCheckboxId}
+            className="txt-compact-small text-ui-fg-base cursor-pointer"
+          >
             {t("billingSameAsShipping")}
-          </span>
-        </label>
+          </Label>
+        </div>
       ) : (
-        <div className="checkout-section-container flex flex-col gap-y-2">
+        <div className="flex flex-col gap-y-2">
           <div className="flex items-center justify-between">
             <h2 className="h2-docs">{t("billingHeading")}</h2>
             <button
@@ -520,7 +554,7 @@ export default function CheckoutPaymentSection({
         </div>
       )}
 
-      {needsShipping && (
+      {needsShipping && isStripeLike(selectedPaymentMethod) && (
       <CheckoutBillingSheet
         open={billingOpen}
         onClose={() => setBillingOpen(false)}
@@ -530,19 +564,15 @@ export default function CheckoutPaymentSection({
       />
       )}
 
-      <div className="checkout-section-container">
-        <ErrorMessage error={error} data-testid="payment-method-error-message" />
-      </div>
+      <ErrorMessage error={error} data-testid="payment-method-error-message" />
 
-      <div className="checkout-section-container">
-        <AddressGapMessage
-          gaps={addressGaps}
-          tone="hint"
-          data-testid="shipping-address-incomplete"
-        />
-      </div>
+      <AddressGapMessage
+        gaps={addressStarted ? addressGaps : []}
+        tone="hint"
+        data-testid="shipping-address-incomplete"
+      />
 
-      <div className="checkout-section-container flex flex-col gap-y-3">
+      <div className="flex flex-col gap-y-3">
         {/* Rule 5zd (t-2026-10-03-32): right above the button and the total,
             never a modal — the buyer sees it before clicking «Pay». */}
         {showPreNotice && (

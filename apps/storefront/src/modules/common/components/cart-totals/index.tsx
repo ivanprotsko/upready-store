@@ -19,9 +19,18 @@ type CartTotalsProps = {
    * course alone) — the «Доставка» row is not shown at all, not shown as 0.
    */
   needsShipping?: boolean
+  /**
+   * Batch 6 part 1: `false` while the cart has no delivery method yet. The row then says
+   * the price comes at checkout instead of «Доставка 0,00 ₽», which read as free delivery.
+   */
+  shippingChosen?: boolean
 }
 
-const CartTotals: React.FC<CartTotalsProps> = ({ totals, needsShipping = true }) => {
+const CartTotals: React.FC<CartTotalsProps> = ({
+  totals,
+  needsShipping = true,
+  shippingChosen = true,
+}) => {
   const t = useTranslations("CartTotals")
   const locale = useLocale()
   const {
@@ -45,9 +54,15 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals, needsShipping = true })
         {needsShipping && (
           <div className="flex items-center justify-between">
             <span>{t("shipping")}</span>
-            <span data-testid="cart-shipping" data-value={shipping_subtotal || 0}>
-              {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code, locale })}
-            </span>
+            {shippingChosen ? (
+              <span data-testid="cart-shipping" data-value={shipping_subtotal || 0}>
+                {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code, locale })}
+              </span>
+            ) : (
+              <span className="text-ui-fg-muted" data-testid="cart-shipping" data-pending="true">
+                {t("shippingAtCheckout")}
+              </span>
+            )}
           </div>
         )}
         {!!discount_subtotal && (

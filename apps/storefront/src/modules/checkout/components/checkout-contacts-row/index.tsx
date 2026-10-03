@@ -1,10 +1,12 @@
 "use client"
 
 import { useId, useRef, useState } from "react"
-import { ChevronDown, ChevronRight, CheckMini } from "@medusajs/icons"
+import { CheckMini } from "@medusajs/icons"
 import User from "@modules/common/icons/user"
 import type { HttpTypes } from "@medusajs/types"
-import CheckoutContactsForm from "@modules/checkout/components/checkout-contacts-form"
+import CheckoutContactsForm, {
+  contactsFieldErrors,
+} from "@modules/checkout/components/checkout-contacts-form"
 import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 import { useTranslations } from "next-intl"
 
@@ -14,17 +16,21 @@ interface CheckoutContactsRowProps {
 
 /**
  * t-2026-10-01-checkout-ivan-3 #6/#7: split out of the old `CheckoutInfoRows`
- * (address and contacts combined); an accordion, not a sheet — a click (or
- * Enter/Space, which a `<button>` already gets for free) expands the form
- * right under the title, «Сохранить» collapses it back to the summary and
- * returns focus to the row. Never gated on a digital-only cart — a buyer
+ * (address and contacts combined). Never gated on a digital-only cart — a buyer
  * still needs to be reachable with no delivery at all.
+ *
+ * Batch 6 part 1: no collapsed row to discover. While the contacts are not complete
+ * (the same test the form saves by, `contactsFieldErrors`), the form is simply open
+ * under the heading; once they are, the section shows what was saved and
+ * «Изменить» opens the form again. The header keeps `checkout-contacts-row` in both
+ * states and is a button only when there is something to open, so a click on the
+ * heading of an open form never folds it away.
  */
 export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) {
   const t = useTranslations("CheckoutPage")
   const panelId = useId()
   const triggerRef = useRef<HTMLButtonElement | null>(null)
-  const [expanded, setExpanded] = useState(false)
+  const [editing, setEditing] = useState(false)
 
   const addr = cart.shipping_address
   const meta = cart.metadata as Record<string, string> | null
@@ -32,8 +38,8 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
   const buyerFirstName = meta?.contact_first_name || ""
   const buyerLastName = meta?.contact_last_name || ""
   const buyerPhone = meta?.contact_phone || ""
+  const buyerEmail = realEmailOrEmpty(cart.email)
   const buyerName = [buyerFirstName, buyerLastName].filter(Boolean).join(" ")
-  const hasContacts = !!(buyerName || realEmailOrEmpty(cart.email))
 
   const hasDifferentRecipient = meta?.has_different_recipient === "true"
   const recipientName = [addr?.first_name, addr?.last_name]
@@ -41,79 +47,102 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
     .join(" ")
   const recipientPhone = addr?.phone || ""
 
+  const isComplete =
+    Object.keys(
+      contactsFieldErrors(
+        {
+          first_name: buyerFirstName,
+          last_name: buyerLastName,
+          email: buyerEmail,
+          recipient_first_name: hasDifferentRecipient ? addr?.first_name || "" : "",
+          recipient_last_name: hasDifferentRecipient ? addr?.last_name || "" : "",
+        },
+        hasDifferentRecipient
+      )
+    ).length === 0
+  const showForm = editing || !isComplete
+
   function collapse() {
-    setExpanded(false)
-    // The trigger is still in the DOM once the form unmounts; focus it on the
+    setEditing(false)
+    // The trigger is back in the DOM once the form unmounts; focus it on the
     // next frame so the collapse itself has already happened.
     requestAnimationFrame(() => triggerRef.current?.focus())
   }
+
+  const heading = (
+    <span className="flex items-center gap-x-2">
+      <span className="flex-shrink-0 text-ui-fg-base">
+        <User size={24} />
+      </span>
+      <h2 className="h2-docs text-ui-fg-base flex items-center gap-x-1.5">
+        {t("contactsHeading")}
+        {isComplete && (
+          <CheckMini
+            className="text-ui-tag-green-icon shrink-0"
+            aria-hidden
+            data-testid="contacts-section-checkmark"
+          />
+        )}
+      </h2>
+    </span>
+  )
 
   return (
     <>
       <div className="h-px bg-ui-border-base w-full" />
 
       <div className="flex flex-col gap-y-1">
-        <button
-          ref={triggerRef}
-          type="button"
-          onClick={() => setExpanded((value) => !value)}
-          aria-expanded={expanded}
-          aria-controls={panelId}
-          className="flex items-center justify-between w-full gap-x-2 py-2 text-start"
-          data-testid="checkout-contacts-row"
-        >
-          <div className="flex items-center gap-x-2">
-            <span className="flex-shrink-0 text-ui-fg-base">
-              <User size={24} />
-            </span>
-            <div className="flex flex-col">
-              <h2 className="h2-docs text-ui-fg-muted flex items-center gap-x-1.5">
-                {t("contactsHeading")}
-                {hasContacts && (
-                  <CheckMini
-                    className="text-ui-tag-green-icon shrink-0"
-                    aria-hidden
-                    data-testid="contacts-section-checkmark"
-                  />
-                )}
-              </h2>
-              {!expanded && hasContacts && (
-                <span className="txt-small text-ui-fg-base flex gap-x-2">
-                  {buyerName && <span>{buyerName}</span>}
-                  {buyerPhone && (
-                    <span className="text-ui-fg-muted">{buyerPhone}</span>
-                  )}
-                </span>
-              )}
-              {!expanded && hasDifferentRecipient && (recipientName || recipientPhone) && (
-                <div className="flex items-center gap-x-2 mt-1">
-                  <span className="txt-small text-ui-fg-muted">
-                    {t("recipientLabel")}
-                  </span>
-                  {recipientName && (
-                    <span className="txt-small text-ui-fg-base">
-                      {recipientName}
-                    </span>
-                  )}
-                  {recipientPhone && (
-                    <span className="txt-small text-ui-fg-muted">
-                      {recipientPhone}
-                    </span>
-                  )}
-                </div>
-              )}
-            </div>
+        {showForm ? (
+          <div className="py-2" data-testid="checkout-contacts-row">
+            {heading}
           </div>
-          {expanded ? (
-            <ChevronDown className="text-ui-fg-base flex-shrink-0" />
-          ) : (
-            <ChevronRight className="text-ui-fg-base flex-shrink-0 rtl:rotate-180" />
-          )}
-        </button>
+        ) : (
+          <button
+            ref={triggerRef}
+            type="button"
+            onClick={() => setEditing(true)}
+            aria-expanded={false}
+            aria-controls={panelId}
+            className="flex items-start justify-between w-full gap-x-4 py-2 text-start"
+            data-testid="checkout-contacts-row"
+          >
+            <span className="flex flex-col gap-y-1">
+              {heading}
+              <span className="flex flex-col gap-y-0.5 ps-8 txt-small">
+                {buyerName && <span className="text-ui-fg-base">{buyerName}</span>}
+                {(buyerEmail || buyerPhone) && (
+                  <span className="text-ui-fg-subtle">
+                    {[buyerEmail, buyerPhone].filter(Boolean).join(" · ")}
+                  </span>
+                )}
+                {hasDifferentRecipient && (recipientName || recipientPhone) && (
+                  <span className="text-ui-fg-subtle">
+                    {t("recipientLabel")}{" "}
+                    <span className="text-ui-fg-base">
+                      {[recipientName, recipientPhone].filter(Boolean).join(" · ")}
+                    </span>
+                  </span>
+                )}
+              </span>
+            </span>
+            <span className="txt-compact-small-plus text-ui-fg-interactive shrink-0 pt-1">
+              {t("edit")}
+            </span>
+          </button>
+        )}
 
-        {expanded && (
+        {showForm && (
           <div id={panelId}>
-            <CheckoutContactsForm cart={cart} onSaved={collapse} onCancel={collapse} />
+            <CheckoutContactsForm
+              cart={cart}
+              onSaved={collapse}
+              // Nothing to go back to while the contacts are not complete: the form
+              // stays, a «Закрыть» would only bring the empty row back.
+              onCancel={isComplete ? collapse : undefined}
+              // Focus moves only when the buyer opened the form; an open-by-default
+              // form must not pull the page down to itself on load.
+              autoFocus={editing}
+            />
           </div>
         )}
       </div>

@@ -51,7 +51,11 @@ const Summary = ({ cart }: SummaryProps) => {
 
   return (
     <div className="flex flex-col gap-y-8">
-      <CartTotals totals={cart} needsShipping={cartNeedsShipping(cart)} />
+      <CartTotals
+        totals={cart}
+        needsShipping={cartNeedsShipping(cart)}
+        shippingChosen={(cart.shipping_methods?.length ?? 0) > 0}
+      />
       <DiscountCode cart={cart} />
       <Button
         className="w-full"

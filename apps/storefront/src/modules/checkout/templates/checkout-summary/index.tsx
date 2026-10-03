@@ -1,66 +1,34 @@
-import { getLegalLinkContext } from "@lib/data/legal-links"
-import { listCartPaymentMethods } from "@lib/data/payment"
-import { getTenantManualPayment } from "@lib/data/tenant-manual-payment"
-import { getTenantPaymentPreNotice } from "@lib/data/tenant-payment-pre-notice"
-import { getTenantSeller } from "@lib/data/tenant-seller"
-import { getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
-import { sellerLabel } from "@lib/util/payment-pre-notice"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
-import { Text } from "@medusajs/ui"
+import { Divider, Text } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
 import { isNoDeliveryLine } from "@lib/util/shipping-address"
+import CheckoutItemList from "@modules/checkout/components/checkout-item-list"
 import CheckoutPickupSummary from "@modules/checkout/components/checkout-pickup-summary"
 import DiscountCode from "@modules/checkout/components/discount-code"
-import CheckoutPaymentSection from "@modules/checkout/components/checkout-payment-section"
 import CheckoutTotals from "@modules/checkout/components/checkout-totals"
 
-const CheckoutSummary = async ({
-  cart,
-  customer,
-}: {
-  cart: HttpTypes.StoreCart
-  customer: HttpTypes.StoreCustomer | null
-}) => {
-  // Batch 6: a course in the cart — the access note under the totals (Q3.2). Batch 7:
-  // no guest pays at all — every order lands in an account (the pay button stays
-  // disabled until the sign-in, `CheckoutSignIn` above the form says why).
+/**
+ * The order summary column (batch 6 part 1): what is bought, the totals, the promo
+ * code. On a desktop it is the sticky right column next to the form, the way the
+ * Medusa starter's checkout lays it out; on a phone it sits between the form and the
+ * payment, where it was before. The payment block is `CheckoutPayment`.
+ */
+const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
+  // Batch 6: a course in the cart — the access note under the totals (Q3.2).
   const hasCourse = (cart.items ?? []).some(isNoDeliveryLine)
-  const requiresSignIn = !customer
   const tShip = await getTranslations("Shipments")
-  const [paymentMethods, legal, manualPayment, tenantPaymentMethods, prePaymentNotice, seller] =
-    await Promise.all([
-      listCartPaymentMethods(cart.region?.id ?? ""),
-      // The consent sentence under the Pay button names four documents; this is
-      // where the shop's own pages are read for it, because the section itself is
-      // a client component (rule 19g, f05-checkout-legal-stubs).
-      getLegalLinkContext(),
-      // The shop's crypto wallets and manager contacts for the manual provider
-      // (olavka-payments), read from the tenant header here for the same reason.
-      getTenantManualPayment(),
-      // t-2026-09-24-n10: which methods this shop connected, so the manual
-      // provider's demo card can be labelled honestly once it is offered only
-      // as a last resort.
-      getSitePaymentMethods(),
-      // Rule 5zd (t-2026-10-03-32): the pre-payment notice's per-method fields.
-      getTenantPaymentPreNotice(),
-      // The seller the notice names — legal name, or the shop's display name
-      // while there is none; never an INN or an OGRN (`sellerLabel`).
-      getTenantSeller(),
-    ])
   const meta = cart.metadata as Record<string, string> | null
   const pickupPointName = meta?.[PICKUP_METADATA_KEYS.name]
   const pickupPointAddress = meta?.[PICKUP_METADATA_KEYS.address]
 
   return (
-    // t-2026-10-01-checkout-ivan-3 #5: full width — the page itself no
-    // longer caps it ((checkout)/checkout/page.tsx); each child below
-    // constrains its OWN content to the 736px column instead
-    // (.checkout-section-container, globals.css), except `CheckoutPaymentSection`,
-    // which does the same split internally so its method row can bleed past
-    // it the way the delivery row does.
-    <div className="flex flex-col gap-y-8 py-4 lg:py-10 bg-ui-bg-subtle lg:bg-transparent">
-      <div className="checkout-section-container flex flex-col gap-y-3">
+    <div className="flex flex-col gap-y-6" data-testid="checkout-summary">
+      <CheckoutItemList cart={cart} />
+
+      <Divider />
+
+      <div className="flex flex-col gap-y-3">
         <CheckoutTotals cart={cart} />
         {hasCourse && (
           <Text size="small" className="text-ui-fg-subtle" data-testid="checkout-access-note">
@@ -70,28 +38,13 @@ const CheckoutSummary = async ({
       </div>
 
       {pickupPointName && (
-        <div className="checkout-section-container">
-          <CheckoutPickupSummary
-            name={pickupPointName}
-            address={pickupPointAddress ?? ""}
-          />
-        </div>
+        <CheckoutPickupSummary
+          name={pickupPointName}
+          address={pickupPointAddress ?? ""}
+        />
       )}
 
-      <div className="checkout-section-container">
-        <DiscountCode cart={cart} />
-      </div>
-
-      <CheckoutPaymentSection
-        cart={cart}
-        availablePaymentMethods={paymentMethods ?? []}
-        legal={legal}
-        manualPayment={manualPayment}
-        tenantPaymentMethods={tenantPaymentMethods}
-        requiresSignIn={requiresSignIn}
-        prePaymentNotice={prePaymentNotice}
-        seller={sellerLabel(seller ?? { name: null, legal_name: null })}
-      />
+      <DiscountCode cart={cart} />
     </div>
   )
 }

@@ -464,12 +464,12 @@ export default function CheckoutShippingSection({
           : true)
 
   return (
-    // t-2026-10-01-checkout-ivan-3 #5: full width on its own — the heading
-    // row and the error/sheets below stay in the 736px column
-    // (.checkout-section-container), the delivery-card row alone breaks out
-    // to bleed to the screen edges, padded to start on that column's edge.
+    // Batch 6 part 1: the methods are full-width rows of the left column, one under
+    // another, in the Medusa `RadioGroup.ChoiceBox` look (base border, the
+    // interactive one when chosen). The 180px cards in a sideways scroller cut the
+    // DHL description with «…» and put the radio next to the price.
     <div className="flex flex-col gap-y-4">
-      <div className="checkout-section-container flex flex-row items-start justify-between gap-x-4">
+      <div className="flex flex-row items-start justify-between gap-x-4">
         <div className="flex flex-col">
           <h2 className="h2-docs flex items-center gap-x-1.5">
             {t("shippingHeading")}
@@ -489,7 +489,7 @@ export default function CheckoutShippingSection({
         <DropdownMenu dir={dir}>
           <DropdownMenu.Trigger
             className={clx(
-              "mb-6 flex items-center gap-x-1.5 txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base transition-colors",
+              "flex shrink-0 items-center gap-x-1.5 txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base transition-colors",
               isPending && "opacity-60 cursor-wait"
             )}
             disabled={isPending}
@@ -526,136 +526,175 @@ export default function CheckoutShippingSection({
         </DropdownMenu>
       </div>
 
-      {/* Shipping method cards: full-bleed on purpose (t-2026-10-01-checkout-
-          ivan-3 #5). 368px is half of `max-w-checkout` (736px, tailwind.
-          config.js) — the padding this scroller needs so its first card
-          starts exactly where the column above it does, and the row can
-          still scroll to both screen edges past that. Below `lg`, "the
-          column" is the page gutter (`px-4`, same as .checkout-section-
-          container), not the viewport edge. */}
-      <div className="overflow-x-auto no-scrollbar px-4 scroll-px-4 pb-1 lg:pl-[calc(50%-368px)] lg:pr-[calc(50%-368px)] lg:scroll-pl-[calc(50%-368px)] lg:scroll-pr-[calc(50%-368px)]">
-        {cards.length > 0 ? (
-          <RadioGroup
-            dir={dir}
-            value={radioGroupValue}
-            onValueChange={handleValueChange}
-            className="flex items-stretch gap-x-2"
-          >
-            {cards.map((card) => {
-              const isPickupCard = card.kind === "pickup"
-              const option = isPickupCard ? pickupCardOption! : card.option
-              const itemValue = isPickupCard ? PICKUP_GROUP_VALUE : option.id
-              const isSelected = isPickupCard
-                ? !!shippingMethodId && pickupOptionIds.has(shippingMethodId)
-                : option.id === shippingMethodId
+      {cards.length > 0 ? (
+        <RadioGroup
+          dir={dir}
+          value={radioGroupValue}
+          onValueChange={handleValueChange}
+          className="flex flex-col gap-y-2"
+        >
+          {cards.map((card) => {
+            const isPickupCard = card.kind === "pickup"
+            const option = isPickupCard ? pickupCardOption! : card.option
+            const itemValue = isPickupCard ? PICKUP_GROUP_VALUE : option.id
+            const isSelected = isPickupCard
+              ? !!shippingMethodId && pickupOptionIds.has(shippingMethodId)
+              : option.id === shippingMethodId
 
-              const days = getDeliveryDays(option)
-              const zone = isPickupCard ? null : zoneLabel(option)
-              const deliveryHint = dataText(option, "delivery_hint")
-              const description = dataText(option, "description")
-              const explanation = explanationsMap[option.id] ?? null
-              const deliveryLabel = !days
-                ? deliveryHint
-                : days.max === 0
-                  ? t("deliveryToday")
-                  : !now
-                    ? null
-                    : days.min !== undefined && days.max !== undefined
-                      ? days.min === days.max
-                        ? formatDeliveryDate(days.min)
-                        : formatDeliveryRange(days.min, days.max)
-                      : days.max !== undefined
-                        ? t("deliveryDateUntil", {
-                          date: formatDeliveryDate(days.max),
+            const days = getDeliveryDays(option)
+            const zone = isPickupCard ? null : zoneLabel(option)
+            const deliveryHint = dataText(option, "delivery_hint")
+            const description = dataText(option, "description")
+            const explanation = explanationsMap[option.id] ?? null
+            const deliveryLabel = !days
+              ? deliveryHint
+              : days.max === 0
+                ? t("deliveryToday")
+                : !now
+                  ? null
+                  : days.min !== undefined && days.max !== undefined
+                    ? days.min === days.max
+                      ? formatDeliveryDate(days.min)
+                      : formatDeliveryRange(days.min, days.max)
+                    : days.max !== undefined
+                      ? t("deliveryDateUntil", {
+                        date: formatDeliveryDate(days.max),
+                      })
+                      : days.min !== undefined
+                        ? t("deliveryDateFrom", {
+                          date: formatDeliveryDate(days.min),
                         })
-                        : days.min !== undefined
-                          ? t("deliveryDateFrom", {
-                            date: formatDeliveryDate(days.min),
-                          })
-                          : null
+                        : null
 
-              // A Russian Post price depends on the point, so once the method
-              // is the cart's the card shows what the cart is charged, not the
-              // list quote to the buyer's own postcode (46df-pochta).
-              const pochtaMethodAmount =
-                isPochtaOption(option) && pochtaChosen
-                  ? (cart.shipping_methods ?? []).find(
-                      (sm) => sm.shipping_option_id === option.id
-                    )?.amount
-                  : undefined
-              const priceAmount =
-                typeof pochtaMethodAmount === "number"
-                  ? pochtaMethodAmount
-                  : option.price_type === "flat"
-                  ? option.amount!
-                  : calculatedPricesMap[option.id] !== undefined
-                    ? calculatedPricesMap[option.id]
-                    : null
-              const isFreeShipping = priceAmount === 0
-              // U-12 (46df): no price means the method cannot be charged, so
-              // the card says why and cannot be chosen.
-              const unpriced =
-                !isPickupCard &&
-                isShippingCardUnpriced({
-                  priceAmount,
-                  isLoadingPrices,
-                  pricedPerPoint: isPochtaOption(option),
+            // A Russian Post price depends on the point, so once the method
+            // is the cart's the card shows what the cart is charged, not the
+            // list quote to the buyer's own postcode (46df-pochta).
+            const pochtaMethodAmount =
+              isPochtaOption(option) && pochtaChosen
+                ? (cart.shipping_methods ?? []).find(
+                    (sm) => sm.shipping_option_id === option.id
+                  )?.amount
+                : undefined
+            const priceAmount =
+              typeof pochtaMethodAmount === "number"
+                ? pochtaMethodAmount
+                : option.price_type === "flat"
+                ? option.amount!
+                : calculatedPricesMap[option.id] !== undefined
+                  ? calculatedPricesMap[option.id]
+                  : null
+            const isFreeShipping = priceAmount === 0
+            // U-12 (46df): no price means the method cannot be charged, so
+            // the card says why and cannot be chosen.
+            const unpriced =
+              !isPickupCard &&
+              isShippingCardUnpriced({
+                priceAmount,
+                isLoadingPrices,
+                pricedPerPoint: isPochtaOption(option),
+              })
+            const price = isFreeShipping
+              ? t("freeShipping")
+              : priceAmount !== null
+                ? convertToLocale({
+                  amount: priceAmount,
+                  currency_code: cart.currency_code,
+                  locale,
                 })
-              const price = isFreeShipping
-                ? t("freeShipping")
-                : priceAmount !== null
-                  ? convertToLocale({
-                    amount: priceAmount,
-                    currency_code: cart.currency_code,
-                    locale,
-                  })
-                  : isLoadingPrices
-                    ? null
-                    : unpriced
-                      ? t("shippingPriceUnavailable")
-                      : "—"
+                : isLoadingPrices
+                  ? null
+                  : unpriced
+                    ? t("shippingPriceUnavailable")
+                    : "—"
 
-              return (
+            return (
+              <div
+                key={itemValue}
+                className={clx(
+                  "relative flex items-start gap-x-3 rounded-lg px-4 py-3 text-start transition-colors",
+                  // Without a fill and not selectable: a method the shop cannot
+                  // charge for (U-12) must not read as the chosen one.
+                  unpriced
+                    ? "bg-ui-bg-disabled shadow-borders-base"
+                    : isSelected
+                      ? "bg-ui-bg-base shadow-borders-interactive-with-shadow"
+                      : "bg-ui-bg-base shadow-borders-base hover:bg-ui-bg-base-hover"
+                )}
+                data-unavailable={unpriced || undefined}
+                data-testid={
+                  isPickupCard ? "delivery-option-pickup" : "delivery-option-radio"
+                }
+              >
+                <RadioGroup.Item
+                  value={itemValue}
+                  aria-label={option.name}
+                  disabled={unpriced}
+                  className="absolute inset-0 z-10 h-full w-full cursor-pointer disabled:cursor-not-allowed rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
+                />
+                {/* The radio mark of `RadioGroup.ChoiceBox`, drawn here because the
+                    row holds buttons of its own («Изменить» for a point) and a
+                    radio button cannot contain them. */}
                 <div
-                  key={itemValue}
                   className={clx(
-                    "relative flex w-[180px] shrink-0 flex-col gap-2 justify-between rounded-md border bg-ui-bg-base p-3 text-start transition-colors",
-                    // Dashed and without a fill: a filled card reads as the
-                    // chosen one in a theme that tints the selection.
-                    unpriced
-                      ? "border-dashed border-ui-border-base"
-                      : isSelected
-                        ? "border-ui-border-interactive hover:bg-ui-bg-base-hover"
-                        : "border-ui-border-base hover:bg-ui-bg-base-hover hover:border-ui-border-interactive/50"
+                    "flex h-5 w-5 shrink-0 items-center justify-center",
+                    unpriced && "invisible"
                   )}
-                  data-unavailable={unpriced || undefined}
-                  data-testid={
-                    isPickupCard ? "delivery-option-pickup" : "delivery-option-radio"
-                  }
                 >
-                  <RadioGroup.Item
-                    value={itemValue}
-                    aria-label={option.name}
-                    disabled={unpriced}
-                    className="absolute inset-0 z-10 h-full w-full cursor-pointer disabled:cursor-not-allowed rounded-md bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
-                  />
-                  <span className="txt-compact-medium-plus text-ui-fg-base">
-                    {option.name}
-                  </span>
-                  {zone && (
-                    <span
-                      className="txt-compact-xsmall text-ui-fg-subtle"
-                      data-testid="delivery-option-zone"
-                    >
-                      {t("shippingZone", { zone })}
+                  <div
+                    className={clx(
+                      "flex h-3.5 w-3.5 items-center justify-center rounded-full",
+                      isSelected
+                        ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
+                        : "bg-ui-bg-base shadow-borders-base"
+                    )}
+                  >
+                    {isSelected && (
+                      <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex min-w-0 flex-1 flex-col gap-y-1">
+                  <div className="flex items-start justify-between gap-x-4">
+                    <span className="txt-compact-medium-plus text-ui-fg-base">
+                      {option.name}
                     </span>
-                  )}
+                    <span
+                      className={clx(
+                        "flex min-h-[20px] shrink-0 items-center",
+                        unpriced
+                          ? "txt-compact-small text-ui-fg-subtle"
+                          : isFreeShipping
+                            ? "txt-compact-medium-plus text-ui-tag-green-icon"
+                            : "txt-compact-medium-plus text-ui-fg-base"
+                      )}
+                      data-testid={
+                        unpriced ? "delivery-option-unavailable" : undefined
+                      }
+                    >
+                      {price === null ? (
+                        <Loader className="h-3 w-3 animate-spin" />
+                      ) : (
+                        price
+                      )}
+                    </span>
+                  </div>
                   {description && (
                     <span
-                      className="txt-compact-xsmall text-ui-fg-muted line-clamp-2"
+                      className="txt-compact-small text-ui-fg-subtle"
                       data-testid="delivery-option-description"
                     >
                       {description}
+                    </span>
+                  )}
+                  {(deliveryLabel || zone) && (
+                    <span className="flex flex-wrap gap-x-3 txt-compact-small text-ui-fg-subtle">
+                      {deliveryLabel && <span>{deliveryLabel}</span>}
+                      {zone && (
+                        <span data-testid="delivery-option-zone">
+                          {t("shippingZone", { zone })}
+                        </span>
+                      )}
                     </span>
                   )}
                   {/*
@@ -666,7 +705,7 @@ export default function CheckoutShippingSection({
                   */}
                   {isSelected && isCdekOption(option) && cdekChosen && (
                     <span
-                      className="txt-compact-xsmall text-ui-fg-base"
+                      className="txt-compact-small text-ui-fg-base"
                       data-testid="delivery-option-cdek-point"
                     >
                       {cdekChosen.name ?? cdekChosen.code}
@@ -674,7 +713,7 @@ export default function CheckoutShippingSection({
                   )}
                   {isSelected && isCdekOption(option) && cdekTerm && (
                     <span
-                      className="txt-compact-xsmall text-ui-fg-subtle"
+                      className="txt-compact-small text-ui-fg-subtle"
                       data-testid="delivery-option-cdek-term"
                     >
                       {cdekTerm}
@@ -691,7 +730,7 @@ export default function CheckoutShippingSection({
                   */}
                   {isSelected && isPochtaOption(option) && pochtaChosen && (
                     <span
-                      className="txt-compact-xsmall text-ui-fg-base"
+                      className="txt-compact-small text-ui-fg-base"
                       data-testid="delivery-option-pochta-point"
                     >
                       {[pochtaChosen.pochta_point_address, pochtaChosen.pochta_point_city]
@@ -702,7 +741,7 @@ export default function CheckoutShippingSection({
                   )}
                   {isSelected && isPochtaOption(option) && pochtaChosen?.term_label && (
                     <span
-                      className="txt-compact-xsmall text-ui-fg-subtle"
+                      className="txt-compact-small text-ui-fg-subtle"
                       data-testid="delivery-option-pochta-term"
                     >
                       {pochtaChosen.term_label}
@@ -712,7 +751,7 @@ export default function CheckoutShippingSection({
                     <button
                       type="button"
                       onClick={() => setPochtaSheetOptionId(option.id)}
-                      className="relative z-20 w-fit txt-compact-xsmall text-ui-fg-interactive underline focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                      className="relative z-20 w-fit txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm"
                       data-testid="delivery-option-pochta-change"
                     >
                       {tCdek("change")}
@@ -722,83 +761,33 @@ export default function CheckoutShippingSection({
                     <button
                       type="button"
                       onClick={() => setCdekSheetOptionId(option.id)}
-                      className="relative z-20 w-fit txt-compact-xsmall text-ui-fg-interactive underline focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                      className="relative z-20 w-fit txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm"
                       data-testid="delivery-option-cdek-change"
                     >
                       {tCdek("change")}
                     </button>
                   )}
-                  <div className="flex flex-col gap-y-1">
-                    <div className="min-h-[20px]">
-                      {deliveryLabel && (
-                        <span className="txt-compact-small text-ui-fg-subtle">
-                          {deliveryLabel}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-end justify-between gap-x-3">
-                      <div
-                        className={clx(
-                          "flex min-h-[20px] items-end",
-                          unpriced
-                            ? "txt-compact-xsmall text-ui-fg-subtle"
-                            : isFreeShipping
-                              ? "txt-compact-small-plus text-ui-tag-green-icon"
-                              : "txt-compact-small-plus text-ui-fg-subtle"
-                        )}
-                        data-testid={
-                          unpriced ? "delivery-option-unavailable" : undefined
-                        }
-                      >
-                        {price === null ? (
-                          <Loader className="h-3 w-3 animate-spin" />
-                        ) : (
-                          price
-                        )}
-                      </div>
-
-                      <div
-                        className={clx(
-                          "flex h-5 w-5 shrink-0 items-center justify-center",
-                          unpriced && "invisible"
-                        )}
-                      >
-                        <div
-                          className={clx(
-                            "flex h-3.5 w-3.5 items-center justify-center rounded-full border bg-ui-bg-base shadow-borders-base",
-                            isSelected
-                              ? "border-ui-border-interactive bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
-                              : "border-ui-border-base"
-                          )}
-                        >
-                          {isSelected && (
-                            <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    {explanation && price !== null && (
-                      <span
-                        className="txt-compact-xsmall text-ui-fg-muted"
-                        data-testid="delivery-option-explanation"
-                      >
-                        {explanation}
-                      </span>
-                    )}
-                  </div>
+                  {explanation && price !== null && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-muted"
+                      data-testid="delivery-option-explanation"
+                    >
+                      {explanation}
+                    </span>
+                  )}
                 </div>
-              )
-            })}
-          </RadioGroup>
-        ) : (
-          <p className="txt-compact-small text-ui-fg-subtle">
-            {t("shippingUnavailable")}
-          </p>
-        )}
-      </div>
+              </div>
+            )
+          })}
+        </RadioGroup>
+      ) : (
+        <p className="txt-compact-small text-ui-fg-subtle">
+          {t("shippingUnavailable")}
+        </p>
+      )}
 
       {shippingError && (
-        <p className="checkout-section-container txt-compact-small text-ui-fg-error">
+        <p className="txt-compact-small text-ui-fg-error">
           {getErrorMessage(shippingError)}
         </p>
       )}
