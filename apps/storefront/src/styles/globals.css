@@ -314,6 +314,22 @@
 }
 
 /*
+ * t-2026-10-03-63: the cart sidebar's own panel colour, read nowhere else.
+ *
+ * `ui-bg-subtle` is bridged to --secondary (see the comment block above `.bg-ui-button-inverted`
+ * and the bridge in styles/themes.css), so it carries each store's own theme tint — exactly what
+ * Ivan asked to remove («Фон сделать таким цветом как это было в референсах фигмы, без
+ * оттенка»). The value is the Figma fill read from the node, not eyeballed: frame 3:60739
+ * "Sidebar", fills[0].color = {0.9607843160629272, 0.9607843160629272, 0.9607843160629272},
+ * i.e. rgb(245, 245, 245) / #f5f5f5. No @medusajs/ui token matches it exactly — the closest,
+ * --bg-subtle-hover / --bg-base-hover, is rgb(244, 244, 245) in the light preset, one unit off
+ * on every channel. Fixed in both modes on purpose: the brief names only the light mockup.
+ */
+:root {
+  --cart-sidebar-bg: #f5f5f5;
+}
+
+/*
  * t16-owner-branding, step 3: the tenant's own light/dark logo pair in the
  * header (`modules/layout/components/site-logo`). The two classes exist only
  * when BOTH variants were uploaded and differ — the component renders a

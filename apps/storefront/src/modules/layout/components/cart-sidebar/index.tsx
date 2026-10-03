@@ -2,7 +2,7 @@
 
 import { ChevronRightMini, ShoppingCart, User, XMark } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
-import { Button, Drawer, IconButton, Text } from "@medusajs/ui"
+import { Button, clx, Drawer, IconButton, Text } from "@medusajs/ui"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
@@ -29,7 +29,23 @@ const checkoutStep = (cart: HttpTypes.StoreCart): "address" | "delivery" | "paym
 }
 
 /**
- * The cart as a right sidebar on desktop (batch 5, Ivan 03.10: «давай корзину сделаем на
+ * The edge the panel is pinned to and slides from (t-2026-10-03-63, Ivan: «сайдбар с
+ * корзиной должен выезжать слева»). Figma frame 3:60739 "Sidebar" has it on the right;
+ * the live shop has it on the left, cart button included — flip this one constant to
+ * move both the pin and the slide direction back to the frame's side.
+ */
+const SIDE: "left" | "right" = "left"
+
+/**
+ * Overlay fade and panel slide share this one duration, t-2026-10-03-63 bullet 2 («то же
+ * время, что и сдвиг панели»). @medusajs/ui's own `Drawer.Content` already hardcodes
+ * `duration-200`; this is applied on the overlay too, and repeated explicitly on the
+ * panel below, so the pairing is read from here rather than relied on by coincidence.
+ */
+const MOTION_DURATION = "duration-200"
+
+/**
+ * The cart as a sidebar on desktop (batch 5, Ivan 03.10: «давай корзину сделаем на
  * десктопе в сайдбаре как здесь», Figma frame 3:60739 «Sidebar», 360×960): the page stays
  * where it is under the overlay, the sidebar holds «Корзина», the guest sign-in block,
  * the lines grouped by shipment («Отправление № N» with the delivery estimate, the
@@ -111,12 +127,23 @@ export default function CartSidebar({
   return (
     <Drawer open={isOpen} onOpenChange={setOpen}>
       <Drawer.Content
-        // The frame: a 360 px column pinned to the right edge, full height, flat — not
-        // @medusajs/ui's floating card. `!` wins over the component's own inset/width
-        // defaults regardless of Tailwind's rule order (the same device as
-        // `product-details-drawer`). Hidden below 1024 px even if some state opened it.
-        className="z-[80] hidden !inset-y-0 !right-0 !w-[360px] !max-w-[360px] !rounded-none border-y-0 border-r-0 !bg-ui-bg-subtle lg:flex"
-        overlayProps={{ className: "z-[80]" }}
+        // A 360 px column pinned to SIDE, full height, flat — not @medusajs/ui's floating
+        // card. `!` wins over the component's own inset/width/slide-direction defaults
+        // regardless of Tailwind's rule order (the same device as `product-details-drawer`).
+        // Width, height and inset never carry a `data-[state=…]` prefix, so they read the
+        // same value at every frame of the open/close animation; only the `slide-*`
+        // transform moves (t-2026-10-03-63 bullet 3). `motion-reduce:!animate-none` drops
+        // the slide and the fade to an instant cut (bullet 5); Radix's Presence reads
+        // `animationName` to time the unmount and is fine with "none" on either side.
+        // Hidden below 1024 px even if some state opened it.
+        className={clx(
+          "z-[80] hidden !inset-y-0 !w-[360px] !max-w-[360px] !rounded-none !bg-[var(--cart-sidebar-bg)] motion-reduce:!animate-none lg:flex",
+          MOTION_DURATION,
+          SIDE === "left"
+            ? "!left-0 !right-auto border-y-0 border-l-0 data-[state=open]:!slide-in-from-left-1/2 data-[state=closed]:!slide-out-to-left-1/2"
+            : "!right-0 !left-auto border-y-0 border-r-0 data-[state=open]:!slide-in-from-right-1/2 data-[state=closed]:!slide-out-to-right-1/2"
+        )}
+        overlayProps={{ className: clx("z-[80] motion-reduce:!animate-none", MOTION_DURATION) }}
         aria-describedby={undefined}
         data-testid="cart-sidebar"
       >
