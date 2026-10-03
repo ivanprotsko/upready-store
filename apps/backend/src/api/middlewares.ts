@@ -166,6 +166,7 @@ import {
   PutTenantApishipKeySchema,
   PutTenantDeliverySettingsSchema,
   PutTenantPochtaSchema,
+  PutTenantTributeSchema,
   PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
@@ -247,6 +248,7 @@ import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-set
 import { guardSyntheticTelegramEmail } from "./store/customers/synthetic-email-guard";
 import { resolveTelegramTenant } from "./auth/telegram-tenant";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
+import { injectTributeTenant } from "./store/tenant/tribute";
 import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
@@ -402,6 +404,22 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantPochtaSchema)],
     },
     {
+      // The shop's Tribute Shop API key (t-cherk-22).
+      matcher: "/tenants/tribute",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantTributeSchema)],
+    },
+    {
+      // Tribute's per-shop webhook (t-cherk-22): `trbt-signature` is an
+      // HMAC-SHA256 of the RAW body, so the exact bytes have to survive past
+      // JSON parsing (`req.rawBody`) — a re-serialization of the parsed object
+      // could differ in key order or whitespace and reject a genuine webhook.
+      matcher: "/tribute/webhook/:tenant",
+      method: ["POST"],
+      bodyParser: { preserveRawBody: true },
+      middlewares: [],
+    },
+    {
       // The shop's own Telegram bot for buyer sign-in (t-2026-10-02-telegram-auth).
       matcher: "/tenants/telegram-bot",
       method: ["PUT"],
@@ -441,11 +459,13 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantRequisitesSchema)],
     },
     {
-      // Robokassa needs the SERVER's word on which shop the cart belongs to;
-      // the client's `data.tenant_id`, if any, is overwritten (step 4 of the task).
+      // Robokassa and Tribute both need the SERVER's word on which shop the
+      // cart belongs to; the client's `data.tenant_id`, if any, is overwritten
+      // (step 4 of the task; t-cherk-22 for Tribute). Each middleware is a
+      // no-op unless `body.provider_id` is its own, so they compose cleanly.
       matcher: "/store/payment-collections/:id/payment-sessions",
       method: ["POST"],
-      middlewares: [injectRobokassaTenant],
+      middlewares: [injectRobokassaTenant, injectTributeTenant],
     },
     {
       // The shadowing route in `src/api/store/payment-providers/route.ts`
