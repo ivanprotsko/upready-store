@@ -16,6 +16,10 @@ import { decryptJson, keyFromEnv, maskSecret, type MaskedSecret } from "./crypto
 export type TelegramBotCredentials = {
   username: string;
   token: string;
+  /** The shop bot's webhook `secret_token` (t-cherk-23); set by «Подключить бота», dropped when the token is replaced. */
+  webhook_secret?: string;
+  /** The chat the shop's `/manager` messages go to (t-cherk-23); set when the owner opens the manager deep link. */
+  manager_chat_id?: number;
 };
 
 export type ResolvedTelegramBotSecret = {
