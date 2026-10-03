@@ -35,6 +35,8 @@ type GraphCall = { entity: string; filters?: Record<string, unknown> };
 const buildContainer = (opts: {
   carts?: Array<Record<string, unknown>>;
   existingIdentity?: Record<string, unknown> | null;
+  /** `product_id`s on the `product_sales_channel` link of this shop's channel. */
+  channelProductIds?: string[];
 }) => {
   const graphCalls: GraphCall[] = [];
   const listAuthIdentities = jest.fn(async () =>
@@ -53,6 +55,9 @@ const buildContainer = (opts: {
       }
       if (entity === "cart") {
         return { data: opts.carts ?? [] };
+      }
+      if (entity === "product_sales_channel") {
+        return { data: (opts.channelProductIds ?? []).map((product_id) => ({ product_id })) };
       }
       return { data: [] };
     }),
@@ -173,5 +178,33 @@ describe("createMedusaShop — cart sync", () => {
 
     expect(cart).toBeNull();
     expect(createCartRun).not.toHaveBeenCalled();
+  });
+});
+
+describe("createMedusaShop — this shop's products only", () => {
+  it("filters products by the ids on the shop's sales-channel link, never by a sales_channel_id field on product", async () => {
+    const { container, graphCalls } = buildContainer({ channelProductIds: ["prod_1", "prod_2"] });
+    const shop = createMedusaShop(container, TENANT);
+
+    await shop.listProducts({ categoryId: null, offset: 0, limit: 8 });
+
+    expect(graphCalls[0]).toEqual({
+      entity: "product_sales_channel",
+      filters: { sales_channel_id: ["sc_1"] },
+    });
+    const productCall = graphCalls.find((call) => call.entity === "product");
+    expect(productCall?.filters).toEqual({ id: ["prod_1", "prod_2"], status: "published" });
+  });
+
+  it("answers null without a product query when the product is not in the shop's channel", async () => {
+    const { container, graphCalls } = buildContainer({ channelProductIds: [] });
+    const shop = createMedusaShop(container, TENANT);
+
+    expect(await shop.getProduct("prod_other_shop")).toBeNull();
+    expect(graphCalls[0].filters).toEqual({
+      sales_channel_id: ["sc_1"],
+      product_id: ["prod_other_shop"],
+    });
+    expect(graphCalls.some((call) => call.entity === "product")).toBe(false);
   });
 });

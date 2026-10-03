@@ -297,11 +297,38 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
     return toShopCart((cart as RawCart) ?? {});
   };
 
+  /**
+   * The ids of this shop's products, read off the product–sales-channel link.
+   * A product cannot be filtered by `sales_channel_id` directly (the product
+   * module has no such field, and `medusa build` rejects it), so the channel
+   * becomes an id filter first — what Medusa's own `maybeApplyLinkFilter`
+   * does behind `/store/products` (and `/tenants/products` in
+   * `../api/middlewares.ts`). `productIds` narrows the check to those ids.
+   */
+  const channelProductIds = async (productIds?: string[]): Promise<string[]> => {
+    const { data: links } = await query.graph({
+      entity: "product_sales_channel",
+      fields: ["product_id"],
+      filters: {
+        sales_channel_id: [tenant.salesChannelId],
+        ...(productIds ? { product_id: productIds } : {}),
+      },
+      pagination: { take: null },
+    } as never);
+    return (links as Array<{ product_id?: string | null }>)
+      .map((link) => link.product_id)
+      .filter((id): id is string => Boolean(id));
+  };
+
   const listCategories = async (): Promise<ShopCategory[]> => {
+    const ids = await channelProductIds();
+    if (ids.length === 0) {
+      return [];
+    }
     const { data: products } = await query.graph({
       entity: "product",
       fields: ["id", "categories.id", "categories.name"],
-      filters: { sales_channel_id: [tenant.salesChannelId], status: "published" },
+      filters: { id: ids, status: "published" },
       pagination: { take: null } as never,
     });
 
@@ -317,12 +344,16 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
   };
 
   const listProducts: ShopPort["listProducts"] = async ({ categoryId, offset, limit }) => {
+    const ids = await channelProductIds();
+    if (ids.length === 0) {
+      return { items: [], total: 0 };
+    }
     const region = await resolveRegion();
     const { data: products, metadata } = await query.graph({
       entity: "product",
       fields: ["id", "title", "handle", "thumbnail", "variants.prices.amount", "variants.prices.currency_code"],
       filters: {
-        sales_channel_id: [tenant.salesChannelId],
+        id: ids,
         status: "published",
         ...(categoryId ? { categories: { id: categoryId } } : {}),
       },
@@ -336,12 +367,16 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
   };
 
   const searchProducts = async (search: string, limit: number): Promise<ShopProductSummary[]> => {
+    const ids = await channelProductIds();
+    if (ids.length === 0) {
+      return [];
+    }
     const region = await resolveRegion();
     const { data: products } = await query.graph({
       entity: "product",
       fields: ["id", "title", "handle", "thumbnail", "variants.prices.amount", "variants.prices.currency_code"],
       filters: {
-        sales_channel_id: [tenant.salesChannelId],
+        id: ids,
         status: "published",
         title: { $ilike: `%${search}%` },
       },
@@ -351,6 +386,9 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
   };
 
   const getProduct = async (productId: string): Promise<ShopProduct | null> => {
+    if ((await channelProductIds([productId])).length === 0) {
+      return null;
+    }
     const region = await resolveRegion();
     const {
       data: [product],
@@ -367,7 +405,7 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
         "variants.prices.amount",
         "variants.prices.currency_code",
       ],
-      filters: { id: productId, sales_channel_id: [tenant.salesChannelId], status: "published" },
+      filters: { id: productId, status: "published" },
     });
 
     const raw = product as RawProduct | undefined;
