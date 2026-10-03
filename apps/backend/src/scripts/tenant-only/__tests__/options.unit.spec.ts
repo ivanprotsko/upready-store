@@ -14,7 +14,24 @@ describe("parseTenantOnlyArgs", () => {
       dryRun: false,
       protect: [],
       source: null,
+      mediaHostFrom: null,
+      mediaHostTo: null,
+      forbidHosts: [],
     });
+  });
+
+  it("reads a media host change and forbidden hosts", () => {
+    expect(
+      parse("--keep", "olavka", "--media-host-from", "shipshift.dev", "--media-host-to", "api.cherkashino.ru",
+        "--forbid-host", "upready.dev", "--forbid-host", "cherkashino.com"),
+    ).toMatchObject({
+      mode: "run",
+      mediaHostFrom: "shipshift.dev",
+      mediaHostTo: "api.cherkashino.ru",
+      forbidHosts: ["upready.dev", "cherkashino.com"],
+    });
+    expect(parse("--verify", "--forbid-host", "shipshift.dev")).toMatchObject({ mode: "verify", forbidHosts: ["shipshift.dev"] });
+    expect(parse("--media-host-from", "a.dev", "--media-host-to", "b.ru")).toMatchObject({ mode: "run", keep: null });
   });
 
   it("reads a dry-run trim with anonymization and extra protected names", () => {
@@ -60,6 +77,13 @@ describe("parseTenantOnlyArgs", () => {
     [["--db", DB, "--keep", "olavka", "--source", "x"], "--source only goes with --mark"],
     [["--db", DB, "--media-refs"], "--media-refs takes --keep"],
     [["--db", DB, "--keep", "olavka", "--force"], "unknown argument"],
+    [["--db", DB, "--keep", "olavka", "--media-host-from", "shipshift.dev"], "go together"],
+    [["--db", DB, "--keep", "olavka", "--media-host-to", "api.cherkashino.ru"], "go together"],
+    [["--db", DB, "--keep", "olavka", "--media-host-from", "a.dev", "--media-host-to", "a.dev"], "must differ"],
+    [["--db", DB, "--keep", "olavka", "--media-host-from", "Shipshift.dev", "--media-host-to", "b.ru"], "lowercase host"],
+    [["--db", DB, "--keep", "olavka", "--forbid-host", "https://x.dev"], "lowercase host"],
+    [["--db", DB, "--verify", "--keep", "o", "--media-host-from", "a.dev", "--media-host-to", "b.ru"], "only goes with a run"],
+    [["--db", DB, "--mark", "--forbid-host", "a.dev"], "--forbid-host goes with"],
   ])("refuses %j", (argv, message) => {
     expect(() => parseTenantOnlyArgs(argv as string[])).toThrow(TenantOnlyUsageError);
     expect(() => parseTenantOnlyArgs(argv as string[])).toThrow(message);

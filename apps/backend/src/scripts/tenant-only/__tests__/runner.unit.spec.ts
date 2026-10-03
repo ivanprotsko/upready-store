@@ -12,6 +12,9 @@ const options = (over: Partial<TenantOnlyOptions> = {}): TenantOnlyOptions => ({
   dryRun: false,
   protect: [],
   source: null,
+  mediaHostFrom: null,
+  mediaHostTo: null,
+  forbidHosts: [],
   ...over,
 });
 
@@ -49,7 +52,11 @@ const runRows = (failFindings: number) => [
 describe("runTenantOnly", () => {
   it("loads the functions, runs in a transaction, asserts and commits a clean run", async () => {
     const { client, statements, calls } = fakeClient([[/tenant_only_run/, runRows(0)]]);
-    const result = await runTenantOnly(client, options({ protect: ["medusa_mt"] }), SQL);
+    const result = await runTenantOnly(
+      client,
+      options({ protect: ["medusa_mt"], mediaHostFrom: "shipshift.dev", mediaHostTo: "api.cherkashino.ru", forbidHosts: ["upready.dev"] }),
+      SQL,
+    );
 
     expect(statements()).toEqual([
       "-- functions",
@@ -58,7 +65,7 @@ describe("runTenantOnly", () => {
       "SELECT pg_temp.tenant_only_assert_clean",
       "COMMIT",
     ]);
-    expect(calls[2].values).toEqual(["olavka", false, ["medusa_mt"]]);
+    expect(calls[2].values).toEqual(["olavka", false, ["medusa_mt"], "shipshift.dev", "api.cherkashino.ru", ["upready.dev"]]);
     expect(result).toMatchObject({ exitCode: 0, committed: true, error: null });
     expect(result.checks).toEqual([
       { name: "tenant rows other than the kept one", severity: "fail", findings: 0 },
@@ -103,7 +110,7 @@ describe("runTenantOnly", () => {
     const { client, statements, calls } = fakeClient([
       [/tenant_only_check/, [{ check_name: "products not sold in a kept channel", severity: "fail", findings: "1" }]],
     ]);
-    const result = await runTenantOnly(client, options({ mode: "verify", anonymize: true }), SQL);
+    const result = await runTenantOnly(client, options({ mode: "verify", anonymize: true, forbidHosts: ["shipshift.dev"] }), SQL);
 
     expect(statements()).toEqual([
       "-- functions",
@@ -111,7 +118,7 @@ describe("runTenantOnly", () => {
       "SELECT check_name, severity, findings FROM pg_temp.tenant_only_check",
       "ROLLBACK",
     ]);
-    expect(calls[2].values).toEqual(["olavka", true]);
+    expect(calls[2].values).toEqual(["olavka", true, ["shipshift.dev"]]);
     expect(result.exitCode).toBe(3);
   });
 

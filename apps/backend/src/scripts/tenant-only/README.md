@@ -30,11 +30,22 @@ npx ts-node src/scripts/tenant-only/cli.ts --db postgres://…/copy --keep olavk
 ```
 
 On the mt host, the whole sequence of dump, restore, trim, verify, dump and drop
-is one command:
+is one command. For cherkashino.ru moving to the RU host:
 
 ```bash
-deploy/scripts/tenant-only-dump.sh olavka --dry-run
-deploy/scripts/tenant-only-dump.sh olavka
+deploy/scripts/tenant-only-dump.sh olavka --dry-run \
+  --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
+  --forbid-host upready.dev --forbid-host cherkashino.com
+deploy/scripts/tenant-only-dump.sh olavka \
+  --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
+  --forbid-host upready.dev --forbid-host cherkashino.com
+```
+
+After the restore on the new host, check it there with the same hosts:
+
+```bash
+npx ts-node src/scripts/tenant-only/cli.ts --db postgres://…/medusa_ru --keep olavka --verify \
+  --forbid-host shipshift.dev --forbid-host upready.dev --forbid-host cherkashino.com
 ```
 
 | Exit | Meaning |
@@ -83,6 +94,22 @@ only when every check passes.
 | its warehouse, and the platform's per-country warehouses no other tenant uses | other tenants' warehouses with their delivery setup |
 | notifications and workflow executions about a kept order, cart or customer | all others |
 | regions, currencies, tax, the store, platform users, the platform's own sales channels (emptied) | |
+
+## Moving Hosts
+
+`--media-host-from shipshift.dev --media-host-to api.cherkashino.ru` rewrites every
+URL on the first host, whether it starts with `https://`, `http://` or `//`, to the
+second, in every text and JSON column: product, variant and image URLs, the shop's
+branding and home page, metadata, page bodies. Only the host itself is rewritten,
+never a subdomain of it. The path stays, so the uploads only have to be served
+from the new host under the same `/static/` path.
+
+`--forbid-host <host>` (repeatable) names hosts no row may mention after the run,
+subdomains included. `--media-host-from` is always on that list, and inside the
+trim's own transaction so is every host name of a removed tenant. Shop addresses
+(`tenant_domain`) on a forbidden host are deleted, because on the new server they
+would point back at the old one. Any other mention fails the run with a count per
+column, and the operator fixes it in the source shop before running again.
 
 Decisions behind the less obvious rows:
 
@@ -147,8 +174,9 @@ review texts, is left as it is apart from e-mail addresses in it.
 - inside the trim's own transaction, any e-mail of the removed tenants' buyers
   or staff left anywhere in the database
 
-It warns, without failing, when kept content mentions a host name of a removed
-tenant, so the operator reads it.
+It also fails when any row mentions a forbidden host or, inside the trim's own
+transaction, a host name of a removed tenant, and warns when the kept tenant is
+left without a primary domain.
 
 `--verify --anonymize` fails on a real e-mail address anywhere, an IPv4 address
 anywhere, a named column still holding personal data, a JSON document with

@@ -1223,6 +1223,98 @@ END
 $fn$;
 
 -- ---------------------------------------------------------------------------
+-- Moving hosts: media URLs and forbidden host names
+-- ---------------------------------------------------------------------------
+
+-- A host name as tenant_only_options accepts it: lowercase labels and a TLD.
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_valid_host(h text) RETURNS boolean
+LANGUAGE sql IMMUTABLE AS $$ SELECT h ~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$' $$;
+
+-- Rewrites every URL on host_from (`https://`, `http://` or `//`, the host
+-- itself and not its subdomains) to host_to, in every text and JSON column:
+-- product, variant and image URLs, the shop's branding and home page, metadata,
+-- page bodies. The uploads keep their path, so they only have to be served
+-- from the new host under the same /static/ path.
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_rewrite_host(host_from text, host_to text)
+RETURNS TABLE(step text, affected bigint)
+LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
+DECLARE
+  r record;
+  n bigint;
+  total bigint := 0;
+  re text;
+BEGIN
+  IF NOT pg_temp.tenant_only_valid_host(host_from) OR NOT pg_temp.tenant_only_valid_host(host_to) OR host_from = host_to THEN
+    RAISE EXCEPTION 'tenant-only: media host change needs two different host names, got "%" and "%"', host_from, host_to
+      USING ERRCODE = 'UT003';
+  END IF;
+  re := '(https?:)?//' || regexp_replace(host_from, '([.-])', '\\\1', 'g') || '(?![A-Za-z0-9.-])';
+  FOR r IN SELECT * FROM pg_temp.tenant_only_text_columns() LOOP
+    EXECUTE format('UPDATE public.%I SET %I = regexp_replace(%I::text, %L, %L, ''gi'')::%s WHERE %I::text ILIKE %L',
+      r.tbl, r.col, r.col, re, '\1//' || host_to,
+      CASE r.typ WHEN 'character varying' THEN 'text' ELSE r.typ END,
+      r.col, '%//' || host_from || '%');
+    GET DIAGNOSTICS n = ROW_COUNT;
+    IF n > 0 THEN
+      step := format('rewrite //%s to //%s in %s.%s', host_from, host_to, r.tbl, r.col);
+      affected := n;
+      total := total + n;
+      RETURN NEXT;
+    END IF;
+  END LOOP;
+  step := format('rewrite //%s to //%s, rows in total', host_from, host_to);
+  affected := total;
+  RETURN NEXT;
+END
+$fn$;
+
+-- Shop addresses on a forbidden host or one of its subdomains go: on the new
+-- server they would point back at the old one.
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_drop_forbidden_domains(hosts text[])
+RETURNS TABLE(step text, affected bigint)
+LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
+DECLARE
+  n bigint;
+BEGIN
+  IF hosts IS NULL OR cardinality(hosts) = 0 OR NOT pg_temp.tenant_only_has('tenant_domain') THEN
+    RETURN;
+  END IF;
+  DELETE FROM tenant_domain d
+  WHERE EXISTS (SELECT 1 FROM unnest(hosts) h WHERE lower(d.host) = h OR lower(d.host) LIKE '%.' || h);
+  GET DIAGNOSTICS n = ROW_COUNT;
+  step := 'delete tenant_domain rows on a forbidden host';
+  affected := n;
+  RETURN NEXT;
+END
+$fn$;
+
+-- Rows per column that mention any forbidden host, subdomains included.
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_verify_hosts(hosts text[])
+RETURNS TABLE(check_name text, severity text, findings bigint)
+LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
+DECLARE
+  r record;
+  n bigint;
+  total bigint := 0;
+  patterns text[];
+BEGIN
+  IF hosts IS NULL OR cardinality(hosts) = 0 THEN
+    RETURN;
+  END IF;
+  SELECT array_agg('%' || h || '%') INTO patterns FROM unnest(hosts) h;
+  FOR r IN SELECT * FROM pg_temp.tenant_only_text_columns() LOOP
+    EXECUTE format('SELECT count(*) FROM public.%I WHERE lower(%I::text) LIKE ANY ($1)', r.tbl, r.col) INTO n USING patterns;
+    IF n > 0 THEN
+      check_name := format('%s.%s mentions a forbidden host', r.tbl, r.col); severity := 'fail'; findings := n; RETURN NEXT;
+      total := total + n;
+    END IF;
+  END LOOP;
+  check_name := format('rows mentioning %s', array_to_string(hosts, ', ')); severity := 'fail'; findings := total;
+  RETURN NEXT;
+END
+$fn$;
+
+-- ---------------------------------------------------------------------------
 -- Checks
 -- ---------------------------------------------------------------------------
 
@@ -1452,6 +1544,11 @@ BEGIN
   SELECT count(*) INTO findings FROM tenant_group;
   RETURN NEXT;
 
+  check_name := 'the kept tenant has no primary domain (set one on the new host)'; severity := 'warn';
+  SELECT CASE WHEN EXISTS (SELECT 1 FROM tenant_domain WHERE tenant_id = k AND is_primary AND deleted_at IS NULL) THEN 0 ELSE 1 END
+    INTO findings;
+  RETURN NEXT;
+
   -- Context for the operator.
   check_name := 'sales channels the kept tenant does not own (platform channels, emptied)'; severity := 'info';
   SELECT count(*) INTO findings FROM sales_channel sc
@@ -1496,8 +1593,8 @@ BEGIN
       FOR r IN SELECT * FROM pg_temp.tenant_only_text_columns() LOOP
         EXECUTE format('SELECT count(*) FROM public.%I WHERE lower(%I::text) LIKE ANY ($1)', r.tbl, r.col) INTO n USING hosts;
         IF n > 0 THEN
-          check_name := format('%s.%s mentions a host of a removed tenant (content of the kept shop, read it)', r.tbl, r.col);
-          severity := 'warn'; findings := n; RETURN NEXT;
+          check_name := format('%s.%s mentions a host of a removed tenant', r.tbl, r.col);
+          severity := 'fail'; findings := n; RETURN NEXT;
         END IF;
       END LOOP;
     END IF;
@@ -1614,12 +1711,12 @@ $fn$;
 -- ---------------------------------------------------------------------------
 
 -- The checks a run or a --verify asks for, kept in tok_checks for the assert.
-CREATE OR REPLACE FUNCTION pg_temp.tenant_only_check(keep_handle text, anonymize boolean)
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_check(keep_handle text, anonymize boolean, forbidden_hosts text[] DEFAULT NULL)
 RETURNS TABLE(check_name text, severity text, findings bigint)
 LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
 BEGIN
-  IF keep_handle IS NULL AND NOT coalesce(anonymize, false) THEN
-    RAISE EXCEPTION 'tenant-only: nothing to verify; name a tenant to keep, ask for anonymization, or both' USING ERRCODE = 'UT003';
+  IF keep_handle IS NULL AND NOT coalesce(anonymize, false) AND coalesce(cardinality(forbidden_hosts), 0) = 0 THEN
+    RAISE EXCEPTION 'tenant-only: nothing to verify; name a tenant to keep, ask for anonymization, forbid a host, or any of them' USING ERRCODE = 'UT003';
   END IF;
   DROP TABLE IF EXISTS pg_temp.tok_checks;
   CREATE TEMP TABLE tok_checks (ord serial, check_name text, severity text, findings bigint) ON COMMIT DROP;
@@ -1629,6 +1726,7 @@ BEGIN
   IF coalesce(anonymize, false) THEN
     INSERT INTO tok_checks (check_name, severity, findings) SELECT * FROM pg_temp.tenant_only_verify_anonymized();
   END IF;
+  INSERT INTO tok_checks (check_name, severity, findings) SELECT * FROM pg_temp.tenant_only_verify_hosts(forbidden_hosts);
   RETURN QUERY SELECT c.check_name, c.severity, c.findings FROM tok_checks c ORDER BY c.ord;
 END
 $fn$;
@@ -1658,13 +1756,31 @@ $fn$;
 -- One run: guard, counts before, trim and/or anonymize, checks, counts after.
 -- Returns every number; the caller decides COMMIT, ROLLBACK (--dry-run), or
 -- calls tenant_only_assert_clean() first.
-CREATE OR REPLACE FUNCTION pg_temp.tenant_only_run(keep_handle text, anonymize boolean, protected_dbs text[])
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_run(
+  keep_handle text, anonymize boolean, protected_dbs text[],
+  media_host_from text DEFAULT NULL, media_host_to text DEFAULT NULL, forbidden_hosts text[] DEFAULT NULL)
 RETURNS TABLE(section text, name text, detail text, before_n bigint, after_n bigint)
 LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
+DECLARE
+  hosts text[] := coalesce(forbidden_hosts, '{}'::text[]);
+  bad text;
 BEGIN
   PERFORM pg_temp.tenant_only_guard(protected_dbs);
-  IF keep_handle IS NULL AND NOT coalesce(anonymize, false) THEN
-    RAISE EXCEPTION 'tenant-only: nothing to do; name a tenant to keep, ask for anonymization, or both' USING ERRCODE = 'UT003';
+  IF keep_handle IS NULL AND NOT coalesce(anonymize, false) AND media_host_from IS NULL THEN
+    RAISE EXCEPTION 'tenant-only: nothing to do; name a tenant to keep, ask for anonymization, change the media host, or any of them' USING ERRCODE = 'UT003';
+  END IF;
+  IF (media_host_from IS NULL) <> (media_host_to IS NULL) THEN
+    RAISE EXCEPTION 'tenant-only: give both the media host to replace and its replacement' USING ERRCODE = 'UT003';
+  END IF;
+  IF media_host_from IS NOT NULL THEN
+    hosts := array_append(hosts, media_host_from);
+  END IF;
+  SELECT h INTO bad FROM unnest(hosts) h WHERE NOT pg_temp.tenant_only_valid_host(h) LIMIT 1;
+  IF bad IS NOT NULL THEN
+    RAISE EXCEPTION 'tenant-only: "%" is not a host name', bad USING ERRCODE = 'UT003';
+  END IF;
+  IF media_host_to IS NOT NULL AND EXISTS (SELECT 1 FROM unnest(hosts) h WHERE media_host_to = h OR media_host_to LIKE '%.' || h) THEN
+    RAISE EXCEPTION 'tenant-only: the new media host "%" is itself forbidden', media_host_to USING ERRCODE = 'UT003';
   END IF;
 
   DROP TABLE IF EXISTS pg_temp.tok_counts_before, pg_temp.tok_steps;
@@ -1673,10 +1789,14 @@ BEGIN
   IF keep_handle IS NOT NULL THEN
     INSERT INTO tok_steps (step, affected) SELECT * FROM pg_temp.tenant_only_trim(keep_handle);
   END IF;
+  IF media_host_from IS NOT NULL THEN
+    INSERT INTO tok_steps (step, affected) SELECT * FROM pg_temp.tenant_only_rewrite_host(media_host_from, media_host_to);
+  END IF;
+  INSERT INTO tok_steps (step, affected) SELECT * FROM pg_temp.tenant_only_drop_forbidden_domains(hosts);
   IF coalesce(anonymize, false) THEN
     INSERT INTO tok_steps (step, affected) SELECT * FROM pg_temp.tenant_only_anonymize();
   END IF;
-  PERFORM * FROM pg_temp.tenant_only_check(keep_handle, anonymize);
+  PERFORM * FROM pg_temp.tenant_only_check(keep_handle, anonymize, hosts);
 
   RETURN QUERY
     SELECT 'table'::text, b.tbl, NULL::text, b.n, a.n

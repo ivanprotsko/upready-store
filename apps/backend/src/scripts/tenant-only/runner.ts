@@ -100,8 +100,8 @@ export const runTenantOnly = async (
 
     if (options.mode === "verify") {
       const { rows } = await client.query(
-        "SELECT check_name, severity, findings FROM pg_temp.tenant_only_check($1, $2)",
-        [options.keep, options.anonymize],
+        "SELECT check_name, severity, findings FROM pg_temp.tenant_only_check($1, $2, $3)",
+        [options.keep, options.anonymize, options.forbidHosts],
       );
       result.checks = rows.map((row) => ({
         name: String(row.check_name),
@@ -115,8 +115,8 @@ export const runTenantOnly = async (
     }
 
     const { rows } = await client.query(
-      "SELECT section, name, detail, before_n, after_n FROM pg_temp.tenant_only_run($1, $2, $3)",
-      [options.keep, options.anonymize, options.protect],
+      "SELECT section, name, detail, before_n, after_n FROM pg_temp.tenant_only_run($1, $2, $3, $4, $5, $6)",
+      [options.keep, options.anonymize, options.protect, options.mediaHostFrom, options.mediaHostTo, options.forbidHosts],
     );
     result.rows = rows.map((row) => ({
       section: row.section as RunRow["section"],

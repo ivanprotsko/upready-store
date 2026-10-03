@@ -19,6 +19,12 @@ export type TenantOnlyOptions = {
   protect: string[];
   /** What --mark records as the copy's source. */
   source: string | null;
+  /** Rewrite every URL on this host... */
+  mediaHostFrom: string | null;
+  /** ...to this one (the new server's engine domain). */
+  mediaHostTo: string | null;
+  /** Hosts no row may mention after the run (subdomains included). */
+  forbidHosts: string[];
 };
 
 export const USAGE = `Usage: npx ts-node src/scripts/tenant-only/cli.ts --db <postgres-url> [options]
@@ -31,6 +37,10 @@ export const USAGE = `Usage: npx ts-node src/scripts/tenant-only/cli.ts --db <po
   --source <db>       with --mark: the database the copy was made from
   --unmark            remove the scratch-copy marker
   --media-refs        list /static/ prefixes the data references (with --keep)
+  --media-host-from <host> --media-host-to <host>
+                      rewrite every URL on the first host to the second
+  --forbid-host <host>  fail when any row mentions this host or a subdomain
+                      (repeatable; --media-host-from is always forbidden)
   --protect <db>      refuse this database name as well (repeatable)
 
 Exit codes: 0 done, 1 usage, 2 guard refused, 3 verification failed, 4 error.`;
@@ -41,8 +51,9 @@ export class TenantOnlyUsageError extends Error {
 
 const HANDLE = /^[a-z0-9][a-z0-9-]*$/;
 const DB_NAME = /^[A-Za-z0-9_-]+$/;
+const HOST = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$/;
 
-const VALUE_FLAGS = new Set(["--db", "--keep", "--protect", "--source"]);
+const VALUE_FLAGS = new Set(["--db", "--keep", "--protect", "--source", "--media-host-from", "--media-host-to", "--forbid-host"]);
 const BOOLEAN_FLAGS = new Set(["--anonymize", "--dry-run", "--verify", "--mark", "--unmark", "--media-refs", "--help"]);
 
 export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" => {
@@ -98,6 +109,20 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
   }
 
   const source = single("--source");
+  const mediaHostFrom = single("--media-host-from");
+  const mediaHostTo = single("--media-host-to");
+  const forbidHosts = values.get("--forbid-host") ?? [];
+  for (const host of [mediaHostFrom, mediaHostTo, ...forbidHosts]) {
+    if (host !== null && !HOST.test(host)) {
+      throw new TenantOnlyUsageError(`"${host}" is not a lowercase host name`);
+    }
+  }
+  if ((mediaHostFrom === null) !== (mediaHostTo === null)) {
+    throw new TenantOnlyUsageError("--media-host-from and --media-host-to go together");
+  }
+  if (mediaHostFrom !== null && mediaHostFrom === mediaHostTo) {
+    throw new TenantOnlyUsageError("--media-host-to must differ from --media-host-from");
+  }
   const anonymize = flags.has("--anonymize");
   const dryRun = flags.has("--dry-run");
 
@@ -117,8 +142,17 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
   if ((mode === "mark" || mode === "unmark") && (keep !== null || anonymize || dryRun)) {
     throw new TenantOnlyUsageError(`--${mode} takes no --keep, --anonymize or --dry-run`);
   }
-  if ((mode === "run" || mode === "verify") && keep === null && !anonymize) {
-    throw new TenantOnlyUsageError("name a tenant with --keep, ask for --anonymize, or both");
+  if (mediaHostFrom !== null && mode !== "run") {
+    throw new TenantOnlyUsageError("--media-host-from only goes with a run; verify with --forbid-host");
+  }
+  if (forbidHosts.length > 0 && mode !== "run" && mode !== "verify") {
+    throw new TenantOnlyUsageError("--forbid-host goes with a run or --verify");
+  }
+  if (mode === "run" && keep === null && !anonymize && mediaHostFrom === null) {
+    throw new TenantOnlyUsageError("name a tenant with --keep, ask for --anonymize, change the media host, or any of them");
+  }
+  if (mode === "verify" && keep === null && !anonymize && forbidHosts.length === 0) {
+    throw new TenantOnlyUsageError("name a tenant with --keep, ask for --anonymize, forbid a host, or any of them");
   }
   if (mode === "verify" && dryRun) {
     throw new TenantOnlyUsageError("--verify writes nothing already; drop --dry-run");
@@ -127,5 +161,5 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
     throw new TenantOnlyUsageError("--media-refs takes --keep and nothing else");
   }
 
-  return { mode, db, keep, anonymize, dryRun, protect, source };
+  return { mode, db, keep, anonymize, dryRun, protect, source, mediaHostFrom, mediaHostTo, forbidHosts };
 };

@@ -11,7 +11,8 @@ import { failedChecks, runTenantOnly, type TenantOnlyResult } from "../../src/sc
  *
  *   npx ts-node scripts/fixtures/t-cherk-14-tenant-only-acceptance.ts \
  *     --server postgres://user@127.0.0.1:5433 --template <copy-of-a-stand> \
- *     --keep olavka [--out summary.json]
+ *     --keep olavka [--media-host-from shipshift.dev --media-host-to api.cherkashino.ru]
+ *     [--forbid-host upready.dev,cherkashino.com] [--out summary.json]
  *
  * Rounds:
  *   1. a fresh copy without the marker: the run must be refused (exit 2)
@@ -24,7 +25,15 @@ import { failedChecks, runTenantOnly, type TenantOnlyResult } from "../../src/sc
 
 class AcceptanceError extends Error {}
 
-type Args = { server: string; template: string; keep: string; out: string | null };
+type Args = {
+  server: string;
+  template: string;
+  keep: string;
+  out: string | null;
+  mediaHostFrom: string | null;
+  mediaHostTo: string | null;
+  forbidHosts: string[];
+};
 
 const parseArgs = (argv: string[]): Args => {
   const get = (flag: string) => {
@@ -37,7 +46,15 @@ const parseArgs = (argv: string[]): Args => {
   if (!server || !template || !keep) {
     throw new AcceptanceError("usage: --server <postgres-url-without-db> --template <db> --keep <handle> [--out <file>]");
   }
-  return { server: server.replace(/\/$/, ""), template, keep, out: get("--out") };
+  return {
+    server: server.replace(/\/$/, ""),
+    template,
+    keep,
+    out: get("--out"),
+    mediaHostFrom: get("--media-host-from"),
+    mediaHostTo: get("--media-host-to"),
+    forbidHosts: (get("--forbid-host") ?? "").split(",").filter(Boolean),
+  };
 };
 
 const summarize = (label: string, result: TenantOnlyResult, seconds: number) => {
@@ -90,6 +107,9 @@ const main = async () => {
         dryRun: false,
         protect: [args.template],
         source: null,
+        mediaHostFrom: null,
+        mediaHostTo: null,
+        forbidHosts: [],
         ...over,
       };
       const result = await runTenantOnly(client, options, sql);
@@ -113,12 +133,17 @@ const main = async () => {
     const trimmed = await makeCopy("trim");
     expect(await run(trimmed, "1. unmarked copy is refused", { keep: args.keep }), 2);
     expect(await run(trimmed, "2a. mark", { mode: "mark", source: args.template }), 0);
-    expect(await run(trimmed, "2b. dry run", { keep: args.keep, dryRun: true }), 0);
-    expect(await run(trimmed, "2c. trim", { keep: args.keep }), 0);
-    expect(await run(trimmed, "2d. verify --keep", { mode: "verify", keep: args.keep }), 0);
+    const move = { mediaHostFrom: args.mediaHostFrom, mediaHostTo: args.mediaHostTo, forbidHosts: args.forbidHosts };
+    const forbidden = [...args.forbidHosts, ...(args.mediaHostFrom ? [args.mediaHostFrom] : [])];
+    expect(await run(trimmed, "2b. dry run", { keep: args.keep, dryRun: true, ...move }), 0);
+    expect(await run(trimmed, "2c. trim", { keep: args.keep, ...move }), 0);
+    expect(await run(trimmed, "2d. verify --keep --forbid-host", { mode: "verify", keep: args.keep, forbidHosts: forbidden }), 0);
     expect(await run(trimmed, "2e. verify --anonymize fails before anonymizing", { mode: "verify", anonymize: true }), 3);
     expect(await run(trimmed, "3a. anonymize", { anonymize: true }), 0);
-    expect(await run(trimmed, "3b. verify --keep --anonymize", { mode: "verify", keep: args.keep, anonymize: true }), 0);
+    expect(
+      await run(trimmed, "3b. verify --keep --anonymize --forbid-host", { mode: "verify", keep: args.keep, anonymize: true, forbidHosts: forbidden }),
+      0,
+    );
 
     const whole = await makeCopy("anon");
     expect(await run(whole, "4a. mark", { mode: "mark", source: args.template }), 0);

@@ -4,12 +4,21 @@
 # operator; it never writes to the live database.
 #
 #   deploy/scripts/tenant-only-dump.sh <handle> [--dry-run]
+#       [--media-host-from <host> --media-host-to <host>] [--forbid-host <host>]...
+#
+#   For cherkashino.ru moving to the RU host (t-cherk-14):
+#   deploy/scripts/tenant-only-dump.sh olavka \
+#       --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
+#       --forbid-host upready.dev --forbid-host cherkashino.com
 #
 #   1. pg_dump of the live database (read-only), inside the postgres container
 #   2. pg_restore into a fresh temporary database that carries the scratch-copy
 #      marker (apps/backend/src/scripts/tenant-only/README.md, "The Marker")
-#   3. trim to <handle> in one transaction, checks run inside it, COMMIT only
-#      when every check passes
+#   3. trim to <handle> in one transaction: every URL on --media-host-from is
+#      rewritten to --media-host-to (product, variant and image URLs, branding,
+#      metadata, page bodies), shop addresses on a forbidden host are dropped,
+#      checks run inside it (no row may mention --media-host-from, a
+#      --forbid-host or a removed shop's host), COMMIT only when all pass
 #   4. --verify again in a separate session
 #   5. marker removed, pg_dump of the trimmed database to $OUT_DIR, with a
 #      sha256 sidecar; the archive is listed back with pg_restore -l
@@ -45,16 +54,34 @@ SQL_FILE="$REPO_ROOT/apps/backend/src/scripts/tenant-only/tenant-only.sql"
 log() { echo "[tenant-only-dump] $*" >&2; }
 die() { local code="$1"; shift; log "error: $*"; exit "$code"; }
 
+USAGE="usage: $(basename "$0") <handle> [--dry-run] [--media-host-from <host> --media-host-to <host>] [--forbid-host <host>]..."
+HOST_RE='^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$'
 HANDLE="${1:-}"
+[[ "$HANDLE" =~ ^[a-z0-9][a-z0-9-]*$ ]] || die 1 "$USAGE  (handle: lowercase letters, digits, dashes)"
+shift
 DRY_RUN=0
-if [[ "${2:-}" == "--dry-run" ]]; then
-  DRY_RUN=1
-elif [[ -n "${2:-}" ]]; then
-  die 1 "unknown argument \"$2\"; usage: $(basename "$0") <handle> [--dry-run]"
+MEDIA_FROM=""
+MEDIA_TO=""
+FORBID=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dry-run) DRY_RUN=1; shift ;;
+    --media-host-from) MEDIA_FROM="${2:-}"; shift 2 || die 1 "$USAGE" ;;
+    --media-host-to) MEDIA_TO="${2:-}"; shift 2 || die 1 "$USAGE" ;;
+    --forbid-host) FORBID+=("${2:-}"); shift 2 || die 1 "$USAGE" ;;
+    *) die 1 "unknown argument \"$1\"; $USAGE" ;;
+  esac
+done
+if [[ -n "$MEDIA_FROM" || -n "$MEDIA_TO" ]]; then
+  [[ -n "$MEDIA_FROM" && -n "$MEDIA_TO" ]] || die 1 "--media-host-from and --media-host-to go together"
+  [[ "$MEDIA_FROM" != "$MEDIA_TO" ]] || die 1 "--media-host-to must differ from --media-host-from"
+  FORBID+=("$MEDIA_FROM")
 fi
-if [[ ! "$HANDLE" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
-  die 1 "usage: $(basename "$0") <handle> [--dry-run]  (handle: lowercase letters, digits, dashes)"
-fi
+for host in ${MEDIA_TO:+"$MEDIA_TO"} ${FORBID[@]+"${FORBID[@]}"}; do
+  [[ "$host" =~ $HOST_RE ]] || die 1 "\"$host\" is not a lowercase host name"
+done
+# A Postgres text[] literal; the hosts were validated above, so no quoting is needed.
+HOSTS_ARRAY="{$(IFS=,; echo "${FORBID[*]+${FORBID[*]}}")}"
 [[ -f "$SQL_FILE" ]] || die 1 "$SQL_FILE is missing; run this from a checkout of upready-store"
 
 PG_CONTAINER="${PG_CONTAINER:-mt-postgres}"
@@ -128,6 +155,8 @@ LOG_FILE="$BASE.log"
 chmod 600 "$LOG_FILE"
 
 log "source $SOURCE_DB, keep \"$HANDLE\", temporary database $TMP_DB$([[ $DRY_RUN == 1 ]] && echo ', DRY RUN')"
+[[ -n "$MEDIA_FROM" ]] && log "media host //$MEDIA_FROM -> //$MEDIA_TO"
+[[ "$HOSTS_ARRAY" != "{}" ]] && log "forbidden hosts $HOSTS_ARRAY"
 
 # 1-2. Copy of the live database into a marked temporary database.
 psql_db postgres -c "CREATE DATABASE \"$TMP_DB\";" || die 4 "could not create $TMP_DB"
@@ -144,10 +173,12 @@ if [[ "${TENANT_ONLY_PG_LOCAL:-}" == "1" ]]; then rm -f "$CONTAINER_DUMP"; else 
 FINISH="SELECT pg_temp.tenant_only_assert_clean(); COMMIT;"
 [[ "$DRY_RUN" == "1" ]] && FINISH="ROLLBACK;"
 log "trimming to \"$HANDLE\"$([[ $DRY_RUN == 1 ]] && echo ' (dry run, rolled back at the end)')"
-run_sql_step "trim" "$TMP_DB" "$LOG_FILE" -v keep="$HANDLE" -v source="$SOURCE_DB" <<SQL
+run_sql_step "trim" "$TMP_DB" "$LOG_FILE" -v keep="$HANDLE" -v source="$SOURCE_DB" \
+  -v mfrom="$MEDIA_FROM" -v mto="$MEDIA_TO" -v hosts="$HOSTS_ARRAY" <<SQL
 BEGIN;
 CREATE TEMP TABLE tok_out ON COMMIT DROP AS
-  SELECT * FROM pg_temp.tenant_only_run(:'keep', false, ARRAY[:'source']);
+  SELECT * FROM pg_temp.tenant_only_run(:'keep', false, ARRAY[:'source'],
+    NULLIF(:'mfrom', ''), NULLIF(:'mto', ''), :'hosts'::text[]);
 \echo '== tables: before, removed, left'
 SELECT name AS "table", before_n AS before, before_n - after_n AS removed, after_n AS "left"
   FROM tok_out WHERE section = 'table' AND before_n <> after_n ORDER BY name;
@@ -170,9 +201,9 @@ fi
 
 # 4. Verify again, separately, read-only.
 log "verifying in a separate session"
-run_sql_step "verify" "$TMP_DB" "$LOG_FILE" -v keep="$HANDLE" <<'SQL'
+run_sql_step "verify" "$TMP_DB" "$LOG_FILE" -v keep="$HANDLE" -v hosts="$HOSTS_ARRAY" <<'SQL'
 BEGIN;
-SELECT severity, findings, check_name AS "check" FROM pg_temp.tenant_only_check(:'keep', false)
+SELECT severity, findings, check_name AS "check" FROM pg_temp.tenant_only_check(:'keep', false, :'hosts'::text[])
  WHERE NOT (severity = 'fail' AND findings = 0);
 SELECT pg_temp.tenant_only_assert_clean();
 ROLLBACK;
