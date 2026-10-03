@@ -262,6 +262,22 @@ container already on the `coolify`/`mt-private` network, or publish a temporary
 "Installing on a host" above leaves `--install-drill-timer` off by default rather than assuming it
 works unattended on this topology.
 
+## Dumping One Shop Without the Others
+
+A whole-platform dump carries every shop. When one shop moves to a server of its own,
+[`deploy/scripts/tenant-only-dump.sh`](../scripts/tenant-only-dump.sh) restores the live database
+into a marked temporary database inside `mt-postgres`, cuts every other shop out in one checked
+transaction, dumps what is left to `/opt/upready-store/backups/tenant-only/`, drops the temporary
+database and lists the shop's media for rsync. Nothing is written to `medusa_mt`.
+
+```bash
+deploy/scripts/tenant-only-dump.sh olavka --dry-run   # counts only, rolled back
+deploy/scripts/tenant-only-dump.sh olavka
+```
+
+The rules and checks are in
+[`apps/backend/src/scripts/tenant-only/README.md`](../../apps/backend/src/scripts/tenant-only/README.md).
+
 ## Local test run performed for t-cherk-36
 
 Every script above was run against this machine's own local Postgres 16 (`127.0.0.1:5433`, rule 5zb —

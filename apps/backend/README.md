@@ -244,6 +244,16 @@ A `fail` from the encryption probe means the copy was encrypted under another `I
 
 Restart the storefront after the switch. Its middleware keeps the shop behind each host in memory for a minute (`TTL_MS` in `apps/storefront/src/lib/tenant/resolve.ts`).
 
+A copy of live holds real buyers' data. Anonymize it before a stand runs on it, with [`src/scripts/tenant-only`](src/scripts/tenant-only/README.md):
+
+```bash
+npx ts-node src/scripts/tenant-only/cli.ts --db postgres://…/<copy> --mark --source <live-copy>
+npx ts-node src/scripts/tenant-only/cli.ts --db postgres://…/<copy> --anonymize
+npx ts-node src/scripts/tenant-only/cli.ts --db postgres://…/<copy> --anonymize --verify
+```
+
+The same tool keeps one shop in a copy (`--keep <handle>`), which is how a shop moves to a server of its own through [`deploy/scripts/tenant-only-dump.sh`](../../deploy/scripts/tenant-only-dump.sh). An anonymized copy has no passwords left, so give the stand its logins back with `ensure-accounts.js` (step 4 of the boot above).
+
 ## What is Medusa?
 
 Medusa is a set of commerce modules and tools for building commerce applications without reinventing core commerce logic. The modules are open source, published on npm, and can be composed into stores, marketplaces, or anything else that needs commerce primitives.
