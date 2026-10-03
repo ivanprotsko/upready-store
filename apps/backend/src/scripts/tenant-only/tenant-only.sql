@@ -1657,7 +1657,7 @@ BEGIN
   LOOP
     check_name := format('%s.%s holds a real e-mail address', r.tbl, r.col); severity := 'fail'; findings := r.n; RETURN NEXT;
   END LOOP;
-  check_name := 'distinct e-mail addresses left (all @example.invalid)'; severity := 'info';
+  check_name := 'distinct e-mail addresses in the database'; severity := 'info';
   SELECT count(DISTINCT e.email) INTO findings FROM tok_anon_check_emails e; RETURN NEXT;
 
   -- IPv4 addresses anywhere.
