@@ -760,6 +760,20 @@ export const PutTenantPochtaSchema = z.strictObject({
 export type PutTenantPochtaBody = z.infer<typeof PutTenantPochtaSchema>;
 
 /**
+ * `PUT /tenants/tribute` (t-cherk-22) — the shop's Tribute Shop API key.
+ *
+ * ONE secret, unlike Robokassa's two password pairs: the same key both calls
+ * `POST /shop/orders` and signs the webhook body. Absent `api_key` keeps the
+ * stored one, same "re-save without re-typing" rule as every other slot.
+ */
+export const PutTenantTributeSchema = z.strictObject({
+  api_key: z.string().max(500).optional().transform((value) => (value && value.trim() ? value.trim() : undefined)),
+  shop_id: z.string().max(128).optional().transform((value) => (value && value.trim() ? value.trim() : undefined)),
+  is_enabled: z.boolean().optional(),
+});
+export type PutTenantTributeBody = z.infer<typeof PutTenantTributeSchema>;
+
+/**
  * `PUT /tenants/telegram-bot` (t-2026-10-02-telegram-auth) — the shop's own
  * Telegram bot, for the Login Widget and the Mini App's `initData`.
  *

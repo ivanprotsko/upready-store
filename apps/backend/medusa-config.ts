@@ -300,6 +300,11 @@ module.exports = defineConfig({
             resolve: "./src/modules/payment-robokassa",
             id: "robokassa",
           },
+          {
+            // Tribute, same per-tenant-row pattern (t-cherk-22).
+            resolve: "./src/modules/payment-tribute",
+            id: "tribute",
+          },
         ],
       },
     },

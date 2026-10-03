@@ -21,6 +21,7 @@
 
 export type TenantPaymentMethods = {
   robokassa: boolean;
+  tribute: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
   demo: boolean;
@@ -47,13 +48,16 @@ export const manualPaymentMethods = (
 
 export const resolveTenantPaymentMethods = (params: {
   robokassaEnabled: boolean;
+  tributeEnabled: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
 }): TenantPaymentMethods => {
-  const hasRealMethod = params.robokassaEnabled || params.manualCrypto || params.manualManager;
+  const hasRealMethod =
+    params.robokassaEnabled || params.tributeEnabled || params.manualCrypto || params.manualManager;
 
   return {
     robokassa: params.robokassaEnabled,
+    tribute: params.tributeEnabled,
     manualCrypto: params.manualCrypto,
     manualManager: params.manualManager,
     demo: !hasRealMethod,

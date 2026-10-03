@@ -38,6 +38,11 @@ import Tenant from "./tenant";
  * directory answer 401 until the cabinet's user key rides along as
  * `X-User-Authorization`, so both are stored and the key is optional.
  *
+ * `tribute` is the shop's Tribute Shop API key, `{ api_key }` (t-cherk-22). ONE
+ * value: the same key authenticates `POST /shop/orders` (`Api-Key` header) and
+ * signs the webhook body (`trbt-signature`, HMAC-SHA256 of the raw body under
+ * this same key) — there is no separate webhook secret to store.
+ *
  * `telegram` is the shop's OWN Telegram bot, `{ username, token }`
  * (t-2026-10-02-telegram-auth). One bot per shop, the way the Login Widget and
  * Mini App `initData` both need to be verified against: the bot token is the
@@ -62,6 +67,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "cdek",
   "apiship",
   "pochta",
+  "tribute",
   "telegram",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];

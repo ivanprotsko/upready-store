@@ -58,14 +58,14 @@ export default function TransferRequestForm() {
         </form>
       </div>
       {!state.success && state.error && (
-        <Text className="text-base-regular text-rose-500 text-end">
+        <Text className="text-base-regular text-ui-fg-error text-end">
           {getErrorMessage(state.error)}
         </Text>
       )}
       {showSuccess && state.order && (
         <div className="flex justify-between p-4 bg-ui-bg-subtle shadow-borders-base w-full self-stretch items-center">
           <div className="flex gap-x-2 items-center">
-            <CheckCircleMiniSolid className="w-4 h-4 text-emerald-500" />
+            <CheckCircleMiniSolid className="w-4 h-4 text-ui-tag-green-text" />
             <div className="flex flex-col gap-y-1">
               <Text className="text-medim-pl text-ui-fg-base">
                 {t("transferRequested", { orderId: state.order.id })}
