@@ -1,0 +1,92 @@
+# The RU host's own ingress (t-cherk-25): this host has no Coolify, so this
+# file stands up a bare traefik v3.6 that speaks the SAME contract
+# deploy/compose.mt.yml and deploy/compose.stand.yml already assume on
+# contabo — read their own header comments first, this file changes neither.
+#
+# Measured on contabo (deploy/compose.stand.yml's own header, re-stated here
+# because this file RECREATES that contract rather than joining it):
+#   entrypoints        http (:80), https (:443)
+#   resolver            letsencrypt, ACME HTTP-01 on the http entrypoint
+#   docker provider      exposedbydefault=false — a container routes only
+#                        with explicit traefik.* labels, never by accident
+#   file provider        a directory deploy/scripts/tenant-ingress-sync.sh
+#                        writes into, for tenant hosts added after this
+#                        stack is already up (deploy/compose.mt.yml's own
+#                        `ingress` service writes it; unchanged by this file)
+#
+# Network `coolify` is NOT external here: it IS created here, by exact name,
+# so that deploy/compose.mt.yml's own `coolify: external: true` attaches to
+# THIS traefik without a single edit to that file. Every other rule
+# compose.mt.yml and compose.stand.yml state about a bare service name never
+# being a safe address (always a CONTAINER name, never "postgres") is
+# unaffected — this file adds no service any other compose file resolves by
+# name.
+#
+# Two bind-mounted host directories, not Docker named volumes, because the
+# mt stack's own `ingress` service (a SEPARATE `docker compose -p mt`
+# project) has to write into the exact directory this traefik reads, and two
+# separate compose projects cannot share one one project's named volume
+# without external:true gymnastics that gain nothing a host path doesn't
+# already give for free — deploy/compose.mt.yml already reads
+# TRAEFIK_DYNAMIC_HOST_PATH as a host path for exactly this reason on
+# contabo (/data/coolify/proxy/dynamic there). Point that same env var at
+# RU_TRAEFIK_DYNAMIC_DIR's value in the mt stack's own env file.
+#
+#   docker compose -p ru-host -f deploy/compose.ru-host.yml up -d
+#   docker compose -p mt -f deploy/compose.mt.yml --env-file deploy/mt/<ru-instance>.env up -d --build
+#
+# Ports: traefik is the ONLY container in either compose file that publishes
+# a host port. Every other service reaches the world through traefik's
+# labels alone — Docker's own iptables rules bypass ufw, so a port with no
+# `ports:` entry here is unreachable from outside the host regardless of any
+# firewall rule (deploy/RUNBOOK-RU.md repeats this before the first boot).
+services:
+  traefik:
+    image: traefik:v3.6
+    container_name: ru-host-traefik
+    restart: unless-stopped
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=coolify
+      - --providers.file.directory=/traefik-dynamic
+      - --providers.file.watch=true
+      - --entrypoints.http.address=:80
+      - --entrypoints.https.address=:443
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http
+      - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --log.level=${TRAEFIK_LOG_LEVEL:-INFO}
+      - --accesslog=false
+      - --api.dashboard=false
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${RU_TRAEFIK_DYNAMIC_DIR:-/opt/upready-store/ru-host/traefik/dynamic}:/traefik-dynamic
+      - ${RU_TRAEFIK_ACME_DIR:-/opt/upready-store/ru-host/traefik/acme}:/letsencrypt
+    networks:
+      - coolify
+    healthcheck:
+      # traefik has no /health endpoint by default; the ping entrypoint would
+      # need its own --entrypoints block, which this file does not open to
+      # the world. A TCP check on the http entrypoint is what deploy-instance.sh
+      # already needs before step 6's own HTTPS checks, so no extra traefik
+      # config is worth adding for a healthcheck alone.
+      test: ["CMD", "wget", "-qO-", "--spider", "http://127.0.0.1:80"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+        reservations:
+          memory: 64M
+
+networks:
+  coolify:
+    name: coolify

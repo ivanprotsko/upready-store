@@ -1,0 +1,78 @@
+{
+  "instance": "ru",
+  "label": "RU — cherkashino.ru on Timeweb (Moscow), operator subject to 152-FZ",
+  "$schema-note": "Read by deploy/scripts/instance-check.mjs. docs/instances/RULES.md is the prose this file enforces; edit both together.",
+  "domains": {
+    "primary": ["cherkashino.ru"],
+    "aliases": ["www.cherkashino.ru"]
+  },
+  "dataResidency": {
+    "customerDatabase": "RU host only (Timeweb, Moscow) — 152-FZ Art. 18(5)",
+    "primaryBackup": "RU host local disk, deploy/backup/ tier 1",
+    "secondaryBackup": "S3 Timeweb Cloud (RU region) only — never the Contabo host, never an EU/US bucket",
+    "mediaUploads": "RU host only"
+  },
+  "env": {
+    "forbiddenNames": [
+      {
+        "name": "RESEND_API_KEY",
+        "reason": "Resend is a US mail provider; RU customer data has no 152-FZ transfer basis to send it there"
+      },
+      {
+        "name": "NEXT_PUBLIC_GA_MEASUREMENT_ID",
+        "reason": "Google Analytics 4 sends visitor data to Google (US); forbidden on RU per Ivan's order"
+      },
+      {
+        "name": "GA_MEASUREMENT_ID",
+        "reason": "same as NEXT_PUBLIC_GA_MEASUREMENT_ID — the single-store storefront build-time fallback"
+      }
+    ],
+    "forbiddenPrefixes": [
+      {
+        "prefix": "TRIBUTE_",
+        "reason": "Tribute is INTL-only (Wallet Pay, crypto rails, non-RU payment entity) — forbidden on RU"
+      },
+      {
+        "prefix": "X402_",
+        "reason": "the x402 crypto payment protocol (t-2026-10-03-33) is INTL-only — forbidden on RU"
+      },
+      {
+        "prefix": "CRYPTO_WALLET_",
+        "reason": "259-FZ Art. 14(5) forbids a Russian tax resident or company from accepting cryptocurrency for goods"
+      }
+    ]
+  },
+  "providers": {
+    "payment": {
+      "allowed": ["robokassa"],
+      "forbidden": ["tribute"]
+    },
+    "auth": {
+      "allowed": ["emailpass", "yandex", "telegram"],
+      "forbidden": []
+    },
+    "fulfillment": {
+      "allowed": ["cdek", "pochta", "wildberries", "wildberries_write", "ozon", "apiship"],
+      "forbidden": []
+    },
+    "notification": {
+      "allowed": ["smtp-own-relay", "telegram-bot"],
+      "forbidden": ["resend"]
+    },
+    "analytics": {
+      "allowed": ["yandex_metrica"],
+      "forbidden": ["ga4"]
+    }
+  },
+  "backup": {
+    "destinations": ["RU host local disk", "S3 Timeweb Cloud (RU region)"],
+    "crossBorderCopy": "forbidden"
+  },
+  "mailRelay": {
+    "description": "self-hosted outbound-only relay on the RU host (same shape as deploy/mt/MAIL.md's mail service), or another provider whose own processing stays inside Russia"
+  },
+  "notes": [
+    "Telegram sign-in and the shop bot are allowed on RU, but must be named — including that Telegram's operating entity is outside Russia — in the privacy policy, with a consent separate from the general personal-data consent (docs/instances/RULES.md §2). instance-check.mjs cannot verify page text, so this is a paper requirement, not a check here.",
+    "Stands and local development against this instance's data must use anonymised or synthetic data only (docs/instances/RULES.md §3)."
+  ]
+}

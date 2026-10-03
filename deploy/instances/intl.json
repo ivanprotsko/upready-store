@@ -1,0 +1,53 @@
+{
+  "instance": "intl",
+  "label": "INTL — cherkashino.com and every other shop, on Contabo (Germany), treated as subject to the GDPR and German law",
+  "$schema-note": "Read by deploy/scripts/instance-check.mjs. docs/instances/RULES.md is the prose this file enforces; edit both together.",
+  "domains": {
+    "primary": ["cherkashino.com"],
+    "aliases": ["www.cherkashino.com"],
+    "note": "every other tenant this deployment serves (the mt stack's own shops) is also INTL — this is the general, not the RU, instance"
+  },
+  "dataResidency": {
+    "customerDatabase": "EU host only (Contabo, Germany)",
+    "primaryBackup": "Contabo host local disk, deploy/backup/ tier 1",
+    "secondaryBackup": "an EU-region S3-compatible bucket (Selectel or similar) — never the RU host",
+    "mediaUploads": "Contabo host only"
+  },
+  "env": {
+    "forbiddenNames": [],
+    "forbiddenPrefixes": []
+  },
+  "providers": {
+    "payment": {
+      "allowed": ["tribute"],
+      "forbidden": ["robokassa"]
+    },
+    "auth": {
+      "allowed": ["emailpass", "yandex", "telegram"],
+      "forbidden": []
+    },
+    "fulfillment": {
+      "allowed": [],
+      "forbidden": ["cdek", "pochta", "wildberries", "wildberries_write", "ozon", "apiship"]
+    },
+    "notification": {
+      "allowed": ["smtp-own-relay", "telegram-bot", "resend"],
+      "forbidden": []
+    },
+    "analytics": {
+      "allowed": ["ga4", "yandex_metrica"],
+      "forbidden": []
+    }
+  },
+  "backup": {
+    "destinations": ["Contabo host local disk", "EU-region S3-compatible bucket"],
+    "crossBorderCopy": "forbidden"
+  },
+  "mailRelay": {
+    "description": "self-hosted outbound-only relay on the Contabo host (deploy/mt/MAIL.md's mail service), or a third-party mail API with a GDPR-compliant DPA / SCC on file (e.g. Resend)"
+  },
+  "notes": [
+    "Robokassa, CDEK, Pochta Russia, Wildberries and Ozon all exist to serve Russian buyers and sellers of record; a tenant on the INTL database configuring one of them is a sign the wrong tenant landed on the wrong instance (docs/instances/RULES.md §2), not a legitimate use.",
+    "x402 (t-2026-10-03-33) and the crypto intermediary company (docs/instances/RULES.md, Ivan's words) are planned for this instance but not implemented by this task; forbidden lists here are not yet extended to their env keys because those keys do not exist in code yet."
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "$note": "Data-processor registry, t-2026-10-03-23. Every third party that can receive personal or order data from upready-store, what it gets, why, which instance(s) may use it, and the legal basis for sending it data. docs/instances/RULES.md §2 is the prose this file backs. apps/backend/src/scripts/__tests__/processors-registry.unit.spec.ts fails CI when a payment-* or auth-* module under apps/backend/src/modules/ has no matching entry here (integrationModules below is what that test reads).",
+  "processors": [
+    {
+      "service": "Robokassa",
+      "country": "Russia",
+      "whatItReceives": "order amount, order id, buyer email/phone for the payment page, and the 54-FZ receipt line items (name, quantity, price, tax)",
+      "why": "card and SBP payment processing for RU-instance orders",
+      "instances": ["ru"],
+      "legalBasis": "contract performance (processing the buyer's own order) — 152-FZ, no cross-border transfer",
+      "integrationModules": ["payment-robokassa"]
+    },
+    {
+      "service": "Tribute",
+      "country": "international (Telegram-adjacent payment platform; not Russia)",
+      "whatItReceives": "order amount, currency, title/description, success/fail URLs, and the webhook's own transaction identifiers",
+      "why": "card, Wallet Pay (TON/USDT/BTC) and SBP payment processing for INTL-instance orders",
+      "instances": ["intl"],
+      "legalBasis": "contract performance, under a transfer basis the shop owner's own Tribute merchant agreement provides — never used on the RU instance (docs/instances/RULES.md §2)",
+      "integrationModules": ["payment-tribute"]
+    },
+    {
+      "service": "Yandex ID",
+      "country": "Russia",
+      "whatItReceives": "the buyer's Yandex account id, email and display name, returned by the OAuth callback",
+      "why": "\"Sign in with Yandex ID\" for buyers, on both instances",
+      "instances": ["ru", "intl"],
+      "legalBasis": "the buyer's own consent, given by starting the OAuth flow — 152-FZ, no cross-border transfer for the RU instance's own buyers",
+      "integrationModules": ["auth-yandex"]
+    },
+    {
+      "service": "Telegram",
+      "country": "international (Telegram's operating entity is outside Russia)",
+      "whatItReceives": "the buyer's Telegram user id, username and display name (sign-in and Mini App), and order-status messages sent to the owner or the buyer by the shop bot",
+      "why": "\"Sign in with Telegram\", the Mini App, shop-bot order notifications and the owner's /manager channel, on both instances",
+      "instances": ["ru", "intl"],
+      "legalBasis": "the buyer's own consent, given by using Telegram sign-in — on the RU instance this requires a consent SEPARATE from the general personal-data consent, since the recipient is outside Russia (docs/instances/RULES.md §2)",
+      "integrationModules": ["auth-telegram"]
+    },
+    {
+      "service": "Outbound mail relay (self-hosted, SMTP_HOST)",
+      "country": "same country as the instance's own host (RU host for ru, Contabo/Germany for intl)",
+      "whatItReceives": "the buyer's email address and the transactional letter's content (order confirmation, password reset)",
+      "why": "transactional email, t08-order-notifications",
+      "instances": ["ru", "intl"],
+      "legalBasis": "contract performance — no cross-border transfer, since the relay runs on the instance's own host",
+      "integrationModules": ["smtp-notification"]
+    },
+    {
+      "service": "CDEK",
+      "country": "Russia",
+      "whatItReceives": "the buyer's name, phone, delivery address or pickup point, and the parcel's declared contents and value",
+      "why": "fulfillment: courier and pickup-point delivery quotes and labels for RU-instance orders",
+      "instances": ["ru"],
+      "legalBasis": "contract performance (delivering the buyer's own order) — 152-FZ, no cross-border transfer",
+      "integrationModules": ["cdek-fulfillment"]
+    },
+    {
+      "service": "Pochta Rossii (Russian Post)",
+      "country": "Russia",
+      "whatItReceives": "the buyer's name, phone, delivery address or pickup point, and the parcel's declared contents and value",
+      "why": "fulfillment: postal delivery quotes and labels for RU-instance orders",
+      "instances": ["ru"],
+      "legalBasis": "contract performance (delivering the buyer's own order) — 152-FZ, no cross-border transfer",
+      "integrationModules": ["pochta-fulfillment"]
+    },
+    {
+      "service": "ApiShip",
+      "country": "Russia",
+      "whatItReceives": "the buyer's delivery address or pickup point, used to resolve rates across the RU carriers it aggregates",
+      "why": "fulfillment: a single rate-and-label API over CDEK, Pochta Rossii and other RU carriers",
+      "instances": ["ru"],
+      "legalBasis": "contract performance (delivering the buyer's own order) — 152-FZ, no cross-border transfer",
+      "integrationModules": []
+    },
+    {
+      "service": "Wildberries Seller API",
+      "country": "Russia",
+      "whatItReceives": "nothing from a buyer directly — the shop's own catalog, price and stock rows are read back from Wildberries into the mirror tables this module owns",
+      "why": "read-only sync of the shop's existing Wildberries listings (products, prices, stock, orders, feedback) into the admin panel",
+      "instances": ["ru"],
+      "legalBasis": "the shop owner's own Wildberries seller account and API key — no buyer personal data leaves upready-store for this integration",
+      "integrationModules": ["wb", "wb-write"]
+    },
+    {
+      "service": "Ozon Seller API",
+      "country": "Russia",
+      "whatItReceives": "the shop's own catalog, price and stock rows, and order data for orders placed on Ozon's own marketplace",
+      "why": "marketplace sync of the shop's existing Ozon listings and orders into the admin panel",
+      "instances": ["ru"],
+      "legalBasis": "the shop owner's own Ozon seller account and API key",
+      "integrationModules": ["ozon"]
+    },
+    {
+      "service": "Google Analytics 4",
+      "country": "United States",
+      "whatItReceives": "storefront visitor and session data (pageviews, events) for whichever tenant has saved a GA4 measurement id",
+      "why": "storefront traffic analytics, tenant-configured (t17-analytics)",
+      "instances": ["intl"],
+      "legalBasis": "forbidden on the RU instance (docs/instances/RULES.md §2); on INTL, the tenant's own consent banner and a GDPR-compliant configuration (consent mode / IP anonymisation) are the shop owner's responsibility, not this module's",
+      "integrationModules": []
+    },
+    {
+      "service": "Yandex Metrica",
+      "country": "Russia",
+      "whatItReceives": "storefront visitor and session data (pageviews, events) for whichever tenant has saved a counter id",
+      "why": "storefront traffic analytics, tenant-configured (t17-analytics); the only analytics counter allowed on the RU instance",
+      "instances": ["ru", "intl"],
+      "legalBasis": "contract performance / tenant's own configuration — works outside Russia too, per the plan's own note",
+      "integrationModules": []
+    }
+  ]
+}
