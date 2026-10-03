@@ -349,6 +349,9 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
       return { items: [], total: 0 };
     }
     const region = await resolveRegion();
+    // `categories: { id }` is the filter Medusa's own `/store/products` applies
+    // for `category_id`; the generated `RemoteQueryFilters<"product">` types it
+    // as `undefined`, so `medusa build` needs the cast.
     const { data: products, metadata } = await query.graph({
       entity: "product",
       fields: ["id", "title", "handle", "thumbnail", "variants.prices.amount", "variants.prices.currency_code"],
@@ -358,7 +361,7 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
         ...(categoryId ? { categories: { id: categoryId } } : {}),
       },
       pagination: { skip: offset, take: limit },
-    });
+    } as never);
 
     return {
       items: (products as RawProduct[]).map((product) => toShopProductSummary(product, region.currency_code)),
