@@ -89,7 +89,7 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
 
   return (
     <>
-      <div className="h-px bg-ui-border-base w-full" />
+      <div className="h-px bg-ui-border-base w-full first:hidden" />
 
       <div className="flex flex-col gap-y-1">
         {showForm ? (

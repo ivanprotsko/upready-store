@@ -59,7 +59,10 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             defaultValue={defaultValue}
             aria-label={resolvedPlaceholder}
             {...props}
-            className="appearance-none flex-1 bg-transparent border-none px-2 py-1 transition-colors duration-150 outline-none text-ui-fg-base focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+            // `min-w-0`: a select's own minimum width is its longest option; the
+            // checkout's region list made it 391px and pushed the page 18px past a
+            // 390px phone (measured on the stand, batch 6 part 1).
+            className="appearance-none min-w-0 flex-1 bg-transparent border-none px-2 py-1 transition-colors duration-150 outline-none text-ui-fg-base focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
           >
             <option disabled value="">
               {resolvedPlaceholder}

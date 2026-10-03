@@ -100,7 +100,7 @@ export default function CheckoutAddressRow({
 
   return (
     <>
-      <div className="h-px bg-ui-border-base w-full" />
+      <div className="h-px bg-ui-border-base w-full first:hidden" />
 
       {isPickup ? (
         <button
