@@ -7,6 +7,7 @@ import type TenantModuleService from "../../../modules/tenant/service";
 import { deleteTenantSecretSlot, writeTenantSecretSlot } from "../../../tenant-secrets/slot";
 import { maskTelegramBotSettings, readTelegramBotSecret } from "../../../tenant-secrets/telegram";
 import { createBotApi, TelegramBotApiError } from "../../../telegram/bot-api";
+import { managerLinkCode } from "../../../shop-bot/webhook-secret";
 import { getTenantScope } from "../tenant-scope";
 import type { PutTenantTelegramBotBody } from "../validators";
 
@@ -29,14 +30,33 @@ import type { PutTenantTelegramBotBody } from "../validators";
  * `setChatMenuButton` or registers a webhook.
  */
 
-const view = async (req: AuthenticatedMedusaRequest) => {
+/**
+ * `bot.webhook_connected` / `manager_link` (t-cherk-23): read straight off the
+ * slot's own `webhook_secret` and `manager_chat_id`, never a separate flag, so
+ * the two routes that write the slot (this file's `PUT`/`DELETE` and
+ * `webhook/route.ts`'s `POST`/`DELETE`) cannot drift from what the view shows.
+ * `manager_link` is built, never stored: the code inside it is derived from
+ * `webhook_secret` (`managerLinkCode`), so it rotates with every
+ * re-provision without a second column to keep in step.
+ */
+export const view = async (req: AuthenticatedMedusaRequest) => {
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const secret = await readTelegramBotSecret(pg, tenant.id, { includeDisabled: true });
+  const credentials = secret?.credentials;
+  const webhookSecret = credentials?.webhook_secret;
   return {
     provider: "telegram" as const,
     label: "Telegram",
     settings: secret ? maskTelegramBotSettings(secret) : null,
+    bot: {
+      webhook_connected: Boolean(webhookSecret),
+      manager_linked: Boolean(credentials?.manager_chat_id),
+      manager_link:
+        webhookSecret && credentials?.username
+          ? `https://t.me/${credentials.username}?start=mgr_${managerLinkCode(webhookSecret)}`
+          : null,
+    },
   };
 };
 
@@ -74,6 +94,10 @@ export const PUT = async (
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const tenantModule = req.scope.resolve<TenantModuleService>(TENANT_MODULE);
 
+  // A full replace, not a merge: a new token drops `webhook_secret` and
+  // `manager_chat_id` on purpose (t-cherk-23) — a replaced bot must be
+  // re-connected through «Подключить бота», never keep the old bot's webhook
+  // pointed at Telegram under a token that no longer owns it.
   await writeTenantSecretSlot(pg, tenantModule, {
     tenantId: tenant.id,
     provider: "telegram",

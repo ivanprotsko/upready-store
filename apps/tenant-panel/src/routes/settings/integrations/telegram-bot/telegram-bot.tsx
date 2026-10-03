@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../../components/layout/pages"
 import {
+  useConnectTelegramBotWebhook,
   useDeleteTelegramBot,
+  useDisconnectTelegramBotWebhook,
   useSaveTelegramBot,
   useTelegramBot,
 } from "../../../../hooks/api/telegram-bot"
@@ -15,14 +17,20 @@ import {
  *
  * WHAT THIS PAGE DOES NOT DO, said on the screen itself: it does not put the
  * bot's domain on the Login Widget's allow-list, and it does not touch the
- * bot's menu button or webhooks. Those are @BotFather steps only Ivan can do
- * (`/setdomain`) — the Bot API has no endpoint for either, so no amount of
- * code here can do them (rule 17a: a page that stayed silent about that would
- * read as "Telegram sign-in is live" before it actually can be).
+ * bot's menu button. That is an @BotFather step only Ivan can do
+ * (`/setdomain`) — the Bot API has no endpoint for it, so no amount of code
+ * here can do it (rule 17a: a page that stayed silent about that would read
+ * as "Telegram sign-in is live" before it actually can be).
  *
  * Saving VERIFIES the token (the backend calls Telegram's `getMe`) before the
  * row is written, so a typo is rejected on this screen, not at a buyer's
  * sign-in click.
+ *
+ * THE WEBHOOK BLOCK BELOW (t-cherk-23, shop bot phase 1) is this page's own
+ * doing, unlike the menu button above: once a bot is saved, «Подключить
+ * бота» registers the shop's webhook with Telegram and shows the manager
+ * deep link; «Отключить» tears it down. Neither call touches the menu
+ * button `setChatMenuButton` owns.
  */
 export const TelegramBotIntegration = () => {
   const { t } = useTranslation()
@@ -35,12 +43,18 @@ export const TelegramBotIntegration = () => {
   const [token, setToken] = useState("")
   const { mutateAsync: save, isPending: isSaving } = useSaveTelegramBot()
   const { mutateAsync: remove, isPending: isRemoving } = useDeleteTelegramBot()
+  const { mutateAsync: connectWebhook, isPending: isConnecting } = useConnectTelegramBotWebhook()
+  const { mutateAsync: disconnectWebhook, isPending: isDisconnecting } =
+    useDisconnectTelegramBotWebhook()
 
   if (isError) {
     throw error
   }
 
-  const busy = isPending || isSaving || isRemoving
+  const bot = telegramBot?.bot
+  const webhookConnected = bot?.webhook_connected ?? false
+
+  const busy = isPending || isSaving || isRemoving || isConnecting || isDisconnecting
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -81,6 +95,33 @@ export const TelegramBotIntegration = () => {
       toast.success(t("integrations.telegramBot.removed"))
     } catch (removeError) {
       toast.error(removeError instanceof Error ? removeError.message : String(removeError))
+    }
+  }
+
+  const handleConnectWebhook = async () => {
+    try {
+      await connectWebhook()
+      toast.success(t("integrations.telegramBot.connected"))
+    } catch (connectError) {
+      toast.error(connectError instanceof Error ? connectError.message : String(connectError))
+    }
+  }
+
+  const handleDisconnectWebhook = async () => {
+    const confirmed = await prompt({
+      title: t("integrations.telegramBot.disconnectTitle"),
+      description: t("integrations.telegramBot.disconnectDescription"),
+      confirmText: t("integrations.telegramBot.disconnect"),
+      cancelText: t("integrations.telegramBot.cancel"),
+    })
+    if (!confirmed) {
+      return
+    }
+    try {
+      await disconnectWebhook()
+      toast.success(t("integrations.telegramBot.disconnected"))
+    } catch (disconnectError) {
+      toast.error(disconnectError instanceof Error ? disconnectError.message : String(disconnectError))
     }
   }
 
@@ -182,6 +223,76 @@ export const TelegramBotIntegration = () => {
             ) : null}
           </div>
         </form>
+
+        {stored ? (
+          <div className="flex flex-col gap-y-4 px-6 py-6" data-testid="telegram-bot-webhook">
+            <div className="flex items-center justify-between">
+              <Heading level="h2">{t("integrations.telegramBot.webhookTitle")}</Heading>
+              {isPending ? null : (
+                <Badge
+                  size="2xsmall"
+                  color={webhookConnected ? "green" : "orange"}
+                  data-testid="telegram-bot-webhook-state"
+                >
+                  {webhookConnected
+                    ? t("integrations.telegramBot.webhookConnected")
+                    : t("integrations.telegramBot.webhookNotConnected")}
+                </Badge>
+              )}
+            </div>
+
+            <div className="flex items-center gap-x-2">
+              <Button
+                type="button"
+                size="small"
+                isLoading={isConnecting}
+                disabled={busy}
+                onClick={handleConnectWebhook}
+                data-testid="telegram-bot-webhook-connect"
+              >
+                {webhookConnected
+                  ? t("integrations.telegramBot.reconnect")
+                  : t("integrations.telegramBot.connect")}
+              </Button>
+              {webhookConnected ? (
+                <Button
+                  type="button"
+                  size="small"
+                  variant="danger"
+                  isLoading={isDisconnecting}
+                  disabled={busy}
+                  onClick={handleDisconnectWebhook}
+                  data-testid="telegram-bot-webhook-disconnect"
+                >
+                  {t("integrations.telegramBot.disconnect")}
+                </Button>
+              ) : null}
+            </div>
+
+            {webhookConnected && bot?.manager_link ? (
+              <div className="flex flex-col gap-y-2" data-testid="telegram-bot-manager-link">
+                <Label>{t("integrations.telegramBot.managerLinkLabel")}</Label>
+                <a
+                  href={bot.manager_link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-ui-fg-interactive"
+                  data-testid="telegram-bot-manager-link-href"
+                >
+                  {bot.manager_link}
+                </a>
+                <Text className="text-ui-fg-subtle" size="small">
+                  {t("integrations.telegramBot.managerLinkHint")}
+                </Text>
+                {bot.manager_linked ? (
+                  <Badge size="2xsmall" color="green" data-testid="telegram-bot-manager-state">
+                    {t("integrations.telegramBot.managerLinked")}
+                  </Badge>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </Container>
     </SingleColumnPage>
   )

@@ -31,6 +31,16 @@ export type TelegramBotResponse = {
   label: string
   /** `null` until the owner saves a bot. */
   settings: TelegramBotSettings | null
+  /**
+   * The shop bot's webhook, phase 1 (t-cherk-23). `manager_link` is a `t.me`
+   * deep link that registers whichever chat opens it as the `/manager`
+   * destination; `null` until the webhook is connected.
+   */
+  bot: {
+    webhook_connected: boolean
+    manager_linked: boolean
+    manager_link: string | null
+  }
 }
 
 export type PutTelegramBotBody = { username: string; token: string }
@@ -76,6 +86,39 @@ export const useDeleteTelegramBot = (
   return useMutation({
     mutationFn: () =>
       sdk.client.fetch<TelegramBotResponse>("/tenants/telegram-bot", { method: "DELETE" }),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: telegramBotQueryKeys.all })
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
+// The bot's webhook (t-cherk-23): «Подключить бота» / «Переподключить» and
+// «Отключить». Separate mutations from the token save above, so a flaky
+// Telegram call never forces the owner to re-type the token — only this
+// pair retries.
+
+export const useConnectTelegramBotWebhook = (
+  options?: UseMutationOptions<TelegramBotResponse, FetchError, void>
+) => {
+  return useMutation({
+    mutationFn: () =>
+      sdk.client.fetch<TelegramBotResponse>("/tenants/telegram-bot/webhook", { method: "POST" }),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: telegramBotQueryKeys.all })
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
+export const useDisconnectTelegramBotWebhook = (
+  options?: UseMutationOptions<TelegramBotResponse, FetchError, void>
+) => {
+  return useMutation({
+    mutationFn: () =>
+      sdk.client.fetch<TelegramBotResponse>("/tenants/telegram-bot/webhook", { method: "DELETE" }),
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: telegramBotQueryKeys.all })
       options?.onSuccess?.(data, variables, context)
