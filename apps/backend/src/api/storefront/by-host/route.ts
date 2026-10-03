@@ -10,6 +10,7 @@ import {
   manualPaymentPublicView,
   readManualPayment,
 } from "../../tenants/payment-settings/manual/manual-payment";
+import { paymentPreNoticePublicView, readPaymentPreNotice } from "../../../tenant-legal/payment-pre-notice";
 import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
 import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
 import { manualPaymentMethods, resolveTenantPaymentMethods } from "../../../tenant-secrets/payment-methods";
@@ -259,6 +260,11 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     // checkout's own provider list off the same resolver; this copy is for
     // the honest demo-card label, which needs the fact and not just the list.
     payment_methods: paymentMethods,
+    // Rule 5zd (t-2026-10-03-32): the pre-payment notice's per-method fields,
+    // owner-edited in «Настройки → Оплата». Nothing here is secret.
+    payment_pre_notice: paymentPreNoticePublicView(
+      readPaymentPreNotice(tenant.metadata as Record<string, unknown> | null),
+    ),
     settings,
     home,
     // t06-locale-currency: absent (null) for a tenant that never saved

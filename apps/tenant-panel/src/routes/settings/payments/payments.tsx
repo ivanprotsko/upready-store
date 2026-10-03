@@ -11,6 +11,7 @@ import {
 import { CrossLink } from "../integrations/components/cross-link"
 import { UnreadableSecretAlert } from "../integrations/components/unreadable-secret-alert"
 import { ManualPaymentCard } from "./components/manual-payment-card"
+import { PaymentPreNoticeCard } from "./components/payment-pre-notice-card"
 import { RobokassaBehaviourFields } from "./components/robokassa-behaviour-fields"
 import { useRobokassaForm } from "./use-robokassa-form"
 
@@ -192,6 +193,9 @@ export const PaymentSettings = () => {
 
       {/* olavka-payments: crypto wallets and manager contacts on the manual provider. */}
       <ManualPaymentCard />
+
+      {/* Rule 5zd (t-2026-10-03-32): the pre-payment notice's per-method fields. */}
+      <PaymentPreNoticeCard />
     </SingleColumnPage>
   )
 }

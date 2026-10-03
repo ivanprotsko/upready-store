@@ -60,3 +60,45 @@ export const listCartPaymentMethods = async (regionId: string) => {
       return null
     })
 }
+
+/**
+ * The factor to multiply the cart's own total by, for rule 5zd's pre-payment
+ * notice («≈ <сумма>»). `null` when the backend has no reliable,
+ * already-stamped rate to use (`tenant-legal/charge-estimate.ts`): the
+ * notice then names the rate source with no sum, never a guess.
+ *
+ * Returning a FACTOR rather than a backend-computed amount is the fix for a
+ * lead review (t-2026-10-03-32): the first version summed the cart's line
+ * items on the backend, which skips shipping, a promotion and tax, so the
+ * «≈» read lower than the real charge. The caller already holds the cart's
+ * real total (`cart.total`, the same number `CheckoutTotals` renders) and
+ * multiplies it by this factor itself.
+ *
+ * Called directly from the client (`CheckoutPaymentSection`, a server action,
+ * the same way `initiatePaymentSession` is), because it has to re-run every
+ * time the buyer switches to a method whose charge currency differs from the
+ * cart's — a server parent re-rendering on every method click would be the
+ * wrong trade.
+ */
+export const getChargeConversionFactor = async (
+  cartId: string,
+  currencyCode: string
+): Promise<number | null> => {
+  return sdk.client
+    .fetch<{ currency_code: string; factor: number | null }>(
+      `/store/payment-settings/charge-estimate`,
+      {
+        method: "POST",
+        body: { cart_id: cartId, currency_code: currencyCode },
+        cache: "no-store",
+      }
+    )
+    .then(({ factor }) => factor)
+    .catch((error) => {
+      console.error(
+        `[charge-estimate] cart=${cartId} currency=${currencyCode} could not be estimated:`,
+        error
+      )
+      return null
+    })
+}

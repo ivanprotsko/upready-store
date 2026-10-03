@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Банковская карта",
     "pp_system_default": "Оплата вручную"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Нажимая кнопку «{button}», я становлюсь клиентом {seller} и подтверждаю ознакомление с <terms>офертой</terms> и <privacy>политикой конфиденциальности</privacy>.",
+    "redirect": "{kind, select, domain {Для оплаты вы перейдёте на {value}.} telegram_bot {Для оплаты вы перейдёте в Telegram-бот {value}.} crypto_network {Для оплаты вы переведёте средства на кошелёк в сети {value}.} bank {Для оплаты вы переведёте средства через {value}.} other {}}",
+    "chargeWithAmount": "Сумма будет списана в {currency} по курсу {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Сумма будет списана в {currency} по курсу {rateSource} на момент оплаты.",
+    "chargeNoSource": "Сумма будет списана в {currency}.",
+    "refund": "Возврат: {terms}."
+  },
   "PaymentTest": {
     "attention": "Внимание:",
     "testingOnly": "Только для тестирования."

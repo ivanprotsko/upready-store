@@ -369,6 +369,14 @@ function tenantRequestHeaders(
       "x-tenant-payment-methods",
       encodeTenantHeaderValue(JSON.stringify(tenant.paymentMethods))
     )
+    // Rule 5zd (t-2026-10-03-32): the pre-payment notice's per-method fields.
+    // Always set, like `paymentMethods` above — every value absent reads as
+    // "show no notice", rather than making this header's own presence a
+    // third state the checkout has to branch on.
+    headers.set(
+      "x-tenant-payment-pre-notice",
+      encodeTenantHeaderValue(JSON.stringify(tenant.paymentPreNotice))
+    )
   }
 
   return headers

@@ -170,6 +170,7 @@ import {
   PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
+  PutTenantPaymentPreNoticeSchema,
   PutTenantNotificationSettingsSchema,
   PutTenantRequisitesSchema,
   PostTenantHandleSchema,
@@ -205,6 +206,8 @@ import { PostTenantReviewSchema } from "./tenants/reviews/validators";
 import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
 // ---- t-cherk-32: the wishlist's one write body (`DELETE` takes none).
 import { PostStoreWishlistSchema } from "./store/wishlist/validators";
+// ---- t-2026-10-03-32 (rule 5zd): the pre-payment notice's charge estimate.
+import { PostStoreChargeEstimateSchema } from "./store/payment-settings/charge-estimate/validators";
 // ---- t-cherk-com-hotfix batch 5: the owner rejects a buyer's payment receipt.
 import { PostTenantRejectPaymentReceiptSchema } from "./tenants/orders/validators";
 // ---- o24-courses: course/lesson CRUD bodies (tenant side, panel editor).
@@ -439,6 +442,12 @@ export default defineMiddlewares({
       matcher: "/tenants/payment-settings/manual",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantManualPaymentSchema)],
+    },
+    {
+      // The pre-payment notice's per-method fields (rule 5zd, t-2026-10-03-32).
+      matcher: "/tenants/payment-settings/pre-notice",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantPaymentPreNoticeSchema)],
     },
     {
       // The shop's CDEK account and the delivery kinds it offers
@@ -1557,6 +1566,12 @@ export default defineMiddlewares({
       matcher: "/store/shipping-methods/regions",
       method: ["GET"],
       middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
+    },
+    {
+      // The pre-payment notice's «≈ amount» (rule 5zd, t-2026-10-03-32).
+      matcher: "/store/payment-settings/charge-estimate",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostStoreChargeEstimateSchema)],
     },
 
     // ---- t09-reviews: product reviews. The tenant side rides the
