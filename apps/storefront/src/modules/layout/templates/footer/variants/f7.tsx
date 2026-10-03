@@ -40,12 +40,10 @@ import { f7TenantConfig, type F7Column, type F7Icon } from "../f7-tenant-config"
  * - «Настройки cookie» is OMITTED: this storefront has no cookie-consent control at all
  *   (no consent banner, no preferences dialog, nothing under `src/modules`), and a link to
  *   a screen that does not exist is worse than a missing line.
- * - The requisites line prints `legal_name` as the owner typed it, with no «ИП» in front of
- *   it. The panel labels that one field «ФИО ИП или название организации»
- *   (`apps/tenant-panel/src/routes/settings/requisites/requisites.tsx`) and stores no legal
- *   form beside it, so a hardcoded «ИП» would be wrong for every company that is not a sole
- *   trader. An owner who is one writes it into the field, which is what the stand's own row
- *   already does.
+ * - No requisites line (batch 7, Ivan 03.10: «никаких ссылок на ИП Черкашина и т.д. Быть
+ *   не должно»): the legal name, the registration and tax numbers are not printed. The
+ *   mockup drew them at the end of the last line; that corner now holds the attribution
+ *   and the credit only.
  *
  * Columns 2 and 3 and the badge row have no tenant-data source today and come from
  * `../f7-tenant-config.ts`, keyed by the tenant handle — see that file for why, and for
@@ -168,24 +166,14 @@ export default async function FooterF7() {
   const aboutPage = tenantPages.find((page) => page.key === "about")
   const linkedPages = tenantPages.filter((page) => page.key !== "about")
   const hasContactsPage = tenantPages.some((page) => page.key === "contacts")
-  const shopName = seller?.name ?? seller?.legal_name ?? siteName
+  // The shop's own name, never its legal name (batch 7).
+  const shopName = seller?.name ?? siteName
 
   const config = f7TenantConfig(handle)
   const shopColumns = config.columns.filter(
     (column) => column.heading.trim().length > 0 && column.links.length > 0
   )
   const columnCount = Math.min(1 + shopColumns.length, 3)
-
-  // «ИП … · ОГРНИП … · ИНН …» from whatever the owner filled in, in the mockup's own
-  // order, skipping every part they left empty. `regNumber`/`taxId` already carry their
-  // own labels in all 36 catalogs.
-  const requisites = [
-    seller?.legal_name,
-    seller?.ogrn ? t("regNumber", { value: seller.ogrn }) : null,
-    seller?.inn ? t("taxId", { value: seller.inn }) : null,
-  ]
-    .filter((part): part is string => Boolean(part))
-    .join(" · ")
 
   return (
     <footer className="w-full bg-ui-bg-base">
@@ -271,14 +259,6 @@ export default async function FooterF7() {
             })}
           </span>
           <div className="flex flex-col items-start gap-y-1 sm:items-end">
-            {requisites ? (
-              <span
-                className="txt-compact-small text-ui-fg-muted"
-                data-testid="footer-requisites-line"
-              >
-                {requisites}
-              </span>
-            ) : null}
             <SiteAttribution />
             <FooterCredit />
           </div>

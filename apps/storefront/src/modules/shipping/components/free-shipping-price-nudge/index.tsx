@@ -150,7 +150,7 @@ function FreeShippingInline({
             {price.target_reached ? (
               <div className="flex items-center gap-1.5">
                 {" "}
-                <CheckCircleSolid className="text-green-500 inline-block" />{" "}
+                <CheckCircleSolid className="text-ui-tag-green-text inline-block" />{" "}
                 Free Shipping unlocked!
               </div>
             ) : (
@@ -179,7 +179,7 @@ function FreeShippingInline({
             className={clx(
               "bg-gradient-to-r from-[var(--muted-foreground)] to-[var(--foreground)] h-1 rounded-full max-w-full duration-500 ease-in-out",
               {
-                "from-green-400 to-green-500": price.target_reached,
+                "from-[var(--success)] to-[color-mix(in_srgb,var(--success)_72%,var(--foreground))]": price.target_reached,
               }
             )}
             style={{ width: `${price.remaining_percentage}%` }}
@@ -228,7 +228,7 @@ function FreeShippingPopup({
               <div>
                 {price.target_reached ? (
                   <div className="flex items-center gap-1.5">
-                    <CheckCircleSolid className="text-green-500 inline-block" />{" "}
+                    <CheckCircleSolid className="text-ui-tag-green-text inline-block" />{" "}
                     Free Shipping unlocked!
                   </div>
                 ) : (
@@ -257,7 +257,7 @@ function FreeShippingPopup({
                 className={clx(
                   "bg-gradient-to-r from-[var(--muted-foreground)] to-[var(--foreground)] h-1.5 rounded-full max-w-full duration-500 ease-in-out",
                   {
-                    "from-green-400 to-green-500": price.target_reached,
+                    "from-[var(--success)] to-[color-mix(in_srgb,var(--success)_72%,var(--foreground))]": price.target_reached,
                   }
                 )}
                 style={{ width: `${price.remaining_percentage}%` }}

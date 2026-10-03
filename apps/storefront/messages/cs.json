@@ -18,7 +18,8 @@
     "logOut": "Odhlásit se",
     "orders": "Objednávky",
     "overview": "Přehled",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Seznam přání"
   },
   "AccountOverview": {
     "addresses": "Adresy",
@@ -76,14 +77,6 @@
     "emptyMessage": "Váš košík je prázdný. Pomocí odkazu níže si prohlédněte naše produkty.",
     "exploreProducts": "Prozkoumat produkty",
     "heading": "Košík"
-  },
-  "CartDropdown": {
-    "bagEmpty": "Váš košík je prázdný.",
-    "exploreProducts": "Prozkoumat produkty",
-    "goToCart": "Přejít do košíku",
-    "heading": "Košík",
-    "subtotal": "Mezisoučet",
-    "subtotalNote": "(bez daní)"
   },
   "CartMismatchBanner": {
     "errorMessage": "Při pokusu o převod vašeho košíku došlo k chybě",
@@ -154,7 +147,7 @@
     "freeShipping": "Zdarma",
     "giftCard": "Dárková karta",
     "itemsCount": "{count, plural, one {{count} položka} few {{count} položky} many {{count} položky} other {{count} položek}}",
-    "legal": "Kliknutím na tlačítko „Zaplatit“ přijímáte naše <terms>podmínky</terms>, <termsOfUse>podmínky užívání</termsOfUse> a <returnPolicy>zásady vracení zboží</returnPolicy> a souhlasíte s našimi <privacyPolicy>zásadami ochrany osobních údajů</privacyPolicy>.",
+    "legal": "Kliknutím na tlačítko „{button}“ přijímáte naše <terms>podmínky</terms>, <termsOfUse>podmínky užívání</termsOfUse> a <returnPolicy>zásady vracení zboží</returnPolicy> a souhlasíte s našimi <privacyPolicy>zásadami ochrany osobních údajů</privacyPolicy>.",
     "manualInput": "Zadat adresu ručně",
     "addressIncomplete": "Vyplňte povinná pole adresy: {fields}.",
     "provinceRequired": "Vyberte kraj ze seznamu.",
@@ -178,7 +171,13 @@
     "shippingPriceUnavailable": "Nedostupné: cenu se nepodařilo spočítat",
     "signIn": "Přihlásit se",
     "total": "Celkem",
-    "shippingZone": "Zóna: {zone}"
+    "shippingZone": "Zóna: {zone}",
+    "courseSignInHeading": "Přihlaste se, abyste mohli koupit kurz",
+    "courseSignInText": "Kurz se otevírá ve vašem účtu, proto je k nákupu potřeba přihlášení nebo registrace.",
+    "fieldRequired": "Vyplňte toto pole",
+    "emailInvalid": "Zkontrolujte e-mail: v adrese je chyba",
+    "signInHeading": "Přihlaste se a dokončete objednávku",
+    "signInText": "Objednávka se objeví ve vašem účtu: tam budou platební údaje, stav a zakoupené kurzy. Přihlášení nebo registrace zabere minutu, košík zůstane zachován."
   },
   "ClaimOrders": {
     "heading": "Objednávali jste bez účtu?",
@@ -339,7 +338,10 @@
     "empty": "Zatím jste nezakoupili žádný kurz.",
     "start": "Začít",
     "continue": "Pokračovat",
-    "review": "Zopakovat"
+    "review": "Zopakovat",
+    "pendingHeading": "Čekají na platbu",
+    "pendingHint": "Přístup se otevře, až obchod potvrdí platbu.",
+    "toOrder": "{order} — zaplatit"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -557,6 +559,13 @@
     "notMember": "Nemáte účet?",
     "password": "Heslo",
     "signIn": "Přihlásit se",
+    "telegramDivider": "nebo",
+    "telegramCta": "Přihlásit se přes Telegram",
+    "telegramPending": "Přihlašování…",
+    "telegramErrorExpired": "Platnost tohoto přihlášení přes Telegram vypršela. Začněte znovu.",
+    "telegramErrorFailed": "Přihlášení se nezdařilo. Zkuste to za minutu.",
+    "telegramErrorRejected": "Telegram toto přihlášení nepotvrdil. Zkuste to znovu.",
+    "telegramErrorUnconfigured": "Přihlášení přes Telegram zatím v tomto obchodě není zapnuté.",
     "yandexCta": "Přihlásit se přes Yandex ID",
     "yandexDivider": "nebo",
     "yandexErrorDenied": "Přihlášení jste na stránce Yandexu zrušili.",
@@ -569,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Zkopírovat číslo karty {bank}",
+    "cardHolder": "Příjemce: {holder}",
+    "cardsDesc": "Převeďte celkovou částku objednávky na kartu obchodu.",
+    "cardsHint": "Převeďte {total} na jednu z karet níže.",
+    "cardsManagerFallback": "Pokud něco nejde, napište manažerovi:",
+    "cardsTitle": "Převod na kartu",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -580,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Objednávka #{orderNumber} je přijata a rezervována. Převeďte {total} na jednu z karet níže. Jakmile obchod platbu potvrdí, objednávka získá stav «Zaplaceno».",
+    "handoverCardsMessage": "Dobrý den! Mám dotaz k platbě objednávky #{orderNumber} ve výši {total} převodem na kartu.",
+    "handoverCardsTitle": "Převeďte platbu na kartu",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -594,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Doklad se nepodařilo odeslat. Zkuste to znovu nebo napište manažerovi.",
+    "receiptHint": "Fotka nebo snímek obrazovky převodu (JPG, PNG, WEBP, HEIC) nebo PDF, do 10 MB.",
+    "receiptLabel": "Doklad o platbě",
+    "receiptPaid": "Zaplatil jsem",
+    "receiptSent": "Doklad odeslán, čekáme na potvrzení",
+    "receiptSentHint": "Obchod převod zkontroluje a potvrdí platbu, poté objednávka získá stav «Zaplaceno».",
+    "receiptSubmit": "Odeslat doklad",
+    "receiptTooLarge": "Soubor je větší než 10 MB. Zmenšete ho nebo pošlete snímek obrazovky.",
+    "receiptWrongType": "Pošlete fotku (JPG, PNG, WEBP, HEIC) nebo PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Doklad nebyl přijat",
+    "receiptRejectedReason": "Důvod: {reason}",
+    "receiptResend": "Odeslat jiný doklad",
+    "contactManager": "Kontaktovat manažera",
+    "methodRequisites": "Převod podle údajů",
+    "requisitesDesc": "Po odeslání objednávky uvidíte údaje obchodu: bankovní karty a kryptopeněženky. Převeďte {total} a přiložte doklad o platbě — objednávku potvrdí manažer.",
+    "requisitesPreviewLabel": "Přijímáme převody na:",
+    "handoverRequisitesTitle": "Zaplaťte objednávku převodem",
+    "handoverRequisitesBody": "Objednávka #{orderNumber} byla přijata. Vyberte níže banku nebo peněženku, převeďte {total} a přiložte doklad o platbě.",
+    "handoverRequisitesMessage": "Dobrý den! Odeslal(a) jsem objednávku #{orderNumber} na částku {total} a zaplatil(a) ji převodem. Potvrďte prosím platbu.",
+    "contactManagerHint": "Pro potvrzení objednávky kontaktujte manažera.",
+    "showRequisite": "Klepnutím zobrazíte číslo",
+    "hideRequisite": "Skrýt číslo",
+    "numberLabel": "Číslo karty nebo účtu",
+    "holderLabel": "Příjemce",
+    "addressLabel": "Adresa peněženky",
+    "networkLabel": "Síť",
+    "copyNumber": "Kopírovat číslo",
+    "copyHolder": "Kopírovat příjemce",
+    "copyAddress": "Kopírovat adresu",
+    "copyNetwork": "Kopírovat síť",
+    "cryptoOnlyWarning": "Posílejte pouze {currency} v síti {network}: převod jiné mince nebo přes jinou síť nedorazí.",
+    "receiptPick": "Vybrat soubor nebo fotku",
+    "receiptCamera": "Vyfotit",
+    "receiptRemove": "Odebrat soubor"
   },
   "Metadata": {
     "account": {
@@ -679,6 +731,10 @@
     "terms": {
       "description": "Přečtěte si pravidla, se kterými při nákupu souhlasíte.",
       "title": "Podmínky použití"
+    },
+    "wishlist": {
+      "title": "Seznam přání",
+      "description": "Produkty, které jste si uložili na později."
     }
   },
   "NativeSelect": {
@@ -713,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Uschovejte si číslo objednávky. Budete ho potřebovat při kontaktu s obchodem.",
     "orderSuccess": "Vaše objednávka byla úspěšně vytvořena.",
-    "thankYou": "Děkujeme!"
+    "thankYou": "Děkujeme!",
+    "paymentConfirmed": "Platba potvrzena",
+    "goToCourse": "Přejít ke kurzu",
+    "orderCanceled": "Objednávka zrušena",
+    "orderCanceledHint": "Platit nemusíte. Pokud jde o omyl, napište nám.",
+    "paidGoodsHint": "Připravujeme objednávku k odeslání."
   },
   "OrderDetails": {
     "backToOrders": "Zpět na objednávky",
@@ -921,6 +982,15 @@
     "noPhone": "Žádné telefonní číslo",
     "phone": "Telefon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Propojeno: {handle}",
+    "notLinked": "Nepropojeno",
+    "hint": "Přihlaste se zde přes Telegram a propojte ho s tímto účtem. Pak se můžete přihlašovat oběma způsoby.",
+    "errorTaken": "Tento účet Telegram je už propojen s jiným účtem.",
+    "errorRejected": "Telegram to nepotvrdil. Zkuste to znovu.",
+    "errorFailed": "Telegram se nepodařilo propojit. Zkuste to za minutu."
+  },
   "PromoBanner": {
     "close": "Zavřít",
     "message": "Plnohodnotný, produkčně připravený DTC starter."
@@ -1080,5 +1150,43 @@
       "previous": "Předchozí",
       "watch": "Sledovat"
     }
+  },
+  "WishlistButton": {
+    "add": "Přidat na seznam přání",
+    "remove": "Odebrat ze seznamu přání"
+  },
+  "WishlistPage": {
+    "heading": "Seznam přání",
+    "description": "Produkty, které jste si uložili na později.",
+    "empty": "Zatím jste neuložili žádné produkty.",
+    "addToCart": "Přidat do košíku",
+    "chooseOptions": "Vybrat možnosti",
+    "remove": "Odebrat"
+  },
+  "CartSidebar": {
+    "title": "Košík",
+    "signInPrompt": "Přihlaste se, abyste viděli historii objednávek a nakupovali rychleji.",
+    "signInEmail": "E-mailem",
+    "signInYandex": "Přes Yandex ID",
+    "deliveryEstimate": "Doručíme {range}",
+    "empty": "Košík je prázdný.",
+    "exploreProducts": "Prohlédnout produkty",
+    "itemsTotal": "Zboží celkem",
+    "checkout": "K pokladně"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online kurz, bez doručení",
+    "shipmentNo": "Zásilka č. {no}",
+    "digitalGroup": "Online kurz — přístup po potvrzení platby",
+    "accessByEmail": "Přístup ke kurzu přijde e-mailem po potvrzení platby.",
+    "digitalGroupPaid": "Online kurz — přístup otevřen"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Čeká na platbu",
+    "awaitingConfirmation": "Čeká na potvrzení platby",
+    "receiptRejected": "Doklad nebyl přijat",
+    "paid": "Zaplaceno",
+    "refunded": "Vráceno",
+    "canceled": "Zrušeno"
   }
 }

@@ -2,10 +2,12 @@ import type { HttpTypes } from "@medusajs/types"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
+import { getWishlistProductIds, isWishlistCustomerLoggedIn } from "@lib/data/wishlist"
 import { getOptionValueHex, isColorOption } from "@lib/util/color-option"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { isPlaceholderOption } from "@lib/util/option-filter-groups"
 import ProductMedia from "@modules/products/components/product-media"
+import WishlistButton from "@modules/products/components/wishlist-button"
 
 /**
  * The product card. Every grid of products uses it: the catalog, a category, a
@@ -60,7 +62,12 @@ export default async function ProductCard({
   product: HttpTypes.StoreProduct
   priority?: boolean
 }) {
-  const [locale, t] = await Promise.all([getLocale(), getTranslations("ProductCard")])
+  const [locale, t, wishlistLoggedIn, wishlistProductIds] = await Promise.all([
+    getLocale(),
+    getTranslations("ProductCard"),
+    isWishlistCustomerLoggedIn(),
+    getWishlistProductIds(),
+  ])
   const { cheapestPrice } = getProductPrice({ product, locale })
 
   const usedOptionValueIds = new Set(
@@ -92,6 +99,12 @@ export default async function ProductCard({
     >
       <div className="relative">
         <ProductMedia src={first} secondSrc={second} alt={product.title ?? ""} priority={priority} />
+        <WishlistButton
+          productId={product.id}
+          initialActive={wishlistProductIds.includes(product.id)}
+          isLoggedIn={wishlistLoggedIn}
+          className="absolute end-2 top-2 z-10 inline-flex items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--ui-bg-base)_80%,transparent)] p-1.5 text-ui-fg-subtle shadow-elevation-card-rest transition-colors hover:text-ui-fg-base disabled:opacity-60"
+        />
         {onSale && cheapestPrice?.percentage_diff ? (
           <span
             className="absolute start-2 top-2 rounded-full bg-ui-tag-red-bg px-2 py-0.5 text-xs font-medium tabular-nums text-ui-tag-red-text"

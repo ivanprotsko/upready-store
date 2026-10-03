@@ -12,6 +12,16 @@
     "trackOrder": "Sledovať objednávku",
     "viewOrder": "Zobraziť objednávku"
   },
+  "CourseAccess": {
+    "body": "Platba objednávky <strong>č. {id}</strong> je potvrdená. Kurz je teraz otvorený vo vašom účte:",
+    "button": "Prejsť na kurz",
+    "headingAnon": "Prístup ku kurzu je otvorený",
+    "headingWithName": "{name}, prístup ku kurzu je otvorený",
+    "preview": "Platba je potvrdená, kurz na vás čaká vo vašom účte",
+    "signIn": "Lekcie sa otvoria po prihlásení do účtu s adresou {email}.",
+    "subject": "Objednávka č. {id} zaplatená: prístup ku kurzu je otvorený",
+    "textFallback": "Platba objednávky č. {id} je potvrdená, prístup ku kurzu je otvorený.\n\nPrejsť na kurz:"
+  },
   "Delivery": {
     "bodyOrder": "Objednávka <strong>č. {id}</strong> bola doručená. Veríme, že všetko dorazilo v poriadku.",
     "headingAnon": "Vaša objednávka bola doručená",

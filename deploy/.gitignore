@@ -3,3 +3,9 @@
 # STOREFRONT_DEVTOOLS_PASSWORD) — only the *.env.example templates are
 # tracked.
 stands/*.env
+
+# Same for the per-host backup env file install.sh's --env-file points at
+# (t-cherk-36) — only backup/nightly.env.example is tracked. install.sh's
+# own generated wrappers and unit files are host-local output, not source.
+backup/*.env
+backup/.generated/

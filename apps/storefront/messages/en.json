@@ -18,7 +18,8 @@
     "logOut": "Log out",
     "orders": "Orders",
     "overview": "Overview",
-    "profile": "Profile"
+    "profile": "Profile",
+    "wishlist": "Wishlist"
   },
   "AccountOverview": {
     "addresses": "Addresses",
@@ -76,14 +77,6 @@
     "emptyMessage": "Your cart is empty. Use the link below to start browsing our products.",
     "exploreProducts": "Explore products",
     "heading": "Cart"
-  },
-  "CartDropdown": {
-    "bagEmpty": "Your shopping bag is empty.",
-    "exploreProducts": "Explore products",
-    "goToCart": "Go to cart",
-    "heading": "Cart",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(excl. taxes)"
   },
   "CartMismatchBanner": {
     "errorMessage": "Something went wrong when we tried to transfer your cart",
@@ -154,7 +147,7 @@
     "freeShipping": "Free",
     "giftCard": "Gift card",
     "itemsCount": "{count, plural, one {{count} item} other {{count} items}}",
-    "legal": "By clicking «Pay», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
+    "legal": "By clicking «{button}», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
     "manualInput": "Enter address manually",
     "addressIncomplete": "Fill in the required address fields: {fields}.",
     "provinceRequired": "Choose your region from the list.",
@@ -178,7 +171,13 @@
     "shippingPriceUnavailable": "Unavailable: the price could not be calculated",
     "signIn": "Sign in",
     "total": "Total",
-    "shippingZone": "Zone: {zone}"
+    "shippingZone": "Zone: {zone}",
+    "courseSignInHeading": "Sign in to buy the course",
+    "courseSignInText": "The course opens in your account, so buying it takes a sign-in or a registration.",
+    "fieldRequired": "Fill in this field",
+    "emailInvalid": "Check the e-mail: the address has a mistake",
+    "signInHeading": "Sign in to place the order",
+    "signInText": "The order will appear in your account: the payment details, the status and the courses you bought are there. Signing in or registering takes a minute, and the cart is kept."
   },
   "ClaimOrders": {
     "heading": "Ordered without an account?",
@@ -339,7 +338,10 @@
     "empty": "You have not bought any courses yet.",
     "start": "Start",
     "continue": "Continue",
-    "review": "Review"
+    "review": "Review",
+    "pendingHeading": "Awaiting payment",
+    "pendingHint": "Access opens once the shop confirms the payment.",
+    "toOrder": "{order} — pay"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -557,6 +559,13 @@
     "notMember": "Not a member?",
     "password": "Password",
     "signIn": "Sign in",
+    "telegramDivider": "or",
+    "telegramCta": "Sign in with Telegram",
+    "telegramPending": "Signing in…",
+    "telegramErrorExpired": "This Telegram sign-in has expired. Please start again.",
+    "telegramErrorFailed": "Could not sign in. Please try again in a minute.",
+    "telegramErrorRejected": "Telegram did not confirm this sign-in. Please try again.",
+    "telegramErrorUnconfigured": "Sign-in with Telegram is not enabled in this shop yet.",
     "yandexCta": "Sign in with Yandex ID",
     "yandexDivider": "or",
     "yandexErrorDenied": "You cancelled the sign-in on the Yandex page.",
@@ -569,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Copy the {bank} card number",
+    "cardHolder": "Recipient: {holder}",
+    "cardsDesc": "Transfer the order total to the shop's card.",
+    "cardsHint": "Transfer {total} to one of the cards below.",
+    "cardsManagerFallback": "If something goes wrong, message the manager:",
+    "cardsTitle": "Card transfer",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -580,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the cards below. Once the shop confirms the payment, the order becomes «Paid».",
+    "handoverCardsMessage": "Hello! I have a question about paying order #{orderNumber} for {total} by card transfer.",
+    "handoverCardsTitle": "Transfer the payment to a card",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -594,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "The receipt could not be sent. Try again or message the manager.",
+    "receiptHint": "A photo or screenshot of the transfer (JPG, PNG, WEBP, HEIC) or a PDF, up to 10 MB.",
+    "receiptLabel": "Payment receipt",
+    "receiptPaid": "I have paid",
+    "receiptSent": "Receipt sent, awaiting confirmation",
+    "receiptSentHint": "The shop will check the transfer and confirm the payment, then the order becomes «Paid».",
+    "receiptSubmit": "Send the receipt",
+    "receiptTooLarge": "The file is larger than 10 MB. Compress it or send a screenshot.",
+    "receiptWrongType": "Send a photo (JPG, PNG, WEBP, HEIC) or a PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Receipt not accepted",
+    "receiptRejectedReason": "Reason: {reason}",
+    "receiptResend": "Send another receipt",
+    "contactManager": "Contact the manager",
+    "methodRequisites": "Transfer to account details",
+    "requisitesDesc": "After you place the order you will see the shop's details: bank cards and crypto wallets. Transfer {total} and attach the payment receipt — the manager confirms the order.",
+    "requisitesPreviewLabel": "We accept transfers to:",
+    "handoverRequisitesTitle": "Pay the order by transfer",
+    "handoverRequisitesBody": "Order #{orderNumber} is placed. Pick a bank or a wallet below, transfer {total} and attach the payment receipt.",
+    "handoverRequisitesMessage": "Hello! I have placed order #{orderNumber} for {total} and paid it by transfer. Please confirm the payment.",
+    "contactManagerHint": "To confirm the order, contact the manager.",
+    "showRequisite": "Tap to see the number",
+    "hideRequisite": "Hide the number",
+    "numberLabel": "Card or account number",
+    "holderLabel": "Recipient",
+    "addressLabel": "Wallet address",
+    "networkLabel": "Network",
+    "copyNumber": "Copy the number",
+    "copyHolder": "Copy the recipient",
+    "copyAddress": "Copy the address",
+    "copyNetwork": "Copy the network",
+    "cryptoOnlyWarning": "Send {currency} on the {network} network only: a transfer of another coin or over another network will not arrive.",
+    "receiptPick": "Choose a file or photo",
+    "receiptCamera": "Take a photo",
+    "receiptRemove": "Remove the file"
   },
   "Metadata": {
     "account": {
@@ -679,6 +731,10 @@
     "terms": {
       "description": "Read the rules you agree to when you shop with us.",
       "title": "Terms of use"
+    },
+    "wishlist": {
+      "title": "Wishlist",
+      "description": "The products you saved for later."
     }
   },
   "NativeSelect": {
@@ -713,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Keep the order number. You need it when you contact the shop.",
     "orderSuccess": "Your order was placed successfully.",
-    "thankYou": "Thank you!"
+    "thankYou": "Thank you!",
+    "paymentConfirmed": "Payment confirmed",
+    "goToCourse": "Go to the course",
+    "orderCanceled": "Order cancelled",
+    "orderCanceledHint": "No payment is needed. If this is a mistake, write to us.",
+    "paidGoodsHint": "We are preparing your order for dispatch."
   },
   "OrderDetails": {
     "backToOrders": "Back to orders",
@@ -921,6 +982,15 @@
     "noPhone": "No phone number",
     "phone": "Phone"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Linked: {handle}",
+    "notLinked": "Not linked",
+    "hint": "Sign in with Telegram here to link it to this account. After that you can sign in either way.",
+    "errorTaken": "This Telegram account is already linked to another account.",
+    "errorRejected": "Telegram did not confirm this. Please try again.",
+    "errorFailed": "Could not link Telegram. Please try again in a minute."
+  },
   "PromoBanner": {
     "close": "Close",
     "message": "Full-featured production ready DTC starter."
@@ -1080,5 +1150,43 @@
       "previous": "Previous",
       "watch": "Watch"
     }
+  },
+  "WishlistButton": {
+    "add": "Add to wishlist",
+    "remove": "Remove from wishlist"
+  },
+  "WishlistPage": {
+    "heading": "Wishlist",
+    "description": "The products you saved for later.",
+    "empty": "You have not saved any products yet.",
+    "addToCart": "Add to cart",
+    "chooseOptions": "Choose options",
+    "remove": "Remove"
+  },
+  "CartSidebar": {
+    "title": "Cart",
+    "signInPrompt": "Sign in to see your order history and check out faster.",
+    "signInEmail": "With email",
+    "signInYandex": "With Yandex ID",
+    "deliveryEstimate": "Delivery {range}",
+    "empty": "Your cart is empty.",
+    "exploreProducts": "Explore products",
+    "itemsTotal": "Items total",
+    "checkout": "Checkout"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online course, no delivery",
+    "shipmentNo": "Shipment No. {no}",
+    "digitalGroup": "Online course — access after payment confirmation",
+    "accessByEmail": "Access to the course will come by e-mail once the payment is confirmed.",
+    "digitalGroupPaid": "Online course — access open"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Awaiting payment",
+    "awaitingConfirmation": "Awaiting payment confirmation",
+    "receiptRejected": "Receipt not accepted",
+    "paid": "Paid",
+    "refunded": "Refunded",
+    "canceled": "Cancelled"
   }
 }

@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 
+import { signInWithTelegramMiniApp } from "@lib/data/telegram-auth"
 import { getWebApp, isTelegramLaunch, loadWebApp, type TelegramWebApp } from "@lib/telegram/web-app"
+
+/** Once per webview session: a buyer who signs out inside the Mini App stays signed out. */
+const SILENT_SIGN_IN_KEY = "__upready_tg_sign_in"
 
 /**
  * Mounted once in the root layout; renders nothing. In a browser it does
@@ -15,6 +19,9 @@ import { getWebApp, isTelegramLaunch, loadWebApp, type TelegramWebApp } from "@l
  * native back button: hidden on the catalog (the entry), shown everywhere else
  * and wired to history — the header's own links keep working, this only adds
  * the control a Telegram user reaches for first.
+ *
+ * It also signs the buyer in from `initData` (verified on the backend with the
+ * shop's own bot), then refreshes: the page was server-rendered signed out.
  */
 export default function MiniAppBridge() {
   const router = useRouter()
@@ -36,11 +43,20 @@ export default function MiniAppBridge() {
       // closing the app. Older clients ignore the call.
       webApp.disableVerticalSwipes?.()
       setTg(webApp)
+
+      if (webApp.initData && !silentSignInDone()) {
+        markSilentSignInDone()
+        signInWithTelegramMiniApp(webApp.initData)
+          .then((signedIn) => {
+            if (signedIn && !cancelled) router.refresh()
+          })
+          .catch((error) => console.error("[mini-app] silent sign-in failed:", error))
+      }
     })
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [router])
 
   useEffect(() => {
     const webApp = tg ?? getWebApp()
@@ -57,4 +73,18 @@ export default function MiniAppBridge() {
   }, [tg, pathname, router])
 
   return null
+}
+
+function silentSignInDone(): boolean {
+  try {
+    return window.sessionStorage.getItem(SILENT_SIGN_IN_KEY) === "1"
+  } catch {
+    return false
+  }
+}
+
+function markSilentSignInDone() {
+  try {
+    window.sessionStorage.setItem(SILENT_SIGN_IN_KEY, "1")
+  } catch {}
 }

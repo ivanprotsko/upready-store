@@ -12,6 +12,16 @@
     "trackOrder": "Acompanhar pedido",
     "viewOrder": "Ver encomenda"
   },
+  "CourseAccess": {
+    "body": "O pagamento do pedido <strong>n.º {id}</strong> foi confirmado. O curso já está disponível na sua conta:",
+    "button": "Ir para o curso",
+    "headingAnon": "O acesso ao curso está aberto",
+    "headingWithName": "{name}, o acesso ao curso está aberto",
+    "preview": "Pagamento confirmado, o curso espera por si na sua conta",
+    "signIn": "As aulas abrem depois de iniciar sessão na conta com {email}.",
+    "subject": "Pedido n.º {id} pago: o acesso ao curso está aberto",
+    "textFallback": "O pagamento do pedido n.º {id} foi confirmado e o acesso ao curso está aberto.\n\nIr para o curso:"
+  },
   "Delivery": {
     "bodyOrder": "A encomenda <strong>n.º {id}</strong> foi entregue. Esperamos que tenha chegado tudo bem.",
     "headingAnon": "A sua encomenda foi entregue",

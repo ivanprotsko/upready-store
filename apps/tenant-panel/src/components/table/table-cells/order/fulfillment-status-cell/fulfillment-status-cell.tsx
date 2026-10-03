@@ -9,16 +9,20 @@ type FulfillmentStatusCellProps = {
   status: FulfillmentStatus
   /** The order itself is cancelled: nothing of it waits for packing. */
   orderCanceled?: boolean
+  /** Every line is sold without delivery (an online course): nothing to pack, ever. */
+  withoutParcel?: boolean
 }
 
 export const FulfillmentStatusCell = ({
   status,
   orderCanceled,
+  withoutParcel,
 }: FulfillmentStatusCellProps) => {
   const { t } = useTranslation()
 
   // o21-owner-panel-ux: a cancelled order read «Ждёт сборки» in the list.
-  if (orderCanceled && status === "not_fulfilled") {
+  // t-cherk-com-hotfix batch 5: so did an order of online courses only.
+  if ((orderCanceled || withoutParcel) && status === "not_fulfilled") {
     return <StatusCell color="grey">{t("orders.fulfillment.notNeeded")}</StatusCell>
   }
 

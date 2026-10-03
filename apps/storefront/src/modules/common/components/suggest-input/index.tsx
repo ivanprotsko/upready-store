@@ -253,7 +253,7 @@ export default function SuggestInput<TItem>({
           className="origin-0 absolute top-3 -z-1 mx-3 flex items-center justify-center px-1 text-ui-fg-subtle transition-all duration-300"
         >
           {label}
-          {required && <span className="text-rose-500">*</span>}
+          {required && <span className="text-ui-fg-error">*</span>}
         </label>
       </div>
 

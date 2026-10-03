@@ -8,6 +8,7 @@ import { useLocale, useTranslations } from "next-intl"
 import { signout } from "@lib/data/customer"
 import { Link } from "@i18n/navigation"
 import ChevronDown from "@modules/common/icons/chevron-down"
+import Heart from "@modules/common/icons/heart"
 import MapPin from "@modules/common/icons/map-pin"
 import Package from "@modules/common/icons/package"
 import User from "@modules/common/icons/user"
@@ -97,6 +98,19 @@ const AccountNav = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    href="/account/wishlist"
+                    className="flex items-center justify-between py-4 border-b border-ui-border-base"
+                    data-testid="wishlist-link"
+                  >
+                    <div className="flex items-center gap-x-2">
+                      <Heart size={20} />
+                      <span>{t("wishlist")}</span>
+                    </div>
+                    <ChevronDown className="transform -rotate-90 rtl:rotate-90" />
+                  </Link>
+                </li>
+                <li>
                   <button
                     type="button"
                     className="flex items-center justify-between py-4 border-b border-ui-border-base w-full"
@@ -165,6 +179,15 @@ const AccountNav = () => {
                   data-testid="courses-link"
                 >
                   {t("courses")}
+                </AccountNavLink>
+              </li>
+              <li>
+                <AccountNavLink
+                  href="/account/wishlist"
+                  route={route!}
+                  data-testid="wishlist-link"
+                >
+                  {t("wishlist")}
                 </AccountNavLink>
               </li>
               <li className="text-ui-fg-subtle">

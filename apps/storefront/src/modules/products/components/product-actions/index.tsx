@@ -107,7 +107,14 @@ export default function ProductActions({
   // The variant's cart line, or null; undefined when the shop has no «В корзине» state.
   const inCart =
     cartLines && selectedVariant && !disabled
-      ? { line: cartLines[selectedVariant.id] ?? null, max: maxQuantity(selectedVariant) }
+      ? {
+          line: cartLines[selectedVariant.id] ?? null,
+          // Batch 6, Q3.5: a course (`metadata.digital`) is bought once.
+          max:
+            (product.metadata as Record<string, unknown> | null | undefined)?.digital === "true"
+              ? 1
+              : maxQuantity(selectedVariant),
+        }
       : undefined
 
   const addButton = (
@@ -174,7 +181,8 @@ export default function ProductActions({
           variant="secondary"
           data-testid="buy-now-button"
         >
-          {t("buyNow")}
+          {/* Batch 6, Q3.4: «Купить», not «Оплатить» — nothing is paid on this page. */}
+          {t("buy")}
         </Button>
 
         <MobileActions

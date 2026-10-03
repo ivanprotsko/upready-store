@@ -18,7 +18,8 @@
     "logOut": "Abmelden",
     "orders": "Bestellungen",
     "overview": "Übersicht",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Wunschliste"
   },
   "AccountOverview": {
     "addresses": "Adressen",
@@ -76,14 +77,6 @@
     "emptyMessage": "Ihr Warenkorb ist leer. Nutzen Sie den Link unten, um unsere Produkte zu entdecken.",
     "exploreProducts": "Produkte entdecken",
     "heading": "Warenkorb"
-  },
-  "CartDropdown": {
-    "bagEmpty": "Ihr Warenkorb ist leer.",
-    "exploreProducts": "Produkte entdecken",
-    "goToCart": "Zum Warenkorb",
-    "heading": "Warenkorb",
-    "subtotal": "Zwischensumme",
-    "subtotalNote": "(zzgl. MwSt.)"
   },
   "CartMismatchBanner": {
     "errorMessage": "Beim Übertragen Ihres Warenkorbs ist ein Fehler aufgetreten",
@@ -154,7 +147,7 @@
     "freeShipping": "Kostenlos",
     "giftCard": "Geschenkkarte",
     "itemsCount": "{count, plural, one {{count} Artikel} other {{count} Artikel}}",
-    "legal": "Mit Klick auf «Bezahlen» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und stimmen unserer <privacyPolicy>Datenschutzerklärung</privacyPolicy> zu.",
+    "legal": "Mit Klick auf «{button}» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und stimmen unserer <privacyPolicy>Datenschutzerklärung</privacyPolicy> zu.",
     "manualInput": "Adresse manuell eingeben",
     "addressIncomplete": "Füllen Sie die Pflichtfelder der Adresse aus: {fields}.",
     "provinceRequired": "Wähle die Region aus der Liste.",
@@ -178,7 +171,13 @@
     "shippingPriceUnavailable": "Nicht verfügbar: Preis konnte nicht berechnet werden",
     "signIn": "Anmelden",
     "total": "Gesamt",
-    "shippingZone": "Zone: {zone}"
+    "shippingZone": "Zone: {zone}",
+    "courseSignInHeading": "Melden Sie sich an, um den Kurs zu kaufen",
+    "courseSignInText": "Der Kurs wird in Ihrem Konto geöffnet, daher braucht der Kauf eine Anmeldung oder Registrierung.",
+    "fieldRequired": "Bitte füllen Sie dieses Feld aus",
+    "emailInvalid": "Prüfen Sie die E-Mail: die Adresse enthält einen Fehler",
+    "signInHeading": "Melden Sie sich an, um zu bestellen",
+    "signInText": "Die Bestellung erscheint in Ihrem Konto: dort finden Sie die Zahlungsdaten, den Status und die gekauften Kurse. Anmeldung oder Registrierung dauern eine Minute, der Warenkorb bleibt erhalten."
   },
   "ClaimOrders": {
     "heading": "Ohne Konto bestellt?",
@@ -339,7 +338,10 @@
     "empty": "Sie haben noch keine Kurse gekauft.",
     "start": "Beginnen",
     "continue": "Fortsetzen",
-    "review": "Wiederholen"
+    "review": "Wiederholen",
+    "pendingHeading": "Warten auf Zahlung",
+    "pendingHint": "Der Zugang wird freigeschaltet, sobald der Shop die Zahlung bestätigt.",
+    "toOrder": "{order} – bezahlen"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -557,6 +559,13 @@
     "notMember": "Noch kein Mitglied?",
     "password": "Passwort",
     "signIn": "Anmelden",
+    "telegramDivider": "oder",
+    "telegramCta": "Mit Telegram anmelden",
+    "telegramPending": "Anmeldung läuft…",
+    "telegramErrorExpired": "Diese Telegram-Anmeldung ist abgelaufen. Bitte beginnen Sie erneut.",
+    "telegramErrorFailed": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es in einer Minute erneut.",
+    "telegramErrorRejected": "Telegram hat diese Anmeldung nicht bestätigt. Bitte versuchen Sie es erneut.",
+    "telegramErrorUnconfigured": "Die Anmeldung mit Telegram ist in diesem Shop noch nicht aktiviert.",
     "yandexCta": "Mit Yandex ID anmelden",
     "yandexDivider": "oder",
     "yandexErrorDenied": "Sie haben die Anmeldung auf der Yandex-Seite abgebrochen.",
@@ -569,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Kartennummer von {bank} kopieren",
+    "cardHolder": "Empfänger: {holder}",
+    "cardsDesc": "Überweisen Sie den Bestellbetrag auf die Karte des Shops.",
+    "cardsHint": "Überweisen Sie {total} auf eine der Karten unten.",
+    "cardsManagerFallback": "Wenn etwas nicht klappt, schreiben Sie dem Manager:",
+    "cardsTitle": "Überweisung auf Karte",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -580,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Bestellung #{orderNumber} ist aufgenommen und reserviert. Überweisen Sie {total} auf eine der Karten unten. Sobald der Shop die Zahlung bestätigt, erhält die Bestellung den Status «Bezahlt».",
+    "handoverCardsMessage": "Hallo! Ich habe eine Frage zur Zahlung der Bestellung #{orderNumber} über {total} per Kartenüberweisung.",
+    "handoverCardsTitle": "Zahlung auf eine Karte überweisen",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -594,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Der Beleg konnte nicht gesendet werden. Versuchen Sie es erneut oder schreiben Sie dem Manager.",
+    "receiptHint": "Ein Foto oder Screenshot der Überweisung (JPG, PNG, WEBP, HEIC) oder eine PDF-Datei, bis zu 10 MB.",
+    "receiptLabel": "Zahlungsbeleg",
+    "receiptPaid": "Ich habe bezahlt",
+    "receiptSent": "Beleg gesendet, warten auf Bestätigung",
+    "receiptSentHint": "Der Shop prüft die Überweisung und bestätigt die Zahlung, danach erhält die Bestellung den Status «Bezahlt».",
+    "receiptSubmit": "Beleg senden",
+    "receiptTooLarge": "Die Datei ist größer als 10 MB. Komprimieren Sie sie oder senden Sie einen Screenshot.",
+    "receiptWrongType": "Senden Sie ein Foto (JPG, PNG, WEBP, HEIC) oder eine PDF-Datei.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Beleg nicht akzeptiert",
+    "receiptRejectedReason": "Grund: {reason}",
+    "receiptResend": "Anderen Beleg senden",
+    "contactManager": "Manager kontaktieren",
+    "methodRequisites": "Überweisung an die Bankdaten",
+    "requisitesDesc": "Nach der Bestellung sehen Sie die Bankdaten des Shops: Bankkarten und Krypto-Wallets. Überweisen Sie {total} und fügen Sie den Zahlungsbeleg bei – der Manager bestätigt die Bestellung.",
+    "requisitesPreviewLabel": "Wir nehmen Überweisungen an:",
+    "handoverRequisitesTitle": "Bezahlen Sie die Bestellung per Überweisung",
+    "handoverRequisitesBody": "Bestellung #{orderNumber} ist eingegangen. Wählen Sie unten eine Bank oder ein Wallet, überweisen Sie {total} und fügen Sie den Zahlungsbeleg bei.",
+    "handoverRequisitesMessage": "Hallo! Ich habe die Bestellung #{orderNumber} über {total} aufgegeben und per Überweisung bezahlt. Bitte bestätigen Sie die Zahlung.",
+    "contactManagerHint": "Zur Bestätigung der Bestellung wenden Sie sich an den Manager.",
+    "showRequisite": "Antippen, um die Nummer zu sehen",
+    "hideRequisite": "Nummer ausblenden",
+    "numberLabel": "Karten- oder Kontonummer",
+    "holderLabel": "Empfänger",
+    "addressLabel": "Wallet-Adresse",
+    "networkLabel": "Netzwerk",
+    "copyNumber": "Nummer kopieren",
+    "copyHolder": "Empfänger kopieren",
+    "copyAddress": "Adresse kopieren",
+    "copyNetwork": "Netzwerk kopieren",
+    "cryptoOnlyWarning": "Senden Sie nur {currency} im Netzwerk {network}: Eine Überweisung einer anderen Münze oder über ein anderes Netzwerk kommt nicht an.",
+    "receiptPick": "Datei oder Foto wählen",
+    "receiptCamera": "Foto aufnehmen",
+    "receiptRemove": "Datei entfernen"
   },
   "Metadata": {
     "account": {
@@ -679,6 +731,10 @@
     "terms": {
       "description": "Lesen Sie die Regeln, denen Sie beim Einkauf zustimmen.",
       "title": "Nutzungsbedingungen"
+    },
+    "wishlist": {
+      "title": "Wunschliste",
+      "description": "Produkte, die du dir für später gemerkt hast."
     }
   },
   "NativeSelect": {
@@ -713,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Bewahren Sie die Bestellnummer auf. Sie brauchen sie, wenn Sie den Shop kontaktieren.",
     "orderSuccess": "Ihre Bestellung wurde erfolgreich aufgegeben.",
-    "thankYou": "Vielen Dank!"
+    "thankYou": "Vielen Dank!",
+    "paymentConfirmed": "Zahlung bestätigt",
+    "goToCourse": "Zum Kurs",
+    "orderCanceled": "Bestellung storniert",
+    "orderCanceledHint": "Eine Zahlung ist nicht nötig. Falls das ein Irrtum ist, schreiben Sie uns.",
+    "paidGoodsHint": "Wir bereiten Ihre Bestellung für den Versand vor."
   },
   "OrderDetails": {
     "backToOrders": "Zurück zu den Bestellungen",
@@ -921,6 +982,15 @@
     "noPhone": "Keine Telefonnummer",
     "phone": "Telefon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Verknüpft: {handle}",
+    "notLinked": "Nicht verknüpft",
+    "hint": "Melden Sie sich hier mit Telegram an, um es mit diesem Konto zu verknüpfen. Danach können Sie sich auf beide Arten anmelden.",
+    "errorTaken": "Dieses Telegram-Konto ist bereits mit einem anderen Konto verknüpft.",
+    "errorRejected": "Telegram hat dies nicht bestätigt. Bitte versuchen Sie es erneut.",
+    "errorFailed": "Telegram konnte nicht verknüpft werden. Bitte versuchen Sie es in einer Minute erneut."
+  },
   "PromoBanner": {
     "close": "Schließen",
     "message": "Voll ausgestatteter, produktionsreifer DTC Starter."
@@ -1080,5 +1150,43 @@
       "previous": "Zurück",
       "watch": "Ansehen"
     }
+  },
+  "WishlistButton": {
+    "add": "Zur Wunschliste hinzufügen",
+    "remove": "Von der Wunschliste entfernen"
+  },
+  "WishlistPage": {
+    "heading": "Wunschliste",
+    "description": "Produkte, die du dir für später gemerkt hast.",
+    "empty": "Du hast noch keine Produkte gespeichert.",
+    "addToCart": "In den Warenkorb",
+    "chooseOptions": "Optionen wählen",
+    "remove": "Entfernen"
+  },
+  "CartSidebar": {
+    "title": "Warenkorb",
+    "signInPrompt": "Melden Sie sich an, um Ihre Bestellhistorie zu sehen und schneller einzukaufen.",
+    "signInEmail": "Per E-Mail",
+    "signInYandex": "Mit Yandex ID",
+    "deliveryEstimate": "Lieferung {range}",
+    "empty": "Ihr Warenkorb ist leer.",
+    "exploreProducts": "Produkte ansehen",
+    "itemsTotal": "Warenwert",
+    "checkout": "Zur Kasse"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "Online-Kurs, keine Lieferung",
+    "shipmentNo": "Sendung Nr. {no}",
+    "digitalGroup": "Online-Kurs — Zugang nach Zahlungsbestätigung",
+    "accessByEmail": "Der Zugang zum Kurs kommt per E-Mail, sobald die Zahlung bestätigt ist.",
+    "digitalGroupPaid": "Online-Kurs – Zugang freigeschaltet"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Wartet auf Zahlung",
+    "awaitingConfirmation": "Wartet auf Zahlungsbestätigung",
+    "receiptRejected": "Beleg nicht akzeptiert",
+    "paid": "Bezahlt",
+    "refunded": "Erstattet",
+    "canceled": "Storniert"
   }
 }

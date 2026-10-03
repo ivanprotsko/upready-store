@@ -12,6 +12,16 @@
     "trackOrder": "Siparişi takip et",
     "viewOrder": "Siparişi görüntüle"
   },
+  "CourseAccess": {
+    "body": "<strong>#{id}</strong> numaralı siparişin ödemesi onaylandı. Kurs artık hesabınızda açık:",
+    "button": "Kursa git",
+    "headingAnon": "Kursa erişim açıldı",
+    "headingWithName": "{name}, kursa erişim açıldı",
+    "preview": "Ödeme onaylandı, kurs hesabınızda sizi bekliyor",
+    "signIn": "Dersler, {email} adresiyle hesabınıza giriş yaptıktan sonra açılır.",
+    "subject": "#{id} numaralı siparişin ödemesi alındı: kursa erişim açıldı",
+    "textFallback": "#{id} numaralı siparişin ödemesi onaylandı, kursa erişim açıldı.\n\nKursa git:"
+  },
   "Delivery": {
     "bodyOrder": "<strong>#{id}</strong> numaralı sipariş teslim edildi. Umarız her şey yolundadır.",
     "headingAnon": "Siparişiniz teslim edildi",

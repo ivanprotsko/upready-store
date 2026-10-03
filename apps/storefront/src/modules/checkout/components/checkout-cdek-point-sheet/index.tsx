@@ -254,12 +254,12 @@ export default function CheckoutCdekPointSheet({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={t("searchPlaceholder")}
-            className="h-10 w-full bg-transparent txt-compact-medium text-ui-fg-base outline-none placeholder:text-ui-fg-muted"
+            className="h-10 w-full bg-transparent txt-compact-medium text-ui-fg-base outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] placeholder:text-ui-fg-muted"
             data-testid="cdek-point-search"
           />
         </div>
 
-        {error && <p className="txt-compact-small text-rose-500">{error}</p>}
+        {error && <p className="txt-compact-small text-ui-fg-error">{error}</p>}
 
         {!configured ? (
           <p className="txt-compact-small text-ui-fg-subtle py-6 text-center">

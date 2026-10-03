@@ -7,14 +7,27 @@ import type { TenantPaymentMethods } from "../hooks/api/payment-settings"
  * never a method the owner "connects", so it never appears in
  * `connectedMethodKeys` — its absence there IS the demo card, shown when the
  * list comes back empty.
+ *
+ * t-cherk-com-hotfix batch 6: the backend still answers `manualCrypto` and
+ * `manualManager` separately (`tenant-secrets/payment-methods.ts` derives
+ * them from the owner's one requisites list for the storefront's provider
+ * filter, and the two CAN differ — a list of wallets only turns
+ * `manualManager` off). The panel shows the owner ONE method, «Перевод по
+ * реквизитам», on if either half is: `isManualConnected` is that OR.
  */
-export type PaymentMethodKey = "robokassa" | "manualCrypto" | "manualManager"
+export type PaymentMethodKey = "robokassa" | "manual"
 
-export const PAYMENT_METHOD_KEYS: PaymentMethodKey[] = ["robokassa", "manualCrypto", "manualManager"]
+export const PAYMENT_METHOD_KEYS: PaymentMethodKey[] = ["robokassa", "manual"]
+
+export const isManualConnected = (methods: TenantPaymentMethods): boolean =>
+  methods.manualCrypto || methods.manualManager
+
+export const isMethodConnected = (methods: TenantPaymentMethods, key: PaymentMethodKey): boolean =>
+  key === "manual" ? isManualConnected(methods) : methods.robokassa
 
 /** Which of the owner's own methods are connected, in the order the panel lists them. */
 export const connectedMethodKeys = (methods: TenantPaymentMethods): PaymentMethodKey[] =>
-  PAYMENT_METHOD_KEYS.filter((key) => methods[key])
+  PAYMENT_METHOD_KEYS.filter((key) => isMethodConnected(methods, key))
 
 /** Whether `pp_system_default`'s demo card is this shop's only way to pay right now. */
 export const isDemoOnly = (methods: TenantPaymentMethods): boolean => methods.demo
