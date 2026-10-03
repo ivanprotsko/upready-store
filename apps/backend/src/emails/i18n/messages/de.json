@@ -12,6 +12,16 @@
     "trackOrder": "Bestellung verfolgen",
     "viewOrder": "Bestellung ansehen"
   },
+  "CourseAccess": {
+    "body": "Die Zahlung für Bestellung <strong>#{id}</strong> ist bestätigt. Der Kurs ist jetzt in Ihrem Konto freigeschaltet:",
+    "button": "Zum Kurs",
+    "headingAnon": "Ihr Kurs ist freigeschaltet",
+    "headingWithName": "{name}, Ihr Kurs ist freigeschaltet",
+    "preview": "Zahlung bestätigt, Ihr Kurs wartet in Ihrem Konto",
+    "signIn": "Die Lektionen öffnen sich, sobald Sie sich mit {email} in Ihrem Konto anmelden.",
+    "subject": "Bestellung #{id} bezahlt: Ihr Kurs ist freigeschaltet",
+    "textFallback": "Die Zahlung für Bestellung #{id} ist bestätigt, Ihr Kurs ist freigeschaltet.\n\nZum Kurs:"
+  },
   "Delivery": {
     "bodyOrder": "Bestellung <strong>#{id}</strong> wurde zugestellt. Wir hoffen, alles ist gut angekommen.",
     "headingAnon": "Ihre Bestellung wurde zugestellt",

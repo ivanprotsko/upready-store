@@ -8,6 +8,7 @@ import {
   readRobokassaSecret,
   type MaskedRobokassaSettings,
 } from "../../../tenant-secrets/robokassa";
+import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
 import {
   manualPaymentMethods,
   resolveTenantPaymentMethods,
@@ -17,7 +18,7 @@ import {
   tryReadTenantSecret,
   type UnreadableTenantSecret,
 } from "../../../tenant-secrets/unreadable";
-import { readManualPayment } from "./manual/manual-payment";
+import { legacyManualPayment, readManualPayment } from "./manual/manual-payment";
 
 /**
  * A host served over plain HTTP for real: a local stand. Everything else on
@@ -109,8 +110,9 @@ export const readOwnPaymentSettings = async (
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
-  const [{ secret, unreadable }, tenantResult] = await Promise.all([
+  const [{ secret, unreadable }, tributeSecret, tenantResult] = await Promise.all([
     readOwnRobokassaSecret(req, tenant.id, pg, logger),
+    readTributeSecretPublic(pg, tenant.id, logger),
     query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
   ]);
   const metadata = (tenantResult.data[0]?.metadata ?? null) as Record<string, unknown> | null;
@@ -120,9 +122,13 @@ export const readOwnPaymentSettings = async (
     unreadable,
     result_url: resultUrlFor(req),
     providers: [{ id: "robokassa", title: "Robokassa" }],
+    // Tribute's own write side is `/tenants/tribute` (t-cherk-22); only read
+    // here, so the panel's unified "which methods are connected" status
+    // includes it without this route owning its credentials.
     methods: resolveTenantPaymentMethods({
       robokassaEnabled: Boolean(secret?.is_enabled),
-      ...manualPaymentMethods(manualPayment),
+      tributeEnabled: Boolean(tributeSecret),
+      ...manualPaymentMethods(legacyManualPayment(manualPayment)),
     }),
   };
 };

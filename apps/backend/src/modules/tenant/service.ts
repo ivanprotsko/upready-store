@@ -16,6 +16,7 @@ import TenantProductAttributeValue from "./models/tenant-product-attribute-value
 import TenantProductImport from "./models/tenant-product-import";
 import TenantRedirect from "./models/tenant-redirect";
 import TenantRequisites from "./models/tenant-requisites";
+import TelegramBotUpdate from "./models/telegram-bot-update";
 
 class TenantModuleService extends MedusaService({
   Tenant,
@@ -35,6 +36,7 @@ class TenantModuleService extends MedusaService({
   TenantProductImport,
   TenantRedirect,
   TenantRequisites,
+  TelegramBotUpdate,
 }) {}
 
 export default TenantModuleService;

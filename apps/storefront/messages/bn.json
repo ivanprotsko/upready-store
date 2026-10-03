@@ -18,7 +18,8 @@
     "logOut": "লগ আউট",
     "orders": "অর্ডারসমূহ",
     "overview": "সারসংক্ষেপ",
-    "profile": "প্রোফাইল"
+    "profile": "প্রোফাইল",
+    "wishlist": "পছন্দের তালিকা"
   },
   "AccountOverview": {
     "addresses": "ঠিকানাসমূহ",
@@ -76,14 +77,6 @@
     "emptyMessage": "আপনার কার্ট খালি। আমাদের পণ্য দেখা শুরু করতে নিচের লিঙ্কটি ব্যবহার করুন।",
     "exploreProducts": "পণ্য দেখুন",
     "heading": "কার্ট"
-  },
-  "CartDropdown": {
-    "bagEmpty": "আপনার শপিং ব্যাগ খালি।",
-    "exploreProducts": "পণ্য দেখুন",
-    "goToCart": "কার্টে যান",
-    "heading": "কার্ট",
-    "subtotal": "সাবটোটাল",
-    "subtotalNote": "(কর ব্যতীত)"
   },
   "CartMismatchBanner": {
     "errorMessage": "আপনার কার্ট স্থানান্তর করার সময় কিছু একটা সমস্যা হয়েছে",
@@ -154,7 +147,7 @@
     "freeShipping": "ফ্রি",
     "giftCard": "গিফট কার্ড",
     "itemsCount": "{count, plural, one {{count}টি আইটেম} other {{count}টি আইটেম}}",
-    "legal": "«পে করুন»-এ ক্লিক করে, আপনি আমাদের <terms>শর্তাবলী</terms>, <termsOfUse>ব্যবহারের শর্তাবলী</termsOfUse> এবং <returnPolicy>রিটার্ন নীতি</returnPolicy> গ্রহণ করছেন এবং আমাদের <privacyPolicy>গোপনীয়তা নীতি</privacyPolicy>-তে সম্মত হচ্ছেন।",
+    "legal": "«{button}»-এ ক্লিক করে, আপনি আমাদের <terms>শর্তাবলী</terms>, <termsOfUse>ব্যবহারের শর্তাবলী</termsOfUse> এবং <returnPolicy>রিটার্ন নীতি</returnPolicy> গ্রহণ করছেন এবং আমাদের <privacyPolicy>গোপনীয়তা নীতি</privacyPolicy>-তে সম্মত হচ্ছেন।",
     "manualInput": "ঠিকানা ম্যানুয়ালি লিখুন",
     "addressIncomplete": "ঠিকানার আবশ্যক ঘরগুলো পূরণ করুন: {fields}।",
     "provinceRequired": "তালিকা থেকে অঞ্চল বেছে নিন।",
@@ -178,7 +171,13 @@
     "shippingPriceUnavailable": "অনুপলব্ধ: খরচ হিসাব করা যায়নি",
     "signIn": "সাইন ইন করুন",
     "total": "মোট",
-    "shippingZone": "অঞ্চল: {zone}"
+    "shippingZone": "অঞ্চল: {zone}",
+    "courseSignInHeading": "কোর্স কিনতে সাইন ইন করুন",
+    "courseSignInText": "কোর্সটি আপনার অ্যাকাউন্টে খোলে, তাই কিনতে সাইন ইন বা নিবন্ধন প্রয়োজন।",
+    "fieldRequired": "এই ঘরটি পূরণ করুন",
+    "emailInvalid": "ইমেইল যাচাই করুন: ঠিকানায় ভুল আছে",
+    "signInHeading": "অর্ডার করতে সাইন ইন করুন",
+    "signInText": "অর্ডারটি আপনার অ্যাকাউন্টে দেখা যাবে: সেখানে থাকবে পেমেন্টের বিবরণ, অবস্থা ও কেনা কোর্স। সাইন ইন বা নিবন্ধনে এক মিনিট লাগে, কার্ট সংরক্ষিত থাকবে।"
   },
   "ClaimOrders": {
     "heading": "অ্যাকাউন্ট ছাড়াই অর্ডার করেছেন?",
@@ -339,7 +338,10 @@
     "empty": "আপনি এখনো কোনো কোর্স কেনেননি।",
     "start": "শুরু করুন",
     "continue": "চালিয়ে যান",
-    "review": "পুনরালোচনা করুন"
+    "review": "পুনরালোচনা করুন",
+    "pendingHeading": "পেমেন্টের অপেক্ষায়",
+    "pendingHint": "দোকান পেমেন্ট নিশ্চিত করার পর অ্যাক্সেস খুলবে।",
+    "toOrder": "{order} — পেমেন্ট"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -557,6 +559,13 @@
     "notMember": "সদস্য নন?",
     "password": "পাসওয়ার্ড",
     "signIn": "সাইন ইন করুন",
+    "telegramDivider": "অথবা",
+    "telegramCta": "Telegram দিয়ে সাইন ইন করুন",
+    "telegramPending": "সাইন ইন হচ্ছে…",
+    "telegramErrorExpired": "Telegram দিয়ে সাইন ইনের মেয়াদ শেষ হয়ে গেছে। আবার শুরু করুন।",
+    "telegramErrorFailed": "সাইন ইন করা যায়নি। এক মিনিট পরে আবার চেষ্টা করুন।",
+    "telegramErrorRejected": "Telegram এই সাইন ইন নিশ্চিত করেনি। আবার চেষ্টা করুন।",
+    "telegramErrorUnconfigured": "এই দোকানে Telegram দিয়ে সাইন ইন এখনও চালু হয়নি।",
     "yandexCta": "Yandex ID দিয়ে সাইন ইন করুন",
     "yandexDivider": "অথবা",
     "yandexErrorDenied": "আপনি Yandex-এর পাতায় সাইন ইন বাতিল করেছেন।",
@@ -569,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "{bank} কার্ডের নম্বর কপি করুন",
+    "cardHolder": "প্রাপক: {holder}",
+    "cardsDesc": "অর্ডারের মোট অঙ্ক দোকানের কার্ডে ট্রান্সফার করুন।",
+    "cardsHint": "নিচের কার্ডগুলোর একটিতে {total} ট্রান্সফার করুন।",
+    "cardsManagerFallback": "কিছু ভুল হলে ম্যানেজারকে মেসেজ করুন:",
+    "cardsTitle": "কার্ডে ট্রান্সফার",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -580,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "অর্ডার #{orderNumber} গৃহীত ও সংরক্ষিত হয়েছে। নিচের কার্ডগুলোর একটিতে {total} ট্রান্সফার করুন। দোকান পেমেন্ট নিশ্চিত করলে অর্ডারের স্ট্যাটাস হবে «পরিশোধিত»।",
+    "handoverCardsMessage": "নমস্কার! কার্ড ট্রান্সফারের মাধ্যমে {total} মূল্যের অর্ডার #{orderNumber}-এর পেমেন্ট নিয়ে আমার একটি প্রশ্ন আছে।",
+    "handoverCardsTitle": "কার্ডে পেমেন্ট ট্রান্সফার করুন",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -594,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "রসিদ পাঠানো যায়নি। আবার চেষ্টা করুন বা ম্যানেজারকে মেসেজ করুন।",
+    "receiptHint": "ট্রান্সফারের ছবি বা স্ক্রিনশট (JPG, PNG, WEBP, HEIC) অথবা PDF, 10 MB পর্যন্ত।",
+    "receiptLabel": "পেমেন্টের রসিদ",
+    "receiptPaid": "আমি পেমেন্ট করেছি",
+    "receiptSent": "রসিদ পাঠানো হয়েছে, নিশ্চিতকরণের অপেক্ষায়",
+    "receiptSentHint": "দোকান ট্রান্সফার যাচাই করে পেমেন্ট নিশ্চিত করবে, তারপর অর্ডারের স্ট্যাটাস হবে «পরিশোধিত»।",
+    "receiptSubmit": "রসিদ পাঠান",
+    "receiptTooLarge": "ফাইলটি 10 MB-এর চেয়ে বড়। এটি কমপ্রেস করুন বা স্ক্রিনশট পাঠান।",
+    "receiptWrongType": "ছবি (JPG, PNG, WEBP, HEIC) বা PDF পাঠান।",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "রসিদ গৃহীত হয়নি",
+    "receiptRejectedReason": "কারণ: {reason}",
+    "receiptResend": "অন্য রসিদ পাঠান",
+    "contactManager": "ম্যানেজারের সাথে যোগাযোগ করুন",
+    "methodRequisites": "অ্যাকাউন্ট বিবরণে স্থানান্তর",
+    "requisitesDesc": "অর্ডার করার পরে আপনি দোকানের বিবরণ দেখবেন: ব্যাংক কার্ড ও ক্রিপ্টো ওয়ালেট। {total} স্থানান্তর করুন ও পেমেন্টের রসিদ সংযুক্ত করুন — ম্যানেজার অর্ডার নিশ্চিত করবেন।",
+    "requisitesPreviewLabel": "আমরা স্থানান্তর গ্রহণ করি:",
+    "handoverRequisitesTitle": "অ্যাকাউন্ট বিবরণে স্থানান্তর করে অর্ডারের মূল্য দিন",
+    "handoverRequisitesBody": "অর্ডার #{orderNumber} গৃহীত হয়েছে। নিচে একটি ব্যাংক বা ওয়ালেট বেছে নিন, {total} স্থানান্তর করুন ও পেমেন্টের রসিদ সংযুক্ত করুন।",
+    "handoverRequisitesMessage": "নমস্কার! আমি #{orderNumber} অর্ডার করেছি, মূল্য {total}, এবং অ্যাকাউন্ট বিবরণে স্থানান্তর করে পরিশোধ করেছি। অনুগ্রহ করে পেমেন্ট নিশ্চিত করুন।",
+    "contactManagerHint": "অর্ডার নিশ্চিত করতে ম্যানেজারের সাথে যোগাযোগ করুন।",
+    "showRequisite": "নম্বর দেখতে ট্যাপ করুন",
+    "hideRequisite": "নম্বর লুকান",
+    "numberLabel": "কার্ড বা অ্যাকাউন্ট নম্বর",
+    "holderLabel": "প্রাপক",
+    "addressLabel": "ওয়ালেট ঠিকানা",
+    "networkLabel": "নেটওয়ার্ক",
+    "copyNumber": "নম্বর কপি করুন",
+    "copyHolder": "প্রাপকের নাম কপি করুন",
+    "copyAddress": "ঠিকানা কপি করুন",
+    "copyNetwork": "নেটওয়ার্ক কপি করুন",
+    "cryptoOnlyWarning": "শুধু {network} নেটওয়ার্কে {currency} পাঠান: অন্য কয়েন বা অন্য নেটওয়ার্কে পাঠালে টাকা পৌঁছাবে না।",
+    "receiptPick": "ফাইল বা ছবি বেছে নিন",
+    "receiptCamera": "ছবি তুলুন",
+    "receiptRemove": "ফাইল সরান"
   },
   "Metadata": {
     "account": {
@@ -679,6 +731,10 @@
     "terms": {
       "description": "আমাদের কাছ থেকে কেনার সময় আপনি যে নিয়মে সম্মত হন তা পড়ুন।",
       "title": "ব্যবহারের শর্তাবলী"
+    },
+    "wishlist": {
+      "title": "পছন্দের তালিকা",
+      "description": "আপনি পরে কেনার জন্য সংরক্ষণ করা পণ্যগুলি।"
     }
   },
   "NativeSelect": {
@@ -713,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "অর্ডার নম্বরটি সংরক্ষণ করুন। দোকানের সঙ্গে যোগাযোগ করতে এটি প্রয়োজন হবে।",
     "orderSuccess": "আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।",
-    "thankYou": "ধন্যবাদ!"
+    "thankYou": "ধন্যবাদ!",
+    "paymentConfirmed": "পেমেন্ট নিশ্চিত হয়েছে",
+    "goToCourse": "কোর্সে যান",
+    "orderCanceled": "অর্ডার বাতিল হয়েছে",
+    "orderCanceledHint": "পেমেন্টের প্রয়োজন নেই। ভুল হলে আমাদের জানান।",
+    "paidGoodsHint": "আমরা আপনার অর্ডার পাঠানোর জন্য প্রস্তুত করছি।"
   },
   "OrderDetails": {
     "backToOrders": "অর্ডারে ফিরে যান",
@@ -921,6 +982,15 @@
     "noPhone": "কোনো ফোন নম্বর নেই",
     "phone": "ফোন"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "যুক্ত: {handle}",
+    "notLinked": "যুক্ত নয়",
+    "hint": "এই অ্যাকাউন্টের সাথে যুক্ত করতে এখানে Telegram দিয়ে সাইন ইন করুন। এরপর যেকোনো উপায়ে সাইন ইন করতে পারবেন।",
+    "errorTaken": "এই Telegram অ্যাকাউন্টটি ইতিমধ্যে অন্য একটি অ্যাকাউন্টের সাথে যুক্ত।",
+    "errorRejected": "Telegram এটি নিশ্চিত করেনি। আবার চেষ্টা করুন।",
+    "errorFailed": "Telegram যুক্ত করা যায়নি। এক মিনিট পরে আবার চেষ্টা করুন।"
+  },
   "PromoBanner": {
     "close": "বন্ধ করুন",
     "message": "সম্পূর্ণ ফিচারযুক্ত প্রোডাকশন-রেডি DTC স্টার্টার।"
@@ -1080,5 +1150,43 @@
       "previous": "পূর্ববর্তী",
       "watch": "দেখুন"
     }
+  },
+  "WishlistButton": {
+    "add": "পছন্দের তালিকায় যোগ করুন",
+    "remove": "পছন্দের তালিকা থেকে সরান"
+  },
+  "WishlistPage": {
+    "heading": "পছন্দের তালিকা",
+    "description": "আপনি পরে কেনার জন্য সংরক্ষণ করা পণ্যগুলি।",
+    "empty": "আপনি এখনও কোনো পণ্য সংরক্ষণ করেননি।",
+    "addToCart": "কার্টে যোগ করুন",
+    "chooseOptions": "অপশন বেছে নিন",
+    "remove": "সরান"
+  },
+  "CartSidebar": {
+    "title": "কার্ট",
+    "signInPrompt": "অর্ডারের ইতিহাস দেখতে এবং দ্রুত কেনাকাটা করতে সাইন ইন করুন।",
+    "signInEmail": "ইমেইল দিয়ে",
+    "signInYandex": "Yandex ID দিয়ে",
+    "deliveryEstimate": "ডেলিভারি {range}",
+    "empty": "আপনার কার্ট খালি।",
+    "exploreProducts": "পণ্য দেখুন",
+    "itemsTotal": "পণ্যের মোট মূল্য",
+    "checkout": "চেকআউট"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "অনলাইন কোর্স, ডেলিভারি নেই",
+    "shipmentNo": "শিপমেন্ট নং {no}",
+    "digitalGroup": "অনলাইন কোর্স — পেমেন্ট নিশ্চিত হওয়ার পর অ্যাক্সেস",
+    "accessByEmail": "পেমেন্ট নিশ্চিত হওয়ার পর কোর্সে প্রবেশের লিংক ইমেইলে আসবে।",
+    "digitalGroupPaid": "অনলাইন কোর্স — অ্যাক্সেস খোলা"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "পেমেন্টের অপেক্ষায়",
+    "awaitingConfirmation": "পেমেন্ট নিশ্চিতকরণের অপেক্ষায়",
+    "receiptRejected": "রসিদ গ্রহণ করা হয়নি",
+    "paid": "পরিশোধিত",
+    "refunded": "ফেরত দেওয়া হয়েছে",
+    "canceled": "বাতিল"
   }
 }

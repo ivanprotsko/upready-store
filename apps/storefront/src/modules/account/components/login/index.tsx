@@ -7,22 +7,29 @@ import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import Input from "@modules/common/components/input"
 import YandexLogin from "@modules/account/components/yandex-login"
-import { useActionState } from "react"
+import TelegramLogin from "@modules/account/components/telegram-login"
+import type { TelegramBot } from "@lib/data/telegram-bot"
+import { useActionState, useRef } from "react"
 import { useTranslations } from "next-intl"
+
+import { readWishlistStorage } from "@lib/util/wishlist-storage"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   /** From the server page, through `LoginTemplate` (rule 19g) — which forms this shop's buyers get. */
   loginSettings: TenantLoginSettings
+  /** This shop's own Telegram bot, or null — from the same server page (rule 19g). */
+  telegramBot: TelegramBot | null
   /** Where to send the buyer after signing in, from the same server page (rule 19g). */
   returnTo: string | null
 }
 
-const Login = ({ setCurrentView, loginSettings, returnTo }: Props) => {
+const Login = ({ setCurrentView, loginSettings, telegramBot, returnTo }: Props) => {
   const t = useTranslations("Login")
   const [message, formAction] = useActionState(login, null)
   const emailEnabled = allowsEmailLogin(loginSettings.method)
   const yandexEnabled = yandexLoginAvailable(loginSettings)
+  const wishlistFieldRef = useRef<HTMLInputElement>(null)
 
   return (
     <div
@@ -34,8 +41,22 @@ const Login = ({ setCurrentView, loginSettings, returnTo }: Props) => {
         {t("description")}
       </p>
       {emailEnabled && (
-        <form className="w-full" action={formAction}>
+        <form
+          className="w-full"
+          action={formAction}
+          onSubmit={() => {
+            // Read just before the native submit reaches the server action
+            // (t-cherk-32): the guest wishlist, merged into the account by
+            // `login()` once it has the customer's id.
+            if (wishlistFieldRef.current) {
+              wishlistFieldRef.current.value = JSON.stringify(
+                readWishlistStorage(window.localStorage)
+              )
+            }
+          }}
+        >
           {returnTo && <input type="hidden" name="returnTo" value={returnTo} />}
+          <input type="hidden" name="wishlist_product_ids" ref={wishlistFieldRef} />
           <div className="flex flex-col w-full gap-y-2">
             <Input
               label={t("email")}
@@ -78,6 +99,11 @@ const Login = ({ setCurrentView, loginSettings, returnTo }: Props) => {
       {/* Renders nothing when this shop turned Yandex ID off, or the platform
           has no keys at all — o25-login-methods, @lib/tenant/login-settings. */}
       <YandexLogin available={yandexEnabled} />
+      <TelegramLogin
+        bot={telegramBot}
+        returnTo={returnTo}
+        withDivider={!yandexEnabled && emailEnabled}
+      />
       {emailEnabled && (
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
           {t("notMember")}{" "}

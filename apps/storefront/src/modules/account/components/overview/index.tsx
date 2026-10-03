@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 import { convertToLocale } from "@lib/util/money"
 import { joinFilled } from "@lib/util/address"
+import { customerContactLabel, isSyntheticTelegramEmail } from "@lib/util/telegram-contact"
 import OrderCard from "@modules/account/components/order-card"
 import { OrderStatusDot } from "@modules/account/components/status-dot"
 import type { HttpTypes } from "@medusajs/types"
@@ -42,7 +43,7 @@ const Overview = async ({ customer, orders }: OverviewProps) => {
             data-testid="customer-email"
             data-value={customer?.email}
           >
-            {customer?.email}
+            {customerContactLabel(customer)}
           </span>
         </p>
       </div>
@@ -194,7 +195,7 @@ const getProfileCompletion = (customer: HttpTypes.StoreCustomer | null) => {
     return 0
   }
 
-  if (customer.email) {
+  if (customer.email && !isSyntheticTelegramEmail(customer.email)) {
     count++
   }
 

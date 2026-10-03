@@ -116,6 +116,21 @@ export function createBotApi(options: BotApiOptions) {
     getMyDescription: () => call<{ description: string }>("getMyDescription"),
     setMyDescription: (description: string) => call<true>("setMyDescription", { description }),
     setMyCommands: (commands: BotCommand[]) => call<true>("setMyCommands", { commands }),
+    // The shop bot (t-cherk-23): webhook provisioning and chat replies.
+    setWebhook: (params: {
+      url: string;
+      secret_token: string;
+      allowed_updates?: string[];
+      drop_pending_updates?: boolean;
+    }) => call<true>("setWebhook", params),
+    deleteWebhook: () => call<true>("deleteWebhook"),
+    sendMessage: (params: Record<string, unknown>) => call<unknown>("sendMessage", params),
+    sendPhoto: (params: Record<string, unknown>) => call<unknown>("sendPhoto", params),
+    editMessageText: (params: Record<string, unknown>) => call<unknown>("editMessageText", params),
+    answerCallbackQuery: (params: Record<string, unknown>) =>
+      call<true>("answerCallbackQuery", params),
+    answerInlineQuery: (params: Record<string, unknown>) =>
+      call<true>("answerInlineQuery", params),
   };
 }
 

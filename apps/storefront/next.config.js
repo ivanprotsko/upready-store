@@ -80,6 +80,10 @@ const nextConfig = {
   // Lighthouse diagnostics resolve to real source.
   productionBrowserSourceMaps: true,
   experimental: {
+    // A payment receipt (a phone photo or a PDF, up to 10 MB in
+    // `lib/util/payment-receipt.ts`) goes through a server action, and the
+    // default limit for one is 1 MB.
+    serverActions: { bodySizeLimit: "11mb" },
     // Rewrites barrel imports into per-component deep imports so the client
     // bundle only carries the primitives we actually use, not the whole kit.
     // "radix-ui" is a single barrel re-exporting every primitive; @medusajs/ui

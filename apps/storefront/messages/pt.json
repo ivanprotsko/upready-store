@@ -18,7 +18,8 @@
     "logOut": "Terminar sessão",
     "orders": "Encomendas",
     "overview": "Visão geral",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "wishlist": "Lista de desejos"
   },
   "AccountOverview": {
     "addresses": "Moradas",
@@ -76,14 +77,6 @@
     "emptyMessage": "O seu carrinho está vazio. Utilize o link abaixo para começar a explorar os nossos produtos.",
     "exploreProducts": "Explorar produtos",
     "heading": "Carrinho"
-  },
-  "CartDropdown": {
-    "bagEmpty": "O seu carrinho está vazio.",
-    "exploreProducts": "Explorar produtos",
-    "goToCart": "Ir para o carrinho",
-    "heading": "Carrinho",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(sem impostos)"
   },
   "CartMismatchBanner": {
     "errorMessage": "Algo correu mal ao tentar transferir o seu carrinho",
@@ -154,7 +147,7 @@
     "freeShipping": "Grátis",
     "giftCard": "Cartão-presente",
     "itemsCount": "{count, plural, one {{count} item} other {{count} itens}}",
-    "legal": "Ao clicar em «Pagar», aceita os nossos <terms>termos</terms>, <termsOfUse>termos de utilização</termsOfUse> e <returnPolicy>política de devolução</returnPolicy>, e concorda com a nossa <privacyPolicy>política de privacidade</privacyPolicy>.",
+    "legal": "Ao clicar em «{button}», aceita os nossos <terms>termos</terms>, <termsOfUse>termos de utilização</termsOfUse> e <returnPolicy>política de devolução</returnPolicy>, e concorda com a nossa <privacyPolicy>política de privacidade</privacyPolicy>.",
     "manualInput": "Introduzir morada manualmente",
     "addressIncomplete": "Preencha os campos obrigatórios do endereço: {fields}.",
     "provinceRequired": "Escolha a região na lista.",
@@ -178,7 +171,13 @@
     "shippingPriceUnavailable": "Indisponível: não foi possível calcular o preço",
     "signIn": "Iniciar sessão",
     "total": "Total",
-    "shippingZone": "Zona: {zone}"
+    "shippingZone": "Zona: {zone}",
+    "courseSignInHeading": "Entre para comprar o curso",
+    "courseSignInText": "O curso abre na sua conta, por isso a compra exige login ou registo.",
+    "fieldRequired": "Preencha este campo",
+    "emailInvalid": "Verifique o e-mail: o endereço tem um erro",
+    "signInHeading": "Entre para fazer o pedido",
+    "signInText": "O pedido aparecerá na sua conta: lá estão os dados de pagamento, o status e os cursos comprados. Entrar ou cadastrar-se leva um minuto e o carrinho é mantido."
   },
   "ClaimOrders": {
     "heading": "Fez a encomenda sem conta?",
@@ -339,7 +338,10 @@
     "empty": "Você ainda não comprou nenhum curso.",
     "start": "Começar",
     "continue": "Continuar",
-    "review": "Rever"
+    "review": "Rever",
+    "pendingHeading": "Aguardando pagamento",
+    "pendingHint": "O acesso será liberado quando a loja confirmar o pagamento.",
+    "toOrder": "{order} — pagar"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -557,6 +559,13 @@
     "notMember": "Ainda não é membro?",
     "password": "Palavra-passe",
     "signIn": "Iniciar sessão",
+    "telegramDivider": "ou",
+    "telegramCta": "Entrar com Telegram",
+    "telegramPending": "A entrar…",
+    "telegramErrorExpired": "Este login com o Telegram expirou. Comece de novo.",
+    "telegramErrorFailed": "Não foi possível entrar. Tente novamente em um minuto.",
+    "telegramErrorRejected": "O Telegram não confirmou este login. Tente novamente.",
+    "telegramErrorUnconfigured": "O login com o Telegram ainda não está ativado nesta loja.",
     "yandexCta": "Entrar com Yandex ID",
     "yandexDivider": "ou",
     "yandexErrorDenied": "Você cancelou o acesso na página do Yandex.",
@@ -569,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Copiar o número do cartão {bank}",
+    "cardHolder": "Destinatário: {holder}",
+    "cardsDesc": "Transfira o total do pedido para o cartão da loja.",
+    "cardsHint": "Transfira {total} para um dos cartões abaixo.",
+    "cardsManagerFallback": "Se algo correr mal, escreva ao gestor:",
+    "cardsTitle": "Transferência para cartão",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -580,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "O pedido #{orderNumber} foi registado e reservado. Transfira {total} para um dos cartões abaixo. Assim que a loja confirmar o pagamento, o pedido passará ao estado «Pago».",
+    "handoverCardsMessage": "Olá! Tenho uma dúvida sobre o pagamento do pedido #{orderNumber} no valor de {total} por transferência para cartão.",
+    "handoverCardsTitle": "Transfira o pagamento para um cartão",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -594,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Não foi possível enviar o comprovativo. Tente novamente ou escreva ao gestor.",
+    "receiptHint": "Uma foto ou captura de ecrã da transferência (JPG, PNG, WEBP, HEIC) ou um PDF, até 10 MB.",
+    "receiptLabel": "Comprovativo de pagamento",
+    "receiptPaid": "Já paguei",
+    "receiptSent": "Comprovativo enviado, a aguardar confirmação",
+    "receiptSentHint": "A loja irá verificar a transferência e confirmar o pagamento, e depois o pedido passará ao estado «Pago».",
+    "receiptSubmit": "Enviar o comprovativo",
+    "receiptTooLarge": "O ficheiro tem mais de 10 MB. Comprima-o ou envie uma captura de ecrã.",
+    "receiptWrongType": "Envie uma foto (JPG, PNG, WEBP, HEIC) ou um PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Comprovativo não aceite",
+    "receiptRejectedReason": "Motivo: {reason}",
+    "receiptResend": "Enviar outro comprovativo",
+    "contactManager": "Contactar o gestor",
+    "methodRequisites": "Transferência para os dados da conta",
+    "requisitesDesc": "Depois de fazer o pedido você verá os dados da loja: cartões bancários e carteiras de criptomoedas. Transfira {total} e anexe o comprovante de pagamento — o gerente confirmará o pedido.",
+    "requisitesPreviewLabel": "Aceitamos transferências para:",
+    "handoverRequisitesTitle": "Pague o pedido por transferência",
+    "handoverRequisitesBody": "O pedido #{orderNumber} foi registrado. Escolha um banco ou uma carteira abaixo, transfira {total} e anexe o comprovante de pagamento.",
+    "handoverRequisitesMessage": "Olá! Fiz o pedido #{orderNumber} no valor de {total} e paguei por transferência. Por favor, confirmem o pagamento.",
+    "contactManagerHint": "Para confirmar o pedido, entre em contato com o gerente.",
+    "showRequisite": "Toque para ver o número",
+    "hideRequisite": "Ocultar o número",
+    "numberLabel": "Número do cartão ou da conta",
+    "holderLabel": "Favorecido",
+    "addressLabel": "Endereço da carteira",
+    "networkLabel": "Rede",
+    "copyNumber": "Copiar o número",
+    "copyHolder": "Copiar o favorecido",
+    "copyAddress": "Copiar o endereço",
+    "copyNetwork": "Copiar a rede",
+    "cryptoOnlyWarning": "Envie apenas {currency} pela rede {network}: uma transferência de outra moeda ou por outra rede não chegará.",
+    "receiptPick": "Escolher arquivo ou foto",
+    "receiptCamera": "Tirar uma foto",
+    "receiptRemove": "Remover o arquivo"
   },
   "Metadata": {
     "account": {
@@ -679,6 +731,10 @@
     "terms": {
       "description": "Leia as regras que aceita ao comprar connosco.",
       "title": "Termos de utilização"
+    },
+    "wishlist": {
+      "title": "Lista de desejos",
+      "description": "Os produtos que guardou para mais tarde."
     }
   },
   "NativeSelect": {
@@ -713,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Guarde o número da encomenda. Vai precisar dele para contactar a loja.",
     "orderSuccess": "A sua encomenda foi efetuada com sucesso.",
-    "thankYou": "Obrigado!"
+    "thankYou": "Obrigado!",
+    "paymentConfirmed": "Pagamento confirmado",
+    "goToCourse": "Ir para o curso",
+    "orderCanceled": "Pedido cancelado",
+    "orderCanceledHint": "Não é preciso pagar. Se for um engano, escreva-nos.",
+    "paidGoodsHint": "Estamos a preparar o seu pedido para envio."
   },
   "OrderDetails": {
     "backToOrders": "Voltar às encomendas",
@@ -921,6 +982,15 @@
     "noPhone": "Sem número de telefone",
     "phone": "Telefone"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Vinculado: {handle}",
+    "notLinked": "Não vinculado",
+    "hint": "Entre aqui com o Telegram para vinculá-lo a esta conta. Depois você poderá entrar de qualquer uma das formas.",
+    "errorTaken": "Esta conta do Telegram já está vinculada a outra conta.",
+    "errorRejected": "O Telegram não confirmou. Tente novamente.",
+    "errorFailed": "Não foi possível vincular o Telegram. Tente novamente em um minuto."
+  },
   "PromoBanner": {
     "close": "Fechar",
     "message": "Starter DTC completo, pronto para produção."
@@ -1080,5 +1150,43 @@
       "previous": "Anterior",
       "watch": "Assistir"
     }
+  },
+  "WishlistButton": {
+    "add": "Adicionar à lista de desejos",
+    "remove": "Remover da lista de desejos"
+  },
+  "WishlistPage": {
+    "heading": "Lista de desejos",
+    "description": "Os produtos que guardou para mais tarde.",
+    "empty": "Ainda não guardou nenhum produto.",
+    "addToCart": "Adicionar ao carrinho",
+    "chooseOptions": "Escolher opções",
+    "remove": "Remover"
+  },
+  "CartSidebar": {
+    "title": "Carrinho",
+    "signInPrompt": "Entre para ver o histórico de pedidos e comprar mais rápido.",
+    "signInEmail": "Com e-mail",
+    "signInYandex": "Com Yandex ID",
+    "deliveryEstimate": "Entrega {range}",
+    "empty": "O seu carrinho está vazio.",
+    "exploreProducts": "Ver produtos",
+    "itemsTotal": "Total dos produtos",
+    "checkout": "Finalizar compra"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "curso online, sem entrega",
+    "shipmentNo": "Remessa n.º {no}",
+    "digitalGroup": "Curso online — acesso após a confirmação do pagamento",
+    "accessByEmail": "O acesso ao curso chegará por e-mail após a confirmação do pagamento.",
+    "digitalGroupPaid": "Curso online — acesso liberado"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Aguardando pagamento",
+    "awaitingConfirmation": "Aguardando confirmação do pagamento",
+    "receiptRejected": "Comprovante não aceito",
+    "paid": "Pago",
+    "refunded": "Reembolsado",
+    "canceled": "Cancelado"
   }
 }

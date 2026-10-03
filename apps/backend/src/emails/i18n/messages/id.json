@@ -12,6 +12,16 @@
     "trackOrder": "Lacak pesanan",
     "viewOrder": "Lihat pesanan"
   },
+  "CourseAccess": {
+    "body": "Pembayaran pesanan <strong>#{id}</strong> telah dikonfirmasi. Kursus kini terbuka di akun Anda:",
+    "button": "Buka kursus",
+    "headingAnon": "Akses ke kursus telah dibuka",
+    "headingWithName": "{name}, akses ke kursus telah dibuka",
+    "preview": "Pembayaran dikonfirmasi, kursus menunggu Anda di akun",
+    "signIn": "Pelajaran terbuka setelah Anda masuk ke akun dengan {email}.",
+    "subject": "Pesanan #{id} dibayar: akses ke kursus telah dibuka",
+    "textFallback": "Pembayaran pesanan #{id} telah dikonfirmasi, akses ke kursus telah dibuka.\n\nBuka kursus:"
+  },
   "Delivery": {
     "bodyOrder": "Pesanan <strong>#{id}</strong> telah diterima. Semoga semuanya sampai dengan baik.",
     "headingAnon": "Pesanan Anda telah diterima",

@@ -5,9 +5,11 @@ import ProfileBillingAddress from "@modules/account/components/profile-billing-a
 import ProfileEmail from "@modules/account/components/profile-email"
 import ProfileName from "@modules/account/components/profile-name"
 import ProfilePassword from "@modules/account/components/profile-password"
+import ProfileTelegram from "@modules/account/components/profile-telegram"
 import { notFound } from "next/navigation"
 import { listRegions } from "@lib/data/regions"
 import { retrieveCustomer } from "@lib/data/customer"
+import { getTelegramBot } from "@lib/data/telegram-bot"
 import { getTranslations } from "next-intl/server"
 import { pageTitle } from "@lib/util/page-title"
 import AccountPageHeader from "@modules/account/components/account-page-header"
@@ -23,8 +25,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Profile() {
-  const customer = await retrieveCustomer()
-  const regions = await listRegions()
+  const [customer, regions, telegramBot] = await Promise.all([
+    retrieveCustomer(),
+    listRegions(),
+    getTelegramBot(),
+  ])
   const t = await getTranslations("ProfilePage")
 
   if (!customer || !regions) {
@@ -41,6 +46,12 @@ export default async function Profile() {
         <Divider />
         <ProfilePhone customer={customer} />
         <Divider />
+        {telegramBot && (
+          <>
+            <ProfileTelegram customer={customer} bot={telegramBot} />
+            <Divider />
+          </>
+        )}
         <ProfilePassword customer={customer} />
         <Divider />
         <ProfileBillingAddress customer={customer} regions={regions} />

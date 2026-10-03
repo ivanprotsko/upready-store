@@ -1,6 +1,7 @@
 import type { MedusaNextFunction, MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
-import { ContainerRegistrationKeys, PUBLISHABLE_KEY_HEADER } from "@medusajs/framework/utils";
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { allowsEmailLogin, allowsYandexLogin, readBuyerLoginMethod } from "./login-settings";
+import { resolveTenantFromPublishableKeyHeader } from "../../store/tenant/resolve-tenant";
 
 /**
  * Enforcement, not only UI (o25-login-methods): a shop that chose «Yandex ID
@@ -33,35 +34,8 @@ import { allowsEmailLogin, allowsYandexLogin, readBuyerLoginMethod } from "./log
 const resolveTenantMetadataFromPublishableKey = async (
   req: MedusaRequest,
 ): Promise<Record<string, unknown> | null> => {
-  const token = req.get(PUBLISHABLE_KEY_HEADER);
-  if (!token) {
-    return null;
-  }
-
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
-
-  const { data: keys } = await query.graph({
-    entity: "api_key",
-    fields: ["id", "sales_channels_link.sales_channel_id"],
-    filters: { token: [token] },
-  });
-
-  const channelIds = ((keys[0]?.sales_channels_link ?? []) as { sales_channel_id?: string }[])
-    .map((link) => link.sales_channel_id)
-    .filter((id): id is string => Boolean(id));
-
-  if (!channelIds.length) {
-    return null;
-  }
-
-  const { data: channels } = await query.graph({
-    entity: "sales_channel",
-    fields: ["id", "tenant.metadata"],
-    filters: { id: channelIds },
-  });
-
-  const hit = channels.find((channel) => channel?.tenant);
-  return (hit?.tenant?.metadata as Record<string, unknown> | null) ?? null;
+  const tenant = await resolveTenantFromPublishableKeyHeader(req);
+  return tenant?.metadata ?? null;
 };
 
 const resolveTenantMetadataFromHandle = async (

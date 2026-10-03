@@ -5,6 +5,7 @@ import { ChevronDown, ChevronRight, CheckMini } from "@medusajs/icons"
 import User from "@modules/common/icons/user"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutContactsForm from "@modules/checkout/components/checkout-contacts-form"
+import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 import { useTranslations } from "next-intl"
 
 interface CheckoutContactsRowProps {
@@ -32,7 +33,7 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
   const buyerLastName = meta?.contact_last_name || ""
   const buyerPhone = meta?.contact_phone || ""
   const buyerName = [buyerFirstName, buyerLastName].filter(Boolean).join(" ")
-  const hasContacts = !!(buyerName || cart.email)
+  const hasContacts = !!(buyerName || realEmailOrEmpty(cart.email))
 
   const hasDifferentRecipient = meta?.has_different_recipient === "true"
   const recipientName = [addr?.first_name, addr?.last_name]

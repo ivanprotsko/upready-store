@@ -12,6 +12,16 @@
     "trackOrder": "Rendelés követése",
     "viewOrder": "Rendelés megtekintése"
   },
+  "CourseAccess": {
+    "body": "A <strong>#{id}</strong> rendelés fizetése megerősítve. A kurzus most már elérhető a fiókjában:",
+    "button": "Tovább a kurzushoz",
+    "headingAnon": "Megnyílt a hozzáférés a kurzushoz",
+    "headingWithName": "{name}, megnyílt a hozzáférés a kurzushoz",
+    "preview": "Fizetés megerősítve, a kurzus a fiókjában várja",
+    "signIn": "A leckék azután nyílnak meg, hogy a(z) {email} címmel bejelentkezik a fiókjába.",
+    "subject": "A #{id} rendelés kifizetve: megnyílt a hozzáférés a kurzushoz",
+    "textFallback": "A #{id} rendelés fizetése megerősítve, megnyílt a hozzáférés a kurzushoz.\n\nTovább a kurzushoz:"
+  },
   "Delivery": {
     "bodyOrder": "A(z) <strong>#{id}</strong> rendelést kézbesítettük. Reméljük, minden rendben érkezett.",
     "headingAnon": "A rendelését kézbesítettük",

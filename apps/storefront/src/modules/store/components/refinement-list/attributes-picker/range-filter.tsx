@@ -79,7 +79,7 @@ const RangeFilter = ({
   const hasValue = selected.min !== null || selected.max !== null
 
   const fieldClassName =
-    "txt-compact-small text-ui-fg-base w-14 bg-transparent text-center outline-none tabular-nums placeholder:text-ui-fg-muted"
+    "txt-compact-small text-ui-fg-base w-14 bg-transparent text-center outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] tabular-nums placeholder:text-ui-fg-muted"
 
   return (
     <div

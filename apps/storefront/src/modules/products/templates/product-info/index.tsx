@@ -3,6 +3,8 @@ import { ChevronRight, StarSolid } from "@medusajs/icons"
 import { getFormatter, getTranslations } from "next-intl/server"
 
 import type { ProductReviewSummary } from "@lib/data/product-reviews"
+import { getWishlistProductIds, isWishlistCustomerLoggedIn } from "@lib/data/wishlist"
+import WishlistButton from "@modules/products/components/wishlist-button"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
@@ -24,21 +26,31 @@ type ProductInfoProps = {
  * `product-description/excerpt`), under the three-line excerpt it continues.
  */
 const ProductInfo = async ({ product, reviews }: ProductInfoProps) => {
-  const [t, format] = await Promise.all([
+  const [t, format, wishlistLoggedIn, wishlistProductIds] = await Promise.all([
     getTranslations("ProductReviews"),
     getFormatter(),
+    isWishlistCustomerLoggedIn(),
+    getWishlistProductIds(),
   ])
   const hasReviews = !!reviews && reviews.count > 0 && reviews.average !== null
 
   return (
     <div id="product-info" className="flex flex-col gap-y-4">
       <div className="flex flex-col gap-y-2">
-        <h1
-          className="text-2xl small:text-[28px] font-medium leading-tight text-ui-fg-base"
-          data-testid="product-title"
-        >
-          {product.title}
-        </h1>
+        <div className="flex items-start justify-between gap-x-3">
+          <h1
+            className="text-2xl small:text-[28px] font-medium leading-tight text-ui-fg-base"
+            data-testid="product-title"
+          >
+            {product.title}
+          </h1>
+          <WishlistButton
+            productId={product.id}
+            initialActive={wishlistProductIds.includes(product.id)}
+            isLoggedIn={wishlistLoggedIn}
+            className="inline-flex shrink-0 items-center justify-center rounded-full border border-ui-border-base p-2 text-ui-fg-subtle transition-colors hover:text-ui-fg-base disabled:opacity-60"
+          />
+        </div>
         {product.subtitle && (
           <p className="text-sm leading-6 text-ui-fg-subtle">
             {product.subtitle}

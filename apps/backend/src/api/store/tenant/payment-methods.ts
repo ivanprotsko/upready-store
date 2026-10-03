@@ -3,12 +3,13 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { Logger } from "@medusajs/framework/types";
 import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
+import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
 import {
   manualPaymentMethods,
   resolveTenantPaymentMethods,
   type TenantPaymentMethods,
 } from "../../../tenant-secrets/payment-methods";
-import { readManualPayment } from "../../tenants/payment-settings/manual/manual-payment";
+import { legacyManualPayment, readManualPayment } from "../../tenants/payment-settings/manual/manual-payment";
 import { tenantOrNull } from "./robokassa";
 
 /**
@@ -27,15 +28,21 @@ export const tenantPaymentMethodsFor = async (req: MedusaStoreRequest): Promise<
   const tenant = await tenantOrNull(req);
 
   if (!tenant) {
-    return resolveTenantPaymentMethods({ robokassaEnabled: false, manualCrypto: false, manualManager: false });
+    return resolveTenantPaymentMethods({
+      robokassaEnabled: false,
+      tributeEnabled: false,
+      manualCrypto: false,
+      manualManager: false,
+    });
   }
 
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
-  const [secret, tenantResult] = await Promise.all([
+  const [secret, tributeSecret, tenantResult] = await Promise.all([
     readRobokassaSecretPublic(pg, tenant.id, logger),
+    readTributeSecretPublic(pg, tenant.id, logger),
     query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
   ]);
 
@@ -44,6 +51,7 @@ export const tenantPaymentMethodsFor = async (req: MedusaStoreRequest): Promise<
 
   return resolveTenantPaymentMethods({
     robokassaEnabled: Boolean(secret),
-    ...manualPaymentMethods(manualPayment),
+    tributeEnabled: Boolean(tributeSecret),
+    ...manualPaymentMethods(legacyManualPayment(manualPayment)),
   });
 };
