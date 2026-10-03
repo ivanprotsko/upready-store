@@ -1,6 +1,9 @@
 import { readFileSync, readdirSync, statSync } from "node:fs"
 import { join } from "node:path"
+import resolveConfig from "tailwindcss/resolveConfig"
 import { describe, expect, it } from "vitest"
+
+import tailwindConfig from "../../../tailwind.config.js"
 
 const SRC = join(__dirname, "../..")
 
@@ -30,6 +33,34 @@ function isAllowlisted(lines: string[], i: number): boolean {
   return false
 }
 
+// t-theme-hardcoded-colours review (telegram-login-a5, PR #224): a `ui-*` token that
+// merely LOOKS plausible (`bg-ui-tag-red-bg0`) is syntactically fine and parses clean,
+// but @medusajs/ui-preset emits no rule for it — the colour silently disappears. The
+// only honest check is the one Tailwind itself does: resolve the project's own
+// tailwind.config.js and read back the colours it actually produced.
+const resolvedColours = resolveConfig(tailwindConfig as never).theme.colors as Record<string, unknown>
+
+function collectLeaves(node: unknown, prefix: string, out: Set<string>) {
+  if (typeof node === "string") {
+    out.add(prefix)
+    return
+  }
+  if (node && typeof node === "object") {
+    for (const [key, value] of Object.entries(node as Record<string, unknown>)) {
+      if (key === "DEFAULT") {
+        collectLeaves(value, prefix, out)
+      } else {
+        collectLeaves(value, prefix ? `${prefix}-${key}` : key, out)
+      }
+    }
+  }
+}
+
+const VALID_UI_SUFFIXES = new Set<string>()
+collectLeaves((resolvedColours as { ui?: unknown }).ui, "", VALID_UI_SUFFIXES)
+
+const UI_TOKEN_RE = /(?:bg|text|border|ring|fill|stroke|shadow)-ui-([a-z][a-z0-9-]*)/g
+
 function listTsxFiles(dir: string): string[] {
   const out: string[] = []
   for (const name of readdirSync(dir)) {
@@ -57,6 +88,22 @@ describe("theme tokens: no literal Tailwind colour comes back unnoticed", () => 
         if (!LITERAL_COLOUR_RE.test(line)) return
         if (isAllowlisted(lines, i)) return
         offenders.push(`${file.slice(SRC.length + 1)}:${i + 1}: ${line.trim()}`)
+      })
+    }
+    expect(offenders, offenders.join("\n")).toEqual([])
+  })
+
+  it("every ui-* token used actually exists in the resolved Tailwind config", () => {
+    expect(VALID_UI_SUFFIXES.size, "resolved 0 ui-* colours — tailwind.config.js or the preset is broken").toBeGreaterThan(0)
+    const offenders: string[] = []
+    for (const file of files) {
+      const lines = readFileSync(file, "utf8").split("\n")
+      lines.forEach((line, i) => {
+        for (const match of line.matchAll(UI_TOKEN_RE)) {
+          const suffix = match[1]
+          if (VALID_UI_SUFFIXES.has(suffix)) continue
+          offenders.push(`${file.slice(SRC.length + 1)}:${i + 1}: ui-${suffix} (from "${match[0]}") — ${line.trim()}`)
+        }
       })
     }
     expect(offenders, offenders.join("\n")).toEqual([])

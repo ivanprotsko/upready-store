@@ -179,7 +179,7 @@ function FreeShippingInline({
             className={clx(
               "bg-gradient-to-r from-[var(--muted-foreground)] to-[var(--foreground)] h-1 rounded-full max-w-full duration-500 ease-in-out",
               {
-                "from-[var(--success)] to-[var(--success)]": price.target_reached,
+                "from-[var(--success)] to-[color-mix(in_srgb,var(--success)_72%,var(--foreground))]": price.target_reached,
               }
             )}
             style={{ width: `${price.remaining_percentage}%` }}
@@ -257,7 +257,7 @@ function FreeShippingPopup({
                 className={clx(
                   "bg-gradient-to-r from-[var(--muted-foreground)] to-[var(--foreground)] h-1.5 rounded-full max-w-full duration-500 ease-in-out",
                   {
-                    "from-[var(--success)] to-[var(--success)]": price.target_reached,
+                    "from-[var(--success)] to-[color-mix(in_srgb,var(--success)_72%,var(--foreground))]": price.target_reached,
                   }
                 )}
                 style={{ width: `${price.remaining_percentage}%` }}

@@ -55,11 +55,11 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
       <div className="content-container flex flex-col gap-y-4 py-4 small:flex-row small:items-center small:justify-between small:gap-x-6">
         <div className="flex items-start gap-x-2">
           <span
-            className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-red-bg0"
+            className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-red-icon"
             aria-hidden
           />
           <div className="flex flex-col gap-y-0.5">
-            <span className="txt-compact-medium-plus text-ui-tag-red-text">
+            <span className="txt-compact-medium-plus text-ui-fg-error">
               {t("heading")}
             </span>
             <span className="txt-compact-small text-ui-tag-red-text">
