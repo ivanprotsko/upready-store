@@ -81,8 +81,11 @@ function CheckoutItem({
           <span className="txt-medium text-ui-fg-base">
             {item.product_title}
           </span>
+          {/* `h-auto min-h-6`: on a 390px phone the line's text column is narrower than
+              «онлайн-курс, без доставки», and the xsmall badge's fixed `h-6` let the
+              second line spill out of it (batch 6 part 1 shots). */}
           {noDelivery ? (
-            <Badge size="xsmall" color="blue" className="w-fit" data-testid="line-no-delivery-badge">
+            <Badge size="xsmall" color="blue" className="w-fit h-auto min-h-6" data-testid="line-no-delivery-badge">
               {tShip("noDeliveryBadge")}
             </Badge>
           ) : variantTitle ? (
