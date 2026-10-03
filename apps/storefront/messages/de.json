@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Kreditkarte",
     "pp_system_default": "Manuelle Zahlung"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Mit Klick auf «{button}» werden Sie Kunde von {seller} und bestätigen, dass Sie die <terms>Bedingungen</terms> und die <privacy>Datenschutzerklärung</privacy> gelesen haben.",
+    "redirect": "{kind, select, domain {Zur Zahlung werden Sie zu {value} weitergeleitet.} telegram_bot {Zur Zahlung werden Sie zum Telegram-Bot {value} weitergeleitet.} crypto_network {Zur Zahlung senden Sie die Überweisung an eine Wallet im Netzwerk {value}.} bank {Zur Zahlung überweisen Sie den Betrag über {value}.} other {}}",
+    "chargeWithAmount": "Die Belastung erfolgt in {currency} zum Kurs von {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Die Belastung erfolgt in {currency} zum Kurs von {rateSource} zum Zeitpunkt der Zahlung.",
+    "chargeNoSource": "Die Belastung erfolgt in {currency}.",
+    "refund": "Erstattung: {terms}."
+  },
   "PaymentTest": {
     "attention": "Achtung:",
     "testingOnly": "Nur zu Testzwecken."

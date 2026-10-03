@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "ক্রেডিট কার্ড",
     "pp_system_default": "ম্যানুয়াল পেমেন্ট"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "«{button}»-এ ক্লিক করে আপনি {seller}-এর গ্রাহক হচ্ছেন এবং নিশ্চিত করছেন যে আপনি <terms>শর্তাবলী</terms> ও <privacy>গোপনীয়তা নীতি</privacy> পড়েছেন।",
+    "redirect": "{kind, select, domain {পেমেন্টের জন্য আপনাকে {value}-এ নিয়ে যাওয়া হবে।} telegram_bot {পেমেন্টের জন্য আপনাকে Telegram বট {value}-এ নিয়ে যাওয়া হবে।} crypto_network {পেমেন্টের জন্য আপনি {value} নেটওয়ার্কের একটি ওয়ালেটে ট্রান্সফার পাঠাবেন।} bank {পেমেন্টের জন্য আপনি {value}-এর মাধ্যমে টাকা ট্রান্সফার করবেন।} other {}}",
+    "chargeWithAmount": "টাকা {currency}-তে কাটা হবে, {rateSource}-এর হারে, ≈ {amount}।",
+    "chargeWithoutAmount": "টাকা {currency}-তে কাটা হবে, পেমেন্টের সময়ের {rateSource}-এর হারে।",
+    "chargeNoSource": "টাকা {currency}-তে কাটা হবে।",
+    "refund": "ফেরত: {terms}।"
+  },
   "PaymentTest": {
     "attention": "মনোযোগ:",
     "testingOnly": "শুধুমাত্র পরীক্ষার উদ্দেশ্যে।"

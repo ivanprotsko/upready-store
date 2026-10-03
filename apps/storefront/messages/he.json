@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "כרטיס אשראי",
     "pp_system_default": "תשלום ידני"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "בלחיצה על «{button}», אתה הופך ללקוח של {seller} ומאשר שקראת את <terms>התנאים</terms> ואת <privacy>מדיניות הפרטיות</privacy>.",
+    "redirect": "{kind, select, domain {לתשלום תועבר אל {value}.} telegram_bot {לתשלום תועבר אל בוט ה-Telegram {value}.} crypto_network {לתשלום תשלח את ההעברה לארנק ברשת {value}.} bank {לתשלום תעביר את הסכום דרך {value}.} other {}}",
+    "chargeWithAmount": "החיוב יתבצע ב-{currency} לפי השער של {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "החיוב יתבצע ב-{currency} לפי השער של {rateSource} בעת התשלום.",
+    "chargeNoSource": "החיוב יתבצע ב-{currency}.",
+    "refund": "החזר כספי: {terms}."
+  },
   "PaymentTest": {
     "attention": "שים לב:",
     "testingOnly": "לצרכי בדיקה בלבד."

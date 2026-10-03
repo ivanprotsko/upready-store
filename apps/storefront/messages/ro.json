@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Card de credit",
     "pp_system_default": "Plată manuală"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Făcând clic pe «{button}», deveniți client al vânzătorului {seller} și confirmați că ați citit <terms>termenii</terms> și <privacy>politica de confidențialitate</privacy>.",
+    "redirect": "{kind, select, domain {Pentru plată, veți fi redirecționat către {value}.} telegram_bot {Pentru plată, veți fi redirecționat către botul Telegram {value}.} crypto_network {Pentru plată, veți trimite transferul către un portofel din rețeaua {value}.} bank {Pentru plată, veți transfera suma prin {value}.} other {}}",
+    "chargeWithAmount": "Suma va fi debitată în {currency}, la cursul {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Suma va fi debitată în {currency}, la cursul {rateSource} din momentul plății.",
+    "chargeNoSource": "Suma va fi debitată în {currency}.",
+    "refund": "Rambursare: {terms}."
+  },
   "PaymentTest": {
     "attention": "Atenție:",
     "testingOnly": "Doar pentru testare."

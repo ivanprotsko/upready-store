@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Πιστωτική κάρτα",
     "pp_system_default": "Χειροκίνητη πληρωμή"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Κάνοντας κλικ στο «{button}», γίνεστε πελάτης του πωλητή {seller} και επιβεβαιώνετε ότι διαβάσατε τους <terms>όρους</terms> και την <privacy>πολιτική απορρήτου</privacy>.",
+    "redirect": "{kind, select, domain {Για την πληρωμή θα μεταφερθείτε στο {value}.} telegram_bot {Για την πληρωμή θα μεταφερθείτε στο Telegram bot {value}.} crypto_network {Για την πληρωμή θα στείλετε τη μεταφορά σε πορτοφόλι στο δίκτυο {value}.} bank {Για την πληρωμή θα μεταφέρετε το ποσό μέσω {value}.} other {}}",
+    "chargeWithAmount": "Η χρέωση θα γίνει σε {currency} με την ισοτιμία {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Η χρέωση θα γίνει σε {currency} με την ισοτιμία {rateSource} κατά τη στιγμή της πληρωμής.",
+    "chargeNoSource": "Η χρέωση θα γίνει σε {currency}.",
+    "refund": "Επιστροφή χρημάτων: {terms}."
+  },
   "PaymentTest": {
     "attention": "Προσοχή:",
     "testingOnly": "Μόνο για δοκιμαστικούς σκοπούς."

@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "بطاقة ائتمان",
     "pp_system_default": "دفع يدوي"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "بالنقر على «{button}»، تصبح عميلاً لدى {seller} وتؤكد أنك اطلعت على <terms>الشروط</terms> و<privacy>سياسة الخصوصية</privacy>.",
+    "redirect": "{kind, select, domain {للدفع، ستتم إعادة توجيهك إلى {value}.} telegram_bot {للدفع، ستتم إعادة توجيهك إلى بوت Telegram {value}.} crypto_network {للدفع، سترسل التحويل إلى محفظة على شبكة {value}.} bank {للدفع، ستحوّل المبلغ عبر {value}.} other {}}",
+    "chargeWithAmount": "سيتم الخصم بعملة {currency} بسعر صرف {rateSource}، ≈ {amount}.",
+    "chargeWithoutAmount": "سيتم الخصم بعملة {currency} بسعر صرف {rateSource} وقت الدفع.",
+    "chargeNoSource": "سيتم الخصم بعملة {currency}.",
+    "refund": "استرداد المبلغ: {terms}."
+  },
   "PaymentTest": {
     "attention": "تنبيه:",
     "testingOnly": "لأغراض الاختبار فقط."

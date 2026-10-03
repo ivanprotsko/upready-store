@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Kredi kartı",
     "pp_system_default": "Manuel ödeme"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "«{button}» düğmesine tıklayarak {seller} müşterisi olursunuz ve <terms>şartları</terms> ile <privacy>gizlilik politikasını</privacy> okuduğunuzu onaylarsınız.",
+    "redirect": "{kind, select, domain {Ödeme için {value} adresine yönlendirileceksiniz.} telegram_bot {Ödeme için {value} Telegram botuna yönlendirileceksiniz.} crypto_network {Ödeme için transferi {value} ağındaki bir cüzdana göndereceksiniz.} bank {Ödeme için tutarı {value} üzerinden aktaracaksınız.} other {}}",
+    "chargeWithAmount": "Tahsilat {currency} cinsinden, {rateSource} kuru üzerinden yapılacak, ≈ {amount}.",
+    "chargeWithoutAmount": "Tahsilat {currency} cinsinden, ödeme anındaki {rateSource} kuru üzerinden yapılacak.",
+    "chargeNoSource": "Tahsilat {currency} cinsinden yapılacak.",
+    "refund": "İade: {terms}."
+  },
   "PaymentTest": {
     "attention": "Dikkat:",
     "testingOnly": "Yalnızca test amaçlıdır."

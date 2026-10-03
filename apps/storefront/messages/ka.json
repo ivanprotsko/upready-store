@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "საკრედიტო ბარათი",
     "pp_system_default": "ხელით გადახდა"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "«{button}»-ზე დაწკაპუნებით თქვენ ხდებით {seller}-ის კლიენტი და ადასტურებთ, რომ გაეცანით <terms>პირობებს</terms> და <privacy>კონფიდენციალურობის პოლიტიკას</privacy>.",
+    "redirect": "{kind, select, domain {გადასახდელად გადამისამართდებით {value}-ზე.} telegram_bot {გადასახდელად გადამისამართდებით Telegram-ბოტში {value}.} crypto_network {გადასახდელად გადარიცხვას გაგზავნით საფულეზე ქსელში {value}.} bank {გადასახდელად თანხას გადარიცხავთ {value}-ის მეშვეობით.} other {}}",
+    "chargeWithAmount": "თანხა ჩამოიჭრება {currency}-ში, {rateSource}-ის კურსით, ≈ {amount}.",
+    "chargeWithoutAmount": "თანხა ჩამოიჭრება {currency}-ში, {rateSource}-ის კურსით გადახდის მომენტში.",
+    "chargeNoSource": "თანხა ჩამოიჭრება {currency}-ში.",
+    "refund": "თანხის დაბრუნება: {terms}."
+  },
   "PaymentTest": {
     "attention": "ყურადღება:",
     "testingOnly": "მხოლოდ სატესტო მიზნებისთვის."

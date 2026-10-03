@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Кредит карт",
     "pp_system_default": "Гар аргаар төлөх"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "«{button}» товчийг дарснаар та {seller} худалдагчийн үйлчлүүлэгч болж, <terms>нөхцөл</terms> болон <privacy>нууцлалын бодлого</privacy>-той танилцсанаа баталж байна.",
+    "redirect": "{kind, select, domain {Төлбөр төлөхийн тулд таныг {value} сайт руу шилжүүлнэ.} telegram_bot {Төлбөр төлөхийн тулд таныг Telegram-ийн {value} бот руу шилжүүлнэ.} crypto_network {Төлбөр төлөхийн тулд та {value} сүлжээн дэх түрийвч рүү шилжүүлэг илгээнэ.} bank {Төлбөр төлөхийн тулд та дүнг {value} үйлчилгээгээр дамжуулан шилжүүлнэ.} other {}}",
+    "chargeWithAmount": "Төлбөрийг {currency} валютаар, {rateSource} ханшаар хасна, ≈ {amount}.",
+    "chargeWithoutAmount": "Төлбөрийг {currency} валютаар, төлбөр хийх үеийн {rateSource} ханшаар хасна.",
+    "chargeNoSource": "Төлбөрийг {currency} валютаар хасна.",
+    "refund": "Буцаан олголт: {terms}."
+  },
   "PaymentTest": {
     "attention": "Анхаар:",
     "testingOnly": "Зөвхөн туршилтын зорилгоор."

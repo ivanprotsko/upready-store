@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Platební karta",
     "pp_system_default": "Ruční platba"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Kliknutím na tlačítko „{button}“ se stáváte zákazníkem prodejce {seller} a potvrzujete, že jste se seznámili s <terms>podmínkami</terms> a <privacy>zásadami ochrany osobních údajů</privacy>.",
+    "redirect": "{kind, select, domain {K zaplacení budete přesměrováni na {value}.} telegram_bot {K zaplacení budete přesměrováni do telegramového bota {value}.} crypto_network {K zaplacení odešlete převod na peněženku v síti {value}.} bank {K zaplacení převedete částku přes {value}.} other {}}",
+    "chargeWithAmount": "Částka bude stržena v {currency} podle kurzu {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Částka bude stržena v {currency} podle kurzu {rateSource} v okamžiku platby.",
+    "chargeNoSource": "Částka bude stržena v {currency}.",
+    "refund": "Vrácení peněz: {terms}."
+  },
   "PaymentTest": {
     "attention": "Upozornění:",
     "testingOnly": "Pouze pro testovací účely."

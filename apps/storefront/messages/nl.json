@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Creditcard",
     "pp_system_default": "Handmatige betaling"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Door op «{button}» te klikken, wordt u klant van {seller} en bevestigt u dat u de <terms>voorwaarden</terms> en het <privacy>privacybeleid</privacy> hebt gelezen.",
+    "redirect": "{kind, select, domain {Om te betalen wordt u doorgestuurd naar {value}.} telegram_bot {Om te betalen wordt u doorgestuurd naar de Telegram-bot {value}.} crypto_network {Om te betalen verstuurt u de overboeking naar een wallet op het {value}-netwerk.} bank {Om te betalen maakt u het bedrag over via {value}.} other {}}",
+    "chargeWithAmount": "Het bedrag wordt afgeschreven in {currency} tegen de koers van {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Het bedrag wordt afgeschreven in {currency} tegen de koers van {rateSource} op het moment van betalen.",
+    "chargeNoSource": "Het bedrag wordt afgeschreven in {currency}.",
+    "refund": "Terugbetaling: {terms}."
+  },
   "PaymentTest": {
     "attention": "Let op:",
     "testingOnly": "Alleen voor testdoeleinden."

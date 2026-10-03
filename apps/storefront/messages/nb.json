@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Betalingskort",
     "pp_system_default": "Manuell betaling"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Ved å klikke på «{button}» blir du kunde hos {seller} og bekrefter at du har lest <terms>vilkårene</terms> og <privacy>personvernerklæringen</privacy>.",
+    "redirect": "{kind, select, domain {For å betale blir du sendt videre til {value}.} telegram_bot {For å betale blir du sendt videre til Telegram-boten {value}.} crypto_network {For å betale sender du overføringen til en lommebok på {value}-nettverket.} bank {For å betale overfører du beløpet via {value}.} other {}}",
+    "chargeWithAmount": "Beløpet trekkes i {currency} etter kursen fra {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Beløpet trekkes i {currency} etter kursen fra {rateSource} på betalingstidspunktet.",
+    "chargeNoSource": "Beløpet trekkes i {currency}.",
+    "refund": "Refusjon: {terms}."
+  },
   "PaymentTest": {
     "attention": "Merk:",
     "testingOnly": "Kun for testformål."

@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Credit card",
     "pp_system_default": "Manual na bayad"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Sa pag-click ng «{button}», nagiging customer ka ng {seller} at kinukumpirma mong nabasa mo ang <terms>mga tuntunin</terms> at ang <privacy>patakaran sa privacy</privacy>.",
+    "redirect": "{kind, select, domain {Para magbayad, ire-redirect ka sa {value}.} telegram_bot {Para magbayad, ire-redirect ka sa Telegram bot na {value}.} crypto_network {Para magbayad, ipapadala mo ang transfer sa isang wallet sa {value} network.} bank {Para magbayad, ita-transfer mo ang halaga sa pamamagitan ng {value}.} other {}}",
+    "chargeWithAmount": "Sisingilin ang bayad sa {currency}, ayon sa palitan ng {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Sisingilin ang bayad sa {currency}, ayon sa palitan ng {rateSource} sa oras ng pagbabayad.",
+    "chargeNoSource": "Sisingilin ang bayad sa {currency}.",
+    "refund": "Pag-refund: {terms}."
+  },
   "PaymentTest": {
     "attention": "Paalala:",
     "testingOnly": "Para sa testing lamang."

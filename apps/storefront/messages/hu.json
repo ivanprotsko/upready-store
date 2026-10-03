@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Bankkártya",
     "pp_system_default": "Kézi fizetés"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "„{button}” gombra kattintva Ön {seller} ügyfelévé válik, és megerősíti, hogy elolvasta a <terms>feltételeket</terms> és az <privacy>adatvédelmi szabályzatot</privacy>.",
+    "redirect": "{kind, select, domain {A fizetéshez átirányítjuk ide: {value}.} telegram_bot {A fizetéshez átirányítjuk erre a Telegram-botra: {value}.} crypto_network {A fizetéshez az átutalást egy {value} hálózaton lévő tárcába küldi.} bank {A fizetéshez az összeget ezen keresztül utalja át: {value}.} other {}}",
+    "chargeWithAmount": "A terhelés {currency} pénznemben történik, {rateSource} szerinti árfolyamon, ≈ {amount}.",
+    "chargeWithoutAmount": "A terhelés {currency} pénznemben történik, a fizetés pillanatában érvényes {rateSource} szerinti árfolyamon.",
+    "chargeNoSource": "A terhelés {currency} pénznemben történik.",
+    "refund": "Visszatérítés: {terms}."
+  },
   "PaymentTest": {
     "attention": "Figyelem:",
     "testingOnly": "Csak tesztelési célokra."

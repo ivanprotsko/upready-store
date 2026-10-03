@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Кредитна карта",
     "pp_system_default": "Ръчно плащане"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "С натискането на «{button}» ставате клиент на {seller} и потвърждавате, че сте се запознали с <terms>условията</terms> и <privacy>политиката за поверителност</privacy>.",
+    "redirect": "{kind, select, domain {За плащането ще бъдете пренасочени към {value}.} telegram_bot {За плащането ще бъдете пренасочени към Telegram бота {value}.} crypto_network {За плащането ще изпратите превода към портфейл в мрежата {value}.} bank {За плащането ще преведете сумата чрез {value}.} other {}}",
+    "chargeWithAmount": "Плащането ще се извърши в {currency} по курса на {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Плащането ще се извърши в {currency} по курса на {rateSource} към момента на плащането.",
+    "chargeNoSource": "Плащането ще се извърши в {currency}.",
+    "refund": "Връщане на средства: {terms}."
+  },
   "PaymentTest": {
     "attention": "Внимание:",
     "testingOnly": "Само за тестови цели."
