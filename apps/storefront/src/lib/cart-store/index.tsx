@@ -42,6 +42,13 @@ const SERVER_STATE: CartQueueState = {
  *   `keepalive`, and the intents go into `sessionStorage` for the next page in the tab.
  * - Mounted: intents a previous page left there are applied and sent again (an
  *   absolute quantity, so a second send of one that already landed changes nothing).
+ *
+ * On an unload the stored intents stay stored even when the keepalive reply confirms
+ * them before the old page is gone. Measured on 2026-10-03: the next page is requested
+ * at the same moment as that request, its server render read the cart first, and with
+ * the entry cleared it showed the quantity from before the clicks. Sending them once
+ * more from the next page costs one small request and brings its view the server's
+ * cart.
  */
 export function CartQueueProvider({ children }: { children: ReactNode }) {
   const [queue] = useState(() => new CartQueue({ transport: httpTransport }))
@@ -55,13 +62,37 @@ export function CartQueueProvider({ children }: { children: ReactNode }) {
       queue.flush()
     }
 
-    const leave = () => {
-      storePending(queue.pendingIntents())
+    // Set from `beforeunload` / `pagehide` until the page is gone. A page still alive
+    // a moment later did not unload (a download link, an unload the browser cancelled),
+    // and goes back to clearing what it confirms.
+    let leaving = false
+    let stayedTimer: ReturnType<typeof setTimeout> | undefined
+
+    const sendNow = () => {
+      const intents = queue.pendingIntents()
+      if (intents.length > 0) {
+        storePending(intents)
+      }
       queue.flush({ keepalive: true })
+    }
+    const leave = () => {
+      leaving = true
+      clearTimeout(stayedTimer)
+      stayedTimer = setTimeout(() => {
+        leaving = false
+        sync()
+      }, 3000)
+      sendNow()
     }
     const onVisibility = () => {
       if (document.visibilityState === "hidden") {
-        leave()
+        sendNow()
+      }
+    }
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        leaving = false
+        sync()
       }
     }
 
@@ -79,8 +110,9 @@ export function CartQueueProvider({ children }: { children: ReactNode }) {
         window.removeEventListener("beforeunload", leave)
         listening = false
       }
-      // Confirmed: whatever an earlier unload stored is history now.
-      if (!pending) {
+      // Confirmed: whatever was stored is history now, unless this page is going away
+      // and the next one still has to see it.
+      if (!pending && !leaving) {
         storePending([])
       }
     }
@@ -88,11 +120,14 @@ export function CartQueueProvider({ children }: { children: ReactNode }) {
     sync()
 
     window.addEventListener("pagehide", leave)
+    window.addEventListener("pageshow", onPageShow)
     document.addEventListener("visibilitychange", onVisibility)
     return () => {
       unsubscribe()
+      clearTimeout(stayedTimer)
       window.removeEventListener("beforeunload", leave)
       window.removeEventListener("pagehide", leave)
+      window.removeEventListener("pageshow", onPageShow)
       document.removeEventListener("visibilitychange", onVisibility)
     }
   }, [queue])
