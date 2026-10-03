@@ -38,6 +38,7 @@
     "prebuild": "node scripts/build-profile.mjs",
     "test:pdp": "playwright test --config tests/pdp/playwright.config.ts",
     "test:e2e:cart": "playwright test --config e2e/cart/playwright.config.ts",
+    "test:e2e:optimistic-cart": "playwright test --config e2e/optimistic-cart/playwright.config.ts",
     "test:e2e:footer": "playwright test --config e2e/footer/playwright.config.ts",
     "test:profile": "docker run --rm --add-host=host.docker.internal:host-gateway -v \"$PWD/../..\":/work -w /work/apps/storefront -e PROFILE_URL mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/profile/playwright.config.ts",
     "themes:extract": "node scripts/extract-theme-sources.mjs",
