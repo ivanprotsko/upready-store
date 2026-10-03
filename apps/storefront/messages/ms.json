@@ -91,7 +91,8 @@
     "shipping": "Penghantaran",
     "subtotal": "Jumlah kecil (tidak termasuk penghantaran dan cukai)",
     "taxes": "Cukai",
-    "total": "Jumlah"
+    "total": "Jumlah",
+    "shippingAtCheckout": "semasa pembayaran"
   },
   "CategoryMenu": {
     "title": "Kategori",
@@ -177,7 +178,8 @@
     "fieldRequired": "Isi ruangan ini",
     "emailInvalid": "Semak e-mel: alamat ada kesilapan",
     "signInHeading": "Log masuk untuk membuat pesanan",
-    "signInText": "Pesanan akan muncul dalam akaun anda: di sana ada butiran pembayaran, status dan kursus yang dibeli. Log masuk atau mendaftar mengambil masa seminit, troli dikekalkan."
+    "signInText": "Pesanan akan muncul dalam akaun anda: di sana ada butiran pembayaran, status dan kursus yang dibeli. Log masuk atau mendaftar mengambil masa seminit, troli dikekalkan.",
+    "shippingNotChosen": "selepas memilih kaedah"
   },
   "ClaimOrders": {
     "heading": "Membuat pesanan tanpa akaun?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bayar",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Buat pesanan",
     "redirectUnavailable": "Halaman pembayaran belum tersedia. Cuba lagi sebentar.",
     "selectPaymentMethod": "Pilih kaedah pembayaran"
   },

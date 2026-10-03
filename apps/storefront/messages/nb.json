@@ -91,7 +91,8 @@
     "shipping": "Frakt",
     "subtotal": "Delsum (eks. frakt og avgifter)",
     "taxes": "Avgifter",
-    "total": "Totalt"
+    "total": "Totalt",
+    "shippingAtCheckout": "i kassen"
   },
   "CategoryMenu": {
     "title": "Kategorier",
@@ -177,7 +178,8 @@
     "fieldRequired": "Fyll ut dette feltet",
     "emailInvalid": "Sjekk e-posten: adressen inneholder en feil",
     "signInHeading": "Logg inn for å legge inn bestillingen",
-    "signInText": "Bestillingen vises på kontoen din: der finner du betalingsopplysninger, status og kjøpte kurs. Innlogging eller registrering tar ett minutt, og kurven beholdes."
+    "signInText": "Bestillingen vises på kontoen din: der finner du betalingsopplysninger, status og kjøpte kurs. Innlogging eller registrering tar ett minutt, og kurven beholdes.",
+    "shippingNotChosen": "når du har valgt metode"
   },
   "ClaimOrders": {
     "heading": "Bestilte du uten konto?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betal",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Legg inn bestilling",
     "redirectUnavailable": "Betalingssiden er ikke tilgjengelig ennå. Prøv igjen om et øyeblikk.",
     "selectPaymentMethod": "Velg en betalingsmetode"
   },

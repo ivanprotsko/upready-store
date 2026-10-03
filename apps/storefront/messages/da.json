@@ -91,7 +91,8 @@
     "shipping": "Levering",
     "subtotal": "Subtotal (ekskl. levering og moms)",
     "taxes": "Moms",
-    "total": "I alt"
+    "total": "I alt",
+    "shippingAtCheckout": "ved kassen"
   },
   "CategoryMenu": {
     "title": "Kategorier",
@@ -177,7 +178,8 @@
     "fieldRequired": "Udfyld dette felt",
     "emailInvalid": "Tjek e-mailen: der er en fejl i adressen",
     "signInHeading": "Log ind for at afgive ordren",
-    "signInText": "Ordren vises på din konto: der finder du betalingsoplysninger, status og købte kurser. Login eller oprettelse tager et minut, og kurven bevares."
+    "signInText": "Ordren vises på din konto: der finder du betalingsoplysninger, status og købte kurser. Login eller oprettelse tager et minut, og kurven bevares.",
+    "shippingNotChosen": "når du har valgt en metode"
   },
   "ClaimOrders": {
     "heading": "Bestilte du uden konto?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betal",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Afgiv bestilling",
     "redirectUnavailable": "Betalingssiden er ikke klar endnu. Prøv igen om et øjeblik.",
     "selectPaymentMethod": "Vælg en betalingsmetode"
   },

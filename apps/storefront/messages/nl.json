@@ -91,7 +91,8 @@
     "shipping": "Verzending",
     "subtotal": "Subtotaal (excl. verzending en btw)",
     "taxes": "Btw",
-    "total": "Totaal"
+    "total": "Totaal",
+    "shippingAtCheckout": "bij het afrekenen"
   },
   "CategoryMenu": {
     "title": "Categorieën",
@@ -177,7 +178,8 @@
     "fieldRequired": "Vul dit veld in",
     "emailInvalid": "Controleer het e-mailadres: er zit een fout in",
     "signInHeading": "Log in om de bestelling te plaatsen",
-    "signInText": "De bestelling verschijnt in uw account: daar vindt u de betaalgegevens, de status en de gekochte cursussen. Inloggen of registreren duurt een minuut en de winkelwagen blijft bewaard."
+    "signInText": "De bestelling verschijnt in uw account: daar vindt u de betaalgegevens, de status en de gekochte cursussen. Inloggen of registreren duurt een minuut en de winkelwagen blijft bewaard.",
+    "shippingNotChosen": "na keuze van de methode"
   },
   "ClaimOrders": {
     "heading": "Zonder account besteld?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betalen",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Bestelling plaatsen",
     "redirectUnavailable": "De betaalpagina is nog niet beschikbaar. Probeer het zo opnieuw.",
     "selectPaymentMethod": "Selecteer een betaalmethode"
   },

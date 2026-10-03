@@ -91,7 +91,8 @@
     "shipping": "Shipping",
     "subtotal": "Subtotal (excl. shipping and taxes)",
     "taxes": "Taxes",
-    "total": "Total"
+    "total": "Total",
+    "shippingAtCheckout": "at checkout"
   },
   "CategoryMenu": {
     "title": "Categories",
@@ -177,7 +178,8 @@
     "fieldRequired": "Fill in this field",
     "emailInvalid": "Check the e-mail: the address has a mistake",
     "signInHeading": "Sign in to place the order",
-    "signInText": "The order will appear in your account: the payment details, the status and the courses you bought are there. Signing in or registering takes a minute, and the cart is kept."
+    "signInText": "The order will appear in your account: the payment details, the status and the courses you bought are there. Signing in or registering takes a minute, and the cart is kept.",
+    "shippingNotChosen": "once you choose a method"
   },
   "ClaimOrders": {
     "heading": "Ordered without an account?",

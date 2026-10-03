@@ -91,7 +91,8 @@
     "shipping": "الشحن",
     "subtotal": "المجموع الفرعي (غير شامل الشحن والضرائب)",
     "taxes": "الضرائب",
-    "total": "الإجمالي"
+    "total": "الإجمالي",
+    "shippingAtCheckout": "عند إتمام الطلب"
   },
   "CategoryMenu": {
     "title": "الفئات",
@@ -147,7 +148,7 @@
     "freeShipping": "مجاني",
     "giftCard": "بطاقة هدايا",
     "itemsCount": "{count, plural, zero {{count} منتج} one {{count} منتج} two {{count} منتجان} few {{count} منتجات} many {{count} منتجًا} other {{count} منتج}}",
-    "legal": "بالنقر على «الدفع»، فإنك توافق على <terms>الشروط</terms> و<termsOfUse>شروط الاستخدام</termsOfUse> و<returnPolicy>سياسة الإرجاع</returnPolicy> الخاصة بنا، كما توافق على <privacyPolicy>سياسة الخصوصية</privacyPolicy> الخاصة بنا.",
+    "legal": "بالنقر على «{button}»، فإنك توافق على <terms>الشروط</terms> و<termsOfUse>شروط الاستخدام</termsOfUse> و<returnPolicy>سياسة الإرجاع</returnPolicy> الخاصة بنا، كما توافق على <privacyPolicy>سياسة الخصوصية</privacyPolicy> الخاصة بنا.",
     "manualInput": "إدخال العنوان يدويًا",
     "addressIncomplete": "املأ حقول العنوان المطلوبة: {fields}.",
     "provinceRequired": "اختر المنطقة من القائمة.",
@@ -177,7 +178,8 @@
     "fieldRequired": "يرجى ملء هذا الحقل",
     "emailInvalid": "تحقق من البريد الإلكتروني: العنوان يحتوي على خطأ",
     "signInHeading": "سجّل الدخول لإتمام الطلب",
-    "signInText": "سيظهر الطلب في حسابك: هناك ستجد بيانات الدفع وحالة الطلب والدورات المشتراة. تسجيل الدخول أو إنشاء حساب يستغرق دقيقة، وستبقى سلة التسوق محفوظة."
+    "signInText": "سيظهر الطلب في حسابك: هناك ستجد بيانات الدفع وحالة الطلب والدورات المشتراة. تسجيل الدخول أو إنشاء حساب يستغرق دقيقة، وستبقى سلة التسوق محفوظة.",
+    "shippingNotChosen": "بعد اختيار طريقة التوصيل"
   },
   "ClaimOrders": {
     "heading": "هل طلبت دون حساب؟",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "ادفع",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "إتمام الطلب",
     "redirectUnavailable": "صفحة الدفع غير متاحة بعد. حاول مرة أخرى بعد قليل.",
     "selectPaymentMethod": "اختر طريقة الدفع"
   },

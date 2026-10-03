@@ -91,7 +91,8 @@
     "shipping": "משלוח",
     "subtotal": "סכום ביניים (לא כולל משלוח ומיסים)",
     "taxes": "מיסים",
-    "total": "סה״כ"
+    "total": "סה״כ",
+    "shippingAtCheckout": "בקופה"
   },
   "CategoryMenu": {
     "title": "קטגוריות",
@@ -177,7 +178,8 @@
     "fieldRequired": "מלאו שדה זה",
     "emailInvalid": "בדקו את האימייל: יש שגיאה בכתובת",
     "signInHeading": "התחברו כדי לבצע את ההזמנה",
-    "signInText": "ההזמנה תופיע בחשבון שלכם: שם יהיו פרטי התשלום, הסטטוס והקורסים שרכשתם. ההתחברות או ההרשמה לוקחות דקה, והעגלה נשמרת."
+    "signInText": "ההזמנה תופיע בחשבון שלכם: שם יהיו פרטי התשלום, הסטטוס והקורסים שרכשתם. ההתחברות או ההרשמה לוקחות דקה, והעגלה נשמרת.",
+    "shippingNotChosen": "לאחר בחירת שיטה"
   },
   "ClaimOrders": {
     "heading": "הזמנת בלי חשבון?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "לתשלום",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "ביצוע הזמנה",
     "redirectUnavailable": "דף התשלום עדיין אינו זמין. נסו שוב בעוד רגע.",
     "selectPaymentMethod": "בחר אמצעי תשלום"
   },

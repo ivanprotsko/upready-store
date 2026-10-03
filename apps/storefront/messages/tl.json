@@ -91,7 +91,8 @@
     "shipping": "Paghahatid",
     "subtotal": "Subtotal (hindi kasama ang paghahatid at buwis)",
     "taxes": "Buwis",
-    "total": "Kabuuan"
+    "total": "Kabuuan",
+    "shippingAtCheckout": "sa checkout"
   },
   "CategoryMenu": {
     "title": "Mga Kategorya",
@@ -177,7 +178,8 @@
     "fieldRequired": "Punan ang field na ito",
     "emailInvalid": "Suriin ang email: may mali sa address",
     "signInHeading": "Mag-sign in para mag-order",
-    "signInText": "Lalabas ang order sa iyong account: naroon ang mga detalye ng bayad, status, at mga biniling kurso. Isang minuto lang ang pag-sign in o pagrehistro, at mananatili ang cart."
+    "signInText": "Lalabas ang order sa iyong account: naroon ang mga detalye ng bayad, status, at mga biniling kurso. Isang minuto lang ang pag-sign in o pagrehistro, at mananatili ang cart.",
+    "shippingNotChosen": "pagkatapos pumili ng paraan"
   },
   "ClaimOrders": {
     "heading": "Nag-order nang walang account?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bayaran",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Mag-order",
     "redirectUnavailable": "Hindi pa available ang pahina ng pagbabayad. Subukan muli sa ilang sandali.",
     "selectPaymentMethod": "Pumili ng paraan ng bayad"
   },

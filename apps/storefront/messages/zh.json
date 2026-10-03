@@ -91,7 +91,8 @@
     "shipping": "运费",
     "subtotal": "小计（不含运费和税费）",
     "taxes": "税费",
-    "total": "总计"
+    "total": "总计",
+    "shippingAtCheckout": "结账时计算"
   },
   "CategoryMenu": {
     "title": "分类",
@@ -147,7 +148,7 @@
     "freeShipping": "免费",
     "giftCard": "礼品卡",
     "itemsCount": "{count, plural, other {{count}件}}",
-    "legal": "点击「支付」即表示您接受我们的<terms>条款</terms>、<termsOfUse>使用条款</termsOfUse>和<returnPolicy>退货政策</returnPolicy>，并同意我们的<privacyPolicy>隐私政策</privacyPolicy>。",
+    "legal": "点击「{button}」即表示您接受我们的<terms>条款</terms>、<termsOfUse>使用条款</termsOfUse>和<returnPolicy>退货政策</returnPolicy>，并同意我们的<privacyPolicy>隐私政策</privacyPolicy>。",
     "manualInput": "手动输入地址",
     "addressIncomplete": "请填写地址的必填项：{fields}。",
     "provinceRequired": "请从列表中选择地区。",
@@ -177,7 +178,8 @@
     "fieldRequired": "请填写此项",
     "emailInvalid": "请检查邮箱：地址有误",
     "signInHeading": "登录后下单",
-    "signInText": "订单将显示在您的账户中：那里有付款信息、订单状态和已购课程。登录或注册只需一分钟，购物车会保留。"
+    "signInText": "订单将显示在您的账户中：那里有付款信息、订单状态和已购课程。登录或注册只需一分钟，购物车会保留。",
+    "shippingNotChosen": "选择方式后计算"
   },
   "ClaimOrders": {
     "heading": "没有账户时下过单？",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "支付",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "提交订单",
     "redirectUnavailable": "支付页面暂不可用。请稍后再试。",
     "selectPaymentMethod": "选择支付方式"
   },

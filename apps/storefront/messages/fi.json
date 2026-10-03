@@ -91,7 +91,8 @@
     "shipping": "Toimitus",
     "subtotal": "Välisumma (ilman toimitusta ja veroja)",
     "taxes": "Verot",
-    "total": "Yhteensä"
+    "total": "Yhteensä",
+    "shippingAtCheckout": "kassalla"
   },
   "CategoryMenu": {
     "title": "Kategoriat",
@@ -177,7 +178,8 @@
     "fieldRequired": "Täytä tämä kenttä",
     "emailInvalid": "Tarkista sähköposti: osoitteessa on virhe",
     "signInHeading": "Kirjaudu sisään tilataksesi",
-    "signInText": "Tilaus näkyy tililläsi: siellä ovat maksutiedot, tila ja ostetut kurssit. Kirjautuminen tai rekisteröinti vie minuutin, ja ostoskori säilyy."
+    "signInText": "Tilaus näkyy tililläsi: siellä ovat maksutiedot, tila ja ostetut kurssit. Kirjautuminen tai rekisteröinti vie minuutin, ja ostoskori säilyy.",
+    "shippingNotChosen": "kun valitset tavan"
   },
   "ClaimOrders": {
     "heading": "Tilasitko ilman tiliä?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Maksa",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Tee tilaus",
     "redirectUnavailable": "Maksusivu ei ole vielä käytettävissä. Yritä hetken kuluttua uudelleen.",
     "selectPaymentMethod": "Valitse maksutapa"
   },

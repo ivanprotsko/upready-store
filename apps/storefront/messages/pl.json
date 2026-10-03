@@ -91,7 +91,8 @@
     "shipping": "Dostawa",
     "subtotal": "Suma częściowa (bez dostawy i podatków)",
     "taxes": "Podatki",
-    "total": "Razem"
+    "total": "Razem",
+    "shippingAtCheckout": "przy składaniu zamówienia"
   },
   "CategoryMenu": {
     "title": "Kategorie",
@@ -177,7 +178,8 @@
     "fieldRequired": "Wypełnij to pole",
     "emailInvalid": "Sprawdź e-mail: w adresie jest błąd",
     "signInHeading": "Zaloguj się, aby złożyć zamówienie",
-    "signInText": "Zamówienie pojawi się na Twoim koncie: tam znajdziesz dane do płatności, status i kupione kursy. Logowanie lub rejestracja zajmuje minutę, koszyk zostaje zachowany."
+    "signInText": "Zamówienie pojawi się na Twoim koncie: tam znajdziesz dane do płatności, status i kupione kursy. Logowanie lub rejestracja zajmuje minutę, koszyk zostaje zachowany.",
+    "shippingNotChosen": "po wyborze metody"
   },
   "ClaimOrders": {
     "heading": "Zamawiałeś bez konta?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Zapłać",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Złóż zamówienie",
     "redirectUnavailable": "Strona płatności nie jest jeszcze dostępna. Spróbuj ponownie za chwilę.",
     "selectPaymentMethod": "Wybierz sposób płatności"
   },

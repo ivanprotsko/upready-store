@@ -91,7 +91,8 @@
     "shipping": "Pristatymas",
     "subtotal": "Tarpinė suma (be pristatymo ir mokesčių)",
     "taxes": "Mokesčiai",
-    "total": "Iš viso"
+    "total": "Iš viso",
+    "shippingAtCheckout": "užsakymo metu"
   },
   "CategoryMenu": {
     "title": "Kategorijos",
@@ -147,7 +148,7 @@
     "freeShipping": "Nemokamas",
     "giftCard": "Dovanų kortelė",
     "itemsCount": "{count, plural, one {{count} prekė} few {{count} prekės} many {{count} prekės} other {{count} prekių}}",
-    "legal": "Spausdami „Mokėti“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei sutinkate su <privacyPolicy>privatumo politika</privacyPolicy>.",
+    "legal": "Spausdami „{button}“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei sutinkate su <privacyPolicy>privatumo politika</privacyPolicy>.",
     "manualInput": "Įvesti adresą rankiniu būdu",
     "addressIncomplete": "Užpildykite privalomus adreso laukus: {fields}.",
     "provinceRequired": "Pasirinkite regioną iš sąrašo.",
@@ -177,7 +178,8 @@
     "fieldRequired": "Užpildykite šį lauką",
     "emailInvalid": "Patikrinkite el. paštą: adrese yra klaida",
     "signInHeading": "Prisijunkite, kad pateiktumėte užsakymą",
-    "signInText": "Užsakymas atsiras jūsų paskyroje: ten bus mokėjimo rekvizitai, būsena ir įsigyti kursai. Prisijungimas ar registracija užtrunka minutę, krepšelis išsaugomas."
+    "signInText": "Užsakymas atsiras jūsų paskyroje: ten bus mokėjimo rekvizitai, būsena ir įsigyti kursai. Prisijungimas ar registracija užtrunka minutę, krepšelis išsaugomas.",
+    "shippingNotChosen": "pasirinkus būdą"
   },
   "ClaimOrders": {
     "heading": "Užsisakėte be paskyros?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Mokėti",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Pateikti užsakymą",
     "redirectUnavailable": "Mokėjimo puslapis dar nepasiekiamas. Pabandykite dar kartą po akimirkos.",
     "selectPaymentMethod": "Pasirinkite mokėjimo būdą"
   },
