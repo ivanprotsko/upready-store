@@ -20,11 +20,13 @@ export type TenantFooterCredit = {
 };
 
 /**
- * The full app-icon set `POST /tenants/branding/upload` builds from a `favicon` upload
+ * The app-icon set `POST /tenants/branding/upload` builds from a `favicon` upload
  * (t-2026-10-03-61, `tenant-files/icon-set.ts`): every size a PWA, iOS, Android, Windows or macOS
- * install asks for. `favicon_url` on `TenantBranding` stays as the single legacy URL; a tenant with
- * no set here (an upload from before this task, or one still pending) gets `null`, and every
- * consumer falls back to `favicon_url` alone — today's behaviour, unchanged.
+ * install asks for. `favicon_url` stays the single original upload; a tenant with no set (nothing
+ * uploaded since this task) has `null` here, and the storefront falls back to `favicon_url` alone,
+ * as before. `background_color` is the colour behind the opaque icons, the master's own field when
+ * it has one; the storefront uses it for the manifest and the Windows tile when the shop set no
+ * primary colour.
  */
 export type TenantAppIcons = {
   icon_svg_url: string | null;
@@ -36,6 +38,7 @@ export type TenantAppIcons = {
   mstile_150_url: string | null;
   mstile_310_url: string | null;
   mask_icon_url: string | null;
+  background_color: string | null;
 };
 
 export const EMPTY_APP_ICONS: TenantAppIcons = {
@@ -48,6 +51,7 @@ export const EMPTY_APP_ICONS: TenantAppIcons = {
   mstile_150_url: null,
   mstile_310_url: null,
   mask_icon_url: null,
+  background_color: null,
 };
 
 export type TenantBranding = {
@@ -121,7 +125,29 @@ const readAppIcons = (raw: unknown): TenantAppIcons | null => {
     mstile_150_url: str(source.mstile_150_url),
     mstile_310_url: str(source.mstile_310_url),
     mask_icon_url: str(source.mask_icon_url),
+    background_color: isValidHexColor(source.background_color) ? (source.background_color as string) : null,
   };
+};
+
+/**
+ * The `app_icons` a `PUT /tenants/branding` leaves behind (t-2026-10-03-61). The set is built from
+ * one favicon upload, so it follows that favicon: a body naming `app_icons` sets them, and a body
+ * that clears or replaces `favicon_url` without naming them drops the old set, which would
+ * otherwise keep painting the previous icon everywhere except the one `<link>` `favicon_url` feeds.
+ */
+export const mergeAppIcons = (
+  body: { favicon_url?: string | null; app_icons?: Partial<TenantAppIcons> | null },
+  current: TenantBranding,
+): TenantAppIcons | null => {
+  if (body.app_icons !== undefined) {
+    return body.app_icons ? readAppIcons(body.app_icons) : null;
+  }
+
+  if (body.favicon_url !== undefined && body.favicon_url !== current.favicon_url) {
+    return null;
+  }
+
+  return current.app_icons;
 };
 
 /** The wire shape both `/tenants/branding` and `/storefront/by-host` answer with. */

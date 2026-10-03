@@ -3,7 +3,7 @@ import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
 import { getTenantScope } from "../tenant-scope";
 import type { PutTenantBrandingBody } from "../validators";
-import { brandingResponse, readBranding, type TenantBranding } from "./branding";
+import { brandingResponse, mergeAppIcons, readBranding, type TenantBranding } from "./branding";
 
 /**
  * `GET/PUT /tenants/branding` (t16-owner-branding) — the owner's brand
@@ -49,20 +49,7 @@ export const PUT = async (
             href: body.footer_credit.href ?? null,
           }
         : current.footer_credit,
-    app_icons:
-      body.app_icons !== undefined
-        ? body.app_icons && {
-            icon_svg_url: body.app_icons.icon_svg_url ?? null,
-            favicon_ico_url: body.app_icons.favicon_ico_url ?? null,
-            apple_touch_icon_url: body.app_icons.apple_touch_icon_url ?? null,
-            icon_192_url: body.app_icons.icon_192_url ?? null,
-            icon_512_url: body.app_icons.icon_512_url ?? null,
-            icon_maskable_512_url: body.app_icons.icon_maskable_512_url ?? null,
-            mstile_150_url: body.app_icons.mstile_150_url ?? null,
-            mstile_310_url: body.app_icons.mstile_310_url ?? null,
-            mask_icon_url: body.app_icons.mask_icon_url ?? null,
-          }
-        : current.app_icons,
+    app_icons: mergeAppIcons(body, current),
   };
 
   const updated = await tenantModuleService.updateTenants({
