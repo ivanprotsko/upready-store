@@ -1172,7 +1172,9 @@
     "empty": "העגלה שלכם ריקה.",
     "exploreProducts": "לצפייה במוצרים",
     "itemsTotal": "סה\"כ מוצרים",
-    "checkout": "לתשלום"
+    "checkout": "לתשלום",
+    "signInTelegram": "עם Telegram",
+    "register": "הרשמה"
   },
   "Shipments": {
     "noDeliveryBadge": "קורס מקוון, ללא משלוח",

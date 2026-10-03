@@ -1172,7 +1172,9 @@
     "empty": "Количката е празна.",
     "exploreProducts": "Разгледайте продуктите",
     "itemsTotal": "Общо за продуктите",
-    "checkout": "Към поръчката"
+    "checkout": "Към поръчката",
+    "signInTelegram": "С Telegram",
+    "register": "Регистрация"
   },
   "Shipments": {
     "noDeliveryBadge": "онлайн курс, без доставка",

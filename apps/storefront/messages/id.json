@@ -1172,7 +1172,9 @@
     "empty": "Keranjang Anda kosong.",
     "exploreProducts": "Lihat produk",
     "itemsTotal": "Total produk",
-    "checkout": "Lanjut ke pembayaran"
+    "checkout": "Lanjut ke pembayaran",
+    "signInTelegram": "Dengan Telegram",
+    "register": "Daftar"
   },
   "Shipments": {
     "noDeliveryBadge": "kursus online, tanpa pengiriman",

@@ -314,6 +314,40 @@
 }
 
 /*
+ * t-2026-10-03-63: the cart sidebar's own panel colour, read nowhere else.
+ *
+ * `ui-bg-subtle` is bridged to --secondary (see the comment block above `.bg-ui-button-inverted`
+ * and the bridge in styles/themes.css), so it carries each store's own theme tint — exactly what
+ * Ivan asked to remove («Фон сделать таким цветом как это было в референсах фигмы, без
+ * оттенка»). The value is the Figma fill read from the node, not eyeballed: frame 3:60739
+ * "Sidebar", fills[0].color = {0.9607843160629272, 0.9607843160629272, 0.9607843160629272},
+ * i.e. rgb(245, 245, 245) / #f5f5f5. No @medusajs/ui token matches it exactly — the closest,
+ * --bg-subtle-hover / --bg-base-hover, is rgb(244, 244, 245) in the light preset, one unit off
+ * on every channel. The mockup is light only, and the panel's ink follows the mode, so dark
+ * mode takes the preset's own untinted dark --bg-subtle, rgb(24, 24, 27), instead of keeping a
+ * light panel under light text.
+ */
+:root {
+  --cart-sidebar-bg: #f5f5f5;
+}
+
+[data-mode="dark"] {
+  --cart-sidebar-bg: #18181b;
+}
+
+/*
+ * t-2026-10-03-65: the «Войти через Телеграм» button in Telegram's own colour, the same in
+ * every theme and mode, like the Yandex mark beside it. #26A5E4 is Telegram's brand colour
+ * as Simple Icons publishes it (simpleicons.org/?q=telegram); the ink and the mark on it are
+ * white. Read only by `modules/account/components/telegram-login/telegram-button.tsx`.
+ */
+:root {
+  --telegram-brand: #26a5e4;
+  --telegram-brand-hover: color-mix(in srgb, var(--telegram-brand) 88%, #000);
+  --telegram-brand-fg: #ffffff;
+}
+
+/*
  * t16-owner-branding, step 3: the tenant's own light/dark logo pair in the
  * header (`modules/layout/components/site-logo`). The two classes exist only
  * when BOTH variants were uploaded and differ — the component renders a

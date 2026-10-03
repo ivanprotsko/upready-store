@@ -1172,7 +1172,9 @@
     "empty": "Sepetiniz boş.",
     "exploreProducts": "Ürünlere göz atın",
     "itemsTotal": "Ürün toplamı",
-    "checkout": "Ödemeye geç"
+    "checkout": "Ödemeye geç",
+    "signInTelegram": "Telegram ile",
+    "register": "Kayıt ol"
   },
   "Shipments": {
     "noDeliveryBadge": "çevrimiçi kurs, teslimat yok",

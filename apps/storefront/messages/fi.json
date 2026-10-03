@@ -1172,7 +1172,9 @@
     "empty": "Ostoskorisi on tyhjä.",
     "exploreProducts": "Selaa tuotteita",
     "itemsTotal": "Tuotteet yhteensä",
-    "checkout": "Kassalle"
+    "checkout": "Kassalle",
+    "signInTelegram": "Telegramilla",
+    "register": "Rekisteröidy"
   },
   "Shipments": {
     "noDeliveryBadge": "verkkokurssi, ei toimitusta",

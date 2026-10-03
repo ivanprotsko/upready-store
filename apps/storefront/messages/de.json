@@ -1172,7 +1172,9 @@
     "empty": "Ihr Warenkorb ist leer.",
     "exploreProducts": "Produkte ansehen",
     "itemsTotal": "Warenwert",
-    "checkout": "Zur Kasse"
+    "checkout": "Zur Kasse",
+    "signInTelegram": "Mit Telegram",
+    "register": "Registrieren"
   },
   "Shipments": {
     "noDeliveryBadge": "Online-Kurs, keine Lieferung",

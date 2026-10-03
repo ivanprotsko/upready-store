@@ -1,11 +1,11 @@
 "use client"
 
-import { ChevronRightMini, ShoppingCart, User, XMark } from "@medusajs/icons"
+import { ChevronRightMini, ShoppingCart, XMark } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
-import { Button, Drawer, IconButton, Text } from "@medusajs/ui"
+import { Button, clx, Drawer, IconButton, Text } from "@medusajs/ui"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
 import { getCartDeliveryDays } from "@lib/data/cart-delivery"
 import type { TelegramBot } from "@lib/data/telegram-bot"
@@ -13,13 +13,13 @@ import { useRouter } from "@i18n/navigation"
 import { allowsEmailLogin, yandexLoginAvailable, type TenantLoginSettings } from "@lib/tenant/login-settings"
 import { formatDeliveryRange } from "@lib/util/delivery-estimate"
 import type { DeliveryDays } from "@lib/util/fulfillment"
+import type { LegalLinkContext } from "@lib/util/legal-links"
 import { convertToLocale } from "@lib/util/money"
 import { cartShipmentLines, shipmentGroups } from "@lib/util/shipment-groups"
-import TelegramLogin from "@modules/account/components/telegram-login"
-import YandexMark from "@modules/account/components/yandex-login/yandex-mark"
 
 import { useCartSidebar } from "./context"
 import CartSidebarLine from "./line"
+import CartSidebarSignIn from "./sign-in"
 
 /** The checkout step the cart is ready for: the cart page's own rule (`cart/templates/summary.tsx`). */
 const checkoutStep = (cart: HttpTypes.StoreCart): "address" | "delivery" | "payment" => {
@@ -29,7 +29,24 @@ const checkoutStep = (cart: HttpTypes.StoreCart): "address" | "delivery" | "paym
 }
 
 /**
- * The cart as a right sidebar on desktop (batch 5, Ivan 03.10: «давай корзину сделаем на
+ * The edge the panel is pinned to and slides from (t-2026-10-03-63, Ivan: «сайдбар с
+ * корзиной должен выезжать слева»). Figma frame 3:60739 "Sidebar" has it on the right;
+ * the live shop has it on the left, cart button included — flip this one constant to
+ * move both the pin and the slide direction back to the frame's side.
+ */
+const SIDE: "left" | "right" = "left"
+
+/**
+ * Overlay fade and panel slide share this one duration, t-2026-10-03-63 bullet 2 («то же
+ * время, что и сдвиг панели»). `!` because tailwindcss-animate's
+ * `data-[state=open]:animate-in` sets its own 150 ms with a more specific selector than
+ * any plain `duration-*`, so @medusajs/ui's own `duration-200` never applied (measured
+ * 0.15 s on both before this change).
+ */
+const MOTION_DURATION = "!duration-200"
+
+/**
+ * The cart as a sidebar on desktop (batch 5, Ivan 03.10: «давай корзину сделаем на
  * десктопе в сайдбаре как здесь», Figma frame 3:60739 «Sidebar», 360×960): the page stays
  * where it is under the overlay, the sidebar holds «Корзина», the guest sign-in block,
  * the lines grouped by shipment («Отправление № N» with the delivery estimate, the
@@ -42,9 +59,9 @@ const checkoutStep = (cart: HttpTypes.StoreCart): "address" | "delivery" | "paym
  * traps focus and returns it to where it was.
  *
  * In the frame, not here (no feature behind it): the checkbox on every line, the
- * gift icon on a line. The sign-in block itself offers e-mail, Yandex ID and
- * Telegram per the shop's own settings (`lib/tenant/login-settings.ts`,
- * `lib/data/telegram-bot.ts`).
+ * gift icon on a line. The sign-in block (`./sign-in.tsx`) offers e-mail, with its
+ * forms in place, Yandex ID and Telegram per the shop's own settings
+ * (`lib/tenant/login-settings.ts`, `lib/data/telegram-bot.ts`).
  */
 export default function CartSidebar({
   cart,
@@ -53,6 +70,8 @@ export default function CartSidebar({
   wishlistProductIds,
   loginSettings,
   telegramBot,
+  siteName,
+  legal,
 }: {
   cart: HttpTypes.StoreCart | null
   /** The buyer has an account session: the sign-in block is not shown. */
@@ -62,6 +81,9 @@ export default function CartSidebar({
   loginSettings: TenantLoginSettings
   /** This shop's own Telegram bot, or null when it has none (`getTelegramBot`). */
   telegramBot: TelegramBot | null
+  /** For the sign-up form's consent sentence, as on the account page (rule 19g). */
+  siteName: string
+  legal: LegalLinkContext
 }) {
   const t = useTranslations("CartSidebar")
   const tShip = useTranslations("Shipments")
@@ -71,6 +93,31 @@ export default function CartSidebar({
   const pathname = usePathname() ?? "/"
   const searchParams = useSearchParams()
   const { isOpen, setOpen, close } = useCartSidebar()
+
+  // Where focus goes back on close (t-2026-10-03-63 bullet 5). Radix returns it to a
+  // `Dialog.Trigger`, and this drawer has none: the header's `CartTrigger` and «В корзину»
+  // open it through the context. Measured on the stand before this change: Esc, the
+  // overlay and the X all left focus on <body>. So the element focused at the moment of
+  // opening is kept here, read in a layout effect, before Radix's own focus scope moves
+  // focus into the panel; the header's cart button stands in when nothing was focused
+  // (a click on a link focuses nothing in Safari) or that element has left the page.
+  const returnFocusRef = useRef<HTMLElement | null>(null)
+  useLayoutEffect(() => {
+    if (!isOpen) return
+    const active = document.activeElement
+    returnFocusRef.current = active instanceof HTMLElement && active !== document.body ? active : null
+  }, [isOpen])
+  const restoreFocus = (event: Event) => {
+    event.preventDefault()
+    const opener = returnFocusRef.current
+    const target =
+      opener && opener.isConnected
+        ? opener
+        : Array.from(document.querySelectorAll<HTMLElement>("[data-cart-trigger]")).find(
+            (trigger) => trigger.offsetParent !== null
+          )
+    target?.focus({ preventScroll: true })
+  }
 
   const items = cart?.items ?? []
   const groups = shipmentGroups(cartShipmentLines(items))
@@ -101,9 +148,9 @@ export default function CartSidebar({
 
   const query = searchParams?.toString()
   const returnTo = query ? `${pathname}?${query}` : pathname
-  const emailSignIn = allowsEmailLogin(loginSettings.method)
-  const yandexSignIn = yandexLoginAvailable(loginSettings)
-  const showSignIn = !isLoggedIn && (emailSignIn || yandexSignIn || telegramBot !== null)
+  const showSignIn =
+    !isLoggedIn &&
+    (allowsEmailLogin(loginSettings.method) || yandexLoginAvailable(loginSettings) || telegramBot !== null)
 
   const goodsTotal = cart ? (cart.item_subtotal ?? cart.subtotal ?? 0) : 0
   const currencyCode = cart?.currency_code ?? "RUB"
@@ -111,12 +158,28 @@ export default function CartSidebar({
   return (
     <Drawer open={isOpen} onOpenChange={setOpen}>
       <Drawer.Content
-        // The frame: a 360 px column pinned to the right edge, full height, flat — not
-        // @medusajs/ui's floating card. `!` wins over the component's own inset/width
-        // defaults regardless of Tailwind's rule order (the same device as
-        // `product-details-drawer`). Hidden below 1024 px even if some state opened it.
-        className="z-[80] hidden !inset-y-0 !right-0 !w-[360px] !max-w-[360px] !rounded-none border-y-0 border-r-0 !bg-ui-bg-subtle lg:flex"
-        overlayProps={{ className: "z-[80]" }}
+        // A 360 px column pinned to SIDE, full height, flat — not @medusajs/ui's floating
+        // card. `!` wins over the component's own inset/width/slide-direction defaults
+        // regardless of Tailwind's rule order (the same device as `product-details-drawer`).
+        // Width, height and inset never carry a `data-[state=…]` prefix, and the keyframes
+        // only translate (the 0.9 zoom that used to replace them is gone, see
+        // `tailwind.config.js`), so the panel is the same size on every frame and slides
+        // its whole width in from its edge and back out (t-2026-10-03-63 bullets 1 and 3).
+        // It stays opaque throughout (`fade-*-100` over the component's `fade-*-0`); the
+        // overlay is what fades. `motion-reduce:!animate-none` drops both to an instant
+        // cut (bullet 5); Radix's Presence reads `animationName` to time the unmount and
+        // is fine with "none" on either side. Hidden below 1024 px even if some state
+        // opened it.
+        className={clx(
+          "z-[80] hidden !inset-y-0 !w-[360px] !max-w-[360px] !rounded-none !bg-[var(--cart-sidebar-bg)] motion-reduce:!animate-none lg:flex",
+          "data-[state=open]:!fade-in-100 data-[state=closed]:!fade-out-100",
+          MOTION_DURATION,
+          SIDE === "left"
+            ? "!left-0 !right-auto border-y-0 border-l-0 data-[state=open]:!slide-in-from-left-full data-[state=closed]:!slide-out-to-left-full"
+            : "!right-0 !left-auto border-y-0 border-r-0 data-[state=open]:!slide-in-from-right-full data-[state=closed]:!slide-out-to-right-full"
+        )}
+        overlayProps={{ className: clx("z-[80] motion-reduce:!animate-none", MOTION_DURATION) }}
+        onCloseAutoFocus={restoreFocus}
         aria-describedby={undefined}
         data-testid="cart-sidebar"
       >
@@ -139,51 +202,13 @@ export default function CartSidebar({
 
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain" data-testid="cart-sidebar-body">
           {showSignIn ? (
-            <section
-              className="flex flex-col gap-y-3 border-b border-dotted border-ui-border-strong px-4 py-4"
-              data-testid="cart-sidebar-sign-in"
-            >
-              <div className="flex items-start gap-x-3">
-                <Text size="small" leading="compact" className="flex-1 text-ui-fg-base">
-                  {t("signInPrompt")}
-                </Text>
-                <User className="mt-0.5 shrink-0 text-ui-fg-muted" aria-hidden />
-              </div>
-              <div className="flex gap-x-3">
-                {emailSignIn ? (
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="base"
-                    className="min-w-0 flex-1"
-                    onClick={() => {
-                      close()
-                      router.push(`/account?return=${encodeURIComponent(returnTo)}`)
-                    }}
-                    data-testid="cart-sidebar-sign-in-email"
-                  >
-                    {t("signInEmail")}
-                  </Button>
-                ) : null}
-                {yandexSignIn ? (
-                  <Button
-                    asChild
-                    variant="secondary"
-                    size="base"
-                    className="min-w-0 flex-1"
-                    data-testid="cart-sidebar-sign-in-yandex"
-                  >
-                    <a href={`/api/yandex-login?return=${encodeURIComponent(returnTo)}`}>
-                      <YandexMark />
-                      {t("signInYandex")}
-                    </a>
-                  </Button>
-                ) : null}
-              </div>
-              {/* Renders nothing without the shop's own bot (`getTelegramBot`); the
-                  divider only when a button already sits above it. */}
-              <TelegramLogin bot={telegramBot} returnTo={returnTo} withDivider={emailSignIn || yandexSignIn} />
-            </section>
+            <CartSidebarSignIn
+              loginSettings={loginSettings}
+              telegramBot={telegramBot}
+              returnTo={returnTo}
+              siteName={siteName}
+              legal={legal}
+            />
           ) : null}
 
           {groups.length === 0 ? (

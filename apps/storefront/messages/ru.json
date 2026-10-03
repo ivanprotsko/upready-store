@@ -1180,7 +1180,9 @@
     "empty": "В корзине пока пусто.",
     "exploreProducts": "Смотреть товары",
     "itemsTotal": "Товаров на сумму",
-    "checkout": "К оформлению"
+    "checkout": "К оформлению",
+    "signInTelegram": "Через Телеграм",
+    "register": "Регистрация"
   },
   "Shipments": {
     "noDeliveryBadge": "онлайн-курс, без доставки",

@@ -1172,7 +1172,9 @@
     "empty": "장바구니가 비어 있습니다.",
     "exploreProducts": "상품 보기",
     "itemsTotal": "상품 합계",
-    "checkout": "주문하기"
+    "checkout": "주문하기",
+    "signInTelegram": "Telegram으로",
+    "register": "회원가입"
   },
   "Shipments": {
     "noDeliveryBadge": "온라인 강의, 배송 없음",

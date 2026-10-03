@@ -1172,7 +1172,9 @@
     "empty": "আপনার কার্ট খালি।",
     "exploreProducts": "পণ্য দেখুন",
     "itemsTotal": "পণ্যের মোট মূল্য",
-    "checkout": "চেকআউট"
+    "checkout": "চেকআউট",
+    "signInTelegram": "Telegram দিয়ে",
+    "register": "নিবন্ধন"
   },
   "Shipments": {
     "noDeliveryBadge": "অনলাইন কোর্স, ডেলিভারি নেই",

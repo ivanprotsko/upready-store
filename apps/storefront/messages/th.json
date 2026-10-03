@@ -1172,7 +1172,9 @@
     "empty": "ตะกร้าของคุณว่างเปล่า",
     "exploreProducts": "ดูสินค้า",
     "itemsTotal": "ยอดรวมสินค้า",
-    "checkout": "ไปชำระเงิน"
+    "checkout": "ไปชำระเงิน",
+    "signInTelegram": "ด้วย Telegram",
+    "register": "สมัครสมาชิก"
   },
   "Shipments": {
     "noDeliveryBadge": "คอร์สออนไลน์ ไม่มีการจัดส่ง",

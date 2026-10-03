@@ -1172,7 +1172,9 @@
     "empty": "Košík je prázdný.",
     "exploreProducts": "Prohlédnout produkty",
     "itemsTotal": "Zboží celkem",
-    "checkout": "K pokladně"
+    "checkout": "K pokladně",
+    "signInTelegram": "Přes Telegram",
+    "register": "Registrace"
   },
   "Shipments": {
     "noDeliveryBadge": "online kurz, bez doručení",

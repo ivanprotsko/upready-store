@@ -150,7 +150,12 @@ module.exports = {
             opacity: "1",
           },
         },
-        enter: {
+        // Named `scale-enter`, not `enter`: the preset's tailwindcss-animate emits its own
+        // `@keyframes enter` (the translate/scale/opacity one behind every
+        // `data-[state=open]:animate-in`), and a second block of the same name replaced
+        // its `transform`, so every drawer, menu and select opened as this 0.9 zoom and
+        // no `slide-in-from-*` ever moved anything (t-2026-10-03-63).
+        "scale-enter": {
           "0%": { transform: "scale(0.9)", opacity: 0 },
           "100%": { transform: "scale(1)", opacity: 1 },
         },
@@ -174,7 +179,7 @@ module.exports = {
           "accordion-slide-down 300ms cubic-bezier(0.87, 0, 0.13, 1) forwards",
         "accordion-close":
           "accordion-slide-up 300ms cubic-bezier(0.87, 0, 0.13, 1) forwards",
-        enter: "enter 200ms ease-out",
+        enter: "scale-enter 200ms ease-out",
         "slide-in": "slide-in 1.2s cubic-bezier(.41,.73,.51,1.02)",
         leave: "leave 150ms ease-in forwards",
       },

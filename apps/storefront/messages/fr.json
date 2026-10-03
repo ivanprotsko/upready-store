@@ -1172,7 +1172,9 @@
     "empty": "Votre panier est vide.",
     "exploreProducts": "Voir les produits",
     "itemsTotal": "Total des articles",
-    "checkout": "Commander"
+    "checkout": "Commander",
+    "signInTelegram": "Avec Telegram",
+    "register": "Créer un compte"
   },
   "Shipments": {
     "noDeliveryBadge": "cours en ligne, sans livraison",
