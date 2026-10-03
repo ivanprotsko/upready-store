@@ -30,11 +30,14 @@ export default async function orderShipmentCreatedTelegramBuyerHandler({
     return;
   }
 
+  // Typed loosely the way `findOrderForEmail` takes it: the generated order
+  // filter type has no `fulfillments` key, though Query resolves the relation.
+  const filters: Record<string, unknown> = { fulfillments: { id: fulfillmentId } };
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const { data: orders } = await query.graph({
     entity: "order",
     fields: ["id", "display_id", "currency_code", "total", "locale", "customer.metadata"],
-    filters: { fulfillments: { id: fulfillmentId } },
+    filters,
   });
 
   const order = orders[0] as BuyerOrderForTelegram | undefined;
