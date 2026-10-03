@@ -1172,7 +1172,9 @@
     "empty": "购物车是空的。",
     "exploreProducts": "浏览商品",
     "itemsTotal": "商品合计",
-    "checkout": "去结算"
+    "checkout": "去结算",
+    "signInTelegram": "使用 Telegram",
+    "register": "注册"
   },
   "Shipments": {
     "noDeliveryBadge": "在线课程，无需配送",

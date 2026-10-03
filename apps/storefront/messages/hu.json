@@ -1172,7 +1172,9 @@
     "empty": "A kosara üres.",
     "exploreProducts": "Termékek megtekintése",
     "itemsTotal": "Termékek összesen",
-    "checkout": "Tovább a pénztárhoz"
+    "checkout": "Tovább a pénztárhoz",
+    "signInTelegram": "Telegrammal",
+    "register": "Regisztráció"
   },
   "Shipments": {
     "noDeliveryBadge": "online tanfolyam, kézbesítés nélkül",

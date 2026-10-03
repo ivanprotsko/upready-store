@@ -1172,7 +1172,9 @@
     "empty": "Jūsų krepšelis tuščias.",
     "exploreProducts": "Peržiūrėti prekes",
     "itemsTotal": "Prekių suma",
-    "checkout": "Į apmokėjimą"
+    "checkout": "Į apmokėjimą",
+    "signInTelegram": "Su Telegram",
+    "register": "Registracija"
   },
   "Shipments": {
     "noDeliveryBadge": "internetinis kursas, be pristatymo",

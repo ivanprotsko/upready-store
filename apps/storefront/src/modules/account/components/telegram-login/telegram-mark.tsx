@@ -1,15 +1,13 @@
 /**
- * The Telegram mark on the sign-in control, in Telegram's own blue. Like
- * `yandex-login/yandex-mark.tsx`, it is the one hex value on this button and
- * lives in its own file, so swapping in the official asset touches nothing else.
+ * The Telegram mark on the sign-in control: the official path from Simple Icons
+ * (simpleicons.org/?q=telegram, CC0), the badge with the plane cut out of it. It
+ * paints in `currentColor`, so it takes the button's own ink, white on Telegram's
+ * blue (`--telegram-brand-fg`, `telegram-button.tsx`), and the cut-out shows the
+ * blue through. Like `yandex-login/yandex-mark.tsx`, it lives in its own file.
  */
 const TelegramMark = () => (
-  <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5 shrink-0">
-    <circle cx="12" cy="12" r="12" fill="#229ED9" />
-    <path
-      fill="#FFFFFF"
-      d="M5.43 11.87l11.57-4.46c.54-.2 1 .13.83.94l-1.97 9.28c-.15.66-.54.82-1.09.51l-3-2.21-1.45 1.4c-.16.16-.3.29-.6.29l.21-3.05 5.56-5.02c.24-.21-.05-.33-.38-.12l-6.87 4.33-2.96-.92c-.64-.2-.66-.64.15-.97z"
-    />
+  <svg aria-hidden viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 shrink-0">
+    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
   </svg>
 )
 

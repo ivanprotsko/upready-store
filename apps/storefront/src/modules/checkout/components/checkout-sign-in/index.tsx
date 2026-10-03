@@ -1,4 +1,4 @@
-import { Button, Text } from "@medusajs/ui"
+import { Button, clx, Text } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
 
 import { getTelegramBot } from "@lib/data/telegram-bot"
@@ -37,6 +37,7 @@ export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
   ])
   const emailSignIn = allowsEmailLogin(loginSettings.method)
   const yandexSignIn = yandexLoginAvailable(loginSettings)
+  const methods = [emailSignIn, telegramBot !== null, yandexSignIn].filter(Boolean).length
 
   return (
     <div
@@ -48,16 +49,30 @@ export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
       <Text size="small" className="text-ui-fg-subtle">
         {t(hasCourse ? "courseSignInText" : "signInText")}
       </Text>
-      <div className="flex flex-col gap-2 small:flex-row">
+      {/* One grid of equal cells (t-2026-10-03-65, Ivan: «кнопки которые стоят рядом» never
+          differ in size): two to a row from 1024 px, a third one alone on its own row at
+          full width. Telegram renders nothing when this shop has no bot of its own
+          (`getTelegramBot` returns null). */}
+      <div
+        className={clx("grid grid-cols-1 gap-2", methods > 1 && "small:grid-cols-2")}
+        data-testid="checkout-sign-in-methods"
+      >
         {emailSignIn && (
-          <AccountLink className="w-full small:w-auto">
-            <Button variant="primary" size="large" className="w-full" data-testid="checkout-sign-in-button">
+          <AccountLink className="flex w-full">
+            <Button variant="primary" size="large" className="w-full min-w-0" data-testid="checkout-sign-in-button">
               {tSide("signInEmail")}
             </Button>
           </AccountLink>
         )}
+        <TelegramLogin bot={telegramBot} returnTo={returnTo} cell label={tSide("signInTelegram")} />
         {yandexSignIn && (
-          <Button asChild variant="secondary" size="large" className="w-full small:w-auto" data-testid="checkout-sign-in-yandex">
+          <Button
+            asChild
+            variant="secondary"
+            size="large"
+            className={clx("w-full min-w-0", methods === 3 && "small:col-span-2")}
+            data-testid="checkout-sign-in-yandex"
+          >
             <a href={`/api/yandex-login?return=${encodeURIComponent(returnTo)}`}>
               <YandexMark />
               {tSide("signInYandex")}
@@ -65,9 +80,6 @@ export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
           </Button>
         )}
       </div>
-      {/* Renders nothing when this shop has no bot of its own (`getTelegramBot`
-          returns null); the divider only when there is another method above it. */}
-      <TelegramLogin bot={telegramBot} returnTo={returnTo} withDivider={emailSignIn || yandexSignIn} />
     </div>
   )
 }

@@ -1172,7 +1172,9 @@
     "empty": "Handlekurven din er tom.",
     "exploreProducts": "Se produkter",
     "itemsTotal": "Varer totalt",
-    "checkout": "Til kassen"
+    "checkout": "Til kassen",
+    "signInTelegram": "Med Telegram",
+    "register": "Opprett konto"
   },
   "Shipments": {
     "noDeliveryBadge": "nettkurs, ingen levering",

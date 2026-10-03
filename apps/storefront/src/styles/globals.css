@@ -323,10 +323,28 @@
  * "Sidebar", fills[0].color = {0.9607843160629272, 0.9607843160629272, 0.9607843160629272},
  * i.e. rgb(245, 245, 245) / #f5f5f5. No @medusajs/ui token matches it exactly — the closest,
  * --bg-subtle-hover / --bg-base-hover, is rgb(244, 244, 245) in the light preset, one unit off
- * on every channel. Fixed in both modes on purpose: the brief names only the light mockup.
+ * on every channel. The mockup is light only, and the panel's ink follows the mode, so dark
+ * mode takes the preset's own untinted dark --bg-subtle, rgb(24, 24, 27), instead of keeping a
+ * light panel under light text.
  */
 :root {
   --cart-sidebar-bg: #f5f5f5;
+}
+
+[data-mode="dark"] {
+  --cart-sidebar-bg: #18181b;
+}
+
+/*
+ * t-2026-10-03-65: the «Войти через Телеграм» button in Telegram's own colour, the same in
+ * every theme and mode, like the Yandex mark beside it. #26A5E4 is Telegram's brand colour
+ * as Simple Icons publishes it (simpleicons.org/?q=telegram); the ink and the mark on it are
+ * white. Read only by `modules/account/components/telegram-login/telegram-button.tsx`.
+ */
+:root {
+  --telegram-brand: #26a5e4;
+  --telegram-brand-hover: color-mix(in srgb, var(--telegram-brand) 88%, #000);
+  --telegram-brand-fg: #ffffff;
 }
 
 /*

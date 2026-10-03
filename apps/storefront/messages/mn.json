@@ -1172,7 +1172,9 @@
     "empty": "Таны сагс хоосон байна.",
     "exploreProducts": "Бүтээгдэхүүн үзэх",
     "itemsTotal": "Барааны нийт дүн",
-    "checkout": "Захиалга хийх"
+    "checkout": "Захиалга хийх",
+    "signInTelegram": "Telegram-ээр",
+    "register": "Бүртгүүлэх"
   },
   "Shipments": {
     "noDeliveryBadge": "онлайн сургалт, хүргэлтгүй",

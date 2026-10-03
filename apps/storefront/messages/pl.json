@@ -1172,7 +1172,9 @@
     "empty": "Twój koszyk jest pusty.",
     "exploreProducts": "Zobacz produkty",
     "itemsTotal": "Wartość produktów",
-    "checkout": "Do kasy"
+    "checkout": "Do kasy",
+    "signInTelegram": "Przez Telegram",
+    "register": "Rejestracja"
   },
   "Shipments": {
     "noDeliveryBadge": "kurs online, bez dostawy",

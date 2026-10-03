@@ -1172,7 +1172,9 @@
     "empty": "आपका कार्ट खाली है।",
     "exploreProducts": "उत्पाद देखें",
     "itemsTotal": "उत्पादों का कुल",
-    "checkout": "चेकआउट"
+    "checkout": "चेकआउट",
+    "signInTelegram": "Telegram से",
+    "register": "रजिस्टर करें"
   },
   "Shipments": {
     "noDeliveryBadge": "ऑनलाइन कोर्स, डिलीवरी नहीं",

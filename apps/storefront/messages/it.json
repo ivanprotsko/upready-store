@@ -1172,7 +1172,9 @@
     "empty": "Il tuo carrello è vuoto.",
     "exploreProducts": "Vedi i prodotti",
     "itemsTotal": "Totale articoli",
-    "checkout": "Vai alla cassa"
+    "checkout": "Vai alla cassa",
+    "signInTelegram": "Con Telegram",
+    "register": "Registrati"
   },
   "Shipments": {
     "noDeliveryBadge": "corso online, senza consegna",

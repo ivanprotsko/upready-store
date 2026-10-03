@@ -1172,7 +1172,9 @@
     "empty": "Je winkelwagen is leeg.",
     "exploreProducts": "Producten bekijken",
     "itemsTotal": "Totaal artikelen",
-    "checkout": "Afrekenen"
+    "checkout": "Afrekenen",
+    "signInTelegram": "Met Telegram",
+    "register": "Account aanmaken"
   },
   "Shipments": {
     "noDeliveryBadge": "online cursus, geen bezorging",

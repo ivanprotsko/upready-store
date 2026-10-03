@@ -1172,7 +1172,9 @@
     "empty": "თქვენი კალათა ცარიელია.",
     "exploreProducts": "პროდუქტების ნახვა",
     "itemsTotal": "პროდუქტების ჯამი",
-    "checkout": "შეკვეთის გაფორმება"
+    "checkout": "შეკვეთის გაფორმება",
+    "signInTelegram": "Telegram-ით",
+    "register": "რეგისტრაცია"
   },
   "Shipments": {
     "noDeliveryBadge": "ონლაინ კურსი, მიწოდების გარეშე",

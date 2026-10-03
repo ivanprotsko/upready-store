@@ -1172,7 +1172,9 @@
     "empty": "У кошику поки порожньо.",
     "exploreProducts": "Переглянути товари",
     "itemsTotal": "Товарів на суму",
-    "checkout": "До оформлення"
+    "checkout": "До оформлення",
+    "signInTelegram": "Через Telegram",
+    "register": "Реєстрація"
   },
   "Shipments": {
     "noDeliveryBadge": "онлайн-курс, без доставки",

@@ -1172,7 +1172,9 @@
     "empty": "Walang laman ang kariton mo.",
     "exploreProducts": "Tingnan ang mga produkto",
     "itemsTotal": "Kabuuan ng mga produkto",
-    "checkout": "Mag-checkout"
+    "checkout": "Mag-checkout",
+    "signInTelegram": "Gamit ang Telegram",
+    "register": "Mag-sign up"
   },
   "Shipments": {
     "noDeliveryBadge": "online na kurso, walang delivery",

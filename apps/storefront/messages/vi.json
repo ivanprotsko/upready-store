@@ -1172,7 +1172,9 @@
     "empty": "Giỏ hàng của bạn đang trống.",
     "exploreProducts": "Xem sản phẩm",
     "itemsTotal": "Tổng tiền hàng",
-    "checkout": "Thanh toán"
+    "checkout": "Thanh toán",
+    "signInTelegram": "Bằng Telegram",
+    "register": "Đăng ký"
   },
   "Shipments": {
     "noDeliveryBadge": "khóa học trực tuyến, không giao hàng",

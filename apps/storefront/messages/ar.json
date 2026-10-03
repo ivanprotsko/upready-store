@@ -1172,7 +1172,9 @@
     "empty": "سلة التسوق فارغة.",
     "exploreProducts": "تصفح المنتجات",
     "itemsTotal": "إجمالي المنتجات",
-    "checkout": "إتمام الطلب"
+    "checkout": "إتمام الطلب",
+    "signInTelegram": "عبر Telegram",
+    "register": "إنشاء حساب"
   },
   "Shipments": {
     "noDeliveryBadge": "دورة عبر الإنترنت، بدون توصيل",

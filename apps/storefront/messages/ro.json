@@ -1172,7 +1172,9 @@
     "empty": "Coșul tău este gol.",
     "exploreProducts": "Vezi produsele",
     "itemsTotal": "Total produse",
-    "checkout": "Finalizează comanda"
+    "checkout": "Finalizează comanda",
+    "signInTelegram": "Cu Telegram",
+    "register": "Înregistrare"
   },
   "Shipments": {
     "noDeliveryBadge": "curs online, fără livrare",

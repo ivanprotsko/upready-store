@@ -1180,7 +1180,9 @@
     "empty": "Your cart is empty.",
     "exploreProducts": "Explore products",
     "itemsTotal": "Items total",
-    "checkout": "Checkout"
+    "checkout": "Checkout",
+    "signInTelegram": "With Telegram",
+    "register": "Create account"
   },
   "Shipments": {
     "noDeliveryBadge": "online course, no delivery",

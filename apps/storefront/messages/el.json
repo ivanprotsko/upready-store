@@ -1172,7 +1172,9 @@
     "empty": "Το καλάθι σας είναι άδειο.",
     "exploreProducts": "Δείτε τα προϊόντα",
     "itemsTotal": "Σύνολο προϊόντων",
-    "checkout": "Ολοκλήρωση παραγγελίας"
+    "checkout": "Ολοκλήρωση παραγγελίας",
+    "signInTelegram": "Με Telegram",
+    "register": "Εγγραφή"
   },
   "Shipments": {
     "noDeliveryBadge": "διαδικτυακό μάθημα, χωρίς παράδοση",

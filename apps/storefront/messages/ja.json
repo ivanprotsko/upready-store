@@ -1172,7 +1172,9 @@
     "empty": "カートは空です。",
     "exploreProducts": "商品を見る",
     "itemsTotal": "商品合計",
-    "checkout": "レジへ進む"
+    "checkout": "レジへ進む",
+    "signInTelegram": "Telegramで",
+    "register": "新規登録"
   },
   "Shipments": {
     "noDeliveryBadge": "オンライン講座、配送なし",

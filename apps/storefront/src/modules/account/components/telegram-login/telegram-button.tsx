@@ -99,6 +99,7 @@ export default function TelegramButton({
   pending,
   onAuth,
   testId,
+  size = "large",
 }: {
   bot: TelegramBot
   label: string
@@ -106,6 +107,11 @@ export default function TelegramButton({
   pending: string | null
   onAuth: (user: TelegramWidgetUser) => void
   testId?: string
+  /**
+   * The size of the buttons beside it, so a row of sign-in methods is one height
+   * (t-2026-10-03-65): `base` in the cart sidebar, `large` everywhere else.
+   */
+  size?: "base" | "large"
 }) {
   const locale = useLocale()
   const onAuthRef = useRef(onAuth)
@@ -155,15 +161,20 @@ export default function TelegramButton({
     <Button
       type="button"
       variant="secondary"
-      size="large"
-      className="w-full"
+      size={size}
+      // Telegram's own blue with white ink and mark (t-2026-10-03-65), the same in every
+      // theme: the tokens live in `styles/globals.css`. `!` wins over the secondary
+      // variant's neutral fill, ink, border shadow and gradient; the variant is kept for
+      // its focus ring.
+      className="w-full min-w-0 !bg-[var(--telegram-brand)] !text-[var(--telegram-brand-fg)] !shadow-none after:hidden hover:!bg-[var(--telegram-brand-hover)] active:!bg-[var(--telegram-brand-hover)] focus-visible:!shadow-buttons-neutral-focus disabled:opacity-70"
       onClick={open}
       disabled={Boolean(pending)}
       aria-busy={Boolean(pending)}
       data-testid={testId}
     >
       <TelegramMark />
-      {pending ?? label}
+      {/* One line in any locale, so a long label cannot make this button taller than its neighbour. */}
+      <span className="min-w-0 truncate">{pending ?? label}</span>
     </Button>
   )
 }

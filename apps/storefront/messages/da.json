@@ -1172,7 +1172,9 @@
     "empty": "Din kurv er tom.",
     "exploreProducts": "Se produkter",
     "itemsTotal": "Varer i alt",
-    "checkout": "Til kassen"
+    "checkout": "Til kassen",
+    "signInTelegram": "Med Telegram",
+    "register": "Opret konto"
   },
   "Shipments": {
     "noDeliveryBadge": "onlinekursus, uden levering",
