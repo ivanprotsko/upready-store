@@ -48,21 +48,21 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
 
   return (
     <div
-      className="w-full border-b border-rose-200 bg-rose-50"
+      className="w-full border-b border-ui-tag-red-border bg-ui-tag-red-bg"
       data-testid="order-error-banner"
       data-value={error}
     >
       <div className="content-container flex flex-col gap-y-4 py-4 small:flex-row small:items-center small:justify-between small:gap-x-6">
         <div className="flex items-start gap-x-2">
           <span
-            className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-rose-500"
+            className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-red-bg0"
             aria-hidden
           />
           <div className="flex flex-col gap-y-0.5">
-            <span className="txt-compact-medium-plus text-rose-950">
+            <span className="txt-compact-medium-plus text-ui-tag-red-text">
               {t("heading")}
             </span>
-            <span className="txt-compact-small text-rose-700">
+            <span className="txt-compact-small text-ui-tag-red-text">
               {t(reasonKey)}
             </span>
           </div>

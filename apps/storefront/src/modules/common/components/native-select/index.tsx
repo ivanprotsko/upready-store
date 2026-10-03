@@ -76,7 +76,7 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
               data-testid="native-select-required-mark"
             >
               <span className="invisible">{resolvedPlaceholder}</span>
-              <span className="text-rose-500">*</span>
+              <span className="text-ui-fg-error">*</span>
             </span>
           )}
           <span className="absolute inset-y-0 end-2 flex items-center pointer-events-none ">

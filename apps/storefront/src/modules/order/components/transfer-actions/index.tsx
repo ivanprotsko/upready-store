@@ -43,12 +43,12 @@ const TransferActions = ({ id, token }: { id: string; token: string }) => {
   return (
     <div className="flex flex-col gap-y-4">
       {status?.accept === "success" && (
-        <Text className="text-emerald-500">
+        <Text className="text-ui-tag-green-text">
           {t("transferSuccess")}
         </Text>
       )}
       {status?.decline === "success" && (
-        <Text className="text-emerald-500">
+        <Text className="text-ui-tag-green-text">
           {t("declineSuccess")}
         </Text>
       )}
@@ -78,7 +78,7 @@ const TransferActions = ({ id, token }: { id: string; token: string }) => {
         </div>
       )}
       {errorMessage && (
-        <Text className="text-red-500 text-sm">{getErrorMessage(errorMessage)}</Text>
+        <Text className="text-ui-fg-error text-sm">{getErrorMessage(errorMessage)}</Text>
       )}
     </div>
   )

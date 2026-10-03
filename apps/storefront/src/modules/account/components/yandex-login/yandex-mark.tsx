@@ -11,6 +11,7 @@
 const YandexMark = () => (
   <span
     aria-hidden
+    // theme-colours allowlist: Yandex's own brand red, white ink fixed on it by Yandex's own brand guideline — not a theme surface.
     className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded bg-[#FC3F1D] text-[13px] font-semibold leading-none text-white"
   >
     Я
