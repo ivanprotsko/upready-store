@@ -1,7 +1,6 @@
-import { retrieveCart } from "@lib/data/cart"
+import { retrieveCartSnapshot } from "@lib/data/cart"
 import CartTemplate from "@modules/cart/templates"
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { pageTitle } from "@lib/util/page-title"
 import { NOINDEX } from "@lib/util/robots"
@@ -21,13 +20,10 @@ type CartPageProps = {
 }
 
 export default async function Cart({ searchParams }: CartPageProps) {
-  const [cart, { error }] = await Promise.all([
-    retrieveCart().catch((err) => {
-      console.error(err)
-      return notFound()
-    }),
+  const [snapshot, { error }] = await Promise.all([
+    retrieveCartSnapshot(),
     searchParams,
   ])
 
-  return <CartTemplate cart={cart} error={error} />
+  return <CartTemplate snapshot={snapshot} error={error} />
 }

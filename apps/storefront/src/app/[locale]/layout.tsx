@@ -3,6 +3,7 @@ import { getLocale } from "next-intl/server"
 import HtmlDirSync from "@modules/common/components/html-dir-sync"
 import JsonLd from "@modules/common/components/json-ld"
 import { buildSiteJsonLd } from "@lib/util/json-ld"
+import { CartQueueProvider } from "@lib/cart-store"
 
 export default async function LocaleLayout({
   children,
@@ -15,7 +16,9 @@ export default async function LocaleLayout({
     <NextIntlClientProvider>
       <JsonLd data={await buildSiteJsonLd(locale)} />
       <HtmlDirSync />
-      {children}
+      {/* The one client-side cart (t-2026-10-03-66), above (main) and (checkout) so a
+          client-side move between them keeps what is still on its way to the server. */}
+      <CartQueueProvider>{children}</CartQueueProvider>
     </NextIntlClientProvider>
   )
 }

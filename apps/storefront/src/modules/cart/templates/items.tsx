@@ -1,6 +1,8 @@
+"use client"
+
 import repeat from "@lib/util/repeat"
 import type { HttpTypes } from "@medusajs/types"
-import { getTranslations } from "next-intl/server"
+import { useTranslations } from "next-intl"
 
 import Item from "@modules/cart/components/item"
 
@@ -20,8 +22,8 @@ const CartItemSkeleton = () => (
   </div>
 )
 
-const ItemsTemplate = async ({ cart }: ItemsTemplateProps) => {
-  const t = await getTranslations("Cart")
+const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
+  const t = useTranslations("Cart")
   const items = cart?.items
 
   return (
@@ -32,14 +34,15 @@ const ItemsTemplate = async ({ cart }: ItemsTemplateProps) => {
 
       <div data-testid="items-table">
         {items
-          ? items
+          ? [...items]
               .sort((a, b) =>
                 (a.created_at ?? "") > (b.created_at ?? "") ? -1 : 1
               )
               .map((item, idx) => (
-                <div key={item.id}>
+                // By variant: a line added on another page is drawn before the server names
+                // it, and must not remount when the real id arrives.
+                <div key={item.variant_id ?? item.id}>
                   <Item
-                    key={item.id}
                     item={item}
                     currencyCode={cart?.currency_code ?? ""}
                   />

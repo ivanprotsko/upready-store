@@ -84,6 +84,22 @@ export async function retrieveCart(cartId?: string, fields?: string) {
 }
 
 /**
+ * The visitor's cart with the server's clock at the moment the read began, for the
+ * client queue (`lib/cart-store`, t-2026-10-03-66). A page renders this into its
+ * props; the queue takes it only when it is newer than the cart it already has, so a
+ * page the router restores from its cache cannot undo a click the server confirmed
+ * since. `at` is taken BEFORE the read on purpose: a read that started before a
+ * change landed must lose to the reply that reports that change.
+ */
+export async function retrieveCartSnapshot(): Promise<{
+  cart: HttpTypes.StoreCart | null
+  at: number
+}> {
+  const at = Date.now()
+  return { cart: await retrieveCart().catch(() => null), at }
+}
+
+/**
  * Whether the backend answers 404 for this cart. `retrieveCart` answers null
  * for ANY failure, and a cookie dropped on a backend hiccup would cost a buyer
  * their cart, so the one status that means «gone» is asked for by name.

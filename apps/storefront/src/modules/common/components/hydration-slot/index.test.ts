@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest"
 
 // The data readers behind these components talk to the backend; the test only
 // looks at what each component returns before any of them would run.
-vi.mock("@lib/data/cart", () => ({ retrieveCart: vi.fn() }))
+vi.mock("@lib/data/cart", () => ({ retrieveCart: vi.fn(), retrieveCartSnapshot: vi.fn() }))
 vi.mock("@lib/data/attribution", () => ({ getSiteAttribution: vi.fn() }))
 vi.mock("@lib/data/tenant-branding", () => ({ getSiteBranding: vi.fn() }))
 vi.mock("next-intl/server", () => ({ getTranslations: vi.fn() }))

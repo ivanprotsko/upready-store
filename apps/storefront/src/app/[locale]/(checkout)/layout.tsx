@@ -12,6 +12,7 @@ import HydrationSlot from "@modules/common/components/hydration-slot"
 import { NOINDEX } from "@lib/util/robots"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 import AccountLink from "@modules/layout/components/account-link"
+import CartQueueGate from "@modules/checkout/components/cart-queue-gate"
 
 export const metadata: Metadata = {
   robots: NOINDEX,
@@ -80,9 +81,10 @@ export default async function CheckoutLayout({
         </div>
       </header>
 
-      <main className="flex-1" data-testid="checkout-container">
+      {/* Inert while the client cart queue still sends a change (t-2026-10-03-66). */}
+      <CartQueueGate className="flex-1" data-testid="checkout-container">
         {children}
-      </main>
+      </CartQueueGate>
 
       <footer className="border-t border-ui-border-base bg-ui-bg-base">
         <div className="flex flex-col items-center gap-2 content-container py-4 text-center lg:hidden">

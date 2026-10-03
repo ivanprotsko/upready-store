@@ -1,4 +1,4 @@
-import { retrieveCart } from "@lib/data/cart"
+import { retrieveCartSnapshot } from "@lib/data/cart"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import CartTrigger from "@modules/layout/components/cart-trigger"
 
@@ -23,7 +23,9 @@ export default function CartButton({
 }
 
 async function CartButtonContent({ variant }: { variant?: "icon" | "pill" }) {
-  const cart = await retrieveCart().catch(() => null)
+  // With the time of the read, so the client cart queue can tell it from a newer one
+  // (t-2026-10-03-66); the count itself is the queue's from the first click on.
+  const snapshot = await retrieveCartSnapshot()
 
-  return <CartTrigger cart={cart} variant={variant} />
+  return <CartTrigger snapshot={snapshot} variant={variant} />
 }

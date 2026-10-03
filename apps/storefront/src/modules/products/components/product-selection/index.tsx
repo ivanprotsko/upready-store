@@ -26,7 +26,7 @@ export type ProductSelection = {
   /** The variant the chosen options name, or undefined while the choice is incomplete. */
   selectedVariant: HttpTypes.StoreProductVariant | undefined
   isValidVariant: boolean
-  /** True while a cart request runs: the pickers disable themselves meanwhile. */
+  /** True while «Купить» waits for the cart to reach the server: the pickers disable themselves meanwhile. */
   busy: boolean
   setBusy: (busy: boolean) => void
   /**

@@ -1,14 +1,15 @@
 "use client"
 
+import { useCart, type CartSnapshot } from "@lib/cart-store"
+import { draftLineFor } from "@lib/cart-store/draft"
+import { quantityIn } from "@lib/cart-store/queue"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
+import CartLineError from "@modules/cart/components/cart-line-error"
 import { useProductSelection } from "@modules/products/components/product-selection"
 import { useProductPurchase } from "@modules/products/components/product-selection/use-product-purchase"
 import InCartStepper from "@modules/products/components/in-cart-stepper"
-import {
-  maxQuantity,
-  type CartLinesByVariant,
-} from "@modules/products/components/in-cart-stepper/logic"
+import { maxQuantity } from "@modules/products/components/in-cart-stepper/logic"
 import { useEffect, useRef, useState } from "react"
 import { useTranslations } from "next-intl"
 import ProductPrice from "../product-price"
@@ -20,10 +21,11 @@ type ProductActionsProps = {
   region: HttpTypes.StoreRegion
   disabled?: boolean
   /**
-   * The cart's lines by variant (the Olavka shop, Ivan's remark 24): with them a variant in
-   * the cart shows «В КОРЗИНЕ − N +» in place of «В корзину». Absent: today's button.
+   * The cart as the server read it (the Olavka shop, Ivan's remark 24): with it a variant
+   * in the cart shows «В КОРЗИНЕ − N +» in place of «В корзину», the quantity kept by the
+   * client cart queue from then on (t-2026-10-03-66). Absent: today's button.
    */
-  cartLines?: CartLinesByVariant
+  cartSnapshot?: CartSnapshot
 }
 
 /**
@@ -38,7 +40,7 @@ type ProductActionsProps = {
 export default function ProductActions({
   product,
   disabled,
-  cartLines,
+  cartSnapshot,
 }: ProductActionsProps) {
   const t = useTranslations("ProductActions")
   const { options, setOptionValue, detailsOpen, setPricedProduct } =
@@ -52,6 +54,7 @@ export default function ProductActions({
     handleAddToCart,
     handleBuyNow,
   } = useProductPurchase(product, disabled)
+  const { cart, queue } = useCart(cartSnapshot)
 
   // The details drawer sells from the same priced product; the Suspense fallback (no
   // prices, disabled) does not publish, so the drawer never shows a price-less footer.
@@ -104,16 +107,19 @@ export default function ProductActions({
     ? t("outOfStock")
     : t("addToCart")
 
-  // The variant's cart line, or null; undefined when the shop has no «В корзине» state.
+  // The variant's quantity in the cart and the way to change it; undefined when the shop
+  // has no «В корзине» state.
   const inCart =
-    cartLines && selectedVariant && !disabled
+    cartSnapshot && selectedVariant && !disabled
       ? {
-          line: cartLines[selectedVariant.id] ?? null,
+          quantity: quantityIn(cart, selectedVariant.id),
           // Batch 6, Q3.5: a course (`metadata.digital`) is bought once.
           max:
             (product.metadata as Record<string, unknown> | null | undefined)?.digital === "true"
               ? 1
               : maxQuantity(selectedVariant),
+          onStep: (delta: 1 | -1) =>
+            queue.add(selectedVariant.id, delta, draftLineFor(product, selectedVariant)),
         }
       : undefined
 
@@ -169,7 +175,12 @@ export default function ProductActions({
         )}
 
         {inCart ? (
-          <InCartStepper line={inCart.line} max={inCart.max} addButton={addButton} />
+          <InCartStepper
+            quantity={inCart.quantity}
+            max={inCart.max}
+            onStep={inCart.onStep}
+            addButton={addButton}
+          />
         ) : (
           addButton
         )}
@@ -184,6 +195,7 @@ export default function ProductActions({
           {/* Batch 6, Q3.4: «Купить», not «Оплатить» — nothing is paid on this page. */}
           {t("buy")}
         </Button>
+        <CartLineError variantId={selectedVariant?.id} data-testid="product-cart-error" />
 
         <MobileActions
           product={product}

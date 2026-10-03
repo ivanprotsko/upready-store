@@ -7,6 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
+import { useCart, type CartSnapshot } from "@lib/cart-store"
 import { getCartDeliveryDays } from "@lib/data/cart-delivery"
 import type { TelegramBot } from "@lib/data/telegram-bot"
 import { useRouter } from "@i18n/navigation"
@@ -58,13 +59,18 @@ const MOTION_DURATION = "!duration-200"
  * any navigation close it (`./context.tsx`). @medusajs/ui's `Drawer` (Radix Dialog)
  * traps focus and returns it to where it was.
  *
+ * The lines, their quantities and the total are the client cart queue's
+ * (t-2026-10-03-66): a «+» here or a «В корзину» on the page shows at once, and the total
+ * is an estimate until the server answers with its own. «К оформлению» waits for the
+ * queue to empty first, so the checkout never opens on a cart the server has not got.
+ *
  * In the frame, not here (no feature behind it): the checkbox on every line, the
  * gift icon on a line. The sign-in block (`./sign-in.tsx`) offers e-mail, with its
  * forms in place, Yandex ID and Telegram per the shop's own settings
  * (`lib/tenant/login-settings.ts`, `lib/data/telegram-bot.ts`).
  */
 export default function CartSidebar({
-  cart,
+  snapshot,
   isLoggedIn,
   wishlistLoggedIn,
   wishlistProductIds,
@@ -73,7 +79,8 @@ export default function CartSidebar({
   siteName,
   legal,
 }: {
-  cart: HttpTypes.StoreCart | null
+  /** The cart as the server render read it, shown until the queue has its own. */
+  snapshot: CartSnapshot | null
   /** The buyer has an account session: the sign-in block is not shown. */
   isLoggedIn: boolean
   wishlistLoggedIn: boolean
@@ -93,6 +100,8 @@ export default function CartSidebar({
   const pathname = usePathname() ?? "/"
   const searchParams = useSearchParams()
   const { isOpen, setOpen, close } = useCartSidebar()
+  const { cart, queue } = useCart(snapshot)
+  const [leaving, setLeaving] = useState(false)
 
   // Where focus goes back on close (t-2026-10-03-63 bullet 5). Radix returns it to a
   // `Dialog.Trigger`, and this drawer has none: the header's `CartTrigger` and «В корзину»
@@ -266,7 +275,9 @@ export default function CartSidebar({
                 <div className="flex flex-col gap-y-2 px-4 pb-4">
                   {group.lines.map(({ item }) => (
                     <CartSidebarLine
-                      key={item.id}
+                      // By variant: a first add is drawn before the server names its line,
+                      // and the card must not remount when the real id arrives.
+                      key={item.variant_id ?? item.id}
                       item={item}
                       currencyCode={currencyCode}
                       wishlistLoggedIn={wishlistLoggedIn}
@@ -304,9 +315,17 @@ export default function CartSidebar({
                 variant="primary"
                 size="base"
                 className="w-full"
-                onClick={() => {
+                isLoading={leaving}
+                onClick={async () => {
+                  setLeaving(true)
+                  const { ok } = await queue.settle()
+                  setLeaving(false)
+                  // A refused line is back at the server's quantity and says why; the
+                  // buyer sees that before going on.
+                  const confirmed = queue.getState().server
+                  if (!ok || !confirmed) return
                   close()
-                  router.push(`/checkout?step=${checkoutStep(cart)}`)
+                  router.push(`/checkout?step=${checkoutStep(confirmed)}`)
                 }}
                 data-testid="cart-sidebar-checkout"
               >

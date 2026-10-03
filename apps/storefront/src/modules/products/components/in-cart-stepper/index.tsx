@@ -1,12 +1,9 @@
 "use client"
 
-import { deleteLineItem, updateLineItem } from "@lib/data/cart"
 import { Link } from "@i18n/navigation"
 import { Minus, Plus } from "@medusajs/icons"
 import { useTranslations } from "next-intl"
-import { useEffect, useState, type ReactNode } from "react"
-
-import { applyStep, cartStep, type CartLine } from "./logic"
+import type { ReactNode } from "react"
 
 const STEP_BUTTON =
   "grid h-8 w-8 place-items-center rounded-full transition-colors hover:bg-ui-button-inverted-hover disabled:opacity-50 focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-contrast-fg-primary"
@@ -18,52 +15,32 @@ const STEP_BUTTON =
  * right). The pill takes the add button's place, size and fill (`ui-button-inverted`), so
  * nothing moves; «В КОРЗИНЕ» opens the cart.
  *
- * `line` is the cart line as the server last rendered it. «+» / «−» change it at once
- * (optimistic) and send the request; the cart requests revalidate the cart, so the page —
- * this line and the header's count with it — comes back from the server with the truth,
- * and a failed request falls back to it. «−» on 1 removes the line, and `addButton` is shown
- * again. With no line the caller's own `addButton` is rendered, untouched.
+ * `quantity` is the variant's quantity as the client cart queue shows it
+ * (t-2026-10-03-66), and `onStep` changes it there: the number moves on every click,
+ * however fast, and the queue sends the result after a pause. Nothing here waits for the
+ * server or disables itself meanwhile. «−» on 1 removes the line and `addButton` is shown
+ * again; «+» stops at `max`. At 0 the caller's own `addButton` is rendered, untouched.
  */
 export default function InCartStepper({
-  line: serverLine,
+  quantity,
   max = Infinity,
+  onStep,
   addButton,
   className = "",
   "data-testid": testId = "in-cart-stepper",
 }: {
-  line: CartLine | null
+  quantity: number
   /** The most the cart may hold (`maxQuantity`): «+» stops there. */
   max?: number
+  onStep: (delta: 1 | -1) => void
   addButton: ReactNode
   className?: string
   "data-testid"?: string
 }) {
   const t = useTranslations("ProductActions")
-  const [line, setLine] = useState(serverLine)
-  const [busy, setBusy] = useState(false)
 
-  // The server's line after every cart request (the requests revalidate the cart).
-  useEffect(() => {
-    setLine(serverLine)
-  }, [serverLine])
-
-  if (!line) {
+  if (quantity <= 0) {
     return <>{addButton}</>
-  }
-
-  const press = async (delta: 1 | -1) => {
-    const step = cartStep(line, delta, max)
-    if (busy || step.kind === "none" || step.kind === "add") return
-    setBusy(true)
-    setLine(applyStep(line, step))
-    try {
-      if (step.kind === "remove") await deleteLineItem(step.lineId)
-      else await updateLineItem({ lineId: step.lineId, quantity: step.quantity })
-    } catch {
-      setLine(serverLine)
-    } finally {
-      setBusy(false)
-    }
   }
 
   return (
@@ -83,8 +60,7 @@ export default function InCartStepper({
       <div className="flex shrink-0 items-center gap-x-1 pr-1">
         <button
           type="button"
-          onClick={() => press(-1)}
-          disabled={busy}
+          onClick={() => onStep(-1)}
           aria-label={t("decreaseQuantity")}
           className={STEP_BUTTON}
           data-testid={`${testId}-decrease`}
@@ -96,12 +72,12 @@ export default function InCartStepper({
           className="min-w-[1.5rem] text-center tabular-nums"
           data-testid={`${testId}-quantity`}
         >
-          {line.quantity}
+          {quantity}
         </span>
         <button
           type="button"
-          onClick={() => press(1)}
-          disabled={busy || line.quantity >= max}
+          onClick={() => quantity < max && onStep(1)}
+          disabled={quantity >= max}
           aria-label={t("increaseQuantity")}
           className={STEP_BUTTON}
           data-testid={`${testId}-increase`}
