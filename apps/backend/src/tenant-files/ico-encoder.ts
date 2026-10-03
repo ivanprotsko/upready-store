@@ -5,6 +5,8 @@
  * one ICONDIRENTRY per frame, pointing at that frame's own PNG bytes.
  */
 
+import { MedusaError } from "@medusajs/framework/utils";
+
 export type IcoFrame = { size: number; png: Buffer };
 
 const ICONDIR_SIZE = 6;
@@ -15,7 +17,7 @@ const dimensionByte = (size: number): number => (size >= 256 ? 0 : size);
 
 export const encodeIco = (frames: IcoFrame[]): Buffer => {
   if (frames.length === 0) {
-    throw new Error("encodeIco needs at least one frame");
+    throw new MedusaError(MedusaError.Types.INVALID_ARGUMENT, "encodeIco needs at least one frame");
   }
 
   const header = Buffer.alloc(ICONDIR_SIZE);
