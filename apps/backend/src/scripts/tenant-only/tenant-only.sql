@@ -21,6 +21,10 @@
 --   UT002  verification found rows that must not be there
 --   UT003  bad input (no tenant with that handle, nothing to do)
 
+-- The functions drop and recreate their own temp tables; keep the "does not
+-- exist, skipping" notices of that out of the operator's output.
+SET client_min_messages = warning;
+
 -- ---------------------------------------------------------------------------
 -- Constants
 -- ---------------------------------------------------------------------------
@@ -1268,6 +1272,7 @@ DECLARE
   n bigint;
   tables_checked int := 0;
   hosts text[];
+  ids text[];
 BEGIN
   SELECT t.id INTO k FROM tenant t WHERE t.handle = keep_handle;
   IF k IS NULL THEN
@@ -1467,6 +1472,22 @@ BEGIN
     SELECT count(DISTINCT f.email) INTO findings FROM tok_foreign_email f
     JOIN tok_emails_now e ON e.email = f.email WHERE f.kind = 'staff';
     RETURN NEXT;
+
+    -- Ids of what the trim removed with the other tenants (their sales
+    -- channels, publishable keys and warehouses), written anywhere: a platform
+    -- promotion rule, a price rule, a metadata field.
+    SELECT array_agg('%' || x.id || '%') INTO ids FROM (
+      SELECT id FROM tok_channel_drop UNION SELECT id FROM tok_apikey_drop UNION SELECT id FROM tok_location_drop
+    ) x;
+    IF ids IS NOT NULL THEN
+      FOR r IN SELECT * FROM pg_temp.tenant_only_text_columns() LOOP
+        EXECUTE format('SELECT count(*) FROM public.%I WHERE %I::text LIKE ANY ($1)', r.tbl, r.col) INTO n USING ids;
+        IF n > 0 THEN
+          check_name := format('%s.%s mentions a removed sales channel, key or warehouse', r.tbl, r.col);
+          severity := 'fail'; findings := n; RETURN NEXT;
+        END IF;
+      END LOOP;
+    END IF;
   END IF;
   IF to_regclass('pg_temp.tok_foreign_host') IS NOT NULL THEN
     SELECT array_agg('%' || host || '%') INTO hosts FROM tok_foreign_host;
@@ -1626,7 +1647,7 @@ BEGIN
   SELECT count(*) INTO failed FROM tok_checks WHERE severity = 'fail' AND findings > 0;
   IF failed > 0 THEN
     FOR r IN SELECT * FROM tok_checks WHERE severity = 'fail' AND findings > 0 ORDER BY ord LOOP
-      RAISE NOTICE 'tenant-only FAIL: % = %', r.check_name, r.findings;
+      RAISE WARNING 'tenant-only FAIL: % = %', r.check_name, r.findings;
     END LOOP;
     RAISE EXCEPTION 'tenant-only verify: % check(s) failed, nothing may be committed or dumped', failed USING ERRCODE = 'UT002';
   END IF;
