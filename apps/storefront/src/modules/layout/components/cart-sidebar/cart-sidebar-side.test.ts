@@ -19,7 +19,7 @@ const source = readFileSync(join(here, "index.tsx"), "utf8")
 
 describe("cart sidebar side", () => {
   it("is pinned to the right edge", () => {
-    expect(source).toMatch(/export const CART_SIDEBAR_SIDE: "left" \| "right" = "right"/)
+    expect(source).toMatch(/export const CART_SIDEBAR_SIDE = "right" as "left" \| "right"/)
   })
 
   it("derives the panel side from that one constant only", () => {

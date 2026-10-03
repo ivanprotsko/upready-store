@@ -35,8 +35,11 @@ const checkoutStep = (cart: HttpTypes.StoreCart): "address" | "delivery" | "paym
  * сайдбаре его сделали слева, а он должен быть справа»). Commit b5fdb6a1 (PR #232,
  * t-2026-10-03-63) had moved it to the left; this one constant drives both the pin and the
  * slide direction, and `cart-sidebar-side.test.ts` pins it so it cannot drift again.
+ * `as` (not a `: "left" | "right"` annotation) keeps the type a union: an annotated const
+ * is narrowed to its initializer, and the `SIDE === "left"` branch below then fails tsc
+ * with TS2367 (caught by CI on PR #238).
  */
-export const CART_SIDEBAR_SIDE: "left" | "right" = "right"
+export const CART_SIDEBAR_SIDE = "right" as "left" | "right"
 const SIDE = CART_SIDEBAR_SIDE
 
 /**
