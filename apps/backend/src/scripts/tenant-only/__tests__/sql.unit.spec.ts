@@ -36,8 +36,8 @@ describe("tenant-only.sql", () => {
     expect(mark.match(/COMMENT ON DATABASE/g)).toHaveLength(2);
   });
 
-  it("always protects the live mt database", () => {
-    expect(sql).toMatch(/tenant_only_always_protected\(\)[\s\S]*ARRAY\['medusa_mt'/);
+  it("always protects the live databases of both instances", () => {
+    expect(sql).toMatch(/tenant_only_always_protected\(\)[\s\S]*ARRAY\['medusa_mt', 'medusa_ru'/);
   });
 
   it("guards every writing entry point", () => {

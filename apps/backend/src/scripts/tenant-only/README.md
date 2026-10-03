@@ -52,8 +52,9 @@ printed.
 
 A run that writes refuses unless both of these hold.
 
-1. The database is not `medusa_mt` (the live mt database), `postgres`,
-   `template0`, `template1`, or a name passed with `--protect`.
+1. The database is not `medusa_mt` or `medusa_ru` (the live databases of the
+   INTL and RU instances), `postgres`, `template0`, `template1`, or a name
+   passed with `--protect`.
 2. The database comment starts with `upready-scratch-copy`.
 
 `--mark` writes that comment, as `upready-scratch-copy v1 source=<db> at=<UTC time>`,

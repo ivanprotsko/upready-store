@@ -15,8 +15,12 @@
 #      sha256 sidecar; the archive is listed back with pg_restore -l
 #   6. the temporary database is dropped (also on any failure, by the trap)
 #   7. the tenant's media under $TENANT_MEDIA_HOST_PATH/<tenant_id>/ is listed
-#      for rsync, and every /static/ prefix the data references is written
-#      next to it, so files outside that directory are not forgotten
+#      and packed into one tar, and every /static/ prefix the data references
+#      is written next to it, so files outside that directory are not forgotten
+#
+# There is no SSH path between this host and the RU host (docs/instances/
+# RULES.md §4). The summary at the end shows how to stream the files through
+# the operator's machine without writing them to its disk.
 #
 # --dry-run stops after step 3 with a ROLLBACK and prints what would go.
 #
@@ -197,6 +201,8 @@ if [[ -d "$MEDIA_DIR" ]]; then
   ( cd "$MEDIA_DIR" && find . -type f | sed 's#^\./##' | sort ) > "$BASE.media.txt"
   MEDIA_FILES="$(wc -l < "$BASE.media.txt" | tr -d ' ')"
   MEDIA_SIZE="$(du -sh "$MEDIA_DIR" | cut -f1)"
+  tar -C "$MEDIA_DIR" -czf "$BASE.media.tar.gz" -T "$BASE.media.txt" || die 4 "could not pack the media"
+  chmod 600 "$BASE.media.tar.gz"
 else
   : > "$BASE.media.txt"
   MEDIA_FILES=0
@@ -213,10 +219,13 @@ cat >&2 <<EOF
   checksum       $BASE.dump.sha256
   log            $LOG_FILE
   media          $MEDIA_FILES files, $MEDIA_SIZE under $MEDIA_DIR
-                 list: $BASE.media.txt
+                 list: $BASE.media.txt, archive: $BASE.media.tar.gz
   /static/ refs  $BASE.static-refs.tsv ($OUTSIDE prefix(es) outside static/tenants/$TENANT_ID)
 
-  Copy the media with the list, for example:
-    rsync -a --files-from=$BASE.media.txt $MEDIA_DIR/ <ru-host>:<media-path>/$TENANT_ID/
+  The two hosts have no SSH path to each other. From the operator's machine,
+  stream each file through without writing it there, for example:
+    ssh <this-host> cat $BASE.dump | ssh <ru-host> 'cat > /opt/upready-store/backups/$(basename "$BASE").dump'
+    ssh <this-host> cat $BASE.media.tar.gz | ssh <ru-host> 'tar -C <tenant-media-path>/$TENANT_ID -xzf -'
+  then check the sha256 on the RU host against $BASE.dump.sha256.
 
 EOF

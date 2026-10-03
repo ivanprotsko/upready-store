@@ -32,10 +32,11 @@ SET client_min_messages = warning;
 CREATE OR REPLACE FUNCTION pg_temp.tenant_only_marker() RETURNS text
 LANGUAGE sql IMMUTABLE AS $$ SELECT 'upready-scratch-copy'::text $$;
 
--- Names refused whatever the caller passes: the live mt database
--- (deploy/compose.mt.yml, DB_NAME default) and the server's own databases.
+-- Names refused whatever the caller passes: the live databases of both
+-- instances (deploy/compose.mt.yml's DB_NAME default on the INTL host,
+-- deploy/mt/ru.env.example's on the RU host) and the server's own databases.
 CREATE OR REPLACE FUNCTION pg_temp.tenant_only_always_protected() RETURNS text[]
-LANGUAGE sql IMMUTABLE AS $$ SELECT ARRAY['medusa_mt', 'postgres', 'template0', 'template1']::text[] $$;
+LANGUAGE sql IMMUTABLE AS $$ SELECT ARRAY['medusa_mt', 'medusa_ru', 'postgres', 'template0', 'template1']::text[] $$;
 
 -- An e-mail address, plain (`a@b.ru`) or URL-encoded (`a%40b.ru`, how the
 -- Robokassa payment URL in payment_session.data carries it). The negative
