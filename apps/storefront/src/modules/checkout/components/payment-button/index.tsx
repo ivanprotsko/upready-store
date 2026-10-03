@@ -32,6 +32,8 @@ type PaymentButtonProps = {
   manualKind?: ManualPaymentKind | null
   /** Batch 6, Q3.1: a guest with a course in the cart cannot place the order before signing in. */
   requiresSignIn?: boolean
+  /** The mandatory personal-data consent ticked and recorded on the cart (`CheckoutConsent`, Ivan 04.10.2026). */
+  consentGiven: boolean
   "data-testid": string
 }
 
@@ -46,6 +48,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   demoCard,
   manualKind = null,
   requiresSignIn = false,
+  consentGiven,
   "data-testid": dataTestId,
 }) => {
   const t = useTranslations("PaymentButton")
@@ -80,6 +83,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   const notReady =
     !cart ||
     requiresSignIn ||
+    !consentGiven ||
     (needsShipping && !cart.shipping_address) ||
     (needsShipping && !cart.billing_address) ||
     // A Telegram buyer's cart starts with the synthetic `tg_<id>@telegram.local`,

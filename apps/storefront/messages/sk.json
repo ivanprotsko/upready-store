@@ -148,7 +148,7 @@
     "freeShipping": "Zdarma",
     "giftCard": "Darčeková karta",
     "itemsCount": "{count, plural, one {{count} položka} few {{count} položky} many {{count} položky} other {{count} položiek}}",
-    "legal": "Kliknutím na «{button}» prijímate naše <terms>podmienky</terms>, <termsOfUse>podmienky používania</termsOfUse> a <returnPolicy>podmienky vrátenia</returnPolicy> a súhlasíte s našimi <privacyPolicy>zásadami ochrany osobných údajov</privacyPolicy>.",
+    "legal": "Kliknutím na «{button}» prijímate naše <terms>podmienky</terms>, <termsOfUse>podmienky používania</termsOfUse> a <returnPolicy>podmienky vrátenia</returnPolicy> a potvrdzujete, že ste sa oboznámili s našimi <privacyPolicy>zásadami ochrany osobných údajov</privacyPolicy>.",
     "manualInput": "Zadať adresu manuálne",
     "addressIncomplete": "Vyplňte povinné polia adresy: {fields}.",
     "provinceRequired": "Vyberte kraj zo zoznamu.",
@@ -1200,5 +1200,11 @@
     "paid": "Zaplatené",
     "refunded": "Vrátené",
     "canceled": "Zrušené"
+  },
+  "CheckoutConsent": {
+    "personalData": "Súhlasím so spracovaním mojich osobných údajov v súlade so <privacy>Zásadami ochrany osobných údajov</privacy>.",
+    "marketing": "Súhlasím so zasielaním noviniek, akcií a špeciálnych ponúk na uvedený e-mail. Odhlásiť sa môžem kedykoľvek cez odkaz v každom e-maile.",
+    "receipt": "Pokladničný doklad bude zaslaný na e-mail zadaný pri objednávke (54-FZ).",
+    "hint": "Na dokončenie objednávky označte súhlas so spracovaním osobných údajov."
   }
 }

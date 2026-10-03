@@ -148,7 +148,7 @@
     "freeShipping": "Percuma",
     "giftCard": "Kad Hadiah",
     "itemsCount": "{count, plural, other {{count} barang}}",
-    "legal": "Dengan mengklik «{button}», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta bersetuju dengan <privacyPolicy>dasar privasi</privacyPolicy> kami.",
+    "legal": "Dengan mengklik «{button}», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta mengesahkan bahawa anda telah membaca <privacyPolicy>dasar privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapkan medan alamat yang diwajibkan: {fields}.",
     "provinceRequired": "Pilih wilayah daripada senarai.",
@@ -1200,5 +1200,11 @@
     "paid": "Dibayar",
     "refunded": "Dibayar balik",
     "canceled": "Dibatalkan"
+  },
+  "CheckoutConsent": {
+    "personalData": "Saya bersetuju dengan pemprosesan data peribadi saya menurut <privacy>Dasar Privasi</privacy>.",
+    "marketing": "Saya bersetuju menerima berita, promosi dan tawaran istimewa melalui e-mel. Saya boleh berhenti melanggan pada bila-bila masa melalui pautan dalam setiap e-mel.",
+    "receipt": "Resit tunai akan dihantar ke e-mel yang anda masukkan semasa membuat pesanan (54-FZ).",
+    "hint": "Untuk membuat pesanan, tandakan persetujuan pemprosesan data peribadi."
   }
 }

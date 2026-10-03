@@ -148,7 +148,7 @@
     "freeShipping": "Kostenlos",
     "giftCard": "Geschenkkarte",
     "itemsCount": "{count, plural, one {{count} Artikel} other {{count} Artikel}}",
-    "legal": "Mit Klick auf «{button}» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und stimmen unserer <privacyPolicy>Datenschutzerklärung</privacyPolicy> zu.",
+    "legal": "Mit Klick auf «{button}» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und bestätigen, dass Sie unsere <privacyPolicy>Datenschutzerklärung</privacyPolicy> gelesen haben.",
     "manualInput": "Adresse manuell eingeben",
     "addressIncomplete": "Füllen Sie die Pflichtfelder der Adresse aus: {fields}.",
     "provinceRequired": "Wähle die Region aus der Liste.",
@@ -1200,5 +1200,11 @@
     "paid": "Bezahlt",
     "refunded": "Erstattet",
     "canceled": "Storniert"
+  },
+  "CheckoutConsent": {
+    "personalData": "Ich willige in die Verarbeitung meiner personenbezogenen Daten gemäß der <privacy>Datenschutzerklärung</privacy> ein.",
+    "marketing": "Ich möchte Neuigkeiten, Aktionen und Sonderangebote per E-Mail erhalten. Ich kann mich jederzeit über den Link in jeder E-Mail abmelden.",
+    "receipt": "Ein Kassenbeleg wird an die beim Bestellen angegebene E-Mail-Adresse gesendet (54-FZ).",
+    "hint": "Um die Bestellung aufzugeben, stimmen Sie der Verarbeitung personenbezogener Daten zu."
   }
 }

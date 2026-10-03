@@ -174,6 +174,8 @@ async function runJourney(page: Page, mode: "light" | "dark", standSlug: string)
 
     await selectManualPayment(page)
     await fillDemoCard(page, "approve")
+    // 04.10 checklist C1: the pay button waits for the personal-data consent.
+    await page.getByTestId("consent-personal-data").click()
     await page.getByTestId("submit-order-button").click()
     await page.waitForURL(/\/order\/.+\/confirmed/, { timeout: 30_000 }).catch(() => {
       /* captureFrame below still screenshots whatever page this landed on and reports the missing order-id */
@@ -266,6 +268,8 @@ async function runJourney(page: Page, mode: "light" | "dark", standSlug: string)
     await selectAnyShippingMethod(page)
     await selectManualPayment(page)
     await fillDemoCard(page, "redirect")
+    // 04.10 checklist C1: the pay button waits for the personal-data consent.
+    await page.getByTestId("consent-personal-data").click()
     await page.getByTestId("submit-order-button").click()
     await page.waitForURL(/\/cart\?error=order_failed/, { timeout: 20_000 }).catch(() => {
       /* captureFrame below still screenshots whatever page this landed on and reports the missing banner */

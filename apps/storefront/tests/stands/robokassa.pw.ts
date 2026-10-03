@@ -138,6 +138,8 @@ test.describe("robokassa-checkout", () => {
       })
     })
 
+    // 04.10 checklist C1: the pay button waits for the personal-data consent.
+    await page.getByTestId("consent-personal-data").click()
     const submit = page.getByTestId("submit-order-button")
     await expect(submit).toBeEnabled({ timeout: 20_000 })
     await submit.click()

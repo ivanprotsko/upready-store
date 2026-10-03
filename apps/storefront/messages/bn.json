@@ -148,7 +148,7 @@
     "freeShipping": "ফ্রি",
     "giftCard": "গিফট কার্ড",
     "itemsCount": "{count, plural, one {{count}টি আইটেম} other {{count}টি আইটেম}}",
-    "legal": "«{button}»-এ ক্লিক করে, আপনি আমাদের <terms>শর্তাবলী</terms>, <termsOfUse>ব্যবহারের শর্তাবলী</termsOfUse> এবং <returnPolicy>রিটার্ন নীতি</returnPolicy> গ্রহণ করছেন এবং আমাদের <privacyPolicy>গোপনীয়তা নীতি</privacyPolicy>-তে সম্মত হচ্ছেন।",
+    "legal": "«{button}»-এ ক্লিক করে, আপনি আমাদের <terms>শর্তাবলী</terms>, <termsOfUse>ব্যবহারের শর্তাবলী</termsOfUse> এবং <returnPolicy>রিটার্ন নীতি</returnPolicy> গ্রহণ করছেন এবং নিশ্চিত করছেন যে আপনি আমাদের <privacyPolicy>গোপনীয়তা নীতি</privacyPolicy> পড়েছেন।",
     "manualInput": "ঠিকানা ম্যানুয়ালি লিখুন",
     "addressIncomplete": "ঠিকানার আবশ্যক ঘরগুলো পূরণ করুন: {fields}।",
     "provinceRequired": "তালিকা থেকে অঞ্চল বেছে নিন।",
@@ -1200,5 +1200,11 @@
     "paid": "পরিশোধিত",
     "refunded": "ফেরত দেওয়া হয়েছে",
     "canceled": "বাতিল"
+  },
+  "CheckoutConsent": {
+    "personalData": "আমি <privacy>গোপনীয়তা নীতি</privacy> অনুযায়ী আমার ব্যক্তিগত তথ্য প্রক্রিয়াকরণে সম্মতি দিচ্ছি।",
+    "marketing": "আমি ই-মেইলে খবর, প্রচার ও বিশেষ অফার পেতে সম্মত। প্রতিটি ই-মেইলের লিঙ্কের মাধ্যমে যেকোনো সময় সদস্যতা বাতিল করতে পারি।",
+    "receipt": "অর্ডারের সময় দেওয়া ই-মেইলে ক্যাশ রসিদ পাঠানো হবে (54-FZ)।",
+    "hint": "অর্ডার দিতে, ব্যক্তিগত তথ্য প্রক্রিয়াকরণের সম্মতিতে টিক দিন।"
   }
 }

@@ -148,7 +148,7 @@
     "freeShipping": "ฟรี",
     "giftCard": "บัตรของขวัญ",
     "itemsCount": "{count, plural, other {{count} ชิ้น}}",
-    "legal": "เมื่อคลิก «{button}» คุณยอมรับ<terms>ข้อกำหนด</terms> <termsOfUse>เงื่อนไขการใช้งาน</termsOfUse> และ<returnPolicy>นโยบายการคืนสินค้า</returnPolicy> และยินยอมตาม<privacyPolicy>นโยบายความเป็นส่วนตัว</privacyPolicy>ของเรา",
+    "legal": "เมื่อคลิก «{button}» คุณยอมรับ<terms>ข้อกำหนด</terms> <termsOfUse>เงื่อนไขการใช้งาน</termsOfUse> และ<returnPolicy>นโยบายการคืนสินค้า</returnPolicy> และยืนยันว่าคุณได้อ่าน<privacyPolicy>นโยบายความเป็นส่วนตัว</privacyPolicy>ของเราแล้ว",
     "manualInput": "กรอกที่อยู่ด้วยตนเอง",
     "addressIncomplete": "กรอกช่องที่จำเป็นของที่อยู่ให้ครบ: {fields}",
     "provinceRequired": "เลือกภูมิภาคจากรายการ",
@@ -1200,5 +1200,11 @@
     "paid": "ชำระเงินแล้ว",
     "refunded": "คืนเงินแล้ว",
     "canceled": "ยกเลิกแล้ว"
+  },
+  "CheckoutConsent": {
+    "personalData": "ข้าพเจ้ายินยอมให้ประมวลผลข้อมูลส่วนบุคคลของข้าพเจ้าตาม<privacy>นโยบายความเป็นส่วนตัว</privacy>",
+    "marketing": "ข้าพเจ้ายินยอมรับข่าวสาร โปรโมชัน และข้อเสนอพิเศษทางอีเมล ยกเลิกการรับได้ทุกเมื่อผ่านลิงก์ในอีเมลแต่ละฉบับ",
+    "receipt": "ใบเสร็จจะถูกส่งไปยังอีเมลที่คุณระบุตอนสั่งซื้อ (54-FZ)",
+    "hint": "หากต้องการสั่งซื้อ โปรดทำเครื่องหมายยินยอมให้ประมวลผลข้อมูลส่วนบุคคล"
   }
 }

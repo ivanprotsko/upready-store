@@ -1,15 +1,24 @@
 "use client"
 
 import { useId, useState, useEffect, useRef, type ReactNode } from "react"
-import { initiatePaymentSession } from "@lib/data/cart"
+import { initiatePaymentSession, updateCart } from "@lib/data/cart"
 import { getChargeConversionFactor } from "@lib/data/payment"
 import {
   buildPaymentSessionData,
   isManual,
   isPaymentSessionReady,
+  isRobokassa,
   isStripeLike,
   paymentInfoMap,
 } from "@lib/constants"
+import {
+  CHECKOUT_CONSENT_METADATA_KEY,
+  EMPTY_CONSENT,
+  buildConsentRecord,
+  readConsentRecord,
+  type CheckoutConsentValue,
+} from "@lib/util/checkout-consent"
+import CheckoutConsent from "@modules/checkout/components/checkout-consent"
 import compareAddresses from "@lib/util/compare-addresses"
 import { cartNeedsShipping, cartShippingAddressGaps } from "@lib/util/shipping-address"
 import { paymentMethodName } from "@lib/util/payment"
@@ -110,6 +119,40 @@ export default function CheckoutPaymentSection({
   const [billingOpen, setBillingOpen] = useState(false)
   const [showBillingDetails, setShowBillingDetails] = useState(false)
   const [demoCard, setDemoCard] = useState<DemoCardValue>(EMPTY_DEMO_CARD)
+  const tc = useTranslations("CheckoutConsent")
+  // 04.10 checklist C1–C5: never ticked in advance, not even from a record an earlier visit
+  // left on the cart. Each change is written onto the cart at once (C3), and the button
+  // waits for that write, so the order is never placed ahead of its own consent record.
+  const [consent, setConsent] = useState<CheckoutConsentValue>(EMPTY_CONSENT)
+  const [consentSaving, setConsentSaving] = useState(false)
+  const [consentRecorded, setConsentRecorded] = useState(false)
+
+  const changeConsent = async (next: CheckoutConsentValue) => {
+    setConsent(next)
+    setConsentSaving(true)
+    setConsentRecorded(false)
+    const metadata = (cart.metadata ?? {}) as Record<string, unknown>
+    try {
+      await updateCart({
+        metadata: {
+          ...metadata,
+          [CHECKOUT_CONSENT_METADATA_KEY]: buildConsentRecord(
+            next,
+            legal,
+            locale,
+            new Date(),
+            readConsentRecord(metadata)
+          ),
+        },
+      })
+      setConsentRecorded(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setConsentSaving(false)
+    }
+  }
+  const consentGiven = consent.personalData && consentRecorded && !consentSaving
 
   // Batch 7: ONE kind inside the manual provider, «Перевод по реквизитам», when
   // the owner entered a requisite or a contact; the bank or the wallet is picked
@@ -574,6 +617,20 @@ export default function CheckoutPaymentSection({
       />
 
       <div className="flex flex-col gap-y-3">
+        <CheckoutConsent
+          value={consent}
+          onChange={changeConsent}
+          legal={legal}
+          disabled={consentSaving}
+        />
+        {/* C6 of the 04.10 checklist: the 54-ФЗ line, where a receipt is actually issued —
+            Robokassa, the Russian shop's gateway (fiscalised receipts, t-cherk-30). A transfer
+            by requisites issues none, so it promises none. */}
+        {isRobokassa(selectedPaymentMethod) && (
+          <p className="txt-compact-small text-ui-fg-subtle" data-testid="consent-receipt-note">
+            {tc("receipt")}
+          </p>
+        )}
         {/* Rule 5zd (t-2026-10-03-32): right above the button and the total,
             never a modal — the buyer sees it before clicking «Pay». */}
         {showPreNotice && (
@@ -591,8 +648,15 @@ export default function CheckoutPaymentSection({
           demoCard={demoCard}
           manualKind={manualKinds.length > 0 ? manualKind : null}
           requiresSignIn={requiresSignIn}
+          consentGiven={consentGiven}
           data-testid="submit-order-button"
         />
+        {/* A disabled button with no reason next to it reads as a broken shop. */}
+        {!consent.personalData && (
+          <p className="txt-compact-small text-ui-fg-subtle text-center" data-testid="consent-hint">
+            {tc("hint")}
+          </p>
+        )}
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">
           {/* Batch 7: the sentence names the button's own words — «Оформить заказ»
               for a transfer by requisites, «Оплатить» for a gateway. The catalogs

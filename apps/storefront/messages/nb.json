@@ -148,7 +148,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Gavekort",
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
-    "legal": "Ved å klikke på «{button}» godtar du våre <terms>vilkår</terms>, <termsOfUse>brukervilkår</termsOfUse> og <returnPolicy>returvilkår</returnPolicy>, og aksepterer vår <privacyPolicy>personvernerklæring</privacyPolicy>.",
+    "legal": "Ved å klikke på «{button}» godtar du våre <terms>vilkår</terms>, <termsOfUse>brukervilkår</termsOfUse> og <returnPolicy>returvilkår</returnPolicy>, og bekrefter at du har lest vår <privacyPolicy>personvernerklæring</privacyPolicy>.",
     "manualInput": "Skriv inn adresse manuelt",
     "addressIncomplete": "Fyll ut de obligatoriske adressefeltene: {fields}.",
     "provinceRequired": "Velg region fra listen.",
@@ -1200,5 +1200,11 @@
     "paid": "Betalt",
     "refunded": "Refundert",
     "canceled": "Kansellert"
+  },
+  "CheckoutConsent": {
+    "personalData": "Jeg samtykker til behandling av mine personopplysninger i samsvar med <privacy>personvernerklæringen</privacy>.",
+    "marketing": "Jeg vil motta nyheter, kampanjer og spesialtilbud på e-post. Jeg kan når som helst melde meg av via lenken i hver e-post.",
+    "receipt": "En kassekvittering sendes til e-postadressen du oppga ved bestillingen (54-FZ).",
+    "hint": "For å legge inn bestillingen, kryss av for samtykke til behandling av personopplysninger."
   }
 }

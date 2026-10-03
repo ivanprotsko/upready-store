@@ -79,6 +79,8 @@ test.describe("checkout-pickup-success", () => {
 
     await selectManualPayment(page)
     await fillDemoCard(page, "approve")
+    // 04.10 checklist C1: the pay button waits for the personal-data consent.
+    await page.getByTestId("consent-personal-data").click()
     await page.getByTestId("submit-order-button").click()
 
     await page.waitForURL(/\/order\/.+\/confirmed/, { timeout: 30_000 })
@@ -119,6 +121,8 @@ test.describe("checkout-card-0000", () => {
 
     await selectManualPayment(page)
     await fillDemoCard(page, "decline")
+    // 04.10 checklist C1: the pay button waits for the personal-data consent.
+    await page.getByTestId("consent-personal-data").click()
     await page.getByTestId("submit-order-button").click()
 
     // The testid the source names (payment-method-error-message) and the visible
@@ -148,6 +152,8 @@ test.describe("checkout-card-9999", () => {
 
     await selectManualPayment(page)
     await fillDemoCard(page, "redirect")
+    // 04.10 checklist C1: the pay button waits for the personal-data consent.
+    await page.getByTestId("consent-personal-data").click()
     await page.getByTestId("submit-order-button").click()
 
     await page.waitForURL(/\/cart\?error=order_failed/, { timeout: 20_000 })

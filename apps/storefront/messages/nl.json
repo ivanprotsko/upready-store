@@ -148,7 +148,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Cadeaubon",
     "itemsCount": "{count, plural, one {{count} artikel} other {{count} artikelen}}",
-    "legal": "Door op «{button}» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
+    "legal": "Door op «{button}» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en bevestigt u dat u ons <privacyPolicy>privacybeleid</privacyPolicy> hebt gelezen.",
     "manualInput": "Adres handmatig invoeren",
     "addressIncomplete": "Vul de verplichte adresvelden in: {fields}.",
     "provinceRequired": "Kies je regio uit de lijst.",
@@ -1200,5 +1200,11 @@
     "paid": "Betaald",
     "refunded": "Terugbetaald",
     "canceled": "Geannuleerd"
+  },
+  "CheckoutConsent": {
+    "personalData": "Ik geef toestemming voor de verwerking van mijn persoonsgegevens in overeenstemming met het <privacy>privacybeleid</privacy>.",
+    "marketing": "Ik ontvang graag nieuws, acties en speciale aanbiedingen per e-mail. Ik kan me altijd afmelden via de link in elke e-mail.",
+    "receipt": "Een kassabon wordt verzonden naar het e-mailadres dat u bij de bestelling hebt opgegeven (54-FZ).",
+    "hint": "Vink de toestemming voor de verwerking van persoonsgegevens aan om de bestelling te plaatsen."
   }
 }

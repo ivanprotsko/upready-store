@@ -148,7 +148,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Carta regalo",
     "itemsCount": "{count, plural, one {{count} articolo} other {{count} articoli}}",
-    "legal": "Cliccando su «{button}», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e accetti la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
+    "legal": "Cliccando su «{button}», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e confermi di aver letto la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
     "manualInput": "Inserisci l'indirizzo manualmente",
     "addressIncomplete": "Compila i campi obbligatori dell'indirizzo: {fields}.",
     "provinceRequired": "Scegli la regione dall’elenco.",
@@ -1200,5 +1200,11 @@
     "paid": "Pagato",
     "refunded": "Rimborsato",
     "canceled": "Annullato"
+  },
+  "CheckoutConsent": {
+    "personalData": "Acconsento al trattamento dei miei dati personali in conformità con l'<privacy>informativa sulla privacy</privacy>.",
+    "marketing": "Accetto di ricevere novità, promozioni e offerte speciali via e-mail. Posso annullare l'iscrizione in qualsiasi momento tramite il link in ogni e-mail.",
+    "receipt": "Lo scontrino fiscale verrà inviato all'e-mail indicata al momento dell'ordine (54-FZ).",
+    "hint": "Per effettuare l'ordine, seleziona il consenso al trattamento dei dati personali."
   }
 }

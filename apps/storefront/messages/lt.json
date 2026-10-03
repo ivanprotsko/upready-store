@@ -148,7 +148,7 @@
     "freeShipping": "Nemokamas",
     "giftCard": "Dovanų kortelė",
     "itemsCount": "{count, plural, one {{count} prekė} few {{count} prekės} many {{count} prekės} other {{count} prekių}}",
-    "legal": "Spausdami „{button}“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei sutinkate su <privacyPolicy>privatumo politika</privacyPolicy>.",
+    "legal": "Spausdami „{button}“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei patvirtinate, kad susipažinote su <privacyPolicy>privatumo politika</privacyPolicy>.",
     "manualInput": "Įvesti adresą rankiniu būdu",
     "addressIncomplete": "Užpildykite privalomus adreso laukus: {fields}.",
     "provinceRequired": "Pasirinkite regioną iš sąrašo.",
@@ -1200,5 +1200,11 @@
     "paid": "Apmokėta",
     "refunded": "Grąžinta",
     "canceled": "Atšaukta"
+  },
+  "CheckoutConsent": {
+    "personalData": "Sutinku, kad mano asmens duomenys būtų tvarkomi pagal <privacy>Privatumo politiką</privacy>.",
+    "marketing": "Sutinku gauti naujienas, akcijas ir specialius pasiūlymus el. paštu. Bet kada galiu atsisakyti paspaudęs nuorodą kiekviename laiške.",
+    "receipt": "Kasos kvitas bus išsiųstas užsakymo metu nurodytu el. pašto adresu (54-FZ).",
+    "hint": "Norėdami pateikti užsakymą, pažymėkite sutikimą dėl asmens duomenų tvarkymo."
   }
 }

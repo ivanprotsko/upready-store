@@ -148,7 +148,7 @@
     "freeShipping": "مجاني",
     "giftCard": "بطاقة هدايا",
     "itemsCount": "{count, plural, zero {{count} منتج} one {{count} منتج} two {{count} منتجان} few {{count} منتجات} many {{count} منتجًا} other {{count} منتج}}",
-    "legal": "بالنقر على «{button}»، فإنك توافق على <terms>الشروط</terms> و<termsOfUse>شروط الاستخدام</termsOfUse> و<returnPolicy>سياسة الإرجاع</returnPolicy> الخاصة بنا، كما توافق على <privacyPolicy>سياسة الخصوصية</privacyPolicy> الخاصة بنا.",
+    "legal": "بالنقر على «{button}»، فإنك توافق على <terms>الشروط</terms> و<termsOfUse>شروط الاستخدام</termsOfUse> و<returnPolicy>سياسة الإرجاع</returnPolicy> الخاصة بنا، وتؤكد أنك اطلعت على <privacyPolicy>سياسة الخصوصية</privacyPolicy> الخاصة بنا.",
     "manualInput": "إدخال العنوان يدويًا",
     "addressIncomplete": "املأ حقول العنوان المطلوبة: {fields}.",
     "provinceRequired": "اختر المنطقة من القائمة.",
@@ -1200,5 +1200,11 @@
     "paid": "مدفوع",
     "refunded": "تم رد المبلغ",
     "canceled": "ملغى"
+  },
+  "CheckoutConsent": {
+    "personalData": "أوافق على معالجة بياناتي الشخصية وفقًا لـ<privacy>سياسة الخصوصية</privacy>.",
+    "marketing": "أوافق على تلقي الأخبار والعروض الترويجية والعروض الخاصة عبر البريد الإلكتروني. يمكنني إلغاء الاشتراك في أي وقت عبر الرابط في كل رسالة.",
+    "receipt": "سيتم إرسال إيصال الدفع إلى البريد الإلكتروني الذي أدخلته عند الطلب (54-FZ).",
+    "hint": "لإتمام الطلب، ضع علامة على الموافقة على معالجة البيانات الشخصية."
   }
 }

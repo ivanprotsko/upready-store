@@ -148,7 +148,7 @@
     "freeShipping": "Ücretsiz",
     "giftCard": "Hediye Kartı",
     "itemsCount": "{count, plural, one {{count} ürün} other {{count} ürün}}",
-    "legal": "«{button}» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
+    "legal": "«{button}» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> okuduğunuzu onaylamış olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
     "addressIncomplete": "Adresin zorunlu alanlarını doldurun: {fields}.",
     "provinceRequired": "Listeden bölgenizi seçin.",
@@ -1200,5 +1200,11 @@
     "paid": "Ödendi",
     "refunded": "İade edildi",
     "canceled": "İptal edildi"
+  },
+  "CheckoutConsent": {
+    "personalData": "Kişisel verilerimin <privacy>Gizlilik Politikası</privacy> uyarınca işlenmesine onay veriyorum.",
+    "marketing": "Haberleri, kampanyaları ve özel teklifleri e-posta ile almayı kabul ediyorum. Her e-postadaki bağlantıdan istediğim zaman abonelikten çıkabilirim.",
+    "receipt": "Kasa fişi, sipariş sırasında girdiğiniz e-posta adresine gönderilecektir (54-FZ).",
+    "hint": "Siparişi vermek için kişisel verilerin işlenmesine onay kutusunu işaretleyin."
   }
 }

@@ -3,6 +3,7 @@ import { listCartPaymentMethods } from "@lib/data/payment"
 import { getTenantManualPayment } from "@lib/data/tenant-manual-payment"
 import { getTenantPaymentPreNotice } from "@lib/data/tenant-payment-pre-notice"
 import { getTenantSeller } from "@lib/data/tenant-seller"
+import { listPublishedPageVersions } from "@lib/data/tenant-pages"
 import { getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
 import { legalHref } from "@lib/util/legal-links"
 import { sellerLabel } from "@lib/util/payment-pre-notice"
@@ -27,8 +28,16 @@ const CheckoutPayment = async ({
   // Batch 7: no guest pays at all — every order lands in an account (the pay button stays
   // disabled until the sign-in, `CheckoutSignIn` above the form says why).
   const requiresSignIn = !customer
-  const [paymentMethods, legal, manualPayment, tenantPaymentMethods, prePaymentNotice, seller, t] =
-    await Promise.all([
+  const [
+    paymentMethods,
+    legalLinks,
+    manualPayment,
+    tenantPaymentMethods,
+    prePaymentNotice,
+    seller,
+    t,
+    pageVersions,
+  ] = await Promise.all([
       listCartPaymentMethods(cart.region?.id ?? ""),
       // The consent sentence under the Pay button names four documents; this is
       // where the shop's own pages are read for it, because the section itself is
@@ -47,7 +56,11 @@ const CheckoutPayment = async ({
       // while there is none; never an INN or an OGRN (`sellerLabel`).
       getTenantSeller(),
       getTranslations("CheckoutPage"),
+      // The version of each document the consents point to, stamped on the order
+      // (`@lib/util/checkout-consent`, rule C3 of the 04.10 checklist).
+      listPublishedPageVersions(),
     ])
+  const legal = { ...legalLinks, versions: pageVersions }
 
   // Navigation links, not consent: each one is shown only while the shop has a
   // page behind it. Before f05-checkout-legal-stubs both went to the starter's

@@ -148,7 +148,7 @@
     "freeShipping": "免费",
     "giftCard": "礼品卡",
     "itemsCount": "{count, plural, other {{count}件}}",
-    "legal": "点击「{button}」即表示您接受我们的<terms>条款</terms>、<termsOfUse>使用条款</termsOfUse>和<returnPolicy>退货政策</returnPolicy>，并同意我们的<privacyPolicy>隐私政策</privacyPolicy>。",
+    "legal": "点击「{button}」即表示您接受我们的<terms>条款</terms>、<termsOfUse>使用条款</termsOfUse>和<returnPolicy>退货政策</returnPolicy>，并确认您已阅读我们的<privacyPolicy>隐私政策</privacyPolicy>。",
     "manualInput": "手动输入地址",
     "addressIncomplete": "请填写地址的必填项：{fields}。",
     "provinceRequired": "请从列表中选择地区。",
@@ -1200,5 +1200,11 @@
     "paid": "已付款",
     "refunded": "已退款",
     "canceled": "已取消"
+  },
+  "CheckoutConsent": {
+    "personalData": "我同意根据<privacy>隐私政策</privacy>处理我的个人数据。",
+    "marketing": "我同意通过电子邮件接收新闻、促销和特别优惠。我可以随时通过每封邮件中的链接退订。",
+    "receipt": "收据将发送至您下单时填写的电子邮箱（54-FZ）。",
+    "hint": "如需下单，请勾选同意处理个人数据。"
   }
 }
