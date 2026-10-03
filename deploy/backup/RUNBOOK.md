@@ -78,6 +78,13 @@ a GUC that does not exist before Postgres 17. Point `PG_DUMP_BIN`/`PG_RESTORE_BI
 client from the server's own major version, or use `PG_DUMP_DOCKER_CONTAINER`/`PG_RESTORE_DOCKER_CONTAINER`
 (docker-exec mode is never affected: the client lives inside the server's own image).
 
+A host with no pg client at all (contabo, measured 2026-10-04) still needs one binary: pg-backup.sh's
+`pg_restore -l` sanity check runs on the host, not in the container, and exits 4 without it.
+[pg-restore-docker.sh](./pg-restore-docker.sh) is that binary: it runs `pg_restore` inside a throwaway
+`postgres:16-alpine` container with the dump bind-mounted read-only at the same path, so
+`PG_RESTORE_BIN=/opt/upready-store/pg-restore-docker.sh` (or a symlink at `/usr/local/bin/pg_restore`,
+which is what contabo has) makes the check pass unchanged.
+
 `pg-backup.sh` and `pg-restore.sh` talk to Postgres two ways: a `DATABASE_URL` they can reach
 directly, or a `docker exec` into a named container when Postgres has no published port. **The live
 mt host is the second case:** `deploy/compose.mt.yml` keeps `mt-postgres` on the internal `coolify`

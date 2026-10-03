@@ -1,0 +1,51 @@
+# Placeholder for the platform's marketing domains (t-2026-10-04-11, Ivan 04.10.2026 02:57 WITA:
+# «Заглушку на эти сайты нужно поставить сразу»): one static page in the language of the domain,
+# served by nginx behind the host's traefik (RU: ru-host-traefik, contabo: coolify-proxy — both
+# read docker labels on network `coolify`, exposedbydefault=false, resolver `letsencrypt`).
+#
+#   docker compose -p placeholder -f compose.placeholder.yml --env-file placeholder.env up -d
+#
+# placeholder.env on each host:
+#   PH_RULE=Host(`olavka.ru`) || Host(`www.olavka.ru`)      # the hosts this page answers on
+#   PH_LANG=ru                                              # html-ru or html-en
+#   PH_DIR=/opt/upready-store/placeholder                   # where html-*/ and nginx.conf live
+#
+# The real site (upready-store-marketing, t-2026-10-04-12) replaces this project: stop it with
+# `docker compose -p placeholder down` and the routers disappear with the container.
+services:
+  placeholder:
+    image: nginx:alpine
+    container_name: olavka-placeholder
+    restart: unless-stopped
+    volumes:
+      - ${PH_DIR:-/opt/upready-store/placeholder}/html-${PH_LANG:-ru}:/usr/share/nginx/html:ro
+      - ${PH_DIR:-/opt/upready-store/placeholder}/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - coolify
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      - traefik.http.middlewares.olavka-ph-https.redirectscheme.scheme=https
+      - traefik.http.routers.olavka-ph-http.rule=${PH_RULE}
+      - traefik.http.routers.olavka-ph-http.entrypoints=http
+      - traefik.http.routers.olavka-ph-http.middlewares=olavka-ph-https
+      - traefik.http.routers.olavka-ph-http.service=olavka-ph
+      - traefik.http.routers.olavka-ph.rule=${PH_RULE}
+      - traefik.http.routers.olavka-ph.entrypoints=https
+      - traefik.http.routers.olavka-ph.tls=true
+      - traefik.http.routers.olavka-ph.tls.certresolver=letsencrypt
+      - traefik.http.routers.olavka-ph.service=olavka-ph
+      - traefik.http.services.olavka-ph.loadbalancer.server.port=80
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 32M
+
+networks:
+  coolify:
+    external: true

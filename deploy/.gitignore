@@ -9,3 +9,7 @@ stands/*.env
 # own generated wrappers and unit files are host-local output, not source.
 backup/*.env
 backup/.generated/
+
+# placeholder/up.sh writes the per-host env (which hosts the stub answers for
+# and in which language) next to the compose file — host-local output.
+placeholder/*.env
