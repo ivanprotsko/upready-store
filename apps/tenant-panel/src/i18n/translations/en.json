@@ -5398,6 +5398,14 @@
       "copyShipping": "Copy delivery methods with their rates",
       "notCopied": "Not copied: integration keys (marketplaces, CDEK, Robokassa), domains, orders and old addresses. You set them up on the new site.",
       "submit": "Create site"
+    },
+    "sisters": {
+      "title": "Sister sites outside this database",
+      "description": "For search engines: a sister site that shares your catalogue but lives on a different server, so it never appears in the list above on its own. A sister that is a site of this same group needs no row here.",
+      "add": "Add a sister",
+      "hint": "Domain only, no “https://” (for example cherkashino.com). The language is the one the sister site opens in.",
+      "submit": "Save",
+      "saved": "Sister sites saved"
     }
   }
 }

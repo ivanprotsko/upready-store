@@ -4,6 +4,7 @@ import { UpdateProduct } from "@medusajs/medusa/api/admin/products/validators";
 import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
 import { SiteScopeSchema } from "./products/site-scope";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
+import { LOCALE_CODES } from "./locale-settings/validators";
 import {
   BANK_NUMBER_PATTERN,
   CRYPTO_ADDRESS_FORMATS,
@@ -757,6 +758,36 @@ export const PutTenantPochtaSchema = z.strictObject({
   default_weight_g: z.number().int().min(1).max(50_000).optional(),
   is_enabled: z.boolean().optional(),
 });
+
+/**
+ * `PUT /tenants/hreflang-sisters` (t-cherk-31) — the owner's override list of
+ * sister sites that do not live in this database. The host is normalised and
+ * shape-checked the same way `PostTenantDomainSchema` does its own `host`, so
+ * a sister's domain is stored in the one spelling `GET /store/tenant/sites`
+ * compares a group sibling's primary domain against when it merges the two
+ * lists. Ten rows is generous for "the other sites of one client"; a real
+ * excess is a sign something upstream is wrong, not a list to paginate.
+ */
+export const PutTenantHreflangSistersSchema = z.strictObject({
+  sisters: z
+    .array(
+      z.strictObject({
+        domain: z
+          .string()
+          .min(1)
+          .max(253)
+          .transform(normalizeHost)
+          .refine(isValidHost, {
+            message:
+              "A host is at least two dot-separated labels of letters, digits and inner hyphens (for example `shop.example.com`).",
+          }),
+        locale: z.enum(LOCALE_CODES),
+      }),
+    )
+    .max(10, "sisters must not list more than 10 sites."),
+});
+
+export type PutTenantHreflangSistersBody = z.infer<typeof PutTenantHreflangSistersSchema>;
 export type PutTenantPochtaBody = z.infer<typeof PutTenantPochtaSchema>;
 
 /**
