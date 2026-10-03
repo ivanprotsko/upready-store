@@ -136,7 +136,7 @@ npx next build      # runs both, then builds
 
 [next.config.js](apps/storefront/next.config.js) used to carry `typescript.ignoreBuildErrors` and
 `eslint.ignoreDuringBuilds`. Both are gone. Do not add them back to get a change through, and do not
-reach for `eslint-disable` where the finding is real. The repository has seven deliberate
+reach for `eslint-disable` where the finding is real. The repository has six deliberate
 `react-hooks/exhaustive-deps` suppressions, each on an effect whose dependency list is intentionally
 narrow. A new one needs the same kind of reason written next to it.
 

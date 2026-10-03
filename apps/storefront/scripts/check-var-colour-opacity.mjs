@@ -23,14 +23,6 @@ const srcDir = path.join(storefrontRoot, "src")
 // Each entry is a real silent drop, left in place only because the file is outside the change that
 // added this gate. Remove the entry together with the fix.
 export const ALLOWED = [
-  ...[
-    "src/modules/checkout/components/checkout-shipping-section/index.tsx",
-    "src/modules/checkout/components/checkout-payment-section/index.tsx",
-  ].map((file) => ({
-    file,
-    token: "hover:border-ui-border-interactive/50",
-    reason: "checkout is being rewritten by another line (46df L3); the hover border never changes colour",
-  })),
   {
     file: "src/modules/checkout/components/checkout-pickup-map/index.tsx",
     token: "bg-ui-bg-base/90",

@@ -91,7 +91,8 @@
     "shipping": "Pengiriman",
     "subtotal": "Subtotal (belum termasuk pengiriman dan pajak)",
     "taxes": "Pajak",
-    "total": "Total"
+    "total": "Total",
+    "shippingAtCheckout": "saat checkout"
   },
   "CategoryMenu": {
     "title": "Kategori",
@@ -177,7 +178,8 @@
     "fieldRequired": "Isi kolom ini",
     "emailInvalid": "Periksa email: alamatnya salah",
     "signInHeading": "Masuk untuk membuat pesanan",
-    "signInText": "Pesanan akan muncul di akun Anda: di sana ada rincian pembayaran, status, dan kursus yang dibeli. Masuk atau mendaftar hanya butuh satu menit, keranjang tetap tersimpan."
+    "signInText": "Pesanan akan muncul di akun Anda: di sana ada rincian pembayaran, status, dan kursus yang dibeli. Masuk atau mendaftar hanya butuh satu menit, keranjang tetap tersimpan.",
+    "shippingNotChosen": "setelah memilih metode"
   },
   "ClaimOrders": {
     "heading": "Memesan tanpa akun?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bayar",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Buat pesanan",
     "redirectUnavailable": "Halaman pembayaran belum tersedia. Coba lagi sebentar lagi.",
     "selectPaymentMethod": "Pilih metode pembayaran"
   },

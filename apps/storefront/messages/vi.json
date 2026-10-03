@@ -91,7 +91,8 @@
     "shipping": "Phí vận chuyển",
     "subtotal": "Tạm tính (chưa gồm phí vận chuyển và thuế)",
     "taxes": "Thuế",
-    "total": "Tổng cộng"
+    "total": "Tổng cộng",
+    "shippingAtCheckout": "khi thanh toán"
   },
   "CategoryMenu": {
     "title": "Danh mục",
@@ -177,7 +178,8 @@
     "fieldRequired": "Hãy điền vào trường này",
     "emailInvalid": "Kiểm tra email: địa chỉ có lỗi",
     "signInHeading": "Đăng nhập để đặt hàng",
-    "signInText": "Đơn hàng sẽ xuất hiện trong tài khoản của bạn: ở đó có thông tin thanh toán, trạng thái và các khóa học đã mua. Đăng nhập hoặc đăng ký chỉ mất một phút, giỏ hàng được giữ lại."
+    "signInText": "Đơn hàng sẽ xuất hiện trong tài khoản của bạn: ở đó có thông tin thanh toán, trạng thái và các khóa học đã mua. Đăng nhập hoặc đăng ký chỉ mất một phút, giỏ hàng được giữ lại.",
+    "shippingNotChosen": "sau khi chọn phương thức"
   },
   "ClaimOrders": {
     "heading": "Bạn đã đặt hàng mà không có tài khoản?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Thanh toán",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Đặt hàng",
     "redirectUnavailable": "Trang thanh toán chưa sẵn sàng. Vui lòng thử lại sau giây lát.",
     "selectPaymentMethod": "Chọn phương thức thanh toán"
   },

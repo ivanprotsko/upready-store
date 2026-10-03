@@ -106,7 +106,7 @@ test("address and contacts accordion — collapsed / expanded / saved, light + d
         .getAttribute("value")
       if (value) await provinceSelect.selectOption(value)
     }
-    await page.locator('form button[type="submit"]:visible').last().click()
+    await page.locator('form:has(input[name="address_1"]) button[type="submit"]').click()
     await page.locator('input[name="address_1"]').waitFor({ state: "hidden", timeout: 25_000 })
     await page.screenshot({
       path: `test-results/ivan3-accordion-address-saved-1440-${mode}.png`,

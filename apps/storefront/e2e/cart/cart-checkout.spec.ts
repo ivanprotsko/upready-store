@@ -29,11 +29,14 @@ const productUrl = (handle: string) => `/ru/products/${handle}`
 /** A fresh Luhn-valid demo card, far in the future, that `classifyDemoCard` treats as a real (non-decline, non-fail) payment — see `src/lib/demo-card.ts`. */
 const DEMO_CARD = { number: "4111111111111111", expiry: "1230", cvc: "123" }
 
-const saveSheet = async (page: Page) => {
-  // The sheet has no data-testid of its own (headlessui's Dialog wrapper measures
-  // as hidden to Playwright mid-transition); the save button's accessible name is
-  // unique on the page while a sheet is open, in both locales the suite touches.
-  await page.getByRole("button", { name: /Сохранить|Save/i }).last().click()
+const saveAddress = async (page: Page) => {
+  // The form's own button: since batch 6 part 1 the address and the contacts forms
+  // are both open on a fresh cart, so «the last Save on the page» is the contacts one.
+  await page.locator('form:has(input[name="address_1"]) button[type="submit"]').click()
+}
+
+const saveContacts = async (page: Page) => {
+  await page.locator("[data-testid=checkout-contacts-form] button[type=submit]").click()
 }
 
 let sharedPage: Page
@@ -138,7 +141,7 @@ test.describe("cart and checkout", () => {
       const value = await provinceSelect.locator("option").nth(1).getAttribute("value")
       await provinceSelect.selectOption(value ?? "")
     }
-    await saveSheet(page)
+    await saveAddress(page)
     await expect(page.locator("[data-testid=checkout-address-row]")).toContainText("Тестовая")
 
     // Contacts sheet.
@@ -148,7 +151,7 @@ test.describe("cart and checkout", () => {
     await page.locator("[data-testid=shipping-last-name-input]").fill("Тестов")
     await page.locator("[data-testid=shipping-email-input]").fill("e2e-cart-checkout@example.test")
     await page.locator("[data-testid=shipping-phone-input]").fill("+79991234567")
-    await saveSheet(page)
+    await saveContacts(page)
     await expect(page.locator("[data-testid=checkout-contacts-row]")).toContainText("Иван")
 
     await expect(page).toHaveScreenshot("checkout-step-address.png", { fullPage: true })

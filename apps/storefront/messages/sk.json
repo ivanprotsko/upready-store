@@ -91,7 +91,8 @@
     "shipping": "Doprava",
     "subtotal": "Medzisúčet (bez dopravy a daní)",
     "taxes": "Dane",
-    "total": "Spolu"
+    "total": "Spolu",
+    "shippingAtCheckout": "pri objednávke"
   },
   "CategoryMenu": {
     "title": "Kategórie",
@@ -177,7 +178,8 @@
     "fieldRequired": "Vyplňte toto pole",
     "emailInvalid": "Skontrolujte e-mail: v adrese je chyba",
     "signInHeading": "Prihláste sa a dokončite objednávku",
-    "signInText": "Objednávka sa objaví vo vašom účte: tam budú platobné údaje, stav a zakúpené kurzy. Prihlásenie alebo registrácia zaberie minútu, košík zostane zachovaný."
+    "signInText": "Objednávka sa objaví vo vašom účte: tam budú platobné údaje, stav a zakúpené kurzy. Prihlásenie alebo registrácia zaberie minútu, košík zostane zachovaný.",
+    "shippingNotChosen": "po výbere spôsobu"
   },
   "ClaimOrders": {
     "heading": "Objednávali ste bez účtu?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Zaplatiť",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Objednať",
     "redirectUnavailable": "Platobná stránka zatiaľ nie je k dispozícii. Skúste to o chvíľu znova.",
     "selectPaymentMethod": "Vyberte spôsob platby"
   },

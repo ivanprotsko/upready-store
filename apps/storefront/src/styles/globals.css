@@ -69,12 +69,18 @@
     scrollbar-width: none; /* Firefox */
   }
 
-  input:focus ~ label,
-  input:not(:placeholder-shown) ~ label {
+  /*
+   * The floating label of `Input`. Not for a checkbox or a radio: Radix renders a
+   * hidden native one next to its own control inside a form, and a `<label>`
+   * after it was lifted 8px above the box it names (the checkout's «Получать
+   * будет другой человек», lead's review of #239).
+   */
+  input:not([type="checkbox"]):not([type="radio"]):focus ~ label,
+  input:not([type="checkbox"]):not([type="radio"]):not(:placeholder-shown) ~ label {
     @apply -translate-y-2 text-xsmall-regular;
   }
 
-  input:focus ~ label {
+  input:not([type="checkbox"]):not([type="radio"]):focus ~ label {
     @apply start-0;
   }
 
@@ -145,19 +151,6 @@
 @layer components {
   .content-container {
     @apply max-w-[1440px] w-full mx-auto px-4 lg:px-6;
-  }
-
-  /*
-   * t-2026-10-01-checkout-ivan-3 #5: each checkout section is full width on
-   * its own (nothing caps the page itself any more, `(checkout)/checkout/
-   * page.tsx`), and this is the 736px column its CONTENT sits in — the same
-   * gutters on phone as before. `checkout-shipping-section`'s delivery-card
-   * scroller is the one exception: it stays outside this class so it can
-   * bleed to the screen edges, with its own padding matched to the column
-   * offset this class produces.
-   */
-  .checkout-section-container {
-    @apply w-full px-4 lg:px-0 lg:mx-auto lg:max-w-checkout;
   }
 
   .contrast-btn {

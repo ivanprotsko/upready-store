@@ -91,7 +91,8 @@
     "shipping": "Livraison",
     "subtotal": "Sous-total (hors livraison et taxes)",
     "taxes": "Taxes",
-    "total": "Total"
+    "total": "Total",
+    "shippingAtCheckout": "lors de la commande"
   },
   "CategoryMenu": {
     "title": "Catégories",
@@ -177,7 +178,8 @@
     "fieldRequired": "Renseignez ce champ",
     "emailInvalid": "Vérifiez l'e-mail : l'adresse contient une erreur",
     "signInHeading": "Connectez-vous pour passer la commande",
-    "signInText": "La commande apparaîtra dans votre compte : vous y trouverez les coordonnées de paiement, le statut et les cours achetés. La connexion ou l'inscription prend une minute, le panier est conservé."
+    "signInText": "La commande apparaîtra dans votre compte : vous y trouverez les coordonnées de paiement, le statut et les cours achetés. La connexion ou l'inscription prend une minute, le panier est conservé.",
+    "shippingNotChosen": "après le choix du mode"
   },
   "ClaimOrders": {
     "heading": "Vous avez commandé sans compte ?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Payer",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Passer la commande",
     "redirectUnavailable": "La page de paiement n'est pas encore disponible. Réessayez dans un instant.",
     "selectPaymentMethod": "Sélectionnez un mode de paiement"
   },

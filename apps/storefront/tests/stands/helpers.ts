@@ -304,7 +304,9 @@ export async function fillCheckoutContacts(
   await page.getByTestId("shipping-last-name-input").fill(contact.lastName)
   await page.getByTestId("shipping-email-input").fill(contact.email)
   await page.getByTestId("shipping-phone-input").fill(contact.phone)
-  await page.locator('form button[type="submit"]:visible').last().click()
+  // Its own form's button: since batch 6 part 1 the address form can be open above
+  // it at the same time, so «the last Save on the page» is not a safe target.
+  await page.getByTestId("checkout-contacts-form").locator('button[type="submit"]').click()
   await expect(firstName).toBeHidden({ timeout: 25_000 })
 }
 
@@ -363,7 +365,9 @@ export async function fillCheckoutAddress(
   } else if ((await provinceInput.count()) > 0) {
     await provinceInput.fill(address.province ?? address.city)
   }
-  await page.locator('form button[type="submit"]:visible').last().click()
+  // The address form's own button: since batch 6 part 1 the contacts form is open
+  // under it too, and its Save is the last one on the page.
+  await page.locator('form:has(input[name="address_1"]) button[type="submit"]').click()
   await expect(address1Input).toBeHidden({ timeout: 25_000 })
 }
 

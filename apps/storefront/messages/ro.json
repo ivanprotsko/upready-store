@@ -91,7 +91,8 @@
     "shipping": "Livrare",
     "subtotal": "Subtotal (fără livrare și taxe)",
     "taxes": "Taxe",
-    "total": "Total"
+    "total": "Total",
+    "shippingAtCheckout": "la finalizarea comenzii"
   },
   "CategoryMenu": {
     "title": "Categorii",
@@ -177,7 +178,8 @@
     "fieldRequired": "Completează acest câmp",
     "emailInvalid": "Verifică e-mailul: adresa conține o greșeală",
     "signInHeading": "Conectați-vă pentru a plasa comanda",
-    "signInText": "Comanda va apărea în contul dumneavoastră: acolo sunt datele de plată, starea și cursurile cumpărate. Conectarea sau înregistrarea durează un minut, coșul se păstrează."
+    "signInText": "Comanda va apărea în contul dumneavoastră: acolo sunt datele de plată, starea și cursurile cumpărate. Conectarea sau înregistrarea durează un minut, coșul se păstrează.",
+    "shippingNotChosen": "după alegerea metodei"
   },
   "ClaimOrders": {
     "heading": "Ați comandat fără cont?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Plătește",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Plasează comanda",
     "redirectUnavailable": "Pagina de plată nu este încă disponibilă. Încercați din nou peste puțin timp.",
     "selectPaymentMethod": "Selectați o metodă de plată"
   },

@@ -91,7 +91,8 @@
     "shipping": "Kargo",
     "subtotal": "Ara toplam (kargo ve vergiler hariç)",
     "taxes": "Vergiler",
-    "total": "Toplam"
+    "total": "Toplam",
+    "shippingAtCheckout": "ödeme adımında"
   },
   "CategoryMenu": {
     "title": "Kategoriler",
@@ -177,7 +178,8 @@
     "fieldRequired": "Bu alanı doldurun",
     "emailInvalid": "E-postayı kontrol edin: adreste hata var",
     "signInHeading": "Sipariş vermek için giriş yapın",
-    "signInText": "Sipariş hesabınızda görünecek: ödeme bilgileri, durum ve satın alınan kurslar orada. Giriş veya kayıt bir dakika sürer, sepet korunur."
+    "signInText": "Sipariş hesabınızda görünecek: ödeme bilgileri, durum ve satın alınan kurslar orada. Giriş veya kayıt bir dakika sürer, sepet korunur.",
+    "shippingNotChosen": "yöntem seçildikten sonra"
   },
   "ClaimOrders": {
     "heading": "Hesapsız mı sipariş verdiniz?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Öde",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Siparişi ver",
     "redirectUnavailable": "Ödeme sayfası henüz hazır değil. Birazdan tekrar deneyin.",
     "selectPaymentMethod": "Bir ödeme yöntemi seçin"
   },

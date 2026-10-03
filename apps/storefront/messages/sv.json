@@ -91,7 +91,8 @@
     "shipping": "Frakt",
     "subtotal": "Delsumma (exkl. frakt och moms)",
     "taxes": "Moms",
-    "total": "Totalt"
+    "total": "Totalt",
+    "shippingAtCheckout": "i kassan"
   },
   "CategoryMenu": {
     "title": "Kategorier",
@@ -177,7 +178,8 @@
     "fieldRequired": "Fyll i det här fältet",
     "emailInvalid": "Kontrollera e-posten: adressen innehåller ett fel",
     "signInHeading": "Logga in för att lägga ordern",
-    "signInText": "Ordern visas på ditt konto: där finns betalningsuppgifterna, statusen och de köpta kurserna. Inloggning eller registrering tar en minut och varukorgen sparas."
+    "signInText": "Ordern visas på ditt konto: där finns betalningsuppgifterna, statusen och de köpta kurserna. Inloggning eller registrering tar en minut och varukorgen sparas.",
+    "shippingNotChosen": "när du har valt sätt"
   },
   "ClaimOrders": {
     "heading": "Beställde du utan konto?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betala",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Lägg beställning",
     "redirectUnavailable": "Betalningssidan är inte tillgänglig ännu. Försök igen om en stund.",
     "selectPaymentMethod": "Välj en betalningsmetod"
   },

@@ -91,7 +91,8 @@
     "shipping": "配送料",
     "subtotal": "小計（送料・税抜き）",
     "taxes": "税金",
-    "total": "合計"
+    "total": "合計",
+    "shippingAtCheckout": "注文手続きで計算"
   },
   "CategoryMenu": {
     "title": "カテゴリー",
@@ -147,7 +148,7 @@
     "freeShipping": "無料",
     "giftCard": "ギフトカード",
     "itemsCount": "{count, plural, other {{count}点}}",
-    "legal": "「支払う」をクリックすることで、<terms>販売条件</terms>、<termsOfUse>利用規約</termsOfUse>、<returnPolicy>返品ポリシー</returnPolicy>に同意し、<privacyPolicy>プライバシーポリシー</privacyPolicy>に同意するものとします。",
+    "legal": "「{button}」をクリックすることで、<terms>販売条件</terms>、<termsOfUse>利用規約</termsOfUse>、<returnPolicy>返品ポリシー</returnPolicy>に同意し、<privacyPolicy>プライバシーポリシー</privacyPolicy>に同意するものとします。",
     "manualInput": "住所を手入力する",
     "addressIncomplete": "住所の必須項目を入力してください：{fields}。",
     "provinceRequired": "リストから地域を選択してください。",
@@ -177,7 +178,8 @@
     "fieldRequired": "この項目を入力してください",
     "emailInvalid": "メールアドレスを確認してください：入力に誤りがあります",
     "signInHeading": "注文するにはサインインしてください",
-    "signInText": "注文はアカウントに表示されます。支払い情報、ステータス、購入したコースはそこで確認できます。サインインまたは登録は1分で完了し、カートは保持されます。"
+    "signInText": "注文はアカウントに表示されます。支払い情報、ステータス、購入したコースはそこで確認できます。サインインまたは登録は1分で完了し、カートは保持されます。",
+    "shippingNotChosen": "配送方法の選択後"
   },
   "ClaimOrders": {
     "heading": "アカウントなしで注文しましたか？",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "支払う",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "注文する",
     "redirectUnavailable": "決済ページはまだ利用できません。しばらくしてからもう一度お試しください。",
     "selectPaymentMethod": "支払い方法を選択してください"
   },

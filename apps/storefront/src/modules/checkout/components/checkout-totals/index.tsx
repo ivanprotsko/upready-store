@@ -21,6 +21,9 @@ const CheckoutTotals = ({ cart }: { cart: HttpTypes.StoreCart }) => {
   const itemCount = cart.items?.length ?? 0
   // Batch 6 (hotfix Plan B): no «Доставка» row for a cart with nothing to post.
   const needsShipping = cartNeedsShipping(cart)
+  // Batch 6 part 1: before a delivery method is chosen the row says so, rather than
+  // «Доставка 0,00 ₽» next to a method card that costs 3 950 ₽.
+  const shippingChosen = (cart.shipping_methods?.length ?? 0) > 0
 
   return (
     <div className="flex flex-col gap-y-3">
@@ -35,9 +38,15 @@ const CheckoutTotals = ({ cart }: { cart: HttpTypes.StoreCart }) => {
         {needsShipping && (
           <div className="flex items-center justify-between">
             <span>{t("shippingCost")}</span>
-            <span data-testid="cart-shipping">
-              {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code, locale })}
-            </span>
+            {shippingChosen ? (
+              <span data-testid="cart-shipping">
+                {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code, locale })}
+              </span>
+            ) : (
+              <span className="text-ui-fg-muted" data-testid="cart-shipping" data-pending="true">
+                {t("shippingNotChosen")}
+              </span>
+            )}
           </div>
         )}
 

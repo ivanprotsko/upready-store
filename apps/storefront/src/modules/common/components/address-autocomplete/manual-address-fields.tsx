@@ -101,6 +101,7 @@ const ManualAddressFields = ({
       </div>
       {regions.length > 0 && provinceInList ? (
         <NativeSelect
+          variant="field"
           name="province"
           autoComplete="address-level1"
           value={values.province}

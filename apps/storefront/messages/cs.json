@@ -91,7 +91,8 @@
     "shipping": "Doprava",
     "subtotal": "Mezisoučet (bez dopravy a daní)",
     "taxes": "Daně",
-    "total": "Celkem"
+    "total": "Celkem",
+    "shippingAtCheckout": "v pokladně"
   },
   "CategoryMenu": {
     "title": "Kategorie",
@@ -177,7 +178,8 @@
     "fieldRequired": "Vyplňte toto pole",
     "emailInvalid": "Zkontrolujte e-mail: v adrese je chyba",
     "signInHeading": "Přihlaste se a dokončete objednávku",
-    "signInText": "Objednávka se objeví ve vašem účtu: tam budou platební údaje, stav a zakoupené kurzy. Přihlášení nebo registrace zabere minutu, košík zůstane zachován."
+    "signInText": "Objednávka se objeví ve vašem účtu: tam budou platební údaje, stav a zakoupené kurzy. Přihlášení nebo registrace zabere minutu, košík zůstane zachován.",
+    "shippingNotChosen": "po výběru způsobu"
   },
   "ClaimOrders": {
     "heading": "Objednávali jste bez účtu?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Zaplatit",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Objednat",
     "redirectUnavailable": "Platební stránka zatím není k dispozici. Zkuste to za chvíli znovu.",
     "selectPaymentMethod": "Vyberte způsob platby"
   },

@@ -91,7 +91,8 @@
     "shipping": "Szállítás",
     "subtotal": "Részösszeg (szállítás és áfa nélkül)",
     "taxes": "Adók",
-    "total": "Összesen"
+    "total": "Összesen",
+    "shippingAtCheckout": "a pénztárnál"
   },
   "CategoryMenu": {
     "title": "Kategóriák",
@@ -177,7 +178,8 @@
     "fieldRequired": "Töltse ki ezt a mezőt",
     "emailInvalid": "Ellenőrizze az e-mailt: a cím hibás",
     "signInHeading": "Jelentkezzen be a rendeléshez",
-    "signInText": "A rendelés megjelenik a fiókjában: ott találja a fizetési adatokat, az állapotot és a megvásárolt kurzusokat. A belépés vagy a regisztráció egy percet vesz igénybe, a kosár megmarad."
+    "signInText": "A rendelés megjelenik a fiókjában: ott találja a fizetési adatokat, az állapotot és a megvásárolt kurzusokat. A belépés vagy a regisztráció egy percet vesz igénybe, a kosár megmarad.",
+    "shippingNotChosen": "a mód kiválasztása után"
   },
   "ClaimOrders": {
     "heading": "Fiók nélkül rendelt?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Fizetés",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Megrendelés",
     "redirectUnavailable": "A fizetési oldal még nem érhető el. Próbálja újra egy pillanat múlva.",
     "selectPaymentMethod": "Válasszon fizetési módot"
   },

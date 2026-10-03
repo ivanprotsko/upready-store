@@ -11,9 +11,11 @@ import {
 
 /**
  * t-2026-10-01-checkout-ivan-3: return-after-sign-in, the clickable checkbox
- * label, section checkmarks, the full-width delivery scroller, the new
- * section order and the address/contacts accordion. Each `test.describe`
- * below maps to one numbered item in the task brief.
+ * label, section checkmarks, the new section order. Each `test.describe`
+ * below maps to one numbered item in that brief. #5 and #7 were rewritten in
+ * batch 6 part 1 (t-cherk-com-checkout-mockups), whose defect list replaced the
+ * 736px column with its sideways scroller by two columns and full-width rows,
+ * and the collapsed accordion rows by forms that stay open while incomplete.
  */
 
 function uniqueContact() {
@@ -158,24 +160,19 @@ test.describe("#3 section checkmarks", () => {
 
 // ── #5: full-width sections, delivery scroller bleeds past the column ──────
 
-test.describe("#5 full-width sections", () => {
-  test("the delivery-card row is wider than the 736px column at 1440", async ({
+test.describe("#5 two columns, full-width rows", () => {
+  test("at 1440 the order summary is its own column to the right of the form", async ({
     page,
   }) => {
     test.skip(test.info().project.name !== "desktop", "1440 only")
     await addFirstProductToCart(page)
     await page.goto("/ru/checkout")
-    await fillCheckoutAddress(page, {
-      address1: "1 Demo Street",
-      city: "Demo City",
-      postalCode: "10000",
-    })
-    const scroller = page.getByTestId("checkout-container").locator(".overflow-x-auto").first()
-    const box = await scroller.boundingBox()
-    expect(box, "delivery scroller has no box").not.toBeNull()
-    // the old bug clipped it to the 736px column; this only passes once the
-    // scroller's own box is noticeably wider than that
-    expect(box!.width).toBeGreaterThan(900)
+    const form = await page.getByTestId("checkout-contacts-row").boundingBox()
+    const summary = await page.getByTestId("checkout-summary").boundingBox()
+    expect(form, "contacts heading has no box").not.toBeNull()
+    expect(summary, "order summary has no box").not.toBeNull()
+    // two columns: the summary starts right of where the form column ends, not under it
+    expect(summary!.x).toBeGreaterThan(form!.x + form!.width)
 
     await page.screenshot({
       path: "test-results/ivan3-full-width-1440.png",
@@ -183,9 +180,16 @@ test.describe("#5 full-width sections", () => {
     })
   })
 
-  test("[@mobile] the column's own gutters at 390 are unchanged", async ({ page }) => {
+  test("[@mobile] the checkout fits a 390px phone with the address form open", async ({ page }) => {
     await addFirstProductToCart(page)
     await page.goto("/ru/checkout")
+    await expect(page.locator('input[name="address_1"]')).toBeVisible()
+    // the region select used to push the page 18px wider than the phone
+    const { scrollWidth, clientWidth } = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }))
+    expect(scrollWidth).toBeLessThanOrEqual(clientWidth)
     await page.screenshot({
       path: "test-results/ivan3-full-width-390.png",
       fullPage: true,
@@ -232,7 +236,7 @@ test.describe("#5 full-width sections", () => {
     }
   })
 
-  test("the delivery scroller still reaches its right-hand scroll limit at 390", async ({
+  test("at 390 a delivery method is a row across the whole column, not a card in a sideways scroller", async ({
     page,
   }) => {
     test.skip(test.info().project.name !== "desktop", "drives its own viewport")
@@ -245,19 +249,11 @@ test.describe("#5 full-width sections", () => {
     })
     await page.setViewportSize({ width: 390, height: 1000 })
 
-    const scroller = page.getByTestId("checkout-container").locator(".overflow-x-auto").first()
-    const { scrollWidth, clientWidth } = await scroller.evaluate((el) => ({
-      scrollWidth: el.scrollWidth,
-      clientWidth: el.clientWidth,
-    }))
-    // nothing to prove if every card already fits the viewport
-    test.skip(scrollWidth <= clientWidth, "fewer cards than fit the viewport on this stand")
-
-    await scroller.evaluate((el) => {
-      el.scrollLeft = el.scrollWidth
-    })
-    const scrollLeft = await scroller.evaluate((el) => el.scrollLeft)
-    expect(scrollLeft).toBeGreaterThanOrEqual(scrollWidth - clientWidth - 2)
+    const row = await page.getByTestId("delivery-option-radio").first().boundingBox()
+    expect(row, "delivery row has no box").not.toBeNull()
+    // the 16px page gutters on both sides, nothing past the viewport
+    expect(row!.width).toBeGreaterThanOrEqual(390 - 2 * 16 - 1)
+    expect(row!.x + row!.width).toBeLessThanOrEqual(390)
   })
 })
 
@@ -291,24 +287,22 @@ test.describe("#6 address above delivery method", () => {
   })
 })
 
-// ── #7: address and contacts expand in place ────────────────────────────────
+// ── #7: address and contacts open in place ─────────────────────────────────
 
-test.describe("#7 inline accordion", () => {
-  test("the contacts row expands under its own title, Enter/Space toggle it, Save collapses it back", async ({
+test.describe("#7 open while incomplete", () => {
+  test("an incomplete contacts section is open under its title without taking focus, Save folds it to a summary", async ({
     page,
   }) => {
     await addFirstProductToCart(page)
     await page.goto("/ru/checkout")
 
     const row = page.getByTestId("checkout-contacts-row")
-    await expect(row).toHaveAttribute("aria-expanded", "false")
-    await row.focus()
-    await page.keyboard.press("Enter")
-    await expect(row).toHaveAttribute("aria-expanded", "true")
-
+    const form = page.getByTestId("checkout-contacts-form")
     const firstField = page.getByTestId("shipping-first-name-input")
     await expect(firstField).toBeVisible()
-    await expect(firstField).toBeFocused()
+    await expect(firstField).not.toBeFocused()
+    // nothing to go back to yet: no «Закрыть» while the contacts are incomplete
+    await expect(form.getByRole("button", { name: "Закрыть" })).toHaveCount(0)
 
     await page.screenshot({ path: "test-results/ivan3-accordion-expanded.png" })
 
@@ -317,29 +311,34 @@ test.describe("#7 inline accordion", () => {
     await page.getByTestId("shipping-last-name-input").fill(contact.lastName)
     await page.getByTestId("shipping-email-input").fill(contact.email)
     await page.getByTestId("shipping-phone-input").fill(contact.phone)
-    await page.locator('form button[type="submit"]:visible').last().click()
+    await form.locator('button[type="submit"]').click()
 
     await expect(firstField).toBeHidden({ timeout: 25_000 })
+    await expect(row).toContainText(contact.firstName)
     await expect(row).toHaveAttribute("aria-expanded", "false")
-    await expect(row).toBeFocused()
 
     await page.screenshot({ path: "test-results/ivan3-accordion-saved.png" })
   })
 
-  test("Space opens it too, clicking the row again collapses it without saving", async ({
+  test("«Изменить» opens a complete section with focus in its first field, «Закрыть» folds it back without saving", async ({
     page,
   }) => {
     await addFirstProductToCart(page)
     await page.goto("/ru/checkout")
+    await fillCheckoutContacts(page, uniqueContact())
+
     const row = page.getByTestId("checkout-contacts-row")
     await row.focus()
-    await page.keyboard.press(" ")
-    await expect(row).toHaveAttribute("aria-expanded", "true")
-    // Space on open moves focus into the first field (acceptance: "focus
-    // moves into the first field on open"), so closing it again here is a
-    // mouse click on the row, not a second keypress with nothing refocused.
-    await row.click()
-    await expect(row).toHaveAttribute("aria-expanded", "false")
-    await expect(page.getByTestId("shipping-first-name-input")).toBeHidden()
+    await page.keyboard.press("Enter")
+    const firstField = page.getByTestId("shipping-first-name-input")
+    await expect(firstField).toBeVisible()
+    await expect(firstField).toBeFocused()
+
+    await page
+      .getByTestId("checkout-contacts-form")
+      .getByRole("button", { name: "Закрыть" })
+      .click()
+    await expect(firstField).toBeHidden()
+    await expect(page.getByTestId("checkout-contacts-row")).toBeFocused()
   })
 })

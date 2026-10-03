@@ -91,7 +91,8 @@
     "shipping": "Envío",
     "subtotal": "Subtotal (envío e impuestos excl.)",
     "taxes": "Impuestos",
-    "total": "Total"
+    "total": "Total",
+    "shippingAtCheckout": "al finalizar la compra"
   },
   "CategoryMenu": {
     "title": "Categorías",
@@ -177,7 +178,8 @@
     "fieldRequired": "Rellena este campo",
     "emailInvalid": "Revisa el correo: la dirección tiene un error",
     "signInHeading": "Inicie sesión para realizar el pedido",
-    "signInText": "El pedido aparecerá en su cuenta: allí están los datos de pago, el estado y los cursos comprados. Iniciar sesión o registrarse lleva un minuto y el carrito se conserva."
+    "signInText": "El pedido aparecerá en su cuenta: allí están los datos de pago, el estado y los cursos comprados. Iniciar sesión o registrarse lleva un minuto y el carrito se conserva.",
+    "shippingNotChosen": "al elegir el método"
   },
   "ClaimOrders": {
     "heading": "¿Compraste sin cuenta?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Pagar",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Realizar pedido",
     "redirectUnavailable": "La página de pago aún no está disponible. Inténtalo de nuevo en un momento.",
     "selectPaymentMethod": "Selecciona un método de pago"
   },

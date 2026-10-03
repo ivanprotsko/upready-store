@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, type FormEvent } from "react"
+import { useEffect, useRef, useState, useTransition, type FormEvent } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { setAddresses, updateRegion } from "@lib/data/cart"
 import type { HttpTypes } from "@medusajs/types"
@@ -39,8 +39,13 @@ interface CheckoutAddressFormProps {
   addresses: HttpTypes.StoreCustomerAddress[] | null
   /** Called once the address is saved — the row collapses back to its summary. */
   onSaved: () => void
-  /** Called on an explicit cancel — same collapse, nothing written. */
-  onCancel: () => void
+  /**
+   * Called on an explicit cancel — same collapse, nothing written. Absent while the
+   * address is not complete (batch 6 part 1): the form then has no «Закрыть».
+   */
+  onCancel?: () => void
+  /** Focus the form on mount: only when the buyer opened it themselves. */
+  autoFocus?: boolean
 }
 
 /**
@@ -57,6 +62,7 @@ export default function CheckoutAddressForm({
   addresses,
   onSaved,
   onCancel,
+  autoFocus = true,
 }: CheckoutAddressFormProps) {
   const t = useTranslations("CheckoutPage")
   const dir = useLocaleDirection()
@@ -99,6 +105,9 @@ export default function CheckoutAddressForm({
   // rendered nothing a customer could act on).
   const [addressGaps, setAddressGaps] = useState<ShippingAddressField[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  // Batch 6 part 1: an incomplete section keeps this form on screen until the
+  // refreshed cart arrives, so «Сохранение…» lasts until then.
+  const [isRefreshing, startRefresh] = useTransition()
   const [applyingId, setApplyingId] = useState<string | null>(null)
 
   // `AddressAutocomplete` picks between two providers and forwards no ref of
@@ -113,10 +122,8 @@ export default function CheckoutAddressForm({
     containerElRef.current = node
   }
   useEffect(() => {
-    containerElRef.current?.focus()
-    // Only on mount — the row remounts this form every time it expands.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    if (autoFocus) containerElRef.current?.focus()
+  }, [autoFocus])
 
   const countryName = (code?: string | null) =>
     cart.region?.countries?.find((c) => c.iso_2 === code?.toLowerCase())
@@ -170,7 +177,7 @@ export default function CheckoutAddressForm({
     ) {
       await updateRegion(address.country_code, pathname)
     } else {
-      router.refresh()
+      startRefresh(() => router.refresh())
     }
   }
 
@@ -202,7 +209,7 @@ export default function CheckoutAddressForm({
       setError(result)
     } else {
       onSaved()
-      router.refresh()
+      startRefresh(() => router.refresh())
     }
   }
 
@@ -212,7 +219,7 @@ export default function CheckoutAddressForm({
         dir={dir}
         value={selectedId}
         onValueChange={handleSelect}
-        disabled={!!applyingId}
+        disabled={!!applyingId || isRefreshing}
         className="flex flex-col gap-[10px]"
       >
         {savedAddresses.map((address) => (
@@ -231,15 +238,17 @@ export default function CheckoutAddressForm({
       <AddressIncompleteMessage gaps={addressGaps} />
 
       <div className="flex gap-x-2 mt-4">
-        <Button
-          type="button"
-          onClick={onCancel}
-          variant="secondary"
-          size="large"
-          className="w-full"
-        >
-          {t("close")}
-        </Button>
+        {onCancel && (
+          <Button
+            type="button"
+            onClick={onCancel}
+            variant="secondary"
+            size="large"
+            className="w-full"
+          >
+            {t("close")}
+          </Button>
+        )}
         <Button
           type="button"
           onClick={() => setMode("new")}
@@ -280,22 +289,24 @@ export default function CheckoutAddressForm({
       <ErrorMessage error={error} />
       <AddressIncompleteMessage gaps={addressGaps} />
       <div className="flex gap-x-2 mt-4">
-        <Button
-          type="button"
-          onClick={() => (hasSaved ? setMode("select") : onCancel())}
-          variant="secondary"
-          size="large"
-          className="w-full"
-        >
-          {hasSaved ? t("back") : t("close")}
-        </Button>
+        {(hasSaved || onCancel) && (
+          <Button
+            type="button"
+            onClick={() => (hasSaved ? setMode("select") : onCancel?.())}
+            variant="secondary"
+            size="large"
+            className="w-full"
+          >
+            {hasSaved ? t("back") : t("close")}
+          </Button>
+        )}
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isRefreshing}
           size="large"
           className="w-full"
         >
-          {isSubmitting ? t("saving") : t("save")}
+          {isSubmitting || isRefreshing ? t("saving") : t("save")}
         </Button>
       </div>
     </form>

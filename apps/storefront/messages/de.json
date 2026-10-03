@@ -91,7 +91,8 @@
     "shipping": "Versand",
     "subtotal": "Zwischensumme (zzgl. Versand und MwSt.)",
     "taxes": "Steuern",
-    "total": "Gesamt"
+    "total": "Gesamt",
+    "shippingAtCheckout": "an der Kasse"
   },
   "CategoryMenu": {
     "title": "Kategorien",
@@ -177,7 +178,8 @@
     "fieldRequired": "Bitte füllen Sie dieses Feld aus",
     "emailInvalid": "Prüfen Sie die E-Mail: die Adresse enthält einen Fehler",
     "signInHeading": "Melden Sie sich an, um zu bestellen",
-    "signInText": "Die Bestellung erscheint in Ihrem Konto: dort finden Sie die Zahlungsdaten, den Status und die gekauften Kurse. Anmeldung oder Registrierung dauern eine Minute, der Warenkorb bleibt erhalten."
+    "signInText": "Die Bestellung erscheint in Ihrem Konto: dort finden Sie die Zahlungsdaten, den Status und die gekauften Kurse. Anmeldung oder Registrierung dauern eine Minute, der Warenkorb bleibt erhalten.",
+    "shippingNotChosen": "nach Wahl der Versandart"
   },
   "ClaimOrders": {
     "heading": "Ohne Konto bestellt?",
@@ -852,7 +854,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bezahlen",
-    "placeOrderManual": "Place order",
+    "placeOrderManual": "Bestellung aufgeben",
     "redirectUnavailable": "Die Zahlungsseite ist noch nicht verfügbar. Versuchen Sie es gleich noch einmal.",
     "selectPaymentMethod": "Zahlungsart auswählen"
   },
