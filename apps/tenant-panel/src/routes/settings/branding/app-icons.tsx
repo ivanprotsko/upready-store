@@ -127,7 +127,7 @@ export const AppIcons = ({
           label={t("brandingSettings.appIcons.mono", { defaultValue: "Одноцветный силуэт (необязательно)" })}
           hint={t("brandingSettings.appIcons.monoHint", {
             defaultValue:
-              "SVG, одна фигура на прозрачном фоне: закреплённая вкладка Safari и плитки Windows. Без него силуэт собирается из фавикона.",
+              "SVG, одна фигура на прозрачном фоне для закреплённой вкладки Safari. Без него силуэт собирается из фавикона.",
           })}
           kind="favicon_mono"
           accept="image/svg+xml"

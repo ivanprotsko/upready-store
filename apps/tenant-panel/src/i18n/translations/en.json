@@ -414,7 +414,7 @@
       "maskable": "Android icon (optional)",
       "maskableHint": "A full-bleed square with the mark inside the central 80%: Android crops the edges to its icon shape. Without it, the icon is built from the favicon.",
       "mono": "One-color silhouette (optional)",
-      "monoHint": "An SVG with one shape on a transparent background, for Safari's pinned tab and the Windows tiles. Without it, the silhouette is built from the favicon."
+      "monoHint": "An SVG with one shape on a transparent background, for Safari's pinned tab. Without it, the silhouette is built from the favicon."
     }
   },
   "campaigns": {

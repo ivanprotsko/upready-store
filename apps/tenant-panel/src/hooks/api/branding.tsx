@@ -34,6 +34,7 @@ export type TenantAppIcons = {
   mstile_310_url: string | null
   mask_icon_url: string | null
   background_color: string | null
+  mark_color: string | null
 }
 
 export const EMPTY_APP_ICONS: TenantAppIcons = {
@@ -47,6 +48,7 @@ export const EMPTY_APP_ICONS: TenantAppIcons = {
   mstile_310_url: null,
   mask_icon_url: null,
   background_color: null,
+  mark_color: null,
 }
 
 export type TenantBranding = {
