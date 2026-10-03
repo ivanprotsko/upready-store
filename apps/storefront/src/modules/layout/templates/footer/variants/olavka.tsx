@@ -55,8 +55,11 @@ export default async function FooterOlavka() {
     terms: tMeta("terms.title"),
     privacy: tMeta("privacy.title"),
   })
-  // The attribution's own anchor (the shop's override, else ours), as a menu item.
-  const creditLabel = attribution.anchor.charAt(0).toUpperCase() + attribution.anchor.slice(1)
+  // The attribution's own anchor (the shop's override, else ours), as a menu item; none
+  // at all for a shop switched off with `attribution_hidden` (Ivan 04.10.2026).
+  const creditLabel = attribution
+    ? attribution.anchor.charAt(0).toUpperCase() + attribution.anchor.slice(1)
+    : null
 
   return (
     // No horizontal line anywhere (Ivan's remark 13 addition), and no legal row under it
@@ -104,17 +107,19 @@ export default async function FooterOlavka() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <a
-                  href={attribution.href}
-                  target="_blank"
-                  rel={attribution.rel}
-                  className={LINK}
-                  data-testid="site-attribution"
-                >
-                  {creditLabel}
-                </a>
-              </li>
+              {attribution && (
+                <li>
+                  <a
+                    href={attribution.href}
+                    target="_blank"
+                    rel={attribution.rel}
+                    className={LINK}
+                    data-testid="site-attribution"
+                  >
+                    {creditLabel}
+                  </a>
+                </li>
+              )}
             </ul>
             <FooterContacts seller={seller} />
           </div>

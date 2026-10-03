@@ -7,6 +7,7 @@ import {
   matchBrowserLocale,
 } from "@i18n/config"
 import { COUNTRY_HEADER, resolveCountry, type RegionMap } from "@lib/geolocation"
+import { ATTRIBUTION_HIDDEN_HEADER } from "@lib/tenant/attribution"
 import { matchCourseSlugPath, resolveCourseProductHandle } from "@lib/tenant/course-redirect"
 import {
   TENANT_HEADERS,
@@ -314,7 +315,12 @@ function tenantRequestHeaders(
     // (`api/storefront/by-host/attribution.ts`). It rides the same header channel
     // as the rest of the tenant's identity rather than costing the footer its own
     // fetch on every page.
-    if (tenant.attribution) {
+    if (tenant.attributionHidden) {
+      headers.set(
+        "x-tenant-attribution",
+        encodeTenantHeaderValue(ATTRIBUTION_HIDDEN_HEADER)
+      )
+    } else if (tenant.attribution) {
       headers.set(
         "x-tenant-attribution",
         encodeTenantHeaderValue(JSON.stringify(tenant.attribution))

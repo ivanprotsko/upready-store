@@ -42,6 +42,8 @@ export type ResolvedTenant = {
   theme: string | null
   mode: string | null
   attribution: TenantAttribution | null
+  /** No credit line at all in this shop's footer (`attribution_hidden` on `by-host`). */
+  attributionHidden?: boolean
   /**
    * The shop's MAIN public address — hostname only, no scheme and no port — as
    * the backend resolved it: the custom domain its owner marked primary, or
@@ -156,6 +158,7 @@ export async function resolveTenantByHost(
         publishable_key?: string | null
         theme?: { preset?: string | null; mode?: string | null } | null
         attribution?: Partial<TenantAttribution> | null
+        attribution_hidden?: boolean | null
         seo_verification?: { yandex?: string | null; google?: string | null } | null
         analytics?: { yandex_metrica_id?: string | null; ga4_measurement_id?: string | null } | null
         branding?: Partial<TenantBranding> | null
@@ -188,6 +191,7 @@ export async function resolveTenantByHost(
           theme: body.theme?.preset ?? null,
           mode: body.theme?.mode ?? null,
           attribution: readAttribution(body.attribution),
+          attributionHidden: body.attribution_hidden === true,
           primaryHost: body.primary_host?.trim().toLowerCase() || null,
           locale,
           seoVerification:

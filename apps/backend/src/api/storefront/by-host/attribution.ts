@@ -139,3 +139,15 @@ export const resolveAttribution = (
 
   return { ...platformDefault(), ...group, ...shop };
 };
+
+/**
+ * A shop that carries no credit at all: `tenant.metadata.attribution_hidden` is
+ * `true`. A client's own site is not our showcase. Ivan, 04.10.2026: «я просил чтобы
+ * на сайта клиента cherkashino и olavka.com не было подписи в футуре "создание
+ * интернет-магазина — upready"». Off is a separate switch rather than an empty
+ * override, because an empty anchor already means "inherit the group's or ours".
+ */
+export const isAttributionHidden = (
+  metadata: Record<string, unknown> | null | undefined,
+): boolean =>
+  metadata?.attribution_hidden === true || metadata?.attribution_hidden === "true";

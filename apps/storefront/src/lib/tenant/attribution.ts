@@ -70,3 +70,25 @@ export const parseAttributionHeader = (
     return null
   }
 }
+
+/**
+ * The value `x-tenant-attribution` carries for a shop with no credit at all
+ * (`attribution_hidden` on `by-host`, Ivan 04.10.2026: no «создание интернет-магазина —
+ * upready» on a client's own site). Not JSON, so it can never be read as a line.
+ */
+export const ATTRIBUTION_HIDDEN_HEADER = "hidden"
+
+/**
+ * What the footer shows for the header the middleware wrote: nothing for a shop
+ * switched off, the shop's line when the header carries one, and the platform's
+ * own line otherwise (no tenant, or a header this process cannot read).
+ */
+export const attributionFromHeader = (
+  raw: string | null | undefined
+): TenantAttribution | null => {
+  if (raw === ATTRIBUTION_HIDDEN_HEADER) {
+    return null
+  }
+
+  return parseAttributionHeader(raw) ?? ATTRIBUTION_FALLBACK
+}

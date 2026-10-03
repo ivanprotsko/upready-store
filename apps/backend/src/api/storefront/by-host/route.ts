@@ -2,7 +2,7 @@ import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { Logger } from "@medusajs/framework/types";
-import { resolveAttribution } from "./attribution";
+import { isAttributionHidden, resolveAttribution } from "./attribution";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
 import {
@@ -182,6 +182,9 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     primaryDomain: primaryDomain ?? null,
     requestHost: host,
   });
+  const attributionHidden = isAttributionHidden(
+    (tenant.metadata ?? null) as Record<string, unknown> | null,
+  );
 
   res.json({
     tenant: {
@@ -206,11 +209,14 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     publishable_key: (tenant.api_key?.token as string | undefined) ?? null,
     theme: preset ? { preset, mode: settings?.defaultMode ?? null } : null,
     // The footer's attribution line, resolved shop → group → platform default
-    // (`attribution.ts`). Always present: a shop that configures nothing still
-    // gets the platform's own anchor, so the footer is never blank.
-    attribution: resolveAttribution(
-      (tenant.metadata ?? null) as Record<string, unknown> | null,
-    ),
+    // (`attribution.ts`). A shop that configures nothing still gets the
+    // platform's own anchor; only a shop switched off with `attribution_hidden`
+    // gets none, and says so in `attribution_hidden` so the storefront does not
+    // fall back to the platform line either.
+    attribution: attributionHidden
+      ? null
+      : resolveAttribution((tenant.metadata ?? null) as Record<string, unknown> | null),
+    attribution_hidden: attributionHidden,
     // t11-seo-redirects step 6: the search-engine ownership tags the owner
     // pasted in from Yandex Webmaster / Google Search Console
     // (`PUT /tenants/seo-verification`), rendered as `<meta name="…">` in this

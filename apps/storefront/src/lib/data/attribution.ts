@@ -1,7 +1,7 @@
 import "server-only"
 import {
   ATTRIBUTION_FALLBACK,
-  parseAttributionHeader,
+  attributionFromHeader,
   type TenantAttribution,
 } from "@lib/tenant/attribution"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
@@ -28,16 +28,15 @@ export { ATTRIBUTION_FALLBACK }
  * a client component takes the resolved line as a prop from a server parent
  * (rule 19g).
  */
-export const getSiteAttribution = async (): Promise<TenantAttribution> => {
+export const getSiteAttribution = async (): Promise<TenantAttribution | null> => {
   try {
     const headers = await nextHeaders()
-    const parsed = parseAttributionHeader(
+
+    // Null for a shop switched off with `attribution_hidden`: its footer shows no
+    // credit at all, not even ours (Ivan 04.10.2026).
+    return attributionFromHeader(
       decodeTenantHeaderValue(headers.get("x-tenant-attribution"))
     )
-
-    if (parsed) {
-      return parsed
-    }
   } catch {
     // No request context, no tenant, or a header this process cannot parse. The
     // footer still has to render, and the platform's own line is the right

@@ -32,7 +32,12 @@ async function SiteAttributionContent({
 }: {
   className?: string
 }) {
-  const { anchor, href, brand, rel } = await getSiteAttribution()
+  const attribution = await getSiteAttribution()
+  // A shop switched off with `attribution_hidden` carries no credit (Ivan 04.10.2026).
+  if (!attribution) {
+    return null
+  }
+  const { anchor, href, brand, rel } = attribution
 
   return (
     <span
