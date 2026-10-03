@@ -38,6 +38,11 @@ import Tenant from "./tenant";
  * directory answer 401 until the cabinet's user key rides along as
  * `X-User-Authorization`, so both are stored and the key is optional.
  *
+ * `tribute` is the shop's Tribute Shop API key, `{ api_key }` (t-cherk-22). ONE
+ * value: the same key authenticates `POST /shop/orders` (`Api-Key` header) and
+ * signs the webhook body (`trbt-signature`, HMAC-SHA256 of the raw body under
+ * this same key) — there is no separate webhook secret to store.
+ *
  * This list is not decoration — `model.enum` renders it as a CHECK constraint
  * on `provider`, so a slot absent here cannot hold a row at all. Measured on
  * the local stand 2026-09-16: an insert into `wildberries_write` died on
@@ -52,6 +57,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "cdek",
   "apiship",
   "pochta",
+  "tribute",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 
