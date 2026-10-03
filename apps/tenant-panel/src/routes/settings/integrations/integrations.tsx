@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useApishipKey } from "../../../hooks/api/apiship"
 import { usePochta } from "../../../hooks/api/pochta"
+import { useTelegramBot } from "../../../hooks/api/telegram-bot"
 import { useDeliverySettings } from "../../../hooks/api/delivery-settings"
 import { useMarketplaceStatus, useMarketplaces } from "../../../hooks/api/marketplaces"
 import { usePaymentSettings } from "../../../hooks/api/payment-settings"
@@ -190,6 +191,7 @@ export const IntegrationsHub = () => {
   } = useDeliverySettings()
   const { apiship, isPending: apishipPending } = useApishipKey()
   const { pochta, isPending: pochtaPending } = usePochta()
+  const { telegramBot, isPending: telegramBotPending } = useTelegramBot()
 
   if (isError) {
     throw error
@@ -298,6 +300,22 @@ export const IntegrationsHub = () => {
                 ? "connected"
                 : "missing",
             last4: pochta?.settings?.token.last4 ?? null,
+            note: null,
+          }}
+        />
+
+        <IntegrationRow
+          row={{
+            id: "telegram-bot",
+            title: t("integrations.telegramBot.title"),
+            subtitle: t("integrations.telegramBot.rowSubtitle"),
+            to: "/settings/integrations/telegram-bot",
+            tone: telegramBotPending
+              ? "pending"
+              : telegramBot?.settings?.token.set
+                ? "connected"
+                : "missing",
+            last4: telegramBot?.settings?.token.last4 ?? null,
             note: null,
           }}
         />

@@ -18,7 +18,8 @@
     "logOut": "ออกจากระบบ",
     "orders": "คำสั่งซื้อ",
     "overview": "ภาพรวม",
-    "profile": "โปรไฟล์"
+    "profile": "โปรไฟล์",
+    "wishlist": "รายการโปรด"
   },
   "AccountOverview": {
     "addresses": "ที่อยู่",
@@ -76,14 +77,6 @@
     "emptyMessage": "ตะกร้าของคุณยังว่างอยู่ คลิกลิงก์ด้านล่างเพื่อเริ่มเลือกซื้อสินค้าของเรา",
     "exploreProducts": "สำรวจสินค้า",
     "heading": "ตะกร้าสินค้า"
-  },
-  "CartDropdown": {
-    "bagEmpty": "ตะกร้าสินค้าของคุณว่างเปล่า",
-    "exploreProducts": "สำรวจสินค้า",
-    "goToCart": "ไปที่ตะกร้า",
-    "heading": "ตะกร้าสินค้า",
-    "subtotal": "ยอดรวมย่อย",
-    "subtotalNote": "(ไม่รวมภาษี)"
   },
   "CartMismatchBanner": {
     "errorMessage": "เกิดข้อผิดพลาดขณะพยายามโอนตะกร้าของคุณ",
@@ -154,7 +147,7 @@
     "freeShipping": "ฟรี",
     "giftCard": "บัตรของขวัญ",
     "itemsCount": "{count, plural, other {{count} ชิ้น}}",
-    "legal": "เมื่อคลิก «ชำระเงิน» คุณยอมรับ<terms>ข้อกำหนด</terms> <termsOfUse>เงื่อนไขการใช้งาน</termsOfUse> และ<returnPolicy>นโยบายการคืนสินค้า</returnPolicy> และยินยอมตาม<privacyPolicy>นโยบายความเป็นส่วนตัว</privacyPolicy>ของเรา",
+    "legal": "เมื่อคลิก «{button}» คุณยอมรับ<terms>ข้อกำหนด</terms> <termsOfUse>เงื่อนไขการใช้งาน</termsOfUse> และ<returnPolicy>นโยบายการคืนสินค้า</returnPolicy> และยินยอมตาม<privacyPolicy>นโยบายความเป็นส่วนตัว</privacyPolicy>ของเรา",
     "manualInput": "กรอกที่อยู่ด้วยตนเอง",
     "addressIncomplete": "กรอกช่องที่จำเป็นของที่อยู่ให้ครบ: {fields}",
     "provinceRequired": "เลือกภูมิภาคจากรายการ",
@@ -178,7 +171,13 @@
     "shippingPriceUnavailable": "ไม่พร้อมใช้งาน: คำนวณราคาไม่ได้",
     "signIn": "เข้าสู่ระบบ",
     "total": "ยอดรวม",
-    "shippingZone": "โซน: {zone}"
+    "shippingZone": "โซน: {zone}",
+    "courseSignInHeading": "เข้าสู่ระบบเพื่อซื้อคอร์ส",
+    "courseSignInText": "คอร์สจะเปิดในบัญชีของคุณ จึงต้องเข้าสู่ระบบหรือลงทะเบียนก่อนซื้อ",
+    "fieldRequired": "กรุณากรอกช่องนี้",
+    "emailInvalid": "ตรวจสอบอีเมล: ที่อยู่อีเมลไม่ถูกต้อง",
+    "signInHeading": "เข้าสู่ระบบเพื่อสั่งซื้อ",
+    "signInText": "คำสั่งซื้อจะแสดงในบัญชีของคุณ: ที่นั่นมีข้อมูลการชำระเงิน สถานะ และคอร์สที่ซื้อ เข้าสู่ระบบหรือสมัครใช้เวลาหนึ่งนาที ตะกร้าจะถูกเก็บไว้"
   },
   "ClaimOrders": {
     "heading": "สั่งซื้อโดยไม่มีบัญชีใช่ไหม",
@@ -339,7 +338,10 @@
     "empty": "คุณยังไม่ได้ซื้อคอร์สใดๆ",
     "start": "เริ่ม",
     "continue": "ดำเนินการต่อ",
-    "review": "ทบทวน"
+    "review": "ทบทวน",
+    "pendingHeading": "รอการชำระเงิน",
+    "pendingHint": "สิทธิ์เข้าถึงจะเปิดเมื่อร้านยืนยันการชำระเงิน",
+    "toOrder": "{order} — ชำระเงิน"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -557,6 +559,13 @@
     "notMember": "ยังไม่ได้เป็นสมาชิก?",
     "password": "รหัสผ่าน",
     "signIn": "เข้าสู่ระบบ",
+    "telegramDivider": "หรือ",
+    "telegramCta": "เข้าสู่ระบบด้วย Telegram",
+    "telegramPending": "กำลังเข้าสู่ระบบ…",
+    "telegramErrorExpired": "การเข้าสู่ระบบด้วย Telegram หมดอายุแล้ว โปรดเริ่มใหม่",
+    "telegramErrorFailed": "เข้าสู่ระบบไม่สำเร็จ โปรดลองอีกครั้งในอีกหนึ่งนาที",
+    "telegramErrorRejected": "Telegram ไม่ได้ยืนยันการเข้าสู่ระบบนี้ โปรดลองอีกครั้ง",
+    "telegramErrorUnconfigured": "ร้านนี้ยังไม่ได้เปิดการเข้าสู่ระบบด้วย Telegram",
     "yandexCta": "เข้าสู่ระบบด้วย Yandex ID",
     "yandexDivider": "หรือ",
     "yandexErrorDenied": "คุณยกเลิกการเข้าสู่ระบบบนหน้า Yandex",
@@ -569,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "คัดลอกหมายเลขบัตร {bank}",
+    "cardHolder": "ผู้รับ: {holder}",
+    "cardsDesc": "โอนยอดรวมของคำสั่งซื้อเข้าบัตรของร้าน",
+    "cardsHint": "โอน {total} เข้าบัตรใบใดใบหนึ่งด้านล่าง",
+    "cardsManagerFallback": "หากมีปัญหา โปรดส่งข้อความถึงผู้จัดการ:",
+    "cardsTitle": "โอนเข้าบัตร",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -580,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "คำสั่งซื้อ #{orderNumber} ได้รับและสำรองไว้แล้ว โอน {total} เข้าบัตรใบใดใบหนึ่งด้านล่าง เมื่อร้านยืนยันการชำระเงิน คำสั่งซื้อจะเปลี่ยนสถานะเป็น «ชำระแล้ว»",
+    "handoverCardsMessage": "สวัสดีค่ะ/ครับ ฉันมีคำถามเกี่ยวกับการชำระเงินคำสั่งซื้อ #{orderNumber} ยอด {total} ด้วยการโอนเข้าบัตร",
+    "handoverCardsTitle": "โอนเงินชำระเข้าบัตร",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -594,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "ไม่สามารถส่งใบเสร็จได้ โปรดลองอีกครั้งหรือส่งข้อความถึงผู้จัดการ",
+    "receiptHint": "รูปภาพหรือภาพหน้าจอการโอน (JPG, PNG, WEBP, HEIC) หรือ PDF ขนาดไม่เกิน 10 MB",
+    "receiptLabel": "ใบเสร็จการชำระเงิน",
+    "receiptPaid": "ฉันชำระเงินแล้ว",
+    "receiptSent": "ส่งใบเสร็จแล้ว รอการยืนยัน",
+    "receiptSentHint": "ร้านจะตรวจสอบการโอนและยืนยันการชำระเงิน จากนั้นคำสั่งซื้อจะเปลี่ยนสถานะเป็น «ชำระแล้ว»",
+    "receiptSubmit": "ส่งใบเสร็จ",
+    "receiptTooLarge": "ไฟล์มีขนาดเกิน 10 MB โปรดบีบอัดไฟล์หรือส่งภาพหน้าจอ",
+    "receiptWrongType": "โปรดส่งรูปภาพ (JPG, PNG, WEBP, HEIC) หรือ PDF",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "สลิปไม่ได้รับการยอมรับ",
+    "receiptRejectedReason": "เหตุผล: {reason}",
+    "receiptResend": "ส่งสลิปอื่น",
+    "contactManager": "ติดต่อผู้จัดการ",
+    "methodRequisites": "โอนตามข้อมูลบัญชี",
+    "requisitesDesc": "หลังสั่งซื้อคุณจะเห็นข้อมูลบัญชีของร้าน: บัตรธนาคารและกระเป๋าคริปโต โอน {total} แล้วแนบสลิปการชำระเงิน — ผู้จัดการจะยืนยันคำสั่งซื้อ",
+    "requisitesPreviewLabel": "รับโอนผ่าน:",
+    "handoverRequisitesTitle": "ชำระคำสั่งซื้อด้วยการโอน",
+    "handoverRequisitesBody": "รับคำสั่งซื้อ #{orderNumber} แล้ว เลือกธนาคารหรือกระเป๋าด้านล่าง โอน {total} แล้วแนบสลิปการชำระเงิน",
+    "handoverRequisitesMessage": "สวัสดี! ฉันสั่งซื้อ #{orderNumber} ยอด {total} และชำระด้วยการโอนแล้ว กรุณายืนยันการชำระเงิน",
+    "contactManagerHint": "ติดต่อผู้จัดการเพื่อยืนยันคำสั่งซื้อ",
+    "showRequisite": "แตะเพื่อดูหมายเลข",
+    "hideRequisite": "ซ่อนหมายเลข",
+    "numberLabel": "หมายเลขบัตรหรือบัญชี",
+    "holderLabel": "ผู้รับเงิน",
+    "addressLabel": "ที่อยู่กระเป๋า",
+    "networkLabel": "เครือข่าย",
+    "copyNumber": "คัดลอกหมายเลข",
+    "copyHolder": "คัดลอกชื่อผู้รับ",
+    "copyAddress": "คัดลอกที่อยู่",
+    "copyNetwork": "คัดลอกเครือข่าย",
+    "cryptoOnlyWarning": "ส่งเฉพาะ {currency} บนเครือข่าย {network} เท่านั้น: การโอนเหรียญอื่นหรือผ่านเครือข่ายอื่นจะไม่ถึง",
+    "receiptPick": "เลือกไฟล์หรือรูปภาพ",
+    "receiptCamera": "ถ่ายรูป",
+    "receiptRemove": "ลบไฟล์"
   },
   "Metadata": {
     "account": {
@@ -679,6 +731,10 @@
     "terms": {
       "description": "อ่านข้อกำหนดที่คุณยอมรับเมื่อซื้อสินค้ากับเรา",
       "title": "ข้อกำหนดการใช้งาน"
+    },
+    "wishlist": {
+      "title": "รายการโปรด",
+      "description": "สินค้าที่คุณบันทึกไว้เพื่อซื้อภายหลัง"
     }
   },
   "NativeSelect": {
@@ -713,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "เก็บหมายเลขคำสั่งซื้อไว้ คุณจะต้องใช้เมื่อติดต่อร้านค้า",
     "orderSuccess": "สั่งซื้อสำเร็จแล้ว",
-    "thankYou": "ขอบคุณ!"
+    "thankYou": "ขอบคุณ!",
+    "paymentConfirmed": "ยืนยันการชำระเงินแล้ว",
+    "goToCourse": "ไปที่คอร์ส",
+    "orderCanceled": "ยกเลิกคำสั่งซื้อแล้ว",
+    "orderCanceledHint": "ไม่ต้องชำระเงิน หากเป็นข้อผิดพลาด โปรดติดต่อเรา",
+    "paidGoodsHint": "กำลังเตรียมคำสั่งซื้อของคุณเพื่อจัดส่ง"
   },
   "OrderDetails": {
     "backToOrders": "กลับไปที่คำสั่งซื้อ",
@@ -921,6 +982,15 @@
     "noPhone": "ไม่มีเบอร์โทรศัพท์",
     "phone": "เบอร์โทรศัพท์"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "เชื่อมแล้ว: {handle}",
+    "notLinked": "ยังไม่ได้เชื่อม",
+    "hint": "เข้าสู่ระบบด้วย Telegram ที่นี่เพื่อเชื่อมกับบัญชีนี้ หลังจากนั้นคุณจะเข้าสู่ระบบได้ทั้งสองวิธี",
+    "errorTaken": "บัญชี Telegram นี้เชื่อมกับบัญชีอื่นอยู่แล้ว",
+    "errorRejected": "Telegram ไม่ได้ยืนยัน โปรดลองอีกครั้ง",
+    "errorFailed": "เชื่อม Telegram ไม่สำเร็จ โปรดลองอีกครั้งในอีกหนึ่งนาที"
+  },
   "PromoBanner": {
     "close": "ปิด",
     "message": "DTC Starter ครบฟีเจอร์ พร้อมใช้งานจริง"
@@ -1080,5 +1150,43 @@
       "previous": "ก่อนหน้า",
       "watch": "ดู"
     }
+  },
+  "WishlistButton": {
+    "add": "เพิ่มในรายการโปรด",
+    "remove": "นำออกจากรายการโปรด"
+  },
+  "WishlistPage": {
+    "heading": "รายการโปรด",
+    "description": "สินค้าที่คุณบันทึกไว้เพื่อซื้อภายหลัง",
+    "empty": "คุณยังไม่ได้บันทึกสินค้าใด ๆ",
+    "addToCart": "เพิ่มลงตะกร้า",
+    "chooseOptions": "เลือกตัวเลือก",
+    "remove": "นำออก"
+  },
+  "CartSidebar": {
+    "title": "ตะกร้า",
+    "signInPrompt": "เข้าสู่ระบบเพื่อดูประวัติการสั่งซื้อและสั่งซื้อได้เร็วขึ้น",
+    "signInEmail": "ด้วยอีเมล",
+    "signInYandex": "ด้วย Yandex ID",
+    "deliveryEstimate": "จัดส่ง {range}",
+    "empty": "ตะกร้าของคุณว่างเปล่า",
+    "exploreProducts": "ดูสินค้า",
+    "itemsTotal": "ยอดรวมสินค้า",
+    "checkout": "ไปชำระเงิน"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "คอร์สออนไลน์ ไม่มีการจัดส่ง",
+    "shipmentNo": "การจัดส่งที่ {no}",
+    "digitalGroup": "คอร์สออนไลน์ — เข้าเรียนได้หลังยืนยันการชำระเงิน",
+    "accessByEmail": "สิทธิ์เข้าเรียนจะส่งทางอีเมลหลังยืนยันการชำระเงิน",
+    "digitalGroupPaid": "คอร์สออนไลน์ — เปิดสิทธิ์เข้าถึงแล้ว"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "รอการชำระเงิน",
+    "awaitingConfirmation": "รอการยืนยันการชำระเงิน",
+    "receiptRejected": "ไม่รับสลิปการชำระเงิน",
+    "paid": "ชำระเงินแล้ว",
+    "refunded": "คืนเงินแล้ว",
+    "canceled": "ยกเลิกแล้ว"
   }
 }

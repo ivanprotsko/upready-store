@@ -164,6 +164,7 @@ function FullBleedHero({ headline, subheadline, image, cta }: ResolvedHero) {
         <div className="flex max-w-[620px] flex-col items-start">
           <h1
             data-testid="profile-hero-headline"
+            // theme-colours allowlist: Ivan's hero treatment (2026-09-09, above) — white ink fixed over the photo's own dark scrim, not a theme surface.
             className="text-balance text-[30px] font-semibold leading-[1.06] tracking-[-0.02em] text-white small:text-[48px] small:tracking-[-0.035em]"
           >
             {headline}

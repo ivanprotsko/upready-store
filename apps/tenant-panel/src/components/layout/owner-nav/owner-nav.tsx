@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom"
 
 import { useOrders } from "../../../hooks/api/orders"
 import { useTenantReviews } from "../../../hooks/api/reviews"
+import { isOrderWithoutParcel } from "../../../lib/order-helpers"
 import {
   OWNER_HOME,
   OWNER_NAV,
@@ -33,7 +34,7 @@ const readClosed = (): string[] => {
  */
 export const useOwnerCounters = (): Record<OwnerCounter, number | null> => {
   const orders = useOrders(
-    { limit: 50, fields: "id,status,fulfillment_status" },
+    { limit: 50, fields: "id,status,fulfillment_status,items.requires_shipping" },
     { staleTime: 60_000, retry: false }
   )
   const reviews = useTenantReviews(
@@ -43,7 +44,10 @@ export const useOwnerCounters = (): Record<OwnerCounter, number | null> => {
 
   const toPack = orders.orders
     ? orders.orders.filter(
-        (o) => o.status !== "canceled" && o.fulfillment_status === "not_fulfilled"
+        (o) =>
+          o.status !== "canceled" &&
+          o.fulfillment_status === "not_fulfilled" &&
+          !isOrderWithoutParcel(o)
       ).length
     : null
 

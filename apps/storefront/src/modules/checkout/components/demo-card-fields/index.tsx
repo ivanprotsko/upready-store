@@ -62,11 +62,11 @@ const DemoCardFields = ({ value, onChange }: DemoCardFieldsProps) => {
         />
         {numberErrorKey && (
           <div
-            className="flex items-center gap-x-2 pt-2 txt-compact-small text-rose-500"
+            className="flex items-center gap-x-2 pt-2 txt-compact-small text-ui-fg-error"
             data-testid="demo-card-number-error"
           >
             <span
-              className="h-2 w-2 flex-shrink-0 rounded-full bg-rose-500"
+              className="h-2 w-2 flex-shrink-0 rounded-full bg-ui-button-danger"
               aria-hidden
             />
             <span>{t(numberErrorKey)}</span>

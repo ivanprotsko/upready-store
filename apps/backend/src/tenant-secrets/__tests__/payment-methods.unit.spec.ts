@@ -11,19 +11,23 @@ import {
  * the task (t-2026-09-24-n10): nothing, Robokassa only, manual only, both —
  * plus the two invariants Ivan's report turns on: a disabled Robokassa
  * account counts as not connected, and the demo card is never itself a
- * "connected" method.
+ * "connected" method. Tribute (t-cherk-22) joins the same resolver, so its
+ * own on/off is exercised alongside Robokassa's rather than in a parallel
+ * suite.
  */
 
 describe("resolveTenantPaymentMethods", () => {
   it("nothing connected: only the demo card is offered", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: false,
+      tributeEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });
 
     expect(methods).toEqual({
       robokassa: false,
+      tribute: false,
       manualCrypto: false,
       manualManager: false,
       demo: true,
@@ -34,6 +38,7 @@ describe("resolveTenantPaymentMethods", () => {
   it("Robokassa only: the demo card disappears", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: true,
+      tributeEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });
@@ -42,9 +47,41 @@ describe("resolveTenantPaymentMethods", () => {
     expect(offersSystemDefault(methods)).toBe(false);
   });
 
+  it("Tribute only: the demo card disappears, same as Robokassa only", () => {
+    const methods = resolveTenantPaymentMethods({
+      robokassaEnabled: false,
+      tributeEnabled: true,
+      manualCrypto: false,
+      manualManager: false,
+    });
+
+    expect(methods).toEqual({
+      robokassa: false,
+      tribute: true,
+      manualCrypto: false,
+      manualManager: false,
+      demo: false,
+    });
+    expect(offersSystemDefault(methods)).toBe(false);
+  });
+
+  it("Robokassa and Tribute both connected: both read true, demo stays hidden", () => {
+    const methods = resolveTenantPaymentMethods({
+      robokassaEnabled: true,
+      tributeEnabled: true,
+      manualCrypto: false,
+      manualManager: false,
+    });
+
+    expect(methods.robokassa).toBe(true);
+    expect(methods.tribute).toBe(true);
+    expect(methods.demo).toBe(false);
+  });
+
   it("manual crypto only: pp_system_default stays, for the crypto kind, not as demo", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: false,
+      tributeEnabled: false,
       manualCrypto: true,
       manualManager: false,
     });
@@ -56,6 +93,7 @@ describe("resolveTenantPaymentMethods", () => {
   it("manual manager only: pp_system_default stays, for the manager kind, not as demo", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: false,
+      tributeEnabled: false,
       manualCrypto: false,
       manualManager: true,
     });
@@ -67,6 +105,7 @@ describe("resolveTenantPaymentMethods", () => {
   it("Robokassa and a manual kind both connected: pp_system_default stays for the manual kind", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: true,
+      tributeEnabled: false,
       manualCrypto: true,
       manualManager: false,
     });
@@ -78,6 +117,7 @@ describe("resolveTenantPaymentMethods", () => {
   it("Robokassa and no manual kind: pp_system_default is hidden, not offered as demo alongside a real method", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: true,
+      tributeEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });

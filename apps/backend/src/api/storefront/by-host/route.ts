@@ -6,10 +6,12 @@ import { resolveAttribution } from "./attribution";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
 import {
+  legacyManualPayment,
   manualPaymentPublicView,
   readManualPayment,
 } from "../../tenants/payment-settings/manual/manual-payment";
 import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
+import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
 import { manualPaymentMethods, resolveTenantPaymentMethods } from "../../../tenant-secrets/payment-methods";
 import {
   baseDomains,
@@ -160,10 +162,14 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   // resolver against the same facts.
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
-  const robokassaSecret = await readRobokassaSecretPublic(pg, tenant.id as string, logger);
+  const [robokassaSecret, tributeSecret] = await Promise.all([
+    readRobokassaSecretPublic(pg, tenant.id as string, logger),
+    readTributeSecretPublic(pg, tenant.id as string, logger),
+  ]);
   const paymentMethods = resolveTenantPaymentMethods({
     robokassaEnabled: Boolean(robokassaSecret),
-    ...manualPaymentMethods(manualPayment),
+    tributeEnabled: Boolean(tributeSecret),
+    ...manualPaymentMethods(legacyManualPayment(manualPayment)),
   });
 
   const primaryDomain = ((tenant.domains ?? []) as { host?: string; is_primary?: boolean }[]).find(

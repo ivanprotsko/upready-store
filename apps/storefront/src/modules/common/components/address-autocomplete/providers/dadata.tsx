@@ -55,7 +55,7 @@ const DaDataAddressInput = ({
       <div className="flex flex-col w-full gap-y-1">
         <span className="txt-compact-small text-ui-fg-subtle px-1">
           {t("fieldAddress")}
-          {required && <span className="text-rose-500">*</span>}
+          {required && <span className="text-ui-fg-error">*</span>}
         </span>
         <AddressSuggestions
           token={token}

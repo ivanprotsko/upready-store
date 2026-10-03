@@ -10,7 +10,7 @@ import {
   paymentInfoMap,
 } from "@lib/constants"
 import compareAddresses from "@lib/util/compare-addresses"
-import { cartShippingAddressGaps } from "@lib/util/shipping-address"
+import { cartNeedsShipping, cartShippingAddressGaps } from "@lib/util/shipping-address"
 import { paymentMethodName } from "@lib/util/payment"
 import { pickActivePaymentMethod } from "@lib/util/pick-payment-method"
 import type { TenantPaymentMethods } from "@lib/tenant/resolve"
@@ -27,8 +27,7 @@ import DemoCardFields, {
   type DemoCardValue,
 } from "@modules/checkout/components/demo-card-fields"
 import CheckoutBillingSheet from "@modules/checkout/components/checkout-billing-sheet"
-import ManualPaymentKindSelect from "@modules/checkout/components/manual-payment-kind-select"
-import ManualPaymentInstructions from "@modules/checkout/components/manual-payment-instructions"
+import { RequisitesPreview } from "@modules/order/components/requisites-list"
 import {
   availableManualPaymentKinds,
   type ManualPaymentKind,
@@ -40,7 +39,8 @@ import {
   type LegalLinkContext,
   type LegalSlot,
 } from "@lib/util/legal-links"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
+import { convertToLocale } from "@lib/util/money"
 import { clx } from "@medusajs/ui"
 
 interface CheckoutPaymentSectionProps {
@@ -66,6 +66,8 @@ interface CheckoutPaymentSectionProps {
    * checkout labels it.
    */
   tenantPaymentMethods: TenantPaymentMethods
+  /** Batch 6, Q3.1: a guest with a course in the cart — the pay button waits for a sign-in. */
+  requiresSignIn?: boolean
 }
 
 export default function CheckoutPaymentSection({
@@ -74,9 +76,13 @@ export default function CheckoutPaymentSection({
   legal,
   manualPayment,
   tenantPaymentMethods,
+  requiresSignIn = false,
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
+  const tmp = useTranslations("ManualPayment")
+  const tb = useTranslations("PaymentButton")
+  const locale = useLocale()
   const latestSession = cart.payment_collection?.payment_sessions?.[0]
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(() =>
@@ -88,15 +94,14 @@ export default function CheckoutPaymentSection({
   const [showBillingDetails, setShowBillingDetails] = useState(false)
   const [demoCard, setDemoCard] = useState<DemoCardValue>(EMPTY_DEMO_CARD)
 
-  // The kinds this shop offers inside the manual provider (olavka-payments).
-  // An empty list is the single-store case and every shop that configured
-  // neither section: the manual provider then keeps its demo card and the
-  // button its demo gate. With at least one kind the first is preselected, so
-  // the buyer who never touches the choice still places a coherent order.
+  // Batch 7: ONE kind inside the manual provider, «Перевод по реквизитам», when
+  // the owner entered a requisite or a contact; the bank or the wallet is picked
+  // on the order page. An empty list is the single-store case and every shop
+  // that configured nothing: the manual provider then keeps its demo card and
+  // the button its demo gate.
   const manualKinds = availableManualPaymentKinds(manualPayment)
-  const [manualKind, setManualKind] = useState<ManualPaymentKind | null>(
-    manualKinds[0] ?? null
-  )
+  const manualKind: ManualPaymentKind | null = manualKinds[0] ?? null
+  const offersRequisites = manualKind !== null
 
   // t-2026-09-24-n10: a method the shop offered when the page first rendered
   // can stop being connected before the buyer pays (the owner turns Robokassa
@@ -225,6 +230,9 @@ export default function CheckoutPaymentSection({
   // missing half of the address is named here, field by field, with the same
   // sentences the address sheet shows (t-2026-09-24-n19).
   const addressGaps = cartShippingAddressGaps(cart)
+  // Batch 6 (hotfix Plan B): no «Платежный адрес» for a cart with nothing to post —
+  // there is no delivery address for it to match or differ from.
+  const needsShipping = cartNeedsShipping(cart)
   const billingText = billingAddr
     ? [billingAddr.address_1, billingAddr.city, billingAddr.postal_code]
         .filter(Boolean)
@@ -335,7 +343,9 @@ export default function CheckoutPaymentSection({
                     </div>
                     <div className="flex flex-col">
                       <span className="txt-compact-xsmall-plus text-ui-fg-base leading-tight">
-                        {paymentMethodName(tm, method.id)}
+                        {isManual(method.id) && offersRequisites
+                          ? tmp("methodRequisites")
+                          : paymentMethodName(tm, method.id)}
                       </span>
                       <span className="txt-compact-xsmall text-ui-fg-subtle">
                         {method.id.includes("stripe")
@@ -365,23 +375,35 @@ export default function CheckoutPaymentSection({
               </div>
             )}
 
-            {/* The manual provider (olavka-payments): the shop's offline kinds when
-                the owner enabled any, else the demo card of checkout mockup
-                frames 6-8, exactly as before. */}
+            {/* The manual provider (olavka-payments → batch 7): «Перевод по
+                реквизитам» — what happens after «Оформить заказ» and which banks
+                and assets the shop takes (the numbers come on the order page) —
+                else the demo card of checkout mockup frames 6-8, exactly as before. */}
             {isManual(selectedPaymentMethod) &&
-              (manualKinds.length > 0 ? (
-                <div className="flex flex-col gap-y-4">
-                  <ManualPaymentKindSelect
-                    kinds={manualKinds}
-                    wallets={manualPayment.crypto.wallets}
-                    value={manualKind}
-                    onChange={setManualKind}
-                  />
-                  {manualKind && (
-                    <ManualPaymentInstructions
-                      kind={manualKind}
-                      manualPayment={manualPayment}
-                    />
+              (offersRequisites ? (
+                <div
+                  className="flex flex-col gap-y-3 rounded-[6px] border border-ui-border-base bg-ui-bg-base p-4"
+                  data-testid="manual-payment-requisites"
+                >
+                  <p className="txt-compact-small text-ui-fg-base">
+                    {tmp("requisitesDesc", {
+                      total: convertToLocale({
+                        amount: cart.total ?? 0,
+                        currency_code: cart.currency_code,
+                        locale,
+                      }),
+                    })}
+                  </p>
+                  {manualPayment.requisites.length > 0 && (
+                    <>
+                      <p className="txt-compact-xsmall text-ui-fg-subtle">{tmp("requisitesPreviewLabel")}</p>
+                      <RequisitesPreview requisites={manualPayment.requisites} />
+                    </>
+                  )}
+                  {manualPayment.contacts.note && (
+                    <p className="txt-compact-small text-ui-fg-base" data-testid="manager-note">
+                      {manualPayment.contacts.note}
+                    </p>
                   )}
                 </div>
               ) : (
@@ -401,7 +423,7 @@ export default function CheckoutPaymentSection({
       )}
 
       {/* Billing address */}
-      {billingSameAsShipping && !showBillingDetails ? (
+      {!needsShipping ? null : billingSameAsShipping && !showBillingDetails ? (
         <label className="checkout-section-container flex items-center gap-x-2 cursor-pointer">
           <input
             type="checkbox"
@@ -435,6 +457,7 @@ export default function CheckoutPaymentSection({
         </div>
       )}
 
+      {needsShipping && (
       <CheckoutBillingSheet
         open={billingOpen}
         onClose={() => setBillingOpen(false)}
@@ -442,6 +465,7 @@ export default function CheckoutPaymentSection({
         onSaved={(sameAsShipping) => setShowBillingDetails(!sameAsShipping)}
         cart={cart}
       />
+      )}
 
       <div className="checkout-section-container">
         <ErrorMessage error={error} data-testid="payment-method-error-message" />
@@ -450,6 +474,7 @@ export default function CheckoutPaymentSection({
       <div className="checkout-section-container">
         <AddressGapMessage
           gaps={addressGaps}
+          tone="hint"
           data-testid="shipping-address-incomplete"
         />
       </div>
@@ -460,10 +485,16 @@ export default function CheckoutPaymentSection({
           selectedPaymentMethod={selectedPaymentMethod}
           demoCard={demoCard}
           manualKind={manualKinds.length > 0 ? manualKind : null}
+          requiresSignIn={requiresSignIn}
           data-testid="submit-order-button"
         />
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">
+          {/* Batch 7: the sentence names the button's own words — «Оформить заказ»
+              for a transfer by requisites, «Оплатить» for a gateway. The catalogs
+              that carry a `{button}` placeholder in `legal` substitute it; the rest
+              keep today's generic wording (the extra value is simply unused). */}
           {t.rich("legal", {
+            button: manualKind && isManual(selectedPaymentMethod) ? tb("placeOrderManual") : tb("placeOrder"),
             terms: legalChunk("terms"),
             // Its own slot since b14-pages-legal-content: the sentence names
             // two documents and used to underline one.

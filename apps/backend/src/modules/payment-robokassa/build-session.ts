@@ -10,6 +10,7 @@ import {
   type RobokassaReceipt,
   type RobokassaReceiptLineInput,
 } from "../../tenant-secrets/robokassa";
+import { isSyntheticTelegramEmail } from "../auth-telegram/lib/identity";
 
 /**
  * What the provider keeps on `payment_session.data`. Everything here is safe to
@@ -129,7 +130,8 @@ export const buildRobokassaSession = (input: BuildRobokassaSessionInput): Roboka
       params.set(key, value);
     }
   }
-  if (input.email) {
+  // Robokassa mails the receipt to this address; a Telegram buyer's synthetic one would bounce.
+  if (input.email && !isSyntheticTelegramEmail(input.email)) {
     params.set("Email", input.email);
   }
   if (input.culture) {

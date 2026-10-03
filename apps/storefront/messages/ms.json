@@ -18,7 +18,8 @@
     "logOut": "Log keluar",
     "orders": "Pesanan",
     "overview": "Gambaran keseluruhan",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Senarai Hajat"
   },
   "AccountOverview": {
     "addresses": "Alamat",
@@ -76,14 +77,6 @@
     "emptyMessage": "Troli anda kosong. Gunakan pautan di bawah untuk mula meneroka produk kami.",
     "exploreProducts": "Teroka produk",
     "heading": "Troli"
-  },
-  "CartDropdown": {
-    "bagEmpty": "Beg beli-belah anda kosong.",
-    "exploreProducts": "Teroka produk",
-    "goToCart": "Pergi ke troli",
-    "heading": "Troli",
-    "subtotal": "Jumlah kecil",
-    "subtotalNote": "(tidak termasuk cukai)"
   },
   "CartMismatchBanner": {
     "errorMessage": "Sesuatu tidak kena semasa kami cuba memindahkan troli anda",
@@ -154,7 +147,7 @@
     "freeShipping": "Percuma",
     "giftCard": "Kad Hadiah",
     "itemsCount": "{count, plural, other {{count} barang}}",
-    "legal": "Dengan mengklik «Bayar», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta bersetuju dengan <privacyPolicy>dasar privasi</privacyPolicy> kami.",
+    "legal": "Dengan mengklik «{button}», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta bersetuju dengan <privacyPolicy>dasar privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapkan medan alamat yang diwajibkan: {fields}.",
     "provinceRequired": "Pilih wilayah daripada senarai.",
@@ -178,7 +171,13 @@
     "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dikira",
     "signIn": "Log masuk",
     "total": "Jumlah",
-    "shippingZone": "Zon: {zone}"
+    "shippingZone": "Zon: {zone}",
+    "courseSignInHeading": "Log masuk untuk membeli kursus",
+    "courseSignInText": "Kursus dibuka dalam akaun anda, jadi pembelian memerlukan log masuk atau pendaftaran.",
+    "fieldRequired": "Isi ruangan ini",
+    "emailInvalid": "Semak e-mel: alamat ada kesilapan",
+    "signInHeading": "Log masuk untuk membuat pesanan",
+    "signInText": "Pesanan akan muncul dalam akaun anda: di sana ada butiran pembayaran, status dan kursus yang dibeli. Log masuk atau mendaftar mengambil masa seminit, troli dikekalkan."
   },
   "ClaimOrders": {
     "heading": "Membuat pesanan tanpa akaun?",
@@ -339,7 +338,10 @@
     "empty": "Anda belum membeli sebarang kursus.",
     "start": "Mula",
     "continue": "Teruskan",
-    "review": "Ulang kaji"
+    "review": "Ulang kaji",
+    "pendingHeading": "Menunggu pembayaran",
+    "pendingHint": "Akses dibuka setelah kedai mengesahkan pembayaran.",
+    "toOrder": "{order} — bayar"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -557,6 +559,13 @@
     "notMember": "Belum menjadi ahli?",
     "password": "Kata laluan",
     "signIn": "Log masuk",
+    "telegramDivider": "atau",
+    "telegramCta": "Log masuk dengan Telegram",
+    "telegramPending": "Sedang log masuk…",
+    "telegramErrorExpired": "Log masuk Telegram ini telah tamat tempoh. Sila mula semula.",
+    "telegramErrorFailed": "Tidak dapat log masuk. Sila cuba lagi dalam seminit.",
+    "telegramErrorRejected": "Telegram tidak mengesahkan log masuk ini. Sila cuba lagi.",
+    "telegramErrorUnconfigured": "Log masuk dengan Telegram belum didayakan di kedai ini.",
     "yandexCta": "Log masuk dengan Yandex ID",
     "yandexDivider": "atau",
     "yandexErrorDenied": "Anda membatalkan log masuk di halaman Yandex.",
@@ -569,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Salin nombor kad {bank}",
+    "cardHolder": "Penerima: {holder}",
+    "cardsDesc": "Pindahkan jumlah pesanan ke kad kedai.",
+    "cardsHint": "Pindahkan {total} ke salah satu kad di bawah.",
+    "cardsManagerFallback": "Jika ada masalah, mesej pengurus:",
+    "cardsTitle": "Pindahan ke kad",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -580,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Pesanan #{orderNumber} telah diterima dan ditempah. Pindahkan {total} ke salah satu kad di bawah. Setelah kedai mengesahkan bayaran, pesanan akan berstatus «Dibayar».",
+    "handoverCardsMessage": "Helo! Saya ada soalan tentang pembayaran pesanan #{orderNumber} berjumlah {total} melalui pindahan ke kad.",
+    "handoverCardsTitle": "Pindahkan bayaran ke kad",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -594,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Resit tidak dapat dihantar. Cuba lagi atau mesej pengurus.",
+    "receiptHint": "Foto atau tangkapan skrin pindahan (JPG, PNG, WEBP, HEIC) atau PDF, sehingga 10 MB.",
+    "receiptLabel": "Resit pembayaran",
+    "receiptPaid": "Saya sudah bayar",
+    "receiptSent": "Resit dihantar, menunggu pengesahan",
+    "receiptSentHint": "Kedai akan menyemak pindahan dan mengesahkan bayaran, kemudian pesanan akan berstatus «Dibayar».",
+    "receiptSubmit": "Hantar resit",
+    "receiptTooLarge": "Fail melebihi 10 MB. Mampatkannya atau hantar tangkapan skrin.",
+    "receiptWrongType": "Hantar foto (JPG, PNG, WEBP, HEIC) atau PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Resit tidak diterima",
+    "receiptRejectedReason": "Sebab: {reason}",
+    "receiptResend": "Hantar resit lain",
+    "contactManager": "Hubungi pengurus",
+    "methodRequisites": "Pindahan ke butiran akaun",
+    "requisitesDesc": "Selepas membuat pesanan anda akan melihat butiran kedai: kad bank dan dompet kripto. Pindahkan {total} dan lampirkan resit pembayaran — pengurus akan mengesahkan pesanan.",
+    "requisitesPreviewLabel": "Kami menerima pindahan ke:",
+    "handoverRequisitesTitle": "Bayar pesanan melalui pindahan",
+    "handoverRequisitesBody": "Pesanan #{orderNumber} diterima. Pilih bank atau dompet di bawah, pindahkan {total} dan lampirkan resit pembayaran.",
+    "handoverRequisitesMessage": "Hai! Saya telah membuat pesanan #{orderNumber} berjumlah {total} dan membayarnya melalui pindahan. Sila sahkan pembayaran.",
+    "contactManagerHint": "Untuk mengesahkan pesanan, hubungi pengurus.",
+    "showRequisite": "Ketik untuk melihat nombor",
+    "hideRequisite": "Sembunyikan nombor",
+    "numberLabel": "Nombor kad atau akaun",
+    "holderLabel": "Penerima",
+    "addressLabel": "Alamat dompet",
+    "networkLabel": "Rangkaian",
+    "copyNumber": "Salin nombor",
+    "copyHolder": "Salin penerima",
+    "copyAddress": "Salin alamat",
+    "copyNetwork": "Salin rangkaian",
+    "cryptoOnlyWarning": "Hantar {currency} melalui rangkaian {network} sahaja: pindahan syiling lain atau melalui rangkaian lain tidak akan sampai.",
+    "receiptPick": "Pilih fail atau foto",
+    "receiptCamera": "Ambil foto",
+    "receiptRemove": "Buang fail"
   },
   "Metadata": {
     "account": {
@@ -679,6 +731,10 @@
     "terms": {
       "description": "Baca peraturan yang anda persetujui semasa membeli-belah.",
       "title": "Syarat penggunaan"
+    },
+    "wishlist": {
+      "title": "Senarai Hajat",
+      "description": "Produk yang anda simpan untuk kemudian."
     }
   },
   "NativeSelect": {
@@ -713,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Simpan nombor pesanan anda. Anda memerlukannya apabila menghubungi kedai.",
     "orderSuccess": "Pesanan anda berjaya dibuat.",
-    "thankYou": "Terima kasih!"
+    "thankYou": "Terima kasih!",
+    "paymentConfirmed": "Pembayaran disahkan",
+    "goToCourse": "Ke kursus",
+    "orderCanceled": "Pesanan dibatalkan",
+    "orderCanceledHint": "Tidak perlu membayar. Jika ini silap, hubungi kami.",
+    "paidGoodsHint": "Kami sedang menyediakan pesanan anda untuk penghantaran."
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
@@ -921,6 +982,15 @@
     "noPhone": "Tiada nombor telefon",
     "phone": "Telefon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Dipautkan: {handle}",
+    "notLinked": "Belum dipautkan",
+    "hint": "Log masuk dengan Telegram di sini untuk memautkannya ke akaun ini. Selepas itu anda boleh log masuk dengan mana-mana cara.",
+    "errorTaken": "Akaun Telegram ini sudah dipautkan ke akaun lain.",
+    "errorRejected": "Telegram tidak mengesahkannya. Sila cuba lagi.",
+    "errorFailed": "Tidak dapat memautkan Telegram. Sila cuba lagi dalam seminit."
+  },
   "PromoBanner": {
     "close": "Tutup",
     "message": "DTC starter sedia pengeluaran dengan ciri lengkap."
@@ -1080,5 +1150,43 @@
       "previous": "Sebelumnya",
       "watch": "Tonton"
     }
+  },
+  "WishlistButton": {
+    "add": "Tambah ke senarai hajat",
+    "remove": "Alih keluar daripada senarai hajat"
+  },
+  "WishlistPage": {
+    "heading": "Senarai Hajat",
+    "description": "Produk yang anda simpan untuk kemudian.",
+    "empty": "Anda belum menyimpan sebarang produk lagi.",
+    "addToCart": "Tambah ke troli",
+    "chooseOptions": "Pilih pilihan",
+    "remove": "Alih keluar"
+  },
+  "CartSidebar": {
+    "title": "Troli",
+    "signInPrompt": "Log masuk untuk melihat sejarah pesanan dan membeli dengan lebih pantas.",
+    "signInEmail": "Dengan e-mel",
+    "signInYandex": "Dengan Yandex ID",
+    "deliveryEstimate": "Penghantaran {range}",
+    "empty": "Troli anda kosong.",
+    "exploreProducts": "Lihat produk",
+    "itemsTotal": "Jumlah produk",
+    "checkout": "Teruskan ke pembayaran"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "kursus dalam talian, tanpa penghantaran",
+    "shipmentNo": "Penghantaran No. {no}",
+    "digitalGroup": "Kursus dalam talian — akses selepas pembayaran disahkan",
+    "accessByEmail": "Akses ke kursus akan dihantar melalui e-mel selepas pembayaran disahkan.",
+    "digitalGroupPaid": "Kursus dalam talian — akses dibuka"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Menunggu pembayaran",
+    "awaitingConfirmation": "Menunggu pengesahan pembayaran",
+    "receiptRejected": "Resit tidak diterima",
+    "paid": "Dibayar",
+    "refunded": "Dibayar balik",
+    "canceled": "Dibatalkan"
   }
 }

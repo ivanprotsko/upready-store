@@ -1,4 +1,5 @@
 import { convertToLocale } from "@lib/util/money"
+import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import type { HttpTypes } from "@medusajs/types"
 import { getLocale, getTranslations } from "next-intl/server"
 
@@ -9,6 +10,12 @@ type OrderSummaryProps = {
 const OrderSummary = async ({ order }: OrderSummaryProps) => {
   const t = await getTranslations("OrderSummary")
   const locale = await getLocale()
+
+  // Batch 6 (hotfix Plan B): an order with nothing to post (an online course alone)
+  // has no «Доставка» row; a shipping charge, if any was taken, still shows.
+  const needsShipping =
+    (order.items ?? []).some((item) => !isNoDeliveryLine(item)) ||
+    (order.shipping_total ?? 0) > 0
 
   const amount = (value?: number | null) =>
     convertToLocale({
@@ -41,10 +48,12 @@ const OrderSummary = async ({ order }: OrderSummaryProps) => {
           </span>
         </div>
       )}
-      <div className="flex items-center justify-between">
-        <span>{t("shipping")}</span>
-        <span data-testid="order-shipping">{amount(order.shipping_total)}</span>
-      </div>
+      {needsShipping && (
+        <div className="flex items-center justify-between">
+          <span>{t("shipping")}</span>
+          <span data-testid="order-shipping">{amount(order.shipping_total)}</span>
+        </div>
+      )}
       {order.tax_total > 0 && (
         <div className="flex items-center justify-between">
           <span>{t("taxes")}</span>

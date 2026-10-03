@@ -38,6 +38,21 @@ import Tenant from "./tenant";
  * directory answer 401 until the cabinet's user key rides along as
  * `X-User-Authorization`, so both are stored and the key is optional.
  *
+ * `tribute` is the shop's Tribute Shop API key, `{ api_key }` (t-cherk-22). ONE
+ * value: the same key authenticates `POST /shop/orders` (`Api-Key` header) and
+ * signs the webhook body (`trbt-signature`, HMAC-SHA256 of the raw body under
+ * this same key) — there is no separate webhook secret to store.
+ *
+ * `telegram` is the shop's OWN Telegram bot, `{ username, token }`
+ * (t-2026-10-02-telegram-auth). One bot per shop, the way the Login Widget and
+ * Mini App `initData` both need to be verified against: the bot token is the
+ * HMAC key for both. Read only by `src/modules/auth-telegram/services/telegram.ts`
+ * and the `/tenants/telegram-bot` self-service route; nothing here can send a
+ * message or call `setChatMenuButton` with it. This is a SEPARATE record from
+ * the legacy global Mini App bot at `store.metadata.telegramMiniApp`
+ * (`src/telegram/store-record.ts`), which stays where it is — see that task's
+ * report for why moving it was out of scope.
+ *
  * This list is not decoration — `model.enum` renders it as a CHECK constraint
  * on `provider`, so a slot absent here cannot hold a row at all. Measured on
  * the local stand 2026-09-16: an insert into `wildberries_write` died on
@@ -52,6 +67,8 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "cdek",
   "apiship",
   "pochta",
+  "tribute",
+  "telegram",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 

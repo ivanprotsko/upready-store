@@ -6,6 +6,7 @@ import {
 } from "@medusajs/framework/utils";
 import type { HttpTypes } from "@medusajs/framework/types";
 import { ROBOKASSA_PROVIDER_ID } from "../tenant/robokassa";
+import { TRIBUTE_PROVIDER_ID } from "../tenant/tribute";
 import { tenantPaymentMethodsFor } from "../tenant/payment-methods";
 import { offersSystemDefault } from "../../../tenant-secrets/payment-methods";
 
@@ -65,15 +66,19 @@ export const GET = async (
   const withRobokassa = providers.some((provider) => provider.id === ROBOKASSA_PROVIDER_ID);
   const hideRobokassa = withRobokassa && !methods.robokassa;
 
+  const withTribute = providers.some((provider) => provider.id === TRIBUTE_PROVIDER_ID);
+  const hideTribute = withTribute && !methods.tribute;
+
   const withSystemDefault = providers.some((provider) => provider.id === SYSTEM_DEFAULT_PROVIDER_ID);
   const hideSystemDefault = withSystemDefault && !offersSystemDefault(methods);
 
   const visible = providers.filter((provider) => {
     if (provider.id === ROBOKASSA_PROVIDER_ID && hideRobokassa) return false;
+    if (provider.id === TRIBUTE_PROVIDER_ID && hideTribute) return false;
     if (provider.id === SYSTEM_DEFAULT_PROVIDER_ID && hideSystemDefault) return false;
     return true;
   });
-  const hiddenCount = (hideRobokassa ? 1 : 0) + (hideSystemDefault ? 1 : 0);
+  const hiddenCount = (hideRobokassa ? 1 : 0) + (hideTribute ? 1 : 0) + (hideSystemDefault ? 1 : 0);
 
   res.json({
     payment_providers: visible,

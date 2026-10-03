@@ -166,6 +166,8 @@ import {
   PutTenantApishipKeySchema,
   PutTenantDeliverySettingsSchema,
   PutTenantPochtaSchema,
+  PutTenantTributeSchema,
+  PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
   PutTenantNotificationSettingsSchema,
@@ -200,6 +202,10 @@ import {
 // ---- t09-reviews: moderation body (tenant side) and the storefront's form.
 import { PostTenantReviewSchema } from "./tenants/reviews/validators";
 import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
+// ---- t-cherk-32: the wishlist's one write body (`DELETE` takes none).
+import { PostStoreWishlistSchema } from "./store/wishlist/validators";
+// ---- t-cherk-com-hotfix batch 5: the owner rejects a buyer's payment receipt.
+import { PostTenantRejectPaymentReceiptSchema } from "./tenants/orders/validators";
 // ---- o24-courses: course/lesson CRUD bodies (tenant side, panel editor).
 import {
   PostTenantCourseSchema,
@@ -239,7 +245,10 @@ import { PostAdminPlatformPricingSchema } from "../modules/platform-pricing/sche
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { requireOwnerPasswordLength } from "./auth/password-length-gate";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
+import { guardSyntheticTelegramEmail } from "./store/customers/synthetic-email-guard";
+import { resolveTelegramTenant } from "./auth/telegram-tenant";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
+import { injectTributeTenant } from "./store/tenant/tribute";
 import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
@@ -395,6 +404,28 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantPochtaSchema)],
     },
     {
+      // The shop's Tribute Shop API key (t-cherk-22).
+      matcher: "/tenants/tribute",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantTributeSchema)],
+    },
+    {
+      // Tribute's per-shop webhook (t-cherk-22): `trbt-signature` is an
+      // HMAC-SHA256 of the RAW body, so the exact bytes have to survive past
+      // JSON parsing (`req.rawBody`) — a re-serialization of the parsed object
+      // could differ in key order or whitespace and reject a genuine webhook.
+      matcher: "/tribute/webhook/:tenant",
+      method: ["POST"],
+      bodyParser: { preserveRawBody: true },
+      middlewares: [],
+    },
+    {
+      // The shop's own Telegram bot for buyer sign-in (t-2026-10-02-telegram-auth).
+      matcher: "/tenants/telegram-bot",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantTelegramBotSchema)],
+    },
+    {
       // The shop's payment account (t03-tenant-secrets-robokassa).
       matcher: "/tenants/payment-settings",
       method: ["PUT"],
@@ -428,11 +459,13 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantRequisitesSchema)],
     },
     {
-      // Robokassa needs the SERVER's word on which shop the cart belongs to;
-      // the client's `data.tenant_id`, if any, is overwritten (step 4 of the task).
+      // Robokassa and Tribute both need the SERVER's word on which shop the
+      // cart belongs to; the client's `data.tenant_id`, if any, is overwritten
+      // (step 4 of the task; t-cherk-22 for Tribute). Each middleware is a
+      // no-op unless `body.provider_id` is its own, so they compose cleanly.
       matcher: "/store/payment-collections/:id/payment-sessions",
       method: ["POST"],
-      middlewares: [injectRobokassaTenant],
+      middlewares: [injectRobokassaTenant, injectTributeTenant],
     },
     {
       // The shadowing route in `src/api/store/payment-providers/route.ts`
@@ -841,6 +874,15 @@ export default defineMiddlewares({
       middlewares: [
         validateAndTransformQuery(AdminGetOrdersOrderParams, retrieveOrderQueryConfig),
         validateAndTransformBody(AdminMarkOrderFulfillmentAsDelivered),
+      ],
+    },
+    {
+      // t-cherk-com-hotfix batch 5: answers the order, like `/cancel`.
+      matcher: "/tenants/orders/:id/payment-receipt/reject",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(PostTenantRejectPaymentReceiptSchema),
+        validateAndTransformQuery(AdminGetOrdersOrderParams, retrieveOrderQueryConfig),
       ],
     },
     {
@@ -1522,6 +1564,30 @@ export default defineMiddlewares({
       ],
     },
 
+    // ---- t-cherk-32: the wishlist. Every verb needs a customer behind the
+    // call — there is no guest server state, only the browser's own
+    // localStorage (merged in on sign-in, `lib/data/customer.ts` on the
+    // storefront) — so all three carry `authenticate("customer", …)` WITHOUT
+    // `allowUnauthenticated`.
+    {
+      matcher: "/store/wishlist",
+      method: ["GET"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
+      matcher: "/store/wishlist",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        validateAndTransformBody(PostStoreWishlistSchema),
+      ],
+    },
+    {
+      matcher: "/store/wishlist/:product_id",
+      method: ["DELETE"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+
     // ---- o24-courses: online courses. The tenant side rides the
     // "/tenants/*" authenticate above and needs a body schema for every write
     // verb. The storefront's course-page read allows an anonymous visitor
@@ -1556,6 +1622,12 @@ export default defineMiddlewares({
       matcher: "/store/tenant/courses",
       method: ["GET"],
       middlewares: [authenticate("customer", ["session", "bearer"], { allowUnauthenticated: true })],
+    },
+    {
+      // t-cherk-com-hotfix batch 3: the buyer's receipt for a card transfer, multipart like `/tenants/uploads`.
+      matcher: "/store/tenant/orders/:id/payment-receipt",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
     },
     {
       matcher: "/store/tenant/courses/mine",
@@ -1616,6 +1688,34 @@ export default defineMiddlewares({
       middlewares: [
         authenticate("customer", ["bearer"], { allowUnregistered: true }),
       ],
+    },
+
+    // ---- t-2026-10-02-telegram-auth. `/me/telegram-link`: a buyer already
+    // signed in by e-mail attaches Telegram as a second way in. The synthetic
+    // `tg_<id>@telegram.local` address is reserved for the Telegram identity
+    // with that id, on both legs that could otherwise claim it first.
+    {
+      matcher: "/store/customers/me/telegram-link",
+      method: ["POST"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
+      matcher: "/store/customers",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"], { allowUnregistered: true }),
+        guardSyntheticTelegramEmail,
+      ],
+    },
+    {
+      matcher: "/auth/customer/emailpass/register",
+      method: ["POST"],
+      middlewares: [guardSyntheticTelegramEmail],
+    },
+    {
+      matcher: "/auth/customer/telegram",
+      method: ["GET", "POST"],
+      middlewares: [resolveTelegramTenant],
     },
 
     // ---- b07-store-api-isolation: the Store API stops handing one shop's
