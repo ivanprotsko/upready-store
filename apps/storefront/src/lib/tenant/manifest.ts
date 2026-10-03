@@ -3,57 +3,55 @@ import type { TenantBranding } from "./branding"
 
 /**
  * The PWA manifest's own content, by host (t-2026-10-03-61). Split out of `app/manifest.ts` so it
- * is testable without `next/headers`: that file reads the request (branding, shop name, default
- * locale) and hands the plain values here.
+ * is testable without `next/headers`: that file reads the request (branding, shop name, locale)
+ * and hands the plain values here.
  */
 export type ManifestInput = {
   branding: TenantBranding
   shopName: string
-  defaultLocale: string
+  /** The shop's own default locale when it saved one, else the build's `defaultLocale`. */
+  locale: string
 }
 
-/** The W3C maskable-icon purpose, so the OS applies its own mask shape only to this one icon. */
-const MASKABLE_PURPOSE = "maskable" as const
+/** The build's own icon, for a shop with no icon set: the same file `app/icon.svg` serves. */
+const BUILD_ICON: NonNullable<MetadataRoute.Manifest["icons"]>[number] = {
+  src: "/icon.svg",
+  sizes: "any",
+  type: "image/svg+xml",
+}
 
-export const buildManifest = ({ branding, shopName, defaultLocale }: ManifestInput): MetadataRoute.Manifest => {
-  const icons = branding.app_icons
+export const buildManifest = ({ branding, shopName, locale }: ManifestInput): MetadataRoute.Manifest => {
+  const set = branding.app_icons
+  // The browser bar takes the brand colour; the splash screen sits behind the icon, so it takes
+  // the icon's own field. Each falls back to the other.
+  const themeColor = branding.primary_color ?? set?.background_color ?? null
+  const backgroundColor = set?.background_color ?? branding.primary_color ?? null
 
-  const manifest: MetadataRoute.Manifest = {
+  const icons: NonNullable<MetadataRoute.Manifest["icons"]> = []
+
+  if (set?.icon_192_url) {
+    icons.push({ src: set.icon_192_url, sizes: "192x192", type: "image/png", purpose: "any" })
+  }
+  if (set?.icon_512_url) {
+    icons.push({ src: set.icon_512_url, sizes: "512x512", type: "image/png", purpose: "any" })
+  }
+  if (set?.icon_maskable_512_url) {
+    icons.push({ src: set.icon_maskable_512_url, sizes: "512x512", type: "image/png", purpose: "maskable" })
+  }
+
+  return {
+    // A stable id, so the installed app stays the same app whichever locale `start_url` names.
+    id: "/",
     name: shopName,
     short_name: branding.shop_name_short ?? shopName,
-    // The owner's own default locale (`x-tenant-default-locale`), the same one the middleware
-    // sends a prefix-less request to (`src/middleware.ts`) — an installed app's first screen is
-    // never a redirect hop.
-    start_url: `/${defaultLocale}`,
+    lang: locale,
+    // The locale prefix up front: the middleware redirects a bare `/`, and an installed app
+    // should not open on a redirect.
+    start_url: `/${locale}`,
+    scope: "/",
     display: "standalone",
+    ...(themeColor ? { theme_color: themeColor } : {}),
+    ...(backgroundColor ? { background_color: backgroundColor } : {}),
+    icons: icons.length ? icons : [BUILD_ICON],
   }
-
-  if (branding.primary_color) {
-    manifest.theme_color = branding.primary_color
-    manifest.background_color = branding.primary_color
-  }
-
-  const iconList: NonNullable<MetadataRoute.Manifest["icons"]> = []
-
-  if (icons?.icon_192_url) {
-    iconList.push({ src: icons.icon_192_url, sizes: "192x192", type: "image/png" })
-  }
-  if (icons?.icon_512_url) {
-    iconList.push({ src: icons.icon_512_url, sizes: "512x512", type: "image/png" })
-  }
-  if (icons?.icon_maskable_512_url) {
-    iconList.push({
-      src: icons.icon_maskable_512_url,
-      sizes: "512x512",
-      type: "image/png",
-      purpose: MASKABLE_PURPOSE,
-    })
-  }
-
-  // No set at all (today's single-URL favicon, or no branding whatsoever): the build's own static
-  // `icon.svg` keeps the manifest from shipping with zero icons rather than naming one it does not
-  // know the owner wants resized.
-  manifest.icons = iconList.length > 0 ? iconList : [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml" }]
-
-  return manifest
 }

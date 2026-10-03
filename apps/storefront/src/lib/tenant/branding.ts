@@ -14,10 +14,11 @@ export type TenantFooterCredit = {
 }
 
 /**
- * The full app-icon set the backend builds from a `favicon` upload (t-2026-10-03-61,
+ * The app-icon set the backend builds from a `favicon` upload (t-2026-10-03-61,
  * `apps/backend/src/tenant-files/icon-set.ts`): every size a PWA, iOS, Android, Windows or macOS
- * install asks for. `null` for a tenant that never uploaded one (or uploaded before this task
- * shipped) — every consumer here falls back to `favicon_url` alone, today's behaviour.
+ * install asks for. `null` for a tenant that has not uploaded a favicon since; the storefront then
+ * falls back to `favicon_url` alone, as before. `background_color` is the field behind the opaque
+ * icons, used for the manifest and the Windows tile when the shop set no primary colour.
  */
 export type TenantAppIcons = {
   icon_svg_url: string | null
@@ -29,6 +30,7 @@ export type TenantAppIcons = {
   mstile_150_url: string | null
   mstile_310_url: string | null
   mask_icon_url: string | null
+  background_color: string | null
 }
 
 export type TenantBranding = {

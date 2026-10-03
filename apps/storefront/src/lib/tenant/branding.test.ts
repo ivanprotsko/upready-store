@@ -12,6 +12,7 @@ const FULL_APP_ICONS = {
   mstile_150_url: "https://cdn.example.com/mstile-150.png",
   mstile_310_url: "https://cdn.example.com/mstile-310.png",
   mask_icon_url: "https://cdn.example.com/mask-icon.svg",
+  background_color: "#0a6a52",
 }
 
 const FULL = {
