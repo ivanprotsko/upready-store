@@ -75,7 +75,7 @@ const ProfileTelegram = ({
         </div>
       )}
       {error && (
-        <p className="pt-3 text-rose-500" data-testid="telegram-link-error">
+        <p className="pt-3 text-ui-fg-error" data-testid="telegram-link-error">
           {t(ERROR_KEYS[error])}
         </p>
       )}
