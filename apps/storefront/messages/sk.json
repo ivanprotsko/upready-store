@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Platobná karta",
     "pp_system_default": "Ručná platba"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Kliknutím na «{button}» sa stávate zákazníkom predajcu {seller} a potvrdzujete, že ste sa oboznámili s <terms>podmienkami</terms> a <privacy>zásadami ochrany osobných údajov</privacy>.",
+    "redirect": "{kind, select, domain {Na zaplatenie budete presmerovaní na {value}.} telegram_bot {Na zaplatenie budete presmerovaní do telegramového bota {value}.} crypto_network {Na zaplatenie odošlete prevod do peňaženky v sieti {value}.} bank {Na zaplatenie prevediete sumu cez {value}.} other {}}",
+    "chargeWithAmount": "Suma bude zúčtovaná v {currency} podľa kurzu {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Suma bude zúčtovaná v {currency} podľa kurzu {rateSource} v čase platby.",
+    "chargeNoSource": "Suma bude zúčtovaná v {currency}.",
+    "refund": "Vrátenie peňazí: {terms}."
+  },
   "PaymentTest": {
     "attention": "Upozornenie:",
     "testingOnly": "Iba na testovacie účely."

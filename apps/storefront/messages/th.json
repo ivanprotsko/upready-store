@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "บัตรเครดิต",
     "pp_system_default": "ชำระเงินด้วยตนเอง"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "เมื่อคลิก «{button}» คุณจะเป็นลูกค้าของ {seller} และยืนยันว่าได้อ่าน<terms>ข้อกำหนด</terms>และ<privacy>นโยบายความเป็นส่วนตัว</privacy>แล้ว",
+    "redirect": "{kind, select, domain {ในการชำระเงิน ระบบจะพาคุณไปยัง {value}} telegram_bot {ในการชำระเงิน ระบบจะพาคุณไปยังบอท Telegram {value}} crypto_network {ในการชำระเงิน คุณจะโอนไปยังกระเป๋าบนเครือข่าย {value}} bank {ในการชำระเงิน คุณจะโอนยอดเงินผ่าน {value}} other {}}",
+    "chargeWithAmount": "ระบบจะเรียกเก็บเงินเป็น {currency} ตามอัตราแลกเปลี่ยนของ {rateSource} ≈ {amount}",
+    "chargeWithoutAmount": "ระบบจะเรียกเก็บเงินเป็น {currency} ตามอัตราแลกเปลี่ยนของ {rateSource} ณ เวลาชำระเงิน",
+    "chargeNoSource": "ระบบจะเรียกเก็บเงินเป็น {currency}",
+    "refund": "การคืนเงิน: {terms}"
+  },
   "PaymentTest": {
     "attention": "โปรดทราบ:",
     "testingOnly": "สำหรับการทดสอบเท่านั้น"

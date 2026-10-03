@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Karta płatnicza",
     "pp_system_default": "Płatność ręczna"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Klikając «{button}», stajesz się klientem sprzedawcy {seller} i potwierdzasz zapoznanie się z <terms>warunkami</terms> i <privacy>polityką prywatności</privacy>.",
+    "redirect": "{kind, select, domain {W celu płatności nastąpi przekierowanie na {value}.} telegram_bot {W celu płatności nastąpi przekierowanie do bota Telegram {value}.} crypto_network {W celu płatności wyślesz przelew na portfel w sieci {value}.} bank {W celu płatności przelejesz kwotę przez {value}.} other {}}",
+    "chargeWithAmount": "Kwota zostanie pobrana w {currency} po kursie {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Kwota zostanie pobrana w {currency} po kursie {rateSource} z chwili płatności.",
+    "chargeNoSource": "Kwota zostanie pobrana w {currency}.",
+    "refund": "Zwrot pieniędzy: {terms}."
+  },
   "PaymentTest": {
     "attention": "Uwaga:",
     "testingOnly": "Wyłącznie do celów testowych."

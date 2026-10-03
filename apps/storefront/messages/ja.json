@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "クレジットカード",
     "pp_system_default": "手動決済"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "「{button}」をクリックすることで、{seller} の顧客となり、<terms>販売条件</terms>および<privacy>プライバシーポリシー</privacy>を確認したものとします。",
+    "redirect": "{kind, select, domain {お支払いのため {value} に移動します。} telegram_bot {お支払いのため Telegram ボット {value} に移動します。} crypto_network {お支払いは {value} ネットワーク上のウォレットへの送金で行います。} bank {お支払いは {value} を通じた振込で行います。} other {}}",
+    "chargeWithAmount": "請求は {currency} で、{rateSource} のレートにより行われます（約 {amount}）。",
+    "chargeWithoutAmount": "請求は {currency} で、お支払い時点の {rateSource} のレートにより行われます。",
+    "chargeNoSource": "請求は {currency} で行われます。",
+    "refund": "返金：{terms}。"
+  },
   "PaymentTest": {
     "attention": "注意：",
     "testingOnly": "テスト目的のみでご使用ください。"

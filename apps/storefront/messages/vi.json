@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Thẻ tín dụng",
     "pp_system_default": "Thanh toán thủ công"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Bằng cách nhấn «{button}», bạn trở thành khách hàng của {seller} và xác nhận đã đọc <terms>điều khoản</terms> và <privacy>chính sách bảo mật</privacy>.",
+    "redirect": "{kind, select, domain {Để thanh toán, bạn sẽ được chuyển đến {value}.} telegram_bot {Để thanh toán, bạn sẽ được chuyển đến bot Telegram {value}.} crypto_network {Để thanh toán, bạn sẽ gửi khoản chuyển đến một ví trên mạng {value}.} bank {Để thanh toán, bạn sẽ chuyển số tiền qua {value}.} other {}}",
+    "chargeWithAmount": "Khoản thanh toán sẽ được tính bằng {currency} theo tỷ giá của {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Khoản thanh toán sẽ được tính bằng {currency} theo tỷ giá của {rateSource} tại thời điểm thanh toán.",
+    "chargeNoSource": "Khoản thanh toán sẽ được tính bằng {currency}.",
+    "refund": "Hoàn tiền: {terms}."
+  },
   "PaymentTest": {
     "attention": "Lưu ý:",
     "testingOnly": "Chỉ dùng cho mục đích thử nghiệm."

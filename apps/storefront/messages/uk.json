@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Банківська картка",
     "pp_system_default": "Оплата вручну"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Натискаючи «{button}», ви стаєте клієнтом {seller} і підтверджуєте, що ознайомилися з <terms>офертою</terms> та <privacy>політикою конфіденційності</privacy>.",
+    "redirect": "{kind, select, domain {Для оплати вас буде перенаправлено на {value}.} telegram_bot {Для оплати вас буде перенаправлено в Telegram-бот {value}.} crypto_network {Для оплати ви надішлете переказ на гаманець у мережі {value}.} bank {Для оплати ви переведете кошти через {value}.} other {}}",
+    "chargeWithAmount": "Суму буде списано в {currency} за курсом {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Суму буде списано в {currency} за курсом {rateSource} на момент оплати.",
+    "chargeNoSource": "Суму буде списано в {currency}.",
+    "refund": "Повернення коштів: {terms}."
+  },
   "PaymentTest": {
     "attention": "Увага:",
     "testingOnly": "Лише для тестування."

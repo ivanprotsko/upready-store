@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Luottokortti",
     "pp_system_default": "Manuaalinen maksu"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Klikkaamalla «{button}» sinusta tulee myyjän {seller} asiakas ja vahvistat lukeneesi <terms>ehdot</terms> ja <privacy>tietosuojakäytännön</privacy>.",
+    "redirect": "{kind, select, domain {Maksua varten sinut ohjataan osoitteeseen {value}.} telegram_bot {Maksua varten sinut ohjataan Telegram-bottiin {value}.} crypto_network {Maksua varten lähetät siirron lompakkoon verkossa {value}.} bank {Maksua varten siirrät summan palvelun {value} kautta.} other {}}",
+    "chargeWithAmount": "Veloitus tehdään valuutassa {currency} kurssilla {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Veloitus tehdään valuutassa {currency} kurssilla {rateSource} maksuhetkellä.",
+    "chargeNoSource": "Veloitus tehdään valuutassa {currency}.",
+    "refund": "Hyvitys: {terms}."
+  },
   "PaymentTest": {
     "attention": "Huomio:",
     "testingOnly": "Vain testauskäyttöön."

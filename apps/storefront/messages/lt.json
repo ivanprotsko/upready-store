@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Kredito kortelė",
     "pp_system_default": "Rankinis mokėjimas"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Spausdami „{button}“, jūs tampate pardavėjo {seller} klientu ir patvirtinate, kad susipažinote su <terms>sąlygomis</terms> ir <privacy>privatumo politika</privacy>.",
+    "redirect": "{kind, select, domain {Norėdami sumokėti, būsite nukreipti į {value}.} telegram_bot {Norėdami sumokėti, būsite nukreipti į Telegram botą {value}.} crypto_network {Norėdami sumokėti, pervedimą siųsite į piniginę tinkle {value}.} bank {Norėdami sumokėti, sumą pervesite per {value}.} other {}}",
+    "chargeWithAmount": "Suma bus nuskaičiuota valiuta {currency} pagal {rateSource} kursą, ≈ {amount}.",
+    "chargeWithoutAmount": "Suma bus nuskaičiuota valiuta {currency} pagal {rateSource} kursą mokėjimo metu.",
+    "chargeNoSource": "Suma bus nuskaičiuota valiuta {currency}.",
+    "refund": "Pinigų grąžinimas: {terms}."
+  },
   "PaymentTest": {
     "attention": "Dėmesio:",
     "testingOnly": "Tik testavimo tikslais."

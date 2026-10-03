@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Carte bancaire",
     "pp_system_default": "Paiement manuel"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "En cliquant sur « {button} », vous devenez client de {seller} et confirmez avoir pris connaissance des <terms>conditions</terms> et de la <privacy>politique de confidentialité</privacy>.",
+    "redirect": "{kind, select, domain {Pour payer, vous serez redirigé vers {value}.} telegram_bot {Pour payer, vous serez redirigé vers le bot Telegram {value}.} crypto_network {Pour payer, vous enverrez le virement vers un portefeuille sur le réseau {value}.} bank {Pour payer, vous transférerez le montant via {value}.} other {}}",
+    "chargeWithAmount": "Le débit sera effectué en {currency}, au taux de {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Le débit sera effectué en {currency}, au taux de {rateSource} au moment du paiement.",
+    "chargeNoSource": "Le débit sera effectué en {currency}.",
+    "refund": "Remboursement : {terms}."
+  },
   "PaymentTest": {
     "attention": "Attention :",
     "testingOnly": "À des fins de test uniquement."

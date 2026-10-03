@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "신용카드",
     "pp_system_default": "수동 결제"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "«{button}» 버튼을 클릭하면 {seller}의 고객이 되며, <terms>약관</terms> 및 <privacy>개인정보 처리방침</privacy>을 확인한 것으로 간주됩니다.",
+    "redirect": "{kind, select, domain {결제를 위해 {value}(으)로 이동합니다.} telegram_bot {결제를 위해 Telegram 봇 {value}(으)로 이동합니다.} crypto_network {결제를 위해 {value} 네트워크의 지갑으로 송금합니다.} bank {결제를 위해 {value}을(를) 통해 금액을 이체합니다.} other {}}",
+    "chargeWithAmount": "결제 금액은 {rateSource} 환율 기준 {currency}(으)로 청구됩니다(≈ {amount}).",
+    "chargeWithoutAmount": "결제 금액은 결제 시점의 {rateSource} 환율 기준 {currency}(으)로 청구됩니다.",
+    "chargeNoSource": "결제 금액은 {currency}(으)로 청구됩니다.",
+    "refund": "환불: {terms}."
+  },
   "PaymentTest": {
     "attention": "주의:",
     "testingOnly": "테스트 용도로만 사용하세요."

@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Betalkort",
     "pp_system_default": "Manuell betalning"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Genom att klicka på ”{button}” blir du kund hos {seller} och bekräftar att du har läst <terms>villkoren</terms> och <privacy>integritetspolicyn</privacy>.",
+    "redirect": "{kind, select, domain {För att betala skickas du vidare till {value}.} telegram_bot {För att betala skickas du vidare till Telegram-boten {value}.} crypto_network {För att betala skickar du överföringen till en plånbok på nätverket {value}.} bank {För att betala överför du beloppet via {value}.} other {}}",
+    "chargeWithAmount": "Beloppet debiteras i {currency} enligt kursen från {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Beloppet debiteras i {currency} enligt kursen från {rateSource} vid betalningstillfället.",
+    "chargeNoSource": "Beloppet debiteras i {currency}.",
+    "refund": "Återbetalning: {terms}."
+  },
   "PaymentTest": {
     "attention": "Observera:",
     "testingOnly": "Endast för teständamål."

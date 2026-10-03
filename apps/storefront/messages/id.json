@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "Kartu kredit",
     "pp_system_default": "Pembayaran manual"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "Dengan mengklik «{button}», Anda menjadi pelanggan {seller} dan menyatakan telah membaca <terms>syarat</terms> serta <privacy>kebijakan privasi</privacy>.",
+    "redirect": "{kind, select, domain {Untuk membayar, Anda akan diarahkan ke {value}.} telegram_bot {Untuk membayar, Anda akan diarahkan ke bot Telegram {value}.} crypto_network {Untuk membayar, Anda akan mengirim transfer ke dompet di jaringan {value}.} bank {Untuk membayar, Anda akan mentransfer jumlahnya melalui {value}.} other {}}",
+    "chargeWithAmount": "Tagihan dikenakan dalam {currency} dengan kurs {rateSource}, ≈ {amount}.",
+    "chargeWithoutAmount": "Tagihan dikenakan dalam {currency} dengan kurs {rateSource} pada saat pembayaran.",
+    "chargeNoSource": "Tagihan dikenakan dalam {currency}.",
+    "refund": "Pengembalian dana: {terms}."
+  },
   "PaymentTest": {
     "attention": "Perhatian:",
     "testingOnly": "Hanya untuk keperluan pengujian."

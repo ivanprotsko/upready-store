@@ -875,6 +875,14 @@
     "pp_stripe_stripe": "信用卡",
     "pp_system_default": "手动付款"
   },
+  "PaymentPreNotice": {
+    "becomesClient": "点击「{button}」即表示您成为 {seller} 的客户，并确认已阅读<terms>条款</terms>和<privacy>隐私政策</privacy>。",
+    "redirect": "{kind, select, domain {付款时，您将被跳转至 {value}。} telegram_bot {付款时，您将被跳转至 Telegram 机器人 {value}。} crypto_network {付款时，您需将款项转入 {value} 网络上的钱包。} bank {付款时，您需通过 {value} 转账。} other {}}",
+    "chargeWithAmount": "将以 {currency} 扣款，按 {rateSource} 汇率计算，约 {amount}。",
+    "chargeWithoutAmount": "将以 {currency} 扣款，按付款时 {rateSource} 的汇率计算。",
+    "chargeNoSource": "将以 {currency} 扣款。",
+    "refund": "退款：{terms}。"
+  },
   "PaymentTest": {
     "attention": "注意：",
     "testingOnly": "仅供测试使用。"
