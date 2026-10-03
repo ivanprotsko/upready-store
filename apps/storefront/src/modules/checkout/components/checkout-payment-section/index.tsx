@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, type ReactNode } from "react"
 import { initiatePaymentSession } from "@lib/data/cart"
-import { getChargeEstimate } from "@lib/data/payment"
+import { getChargeConversionFactor } from "@lib/data/payment"
 import {
   buildPaymentSessionData,
   isManual,
@@ -311,18 +311,23 @@ export default function CheckoutPaymentSection({
     !!activePreNoticeEntry.rateSource &&
     estimateCurrency !== cart.currency_code.trim().toLowerCase()
 
-  const [chargeEstimate, setChargeEstimate] = useState<number | null>(null)
+  // The backend hands back a CONVERSION FACTOR, not an amount (lead review,
+  // t-2026-10-03-32): `cart.total` already has shipping, discounts and tax
+  // folded in, the same number `CheckoutTotals` renders, so multiplying it
+  // here is the real charge estimate — summing line items on the backend
+  // was the first version's bug, it skipped all three.
+  const [chargeFactor, setChargeFactor] = useState<number | null>(null)
 
   useEffect(() => {
     if (!needsChargeEstimate || !estimateCurrency) {
-      setChargeEstimate(null)
+      setChargeFactor(null)
       return
     }
 
     let stillActive = true
-    getChargeEstimate(cart.id, estimateCurrency).then((amount) => {
+    getChargeConversionFactor(cart.id, estimateCurrency).then((factor) => {
       if (stillActive) {
-        setChargeEstimate(amount)
+        setChargeFactor(factor)
       }
     })
 
@@ -330,6 +335,8 @@ export default function CheckoutPaymentSection({
       stillActive = false
     }
   }, [needsChargeEstimate, estimateCurrency, cart.id])
+
+  const chargeEstimate = chargeFactor !== null ? Math.round(cart.total * chargeFactor * 100) / 100 : null
 
   const buttonText = manualKind && isManual(selectedPaymentMethod) ? tb("placeOrderManual") : tb("placeOrder")
 

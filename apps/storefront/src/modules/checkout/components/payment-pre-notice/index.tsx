@@ -11,7 +11,7 @@ type Props = {
   buttonText: string
   seller: string
   legal: LegalLinkContext
-  /** From `getChargeEstimate`, re-fetched whenever the charge currency changes; `null` while unknown or unreliable. */
+  /** `cart.total * getChargeConversionFactor(...)`, re-fetched whenever the charge currency changes; `null` while unknown or unreliable. */
   amount: number | null
 }
 

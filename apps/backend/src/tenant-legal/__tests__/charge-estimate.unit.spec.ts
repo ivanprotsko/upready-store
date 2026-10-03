@@ -1,58 +1,58 @@
-import { estimateChargeAmount } from "../charge-estimate";
+import { chargeConversionFactor } from "../charge-estimate";
 
-const line = (variant_id: string | null, unit_price: number, quantity = 1) => ({
-  variant_id,
-  unit_price,
-  quantity,
-});
+const line = (variant_id: string | null) => ({ variant_id });
 
-describe("estimateChargeAmount", () => {
-  it("converts using the stamped rate (RUB per unit of the target currency)", () => {
-    const amount = estimateChargeAmount(
-      [line("v1", 9500, 1)],
+describe("chargeConversionFactor", () => {
+  it("converts RUB cart total into a foreign charge currency (factor = 1 / rate)", () => {
+    const factor = chargeConversionFactor(
+      [line("v1")],
       [{ id: "v1", metadata: { script_prices: { usd: { rate: 95 } } } }],
       "rub",
       "usd",
     );
-    expect(amount).toBe(100);
+    expect(factor).toBe(1 / 95);
+    expect(9500 * (factor as number)).toBe(100);
   });
 
-  it("sums several lines before converting", () => {
-    const amount = estimateChargeAmount(
-      [line("v1", 9500, 2), line("v2", 4750, 1)],
-      [
-        { id: "v1", metadata: { script_prices: { usd: { rate: 95 } } } },
-        { id: "v2", metadata: { script_prices: { usd: { rate: 95 } } } },
-      ],
-      "rub",
-      "usd",
-    );
-    expect(amount).toBe(250);
-  });
-
-  it("returns null when the cart is not priced in RUB", () => {
-    const amount = estimateChargeAmount(
-      [line("v1", 100, 1)],
+  it("converts a foreign-currency cart total into a RUB charge (factor = rate) — the main acceptance case: cherkashino.com (USD) paying through Robokassa (RUB)", () => {
+    const factor = chargeConversionFactor(
+      [line("v1")],
       [{ id: "v1", metadata: { script_prices: { usd: { rate: 95 } } } }],
       "usd",
-      "usd",
+      "rub",
     );
-    expect(amount).toBeNull();
+    expect(factor).toBe(95);
+    expect(100 * (factor as number)).toBe(9500);
+  });
+
+  it("returns null when neither side is RUB", () => {
+    const factor = chargeConversionFactor(
+      [line("v1")],
+      [{ id: "v1", metadata: { script_prices: { usd: { rate: 95 }, eur: { rate: 100 } } } }],
+      "usd",
+      "eur",
+    );
+    expect(factor).toBeNull();
+  });
+
+  it("returns null when the cart and target currency are the same", () => {
+    const factor = chargeConversionFactor(
+      [line("v1")],
+      [{ id: "v1", metadata: { script_prices: { rub: { rate: 1 } } } }],
+      "rub",
+      "rub",
+    );
+    expect(factor).toBeNull();
   });
 
   it("returns null when no line carries a usable stamp", () => {
-    const amount = estimateChargeAmount(
-      [line("v1", 9500, 1)],
-      [{ id: "v1", metadata: null }],
-      "rub",
-      "usd",
-    );
-    expect(amount).toBeNull();
+    const factor = chargeConversionFactor([line("v1")], [{ id: "v1", metadata: null }], "rub", "usd");
+    expect(factor).toBeNull();
   });
 
   it("returns null when the lines disagree on the rate", () => {
-    const amount = estimateChargeAmount(
-      [line("v1", 9500, 1), line("v2", 9500, 1)],
+    const factor = chargeConversionFactor(
+      [line("v1"), line("v2")],
       [
         { id: "v1", metadata: { script_prices: { usd: { rate: 95 } } } },
         { id: "v2", metadata: { script_prices: { usd: { rate: 90 } } } },
@@ -60,23 +60,34 @@ describe("estimateChargeAmount", () => {
       "rub",
       "usd",
     );
-    expect(amount).toBeNull();
+    expect(factor).toBeNull();
   });
 
-  it("ignores a line with no variant id", () => {
-    const amount = estimateChargeAmount(
-      [line(null, 500, 1), line("v1", 9500, 1)],
-      [{ id: "v1", metadata: { script_prices: { usd: { rate: 95 } } } }],
-      "rub",
+  it("returns null when the lines disagree on the rate, RUB-target direction too", () => {
+    const factor = chargeConversionFactor(
+      [line("v1"), line("v2")],
+      [
+        { id: "v1", metadata: { script_prices: { usd: { rate: 95 } } } },
+        { id: "v2", metadata: { script_prices: { usd: { rate: 90 } } } },
+      ],
       "usd",
+      "rub",
     );
-    // The giftcard-less line with no variant contributes to the subtotal but
-    // not to rate discovery; one usable stamp is enough to convert the whole total.
-    expect(amount).toBe(Math.round((500 + 9500) / 95 * 100) / 100);
+    expect(factor).toBeNull();
+  });
+
+  it("ignores a line with no variant id, one usable stamp is enough", () => {
+    const factor = chargeConversionFactor(
+      [line(null), line("v1")],
+      [{ id: "v1", metadata: { script_prices: { usd: { rate: 95 } } } }],
+      "usd",
+      "rub",
+    );
+    expect(factor).toBe(95);
   });
 
   it("never invents a rate when none is stamped", () => {
-    const amount = estimateChargeAmount([line("v1", 9500, 1)], [], "rub", "usd");
-    expect(amount).toBeNull();
+    const factor = chargeConversionFactor([line("v1")], [], "rub", "usd");
+    expect(factor).toBeNull();
   });
 });
