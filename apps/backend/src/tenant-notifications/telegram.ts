@@ -33,12 +33,15 @@ export const deepLinkFor = (code: string, env: NodeJS.ProcessEnv = process.env):
 export class TelegramSendError extends Error {
   readonly code: number;
   readonly description: string;
+  /** Telegram's own wait, in seconds, from a 429's `parameters.retry_after`. `null` on every other error. */
+  readonly retryAfterSec: number | null;
 
-  constructor(code: number, description: string) {
+  constructor(code: number, description: string, retryAfterSec: number | null = null) {
     super(`sendMessage: ${code} ${description}`);
     this.name = "TelegramSendError";
     this.code = code;
     this.description = description;
+    this.retryAfterSec = retryAfterSec;
   }
 }
 
@@ -71,12 +74,14 @@ export const sendTelegramMessage = async (
     result?: SentMessage;
     error_code?: number;
     description?: string;
+    parameters?: { retry_after?: number };
   };
 
   if (!payload.ok || !payload.result) {
     throw new TelegramSendError(
       payload.error_code ?? response.status,
       payload.description ?? "unknown error",
+      typeof payload.parameters?.retry_after === "number" ? payload.parameters.retry_after : null,
     );
   }
 
