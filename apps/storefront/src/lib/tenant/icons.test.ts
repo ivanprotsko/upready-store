@@ -14,6 +14,7 @@ const APP_ICONS: TenantAppIcons = {
   mstile_310_url: "https://cdn.example.com/mstile-310.png",
   mask_icon_url: "https://cdn.example.com/mask-icon.svg",
   background_color: "#0a6a52",
+  mark_color: "#ffffff",
 }
 
 describe("buildIconMetadata", () => {
@@ -41,6 +42,18 @@ describe("buildIconMetadata", () => {
       "msapplication-square150x150logo": APP_ICONS.mstile_150_url,
       "msapplication-square310x310logo": APP_ICONS.mstile_310_url,
     })
+  })
+
+  it("colours the mask-icon with the darker of field and mark for a white-field icon", () => {
+    const branding: TenantBranding = {
+      ...EMPTY_BRANDING,
+      app_icons: { ...APP_ICONS, background_color: "#ffffff", mark_color: "#1a1b09" },
+    }
+
+    expect(buildIconMetadata(branding).icons).toMatchObject({
+      other: [{ rel: "mask-icon", color: "#1a1b09" }],
+    })
+    expect(buildIconMetadata(branding).other).toMatchObject({ "msapplication-TileColor": "#ffffff" })
   })
 
   it("colours the mask-icon with the primary colour when the shop set one", () => {

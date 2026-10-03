@@ -14,6 +14,7 @@ const APP_ICONS: TenantAppIcons = {
   mstile_310_url: "https://cdn.example.com/mstile-310.png",
   mask_icon_url: "https://cdn.example.com/mask-icon.svg",
   background_color: "#0a6a52",
+  mark_color: "#ffffff",
 }
 
 describe("buildManifest", () => {

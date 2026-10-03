@@ -16,6 +16,23 @@ import type { TenantBranding } from "./branding"
  */
 export type IconMetadata = Pick<Metadata, "icons" | "other">
 
+const luminance = (hex: string): number => {
+  const [r, g, b] = [1, 3, 5].map((index) => {
+    const channel = parseInt(hex.slice(index, index + 2), 16) / 255
+    return channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+  })
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b
+}
+
+/** Safari paints the pinned-tab silhouette on a light tab bar, so it takes the darker of the
+ * icon's field and mark: the green field of a white «Ч», the dark mark of a white-field one. */
+const pinnedTabColor = (field: string | null, mark: string | null): string | null => {
+  if (field && mark) {
+    return luminance(field) <= luminance(mark) ? field : mark
+  }
+  return field ?? mark
+}
+
 export const buildIconMetadata = (branding: TenantBranding): IconMetadata => {
   const set = branding.app_icons
 
@@ -52,7 +69,7 @@ export const buildIconMetadata = (branding: TenantBranding): IconMetadata => {
             {
               rel: "mask-icon",
               url: set.mask_icon_url,
-              color: branding.primary_color ?? set.background_color ?? "#000000",
+              color: branding.primary_color ?? pinnedTabColor(set.background_color, set.mark_color) ?? "#000000",
             },
           ]
         : [],
