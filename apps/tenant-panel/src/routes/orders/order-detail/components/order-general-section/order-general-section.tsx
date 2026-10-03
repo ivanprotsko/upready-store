@@ -14,6 +14,8 @@ import {
   getCanceledOrderStatus,
   getOrderFulfillmentStatus,
   getOrderPaymentStatus,
+  isOrderWithoutParcel,
+  manualPaymentStatus,
 } from "../../../../../lib/order-helpers"
 import { ExtendedOrder } from "../../constants"
 import { useCancelOrderPrompt } from "../../hooks/use-cancel-order-prompt"
@@ -79,6 +81,16 @@ const FulfillmentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
     return null
   }
 
+  // t-cherk-com-hotfix batch 5: an order of online courses only has nothing
+  // to pack, so «Ждёт сборки» would ask her to pack air.
+  if (isOrderWithoutParcel(order)) {
+    return (
+      <StatusBadge color="grey" className="text-nowrap">
+        {t("orders.fulfillment.notNeeded")}
+      </StatusBadge>
+    )
+  }
+
   const { label, color } = getOrderFulfillmentStatus(
     t,
     order.fulfillment_status
@@ -94,7 +106,7 @@ const FulfillmentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
 const PaymentBadge = ({ order }: { order: HttpTypes.AdminOrder }) => {
   const { t } = useTranslation()
 
-  const { label, color } = getOrderPaymentStatus(t, order.payment_status)
+  const { label, color } = manualPaymentStatus(t, order) ?? getOrderPaymentStatus(t, order.payment_status)
 
   return (
     <StatusBadge color={color} className="text-nowrap">

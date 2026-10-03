@@ -103,7 +103,7 @@ export default async function ProductCard({
           productId={product.id}
           initialActive={wishlistProductIds.includes(product.id)}
           isLoggedIn={wishlistLoggedIn}
-          className="absolute end-2 top-2 z-10 inline-flex items-center justify-center rounded-full bg-ui-bg-base/80 p-1.5 text-ui-fg-subtle shadow-elevation-card-rest transition-colors hover:text-ui-fg-base disabled:opacity-60"
+          className="absolute end-2 top-2 z-10 inline-flex items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--ui-bg-base)_80%,transparent)] p-1.5 text-ui-fg-subtle shadow-elevation-card-rest transition-colors hover:text-ui-fg-base disabled:opacity-60"
         />
         {onSale && cheapestPrice?.percentage_diff ? (
           <span

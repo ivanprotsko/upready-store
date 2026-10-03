@@ -24,10 +24,8 @@ const srcDir = path.join(storefrontRoot, "src")
 // added this gate. Remove the entry together with the fix.
 export const ALLOWED = [
   ...[
-    "src/modules/checkout/components/manual-payment-instructions/index.tsx",
     "src/modules/checkout/components/checkout-shipping-section/index.tsx",
     "src/modules/checkout/components/checkout-payment-section/index.tsx",
-    "src/modules/checkout/components/manual-payment-kind-select/index.tsx",
   ].map((file) => ({
     file,
     token: "hover:border-ui-border-interactive/50",

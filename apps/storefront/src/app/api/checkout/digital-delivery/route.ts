@@ -24,9 +24,13 @@ export async function GET(req: NextRequest) {
   const origin = host ? `${proto}://${host}` : req.nextUrl.origin
 
   const cart = await retrieveCart()
-  if (cart) {
-    await ensureDigitalDelivery(cart)
-  }
+  const after = cart ? await ensureDigitalDelivery(cart) : null
 
-  return NextResponse.redirect(`${origin}/${locale}/checkout`)
+  // Nothing attached (no digital option on this shop, or the cart still ships
+  // something): say so in the URL, or the page would send the buyer straight back
+  // here — the redirect loop of batch 6 / hotfix Plan B.
+  const attached = (after?.shipping_methods?.length ?? 0) > 0
+  return NextResponse.redirect(
+    `${origin}/${locale}/checkout${attached ? "" : "?digital=skipped"}`
+  )
 }

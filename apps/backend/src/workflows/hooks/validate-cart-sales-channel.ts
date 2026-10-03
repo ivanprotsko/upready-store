@@ -1,6 +1,7 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { addToCartWorkflow, createCartWorkflow } from "@medusajs/medusa/core-flows";
+import { assertCourseQuantityOnAdd } from "./validate-cart-course-quantity";
 
 /**
  * A cart may only hold variants of products sold in its own sales channel.
@@ -26,6 +27,10 @@ import { addToCartWorkflow, createCartWorkflow } from "@medusajs/medusa/core-flo
  *
  * A cart without a sales channel (no publishable key in play) is out of scope:
  * nothing then says which catalog it belongs to.
+ *
+ * The same two handlers also hold an online course to one per cart
+ * (`validate-cart-course-quantity.ts`, t-cherk-com-hotfix batch 5): Medusa
+ * accepts a single handler per hook.
  */
 export type CartLike = {
   sales_channel_id?: string | null;
@@ -69,6 +74,7 @@ export const assertVariantsSoldInSalesChannel = async (
 createCartWorkflow.hooks.validate(async ({ cart }, { container }) => {
   const draft = cart as unknown as CartLike;
   await assertVariantsSoldInSalesChannel(container, draft.sales_channel_id, variantIdsOf(draft.items));
+  await assertCourseQuantityOnAdd(container, null, draft.items);
 });
 
 addToCartWorkflow.hooks.validate(async ({ input, cart }, { container }) => {
@@ -77,4 +83,5 @@ addToCartWorkflow.hooks.validate(async ({ input, cart }, { container }) => {
     (cart as CartLike).sales_channel_id,
     variantIdsOf(input.items),
   );
+  await assertCourseQuantityOnAdd(container, input.cart_id, input.items);
 });

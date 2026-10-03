@@ -3,8 +3,10 @@
 import { useState } from "react"
 import { updateLineItem } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
+import { isNoDeliveryLine } from "@lib/util/shipping-address"
+import { Badge } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import DeleteButton from "@modules/common/components/delete-button"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { Link } from "@i18n/navigation"
@@ -21,6 +23,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
   const [updating, setUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const locale = useLocale()
+  const tShip = useTranslations("Shipments")
 
   const imageUrl =
     item.thumbnail || item.variant?.product?.images?.[0]?.url || null
@@ -37,8 +40,15 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
     locale,
   })
 
-  const variantTitle = item.variant?.title
-  const maxQty = 10
+  // The variant line only when it says something the title does not (today a
+  // single-variant product printed its own name twice).
+  const variantTitle =
+    item.variant?.title && item.variant.title.trim().toLowerCase() !== (item.product_title ?? "").trim().toLowerCase()
+      ? item.variant.title
+      : null
+  // Batch 6, Q3.5: a course is bought once — no «+» beyond 1 for a no-delivery line.
+  const noDelivery = isNoDeliveryLine(item)
+  const maxQty = noDelivery ? 1 : 10
 
   const changeQuantity = async (quantity: number) => {
     setError(null)
@@ -111,9 +121,13 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
           >
             {item.product_title}
           </span>
-          {variantTitle && (
+          {noDelivery ? (
+            <Badge size="xsmall" color="blue" className="w-fit" data-testid="line-no-delivery-badge">
+              {tShip("noDeliveryBadge")}
+            </Badge>
+          ) : variantTitle ? (
             <span className="txt-medium text-ui-fg-subtle">{variantTitle}</span>
-          )}
+          ) : null}
           <div className="flex items-end h-[22.4px]">
             <DeleteButton id={item.id} data-testid="product-delete-button" />
           </div>

@@ -78,14 +78,6 @@
     "exploreProducts": "Jelajahi produk",
     "heading": "Keranjang"
   },
-  "CartDropdown": {
-    "bagEmpty": "Keranjang belanja Anda kosong.",
-    "exploreProducts": "Jelajahi produk",
-    "goToCart": "Lihat keranjang",
-    "heading": "Keranjang",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(belum termasuk pajak)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Terjadi kesalahan saat kami mencoba mentransfer keranjang Anda",
     "runTransferAgain": "Coba transfer lagi",
@@ -155,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Kartu Hadiah",
     "itemsCount": "{count, plural, other {{count} barang}}",
-    "legal": "Dengan mengklik «Bayar», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta menyetujui <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
+    "legal": "Dengan mengklik «{button}», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta menyetujui <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapi kolom alamat yang wajib diisi: {fields}.",
     "provinceRequired": "Pilih wilayah dari daftar.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dihitung",
     "signIn": "Masuk",
     "total": "Total",
-    "shippingZone": "Zona: {zone}"
+    "shippingZone": "Zona: {zone}",
+    "courseSignInHeading": "Masuk untuk membeli kursus",
+    "courseSignInText": "Kursus dibuka di akun Anda, jadi pembelian memerlukan masuk atau pendaftaran.",
+    "fieldRequired": "Isi kolom ini",
+    "emailInvalid": "Periksa email: alamatnya salah",
+    "signInHeading": "Masuk untuk membuat pesanan",
+    "signInText": "Pesanan akan muncul di akun Anda: di sana ada rincian pembayaran, status, dan kursus yang dibeli. Masuk atau mendaftar hanya butuh satu menit, keranjang tetap tersimpan."
   },
   "ClaimOrders": {
     "heading": "Memesan tanpa akun?",
@@ -340,7 +338,10 @@
     "empty": "Anda belum membeli kursus apa pun.",
     "start": "Mulai",
     "continue": "Lanjutkan",
-    "review": "Tinjau ulang"
+    "review": "Tinjau ulang",
+    "pendingHeading": "Menunggu pembayaran",
+    "pendingHint": "Akses terbuka setelah toko mengonfirmasi pembayaran.",
+    "toOrder": "{order} — bayar"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Belum jadi anggota?",
     "password": "Kata sandi",
     "signIn": "Masuk",
+    "telegramDivider": "atau",
+    "telegramCta": "Masuk dengan Telegram",
+    "telegramPending": "Sedang masuk…",
+    "telegramErrorExpired": "Proses masuk dengan Telegram ini sudah kedaluwarsa. Silakan mulai lagi.",
+    "telegramErrorFailed": "Gagal masuk. Silakan coba lagi dalam satu menit.",
+    "telegramErrorRejected": "Telegram tidak mengonfirmasi proses masuk ini. Silakan coba lagi.",
+    "telegramErrorUnconfigured": "Masuk dengan Telegram belum diaktifkan di toko ini.",
     "yandexCta": "Masuk dengan Yandex ID",
     "yandexDivider": "atau",
     "yandexErrorDenied": "Anda membatalkan proses masuk di halaman Yandex.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Salin nomor kartu {bank}",
+    "cardHolder": "Penerima: {holder}",
+    "cardsDesc": "Transfer total pesanan ke kartu toko.",
+    "cardsHint": "Transfer {total} ke salah satu kartu di bawah.",
+    "cardsManagerFallback": "Jika ada kendala, hubungi manajer:",
+    "cardsTitle": "Transfer ke kartu",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Pesanan #{orderNumber} telah diterima dan dipesan. Transfer {total} ke salah satu kartu di bawah. Setelah toko mengonfirmasi pembayaran, pesanan akan berstatus «Dibayar».",
+    "handoverCardsMessage": "Halo! Saya ada pertanyaan tentang pembayaran pesanan #{orderNumber} senilai {total} melalui transfer ke kartu.",
+    "handoverCardsTitle": "Transfer pembayaran ke kartu",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Bukti tidak dapat dikirim. Coba lagi atau hubungi manajer.",
+    "receiptHint": "Foto atau tangkapan layar transfer (JPG, PNG, WEBP, HEIC) atau PDF, maksimal 10 MB.",
+    "receiptLabel": "Bukti pembayaran",
+    "receiptPaid": "Saya sudah bayar",
+    "receiptSent": "Bukti terkirim, menunggu konfirmasi",
+    "receiptSentHint": "Toko akan memeriksa transfer dan mengonfirmasi pembayaran, setelah itu pesanan akan berstatus «Dibayar».",
+    "receiptSubmit": "Kirim bukti",
+    "receiptTooLarge": "Ukuran file lebih dari 10 MB. Kompres file atau kirim tangkapan layar.",
+    "receiptWrongType": "Kirim foto (JPG, PNG, WEBP, HEIC) atau PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Bukti bayar tidak diterima",
+    "receiptRejectedReason": "Alasan: {reason}",
+    "receiptResend": "Kirim bukti bayar lain",
+    "contactManager": "Hubungi manajer",
+    "methodRequisites": "Transfer ke rekening",
+    "requisitesDesc": "Setelah membuat pesanan Anda akan melihat rekening toko: kartu bank dan dompet kripto. Transfer {total} dan lampirkan bukti bayar — manajer akan mengonfirmasi pesanan.",
+    "requisitesPreviewLabel": "Kami menerima transfer ke:",
+    "handoverRequisitesTitle": "Bayar pesanan dengan transfer",
+    "handoverRequisitesBody": "Pesanan #{orderNumber} diterima. Pilih bank atau dompet di bawah, transfer {total}, lalu lampirkan bukti bayar.",
+    "handoverRequisitesMessage": "Halo! Saya membuat pesanan #{orderNumber} senilai {total} dan sudah membayarnya dengan transfer. Mohon konfirmasi pembayarannya.",
+    "contactManagerHint": "Untuk mengonfirmasi pesanan, hubungi manajer.",
+    "showRequisite": "Ketuk untuk melihat nomor",
+    "hideRequisite": "Sembunyikan nomor",
+    "numberLabel": "Nomor kartu atau rekening",
+    "holderLabel": "Penerima",
+    "addressLabel": "Alamat dompet",
+    "networkLabel": "Jaringan",
+    "copyNumber": "Salin nomor",
+    "copyHolder": "Salin nama penerima",
+    "copyAddress": "Salin alamat",
+    "copyNetwork": "Salin jaringan",
+    "cryptoOnlyWarning": "Kirim hanya {currency} melalui jaringan {network}: transfer koin lain atau lewat jaringan lain tidak akan sampai.",
+    "receiptPick": "Pilih file atau foto",
+    "receiptCamera": "Ambil foto",
+    "receiptRemove": "Hapus file"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Simpan nomor pesanan Anda. Anda memerlukannya saat menghubungi toko.",
     "orderSuccess": "Pesanan Anda berhasil dibuat.",
-    "thankYou": "Terima kasih!"
+    "thankYou": "Terima kasih!",
+    "paymentConfirmed": "Pembayaran dikonfirmasi",
+    "goToCourse": "Buka kursus",
+    "orderCanceled": "Pesanan dibatalkan",
+    "orderCanceledHint": "Tidak perlu membayar. Jika ini keliru, hubungi kami.",
+    "paidGoodsHint": "Kami sedang menyiapkan pesanan Anda untuk dikirim."
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
@@ -926,6 +982,15 @@
     "noPhone": "Tidak ada nomor telepon",
     "phone": "Telepon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Tertaut: {handle}",
+    "notLinked": "Belum tertaut",
+    "hint": "Masuk dengan Telegram di sini untuk menautkannya ke akun ini. Setelah itu Anda bisa masuk dengan salah satu cara.",
+    "errorTaken": "Akun Telegram ini sudah tertaut ke akun lain.",
+    "errorRejected": "Telegram tidak mengonfirmasi. Silakan coba lagi.",
+    "errorFailed": "Gagal menautkan Telegram. Silakan coba lagi dalam satu menit."
+  },
   "PromoBanner": {
     "close": "Tutup",
     "message": "DTC starter lengkap dan siap produksi."
@@ -1097,5 +1162,31 @@
     "addToCart": "Tambah ke keranjang",
     "chooseOptions": "Pilih opsi",
     "remove": "Hapus"
+  },
+  "CartSidebar": {
+    "title": "Keranjang",
+    "signInPrompt": "Masuk untuk melihat riwayat pesanan dan berbelanja lebih cepat.",
+    "signInEmail": "Dengan email",
+    "signInYandex": "Dengan Yandex ID",
+    "deliveryEstimate": "Pengiriman {range}",
+    "empty": "Keranjang Anda kosong.",
+    "exploreProducts": "Lihat produk",
+    "itemsTotal": "Total produk",
+    "checkout": "Lanjut ke pembayaran"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "kursus online, tanpa pengiriman",
+    "shipmentNo": "Pengiriman No. {no}",
+    "digitalGroup": "Kursus online — akses setelah pembayaran dikonfirmasi",
+    "accessByEmail": "Akses ke kursus akan dikirim lewat email setelah pembayaran dikonfirmasi.",
+    "digitalGroupPaid": "Kursus online — akses dibuka"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Menunggu pembayaran",
+    "awaitingConfirmation": "Menunggu konfirmasi pembayaran",
+    "receiptRejected": "Bukti bayar tidak diterima",
+    "paid": "Dibayar",
+    "refunded": "Dikembalikan",
+    "canceled": "Dibatalkan"
   }
 }

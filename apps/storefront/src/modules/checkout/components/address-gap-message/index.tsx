@@ -15,10 +15,17 @@ import {
 export default function AddressGapMessage({
   gaps,
   className,
+  tone = "error",
   "data-testid": dataTestId,
 }: {
   gaps: ShippingAddressField[]
   className?: string
+  /**
+   * `"hint"` (batch 6): the payment step names the missing fields in a quiet colour —
+   * nothing red before the buyer has typed anything; the address sheet keeps the red
+   * after a save attempt.
+   */
+  tone?: "error" | "hint"
   "data-testid"?: string
 }) {
   const t = useTranslations("CheckoutPage")
@@ -28,10 +35,14 @@ export default function AddressGapMessage({
 
   return (
     <div
-      role="alert"
+      role={tone === "hint" ? undefined : "alert"}
       // Joined, not merged with `clx`: tailwind-merge reads `text-small-regular`
       // as a text colour and drops `text-rose-500`, and the sentence turns black.
-      className={["flex flex-col gap-y-1 text-rose-500 text-small-regular", className]
+      className={[
+        "flex flex-col gap-y-1 text-small-regular",
+        tone === "hint" ? "text-ui-fg-subtle" : "text-rose-500",
+        className,
+      ]
         .filter(Boolean)
         .join(" ")}
       data-testid={dataTestId}

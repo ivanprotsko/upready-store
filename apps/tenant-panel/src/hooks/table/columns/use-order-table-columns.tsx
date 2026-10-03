@@ -10,6 +10,7 @@ import {
   DateHeader,
 } from "../../../components/table/table-cells/common/date-cell"
 import { countries } from "../../../lib/data/countries"
+import { isOrderWithoutParcel } from "../../../lib/order-helpers"
 import { CountryCell } from "../../../components/table/table-cells/order/country-cell"
 import {
   CustomerCell,
@@ -84,10 +85,16 @@ export const useOrderTableColumns = (props: UseOrderTableColumnsProps) => {
       }),
       columnHelper.accessor("payment_status", {
         header: () => <PaymentStatusHeader />,
-        cell: ({ getValue }) => {
+        cell: ({ getValue, row }) => {
           const status = getValue()
 
-          return <PaymentStatusCell status={status} />
+          return (
+            <PaymentStatusCell
+              status={status}
+              metadata={row.original.metadata}
+              paymentCollections={row.original.payment_collections}
+            />
+          )
         },
       }),
       columnHelper.accessor("fulfillment_status", {
@@ -99,6 +106,7 @@ export const useOrderTableColumns = (props: UseOrderTableColumnsProps) => {
             <FulfillmentStatusCell
               status={status}
               orderCanceled={row.original.status === "canceled"}
+              withoutParcel={isOrderWithoutParcel(row.original)}
             />
           )
         },

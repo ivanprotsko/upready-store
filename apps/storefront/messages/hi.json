@@ -78,14 +78,6 @@
     "exploreProducts": "उत्पाद देखें",
     "heading": "कार्ट"
   },
-  "CartDropdown": {
-    "bagEmpty": "आपका शॉपिंग बैग खाली है।",
-    "exploreProducts": "उत्पाद देखें",
-    "goToCart": "कार्ट पर जाएं",
-    "heading": "कार्ट",
-    "subtotal": "उप-कुल",
-    "subtotalNote": "(कर को छोड़कर)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "आपका कार्ट ट्रांसफर करने की कोशिश करते समय कुछ गड़बड़ हो गई",
     "runTransferAgain": "फिर से ट्रांसफर करें",
@@ -155,7 +147,7 @@
     "freeShipping": "मुफ्त",
     "giftCard": "गिफ्ट कार्ड",
     "itemsCount": "{count, plural, one {{count} आइटम} other {{count} आइटम}}",
-    "legal": "«भुगतान करें» पर क्लिक करके, आप हमारी <terms>शर्तों</terms>, <termsOfUse>उपयोग की शर्तों</termsOfUse> और <returnPolicy>रिटर्न नीति</returnPolicy> को स्वीकार करते हैं, और हमारी <privacyPolicy>गोपनीयता नीति</privacyPolicy> से सहमत होते हैं।",
+    "legal": "«{button}» पर क्लिक करके, आप हमारी <terms>शर्तों</terms>, <termsOfUse>उपयोग की शर्तों</termsOfUse> और <returnPolicy>रिटर्न नीति</returnPolicy> को स्वीकार करते हैं, और हमारी <privacyPolicy>गोपनीयता नीति</privacyPolicy> से सहमत होते हैं।",
     "manualInput": "पता मैन्युअल रूप से दर्ज करें",
     "addressIncomplete": "पते के अनिवार्य फ़ील्ड भरें: {fields}।",
     "provinceRequired": "सूची से क्षेत्र चुनें।",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "उपलब्ध नहीं: कीमत की गणना नहीं हो सकी",
     "signIn": "साइन इन करें",
     "total": "कुल",
-    "shippingZone": "क्षेत्र: {zone}"
+    "shippingZone": "क्षेत्र: {zone}",
+    "courseSignInHeading": "कोर्स खरीदने के लिए साइन इन करें",
+    "courseSignInText": "कोर्स आपके अकाउंट में खुलता है, इसलिए खरीदने के लिए साइन इन या रजिस्ट्रेशन ज़रूरी है।",
+    "fieldRequired": "यह फ़ील्ड भरें",
+    "emailInvalid": "ईमेल जाँचें: पते में गलती है",
+    "signInHeading": "ऑर्डर देने के लिए साइन इन करें",
+    "signInText": "ऑर्डर आपके अकाउंट में दिखेगा: वहाँ भुगतान विवरण, स्थिति और खरीदे गए कोर्स होंगे। साइन इन या पंजीकरण में एक मिनट लगता है, कार्ट सुरक्षित रहेगा।"
   },
   "ClaimOrders": {
     "heading": "क्या आपने बिना खाते के ऑर्डर किया था?",
@@ -340,7 +338,10 @@
     "empty": "आपने अभी तक कोई कोर्स नहीं खरीदा है।",
     "start": "शुरू करें",
     "continue": "जारी रखें",
-    "review": "दोहराएं"
+    "review": "दोहराएं",
+    "pendingHeading": "भुगतान की प्रतीक्षा में",
+    "pendingHint": "दुकान द्वारा भुगतान की पुष्टि के बाद एक्सेस खुलेगा।",
+    "toOrder": "{order} — भुगतान करें"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "सदस्य नहीं हैं?",
     "password": "पासवर्ड",
     "signIn": "साइन इन करें",
+    "telegramDivider": "या",
+    "telegramCta": "Telegram से साइन इन करें",
+    "telegramPending": "साइन इन हो रहा है…",
+    "telegramErrorExpired": "Telegram से साइन इन की अवधि समाप्त हो गई। फिर से शुरू करें।",
+    "telegramErrorFailed": "साइन इन नहीं हो सका। एक मिनट बाद फिर से कोशिश करें।",
+    "telegramErrorRejected": "Telegram ने इस साइन इन की पुष्टि नहीं की। फिर से कोशिश करें।",
+    "telegramErrorUnconfigured": "इस दुकान में Telegram से साइन इन अभी चालू नहीं है।",
     "yandexCta": "Yandex ID से साइन इन करें",
     "yandexDivider": "या",
     "yandexErrorDenied": "आपने Yandex के पेज पर साइन इन रद्द कर दिया।",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "{bank} कार्ड नंबर कॉपी करें",
+    "cardHolder": "प्राप्तकर्ता: {holder}",
+    "cardsDesc": "ऑर्डर की कुल राशि दुकान के कार्ड पर ट्रांसफर करें।",
+    "cardsHint": "नीचे दिए गए कार्डों में से किसी एक पर {total} ट्रांसफर करें।",
+    "cardsManagerFallback": "अगर कुछ गड़बड़ हो, तो मैनेजर को संदेश भेजें:",
+    "cardsTitle": "कार्ड पर ट्रांसफर",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "ऑर्डर #{orderNumber} स्वीकार और आरक्षित हो गया है। नीचे दिए गए कार्डों में से किसी एक पर {total} ट्रांसफर करें। दुकान द्वारा भुगतान की पुष्टि होने पर ऑर्डर की स्थिति «भुगतान हो गया» हो जाएगी।",
+    "handoverCardsMessage": "नमस्ते! मेरा कार्ड ट्रांसफर से {total} के ऑर्डर #{orderNumber} के भुगतान के बारे में एक सवाल है।",
+    "handoverCardsTitle": "भुगतान को कार्ड पर ट्रांसफर करें",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "रसीद नहीं भेजी जा सकी। फिर से कोशिश करें या मैनेजर को संदेश भेजें।",
+    "receiptHint": "ट्रांसफ़र की फ़ोटो या स्क्रीनशॉट (JPG, PNG, WEBP, HEIC) या PDF, 10 MB तक।",
+    "receiptLabel": "भुगतान की रसीद",
+    "receiptPaid": "मैंने भुगतान कर दिया",
+    "receiptSent": "रसीद भेज दी गई है, पुष्टि की प्रतीक्षा है",
+    "receiptSentHint": "दुकान ट्रांसफ़र की जाँच करेगी और भुगतान की पुष्टि करेगी, उसके बाद ऑर्डर की स्थिति «भुगतान हो गया» हो जाएगी।",
+    "receiptSubmit": "रसीद भेजें",
+    "receiptTooLarge": "फ़ाइल 10 MB से बड़ी है। उसे कंप्रेस करें या स्क्रीनशॉट भेजें।",
+    "receiptWrongType": "फ़ोटो (JPG, PNG, WEBP, HEIC) या PDF भेजें।",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "रसीद स्वीकार नहीं हुई",
+    "receiptRejectedReason": "कारण: {reason}",
+    "receiptResend": "दूसरी रसीद भेजें",
+    "contactManager": "मैनेजर से संपर्क करें",
+    "methodRequisites": "खाता विवरण पर ट्रांसफ़र",
+    "requisitesDesc": "ऑर्डर देने के बाद आपको दुकान का विवरण दिखेगा: बैंक कार्ड और क्रिप्टो वॉलेट। {total} ट्रांसफ़र करें और भुगतान की रसीद संलग्न करें — मैनेजर ऑर्डर की पुष्टि करेगा।",
+    "requisitesPreviewLabel": "हम इन पर ट्रांसफ़र स्वीकार करते हैं:",
+    "handoverRequisitesTitle": "ऑर्डर का भुगतान ट्रांसफ़र से करें",
+    "handoverRequisitesBody": "ऑर्डर #{orderNumber} स्वीकार हो गया। नीचे बैंक या वॉलेट चुनें, {total} ट्रांसफ़र करें और भुगतान की रसीद संलग्न करें।",
+    "handoverRequisitesMessage": "नमस्ते! मैंने {total} का ऑर्डर #{orderNumber} दिया है और ट्रांसफ़र से भुगतान किया है। कृपया भुगतान की पुष्टि करें।",
+    "contactManagerHint": "ऑर्डर की पुष्टि के लिए मैनेजर से संपर्क करें।",
+    "showRequisite": "नंबर देखने के लिए टैप करें",
+    "hideRequisite": "नंबर छुपाएँ",
+    "numberLabel": "कार्ड या खाता नंबर",
+    "holderLabel": "प्राप्तकर्ता",
+    "addressLabel": "वॉलेट पता",
+    "networkLabel": "नेटवर्क",
+    "copyNumber": "नंबर कॉपी करें",
+    "copyHolder": "प्राप्तकर्ता कॉपी करें",
+    "copyAddress": "पता कॉपी करें",
+    "copyNetwork": "नेटवर्क कॉपी करें",
+    "cryptoOnlyWarning": "केवल {network} नेटवर्क पर {currency} भेजें: किसी अन्य कॉइन या अन्य नेटवर्क से किया गया ट्रांसफ़र नहीं पहुँचेगा।",
+    "receiptPick": "फ़ाइल या फ़ोटो चुनें",
+    "receiptCamera": "फ़ोटो लें",
+    "receiptRemove": "फ़ाइल हटाएँ"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "ऑर्डर नंबर सहेज कर रखें। दुकान से संपर्क करते समय इसकी ज़रूरत पड़ेगी।",
     "orderSuccess": "आपका ऑर्डर सफलतापूर्वक दे दिया गया है।",
-    "thankYou": "धन्यवाद!"
+    "thankYou": "धन्यवाद!",
+    "paymentConfirmed": "भुगतान की पुष्टि हो गई",
+    "goToCourse": "कोर्स पर जाएँ",
+    "orderCanceled": "ऑर्डर रद्द कर दिया गया",
+    "orderCanceledHint": "भुगतान की ज़रूरत नहीं है। अगर यह गलती है, तो हमें लिखें।",
+    "paidGoodsHint": "हम आपका ऑर्डर भेजने की तैयारी कर रहे हैं।"
   },
   "OrderDetails": {
     "backToOrders": "ऑर्डर पर वापस जाएँ",
@@ -926,6 +982,15 @@
     "noPhone": "कोई फ़ोन नंबर नहीं",
     "phone": "फ़ोन"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "जुड़ा हुआ: {handle}",
+    "notLinked": "जुड़ा नहीं",
+    "hint": "इसे इस खाते से जोड़ने के लिए यहाँ Telegram से साइन इन करें। इसके बाद आप दोनों में से किसी भी तरीके से साइन इन कर सकते हैं।",
+    "errorTaken": "यह Telegram खाता पहले से किसी दूसरे खाते से जुड़ा है।",
+    "errorRejected": "Telegram ने इसकी पुष्टि नहीं की। फिर से कोशिश करें।",
+    "errorFailed": "Telegram नहीं जोड़ा जा सका। एक मिनट बाद फिर से कोशिश करें।"
+  },
   "PromoBanner": {
     "close": "बंद करें",
     "message": "पूर्ण-सुविधा युक्त, प्रोडक्शन के लिए तैयार DTC स्टार्टर।"
@@ -1097,5 +1162,31 @@
     "addToCart": "कार्ट में जोड़ें",
     "chooseOptions": "विकल्प चुनें",
     "remove": "हटाएं"
+  },
+  "CartSidebar": {
+    "title": "कार्ट",
+    "signInPrompt": "ऑर्डर इतिहास देखने और तेज़ी से खरीदारी करने के लिए साइन इन करें।",
+    "signInEmail": "ईमेल से",
+    "signInYandex": "Yandex ID से",
+    "deliveryEstimate": "डिलीवरी {range}",
+    "empty": "आपका कार्ट खाली है।",
+    "exploreProducts": "उत्पाद देखें",
+    "itemsTotal": "उत्पादों का कुल",
+    "checkout": "चेकआउट"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "ऑनलाइन कोर्स, डिलीवरी नहीं",
+    "shipmentNo": "शिपमेंट नंबर {no}",
+    "digitalGroup": "ऑनलाइन कोर्स — भुगतान की पुष्टि के बाद एक्सेस",
+    "accessByEmail": "भुगतान की पुष्टि के बाद कोर्स का एक्सेस ईमेल से आएगा।",
+    "digitalGroupPaid": "ऑनलाइन कोर्स — एक्सेस खुला"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "भुगतान की प्रतीक्षा",
+    "awaitingConfirmation": "भुगतान की पुष्टि की प्रतीक्षा",
+    "receiptRejected": "रसीद स्वीकार नहीं हुई",
+    "paid": "भुगतान हो गया",
+    "refunded": "धनवापसी हो गई",
+    "canceled": "रद्द"
   }
 }

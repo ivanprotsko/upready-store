@@ -3,6 +3,9 @@
 import { useState } from "react"
 import type { HttpTypes } from "@medusajs/types"
 import { convertToLocale } from "@lib/util/money"
+import { isNoDeliveryLine } from "@lib/util/shipping-address"
+import { cartShipmentLines, shipmentGroups } from "@lib/util/shipment-groups"
+import { Badge } from "@medusajs/ui"
 import { updateLineItem } from "@lib/data/cart"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
 import DeleteButton from "@modules/common/components/delete-button"
@@ -24,6 +27,7 @@ function CheckoutItem({
 }) {
   const [updating, setUpdating] = useState(false)
   const locale = useLocale()
+  const tShip = useTranslations("Shipments")
   const { trackCartUpdate } = useCartUpdate()
 
   const imageUrl =
@@ -41,8 +45,15 @@ function CheckoutItem({
     locale,
   })
 
-  const variantTitle = item.variant?.title
-  const maxQty = 10
+  // The variant line only when it says something the title does not (today a
+  // single-variant product printed its own name twice).
+  const variantTitle =
+    item.variant?.title && item.variant.title.trim().toLowerCase() !== (item.product_title ?? "").trim().toLowerCase()
+      ? item.variant.title
+      : null
+  // Batch 6, Q3.5: a course is bought once — no «+» beyond 1 for a no-delivery line.
+  const noDelivery = isNoDeliveryLine(item)
+  const maxQty = noDelivery ? 1 : 10
 
   const changeQuantity = async (quantity: number) => {
     setUpdating(true)
@@ -70,9 +81,13 @@ function CheckoutItem({
           <span className="txt-medium text-ui-fg-base">
             {item.product_title}
           </span>
-          {variantTitle && (
+          {noDelivery ? (
+            <Badge size="xsmall" color="blue" className="w-fit" data-testid="line-no-delivery-badge">
+              {tShip("noDeliveryBadge")}
+            </Badge>
+          ) : variantTitle ? (
             <span className="txt-medium text-ui-fg-subtle">{variantTitle}</span>
-          )}
+          ) : null}
           <div className="flex items-end h-[22.4px]">
             <DeleteButton id={item.id} data-testid="product-delete-button" />
           </div>
@@ -118,24 +133,48 @@ function CheckoutItem({
   )
 }
 
+/**
+ * The lines grouped by shipment (batch 6): «Отправление № N» for what is posted, the
+ * online course in its own group without a number — the same `shipmentGroups` the
+ * cart sidebar and the order page read, so the numbers match everywhere.
+ */
 export default function CheckoutItemList({ cart }: CheckoutItemListProps) {
   const t = useTranslations("CheckoutPage")
+  const tShip = useTranslations("Shipments")
   const items = cart.items
     ? [...cart.items].sort((a, b) =>
         (a.created_at ?? "") > (b.created_at ?? "") ? -1 : 1
       )
     : []
+  const groups = shipmentGroups(cartShipmentLines(items))
+  const showGroupHeaders = groups.length > 1 || groups.some((group) => group.kind === "digital")
 
   return (
     <div>
       <h2 className="h2-docs mb-3">{t("orderComposition")}</h2>
-      <div className="flex flex-col">
-        {items.map((item, idx) => (
-          <div key={item.id}>
-            <CheckoutItem item={item} currencyCode={cart.currency_code} />
-            {idx < items.length - 1 && (
-              <div className="h-px bg-ui-border-base my-3" />
+      <div className="flex flex-col gap-y-6">
+        {groups.map((group) => (
+          <div
+            key={group.key}
+            className="flex flex-col"
+            data-testid={`shipment-group-${group.kind}`}
+            data-shipment-no={group.no ?? undefined}
+          >
+            {showGroupHeaders && (
+              <p className="txt-compact-small-plus text-ui-fg-subtle mb-3">
+                {group.kind === "physical"
+                  ? tShip("shipmentNo", { no: group.no ?? 1 })
+                  : tShip("digitalGroup")}
+              </p>
             )}
+            {group.lines.map(({ item }, idx) => (
+              <div key={item.id}>
+                <CheckoutItem item={item} currencyCode={cart.currency_code} />
+                {idx < group.lines.length - 1 && (
+                  <div className="h-px bg-ui-border-base my-3" />
+                )}
+              </div>
+            ))}
           </div>
         ))}
       </div>

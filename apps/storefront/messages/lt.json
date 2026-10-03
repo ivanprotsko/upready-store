@@ -78,14 +78,6 @@
     "exploreProducts": "Peržiūrėti produktus",
     "heading": "Krepšelis"
   },
-  "CartDropdown": {
-    "bagEmpty": "Jūsų krepšelis tuščias.",
-    "exploreProducts": "Peržiūrėti produktus",
-    "goToCart": "Eiti į krepšelį",
-    "heading": "Krepšelis",
-    "subtotal": "Tarpinė suma",
-    "subtotalNote": "(be mokesčių)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Kažkas nutiko ne taip bandant perkelti jūsų krepšelį",
     "runTransferAgain": "Bandyti perkelti dar kartą",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Nepasiekiama: nepavyko apskaičiuoti kainos",
     "signIn": "Prisijungti",
     "total": "Iš viso",
-    "shippingZone": "Zona: {zone}"
+    "shippingZone": "Zona: {zone}",
+    "courseSignInHeading": "Prisijunkite, kad įsigytumėte kursą",
+    "courseSignInText": "Kursas atidaromas jūsų paskyroje, todėl pirkimui reikia prisijungti arba užsiregistruoti.",
+    "fieldRequired": "Užpildykite šį lauką",
+    "emailInvalid": "Patikrinkite el. paštą: adrese yra klaida",
+    "signInHeading": "Prisijunkite, kad pateiktumėte užsakymą",
+    "signInText": "Užsakymas atsiras jūsų paskyroje: ten bus mokėjimo rekvizitai, būsena ir įsigyti kursai. Prisijungimas ar registracija užtrunka minutę, krepšelis išsaugomas."
   },
   "ClaimOrders": {
     "heading": "Užsisakėte be paskyros?",
@@ -340,7 +338,10 @@
     "empty": "Kol kas neįsigijote jokio kurso.",
     "start": "Pradėti",
     "continue": "Tęsti",
-    "review": "Kartoti"
+    "review": "Kartoti",
+    "pendingHeading": "Laukia apmokėjimo",
+    "pendingHint": "Prieiga atsivers, kai parduotuvė patvirtins apmokėjimą.",
+    "toOrder": "{order} — apmokėti"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Dar nesate narys?",
     "password": "Slaptažodis",
     "signIn": "Prisijungti",
+    "telegramDivider": "arba",
+    "telegramCta": "Prisijungti su Telegram",
+    "telegramPending": "Jungiamasi…",
+    "telegramErrorExpired": "Šis prisijungimas per Telegram nebegalioja. Pradėkite iš naujo.",
+    "telegramErrorFailed": "Prisijungti nepavyko. Bandykite po minutės.",
+    "telegramErrorRejected": "Telegram nepatvirtino šio prisijungimo. Bandykite dar kartą.",
+    "telegramErrorUnconfigured": "Prisijungimas per Telegram šioje parduotuvėje dar neįjungtas.",
     "yandexCta": "Prisijungti su Yandex ID",
     "yandexDivider": "arba",
     "yandexErrorDenied": "Atšaukėte prisijungimą Yandex puslapyje.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Kopijuoti {bank} kortelės numerį",
+    "cardHolder": "Gavėjas: {holder}",
+    "cardsDesc": "Pervesk užsakymo sumą į parduotuvės kortelę.",
+    "cardsHint": "Pervesk {total} į vieną iš žemiau nurodytų kortelių.",
+    "cardsManagerFallback": "Jei kas nors nepavyksta, parašyk vadybininkui:",
+    "cardsTitle": "Pervedimas į kortelę",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Užsakymas #{orderNumber} priimtas ir rezervuotas. Pervesk {total} į vieną iš žemiau nurodytų kortelių. Kai parduotuvė patvirtins apmokėjimą, užsakymas gaus būseną «Apmokėtas».",
+    "handoverCardsMessage": "Sveiki! Turiu klausimą dėl užsakymo #{orderNumber} ({total}) apmokėjimo pervedimu į kortelę.",
+    "handoverCardsTitle": "Pervesk apmokėjimą į kortelę",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Nepavyko išsiųsti kvito. Bandyk dar kartą arba parašyk vadybininkui.",
+    "receiptHint": "Pervedimo nuotrauka ar ekrano nuotrauka (JPG, PNG, WEBP, HEIC) arba PDF, iki 10 MB.",
+    "receiptLabel": "Mokėjimo kvitas",
+    "receiptPaid": "Sumokėjau",
+    "receiptSent": "Kvitas išsiųstas, laukiame patvirtinimo",
+    "receiptSentHint": "Parduotuvė patikrins pervedimą ir patvirtins apmokėjimą, tada užsakymas gaus būseną «Apmokėtas».",
+    "receiptSubmit": "Siųsti kvitą",
+    "receiptTooLarge": "Failas didesnis nei 10 MB. Suspausk jį arba atsiųsk ekrano nuotrauką.",
+    "receiptWrongType": "Atsiųsk nuotrauką (JPG, PNG, WEBP, HEIC) arba PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Kvitas nepriimtas",
+    "receiptRejectedReason": "Priežastis: {reason}",
+    "receiptResend": "Siųsti kitą kvitą",
+    "contactManager": "Susisiekti su vadybininku",
+    "methodRequisites": "Pavedimas pagal rekvizitus",
+    "requisitesDesc": "Pateikus užsakymą matysite parduotuvės rekvizitus: banko korteles ir kriptovaliutų pinigines. Perveskite {total} ir pridėkite mokėjimo kvitą — užsakymą patvirtins vadybininkas.",
+    "requisitesPreviewLabel": "Priimame pavedimus į:",
+    "handoverRequisitesTitle": "Apmokėkite užsakymą pavedimu",
+    "handoverRequisitesBody": "Užsakymas #{orderNumber} priimtas. Pasirinkite banką ar piniginę žemiau, perveskite {total} ir pridėkite mokėjimo kvitą.",
+    "handoverRequisitesMessage": "Sveiki! Pateikiau užsakymą #{orderNumber} už {total} ir apmokėjau jį pavedimu. Prašau patvirtinti apmokėjimą.",
+    "contactManagerHint": "Dėl užsakymo patvirtinimo susisiekite su vadybininku.",
+    "showRequisite": "Spustelėkite, kad matytumėte numerį",
+    "hideRequisite": "Slėpti numerį",
+    "numberLabel": "Kortelės arba sąskaitos numeris",
+    "holderLabel": "Gavėjas",
+    "addressLabel": "Piniginės adresas",
+    "networkLabel": "Tinklas",
+    "copyNumber": "Kopijuoti numerį",
+    "copyHolder": "Kopijuoti gavėją",
+    "copyAddress": "Kopijuoti adresą",
+    "copyNetwork": "Kopijuoti tinklą",
+    "cryptoOnlyWarning": "Siųskite tik {currency} tinkle {network}: kitos monetos ar kitu tinklu atliktas pavedimas nepasieks.",
+    "receiptPick": "Pasirinkti failą ar nuotrauką",
+    "receiptCamera": "Nufotografuoti",
+    "receiptRemove": "Pašalinti failą"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Išsaugokite užsakymo numerį. Jo prireiks susisiekiant su parduotuve.",
     "orderSuccess": "Jūsų užsakymas sėkmingai pateiktas.",
-    "thankYou": "Ačiū!"
+    "thankYou": "Ačiū!",
+    "paymentConfirmed": "Mokėjimas patvirtintas",
+    "goToCourse": "Eiti į kursą",
+    "orderCanceled": "Užsakymas atšauktas",
+    "orderCanceledHint": "Mokėti nereikia. Jei tai klaida, parašykite mums.",
+    "paidGoodsHint": "Ruošiame jūsų užsakymą išsiuntimui."
   },
   "OrderDetails": {
     "backToOrders": "Atgal į užsakymus",
@@ -926,6 +982,15 @@
     "noPhone": "Telefono numerio nėra",
     "phone": "Telefonas"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Susieta: {handle}",
+    "notLinked": "Nesusieta",
+    "hint": "Prisijunkite čia per Telegram, kad susietumėte jį su šia paskyra. Po to galėsite jungtis bet kuriuo būdu.",
+    "errorTaken": "Ši Telegram paskyra jau susieta su kita paskyra.",
+    "errorRejected": "Telegram to nepatvirtino. Bandykite dar kartą.",
+    "errorFailed": "Nepavyko susieti Telegram. Bandykite po minutės."
+  },
   "PromoBanner": {
     "close": "Uždaryti",
     "message": "Pilnavertis, gamybai paruoštas DTC starteris."
@@ -1097,5 +1162,31 @@
     "addToCart": "Į krepšelį",
     "chooseOptions": "Pasirinkti variantus",
     "remove": "Pašalinti"
+  },
+  "CartSidebar": {
+    "title": "Krepšelis",
+    "signInPrompt": "Prisijunkite, kad matytumėte užsakymų istoriją ir pirktumėte greičiau.",
+    "signInEmail": "El. paštu",
+    "signInYandex": "Su Yandex ID",
+    "deliveryEstimate": "Pristatysime {range}",
+    "empty": "Jūsų krepšelis tuščias.",
+    "exploreProducts": "Peržiūrėti prekes",
+    "itemsTotal": "Prekių suma",
+    "checkout": "Į apmokėjimą"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "internetinis kursas, be pristatymo",
+    "shipmentNo": "Siunta Nr. {no}",
+    "digitalGroup": "Internetinis kursas — prieiga patvirtinus mokėjimą",
+    "accessByEmail": "Prieiga prie kurso ateis el. paštu, kai mokėjimas bus patvirtintas.",
+    "digitalGroupPaid": "Internetinis kursas — prieiga atverta"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Laukiama apmokėjimo",
+    "awaitingConfirmation": "Laukiama apmokėjimo patvirtinimo",
+    "receiptRejected": "Kvitas nepriimtas",
+    "paid": "Apmokėta",
+    "refunded": "Grąžinta",
+    "canceled": "Atšaukta"
   }
 }

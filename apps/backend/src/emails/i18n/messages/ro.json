@@ -12,6 +12,16 @@
     "trackOrder": "Urmărește comanda",
     "viewOrder": "Vezi comanda"
   },
+  "CourseAccess": {
+    "body": "Plata pentru comanda <strong>#{id}</strong> a fost confirmată. Cursul este acum deschis în contul dvs.:",
+    "button": "Mergi la curs",
+    "headingAnon": "Accesul la curs este deschis",
+    "headingWithName": "{name}, accesul la curs este deschis",
+    "preview": "Plată confirmată, cursul vă așteaptă în cont",
+    "signIn": "Lecțiile se deschid după ce vă conectați la cont cu adresa {email}.",
+    "subject": "Comanda #{id} plătită: accesul la curs este deschis",
+    "textFallback": "Plata pentru comanda #{id} a fost confirmată, accesul la curs este deschis.\n\nMergi la curs:"
+  },
   "Delivery": {
     "bodyOrder": "Comanda <strong>#{id}</strong> a fost livrată. Sperăm că a ajuns totul în regulă.",
     "headingAnon": "Comanda ta a fost livrată",

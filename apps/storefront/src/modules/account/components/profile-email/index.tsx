@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl"
 import Input from "@modules/common/components/input"
 
 import AccountInfo from "../account-info"
+import { customerContactLabel, realEmailOrEmpty } from "@lib/util/telegram-contact"
 import type { HttpTypes } from "@medusajs/types"
 // import { updateCustomer } from "@lib/data/customer"
 
@@ -47,7 +48,7 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
     <form action={formAction} className="w-full">
       <AccountInfo
         label={t("label")}
-        currentInfo={customer.email}
+        currentInfo={customerContactLabel(customer)}
         isSuccess={successState}
         isError={!!state.error}
         errorMessage={state.error || undefined}
@@ -61,7 +62,7 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
             type="email"
             autoComplete="email"
             required
-            defaultValue={customer.email}
+            defaultValue={realEmailOrEmpty(customer.email)}
             data-testid="email-input"
           />
         </div>

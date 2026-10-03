@@ -78,14 +78,6 @@
     "exploreProducts": "Explorează produsele",
     "heading": "Coș"
   },
-  "CartDropdown": {
-    "bagEmpty": "Coșul dvs. de cumpărături este gol.",
-    "exploreProducts": "Explorează produsele",
-    "goToCart": "Mergi la coș",
-    "heading": "Coș",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(fără taxe)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Ceva nu a mers bine la încercarea de a transfera coșul dvs.",
     "runTransferAgain": "Reîncearcă transferul",
@@ -155,7 +147,7 @@
     "freeShipping": "Gratuit",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} produs} few {{count} produse} other {{count} de produse}}",
-    "legal": "Făcând clic pe «Plătește», acceptați <terms>termenii</terms>, <termsOfUse>termenii de utilizare</termsOfUse> și <returnPolicy>politica de retur</returnPolicy>, și sunteți de acord cu <privacyPolicy>politica de confidențialitate</privacyPolicy>.",
+    "legal": "Făcând clic pe «{button}», acceptați <terms>termenii</terms>, <termsOfUse>termenii de utilizare</termsOfUse> și <returnPolicy>politica de retur</returnPolicy>, și sunteți de acord cu <privacyPolicy>politica de confidențialitate</privacyPolicy>.",
     "manualInput": "Introdu adresa manual",
     "addressIncomplete": "Completați câmpurile obligatorii ale adresei: {fields}.",
     "provinceRequired": "Alegeți regiunea din listă.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Indisponibil: prețul nu a putut fi calculat",
     "signIn": "Autentificare",
     "total": "Total",
-    "shippingZone": "Zonă: {zone}"
+    "shippingZone": "Zonă: {zone}",
+    "courseSignInHeading": "Conectează-te pentru a cumpăra cursul",
+    "courseSignInText": "Cursul se deschide în contul tău, așa că achiziția cere autentificare sau înregistrare.",
+    "fieldRequired": "Completează acest câmp",
+    "emailInvalid": "Verifică e-mailul: adresa conține o greșeală",
+    "signInHeading": "Conectați-vă pentru a plasa comanda",
+    "signInText": "Comanda va apărea în contul dumneavoastră: acolo sunt datele de plată, starea și cursurile cumpărate. Conectarea sau înregistrarea durează un minut, coșul se păstrează."
   },
   "ClaimOrders": {
     "heading": "Ați comandat fără cont?",
@@ -340,7 +338,10 @@
     "empty": "Nu ați cumpărat încă niciun curs.",
     "start": "Începe",
     "continue": "Continuă",
-    "review": "Recapitulează"
+    "review": "Recapitulează",
+    "pendingHeading": "În așteptarea plății",
+    "pendingHint": "Accesul se deschide după ce magazinul confirmă plata.",
+    "toOrder": "{order} — plătește"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Nu aveți cont?",
     "password": "Parolă",
     "signIn": "Autentificare",
+    "telegramDivider": "sau",
+    "telegramCta": "Autentificare cu Telegram",
+    "telegramPending": "Se autentifică…",
+    "telegramErrorExpired": "Această autentificare cu Telegram a expirat. Începeți din nou.",
+    "telegramErrorFailed": "Autentificarea a eșuat. Încercați din nou peste un minut.",
+    "telegramErrorRejected": "Telegram nu a confirmat această autentificare. Încercați din nou.",
+    "telegramErrorUnconfigured": "Autentificarea cu Telegram nu este încă activată în acest magazin.",
     "yandexCta": "Autentificare cu Yandex ID",
     "yandexDivider": "sau",
     "yandexErrorDenied": "Ați anulat autentificarea pe pagina Yandex.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Copiază numărul cardului {bank}",
+    "cardHolder": "Destinatar: {holder}",
+    "cardsDesc": "Transferați totalul comenzii pe cardul magazinului.",
+    "cardsHint": "Transferați {total} pe unul dintre cardurile de mai jos.",
+    "cardsManagerFallback": "Dacă ceva nu merge, scrieți managerului:",
+    "cardsTitle": "Transfer pe card",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Comanda #{orderNumber} a fost înregistrată și rezervată. Transferați {total} pe unul dintre cardurile de mai jos. După ce magazinul confirmă plata, comanda va primi statusul «Plătită».",
+    "handoverCardsMessage": "Bună ziua! Am o întrebare despre plata comenzii #{orderNumber} în valoare de {total} prin transfer pe card.",
+    "handoverCardsTitle": "Transferați plata pe un card",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Dovada nu a putut fi trimisă. Încercați din nou sau scrieți managerului.",
+    "receiptHint": "O fotografie sau o captură de ecran a transferului (JPG, PNG, WEBP, HEIC) sau un PDF, până la 10 MB.",
+    "receiptLabel": "Dovada plății",
+    "receiptPaid": "Am plătit",
+    "receiptSent": "Dovada a fost trimisă, așteptăm confirmarea",
+    "receiptSentHint": "Magazinul va verifica transferul și va confirma plata, apoi comanda va primi statusul «Plătită».",
+    "receiptSubmit": "Trimiteți dovada",
+    "receiptTooLarge": "Fișierul este mai mare de 10 MB. Comprimați-l sau trimiteți o captură de ecran.",
+    "receiptWrongType": "Trimiteți o fotografie (JPG, PNG, WEBP, HEIC) sau un PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Chitanța nu a fost acceptată",
+    "receiptRejectedReason": "Motiv: {reason}",
+    "receiptResend": "Trimite altă chitanță",
+    "contactManager": "Contactează managerul",
+    "methodRequisites": "Transfer către datele de cont",
+    "requisitesDesc": "După plasarea comenzii veți vedea datele magazinului: carduri bancare și portofele crypto. Transferați {total} și atașați dovada plății — managerul va confirma comanda.",
+    "requisitesPreviewLabel": "Acceptăm transferuri către:",
+    "handoverRequisitesTitle": "Plătiți comanda prin transfer",
+    "handoverRequisitesBody": "Comanda #{orderNumber} a fost plasată. Alegeți mai jos o bancă sau un portofel, transferați {total} și atașați dovada plății.",
+    "handoverRequisitesMessage": "Bună ziua! Am plasat comanda #{orderNumber} în valoare de {total} și am plătit-o prin transfer. Vă rog să confirmați plata.",
+    "contactManagerHint": "Pentru confirmarea comenzii, contactați managerul.",
+    "showRequisite": "Atingeți pentru a vedea numărul",
+    "hideRequisite": "Ascunde numărul",
+    "numberLabel": "Număr de card sau de cont",
+    "holderLabel": "Beneficiar",
+    "addressLabel": "Adresa portofelului",
+    "networkLabel": "Rețea",
+    "copyNumber": "Copiază numărul",
+    "copyHolder": "Copiază beneficiarul",
+    "copyAddress": "Copiază adresa",
+    "copyNetwork": "Copiază rețeaua",
+    "cryptoOnlyWarning": "Trimiteți doar {currency} prin rețeaua {network}: un transfer al altei monede sau prin altă rețea nu va ajunge.",
+    "receiptPick": "Alege un fișier sau o fotografie",
+    "receiptCamera": "Fă o fotografie",
+    "receiptRemove": "Elimină fișierul"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Păstrați numărul comenzii. Veți avea nevoie de el când contactați magazinul.",
     "orderSuccess": "Comanda dvs. a fost plasată cu succes.",
-    "thankYou": "Vă mulțumim!"
+    "thankYou": "Vă mulțumim!",
+    "paymentConfirmed": "Plată confirmată",
+    "goToCourse": "Mergi la curs",
+    "orderCanceled": "Comandă anulată",
+    "orderCanceledHint": "Nu este nevoie de plată. Dacă este o greșeală, scrie-ne.",
+    "paidGoodsHint": "Pregătim comanda pentru expediere."
   },
   "OrderDetails": {
     "backToOrders": "Înapoi la comenzi",
@@ -926,6 +982,15 @@
     "noPhone": "Niciun număr de telefon",
     "phone": "Telefon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Asociat: {handle}",
+    "notLinked": "Neasociat",
+    "hint": "Autentificați-vă aici cu Telegram pentru a-l asocia acestui cont. După aceea vă puteți autentifica în ambele moduri.",
+    "errorTaken": "Acest cont Telegram este deja asociat altui cont.",
+    "errorRejected": "Telegram nu a confirmat. Încercați din nou.",
+    "errorFailed": "Telegram nu a putut fi asociat. Încercați din nou peste un minut."
+  },
   "PromoBanner": {
     "close": "Închide",
     "message": "Starter DTC complet, gata pentru producție."
@@ -1097,5 +1162,31 @@
     "addToCart": "Adaugă în coș",
     "chooseOptions": "Alege opțiuni",
     "remove": "Elimină"
+  },
+  "CartSidebar": {
+    "title": "Coș",
+    "signInPrompt": "Conectează-te pentru a vedea istoricul comenzilor și a cumpăra mai rapid.",
+    "signInEmail": "Prin e-mail",
+    "signInYandex": "Cu Yandex ID",
+    "deliveryEstimate": "Livrare {range}",
+    "empty": "Coșul tău este gol.",
+    "exploreProducts": "Vezi produsele",
+    "itemsTotal": "Total produse",
+    "checkout": "Finalizează comanda"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "curs online, fără livrare",
+    "shipmentNo": "Expedierea nr. {no}",
+    "digitalGroup": "Curs online — acces după confirmarea plății",
+    "accessByEmail": "Accesul la curs va veni prin e-mail după confirmarea plății.",
+    "digitalGroupPaid": "Curs online — acces deschis"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "În așteptarea plății",
+    "awaitingConfirmation": "În așteptarea confirmării plății",
+    "receiptRejected": "Chitanța nu a fost acceptată",
+    "paid": "Plătit",
+    "refunded": "Rambursat",
+    "canceled": "Anulat"
   }
 }

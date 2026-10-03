@@ -6,18 +6,23 @@ import {
   Button,
   Container,
   Heading,
+  Label,
+  Prompt,
   StatusBadge,
   Text,
+  Textarea,
   toast,
   Tooltip,
   usePrompt,
 } from "@medusajs/ui"
+import { useState } from "react"
 import { Trans, useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import DisplayId from "../../../../../components/common/display-id/display-id"
 import {
   useCapturePayment,
   useAuthorizePaymentSession,
+  useRejectPaymentReceipt,
 } from "../../../../../hooks/api"
 import { useDate } from "../../../../../hooks/use-date"
 import { formatCurrency } from "../../../../../lib/format-currency"
@@ -28,6 +33,7 @@ import {
 import {
   getOrderPaymentStatus,
   getPaymentProviderLabel,
+  manualPaymentStatus,
 } from "../../../../../lib/order-helpers"
 import { getPaymentsFromOrder } from "../../../../../lib/orders"
 import { getTotalCaptured, getTotalPending } from "../../../../../lib/payment"
@@ -69,7 +75,7 @@ export const OrderPaymentSection = ({
 
 const Header = ({ order }: { order: ExtendedOrder }) => {
   const { t } = useTranslation()
-  const { label, color } = getOrderPaymentStatus(t, order.payment_status)
+  const { label, color } = manualPaymentStatus(t, order) ?? getOrderPaymentStatus(t, order.payment_status)
 
   return (
     <div className="flex items-center justify-between px-6 py-4">
@@ -129,6 +135,126 @@ const Refund = ({
         </Text>
       </div>
     </div>
+  )
+}
+
+type PaymentReceipt = {
+  url: string
+  uploaded_at: string
+  /** Set only while the owner's rejection stands; the buyer's next upload clears it. */
+  rejected_reason: string | null
+}
+
+/**
+ * The buyer's receipt for a card transfer (`metadata.payment_receipt`, written
+ * by the storefront's «Я оплатил», t-cherk-com-hotfix batch 3). The owner opens
+ * it, checks the money arrived and confirms the payment with the button below,
+ * or rejects it with a reason (batch 5: `status: "rejected"`,
+ * `rejected_reason`, `rejected_at`).
+ */
+const readPaymentReceipt = (
+  metadata: Record<string, unknown> | null | undefined
+): PaymentReceipt | null => {
+  const raw = metadata?.payment_receipt as
+    | {
+        url?: unknown
+        uploaded_at?: unknown
+        status?: unknown
+        rejected_reason?: unknown
+      }
+    | null
+    | undefined
+  if (!raw || typeof raw.url !== "string" || typeof raw.uploaded_at !== "string") {
+    return null
+  }
+  return {
+    url: raw.url,
+    uploaded_at: raw.uploaded_at,
+    rejected_reason:
+      raw.status === "rejected"
+        ? typeof raw.rejected_reason === "string"
+          ? raw.rejected_reason
+          : ""
+        : null,
+  }
+}
+
+/**
+ * «Отклонить чек» next to «Подтвердить оплату» (t-cherk-com-hotfix batch 5):
+ * a prompt with a required reason, which the buyer then reads on the order
+ * page. The prompt stays open until the rejection is saved, so a failed save
+ * keeps the typed reason.
+ */
+const RejectReceiptButton = ({ orderId }: { orderId: string }) => {
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(false)
+  const [reason, setReason] = useState("")
+  const { mutateAsync, isPending } = useRejectPaymentReceipt(orderId)
+
+  const handleReject = async () => {
+    await mutateAsync(
+      { reason: reason.trim() },
+      {
+        onSuccess: () => {
+          toast.success(t("orders.payment.receiptRejectSuccess"))
+          setOpen(false)
+          setReason("")
+        },
+        onError: (error) => {
+          toast.error(error.message)
+        },
+      }
+    )
+  }
+
+  return (
+    <Prompt open={open} onOpenChange={setOpen}>
+      <Prompt.Trigger asChild>
+        <Button
+          className="shrink-0"
+          size="small"
+          variant="secondary"
+          data-testid="order-payment-receipt-reject"
+        >
+          {t("orders.payment.receiptReject")}
+        </Button>
+      </Prompt.Trigger>
+      <Prompt.Content>
+        <Prompt.Header>
+          <Prompt.Title>{t("orders.payment.receiptRejectTitle")}</Prompt.Title>
+          <Prompt.Description>
+            {t("orders.payment.receiptRejectDescription")}
+          </Prompt.Description>
+        </Prompt.Header>
+        <div className="flex flex-col gap-y-2 px-6 pt-4">
+          <Label htmlFor="payment-receipt-reject-reason" size="small" weight="plus">
+            {t("orders.payment.receiptRejectReason")}
+          </Label>
+          <Textarea
+            id="payment-receipt-reject-reason"
+            value={reason}
+            onChange={(event) => setReason(event.target.value)}
+            placeholder={t("orders.payment.receiptRejectReasonPlaceholder")}
+            maxLength={500}
+            rows={3}
+            data-testid="order-payment-receipt-reject-reason"
+          />
+        </div>
+        <Prompt.Footer>
+          <Prompt.Cancel>{t("actions.cancel")}</Prompt.Cancel>
+          <Button
+            size="small"
+            variant="danger"
+            onClick={handleReject}
+            disabled={!reason.trim()}
+            isLoading={isPending}
+            data-testid="order-payment-receipt-reject-submit"
+          >
+            {t("orders.payment.receiptReject")}
+          </Button>
+        </Prompt.Footer>
+      </Prompt.Content>
+    </Prompt>
   )
 }
 
@@ -198,6 +324,11 @@ const Payment = ({
   const showCapture =
     payment.captured_at === null && payment.canceled_at === null
 
+  const receipt =
+    payment.provider_id === "pp_system_default"
+      ? readPaymentReceipt(order.metadata)
+      : null
+
   const totalRefunded = (payment.refunds ?? []).reduce(
     (acc, next) => next.amount + acc,
     0
@@ -255,6 +386,33 @@ const Payment = ({
           ]}
         />
       </div>
+      {receipt && (
+        <div
+          className="flex items-center justify-between gap-x-4 px-6 py-4"
+          data-testid="order-payment-receipt"
+        >
+          <Text size="small" leading="compact">
+            {receipt.rejected_reason !== null
+              ? t("orders.payment.receiptRejected", {
+                  reason: receipt.rejected_reason,
+                })
+              : t("orders.payment.receiptSent", {
+                  date: getFullDate({
+                    date: receipt.uploaded_at,
+                    includeTime: true,
+                  }),
+                })}
+          </Text>
+          <a
+            href={receipt.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover shrink-0"
+          >
+            {t("orders.payment.receiptOpen")}
+          </a>
+        </div>
+      )}
       {showCapture && (
         <div className="bg-ui-bg-subtle flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-x-2">
@@ -267,19 +425,24 @@ const Payment = ({
             </Text>
           </div>
 
-          <Button
-            className="shrink-0"
-            size="small"
-            variant="secondary"
-            onClick={handleCapture}
-          >
-            <span className="hidden sm:block">
-              {t("orders.payment.capture")}
-            </span>
-            <span className="sm:hidden">
-              {t("orders.payment.capture_short")}
-            </span>
-          </Button>
+          <div className="flex shrink-0 items-center gap-x-2">
+            {receipt && receipt.rejected_reason === null && (
+              <RejectReceiptButton orderId={order.id} />
+            )}
+            <Button
+              className="shrink-0"
+              size="small"
+              variant="secondary"
+              onClick={handleCapture}
+            >
+              <span className="hidden sm:block">
+                {t("orders.payment.capture")}
+              </span>
+              <span className="sm:hidden">
+                {t("orders.payment.capture_short")}
+              </span>
+            </Button>
+          </div>
         </div>
       )}
       {refunds.map((refund) => (

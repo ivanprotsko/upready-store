@@ -53,6 +53,8 @@ type OwnerMessages = {
   linkExpired: string;
   testTitle: string;
   testBody: string;
+  receiptTitle: string;
+  receiptBody: string;
 };
 
 export const ownerMessages: Record<OwnerLocale, OwnerMessages> = {
@@ -76,6 +78,8 @@ export const ownerMessages: Record<OwnerLocale, OwnerMessages> = {
     linkExpired: "Код устарел: он живёт 15 минут. Получите новый в панели, раздел «Уведомления».",
     testTitle: "Проверка связи",
     testBody: "Это тестовое сообщение магазина «{shop}». Уведомления о заказах будут приходить сюда.",
+    receiptTitle: "Покупатель оплатил заказ №{id} и прислал чек",
+    receiptBody: "Чек: {url}\nПроверьте поступление и подтвердите оплату в панели.",
   },
   en: {
     newOrder: "New order #{id}",
@@ -97,6 +101,8 @@ export const ownerMessages: Record<OwnerLocale, OwnerMessages> = {
     linkExpired: "This code has expired: a code lives 15 minutes. Get a new one in the panel, Notifications.",
     testTitle: "Connection test",
     testBody: "This is a test message from «{shop}». Order notifications will arrive here.",
+    receiptTitle: "The customer paid order #{id} and sent a receipt",
+    receiptBody: "Receipt: {url}\nCheck that the money arrived and confirm the payment in the panel.",
   },
 };
 

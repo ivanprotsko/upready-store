@@ -48,3 +48,31 @@ export const useCapturePayment = (
   })
 }
 
+// t-cherk-com-hotfix batch 5: the owner does not accept the buyer's receipt
+// for a card transfer. `POST /tenants/orders/:id/payment-receipt/reject`
+// writes `status: "rejected"` with the reason into
+// `order.metadata.payment_receipt` and answers the order.
+export const useRejectPaymentReceipt = (
+  orderId: string,
+  options?: UseMutationOptions<
+    HttpTypes.AdminOrderResponse,
+    FetchError,
+    { reason: string }
+  >
+) => {
+  return useMutation({
+    mutationFn: (payload: { reason: string }) =>
+      sdk.client.fetch<HttpTypes.AdminOrderResponse>(
+        `/tenants/orders/${orderId}/payment-receipt/reject`,
+        { method: "POST", body: payload }
+      ),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({
+        queryKey: ordersQueryKeys.details(),
+      })
+
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}

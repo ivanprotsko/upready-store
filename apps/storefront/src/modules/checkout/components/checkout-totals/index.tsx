@@ -3,6 +3,7 @@
 import { convertToLocale } from "@lib/util/money"
 import type { HttpTypes } from "@medusajs/types"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
+import { cartNeedsShipping } from "@lib/util/shipping-address"
 import { useLocale, useTranslations } from "next-intl"
 
 const CheckoutTotals = ({ cart }: { cart: HttpTypes.StoreCart }) => {
@@ -18,6 +19,8 @@ const CheckoutTotals = ({ cart }: { cart: HttpTypes.StoreCart }) => {
     discount_subtotal?: number
   }
   const itemCount = cart.items?.length ?? 0
+  // Batch 6 (hotfix Plan B): no «Доставка» row for a cart with nothing to post.
+  const needsShipping = cartNeedsShipping(cart)
 
   return (
     <div className="flex flex-col gap-y-3">
@@ -29,12 +32,14 @@ const CheckoutTotals = ({ cart }: { cart: HttpTypes.StoreCart }) => {
           </span>
         </div>
 
-        <div className="flex items-center justify-between">
-          <span>{t("shippingCost")}</span>
-          <span data-testid="cart-shipping">
-            {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code, locale })}
-          </span>
-        </div>
+        {needsShipping && (
+          <div className="flex items-center justify-between">
+            <span>{t("shippingCost")}</span>
+            <span data-testid="cart-shipping">
+              {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code, locale })}
+            </span>
+          </div>
+        )}
 
         {!!discount_subtotal && (
           <div className="flex items-center justify-between">

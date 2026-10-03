@@ -12,6 +12,16 @@
     "trackOrder": "配送状況を確認",
     "viewOrder": "注文を見る"
   },
+  "CourseAccess": {
+    "body": "ご注文 <strong>#{id}</strong> のお支払いが確認されました。コースはアカウントでご利用いただけます：",
+    "button": "コースへ進む",
+    "headingAnon": "コースが受講可能になりました",
+    "headingWithName": "{name}様、コースが受講可能になりました",
+    "preview": "お支払いが確認されました。コースがアカウントでお待ちしています",
+    "signIn": "レッスンは {email} でアカウントにログインすると開きます。",
+    "subject": "ご注文 #{id} のお支払い完了：コースが受講可能になりました",
+    "textFallback": "ご注文 #{id} のお支払いが確認され、コースが受講可能になりました。\n\nコースへ進む："
+  },
   "Delivery": {
     "bodyOrder": "注文 <strong>#{id}</strong> をお届けしました。問題なくお受け取りいただけていれば幸いです。",
     "headingAnon": "ご注文をお届けしました",

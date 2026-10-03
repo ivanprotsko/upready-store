@@ -8,7 +8,7 @@ import { listTenantPages } from "@lib/data/tenant-pages"
 import { getTenantSeller } from "@lib/data/tenant-seller"
 import { footerLegalLinks } from "@lib/util/legal-links"
 import { PRODUCT_GRID_CLASS } from "@modules/products/components/product-card"
-import { FooterContacts, FooterRequisites } from "@modules/layout/components/footer-seller"
+import { FooterContacts } from "@modules/layout/components/footer-seller"
 
 // BRANCH-LOCAL (`redesign-olavka`, t-2026-09-24-n15, Ivan's remark 13): the Olavka shop's
 // footer, for the shops in `OLAVKA_SHOP_HANDLES` (`@lib/data/olavka-shop`). Every other shop
@@ -30,6 +30,10 @@ const LINK = "txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transit
  * product columns the footer starts at column 1 as before: an empty column there would
  * squeeze the text or push «©» onto a second row. Four columns start above 960 on these
  * shops (`PRODUCT_GRID_CLASS`, Ivan's remark of 2026-09-27), and so does the skip.
+ *
+ * No requisites block (batch 7, Ivan 03.10: «никаких ссылок на ИП Черкашина и т.д. Быть
+ * не должно»): the legal name, the tax and registration numbers and the legal address
+ * are not printed on these shops. The phone and the e-mail stay (`FooterContacts`).
  */
 const SKIP_FIRST_COLUMN = "min-[961px]:[&>*:nth-child(3n+1)]:col-start-2"
 
@@ -114,8 +118,6 @@ export default async function FooterOlavka() {
             </ul>
             <FooterContacts seller={seller} />
           </div>
-
-          <FooterRequisites seller={seller} />
         </div>
       </div>
     </footer>
