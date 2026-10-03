@@ -95,7 +95,7 @@ export default function WishlistButton({
       data-active={active}
       className={
         className ??
-        "inline-flex items-center justify-center rounded-full bg-ui-bg-base/80 p-1.5 text-ui-fg-subtle shadow-elevation-card-rest transition-colors hover:text-ui-fg-base disabled:opacity-60"
+        "inline-flex items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--ui-bg-base)_80%,transparent)] p-1.5 text-ui-fg-subtle shadow-elevation-card-rest transition-colors hover:text-ui-fg-base disabled:opacity-60"
       }
     >
       <Heart filled={active} className={active ? "text-ui-tag-red-icon" : undefined} />

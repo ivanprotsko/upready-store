@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
 
 import {
+  buildRobokassaReceipt,
+  encodeRobokassaReceipt,
   formatOutSum,
   invoiceIdFor,
   passwordFor,
@@ -31,6 +33,9 @@ const secretFor = (overrides: Partial<ResolvedRobokassaSecret> = {}): ResolvedRo
     test_password1: "test-one",
     test_password2: "test-two",
     hash_algorithm: "sha256",
+    fiscalization_enabled: false,
+    sno: "osn",
+    default_tax: "none",
   },
   ...overrides,
 });
@@ -178,6 +183,100 @@ describe("verifyResultSignature", () => {
       credentials: { ...secretFor().credentials, hash_algorithm: "md5" },
     });
     expect(verifyResultSignature(payload(secret), secret)).toBe(true);
+  });
+});
+
+describe("buildRobokassaReceipt", () => {
+  it("matches the fiscalization doc's own example for one item", () => {
+    // docs.robokassa.ru/ru/fiscalization, "Как передавать Receipt":
+    // { "sno": "osn", "items": [{ "name": "Название товара 1", "quantity": 1,
+    // "sum": 100, "payment_method": "full_payment", "payment_object":
+    // "commodity", "tax": "vat10" }] }
+    const receipt = buildRobokassaReceipt({
+      lines: [{ name: "Название товара 1", quantity: 1, amount: 100, kind: "item" }],
+      outSum: 100,
+      sno: "osn",
+      tax: "vat10",
+    });
+
+    expect(receipt).toEqual({
+      sno: "osn",
+      items: [
+        {
+          name: "Название товара 1",
+          quantity: 1,
+          sum: 100,
+          payment_method: "full_payment",
+          payment_object: "commodity",
+          tax: "vat10",
+        },
+      ],
+    });
+  });
+
+  it("includes the shipping line as a service, the items as commodities", () => {
+    const receipt = buildRobokassaReceipt({
+      lines: [
+        { name: "Товар", quantity: 1, amount: 1000, kind: "item" },
+        { name: "Доставка", quantity: 1, amount: 300, kind: "shipping" },
+      ],
+      outSum: 1300,
+      sno: "osn",
+      tax: "vat20",
+    });
+
+    expect(receipt?.items.map((item) => item.payment_object)).toEqual(["commodity", "service"]);
+    expect(receipt?.items.reduce((total, item) => total + item.sum, 0)).toBe(1300);
+  });
+
+  it("rounds a discounted sum to the kopeck and puts the remainder on the last line", () => {
+    // Three lines whose own (already discounted) amount does not divide the
+    // 10.00 total evenly: independent two-decimal rounding of 3.3333… three
+    // times loses one kopeck, which has to land somewhere or Robokassa's own
+    // fiscal check (items must sum to OutSum) refuses the Receipt.
+    const receipt = buildRobokassaReceipt({
+      lines: [
+        { name: "A", quantity: 1, amount: 3.3333, kind: "item" },
+        { name: "B", quantity: 1, amount: 3.3333, kind: "item" },
+        { name: "C", quantity: 1, amount: 3.3334, kind: "item" },
+      ],
+      outSum: 10,
+      sno: "osn",
+      tax: "none",
+    });
+
+    expect(receipt?.items.map((item) => item.sum)).toEqual([3.33, 3.33, 3.34]);
+    expect(receipt?.items.reduce((total, item) => total + item.sum, 0)).toBeCloseTo(10, 2);
+  });
+
+  it("drops a zero line and answers null once nothing is left to fiscalize", () => {
+    expect(
+      buildRobokassaReceipt({
+        lines: [{ name: "Free shipping", quantity: 1, amount: 0, kind: "shipping" }],
+        outSum: 0,
+        sno: "osn",
+        tax: "none",
+      }),
+    ).toBeNull();
+  });
+});
+
+describe("encodeRobokassaReceipt", () => {
+  it("url-encodes the JSON so the signature and the query string carry the same bytes", () => {
+    const receipt = buildRobokassaReceipt({
+      lines: [{ name: "Название товара 1", quantity: 1, amount: 100, kind: "item" }],
+      outSum: 100,
+      sno: "osn",
+      tax: "vat10",
+    })!;
+
+    const encoded = encodeRobokassaReceipt(receipt);
+    expect(encoded).toBe(encodeURIComponent(JSON.stringify(receipt)));
+    expect(JSON.parse(decodeURIComponent(encoded))).toEqual(receipt);
+
+    // The fiscalization doc's own signature formula: MerchantLogin:OutSum:InvId:Receipt:Пароль#1.
+    const signature = robokassaSignature(["DEMO", "100.00", "42", encoded, "live-one"], "sha256");
+    expect(signature).toBe(digest(`DEMO:100.00:42:${encoded}:live-one`, "sha256"));
   });
 });
 

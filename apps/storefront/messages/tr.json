@@ -78,14 +78,6 @@
     "exploreProducts": "Ürünlere göz at",
     "heading": "Sepet"
   },
-  "CartDropdown": {
-    "bagEmpty": "Alışveriş sepetiniz boş.",
-    "exploreProducts": "Ürünlere göz at",
-    "goToCart": "Sepete git",
-    "heading": "Sepet",
-    "subtotal": "Ara toplam",
-    "subtotalNote": "(vergiler hariç)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Sepetinizi aktarmaya çalışırken bir şeyler ters gitti",
     "runTransferAgain": "Aktarımı tekrar dene",
@@ -155,7 +147,7 @@
     "freeShipping": "Ücretsiz",
     "giftCard": "Hediye Kartı",
     "itemsCount": "{count, plural, one {{count} ürün} other {{count} ürün}}",
-    "legal": "«Öde» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
+    "legal": "«{button}» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
     "addressIncomplete": "Adresin zorunlu alanlarını doldurun: {fields}.",
     "provinceRequired": "Listeden bölgenizi seçin.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Kullanılamıyor: ücret hesaplanamadı",
     "signIn": "Giriş yap",
     "total": "Toplam",
-    "shippingZone": "Bölge: {zone}"
+    "shippingZone": "Bölge: {zone}",
+    "courseSignInHeading": "Kursu satın almak için giriş yapın",
+    "courseSignInText": "Kurs hesabınızda açılır, bu yüzden satın almak için giriş veya kayıt gerekir.",
+    "fieldRequired": "Bu alanı doldurun",
+    "emailInvalid": "E-postayı kontrol edin: adreste hata var",
+    "signInHeading": "Sipariş vermek için giriş yapın",
+    "signInText": "Sipariş hesabınızda görünecek: ödeme bilgileri, durum ve satın alınan kurslar orada. Giriş veya kayıt bir dakika sürer, sepet korunur."
   },
   "ClaimOrders": {
     "heading": "Hesapsız mı sipariş verdiniz?",
@@ -340,7 +338,10 @@
     "empty": "Henüz hiç kurs satın almadınız.",
     "start": "Başla",
     "continue": "Devam et",
-    "review": "Tekrar et"
+    "review": "Tekrar et",
+    "pendingHeading": "Ödeme bekleyenler",
+    "pendingHint": "Mağaza ödemeyi onayladığında erişim açılır.",
+    "toOrder": "{order} — öde"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Üye değil misiniz?",
     "password": "Şifre",
     "signIn": "Giriş yap",
+    "telegramDivider": "veya",
+    "telegramCta": "Telegram ile giriş yap",
+    "telegramPending": "Giriş yapılıyor…",
+    "telegramErrorExpired": "Bu Telegram girişinin süresi doldu. Lütfen baştan başlayın.",
+    "telegramErrorFailed": "Giriş yapılamadı. Lütfen bir dakika sonra tekrar deneyin.",
+    "telegramErrorRejected": "Telegram bu girişi onaylamadı. Lütfen tekrar deneyin.",
+    "telegramErrorUnconfigured": "Bu mağazada Telegram ile giriş henüz etkin değil.",
     "yandexCta": "Yandex ID ile giriş yap",
     "yandexDivider": "veya",
     "yandexErrorDenied": "Yandex sayfasında girişi iptal ettiniz.",
@@ -613,7 +621,32 @@
     "receiptSubmit": "Makbuzu gönder",
     "receiptTooLarge": "Dosya 10 MB'tan büyük. Sıkıştırın veya ekran görüntüsü gönderin.",
     "receiptWrongType": "Fotoğraf (JPG, PNG, WEBP, HEIC) veya PDF gönderin.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Dekont kabul edilmedi",
+    "receiptRejectedReason": "Neden: {reason}",
+    "receiptResend": "Başka dekont gönder",
+    "contactManager": "Yöneticiyle iletişime geç",
+    "methodRequisites": "Hesap bilgilerine havale",
+    "requisitesDesc": "Siparişi verdikten sonra mağazanın bilgilerini göreceksiniz: banka kartları ve kripto cüzdanlar. {total} tutarını gönderin ve ödeme dekontunu ekleyin — siparişi yönetici onaylar.",
+    "requisitesPreviewLabel": "Şuraya havale kabul ediyoruz:",
+    "handoverRequisitesTitle": "Siparişi havale ile ödeyin",
+    "handoverRequisitesBody": "#{orderNumber} numaralı sipariş alındı. Aşağıdan bir banka veya cüzdan seçin, {total} gönderin ve ödeme dekontunu ekleyin.",
+    "handoverRequisitesMessage": "Merhaba! {total} tutarındaki #{orderNumber} numaralı siparişi verdim ve havale ile ödedim. Lütfen ödemeyi onaylayın.",
+    "contactManagerHint": "Siparişi onaylatmak için yöneticiyle iletişime geçin.",
+    "showRequisite": "Numarayı görmek için dokunun",
+    "hideRequisite": "Numarayı gizle",
+    "numberLabel": "Kart veya hesap numarası",
+    "holderLabel": "Alıcı",
+    "addressLabel": "Cüzdan adresi",
+    "networkLabel": "Ağ",
+    "copyNumber": "Numarayı kopyala",
+    "copyHolder": "Alıcıyı kopyala",
+    "copyAddress": "Adresi kopyala",
+    "copyNetwork": "Ağı kopyala",
+    "cryptoOnlyWarning": "Yalnızca {network} ağında {currency} gönderin: başka bir coin veya başka bir ağ üzerinden yapılan transfer ulaşmaz.",
+    "receiptPick": "Dosya veya fotoğraf seç",
+    "receiptCamera": "Fotoğraf çek",
+    "receiptRemove": "Dosyayı kaldır"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Sipariş numaranızı saklayın. Mağazayla iletişime geçerken gerekecek.",
     "orderSuccess": "Siparişiniz başarıyla oluşturuldu.",
-    "thankYou": "Teşekkürler!"
+    "thankYou": "Teşekkürler!",
+    "paymentConfirmed": "Ödeme onaylandı",
+    "goToCourse": "Kursa git",
+    "orderCanceled": "Sipariş iptal edildi",
+    "orderCanceledHint": "Ödeme gerekmiyor. Bu bir hataysa bize yazın.",
+    "paidGoodsHint": "Siparişinizi gönderime hazırlıyoruz."
   },
   "OrderDetails": {
     "backToOrders": "Siparişlere dön",
@@ -944,6 +982,15 @@
     "noPhone": "Telefon numarası yok",
     "phone": "Telefon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Bağlı: {handle}",
+    "notLinked": "Bağlı değil",
+    "hint": "Bu hesaba bağlamak için burada Telegram ile giriş yapın. Ardından iki yoldan biriyle giriş yapabilirsiniz.",
+    "errorTaken": "Bu Telegram hesabı zaten başka bir hesaba bağlı.",
+    "errorRejected": "Telegram bunu onaylamadı. Lütfen tekrar deneyin.",
+    "errorFailed": "Telegram bağlanamadı. Lütfen bir dakika sonra tekrar deneyin."
+  },
   "PromoBanner": {
     "close": "Kapat",
     "message": "Tam donanımlı, üretime hazır DTC starter."
@@ -1115,5 +1162,31 @@
     "addToCart": "Sepete ekle",
     "chooseOptions": "Seçenekleri seç",
     "remove": "Kaldır"
+  },
+  "CartSidebar": {
+    "title": "Sepet",
+    "signInPrompt": "Sipariş geçmişinizi görmek ve daha hızlı alışveriş yapmak için giriş yapın.",
+    "signInEmail": "E-posta ile",
+    "signInYandex": "Yandex ID ile",
+    "deliveryEstimate": "Teslimat {range}",
+    "empty": "Sepetiniz boş.",
+    "exploreProducts": "Ürünlere göz atın",
+    "itemsTotal": "Ürün toplamı",
+    "checkout": "Ödemeye geç"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "çevrimiçi kurs, teslimat yok",
+    "shipmentNo": "Gönderi No. {no}",
+    "digitalGroup": "Çevrimiçi kurs — ödeme onaylandıktan sonra erişim",
+    "accessByEmail": "Kursa erişim, ödeme onaylandıktan sonra e-posta ile gelecek.",
+    "digitalGroupPaid": "Çevrimiçi kurs — erişim açıldı"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Ödeme bekleniyor",
+    "awaitingConfirmation": "Ödeme onayı bekleniyor",
+    "receiptRejected": "Dekont kabul edilmedi",
+    "paid": "Ödendi",
+    "refunded": "İade edildi",
+    "canceled": "İptal edildi"
   }
 }

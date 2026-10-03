@@ -129,6 +129,14 @@ const routes: RouteObject[] = [
                           import("./routes/products/product-custom-attributes"),
                       },
                       {
+                        // t-cherk-37: the product's own title/subtitle/
+                        // description, option titles and variant titles, one
+                        // locale at a time.
+                        path: "translations",
+                        lazy: () =>
+                          import("./routes/products/product-translations"),
+                      },
+                      {
                         path: "organization",
                         lazy: () =>
                           import("./routes/products/product-organization"),

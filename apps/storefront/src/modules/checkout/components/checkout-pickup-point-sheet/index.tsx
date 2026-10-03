@@ -63,12 +63,12 @@ export default function CheckoutPickupPointSheet() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("searchPlaceholder")}
-            className="h-10 w-full bg-transparent txt-compact-medium text-ui-fg-base outline-none placeholder:text-ui-fg-muted"
+            className="h-10 w-full bg-transparent txt-compact-medium text-ui-fg-base outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] placeholder:text-ui-fg-muted"
             data-testid="pickup-point-search"
           />
         </div>
 
-        {error && <p className="txt-compact-small text-rose-500">{error}</p>}
+        {error && <p className="txt-compact-small text-ui-fg-error">{error}</p>}
 
         {filtered.length === 0 ? (
           <p className="txt-compact-small text-ui-fg-subtle text-center py-6">

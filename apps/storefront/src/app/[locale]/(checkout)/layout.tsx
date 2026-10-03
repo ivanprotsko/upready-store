@@ -2,6 +2,7 @@ import { retrieveCustomer } from "@lib/data/customer"
 import { getSiteName } from "@lib/data/cookies"
 import { getLegalLinkContext } from "@lib/data/legal-links"
 import { legalHref } from "@lib/util/legal-links"
+import { customerContactLabel } from "@lib/util/telegram-contact"
 import { ArrowLeft, UserMini } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
 import type { Metadata } from "next"
@@ -67,7 +68,7 @@ export default async function CheckoutLayout({
               <div className="flex items-center gap-x-1 txt-compact-medium text-ui-fg-subtle">
                 <UserMini />
                 <span className="text-xs truncate hidden md:block">
-                  {customer.email}
+                  {customerContactLabel(customer)}
                 </span>
               </div>
             ) : (

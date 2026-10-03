@@ -78,14 +78,6 @@
     "exploreProducts": "Udforsk produkter",
     "heading": "Kurv"
   },
-  "CartDropdown": {
-    "bagEmpty": "Din indkøbskurv er tom.",
-    "exploreProducts": "Udforsk produkter",
-    "goToCart": "Gå til kurv",
-    "heading": "Kurv",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(ekskl. moms)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Der opstod en fejl, da vi forsøgte at overføre din kurv",
     "runTransferAgain": "Prøv overførslen igen",
@@ -155,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Gavekort",
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
-    "legal": "Ved at klikke på «Betal» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy>, og accepterer vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
+    "legal": "Ved at klikke på «{button}» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy>, og accepterer vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
     "manualInput": "Indtast adresse manuelt",
     "addressIncomplete": "Udfyld de obligatoriske adressefelter: {fields}.",
     "provinceRequired": "Vælg region på listen.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Ikke tilgængelig: prisen kunne ikke beregnes",
     "signIn": "Log ind",
     "total": "I alt",
-    "shippingZone": "Zone: {zone}"
+    "shippingZone": "Zone: {zone}",
+    "courseSignInHeading": "Log ind for at købe kurset",
+    "courseSignInText": "Kurset åbnes i din konto, så købet kræver login eller oprettelse.",
+    "fieldRequired": "Udfyld dette felt",
+    "emailInvalid": "Tjek e-mailen: der er en fejl i adressen",
+    "signInHeading": "Log ind for at afgive ordren",
+    "signInText": "Ordren vises på din konto: der finder du betalingsoplysninger, status og købte kurser. Login eller oprettelse tager et minut, og kurven bevares."
   },
   "ClaimOrders": {
     "heading": "Bestilte du uden konto?",
@@ -340,7 +338,10 @@
     "empty": "Du har endnu ikke købt nogen kurser.",
     "start": "Start",
     "continue": "Fortsæt",
-    "review": "Gennemgå"
+    "review": "Gennemgå",
+    "pendingHeading": "Afventer betaling",
+    "pendingHint": "Adgangen åbnes, når butikken har bekræftet betalingen.",
+    "toOrder": "{order} – betal"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Ikke medlem endnu?",
     "password": "Adgangskode",
     "signIn": "Log ind",
+    "telegramDivider": "eller",
+    "telegramCta": "Log ind med Telegram",
+    "telegramPending": "Logger ind…",
+    "telegramErrorExpired": "Dette log ind med Telegram er udløbet. Start forfra.",
+    "telegramErrorFailed": "Log ind mislykkedes. Prøv igen om et minut.",
+    "telegramErrorRejected": "Telegram bekræftede ikke dette log ind. Prøv igen.",
+    "telegramErrorUnconfigured": "Log ind med Telegram er endnu ikke slået til i denne butik.",
     "yandexCta": "Log ind med Yandex ID",
     "yandexDivider": "eller",
     "yandexErrorDenied": "Du annullerede login på Yandex-siden.",
@@ -613,7 +621,32 @@
     "receiptSubmit": "Send kvitteringen",
     "receiptTooLarge": "Filen er større end 10 MB. Komprimer den, eller send et skærmbillede.",
     "receiptWrongType": "Send et foto (JPG, PNG, WEBP, HEIC) eller en PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Kvitteringen blev ikke godkendt",
+    "receiptRejectedReason": "Årsag: {reason}",
+    "receiptResend": "Send en anden kvittering",
+    "contactManager": "Kontakt manageren",
+    "methodRequisites": "Overførsel til kontooplysninger",
+    "requisitesDesc": "Når du har afgivet ordren, ser du butikkens oplysninger: bankkort og kryptowallets. Overfør {total} og vedhæft kvitteringen – en medarbejder bekræfter ordren.",
+    "requisitesPreviewLabel": "Vi modtager overførsler til:",
+    "handoverRequisitesTitle": "Betal ordren ved overførsel",
+    "handoverRequisitesBody": "Ordre #{orderNumber} er modtaget. Vælg en bank eller wallet nedenfor, overfør {total} og vedhæft kvitteringen.",
+    "handoverRequisitesMessage": "Hej! Jeg har afgivet ordre #{orderNumber} på {total} og betalt den ved overførsel. Bekræft venligst betalingen.",
+    "contactManagerHint": "Kontakt en medarbejder for at få ordren bekræftet.",
+    "showRequisite": "Tryk for at se nummeret",
+    "hideRequisite": "Skjul nummeret",
+    "numberLabel": "Kort- eller kontonummer",
+    "holderLabel": "Modtager",
+    "addressLabel": "Wallet-adresse",
+    "networkLabel": "Netværk",
+    "copyNumber": "Kopiér nummeret",
+    "copyHolder": "Kopiér modtageren",
+    "copyAddress": "Kopiér adressen",
+    "copyNetwork": "Kopiér netværket",
+    "cryptoOnlyWarning": "Send kun {currency} på {network}-netværket: en overførsel af en anden coin eller via et andet netværk når ikke frem.",
+    "receiptPick": "Vælg fil eller billede",
+    "receiptCamera": "Tag et billede",
+    "receiptRemove": "Fjern filen"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Gem ordrenummeret. Du får brug for det, når du kontakter butikken.",
     "orderSuccess": "Din ordre er blevet afgivet.",
-    "thankYou": "Tak!"
+    "thankYou": "Tak!",
+    "paymentConfirmed": "Betaling bekræftet",
+    "goToCourse": "Gå til kurset",
+    "orderCanceled": "Ordren er annulleret",
+    "orderCanceledHint": "Du skal ikke betale. Skriv til os, hvis det er en fejl.",
+    "paidGoodsHint": "Vi gør din ordre klar til afsendelse."
   },
   "OrderDetails": {
     "backToOrders": "Tilbage til ordrer",
@@ -944,6 +982,15 @@
     "noPhone": "Intet telefonnummer",
     "phone": "Telefon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Tilknyttet: {handle}",
+    "notLinked": "Ikke tilknyttet",
+    "hint": "Log ind med Telegram her for at knytte det til denne konto. Derefter kan du logge ind på begge måder.",
+    "errorTaken": "Denne Telegram-konto er allerede knyttet til en anden konto.",
+    "errorRejected": "Telegram bekræftede det ikke. Prøv igen.",
+    "errorFailed": "Telegram kunne ikke tilknyttes. Prøv igen om et minut."
+  },
   "PromoBanner": {
     "close": "Luk",
     "message": "Fuldt udstyret, produktionsklar DTC-starter."
@@ -1115,5 +1162,31 @@
     "addToCart": "Læg i kurv",
     "chooseOptions": "Vælg muligheder",
     "remove": "Fjern"
+  },
+  "CartSidebar": {
+    "title": "Kurv",
+    "signInPrompt": "Log ind for at se din ordrehistorik og handle hurtigere.",
+    "signInEmail": "Med e-mail",
+    "signInYandex": "Med Yandex ID",
+    "deliveryEstimate": "Levering {range}",
+    "empty": "Din kurv er tom.",
+    "exploreProducts": "Se produkter",
+    "itemsTotal": "Varer i alt",
+    "checkout": "Til kassen"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "onlinekursus, uden levering",
+    "shipmentNo": "Forsendelse nr. {no}",
+    "digitalGroup": "Onlinekursus — adgang efter bekræftet betaling",
+    "accessByEmail": "Adgangen til kurset sendes på e-mail, når betalingen er bekræftet.",
+    "digitalGroupPaid": "Onlinekursus – adgang åbnet"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Afventer betaling",
+    "awaitingConfirmation": "Afventer bekræftelse af betaling",
+    "receiptRejected": "Kvitteringen blev ikke godkendt",
+    "paid": "Betalt",
+    "refunded": "Refunderet",
+    "canceled": "Annulleret"
   }
 }

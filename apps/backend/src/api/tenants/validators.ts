@@ -4,6 +4,8 @@ import { UpdateProduct } from "@medusajs/medusa/api/admin/products/validators";
 import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
 import { SiteScopeSchema } from "./products/site-scope";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
+import { ROBOKASSA_SNO_VALUES, ROBOKASSA_TAX_VALUES } from "../../tenant-secrets/robokassa";
+import { LOCALE_CODES } from "./locale-settings/validators";
 import {
   BANK_NUMBER_PATTERN,
   CRYPTO_ADDRESS_FORMATS,
@@ -367,6 +369,15 @@ export const PutTenantPaymentSettingsSchema = z.strictObject({
   password2: optionalSecret,
   test_password1: optionalSecret,
   test_password2: optionalSecret,
+  /**
+   * t-cherk-30: the 54-FZ receipt (`Receipt`) Robokassa prints when the shop
+   * sends it — mandatory in practice for an ИП (Ivan, 2026-10-02: «ИП, а разве
+   * робокасса чеки не делает?»). Off by default, same as every other switch
+   * on this form.
+   */
+  fiscalization_enabled: z.boolean().optional(),
+  sno: z.enum(ROBOKASSA_SNO_VALUES).optional(),
+  default_tax: z.enum(ROBOKASSA_TAX_VALUES).optional(),
 });
 export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
 
@@ -757,4 +768,73 @@ export const PutTenantPochtaSchema = z.strictObject({
   default_weight_g: z.number().int().min(1).max(50_000).optional(),
   is_enabled: z.boolean().optional(),
 });
+
+/**
+ * `PUT /tenants/hreflang-sisters` (t-cherk-31) — the owner's override list of
+ * sister sites that do not live in this database. The host is normalised and
+ * shape-checked the same way `PostTenantDomainSchema` does its own `host`, so
+ * a sister's domain is stored in the one spelling `GET /store/tenant/sites`
+ * compares a group sibling's primary domain against when it merges the two
+ * lists. Ten rows is generous for "the other sites of one client"; a real
+ * excess is a sign something upstream is wrong, not a list to paginate.
+ */
+export const PutTenantHreflangSistersSchema = z.strictObject({
+  sisters: z
+    .array(
+      z.strictObject({
+        domain: z
+          .string()
+          .min(1)
+          .max(253)
+          .transform(normalizeHost)
+          .refine(isValidHost, {
+            message:
+              "A host is at least two dot-separated labels of letters, digits and inner hyphens (for example `shop.example.com`).",
+          }),
+        locale: z.enum(LOCALE_CODES),
+      }),
+    )
+    .max(10, "sisters must not list more than 10 sites."),
+});
+
+export type PutTenantHreflangSistersBody = z.infer<typeof PutTenantHreflangSistersSchema>;
 export type PutTenantPochtaBody = z.infer<typeof PutTenantPochtaSchema>;
+
+/**
+ * `PUT /tenants/tribute` (t-cherk-22) — the shop's Tribute Shop API key.
+ *
+ * ONE secret, unlike Robokassa's two password pairs: the same key both calls
+ * `POST /shop/orders` and signs the webhook body. Absent `api_key` keeps the
+ * stored one, same "re-save without re-typing" rule as every other slot.
+ */
+export const PutTenantTributeSchema = z.strictObject({
+  api_key: z.string().max(500).optional().transform((value) => (value && value.trim() ? value.trim() : undefined)),
+  shop_id: z.string().max(128).optional().transform((value) => (value && value.trim() ? value.trim() : undefined)),
+  is_enabled: z.boolean().optional(),
+});
+export type PutTenantTributeBody = z.infer<typeof PutTenantTributeSchema>;
+
+/**
+ * `PUT /tenants/telegram-bot` (t-2026-10-02-telegram-auth) — the shop's own
+ * Telegram bot, for the Login Widget and the Mini App's `initData`.
+ *
+ * Both fields every time, no «keep» case, for the reason
+ * `PutTenantApishipKeySchema` gives: a bot is being set or replaced as a pair,
+ * never half-changed, so there is nothing to merge with a stored value. The
+ * route itself calls Telegram's `getMe` with the typed token before writing —
+ * a wrong token fails here, in the panel, not at a buyer's click.
+ */
+export const PutTenantTelegramBotSchema = z.strictObject({
+  username: z
+    .string()
+    .trim()
+    .min(1, "Введите имя пользователя бота (без @).")
+    .max(64)
+    .transform((value) => value.replace(/^@/, "")),
+  token: z
+    .string()
+    .trim()
+    .min(1, "Пустое значение не сохраняется: введите токен бота.")
+    .max(200),
+});
+export type PutTenantTelegramBotBody = z.infer<typeof PutTenantTelegramBotSchema>;

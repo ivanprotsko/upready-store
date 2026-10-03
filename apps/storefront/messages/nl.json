@@ -78,14 +78,6 @@
     "exploreProducts": "Bekijk producten",
     "heading": "Winkelwagen"
   },
-  "CartDropdown": {
-    "bagEmpty": "Uw winkelwagen is leeg.",
-    "exploreProducts": "Bekijk producten",
-    "goToCart": "Naar winkelwagen",
-    "heading": "Winkelwagen",
-    "subtotal": "Subtotaal",
-    "subtotalNote": "(excl. btw)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Er is iets misgegaan bij het overzetten van uw winkelwagen",
     "runTransferAgain": "Overzetten opnieuw proberen",
@@ -155,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Cadeaubon",
     "itemsCount": "{count, plural, one {{count} artikel} other {{count} artikelen}}",
-    "legal": "Door op «Betalen» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
+    "legal": "Door op «{button}» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
     "manualInput": "Adres handmatig invoeren",
     "addressIncomplete": "Vul de verplichte adresvelden in: {fields}.",
     "provinceRequired": "Kies je regio uit de lijst.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Niet beschikbaar: de prijs kon niet worden berekend",
     "signIn": "Inloggen",
     "total": "Totaal",
-    "shippingZone": "Zone: {zone}"
+    "shippingZone": "Zone: {zone}",
+    "courseSignInHeading": "Log in om de cursus te kopen",
+    "courseSignInText": "De cursus opent in je account, dus voor de aankoop is inloggen of registreren nodig.",
+    "fieldRequired": "Vul dit veld in",
+    "emailInvalid": "Controleer het e-mailadres: er zit een fout in",
+    "signInHeading": "Log in om de bestelling te plaatsen",
+    "signInText": "De bestelling verschijnt in uw account: daar vindt u de betaalgegevens, de status en de gekochte cursussen. Inloggen of registreren duurt een minuut en de winkelwagen blijft bewaard."
   },
   "ClaimOrders": {
     "heading": "Zonder account besteld?",
@@ -340,7 +338,10 @@
     "empty": "U heeft nog geen cursussen gekocht.",
     "start": "Beginnen",
     "continue": "Doorgaan",
-    "review": "Herhalen"
+    "review": "Herhalen",
+    "pendingHeading": "Wachten op betaling",
+    "pendingHint": "De toegang wordt geopend zodra de winkel de betaling bevestigt.",
+    "toOrder": "{order} – betalen"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Nog geen lid?",
     "password": "Wachtwoord",
     "signIn": "Inloggen",
+    "telegramDivider": "of",
+    "telegramCta": "Inloggen met Telegram",
+    "telegramPending": "Bezig met inloggen…",
+    "telegramErrorExpired": "Deze Telegram-aanmelding is verlopen. Begin opnieuw.",
+    "telegramErrorFailed": "Inloggen is mislukt. Probeer het over een minuut opnieuw.",
+    "telegramErrorRejected": "Telegram heeft deze aanmelding niet bevestigd. Probeer het opnieuw.",
+    "telegramErrorUnconfigured": "Inloggen met Telegram is in deze winkel nog niet ingeschakeld.",
     "yandexCta": "Inloggen met Yandex ID",
     "yandexDivider": "of",
     "yandexErrorDenied": "Je hebt het inloggen op de Yandex-pagina geannuleerd.",
@@ -613,7 +621,32 @@
     "receiptSubmit": "Bewijs versturen",
     "receiptTooLarge": "Het bestand is groter dan 10 MB. Comprimeer het of stuur een screenshot.",
     "receiptWrongType": "Stuur een foto (JPG, PNG, WEBP, HEIC) of een PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Bon niet geaccepteerd",
+    "receiptRejectedReason": "Reden: {reason}",
+    "receiptResend": "Andere bon sturen",
+    "contactManager": "Contact met de manager",
+    "methodRequisites": "Overboeking naar rekeninggegevens",
+    "requisitesDesc": "Na het plaatsen van de bestelling ziet u de gegevens van de winkel: bankkaarten en cryptowallets. Maak {total} over en voeg het betaalbewijs toe – de beheerder bevestigt de bestelling.",
+    "requisitesPreviewLabel": "Wij accepteren overboekingen naar:",
+    "handoverRequisitesTitle": "Betaal de bestelling via overboeking",
+    "handoverRequisitesBody": "Bestelling #{orderNumber} is geplaatst. Kies hieronder een bank of wallet, maak {total} over en voeg het betaalbewijs toe.",
+    "handoverRequisitesMessage": "Hallo! Ik heb bestelling #{orderNumber} van {total} geplaatst en via overboeking betaald. Kunt u de betaling bevestigen?",
+    "contactManagerHint": "Neem contact op met de beheerder om de bestelling te bevestigen.",
+    "showRequisite": "Tik om het nummer te zien",
+    "hideRequisite": "Nummer verbergen",
+    "numberLabel": "Kaart- of rekeningnummer",
+    "holderLabel": "Begunstigde",
+    "addressLabel": "Walletadres",
+    "networkLabel": "Netwerk",
+    "copyNumber": "Nummer kopiëren",
+    "copyHolder": "Begunstigde kopiëren",
+    "copyAddress": "Adres kopiëren",
+    "copyNetwork": "Netwerk kopiëren",
+    "cryptoOnlyWarning": "Verstuur alleen {currency} via het {network}-netwerk: een overboeking van een andere munt of via een ander netwerk komt niet aan.",
+    "receiptPick": "Bestand of foto kiezen",
+    "receiptCamera": "Foto maken",
+    "receiptRemove": "Bestand verwijderen"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Bewaar het bestelnummer. U hebt het nodig als u contact opneemt met de winkel.",
     "orderSuccess": "Uw bestelling is succesvol geplaatst.",
-    "thankYou": "Bedankt!"
+    "thankYou": "Bedankt!",
+    "paymentConfirmed": "Betaling bevestigd",
+    "goToCourse": "Naar de cursus",
+    "orderCanceled": "Bestelling geannuleerd",
+    "orderCanceledHint": "Betalen is niet nodig. Is dit een vergissing, schrijf ons dan.",
+    "paidGoodsHint": "We maken je bestelling klaar voor verzending."
   },
   "OrderDetails": {
     "backToOrders": "Terug naar bestellingen",
@@ -944,6 +982,15 @@
     "noPhone": "Geen telefoonnummer",
     "phone": "Telefoon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Gekoppeld: {handle}",
+    "notLinked": "Niet gekoppeld",
+    "hint": "Log hier in met Telegram om het aan dit account te koppelen. Daarna kun je op beide manieren inloggen.",
+    "errorTaken": "Dit Telegram-account is al aan een ander account gekoppeld.",
+    "errorRejected": "Telegram heeft dit niet bevestigd. Probeer het opnieuw.",
+    "errorFailed": "Telegram koppelen is mislukt. Probeer het over een minuut opnieuw."
+  },
   "PromoBanner": {
     "close": "Sluiten",
     "message": "Volledig uitgeruste, productieklare DTC starter."
@@ -1115,5 +1162,31 @@
     "addToCart": "In winkelwagen",
     "chooseOptions": "Opties kiezen",
     "remove": "Verwijderen"
+  },
+  "CartSidebar": {
+    "title": "Winkelwagen",
+    "signInPrompt": "Log in om je bestelgeschiedenis te zien en sneller af te rekenen.",
+    "signInEmail": "Met e-mail",
+    "signInYandex": "Met Yandex ID",
+    "deliveryEstimate": "Bezorging {range}",
+    "empty": "Je winkelwagen is leeg.",
+    "exploreProducts": "Producten bekijken",
+    "itemsTotal": "Totaal artikelen",
+    "checkout": "Afrekenen"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online cursus, geen bezorging",
+    "shipmentNo": "Zending nr. {no}",
+    "digitalGroup": "Online cursus — toegang na bevestiging van de betaling",
+    "accessByEmail": "De toegang tot de cursus komt per e-mail zodra de betaling is bevestigd.",
+    "digitalGroupPaid": "Onlinecursus – toegang geopend"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Wacht op betaling",
+    "awaitingConfirmation": "Wacht op bevestiging van betaling",
+    "receiptRejected": "Bewijs niet geaccepteerd",
+    "paid": "Betaald",
+    "refunded": "Terugbetaald",
+    "canceled": "Geannuleerd"
   }
 }

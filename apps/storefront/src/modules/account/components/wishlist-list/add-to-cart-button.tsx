@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl"
 
 import { addToCart } from "@lib/data/cart"
 import { Link } from "@i18n/navigation"
+import { useCartSidebar } from "@modules/layout/components/cart-sidebar/context"
 
 type Props = {
   productHandle: string
@@ -15,6 +16,7 @@ type Props = {
 export default function WishlistAddToCartButton({ productHandle, singleVariantId }: Props) {
   const t = useTranslations("WishlistPage")
   const [isAdding, setIsAdding] = useState(false)
+  const { open: openCartSidebar } = useCartSidebar()
 
   if (!singleVariantId) {
     return (
@@ -32,6 +34,8 @@ export default function WishlistAddToCartButton({ productHandle, singleVariantId
     setIsAdding(true)
     try {
       await addToCart({ variantId: singleVariantId, quantity: 1 })
+      // Batch 5: on a desktop viewport the cart sidebar opens on a successful add.
+      openCartSidebar()
     } finally {
       setIsAdding(false)
     }

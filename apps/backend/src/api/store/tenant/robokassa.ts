@@ -1,7 +1,10 @@
 import type { MedusaNextFunction, MedusaResponse, MedusaStoreRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
-import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
+import {
+  readRobokassaSecretPublic,
+  type RobokassaReceiptLineInput,
+} from "../../../tenant-secrets/robokassa";
 import { resolveTenantFromPublishableKey, type StoreTenant } from "./resolve-tenant";
 
 export const ROBOKASSA_PROVIDER_ID = "pp_robokassa_robokassa";
@@ -73,19 +76,63 @@ export const injectRobokassaTenant = async (
     );
   }
 
+  // t-cherk-30: the cart's items and shipping cost only matter once the shop's
+  // fiscalization switch is on, so a shop without it pays no extra query — the
+  // 54-FZ `Receipt` is built once here, from the server's own read of the
+  // cart, and ridden through `data.receipt_lines` to `initiatePayment`
+  // (`src/modules/payment-robokassa/service.ts`), never from the client.
+  const wantsReceipt = secret.credentials.fiscalization_enabled;
+  const fields = ["id", "cart.id", "cart.sales_channel_id"];
+  if (wantsReceipt) {
+    fields.push(
+      "cart.items.title",
+      "cart.items.quantity",
+      "cart.items.total",
+      "cart.shipping_methods.name",
+      "cart.shipping_methods.total",
+    );
+  }
+
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
   const { data: collections } = await query.graph({
     entity: "payment_collection",
-    fields: ["id", "cart.id", "cart.sales_channel_id"],
+    fields,
     filters: { id: req.params.id },
   });
-  const cart = collections[0]?.cart as { id?: string; sales_channel_id?: string | null } | undefined;
+  const cart = collections[0]?.cart as
+    | {
+        id?: string;
+        sales_channel_id?: string | null;
+        items?: Array<{ title: string; quantity: number; total: number }>;
+        shipping_methods?: Array<{ name: string; total: number }>;
+      }
+    | undefined;
   if (!cart?.id || cart.sales_channel_id !== tenant.sales_channel_id) {
     throw new MedusaError(MedusaError.Types.NOT_FOUND, `Payment collection ${req.params.id} was not found.`);
   }
 
+  const receiptLines: RobokassaReceiptLineInput[] | undefined = wantsReceipt
+    ? [
+        ...(cart.items ?? []).map((item) => ({
+          name: item.title,
+          quantity: Number(item.quantity),
+          amount: Number(item.total),
+          kind: "item" as const,
+        })),
+        ...(cart.shipping_methods ?? []).map((method) => ({
+          name: method.name,
+          quantity: 1,
+          amount: Number(method.total),
+          kind: "shipping" as const,
+        })),
+      ]
+    : undefined;
+
   const { tenant_id: _tenant, result_confirmed_at: _confirmed, result_out_sum: _sum, ...clientData } =
     body.data ?? {};
-  req.body = { ...body, data: { ...clientData, tenant_id: tenant.id } };
+  req.body = {
+    ...body,
+    data: { ...clientData, tenant_id: tenant.id, receipt_lines: receiptLines },
+  };
   next();
 };

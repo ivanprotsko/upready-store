@@ -18,6 +18,30 @@ export type MaskedSecret = { set: boolean; last4: string | null }
 
 export type RobokassaHashAlgorithm = "md5" | "sha256" | "sha384" | "sha512"
 
+// t-cherk-30: Robokassa's own enums for the 54-FZ receipt (`Receipt`), read
+// from docs.robokassa.ru/ru/fiscalization — `payment_method` and
+// `payment_object` are not here because neither is a panel field (the brief
+// fixes them: every line is `full_payment`, an item is `commodity`, shipping
+// is `service`).
+export const ROBOKASSA_SNO_VALUES = ["osn", "usn_income", "usn_income_outcome", "esn", "patent"] as const
+export type RobokassaSno = (typeof ROBOKASSA_SNO_VALUES)[number]
+
+export const ROBOKASSA_TAX_VALUES = [
+  "none",
+  "vat0",
+  "vat10",
+  "vat20",
+  "vat110",
+  "vat120",
+  "vat5",
+  "vat7",
+  "vat105",
+  "vat107",
+  "vat22",
+  "vat122",
+] as const
+export type RobokassaTax = (typeof ROBOKASSA_TAX_VALUES)[number]
+
 export type PaymentSettings = {
   id: string
   provider: "robokassa"
@@ -29,6 +53,9 @@ export type PaymentSettings = {
   password2: MaskedSecret
   test_password1: MaskedSecret
   test_password2: MaskedSecret
+  fiscalization_enabled: boolean
+  sno: RobokassaSno
+  default_tax: RobokassaTax
 }
 
 /**
@@ -78,6 +105,9 @@ export type PutPaymentSettingsBody = {
   password2?: string
   test_password1?: string
   test_password2?: string
+  fiscalization_enabled?: boolean
+  sno?: RobokassaSno
+  default_tax?: RobokassaTax
 }
 
 const PAYMENT_SETTINGS_QUERY_KEY = "payment-settings" as const

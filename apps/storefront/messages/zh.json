@@ -78,14 +78,6 @@
     "exploreProducts": "浏览商品",
     "heading": "购物车"
   },
-  "CartDropdown": {
-    "bagEmpty": "您的购物袋是空的。",
-    "exploreProducts": "浏览商品",
-    "goToCart": "前往购物车",
-    "heading": "购物车",
-    "subtotal": "小计",
-    "subtotalNote": "（不含税）"
-  },
   "CartMismatchBanner": {
     "errorMessage": "转移您的购物车时出现问题",
     "runTransferAgain": "重新转移",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "不可用：无法计算运费",
     "signIn": "登录",
     "total": "总计",
-    "shippingZone": "配送区域：{zone}"
+    "shippingZone": "配送区域：{zone}",
+    "courseSignInHeading": "登录后购买课程",
+    "courseSignInText": "课程在您的账户中开放，因此购买需要登录或注册。",
+    "fieldRequired": "请填写此项",
+    "emailInvalid": "请检查邮箱：地址有误",
+    "signInHeading": "登录后下单",
+    "signInText": "订单将显示在您的账户中：那里有付款信息、订单状态和已购课程。登录或注册只需一分钟，购物车会保留。"
   },
   "ClaimOrders": {
     "heading": "没有账户时下过单？",
@@ -340,7 +338,10 @@
     "empty": "您还没有购买任何课程。",
     "start": "开始",
     "continue": "继续",
-    "review": "复习"
+    "review": "复习",
+    "pendingHeading": "等待付款",
+    "pendingHint": "店铺确认付款后即可访问。",
+    "toOrder": "{order}——付款"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "还不是会员？",
     "password": "密码",
     "signIn": "登录",
+    "telegramDivider": "或",
+    "telegramCta": "使用 Telegram 登录",
+    "telegramPending": "正在登录…",
+    "telegramErrorExpired": "此次 Telegram 登录已过期，请重新开始。",
+    "telegramErrorFailed": "登录失败，请一分钟后重试。",
+    "telegramErrorRejected": "Telegram 未确认此次登录，请重试。",
+    "telegramErrorUnconfigured": "本店尚未开启 Telegram 登录。",
     "yandexCta": "使用 Yandex ID 登录",
     "yandexDivider": "或",
     "yandexErrorDenied": "你在 Yandex 页面上取消了登录。",
@@ -613,7 +621,32 @@
     "receiptSubmit": "发送凭证",
     "receiptTooLarge": "文件超过 10 MB。请压缩文件或发送截图。",
     "receiptWrongType": "请发送照片（JPG、PNG、WEBP、HEIC）或 PDF。",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "凭证未被接受",
+    "receiptRejectedReason": "原因：{reason}",
+    "receiptResend": "发送其他凭证",
+    "contactManager": "联系客服经理",
+    "methodRequisites": "按账户信息转账",
+    "requisitesDesc": "下单后您将看到店铺的账户信息：银行卡和加密钱包。请转账 {total} 并附上付款凭证，经理将确认订单。",
+    "requisitesPreviewLabel": "可转账至：",
+    "handoverRequisitesTitle": "请通过转账支付订单",
+    "handoverRequisitesBody": "订单 #{orderNumber} 已受理。请在下方选择银行或钱包，转账 {total} 并附上付款凭证。",
+    "handoverRequisitesMessage": "您好！我已下单 #{orderNumber}，金额 {total}，并已通过转账付款。请确认付款。",
+    "contactManagerHint": "如需确认订单，请联系经理。",
+    "showRequisite": "点击查看账号",
+    "hideRequisite": "隐藏账号",
+    "numberLabel": "卡号或账号",
+    "holderLabel": "收款人",
+    "addressLabel": "钱包地址",
+    "networkLabel": "网络",
+    "copyNumber": "复制账号",
+    "copyHolder": "复制收款人",
+    "copyAddress": "复制地址",
+    "copyNetwork": "复制网络",
+    "cryptoOnlyWarning": "请仅通过 {network} 网络发送 {currency}：其他币种或其他网络的转账将无法到账。",
+    "receiptPick": "选择文件或照片",
+    "receiptCamera": "拍照",
+    "receiptRemove": "移除文件"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "请保存订单编号，联系商店时需要用到。",
     "orderSuccess": "您的订单已成功提交。",
-    "thankYou": "感谢您！"
+    "thankYou": "感谢您！",
+    "paymentConfirmed": "付款已确认",
+    "goToCourse": "前往课程",
+    "orderCanceled": "订单已取消",
+    "orderCanceledHint": "无需付款。如有误，请联系我们。",
+    "paidGoodsHint": "我们正在为您的订单准备发货。"
   },
   "OrderDetails": {
     "backToOrders": "返回订单",
@@ -944,6 +982,15 @@
     "noPhone": "暂无电话号码",
     "phone": "电话"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "已关联：{handle}",
+    "notLinked": "未关联",
+    "hint": "在此使用 Telegram 登录即可将其关联到本账户。之后两种方式都可以登录。",
+    "errorTaken": "该 Telegram 账户已关联到其他账户。",
+    "errorRejected": "Telegram 未确认，请重试。",
+    "errorFailed": "无法关联 Telegram，请一分钟后重试。"
+  },
   "PromoBanner": {
     "close": "关闭",
     "message": "功能齐全、可用于生产环境的 DTC 启动模板。"
@@ -1115,5 +1162,31 @@
     "addToCart": "加入购物车",
     "chooseOptions": "选择规格",
     "remove": "移除"
+  },
+  "CartSidebar": {
+    "title": "购物车",
+    "signInPrompt": "登录后可查看订单记录并更快完成购买。",
+    "signInEmail": "使用邮箱",
+    "signInYandex": "使用 Yandex ID",
+    "deliveryEstimate": "预计送达 {range}",
+    "empty": "购物车是空的。",
+    "exploreProducts": "浏览商品",
+    "itemsTotal": "商品合计",
+    "checkout": "去结算"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "在线课程，无需配送",
+    "shipmentNo": "包裹 {no}",
+    "digitalGroup": "在线课程 — 付款确认后开放",
+    "accessByEmail": "付款确认后，课程访问链接将发送至您的邮箱。",
+    "digitalGroupPaid": "在线课程——已开放访问"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "等待付款",
+    "awaitingConfirmation": "等待付款确认",
+    "receiptRejected": "凭证未通过",
+    "paid": "已付款",
+    "refunded": "已退款",
+    "canceled": "已取消"
   }
 }

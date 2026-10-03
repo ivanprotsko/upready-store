@@ -78,14 +78,6 @@
     "exploreProducts": "Разгледай продуктите",
     "heading": "Кошница"
   },
-  "CartDropdown": {
-    "bagEmpty": "Кошницата ви е празна.",
-    "exploreProducts": "Разгледай продуктите",
-    "goToCart": "Към кошницата",
-    "heading": "Кошница",
-    "subtotal": "Междинна сума",
-    "subtotalNote": "(без данъци)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Нещо се обърка при опита за прехвърляне на кошницата ви",
     "runTransferAgain": "Опитай прехвърлянето отново",
@@ -155,7 +147,7 @@
     "freeShipping": "Безплатно",
     "giftCard": "Подаръчна карта",
     "itemsCount": "{count, plural, one {{count} артикул} other {{count} артикула}}",
-    "legal": "С натискането на «Плати» приемате нашите <terms>условия</terms>, <termsOfUse>условия за ползване</termsOfUse> и <returnPolicy>политика за връщане</returnPolicy>, и се съгласявате с нашата <privacyPolicy>политика за поверителност</privacyPolicy>.",
+    "legal": "С натискането на «{button}» приемате нашите <terms>условия</terms>, <termsOfUse>условия за ползване</termsOfUse> и <returnPolicy>политика за връщане</returnPolicy>, и се съгласявате с нашата <privacyPolicy>политика за поверителност</privacyPolicy>.",
     "manualInput": "Въведи адрес ръчно",
     "addressIncomplete": "Попълнете задължителните полета на адреса: {fields}.",
     "provinceRequired": "Изберете област от списъка.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Недостъпно: цената не може да се изчисли",
     "signIn": "Вход",
     "total": "Общо",
-    "shippingZone": "Зона: {zone}"
+    "shippingZone": "Зона: {zone}",
+    "courseSignInHeading": "Влезте, за да купите курса",
+    "courseSignInText": "Курсът се отваря във вашия акаунт, затова за покупка е нужен вход или регистрация.",
+    "fieldRequired": "Попълнете това поле",
+    "emailInvalid": "Проверете имейла: в адреса има грешка",
+    "signInHeading": "Влезте, за да оформите поръчката",
+    "signInText": "Поръчката ще се появи в акаунта ви: там са реквизитите за плащане, статусът и купените курсове. Входът или регистрацията отнемат минута, количката се запазва."
   },
   "ClaimOrders": {
     "heading": "Поръчали сте без регистрация?",
@@ -340,7 +338,10 @@
     "empty": "Все още не сте купили курс.",
     "start": "Начало",
     "continue": "Продължи",
-    "review": "Повтори"
+    "review": "Повтори",
+    "pendingHeading": "Очакват плащане",
+    "pendingHint": "Достъпът ще се отвори, след като магазинът потвърди плащането.",
+    "toOrder": "{order} — плащане"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Нямате акаунт?",
     "password": "Парола",
     "signIn": "Вход",
+    "telegramDivider": "или",
+    "telegramCta": "Вход с Telegram",
+    "telegramPending": "Влизане…",
+    "telegramErrorExpired": "Това влизане с Telegram е изтекло. Започнете отначало.",
+    "telegramErrorFailed": "Влизането не беше успешно. Опитайте след минута.",
+    "telegramErrorRejected": "Telegram не потвърди това влизане. Опитайте отново.",
+    "telegramErrorUnconfigured": "Влизането с Telegram все още не е включено в този магазин.",
     "yandexCta": "Вход с Яндекс ID",
     "yandexDivider": "или",
     "yandexErrorDenied": "Отказахте входа на страницата на Яндекс.",
@@ -613,7 +621,32 @@
     "receiptSubmit": "Изпрати разписката",
     "receiptTooLarge": "Файлът е по-голям от 10 МБ. Компресирайте го или изпратете скрийншот.",
     "receiptWrongType": "Подходящи са снимка (JPG, PNG, WEBP, HEIC) или PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Разписката не е приета",
+    "receiptRejectedReason": "Причина: {reason}",
+    "receiptResend": "Изпратете друга разписка",
+    "contactManager": "Свържете се с мениджъра",
+    "methodRequisites": "Превод по реквизити",
+    "requisitesDesc": "След оформяне на поръчката ще видите реквизитите на магазина: банкови карти и крипто портфейли. Преведете {total} и прикачете бележка за плащането — мениджърът ще потвърди поръчката.",
+    "requisitesPreviewLabel": "Приемаме преводи към:",
+    "handoverRequisitesTitle": "Платете поръчката с превод по реквизити",
+    "handoverRequisitesBody": "Поръчка #{orderNumber} е приета. Изберете банка или портфейл по-долу, преведете {total} и прикачете бележка за плащането.",
+    "handoverRequisitesMessage": "Здравейте! Направих поръчка #{orderNumber} на стойност {total} и я платих с превод по реквизити. Моля, потвърдете плащането.",
+    "contactManagerHint": "За потвърждение на поръчката се свържете с мениджъра.",
+    "showRequisite": "Натиснете, за да видите номера",
+    "hideRequisite": "Скрий номера",
+    "numberLabel": "Номер на карта или сметка",
+    "holderLabel": "Получател",
+    "addressLabel": "Адрес на портфейла",
+    "networkLabel": "Мрежа",
+    "copyNumber": "Копирай номера",
+    "copyHolder": "Копирай получателя",
+    "copyAddress": "Копирай адреса",
+    "copyNetwork": "Копирай мрежата",
+    "cryptoOnlyWarning": "Изпращайте само {currency} в мрежата {network}: превод на друга монета или по друга мрежа няма да пристигне.",
+    "receiptPick": "Избери файл или снимка",
+    "receiptCamera": "Направи снимка",
+    "receiptRemove": "Премахни файла"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Запазете номера на поръчката. Той ще ви трябва при връзка с магазина.",
     "orderSuccess": "Поръчката ви беше направена успешно.",
-    "thankYou": "Благодарим ви!"
+    "thankYou": "Благодарим ви!",
+    "paymentConfirmed": "Плащането е потвърдено",
+    "goToCourse": "Към курса",
+    "orderCanceled": "Поръчката е отменена",
+    "orderCanceledHint": "Не е нужно да плащате. Ако това е грешка, пишете ни.",
+    "paidGoodsHint": "Подготвяме поръчката за изпращане."
   },
   "OrderDetails": {
     "backToOrders": "Назад към поръчките",
@@ -944,6 +982,15 @@
     "noPhone": "Няма телефонен номер",
     "phone": "Телефон"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Свързан: {handle}",
+    "notLinked": "Не е свързан",
+    "hint": "Влезте тук с Telegram, за да го свържете с този профил. След това можете да влизате и по двата начина.",
+    "errorTaken": "Този профил в Telegram вече е свързан с друг профил.",
+    "errorRejected": "Telegram не потвърди. Опитайте отново.",
+    "errorFailed": "Telegram не можа да бъде свързан. Опитайте след минута."
+  },
   "PromoBanner": {
     "close": "Затвори",
     "message": "Пълнофункционален, готов за продукция DTC starter."
@@ -1115,5 +1162,31 @@
     "addToCart": "Добави в количката",
     "chooseOptions": "Избери опции",
     "remove": "Премахни"
+  },
+  "CartSidebar": {
+    "title": "Количка",
+    "signInPrompt": "Влезте, за да виждате историята на поръчките си и да пазарувате по-бързо.",
+    "signInEmail": "С имейл",
+    "signInYandex": "С Yandex ID",
+    "deliveryEstimate": "Доставка {range}",
+    "empty": "Количката е празна.",
+    "exploreProducts": "Разгледайте продуктите",
+    "itemsTotal": "Общо за продуктите",
+    "checkout": "Към поръчката"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "онлайн курс, без доставка",
+    "shipmentNo": "Пратка № {no}",
+    "digitalGroup": "Онлайн курс — достъп след потвърждение на плащането",
+    "accessByEmail": "Достъпът до курса ще дойде по имейл след потвърждение на плащането.",
+    "digitalGroupPaid": "Онлайн курс — достъпът е отворен"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Очаква плащане",
+    "awaitingConfirmation": "Очаква потвърждение на плащането",
+    "receiptRejected": "Касовата бележка не е приета",
+    "paid": "Платен",
+    "refunded": "Възстановен",
+    "canceled": "Отменен"
   }
 }

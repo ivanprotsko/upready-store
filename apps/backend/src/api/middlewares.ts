@@ -166,6 +166,8 @@ import {
   PutTenantApishipKeySchema,
   PutTenantDeliverySettingsSchema,
   PutTenantPochtaSchema,
+  PutTenantTributeSchema,
+  PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
   PutTenantNotificationSettingsSchema,
@@ -180,6 +182,7 @@ import {
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
   PostTenantSiteSchema,
+  PutTenantHreflangSistersSchema,
   PostTenantSwitchShopSchema,
   PostTenantUpdateProductSchema,
   PostTenantUpdateMeSchema,
@@ -220,6 +223,7 @@ import {
   PostTenantProductAttributeUpdateSchema,
   PostTenantProductAttributeValuesSchema,
 } from "./tenants/product-attributes/validators";
+import { PutTenantProductTranslationBody } from "./tenants/products/translations-validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import {
   PostTenantWbFeedbackAnswerSendBody,
@@ -243,7 +247,10 @@ import { PostAdminPlatformPricingSchema } from "../modules/platform-pricing/sche
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { requireOwnerPasswordLength } from "./auth/password-length-gate";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
+import { guardSyntheticTelegramEmail } from "./store/customers/synthetic-email-guard";
+import { resolveTelegramTenant } from "./auth/telegram-tenant";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
+import { injectTributeTenant } from "./store/tenant/tribute";
 import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
@@ -399,6 +406,28 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantPochtaSchema)],
     },
     {
+      // The shop's Tribute Shop API key (t-cherk-22).
+      matcher: "/tenants/tribute",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantTributeSchema)],
+    },
+    {
+      // Tribute's per-shop webhook (t-cherk-22): `trbt-signature` is an
+      // HMAC-SHA256 of the RAW body, so the exact bytes have to survive past
+      // JSON parsing (`req.rawBody`) — a re-serialization of the parsed object
+      // could differ in key order or whitespace and reject a genuine webhook.
+      matcher: "/tribute/webhook/:tenant",
+      method: ["POST"],
+      bodyParser: { preserveRawBody: true },
+      middlewares: [],
+    },
+    {
+      // The shop's own Telegram bot for buyer sign-in (t-2026-10-02-telegram-auth).
+      matcher: "/tenants/telegram-bot",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantTelegramBotSchema)],
+    },
+    {
       // The shop's payment account (t03-tenant-secrets-robokassa).
       matcher: "/tenants/payment-settings",
       method: ["PUT"],
@@ -432,11 +461,13 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantRequisitesSchema)],
     },
     {
-      // Robokassa needs the SERVER's word on which shop the cart belongs to;
-      // the client's `data.tenant_id`, if any, is overwritten (step 4 of the task).
+      // Robokassa and Tribute both need the SERVER's word on which shop the
+      // cart belongs to; the client's `data.tenant_id`, if any, is overwritten
+      // (step 4 of the task; t-cherk-22 for Tribute). Each middleware is a
+      // no-op unless `body.provider_id` is its own, so they compose cleanly.
       matcher: "/store/payment-collections/:id/payment-sessions",
       method: ["POST"],
-      middlewares: [injectRobokassaTenant],
+      middlewares: [injectRobokassaTenant, injectTributeTenant],
     },
     {
       // The shadowing route in `src/api/store/payment-providers/route.ts`
@@ -593,6 +624,13 @@ export default defineMiddlewares({
       matcher: "/tenants/sites",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantSiteSchema)],
+    },
+    // t-cherk-31: the owner's override list of sister sites that live outside
+    // this database. GET takes no body.
+    {
+      matcher: "/tenants/hreflang-sisters",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantHreflangSistersSchema)],
     },
     // o25-platform-admin-all-shops: the shop switcher. GET takes no body; it
     // reads only what the caller's OWN token already grants.
@@ -1269,6 +1307,14 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PostTenantProductAttributeValuesSchema)],
     },
 
+    // t-cherk-37: one locale of a product's own title/subtitle/description,
+    // option titles and variant titles.
+    {
+      matcher: "/tenants/products/:id/translations",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantProductTranslationBody)],
+    },
+
     // t06-locale-currency: the tenant's default storefront locale, its enabled
     // subset of the 36 shipped locales, and the country its default prices in.
     {
@@ -1659,6 +1705,34 @@ export default defineMiddlewares({
       middlewares: [
         authenticate("customer", ["bearer"], { allowUnregistered: true }),
       ],
+    },
+
+    // ---- t-2026-10-02-telegram-auth. `/me/telegram-link`: a buyer already
+    // signed in by e-mail attaches Telegram as a second way in. The synthetic
+    // `tg_<id>@telegram.local` address is reserved for the Telegram identity
+    // with that id, on both legs that could otherwise claim it first.
+    {
+      matcher: "/store/customers/me/telegram-link",
+      method: ["POST"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
+      matcher: "/store/customers",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"], { allowUnregistered: true }),
+        guardSyntheticTelegramEmail,
+      ],
+    },
+    {
+      matcher: "/auth/customer/emailpass/register",
+      method: ["POST"],
+      middlewares: [guardSyntheticTelegramEmail],
+    },
+    {
+      matcher: "/auth/customer/telegram",
+      method: ["GET", "POST"],
+      middlewares: [resolveTelegramTenant],
     },
 
     // ---- b07-store-api-isolation: the Store API stops handing one shop's

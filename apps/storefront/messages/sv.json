@@ -78,14 +78,6 @@
     "exploreProducts": "Utforska produkter",
     "heading": "Varukorg"
   },
-  "CartDropdown": {
-    "bagEmpty": "Din varukorg är tom.",
-    "exploreProducts": "Utforska produkter",
-    "goToCart": "Gå till varukorgen",
-    "heading": "Varukorg",
-    "subtotal": "Delsumma",
-    "subtotalNote": "(exkl. moms)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Något gick fel när vi försökte överföra din varukorg",
     "runTransferAgain": "Försök överföra igen",
@@ -155,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Presentkort",
     "itemsCount": "{count, plural, one {{count} vara} other {{count} varor}}",
-    "legal": "Genom att klicka på ”Betala” godkänner du våra <terms>villkor</terms>, <termsOfUse>användarvillkor</termsOfUse> och <returnPolicy>returpolicy</returnPolicy>, samt godkänner vår <privacyPolicy>integritetspolicy</privacyPolicy>.",
+    "legal": "Genom att klicka på ”{button}” godkänner du våra <terms>villkor</terms>, <termsOfUse>användarvillkor</termsOfUse> och <returnPolicy>returpolicy</returnPolicy>, samt godkänner vår <privacyPolicy>integritetspolicy</privacyPolicy>.",
     "manualInput": "Ange adress manuellt",
     "addressIncomplete": "Fyll i adressens obligatoriska fält: {fields}.",
     "provinceRequired": "Välj region i listan.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Inte tillgängligt: priset kunde inte beräknas",
     "signIn": "Logga in",
     "total": "Totalt",
-    "shippingZone": "Zon: {zone}"
+    "shippingZone": "Zon: {zone}",
+    "courseSignInHeading": "Logga in för att köpa kursen",
+    "courseSignInText": "Kursen öppnas i ditt konto, så köpet kräver inloggning eller registrering.",
+    "fieldRequired": "Fyll i det här fältet",
+    "emailInvalid": "Kontrollera e-posten: adressen innehåller ett fel",
+    "signInHeading": "Logga in för att lägga ordern",
+    "signInText": "Ordern visas på ditt konto: där finns betalningsuppgifterna, statusen och de köpta kurserna. Inloggning eller registrering tar en minut och varukorgen sparas."
   },
   "ClaimOrders": {
     "heading": "Beställde du utan konto?",
@@ -340,7 +338,10 @@
     "empty": "Du har inte köpt några kurser än.",
     "start": "Starta",
     "continue": "Fortsätt",
-    "review": "Repetera"
+    "review": "Repetera",
+    "pendingHeading": "Väntar på betalning",
+    "pendingHint": "Åtkomsten öppnas när butiken har bekräftat betalningen.",
+    "toOrder": "{order} – betala"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Inte medlem än?",
     "password": "Lösenord",
     "signIn": "Logga in",
+    "telegramDivider": "eller",
+    "telegramCta": "Logga in med Telegram",
+    "telegramPending": "Loggar in…",
+    "telegramErrorExpired": "Den här Telegram-inloggningen har gått ut. Börja om.",
+    "telegramErrorFailed": "Inloggningen misslyckades. Försök igen om en minut.",
+    "telegramErrorRejected": "Telegram bekräftade inte den här inloggningen. Försök igen.",
+    "telegramErrorUnconfigured": "Inloggning med Telegram är ännu inte aktiverad i den här butiken.",
     "yandexCta": "Logga in med Yandex ID",
     "yandexDivider": "eller",
     "yandexErrorDenied": "Du avbröt inloggningen på Yandex sida.",
@@ -613,7 +621,32 @@
     "receiptSubmit": "Skicka kvittot",
     "receiptTooLarge": "Filen är större än 10 MB. Komprimera den eller skicka en skärmdump.",
     "receiptWrongType": "Skicka ett foto (JPG, PNG, WEBP, HEIC) eller en PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Kvittot godkändes inte",
+    "receiptRejectedReason": "Orsak: {reason}",
+    "receiptResend": "Skicka ett annat kvitto",
+    "contactManager": "Kontakta ansvarig",
+    "methodRequisites": "Överföring till kontouppgifter",
+    "requisitesDesc": "När du har lagt ordern ser du butikens uppgifter: bankkort och kryptoplånböcker. För över {total} och bifoga kvittot – en handläggare bekräftar ordern.",
+    "requisitesPreviewLabel": "Vi tar emot överföringar till:",
+    "handoverRequisitesTitle": "Betala ordern med överföring",
+    "handoverRequisitesBody": "Order #{orderNumber} är mottagen. Välj en bank eller plånbok nedan, för över {total} och bifoga kvittot.",
+    "handoverRequisitesMessage": "Hej! Jag har lagt order #{orderNumber} på {total} och betalat den med överföring. Vänligen bekräfta betalningen.",
+    "contactManagerHint": "Kontakta handläggaren för att få ordern bekräftad.",
+    "showRequisite": "Tryck för att se numret",
+    "hideRequisite": "Dölj numret",
+    "numberLabel": "Kort- eller kontonummer",
+    "holderLabel": "Mottagare",
+    "addressLabel": "Plånboksadress",
+    "networkLabel": "Nätverk",
+    "copyNumber": "Kopiera numret",
+    "copyHolder": "Kopiera mottagaren",
+    "copyAddress": "Kopiera adressen",
+    "copyNetwork": "Kopiera nätverket",
+    "cryptoOnlyWarning": "Skicka endast {currency} på nätverket {network}: en överföring av ett annat mynt eller via ett annat nätverk kommer inte fram.",
+    "receiptPick": "Välj fil eller foto",
+    "receiptCamera": "Ta ett foto",
+    "receiptRemove": "Ta bort filen"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Spara ordernumret. Du behöver det när du kontaktar butiken.",
     "orderSuccess": "Din order har lagts.",
-    "thankYou": "Tack!"
+    "thankYou": "Tack!",
+    "paymentConfirmed": "Betalning bekräftad",
+    "goToCourse": "Gå till kursen",
+    "orderCanceled": "Beställningen är avbruten",
+    "orderCanceledHint": "Ingen betalning behövs. Skriv till oss om detta är ett misstag.",
+    "paidGoodsHint": "Vi förbereder din beställning för leverans."
   },
   "OrderDetails": {
     "backToOrders": "Tillbaka till beställningar",
@@ -944,6 +982,15 @@
     "noPhone": "Inget telefonnummer",
     "phone": "Telefon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Kopplat: {handle}",
+    "notLinked": "Inte kopplat",
+    "hint": "Logga in med Telegram här för att koppla det till det här kontot. Sedan kan du logga in på båda sätten.",
+    "errorTaken": "Det här Telegram-kontot är redan kopplat till ett annat konto.",
+    "errorRejected": "Telegram bekräftade inte detta. Försök igen.",
+    "errorFailed": "Det gick inte att koppla Telegram. Försök igen om en minut."
+  },
   "PromoBanner": {
     "close": "Stäng",
     "message": "Fullfjädrad produktionsklar DTC-starter."
@@ -1115,5 +1162,31 @@
     "addToCart": "Lägg i varukorgen",
     "chooseOptions": "Välj alternativ",
     "remove": "Ta bort"
+  },
+  "CartSidebar": {
+    "title": "Varukorg",
+    "signInPrompt": "Logga in för att se din orderhistorik och handla snabbare.",
+    "signInEmail": "Med e-post",
+    "signInYandex": "Med Yandex ID",
+    "deliveryEstimate": "Leverans {range}",
+    "empty": "Din varukorg är tom.",
+    "exploreProducts": "Se produkter",
+    "itemsTotal": "Varor totalt",
+    "checkout": "Till kassan"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "onlinekurs, ingen leverans",
+    "shipmentNo": "Försändelse nr {no}",
+    "digitalGroup": "Onlinekurs — åtkomst efter bekräftad betalning",
+    "accessByEmail": "Tillgången till kursen kommer via e-post när betalningen är bekräftad.",
+    "digitalGroupPaid": "Onlinekurs – åtkomst öppnad"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Väntar på betalning",
+    "awaitingConfirmation": "Väntar på betalningsbekräftelse",
+    "receiptRejected": "Kvittot godkändes inte",
+    "paid": "Betald",
+    "refunded": "Återbetald",
+    "canceled": "Avbruten"
   }
 }

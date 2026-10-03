@@ -12,8 +12,11 @@ import ShippingDetails from "@modules/order/components/shipping-details"
 import { getTranslations } from "next-intl/server"
 
 import { getOrderPickupPoint } from "@lib/util/fulfillment"
+import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import OrderTimeline from "@modules/account/components/order-timeline"
 import { OrderStatusDot } from "@modules/account/components/status-dot"
+import { BuyerStatusDot } from "@modules/order/components/buyer-status"
+import ManualPaymentHandover from "@modules/order/components/manual-payment-handover"
 
 /**
  * The account copy of an order's detail page (`account-mockup.md` §4). Same
@@ -42,6 +45,10 @@ const OrderDetailsTemplate = async ({ order }: OrderDetailsTemplateProps) => {
 
   const hasPayment = Boolean(order.payment_collections?.[0]?.payments?.[0])
   const pickupPoint = getOrderPickupPoint(order)
+  // Batch 7: an order of an online course alone has no delivery section and no
+  // fulfillment dot; the course group header says what the buyer gets instead.
+  const shipsSomething = (order.items ?? []).some((item) => !isNoDeliveryLine(item))
+  const isPaid = order.payment_status === "captured"
 
   return (
     <div className="flex flex-col gap-y-8" data-testid="order-details-container">
@@ -71,14 +78,21 @@ const OrderDetailsTemplate = async ({ order }: OrderDetailsTemplateProps) => {
           </div>
         ) : (
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2">
-            <OrderStatusDot kind="fulfillment" status={order.fulfillment_status} />
-            <OrderStatusDot kind="payment" status={order.payment_status} />
+            <BuyerStatusDot order={order} />
+            {shipsSomething && order.status !== "canceled" && (
+              <OrderStatusDot kind="fulfillment" status={order.fulfillment_status} />
+            )}
           </div>
         )}
       </div>
 
+      {/* Batch 7 (Ivan: «уже появился в личном кабинете»): the requisites, the receipt
+          and the manager button live here too, so a buyer who closed the confirmation
+          page pays from the account. Renders nothing once paid or cancelled. */}
+      <ManualPaymentHandover order={order} />
+
       <OrderSection title={t("items")}>
-        <Items order={order} />
+        <Items order={order} paid={isPaid} />
       </OrderSection>
 
       <OrderSection title={to("heading")}>
@@ -102,11 +116,11 @@ const OrderDetailsTemplate = async ({ order }: OrderDetailsTemplateProps) => {
             <span className="txt-compact-small">{tpp("idReminder")}</span>
           </div>
         </OrderSection>
-      ) : (
+      ) : shipsSomething ? (
         <OrderSection title={ts("heading")}>
           <ShippingDetails order={order} />
         </OrderSection>
-      )}
+      ) : null}
 
       {hasPayment && (
         <OrderSection title={tp("heading")}>

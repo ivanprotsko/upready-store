@@ -152,12 +152,35 @@ export const isDigitalDeliveryCart = (cart: HttpTypes.StoreCart): boolean => {
   const items = cart.items ?? []
   if (items.length === 0) return false
 
-  return items.every(
-    (item) =>
-      (item.product?.metadata as Record<string, unknown> | null | undefined)
-        ?.digital === "true"
-  )
+  return items.every(isNoDeliveryLine)
 }
+
+/**
+ * A line nothing is posted for (batch 6, hotfix Plan B): the line itself says so
+ * (`requires_shipping === false`, a product with no shipping profile — the lead clears
+ * it on the courses), or the product is a course by the o24 contract
+ * (`metadata.digital === "true"`), which keeps the seeded courses working while their
+ * profile is still attached. Order lines carry the same two fields.
+ */
+export type NoDeliveryLineInput = {
+  requires_shipping?: boolean | null
+  product?: { metadata?: Record<string, unknown> | null } | null
+}
+
+export const isNoDeliveryLine = (item: NoDeliveryLineInput): boolean =>
+  item.requires_shipping === false ||
+  (item.product?.metadata as Record<string, unknown> | null | undefined)?.digital ===
+    "true"
+
+/**
+ * Whether anything in the cart has to be posted: at least one line that is not a
+ * no-delivery line. An empty cart ships nothing. The checkout's address, delivery
+ * and billing blocks, the pay button's shipping-method gate, the «Доставка» row and
+ * the `digital-delivery` redirect all read this one answer.
+ */
+export const cartNeedsShipping = (
+  cart: Pick<HttpTypes.StoreCart, "items">
+): boolean => (cart.items ?? []).some((item) => !isNoDeliveryLine(item))
 
 /**
  * The gaps that keep this cart from being paid for. Reads the cart's own

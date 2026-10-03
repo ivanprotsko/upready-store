@@ -78,14 +78,6 @@
     "exploreProducts": "პროდუქტების დათვალიერება",
     "heading": "კალათა"
   },
-  "CartDropdown": {
-    "bagEmpty": "თქვენი კალათა ცარიელია.",
-    "exploreProducts": "პროდუქტების დათვალიერება",
-    "goToCart": "კალათაზე გადასვლა",
-    "heading": "კალათა",
-    "subtotal": "შუალედური ჯამი",
-    "subtotalNote": "(გადასახადების გარეშე)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "დაფიქსირდა შეცდომა თქვენი კალათის გადატანისას",
     "runTransferAgain": "გადატანის ხელახლა გაშვება",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "მიუწვდომელია: ფასის გამოთვლა ვერ მოხერხდა",
     "signIn": "შესვლა",
     "total": "ჯამი",
-    "shippingZone": "ზონა: {zone}"
+    "shippingZone": "ზონა: {zone}",
+    "courseSignInHeading": "შედით კურსის შესაძენად",
+    "courseSignInText": "კურსი თქვენს ანგარიშში იხსნება, ამიტომ შესაძენად საჭიროა შესვლა ან რეგისტრაცია.",
+    "fieldRequired": "შეავსეთ ეს ველი",
+    "emailInvalid": "შეამოწმეთ ელფოსტა: მისამართში შეცდომაა",
+    "signInHeading": "შედით შეკვეთის გასაფორმებლად",
+    "signInText": "შეკვეთა გამოჩნდება თქვენს ანგარიშში: იქ იქნება გადახდის რეკვიზიტები, სტატუსი და ნაყიდი კურსები. შესვლა ან რეგისტრაცია ერთ წუთს იღებს, კალათა შენარჩუნდება."
   },
   "ClaimOrders": {
     "heading": "შეკვეთა ანგარიშის გარეშე გააკეთეთ?",
@@ -340,7 +338,10 @@
     "empty": "თქვენ ჯერ არ შეგიძენიათ არცერთი კურსი.",
     "start": "დაწყება",
     "continue": "გაგრძელება",
-    "review": "გამეორება"
+    "review": "გამეორება",
+    "pendingHeading": "ელოდება გადახდას",
+    "pendingHint": "წვდომა გაიხსნება, როგორც კი მაღაზია გადახდას დაადასტურებს.",
+    "toOrder": "{order} — გადახდა"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "არ ხართ წევრი?",
     "password": "პაროლი",
     "signIn": "შესვლა",
+    "telegramDivider": "ან",
+    "telegramCta": "შესვლა Telegram-ით",
+    "telegramPending": "შესვლა მიმდინარეობს…",
+    "telegramErrorExpired": "Telegram-ით შესვლის ვადა ამოიწურა. დაიწყეთ თავიდან.",
+    "telegramErrorFailed": "შესვლა ვერ მოხერხდა. სცადეთ ერთ წუთში.",
+    "telegramErrorRejected": "Telegram-მა ეს შესვლა არ დაადასტურა. სცადეთ ხელახლა.",
+    "telegramErrorUnconfigured": "Telegram-ით შესვლა ამ მაღაზიაში ჯერ ჩართული არ არის.",
     "yandexCta": "შესვლა Yandex ID-ით",
     "yandexDivider": "ან",
     "yandexErrorDenied": "თქვენ გააუქმეთ შესვლა Yandex-ის გვერდზე.",
@@ -613,7 +621,32 @@
     "receiptSubmit": "ქვითრის გაგზავნა",
     "receiptTooLarge": "ფაილი 10 MB-ზე დიდია. შეკუმშეთ ან გამოგზავნეთ სკრინშოტი.",
     "receiptWrongType": "გამოგზავნეთ ფოტო (JPG, PNG, WEBP, HEIC) ან PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "ქვითარი არ მიიღეს",
+    "receiptRejectedReason": "მიზეზი: {reason}",
+    "receiptResend": "სხვა ქვითრის გაგზავნა",
+    "contactManager": "მენეჯერთან დაკავშირება",
+    "methodRequisites": "გადარიცხვა რეკვიზიტებით",
+    "requisitesDesc": "შეკვეთის გაფორმების შემდეგ ნახავთ მაღაზიის რეკვიზიტებს: საბანკო ბარათებს და კრიპტო საფულეებს. გადარიცხეთ {total} და მიამაგრეთ გადახდის ქვითარი — შეკვეთას მენეჯერი დაადასტურებს.",
+    "requisitesPreviewLabel": "ვიღებთ გადარიცხვებს:",
+    "handoverRequisitesTitle": "გადაიხადეთ შეკვეთა გადარიცხვით",
+    "handoverRequisitesBody": "შეკვეთა #{orderNumber} მიღებულია. აირჩიეთ ბანკი ან საფულე ქვემოთ, გადარიცხეთ {total} და მიამაგრეთ გადახდის ქვითარი.",
+    "handoverRequisitesMessage": "გამარჯობა! გავაფორმე შეკვეთა #{orderNumber} თანხით {total} და გადავიხადე გადარიცხვით. გთხოვთ, დაადასტუროთ გადახდა.",
+    "contactManagerHint": "შეკვეთის დასადასტურებლად დაუკავშირდით მენეჯერს.",
+    "showRequisite": "დააჭირეთ ნომრის სანახავად",
+    "hideRequisite": "ნომრის დამალვა",
+    "numberLabel": "ბარათის ან ანგარიშის ნომერი",
+    "holderLabel": "მიმღები",
+    "addressLabel": "საფულის მისამართი",
+    "networkLabel": "ქსელი",
+    "copyNumber": "ნომრის კოპირება",
+    "copyHolder": "მიმღების კოპირება",
+    "copyAddress": "მისამართის კოპირება",
+    "copyNetwork": "ქსელის კოპირება",
+    "cryptoOnlyWarning": "გაგზავნეთ მხოლოდ {currency} ქსელში {network}: სხვა მონეტის ან სხვა ქსელით გადარიცხვა არ მოვა.",
+    "receiptPick": "ფაილის ან ფოტოს არჩევა",
+    "receiptCamera": "ფოტოს გადაღება",
+    "receiptRemove": "ფაილის მოხსნა"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "შეინახეთ შეკვეთის ნომერი. დაგჭირდებათ მაღაზიასთან დაკავშირებისას.",
     "orderSuccess": "თქვენი შეკვეთა წარმატებით გაფორმდა.",
-    "thankYou": "გმადლობთ!"
+    "thankYou": "გმადლობთ!",
+    "paymentConfirmed": "გადახდა დადასტურებულია",
+    "goToCourse": "კურსზე გადასვლა",
+    "orderCanceled": "შეკვეთა გაუქმებულია",
+    "orderCanceledHint": "გადახდა საჭირო არ არის. თუ ეს შეცდომაა, მოგვწერეთ.",
+    "paidGoodsHint": "თქვენს შეკვეთას გასაგზავნად ვამზადებთ."
   },
   "OrderDetails": {
     "backToOrders": "შეკვეთებზე დაბრუნება",
@@ -944,6 +982,15 @@
     "noPhone": "ტელეფონის ნომერი არ არის მითითებული",
     "phone": "ტელეფონი"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "დაკავშირებულია: {handle}",
+    "notLinked": "არ არის დაკავშირებული",
+    "hint": "შედით აქ Telegram-ით, რომ ის ამ ანგარიშს დაუკავშიროთ. ამის შემდეგ ორივე გზით შეგეძლებათ შესვლა.",
+    "errorTaken": "ეს Telegram ანგარიში უკვე სხვა ანგარიშთანაა დაკავშირებული.",
+    "errorRejected": "Telegram-მა ეს არ დაადასტურა. სცადეთ ხელახლა.",
+    "errorFailed": "Telegram-ის დაკავშირება ვერ მოხერხდა. სცადეთ ერთ წუთში."
+  },
   "PromoBanner": {
     "close": "დახურვა",
     "message": "სრულფასოვანი, წარმოებისთვის მზა DTC სტარტერი."
@@ -1115,5 +1162,31 @@
     "addToCart": "კალათაში დამატება",
     "chooseOptions": "ვარიანტების არჩევა",
     "remove": "წაშლა"
+  },
+  "CartSidebar": {
+    "title": "კალათა",
+    "signInPrompt": "შედით, რომ ნახოთ შეკვეთების ისტორია და უფრო სწრაფად შეიძინოთ.",
+    "signInEmail": "ელფოსტით",
+    "signInYandex": "Yandex ID-ით",
+    "deliveryEstimate": "მიწოდება {range}",
+    "empty": "თქვენი კალათა ცარიელია.",
+    "exploreProducts": "პროდუქტების ნახვა",
+    "itemsTotal": "პროდუქტების ჯამი",
+    "checkout": "შეკვეთის გაფორმება"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "ონლაინ კურსი, მიწოდების გარეშე",
+    "shipmentNo": "გზავნილი № {no}",
+    "digitalGroup": "ონლაინ კურსი — წვდომა გადახდის დადასტურების შემდეგ",
+    "accessByEmail": "კურსზე წვდომა ელფოსტით მოვა გადახდის დადასტურების შემდეგ.",
+    "digitalGroupPaid": "ონლაინ კურსი — წვდომა გახსნილია"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "ელოდება გადახდას",
+    "awaitingConfirmation": "ელოდება გადახდის დადასტურებას",
+    "receiptRejected": "ქვითარი არ მიიღეს",
+    "paid": "გადახდილი",
+    "refunded": "დაბრუნებული",
+    "canceled": "გაუქმებული"
   }
 }

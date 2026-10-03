@@ -1,15 +1,18 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   Button,
   Checkbox,
   Container,
   Heading,
+  IconButton,
   Input,
   Label,
+  Select,
   StatusBadge,
   Text,
   toast,
 } from "@medusajs/ui"
+import { Trash } from "@medusajs/icons"
 import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
@@ -21,6 +24,12 @@ import {
   useCreateSite,
   useSites,
 } from "../../../hooks/api/sites"
+import {
+  HreflangSister,
+  useHreflangSisters,
+  useUpdateHreflangSisters,
+} from "../../../hooks/api/hreflang-sisters"
+import { LOCALE_LABELS, LOCALE_CODES } from "../../../lib/locale-catalog"
 
 // «Настройки → Сайты» (t-2026-09-24-n12,
 // docs/multitenancy/sites-one-db-many-storefronts.md §3.4): the owner's sites,
@@ -105,6 +114,141 @@ const SiteCard = ({ site }: { site: TenantSite }) => {
         ))}
       </ul>
     </div>
+  )
+}
+
+type SisterDraft = HreflangSister & { key: string }
+
+let nextDraftKey = 0
+const draftKey = () => `draft-${nextDraftKey++}`
+
+/**
+ * «Сайты-сестры за пределами этой базы» (t-cherk-31): the owner's override
+ * for a sister that is not a tenant of this group's database — Ivan's Р2
+ * fork, `.ru` and `.com` on different servers. A sister already in this
+ * group needs no row here; `GET /store/tenant/sites` finds it on its own.
+ */
+const HreflangSistersSection = () => {
+  const { t } = useTranslation()
+  const { sisters: saved, isPending, isError, error } = useHreflangSisters()
+  const { mutateAsync: save, isPending: isSaving } = useUpdateHreflangSisters()
+
+  const [rows, setRows] = useState<SisterDraft[]>([])
+  const [loaded, setLoaded] = useState(false)
+  const touched = useRef(false)
+
+  useEffect(() => {
+    if (isPending || isError) {
+      return
+    }
+    if (!touched.current) {
+      setRows((saved ?? []).map((sister) => ({ ...sister, key: draftKey() })))
+    }
+    setLoaded(true)
+  }, [isPending, isError, saved])
+
+  if (isError) {
+    throw error
+  }
+
+  const edit = (next: SisterDraft[]) => {
+    touched.current = true
+    setRows(next)
+  }
+
+  const addRow = () =>
+    edit([...rows, { key: draftKey(), domain: "", locale: "en" }])
+
+  const removeRow = (key: string) => edit(rows.filter((row) => row.key !== key))
+
+  const updateRow = (key: string, patch: Partial<HreflangSister>) =>
+    edit(rows.map((row) => (row.key === key ? { ...row, ...patch } : row)))
+
+  const onSave = async () => {
+    const sisters = rows
+      .map((row) => ({ domain: row.domain.trim(), locale: row.locale }))
+      .filter((row) => row.domain.length > 0)
+
+    try {
+      await save({ sisters })
+      touched.current = false
+      toast.success(t("sites.sisters.saved"))
+    } catch (saveError) {
+      toast.error((saveError as Error).message)
+    }
+  }
+
+  return (
+    <Container className="divide-y p-0">
+      <div className="flex flex-col gap-y-1 px-6 py-4">
+        <Heading level="h2">{t("sites.sisters.title")}</Heading>
+        <Text size="small" className="text-ui-fg-subtle">
+          {t("sites.sisters.description")}
+        </Text>
+      </div>
+
+      <div className="flex flex-col gap-y-3 px-6 py-4">
+        {rows.map((row) => (
+          <div key={row.key} className="flex flex-wrap items-center gap-x-2 gap-y-2">
+            <Input
+              value={row.domain}
+              onChange={(event) => updateRow(row.key, { domain: event.target.value })}
+              placeholder="cherkashino.com"
+              className="max-w-[260px] font-mono"
+            />
+            <Select
+              value={row.locale}
+              onValueChange={(next) => updateRow(row.key, { locale: next })}
+            >
+              <Select.Trigger className="max-w-[180px]">
+                <Select.Value />
+              </Select.Trigger>
+              <Select.Content>
+                {LOCALE_CODES.map((code) => (
+                  <Select.Item key={code} value={code}>
+                    {LOCALE_LABELS[code]} ({code})
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select>
+            <IconButton
+              size="small"
+              variant="transparent"
+              type="button"
+              onClick={() => removeRow(row.key)}
+            >
+              <Trash />
+            </IconButton>
+          </div>
+        ))}
+
+        <Button
+          size="small"
+          variant="secondary"
+          type="button"
+          className="self-start"
+          onClick={addRow}
+        >
+          {t("sites.sisters.add")}
+        </Button>
+
+        <Text size="small" className="text-ui-fg-subtle">
+          {t("sites.sisters.hint")}
+        </Text>
+
+        <div className="flex justify-end">
+          <Button
+            size="small"
+            type="button"
+            isLoading={isSaving}
+            disabled={!loaded}
+            onClick={onSave}
+          >
+            {t("sites.sisters.submit")}
+          </Button>
+        </div>
+      </div>
+    </Container>
   )
 }
 
@@ -236,6 +380,8 @@ export const Sites = () => {
           </div>
         </form>
       </Container>
+
+      <HreflangSistersSection />
     </SingleColumnPage>
   )
 }

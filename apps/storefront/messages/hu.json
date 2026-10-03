@@ -78,14 +78,6 @@
     "exploreProducts": "Termékek böngészése",
     "heading": "Kosár"
   },
-  "CartDropdown": {
-    "bagEmpty": "A kosara üres.",
-    "exploreProducts": "Termékek böngészése",
-    "goToCart": "Tovább a kosárhoz",
-    "heading": "Kosár",
-    "subtotal": "Részösszeg",
-    "subtotalNote": "(áfa nélkül)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Hiba történt a kosár átvitele közben",
     "runTransferAgain": "Átvitel újrapróbálása",
@@ -155,7 +147,7 @@
     "freeShipping": "Ingyenes",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} termék} other {{count} termék}}",
-    "legal": "„Fizetés” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
+    "legal": "„{button}” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
     "manualInput": "Cím megadása kézzel",
     "addressIncomplete": "Töltse ki a cím kötelező mezőit: {fields}.",
     "provinceRequired": "Válassza ki a régiót a listából.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Nem elérhető: az árat nem sikerült kiszámítani",
     "signIn": "Bejelentkezés",
     "total": "Összesen",
-    "shippingZone": "Zóna: {zone}"
+    "shippingZone": "Zóna: {zone}",
+    "courseSignInHeading": "Jelentkezzen be a tanfolyam megvásárlásához",
+    "courseSignInText": "A tanfolyam a fiókjában nyílik meg, ezért a vásárláshoz bejelentkezés vagy regisztráció kell.",
+    "fieldRequired": "Töltse ki ezt a mezőt",
+    "emailInvalid": "Ellenőrizze az e-mailt: a cím hibás",
+    "signInHeading": "Jelentkezzen be a rendeléshez",
+    "signInText": "A rendelés megjelenik a fiókjában: ott találja a fizetési adatokat, az állapotot és a megvásárolt kurzusokat. A belépés vagy a regisztráció egy percet vesz igénybe, a kosár megmarad."
   },
   "ClaimOrders": {
     "heading": "Fiók nélkül rendelt?",
@@ -340,7 +338,10 @@
     "empty": "Még nem vásárolt kurzust.",
     "start": "Kezdés",
     "continue": "Folytatás",
-    "review": "Ismétlés"
+    "review": "Ismétlés",
+    "pendingHeading": "Fizetésre várnak",
+    "pendingHint": "A hozzáférés megnyílik, amint az üzlet megerősíti a fizetést.",
+    "toOrder": "{order} – fizetés"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Még nincs fiókja?",
     "password": "Jelszó",
     "signIn": "Bejelentkezés",
+    "telegramDivider": "vagy",
+    "telegramCta": "Belépés Telegrammal",
+    "telegramPending": "Belépés…",
+    "telegramErrorExpired": "Ez a Telegram-bejelentkezés lejárt. Kezdje újra.",
+    "telegramErrorFailed": "A bejelentkezés nem sikerült. Próbálja újra egy perc múlva.",
+    "telegramErrorRejected": "A Telegram nem erősítette meg ezt a bejelentkezést. Próbálja újra.",
+    "telegramErrorUnconfigured": "A Telegrammal való bejelentkezés ebben a boltban még nincs bekapcsolva.",
     "yandexCta": "Belépés Yandex ID-val",
     "yandexDivider": "vagy",
     "yandexErrorDenied": "A Yandex oldalán megszakította a belépést.",
@@ -613,7 +621,32 @@
     "receiptSubmit": "Bizonylat küldése",
     "receiptTooLarge": "A fájl nagyobb, mint 10 MB. Tömörítse, vagy küldjön képernyőképet.",
     "receiptWrongType": "Küldjön fotót (JPG, PNG, WEBP, HEIC) vagy PDF-et.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "A bizonylatot nem fogadtuk el",
+    "receiptRejectedReason": "Ok: {reason}",
+    "receiptResend": "Másik bizonylat küldése",
+    "contactManager": "Kapcsolat az ügyintézővel",
+    "methodRequisites": "Átutalás a megadott adatokra",
+    "requisitesDesc": "A rendelés leadása után látni fogja az üzlet adatait: bankkártyákat és kriptotárcákat. Utaljon át {total} összeget, és csatolja a fizetési bizonylatot – a rendelést a menedzser erősíti meg.",
+    "requisitesPreviewLabel": "Átutalást fogadunk ide:",
+    "handoverRequisitesTitle": "Fizesse ki a rendelést átutalással",
+    "handoverRequisitesBody": "A #{orderNumber} rendelést rögzítettük. Válasszon lent bankot vagy tárcát, utaljon át {total} összeget, és csatolja a fizetési bizonylatot.",
+    "handoverRequisitesMessage": "Üdvözlöm! Leadtam a #{orderNumber} rendelést {total} értékben, és átutalással kifizettem. Kérem, erősítsék meg a fizetést.",
+    "contactManagerHint": "A rendelés megerősítéséhez vegye fel a kapcsolatot a menedzserrel.",
+    "showRequisite": "Koppintson a szám megjelenítéséhez",
+    "hideRequisite": "Szám elrejtése",
+    "numberLabel": "Kártya- vagy számlaszám",
+    "holderLabel": "Kedvezményezett",
+    "addressLabel": "Tárca címe",
+    "networkLabel": "Hálózat",
+    "copyNumber": "Szám másolása",
+    "copyHolder": "Kedvezményezett másolása",
+    "copyAddress": "Cím másolása",
+    "copyNetwork": "Hálózat másolása",
+    "cryptoOnlyWarning": "Csak {currency} küldjön a {network} hálózaton: más érme vagy más hálózaton küldött átutalás nem érkezik meg.",
+    "receiptPick": "Fájl vagy fotó kiválasztása",
+    "receiptCamera": "Fotó készítése",
+    "receiptRemove": "Fájl eltávolítása"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Őrizze meg a rendelésszámot. Szüksége lesz rá, ha kapcsolatba lép az üzlettel.",
     "orderSuccess": "Rendelését sikeresen leadta.",
-    "thankYou": "Köszönjük!"
+    "thankYou": "Köszönjük!",
+    "paymentConfirmed": "Fizetés megerősítve",
+    "goToCourse": "Tovább a tanfolyamhoz",
+    "orderCanceled": "A rendelés törölve",
+    "orderCanceledHint": "Fizetni nem kell. Ha ez tévedés, írjon nekünk.",
+    "paidGoodsHint": "Előkészítjük a rendelését feladásra."
   },
   "OrderDetails": {
     "backToOrders": "Vissza a rendelésekhez",
@@ -944,6 +982,15 @@
     "noPhone": "Nincs megadva telefonszám",
     "phone": "Telefon"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Összekapcsolva: {handle}",
+    "notLinked": "Nincs összekapcsolva",
+    "hint": "Jelentkezzen be itt a Telegrammal, hogy összekapcsolja ezzel a fiókkal. Ezután mindkét módon bejelentkezhet.",
+    "errorTaken": "Ez a Telegram-fiók már egy másik fiókhoz van kapcsolva.",
+    "errorRejected": "A Telegram ezt nem erősítette meg. Próbálja újra.",
+    "errorFailed": "Nem sikerült összekapcsolni a Telegramot. Próbálja újra egy perc múlva."
+  },
   "PromoBanner": {
     "close": "Bezárás",
     "message": "Teljes funkciós, éles környezetre kész DTC starter."
@@ -1115,5 +1162,31 @@
     "addToCart": "Kosárba",
     "chooseOptions": "Opciók kiválasztása",
     "remove": "Eltávolítás"
+  },
+  "CartSidebar": {
+    "title": "Kosár",
+    "signInPrompt": "Jelentkezzen be, hogy lássa rendelési előzményeit és gyorsabban vásárolhasson.",
+    "signInEmail": "E-mailben",
+    "signInYandex": "Yandex ID-val",
+    "deliveryEstimate": "Kézbesítés: {range}",
+    "empty": "A kosara üres.",
+    "exploreProducts": "Termékek megtekintése",
+    "itemsTotal": "Termékek összesen",
+    "checkout": "Tovább a pénztárhoz"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online tanfolyam, kézbesítés nélkül",
+    "shipmentNo": "{no}. küldemény",
+    "digitalGroup": "Online tanfolyam — hozzáférés a fizetés megerősítése után",
+    "accessByEmail": "A tanfolyam hozzáférése e-mailben érkezik a fizetés megerősítése után.",
+    "digitalGroupPaid": "Online kurzus – a hozzáférés megnyitva"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Fizetésre vár",
+    "awaitingConfirmation": "Fizetés megerősítésére vár",
+    "receiptRejected": "A bizonylatot nem fogadták el",
+    "paid": "Kifizetve",
+    "refunded": "Visszatérítve",
+    "canceled": "Törölve"
   }
 }

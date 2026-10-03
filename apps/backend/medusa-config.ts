@@ -107,12 +107,30 @@ const yandexAuthProvider = {
   },
 };
 
+// Sign in with Telegram for storefront buyers (t-2026-10-02-telegram-auth).
+//
+// Registered UNCONDITIONALLY, the same reasoning `cdek`/`pochta` fulfillment
+// providers already use above: the bot token is a per-tenant row
+// (`tenant_integration_secret`, provider `telegram`), not a deployment secret,
+// so the provider costs nothing until a shop has one — there is no
+// `TELEGRAM_BOT_TOKEN` env var to gate on, unlike Yandex's client id.
+const telegramAuthProvider = {
+  resolve: "./src/modules/auth-telegram",
+  id: "telegram",
+  options: {
+    authDateMaxAgeSec: process.env.TELEGRAM_AUTH_MAX_AGE_SEC
+      ? Number(process.env.TELEGRAM_AUTH_MAX_AGE_SEC)
+      : undefined,
+  },
+};
+
 const authModule = {
   resolve: "@medusajs/medusa/auth",
   options: {
     providers: [
       { resolve: "@medusajs/medusa/auth-emailpass", id: "emailpass" },
       ...(useYandexAuth ? [yandexAuthProvider] : []),
+      telegramAuthProvider,
     ],
   },
 };
@@ -202,7 +220,8 @@ module.exports = defineConfig({
     },
     // Buyer and owner authentication. `emailpass` is spelled out here because
     // this entry replaces Medusa's default one; Yandex ID joins it only when
-    // YANDEX_CLIENT_ID is set. See the comment above `authModule`.
+    // YANDEX_CLIENT_ID is set, Telegram joins it unconditionally. See the
+    // comments above `authModule`.
     authModule,
     // Shared multitenancy: tenant + tenant admin, actor type "tenant", /tenants/*.
     { resolve: "./src/modules/tenant" },
@@ -280,6 +299,11 @@ module.exports = defineConfig({
           {
             resolve: "./src/modules/payment-robokassa",
             id: "robokassa",
+          },
+          {
+            // Tribute, same per-tenant-row pattern (t-cherk-22).
+            resolve: "./src/modules/payment-tribute",
+            id: "tribute",
           },
         ],
       },

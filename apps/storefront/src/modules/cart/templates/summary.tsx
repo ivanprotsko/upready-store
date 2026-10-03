@@ -3,6 +3,7 @@
 import { Button } from "@medusajs/ui"
 
 import CartTotals from "@modules/common/components/cart-totals"
+import { cartNeedsShipping } from "@lib/util/shipping-address"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import { Link } from "@i18n/navigation"
 import type { HttpTypes } from "@medusajs/types"
@@ -28,7 +29,7 @@ const Summary = ({ cart }: SummaryProps) => {
 
   return (
     <div className="flex flex-col gap-y-8">
-      <CartTotals totals={cart} />
+      <CartTotals totals={cart} needsShipping={cartNeedsShipping(cart)} />
       <DiscountCode cart={cart} />
       <Link href={"/checkout?step=" + step} data-testid="checkout-button">
         <Button className="w-full" size="large">

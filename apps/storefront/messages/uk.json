@@ -78,14 +78,6 @@
     "exploreProducts": "Переглянути товари",
     "heading": "Кошик"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ваш кошик порожній.",
-    "exploreProducts": "Переглянути товари",
-    "goToCart": "Перейти до кошика",
-    "heading": "Кошик",
-    "subtotal": "Проміжний підсумок",
-    "subtotalNote": "(без податків)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Щось пішло не так під час спроби перенести ваш кошик",
     "runTransferAgain": "Повторити перенесення",
@@ -155,7 +147,7 @@
     "freeShipping": "Безкоштовно",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} товар} few {{count} товари} many {{count} товарів} other {{count} товару}}",
-    "legal": "Натискаючи «Оплатити», ви приймаєте <terms>умови</terms>, <termsOfUse>умови використання</termsOfUse> та <returnPolicy>політику повернення</returnPolicy>, а також погоджуєтеся з <privacyPolicy>політикою конфіденційності</privacyPolicy>.",
+    "legal": "Натискаючи «{button}», ви приймаєте <terms>умови</terms>, <termsOfUse>умови використання</termsOfUse> та <returnPolicy>політику повернення</returnPolicy>, а також погоджуєтеся з <privacyPolicy>політикою конфіденційності</privacyPolicy>.",
     "manualInput": "Ввести адресу вручну",
     "addressIncomplete": "Заповніть обов'язкові поля адреси: {fields}.",
     "provinceRequired": "Виберіть область зі списку.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Недоступно: не вдалося розрахувати вартість",
     "signIn": "Увійти",
     "total": "Разом",
-    "shippingZone": "Зона: {zone}"
+    "shippingZone": "Зона: {zone}",
+    "courseSignInHeading": "Увійдіть, щоб купити курс",
+    "courseSignInText": "Курс відкривається у вашому акаунті, тому для покупки потрібен вхід або реєстрація.",
+    "fieldRequired": "Заповніть це поле",
+    "emailInvalid": "Перевірте e-mail: в адресі помилка",
+    "signInHeading": "Увійдіть, щоб оформити замовлення",
+    "signInText": "Замовлення з'явиться у вашому акаунті: там будуть реквізити для оплати, статус і куплені курси. Вхід або реєстрація займають хвилину, кошик збережеться."
   },
   "ClaimOrders": {
     "heading": "Замовляли без реєстрації?",
@@ -340,7 +338,10 @@
     "empty": "Ви ще не придбали жодного курсу.",
     "start": "Почати",
     "continue": "Продовжити",
-    "review": "Повторити"
+    "review": "Повторити",
+    "pendingHeading": "Очікують оплати",
+    "pendingHint": "Доступ відкриється після того, як магазин підтвердить оплату.",
+    "toOrder": "{order} — оплатити"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Ще не маєте акаунта?",
     "password": "Пароль",
     "signIn": "Увійти",
+    "telegramDivider": "або",
+    "telegramCta": "Увійти через Telegram",
+    "telegramPending": "Входимо…",
+    "telegramErrorExpired": "Вхід через Telegram застарів. Почніть заново.",
+    "telegramErrorFailed": "Не вдалося увійти. Спробуйте за хвилину.",
+    "telegramErrorRejected": "Telegram не підтвердив цей вхід. Спробуйте ще раз.",
+    "telegramErrorUnconfigured": "Вхід через Telegram у цьому магазині ще не ввімкнено.",
     "yandexCta": "Увійти через Яндекс ID",
     "yandexDivider": "або",
     "yandexErrorDenied": "Ви скасували вхід на сторінці Яндекса.",
@@ -613,7 +621,32 @@
     "receiptSubmit": "Надіслати квитанцію",
     "receiptTooLarge": "Файл більший за 10 МБ. Стисніть його або надішліть скриншот.",
     "receiptWrongType": "Підійде фото (JPG, PNG, WEBP, HEIC) або PDF.",
-    "walletCopyLabel": "Copy the {currency} address"
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Чек не прийнято",
+    "receiptRejectedReason": "Причина: {reason}",
+    "receiptResend": "Надіслати інший чек",
+    "contactManager": "Зв'язатися з менеджером",
+    "methodRequisites": "Переказ за реквізитами",
+    "requisitesDesc": "Після оформлення замовлення ви побачите реквізити магазину: банківські картки та криптогаманці. Перекажіть {total} і прикріпіть чек про оплату — замовлення підтвердить менеджер.",
+    "requisitesPreviewLabel": "Приймаємо перекази:",
+    "handoverRequisitesTitle": "Оплатіть замовлення переказом за реквізитами",
+    "handoverRequisitesBody": "Замовлення #{orderNumber} прийнято. Виберіть банк або гаманець нижче, перекажіть {total} і прикріпіть чек про оплату.",
+    "handoverRequisitesMessage": "Вітаю! Я оформив(ла) замовлення #{orderNumber} на суму {total} і оплатив(ла) переказом за реквізитами. Підтвердьте, будь ласка, оплату.",
+    "contactManagerHint": "Для підтвердження замовлення зв'яжіться з менеджером.",
+    "showRequisite": "Натисніть, щоб побачити номер",
+    "hideRequisite": "Сховати номер",
+    "numberLabel": "Номер картки або рахунку",
+    "holderLabel": "Отримувач",
+    "addressLabel": "Адреса гаманця",
+    "networkLabel": "Мережа",
+    "copyNumber": "Скопіювати номер",
+    "copyHolder": "Скопіювати отримувача",
+    "copyAddress": "Скопіювати адресу",
+    "copyNetwork": "Скопіювати мережу",
+    "cryptoOnlyWarning": "Надсилайте лише {currency} у мережі {network}: переказ іншої монети або іншою мережею не дійде.",
+    "receiptPick": "Вибрати файл або фото",
+    "receiptCamera": "Зробити фото",
+    "receiptRemove": "Прибрати файл"
   },
   "Metadata": {
     "account": {
@@ -736,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Збережіть номер замовлення. Він знадобиться для зв'язку з магазином.",
     "orderSuccess": "Ваше замовлення успішно оформлено.",
-    "thankYou": "Дякуємо!"
+    "thankYou": "Дякуємо!",
+    "paymentConfirmed": "Оплату підтверджено",
+    "goToCourse": "Перейти до курсу",
+    "orderCanceled": "Замовлення скасовано",
+    "orderCanceledHint": "Оплачувати його не потрібно. Якщо це помилка, напишіть нам.",
+    "paidGoodsHint": "Готуємо замовлення до відправлення."
   },
   "OrderDetails": {
     "backToOrders": "Назад до замовлень",
@@ -944,6 +982,15 @@
     "noPhone": "Немає номера телефону",
     "phone": "Телефон"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Прив’язано: {handle}",
+    "notLinked": "Не прив’язано",
+    "hint": "Увійдіть тут через Telegram, щоб прив’язати його до цього акаунта. Після цього можна входити будь-яким способом.",
+    "errorTaken": "Цей Telegram уже прив’язаний до іншого акаунта.",
+    "errorRejected": "Telegram не підтвердив прив’язку. Спробуйте ще раз.",
+    "errorFailed": "Не вдалося прив’язати Telegram. Спробуйте за хвилину."
+  },
   "PromoBanner": {
     "close": "Закрити",
     "message": "Повнофункціональний, готовий до продакшену DTC-стартер."
@@ -1115,5 +1162,31 @@
     "addToCart": "У кошик",
     "chooseOptions": "Обрати варіант",
     "remove": "Видалити"
+  },
+  "CartSidebar": {
+    "title": "Кошик",
+    "signInPrompt": "Увійдіть, щоб бачити історію замовлень і швидше оформлювати покупки.",
+    "signInEmail": "Через ел. пошту",
+    "signInYandex": "Через Yandex ID",
+    "deliveryEstimate": "Доставимо {range}",
+    "empty": "У кошику поки порожньо.",
+    "exploreProducts": "Переглянути товари",
+    "itemsTotal": "Товарів на суму",
+    "checkout": "До оформлення"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "онлайн-курс, без доставки",
+    "shipmentNo": "Відправлення № {no}",
+    "digitalGroup": "Онлайн-курс — доступ після підтвердження оплати",
+    "accessByEmail": "Доступ до курсу надійде на e-mail після підтвердження оплати.",
+    "digitalGroupPaid": "Онлайн-курс — доступ відкрито"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Очікує оплати",
+    "awaitingConfirmation": "Очікує підтвердження оплати",
+    "receiptRejected": "Чек не прийнято",
+    "paid": "Оплачено",
+    "refunded": "Повернено",
+    "canceled": "Скасовано"
   }
 }

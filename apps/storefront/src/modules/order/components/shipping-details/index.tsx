@@ -3,6 +3,7 @@ import { convertToLocale } from "@lib/util/money"
 import { trackingLines } from "@lib/util/order-tracking"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import { pochtaPointOf } from "@lib/util/pochta"
+import { orderContactLabel } from "@lib/data/order-contact"
 import type { HttpTypes } from "@medusajs/types"
 
 import { OrderDetailColumn } from "@modules/order/components/order-section"
@@ -72,7 +73,7 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
         (line): line is string => Boolean(line)
       )
     : formatAddressLines(order.shipping_address)
-  const contactLines = [order.shipping_address?.phone, order.email].filter(
+  const contactLines = [order.shipping_address?.phone, await orderContactLabel(order.email)].filter(
     Boolean
   ) as string[]
 
