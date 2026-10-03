@@ -611,14 +611,17 @@ export default function CheckoutShippingSection({
               <div
                 key={itemValue}
                 className={clx(
-                  "relative flex items-start gap-x-3 rounded-lg px-4 py-3 text-start transition-colors",
+                  "relative flex items-start gap-x-3 rounded-lg border px-4 py-3 text-start transition-colors",
                   // Without a fill and not selectable: a method the shop cannot
-                  // charge for (U-12) must not read as the chosen one.
+                  // charge for (U-12) must not read as the chosen one. The chosen
+                  // row takes the theme's accent border (`border-ui-border-interactive`,
+                  // the shop's own colour), not Medusa's interactive shadow, which
+                  // the themes leave blue (lead's review of #239).
                   unpriced
-                    ? "bg-ui-bg-disabled shadow-borders-base"
+                    ? "border-dashed border-ui-border-base bg-ui-bg-disabled"
                     : isSelected
-                      ? "bg-ui-bg-base shadow-borders-interactive-with-shadow"
-                      : "bg-ui-bg-base shadow-borders-base hover:bg-ui-bg-base-hover"
+                      ? "border-ui-border-interactive bg-ui-bg-base"
+                      : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
                 )}
                 data-unavailable={unpriced || undefined}
                 data-testid={
@@ -629,7 +632,7 @@ export default function CheckoutShippingSection({
                   value={itemValue}
                   aria-label={option.name}
                   disabled={unpriced}
-                  className="absolute inset-0 z-10 h-full w-full cursor-pointer disabled:cursor-not-allowed rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
+                  className="absolute inset-0 z-10 h-full w-full cursor-pointer disabled:cursor-not-allowed rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
                 />
                 {/* The radio mark of `RadioGroup.ChoiceBox`, drawn here because the
                     row holds buttons of its own («Изменить» for a point) and a

@@ -409,17 +409,18 @@ export default function CheckoutPaymentSection({
                 <div
                   key={method.id}
                   className={clx(
-                    "relative flex items-center gap-x-3 rounded-lg px-4 py-3 text-start transition-colors",
+                    "relative flex items-center gap-x-3 rounded-lg border px-4 py-3 text-start transition-colors",
+                    // The theme's accent border on the chosen row, as on delivery.
                     isSelected
-                      ? "bg-ui-bg-base shadow-borders-interactive-with-shadow"
-                      : "bg-ui-bg-base shadow-borders-base hover:bg-ui-bg-base-hover"
+                      ? "border-ui-border-interactive bg-ui-bg-base"
+                      : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
                   )}
                 >
                   <RadioGroup.Item
                     value={method.id}
                     aria-label={label}
                     data-testid={`payment-method-${method.id}`}
-                    className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
+                    className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
                   />
                   {/* The radio mark of `RadioGroup.ChoiceBox`, the same as the
                       delivery rows draw. */}

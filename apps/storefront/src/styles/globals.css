@@ -69,12 +69,18 @@
     scrollbar-width: none; /* Firefox */
   }
 
-  input:focus ~ label,
-  input:not(:placeholder-shown) ~ label {
+  /*
+   * The floating label of `Input`. Not for a checkbox or a radio: Radix renders a
+   * hidden native one next to its own control inside a form, and a `<label>`
+   * after it was lifted 8px above the box it names (the checkout's «Получать
+   * будет другой человек», lead's review of #239).
+   */
+  input:not([type="checkbox"]):not([type="radio"]):focus ~ label,
+  input:not([type="checkbox"]):not([type="radio"]):not(:placeholder-shown) ~ label {
     @apply -translate-y-2 text-xsmall-regular;
   }
 
-  input:focus ~ label {
+  input:not([type="checkbox"]):not([type="radio"]):focus ~ label {
     @apply start-0;
   }
 
