@@ -1,4 +1,10 @@
-import { parseArgs, planRegionAssignment, type RegionRow } from "../ensure-international-region";
+import {
+  DEFAULT_COUNTRIES,
+  parseArgs,
+  planRegionAssignment,
+  resolveRequestedCountries,
+  type RegionRow,
+} from "../ensure-international-region";
 
 /**
  * Every country on this backend already owns a single-country region
@@ -149,5 +155,31 @@ describe("ensure-international-region: planRegionAssignment", () => {
   it("drops a duplicate in the requested list rather than double-counting it", () => {
     const plan = planRegionAssignment([unitedStates], ["us", "us"], "International");
     expect(plan.wanted).toEqual(["us"]);
+  });
+});
+
+describe("ensure-international-region: resolveRequestedCountries", () => {
+  it("never puts \"us\" in DEFAULT_COUNTRIES — a bare run must not move cherkashino.com's own default country", () => {
+    expect(DEFAULT_COUNTRIES).not.toContain("us");
+  });
+
+  it("strips \"us\" from the default path even if DEFAULT_COUNTRIES were ever edited to include it again", () => {
+    expect(resolveRequestedCountries({ countries: null })).not.toContain("us");
+  });
+
+  it("still moves \"us\" when the caller names it explicitly", () => {
+    expect(resolveRequestedCountries({ countries: ["us", "gb"] })).toEqual(["us", "gb"]);
+  });
+
+  it("end to end: a bare run (parseArgs with no arguments) never touches the country the live site already defaults to", () => {
+    const unitedStates = soloRegion("United States", "us");
+    const germany = soloRegion("Germany", "de", { currency_code: "eur" });
+    const requested = resolveRequestedCountries(parseArgs([]));
+    const plan = planRegionAssignment([unitedStates, germany], requested, "International");
+
+    // "de" is in DEFAULT_COUNTRIES, so it legitimately moves; "us" must not,
+    // even though it is also a default-eligible-looking country today.
+    expect(plan.wanted).not.toContain("us");
+    expect(plan.toFree).not.toContainEqual(expect.objectContaining({ region: unitedStates }));
   });
 });

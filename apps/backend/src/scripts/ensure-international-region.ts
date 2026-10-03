@@ -39,12 +39,22 @@ const SYSTEM_DEFAULT_PROVIDER_ID = "pp_system_default";
 const PROTECTED_COUNTRIES = new Set(["ru"]);
 
 /**
+ * Left out of DEFAULT_COUNTRIES on purpose: cherkashino.com's
+ * `tenant_locale_settings.default_country` already points at "us"
+ * (`set-tenant-usd-default.ts`, t-cherk-com-hotfix batch 6 item 7), so a bare
+ * run of this script (no `countries=` flag, no `COUNTRIES` env) must never
+ * reassign it away from its current single-country region. Unlike
+ * PROTECTED_COUNTRIES this is not a standing ban — "us" still moves the
+ * moment the caller names it explicitly, the way the owner's real list will.
+ */
+const DEFAULT_ONLY_EXCLUDED = new Set(["us"]);
+
+/**
  * A placeholder until the owner sends the real list. Markets an English/USD
  * storefront is likely to sell into first, deliberately short: the point is a
  * working default for the stand, not a guess at the client's real footprint.
  */
 export const DEFAULT_COUNTRIES = [
-  "us",
   "gb",
   "ca",
   "au",
@@ -102,6 +112,18 @@ export const parseArgs = (argv: string[]): Args => {
   }
 
   return args;
+};
+
+/**
+ * What this run should request: the caller's explicit list (flag or
+ * `COUNTRIES` env, already folded into `args.countries` by `parseArgs`)
+ * unchanged, or `DEFAULT_COUNTRIES` with `DEFAULT_ONLY_EXCLUDED` stripped out
+ * — a defensive second filter, since `DEFAULT_COUNTRIES` itself must never
+ * carry "us" either.
+ */
+export const resolveRequestedCountries = (args: Pick<Args, "countries">): string[] => {
+  if (args.countries) return args.countries;
+  return DEFAULT_COUNTRIES.filter((code) => !DEFAULT_ONLY_EXCLUDED.has(code));
 };
 
 export type RegionRow = {
@@ -213,7 +235,7 @@ export default async function ensureInternationalRegion({
   const logger: Logger = container.resolve(ContainerRegistrationKeys.LOGGER);
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const args = parseArgs(execArgs ?? []);
-  const requested = args.countries ?? DEFAULT_COUNTRIES;
+  const requested = resolveRequestedCountries(args);
 
   const { data: regions } = await query.graph({
     entity: "region",
