@@ -12,6 +12,16 @@
     "trackOrder": "Theo dõi đơn hàng",
     "viewOrder": "Xem đơn hàng"
   },
+  "CourseAccess": {
+    "body": "Thanh toán cho đơn hàng <strong>#{id}</strong> đã được xác nhận. Khóa học hiện đã mở trong tài khoản của bạn:",
+    "button": "Đến khóa học",
+    "headingAnon": "Đã mở quyền truy cập khóa học",
+    "headingWithName": "{name}, đã mở quyền truy cập khóa học",
+    "preview": "Đã xác nhận thanh toán, khóa học đang chờ bạn trong tài khoản",
+    "signIn": "Các bài học sẽ mở sau khi bạn đăng nhập vào tài khoản bằng {email}.",
+    "subject": "Đơn hàng #{id} đã thanh toán: đã mở quyền truy cập khóa học",
+    "textFallback": "Thanh toán cho đơn hàng #{id} đã được xác nhận, đã mở quyền truy cập khóa học.\n\nĐến khóa học:"
+  },
   "Delivery": {
     "bodyOrder": "Đơn hàng <strong>#{id}</strong> đã được giao. Mong rằng mọi thứ đến nơi nguyên vẹn.",
     "headingAnon": "Đơn hàng của bạn đã được giao",

@@ -14,9 +14,14 @@ type CartTotalsProps = {
     shipping_subtotal?: number | null
     discount_subtotal?: number | null
   }
+  /**
+   * Batch 6 (hotfix Plan B): `false` for a cart or order with nothing to post (an online
+   * course alone) — the «Доставка» row is not shown at all, not shown as 0.
+   */
+  needsShipping?: boolean
 }
 
-const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
+const CartTotals: React.FC<CartTotalsProps> = ({ totals, needsShipping = true }) => {
   const t = useTranslations("CartTotals")
   const locale = useLocale()
   const {
@@ -37,12 +42,14 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             {convertToLocale({ amount: item_subtotal ?? 0, currency_code, locale })}
           </span>
         </div>
-        <div className="flex items-center justify-between">
-          <span>{t("shipping")}</span>
-          <span data-testid="cart-shipping" data-value={shipping_subtotal || 0}>
-            {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code, locale })}
-          </span>
-        </div>
+        {needsShipping && (
+          <div className="flex items-center justify-between">
+            <span>{t("shipping")}</span>
+            <span data-testid="cart-shipping" data-value={shipping_subtotal || 0}>
+              {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code, locale })}
+            </span>
+          </div>
+        )}
         {!!discount_subtotal && (
           <div className="flex items-center justify-between">
             <span>{t("discount")}</span>

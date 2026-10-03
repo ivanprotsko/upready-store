@@ -78,14 +78,6 @@
     "exploreProducts": "עיין במוצרים",
     "heading": "עגלה"
   },
-  "CartDropdown": {
-    "bagEmpty": "עגלת הקניות שלך ריקה.",
-    "exploreProducts": "עיין במוצרים",
-    "goToCart": "מעבר לעגלה",
-    "heading": "עגלה",
-    "subtotal": "סכום ביניים",
-    "subtotalNote": "(לא כולל מיסים)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "משהו השתבש בעת הניסיון להעביר את העגלה שלך",
     "runTransferAgain": "נסה להעביר שוב",
@@ -155,7 +147,7 @@
     "freeShipping": "חינם",
     "giftCard": "כרטיס מתנה",
     "itemsCount": "{count, plural, one {{count} פריט} two {{count} פריטים} many {{count} פריטים} other {{count} פריטים}}",
-    "legal": "בלחיצה על «לתשלום», אתה מאשר את <terms>התנאים</terms> שלנו, את <termsOfUse>תנאי השימוש</termsOfUse> ואת <returnPolicy>מדיניות ההחזרות</returnPolicy>, ומסכים ל<privacyPolicy>מדיניות הפרטיות</privacyPolicy> שלנו.",
+    "legal": "בלחיצה על «{button}», אתה מאשר את <terms>התנאים</terms> שלנו, את <termsOfUse>תנאי השימוש</termsOfUse> ואת <returnPolicy>מדיניות ההחזרות</returnPolicy>, ומסכים ל<privacyPolicy>מדיניות הפרטיות</privacyPolicy> שלנו.",
     "manualInput": "הזנת כתובת ידנית",
     "addressIncomplete": "מלאו את שדות החובה בכתובת: {fields}.",
     "provinceRequired": "בחר אזור מהרשימה.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "לא זמין: לא ניתן לחשב את המחיר",
     "signIn": "התחברות",
     "total": "סה״כ",
-    "shippingZone": "אזור: {zone}"
+    "shippingZone": "אזור: {zone}",
+    "courseSignInHeading": "התחברו כדי לרכוש את הקורס",
+    "courseSignInText": "הקורס נפתח בחשבון שלכם, ולכן הרכישה דורשת התחברות או הרשמה.",
+    "fieldRequired": "מלאו שדה זה",
+    "emailInvalid": "בדקו את האימייל: יש שגיאה בכתובת",
+    "signInHeading": "התחברו כדי לבצע את ההזמנה",
+    "signInText": "ההזמנה תופיע בחשבון שלכם: שם יהיו פרטי התשלום, הסטטוס והקורסים שרכשתם. ההתחברות או ההרשמה לוקחות דקה, והעגלה נשמרת."
   },
   "ClaimOrders": {
     "heading": "הזמנת בלי חשבון?",
@@ -340,7 +338,10 @@
     "empty": "עדיין לא רכשת אף קורס.",
     "start": "התחל",
     "continue": "המשך",
-    "review": "חזור על החומר"
+    "review": "חזור על החומר",
+    "pendingHeading": "ממתינים לתשלום",
+    "pendingHint": "הגישה תיפתח לאחר שהחנות תאשר את התשלום.",
+    "toOrder": "{order} — לתשלום"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "עדיין אין לך חשבון?",
     "password": "סיסמה",
     "signIn": "התחברות",
+    "telegramDivider": "או",
+    "telegramCta": "כניסה עם Telegram",
+    "telegramPending": "מתבצעת כניסה…",
+    "telegramErrorExpired": "תוקף ההתחברות עם Telegram פג. התחילו מחדש.",
+    "telegramErrorFailed": "ההתחברות נכשלה. נסו שוב בעוד דקה.",
+    "telegramErrorRejected": "Telegram לא אישר את ההתחברות הזו. נסו שוב.",
+    "telegramErrorUnconfigured": "ההתחברות עם Telegram עדיין לא הופעלה בחנות הזו.",
     "yandexCta": "כניסה עם Yandex ID",
     "yandexDivider": "או",
     "yandexErrorDenied": "ביטלת את הכניסה בעמוד של Yandex.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "העתקת מספר הכרטיס של {bank}",
+    "cardHolder": "מקבל: {holder}",
+    "cardsDesc": "העבירו את סכום ההזמנה לכרטיס של החנות.",
+    "cardsHint": "העבירו {total} לאחד הכרטיסים שלמטה.",
+    "cardsManagerFallback": "אם משהו השתבש, כתבו למנהל:",
+    "cardsTitle": "העברה לכרטיס",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "הזמנה #{orderNumber} התקבלה ונשמרה. העבירו {total} לאחד הכרטיסים שלמטה. לאחר שהחנות תאשר את התשלום, ההזמנה תקבל את הסטטוס «שולמה».",
+    "handoverCardsMessage": "שלום! יש לי שאלה לגבי התשלום על הזמנה #{orderNumber} בסך {total} בהעברה לכרטיס.",
+    "handoverCardsTitle": "העבירו את התשלום לכרטיס",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "לא ניתן היה לשלוח את הקבלה. נסו שוב או כתבו למנהל.",
+    "receiptHint": "תמונה או צילום מסך של ההעברה (JPG, PNG, WEBP, HEIC) או PDF, עד 10 MB.",
+    "receiptLabel": "קבלה על התשלום",
+    "receiptPaid": "שילמתי",
+    "receiptSent": "הקבלה נשלחה, ממתינים לאישור",
+    "receiptSentHint": "החנות תבדוק את ההעברה ותאשר את התשלום, ולאחר מכן ההזמנה תקבל את הסטטוס «שולמה».",
+    "receiptSubmit": "שליחת הקבלה",
+    "receiptTooLarge": "הקובץ גדול מ-10 MB. דחסו אותו או שלחו צילום מסך.",
+    "receiptWrongType": "שלחו תמונה (JPG, PNG, WEBP, HEIC) או PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "הקבלה לא התקבלה",
+    "receiptRejectedReason": "סיבה: {reason}",
+    "receiptResend": "שלחו קבלה אחרת",
+    "contactManager": "יצירת קשר עם המנהל",
+    "methodRequisites": "העברה לפי פרטי חשבון",
+    "requisitesDesc": "לאחר ביצוע ההזמנה תראו את פרטי החנות: כרטיסי בנק וארנקי קריפטו. העבירו {total} וצרפו קבלה על התשלום — המנהל יאשר את ההזמנה.",
+    "requisitesPreviewLabel": "אנו מקבלים העברות אל:",
+    "handoverRequisitesTitle": "שלמו את ההזמנה בהעברה",
+    "handoverRequisitesBody": "הזמנה #{orderNumber} התקבלה. בחרו בנק או ארנק למטה, העבירו {total} וצרפו קבלה על התשלום.",
+    "handoverRequisitesMessage": "שלום! ביצעתי את הזמנה #{orderNumber} בסך {total} ושילמתי בהעברה. אנא אשרו את התשלום.",
+    "contactManagerHint": "לאישור ההזמנה פנו למנהל.",
+    "showRequisite": "הקישו להצגת המספר",
+    "hideRequisite": "הסתרת המספר",
+    "numberLabel": "מספר כרטיס או חשבון",
+    "holderLabel": "מקבל",
+    "addressLabel": "כתובת הארנק",
+    "networkLabel": "רשת",
+    "copyNumber": "העתקת המספר",
+    "copyHolder": "העתקת שם המקבל",
+    "copyAddress": "העתקת הכתובת",
+    "copyNetwork": "העתקת הרשת",
+    "cryptoOnlyWarning": "שלחו {currency} ברשת {network} בלבד: העברה של מטבע אחר או ברשת אחרת לא תגיע.",
+    "receiptPick": "בחירת קובץ או תמונה",
+    "receiptCamera": "צילום תמונה",
+    "receiptRemove": "הסרת הקובץ"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "שמרו את מספר ההזמנה. תזדקקו לו כשתפנו לחנות.",
     "orderSuccess": "ההזמנה שלך בוצעה בהצלחה.",
-    "thankYou": "תודה!"
+    "thankYou": "תודה!",
+    "paymentConfirmed": "התשלום אושר",
+    "goToCourse": "מעבר לקורס",
+    "orderCanceled": "ההזמנה בוטלה",
+    "orderCanceledHint": "אין צורך לשלם. אם זו טעות, כתבו לנו.",
+    "paidGoodsHint": "אנחנו מכינים את ההזמנה למשלוח."
   },
   "OrderDetails": {
     "backToOrders": "חזרה להזמנות",
@@ -926,6 +982,15 @@
     "noPhone": "אין מספר טלפון",
     "phone": "טלפון"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "מקושר: {handle}",
+    "notLinked": "לא מקושר",
+    "hint": "התחברו כאן עם Telegram כדי לקשר אותו לחשבון הזה. אחר כך תוכלו להתחבר בכל אחת מהדרכים.",
+    "errorTaken": "חשבון ה-Telegram הזה כבר מקושר לחשבון אחר.",
+    "errorRejected": "Telegram לא אישר זאת. נסו שוב.",
+    "errorFailed": "לא ניתן היה לקשר את Telegram. נסו שוב בעוד דקה."
+  },
   "PromoBanner": {
     "close": "סגירה",
     "message": "סטארטר DTC מלא יכולות ומוכן לסביבת ייצור."
@@ -1097,5 +1162,31 @@
     "addToCart": "הוספה לעגלה",
     "chooseOptions": "בחירת אפשרויות",
     "remove": "הסרה"
+  },
+  "CartSidebar": {
+    "title": "עגלה",
+    "signInPrompt": "התחברו כדי לראות את היסטוריית ההזמנות ולהשלים רכישות מהר יותר.",
+    "signInEmail": "באימייל",
+    "signInYandex": "עם Yandex ID",
+    "deliveryEstimate": "משלוח {range}",
+    "empty": "העגלה שלכם ריקה.",
+    "exploreProducts": "לצפייה במוצרים",
+    "itemsTotal": "סה\"כ מוצרים",
+    "checkout": "לתשלום"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "קורס מקוון, ללא משלוח",
+    "shipmentNo": "משלוח מס' {no}",
+    "digitalGroup": "קורס מקוון — גישה לאחר אישור התשלום",
+    "accessByEmail": "הגישה לקורס תישלח באימייל לאחר אישור התשלום.",
+    "digitalGroupPaid": "קורס מקוון — הגישה פתוחה"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "ממתין לתשלום",
+    "awaitingConfirmation": "ממתין לאישור התשלום",
+    "receiptRejected": "הקבלה לא אושרה",
+    "paid": "שולם",
+    "refunded": "הוחזר",
+    "canceled": "בוטל"
   }
 }

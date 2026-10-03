@@ -12,6 +12,16 @@
     "trackOrder": "Bestelling volgen",
     "viewOrder": "Bestelling bekijken"
   },
+  "CourseAccess": {
+    "body": "De betaling voor bestelling <strong>#{id}</strong> is bevestigd. De cursus staat nu open in uw account:",
+    "button": "Naar de cursus",
+    "headingAnon": "Toegang tot de cursus is geopend",
+    "headingWithName": "{name}, toegang tot de cursus is geopend",
+    "preview": "Betaling bevestigd, de cursus wacht op u in uw account",
+    "signIn": "De lessen openen zodra u inlogt op uw account met {email}.",
+    "subject": "Bestelling #{id} betaald: toegang tot de cursus is geopend",
+    "textFallback": "De betaling voor bestelling #{id} is bevestigd en de toegang tot de cursus is geopend.\n\nNaar de cursus:"
+  },
   "Delivery": {
     "bodyOrder": "Bestelling <strong>#{id}</strong> is bezorgd. We hopen dat alles goed is aangekomen.",
     "headingAnon": "Uw bestelling is bezorgd",

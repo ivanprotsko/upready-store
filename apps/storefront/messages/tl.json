@@ -78,14 +78,6 @@
     "exploreProducts": "Tuklasin ang mga produkto",
     "heading": "Cart"
   },
-  "CartDropdown": {
-    "bagEmpty": "Walang laman ang iyong shopping bag.",
-    "exploreProducts": "Tuklasin ang mga produkto",
-    "goToCart": "Pumunta sa cart",
-    "heading": "Cart",
-    "subtotal": "Subtotal",
-    "subtotalNote": "(hindi kasama ang buwis)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "May nagkamali nang sinubukan naming ilipat ang iyong cart",
     "runTransferAgain": "Subukang muli ang paglipat",
@@ -155,7 +147,7 @@
     "freeShipping": "Libre",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} item} other {{count} na item}}",
-    "legal": "Sa pag-click ng «Bayaran», tinatanggap mo ang aming <terms>mga tuntunin</terms>, <termsOfUse>mga tuntunin sa paggamit</termsOfUse>, at <returnPolicy>patakaran sa pagsauli</returnPolicy>, at sumasang-ayon ka sa aming <privacyPolicy>patakaran sa privacy</privacyPolicy>.",
+    "legal": "Sa pag-click ng «{button}», tinatanggap mo ang aming <terms>mga tuntunin</terms>, <termsOfUse>mga tuntunin sa paggamit</termsOfUse>, at <returnPolicy>patakaran sa pagsauli</returnPolicy>, at sumasang-ayon ka sa aming <privacyPolicy>patakaran sa privacy</privacyPolicy>.",
     "manualInput": "Ilagay ang address nang manu-mano",
     "addressIncomplete": "Punan ang mga kinakailangang field ng address: {fields}.",
     "provinceRequired": "Piliin ang rehiyon mula sa listahan.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Hindi available: hindi makalkula ang presyo",
     "signIn": "Mag-sign in",
     "total": "Kabuuan",
-    "shippingZone": "Sona: {zone}"
+    "shippingZone": "Sona: {zone}",
+    "courseSignInHeading": "Mag-sign in para bilhin ang kurso",
+    "courseSignInText": "Bubukas ang kurso sa account mo, kaya kailangan ng sign-in o pagrehistro para bumili.",
+    "fieldRequired": "Punan ang field na ito",
+    "emailInvalid": "Suriin ang email: may mali sa address",
+    "signInHeading": "Mag-sign in para mag-order",
+    "signInText": "Lalabas ang order sa iyong account: naroon ang mga detalye ng bayad, status, at mga biniling kurso. Isang minuto lang ang pag-sign in o pagrehistro, at mananatili ang cart."
   },
   "ClaimOrders": {
     "heading": "Nag-order nang walang account?",
@@ -340,7 +338,10 @@
     "empty": "Wala ka pang binibiling kurso.",
     "start": "Simulan",
     "continue": "Ipagpatuloy",
-    "review": "Balikan"
+    "review": "Balikan",
+    "pendingHeading": "Naghihintay ng bayad",
+    "pendingHint": "Magbubukas ang access kapag nakumpirma ng tindahan ang bayad.",
+    "toOrder": "{order} — bayaran"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Hindi pa miyembro?",
     "password": "Password",
     "signIn": "Mag-sign in",
+    "telegramDivider": "o",
+    "telegramCta": "Mag-sign in gamit ang Telegram",
+    "telegramPending": "Nagsa-sign in…",
+    "telegramErrorExpired": "Nag-expire na ang pag-sign in gamit ang Telegram. Magsimula muli.",
+    "telegramErrorFailed": "Hindi makapag-sign in. Subukan muli pagkalipas ng isang minuto.",
+    "telegramErrorRejected": "Hindi kinumpirma ng Telegram ang pag-sign in na ito. Subukan muli.",
+    "telegramErrorUnconfigured": "Hindi pa naka-on ang pag-sign in gamit ang Telegram sa tindahang ito.",
     "yandexCta": "Mag-sign in gamit ang Yandex ID",
     "yandexDivider": "o",
     "yandexErrorDenied": "Kinansela mo ang pag-sign in sa pahina ng Yandex.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Kopyahin ang numero ng {bank} card",
+    "cardHolder": "Tatanggap: {holder}",
+    "cardsDesc": "Ilipat ang kabuuang halaga ng order sa card ng tindahan.",
+    "cardsHint": "Ilipat ang {total} sa isa sa mga card sa ibaba.",
+    "cardsManagerFallback": "Kung may hindi gumana, mag-message sa manager:",
+    "cardsTitle": "Paglipat sa card",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Natanggap at nai-reserve na ang order #{orderNumber}. Ilipat ang {total} sa isa sa mga card sa ibaba. Kapag kinumpirma ng tindahan ang bayad, magiging «Bayad na» ang status ng order.",
+    "handoverCardsMessage": "Kumusta! May tanong ako tungkol sa pagbabayad ng order #{orderNumber} na nagkakahalaga ng {total} sa pamamagitan ng paglipat sa card.",
+    "handoverCardsTitle": "Ilipat ang bayad sa card",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Hindi naipadala ang resibo. Subukan muli o mag-message sa manager.",
+    "receiptHint": "Larawan o screenshot ng paglilipat (JPG, PNG, WEBP, HEIC) o PDF, hanggang 10 MB.",
+    "receiptLabel": "Resibo ng bayad",
+    "receiptPaid": "Nagbayad na ako",
+    "receiptSent": "Naipadala na ang resibo, hinihintay ang kumpirmasyon",
+    "receiptSentHint": "Susuriin ng tindahan ang paglilipat at kukumpirmahin ang bayad, pagkatapos ay magiging «Bayad na» ang status ng order.",
+    "receiptSubmit": "Ipadala ang resibo",
+    "receiptTooLarge": "Mas malaki sa 10 MB ang file. I-compress ito o magpadala ng screenshot.",
+    "receiptWrongType": "Magpadala ng larawan (JPG, PNG, WEBP, HEIC) o PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Hindi tinanggap ang resibo",
+    "receiptRejectedReason": "Dahilan: {reason}",
+    "receiptResend": "Magpadala ng ibang resibo",
+    "contactManager": "Makipag-ugnayan sa manager",
+    "methodRequisites": "Transfer sa detalye ng account",
+    "requisitesDesc": "Pagkatapos mag-order makikita mo ang mga detalye ng tindahan: mga bank card at crypto wallet. Mag-transfer ng {total} at ilakip ang resibo ng bayad — kukumpirmahin ng manager ang order.",
+    "requisitesPreviewLabel": "Tumatanggap kami ng transfer sa:",
+    "handoverRequisitesTitle": "Bayaran ang order sa pamamagitan ng transfer",
+    "handoverRequisitesBody": "Natanggap ang order #{orderNumber}. Pumili ng bangko o wallet sa ibaba, mag-transfer ng {total} at ilakip ang resibo ng bayad.",
+    "handoverRequisitesMessage": "Kumusta! Nag-order ako ng #{orderNumber} na {total} at binayaran ko ito sa pamamagitan ng transfer. Pakikumpirma ang bayad.",
+    "contactManagerHint": "Para kumpirmahin ang order, makipag-ugnayan sa manager.",
+    "showRequisite": "I-tap para makita ang numero",
+    "hideRequisite": "Itago ang numero",
+    "numberLabel": "Numero ng card o account",
+    "holderLabel": "Tatanggap",
+    "addressLabel": "Address ng wallet",
+    "networkLabel": "Uri ng network",
+    "copyNumber": "Kopyahin ang numero",
+    "copyHolder": "Kopyahin ang tatanggap",
+    "copyAddress": "Kopyahin ang address",
+    "copyNetwork": "Kopyahin ang network",
+    "cryptoOnlyWarning": "Magpadala lang ng {currency} sa {network} network: hindi darating ang transfer ng ibang coin o sa ibang network.",
+    "receiptPick": "Pumili ng file o larawan",
+    "receiptCamera": "Kumuha ng larawan",
+    "receiptRemove": "Alisin ang file"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Itago ang numero ng order. Kakailanganin mo ito kapag kinontak mo ang tindahan.",
     "orderSuccess": "Matagumpay na naisagawa ang iyong order.",
-    "thankYou": "Salamat!"
+    "thankYou": "Salamat!",
+    "paymentConfirmed": "Nakumpirma ang bayad",
+    "goToCourse": "Pumunta sa kurso",
+    "orderCanceled": "Kinansela ang order",
+    "orderCanceledHint": "Hindi na kailangang magbayad. Kung mali ito, sumulat sa amin.",
+    "paidGoodsHint": "Inihahanda na namin ang order mo para ipadala."
   },
   "OrderDetails": {
     "backToOrders": "Bumalik sa mga order",
@@ -926,6 +982,15 @@
     "noPhone": "Walang numero ng telepono",
     "phone": "Telepono"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Naka-link: {handle}",
+    "notLinked": "Hindi naka-link",
+    "hint": "Mag-sign in dito gamit ang Telegram para i-link ito sa account na ito. Pagkatapos, makakapag-sign in ka sa alinmang paraan.",
+    "errorTaken": "Naka-link na ang Telegram account na ito sa ibang account.",
+    "errorRejected": "Hindi ito kinumpirma ng Telegram. Subukan muli.",
+    "errorFailed": "Hindi ma-link ang Telegram. Subukan muli pagkalipas ng isang minuto."
+  },
   "PromoBanner": {
     "close": "Isara",
     "message": "Full-featured at production-ready na DTC starter."
@@ -1097,5 +1162,31 @@
     "addToCart": "Idagdag sa cart",
     "chooseOptions": "Pumili ng mga opsyon",
     "remove": "Alisin"
+  },
+  "CartSidebar": {
+    "title": "Kariton",
+    "signInPrompt": "Mag-sign in para makita ang history ng mga order mo at mas mabilis na makabili.",
+    "signInEmail": "Gamit ang email",
+    "signInYandex": "Gamit ang Yandex ID",
+    "deliveryEstimate": "Ihahatid {range}",
+    "empty": "Walang laman ang kariton mo.",
+    "exploreProducts": "Tingnan ang mga produkto",
+    "itemsTotal": "Kabuuan ng mga produkto",
+    "checkout": "Mag-checkout"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "online na kurso, walang delivery",
+    "shipmentNo": "Padala Blg. {no}",
+    "digitalGroup": "Online na kurso — access pagkatapos makumpirma ang bayad",
+    "accessByEmail": "Ipapadala sa email ang access sa kurso kapag nakumpirma na ang bayad.",
+    "digitalGroupPaid": "Online course — bukas na ang access"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Naghihintay ng bayad",
+    "awaitingConfirmation": "Naghihintay ng kumpirmasyon ng bayad",
+    "receiptRejected": "Hindi tinanggap ang resibo",
+    "paid": "Bayad na",
+    "refunded": "Na-refund",
+    "canceled": "Kanselado"
   }
 }

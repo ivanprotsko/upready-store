@@ -7,6 +7,7 @@ import Login from "@modules/account/components/login"
 import ForgotPassword from "@modules/account/components/forgot-password"
 import type { LegalLinkContext } from "@lib/util/legal-links"
 import { allowsEmailLogin, type TenantLoginSettings } from "@lib/tenant/login-settings"
+import type { TelegramBot } from "@lib/data/telegram-bot"
 
 export enum LOGIN_VIEW {
   SIGN_IN = "sign-in",
@@ -33,11 +34,14 @@ const LoginTemplate = ({
   siteName,
   legal,
   loginSettings,
+  telegramBot,
   returnTo,
 }: {
   siteName: string
   legal: LegalLinkContext
   loginSettings: TenantLoginSettings
+  /** This shop's own bot, or null: then no Telegram control (rule 19g, from the server page). */
+  telegramBot: TelegramBot | null
   /** Where to send the buyer after signing in, from the server page's `?return=` (rule 19g). */
   returnTo: string | null
 }) => {
@@ -52,6 +56,7 @@ const LoginTemplate = ({
         <Login
           setCurrentView={setCurrentView}
           loginSettings={loginSettings}
+          telegramBot={telegramBot}
           returnTo={returnTo}
         />
       )}

@@ -9,7 +9,7 @@ import {
   resolveTenantPaymentMethods,
   type TenantPaymentMethods,
 } from "../../../tenant-secrets/payment-methods";
-import { readManualPayment } from "../../tenants/payment-settings/manual/manual-payment";
+import { legacyManualPayment, readManualPayment } from "../../tenants/payment-settings/manual/manual-payment";
 import { tenantOrNull } from "./robokassa";
 
 /**
@@ -52,6 +52,6 @@ export const tenantPaymentMethodsFor = async (req: MedusaStoreRequest): Promise<
   return resolveTenantPaymentMethods({
     robokassaEnabled: Boolean(secret),
     tributeEnabled: Boolean(tributeSecret),
-    ...manualPaymentMethods(manualPayment),
+    ...manualPaymentMethods(legacyManualPayment(manualPayment)),
   });
 };

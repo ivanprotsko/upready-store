@@ -78,14 +78,6 @@
     "exploreProducts": "Scopri i prodotti",
     "heading": "Carrello"
   },
-  "CartDropdown": {
-    "bagEmpty": "Il tuo carrello è vuoto.",
-    "exploreProducts": "Scopri i prodotti",
-    "goToCart": "Vai al carrello",
-    "heading": "Carrello",
-    "subtotal": "Subtotale",
-    "subtotalNote": "(IVA esclusa)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Qualcosa è andato storto durante il trasferimento del tuo carrello",
     "runTransferAgain": "Riprova il trasferimento",
@@ -155,7 +147,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Carta regalo",
     "itemsCount": "{count, plural, one {{count} articolo} other {{count} articoli}}",
-    "legal": "Cliccando su «Paga», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e accetti la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
+    "legal": "Cliccando su «{button}», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e accetti la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
     "manualInput": "Inserisci l'indirizzo manualmente",
     "addressIncomplete": "Compila i campi obbligatori dell'indirizzo: {fields}.",
     "provinceRequired": "Scegli la regione dall’elenco.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Non disponibile: impossibile calcolare il prezzo",
     "signIn": "Accedi",
     "total": "Totale",
-    "shippingZone": "Zona: {zone}"
+    "shippingZone": "Zona: {zone}",
+    "courseSignInHeading": "Accedi per acquistare il corso",
+    "courseSignInText": "Il corso si apre nel tuo account, quindi per acquistarlo serve l'accesso o la registrazione.",
+    "fieldRequired": "Compila questo campo",
+    "emailInvalid": "Controlla l'e-mail: l'indirizzo contiene un errore",
+    "signInHeading": "Accedi per completare l'ordine",
+    "signInText": "L'ordine comparirà nel tuo account: lì troverai i dati di pagamento, lo stato e i corsi acquistati. Accedere o registrarsi richiede un minuto e il carrello viene conservato."
   },
   "ClaimOrders": {
     "heading": "Hai ordinato senza account?",
@@ -340,7 +338,10 @@
     "empty": "Non hai ancora acquistato nessun corso.",
     "start": "Inizia",
     "continue": "Continua",
-    "review": "Rivedi"
+    "review": "Rivedi",
+    "pendingHeading": "In attesa di pagamento",
+    "pendingHint": "L'accesso si aprirà quando il negozio confermerà il pagamento.",
+    "toOrder": "{order} — paga"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -558,6 +559,13 @@
     "notMember": "Non sei ancora registrato?",
     "password": "Password",
     "signIn": "Accedi",
+    "telegramDivider": "oppure",
+    "telegramCta": "Accedi con Telegram",
+    "telegramPending": "Accesso in corso…",
+    "telegramErrorExpired": "Questo accesso con Telegram è scaduto. Ricomincia.",
+    "telegramErrorFailed": "Accesso non riuscito. Riprova tra un minuto.",
+    "telegramErrorRejected": "Telegram non ha confermato questo accesso. Riprova.",
+    "telegramErrorUnconfigured": "L’accesso con Telegram non è ancora attivo in questo negozio.",
     "yandexCta": "Accedi con Yandex ID",
     "yandexDivider": "oppure",
     "yandexErrorDenied": "Hai annullato l'accesso sulla pagina di Yandex.",
@@ -570,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Copia il numero della carta {bank}",
+    "cardHolder": "Destinatario: {holder}",
+    "cardsDesc": "Trasferisca il totale dell'ordine sulla carta del negozio.",
+    "cardsHint": "Trasferisca {total} su una delle carte qui sotto.",
+    "cardsManagerFallback": "Se qualcosa non funziona, scriva al manager:",
+    "cardsTitle": "Bonifico su carta",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -581,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "L'ordine #{orderNumber} è stato registrato e riservato. Trasferisca {total} su una delle carte qui sotto. Quando il negozio confermerà il pagamento, l'ordine passerà allo stato «Pagato».",
+    "handoverCardsMessage": "Buongiorno! Ho una domanda sul pagamento dell'ordine #{orderNumber} di {total} tramite trasferimento su carta.",
+    "handoverCardsTitle": "Trasferisca il pagamento su una carta",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -595,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Impossibile inviare la ricevuta. Riprovi o scriva al manager.",
+    "receiptHint": "Una foto o uno screenshot del bonifico (JPG, PNG, WEBP, HEIC) o un PDF, fino a 10 MB.",
+    "receiptLabel": "Ricevuta di pagamento",
+    "receiptPaid": "Ho pagato",
+    "receiptSent": "Ricevuta inviata, in attesa di conferma",
+    "receiptSentHint": "Il negozio verificherà il bonifico e confermerà il pagamento, poi l'ordine passerà allo stato «Pagato».",
+    "receiptSubmit": "Invia la ricevuta",
+    "receiptTooLarge": "Il file supera i 10 MB. Lo comprima o invii uno screenshot.",
+    "receiptWrongType": "Invii una foto (JPG, PNG, WEBP, HEIC) o un PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Ricevuta non accettata",
+    "receiptRejectedReason": "Motivo: {reason}",
+    "receiptResend": "Invia un'altra ricevuta",
+    "contactManager": "Contatta il responsabile",
+    "methodRequisites": "Bonifico ai dati forniti",
+    "requisitesDesc": "Dopo l'ordine vedrai i dati del negozio: carte bancarie e wallet crypto. Trasferisci {total} e allega la ricevuta del pagamento: il gestore confermerà l'ordine.",
+    "requisitesPreviewLabel": "Accettiamo bonifici su:",
+    "handoverRequisitesTitle": "Paga l'ordine con un bonifico",
+    "handoverRequisitesBody": "L'ordine #{orderNumber} è stato registrato. Scegli una banca o un wallet qui sotto, trasferisci {total} e allega la ricevuta del pagamento.",
+    "handoverRequisitesMessage": "Buongiorno! Ho effettuato l'ordine #{orderNumber} di {total} e l'ho pagato con bonifico. Vi chiedo di confermare il pagamento.",
+    "contactManagerHint": "Per confermare l'ordine, contatta il gestore.",
+    "showRequisite": "Tocca per vedere il numero",
+    "hideRequisite": "Nascondi il numero",
+    "numberLabel": "Numero di carta o conto",
+    "holderLabel": "Beneficiario",
+    "addressLabel": "Indirizzo del wallet",
+    "networkLabel": "Rete",
+    "copyNumber": "Copia il numero",
+    "copyHolder": "Copia il beneficiario",
+    "copyAddress": "Copia l'indirizzo",
+    "copyNetwork": "Copia la rete",
+    "cryptoOnlyWarning": "Invia solo {currency} sulla rete {network}: un trasferimento di un'altra moneta o su un'altra rete non arriverà.",
+    "receiptPick": "Scegli un file o una foto",
+    "receiptCamera": "Scatta una foto",
+    "receiptRemove": "Rimuovi il file"
   },
   "Metadata": {
     "account": {
@@ -718,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Conserva il numero dell'ordine. Ti servirà per contattare il negozio.",
     "orderSuccess": "Il tuo ordine è stato effettuato con successo.",
-    "thankYou": "Grazie!"
+    "thankYou": "Grazie!",
+    "paymentConfirmed": "Pagamento confermato",
+    "goToCourse": "Vai al corso",
+    "orderCanceled": "Ordine annullato",
+    "orderCanceledHint": "Non serve pagare. Se è un errore, scrivici.",
+    "paidGoodsHint": "Stiamo preparando il tuo ordine per la spedizione."
   },
   "OrderDetails": {
     "backToOrders": "Torna agli ordini",
@@ -926,6 +982,15 @@
     "noPhone": "Nessun numero di telefono",
     "phone": "Telefono"
   },
+  "ProfileTelegram": {
+    "label": "Telegram",
+    "linked": "Collegato: {handle}",
+    "notLinked": "Non collegato",
+    "hint": "Accedi qui con Telegram per collegarlo a questo account. Dopo potrai accedere in entrambi i modi.",
+    "errorTaken": "Questo account Telegram è già collegato a un altro account.",
+    "errorRejected": "Telegram non ha confermato. Riprova.",
+    "errorFailed": "Impossibile collegare Telegram. Riprova tra un minuto."
+  },
   "PromoBanner": {
     "close": "Chiudi",
     "message": "Starter DTC completo, pronto per la produzione."
@@ -1097,5 +1162,31 @@
     "addToCart": "Aggiungi al carrello",
     "chooseOptions": "Scegli le opzioni",
     "remove": "Rimuovi"
+  },
+  "CartSidebar": {
+    "title": "Carrello",
+    "signInPrompt": "Accedi per vedere lo storico degli ordini e acquistare più velocemente.",
+    "signInEmail": "Con e-mail",
+    "signInYandex": "Con Yandex ID",
+    "deliveryEstimate": "Consegna {range}",
+    "empty": "Il tuo carrello è vuoto.",
+    "exploreProducts": "Vedi i prodotti",
+    "itemsTotal": "Totale articoli",
+    "checkout": "Vai alla cassa"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "corso online, senza consegna",
+    "shipmentNo": "Spedizione n. {no}",
+    "digitalGroup": "Corso online — accesso dopo la conferma del pagamento",
+    "accessByEmail": "L'accesso al corso arriverà via e-mail dopo la conferma del pagamento.",
+    "digitalGroupPaid": "Corso online — accesso aperto"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "In attesa di pagamento",
+    "awaitingConfirmation": "In attesa di conferma del pagamento",
+    "receiptRejected": "Ricevuta non accettata",
+    "paid": "Pagato",
+    "refunded": "Rimborsato",
+    "canceled": "Annullato"
   }
 }

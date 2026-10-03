@@ -26,7 +26,7 @@
 import { retrieveCart, setShippingMethod, updateCart } from "./cart"
 import { retrieveCustomer } from "./customer"
 import { listCartShippingMethods } from "./fulfillment"
-import { isDigitalDeliveryCart } from "@lib/util/shipping-address"
+import { cartNeedsShipping } from "@lib/util/shipping-address"
 import type { HttpTypes } from "@medusajs/types"
 
 const DIGITAL_DELIVERY_METADATA_KEY = "digital_delivery"
@@ -43,7 +43,7 @@ const isDigitalDeliveryOption = (
 export async function ensureDigitalDelivery(
   cart: HttpTypes.StoreCart
 ): Promise<HttpTypes.StoreCart> {
-  if (!isDigitalDeliveryCart(cart)) return cart
+  if (cartNeedsShipping(cart)) return cart
   if ((cart.shipping_methods?.length ?? 0) > 0) return cart
 
   const options = await listCartShippingMethods(cart.id)

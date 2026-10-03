@@ -12,6 +12,16 @@
     "trackOrder": "Subaybayan ang order",
     "viewOrder": "Tingnan ang order"
   },
+  "CourseAccess": {
+    "body": "Nakumpirma na ang bayad para sa order <strong>#{id}</strong>. Bukas na ang kurso sa iyong account:",
+    "button": "Pumunta sa kurso",
+    "headingAnon": "Bukas na ang access sa kurso",
+    "headingWithName": "{name}, bukas na ang access sa kurso",
+    "preview": "Nakumpirma ang bayad, naghihintay ang kurso sa iyong account",
+    "signIn": "Magbubukas ang mga aralin pagkatapos mong mag-sign in sa account gamit ang {email}.",
+    "subject": "Nabayaran ang order #{id}: bukas na ang access sa kurso",
+    "textFallback": "Nakumpirma na ang bayad para sa order #{id}, bukas na ang access sa kurso.\n\nPumunta sa kurso:"
+  },
   "Delivery": {
     "bodyOrder": "Naihatid na ang order <strong>#{id}</strong>. Sana ay maayos ang lahat nang dumating.",
     "headingAnon": "Naihatid na ang order mo",
