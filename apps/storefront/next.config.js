@@ -34,6 +34,15 @@ const S3_HOSTNAME = process.env.MEDUSA_CLOUD_S3_HOSTNAME
 const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
 
 /**
+ * The instance's own API origin (NEXT_PUBLIC_MEDUSA_BACKEND_URL, a build arg in
+ * deploy/compose.mt.yml) serves the shops' uploads and profile media that
+ * next/image renders; without it in `remotePatterns` every product picture is a
+ * 400 from /_next/image (cherkashino.ru, 04.10.2026). See next-image-hosts.js.
+ */
+const { backendImagePattern } = require("./next-image-hosts")
+const BACKEND_IMAGE_PATTERNS = backendImagePattern(process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL)
+
+/**
  * @type {import('next').NextConfig}
  */
 // 46df A-21: which origins may frame the storefront in an <iframe>. Telegram's Mini App bridge
@@ -189,6 +198,9 @@ const nextConfig = {
         protocol: "https",
         hostname: "shipshift.dev",
       },
+      // The instance's own API host (api.cherkashino.ru, api.olavka.ru, …), see
+      // backendImagePattern() above.
+      ...BACKEND_IMAGE_PATTERNS,
       ...(S3_HOSTNAME && S3_PATHNAME
         ? [
             {

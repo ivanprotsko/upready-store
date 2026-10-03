@@ -30,12 +30,17 @@ const checkoutStep = (cart: HttpTypes.StoreCart): "address" | "delivery" | "paym
 }
 
 /**
- * The edge the panel is pinned to and slides from (t-2026-10-03-63, Ivan: «сайдбар с
- * корзиной должен выезжать слева»). Figma frame 3:60739 "Sidebar" has it on the right;
- * the live shop has it on the left, cart button included — flip this one constant to
- * move both the pin and the slide direction back to the frame's side.
+ * The edge the panel is pinned to and slides from. Figma frame 3:60739 "Sidebar" has it on
+ * the right, and so does the shop (t-2026-10-04-15, Ivan 04.10: «в ходе недавних изменений в
+ * сайдбаре его сделали слева, а он должен быть справа»). Commit b5fdb6a1 (PR #232,
+ * t-2026-10-03-63) had moved it to the left; this one constant drives both the pin and the
+ * slide direction, and `cart-sidebar-side.test.ts` pins it so it cannot drift again.
+ * `as` (not a `: "left" | "right"` annotation) keeps the type a union: an annotated const
+ * is narrowed to its initializer, and the `SIDE === "left"` branch below then fails tsc
+ * with TS2367 (caught by CI on PR #238).
  */
-const SIDE: "left" | "right" = "left"
+export const CART_SIDEBAR_SIDE = "right" as "left" | "right"
+const SIDE = CART_SIDEBAR_SIDE
 
 /**
  * Overlay fade and panel slide share this one duration, t-2026-10-03-63 bullet 2 («то же
