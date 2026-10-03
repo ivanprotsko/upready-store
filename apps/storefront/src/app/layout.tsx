@@ -32,12 +32,52 @@ import "styles/globals.css"
 // static `opengraph-image.png`/`twitter-image.png` file convention always
 // wins over a same-named field set from `generateMetadata` — setting it here
 // too would risk a duplicate `og:image` tag once both are present.
+//
+// t-2026-10-03-61: `branding.app_icons` (built from the favicon upload,
+// `apps/backend/src/tenant-files/icon-set.ts`) replaces the single-URL
+// favicon below with one `<link>` per size and purpose — `icon.svg` for a
+// browser tab, the generated `.ico` as `shortcut` for the handful that still
+// ask for one, the 192/512 PNGs, the apple touch icon and a `mask-icon` for
+// Safari's pinned tab. A tenant with no set (nothing uploaded since this
+// task, or no branding at all) falls through to `favicon_url` alone or to the
+// build's own defaults, unchanged. `manifest` is linked unconditionally: a
+// tenant with no icon set still gets a usable one (`app/manifest.ts`'s own
+// static-icon.svg fallback).
 export async function generateMetadata(): Promise<Metadata> {
   const [baseURL, branding] = await Promise.all([getRequestBaseURL(), getSiteBranding()])
 
-  const metadata: Metadata = { metadataBase: new URL(baseURL) }
+  const metadata: Metadata = { metadataBase: new URL(baseURL), manifest: "/manifest.webmanifest" }
 
-  if (branding.favicon_url) {
+  const icons = branding.app_icons
+
+  if (icons) {
+    const icon: NonNullable<Metadata["icons"]>["icon"] = []
+    if (icons.icon_svg_url) {
+      icon.push({ url: icons.icon_svg_url, type: "image/svg+xml" })
+    }
+    if (icons.icon_192_url) {
+      icon.push({ url: icons.icon_192_url, sizes: "192x192", type: "image/png" })
+    }
+    if (icons.icon_512_url) {
+      icon.push({ url: icons.icon_512_url, sizes: "512x512", type: "image/png" })
+    }
+
+    metadata.icons = {
+      icon,
+      shortcut: icons.favicon_ico_url ?? branding.favicon_url ?? undefined,
+      apple: icons.apple_touch_icon_url ?? undefined,
+      other: icons.mask_icon_url
+        ? { rel: "mask-icon", url: icons.mask_icon_url, color: branding.primary_color ?? "#000000" }
+        : undefined,
+    }
+
+    if (icons.mstile_310_url) {
+      metadata.other = {
+        "msapplication-TileImage": icons.mstile_310_url,
+        "msapplication-TileColor": branding.primary_color ?? "#ffffff",
+      }
+    }
+  } else if (branding.favicon_url) {
     metadata.icons = { icon: branding.favicon_url, shortcut: branding.favicon_url, apple: branding.favicon_url }
   }
 

@@ -13,6 +13,24 @@ export type TenantFooterCredit = {
   href: string | null
 }
 
+/**
+ * The full app-icon set the backend builds from a `favicon` upload (t-2026-10-03-61,
+ * `apps/backend/src/tenant-files/icon-set.ts`): every size a PWA, iOS, Android, Windows or macOS
+ * install asks for. `null` for a tenant that never uploaded one (or uploaded before this task
+ * shipped) — every consumer here falls back to `favicon_url` alone, today's behaviour.
+ */
+export type TenantAppIcons = {
+  icon_svg_url: string | null
+  favicon_ico_url: string | null
+  apple_touch_icon_url: string | null
+  icon_192_url: string | null
+  icon_512_url: string | null
+  icon_maskable_512_url: string | null
+  mstile_150_url: string | null
+  mstile_310_url: string | null
+  mask_icon_url: string | null
+}
+
 export type TenantBranding = {
   logo_light_url: string | null
   logo_dark_url: string | null
@@ -25,6 +43,7 @@ export type TenantBranding = {
   low_contrast: boolean
   shop_name_short: string | null
   footer_credit: TenantFooterCredit | null
+  app_icons: TenantAppIcons | null
 }
 
 /** A tenant that configured nothing: the storefront then renders exactly as it does today. */
@@ -38,6 +57,7 @@ export const EMPTY_BRANDING: TenantBranding = {
   low_contrast: false,
   shop_name_short: null,
   footer_credit: null,
+  app_icons: null,
 }
 
 /** From the request header the middleware wrote. Malformed JSON is not a 500 — the
