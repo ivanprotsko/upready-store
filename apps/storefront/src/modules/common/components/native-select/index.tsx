@@ -78,9 +78,13 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
               field
                 ? clx(
                     "self-stretch rounded-md ps-4 pe-10",
-                    // Empty: the placeholder sits where `Input` puts its label, in
-                    // its colour. Chosen: the value sits low, the label floats above.
-                    isPlaceholder ? "text-ui-fg-subtle" : "pt-4 pb-1 text-ui-fg-base"
+                    // Empty: the select's own text is hidden and the label below
+                    // stands where `Input` puts its own (one text, so the red mark
+                    // cannot drift onto the last letter); the options keep their
+                    // colour. Chosen: the value sits low, the label floats above.
+                    isPlaceholder
+                      ? "text-transparent [&>option]:text-ui-fg-base"
+                      : "pt-4 pb-1 text-ui-fg-base"
                   )
                 : "px-2 py-1 text-ui-fg-base"
             )}
@@ -93,12 +97,22 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
           {/* The same red mark `Input` puts after a required field's label,
               placed right after the placeholder: an invisible copy of its
               text holds the width (U-08, 46df). */}
-          {props.required && isPlaceholder && (
+          {field && isPlaceholder && (
+            <span
+              aria-hidden
+              className="absolute inset-y-0 start-4 flex items-center text-ui-fg-subtle pointer-events-none"
+              data-testid="native-select-placeholder-label"
+            >
+              {resolvedPlaceholder}
+              {props.required && <span className="text-ui-fg-error">*</span>}
+            </span>
+          )}
+          {!field && props.required && isPlaceholder && (
             <span
               aria-hidden
               className={clx(
                 "absolute inset-y-0 flex items-center pointer-events-none",
-                field ? "start-4" : "start-2"
+                "start-2"
               )}
               data-testid="native-select-required-mark"
             >
