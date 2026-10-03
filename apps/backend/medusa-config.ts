@@ -229,6 +229,8 @@ module.exports = defineConfig({
     { resolve: "./src/modules/product-review" },
     // Online courses: course + lesson content, entitlement and progress — o24-courses.
     { resolve: "./src/modules/course" },
+    // The signed-in customer's wishlist, one row per (tenant, customer, product) — t-cherk-32.
+    { resolve: "./src/modules/wishlist" },
     // The platform's own pricing page (/pricing on the platform hosts), one
     // validated document edited in the admin at «Тарифы» — t-2026-09-25-08.
     { resolve: "./src/modules/platform-pricing" },

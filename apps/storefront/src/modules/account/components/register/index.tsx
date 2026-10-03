@@ -1,7 +1,8 @@
 "use client"
 
-import { useActionState } from "react"
+import { useActionState, useRef } from "react"
 import { PASSWORD_MIN_LENGTH } from "@lib/util/password"
+import { readWishlistStorage } from "@lib/util/wishlist-storage"
 import Input from "@modules/common/components/input"
 import { LOGIN_VIEW } from "@modules/account/templates/login-template"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -32,6 +33,7 @@ const Register = ({ setCurrentView, siteName, legal, returnTo }: Props) => {
   // contract inside `consentHref`.
   const termsLink = consentHref("termsOfUse", legal)
   const [message, formAction] = useActionState(signup as (state: string | null, formData: FormData) => Promise<string | null>, null as string | null)
+  const wishlistFieldRef = useRef<HTMLInputElement>(null)
 
   return (
     <div
@@ -44,8 +46,19 @@ const Register = ({ setCurrentView, siteName, legal, returnTo }: Props) => {
       <p className="text-center text-base-regular text-ui-fg-base mb-4">
         {t("description", { siteName: siteName })}
       </p>
-      <form className="w-full flex flex-col" action={formAction}>
+      <form
+        className="w-full flex flex-col"
+        action={formAction}
+        onSubmit={() => {
+          if (wishlistFieldRef.current) {
+            wishlistFieldRef.current.value = JSON.stringify(
+              readWishlistStorage(window.localStorage)
+            )
+          }
+        }}
+      >
         {returnTo && <input type="hidden" name="returnTo" value={returnTo} />}
+        <input type="hidden" name="wishlist_product_ids" ref={wishlistFieldRef} />
         <div className="flex flex-col w-full gap-y-2">
           <Input
             label={t("firstName")}

@@ -18,7 +18,8 @@
     "logOut": "Keluar",
     "orders": "Pesanan",
     "overview": "Ringkasan",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Wishlist"
   },
   "AccountOverview": {
     "addresses": "Alamat",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "Baca aturan yang Anda setujui saat berbelanja di toko kami.",
       "title": "Ketentuan penggunaan"
+    },
+    "wishlist": {
+      "title": "Wishlist",
+      "description": "Produk yang Anda simpan untuk nanti."
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "Sebelumnya",
       "watch": "Tonton"
     }
+  },
+  "WishlistButton": {
+    "add": "Tambahkan ke wishlist",
+    "remove": "Hapus dari wishlist"
+  },
+  "WishlistPage": {
+    "heading": "Wishlist",
+    "description": "Produk yang Anda simpan untuk nanti.",
+    "empty": "Anda belum menyimpan produk apa pun.",
+    "addToCart": "Tambah ke keranjang",
+    "chooseOptions": "Pilih opsi",
+    "remove": "Hapus"
   }
 }

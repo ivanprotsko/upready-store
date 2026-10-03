@@ -18,7 +18,8 @@
     "logOut": "ログアウト",
     "orders": "注文履歴",
     "overview": "概要",
-    "profile": "プロフィール"
+    "profile": "プロフィール",
+    "wishlist": "お気に入り"
   },
   "AccountOverview": {
     "addresses": "住所",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "ご購入時に同意いただく規約をお読みください。",
       "title": "利用規約"
+    },
+    "wishlist": {
+      "title": "お気に入り",
+      "description": "後で購入するために保存した商品です。"
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "前へ",
       "watch": "視聴する"
     }
+  },
+  "WishlistButton": {
+    "add": "お気に入りに追加",
+    "remove": "お気に入りから削除"
+  },
+  "WishlistPage": {
+    "heading": "お気に入り",
+    "description": "後で購入するために保存した商品です。",
+    "empty": "まだ商品を保存していません。",
+    "addToCart": "カートに入れる",
+    "chooseOptions": "オプションを選択",
+    "remove": "削除"
   }
 }

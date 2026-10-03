@@ -18,7 +18,8 @@
     "logOut": "Uitloggen",
     "orders": "Bestellingen",
     "overview": "Overzicht",
-    "profile": "Profiel"
+    "profile": "Profiel",
+    "wishlist": "Verlanglijst"
   },
   "AccountOverview": {
     "addresses": "Adressen",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "Lees de regels waarmee u akkoord gaat bij een aankoop.",
       "title": "Gebruiksvoorwaarden"
+    },
+    "wishlist": {
+      "title": "Verlanglijst",
+      "description": "De producten die je voor later hebt bewaard."
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "Vorige",
       "watch": "Bekijken"
     }
+  },
+  "WishlistButton": {
+    "add": "Toevoegen aan verlanglijst",
+    "remove": "Verwijderen van verlanglijst"
+  },
+  "WishlistPage": {
+    "heading": "Verlanglijst",
+    "description": "De producten die je voor later hebt bewaard.",
+    "empty": "Je hebt nog geen producten bewaard.",
+    "addToCart": "In winkelwagen",
+    "chooseOptions": "Opties kiezen",
+    "remove": "Verwijderen"
   }
 }

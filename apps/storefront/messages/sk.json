@@ -18,7 +18,8 @@
     "logOut": "Odhlásiť sa",
     "orders": "Objednávky",
     "overview": "Prehľad",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Zoznam želaní"
   },
   "AccountOverview": {
     "addresses": "Adresy",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "Prečítajte si pravidlá, s ktorými pri nákupe súhlasíte.",
       "title": "Podmienky používania"
+    },
+    "wishlist": {
+      "title": "Zoznam želaní",
+      "description": "Produkty, ktoré ste si uložili na neskôr."
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "Predchádzajúci",
       "watch": "Pozrieť"
     }
+  },
+  "WishlistButton": {
+    "add": "Pridať do zoznamu želaní",
+    "remove": "Odstrániť zo zoznamu želaní"
+  },
+  "WishlistPage": {
+    "heading": "Zoznam želaní",
+    "description": "Produkty, ktoré ste si uložili na neskôr.",
+    "empty": "Zatiaľ ste si neuložili žiadne produkty.",
+    "addToCart": "Pridať do košíka",
+    "chooseOptions": "Vybrať možnosti",
+    "remove": "Odstrániť"
   }
 }

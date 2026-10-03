@@ -18,7 +18,8 @@
     "logOut": "退出登录",
     "orders": "订单",
     "overview": "概览",
-    "profile": "个人资料"
+    "profile": "个人资料",
+    "wishlist": "心愿单"
   },
   "AccountOverview": {
     "addresses": "地址",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "阅读您在本店购物时接受的条款。",
       "title": "使用条款"
+    },
+    "wishlist": {
+      "title": "心愿单",
+      "description": "您保存以备稍后购买的商品。"
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "上一个",
       "watch": "观看"
     }
+  },
+  "WishlistButton": {
+    "add": "加入心愿单",
+    "remove": "从心愿单移除"
+  },
+  "WishlistPage": {
+    "heading": "心愿单",
+    "description": "您保存以备稍后购买的商品。",
+    "empty": "您还没有保存任何商品。",
+    "addToCart": "加入购物车",
+    "chooseOptions": "选择规格",
+    "remove": "移除"
   }
 }

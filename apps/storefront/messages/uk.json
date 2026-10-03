@@ -18,7 +18,8 @@
     "logOut": "Вийти",
     "orders": "Замовлення",
     "overview": "Огляд",
-    "profile": "Профіль"
+    "profile": "Профіль",
+    "wishlist": "Обране"
   },
   "AccountOverview": {
     "addresses": "Адреси",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "Прочитайте правила, з якими ви погоджуєтесь під час покупки.",
       "title": "Умови використання"
+    },
+    "wishlist": {
+      "title": "Обране",
+      "description": "Товари, які ви зберегли на потім."
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "Назад",
       "watch": "Дивитися"
     }
+  },
+  "WishlistButton": {
+    "add": "Додати в обране",
+    "remove": "Прибрати з обраного"
+  },
+  "WishlistPage": {
+    "heading": "Обране",
+    "description": "Товари, які ви зберегли на потім.",
+    "empty": "Ви ще не зберегли жодного товару.",
+    "addToCart": "У кошик",
+    "chooseOptions": "Обрати варіант",
+    "remove": "Видалити"
   }
 }

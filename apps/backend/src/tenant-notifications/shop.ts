@@ -2,6 +2,7 @@ import type { MedusaContainer } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { STORE_EMAIL, STORE_NAME, STOREFRONT_URL } from "../emails/i18n";
+import tenantOrderLink from "../links/tenant-order";
 import tenantSalesChannelLink from "../links/tenant-sales-channel";
 import { TENANT_MODULE } from "../modules/tenant";
 import type TenantModuleService from "../modules/tenant/service";
@@ -224,3 +225,97 @@ export const resolveShopForTenant = async (
   container: MedusaContainer,
   tenantId: string,
 ): Promise<ShopIdentity> => identityFor(container, await tenantById(container, tenantId));
+
+/**
+ * {@link resolveShopForTenant}, for a caller that only has a MAYBE tenant id
+ * and must never fail outright (t-2026-10-02-shop-aware-account-emails): the
+ * welcome and customer password-reset letters, where a shop-less publishable
+ * key, a customer created before this metadata existed, or a tenant that no
+ * longer resolves must still produce a valid letter under the platform
+ * identity, exactly what they sent before shops existed.
+ */
+export const resolveShopForTenantId = async (
+  container: MedusaContainer,
+  tenantId: string | null | undefined,
+): Promise<ShopIdentity> => {
+  if (!tenantId) {
+    return platformShop();
+  }
+
+  try {
+    return await resolveShopForTenant(container, tenantId);
+  } catch (error) {
+    const logger = container.resolve(ContainerRegistrationKeys.LOGGER) as Logger;
+    logger.warn(
+      `[tenant-notifications] Could not resolve the shop of tenant ${tenantId}: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+    return platformShop();
+  }
+};
+
+/**
+ * Reads `tenant_id` off a customer row's `metadata` — the field
+ * `inject-tenant-metadata.ts` writes it into at registration, since there is
+ * no dedicated column for it.
+ */
+export const tenantIdFromMetadata = (
+  metadata: Record<string, unknown> | null | undefined,
+): string | null => {
+  const value = metadata?.tenant_id;
+  return typeof value === "string" && value.length > 0 ? value : null;
+};
+
+/**
+ * The shop of a customer's MOST RECENT order, through the `tenant-order` link
+ * (the lead's security review of t-2026-10-02-shop-aware-account-emails).
+ *
+ * The password-reset REQUEST cannot be trusted to say which shop a reset
+ * link should open: any shop owner's own publishable key would do, which let
+ * one shop request a reset for ANOTHER shop's customer and receive a
+ * same-looking, DKIM-signed letter whose link — and token — opened on the
+ * attacker's own domain, readable off their own analytics. A customer's own
+ * stored `metadata.tenant_id` (set at registration) is the first choice; a
+ * customer who predates that metadata falls back to the shop they have
+ * actually bought from. `null` when the customer has no order yet, or no
+ * order whose sales channel a tenant owns (`resolveShopForTenantId` then
+ * falls back to the platform identity, same as everywhere else).
+ */
+export const lastOrderTenantId = async (
+  container: MedusaContainer,
+  customerId: string,
+): Promise<string | null> => {
+  try {
+    const query = container.resolve(ContainerRegistrationKeys.QUERY);
+    const {
+      data: [lastOrder],
+    } = await query.graph({
+      entity: "order",
+      fields: ["id"],
+      filters: { customer_id: customerId },
+      pagination: { take: 1, order: { created_at: "DESC" } },
+    } as any);
+
+    const orderId = (lastOrder as { id?: string } | undefined)?.id;
+    if (!orderId) {
+      return null;
+    }
+
+    const { data: owners } = await query.graph({
+      entity: tenantOrderLink.entryPoint,
+      fields: ["tenant_id"],
+      filters: { order_id: orderId },
+    });
+
+    return (owners[0] as { tenant_id?: string } | undefined)?.tenant_id ?? null;
+  } catch (error) {
+    const logger = container.resolve(ContainerRegistrationKeys.LOGGER) as Logger;
+    logger.warn(
+      `[tenant-notifications] Could not resolve the last-order shop of customer ${customerId}: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+    return null;
+  }
+};

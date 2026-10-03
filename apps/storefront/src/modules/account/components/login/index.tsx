@@ -9,8 +9,10 @@ import Input from "@modules/common/components/input"
 import YandexLogin from "@modules/account/components/yandex-login"
 import TelegramLogin from "@modules/account/components/telegram-login"
 import type { TelegramBot } from "@lib/data/telegram-bot"
-import { useActionState } from "react"
+import { useActionState, useRef } from "react"
 import { useTranslations } from "next-intl"
+
+import { readWishlistStorage } from "@lib/util/wishlist-storage"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -27,6 +29,7 @@ const Login = ({ setCurrentView, loginSettings, telegramBot, returnTo }: Props) 
   const [message, formAction] = useActionState(login, null)
   const emailEnabled = allowsEmailLogin(loginSettings.method)
   const yandexEnabled = yandexLoginAvailable(loginSettings)
+  const wishlistFieldRef = useRef<HTMLInputElement>(null)
 
   return (
     <div
@@ -38,8 +41,22 @@ const Login = ({ setCurrentView, loginSettings, telegramBot, returnTo }: Props) 
         {t("description")}
       </p>
       {emailEnabled && (
-        <form className="w-full" action={formAction}>
+        <form
+          className="w-full"
+          action={formAction}
+          onSubmit={() => {
+            // Read just before the native submit reaches the server action
+            // (t-cherk-32): the guest wishlist, merged into the account by
+            // `login()` once it has the customer's id.
+            if (wishlistFieldRef.current) {
+              wishlistFieldRef.current.value = JSON.stringify(
+                readWishlistStorage(window.localStorage)
+              )
+            }
+          }}
+        >
           {returnTo && <input type="hidden" name="returnTo" value={returnTo} />}
+          <input type="hidden" name="wishlist_product_ids" ref={wishlistFieldRef} />
           <div className="flex flex-col w-full gap-y-2">
             <Input
               label={t("email")}

@@ -17,7 +17,9 @@ import {
 import { claimGuestOrders } from "./orders"
 import { getLocale } from "./locale-actions"
 import { defaultLocale } from "@i18n/config"
+import { mergeWishlistItems } from "./wishlist"
 import { validatePassword } from "@lib/util/password"
+import { PRODUCT_ID } from "@lib/util/wishlist-storage"
 import { sanitizeAccountReturnPath } from "@lib/util/return-path"
 
 export const retrieveCustomer =
@@ -119,6 +121,34 @@ async function claimGuestOrdersQuietly(context: string) {
   }
 }
 
+/**
+ * The guest wishlist → account merge (t-cherk-32), the same moment and the
+ * same tolerance as `claimGuestOrdersQuietly` above: `wishlist_product_ids` is
+ * a hidden field the login/register form fills from the browser's own
+ * `localStorage` right before submit (`readWishlistStorage`, the form never
+ * reads it any other way, since a Server Action has no access to the client's
+ * storage). A failure here never fails the sign-in.
+ */
+async function mergeGuestWishlistQuietly(context: string, formData: FormData) {
+  const raw = formData.get("wishlist_product_ids")
+  if (typeof raw !== "string" || !raw) {
+    return
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(raw)
+    if (!Array.isArray(parsed)) {
+      return
+    }
+    const productIds = parsed.filter(
+      (value): value is string => typeof value === "string" && PRODUCT_ID.test(value)
+    )
+    await mergeWishlistItems(productIds)
+  } catch (error) {
+    console.error(`[${context}] merging the guest wishlist failed:`, error)
+  }
+}
+
 export async function signup(_currentState: unknown, formData: FormData) {
   const password = formData.get("password") as string
   const locale = (await getLocale()) ?? defaultLocale
@@ -167,6 +197,7 @@ export async function signup(_currentState: unknown, formData: FormData) {
     await transferCart()
 
     await claimGuestOrdersQuietly("signup")
+    await mergeGuestWishlistQuietly("signup", formData)
   } catch (error) {
     return String(error)
   }
@@ -283,6 +314,7 @@ export async function login(_currentState: unknown, formData: FormData) {
   }
 
   await claimGuestOrdersQuietly("login")
+  await mergeGuestWishlistQuietly("login", formData)
 
   const locale = (await getLocale()) ?? defaultLocale
   // Outside the try/catch above: `redirect()` throws a NEXT_REDIRECT

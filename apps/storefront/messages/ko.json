@@ -18,7 +18,8 @@
     "logOut": "로그아웃",
     "orders": "주문 내역",
     "overview": "개요",
-    "profile": "프로필"
+    "profile": "프로필",
+    "wishlist": "위시리스트"
   },
   "AccountOverview": {
     "addresses": "주소록",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "구매 시 동의하는 약관을 읽어보세요.",
       "title": "이용약관"
+    },
+    "wishlist": {
+      "title": "위시리스트",
+      "description": "나중을 위해 저장한 상품입니다."
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "이전",
       "watch": "보기"
     }
+  },
+  "WishlistButton": {
+    "add": "위시리스트에 추가",
+    "remove": "위시리스트에서 삭제"
+  },
+  "WishlistPage": {
+    "heading": "위시리스트",
+    "description": "나중을 위해 저장한 상품입니다.",
+    "empty": "아직 저장한 상품이 없습니다.",
+    "addToCart": "장바구니에 담기",
+    "chooseOptions": "옵션 선택",
+    "remove": "삭제"
   }
 }

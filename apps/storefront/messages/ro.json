@@ -18,7 +18,8 @@
     "logOut": "Deconectare",
     "orders": "Comenzi",
     "overview": "Prezentare generală",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Listă de dorințe"
   },
   "AccountOverview": {
     "addresses": "Adrese",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "Citiți regulile pe care le acceptați când cumpărați de la noi.",
       "title": "Termeni de utilizare"
+    },
+    "wishlist": {
+      "title": "Listă de dorințe",
+      "description": "Produsele pe care le-ai salvat pentru mai târziu."
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "Anterior",
       "watch": "Vizionează"
     }
+  },
+  "WishlistButton": {
+    "add": "Adaugă la lista de dorințe",
+    "remove": "Elimină din lista de dorințe"
+  },
+  "WishlistPage": {
+    "heading": "Listă de dorințe",
+    "description": "Produsele pe care le-ai salvat pentru mai târziu.",
+    "empty": "Nu ai salvat încă niciun produs.",
+    "addToCart": "Adaugă în coș",
+    "chooseOptions": "Alege opțiuni",
+    "remove": "Elimină"
   }
 }

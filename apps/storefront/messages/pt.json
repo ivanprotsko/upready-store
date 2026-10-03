@@ -18,7 +18,8 @@
     "logOut": "Terminar sessão",
     "orders": "Encomendas",
     "overview": "Visão geral",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "wishlist": "Lista de desejos"
   },
   "AccountOverview": {
     "addresses": "Moradas",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "Leia as regras que aceita ao comprar connosco.",
       "title": "Termos de utilização"
+    },
+    "wishlist": {
+      "title": "Lista de desejos",
+      "description": "Os produtos que guardou para mais tarde."
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "Anterior",
       "watch": "Assistir"
     }
+  },
+  "WishlistButton": {
+    "add": "Adicionar à lista de desejos",
+    "remove": "Remover da lista de desejos"
+  },
+  "WishlistPage": {
+    "heading": "Lista de desejos",
+    "description": "Os produtos que guardou para mais tarde.",
+    "empty": "Ainda não guardou nenhum produto.",
+    "addToCart": "Adicionar ao carrinho",
+    "chooseOptions": "Escolher opções",
+    "remove": "Remover"
   }
 }

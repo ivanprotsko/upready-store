@@ -18,7 +18,8 @@
     "logOut": "Kijelentkezés",
     "orders": "Rendelések",
     "overview": "Áttekintés",
-    "profile": "Profil"
+    "profile": "Profil",
+    "wishlist": "Kívánságlista"
   },
   "AccountOverview": {
     "addresses": "Címek",
@@ -684,6 +685,10 @@
     "terms": {
       "description": "Olvassa el a szabályokat, amelyeket vásárláskor elfogad.",
       "title": "Felhasználási feltételek"
+    },
+    "wishlist": {
+      "title": "Kívánságlista",
+      "description": "A termékek, amelyeket későbbre mentettél."
     }
   },
   "NativeSelect": {
@@ -1094,5 +1099,17 @@
       "previous": "Előző",
       "watch": "Megnézem"
     }
+  },
+  "WishlistButton": {
+    "add": "Hozzáadás a kívánságlistához",
+    "remove": "Eltávolítás a kívánságlistáról"
+  },
+  "WishlistPage": {
+    "heading": "Kívánságlista",
+    "description": "A termékek, amelyeket későbbre mentettél.",
+    "empty": "Még nem mentettél el egyetlen terméket sem.",
+    "addToCart": "Kosárba",
+    "chooseOptions": "Opciók kiválasztása",
+    "remove": "Eltávolítás"
   }
 }
