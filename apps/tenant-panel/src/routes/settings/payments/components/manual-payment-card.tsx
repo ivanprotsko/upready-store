@@ -15,7 +15,7 @@ import {
 import { useTranslation } from "react-i18next"
 
 import {
-  type ManualPaymentCard,
+  type ManualPaymentCard as ManualPaymentCardData,
   type ManualPaymentWallet,
   type TenantManualPayment,
   useTenantManualPayment,
@@ -160,7 +160,7 @@ export const ManualPaymentCard = () => {
       toast.error(t("manualPayment.walletRequired"))
       return
     }
-    const cards: ManualPaymentCard[] = draft.cards
+    const cards: ManualPaymentCardData[] = draft.cards
       .map((card) => ({
         bank: card.bank.trim(),
         number: card.number.trim(),
