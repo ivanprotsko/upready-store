@@ -137,7 +137,9 @@ postgres_running() { rssh "docker inspect mt-postgres >/dev/null 2>&1"; }
 step_archive_and_rsync() {
   local workdir; workdir="$(mktemp -d)"
   log "git archive $GIT_REF -> $workdir (clean release tree, no uncommitted work, no .git)"
-  git -C "$REPO_ROOT" archive "$GIT_REF" | tar -x -C "$workdir"
+  # `handoff/` (the operator task registry) and `artifacts/` (design exports) are tracked but are not part
+  # of any image and must not land on a production host: ~170 MB through a slow link, and internal notes.
+  git -C "$REPO_ROOT" archive "$GIT_REF" -- . ':!handoff' ':!artifacts' | tar -x -C "$workdir"
   log "rsync $workdir -> $HOST:$REMOTE_DIR/"
   rssh "mkdir -p '$REMOTE_DIR'"
   rsync -az --delete \
