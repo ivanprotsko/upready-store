@@ -99,7 +99,7 @@ describe("theme tokens: no literal Tailwind colour comes back unnoticed", () => 
     for (const file of files) {
       const lines = readFileSync(file, "utf8").split("\n")
       lines.forEach((line, i) => {
-        for (const match of line.matchAll(UI_TOKEN_RE)) {
+        for (const match of Array.from(line.matchAll(UI_TOKEN_RE))) {
           const suffix = match[1]
           if (VALID_UI_SUFFIXES.has(suffix)) continue
           offenders.push(`${file.slice(SRC.length + 1)}:${i + 1}: ui-${suffix} (from "${match[0]}") — ${line.trim()}`)
