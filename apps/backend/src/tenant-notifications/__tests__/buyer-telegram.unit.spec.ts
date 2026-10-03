@@ -115,6 +115,27 @@ describe("notifyBuyerTelegram", () => {
     jest.useRealTimers();
   });
 
+  it("does not throw when the bot token fails to decrypt, so order.placed still completes", async () => {
+    readUsableTelegramBotMock.mockRejectedValue(
+      new Error("Unsupported state or unable to authenticate data"),
+    );
+    const { container, logger } = buildContainer();
+
+    const sent = await notifyBuyerTelegram({
+      container: container as any,
+      tag: "order-placed-telegram-buyer",
+      kind: "order-placed",
+      order: buildOrder(),
+    });
+
+    expect(sent).toBe(false);
+    expect(sendTelegramMessageMock).not.toHaveBeenCalled();
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringContaining("Unsupported state or unable to authenticate data"),
+    );
+    expect(logger.error.mock.calls[0][0]).not.toContain(BOT.credentials.token);
+  });
+
   it("gives up without throwing when the retry also fails", async () => {
     sendTelegramMessageMock
       .mockRejectedValueOnce(new TelegramSendError(429, "Too Many Requests", 0))

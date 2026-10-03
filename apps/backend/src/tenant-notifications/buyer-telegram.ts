@@ -79,42 +79,52 @@ export async function notifyBuyerTelegram({
 }: NotifyBuyerTelegramOptions): Promise<boolean> {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER) as Logger;
 
-  const telegramId = order.customer?.metadata?.telegram_id;
-  if (typeof telegramId !== "number" && typeof telegramId !== "string") {
-    logger.info(`[${tag}] Order ${order.id}: buyer has no Telegram identity, skipping`);
-    return false;
-  }
-
-  const shop = await resolveShopForOrder(container, order.id);
-  if (!shop.tenantId) {
-    logger.info(`[${tag}] Order ${order.id}: no shop resolved, skipping buyer Telegram notice`);
-    return false;
-  }
-
-  const pg = container.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
-  const bot = await readUsableTelegramBot(pg, shop.tenantId);
-  if (!bot) {
-    logger.info(
-      `[${tag}] Order ${order.id}: shop ${shop.tenantId} has no Telegram bot, skipping buyer notice`,
-    );
-    return false;
-  }
-
-  const locale = resolveBuyerLocale(order.locale, getLocaleFromMetadata(order.customer?.metadata));
-  const text = formatBuyerOrderMessage({
-    kind,
-    order,
-    locale,
-    orderUrl: `${shop.storefrontUrl}/account/orders/details/${order.id}`,
-  });
-
   try {
+    const telegramId = order.customer?.metadata?.telegram_id;
+    if (typeof telegramId !== "number" && typeof telegramId !== "string") {
+      logger.info(`[${tag}] Order ${order.id}: buyer has no Telegram identity, skipping`);
+      return false;
+    }
+
+    const shop = await resolveShopForOrder(container, order.id);
+    if (!shop.tenantId) {
+      logger.info(`[${tag}] Order ${order.id}: no shop resolved, skipping buyer Telegram notice`);
+      return false;
+    }
+
+    // The bot read below decrypts `tenant_integration_secret.payload`
+    // (AES-256-GCM, `tenant-secrets/crypto.ts`): a bad key or a tampered row
+    // throws out of `decryptJson`, and the DB read above it can throw on a
+    // connection error. Both used to escape this function uncaught and could
+    // take down `order.placed`/`payment.captured` with them (PR #222 review)
+    // — this try now covers the whole body, not just the send.
+    const pg = container.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
+    const bot = await readUsableTelegramBot(pg, shop.tenantId);
+    if (!bot) {
+      logger.info(
+        `[${tag}] Order ${order.id}: shop ${shop.tenantId} has no Telegram bot, skipping buyer notice`,
+      );
+      return false;
+    }
+
+    const locale = resolveBuyerLocale(order.locale, getLocaleFromMetadata(order.customer?.metadata));
+    const text = formatBuyerOrderMessage({
+      kind,
+      order,
+      locale,
+      orderUrl: `${shop.storefrontUrl}/account/orders/details/${order.id}`,
+    });
+
     const sent = await sendWithRetry(bot.credentials.token, String(telegramId), text);
     logger.info(
       `[${tag}] Order ${order.id}: buyer notified in Telegram (shop ${shop.tenantId}), message ${sent.message_id}`,
     );
     return true;
   } catch (error) {
+    // `error.message` here is always safe to log: `decryptJson` on a bad key
+    // or tampered blob throws Node's own generic crypto error, never the
+    // token or key; `sendTelegramMessage`/`TelegramSendError` never puts the
+    // bot token in a message either. Never log `bot.credentials.token` itself.
     const reason = error instanceof Error ? error.message : String(error);
     logger.error(`[${tag}] Order ${order.id}: buyer Telegram notice failed: ${reason}`);
     return false;
