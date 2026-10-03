@@ -44,6 +44,8 @@ export default function CartTrigger({
           event.preventDefault()
         }
       }}
+      // Where the cart sidebar sends focus back on close when nothing else was focused.
+      data-cart-trigger=""
       data-testid="nav-cart-link"
     >
       <span className="relative flex items-center leading-none">

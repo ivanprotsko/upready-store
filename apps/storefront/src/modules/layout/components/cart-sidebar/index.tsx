@@ -5,7 +5,7 @@ import type { HttpTypes } from "@medusajs/types"
 import { Button, clx, Drawer, IconButton, Text } from "@medusajs/ui"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
 import { getCartDeliveryDays } from "@lib/data/cart-delivery"
 import type { TelegramBot } from "@lib/data/telegram-bot"
@@ -94,6 +94,31 @@ export default function CartSidebar({
   const searchParams = useSearchParams()
   const { isOpen, setOpen, close } = useCartSidebar()
 
+  // Where focus goes back on close (t-2026-10-03-63 bullet 5). Radix returns it to a
+  // `Dialog.Trigger`, and this drawer has none: the header's `CartTrigger` and «В корзину»
+  // open it through the context. Measured on the stand before this change: Esc, the
+  // overlay and the X all left focus on <body>. So the element focused at the moment of
+  // opening is kept here, read in a layout effect, before Radix's own focus scope moves
+  // focus into the panel; the header's cart button stands in when nothing was focused
+  // (a click on a link focuses nothing in Safari) or that element has left the page.
+  const returnFocusRef = useRef<HTMLElement | null>(null)
+  useLayoutEffect(() => {
+    if (!isOpen) return
+    const active = document.activeElement
+    returnFocusRef.current = active instanceof HTMLElement && active !== document.body ? active : null
+  }, [isOpen])
+  const restoreFocus = (event: Event) => {
+    event.preventDefault()
+    const opener = returnFocusRef.current
+    const target =
+      opener && opener.isConnected
+        ? opener
+        : Array.from(document.querySelectorAll<HTMLElement>("[data-cart-trigger]")).find(
+            (trigger) => trigger.offsetParent !== null
+          )
+    target?.focus({ preventScroll: true })
+  }
+
   const items = cart?.items ?? []
   const groups = shipmentGroups(cartShipmentLines(items))
   const hasPhysical = groups.some((group) => group.kind === "physical")
@@ -154,6 +179,7 @@ export default function CartSidebar({
             : "!right-0 !left-auto border-y-0 border-r-0 data-[state=open]:!slide-in-from-right-full data-[state=closed]:!slide-out-to-right-full"
         )}
         overlayProps={{ className: clx("z-[80] motion-reduce:!animate-none", MOTION_DURATION) }}
+        onCloseAutoFocus={restoreFocus}
         aria-describedby={undefined}
         data-testid="cart-sidebar"
       >
