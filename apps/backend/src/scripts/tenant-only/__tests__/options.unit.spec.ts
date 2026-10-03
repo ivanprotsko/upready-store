@@ -18,6 +18,7 @@ describe("parseTenantOnlyArgs", () => {
       mediaHostTo: null,
       forbidHosts: [],
       rewriteHosts: [],
+      dropEmailDomains: [],
     });
   });
 
@@ -25,9 +26,11 @@ describe("parseTenantOnlyArgs", () => {
     expect(
       parse("--keep", "olavka", "--media-host-from", "shipshift.dev", "--media-host-to", "api.cherkashino.ru",
         "--forbid-host", "upready.dev", "--forbid-host", "cherkashino.com",
-        "--rewrite-host", "cherkashino.shipshift.dev=cherkashino.ru"),
+        "--rewrite-host", "cherkashino.shipshift.dev=cherkashino.ru",
+        "--drop-customers-by-email-domain", "upready.dev"),
     ).toMatchObject({
       rewriteHosts: ["cherkashino.shipshift.dev=cherkashino.ru"],
+      dropEmailDomains: ["upready.dev"],
       mode: "run",
       mediaHostFrom: "shipshift.dev",
       mediaHostTo: "api.cherkashino.ru",
@@ -91,6 +94,8 @@ describe("parseTenantOnlyArgs", () => {
     [["--db", DB, "--keep", "olavka", "--rewrite-host", "a.dev=a.dev"], "must be <from>=<to>"],
     [["--db", DB, "--keep", "olavka", "--rewrite-host", "a.dev=B.ru"], "lowercase host"],
     [["--db", DB, "--verify", "--keep", "o", "--rewrite-host", "a.dev=b.ru"], "only go with a run"],
+    [["--db", DB, "--verify", "--keep", "o", "--drop-customers-by-email-domain", "a.dev"], "only go with a run"],
+    [["--db", DB, "--keep", "o", "--drop-customers-by-email-domain", "@a.dev"], "lowercase host"],
   ])("refuses %j", (argv, message) => {
     expect(() => parseTenantOnlyArgs(argv as string[])).toThrow(TenantOnlyUsageError);
     expect(() => parseTenantOnlyArgs(argv as string[])).toThrow(message);

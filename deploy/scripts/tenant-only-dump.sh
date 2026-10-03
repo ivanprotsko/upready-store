@@ -5,13 +5,19 @@
 #
 #   deploy/scripts/tenant-only-dump.sh <handle> [--dry-run]
 #       [--media-host-from <host> --media-host-to <host>] [--rewrite-host <from>=<to>]...
-#       [--forbid-host <host>]...
+#       [--drop-customers-by-email-domain <domain>]... [--forbid-host <host>]...
 #
 #   For cherkashino.ru moving to the RU host (t-cherk-14):
 #   deploy/scripts/tenant-only-dump.sh olavka \
 #       --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
 #       --rewrite-host cherkashino.shipshift.dev=cherkashino.ru \
+#       --drop-customers-by-email-domain upready.dev \
 #       --forbid-host upready.dev --forbid-host cherkashino.com
+#
+#   --drop-customers-by-email-domain deletes, in the temporary database only,
+#   buyers whose e-mail is on the domain (with carts, orders, payments and
+#   notifications) and admins on it; a KEPT line names an admin it would not
+#   delete (the only platform user, a shop owner or a shop's last admin).
 #
 #   A dry run that fails on a host lists every host name still linked
 #   ("still linked: …"); map each with --rewrite-host and run again.
@@ -59,7 +65,7 @@ SQL_FILE="$REPO_ROOT/apps/backend/src/scripts/tenant-only/tenant-only.sql"
 log() { echo "[tenant-only-dump] $*" >&2; }
 die() { local code="$1"; shift; log "error: $*"; exit "$code"; }
 
-USAGE="usage: $(basename "$0") <handle> [--dry-run] [--media-host-from <host> --media-host-to <host>] [--rewrite-host <from>=<to>]... [--forbid-host <host>]..."
+USAGE="usage: $(basename "$0") <handle> [--dry-run] [--media-host-from <host> --media-host-to <host>] [--rewrite-host <from>=<to>]... [--drop-customers-by-email-domain <domain>]... [--forbid-host <host>]..."
 HOST_RE='^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$'
 HANDLE="${1:-}"
 [[ "$HANDLE" =~ ^[a-z0-9][a-z0-9-]*$ ]] || die 1 "$USAGE  (handle: lowercase letters, digits, dashes)"
@@ -69,6 +75,7 @@ MEDIA_FROM=""
 MEDIA_TO=""
 FORBID=()
 REWRITES=()
+DROP_DOMAINS=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run) DRY_RUN=1; shift ;;
@@ -76,6 +83,7 @@ while [[ $# -gt 0 ]]; do
     --media-host-to) MEDIA_TO="${2:-}"; shift 2 || die 1 "$USAGE" ;;
     --forbid-host) FORBID+=("${2:-}"); shift 2 || die 1 "$USAGE" ;;
     --rewrite-host) REWRITES+=("${2:-}"); shift 2 || die 1 "$USAGE" ;;
+    --drop-customers-by-email-domain) DROP_DOMAINS+=("${2:-}"); shift 2 || die 1 "$USAGE" ;;
     *) die 1 "unknown argument \"$1\"; $USAGE" ;;
   esac
 done
@@ -89,12 +97,13 @@ for pair in ${REWRITES[@]+"${REWRITES[@]}"}; do
   [[ "${pair#*=}" =~ $HOST_RE ]] || die 1 "\"${pair#*=}\" is not a lowercase host name"
   FORBID+=("${pair%%=*}")
 done
-for host in ${MEDIA_TO:+"$MEDIA_TO"} ${FORBID[@]+"${FORBID[@]}"}; do
+for host in ${MEDIA_TO:+"$MEDIA_TO"} ${FORBID[@]+"${FORBID[@]}"} ${DROP_DOMAINS[@]+"${DROP_DOMAINS[@]}"}; do
   [[ "$host" =~ $HOST_RE ]] || die 1 "\"$host\" is not a lowercase host name"
 done
 # A Postgres text[] literal; the hosts were validated above, so no quoting is needed.
 HOSTS_ARRAY="{$(IFS=,; echo "${FORBID[*]+${FORBID[*]}}")}"
 REWRITES_ARRAY="{$(IFS=,; echo "${REWRITES[*]+${REWRITES[*]}}")}"
+DROP_ARRAY="{$(IFS=,; echo "${DROP_DOMAINS[*]+${DROP_DOMAINS[*]}}")}"
 [[ -f "$SQL_FILE" ]] || die 1 "$SQL_FILE is missing; run this from a checkout of upready-store"
 
 PG_CONTAINER="${PG_CONTAINER:-mt-postgres}"
@@ -170,6 +179,7 @@ chmod 600 "$LOG_FILE"
 log "source $SOURCE_DB, keep \"$HANDLE\", temporary database $TMP_DB$([[ $DRY_RUN == 1 ]] && echo ', DRY RUN')"
 [[ -n "$MEDIA_FROM" ]] && log "media host //$MEDIA_FROM -> //$MEDIA_TO"
 [[ "$REWRITES_ARRAY" != "{}" ]] && log "host rewrites $REWRITES_ARRAY"
+[[ "$DROP_ARRAY" != "{}" ]] && log "dropping buyers and admins with e-mail on $DROP_ARRAY"
 [[ "$HOSTS_ARRAY" != "{}" ]] && log "forbidden hosts $HOSTS_ARRAY"
 
 # 1-2. Copy of the live database into a marked temporary database.
@@ -188,11 +198,12 @@ FINISH="SELECT pg_temp.tenant_only_assert_clean(); COMMIT;"
 [[ "$DRY_RUN" == "1" ]] && FINISH="ROLLBACK;"
 log "trimming to \"$HANDLE\"$([[ $DRY_RUN == 1 ]] && echo ' (dry run, rolled back at the end)')"
 run_sql_step "trim" "$TMP_DB" "$LOG_FILE" -v keep="$HANDLE" -v source="$SOURCE_DB" \
-  -v mfrom="$MEDIA_FROM" -v mto="$MEDIA_TO" -v hosts="$HOSTS_ARRAY" -v rewrites="$REWRITES_ARRAY" <<SQL
+  -v mfrom="$MEDIA_FROM" -v mto="$MEDIA_TO" -v hosts="$HOSTS_ARRAY" -v rewrites="$REWRITES_ARRAY" \
+  -v dropdomains="$DROP_ARRAY" <<SQL
 BEGIN;
 CREATE TEMP TABLE tok_out ON COMMIT DROP AS
   SELECT * FROM pg_temp.tenant_only_run(:'keep', false, ARRAY[:'source'],
-    NULLIF(:'mfrom', ''), NULLIF(:'mto', ''), :'hosts'::text[], :'rewrites'::text[]);
+    NULLIF(:'mfrom', ''), NULLIF(:'mto', ''), :'hosts'::text[], :'rewrites'::text[], :'dropdomains'::text[]);
 \echo '== tables: before, removed, left'
 SELECT name AS "table", before_n AS before, before_n - after_n AS removed, after_n AS "left"
   FROM tok_out WHERE section = 'table' AND before_n <> after_n ORDER BY name;
@@ -215,9 +226,10 @@ fi
 
 # 4. Verify again, separately, read-only.
 log "verifying in a separate session"
-run_sql_step "verify" "$TMP_DB" "$LOG_FILE" -v keep="$HANDLE" -v hosts="$HOSTS_ARRAY" <<'SQL'
+run_sql_step "verify" "$TMP_DB" "$LOG_FILE" -v keep="$HANDLE" -v hosts="$HOSTS_ARRAY" -v dropdomains="$DROP_ARRAY" <<'SQL'
 BEGIN;
-SELECT severity, findings, check_name AS "check" FROM pg_temp.tenant_only_check(:'keep', false, :'hosts'::text[])
+SELECT severity, findings, check_name AS "check"
+  FROM pg_temp.tenant_only_check(:'keep', false, :'hosts'::text[] || :'dropdomains'::text[])
  WHERE NOT (severity = 'fail' AND findings = 0);
 SELECT pg_temp.tenant_only_assert_clean();
 ROLLBACK;

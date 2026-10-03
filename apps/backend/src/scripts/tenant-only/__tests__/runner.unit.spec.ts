@@ -16,6 +16,7 @@ const options = (over: Partial<TenantOnlyOptions> = {}): TenantOnlyOptions => ({
   mediaHostTo: null,
   forbidHosts: [],
   rewriteHosts: [],
+  dropEmailDomains: [],
   ...over,
 });
 
@@ -61,6 +62,7 @@ describe("runTenantOnly", () => {
         mediaHostTo: "api.cherkashino.ru",
         forbidHosts: ["upready.dev"],
         rewriteHosts: ["cherkashino.shipshift.dev=cherkashino.ru"],
+        dropEmailDomains: ["upready.dev"],
       }),
       SQL,
     );
@@ -80,6 +82,7 @@ describe("runTenantOnly", () => {
       "api.cherkashino.ru",
       ["upready.dev"],
       ["cherkashino.shipshift.dev=cherkashino.ru"],
+      ["upready.dev"],
     ]);
     expect(result).toMatchObject({ exitCode: 0, committed: true, error: null });
     expect(result.checks).toEqual([

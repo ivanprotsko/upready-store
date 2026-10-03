@@ -314,6 +314,319 @@ BEGIN
 END
 $fn$;
 
+-- Deletes the orders in tok_order_drop, the carts in tok_cart_drop and the
+-- customers in tok_customer_drop, with everything hanging off them, then the
+-- payments, fulfillments, reservations and link rows nothing points at any
+-- more. Shared by the trim and by --drop-customers-by-email-domain.
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_delete_commerce()
+RETURNS TABLE(step text, affected bigint)
+LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
+BEGIN
+  -- Orders and everything hanging off them.
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
+    ['delete return_fulfillment of removed orders', 'return_fulfillment,return', $q$
+      DELETE FROM return_fulfillment WHERE return_id IN (SELECT id FROM "return" WHERE order_id IN (SELECT id FROM tok_order_drop))$q$],
+    ['delete return_item of removed orders', 'return_item,return', $q$
+      DELETE FROM return_item WHERE return_id IN (SELECT id FROM "return" WHERE order_id IN (SELECT id FROM tok_order_drop))$q$],
+    ['delete return of removed orders', 'return', $q$
+      DELETE FROM "return" WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_claim_item_image of removed orders', 'order_claim_item_image,order_claim_item,order_claim', $q$
+      DELETE FROM order_claim_item_image WHERE claim_item_id IN (SELECT ci.id FROM order_claim_item ci JOIN order_claim c ON c.id = ci.claim_id WHERE c.order_id IN (SELECT id FROM tok_order_drop))$q$],
+    ['delete order_claim_item of removed orders', 'order_claim_item,order_claim', $q$
+      DELETE FROM order_claim_item WHERE claim_id IN (SELECT id FROM order_claim WHERE order_id IN (SELECT id FROM tok_order_drop))$q$],
+    ['delete order_claim of removed orders', 'order_claim', $q$
+      DELETE FROM order_claim WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_exchange_item of removed orders', 'order_exchange_item,order_exchange', $q$
+      DELETE FROM order_exchange_item WHERE exchange_id IN (SELECT id FROM order_exchange WHERE order_id IN (SELECT id FROM tok_order_drop))$q$],
+    ['delete order_exchange of removed orders', 'order_exchange', $q$
+      DELETE FROM order_exchange WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_change_action of removed orders', 'order_change_action', $q$
+      DELETE FROM order_change_action WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_change of removed orders', 'order_change', $q$
+      DELETE FROM order_change WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_item of removed orders', 'order_item', $q$
+      DELETE FROM order_item WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_shipping of removed orders', 'order_shipping', $q$
+      DELETE FROM order_shipping WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_summary of removed orders', 'order_summary', $q$
+      DELETE FROM order_summary WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_transaction of removed orders', 'order_transaction', $q$
+      DELETE FROM order_transaction WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_credit_line of removed orders', 'order_credit_line', $q$
+      DELETE FROM order_credit_line WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_cart links of removed orders', 'order_cart', $q$
+      DELETE FROM order_cart WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_payment_collection links of removed orders', 'order_payment_collection', $q$
+      DELETE FROM order_payment_collection WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_promotion links of removed orders', 'order_promotion', $q$
+      DELETE FROM order_promotion WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_fulfillment links of removed orders', 'order_fulfillment', $q$
+      DELETE FROM order_fulfillment WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete tenant order links of removed orders', 'tenant_tenant_order_order', $q$
+      DELETE FROM tenant_tenant_order_order WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order', 'order', $q$
+      DELETE FROM "order" WHERE id IN (SELECT id FROM tok_order_drop)$q$],
+    ['delete order_line_item left without an order', 'order_line_item,order_item', $q$
+      DELETE FROM order_line_item li
+      WHERE NOT EXISTS (SELECT 1 FROM order_item oi WHERE oi.item_id = li.id)
+        AND NOT EXISTS (SELECT 1 FROM return_item ri WHERE ri.item_id = li.id)
+        AND NOT EXISTS (SELECT 1 FROM order_claim_item ci WHERE ci.item_id = li.id)
+        AND NOT EXISTS (SELECT 1 FROM order_exchange_item ei WHERE ei.item_id = li.id)$q$],
+    ['delete order_shipping_method left without an order', 'order_shipping_method,order_shipping', $q$
+      DELETE FROM order_shipping_method sm WHERE NOT EXISTS (SELECT 1 FROM order_shipping os WHERE os.shipping_method_id = sm.id)$q$],
+    ['delete order_address left without an order', 'order_address', $q$
+      DELETE FROM order_address a
+      WHERE NOT EXISTS (SELECT 1 FROM "order" o WHERE o.shipping_address_id = a.id)
+        AND NOT EXISTS (SELECT 1 FROM "order" o WHERE o.billing_address_id = a.id)$q$]
+  ]);
+
+  -- Carts.
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
+    ['delete credit_line of removed carts', 'credit_line', $q$
+      DELETE FROM credit_line WHERE cart_id IN (SELECT id FROM tok_cart_drop)$q$],
+    ['delete cart_promotion links of removed carts', 'cart_promotion', $q$
+      DELETE FROM cart_promotion WHERE cart_id IN (SELECT id FROM tok_cart_drop)$q$],
+    ['delete cart_payment_collection links of removed carts', 'cart_payment_collection', $q$
+      DELETE FROM cart_payment_collection WHERE cart_id IN (SELECT id FROM tok_cart_drop)$q$],
+    ['delete order_cart links of removed carts', 'order_cart', $q$
+      DELETE FROM order_cart WHERE cart_id IN (SELECT id FROM tok_cart_drop)$q$],
+    ['delete cart (line items, shipping methods, adjustments and tax lines cascade)', 'cart', $q$
+      DELETE FROM cart WHERE id IN (SELECT id FROM tok_cart_drop)$q$],
+    ['delete cart_address left without a cart', 'cart_address', $q$
+      DELETE FROM cart_address a
+      WHERE NOT EXISTS (SELECT 1 FROM cart c WHERE c.shipping_address_id = a.id)
+        AND NOT EXISTS (SELECT 1 FROM cart c WHERE c.billing_address_id = a.id)$q$]
+  ]);
+
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_drop_dangling_links();
+
+  -- Payments, fulfillments and reservations nothing points at.
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
+    ['delete payment_collection left without a cart or order (sessions, payments, captures, refunds cascade)', 'payment_collection,cart_payment_collection,order_payment_collection', $q$
+      DELETE FROM payment_collection pc
+      WHERE NOT EXISTS (SELECT 1 FROM cart_payment_collection l WHERE l.payment_collection_id = pc.id)
+        AND NOT EXISTS (SELECT 1 FROM order_payment_collection l WHERE l.payment_collection_id = pc.id)$q$],
+    ['delete fulfillment left without an order or return', 'fulfillment,order_fulfillment,return_fulfillment', $q$
+      DELETE FROM fulfillment f
+      WHERE NOT EXISTS (SELECT 1 FROM order_fulfillment l WHERE l.fulfillment_id = f.id)
+        AND NOT EXISTS (SELECT 1 FROM return_fulfillment l WHERE l.fulfillment_id = f.id)$q$],
+    ['delete fulfillment_address left without a fulfillment', 'fulfillment_address,fulfillment', $q$
+      DELETE FROM fulfillment_address a WHERE NOT EXISTS (SELECT 1 FROM fulfillment f WHERE f.delivery_address_id = a.id)$q$],
+    ['delete reservation_item of removed line items', 'reservation_item', $q$
+      DELETE FROM reservation_item r
+      WHERE r.line_item_id IS NOT NULL
+        AND NOT EXISTS (SELECT 1 FROM order_line_item li WHERE li.id = r.line_item_id)
+        AND NOT EXISTS (SELECT 1 FROM cart_line_item li WHERE li.id = r.line_item_id)$q$]
+  ]);
+
+  -- Customers.
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
+    ['delete customer_account_holder links of removed customers', 'customer_account_holder', $q$
+      DELETE FROM customer_account_holder WHERE customer_id IN (SELECT id FROM tok_customer_drop)$q$],
+    ['delete customer (addresses and group memberships cascade)', 'customer', $q$
+      DELETE FROM customer WHERE id IN (SELECT id FROM tok_customer_drop)$q$],
+    ['delete account_holder left without a customer', 'account_holder,customer_account_holder', $q$
+      DELETE FROM account_holder ah WHERE NOT EXISTS (SELECT 1 FROM customer_account_holder l WHERE l.account_holder_id = ah.id)$q$]
+  ]);
+END
+$fn$;
+
+-- Rows of a tenant that point at something removed: a row naming a removed
+-- order, cart or customer goes whole (it exists because of a sale that is no
+-- longer here); a row naming a removed product, variant or course goes when the
+-- reference is NOT NULL and is cleared otherwise. Only values with the
+-- referenced entity's id prefix count, so a marketplace's own `product_id` or
+-- `order_id` is never taken for a Medusa one.
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_drop_scoped_refs()
+RETURNS TABLE(step text, affected bigint)
+LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
+DECLARE
+  n bigint;
+  total bigint;
+  pass int;
+  ref record;
+BEGIN
+  FOR pass IN 1..3 LOOP
+    total := 0;
+    FOR ref IN
+      SELECT t AS tbl, m.col, m.target, m.prefix, c.is_nullable = 'YES' AS nullable
+      FROM pg_temp.tenant_only_tenant_tables() t
+      CROSS JOIN (VALUES
+        ('product_id', 'product', 'prod_'),
+        ('variant_id', 'product_variant', 'variant_'),
+        ('customer_id', 'customer', 'cus_'),
+        ('order_id', 'order', 'order_'),
+        ('cart_id', 'cart', 'cart_'),
+        ('course_id', 'course', 'crs_')) AS m(col, target, prefix)
+      JOIN information_schema.columns c
+        ON c.table_schema = 'public' AND c.table_name = t AND c.column_name = m.col
+       AND c.data_type IN ('text', 'character varying')
+      WHERE pg_temp.tenant_only_has(m.target)
+    LOOP
+      IF ref.nullable AND ref.col NOT IN ('customer_id', 'order_id', 'cart_id') THEN
+        EXECUTE format('UPDATE public.%I SET %I = NULL WHERE %I LIKE %L AND NOT EXISTS (SELECT 1 FROM public.%I x WHERE x.id = %I.%I)',
+          ref.tbl, ref.col, ref.col, ref.prefix || '%', ref.target, ref.tbl, ref.col);
+      ELSE
+        EXECUTE format('DELETE FROM public.%I WHERE %I LIKE %L AND NOT EXISTS (SELECT 1 FROM public.%I x WHERE x.id = %I.%I)',
+          ref.tbl, ref.col, ref.prefix || '%', ref.target, ref.tbl, ref.col);
+      END IF;
+      GET DIAGNOSTICS n = ROW_COUNT;
+      IF n > 0 THEN
+        step := format('%s %s.%s pointing at a removed %s',
+          CASE WHEN ref.nullable AND ref.col NOT IN ('customer_id', 'order_id', 'cart_id') THEN 'clear' ELSE 'delete rows of' END,
+          ref.tbl, ref.col, ref.target);
+        affected := n;
+        RETURN NEXT;
+      END IF;
+      total := total + n;
+    END LOOP;
+    EXIT WHEN total = 0;
+  END LOOP;
+
+END
+$fn$;
+
+-- Logins whose customer, shop admin or platform user no longer exists lose
+-- that actor id, and a login left with none is deleted (provider identities,
+-- reset tokens and MFA cascade).
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_clean_logins()
+RETURNS TABLE(step text, affected bigint)
+LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
+BEGIN
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
+    ['drop customer ids of missing customers from auth identities', 'auth_identity', $q$
+      UPDATE auth_identity SET app_metadata = app_metadata - 'customer_id'
+      WHERE app_metadata ? 'customer_id' AND NOT EXISTS (SELECT 1 FROM customer c WHERE c.id = app_metadata->>'customer_id')$q$],
+    ['drop shop admin ids of missing admins from auth identities', 'auth_identity,tenant_admin', $q$
+      UPDATE auth_identity SET app_metadata = app_metadata - 'tenant_id'
+      WHERE app_metadata ? 'tenant_id' AND NOT EXISTS (SELECT 1 FROM tenant_admin ta WHERE ta.id = app_metadata->>'tenant_id')$q$],
+    ['drop user ids of missing users from auth identities', 'auth_identity,user', $q$
+      UPDATE auth_identity SET app_metadata = app_metadata - 'user_id'
+      WHERE app_metadata ? 'user_id' AND NOT EXISTS (SELECT 1 FROM "user" u WHERE u.id = app_metadata->>'user_id')$q$],
+    ['delete auth_identity left without an actor (provider identities, reset tokens, MFA cascade)', 'auth_identity', $q$
+      DELETE FROM auth_identity ai
+      WHERE NOT (coalesce(ai.app_metadata, '{}'::jsonb) ?| ARRAY['customer_id', 'tenant_id', 'user_id'])$q$]
+  ]);
+END
+$fn$;
+
+-- True when an e-mail address (plain or URL-encoded) is on one of the domains
+-- or a subdomain of one.
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_email_on(e text, domains text[]) RETURNS boolean
+LANGUAGE sql IMMUTABLE AS $$
+  SELECT e IS NOT NULL AND strpos(pg_temp.tenant_only_norm_email(e), '@') > 0 AND EXISTS (
+    SELECT 1 FROM unnest(domains) d
+    WHERE split_part(pg_temp.tenant_only_norm_email(e), '@', 2) = d
+       OR split_part(pg_temp.tenant_only_norm_email(e), '@', 2) LIKE '%.' || d)
+$$;
+
+-- --drop-customers-by-email-domain: buyers whose address is on one of the
+-- domains (a team's test accounts in a live shop), with their carts, orders,
+-- payments, notifications and every dependent row, and the admins on those
+-- domains. Runs on the scratch copy only, like everything here. An admin is
+-- kept, and reported on a KEPT line, when it is the only platform user left,
+-- or a shop's owner (its first admin) or that shop's last admin.
+CREATE OR REPLACE FUNCTION pg_temp.tenant_only_drop_email_domains(domains text[])
+RETURNS TABLE(step text, affected bigint)
+LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
+DECLARE
+  d text;
+  r record;
+  n bigint;
+BEGIN
+  IF domains IS NULL OR cardinality(domains) = 0 THEN
+    RETURN;
+  END IF;
+  FOREACH d IN ARRAY domains LOOP
+    IF NOT pg_temp.tenant_only_valid_host(d) THEN
+      RAISE EXCEPTION 'tenant-only: "%" is not an e-mail domain', d USING ERRCODE = 'UT003';
+    END IF;
+  END LOOP;
+
+  DROP TABLE IF EXISTS pg_temp.tok_customer_drop, pg_temp.tok_order_drop, pg_temp.tok_cart_drop,
+    pg_temp.tok_user_drop, pg_temp.tok_admin_drop;
+  CREATE TEMP TABLE tok_customer_drop ON COMMIT DROP AS
+    SELECT id FROM customer WHERE pg_temp.tenant_only_email_on(email, domains);
+  CREATE TEMP TABLE tok_order_drop ON COMMIT DROP AS
+    SELECT id FROM "order"
+    WHERE pg_temp.tenant_only_email_on(email, domains) OR customer_id IN (SELECT id FROM tok_customer_drop);
+  CREATE TEMP TABLE tok_cart_drop ON COMMIT DROP AS
+    SELECT id FROM cart
+    WHERE pg_temp.tenant_only_email_on(email, domains) OR customer_id IN (SELECT id FROM tok_customer_drop)
+    UNION SELECT oc.cart_id FROM order_cart oc WHERE oc.order_id IN (SELECT id FROM tok_order_drop);
+
+  -- Platform users on the domains, unless none would be left.
+  CREATE TEMP TABLE tok_user_drop ON COMMIT DROP AS
+    SELECT u.id FROM "user" u WHERE pg_temp.tenant_only_email_on(u.email, domains);
+  IF NOT EXISTS (SELECT 1 FROM "user" u WHERE u.deleted_at IS NULL AND u.id NOT IN (SELECT id FROM tok_user_drop)) THEN
+    FOR r IN SELECT id FROM tok_user_drop LOOP
+      step := format('KEPT, not deleted: platform user %s has an e-mail on a dropped domain and is the only admin user', r.id);
+      affected := 1;
+      RETURN NEXT;
+    END LOOP;
+    DELETE FROM tok_user_drop;
+  END IF;
+
+  -- Shop admins on the domains, unless the shop's owner or its last admin.
+  CREATE TEMP TABLE tok_admin_drop ON COMMIT DROP AS
+    SELECT ta.id FROM tenant_admin ta WHERE pg_temp.tenant_only_email_on(ta.email, domains);
+  FOR r IN
+    SELECT ta.id, ta.tenant_id, t.handle,
+           ta.id = (SELECT x.id FROM tenant_admin x WHERE x.tenant_id = ta.tenant_id AND x.deleted_at IS NULL
+                    ORDER BY x.created_at, x.id LIMIT 1) AS is_owner
+    FROM tenant_admin ta JOIN tenant t ON t.id = ta.tenant_id
+    WHERE ta.id IN (SELECT id FROM tok_admin_drop)
+  LOOP
+    IF r.is_owner OR NOT EXISTS (SELECT 1 FROM tenant_admin x WHERE x.tenant_id = r.tenant_id AND x.deleted_at IS NULL
+                                 AND x.id NOT IN (SELECT id FROM tok_admin_drop)) THEN
+      step := format('KEPT, not deleted: shop admin %s of "%s" has an e-mail on a dropped domain and is %s',
+        r.id, r.handle, CASE WHEN r.is_owner THEN 'the shop owner' ELSE 'its last admin' END);
+      affected := 1;
+      RETURN NEXT;
+      DELETE FROM tok_admin_drop WHERE id = r.id;
+    END IF;
+  END LOOP;
+
+  RETURN QUERY SELECT 'drop by e-mail domain: customers'::text, (SELECT count(*) FROM tok_customer_drop)
+    UNION ALL SELECT 'drop by e-mail domain: carts', (SELECT count(*) FROM tok_cart_drop)
+    UNION ALL SELECT 'drop by e-mail domain: orders', (SELECT count(*) FROM tok_order_drop)
+    UNION ALL SELECT 'drop by e-mail domain: platform users', (SELECT count(*) FROM tok_user_drop)
+    UNION ALL SELECT 'drop by e-mail domain: shop admins', (SELECT count(*) FROM tok_admin_drop);
+
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
+    ['delete notification about a dropped order or customer, or sent to a dropped domain', 'notification', format($q$
+      DELETE FROM notification n
+      WHERE (n.resource_type = 'order' AND n.resource_id IN (SELECT id FROM tok_order_drop))
+         OR (n.resource_type = 'customer' AND (n.resource_id IN (SELECT id FROM tok_customer_drop)
+               OR pg_temp.tenant_only_email_on(n.resource_id, %L::text[])))
+         OR pg_temp.tenant_only_email_on(n."to", %L::text[])$q$, domains, domains)],
+    ['delete workflow_execution about a dropped cart or order', 'workflow_execution', $q$
+      DELETE FROM workflow_execution w
+      WHERE EXISTS (
+        SELECT 1 FROM (SELECT id FROM tok_cart_drop UNION ALL SELECT id FROM tok_order_drop) x
+        WHERE w.transaction_id = x.id
+           OR strpos(coalesce(w.context::text, ''), x.id) > 0
+           OR strpos(coalesce(w.execution::text, ''), x.id) > 0)$q$]
+  ]);
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_delete_commerce();
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_drop_scoped_refs();
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
+    ['delete user_preference of dropped users', 'user_preference', $q$
+      DELETE FROM user_preference WHERE user_id IN (SELECT id FROM tok_user_drop)$q$],
+    ['delete view_configuration of dropped users', 'view_configuration', $q$
+      DELETE FROM view_configuration WHERE user_id IN (SELECT id FROM tok_user_drop)$q$],
+    ['delete layout_configuration of dropped users', 'layout_configuration', $q$
+      DELETE FROM layout_configuration WHERE user_id IN (SELECT id FROM tok_user_drop)$q$],
+    ['delete platform users on a dropped domain', 'user', $q$
+      DELETE FROM "user" WHERE id IN (SELECT id FROM tok_user_drop)$q$],
+    ['delete shop admins on a dropped domain', 'tenant_admin', $q$
+      DELETE FROM tenant_admin WHERE id IN (SELECT id FROM tok_admin_drop)$q$]
+  ]);
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_clean_logins();
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_drop_dangling_links();
+END
+$fn$;
+
 -- ---------------------------------------------------------------------------
 -- Trim: keep one tenant
 -- ---------------------------------------------------------------------------
@@ -512,111 +825,10 @@ BEGIN
                     WHERE x.order_id = l.order_id AND x.tenant_id <> (SELECT id FROM tok_keep))$q$]
   ]);
 
-  -- 2. Orders of other tenants and everything hanging off them.
+  -- 2-5. Orders and carts outside the kept tenant, with payments,
+  --      fulfillments and returns, then the customers it has no reason to know.
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_delete_commerce();
   RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
-    ['delete return_fulfillment of removed orders', 'return_fulfillment,return', $q$
-      DELETE FROM return_fulfillment WHERE return_id IN (SELECT id FROM "return" WHERE order_id IN (SELECT id FROM tok_order_drop))$q$],
-    ['delete return_item of removed orders', 'return_item,return', $q$
-      DELETE FROM return_item WHERE return_id IN (SELECT id FROM "return" WHERE order_id IN (SELECT id FROM tok_order_drop))$q$],
-    ['delete return of removed orders', 'return', $q$
-      DELETE FROM "return" WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_claim_item_image of removed orders', 'order_claim_item_image,order_claim_item,order_claim', $q$
-      DELETE FROM order_claim_item_image WHERE claim_item_id IN (SELECT ci.id FROM order_claim_item ci JOIN order_claim c ON c.id = ci.claim_id WHERE c.order_id IN (SELECT id FROM tok_order_drop))$q$],
-    ['delete order_claim_item of removed orders', 'order_claim_item,order_claim', $q$
-      DELETE FROM order_claim_item WHERE claim_id IN (SELECT id FROM order_claim WHERE order_id IN (SELECT id FROM tok_order_drop))$q$],
-    ['delete order_claim of removed orders', 'order_claim', $q$
-      DELETE FROM order_claim WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_exchange_item of removed orders', 'order_exchange_item,order_exchange', $q$
-      DELETE FROM order_exchange_item WHERE exchange_id IN (SELECT id FROM order_exchange WHERE order_id IN (SELECT id FROM tok_order_drop))$q$],
-    ['delete order_exchange of removed orders', 'order_exchange', $q$
-      DELETE FROM order_exchange WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_change_action of removed orders', 'order_change_action', $q$
-      DELETE FROM order_change_action WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_change of removed orders', 'order_change', $q$
-      DELETE FROM order_change WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_item of removed orders', 'order_item', $q$
-      DELETE FROM order_item WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_shipping of removed orders', 'order_shipping', $q$
-      DELETE FROM order_shipping WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_summary of removed orders', 'order_summary', $q$
-      DELETE FROM order_summary WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_transaction of removed orders', 'order_transaction', $q$
-      DELETE FROM order_transaction WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_credit_line of removed orders', 'order_credit_line', $q$
-      DELETE FROM order_credit_line WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_cart links of removed orders', 'order_cart', $q$
-      DELETE FROM order_cart WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_payment_collection links of removed orders', 'order_payment_collection', $q$
-      DELETE FROM order_payment_collection WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_promotion links of removed orders', 'order_promotion', $q$
-      DELETE FROM order_promotion WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_fulfillment links of removed orders', 'order_fulfillment', $q$
-      DELETE FROM order_fulfillment WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete tenant order links of removed orders', 'tenant_tenant_order_order', $q$
-      DELETE FROM tenant_tenant_order_order WHERE order_id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order', 'order', $q$
-      DELETE FROM "order" WHERE id IN (SELECT id FROM tok_order_drop)$q$],
-    ['delete order_line_item left without an order', 'order_line_item,order_item', $q$
-      DELETE FROM order_line_item li
-      WHERE NOT EXISTS (SELECT 1 FROM order_item oi WHERE oi.item_id = li.id)
-        AND NOT EXISTS (SELECT 1 FROM return_item ri WHERE ri.item_id = li.id)
-        AND NOT EXISTS (SELECT 1 FROM order_claim_item ci WHERE ci.item_id = li.id)
-        AND NOT EXISTS (SELECT 1 FROM order_exchange_item ei WHERE ei.item_id = li.id)$q$],
-    ['delete order_shipping_method left without an order', 'order_shipping_method,order_shipping', $q$
-      DELETE FROM order_shipping_method sm WHERE NOT EXISTS (SELECT 1 FROM order_shipping os WHERE os.shipping_method_id = sm.id)$q$],
-    ['delete order_address left without an order', 'order_address', $q$
-      DELETE FROM order_address a
-      WHERE NOT EXISTS (SELECT 1 FROM "order" o WHERE o.shipping_address_id = a.id)
-        AND NOT EXISTS (SELECT 1 FROM "order" o WHERE o.billing_address_id = a.id)$q$]
-  ]);
-
-  -- 3. Carts outside the kept channels.
-  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
-    ['delete credit_line of removed carts', 'credit_line', $q$
-      DELETE FROM credit_line WHERE cart_id IN (SELECT id FROM tok_cart_drop)$q$],
-    ['delete cart_promotion links of removed carts', 'cart_promotion', $q$
-      DELETE FROM cart_promotion WHERE cart_id IN (SELECT id FROM tok_cart_drop)$q$],
-    ['delete cart_payment_collection links of removed carts', 'cart_payment_collection', $q$
-      DELETE FROM cart_payment_collection WHERE cart_id IN (SELECT id FROM tok_cart_drop)$q$],
-    ['delete order_cart links of removed carts', 'order_cart', $q$
-      DELETE FROM order_cart WHERE cart_id IN (SELECT id FROM tok_cart_drop)$q$],
-    ['delete cart (line items, shipping methods, adjustments and tax lines cascade)', 'cart', $q$
-      DELETE FROM cart WHERE id IN (SELECT id FROM tok_cart_drop)$q$],
-    ['delete cart_address left without a cart', 'cart_address', $q$
-      DELETE FROM cart_address a
-      WHERE NOT EXISTS (SELECT 1 FROM cart c WHERE c.shipping_address_id = a.id)
-        AND NOT EXISTS (SELECT 1 FROM cart c WHERE c.billing_address_id = a.id)$q$]
-  ]);
-
-  RETURN QUERY SELECT * FROM pg_temp.tenant_only_drop_dangling_links();
-
-  -- 4. Payments, fulfillments and reservations nothing kept points at.
-  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
-    ['delete payment_collection left without a cart or order (sessions, payments, captures, refunds cascade)', 'payment_collection,cart_payment_collection,order_payment_collection', $q$
-      DELETE FROM payment_collection pc
-      WHERE NOT EXISTS (SELECT 1 FROM cart_payment_collection l WHERE l.payment_collection_id = pc.id)
-        AND NOT EXISTS (SELECT 1 FROM order_payment_collection l WHERE l.payment_collection_id = pc.id)$q$],
-    ['delete fulfillment left without an order or return', 'fulfillment,order_fulfillment,return_fulfillment', $q$
-      DELETE FROM fulfillment f
-      WHERE NOT EXISTS (SELECT 1 FROM order_fulfillment l WHERE l.fulfillment_id = f.id)
-        AND NOT EXISTS (SELECT 1 FROM return_fulfillment l WHERE l.fulfillment_id = f.id)$q$],
-    ['delete fulfillment_address left without a fulfillment', 'fulfillment_address,fulfillment', $q$
-      DELETE FROM fulfillment_address a WHERE NOT EXISTS (SELECT 1 FROM fulfillment f WHERE f.delivery_address_id = a.id)$q$],
-    ['delete reservation_item of removed line items', 'reservation_item', $q$
-      DELETE FROM reservation_item r
-      WHERE r.line_item_id IS NOT NULL
-        AND NOT EXISTS (SELECT 1 FROM order_line_item li WHERE li.id = r.line_item_id)
-        AND NOT EXISTS (SELECT 1 FROM cart_line_item li WHERE li.id = r.line_item_id)$q$]
-  ]);
-
-  -- 5. Customers.
-  RETURN QUERY SELECT * FROM pg_temp.tenant_only_steps(ARRAY[
-    ['delete customer_account_holder links of removed customers', 'customer_account_holder', $q$
-      DELETE FROM customer_account_holder WHERE customer_id IN (SELECT id FROM tok_customer_drop)$q$],
-    ['delete customer (addresses and group memberships cascade)', 'customer', $q$
-      DELETE FROM customer WHERE id IN (SELECT id FROM tok_customer_drop)$q$],
-    ['delete account_holder left without a customer', 'account_holder,customer_account_holder', $q$
-      DELETE FROM account_holder ah WHERE NOT EXISTS (SELECT 1 FROM customer_account_holder l WHERE l.account_holder_id = ah.id)$q$],
     ['point metadata.tenant_id of kept customers at the kept tenant', 'customer.metadata', $q$
       UPDATE customer SET metadata = jsonb_set(metadata::jsonb, '{tenant_id}', to_jsonb((SELECT id FROM tok_keep)))
       WHERE metadata::jsonb ? 'tenant_id' AND metadata->>'tenant_id' IS DISTINCT FROM (SELECT id FROM tok_keep)$q$]
@@ -803,50 +1015,9 @@ BEGIN
   affected := total;
   RETURN NEXT;
 
-  -- 13. Rows of the kept tenant that point at something removed above. A row
-  --     naming a removed order, cart or customer goes whole: it exists because
-  --     of another shop's sale (a course grant paid on a sister site, a review
-  --     by that site's buyer). A row naming a removed product, variant or
-  --     course goes when the reference is NOT NULL and is cleared otherwise.
-  --     Only values with the referenced entity's id prefix count, so a
-  --     marketplace's own `product_id` or `order_id` is never taken for a
-  --     Medusa one.
-  FOR pass IN 1..3 LOOP
-    total := 0;
-    FOR ref IN
-      SELECT t AS tbl, m.col, m.target, m.prefix, c.is_nullable = 'YES' AS nullable
-      FROM pg_temp.tenant_only_tenant_tables() t
-      CROSS JOIN (VALUES
-        ('product_id', 'product', 'prod_'),
-        ('variant_id', 'product_variant', 'variant_'),
-        ('customer_id', 'customer', 'cus_'),
-        ('order_id', 'order', 'order_'),
-        ('cart_id', 'cart', 'cart_'),
-        ('course_id', 'course', 'crs_')) AS m(col, target, prefix)
-      JOIN information_schema.columns c
-        ON c.table_schema = 'public' AND c.table_name = t AND c.column_name = m.col
-       AND c.data_type IN ('text', 'character varying')
-      WHERE pg_temp.tenant_only_has(m.target)
-    LOOP
-      IF ref.nullable AND ref.col NOT IN ('customer_id', 'order_id', 'cart_id') THEN
-        EXECUTE format('UPDATE public.%I SET %I = NULL WHERE %I LIKE %L AND NOT EXISTS (SELECT 1 FROM public.%I x WHERE x.id = %I.%I)',
-          ref.tbl, ref.col, ref.col, ref.prefix || '%', ref.target, ref.tbl, ref.col);
-      ELSE
-        EXECUTE format('DELETE FROM public.%I WHERE %I LIKE %L AND NOT EXISTS (SELECT 1 FROM public.%I x WHERE x.id = %I.%I)',
-          ref.tbl, ref.col, ref.prefix || '%', ref.target, ref.tbl, ref.col);
-      END IF;
-      GET DIAGNOSTICS n = ROW_COUNT;
-      IF n > 0 THEN
-        step := format('%s %s.%s pointing at a removed %s',
-          CASE WHEN ref.nullable AND ref.col NOT IN ('customer_id', 'order_id', 'cart_id') THEN 'clear' ELSE 'delete rows of' END,
-          ref.tbl, ref.col, ref.target);
-        affected := n;
-        RETURN NEXT;
-      END IF;
-      total := total + n;
-    END LOOP;
-    EXIT WHEN total = 0;
-  END LOOP;
+  -- 13. Rows of the kept tenant that point at something removed above (for
+  --     example ten course grants of olavka paid on a sister site).
+  RETURN QUERY SELECT * FROM pg_temp.tenant_only_drop_scoped_refs();
 
   -- 14. Every table with a tenant_id column: rows of any other tenant, and rows
   --     with no tenant at all. Tables other tables reference go last.
@@ -1290,11 +1461,10 @@ BEGIN
 END
 $fn$;
 
--- Rows per column that mention any forbidden host, subdomains included. A
--- mention inside an e-mail address (a buyer or admin whose mailbox is on that
--- domain) is no link to the old server: nothing is loaded from it. Those rows
--- are counted on their own, as a warning, so the operator sees them and
--- decides; every other mention (a URL, a bare host name) fails.
+-- Rows per column that mention any forbidden host, subdomains included. Links
+-- (a URL, a bare host name) and e-mail addresses on those domains are counted
+-- apart, so the operator sees which of the two to deal with: a link with
+-- --rewrite-host, a mailbox with --drop-customers-by-email-domain. Both fail.
 CREATE OR REPLACE FUNCTION pg_temp.tenant_only_verify_hosts(hosts text[])
 RETURNS TABLE(check_name text, severity text, findings bigint)
 LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
@@ -1334,8 +1504,8 @@ BEGIN
         r.col, pg_temp.tenant_only_email_re(), hosts_re, r.tbl, r.col) USING patterns;
     END IF;
     IF n_mail > 0 THEN
-      check_name := format('%s.%s has e-mail addresses on a forbidden domain (mailboxes, not links)', r.tbl, r.col);
-      severity := 'warn'; findings := n_mail; RETURN NEXT;
+      check_name := format('%s.%s has e-mail addresses on a forbidden domain', r.tbl, r.col);
+      severity := 'fail'; findings := n_mail; RETURN NEXT;
       total_mail := total_mail + n_mail;
     END IF;
   END LOOP;
@@ -1346,7 +1516,7 @@ BEGIN
   FOR r IN SELECT ltrim(h.host, '.-') AS host, count(*) AS n FROM tok_host_seen h GROUP BY 1 ORDER BY 1 LOOP
     check_name := format('still linked: %s', r.host); severity := 'info'; findings := r.n; RETURN NEXT;
   END LOOP;
-  check_name := format('rows with e-mail addresses on %s', list); severity := 'warn'; findings := total_mail;
+  check_name := format('rows with e-mail addresses on %s', list); severity := 'fail'; findings := total_mail;
   RETURN NEXT;
 END
 $fn$;
@@ -1796,7 +1966,7 @@ $fn$;
 CREATE OR REPLACE FUNCTION pg_temp.tenant_only_run(
   keep_handle text, anonymize boolean, protected_dbs text[],
   media_host_from text DEFAULT NULL, media_host_to text DEFAULT NULL, forbidden_hosts text[] DEFAULT NULL,
-  host_rewrites text[] DEFAULT NULL)
+  host_rewrites text[] DEFAULT NULL, drop_email_domains text[] DEFAULT NULL)
 RETURNS TABLE(section text, name text, detail text, before_n bigint, after_n bigint)
 LANGUAGE plpgsql SET search_path = public, pg_temp AS $fn$
 DECLARE
@@ -1807,7 +1977,7 @@ DECLARE
 BEGIN
   PERFORM pg_temp.tenant_only_guard(protected_dbs);
   IF keep_handle IS NULL AND NOT coalesce(anonymize, false) AND media_host_from IS NULL
-     AND coalesce(cardinality(host_rewrites), 0) = 0 THEN
+     AND coalesce(cardinality(host_rewrites), 0) = 0 AND coalesce(cardinality(drop_email_domains), 0) = 0 THEN
     RAISE EXCEPTION 'tenant-only: nothing to do; name a tenant to keep, ask for anonymization, change the media host, or any of them' USING ERRCODE = 'UT003';
   END IF;
   IF (media_host_from IS NULL) <> (media_host_to IS NULL) THEN
@@ -1826,6 +1996,8 @@ BEGIN
     hosts := array_append(hosts, split_part(pair, '=', 1));
     pairs := array_append(pairs, pair);
   END LOOP;
+  -- A dropped e-mail domain is a forbidden host too.
+  hosts := hosts || coalesce(drop_email_domains, '{}'::text[]);
   SELECT h INTO bad FROM unnest(hosts) h WHERE NOT pg_temp.tenant_only_valid_host(h) LIMIT 1;
   IF bad IS NOT NULL THEN
     RAISE EXCEPTION 'tenant-only: "%" is not a host name', bad USING ERRCODE = 'UT003';
@@ -1844,6 +2016,7 @@ BEGIN
   IF keep_handle IS NOT NULL THEN
     INSERT INTO tok_steps (step, affected) SELECT * FROM pg_temp.tenant_only_trim(keep_handle);
   END IF;
+  INSERT INTO tok_steps (step, affected) SELECT * FROM pg_temp.tenant_only_drop_email_domains(drop_email_domains);
   FOREACH pair IN ARRAY pairs LOOP
     INSERT INTO tok_steps (step, affected)
       SELECT * FROM pg_temp.tenant_only_rewrite_host(split_part(pair, '=', 1), split_part(pair, '=', 2));

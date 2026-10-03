@@ -13,6 +13,7 @@ import { failedChecks, runTenantOnly, type TenantOnlyResult } from "../../src/sc
  *     --server postgres://user@127.0.0.1:5433 --template <copy-of-a-stand> \
  *     --keep olavka [--media-host-from shipshift.dev --media-host-to api.cherkashino.ru]
  *     [--forbid-host upready.dev,cherkashino.com] [--rewrite-host a.dev=b.ru,c.dev=d.ru]
+ *     [--drop-customers-by-email-domain upready.dev]
  *     [--out summary.json]
  *
  * Rounds:
@@ -35,6 +36,7 @@ type Args = {
   mediaHostTo: string | null;
   forbidHosts: string[];
   rewriteHosts: string[];
+  dropEmailDomains: string[];
 };
 
 const parseArgs = (argv: string[]): Args => {
@@ -57,6 +59,7 @@ const parseArgs = (argv: string[]): Args => {
     mediaHostTo: get("--media-host-to"),
     forbidHosts: (get("--forbid-host") ?? "").split(",").filter(Boolean),
     rewriteHosts: (get("--rewrite-host") ?? "").split(",").filter(Boolean),
+    dropEmailDomains: (get("--drop-customers-by-email-domain") ?? "").split(",").filter(Boolean),
   };
 };
 
@@ -114,6 +117,7 @@ const main = async () => {
         mediaHostTo: null,
         forbidHosts: [],
         rewriteHosts: [],
+        dropEmailDomains: [],
         ...over,
       };
       const result = await runTenantOnly(client, options, sql);
@@ -142,11 +146,13 @@ const main = async () => {
       mediaHostTo: args.mediaHostTo,
       forbidHosts: args.forbidHosts,
       rewriteHosts: args.rewriteHosts,
+      dropEmailDomains: args.dropEmailDomains,
     };
     const forbidden = [
       ...args.forbidHosts,
       ...(args.mediaHostFrom ? [args.mediaHostFrom] : []),
       ...args.rewriteHosts.map((pair) => pair.split("=")[0]),
+      ...args.dropEmailDomains,
     ];
     expect(await run(trimmed, "2b. dry run", { keep: args.keep, dryRun: true, ...move }), 0);
     expect(await run(trimmed, "2c. trim", { keep: args.keep, ...move }), 0);

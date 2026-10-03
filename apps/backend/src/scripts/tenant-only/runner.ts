@@ -115,7 +115,7 @@ export const runTenantOnly = async (
     }
 
     const { rows } = await client.query(
-      "SELECT section, name, detail, before_n, after_n FROM pg_temp.tenant_only_run($1, $2, $3, $4, $5, $6, $7)",
+      "SELECT section, name, detail, before_n, after_n FROM pg_temp.tenant_only_run($1, $2, $3, $4, $5, $6, $7, $8)",
       [
         options.keep,
         options.anonymize,
@@ -124,6 +124,7 @@ export const runTenantOnly = async (
         options.mediaHostTo,
         options.forbidHosts,
         options.rewriteHosts,
+        options.dropEmailDomains,
       ],
     );
     result.rows = rows.map((row) => ({

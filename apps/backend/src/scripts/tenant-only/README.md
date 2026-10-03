@@ -36,10 +36,12 @@ is one command. For cherkashino.ru moving to the RU host:
 deploy/scripts/tenant-only-dump.sh olavka --dry-run \
   --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
   --rewrite-host cherkashino.shipshift.dev=cherkashino.ru \
+  --drop-customers-by-email-domain upready.dev \
   --forbid-host upready.dev --forbid-host cherkashino.com
 deploy/scripts/tenant-only-dump.sh olavka \
   --media-host-from shipshift.dev --media-host-to api.cherkashino.ru \
   --rewrite-host cherkashino.shipshift.dev=cherkashino.ru \
+  --drop-customers-by-email-domain upready.dev \
   --forbid-host upready.dev --forbid-host cherkashino.com
 ```
 
@@ -120,10 +122,19 @@ would point back at the old one. Any other mention fails the run with a count pe
 column and a `still linked: <host>` line per host name found, so the operator
 maps it with `--rewrite-host` or fixes it in the source shop before running again.
 
-A host inside an e-mail address is counted apart, as a warning: a buyer or an
-admin whose mailbox is on that domain is a person, not a link to the old server,
-and rewriting their address would break their login. On the stand copy these are
-the platform team's test buyers on `upready.dev`.
+A host inside an e-mail address fails as well, on a line of its own. Rewriting a
+person's address would break their login, so the tool does not do it.
+`--drop-customers-by-email-domain <domain>` (repeatable) deletes instead, in the
+copy only:
+
+- buyers whose address is on the domain or a subdomain of it, with their carts,
+  orders, payments, notifications and the shop rows that name them;
+- platform users and shop admins on it, apart from the only platform user left,
+  a shop's owner (its first admin) and a shop's last admin.
+
+An admin the flag keeps is named on a `KEPT, not deleted` line, and the check then
+fails on their address, so the operator decides. On the stand copy the domain was
+`upready.dev`, the platform team's test buyers in the live shop.
 
 Decisions behind the less obvious rows:
 

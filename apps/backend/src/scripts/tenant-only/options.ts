@@ -27,6 +27,8 @@ export type TenantOnlyOptions = {
   forbidHosts: string[];
   /** Further hosts to move, `from=to` each (an old storefront subdomain). */
   rewriteHosts: string[];
+  /** E-mail domains whose buyers and admins the run deletes from the copy. */
+  dropEmailDomains: string[];
 };
 
 export const USAGE = `Usage: npx ts-node src/scripts/tenant-only/cli.ts --db <postgres-url> [options]
@@ -43,8 +45,12 @@ export const USAGE = `Usage: npx ts-node src/scripts/tenant-only/cli.ts --db <po
                       rewrite every URL on the first host to the second
   --rewrite-host <from>=<to>
                       rewrite URLs on another host as well (repeatable)
+  --drop-customers-by-email-domain <domain>
+                      delete buyers (with carts, orders, payments) and admins
+                      whose e-mail is on this domain (repeatable; an only
+                      platform user, a shop owner or last admin is kept)
   --forbid-host <host>  fail when any row mentions this host or a subdomain
-                      (repeatable; every rewritten host is forbidden too)
+                      (repeatable; rewritten hosts and dropped domains too)
   --protect <db>      refuse this database name as well (repeatable)
 
 Exit codes: 0 done, 1 usage, 2 guard refused, 3 verification failed, 4 error.`;
@@ -66,6 +72,7 @@ const VALUE_FLAGS = new Set([
   "--media-host-to",
   "--forbid-host",
   "--rewrite-host",
+  "--drop-customers-by-email-domain",
 ]);
 const BOOLEAN_FLAGS = new Set(["--anonymize", "--dry-run", "--verify", "--mark", "--unmark", "--media-refs", "--help"]);
 
@@ -126,6 +133,7 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
   const mediaHostTo = single("--media-host-to");
   const forbidHosts = values.get("--forbid-host") ?? [];
   const rewriteHosts = values.get("--rewrite-host") ?? [];
+  const dropEmailDomains = values.get("--drop-customers-by-email-domain") ?? [];
   const rewriteParts = rewriteHosts.map((pair) => {
     const parts = pair.split("=");
     if (parts.length !== 2 || parts[0] === parts[1]) {
@@ -133,7 +141,7 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
     }
     return parts;
   });
-  for (const host of [mediaHostFrom, mediaHostTo, ...forbidHosts, ...rewriteParts.flat()]) {
+  for (const host of [mediaHostFrom, mediaHostTo, ...forbidHosts, ...rewriteParts.flat(), ...dropEmailDomains]) {
     if (host !== null && !HOST.test(host)) {
       throw new TenantOnlyUsageError(`"${host}" is not a lowercase host name`);
     }
@@ -163,13 +171,22 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
   if ((mode === "mark" || mode === "unmark") && (keep !== null || anonymize || dryRun)) {
     throw new TenantOnlyUsageError(`--${mode} takes no --keep, --anonymize or --dry-run`);
   }
-  if ((mediaHostFrom !== null || rewriteHosts.length > 0) && mode !== "run") {
-    throw new TenantOnlyUsageError("--media-host-from and --rewrite-host only go with a run; verify with --forbid-host");
+  if ((mediaHostFrom !== null || rewriteHosts.length > 0 || dropEmailDomains.length > 0) && mode !== "run") {
+    throw new TenantOnlyUsageError(
+      "--media-host-from, --rewrite-host and --drop-customers-by-email-domain only go with a run; verify with --forbid-host",
+    );
   }
   if (forbidHosts.length > 0 && mode !== "run" && mode !== "verify") {
     throw new TenantOnlyUsageError("--forbid-host goes with a run or --verify");
   }
-  if (mode === "run" && keep === null && !anonymize && mediaHostFrom === null && rewriteHosts.length === 0) {
+  if (
+    mode === "run" &&
+    keep === null &&
+    !anonymize &&
+    mediaHostFrom === null &&
+    rewriteHosts.length === 0 &&
+    dropEmailDomains.length === 0
+  ) {
     throw new TenantOnlyUsageError("name a tenant with --keep, ask for --anonymize, change the media host, or any of them");
   }
   if (mode === "verify" && keep === null && !anonymize && forbidHosts.length === 0) {
@@ -182,5 +199,18 @@ export const parseTenantOnlyArgs = (argv: string[]): TenantOnlyOptions | "help" 
     throw new TenantOnlyUsageError("--media-refs takes --keep and nothing else");
   }
 
-  return { mode, db, keep, anonymize, dryRun, protect, source, mediaHostFrom, mediaHostTo, forbidHosts, rewriteHosts };
+  return {
+    mode,
+    db,
+    keep,
+    anonymize,
+    dryRun,
+    protect,
+    source,
+    mediaHostFrom,
+    mediaHostTo,
+    forbidHosts,
+    rewriteHosts,
+    dropEmailDomains,
+  };
 };
