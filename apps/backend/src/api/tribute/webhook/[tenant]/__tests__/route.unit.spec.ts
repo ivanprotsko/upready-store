@@ -103,7 +103,7 @@ const callWebhook = async (options: {
   const rawBody = Buffer.from(JSON.stringify(options.bodyObj));
   const signature = options.signatureOverride ?? sign(rawBody, options.apiKey ?? API_KEY);
 
-  const payment = { updatePaymentSession: jest.fn(async () => ({})) };
+  const payment = { updatePaymentSession: jest.fn(async (_input: { id: string; data: Record<string, unknown> }) => ({})) };
   const { pg } = buildPg(row);
   const services: Record<string, unknown> = {
     [ContainerRegistrationKeys.LOGGER]: { info: jest.fn(), warn: jest.fn(), error: jest.fn() },

@@ -18,7 +18,7 @@ export default async function linkTributeRegions({ container }: ExecArgs) {
 
   const providerId = "pp_tribute_tribute";
   const regions = await regionModule.listRegions(
-    { currency_code: [...TRIBUTE_CURRENCIES] },
+    { currency_code: { $in: [...TRIBUTE_CURRENCIES] } },
     { select: ["id", "name"] },
   );
 

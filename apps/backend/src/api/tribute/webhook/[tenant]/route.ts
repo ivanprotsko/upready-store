@@ -158,7 +158,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         await processPaymentWorkflow(req.scope).run({
           input: {
             action: PaymentActions.SUCCESSFUL,
-            data: { session_id: sessionRow.id, amount: data.amount_minor != null ? data.amount_minor / 100 : undefined },
+            data: { session_id: sessionRow.id, amount: Number(sessionRow.amount) },
           },
         });
       } catch (error) {
