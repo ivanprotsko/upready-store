@@ -70,8 +70,16 @@ function dbUrl() {
 
 /** One query, rows as arrays of strings. Every value put into SQL is checked against a strict pattern first. */
 function sql(query) {
-  const out = execFileSync(PSQL, [dbUrl(), "-At", "-F", "\t", "-c", query], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] })
-  return out.split("\n").filter(Boolean).map((line) => line.split("\t"))
+  // Up to three tries: under load the stand's Postgres sometimes refuses one connection.
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const out = execFileSync(PSQL, [dbUrl(), "-At", "-F", "\t", "-c", query], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] })
+      return out.split("\n").filter(Boolean).map((line) => line.split("\t"))
+    } catch (err) {
+      if (attempt >= 3) throw err
+      execFileSync("sleep", [String(attempt)])
+    }
+  }
 }
 const safe = (value, pattern, what) => {
   if (!pattern.test(String(value))) throw new Error(`refusing to put ${what} into SQL: ${value}`)
