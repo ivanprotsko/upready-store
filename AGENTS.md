@@ -234,8 +234,10 @@ Three sets of message catalogs have to stay in step too, each holding one file p
 | Seed | [apps/backend/src/migration-scripts/data/i18n/json](apps/backend/src/migration-scripts/data/i18n/json) | the seed script, as catalog translations |
 
 Adding one key means adding it to all 36 files of that set, with a real translation rather than the
-English string copied across. A missing key fails at runtime, not at build time, and this repository
-has no parity gate. Check it yourself after touching a catalog:
+English string copied across. A missing key fails at runtime, not at build time. The storefront set
+has a parity gate in vitest, [src/i18n/messages.test.ts](apps/storefront/src/i18n/messages.test.ts),
+which names the locale and the missing or extra keys. The emails and seed sets have none. Check a
+catalog yourself after touching it:
 
 ```bash
 node -e '
