@@ -1,8 +1,9 @@
 "use client"
 
 import { ShoppingCart } from "@medusajs/icons"
-import type { HttpTypes } from "@medusajs/types"
 import { useTranslations } from "next-intl"
+
+import { useCart, type CartSnapshot } from "@lib/cart-store"
 
 import { Link } from "@i18n/navigation"
 import { useCartSidebar } from "@modules/layout/components/cart-sidebar/context"
@@ -15,17 +16,22 @@ import { useCartSidebar } from "@modules/layout/components/cart-sidebar/context"
  * `"pill"` (the Olavka h7 header, t-2026-09-24-n15): cart icon + «Корзина» in a 40px
  * white pill whose outline is the Figma node's two drop shadows. Default: the bare icon
  * every other header and the phone's bottom nav use.
+ *
+ * The count is the client cart queue's (t-2026-10-03-66): it moves the moment a
+ * «В корзину» or a «+» is clicked anywhere on the page, before the server has answered.
+ * `snapshot` is the server's read, shown until the queue has a cart of its own.
  */
 export default function CartTrigger({
-  cart,
+  snapshot,
   variant = "icon",
 }: {
-  cart?: HttpTypes.StoreCart | null
+  snapshot?: CartSnapshot | null
   variant?: "icon" | "pill"
 }) {
   const t = useTranslations("CartSidebar")
   const tNav = useTranslations("Nav")
   const { open } = useCartSidebar()
+  const { cart, pending } = useCart(snapshot)
 
   const totalItems =
     cart?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0
@@ -46,6 +52,8 @@ export default function CartTrigger({
       }}
       // Where the cart sidebar sends focus back on close when nothing else was focused.
       data-cart-trigger=""
+      // Something is still on its way to the server: suites wait on this.
+      data-pending={pending ? "true" : undefined}
       data-testid="nav-cart-link"
     >
       <span className="relative flex items-center leading-none">

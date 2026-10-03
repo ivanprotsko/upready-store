@@ -1,5 +1,6 @@
 "use client"
 
+import { useCartState } from "@lib/cart-store"
 import { convertToLocale } from "@lib/util/money"
 import { CheckCircleSolid, XMark } from "@medusajs/icons"
 import type {
@@ -75,13 +76,18 @@ const computeTarget = (
 
 export default function ShippingPriceNudge({
   variant = "inline",
-  cart,
+  cart: serverCart,
   shippingOptions,
 }: {
   variant?: "popup" | "inline"
   cart: StoreCart
   shippingOptions: StoreCartShippingOption[]
 }) {
+  // The client cart queue's view once it has one (t-2026-10-03-66), so «до бесплатной
+  // доставки» moves with the buyer's clicks instead of waiting for the next page.
+  const queueState = useCartState()
+  const cart = queueState.seeded ? queueState.view : serverCart
+
   if (!cart || !shippingOptions?.length) {
     return
   }

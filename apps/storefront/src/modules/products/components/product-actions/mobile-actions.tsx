@@ -10,7 +10,6 @@ import X from "@modules/common/icons/x"
 import { getProductPrice } from "@lib/util/get-product-price"
 import OptionSelect from "./option-select"
 import InCartStepper from "../in-cart-stepper"
-import type { CartLine } from "../in-cart-stepper/logic"
 import type { HttpTypes } from "@medusajs/types"
 import { Button, clx } from "@medusajs/ui"
 import { isSimpleProduct, optionsWithUsedValues } from "@lib/util/product"
@@ -23,8 +22,8 @@ type MobileActionsProps = {
   inStock?: boolean
   handleAddToCart: () => void
   isAdding?: boolean
-  /** The variant's cart line (the Olavka shop, remark 24): «В КОРЗИНЕ − N +» once it is in. */
-  inCart?: { line: CartLine | null; max: number }
+  /** The variant in the cart (the Olavka shop, remark 24): «В КОРЗИНЕ − N +» once it is in. */
+  inCart?: { quantity: number; max: number; onStep: (delta: 1 | -1) => void }
   show: boolean
   optionsDisabled: boolean
 }
@@ -149,8 +148,9 @@ const MobileActions: React.FC<MobileActionsProps> = ({
             )}
             {inCart ? (
               <InCartStepper
-                line={inCart.line}
+                quantity={inCart.quantity}
                 max={inCart.max}
+                onStep={inCart.onStep}
                 addButton={addButton}
                 className="min-w-0 flex-1"
                 data-testid="mobile-in-cart-stepper"

@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
 import { useTranslations } from "next-intl"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 
 import { Link } from "@i18n/navigation"
-import { addToCart } from "@lib/data/cart"
+import { useCartQueue } from "@lib/cart-store"
+import { draftLineFor } from "@lib/cart-store/draft"
 
 /**
  * The quick add-to-bag control hero G and listing P5 need on a homepage teaser card
@@ -19,6 +19,9 @@ import { addToCart } from "@lib/data/cart"
  * instead links to its own page, carrying the same `selectOptions` wording
  * `ProductActions` already shows a visitor for that exact situation. Stock is checked
  * with the identical rule `ProductActions` uses (`product-actions/index.tsx:100-119`).
+ *
+ * The add goes through the client cart queue (t-2026-10-03-66): the header's count moves
+ * on the click and the request follows in the background, so the button never waits.
  */
 export default function AddToBagButton({
   product,
@@ -32,7 +35,7 @@ export default function AddToBagButton({
   className?: string
 }) {
   const t = useTranslations()
-  const [isAdding, setIsAdding] = useState(false)
+  const queue = useCartQueue()
   const variants = product.variants ?? []
   const onlyVariant = variants.length === 1 ? variants[0] : null
 
@@ -56,17 +59,14 @@ export default function AddToBagButton({
     onlyVariant.allow_backorder ||
     (onlyVariant.inventory_quantity ?? 0) > 0
 
-  const handleClick = async () => {
-    setIsAdding(true)
-    await addToCart({ variantId: onlyVariant.id, quantity: 1 })
-    setIsAdding(false)
+  const handleClick = () => {
+    queue.add(onlyVariant.id, 1, draftLineFor(product, onlyVariant))
   }
 
   return (
     <Button
       onClick={handleClick}
-      disabled={!inStock || isAdding}
-      isLoading={isAdding}
+      disabled={!inStock}
       variant={variant}
       size={size}
       className={className}

@@ -1,17 +1,15 @@
 "use client"
 
-import { useState } from "react"
-import { updateLineItem } from "@lib/data/cart"
+import { useCartQueue } from "@lib/cart-store"
 import { convertToLocale } from "@lib/util/money"
 import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import { Badge } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
 import { useLocale, useTranslations } from "next-intl"
 import DeleteButton from "@modules/common/components/delete-button"
-import ErrorMessage from "@modules/checkout/components/error-message"
+import CartLineError from "@modules/cart/components/cart-line-error"
 import { Link } from "@i18n/navigation"
 import ProductMedia from "@modules/products/components/product-media"
-import { Loader } from "@medusajs/icons"
 
 type ItemProps = {
   item: HttpTypes.StoreCartLineItem
@@ -19,9 +17,13 @@ type ItemProps = {
   currencyCode: string
 }
 
+/**
+ * One line of the cart page. Its quantity and its removal go through the client cart
+ * queue (t-2026-10-03-66): they show at once, the request follows after a pause, and a
+ * refused change falls back to the server's quantity with the reason under the line.
+ */
 const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
-  const [updating, setUpdating] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const queue = useCartQueue()
   const locale = useLocale()
   const tShip = useTranslations("Shipments")
 
@@ -50,12 +52,10 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
   const noDelivery = isNoDeliveryLine(item)
   const maxQty = noDelivery ? 1 : 10
 
-  const changeQuantity = async (quantity: number) => {
-    setError(null)
-    setUpdating(true)
-    await updateLineItem({ lineId: item.id, quantity })
-      .catch((err) => setError(err.message))
-      .finally(() => setUpdating(false))
+  const changeQuantity = (quantity: number) => {
+    if (item.variant_id) {
+      queue.set(item.variant_id, quantity)
+    }
   }
 
   if (type === "preview") {
@@ -129,7 +129,11 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
             <span className="txt-medium text-ui-fg-subtle">{variantTitle}</span>
           ) : null}
           <div className="flex items-end h-[22.4px]">
-            <DeleteButton id={item.id} data-testid="product-delete-button" />
+            <DeleteButton
+              id={item.id}
+              onDelete={() => changeQuantity(0)}
+              data-testid="product-delete-button"
+            />
           </div>
         </div>
       </div>
@@ -148,25 +152,21 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
             onClick={() =>
               item.quantity > 1 && changeQuantity(item.quantity - 1)
             }
-            disabled={updating || item.quantity <= 1}
+            disabled={item.quantity <= 1}
             className="txt-compact-xlarge-plus text-ui-fg-subtle disabled:opacity-40 leading-none"
             data-testid="decrease-qty-button"
           >
             −
           </button>
           <span className="txt-compact-xsmall-plus text-ui-fg-subtle min-w-[12px] text-center">
-            {updating ? (
-              <Loader className="w-3 h-3 animate-spin" />
-            ) : (
-              item.quantity
-            )}
+            {item.quantity}
           </span>
           <button
             type="button"
             onClick={() =>
               item.quantity < maxQty && changeQuantity(item.quantity + 1)
             }
-            disabled={updating || item.quantity >= maxQty}
+            disabled={item.quantity >= maxQty}
             className="txt-compact-xlarge-plus text-ui-fg-subtle disabled:opacity-40 leading-none"
             data-testid="increase-qty-button"
           >
@@ -175,9 +175,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
         </div>
       </div>
 
-      {error && (
-        <ErrorMessage error={error} data-testid="product-error-message" />
-      )}
+      <CartLineError variantId={item.variant_id} data-testid="product-error-message" />
     </div>
   )
 }

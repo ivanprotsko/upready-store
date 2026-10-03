@@ -7,11 +7,18 @@ import { useState } from "react"
 
 const DeleteButton = ({
   id,
+  onDelete,
   children,
   className,
   "data-testid": dataTestId,
 }: {
   id: string
+  /**
+   * Removes the line some other way. The cart page passes the client cart queue's
+   * removal (t-2026-10-03-66), which takes the line away at once; without it the
+   * button deletes through the Server Action and spins until it answers.
+   */
+  onDelete?: () => void
   children?: React.ReactNode
   className?: string
   "data-testid"?: string
@@ -21,6 +28,10 @@ const DeleteButton = ({
   const { trackCartUpdate } = useCartUpdate()
 
   const handleDelete = async (id: string) => {
+    if (onDelete) {
+      onDelete()
+      return
+    }
     setIsDeleting(true)
     await trackCartUpdate(() => deleteLineItem(id)).catch((_err) => {
       setIsDeleting(false)

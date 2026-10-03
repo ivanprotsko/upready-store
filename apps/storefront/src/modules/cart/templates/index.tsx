@@ -1,38 +1,27 @@
-import ItemsTemplate from "./items"
-import Summary from "./summary"
+import type { CartSnapshot } from "@lib/cart-store"
+
 import EmptyCartMessage from "../components/empty-cart-message"
 import OrderErrorBanner from "../components/order-error-banner"
-import type { HttpTypes } from "@medusajs/types"
+import CartContent from "./content"
 
+/**
+ * The cart page. The banner and the empty-cart message are server-rendered; the lines
+ * and the summary are `CartContent`, drawn from the client cart queue
+ * (t-2026-10-03-66) so a quantity changed here, in the sidebar or on a product page
+ * shows the same everywhere without a reload.
+ */
 const CartTemplate = ({
-  cart,
+  snapshot,
   error,
 }: {
-  cart: HttpTypes.StoreCart | null
+  snapshot: CartSnapshot
   error?: string
 }) => {
   return (
     <div className="overflow-x-hidden lg:py-10">
       <OrderErrorBanner error={error} />
       <div className="content-container" data-testid="cart-container">
-        {cart?.items?.length ? (
-          <div className="grid grid-cols-1 small:grid-cols-[7fr_5fr] min-h-[70vh] gap-x-20">
-            <div className="flex flex-col py-6 gap-y-6">
-              <ItemsTemplate cart={cart} />
-            </div>
-            <div className="relative">
-              <div className="h-full flex flex-col py-6 gap-y-8">
-                <div className="sticky top-0">
-                  {cart && cart.region && <Summary cart={cart} />}
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <EmptyCartMessage />
-          </div>
-        )}
+        <CartContent snapshot={snapshot} empty={<EmptyCartMessage />} />
       </div>
     </div>
   )

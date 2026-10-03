@@ -1,4 +1,4 @@
-import { retrieveCart } from "@lib/data/cart"
+import { retrieveCartSnapshot } from "@lib/data/cart"
 import { getSiteName } from "@lib/data/cookies"
 import { retrieveCustomer } from "@lib/data/customer"
 import { getLegalLinkContext } from "@lib/data/legal-links"
@@ -18,9 +18,9 @@ import CartSidebar from "."
  * (`getCartDeliveryDays`). Async, so the layout keeps it behind a `Suspense`.
  */
 export default async function CartSidebarHost() {
-  const [cart, customer, wishlistLoggedIn, wishlistProductIds, loginSettings, telegramBot, siteName, legal] =
+  const [snapshot, customer, wishlistLoggedIn, wishlistProductIds, loginSettings, telegramBot, siteName, legal] =
     await Promise.all([
-      retrieveCart().catch(() => null),
+      retrieveCartSnapshot(),
       retrieveCustomer().catch(() => null),
       isWishlistCustomerLoggedIn().catch(() => false),
       getWishlistProductIds().catch(() => [] as string[]),
@@ -32,7 +32,7 @@ export default async function CartSidebarHost() {
 
   return (
     <CartSidebar
-      cart={cart}
+      snapshot={snapshot}
       isLoggedIn={customer !== null}
       wishlistLoggedIn={wishlistLoggedIn}
       wishlistProductIds={wishlistProductIds}

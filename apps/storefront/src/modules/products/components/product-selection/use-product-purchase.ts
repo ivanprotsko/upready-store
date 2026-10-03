@@ -1,6 +1,7 @@
 "use client"
 
-import { addToCart } from "@lib/data/cart"
+import { useCartQueue } from "@lib/cart-store"
+import { draftLineFor } from "@lib/cart-store/draft"
 import { useRouter } from "@i18n/navigation"
 import type { HttpTypes } from "@medusajs/types"
 import { useCartSidebar } from "@modules/layout/components/cart-sidebar/context"
@@ -13,13 +14,13 @@ export type ProductPurchase = {
   selectedVariant: HttpTypes.StoreProductVariant | undefined
   inStock: boolean
   isValidVariant: boolean
-  /** True while a cart request runs, wherever it was started. */
+  /** True while «Купить» waits for the cart to reach the server, wherever it was pressed. */
   isAdding: boolean
   canBuy: boolean
-  /** «В корзину»: one of the chosen variant into the cart. */
-  handleAddToCart: () => Promise<null | undefined>
-  /** «Купить»: the same line in the cart, then straight to the checkout's first step. */
-  handleBuyNow: () => Promise<null | undefined>
+  /** «В корзину»: one more of the chosen variant in the cart, shown at once. */
+  handleAddToCart: () => void
+  /** «Купить»: the same, then straight to the checkout's first step once the server has it. */
+  handleBuyNow: () => Promise<void>
 }
 
 /** Whether a variant can go into the cart: stock is not tracked, back orders are allowed, or some is left. */
@@ -41,14 +42,21 @@ export const variantInStock = (
  * put the same line in the cart and are disabled in the same states.
  *
  * `product` is the one with the region's prices; the choice itself comes from
- * `ProductSelectionProvider`. The "adding" state is the provider's `busy`, so a request
- * started in the drawer disables the buy box too, and the variant pickers with them.
+ * `ProductSelectionProvider`.
+ *
+ * Adding goes through the client cart queue (t-2026-10-03-66): the count, the
+ * «В КОРЗИНЕ − N +» pill and the sidebar change on the click itself, and the request
+ * follows in the background, so nothing on the page waits or disables itself.
+ * «Купить» is the one exception: it leaves for the checkout, so it waits until the queue
+ * has reached the server, and the provider's `busy` disables the buy box, the drawer and
+ * the variant pickers for that wait.
  */
 export function useProductPurchase(
   product: HttpTypes.StoreProduct | undefined,
   disabled?: boolean
 ): ProductPurchase {
   const router = useRouter()
+  const queue = useCartQueue()
   const { open: openCartSidebar } = useCartSidebar()
   const {
     selectedVariant: chosen,
@@ -70,23 +78,28 @@ export function useProductPurchase(
   const canBuy =
     Boolean(selectedVariant) && inStock && isValidVariant && !disabled && !busy
 
-  const add = async (thenCheckout: boolean) => {
-    if (!selectedVariant?.id) return null
+  const add = (): boolean => {
+    if (!product || !selectedVariant?.id) return false
+    queue.add(selectedVariant.id, 1, draftLineFor(product, selectedVariant))
+    return true
+  }
 
+  const handleAddToCart = () => {
+    if (add()) {
+      // Batch 5: on a desktop viewport «В корзину» opens the cart sidebar (a no-op below
+      // 1024 px, where the cart stays the page), now on the click, with the line in it.
+      openCartSidebar()
+    }
+  }
+
+  const handleBuyNow = async () => {
+    if (!add()) return
     setBusy(true)
     try {
-      await addToCart({
-        variantId: selectedVariant.id,
-        quantity: 1,
-      })
-      if (thenCheckout) {
-        // The cart page is skipped on purpose; it is one click away from the checkout anyway.
-        router.push("/checkout?step=address")
-      } else {
-        // Batch 5: on a desktop viewport a successful «В корзину» opens the cart sidebar
-        // (a no-op below 1024 px, where the cart stays the page).
-        openCartSidebar()
-      }
+      const { ok } = await queue.settle()
+      // The cart page is skipped on purpose; it is one click away from the checkout
+      // anyway. A refused line stays here, back at the server's quantity, saying why.
+      if (ok) router.push("/checkout?step=address")
     } finally {
       setBusy(false)
     }
@@ -98,7 +111,7 @@ export function useProductPurchase(
     isValidVariant,
     isAdding: busy,
     canBuy,
-    handleAddToCart: () => add(false),
-    handleBuyNow: () => add(true),
+    handleAddToCart,
+    handleBuyNow,
   }
 }
