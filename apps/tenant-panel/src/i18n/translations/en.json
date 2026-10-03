@@ -1814,7 +1814,9 @@
       },
       "trackingLabel": "Tracking",
       "unfulfilledItems": "Unfulfilled Items",
-      "notNeeded": "No packing needed"
+      "notNeeded": "No packing needed",
+      "withoutShipping": "No shipping",
+      "withoutShippingHint": "An online course is not packed or shipped: access opens for the customer automatically once you confirm the payment."
     },
     "giftCardsStoreCreditLines": "Gift cards & credit lines",
     "list": {
@@ -1856,7 +1858,10 @@
         "partiallyCaptured": "Partially captured",
         "partiallyRefunded": "Partially refunded",
         "refunded": "Refunded",
-        "requiresAction": "Requires action"
+        "requiresAction": "Requires action",
+        "awaitingConfirmation": "Awaiting payment confirmation",
+        "receiptRejected": "Receipt not accepted",
+        "manualAwaitingPayment": "Awaiting payment"
       },
       "statusLabel": "Payment status",
       "statusTitle": "Payment Status",
@@ -1864,7 +1869,16 @@
       "title": "Payments",
       "totalPaidByCustomer": "Total paid by customer",
       "totalPending": "Total pending",
-      "totalStoreCreditRefunds": "Total store credit refunds"
+      "totalStoreCreditRefunds": "Total store credit refunds",
+      "receiptSent": "The customer sent a receipt on {{date}}",
+      "receiptOpen": "Open receipt",
+      "receiptRejected": "Receipt rejected: {{reason}}, waiting for a new one",
+      "receiptReject": "Reject receipt",
+      "receiptRejectTitle": "Reject the receipt?",
+      "receiptRejectDescription": "The customer sees the reason on the order page and can send another receipt.",
+      "receiptRejectReason": "Reason",
+      "receiptRejectReasonPlaceholder": "For example: the amount does not match the order",
+      "receiptRejectSuccess": "Receipt rejected, the customer will see the reason"
     },
     "refund": {
       "error": {
@@ -2034,6 +2048,18 @@
         "cancelOrder": "Cancel the order",
         "packAnyway": "I was paid another way — pack it",
         "shipAnyway": "I was paid another way — hand it over"
+      },
+      "digitalAwaitingPayment": {
+        "title": "Awaiting payment",
+        "hint": "Nothing to pack or ship. Once the money arrives, confirm the payment in the Payment section below: the customer gets access to the course and an e-mail."
+      },
+      "digitalDone": {
+        "title": "Order complete",
+        "hint": "The payment is confirmed. Nothing to pack or ship."
+      },
+      "digitalPaymentCanceled": {
+        "title": "Payment canceled",
+        "hint": "There is no money for this order and the course is not open. If the order is no longer needed, cancel it."
       },
       "unpaid": "The payment is not confirmed yet. Check it in the «Payment» block below before you hand the parcel over."
     }
@@ -4213,8 +4239,7 @@
     "methodsSummary": {
       "title": "What the buyer sees",
       "robokassa": "Robokassa",
-      "manualCrypto": "Crypto payment",
-      "manualManager": "Payment via manager",
+      "manual": "Transfer to requisites",
       "connected": "Connected",
       "notConnected": "Not connected",
       "listSeparator": ", ",
@@ -4223,34 +4248,68 @@
     }
   },
   "manualPayment": {
-    "title": "Payment outside a gateway",
-    "subtitle": "cryptocurrency and card via manager: the customer places the order without paying on the site, you confirm the payment on the order",
+    "title": "Transfer to your requisites",
+    "subtitle": "Cards, accounts and crypto wallets in one list: the customer places the order without paying on the site, transfers the money, attaches a receipt, and you confirm the payment on the order",
+    "enabled": "Accept transfers to your requisites",
     "save": "Save",
-    "saved": "Offline payment settings saved",
-    "walletIncomplete": "Fill in the network, the currency and the address of every wallet, or remove the empty row",
-    "walletRequired": "Add at least one wallet or switch cryptocurrency off",
-    "contactRequired": "Enter at least one contact or switch payment via manager off",
-    "crypto": {
-      "enabled": "Accept cryptocurrency",
-      "hint": "The customer sees each wallet with a QR code and a copy button, transfers the money and confirms with you.",
-      "network": "Network",
-      "networkPlaceholder": "Tron (TRC-20)",
-      "currency": "Currency",
-      "currencyPlaceholder": "USDT",
-      "address": "Wallet address",
-      "addWallet": "Add wallet",
-      "removeWallet": "Remove wallet"
+    "saved": "Requisites saved",
+    "apply": "Done",
+    "cancel": "Cancel",
+    "list": {
+      "title": "Requisites",
+      "hint": "Customers see them in this order and tap one to see its number. Up to {{max}} rows.",
+      "empty": "No requisites yet. Add a bank or a crypto wallet.",
+      "addBank": "Add bank",
+      "addCrypto": "Add crypto wallet",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "edit": "Edit",
+      "remove": "Remove"
     },
-    "manager": {
-      "enabled": "Accept card via manager",
-      "hint": "After placing the order the customer gets your contacts with a prepared message that names the order number and the total.",
+    "bank": {
+      "title": "Bank",
+      "pick": "Choose a bank",
+      "other": "Other bank",
+      "name": "Bank name",
+      "number": "Card or account number",
+      "numberPlaceholder": "e.g. 4400 4302 1234 5678 or an IBAN",
+      "holder": "Recipient",
+      "holderPlaceholder": "the name as the bank shows it"
+    },
+    "crypto": {
+      "title": "Crypto wallet",
+      "currency": "Currency",
+      "network": "Network",
+      "networkPlaceholder": "choose a network",
+      "address": "Wallet address"
+    },
+    "contacts": {
+      "title": "Contact the manager",
+      "hint": "Customers see these contacts next to the receipt to confirm their order.",
       "whatsapp": "WhatsApp",
       "whatsappPlaceholder": "number with country code",
       "telegram": "Telegram",
       "telegramPlaceholder": "username without @",
       "email": "Email",
-      "note": "Note to the customer",
-      "notePlaceholder": "shown on the order page, for example when the manager answers"
+      "note": "Note for the customer",
+      "notePlaceholder": "shown on the order page, e.g. when the manager replies"
+    },
+    "addressHint": {
+      "TRC20": "34 characters starting with T",
+      "ERC20": "0x and 40 characters 0–9, a–f",
+      "BEP20": "0x and 40 characters 0–9, a–f",
+      "Polygon": "0x and 40 characters 0–9, a–f",
+      "TON": "48 characters (EQ…, UQ…) or 0: and 64 characters",
+      "Solana": "32 to 44 base58 characters"
+    },
+    "errors": {
+      "pickBank": "Choose a bank from the list or «Other bank»",
+      "bankName": "Enter the bank name",
+      "bankNumber": "A card number, account number or IBAN: digits, Latin letters, spaces and dashes, at least 4 characters",
+      "network": "Choose a network",
+      "address": "This does not look like a {{network}} address: {{hint}}",
+      "finishItem": "First press «Done» or «Cancel» on the requisite you are editing",
+      "nothingToOffer": "Add at least one requisite or a manager contact before switching transfers on"
     }
   },
   "redirects": {

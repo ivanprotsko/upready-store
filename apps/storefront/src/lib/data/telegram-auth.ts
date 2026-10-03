@@ -10,6 +10,8 @@ import { decodeJwtPayload } from "@lib/util/yandex-auth"
 import { getAuthHeaders, getCacheTag, setAuthToken } from "./cookies"
 import { retrieveCustomer, transferCart } from "./customer"
 import { getLocale } from "./locale-actions"
+import { mergeWishlistItems } from "./wishlist"
+import { PRODUCT_ID } from "@lib/util/wishlist-storage"
 
 /** What the Telegram Login Widget hands its `data-onauth` callback. */
 export type TelegramWidgetUser = {
@@ -120,14 +122,31 @@ async function startTelegramSession(
   return null
 }
 
-/** The Login Widget on `/account` (and so on checkout's «Войти», which links there). */
+/**
+ * «Войти через Телеграм» (`modules/account/components/telegram-login`).
+ * `wishlistProductIds` is the guest wishlist the button read from the
+ * browser's `localStorage`, merged into the account the way `login()` in
+ * `customer.ts` merges it; a failure there never fails the sign-in.
+ */
 export async function signInWithTelegramWidget(
   user: TelegramWidgetUser,
-  returnTo: string | null
+  returnTo: string | null,
+  wishlistProductIds: string[] = []
 ): Promise<TelegramSignInError> {
   const error = await startTelegramSession(widgetFields(user))
   if (error) {
     return error
+  }
+  // A server action's arguments come from the browser: checked, not trusted.
+  const productIds = (Array.isArray(wishlistProductIds) ? wishlistProductIds : []).filter(
+    (value) => typeof value === "string" && PRODUCT_ID.test(value)
+  )
+  if (productIds.length) {
+    try {
+      await mergeWishlistItems(productIds)
+    } catch (mergeError) {
+      console.error("[telegram-auth] merging the guest wishlist failed:", errorMessage(mergeError))
+    }
   }
   const locale = (await getLocale()) ?? defaultLocale
   // Outside any try/catch: `redirect()` throws NEXT_REDIRECT on purpose.

@@ -78,14 +78,6 @@
     "exploreProducts": "Смотреть товары",
     "heading": "Корзина"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ваша корзина пуста.",
-    "exploreProducts": "Смотреть товары",
-    "goToCart": "Перейти в корзину",
-    "heading": "Корзина",
-    "subtotal": "Промежуточный итог",
-    "subtotalNote": "(без налогов)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Что-то пошло не так при попытке перенести вашу корзину",
     "runTransferAgain": "Повторить перенос",
@@ -155,7 +147,7 @@
     "freeShipping": "Бесплатно",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} товар} few {{count} товара} many {{count} товаров} other {{count} товаров}}",
-    "legal": "Нажимая «Оплатить», вы принимаете <terms>условия</terms>, <termsOfUse>условия использования</termsOfUse> и <returnPolicy>политику возврата</returnPolicy>, а также соглашаетесь с <privacyPolicy>политикой конфиденциальности</privacyPolicy>.",
+    "legal": "Нажимая «{button}», вы принимаете <terms>условия</terms>, <termsOfUse>условия использования</termsOfUse> и <returnPolicy>политику возврата</returnPolicy>, а также соглашаетесь с <privacyPolicy>политикой конфиденциальности</privacyPolicy>.",
     "manualInput": "Ввести адрес вручную",
     "addressIncomplete": "Заполните обязательные поля адреса: {fields}.",
     "provinceRequired": "Выберите область из списка.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Недоступно: не удалось рассчитать стоимость",
     "signIn": "Войти",
     "total": "Итого",
-    "shippingZone": "Зона: {zone}"
+    "shippingZone": "Зона: {zone}",
+    "courseSignInHeading": "Войдите, чтобы купить курс",
+    "courseSignInText": "Курс открывается в вашем аккаунте, поэтому для покупки нужен вход или регистрация.",
+    "fieldRequired": "Заполните это поле",
+    "emailInvalid": "Проверьте e-mail: в адресе ошибка",
+    "signInHeading": "Войдите, чтобы оформить заказ",
+    "signInText": "Заказ появится в вашем аккаунте: там будут реквизиты для оплаты, статус и купленные курсы. Вход или регистрация занимают минуту, корзина сохранится."
   },
   "ClaimOrders": {
     "heading": "Оформляли заказ без регистрации?",
@@ -340,7 +338,10 @@
     "empty": "У вас пока нет купленных курсов.",
     "start": "Начать",
     "continue": "Продолжить",
-    "review": "Повторить"
+    "review": "Повторить",
+    "pendingHeading": "Ожидают оплаты",
+    "pendingHint": "Доступ откроется после того, как магазин подтвердит оплату.",
+    "toOrder": "{order} — оплатить"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -559,6 +560,8 @@
     "password": "Пароль",
     "signIn": "Войти",
     "telegramDivider": "или",
+    "telegramCta": "Войти через Телеграм",
+    "telegramPending": "Входим…",
     "telegramErrorExpired": "Вход через Telegram устарел. Начните заново.",
     "telegramErrorFailed": "Войти не получилось. Попробуйте через минуту.",
     "telegramErrorRejected": "Telegram не подтвердил этот вход. Попробуйте ещё раз.",
@@ -575,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Ожидает оплаты",
+    "cardCopyLabel": "Скопировать номер карты {bank}",
+    "cardHolder": "Получатель: {holder}",
+    "cardsDesc": "Переведите сумму заказа на карту магазина.",
+    "cardsHint": "Переведите {total} на одну из карт ниже.",
+    "cardsManagerFallback": "Если что-то не получается, напишите менеджеру:",
+    "cardsTitle": "Перевод на карту",
     "contactEmail": "Email",
     "contactNow": "Можно написать менеджеру прямо сейчас:",
     "contactTelegram": "Telegram",
@@ -586,6 +595,9 @@
     "cryptoTitle": "Криптовалюта",
     "emailSubject": "Заказ #{orderNumber}",
     "handoverBody": "Заказ #{orderNumber} принят и зарезервирован. Напишите менеджеру, чтобы согласовать оплату, — сообщение уже подготовлено, нужно только отправить.",
+    "handoverCardsBody": "Заказ #{orderNumber} принят и зарезервирован. Переведите {total} на одну из карт ниже. Когда магазин подтвердит оплату, заказ получит статус «Оплачен».",
+    "handoverCardsMessage": "Здравствуйте! У меня вопрос по оплате заказа #{orderNumber} на сумму {total} переводом на карту.",
+    "handoverCardsTitle": "Переведите оплату на карту",
     "handoverClosedNote": "Если вы закроете эту страницу, ничего не потеряется: заказ ждёт оплаты до 7 дней, а контакты есть в деталях заказа в личном кабинете.",
     "handoverCryptoBody": "Заказ #{orderNumber} принят и зарезервирован. Переведите {total} на один из кошельков ниже и напишите менеджеру, чтобы подтвердить оплату.",
     "handoverCryptoMessage": "Здравствуйте! Я только что оформил(а) заказ #{orderNumber} на сумму {total} и оплатил(а) его криптовалютой. Подтвердите, пожалуйста, оплату.",
@@ -600,7 +612,41 @@
     "otherDesc": "Оформите заказ, а оплату согласуйте с менеджером в мессенджере.",
     "otherTitle": "Картой через менеджера",
     "qrAlt": "QR-код адреса {currency}",
-    "walletCopyLabel": "Скопировать адрес {currency}"
+    "receiptFailed": "Не удалось отправить чек. Попробуйте ещё раз или напишите менеджеру.",
+    "receiptHint": "Фото или скриншот перевода (JPG, PNG, WEBP, HEIC) или PDF, до 10 МБ.",
+    "receiptLabel": "Чек об оплате",
+    "receiptPaid": "Я оплатил",
+    "receiptSent": "Чек отправлен, ждём подтверждения",
+    "receiptSentHint": "Магазин проверит перевод и подтвердит оплату, после этого заказ получит статус «Оплачен».",
+    "receiptSubmit": "Отправить чек",
+    "receiptTooLarge": "Файл больше 10 МБ. Сожмите его или пришлите скриншот.",
+    "receiptWrongType": "Подойдёт фото (JPG, PNG, WEBP, HEIC) или PDF.",
+    "walletCopyLabel": "Скопировать адрес {currency}",
+    "receiptRejected": "Чек не принят",
+    "receiptRejectedReason": "Причина: {reason}",
+    "receiptResend": "Отправить другой чек",
+    "contactManager": "Связаться с менеджером",
+    "methodRequisites": "Перевод по реквизитам",
+    "requisitesDesc": "После оформления заказа вы увидите реквизиты магазина: карты банков и криптокошельки. Переведите {total} и прикрепите чек об оплате — заказ подтвердит менеджер.",
+    "requisitesPreviewLabel": "Принимаем переводы:",
+    "handoverRequisitesTitle": "Оплатите заказ переводом по реквизитам",
+    "handoverRequisitesBody": "Заказ #{orderNumber} принят. Выберите банк или кошелёк ниже, переведите {total} и прикрепите чек об оплате.",
+    "handoverRequisitesMessage": "Здравствуйте! Я оформил(а) заказ #{orderNumber} на сумму {total} и оплатил(а) переводом по реквизитам. Подтвердите, пожалуйста, оплату.",
+    "contactManagerHint": "Для подтверждения заказа свяжитесь с менеджером.",
+    "showRequisite": "Нажмите, чтобы увидеть номер",
+    "hideRequisite": "Скрыть номер",
+    "numberLabel": "Номер карты или счёта",
+    "holderLabel": "Получатель",
+    "addressLabel": "Адрес кошелька",
+    "networkLabel": "Сеть",
+    "copyNumber": "Скопировать номер",
+    "copyHolder": "Скопировать получателя",
+    "copyAddress": "Скопировать адрес",
+    "copyNetwork": "Скопировать сеть",
+    "cryptoOnlyWarning": "Отправляйте только {currency} в сети {network}: перевод другой монеты или по другой сети не дойдёт.",
+    "receiptPick": "Выбрать файл или фото",
+    "receiptCamera": "Сделать фото",
+    "receiptRemove": "Убрать файл"
   },
   "Metadata": {
     "account": {
@@ -723,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Сохраните номер заказа. Он понадобится, чтобы связаться с магазином.",
     "orderSuccess": "Ваш заказ успешно оформлен.",
-    "thankYou": "Спасибо!"
+    "thankYou": "Спасибо!",
+    "paymentConfirmed": "Оплата подтверждена",
+    "goToCourse": "Перейти к курсу",
+    "orderCanceled": "Заказ отменён",
+    "orderCanceledHint": "Оплачивать его не нужно. Если это ошибка, напишите нам.",
+    "paidGoodsHint": "Готовим заказ к отправке."
   },
   "OrderDetails": {
     "backToOrders": "Назад к заказам",
@@ -1111,5 +1162,31 @@
     "addToCart": "В корзину",
     "chooseOptions": "Выбрать вариант",
     "remove": "Удалить"
+  },
+  "CartSidebar": {
+    "title": "Корзина",
+    "signInPrompt": "Войдите, чтобы видеть историю заказов и быстрее оформлять покупки.",
+    "signInEmail": "По эл. почте",
+    "signInYandex": "Через Яндекс ID",
+    "deliveryEstimate": "Доставим {range}",
+    "empty": "В корзине пока пусто.",
+    "exploreProducts": "Смотреть товары",
+    "itemsTotal": "Товаров на сумму",
+    "checkout": "К оформлению"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "онлайн-курс, без доставки",
+    "shipmentNo": "Отправление № {no}",
+    "digitalGroup": "Онлайн-курс — доступ после подтверждения оплаты",
+    "accessByEmail": "Доступ к курсу придёт на e-mail после подтверждения оплаты.",
+    "digitalGroupPaid": "Онлайн-курс — доступ открыт"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Ожидает оплаты",
+    "awaitingConfirmation": "Ожидает подтверждения оплаты",
+    "receiptRejected": "Чек не принят",
+    "paid": "Оплачен",
+    "refunded": "Возвращён",
+    "canceled": "Отменён"
   }
 }

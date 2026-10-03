@@ -78,14 +78,6 @@
     "exploreProducts": "Przeglądaj produkty",
     "heading": "Koszyk"
   },
-  "CartDropdown": {
-    "bagEmpty": "Twój koszyk jest pusty.",
-    "exploreProducts": "Przeglądaj produkty",
-    "goToCart": "Przejdź do koszyka",
-    "heading": "Koszyk",
-    "subtotal": "Suma częściowa",
-    "subtotalNote": "(bez podatków)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Coś poszło nie tak podczas próby przeniesienia Twojego koszyka",
     "runTransferAgain": "Spróbuj ponownie przenieść",
@@ -155,7 +147,7 @@
     "freeShipping": "Za darmo",
     "giftCard": "Karta podarunkowa",
     "itemsCount": "{count, plural, one {{count} produkt} few {{count} produkty} many {{count} produktów} other {{count} produktu}}",
-    "legal": "Klikając «Zapłać», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
+    "legal": "Klikając «{button}», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
     "manualInput": "Wprowadź adres ręcznie",
     "addressIncomplete": "Wypełnij wymagane pola adresu: {fields}.",
     "provinceRequired": "Wybierz region z listy.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Niedostępne: nie udało się obliczyć ceny",
     "signIn": "Zaloguj się",
     "total": "Razem",
-    "shippingZone": "Strefa: {zone}"
+    "shippingZone": "Strefa: {zone}",
+    "courseSignInHeading": "Zaloguj się, aby kupić kurs",
+    "courseSignInText": "Kurs otwiera się na Twoim koncie, dlatego zakup wymaga logowania lub rejestracji.",
+    "fieldRequired": "Wypełnij to pole",
+    "emailInvalid": "Sprawdź e-mail: w adresie jest błąd",
+    "signInHeading": "Zaloguj się, aby złożyć zamówienie",
+    "signInText": "Zamówienie pojawi się na Twoim koncie: tam znajdziesz dane do płatności, status i kupione kursy. Logowanie lub rejestracja zajmuje minutę, koszyk zostaje zachowany."
   },
   "ClaimOrders": {
     "heading": "Zamawiałeś bez konta?",
@@ -340,7 +338,10 @@
     "empty": "Nie kupiłeś jeszcze żadnego kursu.",
     "start": "Rozpocznij",
     "continue": "Kontynuuj",
-    "review": "Powtórz"
+    "review": "Powtórz",
+    "pendingHeading": "Oczekują na płatność",
+    "pendingHint": "Dostęp otworzy się, gdy sklep potwierdzi płatność.",
+    "toOrder": "{order} — zapłać"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -559,6 +560,8 @@
     "password": "Hasło",
     "signIn": "Zaloguj się",
     "telegramDivider": "lub",
+    "telegramCta": "Zaloguj się przez Telegram",
+    "telegramPending": "Logowanie…",
     "telegramErrorExpired": "To logowanie przez Telegram wygasło. Zacznij od nowa.",
     "telegramErrorFailed": "Nie udało się zalogować. Spróbuj ponownie za minutę.",
     "telegramErrorRejected": "Telegram nie potwierdził tego logowania. Spróbuj ponownie.",
@@ -575,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Skopiuj numer karty {bank}",
+    "cardHolder": "Odbiorca: {holder}",
+    "cardsDesc": "Przelej kwotę zamówienia na kartę sklepu.",
+    "cardsHint": "Przelej {total} na jedną z poniższych kart.",
+    "cardsManagerFallback": "Jeśli coś pójdzie nie tak, napisz do menedżera:",
+    "cardsTitle": "Przelew na kartę",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -586,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Zamówienie #{orderNumber} zostało przyjęte i zarezerwowane. Przelej {total} na jedną z poniższych kart. Gdy sklep potwierdzi płatność, zamówienie otrzyma status «Opłacone».",
+    "handoverCardsMessage": "Dzień dobry! Mam pytanie dotyczące płatności za zamówienie #{orderNumber} na kwotę {total} przelewem na kartę.",
+    "handoverCardsTitle": "Przelej płatność na kartę",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -600,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Nie udało się wysłać potwierdzenia. Spróbuj ponownie lub napisz do menedżera.",
+    "receiptHint": "Zdjęcie lub zrzut ekranu przelewu (JPG, PNG, WEBP, HEIC) albo PDF, do 10 MB.",
+    "receiptLabel": "Potwierdzenie płatności",
+    "receiptPaid": "Zapłaciłem",
+    "receiptSent": "Potwierdzenie wysłane, czekamy na akceptację",
+    "receiptSentHint": "Sklep sprawdzi przelew i potwierdzi płatność, a następnie zamówienie otrzyma status «Opłacone».",
+    "receiptSubmit": "Wyślij potwierdzenie",
+    "receiptTooLarge": "Plik jest większy niż 10 MB. Skompresuj go lub wyślij zrzut ekranu.",
+    "receiptWrongType": "Wyślij zdjęcie (JPG, PNG, WEBP, HEIC) lub PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Potwierdzenie nie zostało przyjęte",
+    "receiptRejectedReason": "Powód: {reason}",
+    "receiptResend": "Wyślij inne potwierdzenie",
+    "contactManager": "Skontaktuj się z menedżerem",
+    "methodRequisites": "Przelew na podane dane",
+    "requisitesDesc": "Po złożeniu zamówienia zobaczysz dane sklepu: karty bankowe i portfele kryptowalut. Przelej {total} i załącz potwierdzenie płatności — menedżer potwierdzi zamówienie.",
+    "requisitesPreviewLabel": "Przyjmujemy przelewy na:",
+    "handoverRequisitesTitle": "Zapłać za zamówienie przelewem",
+    "handoverRequisitesBody": "Zamówienie #{orderNumber} zostało przyjęte. Wybierz poniżej bank lub portfel, przelej {total} i załącz potwierdzenie płatności.",
+    "handoverRequisitesMessage": "Dzień dobry! Złożyłem(-am) zamówienie #{orderNumber} na kwotę {total} i zapłaciłem(-am) przelewem. Proszę o potwierdzenie płatności.",
+    "contactManagerHint": "Aby potwierdzić zamówienie, skontaktuj się z menedżerem.",
+    "showRequisite": "Dotknij, aby zobaczyć numer",
+    "hideRequisite": "Ukryj numer",
+    "numberLabel": "Numer karty lub rachunku",
+    "holderLabel": "Odbiorca",
+    "addressLabel": "Adres portfela",
+    "networkLabel": "Sieć",
+    "copyNumber": "Kopiuj numer",
+    "copyHolder": "Kopiuj odbiorcę",
+    "copyAddress": "Kopiuj adres",
+    "copyNetwork": "Kopiuj sieć",
+    "cryptoOnlyWarning": "Wysyłaj tylko {currency} w sieci {network}: przelew innej monety lub inną siecią nie dotrze.",
+    "receiptPick": "Wybierz plik lub zdjęcie",
+    "receiptCamera": "Zrób zdjęcie",
+    "receiptRemove": "Usuń plik"
   },
   "Metadata": {
     "account": {
@@ -723,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Zachowaj numer zamówienia. Będzie potrzebny przy kontakcie ze sklepem.",
     "orderSuccess": "Twoje zamówienie zostało pomyślnie złożone.",
-    "thankYou": "Dziękujemy!"
+    "thankYou": "Dziękujemy!",
+    "paymentConfirmed": "Płatność potwierdzona",
+    "goToCourse": "Przejdź do kursu",
+    "orderCanceled": "Zamówienie anulowane",
+    "orderCanceledHint": "Nie trzeba płacić. Jeśli to pomyłka, napisz do nas.",
+    "paidGoodsHint": "Przygotowujemy zamówienie do wysyłki."
   },
   "OrderDetails": {
     "backToOrders": "Powrót do zamówień",
@@ -1111,5 +1162,31 @@
     "addToCart": "Dodaj do koszyka",
     "chooseOptions": "Wybierz opcje",
     "remove": "Usuń"
+  },
+  "CartSidebar": {
+    "title": "Koszyk",
+    "signInPrompt": "Zaloguj się, aby widzieć historię zamówień i kupować szybciej.",
+    "signInEmail": "Przez e-mail",
+    "signInYandex": "Przez Yandex ID",
+    "deliveryEstimate": "Dostawa {range}",
+    "empty": "Twój koszyk jest pusty.",
+    "exploreProducts": "Zobacz produkty",
+    "itemsTotal": "Wartość produktów",
+    "checkout": "Do kasy"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "kurs online, bez dostawy",
+    "shipmentNo": "Przesyłka nr {no}",
+    "digitalGroup": "Kurs online — dostęp po potwierdzeniu płatności",
+    "accessByEmail": "Dostęp do kursu przyjdzie e-mailem po potwierdzeniu płatności.",
+    "digitalGroupPaid": "Kurs online — dostęp otwarty"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Oczekuje na płatność",
+    "awaitingConfirmation": "Oczekuje na potwierdzenie płatności",
+    "receiptRejected": "Potwierdzenie nie zostało przyjęte",
+    "paid": "Opłacone",
+    "refunded": "Zwrócone",
+    "canceled": "Anulowane"
   }
 }

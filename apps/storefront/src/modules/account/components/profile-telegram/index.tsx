@@ -12,7 +12,7 @@ import {
 } from "@lib/data/telegram-auth"
 import type { TelegramBot } from "@lib/data/telegram-bot"
 import { telegramHandle } from "@lib/util/telegram-contact"
-import TelegramWidget from "@modules/account/components/telegram-login/widget"
+import TelegramButton from "@modules/account/components/telegram-login/telegram-button"
 
 const ERROR_KEYS: Record<TelegramLinkError, string> = {
   taken: "errorTaken",
@@ -29,6 +29,7 @@ const ProfileTelegram = ({
   bot: TelegramBot | null
 }) => {
   const t = useTranslations("ProfileTelegram")
+  const tLogin = useTranslations("Login")
   const router = useRouter()
   const [error, setError] = useState<TelegramLinkError | null>(null)
   const [pending, startTransition] = useTransition()
@@ -62,11 +63,14 @@ const ProfileTelegram = ({
       {!linked && (
         <div className="flex flex-col gap-y-3 pt-4">
           <p className="text-ui-fg-subtle">{t("hint")}</p>
-          <div
-            className={pending ? "opacity-60 pointer-events-none" : undefined}
-            aria-busy={pending}
-          >
-            <TelegramWidget botUsername={bot.username} onAuth={onAuth} />
+          <div className="max-w-xs">
+            <TelegramButton
+              bot={bot}
+              label={tLogin("telegramCta")}
+              pending={pending ? tLogin("telegramPending") : null}
+              onAuth={onAuth}
+              testId="telegram-link-cta"
+            />
           </div>
         </div>
       )}

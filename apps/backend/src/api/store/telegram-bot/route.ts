@@ -2,12 +2,12 @@ import type { MedusaStoreRequest, MedusaResponse } from "@medusajs/framework/htt
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 
-import { readTelegramBotSecret } from "../../../tenant-secrets/telegram";
+import { botIdFromToken, readTelegramBotSecret } from "../../../tenant-secrets/telegram";
 import { resolveTenantFromPublishableKey } from "../tenant/resolve-tenant";
 
 /**
  * `GET /store/telegram-bot` — whether THIS shop has a Telegram bot, and its
- * public username (t-2026-10-02-telegram-auth). Never the token: `username` is
+ * public username and numeric id (t-2026-10-02-telegram-auth). Never the token: `username` is
  * what the Login Widget's `data-telegram-login` attribute needs and what a
  * Mini App deep link already shows the buyer, so it is the one field this
  * route is happy to hand back in full.
@@ -33,9 +33,11 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const secret = await readTelegramBotSecret(pg, tenant.id);
 
+  const botId = secret?.credentials.token ? botIdFromToken(secret.credentials.token) : null;
+
   res.json({
-    bot: secret && secret.credentials.username && secret.credentials.token
-      ? { username: secret.credentials.username }
+    bot: secret && secret.credentials.username && botId
+      ? { username: secret.credentials.username, id: botId }
       : null,
   });
 };

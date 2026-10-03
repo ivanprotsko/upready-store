@@ -9,7 +9,12 @@ type Props = {
   message?: string
   /** The email subject, used only when `message` is set. */
   emailSubject?: string
-  variant?: "compact" | "full"
+  /**
+   * `"single"` (batch 6): one secondary button «Связаться с менеджером» to the first
+   * contact the owner entered (WhatsApp, then Telegram, then e-mail), instead of the
+   * row of three.
+   */
+  variant?: "compact" | "full" | "single"
 }
 
 /**
@@ -63,6 +68,21 @@ const ManagerContactCTA = ({
       <p className="txt-compact-small text-ui-fg-subtle" data-testid="manager-no-contacts">
         {t("noContacts")}
       </p>
+    )
+  }
+
+  if (variant === "single") {
+    const first = buttons[0]
+    return (
+      <a
+        href={first.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex h-10 w-full items-center justify-center rounded-md border border-ui-border-base bg-ui-button-neutral px-4 txt-compact-small-plus text-ui-fg-base shadow-buttons-neutral transition-colors hover:bg-ui-button-neutral-hover"
+        data-testid="manager-contact-button"
+      >
+        {t("contactManager")}
+      </a>
     )
   }
 

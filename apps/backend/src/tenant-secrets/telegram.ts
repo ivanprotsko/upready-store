@@ -100,3 +100,16 @@ export const readUsableTelegramBot = async (
   }
   return secret;
 };
+
+/**
+ * The bot's numeric id, the part of its token before the colon
+ * (t-cherk-telegram-login). The storefront's own «Войти через Телеграм» button
+ * opens Telegram's popup with `Telegram.Login.auth({ bot_id })`, and Telegram
+ * puts the same id in that popup's URL, so it is as public as the username.
+ * Nothing after the colon ever leaves this function.
+ */
+export const botIdFromToken = (token: string): number | null => {
+  const match = /^(\d+):/.exec(token.trim());
+  const id = match ? Number(match[1]) : NaN;
+  return Number.isSafeInteger(id) && id > 0 ? id : null;
+};

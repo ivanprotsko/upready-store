@@ -78,14 +78,6 @@
     "exploreProducts": "Бүтээгдэхүүн үзэх",
     "heading": "Сагс"
   },
-  "CartDropdown": {
-    "bagEmpty": "Таны сагс хоосон байна.",
-    "exploreProducts": "Бүтээгдэхүүн үзэх",
-    "goToCart": "Сагс руу очих",
-    "heading": "Сагс",
-    "subtotal": "Дэд дүн",
-    "subtotalNote": "(татваргүй)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Таны сагсыг шилжүүлэх гэж оролдох үед ямар нэг зүйл буруу боллоо",
     "runTransferAgain": "Шилжүүлгийг дахин эхлүүлэх",
@@ -155,7 +147,7 @@
     "freeShipping": "Үнэгүй",
     "giftCard": "Бэлгийн карт",
     "itemsCount": "{count, plural, one {{count} бараа} other {{count} бараа}}",
-    "legal": "«Төлөх» товчийг дарснаар та манай <terms>нөхцөл</terms>, <termsOfUse>ашиглалтын нөхцөл</termsOfUse> болон <returnPolicy>буцаалтын бодлого</returnPolicy>-г хүлээн зөвшөөрч, <privacyPolicy>нууцлалын бодлого</privacyPolicy>-той санал нийлж байна.",
+    "legal": "«{button}» товчийг дарснаар та манай <terms>нөхцөл</terms>, <termsOfUse>ашиглалтын нөхцөл</termsOfUse> болон <returnPolicy>буцаалтын бодлого</returnPolicy>-г хүлээн зөвшөөрч, <privacyPolicy>нууцлалын бодлого</privacyPolicy>-той санал нийлж байна.",
     "manualInput": "Хаягийг гараар оруулах",
     "addressIncomplete": "Хаягийн заавал бөглөх талбаруудыг бөглөнө үү: {fields}.",
     "provinceRequired": "Жагсаалтаас бүс нутгаа сонгоно уу.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Боломжгүй: үнийг тооцоолж чадсангүй",
     "signIn": "Нэвтрэх",
     "total": "Нийт",
-    "shippingZone": "Бүс: {zone}"
+    "shippingZone": "Бүс: {zone}",
+    "courseSignInHeading": "Сургалт худалдан авахын тулд нэвтэрнэ үү",
+    "courseSignInText": "Сургалт таны бүртгэлд нээгдэх тул худалдан авахад нэвтрэх эсвэл бүртгүүлэх шаардлагатай.",
+    "fieldRequired": "Энэ талбарыг бөглөнө үү",
+    "emailInvalid": "Имэйлээ шалгана уу: хаягт алдаа байна",
+    "signInHeading": "Захиалга өгөхийн тулд нэвтэрнэ үү",
+    "signInText": "Захиалга таны бүртгэлд харагдах болно: тэнд төлбөрийн мэдээлэл, төлөв, худалдаж авсан сургалтууд байна. Нэвтрэх эсвэл бүртгүүлэх нэг минут болно, сагс хадгалагдана."
   },
   "ClaimOrders": {
     "heading": "Бүртгэлгүйгээр захиалсан уу?",
@@ -340,7 +338,10 @@
     "empty": "Та одоогоор ямар ч курс худалдаж аваагүй байна.",
     "start": "Эхлэх",
     "continue": "Үргэлжлүүлэх",
-    "review": "Давтах"
+    "review": "Давтах",
+    "pendingHeading": "Төлбөр хүлээж байна",
+    "pendingHint": "Дэлгүүр төлбөрийг баталгаажуулсны дараа нэвтрэх эрх нээгдэнэ.",
+    "toOrder": "{order} — төлөх"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -559,6 +560,8 @@
     "password": "Нууц үг",
     "signIn": "Нэвтрэх",
     "telegramDivider": "эсвэл",
+    "telegramCta": "Telegram-ээр нэвтрэх",
+    "telegramPending": "Нэвтэрч байна…",
     "telegramErrorExpired": "Telegram-аар нэвтрэх хугацаа дууссан. Дахин эхлүүлнэ үү.",
     "telegramErrorFailed": "Нэвтэрч чадсангүй. Нэг минутын дараа дахин оролдоно уу.",
     "telegramErrorRejected": "Telegram энэ нэвтрэлтийг баталгаажуулсангүй. Дахин оролдоно уу.",
@@ -575,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "{bank} картын дугаарыг хуулах",
+    "cardHolder": "Хүлээн авагч: {holder}",
+    "cardsDesc": "Захиалгын нийт дүнг дэлгүүрийн карт руу шилжүүлнэ үү.",
+    "cardsHint": "{total}-ийг доорх картуудын аль нэг рүү шилжүүлнэ үү.",
+    "cardsManagerFallback": "Хэрэв ямар нэг зүйл бүтэхгүй бол менежерт бичнэ үү:",
+    "cardsTitle": "Картаар шилжүүлэх",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -586,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Захиалга #{orderNumber} бүртгэгдэж, нөөцлөгдлөө. {total}-ийг доорх картуудын аль нэг рүү шилжүүлнэ үү. Дэлгүүр төлбөрийг баталгаажуулмагц захиалга «Төлөгдсөн» төлөвтэй болно.",
+    "handoverCardsMessage": "Сайн байна уу! Карт руу шилжүүлгээр төлөх #{orderNumber} дугаартай {total} дүнтэй захиалгын талаар асуулт байна.",
+    "handoverCardsTitle": "Төлбөрийг карт руу шилжүүлнэ үү",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -600,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Баримтыг илгээж чадсангүй. Дахин оролдох эсвэл менежерт бичнэ үү.",
+    "receiptHint": "Шилжүүлгийн зураг эсвэл дэлгэцийн зураг (JPG, PNG, WEBP, HEIC) эсвэл PDF, 10 МБ хүртэл.",
+    "receiptLabel": "Төлбөрийн баримт",
+    "receiptPaid": "Би төлсөн",
+    "receiptSent": "Баримт илгээгдлээ, баталгаажуулалтыг хүлээж байна",
+    "receiptSentHint": "Дэлгүүр шилжүүлгийг шалгаж, төлбөрийг баталгаажуулсны дараа захиалга «Төлөгдсөн» төлөвтэй болно.",
+    "receiptSubmit": "Баримт илгээх",
+    "receiptTooLarge": "Файл 10 МБ-аас том байна. Шахах эсвэл дэлгэцийн зураг илгээнэ үү.",
+    "receiptWrongType": "Зураг (JPG, PNG, WEBP, HEIC) эсвэл PDF илгээнэ үү.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Баримт хүлээн авагдсангүй",
+    "receiptRejectedReason": "Шалтгаан: {reason}",
+    "receiptResend": "Өөр баримт илгээх",
+    "contactManager": "Менежертэй холбогдох",
+    "methodRequisites": "Дансны мэдээллээр шилжүүлэх",
+    "requisitesDesc": "Захиалга өгсний дараа дэлгүүрийн дансны мэдээлэл харагдана: банкны карт ба крипто түрийвч. {total} шилжүүлж, төлбөрийн баримтаа хавсаргана уу — менежер захиалгыг баталгаажуулна.",
+    "requisitesPreviewLabel": "Шилжүүлэг хүлээн авах:",
+    "handoverRequisitesTitle": "Захиалгаа шилжүүлгээр төлнө үү",
+    "handoverRequisitesBody": "Захиалга #{orderNumber} хүлээн авсан. Доороос банк эсвэл түрийвч сонгож, {total} шилжүүлээд төлбөрийн баримтаа хавсаргана уу.",
+    "handoverRequisitesMessage": "Сайн байна уу! Би {total} дүнтэй #{orderNumber} захиалга өгч, шилжүүлгээр төлсөн. Төлбөрийг баталгаажуулж өгөөрэй.",
+    "contactManagerHint": "Захиалгаа баталгаажуулахын тулд менежертэй холбогдоно уу.",
+    "showRequisite": "Дугаарыг харахын тулд дарна уу",
+    "hideRequisite": "Дугаарыг нуух",
+    "numberLabel": "Карт эсвэл дансны дугаар",
+    "holderLabel": "Хүлээн авагч",
+    "addressLabel": "Түрийвчийн хаяг",
+    "networkLabel": "Сүлжээ",
+    "copyNumber": "Дугаарыг хуулах",
+    "copyHolder": "Хүлээн авагчийг хуулах",
+    "copyAddress": "Хаягийг хуулах",
+    "copyNetwork": "Сүлжээг хуулах",
+    "cryptoOnlyWarning": "Зөвхөн {network} сүлжээгээр {currency} илгээнэ үү: өөр коин эсвэл өөр сүлжээгээр хийсэн шилжүүлэг ирэхгүй.",
+    "receiptPick": "Файл эсвэл зураг сонгох",
+    "receiptCamera": "Зураг авах",
+    "receiptRemove": "Файлыг хасах"
   },
   "Metadata": {
     "account": {
@@ -723,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Захиалгын дугаараа хадгална уу. Дэлгүүртэй холбогдоход шаардлагатай.",
     "orderSuccess": "Таны захиалга амжилттай баталгаажлаа.",
-    "thankYou": "Баярлалаа!"
+    "thankYou": "Баярлалаа!",
+    "paymentConfirmed": "Төлбөр баталгаажлаа",
+    "goToCourse": "Сургалт руу очих",
+    "orderCanceled": "Захиалга цуцлагдлаа",
+    "orderCanceledHint": "Төлбөр төлөх шаардлагагүй. Хэрэв энэ алдаа бол бидэнд бичнэ үү.",
+    "paidGoodsHint": "Таны захиалгыг илгээхээр бэлтгэж байна."
   },
   "OrderDetails": {
     "backToOrders": "Захиалга руу буцах",
@@ -1111,5 +1162,31 @@
     "addToCart": "Сагсанд нэмэх",
     "chooseOptions": "Сонголт хийх",
     "remove": "Устгах"
+  },
+  "CartSidebar": {
+    "title": "Сагс",
+    "signInPrompt": "Захиалгын түүхээ харж, илүү хурдан худалдан авахын тулд нэвтэрнэ үү.",
+    "signInEmail": "Имэйлээр",
+    "signInYandex": "Yandex ID-ээр",
+    "deliveryEstimate": "Хүргэлт {range}",
+    "empty": "Таны сагс хоосон байна.",
+    "exploreProducts": "Бүтээгдэхүүн үзэх",
+    "itemsTotal": "Барааны нийт дүн",
+    "checkout": "Захиалга хийх"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "онлайн сургалт, хүргэлтгүй",
+    "shipmentNo": "Илгээмж № {no}",
+    "digitalGroup": "Онлайн сургалт — төлбөр баталгаажсаны дараа хандах боломжтой",
+    "accessByEmail": "Төлбөр баталгаажсаны дараа сургалтын хандалт имэйлээр ирнэ.",
+    "digitalGroupPaid": "Онлайн сургалт — нэвтрэх эрх нээгдсэн"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Төлбөр хүлээж байна",
+    "awaitingConfirmation": "Төлбөрийн баталгаажуулалт хүлээж байна",
+    "receiptRejected": "Баримт хүлээн аваагүй",
+    "paid": "Төлсөн",
+    "refunded": "Буцаасан",
+    "canceled": "Цуцалсан"
   }
 }

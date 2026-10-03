@@ -203,6 +203,8 @@ import { PostTenantReviewSchema } from "./tenants/reviews/validators";
 import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
 // ---- t-cherk-32: the wishlist's one write body (`DELETE` takes none).
 import { PostStoreWishlistSchema } from "./store/wishlist/validators";
+// ---- t-cherk-com-hotfix batch 5: the owner rejects a buyer's payment receipt.
+import { PostTenantRejectPaymentReceiptSchema } from "./tenants/orders/validators";
 // ---- o24-courses: course/lesson CRUD bodies (tenant side, panel editor).
 import {
   PostTenantCourseSchema,
@@ -852,6 +854,15 @@ export default defineMiddlewares({
       middlewares: [
         validateAndTransformQuery(AdminGetOrdersOrderParams, retrieveOrderQueryConfig),
         validateAndTransformBody(AdminMarkOrderFulfillmentAsDelivered),
+      ],
+    },
+    {
+      // t-cherk-com-hotfix batch 5: answers the order, like `/cancel`.
+      matcher: "/tenants/orders/:id/payment-receipt/reject",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(PostTenantRejectPaymentReceiptSchema),
+        validateAndTransformQuery(AdminGetOrdersOrderParams, retrieveOrderQueryConfig),
       ],
     },
     {
@@ -1591,6 +1602,12 @@ export default defineMiddlewares({
       matcher: "/store/tenant/courses",
       method: ["GET"],
       middlewares: [authenticate("customer", ["session", "bearer"], { allowUnauthenticated: true })],
+    },
+    {
+      // t-cherk-com-hotfix batch 3: the buyer's receipt for a card transfer, multipart like `/tenants/uploads`.
+      matcher: "/store/tenant/orders/:id/payment-receipt",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
     },
     {
       matcher: "/store/tenant/courses/mine",

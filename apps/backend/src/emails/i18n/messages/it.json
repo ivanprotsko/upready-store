@@ -12,6 +12,16 @@
     "trackOrder": "Traccia l’ordine",
     "viewOrder": "Vedi ordine"
   },
+  "CourseAccess": {
+    "body": "Il pagamento dell’ordine <strong>n. {id}</strong> è confermato. Il corso è ora disponibile nel tuo account:",
+    "button": "Vai al corso",
+    "headingAnon": "L’accesso al corso è attivo",
+    "headingWithName": "{name}, l’accesso al corso è attivo",
+    "preview": "Pagamento confermato, il corso ti aspetta nel tuo account",
+    "signIn": "Le lezioni si aprono dopo l’accesso all’account con l’indirizzo {email}.",
+    "subject": "Ordine n. {id} pagato: l’accesso al corso è attivo",
+    "textFallback": "Il pagamento dell’ordine n. {id} è confermato, l’accesso al corso è attivo.\n\nVai al corso:"
+  },
   "Delivery": {
     "bodyOrder": "L'ordine <strong>n. {id}</strong> è stato consegnato. Speriamo sia arrivato tutto in ordine.",
     "headingAnon": "Il tuo ordine è stato consegnato",

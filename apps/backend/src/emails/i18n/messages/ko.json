@@ -12,6 +12,16 @@
     "trackOrder": "배송 조회",
     "viewOrder": "주문 보기"
   },
+  "CourseAccess": {
+    "body": "주문 <strong>#{id}</strong>의 결제가 확인되었습니다. 이제 계정에서 강좌를 이용할 수 있습니다:",
+    "button": "강좌로 이동",
+    "headingAnon": "강좌가 열렸습니다",
+    "headingWithName": "{name}님, 강좌가 열렸습니다",
+    "preview": "결제가 확인되었습니다. 계정에서 강좌가 기다리고 있습니다",
+    "signIn": "{email} 주소로 계정에 로그인하면 강의가 열립니다.",
+    "subject": "주문 #{id} 결제 완료: 강좌가 열렸습니다",
+    "textFallback": "주문 #{id}의 결제가 확인되어 강좌가 열렸습니다.\n\n강좌로 이동:"
+  },
   "Delivery": {
     "bodyOrder": "주문 <strong>#{id}</strong>이 배송되었습니다. 모두 이상 없이 도착했기를 바랍니다.",
     "headingAnon": "주문이 배송되었습니다",

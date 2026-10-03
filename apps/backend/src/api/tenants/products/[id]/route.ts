@@ -6,6 +6,9 @@ import { deleteProductsWorkflow, updateProductsWorkflow } from "@medusajs/medusa
 import { remapKeysForProduct } from "@medusajs/medusa/api/admin/products/helpers";
 import { TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
+import releaseCourseShippingWorkflow, {
+  isDigitalProduct,
+} from "../../../../workflows/tenant/release-course-shipping";
 import {
   assertOwnedProduct,
   assertReadableProduct,
@@ -127,6 +130,12 @@ export const POST = async (
       additional_data,
     },
   });
+
+  // t-cherk-com-hotfix batch 5: an owner who marks the product as a course in
+  // its metadata takes it off shipping, unless the same save picks a profile.
+  if (isDigitalProduct(update.metadata) && typeof update.shipping_profile_id !== "string") {
+    await releaseCourseShippingWorkflow(req.scope).run({ input: { product_ids: [id] } });
+  }
 
   if (previousHandle && update.handle && previousHandle !== update.handle) {
     const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);

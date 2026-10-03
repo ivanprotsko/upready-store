@@ -4,6 +4,14 @@ import { UpdateProduct } from "@medusajs/medusa/api/admin/products/validators";
 import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
 import { SiteScopeSchema } from "./products/site-scope";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
+import {
+  BANK_NUMBER_PATTERN,
+  CRYPTO_ADDRESS_FORMATS,
+  CRYPTO_CURRENCIES,
+  CRYPTO_NETWORKS,
+  REQUISITES_MAX,
+} from "./payment-settings/manual/manual-payment";
+import { BANK_ICON_KEYS } from "./payment-settings/manual/presets";
 
 /**
  * A handle is the tenant's stable slug (subdomain-shaped): lowercase letters,
@@ -385,7 +393,72 @@ const optionalContact = (pattern: RegExp, message: string) =>
     .optional()
     .transform((value) => (value ? value : null));
 
+const nullableText = (max: number) =>
+  z
+    .string()
+    .trim()
+    .max(max)
+    .nullable()
+    .optional()
+    .transform((value) => (value ? value : null));
+
+/** An id the panel got from a GET, or none for a new item (the route then makes one). */
+const requisiteId = z.string().trim().regex(/^[A-Za-z0-9_-]{1,40}$/).optional();
+
+const BankRequisiteSchema = z.strictObject({
+  id: requisiteId,
+  kind: z.literal("bank"),
+  icon: z
+    .string()
+    .nullable()
+    .optional()
+    .refine((value) => !value || BANK_ICON_KEYS.includes(value), "an icon from the bank list, or none")
+    .transform((value) => value || null),
+  bank: z.string().trim().min(1).max(60),
+  number: z
+    .string()
+    .trim()
+    .regex(BANK_NUMBER_PATTERN, "a card number, an account number or an IBAN: letters, digits, spaces or dashes"),
+  holder: nullableText(100),
+});
+
+const CryptoRequisiteSchema = z
+  .strictObject({
+    id: requisiteId,
+    kind: z.literal("crypto"),
+    currency: z.enum(CRYPTO_CURRENCIES),
+    network: z.enum(CRYPTO_NETWORKS),
+    address: z.string().trim().min(1).max(200),
+  })
+  .superRefine((value, ctx) => {
+    const format = CRYPTO_ADDRESS_FORMATS[value.network];
+    if (!format.pattern.test(value.address)) {
+      ctx.addIssue({ code: "custom", path: ["address"], message: `Expected ${format.hint}` });
+    }
+  });
+
+/**
+ * t-cherk-com-hotfix batch 6: the one ordered list (`enabled`, `requisites`,
+ * `contacts`), each key optional so a PUT changes only what it names; the list
+ * is replaced whole. The two sections below (`crypto`, `manager`) are the
+ * body of a panel build from before the list; the route folds them into it.
+ */
 export const PutTenantManualPaymentSchema = z.strictObject({
+  enabled: z.boolean().optional(),
+  requisites: z
+    .array(z.discriminatedUnion("kind", [BankRequisiteSchema, CryptoRequisiteSchema]))
+    .max(REQUISITES_MAX)
+    .optional(),
+  contacts: z
+    .strictObject({
+      whatsapp: optionalContact(/^$|^\+?\d{7,15}$/, "a phone number in international format, digits only"),
+      telegram: optionalContact(/^$|^@?[A-Za-z0-9_]{4,32}$/, "a Telegram username").transform(
+        (value) => (value ? value.replace(/^@/, "") : null),
+      ),
+      email: optionalContact(/^$|^[^\s@]+@[^\s@]+\.[^\s@]+$/, "an email address"),
+      note: nullableText(500),
+    })
+    .optional(),
   crypto: z
     .strictObject({
       enabled: z.boolean(),
@@ -403,6 +476,22 @@ export const PutTenantManualPaymentSchema = z.strictObject({
   manager: z
     .strictObject({
       enabled: z.boolean(),
+      cards: z
+        .array(
+          z.strictObject({
+            bank: z.string().trim().min(1).max(60),
+            number: z.string().trim().min(1).max(40),
+            holder: z
+              .string()
+              .trim()
+              .max(100)
+              .nullable()
+              .optional()
+              .transform((value) => (value ? value : null)),
+          }),
+        )
+        .max(5)
+        .optional(),
       whatsapp: optionalContact(/^$|^\+?\d{7,15}$/, "a phone number in international format, digits only"),
       telegram: optionalContact(/^$|^@?[A-Za-z0-9_]{4,32}$/, "a Telegram username").transform(
         (value) => (value ? value.replace(/^@/, "") : null),

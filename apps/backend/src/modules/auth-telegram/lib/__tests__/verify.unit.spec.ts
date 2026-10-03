@@ -148,3 +148,68 @@ describe("verifyInitData", () => {
     expect(result).toEqual({ ok: false, reason: "bad_user" });
   });
 });
+
+/**
+ * Known vectors computed OUTSIDE this code (t-cherk-telegram-login), with
+ * Python's `hashlib`/`hmac` from the recipe on https://core.telegram.org/widgets/login:
+ *
+ *   key  = hashlib.sha256(TOKEN.encode()).digest()
+ *   dcs  = "\n".join(f"{k}={data[k]}" for k in sorted(data))
+ *   hash = hmac.new(key, dcs.encode(), hashlib.sha256).hexdigest()
+ *
+ * The suites above sign their fixtures with the same recipe the code verifies
+ * with, so a mistake shared by both (a wrong key derivation, a wrong
+ * separator) would pass them by agreeing with itself. These cannot.
+ */
+describe("verifyLoginWidget against independently computed vectors", () => {
+  const TOKEN = "123456789:AAH-unit-test-token-not-a-real-bot_42";
+  const AUTH_DATE = 1759460000;
+  const now = () => (AUTH_DATE + 60) * 1000;
+
+  it("accepts the full widget payload", () => {
+    const result = verifyLoginWidget(
+      {
+        id: "987654321",
+        first_name: "Test",
+        last_name: "Buyer",
+        username: "test_buyer",
+        photo_url: "https://t.me/i/userpic/320/test_buyer.jpg",
+        auth_date: String(AUTH_DATE),
+        hash: "b2335a08b09a5f2c08c3cb1572258be4cfe573ae9e5c1bbf13237509a0fce0d4",
+      },
+      TOKEN,
+      { now },
+    );
+    expect(result.ok).toBe(true);
+  });
+
+  it("accepts the minimal payload, and refuses it a second past one day", () => {
+    const minimal = {
+      id: "987654321",
+      first_name: "Test",
+      auth_date: String(AUTH_DATE),
+      hash: "01f7e546d55db2562969dcf1ca9bd083f67475a164c67ff8d350ae0a1df871a2",
+    };
+    expect(verifyLoginWidget(minimal, TOKEN, { now }).ok).toBe(true);
+    expect(verifyLoginWidget(minimal, TOKEN, { now: () => (AUTH_DATE + 86_401) * 1000 })).toEqual({
+      ok: false,
+      reason: "expired",
+    });
+  });
+
+  it("refuses the minimal payload with a field added after signing", () => {
+    expect(
+      verifyLoginWidget(
+        {
+          id: "987654321",
+          first_name: "Test",
+          username: "added",
+          auth_date: String(AUTH_DATE),
+          hash: "01f7e546d55db2562969dcf1ca9bd083f67475a164c67ff8d350ae0a1df871a2",
+        },
+        TOKEN,
+        { now },
+      ),
+    ).toEqual({ ok: false, reason: "bad_hash" });
+  });
+});

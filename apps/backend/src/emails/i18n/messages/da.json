@@ -12,6 +12,16 @@
     "trackOrder": "Spor ordre",
     "viewOrder": "Se ordre"
   },
+  "CourseAccess": {
+    "body": "Betalingen for ordre <strong>#{id}</strong> er bekræftet. Kurset er nu åbent på din konto:",
+    "button": "Gå til kurset",
+    "headingAnon": "Adgangen til kurset er åbnet",
+    "headingWithName": "{name}, adgangen til kurset er åbnet",
+    "preview": "Betalingen er bekræftet, og kurset venter på din konto",
+    "signIn": "Lektionerne åbner, når du logger ind på kontoen med {email}.",
+    "subject": "Ordre #{id} betalt: adgangen til kurset er åbnet",
+    "textFallback": "Betalingen for ordre #{id} er bekræftet, og adgangen til kurset er åbnet.\n\nGå til kurset:"
+  },
   "Delivery": {
     "bodyOrder": "Ordre <strong>#{id}</strong> er leveret. Vi håber, at alt kom godt frem.",
     "headingAnon": "Din ordre er leveret",

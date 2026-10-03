@@ -78,14 +78,6 @@
     "exploreProducts": "Selaa tuotteita",
     "heading": "Ostoskori"
   },
-  "CartDropdown": {
-    "bagEmpty": "Ostoskorisi on tyhjä.",
-    "exploreProducts": "Selaa tuotteita",
-    "goToCart": "Siirry ostoskoriin",
-    "heading": "Ostoskori",
-    "subtotal": "Välisumma",
-    "subtotalNote": "(ilman veroja)"
-  },
   "CartMismatchBanner": {
     "errorMessage": "Jokin meni pieleen yritettäessä siirtää ostoskoriasi",
     "runTransferAgain": "Yritä siirtoa uudelleen",
@@ -155,7 +147,7 @@
     "freeShipping": "Ilmainen",
     "giftCard": "Lahjakortti",
     "itemsCount": "{count, plural, one {{count} tuote} other {{count} tuotetta}}",
-    "legal": "Klikkaamalla «Maksa» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
+    "legal": "Klikkaamalla «{button}» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
     "manualInput": "Syötä osoite manuaalisesti",
     "addressIncomplete": "Täytä osoitteen pakolliset kentät: {fields}.",
     "provinceRequired": "Valitse alue luettelosta.",
@@ -179,7 +171,13 @@
     "shippingPriceUnavailable": "Ei käytettävissä: hintaa ei voitu laskea",
     "signIn": "Kirjaudu sisään",
     "total": "Yhteensä",
-    "shippingZone": "Vyöhyke: {zone}"
+    "shippingZone": "Vyöhyke: {zone}",
+    "courseSignInHeading": "Kirjaudu sisään ostaaksesi kurssin",
+    "courseSignInText": "Kurssi avautuu tilillesi, joten ostaminen vaatii kirjautumisen tai rekisteröitymisen.",
+    "fieldRequired": "Täytä tämä kenttä",
+    "emailInvalid": "Tarkista sähköposti: osoitteessa on virhe",
+    "signInHeading": "Kirjaudu sisään tilataksesi",
+    "signInText": "Tilaus näkyy tililläsi: siellä ovat maksutiedot, tila ja ostetut kurssit. Kirjautuminen tai rekisteröinti vie minuutin, ja ostoskori säilyy."
   },
   "ClaimOrders": {
     "heading": "Tilasitko ilman tiliä?",
@@ -340,7 +338,10 @@
     "empty": "Et ole vielä ostanut yhtään kurssia.",
     "start": "Aloita",
     "continue": "Jatka",
-    "review": "Kertaa"
+    "review": "Kertaa",
+    "pendingHeading": "Odottavat maksua",
+    "pendingHint": "Pääsy avautuu, kun kauppa on vahvistanut maksun.",
+    "toOrder": "{order} – maksa"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
@@ -559,6 +560,8 @@
     "password": "Salasana",
     "signIn": "Kirjaudu sisään",
     "telegramDivider": "tai",
+    "telegramCta": "Kirjaudu Telegramilla",
+    "telegramPending": "Kirjaudutaan…",
     "telegramErrorExpired": "Tämä Telegram-kirjautuminen on vanhentunut. Aloita alusta.",
     "telegramErrorFailed": "Kirjautuminen epäonnistui. Yritä minuutin päästä uudelleen.",
     "telegramErrorRejected": "Telegram ei vahvistanut tätä kirjautumista. Yritä uudelleen.",
@@ -575,6 +578,12 @@
   },
   "ManualPayment": {
     "awaitingPayment": "Awaiting payment",
+    "cardCopyLabel": "Kopioi {bank}-kortin numero",
+    "cardHolder": "Saaja: {holder}",
+    "cardsDesc": "Siirrä tilauksen loppusumma kaupan kortille.",
+    "cardsHint": "Siirrä {total} yhdelle alla olevista korteista.",
+    "cardsManagerFallback": "Jos jokin menee pieleen, kirjoita managerille:",
+    "cardsTitle": "Siirto kortille",
     "contactEmail": "Email",
     "contactNow": "You can message the manager right now:",
     "contactTelegram": "Telegram",
@@ -586,6 +595,9 @@
     "cryptoTitle": "Cryptocurrency",
     "emailSubject": "Order #{orderNumber}",
     "handoverBody": "Order #{orderNumber} is placed and reserved. Message the manager to arrange payment — the message is ready, you only need to send it.",
+    "handoverCardsBody": "Tilaus #{orderNumber} on vastaanotettu ja varattu. Siirrä {total} yhdelle alla olevista korteista. Kun kauppa vahvistaa maksun, tilauksen tilaksi tulee «Maksettu».",
+    "handoverCardsMessage": "Hei! Minulla on kysymys tilauksen #{orderNumber} maksusta ({total}) korttisiirrolla.",
+    "handoverCardsTitle": "Siirrä maksu kortille",
     "handoverClosedNote": "Nothing is lost if you close this page: the order waits for payment for up to 7 days, and the contacts are in the order details in your account.",
     "handoverCryptoBody": "Order #{orderNumber} is placed and reserved. Transfer {total} to one of the wallets below and message the manager to confirm the payment.",
     "handoverCryptoMessage": "Hello! I have just placed order #{orderNumber} for {total} and paid it with cryptocurrency. Please confirm the payment.",
@@ -600,7 +612,41 @@
     "otherDesc": "Place the order and arrange payment with a manager in a messenger.",
     "otherTitle": "Card via manager",
     "qrAlt": "QR code of the {currency} address",
-    "walletCopyLabel": "Copy the {currency} address"
+    "receiptFailed": "Kuittia ei voitu lähettää. Yritä uudelleen tai kirjoita managerille.",
+    "receiptHint": "Valokuva tai kuvakaappaus siirrosta (JPG, PNG, WEBP, HEIC) tai PDF, enintään 10 MB.",
+    "receiptLabel": "Maksukuitti",
+    "receiptPaid": "Olen maksanut",
+    "receiptSent": "Kuitti lähetetty, odotetaan vahvistusta",
+    "receiptSentHint": "Kauppa tarkistaa siirron ja vahvistaa maksun, minkä jälkeen tilauksen tilaksi tulee «Maksettu».",
+    "receiptSubmit": "Lähetä kuitti",
+    "receiptTooLarge": "Tiedosto on suurempi kuin 10 MB. Pienennä se tai lähetä kuvakaappaus.",
+    "receiptWrongType": "Lähetä valokuva (JPG, PNG, WEBP, HEIC) tai PDF.",
+    "walletCopyLabel": "Copy the {currency} address",
+    "receiptRejected": "Kuittia ei hyväksytty",
+    "receiptRejectedReason": "Syy: {reason}",
+    "receiptResend": "Lähetä toinen kuitti",
+    "contactManager": "Ota yhteyttä hoitajaan",
+    "methodRequisites": "Siirto tilitietoihin",
+    "requisitesDesc": "Tilauksen jälkeen näet kaupan tiedot: pankkikortit ja kryptolompakot. Siirrä {total} ja liitä maksukuitti – myyjä vahvistaa tilauksen.",
+    "requisitesPreviewLabel": "Otamme vastaan siirtoja:",
+    "handoverRequisitesTitle": "Maksa tilaus siirrolla",
+    "handoverRequisitesBody": "Tilaus #{orderNumber} on vastaanotettu. Valitse alta pankki tai lompakko, siirrä {total} ja liitä maksukuitti.",
+    "handoverRequisitesMessage": "Hei! Tein tilauksen #{orderNumber} summalla {total} ja maksoin sen siirrolla. Vahvistaisitteko maksun.",
+    "contactManagerHint": "Vahvista tilaus ottamalla yhteyttä myyjään.",
+    "showRequisite": "Napauta nähdäksesi numeron",
+    "hideRequisite": "Piilota numero",
+    "numberLabel": "Kortin tai tilin numero",
+    "holderLabel": "Saaja",
+    "addressLabel": "Lompakon osoite",
+    "networkLabel": "Verkko",
+    "copyNumber": "Kopioi numero",
+    "copyHolder": "Kopioi saaja",
+    "copyAddress": "Kopioi osoite",
+    "copyNetwork": "Kopioi verkko",
+    "cryptoOnlyWarning": "Lähetä vain {currency} verkossa {network}: toisen kolikon tai toisen verkon kautta tehty siirto ei saavu.",
+    "receiptPick": "Valitse tiedosto tai kuva",
+    "receiptCamera": "Ota kuva",
+    "receiptRemove": "Poista tiedosto"
   },
   "Metadata": {
     "account": {
@@ -723,7 +769,12 @@
   "OrderCompleted": {
     "keepOrderNumber": "Säilytä tilausnumero. Tarvitset sitä, kun otat yhteyttä kauppaan.",
     "orderSuccess": "Tilauksesi on tehty onnistuneesti.",
-    "thankYou": "Kiitos!"
+    "thankYou": "Kiitos!",
+    "paymentConfirmed": "Maksu vahvistettu",
+    "goToCourse": "Siirry kurssille",
+    "orderCanceled": "Tilaus peruttu",
+    "orderCanceledHint": "Maksua ei tarvita. Jos tämä on virhe, ota yhteyttä.",
+    "paidGoodsHint": "Valmistelemme tilaustasi lähetettäväksi."
   },
   "OrderDetails": {
     "backToOrders": "Takaisin tilauksiin",
@@ -1111,5 +1162,31 @@
     "addToCart": "Lisää ostoskoriin",
     "chooseOptions": "Valitse vaihtoehdot",
     "remove": "Poista"
+  },
+  "CartSidebar": {
+    "title": "Ostoskori",
+    "signInPrompt": "Kirjaudu sisään nähdäksesi tilaushistoriasi ja tehdäksesi ostokset nopeammin.",
+    "signInEmail": "Sähköpostilla",
+    "signInYandex": "Yandex ID:llä",
+    "deliveryEstimate": "Toimitus {range}",
+    "empty": "Ostoskorisi on tyhjä.",
+    "exploreProducts": "Selaa tuotteita",
+    "itemsTotal": "Tuotteet yhteensä",
+    "checkout": "Kassalle"
+  },
+  "Shipments": {
+    "noDeliveryBadge": "verkkokurssi, ei toimitusta",
+    "shipmentNo": "Lähetys nro {no}",
+    "digitalGroup": "Verkkokurssi — pääsy maksun vahvistuksen jälkeen",
+    "accessByEmail": "Pääsy kurssille tulee sähköpostitse, kun maksu on vahvistettu.",
+    "digitalGroupPaid": "Verkkokurssi – pääsy avattu"
+  },
+  "OrderStatus": {
+    "awaitingPayment": "Odottaa maksua",
+    "awaitingConfirmation": "Odottaa maksun vahvistusta",
+    "receiptRejected": "Kuittia ei hyväksytty",
+    "paid": "Maksettu",
+    "refunded": "Hyvitetty",
+    "canceled": "Peruttu"
   }
 }

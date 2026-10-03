@@ -5,13 +5,11 @@ import { ChevronDown, ChevronRight, CheckMini } from "@medusajs/icons"
 import User from "@modules/common/icons/user"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutContactsForm from "@modules/checkout/components/checkout-contacts-form"
-import { useTranslations } from "next-intl"
 import { realEmailOrEmpty } from "@lib/util/telegram-contact"
+import { useTranslations } from "next-intl"
 
 interface CheckoutContactsRowProps {
   cart: HttpTypes.StoreCart
-  /** A Telegram buyer's @handle, shown instead of their synthetic address; null otherwise. */
-  telegramContact: string | null
 }
 
 /**
@@ -22,7 +20,7 @@ interface CheckoutContactsRowProps {
  * returns focus to the row. Never gated on a digital-only cart — a buyer
  * still needs to be reachable with no delivery at all.
  */
-export default function CheckoutContactsRow({ cart, telegramContact }: CheckoutContactsRowProps) {
+export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) {
   const t = useTranslations("CheckoutPage")
   const panelId = useId()
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -115,12 +113,7 @@ export default function CheckoutContactsRow({ cart, telegramContact }: CheckoutC
 
         {expanded && (
           <div id={panelId}>
-            <CheckoutContactsForm
-              cart={cart}
-              telegramContact={telegramContact}
-              onSaved={collapse}
-              onCancel={collapse}
-            />
+            <CheckoutContactsForm cart={cart} onSaved={collapse} onCancel={collapse} />
           </div>
         )}
       </div>

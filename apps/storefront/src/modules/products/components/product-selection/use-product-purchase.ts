@@ -3,6 +3,7 @@
 import { addToCart } from "@lib/data/cart"
 import { useRouter } from "@i18n/navigation"
 import type { HttpTypes } from "@medusajs/types"
+import { useCartSidebar } from "@modules/layout/components/cart-sidebar/context"
 import { useMemo } from "react"
 
 import { useProductSelection } from "."
@@ -48,6 +49,7 @@ export function useProductPurchase(
   disabled?: boolean
 ): ProductPurchase {
   const router = useRouter()
+  const { open: openCartSidebar } = useCartSidebar()
   const {
     selectedVariant: chosen,
     isValidVariant,
@@ -80,6 +82,10 @@ export function useProductPurchase(
       if (thenCheckout) {
         // The cart page is skipped on purpose; it is one click away from the checkout anyway.
         router.push("/checkout?step=address")
+      } else {
+        // Batch 5: on a desktop viewport a successful «В корзину» opens the cart sidebar
+        // (a no-op below 1024 px, where the cart stays the page).
+        openCartSidebar()
       }
     } finally {
       setBusy(false)
