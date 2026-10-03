@@ -18,6 +18,18 @@ states, not a second copy of them.
   (`cherkashino-two-shops/plan.md` §5) is: this runbook stands up an empty stack first, and the real
   cherkashino.ru data moves here only in `t-cherk-14`, a separate, later task.
 
+## Host prerequisites the first run showed were missing (03.10.2026)
+
+- **`postgresql-client` on the host.** `deploy/backup/pg-backup.sh` dumps through `docker exec` but
+  checks the archive with the host's own `pg_restore -l`; without it every deploy after the first
+  stops at the pre-migration backup. Ubuntu 24.04 ships client 16, the same major as
+  `postgres:16-alpine` in `compose.mt.yml`:
+  `ssh … root@$RU_HOST_IP 'DEBIAN_FRONTEND=noninteractive apt-get install -y -qq postgresql-client'`
+- **Swap.** 4 CPU / 8 GB and no swap out of the box; the storefront image build can run out of memory.
+  A 4 GB `/swapfile` with `vm.swappiness=10` (`/etc/sysctl.d/99-upready-swap.conf`) is in place.
+- **SSH hardening.** Password login is off in `/etc/ssh/sshd_config.d/00-upready-hardening.conf`;
+  `ufw` allows 22, 80 and 443 only. The host key is pinned on the operator's machine.
+
 ## 0. Credentials and host address
 
 Read `CONTABO_SERVER_IP` in `~/upready/.env.keys` for the pattern this follows, then add this host's
@@ -112,7 +124,7 @@ ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_do root@$RU_HOST_IP \
 
 A `200` here (over plain HTTP, no TLS yet, since the certificate needs the real DNS record first)
 means the backend/storefront/panel triple is up and traefik is routing correctly; `/etc/hosts` on
-your own machine with `$RU_HOST_IP cherkashino.ru panel.cherkashino.ru stores.cherkashino.ru` lets you
+your own machine with `$RU_HOST_IP cherkashino.ru api.cherkashino.ru panel.cherkashino.ru stores.cherkashino.ru` lets you
 check the same thing from a browser before DNS exists anywhere public. This is an empty-stack check —
 acceptance criterion #4 of this task ("пустой стек отвечает по https на тестовом домене") is this
 step, run by the lead once DNS for a test domain (not `cherkashino.ru` itself, to avoid any
@@ -129,6 +141,7 @@ number into this file):
 |---|---|---|
 | `cherkashino.ru` | A | `$RU_HOST_IP` |
 | `www.cherkashino.ru` | A | `$RU_HOST_IP` |
+| `api.cherkashino.ru` | A | `$RU_HOST_IP` |
 | `panel.cherkashino.ru` | A | `$RU_HOST_IP` |
 | `stores.cherkashino.ru` | A | `$RU_HOST_IP` |
 
@@ -168,7 +181,7 @@ call — no new bot, no new token, same mechanism `deploy/observability/RUNBOOK.
 ```bash
 ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_do root@$RU_HOST_IP 'mkdir -p /etc/ru-host-monitor'
 cat <<'EOF' | ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_do root@$RU_HOST_IP 'cat > /etc/ru-host-monitor/env'
-MONITOR_HEALTH_URL=https://cherkashino.ru/healthz
+MONITOR_HEALTH_URL=https://api.cherkashino.ru/health
 MONITOR_TELEGRAM_BOT_TOKEN=<the same token deploy/observability/RUNBOOK.md's step 2 already found>
 MONITOR_TELEGRAM_CHAT_ID=<the same ops chat id from that step>
 EOF

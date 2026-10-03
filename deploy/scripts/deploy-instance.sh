@@ -137,7 +137,14 @@ postgres_running() { rssh "docker inspect mt-postgres >/dev/null 2>&1"; }
 step_archive_and_rsync() {
   local workdir; workdir="$(mktemp -d)"
   log "git archive $GIT_REF -> $workdir (clean release tree, no uncommitted work, no .git)"
-  git -C "$REPO_ROOT" archive "$GIT_REF" | tar -x -C "$workdir"
+  # ALLOWLIST, not a deny list: only what the images and compose files need reaches a production host.
+  # Everything else tracked in this repository (handoff/ operator task registry, artifacts/, docs/ with its
+  # evidence screenshots from stands that run on copies of live data, specs/, tools/, glossary/, AGENTS.md,
+  # CLAUDE.md, .github/) is internal and must never be copied to a host that a hosting provider can snapshot.
+  # apps/*/Dockerfile copy only package manifests, apps/<app>, apps/backend/src/migration-scripts/data and
+  # specs/design-system; compose and the scripts live under deploy/ and scripts/.
+  git -C "$REPO_ROOT" archive "$GIT_REF" -- apps deploy scripts specs/design-system \
+    package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc turbo.json .dockerignore LICENSE | tar -x -C "$workdir"
   log "rsync $workdir -> $HOST:$REMOTE_DIR/"
   rssh "mkdir -p '$REMOTE_DIR'"
   rsync -az --delete \
