@@ -18,7 +18,7 @@ import { useDate } from "../../../../hooks/use-date"
  * from the row; the table behind it stays where it was. The draft is saved to
  * our base and nowhere else (`POST /tenants/marketplaces/{kind}/:id/draft`),
  * which the one sentence under the field says, word for word as the backend
- * sends it. After a save the lists are refetched, so the row's dot turns
+ * returns it. After a save the lists are refetched, so the row's dot turns
  * «Черновик ответа» and the «сохранён …» line below comes from the base.
  *
  * «Сгенерировать» is disabled when the backend has no generator, and the

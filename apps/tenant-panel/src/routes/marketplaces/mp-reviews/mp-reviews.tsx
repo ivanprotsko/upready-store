@@ -36,7 +36,7 @@ import { MpReviewDrawer } from "./components/mp-review-drawer"
  *
  * No «отправить» anywhere, as w18 decided (Ivan, 2026-09-16 02:46): a reply is
  * a write to the marketplace, and the keys are read-only. The draft is kept
- * here and the drawer says so in one sentence, the one the backend sends.
+ * here and the drawer says so in one sentence, word for word the backend's.
  *
  * The data is `GET /tenants/marketplaces/:marketplace/reviews` (task-05). The
  * open review is `?review=<id>` in the address, so a row is a link like every
@@ -268,7 +268,7 @@ const useColumns = (onOpen: (item: DeskItem) => void) => {
             {row.original.kind === "questions" ? (
               <ChatBubbleLeftRight className="text-ui-fg-subtle shrink-0" />
             ) : null}
-            {/* WB sends a rating without words often: the pros or cons stand in, else a dash. */}
+            {/* A WB rating often comes without words: the pros or cons stand in, else a dash. */}
             <span className="truncate">{row.original.text ?? row.original.pros ?? row.original.cons ?? "—"}</span>
           </div>
         ),
