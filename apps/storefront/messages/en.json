@@ -1014,9 +1014,9 @@
     "title": "Change region"
   },
   "Register": {
-    "agreeText": "By creating a {siteName} account, you agree to",
+    "agreeText": "By creating a {siteName} account, I confirm that I have read the",
     "alreadyMember": "Already a member?",
-    "and": "and",
+    "and": "and accept the",
     "description": "Create a {siteName} account to keep your orders and addresses in one place and check out faster.",
     "email": "Email",
     "firstName": "First name",
