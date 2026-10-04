@@ -10,6 +10,7 @@ import {
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
+import { marketplaceSectionQueryKeys } from "./marketplace-section"
 
 // «Маркетплейсы → Отзывы» (w18-mp-reviews-desk). Свой хук панели, у Admin
 // аналога нет.
@@ -92,7 +93,16 @@ export type DeskQuery = {
 const DESK_QUERY_KEY = "tenant-marketplace-desk" as const
 export const deskQueryKeys = queryKeysFactory(DESK_QUERY_KEY)
 
-const invalidate = () => queryClient.invalidateQueries({ queryKey: deskQueryKeys.all })
+/**
+ * Both lists that show a draft: the w18 desk and «Wildberries → Отзывы» of
+ * the marketplace section, so the row's dot turns «Черновик ответа» after a
+ * save without a reload.
+ */
+const invalidate = () =>
+  Promise.all([
+    queryClient.invalidateQueries({ queryKey: deskQueryKeys.all }),
+    queryClient.invalidateQueries({ queryKey: marketplaceSectionQueryKeys.lists() }),
+  ])
 
 const toSearch = (query: DeskQuery): string => {
   const params = new URLSearchParams()
@@ -148,16 +158,18 @@ export const useSaveDraft = (
   >
 ) =>
   useMutation({
+    // `options` first: the caller's own `onSuccess` is called from ours, and
+    // spread last it would replace ours and skip the refresh of the lists.
+    ...options,
     mutationFn: ({ kind, id, answer_draft }) =>
       sdk.client.fetch(`/tenants/marketplaces/${kind}/${id}/draft`, {
         method: "POST",
         body: { answer_draft },
       }),
-    onSuccess: (data, variables, context) => {
-      invalidate()
+    onSuccess: async (data, variables, context) => {
+      await invalidate()
       options?.onSuccess?.(data, variables, context)
     },
-    ...options,
   })
 
 /**

@@ -5557,15 +5557,15 @@
       "not_found": "Not in the shop"
     },
     "kind": {
-      "reviews": "Отзывы",
-      "questions": "Вопросы",
-      "review": "Отзыв",
-      "question": "Вопрос"
+      "reviews": "Reviews",
+      "questions": "Questions",
+      "review": "Review",
+      "question": "Question"
     },
     "answer": {
-      "answered": "Отвечен",
-      "draft": "Черновик ответа",
-      "open": "Без ответа"
+      "answered": "Answered",
+      "draft": "Reply draft",
+      "open": "Unanswered"
     },
     "products": {
       "title": "Products",
@@ -5724,15 +5724,40 @@
       }
     },
     "reviews": {
-      "title": "Отзывы",
-      "subtitle": "{{marketplace}}: отзывов {{reviews}}, без ответа {{reviewsOpen}} · вопросов {{questions}}, без ответа {{questionsOpen}}",
+      "title": "Reviews",
+      "subtitle": "{{marketplace}}: {{reviews}} reviews, {{reviewsOpen}} unanswered · {{questions}} questions, {{questionsOpen}} unanswered",
       "empty": {
-        "title": "Отзывов пока нет",
-        "message": "Когда покупатели на {{marketplace}} оставят отзыв или вопрос, он появится здесь."
+        "missing": {
+          "title": "{{marketplace}} is not connected",
+          "message": "Save the marketplace key and reviews and questions will start loading on their own."
+        },
+        "never_run": {
+          "title": "No reviews have arrived yet",
+          "message": "The key is saved, but the review import has not run yet. You can start it on the Updates screen."
+        },
+        "never_succeeded": {
+          "title": "No reviews have arrived yet",
+          "message": "The review import has never finished successfully. Last attempt: {{at}}."
+        },
+        "none": {
+          "title": "No reviews yet",
+          "message": "Last successful review import: {{at}}. Buyers on {{marketplace}} have not written anything yet."
+        }
+      },
+      "connection": {
+        "failed": "{{marketplace}}: reviews and questions did not load, {{error}}. New ones may be missing: the list is incomplete, not empty.",
+        "rate_limited": "{{marketplace}} asked us to wait during the last import of reviews and questions ({{at}}): some reviews and «Answered» marks may not have loaded.",
+        "fixture": "{{marketplace}}: these are sample reviews for testing, not real buyer reviews."
+      },
+      "links": {
+        "connect": "Connection and key",
+        "sync": "Updates"
       },
       "actions": {
-        "reply": "Открыть и ответить"
-      }
+        "reply": "Open and reply"
+      },
+      "noText": "The buyer left a rating without text.",
+      "generatorOff": "Reply suggestions are turned off for this shop. You can write the reply yourself."
     },
     "analytics": {
       "title": "Аналитика",

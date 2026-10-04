@@ -369,6 +369,12 @@ export type MpReviewsResponse = {
   generator: DeskGenerator
   /** One sentence: why there is no «отправить» (the marketplaces are read-only). */
   sending: { enabled: false; reason: string }
+  /**
+   * Whether the shop has a key, how the newest import of reviews or questions
+   * ended, and when an import of REVIEWS last succeeded: an empty list names
+   * its cause from these (rule 20a).
+   */
+  connection: Omit<FeedConnection, "rows_in_period"> & { last_success_at: string | null }
 }
 
 export type MpReviewsParams = ListParams & {
