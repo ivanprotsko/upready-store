@@ -1,5 +1,6 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import { isDigitalProduct } from "../tenant/release-course-shipping/digital";
 
 /**
  * Whether anything in a cart has to be posted (t-2026-10-04-23).
@@ -23,9 +24,6 @@ export type ShippingNeedItem = {
   product_id?: string | null;
   product?: { metadata?: Record<string, unknown> | null } | null;
 };
-
-const isDigitalProduct = (metadata?: Record<string, unknown> | null): boolean =>
-  metadata?.digital === "true";
 
 /**
  * `items` is what the caller already holds. Medusa's completion cart carries
