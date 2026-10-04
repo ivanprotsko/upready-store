@@ -4,6 +4,12 @@ import { sdk } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
 import { cartHasStaleShipping } from "@lib/util/shipping-address"
 import { type ErrorMessageKey, resolveErrorKey } from "@lib/util/error-messages"
+import {
+  describeUpstreamFailure,
+  isGatewayFailure,
+  retryOnGatewayFailure,
+  upstreamStatus,
+} from "@lib/util/upstream-retry"
 import type { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
 import { redirect, unstable_rethrow } from "next/navigation"
@@ -71,18 +77,32 @@ export async function retrieveCart(cartId?: string, fields?: string) {
    * computed from exactly those fields, so «Оплатить» stayed disabled forever
    * and NO order could be placed on any tenant shop.
    */
-  return await sdk.client
-    .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
-      method: "GET",
-      query: {
-        fields,
-      },
-      headers,
-      next,
-      cache: "no-store",
-    })
+  return await retryOnGatewayFailure(
+    `retrieveCart ${id}`,
+    () =>
+      sdk.client.fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
+        method: "GET",
+        query: {
+          fields,
+        },
+        headers,
+        next,
+        cache: "no-store",
+      }),
+    { idempotent: true }
+  )
     .then(({ cart }: { cart: HttpTypes.StoreCart }) => cart)
-    .catch(() => null)
+    .catch((error) => {
+      // A 404 is a cart that is gone (completed or expired), answered as no cart.
+      // Anything else is logged, because the checkout page turns a null cart into
+      // a redirect to the cart page (t-2026-10-04-44).
+      if (upstreamStatus(error) !== 404) {
+        console.error(
+          `[cart] retrieveCart ${id} failed with ${describeUpstreamFailure(error)}`
+        )
+      }
+      return null
+    })
 }
 
 /**
@@ -368,7 +388,16 @@ export async function setShippingMethod({
     .catch(medusaError)
 }
 
-export async function initiatePaymentSession(
+/**
+ * Creates the cart's payment session, retried once when the proxy in front of the
+ * Store API answers 502 or 503 (t-2026-10-04-44, `lib/util/upstream-retry.ts`).
+ * Creating a session replaces the current one, so a second call is safe when it
+ * runs AFTER the first has failed. Whatever the first call left behind, the retry
+ * replaces it, and its answer is the one the page gets through the revalidated
+ * cart. Two calls in flight at once are a different case, kept out by
+ * `CheckoutPaymentSection`'s `initiatingRef`.
+ */
+async function createPaymentSession(
   cart: HttpTypes.StoreCart,
   data: HttpTypes.StoreInitializePaymentSession
 ) {
@@ -376,14 +405,51 @@ export async function initiatePaymentSession(
     ...(await getAuthHeaders()),
   }
 
-  return sdk.store.payment
-    .initiatePaymentSession(cart, data, {}, headers)
-    .then(async (resp) => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
-      return resp
-    })
-    .catch(medusaError)
+  const resp = await retryOnGatewayFailure(
+    `initiatePaymentSession cart=${cart.id} provider=${data.provider_id}`,
+    () => sdk.store.payment.initiatePaymentSession(cart, data, {}, headers),
+    { idempotent: false }
+  )
+
+  const cartCacheTag = await getCacheTag("carts")
+  revalidateTag(cartCacheTag)
+
+  return resp
+}
+
+export async function initiatePaymentSession(
+  cart: HttpTypes.StoreCart,
+  data: HttpTypes.StoreInitializePaymentSession
+) {
+  return createPaymentSession(cart, data).catch(medusaError)
+}
+
+/**
+ * `initiatePaymentSession` for the checkout's payment block (t-2026-10-04-44). A
+ * thrown server action answers HTTP 500 and reaches the browser redacted, so a
+ * proxy's 502 used to end as «Что-то пошло не так» under the payment methods. A
+ * failure comes back as an `Errors` key instead. `paymentNotReady` stands for an
+ * upstream that did not answer after the retry, and the block offers a retry
+ * button for it. Every failure is logged with the cart, the provider and the status.
+ */
+export async function initiatePaymentSessionOrReason(
+  cart: HttpTypes.StoreCart,
+  data: HttpTypes.StoreInitializePaymentSession
+): Promise<{ error: ErrorMessageKey } | null> {
+  try {
+    await createPaymentSession(cart, data)
+    return null
+  } catch (error) {
+    console.error(
+      `[checkout:payment-session] cart=${cart.id} provider=${data.provider_id} failed with ${describeUpstreamFailure(error)}`
+    )
+
+    return {
+      error: isGatewayFailure(error, { idempotent: true })
+        ? "paymentNotReady"
+        : resolveErrorKey(error),
+    }
+  }
 }
 
 export async function applyPromotions(codes: string[]) {
