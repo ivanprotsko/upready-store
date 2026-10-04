@@ -93,10 +93,17 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    border: 1px solid var(--input);
     -webkit-text-fill-color: var(--foreground);
-    -webkit-box-shadow: 0 0 0px 1000px var(--bg-field) inset;
+    /* The inset fill hides the browser's autofill colour. A field draws its hairline and its
+       focus ring as box-shadows too, so both ride along in the same list. */
+    -webkit-box-shadow: 0 0 0px 1000px var(--bg-field) inset, var(--borders-base);
     transition: background-color 5000s ease-in-out 0s;
+  }
+
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px var(--bg-field) inset, var(--borders-field-focus);
   }
 
   input[type="search"]::-webkit-search-decoration,
@@ -326,6 +333,37 @@
 
 [data-mode="dark"] {
   --cart-sidebar-bg: #18181b;
+}
+
+/*
+ * t-2026-10-04-24: the focus ring of a form field, Medusa UI's shape in no hue at all.
+ *
+ * Ivan, 04.10 (ask-20261004-090510-c687), on the checkout address form: «нужно привести поля к
+ * стилю medusjs ui и убрать этот зеленый оттенок в полях». @medusajs/ui rings a focused field with
+ * --borders-interactive-with-active, a 1px line plus a soft halo in blue; the storefront's own
+ * fields used a 2px ring in --ring, the shop's brand colour, which is the dark green border Ivan
+ * pointed at. This keeps Medusa's shape and draws it in black (light) or white (dark) alpha, so it
+ * carries no preset's hue and reads on any page. The 1px line clears 3:1 against the field in both
+ * modes (WCAG 1.4.11). Read through the `shadow-borders-field-focus` utility (tailwind.config.js)
+ * by every field: `FIELD_FOCUS` in `modules/common/components/input/field-classes.ts`.
+ */
+:root {
+  --borders-field-focus: 0px 0px 0px 1px rgba(0, 0, 0, 0.56), 0px 0px 0px 4px rgba(0, 0, 0, 0.08);
+}
+
+[data-mode="dark"] {
+  --borders-field-focus: 0px 0px 0px 1px rgba(255, 255, 255, 0.56), 0px 0px 0px 4px rgba(255, 255, 255, 0.1);
+}
+
+/*
+ * The fields of @medusajs/ui itself (`Input`, `Textarea`, the `Select` trigger, which is a
+ * `button[role="combobox"]`) ring on focus with `shadow-borders-interactive-with-active`. Custom
+ * properties inherit, so re-declaring that one variable on the field element re-points the vendor
+ * utility to the neutral ring without touching the vendor class or the bridge, the same call-site
+ * trick as `.bg-ui-button-inverted` above. A field added later gets it with no class of its own.
+ */
+:root:not([data-theme-bridge="off"]) :is(input, textarea, button[role="combobox"]) {
+  --borders-interactive-with-active: var(--borders-field-focus);
 }
 
 /*

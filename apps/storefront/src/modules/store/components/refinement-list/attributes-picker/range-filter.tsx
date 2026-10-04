@@ -86,7 +86,7 @@ const RangeFilter = ({
       className={clx(
         "flex h-8 items-center gap-x-1 rounded-md px-2",
         "bg-ui-bg-base transition-fg shadow-borders-base",
-        "has-[input:focus]:shadow-borders-interactive-with-active"
+        "has-[input:focus]:shadow-borders-field-focus"
       )}
       data-testid={`range-filter-${label}`}
     >
