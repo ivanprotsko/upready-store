@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Cursusprogramma",
+    "contents": "Inhoud",
     "progress": "{completed}/{total} lessen voltooid",
     "markViewed": "Markeren als bekeken",
     "lessonViewed": "Bekeken",
-    "locked": "Les vergrendeld",
-    "lockedHint": "Koop de cursus op de productpagina om de lessen te ontgrendelen.",
-    "backToCourse": "Terug naar cursus",
+    "backToContents": "Naar de inhoud van de cursus",
     "lessonLabel": "Les {order}",
     "prev": "Vorige les",
     "next": "Volgende les",
-    "finish": "Cursus afronden"
+    "finish": "Cursus afronden",
+    "goToCourse": "Naar de cursus",
+    "downloadNamed": "{name} downloaden",
+    "downloadFile": "Bestand downloaden",
+    "openSite": "{host} openen",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Mijn cursussen",
@@ -351,7 +356,8 @@
     "review": "Herhalen",
     "pendingHeading": "Wachten op betaling",
     "pendingHint": "De toegang wordt geopend zodra de winkel de betaling bevestigt.",
-    "toOrder": "{order} – betalen"
+    "toOrder": "{order} – betalen",
+    "backToCourses": "Terug naar cursussen"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Програма курсу",
+    "contents": "Зміст",
     "progress": "{completed}/{total} уроків пройдено",
     "markViewed": "Позначити переглянутим",
     "lessonViewed": "Переглянуто",
-    "locked": "Урок закрито",
-    "lockedHint": "Купіть курс на сторінці товару, щоб відкрити уроки.",
-    "backToCourse": "Назад до курсу",
+    "backToContents": "До змісту курсу",
     "lessonLabel": "Урок {order}",
     "prev": "Попередній урок",
     "next": "Наступний урок",
-    "finish": "Завершити курс"
+    "finish": "Завершити курс",
+    "goToCourse": "Перейти до курсу",
+    "downloadNamed": "Завантажити {name}",
+    "downloadFile": "Завантажити файл",
+    "openSite": "Відкрити {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Мої курси",
@@ -351,7 +356,8 @@
     "review": "Повторити",
     "pendingHeading": "Очікують оплати",
     "pendingHint": "Доступ відкриється після того, як магазин підтвердить оплату.",
-    "toOrder": "{order} — оплатити"
+    "toOrder": "{order} — оплатити",
+    "backToCourses": "Назад до курсів"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

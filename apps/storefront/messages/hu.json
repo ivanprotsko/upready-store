@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Kurzus programja",
+    "contents": "Tartalomjegyzék",
     "progress": "{completed}/{total} lecke elvégezve",
     "markViewed": "Megtekintettnek jelölés",
     "lessonViewed": "Megtekintve",
-    "locked": "A lecke zárolva van",
-    "lockedHint": "Vásárolja meg a kurzust a termékoldalon a leckék feloldásához.",
-    "backToCourse": "Vissza a kurzushoz",
+    "backToContents": "A kurzus tartalomjegyzékéhez",
     "lessonLabel": "{order}. lecke",
     "prev": "Előző lecke",
     "next": "Következő lecke",
-    "finish": "Kurzus befejezése"
+    "finish": "Kurzus befejezése",
+    "goToCourse": "Tovább a kurzushoz",
+    "downloadNamed": "{name} letöltése",
+    "downloadFile": "Fájl letöltése",
+    "openSite": "{host} megnyitása",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Kurzusaim",
@@ -351,7 +356,8 @@
     "review": "Ismétlés",
     "pendingHeading": "Fizetésre várnak",
     "pendingHint": "A hozzáférés megnyílik, amint az üzlet megerősíti a fizetést.",
-    "toOrder": "{order} – fizetés"
+    "toOrder": "{order} – fizetés",
+    "backToCourses": "Vissza a kurzusokhoz"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

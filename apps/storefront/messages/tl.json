@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Programa ng kurso",
+    "contents": "Talaan ng nilalaman",
     "progress": "{completed}/{total} aralin ang tapos na",
     "markViewed": "Markahan bilang napanood",
     "lessonViewed": "Napanood na",
-    "locked": "Naka-lock ang aralin",
-    "lockedHint": "Bilhin ang kurso sa page ng produkto upang ma-unlock ang mga aralin.",
-    "backToCourse": "Bumalik sa kurso",
+    "backToContents": "Sa talaan ng nilalaman ng kurso",
     "lessonLabel": "Aralin {order}",
     "prev": "Nakaraang aralin",
     "next": "Susunod na aralin",
-    "finish": "Tapusin ang kurso"
+    "finish": "Tapusin ang kurso",
+    "goToCourse": "Pumunta sa kurso",
+    "downloadNamed": "I-download ang {name}",
+    "downloadFile": "I-download ang file",
+    "openSite": "Buksan ang {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Aking mga kurso",
@@ -351,7 +356,8 @@
     "review": "Balikan",
     "pendingHeading": "Naghihintay ng bayad",
     "pendingHint": "Magbubukas ang access kapag nakumpirma ng tindahan ang bayad.",
-    "toOrder": "{order} — bayaran"
+    "toOrder": "{order} — bayaran",
+    "backToCourses": "Bumalik sa mga kurso"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

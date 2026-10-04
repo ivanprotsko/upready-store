@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "โปรแกรมของคอร์ส",
+    "contents": "สารบัญ",
     "progress": "เรียนจบแล้ว {completed}/{total} บทเรียน",
     "markViewed": "ทำเครื่องหมายว่าดูแล้ว",
     "lessonViewed": "ดูแล้ว",
-    "locked": "บทเรียนถูกล็อก",
-    "lockedHint": "ซื้อคอร์สที่หน้าสินค้าเพื่อปลดล็อกบทเรียน",
-    "backToCourse": "กลับไปที่คอร์ส",
+    "backToContents": "ไปที่สารบัญของคอร์ส",
     "lessonLabel": "บทเรียนที่ {order}",
     "prev": "บทเรียนก่อนหน้า",
     "next": "บทเรียนถัดไป",
-    "finish": "จบคอร์ส"
+    "finish": "จบคอร์ส",
+    "goToCourse": "ไปที่คอร์ส",
+    "downloadNamed": "ดาวน์โหลด {name}",
+    "downloadFile": "ดาวน์โหลดไฟล์",
+    "openSite": "เปิด {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "คอร์สของฉัน",
@@ -351,7 +356,8 @@
     "review": "ทบทวน",
     "pendingHeading": "รอการชำระเงิน",
     "pendingHint": "สิทธิ์เข้าถึงจะเปิดเมื่อร้านยืนยันการชำระเงิน",
-    "toOrder": "{order} — ชำระเงิน"
+    "toOrder": "{order} — ชำระเงิน",
+    "backToCourses": "กลับไปที่คอร์สของฉัน"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

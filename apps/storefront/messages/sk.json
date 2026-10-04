@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Program kurzu",
+    "contents": "Obsah",
     "progress": "{completed}/{total} lekcií dokončených",
     "markViewed": "Označiť ako zhliadnuté",
     "lessonViewed": "Zhliadnuté",
-    "locked": "Lekcia je uzamknutá",
-    "lockedHint": "Kúpte si kurz na stránke produktu a odomknite lekcie.",
-    "backToCourse": "Späť na kurz",
+    "backToContents": "Na obsah kurzu",
     "lessonLabel": "Lekcia {order}",
     "prev": "Predchádzajúca lekcia",
     "next": "Ďalšia lekcia",
-    "finish": "Dokončiť kurz"
+    "finish": "Dokončiť kurz",
+    "goToCourse": "Prejsť na kurz",
+    "downloadNamed": "Stiahnuť {name}",
+    "downloadFile": "Stiahnuť súbor",
+    "openSite": "Otvoriť {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Moje kurzy",
@@ -351,7 +356,8 @@
     "review": "Zopakovať",
     "pendingHeading": "Čakajú na platbu",
     "pendingHint": "Prístup sa otvorí, keď obchod potvrdí platbu.",
-    "toOrder": "{order} — zaplatiť"
+    "toOrder": "{order} — zaplatiť",
+    "backToCourses": "Späť na kurzy"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

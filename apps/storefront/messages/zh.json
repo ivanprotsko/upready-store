@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "课程大纲",
+    "contents": "目录",
     "progress": "已完成 {completed}/{total} 节课",
     "markViewed": "标记为已观看",
     "lessonViewed": "已观看",
-    "locked": "课程已锁定",
-    "lockedHint": "请在商品页面购买课程以解锁课时。",
-    "backToCourse": "返回课程",
+    "backToContents": "返回课程目录",
     "lessonLabel": "第 {order} 课",
     "prev": "上一课",
     "next": "下一课",
-    "finish": "完成课程"
+    "finish": "完成课程",
+    "goToCourse": "进入课程",
+    "downloadNamed": "下载{name}",
+    "downloadFile": "下载文件",
+    "openSite": "打开 {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}，{size}"
   },
   "CoursesPage": {
     "heading": "我的课程",
@@ -351,7 +356,8 @@
     "review": "复习",
     "pendingHeading": "等待付款",
     "pendingHint": "店铺确认付款后即可访问。",
-    "toOrder": "{order}——付款"
+    "toOrder": "{order}——付款",
+    "backToCourses": "返回我的课程"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

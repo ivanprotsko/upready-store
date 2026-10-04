@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "תוכנית הקורס",
+    "contents": "תוכן עניינים",
     "progress": "{completed}/{total} שיעורים הושלמו",
     "markViewed": "סמן כנצפה",
     "lessonViewed": "נצפה",
-    "locked": "השיעור נעול",
-    "lockedHint": "רכשו את הקורס בעמוד המוצר כדי לפתוח את השיעורים.",
-    "backToCourse": "חזרה לקורס",
+    "backToContents": "לתוכן העניינים של הקורס",
     "lessonLabel": "שיעור {order}",
     "prev": "השיעור הקודם",
     "next": "השיעור הבא",
-    "finish": "סיום הקורס"
+    "finish": "סיום הקורס",
+    "goToCourse": "מעבר לקורס",
+    "downloadNamed": "הורדת {name}",
+    "downloadFile": "הורדת הקובץ",
+    "openSite": "פתיחת {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "הקורסים שלי",
@@ -351,7 +356,8 @@
     "review": "חזור על החומר",
     "pendingHeading": "ממתינים לתשלום",
     "pendingHint": "הגישה תיפתח לאחר שהחנות תאשר את התשלום.",
-    "toOrder": "{order} — לתשלום"
+    "toOrder": "{order} — לתשלום",
+    "backToCourses": "חזרה לקורסים"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

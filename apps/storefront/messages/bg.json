@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Програма на курса",
+    "contents": "Съдържание",
     "progress": "{completed}/{total} завършени урока",
     "markViewed": "Маркирай като гледано",
     "lessonViewed": "Гледано",
-    "locked": "Урокът е заключен",
-    "lockedHint": "Купете курса от страницата на продукта, за да отключите уроците.",
-    "backToCourse": "Обратно към курса",
+    "backToContents": "Към съдържанието на курса",
     "lessonLabel": "Урок {order}",
     "prev": "Предишен урок",
     "next": "Следващ урок",
-    "finish": "Завърши курса"
+    "finish": "Завърши курса",
+    "goToCourse": "Към курса",
+    "downloadNamed": "Изтегли {name}",
+    "downloadFile": "Изтегли файла",
+    "openSite": "Отвори {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Моите курсове",
@@ -351,7 +356,8 @@
     "review": "Повтори",
     "pendingHeading": "Очакват плащане",
     "pendingHint": "Достъпът ще се отвори, след като магазинът потвърди плащането.",
-    "toOrder": "{order} — плащане"
+    "toOrder": "{order} — плащане",
+    "backToCourses": "Обратно към курсовете"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

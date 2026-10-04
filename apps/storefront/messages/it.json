@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Programma del corso",
+    "contents": "Indice",
     "progress": "{completed}/{total} lezioni completate",
     "markViewed": "Segna come visto",
     "lessonViewed": "Visto",
-    "locked": "Lezione bloccata",
-    "lockedHint": "Acquista il corso nella sua pagina prodotto per sbloccare le lezioni.",
-    "backToCourse": "Torna al corso",
+    "backToContents": "All'indice del corso",
     "lessonLabel": "Lezione {order}",
     "prev": "Lezione precedente",
     "next": "Lezione successiva",
-    "finish": "Termina corso"
+    "finish": "Termina corso",
+    "goToCourse": "Vai al corso",
+    "downloadNamed": "Scarica {name}",
+    "downloadFile": "Scarica il file",
+    "openSite": "Apri {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "I miei corsi",
@@ -351,7 +356,8 @@
     "review": "Rivedi",
     "pendingHeading": "In attesa di pagamento",
     "pendingHint": "L'accesso si aprirà quando il negozio confermerà il pagamento.",
-    "toOrder": "{order} — paga"
+    "toOrder": "{order} — paga",
+    "backToCourses": "Torna ai corsi"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

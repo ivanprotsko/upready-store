@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Chương trình khóa học",
+    "contents": "Mục lục",
     "progress": "Đã hoàn thành {completed}/{total} bài học",
     "markViewed": "Đánh dấu đã xem",
     "lessonViewed": "Đã xem",
-    "locked": "Bài học đã khóa",
-    "lockedHint": "Mua khóa học tại trang sản phẩm để mở khóa các bài học.",
-    "backToCourse": "Quay lại khóa học",
+    "backToContents": "Đến mục lục khóa học",
     "lessonLabel": "Bài học {order}",
     "prev": "Bài học trước",
     "next": "Bài học tiếp theo",
-    "finish": "Hoàn thành khóa học"
+    "finish": "Hoàn thành khóa học",
+    "goToCourse": "Đến khóa học",
+    "downloadNamed": "Tải xuống {name}",
+    "downloadFile": "Tải tệp xuống",
+    "openSite": "Mở {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Khóa học của tôi",
@@ -351,7 +356,8 @@
     "review": "Ôn lại",
     "pendingHeading": "Chờ thanh toán",
     "pendingHint": "Quyền truy cập sẽ mở sau khi cửa hàng xác nhận thanh toán.",
-    "toOrder": "{order} — thanh toán"
+    "toOrder": "{order} — thanh toán",
+    "backToCourses": "Quay lại các khóa học"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

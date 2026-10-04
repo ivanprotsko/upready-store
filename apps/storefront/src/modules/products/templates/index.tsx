@@ -233,10 +233,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                   >
                     <HydrationSlot>
                       {page && <CourseAbout sections={page.about} />}
-                      <CourseBlock
-                        data={course}
-                        productHandle={product.handle ?? ""}
-                      />
+                      <CourseBlock data={course} />
                       {page && <CourseFaq items={page.faq} />}
                       {page && <CourseTestimonials items={page.testimonials} />}
                     </HydrationSlot>

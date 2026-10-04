@@ -94,6 +94,46 @@ export const computeCourseProgress = (
   return { completed, total, percent };
 };
 
+/**
+ * ask-20261005-053807-eaae: the lesson «Продолжить» in «Мои курсы» opens.
+ * `null` while no lesson of the course is viewed, and the card opens the
+ * course's contents in the account instead. Otherwise the first lesson not
+ * viewed yet, by the course's own lesson order rather than the order the
+ * lessons were viewed in; once every lesson is viewed, the one viewed last
+ * (a tie on `viewed_at` goes to the later lesson). Progress rows for lessons
+ * outside the course are ignored, the way `computeCourseProgress` ignores them.
+ */
+export const pickContinueLessonId = (
+  lessons: LessonRow[],
+  progressRows: ProgressRow[],
+): string | null => {
+  const ordered = [...lessons].sort((a, b) => a.order - b.order);
+  const viewedAt = new Map<string, number>();
+  for (const row of progressRows) {
+    const time = new Date(row.viewed_at).getTime();
+    viewedAt.set(row.lesson_id, Math.max(time, viewedAt.get(row.lesson_id) ?? time));
+  }
+
+  const viewed = ordered.filter((lesson) => viewedAt.has(lesson.id));
+  if (!viewed.length) {
+    return null;
+  }
+
+  const firstUnviewed = ordered.find((lesson) => !viewedAt.has(lesson.id));
+  if (firstUnviewed) {
+    return firstUnviewed.id;
+  }
+
+  let last = viewed[0];
+  for (const lesson of viewed) {
+    if ((viewedAt.get(lesson.id) ?? 0) >= (viewedAt.get(last.id) ?? 0)) {
+      last = lesson;
+    }
+  }
+
+  return last.id;
+};
+
 export type OrderForPendingCourse = {
   id: string;
   display_id: number | null;

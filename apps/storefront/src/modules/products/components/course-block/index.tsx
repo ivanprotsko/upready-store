@@ -2,6 +2,8 @@ import { LockClosedSolidMini, PlayMiniSolid } from "@medusajs/icons"
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 import type { ProductCourse } from "@lib/data/courses"
+import { courseContentsHref, courseLessonHref } from "@lib/util/course-links"
+import CourseProgress from "@modules/products/components/course-progress"
 
 /**
  * The product page's course block (o24-courses part (c)): lesson list with
@@ -10,14 +12,12 @@ import type { ProductCourse } from "@lib/data/courses"
  * renders this only when there is one: the same answer also switches the page
  * to the course layout (t-2026-09-24-n23), where this card sits in the content
  * column between «О программе» and «Вопросы и ответы».
+ *
+ * The page stays the course's sales page; the course itself lives in the
+ * account (ask-20261005-053807-eaae). For a buyer with access every lesson
+ * links to its page there, and «Перейти к курсу» opens the course's contents.
  */
-export default async function CourseBlock({
-  data,
-  productHandle,
-}: {
-  data: ProductCourse
-  productHandle: string
-}) {
+export default async function CourseBlock({ data }: { data: ProductCourse }) {
   const t = await getTranslations("CourseBlock")
   const { course, lessons, has_access, progress } = data
 
@@ -39,24 +39,17 @@ export default async function CourseBlock({
       </div>
 
       {has_access && progress && (
-        <div
-          className="flex flex-col gap-y-1.5"
-          data-testid="course-block-progress"
+        <CourseProgress progress={progress} data-testid="course-block-progress" />
+      )}
+
+      {has_access && (
+        <Link
+          href={courseContentsHref(course.slug)}
+          className="inline-flex items-center self-start rounded-medium bg-ui-button-inverted px-4 py-2.5 text-sm font-medium text-ui-fg-on-color transition-colors hover:bg-ui-button-inverted-hover"
+          data-testid="course-block-go-to-course"
         >
-          <div className="h-2 w-full rounded-full bg-ui-bg-subtle overflow-hidden">
-            <div
-              className="h-full rounded-full bg-ui-tag-green-icon transition-[width] duration-300"
-              style={{ width: `${progress.percent}%` }}
-              aria-hidden="true"
-            />
-          </div>
-          <p className="text-sm text-ui-fg-subtle">
-            {t("progress", {
-              completed: progress.completed,
-              total: progress.total,
-            })}
-          </p>
-        </div>
+          {t("goToCourse")}
+        </Link>
       )}
 
       <ul
@@ -81,7 +74,7 @@ export default async function CourseBlock({
                 </div>
               ) : (
                 <Link
-                  href={`/products/${productHandle}/lessons/${lesson.id}`}
+                  href={courseLessonHref(course.slug, lesson.id)}
                   className="flex items-center gap-x-3 py-3 hover:text-ui-fg-subtle transition-colors"
                 >
                   {content}

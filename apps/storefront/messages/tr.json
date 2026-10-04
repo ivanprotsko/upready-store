@@ -331,16 +331,21 @@
   },
   "CourseBlock": {
     "heading": "Kurs programı",
+    "contents": "İçindekiler",
     "progress": "{completed}/{total} ders tamamlandı",
     "markViewed": "İzlendi olarak işaretle",
     "lessonViewed": "İzlendi",
-    "locked": "Ders kilitli",
-    "lockedHint": "Dersleri açmak için kursu ürün sayfasından satın alın.",
-    "backToCourse": "Kursa dön",
+    "backToContents": "Kursun içindekiler bölümüne",
     "lessonLabel": "Ders {order}",
     "prev": "Önceki ders",
     "next": "Sonraki ders",
-    "finish": "Kursu bitir"
+    "finish": "Kursu bitir",
+    "goToCourse": "Kursa git",
+    "downloadNamed": "{name} indir",
+    "downloadFile": "Dosyayı indir",
+    "openSite": "{host} adresini aç",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Kurslarım",
@@ -351,7 +356,8 @@
     "review": "Tekrar et",
     "pendingHeading": "Ödeme bekleyenler",
     "pendingHint": "Mağaza ödemeyi onayladığında erişim açılır.",
-    "toOrder": "{order} — öde"
+    "toOrder": "{order} — öde",
+    "backToCourses": "Kurslara dön"
   },
   "DemoCard": {
     "cvcLabel": "CVC",
