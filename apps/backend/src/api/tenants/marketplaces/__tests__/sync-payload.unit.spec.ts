@@ -1,7 +1,9 @@
 import type { MarketplaceAdapter } from "../../../../modules/marketplace/contract";
 import { MP_STALE_LOCK_MS } from "../../../../modules/marketplace/schedule";
 import {
+  MAX_ERROR_CHARS,
   buildSyncPayload,
+  clipError,
   syncInProgress,
   syncViewOf,
   type SyncPayloadDeps,
@@ -240,5 +242,35 @@ describe("«уже идёт»", () => {
     ]);
 
     expect(await syncInProgress(mp, TENANT, NOW, "wb")).toBe(false);
+  });
+});
+
+describe("the raw error a kind carries", () => {
+  it("keeps a short error whole", () => {
+    expect(clipError("429 Too Many Requests")).toBe("429 Too Many Requests");
+    expect(clipError(null)).toBeNull();
+  });
+
+  it("keeps the head and the tail of a huge one and names what it left out", async () => {
+    // The shape measured on the stand: one SQL statement quoting thousands of
+    // ids, with the cause at its very end.
+    const ids = Array.from({ length: 30_000 }, (_, i) => `"w0"."id" = 'wborder_${i}'`).join(" or ");
+    const huge = `select "w0".* from "wb_order" as "w0" where (${ids}) - Connection terminated unexpectedly`;
+    const clipped = clipError(huge) ?? "";
+
+    expect(huge.length).toBeGreaterThan(500_000);
+    expect(clipped.length).toBeLessThan(MAX_ERROR_CHARS + 100);
+    expect(clipped.startsWith('select "w0".* from "wb_order"')).toBe(true);
+    expect(clipped.endsWith("Connection terminated unexpectedly")).toBe(true);
+    expect(clipped).toContain("пропущено знаков:");
+
+    const { wb } = setUp();
+    const rows = [run({ kind: "orders", status: "failed", error: huge })];
+    const deps = { pg: null, mp: fakeMp(rows).mp, tenantId: TENANT, now: NOW };
+    const one = syncViewOf(await buildSyncPayload(deps, [wb.adapter]), "wb");
+    const orders = one?.marketplace.kinds.find((kind) => kind.kind === "orders");
+
+    expect(orders?.error).toBe(clipped);
+    expect(orders?.last_failure_error).toBe(clipped);
   });
 });

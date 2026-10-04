@@ -54,6 +54,33 @@ const asDate = (value: Date | string | null | undefined): Date | null => {
   return Number.isNaN(date.getTime()) ? null : date;
 };
 
+/**
+ * The longest raw error a kind carries in the answer, in characters.
+ *
+ * A run stores whatever its failure said, and one failure on the local stand
+ * (2026-10-02, `wb.orders`) was a database error quoting its whole SQL
+ * statement: 1 352 912 characters, thousands of ids in one `where`. Carried in
+ * full it made this answer 1.46 MB, every time the owner opened the screen,
+ * for a text nobody reads past the first lines and the cause at its very end
+ * («Connection terminated unexpectedly»). So the raw text keeps its head and
+ * its tail, where both the request and the cause sit, and names how much was
+ * left out. `mp_sync_run` itself still holds the whole text for support.
+ */
+export const MAX_ERROR_CHARS = 2000;
+
+export const clipError = (text: string | null | undefined): string | null => {
+  if (!text) {
+    return text ?? null;
+  }
+  if (text.length <= MAX_ERROR_CHARS) {
+    return text;
+  }
+  const head = Math.round(MAX_ERROR_CHARS * 0.7);
+  const tail = MAX_ERROR_CHARS - head;
+  const skipped = text.length - head - tail;
+  return `${text.slice(0, head)}\n… пропущено знаков: ${skipped} …\n${text.slice(-tail)}`;
+};
+
 export type SyncRunRow = {
   id: string;
   kind: string;
@@ -147,13 +174,13 @@ export const buildSyncEntry = async (
       rows: newest ? Number(newest.rows) : null,
       requests: newest ? Number(newest.requests) : null,
       attempts: newest ? Number(newest.attempts ?? 1) : null,
-      error: newest?.error ?? null,
+      error: clipError(newest?.error),
       /** When this kind last came in whole, whatever happened since. */
       last_success_at: asIso(lastSuccess?.finished_at ?? null),
       last_success_rows: lastSuccess ? Number(lastSuccess.rows) : null,
       /** The last failure IN FULL, even when the newest run succeeded. */
       last_failure_at: asIso(lastFailure?.finished_at ?? lastFailure?.started_at ?? null),
-      last_failure_error: lastFailure?.error ?? null,
+      last_failure_error: clipError(lastFailure?.error),
       /** The window the marketplace itself named, when it named one. */
       retry_at: asIso(newest?.retry_at ?? lastLimited?.retry_at ?? null),
       runs: ofKind.length,
