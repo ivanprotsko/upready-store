@@ -5,8 +5,9 @@ import type {
 } from "@medusajs/framework/http";
 import { MedusaError } from "@medusajs/framework/utils";
 import { COURSE_MODULE } from "../../../../../../modules/course";
+import { parseLessonQuiz } from "../../../../../../modules/course/quiz";
 import type CourseModuleService from "../../../../../../modules/course/service";
-import type { CourseRow, LessonRow } from "../../../../../tenants/courses/course-helpers";
+import { byOrderAsc, type CourseRow, type LessonRow } from "../../../../../tenants/courses/course-helpers";
 import { resolveTenantFromPublishableKey } from "../../../resolve-tenant";
 import {
   assertCourseAccess,
@@ -27,7 +28,9 @@ import {
  * customer's entitlement, so a course the owner moved back to draft stays
  * readable to whoever bought it. 404 for a slug this shop does not have, 403
  * (`assertCourseAccess`) for a course this customer holds no live grant for.
- * Lesson `body`/`video_url` stay with the player route.
+ * Lesson `body`/`video_url` stay with the player route, and so do the
+ * questions: `has_quiz` only tells the lesson page whether the lesson before
+ * it ends with a test, the step its «Назад» opens (ask-20261005-061005-2e78).
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -54,7 +57,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       tenant_id: tenant.id,
       course_id: course.id,
     })) as LessonRow[]
-  ).sort((a, b) => a.order - b.order);
+  ).sort(byOrderAsc);
   const progressRows = (await courseService.listCourseProgresses({
     tenant_id: tenant.id,
     customer_id: customerId,
@@ -74,6 +77,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       title: lesson.title,
       order: lesson.order,
       viewed_at: viewedAt.get(lesson.id) ?? null,
+      has_quiz: parseLessonQuiz(lesson.quiz) !== null,
     })),
     progress: computeCourseProgress(lessons, progressRows),
     continue_lesson_id: pickContinueLessonId(lessons, progressRows),

@@ -10,6 +10,10 @@ export const courseContentsHref = (slug: string) =>
 export const courseLessonHref = (slug: string, lessonId: string) =>
   `${courseContentsHref(slug)}/lessons/${encodeURIComponent(lessonId)}`
 
+/** The test after a lesson (ask-20261005-061005-2e78), one step past the lesson itself. */
+export const courseLessonTestHref = (slug: string, lessonId: string) =>
+  `${courseLessonHref(slug, lessonId)}/test`
+
 /**
  * «Продолжить» on a «Мои курсы» card: the lesson the backend picked
  * (`continue_lesson_id`, the first lesson not viewed yet or, with every lesson

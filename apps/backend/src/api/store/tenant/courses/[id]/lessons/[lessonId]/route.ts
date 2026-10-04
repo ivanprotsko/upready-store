@@ -5,6 +5,7 @@ import type {
 } from "@medusajs/framework/http";
 import { MedusaError } from "@medusajs/framework/utils";
 import { COURSE_MODULE } from "../../../../../../../modules/course";
+import { parseLessonQuiz } from "../../../../../../../modules/course/quiz";
 import type CourseModuleService from "../../../../../../../modules/course/service";
 import type { LessonRow } from "../../../../../../tenants/courses/course-helpers";
 import { resolveTenantFromPublishableKey } from "../../../../resolve-tenant";
@@ -17,6 +18,11 @@ import { assertCourseAccess, getOwnedCourse, type ProgressRow } from "../../../s
  * `assertCourseAccess` throws before any lesson content is read, so a
  * customer with no entitlement gets a 403 and never the body/video URL, even
  * by guessing a lesson id directly.
+ *
+ * `quiz` is the test after the lesson (ask-20261005-061005-2e78), right
+ * answers included: a self-check the storefront scores on the spot, not an
+ * exam, behind the same access check as the body. Null when the lesson has
+ * none, or when what is stored is not a test `parseLessonQuiz` accepts.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -57,6 +63,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       order: lesson.order,
       body: lesson.body,
       video_url: lesson.video_url,
+      quiz: parseLessonQuiz(lesson.quiz),
       viewed_at: progress?.viewed_at ?? null,
     },
   });

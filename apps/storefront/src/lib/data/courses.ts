@@ -37,6 +37,19 @@ export type ProductCourse = {
   progress: CourseProgress | null
 }
 
+/**
+ * The test after a lesson (ask-20261005-061005-2e78): up to three questions,
+ * each with two to four options and `correct`, the index of the right one.
+ * A self-check scored on the page; nothing about an answer is sent back.
+ */
+export type LessonQuiz = {
+  questions: Array<{
+    text: string
+    options: string[]
+    correct: number
+  }>
+}
+
 export type CourseLesson = {
   id: string
   course_id: string
@@ -44,6 +57,7 @@ export type CourseLesson = {
   order: number
   body: string
   video_url: string | null
+  quiz: LessonQuiz | null
   viewed_at: string | null
 }
 
@@ -75,6 +89,8 @@ export type MyCourseLesson = {
   title: string
   order: number
   viewed_at: string | null
+  /** Whether a test follows the lesson, the step «Назад» and «Дальше» count in. */
+  has_quiz: boolean
 }
 
 /** A bought course's contents in the account, lessons in course order. */
@@ -133,7 +149,11 @@ export const getCourseLesson = async (
     .catch(() => null)
 }
 
-/** «Отметить просмотренным» — idempotent, returns the course's fresh progress. */
+/**
+ * Counts a lesson as done (ask-20261005-061005-2e78: once its video played to
+ * the end, or its text was read to the end). Idempotent, returns the course's
+ * fresh progress, `null` when the backend did not take it.
+ */
 export const markLessonViewed = async (
   courseId: string,
   lessonId: string

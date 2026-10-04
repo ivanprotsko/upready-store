@@ -13,6 +13,11 @@ import { model } from "@medusajs/framework/utils";
  * computed position; two lessons of the same course may briefly share one
  * while the panel reorders them, so it is not part of a uniqueness
  * constraint.
+ *
+ * `quiz` is the short test the storefront shows after the lesson
+ * (ask-20261005-061005-2e78): up to three questions, each with two to four
+ * options and the index of the right one, shaped and checked by
+ * `LessonQuizSchema` in `../quiz.ts`. Null for a lesson with no test.
  */
 const Lesson = model
   .define("lesson", {
@@ -23,6 +28,7 @@ const Lesson = model
     order: model.number(),
     body: model.text(),
     video_url: model.text().nullable(),
+    quiz: model.json().nullable(),
   })
   .indexes([
     {
