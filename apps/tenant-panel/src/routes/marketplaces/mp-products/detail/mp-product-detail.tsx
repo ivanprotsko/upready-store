@@ -8,7 +8,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom"
 import { SingleColumnPage } from "../../../../components/layout/pages"
 import { SectionRow } from "../../../../components/common/section"
 import { SingleColumnPageSkeleton } from "../../../../components/common/skeleton"
-import { _DataTable } from "../../../../components/table/data-table/data-table"
+import { DataTableRoot } from "../../../../components/table/data-table/data-table-root"
 import { useDataTable } from "../../../../hooks/use-data-table"
 import { useDate } from "../../../../hooks/use-date"
 import {
@@ -112,17 +112,27 @@ const GeneralSection = ({
         title={t("fields.price")}
         value={
           amount === null ? null : (
-            <MoneyCell
-              amount={amount}
-              strike={product.discount_price ? product.price : null}
-              currency={product.currency}
-            />
+            <div className="txt-compact-small">
+              <MoneyCell
+                amount={amount}
+                strike={product.discount_price ? product.price : null}
+                currency={product.currency}
+              />
+            </div>
           )
         }
       />
       <SectionRow
         title={t("mp.fields.stock")}
-        value={product.stock === null ? t("mp.products.detail.stockUnknown") : <UnitsCell value={product.stock} unit={t("mp.units.pcs")} />}
+        value={
+          product.stock === null ? (
+            t("mp.products.detail.stockUnknown")
+          ) : (
+            <div className="txt-compact-small">
+              <UnitsCell value={product.stock} unit={t("mp.units.pcs")} />
+            </div>
+          )
+        }
       />
       <SectionRow title={t("mp.fields.syncedAt")} value={getFullDate({ date: product.synced_at, includeTime: true })} />
       <SectionRow
@@ -272,14 +282,10 @@ const OffersSection = ({ product }: SectionProps) => {
         </Text>
       </div>
       {lines.length ? (
-        <_DataTable
-          table={table}
-          columns={columns}
-          count={lines.length}
-          pageSize={LINES_PAGE_SIZE}
-          prefix={LINES_PREFIX}
-          pagination
-        />
+        // The table and its pager without `_DataTable`'s search and filter
+        // row: there is nothing to search in one card's lines, and the empty
+        // row drew a blank strip above the header.
+        <DataTableRoot table={table} columns={columns} count={lines.length} pagination />
       ) : (
         <div className="px-6 py-4">
           <Text size="small" className="text-ui-fg-subtle">

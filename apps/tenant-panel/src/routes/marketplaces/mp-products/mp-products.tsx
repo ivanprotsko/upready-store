@@ -155,8 +155,15 @@ const useColumns = (marketplace: MarketplaceId, onLink: (row: MpProductRow) => v
       }),
       columnHelper.accessor("vendor_code", {
         header: () => <span>{t("mp.fields.vendorCode")}</span>,
+        // A WB article is the seller's own text and runs to fifty characters on
+        // the stand («Мультиварка авто 1,3 /коричневая металлик/ рус.панель»):
+        // one line, cut, the whole of it on hover, so «Обновлено» stays on screen.
         cell: ({ getValue }) => (
-          <span className="text-ui-fg-subtle truncate tabular-nums">{getValue() ?? "—"}</span>
+          <div className="flex h-full w-full max-w-[200px] items-center overflow-hidden">
+            <span className="text-ui-fg-subtle truncate tabular-nums" title={getValue() ?? undefined}>
+              {getValue() ?? "—"}
+            </span>
+          </div>
         ),
       }),
       columnHelper.display({
