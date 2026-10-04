@@ -1,10 +1,11 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
+import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { MARKETPLACE_MODULE } from "../../../../../../modules/marketplace";
 import type MarketplaceModuleService from "../../../../../../modules/marketplace/service";
 import { mpOrderToRow, toAmount } from "../../../../../../modules/marketplace/order-feed";
 import { getTenantScope } from "../../../../tenant-scope";
-import { marketplaceOf } from "../load-orders";
+import { marketplaceOf, readSellerCurrency } from "../load-orders";
 
 /**
  * `GET /tenants/marketplaces/:marketplace/orders/:id` — one marketplace order,
@@ -67,6 +68,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 
   const mp = req.scope.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
 
   const scope = { tenant_id: tenant.id, marketplace: adapter.id };
   const [order] = (await mp.listMpOrders({ id, ...scope })) as Row[];
@@ -75,9 +77,10 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     throw notFound(id);
   }
 
-  const [lines, events] = await Promise.all([
+  const [lines, events, sellerCurrency] = await Promise.all([
     mp.listMpOrderLines({ order_id: id, ...scope }) as Promise<Row[]>,
     mp.listMpOrderStatusEvents({ order_id: id, ...scope }) as Promise<Row[]>,
+    readSellerCurrency(pg, tenant.id, adapter.id),
   ]);
 
   /**
@@ -152,7 +155,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 
   res.json({
     order: {
-      ...mpOrderToRow(order as never, lines.length),
+      ...mpOrderToRow(order as never, lines.length, sellerCurrency),
       /** WB does not date its own status changes; `null` here means exactly that. */
       status_changed_at: iso(order.status_changed_at),
       synced_at: iso(order.synced_at),

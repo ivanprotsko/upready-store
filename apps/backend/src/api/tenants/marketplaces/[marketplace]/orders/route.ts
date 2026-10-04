@@ -1,6 +1,6 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { resolvePage } from "../../../../../modules/marketplace/order-feed";
-import { loadMpOrders } from "./load-orders";
+import { loadMpOrders, withLineCounts } from "./load-orders";
 
 /**
  * `GET /tenants/marketplaces/:marketplace/orders` — the orders of one
@@ -38,7 +38,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   const loaded = await loadMpOrders(req);
 
   res.json({
-    orders: loaded.rows.slice(offset, offset + limit),
+    orders: await withLineCounts(req, loaded.rows.slice(offset, offset + limit)),
     count: loaded.rows.length,
     limit,
     offset,

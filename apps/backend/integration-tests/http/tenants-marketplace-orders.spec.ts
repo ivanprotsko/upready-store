@@ -236,7 +236,14 @@ medusaIntegrationTestRunner({
       it("opens the card of an own order, and 404s a foreign one", async () => {
         const own = await api.get(`/tenants/marketplaces/wb/orders/${ids["a-sold"]}`, bearer(a.token));
         expect(own.status).toBe(200);
-        expect(own.data.order).toMatchObject({ id: ids["a-sold"], number: "ext-a-sold", status_key: "delivered" });
+        expect(own.data.order).toMatchObject({
+          id: ids["a-sold"],
+          number: "ext-a-sold",
+          status_key: "delivered",
+          // No price list imported in this suite: the seller's currency is unknown and not invented.
+          currency: null,
+          buyer_currency: "RUB",
+        });
         expect(own.data.lines).toHaveLength(1);
         expect(own.data.lines[0]).toMatchObject({ vendor_code: "art-a-sold", product: null });
         expect(own.data.status_history).toHaveLength(1);

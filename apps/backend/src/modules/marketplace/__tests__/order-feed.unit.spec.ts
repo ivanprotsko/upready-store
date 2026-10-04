@@ -46,6 +46,7 @@ const mpRow = (over: Partial<Parameters<typeof mpOrderToRow>[0]> = {}) =>
       ...over,
     } as never,
     1,
+    "RUB",
   );
 
 describe("период по умолчанию", () => {
@@ -297,6 +298,41 @@ describe("деньги", () => {
   });
 });
 
+describe("валюта", () => {
+  it("сумма — в валюте продавца, код из заказа — валюта страны покупателя", () => {
+    /*
+     * WB кладёт в total convertedPrice / finished_price — это рубли продавца,
+     * а currency заказа — страна покупателя (замер в analytics.ts: «685 BYN»
+     * за карточку ценой 919 ₽). «1 291,56 ₸» над рублёвой суммой — неправда.
+     */
+    const row = mpOrderToRow(
+      {
+        id: "mporder_kz",
+        marketplace: "wb",
+        external_id: "1",
+        scheme: "FBS",
+        status: "new",
+        status_detail: "waiting",
+        ordered_at: null,
+        buyer_region: null,
+        warehouse_name: null,
+        total: "1291.56",
+        currency: "KZT",
+        is_cancelled: false,
+      },
+      1,
+      "RUB",
+    );
+
+    expect(row.currency).toBe("RUB");
+    expect(row.buyer_currency).toBe("KZT");
+  });
+
+  it("валюта продавца неизвестна — валюта не выдумывается", () => {
+    expect(mpOrderToRow({ ...mpRow(), id: "x", marketplace: "wb", external_id: "1", status: null, status_detail: null, total: 1, currency: "BYN", is_cancelled: false } as never, 1).currency).toBeNull();
+  });
+});
+
 describe("CSV", () => {
   const rows = [mpRow(), mpRow({ id: "mporder_2", external_id: "987", total: "1290.5" })];
 
@@ -313,8 +349,8 @@ describe("CSV", () => {
     const [, first, second] = toMpOrdersCsv(rows).trimEnd().split("\r\n");
 
     expect(first.split(";")).toHaveLength(MP_ORDERS_CSV_COLUMNS.length);
-    expect(first).toContain(";1290;RUB;1");
-    expect(second).toContain(";1290,5;RUB;");
+    expect(first).toContain(";1290;RUB;RUB;1");
+    expect(second).toContain(";1290,5;RUB;RUB;");
   });
 
   it("пустой список даёт файл с одним заголовком, а не пустой файл", () => {

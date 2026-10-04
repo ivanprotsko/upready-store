@@ -54,7 +54,16 @@ export type FeedRow = {
   buyer_region: string | null;
   warehouse_name: string | null;
   total: number | null;
+  /**
+   * The currency `total` is IN: the seller's, not the code the order carries.
+   * WB stores `convertedPrice` / `finished_price` in `total`, both in the
+   * seller's own currency, while the order's code is the BUYER's country
+   * (BYN, KZT, …); printing «1 291,56 ₸» over a sum in roubles would be a label
+   * the data does not support (rule 17a, measured in `analytics.ts`).
+   */
   currency: string | null;
+  /** The code the marketplace put on the order: the buyer's country currency. */
+  buyer_currency: string | null;
   is_cancelled: boolean;
   lines_count: number;
 };
@@ -461,7 +470,16 @@ const iso = (value: Date | string | null): string | null => {
   return Number.isNaN(at.getTime()) ? null : at.toISOString();
 };
 
-export const mpOrderToRow = (row: MpOrderRow, linesCount: number): FeedRow => {
+/**
+ * `sellerCurrency` is the currency of the shop's own price list on this
+ * marketplace (`mp_offer.currency`), which is what `total` is in; `null` when
+ * the marketplace never said, and then no currency is claimed.
+ */
+export const mpOrderToRow = (
+  row: MpOrderRow,
+  linesCount: number,
+  sellerCurrency: string | null = null,
+): FeedRow => {
   const source = row.marketplace as FeedSource;
   const statusKey = statusKeyOf(source, row.status, row.status_detail);
 
@@ -479,7 +497,8 @@ export const mpOrderToRow = (row: MpOrderRow, linesCount: number): FeedRow => {
     buyer_region: row.buyer_region,
     warehouse_name: row.warehouse_name,
     total: toAmount(row.total),
-    currency: row.currency,
+    currency: sellerCurrency,
+    buyer_currency: row.currency,
     is_cancelled: Boolean(row.is_cancelled),
     lines_count: linesCount,
   };
@@ -504,6 +523,7 @@ export const MP_ORDERS_CSV_COLUMNS = [
   "Склад",
   "Итого по заказу",
   "Валюта",
+  "Валюта покупателя",
   "Строк в заказе",
 ] as const;
 
@@ -563,6 +583,7 @@ export const toMpOrdersCsv = (rows: FeedRow[]): string => {
         row.warehouse_name,
         csvAmount(row.total),
         row.currency,
+        row.buyer_currency,
         row.lines_count,
       ]
         .map(csvCell)

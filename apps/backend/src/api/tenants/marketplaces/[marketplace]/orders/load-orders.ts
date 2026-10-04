@@ -39,8 +39,13 @@ import { getTenantScope } from "../../../tenant-scope";
  * is computed from two raw columns by `statusKeyOf`, so the whole set is read
  * either way. Read through the module's `list…` it is one entity per row
  * (30 382 orders and as many lines on the stand, 2026-10-05); read here it is
- * one statement over the columns the list shows, with the line count as a
- * sub-select on the `order_id` index. The PR quotes the wall time.
+ * one statement over the columns the list shows.
+ *
+ * THE LINES ARE COUNTED FOR THE ROWS ANSWERED, NOT FOR ALL OF THEM. A
+ * correlated count per order cost ~10 s over the stand's 30 382 orders
+ * (`EXPLAIN ANALYZE`, 2026-10-05), and the list shows 20. So `loadMpOrders`
+ * leaves `lines_count` unset and each route runs `withLineCounts` over exactly
+ * the rows it sends: one page, or the rows of the file.
  */
 
 /**
@@ -113,30 +118,89 @@ export const marketplaceOf = (req: AuthenticatedMedusaRequest): MarketplaceAdapt
   return adapter;
 };
 
-/** Every order of one marketplace of one shop, in the shape of the list. */
-const readRows = async (pg: Knex, tenantId: string, marketplace: string): Promise<FeedRow[]> => {
-  const rows = (await pg("mp_order as o")
+/**
+ * Every order of one marketplace of one shop, in the shape of the list, with
+ * `lines_count` still 0: see `withLineCounts`.
+ */
+const readRows = async (
+  pg: Knex,
+  tenantId: string,
+  marketplace: string,
+  sellerCurrency: string | null,
+): Promise<FeedRow[]> => {
+  const rows = (await pg("mp_order")
     .select(
-      "o.id",
-      "o.marketplace",
-      "o.external_id",
-      "o.scheme",
-      "o.status",
-      "o.status_detail",
-      "o.ordered_at",
-      "o.buyer_region",
-      "o.warehouse_name",
-      "o.total",
-      "o.currency",
-      "o.is_cancelled",
-      pg.raw(
-        "(select count(*)::int from mp_order_line as l where l.order_id = o.id and l.deleted_at is null) as lines_count",
-      ),
+      "id",
+      "marketplace",
+      "external_id",
+      "scheme",
+      "status",
+      "status_detail",
+      "ordered_at",
+      "buyer_region",
+      "warehouse_name",
+      "total",
+      "currency",
+      "is_cancelled",
     )
-    .where({ "o.tenant_id": tenantId, "o.marketplace": marketplace })
-    .whereNull("o.deleted_at")) as (MpOrderRow & { lines_count: number })[];
+    .where({ tenant_id: tenantId, marketplace })
+    .whereNull("deleted_at")) as MpOrderRow[];
 
-  return rows.map((row) => mpOrderToRow(row, Number(row.lines_count) || 0));
+  return rows.map((row) => mpOrderToRow(row, 0, sellerCurrency));
+};
+
+/**
+ * The currency the shop's own prices on this marketplace are in, the most
+ * common `mp_offer.currency` — the same rule «Аналитика» prints its sums by
+ * (`sellerCurrencyOf`). `null` when no price was ever imported.
+ */
+export const readSellerCurrency = async (
+  pg: Knex,
+  tenantId: string,
+  marketplace: string,
+): Promise<string | null> => {
+  const [top] = (await pg("mp_offer")
+    .select("currency")
+    .count({ n: "*" })
+    .where({ tenant_id: tenantId, marketplace })
+    .whereNotNull("currency")
+    .whereNull("deleted_at")
+    .groupBy("currency")
+    .orderBy("n", "desc")
+    .limit(1)) as { currency: string; n: string | number }[];
+  return top?.currency ?? null;
+};
+
+/** At most this many ids in one `IN (…)`, well under Postgres' 65 535 bind parameters. */
+const ID_BATCH = 5_000;
+
+/**
+ * The same rows with their real `lines_count`, read for exactly these ids
+ * over the `order_id` index. Every route answers through this, so a 0 the
+ * owner sees is a 0 the table holds (rule 20a), never the placeholder.
+ */
+export const withLineCounts = async (
+  req: AuthenticatedMedusaRequest,
+  rows: FeedRow[],
+): Promise<FeedRow[]> => {
+  if (!rows.length) {
+    return rows;
+  }
+  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
+  const counts = new Map<string, number>();
+  for (let i = 0; i < rows.length; i += ID_BATCH) {
+    const ids = rows.slice(i, i + ID_BATCH).map((row) => row.id);
+    const found = (await pg("mp_order_line")
+      .select("order_id")
+      .count({ lines: "*" })
+      .whereIn("order_id", ids)
+      .whereNull("deleted_at")
+      .groupBy("order_id")) as { order_id: string; lines: string | number }[];
+    for (const one of found) {
+      counts.set(String(one.order_id), Number(one.lines));
+    }
+  }
+  return rows.map((row) => ({ ...row, lines_count: counts.get(row.id) ?? 0 }));
 };
 
 /** Whether the shop has a key, and how the last ORDER import of this marketplace ended. */
@@ -190,7 +254,8 @@ export const loadMpOrders = async (req: AuthenticatedMedusaRequest): Promise<Loa
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
 
-  const all = await readRows(pg, tenant.id, adapter.id);
+  const sellerCurrency = await readSellerCurrency(pg, tenant.id, adapter.id);
+  const all = await readRows(pg, tenant.id, adapter.id, sellerCurrency);
   const selection = selectMpOrders(all, query);
   const connection = await readConnection(req, adapter, tenant.id, selection.total);
 

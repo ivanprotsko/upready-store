@@ -3,7 +3,7 @@ import {
   MP_ORDERS_EXPORT_LIMIT,
   toMpOrdersCsv,
 } from "../../../../../../modules/marketplace/order-feed";
-import { loadMpOrders, marketplaceOf } from "../load-orders";
+import { loadMpOrders, marketplaceOf, withLineCounts } from "../load-orders";
 
 /**
  * `GET /tenants/marketplaces/:marketplace/orders/export` — the CSV of EXACTLY
@@ -25,7 +25,7 @@ import { loadMpOrders, marketplaceOf } from "../load-orders";
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const adapter = marketplaceOf(req);
   const loaded = await loadMpOrders(req);
-  const rows = loaded.rows.slice(0, MP_ORDERS_EXPORT_LIMIT);
+  const rows = await withLineCounts(req, loaded.rows.slice(0, MP_ORDERS_EXPORT_LIMIT));
 
   const stamp = new Date().toISOString().slice(0, 10);
   const slug = adapter.id === "wb" ? "wildberries" : adapter.id;
