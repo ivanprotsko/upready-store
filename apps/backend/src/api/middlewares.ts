@@ -1667,6 +1667,11 @@ export default defineMiddlewares({
       middlewares: [authenticate("customer", ["session", "bearer"])],
     },
     {
+      matcher: "/store/tenant/courses/mine/:slug",
+      method: ["GET"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+    {
       matcher: "/store/tenant/courses/:id/lessons/:lessonId",
       method: ["GET"],
       middlewares: [authenticate("customer", ["session", "bearer"])],

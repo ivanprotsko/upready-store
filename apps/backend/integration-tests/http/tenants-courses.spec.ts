@@ -257,7 +257,32 @@ medusaIntegrationTestRunner({
         );
         expect(deniedLesson.status).toBe(403);
 
+        // The course's contents in the account: a customer, the right shop, and a grant.
+        const slug = created.data.course.slug as string;
+        const anonymousContents = await failed(api.get(`/store/tenant/courses/mine/${slug}`, storeKey(a)));
+        expect(anonymousContents.status).toBe(401);
+        const deniedContents = await failed(
+          api.get(`/store/tenant/courses/mine/${slug}`, storeKey(a, customerA.token)),
+        );
+        expect(deniedContents.status).toBe(403);
+        const unknownContents = await failed(
+          api.get("/store/tenant/courses/mine/no-such-course", storeKey(a, customerA.token)),
+        );
+        expect(unknownContents.status).toBe(404);
+
         await grantEntitlement(a.tenant.id, customerA.id, courseId);
+
+        const contents = await api.get(`/store/tenant/courses/mine/${slug}`, storeKey(a, customerA.token));
+        expect(contents.status).toBe(200);
+        expect(contents.data.lessons).toEqual([
+          { id: l1.data.lesson.id, title: "Введение", order: 0, viewed_at: null },
+          { id: l2.data.lesson.id, title: "Практика", order: 1, viewed_at: null },
+        ]);
+        expect(contents.data.continue_lesson_id).toBeNull();
+        const mineBefore = await api.get("/store/tenant/courses/mine", storeKey(a, customerA.token));
+        expect(mineBefore.data.courses.find((c: any) => c.id === courseId)).toMatchObject({
+          continue_lesson_id: null,
+        });
 
         const unlocked = await api.get(
           `/store/tenant/courses?product_id=${productA.id}`,
@@ -297,7 +322,22 @@ medusaIntegrationTestRunner({
         const mine = await api.get("/store/tenant/courses/mine", storeKey(a, customerA.token));
         expect(mine.status).toBe(200);
         const mineEntry = mine.data.courses.find((c: any) => c.id === courseId);
-        expect(mineEntry).toMatchObject({ progress: { completed: 1, total: 2, percent: 50 } });
+        expect(mineEntry).toMatchObject({
+          progress: { completed: 1, total: 2, percent: 50 },
+          continue_lesson_id: l2.data.lesson.id,
+        });
+
+        const contentsAfter = await api.get(`/store/tenant/courses/mine/${slug}`, storeKey(a, customerA.token));
+        expect(contentsAfter.data.lessons[0].viewed_at).not.toBeNull();
+        expect(contentsAfter.data.lessons[1].viewed_at).toBeNull();
+        expect(contentsAfter.data.progress).toEqual({ completed: 1, total: 2, percent: 50 });
+        expect(contentsAfter.data.continue_lesson_id).toBe(l2.data.lesson.id);
+
+        // Another shop's key never reaches this course by its slug.
+        const otherShop = await failed(
+          api.get(`/store/tenant/courses/mine/${slug}`, storeKey(b, customerA.token)),
+        );
+        expect([401, 404]).toContain(otherShop.status);
       });
     });
   },

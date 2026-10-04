@@ -13,6 +13,7 @@ import {
   computeCourseProgress,
   type EntitlementRow,
   type OrderForPendingCourse,
+  pickContinueLessonId,
   type ProgressRow,
 } from "../store-course-helpers";
 
@@ -31,6 +32,11 @@ type ProductCard = { id: string; title: string; handle: string; thumbnail: strin
  * opens only on `payment.captured` (`grant-course-on-paid.ts`); nothing here
  * grants it. A product already entitled is never listed twice as pending,
  * even if its order's `payment_status` lags behind (a webhook retry window).
+ *
+ * ask-20261005-053807-eaae: `continue_lesson_id` is the lesson the card's
+ * «Продолжить» opens (`pickContinueLessonId`), `null` while nothing is viewed
+ * yet and for a course without access, where the card opens the course's
+ * contents in the account instead.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -119,6 +125,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
           : null,
         access,
         progress: access ? computeCourseProgress(lessons, progressRows) : null,
+        continue_lesson_id: access ? pickContinueLessonId(lessons, progressRows) : null,
         order: access || !pendingOrder ? null : { id: pendingOrder.id, display_id: pendingOrder.display_id },
       };
     }),
