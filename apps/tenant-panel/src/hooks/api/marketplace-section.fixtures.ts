@@ -589,15 +589,23 @@ const buildReviews = (marketplace: MarketplaceId): DeskItem[] => {
 export const fixtureReviews = (marketplace: MarketplaceId, params: MpReviewsParams): MpReviewsResponse => {
   const all = buildReviews(marketplace)
   const q = (params.q ?? "").toLowerCase()
+  const askedQuestions = params.kind?.includes("questions") ?? false
+  // The backend's rules (`reviews-list.ts`): `q` over the text, the buyer and
+  // the product; a rating keeps no question unless «Вопросы» was picked.
   let rows = all.filter(
     (row) =>
-      (!q || row.text?.toLowerCase().includes(q) || row.product.mp_title?.toLowerCase().includes(q)) &&
+      (!q ||
+        [row.text, row.pros, row.cons, row.author, row.product.mp_title, row.product.product_title].some((field) =>
+          field?.toLowerCase().includes(q)
+        )) &&
       has(params.kind, row.kind) &&
-      has(params.rating, row.rating === null ? null : String(row.rating)) &&
+      (row.kind === "questions" && askedQuestions
+        ? true
+        : has(params.rating, row.rating === null ? null : String(row.rating))) &&
       has(params.answered, row.is_answered ? "yes" : "no") &&
       matchesDate(row.created_at, params.created_at)
   )
-  rows = sortBy(rows, params.order, (row, key) => {
+  rows = sortBy(rows, params.order ?? "-created_at", (row, key) => {
     switch (key) {
       case "created_at":
         return row.created_at
@@ -621,7 +629,25 @@ export const fixtureReviews = (marketplace: MarketplaceId, params: MpReviewsPara
     generator: { available: true, id: "draft-generator", reason: "", remote: false },
     sending: {
       enabled: false,
-      reason: "Ответ сохраняется у нас как черновик. Опубликовать его покупателю можно в личном кабинете Wildberries.",
+      reason:
+        "Черновик хранится только у нас: с Wildberries платформа работает лишь на чтение, " +
+        "поэтому опубликовать ответ покупателю можно в личном кабинете Wildberries.",
+    },
+    connection: {
+      marketplace,
+      label: marketplace === "wb" ? "Wildberries" : "Ozon",
+      connected: true,
+      last_run: {
+        kind: "feedbacks",
+        status: "succeeded",
+        started_at: NOW.toISOString(),
+        finished_at: NOW.toISOString(),
+        rows: all.length,
+        error: null,
+        is_fixture: false,
+      },
+      last_success_at: NOW.toISOString(),
+      notice: null,
     },
   }
 }

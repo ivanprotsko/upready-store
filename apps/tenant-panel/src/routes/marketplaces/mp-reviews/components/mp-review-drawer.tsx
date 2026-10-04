@@ -3,29 +3,43 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
-import { useSaveDraft, useSuggestDraft, type DeskItem } from "../../../../hooks/api/marketplace-desk"
+import { SupportDetails } from "../../../../components/common/support-details"
+import {
+  useSaveDraft,
+  useSuggestDraft,
+  type DeskGenerator,
+  type DeskItem,
+} from "../../../../hooks/api/marketplace-desk"
 import { MP_FIXTURES } from "../../../../hooks/api/marketplace-section"
 import { useDate } from "../../../../hooks/use-date"
 
 /**
  * One review or question with its draft reply (mp-section-design). Opened
  * from the row; the table behind it stays where it was. The draft is saved to
- * our base and nowhere else, which the one sentence above the field says.
+ * our base and nowhere else (`POST /tenants/marketplaces/{kind}/:id/draft`),
+ * which the one sentence under the field says, word for word as the backend
+ * returns it. After a save the lists are refetched, so the row's dot turns
+ * «Черновик ответа» and the «сохранён …» line below comes from the base.
+ *
+ * «Сгенерировать» is disabled when the backend has no generator, and the
+ * drawer says so once: the plain sentence on the screen, the backend's own
+ * reason (a variable name) under «Подробности для поддержки» (P3).
  */
 export const MpReviewDrawer = ({
   item,
-  generatorAvailable,
-  sendingReason,
+  generator,
+  readOnlyNote,
   onClose,
 }: {
   item: DeskItem
-  generatorAvailable: boolean
-  sendingReason: string
+  generator: DeskGenerator | undefined
+  readOnlyNote: string
   onClose: () => void
 }) => {
   const { t } = useTranslation()
   const { getFullDate } = useDate()
   const [draft, setDraft] = useState(item.answer_draft ?? "")
+  const generatorAvailable = MP_FIXTURES || (generator?.available ?? false)
 
   const save = useSaveDraft({
     onSuccess: () => toast.success(t("marketplaces.desk.draft.saved")),
@@ -102,6 +116,11 @@ export const MpReviewDrawer = ({
 
           <div className="flex flex-col gap-y-2">
             {item.text ? <Text size="small">{item.text}</Text> : null}
+            {!item.text && !item.pros && !item.cons ? (
+              <Text size="small" className="text-ui-fg-subtle">
+                {t("mp.reviews.noText")}
+              </Text>
+            ) : null}
             {item.pros ? (
               <Text size="small">
                 <span className="text-ui-fg-subtle">{t("marketplaces.desk.pros")}: </span>
@@ -127,7 +146,7 @@ export const MpReviewDrawer = ({
               onChange={(event) => setDraft(event.target.value)}
             />
             <Text size="xsmall" className="text-ui-fg-muted">
-              {sendingReason}
+              {readOnlyNote}
             </Text>
             {item.answer_draft_at ? (
               <Text size="xsmall" className="text-ui-fg-subtle">
@@ -135,6 +154,14 @@ export const MpReviewDrawer = ({
                   at: getFullDate({ date: item.answer_draft_at, includeTime: true }),
                 })}
               </Text>
+            ) : null}
+            {!generatorAvailable && generator ? (
+              <div className="flex flex-col gap-y-1" data-testid="mp-review-generator-off">
+                <Text size="xsmall" className="text-ui-fg-subtle">
+                  {t("mp.reviews.generatorOff")}
+                </Text>
+                <SupportDetails text={generator.reason} />
+              </div>
             ) : null}
           </div>
         </Drawer.Body>

@@ -1,18 +1,28 @@
 import { ChatBubbleLeftRight, PencilSquare, StarSolid } from "@medusajs/icons"
-import { clx } from "@medusajs/ui"
+import { Alert, Text, clx } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { createColumnHelper } from "@tanstack/react-table"
-import { useMemo, useState } from "react"
+import { useCallback, useMemo } from "react"
 import { useTranslation } from "react-i18next"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import { ActionMenu } from "../../../components/common/action-menu"
+import { NoRecords } from "../../../components/common/empty-table-content"
+import { SupportDetails, marketplaceErrorKey } from "../../../components/common/support-details"
 import { Filter } from "../../../components/table/data-table"
 import { _DataTable } from "../../../components/table/data-table/data-table"
 import { PlaceholderCell } from "../../../components/table/table-cells/common/placeholder-cell"
 import { StatusCell } from "../../../components/table/table-cells/common/status-cell"
 import { useDataTable } from "../../../hooks/use-data-table"
+import { useDate } from "../../../hooks/use-date"
 import type { DeskItem } from "../../../hooks/api/marketplace-desk"
-import { MARKETPLACE_LABEL, useMpReviews, type MarketplaceId } from "../../../hooks/api/marketplace-section"
+import {
+  MARKETPLACE_LABEL,
+  slugOf,
+  useMpReviews,
+  type MarketplaceId,
+  type MpReviewsResponse,
+} from "../../../hooks/api/marketplace-section"
 import { DateTimeCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
 import { useMpListQuery } from "../common/use-mp-list-query"
@@ -26,24 +36,56 @@ import { MpReviewDrawer } from "./components/mp-review-drawer"
  *
  * No «отправить» anywhere, as w18 decided (Ivan, 2026-09-16 02:46): a reply is
  * a write to the marketplace, and the keys are read-only. The draft is kept
- * here and the drawer says so in one sentence.
+ * here and the drawer says so in one sentence, word for word the backend's.
+ *
+ * The data is `GET /tenants/marketplaces/:marketplace/reviews` (task-05). The
+ * open review is `?review=<id>` in the address, so a row is a link like every
+ * row of the shop's tables, Back closes the drawer, and a review can be sent
+ * to someone with its filters.
  */
 
 const PAGE_SIZE = 20
 const FILTER_KEYS = ["kind", "rating", "answered", "created_at"] as const
+const OPEN_KEY = "review"
+
+/** The import outcomes worth a line above the table; the others are said by the empty list. */
+const BANNER: Record<string, "warning" | "error"> = {
+  failed: "error",
+  rate_limited: "warning",
+  fixture: "warning",
+}
 
 export const MpReviews = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
   const { t } = useTranslation()
+  const { pathname, search } = useLocation()
+  const navigate = useNavigate()
   const { params, raw, dates } = useMpListQuery([...FILTER_KEYS], PAGE_SIZE)
 
-  const { items, count, counts, generator, sending, isLoading, isError, error } = useMpReviews(
+  const { items, count, counts, generator, sending, connection, isLoading, isError, error } = useMpReviews(
     marketplace,
     { ...params, created_at: dates.created_at } as Parameters<typeof useMpReviews>[1],
     { placeholderData: keepPreviousData }
   )
 
-  const [open, setOpen] = useState<DeskItem | null>(null)
-  const columns = useColumns(setOpen)
+  /** The list's own address with the open review set or cleared. */
+  const addressWith = useCallback(
+    (id: string | null) => {
+      const next = new URLSearchParams(search)
+      if (id) {
+        next.set(OPEN_KEY, id)
+      } else {
+        next.delete(OPEN_KEY)
+      }
+      const query = next.toString()
+      return `${pathname}${query ? `?${query}` : ""}`
+    },
+    [pathname, search]
+  )
+
+  const openId = new URLSearchParams(search).get(OPEN_KEY)
+  const open = openId ? (items ?? []).find((item) => item.id === openId) ?? null : null
+
+  const columns = useColumns(useCallback((item: DeskItem) => navigate(addressWith(item.id)), [navigate, addressWith]))
   const filters = useFilters()
   const { table } = useDataTable({
     data: items ?? [],
@@ -54,17 +96,22 @@ export const MpReviews = ({ marketplace = "wb" }: { marketplace?: MarketplaceId 
     getRowId: (row) => row.id,
   })
 
+  // After every hook: a throw here hands the failure to the route's own
+  // ErrorBoundary, and a hook below it would change the hook order.
   if (isError) {
     throw error
   }
 
   const label = MARKETPLACE_LABEL[marketplace]
+  const slug = slugOf(marketplace)
+  /** Nothing at all in our base for this marketplace, whatever the filters: the list says why. */
+  const nothing = counts ? counts.reviews.total + counts.questions.total === 0 : false
 
   return (
     <MpPage
       title={t("mp.reviews.title")}
       subtitle={
-        counts
+        counts && !nothing
           ? t("mp.reviews.subtitle", {
               marketplace: label,
               reviews: counts.reviews.total,
@@ -75,34 +122,115 @@ export const MpReviews = ({ marketplace = "wb" }: { marketplace?: MarketplaceId 
           : null
       }
     >
-      <_DataTable
-        table={table}
-        columns={columns}
-        count={count ?? 0}
-        pageSize={PAGE_SIZE}
-        filters={filters}
-        search
-        pagination
-        isLoading={isLoading}
-        queryObject={raw}
-        orderBy={[
-          { key: "created_at", label: t("fields.date") },
-          { key: "rating", label: t("mp.fields.rating") },
-        ]}
-        noRecords={{
-          title: t("mp.reviews.empty.title"),
-          message: t("mp.reviews.empty.message", { marketplace: label }),
-        }}
-      />
+      {connection?.notice && BANNER[connection.notice] ? (
+        <ConnectionBanner connection={connection} label={label} slug={slug} />
+      ) : null}
+      {nothing && connection ? (
+        <EmptyReviews connection={connection} label={label} slug={slug} />
+      ) : (
+        <_DataTable
+          table={table}
+          columns={columns}
+          count={count ?? 0}
+          pageSize={PAGE_SIZE}
+          filters={filters}
+          search
+          pagination
+          isLoading={isLoading}
+          queryObject={raw}
+          navigateTo={(row) => addressWith(row.original.id)}
+          orderBy={[
+            { key: "created_at", label: t("fields.date") },
+            { key: "rating", label: t("mp.fields.rating") },
+          ]}
+        />
+      )}
       {open ? (
         <MpReviewDrawer
+          key={open.id}
           item={open}
-          generatorAvailable={generator?.available ?? false}
-          sendingReason={sending?.reason ?? ""}
-          onClose={() => setOpen(null)}
+          generator={generator}
+          readOnlyNote={sending?.reason ?? ""}
+          onClose={() => navigate(addressWith(null), { replace: true })}
         />
       ) : null}
     </MpPage>
+  )
+}
+
+type Connection = MpReviewsResponse["connection"]
+
+/** A failed or throttled import, or recorded answers: said above the rows, not instead of them (rule 20a). */
+const ConnectionBanner = ({ connection, label, slug }: { connection: Connection; label: string; slug: string }) => {
+  const { t } = useTranslation()
+  const { getFullDate } = useDate()
+  const notice = connection.notice as string
+  const at = connection.last_run?.finished_at ?? connection.last_run?.started_at ?? null
+
+  return (
+    <div className="px-6 py-4">
+      <Alert variant={BANNER[notice]}>
+        <div className="flex flex-col gap-y-1">
+          <Text size="small">
+            {t(`mp.reviews.connection.${notice}`, {
+              marketplace: label,
+              at: at ? getFullDate({ date: at, includeTime: true }) : "—",
+              error: t(marketplaceErrorKey(connection.last_run?.error)),
+            })}
+          </Text>
+          {notice !== "fixture" ? (
+            <Link
+              to={`/marketplaces/${slug}/sync`}
+              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small w-fit"
+            >
+              {t("mp.reviews.links.sync")}
+            </Link>
+          ) : null}
+          {notice === "failed" && connection.last_run?.error ? (
+            <SupportDetails text={connection.last_run.error} />
+          ) : null}
+        </div>
+      </Alert>
+    </div>
+  )
+}
+
+/**
+ * Not one row in our base: no key, an import that never ran, one that never
+ * succeeded, or a marketplace that sent nothing. Four causes, four sentences,
+ * and the place to fix the first three.
+ */
+const EmptyReviews = ({ connection, label, slug }: { connection: Connection; label: string; slug: string }) => {
+  const { t } = useTranslation()
+  const { getFullDate } = useDate()
+
+  const reason = !connection.connected
+    ? "missing"
+    : !connection.last_run
+      ? "never_run"
+      : connection.last_success_at
+        ? "none"
+        : "never_succeeded"
+  const at = reason === "none" ? connection.last_success_at : (connection.last_run?.started_at ?? null)
+
+  return (
+    <div data-testid="mp-reviews-empty" data-reason={reason}>
+      <NoRecords
+        className="h-[240px]"
+        title={t(`mp.reviews.empty.${reason}.title`, { marketplace: label })}
+        message={t(`mp.reviews.empty.${reason}.message`, {
+          marketplace: label,
+          at: at ? getFullDate({ date: at, includeTime: true }) : "—",
+        })}
+        action={
+          reason === "missing"
+            ? { to: `/settings/integrations/${slug}`, label: t("mp.reviews.links.connect") }
+            : reason === "none"
+              ? undefined
+              : { to: `/marketplaces/${slug}/sync`, label: t("mp.reviews.links.sync") }
+        }
+      />
+    </div>
   )
 }
 
@@ -140,7 +268,8 @@ const useColumns = (onOpen: (item: DeskItem) => void) => {
             {row.original.kind === "questions" ? (
               <ChatBubbleLeftRight className="text-ui-fg-subtle shrink-0" />
             ) : null}
-            <span className="truncate">{row.original.text ?? "—"}</span>
+            {/* A WB rating often comes without words: the pros or cons stand in, else a dash. */}
+            <span className="truncate">{row.original.text ?? row.original.pros ?? row.original.cons ?? "—"}</span>
           </div>
         ),
         meta: { phoneWide: true },
