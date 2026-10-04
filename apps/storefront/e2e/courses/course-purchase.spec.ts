@@ -4,8 +4,8 @@ import { mkdirSync } from "node:fs"
 /**
  * Course purchase suite (o24-courses part (e)), tenant cherkashino, locale ru:
  * buy the liver course → checkout skips the delivery step entirely (digital
- * cart) → the lesson opens → «Отметить просмотренным» → progress shows on
- * «Мои курсы». Same shared-page structure as `e2e/cart/cart-checkout.spec.ts`
+ * cart) → the lesson opens → reading it to the end counts it and turns
+ * «Дальше» on (ask-20261005-061005-2e78) → progress shows on «Мои курсы». Same shared-page structure as `e2e/cart/cart-checkout.spec.ts`
  * (read that file's header for why) — DATA SAFETY note there applies here too:
  * never point `E2E_BASE_URL` at a storefront backed by the shared stand
  * database.
@@ -258,18 +258,25 @@ test.describe("course purchase", () => {
     await firstLesson.waitFor({ state: "visible" })
     await firstLesson.click()
 
-    await page.getByTestId("lesson-viewed-button").waitFor({ state: "visible" })
-    await expect(page.locator("p.whitespace-pre-line")).not.toHaveText("")
+    await page.getByTestId("course-lesson").waitFor({ state: "visible" })
+    await page.getByTestId("lesson-flow-next").waitFor({ state: "visible" })
 
     await page.screenshot({
       path: `${ARTIFACTS_DIR}/storefront-lesson-player-${testInfo.project.name}.png`,
       fullPage: true,
     })
 
-    await page.getByTestId("lesson-viewed-button").click()
-    await expect(page.getByTestId("lesson-viewed-button")).toBeDisabled({
+    // The seeded lessons carry no video, so the lesson counts once its text is read to the end.
+    await page.getByTestId("lesson-end").scrollIntoViewIfNeeded()
+    await expect(page.getByTestId("lesson-flow-next")).toBeEnabled({
       timeout: 10_000,
     })
+    // «Дальше» turns on before the backend answers; the strip moves once it has.
+    await expect(page.getByTestId("lesson-flow-progress")).toHaveAttribute(
+      "aria-valuenow",
+      "1",
+      { timeout: 10_000 }
+    )
 
     await page.goto("/ru/account/courses", { waitUntil: "domcontentloaded" })
     await page.getByTestId("my-courses-list").waitFor({ state: "visible" })
