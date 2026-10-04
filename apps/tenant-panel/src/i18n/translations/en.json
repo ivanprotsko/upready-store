@@ -5645,39 +5645,73 @@
       }
     },
     "priceStock": {
-      "title": "Цены и остатки",
-      "measured": "Цены {{marketplace}} на {{prices}}, остатки на {{stocks}}. Подсвечиваем расхождение от {{pricePct}} % по цене и от {{stockAbs}} шт по остатку. Только просмотр.",
-      "export": "Скачать в файл",
+      "title": "Prices and stock",
+      "measured": "{{marketplace}} prices as of {{prices}}, stock as of {{stocks}}. Gaps from {{pricePct}} % in price and from {{stockAbs}} pcs in stock are highlighted. View only.",
+      "export": "Download file",
       "columns": {
-        "shopPrice": "Цена в магазине",
-        "mpPrice": "Цена на {{marketplace}}",
-        "shopStock": "Остаток в магазине",
-        "mpStock": "Остаток на {{marketplace}}",
-        "state": "Где есть"
+        "shopPrice": "Shop price",
+        "mpPrice": "Price on {{marketplace}}",
+        "shopStock": "Shop stock",
+        "mpStock": "Stock on {{marketplace}}",
+        "state": "Listed in"
       },
       "state": {
-        "both": "Есть везде",
-        "shop_only": "Только в магазине",
-        "marketplace_only": "Только на {{marketplace}}"
+        "both": "Both",
+        "shop_only": "Shop only",
+        "marketplace_only": "{{marketplace}} only"
       },
       "filters": {
-        "overThreshold": "Расхождение",
-        "onlyOver": "Только выше порога",
-        "pricePct": "Порог по цене",
-        "stockAbs": "Порог по остатку"
+        "overThreshold": "Gap",
+        "onlyOver": "Above the threshold only",
+        "pricePct": "Price threshold",
+        "stockAbs": "Stock threshold"
       },
       "orderBy": {
-        "priceDiff": "Расхождение по цене",
-        "stockDiff": "Расхождение по остатку"
+        "priceDiff": "Price gap",
+        "stockDiff": "Stock gap"
       },
-      "linesHint": "Строк: {{lines}} · складов: {{warehouses}} · размеров: {{sizes}} · в резерве: {{reserved}}",
-      "stale": "Устарело",
+      "linesHint": "Lines: {{lines}} · warehouses: {{warehouses}} · sizes: {{sizes}} · reserved: {{reserved}}",
+      "stale": "Outdated",
+      "staleHint": "Measured {{date}}. Prices older than 3 h and stock older than 45 min are marked outdated.",
+      "actions": {
+        "lines": "Lines by warehouse"
+      },
+      "lines": {
+        "title": "Lines by warehouse",
+        "description": "{{title}} · article {{vendorCode}} · {{marketplace}}",
+        "size": "Size",
+        "oneSize": "One size",
+        "noWarehouse": "In no warehouse",
+        "reserved": "Reserved",
+        "measuredAt": "Measured",
+        "loadFailed": "The card's lines did not load.",
+        "empty": "{{marketplace}} sent no price or stock line for this card.",
+        "total": "Lines: {{count}}. The stock in the table, {{stock}} pcs, is the sum of the lines that reported a stock ({{stocked}} of them).",
+        "totalNoStock": "Lines: {{count}}. None reported a stock, so the table shows «-», not 0."
+      },
+      "supportDetails": "Details for support",
       "empty": {
-        "title": "Сравнивать пока нечего",
-        "message": "Нужны карточки с {{marketplace}} и товары магазина с тем же артикулом."
+        "title": "Nothing to compare yet",
+        "message": "There are no {{marketplace}} cards and no shop products.",
+        "nothing": {
+          "title": "Nothing to compare yet",
+          "message": "There are no {{marketplace}} cards and no shop products."
+        },
+        "no_prices": {
+          "title": "No prices have arrived yet",
+          "message": "{{marketplace}} cards: {{cards}}, and no price or stock line yet. The shop is not empty: the price and stock update has not brought data so far."
+        },
+        "no_links": {
+          "title": "No linked cards",
+          "message": "Link the cards to shop products in «Products»: «Both» and the gaps exist for linked cards only."
+        },
+        "openProducts": "Open «Products»",
+        "openSync": "Open «Updates»"
       },
       "toasts": {
-        "exported": "Файл со строками ({{count}}) подготовлен."
+        "exported": "File with {{count}} rows is ready.",
+        "truncated": "The file holds the first {{limit}} of {{count}} rows. Narrow the filter to export the rest.",
+        "exportFailed": "The file did not download."
       }
     },
     "orders": {

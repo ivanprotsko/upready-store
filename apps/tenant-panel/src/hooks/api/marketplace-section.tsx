@@ -217,10 +217,19 @@ export const useMpProduct = (
 
 export type MpPriceStockState = "both" | "shop_only" | "marketplace_only"
 
+/**
+ * One row: a card of the marketplace (`both` when `mp_link` ties it to a shop
+ * variant, else `marketplace_only`), or a shop variant no card is linked to
+ * (`shop_only`).
+ */
 export type MpPriceStockRow = {
+  /** `mp_product.id` of a card, the variant id of a row of the shop only. */
   id: string
+  /** `mp_product.id`; `null` on a row of the shop only. */
+  card_id: string | null
   external_id: string | null
-  vendor_code: string
+  /** The card's article, or the variant's SKU; a shop product may have none. */
+  vendor_code: string | null
   title: string | null
   thumbnail: string | null
   state: MpPriceStockState
@@ -246,8 +255,11 @@ export type MpPriceStockRow = {
     stock_stale: boolean
   } | null
   diff: {
+    /** Marketplace minus shop: «+96 ₽» means the marketplace is dearer. */
     price_abs: number | null
+    /** The same gap in percent of the shop's price. */
     price_pct: number | null
+    /** Marketplace minus shop, in units. */
     stock_abs: number | null
     /** Over the thresholds the query carried. */
     highlighted: boolean
@@ -261,8 +273,15 @@ export type MpPriceStockResponse = {
   limit: number
   offset: number
   thresholds: { price_pct: number; stock_abs: number }
+  /** Of the whole table, whatever the filter. */
   counts: Record<MpPriceStockState | "over_threshold", number>
   measured: { prices_at: string | null; stocks_at: string | null }
+  /**
+   * What the tables hold, for the empty states: nothing at all, cards without a
+   * single price line yet, or a filter that matched nothing. `offers_without_card`
+   * counts the marketplace's priced cards the card import did not bring.
+   */
+  stored: { cards: number; lines: number; variants: number; offers_without_card: number }
 }
 
 export type MpPriceStockParams = ListParams & {
@@ -297,6 +316,50 @@ export const useMpPriceStock = (
 export const mpPriceStockExportPath = (marketplace: MarketplaceId, params: MpPriceStockParams) => {
   const search = new URLSearchParams(toQuery(params)).toString()
   return `/tenants/marketplaces/${marketplace}/price-stock/export${search ? `?${search}` : ""}`
+}
+
+/** The drawer on fixtures: the row's stock spread over its warehouses, one size. */
+const fixturePriceStockLines = (marketplace: MarketplaceId, externalId: string): { lines: MpOfferLine[] } => {
+  const row = fixturePriceStock(marketplace, { limit: 10_000 }).rows.find((entry) => entry.external_id === externalId)
+  if (!row?.mp) {
+    throw new FetchError(`Карточки ${externalId} нет`, "Not Found", 404)
+  }
+  const { mp } = row
+  const count = Math.max(mp.warehouses, 1)
+  return {
+    lines: Array.from({ length: count }, (_, index) => ({
+      size: null,
+      warehouse: `Склад ${index + 1}`,
+      price: mp.price,
+      discount_price: mp.discount_price,
+      stock: mp.stock === null ? null : Math.floor(mp.stock / count) + (index === 0 ? mp.stock % count : 0),
+      reserved: null,
+      measured_at: mp.stock_measured_at,
+    })),
+  }
+}
+
+/**
+ * `GET /tenants/marketplaces/:marketplace/price-stock/lines?external_id=` (task-03):
+ * the sizes × warehouses behind one row, for the drawer «Строки по складам».
+ * The lines are `MpOfferLine`, the same the card page of «Товары» shows.
+ */
+export const useMpPriceStockLines = (
+  marketplace: MarketplaceId,
+  externalId: string,
+  options?: Options<{ lines: MpOfferLine[] }>
+) => {
+  const { data, ...rest } = useQuery({
+    queryKey: marketplaceSectionQueryKeys.detail(externalId, { marketplace, kind: "price-stock-lines" }),
+    queryFn: () =>
+      MP_FIXTURES
+        ? Promise.resolve().then(() => fixturePriceStockLines(marketplace, externalId))
+        : sdk.client.fetch<{ lines: MpOfferLine[] }>(`/tenants/marketplaces/${marketplace}/price-stock/lines`, {
+            query: { external_id: externalId },
+          }),
+    ...options,
+  })
+  return { lines: data?.lines, ...rest }
 }
 
 /* ----------------------------------------------------------------------------

@@ -4,7 +4,8 @@ import path from "node:path";
 import { MARKETPLACES } from "../registry";
 
 /**
- * THE READ-ONLY PROOF OF THE PRICE AND STOCK TABLE (w17-mp-price-stock-table).
+ * THE READ-ONLY PROOF OF THE PRICE AND STOCK TABLE (w17-mp-price-stock-table,
+ * moved to «Wildberries → Цены и остатки» by mp-section-design task-03).
  *
  * Ivan's standing invariant of 2026-09-16 02:46 WITA: «There is no editing of
  * marketplace prices or stocks on this screen in any form — no inline edit, no
@@ -19,8 +20,9 @@ import { MARKETPLACES } from "../registry";
  *   2. no handler can reach a marketplace: no `adapter.read(`, no `runSync`,
  *      no `fetch`, no registered endpoint id, and none of the paths the
  *      adapters themselves list as mutations;
- *   3. the panel sends no mutation and carries no control that edits a
- *      marketplace number — and the TABLE carries no input at all.
+ *   3. the panel sends no mutation, carries no control that edits a
+ *      marketplace number and, since the thresholds became filters, no input
+ *      at all — not in the table and not on the screen.
  *
  * The endpoint ids and the mutation paths come from `MARKETPLACES`, so a third
  * adapter is covered by being registered rather than by this file being edited
@@ -37,6 +39,7 @@ const HANDLER_DIR = path.join(
   "api",
   "tenants",
   "marketplaces",
+  "[marketplace]",
   "price-stock",
 );
 
@@ -57,18 +60,31 @@ const PANEL_DIR = path.join(
   "src",
   "routes",
   "marketplaces",
-  "price-stock",
+  "mp-price-stock",
 );
 
-const PANEL_HOOK = path.join(
+/**
+ * The screen's hooks are ONE BLOCK of a file the six screens of the section
+ * share (`marketplace-section.tsx`); the block is cut out by its heading, so a
+ * mutation another screen legitimately owns (the drafts of «Отзывы») does not
+ * fail this screen's proof, and a mutation added to THIS block does.
+ */
+const SECTION_HOOKS = path.join(
   REPO_ROOT,
   "apps",
   "tenant-panel",
   "src",
   "hooks",
   "api",
-  "marketplace-price-stock.tsx",
+  "marketplace-section.tsx",
 );
+
+const priceStockBlock = (): string => {
+  const source = readFileSync(SECTION_HOOKS, "utf8");
+  const start = source.indexOf("* «Цены и остатки»");
+  const end = source.indexOf("/* ----", start);
+  return start === -1 ? "" : source.slice(start, end === -1 ? undefined : end);
+};
 
 const walk = (dir: string, found: string[] = []): string[] => {
   if (!existsSync(dir)) {
@@ -97,7 +113,13 @@ const withoutComments = (source: string): string =>
   source.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/(^|[^:])\/\/[^\n]*/g, "$1 ");
 
 const BACKEND_FILES = [...walk(HANDLER_DIR), DECISION_MODULE];
-const PANEL_FILES = [...walk(PANEL_DIR), PANEL_HOOK].filter((file) => existsSync(file));
+const PANEL_FILES = walk(PANEL_DIR);
+
+/** Every panel source of the screen: its files, and its block of the shared hooks file. */
+const PANEL_SOURCES: [string, string][] = [
+  ...PANEL_FILES.map((file): [string, string] => [file, read(file)]),
+  [`${SECTION_HOOKS} (блок «Цены и остатки»)`, priceStockBlock()],
+];
 
 describe("бэкенд-обработчики таблицы цен и остатков", () => {
   it("файлы на месте — иначе тест зелен ни о чём (правило 20a: ноль — не пусто)", () => {
@@ -165,28 +187,30 @@ describe("бэкенд-обработчики таблицы цен и оста�
 });
 
 describe("экран панели", () => {
-  it("экран существует", () => {
-    expect(PANEL_FILES.length).toBeGreaterThanOrEqual(5);
+  it("экран существует, и блок хуков найден", () => {
+    expect(PANEL_FILES.length).toBeGreaterThanOrEqual(3);
+    expect(priceStockBlock()).toMatch(/useMpPriceStock\b/);
+    expect(priceStockBlock()).toMatch(/useMpPriceStockLines\b/);
   });
 
-  it.each(PANEL_FILES)("%s не отправляет ни одной мутации", (file) => {
-    const source = withoutComments(read(file));
+  it.each(PANEL_SOURCES)("%s не отправляет ни одной мутации", (_name, raw) => {
+    const source = withoutComments(raw);
 
     expect(source).not.toMatch(/useMutation/);
     expect(source).not.toMatch(/method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/);
     expect(source).not.toMatch(/sdk\.(?:admin|client)\.[\w.]*\.(?:create|update|delete)\b/);
   });
 
-  it.each(PANEL_FILES)("%s не содержит кнопки правки числа площадки", (file) => {
-    const source = withoutComments(read(file));
+  it.each(PANEL_SOURCES)("%s не содержит кнопки правки числа площадки", (_name, raw) => {
+    const source = withoutComments(raw);
 
     /*
      * Слова, которыми называется ПРАВКА цены или остатка на площадке. Кнопка
-     * «Скачать CSV» и поля порогов — действия над НАШИМ экраном, и в список не
-     * входят.
+     * «Скачать в файл» и фильтры порогов — действия над НАШИМ экраном, и в
+     * список не входят.
      */
+    expect(source.toLowerCase()).not.toContain("отправить");
     for (const word of [
-      "Отправить на площадку",
       "Изменить цену",
       "Обновить цену",
       "Изменить остаток",
@@ -199,19 +223,9 @@ describe("экран панели", () => {
     }
   });
 
-  it.each(walk(path.join(PANEL_DIR, "components")))(
-    "%s: в самой таблице нет ни одного поля ввода",
-    (file) => {
-      const source = withoutComments(read(file));
+  it.each(PANEL_FILES)("%s: ни одного поля ввода — пороги стали фильтрами", (file) => {
+    const source = withoutComments(read(file));
 
-      expect(source).not.toMatch(/<Input\b|<input\b|<Textarea\b|contentEditable/);
-    },
-  );
-
-  it("поля порогов живут ровно на экране, а не в таблице", () => {
-    const screen = withoutComments(read(path.join(PANEL_DIR, "price-stock.tsx")));
-
-    expect(screen).toMatch(/<Input\b/);
-    expect(walk(path.join(PANEL_DIR, "components")).length).toBeGreaterThanOrEqual(3);
+    expect(source).not.toMatch(/<Input\b|<input\b|<Textarea\b|contentEditable/);
   });
 });
