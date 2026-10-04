@@ -138,3 +138,14 @@ test("checkDbAnalytics: INTL allows GA4, so it never fails this check", () => {
   const intl = loadProfile("intl", INSTANCES_DIR);
   assert.deepEqual(checkDbAnalytics(5, intl), []);
 });
+
+test("checkDbLoginMethods: RU allows Yandex ID only, INTL allows e-mail and Yandex (K15)", async () => {
+  const { checkDbLoginMethods } = await import("../instance-check.mjs");
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const intl = loadProfile("intl", INSTANCES_DIR);
+  assert.deepEqual(checkDbLoginMethods(["yandex"], ru), []);
+  assert.equal(checkDbLoginMethods(["both", "both", "yandex"], ru).length, 1);
+  assert.match(checkDbLoginMethods(["both", "both"], ru)[0], /^2 tenant\(s\) .*"both".*emailpass/);
+  assert.deepEqual(checkDbLoginMethods(["both", "email", "yandex"], intl), []);
+  assert.deepEqual(checkDbLoginMethods(["both"], { instance: "x", providers: {} }), []);
+});

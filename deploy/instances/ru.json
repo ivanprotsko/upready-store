@@ -48,7 +48,7 @@
       "forbidden": ["tribute"]
     },
     "auth": {
-      "allowed": ["emailpass", "yandex", "telegram"],
+      "allowed": ["yandex"],
       "forbidden": []
     },
     "fulfillment": {
@@ -72,7 +72,7 @@
     "description": "self-hosted outbound-only relay on the RU host (same shape as deploy/mt/MAIL.md's mail service), or another provider whose own processing stays inside Russia"
   },
   "notes": [
-    "Telegram sign-in and the shop bot are allowed on RU, but must be named — including that Telegram's operating entity is outside Russia — in the privacy policy, with a consent separate from the general personal-data consent (docs/instances/RULES.md §2). instance-check.mjs cannot verify page text, so this is a paper requirement, not a check here.",
+    "Since 04.10.2026 (checklist K15) buyers sign in on RU with Yandex ID only, and instance-check --db fails on a tenant whose buyer_login_method needs another provider. Were Telegram sign-in or the shop bot ever allowed on RU again, they must be named — including that Telegram's operating entity is outside Russia — in the privacy policy, with a consent separate from the general personal-data consent (docs/instances/RULES.md §2). instance-check.mjs cannot verify page text, so this is a paper requirement, not a check here.",
     "Stands and local development against this instance's data must use anonymised or synthetic data only (docs/instances/RULES.md §3)."
   ]
 }

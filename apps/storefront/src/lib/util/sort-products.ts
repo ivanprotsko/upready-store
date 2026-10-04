@@ -46,5 +46,20 @@ export function sortProducts(
     })
   }
 
+  // 04.10.2026 (demo QA t-19, devops 22k): a product with no picture goes to the end of every
+  // listing, whatever the sort, so a catalogue never opens on a row of «Фото скоро будет»; one
+  // with no price in this region's currency (it cannot be bought here) goes after those. The sort
+  // is stable, so each group keeps the order chosen above. The owner's data is left alone.
+  sortedProducts.sort((a, b) => sinkRank(a) - sinkRank(b))
+
   return sortedProducts
 }
+
+const hasPrice = (product: HttpTypes.StoreProduct): boolean =>
+  (product.variants ?? []).some((variant) => variant?.calculated_price?.calculated_amount != null)
+
+const sinkRank = (product: HttpTypes.StoreProduct): number =>
+  (hasPrice(product) ? 0 : 2) + (hasPicture(product) ? 0 : 1)
+
+const hasPicture = (product: HttpTypes.StoreProduct): boolean =>
+  Boolean(product.thumbnail || product.images?.length)
