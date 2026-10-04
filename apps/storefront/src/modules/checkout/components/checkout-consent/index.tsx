@@ -3,7 +3,7 @@
 import { useId, type ReactNode } from "react"
 import { Link } from "@i18n/navigation"
 import type { CheckoutConsentValue } from "@lib/util/checkout-consent"
-import { consentHref, type LegalLinkContext } from "@lib/util/legal-links"
+import { consentHref, legalHref, type LegalLinkContext } from "@lib/util/legal-links"
 import { Checkbox, Label } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 
@@ -26,20 +26,34 @@ type Props = {
  * Neither is ticked in advance (C5). The record of both goes onto the order
  * (`@lib/util/checkout-consent`, C3).
  *
- * The personal-data box links the privacy policy alone: shops here have no separate consent
- * page (`TENANT_PAGE_KEYS`), and `consentHref` resolves it the way the sentence does.
+ * The personal-data box links each document it names (t-2026-10-04-22): the words «согласие на
+ * обработку персональных данных» go to the shop's consent document (`/pages/consent`), a text
+ * of its own and not the policy, and the policy's name goes to the policy. A shop that has not
+ * published a consent page leaves those words as plain text, so no link points twice at the
+ * policy.
  */
 export default function CheckoutConsent({ value, onChange, legal, disabled = false }: Props) {
   const t = useTranslations("CheckoutConsent")
   const personalDataId = useId()
   const marketingId = useId()
   const privacyHref = consentHref("privacy", legal)
+  const consentPageHref = legal.hasTenant ? legalHref("consent", legal) : null
 
   // A named function expression, because `react/display-name` counts any anonymous
   // function that returns JSX as a component without a name.
   const privacy = function PrivacyDocument(chunks: ReactNode) {
     return privacyHref ? (
       <Link href={privacyHref} target="_blank" className="underline">
+        {chunks}
+      </Link>
+    ) : (
+      <>{chunks}</>
+    )
+  }
+
+  const consentDocument = function ConsentDocument(chunks: ReactNode) {
+    return consentPageHref ? (
+      <Link href={consentPageHref} target="_blank" className="underline">
         {chunks}
       </Link>
     ) : (
@@ -60,7 +74,7 @@ export default function CheckoutConsent({ value, onChange, legal, disabled = fal
           data-testid="consent-personal-data"
         />
         <Label htmlFor={personalDataId} className="text-ui-fg-subtle !txt-medium cursor-pointer">
-          {t.rich("personalData", { privacy })}
+          {t.rich("personalData", { privacy, consent: consentDocument })}
           <span className="text-ui-fg-error" aria-hidden>
             {" *"}
           </span>

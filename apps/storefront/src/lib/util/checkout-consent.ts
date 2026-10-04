@@ -1,10 +1,14 @@
-import { consentHref, type LegalLinkContext, type LegalSlot } from "@lib/util/legal-links"
+import {
+  consentHref,
+  personalDataConsentHref,
+  type LegalLinkContext,
+} from "@lib/util/legal-links"
 
 /** `cart.metadata` key; Medusa copies cart metadata onto the order at completion. */
 export const CHECKOUT_CONSENT_METADATA_KEY = "checkout_consent"
 
 /** Bumped whenever the consent wording in `messages/*.json` (`CheckoutConsent`, `CheckoutPage.legal`) changes. */
-export const CHECKOUT_CONSENT_TEXT_VERSION = "2026-10-04"
+export const CHECKOUT_CONSENT_TEXT_VERSION = "2026-10-04.2"
 
 export type CheckoutConsentValue = {
   personalData: boolean
@@ -24,8 +28,7 @@ export type CheckoutConsentRecord = {
   offer: { document: ConsentDocument }
 }
 
-const documentOf = (slot: LegalSlot, legal: LegalLinkContext): ConsentDocument => {
-  const href = consentHref(slot, legal)
+const documentAt = (href: string | null, legal: LegalLinkContext): ConsentDocument => {
   const key = href?.startsWith("/pages/") ? href.slice("/pages/".length) : null
 
   return { href, version: (key && legal.versions?.[key]) || null }
@@ -53,13 +56,14 @@ export const buildConsentRecord = (
     personal_data: {
       given: value.personalData,
       at: stamp(value.personalData, previous?.personal_data?.at),
-      document: documentOf("privacy", legal),
+      // The document the checkbox links (t-2026-10-04-22): the consent page, or the policy.
+      document: documentAt(personalDataConsentHref(legal), legal),
     },
     marketing: {
       given: value.marketing,
       at: stamp(value.marketing, previous?.marketing?.at),
     },
-    offer: { document: documentOf("terms", legal) },
+    offer: { document: documentAt(consentHref("terms", legal), legal) },
   }
 }
 

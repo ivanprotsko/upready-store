@@ -26,6 +26,7 @@ export type LegalSlot =
   | "terms"
   | "termsOfUse"
   | "privacy"
+  | "consent"
   | "returns"
   | "shipping"
   | "support"
@@ -58,6 +59,10 @@ export const LEGAL_SLOTS: Record<LegalSlot, SlotSpec> = {
   // behaviour.
   termsOfUse: { keys: ["terms", "terms-of-use"], starter: "/terms" },
   privacy: { keys: ["privacy"], starter: "/privacy" },
+  // The personal-data consent itself (152-ФЗ ст. 9), a document of its own and not the
+  // policy (n5 consent verdict; t-2026-10-04-22). No starter page: a deployment with no
+  // tenant links the policy instead, which is what the checkbox did before.
+  consent: { keys: ["consent"], starter: "/privacy" },
   returns: { keys: ["returns", "return-policy", "refund"], starter: "/returns" },
   shipping: { keys: ["shipping", "delivery"], starter: "/shipping" },
   support: {
@@ -145,6 +150,15 @@ export function consentHref(
   context: LegalLinkContext
 ): string | null {
   return legalHref(slot, context) ?? legalHref("terms", context)
+}
+
+/**
+ * Where the mandatory personal-data checkbox links: the shop's consent document
+ * (`/pages/consent`), and the privacy policy for a shop that has not published one.
+ * The policy is a document the buyer only reads; what they consent to is its own text.
+ */
+export function personalDataConsentHref(context: LegalLinkContext): string | null {
+  return legalHref("consent", context) ?? consentHref("privacy", context)
 }
 
 /**
