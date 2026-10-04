@@ -128,8 +128,10 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
             aria-label={t("marketplaceAnalytics.filters.from")}
             value={asDate(from ?? period?.from_day)}
             onChange={(value) => {
+              // The picker re-emits the day it was given on mount; only a
+              // day that differs from what is shown reaches the address.
               const next = asIsoDay(value)
-              if (next !== (from ?? null)) {
+              if (next !== (from ?? period?.from_day ?? null)) {
                 setPeriod(next, to ?? null)
               }
             }}
@@ -139,7 +141,7 @@ export const MpAnalytics = ({ marketplace = "wb" }: { marketplace?: MarketplaceI
             value={asDate(to ?? period?.to_day)}
             onChange={(value) => {
               const next = asIsoDay(value)
-              if (next !== (to ?? null)) {
+              if (next !== (to ?? period?.to_day ?? null)) {
                 setPeriod(from ?? null, next)
               }
             }}
@@ -265,7 +267,7 @@ const Metric = ({ label, value, hint }: { label: string; value: string; hint?: s
 const columnHelper = createColumnHelper<Card>()
 
 const useColumns = (currency: string) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   return useMemo(
     () => [
       columnHelper.display({
@@ -287,7 +289,11 @@ const useColumns = (currency: string) => {
       }),
       columnHelper.accessor("revenue_share", {
         header: () => <span>{t("mp.analytics.columns.share")}</span>,
-        cell: ({ getValue }) => <span className="tabular-nums">{getValue()} %</span>,
+        cell: ({ getValue }) => (
+          <span className="tabular-nums">
+            {new Intl.NumberFormat(i18n.language || "ru", { maximumFractionDigits: 1 }).format(getValue())} %
+          </span>
+        ),
       }),
       columnHelper.display({
         id: "abc",
@@ -318,6 +324,6 @@ const useColumns = (currency: string) => {
         },
       }),
     ],
-    [t, currency]
+    [t, i18n.language, currency]
   )
 }

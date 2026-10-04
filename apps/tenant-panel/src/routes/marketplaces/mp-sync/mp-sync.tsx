@@ -1,10 +1,14 @@
 import { Key } from "@medusajs/icons"
-import { Alert, Button, Table, Text, toast } from "@medusajs/ui"
+import { Alert, Button, Text, toast } from "@medusajs/ui"
+import { createColumnHelper } from "@tanstack/react-table"
+import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
 import { SupportDetails, marketplaceErrorKey } from "../../../components/common/support-details"
+import { _DataTable } from "../../../components/table/data-table/data-table"
 import { StatusCell } from "../../../components/table/table-cells/common/status-cell"
+import { useDataTable } from "../../../hooks/use-data-table"
 import { useDate } from "../../../hooks/use-date"
 import {
   MARKETPLACE_LABEL,
@@ -15,6 +19,7 @@ import {
 } from "../../../hooks/api/marketplace-section"
 import { useSyncMarketplacesNow, type MarketplaceSyncKind } from "../../../hooks/api/marketplace-sync"
 import { MpSyncWarnings } from "../../settings/marketplace-sync/components/mp-sync-warnings"
+import { DateTimeCell, UnitsCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
 
 /**
@@ -23,6 +28,9 @@ import { MpPage } from "../common/mp-page"
  * 2026-10-05): a row per kind of data, when it last came, how often it comes,
  * when it comes next and what went wrong. One marketplace, so the key line
  * sits under the heading and «Обновить сейчас» is the primary action.
+ *
+ * The rows are the shop's own `_DataTable` without search and pages, so on a
+ * phone they fold into cards the way every other list of the panel does.
  *
  * What changed against the w16 screen: the «← к подключению» link became a
  * button to the key, the two sentences about the schedule became one under
@@ -43,6 +51,15 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
   const { getFullDate } = useDate()
   const { sync, isPending, isError, error } = useMpSync(marketplace)
   const { mutateAsync: syncNow, isPending: isSyncing } = useSyncMarketplacesNow()
+
+  const columns = useColumns(sync?.now ?? new Date().toISOString())
+  const { table } = useDataTable({
+    data: sync?.marketplace.kinds ?? [],
+    columns,
+    count: sync?.marketplace.kinds.length ?? 0,
+    enablePagination: false,
+    getRowId: (row) => row.kind,
+  })
 
   if (isError) {
     throw error
@@ -106,37 +123,20 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
         </div>
       ) : null}
 
-      {isPending || !entry ? (
-        <div className="px-6 py-6">
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("general.loading")}
-          </Text>
-        </div>
-      ) : entry.kinds.length === 0 ? (
+      {!isPending && entry && entry.kinds.length === 0 ? (
         <div className="px-6 py-6">
           <Alert variant="info">{t("mp.sync.nothingScheduled", { marketplace: label })}</Alert>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>{t("mp.sync.columns.kind")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("mp.sync.columns.state")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("mp.sync.columns.lastSuccess")}</Table.HeaderCell>
-                <Table.HeaderCell className="text-right">{t("mp.sync.columns.rows")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("mp.sync.columns.every")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("mp.sync.columns.next")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("mp.sync.columns.failure")}</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {entry.kinds.map((row) => (
-                <KindRow key={row.kind} row={row} now={sync.now} />
-              ))}
-            </Table.Body>
-          </Table>
-        </div>
+        <_DataTable
+          table={table}
+          columns={columns}
+          count={entry?.kinds.length ?? 0}
+          pageSize={12}
+          isLoading={isPending}
+          pagination={false}
+          noRecords={{ title: t("mp.sync.title"), message: t("mp.sync.nothingScheduled", { marketplace: label }) }}
+        />
       )}
 
       <div className="px-6 py-3">
@@ -151,87 +151,113 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
   )
 }
 
-const KindRow = ({ row, now }: { row: MarketplaceSyncKind; now: string }) => {
-  const { t, i18n } = useTranslation()
+const columnHelper = createColumnHelper<MarketplaceSyncKind>()
+
+const useColumns = (now: string) => {
+  const { t } = useTranslation()
   const { getFullDate } = useDate()
-  const locale = i18n.language || "ru"
 
-  const wait = (() => {
-    if (row.due_reason === "locked") {
-      return t("marketplaceSync.running")
-    }
-    if (row.due) {
-      return t("marketplaceSync.dueNow")
-    }
-    if (!row.next_at) {
-      return "—"
-    }
-    const minutes = Math.round((new Date(row.next_at).getTime() - new Date(now).getTime()) / 60_000)
-    if (Number.isNaN(minutes)) {
-      return "—"
-    }
-    if (minutes <= 0) {
-      return t("marketplaceSync.dueNow")
-    }
-    return minutes < 60
-      ? t("marketplaceSync.inMinutes", { count: minutes })
-      : t("marketplaceSync.inHours", { count: Math.round(minutes / 60) })
-  })()
-
-  return (
-    <Table.Row>
-      <Table.Cell>
-        <span className="whitespace-nowrap">{t(`marketplaces.kinds.${row.kind}`, { defaultValue: row.kind })}</span>
-      </Table.Cell>
-      <Table.Cell>
-        {row.status === null ? (
-          <StatusCell color="grey">{t("marketplaceSync.neverRan")}</StatusCell>
-        ) : (
-          <StatusCell color={STATE_COLOR[row.status] ?? "grey"}>
-            {t(`marketplaces.statuses.${row.status}`, { defaultValue: row.status })}
-          </StatusCell>
-        )}
-      </Table.Cell>
-      <Table.Cell>
-        {row.last_success_at ? (
-          <span className="whitespace-nowrap">{getFullDate({ date: row.last_success_at, includeTime: true })}</span>
-        ) : (
-          <span className="text-ui-fg-muted">{t("marketplaceSync.neverSucceeded")}</span>
-        )}
-      </Table.Cell>
-      <Table.Cell className="text-right tabular-nums">
-        {row.rows === null ? "—" : new Intl.NumberFormat(locale).format(row.rows)}
-      </Table.Cell>
-      <Table.Cell>
-        <span className="whitespace-nowrap">
-          {row.interval_ms
-            ? t("marketplaceSync.everyMinutes", { count: Math.round(row.interval_ms / 60_000) })
-            : t("marketplaceSync.notScheduled")}
-        </span>
-      </Table.Cell>
-      <Table.Cell>
-        <span className="whitespace-nowrap">{wait}</span>
-        {row.retry_at && row.due_reason === "waiting" ? (
-          <div className="text-ui-fg-subtle txt-compact-xsmall">
-            {t("marketplaceSync.waitingForMarketplace", { at: getFullDate({ date: row.retry_at, includeTime: true }) })}
-          </div>
-        ) : null}
-      </Table.Cell>
-      <Table.Cell>
-        {row.last_failure_error ? (
-          <div className="flex max-w-[360px] flex-col gap-y-0.5">
-            <span className="text-ui-fg-error">{t(marketplaceErrorKey(row.last_failure_error))}</span>
-            {row.last_failure_at ? (
-              <span className="text-ui-fg-subtle txt-compact-xsmall">
-                {getFullDate({ date: row.last_failure_at, includeTime: true })}
-              </span>
-            ) : null}
-            <SupportDetails text={row.last_failure_error} />
-          </div>
-        ) : (
-          <span className="text-ui-fg-muted">{t("marketplaceSync.noFailures")}</span>
-        )}
-      </Table.Cell>
-    </Table.Row>
+  return useMemo(
+    () => [
+      columnHelper.accessor("kind", {
+        header: () => <span>{t("mp.sync.columns.kind")}</span>,
+        cell: ({ getValue }) => (
+          <span className="whitespace-nowrap">{t(`marketplaces.kinds.${getValue()}`, { defaultValue: getValue() })}</span>
+        ),
+        meta: { phoneTop: true },
+      }),
+      columnHelper.accessor("status", {
+        header: () => <span>{t("mp.sync.columns.state")}</span>,
+        cell: ({ getValue }) =>
+          getValue() === null ? (
+            <StatusCell color="grey">{t("marketplaceSync.neverRan")}</StatusCell>
+          ) : (
+            <StatusCell color={STATE_COLOR[getValue() as string] ?? "grey"}>
+              {t(`marketplaces.statuses.${getValue()}`, { defaultValue: getValue() ?? "" })}
+            </StatusCell>
+          ),
+        meta: { phoneTop: "end" },
+      }),
+      columnHelper.accessor("last_success_at", {
+        header: () => <span>{t("mp.sync.columns.lastSuccess")}</span>,
+        cell: ({ getValue }) =>
+          getValue() ? (
+            <DateTimeCell date={getValue()} />
+          ) : (
+            <span className="text-ui-fg-muted">{t("marketplaceSync.neverSucceeded")}</span>
+          ),
+      }),
+      columnHelper.accessor("rows", {
+        header: () => <span>{t("mp.sync.columns.rows")}</span>,
+        cell: ({ getValue }) => <UnitsCell value={getValue()} />,
+      }),
+      columnHelper.accessor("interval_ms", {
+        header: () => <span>{t("mp.sync.columns.every")}</span>,
+        cell: ({ getValue }) => (
+          <span className="whitespace-nowrap">
+            {getValue()
+              ? t("marketplaceSync.everyMinutes", { count: Math.round((getValue() as number) / 60_000) })
+              : t("marketplaceSync.notScheduled")}
+          </span>
+        ),
+      }),
+      columnHelper.accessor("next_at", {
+        header: () => <span>{t("mp.sync.columns.next")}</span>,
+        cell: ({ row }) => {
+          const kind = row.original
+          if (kind.due_reason === "locked") {
+            return <span className="text-ui-fg-subtle">{t("marketplaceSync.running")}</span>
+          }
+          if (kind.due) {
+            return <span className="text-ui-fg-interactive">{t("marketplaceSync.dueNow")}</span>
+          }
+          if (!kind.next_at) {
+            return <span className="text-ui-fg-muted">—</span>
+          }
+          const minutes = Math.round((new Date(kind.next_at).getTime() - new Date(now).getTime()) / 60_000)
+          const wait = Number.isNaN(minutes)
+            ? "—"
+            : minutes <= 0
+              ? t("marketplaceSync.dueNow")
+              : minutes < 60
+                ? t("marketplaceSync.inMinutes", { count: minutes })
+                : t("marketplaceSync.inHours", { count: Math.round(minutes / 60) })
+          return (
+            <div className="flex flex-col">
+              <span className="whitespace-nowrap">{wait}</span>
+              {kind.retry_at && kind.due_reason === "waiting" ? (
+                <span className="text-ui-fg-subtle txt-compact-xsmall">
+                  {t("marketplaceSync.waitingForMarketplace", {
+                    at: getFullDate({ date: kind.retry_at, includeTime: true }),
+                  })}
+                </span>
+              ) : null}
+            </div>
+          )
+        },
+      }),
+      columnHelper.accessor("last_failure_error", {
+        header: () => <span>{t("mp.sync.columns.failure")}</span>,
+        cell: ({ row }) => {
+          const kind = row.original
+          if (!kind.last_failure_error) {
+            return <span className="text-ui-fg-muted">{t("marketplaceSync.noFailures")}</span>
+          }
+          return (
+            <div className="flex max-w-[360px] flex-col gap-y-0.5 whitespace-normal">
+              <span className="text-ui-fg-error">{t(marketplaceErrorKey(kind.last_failure_error))}</span>
+              {kind.last_failure_at ? (
+                <span className="text-ui-fg-subtle txt-compact-xsmall">
+                  {getFullDate({ date: kind.last_failure_at, includeTime: true })}
+                </span>
+              ) : null}
+              <SupportDetails text={kind.last_failure_error} />
+            </div>
+          )
+        },
+        meta: { phoneWide: true },
+      }),
+    ],
+    [t, now, getFullDate]
   )
 }

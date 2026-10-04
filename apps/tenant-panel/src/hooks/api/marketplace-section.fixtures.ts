@@ -738,7 +738,7 @@ export const fixtureSync = (marketplace: MarketplaceId): MpSyncResponse => {
     requests: status ? Math.max(1, Math.round(rows / 100)) : null,
     attempts: 1,
     error: failure,
-    last_success_at: status === "succeeded" || status === "rate_limited" ? minutesAgo(minutes + (status === "rate_limited" ? 240 : 0)) : null,
+    last_success_at: status ? minutesAgo(minutes + (status === "succeeded" ? 0 : 240)) : null,
     last_success_rows: rows,
     last_failure_at: failure ? minutesAgo(minutes + 180) : null,
     last_failure_error: failure,
@@ -764,7 +764,7 @@ export const fixtureSync = (marketplace: MarketplaceId): MpSyncResponse => {
         kind("sales", "succeeded", 9, 37, 10),
         kind("feedbacks", "rate_limited", 30, 55, 30, null),
         kind("questions", "rate_limited", 31, 12, 30, null),
-        kind("card_analytics", "succeeded", 320, 140, 1440),
+        kind("analytics", "succeeded", 320, 140, 1440),
         kind("supplies", "succeeded", 7, 1286, 10),
         kind(
           "fbs_orders",

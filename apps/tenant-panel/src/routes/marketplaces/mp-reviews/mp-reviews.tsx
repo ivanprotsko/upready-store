@@ -136,7 +136,7 @@ const useColumns = (onOpen: (item: DeskItem) => void) => {
       columnHelper.accessor("text", {
         header: () => <span>{t("mp.fields.review")}</span>,
         cell: ({ row }) => (
-          <div className="flex h-full w-full max-w-[420px] items-center gap-x-2 overflow-hidden">
+          <div className="flex h-full w-full max-w-[360px] items-center gap-x-2 overflow-hidden">
             {row.original.kind === "questions" ? (
               <ChatBubbleLeftRight className="text-ui-fg-subtle shrink-0" />
             ) : null}
@@ -149,9 +149,11 @@ const useColumns = (onOpen: (item: DeskItem) => void) => {
         id: "product",
         header: () => <span>{t("fields.product")}</span>,
         cell: ({ row }) => (
-          <span className="truncate">
-            {row.original.product.product_title ?? row.original.product.mp_title ?? "—"}
-          </span>
+          <div className="flex h-full w-full max-w-[240px] items-center overflow-hidden">
+            <span className="truncate">
+              {row.original.product.product_title ?? row.original.product.mp_title ?? "—"}
+            </span>
+          </div>
         ),
       }),
       columnHelper.accessor("author", {
