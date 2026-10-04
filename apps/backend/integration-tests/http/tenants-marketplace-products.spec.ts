@@ -73,7 +73,10 @@ medusaIntegrationTestRunner({
           title: `${prefix} card ${i}`,
           brand: i % 2 ? "Brand B" : "Brand A",
           category_name: "Чай",
-          photos: [{ tm: `https://example.test/${i}/tm.webp`, big: `https://example.test/${i}/big.webp` }],
+          // WB stores an array here; the model types `json()` as an object.
+          photos: [
+            { tm: `https://example.test/${i}/tm.webp`, big: `https://example.test/${i}/big.webp` },
+          ] as unknown as Record<string, unknown>,
           attributes: null,
           source_row_id: `src_${prefix}_${i}`,
           synced_at: new Date(syncedAt.getTime() + i * 1000),
