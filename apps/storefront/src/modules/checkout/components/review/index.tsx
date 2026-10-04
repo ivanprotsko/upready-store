@@ -62,7 +62,8 @@ const Review = ({
               </Text>
             </div>
           </div>
-          <PaymentButton cart={cart} data-testid="submit-order-button" />
+          {/* No consent boxes here (04.10 checklist C1), so the button stays shut. */}
+          <PaymentButton cart={cart} consentGiven={false} data-testid="submit-order-button" />
         </>
       )}
     </div>

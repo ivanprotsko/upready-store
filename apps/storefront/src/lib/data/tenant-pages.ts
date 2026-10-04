@@ -127,3 +127,27 @@ export async function listPublishedPageKeys(): Promise<string[]> {
     return Array.from(new Set((pages ?? []).map((page) => page.key)))
   }, [])
 }
+
+/**
+ * Page key → its latest `updated_at` across locales, from the same cached sitemap read as
+ * `listPublishedPageKeys` (no second request): the document version a checkout consent is
+ * stamped with (`@lib/util/checkout-consent`). Empty on a failed read, like the keys.
+ */
+export async function listPublishedPageVersions(): Promise<Record<string, string>> {
+  return siteWideRead("listPublishedPageVersions", async () => {
+    const { pages } = await fetchWithoutLocale<{
+      pages: Array<{ key: string; updated_at?: string | null }>
+    }>("/store/tenant/pages/sitemap", {
+      next: { tags: [PAGES_TAG] },
+      cache: "force-cache",
+    })
+
+    const versions: Record<string, string> = {}
+    for (const page of pages ?? []) {
+      if (page.updated_at && (!versions[page.key] || page.updated_at > versions[page.key])) {
+        versions[page.key] = page.updated_at
+      }
+    }
+    return versions
+  }, {})
+}

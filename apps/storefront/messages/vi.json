@@ -148,7 +148,7 @@
     "freeShipping": "Miễn phí",
     "giftCard": "Thẻ quà tặng",
     "itemsCount": "{count, plural, other {{count} sản phẩm}}",
-    "legal": "Bằng cách nhấn «{button}», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời đồng ý với <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
+    "legal": "Bằng cách nhấn «{button}», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời xác nhận đã đọc <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
     "manualInput": "Nhập địa chỉ thủ công",
     "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ: {fields}.",
     "provinceRequired": "Chọn khu vực từ danh sách.",
@@ -1200,5 +1200,11 @@
     "paid": "Đã thanh toán",
     "refunded": "Đã hoàn tiền",
     "canceled": "Đã hủy"
+  },
+  "CheckoutConsent": {
+    "personalData": "Tôi đồng ý cho xử lý dữ liệu cá nhân của mình theo <privacy>Chính sách bảo mật</privacy>.",
+    "marketing": "Tôi đồng ý nhận tin tức, khuyến mãi và ưu đãi đặc biệt qua e-mail. Tôi có thể hủy đăng ký bất cứ lúc nào qua liên kết trong mỗi e-mail.",
+    "receipt": "Biên lai sẽ được gửi đến e-mail bạn đã nhập khi đặt hàng (54-FZ).",
+    "hint": "Để đặt hàng, hãy đánh dấu đồng ý xử lý dữ liệu cá nhân."
   }
 }

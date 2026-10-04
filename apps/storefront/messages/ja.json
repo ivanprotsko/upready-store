@@ -148,7 +148,7 @@
     "freeShipping": "無料",
     "giftCard": "ギフトカード",
     "itemsCount": "{count, plural, other {{count}点}}",
-    "legal": "「{button}」をクリックすることで、<terms>販売条件</terms>、<termsOfUse>利用規約</termsOfUse>、<returnPolicy>返品ポリシー</returnPolicy>に同意し、<privacyPolicy>プライバシーポリシー</privacyPolicy>に同意するものとします。",
+    "legal": "「{button}」をクリックすることで、<terms>販売条件</terms>、<termsOfUse>利用規約</termsOfUse>、<returnPolicy>返品ポリシー</returnPolicy>に同意し、<privacyPolicy>プライバシーポリシー</privacyPolicy>を確認したことを認めるものとします。",
     "manualInput": "住所を手入力する",
     "addressIncomplete": "住所の必須項目を入力してください：{fields}。",
     "provinceRequired": "リストから地域を選択してください。",
@@ -1200,5 +1200,11 @@
     "paid": "支払い済み",
     "refunded": "返金済み",
     "canceled": "キャンセル済み"
+  },
+  "CheckoutConsent": {
+    "personalData": "<privacy>プライバシーポリシー</privacy>に従って個人データが処理されることに同意します。",
+    "marketing": "ニュース、キャンペーン、特別オファーをメールで受け取ることに同意します。各メールのリンクからいつでも配信停止できます。",
+    "receipt": "注文時に入力したメールアドレスにレシートが送信されます（54-FZ）。",
+    "hint": "注文するには、個人データの処理への同意にチェックを入れてください。"
   }
 }

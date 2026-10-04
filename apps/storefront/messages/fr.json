@@ -148,7 +148,7 @@
     "freeShipping": "Gratuit",
     "giftCard": "Carte cadeau",
     "itemsCount": "{count, plural, one {{count} article} other {{count} articles}}",
-    "legal": "En cliquant sur « {button} », vous acceptez nos <terms>conditions</terms>, nos <termsOfUse>conditions d'utilisation</termsOfUse> et notre <returnPolicy>politique de retour</returnPolicy>, et consentez à notre <privacyPolicy>politique de confidentialité</privacyPolicy>.",
+    "legal": "En cliquant sur « {button} », vous acceptez nos <terms>conditions</terms>, nos <termsOfUse>conditions d'utilisation</termsOfUse> et notre <returnPolicy>politique de retour</returnPolicy>, et confirmez avoir lu notre <privacyPolicy>politique de confidentialité</privacyPolicy>.",
     "manualInput": "Saisir l'adresse manuellement",
     "addressIncomplete": "Renseignez les champs obligatoires de l'adresse : {fields}.",
     "provinceRequired": "Choisissez la région dans la liste.",
@@ -1200,5 +1200,11 @@
     "paid": "Payé",
     "refunded": "Remboursé",
     "canceled": "Annulé"
+  },
+  "CheckoutConsent": {
+    "personalData": "Je consens au traitement de mes données personnelles conformément à la <privacy>politique de confidentialité</privacy>.",
+    "marketing": "J'accepte de recevoir des actualités, promotions et offres spéciales par e-mail. Je peux me désinscrire à tout moment via le lien présent dans chaque e-mail.",
+    "receipt": "Un reçu de caisse sera envoyé à l'adresse e-mail indiquée lors de la commande (54-FZ).",
+    "hint": "Pour passer la commande, cochez le consentement au traitement des données personnelles."
   }
 }

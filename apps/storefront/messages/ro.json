@@ -148,7 +148,7 @@
     "freeShipping": "Gratuit",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} produs} few {{count} produse} other {{count} de produse}}",
-    "legal": "Făcând clic pe «{button}», acceptați <terms>termenii</terms>, <termsOfUse>termenii de utilizare</termsOfUse> și <returnPolicy>politica de retur</returnPolicy>, și sunteți de acord cu <privacyPolicy>politica de confidențialitate</privacyPolicy>.",
+    "legal": "Făcând clic pe «{button}», acceptați <terms>termenii</terms>, <termsOfUse>termenii de utilizare</termsOfUse> și <returnPolicy>politica de retur</returnPolicy> și confirmați că ați citit <privacyPolicy>politica de confidențialitate</privacyPolicy>.",
     "manualInput": "Introdu adresa manual",
     "addressIncomplete": "Completați câmpurile obligatorii ale adresei: {fields}.",
     "provinceRequired": "Alegeți regiunea din listă.",
@@ -1200,5 +1200,11 @@
     "paid": "Plătit",
     "refunded": "Rambursat",
     "canceled": "Anulat"
+  },
+  "CheckoutConsent": {
+    "personalData": "Îmi dau consimțământul pentru prelucrarea datelor mele personale în conformitate cu <privacy>Politica de confidențialitate</privacy>.",
+    "marketing": "Sunt de acord să primesc noutăți, promoții și oferte speciale pe e-mail. Mă pot dezabona oricând prin linkul din fiecare e-mail.",
+    "receipt": "Bonul fiscal va fi trimis la adresa de e-mail indicată la comandă (54-FZ).",
+    "hint": "Pentru a plasa comanda, bifați consimțământul pentru prelucrarea datelor personale."
   }
 }

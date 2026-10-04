@@ -76,6 +76,12 @@ export type LegalLinkContext = {
   hasTenant: boolean
   /** Every page key this tenant has PUBLISHED, footer-linked or not. */
   pageKeys: readonly string[]
+  /**
+   * Page key → its latest `updated_at` across locales: the version of the document a
+   * checkout consent points to, stamped on the order (`@lib/util/checkout-consent`).
+   * Absent where nobody needs it.
+   */
+  versions?: Readonly<Record<string, string>>
 }
 
 /** A deployment with no tenant: every slot keeps its starter page. */

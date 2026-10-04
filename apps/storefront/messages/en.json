@@ -148,7 +148,7 @@
     "freeShipping": "Free",
     "giftCard": "Gift card",
     "itemsCount": "{count, plural, one {{count} item} other {{count} items}}",
-    "legal": "By clicking «{button}», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
+    "legal": "By clicking «{button}», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and confirm that you have read our <privacyPolicy>privacy policy</privacyPolicy>.",
     "manualInput": "Enter address manually",
     "addressIncomplete": "Fill in the required address fields: {fields}.",
     "provinceRequired": "Choose your region from the list.",
@@ -1200,5 +1200,11 @@
     "paid": "Paid",
     "refunded": "Refunded",
     "canceled": "Cancelled"
+  },
+  "CheckoutConsent": {
+    "personalData": "I consent to the processing of my personal data in accordance with the <privacy>Privacy Policy</privacy>.",
+    "marketing": "I agree to receive news, promotions and special offers by e-mail. I can unsubscribe at any time via the link in each e-mail.",
+    "receipt": "A cashier's receipt will be sent to the e-mail you entered at checkout (54-FZ).",
+    "hint": "To place the order, tick the consent to the processing of personal data."
   }
 }

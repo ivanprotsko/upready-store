@@ -148,7 +148,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Kartu Hadiah",
     "itemsCount": "{count, plural, other {{count} barang}}",
-    "legal": "Dengan mengklik «{button}», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta menyetujui <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
+    "legal": "Dengan mengklik «{button}», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta mengonfirmasi bahwa Anda telah membaca <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapi kolom alamat yang wajib diisi: {fields}.",
     "provinceRequired": "Pilih wilayah dari daftar.",
@@ -1200,5 +1200,11 @@
     "paid": "Dibayar",
     "refunded": "Dikembalikan",
     "canceled": "Dibatalkan"
+  },
+  "CheckoutConsent": {
+    "personalData": "Saya menyetujui pemrosesan data pribadi saya sesuai dengan <privacy>Kebijakan Privasi</privacy>.",
+    "marketing": "Saya setuju menerima berita, promosi, dan penawaran khusus melalui e-mail. Saya dapat berhenti berlangganan kapan saja melalui tautan di setiap e-mail.",
+    "receipt": "Struk pembayaran akan dikirim ke e-mail yang Anda masukkan saat pemesanan (54-FZ).",
+    "hint": "Untuk melakukan pemesanan, centang persetujuan pemrosesan data pribadi."
   }
 }

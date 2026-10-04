@@ -148,7 +148,7 @@
     "freeShipping": "Za darmo",
     "giftCard": "Karta podarunkowa",
     "itemsCount": "{count, plural, one {{count} produkt} few {{count} produkty} many {{count} produktów} other {{count} produktu}}",
-    "legal": "Klikając «{button}», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
+    "legal": "Klikając «{button}», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz potwierdzasz, że zapoznałeś się z naszą <privacyPolicy>polityką prywatności</privacyPolicy>.",
     "manualInput": "Wprowadź adres ręcznie",
     "addressIncomplete": "Wypełnij wymagane pola adresu: {fields}.",
     "provinceRequired": "Wybierz region z listy.",
@@ -1200,5 +1200,11 @@
     "paid": "Opłacone",
     "refunded": "Zwrócone",
     "canceled": "Anulowane"
+  },
+  "CheckoutConsent": {
+    "personalData": "Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z <privacy>Polityką prywatności</privacy>.",
+    "marketing": "Zgadzam się na otrzymywanie nowości, promocji i ofert specjalnych na podany e-mail. Mogę zrezygnować w każdej chwili, klikając link w wiadomości.",
+    "receipt": "Paragon fiskalny zostanie wysłany na e-mail podany przy zamówieniu (54-FZ).",
+    "hint": "Aby złożyć zamówienie, zaznacz zgodę na przetwarzanie danych osobowych."
   }
 }

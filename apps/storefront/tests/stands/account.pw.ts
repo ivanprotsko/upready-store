@@ -39,6 +39,8 @@ test.describe("account", () => {
     await selectAnyShippingMethod(page)
     await selectManualPayment(page)
     await fillDemoCard(page, "approve")
+    // 04.10 checklist C1: the pay button waits for the personal-data consent.
+    await page.getByTestId("consent-personal-data").click()
     await page.getByTestId("submit-order-button").click()
     await page.waitForURL(/\/order\/.+\/confirmed/, { timeout: 30_000 })
     await expect(page.getByTestId("order-id")).toBeVisible()

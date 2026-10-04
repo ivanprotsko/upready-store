@@ -174,6 +174,8 @@ test.describe("cart and checkout", () => {
 
     await expect(page).toHaveScreenshot("checkout-step-payment.png", { fullPage: true })
 
+    // 04.10 checklist C1: the pay button waits for the personal-data consent.
+    await page.locator("[data-testid=consent-personal-data]").click()
     const submit = page.locator("[data-testid=submit-order-button]")
     await expect(submit).toBeEnabled()
     await submit.click()

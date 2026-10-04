@@ -148,7 +148,7 @@
     "freeShipping": "Ingyenes",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} termék} other {{count} termék}}",
-    "legal": "„{button}” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
+    "legal": "„{button}” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, és megerősíti, hogy elolvasta <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
     "manualInput": "Cím megadása kézzel",
     "addressIncomplete": "Töltse ki a cím kötelező mezőit: {fields}.",
     "provinceRequired": "Válassza ki a régiót a listából.",
@@ -1200,5 +1200,11 @@
     "paid": "Kifizetve",
     "refunded": "Visszatérítve",
     "canceled": "Törölve"
+  },
+  "CheckoutConsent": {
+    "personalData": "Hozzájárulok személyes adataim kezeléséhez az <privacy>Adatvédelmi szabályzat</privacy> szerint.",
+    "marketing": "Hozzájárulok, hogy híreket, akciókat és különleges ajánlatokat kapjak e-mailben. Bármikor leiratkozhatok az e-mailekben található linkkel.",
+    "receipt": "A pénztári nyugtát a rendeléskor megadott e-mail-címre küldjük (54-FZ).",
+    "hint": "A rendelés leadásához jelölje be a személyes adatok kezeléséhez való hozzájárulást."
   }
 }

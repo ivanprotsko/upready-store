@@ -148,7 +148,7 @@
     "freeShipping": "חינם",
     "giftCard": "כרטיס מתנה",
     "itemsCount": "{count, plural, one {{count} פריט} two {{count} פריטים} many {{count} פריטים} other {{count} פריטים}}",
-    "legal": "בלחיצה על «{button}», אתה מאשר את <terms>התנאים</terms> שלנו, את <termsOfUse>תנאי השימוש</termsOfUse> ואת <returnPolicy>מדיניות ההחזרות</returnPolicy>, ומסכים ל<privacyPolicy>מדיניות הפרטיות</privacyPolicy> שלנו.",
+    "legal": "בלחיצה על «{button}», אתה מאשר את <terms>התנאים</terms> שלנו, את <termsOfUse>תנאי השימוש</termsOfUse> ואת <returnPolicy>מדיניות ההחזרות</returnPolicy>, ומאשר שקראת את <privacyPolicy>מדיניות הפרטיות</privacyPolicy> שלנו.",
     "manualInput": "הזנת כתובת ידנית",
     "addressIncomplete": "מלאו את שדות החובה בכתובת: {fields}.",
     "provinceRequired": "בחר אזור מהרשימה.",
@@ -1200,5 +1200,11 @@
     "paid": "שולם",
     "refunded": "הוחזר",
     "canceled": "בוטל"
+  },
+  "CheckoutConsent": {
+    "personalData": "אני מסכים לעיבוד המידע האישי שלי בהתאם ל<privacy>מדיניות הפרטיות</privacy>.",
+    "marketing": "אני מסכים לקבל חדשות, מבצעים והצעות מיוחדות בדוא״ל. אפשר לבטל את המינוי בכל עת דרך הקישור בכל הודעה.",
+    "receipt": "קבלה תישלח לכתובת הדוא״ל שהזנת בעת ההזמנה (54-FZ).",
+    "hint": "כדי לבצע את ההזמנה, סמן את ההסכמה לעיבוד מידע אישי."
   }
 }
