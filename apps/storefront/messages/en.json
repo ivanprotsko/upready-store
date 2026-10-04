@@ -1187,7 +1187,7 @@
     "register": "Create account"
   },
   "Shipments": {
-    "noDeliveryBadge": "online course, no delivery",
+    "noDeliveryBadge": "online course",
     "shipmentNo": "Shipment No. {no}",
     "digitalGroup": "Online course — access after payment confirmation",
     "accessByEmail": "Access to the course will come by e-mail once the payment is confirmed.",
