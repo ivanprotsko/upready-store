@@ -1185,7 +1185,7 @@
     "title": "Warenkorb",
     "signInPrompt": "Melden Sie sich an, um Ihre Bestellhistorie zu sehen und schneller einzukaufen.",
     "signInEmail": "Per E-Mail",
-    "signInYandex": "Mit Yandex ID",
+    "signInYandex": "Mit Yandex ID anmelden",
     "deliveryEstimate": "Lieferung {range}",
     "empty": "Ihr Warenkorb ist leer.",
     "exploreProducts": "Produkte ansehen",

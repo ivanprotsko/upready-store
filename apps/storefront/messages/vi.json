@@ -1185,7 +1185,7 @@
     "title": "Giỏ hàng",
     "signInPrompt": "Đăng nhập để xem lịch sử đơn hàng và mua sắm nhanh hơn.",
     "signInEmail": "Bằng email",
-    "signInYandex": "Bằng Yandex ID",
+    "signInYandex": "Đăng nhập bằng Yandex ID",
     "deliveryEstimate": "Giao hàng {range}",
     "empty": "Giỏ hàng của bạn đang trống.",
     "exploreProducts": "Xem sản phẩm",

@@ -3,7 +3,7 @@
  * (simpleicons.org/?q=telegram, CC0), the badge with the plane cut out of it. It
  * paints in `currentColor`, so it takes the button's own ink, white on Telegram's
  * blue (`--telegram-brand-fg`, `telegram-button.tsx`), and the cut-out shows the
- * blue through. Like `yandex-login/yandex-mark.tsx`, it lives in its own file.
+ * blue through. It lives in its own file.
  */
 const TelegramMark = () => (
   <svg aria-hidden viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 shrink-0">

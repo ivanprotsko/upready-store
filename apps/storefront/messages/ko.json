@@ -1185,7 +1185,7 @@
     "title": "장바구니",
     "signInPrompt": "로그인하면 주문 내역을 확인하고 더 빠르게 구매할 수 있습니다.",
     "signInEmail": "이메일로",
-    "signInYandex": "Yandex ID로",
+    "signInYandex": "Yandex ID로 로그인",
     "deliveryEstimate": "배송 예정 {range}",
     "empty": "장바구니가 비어 있습니다.",
     "exploreProducts": "상품 보기",

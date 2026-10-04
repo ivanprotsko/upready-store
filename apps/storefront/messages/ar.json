@@ -1185,7 +1185,7 @@
     "title": "سلة التسوق",
     "signInPrompt": "سجّل الدخول لعرض سجل طلباتك وإتمام الشراء بشكل أسرع.",
     "signInEmail": "عبر البريد الإلكتروني",
-    "signInYandex": "عبر Yandex ID",
+    "signInYandex": "تسجيل الدخول عبر Yandex ID",
     "deliveryEstimate": "التوصيل {range}",
     "empty": "سلة التسوق فارغة.",
     "exploreProducts": "تصفح المنتجات",

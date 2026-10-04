@@ -1185,7 +1185,7 @@
     "title": "Корзина",
     "signInPrompt": "Войдите, чтобы видеть историю заказов и быстрее оформлять покупки.",
     "signInEmail": "По эл. почте",
-    "signInYandex": "Через Яндекс ID",
+    "signInYandex": "Войти с Яндекс ID",
     "deliveryEstimate": "Доставим {range}",
     "empty": "В корзине пока пусто.",
     "exploreProducts": "Смотреть товары",

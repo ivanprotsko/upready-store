@@ -1185,7 +1185,7 @@
     "title": "Winkelwagen",
     "signInPrompt": "Log in om je bestelgeschiedenis te zien en sneller af te rekenen.",
     "signInEmail": "Met e-mail",
-    "signInYandex": "Met Yandex ID",
+    "signInYandex": "Inloggen met Yandex ID",
     "deliveryEstimate": "Bezorging {range}",
     "empty": "Je winkelwagen is leeg.",
     "exploreProducts": "Producten bekijken",

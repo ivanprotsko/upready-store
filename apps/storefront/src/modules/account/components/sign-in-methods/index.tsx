@@ -8,7 +8,7 @@ import type { TelegramBot } from "@lib/data/telegram-bot"
 import { allowsEmailLogin, yandexLoginAvailable, type TenantLoginSettings } from "@lib/tenant/login-settings"
 import type { LegalLinkContext } from "@lib/util/legal-links"
 import TelegramLogin from "@modules/account/components/telegram-login"
-import YandexMark from "@modules/account/components/yandex-login/yandex-mark"
+import YandexIdButton from "@modules/account/components/yandex-login/yandex-id-button"
 
 import SignInEmailForms from "./email-forms"
 
@@ -26,8 +26,8 @@ export type SignInMethodsProps = {
 /**
  * This shop's own ways in (`lib/tenant/login-settings.ts`, `getTelegramBot`), one grid of equal
  * cells, as in Figma frame 3:60739 («По эл. почте» and «Через Телеграм» side by side): Ivan,
- * t-2026-10-03-65, «кнопки которые стоят рядом» are never of different sizes. A third method
- * takes a row of its own at full width. A shop with one method gets one button and nothing else:
+ * t-2026-10-03-65, «кнопки которые стоят рядом» are never of different sizes. Yandex ID is the
+ * button from Yandex's own constructor (`YandexIdButton`) and always takes a row of its own. A shop with one method gets one button and nothing else:
  * no «или» divider with nothing above it, no empty gap (t-2026-10-04-24, cherkashino.ru is
  * Yandex ID only).
  *
@@ -53,14 +53,16 @@ export default function SignInMethods({
   const formId = useId()
 
   const yandexSignIn = yandexLoginAvailable(loginSettings)
-  const methods = [emailSignIn, telegramBot !== null, yandexSignIn].filter(Boolean).length
+  // Yandex ID is Yandex's own button (t-2026-10-04-45) on a row of its own: a half cell would be
+  // under the constructor's 156 px minimum, so the grid pairs only e-mail and Telegram.
+  const cells = [emailSignIn, telegramBot !== null].filter(Boolean).length
   // Labels sit in `truncate` spans: a 158 px cell keeps one line in every locale, so no
   // translation can make one button of the pair taller than the other.
 
   return (
     <div className="flex flex-col gap-y-3" data-testid="sign-in-methods">
       <div
-        className={clx("grid gap-3", methods > 1 ? "grid-cols-2" : "grid-cols-1")}
+        className={clx("grid gap-3", cells > 1 ? "grid-cols-2" : "grid-cols-1")}
         data-testid="cart-sidebar-sign-in-methods"
       >
         {emailSignIn ? (
@@ -79,18 +81,11 @@ export default function SignInMethods({
         ) : null}
         <TelegramLogin bot={telegramBot} returnTo={returnTo} cell size="base" label={t("signInTelegram")} />
         {yandexSignIn ? (
-          <Button
-            asChild
-            variant="secondary"
-            size="base"
-            className={clx("w-full min-w-0", methods === 3 && "col-span-2")}
+          <YandexIdButton
+            returnTo={returnTo}
+            className={clx(cells > 1 && "col-span-2")}
             data-testid="cart-sidebar-sign-in-yandex"
-          >
-            <a href={`/api/yandex-login?return=${encodeURIComponent(returnTo)}`}>
-              <YandexMark />
-              <span className="min-w-0 truncate">{t("signInYandex")}</span>
-            </a>
-          </Button>
+          />
         ) : null}
       </div>
       {emailSignIn && emailOpen ? (

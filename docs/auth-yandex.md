@@ -183,9 +183,11 @@ sign-in needs a real Yandex account, and no automated suite should drive one.
   matches on email across the store, which is what `emailpass` login already
   does for the same person. Narrowing either to one tenant needs that link to
   exist first.
-- **The brand button.** Yandex asks for its own mark and colour on the control.
-  `yandex-mark.tsx` is a stand-in in the store's shape and lives in its own file
-  so the swap touches nothing else.
+- **The brand button.** `yandex-id-button.tsx` is the button Yandex's own
+  constructor draws (autofill.yandex.ru/suggest/button/constructor, size `s`,
+  view `main`, radius 8, light and dark by the site's mode), kept a plain link
+  to `/api/yandex-login`. The sign-in modal, `/account`, the cart sidebar and
+  the checkout all render it.
 - **Guest rows.** A `has_account: false` customer minted by a guest checkout is
   not a link target. Those orders reach the new account through
   `/store/customers/me/claim-orders`, which the callback's own login already

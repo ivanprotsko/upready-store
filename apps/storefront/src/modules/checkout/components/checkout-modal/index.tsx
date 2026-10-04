@@ -23,6 +23,14 @@ interface CheckoutModalProps {
    * mobile panel is full width either way.
    */
   wide?: boolean
+  /**
+   * The sign-in modal (t-2026-10-04-45, Ivan 04.10: «Высота 40, скругления 8, ширина 320 …
+   * Отступы вокруг внутри контейнера на десктоп 24 и планшете, на мобайл 16»). The content is a
+   * 320 px column with 24 px all round from 640 px up, so the panel is 368 wide. On a phone the
+   * sheet keeps its full width and the column inside it is 320 with 16 px all round, centred;
+   * below 352 px the column narrows with the screen.
+   */
+  compact?: boolean
 }
 
 export function CheckoutModal({
@@ -31,6 +39,7 @@ export function CheckoutModal({
   title,
   children,
   wide = false,
+  compact = false,
 }: CheckoutModalProps) {
   const t = useTranslations("Common")
 
@@ -64,24 +73,32 @@ export function CheckoutModal({
           >
             <DialogPanel
               className={clx(
-                "relative w-full sm:w-[540px] max-h-[90dvh] overflow-y-auto bg-ui-bg-base rounded-t-xl sm:rounded-xl shadow-elevation-modal",
+                "relative w-full max-h-[90dvh] overflow-y-auto bg-ui-bg-base rounded-t-xl sm:rounded-xl shadow-elevation-modal",
+                compact ? "sm:w-[368px]" : "sm:w-[540px]",
                 wide && "small:w-[880px]"
               )}
+              data-compact={compact ? "" : undefined}
             >
-              <div className="flex items-center justify-between px-6 py-4">
-                <DialogTitle className="txt-xlarge text-ui-fg-base">
-                  {title}
-                </DialogTitle>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  aria-label={t("close")}
-                  className="text-ui-fg-muted hover:text-ui-fg-base transition-colors p-0.5"
-                >
-                  <XMark />
-                </button>
+              <div
+                className={clx(
+                  compact && "mx-auto flex w-full max-w-[352px] flex-col gap-y-4 p-4 sm:max-w-none sm:p-6"
+                )}
+              >
+                <div className={clx("flex items-center justify-between", !compact && "px-6 py-4")}>
+                  <DialogTitle className="txt-xlarge text-ui-fg-base">
+                    {title}
+                  </DialogTitle>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label={t("close")}
+                    className="text-ui-fg-muted hover:text-ui-fg-base transition-colors p-0.5"
+                  >
+                    <XMark />
+                  </button>
+                </div>
+                <div className={clx(!compact && "px-6 pb-4")}>{children}</div>
               </div>
-              <div className="px-6 pb-4">{children}</div>
             </DialogPanel>
           </TransitionChild>
         </div>

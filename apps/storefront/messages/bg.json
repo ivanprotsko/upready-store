@@ -1185,7 +1185,7 @@
     "title": "Количка",
     "signInPrompt": "Влезте, за да виждате историята на поръчките си и да пазарувате по-бързо.",
     "signInEmail": "С имейл",
-    "signInYandex": "С Yandex ID",
+    "signInYandex": "Вход с Yandex ID",
     "deliveryEstimate": "Доставка {range}",
     "empty": "Количката е празна.",
     "exploreProducts": "Разгледайте продуктите",

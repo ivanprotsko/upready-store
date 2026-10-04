@@ -1185,7 +1185,7 @@
     "title": "Кошик",
     "signInPrompt": "Увійдіть, щоб бачити історію замовлень і швидше оформлювати покупки.",
     "signInEmail": "Через ел. пошту",
-    "signInYandex": "Через Yandex ID",
+    "signInYandex": "Увійти через Yandex ID",
     "deliveryEstimate": "Доставимо {range}",
     "empty": "У кошику поки порожньо.",
     "exploreProducts": "Переглянути товари",

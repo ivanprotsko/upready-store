@@ -1185,7 +1185,7 @@
     "title": "कार्ट",
     "signInPrompt": "ऑर्डर इतिहास देखने और तेज़ी से खरीदारी करने के लिए साइन इन करें।",
     "signInEmail": "ईमेल से",
-    "signInYandex": "Yandex ID से",
+    "signInYandex": "Yandex ID से साइन इन करें",
     "deliveryEstimate": "डिलीवरी {range}",
     "empty": "आपका कार्ट खाली है।",
     "exploreProducts": "उत्पाद देखें",
