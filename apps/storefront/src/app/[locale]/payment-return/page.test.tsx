@@ -49,7 +49,9 @@ const render = async () => {
   )
 }
 
-describe("[locale]/payment-return, the Robokassa waiting page", () => {
+// The first import pulls the page and `@medusajs/ui` in; under a full parallel run it outlasts
+// vitest's default 5 s.
+describe("[locale]/payment-return, the Robokassa waiting page", { timeout: 30_000 }, () => {
   it("shows the shop's logo, the wait message and the way back at once", async () => {
     branding = { ...EMPTY_BRANDING, logo_light_url: "https://cdn.test/logo.svg" }
     const html = await render()
