@@ -727,7 +727,14 @@ export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalytics
   const filtered = sold.filter((c) => !q || c.title?.toLowerCase().includes(q) || c.vendor_code?.toLowerCase().includes(q))
   const page = paged(filtered, { limit: params.limit ?? 20, offset: params.offset })
   return {
-    period: { from_day: isoDay(from), to_day: isoDay(to), days, is_default: !params.from && !params.to, default_days: 30 },
+    period: {
+      from_day: isoDay(from),
+      to_day: isoDay(to),
+      days,
+      is_default: !params.from && !params.to,
+      default_days: 30,
+      time_zone: "Europe/Moscow",
+    },
     currency: "RUB",
     totals: {
       ...totals,
@@ -736,13 +743,21 @@ export const fixtureAnalytics = (marketplace: MarketplaceId, params: MpAnalytics
       cards_total: cards.length,
       stock_units: cards.reduce((s, c) => s + (c.stock ?? 0), 0),
       stock_days_left: 23,
+      stock_looks_declared: false,
     },
     by_day: byDay,
     cards: page.rows,
     cards_count: filtered.length,
     limit: page.limit,
     offset: page.offset,
-    rating: { value: 4.8, scale: 5, detail: "Рейтинг продавца по данным Wildberries на 4 октября" },
+    rating: {
+      value: 4.8,
+      scale: 5,
+      state: "ok",
+      as_of: minutesAgo(60 * 20),
+      detail: "Рейтинг продавца по данным Wildberries.",
+      support: null,
+    },
     connection: {
       marketplace,
       label: "Wildberries",

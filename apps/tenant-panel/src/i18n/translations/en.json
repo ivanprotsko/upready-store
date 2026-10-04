@@ -5794,26 +5794,54 @@
       "generatorOff": "Reply suggestions are turned off for this shop. You can write the reply yourself."
     },
     "analytics": {
-      "title": "Аналитика",
-      "period": "{{marketplace}}: {{from}} — {{to}} ({{days}} дн.)",
-      "periodDefault": "{{marketplace}}: последние {{days}} дн., {{from}} — {{to}}. Период можно выбрать справа.",
-      "unitsHint": "Штук: {{units}}",
-      "stock": "На складах площадки",
-      "stockDays": "При нынешнем темпе хватит на {{days}} дн.",
-      "stockUnknown": "Площадка не сообщила остаток",
-      "byDayHint": "Столбик — день периода. Нулевой день — это измеренный ноль, а не пропуск.",
+      "title": "Analytics",
+      "period": "{{marketplace}}: {{from}} – {{to}} ({{days}} days)",
+      "periodDefault": "{{marketplace}}: the last {{days}} days, {{from}} – {{to}}. Pick another period on the right.",
+      "unitsHint": "Items: {{units}}",
+      "stock": "In marketplace warehouses",
+      "stockDays": "Lasts {{days}} days at the current pace",
+      "stockDaysDeclared": "{{days}} days at the current pace, but the stock looks declared: this is an upper bound",
+      "stockUnknown": "The marketplace sent no stock",
+      "stockNoPace": "No sales in the period, so there is no pace to count",
+      "byDayHint": "One bar per day of the period. A zero day is a measured zero, not a gap.",
       "cards": {
-        "title": "Товары с продажами",
-        "hint": "Выручка, штуки и доля за период; ABC по выручке, XYZ по стабильности спроса; «дней до нуля» при нынешнем темпе."
+        "title": "Products with sales",
+        "hint": "Revenue, items and share in the period; ABC by revenue, XYZ by steadiness of demand; days to zero at the current pace."
       },
       "columns": {
-        "share": "Доля",
-        "daysToZero": "Дней до нуля"
+        "share": "Share",
+        "daysToZero": "Days to zero"
       },
-      "days": "{{count}} дн.",
+      "days": "{{count}} d",
       "empty": {
-        "title": "Продаж за период нет",
-        "message": "Выберите другой период или подождите следующего обновления."
+        "title": "No sales in this period",
+        "message": "Pick another period or wait for the next update."
+      },
+      "connection": {
+        "missing": "{{marketplace}}: no key is saved, so new sales do not arrive here. What you see was loaded earlier.",
+        "never_run": "{{marketplace}}: connected, but no orders have arrived yet, so there are no sales so far.",
+        "failed": "{{marketplace}}: orders failed to load, {{error}}. Sales of the last days may be incomplete.",
+        "rate_limited": "{{marketplace}}: the marketplace asked us to wait. Some new sales will show up later; there is nothing to do.",
+        "fixture": "{{marketplace}}: these are sample orders for testing, not real sales."
+      },
+      "links": {
+        "connect": "Connection and key",
+        "sync": "Updates"
+      },
+      "noKey": {
+        "title": "No {{marketplace}} key saved",
+        "message": "Analytics is counted from the orders the marketplace sends. Save the key, and sales show up here after the first update.",
+        "saveKey": "Save key"
+      },
+      "rating": {
+        "withDate": "{{detail}} Marketplace answered on {{date}}."
+      },
+      "chart": {
+        "revenueLabel": "Revenue by day",
+        "unitsLabel": "Items by day",
+        "bar": "{{day}}: {{value}}",
+        "barCancelled": "{{day}}: {{value}}, cancelled {{cancelled}}",
+        "legend": "Tallest bar: {{max}}. The pale cap is cancelled orders, which are not revenue."
       }
     },
     "sync": {

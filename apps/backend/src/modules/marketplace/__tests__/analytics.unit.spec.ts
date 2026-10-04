@@ -1,531 +1,606 @@
+import { MedusaError } from "@medusajs/framework/utils";
 import {
   ABC_BOUNDS,
-  buyerMarketLabel,
-  buyerMarkets,
-  sellerCurrencyOf,
-  stockOnlyCards,
-  stockShape,
-  stockShapeNote,
-  XYZ_BOUNDS,
-  abcClasses,
+  DEFAULT_PERIOD_DAYS,
+  MAX_PERIOD_DAYS,
+  XYZ_MIN_WEEKS,
+  abcOf,
   cardKey,
   cardRowsOf,
+  dayIn,
   daysOf,
-  resolvePeriod,
+  daysToZero,
+  midnightIn,
+  resolveAnalyticsPeriod,
+  resolveCardsQuery,
   saleRowsOf,
   salesByCard,
   salesByDay,
+  selectCards,
+  stockLooksDeclared,
   totalsOf,
-  turnoverRows,
-  xyzBucketOf,
-  xyzClasses,
-  type RawLineWithOrder,
+  weeksOf,
+  xyzOf,
+  type CardRow,
+  type CardSales,
+  type RawLine,
 } from "../analytics";
+import { sellerRating } from "../analytics-sources";
 
 /**
- * The arithmetic of the seller dashboard (w19-mp-analytics).
+ * The arithmetic of «Wildberries → Аналитика» (mp-section-design task-06).
  *
  * Every case here is a number a shop owner could argue with, so each test
  * pins the number AND the reason it is that number: which rows count, which
- * do not, and what an absent value does. The screen prints the same formulas
- * these tests assert.
+ * do not, which day an order belongs to, and what an absent value does.
  */
 
-const PERIOD = resolvePeriod(
-  { from: "2026-09-01", to: "2026-09-30" },
-  new Date("2026-09-30T12:00:00.000Z"),
-);
+const MSK = "Europe/Moscow";
+/** 2026-09-30 15:00 in Moscow. */
+const NOW = new Date("2026-09-30T12:00:00.000Z");
 
-const line = (over: Partial<RawLineWithOrder> = {}): RawLineWithOrder => ({
-  marketplace: "wb",
+const SEPTEMBER = resolveAnalyticsPeriod({ from: "2026-09-01", to: "2026-09-30" }, NOW, MSK);
+
+let lineNo = 0;
+const line = (over: Partial<RawLine> = {}): RawLine => ({
+  order_id: `o-${(lineNo += 1)}`,
   ordered_at: "2026-09-02T10:00:00.000Z",
   is_cancelled: false,
-  currency: "RUB",
+  has_line: true,
   card_id: "100",
   vendor_code: "V-100",
-  title: "Мумиё",
   qty: 1,
   price: 1000,
   ...over,
 });
 
-describe("период и дни", () => {
-  it("30 дней сентября — это 30 дней, обе границы включительно", () => {
-    expect(PERIOD.days).toBe(30);
-    expect(PERIOD.from_day).toBe("2026-09-01");
-    expect(PERIOD.to_day).toBe("2026-09-30");
-    expect(daysOf(PERIOD)).toHaveLength(30);
+const totalsInput = (rows: ReturnType<typeof saleRowsOf>, stockUnits: number | null = null) => ({
+  rows,
+  cards: salesByCard(rows),
+  cardsTotal: 423,
+  stockUnits,
+  stockLooksDeclared: false,
+  period: SEPTEMBER,
+});
+
+const invalidData = (run: () => unknown) => {
+  try {
+    run();
+  } catch (error) {
+    expect(error).toBeInstanceOf(MedusaError);
+    expect((error as MedusaError).type).toBe(MedusaError.Types.INVALID_DATA);
+    return (error as MedusaError).message;
+  }
+  throw new Error("ожидалась ошибка 400");
+};
+
+describe("период по календарю магазина", () => {
+  it("по умолчанию — последние 30 дней магазина вместе с сегодняшним, и ответ это говорит", () => {
+    const period = resolveAnalyticsPeriod({}, NOW, MSK);
+
+    expect(period.to_day).toBe("2026-09-30");
+    expect(period.from_day).toBe("2026-09-01");
+    expect(period.days).toBe(DEFAULT_PERIOD_DAYS);
+    expect(period.is_default).toBe(true);
   });
 
-  it("в графике есть КАЖДЫЙ день периода, даже пустой", () => {
-    const rows = saleRowsOf([line({ ordered_at: "2026-09-05T00:00:00.000Z" })], PERIOD);
-    const points = salesByDay(rows, PERIOD);
+  it("«сегодня» — сегодня магазина, а не UTC: 22:30 UTC 4 октября — это уже 5 октября в Москве", () => {
+    const period = resolveAnalyticsPeriod({}, new Date("2026-10-04T22:30:00.000Z"), MSK);
 
+    expect(period.to_day).toBe("2026-10-05");
+    expect(period.from_day).toBe("2026-09-06");
+  });
+
+  it("границы — полночь магазина: 1 сентября начинается в 21:00 UTC 31 августа, конец исключён", () => {
+    expect(SEPTEMBER.from.toISOString()).toBe("2026-08-31T21:00:00.000Z");
+    expect(SEPTEMBER.until.toISOString()).toBe("2026-09-30T21:00:00.000Z");
+    expect(SEPTEMBER.days).toBe(30);
+    expect(SEPTEMBER.is_default).toBe(false);
+  });
+
+  it("заказ в 01:30 по Москве попадает в свой день, а не во вчерашний по UTC", () => {
+    const rows = saleRowsOf(
+      [
+        line({ ordered_at: "2026-09-04T22:30:00.000Z" }),
+        line({ ordered_at: "2026-09-05T20:59:59.000Z" }),
+        line({ ordered_at: "2026-09-05T21:00:00.000Z" }),
+      ],
+      SEPTEMBER,
+    );
+
+    expect(rows.map((row) => row.day)).toEqual(["2026-09-05", "2026-09-05", "2026-09-06"]);
+  });
+
+  it("заказ за минуту до начала периода и в первую минуту после конца в фолд не попадают", () => {
+    const rows = saleRowsOf(
+      [
+        line({ ordered_at: "2026-08-31T20:59:00.000Z" }),
+        line({ ordered_at: "2026-08-31T21:00:00.000Z" }),
+        line({ ordered_at: "2026-09-30T20:59:59.999Z" }),
+        line({ ordered_at: "2026-09-30T21:00:00.000Z" }),
+        line({ ordered_at: null }),
+      ],
+      SEPTEMBER,
+    );
+
+    expect(rows.map((row) => row.day)).toEqual(["2026-09-01", "2026-09-30"]);
+  });
+
+  it("полуоткрытый период: «с 14 сентября» идёт до сегодня, «по 10 сентября» — 30 дней до него", () => {
+    const since = resolveAnalyticsPeriod({ from: "2026-09-14" }, NOW, MSK);
+    expect([since.from_day, since.to_day, since.days, since.is_default]).toEqual([
+      "2026-09-14",
+      "2026-09-30",
+      17,
+      false,
+    ]);
+
+    const till = resolveAnalyticsPeriod({ to: "2026-09-10" }, NOW, MSK);
+    expect([till.from_day, till.to_day, till.days]).toEqual(["2026-08-12", "2026-09-10", 30]);
+  });
+
+  it("день в будущем не считается: конец периода останавливается на сегодня магазина", () => {
+    const period = resolveAnalyticsPeriod({ from: "2026-09-20", to: "2026-12-31" }, NOW, MSK);
+
+    expect(period.to_day).toBe("2026-09-30");
+    expect(period.days).toBe(11);
+  });
+
+  it("испорченная дата, перевёрнутый период и период длиннее года — 400, а не молча другой период", () => {
+    expect(invalidData(() => resolveAnalyticsPeriod({ from: "позавчера" }, NOW, MSK))).toMatch(/^from:/);
+    expect(invalidData(() => resolveAnalyticsPeriod({ to: "2026-02-30" }, NOW, MSK))).toMatch(/^to:/);
+    expect(invalidData(() => resolveAnalyticsPeriod({ from: "2026-09-20", to: "2026-09-10" }, NOW, MSK))).toMatch(
+      /позже своего конца/,
+    );
+    expect(invalidData(() => resolveAnalyticsPeriod({ from: "2025-01-01", to: "2026-09-30" }, NOW, MSK))).toMatch(
+      new RegExp(`${MAX_PERIOD_DAYS}`),
+    );
+  });
+
+  it("полночь считается и для зоны западнее Гринвича", () => {
+    expect(midnightIn("2026-09-01", "America/New_York").toISOString()).toBe("2026-09-01T04:00:00.000Z");
+    expect(dayIn(new Date("2026-09-01T03:59:00.000Z"), "America/New_York")).toBe("2026-08-31");
+  });
+
+  it("в графике есть КАЖДЫЙ день периода, нулевые дни на месте", () => {
+    const rows = saleRowsOf([line({ ordered_at: "2026-09-05T09:00:00.000Z" })], SEPTEMBER);
+    const points = salesByDay(rows, SEPTEMBER);
+
+    expect(points.map((point) => point.day)).toEqual(daysOf(SEPTEMBER));
     expect(points).toHaveLength(30);
     expect(points.find((point) => point.day === "2026-09-05")?.revenue).toBe(1000);
     /* Пустой день — это измеренный ноль, а не пропуск в линии. */
-    expect(points.find((point) => point.day === "2026-09-06")?.revenue).toBe(0);
-    expect(points.find((point) => point.day === "2026-09-06")?.units).toBe(0);
+    expect(points.find((point) => point.day === "2026-09-06")).toEqual({
+      day: "2026-09-06",
+      revenue: 0,
+      orders: 0,
+      units: 0,
+      cancelled_units: 0,
+      cancelled_revenue: 0,
+    });
   });
 });
 
-describe("что считается выручкой", () => {
-  it("выручка строки = цена × количество", () => {
-    const rows = saleRowsOf([line({ qty: 3, price: 250 })], PERIOD);
-    expect(rows[0].revenue).toBe(750);
+describe("что считается выручкой и заказом", () => {
+  it("выручка строки = цена × количество; строка без количества — один товар", () => {
+    const [two, missing] = saleRowsOf([line({ qty: 2, price: 450 }), line({ qty: null, price: 300 })], SEPTEMBER);
+
+    expect(two.revenue).toBe(900);
+    expect(missing.qty).toBe(1);
+    expect(missing.revenue).toBe(300);
   });
 
-  it("строка без количества — это один товар (так говорит и WB, и Ozon)", () => {
-    const rows = saleRowsOf([line({ qty: null, price: 500 })], PERIOD);
-    expect(rows[0].qty).toBe(1);
-    expect(rows[0].revenue).toBe(500);
-  });
+  it("строка без цены НЕ бесплатная: выручка null, в сумму не идёт (правило 20a)", () => {
+    const rows = saleRowsOf([line({ price: null }), line({ price: 500 })], SEPTEMBER);
 
-  it("строка без цены НЕ бесплатная: выручка null, а не ноль (правило 20a)", () => {
-    const rows = saleRowsOf([line({ price: null })], PERIOD);
     expect(rows[0].revenue).toBeNull();
+    expect(totalsOf(totalsInput(rows)).revenue).toBe(500);
+  });
+
+  it("две строки одного заказа — один заказ и две позиции", () => {
+    const rows = saleRowsOf(
+      [line({ order_id: "same", card_id: "1" }), line({ order_id: "same", card_id: "2", qty: 2 })],
+      SEPTEMBER,
+    );
+    const totals = totalsOf(totalsInput(rows));
+
+    expect(totals.orders).toBe(1);
+    expect(totals.units).toBe(3);
+    expect(salesByDay(rows, SEPTEMBER).find((point) => point.day === "2026-09-02")?.orders).toBe(1);
   });
 
   it("отменённый заказ не входит в выручку и не исчезает", () => {
-    const rows = saleRowsOf(
-      [line({ price: 1000 }), line({ price: 400, is_cancelled: true })],
-      PERIOD,
-    );
-    const day = salesByDay(rows, PERIOD).find((point) => point.day === "2026-09-02")!;
+    const rows = saleRowsOf([line({ price: 1000 }), line({ price: 700, is_cancelled: true })], SEPTEMBER);
+    const totals = totalsOf(totalsInput(rows));
+    const day = salesByDay(rows, SEPTEMBER).find((point) => point.day === "2026-09-02");
 
-    expect(day.revenue).toBe(1000);
-    expect(day.units).toBe(1);
-    expect(day.cancelled_units).toBe(1);
-    expect(day.cancelled_revenue).toBe(400);
-  });
-
-  it("заказ вне периода и заказ без даты в фолд не попадают", () => {
-    const rows = saleRowsOf(
-      [
-        line({ ordered_at: "2026-08-31T23:00:00.000Z" }),
-        line({ ordered_at: null }),
-        line({ ordered_at: "2026-09-10T00:00:00.000Z" }),
-      ],
-      PERIOD,
-    );
-    expect(rows).toHaveLength(1);
-    expect(rows[0].day).toBe("2026-09-10");
-  });
-});
-
-describe("по карточкам", () => {
-  const rows = saleRowsOf(
-    [
-      line({ card_id: "100", qty: 2, price: 1000, ordered_at: "2026-09-02T00:00:00.000Z" }),
-      line({ card_id: "100", qty: 1, price: 800, ordered_at: "2026-09-03T00:00:00.000Z" }),
-      line({ card_id: "200", qty: 1, price: 300, ordered_at: "2026-09-04T00:00:00.000Z" }),
-      line({ card_id: "200", qty: 5, price: 300, is_cancelled: true }),
-    ],
-    PERIOD,
-  );
-  const cards = salesByCard(rows);
-
-  it("карточки идут по убыванию выручки", () => {
-    expect(cards.map((card) => card.card_id)).toEqual(["100", "200"]);
-    expect(cards[0].revenue).toBe(2800);
-    expect(cards[1].revenue).toBe(300);
-  });
-
-  it("средняя цена — на ШТУКУ, а не на заказ", () => {
-    /* 2800 ₽ за 3 штуки, а не за 2 заказа. */
-    expect(cards[0].units).toBe(3);
-    expect(cards[0].avg_price).toBeCloseTo(2800 / 3, 6);
-  });
-
-  it("доли складываются в сто процентов", () => {
-    const sum = cards.reduce((total, card) => total + card.revenue_share, 0);
-    expect(sum).toBeCloseTo(100, 6);
-  });
-
-  it("отмены карточки видны отдельной цифрой", () => {
-    expect(cards[1].cancelled_units).toBe(5);
-    expect(cards[1].units).toBe(1);
-  });
-
-  it("дни с продажами считаются по разным датам, а не по числу строк", () => {
-    expect(cards[0].days_with_sales).toBe(2);
-  });
-
-  it("одна и та же карточка на двух площадках — две строки", () => {
-    const both = salesByCard(
-      saleRowsOf([line({ card_id: "100" }), line({ card_id: "100", marketplace: "ozon" })], PERIOD),
-    );
-    expect(both).toHaveLength(2);
-  });
-});
-
-describe("ABC по выручке", () => {
-  const cards = salesByCard(
-    saleRowsOf(
-      [
-        line({ card_id: "A", price: 8000 }),
-        line({ card_id: "B", price: 1600 }),
-        line({ card_id: "C", price: 400 }),
-      ],
-      PERIOD,
-    ),
-  );
-
-  it("первая карточка, перешагнувшая границу, ещё A", () => {
-    const abc = abcClasses(cards);
-    /* 80 % ровно на первой карточке: без этого правила у магазина не было бы A вовсе. */
-    expect(abc.get(cardKey("wb", "A"))?.abc).toBe("A");
-    expect(abc.get(cardKey("wb", "A"))?.cumulative_share).toBeCloseTo(80, 6);
-  });
-
-  it("B — до 95 %, дальше C", () => {
-    const abc = abcClasses(cards);
-    /* 8000 / 1600 / 400 из 10 000: накопленные доли 80 %, 96 %, 100 %. */
-    expect(abc.get(cardKey("wb", "B"))?.abc).toBe("B");
-    expect(abc.get(cardKey("wb", "B"))?.cumulative_share).toBeCloseTo(96, 6);
-    expect(abc.get(cardKey("wb", "C"))?.abc).toBe("C");
-    expect(ABC_BOUNDS).toEqual({ a: 80, b: 95 });
-  });
-
-  it("единственная карточка магазина — это A, а не C", () => {
-    const one = salesByCard(saleRowsOf([line({ card_id: "ONE", price: 100 })], PERIOD));
-    expect(abcClasses(one).get(cardKey("wb", "ONE"))?.abc).toBe("A");
-  });
-
-  it("нулевая выручка не делится на ноль", () => {
-    const none = salesByCard(saleRowsOf([line({ price: 0 })], PERIOD));
-    expect(() => abcClasses(none)).not.toThrow();
-    expect(none[0].revenue_share).toBe(0);
-  });
-});
-
-describe("XYZ по стабильности спроса", () => {
-  it("период от трёх недель считается по НЕДЕЛЯМ", () => {
-    expect(xyzBucketOf(PERIOD)).toBe("week");
-    expect(
-      xyzBucketOf(resolvePeriod({ from: "2026-09-01", to: "2026-09-07" }, new Date())),
-    ).toBe("day");
-  });
-
-  it("ровный спрос — X, рваный — Z", () => {
-    /*
-     * Одна штука в каждую из ЧЕТЫРЁХ полных недель периода против пяти штук в
-     * одну. Период 1–30 сентября делится на 4 недели плюс 2 дня; неполные два
-     * дня в начале в расчёт не входят (см. bucketsOf), поэтому и ровный, и
-     * рваный спрос заданы внутри считаемых недель.
-     */
-    const steady = [9, 16, 23, 30].map((day) =>
-      line({ card_id: "STEADY", ordered_at: `2026-09-${String(day).padStart(2, "0")}T00:00:00.000Z` }),
-    );
-    const spiky = [line({ card_id: "SPIKY", qty: 5, ordered_at: "2026-09-20T00:00:00.000Z" })];
-
-    const rows = saleRowsOf([...steady, ...spiky], PERIOD);
-    const cards = salesByCard(rows);
-    const xyz = xyzClasses(rows, cards, PERIOD);
-
-    expect(xyz.bucket).toBe("week");
-    expect(xyz.rows.get(cardKey("wb", "STEADY"))?.xyz).toBe("X");
-    expect(xyz.rows.get(cardKey("wb", "STEADY"))?.variation).toBeCloseTo(0, 6);
-    expect(xyz.rows.get(cardKey("wb", "SPIKY"))?.xyz).toBe("Z");
-    expect(XYZ_BOUNDS).toEqual({ x: 10, y: 25 });
-  });
-
-  it("класса нет, когда сравнивать нечего — и это не Z (правило 20a)", () => {
-    const rows = saleRowsOf([line({ card_id: "DEAD", is_cancelled: true })], PERIOD);
-    const cards = salesByCard(rows);
-    const xyz = xyzClasses(rows, cards, PERIOD);
-
-    expect(cards[0].units).toBe(0);
-    expect(xyz.rows.get(cardKey("wb", "DEAD"))?.xyz).toBeNull();
-    expect(xyz.rows.get(cardKey("wb", "DEAD"))?.variation).toBeNull();
-  });
-
-  it("формула названа на экране вместе с интервалом и отброшенными днями", () => {
-    const rows = saleRowsOf([line()], PERIOD);
-    const xyz = xyzClasses(rows, salesByCard(rows), PERIOD);
-    expect(xyz.formula).toContain("CV");
-    expect(xyz.formula).toContain("неделям");
-    expect(xyz.formula).toContain("10 %");
-    /* 30 дней = 4 полных недели и 2 дня; про эти 2 дня экран говорит сам. */
-    expect(xyz.buckets).toBe(4);
-    expect(xyz.dropped_days).toBe(2);
-    expect(xyz.formula).toContain("2 дн.");
-  });
-
-  it("продажи, попавшие ТОЛЬКО в отброшенный хвост, класса не дают", () => {
-    const rows = saleRowsOf([line({ card_id: "TAIL", ordered_at: "2026-09-01T00:00:00.000Z" })], PERIOD);
-    const xyz = xyzClasses(rows, salesByCard(rows), PERIOD);
-    /* Штука продана, но внутри считаемых недель её нет — честный «класса нет». */
-    expect(xyz.rows.get(cardKey("wb", "TAIL"))?.xyz).toBeNull();
-  });
-});
-
-describe("оборачиваемость и дней до нуля", () => {
-  const rows = saleRowsOf(
-    [line({ card_id: "100", qty: 30, price: 100, ordered_at: "2026-09-02T00:00:00.000Z" })],
-    PERIOD,
-  );
-  const cards = salesByCard(rows);
-
-  it("темп — за ВЕСЬ период, а не за дни с продажами", () => {
-    const turnover = turnoverRows(
-      cards,
-      [{ marketplace: "wb", card_id: "100", stock: 60, reserved: 5, measured_at: "2026-09-30T00:00:00.000Z" }],
-      PERIOD,
-    );
-    const row = turnover.get(cardKey("wb", "100"))!;
-
-    /* 30 штук за 30 дней = 1 штука в день; 60 на складе = 60 дней. */
-    expect(row.rate_per_day).toBe(1);
-    expect(row.stock).toBe(60);
-    expect(row.days_to_zero).toBe(60);
-    expect(row.zero_on).toBe("2026-11-29");
-  });
-
-  it("остаток по карточке — сумма строк mp_offer (размер × склад)", () => {
-    const turnover = turnoverRows(
-      cards,
-      [
-        { marketplace: "wb", card_id: "100", stock: 10, reserved: null, measured_at: null },
-        { marketplace: "wb", card_id: "100", stock: 20, reserved: null, measured_at: null },
-      ],
-      PERIOD,
-    );
-    const row = turnover.get(cardKey("wb", "100"))!;
-    expect(row.stock).toBe(30);
-    expect(row.offer_lines).toBe(2);
-  });
-
-  it("нет остатка — нет и «дней до нуля», а не «ноль дней»", () => {
-    const turnover = turnoverRows(
-      cards,
-      [{ marketplace: "wb", card_id: "100", stock: null, reserved: null, measured_at: null }],
-      PERIOD,
-    );
-    expect(turnover.get(cardKey("wb", "100"))?.stock).toBeNull();
-    expect(turnover.get(cardKey("wb", "100"))?.days_to_zero).toBeNull();
-  });
-
-  it("остаток без продаж — отдельная строка, а не пропавший склад", () => {
-    const turnover = turnoverRows(
-      cards,
-      [
-        { marketplace: "wb", card_id: "100", stock: 60, reserved: null, measured_at: null },
-        { marketplace: "wb", card_id: "999", stock: 12, reserved: null, measured_at: null },
-      ],
-      PERIOD,
-    );
-    const dead = turnover.get(cardKey("wb", "999"))!;
-    expect(dead.stock).toBe(12);
-    expect(dead.rate_per_day).toBe(0);
-    /* Продаж нет — срок «до нуля» не определён, а не бесконечность и не ноль. */
-    expect(dead.days_to_zero).toBeNull();
-  });
-});
-
-describe("итоги и таблица экрана", () => {
-  const rows = saleRowsOf(
-    [
-      line({ card_id: "100", qty: 2, price: 1000 }),
-      line({ card_id: "200", qty: 1, price: 500 }),
-      line({ card_id: "200", qty: 1, price: 500, is_cancelled: true }),
-    ],
-    PERIOD,
-  );
-  const cards = salesByCard(rows);
-  const turnover = turnoverRows(
-    cards,
-    [{ marketplace: "wb", card_id: "100", stock: 90, reserved: null, measured_at: null }],
-    PERIOD,
-  );
-
-  it("итоги сходятся со суммой по дням и со суммой по карточкам", () => {
-    const totals = totalsOf(rows, cards, turnover, PERIOD);
-    const byDay = salesByDay(rows, PERIOD).reduce((sum, point) => sum + point.revenue, 0);
-    const byCard = cards.reduce((sum, card) => sum + card.revenue, 0);
-
-    expect(totals.revenue).toBe(2500);
-    expect(byDay).toBe(totals.revenue);
-    expect(byCard).toBe(totals.revenue);
-    expect(totals.units).toBe(3);
-    expect(totals.orders).toBe(2);
+    expect(totals.revenue).toBe(1000);
+    expect(totals.orders).toBe(1);
     expect(totals.cancelled_orders).toBe(1);
-    expect(totals.avg_order).toBe(1250);
+    expect(totals.cancelled_revenue).toBe(700);
+    expect(day).toMatchObject({ revenue: 1000, cancelled_revenue: 700, cancelled_units: 1 });
   });
 
-  it("на сколько дней хватит склада — из суммы остатков и общего темпа", () => {
-    const totals = totalsOf(rows, cards, turnover, PERIOD);
-    /* 3 штуки за 30 дней = 0,1 в день; 90 на складе = 900 дней. */
-    expect(totals.stock_units).toBe(90);
-    expect(totals.stock_days_left).toBe(900);
+  it("заказ без строк — заказ периода без штук и без выручки", () => {
+    const rows = saleRowsOf(
+      [line({ has_line: false, card_id: null, qty: null, price: null }), line({ price: 400 })],
+      SEPTEMBER,
+    );
+    const totals = totalsOf(totalsInput(rows));
+
+    expect(totals).toMatchObject({ orders: 2, units: 1, revenue: 400, avg_order: 200 });
+    expect(salesByCard(rows).map((card) => card.card_id)).toEqual(["100"]);
   });
 
-  it("в строке таблицы стоят все классы сразу, а карточка без класса XYZ — null", () => {
-    const abc = abcClasses(cards);
-    const xyz = xyzClasses(rows, cards, PERIOD);
-    const table = cardRowsOf(cards, abc, xyz.rows, turnover);
+  it("пустой период — нули как измеренные, а среднего чека нет (null, не 0)", () => {
+    const totals = totalsOf(totalsInput([]));
 
-    expect(table[0].abc).toBe("A");
-    /*
-     * ПО КАРТОЧКЕ, а не по магазину: у карточки 100 продано 2 штуки за 30 дней
-     * (0,0667 шт/день), остаток 90 → 1350 дней. Итоговые 900 дней склада выше
-     * считаются от ОБЩЕГО темпа (3 штуки), и это два разных вопроса, а не два
-     * ответа на один.
-     */
-    expect(table[0].turnover.days_to_zero).toBe(1350);
-    expect(table.every((row) => row.xyz === null || ["X", "Y", "Z"].includes(row.xyz))).toBe(true);
+    expect(totals).toMatchObject({
+      revenue: 0,
+      orders: 0,
+      units: 0,
+      cancelled_orders: 0,
+      cards_with_sales: 0,
+      avg_order: null,
+    });
+  });
+
+  it("копейки складываются без хвоста плавающей точки", () => {
+    const rows = saleRowsOf([line({ price: 0.1 }), line({ price: 0.2 })], SEPTEMBER);
+
+    expect(totalsOf(totalsInput(rows)).revenue).toBe(0.3);
   });
 });
 
-describe("валюта покупателя против валюты продавца", () => {
+describe("товары с продажами", () => {
   const rows = saleRowsOf(
     [
-      line({ card_id: "100", price: 1000, currency: "RUB" }),
-      line({ card_id: "100", price: 900, currency: "RUB" }),
-      line({ card_id: "200", price: 500, currency: "BYN" }),
-      line({ card_id: "300", price: 300, currency: null }),
+      line({ card_id: "1", qty: 2, price: 500 }),
+      line({ card_id: "1", qty: 1, price: 500, ordered_at: "2026-09-03T10:00:00.000Z" }),
+      line({ card_id: "2", qty: 4, price: 100 }),
+      line({ card_id: "3", qty: 1, price: 900, is_cancelled: true }),
     ],
-    PERIOD,
+    SEPTEMBER,
   );
+  const cards = salesByCard(rows);
 
-  it("рынки перечислены по убыванию выручки, строки без кода — отдельным рынком", () => {
-    const markets = buyerMarkets(rows);
-    expect(markets.map((market) => market.currency)).toEqual(["RUB", "BYN", null]);
-    expect(markets[0].revenue).toBe(1900);
-    expect(markets[2].label).toContain("метод статистики");
+  it("в таблице только карточки, которые продались; карточка с одними отменами — не строка", () => {
+    expect(cards.map((card) => card.card_id)).toEqual(["1", "2"]);
   });
 
-  it("выручка НЕ делится по валютам: суммы уже в валюте продавца", () => {
-    const markets = buyerMarkets(rows);
-    const all = markets.reduce((sum, market) => sum + market.revenue, 0);
-    const cards = salesByCard(rows).reduce((sum, card) => sum + card.revenue, 0);
-    /* Сумма рынков равна сумме карточек: это одно и то же в одной валюте. */
-    expect(all).toBe(cards);
-    expect(all).toBe(2700);
-  });
-
-  it("числовой код рынка идёт словом «код», а не сырым числом (правило 18e)", () => {
-    expect(buyerMarketLabel("51")).toBe("код 51");
-    expect(buyerMarketLabel("RUB")).toBe("RUB");
-    expect(buyerMarketLabel(null)).toContain("не присылает");
-  });
-
-  it("валюта продавца берётся из прайса магазина, а не из заказа", () => {
-    expect(sellerCurrencyOf([{ currency: "RUB" }, { currency: "RUB" }, { currency: null }])).toBe(
-      "RUB",
-    );
-    /* Площадка ничего не сказала — экран печатает суммы без знака валюты. */
-    expect(sellerCurrencyOf([{ currency: null }])).toBeNull();
-    expect(sellerCurrencyOf([])).toBeNull();
+  it("средняя цена — на ШТУКУ, доля — от выручки периода", () => {
+    expect(cards[0]).toMatchObject({ revenue: 1500, units: 3, orders: 2, avg_price: 500, revenue_share: 78.95 });
+    expect(cards[1]).toMatchObject({ revenue: 400, units: 4, orders: 1, avg_price: 100, revenue_share: 21.05 });
   });
 });
 
-describe("карточки с остатком, но без продаж", () => {
-  it("попадают в таблицу нулевой строкой, а не исчезают", () => {
-    const rows = saleRowsOf([line({ card_id: "100", price: 1000 })], PERIOD);
-    const sold = salesByCard(rows);
-    const turnover = turnoverRows(
-      sold,
+/** Cards with the given revenues, biggest first, as `salesByCard` returns them. */
+const cardsWith = (revenues: number[]): CardSales[] =>
+  revenues.map((revenue, index) => ({
+    card_id: String(index + 1),
+    vendor_code: null,
+    revenue,
+    units: 1,
+    orders: 1,
+    avg_price: revenue,
+    revenue_share: 0,
+  }));
+
+const shareOf = (cards: CardSales[], classes: Map<string, string>, wanted: string[]) => {
+  const total = cards.reduce((sum, card) => sum + card.revenue, 0);
+  const sum = cards
+    .filter((card) => wanted.includes(classes.get(cardKey(card.card_id)) ?? ""))
+    .reduce((acc, card) => acc + card.revenue, 0);
+  return (sum / total) * 100;
+};
+
+describe("ABC по выручке, 80/95", () => {
+  it("A вместе держат не больше 80 %, A и B — не больше 95 %", () => {
+    /* 140 карточек с убывающей выручкой, как на стенде. */
+    const cards = cardsWith(Array.from({ length: 140 }, (_, index) => Math.round(100_000 / (index + 1) ** 0.9)));
+    const classes = abcOf(cards);
+
+    expect(shareOf(cards, classes, ["A"])).toBeLessThanOrEqual(ABC_BOUNDS.a);
+    expect(shareOf(cards, classes, ["A", "B"])).toBeLessThanOrEqual(ABC_BOUNDS.b);
+    expect([...classes.values()]).toEqual(expect.arrayContaining(["A", "B", "C"]));
+  });
+
+  it("карточка, на которой накопленная доля ровно 80 %, ещё A; следующая — B", () => {
+    const classes = abcOf(cardsWith([50, 30, 15, 5]));
+
+    expect([...classes.values()]).toEqual(["A", "A", "B", "C"]);
+  });
+
+  it("карточка, перешагнувшая 80 %, уже не A", () => {
+    const classes = abcOf(cardsWith([60, 30, 6, 4]));
+
+    expect([...classes.values()]).toEqual(["A", "B", "C", "C"]);
+  });
+
+  it("единственная главная карточка — A, даже если одна держит больше 80 %", () => {
+    expect([...abcOf(cardsWith([85, 8, 7])).values()]).toEqual(["A", "B", "C"]);
+    expect([...abcOf(cardsWith([1000])).values()]).toEqual(["A"]);
+  });
+
+  it("карточка без выручки — C, и нулевой период не делится на ноль", () => {
+    expect([...abcOf(cardsWith([0, 0])).values()]).toEqual(["C", "C"]);
+  });
+});
+
+describe("XYZ по неделям", () => {
+  /** One line of `qty` units of card `card` on the shop day `day`, at noon in Moscow. */
+  const on = (day: string, qty: number, card = "1") =>
+    line({ card_id: card, qty, ordered_at: `${day}T09:00:00.000Z` });
+
+  /** 28 days: four whole weeks, 2026-09-03 … 2026-09-30. */
+  const FOUR_WEEKS = resolveAnalyticsPeriod({ from: "2026-09-03", to: "2026-09-30" }, NOW, MSK);
+
+  it("недели отсчитываются от конца периода; 30 дней — четыре недели, два дня в начале не входят", () => {
+    expect(weeksOf(SEPTEMBER)).toEqual([
+      { start: "2026-09-03", end: "2026-09-09" },
+      { start: "2026-09-10", end: "2026-09-16" },
+      { start: "2026-09-17", end: "2026-09-23" },
+      { start: "2026-09-24", end: "2026-09-30" },
+    ]);
+  });
+
+  it("ровный спрос — X, умеренный — Y, рваный — Z", () => {
+    const rows = saleRowsOf(
       [
-        { marketplace: "wb", card_id: "100", stock: 10, reserved: null, measured_at: null },
-        { marketplace: "wb", card_id: "900", stock: 40, reserved: null, measured_at: null },
-        { marketplace: "wb", card_id: "901", stock: 0, reserved: null, measured_at: null },
+        on("2026-09-05", 10, "steady"),
+        on("2026-09-12", 10, "steady"),
+        on("2026-09-19", 10, "steady"),
+        on("2026-09-26", 10, "steady"),
+        on("2026-09-05", 8, "mid"),
+        on("2026-09-12", 12, "mid"),
+        on("2026-09-19", 8, "mid"),
+        on("2026-09-26", 12, "mid"),
+        on("2026-09-05", 40, "rare"),
+        on("2026-09-26", 1, "rare"),
       ],
-      PERIOD,
+      FOUR_WEEKS,
     );
+    const cards = salesByCard(rows);
+    const xyz = xyzOf(rows, cards, FOUR_WEEKS, new Map());
 
-    const extra = stockOnlyCards(sold, turnover, () => ({ title: "Залежался", vendor_code: "V-900" }));
-
-    /* Карточка с нулевым остатком нулевой строкой не заводится: лежать нечему. */
-    expect(extra.map((card) => card.card_id)).toEqual(["900"]);
-    expect(extra[0].revenue).toBe(0);
-    expect(extra[0].units).toBe(0);
-    expect(extra[0].title).toBe("Залежался");
+    expect(xyz.get("steady")).toEqual({ xyz: "X", variation: 0, weeks: 4 });
+    expect(xyz.get("mid")).toEqual({ xyz: "Y", variation: 20, weeks: 4 });
+    expect(xyz.get("rare")?.xyz).toBe("Z");
   });
 
-  it("нулевая карточка не портит ни ABC, ни доли проданных", () => {
-    const rows = saleRowsOf([line({ card_id: "100", price: 1000 })], PERIOD);
-    const sold = salesByCard(rows);
-    const turnover = turnoverRows(
-      sold,
-      [{ marketplace: "wb", card_id: "900", stock: 40, reserved: null, measured_at: null }],
-      PERIOD,
-    );
-    const cards = [...sold, ...stockOnlyCards(sold, turnover, () => ({ title: null, vendor_code: null }))];
-    const abc = abcClasses(cards);
+  it("период короче трёх недель класса не даёт никому: null, а не Z (правило 20a)", () => {
+    const short = resolveAnalyticsPeriod({ from: "2026-09-17", to: "2026-09-30" }, NOW, MSK);
+    const rows = saleRowsOf([on("2026-09-18", 5), on("2026-09-25", 5)], short);
+    const xyz = xyzOf(rows, salesByCard(rows), short, new Map());
 
-    expect(abc.get(cardKey("wb", "100"))?.abc).toBe("A");
-    /* Ноль выручки — последний класс, и это правда, а не наказание. */
-    expect(abc.get(cardKey("wb", "900"))?.abc).toBe("C");
-    expect(cards[0].revenue_share).toBeCloseTo(100, 6);
+    expect(weeksOf(short)).toHaveLength(2);
+    expect(xyz.get("1")).toEqual({ xyz: null, variation: null, weeks: 2 });
+  });
+
+  it(`недели данных — от первого заказа карточки: меньше ${XYZ_MIN_WEEKS} — null`, () => {
+    const rows = saleRowsOf(
+      [on("2026-09-18", 5, "new"), on("2026-09-25", 5, "new"), on("2026-09-18", 5, "old"), on("2026-09-25", 5, "old")],
+      FOUR_WEEKS,
+    );
+    const firstDay = new Map([
+      ["new", "2026-09-17"],
+      ["old", "2026-05-30"],
+    ]);
+    const xyz = xyzOf(rows, salesByCard(rows), FOUR_WEEKS, firstDay);
+
+    /* Новинка продаётся две недели: сравнивать не с чем. */
+    expect(xyz.get("new")).toEqual({ xyz: null, variation: null, weeks: 2 });
+    /* Старая карточка две недели не продавалась — это измеренные нули, и спрос рваный. */
+    expect(xyz.get("old")?.weeks).toBe(4);
+    expect(xyz.get("old")?.xyz).toBe("Z");
+  });
+
+  it("неделя, в середине которой карточка появилась, не считается", () => {
+    const rows = saleRowsOf(
+      [on("2026-09-08", 20), on("2026-09-12", 5), on("2026-09-19", 5), on("2026-09-26", 5)],
+      FOUR_WEEKS,
+    );
+    const xyz = xyzOf(rows, salesByCard(rows), FOUR_WEEKS, new Map([["1", "2026-09-08"]]));
+
+    expect(xyz.get("1")).toEqual({ xyz: "X", variation: 0, weeks: 3 });
+  });
+
+  it("продажи только в отброшенных днях начала периода класса не дают", () => {
+    const rows = saleRowsOf([on("2026-09-01", 9)], SEPTEMBER);
+    const xyz = xyzOf(rows, salesByCard(rows), SEPTEMBER, new Map());
+
+    expect(xyz.get("1")).toEqual({ xyz: null, variation: null, weeks: 4 });
   });
 });
 
-describe("неполный интервал XYZ", () => {
-  it("ровный темп в 30 дней (4 недели + 2 дня) остаётся X, а не Z", () => {
-    /* Одна штука КАЖДЫЙ день периода: спрос идеально ровный. */
-    const daily = daysOf(PERIOD).map((day) =>
-      line({ card_id: "FLAT", ordered_at: `${day}T09:00:00.000Z` }),
-    );
-    const rows = saleRowsOf(daily, PERIOD);
-    const xyz = xyzClasses(rows, salesByCard(rows), PERIOD);
+describe("дней до нуля", () => {
+  it("остаток ÷ темп за ВЕСЬ период, целые дни вниз", () => {
+    /* 30 штук за 30 дней — штука в день; 45 штук хватит на 45 дней. */
+    expect(daysToZero(45, 30, 30)).toBe(45);
+    /* 10 штук за 30 дней — треть в день; 2 штуки — это 6 дней. */
+    expect(daysToZero(2, 10, 30)).toBe(6);
+    expect(daysToZero(1, 7, 30)).toBe(4);
+  });
 
-    expect(xyz.rows.get(cardKey("wb", "FLAT"))?.variation).toBeCloseTo(0, 6);
-    expect(xyz.rows.get(cardKey("wb", "FLAT"))?.xyz).toBe("X");
+  it("нет остатка — нет и «дней до нуля»; нет продаж — тоже null, а не ноль дней", () => {
+    expect(daysToZero(null, 10, 30)).toBeNull();
+    expect(daysToZero(100, 0, 30)).toBeNull();
+  });
+
+  it("остаток ноль при продажах — это ноль дней: товар уже кончился", () => {
+    expect(daysToZero(0, 10, 30)).toBe(0);
+    expect(daysToZero(-3, 10, 30)).toBe(0);
   });
 });
 
-describe("остаток, который ЗАЯВЛЕН, а не посчитан", () => {
-  const declared = Array.from({ length: 10 }, (_, index) => ({
+describe("заявленный остаток", () => {
+  it("одно и то же ненулевое число в половине строк и больше — похоже на заявленный", () => {
+    expect(stockLooksDeclared({ lines: 11_824, dominant_value: 100, dominant_lines: 7_786 })).toBe(true);
+  });
+
+  it("разные числа, нули и одна строка предупреждения не дают", () => {
+    expect(stockLooksDeclared({ lines: 10, dominant_value: 7, dominant_lines: 3 })).toBe(false);
+    expect(stockLooksDeclared({ lines: 10, dominant_value: 0, dominant_lines: 9 })).toBe(false);
+    expect(stockLooksDeclared({ lines: 1, dominant_value: 100, dominant_lines: 1 })).toBe(false);
+    expect(stockLooksDeclared({ lines: 0, dominant_value: null, dominant_lines: 0 })).toBe(false);
+  });
+});
+
+describe("итоги и строки таблицы", () => {
+  const rows = saleRowsOf(
+    [
+      line({ card_id: "1", qty: 20, price: 100, ordered_at: "2026-09-05T10:00:00.000Z" }),
+      line({ card_id: "2", qty: 10, price: 50, ordered_at: "2026-09-20T10:00:00.000Z" }),
+      line({ card_id: "2", qty: 1, price: 50, is_cancelled: true }),
+    ],
+    SEPTEMBER,
+  );
+  const cards = salesByCard(rows);
+  const totals = totalsOf(totalsInput(rows, 300));
+  const table = cardRowsOf({
     marketplace: "wb",
-    card_id: "100",
-    stock: index < 8 ? 100 : 7,
-    reserved: null,
-    measured_at: null,
-  }))
+    cards,
+    abc: abcOf(cards),
+    xyz: xyzOf(rows, cards, SEPTEMBER, new Map()),
+    stock: new Map<string, number | null>([
+      ["1", 10],
+      ["2", null],
+    ]),
+    info: new Map([["1", { id: "mpprod_1", title: "Мумиё", vendor_code: "MUM-1", thumbnail: "https://x/1.jpg" }]]),
+    period: SEPTEMBER,
+  });
 
-  it("повторяющееся число в большинстве строк опознаётся и объясняется", () => {
-    const shape = stockShape(declared)
-    expect(shape.lines).toBe(10)
-    expect(shape.dominant_value).toBe(100)
-    expect(shape.dominant_lines).toBe(8)
-    expect(shape.looks_declared).toBe(true)
+  it("итоги сходятся с суммой по дням и с суммой по карточкам", () => {
+    const days = salesByDay(rows, SEPTEMBER);
 
-    const note = stockShapeNote(shape)
-    expect(note).toContain("8 строках остатка из 10")
-    expect(note).toContain("ЗАЯВЛЕННЫЙ")
-    /* Предупреждение обязано назвать, чем «дни до нуля» становятся. */
-    expect(note).toContain("оценка сверху")
-  })
+    expect(totals.revenue).toBe(days.reduce((sum, day) => sum + day.revenue, 0));
+    expect(totals.revenue).toBe(cards.reduce((sum, card) => sum + card.revenue, 0));
+    expect(totals.units).toBe(days.reduce((sum, day) => sum + day.units, 0));
+    expect(totals.orders).toBe(days.reduce((sum, day) => sum + day.orders, 0));
+    expect(totals).toMatchObject({ revenue: 2500, orders: 2, units: 30, avg_order: 1250, cancelled_orders: 1 });
+    expect(totals).toMatchObject({ cards_with_sales: 2, cards_total: 423 });
+  });
 
-  it("разные остатки предупреждения не рождают", () => {
-    const varied = [3, 17, 42, 8, 91].map((stock) => ({
-      marketplace: "wb",
-      card_id: "100",
-      stock,
-      reserved: null,
-      measured_at: null,
-    }))
-    const shape = stockShape(varied)
-    expect(shape.looks_declared).toBe(false)
-    expect(stockShapeNote(shape)).toBeNull()
-  })
+  it("склада хватит на: сумма остатков ÷ общий темп", () => {
+    /* 30 штук за 30 дней — штука в день; 300 штук — 300 дней. */
+    expect(totals.stock_units).toBe(300);
+    expect(totals.stock_days_left).toBe(300);
+    expect(totalsOf(totalsInput(rows, null)).stock_days_left).toBeNull();
+  });
 
-  it("одна строка остатка — это не «заявленный остаток», а просто одна строка", () => {
-    const shape = stockShape([
-      { marketplace: "wb", card_id: "100", stock: 100, reserved: null, measured_at: null },
-    ])
-    expect(shape.looks_declared).toBe(false)
-    expect(stockShapeNote(shape)).toBeNull()
-  })
+  it("строка несёт карточку магазина, класс и дни; неизвестная карточка — без выдуманного названия", () => {
+    expect(table[0]).toEqual({
+      id: "mpprod_1",
+      external_id: "1",
+      vendor_code: "MUM-1",
+      title: "Мумиё",
+      thumbnail: "https://x/1.jpg",
+      revenue: 2000,
+      units: 20,
+      orders: 1,
+      avg_price: 100,
+      revenue_share: 80,
+      abc: "A",
+      xyz: "Z",
+      stock: 10,
+      days_to_zero: 15,
+    });
+    expect(table[1]).toMatchObject({ id: "wb:2", title: null, vendor_code: "V-100", stock: null, days_to_zero: null });
+  });
+});
 
-  it("строки без остатка в форму не считаются (правило 20a: null — не ноль)", () => {
-    const shape = stockShape([
-      { marketplace: "wb", card_id: "100", stock: null, reserved: null, measured_at: null },
-      { marketplace: "wb", card_id: "100", stock: null, reserved: null, measured_at: null },
-    ])
-    expect(shape.lines).toBe(0)
-    expect(shape.dominant_value).toBeNull()
-    expect(shape.looks_declared).toBe(false)
-  })
-})
+describe("поиск, сортировка и страницы таблицы", () => {
+  const row = (over: Partial<CardRow>): CardRow => ({
+    id: "x",
+    external_id: "x",
+    vendor_code: null,
+    title: null,
+    thumbnail: null,
+    revenue: 0,
+    units: 0,
+    orders: 0,
+    avg_price: null,
+    revenue_share: 0,
+    abc: "C",
+    xyz: null,
+    stock: null,
+    days_to_zero: null,
+    ...over,
+  });
+  const rows = [
+    row({ id: "a", title: "Мумиё алтайское", vendor_code: "MUM-1", revenue: 900, units: 3, days_to_zero: 40 }),
+    row({ id: "b", title: "Мазь с АСД", vendor_code: "ASD-2", revenue: 500, units: 9, days_to_zero: null }),
+    row({ id: "c", title: "Иван-чай", vendor_code: "CHAI-mum", revenue: 100, units: 1, days_to_zero: 2 }),
+  ];
+
+  it("по умолчанию — по убыванию выручки, 20 на страницу; лимит не больше 200", () => {
+    expect(resolveCardsQuery({})).toEqual({ q: null, sort: { field: "revenue", desc: true }, limit: 20, offset: 0 });
+    expect(resolveCardsQuery({ limit: "5000", offset: "-3" })).toMatchObject({ limit: 200, offset: 0 });
+    expect(resolveCardsQuery({ order: "-title" }).sort).toEqual({ field: "revenue", desc: true });
+  });
+
+  it("q ищет по названию и по артикулу, без учёта регистра", () => {
+    const found = selectCards(rows, resolveCardsQuery({ q: "MUM" }));
+
+    expect(found.rows.map((one) => one.id)).toEqual(["a", "c"]);
+    expect(found.count).toBe(2);
+  });
+
+  it("«дней до нуля» без числа — последними в обе стороны", () => {
+    expect(selectCards(rows, resolveCardsQuery({ order: "days_to_zero" })).rows.map((one) => one.id)).toEqual([
+      "c",
+      "a",
+      "b",
+    ]);
+    expect(selectCards(rows, resolveCardsQuery({ order: "-days_to_zero" })).rows.map((one) => one.id)).toEqual([
+      "a",
+      "c",
+      "b",
+    ]);
+  });
+
+  it("сортировка по штукам и страница считаются после поиска; count — все совпавшие", () => {
+    const page = selectCards(rows, resolveCardsQuery({ order: "-units", limit: "1", offset: "1" }));
+
+    expect(page.rows.map((one) => one.id)).toEqual(["a"]);
+    expect(page.count).toBe(3);
+  });
+});
+
+describe("рейтинг продавца", () => {
+  const base = { label: "Wildberries", endpoint: "analytics.item-rating", lastCall: null, stored: null };
+
+  it("число есть только когда импорт его сохранил, с датой замера", () => {
+    expect(sellerRating({ ...base, hasKey: true, stored: { value: 4.8, scale: 5, at: "2026-10-04T10:00:00.000Z" } }))
+      .toMatchObject({ value: 4.8, scale: 5, state: "ok", as_of: "2026-10-04T10:00:00.000Z" });
+  });
+
+  it("нет ключа — так и сказано, без числа", () => {
+    expect(sellerRating({ ...base, hasKey: false })).toMatchObject({ value: null, state: "no_key", support: null });
+  });
+
+  it("площадка отказала — её ответ словами, техническое — для поддержки", () => {
+    const rating = sellerRating({
+      ...base,
+      hasKey: true,
+      lastCall: {
+        endpoint_id: "analytics.item-rating",
+        status: 403,
+        error: "token does not satisfy additional requirements",
+        fetched_at: "2026-09-16T05:00:00.000Z",
+      },
+    });
+
+    expect(rating).toMatchObject({ value: null, state: "refused", as_of: "2026-09-16T05:00:00.000Z" });
+    expect(rating.detail).toMatch(/персональный или сервисный токен/);
+    expect(rating.detail).not.toMatch(/403|item-rating/);
+    expect(rating.support).toBe("analytics.item-rating: HTTP 403 · token does not satisfy additional requirements");
+  });
+
+  it("никто не спрашивал — «не загружается», а не пустая звезда", () => {
+    const rating = sellerRating({ ...base, hasKey: true });
+
+    expect(rating).toMatchObject({ value: null, state: "not_imported", as_of: null });
+    expect(rating.support).toMatch(/нет ни одного вызова/);
+  });
+});

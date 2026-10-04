@@ -472,22 +472,44 @@ export const useMpReviews = (
  * ------------------------------------------------------------------------- */
 
 export type MpAnalyticsResponse = {
-  period: { from_day: string; to_day: string; days: number; is_default: boolean; default_days: number }
+  /**
+   * Calendar days of the SHOP's calendar (`time_zone`), both inclusive. The
+   * period never runs past the shop's today, and `is_default` says the screen
+   * chose the last `default_days` days because the address named none.
+   */
+  period: {
+    from_day: string
+    to_day: string
+    days: number
+    is_default: boolean
+    default_days: number
+    time_zone: string
+  }
+  /** The currency every sum is in: the shop's price list on this marketplace; `null` — never imported. */
   currency: string | null
   totals: {
     revenue: number
+    /** Orders, not lines. */
     orders: number
     units: number
+    /** `null` when there was no order to average, never 0. */
     avg_order: number | null
     cancelled_orders: number
     cancelled_revenue: number
     cards_with_sales: number
     cards_total: number
+    /** `null` — the marketplace sent no stock number at all. */
     stock_units: number | null
+    /** Whole days at the period's pace; `null` without stock or without sales. */
     stock_days_left: number | null
+    /** The stock looks declared by the seller (one number on most lines): the days are an upper bound. */
+    stock_looks_declared: boolean
   }
+  /** Every day of the period, days without sales included as zeros. */
   by_day: Array<{ day: string; revenue: number; orders: number; units: number; cancelled_units: number; cancelled_revenue: number }>
+  /** One page of the cards that sold in the period (`limit`/`offset`/`q`/`order`). */
   cards: Array<{
+    /** `mp_product.id` when the shop holds the card, `<marketplace>:<number>` otherwise. */
     id: string
     external_id: string | null
     vendor_code: string | null
@@ -497,16 +519,32 @@ export type MpAnalyticsResponse = {
     units: number
     orders: number
     avg_price: number | null
+    /** Percent of the period's revenue, 0..100. */
     revenue_share: number
+    /** By cumulative revenue share: A within 80 %, B within 95 %. */
     abc: "A" | "B" | "C"
+    /** By the variation of weekly units; `null` with fewer than 3 weeks of data. */
     xyz: "X" | "Y" | "Z" | null
     stock: number | null
+    /** Whole days today's stock lasts at the period's pace; `null` without stock or sales. */
     days_to_zero: number | null
   }>
   cards_count: number
   limit: number
   offset: number
-  rating: { value: number | null; scale: number | null; detail: string }
+  /**
+   * The seller rating, or why there is none. `detail` is the owner's sentence,
+   * `as_of` when the marketplace answered (the rating or the refusal),
+   * `support` the technical half for «Подробности для поддержки».
+   */
+  rating: {
+    value: number | null
+    scale: number | null
+    state: "ok" | "no_key" | "refused" | "not_imported"
+    as_of: string | null
+    detail: string
+    support: string | null
+  }
   connection: FeedConnection
 }
 
