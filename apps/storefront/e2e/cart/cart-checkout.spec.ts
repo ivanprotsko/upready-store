@@ -74,12 +74,12 @@ test.describe("cart and checkout", () => {
     await expect(page.locator("[data-testid=cart-item-count]").first()).toHaveText("1")
   })
 
-  test("cart page: the line is shown, quantity moves it and the remove button clears an added line", async ({
+  test("cart page: the line is shown, quantity moves it and «−» on the last one clears an added line", async ({
     page,
   }) => {
     await page.goto("/ru/cart", { waitUntil: "domcontentloaded" })
     await page.locator("[data-testid=cart-container]").waitFor({ state: "visible" })
-    await expect(page.locator("[data-testid=product-row]")).toHaveCount(1)
+    await expect(page.locator("[data-testid=cart-sidebar-line]")).toHaveCount(1)
 
     await expect(page).toHaveScreenshot("cart-page.png", { fullPage: true })
 
@@ -87,23 +87,25 @@ test.describe("cart and checkout", () => {
       await page.locator("[data-testid=cart-subtotal]").getAttribute("data-value")
     )
 
-    // Quantity +/-: same line, its own unit price times the new quantity.
-    await page.locator("[data-testid=increase-qty-button]").click()
-    await expect(page.locator("[data-testid=product-unit-price]")).toContainText("2 x")
+    // Quantity +/-: same line, its own unit price times the new quantity. The page's lines
+    // are the cart sidebar's cards since t-2026-10-04-42, with the sidebar's test ids.
+    await page.locator("[data-testid=cart-sidebar-increase]").click()
+    await expect(page.locator("[data-testid=cart-sidebar-line-unit]")).toContainText("2 ×")
     await expect
       .poll(async () =>
         Number(await page.locator("[data-testid=cart-subtotal]").getAttribute("data-value"))
       )
       .toBe(subtotalBefore * 2)
 
-    await page.locator("[data-testid=decrease-qty-button]").click()
+    await page.locator("[data-testid=cart-sidebar-decrease]").click()
     await expect
       .poll(async () =>
         Number(await page.locator("[data-testid=cart-subtotal]").getAttribute("data-value"))
       )
       .toBe(subtotalBefore)
 
-    // Remove: add a second, different line, then remove it — this line stays,
+    // Remove: add a second, different line, then take it to zero with «−» (the card has
+    // no separate remove control, the sidebar's rule). This line stays,
     // so the checkout test below still has something to buy.
     await page.goto(productUrl(PRODUCT_B), { waitUntil: "domcontentloaded" })
     await page.locator("[data-testid=add-product-button]:not([disabled])").waitFor({ state: "visible" })
@@ -111,12 +113,12 @@ test.describe("cart and checkout", () => {
     await expect(page.locator("[data-testid=cart-item-count]").first()).toHaveText("2")
 
     await page.goto("/ru/cart", { waitUntil: "domcontentloaded" })
-    await expect(page.locator("[data-testid=product-row]")).toHaveCount(2)
+    await expect(page.locator("[data-testid=cart-sidebar-line]")).toHaveCount(2)
 
-    const secondRow = page.locator("[data-testid=product-row]").filter({ hasText: "Тройчатка" })
-    await secondRow.locator("[data-testid=product-delete-button]").click()
+    const secondRow = page.locator("[data-testid=cart-sidebar-line]").filter({ hasText: "Тройчатка" })
+    await secondRow.locator("[data-testid=cart-sidebar-decrease]").click()
 
-    await expect(page.locator("[data-testid=product-row]")).toHaveCount(1)
+    await expect(page.locator("[data-testid=cart-sidebar-line]")).toHaveCount(1)
     await expect
       .poll(async () =>
         Number(await page.locator("[data-testid=cart-subtotal]").getAttribute("data-value"))
@@ -196,7 +198,7 @@ test.describe("cart and checkout", () => {
   test("cart: placing the order leaves the cart empty", async ({ page }) => {
     await page.goto("/ru/cart", { waitUntil: "domcontentloaded" })
     await page.locator("[data-testid=empty-cart-message]").waitFor({ state: "visible" })
-    await expect(page.locator("[data-testid=product-row]")).toHaveCount(0)
+    await expect(page.locator("[data-testid=cart-sidebar-line]")).toHaveCount(0)
 
     await expect(page).toHaveScreenshot("cart-empty.png", { fullPage: true })
   })

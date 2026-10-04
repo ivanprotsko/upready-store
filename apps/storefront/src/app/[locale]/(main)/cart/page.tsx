@@ -1,4 +1,5 @@
 import { retrieveCartSnapshot } from "@lib/data/cart"
+import { getWishlistProductIds, isWishlistCustomerLoggedIn } from "@lib/data/wishlist"
 import CartTemplate from "@modules/cart/templates"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
@@ -20,10 +21,22 @@ type CartPageProps = {
 }
 
 export default async function Cart({ searchParams }: CartPageProps) {
-  const [snapshot, { error }] = await Promise.all([
-    retrieveCartSnapshot(),
-    searchParams,
-  ])
+  // The wishlist reads are the cached ones the cart sidebar makes on the same request,
+  // for the hearts on the lines (t-2026-10-04-42).
+  const [snapshot, { error }, wishlistLoggedIn, wishlistProductIds] =
+    await Promise.all([
+      retrieveCartSnapshot(),
+      searchParams,
+      isWishlistCustomerLoggedIn().catch(() => false),
+      getWishlistProductIds().catch(() => [] as string[]),
+    ])
 
-  return <CartTemplate snapshot={snapshot} error={error} />
+  return (
+    <CartTemplate
+      snapshot={snapshot}
+      error={error}
+      wishlistLoggedIn={wishlistLoggedIn}
+      wishlistProductIds={wishlistProductIds}
+    />
+  )
 }

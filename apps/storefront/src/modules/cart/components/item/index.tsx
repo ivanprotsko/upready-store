@@ -18,9 +18,12 @@ type ItemProps = {
 }
 
 /**
- * One line of the cart page. Its quantity and its removal go through the client cart
- * queue (t-2026-10-03-66): they show at once, the request follows after a pause, and a
- * refused change falls back to the server's quantity with the reason under the line.
+ * A cart line in the upstream starter's shape. The cart page no longer draws it: since
+ * t-2026-10-04-42 its lines are the cart sidebar's cards (`cart/templates/items.tsx`),
+ * and `type="preview"` is what `templates/preview.tsx` still reads. Its quantity and its
+ * removal go through the client cart queue (t-2026-10-03-66): they show at once, the
+ * request follows after a pause, and a refused change falls back to the server's
+ * quantity with the reason under the line.
  */
 const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
   const queue = useCartQueue()

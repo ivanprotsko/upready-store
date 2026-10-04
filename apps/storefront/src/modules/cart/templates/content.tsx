@@ -15,9 +15,13 @@ import Summary from "./summary"
 export default function CartContent({
   snapshot,
   empty,
+  wishlistLoggedIn,
+  wishlistProductIds,
 }: {
   snapshot: CartSnapshot
   empty: ReactNode
+  wishlistLoggedIn: boolean
+  wishlistProductIds: readonly string[]
 }) {
   const { cart } = useCart(snapshot)
 
@@ -28,7 +32,11 @@ export default function CartContent({
   return (
     <div className="grid grid-cols-1 small:grid-cols-[7fr_5fr] min-h-[70vh] gap-x-20">
       <div className="flex flex-col py-6 gap-y-6">
-        <ItemsTemplate cart={cart} />
+        <ItemsTemplate
+          cart={cart}
+          wishlistLoggedIn={wishlistLoggedIn}
+          wishlistProductIds={wishlistProductIds}
+        />
       </div>
       <div className="relative">
         <div className="h-full flex flex-col py-6 gap-y-8">

@@ -1,30 +1,36 @@
 "use client"
 
-import repeat from "@lib/util/repeat"
 import type { HttpTypes } from "@medusajs/types"
 import { useTranslations } from "next-intl"
 
-import Item from "@modules/cart/components/item"
+import CartLineGroups, {
+  useCartDeliveryEstimate,
+} from "@modules/layout/components/cart-sidebar/groups"
 
 type ItemsTemplateProps = {
-  cart?: HttpTypes.StoreCart
+  cart: HttpTypes.StoreCart
+  /** Whether the hearts write to the account (signed in) or to this browser (a guest). */
+  wishlistLoggedIn: boolean
+  /** The signed-in buyer's wishlist, as the server rendered it. */
+  wishlistProductIds: readonly string[]
 }
 
-const CartItemSkeleton = () => (
-  <div className="flex gap-x-4 py-4 border-b border-ui-border-base animate-pulse">
-    <div className="w-20 h-20 rounded-lg bg-ui-bg-component flex-shrink-0" />
-    <div className="flex flex-col gap-y-2 flex-1">
-      <div className="w-32 h-4 bg-ui-bg-component rounded" />
-      <div className="w-24 h-3 bg-ui-bg-component rounded" />
-      <div className="w-20 h-3 bg-ui-bg-component rounded" />
-    </div>
-    <div className="w-16 h-4 bg-ui-bg-component rounded" />
-  </div>
-)
-
-const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
+/**
+ * The cart page's lines, wrapped and drawn as the cart sidebar draws them
+ * (t-2026-10-04-42, Ivan 04.10: «на странице корзины нужно обернуть карточки товаров и
+ * стилизовать их точно также как в которая отображается сайдбаре»). The shipment groups
+ * sit on the sidebar's own grey, and every line is the sidebar's white card with its
+ * heart and «− N +» stepper. «−» on the last one removes the line, so the card needs no
+ * separate remove control here either. The delivery estimate is asked for once, when the
+ * page is on screen.
+ */
+const ItemsTemplate = ({
+  cart,
+  wishlistLoggedIn,
+  wishlistProductIds,
+}: ItemsTemplateProps) => {
   const t = useTranslations("Cart")
-  const items = cart?.items
+  const estimate = useCartDeliveryEstimate(cart, true)
 
   return (
     <div>
@@ -32,26 +38,17 @@ const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
         {t("heading")}
       </h1>
 
-      <div data-testid="items-table">
-        {items
-          ? [...items]
-              .sort((a, b) =>
-                (a.created_at ?? "") > (b.created_at ?? "") ? -1 : 1
-              )
-              .map((item, idx) => (
-                // By variant: a line added on another page is drawn before the server names
-                // it, and must not remount when the real id arrives.
-                <div key={item.variant_id ?? item.id}>
-                  <Item
-                    item={item}
-                    currencyCode={cart?.currency_code ?? ""}
-                  />
-                  {idx < items.length - 1 && (
-                    <div className="h-px bg-ui-border-base my-3" />
-                  )}
-                </div>
-              ))
-          : repeat(5).map((i) => <CartItemSkeleton key={i} />)}
+      <div
+        className="overflow-hidden rounded-lg bg-[var(--cart-sidebar-bg)]"
+        data-testid="items-table"
+      >
+        <CartLineGroups
+          items={cart.items ?? []}
+          currencyCode={cart.currency_code}
+          estimate={estimate}
+          wishlistLoggedIn={wishlistLoggedIn}
+          wishlistProductIds={wishlistProductIds}
+        />
       </div>
     </div>
   )

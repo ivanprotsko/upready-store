@@ -208,8 +208,8 @@ test.describe("client cart queue", () => {
     // The cart page shows the two clicks whether or not the unload's request has landed:
     // it re-applies what the product page left behind, then sends it again.
     await expect(page.locator(COUNT).first()).toHaveText("3")
-    await expect(page.locator('[data-testid="product-row"]')).toHaveCount(1)
-    await expect(page.locator('[data-testid="product-unit-price"]')).toContainText("3 x")
+    await expect(page.locator('[data-testid="cart-sidebar-line"]')).toHaveCount(1)
+    await expect(page.locator('[data-testid="cart-sidebar-line-unit"]')).toContainText("3 ×")
     await settled(page)
     expect(await serverQuantity(page)).toBe(3)
   })
