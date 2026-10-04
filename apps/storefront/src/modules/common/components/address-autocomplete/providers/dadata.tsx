@@ -6,6 +6,7 @@ import type { DaDataSuggestion, DaDataAddress } from "react-dadata"
 import { AddressSuggestions } from "react-dadata"
 import "react-dadata/dist/react-dadata.css"
 import { useTranslations } from "next-intl"
+import { FIELD_FOCUS, FIELD_SURFACE } from "@modules/common/components/input/field-classes"
 import type { AddressAutocompleteProps } from "../types"
 
 function buildAddressLine(d: DaDataAddress): string {
@@ -65,8 +66,7 @@ const DaDataAddressInput = ({
           uid={uid}
           delay={300}
           inputProps={{
-            className:
-              "block w-full h-11 px-4 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 border-ui-border-base hover:bg-ui-bg-field-hover txt-compact-medium text-ui-fg-base focus-visible:ring-2 focus-visible:ring-[var(--ring)]",
+            className: `block w-full h-11 px-4 appearance-none txt-compact-medium text-ui-fg-base ${FIELD_SURFACE} ${FIELD_FOCUS}`,
             autoComplete: "off",
             onChange: handleInputTyping,
             required,

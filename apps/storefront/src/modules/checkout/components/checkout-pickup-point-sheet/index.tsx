@@ -4,6 +4,10 @@ import { useEffect, useMemo, useState } from "react"
 import { CheckoutModal } from "@modules/checkout/components/checkout-modal"
 import { usePickupSheet } from "@modules/checkout/context/pickup-sheet-context"
 import MapPin from "@modules/common/icons/map-pin"
+import {
+  FIELD_FOCUS_WITHIN,
+  FIELD_SURFACE,
+} from "@modules/common/components/input/field-classes"
 import { Clock, MagnifyingGlass } from "@medusajs/icons"
 import { Button, clx } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
@@ -56,14 +60,15 @@ export default function CheckoutPickupPointSheet() {
       title={t("chooseHeading")}
     >
       <div className="flex flex-col gap-y-4">
-        <div className="flex items-center gap-x-2 rounded-md border border-ui-border-base px-3">
+        <div className={clx("flex items-center gap-x-2 px-3", FIELD_SURFACE, FIELD_FOCUS_WITHIN)}>
           <MagnifyingGlass className="shrink-0 text-ui-fg-muted" />
           <input
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("searchPlaceholder")}
-            className="h-10 w-full bg-transparent txt-compact-medium text-ui-fg-base outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] placeholder:text-ui-fg-muted"
+            // theme-colours allowlist: no ring of its own, the search box around it rings on focus-within (FIELD_FOCUS_WITHIN).
+            className="h-10 w-full bg-transparent txt-compact-medium text-ui-fg-base outline-none placeholder:text-ui-fg-muted"
             data-testid="pickup-point-search"
           />
         </div>

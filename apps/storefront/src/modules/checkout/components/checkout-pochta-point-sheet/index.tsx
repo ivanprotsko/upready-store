@@ -18,6 +18,10 @@ import {
   type PochtaStorePoint,
 } from "@lib/util/pochta"
 import { CheckoutModal } from "@modules/checkout/components/checkout-modal"
+import {
+  FIELD_FOCUS_WITHIN,
+  FIELD_SURFACE,
+} from "@modules/common/components/input/field-classes"
 import SuggestInput from "@modules/common/components/suggest-input"
 import MapPin from "@modules/common/icons/map-pin"
 
@@ -241,13 +245,14 @@ export default function CheckoutPochtaPointSheet({
           testId="pochta-point-city"
         />
 
-        <div className="flex items-center gap-x-2 rounded-md border border-ui-border-base px-3">
+        <div className={clx("flex items-center gap-x-2 px-3", FIELD_SURFACE, FIELD_FOCUS_WITHIN)}>
           <MagnifyingGlass className="shrink-0 text-ui-fg-muted" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={tPoint("searchPlaceholder")}
-            className="h-10 w-full bg-transparent txt-compact-medium text-ui-fg-base outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] placeholder:text-ui-fg-muted"
+            // theme-colours allowlist: no ring of its own, the search box around it rings on focus-within (FIELD_FOCUS_WITHIN).
+            className="h-10 w-full bg-transparent txt-compact-medium text-ui-fg-base outline-none placeholder:text-ui-fg-muted"
             data-testid="pochta-point-search"
           />
         </div>

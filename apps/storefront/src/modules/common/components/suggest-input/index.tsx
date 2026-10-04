@@ -11,6 +11,8 @@ import {
 } from "react"
 import { clx } from "@medusajs/ui"
 
+import { FIELD_FOCUS, FIELD_SURFACE } from "@modules/common/components/input/field-classes"
+
 /**
  * One suggest field for the checkout (i03-checkout-pvz-map-address-suggest).
  *
@@ -245,7 +247,11 @@ export default function SuggestInput<TItem>({
             // really moved on.
             setOpen(false)
           }}
-          className="mt-0 block h-11 w-full appearance-none rounded-md border border-ui-border-base bg-ui-bg-field px-4 pb-1 pt-4 text-ui-fg-base placeholder:text-ui-fg-muted hover:bg-ui-bg-field-hover focus:shadow-borders-interactive-with-active focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+          className={clx(
+            "mt-0 block h-11 w-full appearance-none px-4 pb-1 pt-4 text-ui-fg-base placeholder:text-ui-fg-muted",
+            FIELD_SURFACE,
+            FIELD_FOCUS
+          )}
           data-testid={testId}
         />
         <label

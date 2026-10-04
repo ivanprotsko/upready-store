@@ -80,6 +80,11 @@ module.exports = {
       fontSize: {
         "3xl": "2rem",
       },
+      // The neutral focus ring of a form field, next to the preset's own `shadow-borders-*`.
+      // The value lives in styles/globals.css, one per mode.
+      boxShadow: {
+        "borders-field-focus": "var(--borders-field-focus)",
+      },
       fontFamily: {
         sans: [
           "Inter",

@@ -92,7 +92,7 @@ const FilterComboboxImpl = (
           "relative flex cursor-pointer items-center gap-x-2 overflow-hidden",
           "h-8 w-full rounded-md",
           "bg-ui-bg-base transition-fg shadow-borders-base",
-          "has-[input:focus]:shadow-borders-interactive-with-active",
+          "has-[input:focus]:shadow-borders-field-focus",
           className
         )}
         style={

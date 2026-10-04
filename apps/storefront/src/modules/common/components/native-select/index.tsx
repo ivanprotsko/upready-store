@@ -12,6 +12,11 @@ import {
   useState,
 } from "react"
 
+import {
+  FIELD_FOCUS_WITHIN,
+  FIELD_SURFACE,
+} from "@modules/common/components/input/field-classes"
+
 export type NativeSelectProps = {
   placeholder?: string
   /**
@@ -55,10 +60,10 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
           onFocus={() => innerRef.current?.focus()}
           onBlur={() => innerRef.current?.blur()}
           className={clx(
-            "relative flex items-center border border-ui-border-base rounded-md hover:bg-ui-bg-field-hover",
-            field
-              ? "h-11 txt-compact-medium bg-ui-bg-field"
-              : "txt-compact-small-plus bg-ui-bg-subtle",
+            "relative flex items-center",
+            FIELD_SURFACE,
+            FIELD_FOCUS_WITHIN,
+            field ? "h-11 txt-compact-medium" : "txt-compact-small-plus",
             className,
             {
               "text-ui-fg-muted": isPlaceholder && !field,
@@ -74,7 +79,8 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             // checkout's region list made it 391px and pushed the page 18px past a
             // 390px phone (measured on the stand, batch 6 part 1).
             className={clx(
-              "appearance-none min-w-0 flex-1 bg-transparent border-none transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]",
+              // theme-colours allowlist: no ring of its own, the box around it rings on focus-within (FIELD_FOCUS_WITHIN).
+              "appearance-none min-w-0 flex-1 bg-transparent border-none transition-colors duration-150 outline-none",
               field
                 ? clx(
                     "self-stretch rounded-md ps-4 pe-10",
