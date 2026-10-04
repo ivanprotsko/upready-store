@@ -14,7 +14,11 @@ import { FIELD_FOCUS, FIELD_FOCUS_WITHIN, FIELD_SURFACE } from "./field-classes"
 const messages = JSON.parse(readFileSync(join(__dirname, "../../../../../messages/ru.json"), "utf8"))
 
 const render = (element: ReactElement) =>
-  renderToStaticMarkup(createElement(NextIntlClientProvider, { locale: "ru", messages, children: element }))
+  renderToStaticMarkup(
+    <NextIntlClientProvider locale="ru" messages={messages}>
+      {element}
+    </NextIntlClientProvider>
+  )
 
 /** The class list of the first element in `html` that matches `tag`. */
 const classesOf = (html: string, tag: RegExp) => {
