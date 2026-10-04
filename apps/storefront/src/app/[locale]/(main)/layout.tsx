@@ -17,6 +17,7 @@ import CartNotifications from "@modules/layout/components/cart-notifications"
 import { CartSidebarProvider } from "@modules/layout/components/cart-sidebar/context"
 import CartSidebarHost from "@modules/layout/components/cart-sidebar/host"
 import PromoBanner from "@modules/layout/components/promo-banner"
+import SearchPalette from "@modules/layout/components/search/palette"
 import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"
 
@@ -118,6 +119,9 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
             <Suspense fallback={null}>
               <LoginModalHost />
             </Suspense>
+            {/* The one search palette, which Cmd+K / Ctrl+K and every search control on the
+                page (header, bottom nav, the Olavka home navigation) open. */}
+            <SearchPalette />
           </HydrationSlot>
         </div>
         <BottomNav />

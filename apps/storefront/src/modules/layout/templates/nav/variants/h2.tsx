@@ -109,7 +109,6 @@ export default async function NavH2() {
                 className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
                 data-testid="nav-mode-toggle"
               />
-              <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
               <div className="hidden lg:flex min-w-0">
                 <RegionSelect
                   regions={regions}
@@ -118,6 +117,9 @@ export default async function NavH2() {
                   className="min-w-0"
                 />
               </div>
+              {/* Right before the account icon (Ivan 04.10: «слева от контрола входа в
+                  личный кабинет добавим контрол с поиском»). */}
+              <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
               <AccountLink
                 className="hidden lg:block hover:text-ui-fg-base"
                 aria-label={t("Nav.account")}

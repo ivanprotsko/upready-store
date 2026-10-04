@@ -115,7 +115,6 @@ export default async function NavH4() {
                 className="hidden lg:inline-flex hover:opacity-80 transition-opacity"
                 data-testid="nav-mode-toggle"
               />
-              <Search className="hidden lg:inline-flex hover:opacity-80 transition-opacity" />
               <div className="hidden lg:flex min-w-0">
                 <RegionSelect
                   regions={regions}
@@ -124,6 +123,9 @@ export default async function NavH4() {
                   className="min-w-0"
                 />
               </div>
+              {/* Right before the account icon (Ivan 04.10: «слева от контрола входа в
+                  личный кабинет добавим контрол с поиском»). */}
+              <Search className="hidden lg:inline-flex hover:opacity-80 transition-opacity" />
               <AccountLink
                 className="hidden lg:block hover:opacity-80 transition-opacity"
                 aria-label={t("Nav.account")}

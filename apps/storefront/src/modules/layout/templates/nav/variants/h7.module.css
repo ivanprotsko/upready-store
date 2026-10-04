@@ -132,7 +132,7 @@
   transition: background-color 150ms ease-out;
 }
 
-/* A plain icon button: no fill, no ring (account; the compact bar's cart and burger). */
+/* A plain icon button: no fill, no ring (search and account; the compact bar's cart and burger). */
 .iconButton {
   flex: none;
   align-self: center;
