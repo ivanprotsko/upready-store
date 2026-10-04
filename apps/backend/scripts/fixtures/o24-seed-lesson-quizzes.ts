@@ -3,7 +3,7 @@ import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/util
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { COURSE_MODULE } from "../../src/modules/course";
-import { LessonQuizSchema, type LessonQuiz } from "../../src/modules/course/quiz";
+import { LessonQuizSchema, parseLessonQuiz, type LessonQuiz } from "../../src/modules/course/quiz";
 import type CourseModuleService from "../../src/modules/course/service";
 import type { CourseRow, LessonRow } from "../../src/api/tenants/courses/course-helpers";
 
@@ -54,7 +54,13 @@ const loadQuizFile = (): { slugs: string[]; lessons: Array<{ order: number; titl
   return { slugs: raw.course_slugs, lessons };
 };
 
-const sameJson = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+/**
+ * Postgres hands `jsonb` back with its keys reordered (shortest first), so the
+ * stored test goes through the schema again, which writes the keys in its own
+ * order, the order the file's tests already have.
+ */
+const sameTest = (stored: unknown, wanted: LessonQuiz) =>
+  JSON.stringify(parseLessonQuiz(stored)) === JSON.stringify(wanted);
 
 export default async function seedO24LessonQuizzes({ container, args }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
@@ -92,7 +98,7 @@ export default async function seedO24LessonQuizzes({ container, args }: ExecArgs
         logger.warn(`${PREFIX}: ${course.id} lesson ${entry.order} is titled differently, skipped.`);
         continue;
       }
-      if (sameJson(lesson.quiz, entry.quiz)) {
+      if (sameTest(lesson.quiz, entry.quiz)) {
         counts.unchanged += 1;
         continue;
       }
