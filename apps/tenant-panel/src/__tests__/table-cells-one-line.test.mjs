@@ -130,22 +130,23 @@ test("review list: the status cell shows only the badge, no hint line", () => {
 })
 
 test("marketplace analytics cards table: no metric cell stacks a caption line under its value", () => {
-  const source = read(
-    "routes/settings/marketplaces/analytics/components/cards-table.tsx"
-  )
+  // The w16 cards table (`settings/marketplaces/analytics`) is gone; its
+  // successor is the cards table of «Wildberries → Аналитика»
+  // (mp-section-design task-06). The captions it once stacked under a value
+  // must not come back as a second line of a cell.
+  const source = read("routes/marketplaces/mp-analytics/mp-analytics.tsx")
   for (const removed of [
-    '{[card.vendor_code, card.card_id].filter(Boolean).join(" · ") || "—"}',
-    "отменено ${card.cancelled_units} шт",
-    "{ABC_HINT[card.abc]}",
-    "${XYZ_HINT[card.xyz]}, CV ${Math.round(card.variation ?? 0)} %",
-    "строк остатка: ${card.turnover.offer_lines}",
-    "до ${card.turnover.zero_on}",
+    "cancelled_units} шт",
+    "ABC_HINT[",
+    "XYZ_HINT[",
+    "строк остатка",
+    "turnover.zero_on",
   ]) {
-    assert.ok(
-      !source.includes(`<Text className="text-ui-fg-muted" size="xsmall">\n                ${removed}`),
-      `"${removed}" must not render as its own <Text>, only in a title`
-    )
+    assert.ok(!source.includes(removed), `"${removed}" must not render under a value in a cell`)
   }
+  const columns = source.slice(source.indexOf("const useColumns"))
+  assert.ok(columns.length > 0, "the cards table's columns were not found")
+  assert.ok(!columns.includes("<Text"), "a cell of the cards table must not stack a <Text> line")
 })
 
 test("redirect row: the source path shows on one line, the full host+path only in title", () => {
@@ -189,13 +190,15 @@ test("shipping zones: the zone row shows the name on one line, the description o
 })
 
 test("marketplace orders: the status cell shows only the label, no status-detail line", () => {
-  const source = read("routes/marketplace-orders/marketplace-orders.tsx")
+  // The w15 feed (`routes/marketplace-orders`) is gone; its successor is
+  // «Wildberries → Заказы» (mp-section-design task-04).
+  const source = read("routes/marketplaces/mp-orders/mp-orders.tsx")
   assert.ok(
-    !/<Text className="text-ui-fg-muted" size="xsmall">\s*\{order\.status_detail\}\s*<\/Text>/.test(source),
+    !/<Text[^>]*>\s*\{(?:row\.original|order)\.status_detail\}\s*<\/Text>/.test(source),
     "status_detail must not render as its own <Text> under the status label"
   )
   assert.ok(
-    source.includes("title={order.status_detail ?? undefined}"),
-    "the detail must still be reachable, via title on the cell"
+    source.includes("title={rawStatusOf(row.original.status_raw, row.original.status_detail) ?? undefined}"),
+    "the marketplace's own words must still be reachable, via title on the cell"
   )
 })

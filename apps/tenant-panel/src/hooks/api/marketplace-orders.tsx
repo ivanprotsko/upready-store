@@ -74,29 +74,6 @@ export type FeedConnection = {
   notice: "missing" | "never_run" | "failed" | "rate_limited" | "fixture" | null
 }
 
-export type MarketplaceOrdersResponse = {
-  orders: FeedOrder[]
-  count: number
-  offset: number
-  limit: number
-  period: {
-    from: string
-    to: string
-    /** `YYYY-MM-DD` — what the screen prints. An instant would shift by a timezone. */
-    from_day: string
-    to_day: string
-    days: number
-    /** true when the screen chose the period, not the owner: it must say so. */
-    is_default: boolean
-    default_days: number
-  }
-  applied: { source: FeedSource[]; scheme: string[]; status: OrderStatusKey[] }
-  facets: { sources: FeedFacet[]; schemes: FeedFacet[]; statuses: FeedFacet[] }
-  connections: FeedConnection[]
-  /** Orders the marketplace sent without a date; they fall in no period. */
-  undated: number
-}
-
 export type MarketplaceOrderLine = {
   id: string
   line_key: string
@@ -136,34 +113,6 @@ export type MarketplaceOrderDetail = {
 
 const MARKETPLACE_ORDERS_QUERY_KEY = "tenant-marketplace-orders" as const
 export const marketplaceOrdersQueryKeys = queryKeysFactory(MARKETPLACE_ORDERS_QUERY_KEY)
-
-/** The path the export is downloaded from, with the screen's own filters on it. */
-export const marketplaceOrdersExportPath = (search: string) =>
-  `/tenants/marketplace-orders/export${search ? `?${search.replace(/^\?/, "")}` : ""}`
-
-export const useMarketplaceOrders = (
-  search: string,
-  options?: Omit<
-    UseQueryOptions<MarketplaceOrdersResponse, FetchError, MarketplaceOrdersResponse, QueryKey>,
-    "queryFn" | "queryKey"
-  >
-) => {
-  const query = search.replace(/^\?/, "")
-
-  const { data, ...rest } = useQuery({
-    queryFn: () =>
-      sdk.client.fetch<MarketplaceOrdersResponse>(
-        `/tenants/marketplace-orders${query ? `?${query}` : ""}`
-      ),
-    queryKey: marketplaceOrdersQueryKeys.list(query),
-    ...options,
-  })
-
-  // Named fields rather than `...data`, for the reason the marketplaces hook
-  // records: react-query's own result carries `status`, and a response field of
-  // the same name would be overwritten by it.
-  return { feed: data, ...rest }
-}
 
 /** One order of one marketplace (`wb`, `ozon`); a foreign or missing id answers 404. */
 export const useMarketplaceOrder = (

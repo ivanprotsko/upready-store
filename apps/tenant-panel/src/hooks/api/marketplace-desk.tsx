@@ -1,22 +1,16 @@
 import { FetchError } from "@medusajs/js-sdk"
-import {
-  QueryKey,
-  UseMutationOptions,
-  UseQueryOptions,
-  useMutation,
-  useQuery,
-} from "@tanstack/react-query"
+import { UseMutationOptions, useMutation } from "@tanstack/react-query"
 
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
-import { queryKeysFactory } from "../../lib/query-key-factory"
 import { marketplaceSectionQueryKeys } from "./marketplace-section"
 
 // «Маркетплейсы → Отзывы» (w18-mp-reviews-desk). Свой хук панели, у Admin
-// аналога нет.
+// аналога нет. С mp-section-design здесь только типы отзыва и мутации
+// черновика: список «Wildberries → Отзывы» — `useMpReviews` в
+// marketplace-section.tsx, ленты w18 больше нет.
 //
-// Читает нормализованные таблицы `mp_review` / `mp_question`, пишет ровно одно
-// поле — черновик ответа в НАШЕЙ базе. Отправки ответа на площадку здесь нет и
+// Пишет ровно одно поле — черновик ответа в НАШЕЙ базе. Отправки ответа на площадку здесь нет и
 // в платформе её нет вовсе: ответ на отзыв — это запись, а обе площадки у нас
 // только на чтение (приказ Ивана 2026-09-16 02:46 WITA). Поэтому в хуке нет ни
 // одной мутации, кроме `draft` и `suggest`, и «sending» приезжает с бэкенда
@@ -53,8 +47,6 @@ export type DeskItem = {
   product: DeskProductLink
 }
 
-export type DeskCounts = { total: number; unanswered: number; filtered: number }
-
 export type DeskGenerator = {
   available: boolean
   id: string | null
@@ -62,86 +54,13 @@ export type DeskGenerator = {
   remote: false
 }
 
-export type DeskFilters = {
-  marketplace: string | null
-  rating: number | null
-  answered: "all" | "no" | "yes"
-  period: string
-  applied: Array<{ field: string; value: string }>
-}
-
-export type DeskResponse = {
-  kind: DeskKind
-  items: DeskItem[]
-  count: number
-  limit: number
-  offset: number
-  filters: DeskFilters
-  counts: Record<DeskKind, DeskCounts>
-  marketplaces: string[]
-  generator: DeskGenerator
-  sending: { enabled: false; reason: string }
-}
-
-export type DeskQuery = {
-  marketplace?: string | null
-  rating?: number | null
-  answered?: "all" | "no" | "yes"
-  period?: string
-}
-
-const DESK_QUERY_KEY = "tenant-marketplace-desk" as const
-export const deskQueryKeys = queryKeysFactory(DESK_QUERY_KEY)
-
 /**
- * Both lists that show a draft: the w18 desk and «Wildberries → Отзывы» of
- * the marketplace section, so the row's dot turns «Черновик ответа» after a
- * save without a reload.
+ * The list that shows a draft, «Wildberries → Отзывы» of the marketplace
+ * section, so the row's dot turns «Черновик ответа» after a save without a
+ * reload.
  */
 const invalidate = () =>
-  Promise.all([
-    queryClient.invalidateQueries({ queryKey: deskQueryKeys.all }),
-    queryClient.invalidateQueries({ queryKey: marketplaceSectionQueryKeys.lists() }),
-  ])
-
-const toSearch = (query: DeskQuery): string => {
-  const params = new URLSearchParams()
-  if (query.marketplace) {
-    params.set("marketplace", query.marketplace)
-  }
-  if (query.rating) {
-    params.set("rating", String(query.rating))
-  }
-  if (query.answered && query.answered !== "all") {
-    params.set("answered", query.answered)
-  }
-  if (query.period && query.period !== "all") {
-    params.set("period", query.period)
-  }
-  const search = params.toString()
-  return search ? `?${search}` : ""
-}
-
-export const useMarketplaceDesk = (
-  kind: DeskKind,
-  query: DeskQuery,
-  options?: Omit<
-    UseQueryOptions<DeskResponse, FetchError, DeskResponse, QueryKey>,
-    "queryFn" | "queryKey"
-  >
-) => {
-  const { data, ...rest } = useQuery({
-    queryFn: () =>
-      sdk.client.fetch<DeskResponse>(`/tenants/marketplaces/${kind}${toSearch(query)}`),
-    queryKey: deskQueryKeys.detail(`${kind}${toSearch(query)}`),
-    ...options,
-  })
-
-  // Именовано `desk`, а не разложено в `...rest`: у результата react-query есть
-  // собственные поля `status` и `count`-подобные, и ответ с тем же именем
-  // перетёрся бы ими (та же ловушка, что в `marketplaces.tsx`).
-  return { desk: data, ...rest }
-}
+  queryClient.invalidateQueries({ queryKey: marketplaceSectionQueryKeys.lists() })
 
 export type SaveDraftPayload = { kind: DeskKind; id: string; answer_draft: string }
 

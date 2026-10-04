@@ -304,13 +304,6 @@
         },
         "tabs": {
           "label": "Section tabs",
-          "mpConnection": "Connection",
-          "mpCatalog": "Catalog",
-          "mpPriceStock": "Prices and stock",
-          "mpOrders": "Orders",
-          "mpReviews": "Reviews",
-          "mpSync": "Marketplace exchange",
-          "mpAnalytics": "Analytics",
           "promotions": "Promotions",
           "campaigns": "Campaigns",
           "deliveryMethods": "Delivery methods",
@@ -4476,7 +4469,6 @@
     "loading": "loading…"
   },
   "marketplaceSync": {
-    "backToCards": "← back to the marketplace cards",
     "noWarnings": "Nothing needs attention: the keys are fine and every kind has run.",
     "warnings": {
       "noKey": "{{label}}: no key saved, no data is coming in.",
@@ -4496,10 +4488,8 @@
     "waitingForMarketplace": "the marketplace asks to wait until {{at}}",
     "noFailures": "no failures",
     "neverRan": "never ran",
-    "noExpiry": "no expiry stated",
     "syncNow": {
       "button": "Sync now",
-      "running": "Syncing…",
       "toastTitle": "Started: {{count}}",
       "toastTitleNone": "Nothing to sync right now",
       "toastStarted": "Started — {{list}}.",
@@ -4630,61 +4620,13 @@
       "auth_failed": "key refused"
     },
     "desk": {
-      "title": "Reviews and questions",
-      "subtitle": "Customer reviews and questions from Wildberries and Ozon in one list. The answer draft is stored here; the answer itself is posted from the marketplace's own cabinet.",
-      "link": "Customer reviews and questions",
-      "sendingOff": "Sending answers to the marketplace is not enabled: the platform reads Wildberries and Ozon and never writes to them.",
-      "tabs": {
-        "reviews": "Reviews",
-        "questions": "Questions"
-      },
-      "unansweredOf": "Unanswered: {{unanswered}} of {{total}}",
-      "shownOf": "Showing {{shown}} of {{count}}",
       "anonymous": "No name",
       "notInShop": "Not in the shop",
       "pros": "Pros",
       "cons": "Cons",
-      "answered": {
-        "yes": "Answered on the marketplace",
-        "no": "Unanswered"
-      },
-      "marketplaceNames": {
-        "wb": "Wildberries",
-        "ozon": "Ozon"
-      },
       "filters": {
-        "marketplace": "Marketplace",
-        "rating": "Rating",
-        "answered": "Answer",
-        "period": "Period",
-        "any": "Any",
-        "stars": "{{count}} ★",
-        "reset": "Reset filters"
+        "stars": "{{count}} ★"
       },
-      "filterValues": {
-        "answered": {
-          "all": "All",
-          "no": "Unanswered",
-          "yes": "Answered"
-        },
-        "period": {
-          "all": "All time",
-          "7d": "7 days",
-          "30d": "30 days",
-          "90d": "90 days",
-          "365d": "A year"
-        },
-        "rating": {
-          "1": "1 ★",
-          "2": "2 ★",
-          "3": "3 ★",
-          "4": "4 ★",
-          "5": "5 ★"
-        }
-      },
-      "emptyNoFilters": "No marketplace reviews or questions yet. They appear by themselves after the first import.",
-      "emptyFiltered": "Nothing matches the filters: {{filters}}. Clear a filter or widen the period — this is an empty FILTER result, not an empty marketplace.",
-      "emptyImportHint": "Our database holds no row of this kind at all: either the import has not run, or the marketplace returned nothing. The last imports are listed on the «Marketplaces» screen.",
       "draft": {
         "label": "Answer draft — stored here, never sent to the marketplace",
         "placeholder": "Write the answer, then copy it into the marketplace cabinet",
@@ -4693,43 +4635,10 @@
         "saved": "Draft saved",
         "generated": "Draft written — read it and save",
         "savedAt": "Draft saved {{at}}"
-      },
-      "generatorOn": "Answer drafts are prepared here and never go to the marketplace by themselves.",
-      "generatorOff": "The answer hint is off for now. You can write the answer yourself."
+      }
     }
   },
   "marketplaceOrders": {
-    "title": "Marketplace orders",
-    "navLabel": "Marketplace orders",
-    "subtitle": "Shop, Wildberries and Ozon orders in one feed. The screen only shows them: it changes nothing on a marketplace.",
-    "loading": "Loading…",
-    "export": "Download CSV ({{count}})",
-    "more": "Show more",
-    "shown": "Showing {{shown}} of {{count}}",
-    "empty": "No orders in the selected period ({{from}} — {{to}}).",
-    "period": {
-      "default": "Default period: the last {{days}} days ({{from}} — {{to}}). Pick your own below.",
-      "chosen": "Period: {{from}} — {{to}}",
-      "undated": "{{count}} more order(s) arrived without a date, so they fall in no period."
-    },
-    "filters": {
-      "source": "Source",
-      "scheme": "Scheme",
-      "status": "Status",
-      "from": "From",
-      "to": "To",
-      "reset": "Reset filters",
-      "nothingToFilter": "Nothing to filter in this period."
-    },
-    "columns": {
-      "source": "Source",
-      "number": "Number",
-      "date": "Ordered",
-      "scheme": "Scheme",
-      "status": "Status",
-      "region": "Region",
-      "total": "Total"
-    },
     "connection": {
       "missing": "{{marketplace}}: not connected. No key is saved, so no orders of this marketplace are loaded.",
       "never_run": "{{marketplace}}: connected, but the order import has never run.",
@@ -4747,13 +4656,9 @@
       "warehouse": "Warehouse",
       "lines": "Items",
       "noLines": "This order has no lines, which is an import defect rather than an empty order. Check the last import.",
-      "vendorCode": "Article",
-      "product": "Shop product",
-      "qty": "Qty",
       "notInShop": "not in the shop",
       "history": "Status history",
       "historyHint": "What we saw at each import. Neither Wildberries nor Ozon hands out a status log, so the time here is ours.",
-      "observedAt": "Seen at",
       "back": "All {{marketplace}} orders",
       "subtitle": "{{date}}, {{marketplace}}",
       "subtitleUndated": "{{marketplace}}, the marketplace sent no order date",
@@ -4769,30 +4674,15 @@
     }
   },
   "marketplaceAnalytics": {
-    "title": "Marketplace analytics",
-    "navLabel": "Marketplace analytics",
-    "subtitle": "Sales by day and by listing, ABC/XYZ, stock turnover and days to zero, seller rating and P&L. The screen only folds our own tables: it sends nothing to a marketplace and asks none of them when it opens.",
-    "period": "Period: {{period}} ({{days}} days)",
-    "periodDefault": "The screen chose the period: the last {{days}} days.",
-    "undated": "Orders with no date: {{count}}. The marketplace sent none, so they fall in no period.",
-    "empty": "No sales in the selected period ({{period}}).",
-    "emptyStock": "There are {{units}} items in marketplace warehouses, but turnover cannot be computed without sales.",
     "filters": {
       "from": "From",
       "to": "To",
-      "marketplace": "Marketplace",
       "reset": "Reset"
-    },
-    "connection": {
-      "ok": "{{label}}: {{orders}} orders in the period, last import — {{status}}.",
-      "noKey": "{{label}}: no key, so this marketplace has no data on the screen at all.",
-      "neverRun": "never run"
     },
     "metrics": {
       "revenue": "Revenue",
       "revenueHint": "Marketplace orders, cancellations excluded",
       "orders": "Orders",
-      "ordersHint": "Order lines in the period",
       "units": "Items",
       "avgOrder": "Average order",
       "cancelled": "Cancelled",
@@ -4801,44 +4691,10 @@
       "cardsHint": "With sales, out of all in the table"
     },
     "byDay": {
-      "title": "Sales by day",
-      "subtitle": "One bar per day of the period. A zero day is a measured zero, not a gap.",
-      "day": "Day"
-    },
-    "markets": {
-      "title": "Where the buyers were",
-      "subtitle": "Amounts are in {{currency}}, the currency of the shop's own price list. The code on an order is the buyer's country, not the currency of the amount: WB stores the price already converted into the seller's currency.",
-      "market": "Market"
-    },
-    "abc": {
-      "title": "ABC by revenue",
-      "row": "{{cards}} listings, {{revenue}}, {{share}} % of revenue"
-    },
-    "xyz": {
-      "title": "XYZ by demand stability",
-      "row": "{{cards}} listings, {{units}} items",
-      "noClass": "no class"
-    },
-    "turnover": {
-      "title": "Turnover and days to zero",
-      "subtitle": "Marketplace warehouses hold {{stock}} items. At the period's pace that lasts {{days}} days.",
-      "running": "Runs out within two weeks",
-      "nothingRunningOut": "No listing runs out in the next 14 days at the current pace.",
-      "row": "{{title}} — {{days}} days (stock {{stock}} items, pace {{rate}} items/day)"
-    },
-    "cards": {
-      "title": "Sales by listing",
-      "subtitle": "Showing {{shown}} of {{total}}. A listing with stock but no sales is in the table too, as a zero row.",
-      "more": "Show {{count}} more"
+      "title": "Sales by day"
     },
     "rating": {
-      "title": "Seller rating",
-      "subtitle": "Only the marketplace knows the rating. When it refuses, its own answer is printed here instead of an empty space."
-    },
-    "pnl": {
-      "title": "P&L",
-      "subtitle": "A full P&L needs the marketplace's finance reports: commission, logistics, storage, penalties.",
-      "note": "No profit is computed or estimated on this screen. Everything one could guess it from — revenue, price, discount — is right here, which is exactly why there is no invented number: the owner would act on it and nothing could check it."
+      "title": "Seller rating"
     }
   },
   "wildberries": {
