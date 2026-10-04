@@ -24,10 +24,9 @@ const TENANT = "tenant_a";
 
 const minutesAgo = (minutes: number) => new Date(NOW.getTime() - minutes * 60_000);
 
-const run = (over: Partial<SyncRunRow> & Pick<SyncRunRow, "kind" | "status">): SyncRunRow & {
-  tenant_id: string;
-  marketplace: string;
-} => ({
+type StoredRun = SyncRunRow & { tenant_id: string; marketplace: string };
+
+const run = (over: Partial<StoredRun> & Pick<StoredRun, "kind" | "status">): StoredRun => ({
   id: `run_${Math.random().toString(36).slice(2)}`,
   tenant_id: TENANT,
   marketplace: "wb",
@@ -42,7 +41,7 @@ const run = (over: Partial<SyncRunRow> & Pick<SyncRunRow, "kind" | "status">): S
   ...over,
 });
 
-type Row = ReturnType<typeof run>;
+type Row = StoredRun;
 
 /** A stand-in for the marketplace module: filters like `listMpSyncRuns` does, newest first. */
 const fakeMp = (rows: Row[]) => {
