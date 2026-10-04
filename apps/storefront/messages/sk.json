@@ -366,11 +366,15 @@
     "invalidDiscount": "Tento promo kód je neplatný alebo mu vypršala platnosť.",
     "invalidEmail": "Zadajte prosím platnú emailovú adresu.",
     "invalidResetLink": "Tento odkaz už neplatí. Možno bol použitý alebo vypršal. Vyžiadajte si nový.",
+    "itemUnavailable": "Jedna z položiek v košíku sa v tomto obchode už nepredáva. Odstráňte ju z košíka a odošlite objednávku znova.",
     "network": "Problém s pripojením. Skontrolujte internetové pripojenie a skúste to znova.",
     "notFound": "Nepodarilo sa nám nájsť to, čo hľadáte.",
     "passwordMismatch": "Heslá sa nezhodujú.",
     "passwordTooShort": "Heslo musí mať aspoň 8 znakov.",
     "paymentFailed": "Platbu sa nepodarilo spracovať. Skúste to znova alebo použite iný spôsob platby.",
+    "pickupPointMissing": "Vyberte výdajné miesto a odošlite objednávku znova.",
+    "shippingAddressIncomplete": "Doručovacia adresa nie je úplná. Vyplňte ulicu, PSČ a mesto a odošlite objednávku znova.",
+    "shippingMethodMissing": "Vyberte spôsob doručenia a odošlite objednávku znova.",
     "unauthorized": "Ak chcete pokračovať, prihláste sa."
   },
   "Filters": {

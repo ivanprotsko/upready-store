@@ -366,11 +366,15 @@
     "invalidDiscount": "Ce code promo est invalide ou a expiré.",
     "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
     "invalidResetLink": "Ce lien n'est plus valide. Il a peut-être déjà servi ou a expiré. Demandez-en un nouveau.",
+    "itemUnavailable": "Un article de votre panier n’est plus vendu dans cette boutique. Retirez-le du panier et passez la commande à nouveau.",
     "network": "Problème de connexion. Vérifiez votre connexion et réessayez.",
     "notFound": "Nous n’avons pas trouvé ce que vous cherchiez.",
     "passwordMismatch": "Les mots de passe ne correspondent pas.",
     "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères.",
     "paymentFailed": "Le paiement n’a pas pu être traité. Veuillez réessayer ou utiliser un autre moyen.",
+    "pickupPointMissing": "Choisissez un point de retrait, puis passez la commande à nouveau.",
+    "shippingAddressIncomplete": "L’adresse de livraison est incomplète. Indiquez la rue, le code postal et la ville, puis passez la commande à nouveau.",
+    "shippingMethodMissing": "Choisissez un mode de livraison, puis passez la commande à nouveau.",
     "unauthorized": "Veuillez vous connecter pour continuer."
   },
   "Filters": {

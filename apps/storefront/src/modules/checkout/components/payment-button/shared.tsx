@@ -1,6 +1,6 @@
 "use client"
 
-import { placeOrder } from "@lib/data/cart"
+import { placeOrderOrReason } from "@lib/data/cart"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -40,15 +40,24 @@ export const usePlaceOrder = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const completeOrder = useCallback(async () => {
-    await placeOrder().catch((err) => {
-      // A successful `placeOrder` ends in `redirect()`, which reaches this
-      // catch as a NEXT_REDIRECT control-flow error rather than a failure.
-      // Swallowing it would paint "something went wrong" over a placed order.
-      unstable_rethrow(err)
+    // A refusal the backend gave comes back as an `Errors` key, which
+    // `ErrorMessage` prints in the shop's locale (t-2026-10-04-23).
+    await placeOrderOrReason()
+      .then((refused) => {
+        if (refused) {
+          setErrorMessage(refused.error)
+          setSubmitting(false)
+        }
+      })
+      .catch((err) => {
+        // A successful `placeOrder` ends in `redirect()`, which reaches this
+        // catch as a NEXT_REDIRECT control-flow error rather than a failure.
+        // Swallowing it would paint "something went wrong" over a placed order.
+        unstable_rethrow(err)
 
-      setErrorMessage(err.message)
-      setSubmitting(false)
-    })
+        setErrorMessage(err.message)
+        setSubmitting(false)
+      })
   }, [])
 
   return {

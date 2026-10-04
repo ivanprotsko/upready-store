@@ -2,9 +2,11 @@
 
 import { sdk } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
+import { cartHasStaleShipping } from "@lib/util/shipping-address"
+import { type ErrorMessageKey, resolveErrorKey } from "@lib/util/error-messages"
 import type { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
-import { redirect } from "next/navigation"
+import { redirect, unstable_rethrow } from "next/navigation"
 import {
   getAuthHeaders,
   getCacheOptions,
@@ -284,6 +286,52 @@ export async function deleteLineItem(lineId: string) {
       revalidateTag(fulfillmentCacheTag)
     })
     .catch(medusaError)
+
+  // The removed line may have been the last one with anything to post
+  // (t-2026-10-04-23).
+  await dropShippingIfNothingToShip(await retrieveCart(cartId))
+}
+
+/**
+ * Takes a stale shipping method off a cart that has nothing left to post
+ * (t-2026-10-04-23, `cartHasStaleShipping`), through the backend's
+ * `POST /store/carts/:id/drop-shipping` — the Store API has no DELETE for a
+ * shipping method. Called after a line is removed or changed
+ * (`cart-lines.ts` `syncCartLines`) and by the checkout's
+ * `api/checkout/digital-delivery` route before the payment step renders, so the
+ * course is not charged shipping and place-order does not fail on the address
+ * guard. Answers whether anything was dropped; a refusal is logged with the cart
+ * id and the cart is left as it was.
+ */
+export async function dropShippingIfNothingToShip(
+  cart?: HttpTypes.StoreCart | null
+): Promise<boolean> {
+  if (!cart || !cartHasStaleShipping(cart)) {
+    return false
+  }
+
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  try {
+    await sdk.client.fetch(`/store/carts/${cart.id}/drop-shipping`, {
+      method: "POST",
+      headers,
+    })
+  } catch (error) {
+    console.error(
+      `dropShippingIfNothingToShip: cart ${cart.id} kept its shipping method: ${
+        (error as { message?: string })?.message ?? error
+      }`
+    )
+    return false
+  }
+
+  const cartCacheTag = await getCacheTag("carts")
+  revalidateTag(cartCacheTag)
+
+  return true
 }
 
 export async function setShippingMethod({
@@ -562,6 +610,33 @@ export async function placeOrder(cartId?: string) {
   }
 
   return cartRes.cart
+}
+
+/**
+ * `placeOrder` for the pay buttons (t-2026-10-04-23, rule 5ze item 3). A message
+ * thrown from a server action reaches the browser as Next's redacted «An error
+ * occurred in the Server Components render» in a production build, so every
+ * refusal the backend gave — an incomplete address, a missing shipping method —
+ * ended on «Что-то пошло не так». The reason is answered as an `Errors` key
+ * instead, and the backend's own text is logged with the cart id, known or not.
+ * A placed order still ends in `redirect()`, which is passed through.
+ */
+export async function placeOrderOrReason(): Promise<{
+  error: ErrorMessageKey
+} | null> {
+  const cartId = await getCartId()
+
+  try {
+    await placeOrder(cartId)
+    return null
+  } catch (error) {
+    unstable_rethrow(error)
+
+    const message = (error as { message?: string })?.message ?? String(error)
+    console.error(`placeOrder: cart ${cartId ?? "?"} was refused: ${message}`)
+
+    return { error: resolveErrorKey(message) }
+  }
 }
 
 /**

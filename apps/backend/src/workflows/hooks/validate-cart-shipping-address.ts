@@ -1,6 +1,7 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { REGIONS_BY_COUNTRY } from "../../shipping-tariffs/ru-regions";
+import { cartNeedsShipping, type ShippingNeedItem } from "./cart-needs-shipping";
 
 /**
  * An order a courier can be handed carries a full address.
@@ -35,6 +36,13 @@ import { REGIONS_BY_COUNTRY } from "../../shipping-tariffs/ru-regions";
  *   does not exempt it; matched on the option's own `metadata`, same as
  *   `allMethodsArePickup` matches on the option's own fulfillment set, rather
  *   than trusting `cart.metadata`, which a client writes.
+ * - a cart in which no line ships anything, whatever method it still carries
+ *   (t-2026-10-04-23). A physical item picked with DHL and then removed left a
+ *   course-only cart holding the DHL method, and this check refused it with
+ *   «shipping address is missing» although there was nothing to post. The
+ *   storefront drops such a method before payment
+ *   (`POST /store/carts/:id/drop-shipping`); this is the half for any client
+ *   that did not, logged with the cart id so the stale method is visible.
  *
  * `province` is required only where the tariff module ships a region list for
  * the country (`REGIONS_BY_COUNTRY`, Russia today), because a delivery zone
@@ -53,6 +61,8 @@ type AddressLike = {
 };
 
 export type CartLike = {
+  id?: string | null;
+  items?: ShippingNeedItem[] | null;
   shipping_address?: AddressLike | null;
   shipping_methods?: { shipping_option_id?: string | null }[] | null;
 };
@@ -119,6 +129,15 @@ export const assertPostableShippingAddress = async (
   }
 
   if (await allMethodsHaveNoParcel(container, optionIds)) {
+    return;
+  }
+
+  if (!(await cartNeedsShipping(container, cart.items))) {
+    container
+      .resolve(ContainerRegistrationKeys.LOGGER)
+      .warn(
+        `Cart ${cart.id ?? "?"} ships nothing but carries shipping options ${optionIds.join(", ")}; address check skipped.`,
+      );
     return;
   }
 

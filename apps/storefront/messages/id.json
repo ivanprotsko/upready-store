@@ -366,11 +366,15 @@
     "invalidDiscount": "Kode promo ini tidak valid atau sudah kedaluwarsa.",
     "invalidEmail": "Silakan masukkan alamat email yang valid.",
     "invalidResetLink": "Tautan ini sudah tidak berlaku. Mungkin sudah dipakai atau kedaluwarsa. Minta tautan baru.",
+    "itemUnavailable": "Salah satu barang di keranjang Anda tidak lagi dijual di toko ini. Hapus dari keranjang, lalu buat pesanan lagi.",
     "network": "Masalah koneksi. Periksa koneksi internet Anda dan coba lagi.",
     "notFound": "Kami tidak dapat menemukan apa yang Anda cari.",
     "passwordMismatch": "Kata sandi tidak sama.",
     "passwordTooShort": "Kata sandi minimal 8 karakter.",
     "paymentFailed": "Kami tidak dapat memproses pembayaran Anda. Silakan coba lagi atau gunakan metode lain.",
+    "pickupPointMissing": "Pilih titik pengambilan, lalu buat pesanan lagi.",
+    "shippingAddressIncomplete": "Alamat pengiriman belum lengkap. Isi jalan, kode pos, dan kota, lalu buat pesanan lagi.",
+    "shippingMethodMissing": "Pilih metode pengiriman, lalu buat pesanan lagi.",
     "unauthorized": "Silakan masuk untuk melanjutkan."
   },
   "Filters": {

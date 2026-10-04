@@ -366,11 +366,15 @@
     "invalidDiscount": "Denna rabattkod är ogiltig eller har gått ut.",
     "invalidEmail": "Ange en giltig e-postadress.",
     "invalidResetLink": "Länken gäller inte längre. Den kan vara använd eller ha gått ut. Begär en ny.",
+    "itemUnavailable": "En vara i din varukorg säljs inte längre i den här butiken. Ta bort den från varukorgen och lägg beställningen igen.",
     "network": "Anslutningsproblem. Kontrollera din internetanslutning och försök igen.",
     "notFound": "Vi kunde inte hitta det du sökte efter.",
     "passwordMismatch": "Lösenorden stämmer inte överens.",
     "passwordTooShort": "Lösenordet måste vara minst 8 tecken.",
     "paymentFailed": "Vi kunde inte genomföra din betalning. Försök igen eller välj en annan betalmetod.",
+    "pickupPointMissing": "Välj ett utlämningsställe och lägg beställningen igen.",
+    "shippingAddressIncomplete": "Leveransadressen är ofullständig. Fyll i gata, postnummer och ort och lägg beställningen igen.",
+    "shippingMethodMissing": "Välj ett leveranssätt och lägg beställningen igen.",
     "unauthorized": "Logga in för att fortsätta."
   },
   "Filters": {

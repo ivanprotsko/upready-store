@@ -1,6 +1,6 @@
 import { retrieveCart } from "@lib/data/cart"
 import { retrieveCustomer } from "@lib/data/customer"
-import { cartNeedsShipping } from "@lib/util/shipping-address"
+import { cartHasStaleShipping, cartNeedsShipping } from "@lib/util/shipping-address"
 import PaymentWrapper from "@modules/checkout/components/payment-wrapper"
 import { CartUpdateProvider } from "@modules/checkout/context/cart-update-context"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
@@ -43,11 +43,15 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
   // option attached by the route handler, once. `?digital=skipped` is the handler's
   // answer that there was nothing to attach (no such option on this shop): the page
   // then renders as it is instead of redirecting again — that was the loop. A cart
-  // that still ships something takes the normal delivery step.
+  // that still ships something takes the normal delivery step. A cart with nothing to
+  // post that still carries a paid method from a removed physical item goes through
+  // the same handler, which drops it first (t-2026-10-04-23): the payment step must
+  // not show that charge, and place-order would fail on it.
   if (
-    !cartNeedsShipping(initialCart) &&
-    (initialCart.shipping_methods?.length ?? 0) === 0 &&
-    params.digital !== "skipped"
+    params.digital !== "skipped" &&
+    ((!cartNeedsShipping(initialCart) &&
+      (initialCart.shipping_methods?.length ?? 0) === 0) ||
+      cartHasStaleShipping(initialCart))
   ) {
     redirect(`/api/checkout/digital-delivery?locale=${locale}`)
   }

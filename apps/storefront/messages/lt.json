@@ -366,11 +366,15 @@
     "invalidDiscount": "Šis nuolaidos kodas negalioja arba jo galiojimas baigėsi.",
     "invalidEmail": "Įveskite galiojantį el. pašto adresą.",
     "invalidResetLink": "Ši nuoroda nebegalioja. Ji galėjo būti panaudota arba baigėsi jos galiojimas. Užsisakykite naują.",
+    "itemUnavailable": "Vienos jūsų krepšelio prekės ši parduotuvė nebeparduoda. Pašalinkite ją iš krepšelio ir pateikite užsakymą dar kartą.",
     "network": "Ryšio problema. Patikrinkite interneto ryšį ir bandykite dar kartą.",
     "notFound": "Nepavyko rasti to, ko ieškojote.",
     "passwordMismatch": "Slaptažodžiai nesutampa.",
     "passwordTooShort": "Slaptažodį turi sudaryti bent 8 simboliai.",
     "paymentFailed": "Nepavyko apdoroti mokėjimo. Bandykite dar kartą arba pasirinkite kitą būdą.",
+    "pickupPointMissing": "Pasirinkite atsiėmimo punktą ir pateikite užsakymą dar kartą.",
+    "shippingAddressIncomplete": "Pristatymo adresas užpildytas ne iki galo. Nurodykite gatvę, pašto kodą ir miestą ir pateikite užsakymą dar kartą.",
+    "shippingMethodMissing": "Pasirinkite pristatymo būdą ir pateikite užsakymą dar kartą.",
     "unauthorized": "Prisijunkite, kad galėtumėte tęsti."
   },
   "Filters": {

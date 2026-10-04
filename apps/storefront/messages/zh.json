@@ -366,11 +366,15 @@
     "invalidDiscount": "该优惠码无效或已过期。",
     "invalidEmail": "请输入有效的邮箱地址。",
     "invalidResetLink": "此链接已失效，可能已被使用或已过期，请重新获取。",
+    "itemUnavailable": "购物车中的一件商品已不在本店销售。请将其从购物车中移除，然后重新下单。",
     "network": "连接出现问题，请检查网络后重试。",
     "notFound": "未找到您要查找的内容。",
     "passwordMismatch": "两次输入的密码不一致。",
     "passwordTooShort": "密码至少需要 8 个字符。",
     "paymentFailed": "支付处理失败，请重试或使用其他支付方式。",
+    "pickupPointMissing": "请选择自提点，然后重新下单。",
+    "shippingAddressIncomplete": "收货地址不完整。请填写街道、邮政编码和城市，然后重新下单。",
+    "shippingMethodMissing": "请选择配送方式，然后重新下单。",
     "unauthorized": "请登录后继续。"
   },
   "Filters": {

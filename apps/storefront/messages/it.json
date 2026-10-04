@@ -366,11 +366,15 @@
     "invalidDiscount": "Questo codice promozionale non è valido o è scaduto.",
     "invalidEmail": "Inserisci un indirizzo email valido.",
     "invalidResetLink": "Questo link non è più valido. Potrebbe essere già stato usato o essere scaduto. Richiedine uno nuovo.",
+    "itemUnavailable": "Un articolo nel carrello non è più in vendita in questo negozio. Rimuovilo dal carrello ed effettua di nuovo l’ordine.",
     "network": "Problema di connessione. Controlla la tua connessione internet e riprova.",
     "notFound": "Non siamo riusciti a trovare ciò che cercavi.",
     "passwordMismatch": "Le password non coincidono.",
     "passwordTooShort": "La password deve contenere almeno 8 caratteri.",
     "paymentFailed": "Non è stato possibile elaborare il pagamento. Riprova o utilizza un altro metodo.",
+    "pickupPointMissing": "Scegli un punto di ritiro ed effettua di nuovo l’ordine.",
+    "shippingAddressIncomplete": "L’indirizzo di consegna è incompleto. Inserisci via, CAP e città ed effettua di nuovo l’ordine.",
+    "shippingMethodMissing": "Scegli un metodo di spedizione ed effettua di nuovo l’ordine.",
     "unauthorized": "Accedi per continuare."
   },
   "Filters": {

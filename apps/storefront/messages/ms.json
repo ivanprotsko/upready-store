@@ -366,11 +366,15 @@
     "invalidDiscount": "Kod promosi ini tidak sah atau telah tamat tempoh.",
     "invalidEmail": "Sila masukkan alamat e-mel yang sah.",
     "invalidResetLink": "Pautan ini sudah tidak sah. Mungkin telah digunakan atau tamat tempoh. Minta pautan baharu.",
+    "itemUnavailable": "Salah satu item dalam troli anda tidak lagi dijual di kedai ini. Alih keluar item itu daripada troli dan buat pesanan semula.",
     "network": "Masalah sambungan. Sila semak internet anda dan cuba lagi.",
     "notFound": "Kami tidak dapat mencari apa yang anda cari.",
     "passwordMismatch": "Kata laluan tidak sepadan.",
     "passwordTooShort": "Kata laluan mesti sekurang-kurangnya 8 aksara.",
     "paymentFailed": "Kami tidak dapat memproses pembayaran anda. Sila cuba lagi atau gunakan kaedah lain.",
+    "pickupPointMissing": "Pilih tempat pengambilan dan buat pesanan semula.",
+    "shippingAddressIncomplete": "Alamat penghantaran tidak lengkap. Isi jalan, poskod dan bandar, kemudian buat pesanan semula.",
+    "shippingMethodMissing": "Pilih kaedah penghantaran dan buat pesanan semula.",
     "unauthorized": "Sila log masuk untuk meneruskan."
   },
   "Filters": {

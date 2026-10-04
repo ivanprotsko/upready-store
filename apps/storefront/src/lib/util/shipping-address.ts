@@ -183,6 +183,22 @@ export const cartNeedsShipping = (
 ): boolean => (cart.items ?? []).some((item) => !isNoDeliveryLine(item))
 
 /**
+ * A shipping charge on a cart that ships nothing (t-2026-10-04-23): a physical
+ * item picked with DHL and then removed left the course «Очищение печени» at
+ * checkout as 18 900 + 3 500 ₽, and place-order failed on the backend's address
+ * guard. Read off the charge, not the method's name: the tenant's own ₽0
+ * «Цифровая доставка» method is the one a digital cart is meant to carry, and an
+ * owner can rename it. A cart for which this is true is handed to
+ * `dropShippingIfNothingToShip` (`lib/data/cart.ts`).
+ */
+export const cartHasStaleShipping = (
+  cart: Pick<HttpTypes.StoreCart, "items" | "shipping_methods">
+): boolean =>
+  (cart.items?.length ?? 0) > 0 &&
+  !cartNeedsShipping(cart) &&
+  (cart.shipping_methods ?? []).some((method) => (method.amount ?? 0) > 0)
+
+/**
  * The gaps that keep this cart from being paid for. Reads the cart's own
  * country, so a shop selling outside Russia is not asked for a region it has
  * no list for.
