@@ -4,7 +4,7 @@ import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
 import type MarketplaceModuleService from "../../../modules/marketplace/service";
 import { describeGenerator, generateDraft } from "../../../modules/marketplace/draft-generator";
 import { getTenantScope } from "../tenant-scope";
-import { buildProductResolver, type DeskKind, type DeskRow } from "./desk";
+import { buildProductResolver, type DeskKind, type DeskRow } from "../../../modules/marketplace/desk";
 
 /**
  * The draft half of the desk (w18-mp-reviews-desk): write it, clear it,

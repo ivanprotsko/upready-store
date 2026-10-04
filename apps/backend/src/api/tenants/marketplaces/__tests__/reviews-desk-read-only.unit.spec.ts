@@ -5,7 +5,8 @@ import { validateAdapter, MarketplaceGuardError } from "../../../../modules/mark
 import type { MarketplaceAdapter, ReadEndpoint } from "../../../../modules/marketplace/contract";
 
 /**
- * THE READ-ONLY PROOF OF THE DESK (w18-mp-reviews-desk).
+ * THE READ-ONLY PROOF OF THE DESK (w18-mp-reviews-desk, retargeted by
+ * mp-section-design task-05 onto «Wildberries → Отзывы»).
  *
  * Ivan's standing order of 2026-09-16 02:46 WITA: the marketplaces are
  * read-only for us. Answering a review is a WRITE on both of them —
@@ -25,12 +26,20 @@ import type { MarketplaceAdapter, ReadEndpoint } from "../../../../modules/marke
 
 const DESK_DIR = join(__dirname, "..");
 
-/** Every file a request to this desk can run through. */
+/** The list of «Wildberries → Отзывы» since mp-section-design task-05. */
+const LIST_ROUTE = "[marketplace]/reviews/route.ts";
+
+/**
+ * Every file a request to the screen can run through: the list route, the
+ * draft routes, and the module files they share (moved out of this directory
+ * by task-05; the w18 tab routes `reviews/route.ts` and `questions/route.ts`
+ * are gone with the tabs).
+ */
 const HANDLER_FILES = [
-  "desk.ts",
+  LIST_ROUTE,
+  "../../../modules/marketplace/desk.ts",
+  "../../../modules/marketplace/reviews-list.ts",
   "draft-handlers.ts",
-  "reviews/route.ts",
-  "questions/route.ts",
   "reviews/[id]/draft/route.ts",
   "questions/[id]/draft/route.ts",
   "reviews/[id]/suggest/route.ts",
@@ -156,6 +165,19 @@ describe("the desk's handlers cannot reach a marketplace", () => {
       for (const token of forbidden) {
         expect(`${handler.file}: ${handler.code}`).not.toContain(token);
       }
+    }
+  });
+
+  it("lists with GET alone, and writes nothing on the way", () => {
+    const list = handlers.find((one) => one.file === LIST_ROUTE) as Scanned;
+    const shared = handlers.filter((one) => one.file.includes("modules/marketplace/"));
+
+    expect(list.code).toMatch(/export const GET\b/);
+    for (const verb of ["POST", "PUT", "PATCH", "DELETE"]) {
+      expect(list.code).not.toMatch(new RegExp(`export\\s+(?:const|async function)\\s+${verb}\\b`));
+    }
+    for (const one of [list, ...shared]) {
+      expect(one.code.match(/\.(update|create|delete|upsert|softDelete)\w*\(/g) ?? []).toEqual([]);
     }
   });
 
