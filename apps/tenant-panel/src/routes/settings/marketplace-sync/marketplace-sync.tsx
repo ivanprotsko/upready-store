@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useMarketplaceSync } from "../../../hooks/api/marketplace-sync"
 import { MpSyncOpsTable } from "./components/mp-sync-ops-table"
-import { MpSyncWarnings } from "./components/mp-sync-warnings"
+import { MpSyncWarnings } from "../../marketplaces/mp-sync/components/mp-sync-warnings"
 import { SyncNowButton } from "./components/sync-now-button"
 
 /**

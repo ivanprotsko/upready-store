@@ -4476,37 +4476,26 @@
     "loading": "loading…"
   },
   "marketplaceSync": {
-    "title": "Marketplace exchange",
-    "subtitle": "when each kind of data last came in, when the next run is due and what went wrong",
     "backToCards": "← back to the marketplace cards",
-    "scheduleHint": "The schedule runs itself: the platform checks every 5 minutes what needs refreshing. One kind of one marketplace imports at a time; a run stuck for more than {{minutes}} min is released and stays visible as a failure. A key is flagged {{days}} days before it expires.",
     "noWarnings": "Nothing needs attention: the keys are fine and every kind has run.",
     "warnings": {
-      "noKey": "{{label}}: no key saved, nothing is being imported.",
+      "noKey": "{{label}}: no key saved, no data is coming in.",
       "keyExpired": "{{label}}: the key has expired. Issue a new one in the marketplace account — the import has stopped.",
       "keyExpiring": "{{label}}: the key expires in {{days}} days. Issue a new one in the marketplace account before the import stops.",
-      "failed": "{{where}}: {{error}}.",
-      "neverRan": "{{where}}: has never run.",
       "failedGroup": "{{label}}: {{reason}}.",
-      "failedKinds": "Not updating: {{kinds}}."
+      "failedKinds": "Not updating: {{kinds}}.",
+      "neverRanGroup": "{{label}}: never came in yet: {{kinds}}."
     },
-    "state": "State",
-    "lastSuccess": "Last successful run",
     "neverSucceeded": "never succeeded",
-    "every": "How often",
     "everyMinutes": "every {{count}} min",
     "notScheduled": "not scheduled",
-    "nextRun": "Next run",
     "dueNow": "due, starts at the next check",
     "running": "running right now",
     "inMinutes": "in {{count}} min",
     "inHours": "in {{count}} h",
     "waitingForMarketplace": "the marketplace asks to wait until {{at}}",
-    "lastFailure": "Last failure",
     "noFailures": "no failures",
     "neverRan": "never ran",
-    "attempts": "attempts: {{count}}",
-    "keySet": "key ends with {{last4}}, valid until {{until}}",
     "noExpiry": "no expiry stated",
     "syncNow": {
       "button": "Sync now",
@@ -4637,7 +4626,8 @@
       "rate_limited": "waiting for the marketplace",
       "running": "running",
       "succeeded": "succeeded",
-      "failed": "failed"
+      "failed": "failed",
+      "auth_failed": "key refused"
     },
     "desk": {
       "title": "Reviews and questions",
@@ -5768,23 +5758,32 @@
       }
     },
     "sync": {
-      "title": "Обновление",
-      "keyLine": "Данные с {{marketplace}} приходят сами по расписанию. Ключ •••{{last4}} действует до {{until}}",
-      "noKey": "Ключ {{marketplace}} не сохранён, данные не приходят.",
-      "keyButton": "Подключение и ключ",
-      "nothingScheduled": "Для {{marketplace}} нет ни одного вида данных по расписанию.",
+      "title": "Updates",
+      "keyLine": "Data from {{marketplace}} comes in on its own schedule. Key •••{{last4}} is valid until {{until}}",
+      "noKey": "Data from {{marketplace}} comes in on its own schedule once a key is saved.",
+      "keyButton": "Connection and key",
+      "nothingScheduled": "No kind of {{marketplace}} data is on the schedule.",
       "columns": {
-        "kind": "Что обновляем",
-        "state": "Состояние",
-        "lastSuccess": "Последний раз пришли",
-        "rows": "Строк",
-        "every": "Как часто",
-        "next": "Следующее обновление",
-        "failure": "Последняя ошибка"
+        "kind": "What updates",
+        "state": "State",
+        "lastSuccess": "Last came in",
+        "rows": "Rows",
+        "every": "How often",
+        "next": "Next update",
+        "failure": "Last error"
       },
-      "footer": "О ключе предупредим за {{days}} дн. до окончания срока.",
-      "rightsLink": "Права ключа и что открыто",
-      "toastFixture": "Запущено обновление всех видов данных {{marketplace}}."
+      "footer": "We warn about the key {{days}} days before it expires.",
+      "rightsLink": "Key permissions and what it opens",
+      "toastFixture": "Started updating every kind of {{marketplace}} data.",
+      "keyLineNoExpiry": "Data from {{marketplace}} comes in on its own schedule. Key •••{{last4}}, no expiry stated.",
+      "keyLineExpired": "The {{marketplace}} key •••{{last4}} no longer works: it expired on {{until}}.",
+      "otherKind": "other data",
+      "otherState": "unrecognized state",
+      "otherReason": "reason not recognized",
+      "empty": {
+        "noKeyTitle": "No rows",
+        "noKeyMessage": "Data from {{marketplace}} shows up here once a key is saved."
+      }
     },
     "ozon": {
       "subtitle": "Площадка готовится к подключению",

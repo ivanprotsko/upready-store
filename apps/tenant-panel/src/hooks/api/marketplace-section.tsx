@@ -1,11 +1,17 @@
 import { FetchError } from "@medusajs/js-sdk"
-import { QueryKey, UseQueryOptions, useQuery } from "@tanstack/react-query"
+import { QueryKey, UseMutationOptions, UseQueryOptions, useMutation, useQuery } from "@tanstack/react-query"
 
 import { sdk } from "../../lib/client"
+import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 import type { FeedConnection, FeedFacet, FeedOrder } from "./marketplace-orders"
 import type { DeskGenerator, DeskItem, DeskKind } from "./marketplace-desk"
-import type { MarketplaceSyncEntry, MarketplaceSyncWarning } from "./marketplace-sync"
+import {
+  marketplaceSyncQueryKeys,
+  type MarketplaceSyncEntry,
+  type MarketplaceSyncWarning,
+  type SyncNowResponse,
+} from "./marketplace-sync"
 import { fixtureAnalytics, fixtureOrders, fixturePriceStock, fixtureProducts, fixtureReviews, fixtureSync } from "./marketplace-section.fixtures"
 
 /**
@@ -479,4 +485,58 @@ export const useMpSync = (marketplace: MarketplaceId, options?: Options<MpSyncRe
     ...options,
   })
   return { sync: data, ...rest }
+}
+
+/** The cached schedule with every kind the answer started shown as running. */
+const markStarted = (sync: MpSyncResponse, answer: SyncNowResponse): MpSyncResponse => {
+  const started = new Set(
+    answer.results
+      .filter((result) => result.outcome === "started" && result.marketplace === sync.marketplace.id)
+      .map((result) => result.kind)
+  )
+  return {
+    ...sync,
+    marketplace: {
+      ...sync.marketplace,
+      kinds: sync.marketplace.kinds.map((kind) =>
+        started.has(kind.kind)
+          ? { ...kind, status: "running", started_at: answer.now, due: false, due_reason: "locked" as const }
+          : kind
+      ),
+    },
+  }
+}
+
+/**
+ * «Обновить сейчас» for ONE marketplace: `POST /tenants/marketplaces/:marketplace/sync`
+ * (task-07), the shared `POST` narrowed to this marketplace. It answers as soon
+ * as every kind has been told to start or told why not, and 409 with the
+ * backend's own sentence while a run of this marketplace is going.
+ *
+ * A started kind writes its `running` row a moment AFTER the answer, so a
+ * refetch at once could still read the old row and undo «идёт». The cached
+ * schedule is therefore marked here from the answer itself and only marked
+ * stale; the screen looks again on its own every few seconds while a kind
+ * runs. A refusal refetches at once, so the owner sees what is already going.
+ */
+export const useMpSyncNow = (
+  marketplace: MarketplaceId,
+  options?: UseMutationOptions<SyncNowResponse, FetchError, void>
+) => {
+  const key = marketplaceSectionQueryKeys.detail(`${marketplace}-sync`)
+  return useMutation({
+    ...options,
+    mutationFn: () =>
+      sdk.client.fetch<SyncNowResponse>(`/tenants/marketplaces/${marketplace}/sync`, { method: "POST" }),
+    onSuccess: (data, variables, context) => {
+      queryClient.setQueryData<MpSyncResponse>(key, (old) => (old ? markStarted(old, data) : old))
+      queryClient.invalidateQueries({ queryKey: key, refetchType: "none" })
+      queryClient.invalidateQueries({ queryKey: marketplaceSyncQueryKeys.all })
+      options?.onSuccess?.(data, variables, context)
+    },
+    onError: (error, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: key })
+      options?.onError?.(error, variables, context)
+    },
+  })
 }

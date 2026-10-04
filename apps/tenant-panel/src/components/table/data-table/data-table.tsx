@@ -84,7 +84,11 @@ export const _DataTable = <TData,>({
         table={table}
         count={count}
         columns={columns}
-        pagination
+        // The footer is drawn unless a caller turns it off with
+        // `pagination={false}`: every list that omits the prop keeps its pages,
+        // and a single-page list (Wildberries → Обновление, task-07) loses the
+        // «1 — 10 из 10» line it has no use for.
+        pagination={pagination !== false}
         navigateTo={navigateTo}
         commands={commands}
         noResults={noResults}

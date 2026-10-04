@@ -15,12 +15,14 @@ import {
   MP_FIXTURES,
   slugOf,
   useMpSync,
+  useMpSyncNow,
   type MarketplaceId,
 } from "../../../hooks/api/marketplace-section"
-import { useSyncMarketplacesNow, type MarketplaceSyncKind } from "../../../hooks/api/marketplace-sync"
-import { MpSyncWarnings } from "../../settings/marketplace-sync/components/mp-sync-warnings"
+import type { MarketplaceSyncKind, SyncNowResult } from "../../../hooks/api/marketplace-sync"
 import { DateTimeCell, UnitsCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
+import { useSyncLabels } from "./components/kind-label"
+import { MpSyncWarnings } from "./components/mp-sync-warnings"
 
 /**
  * «Wildberries → Обновление» (mp-section-design; the owner's word for the
@@ -37,28 +39,58 @@ import { MpPage } from "../common/mp-page"
  * the heading, the state is the shop's coloured dot, the requests column is
  * gone (the owner does not count requests), and the raw answer of the
  * marketplace stays closed under «Подробности для поддержки» (o21, P3).
+ *
+ * Live path (task-07 of ask-20261005-023327-f02b): the rows come from
+ * `GET /tenants/marketplaces/:marketplace/sync`, which reads nothing from the
+ * marketplace, and «Обновить сейчас» is `POST` on the same address, the one
+ * mutation of the screen. Started kinds show «идёт» at once and the screen
+ * looks again every ten seconds while any kind is running.
+ *
+ * The core's own `projection` kind is left out of the table: it recomputes
+ * the shared layer from what already came in, sends no request to the
+ * marketplace, and the owner has no data called that. Its failure still
+ * reaches the warnings above the table, so leaving out the row hides nothing.
  */
 
 const STATE_COLOR: Record<string, "green" | "red" | "orange" | "grey"> = {
   succeeded: "green",
   failed: "red",
+  auth_failed: "red",
   rate_limited: "orange",
   running: "grey",
 }
 
+/** The core's own kind, not data of the marketplace (see the doc comment above). */
+const CORE_KINDS = new Set(["projection"])
+
+/** While any kind is running, how often the screen looks again. */
+const RUNNING_REFETCH_MS = 10_000
+
 export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) => {
   const { t } = useTranslation()
   const { getFullDate } = useDate()
-  const { sync, isPending, isError, error } = useMpSync(marketplace)
-  const { mutateAsync: syncNow, isPending: isSyncing } = useSyncMarketplacesNow()
+  const { kindLabel } = useSyncLabels()
+  const { sync, isPending, isError, error } = useMpSync(marketplace, {
+    refetchInterval: (query) =>
+      query.state.data?.marketplace.kinds.some((kind) => kind.status === "running") ? RUNNING_REFETCH_MS : false,
+  })
+  const { mutateAsync: syncNow, isPending: isSyncing } = useMpSyncNow(marketplace)
+
+  const entry = sync?.marketplace
+  const hasKey = Boolean(entry?.connection.key.set)
+  const kinds = useMemo(
+    () => (entry && hasKey ? entry.kinds.filter((kind) => !CORE_KINDS.has(kind.kind)) : []),
+    [entry, hasKey]
+  )
 
   const columns = useColumns(sync?.now ?? new Date().toISOString())
   const { table } = useDataTable({
-    data: sync?.marketplace.kinds ?? [],
+    data: kinds,
     columns,
-    count: sync?.marketplace.kinds.length ?? 0,
+    count: kinds.length,
     // The table primitive reads its pagination state even when no pages are
-    // drawn; one page of 50 holds every kind a marketplace has.
+    // drawn; one page of 50 holds every kind a marketplace has, and
+    // `pagination={false}` below keeps the footer off.
     enablePagination: true,
     pageSize: 50,
     getRowId: (row) => row.kind,
@@ -70,7 +102,17 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
 
   const label = MARKETPLACE_LABEL[marketplace]
   const slug = slugOf(marketplace)
-  const entry = sync?.marketplace
+  const keyHref = `/settings/integrations/${slug}`
+
+  /** «Карточки товаров», or «Wildberries (ключ не сохранён)» for a whole marketplace. */
+  const describe = (result: SyncNowResult) => {
+    const what = result.kind === "*" ? label : kindLabel(result.kind)
+    return result.outcome === "started"
+      ? what
+      : `${what} (${t(`marketplaceSync.syncNow.reasons.${result.reason}`, {
+          defaultValue: t("mp.sync.otherReason"),
+        })})`
+  }
 
   const run = async () => {
     if (MP_FIXTURES) {
@@ -81,25 +123,49 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
     }
     try {
       const { results } = await syncNow()
-      const started = results.filter((r) => r.outcome === "started").length
+      // The core's own kind starts too, but the owner was never shown it, so
+      // the toast counts what the table shows.
+      const shown = results.filter((result) => !CORE_KINDS.has(result.kind))
+      const started = shown.filter((result) => result.outcome === "started")
+      const skipped = shown.filter((result) => result.outcome === "skipped")
+
       toast.success(
-        started ? t("marketplaceSync.syncNow.toastTitle", { count: started }) : t("marketplaceSync.syncNow.toastTitleNone")
+        started.length
+          ? t("marketplaceSync.syncNow.toastTitle", { count: started.length })
+          : t("marketplaceSync.syncNow.toastTitleNone"),
+        {
+          description: [
+            started.length
+              ? t("marketplaceSync.syncNow.toastStarted", { list: started.map(describe).join(", ") })
+              : null,
+            skipped.length
+              ? t("marketplaceSync.syncNow.toastSkipped", { list: skipped.map(describe).join(", ") })
+              : null,
+          ]
+            .filter((line): line is string => Boolean(line))
+            .join("\n"),
+        }
       )
     } catch (failure) {
+      // A run already going answers 409 with the backend's own sentence
+      // (`type: "sync_in_progress"`), which `FetchError.message` carries.
       toast.error(failure instanceof Error ? failure.message : String(failure))
     }
   }
 
   const keyLine = entry
-    ? entry.connection.key.set
-      ? t("mp.sync.keyLine", {
-          marketplace: label,
-          last4: entry.connection.key.last4 ?? "????",
-          until: entry.credentials.expires_at
-            ? getFullDate({ date: entry.credentials.expires_at })
-            : t("marketplaceSync.noExpiry"),
-        })
-      : t("mp.sync.noKey", { marketplace: label })
+    ? !hasKey
+      ? t("mp.sync.noKey", { marketplace: label })
+      : !entry.credentials.expires_at
+        ? t("mp.sync.keyLineNoExpiry", {
+            marketplace: label,
+            last4: entry.connection.key.last4 ?? "????",
+          })
+        : t(entry.credentials.expired ? "mp.sync.keyLineExpired" : "mp.sync.keyLine", {
+            marketplace: label,
+            last4: entry.connection.key.last4 ?? "????",
+            until: getFullDate({ date: entry.credentials.expires_at }),
+          })
     : null
 
   return (
@@ -109,12 +175,12 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
       actions={
         <>
           <Button size="small" variant="secondary" asChild>
-            <Link to={`/settings/integrations/${slug}`}>
+            <Link to={keyHref}>
               <Key />
               {t("mp.sync.keyButton")}
             </Link>
           </Button>
-          <Button size="small" variant="primary" onClick={run} isLoading={isSyncing} disabled={!entry?.connection.key.set}>
+          <Button size="small" variant="primary" onClick={run} isLoading={isSyncing} disabled={!hasKey}>
             {t("marketplaceSync.syncNow.button")}
           </Button>
         </>
@@ -122,11 +188,11 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
     >
       {sync?.warnings.length ? (
         <div className="px-6 py-4">
-          <MpSyncWarnings warnings={sync.warnings} />
+          <MpSyncWarnings warnings={sync.warnings} keyHref={keyHref} />
         </div>
       ) : null}
 
-      {!isPending && entry && entry.kinds.length === 0 ? (
+      {!isPending && entry && hasKey && kinds.length === 0 ? (
         <div className="px-6 py-6">
           <Alert variant="info">{t("mp.sync.nothingScheduled", { marketplace: label })}</Alert>
         </div>
@@ -134,10 +200,14 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
         <_DataTable
           table={table}
           columns={columns}
-          count={entry?.kinds.length ?? 0}
-          pageSize={50}
+          count={kinds.length}
+          pageSize={kinds.length || 10}
+          pagination={false}
           isLoading={isPending}
-          noRecords={{ title: t("mp.sync.title"), message: t("mp.sync.nothingScheduled", { marketplace: label }) }}
+          noRecords={{
+            title: t("mp.sync.empty.noKeyTitle"),
+            message: t("mp.sync.empty.noKeyMessage", { marketplace: label }),
+          }}
         />
       )}
 
@@ -158,26 +228,25 @@ const columnHelper = createColumnHelper<MarketplaceSyncKind>()
 const useColumns = (now: string) => {
   const { t } = useTranslation()
   const { getFullDate } = useDate()
+  const { kindLabel, statusLabel } = useSyncLabels()
 
   return useMemo(
     () => [
       columnHelper.accessor("kind", {
         header: () => <span>{t("mp.sync.columns.kind")}</span>,
-        cell: ({ getValue }) => (
-          <span className="whitespace-nowrap">{t(`marketplaces.kinds.${getValue()}`, { defaultValue: getValue() })}</span>
-        ),
+        cell: ({ getValue }) => <span className="whitespace-nowrap">{kindLabel(getValue())}</span>,
         meta: { phoneTop: true },
       }),
       columnHelper.accessor("status", {
         header: () => <span>{t("mp.sync.columns.state")}</span>,
-        cell: ({ getValue }) =>
-          getValue() === null ? (
+        cell: ({ getValue }) => {
+          const status = getValue()
+          return status === null ? (
             <StatusCell color="grey">{t("marketplaceSync.neverRan")}</StatusCell>
           ) : (
-            <StatusCell color={STATE_COLOR[getValue() as string] ?? "grey"}>
-              {t(`marketplaces.statuses.${getValue()}`, { defaultValue: getValue() ?? "" })}
-            </StatusCell>
-          ),
+            <StatusCell color={STATE_COLOR[status] ?? "grey"}>{statusLabel(status)}</StatusCell>
+          )
+        },
         meta: { phoneTop: "end" },
       }),
       columnHelper.accessor("last_success_at", {
@@ -207,7 +276,7 @@ const useColumns = (now: string) => {
         header: () => <span>{t("mp.sync.columns.next")}</span>,
         cell: ({ row }) => {
           const kind = row.original
-          if (kind.due_reason === "locked") {
+          if (kind.status === "running" || kind.due_reason === "locked") {
             return <span className="text-ui-fg-subtle">{t("marketplaceSync.running")}</span>
           }
           if (kind.due) {
@@ -246,7 +315,7 @@ const useColumns = (now: string) => {
             return <span className="text-ui-fg-muted">{t("marketplaceSync.noFailures")}</span>
           }
           return (
-            <div className="flex max-w-[360px] flex-col gap-y-0.5 whitespace-normal">
+            <div className="flex max-w-[360px] flex-col gap-y-0.5 whitespace-normal max-md:max-w-none">
               <span className="text-ui-fg-error">{t(marketplaceErrorKey(kind.last_failure_error))}</span>
               {kind.last_failure_at ? (
                 <span className="text-ui-fg-subtle txt-compact-xsmall">
@@ -260,6 +329,6 @@ const useColumns = (now: string) => {
         meta: { phoneWide: true },
       }),
     ],
-    [t, now, getFullDate]
+    [t, now, getFullDate, kindLabel, statusLabel]
   )
 }
