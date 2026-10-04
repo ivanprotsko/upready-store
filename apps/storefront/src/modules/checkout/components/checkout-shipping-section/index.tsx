@@ -227,6 +227,15 @@ export default function CheckoutShippingSection({
 
   const shippingOptions = availableShippingOptions
 
+  // 04.10 demo QA round 4 (devops 22k): a calculated price (СДЭК, Почта, the tenant
+  // tariff) is quoted to the buyer's city and postcode. Until the address is saved
+  // the cards say so instead of spinning on quotes that cannot answer.
+  const quoteAddress = cart.shipping_address
+  const quoteAddressKey =
+    quoteAddress?.postal_code || quoteAddress?.city
+      ? [quoteAddress.country_code, quoteAddress.postal_code, quoteAddress.city].join("|")
+      : null
+
   useEffect(() => {
     setIsLoadingPrices(true)
     if (!shippingOptions?.length) {
@@ -238,7 +247,8 @@ export default function CheckoutShippingSection({
       (sm) => sm.price_type === "calculated"
     )
 
-    if (!calculatedMethods.length) {
+    if (!calculatedMethods.length || !quoteAddressKey) {
+      setCalculatedPricesMap({})
       setIsLoadingPrices(false)
       return
     }
@@ -271,7 +281,7 @@ export default function CheckoutShippingSection({
       setIsLoadingPrices(false)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [availableShippingOptions, cart.id])
+  }, [availableShippingOptions, cart.id, quoteAddressKey])
 
   // Never called with a pickup option's id — the pickup card's own value is
   // the sentinel `PICKUP_GROUP_VALUE` (below), handled separately by opening
@@ -574,6 +584,8 @@ export default function CheckoutShippingSection({
                   ? calculatedPricesMap[option.id]
                   : null
             const isFreeShipping = priceAmount === 0
+            const awaitingAddress =
+              priceAmount === null && option.price_type === "calculated" && !quoteAddressKey
             // U-12 (46df): no price means the method cannot be charged, so
             // the card says why and cannot be chosen.
             const unpriced =
@@ -591,11 +603,13 @@ export default function CheckoutShippingSection({
                   currency_code: cart.currency_code,
                   locale,
                 })
-                : isLoadingPrices
-                  ? null
-                  : unpriced
-                    ? t("shippingPriceUnavailable")
-                    : "—"
+                : awaitingAddress
+                  ? t("deliveryPriceAfterAddress")
+                  : isLoadingPrices
+                    ? null
+                    : unpriced
+                      ? t("shippingPriceUnavailable")
+                      : "—"
 
             return (
               <div
@@ -655,14 +669,18 @@ export default function CheckoutShippingSection({
                     <span
                       className={clx(
                         "flex min-h-[20px] shrink-0 items-center",
-                        unpriced
+                        unpriced || awaitingAddress
                           ? "txt-compact-small text-ui-fg-subtle"
                           : isFreeShipping
                             ? "txt-compact-medium-plus text-ui-tag-green-icon"
                             : "txt-compact-medium-plus text-ui-fg-base"
                       )}
                       data-testid={
-                        unpriced ? "delivery-option-unavailable" : undefined
+                        awaitingAddress
+                          ? "delivery-option-awaiting-address"
+                          : unpriced
+                            ? "delivery-option-unavailable"
+                            : undefined
                       }
                     >
                       {price === null ? (

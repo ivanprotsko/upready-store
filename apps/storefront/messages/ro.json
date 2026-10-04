@@ -171,6 +171,7 @@
     "shippingLink": "Livrare",
     "shippingUnavailable": "Nu există metode de livrare disponibile",
     "shippingPriceUnavailable": "Indisponibil: prețul nu a putut fi calculat",
+    "deliveryPriceAfterAddress": "Introdu adresa pentru a vedea prețul și termenul",
     "signIn": "Autentificare",
     "total": "Total",
     "shippingZone": "Zonă: {zone}",

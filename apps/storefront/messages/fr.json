@@ -171,6 +171,7 @@
     "shippingLink": "Livraison",
     "shippingUnavailable": "Aucun mode de livraison disponible",
     "shippingPriceUnavailable": "Indisponible : le prix n’a pas pu être calculé",
+    "deliveryPriceAfterAddress": "Indiquez votre adresse pour voir le prix et le délai",
     "signIn": "Se connecter",
     "total": "Total",
     "shippingZone": "Zone : {zone}",

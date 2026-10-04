@@ -12,7 +12,8 @@ export function buildAlternatesFor(
   locale: string,
   path: string,
   languages: readonly string[] = locales,
-  sisters: readonly SisterSite[] = []
+  sisters: readonly SisterSite[] = [],
+  shopDefault?: string
 ) {
   const suffix = path === "/" ? "" : path
 
@@ -38,8 +39,15 @@ export function buildAlternatesFor(
   // a shop that does not offer the build's default locale, but has a sister
   // that does, points `x-default` at the sister rather than its own first
   // language — the same rule `plan.md` spells out for Cherkashino: `ru` stays
-  // on .ru, `en`/`x-default` point at .com.
-  const fallbackLocale = alternates[defaultLocale] ? defaultLocale : languages[0] ?? defaultLocale
+  // on .ru, `en`/`x-default` point at .com. The shop's own default language comes
+  // first when it publishes it (04.10 demo QA round 3): cherkashino.com is an
+  // English shop on a build whose default is `ru`, and its x-default said /ru.
+  const fallbackLocale =
+    shopDefault && alternates[shopDefault]
+      ? shopDefault
+      : alternates[defaultLocale]
+        ? defaultLocale
+        : languages[0] ?? defaultLocale
 
   alternates["x-default"] = alternates[fallbackLocale] ?? `${base}/${fallbackLocale}${suffix}`
 

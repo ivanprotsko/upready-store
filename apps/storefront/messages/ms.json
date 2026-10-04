@@ -171,6 +171,7 @@
     "shippingLink": "Penghantaran",
     "shippingUnavailable": "Tiada kaedah penghantaran tersedia",
     "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dikira",
+    "deliveryPriceAfterAddress": "Masukkan alamat untuk melihat harga dan tempoh penghantaran",
     "signIn": "Log masuk",
     "total": "Jumlah",
     "shippingZone": "Zon: {zone}",

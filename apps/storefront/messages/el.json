@@ -171,6 +171,7 @@
     "shippingLink": "Αποστολή",
     "shippingUnavailable": "Δεν υπάρχουν διαθέσιμοι τρόποι αποστολής",
     "shippingPriceUnavailable": "Μη διαθέσιμο: δεν ήταν δυνατός ο υπολογισμός του κόστους",
+    "deliveryPriceAfterAddress": "Συμπληρώστε τη διεύθυνση για να δείτε τιμή και χρόνο",
     "signIn": "Σύνδεση",
     "total": "Σύνολο",
     "shippingZone": "Ζώνη: {zone}",

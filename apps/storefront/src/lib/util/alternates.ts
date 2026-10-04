@@ -1,5 +1,5 @@
 import { locales, defaultLocale } from "@i18n/config"
-import { getRequestBaseURL, getEnabledLocales } from "@lib/data/cookies"
+import { getRequestBaseURL, getEnabledLocales, getTenantDefaultLocale } from "@lib/data/cookies"
 import { getHreflangSisters } from "@lib/data/hreflang-sisters"
 import { shopLocales } from "@lib/util/shop-locales"
 import { buildAlternatesFor } from "@lib/util/alternates-core"
@@ -33,11 +33,19 @@ export { buildAlternatesFor }
  * no sisters gets an empty list and emits exactly what it did before.
  */
 export async function buildAlternates(locale: string, path: string) {
-  const [base, enabled, sisters] = await Promise.all([
+  const [base, enabled, sisters, shopDefault] = await Promise.all([
     getRequestBaseURL(),
     getEnabledLocales(),
     getHreflangSisters(),
+    getTenantDefaultLocale(),
   ])
 
-  return buildAlternatesFor(base, locale, path, shopLocales(locales, enabled, defaultLocale), sisters)
+  return buildAlternatesFor(
+    base,
+    locale,
+    path,
+    shopLocales(locales, enabled, defaultLocale),
+    sisters,
+    shopDefault
+  )
 }

@@ -171,6 +171,7 @@
     "shippingLink": "Хүргэлт",
     "shippingUnavailable": "Хүргэлтийн боломжит арга алга",
     "shippingPriceUnavailable": "Боломжгүй: үнийг тооцоолж чадсангүй",
+    "deliveryPriceAfterAddress": "Үнэ болон хугацааг харахын тулд хаягаа оруулна уу",
     "signIn": "Нэвтрэх",
     "total": "Нийт",
     "shippingZone": "Бүс: {zone}",

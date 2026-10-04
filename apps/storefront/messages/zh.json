@@ -171,6 +171,7 @@
     "shippingLink": "配送",
     "shippingUnavailable": "暂无可用的配送方式",
     "shippingPriceUnavailable": "不可用：无法计算运费",
+    "deliveryPriceAfterAddress": "填写地址后显示价格和配送时间",
     "signIn": "登录",
     "total": "总计",
     "shippingZone": "配送区域：{zone}",

@@ -171,6 +171,7 @@
     "shippingLink": "การจัดส่ง",
     "shippingUnavailable": "ไม่มีวิธีการจัดส่งที่ใช้ได้",
     "shippingPriceUnavailable": "ไม่พร้อมใช้งาน: คำนวณราคาไม่ได้",
+    "deliveryPriceAfterAddress": "กรอกที่อยู่เพื่อดูราคาและระยะเวลาจัดส่ง",
     "signIn": "เข้าสู่ระบบ",
     "total": "ยอดรวม",
     "shippingZone": "โซน: {zone}",

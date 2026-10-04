@@ -171,6 +171,7 @@
     "shippingLink": "Kargo",
     "shippingUnavailable": "Kullanılabilir teslimat yöntemi yok",
     "shippingPriceUnavailable": "Kullanılamıyor: ücret hesaplanamadı",
+    "deliveryPriceAfterAddress": "Fiyatı ve teslim süresini görmek için adresinizi girin",
     "signIn": "Giriş yap",
     "total": "Toplam",
     "shippingZone": "Bölge: {zone}",

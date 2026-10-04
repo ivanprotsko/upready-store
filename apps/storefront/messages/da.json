@@ -171,6 +171,7 @@
     "shippingLink": "Levering",
     "shippingUnavailable": "Ingen leveringsmetoder tilgængelige",
     "shippingPriceUnavailable": "Ikke tilgængelig: prisen kunne ikke beregnes",
+    "deliveryPriceAfterAddress": "Angiv din adresse for at se pris og leveringstid",
     "signIn": "Log ind",
     "total": "I alt",
     "shippingZone": "Zone: {zone}",

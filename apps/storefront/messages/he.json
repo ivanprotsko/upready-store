@@ -171,6 +171,7 @@
     "shippingLink": "משלוח",
     "shippingUnavailable": "אין שיטות משלוח זמינות",
     "shippingPriceUnavailable": "לא זמין: לא ניתן לחשב את המחיר",
+    "deliveryPriceAfterAddress": "הזינו כתובת כדי לראות מחיר וזמן משלוח",
     "signIn": "התחברות",
     "total": "סה״כ",
     "shippingZone": "אזור: {zone}",

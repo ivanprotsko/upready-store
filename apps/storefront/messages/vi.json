@@ -171,6 +171,7 @@
     "shippingLink": "Vận chuyển",
     "shippingUnavailable": "Không có phương thức vận chuyển khả dụng",
     "shippingPriceUnavailable": "Không khả dụng: không tính được giá",
+    "deliveryPriceAfterAddress": "Nhập địa chỉ để xem giá và thời gian giao hàng",
     "signIn": "Đăng nhập",
     "total": "Tổng cộng",
     "shippingZone": "Khu vực: {zone}",

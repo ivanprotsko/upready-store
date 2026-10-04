@@ -171,6 +171,7 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Няма налични методи за доставка",
     "shippingPriceUnavailable": "Недостъпно: цената не може да се изчисли",
+    "deliveryPriceAfterAddress": "Въведете адрес, за да видите цената и срока",
     "signIn": "Вход",
     "total": "Общо",
     "shippingZone": "Зона: {zone}",

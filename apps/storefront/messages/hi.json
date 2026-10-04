@@ -171,6 +171,7 @@
     "shippingLink": "शिपिंग",
     "shippingUnavailable": "कोई शिपिंग विधि उपलब्ध नहीं है",
     "shippingPriceUnavailable": "उपलब्ध नहीं: कीमत की गणना नहीं हो सकी",
+    "deliveryPriceAfterAddress": "कीमत और डिलीवरी का समय देखने के लिए पता दर्ज करें",
     "signIn": "साइन इन करें",
     "total": "कुल",
     "shippingZone": "क्षेत्र: {zone}",

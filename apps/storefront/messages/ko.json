@@ -171,6 +171,7 @@
     "shippingLink": "배송",
     "shippingUnavailable": "이용 가능한 배송 방법이 없습니다",
     "shippingPriceUnavailable": "사용할 수 없음: 요금을 계산하지 못했습니다",
+    "deliveryPriceAfterAddress": "주소를 입력하면 가격과 배송 기간을 보여 드립니다",
     "signIn": "로그인",
     "total": "합계",
     "shippingZone": "지역: {zone}",
