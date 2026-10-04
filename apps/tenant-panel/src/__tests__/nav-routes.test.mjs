@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { readFileSync, readdirSync, statSync } from "node:fs"
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -117,4 +117,153 @@ test("the addresses Ivan named on 2026-09-16 are registered", () => {
   ]) {
     assert.ok(paths.has(required), `app.tsx registers no route for ${required}`)
   }
+})
+
+/**
+ * «Торговые площадки» (mp-section-design, Ivan 2026-10-05): a heading that is
+ * not a link, «Wildberries» with six screens under it, «Ozon» a stub. The
+ * group is cut out of the model's source by its braces, the way the rest of
+ * this file reads text rather than renders.
+ */
+const blockAt = (source, from) => {
+  const start = source.indexOf("{", from)
+  let depth = 0
+  for (let index = start; index >= 0 && index < source.length; index += 1) {
+    if (source[index] === "{") depth += 1
+    if (source[index] === "}") depth -= 1
+    if (depth === 0) return source.slice(start, index + 1)
+  }
+  return ""
+}
+
+const nav = readFileSync(LAYOUT, "utf8")
+const ownerNav = nav.slice(nav.indexOf("export const OWNER_NAV"), nav.indexOf("export const ownsPath"))
+const marketplacesGroup = (() => {
+  const id = ownerNav.indexOf('id: "marketplaces"')
+  return id < 0 ? "" : blockAt(ownerNav, ownerNav.lastIndexOf("{", id))
+})()
+
+/** The top-level entries of a group, each as the text of its `{ … }`. */
+const itemsOf = (group) => {
+  const list = group.slice(group.indexOf("[", group.indexOf("items:")) + 1)
+  const items = []
+  let depth = 0
+  for (let index = 0; index < list.length; index += 1) {
+    if (list[index] === "]" && depth === 0) break
+    if (list[index] === "{" && depth === 0) {
+      const item = blockAt(list, index)
+      items.push(item)
+      index += item.length - 1
+      continue
+    }
+    if (list[index] === "[" || list[index] === "{") depth += 1
+    if (list[index] === "]" || list[index] === "}") depth -= 1
+  }
+  return items
+}
+
+const childTargetsOf = (item) =>
+  item.includes("children:") ? literalTargets(item.slice(item.indexOf("children:"))) : []
+
+test("«Торговые площадки» is a heading: no link and no fold of its own", () => {
+  assert.ok(marketplacesGroup, "OWNER_NAV has no group with id marketplaces")
+  const own = marketplacesGroup.slice(0, marketplacesGroup.indexOf("items:"))
+  assert.match(own, /\bheading:\s*true\b/, "the marketplaces group must be a heading")
+  assert.doesNotMatch(own, /\bto:/, "the heading itself must not be a link")
+  assert.doesNotMatch(own, /\bflat:\s*true\b/, "a heading is not a flat group")
+})
+
+test("«Wildberries» opens its first screen and unfolds into the six screens Ivan named", () => {
+  const wildberries = itemsOf(marketplacesGroup).find((item) => /label:\s*"Wildberries"/.test(item))
+  assert.ok(wildberries, "the marketplaces group has no Wildberries entry")
+  const children = childTargetsOf(wildberries)
+  assert.deepEqual(children, [
+    "/marketplaces/wildberries/products",
+    "/marketplaces/wildberries/price-stock",
+    "/marketplaces/wildberries/orders",
+    "/marketplaces/wildberries/reviews",
+    "/marketplaces/wildberries/analytics",
+    "/marketplaces/wildberries/sync",
+  ])
+  const own = wildberries.slice(0, wildberries.indexOf("children:"))
+  assert.deepEqual(literalTargets(own), [children[0]], "the entry must open its first screen")
+})
+
+test("every child of a sidebar entry is a route registered in app.tsx", () => {
+  const paths = new Set(registeredPaths(readFileSync(APP, "utf8")))
+  const children = itemsOf(marketplacesGroup).flatMap(childTargetsOf)
+  assert.ok(children.length >= 6, `the sidebar yielded ${children.length} children`)
+  const missing = children.filter((target) => !paths.has(target))
+  assert.deepEqual(missing, [], `children with no route in app.tsx:\n${missing.join("\n")}`)
+})
+
+test("«Ozon» is a stub with its own page that leads to the key", () => {
+  const ozon = itemsOf(marketplacesGroup).find((item) => /label:\s*"Ozon"/.test(item))
+  assert.ok(ozon, "the marketplaces group has no Ozon entry")
+  assert.match(ozon, /\bto:\s*"\/marketplaces\/ozon"/)
+  assert.match(ozon, /\bstub:\s*true\b/)
+  assert.doesNotMatch(ozon, /children:/)
+  assert.ok(registeredPaths(readFileSync(APP, "utf8")).includes("/marketplaces/ozon"))
+  const stub = readFileSync(join(SRC, "routes/marketplaces/ozon-stub/ozon-stub.tsx"), "utf8")
+  assert.ok(stub.includes('to="/settings/integrations/ozon"'), "the stub must lead to the Ozon key")
+})
+
+test("the marketplace screens draw no tab row; promotions, delivery, payments and search do", () => {
+  const tabs = nav.slice(nav.indexOf("export const OWNER_TABS"), nav.indexOf("export const findTabs"))
+  assert.doesNotMatch(tabs, /marketplaces|tabs\.mp/, "a tab row over the marketplace screens is back")
+  for (const owner of ["/promotions", "/shipping", "/settings/payments", "/settings/seo"]) {
+    assert.ok(tabs.includes(`owner: "${owner}"`), `the tab row of ${owner} is gone`)
+  }
+})
+
+test("the old marketplace addresses stay registered and redirect with the query string", () => {
+  const app = readFileSync(APP, "utf8")
+  const paths = new Set(registeredPaths(app))
+  for (const [path, element] of [
+    ["/marketplaces/catalog", "CatalogRedirect"],
+    ["/marketplaces/price-stock", "PriceStockRedirect"],
+    ["/marketplace-orders", "OrdersRedirect"],
+    ["/marketplace-orders/:id", "OrdersRedirect"],
+    ["/settings/marketplaces/sync", "SyncRedirect"],
+    ["/settings/marketplaces/reviews", "ReviewsRedirect"],
+    ["/settings/marketplaces/analytics", "AnalyticsRedirect"],
+  ]) {
+    assert.ok(paths.has(path), `app.tsx registers no route for ${path}`)
+    const route = new RegExp(`path:\\s*"${path}",\\s*element:\\s*<${element} />`)
+    assert.match(app, route, `${path} must render <${element} />`)
+  }
+  for (const path of ["/settings/marketplaces", "/settings/wildberries", "/settings/ozon"]) {
+    assert.ok(paths.has(path), `app.tsx registers no route for ${path}`)
+  }
+  const redirects = readFileSync(join(SRC, "routes/marketplaces/common/redirects.tsx"), "utf8")
+  assert.ok(redirects.includes("${search}"), "the section's redirects must carry the query string")
+  assert.ok(redirects.includes("useParams"), "/marketplace-orders/:id must keep the order id")
+  for (const file of [
+    "routes/settings/marketplaces/redirect.tsx",
+    "routes/settings/wildberries/redirect.tsx",
+    "routes/settings/ozon/redirect.tsx",
+  ]) {
+    const source = readFileSync(join(SRC, file), "utf8")
+    assert.ok(source.includes("${search}"), `${file} must carry the query string`)
+  }
+})
+
+test("the old marketplace screens are gone from the tree and from app.tsx", () => {
+  const app = readFileSync(APP, "utf8")
+  for (const dir of [
+    "routes/marketplaces/catalog",
+    "routes/marketplaces/price-stock",
+    "routes/marketplace-orders",
+    "routes/settings/marketplace-sync",
+    "routes/settings/marketplaces/reviews",
+    "routes/settings/marketplaces/analytics",
+  ]) {
+    assert.ok(!existsSync(join(SRC, dir)), `${dir} is back`)
+    assert.ok(!app.includes(`import("./${dir}")`), `app.tsx still imports ${dir}`)
+  }
+})
+
+test("a folded «Wildberries» is remembered across a reload", () => {
+  const source = readFileSync(join(SRC, "components/layout/owner-nav/owner-nav.tsx"), "utf8")
+  assert.ok(source.includes('"owner-nav-closed-parents"'), "the folded parents are not stored")
 })

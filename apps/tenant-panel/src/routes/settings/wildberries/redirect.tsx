@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom"
 
 /**
  * `/settings/wildberries` -> `/settings/marketplaces/wildberries`
@@ -11,8 +11,10 @@ import { Navigate } from "react-router-dom"
  * navigation. Wildberries has a screen of its own now.
  *
  * `replace` so the browser Back button leaves the section instead of bouncing
- * through the old path again.
+ * through the old path again. The query string is carried over, as on every
+ * old address of the section (mp-section-design).
  */
-export const WildberriesRedirect = () => (
-  <Navigate replace to="/settings/marketplaces/wildberries" />
-)
+export const WildberriesRedirect = () => {
+  const { search } = useLocation()
+  return <Navigate replace to={`/settings/marketplaces/wildberries${search}`} />
+}

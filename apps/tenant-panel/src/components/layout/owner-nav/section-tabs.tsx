@@ -6,9 +6,10 @@ import { Link, useLocation } from "react-router-dom"
 import { findTabs } from "./nav-model"
 
 /**
- * The tab row of a section that spans several screens («Торговые площадки»,
- * «Акции», «Доставка», «Оплата», «Поиск и счётчики»). On a narrow screen the row scrolls
- * inside itself, so the page never scrolls sideways.
+ * The tab row of a section that spans several screens («Акции», «Доставка»,
+ * «Оплата», «Поиск и счётчики»; the marketplaces have their screens in the
+ * sidebar instead). On a narrow screen the row scrolls inside itself, so the
+ * page never scrolls sideways.
  */
 export const SectionTabs = () => {
   const { t } = useTranslation()
