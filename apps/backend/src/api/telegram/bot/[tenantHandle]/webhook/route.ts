@@ -3,6 +3,7 @@ import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 
+import { accessPasswordHashFromEnv } from "../../../../../shop-bot/access-gate";
 import { createMedusaShop } from "../../../../../shop-bot/medusa-shop";
 import { claimUpdate } from "../../../../../shop-bot/updates";
 import {
@@ -119,6 +120,7 @@ export const POST = async (req: MedusaRequest<TgUpdate>, res: MedusaResponse) =>
     storefrontUrl: `${shopOrigin({ handle: resolvedTenant.handle, primaryDomain })}/${locale}`,
     managerChatId: bot.credentials.manager_chat_id ?? null,
     managerLinkCode: managerLinkCode(bot.credentials.webhook_secret),
+    accessPasswordHash: accessPasswordHashFromEnv(),
   };
 
   try {

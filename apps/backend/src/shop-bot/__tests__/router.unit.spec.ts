@@ -1,3 +1,4 @@
+import { accessPasswordHashFromEnv, passwordMatches, sha256Hex } from "../access-gate";
 import { handleUpdate, SHOP_BOT_COMMANDS } from "../router";
 import type {
   ShopBotApi,
@@ -40,6 +41,8 @@ function fakeShop(overrides: Partial<ShopPort> = {}): { [K in keyof ShopPort]: j
     addToWishlist: jest.fn(async () => undefined),
     listOrders: jest.fn(async () => []),
     setManagerChat: jest.fn(async () => undefined),
+    hasBotAccess: jest.fn(async () => false),
+    grantBotAccess: jest.fn(async () => undefined),
     ...overrides,
   } as { [K in keyof ShopPort]: jest.Mock } & ShopPort;
 }
@@ -54,6 +57,7 @@ function fakeCtx(overrides: Partial<ShopBotContext> = {}): ShopBotContext {
     storefrontUrl: "https://olavka.ru/ru",
     managerChatId: null,
     managerLinkCode: "linkcode123",
+    accessPasswordHash: null,
     ...overrides,
   };
 }
@@ -92,6 +96,95 @@ function sampleProduct(overrides: Partial<ShopProduct> = {}): ShopProduct {
     ...overrides,
   };
 }
+
+/* ---------- closed mode (access-gate.ts) ---------- */
+
+describe("closed mode", () => {
+  const PASSWORD = "secret-pass";
+  const closed = (overrides: Partial<ShopBotContext> = {}) =>
+    fakeCtx({ accessPasswordHash: sha256Hex(PASSWORD), ...overrides });
+
+  it("answers /start from a stranger with the password prompt only", async () => {
+    const ctx = closed();
+    await handleUpdate(messageUpdate(privateMessage({ text: "/start" })), ctx);
+
+    expect(ctx.api.sendMessage).toHaveBeenCalledTimes(1);
+    const call = (ctx.api.sendMessage as jest.Mock).mock.calls[0][0];
+    expect(call.text).toContain("пароль");
+    expect(call.reply_markup).toBeUndefined();
+    expect(ctx.shop.listCategories).not.toHaveBeenCalled();
+    expect(ctx.shop.grantBotAccess).not.toHaveBeenCalled();
+  });
+
+  it("a wrong password is refused and nothing is remembered", async () => {
+    const ctx = closed();
+    await handleUpdate(messageUpdate(privateMessage({ text: "nope" })), ctx);
+
+    const call = (ctx.api.sendMessage as jest.Mock).mock.calls[0][0];
+    expect(call.text).toBe("Неверный пароль. Попробуйте ещё раз.");
+    expect(ctx.shop.grantBotAccess).not.toHaveBeenCalled();
+  });
+
+  it("the right password is remembered and followed by the greeting", async () => {
+    const ctx = closed();
+    await handleUpdate(messageUpdate(privateMessage({ text: ` ${PASSWORD} ` })), ctx);
+
+    expect(ctx.shop.grantBotAccess).toHaveBeenCalledWith(expect.objectContaining({ id: 555 }));
+    const texts = (ctx.api.sendMessage as jest.Mock).mock.calls.map((c) => c[0].text as string);
+    expect(texts[0]).toBe("Пароль принят, доступ открыт.");
+    expect(texts[1]).toContain("Олавка");
+  });
+
+  it("a remembered chat goes straight through", async () => {
+    const ctx = closed({ shop: fakeShop({ hasBotAccess: jest.fn(async () => true) }) });
+    await handleUpdate(messageUpdate(privateMessage({ text: "/start" })), ctx);
+
+    const call = (ctx.api.sendMessage as jest.Mock).mock.calls[0][0];
+    expect(call.text).toContain("Олавка");
+    expect(call.reply_markup.inline_keyboard[1][0]).toEqual({ text: "Каталог", callback_data: "catalog" });
+  });
+
+  it("the owner's chat and the owner's mgr_ deep link need no password", async () => {
+    const owner = closed({ managerChatId: 555 });
+    await handleUpdate(messageUpdate(privateMessage({ text: "/catalog" })), owner);
+    expect(owner.shop.listCategories).toHaveBeenCalled();
+
+    const link = closed();
+    await handleUpdate(messageUpdate(privateMessage({ text: "/start mgr_linkcode123" })), link);
+    expect(link.shop.grantBotAccess).toHaveBeenCalled();
+    expect(link.shop.setManagerChat).toHaveBeenCalledWith(555);
+  });
+
+  it("button taps and inline queries from a stranger get the prompt and no data", async () => {
+    const ctx = closed();
+    await handleUpdate(callbackUpdate({ data: "catalog" }), ctx);
+    expect(ctx.api.answerCallbackQuery).toHaveBeenCalledWith(
+      expect.objectContaining({ callback_query_id: "cbq1", show_alert: true })
+    );
+    expect(ctx.api.editMessageText).not.toHaveBeenCalled();
+
+    await handleUpdate({ update_id: 3, inline_query: { id: "iq1", from: buyer(), query: "кружка" } }, ctx);
+    expect(ctx.shop.searchProducts).not.toHaveBeenCalled();
+    expect(ctx.api.answerInlineQuery).toHaveBeenCalledWith(expect.objectContaining({ results: [] }));
+  });
+
+  it("open mode (no hash) changes nothing", async () => {
+    const ctx = fakeCtx();
+    await handleUpdate(messageUpdate(privateMessage({ text: "/start" })), ctx);
+    expect(ctx.shop.hasBotAccess).not.toHaveBeenCalled();
+    const call = (ctx.api.sendMessage as jest.Mock).mock.calls[0][0];
+    expect(call.text).toContain("Олавка");
+  });
+
+  it("accessPasswordHashFromEnv accepts only a sha256 hex", () => {
+    expect(accessPasswordHashFromEnv({})).toBeNull();
+    expect(accessPasswordHashFromEnv({ SHOP_BOT_ACCESS_PASSWORD_SHA256: "abc" })).toBeNull();
+    const hex = sha256Hex("x").toUpperCase();
+    expect(accessPasswordHashFromEnv({ SHOP_BOT_ACCESS_PASSWORD_SHA256: ` ${hex} ` })).toBe(hex.toLowerCase());
+    expect(passwordMatches(hex.toLowerCase(), "x")).toBe(true);
+    expect(passwordMatches(hex.toLowerCase(), "y")).toBe(false);
+  });
+});
 
 /* ---------- /start ---------- */
 

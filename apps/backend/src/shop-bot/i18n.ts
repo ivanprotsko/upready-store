@@ -55,6 +55,9 @@ const ru = {
   cmd_orders_desc: "Мои заказы",
   cmd_manager_desc: "Написать менеджеру",
   cmd_help_desc: "Помощь",
+  access_prompt: "Магазин готовится к открытию. Введите пароль доступа одним сообщением.",
+  access_wrong_password: "Неверный пароль. Попробуйте ещё раз.",
+  access_granted: "Пароль принят, доступ открыт.",
 } as const;
 
 export type BotTextKey = keyof typeof ru;
@@ -105,6 +108,9 @@ const en: Record<BotTextKey, string> = {
   cmd_orders_desc: "My orders",
   cmd_manager_desc: "Message the manager",
   cmd_help_desc: "Help",
+  access_prompt: "The shop is getting ready to open. Send the access password as one message.",
+  access_wrong_password: "Wrong password. Try again.",
+  access_granted: "Password accepted, you're in.",
 };
 
 const catalogs: Record<ShopBotLocale, Record<BotTextKey, string>> = { ru, en };
