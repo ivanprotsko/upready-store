@@ -273,6 +273,25 @@ describe("parseLessonBody", () => {
     ])
   })
 
+  it("does not cut a quoted name at a full stop inside it (lesson 19, «Дюбаж»)", () => {
+    expect(
+      parseLessonBody(`Файл «Дюбаж. Инструкция по очищению печени»: ${FILES}/dubazh.pdf`)
+    ).toEqual([
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "file",
+            href: `${FILES}/dubazh.pdf`,
+            ext: "PDF",
+            name: "«Дюбаж. Инструкция по очищению печени»",
+            label: null,
+          },
+        ],
+      },
+    ])
+  })
+
   it("keeps the owner's own words for a file that is not introduced as «Файл …»", () => {
     const [block] = parseLessonBody(`Скачайте меню: ${FILES}/menu.pdf`)
     expect(block).toMatchObject({

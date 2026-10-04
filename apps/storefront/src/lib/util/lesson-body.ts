@@ -99,8 +99,6 @@ const BARE_URL = new RegExp(
 // Sentence punctuation typed right after an address is not part of it.
 const URL_TAIL = /[.,;:!?…»"')\]]+$/
 const URL_TAIL_IN_PARENS = /[.,;:!?…»"'\]]+$/
-// The words in front of an address name it only up to the sentence before them.
-const SENTENCE_BREAK = new RegExp("^([\\s\\S]*[.!?…]\\s+)([\\s\\S]+)$")
 const LABEL_SEPARATORS = /[\s:\-—–]+$/
 const FILE_PREFIX = /^(?:файлы?|file)(?=[\s«"“:]|$)\s*:?\s*/i
 const HAS_WORD = new RegExp("\\p{L}{3,}", "u")
@@ -143,6 +141,28 @@ const hostOf = (href: string): string => {
 }
 
 /**
+ * Where the last sentence of a text starts, the words in front of an address
+ * naming it only from there: after the last `.`, `!`, `?` or `…` followed by a
+ * space, a full stop inside «…» or “…” not counted, so «Файл «Дюбаж.
+ * Инструкция по очищению печени»:» stays one name.
+ */
+const lastSentenceStart = (text: string): number => {
+  let depth = 0
+  let start = 0
+  for (let index = 0; index < text.length; index++) {
+    const char = text[index]
+    if (char === "«" || char === "“") {
+      depth++
+    } else if ((char === "»" || char === "”") && depth > 0) {
+      depth--
+    } else if (depth === 0 && ".!?…".includes(char) && /\s/.test(text[index + 1] ?? "")) {
+      start = index + 1
+    }
+  }
+  return start
+}
+
+/**
  * Splits the text in front of an address into what stays text and the words
  * that name the address: the last sentence of it, separators trimmed, when it
  * has a real word and is not a whole paragraph.
@@ -152,9 +172,10 @@ const carveLabel = (before: string): { rest: string; label: string | null } => {
   if (!trimmed.trim()) {
     return { rest: "", label: null }
   }
-  const sentence = SENTENCE_BREAK.exec(trimmed)
-  const head = sentence ? sentence[1] : ""
-  const tail = (sentence ? sentence[2] : trimmed).trim()
+  const start = lastSentenceStart(trimmed)
+  const gap = /^\s*/.exec(trimmed.slice(start))?.[0] ?? ""
+  const head = trimmed.slice(0, start + gap.length)
+  const tail = trimmed.slice(start + gap.length).trim()
   if (!HAS_WORD.test(tail) || tail.length > MAX_LABEL_LENGTH) {
     return { rest: before, label: null }
   }
