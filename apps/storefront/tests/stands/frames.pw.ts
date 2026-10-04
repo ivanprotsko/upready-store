@@ -144,8 +144,8 @@ async function runJourney(page: Page, mode: "light" | "dark", standSlug: string)
   await stage(red, `cart (${mode})`, async () => {
     await addOpenProductToCart(page)
     await page.goto("/en/cart")
-    const { ok } = await captureFrame(page, page.getByTestId("product-row").first(), "product-row", "cart", mode, standSlug)
-    if (!ok) throw new Error("product-row never became visible")
+    const { ok } = await captureFrame(page, page.getByTestId("cart-sidebar-line").first(), "product-row", "cart", mode, standSlug)
+    if (!ok) throw new Error("cart-sidebar-line never became visible")
   })
 
   await stage(red, `checkout-pickup + order-success (${mode})`, async () => {

@@ -13,15 +13,24 @@ import CartContent from "./content"
 const CartTemplate = ({
   snapshot,
   error,
+  wishlistLoggedIn,
+  wishlistProductIds,
 }: {
   snapshot: CartSnapshot
   error?: string
+  wishlistLoggedIn: boolean
+  wishlistProductIds: readonly string[]
 }) => {
   return (
     <div className="overflow-x-hidden lg:py-10">
       <OrderErrorBanner error={error} />
       <div className="content-container" data-testid="cart-container">
-        <CartContent snapshot={snapshot} empty={<EmptyCartMessage />} />
+        <CartContent
+          snapshot={snapshot}
+          empty={<EmptyCartMessage />}
+          wishlistLoggedIn={wishlistLoggedIn}
+          wishlistProductIds={wishlistProductIds}
+        />
       </div>
     </div>
   )

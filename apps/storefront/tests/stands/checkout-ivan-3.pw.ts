@@ -40,7 +40,7 @@ test.describe("#1 return after sign-in", () => {
     await page.getByTestId("password-input").fill(CUSTOMER_PASSWORD)
     await page.getByTestId("sign-in-button").click()
     await page.waitForURL((url) => url.pathname === "/ru/cart", { timeout: 20_000 })
-    await expect(page.getByTestId("product-row").first()).toBeVisible()
+    await expect(page.getByTestId("cart-sidebar-line").first()).toBeVisible()
   })
 
   test("password login from the checkout page returns to checkout, cart kept", async ({

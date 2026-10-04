@@ -136,7 +136,7 @@ test.describe("checkout-card-0000", () => {
     await expect(page.getByTestId("demo-card-number-input")).not.toHaveValue("")
 
     await page.goto("/en/cart")
-    await expect(page.getByTestId("product-row").first()).toBeVisible()
+    await expect(page.getByTestId("cart-sidebar-line").first()).toBeVisible()
   })
 })
 
@@ -163,7 +163,7 @@ test.describe("checkout-card-9999", () => {
     // no raw query-string value reaches the screen outside the banner's own data attribute
     expect(await page.locator("body").innerText()).not.toContain("order_failed")
 
-    await expect(page.getByTestId("product-row").first()).toBeVisible()
+    await expect(page.getByTestId("cart-sidebar-line").first()).toBeVisible()
     await expect(page.getByTestId("order-error-retry-link")).toBeVisible()
     await expect(page.getByTestId("order-error-contact-link")).toBeVisible()
   })

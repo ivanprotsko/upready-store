@@ -147,8 +147,8 @@ const steps = [
     "the cart page shows the line",
     async () => {
       await page.goto(`${SHOP}/${LOCALE}/cart`)
-      await page.getByTestId("product-row").first().waitFor()
-      return `${await page.getByTestId("product-row").count()} row(s)`
+      await page.getByTestId("cart-sidebar-line").first().waitFor()
+      return `${await page.getByTestId("cart-sidebar-line").count()} row(s)`
     },
   ],
   [
