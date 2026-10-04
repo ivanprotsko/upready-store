@@ -285,7 +285,7 @@ const routes: RouteObject[] = [
             path: "/marketplaces/wildberries/orders/:id",
             handle: { breadcrumb: () => t("mp.orders.title") },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/marketplace-order-detail"),
+            lazy: () => import("./routes/marketplaces/mp-orders/detail"),
           },
           {
             path: "/marketplaces/wildberries/reviews",

@@ -486,7 +486,8 @@ export const fixtureOrders = (marketplace: MarketplaceId, params: MpOrdersParams
     limit: page.limit,
     offset: page.offset,
     facets: {
-      schemes: facet((o) => o.scheme, (v) => v),
+      // As the backend answers: an order without a scheme is the option `none`.
+      schemes: facet((o) => o.scheme ?? "none", (v) => (v === "none" ? "Без схемы" : v)),
       statuses: facet(
         (o) => o.status_key,
         (v) => STATUSES.find((s) => s[0] === v)?.[2] ?? "Статус площадка не присылает"

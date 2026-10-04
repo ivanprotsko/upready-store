@@ -1,1 +1,1 @@
-export { MarketplaceOrderDetail as Component } from "./marketplace-order-detail"
+export { MpOrderDetail as Component } from "./mp-order-detail"

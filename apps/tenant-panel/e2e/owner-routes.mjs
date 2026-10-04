@@ -271,13 +271,12 @@ export const PARAM_RESOLVERS = {
     return got.__fulfillment
   },
   mp_order_id: async (api) => {
-    const body = await api("/tenants/marketplace-orders?limit=20")
-    const list = body.orders ?? []
-    const mp = list.find((o) => o.source && o.source !== "store") ?? list[0]
-    if (!mp) {
-      throw new Error("the stand has no marketplace orders")
+    // «Wildberries → Заказы» (task-04): one marketplace per list, no shop rows.
+    const { orders } = await api("/tenants/marketplaces/wb/orders?limit=1")
+    if (!orders?.length) {
+      throw new Error("the stand has no Wildberries orders")
     }
-    return mp.id
+    return orders[0].id
   },
   // The panel never creates a return, so there is no real id to read. The route
   // renders the "not built" placeholder whatever the id is, and the walker only

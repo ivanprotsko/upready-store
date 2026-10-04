@@ -4741,10 +4741,10 @@
       "total": "Total"
     },
     "connection": {
-      "missing": "{{marketplace}}: no connection — no key is stored, so this marketplace has no orders in the feed at all.",
+      "missing": "{{marketplace}}: not connected. No key is saved, so no orders of this marketplace are loaded.",
       "never_run": "{{marketplace}}: connected, but the order import has never run.",
-      "failed": "{{marketplace}}: the orders did not load, {{error}}. An empty marketplace row in the table means the orders did not arrive, not that there are none.",
-      "rate_limited": "{{marketplace}}: the marketplace refused to serve orders right now (rate limit). That is neither a failure nor an absence of orders — some orders of the period may not be imported yet. Run the import again later.",
+      "failed": "{{marketplace}}: the orders did not load, {{error}}. New orders may be missing: the list is incomplete, not empty.",
+      "rate_limited": "{{marketplace}}: the marketplace asks to wait. Some new orders may appear later, there is nothing to do.",
       "noErrorText": "the marketplace sent no error text",
       "fixture": "{{marketplace}}: these rows come from recorded answers (fixtures), not from the marketplace."
     },
@@ -4763,7 +4763,18 @@
       "notInShop": "not in the shop",
       "history": "Status history",
       "historyHint": "What we saw at each import. Neither Wildberries nor Ozon hands out a status log, so the time here is ours.",
-      "observedAt": "Seen at"
+      "observedAt": "Seen at",
+      "back": "All {{marketplace}} orders",
+      "subtitle": "{{date}}, {{marketplace}}",
+      "subtitleUndated": "{{marketplace}}, the marketplace sent no order date",
+      "vendorCodeValue": "Article {{code}}",
+      "cardValue": "Card {{id}}",
+      "buyer": "Buyer",
+      "region": "Region",
+      "notReported": "the marketplace does not say",
+      "historyEmpty": "No import recorded a status for this order.",
+      "noStatusWord": "the marketplace sent no status",
+      "lastLoaded": "Last import"
     }
   },
   "marketplaceAnalytics": {
@@ -5631,16 +5642,46 @@
       }
     },
     "orders": {
-      "title": "Заказы",
-      "subtitle": "Заказы {{marketplace}}, всего {{count}}. Только просмотр: изменить заказ можно в кабинете площадки.",
-      "notConnected": "{{marketplace}} не подключён, заказов нет.",
-      "export": "Скачать в файл",
+      "title": "Orders",
+      "subtitle": "{{marketplace}} orders, {{count}} in total. View only: change an order in the marketplace's own cabinet.",
+      "notConnected": "{{marketplace}} is not connected, there are no orders.",
+      "export": "Download file",
       "empty": {
-        "title": "Заказов пока нет",
-        "message": "Когда {{marketplace}} пришлёт заказы, они появятся здесь."
+        "default": {
+          "title": "No orders yet",
+          "message": "Orders appear here once {{marketplace}} sends them."
+        },
+        "missing": {
+          "title": "{{marketplace}} is not connected",
+          "message": "Save the marketplace key and the orders start loading on their own."
+        },
+        "never_run": {
+          "title": "No orders have arrived yet",
+          "message": "The key is saved, but the order import has not run yet. You can start it on the «Sync» screen."
+        },
+        "failed": {
+          "title": "The orders did not load",
+          "message": "The last order import ended with an error, the details are above the table."
+        },
+        "rate_limited": {
+          "title": "{{marketplace}} asks to wait",
+          "message": "The orders appear after the next import, there is nothing to do."
+        }
+      },
+      "undated": {
+        "inList_one": "{{count}} order arrived without a date: sorted by date, it is at the end of the list.",
+        "inList_other": "{{count}} orders arrived without a date: sorted by date, they are at the end of the list.",
+        "outOfFilter_one": "{{count}} order without a date is outside the date filter.",
+        "outOfFilter_other": "{{count}} orders without a date are outside the date filter."
+      },
+      "links": {
+        "connect": "Connection and key",
+        "sync": "Sync"
       },
       "toasts": {
-        "exported": "Файл с заказами ({{count}}) подготовлен."
+        "exported": "The orders file ({{count}}) is ready.",
+        "truncated": "The file holds the first {{limit}} of {{count}} orders. Narrow the date filter to export the rest.",
+        "exportFailed": "The file did not download."
       }
     },
     "reviews": {
