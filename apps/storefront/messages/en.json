@@ -148,11 +148,12 @@
     "freeShipping": "Free",
     "giftCard": "Gift card",
     "itemsCount": "{count, plural, one {{count} item} other {{count} items}}",
-    "legal": "By clicking «{button}», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and confirm that you have read our <privacyPolicy>privacy policy</privacyPolicy>.",
+    "legal": "By clicking \"{button}\", I accept the <terms>Terms of Sale</terms> and confirm that I have read the <privacyPolicy>Privacy Policy</privacyPolicy>.",
     "manualInput": "Enter address manually",
     "addressIncomplete": "Fill in the required address fields: {fields}.",
     "provinceRequired": "Choose your region from the list.",
     "orderComposition": "Order summary",
+    "quantity": "Qty {quantity}",
     "paymentHeading": "Payment method",
     "paymentInterruptedHeading": "Your payment did not go through or was interrupted",
     "paymentInterruptedText": "Your cart is saved. Pay again or choose another payment method.",
@@ -1014,9 +1015,9 @@
     "title": "Change region"
   },
   "Register": {
-    "agreeText": "By creating a {siteName} account, you agree to",
+    "agreeText": "By creating a {siteName} account, I confirm that I have read the",
     "alreadyMember": "Already a member?",
-    "and": "and",
+    "and": "and accept the",
     "description": "Create a {siteName} account to keep your orders and addresses in one place and check out faster.",
     "email": "Email",
     "firstName": "First name",
@@ -1187,7 +1188,7 @@
     "register": "Create account"
   },
   "Shipments": {
-    "noDeliveryBadge": "online course, no delivery",
+    "noDeliveryBadge": "online course",
     "shipmentNo": "Shipment No. {no}",
     "digitalGroup": "Online course — access after payment confirmation",
     "accessByEmail": "Access to the course will come by e-mail once the payment is confirmed.",
@@ -1202,7 +1203,7 @@
     "canceled": "Cancelled"
   },
   "CheckoutConsent": {
-    "personalData": "I consent to the processing of my personal data in accordance with the <privacy>Privacy Policy</privacy>.",
+    "personalData": "I <consent>consent to the processing of my personal data</consent> in accordance with the <privacy>Privacy Policy</privacy>.",
     "marketing": "I agree to receive news, promotions and special offers by e-mail. I can unsubscribe at any time via the link in each e-mail.",
     "receipt": "A cashier's receipt will be sent to the e-mail you entered at checkout (54-FZ).",
     "hint": "To place the order, tick the consent to the processing of personal data."

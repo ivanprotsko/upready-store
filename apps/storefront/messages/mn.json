@@ -153,6 +153,7 @@
     "addressIncomplete": "Хаягийн заавал бөглөх талбаруудыг бөглөнө үү: {fields}.",
     "provinceRequired": "Жагсаалтаас бүс нутгаа сонгоно уу.",
     "orderComposition": "Захиалгын дэлгэрэнгүй",
+    "quantity": "Тоо: {quantity}",
     "paymentHeading": "Төлбөрийн арга",
     "paymentInterruptedHeading": "Төлбөр амжилтгүй болсон эсвэл тасалдсан",
     "paymentInterruptedText": "Таны сагс хадгалагдсан. Дахин төлөх эсвэл өөр төлбөрийн арга сонгоно уу.",

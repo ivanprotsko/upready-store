@@ -51,6 +51,26 @@ describe("buildConsentRecord", () => {
   })
 })
 
+describe("buildConsentRecord with a consent page", () => {
+  it("stamps the consent document the checkbox links, not the policy", () => {
+    const record = buildConsentRecord(
+      { personalData: true, marketing: false },
+      {
+        hasTenant: true,
+        pageKeys: ["offer", "privacy", "consent"],
+        versions: { consent: "2026-10-04T07:00:00.000Z" },
+      },
+      "ru",
+      now
+    )
+
+    expect(record.personal_data.document).toEqual({
+      href: "/pages/consent",
+      version: "2026-10-04T07:00:00.000Z",
+    })
+  })
+})
+
 describe("readConsentRecord", () => {
   it("reads the record back and ignores anything that is not one", () => {
     expect(readConsentRecord({ [CHECKOUT_CONSENT_METADATA_KEY]: { locale: "ru" } })).toEqual({ locale: "ru" })

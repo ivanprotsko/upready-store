@@ -153,6 +153,7 @@
     "addressIncomplete": "ঠিকানার আবশ্যক ঘরগুলো পূরণ করুন: {fields}।",
     "provinceRequired": "তালিকা থেকে অঞ্চল বেছে নিন।",
     "orderComposition": "অর্ডার সারসংক্ষেপ",
+    "quantity": "পরিমাণ: {quantity}",
     "paymentHeading": "পেমেন্ট পদ্ধতি",
     "paymentInterruptedHeading": "পেমেন্ট সম্পন্ন হয়নি বা বাধাপ্রাপ্ত হয়েছে",
     "paymentInterruptedText": "আপনার কার্ট সংরক্ষিত আছে। আবার পেমেন্ট করুন বা অন্য পেমেন্ট পদ্ধতি বেছে নিন।",

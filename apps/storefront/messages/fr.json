@@ -153,6 +153,7 @@
     "addressIncomplete": "Renseignez les champs obligatoires de l'adresse : {fields}.",
     "provinceRequired": "Choisissez la région dans la liste.",
     "orderComposition": "Récapitulatif de la commande",
+    "quantity": "Qté : {quantity}",
     "paymentHeading": "Mode de paiement",
     "paymentInterruptedHeading": "Le paiement n’a pas abouti ou a été interrompu",
     "paymentInterruptedText": "Votre panier est conservé. Payez à nouveau ou choisissez un autre moyen de paiement.",

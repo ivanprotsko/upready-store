@@ -153,6 +153,7 @@
     "addressIncomplete": "Vul de verplichte adresvelden in: {fields}.",
     "provinceRequired": "Kies je regio uit de lijst.",
     "orderComposition": "Besteloverzicht",
+    "quantity": "Aantal: {quantity}",
     "paymentHeading": "Betaalmethode",
     "paymentInterruptedHeading": "De betaling is mislukt of onderbroken",
     "paymentInterruptedText": "Je winkelwagen is bewaard. Betaal opnieuw of kies een andere betaalmethode.",

@@ -153,6 +153,7 @@
     "addressIncomplete": "Попълнете задължителните полета на адреса: {fields}.",
     "provinceRequired": "Изберете област от списъка.",
     "orderComposition": "Обобщение на поръчката",
+    "quantity": "{quantity} бр.",
     "paymentHeading": "Начин на плащане",
     "paymentInterruptedHeading": "Плащането не мина или беше прекъснато",
     "paymentInterruptedText": "Количката е запазена. Платете отново или изберете друг начин на плащане.",

@@ -153,6 +153,7 @@
     "addressIncomplete": "Fyll ut de obligatoriske adressefeltene: {fields}.",
     "provinceRequired": "Velg region fra listen.",
     "orderComposition": "Ordresammendrag",
+    "quantity": "{quantity} stk.",
     "paymentHeading": "Betalingsmetode",
     "paymentInterruptedHeading": "Betalingen gikk ikke gjennom eller ble avbrutt",
     "paymentInterruptedText": "Handlekurven er lagret. Betal på nytt eller velg en annen betalingsmåte.",

@@ -130,11 +130,6 @@ export default function CheckoutShippingSection({
   const [calculatedPricesMap, setCalculatedPricesMap] = useState<
     Record<string, number>
   >({})
-  // t04-shipping-tariffs: the backend's one-line reason for a tariff price
-  // («2,4 кг × 180 ₽ + 150 ₽»), keyed by option id.
-  const [explanationsMap, setExplanationsMap] = useState<
-    Record<string, string>
-  >({})
   const [shippingError, setShippingError] = useState<string | null>(null)
   const [shippingMethodId, setShippingMethodId] = useState<string | null>(
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
@@ -248,35 +243,31 @@ export default function CheckoutShippingSection({
       return
     }
 
-    // A tenant tariff method is priced by the quote route (amount + the
-    // explanation line); every other calculated option by Medusa's own
-    // `/calculate`. Both run on the backend.
+    // A tenant tariff method is priced by the quote route; every other
+    // calculated option by Medusa's own `/calculate`. Both run on the backend.
+    // The quote's explanation line («0,5 кг × $11 + $44») is not shown: the
+    // buyer sees the price alone (t-2026-10-04-22, f03).
     Promise.allSettled(
       calculatedMethods.map(async (sm) => {
         if (sm.provider_id === TARIFF_PROVIDER_ID) {
           const quote = await quoteShippingMethod(sm.id, cart.id)
           return quote
-            ? { id: sm.id, amount: quote.amount, explanation: quote.explanation }
+            ? { id: sm.id, amount: quote.amount }
             : null
         }
         const priced = await calculatePriceForShippingOption(sm.id, cart.id)
         return priced?.id
-          ? { id: priced.id, amount: priced.amount ?? 0, explanation: "" }
+          ? { id: priced.id, amount: priced.amount ?? 0 }
           : null
       })
     ).then((results) => {
       const pricesMap: Record<string, number> = {}
-      const reasons: Record<string, string> = {}
       results.forEach((r) => {
         if (r.status === "fulfilled" && r.value?.id) {
           pricesMap[r.value.id] = r.value.amount
-          if (r.value.explanation) {
-            reasons[r.value.id] = r.value.explanation
-          }
         }
       })
       setCalculatedPricesMap(pricesMap)
-      setExplanationsMap(reasons)
       setIsLoadingPrices(false)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -545,7 +536,6 @@ export default function CheckoutShippingSection({
             const zone = isPickupCard ? null : zoneLabel(option)
             const deliveryHint = dataText(option, "delivery_hint")
             const description = dataText(option, "description")
-            const explanation = explanationsMap[option.id] ?? null
             const deliveryLabel = !days
               ? deliveryHint
               : days.max === 0
@@ -769,14 +759,6 @@ export default function CheckoutShippingSection({
                     >
                       {tCdek("change")}
                     </button>
-                  )}
-                  {explanation && price !== null && (
-                    <span
-                      className="txt-compact-xsmall text-ui-fg-muted"
-                      data-testid="delivery-option-explanation"
-                    >
-                      {explanation}
-                    </span>
                   )}
                 </div>
               </div>

@@ -9,7 +9,7 @@ import Thumbnail from "@modules/products/components/thumbnail"
 type ItemProps = {
   item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem
   currencyCode: string
-  /** Batch 7: the translated «онлайн-курс, без доставки» for a no-delivery line, null for a posted one. */
+  /** Batch 7: the translated «онлайн-курс» badge for a no-delivery line, null for a posted one. */
   noDeliveryLabel?: string | null
 }
 

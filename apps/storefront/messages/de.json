@@ -153,6 +153,7 @@
     "addressIncomplete": "Füllen Sie die Pflichtfelder der Adresse aus: {fields}.",
     "provinceRequired": "Wähle die Region aus der Liste.",
     "orderComposition": "Bestellübersicht",
+    "quantity": "{quantity} Stk.",
     "paymentHeading": "Zahlungsart",
     "paymentInterruptedHeading": "Die Zahlung ist fehlgeschlagen oder wurde abgebrochen",
     "paymentInterruptedText": "Dein Warenkorb ist gespeichert. Bezahle erneut oder wähle eine andere Zahlungsart.",

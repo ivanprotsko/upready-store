@@ -642,6 +642,23 @@ export default function CheckoutPaymentSection({
             amount={chargeEstimate}
           />
         )}
+        {/* C2 of the 04.10 checklist (t-2026-10-04-22): one line right ABOVE the button.
+            The offer is accepted by pressing it, the policy is only read, and each
+            document name links its own page. Batch 7: the sentence names the button's own
+            words — «Оформить заказ» for a transfer by requisites, «Оплатить» for a gateway.
+            Catalogs that still name the usage terms and the return policy keep their chunks. */}
+        <p
+          className="txt-compact-small text-ui-fg-subtle"
+          data-testid="checkout-offer-line"
+        >
+          {t.rich("legal", {
+            button: buttonText,
+            terms: legalChunk("terms"),
+            termsOfUse: legalChunk("termsOfUse"),
+            returnPolicy: legalChunk("returns"),
+            privacyPolicy: legalChunk("privacy"),
+          })}
+        </p>
         <PaymentButton
           cart={cart}
           selectedPaymentMethod={selectedPaymentMethod}
@@ -657,21 +674,6 @@ export default function CheckoutPaymentSection({
             {tc("hint")}
           </p>
         )}
-        <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">
-          {/* Batch 7: the sentence names the button's own words — «Оформить заказ»
-              for a transfer by requisites, «Оплатить» for a gateway. The catalogs
-              that carry a `{button}` placeholder in `legal` substitute it; the rest
-              keep today's generic wording (the extra value is simply unused). */}
-          {t.rich("legal", {
-            button: buttonText,
-            terms: legalChunk("terms"),
-            // Its own slot since b14-pages-legal-content: the sentence names
-            // two documents and used to underline one.
-            termsOfUse: legalChunk("termsOfUse"),
-            returnPolicy: legalChunk("returns"),
-            privacyPolicy: legalChunk("privacy"),
-          })}
-        </p>
       </div>
     </div>
   )

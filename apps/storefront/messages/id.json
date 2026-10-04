@@ -153,6 +153,7 @@
     "addressIncomplete": "Lengkapi kolom alamat yang wajib diisi: {fields}.",
     "provinceRequired": "Pilih wilayah dari daftar.",
     "orderComposition": "Ringkasan Pesanan",
+    "quantity": "Jumlah: {quantity}",
     "paymentHeading": "Metode pembayaran",
     "paymentInterruptedHeading": "Pembayaran gagal atau terputus",
     "paymentInterruptedText": "Keranjang Anda tersimpan. Bayar lagi atau pilih metode pembayaran lain.",
