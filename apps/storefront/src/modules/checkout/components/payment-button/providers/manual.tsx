@@ -28,7 +28,6 @@ import {
  * provider shares.
  */
 const ManualPaymentButton = ({
-  cart,
   notReady,
   label,
   cartUpdating,
