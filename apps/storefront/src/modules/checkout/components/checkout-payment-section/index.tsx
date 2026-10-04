@@ -1,7 +1,7 @@
 "use client"
 
 import { useId, useState, useEffect, useRef, type ReactNode } from "react"
-import { initiatePaymentSession, updateCart } from "@lib/data/cart"
+import { initiatePaymentSessionOrReason, updateCart } from "@lib/data/cart"
 import { getChargeConversionFactor } from "@lib/data/payment"
 import {
   buildPaymentSessionData,
@@ -31,6 +31,7 @@ import PaymentButton from "@modules/checkout/components/payment-button"
 import PaymentPreNotice from "@modules/checkout/components/payment-pre-notice"
 import { CHECKOUT_PAYMENT_ANCHOR } from "@modules/checkout/components/robokassa-retry-notice"
 import ErrorMessage from "@modules/checkout/components/error-message"
+import PaymentSessionError from "@modules/checkout/components/payment-session-error"
 import { StripePaymentContainer } from "@modules/checkout/components/payment-container"
 import DemoCardFields, {
   EMPTY_DEMO_CARD,
@@ -115,6 +116,10 @@ export default function CheckoutPaymentSection({
     pickActivePaymentMethod(latestSession?.provider_id ?? "", availablePaymentMethods)
   )
   const [error, setError] = useState<string | null>(null)
+  // The payment session's own failure, apart from `error` (t-2026-10-04-44): a later
+  // session that is made clears it, and its line offers a retry.
+  const [sessionError, setSessionError] = useState<string | null>(null)
+  const [sessionRetrying, setSessionRetrying] = useState(false)
   const [, setPaymentComplete] = useState(false)
   const [billingOpen, setBillingOpen] = useState(false)
   const [showBillingDetails, setShowBillingDetails] = useState(false)
@@ -205,8 +210,16 @@ export default function CheckoutPaymentSection({
       return
     }
     initiatingRef.current = providerId
-    return initiatePaymentSession(cart, { provider_id: providerId, data })
-      .catch((e) => setError(e instanceof Error ? e.message : String(e)))
+    setSessionError(null)
+    // A refusal comes back as an `Errors` key, never as a thrown action
+    // (t-2026-10-04-44). The catch is the action call itself failing.
+    return initiatePaymentSessionOrReason(cart, { provider_id: providerId, data })
+      .then((refused) => {
+        if (refused) {
+          setSessionError(refused.error)
+        }
+      })
+      .catch((e) => setSessionError(e instanceof Error ? e.message : String(e)))
       .finally(() => {
         if (initiatingRef.current === providerId) {
           initiatingRef.current = null
@@ -268,6 +281,23 @@ export default function CheckoutPaymentSection({
       ?.length > 0 &&
     cart?.total === 0
   )
+
+  const retrySession = async () => {
+    if (
+      !selectedPaymentMethod ||
+      !isPaymentSessionReady(selectedPaymentMethod, cart)
+    ) {
+      setSessionError(null)
+      return
+    }
+
+    setSessionRetrying(true)
+    await startSession(
+      selectedPaymentMethod,
+      buildPaymentSessionData(selectedPaymentMethod, cart)
+    )
+    setSessionRetrying(false)
+  }
 
   const handleSelectPayment = async (providerId: string) => {
     setSelectedPaymentMethod(providerId)
@@ -607,6 +637,12 @@ export default function CheckoutPaymentSection({
         cart={cart}
       />
       )}
+
+      <PaymentSessionError
+        error={sessionError}
+        retrying={sessionRetrying}
+        onRetry={retrySession}
+      />
 
       <ErrorMessage error={error} data-testid="payment-method-error-message" />
 

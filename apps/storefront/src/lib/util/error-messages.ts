@@ -16,6 +16,7 @@ export const ERROR_MESSAGE_KEYS = [
   "shippingMethodMissing",
   "pickupPointMissing",
   "itemUnavailable",
+  "paymentNotReady",
 ] as const
 
 export type ErrorMessageKey = (typeof ERROR_MESSAGE_KEYS)[number]
