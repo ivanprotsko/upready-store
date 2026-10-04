@@ -4774,7 +4774,8 @@
       "notReported": "the marketplace does not say",
       "historyEmpty": "No import recorded a status for this order.",
       "noStatusWord": "the marketplace sent no status",
-      "lastLoaded": "Last import"
+      "lastLoaded": "Last import",
+      "buyerCurrency": "Buyer's currency"
     }
   },
   "marketplaceAnalytics": {

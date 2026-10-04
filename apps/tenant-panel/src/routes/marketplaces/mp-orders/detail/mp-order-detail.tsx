@@ -280,6 +280,8 @@ const BuyerSection = ({ detail }: { detail: MarketplaceOrderDetail }) => {
       </div>
       <Field label={t("marketplaceOrders.detail.region")}>{order.buyer_region ?? unknown}</Field>
       <Field label={t("marketplaceOrders.detail.warehouse")}>{order.warehouse_name ?? unknown}</Field>
+      {/* The buyer's country by the order's own code; the sums above are in the seller's currency. */}
+      <Field label={t("marketplaceOrders.detail.buyerCurrency")}>{order.buyer_currency ?? unknown}</Field>
     </Container>
   )
 }

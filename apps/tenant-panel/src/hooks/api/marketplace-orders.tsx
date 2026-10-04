@@ -42,7 +42,10 @@ export type FeedOrder = {
   buyer_region: string | null
   warehouse_name: string | null
   total: number | null
+  /** The currency `total` is in: the seller's (WB stores the converted sum). */
   currency: string | null
+  /** The code the marketplace put on the order: the buyer's country currency. */
+  buyer_currency: string | null
   is_cancelled: boolean
   lines_count: number
 }

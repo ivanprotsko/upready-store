@@ -241,7 +241,9 @@ const useColumns = () => {
     () => [
       columnHelper.accessor("number", {
         header: () => <span>{t("mp.fields.number")}</span>,
-        cell: ({ getValue }) => <span className="truncate tabular-nums">{getValue()}</span>,
+        // WB's statistics ids are 40-odd characters with no space: on a phone
+        // card they break anywhere rather than run past the edge.
+        cell: ({ getValue }) => <span className="truncate tabular-nums max-md:break-all">{getValue()}</span>,
         meta: { phoneTop: true },
       }),
       columnHelper.accessor("ordered_at", {

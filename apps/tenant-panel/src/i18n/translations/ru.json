@@ -4899,7 +4899,8 @@
       "notReported": "площадка не сообщает",
       "historyEmpty": "Ни одна загрузка не записала статус этого заказа.",
       "noStatusWord": "площадка не прислала статус",
-      "lastLoaded": "Последняя загрузка"
+      "lastLoaded": "Последняя загрузка",
+      "buyerCurrency": "Валюта покупателя"
     }
   },
   "marketplaceAnalytics": {

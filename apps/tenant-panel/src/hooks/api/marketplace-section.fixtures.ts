@@ -438,6 +438,7 @@ const buildOrders = (): FeedOrder[] => {
       warehouse_name: next() < 0.5 ? "Коледино" : "Электросталь",
       total: Math.round((250 + next() * 3200) / 1) ,
       currency: "RUB",
+      buyer_currency: "RUB",
       is_cancelled: key === "cancelled",
       lines_count: 1 + Math.floor(next() * 3),
     })
