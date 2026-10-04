@@ -12,6 +12,7 @@ import AccountLink from "@modules/layout/components/account-link"
 import CartButton from "@modules/layout/components/cart-button"
 import RegionSelect from "@modules/layout/components/region-select"
 import ScrollFlag from "@modules/layout/components/scroll-flag"
+import Search from "@modules/layout/components/search"
 import SideMenu from "@modules/layout/components/side-menu"
 import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
@@ -30,8 +31,9 @@ import styles from "./h7.module.css"
  *              flag + country name as plain text, the currency sign alone
  *              → `RegionSelect variant="text"` (the same dialog as every header).
  *   main     · wordmark, Ruslan Display 32px → `SiteLogo` (the tenant's short name or name).
- *   trailing · account icon, no fill → `/account`; «Корзина» → `CartButton variant="pill"`
- *              (white pill, the same shadow outline).
+ *   trailing · search icon → the Cmd+K palette; account icon → `/account`, both with no
+ *              fill; «Корзина» → `CartButton variant="pill"` (white pill, the same shadow
+ *              outline).
  * Tablet (640–1023, 235:16409, 57px) and mobile (<640, 235:16816, 53px): the wordmark
  * LEFT at 28px, then flag · currency sign · cart · burger as plain 40px / 36px icon
  * buttons, 1px apart (the node's dividers are at opacity 0), no fills, no rings.
@@ -105,6 +107,10 @@ export default async function NavH7() {
           </div>
 
           <div className={styles.trailing}>
+            {/* Search left of the account icon, the same plain button, opening the palette
+                Cmd+K opens (Ivan 04.10: «слева от контрола входа в личный кабинет добавим
+                контрол с поиском»). */}
+            <Search className={styles.iconButton} />
             {/* A guest's click opens the sign-in modal over the page (t-2026-10-04-24). */}
             <AccountLink
               aria-label={t("Nav.account")}
