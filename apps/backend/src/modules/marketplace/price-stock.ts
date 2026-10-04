@@ -925,5 +925,5 @@ export const toPriceStockCsv = (rows: readonly PriceStockRow[], label: string): 
   for (const row of rows) {
     lines.push(priceStockCsvCells(row, label).map(csvCell).join(SEPARATOR));
   }
-  return `﻿${lines.join("\r\n")}\r\n`;
+  return `\uFEFF${lines.join("\r\n")}\r\n`;
 };

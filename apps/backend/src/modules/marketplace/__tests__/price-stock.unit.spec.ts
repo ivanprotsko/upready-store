@@ -504,9 +504,9 @@ describe("экспорт", () => {
   it("строк в файле ровно столько, сколько строк отдано, плюс заголовок; BOM, ; и CRLF", () => {
     const csv = toPriceStockCsv(rows, "Wildberries");
 
-    expect(csv.startsWith("﻿")).toBe(true);
+    expect(csv.startsWith("\uFEFF")).toBe(true);
     expect(csv.trimEnd().split("\r\n")).toHaveLength(rows.length + 1);
-    expect(csv.split("\r\n")[0]).toBe(`﻿${priceStockCsvColumns("Wildberries").join(";")}`);
+    expect(csv.split("\r\n")[0]).toBe(`\uFEFF${priceStockCsvColumns("Wildberries").join(";")}`);
   });
 
   it("колонки идут в порядке таблицы: продукт, цены, остатки, где есть, обновлено", () => {
