@@ -153,6 +153,7 @@
     "addressIncomplete": "请填写地址的必填项：{fields}。",
     "provinceRequired": "请从列表中选择地区。",
     "orderComposition": "订单摘要",
+    "quantity": "数量：{quantity}",
     "paymentHeading": "支付方式",
     "paymentInterruptedHeading": "付款未成功或已中断",
     "paymentInterruptedText": "您的购物车已保存。请重新付款或选择其他付款方式。",

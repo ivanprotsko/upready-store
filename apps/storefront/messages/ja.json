@@ -153,6 +153,7 @@
     "addressIncomplete": "住所の必須項目を入力してください：{fields}。",
     "provinceRequired": "リストから地域を選択してください。",
     "orderComposition": "注文内容",
+    "quantity": "数量: {quantity}",
     "paymentHeading": "支払い方法",
     "paymentInterruptedHeading": "お支払いが完了しなかったか、中断されました",
     "paymentInterruptedText": "カートは保存されています。もう一度お支払いいただくか、別のお支払い方法を選択してください。",

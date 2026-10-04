@@ -1,17 +1,13 @@
 "use client"
 
-import { useState } from "react"
 import type { HttpTypes } from "@medusajs/types"
 import { convertToLocale } from "@lib/util/money"
 import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import { cartShipmentLines, shipmentGroups } from "@lib/util/shipment-groups"
 import { Badge } from "@medusajs/ui"
-import { updateLineItem } from "@lib/data/cart"
-import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
 import DeleteButton from "@modules/common/components/delete-button"
 import ProductMedia from "@modules/products/components/product-media"
 import { Link } from "@i18n/navigation"
-import { Loader } from "@medusajs/icons"
 import { useLocale, useTranslations } from "next-intl"
 
 interface CheckoutItemListProps {
@@ -25,10 +21,9 @@ function CheckoutItem({
   item: HttpTypes.StoreCartLineItem
   currencyCode: string
 }) {
-  const [updating, setUpdating] = useState(false)
   const locale = useLocale()
+  const t = useTranslations("CheckoutPage")
   const tShip = useTranslations("Shipments")
-  const { trackCartUpdate } = useCartUpdate()
 
   const imageUrl =
     item.thumbnail || item.variant?.product?.images?.[0]?.url || null
@@ -51,16 +46,7 @@ function CheckoutItem({
     item.variant?.title && item.variant.title.trim().toLowerCase() !== (item.product_title ?? "").trim().toLowerCase()
       ? item.variant.title
       : null
-  // Batch 6, Q3.5: a course is bought once — no «+» beyond 1 for a no-delivery line.
   const noDelivery = isNoDeliveryLine(item)
-  const maxQty = noDelivery ? 1 : 10
-
-  const changeQuantity = async (quantity: number) => {
-    setUpdating(true)
-    await trackCartUpdate(() =>
-      updateLineItem({ lineId: item.id, quantity })
-    ).finally(() => setUpdating(false))
-  }
 
   return (
     <div className="flex items-center justify-between gap-x-4">
@@ -102,35 +88,11 @@ function CheckoutItem({
           {item.quantity > 1 ? `${item.quantity} x ${unitPrice}` : total}
         </span>
 
-        <div className="flex items-center justify-center gap-x-4 h-6 px-2 bg-ui-bg-component shadow-elevation-card-rest rounded-[6px]">
-          <button
-            type="button"
-            onClick={() =>
-              item.quantity > 1 && changeQuantity(item.quantity - 1)
-            }
-            disabled={updating || item.quantity <= 1}
-            className="txt-compact-xlarge-plus text-ui-fg-subtle disabled:opacity-40 leading-none"
-          >
-            −
-          </button>
-          <span className="txt-compact-xsmall-plus text-ui-fg-subtle min-w-[12px] text-center">
-            {updating ? (
-              <Loader className="w-3 h-3 animate-spin" />
-            ) : (
-              item.quantity
-            )}
-          </span>
-          <button
-            type="button"
-            onClick={() =>
-              item.quantity < maxQty && changeQuantity(item.quantity + 1)
-            }
-            disabled={updating || item.quantity >= maxQty}
-            className="txt-compact-xlarge-plus text-ui-fg-subtle disabled:opacity-40 leading-none"
-          >
-            +
-          </button>
-        </div>
+        {/* Ivan 04.10 08:40 (t-2026-10-04-22): the checkout shows how many, it does not
+            change it — «1 шт.» as text, no − / + stepper. The cart keeps its stepper. */}
+        <span className="txt-compact-small text-ui-fg-subtle" data-testid="checkout-item-quantity">
+          {t("quantity", { quantity: item.quantity })}
+        </span>
       </div>
     </div>
   )

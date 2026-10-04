@@ -153,6 +153,7 @@
     "addressIncomplete": "Заповніть обов'язкові поля адреси: {fields}.",
     "provinceRequired": "Виберіть область зі списку.",
     "orderComposition": "Склад замовлення",
+    "quantity": "{quantity} шт.",
     "paymentHeading": "Спосіб оплати",
     "paymentInterruptedHeading": "Оплата не пройшла або була перервана",
     "paymentInterruptedText": "Кошик збережено. Оплатіть ще раз або виберіть інший спосіб оплати.",

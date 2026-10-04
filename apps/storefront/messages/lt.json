@@ -153,6 +153,7 @@
     "addressIncomplete": "Užpildykite privalomus adreso laukus: {fields}.",
     "provinceRequired": "Pasirinkite regioną iš sąrašo.",
     "orderComposition": "Užsakymo santrauka",
+    "quantity": "{quantity} vnt.",
     "paymentHeading": "Mokėjimo būdas",
     "paymentInterruptedHeading": "Mokėjimas nepavyko arba buvo nutrauktas",
     "paymentInterruptedText": "Krepšelis išsaugotas. Mokėkite dar kartą arba pasirinkite kitą mokėjimo būdą.",

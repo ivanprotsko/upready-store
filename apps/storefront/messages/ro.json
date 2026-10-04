@@ -153,6 +153,7 @@
     "addressIncomplete": "Completați câmpurile obligatorii ale adresei: {fields}.",
     "provinceRequired": "Alegeți regiunea din listă.",
     "orderComposition": "Rezumatul comenzii",
+    "quantity": "Cant.: {quantity}",
     "paymentHeading": "Metodă de plată",
     "paymentInterruptedHeading": "Plata nu a reușit sau a fost întreruptă",
     "paymentInterruptedText": "Coșul a fost păstrat. Plătiți din nou sau alegeți altă metodă de plată.",

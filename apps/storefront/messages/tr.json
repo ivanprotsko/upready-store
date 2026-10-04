@@ -153,6 +153,7 @@
     "addressIncomplete": "Adresin zorunlu alanlarını doldurun: {fields}.",
     "provinceRequired": "Listeden bölgenizi seçin.",
     "orderComposition": "Sipariş Özeti",
+    "quantity": "{quantity} adet",
     "paymentHeading": "Ödeme yöntemi",
     "paymentInterruptedHeading": "Ödeme gerçekleşmedi veya yarıda kesildi",
     "paymentInterruptedText": "Sepetiniz kaydedildi. Yeniden ödeyin veya başka bir ödeme yöntemi seçin.",

@@ -153,6 +153,7 @@
     "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ: {fields}.",
     "provinceRequired": "Chọn khu vực từ danh sách.",
     "orderComposition": "Tóm tắt đơn hàng",
+    "quantity": "Số lượng: {quantity}",
     "paymentHeading": "Phương thức thanh toán",
     "paymentInterruptedHeading": "Thanh toán không thành công hoặc bị gián đoạn",
     "paymentInterruptedText": "Giỏ hàng của bạn đã được lưu. Hãy thanh toán lại hoặc chọn phương thức thanh toán khác.",

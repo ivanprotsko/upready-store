@@ -153,6 +153,7 @@
     "addressIncomplete": "กรอกช่องที่จำเป็นของที่อยู่ให้ครบ: {fields}",
     "provinceRequired": "เลือกภูมิภาคจากรายการ",
     "orderComposition": "สรุปคำสั่งซื้อ",
+    "quantity": "จำนวน: {quantity}",
     "paymentHeading": "วิธีการชำระเงิน",
     "paymentInterruptedHeading": "การชำระเงินไม่สำเร็จหรือถูกขัดจังหวะ",
     "paymentInterruptedText": "ตะกร้าของคุณถูกบันทึกไว้แล้ว ชำระเงินอีกครั้งหรือเลือกวิธีชำระเงินอื่น",

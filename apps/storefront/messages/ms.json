@@ -153,6 +153,7 @@
     "addressIncomplete": "Lengkapkan medan alamat yang diwajibkan: {fields}.",
     "provinceRequired": "Pilih wilayah daripada senarai.",
     "orderComposition": "Ringkasan Pesanan",
+    "quantity": "Kuantiti: {quantity}",
     "paymentHeading": "Kaedah pembayaran",
     "paymentInterruptedHeading": "Pembayaran tidak berjaya atau terganggu",
     "paymentInterruptedText": "Troli anda disimpan. Bayar semula atau pilih kaedah pembayaran lain.",

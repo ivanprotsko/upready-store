@@ -153,6 +153,7 @@
     "addressIncomplete": "Συμπληρώστε τα υποχρεωτικά πεδία της διεύθυνσης: {fields}.",
     "provinceRequired": "Επιλέξτε περιοχή από τη λίστα.",
     "orderComposition": "Σύνοψη παραγγελίας",
+    "quantity": "Ποσότητα: {quantity}",
     "paymentHeading": "Τρόπος πληρωμής",
     "paymentInterruptedHeading": "Η πληρωμή δεν ολοκληρώθηκε ή διακόπηκε",
     "paymentInterruptedText": "Το καλάθι σας έχει αποθηκευτεί. Πληρώστε ξανά ή επιλέξτε άλλον τρόπο πληρωμής.",

@@ -153,6 +153,7 @@
     "addressIncomplete": "Vyplňte povinná pole adresy: {fields}.",
     "provinceRequired": "Vyberte kraj ze seznamu.",
     "orderComposition": "Souhrn objednávky",
+    "quantity": "{quantity} ks",
     "paymentHeading": "Způsob platby",
     "paymentInterruptedHeading": "Platba neproběhla nebo byla přerušena",
     "paymentInterruptedText": "Košík zůstal uložený. Zaplaťte znovu nebo zvolte jiný způsob platby.",

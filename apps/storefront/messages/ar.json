@@ -153,6 +153,7 @@
     "addressIncomplete": "املأ حقول العنوان المطلوبة: {fields}.",
     "provinceRequired": "اختر المنطقة من القائمة.",
     "orderComposition": "ملخص الطلب",
+    "quantity": "الكمية: {quantity}",
     "paymentHeading": "طريقة الدفع",
     "paymentInterruptedHeading": "لم تتم عملية الدفع أو تمت مقاطعتها",
     "paymentInterruptedText": "سلتك محفوظة. ادفع مرة أخرى أو اختر طريقة دفع أخرى.",

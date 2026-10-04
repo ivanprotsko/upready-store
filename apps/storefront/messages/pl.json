@@ -153,6 +153,7 @@
     "addressIncomplete": "Wypełnij wymagane pola adresu: {fields}.",
     "provinceRequired": "Wybierz region z listy.",
     "orderComposition": "Podsumowanie zamówienia",
+    "quantity": "{quantity} szt.",
     "paymentHeading": "Sposób płatności",
     "paymentInterruptedHeading": "Płatność nie powiodła się lub została przerwana",
     "paymentInterruptedText": "Koszyk został zachowany. Zapłać ponownie lub wybierz inną metodę płatności.",

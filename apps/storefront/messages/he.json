@@ -153,6 +153,7 @@
     "addressIncomplete": "מלאו את שדות החובה בכתובת: {fields}.",
     "provinceRequired": "בחר אזור מהרשימה.",
     "orderComposition": "סיכום הזמנה",
+    "quantity": "כמות: {quantity}",
     "paymentHeading": "אמצעי תשלום",
     "paymentInterruptedHeading": "התשלום לא עבר או שהופסק",
     "paymentInterruptedText": "העגלה שלך נשמרה. שלם שוב או בחר אמצעי תשלום אחר.",

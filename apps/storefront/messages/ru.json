@@ -153,6 +153,7 @@
     "addressIncomplete": "Заполните обязательные поля адреса: {fields}.",
     "provinceRequired": "Выберите область из списка.",
     "orderComposition": "Состав заказа",
+    "quantity": "{quantity} шт.",
     "paymentHeading": "Способ оплаты",
     "paymentInterruptedHeading": "Оплата не прошла или была прервана",
     "paymentInterruptedText": "Корзина сохранена. Оплатите ещё раз или выберите другой способ оплаты.",

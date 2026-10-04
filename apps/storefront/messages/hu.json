@@ -153,6 +153,7 @@
     "addressIncomplete": "Töltse ki a cím kötelező mezőit: {fields}.",
     "provinceRequired": "Válassza ki a régiót a listából.",
     "orderComposition": "Rendelés összesítése",
+    "quantity": "{quantity} db",
     "paymentHeading": "Fizetési mód",
     "paymentInterruptedHeading": "A fizetés nem sikerült vagy megszakadt",
     "paymentInterruptedText": "A kosár megmaradt. Fizessen újra, vagy válasszon másik fizetési módot.",

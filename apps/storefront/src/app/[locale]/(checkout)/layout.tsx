@@ -3,7 +3,7 @@ import { getSiteName } from "@lib/data/cookies"
 import { getLegalLinkContext } from "@lib/data/legal-links"
 import { legalHref } from "@lib/util/legal-links"
 import { customerContactLabel } from "@lib/util/telegram-contact"
-import { ArrowLeft, UserMini } from "@medusajs/icons"
+import { UserMini } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
@@ -41,16 +41,14 @@ export default async function CheckoutLayout({
       <header className="border-b border-ui-border-base bg-ui-bg-base sticky top-0 z-40">
         <div className="flex items-center content-container py-3 h-16">
           <div className="flex flex-1 items-center">
+            {/* Ivan 04.10 08:40 (t-2026-10-04-22): no «В корзину» control on the checkout.
+                The phone keeps the shop's name here, as a link home like the desktop one. */}
             <Link
-              href="/cart"
-              className="flex items-center gap-x-2 txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-              data-testid="back-to-cart-link"
+              href="/"
+              className="sm:hidden txt-compact-medium-plus font-semibold uppercase whitespace-nowrap text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+              data-testid="store-link-mobile"
             >
-              <ArrowLeft className="rtl:rotate-180" />
-              <span className="hidden sm:inline">{t("backToCart")}</span>
-              <span className="sm:hidden font-semibold uppercase whitespace-nowrap">
-                {siteName}
-              </span>
+              {siteName}
             </Link>
           </div>
 

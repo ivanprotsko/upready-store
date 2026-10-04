@@ -153,6 +153,7 @@
     "addressIncomplete": "पते के अनिवार्य फ़ील्ड भरें: {fields}।",
     "provinceRequired": "सूची से क्षेत्र चुनें।",
     "orderComposition": "ऑर्डर सारांश",
+    "quantity": "मात्रा: {quantity}",
     "paymentHeading": "भुगतान विधि",
     "paymentInterruptedHeading": "भुगतान नहीं हुआ या बीच में रुक गया",
     "paymentInterruptedText": "आपका कार्ट सहेजा गया है। फिर से भुगतान करें या कोई दूसरा भुगतान तरीका चुनें।",

@@ -153,6 +153,7 @@
     "addressIncomplete": "შეავსეთ მისამართის სავალდებულო ველები: {fields}.",
     "provinceRequired": "აირჩიეთ რეგიონი სიიდან.",
     "orderComposition": "შეკვეთის შეჯამება",
+    "quantity": "რაოდენობა: {quantity}",
     "paymentHeading": "გადახდის მეთოდი",
     "paymentInterruptedHeading": "გადახდა ვერ შესრულდა ან შეწყდა",
     "paymentInterruptedText": "კალათა შენახულია. გადაიხადეთ ხელახლა ან აირჩიეთ გადახდის სხვა მეთოდი.",
