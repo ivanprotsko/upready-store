@@ -870,6 +870,7 @@
     "placeOrder": "পে করুন",
     "placeOrderManual": "অর্ডার করুন",
     "redirectUnavailable": "পেমেন্ট পৃষ্ঠা এখনও উপলব্ধ নয়। একটু পরে আবার চেষ্টা করুন।",
+    "robokassaFailed": "পেমেন্ট সম্পন্ন হয়নি। আবার চেষ্টা করুন বা অন্য পেমেন্ট পদ্ধতি বেছে নিন।",
     "selectPaymentMethod": "একটি পেমেন্ট পদ্ধতি নির্বাচন করুন"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "ক্রেডিট কার্ড",
-    "pp_system_default": "ম্যানুয়াল পেমেন্ট"
+    "pp_system_default": "ম্যানুয়াল পেমেন্ট",
+    "robokassaBankCard": "ব্যাংক কার্ড",
+    "robokassaCard120Days": "120 দিন সুদমুক্ত কার্ড",
+    "robokassaHalva": "Halva কার্ড",
+    "robokassaSbp": "দ্রুত পেমেন্ট সিস্টেম (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "«{button}»-এ ক্লিক করে আপনি {seller}-এর গ্রাহক হচ্ছেন এবং নিশ্চিত করছেন যে আপনি <terms>শর্তাবলী</terms> ও <privacy>গোপনীয়তা নীতি</privacy> পড়েছেন।",

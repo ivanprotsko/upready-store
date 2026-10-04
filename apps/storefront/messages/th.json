@@ -870,6 +870,7 @@
     "placeOrder": "ชำระเงิน",
     "placeOrderManual": "สั่งซื้อ",
     "redirectUnavailable": "หน้าชำระเงินยังไม่พร้อมใช้งาน โปรดลองอีกครั้งในอีกสักครู่",
+    "robokassaFailed": "การชำระเงินไม่สำเร็จ ลองอีกครั้งหรือเลือกวิธีการชำระเงินอื่น",
     "selectPaymentMethod": "เลือกวิธีการชำระเงิน"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "บัตรเครดิต",
-    "pp_system_default": "ชำระเงินด้วยตนเอง"
+    "pp_system_default": "ชำระเงินด้วยตนเอง",
+    "robokassaBankCard": "บัตรธนาคาร",
+    "robokassaCard120Days": "บัตร 120 วันไม่มีดอกเบี้ย",
+    "robokassaHalva": "บัตร Halva",
+    "robokassaSbp": "ระบบชำระเงินด่วน (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "เมื่อคลิก «{button}» คุณจะเป็นลูกค้าของ {seller} และยืนยันว่าได้อ่าน<terms>ข้อกำหนด</terms>และ<privacy>นโยบายความเป็นส่วนตัว</privacy>แล้ว",

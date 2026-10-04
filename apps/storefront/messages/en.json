@@ -870,6 +870,7 @@
     "placeOrder": "Pay",
     "placeOrderManual": "Place order",
     "redirectUnavailable": "The payment page is not available yet. Try again in a moment.",
+    "robokassaFailed": "The payment did not go through. Try again or choose another payment method.",
     "selectPaymentMethod": "Select a payment method"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Credit card",
-    "pp_system_default": "Manual payment"
+    "pp_system_default": "Manual payment",
+    "robokassaBankCard": "Bank card",
+    "robokassaCard120Days": "120 Days Interest-Free card",
+    "robokassaHalva": "Halva card",
+    "robokassaSbp": "Faster Payments (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "By clicking «{button}», you become a customer of {seller} and confirm you have read the <terms>terms</terms> and the <privacy>privacy policy</privacy>.",

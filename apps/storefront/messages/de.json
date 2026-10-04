@@ -870,6 +870,7 @@
     "placeOrder": "Bezahlen",
     "placeOrderManual": "Bestellung aufgeben",
     "redirectUnavailable": "Die Zahlungsseite ist noch nicht verfügbar. Versuchen Sie es gleich noch einmal.",
+    "robokassaFailed": "Die Zahlung ist nicht durchgegangen. Versuchen Sie es erneut oder wählen Sie eine andere Zahlungsart.",
     "selectPaymentMethod": "Zahlungsart auswählen"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kreditkarte",
-    "pp_system_default": "Manuelle Zahlung"
+    "pp_system_default": "Manuelle Zahlung",
+    "robokassaBankCard": "Bankkarte",
+    "robokassaCard120Days": "Karte „120 Tage zinsfrei“",
+    "robokassaHalva": "Halva-Karte",
+    "robokassaSbp": "Schnellzahlungssystem (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Mit Klick auf «{button}» werden Sie Kunde von {seller} und bestätigen, dass Sie die <terms>Bedingungen</terms> und die <privacy>Datenschutzerklärung</privacy> gelesen haben.",

@@ -870,6 +870,7 @@
     "placeOrder": "Mokėti",
     "placeOrderManual": "Pateikti užsakymą",
     "redirectUnavailable": "Mokėjimo puslapis dar nepasiekiamas. Pabandykite dar kartą po akimirkos.",
+    "robokassaFailed": "Mokėjimas nepavyko. Bandykite dar kartą arba pasirinkite kitą mokėjimo būdą.",
     "selectPaymentMethod": "Pasirinkite mokėjimo būdą"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kredito kortelė",
-    "pp_system_default": "Rankinis mokėjimas"
+    "pp_system_default": "Rankinis mokėjimas",
+    "robokassaBankCard": "Banko kortelė",
+    "robokassaCard120Days": "Kortelė „120 dienų be palūkanų“",
+    "robokassaHalva": "Halva kortelė",
+    "robokassaSbp": "Greitųjų mokėjimų sistema (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Spausdami „{button}“, jūs tampate pardavėjo {seller} klientu ir patvirtinate, kad susipažinote su <terms>sąlygomis</terms> ir <privacy>privatumo politika</privacy>.",

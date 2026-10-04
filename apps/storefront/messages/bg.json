@@ -870,6 +870,7 @@
     "placeOrder": "Плати",
     "placeOrderManual": "Направи поръчка",
     "redirectUnavailable": "Страницата за плащане още не е достъпна. Опитайте отново след малко.",
+    "robokassaFailed": "Плащането не премина. Опитайте отново или изберете друг начин на плащане.",
     "selectPaymentMethod": "Изберете начин на плащане"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Кредитна карта",
-    "pp_system_default": "Ръчно плащане"
+    "pp_system_default": "Ръчно плащане",
+    "robokassaBankCard": "Банкова карта",
+    "robokassaCard120Days": "Карта „120 дни без лихва“",
+    "robokassaHalva": "Карта Халва",
+    "robokassaSbp": "Система за бързи плащания (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "С натискането на «{button}» ставате клиент на {seller} и потвърждавате, че сте се запознали с <terms>условията</terms> и <privacy>политиката за поверителност</privacy>.",

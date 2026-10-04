@@ -870,6 +870,7 @@
     "placeOrder": "Төлөх",
     "placeOrderManual": "Захиалга өгөх",
     "redirectUnavailable": "Төлбөрийн хуудас хараахан бэлэн болоогүй байна. Хэсэг хугацааны дараа дахин оролдоно уу.",
+    "robokassaFailed": "Төлбөр амжилтгүй боллоо. Дахин оролдох эсвэл өөр төлбөрийн хэрэгсэл сонгоно уу.",
     "selectPaymentMethod": "Төлбөрийн аргаа сонгоно уу"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Кредит карт",
-    "pp_system_default": "Гар аргаар төлөх"
+    "pp_system_default": "Гар аргаар төлөх",
+    "robokassaBankCard": "Банкны карт",
+    "robokassaCard120Days": "120 хоног хүүгүй карт",
+    "robokassaHalva": "Halva карт",
+    "robokassaSbp": "Шуурхай төлбөрийн систем (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "«{button}» товчийг дарснаар та {seller} худалдагчийн үйлчлүүлэгч болж, <terms>нөхцөл</terms> болон <privacy>нууцлалын бодлого</privacy>-той танилцсанаа баталж байна.",

@@ -870,6 +870,7 @@
     "placeOrder": "支払う",
     "placeOrderManual": "注文する",
     "redirectUnavailable": "決済ページはまだ利用できません。しばらくしてからもう一度お試しください。",
+    "robokassaFailed": "お支払いが完了しませんでした。もう一度お試しいただくか、別のお支払い方法を選択してください。",
     "selectPaymentMethod": "支払い方法を選択してください"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "クレジットカード",
-    "pp_system_default": "手動決済"
+    "pp_system_default": "手動決済",
+    "robokassaBankCard": "銀行カード",
+    "robokassaCard120Days": "120日間無利息カード",
+    "robokassaHalva": "Halvaカード",
+    "robokassaSbp": "高速決済システム（SBP）"
   },
   "PaymentPreNotice": {
     "becomesClient": "「{button}」をクリックすることで、{seller} の顧客となり、<terms>販売条件</terms>および<privacy>プライバシーポリシー</privacy>を確認したものとします。",

@@ -870,6 +870,7 @@
     "placeOrder": "Öde",
     "placeOrderManual": "Siparişi ver",
     "redirectUnavailable": "Ödeme sayfası henüz hazır değil. Birazdan tekrar deneyin.",
+    "robokassaFailed": "Ödeme gerçekleşmedi. Tekrar deneyin veya başka bir ödeme yöntemi seçin.",
     "selectPaymentMethod": "Bir ödeme yöntemi seçin"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kredi kartı",
-    "pp_system_default": "Manuel ödeme"
+    "pp_system_default": "Manuel ödeme",
+    "robokassaBankCard": "Banka kartı",
+    "robokassaCard120Days": "120 gün faizsiz kart",
+    "robokassaHalva": "Halva kartı",
+    "robokassaSbp": "Hızlı Ödeme Sistemi (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "«{button}» düğmesine tıklayarak {seller} müşterisi olursunuz ve <terms>şartları</terms> ile <privacy>gizlilik politikasını</privacy> okuduğunuzu onaylarsınız.",

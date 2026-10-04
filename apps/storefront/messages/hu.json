@@ -870,6 +870,7 @@
     "placeOrder": "Fizetés",
     "placeOrderManual": "Megrendelés",
     "redirectUnavailable": "A fizetési oldal még nem érhető el. Próbálja újra egy pillanat múlva.",
+    "robokassaFailed": "A fizetés nem sikerült. Próbálja újra, vagy válasszon másik fizetési módot.",
     "selectPaymentMethod": "Válasszon fizetési módot"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Bankkártya",
-    "pp_system_default": "Kézi fizetés"
+    "pp_system_default": "Kézi fizetés",
+    "robokassaBankCard": "Bankkártya",
+    "robokassaCard120Days": "120 nap kamatmentes kártya",
+    "robokassaHalva": "Halva kártya",
+    "robokassaSbp": "Gyorsfizetési rendszer (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "„{button}” gombra kattintva Ön {seller} ügyfelévé válik, és megerősíti, hogy elolvasta a <terms>feltételeket</terms> és az <privacy>adatvédelmi szabályzatot</privacy>.",

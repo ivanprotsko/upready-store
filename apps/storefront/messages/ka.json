@@ -870,6 +870,7 @@
     "placeOrder": "გადახდა",
     "placeOrderManual": "შეკვეთის გაფორმება",
     "redirectUnavailable": "გადახდის გვერდი ჯერ მიუწვდომელია. სცადეთ ხელახლა ცოტა ხანში.",
+    "robokassaFailed": "გადახდა ვერ შესრულდა. სცადეთ ხელახლა ან აირჩიეთ გადახდის სხვა საშუალება.",
     "selectPaymentMethod": "აირჩიეთ გადახდის მეთოდი"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "საკრედიტო ბარათი",
-    "pp_system_default": "ხელით გადახდა"
+    "pp_system_default": "ხელით გადახდა",
+    "robokassaBankCard": "საბანკო ბარათი",
+    "robokassaCard120Days": "ბარათი „120 დღე უპროცენტოდ“",
+    "robokassaHalva": "Halva ბარათი",
+    "robokassaSbp": "სწრაფი გადახდების სისტემა (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "«{button}»-ზე დაწკაპუნებით თქვენ ხდებით {seller}-ის კლიენტი და ადასტურებთ, რომ გაეცანით <terms>პირობებს</terms> და <privacy>კონფიდენციალურობის პოლიტიკას</privacy>.",

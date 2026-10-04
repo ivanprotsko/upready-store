@@ -870,6 +870,7 @@
     "placeOrder": "Maksa",
     "placeOrderManual": "Tee tilaus",
     "redirectUnavailable": "Maksusivu ei ole vielä käytettävissä. Yritä hetken kuluttua uudelleen.",
+    "robokassaFailed": "Maksu ei mennyt läpi. Yritä uudelleen tai valitse toinen maksutapa.",
     "selectPaymentMethod": "Valitse maksutapa"
   },
   "PaymentContainer": {
@@ -889,7 +890,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Luottokortti",
-    "pp_system_default": "Manuaalinen maksu"
+    "pp_system_default": "Manuaalinen maksu",
+    "robokassaBankCard": "Pankkikortti",
+    "robokassaCard120Days": "120 päivää koroton -kortti",
+    "robokassaHalva": "Halva-kortti",
+    "robokassaSbp": "Pikamaksujärjestelmä (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Klikkaamalla «{button}» sinusta tulee myyjän {seller} asiakas ja vahvistat lukeneesi <terms>ehdot</terms> ja <privacy>tietosuojakäytännön</privacy>.",
