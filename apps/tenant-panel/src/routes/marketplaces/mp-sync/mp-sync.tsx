@@ -57,7 +57,10 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
     data: sync?.marketplace.kinds ?? [],
     columns,
     count: sync?.marketplace.kinds.length ?? 0,
-    enablePagination: false,
+    // The table primitive reads its pagination state even when no pages are
+    // drawn; one page of 50 holds every kind a marketplace has.
+    enablePagination: true,
+    pageSize: 50,
     getRowId: (row) => row.kind,
   })
 
@@ -132,9 +135,8 @@ export const MpSync = ({ marketplace = "wb" }: { marketplace?: MarketplaceId }) 
           table={table}
           columns={columns}
           count={entry?.kinds.length ?? 0}
-          pageSize={12}
+          pageSize={50}
           isLoading={isPending}
-          pagination={false}
           noRecords={{ title: t("mp.sync.title"), message: t("mp.sync.nothingScheduled", { marketplace: label }) }}
         />
       )}
