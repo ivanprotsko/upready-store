@@ -36,6 +36,8 @@ const LoginTemplate = ({
   loginSettings,
   telegramBot,
   returnTo,
+  inModal = false,
+  emailOpen,
 }: {
   siteName: string
   legal: LegalLinkContext
@@ -44,6 +46,10 @@ const LoginTemplate = ({
   telegramBot: TelegramBot | null
   /** Where to send the buyer after signing in, from the server page's `?return=` (rule 19g). */
   returnTo: string | null
+  /** Drawn inside the sign-in modal (`LoginModal`): no page padding, no second «Вход» heading. */
+  inModal?: boolean
+  /** Start with the e-mail form unfolded; the page does when the shop signs in by e-mail. */
+  emailOpen?: boolean
 }) => {
   const [currentView, setCurrentView] = useState<LOGIN_VIEW>(
     LOGIN_VIEW.SIGN_IN
@@ -51,13 +57,17 @@ const LoginTemplate = ({
   const emailEnabled = allowsEmailLogin(loginSettings.method)
 
   return (
-    <div className="w-full flex justify-center px-8 py-8">
+    <div className={inModal ? "w-full flex justify-center" : "w-full flex justify-center px-8 py-8"}>
       {currentView === LOGIN_VIEW.SIGN_IN && (
         <Login
           setCurrentView={setCurrentView}
           loginSettings={loginSettings}
           telegramBot={telegramBot}
           returnTo={returnTo}
+          siteName={siteName}
+          legal={legal}
+          inModal={inModal}
+          emailOpen={emailOpen ?? !inModal}
         />
       )}
       {currentView === LOGIN_VIEW.REGISTER && emailEnabled && (

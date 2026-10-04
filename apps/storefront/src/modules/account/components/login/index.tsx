@@ -1,18 +1,14 @@
 "use client"
 
-import { login } from "@lib/data/customer"
-import { allowsEmailLogin, yandexLoginAvailable, type TenantLoginSettings } from "@lib/tenant/login-settings"
-import { LOGIN_VIEW } from "@modules/account/templates/login-template"
-import ErrorMessage from "@modules/checkout/components/error-message"
-import { SubmitButton } from "@modules/checkout/components/submit-button"
-import Input from "@modules/common/components/input"
-import YandexLogin from "@modules/account/components/yandex-login"
-import TelegramLogin from "@modules/account/components/telegram-login"
-import type { TelegramBot } from "@lib/data/telegram-bot"
-import { useActionState, useRef } from "react"
+import { usePathname, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 
-import { readWishlistStorage } from "@lib/util/wishlist-storage"
+import type { TelegramBot } from "@lib/data/telegram-bot"
+import { allowsEmailLogin, yandexLoginAvailable, type TenantLoginSettings } from "@lib/tenant/login-settings"
+import type { LegalLinkContext } from "@lib/util/legal-links"
+import SignInMethods from "@modules/account/components/sign-in-methods"
+import YandexLoginError from "@modules/account/components/yandex-login"
+import { LOGIN_VIEW } from "@modules/account/templates/login-template"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -20,102 +16,73 @@ type Props = {
   loginSettings: TenantLoginSettings
   /** This shop's own Telegram bot, or null — from the same server page (rule 19g). */
   telegramBot: TelegramBot | null
-  /** Where to send the buyer after signing in, from the same server page (rule 19g). */
+  /** Where to send the buyer after signing in; null means back to this very address. */
   returnTo: string | null
+  siteName: string
+  legal: LegalLinkContext
+  /** Drawn inside the sign-in modal, whose own title already says «Вход». */
+  inModal?: boolean
+  /** Start with the e-mail form unfolded. */
+  emailOpen?: boolean
 }
 
-const Login = ({ setCurrentView, loginSettings, telegramBot, returnTo }: Props) => {
+/**
+ * The sign-in view of `/account` for a guest and of the sign-in modal: a heading, one line on
+ * what the account is for, and `SignInMethods`, the same block the cart sidebar draws
+ * (t-2026-10-04-24, Ivan 04.10: «вход нужно сделать в popup без перехода на другую
+ * страницу»). The «или» divider is gone with the old layout: it stood between the e-mail form
+ * and Yandex ID, and on a Yandex-only shop (cherkashino.ru) it was a divider with nothing above
+ * it under an empty gap. Registration is the e-mail form's own second button; «Забыли пароль?»
+ * stays here, under the methods, for a shop that signs in by e-mail.
+ */
+const Login = ({
+  setCurrentView,
+  loginSettings,
+  telegramBot,
+  returnTo,
+  siteName,
+  legal,
+  inModal = false,
+  emailOpen = false,
+}: Props) => {
   const t = useTranslations("Login")
-  const [message, formAction] = useActionState(login, null)
+  const pathname = usePathname() ?? "/"
+  const searchParams = useSearchParams()
   const emailEnabled = allowsEmailLogin(loginSettings.method)
   const yandexEnabled = yandexLoginAvailable(loginSettings)
-  const wishlistFieldRef = useRef<HTMLInputElement>(null)
+
+  // With no explicit `?return=` the buyer comes back to this same address, query string
+  // included; the handlers re-validate it as a same-origin path before trusting it.
+  const query = searchParams?.toString()
+  const back = returnTo ?? (query ? `${pathname}?${query}` : pathname)
 
   return (
     <div
-      className="max-w-sm w-full flex flex-col items-center"
+      className="max-w-sm w-full flex flex-col gap-y-6"
       data-testid="login-page"
     >
-      <h1 className="text-large-semi uppercase mb-6">{t("heading")}</h1>
-      <p className="text-center text-base-regular text-ui-fg-base mb-8">
-        {t("description")}
-      </p>
-      {emailEnabled && (
-        <form
-          className="w-full"
-          action={formAction}
-          onSubmit={() => {
-            // Read just before the native submit reaches the server action
-            // (t-cherk-32): the guest wishlist, merged into the account by
-            // `login()` once it has the customer's id.
-            if (wishlistFieldRef.current) {
-              wishlistFieldRef.current.value = JSON.stringify(
-                readWishlistStorage(window.localStorage)
-              )
-            }
-          }}
-        >
-          {returnTo && <input type="hidden" name="returnTo" value={returnTo} />}
-          <input type="hidden" name="wishlist_product_ids" ref={wishlistFieldRef} />
-          <div className="flex flex-col w-full gap-y-2">
-            <Input
-              label={t("email")}
-              name="email"
-              type="email"
-              title={t("emailTitle")}
-              autoComplete="email"
-              required
-              data-testid="email-input"
-            />
-            <Input
-              label={t("password")}
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              data-testid="password-input"
-            />
-          </div>
-          <div className="flex justify-end mt-2">
-            <button
-              type="button"
-              onClick={() => setCurrentView(LOGIN_VIEW.FORGOT_PASSWORD)}
-              className="text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline"
-              data-testid="forgot-password-button"
-            >
-              {t("forgotPassword")}
-            </button>
-          </div>
-          <ErrorMessage error={message} data-testid="login-error-message" />
-          <SubmitButton
-            size="large"
-            data-testid="sign-in-button"
-            className="w-full mt-6"
-          >
-            {t("signIn")}
-          </SubmitButton>
-        </form>
-      )}
-      {/* Renders nothing when this shop turned Yandex ID off, or the platform
-          has no keys at all — o25-login-methods, @lib/tenant/login-settings. */}
-      <YandexLogin available={yandexEnabled} />
-      <TelegramLogin
-        bot={telegramBot}
-        returnTo={returnTo}
-        withDivider={!yandexEnabled && emailEnabled}
+      <div className="flex flex-col items-center gap-y-3 text-center">
+        {inModal ? null : <h1 className="text-large-semi uppercase">{t("heading")}</h1>}
+        <p className="text-base-regular text-ui-fg-base">{t("description")}</p>
+      </div>
+      <SignInMethods
+        loginSettings={loginSettings}
+        telegramBot={telegramBot}
+        returnTo={back}
+        siteName={siteName}
+        legal={legal}
+        emailOpen={emailOpen}
       />
+      <YandexLoginError available={yandexEnabled} />
       {emailEnabled && (
-        <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          {t("notMember")}{" "}
-          <button
-            onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)}
-            className="underline"
-            data-testid="register-button"
-          >
-            {t("joinUs")}
-          </button>
-          .
-        </span>
+        <button
+          type="button"
+          onClick={() => setCurrentView(LOGIN_VIEW.FORGOT_PASSWORD)}
+          className="self-center text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline"
+          data-testid="forgot-password-button"
+        >
+          {t("forgotPassword")}
+        </button>
       )}
     </div>
   )

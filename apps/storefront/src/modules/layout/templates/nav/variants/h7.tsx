@@ -8,6 +8,7 @@ import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import { User } from "@medusajs/icons"
+import AccountLink from "@modules/layout/components/account-link"
 import CartButton from "@modules/layout/components/cart-button"
 import RegionSelect from "@modules/layout/components/region-select"
 import ScrollFlag from "@modules/layout/components/scroll-flag"
@@ -104,14 +105,14 @@ export default async function NavH7() {
           </div>
 
           <div className={styles.trailing}>
-            <Link
-              href="/account"
+            {/* A guest's click opens the sign-in modal over the page (t-2026-10-04-24). */}
+            <AccountLink
               aria-label={t("Nav.account")}
               className={styles.iconButton}
               data-testid="nav-account-link"
             >
               <User className={styles.icon} />
-            </Link>
+            </AccountLink>
             <CartButton variant="pill" />
           </div>
         </nav>

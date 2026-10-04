@@ -13,6 +13,8 @@ import { NOINDEX } from "@lib/util/robots"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 import AccountLink from "@modules/layout/components/account-link"
 import CartQueueGate from "@modules/checkout/components/cart-queue-gate"
+import LoginModalHost from "@modules/account/components/login-modal/host"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   robots: NOINDEX,
@@ -114,6 +116,11 @@ export default async function CheckoutLayout({
           </HydrationSlot>
         </div>
       </footer>
+
+      {/* The sign-in modal the header's «Войти» and the sign-in block open (t-2026-10-04-24). */}
+      <Suspense fallback={null}>
+        <LoginModalHost />
+      </Suspense>
     </div>
   )
 }

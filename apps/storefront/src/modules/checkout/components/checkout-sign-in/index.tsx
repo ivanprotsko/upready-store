@@ -58,7 +58,7 @@ export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
         data-testid="checkout-sign-in-methods"
       >
         {emailSignIn && (
-          <AccountLink className="flex w-full">
+          <AccountLink className="flex w-full" emailForm>
             <Button variant="primary" size="large" className="w-full min-w-0" data-testid="checkout-sign-in-button">
               {tSide("signInEmail")}
             </Button>

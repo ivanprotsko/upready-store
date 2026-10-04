@@ -4,6 +4,7 @@ import { Popover, PopoverPanel, Transition, PopoverButton } from "@headlessui/re
 import useScrollLock from "@lib/hooks/use-scroll-lock"
 import { BarsThree, XMark } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
+import AccountLink from "@modules/layout/components/account-link"
 import { Text } from "@medusajs/ui"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import { useTranslations } from "next-intl"
@@ -123,14 +124,26 @@ const SideMenu = ({
                     <ul className="flex flex-col gap-6 items-start justify-start">
                       {items.map(({ key, href }) => (
                         <li key={key}>
-                          <Link
-                            href={href}
-                            className="text-3xl leading-10 hover:text-ui-fg-interactive"
-                            onClick={close}
-                            data-testid={`${key}-link`}
-                          >
-                            {t(`SideMenu.items.${key}`)}
-                          </Link>
+                          {/* The account item is the sign-in entry point too: a guest's click
+                              closes the menu and opens the sign-in modal (t-2026-10-04-24). */}
+                          {key === "account" ? (
+                            <AccountLink
+                              className="text-3xl leading-10 hover:text-ui-fg-interactive"
+                              onClick={close}
+                              data-testid={`${key}-link`}
+                            >
+                              {t(`SideMenu.items.${key}`)}
+                            </AccountLink>
+                          ) : (
+                            <Link
+                              href={href}
+                              className="text-3xl leading-10 hover:text-ui-fg-interactive"
+                              onClick={close}
+                              data-testid={`${key}-link`}
+                            >
+                              {t(`SideMenu.items.${key}`)}
+                            </Link>
+                          )}
                         </li>
                       ))}
                     </ul>
