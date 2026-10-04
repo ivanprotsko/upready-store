@@ -870,7 +870,6 @@
     "placeOrder": "Плати",
     "placeOrderManual": "Направи поръчка",
     "redirectUnavailable": "Страницата за плащане още не е достъпна. Опитайте отново след малко.",
-    "robokassaFailed": "Плащането не премина. Опитайте отново или изберете друг начин на плащане.",
     "selectPaymentMethod": "Изберете начин на плащане"
   },
   "PaymentContainer": {

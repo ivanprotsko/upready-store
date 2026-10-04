@@ -870,7 +870,6 @@
     "placeOrder": "לתשלום",
     "placeOrderManual": "ביצוע הזמנה",
     "redirectUnavailable": "דף התשלום עדיין אינו זמין. נסו שוב בעוד רגע.",
-    "robokassaFailed": "התשלום לא עבר. נסו שוב או בחרו אמצעי תשלום אחר.",
     "selectPaymentMethod": "בחר אמצעי תשלום"
   },
   "PaymentContainer": {

@@ -870,7 +870,6 @@
     "placeOrder": "支付",
     "placeOrderManual": "提交订单",
     "redirectUnavailable": "支付页面暂不可用。请稍后再试。",
-    "robokassaFailed": "付款未成功。请重试或选择其他付款方式。",
     "selectPaymentMethod": "选择支付方式"
   },
   "PaymentContainer": {

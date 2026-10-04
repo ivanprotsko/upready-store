@@ -870,7 +870,6 @@
     "placeOrder": "পে করুন",
     "placeOrderManual": "অর্ডার করুন",
     "redirectUnavailable": "পেমেন্ট পৃষ্ঠা এখনও উপলব্ধ নয়। একটু পরে আবার চেষ্টা করুন।",
-    "robokassaFailed": "পেমেন্ট সম্পন্ন হয়নি। আবার চেষ্টা করুন বা অন্য পেমেন্ট পদ্ধতি বেছে নিন।",
     "selectPaymentMethod": "একটি পেমেন্ট পদ্ধতি নির্বাচন করুন"
   },
   "PaymentContainer": {

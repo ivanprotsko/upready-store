@@ -870,7 +870,6 @@
     "placeOrder": "Payer",
     "placeOrderManual": "Passer la commande",
     "redirectUnavailable": "La page de paiement n'est pas encore disponible. Réessayez dans un instant.",
-    "robokassaFailed": "Le paiement n'a pas abouti. Réessayez ou choisissez un autre moyen de paiement.",
     "selectPaymentMethod": "Sélectionnez un mode de paiement"
   },
   "PaymentContainer": {

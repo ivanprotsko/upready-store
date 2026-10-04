@@ -870,7 +870,6 @@
     "placeOrder": "Zaplatiť",
     "placeOrderManual": "Objednať",
     "redirectUnavailable": "Platobná stránka zatiaľ nie je k dispozícii. Skúste to o chvíľu znova.",
-    "robokassaFailed": "Platba neprebehla. Skúste to znova alebo zvoľte iný spôsob platby.",
     "selectPaymentMethod": "Vyberte spôsob platby"
   },
   "PaymentContainer": {

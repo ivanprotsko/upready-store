@@ -870,7 +870,6 @@
     "placeOrder": "ادفع",
     "placeOrderManual": "إتمام الطلب",
     "redirectUnavailable": "صفحة الدفع غير متاحة بعد. حاول مرة أخرى بعد قليل.",
-    "robokassaFailed": "لم تتم عملية الدفع. حاول مرة أخرى أو اختر طريقة دفع أخرى.",
     "selectPaymentMethod": "اختر طريقة الدفع"
   },
   "PaymentContainer": {

@@ -870,7 +870,6 @@
     "placeOrder": "Fizetés",
     "placeOrderManual": "Megrendelés",
     "redirectUnavailable": "A fizetési oldal még nem érhető el. Próbálja újra egy pillanat múlva.",
-    "robokassaFailed": "A fizetés nem sikerült. Próbálja újra, vagy válasszon másik fizetési módot.",
     "selectPaymentMethod": "Válasszon fizetési módot"
   },
   "PaymentContainer": {

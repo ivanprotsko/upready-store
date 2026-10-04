@@ -870,7 +870,6 @@
     "placeOrder": "Betalen",
     "placeOrderManual": "Bestelling plaatsen",
     "redirectUnavailable": "De betaalpagina is nog niet beschikbaar. Probeer het zo opnieuw.",
-    "robokassaFailed": "De betaling is niet gelukt. Probeer het opnieuw of kies een andere betaalmethode.",
     "selectPaymentMethod": "Selecteer een betaalmethode"
   },
   "PaymentContainer": {

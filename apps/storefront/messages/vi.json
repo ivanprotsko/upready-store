@@ -870,7 +870,6 @@
     "placeOrder": "Thanh toán",
     "placeOrderManual": "Đặt hàng",
     "redirectUnavailable": "Trang thanh toán chưa sẵn sàng. Vui lòng thử lại sau giây lát.",
-    "robokassaFailed": "Thanh toán không thành công. Hãy thử lại hoặc chọn phương thức thanh toán khác.",
     "selectPaymentMethod": "Chọn phương thức thanh toán"
   },
   "PaymentContainer": {

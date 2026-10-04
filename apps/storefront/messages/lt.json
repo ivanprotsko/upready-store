@@ -870,7 +870,6 @@
     "placeOrder": "Mokėti",
     "placeOrderManual": "Pateikti užsakymą",
     "redirectUnavailable": "Mokėjimo puslapis dar nepasiekiamas. Pabandykite dar kartą po akimirkos.",
-    "robokassaFailed": "Mokėjimas nepavyko. Bandykite dar kartą arba pasirinkite kitą mokėjimo būdą.",
     "selectPaymentMethod": "Pasirinkite mokėjimo būdą"
   },
   "PaymentContainer": {

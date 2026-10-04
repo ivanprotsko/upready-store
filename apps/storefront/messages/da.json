@@ -870,7 +870,6 @@
     "placeOrder": "Betal",
     "placeOrderManual": "Afgiv bestilling",
     "redirectUnavailable": "Betalingssiden er ikke klar endnu. Prøv igen om et øjeblik.",
-    "robokassaFailed": "Betalingen gik ikke igennem. Prøv igen, eller vælg en anden betalingsmetode.",
     "selectPaymentMethod": "Vælg en betalingsmetode"
   },
   "PaymentContainer": {

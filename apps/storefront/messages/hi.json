@@ -870,7 +870,6 @@
     "placeOrder": "भुगतान करें",
     "placeOrderManual": "ऑर्डर करें",
     "redirectUnavailable": "भुगतान पृष्ठ अभी उपलब्ध नहीं है। कुछ देर बाद फिर से प्रयास करें।",
-    "robokassaFailed": "भुगतान नहीं हो पाया। फिर से कोशिश करें या कोई दूसरा भुगतान तरीका चुनें।",
     "selectPaymentMethod": "भुगतान विधि चुनें"
   },
   "PaymentContainer": {

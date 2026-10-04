@@ -870,7 +870,6 @@
     "placeOrder": "Оплатить",
     "placeOrderManual": "Оформить заказ",
     "redirectUnavailable": "Страница оплаты пока недоступна. Попробуйте ещё раз через минуту.",
-    "robokassaFailed": "Оплата не прошла. Попробуйте ещё раз или выберите другой способ оплаты.",
     "selectPaymentMethod": "Выберите способ оплаты"
   },
   "PaymentContainer": {

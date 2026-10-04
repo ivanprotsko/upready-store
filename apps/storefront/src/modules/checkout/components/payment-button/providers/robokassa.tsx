@@ -1,7 +1,6 @@
 "use client"
 
 import type { HttpTypes } from "@medusajs/types"
-import { useTranslations } from "next-intl"
 import { useEffect, useRef, useState } from "react"
 import { retrieveCart } from "@lib/data/cart"
 import { markRobokassaPaymentStarted } from "@lib/util/robokassa-return"
@@ -36,8 +35,8 @@ const RobokassaPaymentButton = ({
   robokassaMethod = null,
   "data-testid": dataTestId,
 }: PaymentProviderButtonProps) => {
-  const t = useTranslations("PaymentButton")
   const [submitting, setSubmitting] = useState(false)
+  // An `Errors` key: `ErrorMessage` prints only those, in the shop's locale.
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   // Detaches the `FailUrl2` interceptor of the modal that is open, if any.
   const detachRef = useRef<(() => void) | null>(null)
@@ -86,7 +85,7 @@ const RobokassaPaymentButton = ({
    */
   const handlePayment = async () => {
     if (!paymentUrl) {
-      setErrorMessage(t("redirectUnavailable"))
+      setErrorMessage("paymentNotReady")
       return
     }
     setSubmitting(true)
@@ -100,7 +99,7 @@ const RobokassaPaymentButton = ({
       // Better a customer who can press again than one who pays into a session
       // that no longer exists.
       setSubmitting(false)
-      setErrorMessage(t("redirectUnavailable"))
+      setErrorMessage("paymentNotReady")
       return
     }
     // Lets the checkout tell a buyer who comes back unpaid what happened
@@ -113,7 +112,7 @@ const RobokassaPaymentButton = ({
         return
       }
       setSubmitting(false)
-      setErrorMessage(t("redirectUnavailable"))
+      setErrorMessage("paymentNotReady")
     }
 
     if (!request.modalParams) {
@@ -137,7 +136,7 @@ const RobokassaPaymentButton = ({
       }
       setSubmitting(false)
       if (status === "fail") {
-        setErrorMessage(t("robokassaFailed"))
+        setErrorMessage("paymentFailed")
       }
     }
 

@@ -870,7 +870,6 @@
     "placeOrder": "Maksa",
     "placeOrderManual": "Tee tilaus",
     "redirectUnavailable": "Maksusivu ei ole vielä käytettävissä. Yritä hetken kuluttua uudelleen.",
-    "robokassaFailed": "Maksu ei mennyt läpi. Yritä uudelleen tai valitse toinen maksutapa.",
     "selectPaymentMethod": "Valitse maksutapa"
   },
   "PaymentContainer": {

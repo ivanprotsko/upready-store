@@ -870,7 +870,6 @@
     "placeOrder": "Öde",
     "placeOrderManual": "Siparişi ver",
     "redirectUnavailable": "Ödeme sayfası henüz hazır değil. Birazdan tekrar deneyin.",
-    "robokassaFailed": "Ödeme gerçekleşmedi. Tekrar deneyin veya başka bir ödeme yöntemi seçin.",
     "selectPaymentMethod": "Bir ödeme yöntemi seçin"
   },
   "PaymentContainer": {

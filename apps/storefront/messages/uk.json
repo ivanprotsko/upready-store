@@ -870,7 +870,6 @@
     "placeOrder": "Оплатити",
     "placeOrderManual": "Оформити замовлення",
     "redirectUnavailable": "Сторінка оплати поки недоступна. Спробуйте ще раз за хвилину.",
-    "robokassaFailed": "Оплата не пройшла. Спробуйте ще раз або виберіть інший спосіб оплати.",
     "selectPaymentMethod": "Оберіть спосіб оплати"
   },
   "PaymentContainer": {

@@ -870,7 +870,6 @@
     "placeOrder": "Pagar",
     "placeOrderManual": "Realizar pedido",
     "redirectUnavailable": "La página de pago aún no está disponible. Inténtalo de nuevo en un momento.",
-    "robokassaFailed": "El pago no se ha completado. Inténtalo de nuevo o elige otro método de pago.",
     "selectPaymentMethod": "Selecciona un método de pago"
   },
   "PaymentContainer": {

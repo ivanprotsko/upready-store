@@ -870,7 +870,6 @@
     "placeOrder": "Bayar",
     "placeOrderManual": "Buat pesanan",
     "redirectUnavailable": "Halaman pembayaran belum tersedia. Coba lagi sebentar lagi.",
-    "robokassaFailed": "Pembayaran tidak berhasil. Coba lagi atau pilih metode pembayaran lain.",
     "selectPaymentMethod": "Pilih metode pembayaran"
   },
   "PaymentContainer": {

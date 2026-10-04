@@ -870,7 +870,6 @@
     "placeOrder": "ชำระเงิน",
     "placeOrderManual": "สั่งซื้อ",
     "redirectUnavailable": "หน้าชำระเงินยังไม่พร้อมใช้งาน โปรดลองอีกครั้งในอีกสักครู่",
-    "robokassaFailed": "การชำระเงินไม่สำเร็จ ลองอีกครั้งหรือเลือกวิธีการชำระเงินอื่น",
     "selectPaymentMethod": "เลือกวิธีการชำระเงิน"
   },
   "PaymentContainer": {

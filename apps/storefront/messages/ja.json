@@ -870,7 +870,6 @@
     "placeOrder": "支払う",
     "placeOrderManual": "注文する",
     "redirectUnavailable": "決済ページはまだ利用できません。しばらくしてからもう一度お試しください。",
-    "robokassaFailed": "お支払いが完了しませんでした。もう一度お試しいただくか、別のお支払い方法を選択してください。",
     "selectPaymentMethod": "支払い方法を選択してください"
   },
   "PaymentContainer": {

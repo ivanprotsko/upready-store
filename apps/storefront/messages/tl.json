@@ -870,7 +870,6 @@
     "placeOrder": "Bayaran",
     "placeOrderManual": "Mag-order",
     "redirectUnavailable": "Hindi pa available ang pahina ng pagbabayad. Subukan muli sa ilang sandali.",
-    "robokassaFailed": "Hindi natuloy ang pagbabayad. Subukang muli o pumili ng ibang paraan ng pagbabayad.",
     "selectPaymentMethod": "Pumili ng paraan ng bayad"
   },
   "PaymentContainer": {

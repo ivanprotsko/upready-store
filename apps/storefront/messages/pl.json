@@ -870,7 +870,6 @@
     "placeOrder": "Zapłać",
     "placeOrderManual": "Złóż zamówienie",
     "redirectUnavailable": "Strona płatności nie jest jeszcze dostępna. Spróbuj ponownie za chwilę.",
-    "robokassaFailed": "Płatność nie powiodła się. Spróbuj ponownie lub wybierz inną metodę płatności.",
     "selectPaymentMethod": "Wybierz sposób płatności"
   },
   "PaymentContainer": {

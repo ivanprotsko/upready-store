@@ -870,7 +870,6 @@
     "placeOrder": "გადახდა",
     "placeOrderManual": "შეკვეთის გაფორმება",
     "redirectUnavailable": "გადახდის გვერდი ჯერ მიუწვდომელია. სცადეთ ხელახლა ცოტა ხანში.",
-    "robokassaFailed": "გადახდა ვერ შესრულდა. სცადეთ ხელახლა ან აირჩიეთ გადახდის სხვა საშუალება.",
     "selectPaymentMethod": "აირჩიეთ გადახდის მეთოდი"
   },
   "PaymentContainer": {

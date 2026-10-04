@@ -870,7 +870,6 @@
     "placeOrder": "Plătește",
     "placeOrderManual": "Plasează comanda",
     "redirectUnavailable": "Pagina de plată nu este încă disponibilă. Încercați din nou peste puțin timp.",
-    "robokassaFailed": "Plata nu a reușit. Încercați din nou sau alegeți altă metodă de plată.",
     "selectPaymentMethod": "Selectați o metodă de plată"
   },
   "PaymentContainer": {

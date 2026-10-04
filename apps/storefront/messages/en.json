@@ -870,7 +870,6 @@
     "placeOrder": "Pay",
     "placeOrderManual": "Place order",
     "redirectUnavailable": "The payment page is not available yet. Try again in a moment.",
-    "robokassaFailed": "The payment did not go through. Try again or choose another payment method.",
     "selectPaymentMethod": "Select a payment method"
   },
   "PaymentContainer": {

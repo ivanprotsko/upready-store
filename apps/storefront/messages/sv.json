@@ -870,7 +870,6 @@
     "placeOrder": "Betala",
     "placeOrderManual": "Lägg beställning",
     "redirectUnavailable": "Betalningssidan är inte tillgänglig ännu. Försök igen om en stund.",
-    "robokassaFailed": "Betalningen gick inte igenom. Försök igen eller välj ett annat betalsätt.",
     "selectPaymentMethod": "Välj en betalningsmetod"
   },
   "PaymentContainer": {

@@ -870,7 +870,6 @@
     "placeOrder": "Bezahlen",
     "placeOrderManual": "Bestellung aufgeben",
     "redirectUnavailable": "Die Zahlungsseite ist noch nicht verfügbar. Versuchen Sie es gleich noch einmal.",
-    "robokassaFailed": "Die Zahlung ist nicht durchgegangen. Versuchen Sie es erneut oder wählen Sie eine andere Zahlungsart.",
     "selectPaymentMethod": "Zahlungsart auswählen"
   },
   "PaymentContainer": {
