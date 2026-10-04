@@ -171,6 +171,7 @@
     "shippingLink": "配送",
     "shippingUnavailable": "利用可能な配送方法がありません",
     "shippingPriceUnavailable": "ご利用いただけません：料金を計算できませんでした",
+    "deliveryPriceAfterAddress": "住所を入力すると料金と配送日数が表示されます",
     "signIn": "サインイン",
     "total": "合計",
     "shippingZone": "地域: {zone}",

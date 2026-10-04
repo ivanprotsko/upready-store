@@ -171,6 +171,7 @@
     "shippingLink": "Toimitus",
     "shippingUnavailable": "Toimitustapoja ei ole saatavilla",
     "shippingPriceUnavailable": "Ei käytettävissä: hintaa ei voitu laskea",
+    "deliveryPriceAfterAddress": "Anna osoitteesi, niin näet hinnan ja toimitusajan",
     "signIn": "Kirjaudu sisään",
     "total": "Yhteensä",
     "shippingZone": "Vyöhyke: {zone}",

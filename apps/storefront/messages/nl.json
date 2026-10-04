@@ -171,6 +171,7 @@
     "shippingLink": "Verzending",
     "shippingUnavailable": "Geen verzendmethoden beschikbaar",
     "shippingPriceUnavailable": "Niet beschikbaar: de prijs kon niet worden berekend",
+    "deliveryPriceAfterAddress": "Vul je adres in om prijs en levertijd te zien",
     "signIn": "Inloggen",
     "total": "Totaal",
     "shippingZone": "Zone: {zone}",

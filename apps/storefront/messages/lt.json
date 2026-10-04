@@ -171,6 +171,7 @@
     "shippingLink": "Pristatymas",
     "shippingUnavailable": "Nėra galimų pristatymo būdų",
     "shippingPriceUnavailable": "Nepasiekiama: nepavyko apskaičiuoti kainos",
+    "deliveryPriceAfterAddress": "Nurodykite adresą, kad pamatytumėte kainą ir terminą",
     "signIn": "Prisijungti",
     "total": "Iš viso",
     "shippingZone": "Zona: {zone}",

@@ -171,6 +171,7 @@
     "shippingLink": "Szállítás",
     "shippingUnavailable": "Nincs elérhető szállítási mód",
     "shippingPriceUnavailable": "Nem elérhető: az árat nem sikerült kiszámítani",
+    "deliveryPriceAfterAddress": "Adja meg a címét az ár és a határidő megtekintéséhez",
     "signIn": "Bejelentkezés",
     "total": "Összesen",
     "shippingZone": "Zóna: {zone}",

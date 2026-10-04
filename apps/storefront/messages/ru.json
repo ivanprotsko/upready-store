@@ -171,6 +171,7 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Доставка по этому адресу пока не настроена. Проверьте страну и регион или напишите нам — подберём способ.",
     "shippingPriceUnavailable": "Недоступно: не удалось рассчитать стоимость",
+    "deliveryPriceAfterAddress": "Укажите адрес — покажем цену и срок",
     "signIn": "Войти",
     "total": "Итого",
     "shippingZone": "Зона: {zone}",

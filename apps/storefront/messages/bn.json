@@ -171,6 +171,7 @@
     "shippingLink": "শিপিং",
     "shippingUnavailable": "কোনো শিপিং পদ্ধতি উপলব্ধ নেই",
     "shippingPriceUnavailable": "অনুপলব্ধ: খরচ হিসাব করা যায়নি",
+    "deliveryPriceAfterAddress": "দাম ও ডেলিভারির সময় দেখতে ঠিকানা লিখুন",
     "signIn": "সাইন ইন করুন",
     "total": "মোট",
     "shippingZone": "অঞ্চল: {zone}",

@@ -171,6 +171,7 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Немає доступних способів доставки",
     "shippingPriceUnavailable": "Недоступно: не вдалося розрахувати вартість",
+    "deliveryPriceAfterAddress": "Вкажіть адресу — покажемо ціну й термін",
     "signIn": "Увійти",
     "total": "Разом",
     "shippingZone": "Зона: {zone}",

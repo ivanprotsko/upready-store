@@ -171,6 +171,7 @@
     "shippingLink": "Doprava",
     "shippingUnavailable": "Žádné dostupné způsoby dopravy",
     "shippingPriceUnavailable": "Nedostupné: cenu se nepodařilo spočítat",
+    "deliveryPriceAfterAddress": "Zadejte adresu a ukážeme cenu i termín",
     "signIn": "Přihlásit se",
     "total": "Celkem",
     "shippingZone": "Zóna: {zone}",

@@ -171,6 +171,7 @@
     "shippingLink": "Shipping",
     "shippingUnavailable": "Delivery to this address is not set up yet. Check the country and region, or write to us and we will find a way.",
     "shippingPriceUnavailable": "Unavailable: the price could not be calculated",
+    "deliveryPriceAfterAddress": "Enter your address to see the price and delivery time",
     "signIn": "Sign in",
     "total": "Total",
     "shippingZone": "Zone: {zone}",

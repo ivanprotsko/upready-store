@@ -171,6 +171,7 @@
     "shippingLink": "Frakt",
     "shippingUnavailable": "Inga fraktmetoder tillgängliga",
     "shippingPriceUnavailable": "Inte tillgängligt: priset kunde inte beräknas",
+    "deliveryPriceAfterAddress": "Ange din adress för att se pris och leveranstid",
     "signIn": "Logga in",
     "total": "Totalt",
     "shippingZone": "Zon: {zone}",

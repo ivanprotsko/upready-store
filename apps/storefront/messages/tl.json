@@ -171,6 +171,7 @@
     "shippingLink": "Paghahatid",
     "shippingUnavailable": "Walang available na paraan ng paghahatid",
     "shippingPriceUnavailable": "Hindi available: hindi makalkula ang presyo",
+    "deliveryPriceAfterAddress": "Ilagay ang address para makita ang presyo at oras ng paghahatid",
     "signIn": "Mag-sign in",
     "total": "Kabuuan",
     "shippingZone": "Sona: {zone}",

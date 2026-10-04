@@ -171,6 +171,7 @@
     "shippingLink": "მიწოდება",
     "shippingUnavailable": "მიწოდების მეთოდები არ არის ხელმისაწვდომი",
     "shippingPriceUnavailable": "მიუწვდომელია: ფასის გამოთვლა ვერ მოხერხდა",
+    "deliveryPriceAfterAddress": "მიუთითეთ მისამართი, რომ ნახოთ ფასი და ვადა",
     "signIn": "შესვლა",
     "total": "ჯამი",
     "shippingZone": "ზონა: {zone}",
