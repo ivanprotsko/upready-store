@@ -1,5 +1,5 @@
 import type { ExecArgs } from "@medusajs/framework/types";
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { COURSE_MODULE } from "../../src/modules/course";
@@ -43,7 +43,10 @@ const loadQuizFile = (): { slugs: string[]; lessons: Array<{ order: number; titl
   const lessons = raw.lessons.map((lesson) => {
     const parsed = LessonQuizSchema.safeParse(lesson.quiz);
     if (!parsed.success) {
-      throw new Error(`${PREFIX}: the test for lesson ${lesson.order} does not match LessonQuizSchema.`);
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `${PREFIX}: the test for lesson ${lesson.order} does not match LessonQuizSchema.`,
+      );
     }
     return { order: lesson.order, title: lesson.title, quiz: parsed.data };
   });
