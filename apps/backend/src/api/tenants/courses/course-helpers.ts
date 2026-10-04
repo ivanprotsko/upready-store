@@ -27,6 +27,8 @@ export type LessonRow = {
   order: number;
   body: string;
   video_url: string | null;
+  /** `lesson.quiz` as stored, read through `parseLessonQuiz` before it leaves the API. */
+  quiz?: unknown;
 };
 
 export const toCourseDto = (row: CourseRow) => ({

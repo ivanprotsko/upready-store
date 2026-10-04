@@ -275,8 +275,8 @@ medusaIntegrationTestRunner({
         const contents = await api.get(`/store/tenant/courses/mine/${slug}`, storeKey(a, customerA.token));
         expect(contents.status).toBe(200);
         expect(contents.data.lessons).toEqual([
-          { id: l1.data.lesson.id, title: "Введение", order: 0, viewed_at: null },
-          { id: l2.data.lesson.id, title: "Практика", order: 1, viewed_at: null },
+          { id: l1.data.lesson.id, title: "Введение", order: 0, viewed_at: null, has_quiz: false },
+          { id: l2.data.lesson.id, title: "Практика", order: 1, viewed_at: null, has_quiz: false },
         ]);
         expect(contents.data.continue_lesson_id).toBeNull();
         const mineBefore = await api.get("/store/tenant/courses/mine", storeKey(a, customerA.token));
@@ -300,6 +300,7 @@ medusaIntegrationTestRunner({
         expect(lessonContent.data.lesson).toMatchObject({
           title: "Введение",
           body: "Первый текст урока",
+          quiz: null,
           viewed_at: null,
         });
 
@@ -338,6 +339,74 @@ medusaIntegrationTestRunner({
           api.get(`/store/tenant/courses/mine/${slug}`, storeKey(b, customerA.token)),
         );
         expect([401, 404]).toContain(otherShop.status);
+      });
+
+      it("hands the lesson's test to a buyer with access and to nobody else (ask-20261005-061005-2e78)", async () => {
+        const created = await api.post(
+          "/tenants/courses",
+          { product_id: productA.id, title: "Тест курс" },
+          bearer(a.token),
+        );
+        const courseId = created.data.course.id as string;
+        const slug = created.data.course.slug as string;
+        await api.post(`/tenants/courses/${courseId}`, { status: "published" }, bearer(a.token));
+        const l1 = await api.post(
+          `/tenants/courses/${courseId}/lessons`,
+          { title: "С тестом", body: "Парим ножки каждый вечер" },
+          bearer(a.token),
+        );
+        const l2 = await api.post(
+          `/tenants/courses/${courseId}/lessons`,
+          { title: "Без теста", body: "Текст без вопросов" },
+          bearer(a.token),
+        );
+        const quiz = {
+          questions: [
+            { text: "Когда парим ножки?", options: ["Утром", "Вечером", "Никогда"], correct: 1 },
+            { text: "Сколько раз в день?", options: ["Один", "Два"], correct: 0 },
+          ],
+        };
+        const courseService: CourseModuleService = getContainer().resolve(COURSE_MODULE);
+        await courseService.updateLessons([
+          { id: l1.data.lesson.id, quiz },
+          // Stored but not a test the storefront could run: read as no test at all.
+          { id: l2.data.lesson.id, quiz: { questions: [] } },
+        ]);
+        const lessonPath = `/store/tenant/courses/${courseId}/lessons/${l1.data.lesson.id}`;
+
+        // No grant: 403, and the answer carries no questions.
+        const denied = await failed(api.get(lessonPath, storeKey(a, customerA.token)));
+        expect(denied.status).toBe(403);
+        expect(JSON.stringify(denied.data)).not.toContain("Вечером");
+
+        // Another shop: its key does not reach this course, its own buyer neither.
+        const otherShop = await failed(api.get(lessonPath, storeKey(b, customerA.token)));
+        expect([401, 404]).toContain(otherShop.status);
+        expect(JSON.stringify(otherShop.data)).not.toContain("Вечером");
+        const customerB = await registerCustomer(b, "buyer@globex.test");
+        await grantEntitlement(b.tenant.id, customerB.id, courseId);
+        const foreignBuyer = await failed(api.get(lessonPath, storeKey(b, customerB.token)));
+        expect(foreignBuyer.status).toBe(404);
+        expect(JSON.stringify(foreignBuyer.data)).not.toContain("Вечером");
+
+        await grantEntitlement(a.tenant.id, customerA.id, courseId);
+
+        const withTest = await api.get(lessonPath, storeKey(a, customerA.token));
+        expect(withTest.status).toBe(200);
+        expect(withTest.data.lesson.quiz).toEqual(quiz);
+
+        const withoutTest = await api.get(
+          `/store/tenant/courses/${courseId}/lessons/${l2.data.lesson.id}`,
+          storeKey(a, customerA.token),
+        );
+        expect(withoutTest.data.lesson.quiz).toBeNull();
+
+        const contents = await api.get(`/store/tenant/courses/mine/${slug}`, storeKey(a, customerA.token));
+        expect(contents.data.lessons.map((l: any) => [l.title, l.has_quiz])).toEqual([
+          ["С тестом", true],
+          ["Без теста", false],
+        ]);
+        expect(JSON.stringify(contents.data)).not.toContain("Вечером");
       });
     });
   },
