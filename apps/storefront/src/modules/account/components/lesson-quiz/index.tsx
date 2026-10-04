@@ -9,6 +9,12 @@ import LessonFlowBar from "@modules/account/components/lesson-flow-bar"
 
 const OPTION =
   "flex w-full items-center gap-x-3 rounded-large border px-4 py-3 text-start text-base transition-colors"
+// The tag text colours are the theme's success and destructive; the tag fills and borders follow
+// its chart colours instead, which a neutral preset (supplements) paints grey.
+const RIGHT =
+  "border-ui-tag-green-text bg-[color-mix(in_srgb,var(--tag-green-text)_8%,transparent)] text-ui-tag-green-text"
+const WRONG =
+  "border-ui-tag-red-text bg-[color-mix(in_srgb,var(--tag-red-text)_8%,transparent)] text-ui-tag-red-text"
 
 /**
  * The test after a lesson (ask-20261005-061005-2e78, Ivan 05.10: «После
@@ -113,9 +119,8 @@ export default function LessonQuiz({
                           !right &&
                           !wrong &&
                           "border-ui-border-base text-ui-fg-subtle",
-                        right &&
-                          "border-ui-tag-green-border bg-ui-tag-green-bg text-ui-tag-green-text",
-                        wrong && "border-ui-tag-red-border bg-ui-tag-red-bg text-ui-tag-red-text"
+                        right && RIGHT,
+                        wrong && WRONG
                       )}
                       data-testid="lesson-quiz-option"
                       data-state={right ? "right" : wrong ? "wrong" : undefined}
