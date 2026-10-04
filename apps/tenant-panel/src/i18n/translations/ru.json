@@ -306,6 +306,7 @@
         "counters": {
           "ordersToPack": "Заказов ждут сборки: {{count}}",
           "reviewsToModerate": "Отзывов ждут проверки: {{count}}",
+          "mpReviewsUnanswered": "Без ответа на площадке: {{count}}",
           "inGroup": "В разделе есть дела"
         },
         "tabs": {

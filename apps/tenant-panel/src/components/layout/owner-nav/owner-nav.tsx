@@ -1,9 +1,10 @@
 import { BuildingStorefront, ChartBar, ShoppingBag, TriangleRightMini } from "@medusajs/icons"
 import { Text, clx } from "@medusajs/ui"
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
 
+import { useMpReviews } from "../../../hooks/api/marketplace-section"
 import { useOrders } from "../../../hooks/api/orders"
 import { useTenantReviews } from "../../../hooks/api/reviews"
 import { isOrderWithoutParcel } from "../../../lib/order-helpers"
@@ -18,10 +19,12 @@ import {
 } from "./nav-model"
 
 const STORAGE_KEY = "owner-nav-closed-groups"
+/** The entries with children she folded, by `to` («Wildberries»). */
+const PARENTS_STORAGE_KEY = "owner-nav-closed-parents"
 
-const readClosed = (): string[] => {
+const readList = (key: string): string[] => {
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
+    const raw = window.localStorage.getItem(key)
     const parsed = raw ? JSON.parse(raw) : []
     return Array.isArray(parsed) ? parsed : []
   } catch {
@@ -29,8 +32,21 @@ const readClosed = (): string[] => {
   }
 }
 
+/** A list kept in localStorage; in private mode it starts empty next time. */
+const useStoredList = (key: string) => {
+  const [list, setList] = useState<string[]>(() => readList(key))
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(list))
+    } catch {
+      // Private mode: the list starts empty again next time.
+    }
+  }, [key, list])
+  return [list, setList] as const
+}
+
 /**
- * What waits for the owner, shown as a number on the menu entry. Both reads
+ * What waits for the owner, shown as a number on the menu entry. The reads
  * are small and fail silently: a menu without a number is still a menu.
  */
 export const useOwnerCounters = (): Record<OwnerCounter, number | null> => {
@@ -40,6 +56,13 @@ export const useOwnerCounters = (): Record<OwnerCounter, number | null> => {
   )
   const reviews = useTenantReviews(
     { status: "pending", limit: 1 },
+    { staleTime: 60_000, retry: false }
+  )
+  // Reviews and questions on Wildberries the marketplace marks as unanswered
+  // (task-05's `answered=no`): our own tables, no request to the marketplace.
+  const mpReviews = useMpReviews(
+    "wb",
+    { limit: 1, answered: ["no"] },
     { staleTime: 60_000, retry: false }
   )
 
@@ -55,8 +78,13 @@ export const useOwnerCounters = (): Record<OwnerCounter, number | null> => {
   return {
     ordersToPack: toPack,
     reviewsToModerate: typeof reviews.count === "number" ? reviews.count : null,
+    mpReviewsUnanswered: typeof mpReviews.count === "number" ? mpReviews.count : null,
   }
 }
+
+/** The sum of the numbers on some entries, for a folded group or parent. */
+const sumOf = (items: OwnerNavItem[], counters: Record<OwnerCounter, number | null>) =>
+  items.reduce((sum, item) => sum + (item.counter ? counters[item.counter] ?? 0 : 0), 0)
 
 // A row grows with its label (`min-h`, never a fixed height): a label that
 // wraps used to paint over its neighbours. 44 px on touch widths.
@@ -86,6 +114,7 @@ const ItemLink = ({
   nested,
   icon,
   trailing,
+  onClick,
 }: {
   item: OwnerNavItem
   active: boolean
@@ -93,11 +122,13 @@ const ItemLink = ({
   nested: boolean
   icon?: ReactNode
   trailing?: ReactNode
+  onClick?: () => void
 }) => {
   const { t } = useTranslation()
   return (
     <Link
       to={item.to}
+      onClick={onClick}
       aria-current={active ? "page" : undefined}
       className={clx(ROW, active ? ROW_ACTIVE : ROW_IDLE, nested && "ps-8")}
     >
@@ -120,22 +151,29 @@ const ItemLink = ({
  * An entry that unfolds into its screens («Wildberries» → «Товары», «Цены и
  * остатки», …), drawn the way an Admin route with nested items is: the entry
  * is a link to its first screen, the chevron folds the list, and a child is
- * the row that lights up. Arriving on a child opens the list.
+ * the row that lights up. While the list is folded the entry lights up for
+ * the hidden child and carries the children's numbers, the way a closed group
+ * does.
  */
 const ParentItem = ({
   item,
-  activeTo,
+  activeItem,
   open,
   onToggle,
+  onOpen,
+  counters,
 }: {
   item: OwnerNavItem
-  activeTo: string | null
+  activeItem: OwnerNavItem | null
   open: boolean
   onToggle: () => void
+  onOpen: () => void
+  counters: Record<OwnerCounter, number | null>
 }) => {
   const { t } = useTranslation()
+  const children = item.children ?? []
   const panelId = `owner-nav-${item.to.replace(/\W+/g, "-")}`
-  const insideActive = item.children?.some((child) => child.to === activeTo) ?? false
+  const insideActive = activeItem !== null && children.includes(activeItem)
 
   return (
     <li>
@@ -145,8 +183,14 @@ const ParentItem = ({
             item={item}
             nested={false}
             icon={<ShoppingBag className="text-ui-fg-subtle shrink-0" />}
-            active={activeTo === item.to && !insideActive}
+            active={activeItem === item || (!open && insideActive)}
             counter={null}
+            trailing={
+              open ? undefined : (
+                <Counter value={sumOf(children, counters)} label={t("app.nav.owner.counters.inGroup")} />
+              )
+            }
+            onClick={onOpen}
           />
         </div>
         <button
@@ -162,11 +206,16 @@ const ParentItem = ({
           />
         </button>
       </div>
-      {open && item.children ? (
+      {open ? (
         <ul id={panelId} className="flex flex-col gap-y-0.5 pb-1">
-          {item.children.map((child) => (
+          {children.map((child) => (
             <li key={child.to}>
-              <ItemLink item={child} nested active={activeTo === child.to} counter={null} />
+              <ItemLink
+                item={child}
+                nested
+                active={activeItem === child}
+                counter={child.counter ? counters[child.counter] : null}
+              />
             </li>
           ))}
         </ul>
@@ -193,14 +242,18 @@ const StubMark = () => {
  */
 const HeadingGroup = ({
   group,
-  activeTo,
-  openParents,
+  activeItem,
+  closedParents,
   onToggleParent,
+  onOpenParent,
+  counters,
 }: {
   group: OwnerNavGroup
-  activeTo: string | null
-  openParents: string[]
+  activeItem: OwnerNavItem | null
+  closedParents: string[]
   onToggleParent: (to: string) => void
+  onOpenParent: (to: string) => void
+  counters: Record<OwnerCounter, number | null>
 }) => {
   const { t } = useTranslation()
 
@@ -217,9 +270,11 @@ const HeadingGroup = ({
             <ParentItem
               key={item.to}
               item={item}
-              activeTo={activeTo}
-              open={openParents.includes(item.to)}
+              activeItem={activeItem}
+              open={!closedParents.includes(item.to)}
               onToggle={() => onToggleParent(item.to)}
+              onOpen={() => onOpenParent(item.to)}
+              counters={counters}
             />
           ) : (
             <li key={item.to}>
@@ -227,7 +282,7 @@ const HeadingGroup = ({
                 item={item}
                 nested={false}
                 icon={<ShoppingBag className="text-ui-fg-subtle shrink-0" />}
-                active={activeTo === item.to}
+                active={activeItem === item}
                 counter={null}
                 trailing={item.stub ? <StubMark /> : undefined}
               />
@@ -243,22 +298,19 @@ const Group = ({
   group,
   open,
   onToggle,
-  activeTo,
+  activeItem,
   counters,
 }: {
   group: OwnerNavGroup
   open: boolean
   onToggle: () => void
-  activeTo: string | null
+  activeItem: OwnerNavItem | null
   counters: Record<OwnerCounter, number | null>
 }) => {
   const { t } = useTranslation()
   const panelId = `owner-nav-${group.id}`
   // A closed group still tells that something inside waits for her.
-  const hidden = group.items.reduce(
-    (sum, item) => sum + (item.counter ? counters[item.counter] ?? 0 : 0),
-    0
-  )
+  const hidden = sumOf(group.items, counters)
 
   return (
     <li>
@@ -284,7 +336,7 @@ const Group = ({
               <ItemLink
                 item={item}
                 nested
-                active={activeTo === item.to}
+                active={activeItem === item}
                 counter={item.counter ? counters[item.counter] : null}
               />
             </li>
@@ -303,35 +355,33 @@ export const OwnerNav = () => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
   const counters = useOwnerCounters()
-  const [closed, setClosed] = useState<string[]>(readClosed)
-
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(closed))
-    } catch {
-      // Private mode: the groups simply open again next time.
-    }
-  }, [closed])
+  const [closed, setClosed] = useStoredList(STORAGE_KEY)
+  // An entry with children starts open and remembers what she folded, across
+  // a reload too (`owner-nav-closed-parents`), the way a group does.
+  const [closedParents, setClosedParents] = useStoredList(PARENTS_STORAGE_KEY)
 
   const active = findActive(pathname)
-  const activeTo = active?.item.to ?? null
+  const activeItem = active?.item ?? null
   const activeGroup = active?.group?.id ?? null
   const parentTo = findParent(pathname)?.to ?? null
 
-  // An entry with children starts open and remembers what she folded, like a
-  // group; arriving on one of its screens opens it again.
-  const [openParents, setOpenParents] = useState<string[]>(() =>
-    OWNER_NAV.flatMap((group) =>
-      group.items.filter((item) => item.children).map((item) => item.to)
-    )
-  )
+  // Going to one of its screens opens a folded entry, so the screen she went
+  // to is never hidden. A reload is not a step: the list she folded stays
+  // folded, and the entry itself lights up for the hidden screen.
+  const lastActive = useRef(activeItem)
   useEffect(() => {
-    if (parentTo) {
-      setOpenParents((now) => (now.includes(parentTo) ? now : [...now, parentTo]))
+    if (lastActive.current === activeItem) {
+      return
     }
-  }, [parentTo])
+    lastActive.current = activeItem
+    if (parentTo) {
+      setClosedParents((now) => (now.includes(parentTo) ? now.filter((p) => p !== parentTo) : now))
+    }
+  }, [activeItem, parentTo, setClosedParents])
   const toggleParent = (to: string) =>
-    setOpenParents((now) => (now.includes(to) ? now.filter((p) => p !== to) : [...now, to]))
+    setClosedParents((now) => (now.includes(to) ? now.filter((p) => p !== to) : [...now, to]))
+  const openParent = (to: string) =>
+    setClosedParents((now) => (now.includes(to) ? now.filter((p) => p !== to) : now))
 
   // Arriving on a screen opens its group, so the active item is never hidden
   // by a group she closed earlier.
@@ -339,7 +389,7 @@ export const OwnerNav = () => {
     if (activeGroup) {
       setClosed((now) => (now.includes(activeGroup) ? now.filter((g) => g !== activeGroup) : now))
     }
-  }, [activeGroup])
+  }, [activeGroup, setClosed])
 
   const toggle = (id: string) =>
     setClosed((now) => (now.includes(id) ? now.filter((g) => g !== id) : [...now, id]))
@@ -351,7 +401,7 @@ export const OwnerNav = () => {
           <ItemLink
             item={OWNER_HOME}
             nested={false}
-            active={activeTo === OWNER_HOME.to}
+            active={activeItem === OWNER_HOME}
             counter={null}
           />
         </li>
@@ -360,9 +410,11 @@ export const OwnerNav = () => {
             <HeadingGroup
               key={group.id}
               group={group}
-              activeTo={activeTo}
-              openParents={openParents}
+              activeItem={activeItem}
+              closedParents={closedParents}
               onToggleParent={toggleParent}
+              onOpenParent={openParent}
+              counters={counters}
             />
           ) : group.flat ? (
             <li key={group.id}>
@@ -370,7 +422,7 @@ export const OwnerNav = () => {
                 item={group.items[0]}
                 nested={false}
                 icon={<BuildingStorefront className="text-ui-fg-subtle shrink-0" />}
-                active={activeTo === group.items[0].to}
+                active={activeItem === group.items[0]}
                 counter={null}
               />
             </li>
@@ -380,7 +432,7 @@ export const OwnerNav = () => {
             group={group}
             open={!closed.includes(group.id)}
             onToggle={() => toggle(group.id)}
-            activeTo={activeTo}
+            activeItem={activeItem}
             counters={counters}
           />
           )

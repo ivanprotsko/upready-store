@@ -300,6 +300,7 @@
         "counters": {
           "ordersToPack": "Orders waiting to be packed: {{count}}",
           "reviewsToModerate": "Reviews waiting for a check: {{count}}",
+          "mpReviewsUnanswered": "Unanswered on the marketplace: {{count}}",
           "inGroup": "Something in this section needs you"
         },
         "tabs": {

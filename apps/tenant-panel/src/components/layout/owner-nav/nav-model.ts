@@ -8,7 +8,7 @@
  * belong to the same entry, so every route of the panel lights exactly one
  * item and opens its group (before this file ten settings screens lit nothing).
  */
-export type OwnerCounter = "ordersToPack" | "reviewsToModerate"
+export type OwnerCounter = "ordersToPack" | "reviewsToModerate" | "mpReviewsUnanswered"
 
 export type OwnerNavItem = {
   labelKey: string
@@ -96,12 +96,19 @@ export const OWNER_NAV: OwnerNavGroup[] = [
         labelKey: "app.nav.owner.mp.wildberries",
         label: "Wildberries",
         to: "/marketplaces/wildberries/products",
-        match: ["/marketplaces/wildberries", "/settings/marketplaces/wildberries", "/settings/wildberries"],
+        // The marketplace's own screen (key rights, what is open) belongs to
+        // «Обновление», which links to it; the parent keeps only the
+        // addresses under it that no child owns.
+        match: ["/marketplaces/wildberries"],
         children: [
           { labelKey: "app.nav.owner.mp.products", to: "/marketplaces/wildberries/products" },
           { labelKey: "app.nav.owner.mp.priceStock", to: "/marketplaces/wildberries/price-stock" },
           { labelKey: "app.nav.owner.mp.orders", to: "/marketplaces/wildberries/orders" },
-          { labelKey: "app.nav.owner.mp.reviews", to: "/marketplaces/wildberries/reviews" },
+          {
+            labelKey: "app.nav.owner.mp.reviews",
+            to: "/marketplaces/wildberries/reviews",
+            counter: "mpReviewsUnanswered",
+          },
           { labelKey: "app.nav.owner.mp.analytics", to: "/marketplaces/wildberries/analytics" },
           {
             labelKey: "app.nav.owner.mp.sync",
@@ -163,8 +170,10 @@ export const ownsPath = (prefix: string, pathname: string) =>
 
 /**
  * The entry a pathname belongs to. The LONGEST owning prefix wins, so
- * `/settings/integrations/cdek` goes to «Доставка» although the marketplaces
- * entry owns `/settings/integrations`.
+ * `/settings/integrations/cdek` goes to «Доставка» rather than to a shorter
+ * prefix another entry owns. A child is tried before its parent and wins a
+ * tie: «Wildberries» opens its first screen, so the two share a `to`, and
+ * `/marketplaces/wildberries/products` is «Товары», not the parent.
  */
 export const findActive = (
   pathname: string
@@ -175,9 +184,10 @@ export const findActive = (
   let best: { group: OwnerNavGroup; item: OwnerNavItem; length: number } | null = null
   for (const group of OWNER_NAV) {
     for (const item of group.items) {
-      // A child wins over its parent by being the longer prefix; the parent's
-      // `match` still catches the addresses no child owns.
-      for (const entry of [item, ...(item.children ?? [])]) {
+      // A child wins over its parent by being the longer prefix, or the same
+      // one met first; the parent's `match` still catches the addresses no
+      // child owns.
+      for (const entry of [...(item.children ?? []), item]) {
         for (const prefix of [entry.to, ...(entry.match ?? [])]) {
           if (ownsPath(prefix, pathname) && (!best || prefix.length > best.length)) {
             best = { group, item: entry, length: prefix.length }
@@ -189,7 +199,11 @@ export const findActive = (
   return best ? { group: best.group, item: best.item } : null
 }
 
-/** The top-level entry a pathname is under, when that entry has children. */
+/**
+ * The entry with children a pathname is under: the parent of the active child,
+ * or the parent itself on an address only its own `match` owns. Compared by
+ * identity, since a parent and its first child share a `to`.
+ */
 export const findParent = (pathname: string): OwnerNavItem | null => {
   const active = findActive(pathname)
   if (!active?.group) {
@@ -197,7 +211,9 @@ export const findParent = (pathname: string): OwnerNavItem | null => {
   }
   return (
     active.group.items.find(
-      (item) => item.children?.some((child) => child.to === active.item.to) || item === active.item
+      (item) =>
+        item.children !== undefined &&
+        (item === active.item || item.children.includes(active.item))
     ) ?? null
   )
 }
