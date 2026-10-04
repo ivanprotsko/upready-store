@@ -1185,7 +1185,7 @@
     "title": "Καλάθι",
     "signInPrompt": "Συνδεθείτε για να βλέπετε το ιστορικό παραγγελιών και να ολοκληρώνετε τις αγορές σας πιο γρήγορα.",
     "signInEmail": "Με email",
-    "signInYandex": "Με Yandex ID",
+    "signInYandex": "Σύνδεση με Yandex ID",
     "deliveryEstimate": "Παράδοση {range}",
     "empty": "Το καλάθι σας είναι άδειο.",
     "exploreProducts": "Δείτε τα προϊόντα",

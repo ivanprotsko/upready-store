@@ -6,7 +6,7 @@ import { getSiteLoginSettings } from "@lib/data/tenant-login-settings"
 import { allowsEmailLogin, yandexLoginAvailable } from "@lib/tenant/login-settings"
 import AccountLink from "@modules/layout/components/account-link"
 import TelegramLogin from "@modules/account/components/telegram-login"
-import YandexMark from "@modules/account/components/yandex-login/yandex-mark"
+import YandexIdButton from "@modules/account/components/yandex-login/yandex-id-button"
 
 type Props = {
   /** Where to come back to after the sign-in: the checkout path with its query (`?return=`). */
@@ -37,7 +37,9 @@ export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
   ])
   const emailSignIn = allowsEmailLogin(loginSettings.method)
   const yandexSignIn = yandexLoginAvailable(loginSettings)
-  const methods = [emailSignIn, telegramBot !== null, yandexSignIn].filter(Boolean).length
+  // Yandex ID is the button from Yandex's own constructor (t-2026-10-04-45), always on a row of
+  // its own, so only e-mail and Telegram pair up.
+  const cells = [emailSignIn, telegramBot !== null].filter(Boolean).length
 
   return (
     <div
@@ -50,11 +52,11 @@ export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
         {t(hasCourse ? "courseSignInText" : "signInText")}
       </Text>
       {/* One grid of equal cells (t-2026-10-03-65, Ivan: «кнопки которые стоят рядом» never
-          differ in size): two to a row from 1024 px, a third one alone on its own row at
+          differ in size): two to a row from 1024 px; Yandex ID alone on its own row at
           full width. Telegram renders nothing when this shop has no bot of its own
           (`getTelegramBot` returns null). */}
       <div
-        className={clx("grid grid-cols-1 gap-2", methods > 1 && "small:grid-cols-2")}
+        className={clx("grid grid-cols-1 gap-2", cells > 1 && "small:grid-cols-2")}
         data-testid="checkout-sign-in-methods"
       >
         {emailSignIn && (
@@ -66,18 +68,11 @@ export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
         )}
         <TelegramLogin bot={telegramBot} returnTo={returnTo} cell label={tSide("signInTelegram")} />
         {yandexSignIn && (
-          <Button
-            asChild
-            variant="secondary"
-            size="large"
-            className={clx("w-full min-w-0", methods === 3 && "small:col-span-2")}
+          <YandexIdButton
+            returnTo={returnTo}
+            className={clx(cells > 1 && "small:col-span-2")}
             data-testid="checkout-sign-in-yandex"
-          >
-            <a href={`/api/yandex-login?return=${encodeURIComponent(returnTo)}`}>
-              <YandexMark />
-              {tSide("signInYandex")}
-            </a>
-          </Button>
+          />
         )}
       </div>
     </div>

@@ -27,6 +27,19 @@ const methodsSource = readFileSync(
   join(here, "..", "sign-in-methods", "index.tsx"),
   "utf8"
 )
+const buttonSource = readFileSync(
+  join(here, "..", "yandex-login", "yandex-id-button.tsx"),
+  "utf8"
+)
+const modalSource = readFileSync(join(here, "..", "login-modal", "index.tsx"), "utf8")
+const checkoutModalSource = readFileSync(
+  join(here, "..", "..", "..", "checkout", "components", "checkout-modal", "index.tsx"),
+  "utf8"
+)
+const checkoutSignInSource = readFileSync(
+  join(here, "..", "..", "..", "checkout", "components", "checkout-sign-in", "index.tsx"),
+  "utf8"
+)
 
 describe("Login: the cart sidebar's block, no orphan divider (t-2026-10-04-24)", () => {
   it("draws the methods through SignInMethods, the block the cart sidebar and the modal share", () => {
@@ -51,7 +64,7 @@ describe("Login: the cart sidebar's block, no orphan divider (t-2026-10-04-24)",
   })
 
   it("shows the Yandex ID error message, gated by its own available prop", () => {
-    expect(loginSource).toContain("<YandexLoginError available={yandexEnabled} />")
+    expect(loginSource).toContain("<YandexLoginError available={yandexEnabled}")
     expect(loginSource).toContain("yandexLoginAvailable(loginSettings)")
   })
 })
@@ -82,5 +95,47 @@ describe("YandexLoginError: gated on its prop, no module-level env check left be
 
   it("no longer decides availability from NEXT_PUBLIC_YANDEX_LOGIN_ENABLED itself", () => {
     expect(yandexSource).not.toContain("NEXT_PUBLIC_YANDEX_LOGIN_ENABLED")
+  })
+})
+
+describe("Yandex ID: the button from Yandex's constructor, one shared place (t-2026-10-04-45)", () => {
+  it("keeps the server-redirect link, built in YandexIdButton alone", () => {
+    expect(buttonSource).toContain("href={`/api/yandex-login?return=${encodeURIComponent(returnTo)}`}")
+    for (const source of [methodsSource, checkoutSignInSource, loginSource]) {
+      expect(source).not.toContain("/api/yandex-login?return=")
+    }
+    expect(methodsSource).toContain("<YandexIdButton")
+    expect(checkoutSignInSource).toContain("<YandexIdButton")
+    // The SDK's suggest/token flow stays out: the button is a plain link.
+    expect(buttonSource).not.toContain("YaAuthSuggest")
+  })
+
+  it("draws the constructor's s / main / radius 8 button, light and dark by the site's mode", () => {
+    for (const cls of ["h-10", "rounded-lg", "px-[11px]", "py-[9px]", "text-[14px]", "leading-4", "min-w-[156px]"]) {
+      expect(buttonSource).toContain(cls)
+    }
+    expect(buttonSource).toContain("bg-[#000] text-[#fff] dark:bg-[#fff] dark:text-[#000]")
+    expect(buttonSource).toContain("font-['YS_Text','Helvetica_Neue',Arial,sans-serif]")
+    expect(buttonSource).toContain('fill="#FC3F1D"')
+    expect(buttonSource).toContain("/images/yandex-id/avatar-placeholder.png")
+  })
+
+  it("gives Yandex ID a row of its own: only e-mail and Telegram pair up", () => {
+    expect(methodsSource).toContain("const cells = [emailSignIn, telegramBot !== null].filter(Boolean).length")
+    expect(methodsSource).toContain('className={clx(cells > 1 && "col-span-2")}')
+    expect(checkoutSignInSource).toContain('className={clx(cells > 1 && "small:col-span-2")}')
+  })
+
+  it("the modal is a 320 px column, 24 px all round from 640 px up and 16 on a phone", () => {
+    expect(modalSource).toContain("compact>")
+    expect(checkoutModalSource).toContain('compact ? "sm:w-[368px]" : "sm:w-[540px]"')
+    expect(checkoutModalSource).toContain("max-w-[352px]")
+    expect(checkoutModalSource).toContain("p-4 sm:max-w-none sm:p-6")
+  })
+
+  it("aligns the modal's text to the start edge, the page keeps its centred column", () => {
+    expect(loginSource).toContain('inModal ? "items-start text-start" : "items-center text-center"')
+    expect(loginSource).toContain("<YandexLoginError available={yandexEnabled} alignStart={inModal} />")
+    expect(loginSource).toContain('inModal ? "self-start" : "self-center"')
   })
 })

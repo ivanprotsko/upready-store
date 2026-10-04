@@ -1185,7 +1185,7 @@
     "title": "カート",
     "signInPrompt": "ログインすると注文履歴を確認でき、より早く購入できます。",
     "signInEmail": "メールで",
-    "signInYandex": "Yandex IDで",
+    "signInYandex": "Yandex IDでログイン",
     "deliveryEstimate": "お届け {range}",
     "empty": "カートは空です。",
     "exploreProducts": "商品を見る",

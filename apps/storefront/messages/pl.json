@@ -1185,7 +1185,7 @@
     "title": "Koszyk",
     "signInPrompt": "Zaloguj się, aby widzieć historię zamówień i kupować szybciej.",
     "signInEmail": "Przez e-mail",
-    "signInYandex": "Przez Yandex ID",
+    "signInYandex": "Zaloguj się przez Yandex ID",
     "deliveryEstimate": "Dostawa {range}",
     "empty": "Twój koszyk jest pusty.",
     "exploreProducts": "Zobacz produkty",

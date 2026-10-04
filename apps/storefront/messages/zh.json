@@ -1185,7 +1185,7 @@
     "title": "购物车",
     "signInPrompt": "登录后可查看订单记录并更快完成购买。",
     "signInEmail": "使用邮箱",
-    "signInYandex": "使用 Yandex ID",
+    "signInYandex": "使用 Yandex ID 登录",
     "deliveryEstimate": "预计送达 {range}",
     "empty": "购物车是空的。",
     "exploreProducts": "浏览商品",

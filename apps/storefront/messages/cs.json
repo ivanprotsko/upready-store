@@ -1185,7 +1185,7 @@
     "title": "Košík",
     "signInPrompt": "Přihlaste se, abyste viděli historii objednávek a nakupovali rychleji.",
     "signInEmail": "E-mailem",
-    "signInYandex": "Přes Yandex ID",
+    "signInYandex": "Přihlásit se přes Yandex ID",
     "deliveryEstimate": "Doručíme {range}",
     "empty": "Košík je prázdný.",
     "exploreProducts": "Prohlédnout produkty",

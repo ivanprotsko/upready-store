@@ -1185,7 +1185,7 @@
     "title": "Varukorg",
     "signInPrompt": "Logga in för att se din orderhistorik och handla snabbare.",
     "signInEmail": "Med e-post",
-    "signInYandex": "Med Yandex ID",
+    "signInYandex": "Logga in med Yandex ID",
     "deliveryEstimate": "Leverans {range}",
     "empty": "Din varukorg är tom.",
     "exploreProducts": "Se produkter",

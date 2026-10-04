@@ -1185,7 +1185,7 @@
     "title": "Сагс",
     "signInPrompt": "Захиалгын түүхээ харж, илүү хурдан худалдан авахын тулд нэвтэрнэ үү.",
     "signInEmail": "Имэйлээр",
-    "signInYandex": "Yandex ID-ээр",
+    "signInYandex": "Yandex ID-ээр нэвтрэх",
     "deliveryEstimate": "Хүргэлт {range}",
     "empty": "Таны сагс хоосон байна.",
     "exploreProducts": "Бүтээгдэхүүн үзэх",

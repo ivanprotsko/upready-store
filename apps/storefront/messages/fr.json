@@ -1185,7 +1185,7 @@
     "title": "Panier",
     "signInPrompt": "Connectez-vous pour voir l'historique de vos commandes et acheter plus vite.",
     "signInEmail": "Par e-mail",
-    "signInYandex": "Avec Yandex ID",
+    "signInYandex": "Se connecter avec Yandex ID",
     "deliveryEstimate": "Livraison {range}",
     "empty": "Votre panier est vide.",
     "exploreProducts": "Voir les produits",

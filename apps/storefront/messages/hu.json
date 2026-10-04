@@ -1185,7 +1185,7 @@
     "title": "Kosár",
     "signInPrompt": "Jelentkezzen be, hogy lássa rendelési előzményeit és gyorsabban vásárolhasson.",
     "signInEmail": "E-mailben",
-    "signInYandex": "Yandex ID-val",
+    "signInYandex": "Bejelentkezés Yandex ID-val",
     "deliveryEstimate": "Kézbesítés: {range}",
     "empty": "A kosara üres.",
     "exploreProducts": "Termékek megtekintése",

@@ -3,7 +3,7 @@
 /**
  * What went wrong on the way back from Yandex ID, when something did.
  *
- * The sign-in itself is the «Войти через Яндекс ID» cell of `SignInMethods`, a plain LINK to
+ * The sign-in itself is `YandexIdButton` (Yandex's constructor button) in `SignInMethods`, a plain LINK to
  * `/api/yandex-login?return=<the page the buyer is on>`: a GET that 302s to the Yandex consent
  * screen, so the whole first leg works with no client-side JavaScript. The buyer comes back to
  * `/api/yandex-callback`, which sets the session cookie and redirects to that same page, or to
@@ -17,6 +17,7 @@
  * 19g: this component is client and must never read `next/headers` itself).
  */
 
+import { clx } from "@medusajs/ui"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 
@@ -37,7 +38,7 @@ export function yandexErrorKey(code: string | null | undefined): string | null {
   return ERROR_KEYS[code] ?? "yandexErrorFailed"
 }
 
-const YandexLoginError = ({ available }: { available: boolean }) => {
+const YandexLoginError = ({ available, alignStart = false }: { available: boolean; alignStart?: boolean }) => {
   const t = useTranslations("Login")
   const searchParams = useSearchParams()
 
@@ -60,7 +61,7 @@ const YandexLoginError = ({ available }: { available: boolean }) => {
    */
   return (
     <div
-      className="w-full text-center text-ui-fg-error text-small-regular"
+      className={clx("w-full text-ui-fg-error text-small-regular", alignStart ? "text-start" : "text-center")}
       data-testid="yandex-login-error"
     >
       <span>{t(errorKey)}</span>

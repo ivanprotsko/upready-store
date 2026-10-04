@@ -1185,7 +1185,7 @@
     "title": "Handlekurv",
     "signInPrompt": "Logg inn for å se ordrehistorikken din og handle raskere.",
     "signInEmail": "Med e-post",
-    "signInYandex": "Med Yandex ID",
+    "signInYandex": "Logg inn med Yandex ID",
     "deliveryEstimate": "Levering {range}",
     "empty": "Handlekurven din er tom.",
     "exploreProducts": "Se produkter",

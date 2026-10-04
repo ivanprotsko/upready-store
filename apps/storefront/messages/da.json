@@ -1185,7 +1185,7 @@
     "title": "Kurv",
     "signInPrompt": "Log ind for at se din ordrehistorik og handle hurtigere.",
     "signInEmail": "Med e-mail",
-    "signInYandex": "Med Yandex ID",
+    "signInYandex": "Log ind med Yandex ID",
     "deliveryEstimate": "Levering {range}",
     "empty": "Din kurv er tom.",
     "exploreProducts": "Se produkter",

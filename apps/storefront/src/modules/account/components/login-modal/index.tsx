@@ -42,6 +42,9 @@ type Props = {
  * the modal is gone and the page shows the signed-in state, with the cart and the checkout
  * step where they were.
  *
+ * Compact (t-2026-10-04-45): a 320 px column, 24 px all round on tablet and desktop and 16 on a
+ * phone, the text aligned left, Yandex ID as the button Yandex's own constructor draws.
+ *
  * Yandex ID leaves the page by design and comes back to it; when it comes back with
  * `?yandex_error=…` the modal opens by itself, so the buyer reads why on the page they
  * started from. `/account` shows that message in its own page and is left alone.
@@ -65,8 +68,8 @@ export default function LoginModal({ loginSettings, telegramBot, siteName, legal
   }, [yandexError, pathname])
 
   return (
-    <CheckoutModal open={open} onClose={closeLoginModal} title={t("heading")}>
-      <div className="pb-2" data-testid="login-modal">
+    <CheckoutModal open={open} onClose={closeLoginModal} title={t("heading")} compact>
+      <div data-testid="login-modal">
         <LoginTemplate
           siteName={siteName}
           legal={legal}

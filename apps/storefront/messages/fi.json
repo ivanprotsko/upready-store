@@ -1185,7 +1185,7 @@
     "title": "Ostoskori",
     "signInPrompt": "Kirjaudu sisään nähdäksesi tilaushistoriasi ja tehdäksesi ostokset nopeammin.",
     "signInEmail": "Sähköpostilla",
-    "signInYandex": "Yandex ID:llä",
+    "signInYandex": "Kirjaudu Yandex ID:llä",
     "deliveryEstimate": "Toimitus {range}",
     "empty": "Ostoskorisi on tyhjä.",
     "exploreProducts": "Selaa tuotteita",

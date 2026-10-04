@@ -1185,7 +1185,7 @@
     "title": "Cart",
     "signInPrompt": "Sign in to see your order history and check out faster.",
     "signInEmail": "With email",
-    "signInYandex": "With Yandex ID",
+    "signInYandex": "Sign in with Yandex ID",
     "deliveryEstimate": "Delivery {range}",
     "empty": "Your cart is empty.",
     "exploreProducts": "Explore products",

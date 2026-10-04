@@ -1185,7 +1185,7 @@
     "title": "Carrinho",
     "signInPrompt": "Entre para ver o histórico de pedidos e comprar mais rápido.",
     "signInEmail": "Com e-mail",
-    "signInYandex": "Com Yandex ID",
+    "signInYandex": "Entrar com Yandex ID",
     "deliveryEstimate": "Entrega {range}",
     "empty": "O seu carrinho está vazio.",
     "exploreProducts": "Ver produtos",

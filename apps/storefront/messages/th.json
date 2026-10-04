@@ -1185,7 +1185,7 @@
     "title": "ตะกร้า",
     "signInPrompt": "เข้าสู่ระบบเพื่อดูประวัติการสั่งซื้อและสั่งซื้อได้เร็วขึ้น",
     "signInEmail": "ด้วยอีเมล",
-    "signInYandex": "ด้วย Yandex ID",
+    "signInYandex": "เข้าสู่ระบบด้วย Yandex ID",
     "deliveryEstimate": "จัดส่ง {range}",
     "empty": "ตะกร้าของคุณว่างเปล่า",
     "exploreProducts": "ดูสินค้า",

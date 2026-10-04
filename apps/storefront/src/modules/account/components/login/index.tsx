@@ -1,5 +1,6 @@
 "use client"
 
+import { clx } from "@medusajs/ui"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 
@@ -61,7 +62,9 @@ const Login = ({
       className="max-w-sm w-full flex flex-col gap-y-6"
       data-testid="login-page"
     >
-      <div className="flex flex-col items-center gap-y-3 text-center">
+      {/* In the modal the text sits left, on the button's edge (t-2026-10-04-45, Ivan 04.10:
+          «Текст в контейнере выровнять по левому краю»); the page keeps its centred column. */}
+      <div className={clx("flex flex-col gap-y-3", inModal ? "items-start text-start" : "items-center text-center")}>
         {inModal ? null : <h1 className="text-large-semi uppercase">{t("heading")}</h1>}
         <p className="text-base-regular text-ui-fg-base">{t("description")}</p>
       </div>
@@ -73,12 +76,15 @@ const Login = ({
         legal={legal}
         emailOpen={emailOpen}
       />
-      <YandexLoginError available={yandexEnabled} />
+      <YandexLoginError available={yandexEnabled} alignStart={inModal} />
       {emailEnabled && (
         <button
           type="button"
           onClick={() => setCurrentView(LOGIN_VIEW.FORGOT_PASSWORD)}
-          className="self-center text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline"
+          className={clx(
+            "text-small-regular text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline",
+            inModal ? "self-start" : "self-center"
+          )}
           data-testid="forgot-password-button"
         >
           {t("forgotPassword")}

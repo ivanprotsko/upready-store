@@ -1185,7 +1185,7 @@
     "title": "কার্ট",
     "signInPrompt": "অর্ডারের ইতিহাস দেখতে এবং দ্রুত কেনাকাটা করতে সাইন ইন করুন।",
     "signInEmail": "ইমেইল দিয়ে",
-    "signInYandex": "Yandex ID দিয়ে",
+    "signInYandex": "Yandex ID দিয়ে সাইন ইন করুন",
     "deliveryEstimate": "ডেলিভারি {range}",
     "empty": "আপনার কার্ট খালি।",
     "exploreProducts": "পণ্য দেখুন",
