@@ -36,6 +36,7 @@ import {
   type RobokassaReceiptLineInput,
 } from "../../tenant-secrets/robokassa";
 import { buildRobokassaSession, type RobokassaSessionData } from "./build-session";
+import { robokassaPaymentMethods, sanitizeRobokassaAliases } from "./payment-methods";
 
 export type { RobokassaSessionData } from "./build-session";
 
@@ -146,6 +147,11 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
       throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "Payment session id is missing.");
     }
 
+    // t-2026-10-04-49: the aliases the checkout may open Robokassa on, from the
+    // server's own read of the shop's cabinet (cached; card and SBP when
+    // Robokassa cannot be asked). Nothing the client sent decides this list.
+    const methods = await robokassaPaymentMethods(secret.credentials.merchant_login, this.logger_);
+
     const session = buildRobokassaSession({
       secret,
       sessionId,
@@ -157,10 +163,11 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
       culture: RobokassaPaymentProviderService.text(data.culture, 5),
       description: RobokassaPaymentProviderService.text(data.description, 100),
       receiptLines: RobokassaPaymentProviderService.receiptLines(data.receipt_lines),
+      paymentMethods: methods.methods.map((method) => method.alias),
     });
 
     this.logger_.info(
-      `[robokassa] session ${sessionId} for tenant ${secret.tenant_id}: invoice ${session.invoice_id}, ${session.out_sum} RUB, test=${session.is_test}`,
+      `[robokassa] session ${sessionId} for tenant ${secret.tenant_id}: invoice ${session.invoice_id}, ${session.out_sum} RUB, test=${session.is_test}, methods ${session.payment_methods.join("/")} (${methods.source})`,
     );
 
     return { id: session.invoice_id, data: session };
@@ -193,6 +200,7 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
       culture: null,
       description: null,
       receiptLines: data.receipt_lines ?? [],
+      paymentMethods: sanitizeRobokassaAliases(data.payment_methods),
     });
     this.logger_.info(
       `[robokassa] session ${data.session_id}: total changed ${data.out_sum} → ${nextOutSum} RUB, payment URL rebuilt`,
