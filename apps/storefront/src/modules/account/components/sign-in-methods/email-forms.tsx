@@ -16,28 +16,30 @@ import Input from "@modules/common/components/input"
 type Props = {
   /** The id «По эл. почте» points its `aria-controls` at. */
   id: string
-  /** The page the sidebar is open on: both actions redirect back to it on success. */
+  /** The page the buyer is on: both actions redirect back to it on success. */
   returnTo: string
   siteName: string
   legal: LegalLinkContext
 }
 
 /**
- * The e-mail sign-in and sign-up inside the cart sidebar (t-2026-10-03-64, Ivan: «…или
+ * The e-mail sign-in and sign-up of `SignInMethods`: the cart sidebar, the sign-in modal and
+ * `/account` (t-2026-10-03-64, Ivan: «…или
  * переключения на регистрацию (которая должна там же появится, а кнопка "регистрация"
  * заменится на "войти", чтобы вернуться обратно»).
  *
  * The forms are the account page's own (`modules/account/components/login`,
  * `…/register`), submitted to the same server actions with the same fields: `login` and
  * `signup` set the session, move this cart onto the customer, merge the guest wishlist
- * and redirect to `returnTo`, the page the sidebar is open on. The pathname does not
- * change, so the sidebar stays open (`./context.tsx` closes it on navigation only) and
- * renders again for a signed-in buyer: the sign-in block goes, the cart stays.
+ * and redirect to `returnTo`, the page the buyer is on. The pathname does not change, so
+ * the cart sidebar stays open (`cart-sidebar/context.tsx` closes it on navigation only) and
+ * the layout renders again for a signed-in buyer: the sign-in block and the sign-in modal
+ * go (`LoginModalHost` renders none for a customer), the cart and the checkout step stay.
  *
  * The second button of the pair swaps the form in place: «Регистрация» under the sign-in
  * form, «Войти» under the sign-up form.
  */
-export default function CartSidebarEmailForms(props: Props) {
+export default function SignInEmailForms(props: Props) {
   const [view, setView] = useState<"signIn" | "register">("signIn")
 
   return view === "signIn" ? (

@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url"
 
 /**
  * o25-login-methods: the login/register screens render only the methods this
- * shop chose. `Login`, `LoginTemplate` and `YandexLogin` are client components
+ * shop chose. `Login`, `LoginTemplate` and `YandexLoginError` are client components
  * this suite has no renderer for (no @testing-library/react in this package,
  * the same constraint every `readFileSync`-based test here already works
  * around — see `src/lib/theme/composition.test.ts`), so the gating is
@@ -23,35 +23,36 @@ const yandexSource = readFileSync(
   "utf8"
 )
 
-describe("Login: which controls render per mode", () => {
-  it("the email/password form is wrapped in emailEnabled, not always rendered", () => {
-    const formIndex = loginSource.indexOf("{emailEnabled && (\n        <form")
-    expect(formIndex).not.toBe(-1)
+const methodsSource = readFileSync(
+  join(here, "..", "sign-in-methods", "index.tsx"),
+  "utf8"
+)
+
+describe("Login: the cart sidebar's block, no orphan divider (t-2026-10-04-24)", () => {
+  it("draws the methods through SignInMethods, the block the cart sidebar and the modal share", () => {
+    expect(loginSource).toContain("<SignInMethods")
+    expect(methodsSource).toContain("allowsEmailLogin(loginSettings.method)")
+    expect(methodsSource).toContain("yandexLoginAvailable(loginSettings)")
   })
 
-  it("emailEnabled comes from allowsEmailLogin(loginSettings.method), not a guess", () => {
+  it("has no «или» divider left, on the page or in the block", () => {
+    // cherkashino.ru is Yandex ID only: the divider stood alone under an empty gap.
+    for (const source of [loginSource, methodsSource, yandexSource]) {
+      expect(source).not.toContain("yandexDivider")
+    }
+  })
+
+  it("the e-mail form and «Забыли пароль?» are both gated on the shop signing in by e-mail", () => {
+    expect(methodsSource).toContain("{emailSignIn && emailOpen ? (")
+    const guard = loginSource.indexOf("{emailEnabled && (")
+    expect(guard).not.toBe(-1)
+    expect(loginSource.indexOf('t("forgotPassword")')).toBeGreaterThan(guard)
     expect(loginSource).toContain("allowsEmailLogin(loginSettings.method)")
   })
 
-  it("the Yandex control always renders, gated by its own available prop", () => {
-    expect(loginSource).toContain("<YandexLogin available={yandexEnabled} />")
+  it("shows the Yandex ID error message, gated by its own available prop", () => {
+    expect(loginSource).toContain("<YandexLoginError available={yandexEnabled} />")
     expect(loginSource).toContain("yandexLoginAvailable(loginSettings)")
-  })
-
-  it("the \"not a member? join us\" register trigger is hidden with the email form", () => {
-    // Exactly two blocks are gated on emailEnabled: the form itself, and this
-    // trigger. A third occurrence would mean something else started reading
-    // the same flag, and one occurrence would mean the trigger stopped being
-    // guarded.
-    const guardCount = loginSource.split("{emailEnabled && (").length - 1
-    expect(guardCount).toBe(2)
-
-    const secondGuardIndex = loginSource.indexOf(
-      "{emailEnabled && (",
-      loginSource.indexOf("{emailEnabled && (") + 1
-    )
-    const notMemberIndex = loginSource.indexOf('t("notMember")')
-    expect(notMemberIndex).toBeGreaterThan(secondGuardIndex)
   })
 })
 
@@ -73,7 +74,7 @@ describe("LoginTemplate: Register and ForgotPassword are email-and-password view
   })
 })
 
-describe("YandexLogin: gated on its prop, no module-level env check left behind", () => {
+describe("YandexLoginError: gated on its prop, no module-level env check left behind", () => {
   it("renders nothing when available is false", () => {
     expect(yandexSource).toContain("if (!available) {")
     expect(yandexSource).toContain("return null")

@@ -11,6 +11,7 @@ import { getEffectiveSettings } from "@lib/data/tenant-home"
 import { getSeoVerification } from "@lib/data/seo-verification"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
 import HydrationSlot from "@modules/common/components/hydration-slot"
+import LoginModalHost from "@modules/account/components/login-modal/host"
 import BottomNav from "@modules/layout/components/bottom-nav"
 import CartNotifications from "@modules/layout/components/cart-notifications"
 import { CartSidebarProvider } from "@modules/layout/components/cart-sidebar/context"
@@ -112,6 +113,10 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
                 its trigger up to three times); async, so behind its own Suspense. */}
             <Suspense fallback={null}>
               <CartSidebarHost />
+            </Suspense>
+            {/* The sign-in modal every guest «Войти» opens (t-2026-10-04-24); none for a customer. */}
+            <Suspense fallback={null}>
+              <LoginModalHost />
             </Suspense>
           </HydrationSlot>
         </div>
