@@ -5562,9 +5562,9 @@
       "pcs": "шт"
     },
     "linkState": {
-      "linked": "Связан с товаром",
-      "needs_choice": "Требует выбора",
-      "not_found": "Нет в магазине"
+      "linked": "Linked to a product",
+      "needs_choice": "Needs a choice",
+      "not_found": "Not in the shop"
     },
     "kind": {
       "reviews": "Отзывы",
@@ -5578,32 +5578,80 @@
       "open": "Без ответа"
     },
     "products": {
-      "title": "Товары",
-      "synced": "Обновлено с {{marketplace}} {{at}} · карточек: {{count}}",
-      "neverSynced": "Карточки с {{marketplace}} ещё не приходили",
-      "refresh": "Обновить с площадки",
+      "title": "Products",
+      "synced": "Updated from {{marketplace}} {{at}} · cards: {{count}}",
+      "neverSynced": "No cards have come from {{marketplace}} yet",
+      "refresh": "Update from the marketplace",
       "empty": {
-        "title": "Карточек пока нет",
-        "message": "Когда {{marketplace}} пришлёт карточки, они появятся здесь с датой и временем обновления."
+        "title": "No cards have come yet",
+        "message": "Your {{marketplace}} key is saved, but no card has come yet. Run an update and the cards appear here with the date and time.",
+        "noKeyTitle": "The {{marketplace}} key is not saved",
+        "noKeyMessage": "Without a key, no {{marketplace}} cards come in. Save the key and they appear here after the first update.",
+        "failedTitle": "The card update failed",
+        "failedMessage": "The last attempt to get cards from {{marketplace}} ended in an error. The Updates screen shows what happened.",
+        "saveKey": "Save the key",
+        "syncNow": "Update now",
+        "openSync": "Open Updates"
       },
       "actions": {
-        "openOnMarketplace": "Открыть на {{marketplace}}",
-        "openShopProduct": "Открыть товар магазина",
-        "link": "Связать с товаром магазина",
-        "choose": "Выбрать товар магазина",
-        "unlink": "Отвязать от товара"
+        "openCard": "Open the card",
+        "openOnMarketplace": "Open on {{marketplace}}",
+        "openShopProduct": "Open the shop's product",
+        "link": "Link to a shop product",
+        "choose": "Choose a shop product",
+        "unlink": "Unlink from the product"
       },
       "link": {
-        "title": "Связать с товаром магазина",
-        "description": "{{marketplace}}: {{title}}, артикул {{vendorCode}}. Связь сохранится как ручная и не будет перезаписана следующим обновлением.",
-        "search": "Товар магазина",
-        "searchPlaceholder": "Артикул или название",
-        "nothingFound": "Ничего не найдено. Попробуйте другой артикул или название.",
-        "noSku": "без артикула"
+        "title": "Link to a shop product",
+        "description": "{{marketplace}}: {{title}}, article {{vendorCode}}. The link is saved as manual and the next update does not overwrite it.",
+        "search": "Shop product",
+        "searchPlaceholder": "Article or title",
+        "nothingFound": "Nothing found. Try another article or title.",
+        "noSku": "no article",
+        "loadFailed": "The shop's products did not load. Close the panel and try again."
       },
       "toasts": {
-        "linked": "«{{title}}» связан с товаром магазина.",
-        "unlinked": "«{{title}}» отвязан от товара магазина."
+        "linked": "“{{title}}” is linked to a shop product.",
+        "unlinked": "“{{title}}” is unlinked from the shop product."
+      },
+      "detail": {
+        "subtitle": "{{marketplace}} {{externalId}} · article {{vendorCode}}",
+        "externalId": "{{marketplace}} article",
+        "mpUpdatedAt": "Changed on {{marketplace}}",
+        "stockUnknown": "The marketplace did not report the stock",
+        "linkState": "State",
+        "shopProduct": "Shop product",
+        "matchedBy": "Linked by",
+        "matchedByValue": {
+          "vendor_code": "Article",
+          "manual": "Hand"
+        },
+        "candidates": "Shop products with this article",
+        "linkedManualHint": "You chose this link by hand, and an update from the marketplace does not overwrite it.",
+        "linkedAutoHint": "Linked by the article “{{vendorCode}}”.",
+        "needsChoiceHint": "The shop carries the article “{{vendorCode}}”, but no link is saved. Choose the shop product.",
+        "notFoundHint": "No shop product has the article “{{vendorCode}}”. Link the card by hand.",
+        "offersTitle": "Prices and stock",
+        "offersSubtitle": "Lines: {{count}}. A line is one size in one warehouse, and a dash in the stock means the marketplace did not report it.",
+        "noOffers": "The marketplace sent neither prices nor stock for this card.",
+        "size": "Size",
+        "oneSize": "One size",
+        "noWarehouse": "In no warehouse",
+        "measuredAt": "Measured",
+        "photosTitle": "Photos",
+        "photoAlt": "Photo {{index}}",
+        "noPhotos": "The marketplace sent no photos of this card.",
+        "attributesTitle": "Characteristics",
+        "noAttributes": "The marketplace sent no characteristics.",
+        "attr": {
+          "sizes": "Sizes",
+          "dimensions_length": "Package length, cm",
+          "dimensions_width": "Package width, cm",
+          "dimensions_height": "Package height, cm",
+          "dimensions_weight": "Weight with package, kg",
+          "imt_id": "Card group (imtID)",
+          "subject_id": "Subject (subjectID)"
+        }
       }
     },
     "priceStock": {

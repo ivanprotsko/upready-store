@@ -1,30 +1,29 @@
-import { ArrowPath, ArrowUpRightOnBox, Link as LinkIcon, PencilSquare, XMarkMini } from "@medusajs/icons"
-import { Button, toast } from "@medusajs/ui"
+import { ArrowPath } from "@medusajs/icons"
+import { Button } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { createColumnHelper } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
-import { ActionMenu } from "../../../components/common/action-menu"
 import { Filter } from "../../../components/table/data-table"
 import { _DataTable } from "../../../components/table/data-table/data-table"
 import { useDataTable } from "../../../hooks/use-data-table"
 import { useDate } from "../../../hooks/use-date"
 import {
   MARKETPLACE_LABEL,
-  MP_FIXTURES,
   slugOf,
   useMpProducts,
   type MarketplaceId,
   type MpLinkState,
   type MpProductRow,
 } from "../../../hooks/api/marketplace-section"
-import { useUnlinkMarketplaceCard } from "../../../hooks/api/marketplace-catalog"
 import { CardCell, DateTimeCell, LinkStateCell, MoneyCell, UnitsCell } from "../common/mp-cells"
 import { MpPage } from "../common/mp-page"
 import { useMpListQuery } from "../common/use-mp-list-query"
 import { MpLinkDrawer } from "./components/mp-link-drawer"
+import { MpProductActions } from "./components/mp-product-actions"
+import { MpProductsEmpty } from "./components/mp-products-empty"
 
 /**
  * «Wildberries → Товары» (mp-section-design, Ivan 2026-10-05): every card the
@@ -37,6 +36,11 @@ import { MpLinkDrawer } from "./components/mp-link-drawer"
  * The LINK to the shop's product is one column and one filter here, not a
  * screen of its own: the old «Каталог маркетплейсов» split the articles into
  * four tabs and asked for thresholds before showing a single card.
+ *
+ * Live data since task-02: `GET /tenants/marketplaces/:marketplace/products`
+ * pages, filters, searches and sorts on the server, and reads our database
+ * only, never the marketplace. A row opens the card page
+ * (`/marketplaces/<площадка>/products/:id`).
  */
 
 const PAGE_SIZE = 20
@@ -73,6 +77,7 @@ export const MpProducts = ({ marketplace = "wb" }: { marketplace?: MarketplaceId
   }
 
   const label = MARKETPLACE_LABEL[marketplace]
+  const slug = slugOf(marketplace)
   const subtitle = sync
     ? sync.last_success_at
       ? t("mp.products.synced", {
@@ -83,44 +88,52 @@ export const MpProducts = ({ marketplace = "wb" }: { marketplace?: MarketplaceId
       : t("mp.products.neverSynced", { marketplace: label })
     : null
 
+  /**
+   * No card at all and nothing asked for: the list is empty because the
+   * marketplace sent nothing, and the reason is said in words (rule 20a). A
+   * search or a filter with no match stays `_DataTable`'s own «Ничего не
+   * найдено», so the two cannot be mistaken for each other.
+   */
+  const noQuery = Object.values(raw).filter(Boolean).length === 0
+  const nothingStored = !isLoading && (count ?? 0) === 0 && noQuery
+
   return (
     <MpPage
       title={t("mp.products.title")}
       subtitle={subtitle}
       actions={
         <Button size="small" variant="secondary" asChild>
-          <Link to={`/marketplaces/${slugOf(marketplace)}/sync`}>
+          <Link to={`/marketplaces/${slug}/sync`}>
             <ArrowPath />
             {t("mp.products.refresh")}
           </Link>
         </Button>
       }
     >
-      <_DataTable
-        table={table}
-        columns={columns}
-        count={count ?? 0}
-        pageSize={PAGE_SIZE}
-        filters={filters}
-        search
-        pagination
-        isLoading={isLoading}
-        queryObject={raw}
-        orderBy={[
-          { key: "title", label: t("fields.title") },
-          { key: "vendor_code", label: t("mp.fields.vendorCode") },
-          { key: "price", label: t("fields.price") },
-          { key: "stock", label: t("mp.fields.stock") },
-          { key: "synced_at", label: t("mp.fields.syncedAt") },
-        ]}
-        noRecords={{
-          title: t("mp.products.empty.title", { marketplace: label }),
-          message: t("mp.products.empty.message", { marketplace: label }),
-        }}
-      />
-      {linking ? (
-        <MpLinkDrawer product={linking} onClose={() => setLinking(null)} />
-      ) : null}
+      {nothingStored ? (
+        <MpProductsEmpty marketplace={marketplace} sync={sync} />
+      ) : (
+        <_DataTable
+          table={table}
+          columns={columns}
+          count={count ?? 0}
+          pageSize={PAGE_SIZE}
+          filters={filters}
+          search
+          pagination
+          isLoading={isLoading}
+          queryObject={raw}
+          navigateTo={(row) => `/marketplaces/${slug}/products/${row.original.id}`}
+          orderBy={[
+            { key: "title", label: t("fields.title") },
+            { key: "vendor_code", label: t("mp.fields.vendorCode") },
+            { key: "price", label: t("fields.price") },
+            { key: "stock", label: t("mp.fields.stock") },
+            { key: "synced_at", label: t("mp.fields.syncedAt") },
+          ]}
+        />
+      )}
+      {linking ? <MpLinkDrawer product={linking} onClose={() => setLinking(null)} /> : null}
     </MpPage>
   )
 }
@@ -176,81 +189,12 @@ const useColumns = (marketplace: MarketplaceId, onLink: (row: MpProductRow) => v
       }),
       columnHelper.display({
         id: "actions",
-        cell: ({ row }) => <RowActions row={row.original} marketplace={marketplace} onLink={onLink} />,
+        cell: ({ row }) => (
+          <MpProductActions row={row.original} marketplace={marketplace} onLink={() => onLink(row.original)} />
+        ),
       }),
     ],
     [t, marketplace, onLink]
-  )
-}
-
-const RowActions = ({
-  row,
-  marketplace,
-  onLink,
-}: {
-  row: MpProductRow
-  marketplace: MarketplaceId
-  onLink: (row: MpProductRow) => void
-}) => {
-  const { t } = useTranslation()
-  const { mutateAsync: unlink } = useUnlinkMarketplaceCard()
-  const label = MARKETPLACE_LABEL[marketplace]
-
-  const handleUnlink = async () => {
-    if (MP_FIXTURES) {
-      toast.success(t("mp.products.toasts.unlinked", { title: row.title ?? row.external_id }))
-      return
-    }
-    try {
-      await unlink(row.link.variant_id ?? row.id)
-      toast.success(t("mp.products.toasts.unlinked", { title: row.title ?? row.external_id }))
-    } catch (failure) {
-      toast.error(failure instanceof Error ? failure.message : String(failure))
-    }
-  }
-
-  return (
-    <ActionMenu
-      groups={[
-        {
-          actions: [
-            ...(row.url
-              ? [
-                  {
-                    icon: <ArrowUpRightOnBox />,
-                    label: t("mp.products.actions.openOnMarketplace", { marketplace: label }),
-                    to: row.url,
-                  },
-                ]
-              : []),
-            ...(row.link.product_id
-              ? [
-                  {
-                    icon: <PencilSquare />,
-                    label: t("mp.products.actions.openShopProduct"),
-                    to: `/products/${row.link.product_id}`,
-                  },
-                ]
-              : []),
-          ],
-        },
-        {
-          actions:
-            row.link.state === "linked"
-              ? [{ icon: <XMarkMini />, label: t("mp.products.actions.unlink"), onClick: handleUnlink }]
-              : [
-                  {
-                    icon: <LinkIcon />,
-                    label:
-                      row.link.state === "needs_choice"
-                        ? t("mp.products.actions.choose")
-                        : t("mp.products.actions.link"),
-                    onClick: () => onLink(row),
-                  },
-                ],
-        },
-      ]}
-    />
   )
 }
 

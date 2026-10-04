@@ -148,6 +148,7 @@ export const OWNER_ROUTES = [
   // marketplace are the children of its sidebar entry; the old addresses redirect)
   { path: "/marketplaces/wildberries/products", core: true },
   { path: "/marketplaces/wildberries/products?q=zzzz-nothing-matches", note: "empty search result" },
+  { path: "/marketplaces/wildberries/products/:mp_product_id" },
   { path: "/marketplaces/wildberries/price-stock" },
   { path: "/marketplaces/wildberries/orders", core: true },
   { path: "/marketplaces/wildberries/orders/:mp_order_id" },
@@ -269,6 +270,10 @@ export const PARAM_RESOLVERS = {
       throw new Error("the stand has no order with an unshipped fulfillment")
     }
     return got.__fulfillment
+  },
+  mp_product_id: async (api) => {
+    const body = await api("/tenants/marketplaces/wb/products?limit=1")
+    return first(body.products, "marketplace cards").id
   },
   mp_order_id: async (api) => {
     // «Wildberries → Заказы» (task-04): one marketplace per list, no shop rows.
