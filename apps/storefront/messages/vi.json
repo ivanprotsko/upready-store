@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Thẻ tín dụng",
-    "pp_system_default": "Thanh toán thủ công"
+    "pp_system_default": "Thanh toán thủ công",
+    "robokassaBankCard": "Thẻ ngân hàng",
+    "robokassaCard120Days": "Thẻ 120 ngày không lãi",
+    "robokassaHalva": "Thẻ Halva",
+    "robokassaSbp": "Hệ thống thanh toán nhanh (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Bằng cách nhấn «{button}», bạn trở thành khách hàng của {seller} và xác nhận đã đọc <terms>điều khoản</terms> và <privacy>chính sách bảo mật</privacy>.",

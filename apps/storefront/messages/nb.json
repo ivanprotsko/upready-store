@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Betalingskort",
-    "pp_system_default": "Manuell betaling"
+    "pp_system_default": "Manuell betaling",
+    "robokassaBankCard": "Bankkort",
+    "robokassaCard120Days": "Kort med 120 rentefrie dager",
+    "robokassaHalva": "Halva-kort",
+    "robokassaSbp": "Hurtigbetalingssystemet (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Ved å klikke på «{button}» blir du kunde hos {seller} og bekrefter at du har lest <terms>vilkårene</terms> og <privacy>personvernerklæringen</privacy>.",

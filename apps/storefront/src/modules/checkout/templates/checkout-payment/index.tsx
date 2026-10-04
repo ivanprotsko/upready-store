@@ -1,5 +1,5 @@
 import { getLegalLinkContext } from "@lib/data/legal-links"
-import { listCartPaymentMethods } from "@lib/data/payment"
+import { listCartPaymentMethods, listRobokassaMethods } from "@lib/data/payment"
 import { getTenantManualPayment } from "@lib/data/tenant-manual-payment"
 import { getTenantPaymentPreNotice } from "@lib/data/tenant-payment-pre-notice"
 import { getTenantSeller } from "@lib/data/tenant-seller"
@@ -37,6 +37,7 @@ const CheckoutPayment = async ({
     seller,
     t,
     pageVersions,
+    robokassaMethods,
   ] = await Promise.all([
       listCartPaymentMethods(cart.region?.id ?? ""),
       // The consent sentence under the Pay button names four documents; this is
@@ -59,6 +60,10 @@ const CheckoutPayment = async ({
       // The version of each document the consents point to, stamped on the order
       // (`@lib/util/checkout-consent`, rule C3 of the 04.10 checklist).
       listPublishedPageVersions(),
+      // t-2026-10-04-49: the Robokassa option is listed as the methods the shop
+      // enabled («Банковская карта», «СБП»…). A shop without Robokassa answers an
+      // empty list without the backend asking Robokassa anything.
+      listRobokassaMethods(),
     ])
   const legal = { ...legalLinks, versions: pageVersions }
 
@@ -79,6 +84,7 @@ const CheckoutPayment = async ({
         legal={legal}
         manualPayment={manualPayment}
         tenantPaymentMethods={tenantPaymentMethods}
+        robokassaMethods={robokassaMethods}
         requiresSignIn={requiresSignIn}
         prePaymentNotice={prePaymentNotice}
         seller={sellerLabel(seller ?? { name: null, legal_name: null })}

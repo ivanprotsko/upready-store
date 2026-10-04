@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Credit card",
-    "pp_system_default": "Manual na bayad"
+    "pp_system_default": "Manual na bayad",
+    "robokassaBankCard": "Kard ng bangko",
+    "robokassaCard120Days": "Kard na 120 araw na walang interes",
+    "robokassaHalva": "Kard na Halva",
+    "robokassaSbp": "Mabilis na Pagbabayad (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Sa pag-click ng «{button}», nagiging customer ka ng {seller} at kinukumpirma mong nabasa mo ang <terms>mga tuntunin</terms> at ang <privacy>patakaran sa privacy</privacy>.",

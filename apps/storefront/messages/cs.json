@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Platební karta",
-    "pp_system_default": "Ruční platba"
+    "pp_system_default": "Ruční platba",
+    "robokassaBankCard": "Platební karta",
+    "robokassaCard120Days": "Karta 120 dní bez úroku",
+    "robokassaHalva": "Karta Halva",
+    "robokassaSbp": "Systém rychlých plateb (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Kliknutím na tlačítko „{button}“ se stáváte zákazníkem prodejce {seller} a potvrzujete, že jste se seznámili s <terms>podmínkami</terms> a <privacy>zásadami ochrany osobních údajů</privacy>.",

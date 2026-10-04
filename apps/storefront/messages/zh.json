@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "信用卡",
-    "pp_system_default": "手动付款"
+    "pp_system_default": "手动付款",
+    "robokassaBankCard": "银行卡",
+    "robokassaCard120Days": "120天免息卡",
+    "robokassaHalva": "Halva 卡",
+    "robokassaSbp": "快速支付系统（SBP）"
   },
   "PaymentPreNotice": {
     "becomesClient": "点击「{button}」即表示您成为 {seller} 的客户，并确认已阅读<terms>条款</terms>和<privacy>隐私政策</privacy>。",

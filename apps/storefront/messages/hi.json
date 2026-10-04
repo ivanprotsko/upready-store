@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "क्रेडिट कार्ड",
-    "pp_system_default": "मैनुअल भुगतान"
+    "pp_system_default": "मैनुअल भुगतान",
+    "robokassaBankCard": "बैंक कार्ड",
+    "robokassaCard120Days": "120 दिन ब्याज-मुक्त कार्ड",
+    "robokassaHalva": "Halva कार्ड",
+    "robokassaSbp": "तेज़ भुगतान प्रणाली (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "«{button}» पर क्लिक करके आप {seller} के ग्राहक बन जाते हैं और पुष्टि करते हैं कि आपने <terms>शर्तें</terms> और <privacy>गोपनीयता नीति</privacy> पढ़ ली है।",

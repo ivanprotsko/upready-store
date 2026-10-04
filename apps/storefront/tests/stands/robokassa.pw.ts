@@ -119,15 +119,18 @@ test.describe("robokassa-checkout", () => {
     })
     await selectAnyShippingMethod(page)
 
-    // The shop saved its account in the panel, so the backend offers the method.
-    const chip = page.getByTestId("payment-method-pp_robokassa_robokassa")
+    // The shop saved its account in the panel, so the backend offers the method,
+    // one row per Robokassa method the shop enabled (t-2026-10-04-49).
+    const chip = page.getByTestId("payment-method-pp_robokassa_robokassa-BankCard")
     await expect(
       chip,
       "Robokassa is not offered: either the shop has no enabled account, or the region does not list pp_robokassa_robokassa (src/scripts/link-robokassa-regions.ts)"
     ).toBeVisible({ timeout: 20_000 })
     await chip.click()
 
-    // Pressing «Pay» navigates off-site; catch the URL instead of following it.
+    // Pressing «Pay» opens Robokassa's modal; the stub below also answers the
+    // modal's script with HTML, so the button takes its full-page fallback and
+    // navigates off-site. Catch the URL instead of following it.
     let paymentUrl: string | null = null
     await page.route("https://auth.robokassa.ru/**", async (route) => {
       paymentUrl = route.request().url()
@@ -153,6 +156,8 @@ test.describe("robokassa-checkout", () => {
     expect(params.get("MerchantLogin")).toBeTruthy()
     expect(params.get("SignatureValue")).toMatch(/^[0-9a-f]{32,128}$/i)
     expect(params.get("IsTest")).toBe("1")
+    // The picked row's method, preselected on Robokassa's page.
+    expect(params.get("IncCurrLabel")).toBe("BankCard")
     const invoiceId = params.get("InvId")!
     const outSum = params.get("OutSum")!
     const sessionId = params.get("Shp_SessionID")!

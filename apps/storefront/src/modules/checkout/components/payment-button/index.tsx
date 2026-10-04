@@ -30,6 +30,8 @@ type PaymentButtonProps = {
   demoCard?: DemoCardValue
   /** The offline kind chosen inside the manual provider (olavka-payments); null keeps the demo card gate. */
   manualKind?: ManualPaymentKind | null
+  /** The Robokassa method picked in the list (t-2026-10-04-49); null lets Robokassa offer its own choice. */
+  robokassaMethod?: string | null
   /** Batch 6, Q3.1: a guest with a course in the cart cannot place the order before signing in. */
   requiresSignIn?: boolean
   /** The mandatory personal-data consent ticked and recorded on the cart (`CheckoutConsent`, Ivan 04.10.2026). */
@@ -47,6 +49,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   selectedPaymentMethod,
   demoCard,
   manualKind = null,
+  robokassaMethod = null,
   requiresSignIn = false,
   consentGiven,
   "data-testid": dataTestId,
@@ -101,6 +104,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     cartUpdating: isCartUpdating,
     demoCard,
     manualKind,
+    robokassaMethod,
     label: (
       <>
         {/* An offline kind places the order without paying here, so the

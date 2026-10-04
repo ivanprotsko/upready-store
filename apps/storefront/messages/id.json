@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kartu kredit",
-    "pp_system_default": "Pembayaran manual"
+    "pp_system_default": "Pembayaran manual",
+    "robokassaBankCard": "Kartu bank",
+    "robokassaCard120Days": "Kartu 120 hari tanpa bunga",
+    "robokassaHalva": "Kartu Halva",
+    "robokassaSbp": "Sistem Pembayaran Cepat (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Dengan mengklik «{button}», Anda menjadi pelanggan {seller} dan menyatakan telah membaca <terms>syarat</terms> serta <privacy>kebijakan privasi</privacy>.",

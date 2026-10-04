@@ -1,6 +1,6 @@
 "use client"
 
-import { useId, useState, useEffect, useRef, type ReactNode } from "react"
+import { useId, useMemo, useState, useEffect, useRef, type ReactNode } from "react"
 import { initiatePaymentSessionOrReason, updateCart } from "@lib/data/cart"
 import { getChargeConversionFactor } from "@lib/data/payment"
 import {
@@ -23,8 +23,17 @@ import compareAddresses from "@lib/util/compare-addresses"
 import { cartNeedsShipping, cartShippingAddressGaps } from "@lib/util/shipping-address"
 import { paymentMethodName } from "@lib/util/payment"
 import { pickActivePaymentMethod } from "@lib/util/pick-payment-method"
+import {
+  isRobokassaSbp,
+  parsePaymentChoice,
+  pickRobokassaMethod,
+  robokassaChoiceValue,
+  robokassaMethodLabel,
+  robokassaMethodsForCart,
+  type RobokassaMethod,
+} from "@lib/util/robokassa-methods"
 import type { TenantPaymentMethods } from "@lib/tenant/resolve"
-import { CreditCard, CheckMini } from "@medusajs/icons"
+import { Bolt, CreditCard, CheckMini } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
 import AddressGapMessage from "@modules/checkout/components/address-gap-message"
 import PaymentButton from "@modules/checkout/components/payment-button"
@@ -85,6 +94,12 @@ interface CheckoutPaymentSectionProps {
    * checkout labels it.
    */
   tenantPaymentMethods: TenantPaymentMethods
+  /**
+   * The Robokassa methods the shop has enabled (t-2026-10-04-49), from the
+   * same server parent; `null` when the backend could not say, and the list
+   * falls back to card and SBP. Each one is a row of its own.
+   */
+  robokassaMethods?: RobokassaMethod[] | null
   /** Batch 6, Q3.1: a guest with a course in the cart — the pay button waits for a sign-in. */
   requiresSignIn?: boolean
   /** The pre-payment notice's per-method fields (rule 5zd, t-2026-10-03-32), from the same server parent. */
@@ -99,6 +114,7 @@ export default function CheckoutPaymentSection({
   legal,
   manualPayment,
   tenantPaymentMethods,
+  robokassaMethods = null,
   requiresSignIn = false,
   prePaymentNotice,
   seller,
@@ -115,6 +131,22 @@ export default function CheckoutPaymentSection({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(() =>
     pickActivePaymentMethod(latestSession?.provider_id ?? "", availablePaymentMethods)
   )
+  // t-2026-10-04-49: Robokassa is not one row but one per method the shop
+  // enabled («Банковская карта», «СБП»…). The alias picked here only decides
+  // which method Robokassa opens on; it is not part of the payment session, so
+  // switching between these rows creates no new session (and no new `InvId`).
+  const robokassaRows = useMemo(
+    () => robokassaMethodsForCart(robokassaMethods, cart.total),
+    [robokassaMethods, cart.total]
+  )
+  const [robokassaMethod, setRobokassaMethod] = useState<string | null>(() =>
+    pickRobokassaMethod(null, robokassaRows)
+  )
+  // A method that left the list (the owner switched it off, the total moved
+  // past its limit) hands the pick to the first one still on it.
+  useEffect(() => {
+    setRobokassaMethod((current) => pickRobokassaMethod(current, robokassaRows))
+  }, [robokassaRows])
   const [error, setError] = useState<string | null>(null)
   // The payment session's own failure, apart from `error` (t-2026-10-04-44): a later
   // session that is made clears it, and its line offers a retry.
@@ -304,6 +336,23 @@ export default function CheckoutPaymentSection({
     setSessionRetrying(false)
   }
 
+  // The list's value: a Robokassa row carries its alias as well (`robokassaChoiceValue`).
+  const choiceValue =
+    isRobokassa(selectedPaymentMethod) && robokassaMethod
+      ? robokassaChoiceValue(selectedPaymentMethod, robokassaMethod)
+      : selectedPaymentMethod
+
+  const handleSelectChoice = async (value: string) => {
+    const { providerId, alias } = parsePaymentChoice(value)
+    if (alias) {
+      setRobokassaMethod(alias)
+    }
+    // Another Robokassa method on the same provider keeps the session it has.
+    if (providerId !== selectedPaymentMethod) {
+      await handleSelectPayment(providerId)
+    }
+  }
+
   const handleSelectPayment = async (providerId: string) => {
     setSelectedPaymentMethod(providerId)
 
@@ -466,72 +515,95 @@ export default function CheckoutPaymentSection({
 
           <RadioGroup
             dir={dir}
-            value={selectedPaymentMethod}
-            onValueChange={handleSelectPayment}
+            value={choiceValue}
+            onValueChange={handleSelectChoice}
             className="flex flex-col gap-y-2"
           >
-            {availablePaymentMethods.map((method) => {
-              const info = paymentInfoMap[method.id]
-              const isSelected = selectedPaymentMethod === method.id
-              const label =
-                isManual(method.id) && offersRequisites
-                  ? tmp("methodRequisites")
-                  : paymentMethodName(tm, method.id)
-              const processor = method.id.includes("stripe")
-                ? "Stripe"
-                : method.id.includes("paypal")
-                  ? "PayPal"
-                  : ""
+            {availablePaymentMethods
+              .flatMap((method) => {
+                if (isRobokassa(method.id)) {
+                  return robokassaRows.map((rk) => ({
+                    value: robokassaChoiceValue(method.id, rk.alias),
+                    testId: `payment-method-${method.id}-${rk.alias}`,
+                    label: robokassaMethodLabel(tm, rk, locale),
+                    processor: "Robokassa",
+                    icon: isRobokassaSbp(rk.alias) ? (
+                      <Bolt className="w-3 h-3" />
+                    ) : (
+                      <CreditCard className="w-3 h-3" />
+                    ),
+                  }))
+                }
+                const info = paymentInfoMap[method.id]
+                return [
+                  {
+                    value: method.id,
+                    testId: `payment-method-${method.id}`,
+                    label:
+                      isManual(method.id) && offersRequisites
+                        ? tmp("methodRequisites")
+                        : paymentMethodName(tm, method.id),
+                    processor: method.id.includes("stripe")
+                      ? "Stripe"
+                      : method.id.includes("paypal")
+                        ? "PayPal"
+                        : "",
+                    icon: info?.icon || <CreditCard className="w-3 h-3" />,
+                  },
+                ]
+              })
+              .map((row) => {
+                const isSelected = choiceValue === row.value
 
-              return (
-                <div
-                  key={method.id}
-                  className={clx(
-                    "relative flex items-center gap-x-3 rounded-lg border px-4 py-3 text-start transition-colors",
-                    // The theme's accent border on the chosen row, as on delivery.
-                    isSelected
-                      ? "border-ui-border-interactive bg-ui-bg-base"
-                      : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
-                  )}
-                >
-                  <RadioGroup.Item
-                    value={method.id}
-                    aria-label={label}
-                    data-testid={`payment-method-${method.id}`}
-                    className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-                  />
-                  {/* The radio mark of `RadioGroup.ChoiceBox`, the same as the
-                      delivery rows draw. */}
-                  <div className="flex h-5 w-5 shrink-0 items-center justify-center">
-                    <div
-                      className={clx(
-                        "flex h-3.5 w-3.5 items-center justify-center rounded-full",
-                        isSelected
-                          ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
-                          : "bg-ui-bg-base shadow-borders-base"
-                      )}
-                    >
-                      {isSelected && (
-                        <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
-                      )}
-                    </div>
-                  </div>
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ui-bg-component shadow-borders-base">
-                    {info?.icon || <CreditCard className="w-3 h-3" />}
-                  </span>
-                  <span className="flex min-w-0 flex-col">
-                    <span className="txt-compact-medium-plus text-ui-fg-base">
-                      {label}
-                    </span>
-                    {processor && (
-                      <span className="txt-compact-small text-ui-fg-subtle">
-                        {processor}
-                      </span>
+                return (
+                  <div
+                    key={row.value}
+                    className={clx(
+                      "relative flex items-center gap-x-3 rounded-lg border px-4 py-3 text-start transition-colors",
+                      // The theme's accent border on the chosen row, as on delivery.
+                      isSelected
+                        ? "border-ui-border-interactive bg-ui-bg-base"
+                        : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
                     )}
-                  </span>
-                </div>
-              )
-            })}
+                  >
+                    <RadioGroup.Item
+                      value={row.value}
+                      aria-label={row.label}
+                      data-testid={row.testId}
+                      className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                    />
+                    {/* The radio mark of `RadioGroup.ChoiceBox`, the same as the
+                        delivery rows draw. */}
+                    <div className="flex h-5 w-5 shrink-0 items-center justify-center">
+                      <div
+                        className={clx(
+                          "flex h-3.5 w-3.5 items-center justify-center rounded-full",
+                          isSelected
+                            ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
+                            : "bg-ui-bg-base shadow-borders-base"
+                        )}
+                      >
+                        {isSelected && (
+                          <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
+                        )}
+                      </div>
+                    </div>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ui-bg-component shadow-borders-base">
+                      {row.icon}
+                    </span>
+                    <span className="flex min-w-0 flex-col">
+                      <span className="txt-compact-medium-plus text-ui-fg-base">
+                        {row.label}
+                      </span>
+                      {row.processor && (
+                        <span className="txt-compact-small text-ui-fg-subtle">
+                          {row.processor}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                )
+              })}
           </RadioGroup>
 
           {/* Stripe card input */}
@@ -705,6 +777,7 @@ export default function CheckoutPaymentSection({
           selectedPaymentMethod={selectedPaymentMethod}
           demoCard={demoCard}
           manualKind={manualKinds.length > 0 ? manualKind : null}
+          robokassaMethod={isRobokassa(selectedPaymentMethod) ? robokassaMethod : null}
           requiresSignIn={requiresSignIn}
           consentGiven={consentGiven}
           data-testid="submit-order-button"

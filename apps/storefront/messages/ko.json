@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "신용카드",
-    "pp_system_default": "수동 결제"
+    "pp_system_default": "수동 결제",
+    "robokassaBankCard": "은행 카드",
+    "robokassaCard120Days": "120일 무이자 카드",
+    "robokassaHalva": "Halva 카드",
+    "robokassaSbp": "빠른 결제 시스템(SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "«{button}» 버튼을 클릭하면 {seller}의 고객이 되며, <terms>약관</terms> 및 <privacy>개인정보 처리방침</privacy>을 확인한 것으로 간주됩니다.",

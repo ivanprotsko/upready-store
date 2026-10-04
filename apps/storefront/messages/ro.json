@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Card de credit",
-    "pp_system_default": "Plată manuală"
+    "pp_system_default": "Plată manuală",
+    "robokassaBankCard": "Card bancar",
+    "robokassaCard120Days": "Card 120 de zile fără dobândă",
+    "robokassaHalva": "Card Halva",
+    "robokassaSbp": "Sistemul de plăți rapide (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Făcând clic pe «{button}», deveniți client al vânzătorului {seller} și confirmați că ați citit <terms>termenii</terms> și <privacy>politica de confidențialitate</privacy>.",

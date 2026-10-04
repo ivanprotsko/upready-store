@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Банковская карта",
-    "pp_system_default": "Оплата вручную"
+    "pp_system_default": "Оплата вручную",
+    "robokassaBankCard": "Банковская карта",
+    "robokassaCard120Days": "Карта 120 дней без %",
+    "robokassaHalva": "Карта Халва",
+    "robokassaSbp": "СБП"
   },
   "PaymentPreNotice": {
     "becomesClient": "Нажимая кнопку «{button}», я становлюсь клиентом {seller} и подтверждаю ознакомление с <terms>офертой</terms> и <privacy>политикой конфиденциальности</privacy>.",

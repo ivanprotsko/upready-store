@@ -43,6 +43,7 @@ const baseInput = (secret: ResolvedRobokassaSecret) => ({
   culture: null,
   description: null,
   receiptLines: [],
+  paymentMethods: [] as string[],
 });
 
 describe("buildRobokassaSession: fiscalization off (t-cherk-30)", () => {
@@ -197,5 +198,113 @@ describe("buildRobokassaSession: fiscalization on (t-cherk-30)", () => {
     expect(session.receipt?.items.map((item) => item.sum)).toEqual([3.33, 3.33, 3.34]);
     expect(session.receipt?.items.at(-1)?.payment_object).toBe("service");
     expect(session.receipt?.items.reduce((total, item) => total + item.sum, 0)).toBe(10);
+  });
+});
+
+describe("buildRobokassaSession: checkout method rows and the modal (t-2026-10-04-49)", () => {
+  const fiscalSecret = () =>
+    secretFor({
+      credentials: {
+        merchant_login: "DEMO",
+        password1: "live-one",
+        password2: "live-two",
+        test_password1: "test-one",
+        test_password2: "test-two",
+        hash_algorithm: "sha256",
+        fiscalization_enabled: true,
+        sno: "osn",
+        default_tax: "none",
+      },
+    });
+
+  const fullInput = (paymentMethods: string[]) => ({
+    ...baseInput(fiscalSecret()),
+    successUrl: "https://shop.test/api/payment-return?provider=robokassa&outcome=success",
+    failUrl: "https://shop.test/api/payment-return?provider=robokassa&outcome=fail",
+    email: "buyer@example.com",
+    culture: "ru",
+    description: "Заказ",
+    receiptLines: [{ name: "Товар", quantity: 1, amount: 100, kind: "item" as const }],
+    paymentMethods,
+  });
+
+  it("signs the modal's form fields with the documented formula, the same signature the URL carries", () => {
+    const session = buildRobokassaSession(fullInput(["BankCard", "SBP"]));
+    const encodedReceipt = encodeURIComponent(JSON.stringify(session.receipt));
+
+    // pay-interface doc, «Сборка подписи»:
+    // MerchantLogin:OutSum:InvId:Receipt:SuccessUrl2:SuccessUrl2Method:FailUrl2:FailUrl2Method:Пароль#1:Shp_*
+    const expectedSignature = digest(
+      [
+        "DEMO",
+        "100.00",
+        session.invoice_id,
+        encodedReceipt,
+        "https://shop.test/api/payment-return?provider=robokassa&outcome=success",
+        "GET",
+        "https://shop.test/api/payment-return?provider=robokassa&outcome=fail",
+        "GET",
+        "test-one",
+        `Shp_SessionID=${session.session_id}`,
+      ].join(":"),
+    );
+
+    expect(session.payment_fields).toEqual({
+      MerchantLogin: "DEMO",
+      OutSum: "100.00",
+      InvId: session.invoice_id,
+      Description: "Заказ",
+      SignatureValue: expectedSignature,
+      Shp_SessionID: session.session_id,
+      SuccessUrl2: "https://shop.test/api/payment-return?provider=robokassa&outcome=success",
+      SuccessUrl2Method: "GET",
+      FailUrl2: "https://shop.test/api/payment-return?provider=robokassa&outcome=fail",
+      FailUrl2Method: "GET",
+      Email: "buyer@example.com",
+      Culture: "ru",
+      IsTest: "1",
+      // The encoded string itself, the bytes that were signed, as the doc's form example posts it.
+      Receipt: encodedReceipt,
+    });
+    expect(new URL(session.payment_url).searchParams.get("SignatureValue")).toBe(expectedSignature);
+  });
+
+  it("carries exactly the URL's parameters, so the modal and the redirect are one request", () => {
+    const session = buildRobokassaSession(fullInput(["BankCard"]));
+    const url = new URL(session.payment_url);
+    const fromUrl: Record<string, string> = {};
+    url.searchParams.forEach((value, key) => {
+      fromUrl[key] = value;
+    });
+    const { Receipt: receiptField, ...rest } = session.payment_fields;
+    const { Receipt: receiptFromUrl, ...restFromUrl } = fromUrl;
+
+    expect(rest).toEqual(restFromUrl);
+    // searchParams decodes once; the field keeps the encoded string the signature covers.
+    expect(decodeURIComponent(receiptField)).toBe(receiptFromUrl);
+  });
+
+  it("leaves the signature and the URL untouched by the method list: neither IncCurrLabel nor PaymentMethods is signed", () => {
+    const withMethods = buildRobokassaSession(fullInput(["BankCard", "SBP", "BankCardHalva"]));
+    const withoutMethods = buildRobokassaSession(fullInput([]));
+
+    expect(withMethods.payment_url).toBe(withoutMethods.payment_url);
+    expect(withMethods.payment_fields).toEqual(withoutMethods.payment_fields);
+    expect(withMethods.payment_url).not.toContain("IncCurrLabel");
+    expect(withMethods.payment_methods).toEqual(["BankCard", "SBP", "BankCardHalva"]);
+  });
+
+  it("whitelists the aliases: a value not shaped like one never reaches the session", () => {
+    const session = buildRobokassaSession(fullInput(["SBP", "SBP&OutSum=1", "BankCard", "", "SBP"]));
+    expect(session.payment_methods).toEqual(["SBP", "BankCard"]);
+  });
+
+  it("drops IsTest from the fields of a live shop", () => {
+    const live = secretFor({ is_test: false });
+    const session = buildRobokassaSession(baseInput(live));
+    expect(session.payment_fields.IsTest).toBeUndefined();
+    expect(session.payment_fields.SignatureValue).toBe(
+      digest(["DEMO", "100.00", session.invoice_id, "live-one", `Shp_SessionID=${session.session_id}`].join(":")),
+    );
   });
 });

@@ -3,6 +3,7 @@
 import { sdk } from "@lib/config"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 import type { HttpTypes } from "@medusajs/types"
+import type { RobokassaMethod } from "@lib/util/robokassa-methods"
 
 /**
  * The payment methods THIS shop offers in this region.
@@ -99,6 +100,30 @@ export const getChargeConversionFactor = async (
         `[charge-estimate] cart=${cartId} currency=${currencyCode} could not be estimated:`,
         error
       )
+      return null
+    })
+}
+
+/**
+ * The Robokassa methods this shop has enabled (t-2026-10-04-49), for the
+ * checkout to list as rows of their own under «Способ оплаты». The backend
+ * reads them from Robokassa's `GetCurrencies` and caches them
+ * (`apps/backend/src/api/store/tenant/robokassa-methods/route.ts`), so this is
+ * one cheap request per checkout render, fresh for the same reason
+ * `listCartPaymentMethods` is.
+ *
+ * `null` when the backend could not answer; the checkout then lists card and
+ * SBP (`robokassaMethodsForCart`).
+ */
+export const listRobokassaMethods = async (): Promise<RobokassaMethod[] | null> => {
+  return sdk.client
+    .fetch<{ methods: RobokassaMethod[] }>(`/store/tenant/robokassa-methods`, {
+      method: "GET",
+      cache: "no-store",
+    })
+    .then(({ methods }) => (Array.isArray(methods) ? methods : null))
+    .catch((error) => {
+      console.error("[robokassa-methods] could not be listed:", error)
       return null
     })
 }

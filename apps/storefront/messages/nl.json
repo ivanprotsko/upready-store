@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Creditcard",
-    "pp_system_default": "Handmatige betaling"
+    "pp_system_default": "Handmatige betaling",
+    "robokassaBankCard": "Bankpas",
+    "robokassaCard120Days": "Kaart 120 dagen renteloos",
+    "robokassaHalva": "Halva-kaart",
+    "robokassaSbp": "Snelbetaalsysteem (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Door op «{button}» te klikken, wordt u klant van {seller} en bevestigt u dat u de <terms>voorwaarden</terms> en het <privacy>privacybeleid</privacy> hebt gelezen.",

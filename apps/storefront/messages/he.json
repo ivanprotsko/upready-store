@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "כרטיס אשראי",
-    "pp_system_default": "תשלום ידני"
+    "pp_system_default": "תשלום ידני",
+    "robokassaBankCard": "כרטיס בנק",
+    "robokassaCard120Days": "כרטיס 120 יום ללא ריבית",
+    "robokassaHalva": "כרטיס Halva",
+    "robokassaSbp": "מערכת תשלומים מהירים (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "בלחיצה על «{button}», אתה הופך ללקוח של {seller} ומאשר שקראת את <terms>התנאים</terms> ואת <privacy>מדיניות הפרטיות</privacy>.",

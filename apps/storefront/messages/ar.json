@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "بطاقة ائتمان",
-    "pp_system_default": "دفع يدوي"
+    "pp_system_default": "دفع يدوي",
+    "robokassaBankCard": "بطاقة بنكية",
+    "robokassaCard120Days": "بطاقة 120 يومًا بدون فوائد",
+    "robokassaHalva": "بطاقة Halva",
+    "robokassaSbp": "نظام الدفع السريع (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "بالنقر على «{button}»، تصبح عميلاً لدى {seller} وتؤكد أنك اطلعت على <terms>الشروط</terms> و<privacy>سياسة الخصوصية</privacy>.",

@@ -889,7 +889,11 @@
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Cartão de crédito",
-    "pp_system_default": "Pagamento manual"
+    "pp_system_default": "Pagamento manual",
+    "robokassaBankCard": "Cartão bancário",
+    "robokassaCard120Days": "Cartão 120 dias sem juros",
+    "robokassaHalva": "Cartão Halva",
+    "robokassaSbp": "Sistema de pagamentos rápidos (SBP)"
   },
   "PaymentPreNotice": {
     "becomesClient": "Ao clicar em «{button}», torna-se cliente de {seller} e confirma que leu os <terms>termos</terms> e a <privacy>política de privacidade</privacy>.",

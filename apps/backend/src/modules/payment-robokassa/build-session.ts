@@ -11,6 +11,7 @@ import {
   type RobokassaReceiptLineInput,
 } from "../../tenant-secrets/robokassa";
 import { isSyntheticTelegramEmail } from "../auth-telegram/lib/identity";
+import { sanitizeRobokassaAliases } from "./payment-methods";
 
 /**
  * What the provider keeps on `payment_session.data`. Everything here is safe to
@@ -30,6 +31,20 @@ import { isSyntheticTelegramEmail } from "../auth-telegram/lib/identity";
  * into, `null` while the shop has fiscalization off. Both ride along on the
  * session so a rebuild (`buildRobokassaSession` called again from
  * `updatePayment`) does not need the cart a second time.
+ *
+ * `payment_methods`/`payment_fields` are t-2026-10-04-49, the checkout's own
+ * method rows and Robokassa's modal over the checkout. `payment_methods` is
+ * the server's whitelist of `IncCurrLabel` aliases for this shop
+ * (`payment-methods.ts`, read from Robokassa's `GetCurrencies`); the storefront
+ * opens Robokassa on an alias only when it is on this list. `payment_fields`
+ * are the very parameters of `payment_url`, signature included, as the form
+ * fields `Robokassa.Render` posts to its iframe. Neither `IncCurrLabel` nor
+ * `Settings.PaymentMethods` enters the signature (pay-interface doc, «Сборка
+ * подписи»: the modifiers are `Receipt`, `StepByStep`, `ResultUrl2`, the
+ * `SuccessUrl2`/`FailUrl2` pairs and `Token`), so picking another method on
+ * the checkout needs no new session, and with it no new `InvId`: a buyer who
+ * scanned the SBP code and then switches to the card can still finish the SBP
+ * payment into a session that exists.
  */
 export type RobokassaSessionData = {
   provider: "robokassa";
@@ -49,6 +64,10 @@ export type RobokassaSessionData = {
   result_out_sum: string | null;
   receipt_lines: RobokassaReceiptLineInput[];
   receipt: RobokassaReceipt | null;
+  /** The `IncCurrLabel` aliases this shop may be opened on, best first. */
+  payment_methods: string[];
+  /** `payment_url`'s own parameters as form fields, `Receipt` URL-encoded exactly as it was signed. */
+  payment_fields: Record<string, string>;
 };
 
 export type BuildRobokassaSessionInput = {
@@ -63,6 +82,8 @@ export type BuildRobokassaSessionInput = {
   description: string | null;
   /** Cart lines for the `Receipt` (t-cherk-30); ignored unless the shop's fiscalization switch is on. */
   receiptLines: RobokassaReceiptLineInput[];
+  /** The shop's `IncCurrLabel` aliases (t-2026-10-04-49); anything not shaped like one is dropped. */
+  paymentMethods: string[];
 };
 
 /**
@@ -116,32 +137,41 @@ export const buildRobokassaSession = (input: BuildRobokassaSessionInput): Roboka
     secret.credentials.hash_algorithm,
   );
 
-  const params = new URLSearchParams();
-  params.set("MerchantLogin", secret.credentials.merchant_login);
-  params.set("OutSum", outSum);
-  params.set("InvId", invoiceId);
+  // One ordered set of fields for both carriers: the query string of
+  // `payment_url` (the full-page redirect) and the form `Robokassa.Render`
+  // posts into its iframe (t-2026-10-04-49). `Receipt` goes last and is the
+  // already-encoded string in both, the bytes the signature was computed over:
+  // the doc's own form example posts it URL-encoded, and the iframe doc's demo
+  // passes it «преобразованным через encodeURIComponent».
+  const fields: Record<string, string> = {};
+  fields.MerchantLogin = secret.credentials.merchant_login;
+  fields.OutSum = outSum;
+  fields.InvId = invoiceId;
   if (input.description) {
-    params.set("Description", input.description.slice(0, 100));
+    fields.Description = input.description.slice(0, 100);
   }
-  params.set("SignatureValue", signature);
-  params.set("Shp_SessionID", sessionId);
+  fields.SignatureValue = signature;
+  fields.Shp_SessionID = sessionId;
   for (const [key, value] of Object.entries(urlParams)) {
     if (value) {
-      params.set(key, value);
+      fields[key] = value;
     }
   }
   // Robokassa mails the receipt to this address; a Telegram buyer's synthetic one would bounce.
   if (input.email && !isSyntheticTelegramEmail(input.email)) {
-    params.set("Email", input.email);
+    fields.Email = input.email;
   }
   if (input.culture) {
-    params.set("Culture", input.culture);
+    fields.Culture = input.culture;
   }
   if (secret.is_test) {
-    params.set("IsTest", "1");
+    fields.IsTest = "1";
   }
 
-  const query = params.toString() + (receiptEncoded ? `&Receipt=${receiptEncoded}` : "");
+  const query = new URLSearchParams(fields).toString() + (receiptEncoded ? `&Receipt=${receiptEncoded}` : "");
+  if (receiptEncoded) {
+    fields.Receipt = receiptEncoded;
+  }
 
   return {
     provider: "robokassa",
@@ -159,5 +189,7 @@ export const buildRobokassaSession = (input: BuildRobokassaSessionInput): Roboka
     result_out_sum: null,
     receipt_lines: input.receiptLines,
     receipt,
+    payment_methods: sanitizeRobokassaAliases(input.paymentMethods),
+    payment_fields: fields,
   };
 };

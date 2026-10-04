@@ -27,6 +27,12 @@ export type PaymentProviderButtonProps = {
    * manual.tsx` alone; null keeps the demo card flow.
    */
   manualKind?: ManualPaymentKind | null
+  /**
+   * The Robokassa method alias the buyer picked in the list (`BankCard`,
+   * `SBP`…, t-2026-10-04-49). Read by `providers/robokassa.tsx` alone, which
+   * opens Robokassa on it only when the session's own whitelist lists it.
+   */
+  robokassaMethod?: string | null
   "data-testid"?: string
 }
 
