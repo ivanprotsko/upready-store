@@ -1,38 +1,48 @@
 import {
   aggregateLines,
   buildPriceStockRows,
-  DEFAULT_PRICE_STOCK_THRESHOLDS,
-  filterByTab,
+  filterPriceStockRows,
   freshnessOf,
+  highlightOf,
   lastImportOf,
+  measuredOf,
+  offersWithoutCard,
+  parsePriceStockQuery,
   priceStockCounts,
+  priceStockCsvCells,
+  priceStockCsvColumns,
+  sortPriceStockRows,
   staleAfterMs,
   toPriceStockCsv,
+  type BuildPriceStockInput,
   type PriceStockCard,
   type PriceStockImport,
   type PriceStockLine,
+  type PriceStockRow,
   type PriceStockVariant,
 } from "../price-stock";
 import { MP_SYNC_INTERVAL_MS } from "../schedule";
 
 /**
- * The decisions of «Маркетплейсы → Цены и остатки» (w17-mp-price-stock-table).
+ * The decisions of «Wildberries → Цены и остатки» (mp-section-design task-03;
+ * the aggregation and freshness rules are w17's).
  *
- * The three claims the screen makes, and the three this file exists to keep
- * honest:
+ * The claims the screen makes, and the ones this file exists to keep honest:
  *
- *   1. the collapsed stock IS the sum of the expanded warehouse and size lines;
- *   2. the three groups partition the articles — their counts sum to the total,
- *      and «расхождение выше порога» is an OVERLAY that must not be added to
- *      that sum;
- *   3. a number is never shown fresher than the import that brought it.
+ *   1. the stock on a row IS the sum of its warehouse and size lines, and a
+ *      line that said nothing is not a zero;
+ *   2. the row is the card, «Есть везде» is a card with a live `mp_link`, and
+ *      the three states partition the table;
+ *   3. a gap is highlighted by the thresholds the query carried, a zero gap
+ *      never is, and «по расхождению» sorts by the size of the gap;
+ *   4. a number is never shown fresher than the import that brought it;
+ *   5. the file has the table's rows and the table's columns, in its order.
  */
 
 const MINUTE = 60_000;
-const NOW = new Date("2026-09-16T04:00:00.000Z");
+const NOW = new Date("2026-10-05T04:00:00.000Z");
 
-const at = (minutesAgo: number): string =>
-  new Date(NOW.getTime() - minutesAgo * MINUTE).toISOString();
+const at = (minutesAgo: number): string => new Date(NOW.getTime() - minutesAgo * MINUTE).toISOString();
 
 const line = (over: Partial<PriceStockLine> & Pick<PriceStockLine, "external_id">): PriceStockLine => ({
   marketplace: "wb",
@@ -53,10 +63,11 @@ const line = (over: Partial<PriceStockLine> & Pick<PriceStockLine, "external_id"
 });
 
 const card = (over: Partial<PriceStockCard> = {}): PriceStockCard => ({
-  marketplace: "wb",
+  id: "mpprod_100",
   external_id: "100",
   vendor_code: "ART-1",
-  title: "Товар",
+  title: "Карточка",
+  thumbnail: null,
   ...over,
 });
 
@@ -64,8 +75,9 @@ const variant = (over: Partial<PriceStockVariant> = {}): PriceStockVariant => ({
   id: "var_1",
   product_id: "prod_1",
   product_title: "Товар магазина",
+  thumbnail: null,
   sku: "ART-1",
-  prices: { rub: 900 },
+  prices: { rub: 1000 },
   stock: 5,
   ...over,
 });
@@ -78,18 +90,30 @@ const succeeded = (over: Partial<PriceStockImport> = {}): PriceStockImport => ({
   ...over,
 });
 
-const build = (over: Partial<Parameters<typeof buildPriceStockRows>[0]> = {}) =>
+const LINKED = { external_id: "100", product_id: "prod_1", variant_id: "var_1" };
+
+const build = (over: Partial<BuildPriceStockInput> = {}): PriceStockRow[] =>
   buildPriceStockRows({
+    marketplace: "wb",
     cards: [card()],
-    lines: [line({ external_id: "100" })],
+    lines: [line({ external_id: "100", stock: 7, warehouse_id: "wh-1" })],
+    links: [LINKED],
     variants: [variant()],
     imports: [succeeded(), succeeded({ kind: "stocks" })],
-    marketplaces: ["wb", "ozon"],
+    currency: "RUB",
     now: NOW,
     ...over,
   });
 
-describe("свёрнутый остаток = сумма развёрнутых строк", () => {
+const rowOf = (rows: PriceStockRow[], id: string): PriceStockRow => {
+  const row = rows.find((entry) => entry.id === id);
+  if (!row) {
+    throw new Error(`row ${id} not built`);
+  }
+  return row;
+};
+
+describe("остаток строки = сумма строк по складам и размерам", () => {
   const warehouses = Array.from({ length: 7 }, (_, index) =>
     line({
       external_id: "100",
@@ -97,6 +121,7 @@ describe("свёрнутый остаток = сумма развёрнутых 
       warehouse_name: `Склад ${index}`,
       size_external: `size-${index % 3}`,
       stock: index * 3 + 1,
+      reserved: 1,
     }),
   );
 
@@ -105,9 +130,10 @@ describe("свёрнутый остаток = сумма развёрнутых 
     const expected = warehouses.reduce((sum, entry) => sum + (entry.stock ?? 0), 0);
 
     expect(aggregate.stock).toBe(expected);
-    expect(aggregate.stock_lines).toBe(warehouses.length);
+    expect(aggregate.stock_lines).toBe(7);
     expect(aggregate.warehouses).toBe(7);
     expect(aggregate.sizes).toBe(3);
+    expect(aggregate.reserved).toBe(7);
   });
 
   it("строка без остатка сумму не меняет и нулём не становится", () => {
@@ -121,14 +147,22 @@ describe("свёрнутый остаток = сумма развёрнутых 
 
   it("когда остаток не назвал НИКТО — это null, а не ноль (правило 20a)", () => {
     expect(aggregateLines([line({ external_id: "100" })]).stock).toBeNull();
+    const row = build({ lines: [line({ external_id: "100" })] })[0];
+    expect(row.mp?.stock).toBeNull();
+    expect(row.diff.stock_abs).toBeNull();
   });
 
-  it("колонка строки таблицы несёт ровно эту сумму", () => {
-    const rows = build({ lines: warehouses });
-    const column = rows[0].columns.find((entry) => entry.marketplace === "wb");
+  it("настоящий ноль площадки остаётся нулём и даёт расхождение", () => {
+    const row = build({ lines: [line({ external_id: "100", stock: 0, warehouse_id: "wh-1" })] })[0];
+    expect(row.mp?.stock).toBe(0);
+    expect(row.diff.stock_abs).toBe(-5);
+  });
 
-    expect(column?.stock).toBe(aggregateLines(warehouses).stock);
-    expect(column?.lines).toBe(7);
+  it("строка таблицы несёт ровно эту сумму и счёт строк, складов и размеров", () => {
+    const row = build({ lines: warehouses })[0];
+
+    expect(row.mp?.stock).toBe(aggregateLines(warehouses).stock);
+    expect(row.mp).toMatchObject({ lines: 7, warehouses: 7, sizes: 3, reserved: 7 });
   });
 
   it("цена — наименьшая, и со скидкой предпочтительнее", () => {
@@ -143,171 +177,174 @@ describe("свёрнутый остаток = сумма развёрнутых 
     expect(aggregate.effective_basis).toBe("discount_price");
   });
 
-  it("без скидки основанием становится обычная цена и это названо", () => {
-    const aggregate = aggregateLines([
-      line({ external_id: "100", price: 1200, discount_price: null }),
-    ]);
+  it("без скидки основанием становится обычная цена", () => {
+    const aggregate = aggregateLines([line({ external_id: "100", price: 1200, discount_price: null })]);
 
     expect(aggregate.effective_price).toBe(1200);
     expect(aggregate.effective_basis).toBe("price");
   });
 });
 
-describe("три группы делят артикулы без остатка", () => {
-  const rows = build({
-    cards: [card({ external_id: "100", vendor_code: "ART-1" }), card({ external_id: "200", vendor_code: "ART-MP" })],
-    lines: [
-      line({ external_id: "100", stock: 4 }),
-      line({ external_id: "200", vendor_code: "ART-MP", stock: 9 }),
-    ],
-    variants: [variant(), variant({ id: "var_2", product_id: "prod_2", sku: "ART-SHOP", stock: 2 })],
+describe("строка — карточка, связь — mp_link", () => {
+  it("карточка со связью — «Есть везде», с числами магазина в валюте площадки", () => {
+    const row = build()[0];
+
+    expect(row).toMatchObject({
+      id: "mpprod_100",
+      card_id: "mpprod_100",
+      external_id: "100",
+      state: "both",
+      currency: "RUB",
+      shop: { product_id: "prod_1", variant_id: "var_1", price: 1000, stock: 5 },
+    });
   });
 
-  it("каждый артикул ровно в одной группе, сумма трёх = всего", () => {
+  it("без связи карточка — «Только на площадке», а вариант — отдельной строкой «Только в магазине»", () => {
+    const rows = build({ links: [] });
+
+    expect(rows.map((row) => [row.id, row.state])).toEqual([
+      ["mpprod_100", "marketplace_only"],
+      ["var_1", "shop_only"],
+    ]);
+    expect(rowOf(rows, "var_1")).toMatchObject({
+      card_id: null,
+      external_id: null,
+      vendor_code: "ART-1",
+      mp: null,
+      shop: { price: 1000, stock: 5 },
+    });
+  });
+
+  it("совпадение артикула без связи «Есть везде» НЕ делает: решает mp_link, как на «Товарах»", () => {
+    expect(build({ links: [] }).find((row) => row.state === "both")).toBeUndefined();
+  });
+
+  it("товар магазина без артикула тоже строка «Только в магазине»", () => {
+    const rows = build({ links: [], variants: [variant({ id: "var_nosku", sku: null })] });
+
+    expect(rowOf(rows, "var_nosku")).toMatchObject({ state: "shop_only", vendor_code: null });
+  });
+
+  it("связь на ушедший из магазина вариант — не связь", () => {
+    const rows = build({ links: [{ ...LINKED, variant_id: "var_gone" }] });
+
+    expect(rowOf(rows, "mpprod_100").state).toBe("marketplace_only");
+  });
+
+  it("связь без варианта берёт единственный вариант товара, а из нескольких не выбирает", () => {
+    expect(build({ links: [{ ...LINKED, variant_id: null }] })[0].state).toBe("both");
+
+    const two = build({
+      links: [{ ...LINKED, variant_id: null }],
+      variants: [variant(), variant({ id: "var_2", sku: "ART-2" })],
+    });
+    expect(rowOf(two, "mpprod_100").state).toBe("marketplace_only");
+  });
+
+  it("три состояния делят таблицу: сумма счётчиков = число строк, «выше порога» — наложение", () => {
+    const rows = build({
+      cards: [card(), card({ id: "mpprod_200", external_id: "200", vendor_code: "ART-2" })],
+      lines: [
+        line({ external_id: "100", stock: 70, warehouse_id: "wh-1" }),
+        line({ external_id: "200", stock: 1, warehouse_id: "wh-1" }),
+      ],
+      variants: [variant(), variant({ id: "var_3", sku: "ART-3" })],
+    });
     const counts = priceStockCounts(rows);
 
-    expect(counts.total).toBe(3);
-    expect(counts.accounted_for).toBe(counts.total);
-    expect(counts.both).toBe(1);
-    expect(counts.marketplace_only).toBe(1);
-    expect(counts.shop_only).toBe(1);
+    expect(counts).toEqual({ both: 1, marketplace_only: 1, shop_only: 1, over_threshold: 1 });
+    expect(counts.both + counts.marketplace_only + counts.shop_only).toBe(rows.length);
   });
 
-  it("«расхождение выше порога» — наложение, а не четвёртая группа", () => {
-    const counts = priceStockCounts(rows);
-    const flagged = filterByTab(rows, "over_threshold");
+  it("строки mp_offer без карточки строк не дают, но посчитаны", () => {
+    const lines = [line({ external_id: "100" }), line({ external_id: "999" }), line({ external_id: "999", warehouse_id: "w" })];
+    const rows = build({ lines });
 
-    expect(counts.over_threshold).toBe(flagged.length);
-    /* Каждая отмеченная строка уже посчитана в «везде есть». */
-    for (const row of flagged) {
-      expect(row.group).toBe("both");
-    }
-    expect(counts.both + counts.shop_only + counts.marketplace_only).toBe(counts.total);
+    expect(rows.find((row) => row.external_id === "999")).toBeUndefined();
+    expect(offersWithoutCard([card()], lines)).toBe(1);
   });
 
-  it("артикул на нескольких товарах магазина: строка в «везде есть», а цена магазина не выдумана", () => {
-    const ambiguous = build({
-      variants: [variant(), variant({ id: "var_2", product_id: "prod_2", stock: 7 })],
-    });
+  it("карточка без строк цен — строка с пустыми числами, а не пропуск", () => {
+    const row = build({ lines: [] })[0];
 
-    expect(ambiguous[0].group).toBe("both");
-    expect(ambiguous[0].shop).toBeNull();
-    expect(ambiguous[0].shop_variants).toBe(2);
-    expect(ambiguous[0].shop_ambiguous).toBe(true);
-    /* Ни одно расхождение не посчитано: сравнивать не с чем (правило 20a). */
-    expect(ambiguous[0].differences.every((difference) => difference.abs === null)).toBe(true);
-  });
-
-  it("один товар магазина — не двусмысленность", () => {
-    expect(build()[0].shop_ambiguous).toBe(false);
-    expect(build()[0].shop_variants).toBe(1);
-  });
-
-  it("вкладка отдаёт ровно строки своей группы", () => {
-    expect(filterByTab(rows, "shop_only").map((row) => row.vendor_code)).toEqual(["ART-SHOP"]);
-    expect(filterByTab(rows, "marketplace_only").map((row) => row.vendor_code)).toEqual(["ART-MP"]);
-  });
-
-  it("артикул площадки без карточки всё равно попадает в таблицу своей строкой mp_offer", () => {
-    const orphan = build({
-      cards: [],
-      variants: [],
-      lines: [line({ external_id: "999", vendor_code: "ART-ORPHAN", stock: 3 })],
-    });
-
-    expect(orphan).toHaveLength(1);
-    expect(orphan[0].group).toBe("marketplace_only");
-    expect(orphan[0].columns[0].stock).toBe(3);
+    expect(row.state).toBe("both");
+    expect(row.mp).toMatchObject({ price: null, stock: null, lines: 0, price_stale: false, stock_stale: false });
+    expect(row.diff).toMatchObject({ price_abs: null, stock_abs: null, highlighted: false });
   });
 });
 
-describe("расхождения и порог", () => {
-  it("цена: рубли и проценты от цены площадки", () => {
-    const rows = build({ lines: [line({ external_id: "100", price: 1000, discount_price: 800 })] });
-    const price = rows[0].differences.find((difference) => difference.metric === "price");
+describe("расхождения и пороги", () => {
+  it("цена: площадка минус магазин, проценты от цены магазина", () => {
+    const row = build({ lines: [line({ external_id: "100", price: 1300, discount_price: 1240 })], variants: [variant({ prices: { rub: 1144 } })] })[0];
 
-    /* Магазин 900, площадка 800 со скидкой: +100 ₽, +12.5 %. */
-    expect(price?.marketplace_value).toBe(800);
-    expect(price?.abs).toBe(100);
-    expect(price?.pct).toBe(12.5);
-    expect(price?.unit).toBe("RUB");
-    expect(price?.highlighted).toBe(true);
+    expect(row.diff.price_abs).toBe(96);
+    expect(row.diff.price_pct).toBe(8.39);
   });
 
-  it("порог решает подсветку, и он приходит снаружи", () => {
+  it("остаток: площадка минус магазин, в штуках", () => {
+    expect(build()[0].diff.stock_abs).toBe(2);
+  });
+
+  it("порог приходит снаружи и решает подсветку", () => {
+    const lines = [line({ external_id: "100", price: 1200, discount_price: 1150, stock: 5, warehouse_id: "w" })];
+
+    expect(build({ lines, thresholds: { price_pct: 10, stock_abs: 1 } })[0].diff.highlighted).toBe(true);
+    expect(build({ lines, thresholds: { price_pct: 20, stock_abs: 1 } })[0].diff.highlighted).toBe(false);
+  });
+
+  it("нулевое расхождение не подсвечено даже при пороге 0", () => {
+    expect(highlightOf({ price_pct: 0, stock_abs: 0 }, { price_pct: 0, stock_abs: 0 })).toBe(false);
+    expect(highlightOf({ price_pct: -0.5, stock_abs: null }, { price_pct: 0, stock_abs: 0 })).toBe(true);
+  });
+
+  it("порог берётся по модулю: −12 % так же далеко, как +12 %", () => {
+    expect(highlightOf({ price_pct: -12, stock_abs: null }, { price_pct: 10, stock_abs: 1 })).toBe(true);
+    expect(highlightOf({ price_pct: null, stock_abs: -3 }, { price_pct: 10, stock_abs: 3 })).toBe(true);
+  });
+
+  it("без цены магазина в валюте площадки разницы нет, а не «−100 %»", () => {
+    const row = build({ variants: [variant({ prices: { eur: 10 } })] })[0];
+
+    expect(row.shop?.price).toBeNull();
+    expect(row.diff.price_abs).toBeNull();
+    expect(row.diff.price_pct).toBeNull();
+  });
+
+  it("«только выше порога» — подмножество «Есть везде»", () => {
     const rows = build({
-      lines: [line({ external_id: "100", price: 1000, discount_price: 800 })],
-      thresholds: { ...DEFAULT_PRICE_STOCK_THRESHOLDS, price_pct: 20 },
+      cards: [card(), card({ id: "mpprod_200", external_id: "200" })],
+      lines: [line({ external_id: "100", price: 2000, discount_price: 2000 }), line({ external_id: "200" })],
     });
+    const over = filterPriceStockRows(rows, { q: null, states: null, over_threshold: true });
 
-    expect(rows[0].differences.find((entry) => entry.metric === "price")?.highlighted).toBe(false);
-    expect(rows[0].over_threshold).toBe(false);
-  });
-
-  it("остаток: разница в штуках, и молчание площадки расхождением не считается", () => {
-    const rows = build({ lines: [line({ external_id: "100", stock: null })] });
-    const stock = rows[0].differences.find((difference) => difference.metric === "stock");
-
-    expect(stock?.marketplace_value).toBeNull();
-    expect(stock?.abs).toBeNull();
-    expect(stock?.highlighted).toBe(false);
-    expect(stock?.note).toContain("площадка остаток не назвала");
-  });
-
-  it("каждое расхождение несёт единицу и строку про источник (правило 18e)", () => {
-    for (const difference of build()[0].differences) {
-      expect(difference.note).toContain("магазин:");
-      expect(difference.note).toContain("площадка:");
-      expect(typeof difference.unit).toBe("string");
-    }
+    expect(over.length).toBeGreaterThan(0);
+    expect(over.every((row) => row.state === "both")).toBe(true);
   });
 });
 
 describe("свежесть", () => {
-  const priceWindow = staleAfterMs("prices");
-  const stockWindow = staleAfterMs("stocks");
-
-  it("порог протухания — интервал вида, умноженный на три", () => {
-    expect(priceWindow).toBe(MP_SYNC_INTERVAL_MS.prices * 3);
-    expect(stockWindow).toBe(MP_SYNC_INTERVAL_MS.stocks * 3);
-    expect(stockWindow).toBe(45 * MINUTE);
+  it("порог «Устарело» — интервал вида, умноженный на три: цены 3 ч, остатки 45 мин", () => {
+    expect(staleAfterMs("prices")).toBe(MP_SYNC_INTERVAL_MS.prices * 3);
+    expect(staleAfterMs("prices")).toBe(180 * MINUTE);
+    expect(staleAfterMs("stocks")).toBe(45 * MINUTE);
   });
 
-  it("свежее число протухшим не зовётся", () => {
-    const fresh = freshnessOf({
-      family: "stocks",
-      hasValue: true,
-      measuredAt: at(10),
-      importedAt: at(10),
-      now: NOW,
-      marketplace: "wb",
-      lines: 3,
-    });
+  it("остатки моложе 45 минут — не устарели, старше — устарели", () => {
+    const fresh = build({
+      lines: [line({ external_id: "100", stock: 3, warehouse_id: "w", measured_at: at(44) })],
+      imports: [succeeded(), succeeded({ kind: "stocks", finished_at: at(44) })],
+    })[0];
+    const stale = build({
+      lines: [line({ external_id: "100", stock: 3, warehouse_id: "w", measured_at: at(46) })],
+      imports: [succeeded(), succeeded({ kind: "stocks", finished_at: at(46) })],
+    })[0];
 
-    expect(fresh.stale).toBe(false);
-    expect(fresh.age_ms).toBe(10 * MINUTE);
-  });
-
-  it("старше трёх интервалов — протухло", () => {
-    expect(
-      freshnessOf({
-        family: "stocks",
-        hasValue: true,
-        measuredAt: at(46),
-        importedAt: at(46),
-        now: NOW,
-        marketplace: "wb",
-        lines: 3,
-      }).stale,
-    ).toBe(true);
+    expect(fresh.mp?.stock_stale).toBe(false);
+    expect(stale.mp?.stock_stale).toBe(true);
+    expect(stale.mp?.stock_measured_at).toBe(at(46));
   });
 
   it("возраст берётся от СТАРШЕГО из двух фактов — число не свежее импорта, который его принёс", () => {
-    /*
-     * Ровно случай WB: строка mp_offer с ценой и остатком несёт время
-     * ЗАГРУЗКИ ОСТАТКОВ, а цена приехала другим запросом двумя часами раньше.
-     * Взять `measured_at` было бы объявить цену свежей.
-     */
     const freshness = freshnessOf({
       family: "prices",
       hasValue: true,
@@ -319,52 +356,30 @@ describe("свежесть", () => {
     });
 
     expect(freshness.as_of).toBe(at(200));
-    expect(freshness.age_ms).toBe(200 * MINUTE);
     expect(freshness.stale).toBe(true);
   });
 
-  it("пустая колонка не протухшая, а пустая", () => {
-    const empty = freshnessOf({
-      family: "prices",
-      hasValue: false,
-      measuredAt: null,
-      importedAt: null,
-      now: NOW,
-      marketplace: "ozon",
-      lines: 0,
-    });
-
-    expect(empty.stale).toBe(false);
-    expect(empty.note).toContain("числа нет");
-  });
-
-  it("число есть, а возраста нет — считаем протухшим, а не текущим", () => {
-    const unknownAge = freshnessOf({
-      family: "prices",
-      hasValue: true,
-      measuredAt: null,
-      importedAt: null,
-      now: NOW,
-      marketplace: "ozon",
-      lines: 1,
-    });
-
-    expect(unknownAge.stale).toBe(true);
-    expect(unknownAge.note).toContain("возраст неизвестен");
-  });
-
-  it("колонка стареет по самой старой своей строке", () => {
-    const rows = build({
+  it("строка стареет по самой старой своей строке mp_offer", () => {
+    const row = build({
       lines: [
-        line({ external_id: "100", stock: 1, measured_at: at(1) }),
-        line({ external_id: "100", warehouse_id: "wh-2", stock: 2, measured_at: at(120) }),
+        line({ external_id: "100", stock: 1, warehouse_id: "a", measured_at: at(1) }),
+        line({ external_id: "100", stock: 2, warehouse_id: "b", measured_at: at(120) }),
       ],
-      imports: [succeeded(), succeeded({ kind: "stocks", finished_at: at(1) })],
-    });
-    const column = rows[0].columns[0];
+    })[0];
 
-    expect(column.stock_freshness.measured_at).toBe(at(120));
-    expect(column.stock_freshness.stale).toBe(true);
+    expect(row.mp?.stock_measured_at).toBe(at(120));
+    expect(row.mp?.stock_stale).toBe(true);
+  });
+
+  it("пустое число не устаревшее, а пустое; число без возраста — устаревшее", () => {
+    expect(
+      freshnessOf({ family: "prices", hasValue: false, measuredAt: null, importedAt: null, now: NOW, marketplace: "wb", lines: 0 })
+        .stale,
+    ).toBe(false);
+    expect(
+      freshnessOf({ family: "prices", hasValue: true, measuredAt: null, importedAt: null, now: NOW, marketplace: "wb", lines: 1 })
+        .stale,
+    ).toBe(true);
   });
 
   it("импорт вида находится по семейству, а не по списку имён", () => {
@@ -376,72 +391,152 @@ describe("свежесть", () => {
 
     expect(lastImportOf(imports, "ozon", "stocks")).toBe(at(5));
     expect(lastImportOf(imports, "ozon", "prices")).toBeNull();
-    expect(lastImportOf(imports, "wb", "stocks")).toBeNull();
   });
 
-  it("протухшие колонки посчитаны для экрана", () => {
-    const rows = build({
-      imports: [succeeded({ finished_at: at(600) }), succeeded({ kind: "stocks", finished_at: at(600) })],
-      lines: [line({ external_id: "100", stock: 3, measured_at: at(600) })],
-    });
+  it("«цены на …, остатки на …» — самый новый замер, не позже успешного импорта", () => {
+    const lines = [
+      line({ external_id: "100", stock: 1, warehouse_id: "a", measured_at: at(10) }),
+      line({ external_id: "200", stock: null, measured_at: at(2) }),
+    ];
+    const measured = measuredOf(lines, [succeeded({ finished_at: at(30) }), succeeded({ kind: "stocks", finished_at: at(1) })], "wb");
 
-    expect(priceStockCounts(rows).stale_columns).toBe(2);
+    expect(measured).toEqual({ prices_at: at(30), stocks_at: at(10) });
+  });
+});
+
+describe("запрос", () => {
+  it("по умолчанию: 20 строк, пороги 10 % и 1 шт, без фильтров", () => {
+    expect(parsePriceStockQuery({})).toEqual({
+      limit: 20,
+      offset: 0,
+      q: null,
+      order: null,
+      states: null,
+      over_threshold: false,
+      thresholds: { price_pct: 10, stock_abs: 1 },
+    });
+  });
+
+  it("читает адрес панели", () => {
+    expect(
+      parsePriceStockQuery({
+        state: "both,shop_only",
+        over_threshold: "true",
+        price_pct: "20",
+        stock_abs: "0",
+        order: "-price_pct",
+        q: "  мумиё ",
+        offset: "40",
+      }),
+    ).toMatchObject({
+      states: ["both", "shop_only"],
+      over_threshold: true,
+      thresholds: { price_pct: 20, stock_abs: 0 },
+      order: { field: "price_pct", desc: true },
+      q: "мумиё",
+      offset: 40,
+    });
+  });
+
+  it.each([
+    [{ order: "price" }, /order/],
+    [{ state: "linked" }, /state/],
+    [{ over_threshold: "yes" }, /over_threshold/],
+    [{ price_pct: "-1" }, /price_pct/],
+    [{ stock_abs: "1.5" }, /stock_abs/],
+    [{ price_pct: "abc" }, /price_pct/],
+  ])("%j — 400 с перечнем допустимого, а не тихий порог по умолчанию", (query, pattern) => {
+    expect(() => parsePriceStockQuery(query)).toThrow(pattern);
+  });
+});
+
+describe("поиск и сортировка", () => {
+  const rows = build({
+    cards: [
+      card({ id: "a", external_id: "1", title: "Мумиё алтайское", vendor_code: "MUM-1" }),
+      card({ id: "b", external_id: "2", title: "Чай", vendor_code: "TEA-1" }),
+      card({ id: "c", external_id: "3", title: "Мазь", vendor_code: "MAZ-1" }),
+    ],
+    lines: [
+      line({ external_id: "1", price: 1100, discount_price: null, stock: 1, warehouse_id: "w" }),
+      line({ external_id: "2", price: 700, discount_price: null, stock: 50, warehouse_id: "w" }),
+      line({ external_id: "3", price: 1050, discount_price: null, stock: 4, warehouse_id: "w" }),
+    ],
+    links: [
+      { external_id: "1", product_id: "p1", variant_id: "v1" },
+      { external_id: "2", product_id: "p2", variant_id: "v2" },
+    ],
+    variants: [
+      variant({ id: "v1", product_id: "p1", sku: "MUM-1", prices: { rub: 1000 }, stock: 5 }),
+      variant({ id: "v2", product_id: "p2", sku: "TEA-1", prices: { rub: 1000 }, stock: 5 }),
+    ],
+  });
+
+  it("q ищет по названию и артикулу без учёта регистра", () => {
+    expect(filterPriceStockRows(rows, { q: "мумиё", states: null, over_threshold: false }).map((row) => row.id)).toEqual(["a"]);
+    expect(filterPriceStockRows(rows, { q: "tea-1", states: null, over_threshold: false }).map((row) => row.id)).toEqual(["b"]);
+  });
+
+  it("по расхождению цены — по модулю: −30 % дальше, чем +10 %; без расхождения — в конце в обе стороны", () => {
+    expect(sortPriceStockRows(rows, { field: "price_pct", desc: true }).map((row) => row.id)).toEqual(["b", "a", "c"]);
+    expect(sortPriceStockRows(rows, { field: "price_pct", desc: false }).map((row) => row.id)).toEqual(["a", "b", "c"]);
+  });
+
+  it("по расхождению остатка — по модулю", () => {
+    expect(sortPriceStockRows(rows, { field: "stock_abs", desc: true }).map((row) => row.id)).toEqual(["b", "a", "c"]);
+  });
+
+  it("по умолчанию подсвеченные первыми, затем «Есть везде», «Только на площадке», «Только в магазине»", () => {
+    const withShopOnly = [...rows, ...build({ links: [] }).filter((row) => row.state === "shop_only")];
+    const ordered = sortPriceStockRows(withShopOnly, null);
+
+    expect(ordered.map((row) => row.state)).toEqual(["both", "both", "marketplace_only", "shop_only"]);
+    expect(ordered[0].diff.highlighted).toBe(true);
   });
 });
 
 describe("экспорт", () => {
   const rows = build({
-    cards: [card(), card({ external_id: "200", vendor_code: "ART-MP" })],
-    lines: [line({ external_id: "100", stock: 4 }), line({ external_id: "200", vendor_code: "ART-MP", stock: 9 })],
+    lines: [line({ external_id: "100", price: 1300, discount_price: 1240, stock: 7, warehouse_id: "w", reserved: 2 })],
+    variants: [variant({ prices: { rub: 1144 } })],
   });
 
-  it("строк в файле ровно столько, сколько строк отдано, плюс заголовок", () => {
-    const csv = toPriceStockCsv(rows, ["wb", "ozon"]);
-    const lines = csv.trimEnd().split("\r\n");
+  it("строк в файле ровно столько, сколько строк отдано, плюс заголовок; BOM, ; и CRLF", () => {
+    const csv = toPriceStockCsv(rows, "Wildberries");
 
-    expect(lines).toHaveLength(rows.length + 1);
+    expect(csv.startsWith("﻿")).toBe(true);
+    expect(csv.trimEnd().split("\r\n")).toHaveLength(rows.length + 1);
+    expect(csv.split("\r\n")[0]).toBe(`﻿${priceStockCsvColumns("Wildberries").join(";")}`);
   });
 
-  it("экспортируется ровно отфильтрованный набор", () => {
-    const filtered = filterByTab(rows, "marketplace_only");
-    const csv = toPriceStockCsv(filtered, ["wb", "ozon"]);
+  it("колонки идут в порядке таблицы: продукт, цены, остатки, где есть, обновлено", () => {
+    const head = priceStockCsvColumns("Wildberries");
+    const position = (name: string) => head.indexOf(name);
 
-    expect(csv.trimEnd().split("\r\n")).toHaveLength(filtered.length + 1);
-    expect(csv).toContain("ART-MP");
-    expect(csv).not.toContain("ART-1,");
+    expect(position("Продукт")).toBe(0);
+    expect(position("Цена в магазине")).toBeLessThan(position("Цена на Wildberries"));
+    expect(position("Цена на Wildberries")).toBeLessThan(position("Остаток в магазине, шт"));
+    expect(position("Остаток в магазине, шт")).toBeLessThan(position("Остаток на Wildberries, шт"));
+    expect(position("Остаток на Wildberries, шт")).toBeLessThan(position("Где есть"));
+    expect(position("Где есть")).toBeLessThan(position("Обновлено"));
   });
 
-  it("колонки площадок строятся из списка площадок, а не из литералов", () => {
-    const head = toPriceStockCsv(rows, ["wb", "ozon", "megamarket"]).split("\r\n")[0];
+  it("первая строка — значения строки таблицы, числа с запятой, отрицательные без кавычки-формулы", () => {
+    const first = toPriceStockCsv(rows, "Wildberries").split("\r\n")[1].split(";");
+    const cells = priceStockCsvCells(rows[0], "Wildberries");
 
-    expect(head).toContain("Цена на megamarket, ₽ с учётом скидки");
-    expect(head).toContain("Остаток на megamarket, шт");
+    expect(first).toHaveLength(priceStockCsvColumns("Wildberries").length);
+    expect(first.slice(0, 8)).toEqual(["Карточка", "ART-1", "1144", "1240", "1300", "96", "8,39", "RUB"]);
+    expect(cells[11]).toBe("Есть везде");
+
+    const negative = build({ variants: [variant({ prices: { rub: 2000 } })] });
+    expect(toPriceStockCsv(negative, "Wildberries").split("\r\n")[1].split(";")[5]).toBe("-1200");
   });
 
-  it("шапка зовёт площадку так же, как экран, а без подписи — по id", () => {
-    const named = toPriceStockCsv(rows, ["wb", "ozon"], { wb: "Wildberries", ozon: "Ozon" }).split(
-      "\r\n",
-    )[0];
+  it("текст, похожий на формулу, экранируется, а ; внутри значения не ломает столбцы", () => {
+    const tricky = build({ cards: [card({ title: "=HYPERLINK(1); x", vendor_code: "-art" })] });
+    const csv = toPriceStockCsv(tricky, "Wildberries").split("\r\n")[1];
 
-    expect(named).toContain("Цена на Wildberries, ₽ с учётом скидки");
-    expect(named).toContain("Остаток на Ozon, шт");
-    expect(toPriceStockCsv(rows, ["wb"]).split("\r\n")[0]).toContain("Цена на wb, ₽ без скидки");
-  });
-
-  it("каждая числовая колонка называет единицу (правило 18e)", () => {
-    const head = toPriceStockCsv(rows, ["wb"]).split("\r\n")[0];
-
-    expect(head).toContain("Цена в магазине, ₽");
-    expect(head).toContain("Остаток в магазине, шт");
-    expect(head).toContain("Замер остатка на wb");
-  });
-
-  it("запятая внутри значения не ломает столбцы", () => {
-    const csv = toPriceStockCsv(
-      build({ cards: [card({ vendor_code: "Таблетки, 2 банки" })], lines: [] }),
-      ["wb"],
-    );
-
-    expect(csv).toContain('"Таблетки, 2 банки"');
+    expect(csv.startsWith(`"'=HYPERLINK(1); x";'-art;`)).toBe(true);
   });
 });

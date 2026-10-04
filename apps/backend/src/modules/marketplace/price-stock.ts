@@ -1,33 +1,32 @@
 /**
- * ONE TABLE OF PRICES AND STOCKS: the shop and every marketplace on one screen
- * (w17-mp-price-stock-table, row 4 of the parity matrix in
- * `research/marketplace-spec.md`).
+ * PRICES AND STOCKS OF ONE MARKETPLACE NEXT TO THE SHOP'S
+ * («Wildberries → Цены и остатки», mp-section-design task-03; the freshness
+ * and aggregation rules below are w17-mp-price-stock-table's).
  *
- * InSales Combo advertises «цены и остатки всех площадок правятся в одной
- * таблице». In our READ-ONLY frame this is the same table minus the editing:
- * the shop's numbers stand next to each marketplace's numbers, the gaps are
+ * READ-ONLY. The shop's numbers stand next to the marketplace's, the gaps are
  * pointed at, and NOTHING here writes anywhere. Ivan's standing invariant of
  * 2026-09-16 02:46 WITA — no inline edit, no bulk action, no «отправить на
  * площадку» — is proved by `__tests__/price-stock-read-only.unit.spec.ts` and
  * not by this sentence.
  *
- * THE ROW IS THE ARTICLE, exactly as in `catalog.ts`, and for the same reason:
- * a vendor code is the one string the shop and both marketplaces agree on, so
- * one line can carry the shop, the WB card and the Ozon card at once. The
- * normalisation of that key is `articleKey` from `catalog.ts` and not a second
- * copy of it — two matchers would put an article in «везде есть» on one screen
- * and «нет в магазине» on the other.
+ * THE ROW IS THE CARD. One row per `mp_product` of the marketplace, and one
+ * row per shop variant that no card of this marketplace is linked to. The tie
+ * between the two is `mp_link`, the same table «Товары» reads and writes
+ * (w14): the projector writes it by the article after every import and the
+ * owner writes it by hand, so a card linked on «Товары» is «Есть везде» here
+ * on the next request, and the two screens cannot disagree about it. The w17
+ * screen matched by the article on its own instead, and a hand-made link never
+ * reached it.
  *
- * THE NUMBER ON THE COLLAPSED ROW IS THE SUM OF THE EXPANDED ONES, by
- * construction: `aggregateLines` is the only place a column's price and stock
- * are decided, and both the collapsed row and the expanded lines of the detail
- * route go through it. `__tests__/price-stock.unit.spec.ts` asserts the
- * identity on generated data, and the PR quotes it on a concrete article.
+ * THE NUMBER ON THE ROW IS THE SUM OF THE LINES IN ITS DRAWER, by
+ * construction: `aggregateLines` is the only place a card's price and stock
+ * are decided, and both the row and the drawer's lines come from the same
+ * `mp_offer` rows. `__tests__/price-stock.unit.spec.ts` asserts the identity.
  *
- * FRESHNESS IS PART OF THE NUMBER (deliverable 4). A number whose age is
- * hidden is a number that lies, so every column carries the age of what it
- * shows and says «протухло» past the kind's interval times three. The age is
- * taken from the OLDER of two facts, never the newer one:
+ * FRESHNESS IS PART OF THE NUMBER. A number whose age is hidden is a number
+ * that lies, so every card carries the age of what it shows and is called
+ * «Устарело» past the kind's interval times three. The age is taken from the
+ * OLDER of two facts, never the newer one:
  *
  *   - `mp_offer.measured_at` — when the marketplace measured the line. It is
  *     honest for the stock, and OPTIMISTIC for the price of the same line: the
@@ -47,7 +46,7 @@
  * where it is used cannot be tested).
  */
 
-import { articleKey } from "./catalog";
+import { MedusaError } from "@medusajs/framework/utils";
 import { MP_KIND_FAMILY, MP_SYNC_INTERVAL_MS } from "./schedule";
 
 /** The two families this screen is about. The intervals are `schedule.ts`'s. */
@@ -57,7 +56,7 @@ export type PriceStockFamily = "prices" | "stocks";
  * How many intervals a number may age before the screen calls it stale.
  *
  * THREE, from the task: «older than the kind's interval times three». One
- * interval would paint every column red the minute before the next run — the
+ * interval would paint every row orange the minute before the next run — the
  * scheduler wakes every five minutes and a stocks import is due every fifteen,
  * so a normal Tuesday would look like an outage.
  */
@@ -65,14 +64,6 @@ export const STALE_FACTOR = 3;
 
 export const staleAfterMs = (family: PriceStockFamily): number =>
   MP_SYNC_INTERVAL_MS[family] * STALE_FACTOR;
-
-/** One marketplace listing, as much of it as this screen needs (`mp_product`). */
-export type PriceStockCard = {
-  marketplace: string;
-  external_id: string;
-  vendor_code: string | null;
-  title: string | null;
-};
 
 /**
  * One line of `mp_offer` — one price and one stock of one listing, per
@@ -85,12 +76,6 @@ export type PriceStockLine = {
   marketplace: string;
   external_id: string;
   offer_key: string;
-  /**
-   * `mp_offer.vendor_code`. The CARD is the authority on the article, and this
-   * is the fallback for a line whose card has not been imported yet: an offer
-   * without a card still belongs to an article, and dropping it would hide
-   * stock the marketplace did report (rule 20a).
-   */
   vendor_code: string | null;
   size_external: string | null;
   sku_external: string | null;
@@ -105,23 +90,6 @@ export type PriceStockLine = {
   measured_at: string | null;
 };
 
-/**
- * One variant of the shop's catalog.
- *
- * `prices` is keyed by lower-case currency, like `catalog.ts`: this catalog is
- * seeded with 241 regions, so «the» price of a variant does not exist and the
- * comparison happens inside the currency the marketplace named.
- */
-export type PriceStockVariant = {
-  id: string;
-  product_id: string;
-  product_title: string | null;
-  sku: string | null;
-  prices: Record<string, number>;
-  /** Sum of `inventory_level.stocked_quantity`; `null` where no inventory item. */
-  stock: number | null;
-};
-
 /** One row of `mp_sync_run`, as much of it as freshness needs. */
 export type PriceStockImport = {
   marketplace: string;
@@ -131,12 +99,12 @@ export type PriceStockImport = {
 };
 
 /**
- * What counts as a difference worth highlighting, and shown ON the screen
- * rather than kept in code: the answer is the shop's, and a threshold nobody
- * can see is a highlight nobody can explain.
+ * What counts as a difference worth highlighting. The owner picks it in the
+ * screen's filters and the screen prints it in its subtitle: a threshold
+ * nobody can see is a highlight nobody can explain.
  */
 export type PriceStockThresholds = {
-  /** Price gap, percent of the marketplace price. */
+  /** Price gap, percent of the SHOP's price. */
   price_pct: number;
   /** Stock gap, whole units. */
   stock_abs: number;
@@ -161,101 +129,12 @@ export type Freshness = {
   stale_after_ms: number;
   /**
    * `true` when there IS a number and its age is past the window, or unknown.
-   * A column with no number at all is not stale, it is empty, and the screen
-   * says «нет данных» rather than painting an absence red.
+   * A card with no number at all is not stale, it is empty, and the screen
+   * says «-» rather than painting an absence orange.
    */
   stale: boolean;
   /** One line naming both sources and the window (rule 18e). */
   note: string;
-};
-
-/** The marketplace half of one row, one entry per marketplace with a card. */
-export type PriceStockColumn = {
-  marketplace: string;
-  /** Every card of this article on that marketplace. Usually one. */
-  external_ids: string[];
-  /** The listed price, lowest across the lines. */
-  price: number | null;
-  /** What a buyer actually pays: the lowest discounted price, where there is one. */
-  discount_price: number | null;
-  /** The number the comparison uses: `discount_price ?? price`. */
-  effective_price: number | null;
-  effective_basis: "discount_price" | "price" | null;
-  currency: string | null;
-  /** Sum of the lines that reported a stock; `null` when none did. */
-  stock: number | null;
-  reserved: number | null;
-  /** How many `mp_offer` lines stand behind this column. */
-  lines: number;
-  /** How many of them reported a stock. The sum above is over exactly these. */
-  stock_lines: number;
-  warehouses: number;
-  sizes: number;
-  price_freshness: Freshness;
-  stock_freshness: Freshness;
-};
-
-export type PriceStockShop = {
-  variant_id: string;
-  product_id: string;
-  product_title: string | null;
-  sku: string | null;
-  price: number | null;
-  currency: string | null;
-  stock: number | null;
-};
-
-/**
- * One comparison, shop against one marketplace.
- *
- * `marketplace_value` and not `marketplace`, because the column beside it is
- * already the marketplace's id and two fields of one name on one object is how
- * a screen prints an id where a number belongs.
- */
-export type PriceStockDifference = {
-  marketplace: string;
-  metric: "price" | "stock";
-  shop: number | null;
-  marketplace_value: number | null;
-  unit: string;
-  abs: number | null;
-  pct: number | null;
-  highlighted: boolean;
-  note: string;
-};
-
-/**
- * THE THREE GROUPS THAT PARTITION THE ARTICLES.
- *
- * Every distinct vendor code lands in exactly one of them, which is why their
- * counts sum to the total and why `priceStockCounts` returns that sum next to
- * the total instead of leaving the arithmetic to the screen.
- *
- * «Расхождение выше порога» is the fourth TAB and deliberately NOT a fourth
- * group: a difference needs both sides, so every such row is already in
- * `both`. Making it a fourth member of the partition would double-count those
- * rows and break the very arithmetic the tabs exist to show.
- */
-export type PriceStockGroup = "both" | "shop_only" | "marketplace_only";
-
-export type PriceStockRow = {
-  vendor_code: string;
-  group: PriceStockGroup;
-  /** `true` when any difference of this row is past its threshold. */
-  over_threshold: boolean;
-  shop: PriceStockShop | null;
-  /** How many variants of the shop carry this article. */
-  shop_variants: number;
-  /**
-   * `true` when MORE THAN ONE variant carries it, which is why `shop` is
-   * `null` on a row that does belong to the shop. Without this flag an empty
-   * shop cell would read as «нет данных», and the owner would go looking for
-   * an import instead of for the duplicate article (rule 20a). The choice
-   * itself is made on the «Каталог» screen, which owns it.
-   */
-  shop_ambiguous: boolean;
-  columns: PriceStockColumn[];
-  differences: PriceStockDifference[];
 };
 
 const round2 = (value: number): number => Math.round(value * 100) / 100;
@@ -342,11 +221,11 @@ const humanWindow = (ms: number): string => {
 };
 
 /**
- * The age of one number of one column.
+ * The age of one number of one card.
  *
- * `hasValue` decides whether staleness is even a question: an empty column is
- * empty, not stale, and painting «нет данных» red would send the owner looking
- * for an import that has nothing to bring.
+ * `hasValue` decides whether staleness is even a question: an empty number is
+ * empty, not stale, and painting «нет данных» orange would send the owner
+ * looking for an import that has nothing to bring.
  */
 export const freshnessOf = (input: {
   family: PriceStockFamily;
@@ -391,16 +270,16 @@ export const freshnessOf = (input: {
 };
 
 /**
- * THE ONE PLACE A COLUMN'S NUMBERS ARE DECIDED.
+ * THE ONE PLACE A CARD'S NUMBERS ARE DECIDED.
  *
- * The collapsed row and the expanded lines both come through here, which is
- * what makes «свёрнутый остаток = сумма развёрнутых» true by construction
- * rather than by two functions agreeing today.
+ * The row and the drawer's lines both come from here, which is what makes
+ * «остаток в строке = сумма строк по складам» true by construction rather than
+ * by two functions agreeing today.
  *
  * The price is the LOWEST across the lines, not the first and not an average.
  * A card with sizes has one line per size and they do not share a price, so a
- * single number is a choice; this is the choice made, and `effective_basis`
- * names it on the row instead of leaving the reader to guess.
+ * single number is a choice; this is the choice made, and «Товары» makes the
+ * same one (`aggregateOfferLines`).
  */
 export const aggregateLines = (lines: readonly PriceStockLine[]) => {
   const stocked = lines.filter((line) => line.stock !== null);
@@ -413,12 +292,12 @@ export const aggregateLines = (lines: readonly PriceStockLine[]) => {
   return {
     price,
     discount_price: discount,
+    /** The number the comparison uses: what a buyer pays, `discount_price ?? price`. */
     effective_price: effective,
-    effective_basis: (effective === null
-      ? null
-      : discount !== null
-        ? "discount_price"
-        : "price") as PriceStockColumn["effective_basis"],
+    effective_basis: (effective === null ? null : discount !== null ? "discount_price" : "price") as
+      | "discount_price"
+      | "price"
+      | null,
     currency: lines.find((line) => line.currency)?.currency ?? null,
     stock: total(stocked.map((line) => line.stock)),
     reserved: total(lines.map((line) => line.reserved)),
@@ -427,501 +306,624 @@ export const aggregateLines = (lines: readonly PriceStockLine[]) => {
     priced_lines: priced.length,
     warehouses: new Set(lines.map((line) => line.warehouse_id).filter(Boolean)).size,
     sizes: new Set(lines.map((line) => line.size_external).filter(Boolean)).size,
-    /** The OLDEST measurement behind each number: a column is as fresh as its stalest line. */
+    /** The OLDEST measurement behind each number: a card is as fresh as its stalest line. */
     stock_measured_at: oldest(stocked.map((line) => line.measured_at)),
     price_measured_at: oldest(priced.map((line) => line.measured_at)),
+    /** The NEWEST measurement, for the screen's «цены на …, остатки на …». */
+    stock_newest_at: newest(stocked.map((line) => line.measured_at)),
+    price_newest_at: newest(priced.map((line) => line.measured_at)),
   };
 };
 
-const priceDifference = (
-  marketplace: string,
-  shop: PriceStockShop | null,
-  column: PriceStockColumn,
-  thresholds: PriceStockThresholds,
-): PriceStockDifference => {
-  const shopPrice = shop?.price ?? null;
-  const mpPrice = column.effective_price;
-  const abs = shopPrice !== null && mpPrice !== null ? round2(shopPrice - mpPrice) : null;
-  const pct = abs !== null && mpPrice ? round2((abs / mpPrice) * 100) : null;
+/* ----------------------------------------------------------------------------
+ * The rows of «Цены и остатки» (task-03): one per card, plus the shop's own
+ * ------------------------------------------------------------------------- */
 
-  const basis =
-    column.effective_basis === "discount_price"
-      ? "наименьшая цена со скидкой"
-      : column.effective_basis === "price"
-        ? "наименьшая цена без скидки"
-        : "цены нет";
+/**
+ * Where an item is. The three partition the rows: every card is `both` or
+ * `marketplace_only`, every row of the shop is `shop_only`, so the three counts
+ * sum to the table. «Выше порога» is NOT a fourth state: a difference needs
+ * both sides, so every such row is already `both`.
+ */
+export const PRICE_STOCK_STATES = ["both", "shop_only", "marketplace_only"] as const;
+export type PriceStockState = (typeof PRICE_STOCK_STATES)[number];
 
-  return {
-    marketplace,
-    metric: "price",
-    shop: shopPrice,
-    marketplace_value: mpPrice,
-    unit: column.currency ?? shop?.currency ?? "",
-    abs,
-    pct,
-    highlighted: pct !== null && Math.abs(pct) >= thresholds.price_pct,
-    note:
-      `магазин: price.amount в ${column.currency ?? "валюте площадки"} · ` +
-      `площадка: ${basis} по ${column.lines} строкам mp_offer`,
-  };
+/** One card of the marketplace (`mp_product`), as much of it as the row needs. */
+export type PriceStockCard = {
+  id: string;
+  external_id: string;
+  vendor_code: string | null;
+  title: string | null;
+  thumbnail: string | null;
 };
 
-const stockDifference = (
-  marketplace: string,
-  shop: PriceStockShop | null,
-  column: PriceStockColumn,
-  thresholds: PriceStockThresholds,
-): PriceStockDifference => {
-  const shopStock = shop?.stock ?? null;
-  const abs = shopStock !== null && column.stock !== null ? shopStock - column.stock : null;
-  const pct = abs !== null && column.stock ? round2((abs / column.stock) * 100) : null;
+/** One live `mp_link` of this marketplace. */
+export type PriceStockLink = {
+  external_id: string;
+  product_id: string;
+  variant_id: string | null;
+};
 
-  return {
-    marketplace,
-    metric: "stock",
-    shop: shopStock,
-    marketplace_value: column.stock,
-    unit: "шт",
-    abs,
-    pct,
-    highlighted: abs !== null && Math.abs(abs) >= thresholds.stock_abs,
-    note:
-      "магазин: сумма inventory_level.stocked_quantity · " +
-      `площадка: сумма mp_offer.stock по ${column.stock_lines} строкам из ${column.lines}` +
-      (column.stock === null ? " (площадка остаток не назвала)" : ""),
+/**
+ * One variant of the shop's catalog with its numbers.
+ *
+ * `prices` is keyed by lower-case currency, like `catalog.ts`: this catalog is
+ * seeded with 241 regions, so «the» price of a variant does not exist and the
+ * comparison happens inside the currency the marketplace named.
+ */
+export type PriceStockVariant = {
+  id: string;
+  product_id: string;
+  product_title: string | null;
+  thumbnail: string | null;
+  sku: string | null;
+  prices: Record<string, number>;
+  /** Sum of `inventory_level.stocked_quantity`; `null` where no inventory item. */
+  stock: number | null;
+};
+
+/** The contract of the panel's `MpPriceStockRow` (`hooks/api/marketplace-section.tsx`). */
+export type PriceStockRow = {
+  /** `mp_product.id` for a card, `variant_id` for a row of the shop only. */
+  id: string;
+  /** `mp_product.id`; `null` on a row of the shop only. */
+  card_id: string | null;
+  external_id: string | null;
+  vendor_code: string | null;
+  title: string | null;
+  thumbnail: string | null;
+  state: PriceStockState;
+  shop: {
+    product_id: string;
+    variant_id: string;
+    title: string | null;
+    price: number | null;
+    stock: number | null;
+  } | null;
+  mp: {
+    price: number | null;
+    discount_price: number | null;
+    stock: number | null;
+    reserved: number | null;
+    lines: number;
+    warehouses: number;
+    sizes: number;
+    /** The moment each age is counted from: the older of the oldest line and the last import. */
+    price_measured_at: string | null;
+    stock_measured_at: string | null;
+    price_stale: boolean;
+    stock_stale: boolean;
+  } | null;
+  diff: {
+    /** Marketplace minus shop, in the row's currency: «+96 ₽» means the marketplace is dearer. */
+    price_abs: number | null;
+    /** The same gap in percent of the SHOP's price. */
+    price_pct: number | null;
+    /** Marketplace minus shop, in units. */
+    stock_abs: number | null;
+    /** Over the thresholds the query carried. */
+    highlighted: boolean;
   };
+  currency: string | null;
 };
 
 export type BuildPriceStockInput = {
+  marketplace: string;
   cards: readonly PriceStockCard[];
+  /** The lines of THIS marketplace. A line whose card is not stored makes no row (see `offersWithoutCard`). */
   lines: readonly PriceStockLine[];
+  links: readonly PriceStockLink[];
   variants: readonly PriceStockVariant[];
   imports: readonly PriceStockImport[];
-  /** Column order, from the adapter registry. */
-  marketplaces: readonly string[];
   thresholds?: PriceStockThresholds;
+  /**
+   * The currency of the marketplace's price list, for a row with no line of its
+   * own to name one (a card without lines, a row of the shop only). `null`
+   * leaves the shop's price out rather than guessing a currency for it.
+   */
+  currency: string | null;
   /** Injected, never read from the clock in here (rule 17a). */
   now: Date;
 };
 
-const cardKey = (marketplace: string, externalId: string): string => `${marketplace}|${externalId}`;
+/**
+ * Whether a gap is past its threshold. A zero gap is never highlighted, so a
+ * threshold of 0 means «any difference», not «every row».
+ */
+const over = (gap: number | null, threshold: number): boolean =>
+  gap !== null && gap !== 0 && Math.abs(gap) >= threshold;
 
-/** The whole table in one pass: one row per distinct article. */
+export const highlightOf = (
+  diff: Pick<PriceStockRow["diff"], "price_pct" | "stock_abs">,
+  thresholds: PriceStockThresholds,
+): boolean => over(diff.price_pct, thresholds.price_pct) || over(diff.stock_abs, thresholds.stock_abs);
+
+/**
+ * The shop's half of a card's row, through its live link.
+ *
+ * A link names a variant, or (an older manual link) a product only; then the
+ * product's one variant stands in, and a product of several variants gives no
+ * number rather than the first variant's (rule 20a). A link whose product or
+ * variant has left the shop is not a link any more: the card is
+ * `marketplace_only`, which is what the shop now is.
+ */
+const linkedVariant = (
+  link: PriceStockLink | undefined,
+  variantsById: ReadonlyMap<string, PriceStockVariant>,
+  variantsByProduct: ReadonlyMap<string, PriceStockVariant[]>,
+): PriceStockVariant | null => {
+  if (!link) {
+    return null;
+  }
+  if (link.variant_id) {
+    const variant = variantsById.get(link.variant_id);
+    return variant && variant.product_id === link.product_id ? variant : null;
+  }
+  const ofProduct = variantsByProduct.get(link.product_id) ?? [];
+  return ofProduct.length === 1 ? ofProduct[0] : null;
+};
+
+const shopPrice = (variant: PriceStockVariant, currency: string | null): number | null =>
+  currency ? (variant.prices[currency.toLowerCase()] ?? null) : null;
+
+/** The whole table of one marketplace in one pass, in the default order. */
 export const buildPriceStockRows = (input: BuildPriceStockInput): PriceStockRow[] => {
   const thresholds = input.thresholds ?? DEFAULT_PRICE_STOCK_THRESHOLDS;
 
-  /** `mp_offer` carries its own `vendor_code`, but the CARD is the authority on it. */
-  const articleOfCard = new Map<string, string | null>(
-    input.cards.map((card) => [cardKey(card.marketplace, card.external_id), articleKey(card.vendor_code)]),
-  );
-
-  const cardsByArticle = new Map<string, PriceStockCard[]>();
-  for (const card of input.cards) {
-    const key = articleKey(card.vendor_code);
-    if (key === null) {
-      continue;
-    }
-    const bucket = cardsByArticle.get(key);
-    if (bucket) {
-      bucket.push(card);
-    } else {
-      cardsByArticle.set(key, [card]);
-    }
-  }
-
-  const variantsByArticle = new Map<string, PriceStockVariant[]>();
-  for (const variant of input.variants) {
-    const key = articleKey(variant.sku);
-    if (key === null) {
-      continue;
-    }
-    const bucket = variantsByArticle.get(key);
-    if (bucket) {
-      bucket.push(variant);
-    } else {
-      variantsByArticle.set(key, [variant]);
-    }
-  }
-
-  /** article -> marketplace -> lines. */
-  const linesByArticle = new Map<string, Map<string, PriceStockLine[]>>();
+  const linesByCard = new Map<string, PriceStockLine[]>();
   for (const line of input.lines) {
-    const key =
-      articleOfCard.get(cardKey(line.marketplace, line.external_id)) ?? articleKey(line.vendor_code);
-    if (!key) {
-      continue;
-    }
-    let byMarketplace = linesByArticle.get(key);
-    if (!byMarketplace) {
-      byMarketplace = new Map();
-      linesByArticle.set(key, byMarketplace);
-    }
-    const bucket = byMarketplace.get(line.marketplace);
+    const bucket = linesByCard.get(line.external_id);
     if (bucket) {
       bucket.push(line);
     } else {
-      byMarketplace.set(line.marketplace, [line]);
+      linesByCard.set(line.external_id, [line]);
     }
   }
 
-  const importAt = new Map<string, string | null>();
-  const importFor = (marketplace: string, family: PriceStockFamily): string | null => {
-    const key = `${marketplace}|${family}`;
-    if (!importAt.has(key)) {
-      importAt.set(key, lastImportOf(input.imports, marketplace, family));
+  const linkByCard = new Map(input.links.map((link) => [link.external_id, link]));
+  const variantsById = new Map(input.variants.map((variant) => [variant.id, variant]));
+  const variantsByProduct = new Map<string, PriceStockVariant[]>();
+  for (const variant of input.variants) {
+    const bucket = variantsByProduct.get(variant.product_id);
+    if (bucket) {
+      bucket.push(variant);
+    } else {
+      variantsByProduct.set(variant.product_id, [variant]);
     }
-    return importAt.get(key) ?? null;
-  };
+  }
 
-  /**
-   * THE UNION OF THREE SOURCES, not two. An article known only from an
-   * `mp_offer` line — a price and a stock whose card has not been imported yet
-   * — is a number the marketplace did report, and leaving it out of the set
-   * would drop it from the one table that exists to show it, silently.
-   */
-  const articles = new Set<string>([
-    ...cardsByArticle.keys(),
-    ...variantsByArticle.keys(),
-    ...linesByArticle.keys(),
-  ]);
+  const pricesImportedAt = lastImportOf(input.imports, input.marketplace, "prices");
+  const stocksImportedAt = lastImportOf(input.imports, input.marketplace, "stocks");
+
+  const linkedVariants = new Set<string>();
   const rows: PriceStockRow[] = [];
 
-  for (const article of articles) {
-    const cards = cardsByArticle.get(article) ?? [];
-    const variants = variantsByArticle.get(article) ?? [];
-    const linesOfArticle = linesByArticle.get(article) ?? new Map<string, PriceStockLine[]>();
-
-    const columns: PriceStockColumn[] = [];
-    for (const marketplace of input.marketplaces) {
-      const marketplaceCards = cards.filter((card) => card.marketplace === marketplace);
-      const lines = linesOfArticle.get(marketplace) ?? [];
-      /**
-       * A column stands where there are CARDS or LINES. Requiring a card would
-       * drop the price and stock of an offer whose card has not been imported
-       * yet — a number the marketplace did report, silently missing from the
-       * one table that exists to show it.
-       */
-      if (!marketplaceCards.length && !lines.length) {
-        continue;
-      }
-
-      const aggregate = aggregateLines(lines);
-
-      columns.push({
-        marketplace,
-        external_ids: [
-          ...new Set([
-            ...marketplaceCards.map((card) => card.external_id),
-            ...lines.map((line) => line.external_id),
-          ]),
-        ],
-        price: aggregate.price,
-        discount_price: aggregate.discount_price,
-        effective_price: aggregate.effective_price,
-        effective_basis: aggregate.effective_basis,
-        currency: aggregate.currency,
-        stock: aggregate.stock,
-        reserved: aggregate.reserved,
-        lines: aggregate.lines,
-        stock_lines: aggregate.stock_lines,
-        warehouses: aggregate.warehouses,
-        sizes: aggregate.sizes,
-        price_freshness: freshnessOf({
-          family: "prices",
-          hasValue: aggregate.effective_price !== null,
-          measuredAt: aggregate.price_measured_at,
-          importedAt: importFor(marketplace, "prices"),
-          now: input.now,
-          marketplace,
-          lines: aggregate.priced_lines,
-        }),
-        stock_freshness: freshnessOf({
-          family: "stocks",
-          hasValue: aggregate.stock !== null,
-          measuredAt: aggregate.stock_measured_at,
-          importedAt: importFor(marketplace, "stocks"),
-          now: input.now,
-          marketplace,
-          lines: aggregate.stock_lines,
-        }),
-      });
+  for (const card of input.cards) {
+    const lines = linesByCard.get(card.external_id) ?? [];
+    const aggregate = aggregateLines(lines);
+    const variant = linkedVariant(linkByCard.get(card.external_id), variantsById, variantsByProduct);
+    if (variant) {
+      linkedVariants.add(variant.id);
     }
 
-    /**
-     * The article as somebody typed it, not as it was folded for matching. The
-     * card wins over the shop because the card is the side the owner cannot
-     * edit; with no card the shop's own spelling is the display name.
-     */
-    const display =
-      cards.find((card) => card.vendor_code)?.vendor_code ??
-      variants.find((variant) => variant.sku)?.sku ??
-      article;
+    const currency = aggregate.currency ?? input.currency;
+    const priceFreshness = freshnessOf({
+      family: "prices",
+      hasValue: aggregate.effective_price !== null,
+      measuredAt: aggregate.price_measured_at,
+      importedAt: pricesImportedAt,
+      now: input.now,
+      marketplace: input.marketplace,
+      lines: aggregate.priced_lines,
+    });
+    const stockFreshness = freshnessOf({
+      family: "stocks",
+      hasValue: aggregate.stock !== null,
+      measuredAt: aggregate.stock_measured_at,
+      importedAt: stocksImportedAt,
+      now: input.now,
+      marketplace: input.marketplace,
+      lines: aggregate.stock_lines,
+    });
 
-    const currency = columns.find((column) => column.currency)?.currency ?? null;
-
-    /**
-     * ONE variant is the shop half. More than one variant on one article is
-     * the ambiguity `catalog.ts` refuses to resolve, and this screen refuses
-     * it the same way: showing the first of several as «цена магазина» would
-     * be a number invented for a row (rule 20a). The article still counts as
-     * present in the shop — the group below is decided on the VARIANTS, not on
-     * this field.
-     */
-    const variant = variants.length === 1 ? variants[0] : null;
-
-    const shop: PriceStockShop | null = variant
+    const shop = variant
       ? {
-          variant_id: variant.id,
           product_id: variant.product_id,
-          product_title: variant.product_title,
-          sku: variant.sku,
-          price: currency ? (variant.prices[currency.toLowerCase()] ?? null) : null,
-          currency,
+          variant_id: variant.id,
+          title: variant.product_title,
+          price: shopPrice(variant, currency),
           stock: variant.stock,
         }
       : null;
 
-    const group: PriceStockGroup = variants.length
-      ? columns.length
-        ? "both"
-        : "shop_only"
-      : "marketplace_only";
-
-    const differences = columns.flatMap((column) => [
-      priceDifference(column.marketplace, shop, column, thresholds),
-      stockDifference(column.marketplace, shop, column, thresholds),
-    ]);
+    const ourPrice = shop?.price ?? null;
+    const ourStock = shop?.stock ?? null;
+    const priceAbs =
+      ourPrice !== null && aggregate.effective_price !== null ? round2(aggregate.effective_price - ourPrice) : null;
+    /** A shop price of 0 has no percent: «+∞ %» would highlight a data entry slip as a pricing problem. */
+    const pricePct = priceAbs !== null && ourPrice ? round2((priceAbs / ourPrice) * 100) : null;
+    const stockAbs = ourStock !== null && aggregate.stock !== null ? aggregate.stock - ourStock : null;
 
     rows.push({
-      vendor_code: display,
-      group,
-      over_threshold: differences.some((difference) => difference.highlighted),
+      id: card.id,
+      card_id: card.id,
+      external_id: card.external_id,
+      vendor_code: card.vendor_code,
+      title: card.title,
+      thumbnail: card.thumbnail,
+      state: variant ? "both" : "marketplace_only",
       shop,
-      shop_variants: variants.length,
-      shop_ambiguous: variants.length > 1,
-      columns,
-      differences,
+      mp: {
+        price: aggregate.price,
+        discount_price: aggregate.discount_price,
+        stock: aggregate.stock,
+        reserved: aggregate.reserved,
+        lines: aggregate.lines,
+        warehouses: aggregate.warehouses,
+        sizes: aggregate.sizes,
+        price_measured_at: priceFreshness.as_of,
+        stock_measured_at: stockFreshness.as_of,
+        price_stale: priceFreshness.stale,
+        stock_stale: stockFreshness.stale,
+      },
+      diff: {
+        price_abs: priceAbs,
+        price_pct: pricePct,
+        stock_abs: stockAbs,
+        highlighted: highlightOf({ price_pct: pricePct, stock_abs: stockAbs }, thresholds),
+      },
+      currency,
     });
   }
 
-  const order: Record<PriceStockGroup, number> = {
-    both: 0,
-    marketplace_only: 1,
-    shop_only: 2,
-  };
-
-  return rows.sort(
-    (left, right) =>
-      Number(right.over_threshold) - Number(left.over_threshold) ||
-      order[left.group] - order[right.group] ||
-      left.vendor_code.localeCompare(right.vendor_code, "ru"),
-  );
-};
-
-export type PriceStockCounts = {
-  both: number;
-  shop_only: number;
-  marketplace_only: number;
-  /** Distinct articles. The three counts above sum to exactly this. */
-  total: number;
-  /** The sum itself, so a caller can assert the arithmetic instead of trusting it. */
-  accounted_for: number;
   /**
-   * The fourth TAB, and an OVERLAY on the three groups above: every row here
-   * is already counted in `both`. It is listed apart from the partition on
-   * purpose — see `PriceStockGroup`.
+   * Every variant of the shop no card of this marketplace is linked to,
+   * whether or not it carries an article: a product without a SKU is still a
+   * product the shop sells and the marketplace does not, and «Товары» can link
+   * it by hand.
    */
-  over_threshold: number;
-  /** How many columns of the whole table show a number older than its window. */
-  stale_columns: number;
-};
-
-export const priceStockCounts = (rows: readonly PriceStockRow[]): PriceStockCounts => {
-  const counts = { both: 0, shop_only: 0, marketplace_only: 0 };
-  let overThreshold = 0;
-  let stale = 0;
-
-  for (const row of rows) {
-    counts[row.group] += 1;
-    if (row.over_threshold) {
-      overThreshold += 1;
+  for (const variant of input.variants) {
+    if (linkedVariants.has(variant.id)) {
+      continue;
     }
-    for (const column of row.columns) {
-      if (column.price_freshness.stale) {
-        stale += 1;
-      }
-      if (column.stock_freshness.stale) {
-        stale += 1;
-      }
-    }
+    rows.push({
+      id: variant.id,
+      card_id: null,
+      external_id: null,
+      vendor_code: variant.sku,
+      title: variant.product_title,
+      thumbnail: variant.thumbnail,
+      state: "shop_only",
+      shop: {
+        product_id: variant.product_id,
+        variant_id: variant.id,
+        title: variant.product_title,
+        price: shopPrice(variant, input.currency),
+        stock: variant.stock,
+      },
+      mp: null,
+      diff: { price_abs: null, price_pct: null, stock_abs: null, highlighted: false },
+      currency: input.currency,
+    });
   }
 
-  return {
-    ...counts,
-    total: rows.length,
-    accounted_for: counts.both + counts.shop_only + counts.marketplace_only,
-    over_threshold: overThreshold,
-    stale_columns: stale,
-  };
+  return sortPriceStockRows(rows, null);
 };
-
-/** The tabs of the screen. Three groups plus the overlay, in screen order. */
-export type PriceStockTab = PriceStockGroup | "over_threshold";
-
-export const filterByTab = (
-  rows: readonly PriceStockRow[],
-  tab: PriceStockTab,
-): PriceStockRow[] =>
-  tab === "over_threshold"
-    ? rows.filter((row) => row.over_threshold)
-    : rows.filter((row) => row.group === tab);
 
 /**
- * Where the numbers came from, printed by the screen when a count is zero.
- *
- * This exists for the zero (rule 20a). «Нет данных» over an empty table hides
- * a setup error — an import that never ran, a tenant with no cards — behind a
- * calm sentence, so the screen names the tables it read instead.
+ * The `mp_offer` cards no `mp_product` stands for: the marketplace reported a
+ * price or a stock for them, and the card import did not bring the card (on WB
+ * a card in the bin or the archive). They make no row — the row is the card —
+ * and are COUNTED, so the absence is a number in the answer and not a silence.
  */
-export type PriceStockSources = {
-  cards: string;
-  lines: string;
-  variants: string;
-  imports: string;
+export const offersWithoutCard = (
+  cards: readonly Pick<PriceStockCard, "external_id">[],
+  lines: readonly Pick<PriceStockLine, "external_id">[],
+): number => {
+  const stored = new Set(cards.map((card) => card.external_id));
+  return new Set(lines.map((line) => line.external_id).filter((id) => !stored.has(id))).size;
 };
 
-export const priceStockSummary = (
-  counts: PriceStockCounts,
-  stored: { cards: number; lines: number; variants: number },
-  sources: PriceStockSources,
-): string => {
-  if (counts.total === 0) {
-    return (
-      "Артикулов нет: ни одной карточки площадки и ни одного SKU магазина. " +
-      `Прочитано: ${sources.cards}, ${sources.variants}.`
-    );
+/* ----------------------------------------------------------------------------
+ * The query string
+ * ------------------------------------------------------------------------- */
+
+export const PRICE_STOCK_ORDER_FIELDS = ["title", "vendor_code", "price_pct", "stock_abs"] as const;
+export type PriceStockOrderField = (typeof PRICE_STOCK_ORDER_FIELDS)[number];
+
+export const DEFAULT_PRICE_STOCK_LIMIT = 20;
+const MAX_PRICE_STOCK_LIMIT = 200;
+
+/** The export's ceiling, the same as the orders' (task-04). The stand holds about 500 rows. */
+export const PRICE_STOCK_EXPORT_LIMIT = 10_000;
+
+export type PriceStockQuery = {
+  limit: number;
+  offset: number;
+  q: string | null;
+  /** `null` is the default order: highlighted first, then by state, then by title. */
+  order: { field: PriceStockOrderField; desc: boolean } | null;
+  states: PriceStockState[] | null;
+  over_threshold: boolean;
+  thresholds: PriceStockThresholds;
+};
+
+const invalid = (message: string) => new MedusaError(MedusaError.Types.INVALID_DATA, message);
+
+/** `a,b,c` as the panel's filter row writes it, or a repeated key. Empty items are dropped. */
+const listOf = (raw: unknown): string[] | null => {
+  if (raw === undefined || raw === null || raw === "") {
+    return null;
+  }
+  const parts = (Array.isArray(raw) ? raw : [raw])
+    .flatMap((value) => String(value).split(","))
+    .map((value) => value.trim())
+    .filter(Boolean);
+  return parts.length ? [...new Set(parts)] : null;
+};
+
+const integer = (raw: unknown, name: string, fallback: number, min: number, max: number): number => {
+  if (raw === undefined || raw === null || raw === "") {
+    return fallback;
+  }
+  const parsed = Number(raw);
+  if (!Number.isInteger(parsed) || parsed < min) {
+    throw invalid(`${name} должен быть целым числом не меньше ${min}, пришло «${String(raw)}».`);
+  }
+  return Math.min(parsed, max);
+};
+
+/**
+ * The query string of `GET /tenants/marketplaces/:marketplace/price-stock` and
+ * of its export.
+ *
+ * Anything the server cannot honour is a 400 that names what exists, never a
+ * quiet fallback: a table the owner believes is cut at «20 %» while it is cut
+ * at the default 10 looks right and is not (rule 20a).
+ */
+export const parsePriceStockQuery = (query: Record<string, unknown>): PriceStockQuery => {
+  let order: PriceStockQuery["order"] = null;
+  if (query.order !== undefined && query.order !== null && query.order !== "") {
+    const raw = String(query.order);
+    const desc = raw.startsWith("-");
+    const field = desc ? raw.slice(1) : raw;
+    if (!(PRICE_STOCK_ORDER_FIELDS as readonly string[]).includes(field)) {
+      throw invalid(`order: поля «${field}» нет. Есть: ${PRICE_STOCK_ORDER_FIELDS.join(", ")} (с «-» по убыванию).`);
+    }
+    order = { field: field as PriceStockOrderField, desc };
   }
 
-  if (stored.cards > 0 && stored.lines === 0) {
-    return (
-      `Карточек ${stored.cards}, а строк цен и остатков ноль — импорт цен и остатков не приносил данных. ` +
-      `Прочитано: ${sources.cards}, ${sources.lines}, ${sources.imports}.`
-    );
+  const states = listOf(query.state);
+  const unknownState = states?.find((state) => !(PRICE_STOCK_STATES as readonly string[]).includes(state));
+  if (unknownState) {
+    throw invalid(`state: значения «${unknownState}» нет. Есть: ${PRICE_STOCK_STATES.join(", ")}.`);
   }
 
-  return (
-    `Везде есть: ${counts.both}, есть в магазине и нет на площадке: ${counts.shop_only}, ` +
-    `есть на площадке и нет в магазине: ${counts.marketplace_only} — ` +
-    `всего ${counts.total} артикулов. Расхождение выше порога: ${counts.over_threshold}. ` +
-    `Колонок с протухшими числами: ${counts.stale_columns}.`
+  const overRaw = query.over_threshold === undefined || query.over_threshold === null ? "" : String(query.over_threshold);
+  if (!["", "true", "false"].includes(overRaw)) {
+    throw invalid(`over_threshold: ожидается true или false, пришло «${overRaw}».`);
+  }
+
+  const q = query.q === undefined || query.q === null ? "" : String(query.q).trim();
+
+  return {
+    limit: integer(query.limit, "limit", DEFAULT_PRICE_STOCK_LIMIT, 1, MAX_PRICE_STOCK_LIMIT),
+    offset: integer(query.offset, "offset", 0, 0, Number.MAX_SAFE_INTEGER),
+    q: q || null,
+    order,
+    states: states as PriceStockState[] | null,
+    over_threshold: overRaw === "true",
+    thresholds: {
+      price_pct: integer(query.price_pct, "price_pct", DEFAULT_PRICE_STOCK_THRESHOLDS.price_pct, 0, Number.MAX_SAFE_INTEGER),
+      stock_abs: integer(query.stock_abs, "stock_abs", DEFAULT_PRICE_STOCK_THRESHOLDS.stock_abs, 0, Number.MAX_SAFE_INTEGER),
+    },
+  };
+};
+
+/* ----------------------------------------------------------------------------
+ * Filter, order, page
+ * ------------------------------------------------------------------------- */
+
+const collator = new Intl.Collator("ru", { numeric: true, sensitivity: "base" });
+
+/** `q` looks in the two fields the screen shows on the row: the title and the article. */
+export const filterPriceStockRows = (
+  rows: readonly PriceStockRow[],
+  query: Pick<PriceStockQuery, "q" | "states" | "over_threshold">,
+): PriceStockRow[] => {
+  const needle = query.q?.toLocaleLowerCase("ru") ?? null;
+  return rows.filter(
+    (row) =>
+      (!query.states || query.states.includes(row.state)) &&
+      (!query.over_threshold || row.diff.highlighted) &&
+      (!needle ||
+        (row.title ?? "").toLocaleLowerCase("ru").includes(needle) ||
+        (row.vendor_code ?? "").toLocaleLowerCase("ru").includes(needle)),
   );
 };
 
-const csvCell = (value: unknown): string => {
+const STATE_ORDER: Record<PriceStockState, number> = { both: 0, marketplace_only: 1, shop_only: 2 };
+
+const sortValue = (row: PriceStockRow, field: PriceStockOrderField): string | number | null => {
+  switch (field) {
+    case "title":
+      return row.title;
+    case "vendor_code":
+      return row.vendor_code;
+    /** «По расхождению» is by its SIZE: −30 % is as far off as +30 %. */
+    case "price_pct":
+      return row.diff.price_pct === null ? null : Math.abs(row.diff.price_pct);
+    case "stock_abs":
+      return row.diff.stock_abs === null ? null : Math.abs(row.diff.stock_abs);
+  }
+};
+
+const byTitle = (left: PriceStockRow, right: PriceStockRow): number =>
+  collator.compare(left.title ?? "", right.title ?? "") || collator.compare(left.id, right.id);
+
+/**
+ * The order of the table. A row with nothing to sort by (no gap, no title) is
+ * LAST in both directions: a row without a price gap is not «the smallest
+ * gap», and putting it first on ascending would bury the real ones.
+ *
+ * Without `order`: the highlighted rows first, then «Есть везде», «Только на
+ * площадке», «Только в магазине», each by title — the rows that need a look
+ * before the rows that cannot have a gap at all.
+ */
+export const sortPriceStockRows = (
+  rows: readonly PriceStockRow[],
+  order: PriceStockQuery["order"],
+): PriceStockRow[] => {
+  if (!order) {
+    return [...rows].sort(
+      (left, right) =>
+        Number(right.diff.highlighted) - Number(left.diff.highlighted) ||
+        STATE_ORDER[left.state] - STATE_ORDER[right.state] ||
+        byTitle(left, right),
+    );
+  }
+  return [...rows].sort((left, right) => {
+    const a = sortValue(left, order.field);
+    const b = sortValue(right, order.field);
+    if (a === null || a === "" || b === null || b === "") {
+      const aEmpty = a === null || a === "";
+      const bEmpty = b === null || b === "";
+      return aEmpty === bEmpty ? byTitle(left, right) : aEmpty ? 1 : -1;
+    }
+    const compared = typeof a === "number" && typeof b === "number" ? a - b : collator.compare(String(a), String(b));
+    return (order.desc ? -compared : compared) || byTitle(left, right);
+  });
+};
+
+export type PriceStockCounts = Record<PriceStockState | "over_threshold", number>;
+
+/** Counted over the WHOLE table of the marketplace, before any filter, so a filter does not change its own labels. */
+export const priceStockCounts = (rows: readonly PriceStockRow[]): PriceStockCounts => {
+  const counts: PriceStockCounts = { both: 0, shop_only: 0, marketplace_only: 0, over_threshold: 0 };
+  for (const row of rows) {
+    counts[row.state] += 1;
+    if (row.diff.highlighted) {
+      counts.over_threshold += 1;
+    }
+  }
+  return counts;
+};
+
+/**
+ * «Цены Wildberries на …, остатки на …» of the subtitle: the NEWEST
+ * measurement in the table, never later than the last import of that family
+ * that succeeded (a number cannot be fresher than the import that brought it).
+ */
+export const measuredOf = (
+  lines: readonly PriceStockLine[],
+  imports: readonly PriceStockImport[],
+  marketplace: string,
+): { prices_at: string | null; stocks_at: string | null } => {
+  const aggregate = aggregateLines(lines);
+  const cap = (measured: string | null, imported: string | null) => (measured && imported ? earlier(measured, imported) : measured);
+  return {
+    prices_at: cap(aggregate.price_newest_at, lastImportOf(imports, marketplace, "prices")),
+    stocks_at: cap(aggregate.stock_newest_at, lastImportOf(imports, marketplace, "stocks")),
+  };
+};
+
+/* ----------------------------------------------------------------------------
+ * The export
+ * ------------------------------------------------------------------------- */
+
+/**
+ * The columns of the file, IN THE ORDER OF THE TABLE: product, the shop's
+ * price, the marketplace's price with its gap, the shop's stock, the
+ * marketplace's stock with its gap, where, updated. What the table shows in a
+ * tooltip or not at all (the marketplace's id of the card, the reserve, the
+ * line count) follows at the end, so a reader comparing the file with the
+ * screen reads the same columns left to right.
+ */
+export const priceStockCsvColumns = (label: string): string[] => [
+  "Продукт",
+  "Артикул",
+  "Цена в магазине",
+  `Цена на ${label}`,
+  `Цена на ${label} без скидки`,
+  "Расхождение цены",
+  "Расхождение цены, %",
+  "Валюта",
+  "Остаток в магазине, шт",
+  `Остаток на ${label}, шт`,
+  "Расхождение остатка, шт",
+  "Где есть",
+  "Обновлено",
+  "Устарело",
+  "Выше порога",
+  `Карточка на ${label}`,
+  `В резерве на ${label}, шт`,
+  "Строк по складам и размерам",
+];
+
+const STATE_LABEL: Record<PriceStockState, (label: string) => string> = {
+  both: () => "Есть везде",
+  shop_only: () => "Только в магазине",
+  marketplace_only: (label) => `Только на ${label}`,
+};
+
+const SEPARATOR = ";";
+
+/**
+ * RFC 4180 quoting over `;`. A TEXT whose first character is `=`, `+`, `-` or
+ * `@` is prefixed with a single quote, because Excel and LibreOffice treat such
+ * a cell as a formula, and a marketplace's title is text somebody else typed.
+ * A NUMBER is not: «-117» is a price gap, and quoting it would turn it into
+ * text nobody can add up.
+ */
+const csvCell = (value: string | number | null | undefined): string => {
   if (value === null || value === undefined) {
     return "";
   }
-  const text = String(value);
-  return /[",\r\n;]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  if (typeof value === "number") {
+    /** The Russian Excel reads `1290.5` as text and `1290,5` as a number. */
+    return String(value).replace(".", ",");
+  }
+  let text = value;
+  if (/^[=+\-@]/.test(text)) {
+    text = `'${text}`;
+  }
+  return /[";\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 };
 
-const GROUP_LABEL: Record<PriceStockGroup, string> = {
-  both: "везде есть",
-  shop_only: "есть в магазине, нет на площадке",
-  marketplace_only: "есть на площадке, нет в магазине",
+/** The values of one row, in `priceStockCsvColumns` order. */
+export const priceStockCsvCells = (row: PriceStockRow, label: string): (string | number | null)[] => {
+  const mp = row.mp;
+  return [
+    row.title,
+    row.vendor_code,
+    row.shop?.price ?? null,
+    mp ? (mp.discount_price ?? mp.price) : null,
+    mp && mp.discount_price !== null ? mp.price : null,
+    row.diff.price_abs,
+    row.diff.price_pct,
+    row.currency,
+    row.shop?.stock ?? null,
+    mp?.stock ?? null,
+    row.diff.stock_abs,
+    STATE_LABEL[row.state](label),
+    mp ? (mp.stock_measured_at ?? mp.price_measured_at) : null,
+    mp ? (mp.price_stale || mp.stock_stale ? "да" : "нет") : null,
+    row.diff.highlighted ? "да" : "нет",
+    row.external_id,
+    mp?.reserved ?? null,
+    mp?.lines ?? null,
+  ];
 };
 
 /**
- * The CSV of EXACTLY the rows given, one line per article.
- *
- * The columns are built from the marketplace list, so a third adapter widens
- * the file by being registered. Every money and count column says its unit in
- * the header (rule 18e), and the freshness of each marketplace travels with
- * its numbers — a spreadsheet that drops the age is the same lie as a screen
- * that drops it.
- *
- * `wc -l` of the result is the number of rows plus one header line, and the PR
- * quotes both that and the count the screen shows.
+ * The export of EXACTLY the rows handed in, header first: `;`, `\r\n` and a
+ * UTF-8 BOM, the shape `order-feed.ts` writes, because the owner opens it in a
+ * Russian Excel. Lines of the file = rows + 1.
  */
-export const toPriceStockCsv = (
-  rows: readonly PriceStockRow[],
-  marketplaces: readonly string[],
-  /**
-   * How each marketplace is CALLED in the header. The screen says
-   * «Wildberries» and the file must say the same word: a spreadsheet headed
-   * «wb» asks its reader to know our internal ids. Absent, the id stands in —
-   * an unlabelled column is better than a blank one (rule 20a).
-   */
-  labels: Record<string, string> = {},
-): string => {
-  const head = [
-    "Артикул",
-    "Группа",
-    "Товар магазина",
-    "Цена в магазине, ₽",
-    "Остаток в магазине, шт",
-  ];
-
-  for (const marketplace of marketplaces) {
-    const label = labels[marketplace] ?? marketplace;
-    head.push(
-      `Цена на ${label}, ₽ без скидки`,
-      `Цена на ${label}, ₽ с учётом скидки`,
-      `Остаток на ${label}, шт`,
-      `Строк mp_offer на ${label}`,
-      `Замер цены на ${label}`,
-      `Замер остатка на ${label}`,
-      `Данные ${label} протухли`,
-      `Расхождение цены с ${label}, ₽`,
-      `Расхождение цены с ${label}, %`,
-      `Расхождение остатка с ${label}, шт`,
-    );
-  }
-
-  head.push("Выше порога");
-
-  const lines = [head.map(csvCell).join(",")];
-
+export const toPriceStockCsv = (rows: readonly PriceStockRow[], label: string): string => {
+  const lines = [priceStockCsvColumns(label).map(csvCell).join(SEPARATOR)];
   for (const row of rows) {
-    const cells: unknown[] = [
-      row.vendor_code,
-      GROUP_LABEL[row.group],
-      row.shop?.product_title ?? null,
-      row.shop?.price ?? null,
-      row.shop?.stock ?? null,
-    ];
-
-    for (const marketplace of marketplaces) {
-      const column = row.columns.find((entry) => entry.marketplace === marketplace) ?? null;
-      const price = row.differences.find(
-        (difference) => difference.marketplace === marketplace && difference.metric === "price",
-      );
-      const stock = row.differences.find(
-        (difference) => difference.marketplace === marketplace && difference.metric === "stock",
-      );
-
-      cells.push(
-        column?.price ?? null,
-        column?.discount_price ?? null,
-        column?.stock ?? null,
-        column?.lines ?? null,
-        column?.price_freshness.as_of ?? null,
-        column?.stock_freshness.as_of ?? null,
-        column
-          ? column.price_freshness.stale || column.stock_freshness.stale
-            ? "да"
-            : "нет"
-          : null,
-        price?.abs ?? null,
-        price?.pct ?? null,
-        stock?.abs ?? null,
-      );
-    }
-
-    cells.push(row.over_threshold ? "да" : "нет");
-    lines.push(cells.map(csvCell).join(","));
+    lines.push(priceStockCsvCells(row, label).map(csvCell).join(SEPARATOR));
   }
-
-  /** BOM + CRLF, the same shape `order-feed.ts` writes: Excel opens it as UTF-8. */
   return `﻿${lines.join("\r\n")}\r\n`;
 };
