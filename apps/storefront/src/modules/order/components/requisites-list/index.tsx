@@ -167,7 +167,8 @@ const ValueRow = ({
         </Text>
         <span
           className={clx(
-            "block select-all break-all txt-compact-medium text-ui-fg-base",
+            // No `select-all`: the row itself copies, and the click must not paint the value blue.
+            "block select-none break-all txt-compact-medium text-ui-fg-base",
             mono && "font-mono tabular-nums"
           )}
           data-testid={testId}
