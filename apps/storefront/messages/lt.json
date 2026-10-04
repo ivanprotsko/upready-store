@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Kurso programa",
+    "contents": "Turinys",
     "progress": "{completed}/{total} pamokų baigta",
     "markViewed": "Žymėti kaip peržiūrėtą",
     "lessonViewed": "Peržiūrėta",
-    "locked": "Pamoka užrakinta",
-    "lockedHint": "Nusipirkite kursą produkto puslapyje, kad atrakintumėte pamokas.",
-    "backToCourse": "Grįžti į kursą",
+    "backToContents": "Į kurso turinį",
     "lessonLabel": "{order} pamoka",
     "prev": "Ankstesnė pamoka",
     "next": "Kita pamoka",
-    "finish": "Baigti kursą"
+    "finish": "Baigti kursą",
+    "goToCourse": "Eiti į kursą"
   },
   "CoursesPage": {
     "heading": "Mano kursai",
@@ -351,7 +351,8 @@
     "review": "Kartoti",
     "pendingHeading": "Laukia apmokėjimo",
     "pendingHint": "Prieiga atsivers, kai parduotuvė patvirtins apmokėjimą.",
-    "toOrder": "{order} — apmokėti"
+    "toOrder": "{order} — apmokėti",
+    "backToCourses": "Grįžti į kursus"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

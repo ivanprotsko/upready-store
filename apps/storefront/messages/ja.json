@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "コースのプログラム",
+    "contents": "目次",
     "progress": "{completed}/{total} レッスン完了",
     "markViewed": "視聴済みにする",
     "lessonViewed": "視聴済み",
-    "locked": "レッスンはロックされています",
-    "lockedHint": "レッスンのロックを解除するには、商品ページでコースを購入してください。",
-    "backToCourse": "コースに戻る",
+    "backToContents": "コースの目次へ",
     "lessonLabel": "レッスン {order}",
     "prev": "前のレッスン",
     "next": "次のレッスン",
-    "finish": "コースを終了"
+    "finish": "コースを終了",
+    "goToCourse": "コースへ進む"
   },
   "CoursesPage": {
     "heading": "マイコース",
@@ -351,7 +351,8 @@
     "review": "復習",
     "pendingHeading": "支払い待ち",
     "pendingHint": "ショップが支払いを確認するとアクセスが開放されます。",
-    "toOrder": "{order} — 支払う"
+    "toOrder": "{order} — 支払う",
+    "backToCourses": "コース一覧に戻る"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

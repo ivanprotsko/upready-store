@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "برنامج الدورة",
+    "contents": "المحتويات",
     "progress": "{completed}/{total} دروس مكتملة",
     "markViewed": "وضع علامة كمُشاهَد",
     "lessonViewed": "تمت المشاهدة",
-    "locked": "الدرس مقفل",
-    "lockedHint": "اشترِ الدورة من صفحة المنتج لفتح الدروس.",
-    "backToCourse": "العودة إلى الدورة",
+    "backToContents": "إلى فهرس الدورة",
     "lessonLabel": "الدرس {order}",
     "prev": "الدرس السابق",
     "next": "الدرس التالي",
-    "finish": "إنهاء الدورة"
+    "finish": "إنهاء الدورة",
+    "goToCourse": "انتقل إلى الدورة"
   },
   "CoursesPage": {
     "heading": "دوراتي",
@@ -351,7 +351,8 @@
     "review": "مراجعة",
     "pendingHeading": "في انتظار الدفع",
     "pendingHint": "سيُفتح الوصول بعد أن يؤكد المتجر الدفع.",
-    "toOrder": "{order} — الدفع"
+    "toOrder": "{order} — الدفع",
+    "backToCourses": "العودة إلى الدورات"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

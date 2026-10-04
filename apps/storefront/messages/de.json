@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Kursprogramm",
+    "contents": "Inhalt",
     "progress": "{completed}/{total} Lektionen abgeschlossen",
     "markViewed": "Als angesehen markieren",
     "lessonViewed": "Angesehen",
-    "locked": "Lektion gesperrt",
-    "lockedHint": "Kaufen Sie den Kurs auf der Produktseite, um die Lektionen freizuschalten.",
-    "backToCourse": "Zurück zum Kurs",
+    "backToContents": "Zum Inhaltsverzeichnis des Kurses",
     "lessonLabel": "Lektion {order}",
     "prev": "Vorherige Lektion",
     "next": "Nächste Lektion",
-    "finish": "Kurs abschließen"
+    "finish": "Kurs abschließen",
+    "goToCourse": "Zum Kurs"
   },
   "CoursesPage": {
     "heading": "Meine Kurse",
@@ -351,7 +351,8 @@
     "review": "Wiederholen",
     "pendingHeading": "Warten auf Zahlung",
     "pendingHint": "Der Zugang wird freigeschaltet, sobald der Shop die Zahlung bestätigt.",
-    "toOrder": "{order} – bezahlen"
+    "toOrder": "{order} – bezahlen",
+    "backToCourses": "Zurück zu den Kursen"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

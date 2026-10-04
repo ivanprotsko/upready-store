@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "코스 프로그램",
+    "contents": "목차",
     "progress": "{completed}/{total} 강의 완료",
     "markViewed": "시청 완료로 표시",
     "lessonViewed": "시청함",
-    "locked": "강의가 잠겨 있습니다",
-    "lockedHint": "강의 잠금을 해제하려면 상품 페이지에서 코스를 구매하세요.",
-    "backToCourse": "코스로 돌아가기",
+    "backToContents": "코스 목차로",
     "lessonLabel": "강의 {order}",
     "prev": "이전 강의",
     "next": "다음 강의",
-    "finish": "코스 완료"
+    "finish": "코스 완료",
+    "goToCourse": "코스로 이동"
   },
   "CoursesPage": {
     "heading": "내 코스",
@@ -351,7 +351,8 @@
     "review": "복습",
     "pendingHeading": "결제 대기 중",
     "pendingHint": "매장이 결제를 확인하면 이용할 수 있습니다.",
-    "toOrder": "{order} — 결제"
+    "toOrder": "{order} — 결제",
+    "backToCourses": "코스 목록으로 돌아가기"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

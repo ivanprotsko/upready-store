@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Kursusprogram",
+    "contents": "Indhold",
     "progress": "{completed}/{total} lektioner gennemført",
     "markViewed": "Marker som set",
     "lessonViewed": "Set",
-    "locked": "Lektion låst",
-    "lockedHint": "Køb kurset på produktsiden for at låse lektionerne op.",
-    "backToCourse": "Tilbage til kurset",
+    "backToContents": "Til kursets indhold",
     "lessonLabel": "Lektion {order}",
     "prev": "Forrige lektion",
     "next": "Næste lektion",
-    "finish": "Afslut kursus"
+    "finish": "Afslut kursus",
+    "goToCourse": "Gå til kurset"
   },
   "CoursesPage": {
     "heading": "Mine kurser",
@@ -351,7 +351,8 @@
     "review": "Gennemgå",
     "pendingHeading": "Afventer betaling",
     "pendingHint": "Adgangen åbnes, når butikken har bekræftet betalingen.",
-    "toOrder": "{order} – betal"
+    "toOrder": "{order} – betal",
+    "backToCourses": "Tilbage til kurserne"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

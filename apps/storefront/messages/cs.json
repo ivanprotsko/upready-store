@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Program kurzu",
+    "contents": "Obsah",
     "progress": "{completed}/{total} lekcí dokončeno",
     "markViewed": "Označit jako zhlédnuté",
     "lessonViewed": "Zhlédnuto",
-    "locked": "Lekce je uzamčena",
-    "lockedHint": "Kupte si kurz na stránce produktu a odemkněte lekce.",
-    "backToCourse": "Zpět na kurz",
+    "backToContents": "Na obsah kurzu",
     "lessonLabel": "Lekce {order}",
     "prev": "Předchozí lekce",
     "next": "Další lekce",
-    "finish": "Dokončit kurz"
+    "finish": "Dokončit kurz",
+    "goToCourse": "Přejít ke kurzu"
   },
   "CoursesPage": {
     "heading": "Moje kurzy",
@@ -351,7 +351,8 @@
     "review": "Zopakovat",
     "pendingHeading": "Čekají na platbu",
     "pendingHint": "Přístup se otevře, až obchod potvrdí platbu.",
-    "toOrder": "{order} — zaplatit"
+    "toOrder": "{order} — zaplatit",
+    "backToCourses": "Zpět na kurzy"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

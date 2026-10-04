@@ -47,6 +47,14 @@ export type CourseLesson = {
   viewed_at: string | null
 }
 
+/**
+ * One entry of «Мои курсы». The backend lists a course the customer ordered
+ * but has not paid for too, `access: false` with `progress: null`; the page
+ * reads those off the orders instead (`pendingCoursesFromOrders`) and keeps
+ * only `access: true` entries for the cards. `continue_lesson_id` is the
+ * lesson the card's «Продолжить» opens, `null` while nothing is viewed yet
+ * (ask-20261005-053807-eaae).
+ */
 export type MyCourse = {
   id: string
   title: string
@@ -57,7 +65,29 @@ export type MyCourse = {
     handle: string
     thumbnail: string | null
   } | null
+  access: boolean
+  progress: CourseProgress | null
+  continue_lesson_id: string | null
+}
+
+export type MyCourseLesson = {
+  id: string
+  title: string
+  order: number
+  viewed_at: string | null
+}
+
+/** A bought course's contents in the account, lessons in course order. */
+export type MyCourseContents = {
+  course: {
+    id: string
+    title: string
+    slug: string
+    description: string | null
+  }
+  lessons: MyCourseLesson[]
   progress: CourseProgress
+  continue_lesson_id: string | null
 }
 
 /**
@@ -130,4 +160,26 @@ export const listMyCourses = async (): Promise<MyCourse[]> => {
     })
     .then(({ courses }) => courses)
     .catch(() => [])
+}
+
+/**
+ * One bought course's contents for the account, by the course's slug
+ * (ask-20261005-053807-eaae). `null` for a slug this shop does not have, a
+ * course this customer holds no access to, or a backend that did not answer;
+ * the pages send each of those back to «Мои курсы».
+ */
+export const getMyCourse = async (
+  slug: string
+): Promise<MyCourseContents | null> => {
+  const headers = { ...(await getAuthHeaders()) }
+
+  return await sdk.client
+    .fetch<MyCourseContents>(
+      `/store/tenant/courses/mine/${encodeURIComponent(slug)}`,
+      {
+        headers,
+        cache: "no-store",
+      }
+    )
+    .catch(() => null)
 }

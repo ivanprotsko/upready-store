@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Programa do curso",
+    "contents": "Índice",
     "progress": "{completed}/{total} aulas concluídas",
     "markViewed": "Marcar como visto",
     "lessonViewed": "Visto",
-    "locked": "Aula bloqueada",
-    "lockedHint": "Compre o curso na página do produto para desbloquear as aulas.",
-    "backToCourse": "Voltar ao curso",
+    "backToContents": "Para o índice do curso",
     "lessonLabel": "Aula {order}",
     "prev": "Aula anterior",
     "next": "Próxima aula",
-    "finish": "Concluir curso"
+    "finish": "Concluir curso",
+    "goToCourse": "Ir para o curso"
   },
   "CoursesPage": {
     "heading": "Meus cursos",
@@ -351,7 +351,8 @@
     "review": "Rever",
     "pendingHeading": "Aguardando pagamento",
     "pendingHint": "O acesso será liberado quando a loja confirmar o pagamento.",
-    "toOrder": "{order} — pagar"
+    "toOrder": "{order} — pagar",
+    "backToCourses": "Voltar aos cursos"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Программа курса",
+    "contents": "Оглавление",
     "progress": "{completed}/{total} уроков пройдено",
     "markViewed": "Отметить просмотренным",
     "lessonViewed": "Просмотрено",
-    "locked": "Урок закрыт",
-    "lockedHint": "Чтобы открыть уроки, купите курс на странице товара.",
-    "backToCourse": "Назад к курсу",
+    "backToContents": "К оглавлению курса",
     "lessonLabel": "Урок {order}",
     "prev": "Предыдущий урок",
     "next": "Следующий урок",
-    "finish": "Завершить курс"
+    "finish": "Завершить курс",
+    "goToCourse": "Перейти к курсу"
   },
   "CoursesPage": {
     "heading": "Мои курсы",
@@ -351,7 +351,8 @@
     "review": "Повторить",
     "pendingHeading": "Ожидают оплаты",
     "pendingHint": "Доступ откроется после того, как магазин подтвердит оплату.",
-    "toOrder": "{order} — оплатить"
+    "toOrder": "{order} — оплатить",
+    "backToCourses": "Назад к курсам"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

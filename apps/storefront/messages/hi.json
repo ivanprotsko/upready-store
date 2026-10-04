@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "कोर्स कार्यक्रम",
+    "contents": "विषय-सूची",
     "progress": "{completed}/{total} पाठ पूर्ण",
     "markViewed": "देखा हुआ चिह्नित करें",
     "lessonViewed": "देखा गया",
-    "locked": "पाठ लॉक है",
-    "lockedHint": "पाठ अनलॉक करने के लिए उत्पाद पृष्ठ से कोर्स खरीदें।",
-    "backToCourse": "कोर्स पर वापस जाएं",
+    "backToContents": "कोर्स की विषय-सूची पर",
     "lessonLabel": "पाठ {order}",
     "prev": "पिछला पाठ",
     "next": "अगला पाठ",
-    "finish": "कोर्स समाप्त करें"
+    "finish": "कोर्स समाप्त करें",
+    "goToCourse": "कोर्स पर जाएं"
   },
   "CoursesPage": {
     "heading": "मेरे कोर्स",
@@ -351,7 +351,8 @@
     "review": "दोहराएं",
     "pendingHeading": "भुगतान की प्रतीक्षा में",
     "pendingHint": "दुकान द्वारा भुगतान की पुष्टि के बाद एक्सेस खुलेगा।",
-    "toOrder": "{order} — भुगतान करें"
+    "toOrder": "{order} — भुगतान करें",
+    "backToCourses": "कोर्सों पर वापस जाएं"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

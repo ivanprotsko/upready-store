@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Курсын хөтөлбөр",
+    "contents": "Агуулга",
     "progress": "{completed}/{total} хичээл дууссан",
     "markViewed": "Үзсэн гэж тэмдэглэх",
     "lessonViewed": "Үзсэн",
-    "locked": "Хичээл түгжигдсэн",
-    "lockedHint": "Хичээлүүдийг нээхийн тулд бүтээгдэхүүний хуудаснаас курсыг худалдан аваарай.",
-    "backToCourse": "Курс руу буцах",
+    "backToContents": "Курсын агуулга руу",
     "lessonLabel": "Хичээл {order}",
     "prev": "Өмнөх хичээл",
     "next": "Дараагийн хичээл",
-    "finish": "Курсыг дуусгах"
+    "finish": "Курсыг дуусгах",
+    "goToCourse": "Курс руу очих"
   },
   "CoursesPage": {
     "heading": "Миний курсууд",
@@ -351,7 +351,8 @@
     "review": "Давтах",
     "pendingHeading": "Төлбөр хүлээж байна",
     "pendingHint": "Дэлгүүр төлбөрийг баталгаажуулсны дараа нэвтрэх эрх нээгдэнэ.",
-    "toOrder": "{order} — төлөх"
+    "toOrder": "{order} — төлөх",
+    "backToCourses": "Курсууд руу буцах"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Program kursus",
+    "contents": "Kandungan",
     "progress": "{completed}/{total} pelajaran selesai",
     "markViewed": "Tandakan sebagai dilihat",
     "lessonViewed": "Dilihat",
-    "locked": "Pelajaran dikunci",
-    "lockedHint": "Beli kursus di halaman produk untuk membuka kunci pelajaran.",
-    "backToCourse": "Kembali ke kursus",
+    "backToContents": "Ke kandungan kursus",
     "lessonLabel": "Pelajaran {order}",
     "prev": "Pelajaran sebelumnya",
     "next": "Pelajaran seterusnya",
-    "finish": "Selesaikan kursus"
+    "finish": "Selesaikan kursus",
+    "goToCourse": "Pergi ke kursus"
   },
   "CoursesPage": {
     "heading": "Kursus saya",
@@ -351,7 +351,8 @@
     "review": "Ulang kaji",
     "pendingHeading": "Menunggu pembayaran",
     "pendingHint": "Akses dibuka setelah kedai mengesahkan pembayaran.",
-    "toOrder": "{order} — bayar"
+    "toOrder": "{order} — bayar",
+    "backToCourses": "Kembali ke kursus saya"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

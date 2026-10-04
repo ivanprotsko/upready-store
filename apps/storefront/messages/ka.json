@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "კურსის პროგრამა",
+    "contents": "სარჩევი",
     "progress": "{completed}/{total} გაკვეთილი დასრულებულია",
     "markViewed": "მონიშნეთ ნანახად",
     "lessonViewed": "ნანახია",
-    "locked": "გაკვეთილი დაბლოკილია",
-    "lockedHint": "შეიძინეთ კურსი პროდუქტის გვერდზე გაკვეთილების განსაბლოკად.",
-    "backToCourse": "უკან კურსში",
+    "backToContents": "კურსის სარჩევზე",
     "lessonLabel": "გაკვეთილი {order}",
     "prev": "წინა გაკვეთილი",
     "next": "შემდეგი გაკვეთილი",
-    "finish": "კურსის დასრულება"
+    "finish": "კურსის დასრულება",
+    "goToCourse": "კურსზე გადასვლა"
   },
   "CoursesPage": {
     "heading": "ჩემი კურსები",
@@ -351,7 +351,8 @@
     "review": "გამეორება",
     "pendingHeading": "ელოდება გადახდას",
     "pendingHint": "წვდომა გაიხსნება, როგორც კი მაღაზია გადახდას დაადასტურებს.",
-    "toOrder": "{order} — გადახდა"
+    "toOrder": "{order} — გადახდა",
+    "backToCourses": "უკან კურსებში"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

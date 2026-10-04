@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Programul cursului",
+    "contents": "Cuprins",
     "progress": "{completed}/{total} lecții finalizate",
     "markViewed": "Marchează ca vizionat",
     "lessonViewed": "Vizionat",
-    "locked": "Lecție blocată",
-    "lockedHint": "Cumpărați cursul pe pagina produsului pentru a debloca lecțiile.",
-    "backToCourse": "Înapoi la curs",
+    "backToContents": "La cuprinsul cursului",
     "lessonLabel": "Lecția {order}",
     "prev": "Lecția anterioară",
     "next": "Lecția următoare",
-    "finish": "Finalizează cursul"
+    "finish": "Finalizează cursul",
+    "goToCourse": "Mergi la curs"
   },
   "CoursesPage": {
     "heading": "Cursurile mele",
@@ -351,7 +351,8 @@
     "review": "Recapitulează",
     "pendingHeading": "În așteptarea plății",
     "pendingHint": "Accesul se deschide după ce magazinul confirmă plata.",
-    "toOrder": "{order} — plătește"
+    "toOrder": "{order} — plătește",
+    "backToCourses": "Înapoi la cursuri"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "Kurssin ohjelma",
+    "contents": "Sisällys",
     "progress": "{completed}/{total} oppituntia suoritettu",
     "markViewed": "Merkitse katsotuksi",
     "lessonViewed": "Katsottu",
-    "locked": "Oppitunti lukittu",
-    "lockedHint": "Osta kurssi sen tuotesivulta avataksesi oppitunnit.",
-    "backToCourse": "Takaisin kurssiin",
+    "backToContents": "Kurssin sisällysluetteloon",
     "lessonLabel": "Oppitunti {order}",
     "prev": "Edellinen oppitunti",
     "next": "Seuraava oppitunti",
-    "finish": "Päätä kurssi"
+    "finish": "Päätä kurssi",
+    "goToCourse": "Siirry kurssiin"
   },
   "CoursesPage": {
     "heading": "Omat kurssini",
@@ -351,7 +351,8 @@
     "review": "Kertaa",
     "pendingHeading": "Odottavat maksua",
     "pendingHint": "Pääsy avautuu, kun kauppa on vahvistanut maksun.",
-    "toOrder": "{order} – maksa"
+    "toOrder": "{order} – maksa",
+    "backToCourses": "Takaisin kursseihin"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

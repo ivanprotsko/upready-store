@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import { pageTitle } from "@lib/util/page-title"
-import { listMyCourses } from "@lib/data/courses"
+import { listMyCourses, type CourseProgress, type MyCourse } from "@lib/data/courses"
 import { listOrders } from "@lib/data/orders"
 import { pendingCoursesFromOrders } from "@lib/util/pending-courses"
 import AccountPageHeader from "@modules/account/components/account-page-header"
@@ -24,10 +24,16 @@ export default async function Courses() {
   // Batch 7: the paid courses from the courses endpoint, the unpaid ones off the
   // customer's own orders (`pendingCoursesFromOrders`) — the same page, no access
   // to the second group until the shop confirms the payment.
-  const [courses, orders] = await Promise.all([
+  const [mine, orders] = await Promise.all([
     listMyCourses(),
     listOrders(PENDING_ORDERS_LIMIT).catch(() => []),
   ])
+  // The endpoint lists an unpaid course as well (`access: false`, no progress);
+  // the cards take the open ones, the unpaid group comes off the orders below.
+  const courses = mine.filter(
+    (course): course is MyCourse & { progress: CourseProgress } =>
+      course.access && course.progress !== null
+  )
   const pending = pendingCoursesFromOrders(
     orders ?? [],
     courses.map((course) => course.product?.id).filter((id): id is string => Boolean(id))

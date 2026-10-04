@@ -331,16 +331,16 @@
   },
   "CourseBlock": {
     "heading": "কোর্স প্রোগ্রাম",
+    "contents": "সূচিপত্র",
     "progress": "{completed}/{total} পাঠ সম্পন্ন",
     "markViewed": "দেখা হয়েছে চিহ্নিত করুন",
     "lessonViewed": "দেখা হয়েছে",
-    "locked": "পাঠটি লক করা আছে",
-    "lockedHint": "পাঠগুলো আনলক করতে পণ্যের পৃষ্ঠা থেকে কোর্সটি কিনুন।",
-    "backToCourse": "কোর্সে ফিরে যান",
+    "backToContents": "কোর্সের সূচিপত্রে",
     "lessonLabel": "পাঠ {order}",
     "prev": "আগের পাঠ",
     "next": "পরবর্তী পাঠ",
-    "finish": "কোর্স শেষ করুন"
+    "finish": "কোর্স শেষ করুন",
+    "goToCourse": "কোর্সে যান"
   },
   "CoursesPage": {
     "heading": "আমার কোর্সসমূহ",
@@ -351,7 +351,8 @@
     "review": "পুনরালোচনা করুন",
     "pendingHeading": "পেমেন্টের অপেক্ষায়",
     "pendingHint": "দোকান পেমেন্ট নিশ্চিত করার পর অ্যাক্সেস খুলবে।",
-    "toOrder": "{order} — পেমেন্ট"
+    "toOrder": "{order} — পেমেন্ট",
+    "backToCourses": "কোর্সসমূহে ফিরে যান"
   },
   "DemoCard": {
     "cvcLabel": "CVC",

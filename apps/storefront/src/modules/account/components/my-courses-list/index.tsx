@@ -1,20 +1,23 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
-import type { MyCourse } from "@lib/data/courses"
+import type { CourseProgress as CourseProgressSummary, MyCourse } from "@lib/data/courses"
+import { continueCourseHref } from "@lib/util/course-links"
+import CourseProgress from "@modules/products/components/course-progress"
 
 /**
  * «Мои курсы» dashboard cards (o24-courses part (c)): one per live
- * entitlement, each with a progress bar and a CTA into the lesson player.
- * `product` is null only if the linked product was deleted after purchase —
- * the card still shows title and progress, just no CTA to click into.
+ * entitlement, each with a progress bar and a CTA. The course lives in the
+ * account (ask-20261005-053807-eaae), so the CTA never leads to the product
+ * page: it opens the lesson `continue_lesson_id` names, or the course's
+ * contents while no lesson is viewed (`continueCourseHref`). The page passes
+ * only courses with access, which always carry a progress.
  */
 export default async function MyCoursesList({
   courses,
 }: {
-  courses: MyCourse[]
+  courses: (MyCourse & { progress: CourseProgressSummary })[]
 }) {
   const t = await getTranslations("CoursesPage")
-  const tBlock = await getTranslations("CourseBlock")
 
   return (
     <ul className="flex flex-col gap-y-4 w-full" data-testid="my-courses-list">
@@ -37,32 +40,16 @@ export default async function MyCoursesList({
                 {course.title}
               </h2>
 
-              <div className="flex flex-col gap-y-1.5">
-                <div className="h-2 w-full rounded-full bg-ui-bg-subtle overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-ui-tag-green-icon transition-[width] duration-300"
-                    style={{ width: `${course.progress.percent}%` }}
-                    aria-hidden="true"
-                  />
-                </div>
-                <p className="text-sm text-ui-fg-subtle">
-                  {tBlock("progress", {
-                    completed: course.progress.completed,
-                    total: course.progress.total,
-                  })}
-                </p>
-              </div>
+              <CourseProgress progress={course.progress} />
             </div>
 
-            {course.product && (
-              <Link
-                href={`/products/${course.product.handle}`}
-                className="inline-flex items-center self-start rounded-medium bg-ui-button-inverted px-4 py-2.5 text-sm font-medium text-ui-fg-on-color transition-colors hover:bg-ui-button-inverted-hover"
-                data-testid="my-course-cta"
-              >
-                {ctaLabel}
-              </Link>
-            )}
+            <Link
+              href={continueCourseHref(course)}
+              className="inline-flex items-center self-start rounded-medium bg-ui-button-inverted px-4 py-2.5 text-sm font-medium text-ui-fg-on-color transition-colors hover:bg-ui-button-inverted-hover"
+              data-testid="my-course-cta"
+            >
+              {ctaLabel}
+            </Link>
           </li>
         )
       })}
