@@ -386,6 +386,20 @@
   }
 }
 
+/* t-2026-10-04-22 (QA f14): on the compact header (phones, tablets) the page showed through
+   the gap between the logo pill and the controls' pill once scrolled, so a product title
+   under the bar read as stray letters between them. Scrolled, the compact bar takes the page
+   colour behind its pills. Desktop keeps the bar with no fill (Ivan's remark 7.1.1). */
+@media (max-width: 1023px) {
+  .bar {
+    transition: background-color 200ms ease-out;
+  }
+
+  .root[data-scrolled="true"] .bar {
+    background: var(--background);
+  }
+}
+
 .trailing .iconButton {
   transition:
     background-color 200ms ease-out,
