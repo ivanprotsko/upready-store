@@ -6,7 +6,7 @@ import { Link, useSearchParams } from "react-router-dom"
 import { SingleColumnPage } from "../../../../components/layout/pages"
 import { useMarketplaceAnalytics } from "../../../../hooks/api/marketplace-analytics"
 import { CardsTable } from "./components/cards-table"
-import { SalesChart } from "./components/sales-chart"
+import { SalesChart } from "../../../marketplaces/mp-analytics/components/sales-chart"
 import { SourceBlock } from "./components/source-block"
 
 /**

@@ -4,11 +4,12 @@ import path from "node:path";
 import { MARKETPLACES } from "../registry";
 
 /**
- * THE READ-ONLY PROOF OF THE SELLER DASHBOARD (w19-mp-analytics).
+ * THE READ-ONLY PROOF OF «Wildberries → Аналитика» (mp-section-design task-06,
+ * first written for the w19-mp-analytics dashboard).
  *
  * Ivan's standing invariant of 2026-09-16 02:46 WITA: analytics reads our own
  * tables and sends nothing. This screen is the one where breaking that would
- * be easiest to justify — the rating and the turnover both have a marketplace
+ * be easiest to justify — the rating and the stock both have a marketplace
  * method behind them — so the invariant is a test rather than a promise.
  *
  * Four belts:
@@ -20,15 +21,15 @@ import { MARKETPLACES } from "../registry";
  *      live `POST /v1/roles` and would turn every page open into a marketplace
  *      request. `readCredentials` is the one adapter member allowed: it reads
  *      our own database.
- *   3. The panel screen sends no mutation.
+ *   3. The panel screen, and the analytics block of the section's hook file,
+ *      send no mutation.
  *   4. The screen invents no profit: the words a P&L would be assembled from
  *      appear nowhere as a computed number.
  *
  * An endpoint ID is allowed to APPEAR in these files, unlike in the order
- * desk: the rating block looks the last recorded answer of
- * `analytics.item-rating` up in our own journal, and naming the method is the
- * point — the owner has to know which one was refused. Belt 2 is what makes
- * the name harmless.
+ * desk: the rating looks the last recorded answer of `analytics.item-rating`
+ * up in our own journal, and naming the method is the point — support has to
+ * know which one was refused. Belt 2 is what makes the name harmless.
  */
 
 const REPO_ROOT = path.resolve(__dirname, "../../../../../..");
@@ -40,7 +41,9 @@ const HANDLER_DIR = path.join(
   "src",
   "api",
   "tenants",
-  "marketplace-analytics",
+  "marketplaces",
+  "[marketplace]",
+  "analytics",
 );
 
 const CORE_MODULES = [
@@ -54,11 +57,15 @@ const PANEL_DIR = path.join(
   "tenant-panel",
   "src",
   "routes",
-  "settings",
   "marketplaces",
-  "analytics",
+  "mp-analytics",
 );
 
+/**
+ * The hook file is shared by every screen of the section, and another screen
+ * may keep a mutation of its own there; the belt reads the analytics block
+ * only, from its header comment to the next one.
+ */
 const PANEL_HOOK = path.join(
   REPO_ROOT,
   "apps",
@@ -66,8 +73,18 @@ const PANEL_HOOK = path.join(
   "src",
   "hooks",
   "api",
-  "marketplace-analytics.tsx",
+  "marketplace-section.tsx",
 );
+
+const analyticsBlockOf = (source: string): string => {
+  const title = source.indexOf("«Аналитика»: the seller's dashboard of one marketplace");
+  if (title < 0) {
+    return "";
+  }
+  const start = source.lastIndexOf("/* ----", title);
+  const end = source.indexOf("/* ----", title);
+  return source.slice(start, end < 0 ? undefined : end);
+};
 
 const walk = (dir: string, found: string[] = []): string[] => {
   if (!existsSync(dir)) {
@@ -152,22 +169,25 @@ describe("бэкенд дашборда", () => {
 });
 
 describe("экран панели", () => {
-  const panelFiles = [...walk(PANEL_DIR), PANEL_HOOK].filter((file) => existsSync(file));
-
-  it("экран существует", () => {
-    expect(panelFiles.length).toBeGreaterThanOrEqual(3);
+  it("экран и блок хука существуют", () => {
+    expect(walk(PANEL_DIR).length).toBeGreaterThanOrEqual(3);
+    expect(analyticsBlockOf(read(PANEL_HOOK))).toMatch(/useMpAnalytics/);
   });
 
-  it.each([...walk(PANEL_DIR), PANEL_HOOK].filter((file) => existsSync(file)))(
-    "%s не отправляет ни одной мутации",
-    (file) => {
-      const source = withoutComments(read(file));
+  it.each(walk(PANEL_DIR))("%s не отправляет ни одной мутации", (file) => {
+    const source = withoutComments(read(file));
 
-      expect(source).not.toMatch(/useMutation/);
-      expect(source).not.toMatch(/method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/);
-      expect(source).not.toMatch(/sdk\.(?:admin|client)\.[\w.]*\.(?:create|update|delete)\b/);
-    },
-  );
+    expect(source).not.toMatch(/useMutation/);
+    expect(source).not.toMatch(/method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/);
+    expect(source).not.toMatch(/sdk\.(?:admin|client)\.[\w.]*\.(?:create|update|delete)\b/);
+  });
+
+  it("блок «Аналитика» хука не отправляет ни одной мутации", () => {
+    const source = withoutComments(analyticsBlockOf(read(PANEL_HOOK)));
+
+    expect(source).not.toMatch(/useMutation/);
+    expect(source).not.toMatch(/method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/);
+  });
 });
 
 describe("выдуманной прибыли на экране нет", () => {

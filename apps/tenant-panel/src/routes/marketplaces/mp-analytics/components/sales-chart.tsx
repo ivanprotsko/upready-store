@@ -1,7 +1,8 @@
 import { Text } from "@medusajs/ui"
 import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
 
-import type { AnalyticsDay } from "../../../../../hooks/api/marketplace-analytics"
+import type { MpAnalyticsResponse } from "../../../../hooks/api/marketplace-section"
 
 /**
  * Продажи по дням — столбик на день периода (w19-mp-analytics).
@@ -15,10 +16,15 @@ import type { AnalyticsDay } from "../../../../../hooks/api/marketplace-analytic
  * как «в этот день не считали», а ноль — это измеренный ноль (правило 20a).
  * Отмены рисуются вторым, более бледным столбиком поверх — они не выручка, но
  * и не пустота.
+ *
+ * Перенесён с экрана w19 на «Wildberries → Аналитика» (task-06): день — это
+ * `by_day[]` ответа одной площадки, без разбивки по площадкам.
  */
 
+type Day = MpAnalyticsResponse["by_day"][number]
+
 type Props = {
-  days: AnalyticsDay[]
+  days: Day[]
   currency: string | null
   locale: string
   /** Подпись оси: что именно отложено по высоте. */
@@ -44,6 +50,7 @@ const shortDay = (day: string | undefined, locale: string) => {
 }
 
 export const SalesChart = ({ days, currency, locale, measure }: Props) => {
+  const { t } = useTranslation()
   const { max, width } = useMemo(() => {
     const values = days.map((day) =>
       measure === "revenue" ? day.revenue + day.cancelled_revenue : day.units + day.cancelled_units
@@ -55,7 +62,7 @@ export const SalesChart = ({ days, currency, locale, measure }: Props) => {
     measure === "revenue"
       ? new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(value) +
         (currency ? ` ${currency}` : "")
-      : `${new Intl.NumberFormat(locale).format(value)} шт`
+      : `${new Intl.NumberFormat(locale).format(value)} ${t("mp.units.pcs")}`
 
   const barWidth = Math.max(4, Math.floor(width / Math.max(days.length, 1)) - GAP)
 
@@ -65,7 +72,7 @@ export const SalesChart = ({ days, currency, locale, measure }: Props) => {
         className="min-w-full"
         height={HEIGHT + 22}
         role="img"
-        aria-label={measure === "revenue" ? "Выручка по дням" : "Штуки по дням"}
+        aria-label={measure === "revenue" ? t("mp.analytics.chart.revenueLabel") : t("mp.analytics.chart.unitsLabel")}
         width={width}
       >
         {days.map((day, index) => {
@@ -93,9 +100,15 @@ export const SalesChart = ({ days, currency, locale, measure }: Props) => {
                 x={x}
                 y={HEIGHT - height}
               >
-                <title>{`${day.day}: ${format(value)}${
-                  cancelled > 0 ? `, отменено ${format(cancelled)}` : ""
-                }`}</title>
+                <title>
+                  {cancelled > 0
+                    ? t("mp.analytics.chart.barCancelled", {
+                        day: shortDay(day.day, locale),
+                        value: format(value),
+                        cancelled: format(cancelled),
+                      })
+                    : t("mp.analytics.chart.bar", { day: shortDay(day.day, locale), value: format(value) })}
+                </title>
               </rect>
             </g>
           )
@@ -114,7 +127,7 @@ export const SalesChart = ({ days, currency, locale, measure }: Props) => {
         </text>
       </svg>
       <Text className="text-ui-fg-muted" size="xsmall">
-        {`Максимум по столбику: ${format(max)}. Бледная шапка — отменённые заказы, в выручку они не входят.`}
+        {t("mp.analytics.chart.legend", { max: format(max) })}
       </Text>
     </div>
   )

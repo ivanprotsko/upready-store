@@ -1,22 +1,20 @@
 /**
- * What the dashboard is ALLOWED to show, and what it must say instead
- * (w19-mp-analytics).
+ * The seller rating on «Wildberries → Аналитика» (mp-section-design task-06,
+ * first built in w19-mp-analytics), and what the screen says when there is
+ * none.
  *
- * Two blocks of the seller dashboard do not come from our own arithmetic: the
- * seller rating, which only the marketplace knows, and the P&L, which needs
- * the marketplace's finance reports. Both can be unavailable, and an
- * unavailable block has to say WHY — an empty rating reads as «рейтинг ноль»,
- * and a P&L assembled out of what we do have would be an invented margin,
- * the one thing this task forbids outright.
+ * The rating is the one number of the screen that does not come out of our
+ * own arithmetic: only the marketplace knows it. An empty rating reads as
+ * «рейтинг ноль», so an absent one says WHY it is absent, in the owner's words,
+ * and keeps the technical half (the method, the HTTP status, the
+ * marketplace's own text) for «Подробности для поддержки» (rule P3).
  *
- * PURE, AND IT ASKS NOBODY. The state is decided from two facts the loader
- * already has: whether a key is stored, and what the marketplace answered the
- * last time an import asked — one row of `mp_api_call`. Nothing here inspects
- * a key and nothing opens a socket: `inspectCredentials` on Ozon is a live
- * `POST /v1/roles`, and a screen that made a marketplace request on every open
- * would be a different screen from the read-only one this is (Ivan,
- * 2026-09-16 02:46 WITA). The key's own rights are shown live, once, on
- * «Маркетплейсы»; this screen points there instead of keeping a second copy.
+ * PURE, AND IT ASKS NOBODY. The state is decided from facts the loader already
+ * read out of our own tables: whether a key is stored, the last recorded
+ * answer of the rating method in the journal `mp_api_call`, and a rating an
+ * import mirrored. Nothing here inspects a key and nothing opens a socket: a
+ * screen that asked the marketplace on every open would not be the read-only
+ * screen this is (Ivan, 2026-09-16 02:46 WITA).
  */
 
 /** One row of `mp_api_call`, as the loader read it. */
@@ -27,194 +25,122 @@ export type LastCall = {
   fetched_at: string | null;
 };
 
-export type SourceState =
-  /** Asked, answered, the number is on the screen. */
-  | "ok"
-  /** No key for this marketplace at all. */
-  | "no_key"
-  /** A key, but the marketplace refused this method. */
-  | "refused"
-  /** A key, the method is allowed, nobody has asked yet. */
-  | "never_asked"
-  /** Known to be out of reach of this key's category. */
-  | "scope_missing";
-
-export type SourceBlock = {
-  marketplace: string;
-  label: string;
-  state: SourceState;
-  /** The method this block would read, named so the owner can take it to support. */
-  endpoint: string | null;
-  /** The marketplace's own answer, as the journal recorded it. */
-  refusal: { status: number | null; text: string | null; at: string | null } | null;
-  /** What the screen prints. Russian: it is read by the shop owner. */
-  detail: string;
-  /** Where the live truth about the key's rights is, so nothing here is a stale copy. */
-  see: string | null;
-};
-
-/** Where the key's own rights are shown, live, for every marketplace. */
-const KEY_RIGHTS_SCREEN = "Маркетплейсы → карточка площадки: права ключа, срок, разрешённые чтения";
-
 /**
- * WB's rating method, and why a base token cannot use it.
+ * The method each marketplace keeps its seller rating behind.
  *
- * `POST /api/analytics/v2/item-rating` answers `data.sellerRating.current` —
- * Wildberries has no separate seller-rating method, so this is the one. The
- * doc line above it says "Method is available by Personal token, Service
- * token".
+ * WB: `POST /api/analytics/v2/item-rating` answers `data.sellerRating.current`;
+ * WB has no separate seller-rating method. Its documentation says "Method is
+ * available by Personal token, Service token", and on the client's base key
+ * it answered 403 `token does not satisfy additional requirements`
+ * (measured 2026-09-16, w19). No import kind asks it: on the stand the journal
+ * holds not one call of it (2026-10-05), so the screen says so instead of
+ * waiting for an answer that cannot come.
  *
- * MEASURED 2026-09-16 on the live cabinet «ФНП / Фабрика Натуральных
- * Продуктов» with the shop's own key: HTTP 403, body
- * `{"detail":"token does not satisfy additional requirements","origin":"ag-contentanalytics"}`.
- * So the refused branch is not a precaution — it is the case that happens, and
- * the screen shows the 403 rather than an empty five-star row.
+ * Ozon: `POST /v1/rating/summary` exists and is not registered; the shop has
+ * no Ozon key and a read is registered only after it has answered on one.
  */
 export const RATING_ENDPOINTS: Readonly<Record<string, string | null>> = {
   wb: "analytics.item-rating",
-  /**
-   * Ozon has `POST /v1/rating/summary` and `/v1/rating/history`. Neither is
-   * registered yet: this shop has no Ozon key, and registering a read nobody
-   * has ever got a 200 out of would put a method on the owner's «разрешённые
-   * чтения» list on the strength of documentation alone.
-   */
   ozon: null,
 };
 
-export const ratingBlock = (input: {
-  marketplace: string;
+export type RatingState =
+  /** A rating an import mirrored is on the screen. */
+  | "ok"
+  /** No key for this marketplace: there is nobody to ask. */
+  | "no_key"
+  /** The marketplace was asked and refused; its answer is in the words. */
+  | "refused"
+  /** Nothing asks for the rating, so there is no number and no refusal. */
+  | "not_imported";
+
+export type SellerRating = {
+  value: number | null;
+  scale: number | null;
+  state: RatingState;
+  /** When the marketplace answered, with the rating or with the refusal; ISO. */
+  as_of: string | null;
+  /** What the owner reads, Russian, no method names. */
+  detail: string;
+  /** What support reads: the method, the status and the marketplace's own text. */
+  support: string | null;
+};
+
+/** A refusal in the owner's words, by the HTTP status the marketplace answered. */
+const refusalWords = (status: number): string => {
+  if (status === 401 || status === 403) {
+    return "этот ключ не даёт доступа к рейтингу, нужен персональный или сервисный токен";
+  }
+  if (status === 429) {
+    return "площадка попросила подождать, запросов было слишком много";
+  }
+  if (status >= 500) {
+    return "у площадки случился сбой";
+  }
+  return `площадка ответила ошибкой ${status}`;
+};
+
+export const sellerRating = (input: {
   label: string;
   hasKey: boolean;
+  /** `RATING_ENDPOINTS[marketplace]`. */
+  endpoint: string | null;
+  /** The last journal row of `endpoint` for this shop, if it was ever asked. */
   lastCall: LastCall | null;
-  /** The seller rating, once an import has mirrored one. `null` — we have none. */
-  rating: number | null;
-}): SourceBlock => {
-  const endpoint = RATING_ENDPOINTS[input.marketplace] ?? null;
-  const base = { marketplace: input.marketplace, label: input.label, endpoint };
-
-  if (!input.hasKey) {
+  /**
+   * The rating an import mirrored, with the instant it was measured. No import
+   * mirrors one today (see `RATING_ENDPOINTS`); when one does, this is where
+   * its number arrives and nothing else changes.
+   */
+  stored: { value: number; scale: number; at: string | null } | null;
+}): SellerRating => {
+  if (input.stored) {
     return {
-      ...base,
-      state: "no_key",
-      refusal: null,
-      see: KEY_RIGHTS_SCREEN,
-      detail:
-        `Рейтинг знает только площадка, а ключа ${input.label} у магазина нет — ` +
-        "спросить некого. Ключ добавляется на экране «Маркетплейсы».",
-    };
-  }
-
-  if (input.rating !== null) {
-    return {
-      ...base,
+      value: input.stored.value,
+      scale: input.stored.scale,
       state: "ok",
-      refusal: null,
-      see: null,
-      detail: `Рейтинг продавца по данным самой площадки ${input.label}.`,
+      as_of: input.stored.at,
+      detail: `Рейтинг продавца по данным ${input.label}.`,
+      support: null,
     };
   }
 
-  const refusal =
-    input.lastCall && input.lastCall.status !== null && input.lastCall.status >= 400
-      ? { status: input.lastCall.status, text: input.lastCall.error, at: input.lastCall.fetched_at }
-      : null;
-
-  if (refusal) {
-    return {
-      ...base,
-      state: "refused",
-      refusal,
-      see: KEY_RIGHTS_SCREEN,
-      detail:
-        `Площадка отказала: HTTP ${refusal.status}. Метод рейтинга ${input.label} доступен ` +
-        "по персональному или сервисному токену, базовому ключу — нет. " +
-        "Чтобы рейтинг появился, нужен ключ такого вида; кодом это не обходится.",
-    };
-  }
-
-  if (!endpoint) {
-    return {
-      ...base,
-      state: "scope_missing",
-      refusal: null,
-      see: null,
-      detail:
-        `Метод рейтинга ${input.label} у нас не зарегистрирован: мы регистрируем чтение только ` +
-        "после того, как оно ответило на живом ключе, а ключа этой площадки у магазина не было.",
-    };
-  }
-
-  return {
-    ...base,
-    state: "never_asked",
-    refusal: null,
-    see: null,
-    detail:
-      "Рейтинг у площадки ещё не запрашивался: метод лимитирован, поэтому его спрашивает импорт, " +
-      "а не открытие экрана.",
-  };
-};
-
-/**
- * The P&L, and the only honest thing that can be said about it today.
- *
- * A P&L needs the marketplace's finance category: commission, logistics,
- * storage, penalties, what was actually paid out. None of it is in our mirror,
- * and there is no estimated-margin branch here on purpose — revenue, price and
- * discount are all already on this screen, and multiplying them into
- * «прибыль» would be a number the owner would act on and nobody could check.
- *
- * Each marketplace's sentence is a MEASUREMENT with its date in it, not a
- * belief: a record carrying a date is a snapshot of that date, and the live
- * state of the key lives one screen away (`see`).
- */
-export const PNL_DETAIL: Readonly<Record<string, string>> = {
-  wb:
-    "P&L неполный: нет доступа к категории Finance у ключа WB (бит 13 не выставлен, finance-api " +
-    "отвечает 403 «scope is not allowed for this resource»). Замер 2026-09-16: маска ключа — " +
-    "1073742014, то есть биты 1, 2, 3, 4, 5, 7 и 30; тринадцатого в ней нет. Комиссия, логистика, " +
-    "хранение и штрафы площадки нам поэтому недоступны, и прибыль на этом экране не считается и " +
-    "не оценивается. Чтобы P&L стал полным, нужен ключ WB с категорией «Финансы» — это решение " +
-    "владельца кабинета.",
-  ozon:
-    "P&L по Ozon не считается: финансовые отчёты (`/v1/finance/cash-flow-statement/list`, " +
-    "`/v1/finance/realization/by-day`) у нас не зарегистрированы, а часть их требует подписки " +
-    "Premium Plus/Pro. Ключа Ozon у магазина нет, поэтому что именно ответит кабинет — " +
-    "неизвестно, и мы этого не выдумываем.",
-};
-
-export const pnlBlock = (input: {
-  marketplace: string;
-  label: string;
-  hasKey: boolean;
-  /** A recorded answer of a finance method, if one was ever asked for. */
-  lastCall: LastCall | null;
-}): SourceBlock => {
-  const base = { marketplace: input.marketplace, label: input.label, endpoint: null };
-  const measured =
-    PNL_DETAIL[input.marketplace] ??
-    `P&L по ${input.label} не считается: финансовых отчётов площадки в зеркале нет.`;
+  const none = { value: null, scale: null };
 
   if (!input.hasKey) {
     return {
-      ...base,
+      ...none,
       state: "no_key",
-      refusal: null,
-      see: KEY_RIGHTS_SCREEN,
-      detail: `Ключа ${input.label} у магазина нет. ${measured}`,
+      as_of: null,
+      detail: `Рейтинг знает только ${input.label}, а ключа площадки у магазина нет.`,
+      support: null,
     };
   }
 
-  const refusal =
-    input.lastCall && input.lastCall.status !== null && input.lastCall.status >= 400
-      ? { status: input.lastCall.status, text: input.lastCall.error, at: input.lastCall.fetched_at }
-      : null;
+  const call = input.lastCall;
+  if (call && call.status !== null && call.status >= 400) {
+    return {
+      ...none,
+      state: "refused",
+      as_of: call.fetched_at,
+      detail: `${input.label} не отдал рейтинг: ${refusalWords(call.status)}.`,
+      support: [`${call.endpoint_id}: HTTP ${call.status}`, call.error].filter(Boolean).join(" · "),
+    };
+  }
 
   return {
-    ...base,
-    state: "scope_missing",
-    refusal,
-    see: KEY_RIGHTS_SCREEN,
-    detail: measured,
+    ...none,
+    state: "not_imported",
+    as_of: null,
+    detail: input.endpoint
+      ? `Рейтинг продавца обновление магазина не загружает: ${input.label} отдаёт его только по персональному или сервисному токену.`
+      : `Рейтинг продавца ${input.label} обновление магазина пока не загружает.`,
+    support: !input.endpoint
+      ? null
+      : call
+        ? [`${call.endpoint_id}: последний ответ HTTP ${call.status ?? "нет"}, числа рейтинга импорт не хранит`, call.error]
+            .filter(Boolean)
+            .join(" · ")
+        : `${input.endpoint}: в журнале mp_api_call нет ни одного вызова, ни один вид обновления его не запрашивает.`,
   };
 };

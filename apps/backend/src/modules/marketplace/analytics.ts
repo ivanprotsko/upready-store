@@ -1,90 +1,267 @@
-import { DEFAULT_PERIOD_DAYS, resolvePeriod, type ResolvedPeriod } from "./order-feed";
+import { MedusaError } from "@medusajs/framework/utils";
 
 /**
- * The seller dashboard's arithmetic (w19-mp-analytics, parity matrix rows
- * 14/15/16/17/19/20).
+ * The arithmetic of «Wildberries → Аналитика» (mp-section-design task-06,
+ * first built as the seller dashboard of w19-mp-analytics).
  *
  * EVERY NUMBER ON THAT SCREEN IS COMPUTED HERE, and this file touches no
- * database, no container and no clock: it takes rows and a period and returns
- * numbers. That is what lets the unit suite pin the ABC boundary, the XYZ
- * coefficient and «дней до нуля» without a stand, and it is what lets the PR
- * prove the screen against direct SQL — the same fold, over the same rows.
+ * database, no container and no clock: it takes rows, a period and a time
+ * zone and returns numbers. That is what lets the unit suite pin the period,
+ * the ABC boundary, the XYZ coefficient and «дней до нуля» without a stand,
+ * and what lets the PR prove the screen against direct SQL: the same fold,
+ * over the same rows.
  *
- * READ-ONLY, like the order feed next door: the rows come from `mp_order`,
- * `mp_order_line` and `mp_offer`, which an import script filled from the
- * mirrors. Nothing here can reach a marketplace (Ivan, 2026-09-16 02:46 WITA);
- * `__tests__/analytics-read-only.unit.spec.ts` fails if an adapter, an
- * endpoint id or a mutation appears in this file or in the routes that use it.
+ * READ-ONLY. The rows come from `mp_order`, `mp_order_line` and `mp_offer`,
+ * which an import filled. Nothing here can reach a marketplace (Ivan,
+ * 2026-09-16 02:46 WITA); `__tests__/analytics-read-only.unit.spec.ts` fails if
+ * an adapter call or a mutation appears in this file or in the route.
+ *
+ * ONE MARKETPLACE. The screen lives under one marketplace's section, so the
+ * loader reads that marketplace's rows only and nothing below splits by it.
  *
  * ONE DEFINITION OF REVENUE. Every block folds the SAME list of `SaleRow`
- * (one row per order line, with its order's day and cancelled flag already on
- * it), so «выручка» on the chart, in the card table and inside the ABC class
- * cannot drift apart. Two of our own versions of one metric would be evidence
- * of an unread schema, not a choice for the reader (rule 17a).
+ * (one row per order line, with its order's day and cancelled flag on it), so
+ * «выручка» in the totals, on the chart and in the card table cannot drift
+ * apart (rule 17a).
  */
 
-/** The period the dashboard opens on — the same 30 days as the order feed. */
-export { DEFAULT_PERIOD_DAYS, resolvePeriod };
-export type { ResolvedPeriod };
+/** The period the screen opens on, and the number it SAYS it chose. */
+export const DEFAULT_PERIOD_DAYS = 30;
 
-/** `wb` | `ozon`; text, because the registry decides what exists. */
-export type AnalyticsMarketplace = string;
+/** The longest period one request may fold: a year, leap day included. */
+export const MAX_PERIOD_DAYS = 366;
+
+const DAY_MS = 86_400_000;
+
+const invalid = (message: string) => new MedusaError(MedusaError.Types.INVALID_DATA, message);
+
+/* --------------------------------------------------------------- календарь */
 
 /**
- * One order line, joined to its order. The loader builds these; every
- * function below is a fold over them.
+ * The calendar of the shop.
  *
- * `revenue` is NOT stored: it is `qty × price`, computed by `saleRowsOf` so
- * that the definition lives in one place.
+ * A day on this screen is a day of the SHOP's clock, not of UTC: an order
+ * placed at 01:00 in Moscow is 22:00 UTC the day before, and a UTC cut would
+ * put it into yesterday's column and close «сегодня» three hours early. The
+ * zone is an argument; the route passes `ANALYTICS_TIMEZONE`, the same zone
+ * the shop's own «Аналитика» counts its days in
+ * (`api/tenants/analytics/timezone.ts`).
  */
-export type SaleRow = {
-  marketplace: AnalyticsMarketplace;
-  /** The calendar day of the order, `YYYY-MM-DD`, in the period's own UTC days. */
-  day: string;
-  /** WB `nmID`, Ozon `sku` — the card this line sold. */
-  card_id: string | null;
-  vendor_code: string | null;
-  title: string | null;
-  qty: number;
-  /** Price of ONE item, as the marketplace reported it. */
-  price: number | null;
-  /** `qty × price`, or `null` when the marketplace priced nothing. */
-  revenue: number | null;
-  currency: string | null;
-  is_cancelled: boolean;
+export type AnalyticsPeriod = {
+  /** The first instant of `from_day` in the shop's zone. */
+  from: Date;
+  /** The first instant AFTER `to_day` in the shop's zone: the bound is exclusive. */
+  until: Date;
+  /** The days the screen prints, `YYYY-MM-DD`, both inclusive. */
+  from_day: string;
+  to_day: string;
+  days: number;
+  /** True when the caller named no day and got the last 30 days. */
+  is_default: boolean;
+  time_zone: string;
 };
 
-/** What the loader hands in: one row per `mp_order_line` plus its order. */
-export type RawLineWithOrder = {
-  marketplace: AnalyticsMarketplace;
-  ordered_at: Date | string | null;
-  is_cancelled: boolean;
-  currency: string | null;
-  card_id: string | null;
-  vendor_code: string | null;
-  title: string | null;
-  qty: number | null;
-  price: number | null;
+const partsFormatters = new Map<string, Intl.DateTimeFormat>();
+
+/** One formatter per zone: building one costs more than formatting with it. */
+const partsFormatter = (timeZone: string): Intl.DateTimeFormat => {
+  let formatter = partsFormatters.get(timeZone);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      hourCycle: "h23",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    partsFormatters.set(timeZone, formatter);
+  }
+  return formatter;
 };
 
-/** `YYYY-MM-DD` of an instant, in UTC — the days the period bounds are built on. */
-export const dayOf = (value: Date): string => value.toISOString().slice(0, 10);
+/** The wall clock of `at` in `timeZone`, as numbers. */
+const wallClock = (at: Date, timeZone: string) => {
+  const parts = partsFormatter(timeZone).formatToParts(at);
+  const get = (type: string) => Number(parts.find((part) => part.type === type)?.value ?? "0");
+  return { year: get("year"), month: get("month"), day: get("day"), hour: get("hour"), minute: get("minute") };
+};
+
+const pad = (value: number) => String(value).padStart(2, "0");
+
+/** `YYYY-MM-DD` of the instant `at` on the shop's calendar. */
+export const dayIn = (at: Date, timeZone: string): string => {
+  const clock = wallClock(at, timeZone);
+  return `${clock.year}-${pad(clock.month)}-${pad(clock.day)}`;
+};
+
+/**
+ * `dayIn` for many rows. Every real zone offset is a multiple of 15 minutes,
+ * so two instants in the same quarter of an hour share a day; the cache keeps
+ * a month of orders to about 3 000 formatter calls instead of one per line.
+ */
+export const dayReader = (timeZone: string): ((at: Date) => string) => {
+  const cache = new Map<number, string>();
+  return (at: Date) => {
+    const slot = Math.floor(at.getTime() / 900_000);
+    let day = cache.get(slot);
+    if (day === undefined) {
+      day = dayIn(at, timeZone);
+      cache.set(slot, day);
+    }
+    return day;
+  };
+};
+
+/** Minutes the zone is ahead of UTC at the instant `at` (+180 for Moscow). */
+const offsetMinutesAt = (at: Date, timeZone: string): number => {
+  const clock = wallClock(at, timeZone);
+  const asUtc = Date.UTC(clock.year, clock.month - 1, clock.day, clock.hour, clock.minute);
+  return Math.round((asUtc - Math.floor(at.getTime() / 60_000) * 60_000) / 60_000);
+};
+
+/**
+ * The instant the calendar day `day` begins in `timeZone`. The offset is read
+ * twice, the second time at the instant the first guess gave, so a day that
+ * starts next to a clock change is anchored by the offset in force at its own
+ * midnight.
+ */
+export const midnightIn = (day: string, timeZone: string): Date => {
+  const [year, month, date] = day.split("-").map(Number);
+  const guess = Date.UTC(year, month - 1, date);
+  const first = guess - offsetMinutesAt(new Date(guess), timeZone) * 60_000;
+  return new Date(guess - offsetMinutesAt(new Date(first), timeZone) * 60_000);
+};
+
+/** `day` moved by `count` calendar days, on the calendar alone. */
+export const shiftDay = (day: string, count: number): string => {
+  const [year, month, date] = day.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, date + count)).toISOString().slice(0, 10);
+};
+
+const daysBetween = (from: string, to: string): number => {
+  const at = (day: string) => {
+    const [year, month, date] = day.split("-").map(Number);
+    return Date.UTC(year, month - 1, date);
+  };
+  return Math.round((at(to) - at(from)) / DAY_MS);
+};
+
+/** A real calendar day `YYYY-MM-DD`, or `null`: «2026-02-30» is not one. */
+const parseDay = (value: unknown): string | null => {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+  if (!match) {
+    return null;
+  }
+  const day = match[0];
+  return shiftDay(day, 0) === day ? day : null;
+};
+
+/**
+ * The period the query asks for, or the last 30 days of the shop's calendar
+ * with today included.
+ *
+ * `from` and `to` are calendar days, `YYYY-MM-DD`, read on the SHOP's
+ * calendar. Anything else is a 400 and not a silently ignored filter: a screen
+ * that claims «с 1 сентября» while it folds the default 30 days would be a
+ * wrong answer with no sign on it.
+ *
+ * Days after the shop's today are not measured yet, so `to` stops at today:
+ * dividing a month's sales by days that have not happened would shrink every
+ * pace on the screen. The answer carries the days it used, and the screen
+ * prints those. A half-open period is legal: «с 1 сентября» runs to today,
+ * «по 10 сентября» starts 30 days before it.
+ *
+ * `now` is an argument: the tests pin it, and a function that reads the clock
+ * itself cannot be measured (rule 17a).
+ */
+export const resolveAnalyticsPeriod = (
+  query: { from?: unknown; to?: unknown },
+  now: Date,
+  timeZone: string,
+): AnalyticsPeriod => {
+  const asked = (key: "from" | "to"): string | null => {
+    const raw = query[key];
+    if (raw === undefined || raw === null || raw === "") {
+      return null;
+    }
+    const day = parseDay(raw);
+    if (!day) {
+      throw invalid(`${key}: ожидается дата вида 2026-09-30, пришло «${String(raw).slice(0, 40)}»`);
+    }
+    return day;
+  };
+  const askedFrom = asked("from");
+  const askedTo = asked("to");
+
+  const today = dayIn(now, timeZone);
+  const toDay = askedTo && askedTo < today ? askedTo : today;
+  const fromDay = askedFrom ?? shiftDay(toDay, -(DEFAULT_PERIOD_DAYS - 1));
+
+  if (fromDay > toDay) {
+    throw invalid(`Период начинается ${fromDay}, позже своего конца ${toDay}`);
+  }
+  const days = daysBetween(fromDay, toDay) + 1;
+  if (days > MAX_PERIOD_DAYS) {
+    throw invalid(`Период длиной ${days} дн. длиннее года; выберите не больше ${MAX_PERIOD_DAYS} дн.`);
+  }
+
+  return {
+    from: midnightIn(fromDay, timeZone),
+    until: midnightIn(shiftDay(toDay, 1), timeZone),
+    from_day: fromDay,
+    to_day: toDay,
+    days,
+    is_default: !askedFrom && !askedTo,
+    time_zone: timeZone,
+  };
+};
 
 /**
  * Every calendar day of the period, in order.
  *
- * The chart draws THIS list and not the days that happen to carry an order:
- * a day with no sales is a real zero measured over a real day, and dropping it
- * would draw a line that skips a dead week without saying so.
+ * The chart draws THIS list and not the days that happen to carry an order: a
+ * day with no sales is a real zero measured over a real day, and dropping it
+ * would draw a chart that skips a dead week without saying so.
  */
-export const daysOf = (period: ResolvedPeriod): string[] => {
-  const days: string[] = [];
-  const cursor = new Date(period.from.getTime());
-  while (cursor.getTime() <= period.to.getTime() && days.length <= 400) {
-    days.push(dayOf(cursor));
-    cursor.setUTCDate(cursor.getUTCDate() + 1);
-  }
-  return days;
+export const daysOf = (period: Pick<AnalyticsPeriod, "from_day" | "days">): string[] =>
+  Array.from({ length: period.days }, (_, index) => shiftDay(period.from_day, index));
+
+/* ------------------------------------------------------------------ строки */
+
+/** What the loader hands in: one row per order line joined to its order. */
+export type RawLine = {
+  order_id: string;
+  ordered_at: Date | string | null;
+  is_cancelled: boolean;
+  /**
+   * False for an order the import stored without a single line: it is still
+   * an order of the period, and it carries no units and no revenue.
+   */
+  has_line: boolean;
+  /** WB `nmID`, Ozon `sku`: the card this line sold. */
+  card_id: string | null;
+  vendor_code: string | null;
+  qty: number | string | null;
+  /** Price of ONE item, in the seller's currency. */
+  price: number | string | null;
+};
+
+export type SaleRow = {
+  order_id: string;
+  /** The day of the order on the shop's calendar. */
+  day: string;
+  card_id: string | null;
+  vendor_code: string | null;
+  qty: number;
+  /** `qty × price`, or `null` when the marketplace priced nothing. */
+  revenue: number | null;
+  is_cancelled: boolean;
+  has_line: boolean;
 };
 
 const asNumber = (value: unknown): number | null => {
@@ -95,129 +272,43 @@ const asNumber = (value: unknown): number | null => {
   return Number.isFinite(parsed) ? parsed : null;
 };
 
+/** Kopecks stay kopecks: a sum of a thousand prices must not print 0.000000001. */
+const money = (value: number): number => Math.round(value * 100) / 100;
+
 /**
- * The rows every block is folded over.
+ * The rows every block is folded over: inside the period, with the shop's day
+ * on each.
  *
  * `qty` absent is read as ONE item, because a line the marketplace sent
- * without a quantity is still one sold thing and both WB's statistics
- * ("1 line means 1 item") and Ozon's posting say so. `price` absent stays
- * `null` and makes `revenue` null — a missing price is not a free item
- * (rule 20a).
+ * without a quantity is still one sold thing (WB's statistics: one row, one
+ * item). `price` absent stays `null`: a missing price is not a free item
+ * (rule 20a), and it adds nothing to a sum rather than a made-up amount.
  */
-export const saleRowsOf = (lines: RawLineWithOrder[], period: ResolvedPeriod): SaleRow[] => {
+export const saleRowsOf = (lines: RawLine[], period: AnalyticsPeriod): SaleRow[] => {
+  const dayOfRow = dayReader(period.time_zone);
   const rows: SaleRow[] = [];
   for (const line of lines) {
     if (!line.ordered_at) {
       continue;
     }
     const at = line.ordered_at instanceof Date ? line.ordered_at : new Date(line.ordered_at);
-    if (Number.isNaN(at.getTime()) || at < period.from || at > period.to) {
+    if (Number.isNaN(at.getTime()) || at < period.from || at >= period.until) {
       continue;
     }
-    const qty = asNumber(line.qty) ?? 1;
-    const price = asNumber(line.price);
+    const qty = line.has_line ? (asNumber(line.qty) ?? 1) : 0;
+    const price = line.has_line ? asNumber(line.price) : null;
     rows.push({
-      marketplace: line.marketplace,
-      day: dayOf(at),
+      order_id: line.order_id,
+      day: dayOfRow(at),
       card_id: line.card_id,
       vendor_code: line.vendor_code,
-      title: line.title,
       qty,
-      price,
       revenue: price === null ? null : qty * price,
-      currency: line.currency,
       is_cancelled: Boolean(line.is_cancelled),
+      has_line: line.has_line,
     });
   }
   return rows;
-};
-
-/* -------------------------------------------------------------------- валюта */
-
-export type BuyerMarket = {
-  /** The buyer-side currency code as the marketplace sent it; `null` when it sent none. */
-  currency: string | null;
-  /** What the screen shows instead of a raw code (rule 18e). */
-  label: string;
-  /** In the SELLER's currency, like every other sum on this screen. */
-  revenue: number;
-  units: number;
-  orders: number;
-};
-
-/**
- * THE `currency` COLUMN OF AN ORDER IS THE BUYER'S, AND THE SUM BESIDE IT IS
- * THE SELLER'S. Both halves are measured, and the difference is the whole
- * reason this block exists.
- *
- * Wildberries sells the same card in six countries and reports the order in
- * the buyer's currency, so the client's last 30 days carry RUB, BYN, KZT, AMD,
- * KGS, UZS and 1820 orders with no code at all. But `mp_order.total` is NOT in
- * that currency: for an assembly order the mirror stores `convertedPrice`,
- * which WB documents as the amount in the SELLER's currency (w23), and for a
- * statistics order it stores `finished_price`, which is already roubles.
- *
- * Measured on the stand, one card (nmID 242956159, list price 919 ₽ by WB's
- * own stocks report): average line price 733 under the label RUB, 685 under
- * BYN, 749 under KZT, 762 under AMD. A real Belarusian rouble amount would be
- * near 25, not near 685. So every sum here is in one currency, and the code on
- * the order says which COUNTRY the buyer was in.
- *
- * That is why this block breaks orders down by market instead of splitting the
- * money into currencies: splitting would have printed «выручка BYN 1 028 658»
- * over an amount in roubles (rule 17a — a label that says something the data
- * does not).
- */
-export const buyerMarkets = (rows: SaleRow[]): BuyerMarket[] => {
-  const markets = new Map<string | null, BuyerMarket>();
-
-  for (const row of rows) {
-    if (row.is_cancelled) {
-      continue;
-    }
-    const key = row.currency ?? null;
-    let slot = markets.get(key);
-    if (!slot) {
-      slot = { currency: key, label: buyerMarketLabel(key), revenue: 0, units: 0, orders: 0 };
-      markets.set(key, slot);
-    }
-    slot.revenue += row.revenue ?? 0;
-    slot.units += row.qty;
-    slot.orders += 1;
-  }
-
-  return [...markets.values()].sort((a, b) => b.revenue - a.revenue || b.orders - a.orders);
-};
-
-/**
- * A market label the owner can read. An absent code says so in words — on this
- * shop it is the whole statistics feed, 1820 orders, and calling it «RUB»
- * because the amounts look like roubles would be a value substituted for an
- * absence (rule 20a). A code we cannot name travels as the digits the
- * marketplace sent, with the word «код» in front of it.
- */
-export const buyerMarketLabel = (currency: string | null): string => {
-  if (!currency) {
-    return "без кода страны (метод статистики WB его не присылает)";
-  }
-  return /^\d+$/.test(currency) ? `код ${currency}` : currency;
-};
-
-/**
- * The currency every sum on this screen is IN: the one the shop's own price
- * list is in (`mp_offer.currency`, from WB's price table / Ozon's product
- * price). `null` when the marketplace never told us — and then the screen
- * prints amounts without a currency sign rather than picking one.
- */
-export const sellerCurrencyOf = (offers: { currency?: string | null }[]): string | null => {
-  const counts = new Map<string, number>();
-  for (const offer of offers) {
-    const currency = offer.currency ?? null;
-    if (currency) {
-      counts.set(currency, (counts.get(currency) ?? 0) + 1);
-    }
-  }
-  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
 };
 
 /* ------------------------------------------------------------------ по дням */
@@ -225,40 +316,35 @@ export const sellerCurrencyOf = (offers: { currency?: string | null }[]): string
 export type DayPoint = {
   day: string;
   revenue: number;
-  units: number;
+  /** Orders, not lines: two lines of one order are one order. */
   orders: number;
-  /** Lines of orders the marketplace marked cancelled, counted and NOT in `revenue`. */
+  units: number;
+  /** Cancelled orders are counted here and NOT in `revenue`. */
   cancelled_units: number;
   cancelled_revenue: number;
-  /** The same three numbers per marketplace, so the chart can be split. */
-  by_marketplace: Record<AnalyticsMarketplace, { revenue: number; units: number; orders: number }>;
 };
 
 /**
- * Revenue and units per calendar day of the period.
+ * Revenue, orders and units per day of the period, every day present.
  *
  * CANCELLED ORDERS ARE NOT REVENUE, and they are not silently gone either:
- * they are counted in their own two fields so the screen can say «из них
- * отменено». WB's statistics feed carries cancellations as ordinary rows
- * (2294 of 26 812 on this shop), so folding them into revenue would inflate
- * every block on the screen by about a tenth.
+ * the chart draws them as a pale cap over the day's bar.
  */
-export const salesByDay = (rows: SaleRow[], period: ResolvedPeriod): DayPoint[] => {
-  const byDay = new Map<string, DayPoint>();
+export const salesByDay = (rows: SaleRow[], period: AnalyticsPeriod): DayPoint[] => {
+  const points = new Map<string, DayPoint & { ids: Set<string> }>();
   for (const day of daysOf(period)) {
-    byDay.set(day, {
+    points.set(day, {
       day,
       revenue: 0,
-      units: 0,
       orders: 0,
+      units: 0,
       cancelled_units: 0,
       cancelled_revenue: 0,
-      by_marketplace: {},
+      ids: new Set(),
     });
   }
-
   for (const row of rows) {
-    const point = byDay.get(row.day);
+    const point = points.get(row.day);
     if (!point) {
       continue;
     }
@@ -269,24 +355,24 @@ export const salesByDay = (rows: SaleRow[], period: ResolvedPeriod): DayPoint[] 
     }
     point.revenue += row.revenue ?? 0;
     point.units += row.qty;
-    point.orders += 1;
-    const slot = (point.by_marketplace[row.marketplace] ??= { revenue: 0, units: 0, orders: 0 });
-    slot.revenue += row.revenue ?? 0;
-    slot.units += row.qty;
-    slot.orders += 1;
+    point.ids.add(row.order_id);
   }
-
-  return [...byDay.values()];
+  return [...points.values()].map(({ ids, ...point }) => ({
+    ...point,
+    revenue: money(point.revenue),
+    cancelled_revenue: money(point.cancelled_revenue),
+    orders: ids.size,
+  }));
 };
 
-/* -------------------------------------------------------------- по карточкам */
+/* ------------------------------------------------------------ по карточкам */
 
-export type CardStat = {
-  marketplace: AnalyticsMarketplace;
-  /** `null` only when the marketplace sent a line with no card id at all. */
+/** The key a card is folded on; a line with no card number has its own row. */
+export const cardKey = (cardId: string | null): string => cardId ?? "";
+
+export type CardSales = {
   card_id: string | null;
   vendor_code: string | null;
-  title: string | null;
   revenue: number;
   units: number;
   orders: number;
@@ -294,247 +380,200 @@ export type CardStat = {
   avg_price: number | null;
   /** Percent of the period's whole revenue, 0..100. */
   revenue_share: number;
-  /** Days of the period on which this card sold at least one item. */
-  days_with_sales: number;
-  currency: string | null;
-  cancelled_units: number;
 };
 
-/** The key a card is folded on: one card exists per marketplace, not globally. */
-const cardKey = (marketplace: string, cardId: string | null): string =>
-  `${marketplace}|${cardId ?? "(без номера)"}`;
-
 /**
- * Revenue, units and average price per card, biggest revenue first.
+ * The cards that SOLD in the period, biggest revenue first: «Товары с
+ * продажами». A card whose every order was cancelled sold nothing and is not
+ * a row; its cancellations are in the totals.
  *
  * The average price is revenue over UNITS and not over orders: two items in
- * one order are two items at their own price, and dividing by orders would
- * quietly report a basket instead of a price.
+ * one order are two items at their own price.
  */
-export const salesByCard = (rows: SaleRow[]): CardStat[] => {
-  const cards = new Map<string, CardStat & { days: Set<string> }>();
-
+export const salesByCard = (rows: SaleRow[]): CardSales[] => {
+  const cards = new Map<string, CardSales & { ids: Set<string> }>();
   for (const row of rows) {
-    const key = cardKey(row.marketplace, row.card_id);
-    const card = (cards.get(key) ??
-      cards
-        .set(key, {
-          marketplace: row.marketplace,
-          card_id: row.card_id,
-          vendor_code: row.vendor_code,
-          title: row.title,
-          revenue: 0,
-          units: 0,
-          orders: 0,
-          avg_price: null,
-          revenue_share: 0,
-          days_with_sales: 0,
-          currency: row.currency,
-          cancelled_units: 0,
-          days: new Set<string>(),
-        })
-        .get(key))!;
-
-    /* Первое непустое название и артикул: строки одной карточки их иногда не несут. */
-    card.title ??= row.title;
-    card.vendor_code ??= row.vendor_code;
-    card.currency ??= row.currency;
-
-    if (row.is_cancelled) {
-      card.cancelled_units += row.qty;
+    if (row.is_cancelled || !row.has_line) {
       continue;
     }
+    const key = cardKey(row.card_id);
+    let card = cards.get(key);
+    if (!card) {
+      card = {
+        card_id: row.card_id,
+        vendor_code: row.vendor_code,
+        revenue: 0,
+        units: 0,
+        orders: 0,
+        avg_price: null,
+        revenue_share: 0,
+        ids: new Set(),
+      };
+      cards.set(key, card);
+    }
+    card.vendor_code ??= row.vendor_code;
     card.revenue += row.revenue ?? 0;
     card.units += row.qty;
-    card.orders += 1;
-    card.days.add(row.day);
+    card.ids.add(row.order_id);
   }
 
   const total = [...cards.values()].reduce((sum, card) => sum + card.revenue, 0);
 
   return [...cards.values()]
-    .map(({ days, ...card }) => ({
+    .filter((card) => card.units > 0)
+    .map(({ ids, ...card }) => ({
       ...card,
-      days_with_sales: days.size,
-      avg_price: card.units > 0 && card.revenue > 0 ? card.revenue / card.units : null,
+      revenue: money(card.revenue),
+      orders: ids.size,
+      avg_price: card.units > 0 && card.revenue > 0 ? money(card.revenue / card.units) : null,
       /* Ноль выручки за период — это ноль процентов, а не деление на ноль. */
-      revenue_share: total > 0 ? (card.revenue / total) * 100 : 0,
+      revenue_share: total > 0 ? Math.round((card.revenue / total) * 10_000) / 100 : 0,
     }))
-    .sort((a, b) => b.revenue - a.revenue || b.units - a.units);
+    .sort(byRevenue);
 };
 
-/* ----------------------------------------------------------------------- ABC */
+/** Revenue, then units, then the card number: the same order on every request. */
+const byRevenue = (a: CardSales, b: CardSales): number =>
+  b.revenue - a.revenue || b.units - a.units || cardKey(a.card_id).localeCompare(cardKey(b.card_id));
+
+/* --------------------------------------------------------------------- ABC */
 
 export type AbcClass = "A" | "B" | "C";
 
-/** Where A ends and B ends, in percent of cumulative revenue. */
+/** Where A ends and where B ends, in percent of the period's revenue. */
 export const ABC_BOUNDS = { a: 80, b: 95 } as const;
 
-/**
- * The line the screen prints above the table, so the class can be argued with
- * (rule 18e). It names the rule AND the two boundaries, because a reader who
- * disagrees with 80/95 has to see 80/95.
- */
-export const ABC_FORMULA =
-  "ABC: карточки отсортированы по выручке за период, считается накопленная доля. " +
-  `A — пока накопленная доля ≤ ${ABC_BOUNDS.a} %, B — до ${ABC_BOUNDS.b} %, C — остальные.`;
-
-export type AbcRow = { key: string; abc: AbcClass; cumulative_share: number };
+/** Float noise must not move a card that lands exactly on 80 % out of A. */
+const EPSILON = 1e-9;
 
 /**
- * ABC by revenue, by cumulative share.
+ * ABC by revenue, by cumulative share, the card's own share included: A while
+ * the running total is within 80 % of the period's revenue, B within 95 %, C
+ * after. So the cards of A together hold at most 80 %, and A and B at most
+ * 95 %, which is how the screen's reader checks the column by adding it up.
  *
- * The card that CROSSES a boundary belongs to the class it crosses into's
- * predecessor — that is, the first card whose cumulative share passes 80 % is
- * still A. Otherwise a shop with one card selling 95 % of everything would
- * have no A at all, which is the opposite of what the classification is for.
+ * ONE EXCEPTION, the first card. A shop whose best card alone sells more than
+ * 80 % would otherwise have no A at all, and «ваш главный товар — класс C»
+ * is the opposite of what the classification is for. Only then can A hold
+ * more than 80 %, and only by that one card.
+ *
+ * A card that earned nothing is C: it holds no share of anything.
  */
-export const abcClasses = (cards: CardStat[]): Map<string, AbcRow> => {
-  const total = cards.reduce((sum, card) => sum + card.revenue, 0);
-  const rows = new Map<string, AbcRow>();
+export const abcOf = (cards: CardSales[]): Map<string, AbcClass> => {
+  const sorted = [...cards].sort(byRevenue);
+  const total = sorted.reduce((sum, card) => sum + card.revenue, 0);
+  const classes = new Map<string, AbcClass>();
   let cumulative = 0;
 
-  for (const card of cards) {
-    const key = cardKey(card.marketplace, card.card_id);
-    const before = cumulative;
+  sorted.forEach((card, index) => {
     cumulative += card.revenue;
     const share = total > 0 ? (cumulative / total) * 100 : 0;
-    const shareBefore = total > 0 ? (before / total) * 100 : 0;
-
     const abc: AbcClass =
-      shareBefore < ABC_BOUNDS.a ? "A" : shareBefore < ABC_BOUNDS.b ? "B" : "C";
-    rows.set(key, { key, abc, cumulative_share: share });
-  }
-
-  return rows;
-};
-
-/* ----------------------------------------------------------------------- XYZ */
-
-export type XyzClass = "X" | "Y" | "Z";
-export type XyzBucket = "week" | "day";
-
-/** Coefficient-of-variation boundaries, in percent. */
-export const XYZ_BOUNDS = { x: 10, y: 25 } as const;
-
-export type XyzRow = {
-  key: string;
-  /** `null` — «недостаточно данных»: fewer than two buckets to vary over. */
-  xyz: XyzClass | null;
-  /** σ / μ × 100, in percent of the mean; `null` together with `xyz`. */
-  variation: number | null;
-  buckets: number;
-};
-
-/**
- * A period of three weeks or more is measured in WEEKS, shorter ones in DAYS.
- *
- * XYZ asks how stable demand is, and on daily buckets almost every card of a
- * small shop is unstable for a reason that has nothing to do with demand: it
- * sells two or three items a week, so most days are honest zeros and the
- * coefficient of variation is dominated by them. A week is the shortest bucket
- * on which this shop's numbers mean anything, and the screen SAYS which bucket
- * was used.
- */
-export const xyzBucketOf = (period: ResolvedPeriod): XyzBucket =>
-  period.days >= 21 ? "week" : "day";
-
-/**
- * The buckets XYZ is measured over: EQUAL-LENGTH blocks anchored at the END of
- * the period, with the leftover at the OLD end left out of the coefficient.
- *
- * A 30-day period is four whole weeks plus two days, and a two-day block
- * counted as a week of its own decides the class by itself. Measured on the
- * stand before this was fixed: the client's best-selling card — 518 items over
- * 29 days, about 17 a day, as steady as this shop gets — came out at CV 46 %
- * and class Z, and 227 of 230 cards were Z, which is a classification that
- * tells the owner nothing.
- *
- * Both plausible cures were tried. Dividing each bucket by its own length puts
- * the tail on the right scale for a busy card but blows it up for a slow one:
- * a card selling one item a week lands 1/2 items per day in the tail against
- * 1/7 in the full weeks, CV 60 %, Z again. Equal blocks have no such case, so
- * the remainder is dropped instead — and `dropped_days` says how many days
- * were dropped, because a period that is silently not the period on the screen
- * would be worse than either skew (rule 20a).
- */
-export const bucketsOf = (
-  period: ResolvedPeriod,
-  bucket: XyzBucket,
-): { of: (day: string) => string | null; keys: string[]; droppedDays: number } => {
-  const days = daysOf(period);
-  const size = bucket === "week" ? 7 : 1;
-  const whole = Math.floor(days.length / size);
-  const dropped = days.length - whole * size;
-  const counted = days.slice(dropped);
-
-  const slotOf = new Map<string, string>();
-  counted.forEach((day, index) => {
-    slotOf.set(day, `b${Math.floor(index / size)}`);
+      card.revenue <= 0
+        ? "C"
+        : index === 0 || share <= ABC_BOUNDS.a + EPSILON
+          ? "A"
+          : share <= ABC_BOUNDS.b + EPSILON
+            ? "B"
+            : "C";
+    classes.set(cardKey(card.card_id), abc);
   });
 
-  return {
-    of: (day: string) => slotOf.get(day) ?? null,
-    keys: [...new Set(counted.map((day) => slotOf.get(day)!))],
-    droppedDays: dropped,
-  };
+  return classes;
+};
+
+/* --------------------------------------------------------------------- XYZ */
+
+export type XyzClass = "X" | "Y" | "Z";
+
+/** Coefficient-of-variation boundaries, in percent of the weekly mean. */
+export const XYZ_BOUNDS = { x: 10, y: 25 } as const;
+
+/** Fewer whole weeks than this, and a coefficient means nothing: no class. */
+export const XYZ_MIN_WEEKS = 3;
+
+export type Week = { start: string; end: string };
+
+/**
+ * The whole weeks of the period, anchored at its END, oldest first. A 30-day
+ * period is four weeks plus two days, and the two days at the old end are
+ * left out: a two-day «week» would decide the class by itself.
+ */
+export const weeksOf = (period: Pick<AnalyticsPeriod, "from_day" | "to_day" | "days">): Week[] => {
+  const weeks: Week[] = [];
+  const whole = Math.floor(period.days / 7);
+  for (let index = whole - 1; index >= 0; index -= 1) {
+    const end = shiftDay(period.to_day, -index * 7);
+    weeks.push({ start: shiftDay(end, -6), end });
+  }
+  return weeks;
+};
+
+export type XyzRow = {
+  xyz: XyzClass | null;
+  /** σ / mean × 100 over the weeks counted; `null` together with `xyz`. */
+  variation: number | null;
+  /** How many whole weeks the coefficient was measured over. */
+  weeks: number;
 };
 
 /**
- * XYZ by the stability of UNITS per bucket.
+ * XYZ by the stability of UNITS sold per week.
  *
- * Units and not revenue: a price change is not a demand change, and XYZ is
- * about demand. Every bucket of the period counts, zeros included — a card
- * that sold everything in one week of five is exactly the unstable case.
+ * Units and not revenue: a price change is not a change of demand. Every
+ * counted week is in the coefficient, zeros included: a card that sold
+ * everything in one week of four is exactly the unstable case.
  *
- * A card with one bucket gets `null`, never `Z`: «не с чем сравнить» and
+ * WEEKS OF DATA, PER CARD. A week counts for a card only from the card's first
+ * order on: before it the card was not on sale (or the import had not reached
+ * back that far), and those weeks are an absence, not a zero. A card with
+ * fewer than three such weeks gets `null`, never Z: «не с чем сравнить» and
  * «спрос рваный» are different facts, and a value substituted for an absence
- * would sort and label on equal footing with a measured one (rule 20a).
+ * would sort and label on equal footing with a measured one (rule 20a). A
+ * period shorter than three weeks therefore classes nothing.
+ *
+ * `firstDay` holds the shop-calendar day of each card's FIRST order ever on
+ * this marketplace; a card missing from it is counted over every week.
  */
-export const xyzClasses = (
+export const xyzOf = (
   rows: SaleRow[],
-  cards: CardStat[],
-  period: ResolvedPeriod,
-): {
-  bucket: XyzBucket;
-  rows: Map<string, XyzRow>;
-  formula: string;
-  buckets: number;
-  dropped_days: number;
-} => {
-  const bucket = xyzBucketOf(period);
-  const { of: slotOf, keys, droppedDays } = bucketsOf(period, bucket);
+  cards: CardSales[],
+  period: AnalyticsPeriod,
+  firstDay: Map<string, string>,
+): Map<string, XyzRow> => {
+  const weeks = weeksOf(period);
+  const weekOf = new Map<string, number>();
+  weeks.forEach((week, index) => {
+    for (let offset = 0; offset < 7; offset += 1) {
+      weekOf.set(shiftDay(week.start, offset), index);
+    }
+  });
 
-  const perCard = new Map<string, Map<string, number>>();
+  const series = new Map<string, number[]>();
   for (const row of rows) {
-    if (row.is_cancelled) {
+    if (row.is_cancelled || !row.has_line) {
       continue;
     }
-    const slot = slotOf(row.day);
-    if (!slot) {
-      /* A day in the dropped remainder: outside the coefficient by construction. */
+    const index = weekOf.get(row.day);
+    if (index === undefined) {
       continue;
     }
-    const key = cardKey(row.marketplace, row.card_id);
-    const series = perCard.get(key) ?? new Map<string, number>();
-    series.set(slot, (series.get(slot) ?? 0) + row.qty);
-    perCard.set(key, series);
+    const key = cardKey(row.card_id);
+    const values = series.get(key) ?? weeks.map(() => 0);
+    values[index] += row.qty;
+    series.set(key, values);
   }
 
   const out = new Map<string, XyzRow>();
   for (const card of cards) {
-    const key = cardKey(card.marketplace, card.card_id);
-    const series = perCard.get(key) ?? new Map<string, number>();
-    const values = keys.map((slot) => series.get(slot) ?? 0);
+    const key = cardKey(card.card_id);
+    const first = firstDay.get(key);
+    const all = series.get(key) ?? weeks.map(() => 0);
+    const values = all.filter((_, index) => !first || weeks[index].start >= first);
     const sold = values.reduce((sum, value) => sum + value, 0);
 
-    /*
-     * Fewer than two intervals, or nothing sold inside the counted ones: there
-     * is nothing to vary, so there is no class. NOT Z — «не с чем сравнить» и
-     * «спрос рваный» это разные факты (правило 20a).
-     */
-    if (values.length < 2 || sold === 0) {
-      out.set(key, { key, xyz: null, variation: null, buckets: values.length });
+    if (values.length < XYZ_MIN_WEEKS || sold === 0) {
+      out.set(key, { xyz: null, variation: null, weeks: values.length });
       continue;
     }
 
@@ -542,376 +581,235 @@ export const xyzClasses = (
     const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
     const variation = (Math.sqrt(variance) / mean) * 100;
     const xyz: XyzClass =
-      variation <= XYZ_BOUNDS.x ? "X" : variation <= XYZ_BOUNDS.y ? "Y" : "Z";
-
-    out.set(key, { key, xyz, variation, buckets: values.length });
+      variation <= XYZ_BOUNDS.x + EPSILON ? "X" : variation <= XYZ_BOUNDS.y + EPSILON ? "Y" : "Z";
+    out.set(key, { xyz, variation: Math.round(variation * 10) / 10, weeks: values.length });
   }
-
-  const unit = bucket === "week" ? "неделям" : "дням";
-  return {
-    bucket,
-    rows: out,
-    buckets: keys.length,
-    dropped_days: droppedDays,
-    formula:
-      `XYZ: коэффициент вариации спроса CV = σ / среднее по ${unit} периода ` +
-      `(${keys.length} ${bucket === "week" ? "полных нед." : "дн."}, в штуках, отмены не считаются` +
-      (droppedDays > 0
-        ? `; ${droppedDays} дн. в начале периода не вошли — интервал был бы неполным и сам решал бы класс`
-        : "") +
-      `). X — CV ≤ ${XYZ_BOUNDS.x} %, Y — до ${XYZ_BOUNDS.y} %, Z — выше. ` +
-      "Меньше двух интервалов или ноль продаж внутри них — класса нет, а не Z.",
-  };
-};
-
-/* ------------------------------------------------- оборачиваемость / до нуля */
-
-export type OfferStock = {
-  marketplace: AnalyticsMarketplace;
-  card_id: string | null;
-  stock: number | null;
-  reserved: number | null;
-  measured_at: Date | string | null;
-};
-
-export type TurnoverRow = {
-  key: string;
-  /** Sum of `mp_offer.stock` over every line of this card, `null` when the marketplace said nothing. */
-  stock: number | null;
-  reserved: number | null;
-  /** How many `mp_offer` lines (size × warehouse) the stock was summed over. */
-  offer_lines: number;
-  /** Units per day over the WHOLE period, cancellations excluded. */
-  rate_per_day: number;
-  /** `stock / rate_per_day`, rounded to one decimal; `null` when either half is unknown. */
-  days_to_zero: number | null;
-  /** The calendar day `days_to_zero` lands on, counted from the period's end. */
-  zero_on: string | null;
-  /** When the marketplace measured this stock, the newest of the card's lines. */
-  stock_measured_at: string | null;
-};
-
-/**
- * «Оборачиваемость» and «дней до нуля» are ONE number here, and the screen
- * says so.
- *
- * Inventory days is average stock over the period divided by the daily rate,
- * and we do not have average stock: `mp_offer` holds the stock the marketplace
- * reported at the LAST import, with no history behind it. So the honest
- * quantity is `остаток ÷ темп продаж` — how long today's stock lasts at the
- * period's pace — and printing it twice under two names would be two metrics
- * out of one number (rule 17a). Wildberries' own `avgStockTurnover` comes from
- * its stocks report and is shown next to ours as a second opinion, never
- * merged into it.
- *
- * `rate_per_day` divides by the period's FULL length, not by the days that
- * carried a sale: «хватит на N дней» has to answer for the quiet days too.
- */
-export const turnoverRows = (
-  cards: CardStat[],
-  offers: OfferStock[],
-  period: ResolvedPeriod,
-): Map<string, TurnoverRow> => {
-  const stocks = new Map<string, { stock: number | null; reserved: number | null; lines: number; at: number | null }>();
-
-  for (const offer of offers) {
-    const key = cardKey(offer.marketplace, offer.card_id);
-    const slot = stocks.get(key) ?? { stock: null, reserved: null, lines: 0, at: null };
-    const stock = asNumber(offer.stock);
-    const reserved = asNumber(offer.reserved);
-    if (stock !== null) {
-      slot.stock = (slot.stock ?? 0) + stock;
-    }
-    if (reserved !== null) {
-      slot.reserved = (slot.reserved ?? 0) + reserved;
-    }
-    slot.lines += 1;
-    const at = offer.measured_at
-      ? new Date(offer.measured_at instanceof Date ? offer.measured_at : offer.measured_at).getTime()
-      : null;
-    if (at !== null && !Number.isNaN(at)) {
-      slot.at = slot.at === null ? at : Math.max(slot.at, at);
-    }
-    stocks.set(key, slot);
-  }
-
-  const out = new Map<string, TurnoverRow>();
-  for (const card of cards) {
-    const key = cardKey(card.marketplace, card.card_id);
-    const slot = stocks.get(key) ?? { stock: null, reserved: null, lines: 0, at: null };
-    const rate = card.units / period.days;
-
-    const daysToZero =
-      slot.stock === null || rate <= 0 ? null : Math.round((slot.stock / rate) * 10) / 10;
-
-    out.set(key, {
-      key,
-      stock: slot.stock,
-      reserved: slot.reserved,
-      offer_lines: slot.lines,
-      rate_per_day: Math.round(rate * 1000) / 1000,
-      days_to_zero: daysToZero,
-      zero_on:
-        daysToZero === null
-          ? null
-          : dayOf(new Date(period.to.getTime() + Math.floor(daysToZero) * 86_400_000)),
-      stock_measured_at: slot.at === null ? null : new Date(slot.at).toISOString(),
-    });
-  }
-
-  /** Cards with stock but no sales in the period are still stock the owner paid for. */
-  for (const [key, slot] of stocks) {
-    if (out.has(key)) {
-      continue;
-    }
-    out.set(key, {
-      key,
-      stock: slot.stock,
-      reserved: slot.reserved,
-      offer_lines: slot.lines,
-      rate_per_day: 0,
-      days_to_zero: null,
-      zero_on: null,
-      stock_measured_at: slot.at === null ? null : new Date(slot.at).toISOString(),
-    });
-  }
-
   return out;
 };
 
-/* --------------------------------------------------------------------- итоги */
+/* ---------------------------------------------------------- дней до нуля */
+
+/**
+ * How many WHOLE days today's stock lasts at the period's pace:
+ * `остаток ÷ (штуки за период ÷ дней в периоде)`, rounded down, so «3 дн.»
+ * means three full days are covered.
+ *
+ * `null` without a stock number (the marketplace said nothing) and without a
+ * sale (no pace to divide by): neither is «0 дней». A stock of 0 with sales is
+ * 0: the card is already out.
+ *
+ * The pace divides by the period's FULL length, not by the days that carried
+ * a sale: «хватит на N дней» has to answer for the quiet days too.
+ */
+export const daysToZero = (stock: number | null, units: number, days: number): number | null => {
+  if (stock === null || units <= 0 || days <= 0) {
+    return null;
+  }
+  return Math.floor(Math.max(0, stock) / (units / days));
+};
+
+/** The red line of the column: this many days or fewer is a stock-out soon. */
+export const DAYS_TO_ZERO_ALERT = 14;
+
+/**
+ * Whether the stock numbers look DECLARED rather than counted.
+ *
+ * `mp_offer.stock` holds what the marketplace reported per size and
+ * warehouse. On the client's cabinet most lines hold exactly 100 (7 786 of
+ * 11 824 on the stand, 2026-10-05): a quantity the seller declared on many
+ * warehouses, not a physical count. Summed, it reads as a million items and
+ * «хватит на 4 000 дней». The screen still prints the sum and the days, and
+ * says what they rest on (rule 18e). The test: one non-zero number fills at
+ * least half of more than one line.
+ */
+export const stockLooksDeclared = (shape: {
+  lines: number;
+  dominant_value: number | null;
+  dominant_lines: number;
+}): boolean =>
+  shape.lines > 1 &&
+  shape.dominant_value !== null &&
+  shape.dominant_value > 0 &&
+  shape.dominant_lines / shape.lines >= 0.5;
+
+/* ------------------------------------------------------------------ итоги */
 
 export type AnalyticsTotals = {
   revenue: number;
-  units: number;
   orders: number;
+  units: number;
+  /** `revenue / orders`, `null` when there was no order to average. */
+  avg_order: number | null;
   cancelled_orders: number;
   cancelled_revenue: number;
-  /** `revenue / orders` — the average order, not the average price. */
-  avg_order: number | null;
   cards_with_sales: number;
-  /** Σ stock over every offer line the shop has, and the pace it leaves at. */
+  /** Every card of this marketplace the shop holds (`mp_product`). */
+  cards_total: number;
+  /** Σ stock over every offer line of the marketplace; `null` when no line has a number. */
   stock_units: number | null;
+  /** `stock_units` at the period's pace, whole days; `null` without stock or sales. */
   stock_days_left: number | null;
+  /** True when the stock numbers look declared: the days are an upper bound. */
+  stock_looks_declared: boolean;
 };
 
-export const totalsOf = (
-  rows: SaleRow[],
-  cards: CardStat[],
-  turnover: Map<string, TurnoverRow>,
-  period: ResolvedPeriod,
-): AnalyticsTotals => {
+export const totalsOf = (input: {
+  rows: SaleRow[];
+  cards: CardSales[];
+  cardsTotal: number;
+  stockUnits: number | null;
+  stockLooksDeclared: boolean;
+  period: AnalyticsPeriod;
+}): AnalyticsTotals => {
   let revenue = 0;
   let units = 0;
-  let orders = 0;
-  let cancelledOrders = 0;
   let cancelledRevenue = 0;
+  const orders = new Set<string>();
+  const cancelled = new Set<string>();
 
-  for (const row of rows) {
+  for (const row of input.rows) {
     if (row.is_cancelled) {
-      cancelledOrders += 1;
+      cancelled.add(row.order_id);
       cancelledRevenue += row.revenue ?? 0;
       continue;
     }
+    orders.add(row.order_id);
     revenue += row.revenue ?? 0;
     units += row.qty;
-    orders += 1;
   }
-
-  let stockUnits: number | null = null;
-  for (const row of turnover.values()) {
-    if (row.stock !== null) {
-      stockUnits = (stockUnits ?? 0) + row.stock;
-    }
-  }
-
-  const ratePerDay = units / period.days;
 
   return {
-    revenue,
+    revenue: money(revenue),
+    orders: orders.size,
     units,
-    orders,
-    cancelled_orders: cancelledOrders,
-    cancelled_revenue: cancelledRevenue,
-    avg_order: orders > 0 ? revenue / orders : null,
-    cards_with_sales: cards.filter((card) => card.units > 0).length,
-    stock_units: stockUnits,
-    stock_days_left:
-      stockUnits === null || ratePerDay <= 0
-        ? null
-        : Math.round((stockUnits / ratePerDay) * 10) / 10,
+    avg_order: orders.size > 0 ? money(revenue / orders.size) : null,
+    cancelled_orders: cancelled.size,
+    cancelled_revenue: money(cancelledRevenue),
+    cards_with_sales: input.cards.length,
+    cards_total: input.cardsTotal,
+    stock_units: input.stockUnits,
+    stock_days_left: daysToZero(input.stockUnits, units, input.period.days),
+    stock_looks_declared: input.stockLooksDeclared,
   };
 };
 
-export type StockShape = {
-  /** How many `mp_offer` lines carry a stock number at all. */
-  lines: number;
-  /** How many different numbers those lines hold. */
-  distinct_values: number;
-  /** The number that occurs most often, and how many lines carry it. */
-  dominant_value: number | null;
-  dominant_lines: number;
-  /**
-   * True when one number fills at least half the lines: that is what a
-   * DECLARED stock looks like, not a counted one.
-   */
-  looks_declared: boolean;
-};
+/* ------------------------------------------------------- таблица карточек */
 
-/**
- * WHAT THE STOCK NUMBERS LOOK LIKE — and why the screen has to say it.
- *
- * `mp_offer.stock` comes from WB's «Get Inventory» over the seller's own
- * warehouses, which is what the SELLER declared there. Measured on the
- * client's mirror: 8943 of 11 605 stock lines hold exactly 100, and one
- * listing carries 59 lines of 100 each. Summed, that reads «остаток 5900 шт»
- * and turns into «дней до нуля: 3031», a date in 2035 — arithmetically right
- * and about a quantity that is not a physical inventory.
- *
- * So the shape of the numbers is measured and shown next to the sum. The
- * screen still computes the days — the owner asked for them — but says what
- * they rest on, because a number nobody can argue with is the one that gets
- * acted on (rule 18e).
- */
-export const stockShape = (offers: OfferStock[]): StockShape => {
-  const counts = new Map<number, number>();
-  let lines = 0;
-
-  for (const offer of offers) {
-    const stock = asNumber(offer.stock);
-    if (stock === null) {
-      continue;
-    }
-    lines += 1;
-    counts.set(stock, (counts.get(stock) ?? 0) + 1);
-  }
-
-  const top = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
-
-  return {
-    lines,
-    distinct_values: counts.size,
-    dominant_value: top?.[0] ?? null,
-    dominant_lines: top?.[1] ?? 0,
-    looks_declared: Boolean(top && lines > 0 && top[1] / lines >= 0.5 && lines > 1),
-  };
-};
-
-/** The one line that explains where the money on this screen comes from. */
-export const REVENUE_FORMULA =
-  "Выручка = сумма (цена строки × количество) по строкам заказов площадки за период. " +
-  "Отменённые заказы в выручку не входят и показаны отдельно. " +
-  "Источник — таблицы mp_order / mp_order_line, заполненные импортом; " +
-  "это заказы площадки, а не выкупы и не деньги, полученные от площадки.";
-
-/** And the one line that explains the stock half. */
-export const STOCK_FORMULA =
-  "Остаток — сумма mp_offer.stock по всем строкам карточки (размер × склад) на момент последнего импорта, " +
-  "источник — метод остатков площадки по складам продавца. " +
-  "Темп продаж = штуки за период ÷ дней в периоде. " +
-  "Оборачиваемость = «дней до нуля» = остаток ÷ темп: истории остатков мы не ведём, " +
-  "поэтому среднего остатка за период у нас нет и двух разных чисел тут быть не может.";
-
-/** Что сказать владелице, когда остатки выглядят ЗАЯВЛЕННЫМИ, а не посчитанными. */
-export const stockShapeNote = (shape: StockShape): string | null => {
-  if (!shape.looks_declared || shape.dominant_value === null) {
-    return null;
-  }
-  return (
-    `Осторожно с «днями до нуля»: в ${shape.dominant_lines} строках остатка из ${shape.lines} ` +
-    `стоит одно и то же число — ${shape.dominant_value}. Так выглядит остаток, ЗАЯВЛЕННЫЙ продавцом ` +
-    "на складах площадки, а не пересчитанный физический: одна и та же партия объявлена на многих " +
-    "складах. Сумма по строкам тогда завышена, а срок «до нуля» — оценка сверху, а не дата."
-  );
-};
-
-export type CardRow = CardStat & {
+export type CardRow = {
+  /** `mp_product.id` when the shop holds the card, `<marketplace>:<number>` otherwise. */
+  id: string;
+  external_id: string | null;
+  vendor_code: string | null;
+  title: string | null;
+  thumbnail: string | null;
+  revenue: number;
+  units: number;
+  orders: number;
+  avg_price: number | null;
+  revenue_share: number;
   abc: AbcClass;
-  cumulative_share: number;
   xyz: XyzClass | null;
-  variation: number | null;
-  turnover: TurnoverRow;
+  stock: number | null;
+  days_to_zero: number | null;
 };
 
-/**
- * Cards that have STOCK but sold nothing in the period, as zero-revenue rows.
- *
- * They are the reason half of this screen exists — stock standing still is
- * money the owner has already spent — and leaving them out would make «дней до
- * нуля» answer only about what already sells. Such a row is honestly all
- * zeros, and `units === 0` is what the screen reads as «продаж за период нет».
- */
-export const stockOnlyCards = (
-  cards: CardStat[],
-  turnover: Map<string, TurnoverRow>,
-  describe: (marketplace: string, cardId: string) => {
-    title: string | null;
-    vendor_code: string | null;
-  },
-): CardStat[] => {
-  const known = new Set(cards.map((card) => cardKey(card.marketplace, card.card_id)));
-  const extra: CardStat[] = [];
+export type CardInfo = { id: string; title: string | null; vendor_code: string | null; thumbnail: string | null };
 
-  for (const [key, row] of turnover) {
-    if (known.has(key) || row.stock === null || row.stock <= 0) {
-      continue;
-    }
-    const [marketplace, cardId] = key.split("|");
-    const named = describe(marketplace, cardId);
-    extra.push({
-      marketplace,
-      card_id: cardId,
-      vendor_code: named.vendor_code,
-      title: named.title,
-      revenue: 0,
-      units: 0,
-      orders: 0,
-      avg_price: null,
-      revenue_share: 0,
-      days_with_sales: 0,
-      currency: null,
-      cancelled_units: 0,
-    });
-  }
-
-  /** Biggest stock first: the question here is «что лежит», not «что продаётся». */
-  return extra.sort(
-    (a, b) =>
-      (turnover.get(cardKey(b.marketplace, b.card_id))?.stock ?? 0) -
-      (turnover.get(cardKey(a.marketplace, a.card_id))?.stock ?? 0),
-  );
-};
-
-/** The card table the screen renders: one row, every block's number on it. */
-export const cardRowsOf = (
-  cards: CardStat[],
-  abc: Map<string, AbcRow>,
-  xyz: Map<string, XyzRow>,
-  turnover: Map<string, TurnoverRow>,
-): CardRow[] =>
-  cards.map((card) => {
-    const key = cardKey(card.marketplace, card.card_id);
-    const abcRow = abc.get(key);
-    const xyzRow = xyz.get(key);
+/** One row of the table, every block's number on it. */
+export const cardRowsOf = (input: {
+  marketplace: string;
+  cards: CardSales[];
+  abc: Map<string, AbcClass>;
+  xyz: Map<string, XyzRow>;
+  stock: Map<string, number | null>;
+  info: Map<string, CardInfo>;
+  period: AnalyticsPeriod;
+}): CardRow[] =>
+  input.cards.map((card) => {
+    const key = cardKey(card.card_id);
+    const info = input.info.get(key);
+    const stock = input.stock.get(key) ?? null;
     return {
-      ...card,
-      abc: abcRow?.abc ?? "C",
-      cumulative_share: abcRow?.cumulative_share ?? 0,
-      xyz: xyzRow?.xyz ?? null,
-      variation: xyzRow?.variation ?? null,
-      turnover:
-        turnover.get(key) ?? {
-          key,
-          stock: null,
-          reserved: null,
-          offer_lines: 0,
-          rate_per_day: 0,
-          days_to_zero: null,
-          zero_on: null,
-          stock_measured_at: null,
-        },
+      id: info?.id ?? `${input.marketplace}:${card.card_id ?? "none"}`,
+      external_id: card.card_id,
+      vendor_code: info?.vendor_code ?? card.vendor_code,
+      title: info?.title ?? null,
+      thumbnail: info?.thumbnail ?? null,
+      revenue: card.revenue,
+      units: card.units,
+      orders: card.orders,
+      avg_price: card.avg_price,
+      revenue_share: card.revenue_share,
+      abc: input.abc.get(key) ?? "C",
+      xyz: input.xyz.get(key)?.xyz ?? null,
+      stock,
+      days_to_zero: daysToZero(stock, card.units, input.period.days),
     };
   });
 
-/** The `cardKey` of a row, exported so the loader and the tests agree on it. */
-export { cardKey };
+export const CARD_SORT_FIELDS = ["revenue", "units", "days_to_zero"] as const;
+export type CardSortField = (typeof CARD_SORT_FIELDS)[number];
+export type CardSort = { field: CardSortField; desc: boolean };
+export const DEFAULT_CARD_SORT: CardSort = { field: "revenue", desc: true };
+
+export type CardsQuery = { q: string | null; sort: CardSort; limit: number; offset: number };
+
+/**
+ * The table's own query: `q` over the title and the vendor code, `order` as
+ * `поле` or `-поле` over `revenue | units | days_to_zero` (`-revenue` by
+ * default), `limit` (20 by default, 200 at most) and `offset`. An unknown
+ * sort field falls back to the default rather than emptying the table: a link
+ * with a stale value in it still shows the cards.
+ */
+export const resolveCardsQuery = (query: Record<string, unknown>): CardsQuery => {
+  const raw = typeof query.order === "string" ? query.order.trim() : "";
+  const desc = raw.startsWith("-");
+  const field = desc ? raw.slice(1) : raw;
+  const sort = (CARD_SORT_FIELDS as readonly string[]).includes(field)
+    ? { field: field as CardSortField, desc }
+    : DEFAULT_CARD_SORT;
+
+  const limitRaw = Number(query.limit ?? 20);
+  const offsetRaw = Number(query.offset ?? 0);
+  return {
+    q: typeof query.q === "string" && query.q.trim() ? query.q.trim().toLowerCase() : null,
+    sort,
+    limit: Number.isFinite(limitRaw) ? Math.min(Math.max(1, Math.floor(limitRaw)), 200) : 20,
+    offset: Number.isFinite(offsetRaw) && offsetRaw > 0 ? Math.floor(offsetRaw) : 0,
+  };
+};
+
+/**
+ * The page of the table and how many rows matched.
+ *
+ * A card without «дней до нуля» goes LAST in both directions: «не знаем» is
+ * neither the most urgent card nor the calmest one. Ties keep the revenue
+ * order, so a page boundary never reshuffles between two requests.
+ */
+export const selectCards = (rows: CardRow[], query: CardsQuery): { rows: CardRow[]; count: number } => {
+  const matched = query.q
+    ? rows.filter(
+        (row) =>
+          (row.title ?? "").toLowerCase().includes(query.q!) ||
+          (row.vendor_code ?? "").toLowerCase().includes(query.q!),
+      )
+    : rows;
+
+  const { field, desc } = query.sort;
+  const sorted = matched
+    .map((row, index) => ({ row, index }))
+    .sort((a, b) => {
+      const left = a.row[field];
+      const right = b.row[field];
+      if (left === null || right === null) {
+        if (left === right) {
+          return a.index - b.index;
+        }
+        return left === null ? 1 : -1;
+      }
+      return (desc ? right - left : left - right) || a.index - b.index;
+    })
+    .map(({ row }) => row);
+
+  return { rows: sorted.slice(query.offset, query.offset + query.limit), count: matched.length };
+};
