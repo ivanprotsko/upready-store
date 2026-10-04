@@ -61,6 +61,13 @@ services:
       - --accesslog=false
       - --api.dashboard=false
       - --ping=true
+      # Close idle upstream connections before Node does. Node's http server
+      # drops a keep-alive socket after 5 s (keepAliveTimeout), traefik keeps
+      # it for 90 s by default; a request written to a socket Node has just
+      # closed comes back as 502 (t-2026-10-04-44: initiatePaymentSession on
+      # the RU checkout). 4 s < 5 s removes the race for the backend and the
+      # storefront alike.
+      - --serverstransport.forwardingtimeouts.idleconntimeout=4s
     ports:
       - "80:80"
       - "443:443"
