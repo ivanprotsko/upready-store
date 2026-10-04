@@ -83,7 +83,9 @@ describe("buildIconMetadata", () => {
     })
   })
 
-  it("adds nothing for a shop with no favicon, so the build's app/icon.svg stays", () => {
-    expect(buildIconMetadata(EMPTY_BRANDING)).toEqual({})
+  it("links the build's /icon.svg for a shop with no favicon", () => {
+    expect(buildIconMetadata(EMPTY_BRANDING)).toEqual({
+      icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
+    })
   })
 })

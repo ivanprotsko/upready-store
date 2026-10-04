@@ -27,6 +27,7 @@ import {
   readPaymentPreNotice,
   type TenantPaymentPreNotice,
 } from "../util/payment-pre-notice"
+import { readTenantTestMode, type TenantTestMode } from "./test-mode"
 
 export type { TenantAttribution }
 export type { TenantBranding }
@@ -98,6 +99,11 @@ export type ResolvedTenant = {
    * checkout's own rule then reads as "show no notice for any method".
    */
   paymentPreNotice: TenantPaymentPreNotice
+  /**
+   * Payments and/or delivery in a provider's test contour (t-2026-10-04-21, checkout-v2 A3): the
+   * storefront's red dot. `EMPTY_TENANT_TEST_MODE` when the backend sends nothing.
+   */
+  testMode: TenantTestMode
 }
 
 const TTL_MS = 60_000
@@ -166,6 +172,7 @@ export async function resolveTenantByHost(
         manual_payment?: unknown
         payment_methods?: unknown
         payment_pre_notice?: unknown
+        test_mode?: unknown
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -217,6 +224,7 @@ export async function resolveTenantByHost(
           paymentPreNotice: body.payment_pre_notice
             ? readPaymentPreNotice(body.payment_pre_notice)
             : EMPTY_PAYMENT_PRE_NOTICE,
+          testMode: readTenantTestMode(body.test_mode),
         }
       }
     }

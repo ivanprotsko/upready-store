@@ -7,6 +7,7 @@ import { EMPTY_MANUAL_PAYMENT } from "./manual-payment"
 import { EMPTY_TENANT_PAYMENT_METHODS } from "./payment-methods"
 import { EMPTY_PAYMENT_PRE_NOTICE } from "../util/payment-pre-notice"
 import type { ResolvedTenant } from "./resolve"
+import { EMPTY_TENANT_TEST_MODE } from "./test-mode"
 
 const tenant = (handle: string): ResolvedTenant => ({
   handle,
@@ -24,6 +25,7 @@ const tenant = (handle: string): ResolvedTenant => ({
   manualPayment: EMPTY_MANUAL_PAYMENT,
   paymentMethods: EMPTY_TENANT_PAYMENT_METHODS,
   paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
+  testMode: EMPTY_TENANT_TEST_MODE,
 })
 
 /** A backend that knows exactly the hosts it is given. */

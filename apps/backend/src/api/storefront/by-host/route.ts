@@ -13,6 +13,7 @@ import {
 import { paymentPreNoticePublicView, readPaymentPreNotice } from "../../../tenant-legal/payment-pre-notice";
 import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
 import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
+import { readTenantTestMode } from "../../../tenant-secrets/test-mode";
 import { manualPaymentMethods, resolveTenantPaymentMethods } from "../../../tenant-secrets/payment-methods";
 import {
   baseDomains,
@@ -163,9 +164,10 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   // resolver against the same facts.
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
-  const [robokassaSecret, tributeSecret] = await Promise.all([
+  const [robokassaSecret, tributeSecret, testMode] = await Promise.all([
     readRobokassaSecretPublic(pg, tenant.id as string, logger),
     readTributeSecretPublic(pg, tenant.id as string, logger),
+    readTenantTestMode(pg, tenant.id as string),
   ]);
   const paymentMethods = resolveTenantPaymentMethods({
     robokassaEnabled: Boolean(robokassaSecret),
@@ -266,6 +268,10 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     // checkout's own provider list off the same resolver; this copy is for
     // the honest demo-card label, which needs the fact and not just the list.
     payment_methods: paymentMethods,
+    // t-2026-10-04-21 (checkout-v2 A3): payments and/or delivery in a provider's
+    // test contour, from the accounts' own `is_test` flags — the storefront's
+    // red dot in the top-right corner reads this.
+    test_mode: testMode,
     // Rule 5zd (t-2026-10-03-32): the pre-payment notice's per-method fields,
     // owner-edited in «Настройки → Оплата». Nothing here is secret.
     payment_pre_notice: paymentPreNoticePublicView(

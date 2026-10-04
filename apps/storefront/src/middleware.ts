@@ -15,6 +15,7 @@ import {
 } from "@lib/tenant/headers"
 import { originForHost, publicHost } from "@lib/tenant/origin"
 import { resolveShopOfRequest } from "@lib/tenant/request-shop"
+import { tenantIconFileOf } from "@lib/tenant/icon-file"
 import { getTenantRedirects, resolveRedirect } from "@lib/tenant/redirects"
 import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import { shopLocaleRedirect } from "@lib/util/shop-locales"
@@ -383,6 +384,8 @@ function tenantRequestHeaders(
       "x-tenant-payment-pre-notice",
       encodeTenantHeaderValue(JSON.stringify(tenant.paymentPreNotice))
     )
+    // t-2026-10-04-21 (checkout-v2 A3): the red test-mode dot in the root layout.
+    headers.set("x-tenant-test-mode", encodeTenantHeaderValue(JSON.stringify(tenant.testMode)))
   }
 
   return headers
@@ -457,6 +460,18 @@ export async function middleware(request: NextRequest) {
   // `opengraph-image.png` file became a dynamic `.tsx` route, since a
   // scraper fetching the exact URL the metadata handed it was getting a
   // bogus `/en/opengraph-image` redirect, a 404).
+  //
+  // t-2026-10-04-21: `/favicon.ico`, `/icon.svg` and `/apple-touch-icon.png` are this shop's own
+  // icon files, so they go to the route that reads its branding (`lib/tenant/icon-file.ts`)
+  // rather than to a build file every shop shares or, with no file, to `[locale]` as a page.
+  const iconFile = tenantIconFileOf(request.nextUrl.pathname)
+
+  if (iconFile) {
+    return NextResponse.rewrite(new URL(`/tenant-icon/${iconFile}`, request.url), {
+      request: { headers: requestHeaders },
+    })
+  }
+
   if (
     request.nextUrl.pathname.includes(".") ||
     request.nextUrl.pathname === "/opengraph-image" ||
@@ -628,6 +643,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|healthz|_next/static|_next/image|favicon.ico|images|assets|png|svg|jpg|jpeg|gif|webp).*)",
+    // `favicon.ico` is not excluded (t-2026-10-04-21): it needs the shop's headers like any icon.
+    "/((?!api|healthz|_next/static|_next/image|images|assets|png|svg|jpg|jpeg|gif|webp).*)",
   ],
 }
