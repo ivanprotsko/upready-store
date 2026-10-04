@@ -144,14 +144,14 @@ const readLines = async (
  */
 const readStock = async (pg: Knex, tenantId: string, marketplace: string) => {
   const scoped = { tenant_id: tenantId, marketplace };
-  const [perCard, [top]] = await Promise.all([
+  const [perCardRows, topRows] = await Promise.all([
     pg("mp_offer")
       .where(scoped)
       .whereNull("deleted_at")
       .groupBy("external_id")
       .select("external_id")
       .sum({ stock: "stock" })
-      .count({ lines: "stock" }) as Promise<{ external_id: string; stock: string | null; lines: string | number }[]>,
+      .count({ lines: "stock" }),
     pg("mp_offer")
       .where(scoped)
       .whereNull("deleted_at")
@@ -160,8 +160,10 @@ const readStock = async (pg: Knex, tenantId: string, marketplace: string) => {
       .select("stock")
       .count({ n: "*" })
       .orderBy("n", "desc")
-      .limit(1) as Promise<{ stock: number | string; n: string | number }[]>,
+      .limit(1),
   ]);
+  const perCard = perCardRows as unknown as { external_id: string; stock: string | null; lines: string | number }[];
+  const [top] = topRows as unknown as { stock: number | string; n: string | number }[];
 
   const byCard = new Map<string, number | null>();
   let total: number | null = null;
