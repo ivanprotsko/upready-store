@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Hindi natuloy o naantala ang bayad",
     "paymentInterruptedText": "Naka-save ang iyong cart. Magbayad muli o pumili ng ibang paraan ng pagbabayad.",
     "paymentInterruptedAction": "Pumunta sa bayad",
+    "paymentFailedHeading": "Hindi natuloy ang bayad",
+    "paymentFailedText": "Naka-save ang mga detalye ng iyong order: subukan muli o pumili ng ibang paraan ng pagbabayad.",
+    "paymentPendingHeading": "Kinukumpirma ang bayad",
+    "paymentPendingText": "Hindi pa kinukumpirma ng bangko ang bayad. Kung nabawasan na ang iyong pera, huwag nang magbayad muli: malilikha ang order sa sandaling dumating ang kumpirmasyon.",
+    "paymentPendingAction": "Suriin muli",
     "retryPaymentSetup": "Subukang muli",
     "recipientCheckbox": "Ibang tao ang tatanggap",
     "recipientHeading": "Detalye ng tatanggap",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Hindi natapos ang pagbabayad: kinansela ito o tinanggihan. Walang nagbago sa iyong cart.",
     "paymentPendingReason": "Kinukumpirma pa ang bayad. Maghintay ng isang minuto at buksan ang order mula sa iyong account, o subukan muli.",
+    "pendingHeading": "Kinukumpirma ang bayad",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Sisingilin ang bayad sa {currency}, ayon sa palitan ng {rateSource} sa oras ng pagbabayad.",
     "chargeNoSource": "Sisingilin ang bayad sa {currency}.",
     "refund": "Pag-refund: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Sinusuri namin ang iyong bayad",
+    "text": "Ibabalik ka namin sa tindahan sa ilang saglit.",
+    "hint": "Kung walang mangyari, i-click ang «{button}».",
+    "backToShop": "Bumalik sa tindahan"
   },
   "PaymentTest": {
     "attention": "Paalala:",

@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "O pagamento não foi concluído ou foi interrompido",
     "paymentInterruptedText": "O seu carrinho foi guardado. Pague novamente ou escolha outro método de pagamento.",
     "paymentInterruptedAction": "Ir para o pagamento",
+    "paymentFailedHeading": "O pagamento não foi concluído",
+    "paymentFailedText": "Os dados do seu pedido foram guardados: tente novamente ou escolha outro método de pagamento.",
+    "paymentPendingHeading": "Pagamento em confirmação",
+    "paymentPendingText": "O banco ainda não confirmou o pagamento. Se o valor já foi cobrado, não pague novamente: o pedido será criado assim que a confirmação chegar.",
+    "paymentPendingAction": "Verificar novamente",
     "retryPaymentSetup": "Tentar novamente",
     "recipientCheckbox": "O destinatário é outra pessoa",
     "recipientHeading": "Dados do destinatário",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "O pagamento não foi concluído: foi cancelado ou recusado. Seu carrinho não foi alterado.",
     "paymentPendingReason": "O pagamento ainda está sendo confirmado. Aguarde um minuto e abra o pedido na sua conta, ou tente novamente.",
+    "pendingHeading": "Pagamento em confirmação",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "A cobrança será feita em {currency}, à taxa de câmbio de {rateSource} no momento do pagamento.",
     "chargeNoSource": "A cobrança será feita em {currency}.",
     "refund": "Reembolso: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Estamos verificando o seu pagamento",
+    "text": "Em instantes voltará à loja.",
+    "hint": "Se nada acontecer, clique em «{button}».",
+    "backToShop": "Voltar à loja"
   },
   "PaymentTest": {
     "attention": "Atenção:",

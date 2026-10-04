@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "გადახდა ვერ შესრულდა ან შეწყდა",
     "paymentInterruptedText": "კალათა შენახულია. გადაიხადეთ ხელახლა ან აირჩიეთ გადახდის სხვა მეთოდი.",
     "paymentInterruptedAction": "გადახდაზე გადასვლა",
+    "paymentFailedHeading": "გადახდა ვერ შესრულდა",
+    "paymentFailedText": "შეკვეთის მონაცემები შენახულია: სცადეთ ხელახლა ან აირჩიეთ გადახდის სხვა მეთოდი.",
+    "paymentPendingHeading": "გადახდა დასტურდება",
+    "paymentPendingText": "ბანკს გადახდა ჯერ არ დაუდასტურებია. თუ თანხა უკვე ჩამოგეჭრათ, ხელახლა ნუ გადაიხდით: შეკვეთა გაფორმდება, როგორც კი დადასტურება მოვა.",
+    "paymentPendingAction": "ხელახლა შემოწმება",
     "retryPaymentSetup": "ხელახლა ცდა",
     "recipientCheckbox": "მიმღები სხვა პირია",
     "recipientHeading": "მიმღების მონაცემები",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "გადახდა არ დასრულდა: ის გაუქმდა ან უარყოფილ იქნა. კალათის შიგთავსი არ შეცვლილა.",
     "paymentPendingReason": "გადახდა ჯერ კიდევ დასტურდება. დაელოდეთ ერთ წუთს და გახსენით შეკვეთა ანგარიშიდან, ან სცადეთ თავიდან.",
+    "pendingHeading": "გადახდა დასტურდება",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "თანხა ჩამოიჭრება {currency}-ში, {rateSource}-ის კურსით გადახდის მომენტში.",
     "chargeNoSource": "თანხა ჩამოიჭრება {currency}-ში.",
     "refund": "თანხის დაბრუნება: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "ვამოწმებთ გადახდას",
+    "text": "ახლავე დაგაბრუნებთ მაღაზიაში.",
+    "hint": "თუ არაფერი მოხდა, დააჭირეთ «{button}».",
+    "backToShop": "მაღაზიაში დაბრუნება"
   },
   "PaymentTest": {
     "attention": "ყურადღება:",

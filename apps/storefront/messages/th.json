@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "การชำระเงินไม่สำเร็จหรือถูกขัดจังหวะ",
     "paymentInterruptedText": "ตะกร้าของคุณถูกบันทึกไว้แล้ว ชำระเงินอีกครั้งหรือเลือกวิธีชำระเงินอื่น",
     "paymentInterruptedAction": "ไปที่การชำระเงิน",
+    "paymentFailedHeading": "การชำระเงินไม่สำเร็จ",
+    "paymentFailedText": "ข้อมูลคำสั่งซื้อของคุณถูกบันทึกไว้แล้ว ลองอีกครั้งหรือเลือกวิธีชำระเงินอื่น",
+    "paymentPendingHeading": "กำลังยืนยันการชำระเงิน",
+    "paymentPendingText": "ธนาคารยังไม่ได้ยืนยันการชำระเงิน หากมีการตัดเงินแล้ว โปรดอย่าชำระซ้ำ คำสั่งซื้อจะถูกสร้างทันทีที่ได้รับการยืนยัน",
+    "paymentPendingAction": "ตรวจสอบอีกครั้ง",
     "retryPaymentSetup": "ลองอีกครั้ง",
     "recipientCheckbox": "ผู้รับเป็นคนละคนกับผู้สั่งซื้อ",
     "recipientHeading": "รายละเอียดผู้รับ",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "การชำระเงินไม่สำเร็จ: ถูกยกเลิกหรือถูกปฏิเสธ ตะกร้าสินค้าของคุณยังเหมือนเดิม",
     "paymentPendingReason": "การชำระเงินยังอยู่ระหว่างการยืนยัน โปรดรอสักครู่แล้วเปิดคำสั่งซื้อจากบัญชีของคุณ หรือลองใหม่อีกครั้ง",
+    "pendingHeading": "กำลังยืนยันการชำระเงิน",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "ระบบจะเรียกเก็บเงินเป็น {currency} ตามอัตราแลกเปลี่ยนของ {rateSource} ณ เวลาชำระเงิน",
     "chargeNoSource": "ระบบจะเรียกเก็บเงินเป็น {currency}",
     "refund": "การคืนเงิน: {terms}"
+  },
+  "PaymentReturn": {
+    "heading": "กำลังตรวจสอบการชำระเงินของคุณ",
+    "text": "เราจะพาคุณกลับไปที่ร้านค้าในอีกสักครู่",
+    "hint": "หากไม่มีอะไรเกิดขึ้น ให้คลิก «{button}»",
+    "backToShop": "กลับไปที่ร้านค้า"
   },
   "PaymentTest": {
     "attention": "โปรดทราบ:",

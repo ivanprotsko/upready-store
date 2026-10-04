@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Pembayaran tidak berjaya atau terganggu",
     "paymentInterruptedText": "Troli anda disimpan. Bayar semula atau pilih kaedah pembayaran lain.",
     "paymentInterruptedAction": "Ke pembayaran",
+    "paymentFailedHeading": "Pembayaran tidak berjaya",
+    "paymentFailedText": "Butiran pesanan anda telah disimpan: cuba lagi atau pilih kaedah pembayaran lain.",
+    "paymentPendingHeading": "Pembayaran sedang disahkan",
+    "paymentPendingText": "Bank belum mengesahkan pembayaran. Jika wang sudah ditolak, jangan bayar sekali lagi: pesanan akan dibuat sebaik sahaja pengesahan diterima.",
+    "paymentPendingAction": "Semak semula",
     "retryPaymentSetup": "Cuba lagi",
     "recipientCheckbox": "Penerima ialah orang lain",
     "recipientHeading": "Butiran penerima",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Pembayaran tidak selesai: ia dibatalkan atau ditolak. Troli anda tidak berubah.",
     "paymentPendingReason": "Pembayaran masih disahkan. Tunggu seminit dan buka pesanan dari akaun anda, atau cuba lagi.",
+    "pendingHeading": "Pembayaran sedang disahkan",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Caj akan dikenakan dalam {currency} pada kadar {rateSource} semasa pembayaran.",
     "chargeNoSource": "Caj akan dikenakan dalam {currency}.",
     "refund": "Bayaran balik: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Kami sedang menyemak pembayaran anda",
+    "text": "Sebentar lagi kami akan membawa anda kembali ke kedai.",
+    "hint": "Jika tiada apa-apa berlaku, klik «{button}».",
+    "backToShop": "Kembali ke kedai"
   },
   "PaymentTest": {
     "attention": "Perhatian:",

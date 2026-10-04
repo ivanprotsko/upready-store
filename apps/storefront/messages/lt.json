@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Mokėjimas nepavyko arba buvo nutrauktas",
     "paymentInterruptedText": "Krepšelis išsaugotas. Mokėkite dar kartą arba pasirinkite kitą mokėjimo būdą.",
     "paymentInterruptedAction": "Į mokėjimą",
+    "paymentFailedHeading": "Mokėjimas nepavyko",
+    "paymentFailedText": "Užsakymo duomenys išsaugoti: bandykite dar kartą arba pasirinkite kitą mokėjimo būdą.",
+    "paymentPendingHeading": "Mokėjimas tvirtinamas",
+    "paymentPendingText": "Bankas dar nepatvirtino mokėjimo. Jei pinigai jau nuskaičiuoti, nemokėkite dar kartą: užsakymas bus sukurtas, kai tik gausime patvirtinimą.",
+    "paymentPendingAction": "Tikrinti dar kartą",
     "retryPaymentSetup": "Bandyti dar kartą",
     "recipientCheckbox": "Gavėjas yra kitas asmuo",
     "recipientHeading": "Gavėjo duomenys",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Mokėjimas neužbaigtas: jis buvo atšauktas arba atmestas. Krepšelio turinys nepasikeitė.",
     "paymentPendingReason": "Mokėjimas dar tvirtinamas. Palaukite minutę ir atidarykite užsakymą paskyroje arba bandykite dar kartą.",
+    "pendingHeading": "Mokėjimas tvirtinamas",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Suma bus nuskaičiuota valiuta {currency} pagal {rateSource} kursą mokėjimo metu.",
     "chargeNoSource": "Suma bus nuskaičiuota valiuta {currency}.",
     "refund": "Pinigų grąžinimas: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Tikriname mokėjimą",
+    "text": "Netrukus grąžinsime jus į parduotuvę.",
+    "hint": "Jei nieko nevyksta, spauskite „{button}“.",
+    "backToShop": "Grįžti į parduotuvę"
   },
   "PaymentTest": {
     "attention": "Dėmesio:",

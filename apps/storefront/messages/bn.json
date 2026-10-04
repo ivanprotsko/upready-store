@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "পেমেন্ট সম্পন্ন হয়নি বা বাধাপ্রাপ্ত হয়েছে",
     "paymentInterruptedText": "আপনার কার্ট সংরক্ষিত আছে। আবার পেমেন্ট করুন বা অন্য পেমেন্ট পদ্ধতি বেছে নিন।",
     "paymentInterruptedAction": "পেমেন্টে যান",
+    "paymentFailedHeading": "পেমেন্ট সম্পন্ন হয়নি",
+    "paymentFailedText": "আপনার অর্ডারের তথ্য সংরক্ষিত আছে: আবার চেষ্টা করুন অথবা অন্য পেমেন্ট পদ্ধতি বেছে নিন।",
+    "paymentPendingHeading": "পেমেন্ট নিশ্চিত করা হচ্ছে",
+    "paymentPendingText": "ব্যাংক এখনও পেমেন্ট নিশ্চিত করেনি। টাকা ইতিমধ্যে কেটে নেওয়া হলে আবার পেমেন্ট করবেন না: নিশ্চিতকরণ এলেই অর্ডার তৈরি হবে।",
+    "paymentPendingAction": "আবার যাচাই করুন",
     "retryPaymentSetup": "আবার চেষ্টা করুন",
     "recipientCheckbox": "প্রাপক একজন ভিন্ন ব্যক্তি",
     "recipientHeading": "প্রাপকের বিবরণ",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "পেমেন্ট সম্পন্ন হয়নি: এটি বাতিল বা প্রত্যাখ্যাত হয়েছে। আপনার কার্ট অপরিবর্তিত আছে।",
     "paymentPendingReason": "পেমেন্ট এখনও নিশ্চিত হচ্ছে। এক মিনিট অপেক্ষা করে অ্যাকাউন্ট থেকে অর্ডারটি খুলুন, অথবা আবার চেষ্টা করুন।",
+    "pendingHeading": "পেমেন্ট নিশ্চিত করা হচ্ছে",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "টাকা {currency}-তে কাটা হবে, পেমেন্টের সময়ের {rateSource}-এর হারে।",
     "chargeNoSource": "টাকা {currency}-তে কাটা হবে।",
     "refund": "ফেরত: {terms}।"
+  },
+  "PaymentReturn": {
+    "heading": "আপনার পেমেন্ট যাচাই করা হচ্ছে",
+    "text": "এক মুহূর্তের মধ্যে আপনাকে দোকানে ফিরিয়ে নেওয়া হবে।",
+    "hint": "কিছু না ঘটলে «{button}»-এ ক্লিক করুন।",
+    "backToShop": "দোকানে ফিরে যান"
   },
   "PaymentTest": {
     "attention": "মনোযোগ:",

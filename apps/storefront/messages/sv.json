@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Betalningen gick inte igenom eller avbröts",
     "paymentInterruptedText": "Din varukorg är sparad. Betala igen eller välj ett annat betalsätt.",
     "paymentInterruptedAction": "Till betalning",
+    "paymentFailedHeading": "Betalningen gick inte igenom",
+    "paymentFailedText": "Dina beställningsuppgifter är sparade: Försök igen eller välj ett annat betalsätt.",
+    "paymentPendingHeading": "Betalningen bekräftas",
+    "paymentPendingText": "Banken har ännu inte bekräftat betalningen. Om beloppet redan har dragits, betala inte igen: Beställningen läggs så snart bekräftelsen kommer.",
+    "paymentPendingAction": "Kontrollera igen",
     "retryPaymentSetup": "Försök igen",
     "recipientCheckbox": "Mottagaren är en annan person",
     "recipientHeading": "Mottagarens uppgifter",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Betalningen slutfördes inte: den avbröts eller nekades. Din varukorg är oförändrad.",
     "paymentPendingReason": "Betalningen bekräftas fortfarande. Vänta en minut och öppna din beställning från kontot, eller försök igen.",
+    "pendingHeading": "Betalningen bekräftas",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Beloppet debiteras i {currency} enligt kursen från {rateSource} vid betalningstillfället.",
     "chargeNoSource": "Beloppet debiteras i {currency}.",
     "refund": "Återbetalning: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Vi kontrollerar din betalning",
+    "text": "Vi skickar dig tillbaka till butiken om ett ögonblick.",
+    "hint": "Om inget händer, klicka på ”{button}”.",
+    "backToShop": "Tillbaka till butiken"
   },
   "PaymentTest": {
     "attention": "Observera:",

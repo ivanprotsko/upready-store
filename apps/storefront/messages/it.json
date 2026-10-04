@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Il pagamento non è andato a buon fine o è stato interrotto",
     "paymentInterruptedText": "Il carrello è salvato. Paga di nuovo o scegli un altro metodo di pagamento.",
     "paymentInterruptedAction": "Vai al pagamento",
+    "paymentFailedHeading": "Il pagamento non è andato a buon fine",
+    "paymentFailedText": "I dati dell'ordine sono salvati: riprova o scegli un altro metodo di pagamento.",
+    "paymentPendingHeading": "Pagamento in fase di conferma",
+    "paymentPendingText": "La banca non ha ancora confermato il pagamento. Se l'importo è già stato addebitato, non pagare di nuovo: l'ordine verrà creato non appena arriverà la conferma.",
+    "paymentPendingAction": "Verifica di nuovo",
     "retryPaymentSetup": "Riprova",
     "recipientCheckbox": "Il destinatario è una persona diversa",
     "recipientHeading": "Dati del destinatario",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Il pagamento non è stato completato: è stato annullato o rifiutato. Il tuo carrello non è cambiato.",
     "paymentPendingReason": "Il pagamento è ancora in conferma. Attendi un minuto e apri l'ordine dal tuo account, oppure riprova.",
+    "pendingHeading": "Pagamento in fase di conferma",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "L'addebito avverrà in {currency} al tasso di {rateSource} al momento del pagamento.",
     "chargeNoSource": "L'addebito avverrà in {currency}.",
     "refund": "Rimborso: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Stiamo verificando il pagamento",
+    "text": "Tra un attimo ti riportiamo al negozio.",
+    "hint": "Se non succede nulla, fai clic su «{button}».",
+    "backToShop": "Torna al negozio"
   },
   "PaymentTest": {
     "attention": "Attenzione:",

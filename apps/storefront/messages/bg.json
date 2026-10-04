@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Плащането не мина или беше прекъснато",
     "paymentInterruptedText": "Количката е запазена. Платете отново или изберете друг начин на плащане.",
     "paymentInterruptedAction": "Към плащането",
+    "paymentFailedHeading": "Плащането не е успешно",
+    "paymentFailedText": "Данните за поръчката са запазени: опитайте отново или изберете друг начин на плащане.",
+    "paymentPendingHeading": "Плащането се потвърждава",
+    "paymentPendingText": "Банката все още не е потвърдила плащането. Ако сумата вече е изтеглена, не плащайте отново: поръчката ще бъде оформена веднага щом пристигне потвърждението.",
+    "paymentPendingAction": "Проверете отново",
     "retryPaymentSetup": "Опитайте отново",
     "recipientCheckbox": "Получателят е друго лице",
     "recipientHeading": "Данни на получателя",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Плащането не е завършено: отменено е или е отказано. Съдържанието на количката не е променено.",
     "paymentPendingReason": "Плащането все още се потвърждава. Изчакайте минута и отворете поръчката от профила си или опитайте отново.",
+    "pendingHeading": "Плащането се потвърждава",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Плащането ще се извърши в {currency} по курса на {rateSource} към момента на плащането.",
     "chargeNoSource": "Плащането ще се извърши в {currency}.",
     "refund": "Връщане на средства: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Проверяваме плащането",
+    "text": "След малко ще ви върнем в магазина.",
+    "hint": "Ако това не стане, натиснете «{button}».",
+    "backToShop": "Обратно към магазина"
   },
   "PaymentTest": {
     "attention": "Внимание:",

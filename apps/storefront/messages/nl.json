@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "De betaling is mislukt of onderbroken",
     "paymentInterruptedText": "Je winkelwagen is bewaard. Betaal opnieuw of kies een andere betaalmethode.",
     "paymentInterruptedAction": "Naar betalen",
+    "paymentFailedHeading": "Betaling mislukt",
+    "paymentFailedText": "Je bestelgegevens zijn bewaard: probeer het opnieuw of kies een andere betaalmethode.",
+    "paymentPendingHeading": "Betaling wordt bevestigd",
+    "paymentPendingText": "De bank heeft de betaling nog niet bevestigd. Is het bedrag al afgeschreven, betaal dan niet opnieuw: de bestelling wordt geplaatst zodra de bevestiging binnen is.",
+    "paymentPendingAction": "Opnieuw controleren",
     "retryPaymentSetup": "Opnieuw proberen",
     "recipientCheckbox": "Ontvanger is een andere persoon",
     "recipientHeading": "Gegevens ontvanger",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "De betaling is niet voltooid: ze is geannuleerd of geweigerd. Je winkelwagen is niet gewijzigd.",
     "paymentPendingReason": "De betaling wordt nog bevestigd. Wacht een minuut en open je bestelling in je account, of probeer het opnieuw.",
+    "pendingHeading": "Betaling wordt bevestigd",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Het bedrag wordt afgeschreven in {currency} tegen de koers van {rateSource} op het moment van betalen.",
     "chargeNoSource": "Het bedrag wordt afgeschreven in {currency}.",
     "refund": "Terugbetaling: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "We controleren je betaling",
+    "text": "We brengen je zo terug naar de winkel.",
+    "hint": "Gebeurt er niets, klik dan op «{button}».",
+    "backToShop": "Terug naar de winkel"
   },
   "PaymentTest": {
     "attention": "Let op:",

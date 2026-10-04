@@ -11,16 +11,16 @@ import { type NextRequest, NextResponse } from "next/server"
  * browser to `SuccessUrl2`/`FailUrl2` (this route, `provider=robokassa`) and,
  * in parallel, posts the Result webhook to the backend, which is the only
  * thing that marks the payment paid and completes the cart. So this branch
- * never decides: it asks the backend to complete the cart, which succeeds
- * only once the webhook has landed (the provider answers CAPTURED after the
- * signed confirmation, PENDING before it), and it retries for a few seconds
- * to cover the race between the two Robokassa calls. A cart still pending
- * after that goes back to the checkout with `payment_pending`, not to a
- * failure page: the money may well be on its way.
+ * decides nothing and answers at once (t-2026-10-04-48: it used to hold the
+ * buyer on a blank tab for about nine seconds while it retried, then left
+ * them on the cart). It puts the cart back into the cookie, then
+ *   - a failed payment goes straight back to the checkout, every field and
+ *     box as the buyer left them, with a notice (`?payment=failed`);
+ *   - a success goes to the shop's waiting page (`[locale]/payment-return`),
+ *     which asks the backend for the order for about half a minute and ends
+ *     on the confirmation page, or on the checkout with `?payment=pending`.
+ * Never the cart: `/<locale>/cart?error=…` is for links already sent.
  */
-const ROBOKASSA_RETRIES = 6
-const ROBOKASSA_RETRY_MS = 1500
-
 async function robokassaReturn(req: NextRequest) {
   const { searchParams } = req.nextUrl
   // The public origin the customer is on (`vasya.com`, `<handle>.localhost:8047`),
@@ -31,28 +31,20 @@ async function robokassaReturn(req: NextRequest) {
   const cartId = searchParams.get("cart_id")
   const requestedLocale = searchParams.get("locale")
   const locale = isAppLocale(requestedLocale) ? requestedLocale : defaultLocale
+  const paymentFailed = () =>
+    NextResponse.redirect(`${origin}/${locale}/checkout?payment=failed`)
 
   if (!cartId) {
-    return NextResponse.redirect(`${origin}/${locale}/cart?error=payment_failed`)
+    return paymentFailed()
   }
 
   await setCartId(cartId)
 
   if (searchParams.get("outcome") === "fail") {
-    return NextResponse.redirect(`${origin}/${locale}/cart?error=payment_failed`)
+    return paymentFailed()
   }
 
-  for (let attempt = 0; attempt < ROBOKASSA_RETRIES; attempt += 1) {
-    try {
-      // Ends in `redirect()` to the confirmation page once the cart is an order.
-      await placeOrder(cartId)
-    } catch (error) {
-      unstable_rethrow(error)
-    }
-    await new Promise((resolve) => setTimeout(resolve, ROBOKASSA_RETRY_MS))
-  }
-
-  return NextResponse.redirect(`${origin}/${locale}/cart?error=payment_pending`)
+  return NextResponse.redirect(`${origin}/${locale}/payment-return`)
 }
 
 export async function GET(req: NextRequest) {

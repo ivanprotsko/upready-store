@@ -3,6 +3,7 @@
 import { sdk } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
 import { cartHasStaleShipping } from "@lib/util/shipping-address"
+import { mergeCartMetadata } from "@lib/util/cart-metadata"
 import { type ErrorMessageKey, resolveErrorKey } from "@lib/util/error-messages"
 import {
   describeUpstreamFailure,
@@ -180,6 +181,34 @@ export async function getOrSetCart(countryCode?: string) {
   return cart
 }
 
+/**
+ * The metadata the backend holds for this cart right now, for `updateCart` to
+ * merge a patch into (`mergeCartMetadata`). A failed read throws: writing the
+ * patch alone would erase every other key, which is the bug this read exists
+ * to prevent (t-2026-10-04-48).
+ */
+const readServerMetadata = async (
+  cartId: string,
+  headers: Record<string, string>
+): Promise<Record<string, unknown> | null> =>
+  retryOnGatewayFailure(
+    `readServerMetadata ${cartId}`,
+    () =>
+      sdk.client.fetch<HttpTypes.StoreCartResponse>(`/store/carts/${cartId}`, {
+        method: "GET",
+        query: { fields: "id,metadata" },
+        headers,
+        cache: "no-store",
+      }),
+    { idempotent: true }
+  ).then(({ cart }) => (cart.metadata ?? null) as Record<string, unknown> | null)
+
+/**
+ * Writes `data` onto the visitor's cart. `data.metadata` is a PATCH: only the
+ * keys a caller names change, everything else stays as the backend has it
+ * (`@lib/util/cart-metadata`). Send your own keys only, never a spread of a
+ * `cart.metadata` you rendered earlier, or its stale values win again.
+ */
 export async function updateCart(data: HttpTypes.StoreUpdateCart) {
   const cartId = await getCartId()
 
@@ -191,8 +220,18 @@ export async function updateCart(data: HttpTypes.StoreUpdateCart) {
     ...(await getAuthHeaders()),
   }
 
+  const payload: HttpTypes.StoreUpdateCart = data.metadata
+    ? {
+        ...data,
+        metadata: mergeCartMetadata(
+          await readServerMetadata(cartId, headers).catch(medusaError),
+          data.metadata
+        ),
+      }
+    : data
+
   return sdk.store.cart
-    .update(cartId, data, {}, headers)
+    .update(cartId, payload, {}, headers)
     .then(async ({ cart }: { cart: HttpTypes.StoreCart }) => {
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)
@@ -626,13 +665,14 @@ export async function setAddresses(input: SetAddressesInput) {
  * @param cartId - optional - The ID of the cart to place an order for.
  * @returns The cart object if the order was successful, or null if not.
  */
-export async function placeOrder(cartId?: string) {
-  const id = cartId || (await getCartId())
-
-  if (!id) {
-    throw new Error("No existing cart found when placing an order")
-  }
-
+/**
+ * Asks the backend to complete the cart. Answers the confirmation page's path
+ * once the cart is an order (the cart cookie is gone by then), or the cart as
+ * it still is. A refusal throws, as `medusaError` words it.
+ */
+async function completeCart(
+  id: string
+): Promise<{ confirmedPath: string } | { cart: HttpTypes.StoreCart }> {
   const headers = {
     ...(await getAuthHeaders()),
   }
@@ -668,14 +708,61 @@ export async function placeOrder(cartId?: string) {
     const confirmedPath = `/${locale ?? defaultLocale}/order/${
       cartRes?.order.id
     }/confirmed`
-    redirect(
-      orderToken
+    return {
+      confirmedPath: orderToken
         ? `${confirmedPath}?token=${encodeURIComponent(orderToken)}`
-        : confirmedPath
-    )
+        : confirmedPath,
+    }
   }
 
-  return cartRes.cart
+  return { cart: cartRes.cart }
+}
+
+export async function placeOrder(cartId?: string) {
+  const id = cartId || (await getCartId())
+
+  if (!id) {
+    throw new Error("No existing cart found when placing an order")
+  }
+
+  const result = await completeCart(id)
+
+  if ("confirmedPath" in result) {
+    redirect(result.confirmedPath)
+  }
+
+  return result.cart
+}
+
+/**
+ * One look from the Robokassa waiting page (`[locale]/payment-return`,
+ * t-2026-10-04-48) at whether the payment turned the cart into an order. The
+ * cart is the one `app/api/payment-return` put into the cookie. Completing it
+ * succeeds only after the Result webhook confirmed the payment (the provider
+ * answers PENDING before that), and a cart the webhook already completed
+ * answers with its order, so asking again is safe. `order` carries the
+ * confirmation page's path; `pending` is any refusal, the page asks again;
+ * `no_cart` is a visitor with no cart cookie at all.
+ */
+export async function checkPaymentReturn(): Promise<
+  | { status: "order"; href: string }
+  | { status: "pending" }
+  | { status: "no_cart" }
+> {
+  const cartId = await getCartId()
+
+  if (!cartId) {
+    return { status: "no_cart" }
+  }
+
+  try {
+    const result = await completeCart(cartId)
+    return "confirmedPath" in result
+      ? { status: "order", href: result.confirmedPath }
+      : { status: "pending" }
+  } catch {
+    return { status: "pending" }
+  }
 }
 
 /**

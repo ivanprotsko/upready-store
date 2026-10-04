@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Betalingen gik ikke igennem eller blev afbrudt",
     "paymentInterruptedText": "Din kurv er gemt. Betal igen, eller vælg en anden betalingsmetode.",
     "paymentInterruptedAction": "Gå til betaling",
+    "paymentFailedHeading": "Betalingen gik ikke igennem",
+    "paymentFailedText": "Dine ordreoplysninger er gemt: Prøv igen, eller vælg en anden betalingsmetode.",
+    "paymentPendingHeading": "Betalingen bekræftes",
+    "paymentPendingText": "Banken har endnu ikke bekræftet betalingen. Hvis beløbet allerede er trukket, skal du ikke betale igen: Ordren oprettes, så snart bekræftelsen kommer.",
+    "paymentPendingAction": "Tjek igen",
     "retryPaymentSetup": "Prøv igen",
     "recipientCheckbox": "Modtager er en anden person",
     "recipientHeading": "Modtageroplysninger",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Betalingen blev ikke gennemført: den blev annulleret eller afvist. Din kurv er uændret.",
     "paymentPendingReason": "Betalingen bliver stadig bekræftet. Vent et minut og åbn din ordre fra kontoen, eller prøv igen.",
+    "pendingHeading": "Betalingen bekræftes",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Beløbet trækkes i {currency} til kursen fra {rateSource} på betalingstidspunktet.",
     "chargeNoSource": "Beløbet trækkes i {currency}.",
     "refund": "Refusion: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Vi tjekker din betaling",
+    "text": "Vi sender dig tilbage til butikken om et øjeblik.",
+    "hint": "Hvis der ikke sker noget, så klik på «{button}».",
+    "backToShop": "Tilbage til butikken"
   },
   "PaymentTest": {
     "attention": "Bemærk:",

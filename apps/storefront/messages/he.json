@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "התשלום לא עבר או שהופסק",
     "paymentInterruptedText": "העגלה שלך נשמרה. שלם שוב או בחר אמצעי תשלום אחר.",
     "paymentInterruptedAction": "למעבר לתשלום",
+    "paymentFailedHeading": "התשלום לא בוצע",
+    "paymentFailedText": "פרטי ההזמנה נשמרו: נסה שוב או בחר אמצעי תשלום אחר.",
+    "paymentPendingHeading": "התשלום ממתין לאישור",
+    "paymentPendingText": "הבנק עדיין לא אישר את התשלום. אם הסכום כבר חויב, אל תשלם שוב: ההזמנה תיווצר ברגע שיגיע האישור.",
+    "paymentPendingAction": "בדיקה חוזרת",
     "retryPaymentSetup": "נסה שוב",
     "recipientCheckbox": "הנמען הוא אדם אחר",
     "recipientHeading": "פרטי הנמען",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "התשלום לא הושלם: הוא בוטל או נדחה. תוכן העגלה לא השתנה.",
     "paymentPendingReason": "התשלום עדיין באישור. המתינו דקה ופתחו את ההזמנה מהחשבון, או נסו שוב.",
+    "pendingHeading": "התשלום ממתין לאישור",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "החיוב יתבצע ב-{currency} לפי השער של {rateSource} בעת התשלום.",
     "chargeNoSource": "החיוב יתבצע ב-{currency}.",
     "refund": "החזר כספי: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "אנחנו בודקים את התשלום",
+    "text": "עוד רגע נחזיר אותך לחנות.",
+    "hint": "אם שום דבר לא קורה, לחץ על «{button}».",
+    "backToShop": "חזרה לחנות"
   },
   "PaymentTest": {
     "attention": "שים לב:",

@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "لم تتم عملية الدفع أو تمت مقاطعتها",
     "paymentInterruptedText": "سلتك محفوظة. ادفع مرة أخرى أو اختر طريقة دفع أخرى.",
     "paymentInterruptedAction": "إلى الدفع",
+    "paymentFailedHeading": "لم تتم عملية الدفع",
+    "paymentFailedText": "تم حفظ بيانات طلبك: حاول مرة أخرى أو اختر طريقة دفع أخرى.",
+    "paymentPendingHeading": "جارٍ تأكيد الدفع",
+    "paymentPendingText": "لم يؤكد البنك الدفع بعد. إذا تم خصم المبلغ بالفعل، فلا تدفع مرة أخرى: سيتم إنشاء الطلب فور وصول التأكيد.",
+    "paymentPendingAction": "تحقّق مرة أخرى",
     "retryPaymentSetup": "إعادة المحاولة",
     "recipientCheckbox": "المستلم شخص آخر",
     "recipientHeading": "بيانات المستلم",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "لم تكتمل عملية الدفع، فقد أُلغيت أو رُفضت. لم تتغير محتويات سلة التسوق.",
     "paymentPendingReason": "لا يزال الدفع قيد التأكيد. انتظر دقيقة وافتح طلبك من الحساب، أو حاول الدفع مرة أخرى.",
+    "pendingHeading": "جارٍ تأكيد الدفع",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "سيتم الخصم بعملة {currency} بسعر صرف {rateSource} وقت الدفع.",
     "chargeNoSource": "سيتم الخصم بعملة {currency}.",
     "refund": "استرداد المبلغ: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "نتحقق من عملية الدفع",
+    "text": "سنعيدك إلى المتجر بعد لحظات.",
+    "hint": "إذا لم يحدث شيء، فاضغط على «{button}».",
+    "backToShop": "العودة إلى المتجر"
   },
   "PaymentTest": {
     "attention": "تنبيه:",

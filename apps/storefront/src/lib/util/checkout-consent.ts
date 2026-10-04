@@ -77,3 +77,31 @@ export const readConsentRecord = (
     ? (value as Partial<CheckoutConsentRecord>)
     : null
 }
+
+/**
+ * The boxes as the buyer left them on THIS cart (t-2026-10-04-48). Ivan: «человек
+ * ведь уже выбирал чекбоксы и заказ не менял, поэтому правильно, чтобы они были
+ * выбраны». A buyer back from Robokassa, or reloading the checkout, ticked these
+ * themselves; that is their own choice on record, not a box ticked in advance (C5).
+ * A record made under other wording (`text_version`) restores nothing, and the
+ * personal-data box stays empty when the document it links has changed since,
+ * because the buyer agreed to a text that is no longer the one shown.
+ */
+export const restoreConsent = (
+  record: Partial<CheckoutConsentRecord> | null,
+  legal: LegalLinkContext
+): CheckoutConsentValue => {
+  if (!record || record.text_version !== CHECKOUT_CONSENT_TEXT_VERSION) {
+    return EMPTY_CONSENT
+  }
+
+  const current = documentAt(personalDataConsentHref(legal), legal)
+  const agreed = record.personal_data?.document
+  const sameDocument =
+    agreed?.href === current.href && (agreed?.version ?? null) === current.version
+
+  return {
+    personalData: record.personal_data?.given === true && sameDocument,
+    marketing: record.marketing?.given === true,
+  }
+}

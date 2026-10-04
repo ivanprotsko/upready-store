@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Płatność nie powiodła się lub została przerwana",
     "paymentInterruptedText": "Koszyk został zachowany. Zapłać ponownie lub wybierz inną metodę płatności.",
     "paymentInterruptedAction": "Przejdź do płatności",
+    "paymentFailedHeading": "Płatność nie powiodła się",
+    "paymentFailedText": "Dane zamówienia są zapisane: spróbuj ponownie lub wybierz inną metodę płatności.",
+    "paymentPendingHeading": "Płatność jest potwierdzana",
+    "paymentPendingText": "Bank jeszcze nie potwierdził płatności. Jeśli pieniądze zostały już pobrane, nie płać ponownie: zamówienie zostanie złożone, gdy tylko nadejdzie potwierdzenie.",
+    "paymentPendingAction": "Sprawdź ponownie",
     "retryPaymentSetup": "Spróbuj ponownie",
     "recipientCheckbox": "Odbiorcą jest inna osoba",
     "recipientHeading": "Dane odbiorcy",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Płatność nie została zakończona: została anulowana lub odrzucona. Zawartość koszyka się nie zmieniła.",
     "paymentPendingReason": "Płatność jest jeszcze potwierdzana. Odczekaj minutę i otwórz zamówienie na koncie lub spróbuj ponownie.",
+    "pendingHeading": "Płatność jest potwierdzana",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Kwota zostanie pobrana w {currency} po kursie {rateSource} z chwili płatności.",
     "chargeNoSource": "Kwota zostanie pobrana w {currency}.",
     "refund": "Zwrot pieniędzy: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Sprawdzamy płatność",
+    "text": "Za chwilę wrócisz do sklepu.",
+    "hint": "Jeśli tak się nie stanie, kliknij «{button}».",
+    "backToShop": "Wróć do sklepu"
   },
   "PaymentTest": {
     "attention": "Uwaga:",

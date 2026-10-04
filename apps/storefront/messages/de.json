@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Die Zahlung ist fehlgeschlagen oder wurde abgebrochen",
     "paymentInterruptedText": "Dein Warenkorb ist gespeichert. Bezahle erneut oder wähle eine andere Zahlungsart.",
     "paymentInterruptedAction": "Zur Zahlung",
+    "paymentFailedHeading": "Zahlung fehlgeschlagen",
+    "paymentFailedText": "Ihre Bestelldaten sind gespeichert: Versuchen Sie es erneut oder wählen Sie eine andere Zahlungsart.",
+    "paymentPendingHeading": "Zahlung wird bestätigt",
+    "paymentPendingText": "Die Bank hat die Zahlung noch nicht bestätigt. Wenn der Betrag bereits abgebucht wurde, zahlen Sie bitte nicht erneut: Die Bestellung wird angelegt, sobald die Bestätigung eintrifft.",
+    "paymentPendingAction": "Erneut prüfen",
     "retryPaymentSetup": "Erneut versuchen",
     "recipientCheckbox": "Empfänger ist eine andere Person",
     "recipientHeading": "Empfängerdaten",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Die Zahlung wurde nicht abgeschlossen: Sie wurde abgebrochen oder abgelehnt. Ihr Warenkorb ist unverändert.",
     "paymentPendingReason": "Die Zahlung wird noch bestätigt. Warten Sie eine Minute und öffnen Sie Ihre Bestellung im Konto, oder versuchen Sie es erneut.",
+    "pendingHeading": "Zahlung wird bestätigt",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Die Belastung erfolgt in {currency} zum Kurs von {rateSource} zum Zeitpunkt der Zahlung.",
     "chargeNoSource": "Die Belastung erfolgt in {currency}.",
     "refund": "Erstattung: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Wir prüfen Ihre Zahlung",
+    "text": "Gleich geht es zurück zum Shop.",
+    "hint": "Falls nichts passiert, klicken Sie auf «{button}».",
+    "backToShop": "Zurück zum Shop"
   },
   "PaymentTest": {
     "attention": "Achtung:",

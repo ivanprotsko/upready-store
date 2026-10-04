@@ -10,6 +10,7 @@ import CheckoutAddressRow from "@modules/checkout/components/checkout-address-ro
 import CheckoutContactsRow from "@modules/checkout/components/checkout-contacts-row"
 import CheckoutPickupPointSheet from "@modules/checkout/components/checkout-pickup-point-sheet"
 import RobokassaRetryNotice from "@modules/checkout/components/robokassa-retry-notice"
+import type { PaymentReturnNotice } from "@lib/util/robokassa-return"
 import { PickupSheetProvider } from "@modules/checkout/context/pickup-sheet-context"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import { getLocale } from "next-intl/server"
@@ -17,9 +18,12 @@ import { getLocale } from "next-intl/server"
 export default async function CheckoutForm({
   cart,
   customer,
+  paymentNotice = null,
 }: {
   cart: HttpTypes.StoreCart | null
   customer: HttpTypes.StoreCustomer | null
+  /** What Robokassa's return said, from the page's `?payment=` (t-2026-10-04-48). */
+  paymentNotice?: PaymentReturnNotice | null
 }) {
   if (!cart) return null
 
@@ -57,7 +61,7 @@ export default async function CheckoutForm({
           past Flight's 3200-byte row limit, so this <div>'s children arrive as
           lazy rows: one slot around all of them, see HydrationSlot (46df U-06). */}
       <HydrationSlot>
-        <RobokassaRetryNotice cart={cart} />
+        <RobokassaRetryNotice cart={cart} notice={paymentNotice} />
         {!customer && (
           <CheckoutSignIn returnTo={`/${locale}/checkout`} hasCourse={hasCourse} />
         )}
