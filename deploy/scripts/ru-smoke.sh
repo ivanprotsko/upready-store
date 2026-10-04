@@ -112,7 +112,7 @@ fi
 code="$(curl -sS -o "$WORK/account.html" -w '%{http_code}' --max-time 60 "$BASE/ru/account" 2>/dev/null)"
 if [ "$code" != 200 ]; then
   fail "8 /ru/account answered $code"
-elif ! grep -q 'data-testid="yandex-login"' "$WORK/account.html"; then
+elif ! grep -q 'href="/api/yandex-login' "$WORK/account.html"; then
   fail "8 /ru/account has no Yandex ID block"
 elif grep -qE 'data-testid="(email-input|password-input|sign-in-button)"' "$WORK/account.html"; then
   fail "8 /ru/account still shows the e-mail/password form"
