@@ -294,6 +294,7 @@ const buildPriceStock = (marketplace: MarketplaceId): MpPriceStockRow[] => {
     const state: MpPriceStockState = card.link.state === "linked" ? "both" : "marketplace_only"
     return {
       id: `ps_${i + 1}`,
+      card_id: card.id,
       external_id: card.external_id,
       vendor_code: card.vendor_code ?? card.external_id,
       title: card.title,
@@ -335,6 +336,7 @@ const buildPriceStock = (marketplace: MarketplaceId): MpPriceStockRow[] => {
   for (let i = 0; i < 38; i++) {
     rows.push({
       id: `ps_shop_${i + 1}`,
+      card_id: null,
       external_id: null,
       vendor_code: `CH-${1000 + i}`,
       title: `${TITLES[(i * 5) % TITLES.length]} — только в магазине`,
@@ -375,7 +377,7 @@ export const fixturePriceStock = (
   }))
   let rows = withThreshold.filter(
     (row) =>
-      (!q || row.title?.toLowerCase().includes(q) || row.vendor_code.toLowerCase().includes(q)) &&
+      (!q || row.title?.toLowerCase().includes(q) || row.vendor_code?.toLowerCase().includes(q)) &&
       has(params.state, row.state) &&
       (params.over_threshold !== "true" || row.diff.highlighted)
   )
@@ -407,6 +409,12 @@ export const fixturePriceStock = (
       over_threshold: withThreshold.filter((r) => r.diff.highlighted).length,
     },
     measured: { prices_at: minutesAgo(55), stocks_at: minutesAgo(12) },
+    stored: {
+      cards: all.filter((r) => r.card_id).length,
+      lines: all.reduce((sum, r) => sum + (r.mp?.lines ?? 0), 0),
+      variants: all.filter((r) => r.shop).length,
+      offers_without_card: 0,
+    },
   }
 }
 
