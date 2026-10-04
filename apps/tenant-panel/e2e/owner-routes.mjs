@@ -90,8 +90,8 @@ export const OWNER_ROUTES = [
   { path: "/orders/:order_id/billing-address", kind: "placeholder" },
   { path: "/orders/:order_id/allocate-items", kind: "placeholder" },
   { path: "/orders/:order_id/metadata/edit", note: "redirects to the parent screen" },
-  { path: "/marketplace-orders" },
-  { path: "/marketplace-orders/:mp_order_id" },
+  { path: "/marketplace-orders", note: "legacy URL, redirects to /marketplaces/wildberries/orders" },
+  { path: "/marketplace-orders/:mp_order_id", note: "legacy URL, redirects" },
 
   // Клиенты, отзывы
   { path: "/customers", core: true },
@@ -144,13 +144,23 @@ export const OWNER_ROUTES = [
   { path: "/settings/seo" },
   { path: "/settings/analytics" },
 
-  // Торговые площадки и подключения
-  { path: "/marketplaces/catalog" },
-  { path: "/marketplaces/price-stock" },
+  // Торговые площадки и подключения (mp-section-design: the screens of one
+  // marketplace are the children of its sidebar entry; the old addresses redirect)
+  { path: "/marketplaces/wildberries/products", core: true },
+  { path: "/marketplaces/wildberries/products?q=zzzz-nothing-matches", note: "empty search result" },
+  { path: "/marketplaces/wildberries/price-stock" },
+  { path: "/marketplaces/wildberries/orders", core: true },
+  { path: "/marketplaces/wildberries/orders/:mp_order_id" },
+  { path: "/marketplaces/wildberries/reviews" },
+  { path: "/marketplaces/wildberries/analytics" },
+  { path: "/marketplaces/wildberries/sync" },
+  { path: "/marketplaces/ozon", kind: "placeholder", note: "Ozon stub until the adapter delivers data" },
+  { path: "/marketplaces/catalog", note: "legacy URL, redirects" },
+  { path: "/marketplaces/price-stock", note: "legacy URL, redirects" },
   { path: "/settings/marketplaces" },
-  { path: "/settings/marketplaces/sync" },
-  { path: "/settings/marketplaces/reviews" },
-  { path: "/settings/marketplaces/analytics" },
+  { path: "/settings/marketplaces/sync", note: "legacy URL, redirects" },
+  { path: "/settings/marketplaces/reviews", note: "legacy URL, redirects" },
+  { path: "/settings/marketplaces/analytics", note: "legacy URL, redirects" },
   { path: "/settings/marketplaces/wildberries" },
   { path: "/settings/marketplaces/ozon" },
   { path: "/settings/wildberries", note: "legacy URL, redirects" },

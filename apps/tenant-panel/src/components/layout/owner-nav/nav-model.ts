@@ -12,9 +12,19 @@ export type OwnerCounter = "ordersToPack" | "reviewsToModerate"
 
 export type OwnerNavItem = {
   labelKey: string
+  /** A label that is not translated: a brand name such as «Wildberries». */
+  label?: string
   to: string
   match?: string[]
   counter?: OwnerCounter
+  /**
+   * Screens that open under this entry (mp-section-design, Ivan 2026-10-05):
+   * «Wildberries» unfolds into «Товары», «Цены и остатки», … the way an Admin
+   * route with nested items does. The entry itself opens its first child.
+   */
+  children?: OwnerNavItem[]
+  /** Drawn, not yet built: «Ozon» is a stub until the adapter is wired. */
+  stub?: boolean
 }
 
 export type OwnerNavGroup = {
@@ -22,6 +32,12 @@ export type OwnerNavGroup = {
   labelKey: string
   /** A group of one screen with the group's own name is drawn as one top-level entry. */
   flat?: boolean
+  /**
+   * A section title that is NOT a link and does not fold, the way Medusa Admin
+   * draws «Extensions» above the routes a plugin adds (Ivan, 2026-10-05:
+   * «не кликабельным заголовком, как заголовок "extensions" в родной админке»).
+   */
+  heading?: boolean
   items: OwnerNavItem[]
 }
 
@@ -68,21 +84,38 @@ export const OWNER_NAV: OwnerNavGroup[] = [
     ],
   },
   {
+    // mp-section-design (Ivan, 2026-10-05): a heading, one entry per
+    // marketplace, the marketplace's screens as its children. The old
+    // addresses (/marketplaces/catalog, /marketplace-orders,
+    // /settings/marketplaces/*) redirect here, see `app.tsx`.
     id: "marketplaces",
     labelKey: "app.nav.owner.groups.marketplaces",
-    flat: true,
+    heading: true,
     items: [
       {
-        labelKey: "app.nav.owner.marketplaces",
-        to: "/marketplaces/catalog",
-        match: [
-          "/marketplaces",
-          "/marketplace-orders",
-          "/settings/marketplaces",
-          "/settings/wildberries",
-          "/settings/ozon",
-          "/settings/integrations",
+        labelKey: "app.nav.owner.mp.wildberries",
+        label: "Wildberries",
+        to: "/marketplaces/wildberries/products",
+        match: ["/marketplaces/wildberries", "/settings/marketplaces/wildberries", "/settings/wildberries"],
+        children: [
+          { labelKey: "app.nav.owner.mp.products", to: "/marketplaces/wildberries/products" },
+          { labelKey: "app.nav.owner.mp.priceStock", to: "/marketplaces/wildberries/price-stock" },
+          { labelKey: "app.nav.owner.mp.orders", to: "/marketplaces/wildberries/orders" },
+          { labelKey: "app.nav.owner.mp.reviews", to: "/marketplaces/wildberries/reviews" },
+          { labelKey: "app.nav.owner.mp.analytics", to: "/marketplaces/wildberries/analytics" },
+          {
+            labelKey: "app.nav.owner.mp.sync",
+            to: "/marketplaces/wildberries/sync",
+            match: ["/settings/marketplaces/wildberries", "/settings/wildberries"],
+          },
         ],
+      },
+      {
+        labelKey: "app.nav.owner.mp.ozon",
+        label: "Ozon",
+        to: "/marketplaces/ozon",
+        match: ["/settings/marketplaces/ozon", "/settings/ozon"],
+        stub: true,
       },
     ],
   },
@@ -142,9 +175,13 @@ export const findActive = (
   let best: { group: OwnerNavGroup; item: OwnerNavItem; length: number } | null = null
   for (const group of OWNER_NAV) {
     for (const item of group.items) {
-      for (const prefix of [item.to, ...(item.match ?? [])]) {
-        if (ownsPath(prefix, pathname) && (!best || prefix.length > best.length)) {
-          best = { group, item, length: prefix.length }
+      // A child wins over its parent by being the longer prefix; the parent's
+      // `match` still catches the addresses no child owns.
+      for (const entry of [item, ...(item.children ?? [])]) {
+        for (const prefix of [entry.to, ...(entry.match ?? [])]) {
+          if (ownsPath(prefix, pathname) && (!best || prefix.length > best.length)) {
+            best = { group, item: entry, length: prefix.length }
+          }
         }
       }
     }
@@ -152,30 +189,29 @@ export const findActive = (
   return best ? { group: best.group, item: best.item } : null
 }
 
+/** The top-level entry a pathname is under, when that entry has children. */
+export const findParent = (pathname: string): OwnerNavItem | null => {
+  const active = findActive(pathname)
+  if (!active?.group) {
+    return null
+  }
+  return (
+    active.group.items.find(
+      (item) => item.children?.some((child) => child.to === active.item.to) || item === active.item
+    ) ?? null
+  )
+}
+
 export type OwnerTab = { labelKey: string; to: string; match?: string[] }
 
 /**
  * Sections whose screens sit side by side under one menu entry. The row of tabs
  * is drawn by the shell above the screen, so the screens themselves stay as
- * they are in the copied dashboard.
+ * they are in the copied dashboard. The marketplaces no longer have a row: their
+ * screens are the children of the marketplace's own entry in the sidebar
+ * (mp-section-design).
  */
 export const OWNER_TABS: { owner: string; tabs: OwnerTab[] }[] = [
-  {
-    owner: "/marketplaces/catalog",
-    tabs: [
-      {
-        labelKey: "app.nav.owner.tabs.mpConnection",
-        to: "/settings/integrations",
-        match: ["/settings/marketplaces", "/settings/wildberries", "/settings/ozon"],
-      },
-      { labelKey: "app.nav.owner.tabs.mpCatalog", to: "/marketplaces/catalog" },
-      { labelKey: "app.nav.owner.tabs.mpPriceStock", to: "/marketplaces/price-stock" },
-      { labelKey: "app.nav.owner.tabs.mpOrders", to: "/marketplace-orders" },
-      { labelKey: "app.nav.owner.tabs.mpReviews", to: "/settings/marketplaces/reviews" },
-      { labelKey: "app.nav.owner.tabs.mpSync", to: "/settings/marketplaces/sync" },
-      { labelKey: "app.nav.owner.tabs.mpAnalytics", to: "/settings/marketplaces/analytics" },
-    ],
-  },
   {
     owner: "/promotions",
     tabs: [
