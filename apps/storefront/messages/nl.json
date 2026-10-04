@@ -340,7 +340,12 @@
     "prev": "Vorige les",
     "next": "Volgende les",
     "finish": "Cursus afronden",
-    "goToCourse": "Naar de cursus"
+    "goToCourse": "Naar de cursus",
+    "downloadNamed": "{name} downloaden",
+    "downloadFile": "Bestand downloaden",
+    "openSite": "{host} openen",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Mijn cursussen",

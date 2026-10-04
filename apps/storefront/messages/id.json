@@ -340,7 +340,12 @@
     "prev": "Pelajaran sebelumnya",
     "next": "Pelajaran berikutnya",
     "finish": "Selesaikan kursus",
-    "goToCourse": "Buka kursus"
+    "goToCourse": "Buka kursus",
+    "downloadNamed": "Unduh {name}",
+    "downloadFile": "Unduh file",
+    "openSite": "Buka {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Kursus saya",

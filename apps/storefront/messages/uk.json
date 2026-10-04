@@ -340,7 +340,12 @@
     "prev": "Попередній урок",
     "next": "Наступний урок",
     "finish": "Завершити курс",
-    "goToCourse": "Перейти до курсу"
+    "goToCourse": "Перейти до курсу",
+    "downloadNamed": "Завантажити {name}",
+    "downloadFile": "Завантажити файл",
+    "openSite": "Відкрити {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Мої курси",

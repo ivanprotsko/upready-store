@@ -340,7 +340,12 @@
     "prev": "Өмнөх хичээл",
     "next": "Дараагийн хичээл",
     "finish": "Курсыг дуусгах",
-    "goToCourse": "Курс руу очих"
+    "goToCourse": "Курс руу очих",
+    "downloadNamed": "{name} татах",
+    "downloadFile": "Файл татах",
+    "openSite": "{host} нээх",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Миний курсууд",

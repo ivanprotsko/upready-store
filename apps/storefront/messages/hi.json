@@ -340,7 +340,12 @@
     "prev": "पिछला पाठ",
     "next": "अगला पाठ",
     "finish": "कोर्स समाप्त करें",
-    "goToCourse": "कोर्स पर जाएं"
+    "goToCourse": "कोर्स पर जाएं",
+    "downloadNamed": "{name} डाउनलोड करें",
+    "downloadFile": "फ़ाइल डाउनलोड करें",
+    "openSite": "{host} खोलें",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "मेरे कोर्स",

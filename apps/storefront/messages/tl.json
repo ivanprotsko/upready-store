@@ -340,7 +340,12 @@
     "prev": "Nakaraang aralin",
     "next": "Susunod na aralin",
     "finish": "Tapusin ang kurso",
-    "goToCourse": "Pumunta sa kurso"
+    "goToCourse": "Pumunta sa kurso",
+    "downloadNamed": "I-download ang {name}",
+    "downloadFile": "I-download ang file",
+    "openSite": "Buksan ang {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Aking mga kurso",

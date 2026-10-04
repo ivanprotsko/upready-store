@@ -340,7 +340,12 @@
     "prev": "Предишен урок",
     "next": "Следващ урок",
     "finish": "Завърши курса",
-    "goToCourse": "Към курса"
+    "goToCourse": "Към курса",
+    "downloadNamed": "Изтегли {name}",
+    "downloadFile": "Изтегли файла",
+    "openSite": "Отвори {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Моите курсове",

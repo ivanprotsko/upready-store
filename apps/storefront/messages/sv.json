@@ -340,7 +340,12 @@
     "prev": "Föregående lektion",
     "next": "Nästa lektion",
     "finish": "Avsluta kursen",
-    "goToCourse": "Gå till kursen"
+    "goToCourse": "Gå till kursen",
+    "downloadNamed": "Ladda ner {name}",
+    "downloadFile": "Ladda ner fil",
+    "openSite": "Öppna {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Mina kurser",

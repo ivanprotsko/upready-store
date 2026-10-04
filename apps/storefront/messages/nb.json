@@ -340,7 +340,12 @@
     "prev": "Forrige leksjon",
     "next": "Neste leksjon",
     "finish": "Fullfør kurset",
-    "goToCourse": "Gå til kurset"
+    "goToCourse": "Gå til kurset",
+    "downloadNamed": "Last ned {name}",
+    "downloadFile": "Last ned fil",
+    "openSite": "Åpne {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Mine kurs",

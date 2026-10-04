@@ -340,7 +340,12 @@
     "prev": "წინა გაკვეთილი",
     "next": "შემდეგი გაკვეთილი",
     "finish": "კურსის დასრულება",
-    "goToCourse": "კურსზე გადასვლა"
+    "goToCourse": "კურსზე გადასვლა",
+    "downloadNamed": "ჩამოტვირთეთ {name}",
+    "downloadFile": "ფაილის ჩამოტვირთვა",
+    "openSite": "{host}-ის გახსნა",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "ჩემი კურსები",

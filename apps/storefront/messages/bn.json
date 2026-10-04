@@ -340,7 +340,12 @@
     "prev": "আগের পাঠ",
     "next": "পরবর্তী পাঠ",
     "finish": "কোর্স শেষ করুন",
-    "goToCourse": "কোর্সে যান"
+    "goToCourse": "কোর্সে যান",
+    "downloadNamed": "{name} ডাউনলোড করুন",
+    "downloadFile": "ফাইল ডাউনলোড করুন",
+    "openSite": "{host} খুলুন",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "আমার কোর্সসমূহ",

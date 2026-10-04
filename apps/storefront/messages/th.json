@@ -340,7 +340,12 @@
     "prev": "บทเรียนก่อนหน้า",
     "next": "บทเรียนถัดไป",
     "finish": "จบคอร์ส",
-    "goToCourse": "ไปที่คอร์ส"
+    "goToCourse": "ไปที่คอร์ส",
+    "downloadNamed": "ดาวน์โหลด {name}",
+    "downloadFile": "ดาวน์โหลดไฟล์",
+    "openSite": "เปิด {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "คอร์สของฉัน",

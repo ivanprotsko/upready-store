@@ -340,7 +340,12 @@
     "prev": "Lecția anterioară",
     "next": "Lecția următoare",
     "finish": "Finalizează cursul",
-    "goToCourse": "Mergi la curs"
+    "goToCourse": "Mergi la curs",
+    "downloadNamed": "Descarcă {name}",
+    "downloadFile": "Descarcă fișierul",
+    "openSite": "Deschide {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Cursurile mele",

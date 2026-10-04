@@ -340,7 +340,12 @@
     "prev": "Ankstesnė pamoka",
     "next": "Kita pamoka",
     "finish": "Baigti kursą",
-    "goToCourse": "Eiti į kursą"
+    "goToCourse": "Eiti į kursą",
+    "downloadNamed": "Atsisiųsti {name}",
+    "downloadFile": "Atsisiųsti failą",
+    "openSite": "Atidaryti {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Mano kursai",

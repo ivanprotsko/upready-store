@@ -340,7 +340,12 @@
     "prev": "이전 강의",
     "next": "다음 강의",
     "finish": "코스 완료",
-    "goToCourse": "코스로 이동"
+    "goToCourse": "코스로 이동",
+    "downloadNamed": "{name} 다운로드",
+    "downloadFile": "파일 다운로드",
+    "openSite": "{host} 열기",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "내 코스",

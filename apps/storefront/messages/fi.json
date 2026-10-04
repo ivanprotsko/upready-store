@@ -340,7 +340,12 @@
     "prev": "Edellinen oppitunti",
     "next": "Seuraava oppitunti",
     "finish": "Päätä kurssi",
-    "goToCourse": "Siirry kurssiin"
+    "goToCourse": "Siirry kurssiin",
+    "downloadNamed": "Lataa {name}",
+    "downloadFile": "Lataa tiedosto",
+    "openSite": "Avaa {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Omat kurssini",

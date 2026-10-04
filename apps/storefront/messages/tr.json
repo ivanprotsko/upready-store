@@ -340,7 +340,12 @@
     "prev": "Önceki ders",
     "next": "Sonraki ders",
     "finish": "Kursu bitir",
-    "goToCourse": "Kursa git"
+    "goToCourse": "Kursa git",
+    "downloadNamed": "{name} indir",
+    "downloadFile": "Dosyayı indir",
+    "openSite": "{host} adresini aç",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Kurslarım",

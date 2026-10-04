@@ -340,7 +340,12 @@
     "prev": "الدرس السابق",
     "next": "الدرس التالي",
     "finish": "إنهاء الدورة",
-    "goToCourse": "انتقل إلى الدورة"
+    "goToCourse": "انتقل إلى الدورة",
+    "downloadNamed": "تنزيل {name}",
+    "downloadFile": "تنزيل الملف",
+    "openSite": "فتح {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}، {size}"
   },
   "CoursesPage": {
     "heading": "دوراتي",

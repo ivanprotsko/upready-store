@@ -340,7 +340,12 @@
     "prev": "前のレッスン",
     "next": "次のレッスン",
     "finish": "コースを終了",
-    "goToCourse": "コースへ進む"
+    "goToCourse": "コースへ進む",
+    "downloadNamed": "{name}をダウンロード",
+    "downloadFile": "ファイルをダウンロード",
+    "openSite": "{host}を開く",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}、{size}"
   },
   "CoursesPage": {
     "heading": "マイコース",

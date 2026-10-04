@@ -340,7 +340,12 @@
     "prev": "Predchádzajúca lekcia",
     "next": "Ďalšia lekcia",
     "finish": "Dokončiť kurz",
-    "goToCourse": "Prejsť na kurz"
+    "goToCourse": "Prejsť na kurz",
+    "downloadNamed": "Stiahnuť {name}",
+    "downloadFile": "Stiahnuť súbor",
+    "openSite": "Otvoriť {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Moje kurzy",

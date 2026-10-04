@@ -340,7 +340,12 @@
     "prev": "Leçon précédente",
     "next": "Leçon suivante",
     "finish": "Terminer le cours",
-    "goToCourse": "Accéder au cours"
+    "goToCourse": "Accéder au cours",
+    "downloadNamed": "Télécharger {name}",
+    "downloadFile": "Télécharger le fichier",
+    "openSite": "Ouvrir {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Mes cours",

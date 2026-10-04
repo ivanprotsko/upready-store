@@ -340,7 +340,12 @@
     "prev": "上一课",
     "next": "下一课",
     "finish": "完成课程",
-    "goToCourse": "进入课程"
+    "goToCourse": "进入课程",
+    "downloadNamed": "下载{name}",
+    "downloadFile": "下载文件",
+    "openSite": "打开 {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}，{size}"
   },
   "CoursesPage": {
     "heading": "我的课程",

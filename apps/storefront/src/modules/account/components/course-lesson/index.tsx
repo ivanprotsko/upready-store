@@ -1,19 +1,17 @@
-import { Fragment } from "react"
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 import type { CourseLesson as CourseLessonContent, MyCourseContents } from "@lib/data/courses"
 import { courseContentsHref, courseLessonHref } from "@lib/util/course-links"
+import LessonBody from "@modules/account/components/lesson-body"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import CourseProgress from "@modules/products/components/course-progress"
 import LessonViewedButton from "@modules/products/components/lesson-viewed-button"
 
-/** A lesson body is plain text; its URLs (the course PDFs) become links. */
-const BODY_URL = /(https?:\/\/[^\s]+)/
-
 /**
  * One lesson of a bought course, in the account (ask-20261005-053807-eaae):
- * the video, the text, «Отметить просмотренным», the previous and the next
- * lesson, and the way back to the course's contents. `data` is the course's
+ * the video, the text (typeset by `LessonBody`, ask-20261005-054319-4ad4),
+ * «Отметить просмотренным», the previous and the next lesson, and the way
+ * back to the course's contents. `data` is the course's
  * contents (`getMyCourse`), which give the lesson order and the progress;
  * `lesson` is the player route's answer with the body and the video.
  */
@@ -53,24 +51,7 @@ export default async function CourseLesson({
         // eslint-disable-next-line jsx-a11y/media-has-caption -- no seeded lesson carries a caption track yet
         <video controls src={lesson.video_url} className="w-full rounded-large" />
       )}
-      <p className="whitespace-pre-line text-ui-fg-base">
-        {lesson.body.split(BODY_URL).map((part, index) =>
-          // split() with a capturing group puts every URL at an odd index
-          index % 2 === 1 ? (
-            <a
-              key={index}
-              href={part}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="break-all underline hover:text-ui-fg-subtle"
-            >
-              {part}
-            </a>
-          ) : (
-            <Fragment key={index}>{part}</Fragment>
-          )
-        )}
-      </p>
+      <LessonBody source={lesson.body} />
 
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ui-border-base pt-6">
         <LessonViewedButton

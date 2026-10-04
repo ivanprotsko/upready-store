@@ -340,7 +340,12 @@
     "prev": "Προηγούμενο μάθημα",
     "next": "Επόμενο μάθημα",
     "finish": "Ολοκλήρωση μαθήματος",
-    "goToCourse": "Μετάβαση στο μάθημα"
+    "goToCourse": "Μετάβαση στο μάθημα",
+    "downloadNamed": "Λήψη {name}",
+    "downloadFile": "Λήψη αρχείου",
+    "openSite": "Άνοιγμα {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Τα μαθήματά μου",

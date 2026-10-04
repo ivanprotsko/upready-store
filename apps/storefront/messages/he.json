@@ -340,7 +340,12 @@
     "prev": "השיעור הקודם",
     "next": "השיעור הבא",
     "finish": "סיום הקורס",
-    "goToCourse": "מעבר לקורס"
+    "goToCourse": "מעבר לקורס",
+    "downloadNamed": "הורדת {name}",
+    "downloadFile": "הורדת הקובץ",
+    "openSite": "פתיחת {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "הקורסים שלי",

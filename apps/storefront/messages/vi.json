@@ -340,7 +340,12 @@
     "prev": "Bài học trước",
     "next": "Bài học tiếp theo",
     "finish": "Hoàn thành khóa học",
-    "goToCourse": "Đến khóa học"
+    "goToCourse": "Đến khóa học",
+    "downloadNamed": "Tải xuống {name}",
+    "downloadFile": "Tải tệp xuống",
+    "openSite": "Mở {host}",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Khóa học của tôi",

@@ -340,7 +340,12 @@
     "prev": "Előző lecke",
     "next": "Következő lecke",
     "finish": "Kurzus befejezése",
-    "goToCourse": "Tovább a kurzushoz"
+    "goToCourse": "Tovább a kurzushoz",
+    "downloadNamed": "{name} letöltése",
+    "downloadFile": "Fájl letöltése",
+    "openSite": "{host} megnyitása",
+    "fileWithType": "{label} — {type}",
+    "fileWithSize": "{label} — {type}, {size}"
   },
   "CoursesPage": {
     "heading": "Kurzusaim",
