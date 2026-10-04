@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "お支払いが完了しなかったか、中断されました",
     "paymentInterruptedText": "カートは保存されています。もう一度お支払いいただくか、別のお支払い方法を選択してください。",
     "paymentInterruptedAction": "お支払いへ",
+    "paymentFailedHeading": "お支払いが完了しませんでした",
+    "paymentFailedText": "ご注文内容は保存されています。もう一度お試しいただくか、別のお支払い方法をお選びください。",
+    "paymentPendingHeading": "お支払いを確認中です",
+    "paymentPendingText": "銀行からのお支払い確認がまだ届いていません。すでに引き落としがある場合は、再度お支払いにならないでください。確認が届きしだい、ご注文が確定します。",
+    "paymentPendingAction": "もう一度確認する",
     "retryPaymentSetup": "もう一度試す",
     "recipientCheckbox": "受取人が異なる場合",
     "recipientHeading": "受取人情報",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "お支払いは完了していません。キャンセルされたか、承認されませんでした。カートの内容は変わっていません。",
     "paymentPendingReason": "お支払いはまだ確認中です。1分ほど待ってアカウントから注文を開くか、もう一度お試しください。",
+    "pendingHeading": "お支払いを確認中です",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "請求は {currency} で、お支払い時点の {rateSource} のレートにより行われます。",
     "chargeNoSource": "請求は {currency} で行われます。",
     "refund": "返金：{terms}。"
+  },
+  "PaymentReturn": {
+    "heading": "お支払いを確認しています",
+    "text": "まもなくショップに戻ります。",
+    "hint": "画面が切り替わらない場合は、「{button}」を押してください。",
+    "backToShop": "ショップに戻る"
   },
   "PaymentTest": {
     "attention": "注意：",

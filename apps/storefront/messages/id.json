@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Pembayaran gagal atau terputus",
     "paymentInterruptedText": "Keranjang Anda tersimpan. Bayar lagi atau pilih metode pembayaran lain.",
     "paymentInterruptedAction": "Ke pembayaran",
+    "paymentFailedHeading": "Pembayaran tidak berhasil",
+    "paymentFailedText": "Data pesanan Anda tersimpan: coba lagi atau pilih metode pembayaran lain.",
+    "paymentPendingHeading": "Pembayaran sedang dikonfirmasi",
+    "paymentPendingText": "Bank belum mengonfirmasi pembayaran. Jika dana sudah terpotong, jangan membayar lagi: pesanan akan dibuat segera setelah konfirmasi diterima.",
+    "paymentPendingAction": "Periksa lagi",
     "retryPaymentSetup": "Coba lagi",
     "recipientCheckbox": "Penerima adalah orang lain",
     "recipientHeading": "Detail penerima",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Pembayaran tidak selesai: dibatalkan atau ditolak. Keranjang Anda tidak berubah.",
     "paymentPendingReason": "Pembayaran masih dikonfirmasi. Tunggu satu menit dan buka pesanan dari akun Anda, atau coba lagi.",
+    "pendingHeading": "Pembayaran sedang dikonfirmasi",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Tagihan dikenakan dalam {currency} dengan kurs {rateSource} pada saat pembayaran.",
     "chargeNoSource": "Tagihan dikenakan dalam {currency}.",
     "refund": "Pengembalian dana: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Kami sedang memeriksa pembayaran Anda",
+    "text": "Sebentar lagi Anda akan kembali ke toko.",
+    "hint": "Jika tidak terjadi apa-apa, klik «{button}».",
+    "backToShop": "Kembali ke toko"
   },
   "PaymentTest": {
     "attention": "Perhatian:",

@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Ödeme gerçekleşmedi veya yarıda kesildi",
     "paymentInterruptedText": "Sepetiniz kaydedildi. Yeniden ödeyin veya başka bir ödeme yöntemi seçin.",
     "paymentInterruptedAction": "Ödemeye geç",
+    "paymentFailedHeading": "Ödeme gerçekleşmedi",
+    "paymentFailedText": "Sipariş bilgileriniz kaydedildi: tekrar deneyin veya başka bir ödeme yöntemi seçin.",
+    "paymentPendingHeading": "Ödeme onaylanıyor",
+    "paymentPendingText": "Banka ödemeyi henüz onaylamadı. Tutar zaten çekildiyse tekrar ödeme yapmayın: onay gelir gelmez sipariş oluşturulacak.",
+    "paymentPendingAction": "Tekrar kontrol et",
     "retryPaymentSetup": "Tekrar dene",
     "recipientCheckbox": "Alıcı farklı bir kişi",
     "recipientHeading": "Alıcı bilgileri",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Ödeme tamamlanmadı: iptal edildi veya reddedildi. Sepetiniz değişmedi.",
     "paymentPendingReason": "Ödeme hâlâ onaylanıyor. Bir dakika bekleyip siparişinizi hesabınızdan açın ya da yeniden deneyin.",
+    "pendingHeading": "Ödeme onaylanıyor",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Tahsilat {currency} cinsinden, ödeme anındaki {rateSource} kuru üzerinden yapılacak.",
     "chargeNoSource": "Tahsilat {currency} cinsinden yapılacak.",
     "refund": "İade: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Ödemenizi kontrol ediyoruz",
+    "text": "Birazdan sizi mağazaya geri götüreceğiz.",
+    "hint": "Hiçbir şey olmazsa «{button}» düğmesine basın.",
+    "backToShop": "Mağazaya dön"
   },
   "PaymentTest": {
     "attention": "Dikkat:",

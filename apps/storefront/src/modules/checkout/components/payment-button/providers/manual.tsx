@@ -53,9 +53,9 @@ const ManualPaymentButton = ({
     // storefront never captures anything.
     if (manualKind) {
       try {
+        // Only this key: `updateCart` merges it into the cart's current metadata.
         await updateCart({
           metadata: {
-            ...((cart.metadata ?? {}) as Record<string, unknown>),
             [MANUAL_PAYMENT_KIND_METADATA_KEY]: manualKind,
           },
         })

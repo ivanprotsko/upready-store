@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Η πληρωμή δεν ολοκληρώθηκε ή διακόπηκε",
     "paymentInterruptedText": "Το καλάθι σας έχει αποθηκευτεί. Πληρώστε ξανά ή επιλέξτε άλλον τρόπο πληρωμής.",
     "paymentInterruptedAction": "Στην πληρωμή",
+    "paymentFailedHeading": "Η πληρωμή δεν ολοκληρώθηκε",
+    "paymentFailedText": "Τα στοιχεία της παραγγελίας σας αποθηκεύτηκαν: δοκιμάστε ξανά ή επιλέξτε άλλον τρόπο πληρωμής.",
+    "paymentPendingHeading": "Η πληρωμή επιβεβαιώνεται",
+    "paymentPendingText": "Η τράπεζα δεν έχει επιβεβαιώσει ακόμη την πληρωμή. Αν έχετε ήδη χρεωθεί, μην πληρώσετε ξανά: η παραγγελία θα καταχωριστεί μόλις έρθει η επιβεβαίωση.",
+    "paymentPendingAction": "Νέος έλεγχος",
     "retryPaymentSetup": "Δοκιμάστε ξανά",
     "recipientCheckbox": "Ο παραλήπτης είναι διαφορετικό άτομο",
     "recipientHeading": "Στοιχεία παραλήπτη",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Η πληρωμή δεν ολοκληρώθηκε: ακυρώθηκε ή απορρίφθηκε. Το καλάθι σας δεν άλλαξε.",
     "paymentPendingReason": "Η πληρωμή επιβεβαιώνεται ακόμη. Περιμένετε ένα λεπτό και ανοίξτε την παραγγελία από τον λογαριασμό σας ή δοκιμάστε ξανά.",
+    "pendingHeading": "Η πληρωμή επιβεβαιώνεται",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Η χρέωση θα γίνει σε {currency} με την ισοτιμία {rateSource} κατά τη στιγμή της πληρωμής.",
     "chargeNoSource": "Η χρέωση θα γίνει σε {currency}.",
     "refund": "Επιστροφή χρημάτων: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Ελέγχουμε την πληρωμή σας",
+    "text": "Σε λίγο θα σας επιστρέψουμε στο κατάστημα.",
+    "hint": "Αν δεν συμβεί τίποτα, πατήστε «{button}».",
+    "backToShop": "Επιστροφή στο κατάστημα"
   },
   "PaymentTest": {
     "attention": "Προσοχή:",

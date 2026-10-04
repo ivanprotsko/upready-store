@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Platba neproběhla nebo byla přerušena",
     "paymentInterruptedText": "Košík zůstal uložený. Zaplaťte znovu nebo zvolte jiný způsob platby.",
     "paymentInterruptedAction": "K platbě",
+    "paymentFailedHeading": "Platba neproběhla",
+    "paymentFailedText": "Údaje objednávky jsou uložené: zkuste to znovu nebo zvolte jiný způsob platby.",
+    "paymentPendingHeading": "Platba se ověřuje",
+    "paymentPendingText": "Banka platbu zatím nepotvrdila. Pokud vám už byly peníze strženy, neplaťte znovu: objednávka se vytvoří, jakmile dorazí potvrzení.",
+    "paymentPendingAction": "Zkontrolovat znovu",
     "retryPaymentSetup": "Zkusit znovu",
     "recipientCheckbox": "Příjemce je jiná osoba",
     "recipientHeading": "Údaje příjemce",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Platba nebyla dokončena: byla zrušena nebo zamítnuta. Obsah košíku se nezměnil.",
     "paymentPendingReason": "Platba se ještě potvrzuje. Počkejte minutu a otevřete objednávku v účtu, nebo to zkuste znovu.",
+    "pendingHeading": "Platba se ověřuje",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Částka bude stržena v {currency} podle kurzu {rateSource} v okamžiku platby.",
     "chargeNoSource": "Částka bude stržena v {currency}.",
     "refund": "Vrácení peněz: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Ověřujeme platbu",
+    "text": "Za chvíli vás vrátíme do obchodu.",
+    "hint": "Pokud se tak nestane, klikněte na „{button}“.",
+    "backToShop": "Zpět do obchodu"
   },
   "PaymentTest": {
     "attention": "Upozornění:",

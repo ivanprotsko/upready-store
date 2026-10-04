@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Төлбөр амжилтгүй болсон эсвэл тасалдсан",
     "paymentInterruptedText": "Таны сагс хадгалагдсан. Дахин төлөх эсвэл өөр төлбөрийн арга сонгоно уу.",
     "paymentInterruptedAction": "Төлбөр рүү очих",
+    "paymentFailedHeading": "Төлбөр амжилтгүй боллоо",
+    "paymentFailedText": "Захиалгын мэдээлэл хадгалагдсан: дахин оролдох эсвэл өөр төлбөрийн арга сонгоно уу.",
+    "paymentPendingHeading": "Төлбөрийг баталгаажуулж байна",
+    "paymentPendingText": "Банк төлбөрийг хараахан баталгаажуулаагүй байна. Хэрэв мөнгө аль хэдийн хасагдсан бол дахин бүү төлөөрэй: баталгаажуулалт ирмэгц захиалга үүснэ.",
+    "paymentPendingAction": "Дахин шалгах",
     "retryPaymentSetup": "Дахин оролдох",
     "recipientCheckbox": "Хүлээн авагч өөр хүн",
     "recipientHeading": "Хүлээн авагчийн мэдээлэл",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Төлбөр дуусаагүй: цуцлагдсан эсвэл татгалзсан. Сагсны агуулга өөрчлөгдөөгүй.",
     "paymentPendingReason": "Төлбөр баталгаажиж байна. Нэг минут хүлээгээд захиалгаа бүртгэлээсээ нээнэ үү, эсвэл дахин оролдоно уу.",
+    "pendingHeading": "Төлбөрийг баталгаажуулж байна",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Төлбөрийг {currency} валютаар, төлбөр хийх үеийн {rateSource} ханшаар хасна.",
     "chargeNoSource": "Төлбөрийг {currency} валютаар хасна.",
     "refund": "Буцаан олголт: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Төлбөрийг шалгаж байна",
+    "text": "Таныг удахгүй дэлгүүр рүү буцаана.",
+    "hint": "Юу ч болохгүй бол «{button}» товчийг дарна уу.",
+    "backToShop": "Дэлгүүр рүү буцах"
   },
   "PaymentTest": {
     "attention": "Анхаар:",

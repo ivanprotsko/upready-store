@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "A fizetés nem sikerült vagy megszakadt",
     "paymentInterruptedText": "A kosár megmaradt. Fizessen újra, vagy válasszon másik fizetési módot.",
     "paymentInterruptedAction": "Tovább a fizetéshez",
+    "paymentFailedHeading": "A fizetés nem sikerült",
+    "paymentFailedText": "A rendelés adatait elmentettük: próbálja újra, vagy válasszon másik fizetési módot.",
+    "paymentPendingHeading": "A fizetés megerősítése folyamatban",
+    "paymentPendingText": "A bank még nem erősítette meg a fizetést. Ha az összeget már levonták, ne fizessen újra: a rendelés létrejön, amint megérkezik a megerősítés.",
+    "paymentPendingAction": "Újbóli ellenőrzés",
     "retryPaymentSetup": "Újrapróbálás",
     "recipientCheckbox": "A címzett más személy",
     "recipientHeading": "Címzett adatai",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "A fizetés nem fejeződött be: megszakították vagy elutasították. A kosár tartalma nem változott.",
     "paymentPendingReason": "A fizetés megerősítése még folyamatban van. Várjon egy percet, és nyissa meg a rendelést a fiókjából, vagy próbálja újra.",
+    "pendingHeading": "A fizetés megerősítése folyamatban",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "A terhelés {currency} pénznemben történik, a fizetés pillanatában érvényes {rateSource} szerinti árfolyamon.",
     "chargeNoSource": "A terhelés {currency} pénznemben történik.",
     "refund": "Visszatérítés: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Ellenőrizzük a fizetést",
+    "text": "Hamarosan visszairányítjuk az áruházba.",
+    "hint": "Ha nem történik semmi, kattintson erre: „{button}”.",
+    "backToShop": "Vissza az áruházba"
   },
   "PaymentTest": {
     "attention": "Figyelem:",

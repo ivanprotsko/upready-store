@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "결제가 완료되지 않았거나 중단되었습니다",
     "paymentInterruptedText": "장바구니는 저장되어 있습니다. 다시 결제하거나 다른 결제 수단을 선택하세요.",
     "paymentInterruptedAction": "결제로 이동",
+    "paymentFailedHeading": "결제가 완료되지 않았습니다",
+    "paymentFailedText": "주문 정보가 저장되었습니다. 다시 시도하거나 다른 결제 수단을 선택하세요.",
+    "paymentPendingHeading": "결제 확인 중",
+    "paymentPendingText": "은행에서 아직 결제를 확인하지 않았습니다. 이미 금액이 출금되었다면 다시 결제하지 마세요. 확인이 도착하는 즉시 주문이 생성됩니다.",
+    "paymentPendingAction": "다시 확인",
     "retryPaymentSetup": "다시 시도",
     "recipientCheckbox": "수령인이 다른 사람입니다",
     "recipientHeading": "수령인 정보",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "결제가 완료되지 않았습니다. 취소되었거나 거절되었습니다. 장바구니는 그대로입니다.",
     "paymentPendingReason": "결제가 아직 확인 중입니다. 잠시 후 계정에서 주문을 열어 보거나 다시 시도해 주세요.",
+    "pendingHeading": "결제 확인 중",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "결제 금액은 결제 시점의 {rateSource} 환율 기준 {currency}(으)로 청구됩니다.",
     "chargeNoSource": "결제 금액은 {currency}(으)로 청구됩니다.",
     "refund": "환불: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "결제를 확인하고 있습니다",
+    "text": "잠시 후 상점으로 돌아갑니다.",
+    "hint": "아무 일도 일어나지 않으면 «{button}» 버튼을 누르세요.",
+    "backToShop": "상점으로 돌아가기"
   },
   "PaymentTest": {
     "attention": "주의:",

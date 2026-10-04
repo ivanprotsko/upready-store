@@ -48,3 +48,39 @@ export const hasUnfinishedRobokassaPayment = (
       session.status !== "authorized"
   )
 }
+
+/**
+ * What the checkout says about a buyer back from Robokassa (t-2026-10-04-48),
+ * from the `payment` parameter `app/api/payment-return` and the waiting page
+ * write: `failed` (Robokassa's Fail URL) or `pending` (paid, as far as the
+ * buyer knows, and not confirmed within the waiting page's window). Anything
+ * else says nothing, so no query-string value is ever repeated on the screen.
+ */
+export type PaymentReturnNotice = "failed" | "pending"
+
+export const readPaymentReturnNotice = (
+  value: string | string[] | null | undefined
+): PaymentReturnNotice | null =>
+  value === "failed" || value === "pending" ? value : null
+
+/** How long the waiting page keeps asking for the order, and how often. */
+export const PAYMENT_RETURN_WINDOW_MS = 30_000
+export const PAYMENT_RETURN_INTERVAL_MS = 2_500
+
+/**
+ * The waiting page's next move after one look (`checkPaymentReturn`): open the
+ * order, ask again, or give up and return to the checkout with the pending
+ * notice. A visitor with no cart has nothing to wait for.
+ */
+export const nextPaymentReturnStep = (
+  status: "order" | "pending" | "no_cart",
+  elapsedMs: number
+): "open_order" | "ask_again" | "back_to_checkout" => {
+  if (status === "order") {
+    return "open_order"
+  }
+  if (status === "no_cart" || elapsedMs + PAYMENT_RETURN_INTERVAL_MS > PAYMENT_RETURN_WINDOW_MS) {
+    return "back_to_checkout"
+  }
+  return "ask_again"
+}

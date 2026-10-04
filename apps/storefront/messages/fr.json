@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Le paiement n’a pas abouti ou a été interrompu",
     "paymentInterruptedText": "Votre panier est conservé. Payez à nouveau ou choisissez un autre moyen de paiement.",
     "paymentInterruptedAction": "Aller au paiement",
+    "paymentFailedHeading": "Le paiement n'a pas abouti",
+    "paymentFailedText": "Les données de votre commande sont enregistrées : réessayez ou choisissez un autre moyen de paiement.",
+    "paymentPendingHeading": "Paiement en cours de confirmation",
+    "paymentPendingText": "La banque n'a pas encore confirmé le paiement. Si vous avez déjà été débité, ne payez pas une seconde fois : la commande sera passée dès réception de la confirmation.",
+    "paymentPendingAction": "Vérifier à nouveau",
     "retryPaymentSetup": "Réessayer",
     "recipientCheckbox": "Le destinataire est une autre personne",
     "recipientHeading": "Détails du destinataire",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Le paiement n'a pas abouti : il a été annulé ou refusé. Votre panier n'a pas changé.",
     "paymentPendingReason": "Le paiement est encore en cours de confirmation. Patientez une minute et ouvrez votre commande depuis votre compte, ou recommencez.",
+    "pendingHeading": "Paiement en cours de confirmation",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Le débit sera effectué en {currency}, au taux de {rateSource} au moment du paiement.",
     "chargeNoSource": "Le débit sera effectué en {currency}.",
     "refund": "Remboursement : {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Vérification du paiement",
+    "text": "Nous allons vous ramener à la boutique dans un instant.",
+    "hint": "Si rien ne se passe, cliquez sur « {button} ».",
+    "backToShop": "Retour à la boutique"
   },
   "PaymentTest": {
     "attention": "Attention :",

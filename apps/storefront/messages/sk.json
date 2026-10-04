@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Platba neprebehla alebo bola prerušená",
     "paymentInterruptedText": "Košík zostal uložený. Zaplaťte znova alebo zvoľte iný spôsob platby.",
     "paymentInterruptedAction": "K platbe",
+    "paymentFailedHeading": "Platba neprebehla",
+    "paymentFailedText": "Údaje objednávky sú uložené: skúste to znova alebo zvoľte iný spôsob platby.",
+    "paymentPendingHeading": "Platba sa overuje",
+    "paymentPendingText": "Banka platbu zatiaľ nepotvrdila. Ak vám už boli peniaze stiahnuté, neplaťte znova: objednávka sa vytvorí, hneď ako príde potvrdenie.",
+    "paymentPendingAction": "Skontrolovať znova",
     "retryPaymentSetup": "Skúsiť znova",
     "recipientCheckbox": "Príjemca je iná osoba",
     "recipientHeading": "Údaje príjemcu",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Platba nebola dokončená: bola zrušená alebo zamietnutá. Obsah košíka sa nezmenil.",
     "paymentPendingReason": "Platba sa ešte potvrdzuje. Počkajte minútu a otvorte objednávku v účte alebo to skúste znova.",
+    "pendingHeading": "Platba sa overuje",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Suma bude zúčtovaná v {currency} podľa kurzu {rateSource} v čase platby.",
     "chargeNoSource": "Suma bude zúčtovaná v {currency}.",
     "refund": "Vrátenie peňazí: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Overujeme platbu",
+    "text": "O chvíľu vás vrátime do obchodu.",
+    "hint": "Ak sa tak nestane, kliknite na «{button}».",
+    "backToShop": "Späť do obchodu"
   },
   "PaymentTest": {
     "attention": "Upozornenie:",

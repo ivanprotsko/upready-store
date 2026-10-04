@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Plata nu a reușit sau a fost întreruptă",
     "paymentInterruptedText": "Coșul a fost păstrat. Plătiți din nou sau alegeți altă metodă de plată.",
     "paymentInterruptedAction": "Spre plată",
+    "paymentFailedHeading": "Plata nu a reușit",
+    "paymentFailedText": "Datele comenzii sunt salvate: încercați din nou sau alegeți altă metodă de plată.",
+    "paymentPendingHeading": "Plata este în curs de confirmare",
+    "paymentPendingText": "Banca nu a confirmat încă plata. Dacă suma a fost deja debitată, nu plătiți din nou: comanda va fi plasată imediat ce sosește confirmarea.",
+    "paymentPendingAction": "Verificați din nou",
     "retryPaymentSetup": "Reîncercați",
     "recipientCheckbox": "Destinatarul este o altă persoană",
     "recipientHeading": "Detalii destinatar",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Plata nu a fost finalizată: a fost anulată sau refuzată. Coșul dumneavoastră nu s-a schimbat.",
     "paymentPendingReason": "Plata este încă în curs de confirmare. Așteptați un minut și deschideți comanda din cont sau încercați din nou.",
+    "pendingHeading": "Plata este în curs de confirmare",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Suma va fi debitată în {currency}, la cursul {rateSource} din momentul plății.",
     "chargeNoSource": "Suma va fi debitată în {currency}.",
     "refund": "Rambursare: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Verificăm plata",
+    "text": "În câteva clipe vă readucem în magazin.",
+    "hint": "Dacă nu se întâmplă nimic, apăsați «{button}».",
+    "backToShop": "Înapoi la magazin"
   },
   "PaymentTest": {
     "attention": "Atenție:",

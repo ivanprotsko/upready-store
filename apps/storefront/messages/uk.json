@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Оплата не пройшла або була перервана",
     "paymentInterruptedText": "Кошик збережено. Оплатіть ще раз або виберіть інший спосіб оплати.",
     "paymentInterruptedAction": "До оплати",
+    "paymentFailedHeading": "Оплата не пройшла",
+    "paymentFailedText": "Дані замовлення збережено: спробуйте ще раз або виберіть інший спосіб оплати.",
+    "paymentPendingHeading": "Оплата підтверджується",
+    "paymentPendingText": "Банк ще не підтвердив оплату. Якщо гроші вже списано, не оплачуйте повторно: замовлення буде оформлено, щойно надійде підтвердження.",
+    "paymentPendingAction": "Перевірити ще раз",
     "retryPaymentSetup": "Повторити",
     "recipientCheckbox": "Отримувач — інша особа",
     "recipientHeading": "Дані отримувача",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Оплату не завершено: її скасовано або відхилено. Вміст кошика не змінився.",
     "paymentPendingReason": "Оплата ще підтверджується. Зачекайте хвилину й відкрийте замовлення в кабінеті або повторіть оформлення.",
+    "pendingHeading": "Оплата підтверджується",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Суму буде списано в {currency} за курсом {rateSource} на момент оплати.",
     "chargeNoSource": "Суму буде списано в {currency}.",
     "refund": "Повернення коштів: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Перевіряємо оплату",
+    "text": "Зараз повернемо вас до магазину.",
+    "hint": "Якщо цього не сталося, натисніть «{button}».",
+    "backToShop": "Повернутися до магазину"
   },
   "PaymentTest": {
     "attention": "Увага:",

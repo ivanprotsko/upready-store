@@ -13,9 +13,9 @@ import {
 } from "@lib/constants"
 import {
   CHECKOUT_CONSENT_METADATA_KEY,
-  EMPTY_CONSENT,
   buildConsentRecord,
   readConsentRecord,
+  restoreConsent,
   type CheckoutConsentValue,
 } from "@lib/util/checkout-consent"
 import CheckoutConsent from "@modules/checkout/components/checkout-consent"
@@ -125,28 +125,33 @@ export default function CheckoutPaymentSection({
   const [showBillingDetails, setShowBillingDetails] = useState(false)
   const [demoCard, setDemoCard] = useState<DemoCardValue>(EMPTY_DEMO_CARD)
   const tc = useTranslations("CheckoutConsent")
-  // 04.10 checklist C1–C5: never ticked in advance, not even from a record an earlier visit
-  // left on the cart. Each change is written onto the cart at once (C3), and the button
-  // waits for that write, so the order is never placed ahead of its own consent record.
-  const [consent, setConsent] = useState<CheckoutConsentValue>(EMPTY_CONSENT)
+  // 04.10 checklist C1–C5: never ticked in advance. A record this buyer left on this
+  // cart is restored (t-2026-10-04-48, `restoreConsent`): back from Robokassa the boxes
+  // read as they were ticked, and that record is already on the cart. Each change is
+  // written onto the cart at once (C3), and the button waits for that write, so the
+  // order is never placed ahead of its own consent record.
+  const storedConsent = readConsentRecord(cart.metadata as Record<string, unknown> | null)
+  const [consent, setConsent] = useState<CheckoutConsentValue>(() =>
+    restoreConsent(storedConsent, legal)
+  )
   const [consentSaving, setConsentSaving] = useState(false)
-  const [consentRecorded, setConsentRecorded] = useState(false)
+  const [consentRecorded, setConsentRecorded] = useState(() => consent.personalData)
 
   const changeConsent = async (next: CheckoutConsentValue) => {
     setConsent(next)
     setConsentSaving(true)
     setConsentRecorded(false)
-    const metadata = (cart.metadata ?? {}) as Record<string, unknown>
     try {
+      // Only this key: `updateCart` merges it into the metadata the backend holds,
+      // so the contacts and the pickup point written since are kept.
       await updateCart({
         metadata: {
-          ...metadata,
           [CHECKOUT_CONSENT_METADATA_KEY]: buildConsentRecord(
             next,
             legal,
             locale,
             new Date(),
-            readConsentRecord(metadata)
+            storedConsent
           ),
         },
       })

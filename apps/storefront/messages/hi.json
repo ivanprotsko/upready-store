@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "भुगतान नहीं हुआ या बीच में रुक गया",
     "paymentInterruptedText": "आपका कार्ट सहेजा गया है। फिर से भुगतान करें या कोई दूसरा भुगतान तरीका चुनें।",
     "paymentInterruptedAction": "भुगतान पर जाएँ",
+    "paymentFailedHeading": "भुगतान नहीं हुआ",
+    "paymentFailedText": "आपके ऑर्डर का विवरण सहेज लिया गया है: फिर से कोशिश करें या कोई दूसरा भुगतान तरीका चुनें।",
+    "paymentPendingHeading": "भुगतान की पुष्टि हो रही है",
+    "paymentPendingText": "बैंक ने अभी तक भुगतान की पुष्टि नहीं की है। अगर राशि पहले ही कट चुकी है, तो दोबारा भुगतान न करें: पुष्टि मिलते ही ऑर्डर बन जाएगा।",
+    "paymentPendingAction": "फिर से जाँचें",
     "retryPaymentSetup": "फिर से प्रयास करें",
     "recipientCheckbox": "प्राप्तकर्ता कोई अन्य व्यक्ति है",
     "recipientHeading": "प्राप्तकर्ता विवरण",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "भुगतान पूरा नहीं हुआ: इसे रद्द या अस्वीकार कर दिया गया। आपकी कार्ट में कोई बदलाव नहीं हुआ है।",
     "paymentPendingReason": "भुगतान की पुष्टि अभी हो रही है। एक मिनट रुकें और खाते से अपना ऑर्डर खोलें, या फिर से प्रयास करें।",
+    "pendingHeading": "भुगतान की पुष्टि हो रही है",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "राशि {currency} में ली जाएगी, भुगतान के समय {rateSource} की दर से।",
     "chargeNoSource": "राशि {currency} में ली जाएगी।",
     "refund": "रिफंड: {terms}।"
+  },
+  "PaymentReturn": {
+    "heading": "हम आपका भुगतान जाँच रहे हैं",
+    "text": "कुछ ही पल में हम आपको स्टोर पर वापस ले जाएँगे।",
+    "hint": "अगर कुछ नहीं होता है, तो «{button}» पर क्लिक करें।",
+    "backToShop": "स्टोर पर वापस जाएँ"
   },
   "PaymentTest": {
     "attention": "ध्यान दें:",

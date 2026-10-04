@@ -158,6 +158,11 @@
     "paymentInterruptedHeading": "Maksu ei onnistunut tai se keskeytyi",
     "paymentInterruptedText": "Ostoskorisi on tallessa. Maksa uudelleen tai valitse toinen maksutapa.",
     "paymentInterruptedAction": "Siirry maksamaan",
+    "paymentFailedHeading": "Maksu ei onnistunut",
+    "paymentFailedText": "Tilauksen tiedot on tallennettu: yritä uudelleen tai valitse toinen maksutapa.",
+    "paymentPendingHeading": "Maksua vahvistetaan",
+    "paymentPendingText": "Pankki ei ole vielä vahvistanut maksua. Jos rahat on jo veloitettu, älä maksa uudelleen: tilaus tehdään heti, kun vahvistus saapuu.",
+    "paymentPendingAction": "Tarkista uudelleen",
     "retryPaymentSetup": "Yritä uudelleen",
     "recipientCheckbox": "Vastaanottaja on eri henkilö",
     "recipientHeading": "Vastaanottajan tiedot",
@@ -821,6 +826,7 @@
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Maksu ei valmistunut: se peruttiin tai hylättiin. Ostoskorisi on ennallaan.",
     "paymentPendingReason": "Maksua vahvistetaan vielä. Odota minuutti ja avaa tilaus tililtäsi tai yritä uudelleen.",
+    "pendingHeading": "Maksua vahvistetaan",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -892,6 +898,12 @@
     "chargeWithoutAmount": "Veloitus tehdään valuutassa {currency} kurssilla {rateSource} maksuhetkellä.",
     "chargeNoSource": "Veloitus tehdään valuutassa {currency}.",
     "refund": "Hyvitys: {terms}."
+  },
+  "PaymentReturn": {
+    "heading": "Tarkistamme maksua",
+    "text": "Palautamme sinut kauppaan hetken kuluttua.",
+    "hint": "Jos mitään ei tapahdu, napsauta «{button}».",
+    "backToShop": "Takaisin kauppaan"
   },
   "PaymentTest": {
     "attention": "Huomio:",

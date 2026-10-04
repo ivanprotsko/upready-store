@@ -13,6 +13,10 @@ import { legalHref } from "@lib/util/legal-links"
  * checkout mockup frame 10. Any other value, or none, renders nothing: this
  * banner never repeats a raw query-string value on the screen (rule 27d
  * acceptance 1).
+ *
+ * Since t-2026-10-04-48 the payment return sends nobody here: a Robokassa
+ * return lands on the checkout itself (`robokassa-retry-notice`). The banner
+ * stays for the `/cart?error=…` links already out in the world.
  */
 // `payment_pending`: a redirect provider (Robokassa) sent the customer back
 // before its webhook confirmed the payment (t03-tenant-secrets-robokassa).
@@ -45,24 +49,49 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
       : error === "payment_pending"
         ? "paymentPendingReason"
         : "orderFailedReason"
+  // A payment still being confirmed has not failed (Ivan's test, t-2026-10-04-48:
+  // «Платёж не прошёл» over «Оплата ещё подтверждается»), so it gets its own
+  // heading and the amber of a wait, not the red of an error.
+  const pending = error === "payment_pending"
 
   return (
     <div
-      className="w-full border-b border-ui-tag-red-border bg-ui-tag-red-bg"
+      className={
+        pending
+          ? "w-full border-b border-ui-tag-orange-border bg-ui-tag-orange-bg"
+          : "w-full border-b border-ui-tag-red-border bg-ui-tag-red-bg"
+      }
       data-testid="order-error-banner"
       data-value={error}
     >
       <div className="content-container flex flex-col gap-y-4 py-4 small:flex-row small:items-center small:justify-between small:gap-x-6">
         <div className="flex items-start gap-x-2">
           <span
-            className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-red-icon"
+            className={
+              pending
+                ? "mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-orange-icon"
+                : "mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-red-icon"
+            }
             aria-hidden
           />
           <div className="flex flex-col gap-y-0.5">
-            <span className="txt-compact-medium-plus text-ui-fg-error">
-              {t("heading")}
+            <span
+              className={
+                pending
+                  ? "txt-compact-medium-plus text-ui-fg-base"
+                  : "txt-compact-medium-plus text-ui-fg-error"
+              }
+              data-testid="order-error-heading"
+            >
+              {t(pending ? "pendingHeading" : "heading")}
             </span>
-            <span className="txt-compact-small text-ui-tag-red-text">
+            <span
+              className={
+                pending
+                  ? "txt-compact-small text-ui-tag-orange-text"
+                  : "txt-compact-small text-ui-tag-red-text"
+              }
+            >
               {t(reasonKey)}
             </span>
           </div>
