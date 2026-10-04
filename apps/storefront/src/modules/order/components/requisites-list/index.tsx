@@ -2,7 +2,7 @@
 
 import { requisiteIconSrc, type PaymentRequisite } from "@lib/tenant/manual-payment"
 import { Check, ChevronDownMini, SquareTwoStack } from "@medusajs/icons"
-import { Badge, IconButton, Text, clx } from "@medusajs/ui"
+import { Badge, Text, clx } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { useEffect, useId, useRef, useState } from "react"
@@ -54,19 +54,14 @@ export const requisiteInitials = (item: PaymentRequisite): string => {
   return letters.join("") || "?"
 }
 
-const COPIED_MS = 2000
+/** How long the row says «Скопировано» with the check mark before it looks as before. */
+export const COPIED_MS = 1500
 
-/** An icon button that copies `value`; it says «Скопировано» next to it for two seconds. */
-export const CopyButton = ({
-  value,
-  label,
-  "data-testid": testId,
-}: {
-  value: string
-  label: string
-  "data-testid"?: string
-}) => {
-  const t = useTranslations("ManualPayment")
+/**
+ * Copies `value` on demand and reports `copied` for `COPIED_MS` after a successful
+ * copy. A second click within that window restarts the window.
+ */
+export const useCopied = (value: string) => {
   const [copied, setCopied] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -79,7 +74,7 @@ export const CopyButton = ({
     []
   )
 
-  const onCopy = async () => {
+  const copy = async () => {
     const ok = await copyText(value)
     if (!ok) {
       return
@@ -91,28 +86,7 @@ export const CopyButton = ({
     timer.current = setTimeout(() => setCopied(false), COPIED_MS)
   }
 
-  return (
-    <span className="inline-flex shrink-0 items-center gap-x-1.5">
-      <span
-        role="status"
-        className={clx("txt-compact-xsmall-plus text-ui-tag-green-text", !copied && "sr-only")}
-        data-testid={testId ? `${testId}-status` : undefined}
-      >
-        {copied ? t("copied") : ""}
-      </span>
-      <IconButton
-        type="button"
-        size="small"
-        variant="transparent"
-        aria-label={label}
-        onClick={onCopy}
-        data-testid={testId}
-        data-copied={copied ? "true" : undefined}
-      >
-        {copied ? <Check className="text-ui-tag-green-icon" /> : <SquareTwoStack />}
-      </IconButton>
-    </span>
-  )
+  return { copied, copy }
 }
 
 /** The bank logo or the asset mark, 32 px; the initials in a badge when there is none or it fails to load. */
@@ -154,7 +128,12 @@ export const RequisiteIcon = ({
   )
 }
 
-/** One copyable value: a label over the value, the copy button at the end. */
+/**
+ * One copyable value: a label over the value, the copy mark at the end. The WHOLE
+ * row is the button (Ivan 04.10: «целый контейнер был кликабельным для выполнения
+ * копирования»): a click anywhere copies, the row then says «Скопировано» with a
+ * check mark for `COPIED_MS` and goes back. No hover tint on the row either.
+ */
 const ValueRow = ({
   label,
   value,
@@ -169,25 +148,48 @@ const ValueRow = ({
   copyLabel: string
   mono?: boolean
   "data-testid": string
-}) => (
-  <div className="flex items-center gap-x-2 rounded-md bg-ui-bg-subtle px-3 py-2">
-    <div className="flex min-w-0 flex-1 flex-col">
-      <Text size="xsmall" className="text-ui-fg-subtle">
-        {label}
-      </Text>
-      <span
-        className={clx(
-          "block select-all break-all txt-compact-medium text-ui-fg-base",
-          mono && "font-mono tabular-nums"
-        )}
-        data-testid={testId}
-      >
-        {value}
+}) => {
+  const t = useTranslations("ManualPayment")
+  const { copied, copy } = useCopied(copyValue ?? value)
+
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      aria-label={copyLabel}
+      className="flex w-full cursor-pointer items-center gap-x-2 rounded-md bg-ui-bg-subtle px-3 py-2 text-start focus-visible:outline-none focus-visible:shadow-borders-interactive-with-active"
+      data-testid={`${testId}-copy`}
+      data-copied={copied ? "true" : undefined}
+    >
+      <span className="flex min-w-0 flex-1 flex-col">
+        <Text as="span" size="xsmall" className="text-ui-fg-subtle">
+          {label}
+        </Text>
+        <span
+          className={clx(
+            "block select-all break-all txt-compact-medium text-ui-fg-base",
+            mono && "font-mono tabular-nums"
+          )}
+          data-testid={testId}
+        >
+          {value}
+        </span>
       </span>
-    </div>
-    <CopyButton value={copyValue ?? value} label={copyLabel} data-testid={`${testId}-copy`} />
-  </div>
-)
+      <span className="inline-flex shrink-0 items-center gap-x-1.5">
+        <span
+          role="status"
+          className={clx("txt-compact-xsmall-plus text-ui-tag-green-text", !copied && "sr-only")}
+          data-testid={`${testId}-copy-status`}
+        >
+          {copied ? t("copied") : ""}
+        </span>
+        <span className="inline-flex h-7 w-7 items-center justify-center text-ui-fg-muted" aria-hidden>
+          {copied ? <Check className="text-ui-tag-green-icon" /> : <SquareTwoStack />}
+        </span>
+      </span>
+    </button>
+  )
+}
 
 const RequisiteItem = ({
   item,
@@ -209,7 +211,8 @@ const RequisiteItem = ({
         aria-expanded={open}
         aria-controls={detailsId}
         onClick={onToggle}
-        className="flex w-full items-center gap-x-3 px-4 py-3 text-start transition-colors hover:bg-ui-bg-base-hover focus-visible:outline-none focus-visible:shadow-borders-interactive-with-active"
+        // Ivan 04.10: «убрать при наведении изменение цвета пункта» — no hover tint, the chevron says it opens.
+        className="flex w-full items-center gap-x-3 px-4 py-3 text-start focus-visible:outline-none focus-visible:shadow-borders-interactive-with-active"
         data-testid="requisite-toggle"
       >
         <RequisiteIcon item={item} />
