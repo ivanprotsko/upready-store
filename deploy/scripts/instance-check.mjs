@@ -119,6 +119,30 @@ export function checkDbAnalytics(ga4TenantCount, profile) {
   return [];
 }
 
+const LOGIN_METHOD_PROVIDERS = { email: ["emailpass"], yandex: ["yandex"], both: ["emailpass", "yandex"] };
+
+/**
+ * A tenant whose buyers sign in through a provider this instance does not allow (checklist K15,
+ * 04.10.2026: on RU only Yandex ID, Ivan «в рф должны быть конкретные способы авторизации и вход по
+ * обычно почте в это не входит»). Checked only where the profile lists `providers.auth.allowed`.
+ */
+export function checkDbLoginMethods(loginMethods, profile) {
+  const allowed = profile.providers?.auth?.allowed;
+  if (!Array.isArray(allowed)) return [];
+  const counts = new Map();
+  for (const method of loginMethods ?? []) counts.set(method, (counts.get(method) ?? 0) + 1);
+  const violations = [];
+  for (const [method, count] of counts) {
+    const missing = (LOGIN_METHOD_PROVIDERS[method] ?? []).filter((provider) => !allowed.includes(provider));
+    if (missing.length > 0) {
+      violations.push(
+        `${count} tenant(s) let buyers sign in with "${method}", which needs ${missing.join(", ")} — not allowed on instance ${profile.instance}`,
+      );
+    }
+  }
+  return violations;
+}
+
 /** Shells out to psql, the same way deploy/scripts/tenant-ingress-sync.sh does. Throws rather than guessing on a database that cannot be read. */
 function psql(databaseUrl, sql) {
   const out = execFileSync("psql", [databaseUrl, "-At", "-c", sql], { encoding: "utf8" });
@@ -134,7 +158,13 @@ export function queryDb(databaseUrl) {
     databaseUrl,
     "select count(*) from tenant where deleted_at is null and coalesce(metadata->'analytics'->>'ga4_measurement_id', '') != ''",
   );
-  return { configuredProviders, ga4TenantCount: Number(ga4Rows[0] ?? "0") };
+  // The backend's own default for a tenant that never saved one is "both"
+  // (`DEFAULT_BUYER_LOGIN_METHOD`, apps/backend/src/api/tenants/login-settings).
+  const loginMethods = psql(
+    databaseUrl,
+    "select coalesce(metadata->>'buyer_login_method', 'both') from tenant where deleted_at is null",
+  );
+  return { configuredProviders, ga4TenantCount: Number(ga4Rows[0] ?? "0"), loginMethods };
 }
 
 function main(argv) {
@@ -185,6 +215,7 @@ function main(argv) {
     violations.push(
       ...checkDbProviders(db.configuredProviders, profile),
       ...checkDbAnalytics(db.ga4TenantCount, profile),
+      ...checkDbLoginMethods(db.loginMethods, profile),
     );
   }
 
