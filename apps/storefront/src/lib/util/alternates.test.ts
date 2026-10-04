@@ -45,6 +45,18 @@ describe("buildAlternatesFor", () => {
     expect(languages["x-default"]).toBe("https://cherkashino.com/en/products/x")
   })
 
+  it("points x-default at the shop's own default language when it publishes it", () => {
+    const { languages } = buildAlternatesFor("https://cherkashino.com", "ru", "/store", ["ru", "en"], [], "en")
+
+    expect(languages["x-default"]).toBe("https://cherkashino.com/en/store")
+  })
+
+  it("ignores a shop default the shop does not publish", () => {
+    const { languages } = buildAlternatesFor("https://shop.example", "ru", "/", ["ru"], [], "de")
+
+    expect(languages["x-default"]).toBe("https://shop.example/ru")
+  })
+
   it("keeps a shop's own page when it already publishes the sister's language", () => {
     const { languages } = buildAlternatesFor(
       "https://cherkashino.com",
