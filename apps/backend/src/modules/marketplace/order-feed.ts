@@ -1,45 +1,46 @@
+import { MedusaError } from "@medusajs/framework/utils";
 import type { OrderStatusKey } from "./order-status";
 import { ORDER_STATUS_KEYS, ORDER_STATUS_LABELS, statusKeyOf } from "./order-status";
 
 /**
- * One order feed over the shop and every marketplace (w15-mp-orders-desk).
+ * The orders of ONE marketplace as the import stored them in `mp_order`
+ * («Wildberries → Заказы», mp-section-design task-04; first built as the
+ * single feed of w15-mp-orders-desk).
  *
- * Rows 2, 6, 7 and 21 of the parity matrix, and the thing Oksana asked for in
- * her own words: «единая панель заказов WB + Ozon + магазин»
- * (`research/gap-matrix.md`, message #468851).
+ * What changed against w15: the shop's own orders are no longer mixed in
+ * (they live under «Продажи → Заказы», decision 4.1 of the design round), the
+ * list is ONE marketplace, and no period is applied unless the owner picks a
+ * date: the screen lists every order the marketplace sent, the way `/orders`
+ * lists every order of the shop.
  *
- * READ-ONLY, BY CONSTRUCTION. Nothing in this file, and nothing in the three
- * routes that use it, can reach a marketplace: the rows come from `mp_order` /
+ * READ-ONLY, BY CONSTRUCTION. Nothing in this file, and nothing in the routes
+ * that use it, can reach a marketplace: the rows come from `mp_order` /
  * `mp_order_line`, which the projector fills from mirrors that were imported
  * by a script. There is no adapter here, no `read`, no endpoint id, and the
  * suite `__tests__/order-feed-read-only.unit.spec.ts` fails the moment one
  * appears. Ivan's order of 2026-09-16 02:46 WITA: the screen SHOWS marketplace
  * orders and never changes them.
  *
- * THE PURE HALF IS HERE ON PURPOSE. Period resolution, filtering, the common
- * status key and the CSV are functions of their arguments, so they are tested
+ * THE PURE HALF IS HERE ON PURPOSE. Reading the query, filtering, sorting, the
+ * facets and the CSV are functions of their arguments, so they are tested
  * without a stand and the routes stay thin.
  */
 
-/** The period the screen opens on, and the number it must SAY on the screen. */
+/** The period «Аналитика» opens on, and the number it must SAY on the screen. */
 export const DEFAULT_PERIOD_DAYS = 30;
 
-/** Where one row of the feed came from. `shop` is this platform's own order. */
-export type FeedSource = "shop" | "wb" | "ozon";
+/** The marketplace a row came from. */
+export type FeedSource = "wb" | "ozon";
 
 export type FeedRow = {
-  /**
-   * The id the order card is opened by. Prefixed with its table's own prefix
-   * (`mporder_…`, `order_…`), so one route serves both halves and no separate
-   * `source` parameter can go missing from a link.
-   */
+  /** `mp_order.id` (`mporder_…`), what the order card is opened by. */
   id: string;
   source: FeedSource;
-  /** «Магазин», «Wildberries», «Ozon» — what the column shows. */
+  /** «Wildberries», «Ozon». */
   source_label: string;
-  /** The number the owner knows the order by: WB/Ozon's own id, or `#12`. */
+  /** The number the owner knows the order by: the marketplace's own id. */
   number: string;
-  /** `FBS | FBO | DBS | rFBS | …`, `null` for a shop order, which has no scheme. */
+  /** `FBS | FBO | DBS | rFBS | …`, `null` where the marketplace's method does not say. */
   scheme: string | null;
   /** The marketplace's own word, untouched. */
   status_raw: string | null;
@@ -53,17 +54,18 @@ export type FeedRow = {
   buyer_region: string | null;
   warehouse_name: string | null;
   total: number | null;
+  /**
+   * The currency `total` is IN: the seller's, not the code the order carries.
+   * WB stores `convertedPrice` / `finished_price` in `total`, both in the
+   * seller's own currency, while the order's code is the BUYER's country
+   * (BYN, KZT, …); printing «1 291,56 ₸» over a sum in roubles would be a label
+   * the data does not support (rule 17a, measured in `analytics.ts`).
+   */
   currency: string | null;
+  /** The code the marketplace put on the order: the buyer's country currency. */
+  buyer_currency: string | null;
   is_cancelled: boolean;
   lines_count: number;
-};
-
-export type FeedFilters = {
-  sources: FeedSource[];
-  schemes: string[];
-  statuses: OrderStatusKey[];
-  from: Date;
-  to: Date;
 };
 
 export type ResolvedPeriod = {
@@ -106,7 +108,8 @@ const parseDate = (value: unknown): Date | null => {
 };
 
 /**
- * The period the query asks for, or the last 30 days.
+ * The period the query asks for, or the last 30 days. «Аналитика» reads its
+ * period through this; the order list does not apply one at all.
  *
  * `now` is an ARGUMENT, not `new Date()` inside: the tests pin it, and a
  * function that reads the clock itself cannot be measured (rule 17a).
@@ -154,96 +157,279 @@ const asList = (value: unknown): string[] => {
     .filter(Boolean);
 };
 
-export const FEED_SOURCES: FeedSource[] = ["shop", "wb", "ozon"];
-
 export const SOURCE_LABELS: Record<FeedSource, string> = {
-  shop: "Магазин",
   wb: "Wildberries",
   ozon: "Ozon",
 };
 
-/**
- * The filters, read from the query string.
- *
- * An unknown value is DROPPED rather than made to match nothing: a link with a
- * stale marketplace in it shows the other marketplaces instead of an empty
- * table the owner cannot explain. An empty list means "no filter on this
- * dimension", which is what the screen opens with.
- */
-export const resolveFilters = (
-  query: Record<string, unknown>,
-  now: Date = new Date(),
-): FeedFilters & { period: ResolvedPeriod } => {
-  const period = resolvePeriod(query, now);
+/* ----------------------------------------------------------------------------
+ * The query of the list: `q`, `status`, `scheme`, `ordered_at`, `order`
+ * ------------------------------------------------------------------------- */
 
-  const sources = asList(query.source).filter((one): one is FeedSource =>
-    FEED_SOURCES.includes(one as FeedSource),
-  );
+/**
+ * The value of the scheme filter that means «the marketplace did not say».
+ * WB's statistics method carries no scheme at all (19 717 of 30 382 orders on
+ * the stand, 2026-10-05), and a filter that could not pick those out would
+ * leave the owner no way to see them apart.
+ */
+export const NO_SCHEME = "none";
+export const NO_SCHEME_LABEL = "Без схемы";
+
+export const MP_ORDER_SORT_FIELDS = ["ordered_at", "total", "number"] as const;
+export type MpOrderSortField = (typeof MP_ORDER_SORT_FIELDS)[number];
+
+/** Newest first, as `/orders` of the shop opens. */
+export const DEFAULT_MP_ORDER_SORT: MpOrderSort = { field: "ordered_at", desc: true };
+
+export type MpOrderSort = { field: MpOrderSortField; desc: boolean };
+
+/** The bounds of the date filter, as the panel's date filter writes them. */
+export type MpOrderDateRange = { $gte?: Date; $gt?: Date; $lte?: Date; $lt?: Date };
+
+export type MpOrdersQuery = {
+  /** Lower-cased, trimmed; `null` when there is nothing to search for. */
+  q: string | null;
+  statuses: OrderStatusKey[];
+  /** Upper-cased marketplace words, and `none` for «без схемы». */
+  schemes: string[];
+  ordered_at: MpOrderDateRange | null;
+  sort: MpOrderSort;
+};
+
+const DATE_OPERATORS = ["$gte", "$gt", "$lte", "$lt"] as const;
+
+const invalid = (message: string) => new MedusaError(MedusaError.Types.INVALID_DATA, message);
+
+/**
+ * `ordered_at` arrives the way the panel's date filter writes it, a JSON
+ * object `{"$gte":"…","$lte":"…"}` in one query parameter; a client that sends
+ * `ordered_at[$gte]=…` gets the object already parsed. Anything else is a 400
+ * rather than an ignored filter: a list the owner believes is narrowed to
+ * «последние 7 дней» while it is not would be a wrong answer with no sign on it.
+ */
+const resolveDateRange = (value: unknown): MpOrderDateRange | null => {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+  let raw: unknown = value;
+  if (typeof value === "string") {
+    try {
+      raw = JSON.parse(value);
+    } catch {
+      throw invalid(`ordered_at: ожидается JSON вида {"$gte":"…"}, пришло ${value.slice(0, 80)}`);
+    }
+  }
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+    throw invalid("ordered_at: ожидается объект с $gte, $gt, $lte или $lt");
+  }
+  const range: MpOrderDateRange = {};
+  for (const [key, bound] of Object.entries(raw as Record<string, unknown>)) {
+    if (!(DATE_OPERATORS as readonly string[]).includes(key)) {
+      throw invalid(`ordered_at: неизвестный оператор ${key}`);
+    }
+    const at = parseDate(bound);
+    if (!at) {
+      throw invalid(`ordered_at.${key}: не дата`);
+    }
+    range[key as (typeof DATE_OPERATORS)[number]] = at;
+  }
+  return Object.keys(range).length ? range : null;
+};
+
+const resolveSort = (value: unknown): MpOrderSort => {
+  const raw = typeof value === "string" ? value.trim() : "";
+  const desc = raw.startsWith("-");
+  const field = desc ? raw.slice(1) : raw;
+  if (!(MP_ORDER_SORT_FIELDS as readonly string[]).includes(field)) {
+    return DEFAULT_MP_ORDER_SORT;
+  }
+  return { field: field as MpOrderSortField, desc };
+};
+
+/**
+ * The query string of the list and of its CSV, read once.
+ *
+ * An unknown status or sort field is DROPPED rather than made to match
+ * nothing: a link with a stale value in it shows the list instead of an empty
+ * table the owner cannot explain. An empty list means «no filter on this
+ * dimension». The tenant is NOT in here: it comes from the token
+ * (`getTenantScope`), never from the query.
+ */
+export const resolveMpOrdersQuery = (query: Record<string, unknown>): MpOrdersQuery => {
   const statuses = asList(query.status).filter((one): one is OrderStatusKey =>
     ORDER_STATUS_KEYS.includes(one as OrderStatusKey),
   );
   /** Schemes are the marketplaces' own words, so they are matched case-insensitively. */
-  const schemes = asList(query.scheme).map((one) => one.toUpperCase());
+  const schemes = asList(query.scheme).map((one) =>
+    one.toLowerCase() === NO_SCHEME ? NO_SCHEME : one.toUpperCase(),
+  );
+  const q = typeof query.q === "string" && query.q.trim() ? query.q.trim().toLowerCase() : null;
 
-  return { sources, statuses, schemes, from: period.from, to: period.to, period };
+  return {
+    q,
+    statuses: [...new Set(statuses)],
+    schemes: [...new Set(schemes)],
+    ordered_at: resolveDateRange(query.ordered_at),
+    sort: resolveSort(query.order),
+  };
 };
 
-/**
- * A row is in the period when its own date is, and a row WITHOUT a date is
- * out of every period.
- *
- * That is a decision, not an oversight: an order the marketplace never dated
- * cannot be claimed to fall inside «последние 30 дней», and dropping it into
- * the range anyway would make the count on the screen a number nobody can
- * reproduce. The list route reports how many such rows it set aside, so they
- * are visible rather than lost (rule 20a).
- */
-export const inPeriod = (orderedAt: Date | string | null, from: Date, to: Date): boolean => {
+/** The page of the list: 20 by default, as the screen asks, and never more than 200. */
+export const resolvePage = (query: Record<string, unknown>): { limit: number; offset: number } => {
+  const limitRaw = Number(query.limit ?? 20);
+  const offsetRaw = Number(query.offset ?? 0);
+  const limit = Number.isFinite(limitRaw) ? Math.min(Math.max(1, Math.floor(limitRaw)), 200) : 20;
+  const offset = Number.isFinite(offsetRaw) && offsetRaw > 0 ? Math.floor(offsetRaw) : 0;
+  return { limit, offset };
+};
+
+const inRange = (orderedAt: string | null, range: MpOrderDateRange): boolean => {
+  /**
+   * An order the marketplace never dated is outside EVERY date range. Claiming
+   * it falls inside «последние 7 дней» would make the count a number nobody can
+   * reproduce in SQL; without a date filter it is in the list, last.
+   */
   if (!orderedAt) {
     return false;
   }
-  const at = orderedAt instanceof Date ? orderedAt : new Date(orderedAt);
-  if (Number.isNaN(at.getTime())) {
+  const at = new Date(orderedAt).getTime();
+  if (Number.isNaN(at)) {
     return false;
   }
-  return at >= from && at <= to;
+  if (range.$gte && at < range.$gte.getTime()) return false;
+  if (range.$gt && at <= range.$gt.getTime()) return false;
+  if (range.$lte && at > range.$lte.getTime()) return false;
+  if (range.$lt && at >= range.$lt.getTime()) return false;
+  return true;
 };
 
-/** Everything but the period, which the loaders apply while reading. */
-export const matchesFilters = (row: FeedRow, filters: FeedFilters): boolean => {
-  if (filters.sources.length && !filters.sources.includes(row.source)) {
+/** `q` looks in the two fields the screen names: the number and the buyer's region. */
+export const matchesMpOrdersQuery = (row: FeedRow, query: MpOrdersQuery): boolean => {
+  if (query.statuses.length && !query.statuses.includes(row.status_key)) {
     return false;
   }
-  if (filters.statuses.length && !filters.statuses.includes(row.status_key)) {
+  if (query.schemes.length) {
+    const scheme = row.scheme ? row.scheme.toUpperCase() : NO_SCHEME;
+    if (!query.schemes.includes(scheme)) {
+      return false;
+    }
+  }
+  if (query.ordered_at && !inRange(row.ordered_at, query.ordered_at)) {
     return false;
   }
-  if (filters.schemes.length) {
-    const scheme = row.scheme ? row.scheme.toUpperCase() : null;
-    if (!scheme || !filters.schemes.includes(scheme)) {
+  if (query.q) {
+    const inNumber = row.number.toLowerCase().includes(query.q);
+    const inRegion = row.buyer_region ? row.buyer_region.toLowerCase().includes(query.q) : false;
+    if (!inNumber && !inRegion) {
       return false;
     }
   }
   return true;
 };
 
-/**
- * A module link (`tenant.orders`, `tenant.products`, …) answers one entry per
- * LINK ROW, not per surviving order: a soft-deleted order still has its link
- * row, and the graph hands back `undefined` in its place instead of dropping
- * the slot. Every loader over such a list runs it through this first, or a
- * shop with one soft-deleted order 500s on its own order screen.
- */
-export const compactLinkedRows = <T>(rows: (T | null | undefined)[] | null | undefined): T[] =>
-  (rows ?? []).filter((row): row is T => Boolean(row));
-
-/** Newest first, and a row with no date last rather than first. */
-export const byDateDesc = (left: FeedRow, right: FeedRow): number => {
-  const a = left.ordered_at ? new Date(left.ordered_at).getTime() : Number.NEGATIVE_INFINITY;
-  const b = right.ordered_at ? new Date(right.ordered_at).getTime() : Number.NEGATIVE_INFINITY;
-  return b - a;
+const sortValue = (row: FeedRow, field: MpOrderSortField): number | string | null => {
+  switch (field) {
+    case "ordered_at": {
+      if (!row.ordered_at) return null;
+      const at = new Date(row.ordered_at).getTime();
+      return Number.isNaN(at) ? null : at;
+    }
+    case "total":
+      return row.total;
+    case "number":
+      return row.number;
+  }
 };
 
-type MpOrderRow = {
+const collator = new Intl.Collator("ru", { numeric: true });
+
+/**
+ * The comparator of the list.
+ *
+ * A row WITHOUT a value goes LAST in both directions: an undated order is not
+ * «the oldest» and not «the newest», it is an order the marketplace did not
+ * date, and putting it on top of «сначала новые» would push the first real
+ * order off the first page. Ties are broken by id, so a page boundary never
+ * shows one row twice or skips one.
+ */
+export const compareMpOrders =
+  (sort: MpOrderSort) =>
+  (left: FeedRow, right: FeedRow): number => {
+    const a = sortValue(left, sort.field);
+    const b = sortValue(right, sort.field);
+    if (a === null && b !== null) return 1;
+    if (b === null && a !== null) return -1;
+    if (a !== null && b !== null && a !== b) {
+      const order =
+        typeof a === "number" && typeof b === "number" ? a - b : collator.compare(String(a), String(b));
+      if (order !== 0) {
+        return sort.desc ? -order : order;
+      }
+    }
+    return left.id < right.id ? -1 : left.id > right.id ? 1 : 0;
+  };
+
+/** What the screen offers in each filter, with how many orders each option holds. */
+export type MpOrderFacets = {
+  statuses: { value: string; label: string; count: number }[];
+  schemes: { value: string; label: string; count: number }[];
+};
+
+/**
+ * The facets are counted over ALL the orders of the marketplace, before any
+ * filter, so picking «Отменён» does not make every other status disappear
+ * from its own filter. Statuses go in the order of the common keys, schemes
+ * alphabetically, «Без схемы» last.
+ */
+export const mpOrderFacets = (rows: FeedRow[]): MpOrderFacets => {
+  const statuses = new Map<OrderStatusKey, number>();
+  const schemes = new Map<string, number>();
+  for (const row of rows) {
+    statuses.set(row.status_key, (statuses.get(row.status_key) ?? 0) + 1);
+    const scheme = row.scheme ?? NO_SCHEME;
+    schemes.set(scheme, (schemes.get(scheme) ?? 0) + 1);
+  }
+
+  return {
+    statuses: ORDER_STATUS_KEYS.filter((one) => statuses.has(one)).map((one) => ({
+      value: one,
+      label: ORDER_STATUS_LABELS[one],
+      count: statuses.get(one) ?? 0,
+    })),
+    schemes: [...schemes.entries()]
+      .sort(([a], [b]) => (a === NO_SCHEME ? 1 : b === NO_SCHEME ? -1 : a.localeCompare(b)))
+      .map(([value, count]) => ({
+        value,
+        label: value === NO_SCHEME ? NO_SCHEME_LABEL : value,
+        count,
+      })),
+  };
+};
+
+export type MpOrdersSelection = {
+  /** The rows the query asks for, sorted, before paging. */
+  rows: FeedRow[];
+  /** Over every order of the marketplace, before the filters. */
+  facets: MpOrderFacets;
+  /** How many orders of the marketplace carry no date at all. */
+  undated: number;
+  /** How many orders of the marketplace there are at all. */
+  total: number;
+};
+
+/** The one function the list and the CSV both call, so the file IS the table. */
+export const selectMpOrders = (all: FeedRow[], query: MpOrdersQuery): MpOrdersSelection => ({
+  rows: all.filter((row) => matchesMpOrdersQuery(row, query)).sort(compareMpOrders(query.sort)),
+  facets: mpOrderFacets(all),
+  undated: all.filter((row) => !row.ordered_at).length,
+  total: all.length,
+});
+
+/* ----------------------------------------------------------------------------
+ * One `mp_order` row in the shape of the list
+ * ------------------------------------------------------------------------- */
+
+export type MpOrderRow = {
   id: string;
   marketplace: string;
   external_id: string;
@@ -262,7 +448,7 @@ type MpOrderRow = {
  * Medusa stores money in a `bigNumber` column, which comes back as a string,
  * as a number, or as `{ value }` depending on which loader read it. A value
  * that cannot be read as a number stays `null` instead of becoming a zero the
- * feed would sort and sum as a free order (rule 20a).
+ * list would sort and sum as a free order (rule 20a).
  */
 export const toAmount = (value: unknown): number | null => {
   if (value === null || value === undefined || value === "") {
@@ -284,7 +470,16 @@ const iso = (value: Date | string | null): string | null => {
   return Number.isNaN(at.getTime()) ? null : at.toISOString();
 };
 
-export const mpOrderToRow = (row: MpOrderRow, linesCount: number): FeedRow => {
+/**
+ * `sellerCurrency` is the currency of the shop's own price list on this
+ * marketplace (`mp_offer.currency`), which is what `total` is in; `null` when
+ * the marketplace never said, and then no currency is claimed.
+ */
+export const mpOrderToRow = (
+  row: MpOrderRow,
+  linesCount: number,
+  sellerCurrency: string | null = null,
+): FeedRow => {
   const source = row.marketplace as FeedSource;
   const statusKey = statusKeyOf(source, row.status, row.status_detail);
 
@@ -302,78 +497,44 @@ export const mpOrderToRow = (row: MpOrderRow, linesCount: number): FeedRow => {
     buyer_region: row.buyer_region,
     warehouse_name: row.warehouse_name,
     total: toAmount(row.total),
-    currency: row.currency,
+    currency: sellerCurrency,
+    buyer_currency: row.currency,
     is_cancelled: Boolean(row.is_cancelled),
     lines_count: linesCount,
   };
 };
 
-type ShopOrderRow = {
-  id: string;
-  display_id?: number | null;
-  status?: string | null;
-  fulfillment_status?: string | null;
-  created_at?: Date | string | null;
-  currency_code?: string | null;
-  total?: unknown;
-  items?: unknown[] | null;
-  shipping_address?: { province?: string | null; city?: string | null } | null;
-};
+/* ----------------------------------------------------------------------------
+ * The CSV
+ * ------------------------------------------------------------------------- */
 
-/**
- * A shop order in the same shape as a marketplace one.
- *
- * `scheme` is `null` and stays `null`: a shop order is not fulfilled under a
- * marketplace scheme, and inventing a label «магазин» for that column would
- * put a value where the answer is «неприменимо» (rule 20a). The screen shows
- * an em dash there.
- */
-export const shopOrderToRow = (row: ShopOrderRow): FeedRow => {
-  const statusKey = statusKeyOf("shop", row.status ?? null, row.fulfillment_status ?? null);
-  const address = row.shipping_address ?? null;
+/** The most rows one file carries; a larger set is cut and the screen says so. */
+export const MP_ORDERS_EXPORT_LIMIT = 10_000;
 
-  return {
-    id: row.id,
-    source: "shop",
-    source_label: SOURCE_LABELS.shop,
-    number: row.display_id ? `#${row.display_id}` : row.id,
-    scheme: null,
-    status_raw: row.status ?? null,
-    status_detail: row.fulfillment_status ?? null,
-    status_key: statusKey,
-    status_label: ORDER_STATUS_LABELS[statusKey],
-    ordered_at: iso(row.created_at ?? null),
-    buyer_region: address?.province || address?.city || null,
-    warehouse_name: null,
-    total: toAmount(row.total),
-    currency: row.currency_code ? row.currency_code.toUpperCase() : null,
-    is_cancelled: statusKey === "cancelled",
-    lines_count: Array.isArray(row.items) ? row.items.length : 0,
-  };
-};
-
-/** The columns of the export, in the order the owner reads them. */
-export const CSV_COLUMNS = [
-  "source",
-  "number",
-  "scheme",
-  "status",
-  "status_marketplace",
-  "status_marketplace_detail",
-  "ordered_at",
-  "region",
-  "warehouse",
-  "total",
-  "currency",
-  "lines",
+/** The columns of the export, in the order the owner reads them, named as on the screen. */
+export const MP_ORDERS_CSV_COLUMNS = [
+  "Номер",
+  "Дата заказа",
+  "Статус",
+  "Статус площадки",
+  "Второй статус площадки",
+  "Схема",
+  "Регион",
+  "Склад",
+  "Итого по заказу",
+  "Валюта",
+  "Валюта покупателя",
+  "Строк в заказе",
 ] as const;
 
+const SEPARATOR = ";";
+
 /**
- * RFC 4180 quoting, with one addition this file is explicit about: a field
- * whose first character is `=`, `+`, `-` or `@` is prefixed with a single
- * quote, because Excel and LibreOffice treat such a cell as a FORMULA. WB's
- * own identifiers do not start that way today, but a CSV built from data a
- * marketplace supplies is exactly where that stops being true.
+ * RFC 4180 quoting over `;`, with one addition this file is explicit about: a
+ * field whose first character is `=`, `+`, `-` or `@` is prefixed with a
+ * single quote, because Excel and LibreOffice treat such a cell as a FORMULA.
+ * WB's own identifiers do not start that way today, but a CSV built from data
+ * a marketplace supplies is exactly where that stops being true.
  */
 const csvCell = (value: unknown): string => {
   if (value === null || value === undefined) {
@@ -383,100 +544,70 @@ const csvCell = (value: unknown): string => {
   if (/^[=+\-@]/.test(text)) {
     text = `'${text}`;
   }
-  if (/[",\n\r;]/.test(text)) {
+  /** The separator is `;`, so a comma inside a value (`1290,5`) needs no quotes. */
+  if (/[";\n\r]/.test(text)) {
     return `"${text.replace(/"/g, '""')}"`;
   }
   return text;
 };
 
 /**
+ * A sum as a Russian-locale spreadsheet reads it. `;` between the columns is
+ * the list separator of the Russian Excel, and the same Excel reads `1290.5`
+ * as text; with the comma it is a number the owner can add up.
+ */
+const csvAmount = (value: number | null): string | null =>
+  value === null ? null : String(value).replace(".", ",");
+
+/**
  * The export of EXACTLY the rows handed in, header first.
  *
- * `\r\n` and a UTF-8 BOM, because the owner opens this in Excel on Windows:
- * without the BOM every Cyrillic column heading arrives as mojibake, and that
- * is the whole difference between an export that works and one that gets
- * reported as broken.
+ * `;`, `\r\n` and a UTF-8 BOM, because the owner opens this in Excel on
+ * Windows: without the BOM every Cyrillic column heading arrives as mojibake,
+ * and that is the whole difference between an export that works and one that
+ * gets reported as broken.
  */
-export const toCsv = (rows: FeedRow[]): string => {
-  const lines = [CSV_COLUMNS.join(",")];
+export const toMpOrdersCsv = (rows: FeedRow[]): string => {
+  const lines = [MP_ORDERS_CSV_COLUMNS.map(csvCell).join(SEPARATOR)];
 
   for (const row of rows) {
     lines.push(
       [
-        csvCell(row.source_label),
-        csvCell(row.number),
-        csvCell(row.scheme),
-        csvCell(row.status_label),
-        csvCell(row.status_raw),
-        csvCell(row.status_detail),
-        csvCell(row.ordered_at),
-        csvCell(row.buyer_region),
-        csvCell(row.warehouse_name),
-        csvCell(row.total),
-        csvCell(row.currency),
-        csvCell(row.lines_count),
-      ].join(","),
+        row.number,
+        row.ordered_at,
+        row.status_label,
+        row.status_raw,
+        row.status_detail,
+        row.scheme,
+        row.buyer_region,
+        row.warehouse_name,
+        csvAmount(row.total),
+        row.currency,
+        row.buyer_currency,
+        row.lines_count,
+      ]
+        .map(csvCell)
+        .join(SEPARATOR),
     );
   }
 
   return `﻿${lines.join("\r\n")}\r\n`;
 };
 
-/** What the screen offers in each filter, counted over the rows of the period. */
-export type FeedFacets = {
-  sources: { value: string; label: string; count: number }[];
-  schemes: { value: string; label: string; count: number }[];
-  statuses: { value: string; label: string; count: number }[];
-};
+/* ----------------------------------------------------------------------------
+ * What the owner must be told about the marketplace
+ * ------------------------------------------------------------------------- */
 
 /**
- * The facets are counted over the rows of the PERIOD, before the other
- * filters are applied, so picking «Wildberries» does not make every other
- * marketplace disappear from its own filter.
- */
-export const facetsOf = (rows: FeedRow[]): FeedFacets => {
-  const count = <T extends string>(values: (T | null)[]) => {
-    const tally = new Map<T, number>();
-    for (const value of values) {
-      if (value === null) {
-        continue;
-      }
-      tally.set(value, (tally.get(value) ?? 0) + 1);
-    }
-    return tally;
-  };
-
-  const sources = count(rows.map((row) => row.source));
-  const schemes = count(rows.map((row) => row.scheme));
-  const statuses = count(rows.map((row) => row.status_key));
-
-  return {
-    sources: FEED_SOURCES.filter((one) => sources.has(one)).map((one) => ({
-      value: one,
-      label: SOURCE_LABELS[one],
-      count: sources.get(one) ?? 0,
-    })),
-    schemes: [...schemes.entries()]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([value, total]) => ({ value, label: value, count: total })),
-    statuses: ORDER_STATUS_KEYS.filter((one) => statuses.has(one)).map((one) => ({
-      value: one,
-      label: ORDER_STATUS_LABELS[one],
-      count: statuses.get(one) ?? 0,
-    })),
-  };
-};
-
-/**
- * What the owner has to be TOLD about one marketplace before they read the
+ * What the owner has to be TOLD about the marketplace before they read the
  * table (w15-mp-orders-desk).
  *
  * THE RULE THIS EXISTS FOR: «a failed run is a red row, not an empty table»
- * (rule 20a). An empty column under «Wildberries» has five different causes
- * and the owner cannot tell them apart by looking, so the screen names the
- * cause. It is a pure function, and its five outcomes are covered by
- * `__tests__/order-feed.unit.spec.ts`, because a rule about what must never be
- * silent has to be provable and not promised.
+ * (rule 20a). An empty list has five different causes and the owner cannot
+ * tell them apart by looking, so the screen names the cause. It is a pure
+ * function, and its outcomes are covered by `__tests__/order-feed.unit.spec.ts`,
+ * because a rule about what must never be silent has to be provable and not
+ * promised.
  *
  *   missing       no key at all — nothing was ever imported.
  *   never_run     a key, but the order import has not run.

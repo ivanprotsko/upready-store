@@ -29,7 +29,11 @@ import { MARKETPLACES } from "../registry";
 
 const REPO_ROOT = path.resolve(__dirname, "../../../../../..");
 
-/** The backend half of the screen: three routes and what they import. */
+/**
+ * The backend half of the screen: three routes and the loader they share,
+ * under the marketplace since mp-section-design task-04 (the w15 feed lived at
+ * `api/tenants/marketplace-orders`).
+ */
 const HANDLER_DIR = path.join(
   REPO_ROOT,
   "apps",
@@ -37,7 +41,9 @@ const HANDLER_DIR = path.join(
   "src",
   "api",
   "tenants",
-  "marketplace-orders",
+  "marketplaces",
+  "[marketplace]",
+  "orders",
 );
 
 const FEED_MODULES = [
@@ -45,14 +51,15 @@ const FEED_MODULES = [
   path.join(REPO_ROOT, "apps", "backend", "src", "modules", "marketplace", "order-status.ts"),
 ];
 
-/** The panel half: the screens the owner opens. */
+/** The panel half: «Wildberries → Заказы» and its order card (`mp-orders/detail`). */
 const PANEL_DIR = path.join(
   REPO_ROOT,
   "apps",
   "tenant-panel",
   "src",
   "routes",
-  "marketplace-orders",
+  "marketplaces",
+  "mp-orders",
 );
 
 const PANEL_HOOK = path.join(
@@ -160,8 +167,9 @@ describe("бэкенд-обработчики ленты заказов", () => 
 describe("экран панели", () => {
   const panelFiles = [...walk(PANEL_DIR), PANEL_HOOK].filter((file) => existsSync(file));
 
-  it("экран существует", () => {
-    expect(panelFiles.length).toBeGreaterThanOrEqual(2);
+  it("экран существует: и список, и карточка заказа попадают под проверку", () => {
+    expect(panelFiles.length).toBeGreaterThanOrEqual(4);
+    expect(panelFiles.some((file) => file.includes(`${path.sep}detail${path.sep}`))).toBe(true);
   });
 
   it.each([...walk(PANEL_DIR), PANEL_HOOK].filter((file) => existsSync(file)))(

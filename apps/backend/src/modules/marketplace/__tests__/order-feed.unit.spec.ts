@@ -1,17 +1,16 @@
 import {
-  CSV_COLUMNS,
   DEFAULT_PERIOD_DAYS,
-  byDateDesc,
-  compactLinkedRows,
-  facetsOf,
-  inPeriod,
-  matchesFilters,
+  MP_ORDERS_CSV_COLUMNS,
+  NO_SCHEME,
+  compareMpOrders,
+  matchesMpOrdersQuery,
   mpOrderToRow,
-  resolveFilters,
+  resolveMpOrdersQuery,
+  resolvePage,
   resolvePeriod,
-  shopOrderToRow,
+  selectMpOrders,
   toAmount,
-  toCsv,
+  toMpOrdersCsv,
   type FeedRow,
 } from "../order-feed";
 import { connectionNotice } from "../order-feed";
@@ -19,7 +18,8 @@ import { ORDER_STATUS_LABELS, statusKeyOf } from "../order-status";
 import { canonicalScheme } from "../scheme";
 
 /**
- * The pure half of the single order feed (w15-mp-orders-desk).
+ * The pure half of «Wildberries → Заказы» (w15-mp-orders-desk, one
+ * marketplace since mp-section-design task-04).
  *
  * Everything here is a function of its arguments — the clock included, which
  * is why `resolvePeriod` takes `now` instead of reading it — so these run
@@ -46,6 +46,7 @@ const mpRow = (over: Partial<Parameters<typeof mpOrderToRow>[0]> = {}) =>
       ...over,
     } as never,
     1,
+    "RUB",
   );
 
 describe("период по умолчанию", () => {
@@ -88,32 +89,68 @@ describe("период по умолчанию", () => {
 });
 
 describe("заказ без даты", () => {
-  it("не попадает ни в один период — вместо того чтобы попасть во все", () => {
-    expect(inPeriod(null, new Date("2000-01-01"), NOW)).toBe(false);
-    expect(inPeriod("не дата", new Date("2000-01-01"), NOW)).toBe(false);
+  const dated = mpRow();
+  const undated = mpRow({ id: "mporder_2", ordered_at: null });
+
+  it("в списке есть и считается в undated, пока дата не выбрана", () => {
+    const selection = selectMpOrders([undated, dated], resolveMpOrdersQuery({}));
+
+    expect(selection.rows.map((row) => row.id)).toEqual(["mporder_1", "mporder_2"]);
+    expect(selection.undated).toBe(1);
+    expect(selection.total).toBe(2);
   });
 
-  it("в сортировке уходит вниз, а не наверх", () => {
-    const dated = mpRow();
-    const undated = mpRow({ id: "mporder_2", ordered_at: null });
+  it("не попадает ни в один фильтр по дате — вместо того чтобы попасть во все", () => {
+    const query = resolveMpOrdersQuery({ ordered_at: '{"$gte":"2000-01-01T00:00:00.000Z"}' });
 
-    expect([undated, dated].sort(byDateDesc)[0].id).toBe("mporder_1");
+    expect(matchesMpOrdersQuery(undated, query)).toBe(false);
+    expect(matchesMpOrdersQuery(dated, query)).toBe(true);
+    /* undated считается по всем заказам площадки, а не по отфильтрованным. */
+    expect(selectMpOrders([undated, dated], query).undated).toBe(1);
   });
 });
 
-describe("заказ, чья ссылка ведёт на удалённый заказ", () => {
-  it("пропускается, а не роняет загрузку ленты", () => {
-    const survivor = { id: "order_1", created_at: new Date("2026-09-10T10:00:00.000Z") };
-    const linked = [survivor, undefined, null, survivor];
+describe("сортировка", () => {
+  const rows = [
+    mpRow({ id: "mporder_a", ordered_at: null, total: null, external_id: "30" }),
+    mpRow({ id: "mporder_b", ordered_at: new Date("2026-09-10T10:00:00.000Z"), total: 500, external_id: "4" }),
+    mpRow({ id: "mporder_c", ordered_at: new Date("2026-09-12T10:00:00.000Z"), total: 1500, external_id: "200" }),
+  ];
+  const ids = (order: string) =>
+    [...rows].sort(compareMpOrders(resolveMpOrdersQuery({ order }).sort)).map((row) => row.id);
 
-    expect(() => compactLinkedRows(linked)).not.toThrow();
-    expect(compactLinkedRows(linked)).toEqual([survivor, survivor]);
+  it("по умолчанию — сначала новые", () => {
+    expect(resolveMpOrdersQuery({}).sort).toEqual({ field: "ordered_at", desc: true });
+    expect(ids("")).toEqual(["mporder_c", "mporder_b", "mporder_a"]);
   });
 
-  it("список пустой или отсутствующий — тоже без ошибки", () => {
-    expect(compactLinkedRows([])).toEqual([]);
-    expect(compactLinkedRows(undefined)).toEqual([]);
-    expect(compactLinkedRows(null)).toEqual([]);
+  it("заказ без даты последний в обе стороны: он не самый старый и не самый новый", () => {
+    expect(ids("-ordered_at").at(-1)).toBe("mporder_a");
+    expect(ids("ordered_at")).toEqual(["mporder_b", "mporder_c", "mporder_a"]);
+  });
+
+  it("пустая сумма тоже последняя, а не «бесплатный» заказ наверху", () => {
+    expect(ids("total")).toEqual(["mporder_b", "mporder_c", "mporder_a"]);
+    expect(ids("-total")).toEqual(["mporder_c", "mporder_b", "mporder_a"]);
+  });
+
+  it("номер сравнивается как число: 4 раньше 30, 30 раньше 200", () => {
+    expect(ids("number")).toEqual(["mporder_b", "mporder_a", "mporder_c"]);
+  });
+
+  it("неизвестное поле — порядок по умолчанию, а не ошибка", () => {
+    expect(resolveMpOrdersQuery({ order: "-buyer_name" }).sort).toEqual({
+      field: "ordered_at",
+      desc: true,
+    });
+  });
+
+  it("равные значения разводятся по id, чтобы граница страницы не теряла строк", () => {
+    const twins = [mpRow({ id: "mporder_z" }), mpRow({ id: "mporder_y" })];
+    expect(twins.sort(compareMpOrders({ field: "ordered_at", desc: true })).map((row) => row.id)).toEqual([
+      "mporder_y",
+      "mporder_z",
+    ]);
   });
 });
 
@@ -174,49 +211,76 @@ describe("схема", () => {
 describe("фильтры", () => {
   const rows: FeedRow[] = [
     mpRow(),
-    mpRow({ id: "mporder_2", marketplace: "ozon", scheme: "FBO", status: "delivered" } as never),
-    shopOrderToRow({
-      id: "order_1",
-      display_id: 12,
-      status: "pending",
-      created_at: "2026-09-12T08:00:00.000Z",
-      currency_code: "rub",
-      total: 500,
-      items: [{ id: "item_1" }],
-    }),
+    mpRow({ id: "mporder_2", status: "cancel", status_detail: "canceled", buyer_region: "Московская область" }),
+    mpRow({ id: "mporder_3", scheme: null, status: null, status_detail: null, external_id: "8a3f0c" }),
   ];
 
   it("неизвестное значение в ссылке отбрасывается, а не обнуляет таблицу", () => {
-    const filters = resolveFilters({ source: "wb,telegram", status: "delivered,нет" }, NOW);
+    const query = resolveMpOrdersQuery({ status: "delivered,нет", scheme: "fbs,NONE" });
 
-    expect(filters.sources).toEqual(["wb"]);
-    expect(filters.statuses).toEqual(["delivered"]);
+    expect(query.statuses).toEqual(["delivered"]);
+    expect(query.schemes).toEqual(["FBS", NO_SCHEME]);
   });
 
-  it("площадка, схема и статус сужают ленту", () => {
-    const wbOnly = resolveFilters({ source: "wb" }, NOW);
-    expect(rows.filter((row) => matchesFilters(row, wbOnly))).toHaveLength(1);
+  it("статус и схема сужают список; «none» — заказы без схемы", () => {
+    const cancelled = resolveMpOrdersQuery({ status: "cancelled" });
+    expect(rows.filter((row) => matchesMpOrdersQuery(row, cancelled)).map((row) => row.id)).toEqual([
+      "mporder_2",
+    ]);
 
-    const fbo = resolveFilters({ scheme: "fbo" }, NOW);
-    expect(rows.filter((row) => matchesFilters(row, fbo)).map((row) => row.id)).toEqual([
+    const none = resolveMpOrdersQuery({ scheme: "none" });
+    expect(rows.filter((row) => matchesMpOrdersQuery(row, none)).map((row) => row.id)).toEqual([
+      "mporder_3",
+    ]);
+  });
+
+  it("поиск — по номеру и по региону, без учёта регистра", () => {
+    const byNumber = resolveMpOrdersQuery({ q: "8A3F" });
+    expect(rows.filter((row) => matchesMpOrdersQuery(row, byNumber)).map((row) => row.id)).toEqual([
+      "mporder_3",
+    ]);
+
+    const byRegion = resolveMpOrdersQuery({ q: "  московская " });
+    expect(rows.filter((row) => matchesMpOrdersQuery(row, byRegion)).map((row) => row.id)).toEqual([
       "mporder_2",
     ]);
   });
 
-  it("заказ магазина не имеет схемы и поэтому не проходит фильтр по схеме", () => {
-    const fbs = resolveFilters({ scheme: "FBS" }, NOW);
-    const shop = rows.find((row) => row.source === "shop") as FeedRow;
+  it("дата: границы $gte и $lte включительно, как пишет фильтр панели", () => {
+    const query = resolveMpOrdersQuery({
+      ordered_at: JSON.stringify({ $gte: "2026-09-10T10:00:00.000Z", $lte: "2026-09-10T10:00:00.000Z" }),
+    });
+    expect(matchesMpOrdersQuery(mpRow(), query)).toBe(true);
 
-    expect(shop.scheme).toBeNull();
-    expect(matchesFilters(shop, fbs)).toBe(false);
+    const later = resolveMpOrdersQuery({ ordered_at: { $gt: "2026-09-10T10:00:00.000Z" } });
+    expect(matchesMpOrdersQuery(mpRow(), later)).toBe(false);
   });
 
-  it("счётчики фильтров считаются по периоду, а не по уже отфильтрованному", () => {
-    const facets = facetsOf(rows);
+  it("испорченный фильтр даты — 400, а не молча неотфильтрованный список", () => {
+    expect(() => resolveMpOrdersQuery({ ordered_at: "{не json" })).toThrow(/ordered_at/);
+    expect(() => resolveMpOrdersQuery({ ordered_at: '{"$gte":"вчера"}' })).toThrow(/не дата/);
+    expect(() => resolveMpOrdersQuery({ ordered_at: '{"$ne":"2026-09-10"}' })).toThrow(/оператор/);
+  });
 
-    expect(facets.sources.map((one) => one.value)).toEqual(["shop", "wb", "ozon"]);
-    expect(facets.sources.every((one) => one.count === 1)).toBe(true);
-    expect(facets.schemes.map((one) => one.value)).toEqual(["FBO", "FBS"]);
+  it("счётчики фильтров считаются по всем заказам площадки, до фильтров", () => {
+    const selection = selectMpOrders(rows, resolveMpOrdersQuery({ status: "cancelled" }));
+
+    expect(selection.rows).toHaveLength(1);
+    expect(selection.facets.statuses).toEqual([
+      { value: "delivered", label: "Доставлен", count: 1 },
+      { value: "cancelled", label: "Отменён", count: 1 },
+      { value: "unspecified", label: "Статус площадка не присылает", count: 1 },
+    ]);
+    expect(selection.facets.schemes).toEqual([
+      { value: "FBS", label: "FBS", count: 2 },
+      { value: NO_SCHEME, label: "Без схемы", count: 1 },
+    ]);
+  });
+
+  it("страница: 20 по умолчанию, не больше 200, отрицательный сдвиг — ноль", () => {
+    expect(resolvePage({})).toEqual({ limit: 20, offset: 0 });
+    expect(resolvePage({ limit: "5000", offset: "-3" })).toEqual({ limit: 200, offset: 0 });
+    expect(resolvePage({ limit: "20", offset: "40" })).toEqual({ limit: 20, offset: 40 });
   });
 });
 
@@ -234,35 +298,78 @@ describe("деньги", () => {
   });
 });
 
-describe("CSV", () => {
-  const rows = [mpRow(), mpRow({ id: "mporder_2", external_id: "987" } as never)];
+describe("валюта", () => {
+  it("сумма — в валюте продавца, код из заказа — валюта страны покупателя", () => {
+    /*
+     * WB кладёт в total convertedPrice / finished_price — это рубли продавца,
+     * а currency заказа — страна покупателя (замер в analytics.ts: «685 BYN»
+     * за карточку ценой 919 ₽). «1 291,56 ₸» над рублёвой суммой — неправда.
+     */
+    const row = mpOrderToRow(
+      {
+        id: "mporder_kz",
+        marketplace: "wb",
+        external_id: "1",
+        scheme: "FBS",
+        status: "new",
+        status_detail: "waiting",
+        ordered_at: null,
+        buyer_region: null,
+        warehouse_name: null,
+        total: "1291.56",
+        currency: "KZT",
+        is_cancelled: false,
+      },
+      1,
+      "RUB",
+    );
 
-  it("строк в файле ровно столько же, сколько в ленте, плюс заголовок", () => {
-    const csv = toCsv(rows);
+    expect(row.currency).toBe("RUB");
+    expect(row.buyer_currency).toBe("KZT");
+  });
+
+  it("валюта продавца неизвестна — валюта не выдумывается", () => {
+    expect(mpOrderToRow({ ...mpRow(), id: "x", marketplace: "wb", external_id: "1", status: null, status_detail: null, total: 1, currency: "BYN", is_cancelled: false } as never, 1).currency).toBeNull();
+  });
+});
+
+describe("CSV", () => {
+  const rows = [mpRow(), mpRow({ id: "mporder_2", external_id: "987", total: "1290.5" })];
+
+  it("строк в файле ровно столько же, сколько в списке, плюс заголовок", () => {
+    const csv = toMpOrdersCsv(rows);
     const lines = csv.trimEnd().split("\r\n");
 
     expect(lines).toHaveLength(rows.length + 1);
     /* Заголовок идёт после BOM — его и проверяем, BOM отдельным тестом ниже. */
-    expect(lines[0]).toBe(`\ufeff${CSV_COLUMNS.join(",")}`);
+    expect(lines[0]).toBe(`\ufeff${MP_ORDERS_CSV_COLUMNS.join(";")}`);
   });
 
-  it("пустая лента даёт файл с одним заголовком, а не пустой файл", () => {
-    expect(toCsv([]).trimEnd().split("\r\n")).toHaveLength(1);
+  it("разделитель — точка с запятой, сумма с запятой: так читает русский Excel", () => {
+    const [, first, second] = toMpOrdersCsv(rows).trimEnd().split("\r\n");
+
+    expect(first.split(";")).toHaveLength(MP_ORDERS_CSV_COLUMNS.length);
+    expect(first).toContain(";1290;RUB;RUB;1");
+    expect(second).toContain(";1290,5;RUB;RUB;");
   });
 
-  it("запятая и кавычка внутри значения не ломают колонки", () => {
-    const csv = toCsv([mpRow({ warehouse_name: 'Склад "Коледино", корпус 2' } as never)]);
+  it("пустой список даёт файл с одним заголовком, а не пустой файл", () => {
+    expect(toMpOrdersCsv([]).trimEnd().split("\r\n")).toHaveLength(1);
+  });
 
-    expect(csv).toContain('"Склад ""Коледино"", корпус 2"');
+  it("точка с запятой и кавычка внутри значения не ломают колонки", () => {
+    const csv = toMpOrdersCsv([mpRow({ warehouse_name: 'Склад "Коледино"; корпус 2' })]);
+
+    expect(csv).toContain('"Склад ""Коледино""; корпус 2"');
     expect(csv.trimEnd().split("\r\n")).toHaveLength(2);
   });
 
   it("значение, начинающееся со знака равенства, не становится формулой Excel", () => {
-    expect(toCsv([mpRow({ external_id: "=1+1" } as never)])).toContain("'=1+1");
+    expect(toMpOrdersCsv([mpRow({ external_id: "=1+1" })])).toContain("'=1+1");
   });
 
   it("файл начинается с BOM, иначе Excel показывает кириллицу кракозябрами", () => {
-    expect(toCsv([]).charCodeAt(0)).toBe(0xfeff);
+    expect(toMpOrdersCsv([]).charCodeAt(0)).toBe(0xfeff);
   });
 });
 

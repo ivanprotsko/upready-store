@@ -438,6 +438,7 @@ const buildOrders = (): FeedOrder[] => {
       warehouse_name: next() < 0.5 ? "Коледино" : "Электросталь",
       total: Math.round((250 + next() * 3200) / 1) ,
       currency: "RUB",
+      buyer_currency: "RUB",
       is_cancelled: key === "cancelled",
       lines_count: 1 + Math.floor(next() * 3),
     })
@@ -486,7 +487,8 @@ export const fixtureOrders = (marketplace: MarketplaceId, params: MpOrdersParams
     limit: page.limit,
     offset: page.offset,
     facets: {
-      schemes: facet((o) => o.scheme, (v) => v),
+      // As the backend answers: an order without a scheme is the option `none`.
+      schemes: facet((o) => o.scheme ?? "none", (v) => (v === "none" ? "Без схемы" : v)),
       statuses: facet(
         (o) => o.status_key,
         (v) => STATUSES.find((s) => s[0] === v)?.[2] ?? "Статус площадка не присылает"

@@ -4,8 +4,10 @@ import { QueryKey, UseQueryOptions, useQuery } from "@tanstack/react-query"
 import { sdk } from "../../lib/client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 
-// tenant-panel: own hooks, no Admin counterpart — GET /tenants/marketplace-orders
-// and GET /tenants/marketplace-orders/:id per w15-mp-orders-desk.
+// tenant-panel: own hooks, no Admin counterpart. The types of a marketplace
+// order (w15-mp-orders-desk) and the card of one order,
+// GET /tenants/marketplaces/:marketplace/orders/:id (mp-section-design task-04).
+// The list of «Wildberries → Заказы» is `useMpOrders` in marketplace-section.tsx.
 //
 // READ-ONLY. There is no mutation hook in this file and there will not be one:
 // the screen shows what the imports put into `mp_order` and changes nothing on
@@ -40,7 +42,10 @@ export type FeedOrder = {
   buyer_region: string | null
   warehouse_name: string | null
   total: number | null
+  /** The currency `total` is in: the seller's (WB stores the converted sum). */
   currency: string | null
+  /** The code the marketplace put on the order: the buyer's country currency. */
+  buyer_currency: string | null
   is_cancelled: boolean
   lines_count: number
 }
@@ -101,6 +106,8 @@ export type MarketplaceOrderLine = {
   price: number | null
   discount: number | null
   marketplace_title: string | null
+  /** The shop product's picture, else the marketplace card's first photo. */
+  thumbnail: string | null
   /** null — «нет в магазине»: the article has no product in this shop. */
   product: {
     id: string
@@ -158,7 +165,9 @@ export const useMarketplaceOrders = (
   return { feed: data, ...rest }
 }
 
+/** One order of one marketplace (`wb`, `ozon`); a foreign or missing id answers 404. */
 export const useMarketplaceOrder = (
+  marketplace: string,
   id: string,
   options?: Omit<
     UseQueryOptions<MarketplaceOrderDetail, FetchError, MarketplaceOrderDetail, QueryKey>,
@@ -166,8 +175,11 @@ export const useMarketplaceOrder = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.client.fetch<MarketplaceOrderDetail>(`/tenants/marketplace-orders/${id}`),
-    queryKey: marketplaceOrdersQueryKeys.detail(id),
+    queryFn: () =>
+      sdk.client.fetch<MarketplaceOrderDetail>(
+        `/tenants/marketplaces/${marketplace}/orders/${encodeURIComponent(id)}`
+      ),
+    queryKey: marketplaceOrdersQueryKeys.detail(`${marketplace}-${id}`),
     ...options,
   })
 

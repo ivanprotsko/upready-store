@@ -246,17 +246,24 @@ export type MpOrdersResponse = {
   count: number
   limit: number
   offset: number
+  /** Counted over every order of the marketplace, before the filters; `scheme: none` is «без схемы». */
   facets: { schemes: FeedFacet[]; statuses: FeedFacet[] }
   connection: FeedConnection
-  /** Orders the marketplace sent without a date; they fall in no period. */
+  /** Orders the marketplace sent without a date: last when sorted by date, outside every date filter. */
   undated: number
 }
 
 export type MpOrdersParams = ListParams & {
+  /** `OrderStatusKey` values. */
   status?: string[]
+  /** The marketplace's words (`FBS`, …), `none` for an order without a scheme. */
   scheme?: string[]
+  /** JSON `{"$gte":…,"$lte":…}`, as the date filter writes it. */
   ordered_at?: string
 }
+
+/** The most rows one CSV carries (`MP_ORDERS_EXPORT_LIMIT` of the backend's `order-feed.ts`). */
+export const MP_ORDERS_EXPORT_LIMIT = 10_000
 
 /** `GET /tenants/marketplaces/:marketplace/orders` (task-04). */
 export const useMpOrders = (
@@ -278,6 +285,7 @@ export const useMpOrders = (
   return { ...data, ...rest }
 }
 
+/** The CSV of the same rows, with the same query string (task-04). */
 export const mpOrdersExportPath = (marketplace: MarketplaceId, params: MpOrdersParams) => {
   const search = new URLSearchParams(toQuery(params)).toString()
   return `/tenants/marketplaces/${marketplace}/orders/export${search ? `?${search}` : ""}`
