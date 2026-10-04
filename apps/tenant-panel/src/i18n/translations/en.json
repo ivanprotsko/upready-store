@@ -5796,7 +5796,7 @@
     "analytics": {
       "title": "Analytics",
       "period": "{{marketplace}}: {{from}} – {{to}} ({{days}} days)",
-      "periodDefault": "{{marketplace}}: the last {{days}} days, {{from}} – {{to}}. Pick another period on the right.",
+      "periodDefault": "{{marketplace}}: the last {{days}} days ({{from}} – {{to}}). Pick another period in the date fields.",
       "unitsHint": "Items: {{units}}",
       "stock": "In marketplace warehouses",
       "stockDays": "Lasts {{days}} days at the current pace",
