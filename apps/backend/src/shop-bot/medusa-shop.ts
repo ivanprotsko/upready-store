@@ -515,6 +515,56 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
     });
   };
 
+  /**
+   * Closed mode (`access-gate.ts`). The "typed the password" fact lives on the
+   * Telegram auth identity's `app_metadata.shop_bot_access[<tenant id>]`: the
+   * identity is global per Telegram user while a password is per shop, so the
+   * key is the tenant id. No new table, no migration, and the record survives
+   * a backend restart. A user who never typed anything has no identity yet
+   * and reads as "no access" without one being created for them.
+   */
+  const ACCESS_KEY = "shop_bot_access";
+
+  const findTelegramIdentity = async (user: TgUser) => {
+    const [existing] = await authModule.listAuthIdentities({
+      provider_identities: { entity_id: authIdentityEntityId(user.id), provider: "telegram" },
+    });
+    return existing ?? null;
+  };
+
+  const accessMap = (appMetadata: Record<string, unknown> | undefined): Record<string, unknown> => {
+    const raw = appMetadata?.[ACCESS_KEY];
+    return raw && typeof raw === "object" && !Array.isArray(raw) ? (raw as Record<string, unknown>) : {};
+  };
+
+  const hasBotAccess = async (user: TgUser): Promise<boolean> => {
+    const identity = await findTelegramIdentity(user);
+    const granted = accessMap(identity?.app_metadata as Record<string, unknown> | undefined)[tenant.id];
+    return typeof granted === "string" && granted.length > 0;
+  };
+
+  const grantBotAccess = async (user: TgUser): Promise<void> => {
+    const identity =
+      (await findTelegramIdentity(user)) ??
+      (await authModule.createAuthIdentities({
+        provider_identities: [
+          {
+            provider: "telegram",
+            entity_id: authIdentityEntityId(user.id),
+            user_metadata: telegramUserMetadata(user),
+          },
+        ],
+      }));
+    const appMetadata = (identity.app_metadata ?? {}) as Record<string, unknown>;
+    await authModule.updateAuthIdentities({
+      id: identity.id,
+      app_metadata: {
+        ...appMetadata,
+        [ACCESS_KEY]: { ...accessMap(appMetadata), [tenant.id]: new Date().toISOString() },
+      },
+    });
+  };
+
   return {
     listCategories,
     listProducts,
@@ -527,5 +577,7 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
     addToWishlist,
     listOrders,
     setManagerChat,
+    hasBotAccess,
+    grantBotAccess,
   };
 }

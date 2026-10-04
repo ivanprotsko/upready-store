@@ -202,6 +202,9 @@ services:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
       TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
       TELEGRAM_LINK_SECRET: ${TELEGRAM_LINK_SECRET:-}
+      # Closed mode for every shop bot on this deployment (shop-bot/access-gate.ts):
+      # SHA-256 hex of the access password; empty = open mode.
+      SHOP_BOT_ACCESS_PASSWORD_SHA256: ${SHOP_BOT_ACCESS_PASSWORD_SHA256:-}
       # Where the owner opens an order: the panel, not the engine. The Telegram
       # message links here.
       PANEL_PUBLIC_URL: https://${PANEL_DOMAIN}

@@ -7,6 +7,7 @@ import type {
   TgUpdate,
   TgUser,
 } from "./types";
+import { passwordMatches } from "./access-gate";
 import { formatPrice, t } from "./i18n";
 
 /**
@@ -39,6 +40,9 @@ export function SHOP_BOT_COMMANDS(locale: ShopBotLocale): { command: string; des
 }
 
 export async function handleUpdate(update: TgUpdate, ctx: ShopBotContext): Promise<void> {
+  if (!(await passesAccessGate(update, ctx))) {
+    return;
+  }
   if (update.callback_query) {
     await handleCallbackQuery(update.callback_query, ctx);
     return;
@@ -50,6 +54,88 @@ export async function handleUpdate(update: TgUpdate, ctx: ShopBotContext): Promi
   if (update.message) {
     await handleMessage(update.message, ctx);
   }
+}
+
+/* ---------- closed mode (access-gate.ts) ---------- */
+
+/**
+ * `true` lets the update through to the normal handlers. `false` means the
+ * gate has already answered (prompt, wrong password, or «accepted» plus the
+ * greeting) or chose silence, and nothing else must run. Open mode
+ * (`accessPasswordHash` null) is always `true`.
+ *
+ * Who passes without typing: the owner's chat (`managerChatId`), anyone the
+ * shop already remembers (`hasBotAccess`), and the owner arriving by the
+ * `/start mgr_<code>` link — that code is the owner's own key, so it is also
+ * remembered and the normal `/start` handler then registers the chat.
+ */
+async function passesAccessGate(update: TgUpdate, ctx: ShopBotContext): Promise<boolean> {
+  const hash = ctx.accessPasswordHash;
+  if (!hash) {
+    return true;
+  }
+
+  const user = update.message?.from ?? update.callback_query?.from ?? update.inline_query?.from;
+  if (!user || user.is_bot) {
+    return false;
+  }
+  const chatId = update.message?.chat.id ?? update.callback_query?.message?.chat.id ?? null;
+  if (chatId !== null && ctx.managerChatId !== null && chatId === ctx.managerChatId) {
+    return true;
+  }
+  if (await ctx.shop.hasBotAccess(user)) {
+    return true;
+  }
+
+  if (update.message) {
+    const message = update.message;
+    if (message.chat.type !== "private") {
+      return false;
+    }
+    const text = (message.text ?? "").trim();
+    const parsed = parseCommand(text);
+
+    if (
+      parsed?.command === "start" &&
+      ctx.managerLinkCode &&
+      parsed.arg === `mgr_${ctx.managerLinkCode}`
+    ) {
+      await ctx.shop.grantBotAccess(user);
+      return true;
+    }
+
+    const isAttempt = text !== "" && !parsed;
+    if (isAttempt && passwordMatches(hash, text)) {
+      await ctx.shop.grantBotAccess(user);
+      await ctx.api.sendMessage({ chat_id: message.chat.id, text: t(ctx.locale, "access_granted") });
+      await sendGreeting(message.chat.id, ctx);
+      return false;
+    }
+    await ctx.api.sendMessage({
+      chat_id: message.chat.id,
+      text: t(ctx.locale, isAttempt ? "access_wrong_password" : "access_prompt"),
+    });
+    return false;
+  }
+
+  if (update.callback_query) {
+    await ctx.api.answerCallbackQuery({
+      callback_query_id: update.callback_query.id,
+      text: t(ctx.locale, "access_prompt"),
+      show_alert: true,
+    });
+    return false;
+  }
+
+  if (update.inline_query) {
+    await ctx.api.answerInlineQuery({
+      inline_query_id: update.inline_query.id,
+      results: [],
+      cache_time: 0,
+      is_personal: true,
+    });
+  }
+  return false;
 }
 
 /* ---------- messages ---------- */

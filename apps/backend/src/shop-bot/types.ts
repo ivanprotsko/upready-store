@@ -150,6 +150,11 @@ export type ShopPort = {
 
   /** Stores the owner's chat as the `/manager` destination. */
   setManagerChat: (chatId: number) => Promise<void>;
+
+  /** Closed mode (`access-gate.ts`): has this Telegram user already typed the password for THIS shop? */
+  hasBotAccess: (user: TgUser) => Promise<boolean>;
+  /** Remembers that the user typed the password, so a restart does not ask again. */
+  grantBotAccess: (user: TgUser) => Promise<void>;
 };
 
 /* ---------- Per-update context ---------- */
@@ -166,4 +171,9 @@ export type ShopBotContext = {
   managerChatId: number | null;
   /** The code that `/start mgr_<code>` must carry to register the manager chat; null when no webhook secret is set. */
   managerLinkCode: string | null;
+  /**
+   * SHA-256 hex of the access password (`access-gate.ts`); null means open mode.
+   * When set, a chat that has not typed the password gets only the prompt.
+   */
+  accessPasswordHash: string | null;
 };
