@@ -384,6 +384,8 @@ function tenantRequestHeaders(
       "x-tenant-payment-pre-notice",
       encodeTenantHeaderValue(JSON.stringify(tenant.paymentPreNotice))
     )
+    // t-2026-10-04-21 (checkout-v2 A3): the red test-mode dot in the root layout.
+    headers.set("x-tenant-test-mode", encodeTenantHeaderValue(JSON.stringify(tenant.testMode)))
   }
 
   return headers

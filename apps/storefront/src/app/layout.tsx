@@ -4,6 +4,7 @@ import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getTenantAnalytics } from "@lib/data/analytics"
 import Analytics from "@modules/common/components/analytics"
 import { getSiteBranding } from "@lib/data/tenant-branding"
+import { getSiteTestMode } from "@lib/data/tenant-test-mode"
 import { buildIconMetadata } from "@lib/tenant/icons"
 import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
@@ -19,6 +20,7 @@ import {
 } from "@lib/data/tenant-home"
 import StudioMount from "@modules/studio/components/studio-mount"
 import MiniAppBridge from "@modules/telegram/components/mini-app-bridge"
+import TestModeDot from "@modules/common/components/test-mode-dot"
 import "styles/globals.css"
 
 // Per request: the base a relative metadata URL (an Open Graph image) resolves
@@ -78,13 +80,14 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode, analytics, branding, olavka] = await Promise.all([
+  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode] = await Promise.all([
     getEffectiveSettings(),
     getTenantThemePreset(),
     getTenantModeDefault(),
     getTenantAnalytics(),
     getSiteBranding(),
     isOlavkaShop(),
+    getSiteTestMode(),
   ])
   // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
   // this parse only ever produces a clean integer or null, never NaN reaching
@@ -148,6 +151,8 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             route group marks its own main content: `(main)/layout.tsx`, `(checkout)/layout.tsx`,
             `start/layout.tsx` and the root `not-found.tsx`. */}
         <div className="relative">{props.children}</div>
+        {/* t-2026-10-04-21 (checkout-v2 A3): red dot while payments or delivery are in test mode. */}
+        <TestModeDot mode={testMode} locale={locale} />
         {/* Telegram Mini App bridge: inert in a browser, active only when a Telegram
             client opened the page (src/modules/telegram/components/mini-app-bridge). */}
         <MiniAppBridge />
