@@ -41,7 +41,9 @@ const render = async (error: string) => {
   )
 }
 
-describe("OrderErrorBanner on old /cart?error=… links", () => {
+// The first import pulls the banner and `@medusajs/ui` in; under a full parallel run it
+// outlasts vitest's default 5 s (timed out once on dev ab068501), as `payment-return/page.test.tsx` notes.
+describe("OrderErrorBanner on old /cart?error=… links", { timeout: 30_000 }, () => {
   it("heads payment_pending «Оплата подтверждается», not «Платёж не прошёл»", async () => {
     const html = await render("payment_pending")
 
