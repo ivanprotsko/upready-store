@@ -367,11 +367,15 @@
     "invalidDiscount": "Ten kod promocyjny jest nieprawidłowy lub wygasł.",
     "invalidEmail": "Podaj prawidłowy adres e-mail.",
     "invalidResetLink": "Ten link już nie działa. Mógł zostać użyty albo wygasł. Poproś o nowy.",
+    "itemUnavailable": "Jeden z produktów w koszyku nie jest już sprzedawany w tym sklepie. Usuń go z koszyka i złóż zamówienie ponownie.",
     "network": "Problem z połączeniem. Sprawdź internet i spróbuj ponownie.",
     "notFound": "Nie znaleziono tego, czego szukasz.",
     "passwordMismatch": "Hasła nie są takie same.",
     "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków.",
     "paymentFailed": "Nie udało się przetworzyć płatności. Spróbuj ponownie lub użyj innej metody.",
+    "pickupPointMissing": "Wybierz punkt odbioru i złóż zamówienie ponownie.",
+    "shippingAddressIncomplete": "Adres dostawy jest niepełny. Podaj ulicę, kod pocztowy i miasto, a następnie złóż zamówienie ponownie.",
+    "shippingMethodMissing": "Wybierz sposób dostawy i złóż zamówienie ponownie.",
     "unauthorized": "Zaloguj się, aby kontynuować."
   },
   "Filters": {

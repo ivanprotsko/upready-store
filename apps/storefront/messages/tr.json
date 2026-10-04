@@ -367,11 +367,15 @@
     "invalidDiscount": "Bu promosyon kodu geçersiz veya süresi dolmuş.",
     "invalidEmail": "Lütfen geçerli bir e-posta adresi girin.",
     "invalidResetLink": "Bu bağlantı artık geçerli değil. Kullanılmış ya da süresi dolmuş olabilir. Yenisini isteyin.",
+    "itemUnavailable": "Sepetinizdeki bir ürün artık bu mağazada satılmıyor. Ürünü sepetten çıkarın ve siparişi yeniden verin.",
     "network": "Bağlantı sorunu. Lütfen internetinizi kontrol edip tekrar deneyin.",
     "notFound": "Aradığınızı bulamadık.",
     "passwordMismatch": "Şifreler eşleşmiyor.",
     "passwordTooShort": "Şifre en az 8 karakter olmalı.",
     "paymentFailed": "Ödemenizi işleme alamadık. Lütfen tekrar deneyin veya başka bir yöntem kullanın.",
+    "pickupPointMissing": "Bir teslim alma noktası seçin ve siparişi yeniden verin.",
+    "shippingAddressIncomplete": "Teslimat adresi eksik. Sokak, posta kodu ve şehir bilgilerini doldurun ve siparişi yeniden verin.",
+    "shippingMethodMissing": "Bir teslimat yöntemi seçin ve siparişi yeniden verin.",
     "unauthorized": "Devam etmek için lütfen giriş yapın."
   },
   "Filters": {

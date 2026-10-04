@@ -367,11 +367,15 @@
     "invalidDiscount": "Tämä alennuskoodi on virheellinen tai vanhentunut.",
     "invalidEmail": "Anna kelvollinen sähköpostiosoite.",
     "invalidResetLink": "Linkki ei ole enää voimassa. Se on ehkä jo käytetty tai vanhentunut. Pyydä uusi.",
+    "itemUnavailable": "Yhtä ostoskorisi tuotteista ei enää myydä tässä kaupassa. Poista se ostoskorista ja tee tilaus uudelleen.",
     "network": "Yhteysongelma. Tarkista internetyhteytesi ja yritä uudelleen.",
     "notFound": "Emme löytäneet etsimääsi.",
     "passwordMismatch": "Salasanat eivät täsmää.",
     "passwordTooShort": "Salasanassa on oltava vähintään 8 merkkiä.",
     "paymentFailed": "Maksun käsittely epäonnistui. Yritä uudelleen tai käytä toista maksutapaa.",
+    "pickupPointMissing": "Valitse noutopiste ja tee tilaus uudelleen.",
+    "shippingAddressIncomplete": "Toimitusosoite on puutteellinen. Täytä katuosoite, postinumero ja kaupunki ja tee tilaus uudelleen.",
+    "shippingMethodMissing": "Valitse toimitustapa ja tee tilaus uudelleen.",
     "unauthorized": "Kirjaudu sisään jatkaaksesi."
   },
   "Filters": {

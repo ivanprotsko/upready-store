@@ -12,6 +12,10 @@ export const ERROR_MESSAGE_KEYS = [
   "passwordTooShort",
   "passwordMismatch",
   "invalidResetLink",
+  "shippingAddressIncomplete",
+  "shippingMethodMissing",
+  "pickupPointMissing",
+  "itemUnavailable",
 ] as const
 
 export type ErrorMessageKey = (typeof ERROR_MESSAGE_KEYS)[number]
@@ -37,6 +41,21 @@ const RULES: { pattern: RegExp; key: ErrorMessageKey }[] = [
   { pattern: /^passwordTooShort$/, key: "passwordTooShort" },
   { pattern: /^passwordMismatch$/, key: "passwordMismatch" },
   { pattern: /^invalidResetLink$/, key: "invalidResetLink" },
+  // Place-order's known refusals (t-2026-10-04-23, rule 5ze item 3): each one tells
+  // the buyer what to fix instead of «Что-то пошло не так». The texts are the
+  // backend's own: `validate-cart-shipping-address.ts`, Medusa's
+  // `validateShippingStep`, `validate-cart-pochta-point.ts` and
+  // `validate-cart-sales-channel.ts`. They come before the looser patterns below.
+  {
+    pattern: /shipping address is missing|parcel cannot be posted/i,
+    key: "shippingAddressIncomplete",
+  },
+  {
+    pattern: /no shipping method selected|shipping profiles that are not satisfied/i,
+    key: "shippingMethodMissing",
+  },
+  { pattern: /пункт выдачи|pickup point/i, key: "pickupPointMissing" },
+  { pattern: /not sold in the cart's sales channel/i, key: "itemUnavailable" },
   {
     pattern:
       /network|no response|setting up the request|failed to fetch|fetch failed|econnrefused|etimedout|timeout|socket hang up/i,
@@ -81,6 +100,12 @@ export const resolveErrorKey = (error: unknown): ErrorMessageKey => {
   const raw = stripTechnicalPrefixes(extractMessage(error))
 
   if (!raw) return "generic"
+
+  // A key handed over as it is: a server action answers with one, because a thrown
+  // message does not survive a production build (`placeOrderOrReason`).
+  if ((ERROR_MESSAGE_KEYS as readonly string[]).includes(raw)) {
+    return raw as ErrorMessageKey
+  }
 
   for (const { pattern, key } of RULES) {
     if (pattern.test(raw)) return key

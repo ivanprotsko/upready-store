@@ -163,3 +163,99 @@ describe("assertPostableShippingAddress", () => {
     ).resolves.toBeUndefined();
   });
 });
+
+/**
+ * t-2026-10-04-23: a physical item picked with DHL and then removed left a
+ * course-only cart carrying the DHL method, and the address check refused it
+ * with 400 although nothing was left to post (stand cart
+ * `cart_01M3YKC6VAKK5CEY2AM5E2CGKF`, 2026-10-04).
+ */
+describe("assertPostableShippingAddress: a stale method on a cart with nothing to ship", () => {
+  const BLANK = { address_1: "", postal_code: "", city: "", province: "", country_code: "ru" };
+
+  const store = (products: { id: string; metadata?: Record<string, unknown> | null }[]) => {
+    const warn = jest.fn();
+    const container = {
+      resolve: (key: string) =>
+        key === "logger"
+          ? { warn }
+          : {
+              graph: async ({ entity }: { entity: string }) => ({
+                data:
+                  entity === "product"
+                    ? products
+                    : [{ id: "so_dhl", metadata: null, service_zone: { fulfillment_set: { type: "shipping" } } }],
+              }),
+            },
+    } as never;
+    return { container, warn };
+  };
+
+  const COURSE = { id: "prod_course", metadata: { digital: "true" } };
+  const KETTLE = { id: "prod_kettle", metadata: null };
+  const DHL = [{ shipping_option_id: "so_dhl" }];
+
+  it("lets a course-only cart through and logs the cart id (digital only)", async () => {
+    const { container, warn } = store([COURSE]);
+    await expect(
+      assertPostableShippingAddress(container, {
+        id: "cart_01M3YKC6VAKK5CEY2AM5E2CGKF",
+        items: [{ requires_shipping: true, product_id: "prod_course" }],
+        shipping_address: BLANK,
+        shipping_methods: DHL,
+      }),
+    ).resolves.toBeUndefined();
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("cart_01M3YKC6VAKK5CEY2AM5E2CGKF"));
+  });
+
+  it("lets a cart of lines with requires_shipping=false through without reading products", async () => {
+    const { container } = store([]);
+    await expect(
+      assertPostableShippingAddress(container, {
+        id: "cart_1",
+        items: [{ requires_shipping: false, product_id: "prod_course" }],
+        shipping_address: null,
+        shipping_methods: DHL,
+      }),
+    ).resolves.toBeUndefined();
+  });
+
+  it("still guards a mixed cart (course + physical)", async () => {
+    const { container } = store([COURSE, KETTLE]);
+    await expect(
+      assertPostableShippingAddress(container, {
+        id: "cart_2",
+        items: [
+          { requires_shipping: true, product_id: "prod_course" },
+          { requires_shipping: true, product_id: "prod_kettle" },
+        ],
+        shipping_address: BLANK,
+        shipping_methods: DHL,
+      }),
+    ).rejects.toThrow(/postal_code, city, province/);
+  });
+
+  it("still guards a physical-only cart", async () => {
+    const { container } = store([KETTLE]);
+    await expect(
+      assertPostableShippingAddress(container, {
+        id: "cart_3",
+        items: [{ requires_shipping: true, product_id: "prod_kettle" }],
+        shipping_address: { ...FULL, city: "" },
+        shipping_methods: DHL,
+      }),
+    ).rejects.toThrow(/city/);
+  });
+
+  it("passes a physical-only cart with a full address", async () => {
+    const { container } = store([KETTLE]);
+    await expect(
+      assertPostableShippingAddress(container, {
+        id: "cart_4",
+        items: [{ requires_shipping: true, product_id: "prod_kettle" }],
+        shipping_address: FULL,
+        shipping_methods: DHL,
+      }),
+    ).resolves.toBeUndefined();
+  });
+});

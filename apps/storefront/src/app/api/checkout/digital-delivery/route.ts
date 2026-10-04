@@ -1,6 +1,7 @@
-import { retrieveCart } from "@lib/data/cart"
+import { dropShippingIfNothingToShip, retrieveCart } from "@lib/data/cart"
 import { ensureDigitalDelivery } from "@lib/data/checkout-digital"
 import { defaultLocale, isAppLocale } from "@i18n/config"
+import { cartHasStaleShipping } from "@lib/util/shipping-address"
 import { type NextRequest, NextResponse } from "next/server"
 
 /**
@@ -23,13 +24,22 @@ export async function GET(req: NextRequest) {
   const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host")
   const origin = host ? `${proto}://${host}` : req.nextUrl.origin
 
-  const cart = await retrieveCart()
+  let cart = await retrieveCart()
+
+  // A paid method left over from a removed physical item comes off first
+  // (t-2026-10-04-23); the ₽0 digital option is attached below if none is left.
+  if (cart && (await dropShippingIfNothingToShip(cart))) {
+    cart = (await retrieveCart(cart.id)) ?? cart
+  }
+
   const after = cart ? await ensureDigitalDelivery(cart) : null
 
   // Nothing attached (no digital option on this shop, or the cart still ships
-  // something): say so in the URL, or the page would send the buyer straight back
-  // here — the redirect loop of batch 6 / hotfix Plan B.
-  const attached = (after?.shipping_methods?.length ?? 0) > 0
+  // something), or a stale charge the backend refused to drop: say so in the URL,
+  // or the page would send the buyer straight back here — the redirect loop of
+  // batch 6 / hotfix Plan B.
+  const attached =
+    (after?.shipping_methods?.length ?? 0) > 0 && !(after && cartHasStaleShipping(after))
   return NextResponse.redirect(
     `${origin}/${locale}/checkout${attached ? "" : "?digital=skipped"}`
   )

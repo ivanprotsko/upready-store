@@ -8,7 +8,7 @@ import type {
 import { sdk } from "@lib/config"
 import { revalidateTag } from "next/cache"
 
-import { getOrSetCart, retrieveCart } from "./cart"
+import { dropShippingIfNothingToShip, getOrSetCart, retrieveCart } from "./cart"
 import { getAuthHeaders, getCacheTag, getCartId } from "./cookies"
 
 /**
@@ -98,6 +98,15 @@ export async function syncCartLines(lines: SyncLine[]): Promise<SyncReply> {
     await revalidateCart()
   }
 
-  const at = Date.now()
-  return { cart: await retrieveCart(cartId), at, errors }
+  let at = Date.now()
+  let cart = await retrieveCart(cartId)
+
+  // The last physical line went and the cart still carries its DHL method
+  // (t-2026-10-04-23): the course left alone must not be charged shipping.
+  if (changed && (await dropShippingIfNothingToShip(cart))) {
+    at = Date.now()
+    cart = await retrieveCart(cartId)
+  }
+
+  return { cart, at, errors }
 }

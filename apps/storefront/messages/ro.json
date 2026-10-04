@@ -367,11 +367,15 @@
     "invalidDiscount": "Acest cod promoțional este invalid sau a expirat.",
     "invalidEmail": "Vă rugăm să introduceți o adresă de email validă.",
     "invalidResetLink": "Acest link nu mai este valid. Poate a fost deja folosit sau a expirat. Cere unul nou.",
+    "itemUnavailable": "Unul dintre produsele din coș nu se mai vinde în acest magazin. Eliminați-l din coș și plasați din nou comanda.",
     "network": "Problemă de conexiune. Verificați internetul și încercați din nou.",
     "notFound": "Nu am găsit ceea ce căutați.",
     "passwordMismatch": "Parolele nu coincid.",
     "passwordTooShort": "Parola trebuie să aibă cel puțin 8 caractere.",
     "paymentFailed": "Nu am putut procesa plata. Încercați din nou sau folosiți altă metodă.",
+    "pickupPointMissing": "Alegeți un punct de ridicare și plasați din nou comanda.",
+    "shippingAddressIncomplete": "Adresa de livrare este incompletă. Completați strada, codul poștal și orașul și plasați din nou comanda.",
+    "shippingMethodMissing": "Alegeți o metodă de livrare și plasați din nou comanda.",
     "unauthorized": "Vă rugăm să vă autentificați pentru a continua."
   },
   "Filters": {

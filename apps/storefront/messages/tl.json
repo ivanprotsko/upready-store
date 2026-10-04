@@ -367,11 +367,15 @@
     "invalidDiscount": "Hindi wasto o expired na ang promo code na ito.",
     "invalidEmail": "Pakilagay ang wastong email address.",
     "invalidResetLink": "Hindi na gumagana ang link na ito. Baka nagamit na o nag-expire. Humiling ng bago.",
+    "itemUnavailable": "Hindi na ibinebenta sa tindahang ito ang isang item sa iyong cart. Alisin ito sa cart at ilagay muli ang order.",
     "network": "Problema sa koneksyon. Paki-check ang iyong internet at subukang muli.",
     "notFound": "Hindi namin nahanap ang hinahanap mo.",
     "passwordMismatch": "Hindi magkatugma ang mga password.",
     "passwordTooShort": "Dapat may hindi bababa sa 8 karakter ang password.",
     "paymentFailed": "Hindi namin naiproseso ang iyong bayad. Pakisubukang muli o gumamit ng ibang paraan.",
+    "pickupPointMissing": "Pumili ng pickup point at ilagay muli ang order.",
+    "shippingAddressIncomplete": "Kulang ang delivery address. Ilagay ang kalye, postal code at lungsod, at ilagay muli ang order.",
+    "shippingMethodMissing": "Pumili ng paraan ng pagpapadala at ilagay muli ang order.",
     "unauthorized": "Mag-sign in muna para magpatuloy."
   },
   "Filters": {

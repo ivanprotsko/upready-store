@@ -6,6 +6,7 @@ import { createTranslator } from "next-intl"
 import {
   addressGapMessages,
   addressGapSentences,
+  cartHasStaleShipping,
   cartShippingAddressGaps,
   isPickupCart,
   requiresProvince,
@@ -173,5 +174,32 @@ describe("addressGapSentences (t-2026-09-24-n19)", () => {
       const [sentence] = sentencesIn(locale, ["postal_code"])
       expect(sentence, locale).toContain(label)
     }
+  })
+})
+
+describe("cartHasStaleShipping (t-2026-10-04-23)", () => {
+  const course = { requires_shipping: true, product: { metadata: { digital: "true" } } }
+  const kettle = { requires_shipping: true, product: { metadata: null } }
+  const dhl = { amount: 3500 }
+  const digitalDelivery = { amount: 0 }
+  const cart = (items: unknown[], shipping_methods: unknown[]) =>
+    ({ items, shipping_methods } as unknown as HttpTypes.StoreCart)
+
+  it("flags DHL left on a course-only cart (the stand cart, 18 900 + 3 500 ₽)", () => {
+    expect(cartHasStaleShipping(cart([course], [dhl]))).toBe(true)
+  })
+
+  it("leaves the ₽0 digital-delivery method alone", () => {
+    expect(cartHasStaleShipping(cart([course], [digitalDelivery]))).toBe(false)
+  })
+
+  it("leaves a mixed cart and a physical cart alone", () => {
+    expect(cartHasStaleShipping(cart([course, kettle], [dhl]))).toBe(false)
+    expect(cartHasStaleShipping(cart([kettle], [dhl]))).toBe(false)
+  })
+
+  it("leaves an empty cart and a cart without methods alone", () => {
+    expect(cartHasStaleShipping(cart([], [dhl]))).toBe(false)
+    expect(cartHasStaleShipping(cart([course], []))).toBe(false)
   })
 })

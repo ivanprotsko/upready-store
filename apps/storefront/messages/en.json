@@ -367,11 +367,15 @@
     "invalidDiscount": "This promo code is invalid or has expired.",
     "invalidEmail": "Please enter a valid email address.",
     "invalidResetLink": "This link is no longer valid. It may have been used already or expired. Request a new one.",
+    "itemUnavailable": "An item in your cart is no longer sold in this shop. Remove it from the cart and place the order again.",
     "network": "Connection problem. Please check your internet and try again.",
     "notFound": "We couldn't find what you were looking for.",
     "passwordMismatch": "The passwords do not match.",
     "passwordTooShort": "The password must be at least 8 characters.",
     "paymentFailed": "We couldn't process your payment. Please try again or use another method.",
+    "pickupPointMissing": "Choose a pickup point, then place the order again.",
+    "shippingAddressIncomplete": "The delivery address is incomplete. Fill in the street, postcode and city, then place the order again.",
+    "shippingMethodMissing": "Choose a delivery method, then place the order again.",
     "unauthorized": "Please sign in to continue."
   },
   "Filters": {

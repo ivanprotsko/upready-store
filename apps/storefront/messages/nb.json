@@ -367,11 +367,15 @@
     "invalidDiscount": "Denne rabattkoden er ugyldig eller har utløpt.",
     "invalidEmail": "Vennligst oppgi en gyldig e-postadresse.",
     "invalidResetLink": "Lenken gjelder ikke lenger. Den kan være brukt eller utløpt. Be om en ny.",
+    "itemUnavailable": "En vare i handlekurven selges ikke lenger i denne butikken. Fjern den fra handlekurven og legg inn bestillingen på nytt.",
     "network": "Tilkoblingsproblem. Sjekk internettforbindelsen og prøv igjen.",
     "notFound": "Vi fant ikke det du lette etter.",
     "passwordMismatch": "Passordene er ikke like.",
     "passwordTooShort": "Passordet må være minst 8 tegn.",
     "paymentFailed": "Vi kunne ikke behandle betalingen din. Vennligst prøv igjen eller bruk en annen metode.",
+    "pickupPointMissing": "Velg et hentested og legg inn bestillingen på nytt.",
+    "shippingAddressIncomplete": "Leveringsadressen er ufullstendig. Fyll inn gate, postnummer og sted, og legg inn bestillingen på nytt.",
+    "shippingMethodMissing": "Velg en leveringsmåte og legg inn bestillingen på nytt.",
     "unauthorized": "Vennligst logg inn for å fortsette."
   },
   "Filters": {

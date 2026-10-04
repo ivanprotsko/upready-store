@@ -367,11 +367,15 @@
     "invalidDiscount": "Mã khuyến mãi này không hợp lệ hoặc đã hết hạn.",
     "invalidEmail": "Vui lòng nhập địa chỉ email hợp lệ.",
     "invalidResetLink": "Liên kết này không còn hiệu lực. Có thể đã dùng rồi hoặc đã hết hạn. Hãy yêu cầu liên kết mới.",
+    "itemUnavailable": "Một sản phẩm trong giỏ hàng không còn được bán tại cửa hàng này. Hãy xóa sản phẩm khỏi giỏ hàng và đặt hàng lại.",
     "network": "Sự cố kết nối. Vui lòng kiểm tra internet và thử lại.",
     "notFound": "Không tìm thấy nội dung bạn đang tìm kiếm.",
     "passwordMismatch": "Mật khẩu không khớp.",
     "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự.",
     "paymentFailed": "Không thể xử lý thanh toán của bạn. Vui lòng thử lại hoặc chọn phương thức khác.",
+    "pickupPointMissing": "Hãy chọn điểm nhận hàng và đặt hàng lại.",
+    "shippingAddressIncomplete": "Địa chỉ giao hàng chưa đầy đủ. Hãy điền đường, mã bưu chính và thành phố rồi đặt hàng lại.",
+    "shippingMethodMissing": "Hãy chọn phương thức giao hàng và đặt hàng lại.",
     "unauthorized": "Vui lòng đăng nhập để tiếp tục."
   },
   "Filters": {

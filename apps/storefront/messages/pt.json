@@ -367,11 +367,15 @@
     "invalidDiscount": "Este código promocional é inválido ou expirou.",
     "invalidEmail": "Por favor, introduza um endereço de email válido.",
     "invalidResetLink": "Este link já não é válido. Pode já ter sido usado ou ter expirado. Peça um novo.",
+    "itemUnavailable": "Um artigo do seu carrinho já não é vendido nesta loja. Remova-o do carrinho e faça o pedido novamente.",
     "network": "Problema de ligação. Verifique a sua internet e tente novamente.",
     "notFound": "Não conseguimos encontrar o que procurava.",
     "passwordMismatch": "As palavras-passe não coincidem.",
     "passwordTooShort": "A palavra-passe deve ter pelo menos 8 caracteres.",
     "paymentFailed": "Não foi possível processar o seu pagamento. Tente novamente ou utilize outro método.",
+    "pickupPointMissing": "Escolha um ponto de recolha e faça o pedido novamente.",
+    "shippingAddressIncomplete": "O endereço de entrega está incompleto. Preencha a rua, o código postal e a cidade e faça o pedido novamente.",
+    "shippingMethodMissing": "Escolha um método de entrega e faça o pedido novamente.",
     "unauthorized": "Inicie sessão para continuar."
   },
   "Filters": {

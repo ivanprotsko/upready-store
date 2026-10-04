@@ -367,11 +367,15 @@
     "invalidDiscount": "Ez a kuponkód érvénytelen vagy lejárt.",
     "invalidEmail": "Kérjük, adjon meg érvényes e-mail címet.",
     "invalidResetLink": "Ez a hivatkozás már nem érvényes. Lehet, hogy felhasználták, vagy lejárt. Kérjen újat.",
+    "itemUnavailable": "A kosarában lévő egyik terméket ez a bolt már nem árulja. Távolítsa el a kosárból, és adja le újra a rendelést.",
     "network": "Kapcsolati hiba. Ellenőrizze az internetkapcsolatát, és próbálja újra.",
     "notFound": "Nem találtuk azt, amit keresett.",
     "passwordMismatch": "A jelszavak nem egyeznek.",
     "passwordTooShort": "A jelszónak legalább 8 karakterből kell állnia.",
     "paymentFailed": "Nem sikerült feldolgozni a fizetést. Próbálja újra, vagy válasszon másik fizetési módot.",
+    "pickupPointMissing": "Válasszon átvételi pontot, és adja le újra a rendelést.",
+    "shippingAddressIncomplete": "A szállítási cím hiányos. Adja meg az utcát, az irányítószámot és a várost, majd adja le újra a rendelést.",
+    "shippingMethodMissing": "Válasszon szállítási módot, és adja le újra a rendelést.",
     "unauthorized": "A folytatáshoz jelentkezzen be."
   },
   "Filters": {
