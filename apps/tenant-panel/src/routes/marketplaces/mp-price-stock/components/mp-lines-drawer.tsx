@@ -87,12 +87,17 @@ export const MpLinesDrawer = ({
   )
 
   const all = lines ?? []
+  // One page holding every line, and no pager drawn. Pagination stays ON
+  // because `DataTableRoot` reads its state and throws without it; the table
+  // pages manually, so it renders the data it is given. The prefix keeps the
+  // screen's own `offset` in the address out of this table.
   const { table } = useDataTable({
     data: all,
     columns,
     count: all.length,
-    enablePagination: false,
+    enablePagination: true,
     pageSize: Math.max(all.length, 1),
+    prefix: "lines",
   })
 
   return (

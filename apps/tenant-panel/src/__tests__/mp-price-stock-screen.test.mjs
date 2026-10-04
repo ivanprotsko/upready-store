@@ -36,6 +36,7 @@ const withoutComments = (source) =>
 const FILES = walk(DIR)
 const SCREEN = src("routes", "marketplaces", "mp-price-stock", "mp-price-stock.tsx")
 const EMPTY = src("routes", "marketplaces", "mp-price-stock", "components", "mp-price-stock-empty.tsx")
+const DRAWER = src("routes", "marketplaces", "mp-price-stock", "components", "mp-lines-drawer.tsx")
 
 test("the screen's directory has the screen, the drawer and the empty state", () => {
   const names = FILES.map((file) => file.slice(DIR.length + 1)).sort()
@@ -110,4 +111,10 @@ test("the empty state picks its reason from what is stored, and the filter row s
 
 test("«Устарело» keeps the measured time in its tooltip", () => {
   assert.match(SCREEN, /t\("mp\.priceStock\.staleHint", \{ date: getFullDate\(\{ date, includeTime: true \}\) \}\)/)
+})
+
+test("the drawer keeps pagination on: `DataTableRoot` throws without its state", () => {
+  assert.match(DRAWER, /enablePagination: true/)
+  assert.doesNotMatch(DRAWER, /enablePagination: false/)
+  assert.match(DRAWER, /prefix: "lines"/)
 })

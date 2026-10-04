@@ -145,11 +145,13 @@ describe("остаток строки = сумма строк по склада�
     expect(aggregate.stock_lines).toBe(7);
   });
 
-  it("когда остаток не назвал НИКТО — это null, а не ноль (правило 20a)", () => {
+  it("когда остаток не назвал НИКТО — это null, а не ноль (правило 20a), и времени замера остатка нет", () => {
     expect(aggregateLines([line({ external_id: "100" })]).stock).toBeNull();
     const row = build({ lines: [line({ external_id: "100" })] })[0];
     expect(row.mp?.stock).toBeNull();
     expect(row.diff.stock_abs).toBeNull();
+    expect(row.mp?.stock_measured_at).toBeNull();
+    expect(row.mp?.price_measured_at).toBe(at(1));
   });
 
   it("настоящий ноль площадки остаётся нулём и даёт расхождение", () => {
@@ -484,6 +486,16 @@ describe("поиск и сортировка", () => {
 
   it("по расхождению остатка — по модулю", () => {
     expect(sortPriceStockRows(rows, { field: "stock_abs", desc: true }).map((row) => row.id)).toEqual(["b", "a", "c"]);
+  });
+
+  it("строка без названия — в конце, а не первой на странице", () => {
+    const nameless = build({
+      links: [],
+      variants: [],
+      cards: [card({ id: "x", external_id: "9", title: null }), card({ id: "y", external_id: "8", title: "Ягоды" })],
+      lines: [],
+    });
+    expect(sortPriceStockRows(nameless, null).map((row) => row.id)).toEqual(["y", "x"]);
   });
 
   it("по умолчанию подсвеченные первыми, затем «Есть везде», «Только на площадке», «Только в магазине»", () => {

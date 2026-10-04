@@ -388,7 +388,7 @@ export type PriceStockRow = {
     lines: number;
     warehouses: number;
     sizes: number;
-    /** The moment each age is counted from: the older of the oldest line and the last import. */
+    /** The moment each age is counted from: the older of the oldest line and the last import; `null` with no number. */
     price_measured_at: string | null;
     stock_measured_at: string | null;
     price_stale: boolean;
@@ -561,8 +561,13 @@ export const buildPriceStockRows = (input: BuildPriceStockInput): PriceStockRow[
         lines: aggregate.lines,
         warehouses: aggregate.warehouses,
         sizes: aggregate.sizes,
-        price_measured_at: priceFreshness.as_of,
-        stock_measured_at: stockFreshness.as_of,
+        /**
+         * Only where there IS a number: a card whose lines named no stock has
+         * no stock measurement, and showing the stocks import's time as its
+         * «Обновлено» would date a number nobody measured.
+         */
+        price_measured_at: aggregate.effective_price !== null ? priceFreshness.as_of : null,
+        stock_measured_at: aggregate.stock !== null ? stockFreshness.as_of : null,
         price_stale: priceFreshness.stale,
         stock_stale: stockFreshness.stale,
       },
@@ -758,8 +763,11 @@ const sortValue = (row: PriceStockRow, field: PriceStockOrderField): string | nu
   }
 };
 
+/** By title, a row without one LAST: a nameless card on top of the first page reads as a broken table. */
 const byTitle = (left: PriceStockRow, right: PriceStockRow): number =>
-  collator.compare(left.title ?? "", right.title ?? "") || collator.compare(left.id, right.id);
+  Number(!left.title) - Number(!right.title) ||
+  collator.compare(left.title ?? "", right.title ?? "") ||
+  collator.compare(left.id, right.id);
 
 /**
  * The order of the table. A row with nothing to sort by (no gap, no title) is
