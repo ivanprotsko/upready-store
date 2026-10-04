@@ -270,6 +270,13 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/marketplaces/mp-products"),
           },
           {
+            // task-02: the card page, opened by a row of «Товары» (read only).
+            path: "/marketplaces/wildberries/products/:id",
+            handle: { breadcrumb: () => t("mp.products.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/mp-products/detail"),
+          },
+          {
             path: "/marketplaces/wildberries/price-stock",
             handle: { breadcrumb: () => t("mp.priceStock.title") },
             errorElement: <ErrorBoundary />,

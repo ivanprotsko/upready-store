@@ -91,6 +91,8 @@ export type MpProductRow = {
   /** Offer lines (sizes × warehouses) behind the card. */
   offers: number
   link: {
+    /** The `mp_link.id`, for «Отвязать»; `null` when the card is not linked. */
+    id: string | null
     state: MpLinkState
     product_id: string | null
     product_title: string | null
@@ -117,9 +119,35 @@ export type MpProductsResponse = {
     last_success_at: string | null
     cards: number
     status: string | null
+    /** A key for this marketplace is stored: tells «ключ не сохранён» from «ещё не приходило» on an empty list. */
+    key_set: boolean
   }
   categories: Array<{ value: string; label: string; count: number }>
   brands: Array<{ value: string; label: string; count: number }>
+}
+
+/** One price and stock line of a card: one size on one warehouse. */
+export type MpOfferLine = {
+  /** The marketplace's size name; `null` for a one-size item. */
+  size: string | null
+  /** `null` for a size that is priced and stocked nowhere. */
+  warehouse: string | null
+  price: number | null
+  discount_price: number | null
+  stock: number | null
+  reserved: number | null
+  measured_at: string | null
+}
+
+/** The card page: the list row with its lines instead of their count, photos and characteristics. */
+export type MpProductDetail = Omit<MpProductRow, "offers"> & {
+  photos: string[]
+  /**
+   * The marketplace's characteristics under its own names, then the fixed
+   * keys `imt_id`, `subject_id`, `sizes`, `dimensions_*` the screen translates.
+   */
+  attributes: Record<string, string>
+  offers: MpOfferLine[]
 }
 
 export type MpProductsParams = ListParams & {
@@ -147,6 +175,34 @@ export const useMpProducts = (
     ...options,
   })
   return { ...data, ...rest }
+}
+
+/** The card page on fixtures: the list's row with no lines, photos or characteristics. */
+const fixtureProduct = async (marketplace: MarketplaceId, id: string): Promise<{ product: MpProductDetail }> => {
+  const row = fixtureProducts(marketplace, { limit: 10_000 }).products.find((card) => card.id === id)
+  if (!row) {
+    throw new FetchError(`Карточки ${id} нет`, "Not Found", 404)
+  }
+  return { product: { ...row, photos: [], attributes: {}, offers: [] } }
+}
+
+/** `GET /tenants/marketplaces/:marketplace/products/:id` (task-02): the card page. */
+export const useMpProduct = (
+  marketplace: MarketplaceId,
+  id: string,
+  options?: Options<{ product: MpProductDetail }>
+) => {
+  const { data, ...rest } = useQuery({
+    queryKey: marketplaceSectionQueryKeys.detail(id, { marketplace, kind: "products" }),
+    queryFn: () =>
+      MP_FIXTURES
+        ? fixtureProduct(marketplace, id)
+        : sdk.client.fetch<{ product: MpProductDetail }>(
+            `/tenants/marketplaces/${marketplace}/products/${id}`
+          ),
+    ...options,
+  })
+  return { product: data?.product, ...rest }
 }
 
 /* ----------------------------------------------------------------------------

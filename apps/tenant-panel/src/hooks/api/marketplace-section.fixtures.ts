@@ -154,6 +154,7 @@ const buildCards = (marketplace: MarketplaceId): MpProductRow[] => {
       stock,
       offers: 1 + Math.floor(next() * 6),
       link: {
+        id: state === "linked" ? `mplink_${String(i + 1).padStart(4, "0")}` : null,
         state,
         product_id: state === "linked" ? `prod_${String(i + 1).padStart(4, "0")}` : null,
         product_title: state === "linked" ? TITLES[i % TITLES.length] : null,
@@ -267,7 +268,7 @@ export const fixtureProducts = (
     count: rows.length,
     limit: page.limit,
     offset: page.offset,
-    sync: { kind: "cards", last_success_at: minutesAgo(18), cards: all.length, status: "succeeded" },
+    sync: { kind: "cards", last_success_at: minutesAgo(18), cards: all.length, status: "succeeded", key_set: true },
     categories: count(CATEGORIES),
     brands: count(BRANDS),
   }
