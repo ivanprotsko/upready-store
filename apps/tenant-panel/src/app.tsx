@@ -14,6 +14,14 @@ import { MainLayout } from "./components/layout/main-layout"
 import { PublicLayout } from "./components/layout/public-layout"
 import { ErrorBoundary } from "./components/utilities/error-boundary"
 import { Providers } from "./providers"
+import {
+  AnalyticsRedirect,
+  CatalogRedirect,
+  OrdersRedirect,
+  PriceStockRedirect,
+  ReviewsRedirect,
+  SyncRedirect,
+} from "./routes/marketplaces/common/redirects"
 
 import "./index.css"
 
@@ -239,22 +247,69 @@ const routes: RouteObject[] = [
             ],
           },
           {
-            // w15-mp-orders-desk: «Заказы маркетплейсов» — одна лента заказов
-            // магазина, Wildberries и Ozon с фильтрами по площадке, схеме,
-            // статусу и периоду. Только чтение: экран показывает то, что импорт
-            // положил в `mp_order`, и ничего не меняет на площадке (приказ
-            // Ивана 2026-09-16 02:46 WITA). Строка магазина ведёт на обычный
-            // экран заказа `/orders/:id`, строка площадки — на карточку ниже.
+            // mp-section-design: the marketplace screens live under
+            // /marketplaces/<площадка>/* now (Ivan, 2026-10-05). The old
+            // addresses stay registered and redirect, see
+            // routes/marketplaces/common/redirects.tsx.
             path: "/marketplace-orders",
-            handle: { breadcrumb: () => t("marketplaceOrders.title") },
-            errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/marketplace-orders"),
+            element: <OrdersRedirect />,
           },
           {
             path: "/marketplace-orders/:id",
-            handle: { breadcrumb: () => t("marketplaceOrders.title") },
+            element: <OrdersRedirect />,
+          },
+          {
+            // «Wildberries» (mp-section-design): «Товары», «Цены и остатки»,
+            // «Заказы», «Отзывы», «Аналитика», «Обновление» — the children of
+            // the marketplace's entry in the sidebar. Read only, as the orders
+            // of 2026-09-16 02:46 WITA decided: nothing here writes to the
+            // marketplace. Ozon is a stub until its adapter delivers data.
+            path: "/marketplaces/wildberries/products",
+            handle: { breadcrumb: () => t("mp.products.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/mp-products"),
+          },
+          {
+            path: "/marketplaces/wildberries/price-stock",
+            handle: { breadcrumb: () => t("mp.priceStock.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/mp-price-stock"),
+          },
+          {
+            path: "/marketplaces/wildberries/orders",
+            handle: { breadcrumb: () => t("mp.orders.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/mp-orders"),
+          },
+          {
+            path: "/marketplaces/wildberries/orders/:id",
+            handle: { breadcrumb: () => t("mp.orders.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/marketplace-order-detail"),
+          },
+          {
+            path: "/marketplaces/wildberries/reviews",
+            handle: { breadcrumb: () => t("mp.reviews.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/mp-reviews"),
+          },
+          {
+            path: "/marketplaces/wildberries/analytics",
+            handle: { breadcrumb: () => t("mp.analytics.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/mp-analytics"),
+          },
+          {
+            path: "/marketplaces/wildberries/sync",
+            handle: { breadcrumb: () => t("mp.sync.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/mp-sync"),
+          },
+          {
+            path: "/marketplaces/ozon",
+            handle: { breadcrumb: () => "Ozon" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/ozon-stub"),
           },
           {
             path: "/orders",
@@ -853,24 +908,14 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/analytics"),
           },
           {
-            // w14-mp-catalog-link: «Маркетплейсы → Каталог» — товары магазина и
-            // карточки площадок одним списком, сведённые по артикулу. Не под
-            // /settings: это ежедневный рабочий экран, а не настройка, и он же
-            // посадочная страница раздела в боковой навигации.
+            // mp-section-design: the old daily screens redirect to the
+            // Wildberries entry (/marketplaces/wildberries/*).
             path: "/marketplaces/catalog",
-            handle: { breadcrumb: () => "Каталог маркетплейсов" },
-            errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/marketplaces/catalog"),
+            element: <CatalogRedirect />,
           },
           {
-            // w17-mp-price-stock-table: «Маркетплейсы → Цены и остатки» — цена
-            // и остаток магазина рядом с ценой и остатком каждой площадки,
-            // одной строкой на артикул. Соседний ежедневный экран каталога, не
-            // настройка, поэтому рядом с ним, а не под /settings.
             path: "/marketplaces/price-stock",
-            handle: { breadcrumb: () => "Цены и остатки" },
-            errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/marketplaces/price-stock"),
+            element: <PriceStockRedirect />,
           },
           {
             // p01-settings-integrations-restructure: старый хаб «Подключение
@@ -885,37 +930,18 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/marketplaces"),
           },
           {
-            // w16-mp-scheduler-ops: «Маркетплейсы → Синхронизация» — строка на
-            // (площадка, вид): когда последний раз пришло, сколько строк и
-            // запросов, когда следующий запуск, текст последней ошибки целиком
-            // и предупреждение о ключе, которому осталось меньше 14 дней.
-            // Вид, который НИ РАЗУ не запускался, говорит это словами, а не
-            // нулём (правило 20a).
+            // mp-section-design: «Обмен», «Отзывы» and «Аналитика» moved under
+            // the marketplace's own entry; the old addresses redirect.
             path: "/settings/marketplaces/sync",
-            handle: { breadcrumb: () => t("marketplaceSync.title") },
-            errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/settings/marketplace-sync"),
+            element: <SyncRedirect />,
           },
           {
-            // w18-mp-reviews-desk: «Маркетплейсы → Отзывы» — отзывы и вопросы
-            // покупателей с обеих площадок, фильтр «без ответа», черновик
-            // ответа в нашей базе. Кнопки отправки на площадку нет: ответ это
-            // запись, а площадки у нас только на чтение.
             path: "/settings/marketplaces/reviews",
-            handle: { breadcrumb: () => t("marketplaces.desk.title") },
-            errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/settings/marketplaces/reviews"),
+            element: <ReviewsRedirect />,
           },
           {
-            // w19-mp-analytics: «Маркетплейсы → Аналитика» — дашборд селлера:
-            // продажи по дням и карточкам, ABC/XYZ, оборачиваемость и «дней до
-            // нуля», рейтинг продавца и честно неполный P&L. Только чтение:
-            // экран складывает mp_order / mp_order_line / mp_offer и к площадке
-            // при открытии не обращается (приказ Ивана 2026-09-16 02:46 WITA).
             path: "/settings/marketplaces/analytics",
-            handle: { breadcrumb: () => t("marketplaceAnalytics.title") },
-            errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/settings/marketplaces/analytics"),
+            element: <AnalyticsRedirect />,
           },
           {
             // p01-settings-integrations-restructure: «Подключение» — хаб всех

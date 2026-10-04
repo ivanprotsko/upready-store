@@ -1,4 +1,4 @@
-import { BuildingStorefront, ChartBar, TriangleRightMini } from "@medusajs/icons"
+import { BuildingStorefront, ChartBar, ShoppingBag, TriangleRightMini } from "@medusajs/icons"
 import { Text, clx } from "@medusajs/ui"
 import { ReactNode, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -14,6 +14,7 @@ import {
   OwnerNavGroup,
   OwnerNavItem,
   findActive,
+  findParent,
 } from "./nav-model"
 
 const STORAGE_KEY = "owner-nav-closed-groups"
@@ -84,12 +85,14 @@ const ItemLink = ({
   counter,
   nested,
   icon,
+  trailing,
 }: {
   item: OwnerNavItem
   active: boolean
   counter: number | null
   nested: boolean
   icon?: ReactNode
+  trailing?: ReactNode
 }) => {
   const { t } = useTranslation()
   return (
@@ -100,8 +103,9 @@ const ItemLink = ({
     >
       {!nested && (icon ?? <ChartBar className="text-ui-fg-subtle shrink-0" />)}
       <Text size="small" weight="plus" leading="compact" className="min-w-0 break-words">
-        {t(item.labelKey)}
+        {item.label ?? t(item.labelKey)}
       </Text>
+      {trailing}
       {item.counter && (
         <Counter
           value={counter}
@@ -109,6 +113,129 @@ const ItemLink = ({
         />
       )}
     </Link>
+  )
+}
+
+/**
+ * An entry that unfolds into its screens («Wildberries» → «Товары», «Цены и
+ * остатки», …), drawn the way an Admin route with nested items is: the entry
+ * is a link to its first screen, the chevron folds the list, and a child is
+ * the row that lights up. Arriving on a child opens the list.
+ */
+const ParentItem = ({
+  item,
+  activeTo,
+  open,
+  onToggle,
+}: {
+  item: OwnerNavItem
+  activeTo: string | null
+  open: boolean
+  onToggle: () => void
+}) => {
+  const { t } = useTranslation()
+  const panelId = `owner-nav-${item.to.replace(/\W+/g, "-")}`
+  const insideActive = item.children?.some((child) => child.to === activeTo) ?? false
+
+  return (
+    <li>
+      <div className="flex items-center gap-x-1">
+        <div className="min-w-0 flex-1">
+          <ItemLink
+            item={item}
+            nested={false}
+            icon={<ShoppingBag className="text-ui-fg-subtle shrink-0" />}
+            active={activeTo === item.to && !insideActive}
+            counter={null}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-controls={panelId}
+          aria-label={open ? t("app.nav.owner.fold") : t("app.nav.owner.unfold")}
+          className="text-ui-fg-muted hover:bg-ui-bg-subtle-hover transition-fg flex h-7 w-7 shrink-0 items-center justify-center rounded-md outline-none focus-visible:shadow-borders-focus max-lg:h-11 max-lg:w-11"
+        >
+          <TriangleRightMini
+            className={clx("transition-transform rtl:rotate-180", open && "rotate-90")}
+          />
+        </button>
+      </div>
+      {open && item.children ? (
+        <ul id={panelId} className="flex flex-col gap-y-0.5 pb-1">
+          {item.children.map((child) => (
+            <li key={child.to}>
+              <ItemLink item={child} nested active={activeTo === child.to} counter={null} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </li>
+  )
+}
+
+/** «Скоро» next to an entry that is drawn before it is built (the Ozon stub). */
+const StubMark = () => {
+  const { t } = useTranslation()
+  return (
+    <span className="bg-ui-bg-component text-ui-fg-muted txt-compact-xsmall-plus border-ui-border-base ms-auto rounded-full border px-1.5 py-0.5">
+      {t("app.nav.owner.stub")}
+    </span>
+  )
+}
+
+/**
+ * A section title that is not a link and never folds, the way Medusa Admin
+ * draws «Extensions» above the routes a plugin adds (Ivan, 2026-10-05). The
+ * entries under it are top-level rows with icons; the one with children is
+ * the only thing here that folds.
+ */
+const HeadingGroup = ({
+  group,
+  activeTo,
+  openParents,
+  onToggleParent,
+}: {
+  group: OwnerNavGroup
+  activeTo: string | null
+  openParents: string[]
+  onToggleParent: (to: string) => void
+}) => {
+  const { t } = useTranslation()
+
+  return (
+    <li className="pt-2">
+      <div className="px-2 pb-1 pt-2">
+        <Text size="xsmall" weight="plus" leading="compact" className="text-ui-fg-muted">
+          {t(group.labelKey)}
+        </Text>
+      </div>
+      <ul className="flex flex-col gap-y-0.5">
+        {group.items.map((item) =>
+          item.children ? (
+            <ParentItem
+              key={item.to}
+              item={item}
+              activeTo={activeTo}
+              open={openParents.includes(item.to)}
+              onToggle={() => onToggleParent(item.to)}
+            />
+          ) : (
+            <li key={item.to}>
+              <ItemLink
+                item={item}
+                nested={false}
+                icon={<ShoppingBag className="text-ui-fg-subtle shrink-0" />}
+                active={activeTo === item.to}
+                counter={null}
+                trailing={item.stub ? <StubMark /> : undefined}
+              />
+            </li>
+          )
+        )}
+      </ul>
+    </li>
   )
 }
 
@@ -189,6 +316,22 @@ export const OwnerNav = () => {
   const active = findActive(pathname)
   const activeTo = active?.item.to ?? null
   const activeGroup = active?.group?.id ?? null
+  const parentTo = findParent(pathname)?.to ?? null
+
+  // An entry with children starts open and remembers what she folded, like a
+  // group; arriving on one of its screens opens it again.
+  const [openParents, setOpenParents] = useState<string[]>(() =>
+    OWNER_NAV.flatMap((group) =>
+      group.items.filter((item) => item.children).map((item) => item.to)
+    )
+  )
+  useEffect(() => {
+    if (parentTo) {
+      setOpenParents((now) => (now.includes(parentTo) ? now : [...now, parentTo]))
+    }
+  }, [parentTo])
+  const toggleParent = (to: string) =>
+    setOpenParents((now) => (now.includes(to) ? now.filter((p) => p !== to) : [...now, to]))
 
   // Arriving on a screen opens its group, so the active item is never hidden
   // by a group she closed earlier.
@@ -213,7 +356,15 @@ export const OwnerNav = () => {
           />
         </li>
         {OWNER_NAV.map((group) =>
-          group.flat ? (
+          group.heading ? (
+            <HeadingGroup
+              key={group.id}
+              group={group}
+              activeTo={activeTo}
+              openParents={openParents}
+              onToggleParent={toggleParent}
+            />
+          ) : group.flat ? (
             <li key={group.id}>
               <ItemLink
                 item={group.items[0]}
