@@ -92,6 +92,7 @@ export default async function CollectionTemplate({
             fallback={
               <SkeletonProductGrid
                 numberOfProducts={collection.products?.length || PRODUCT_LIMIT}
+                besideSidebar
               />
             }
           >

@@ -106,7 +106,7 @@ const StoreTemplate = async ({
         </div>
         <div className="w-full">
           <ActiveFilters optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
-          <Suspense fallback={<SkeletonProductGrid />}>
+          <Suspense fallback={<SkeletonProductGrid besideSidebar />}>
             <PaginatedProducts
               sortBy={sort}
               page={pageNumber}
