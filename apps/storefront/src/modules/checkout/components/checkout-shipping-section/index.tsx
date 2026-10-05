@@ -159,9 +159,9 @@ export default function CheckoutShippingSection({
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
   )
   /**
-   * D10: the way card the buyer opened. `null` until she opens one, and then
-   * the card of the cart's own method is the open one. Opening a card with
-   * several tariffs changes nothing on the cart until she picks one of them.
+   * D10: the way card the buyer opened. While it is `null`, the card of the
+   * cart's own method is the open one. Opening a card with several tariffs
+   * changes nothing on the cart until a tariff in it is picked.
    */
   const [openWay, setOpenWay] = useState<DeliveryWay | null>(null)
 
