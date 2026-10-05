@@ -646,6 +646,19 @@ function installProbeLib() {
     let ringColour = null, ringFrom = null
     if (outlineVisible) { ringColour = over(outlineColour, bg); ringFrom = `outline ${cs.outlineWidth} ${cs.outlineStyle}` }
     else if (rings.length) { ringColour = over(rings[0].colour, bg); ringFrom = "box-shadow" }
+    else {
+      // A control can be ringed by its wrapper while it holds the focus (`:focus-within`, or
+      // `:has(:focus-visible)` as the h7 header's compact cart disc does). Only an OUTLINE counts
+      // there: a wrapper's box-shadow is usually its resting elevation, not a focus ring.
+      for (let up = el.parentElement, depth = 0; up && depth < 3 && !ringColour; up = up.parentElement, depth++) {
+        const ucs = getComputedStyle(up)
+        const uc = parseColor(ucs.outlineColor)
+        if (ucs.outlineStyle !== "none" && ucs.outlineStyle !== "auto" && parseFloat(ucs.outlineWidth) > 0.01 && uc && uc.a > 0.01) {
+          ringColour = over(uc, backgroundBehind(up.parentElement || up))
+          ringFrom = `ancestor outline ${ucs.outlineWidth} ${ucs.outlineStyle} (${up.tagName.toLowerCase()}, ${depth + 1} up)`
+        }
+      }
+    }
 
     const ratio = ringColour ? contrast(ringColour, bg) : 0
     let reason = null
