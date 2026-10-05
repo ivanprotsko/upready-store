@@ -127,6 +127,43 @@ export const readBtcpaySecretPublic = async (
 
 const LOOPBACK_HOST = /^(?:localhost|127(?:\.\d{1,3}){3}|\[::1\])$/i;
 
+const IPV4_LITERAL = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+
+const isPrivateIpv4 = (a: number, b: number): boolean =>
+  a === 0 || // 0.0.0.0/8, "this network", which reaches this machine
+  a === 10 || // 10.0.0.0/8
+  (a === 172 && b >= 16 && b <= 31) || // 172.16.0.0/12
+  (a === 192 && b === 168) || // 192.168.0.0/16
+  (a === 169 && b === 254); // 169.254.0.0/16, link-local and cloud metadata
+
+/**
+ * Whether `hostname` (as `URL` gives it: IPv4 in canonical dotted form, IPv6
+ * in brackets) is an address literal of a private or link-local range. Only
+ * the literal is looked at, never DNS: a name that resolves into such a range
+ * is not caught here.
+ */
+export const isPrivateAddressLiteral = (hostname: string): boolean => {
+  const v4 = IPV4_LITERAL.exec(hostname);
+  if (v4) {
+    return isPrivateIpv4(Number(v4[1]), Number(v4[2]));
+  }
+  if (!hostname.startsWith("[") || !hostname.endsWith("]")) {
+    return false;
+  }
+  const v6 = hostname.slice(1, -1).toLowerCase();
+  if (v6 === "::") {
+    return true;
+  }
+  // `URL` writes an IPv4-mapped address as `::ffff:a00:1`, the IPv4 part in two hextets.
+  const mapped = /^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/.exec(v6);
+  if (mapped) {
+    const high = parseInt(mapped[1], 16);
+    return isPrivateIpv4(high >> 8, high & 0xff);
+  }
+  const first = parseInt(v6.split(":")[0] || "0", 16);
+  return (first & 0xfe00) === 0xfc00 || (first & 0xffc0) === 0xfe80; // fc00::/7, fe80::/10
+};
+
 /**
  * The server address as stored: the origin plus an optional path prefix, no
  * trailing slash, so the client can append `/api/v1/...` to it as is. `null`
@@ -136,8 +173,10 @@ const LOOPBACK_HOST = /^(?:localhost|127(?:\.\d{1,3}){3}|\[::1\])$/i;
  * for a loopback host outside production, which is how a local BTCPay regtest
  * stand and the HTTP tests' mock server are reached. In production a loopback
  * host is refused on either scheme: the owner's server is never this machine.
- * An address with credentials, a query or a fragment is refused too, because
- * the client builds every request path onto it.
+ * So is an address literal of a private or link-local range
+ * (`isPrivateAddressLiteral`): the backend must not be pointed at its own
+ * network. An address with credentials, a query or a fragment is refused too,
+ * because the client builds every request path onto it.
  */
 export const normalizeBtcpayServerUrl = (
   raw: string,
@@ -154,7 +193,7 @@ export const normalizeBtcpayServerUrl = (
   if (url.username || url.password || url.search || url.hash) {
     return null;
   }
-  if (loopback && production) {
+  if (production && (loopback || isPrivateAddressLiteral(url.hostname))) {
     return null;
   }
   if (url.protocol !== "https:" && !(url.protocol === "http:" && loopback)) {

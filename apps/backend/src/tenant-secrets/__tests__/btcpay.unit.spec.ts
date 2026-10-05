@@ -76,6 +76,36 @@ describe("normalizeBtcpayServerUrl", () => {
     expect(normalizeBtcpayServerUrl("https://localhost", production)).toBeNull();
   });
 
+  it.each([
+    "https://10.1.2.3",
+    "https://172.16.0.1",
+    "https://172.31.255.255:8443",
+    "https://192.168.1.10/btcpay",
+    "https://169.254.169.254",
+    "https://0.0.0.0",
+    "https://012.0.0.1",
+    "https://[fd00::1]",
+    "https://[fc12:3456::1]",
+    "https://[fe80::1]",
+    "https://[::]",
+    "https://[::ffff:10.0.0.1]",
+    "https://[::ffff:192.168.0.1]",
+  ])("refuses the private or link-local address literal %s in production", (address) => {
+    expect(normalizeBtcpayServerUrl(address, production)).toBeNull();
+  });
+
+  it("keeps public address literals and the neighbours of the private ranges", () => {
+    expect(normalizeBtcpayServerUrl("https://172.15.0.1", production)).toBe("https://172.15.0.1");
+    expect(normalizeBtcpayServerUrl("https://172.32.0.1", production)).toBe("https://172.32.0.1");
+    expect(normalizeBtcpayServerUrl("https://8.8.8.8", production)).toBe("https://8.8.8.8");
+    expect(normalizeBtcpayServerUrl("https://[2001:db8::1]", production)).toBe("https://[2001:db8::1]");
+    expect(normalizeBtcpayServerUrl("https://10.example.com", production)).toBe("https://10.example.com");
+  });
+
+  it("accepts a private address literal outside production, for a stand on the local network", () => {
+    expect(normalizeBtcpayServerUrl("https://192.168.1.10", development)).toBe("https://192.168.1.10");
+  });
+
   it("refuses credentials, a query, a fragment, another scheme and garbage", () => {
     expect(normalizeBtcpayServerUrl("https://user:pass@pay.example.com", production)).toBeNull();
     expect(normalizeBtcpayServerUrl("https://pay.example.com/?a=1", production)).toBeNull();
