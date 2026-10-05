@@ -14,6 +14,7 @@ import { paymentPreNoticePublicView, readPaymentPreNotice } from "../../../tenan
 import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
 import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
 import { readBtcpaySecretPublic } from "../../../tenant-secrets/btcpay";
+import { readBitcartSecretPublic } from "../../../tenant-secrets/bitcart";
 import { readTenantTestMode } from "../../../tenant-secrets/test-mode";
 import { manualPaymentMethods, resolveTenantPaymentMethods } from "../../../tenant-secrets/payment-methods";
 import {
@@ -165,16 +166,18 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   // resolver against the same facts.
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
-  const [robokassaSecret, tributeSecret, btcpaySecret, testMode] = await Promise.all([
+  const [robokassaSecret, tributeSecret, btcpaySecret, bitcartSecret, testMode] = await Promise.all([
     readRobokassaSecretPublic(pg, tenant.id as string, logger),
     readTributeSecretPublic(pg, tenant.id as string, logger),
     readBtcpaySecretPublic(pg, tenant.id as string, logger),
+    readBitcartSecretPublic(pg, tenant.id as string, logger),
     readTenantTestMode(pg, tenant.id as string),
   ]);
   const paymentMethods = resolveTenantPaymentMethods({
     robokassaEnabled: Boolean(robokassaSecret),
     tributeEnabled: Boolean(tributeSecret),
     btcpayEnabled: Boolean(btcpaySecret),
+    bitcartEnabled: Boolean(bitcartSecret),
     ...manualPaymentMethods(legacyManualPayment(manualPayment)),
   });
 

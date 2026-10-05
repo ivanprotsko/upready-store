@@ -4336,6 +4336,7 @@
       "title": "What the buyer sees",
       "robokassa": "Robokassa",
       "btcpay": "Cryptocurrency (BTCPay Server)",
+      "bitcart": "Cryptocurrency (Bitcart)",
       "manual": "Transfer to requisites",
       "connected": "Connected",
       "notConnected": "Not connected",
@@ -4433,6 +4434,38 @@
     "errors": {
       "serverUrl": "Enter an https:// address with nothing after ? or # (http:// only for localhost)",
       "storeId": "Latin letters, digits, «-» and «_» only, as the store settings in BTCPay show it",
+      "required": "Needed to switch cryptocurrency on",
+      "fixFields": "Check the highlighted fields"
+    }
+  },
+  "bitcart": {
+    "title": "Cryptocurrency (Bitcart)",
+    "subtitle": "buyers pay in crypto through your own store on Bitcart, and the money goes straight to your wallets",
+    "stateOn": "on",
+    "stateOff": "off",
+    "stateNone": "not set up",
+    "ownServerHint": "Connect a store on a Bitcart server you run or rent. Create the store there and link its wallets, then paste the API address, the admin address, the store ID and an API key below.",
+    "fields": {
+      "is_enabled": "Accept cryptocurrency",
+      "server_url": "API address",
+      "admin_url": "Admin address",
+      "store_id": "Store ID",
+      "api_key": "API key"
+    },
+    "keepPlaceholder": "leave empty to keep the current one",
+    "emptyPlaceholder": "paste from Bitcart",
+    "addressHint": "Bitcart serves its API and the page where the buyer pays from two addresses. On a single domain they usually end in /api and /admin. With separate subdomains, enter the API host and the admin host.",
+    "apiKeyHint": "Create the API key in Bitcart under Profile → API Keys and give it invoice_management and, for refunds, payout_management. In the store's settings in Bitcart, turn off invoices without an API key, so only your shop can issue them.",
+    "save": "Save",
+    "saved": "Bitcart settings saved",
+    "refundTitle": "Refunds",
+    "refundHint": "A refund from an order opens a refund request in Bitcart. If your Bitcart store sends email and the buyer left an address on the payment page, Bitcart emails them a link where they enter their wallet address. Bitcart never sends money by itself: approve the payout under Payouts in Bitcart and send it from your wallet.",
+    "notificationTitle": "Payment notifications",
+    "notificationHint": "You set nothing up in Bitcart: every invoice tells it to report payments to this address. Bitcart sends each notification only once, so the shop also checks open invoices every minute.",
+    "notificationOff": "This server has no public address configured, so invoices carry no notification address. The shop checks open invoices every minute, and an order appears about a minute after the payment.",
+    "errors": {
+      "url": "Enter an https:// address with nothing after ? or # (http:// only for localhost)",
+      "storeId": "Latin letters, digits, «-» and «_» only, as Bitcart shows the store ID",
       "required": "Needed to switch cryptocurrency on",
       "fixFields": "Check the highlighted fields"
     }

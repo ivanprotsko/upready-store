@@ -7,6 +7,7 @@ import {
   type PaymentReturnNotice,
 } from "@lib/util/robokassa-return"
 import { btcpayReturnState } from "@lib/util/btcpay"
+import { bitcartReturnState } from "@lib/util/bitcart"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
@@ -28,11 +29,11 @@ export const CHECKOUT_PAYMENT_ANCHOR = "checkout-payment"
  * payment is being confirmed (not «failed»: the money may be on its way) and
  * offers to check again rather than to pay again. One notice, never two.
  *
- * A buyer back from BTCPay (ask-20261005-070255-438f) arrives the same way,
- * through the waiting page's `pending`. Their cart's BTCPay session then says
- * which of two things it is: a transfer the network has not confirmed yet,
- * which can take far longer than a bank's, or an invoice that expired with
- * nothing paid, which the pay button replaces with a new one.
+ * A buyer back from BTCPay or Bitcart (ask-20261005-070255-438f) arrives the
+ * same way, through the waiting page's `pending`. Their cart's crypto session
+ * then says which of two things it is: a transfer the network has not
+ * confirmed yet, which can take far longer than a bank's, or an invoice that
+ * expired with nothing paid, which the pay button replaces with a new one.
  */
 export default function RobokassaRetryNotice({
   cart,
@@ -55,7 +56,7 @@ export default function RobokassaRetryNotice({
     return () => window.removeEventListener("pageshow", onPageShow)
   }, [])
 
-  const crypto = notice === "pending" ? btcpayReturnState(cart) : null
+  const crypto = notice === "pending" ? (btcpayReturnState(cart) ?? bitcartReturnState(cart)) : null
 
   if (crypto === "expired") {
     return (

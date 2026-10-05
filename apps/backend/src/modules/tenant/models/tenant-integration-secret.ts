@@ -59,6 +59,12 @@ import Tenant from "./tenant";
  * webhook secret is a separate value the owner sets on the store's webhook in
  * BTCPay, which signs `BTCPay-Sig`. A new row is saved switched off.
  *
+ * `bitcart` is the shop's OWN Bitcart store, `{ server_url, admin_url,
+ * store_id, api_key }` (ask-20261005-070255-438f, stage 2). One secret, the
+ * API token: Bitcart signs nothing it sends, so there is no webhook secret,
+ * and the admin address is where Bitcart serves the checkout page. A new row
+ * is saved switched off.
+ *
  * This list is not decoration — `model.enum` renders it as a CHECK constraint
  * on `provider`, so a slot absent here cannot hold a row at all. Measured on
  * the local stand 2026-09-16: an insert into `wildberries_write` died on
@@ -76,6 +82,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "tribute",
   "telegram",
   "btcpay",
+  "bitcart",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 

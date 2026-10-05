@@ -122,3 +122,19 @@ describe("GET /api/payment-return, provider=btcpay", () => {
     expect(setCartId).not.toHaveBeenCalled()
   })
 })
+
+describe("GET /api/payment-return, provider=bitcart", () => {
+  beforeEach(() => {
+    setCartId.mockReset()
+    placeOrder.mockReset()
+  })
+
+  it("sends the buyer back from Bitcart to the waiting page, deciding nothing itself", async () => {
+    const res = await robokassaReturn("provider=bitcart&cart_id=cart_1&locale=en")
+
+    expect(res.status).toBe(307)
+    expect(res.headers.get("location")).toBe("https://cherkashino.ru/en/payment-return")
+    expect(setCartId).toHaveBeenCalledWith("cart_1")
+    expect(placeOrder).not.toHaveBeenCalled()
+  })
+})

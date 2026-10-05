@@ -58,6 +58,7 @@ describe("preNoticeProviderKey", () => {
     expect(preNoticeProviderKey("pp_robokassa_robokassa")).toBe("robokassa")
     expect(preNoticeProviderKey("pp_tribute_tribute")).toBe("tribute")
     expect(preNoticeProviderKey("pp_btcpay_btcpay")).toBe("btcpay")
+    expect(preNoticeProviderKey("pp_bitcart_bitcart")).toBe("bitcart")
     expect(preNoticeProviderKey("pp_system_default")).toBe("manual")
     expect(preNoticeProviderKey("pp_stripe_stripe")).toBe("card")
     expect(preNoticeProviderKey("pp_medusa-payments_default")).toBe("card")

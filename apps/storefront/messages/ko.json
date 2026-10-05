@@ -913,6 +913,7 @@
     "pp_paypal_paypal": "PayPal",
     "pp_robokassa_robokassa": "Robokassa",
     "pp_btcpay_btcpay": "암호화폐",
+    "pp_bitcart_bitcart": "암호화폐",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "신용카드",

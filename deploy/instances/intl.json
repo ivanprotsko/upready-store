@@ -19,7 +19,7 @@
   },
   "providers": {
     "payment": {
-      "allowed": ["tribute", "btcpay"],
+      "allowed": ["tribute", "btcpay", "bitcart"],
       "forbidden": ["robokassa"]
     },
     "auth": {

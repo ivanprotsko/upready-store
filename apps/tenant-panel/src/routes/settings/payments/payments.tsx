@@ -12,6 +12,7 @@ import {
 } from "../../../lib/payment-methods-summary"
 import { CrossLink } from "../integrations/components/cross-link"
 import { UnreadableSecretAlert } from "../integrations/components/unreadable-secret-alert"
+import { BitcartCard } from "./components/bitcart-card"
 import { BtcpayCard } from "./components/btcpay-card"
 import { ManualPaymentCard } from "./components/manual-payment-card"
 import { PaymentPreNoticeCard } from "./components/payment-pre-notice-card"
@@ -21,6 +22,7 @@ import { useRobokassaForm } from "./use-robokassa-form"
 const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
   robokassa: "paymentSettings.methodsSummary.robokassa",
   btcpay: "paymentSettings.methodsSummary.btcpay",
+  bitcart: "paymentSettings.methodsSummary.bitcart",
   manual: "paymentSettings.methodsSummary.manual",
 }
 
@@ -46,7 +48,8 @@ export const PaymentSettings = () => {
   const { t } = useTranslation()
   const form = useRobokassaForm()
   // The same query the BTCPay card reads, so no second request: whether this
-  // instance takes cryptocurrency decides if BTCPay is a row at all.
+  // instance takes cryptocurrency decides if BTCPay and Bitcart are rows at
+  // all. One switch serves both (`PAYMENTS_CRYPTO_AVAILABLE`).
   const { btcpay } = useTenantBtcpay()
   const cryptoAvailable = btcpay?.available === true
   const {
@@ -201,6 +204,9 @@ export const PaymentSettings = () => {
 
       {/* ask-20261005-070255-438f: the shop's own BTCPay Server store. */}
       <BtcpayCard />
+
+      {/* ask-20261005-070255-438f, stage 2: the shop's own Bitcart store. */}
+      <BitcartCard />
 
       {/* olavka-payments: crypto wallets and manager contacts on the manual provider. */}
       <ManualPaymentCard />

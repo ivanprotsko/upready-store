@@ -29,6 +29,11 @@ export type TenantPaymentMethods = {
    * and only on an instance that takes cryptocurrency at all.
    */
   btcpay: boolean;
+  /**
+   * The shop's own Bitcart store, enabled (ask-20261005-070255-438f, stage 2),
+   * under the same instance switch as BTCPay.
+   */
+  bitcart: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
   demo: boolean;
@@ -57,21 +62,26 @@ export const resolveTenantPaymentMethods = (params: {
   robokassaEnabled: boolean;
   tributeEnabled: boolean;
   btcpayEnabled: boolean;
+  /** The shop's Bitcart store is saved and switched on. Absent reads as `false`. */
+  bitcartEnabled?: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
   /**
    * Whether this instance takes cryptocurrency (`btcpay/availability.ts`).
-   * Read from the environment unless given; a shop's saved BTCPay store
-   * counts for nothing where it is `false`, so neither the checkout's
+   * Read from the environment unless given; a shop's saved BTCPay or Bitcart
+   * store counts for nothing where it is `false`, so neither the checkout's
    * provider list nor `by-host` ever offer it there.
    */
   cryptoAvailable?: boolean;
 }): TenantPaymentMethods => {
-  const btcpay = params.btcpayEnabled && (params.cryptoAvailable ?? cryptoPaymentsAvailable());
+  const crypto = params.cryptoAvailable ?? cryptoPaymentsAvailable();
+  const btcpay = params.btcpayEnabled && crypto;
+  const bitcart = Boolean(params.bitcartEnabled) && crypto;
   const hasRealMethod =
     params.robokassaEnabled ||
     params.tributeEnabled ||
     btcpay ||
+    bitcart ||
     params.manualCrypto ||
     params.manualManager;
 
@@ -79,6 +89,7 @@ export const resolveTenantPaymentMethods = (params: {
     robokassa: params.robokassaEnabled,
     tribute: params.tributeEnabled,
     btcpay,
+    bitcart,
     manualCrypto: params.manualCrypto,
     manualManager: params.manualManager,
     demo: !hasRealMethod,

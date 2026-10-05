@@ -5,6 +5,7 @@ import type { Logger } from "@medusajs/framework/types";
 import { readRobokassaSecretPublic } from "../../../tenant-secrets/robokassa";
 import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
 import { readBtcpaySecretPublic } from "../../../tenant-secrets/btcpay";
+import { readBitcartSecretPublic } from "../../../tenant-secrets/bitcart";
 import {
   manualPaymentMethods,
   resolveTenantPaymentMethods,
@@ -33,6 +34,7 @@ export const tenantPaymentMethodsFor = async (req: MedusaStoreRequest): Promise<
       robokassaEnabled: false,
       tributeEnabled: false,
       btcpayEnabled: false,
+      bitcartEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });
@@ -42,10 +44,11 @@ export const tenantPaymentMethodsFor = async (req: MedusaStoreRequest): Promise<
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
-  const [secret, tributeSecret, btcpaySecret, tenantResult] = await Promise.all([
+  const [secret, tributeSecret, btcpaySecret, bitcartSecret, tenantResult] = await Promise.all([
     readRobokassaSecretPublic(pg, tenant.id, logger),
     readTributeSecretPublic(pg, tenant.id, logger),
     readBtcpaySecretPublic(pg, tenant.id, logger),
+    readBitcartSecretPublic(pg, tenant.id, logger),
     query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
   ]);
 
@@ -56,6 +59,7 @@ export const tenantPaymentMethodsFor = async (req: MedusaStoreRequest): Promise<
     robokassaEnabled: Boolean(secret),
     tributeEnabled: Boolean(tributeSecret),
     btcpayEnabled: Boolean(btcpaySecret),
+    bitcartEnabled: Boolean(bitcartSecret),
     ...manualPaymentMethods(legacyManualPayment(manualPayment)),
   });
 };

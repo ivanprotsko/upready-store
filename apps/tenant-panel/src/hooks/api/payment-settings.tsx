@@ -68,6 +68,8 @@ export type TenantPaymentMethods = {
   robokassa: boolean
   /** The shop's own BTCPay Server store, switched on (ask-20261005-070255-438f). */
   btcpay?: boolean
+  /** The shop's own Bitcart store, switched on (ask-20261005-070255-438f, stage 2). */
+  bitcart?: boolean
   manualCrypto: boolean
   manualManager: boolean
   demo: boolean
