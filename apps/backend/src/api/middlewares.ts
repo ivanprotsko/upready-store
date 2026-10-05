@@ -169,6 +169,7 @@ import {
   PutTenantTributeSchema,
   PutTenantBtcpaySchema,
   PutTenantBitcartSchema,
+  PutTenantX402Schema,
   PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
@@ -258,6 +259,8 @@ import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { injectTributeTenant } from "./store/tenant/tribute";
 import { injectBtcpayTenant } from "./store/tenant/btcpay";
 import { injectBitcartTenant } from "./store/tenant/bitcart";
+import { injectX402Tenant } from "./store/tenant/x402";
+import { PostStoreX402PurchaseSchema } from "./store/x402/validators";
 import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
@@ -460,6 +463,19 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantBitcartSchema)],
     },
     {
+      // The shop's x402 settings (t-2026-10-03-33).
+      matcher: "/tenants/payment-settings/x402",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantX402Schema)],
+    },
+    {
+      // An AI agent's x402 purchase (t-2026-10-03-33). Each unpaid request
+      // quotes on a real cart, so a client gets 30 a minute.
+      matcher: "/store/x402/purchase",
+      method: ["POST"],
+      middlewares: [rateLimit({ limit: 30 }), validateAndTransformBody(PostStoreX402PurchaseSchema)],
+    },
+    {
       // BTCPay's per-shop webhook (ask-20261005-070255-438f): `BTCPay-Sig` is
       // an HMAC-SHA256 of the RAW body, so the exact bytes have to survive JSON
       // parsing (`req.rawBody`), for the reason the Tribute webhook gives above.
@@ -495,14 +511,21 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantRequisitesSchema)],
     },
     {
-      // Robokassa, Tribute, BTCPay and Bitcart all need the SERVER's word on
-      // which shop the cart belongs to; the client's `data.tenant_id`, if any,
-      // is overwritten (step 4 of the task; t-cherk-22 for Tribute;
-      // ask-20261005-070255-438f for BTCPay and Bitcart). Each middleware is a
-      // no-op unless `body.provider_id` is its own, so they compose cleanly.
+      // Robokassa, Tribute, BTCPay, Bitcart and x402 all need the SERVER's word
+      // on which shop the cart belongs to; the client's `data.tenant_id`, if
+      // any, is overwritten (step 4 of the task; t-cherk-22 for Tribute;
+      // ask-20261005-070255-438f for BTCPay and Bitcart; t-2026-10-03-33 for
+      // x402). Each middleware is a no-op unless `body.provider_id` is its own,
+      // so they compose cleanly.
       matcher: "/store/payment-collections/:id/payment-sessions",
       method: ["POST"],
-      middlewares: [injectRobokassaTenant, injectTributeTenant, injectBtcpayTenant, injectBitcartTenant],
+      middlewares: [
+        injectRobokassaTenant,
+        injectTributeTenant,
+        injectBtcpayTenant,
+        injectBitcartTenant,
+        injectX402Tenant,
+      ],
     },
     {
       // The shadowing route in `src/api/store/payment-providers/route.ts`

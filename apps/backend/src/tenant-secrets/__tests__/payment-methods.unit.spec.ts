@@ -14,7 +14,8 @@ import {
  * "connected" method. Tribute (t-cherk-22) joins the same resolver, so its
  * own on/off is exercised alongside Robokassa's rather than in a parallel
  * suite, and BTCPay (ask-20261005-070255-438f) after it, then Bitcart
- * (the same task's stage 2) under the same instance switch.
+ * (the same task's stage 2) under the same instance switch, then x402
+ * (t-2026-10-03-33) under it too.
  */
 
 describe("resolveTenantPaymentMethods", () => {
@@ -32,6 +33,7 @@ describe("resolveTenantPaymentMethods", () => {
       tribute: false,
       btcpay: false,
       bitcart: false,
+      x402: false,
       manualCrypto: false,
       manualManager: false,
       demo: true,
@@ -66,6 +68,7 @@ describe("resolveTenantPaymentMethods", () => {
       tribute: true,
       btcpay: false,
       bitcart: false,
+      x402: false,
       manualCrypto: false,
       manualManager: false,
       demo: false,
@@ -88,6 +91,7 @@ describe("resolveTenantPaymentMethods", () => {
       tribute: false,
       btcpay: true,
       bitcart: false,
+      x402: false,
       manualCrypto: false,
       manualManager: false,
       demo: false,
@@ -134,6 +138,7 @@ describe("resolveTenantPaymentMethods", () => {
       tribute: false,
       btcpay: false,
       bitcart: true,
+      x402: false,
       manualCrypto: false,
       manualManager: false,
       demo: false,
@@ -177,6 +182,55 @@ describe("resolveTenantPaymentMethods", () => {
 
     const { bitcartEnabled: _omitted, ...withoutBitcart } = params;
     expect(resolveTenantPaymentMethods({ ...withoutBitcart, cryptoAvailable: true }).bitcart).toBe(false);
+  });
+
+  it("x402 only: the demo card disappears, and x402 alone reads true", () => {
+    const methods = resolveTenantPaymentMethods({
+      robokassaEnabled: false,
+      tributeEnabled: false,
+      btcpayEnabled: false,
+      x402Enabled: true,
+      manualCrypto: false,
+      manualManager: false,
+      cryptoAvailable: true,
+    });
+
+    expect(methods).toEqual({
+      robokassa: false,
+      tribute: false,
+      btcpay: false,
+      bitcart: false,
+      x402: true,
+      manualCrypto: false,
+      manualManager: false,
+      demo: false,
+    });
+    expect(offersSystemDefault(methods)).toBe(false);
+  });
+
+  it("a ready x402 row counts for nothing on an instance without cryptocurrency, and an absent flag reads as off", () => {
+    const params = {
+      robokassaEnabled: false,
+      tributeEnabled: false,
+      btcpayEnabled: false,
+      x402Enabled: true,
+      manualCrypto: false,
+      manualManager: false,
+    };
+
+    const off = resolveTenantPaymentMethods({ ...params, cryptoAvailable: false });
+    expect(off.x402).toBe(false);
+    expect(off.demo).toBe(true);
+
+    const previous = process.env.PAYMENTS_CRYPTO_AVAILABLE;
+    delete process.env.PAYMENTS_CRYPTO_AVAILABLE;
+    try {
+      expect(resolveTenantPaymentMethods(params).x402).toBe(false);
+    } finally {
+      if (previous !== undefined) process.env.PAYMENTS_CRYPTO_AVAILABLE = previous;
+    }
+    // A caller that predates x402 and does not pass it gets no x402.
+    expect(resolveTenantPaymentMethods({ ...params, x402Enabled: undefined, cryptoAvailable: true }).x402).toBe(false);
   });
 
   it("Robokassa and Tribute both connected: both read true, demo stays hidden", () => {
