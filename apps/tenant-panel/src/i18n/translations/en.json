@@ -374,6 +374,32 @@
       "placeholder": "Jump to or find anything...",
       "showMore": "Show more",
       "title": "Search"
+    },
+    "commandMenu": {
+      "title": "Command menu",
+      "description": "The panel's sections, quick actions, and product and order search.",
+      "placeholder": "Go to a section, find a product or an order…",
+      "close": "Close",
+      "noResultsMessage": "No section, action, product or order matches this search.",
+      "orderTitle": "Order #{{number}}",
+      "allProducts": "All matching products ({{count}})",
+      "allOrders": "All matching orders ({{count}})",
+      "groups": {
+        "navigation": "Sections",
+        "actions": "Actions",
+        "products": "Products",
+        "orders": "Orders"
+      },
+      "actions": {
+        "createProduct": "Create a product",
+        "createCategory": "Create a category",
+        "createPromotion": "Create a promotion",
+        "newArticle": "Write a journal article",
+        "createShipping": "Add a delivery method",
+        "openShop": "Open the shop",
+        "toggleTheme": "Switch theme (light / dark)",
+        "logout": "Log out"
+      }
     }
   },
   "auth": {

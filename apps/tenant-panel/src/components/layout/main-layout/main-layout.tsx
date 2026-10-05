@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import { useMe } from "../../../hooks/api/users"
 import { useMyShops, useSwitchShop } from "../../../hooks/api/shops"
 import { useStore } from "../../../hooks/api/store"
+import { CommandMenuTrigger } from "../../command-menu"
 import { Skeleton } from "../../common/skeleton"
 import { OwnerNav } from "../../layout/owner-nav"
 import { Shell } from "../../layout/shell"
@@ -222,7 +223,16 @@ const Header = () => {
 // named after the owner's jobs. The data lives in `../owner-nav/nav-model.ts`
 // (the top bar and the section tabs read it too), the rendering in
 // `../owner-nav/owner-nav.tsx`. `NavItem` is no longer used by the panel.
-const SidebarRoutes = () => <OwnerNav />
+// ask-20261005-112844-10ba: the Admin's search trigger is back above the menu,
+// opening the owner's command menu (⌘K).
+const SidebarRoutes = () => (
+  <>
+    <div className="px-3 pt-3">
+      <CommandMenuTrigger />
+    </div>
+    <OwnerNav />
+  </>
+)
 
 const UserSection = () => {
   return (

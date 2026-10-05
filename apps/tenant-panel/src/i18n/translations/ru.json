@@ -380,6 +380,32 @@
       "placeholder": "Перейти или найти что-либо...",
       "showMore": "Показать больше",
       "title": "Поиск"
+    },
+    "commandMenu": {
+      "title": "Меню команд",
+      "description": "Разделы панели, быстрые действия, поиск товаров и заказов.",
+      "placeholder": "Перейти в раздел, найти товар или заказ…",
+      "close": "Закрыть",
+      "noResultsMessage": "Ни раздел, ни действие, ни товар, ни заказ не подходят под запрос.",
+      "orderTitle": "Заказ #{{number}}",
+      "allProducts": "Все найденные товары ({{count}})",
+      "allOrders": "Все найденные заказы ({{count}})",
+      "groups": {
+        "navigation": "Разделы",
+        "actions": "Действия",
+        "products": "Товары",
+        "orders": "Заказы"
+      },
+      "actions": {
+        "createProduct": "Создать товар",
+        "createCategory": "Создать категорию",
+        "createPromotion": "Создать акцию",
+        "newArticle": "Написать статью в журнал",
+        "createShipping": "Добавить способ доставки",
+        "openShop": "Открыть магазин",
+        "toggleTheme": "Сменить тему (светлая / тёмная)",
+        "logout": "Выйти"
+      }
     }
   },
   "brandingSettings": {
