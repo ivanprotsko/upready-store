@@ -5,8 +5,9 @@ import PayPal from "@modules/common/icons/paypal"
 import type { HttpTypes } from "@medusajs/types"
 import type React from "react"
 import { btcpayReturnUrl, isBtcpay } from "@lib/util/btcpay"
+import { bitcartReturnUrl, isBitcart } from "@lib/util/bitcart"
 
-export { isBtcpay }
+export { isBtcpay, isBitcart }
 
 /* Map of payment provider_id to their icon and, as a fallback for a provider
    with no entry in the `PaymentMethods` catalog, an English title. Add in any
@@ -49,6 +50,13 @@ export const paymentInfoMap: Record<
   // The shop's own BTCPay Server store (ask-20261005-070255-438f), a redirect
   // provider like Robokassa. Listed only where the owner switched it on.
   pp_btcpay_btcpay: {
+    title: "Cryptocurrency",
+    icon: <CurrencyDollar />,
+  },
+  // The shop's own Bitcart store (ask-20261005-070255-438f, stage 2), the
+  // same kind of redirect. A shop with both lists both, told apart by the
+  // processor name the checkout prints next to each.
+  pp_bitcart_bitcart: {
     title: "Cryptocurrency",
     icon: <CurrencyDollar />,
   },
@@ -118,6 +126,17 @@ const paymentSessionDataBuilders: Array<{
         return_url: btcpayReturnUrl(cart.id, { origin, locale }),
         ...(locale ? { locale } : {}),
       }
+    },
+  },
+  {
+    // Bitcart sends the buyer back to the same return route. Its checkout
+    // page takes no language from the invoice, so only the address goes.
+    test: isBitcart,
+    build: (cart) => {
+      const locale =
+        typeof window !== "undefined" ? window.location.pathname.split("/")[1] || "" : ""
+      const origin = typeof window !== "undefined" ? window.location.origin : ""
+      return { return_url: bitcartReturnUrl(cart.id, { origin, locale }) }
     },
   },
 ]

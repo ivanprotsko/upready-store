@@ -913,6 +913,7 @@
     "pp_paypal_paypal": "PayPal",
     "pp_robokassa_robokassa": "Robokassa",
     "pp_btcpay_btcpay": "Criptomonedas",
+    "pp_bitcart_bitcart": "Criptomonedas",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Tarjeta de crédito",

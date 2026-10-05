@@ -93,6 +93,15 @@ describe("RobokassaRetryNotice with Robokassa's own answer", () => {
  * which: a transfer the network has not confirmed, or an invoice that expired
  * with nothing paid.
  */
+const bitcartCart = (status: string, data: Record<string, unknown>) =>
+  ({
+    id: "cart_3",
+    completed_at: null,
+    payment_collection: {
+      payment_sessions: [{ provider_id: "pp_bitcart_bitcart", status, data }],
+    },
+  }) as unknown as HttpTypes.StoreCart
+
 describe("RobokassaRetryNotice for a buyer back from BTCPay", () => {
   it("speaks of the network, not the bank, while the transfer is being confirmed", () => {
     const html = render(
@@ -125,5 +134,32 @@ describe("RobokassaRetryNotice for a buyer back from BTCPay", () => {
 
     expect(html).toContain('data-testid="payment-pending-notice"')
     expect(html).not.toContain("pay again to get a new invoice")
+  })
+})
+
+/** Stage 2 of the same task: a buyer back from Bitcart gets the same two answers from Bitcart's own statuses. */
+describe("RobokassaRetryNotice for a buyer back from Bitcart", () => {
+  it("speaks of the network while the transfer is being confirmed", () => {
+    const html = render(
+      "pending",
+      "ru",
+      bitcartCart("pending", { invoice_status: "confirmed", expires_at: "2099-01-01T00:00:00.000Z" })
+    )
+
+    expect(html).toContain('data-testid="payment-pending-notice"')
+    expect(html).toContain("Сеть ещё не подтвердила ваш перевод")
+  })
+
+  it("says the invoice expired when nothing was paid, and never so after a partial payment", () => {
+    const expired = render("pending", "en", bitcartCart("canceled", { invoice_status: "expired", exception_status: "none" }))
+    expect(expired).toContain('data-testid="crypto-invoice-expired-notice"')
+
+    const partial = render(
+      "pending",
+      "en",
+      bitcartCart("requires_more", { invoice_status: "expired", exception_status: "paid_partial" })
+    )
+    expect(partial).toContain('data-testid="payment-pending-notice"')
+    expect(partial).not.toContain("pay again to get a new invoice")
   })
 })
