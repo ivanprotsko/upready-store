@@ -1215,6 +1215,9 @@
     "postcode": "邮编 {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "健康专栏"
+    },
     "slider": {
       "course": "课程",
       "goTo": "前往「{title}」",

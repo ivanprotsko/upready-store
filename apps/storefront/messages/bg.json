@@ -1215,6 +1215,9 @@
     "postcode": "Пощенски код {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Списание за здраве"
+    },
     "slider": {
       "course": "Курс",
       "goTo": "Към „{title}“",

@@ -1215,6 +1215,9 @@
     "postcode": "מיקוד {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "מגזין הבריאות"
+    },
     "slider": {
       "course": "קורס",
       "goTo": "עבור אל ”{title}”",

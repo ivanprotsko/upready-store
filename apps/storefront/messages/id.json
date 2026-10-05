@@ -1215,6 +1215,9 @@
     "postcode": "Kode pos {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Jurnal kesehatan"
+    },
     "slider": {
       "course": "Kursus",
       "goTo": "Buka “{title}”",

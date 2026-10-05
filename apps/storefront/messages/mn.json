@@ -1215,6 +1215,9 @@
     "postcode": "Шуудангийн код {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Эрүүл мэндийн сэтгүүл"
+    },
     "slider": {
       "course": "Курс",
       "goTo": "«{title}» руу очих",

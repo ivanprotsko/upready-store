@@ -1215,6 +1215,9 @@
     "postcode": "पिन कोड {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "स्वास्थ्य पत्रिका"
+    },
     "slider": {
       "course": "कोर्स",
       "goTo": "“{title}” पर जाएं",

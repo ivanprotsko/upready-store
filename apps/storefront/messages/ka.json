@@ -1215,6 +1215,9 @@
     "postcode": "საფოსტო ინდექსი {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "ჯანმრთელობის ჟურნალი"
+    },
     "slider": {
       "course": "კურსი",
       "goTo": "გადასვლა „{title}“-ზე",

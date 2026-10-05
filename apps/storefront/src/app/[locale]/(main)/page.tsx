@@ -9,7 +9,9 @@ import {
   DEFAULT_LISTING,
   DEFAULT_TILES,
   OLAVKA_HOME_BLOCKS,
+  OLAVKA_HOME_BLOCKS_AFTER,
   OLAVKA_HOME_ORDER,
+  OLAVKA_HOME_ORDER_AFTER,
   HERO_VARIANTS,
   LISTING_VARIANTS,
   type HomeBlockKey,
@@ -216,6 +218,13 @@ export default async function Home() {
       {order.map((block) => (
         <Fragment key={block}>{blocks[block]}</Fragment>
       ))}
+      {/* And the Olavka shop's blocks that close the page, under the tenant's own:
+          `OLAVKA_HOME_ORDER_AFTER` in the same file. */}
+      {olavka &&
+        OLAVKA_HOME_ORDER_AFTER.map((block) => {
+          const Block = OLAVKA_HOME_BLOCKS_AFTER[block]
+          return <Block key={block} />
+        })}
     </>
   )
 }

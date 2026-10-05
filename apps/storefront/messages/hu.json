@@ -1215,6 +1215,9 @@
     "postcode": "Irányítószám: {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Egészségmagazin"
+    },
     "slider": {
       "course": "Kurzus",
       "goTo": "Ugrás ide: „{title}”",

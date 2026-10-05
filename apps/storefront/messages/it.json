@@ -1215,6 +1215,9 @@
     "postcode": "CAP {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Rivista della salute"
+    },
     "slider": {
       "course": "Corso",
       "goTo": "Vai a “{title}”",

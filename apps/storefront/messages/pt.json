@@ -1215,6 +1215,9 @@
     "postcode": "Código postal {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Revista de saúde"
+    },
     "slider": {
       "course": "Curso",
       "goTo": "Ir para “{title}”",

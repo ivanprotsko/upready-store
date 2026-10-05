@@ -1215,6 +1215,9 @@
     "postcode": "Kod pocztowy {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Magazyn zdrowia"
+    },
     "slider": {
       "course": "Kurs",
       "goTo": "Przejdź do „{title}”",

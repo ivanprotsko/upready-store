@@ -1215,6 +1215,9 @@
     "postcode": "รหัสไปรษณีย์ {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "บทความสุขภาพ"
+    },
     "slider": {
       "course": "คอร์ส",
       "goTo": "ไปที่ “{title}”",

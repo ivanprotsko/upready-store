@@ -1215,6 +1215,9 @@
     "postcode": "Posta kodu {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Sağlık dergisi"
+    },
     "slider": {
       "course": "Kurs",
       "goTo": "“{title}” öğesine git",

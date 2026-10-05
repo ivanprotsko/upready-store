@@ -1215,6 +1215,9 @@
     "postcode": "Індекс {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Журнал здоров’я"
+    },
     "slider": {
       "course": "Курс",
       "goTo": "Перейти до «{title}»",

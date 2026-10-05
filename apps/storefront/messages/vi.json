@@ -1215,6 +1215,9 @@
     "postcode": "Mã bưu chính {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Tạp chí sức khỏe"
+    },
     "slider": {
       "course": "Khóa học",
       "goTo": "Đi tới “{title}”",

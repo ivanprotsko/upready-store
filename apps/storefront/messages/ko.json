@@ -1215,6 +1215,9 @@
     "postcode": "우편번호 {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "건강 매거진"
+    },
     "slider": {
       "course": "코스",
       "goTo": "“{title}”(으)로 이동",

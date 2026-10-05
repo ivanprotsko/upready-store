@@ -1215,6 +1215,9 @@
     "postcode": "Postnummer {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Hälsomagasin"
+    },
     "slider": {
       "course": "Kurs",
       "goTo": "Gå till “{title}”",

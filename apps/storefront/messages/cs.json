@@ -1215,6 +1215,9 @@
     "postcode": "PSČ {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Magazín o zdraví"
+    },
     "slider": {
       "course": "Kurz",
       "goTo": "Přejít na „{title}“",

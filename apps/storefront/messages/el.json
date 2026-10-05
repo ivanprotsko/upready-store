@@ -1215,6 +1215,9 @@
     "postcode": "Ταχυδρομικός κώδικας {index}"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Άρθρα υγείας"
+    },
     "slider": {
       "course": "Μάθημα",
       "goTo": "Μετάβαση στο «{title}»",
