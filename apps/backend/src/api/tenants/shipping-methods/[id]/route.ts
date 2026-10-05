@@ -2,7 +2,7 @@ import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/frame
 import { MedusaError } from "@medusajs/framework/utils";
 import deleteTenantShippingMethodWorkflow from "../../../../workflows/tenant/shipping-methods/delete-tenant-shipping-method";
 import updateTenantShippingMethodWorkflow from "../../../../workflows/tenant/shipping-methods/update-tenant-shipping-method";
-import { keptMethodData, normaliseTariff, TENANT_METHOD_SCHEMA, type TenantMethodData } from "../../../../shipping-tariffs/tariff";
+import { normaliseTariff, TENANT_METHOD_SCHEMA, type TenantMethodData } from "../../../../shipping-tariffs/tariff";
 import { assertOwnedMethod, getTenantWarehouse, labelledZone, providerFor } from "../helpers";
 import type { PostTenantShippingMethodUpdateBody } from "../validators";
 
@@ -59,7 +59,7 @@ export const POST = async (
     // is — that edit says nothing about the price.
     ...(body.tariff === undefined && current.tariff_source ? { tariff_source: current.tariff_source } : {}),
     // The form has no field for the other languages' texts yet; they stay as they were.
-    ...keptMethodData(current),
+    ...(current.i18n ? { i18n: current.i18n } : {}),
   };
 
   await updateTenantShippingMethodWorkflow(req.scope).run({

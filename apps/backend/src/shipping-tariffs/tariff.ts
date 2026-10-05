@@ -70,8 +70,8 @@ export type TenantMethodData = {
    * cover the option's `name` and not its `data`, so the checkout reads these
    * beside the base texts (storefront `lib/util/shipping-option-text.ts`).
    * The panel does not edit them yet, so every route that rebuilds `data`
-   * carries them over (`keptMethodData`), or the owner's next save, reorder or
-   * weight change would erase them (t-2026-10-04-19, DHL on cherkashino.com/ru).
+   * carries them over, or the owner's next save, reorder or weight change
+   * would erase them (t-2026-10-04-19, DHL on cherkashino.com/ru).
    */
   i18n?: MethodTextTranslations | null;
 };
@@ -83,11 +83,24 @@ export type MethodTextTranslations = Record<
 >;
 
 /**
- * What a route that rebuilds `data` from the method's known fields has to
- * carry over as it was: today the texts in the shop's other languages.
+ * What a route that rebuilds `data` without the owner's form (`reorder`,
+ * `settings`) has to carry over as it was: the carrier, who set the tariff and
+ * the texts in the shop's other languages. Before this both routes dropped
+ * `carrier`, and the checkout groups a method into its card by
+ * `data.carrier` (the «Почта России — до отделения» tariff goes under «В пункт
+ * выдачи» by `post_ru`), so the first reorder in the panel took it out of its
+ * card (t-2026-10-04-19, with D10). The update route decides `carrier` and
+ * `tariff_source` from the form and carries only `i18n`.
  */
-export const keptMethodData = (method: { i18n?: MethodTextTranslations | null }): Pick<TenantMethodData, "i18n"> =>
-  method.i18n ? { i18n: method.i18n } : {};
+export const keptMethodData = (method: {
+  carrier?: string | null;
+  tariff_source?: TariffSource | null;
+  i18n?: MethodTextTranslations | null;
+}): Pick<TenantMethodData, "carrier" | "tariff_source" | "i18n"> => ({
+  ...(method.carrier ? { carrier: method.carrier } : {}),
+  ...(method.tariff_source ? { tariff_source: method.tariff_source } : {}),
+  ...(method.i18n ? { i18n: method.i18n } : {}),
+});
 
 /** Who set the tariff the method carries. Absent means the owner did. */
 export type TariffSource = "provisioned-default";

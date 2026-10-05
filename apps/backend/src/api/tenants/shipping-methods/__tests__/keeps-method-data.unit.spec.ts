@@ -33,12 +33,14 @@ jest.mock("../helpers", () => {
 });
 
 /**
- * t-2026-10-04-19 (DHL on cherkashino.com/ru): a method's Russian description
- * lives in `data.i18n`, because Medusa's translations cover the option's `name`
- * and not its `data`. The panel has no field for it, and three routes rebuild
- * `data` from the fields they know. This pins that each of them carries
- * `i18n` over, so the owner's next save, reorder or weight change cannot
- * silently put the English text back on the Russian checkout.
+ * t-2026-10-04-19: three panel routes rebuild a method's `data` from the fields
+ * they know. This pins what each of them has to carry over as it was:
+ * - `i18n` (DHL on cherkashino.com/ru): the Russian description lives there,
+ *   because Medusa's translations cover the option's `name` and not its `data`;
+ * - `carrier` and `tariff_source` on `reorder` and `settings`: the checkout puts
+ *   «Почта России — до отделения» into its «В пункт выдачи» card by
+ *   `carrier = post_ru` (D10), and both routes used to drop it.
+ * The update route takes `carrier` and `tariff_source` from the owner's form.
  */
 
 const I18N = {
@@ -89,6 +91,17 @@ const dhl = (data: TenantMethodData = DATA): TenantShippingMethod =>
     0,
   );
 
+/** «Почта России — до отделения» as provisioned: carrier post_ru, tariff not confirmed by the owner. */
+const POST_RU: TenantMethodData = {
+  ...DATA,
+  tariff: { kind: "flat", amount: 410 },
+  description: "Отправляем Почтой России. Трек-номер придёт письмом после отправки заказа.",
+  delivery_hint: "5–14 дней",
+  carrier: "post_ru",
+  tariff_source: "provisioned-default",
+  i18n: undefined,
+};
+
 const res = () => ({ json: jest.fn() }) as never;
 const helpers = jest.requireMock("../helpers") as Record<string, jest.Mock>;
 const writtenData = () => {
@@ -103,7 +116,7 @@ beforeEach(() => {
   helpers.listTenantMethods.mockResolvedValue([dhl()]);
 });
 
-describe("a method's texts in other languages survive every panel write", () => {
+describe("what the panel's writes keep in a method's data", () => {
   it("reads them out of the option's data", () => {
     expect(dhl().i18n).toEqual(I18N);
     expect(dhl({ ...DATA, i18n: undefined }).i18n).toBeNull();
@@ -125,6 +138,37 @@ describe("a method's texts in other languages survive every panel write", () => 
     await saveSettings({ validatedBody: { default_weight_g: 700 } } as never, res());
 
     expect(writtenData()).toEqual([expect.objectContaining({ i18n: I18N, default_weight_g: 700 })]);
+  });
+
+  it("keeps the carrier and the tariff's source when the owner reorders the methods", async () => {
+    helpers.listTenantMethods.mockResolvedValue([dhl(POST_RU)]);
+
+    await reorderMethods({ validatedBody: { ids: ["so_dhl"] } } as never, res());
+
+    expect(writtenData()).toEqual([expect.objectContaining({ carrier: "post_ru", tariff_source: "provisioned-default" })]);
+    expect(writtenData()[0]).not.toHaveProperty("i18n");
+  });
+
+  it("keeps the carrier and the tariff's source when the owner changes the default weight", async () => {
+    helpers.listTenantMethods.mockResolvedValue([dhl(POST_RU)]);
+
+    await saveSettings({ validatedBody: { default_weight_g: 700 } } as never, res());
+
+    expect(writtenData()).toEqual([
+      expect.objectContaining({ carrier: "post_ru", tariff_source: "provisioned-default", default_weight_g: 700 }),
+    ]);
+  });
+
+  it("drops the tariff's source on the owner's own tariff and takes her carrier from the form", async () => {
+    helpers.assertOwnedMethod.mockResolvedValue(dhl(POST_RU));
+
+    await updateMethod(
+      { params: { id: "so_dhl" }, validatedBody: { tariff: { kind: "flat", amount: 450 }, carrier: "cdek" } } as never,
+      res(),
+    );
+
+    expect(writtenData()[0]).toEqual(expect.objectContaining({ carrier: "cdek", tariff: expect.objectContaining({ kind: "flat", amount: 450 }) }));
+    expect(writtenData()[0]).not.toHaveProperty("tariff_source");
   });
 
   it("writes no i18n key for a method that has none", async () => {
