@@ -1252,5 +1252,16 @@
     "marketing": "Haluan saada uutisia, kampanjoita ja erikoistarjouksia sähköpostitse. Voin perua tilauksen milloin tahansa kunkin viestin linkistä.",
     "receipt": "Kuitti lähetetään tilauksessa antamaasi sähköpostiosoitteeseen (54-FZ).",
     "hint": "Tee tilaus valitsemalla suostumus henkilötietojen käsittelyyn."
+  },
+  "CatalogView": {
+    "compact": "Tiivis ruudukko",
+    "grid": "Ruudukko",
+    "label": "Näkymä",
+    "list": "Luettelo",
+    "perPage": "Tuotteita sivulla"
+  },
+  "Brands": {
+    "all": "Kaikki merkit",
+    "title": "Merkit"
   }
 }

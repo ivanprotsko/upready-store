@@ -1252,5 +1252,16 @@
     "marketing": "Sunt de acord să primesc noutăți, promoții și oferte speciale pe e-mail. Mă pot dezabona oricând prin linkul din fiecare e-mail.",
     "receipt": "Bonul fiscal va fi trimis la adresa de e-mail indicată la comandă (54-FZ).",
     "hint": "Pentru a plasa comanda, bifați consimțământul pentru prelucrarea datelor personale."
+  },
+  "CatalogView": {
+    "compact": "Grilă compactă",
+    "grid": "Grilă",
+    "label": "Afișare",
+    "list": "Listă",
+    "perPage": "Produse pe pagină"
+  },
+  "Brands": {
+    "all": "Toate mărcile",
+    "title": "Mărci"
   }
 }

@@ -1252,5 +1252,16 @@
     "marketing": "Zgadzam się na otrzymywanie nowości, promocji i ofert specjalnych na podany e-mail. Mogę zrezygnować w każdej chwili, klikając link w wiadomości.",
     "receipt": "Paragon fiskalny zostanie wysłany na e-mail podany przy zamówieniu (54-FZ).",
     "hint": "Aby złożyć zamówienie, zaznacz zgodę na przetwarzanie danych osobowych."
+  },
+  "CatalogView": {
+    "compact": "Gęsta siatka",
+    "grid": "Siatka",
+    "label": "Widok",
+    "list": "Lista",
+    "perPage": "Produktów na stronie"
+  },
+  "Brands": {
+    "all": "Wszystkie marki",
+    "title": "Marki"
   }
 }

@@ -1252,5 +1252,16 @@
     "marketing": "I agree to receive news, promotions and special offers by e-mail. I can unsubscribe at any time via the link in each e-mail.",
     "receipt": "A cashier's receipt will be sent to the e-mail you entered at checkout (54-FZ).",
     "hint": "To place the order, tick the consent to the processing of personal data."
+  },
+  "CatalogView": {
+    "compact": "Compact grid",
+    "grid": "Grid",
+    "label": "View",
+    "list": "List",
+    "perPage": "Products per page"
+  },
+  "Brands": {
+    "all": "All brands",
+    "title": "Brands"
   }
 }

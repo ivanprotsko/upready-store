@@ -1252,5 +1252,16 @@
     "marketing": "Pumapayag akong makatanggap ng balita, promo at espesyal na alok sa e-mail. Maaari akong mag-unsubscribe anumang oras gamit ang link sa bawat e-mail.",
     "receipt": "Ipapadala ang resibo sa e-mail na inilagay mo sa pag-order (54-FZ).",
     "hint": "Para mag-order, lagyan ng tsek ang pahintulot sa pagproseso ng personal na data."
+  },
+  "CatalogView": {
+    "compact": "Siksik na grid",
+    "grid": "Grid",
+    "label": "Tanaw",
+    "list": "Listahan",
+    "perPage": "Mga produkto bawat pahina"
+  },
+  "Brands": {
+    "all": "Lahat ng brand",
+    "title": "Mga brand"
   }
 }

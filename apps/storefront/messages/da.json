@@ -1252,5 +1252,16 @@
     "marketing": "Jeg vil gerne modtage nyheder, kampagner og særlige tilbud på e-mail. Jeg kan til enhver tid afmelde mig via linket i hver e-mail.",
     "receipt": "En kvittering sendes til den e-mail, du angav ved bestillingen (54-FZ).",
     "hint": "For at afgive ordren skal du sætte flueben ved samtykke til behandling af personoplysninger."
+  },
+  "CatalogView": {
+    "compact": "Tæt gitter",
+    "grid": "Gitter",
+    "label": "Visning",
+    "list": "Liste",
+    "perPage": "Produkter pr. side"
+  },
+  "Brands": {
+    "all": "Alle mærker",
+    "title": "Mærker"
   }
 }

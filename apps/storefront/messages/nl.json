@@ -1252,5 +1252,16 @@
     "marketing": "Ik ontvang graag nieuws, acties en speciale aanbiedingen per e-mail. Ik kan me altijd afmelden via de link in elke e-mail.",
     "receipt": "Een kassabon wordt verzonden naar het e-mailadres dat u bij de bestelling hebt opgegeven (54-FZ).",
     "hint": "Vink de toestemming voor de verwerking van persoonsgegevens aan om de bestelling te plaatsen."
+  },
+  "CatalogView": {
+    "compact": "Compact raster",
+    "grid": "Raster",
+    "label": "Weergave",
+    "list": "Lijst",
+    "perPage": "Producten per pagina"
+  },
+  "Brands": {
+    "all": "Alle merken",
+    "title": "Merken"
   }
 }

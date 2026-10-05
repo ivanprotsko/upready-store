@@ -93,10 +93,17 @@ const MAX_SWATCHES = 5
 export default async function ProductCard({
   product,
   priority,
+  layout = "card",
 }: {
   product: HttpTypes.StoreProduct
   priority?: boolean
+  /**
+   * `row` is the catalog's list view: the picture on the left, the text beside it, and the
+   * start of the description, which a card has no room for.
+   */
+  layout?: "card" | "row"
 }) {
+  const row = layout === "row"
   const [locale, t, wishlistLoggedIn, wishlistProductIds] = await Promise.all([
     getLocale(),
     getTranslations("ProductCard"),
@@ -129,10 +136,12 @@ export default async function ProductCard({
   return (
     <Link
       href={`/products/${product.handle}`}
-      className="group flex h-full flex-col rounded-[var(--radius,8px)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
+      className={`group flex h-full rounded-[var(--radius,8px)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive ${
+        row ? "flex-row items-start gap-x-4" : "flex-col"
+      }`}
       data-testid="product-wrapper"
     >
-      <div className="relative">
+      <div className={row ? "relative w-28 shrink-0 small:w-40" : "relative"}>
         <ProductMedia src={first} secondSrc={second} alt={product.title ?? ""} priority={priority} />
         <WishlistButton
           productId={product.id}
@@ -152,7 +161,7 @@ export default async function ProductCard({
         ) : null}
       </div>
 
-      <div className="mt-3 flex flex-1 flex-col">
+      <div className={row ? "flex min-w-0 flex-1 flex-col self-stretch" : "mt-3 flex flex-1 flex-col"}>
         <h3
           className="line-clamp-2 min-h-10 break-words text-sm font-medium leading-5 text-ui-fg-base group-hover:underline group-hover:underline-offset-2"
           data-testid="product-title"
@@ -178,6 +187,12 @@ export default async function ProductCard({
             </span>
           ) : null}
         </div>
+
+        {row && product.description ? (
+          <p className="mt-2 line-clamp-2 break-words text-sm leading-5 text-ui-fg-subtle" data-testid="product-excerpt">
+            {product.description}
+          </p>
+        ) : null}
 
         <div className="mt-auto flex flex-wrap items-baseline gap-x-2 pt-2 tabular-nums">
           {cheapestPrice ? (

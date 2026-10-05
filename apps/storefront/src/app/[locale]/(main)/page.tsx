@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Fragment, Suspense } from "react"
 
 import CategoryTiles from "@modules/home/components/category-tiles"
+import HomeBrands from "@modules/home/components/home-brands"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import {
   DEFAULT_BLOCK_ORDER,
@@ -229,6 +230,8 @@ export default async function Home() {
       {order.map((block) => (
         <Fragment key={block}>{blocks[block]}</Fragment>
       ))}
+      {/* The shop's brands, when it keeps a `brands` category (ask a0e1); nothing otherwise. */}
+      <HomeBrands />
     </>
   )
 }

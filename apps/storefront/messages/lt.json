@@ -1252,5 +1252,16 @@
     "marketing": "Sutinku gauti naujienas, akcijas ir specialius pasiūlymus el. paštu. Bet kada galiu atsisakyti paspaudęs nuorodą kiekviename laiške.",
     "receipt": "Kasos kvitas bus išsiųstas užsakymo metu nurodytu el. pašto adresu (54-FZ).",
     "hint": "Norėdami pateikti užsakymą, pažymėkite sutikimą dėl asmens duomenų tvarkymo."
+  },
+  "CatalogView": {
+    "compact": "Tankus tinklelis",
+    "grid": "Tinklelis",
+    "label": "Rodinys",
+    "list": "Sąrašas",
+    "perPage": "Prekių puslapyje"
+  },
+  "Brands": {
+    "all": "Visi prekių ženklai",
+    "title": "Prekių ženklai"
   }
 }

@@ -1252,5 +1252,16 @@
     "marketing": "Souhlasím se zasíláním novinek, akcí a speciálních nabídek na uvedený e-mail. Odhlásit se mohu kdykoli pomocí odkazu v každém e-mailu.",
     "receipt": "Pokladní doklad bude zaslán na e-mail zadaný při objednávce (54-FZ).",
     "hint": "Pro dokončení objednávky zaškrtněte souhlas se zpracováním osobních údajů."
+  },
+  "CatalogView": {
+    "compact": "Hustá mřížka",
+    "grid": "Mřížka",
+    "label": "Zobrazení",
+    "list": "Seznam",
+    "perPage": "Produktů na stránku"
+  },
+  "Brands": {
+    "all": "Všechny značky",
+    "title": "Značky"
   }
 }

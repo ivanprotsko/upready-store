@@ -1252,5 +1252,16 @@
     "marketing": "Jeg vil motta nyheter, kampanjer og spesialtilbud på e-post. Jeg kan når som helst melde meg av via lenken i hver e-post.",
     "receipt": "En kassekvittering sendes til e-postadressen du oppga ved bestillingen (54-FZ).",
     "hint": "For å legge inn bestillingen, kryss av for samtykke til behandling av personopplysninger."
+  },
+  "CatalogView": {
+    "compact": "Tett rutenett",
+    "grid": "Rutenett",
+    "label": "Visning",
+    "list": "Liste",
+    "perPage": "Produkter per side"
+  },
+  "Brands": {
+    "all": "Alle merker",
+    "title": "Merker"
   }
 }
