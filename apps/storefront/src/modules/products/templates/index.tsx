@@ -193,51 +193,66 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                     content spanning the first two columns, so the buy box lands on exactly
                     the same width as on every other product page (t-2026-09-25-18, 2.2) —
                     a fixed-width column here used to disagree with it. */}
+                {/* The grid, its columns and the cards hold their children in slots as
+                    well: the product handed to ProductSelectionProvider fills the row
+                    first, so everything below it is a lazy row (46df U-06). */}
                 <div className="grid grid-cols-1 gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1fr)] small:gap-6">
-                  <div className="flex min-w-0 flex-col gap-4 small:col-span-2 small:col-start-1 small:row-start-1 small:gap-6">
-                    {cover ? (
-                      <>
-                        <div
-                          className={`${CARD} p-3 small:p-4`}
-                          data-testid="product-gallery-card"
-                        >
-                          <CourseCover cover={cover} />
-                        </div>
-                        {summaryCard}
-                      </>
-                    ) : (
-                      <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] small:gap-6">
-                        <div
-                          className={`${CARD} p-3 small:p-4`}
-                          data-testid="product-gallery-card"
-                        >
-                          <ImageGallery images={images} title={product.title} />
-                        </div>
-                        {summaryCard}
-                      </div>
-                    )}
-                  </div>
+                  <HydrationSlot>
+                    <div className="flex min-w-0 flex-col gap-4 small:col-span-2 small:col-start-1 small:row-start-1 small:gap-6">
+                      <HydrationSlot>
+                        {cover ? (
+                          <>
+                            <div
+                              className={`${CARD} p-3 small:p-4`}
+                              data-testid="product-gallery-card"
+                            >
+                              <HydrationSlot>
+                                <CourseCover cover={cover} />
+                              </HydrationSlot>
+                            </div>
+                            {summaryCard}
+                          </>
+                        ) : (
+                          <div className="grid grid-cols-1 items-start gap-4 small:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] small:gap-6">
+                            <HydrationSlot>
+                              <div
+                                className={`${CARD} p-3 small:p-4`}
+                                data-testid="product-gallery-card"
+                              >
+                                <HydrationSlot>
+                                  <ImageGallery images={images} title={product.title} />
+                                </HydrationSlot>
+                              </div>
+                              {summaryCard}
+                            </HydrationSlot>
+                          </div>
+                        )}
+                      </HydrationSlot>
+                    </div>
 
-                  <div className="min-w-0 small:col-start-3 small:row-span-2 small:row-start-1">
-                    <aside
-                      className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
-                      data-testid="product-buy-card"
+                    <div className="min-w-0 small:col-start-3 small:row-span-2 small:row-start-1">
+                      <HydrationSlot>
+                        <aside
+                          className={`${CARD} flex min-w-0 flex-col gap-y-4 p-4 small:sticky small:top-20 small:p-5`}
+                          data-testid="product-buy-card"
+                        >
+                          <HydrationSlot>{buyBox}</HydrationSlot>
+                        </aside>
+                      </HydrationSlot>
+                    </div>
+
+                    <div
+                      className="flex min-w-0 flex-col gap-4 small:col-span-2 small:col-start-1 small:row-start-2 small:gap-6"
+                      data-testid="course-sections"
                     >
-                      <HydrationSlot>{buyBox}</HydrationSlot>
-                    </aside>
-                  </div>
-
-                  <div
-                    className="flex min-w-0 flex-col gap-4 small:col-span-2 small:col-start-1 small:row-start-2 small:gap-6"
-                    data-testid="course-sections"
-                  >
-                    <HydrationSlot>
-                      {page && <CourseAbout sections={page.about} />}
-                      <CourseBlock data={course} />
-                      {page && <CourseFaq items={page.faq} />}
-                      {page && <CourseTestimonials items={page.testimonials} />}
-                    </HydrationSlot>
-                  </div>
+                      <HydrationSlot>
+                        {page && <CourseAbout sections={page.about} />}
+                        <CourseBlock data={course} />
+                        {page && <CourseFaq items={page.faq} />}
+                        {page && <CourseTestimonials items={page.testimonials} />}
+                      </HydrationSlot>
+                    </div>
+                  </HydrationSlot>
                 </div>
                 {hasDetails && (
                   <ProductDetailsDrawer

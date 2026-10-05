@@ -3,6 +3,7 @@ import type React from "react"
 import { Link } from "@i18n/navigation"
 import type { MarkdownBlock, MarkdownInline } from "@lib/util/markdown"
 import { parseMarkdown } from "@lib/util/markdown"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 
 /**
  * Renders the block list `@lib/util/markdown` produces as React elements. No
@@ -13,6 +14,12 @@ import { parseMarkdown } from "@lib/util/markdown"
  * An internal link (`/…`) goes through `@i18n/navigation`'s `Link`, so it keeps
  * the visitor's locale prefix; an external one is a plain anchor with
  * `rel="noreferrer"`, the same pair the footer already uses.
+ *
+ * Every element that holds other elements holds them in a `HydrationSlot`. A
+ * body is long text, so Flight sends most of its elements as rows of their own,
+ * and an element with such a row straight under it breaks hydration when the
+ * row comes late (46df U-06; pass 3b: #418 on the course page, whose «О
+ * программе» and answers are rendered here).
  */
 
 /**
@@ -22,7 +29,9 @@ import { parseMarkdown } from "@lib/util/markdown"
  * backticks as literal characters instead of a styled span.
  */
 export const Inline = ({ nodes }: { nodes: MarkdownInline[] }) => (
-  <>
+  // A slot and not a bare fragment: Flight drops a key-less one, and these nodes
+  // would sit straight under the <p>, <li> or heading that renders them.
+  <HydrationSlot>
     {nodes.map((node, index) => {
       switch (node.type) {
         case "strong":
@@ -80,7 +89,7 @@ export const Inline = ({ nodes }: { nodes: MarkdownInline[] }) => (
           return <span key={index}>{node.value}</span>
       }
     })}
-  </>
+  </HydrationSlot>
 )
 
 /**
@@ -117,11 +126,13 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
             : "list-disc pl-5 text-base-regular text-ui-fg-base flex flex-col gap-y-1"
         }
       >
-        {block.items.map((item, index) => (
-          <li key={index}>
-            <Inline nodes={item} />
-          </li>
-        ))}
+        <HydrationSlot>
+          {block.items.map((item, index) => (
+            <li key={index}>
+              <Inline nodes={item} />
+            </li>
+          ))}
+        </HydrationSlot>
       </Tag>
     )
   }
@@ -133,11 +144,13 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
   if (block.type === "quote") {
     return (
       <blockquote className="border-s-2 border-ui-border-interactive bg-ui-bg-subtle rounded-e-rounded ps-4 pe-4 py-3 flex flex-col gap-y-2">
-        {block.content.map((line, index) => (
-          <p key={index} className="text-base-regular text-ui-fg-subtle">
-            <Inline nodes={line} />
-          </p>
-        ))}
+        <HydrationSlot>
+          {block.content.map((line, index) => (
+            <p key={index} className="text-base-regular text-ui-fg-subtle">
+              <Inline nodes={line} />
+            </p>
+          ))}
+        </HydrationSlot>
       </blockquote>
     )
   }
@@ -161,33 +174,45 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
 
     return (
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-base-regular text-ui-fg-base">
-          {hasHeader ? (
-            <thead>
-              <tr>
-                {block.header.map((cell, index) => (
-                  <th
-                    key={index}
-                    className="border border-ui-border-base bg-ui-bg-subtle px-3 py-2 text-start font-semibold"
-                  >
-                    <Inline nodes={cell} />
-                  </th>
-                ))}
-              </tr>
-            </thead>
-          ) : null}
-          <tbody>
-            {block.rows.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={cellIndex} className="border border-ui-border-base px-3 py-2 align-top">
-                    <Inline nodes={cell} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <HydrationSlot>
+          <table className="w-full border-collapse text-base-regular text-ui-fg-base">
+            <HydrationSlot>
+              {hasHeader ? (
+                <thead>
+                  <HydrationSlot>
+                    <tr>
+                      <HydrationSlot>
+                        {block.header.map((cell, index) => (
+                          <th
+                            key={index}
+                            className="border border-ui-border-base bg-ui-bg-subtle px-3 py-2 text-start font-semibold"
+                          >
+                            <Inline nodes={cell} />
+                          </th>
+                        ))}
+                      </HydrationSlot>
+                    </tr>
+                  </HydrationSlot>
+                </thead>
+              ) : null}
+              <tbody>
+                <HydrationSlot>
+                  {block.rows.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      <HydrationSlot>
+                        {row.map((cell, cellIndex) => (
+                          <td key={cellIndex} className="border border-ui-border-base px-3 py-2 align-top">
+                            <Inline nodes={cell} />
+                          </td>
+                        ))}
+                      </HydrationSlot>
+                    </tr>
+                  ))}
+                </HydrationSlot>
+              </tbody>
+            </HydrationSlot>
+          </table>
+        </HydrationSlot>
       </div>
     )
   }
@@ -208,9 +233,11 @@ const MarkdownContent = ({ source }: { source: string }) => {
 
   return (
     <div className="flex flex-col gap-y-4">
-      {blocks.map((block, index) => (
-        <Block key={index} block={block} />
-      ))}
+      <HydrationSlot>
+        {blocks.map((block, index) => (
+          <Block key={index} block={block} />
+        ))}
+      </HydrationSlot>
     </div>
   )
 }

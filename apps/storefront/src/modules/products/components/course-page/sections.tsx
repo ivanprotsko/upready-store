@@ -6,6 +6,7 @@ import type {
   CourseFaqItem,
   CourseTestimonial,
 } from "@lib/util/course-page"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import MarkdownContent from "@modules/content/components/markdown-content"
 
 /**
@@ -15,6 +16,12 @@ import MarkdownContent from "@modules/content/components/markdown-content"
  * of them live in the content column, beside the sticky buy box, and read
  * `metadata.course_page` (`readCoursePage`). A section with no entries renders
  * nothing.
+ *
+ * Every element here that holds other elements holds them in a `HydrationSlot`.
+ * These sections are long, so Flight sends most of their elements as rows of
+ * their own, and an element with such a row straight under it breaks hydration
+ * when the row comes late (46df U-06). Measured on the live course page in pass
+ * 3b: 49 such elements, #418 and the whole page drawn again on 3 loads of 22.
  */
 
 /** The card every section of the course page sits in, the same card the page's others use. */
@@ -35,10 +42,12 @@ export const CourseSection = ({
     className="flex scroll-mt-24 flex-col gap-y-5 rounded-large border border-ui-border-base bg-ui-bg-base p-4 small:p-6"
     data-testid={testId}
   >
-    <h2 id={`${id}-title`} className="text-xl font-semibold text-ui-fg-base">
-      {title}
-    </h2>
-    {children}
+    <HydrationSlot>
+      <h2 id={`${id}-title`} className="text-xl font-semibold text-ui-fg-base">
+        {title}
+      </h2>
+      {children}
+    </HydrationSlot>
   </section>
 )
 
@@ -60,14 +69,18 @@ export async function CourseAbout({
       data-testid="course-about"
     >
       <div className="flex flex-col gap-y-8">
-        {sections.map((section, index) => (
-          <div key={index} className="flex flex-col gap-y-3">
-            <h3 className="text-large-semi text-ui-fg-base">
-              {section.heading}
-            </h3>
-            <MarkdownContent source={section.body} />
-          </div>
-        ))}
+        <HydrationSlot>
+          {sections.map((section, index) => (
+            <div key={index} className="flex flex-col gap-y-3">
+              <HydrationSlot>
+                <h3 className="text-large-semi text-ui-fg-base">
+                  {section.heading}
+                </h3>
+                <MarkdownContent source={section.body} />
+              </HydrationSlot>
+            </div>
+          ))}
+        </HydrationSlot>
       </div>
     </CourseSection>
   )
@@ -87,27 +100,35 @@ export async function CourseFaq({ items }: { items: CourseFaqItem[] }) {
   return (
     <CourseSection id="course-faq" title={t("faq")} data-testid="course-faq">
       <div className="flex flex-col divide-y divide-ui-border-base border-y border-ui-border-base">
-        {items.map((item, index) => (
-          <details
-            key={index}
-            open={index === 0}
-            className="group py-1"
-            data-testid="course-faq-item"
-          >
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-x-4 rounded-rounded py-3 text-base font-medium text-ui-fg-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-fg-interactive [&::-webkit-details-marker]:hidden">
-              <span>{item.q}</span>
-              <span
-                aria-hidden
-                className="grid h-7 w-7 shrink-0 place-items-center rounded-circle bg-ui-bg-subtle text-ui-fg-subtle transition-transform duration-200 group-open:rotate-45"
-              >
-                +
-              </span>
-            </summary>
-            <div className="pb-4 pe-11">
-              <MarkdownContent source={item.a} />
-            </div>
-          </details>
-        ))}
+        <HydrationSlot>
+          {items.map((item, index) => (
+            <details
+              key={index}
+              open={index === 0}
+              className="group py-1"
+              data-testid="course-faq-item"
+            >
+              <HydrationSlot>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-x-4 rounded-rounded py-3 text-base font-medium text-ui-fg-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-fg-interactive [&::-webkit-details-marker]:hidden">
+                  <HydrationSlot>
+                    <span>{item.q}</span>
+                    <span
+                      aria-hidden
+                      className="grid h-7 w-7 shrink-0 place-items-center rounded-circle bg-ui-bg-subtle text-ui-fg-subtle transition-transform duration-200 group-open:rotate-45"
+                    >
+                      +
+                    </span>
+                  </HydrationSlot>
+                </summary>
+                <div className="pb-4 pe-11">
+                  <HydrationSlot>
+                    <MarkdownContent source={item.a} />
+                  </HydrationSlot>
+                </div>
+              </HydrationSlot>
+            </details>
+          ))}
+        </HydrationSlot>
       </div>
     </CourseSection>
   )
@@ -136,20 +157,24 @@ export async function CourseTestimonials({
       data-testid="course-testimonials"
     >
       <div className="gap-4 small:columns-2">
-        {items.map((item, index) => (
-          <figure
-            key={index}
-            className="mb-4 flex break-inside-avoid flex-col gap-y-3 rounded-large bg-ui-bg-subtle p-4"
-            data-testid="course-testimonial"
-          >
-            <blockquote className="whitespace-pre-line text-sm leading-6 text-ui-fg-base">
-              {item.text}
-            </blockquote>
-            <figcaption className="text-sm font-semibold text-ui-fg-base">
-              {item.author}
-            </figcaption>
-          </figure>
-        ))}
+        <HydrationSlot>
+          {items.map((item, index) => (
+            <figure
+              key={index}
+              className="mb-4 flex break-inside-avoid flex-col gap-y-3 rounded-large bg-ui-bg-subtle p-4"
+              data-testid="course-testimonial"
+            >
+              <HydrationSlot>
+                <blockquote className="whitespace-pre-line text-sm leading-6 text-ui-fg-base">
+                  {item.text}
+                </blockquote>
+                <figcaption className="text-sm font-semibold text-ui-fg-base">
+                  {item.author}
+                </figcaption>
+              </HydrationSlot>
+            </figure>
+          ))}
+        </HydrationSlot>
       </div>
     </CourseSection>
   )
