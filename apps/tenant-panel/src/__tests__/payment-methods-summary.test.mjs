@@ -61,7 +61,18 @@ test("isDemoOnly mirrors the resolver's own demo flag", () => {
   assert.equal(isDemoOnly(methods({ robokassa: true, demo: false })), false)
 })
 
-test("BTCPay is a row of «Что видит покупатель» only where the instance takes cryptocurrency (PR #272 review)", () => {
-  assert.deepEqual(visibleMethodKeys({ cryptoAvailable: true }), ["robokassa", "btcpay", "manual"])
+test("BTCPay and Bitcart are rows of «Что видит покупатель» only where the instance takes cryptocurrency (PR #272 review)", () => {
+  assert.deepEqual(visibleMethodKeys({ cryptoAvailable: true }), ["robokassa", "btcpay", "bitcart", "manual"])
   assert.deepEqual(visibleMethodKeys({ cryptoAvailable: false }), ["robokassa", "manual"])
+})
+
+test("connectedMethodKeys lists Bitcart after BTCPay, and a backend that predates it reads not connected (ask-20261005-070255-438f, stage 2)", () => {
+  assert.deepEqual(connectedMethodKeys(methods({ bitcart: true, demo: false })), ["bitcart"])
+  assert.deepEqual(
+    connectedMethodKeys(methods({ btcpay: true, bitcart: true, manualCrypto: true, demo: false })),
+    ["btcpay", "bitcart", "manual"]
+  )
+  assert.deepEqual(connectedMethodKeys({ robokassa: false, btcpay: true, manualCrypto: false, manualManager: false, demo: false }), [
+    "btcpay",
+  ])
 })

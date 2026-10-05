@@ -15,9 +15,12 @@ import type { TenantPaymentMethods } from "../hooks/api/payment-settings"
  * `manualManager` off). The panel shows the owner ONE method, «Перевод по
  * реквизитам», on if either half is: `isManualConnected` is that OR.
  */
-export type PaymentMethodKey = "robokassa" | "btcpay" | "manual"
+export type PaymentMethodKey = "robokassa" | "btcpay" | "bitcart" | "manual"
 
-export const PAYMENT_METHOD_KEYS: PaymentMethodKey[] = ["robokassa", "btcpay", "manual"]
+export const PAYMENT_METHOD_KEYS: PaymentMethodKey[] = ["robokassa", "btcpay", "bitcart", "manual"]
+
+/** The methods that exist only where the instance takes cryptocurrency (ask-20261005-070255-438f). */
+const CRYPTO_METHOD_KEYS: PaymentMethodKey[] = ["btcpay", "bitcart"]
 
 export const isManualConnected = (methods: TenantPaymentMethods): boolean =>
   methods.manualCrypto || methods.manualManager
@@ -26,16 +29,19 @@ export const isMethodConnected = (methods: TenantPaymentMethods, key: PaymentMet
   if (key === "manual") return isManualConnected(methods)
   // A backend older than ask-20261005-070255-438f sends no `btcpay` at all.
   if (key === "btcpay") return Boolean(methods.btcpay)
+  // Nor one older than its stage 2 a `bitcart`.
+  if (key === "bitcart") return Boolean(methods.bitcart)
   return methods.robokassa
 }
 
 /**
- * The rows «Что видит покупатель» lists. BTCPay is a row only where the
- * instance takes cryptocurrency (ask-20261005-070255-438f): on RU it is not a
- * method the owner could connect, so it is not listed as «not connected» either.
+ * The rows «Что видит покупатель» lists. BTCPay and Bitcart are rows only
+ * where the instance takes cryptocurrency (ask-20261005-070255-438f): on RU
+ * they are not methods the owner could connect, so they are not listed as
+ * «not connected» either.
  */
 export const visibleMethodKeys = ({ cryptoAvailable }: { cryptoAvailable: boolean }): PaymentMethodKey[] =>
-  PAYMENT_METHOD_KEYS.filter((key) => key !== "btcpay" || cryptoAvailable)
+  PAYMENT_METHOD_KEYS.filter((key) => !CRYPTO_METHOD_KEYS.includes(key) || cryptoAvailable)
 
 /** Which of the owner's own methods are connected, in the order the panel lists them. */
 export const connectedMethodKeys = (methods: TenantPaymentMethods): PaymentMethodKey[] =>
