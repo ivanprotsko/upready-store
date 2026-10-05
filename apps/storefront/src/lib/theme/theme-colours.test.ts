@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs"
 import { join } from "node:path"
-import postcss from "postcss"
+import postcss, { type AcceptedPlugin } from "postcss"
 import tailwindcss from "tailwindcss"
 import resolveConfig from "tailwindcss/resolveConfig"
 import { describe, expect, it } from "vitest"
@@ -357,7 +357,10 @@ describe("dark mode: the Tailwind dark variant follows data-mode", () => {
 
   it("compiles a dark: utility under [data-mode=\"dark\"]", async () => {
     const config = { ...(tailwindConfig as object), content: [{ raw: '<p class="dark:text-ui-fg-base"></p>', extension: "html" }] }
-    const { css } = await postcss([tailwindcss(config as never)]).process("@tailwind utilities;", { from: undefined })
+    // tailwindcss ships its own postcss (8.5.6) types next to the storefront's (8.5.22): the two
+    // Plugin types do not unify, so the plugin goes in as the storefront's own type.
+    const plugin = tailwindcss(config as never) as unknown as AcceptedPlugin
+    const { css } = await postcss([plugin]).process("@tailwind utilities;", { from: undefined })
     const rule = css.split("}").find((block) => block.includes("dark\\:text-ui-fg-base"))
     expect(rule, "the dark: utility was not generated at all").toBeDefined()
     expect(rule).toContain('[data-mode="dark"]')
