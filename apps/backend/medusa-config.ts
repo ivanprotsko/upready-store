@@ -317,6 +317,13 @@ module.exports = defineConfig({
             resolve: "./src/modules/payment-bitcart",
             id: "bitcart",
           },
+          {
+            // x402: USDC signed in the buyer's wallet or by an AI agent and
+            // settled by a facilitator (t-2026-10-03-33), same per-tenant-row
+            // pattern. Offered only where the owner switched it on.
+            resolve: "./src/modules/payment-x402",
+            id: "x402",
+          },
         ],
       },
     },
