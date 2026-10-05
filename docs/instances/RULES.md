@@ -72,7 +72,8 @@ own terms:
   Currencies and Digital Rights», Art. 1 part 6, in force since 2026-09-01, additionally forbids a
   Russian tax resident or a Russian company from accepting cryptocurrency for goods at all,
   independent of where the server sits. It took over the ban of 259-FZ Art. 14(5), which 283-FZ
-  Art. 22 repealed from the same date.
+  Art. 22 repealed from the same date. The backend offers BTCPay only where `PAYMENTS_CRYPTO_AVAILABLE`
+  is exactly `true`, and `ru.json` forbids setting that variable at all.
 - **Telegram is allowed on RU**, for sign-in and for the shop bot, but it must be named — including
   the fact that Telegram's own operating entity is outside Russia — in the privacy policy, and the
   buyer's consent to that specific transfer must be separate from the general personal-data consent.
