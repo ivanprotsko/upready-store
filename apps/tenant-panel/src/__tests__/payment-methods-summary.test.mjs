@@ -40,6 +40,18 @@ test("connectedMethodKeys names Robokassa and the one manual method when either 
   )
 })
 
+test("connectedMethodKeys lists BTCPay between Robokassa and the manual method (ask-20261005-070255-438f)", () => {
+  assert.deepEqual(connectedMethodKeys(methods({ btcpay: true, demo: false })), ["btcpay"])
+  assert.deepEqual(
+    connectedMethodKeys(methods({ robokassa: true, btcpay: true, manualManager: true, demo: false })),
+    ["robokassa", "btcpay", "manual"]
+  )
+  // A backend that predates BTCPay sends no `btcpay` key at all.
+  assert.deepEqual(connectedMethodKeys({ robokassa: true, manualCrypto: false, manualManager: false, demo: false }), [
+    "robokassa",
+  ])
+})
+
 test("connectedMethodKeys never lists the demo card as a connected method", () => {
   assert.deepEqual(connectedMethodKeys(methods({ demo: true })), [])
 })

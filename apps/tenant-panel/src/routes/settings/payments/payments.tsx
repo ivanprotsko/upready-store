@@ -10,6 +10,7 @@ import {
 } from "../../../lib/payment-methods-summary"
 import { CrossLink } from "../integrations/components/cross-link"
 import { UnreadableSecretAlert } from "../integrations/components/unreadable-secret-alert"
+import { BtcpayCard } from "./components/btcpay-card"
 import { ManualPaymentCard } from "./components/manual-payment-card"
 import { PaymentPreNoticeCard } from "./components/payment-pre-notice-card"
 import { RobokassaBehaviourFields } from "./components/robokassa-behaviour-fields"
@@ -17,6 +18,7 @@ import { useRobokassaForm } from "./use-robokassa-form"
 
 const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
   robokassa: "paymentSettings.methodsSummary.robokassa",
+  btcpay: "paymentSettings.methodsSummary.btcpay",
   manual: "paymentSettings.methodsSummary.manual",
 }
 
@@ -190,6 +192,9 @@ export const PaymentSettings = () => {
           </code>
         </div>
       </Container>
+
+      {/* ask-20261005-070255-438f: the shop's own BTCPay Server store. */}
+      <BtcpayCard />
 
       {/* olavka-payments: crypto wallets and manager contacts on the manual provider. */}
       <ManualPaymentCard />

@@ -15,15 +15,19 @@ import type { TenantPaymentMethods } from "../hooks/api/payment-settings"
  * `manualManager` off). The panel shows the owner ONE method, «Перевод по
  * реквизитам», on if either half is: `isManualConnected` is that OR.
  */
-export type PaymentMethodKey = "robokassa" | "manual"
+export type PaymentMethodKey = "robokassa" | "btcpay" | "manual"
 
-export const PAYMENT_METHOD_KEYS: PaymentMethodKey[] = ["robokassa", "manual"]
+export const PAYMENT_METHOD_KEYS: PaymentMethodKey[] = ["robokassa", "btcpay", "manual"]
 
 export const isManualConnected = (methods: TenantPaymentMethods): boolean =>
   methods.manualCrypto || methods.manualManager
 
-export const isMethodConnected = (methods: TenantPaymentMethods, key: PaymentMethodKey): boolean =>
-  key === "manual" ? isManualConnected(methods) : methods.robokassa
+export const isMethodConnected = (methods: TenantPaymentMethods, key: PaymentMethodKey): boolean => {
+  if (key === "manual") return isManualConnected(methods)
+  // A backend older than ask-20261005-070255-438f sends no `btcpay` at all.
+  if (key === "btcpay") return Boolean(methods.btcpay)
+  return methods.robokassa
+}
 
 /** Which of the owner's own methods are connected, in the order the panel lists them. */
 export const connectedMethodKeys = (methods: TenantPaymentMethods): PaymentMethodKey[] =>
