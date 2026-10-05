@@ -387,6 +387,7 @@
 }
 
 .upstudio-input:focus {
+  /* theme-colours allowlist: the field's border turns var(--ring) on focus instead, next line. */
   outline: none;
   border-color: var(--ring);
 }

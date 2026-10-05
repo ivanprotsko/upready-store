@@ -107,6 +107,7 @@ export default async function ProductCard({
         />
         {onSale && cheapestPrice?.percentage_diff ? (
           <span
+            // theme-colours allowlist: the sale badge, a decorative tag colour and not an error status.
             className="absolute start-2 top-2 rounded-full bg-ui-tag-red-bg px-2 py-0.5 text-xs font-medium tabular-nums text-ui-tag-red-text"
             data-testid="product-sale-badge"
           >

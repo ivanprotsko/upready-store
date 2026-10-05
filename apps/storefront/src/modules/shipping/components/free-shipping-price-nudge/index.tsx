@@ -156,7 +156,7 @@ function FreeShippingInline({
             {price.target_reached ? (
               <div className="flex items-center gap-1.5">
                 {" "}
-                <CheckCircleSolid className="text-ui-tag-green-text inline-block" />{" "}
+                <CheckCircleSolid className="text-status-success-text inline-block" />{" "}
                 Free Shipping unlocked!
               </div>
             ) : (
@@ -234,7 +234,7 @@ function FreeShippingPopup({
               <div>
                 {price.target_reached ? (
                   <div className="flex items-center gap-1.5">
-                    <CheckCircleSolid className="text-ui-tag-green-text inline-block" />{" "}
+                    <CheckCircleSolid className="text-status-success-text inline-block" />{" "}
                     Free Shipping unlocked!
                   </div>
                 ) : (

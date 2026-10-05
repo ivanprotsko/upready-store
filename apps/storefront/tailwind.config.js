@@ -56,6 +56,26 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
+        // Error, success and warning, read from the three tokens every preset declares in both
+        // modes (styles/themes.css). The `ui-tag-red/orange/green` ramps of the Medusa preset are
+        // bridged to the preset's chart colours, so on supplements the "red" error banner was grey.
+        // The text inks mix the status colour into the page ink until they clear 4.5:1 on their own
+        // tint in every preset: a raw --warning is a light orange on geist (2.03:1 on white), so
+        // warning icons take `warning-text` as well. `theme-colours.test.ts` re-measures all of it.
+        status: {
+          error: "var(--destructive)",
+          "error-text": "color-mix(in srgb, var(--destructive) 75%, var(--foreground))",
+          "error-bg": "color-mix(in srgb, var(--destructive) 8%, var(--background))",
+          "error-border": "color-mix(in srgb, var(--destructive) 35%, var(--background))",
+          success: "var(--success)",
+          "success-text": "color-mix(in srgb, var(--success) 75%, var(--foreground))",
+          "success-bg": "color-mix(in srgb, var(--success) 8%, var(--background))",
+          "success-border": "color-mix(in srgb, var(--success) 35%, var(--background))",
+          warning: "var(--warning)",
+          "warning-text": "color-mix(in srgb, var(--warning) 55%, var(--foreground))",
+          "warning-bg": "color-mix(in srgb, var(--warning) 8%, var(--background))",
+          "warning-border": "color-mix(in srgb, var(--warning) 35%, var(--background))",
+        },
       },
       borderRadius: {
         none: "0px",
@@ -84,6 +104,9 @@ module.exports = {
       // The value lives in styles/globals.css, one per mode.
       boxShadow: {
         "borders-field-focus": "var(--borders-field-focus)",
+        // The invalid field's ring in the preset's own --destructive (the preset's
+        // `shadow-borders-error` is Medusa's fixed rose in every theme).
+        "borders-field-error": "var(--borders-field-error)",
       },
       fontFamily: {
         sans: [

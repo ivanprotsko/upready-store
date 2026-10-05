@@ -52,19 +52,19 @@ export default function RobokassaRetryNotice({
     return (
       <div
         role="status"
-        className="flex flex-col gap-y-3 rounded-md border border-ui-tag-orange-border bg-ui-tag-orange-bg p-4 small:flex-row small:items-center small:justify-between small:gap-x-6"
+        className="flex flex-col gap-y-3 rounded-md border border-status-warning-border bg-status-warning-bg p-4 small:flex-row small:items-center small:justify-between small:gap-x-6"
         data-testid="payment-pending-notice"
       >
         <div className="flex items-start gap-x-2">
           <span
-            className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-orange-icon"
+            className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-status-warning-text"
             aria-hidden
           />
           <div className="flex flex-col gap-y-0.5">
             <span className="txt-compact-medium-plus text-ui-fg-base">
               {t("paymentPendingHeading")}
             </span>
-            <span className="txt-compact-small text-ui-tag-orange-text">
+            <span className="txt-compact-small text-status-warning-text">
               {t("paymentPendingText")}
             </span>
           </div>
@@ -91,20 +91,20 @@ export default function RobokassaRetryNotice({
   return (
     <div
       role="status"
-      className="flex flex-col gap-y-3 rounded-md border border-ui-tag-red-border bg-ui-tag-red-bg p-4 small:flex-row small:items-center small:justify-between small:gap-x-6"
+      className="flex flex-col gap-y-3 rounded-md border border-status-error-border bg-status-error-bg p-4 small:flex-row small:items-center small:justify-between small:gap-x-6"
       data-testid="robokassa-retry-notice"
       data-value={failed ? "failed" : "interrupted"}
     >
       <div className="flex items-start gap-x-2">
         <span
-          className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-red-icon"
+          className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-status-error"
           aria-hidden
         />
         <div className="flex flex-col gap-y-0.5">
           <span className="txt-compact-medium-plus text-ui-fg-error">
             {t(failed ? "paymentFailedHeading" : "paymentInterruptedHeading")}
           </span>
-          <span className="txt-compact-small text-ui-tag-red-text">
+          <span className="txt-compact-small text-status-error-text">
             {t(failed ? "paymentFailedText" : "paymentInterruptedText")}
           </span>
         </div>

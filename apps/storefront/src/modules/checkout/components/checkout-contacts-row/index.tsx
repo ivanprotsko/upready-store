@@ -78,7 +78,7 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
         {t("contactsHeading")}
         {isComplete && (
           <CheckMini
-            className="text-ui-tag-green-icon shrink-0"
+            className="text-status-success shrink-0"
             aria-hidden
             data-testid="contacts-section-checkmark"
           />

@@ -14,7 +14,7 @@ export const FIELD_SURFACE =
 
 /** The focus ring of a field that takes the focus itself. */
 export const FIELD_FOCUS =
-  "outline-none focus:shadow-borders-field-focus aria-[invalid=true]:!shadow-borders-error"
+  "outline-none focus:shadow-borders-field-focus aria-[invalid=true]:!shadow-borders-field-error"
 
 /**
  * The same ring on a box that wraps a bare input (a search row with an icon, a select under its

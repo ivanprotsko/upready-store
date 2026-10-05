@@ -57,7 +57,7 @@ export default function ClaimOrdersForm() {
 
       {!state.error && state.claimed !== null && state.claimed > 0 && (
         <div className="flex gap-x-2 items-center p-4 bg-ui-bg-subtle shadow-borders-base w-full">
-          <CheckCircleMiniSolid className="w-4 h-4 text-ui-tag-green-text shrink-0" />
+          <CheckCircleMiniSolid className="w-4 h-4 text-status-success-text shrink-0" />
           <Text className="text-base-regular text-ui-fg-base" data-testid="claim-orders-claimed">
             {t("claimed", { count: state.claimed })}
           </Text>

@@ -71,6 +71,7 @@ function PromoBanner(props: { dismissed: boolean; suppressed?: boolean }) {
           >
             <ExclamationCircleSolid
               className="inline shrink-0 mt-[2.5px]"
+              // theme-colours allowlist: promo graphic, kept as drawn (lead, t-theme-hardcoded-colours 2026-10-05).
               color="#A1A1AA"
             />
             {profileMessage ?? t("message")}

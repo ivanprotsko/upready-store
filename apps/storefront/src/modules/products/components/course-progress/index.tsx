@@ -19,7 +19,7 @@ export default async function CourseProgress({
     <div className="flex flex-col gap-y-1.5" data-testid={testId}>
       <div className="h-2 w-full rounded-full bg-ui-bg-subtle overflow-hidden">
         <div
-          className="h-full rounded-full bg-ui-tag-green-icon transition-[width] duration-300"
+          className="h-full rounded-full bg-status-success transition-[width] duration-300"
           style={{ width: `${progress.percent}%` }}
           aria-hidden="true"
         />

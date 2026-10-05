@@ -37,6 +37,8 @@ type GalleryProps = {
 const FOCUS_RING =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-fg-interactive"
 
+// theme-colours allowlist: mask-image reads only the alpha of this colour, it never paints anything.
+const MASK_OPAQUE = "#000"
 const SWIPE_THRESHOLD = 40
 const HERO_SIZES =
   "(max-width: 512px) 100vw, (max-width: 1024px) 60vw, (max-width: 1440px) 42vw, 600px"
@@ -403,9 +405,9 @@ const Gallery = ({ items, title }: GalleryProps) => {
               // When more photos wait past either end, that end fades out as the hint.
               style={{
                 maskImage: `linear-gradient(to right, ${
-                  railEdges.start ? "transparent" : "#000"
-                } 0, #000 32px, #000 calc(100% - 32px), ${
-                  railEdges.end ? "transparent" : "#000"
+                  railEdges.start ? "transparent" : MASK_OPAQUE
+                } 0, ${MASK_OPAQUE} 32px, ${MASK_OPAQUE} calc(100% - 32px), ${
+                  railEdges.end ? "transparent" : MASK_OPAQUE
                 } 100%)`,
               }}
               data-more-before={railEdges.start ? "true" : undefined}

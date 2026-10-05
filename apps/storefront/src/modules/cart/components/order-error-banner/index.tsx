@@ -58,8 +58,8 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
     <div
       className={
         pending
-          ? "w-full border-b border-ui-tag-orange-border bg-ui-tag-orange-bg"
-          : "w-full border-b border-ui-tag-red-border bg-ui-tag-red-bg"
+          ? "w-full border-b border-status-warning-border bg-status-warning-bg"
+          : "w-full border-b border-status-error-border bg-status-error-bg"
       }
       data-testid="order-error-banner"
       data-value={error}
@@ -69,8 +69,8 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
           <span
             className={
               pending
-                ? "mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-orange-icon"
-                : "mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-red-icon"
+                ? "mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-status-warning-text"
+                : "mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-status-error"
             }
             aria-hidden
           />
@@ -88,8 +88,8 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
             <span
               className={
                 pending
-                  ? "txt-compact-small text-ui-tag-orange-text"
-                  : "txt-compact-small text-ui-tag-red-text"
+                  ? "txt-compact-small text-status-warning-text"
+                  : "txt-compact-small text-status-error-text"
               }
             >
               {t(reasonKey)}

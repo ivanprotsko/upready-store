@@ -50,14 +50,14 @@ describe("OrderErrorBanner on old /cart?error=… links", { timeout: 30_000 }, (
     expect(html).toContain('data-value="payment_pending"')
     expect(html).toContain("Оплата подтверждается")
     expect(html).not.toContain("Платёж не прошёл")
-    expect(html).toContain("bg-ui-tag-orange-bg")
+    expect(html).toContain("bg-status-warning-bg")
   })
 
   it.each(["payment_failed", "order_failed"])("keeps «Платёж не прошёл» for %s", async (error) => {
     const html = await render(error)
 
     expect(html).toContain("Платёж не прошёл")
-    expect(html).toContain("bg-ui-tag-red-bg")
+    expect(html).toContain("bg-status-error-bg")
   })
 
   it("renders nothing for an unknown value", async () => {

@@ -60,7 +60,7 @@ export default async function CourseContents({
                 >
                   <span className="flex-shrink-0">
                     {viewed ? (
-                      <CheckCircleSolid className="text-ui-tag-green-icon" />
+                      <CheckCircleSolid className="text-status-success" />
                     ) : (
                       <PlayMiniSolid className="text-ui-fg-muted" />
                     )}

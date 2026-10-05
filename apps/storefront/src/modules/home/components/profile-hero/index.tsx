@@ -136,8 +136,10 @@ function Cta({ on, cta }: { on: CtaSurface; cta: ResolvedHero["cta"] }) {
  * because an inline style cannot carry a breakpoint.
  */
 const SCRIM_DESKTOP =
+  // theme-colours allowlist: a black scrim over the photograph, the same in both modes (see above).
   "linear-gradient(to right, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.46) 46%, rgba(0,0,0,0) 78%)"
 const SCRIM_MOBILE =
+  // theme-colours allowlist: a black scrim over the photograph, the same in both modes (see above).
   "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.46) 46%, rgba(0,0,0,0) 84%)"
 
 function FullBleedHero({ headline, subheadline, image, cta }: ResolvedHero) {

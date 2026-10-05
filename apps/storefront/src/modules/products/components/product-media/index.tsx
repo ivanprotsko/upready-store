@@ -129,10 +129,10 @@ export default function ProductMedia({
       {!flat && (
         <span
           aria-hidden
-          // theme-colours allowlist: a mode-inverted edge-darkening overlay, not a brand colour —
-          // `bg-[var(--foreground)]/[0.03]` is the themed form, but Tailwind drops any opacity
-          // modifier applied to a bare var() arbitrary colour (see profile-hero's SCRIM comment).
-          className="pointer-events-none absolute inset-0 bg-black/[0.03] dark:bg-white/[0.04]"
+          // An edge-darkening overlay in the page ink at 3%: dark on a light page, light on a dark
+          // one. The alpha lives inside color-mix(), because Tailwind drops an opacity modifier on a
+          // bare var() colour (AGENTS.md, «An opacity modifier on a bare var() colour»).
+          className="pointer-events-none absolute inset-0 bg-[color-mix(in_srgb,var(--foreground)_3%,transparent)]"
         />
       )}
     </div>

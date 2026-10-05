@@ -44,9 +44,9 @@ export default function YandexIdButton({
         "relative box-border flex h-10 w-full min-w-[156px] items-center justify-between rounded-lg px-[11px] py-[9px]",
         "font-['YS_Text','Helvetica_Neue',Arial,sans-serif] text-[14px] leading-4",
         "transition-[opacity,background-color] duration-300 outline-none focus-visible:shadow-borders-focus",
-        // theme-colours allowlist: Yandex's constructor colours, `main` view: black with white ink on a
-        // light site, white with black ink on a dark one. Yandex's brand button, not a theme surface.
-        "bg-[#000] text-[#fff] dark:bg-[#fff] dark:text-[#000]",
+        // Yandex's constructor colours, `main` view: black with white ink on a light site, white with
+        // black ink on a dark one (`--yandex-id-*` in styles/globals.css, switched on [data-mode]).
+        "bg-[var(--yandex-id-bg)] text-[var(--yandex-id-fg)]",
         className
       )}
     >
