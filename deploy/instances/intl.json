@@ -19,7 +19,7 @@
   },
   "providers": {
     "payment": {
-      "allowed": ["tribute", "btcpay", "bitcart"],
+      "allowed": ["tribute", "btcpay", "bitcart", "x402"],
       "forbidden": ["robokassa"]
     },
     "auth": {
@@ -48,6 +48,6 @@
   },
   "notes": [
     "Robokassa, CDEK, Pochta Russia, Wildberries and Ozon all exist to serve Russian buyers and sellers of record; a tenant on the INTL database configuring one of them is a sign the wrong tenant landed on the wrong instance (docs/instances/RULES.md §2), not a legitimate use.",
-    "x402 (t-2026-10-03-33) and the crypto intermediary company (docs/instances/RULES.md, Ivan's words) are planned for this instance but not implemented by this task; forbidden lists here are not yet extended to their env keys because those keys do not exist in code yet."
+    "x402 (t-2026-10-03-33) runs on this instance only, behind PAYMENTS_CRYPTO_AVAILABLE=true like BTCPay; real-money networks (Base) additionally need X402_MAINNET_AVAILABLE=true, which stays unset until the crypto intermediary company's wallet exists (Ivan's words on the task), so until then shops take test USDC on Base Sepolia only."
   ]
 }

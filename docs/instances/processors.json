@@ -38,6 +38,15 @@
       "integrationModules": ["payment-bitcart"]
     },
     {
+      "service": "x402 facilitator (the shop owner's choice; the public x402.org facilitator by default, for test networks)",
+      "country": "wherever the chosen facilitator runs; the x402.org facilitator is operated by the x402 project (Coinbase), USA",
+      "whatItReceives": "the buyer's signed USDC transfer authorization: the buyer's wallet address, the shop's receiving address, the amount, the network and the validity window; the transfer itself is then public on the blockchain. No name, email or postal address is sent",
+      "why": "x402 payments in USDC for INTL-instance orders, from a buyer's wallet or an AI agent, settled straight into the shop owner's own wallet (t-2026-10-03-33)",
+      "instances": ["intl"],
+      "legalBasis": "contract performance; the facilitator only verifies and submits the transfer the buyer signed, the money never passes through it or the platform — never used on the RU instance, where 282-FZ Art. 1 part 6 bans accepting cryptocurrency for goods (docs/instances/RULES.md §2)",
+      "integrationModules": ["payment-x402"]
+    },
+    {
       "service": "Yandex ID",
       "country": "Russia",
       "whatItReceives": "the buyer's Yandex account id, email and display name, returned by the OAuth callback",

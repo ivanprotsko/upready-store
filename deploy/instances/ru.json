@@ -28,7 +28,7 @@
       },
       {
         "name": "PAYMENTS_CRYPTO_AVAILABLE",
-        "reason": "switches cryptocurrency payments (BTCPay and Bitcart) on in the backend and panel — forbidden on RU, where Federal Law 282-FZ Art. 1 part 6 bans accepting cryptocurrency for goods"
+        "reason": "switches cryptocurrency payments (BTCPay, Bitcart and x402) on in the backend and panel — forbidden on RU, where Federal Law 282-FZ Art. 1 part 6 bans accepting cryptocurrency for goods"
       }
     ],
     "forbiddenPrefixes": [
@@ -57,7 +57,7 @@
   "providers": {
     "payment": {
       "allowed": ["robokassa"],
-      "forbidden": ["tribute", "btcpay", "bitcart"]
+      "forbidden": ["tribute", "btcpay", "bitcart", "x402"]
     },
     "auth": {
       "allowed": ["yandex"],

@@ -116,6 +116,23 @@ test("checkEnv: ru profile fails on the crypto payments switch and on BTCPay or 
   assert.deepEqual(checkEnv(parseEnvFile("PAYMENTS_CRYPTO_AVAILABLE=true\nBTCPAY_SERVER_URL=https://pay.test\n"), intl), []);
 });
 
+test("ru profile has no x402 (t-2026-10-03-33): X402_ variables and an x402 tenant row both fail, intl takes both", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const intl = loadProfile("intl", INSTANCES_DIR);
+
+  const env = checkEnv(parseEnvFile("X402_MAINNET_AVAILABLE=true\n"), ru);
+  assert.equal(env.length, 1);
+  assert.match(env[0], /X402_MAINNET_AVAILABLE/);
+  assert.match(env[0], /x402/);
+
+  const rows = checkDbProviders(["x402"], ru);
+  assert.equal(rows.length, 1);
+  assert.match(rows[0], /forbidden provider "x402"/);
+
+  assert.deepEqual(checkEnv(parseEnvFile("PAYMENTS_CRYPTO_AVAILABLE=true\nX402_MAINNET_AVAILABLE=true\n"), intl), []);
+  assert.deepEqual(checkDbProviders(["x402", "btcpay", "tribute"], intl), []);
+});
+
 test("checkEnv: an empty forbidden value never trips the check — only a SET value is a violation", () => {
   const ru = loadProfile("ru", INSTANCES_DIR);
   assert.deepEqual(checkEnv(parseEnvFile("RESEND_API_KEY=\n"), ru), []);
