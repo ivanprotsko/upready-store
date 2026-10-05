@@ -99,3 +99,26 @@ describe("GET /api/payment-return, provider=robokassa", () => {
     expect(res.headers.get("location")).not.toContain("/cart")
   })
 })
+
+describe("GET /api/payment-return, provider=btcpay", () => {
+  beforeEach(() => {
+    setCartId.mockReset()
+    placeOrder.mockReset()
+  })
+
+  it("sends the buyer back from BTCPay to the waiting page, deciding nothing itself", async () => {
+    const res = await robokassaReturn("provider=btcpay&cart_id=cart_1&locale=en")
+
+    expect(res.status).toBe(307)
+    expect(res.headers.get("location")).toBe("https://cherkashino.ru/en/payment-return")
+    expect(setCartId).toHaveBeenCalledWith("cart_1")
+    expect(placeOrder).not.toHaveBeenCalled()
+  })
+
+  it("lands a BTCPay return without a cart on the checkout", async () => {
+    const res = await robokassaReturn("provider=btcpay&locale=en")
+
+    expect(res.headers.get("location")).toBe("https://cherkashino.ru/en/checkout?payment=failed")
+    expect(setCartId).not.toHaveBeenCalled()
+  })
+})

@@ -1,9 +1,12 @@
-import { CreditCard } from "@medusajs/icons"
+import { CreditCard, CurrencyDollar } from "@medusajs/icons"
 import Bancontact from "@modules/common/icons/bancontact"
 import Ideal from "@modules/common/icons/ideal"
 import PayPal from "@modules/common/icons/paypal"
 import type { HttpTypes } from "@medusajs/types"
 import type React from "react"
+import { btcpayReturnUrl, isBtcpay } from "@lib/util/btcpay"
+
+export { isBtcpay }
 
 /* Map of payment provider_id to their icon and, as a fallback for a provider
    with no entry in the `PaymentMethods` catalog, an English title. Add in any
@@ -42,6 +45,12 @@ export const paymentInfoMap: Record<
   pp_robokassa_robokassa: {
     title: "Robokassa",
     icon: <CreditCard />,
+  },
+  // The shop's own BTCPay Server store (ask-20261005-070255-438f), a redirect
+  // provider like Robokassa. Listed only where the owner switched it on.
+  pp_btcpay_btcpay: {
+    title: "Cryptocurrency",
+    icon: <CurrencyDollar />,
   },
   // Add more payment providers here
 }
@@ -96,6 +105,20 @@ const paymentSessionDataBuilders: Array<{
           ? "ru"
           : "en",
     }),
+  },
+  {
+    // BTCPay sends the buyer back to the same return route; the locale also
+    // picks the language of BTCPay's own checkout page.
+    test: isBtcpay,
+    build: (cart) => {
+      const locale =
+        typeof window !== "undefined" ? window.location.pathname.split("/")[1] || "" : ""
+      const origin = typeof window !== "undefined" ? window.location.origin : ""
+      return {
+        return_url: btcpayReturnUrl(cart.id, { origin, locale }),
+        ...(locale ? { locale } : {}),
+      }
+    },
   },
 ]
 
