@@ -11,9 +11,9 @@ import type { TenantBranding } from "./branding"
  *   per file, plus the Safari pinned-tab `mask-icon` and the Windows tile tags;
  * - only the single `favicon_url` of an upload from before the set existed: that URL for
  *   `icon`, `shortcut` and `apple`, exactly as t16-owner-branding wrote it;
- * - nothing: the build's icon at `/icon.svg`, which `app/tenant-icon/[file]/route.ts` serves for a
- *   shop with no upload (t-2026-10-04-21: that path is the shop's own now, not a static
- *   `app/icon.svg` every shop shared).
+ * - nothing: the standard placeholder at `/icon.svg` (`./placeholder-icon.ts`), which
+ *   `app/tenant-icon/[file]/route.ts` serves for a shop with no upload (t-2026-10-04-21: that
+ *   path is the shop's own now, not a static `app/icon.svg` every shop shared).
  */
 export type IconMetadata = Pick<Metadata, "icons" | "other">
 

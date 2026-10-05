@@ -13,6 +13,7 @@ import {
   useNavigation,
 } from "react-router-dom"
 
+import { DocumentFavicon } from "../../../hooks/use-document-favicon"
 import { DocumentTitle } from "../../../hooks/use-document-title"
 import { useShopUrl } from "../../../hooks/use-shop-url"
 import { CommandMenuProvider } from "../../../providers/command-menu-provider"
@@ -45,6 +46,7 @@ export const Shell = ({ children }: PropsWithChildren) => {
     <KeybindProvider shortcuts={globalShortcuts}>
       <CommandMenuProvider>
         <DocumentTitle />
+        <DocumentFavicon />
         <div className="relative flex h-screen flex-col items-start overflow-hidden lg:flex-row">
           <NavigationBar loading={loading} />
           <div>

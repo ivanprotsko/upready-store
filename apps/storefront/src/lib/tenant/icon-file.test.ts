@@ -48,8 +48,8 @@ describe("resolveTenantIcon", () => {
     expect(resolveTenantIcon("apple-touch-icon", LEGACY)).toEqual({ kind: "none" })
   })
 
-  it("keeps the build's icon at /icon.svg for a shop with nothing uploaded, and 404s the rest", () => {
-    expect(resolveTenantIcon("icon-svg", EMPTY_BRANDING)).toEqual({ kind: "build-svg" })
+  it("answers the standard placeholder at /icon.svg for a shop with nothing uploaded, and 404s the rest", () => {
+    expect(resolveTenantIcon("icon-svg", EMPTY_BRANDING)).toEqual({ kind: "placeholder" })
     expect(resolveTenantIcon("favicon-ico", EMPTY_BRANDING)).toEqual({ kind: "none" })
     expect(resolveTenantIcon("apple-touch-icon", EMPTY_BRANDING)).toEqual({ kind: "none" })
     expect(resolveTenantIcon("anything-else", WITH_SET)).toEqual({ kind: "none" })
