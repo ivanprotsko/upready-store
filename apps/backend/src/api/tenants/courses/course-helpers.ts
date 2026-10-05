@@ -1,4 +1,5 @@
 import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
+import type { MedusaContainer } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { updateProductsWorkflow } from "@medusajs/medusa/core-flows";
 import { COURSE_MODULE } from "../../../modules/course";
@@ -113,8 +114,15 @@ export const assertOwnedLesson = async (
  * of the course is asked for no address and no delivery. The rest of the
  * metadata is kept.
  */
-export const markProductAsCourse = async (req: AuthenticatedMedusaRequest, productId: string) => {
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+export const markProductAsCourse = (req: AuthenticatedMedusaRequest, productId: string) =>
+  markProductAsCourseIn(req.scope, productId);
+
+/**
+ * The same, outside a request: `scripts/mark-course-product.ts` runs it for a
+ * course that was sold before this helper wrote the marker.
+ */
+export const markProductAsCourseIn = async (scope: MedusaContainer, productId: string) => {
+  const query = scope.resolve(ContainerRegistrationKeys.QUERY);
   const { data } = await query.graph({
     entity: "product",
     fields: ["id", "metadata"],
@@ -123,10 +131,10 @@ export const markProductAsCourse = async (req: AuthenticatedMedusaRequest, produ
   const metadata = (data[0] as { metadata?: Record<string, unknown> | null } | undefined)?.metadata ?? null;
 
   if (!isDigitalProduct(metadata)) {
-    await updateProductsWorkflow(req.scope).run({
+    await updateProductsWorkflow(scope).run({
       input: { selector: { id: productId }, update: { metadata: { ...(metadata ?? {}), digital: "true" } } },
     });
   }
 
-  await releaseCourseShippingWorkflow(req.scope).run({ input: { product_ids: [productId] } });
+  await releaseCourseShippingWorkflow(scope).run({ input: { product_ids: [productId] } });
 };
