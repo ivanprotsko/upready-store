@@ -60,7 +60,9 @@ export const mockBtcpay = (options: {
     if (method === "POST" && path === storeInvoices) {
       sequence += 1;
       const id = `inv_${sequence}`;
-      const now = 1_790_000_000;
+      // Times relative to the moment of the request, like a real server's:
+      // the sweep skips an invoice whose monitoring window has passed.
+      const now = Math.floor(Date.now() / 1000);
       const invoice: BtcpayInvoice = {
         id,
         storeId: options.storeId,
