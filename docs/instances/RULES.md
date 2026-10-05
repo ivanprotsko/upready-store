@@ -66,10 +66,13 @@ own terms:
 - **RU has no mail through Resend (US).** Any US-hosted transactional mail API is forbidden; the RU
   instance's outbound mail is the self-hosted relay (`deploy/mt/MAIL.md`'s `mail` service) or another
   provider whose processing stays in Russia or in a country 152-FZ accepts.
-- **RU has no crypto, no Tribute, no x402.** Tribute (payments, including Wallet Pay) and the x402
-  protocol (`t-2026-10-03-33`) exist only on INTL. 259-FZ Art. 14(5) additionally forbids a Russian
-  tax resident or a Russian company from accepting cryptocurrency for goods at all, independent of
-  where the server sits.
+- **RU has no crypto, no Tribute, no x402.** Tribute (payments, including Wallet Pay), the x402
+  protocol (`t-2026-10-03-33`) and the BTCPay Server and Bitcart crypto providers
+  (`ask-20261005-070255-438f`) exist only on INTL. Federal Law 282-FZ of 04.08.2026 «On Digital
+  Currencies and Digital Rights», Art. 1 part 6, in force since 2026-09-01, additionally forbids a
+  Russian tax resident or a Russian company from accepting cryptocurrency for goods at all,
+  independent of where the server sits. It took over the ban of 259-FZ Art. 14(5), which 283-FZ
+  Art. 22 repealed from the same date.
 - **Telegram is allowed on RU**, for sign-in and for the shop bot, but it must be named — including
   the fact that Telegram's own operating entity is outside Russia — in the privacy policy, and the
   buyer's consent to that specific transfer must be separate from the general personal-data consent.
