@@ -28,6 +28,11 @@ import { SecretStatus } from "./secret-status"
  * Rule 19h shapes the load like the other cards here: `loaded === null` is
  * «not answered yet» with the controls rendered disabled, and a late answer
  * refills the draft only while the owner has not typed into it.
+ *
+ * The card exists only where the backend answers `available: true`
+ * (`PAYMENTS_CRYPTO_AVAILABLE`). On the RU instance cryptocurrency is
+ * forbidden, so the owner never sees it there, not even while the first
+ * answer is on its way.
  */
 
 const TEXT_FIELDS: Array<{ field: Extract<BtcpayField, "server_url" | "store_id">; placeholder: string }> = [
@@ -59,6 +64,10 @@ export const BtcpayCard = () => {
 
   if (isError) {
     throw error
+  }
+
+  if (btcpay?.available !== true) {
+    return null
   }
 
   const settings = btcpay?.settings ?? null

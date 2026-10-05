@@ -29,6 +29,12 @@ export type BtcpaySettings = {
 export type BtcpayResponse = {
   provider: "btcpay"
   label: string
+  /**
+   * Whether this instance takes cryptocurrency at all (`PAYMENTS_CRYPTO_AVAILABLE`
+   * on the backend). `false` on RU: the panel then shows no BTCPay anywhere,
+   * and a save would answer 403.
+   */
+  available: boolean
   /** `null` until the owner saves the form once, and while the stored row is unreadable. */
   settings: BtcpaySettings | null
   unreadable: UnreadableSecret | null

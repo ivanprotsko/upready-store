@@ -2,10 +2,12 @@ import { Badge, Button, Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
+import { useTenantBtcpay } from "../../../hooks/api/btcpay"
 import {
   connectedMethodKeys,
   isDemoOnly,
   isMethodConnected,
+  visibleMethodKeys,
   type PaymentMethodKey,
 } from "../../../lib/payment-methods-summary"
 import { CrossLink } from "../integrations/components/cross-link"
@@ -43,6 +45,10 @@ const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
 export const PaymentSettings = () => {
   const { t } = useTranslation()
   const form = useRobokassaForm()
+  // The same query the BTCPay card reads, so no second request: whether this
+  // instance takes cryptocurrency decides if BTCPay is a row at all.
+  const { btcpay } = useTenantBtcpay()
+  const cryptoAvailable = btcpay?.available === true
   const {
     settings,
     unreadable,
@@ -104,7 +110,7 @@ export const PaymentSettings = () => {
               {t("paymentSettings.methodsSummary.title")}
             </Text>
             <ul className="flex flex-col gap-y-2">
-              {(Object.keys(METHOD_LABEL_KEYS) as PaymentMethodKey[]).map((key) => (
+              {visibleMethodKeys({ cryptoAvailable }).map((key) => (
                 <li key={key} className="flex items-center justify-between">
                   <Text size="small">{t(METHOD_LABEL_KEYS[key])}</Text>
                   <Badge

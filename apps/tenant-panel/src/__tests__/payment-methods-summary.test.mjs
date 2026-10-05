@@ -1,7 +1,7 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 
-import { connectedMethodKeys, isDemoOnly } from "../lib/payment-methods-summary.ts"
+import { connectedMethodKeys, isDemoOnly, visibleMethodKeys } from "../lib/payment-methods-summary.ts"
 
 /**
  * «Приём оплат» status badges (t-2026-09-24-n10): `payment-methods-summary.ts`
@@ -59,4 +59,9 @@ test("connectedMethodKeys never lists the demo card as a connected method", () =
 test("isDemoOnly mirrors the resolver's own demo flag", () => {
   assert.equal(isDemoOnly(methods({ demo: true })), true)
   assert.equal(isDemoOnly(methods({ robokassa: true, demo: false })), false)
+})
+
+test("BTCPay is a row of «Что видит покупатель» only where the instance takes cryptocurrency (PR #272 review)", () => {
+  assert.deepEqual(visibleMethodKeys({ cryptoAvailable: true }), ["robokassa", "btcpay", "manual"])
+  assert.deepEqual(visibleMethodKeys({ cryptoAvailable: false }), ["robokassa", "manual"])
 })

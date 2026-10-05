@@ -101,3 +101,22 @@ test("every BTCPay string exists in both panel languages, translated", () => {
   assert.ok(catalogs.en.paymentSettings.methodsSummary.btcpay)
   assert.ok(catalogs.ru.paymentSettings.methodsSummary.btcpay)
 })
+
+/**
+ * PR #272 review: on an instance that takes no cryptocurrency the backend
+ * answers `available: false`, and the panel shows BTCPay nowhere. This package
+ * has no JSX test runtime, so the wiring is checked in the source, the way
+ * `telegram-bot-webhook.test.mjs` checks its page.
+ */
+test("the card, the summary and the pre-payment notice all hide BTCPay unless the backend says available", () => {
+  const card = read("../routes/settings/payments/components/btcpay-card.tsx")
+  assert.match(card, /if \(btcpay\?\.available !== true\) \{\s*return null\s*\}/)
+
+  const page = read("../routes/settings/payments/payments.tsx")
+  assert.match(page, /const cryptoAvailable = btcpay\?\.available === true/)
+  assert.match(page, /visibleMethodKeys\(\{ cryptoAvailable \}\)\.map/)
+
+  const preNotice = read("../routes/settings/payments/components/payment-pre-notice-card.tsx")
+  assert.match(preNotice, /key !== "btcpay" \|\| btcpay\?\.available === true/)
+  assert.match(preNotice, /methodKeys\.map/)
+})

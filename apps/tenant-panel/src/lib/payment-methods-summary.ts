@@ -29,6 +29,14 @@ export const isMethodConnected = (methods: TenantPaymentMethods, key: PaymentMet
   return methods.robokassa
 }
 
+/**
+ * The rows «Что видит покупатель» lists. BTCPay is a row only where the
+ * instance takes cryptocurrency (ask-20261005-070255-438f): on RU it is not a
+ * method the owner could connect, so it is not listed as «not connected» either.
+ */
+export const visibleMethodKeys = ({ cryptoAvailable }: { cryptoAvailable: boolean }): PaymentMethodKey[] =>
+  PAYMENT_METHOD_KEYS.filter((key) => key !== "btcpay" || cryptoAvailable)
+
 /** Which of the owner's own methods are connected, in the order the panel lists them. */
 export const connectedMethodKeys = (methods: TenantPaymentMethods): PaymentMethodKey[] =>
   PAYMENT_METHOD_KEYS.filter((key) => isMethodConnected(methods, key))

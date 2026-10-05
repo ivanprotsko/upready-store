@@ -13,6 +13,7 @@ import {
   useTenantPaymentPreNotice,
   useUpdateTenantPaymentPreNotice,
 } from "../../../../hooks/api/payment-pre-notice"
+import { useTenantBtcpay } from "../../../../hooks/api/btcpay"
 import { shouldShowPrePaymentNotice } from "../../../../lib/payment-pre-notice"
 
 /**
@@ -51,6 +52,11 @@ export const PaymentPreNoticeCard = () => {
   const { t } = useTranslation()
   const { paymentPreNotice, isPending, isError, error } = useTenantPaymentPreNotice()
   const { mutateAsync: save, isPending: isSaving } = useUpdateTenantPaymentPreNotice()
+  // BTCPay is a method to describe only where the instance takes cryptocurrency.
+  const { btcpay } = useTenantBtcpay()
+  const methodKeys = PAYMENT_PRE_NOTICE_PROVIDER_KEYS.filter(
+    (key) => key !== "btcpay" || btcpay?.available === true
+  )
 
   const [loaded, setLoaded] = useState<boolean | null>(null)
   const [draft, setDraft] = useState<Draft>(EMPTY_DRAFT)
@@ -166,7 +172,7 @@ export const PaymentPreNoticeCard = () => {
               <Select.Value />
             </Select.Trigger>
             <Select.Content>
-              {PAYMENT_PRE_NOTICE_PROVIDER_KEYS.map((key) => (
+              {methodKeys.map((key) => (
                 <Select.Item key={key} value={key}>
                   {t(METHOD_LABEL_KEYS[key])}
                 </Select.Item>
