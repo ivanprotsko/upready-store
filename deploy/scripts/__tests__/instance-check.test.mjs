@@ -143,6 +143,16 @@ test("checkDbProviders: an INTL database with a robokassa or wildberries secret 
   assert.deepEqual(checkDbProviders(["tribute"], intl), []);
 });
 
+test("checkDbProviders: a Bitcart or BTCPay store fails RU and passes INTL (ask-20261005-070255-438f)", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const intl = loadProfile("intl", INSTANCES_DIR);
+  const bitcart = checkDbProviders(["robokassa", "bitcart"], ru);
+  assert.equal(bitcart.length, 1);
+  assert.match(bitcart[0], /"bitcart"/);
+  assert.equal(checkDbProviders(["btcpay", "bitcart"], ru).length, 2);
+  assert.deepEqual(checkDbProviders(["tribute", "btcpay", "bitcart"], intl), []);
+});
+
 test("checkDbAnalytics: a RU database with any tenant GA4 id fails; zero tenants passes", () => {
   const ru = loadProfile("ru", INSTANCES_DIR);
   assert.equal(checkDbAnalytics(3, ru).length, 1);
