@@ -7,6 +7,13 @@ import { retrieveCustomer } from "@lib/data/customer"
 import ReviewForm from "./review-form"
 import StarRating from "./star-rating"
 
+/**
+ * The product page's three columns: gallery, summary, buy box. The same string
+ * as in `templates/index.tsx`; `product-reviews.test.ts` holds the two together.
+ */
+export const PRODUCT_REVIEWS_GRID =
+  "grid grid-cols-1 small:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1fr)] small:gap-6"
+
 export const REVIEWS_PAGE_SIZE = 5
 export const REVIEWS_PAGE_PARAM = "rp"
 
@@ -31,6 +38,11 @@ type ProductReviewsProps = {
  * NOTHING: no heading, no empty list, no "0 reviews". A logged-in customer
  * still gets the form on such a product, because otherwise a shop could never
  * receive its first review; the block then carries the form alone.
+ *
+ * The block is as wide as the page's content WITHOUT the buy box on the right
+ * (ask da22): it sits in the product page's own three-way grid and spans the
+ * first two columns, the same template `templates/index.tsx` lays the cards out
+ * with. Under 1024 the grid is one column and the block is full width.
  *
  * The form is a `"use client"` island imported from this SERVER component, not
  * the other way round: a `"use client"` directive colours its whole import
@@ -69,96 +81,101 @@ const ProductReviews = async ({
   return (
     <div
       id="product-reviews"
-      className="content-container flex flex-col gap-y-6 py-10 scroll-mt-20"
+      className={`content-container py-10 scroll-mt-20 ${PRODUCT_REVIEWS_GRID}`}
       data-testid="product-reviews"
     >
-      <div className="flex flex-col gap-y-2">
-        <Heading level="h2" className="text-2xl-regular">
-          {t("heading")}
-        </Heading>
-        {summary.average !== null && (
-          <div className="flex items-center gap-x-2" data-testid="product-reviews-summary">
-            <StarRating
-              value={summary.average}
-              label={t("ratingSummary", { average: summary.average, count: summary.count })}
-            />
+      <div
+        className="flex min-w-0 flex-col gap-y-6 small:col-span-2"
+        data-testid="product-reviews-column"
+      >
+        <div className="flex flex-col gap-y-2">
+          <Heading level="h2" className="text-2xl-regular">
+            {t("heading")}
+          </Heading>
+          {summary.average !== null && (
+            <div className="flex items-center gap-x-2" data-testid="product-reviews-summary">
+              <StarRating
+                value={summary.average}
+                label={t("ratingSummary", { average: summary.average, count: summary.count })}
+              />
+              <Text size="small" className="text-ui-fg-subtle">
+                {t("ratingSummary", { average: summary.average, count: summary.count })}
+              </Text>
+            </div>
+          )}
+        </div>
+
+        {count > 0 && (
+          <ul className="flex flex-col gap-y-6" data-testid="product-reviews-list">
+            {reviews.map((review) => (
+              <li
+                key={review.id}
+                className="flex flex-col gap-y-2 border-b border-ui-border-base pb-6 last:border-b-0"
+                data-testid="product-review"
+              >
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <StarRating
+                    value={review.rating}
+                    size="small"
+                    label={t("ratingValue", { value: review.rating })}
+                  />
+                  <Text className="font-medium" data-testid="product-review-author">
+                    {review.author_name}
+                  </Text>
+                  {review.written_at && (
+                    <Text size="small" className="text-ui-fg-muted">
+                      {formatDate.format(new Date(review.written_at))}
+                    </Text>
+                  )}
+                </div>
+                {review.title && <Text className="font-medium">{review.title}</Text>}
+                <Text className="whitespace-pre-line">{review.body}</Text>
+                {review.reply && (
+                  <div className="mt-2 rounded-lg bg-ui-bg-subtle px-4 py-3">
+                    <Text size="small" className="font-medium">
+                      {t("ownerReply")}
+                    </Text>
+                    <Text size="small" className="whitespace-pre-line">
+                      {review.reply}
+                    </Text>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {pages > 1 && (
+          <nav className="flex items-center gap-x-4" data-testid="product-reviews-pagination">
+            {safePage > 1 && (
+              <Link href={pageHref(safePage - 1)} className="txt-medium hover:text-ui-fg-base">
+                {t("previousPage")}
+              </Link>
+            )}
             <Text size="small" className="text-ui-fg-subtle">
-              {t("ratingSummary", { average: summary.average, count: summary.count })}
+              {t("pageOf", { page: safePage, pages })}
             </Text>
-          </div>
+            {safePage < pages && (
+              <Link href={pageHref(safePage + 1)} className="txt-medium hover:text-ui-fg-base">
+                {t("nextPage")}
+              </Link>
+            )}
+          </nav>
+        )}
+
+        {customer ? (
+          <ReviewForm
+            productId={productId}
+            defaultAuthorName={
+              [customer.first_name, customer.last_name].filter(Boolean).join(" ").trim()
+            }
+          />
+        ) : (
+          <Text size="small" className="text-ui-fg-subtle">
+            {t("signInPrompt")}
+          </Text>
         )}
       </div>
-
-      {count > 0 && (
-        <ul className="flex flex-col gap-y-6" data-testid="product-reviews-list">
-          {reviews.map((review) => (
-            <li
-              key={review.id}
-              className="flex flex-col gap-y-2 border-b border-ui-border-base pb-6 last:border-b-0"
-              data-testid="product-review"
-            >
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <StarRating
-                  value={review.rating}
-                  size="small"
-                  label={t("ratingValue", { value: review.rating })}
-                />
-                <Text className="font-medium" data-testid="product-review-author">
-                  {review.author_name}
-                </Text>
-                {review.written_at && (
-                  <Text size="small" className="text-ui-fg-muted">
-                    {formatDate.format(new Date(review.written_at))}
-                  </Text>
-                )}
-              </div>
-              {review.title && <Text className="font-medium">{review.title}</Text>}
-              <Text className="whitespace-pre-line">{review.body}</Text>
-              {review.reply && (
-                <div className="mt-2 rounded-lg bg-ui-bg-subtle px-4 py-3">
-                  <Text size="small" className="font-medium">
-                    {t("ownerReply")}
-                  </Text>
-                  <Text size="small" className="whitespace-pre-line">
-                    {review.reply}
-                  </Text>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {pages > 1 && (
-        <nav className="flex items-center gap-x-4" data-testid="product-reviews-pagination">
-          {safePage > 1 && (
-            <Link href={pageHref(safePage - 1)} className="txt-medium hover:text-ui-fg-base">
-              {t("previousPage")}
-            </Link>
-          )}
-          <Text size="small" className="text-ui-fg-subtle">
-            {t("pageOf", { page: safePage, pages })}
-          </Text>
-          {safePage < pages && (
-            <Link href={pageHref(safePage + 1)} className="txt-medium hover:text-ui-fg-base">
-              {t("nextPage")}
-            </Link>
-          )}
-        </nav>
-      )}
-
-      {customer ? (
-        <ReviewForm
-          productId={productId}
-          defaultAuthorName={
-            [customer.first_name, customer.last_name].filter(Boolean).join(" ").trim()
-          }
-        />
-      ) : (
-        <Text size="small" className="text-ui-fg-subtle">
-          {t("signInPrompt")}
-        </Text>
-      )}
     </div>
   )
 }

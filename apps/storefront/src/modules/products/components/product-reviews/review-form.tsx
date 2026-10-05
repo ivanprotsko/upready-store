@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
+import { Star, StarSolid } from "@medusajs/icons"
 import { Button, Input, Label, Text, Textarea } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 
 import { submitProductReview } from "@lib/data/product-reviews"
-import StarRating from "./star-rating"
 
 type ReviewFormProps = {
   productId: string
@@ -19,6 +19,11 @@ type ReviewFormProps = {
  *
  * The rating starts UNSET rather than at five, so an untouched form cannot send
  * a rating nobody chose (rule 20a: a value substituted for an absence).
+ *
+ * Each of the five buttons draws ONE star, filled up to the chosen rating. It
+ * used to draw a whole `StarRating`, which is a row of five by itself, so the
+ * field showed 25 stars (ask da22). The two colours are the ones `StarRating`
+ * explains: `fg-base` and `fg-disabled` hold on every theme preset.
  */
 const ReviewForm = ({ productId, defaultAuthorName }: ReviewFormProps) => {
   const t = useTranslations("ProductReviews")
@@ -64,23 +69,26 @@ const ReviewForm = ({ productId, defaultAuthorName }: ReviewFormProps) => {
       <div className="flex flex-col gap-y-2">
         <Label size="small">{t("ratingLabel")}</Label>
         <div className="flex items-center gap-x-1">
-          {[1, 2, 3, 4, 5].map((value) => (
-            <button
-              key={value}
-              type="button"
-              className="rounded p-0.5 hover:bg-ui-bg-subtle-hover"
-              aria-label={t("ratingValue", { value })}
-              aria-pressed={rating === value}
-              onClick={() => setRating(value)}
-              data-testid={`review-rating-${value}`}
-            >
-              <StarRating
-                value={rating !== null && value <= rating ? 5 : 0}
-                size="small"
-                label={t("ratingValue", { value })}
-              />
-            </button>
-          ))}
+          {[1, 2, 3, 4, 5].map((value) => {
+            const filled = rating !== null && value <= rating
+            return (
+              <button
+                key={value}
+                type="button"
+                className="rounded p-1 text-ui-fg-base hover:bg-ui-bg-subtle-hover"
+                aria-label={t("ratingValue", { value })}
+                aria-pressed={rating === value}
+                onClick={() => setRating(value)}
+                data-testid={`review-rating-${value}`}
+              >
+                {filled ? (
+                  <StarSolid className="h-5 w-5" aria-hidden />
+                ) : (
+                  <Star className="h-5 w-5 text-ui-fg-disabled" aria-hidden />
+                )}
+              </button>
+            )
+          })}
         </div>
       </div>
 
