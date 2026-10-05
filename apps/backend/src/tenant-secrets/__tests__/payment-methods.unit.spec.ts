@@ -13,7 +13,7 @@ import {
  * account counts as not connected, and the demo card is never itself a
  * "connected" method. Tribute (t-cherk-22) joins the same resolver, so its
  * own on/off is exercised alongside Robokassa's rather than in a parallel
- * suite.
+ * suite, and BTCPay (ask-20261005-070255-438f) after it.
  */
 
 describe("resolveTenantPaymentMethods", () => {
@@ -21,6 +21,7 @@ describe("resolveTenantPaymentMethods", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: false,
       tributeEnabled: false,
+      btcpayEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });
@@ -28,6 +29,7 @@ describe("resolveTenantPaymentMethods", () => {
     expect(methods).toEqual({
       robokassa: false,
       tribute: false,
+      btcpay: false,
       manualCrypto: false,
       manualManager: false,
       demo: true,
@@ -39,6 +41,7 @@ describe("resolveTenantPaymentMethods", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: true,
       tributeEnabled: false,
+      btcpayEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });
@@ -51,6 +54,7 @@ describe("resolveTenantPaymentMethods", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: false,
       tributeEnabled: true,
+      btcpayEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });
@@ -58,6 +62,27 @@ describe("resolveTenantPaymentMethods", () => {
     expect(methods).toEqual({
       robokassa: false,
       tribute: true,
+      btcpay: false,
+      manualCrypto: false,
+      manualManager: false,
+      demo: false,
+    });
+    expect(offersSystemDefault(methods)).toBe(false);
+  });
+
+  it("BTCPay only: the demo card disappears, and BTCPay alone reads true", () => {
+    const methods = resolveTenantPaymentMethods({
+      robokassaEnabled: false,
+      tributeEnabled: false,
+      btcpayEnabled: true,
+      manualCrypto: false,
+      manualManager: false,
+    });
+
+    expect(methods).toEqual({
+      robokassa: false,
+      tribute: false,
+      btcpay: true,
       manualCrypto: false,
       manualManager: false,
       demo: false,
@@ -69,6 +94,7 @@ describe("resolveTenantPaymentMethods", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: true,
       tributeEnabled: true,
+      btcpayEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });
@@ -82,6 +108,7 @@ describe("resolveTenantPaymentMethods", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: false,
       tributeEnabled: false,
+      btcpayEnabled: false,
       manualCrypto: true,
       manualManager: false,
     });
@@ -94,6 +121,7 @@ describe("resolveTenantPaymentMethods", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: false,
       tributeEnabled: false,
+      btcpayEnabled: false,
       manualCrypto: false,
       manualManager: true,
     });
@@ -106,6 +134,7 @@ describe("resolveTenantPaymentMethods", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: true,
       tributeEnabled: false,
+      btcpayEnabled: false,
       manualCrypto: true,
       manualManager: false,
     });
@@ -118,6 +147,7 @@ describe("resolveTenantPaymentMethods", () => {
     const methods = resolveTenantPaymentMethods({
       robokassaEnabled: true,
       tributeEnabled: false,
+      btcpayEnabled: false,
       manualCrypto: false,
       manualManager: false,
     });

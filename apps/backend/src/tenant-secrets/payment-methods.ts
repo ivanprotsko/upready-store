@@ -22,6 +22,8 @@
 export type TenantPaymentMethods = {
   robokassa: boolean;
   tribute: boolean;
+  /** The shop's own BTCPay Server store, enabled (ask-20261005-070255-438f). */
+  btcpay: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
   demo: boolean;
@@ -49,15 +51,21 @@ export const manualPaymentMethods = (
 export const resolveTenantPaymentMethods = (params: {
   robokassaEnabled: boolean;
   tributeEnabled: boolean;
+  btcpayEnabled: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
 }): TenantPaymentMethods => {
   const hasRealMethod =
-    params.robokassaEnabled || params.tributeEnabled || params.manualCrypto || params.manualManager;
+    params.robokassaEnabled ||
+    params.tributeEnabled ||
+    params.btcpayEnabled ||
+    params.manualCrypto ||
+    params.manualManager;
 
   return {
     robokassa: params.robokassaEnabled,
     tribute: params.tributeEnabled,
+    btcpay: params.btcpayEnabled,
     manualCrypto: params.manualCrypto,
     manualManager: params.manualManager,
     demo: !hasRealMethod,

@@ -2,6 +2,7 @@ import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { deriveKey, encryptJson } from "../crypto";
 import { readCdekSecretPublic } from "../cdek";
 import { readPochtaSecretPublic } from "../pochta";
+import { readBtcpaySecretPublic } from "../btcpay";
 
 /**
  * 46df A-02: the buyer-facing CDEK and Russian Post routes read the shop's
@@ -56,6 +57,8 @@ type PublicSecretRead = (
 const READS: { name: string; provider: string; read: PublicSecretRead; value: Record<string, string> }[] = [
   { name: "readCdekSecretPublic", provider: "cdek", read: readCdekSecretPublic, value: { account: "acc" } },
   { name: "readPochtaSecretPublic", provider: "pochta", read: readPochtaSecretPublic, value: { token: "tok" } },
+  // ask-20261005-070255-438f: the checkout's provider filter reads BTCPay the same way.
+  { name: "readBtcpaySecretPublic", provider: "btcpay", read: readBtcpaySecretPublic, value: { api_key: "btcpay-key" } },
 ];
 
 describe.each(READS)("$name", ({ provider, read, value }) => {
