@@ -9,10 +9,10 @@ import styles from "./olavka-journal-rail.module.css"
 
 /**
  * The card's rendered width for `srcset`: half the window with two cards in a row, a third
- * from 1024, a quarter from 1280, and never wider than a quarter of the 1440 container.
+ * from 720, a quarter from 961, and never wider than a quarter of the 1440 container.
  */
 const CARD_SIZES =
-  "(max-width: 1023px) 50vw, (max-width: 1279px) 33vw, (max-width: 1440px) 25vw, 340px"
+  "(max-width: 719px) 50vw, (max-width: 960px) 33vw, (max-width: 1440px) 25vw, 340px"
 
 const HEADING_ID = "olavka-journal-rail-heading"
 

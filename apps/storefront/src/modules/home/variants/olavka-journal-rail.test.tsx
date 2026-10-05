@@ -164,6 +164,28 @@ describe("journalRailCopies", () => {
     const perView = Array.from(css.matchAll(/--n:\s*(\d+)/g), (m) => Number(m[1]))
     expect(Math.max(...perView)).toBe(JOURNAL_RAIL_PER_VIEW)
   })
+
+  // Ivan, 27.09: three products in a row from 720, four above 960. The rail stands under
+  // that grid on the same page, so it changes its row at the grid's own widths.
+  it("turns three and four cards in a row at the widths of the product grid above it", () => {
+    const css = readFileSync(join(__dirname, "olavka-journal-rail.module.css"), "utf8")
+    const productCard = readFileSync(
+      join(STOREFRONT, "src/modules/products/components/product-card/index.tsx"),
+      "utf8"
+    )
+    const grid = productCard.match(/export const PRODUCT_GRID_CLASS =\s*"([^"]+)"/)?.[1] ?? ""
+    const gridFrom = (columns: number) =>
+      Number(
+        grid.match(new RegExp(`\\[\\[data-shop=olavka\\]_&\\]:min-\\[(\\d+)px\\]:grid-cols-${columns}(?:\\s|$)`))?.[1]
+      )
+    const railFrom = (cards: number) =>
+      Number(css.match(new RegExp(`@media \\(min-width: (\\d+)px\\) \\{\\s*\\.rail \\{[^}]*--n: ${cards};`))?.[1])
+
+    expect(gridFrom(3)).toBeGreaterThan(0)
+    expect(gridFrom(4)).toBeGreaterThan(gridFrom(3))
+    expect(railFrom(3)).toBe(gridFrom(3))
+    expect(railFrom(4)).toBe(gridFrom(4))
+  })
 })
 
 describe("the home page: the journal rail is the Olavka shop's, under the tenant's own blocks", () => {
