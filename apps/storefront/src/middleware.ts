@@ -6,7 +6,16 @@ import {
   locales,
   matchBrowserLocale,
 } from "@i18n/config"
-import { COUNTRY_HEADER, resolveCountry, type RegionMap } from "@lib/geolocation"
+import {
+  COUNTRY_HEADER,
+  SHOP_REGIONS_HEADER,
+  countryForLocale,
+  narrowRegionMap,
+  pinnedRegionCountry,
+  resolveCountry,
+  shopRegionIds,
+  type RegionMap,
+} from "@lib/geolocation"
 import { ATTRIBUTION_HIDDEN_HEADER } from "@lib/tenant/attribution"
 import { matchCourseSlugPath, resolveCourseProductHandle } from "@lib/tenant/course-redirect"
 import {
@@ -261,9 +270,11 @@ function tenantRequestHeaders(
     headers.delete(name)
   }
 
-  // Whatever a visitor sends under this name is deleted before we write ours:
-  // the country decides the currency, and a forged header would price the page.
+  // Whatever a visitor sends under these names is deleted before we write ours:
+  // the country decides the currency, and a forged header would price the page
+  // (or offer a region the shop has no prices in).
   headers.delete(COUNTRY_HEADER)
+  headers.delete(SHOP_REGIONS_HEADER)
 
   if (tenant) {
     if (tenant.publishableKey) {
@@ -555,6 +566,26 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // The regions THIS shop sells in (N9, t-2026-10-04-19): the ones its locales
+  // price in through the same chain `resolveCountry` walks below. A shop's own
+  // settings decide it, so only a request that resolved to a tenant is narrowed;
+  // a single-store deployment keeps every region, exactly as before. A country
+  // outside them — a cookie the old switcher wrote, «Германия» on
+  // cherkashino.ru — is then simply not in the map the country is resolved
+  // against, and the visitor lands on the shop's default.
+  const shopRegions = tenant
+    ? shopRegionIds({
+        locales: tenantLocale?.enabledLocales ?? locales,
+        countryFor: (code) => countryForLocale(code, tenantLocaleCountryMap),
+        fallbackCountry: pinnedRegionCountry(),
+        regionMap,
+      })
+    : null
+
+  if (shopRegions) {
+    requestHeaders.set(SHOP_REGIONS_HEADER, Array.from(shopRegions).join(","))
+  }
+
   // Region detection is owned by @lib/geolocation. It reads the visitor's
   // country from the _medusa_country cookie, or the locale map, or resolves it
   // through the configured geolocation provider, and returns the country plus a
@@ -562,7 +593,7 @@ export async function middleware(request: NextRequest) {
   // response we return below.
   const { countryCode, apply: applyCountry } = await resolveCountry(
     request,
-    regionMap,
+    narrowRegionMap(regionMap, shopRegions),
     locale,
     tenantLocaleCountryMap
   )

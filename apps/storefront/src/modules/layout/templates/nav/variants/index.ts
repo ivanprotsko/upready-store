@@ -14,7 +14,7 @@ import NavH7 from "./h7"
  * Header composition registry: every operator-set `header` key (H1-H6,
  * `lib/theme/composition.ts` `HeaderKey`) maps to the zero-prop server component
  * `nav/index.tsx`'s switch renders for it. Every entry fetches its own data the way
- * `NavH1` always has (`listRegions()`, `getCountryCode()`) — nothing here prop-drills
+ * `NavH1` always has (`listShopRegions()`, `getCountryCode()`) — nothing here prop-drills
  * beyond the single `header` key that selected it, and none of them takes `ModeToggle`
  * as a prop; a variant that wants the visitor mode toggle imports it directly, the way
  * `NavH1` does (panel-composition-mockup.md §S11: first in the utility cluster, before

@@ -1,5 +1,9 @@
 import "server-only"
-import { COUNTRY_CHOICE_COOKIE, COUNTRY_HEADER } from "@lib/geolocation"
+import {
+  COUNTRY_CHOICE_COOKIE,
+  COUNTRY_HEADER,
+  SHOP_REGIONS_HEADER,
+} from "@lib/geolocation"
 import { SITE_NAME, getBaseURL } from "@lib/util/env"
 import { cookies as nextCookies, headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
@@ -260,6 +264,25 @@ export const getCountryCode = async (): Promise<string | null> => {
   try {
     const cookies = await nextCookies()
     return cookies.get("_medusa_country")?.value ?? null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * The ids of the regions this shop sells in, as `src/middleware.ts` narrowed
+ * them (`shopRegionIds`, N9), or null when nothing narrows them — a
+ * single-store deployment, a shop whose country is left to detection, or a
+ * call outside a request.
+ */
+export const getShopRegionIds = async (): Promise<string[] | null> => {
+  try {
+    const headers = await nextHeaders()
+    const ids = (headers.get(SHOP_REGIONS_HEADER) ?? "")
+      .split(",")
+      .filter(Boolean)
+
+    return ids.length ? ids : null
   } catch {
     return null
   }

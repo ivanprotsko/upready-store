@@ -1053,6 +1053,7 @@
     "apply": "Применить",
     "close": "Закрыть",
     "placeholder": "Поиск страны или языка",
+    "placeholderLanguage": "Поиск языка",
     "tabCountry": "Страна",
     "tabLanguage": "Язык",
     "title": "Смена региона"

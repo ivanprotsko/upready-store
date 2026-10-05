@@ -1053,6 +1053,7 @@
     "apply": "Applica",
     "close": "Chiudi",
     "placeholder": "Cerca paese o lingua",
+    "placeholderLanguage": "Cerca lingua",
     "tabCountry": "Paese",
     "tabLanguage": "Lingua",
     "title": "Cambia regione"

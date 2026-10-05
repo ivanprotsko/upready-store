@@ -487,44 +487,55 @@ export default function CheckoutShippingSection({
           </p>
         </div>
 
-        <DropdownMenu dir={dir}>
-          <DropdownMenu.Trigger
-            className={clx(
-              "flex shrink-0 items-center gap-x-1.5 txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base transition-colors",
-              isPending && "opacity-60 cursor-wait"
-            )}
-            disabled={isPending}
+        {/* N9: the list is the shop's own regions (`listShopRegions`); a shop that
+            sells in one country names it, with nothing to open. */}
+        {countryOptions.length <= 1 ? (
+          <span
+            className="flex shrink-0 items-center gap-x-1.5 txt-compact-medium-plus text-ui-fg-subtle"
             data-testid="checkout-country-select"
           >
-            {isPending ? (
-              <Loader className="h-4 w-4 animate-spin" />
-            ) : (
-              <>
-                <CursorDefault />
-                <span>{selectedCountryOption?.label ?? "—"}</span>
-              </>
-            )}
-          </DropdownMenu.Trigger>
-
-          <DropdownMenu.Content
-            align="end"
-            className="w-48 max-h-60 overflow-y-auto no-scrollbar"
-          >
-            <DropdownMenu.RadioGroup
-              value={selectedCountryOption?.country}
-              onValueChange={handleRegionChange}
+            {selectedCountryOption?.label ?? "—"}
+          </span>
+        ) : (
+          <DropdownMenu dir={dir}>
+            <DropdownMenu.Trigger
+              className={clx(
+                "flex shrink-0 items-center gap-x-1.5 txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base transition-colors",
+                isPending && "opacity-60 cursor-wait"
+              )}
+              disabled={isPending}
+              data-testid="checkout-country-select"
             >
-              {countryOptions.map((opt) => (
-                <DropdownMenu.RadioItem
-                  key={opt.country}
-                  value={opt.country}
-                >
-                  {opt.label}
-                </DropdownMenu.RadioItem>
-              ))}
-            </DropdownMenu.RadioGroup>
-          </DropdownMenu.Content>
-        </DropdownMenu>
+              {isPending ? (
+                <Loader className="h-4 w-4 animate-spin" />
+              ) : (
+                <>
+                  <CursorDefault />
+                  <span>{selectedCountryOption?.label ?? "—"}</span>
+                </>
+              )}
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Content
+              align="end"
+              className="w-48 max-h-60 overflow-y-auto no-scrollbar"
+            >
+              <DropdownMenu.RadioGroup
+                value={selectedCountryOption?.country}
+                onValueChange={handleRegionChange}
+              >
+                {countryOptions.map((opt) => (
+                  <DropdownMenu.RadioItem
+                    key={opt.country}
+                    value={opt.country}
+                  >
+                    {opt.label}
+                  </DropdownMenu.RadioItem>
+                ))}
+              </DropdownMenu.RadioGroup>
+            </DropdownMenu.Content>
+          </DropdownMenu>
+        )}
       </div>
 
       {cards.length > 0 ? (

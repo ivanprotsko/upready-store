@@ -24,7 +24,7 @@ import {
   setCartId,
   setCountryCode,
 } from "./cookies"
-import { getRegion } from "./regions"
+import { getRegion, isShopRegion } from "./regions"
 import { getLocale } from "./locale-actions"
 import { defaultLocale } from "@i18n/config"
 import { DEFAULT_REGION } from "@lib/util/env"
@@ -806,6 +806,11 @@ export async function placeOrderOrReason(): Promise<{
  * or the storefront derived it for them (switching the language on a deployment
  * that maps locales to countries — `@lib/geolocation/locale-country`). Only a
  * pick is remembered as a choice; see `setCountryCode`.
+ *
+ * A country outside the shop's own regions (`isShopRegion`, N9) changes
+ * nothing: the switcher no longer offers one, so only a stale page or a forged
+ * call asks for it, and moving there would price the shop in a currency it
+ * has no prices in.
  */
 export async function applyRegion(
   countryCode: string,
@@ -816,6 +821,10 @@ export async function applyRegion(
 
   if (!region) {
     throw new Error(`Region not found for country code: ${countryCode}`)
+  }
+
+  if (!(await isShopRegion(region.id))) {
+    return
   }
 
   await setCountryCode(countryCode, { explicit })

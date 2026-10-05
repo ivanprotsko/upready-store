@@ -1053,6 +1053,7 @@
     "apply": "Käytä",
     "close": "Sulje",
     "placeholder": "Hae maata tai kieltä",
+    "placeholderLanguage": "Hae kieltä",
     "tabCountry": "Maa",
     "tabLanguage": "Kieli",
     "title": "Vaihda alue"

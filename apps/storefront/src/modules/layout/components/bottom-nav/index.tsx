@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server"
 
 import { listCategories } from "@lib/data/categories"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
-import { listRegions } from "@lib/data/regions"
+import { listShopRegions } from "@lib/data/regions"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import AccountLink from "@modules/layout/components/account-link"
 import CategoryMenu from "@modules/layout/components/category-menu"
@@ -22,7 +22,7 @@ const BottomNav = async () => {
     getTranslations("Nav"),
     getSiteName(),
     getSiteBranding(),
-    listRegions(),
+    listShopRegions(),
     getCountryCode(),
     getSwitcherLocales(),
   ])

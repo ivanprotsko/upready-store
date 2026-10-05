@@ -1053,6 +1053,7 @@
     "apply": "Приложи",
     "close": "Затвори",
     "placeholder": "Търси държава или език",
+    "placeholderLanguage": "Търси език",
     "tabCountry": "Държава",
     "tabLanguage": "Език",
     "title": "Смяна на регион"

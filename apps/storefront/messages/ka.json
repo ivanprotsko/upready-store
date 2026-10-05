@@ -1053,6 +1053,7 @@
     "apply": "გამოყენება",
     "close": "დახურვა",
     "placeholder": "მოძებნეთ ქვეყანა ან ენა",
+    "placeholderLanguage": "მოძებნეთ ენა",
     "tabCountry": "ქვეყანა",
     "tabLanguage": "ენა",
     "title": "რეგიონის შეცვლა"

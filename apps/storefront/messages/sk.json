@@ -1053,6 +1053,7 @@
     "apply": "Použiť",
     "close": "Zavrieť",
     "placeholder": "Hľadať krajinu alebo jazyk",
+    "placeholderLanguage": "Hľadať jazyk",
     "tabCountry": "Krajina",
     "tabLanguage": "Jazyk",
     "title": "Zmeniť región"

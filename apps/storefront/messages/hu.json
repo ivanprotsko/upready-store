@@ -1053,6 +1053,7 @@
     "apply": "Alkalmaz",
     "close": "Bezárás",
     "placeholder": "Ország vagy nyelv keresése",
+    "placeholderLanguage": "Nyelv keresése",
     "tabCountry": "Ország",
     "tabLanguage": "Nyelv",
     "title": "Régió módosítása"

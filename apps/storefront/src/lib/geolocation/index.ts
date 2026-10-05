@@ -9,6 +9,7 @@ export {
   hasLocaleCountryMap,
   parseLocaleCountryMap,
 } from "./locale-country"
+export { narrowRegionMap, narrowRegions, shopRegionIds } from "./shop-regions"
 
 export const COUNTRY_COOKIE = "_medusa_country"
 
@@ -29,6 +30,16 @@ export const COUNTRY_HEADER = "x-storefront-country"
  * the visitor picked.
  */
 export const COUNTRY_CHOICE_COOKIE = "_medusa_country_choice"
+
+/**
+ * The ids of the regions THIS shop sells in (`shopRegionIds`, N9), comma
+ * separated, for the region switcher, the checkout's country list and
+ * `applyRegion`. Absent when nothing narrows them. Written by the middleware in
+ * the same pass that resolves the country, and deleted from the incoming
+ * request first, like `COUNTRY_HEADER`: a forged list would offer a region the
+ * shop has no prices in.
+ */
+export const SHOP_REGIONS_HEADER = "x-storefront-regions"
 
 const RESOLVED_MAX_AGE = 60 * 60 * 24 * 365
 const UNRESOLVED_MAX_AGE = 60 * 5
@@ -53,6 +64,14 @@ const DEBUG = process.env.GEOLOCATION_DEBUG === "true"
 const REGION_PINNED = process.env.REGION_PIN
   ? process.env.REGION_PIN === "true"
   : process.env.NODE_ENV !== "production"
+
+/**
+ * The country every request lands on when its locale names none, or null when
+ * the deployment leaves that to detection — the last link of the chain
+ * `shopRegionIds` walks.
+ */
+export const pinnedRegionCountry = (): string | null =>
+  REGION_PINNED ? DEFAULT_REGION : null
 
 export type RegionMap = Map<string, HttpTypes.StoreRegion>
 
