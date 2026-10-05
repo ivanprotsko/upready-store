@@ -174,3 +174,60 @@ describe("readCoursePage", () => {
     expect(readCoursePage({ course_page: { about: [], faq: "x" } })).toBeNull()
   })
 })
+
+// N10, cherkashino.com/en 2026-10-05: the course landing stayed Russian under an
+// English interface. The base lists are the shop's Russian; English sits in `i18n.en`.
+describe("readCoursePage in the page's language", () => {
+  const russian = {
+    about: [{ heading: "Что входит", body: "Программа длится 7 дней." }],
+    faq: [{ q: "А это больно?", a: "Нет." }],
+    testimonials: [{ author: "Наталья", text: "Спасибо", source: "text" }],
+  }
+  const english = {
+    about: [{ heading: "What's included", body: "The programme lasts 7 days." }],
+    faq: [{ q: "Does it hurt?", a: "No." }],
+    testimonials: [{ author: "Natalya", text: "Thank you", source: "text" }],
+  }
+  const metadata = { course_page: { ...russian, i18n: { en: english } } }
+
+  it("reads the English lists on an English page", () => {
+    expect(readCoursePage(metadata, "en")).toEqual(english)
+    expect(readCoursePage(metadata, "en-GB")).toEqual(english)
+  })
+
+  it("keeps the Russian lists on a Russian page, with or without a translation", () => {
+    expect(readCoursePage(metadata, "ru")).toEqual(russian)
+    expect(readCoursePage({ course_page: russian }, "ru")).toEqual(russian)
+    expect(readCoursePage(metadata)).toEqual(russian)
+  })
+
+  it("shows the base for a locale with no translation", () => {
+    expect(readCoursePage(metadata, "de")).toEqual(russian)
+    expect(readCoursePage({ course_page: russian }, "en")).toEqual(russian)
+  })
+
+  it("falls back list by list when the translation is partial or malformed", () => {
+    const partial = {
+      course_page: {
+        ...russian,
+        i18n: { en: { faq: english.faq, about: [], testimonials: "x" } },
+      },
+    }
+    expect(readCoursePage(partial, "en")).toEqual({
+      about: russian.about,
+      faq: english.faq,
+      testimonials: russian.testimonials,
+    })
+    expect(
+      readCoursePage({ course_page: { ...russian, i18n: { en: "x" } } }, "en")
+    ).toEqual(russian)
+    expect(
+      readCoursePage({ course_page: { ...russian, i18n: [english] } }, "en")
+    ).toEqual(russian)
+  })
+
+  it("never lets the i18n object itself reach a list", () => {
+    const page = readCoursePage(metadata, "en")
+    expect(Object.keys(page ?? {})).toEqual(["about", "faq", "testimonials"])
+  })
+})

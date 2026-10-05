@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
 import { listCategories } from "@lib/data/categories"
-import { listRegions } from "@lib/data/regions"
+import { listShopRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import { getSiteBranding } from "@lib/data/tenant-branding"
@@ -49,7 +49,7 @@ export default async function NavH4() {
   const t = await getTranslations()
   const [categories, regions, countryCode, siteName, locales, showJournal, branding] = await Promise.all([
     listCategories(),
-    listRegions().then((regions: StoreRegion[]) => regions),
+    listShopRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
     getSwitcherLocales(),

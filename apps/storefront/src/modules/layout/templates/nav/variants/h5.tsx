@@ -3,7 +3,7 @@ import { Link } from "@i18n/navigation"
 
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
-import { listRegions } from "@lib/data/regions"
+import { listShopRegions } from "@lib/data/regions"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import CartButton from "@modules/layout/components/cart-button"
@@ -45,7 +45,7 @@ export default async function NavH5() {
       getSiteName(),
       hasPublishedArticles(),
       getSiteBranding(),
-      listRegions(),
+      listShopRegions(),
       getCountryCode(),
       getSwitcherLocales(),
     ])

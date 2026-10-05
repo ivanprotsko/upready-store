@@ -354,6 +354,14 @@ export type HomeBanner = {
   button: string
   link: HomeBannerLink
   sort: number
+  /**
+   * Texts in other languages, keyed by storefront locale (`ru`, `en`). The screen
+   * does not edit them yet; every edit spreads the banner, so a save keeps them.
+   */
+  i18n?: Record<
+    string,
+    Partial<{ kicker: string; label: string; title: string; button: string; alt: string }>
+  >
 }
 
 /** Backend caps: `HOME_BANNER_TEXT_MAX`, `HOME_BANNERS_MAX`, `isAllowedBannerHref`. */

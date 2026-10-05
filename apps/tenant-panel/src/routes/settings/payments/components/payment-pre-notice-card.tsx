@@ -13,12 +13,14 @@ import {
   useTenantPaymentPreNotice,
   useUpdateTenantPaymentPreNotice,
 } from "../../../../hooks/api/payment-pre-notice"
+import { useTenantBtcpay } from "../../../../hooks/api/btcpay"
 import { shouldShowPrePaymentNotice } from "../../../../lib/payment-pre-notice"
 
 /**
  * «Предупреждение перед оплатой» (rule 5zd, t-2026-10-03-32): одна карточка,
- * четыре способа оплаты (Robokassa, Tribute, перевод по реквизитам,
- * иностранная карта), для каждого — свои поля и живой предпросмотр текста.
+ * пять способов оплаты (Robokassa, Tribute, BTCPay Server, перевод по
+ * реквизитам, иностранная карта), для каждого — свои поля и живой
+ * предпросмотр текста.
  *
  * Rule 19h: пока ответ не пришёл, элементы управления отрисованы, но
  * недоступны, а не скрыты; ранний ответ не перезатирает то, что владелец уже
@@ -28,6 +30,7 @@ import { shouldShowPrePaymentNotice } from "../../../../lib/payment-pre-notice"
 const METHOD_LABEL_KEYS: Record<PaymentPreNoticeProviderKey, string> = {
   robokassa: "paymentSettings.methodsSummary.robokassa",
   tribute: "paymentPreNotice.methods.tribute",
+  btcpay: "btcpay.title",
   manual: "paymentSettings.methodsSummary.manual",
   card: "paymentPreNotice.methods.card",
 }
@@ -37,6 +40,7 @@ type Draft = Record<PaymentPreNoticeProviderKey, PaymentPreNoticeEntry>
 const EMPTY_DRAFT: Draft = {
   robokassa: { ...EMPTY_PRE_NOTICE_ENTRY },
   tribute: { ...EMPTY_PRE_NOTICE_ENTRY },
+  btcpay: { ...EMPTY_PRE_NOTICE_ENTRY },
   manual: { ...EMPTY_PRE_NOTICE_ENTRY },
   card: { ...EMPTY_PRE_NOTICE_ENTRY },
 }
@@ -48,6 +52,11 @@ export const PaymentPreNoticeCard = () => {
   const { t } = useTranslation()
   const { paymentPreNotice, isPending, isError, error } = useTenantPaymentPreNotice()
   const { mutateAsync: save, isPending: isSaving } = useUpdateTenantPaymentPreNotice()
+  // BTCPay is a method to describe only where the instance takes cryptocurrency.
+  const { btcpay } = useTenantBtcpay()
+  const methodKeys = PAYMENT_PRE_NOTICE_PROVIDER_KEYS.filter(
+    (key) => key !== "btcpay" || btcpay?.available === true
+  )
 
   const [loaded, setLoaded] = useState<boolean | null>(null)
   const [draft, setDraft] = useState<Draft>(EMPTY_DRAFT)
@@ -163,7 +172,7 @@ export const PaymentPreNoticeCard = () => {
               <Select.Value />
             </Select.Trigger>
             <Select.Content>
-              {PAYMENT_PRE_NOTICE_PROVIDER_KEYS.map((key) => (
+              {methodKeys.map((key) => (
                 <Select.Item key={key} value={key}>
                   {t(METHOD_LABEL_KEYS[key])}
                 </Select.Item>

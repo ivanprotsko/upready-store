@@ -4,7 +4,7 @@ import { Link } from "@i18n/navigation"
 
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import { isOlavkaShop } from "@lib/data/olavka-shop"
-import { listRegions } from "@lib/data/regions"
+import { listShopRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import { User } from "@medusajs/icons"
@@ -53,7 +53,7 @@ export default async function NavH7() {
   const t = await getTranslations()
   const [regions, countryCode, siteName, locales, showJournal, branding, olavka] =
     await Promise.all([
-      listRegions(),
+      listShopRegions(),
       getCountryCode(),
       getSiteName(),
       getSwitcherLocales(),

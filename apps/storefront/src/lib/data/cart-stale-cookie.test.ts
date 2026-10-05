@@ -17,6 +17,7 @@ const clientFetch = vi.fn()
 const cartUpdate = vi.fn()
 const removeCartId = vi.fn()
 const setCountryCode = vi.fn()
+const isShopRegion = vi.fn()
 
 vi.mock("@lib/config", () => ({
   sdk: {
@@ -41,6 +42,7 @@ vi.mock("./cookies", () => ({
 
 vi.mock("./regions", () => ({
   getRegion: async () => ({ id: "reg_de" }),
+  isShopRegion: (...args: unknown[]) => isShopRegion(...args),
 }))
 
 vi.mock("./locale-actions", () => ({ getLocale: async () => "ru" }))
@@ -56,6 +58,8 @@ describe("applyRegion with a cart cookie", () => {
     cartUpdate.mockReset()
     removeCartId.mockReset()
     setCountryCode.mockReset()
+    isShopRegion.mockReset()
+    isShopRegion.mockResolvedValue(true)
   })
 
   it("drops the cookie of a cart the backend no longer has and switches the country", async () => {
@@ -96,5 +100,30 @@ describe("applyRegion with a cart cookie", () => {
       {},
       {}
     )
+  })
+})
+
+describe("applyRegion outside the shop's regions (N9, t-2026-10-04-19)", () => {
+  beforeEach(() => {
+    clientFetch.mockReset()
+    cartUpdate.mockReset()
+    removeCartId.mockReset()
+    setCountryCode.mockReset()
+    isShopRegion.mockReset()
+  })
+
+  it("refuses a country the shop does not sell in: no cookie, no cart move", async () => {
+    isShopRegion.mockResolvedValue(false)
+    clientFetch.mockResolvedValue({
+      cart: { id: "cart_1", shipping_address: { country_code: "ru" } },
+    })
+    const { applyRegion } = await import("./cart")
+
+    await expect(applyRegion("de")).resolves.toBeUndefined()
+
+    expect(isShopRegion).toHaveBeenCalledWith("reg_de")
+    expect(setCountryCode).not.toHaveBeenCalled()
+    expect(clientFetch).not.toHaveBeenCalled()
+    expect(cartUpdate).not.toHaveBeenCalled()
   })
 })

@@ -4057,6 +4057,7 @@
     "methodsSummary": {
       "title": "Что видит покупатель",
       "robokassa": "Robokassa",
+      "btcpay": "Криптовалюта (BTCPay Server)",
       "manual": "Перевод по реквизитам",
       "connected": "Подключена",
       "notConnected": "Не подключена",
@@ -4128,6 +4129,34 @@
       "address": "Это не похоже на адрес сети {{network}}: {{hint}}",
       "finishItem": "Сначала нажмите «Готово» или «Отмена» у реквизита, который вы редактируете",
       "nothingToOffer": "Добавьте хотя бы один реквизит или контакт менеджера, прежде чем включать переводы"
+    }
+  },
+  "btcpay": {
+    "title": "Криптовалюта (BTCPay Server)",
+    "subtitle": "покупатель платит криптовалютой через ваш магазин на BTCPay Server, деньги приходят прямо в ваш кошелёк",
+    "stateOn": "включено",
+    "stateOff": "выключено",
+    "stateNone": "не настроено",
+    "ownServerHint": "Подключите магазин на своём или арендованном BTCPay Server. Создайте там магазин и кошелёк, затем вставьте ниже адрес сервера, ID магазина, API-ключ и секрет вебхука.",
+    "fields": {
+      "is_enabled": "Принимать криптовалюту",
+      "server_url": "Адрес сервера",
+      "store_id": "ID магазина",
+      "api_key": "API-ключ",
+      "webhook_secret": "Секрет вебхука"
+    },
+    "keepPlaceholder": "оставьте пустым, чтобы не менять",
+    "emptyPlaceholder": "вставьте из BTCPay Server",
+    "apiKeyHint": "API-ключ создаётся в BTCPay: Account → Manage Account → API keys. Ограничьте его этим магазином и дайте права btcpay.store.cancreateinvoice, btcpay.store.canviewinvoices и, для возвратов, btcpay.store.cancreatepullpayments.",
+    "save": "Сохранить",
+    "saved": "Настройки BTCPay сохранены",
+    "webhookTitle": "Адрес вебхука для BTCPay Server",
+    "webhookHint": "В настройках магазина в BTCPay откройте Webhooks, создайте вебхук с этим адресом и тем же секретом, что выше, и отправляйте в него события счетов. Без вебхука заказ тоже появится, примерно через минуту.",
+    "errors": {
+      "serverUrl": "Нужен адрес https:// без ? и # (http:// только для localhost)",
+      "storeId": "Только латинские буквы, цифры, «-» и «_», как в настройках магазина в BTCPay",
+      "required": "Нужно, чтобы включить криптовалюту",
+      "fixFields": "Проверьте отмеченные поля"
     }
   },
   "paymentPreNotice": {

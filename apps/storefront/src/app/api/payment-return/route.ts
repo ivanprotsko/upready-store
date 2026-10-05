@@ -48,7 +48,12 @@ async function robokassaReturn(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  if (req.nextUrl.searchParams.get("provider") === "robokassa") {
+  // BTCPay Server's «return to store» (ask-20261005-070255-438f) takes the
+  // same path as Robokassa's success: the backend reads the invoice from the
+  // shop's own server, and the waiting page looks for the order it made.
+  // BTCPay sends no `outcome`, so this never reads as a failure.
+  const provider = req.nextUrl.searchParams.get("provider")
+  if (provider === "robokassa" || provider === "btcpay") {
     return robokassaReturn(req)
   }
 

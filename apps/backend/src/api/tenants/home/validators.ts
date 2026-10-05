@@ -50,6 +50,9 @@ export type HomeBlock = (typeof HOME_BLOCKS)[number];
 
 export const TENANT_HOME_SCHEMA_ID = "upready.tenant-home/v1";
 
+/** A storefront locale code as an `i18n` key: `ru`, `en`, `pt-BR`. */
+const LOCALE_KEY = /^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/;
+
 /** Per-locale overrides of the copy fields; the base fields stay the fallback. A
  *  storefront serves 36 locales over one document, so a Russian visitor of a shop
  *  whose owner wrote English copy otherwise reads that English under a Russian catalog
@@ -71,9 +74,7 @@ const heroSchema = z.object({
    *  storefront renders it as a link and never as markup, so no scheme check. */
   cta_href: z.string().max(500).default(""),
   image_url: z.string().max(1000).nullable().default(null),
-  i18n: z
-    .record(z.string().regex(/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/), heroCopySchema)
-    .optional(),
+  i18n: z.record(z.string().regex(LOCALE_KEY), heroCopySchema).optional(),
 });
 
 const productsSchema = z.discriminatedUnion("source", [
@@ -150,6 +151,21 @@ const bannerLinkSchema = z.discriminatedUnion("type", [
 
 const bannerTextSchema = z.string().max(HOME_BANNER_TEXT_MAX).default("");
 
+/** A banner's texts in one more language, keyed by storefront locale code like
+ *  `hero.i18n`: the base texts are the shop's default language, and the
+ *  storefront falls back to them for a locale or a text this leaves out
+ *  (`localizedBanner`). Without it cherkashino.com/ru, whose default is English,
+ *  showed «OCTOBER 10 · COURSE» over a Russian interface (2026-10-05). */
+const bannerCopySchema = z
+  .object({
+    kicker: z.string().max(HOME_BANNER_TEXT_MAX),
+    label: z.string().max(HOME_BANNER_TEXT_MAX),
+    title: z.string().max(HOME_BANNER_TEXT_MAX),
+    button: z.string().max(HOME_BANNER_TEXT_MAX),
+    alt: z.string().max(200),
+  })
+  .partial();
+
 export const HomeBannerSchema = z.object({
   id: z.string().min(1).max(64),
   image: bannerImageSchema,
@@ -159,6 +175,7 @@ export const HomeBannerSchema = z.object({
   button: bannerTextSchema,
   link: bannerLinkSchema,
   sort: z.number().int().min(0).max(1000).default(0),
+  i18n: z.record(z.string().regex(LOCALE_KEY), bannerCopySchema).optional(),
 });
 
 const bannersSchema = z

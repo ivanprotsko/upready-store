@@ -231,6 +231,14 @@ const RegionSelect = ({
     })
   }, [locales, currentLocale, tLang])
 
+  // N9 (t-2026-10-04-19): `regions` are the shop's own (`listShopRegions`), so
+  // a shop that sells in one country has nothing to pick there. The dialog then
+  // keeps only the languages; with one language as well there is no dialog at
+  // all, and the header just names the country and the currency it prices in.
+  const canPickCountry = countryOptions.length > 1
+  const canPickLanguage = languageOptions.length > 1
+  const interactive = canPickCountry || canPickLanguage
+
   const normalizedQuery = query.trim().toLowerCase()
 
   const filteredCountryOptions = useMemo(() => {
@@ -259,6 +267,46 @@ const RegionSelect = ({
   }
 
   const triggerFlagCode = selectedCountryOption.country.toUpperCase()
+
+  /**
+   * One header control: a button that opens the dialog, or — when there is
+   * nothing to pick — the same face as plain text, named for a screen reader.
+   */
+  const trigger = ({
+    testId,
+    label,
+    staticLabel,
+    className,
+    children,
+  }: {
+    testId: string
+    label: string
+    staticLabel: string
+    className?: string
+    children: React.ReactNode
+  }) =>
+    interactive ? (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        data-testid={testId}
+        aria-label={label}
+        className={className}
+      >
+        {children}
+      </button>
+    ) : (
+      <span
+        role="img"
+        data-testid={testId}
+        aria-label={staticLabel}
+        className={clx(className, "pointer-events-none")}
+      >
+        {children}
+      </span>
+    )
+
+  const countryLabel = `${t("tabCountry")}: ${selectedCountryOption.label}`
 
   function handleApply() {
     const countryChanged =
@@ -301,209 +349,225 @@ const RegionSelect = ({
           for each. */}
       {variant === "icons" ? (
         <span className={clx("flex items-center", className)}>
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            data-testid="nav-country-select-button"
-            aria-label={`${t("tabCountry")}: ${selectedCountryOption.label}`}
-            className={ICON_CLASS}
-          >
-            <CountryFlag
-              countryCode={triggerFlagCode}
-              style={{ width: "15px", height: "15px" }}
-              className="shrink-0 rounded-full"
-            />
-          </button>
+          {trigger({
+            testId: "nav-country-select-button",
+            label: countryLabel,
+            staticLabel: countryLabel,
+            className: ICON_CLASS,
+            children: (
+              <CountryFlag
+                countryCode={triggerFlagCode}
+                style={{ width: "15px", height: "15px" }}
+                className="shrink-0 rounded-full"
+              />
+            ),
+          })}
           <span
             aria-hidden
             className="h-3 w-px shrink-0 bg-transparent transition-colors duration-200 group-data-[scrolled=true]:bg-[var(--h7-divider,var(--border))]"
           />
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            data-testid="nav-region-select-button"
-            aria-label={`${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`}
-            className={ICON_CLASS}
-          >
-            <span className={SIGN_CLASS}>{selectedCountryOption.currencySymbol}</span>
-          </button>
+          {trigger({
+            testId: "nav-region-select-button",
+            label: `${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`,
+            staticLabel: selectedCountryOption.currencyCode,
+            className: ICON_CLASS,
+            children: (
+              <span className={SIGN_CLASS}>{selectedCountryOption.currencySymbol}</span>
+            ),
+          })}
         </span>
       ) : variant === "text" ? (
         <span className={clx("flex h-10 items-center rounded-[32px] transition-[background-color,box-shadow] duration-200 group-data-[scrolled=true]:bg-[var(--h7-surface,var(--background))] group-data-[scrolled=true]:shadow-buttons-neutral", className)}>
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            data-testid="nav-country-select-button"
-            aria-label={t("tabCountry")}
-            className={TEXT_CLASS}
-          >
-            <CountryFlag
-              countryCode={triggerFlagCode}
-              style={{ width: "15px", height: "15px" }}
-              className="shrink-0 rounded-full"
-            />
-            <span>{selectedCountryOption.label}</span>
-          </button>
+          {trigger({
+            testId: "nav-country-select-button",
+            label: t("tabCountry"),
+            staticLabel: countryLabel,
+            className: TEXT_CLASS,
+            children: (
+              <>
+                <CountryFlag
+                  countryCode={triggerFlagCode}
+                  style={{ width: "15px", height: "15px" }}
+                  className="shrink-0 rounded-full"
+                />
+                <span>{selectedCountryOption.label}</span>
+              </>
+            ),
+          })}
           <span
             aria-hidden
             className="h-3 w-px shrink-0 bg-transparent transition-colors duration-200 group-data-[scrolled=true]:bg-[var(--h7-divider,var(--border))]"
           />
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            data-testid="nav-region-select-button"
-            aria-label={`${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`}
-            className={ICON_CLASS.replace("h-9 w-9", "h-10 w-10")}
-          >
-            <span className={SIGN_CLASS}>{selectedCountryOption.currencySymbol}</span>
-          </button>
+          {trigger({
+            testId: "nav-region-select-button",
+            label: `${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`,
+            staticLabel: selectedCountryOption.currencyCode,
+            className: ICON_CLASS.replace("h-9 w-9", "h-10 w-10"),
+            children: (
+              <span className={SIGN_CLASS}>{selectedCountryOption.currencySymbol}</span>
+            ),
+          })}
         </span>
       ) : (
       <span className={clx("flex items-center gap-x-3 text-ui-fg-subtle", className)}>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          data-testid="nav-region-select-button"
-          aria-label={t("tabLanguage")}
-          className="flex items-center gap-x-1 hover:text-ui-fg-base transition-colors"
-        >
-          <span className="uppercase">{currentLocale}</span>
-          <ChevronDown className="shrink-0 w-2.5 h-2.5" />
-        </button>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          data-testid="nav-country-select-button"
-          aria-label={t("tabCountry")}
-          className="flex items-center gap-x-1.5 hover:text-ui-fg-base transition-colors"
-        >
-          <CountryFlag
-            countryCode={triggerFlagCode}
-            style={{ width: "16px", height: "16px" }}
-            className="shrink-0 rounded-sm"
-          />
-          <span>{selectedCountryOption.currencySymbol}</span>
-          <ChevronDown className="shrink-0 w-2.5 h-2.5" />
-        </button>
+        {trigger({
+          testId: "nav-region-select-button",
+          label: t("tabLanguage"),
+          staticLabel: `${t("tabLanguage")}: ${currentLocale.toUpperCase()}`,
+          className: "flex items-center gap-x-1 hover:text-ui-fg-base transition-colors",
+          children: (
+            <>
+              <span className="uppercase">{currentLocale}</span>
+              {interactive && <ChevronDown className="shrink-0 w-2.5 h-2.5" />}
+            </>
+          ),
+        })}
+        {trigger({
+          testId: "nav-country-select-button",
+          label: t("tabCountry"),
+          staticLabel: `${countryLabel}, ${selectedCountryOption.currencyCode}`,
+          className: "flex items-center gap-x-1.5 hover:text-ui-fg-base transition-colors",
+          children: (
+            <>
+              <CountryFlag
+                countryCode={triggerFlagCode}
+                style={{ width: "16px", height: "16px" }}
+                className="shrink-0 rounded-sm"
+              />
+              <span>{selectedCountryOption.currencySymbol}</span>
+              {interactive && <ChevronDown className="shrink-0 w-2.5 h-2.5" />}
+            </>
+          ),
+        })}
       </span>
       )}
 
-      <Transition show={open}>
-        {/* Above the phone category menu (z-[70]), which hosts this control below 1024px. */}
-        <Dialog onClose={() => setOpen(false)} className="relative z-[75]">
-          <TransitionChild
-            enter="ease-out duration-200"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-150"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-ui-bg-overlay" aria-hidden="true" />
-          </TransitionChild>
-
-          <div className="fixed inset-0 flex justify-end">
+      {interactive && (
+        <Transition show={open}>
+          {/* Above the phone category menu (z-[70]), which hosts this control below 1024px. */}
+          <Dialog onClose={() => setOpen(false)} className="relative z-[75]">
             <TransitionChild
-              enter="ease-out duration-250"
-              enterFrom="opacity-0 translate-x-8"
-              enterTo="opacity-100 translate-x-0"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-x-0"
-              leaveTo="opacity-0 translate-x-8"
+              enter="ease-out duration-200"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-150"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
-              <DialogPanel className="flex flex-col h-[calc(100%-16px)] w-[calc(100%-16px)] sm:w-1/3 2xl:w-1/4 sm:min-w-[360px] m-2 rounded-rounded bg-ui-bg-base p-6 gap-6">
-                <div className="flex items-center justify-between shrink-0">
-                  <DialogTitle className="txt-xlarge text-ui-fg-base">
-                    {t("title")}
-                  </DialogTitle>
-                  <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                    aria-label={t("close")}
-                    data-testid="close-region-select-button"
-                    className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors p-0.5"
-                  >
-                    <XMark />
-                  </button>
-                </div>
-
-                <Input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder={t("placeholder")}
-                />
-
-                <div className="flex flex-1 min-h-0 gap-6">
-                  <div className="flex flex-col flex-1 min-w-0">
-                    <span className="txt-compact-small-plus text-ui-fg-subtle shrink-0 mb-2">
-                      {t("tabCountry")}
-                    </span>
-                    <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar">
-                      <RadioGroup
-                        dir={dir}
-                        value={pendingCountry}
-                        onValueChange={setPendingCountry}
-                        disabled={isPending}
-                        className="gap-1"
-                      >
-                        {filteredCountryOptions.map((opt) => (
-                          <RegionOptionRow
-                            key={opt.country}
-                            id={`region-country-${opt.country}`}
-                            value={opt.country}
-                            label={opt.label}
-                            description={opt.currencyCode}
-                            flagCode={opt.country.toUpperCase()}
-                          />
-                        ))}
-                      </RadioGroup>
-                    </div>
-                  </div>
-
-                  <div className="w-px bg-ui-border-base shrink-0" />
-
-                  <div className="flex flex-col flex-1 min-w-0">
-                    <span className="txt-compact-small-plus text-ui-fg-subtle shrink-0 mb-2">
-                      {t("tabLanguage")}
-                    </span>
-                    <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar">
-                      <RadioGroup
-                        dir={dir}
-                        value={pendingLocale}
-                        onValueChange={setPendingLocale}
-                        disabled={isPending}
-                        className="gap-1"
-                      >
-                        {filteredLanguageOptions.map((opt) => (
-                          <RegionOptionRow
-                            key={opt.code}
-                            id={`region-language-${opt.code}`}
-                            value={opt.code}
-                            label={opt.label}
-                            description={opt.description}
-                          />
-                        ))}
-                      </RadioGroup>
-                    </div>
-                  </div>
-                </div>
-
-                <Button
-                  type="button"
-                  size="large"
-                  className="w-full shrink-0"
-                  disabled={isPending}
-                  isLoading={isPending}
-                  onClick={handleApply}
-                >
-                  {t("apply")}
-                </Button>
-              </DialogPanel>
+              <div className="fixed inset-0 bg-ui-bg-overlay" aria-hidden="true" />
             </TransitionChild>
-          </div>
-        </Dialog>
-      </Transition>
+
+            <div className="fixed inset-0 flex justify-end">
+              <TransitionChild
+                enter="ease-out duration-250"
+                enterFrom="opacity-0 translate-x-8"
+                enterTo="opacity-100 translate-x-0"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-x-0"
+                leaveTo="opacity-0 translate-x-8"
+              >
+                <DialogPanel className="flex flex-col h-[calc(100%-16px)] w-[calc(100%-16px)] sm:w-1/3 2xl:w-1/4 sm:min-w-[360px] m-2 rounded-rounded bg-ui-bg-base p-6 gap-6">
+                  <div className="flex items-center justify-between shrink-0">
+                    <DialogTitle className="txt-xlarge text-ui-fg-base">
+                      {canPickCountry ? t("title") : t("tabLanguage")}
+                    </DialogTitle>
+                    <button
+                      type="button"
+                      onClick={() => setOpen(false)}
+                      aria-label={t("close")}
+                      data-testid="close-region-select-button"
+                      className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors p-0.5"
+                    >
+                      <XMark />
+                    </button>
+                  </div>
+
+                  <Input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder={
+                      canPickCountry ? t("placeholder") : t("placeholderLanguage")
+                    }
+                  />
+
+                  <div className="flex flex-1 min-h-0 gap-6">
+                    {canPickCountry && (
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <span className="txt-compact-small-plus text-ui-fg-subtle shrink-0 mb-2">
+                          {t("tabCountry")}
+                        </span>
+                        <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar">
+                          <RadioGroup
+                            dir={dir}
+                            value={pendingCountry}
+                            onValueChange={setPendingCountry}
+                            disabled={isPending}
+                            className="gap-1"
+                          >
+                            {filteredCountryOptions.map((opt) => (
+                              <RegionOptionRow
+                                key={opt.country}
+                                id={`region-country-${opt.country}`}
+                                value={opt.country}
+                                label={opt.label}
+                                description={opt.currencyCode}
+                                flagCode={opt.country.toUpperCase()}
+                              />
+                            ))}
+                          </RadioGroup>
+                        </div>
+                      </div>
+                    )}
+
+                    {canPickCountry && canPickLanguage && (
+                      <div className="w-px bg-ui-border-base shrink-0" />
+                    )}
+
+                    {canPickLanguage && (
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <span className="txt-compact-small-plus text-ui-fg-subtle shrink-0 mb-2">
+                          {t("tabLanguage")}
+                        </span>
+                        <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar">
+                          <RadioGroup
+                            dir={dir}
+                            value={pendingLocale}
+                            onValueChange={setPendingLocale}
+                            disabled={isPending}
+                            className="gap-1"
+                          >
+                            {filteredLanguageOptions.map((opt) => (
+                              <RegionOptionRow
+                                key={opt.code}
+                                id={`region-language-${opt.code}`}
+                                value={opt.code}
+                                label={opt.label}
+                                description={opt.description}
+                              />
+                            ))}
+                          </RadioGroup>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <Button
+                    type="button"
+                    size="large"
+                    className="w-full shrink-0"
+                    disabled={isPending}
+                    isLoading={isPending}
+                    onClick={handleApply}
+                  >
+                    {t("apply")}
+                  </Button>
+                </DialogPanel>
+              </TransitionChild>
+            </div>
+          </Dialog>
+        </Transition>
+      )}
     </>
   )
 }

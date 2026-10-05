@@ -1,5 +1,5 @@
 import { listCartShippingMethods } from "@lib/data/fulfillment"
-import { listRegions } from "@lib/data/regions"
+import { listShopRegions } from "@lib/data/regions"
 import { getCountryCode } from "@lib/data/cookies"
 import { retrieveCustomerAddresses } from "@lib/data/customer"
 import { cartNeedsShipping, isNoDeliveryLine } from "@lib/util/shipping-address"
@@ -30,7 +30,7 @@ export default async function CheckoutForm({
   const [shippingOptions, regions, currentCountry, addresses, locale] =
     await Promise.all([
       listCartShippingMethods(cart.id),
-      listRegions(),
+      listShopRegions(),
       getCountryCode(),
       retrieveCustomerAddresses(),
       getLocale(),

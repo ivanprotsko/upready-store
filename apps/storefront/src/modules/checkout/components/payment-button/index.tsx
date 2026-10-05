@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  isBtcpay,
   isManual,
   isPaymentSessionReady,
   isRobokassa,
@@ -19,6 +20,7 @@ import {
 } from "@modules/checkout/components/demo-card-fields"
 import { useLocale, useTranslations } from "next-intl"
 import type React from "react"
+import BtcpayPaymentButton from "./providers/btcpay"
 import ManualPaymentButton from "./providers/manual"
 import RobokassaPaymentButton from "./providers/robokassa"
 import StripePaymentButton from "./providers/stripe"
@@ -135,6 +137,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       return <ManualPaymentButton {...providerProps} />
     case isRobokassa(activePaymentMethod):
       return <RobokassaPaymentButton {...providerProps} />
+    case isBtcpay(activePaymentMethod):
+      return <BtcpayPaymentButton {...providerProps} />
     default:
       return (
         <Button disabled size="large" className="w-full">

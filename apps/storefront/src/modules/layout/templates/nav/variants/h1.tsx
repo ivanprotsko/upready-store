@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { listRegions } from "@lib/data/regions"
+import { listShopRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import { getSiteBranding } from "@lib/data/tenant-branding"
@@ -30,7 +30,7 @@ export default async function NavH1() {
   // has published an article — measured here, on the server, because SideMenu
   // is a client component and must not read the backend itself (rule 19g).
   const [regions, countryCode, siteName, locales, showJournal, branding] = await Promise.all([
-    listRegions().then((regions: StoreRegion[]) => regions),
+    listShopRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
     getSwitcherLocales(),

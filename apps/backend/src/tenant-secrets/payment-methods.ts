@@ -1,3 +1,5 @@
+import { cryptoPaymentsAvailable } from "../btcpay/availability";
+
 /**
  * Which payment methods a shop has actually connected, the one resolver every
  * caller uses: the storefront's `/store/payment-providers` (checkout), the
@@ -22,6 +24,11 @@
 export type TenantPaymentMethods = {
   robokassa: boolean;
   tribute: boolean;
+  /**
+   * The shop's own BTCPay Server store, enabled (ask-20261005-070255-438f),
+   * and only on an instance that takes cryptocurrency at all.
+   */
+  btcpay: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
   demo: boolean;
@@ -49,15 +56,29 @@ export const manualPaymentMethods = (
 export const resolveTenantPaymentMethods = (params: {
   robokassaEnabled: boolean;
   tributeEnabled: boolean;
+  btcpayEnabled: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
+  /**
+   * Whether this instance takes cryptocurrency (`btcpay/availability.ts`).
+   * Read from the environment unless given; a shop's saved BTCPay store
+   * counts for nothing where it is `false`, so neither the checkout's
+   * provider list nor `by-host` ever offer it there.
+   */
+  cryptoAvailable?: boolean;
 }): TenantPaymentMethods => {
+  const btcpay = params.btcpayEnabled && (params.cryptoAvailable ?? cryptoPaymentsAvailable());
   const hasRealMethod =
-    params.robokassaEnabled || params.tributeEnabled || params.manualCrypto || params.manualManager;
+    params.robokassaEnabled ||
+    params.tributeEnabled ||
+    btcpay ||
+    params.manualCrypto ||
+    params.manualManager;
 
   return {
     robokassa: params.robokassaEnabled,
     tribute: params.tributeEnabled,
+    btcpay,
     manualCrypto: params.manualCrypto,
     manualManager: params.manualManager,
     demo: !hasRealMethod,

@@ -5,18 +5,27 @@
  * `ochishenie` is `scripts/fixtures/data/course-ochishchenie-pecheni.json`
  * (t-2026-09-24-n23); `limfa` and `pochki` were taken from their pages on
  * 2026-10-02. Read by `fill-course-page.ts`.
+ *
+ * Translations live in their own files (`course-pages-en.ts`) and reach the
+ * product under `course_page.i18n.<locale>`, the convention the storefront's
+ * `readCoursePage` reads; the Russian here stays the base every other language
+ * falls back to.
  */
+import { COURSE_PAGES_EN } from "./course-pages-en";
+
+export type CoursePageLists = {
+  about: { heading: string; body: string }[];
+  faq: { q: string; a: string }[];
+  testimonials: { author: string; text: string; source: "image" | "text" }[];
+};
+
 export type CoursePageContent = {
   source_url: string;
   description: string;
-  course_page: {
-    about: { heading: string; body: string }[];
-    faq: { q: string; a: string }[];
-    testimonials: { author: string; text: string; source: "image" | "text" }[];
-  };
+  course_page: CoursePageLists & { i18n?: Record<string, CoursePageLists> };
 };
 
-export const COURSE_PAGES: Record<string, CoursePageContent> = {
+const LANDINGS: Record<string, CoursePageContent> = {
   "ochishenie": {
     "source_url": "https://cherkashinaoks.ru/ochishenie",
     "description": "Без лекарств и препаратов. Мягкое и естественное очищение до последнего камня.\n\nЭТОТ КУРС ДЛЯ ВАС, ЕСЛИ:\n- Быстро утомляетесь Мало энергии\n- Есть проблемы с печенью или желчным пузырем\n- Если у вас есть хоть один из 70 симптомов\n- Заботитесь о своем здоровье\n\n«ПЕЧЕНЬ НЕ БОЛИТ, НО ОНА ПОСЫЛАЕТ НАМ СИМПТОМЫ. ЕСЛИ ОНИ ЕСТЬ, ЗНАЧИТ ПРИШЛО ВРЕМЯ О НЕЙ ПОЗАБОТИТЬСЯ» © Оксана Черкашина\n\nЕсли чувствуешь:\n- Боль в спине, шее, под правой лопаткой\n- Хрустят суставы\n- Головные боли и мигрени\n- Кишечные расстройства, тошнота и чувство тяжести\n- Хроническая усталость и потеря энергии\n\nЕсли видишь:\n- Избыточный вес, отечность\n- Темные круги под глазами\n- Желтеет кожа и белки глаз\n- Налет на языке (белый или желтый)\n- Жировики, папилломы, экземы\n- Повышен сахар в крови",
@@ -252,3 +261,11 @@ export const COURSE_PAGES: Record<string, CoursePageContent> = {
     }
   }
 };
+
+/** Each landing with the translations that exist for it under `course_page.i18n`. */
+export const COURSE_PAGES: Record<string, CoursePageContent> = Object.fromEntries(
+  Object.entries(LANDINGS).map(([key, landing]) => {
+    const en = COURSE_PAGES_EN[key];
+    return [key, en ? { ...landing, course_page: { ...landing.course_page, i18n: { en } } } : landing];
+  }),
+);

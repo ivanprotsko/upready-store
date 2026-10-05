@@ -167,6 +167,7 @@ import {
   PutTenantDeliverySettingsSchema,
   PutTenantPochtaSchema,
   PutTenantTributeSchema,
+  PutTenantBtcpaySchema,
   PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
@@ -254,6 +255,7 @@ import { guardSyntheticTelegramEmail } from "./store/customers/synthetic-email-g
 import { resolveTelegramTenant } from "./auth/telegram-tenant";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { injectTributeTenant } from "./store/tenant/tribute";
+import { injectBtcpayTenant } from "./store/tenant/btcpay";
 import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
@@ -444,6 +446,21 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantManualPaymentSchema)],
     },
     {
+      // The shop's own BTCPay Server store (ask-20261005-070255-438f).
+      matcher: "/tenants/payment-settings/btcpay",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantBtcpaySchema)],
+    },
+    {
+      // BTCPay's per-shop webhook (ask-20261005-070255-438f): `BTCPay-Sig` is
+      // an HMAC-SHA256 of the RAW body, so the exact bytes have to survive JSON
+      // parsing (`req.rawBody`), for the reason the Tribute webhook gives above.
+      matcher: "/btcpay/webhook/:tenant",
+      method: ["POST"],
+      bodyParser: { preserveRawBody: true },
+      middlewares: [],
+    },
+    {
       // The pre-payment notice's per-method fields (rule 5zd, t-2026-10-03-32).
       matcher: "/tenants/payment-settings/pre-notice",
       method: ["PUT"],
@@ -470,13 +487,14 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantRequisitesSchema)],
     },
     {
-      // Robokassa and Tribute both need the SERVER's word on which shop the
-      // cart belongs to; the client's `data.tenant_id`, if any, is overwritten
-      // (step 4 of the task; t-cherk-22 for Tribute). Each middleware is a
-      // no-op unless `body.provider_id` is its own, so they compose cleanly.
+      // Robokassa, Tribute and BTCPay all need the SERVER's word on which shop
+      // the cart belongs to; the client's `data.tenant_id`, if any, is
+      // overwritten (step 4 of the task; t-cherk-22 for Tribute;
+      // ask-20261005-070255-438f for BTCPay). Each middleware is a no-op unless
+      // `body.provider_id` is its own, so they compose cleanly.
       matcher: "/store/payment-collections/:id/payment-sessions",
       method: ["POST"],
-      middlewares: [injectRobokassaTenant, injectTributeTenant],
+      middlewares: [injectRobokassaTenant, injectTributeTenant, injectBtcpayTenant],
     },
     {
       // The shadowing route in `src/api/store/payment-providers/route.ts`
