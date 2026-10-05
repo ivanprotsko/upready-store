@@ -10,11 +10,14 @@ import type { CourseRow, LessonRow } from "../../../../tenants/courses/course-he
 import { resolveTenantFromPublishableKey } from "../../resolve-tenant";
 import {
   collectPendingProducts,
+  COURSE_REFERENCE,
+  COURSE_TRANSLATABLE_FIELDS,
   computeCourseProgress,
   type EntitlementRow,
   type OrderForPendingCourse,
   pickContinueLessonId,
   type ProgressRow,
+  translateRows,
 } from "../store-course-helpers";
 
 type ProductCard = { id: string; title: string; handle: string; thumbnail: string | null };
@@ -37,6 +40,9 @@ type ProductCard = { id: string; title: string; handle: string; thumbnail: strin
  * «Продолжить» opens (`pickContinueLessonId`), `null` while nothing is viewed
  * yet and for a course without access, where the card opens the course's
  * contents in the account instead.
+ *
+ * A course's title comes in the visitor's language (`translateRows`,
+ * t-2026-10-04-19), the one its contents page shows.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -80,7 +86,13 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   ]);
 
   const pendingCourses = pendingCourseCandidates.filter((course) => !entitledCourseIds.has(course.id));
-  const courses = [...grantedCourses, ...pendingCourses];
+  const courses = await translateRows(
+    req.scope,
+    COURSE_REFERENCE,
+    [...grantedCourses, ...pendingCourses],
+    COURSE_TRANSLATABLE_FIELDS,
+    req.locale,
+  );
 
   if (!courses.length) {
     res.json({ courses: [] });

@@ -1,8 +1,89 @@
+import type { MedusaContainer } from "@medusajs/framework";
 import type { MedusaRequest } from "@medusajs/framework/http";
 import { MedusaError } from "@medusajs/framework/utils";
 import { COURSE_MODULE } from "../../../../modules/course";
 import type CourseModuleService from "../../../../modules/course/service";
 import type { CourseRow, LessonRow } from "../../../tenants/courses/course-helpers";
+import { pickTranslated, readTranslations } from "../../../tenants/product-attributes/helpers";
+
+/**
+ * `reference` of a course's `title` and `description` in the translation
+ * module, the snake-case name the module registers `course` under at boot.
+ */
+export const COURSE_REFERENCE = "course";
+/** `reference` of a lesson's `title`. */
+export const LESSON_REFERENCE = "lesson";
+
+/** The `.translatable()` fields of `course` and `lesson` (`modules/course/models`). */
+export const COURSE_TRANSLATABLE_FIELDS = ["title", "description"] as const;
+export const LESSON_TRANSLATABLE_FIELDS = ["title"] as const;
+
+/**
+ * The rows with their text fields in the visitor's language
+ * (t-2026-10-04-19, «Course programme» on cherkashino.com/en). `locale` is
+ * `req.locale`, which the framework resolves from `x-medusa-locale` on every
+ * `/store` call, and the storefront's SDK sends that header on every fetch.
+ *
+ * Each field walks the chain the product characteristics walk
+ * (`pickTranslated`): the locale, then its language part, then the text the
+ * owner typed. So `/ru` on a shop whose base text is Russian reads the base,
+ * and a language nobody translated never shows a blank. A field that is not a
+ * string on the row (a course without a description) stays as it is.
+ *
+ * Returns copies and leaves `rows` alone. No locale, or no rows, costs no
+ * query.
+ */
+export const translateRows = async <T extends { id: string }>(
+  container: MedusaContainer,
+  reference: string,
+  rows: T[],
+  fields: readonly (keyof T & string)[],
+  locale: string | undefined,
+): Promise<T[]> => {
+  if (!locale || !rows.length) {
+    return rows;
+  }
+
+  const byId = await readTranslations(
+    container,
+    reference,
+    rows.map((row) => row.id),
+  );
+
+  return rows.map((row) => {
+    const byLocale = byId.get(row.id);
+    if (!byLocale) {
+      return row;
+    }
+
+    const translated: T = { ...row };
+    for (const field of fields) {
+      const base = row[field];
+      if (typeof base === "string") {
+        (translated as Record<string, unknown>)[field] = pickTranslated(base, byLocale, field, locale);
+      }
+    }
+    return translated;
+  });
+};
+
+/** One course and its lessons in the visitor's language, see `translateRows`. */
+export const translateCourse = async <
+  C extends Pick<CourseRow, "id" | "title" | "description">,
+  L extends Pick<LessonRow, "id" | "title">,
+>(
+  container: MedusaContainer,
+  course: C,
+  lessons: L[],
+  locale: string | undefined,
+): Promise<{ course: C; lessons: L[] }> => {
+  const [[translatedCourse], translatedLessons] = await Promise.all([
+    translateRows(container, COURSE_REFERENCE, [course], COURSE_TRANSLATABLE_FIELDS, locale),
+    translateRows(container, LESSON_REFERENCE, lessons, LESSON_TRANSLATABLE_FIELDS, locale),
+  ]);
+
+  return { course: translatedCourse, lessons: translatedLessons };
+};
 
 export type EntitlementRow = {
   id: string;
