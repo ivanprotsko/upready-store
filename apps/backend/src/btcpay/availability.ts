@@ -6,7 +6,8 @@
  * process is. On the RU instance accepting cryptocurrency for goods is
  * forbidden (282-FZ Art. 1 part 6, `docs/instances/RULES.md` §2), so BTCPay
  * must not exist there: no panel card, no checkout method, no webhook that
- * pays an order. The switch is the environment's: `PAYMENTS_CRYPTO_AVAILABLE`
+ * pays an order. x402 (t-2026-10-03-33) obeys the same switch everywhere: its
+ * panel card, checkout method, session middleware and agent purchase route. The switch is the environment's: `PAYMENTS_CRYPTO_AVAILABLE`
  * turns BTCPay on only when it is exactly `true`, and an instance that never
  * sets it never offers it. `deploy/instances/ru.json` forbids the variable, so
  * `instance-check.mjs` fails a RU deploy that sets it to anything.
