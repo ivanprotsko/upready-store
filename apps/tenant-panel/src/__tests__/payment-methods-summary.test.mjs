@@ -61,8 +61,8 @@ test("isDemoOnly mirrors the resolver's own demo flag", () => {
   assert.equal(isDemoOnly(methods({ robokassa: true, demo: false })), false)
 })
 
-test("BTCPay and Bitcart are rows of «Что видит покупатель» only where the instance takes cryptocurrency (PR #272 review)", () => {
-  assert.deepEqual(visibleMethodKeys({ cryptoAvailable: true }), ["robokassa", "btcpay", "bitcart", "manual"])
+test("BTCPay, Bitcart and x402 are rows of «Что видит покупатель» only where the instance takes cryptocurrency (PR #272 review)", () => {
+  assert.deepEqual(visibleMethodKeys({ cryptoAvailable: true }), ["robokassa", "btcpay", "bitcart", "x402", "manual"])
   assert.deepEqual(visibleMethodKeys({ cryptoAvailable: false }), ["robokassa", "manual"])
 })
 
@@ -75,4 +75,15 @@ test("connectedMethodKeys lists Bitcart after BTCPay, and a backend that predate
   assert.deepEqual(connectedMethodKeys({ robokassa: false, btcpay: true, manualCrypto: false, manualManager: false, demo: false }), [
     "btcpay",
   ])
+})
+
+test("connectedMethodKeys lists x402 after Bitcart and hides it, like BTCPay, where crypto is unavailable (t-2026-10-03-33)", () => {
+  assert.deepEqual(connectedMethodKeys(methods({ x402: true, demo: false })), ["x402"])
+  assert.deepEqual(
+    connectedMethodKeys(
+      methods({ robokassa: true, btcpay: true, bitcart: true, x402: true, manualManager: true, demo: false })
+    ),
+    ["robokassa", "btcpay", "bitcart", "x402", "manual"]
+  )
+  assert.equal(visibleMethodKeys({ cryptoAvailable: false }).includes("x402"), false)
 })

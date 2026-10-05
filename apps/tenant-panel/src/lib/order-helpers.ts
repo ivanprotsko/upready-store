@@ -100,6 +100,10 @@ export const getPaymentProviderLabel = (
     return t("orders.payment.provider.robokassa")
   }
 
+  if (providerId.startsWith("pp_x402_")) {
+    return t("orders.payment.provider.x402")
+  }
+
   return formatProvider(providerId)
 }
 

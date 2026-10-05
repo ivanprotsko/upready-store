@@ -70,6 +70,8 @@ export type TenantPaymentMethods = {
   btcpay?: boolean
   /** The shop's own Bitcart store, switched on (ask-20261005-070255-438f, stage 2). */
   bitcart?: boolean
+  /** The shop's own x402 (USDC) address, switched on (t-2026-10-03-33). */
+  x402?: boolean
   manualCrypto: boolean
   manualManager: boolean
   demo: boolean

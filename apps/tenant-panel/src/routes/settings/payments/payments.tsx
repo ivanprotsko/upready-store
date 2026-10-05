@@ -17,12 +17,14 @@ import { BtcpayCard } from "./components/btcpay-card"
 import { ManualPaymentCard } from "./components/manual-payment-card"
 import { PaymentPreNoticeCard } from "./components/payment-pre-notice-card"
 import { RobokassaBehaviourFields } from "./components/robokassa-behaviour-fields"
+import { X402Card } from "./components/x402-card"
 import { useRobokassaForm } from "./use-robokassa-form"
 
 const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
   robokassa: "paymentSettings.methodsSummary.robokassa",
   btcpay: "paymentSettings.methodsSummary.btcpay",
   bitcart: "paymentSettings.methodsSummary.bitcart",
+  x402: "paymentSettings.methodsSummary.x402",
   manual: "paymentSettings.methodsSummary.manual",
 }
 
@@ -207,6 +209,9 @@ export const PaymentSettings = () => {
 
       {/* ask-20261005-070255-438f, stage 2: the shop's own Bitcart store. */}
       <BitcartCard />
+
+      {/* t-2026-10-03-33: USDC to the shop's own address over x402. */}
+      <X402Card />
 
       {/* olavka-payments: crypto wallets and manager contacts on the manual provider. */}
       <ManualPaymentCard />
