@@ -12,7 +12,7 @@
  * `manual_payment` is.
  */
 
-export const PAYMENT_PRE_NOTICE_PROVIDER_KEYS = ["robokassa", "tribute", "btcpay", "manual", "card"] as const
+export const PAYMENT_PRE_NOTICE_PROVIDER_KEYS = ["robokassa", "tribute", "btcpay", "bitcart", "manual", "card"] as const
 export type PaymentPreNoticeProviderKey = (typeof PAYMENT_PRE_NOTICE_PROVIDER_KEYS)[number]
 
 export const PAYMENT_PRE_NOTICE_REDIRECT_KINDS = [
@@ -47,6 +47,7 @@ export const EMPTY_PAYMENT_PRE_NOTICE: TenantPaymentPreNotice = {
   robokassa: { ...EMPTY_PRE_NOTICE_ENTRY },
   tribute: { ...EMPTY_PRE_NOTICE_ENTRY },
   btcpay: { ...EMPTY_PRE_NOTICE_ENTRY },
+  bitcart: { ...EMPTY_PRE_NOTICE_ENTRY },
   manual: { ...EMPTY_PRE_NOTICE_ENTRY },
   card: { ...EMPTY_PRE_NOTICE_ENTRY },
 }
@@ -61,6 +62,7 @@ export const preNoticeProviderKey = (providerId: string): PaymentPreNoticeProvid
   if (providerId.startsWith("pp_robokassa_")) return "robokassa"
   if (providerId.startsWith("pp_tribute_")) return "tribute"
   if (providerId.startsWith("pp_btcpay_")) return "btcpay"
+  if (providerId.startsWith("pp_bitcart_")) return "bitcart"
   if (providerId.startsWith("pp_system_default")) return "manual"
   if (
     providerId.startsWith("pp_stripe_") ||

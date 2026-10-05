@@ -14,12 +14,13 @@ import {
   useUpdateTenantPaymentPreNotice,
 } from "../../../../hooks/api/payment-pre-notice"
 import { useTenantBtcpay } from "../../../../hooks/api/btcpay"
+import { useTenantBitcart } from "../../../../hooks/api/bitcart"
 import { shouldShowPrePaymentNotice } from "../../../../lib/payment-pre-notice"
 
 /**
  * «Предупреждение перед оплатой» (rule 5zd, t-2026-10-03-32): одна карточка,
- * пять способов оплаты (Robokassa, Tribute, BTCPay Server, перевод по
- * реквизитам, иностранная карта), для каждого — свои поля и живой
+ * шесть способов оплаты (Robokassa, Tribute, BTCPay Server, Bitcart, перевод
+ * по реквизитам, иностранная карта), для каждого — свои поля и живой
  * предпросмотр текста.
  *
  * Rule 19h: пока ответ не пришёл, элементы управления отрисованы, но
@@ -31,6 +32,7 @@ const METHOD_LABEL_KEYS: Record<PaymentPreNoticeProviderKey, string> = {
   robokassa: "paymentSettings.methodsSummary.robokassa",
   tribute: "paymentPreNotice.methods.tribute",
   btcpay: "btcpay.title",
+  bitcart: "bitcart.title",
   manual: "paymentSettings.methodsSummary.manual",
   card: "paymentPreNotice.methods.card",
 }
@@ -41,6 +43,7 @@ const EMPTY_DRAFT: Draft = {
   robokassa: { ...EMPTY_PRE_NOTICE_ENTRY },
   tribute: { ...EMPTY_PRE_NOTICE_ENTRY },
   btcpay: { ...EMPTY_PRE_NOTICE_ENTRY },
+  bitcart: { ...EMPTY_PRE_NOTICE_ENTRY },
   manual: { ...EMPTY_PRE_NOTICE_ENTRY },
   card: { ...EMPTY_PRE_NOTICE_ENTRY },
 }
@@ -52,10 +55,12 @@ export const PaymentPreNoticeCard = () => {
   const { t } = useTranslation()
   const { paymentPreNotice, isPending, isError, error } = useTenantPaymentPreNotice()
   const { mutateAsync: save, isPending: isSaving } = useUpdateTenantPaymentPreNotice()
-  // BTCPay is a method to describe only where the instance takes cryptocurrency.
+  // BTCPay and Bitcart are methods to describe only where the instance takes cryptocurrency.
   const { btcpay } = useTenantBtcpay()
+  const { bitcart } = useTenantBitcart()
   const methodKeys = PAYMENT_PRE_NOTICE_PROVIDER_KEYS.filter(
-    (key) => key !== "btcpay" || btcpay?.available === true
+    (key) =>
+      (key !== "btcpay" || btcpay?.available === true) && (key !== "bitcart" || bitcart?.available === true)
   )
 
   const [loaded, setLoaded] = useState<boolean | null>(null)
