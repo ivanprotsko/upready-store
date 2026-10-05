@@ -160,6 +160,7 @@ export default async function CategoryTemplate({
             fallback={
               <SkeletonProductGrid
                 numberOfProducts={category.products?.length || PRODUCT_LIMIT}
+                besideSidebar
               />
             }
           >

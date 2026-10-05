@@ -29,14 +29,14 @@ const LINK = "txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transit
  * requisites, when the shop has them, open the next row under Категории. With two or three
  * product columns the footer starts at column 1 (Ivan 04.10.2026: «когда три колонки, то
  * крайняя левая должна быть занята»): an empty column there pushes «©» onto a second row.
- * So the skip switches on at `large`, the breakpoint where `PRODUCT_GRID_CLASS` turns
- * four columns, and the two have to move together (`olavka.test.ts` holds them).
+ * So the skip switches on above 960, the width where `PRODUCT_GRID_CLASS` turns four
+ * columns on these shops, and the two have to move together (`olavka.test.ts` holds them).
  *
  * No requisites block (batch 7, Ivan 03.10: «никаких ссылок на ИП Черкашина и т.д. Быть
  * не должно»): the legal name, the tax and registration numbers and the legal address
  * are not printed on these shops. The phone and the e-mail stay (`FooterContacts`).
  */
-const SKIP_FIRST_COLUMN = "large:[&>*:nth-child(3n+1)]:col-start-2"
+const SKIP_FIRST_COLUMN = "min-[961px]:[&>*:nth-child(3n+1)]:col-start-2"
 
 export default async function FooterOlavka() {
   const [t, tMeta, siteName, seller, categories, tenantPages, legal, attribution] =

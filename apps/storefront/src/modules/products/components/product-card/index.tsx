@@ -21,19 +21,38 @@ import WishlistButton from "@modules/products/components/wishlist-button"
  *
  * The grid itself is `PRODUCT_GRID_CLASS`: two columns on a phone, three from 1024 and
  * four from 1440, on one gap scale.
+ *
+ * The Olavka shops (`OLAVKA_SHOP_HANDLES`, by the `data-shop` mark the root layout puts on
+ * `<html>`) turn three columns much earlier (Ivan, 27.09.2026: «3 колонки в 1 ряд с
+ * товарами должно появляться только при ширине <=960»): two columns below 720, three from
+ * 720 to 960, four above 960. The gaps keep their scale, 12 below 1024 and 24 from it. The
+ * row budgets, the collapsed grid and the Olavka footer follow the same widths
+ * (`product-grid-class.test.ts` holds them together).
  */
 export const PRODUCT_GRID_CLASS =
-  "grid w-full grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-3 small:gap-x-6 small:gap-y-10 large:grid-cols-4"
+  "grid w-full grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-3 small:gap-x-6 small:gap-y-10 large:grid-cols-4 [[data-shop=olavka]_&]:min-[720px]:grid-cols-3 [[data-shop=olavka]_&]:min-[961px]:grid-cols-4"
+
+/**
+ * The same grid beside the catalog's side column (`/store`, a category, a collection: 248
+ * and a gap of 32 from 1024), where the row is 280 narrower than the page. On the Olavka
+ * shops four columns there would be cards of 156 at 1024, narrower than a phone's 173. So
+ * the row goes back to three columns where the side column appears and turns four again
+ * once it is as wide as a full row is at 961: from 1280. Every other shop has one set of
+ * columns for both.
+ */
+export const PRODUCT_GRID_BESIDE_SIDEBAR_CLASS = `${PRODUCT_GRID_CLASS} [[data-shop=olavka]_&]:min-[1024px]:grid-cols-3 [[data-shop=olavka]_&]:min-[1280px]:grid-cols-4`
 
 /**
  * A row budget for a grid that is a teaser, not a listing (a home section, the related
  * products): it never ends on a ragged row. `long` is for twelve cards: four rows of
  * three, three of four, and the first eight (four rows of two) on a phone. `short` is for
- * eight: two rows of four, four of two, and six at three columns.
+ * eight: two rows of four, four of two, and six at three columns. On the Olavka shops the
+ * same counts at that grid's widths: all twelve from 720, six from 720 to 960.
  */
 export const PRODUCT_GRID_ROW_BUDGET = {
-  long: "[&>li:nth-child(n+9)]:hidden small:[&>li:nth-child(n+9)]:block",
-  short: "small:[&>li:nth-child(n+7)]:hidden large:[&>li:nth-child(n+7)]:block",
+  long: "[&>li:nth-child(n+9)]:hidden small:[&>li:nth-child(n+9)]:block [[data-shop=olavka]_&]:min-[720px]:[&>li:nth-child(n+9)]:block",
+  short:
+    "small:[&>li:nth-child(n+7)]:hidden large:[&>li:nth-child(n+7)]:block [[data-shop=olavka]_&]:min-[720px]:[&>li:nth-child(n+7)]:hidden [[data-shop=olavka]_&]:min-[961px]:[&>li:nth-child(n+7)]:block",
 } as const
 
 /**
@@ -41,8 +60,8 @@ export const PRODUCT_GRID_ROW_BUDGET = {
  * a missing catalog, in light and dark alike. Collapsed, the cards keep the width they
  * have in three columns, whatever the viewport offers beyond that, and the row is
  * centred, so one, two or three cards form a whole row rather than the start of one.
- * Three cards fill it exactly from 1024 up. On a phone the columns stay two and a
- * third card is centred under them.
+ * Three cards fill it exactly from 1024 up (from 720 on the Olavka shops). On a phone
+ * the columns stay two and a third card is centred under them.
  */
 export const PRODUCT_GRID_COLLAPSE_BELOW = 4
 
@@ -51,7 +70,7 @@ export const PRODUCT_GRID_COLLAPSED_CLASS =
 
 /** The width of one cell of the collapsed grid, from the gaps of `PRODUCT_GRID_CLASS`. */
 export const PRODUCT_GRID_COLLAPSED_ITEM_CLASS =
-  "w-[calc((100%-0.75rem)/2)] small:w-[calc((100%-3rem)/3)]"
+  "w-[calc((100%-0.75rem)/2)] small:w-[calc((100%-3rem)/3)] [[data-shop=olavka]_&]:min-[720px]:w-[calc((100%-1.5rem)/3)] [[data-shop=olavka]_&]:min-[1024px]:w-[calc((100%-3rem)/3)]"
 
 const MAX_SWATCHES = 5
 

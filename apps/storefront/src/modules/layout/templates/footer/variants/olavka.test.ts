@@ -9,7 +9,8 @@ import { fileURLToPath } from "node:url"
  * on `PRODUCT_GRID_CLASS` and leaves column 1 empty only when that grid has four
  * columns (remark 15). The skip switched on at 961px while the grid turned four
  * columns at `large` (1440), so from 961 to 1439 Категории stood in column 2 and «©»
- * wrapped onto a second row.
+ * wrapped onto a second row. The grid's own rule for these shops (four columns above
+ * 960, Ivan 27.09.2026) had stayed on an unmerged branch; with it in, both are at 961.
  *
  * `FooterOlavka` is an async Server Component this package has no renderer for, so the
  * breakpoints are asserted on the source, the same convention `(main)/layout.test.ts`
@@ -31,15 +32,15 @@ describe("Olavka footer: the first column is skipped only on a four-column grid"
     expect(skipClass).toBeTruthy()
   })
 
-  it("switches the skip on at the breakpoint the grid turns four columns", () => {
-    const fourColumnsAt = gridClass?.match(/(\S+:)grid-cols-4\b/)?.[1]
+  it("switches the skip on at the width the grid turns four columns on these shops", () => {
+    const fourColumnsAt = gridClass?.match(/\[\[data-shop=olavka\]_&\]:(\S+?:)grid-cols-4\b/)?.[1]
     const skipAt = skipClass?.match(/^(\S+?:)\[/)?.[1]
     expect(fourColumnsAt).toBeTruthy()
     expect(skipAt).toBe(fourColumnsAt)
   })
 
   it("never skips a column on the three-column grid", () => {
-    const threeColumnsAt = gridClass?.match(/(\S+:)grid-cols-3\b/)?.[1]
+    const threeColumnsAt = gridClass?.match(/\[\[data-shop=olavka\]_&\]:(\S+?:)grid-cols-3\b/)?.[1]
     expect(threeColumnsAt).toBeTruthy()
     expect(skipClass?.startsWith(threeColumnsAt ?? "")).toBe(false)
   })

@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server"
 import { listProductsWithSort } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import type { OptionValueIds } from "@lib/util/product-option-filters"
-import { PRODUCT_GRID_CLASS } from "@modules/products/components/product-card"
+import { PRODUCT_GRID_BESIDE_SIDEBAR_CLASS } from "@modules/products/components/product-card"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Pagination } from "@modules/store/components/pagination"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
@@ -122,7 +122,7 @@ export default async function PaginatedProducts({
 
   return (
     <>
-      <ul className={PRODUCT_GRID_CLASS} data-testid="products-list" data-total-count={count}>
+      <ul className={PRODUCT_GRID_BESIDE_SIDEBAR_CLASS} data-testid="products-list" data-total-count={count}>
         {products.map((p, index) => {
           return (
             <li key={p.id} className="min-w-0">
