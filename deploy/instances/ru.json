@@ -25,6 +25,10 @@
       {
         "name": "GA_MEASUREMENT_ID",
         "reason": "same as NEXT_PUBLIC_GA_MEASUREMENT_ID — the single-store storefront build-time fallback"
+      },
+      {
+        "name": "PAYMENTS_CRYPTO_AVAILABLE",
+        "reason": "switches cryptocurrency payments (BTCPay) on in the backend and panel — forbidden on RU, where Federal Law 282-FZ Art. 1 part 6 bans accepting cryptocurrency for goods"
       }
     ],
     "forbiddenPrefixes": [
@@ -38,14 +42,22 @@
       },
       {
         "prefix": "CRYPTO_WALLET_",
-        "reason": "259-FZ Art. 14(5) forbids a Russian tax resident or company from accepting cryptocurrency for goods"
+        "reason": "Federal Law 282-FZ of 04.08.2026 «On Digital Currencies and Digital Rights», Art. 1 part 6 (in force since 2026-09-01), forbids a Russian tax resident or company from accepting cryptocurrency for goods; it replaced 259-FZ Art. 14(5), repealed from 2026-09-01 by 283-FZ Art. 22"
+      },
+      {
+        "prefix": "BTCPAY_",
+        "reason": "BTCPay Server (crypto payments, ask-20261005-070255-438f) is INTL-only — forbidden on RU, where 282-FZ Art. 1 part 6 bans accepting cryptocurrency for goods"
+      },
+      {
+        "prefix": "BITCART_",
+        "reason": "Bitcart (crypto payments, ask-20261005-070255-438f) is INTL-only — forbidden on RU, where 282-FZ Art. 1 part 6 bans accepting cryptocurrency for goods"
       }
     ]
   },
   "providers": {
     "payment": {
       "allowed": ["robokassa"],
-      "forbidden": ["tribute"]
+      "forbidden": ["tribute", "btcpay", "bitcart"]
     },
     "auth": {
       "allowed": ["yandex"],

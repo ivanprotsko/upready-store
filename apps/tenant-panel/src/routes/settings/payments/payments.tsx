@@ -2,14 +2,17 @@ import { Badge, Button, Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
+import { useTenantBtcpay } from "../../../hooks/api/btcpay"
 import {
   connectedMethodKeys,
   isDemoOnly,
   isMethodConnected,
+  visibleMethodKeys,
   type PaymentMethodKey,
 } from "../../../lib/payment-methods-summary"
 import { CrossLink } from "../integrations/components/cross-link"
 import { UnreadableSecretAlert } from "../integrations/components/unreadable-secret-alert"
+import { BtcpayCard } from "./components/btcpay-card"
 import { ManualPaymentCard } from "./components/manual-payment-card"
 import { PaymentPreNoticeCard } from "./components/payment-pre-notice-card"
 import { RobokassaBehaviourFields } from "./components/robokassa-behaviour-fields"
@@ -17,6 +20,7 @@ import { useRobokassaForm } from "./use-robokassa-form"
 
 const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
   robokassa: "paymentSettings.methodsSummary.robokassa",
+  btcpay: "paymentSettings.methodsSummary.btcpay",
   manual: "paymentSettings.methodsSummary.manual",
 }
 
@@ -41,6 +45,10 @@ const METHOD_LABEL_KEYS: Record<PaymentMethodKey, string> = {
 export const PaymentSettings = () => {
   const { t } = useTranslation()
   const form = useRobokassaForm()
+  // The same query the BTCPay card reads, so no second request: whether this
+  // instance takes cryptocurrency decides if BTCPay is a row at all.
+  const { btcpay } = useTenantBtcpay()
+  const cryptoAvailable = btcpay?.available === true
   const {
     settings,
     unreadable,
@@ -102,7 +110,7 @@ export const PaymentSettings = () => {
               {t("paymentSettings.methodsSummary.title")}
             </Text>
             <ul className="flex flex-col gap-y-2">
-              {(Object.keys(METHOD_LABEL_KEYS) as PaymentMethodKey[]).map((key) => (
+              {visibleMethodKeys({ cryptoAvailable }).map((key) => (
                 <li key={key} className="flex items-center justify-between">
                   <Text size="small">{t(METHOD_LABEL_KEYS[key])}</Text>
                   <Badge
@@ -190,6 +198,9 @@ export const PaymentSettings = () => {
           </code>
         </div>
       </Container>
+
+      {/* ask-20261005-070255-438f: the shop's own BTCPay Server store. */}
+      <BtcpayCard />
 
       {/* olavka-payments: crypto wallets and manager contacts on the manual provider. */}
       <ManualPaymentCard />

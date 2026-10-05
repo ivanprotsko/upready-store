@@ -6,6 +6,7 @@ import {
   readRobokassaPaymentStarted,
   type PaymentReturnNotice,
 } from "@lib/util/robokassa-return"
+import { btcpayReturnState } from "@lib/util/btcpay"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
@@ -26,6 +27,12 @@ export const CHECKOUT_PAYMENT_ANCHOR = "checkout-payment"
  * takes the place of the guess: `failed` names the failure, `pending` says the
  * payment is being confirmed (not «failed»: the money may be on its way) and
  * offers to check again rather than to pay again. One notice, never two.
+ *
+ * A buyer back from BTCPay (ask-20261005-070255-438f) arrives the same way,
+ * through the waiting page's `pending`. Their cart's BTCPay session then says
+ * which of two things it is: a transfer the network has not confirmed yet,
+ * which can take far longer than a bank's, or an invoice that expired with
+ * nothing paid, which the pay button replaces with a new one.
  */
 export default function RobokassaRetryNotice({
   cart,
@@ -48,6 +55,45 @@ export default function RobokassaRetryNotice({
     return () => window.removeEventListener("pageshow", onPageShow)
   }, [])
 
+  const crypto = notice === "pending" ? btcpayReturnState(cart) : null
+
+  if (crypto === "expired") {
+    return (
+      <div
+        role="status"
+        className="flex flex-col gap-y-3 rounded-md border border-ui-tag-red-border bg-ui-tag-red-bg p-4 small:flex-row small:items-center small:justify-between small:gap-x-6"
+        data-testid="crypto-invoice-expired-notice"
+      >
+        <div className="flex items-start gap-x-2">
+          <span
+            className="mt-[7px] h-2 w-2 flex-shrink-0 rounded-full bg-ui-tag-red-icon"
+            aria-hidden
+          />
+          <div className="flex flex-col gap-y-0.5">
+            <span className="txt-compact-medium-plus text-ui-fg-error">
+              {t("paymentExpiredCryptoHeading")}
+            </span>
+            <span className="txt-compact-small text-ui-tag-red-text">
+              {t("paymentExpiredCryptoText")}
+            </span>
+          </div>
+        </div>
+        <Button
+          variant="secondary"
+          className="w-full small:w-auto small:flex-shrink-0"
+          onClick={() =>
+            document
+              .getElementById(CHECKOUT_PAYMENT_ANCHOR)
+              ?.scrollIntoView({ behavior: "smooth", block: "start" })
+          }
+          data-testid="crypto-invoice-expired-notice-action"
+        >
+          {t("paymentInterruptedAction")}
+        </Button>
+      </div>
+    )
+  }
+
   if (notice === "pending") {
     return (
       <div
@@ -65,7 +111,7 @@ export default function RobokassaRetryNotice({
               {t("paymentPendingHeading")}
             </span>
             <span className="txt-compact-small text-ui-tag-orange-text">
-              {t("paymentPendingText")}
+              {t(crypto === "pending" ? "paymentPendingCryptoText" : "paymentPendingText")}
             </span>
           </div>
         </div>

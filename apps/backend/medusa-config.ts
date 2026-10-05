@@ -305,6 +305,12 @@ module.exports = defineConfig({
             resolve: "./src/modules/payment-tribute",
             id: "tribute",
           },
+          {
+            // The shop's own BTCPay Server store, same per-tenant-row pattern
+            // (ask-20261005-070255-438f). Offered only where the owner switched it on.
+            resolve: "./src/modules/payment-btcpay",
+            id: "btcpay",
+          },
         ],
       },
     },

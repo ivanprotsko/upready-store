@@ -101,6 +101,21 @@ test("checkEnv: ru profile fails on a forbidden prefix, matched against any suff
   assert.equal(violations.length, 2);
 });
 
+test("checkEnv: ru profile fails on the crypto payments switch and on BTCPay or Bitcart keys (ask-20261005-070255-438f)", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const intl = loadProfile("intl", INSTANCES_DIR);
+
+  const flag = checkEnv(parseEnvFile("PAYMENTS_CRYPTO_AVAILABLE=true\n"), ru);
+  assert.equal(flag.length, 1);
+  assert.match(flag[0], /PAYMENTS_CRYPTO_AVAILABLE/);
+  assert.match(flag[0], /282-FZ/);
+  // Any value is a violation on RU, «false» included: the variable has no business there.
+  assert.equal(checkEnv(parseEnvFile("PAYMENTS_CRYPTO_AVAILABLE=false\n"), ru).length, 1);
+
+  assert.equal(checkEnv(parseEnvFile("BTCPAY_SERVER_URL=https://pay.test\nBITCART_TOKEN=x\n"), ru).length, 2);
+  assert.deepEqual(checkEnv(parseEnvFile("PAYMENTS_CRYPTO_AVAILABLE=true\nBTCPAY_SERVER_URL=https://pay.test\n"), intl), []);
+});
+
 test("checkEnv: an empty forbidden value never trips the check — only a SET value is a violation", () => {
   const ru = loadProfile("ru", INSTANCES_DIR);
   assert.deepEqual(checkEnv(parseEnvFile("RESEND_API_KEY=\n"), ru), []);

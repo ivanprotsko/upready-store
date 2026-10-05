@@ -53,6 +53,12 @@ import Tenant from "./tenant";
  * (`src/telegram/store-record.ts`), which stays where it is — see that task's
  * report for why moving it was out of scope.
  *
+ * `btcpay` is the shop's OWN BTCPay Server store, `{ server_url, store_id,
+ * api_key, webhook_secret }` (ask-20261005-070255-438f). Two secrets, unlike
+ * Tribute's one: the Greenfield API key creates and reads invoices, and the
+ * webhook secret is a separate value the owner sets on the store's webhook in
+ * BTCPay, which signs `BTCPay-Sig`. A new row is saved switched off.
+ *
  * This list is not decoration — `model.enum` renders it as a CHECK constraint
  * on `provider`, so a slot absent here cannot hold a row at all. Measured on
  * the local stand 2026-09-16: an insert into `wildberries_write` died on
@@ -69,6 +75,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "pochta",
   "tribute",
   "telegram",
+  "btcpay",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 

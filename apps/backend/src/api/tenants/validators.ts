@@ -5,6 +5,7 @@ import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
 import { SiteScopeSchema } from "./products/site-scope";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
 import { ROBOKASSA_SNO_VALUES, ROBOKASSA_TAX_VALUES } from "../../tenant-secrets/robokassa";
+import { normalizeBtcpayServerUrl } from "../../tenant-secrets/btcpay";
 import { LOCALE_CODES } from "./locale-settings/validators";
 import {
   BANK_NUMBER_PATTERN,
@@ -862,6 +863,33 @@ export const PutTenantTributeSchema = z.strictObject({
   is_enabled: z.boolean().optional(),
 });
 export type PutTenantTributeBody = z.infer<typeof PutTenantTributeSchema>;
+
+const optionalBtcpayText = (max: number) =>
+  z.string().max(max).optional().transform((value) => (value && value.trim() ? value.trim() : undefined));
+
+/**
+ * `PUT /tenants/payment-settings/btcpay` (ask-20261005-070255-438f) — the
+ * shop's own BTCPay Server store. Every field is optional, so the owner can
+ * change one value without retyping the others: an absent or empty field keeps
+ * the stored one, and the route decides on the merged result whether the
+ * switch may be on. `server_url` comes out normalized
+ * (`normalizeBtcpayServerUrl`), so the route stores what the client will call.
+ */
+export const PutTenantBtcpaySchema = z.strictObject({
+  server_url: optionalBtcpayText(2048)
+    .refine((value) => value === undefined || normalizeBtcpayServerUrl(value) !== null, {
+      message:
+        "server_url must be an https:// address without a query or fragment (http:// only for localhost outside production).",
+    })
+    .transform((value) => (value === undefined ? undefined : (normalizeBtcpayServerUrl(value) as string))),
+  store_id: optionalBtcpayText(128).refine((value) => value === undefined || /^[A-Za-z0-9_-]+$/.test(value), {
+    message: "store_id holds letters, digits, «-» and «_» only, as BTCPay shows it in the store settings.",
+  }),
+  api_key: optionalBtcpayText(500),
+  webhook_secret: optionalBtcpayText(500),
+  is_enabled: z.boolean().optional(),
+});
+export type PutTenantBtcpayBody = z.infer<typeof PutTenantBtcpaySchema>;
 
 /**
  * `PUT /tenants/telegram-bot` (t-2026-10-02-telegram-auth) — the shop's own

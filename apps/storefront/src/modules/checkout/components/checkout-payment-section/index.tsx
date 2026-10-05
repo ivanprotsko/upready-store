@@ -5,6 +5,7 @@ import { initiatePaymentSessionOrReason, updateCart } from "@lib/data/cart"
 import { getChargeConversionFactor } from "@lib/data/payment"
 import {
   buildPaymentSessionData,
+  isBtcpay,
   isManual,
   isPaymentSessionReady,
   isRobokassa,
@@ -547,7 +548,9 @@ export default function CheckoutPaymentSection({
                       ? "Stripe"
                       : method.id.includes("paypal")
                         ? "PayPal"
-                        : "",
+                        : isBtcpay(method.id)
+                          ? "BTCPay Server"
+                          : "",
                     icon: info?.icon || <CreditCard className="w-3 h-3" />,
                   },
                 ]

@@ -7,6 +7,7 @@ import {
 import type { HttpTypes } from "@medusajs/framework/types";
 import { ROBOKASSA_PROVIDER_ID } from "../tenant/robokassa";
 import { TRIBUTE_PROVIDER_ID } from "../tenant/tribute";
+import { BTCPAY_PROVIDER_ID } from "../tenant/btcpay";
 import { tenantPaymentMethodsFor } from "../tenant/payment-methods";
 import { offersSystemDefault } from "../../../tenant-secrets/payment-methods";
 
@@ -24,7 +25,8 @@ const SYSTEM_DEFAULT_PROVIDER_ID = "pp_system_default";
  * route (same path, measured on the stand: the project's `src/api` is
  * mounted before the framework's own routes) and hides:
  *
- * - Robokassa, unless the shop has an enabled account;
+ * - Robokassa, unless the shop has an enabled account; Tribute and BTCPay
+ *   the same way;
  * - `pp_system_default`'s demo card, once the shop has connected a real
  *   method (Robokassa or a manual kind) and configured no manual kind of its
  *   own — a buyer never sees a "pay with anything" fallback next to a real
@@ -69,16 +71,21 @@ export const GET = async (
   const withTribute = providers.some((provider) => provider.id === TRIBUTE_PROVIDER_ID);
   const hideTribute = withTribute && !methods.tribute;
 
+  const withBtcpay = providers.some((provider) => provider.id === BTCPAY_PROVIDER_ID);
+  const hideBtcpay = withBtcpay && !methods.btcpay;
+
   const withSystemDefault = providers.some((provider) => provider.id === SYSTEM_DEFAULT_PROVIDER_ID);
   const hideSystemDefault = withSystemDefault && !offersSystemDefault(methods);
 
   const visible = providers.filter((provider) => {
     if (provider.id === ROBOKASSA_PROVIDER_ID && hideRobokassa) return false;
     if (provider.id === TRIBUTE_PROVIDER_ID && hideTribute) return false;
+    if (provider.id === BTCPAY_PROVIDER_ID && hideBtcpay) return false;
     if (provider.id === SYSTEM_DEFAULT_PROVIDER_ID && hideSystemDefault) return false;
     return true;
   });
-  const hiddenCount = (hideRobokassa ? 1 : 0) + (hideTribute ? 1 : 0) + (hideSystemDefault ? 1 : 0);
+  const hiddenCount =
+    (hideRobokassa ? 1 : 0) + (hideTribute ? 1 : 0) + (hideBtcpay ? 1 : 0) + (hideSystemDefault ? 1 : 0);
 
   res.json({
     payment_providers: visible,

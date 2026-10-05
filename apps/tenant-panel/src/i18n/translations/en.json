@@ -4309,6 +4309,7 @@
     "methodsSummary": {
       "title": "What the buyer sees",
       "robokassa": "Robokassa",
+      "btcpay": "Cryptocurrency (BTCPay Server)",
       "manual": "Transfer to requisites",
       "connected": "Connected",
       "notConnected": "Not connected",
@@ -4380,6 +4381,34 @@
       "address": "This does not look like a {{network}} address: {{hint}}",
       "finishItem": "First press «Done» or «Cancel» on the requisite you are editing",
       "nothingToOffer": "Add at least one requisite or a manager contact before switching transfers on"
+    }
+  },
+  "btcpay": {
+    "title": "Cryptocurrency (BTCPay Server)",
+    "subtitle": "buyers pay in crypto through your own store on BTCPay Server, and the money goes straight to your wallet",
+    "stateOn": "on",
+    "stateOff": "off",
+    "stateNone": "not set up",
+    "ownServerHint": "Connect a store on a BTCPay Server you run or rent. Create the store and its wallet there, then paste the server address, the store ID, an API key and the webhook secret below.",
+    "fields": {
+      "is_enabled": "Accept cryptocurrency",
+      "server_url": "Server address",
+      "store_id": "Store ID",
+      "api_key": "API key",
+      "webhook_secret": "Webhook secret"
+    },
+    "keepPlaceholder": "leave empty to keep the current one",
+    "emptyPlaceholder": "paste from BTCPay Server",
+    "apiKeyHint": "Create the API key in BTCPay under Account → Manage Account → API keys. Limit it to this store and give it btcpay.store.cancreateinvoice, btcpay.store.canviewinvoices and, for refunds, btcpay.store.cancreatepullpayments.",
+    "save": "Save",
+    "saved": "BTCPay settings saved",
+    "webhookTitle": "Webhook URL for BTCPay Server",
+    "webhookHint": "In the store's settings in BTCPay open Webhooks, create a webhook with this address and the same secret as above, and send it the invoice events. Without the webhook an order still appears, about a minute later.",
+    "errors": {
+      "serverUrl": "Enter an https:// address with nothing after ? or # (http:// only for localhost)",
+      "storeId": "Latin letters, digits, «-» and «_» only, as the store settings in BTCPay show it",
+      "required": "Needed to switch cryptocurrency on",
+      "fixFields": "Check the highlighted fields"
     }
   },
   "paymentPreNotice": {
