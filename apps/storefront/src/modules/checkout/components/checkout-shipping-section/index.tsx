@@ -9,7 +9,15 @@ import {
 import { TARIFF_PROVIDER_ID } from "@lib/util/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
-import { isShippingCardUnpriced } from "@lib/util/shipping-card"
+import {
+  deliveryWayOf,
+  groupDeliveryWays,
+  isShippingCardUnpriced,
+  lowestDeliveryPrice,
+  type DeliveryCarrier,
+  type DeliveryWay,
+  type DeliveryWayCard,
+} from "@lib/util/shipping-card"
 import {
   cdekKindOf,
   cdekNeedsPoint,
@@ -54,6 +62,22 @@ type CountryOption = {
  * `setShippingMethod` (`pickup-sheet-context.tsx`'s `choosePoint`).
  */
 const PICKUP_GROUP_VALUE = "__pickup__"
+
+/**
+ * D10: the `RadioGroup.Item` value of a way card («В пункт выдачи», «Курьером
+ * до двери»), never a real option id either. Choosing the card opens it; the
+ * buyer then picks a carrier's tariff inside, which is what reaches
+ * `setShippingMethod`.
+ */
+const WAY_VALUE: Record<DeliveryWay, string> = {
+  pickup: "__way_pickup__",
+  courier: "__way_courier__",
+}
+const wayOfValue = (value: string): DeliveryWay | null =>
+  value === WAY_VALUE.pickup ? "pickup" : value === WAY_VALUE.courier ? "courier" : null
+
+type ShippingOption = HttpTypes.StoreCartShippingOptionWithServiceZone
+type ShippingRow = { kind: "option"; option: ShippingOption } | { kind: "pickup" }
 
 interface CheckoutShippingSectionProps {
   cart: HttpTypes.StoreCart
@@ -134,6 +158,12 @@ export default function CheckoutShippingSection({
   const [shippingMethodId, setShippingMethodId] = useState<string | null>(
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
   )
+  /**
+   * D10: the way card the buyer opened. While it is `null`, the card of the
+   * cart's own method is the open one. Opening a card with several tariffs
+   * changes nothing on the cart until a tariff in it is picked.
+   */
+  const [openWay, setOpenWay] = useState<DeliveryWay | null>(null)
 
   /**
    * The CDEK method whose point sheet is open, and the point already on the
@@ -414,22 +444,27 @@ export default function CheckoutShippingSection({
   // them all the same `name`/`code`/price (`seedFulfillment()`).
   const pickupCardOption = pickupOptions[0] ?? null
 
+  // The owner's order from the panel's /shipping screen (`data.sort_order`);
+  // options without one keep the API order after the ordered ones.
+  const orderedOptions = useMemo(
+    () => [...(shippingOptions ?? [])].sort((a, b) => sortOrderOf(a) - sortOrderOf(b)),
+    [shippingOptions]
+  )
+
+  // D10: with CDEK or Russian Post among the options, their tariffs fold into
+  // the «В пункт выдачи» and «Курьером до двери» cards; `null` keeps the plain
+  // list (the international shop's one DHL method, a shop of its own tariffs).
+  const wayGroups = useMemo(() => groupDeliveryWays(orderedOptions), [orderedOptions])
+
   // Walk the fetched list in its own order, collapsing every pickup-typed
   // entry into one card at the position the FIRST one would have rendered —
   // courier/pickup/express keep the order the backend seeded them in
-  // (D2 frame 1: `[Courier] [Pickup] [Express]`).
+  // (D2 frame 1: `[Courier] [Pickup] [Express]`). With way cards, only the
+  // options that belong to no card are rows.
   const cards = useMemo(() => {
-    const result: (
-      | { kind: "option"; option: HttpTypes.StoreCartShippingOptionWithServiceZone }
-      | { kind: "pickup" }
-    )[] = []
+    const result: ShippingRow[] = []
     let pickupEmitted = false
-    // The owner's order from the panel's /shipping screen (`data.sort_order`);
-    // options without one keep the API order after the ordered ones.
-    const ordered = [...(shippingOptions ?? [])].sort(
-      (a, b) => sortOrderOf(a) - sortOrderOf(b)
-    )
-    for (const option of ordered) {
+    for (const option of wayGroups ? wayGroups.rest : orderedOptions) {
       if (isPickupShippingOption(option)) {
         if (!pickupEmitted) {
           result.push({ kind: "pickup" })
@@ -440,22 +475,34 @@ export default function CheckoutShippingSection({
       }
     }
     return result
-  }, [shippingOptions])
+  }, [orderedOptions, wayGroups])
 
+  // An empty string, not `undefined`, while nothing is chosen: Radix treats
+  // `undefined` as an uncontrolled group and then ignores a second click on
+  // the card whose point sheet the buyer closed without a point.
   const radioGroupValue = shippingMethodId && pickupOptionIds.has(shippingMethodId)
     ? PICKUP_GROUP_VALUE
-    : shippingMethodId ?? undefined
+    : shippingMethodId ?? ""
 
   // t-2026-10-01-checkout-ivan-3 #3: a method is picked, and — for the three
   // kinds the provider cannot ship without one — a point is too.
   const selectedOption =
     (availableShippingOptions ?? []).find((o) => o.id === shippingMethodId) ??
     null
+  const selectedWay = deliveryWayOf(selectedOption)?.way ?? null
+  // The open card, else the card of the cart's own method. A way whose card is
+  // gone (a new address left it no options) is neither.
+  const hasWayCard = (way: DeliveryWay | null): way is DeliveryWay =>
+    !!way && !!wayGroups?.cards.some((card) => card.way === way)
+  const activeWay = hasWayCard(openWay) ? openWay : hasWayCard(selectedWay) ? selectedWay : null
+  const outerValue = activeWay ? WAY_VALUE[activeWay] : radioGroupValue
   const hasPickupPointMeta = !!(
     cart.metadata as Record<string, string> | null
   )?.[PICKUP_METADATA_KEYS.name]
   const isShippingComplete =
     !!shippingMethodId &&
+    // A card opened for a different way means the buyer is still choosing.
+    (!activeWay || activeWay === selectedWay) &&
     (isPickupShippingOption(selectedOption)
       ? hasPickupPointMeta
       : cdekNeedsPoint(selectedOption)
@@ -463,6 +510,425 @@ export default function CheckoutShippingSection({
         : isPochtaOption(selectedOption)
           ? !!pochtaChosen
           : true)
+
+  const priceOf = (option: ShippingOption, isPickupCard: boolean) => {
+    // A Russian Post price depends on the point, so once the method
+    // is the cart's the card shows what the cart is charged, not the
+    // list quote to the buyer's own postcode (46df-pochta).
+    const pochtaMethodAmount =
+      isPochtaOption(option) && pochtaChosen
+        ? (cart.shipping_methods ?? []).find(
+            (sm) => sm.shipping_option_id === option.id
+          )?.amount
+        : undefined
+    const priceAmount =
+      typeof pochtaMethodAmount === "number"
+        ? pochtaMethodAmount
+        : option.price_type === "flat"
+        ? option.amount!
+        : calculatedPricesMap[option.id] !== undefined
+          ? calculatedPricesMap[option.id]
+          : null
+    const isFreeShipping = priceAmount === 0
+    const awaitingAddress =
+      priceAmount === null && option.price_type === "calculated" && !quoteAddressKey
+    // U-12 (46df): no price means the method cannot be charged, so
+    // the card says why and cannot be chosen.
+    const unpriced =
+      !isPickupCard &&
+      isShippingCardUnpriced({
+        priceAmount,
+        isLoadingPrices,
+        pricedPerPoint: isPochtaOption(option),
+      })
+    const price = isFreeShipping
+      ? t("freeShipping")
+      : priceAmount !== null
+        ? convertToLocale({
+          amount: priceAmount,
+          currency_code: cart.currency_code,
+          locale,
+        })
+        : awaitingAddress
+          ? t("deliveryPriceAfterAddress")
+          : isLoadingPrices
+            ? null
+            : unpriced
+              ? t("shippingPriceUnavailable")
+              : "—"
+    return { priceAmount, isFreeShipping, awaitingAddress, unpriced, price }
+  }
+
+  const renderRow = (card: ShippingRow, isSelected: boolean) => {
+    const isPickupCard = card.kind === "pickup"
+    const option = isPickupCard ? pickupCardOption! : card.option
+    const itemValue = isPickupCard ? PICKUP_GROUP_VALUE : option.id
+
+    const days = getDeliveryDays(option)
+    const zone = isPickupCard ? null : zoneLabel(option)
+    const deliveryHint = dataText(option, "delivery_hint")
+    const description = dataText(option, "description")
+    const deliveryLabel = !days
+      ? deliveryHint
+      : days.max === 0
+        ? t("deliveryToday")
+        : !now
+          ? null
+          : days.min !== undefined && days.max !== undefined
+            ? days.min === days.max
+              ? formatDeliveryDate(days.min)
+              : formatDeliveryRange(days.min, days.max)
+            : days.max !== undefined
+              ? t("deliveryDateUntil", {
+                date: formatDeliveryDate(days.max),
+              })
+              : days.min !== undefined
+                ? t("deliveryDateFrom", {
+                  date: formatDeliveryDate(days.min),
+                })
+                : null
+
+    const { isFreeShipping, awaitingAddress, unpriced, price } = priceOf(
+      option,
+      isPickupCard
+    )
+
+    return (
+      <div
+        key={itemValue}
+        className={clx(
+          "relative flex items-start gap-x-3 rounded-lg border px-4 py-3 text-start transition-colors",
+          // Without a fill and not selectable: a method the shop cannot
+          // charge for (U-12) must not read as the chosen one. The chosen
+          // row takes the theme's accent border (`border-ui-border-interactive`,
+          // the shop's own colour), not Medusa's interactive shadow, which
+          // the themes leave blue (lead's review of #239).
+          unpriced
+            ? "border-dashed border-ui-border-base bg-ui-bg-disabled"
+            : isSelected
+              ? "border-ui-border-interactive bg-ui-bg-base"
+              : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
+        )}
+        data-unavailable={unpriced || undefined}
+        data-testid={
+          isPickupCard ? "delivery-option-pickup" : "delivery-option-radio"
+        }
+      >
+        <RadioGroup.Item
+          value={itemValue}
+          aria-label={option.name}
+          disabled={unpriced}
+          className="absolute inset-0 z-10 h-full w-full cursor-pointer disabled:cursor-not-allowed rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+        />
+        {/* The radio mark of `RadioGroup.ChoiceBox`, drawn here because the
+            row holds buttons of its own («Изменить» for a point) and a
+            radio button cannot contain them. */}
+        <div
+          className={clx(
+            "flex h-5 w-5 shrink-0 items-center justify-center",
+            unpriced && "invisible"
+          )}
+        >
+          <div
+            className={clx(
+              "flex h-3.5 w-3.5 items-center justify-center rounded-full",
+              isSelected
+                ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
+                : "bg-ui-bg-base shadow-borders-base"
+            )}
+          >
+            {isSelected && (
+              <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
+            )}
+          </div>
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col gap-y-1">
+          <div className="flex items-start justify-between gap-x-4">
+            <span className="txt-compact-medium-plus text-ui-fg-base">
+              {option.name}
+            </span>
+            <span
+              className={clx(
+                "flex min-h-[20px] items-center",
+                // The reason in place of a price is a sentence: it wraps, at
+                // most half the row, rather than pushing a 390px page sideways
+                // inside a way card (D10).
+                unpriced || awaitingAddress
+                  ? "max-w-[50%] text-end txt-compact-small text-ui-fg-subtle"
+                  : isFreeShipping
+                    ? "shrink-0 txt-compact-medium-plus text-status-success"
+                    : "shrink-0 txt-compact-medium-plus text-ui-fg-base"
+              )}
+              data-testid={
+                awaitingAddress
+                  ? "delivery-option-awaiting-address"
+                  : unpriced
+                    ? "delivery-option-unavailable"
+                    : undefined
+              }
+            >
+              {price === null ? (
+                <Loader className="h-3 w-3 animate-spin" />
+              ) : (
+                price
+              )}
+            </span>
+          </div>
+          {description && (
+            <span
+              className="txt-compact-small text-ui-fg-subtle"
+              data-testid="delivery-option-description"
+            >
+              {description}
+            </span>
+          )}
+          {(deliveryLabel || zone) && (
+            <span className="flex flex-wrap gap-x-3 txt-compact-small text-ui-fg-subtle">
+              {deliveryLabel && <span>{deliveryLabel}</span>}
+              {zone && (
+                <span data-testid="delivery-option-zone">
+                  {t("shippingZone", { zone })}
+                </span>
+              )}
+            </span>
+          )}
+          {/*
+            The CDEK point and term are shown only once this method IS
+            the cart's: both come from `shipping_methods[].data`, which
+            the provider writes, and inventing either before the buyer
+            has chosen would be a number nobody measured.
+          */}
+          {isSelected && isCdekOption(option) && cdekChosen && (
+            <span
+              className="txt-compact-small text-ui-fg-base"
+              data-testid="delivery-option-cdek-point"
+            >
+              {cdekChosen.name ?? cdekChosen.code}
+            </span>
+          )}
+          {isSelected && isCdekOption(option) && cdekTerm && (
+            <span
+              className="txt-compact-small text-ui-fg-subtle"
+              data-testid="delivery-option-cdek-term"
+            >
+              {cdekTerm}
+            </span>
+          )}
+          {/*
+            The way back into the picker (i03-checkout-pvz-map-address-suggest).
+            Clicking the card again cannot do it: `RadioGroup` fires
+            `onValueChange` on a CHANGE of value, and the card is already
+            the chosen one — so a buyer who picked the wrong point had no
+            way at all to pick another (measured 2026-09-16 on the i03
+            stand). It sits above the radio's own full-card hit area,
+            which is `absolute inset-0 z-10`.
+          */}
+          {isSelected && isPochtaOption(option) && pochtaChosen && (
+            <span
+              className="txt-compact-small text-ui-fg-base"
+              data-testid="delivery-option-pochta-point"
+            >
+              {[pochtaChosen.pochta_point_address, pochtaChosen.pochta_point_city]
+                .filter(Boolean)
+                .join(", ")}{" "}
+              · {tPochta("postcode", { index: pochtaChosen.pochta_point_index })}
+            </span>
+          )}
+          {isSelected && isPochtaOption(option) && pochtaChosen?.term_label && (
+            <span
+              className="txt-compact-small text-ui-fg-subtle"
+              data-testid="delivery-option-pochta-term"
+            >
+              {pochtaChosen.term_label}
+            </span>
+          )}
+          {isSelected && isPochtaOption(option) && (
+            <button
+              type="button"
+              onClick={() => setPochtaSheetOptionId(option.id)}
+              className="relative z-20 w-fit txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm"
+              data-testid="delivery-option-pochta-change"
+            >
+              {tCdek("change")}
+            </button>
+          )}
+          {isSelected && cdekNeedsPoint(option) && cdekChosen && (
+            <button
+              type="button"
+              onClick={() => setCdekSheetOptionId(option.id)}
+              className="relative z-20 w-fit txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm"
+              data-testid="delivery-option-cdek-change"
+            >
+              {tCdek("change")}
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  const carriersLabel = (carriers: DeliveryCarrier[]) => {
+    const names = carriers.map((carrier) =>
+      carrier === "cdek" ? t("deliveryCarrierCdek") : t("deliveryCarrierPochta")
+    )
+    try {
+      return new Intl.ListFormat(locale, { type: "conjunction" }).format(names)
+    } catch {
+      return names.join(", ")
+    }
+  }
+
+  /**
+   * D10: a way card was chosen, or a row of no way. A card with one tariff the
+   * carrier priced chooses that tariff at once (its point sheet opens when it
+   * needs a point); a card with several waits for the buyer's pick inside it.
+   */
+  const handleOuterValueChange = (value: string) => {
+    const way = wayOfValue(value)
+    if (!way) {
+      setOpenWay(null)
+      handleValueChange(value)
+      return
+    }
+    setOpenWay(way)
+    const only = wayGroups?.cards.find((card) => card.way === way)?.options
+    if (only?.length === 1 && only[0].id !== shippingMethodId && !priceOf(only[0], false).unpriced) {
+      handleValueChange(only[0].id)
+    }
+  }
+
+  /**
+   * D10: «В пункт выдачи» or «Курьером до двери». The card names the carriers
+   * whose options it holds and the lowest price among them; open, it lists each
+   * carrier's tariffs as the rows the plain list draws, so a point is still
+   * picked in that carrier's own sheet. A carrier that failed to price keeps its
+   * row locked inside the card (U-12) and takes nothing from the other one.
+   */
+  const renderWayCard = (card: DeliveryWayCard<ShippingOption>) => {
+    const isOpen = activeWay === card.way
+    const prices = card.options.map((option) => priceOf(option, false))
+    const lowest = lowestDeliveryPrice(prices.map((p) => p.priceAmount))
+    const unavailable = !isLoadingPrices && prices.every((p) => p.unpriced)
+    const awaitingAddress = lowest === null && prices.some((p) => p.awaitingAddress)
+    const chosenHere = card.options.some((option) => option.id === shippingMethodId)
+    const title = card.way === "pickup" ? t("deliveryWayPickup") : t("deliveryWayCourier")
+    const lowestLabel =
+      lowest === null
+        ? null
+        : lowest === 0
+          ? t("freeShipping")
+          : convertToLocale({ amount: lowest, currency_code: cart.currency_code, locale })
+    const priceLabel =
+      lowestLabel !== null && lowest !== 0 && card.options.length > 1
+        ? t("deliveryWayFrom", { price: lowestLabel })
+        : lowestLabel
+
+    return (
+      <div
+        key={card.way}
+        className={clx(
+          "flex flex-col rounded-lg border text-start transition-colors",
+          unavailable
+            ? "border-dashed border-ui-border-base bg-ui-bg-disabled"
+            : isOpen
+              ? "border-ui-border-interactive bg-ui-bg-base"
+              : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
+        )}
+        data-unavailable={unavailable || undefined}
+        data-testid={`delivery-way-${card.way}`}
+      >
+        <div className="relative flex items-start gap-x-3 px-4 py-3">
+          <RadioGroup.Item
+            value={WAY_VALUE[card.way]}
+            aria-label={title}
+            disabled={unavailable}
+            className="absolute inset-0 z-10 h-full w-full cursor-pointer disabled:cursor-not-allowed rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+          />
+          <div
+            className={clx(
+              "flex h-5 w-5 shrink-0 items-center justify-center",
+              unavailable && "invisible"
+            )}
+          >
+            <div
+              className={clx(
+                "flex h-3.5 w-3.5 items-center justify-center rounded-full",
+                isOpen
+                  ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
+                  : "bg-ui-bg-base shadow-borders-base"
+              )}
+            >
+              {isOpen && (
+                <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
+              )}
+            </div>
+          </div>
+
+          <div className="flex min-w-0 flex-1 flex-col gap-y-1">
+            <div className="flex items-start justify-between gap-x-4">
+              <span className="txt-compact-medium-plus text-ui-fg-base">{title}</span>
+              <span
+                className={clx(
+                  "flex min-h-[20px] shrink-0 items-center txt-compact-medium-plus",
+                  lowest === 0 ? "text-status-success" : "text-ui-fg-base"
+                )}
+                data-testid="delivery-way-price"
+              >
+                {priceLabel ??
+                  (isLoadingPrices && !awaitingAddress ? (
+                    <Loader className="h-3 w-3 animate-spin" />
+                  ) : null)}
+              </span>
+            </div>
+            <span
+              className="txt-compact-small text-ui-fg-subtle"
+              data-testid="delivery-way-carriers"
+            >
+              {carriersLabel(card.carriers)}
+            </span>
+            {awaitingAddress ? (
+              <span
+                className="txt-compact-small text-ui-fg-subtle"
+                data-testid="delivery-way-awaiting-address"
+              >
+                {t("deliveryPriceAfterAddress")}
+              </span>
+            ) : unavailable ? (
+              <span
+                className="txt-compact-small text-ui-fg-subtle"
+                data-testid="delivery-way-unavailable"
+              >
+                {t("shippingPriceUnavailable")}
+              </span>
+            ) : null}
+          </div>
+        </div>
+
+        {isOpen && !unavailable && (
+          <div
+            className="flex flex-col gap-y-2 px-4 pb-4 small:ps-12"
+            data-testid={`delivery-way-${card.way}-tariffs`}
+          >
+            {!chosenHere && (
+              <p className="txt-compact-small text-ui-fg-subtle">{t("deliveryWayChoose")}</p>
+            )}
+            <RadioGroup
+              dir={dir}
+              value={chosenHere ? shippingMethodId! : ""}
+              onValueChange={handleValueChange}
+              aria-label={title}
+              className="flex flex-col gap-y-2"
+            >
+              {card.options.map((option) =>
+                renderRow({ kind: "option", option }, option.id === shippingMethodId)
+              )}
+            </RadioGroup>
+          </div>
+        )}
+      </div>
+    )
+  }
 
   return (
     // Batch 6 part 1: the methods are full-width rows of the left column, one under
@@ -538,261 +1004,24 @@ export default function CheckoutShippingSection({
         )}
       </div>
 
-      {cards.length > 0 ? (
+      {cards.length > 0 || !!wayGroups?.cards.length ? (
         <RadioGroup
           dir={dir}
-          value={radioGroupValue}
-          onValueChange={handleValueChange}
+          value={outerValue}
+          onValueChange={handleOuterValueChange}
           className="flex flex-col gap-y-2"
         >
-          {cards.map((card) => {
-            const isPickupCard = card.kind === "pickup"
-            const option = isPickupCard ? pickupCardOption! : card.option
-            const itemValue = isPickupCard ? PICKUP_GROUP_VALUE : option.id
-            const isSelected = isPickupCard
-              ? !!shippingMethodId && pickupOptionIds.has(shippingMethodId)
-              : option.id === shippingMethodId
-
-            const days = getDeliveryDays(option)
-            const zone = isPickupCard ? null : zoneLabel(option)
-            const deliveryHint = dataText(option, "delivery_hint")
-            const description = dataText(option, "description")
-            const deliveryLabel = !days
-              ? deliveryHint
-              : days.max === 0
-                ? t("deliveryToday")
-                : !now
-                  ? null
-                  : days.min !== undefined && days.max !== undefined
-                    ? days.min === days.max
-                      ? formatDeliveryDate(days.min)
-                      : formatDeliveryRange(days.min, days.max)
-                    : days.max !== undefined
-                      ? t("deliveryDateUntil", {
-                        date: formatDeliveryDate(days.max),
-                      })
-                      : days.min !== undefined
-                        ? t("deliveryDateFrom", {
-                          date: formatDeliveryDate(days.min),
-                        })
-                        : null
-
-            // A Russian Post price depends on the point, so once the method
-            // is the cart's the card shows what the cart is charged, not the
-            // list quote to the buyer's own postcode (46df-pochta).
-            const pochtaMethodAmount =
-              isPochtaOption(option) && pochtaChosen
-                ? (cart.shipping_methods ?? []).find(
-                    (sm) => sm.shipping_option_id === option.id
-                  )?.amount
-                : undefined
-            const priceAmount =
-              typeof pochtaMethodAmount === "number"
-                ? pochtaMethodAmount
-                : option.price_type === "flat"
-                ? option.amount!
-                : calculatedPricesMap[option.id] !== undefined
-                  ? calculatedPricesMap[option.id]
-                  : null
-            const isFreeShipping = priceAmount === 0
-            const awaitingAddress =
-              priceAmount === null && option.price_type === "calculated" && !quoteAddressKey
-            // U-12 (46df): no price means the method cannot be charged, so
-            // the card says why and cannot be chosen.
-            const unpriced =
-              !isPickupCard &&
-              isShippingCardUnpriced({
-                priceAmount,
-                isLoadingPrices,
-                pricedPerPoint: isPochtaOption(option),
-              })
-            const price = isFreeShipping
-              ? t("freeShipping")
-              : priceAmount !== null
-                ? convertToLocale({
-                  amount: priceAmount,
-                  currency_code: cart.currency_code,
-                  locale,
-                })
-                : awaitingAddress
-                  ? t("deliveryPriceAfterAddress")
-                  : isLoadingPrices
-                    ? null
-                    : unpriced
-                      ? t("shippingPriceUnavailable")
-                      : "—"
-
-            return (
-              <div
-                key={itemValue}
-                className={clx(
-                  "relative flex items-start gap-x-3 rounded-lg border px-4 py-3 text-start transition-colors",
-                  // Without a fill and not selectable: a method the shop cannot
-                  // charge for (U-12) must not read as the chosen one. The chosen
-                  // row takes the theme's accent border (`border-ui-border-interactive`,
-                  // the shop's own colour), not Medusa's interactive shadow, which
-                  // the themes leave blue (lead's review of #239).
-                  unpriced
-                    ? "border-dashed border-ui-border-base bg-ui-bg-disabled"
-                    : isSelected
-                      ? "border-ui-border-interactive bg-ui-bg-base"
-                      : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
-                )}
-                data-unavailable={unpriced || undefined}
-                data-testid={
-                  isPickupCard ? "delivery-option-pickup" : "delivery-option-radio"
-                }
-              >
-                <RadioGroup.Item
-                  value={itemValue}
-                  aria-label={option.name}
-                  disabled={unpriced}
-                  className="absolute inset-0 z-10 h-full w-full cursor-pointer disabled:cursor-not-allowed rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-                />
-                {/* The radio mark of `RadioGroup.ChoiceBox`, drawn here because the
-                    row holds buttons of its own («Изменить» for a point) and a
-                    radio button cannot contain them. */}
-                <div
-                  className={clx(
-                    "flex h-5 w-5 shrink-0 items-center justify-center",
-                    unpriced && "invisible"
-                  )}
-                >
-                  <div
-                    className={clx(
-                      "flex h-3.5 w-3.5 items-center justify-center rounded-full",
-                      isSelected
-                        ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
-                        : "bg-ui-bg-base shadow-borders-base"
-                    )}
-                  >
-                    {isSelected && (
-                      <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex min-w-0 flex-1 flex-col gap-y-1">
-                  <div className="flex items-start justify-between gap-x-4">
-                    <span className="txt-compact-medium-plus text-ui-fg-base">
-                      {option.name}
-                    </span>
-                    <span
-                      className={clx(
-                        "flex min-h-[20px] shrink-0 items-center",
-                        unpriced || awaitingAddress
-                          ? "txt-compact-small text-ui-fg-subtle"
-                          : isFreeShipping
-                            ? "txt-compact-medium-plus text-status-success"
-                            : "txt-compact-medium-plus text-ui-fg-base"
-                      )}
-                      data-testid={
-                        awaitingAddress
-                          ? "delivery-option-awaiting-address"
-                          : unpriced
-                            ? "delivery-option-unavailable"
-                            : undefined
-                      }
-                    >
-                      {price === null ? (
-                        <Loader className="h-3 w-3 animate-spin" />
-                      ) : (
-                        price
-                      )}
-                    </span>
-                  </div>
-                  {description && (
-                    <span
-                      className="txt-compact-small text-ui-fg-subtle"
-                      data-testid="delivery-option-description"
-                    >
-                      {description}
-                    </span>
-                  )}
-                  {(deliveryLabel || zone) && (
-                    <span className="flex flex-wrap gap-x-3 txt-compact-small text-ui-fg-subtle">
-                      {deliveryLabel && <span>{deliveryLabel}</span>}
-                      {zone && (
-                        <span data-testid="delivery-option-zone">
-                          {t("shippingZone", { zone })}
-                        </span>
-                      )}
-                    </span>
-                  )}
-                  {/*
-                    The CDEK point and term are shown only once this method IS
-                    the cart's: both come from `shipping_methods[].data`, which
-                    the provider writes, and inventing either before the buyer
-                    has chosen would be a number nobody measured.
-                  */}
-                  {isSelected && isCdekOption(option) && cdekChosen && (
-                    <span
-                      className="txt-compact-small text-ui-fg-base"
-                      data-testid="delivery-option-cdek-point"
-                    >
-                      {cdekChosen.name ?? cdekChosen.code}
-                    </span>
-                  )}
-                  {isSelected && isCdekOption(option) && cdekTerm && (
-                    <span
-                      className="txt-compact-small text-ui-fg-subtle"
-                      data-testid="delivery-option-cdek-term"
-                    >
-                      {cdekTerm}
-                    </span>
-                  )}
-                  {/*
-                    The way back into the picker (i03-checkout-pvz-map-address-suggest).
-                    Clicking the card again cannot do it: `RadioGroup` fires
-                    `onValueChange` on a CHANGE of value, and the card is already
-                    the chosen one — so a buyer who picked the wrong point had no
-                    way at all to pick another (measured 2026-09-16 on the i03
-                    stand). It sits above the radio's own full-card hit area,
-                    which is `absolute inset-0 z-10`.
-                  */}
-                  {isSelected && isPochtaOption(option) && pochtaChosen && (
-                    <span
-                      className="txt-compact-small text-ui-fg-base"
-                      data-testid="delivery-option-pochta-point"
-                    >
-                      {[pochtaChosen.pochta_point_address, pochtaChosen.pochta_point_city]
-                        .filter(Boolean)
-                        .join(", ")}{" "}
-                      · {tPochta("postcode", { index: pochtaChosen.pochta_point_index })}
-                    </span>
-                  )}
-                  {isSelected && isPochtaOption(option) && pochtaChosen?.term_label && (
-                    <span
-                      className="txt-compact-small text-ui-fg-subtle"
-                      data-testid="delivery-option-pochta-term"
-                    >
-                      {pochtaChosen.term_label}
-                    </span>
-                  )}
-                  {isSelected && isPochtaOption(option) && (
-                    <button
-                      type="button"
-                      onClick={() => setPochtaSheetOptionId(option.id)}
-                      className="relative z-20 w-fit txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm"
-                      data-testid="delivery-option-pochta-change"
-                    >
-                      {tCdek("change")}
-                    </button>
-                  )}
-                  {isSelected && cdekNeedsPoint(option) && cdekChosen && (
-                    <button
-                      type="button"
-                      onClick={() => setCdekSheetOptionId(option.id)}
-                      className="relative z-20 w-fit txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover focus-visible:shadow-borders-focus rounded-sm"
-                      data-testid="delivery-option-cdek-change"
-                    >
-                      {tCdek("change")}
-                    </button>
-                  )}
-                </div>
-              </div>
+          {wayGroups?.cards.map((wayCard) => renderWayCard(wayCard))}
+          {cards.map((card) =>
+            renderRow(
+              card,
+              // A way card that is open owns the choice for now.
+              !activeWay &&
+                (card.kind === "pickup"
+                  ? !!shippingMethodId && pickupOptionIds.has(shippingMethodId)
+                  : card.option.id === shippingMethodId)
             )
-          })}
+          )}
         </RadioGroup>
       ) : (
         <p className="txt-compact-small text-ui-fg-subtle">
