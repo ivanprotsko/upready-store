@@ -919,6 +919,9 @@
     "pp_system_default": "Plată manuală",
     "robokassaBankCard": "Card bancar",
     "robokassaCard120Days": "Card 120 de zile fără dobândă",
+    "robokassaGroupForeignCards": "Carduri străine",
+    "robokassaGroupOther": "Alte metode",
+    "robokassaGroupRuCards": "Carduri rusești (Mir)",
     "robokassaHalva": "Card Halva",
     "robokassaSbp": "Sistemul de plăți rapide (SBP)"
   },

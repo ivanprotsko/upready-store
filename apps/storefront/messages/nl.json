@@ -919,6 +919,9 @@
     "pp_system_default": "Handmatige betaling",
     "robokassaBankCard": "Bankpas",
     "robokassaCard120Days": "Kaart 120 dagen renteloos",
+    "robokassaGroupForeignCards": "Buitenlandse kaarten",
+    "robokassaGroupOther": "Andere methoden",
+    "robokassaGroupRuCards": "Russische kaarten (Mir)",
     "robokassaHalva": "Halva-kaart",
     "robokassaSbp": "Snelbetaalsysteem (SBP)"
   },

@@ -1,6 +1,6 @@
 "use client"
 
-import { useId, useMemo, useState, useEffect, useRef, type ReactNode } from "react"
+import { Fragment, useId, useMemo, useState, useEffect, useRef, type ReactNode } from "react"
 import { initiatePaymentSessionOrReason, updateCart } from "@lib/data/cart"
 import { getChargeConversionFactor } from "@lib/data/payment"
 import {
@@ -25,10 +25,12 @@ import { cartNeedsShipping, cartShippingAddressGaps } from "@lib/util/shipping-a
 import { paymentMethodName } from "@lib/util/payment"
 import { pickActivePaymentMethod } from "@lib/util/pick-payment-method"
 import {
+  groupRobokassaMethods,
   isRobokassaSbp,
   parsePaymentChoice,
   pickRobokassaMethod,
   robokassaChoiceValue,
+  robokassaGroupLabelKey,
   robokassaMethodLabel,
   robokassaMethodsForCart,
   type RobokassaMethod,
@@ -71,6 +73,23 @@ import { useLocale, useTranslations } from "next-intl"
 import { convertToLocale } from "@lib/util/money"
 import { Checkbox, Label, RadioGroup, clx } from "@medusajs/ui"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
+
+/**
+ * One block of the payment list: a Robokassa group under its heading
+ * (t-2026-10-04-19), or a provider's single row with no heading.
+ */
+type PaymentChoiceSection = {
+  key: string
+  headingId: string | null
+  heading: string | null
+  rows: {
+    value: string
+    testId: string
+    label: string
+    processor: string
+    icon: ReactNode
+  }[]
+}
 
 interface CheckoutPaymentSectionProps {
   cart: HttpTypes.StoreCart
@@ -136,10 +155,18 @@ export default function CheckoutPaymentSection({
   // enabled («Банковская карта», «СБП»…). The alias picked here only decides
   // which method Robokassa opens on; it is not part of the payment session, so
   // switching between these rows creates no new session (and no new `InvId`).
-  const robokassaRows = useMemo(
-    () => robokassaMethodsForCart(robokassaMethods, cart.total),
+  // t-2026-10-04-19 (P7): the rows stand in groups, Russian cards, foreign cards,
+  // SBP and the rest, each under its heading; a group the shop has no method in
+  // is left out. The first row of the first group is the one preselected.
+  const robokassaGroups = useMemo(
+    () => groupRobokassaMethods(robokassaMethodsForCart(robokassaMethods, cart.total)),
     [robokassaMethods, cart.total]
   )
+  const robokassaRows = useMemo(
+    () => robokassaGroups.flatMap((entry) => entry.methods),
+    [robokassaGroups]
+  )
+  const groupHeadingId = useId()
   const [robokassaMethod, setRobokassaMethod] = useState<string | null>(() =>
     pickRobokassaMethod(null, robokassaRows)
   )
@@ -521,89 +548,126 @@ export default function CheckoutPaymentSection({
             className="flex flex-col gap-y-2"
           >
             {availablePaymentMethods
-              .flatMap((method) => {
+              .flatMap((method): PaymentChoiceSection[] => {
                 if (isRobokassa(method.id)) {
-                  return robokassaRows.map((rk) => ({
-                    value: robokassaChoiceValue(method.id, rk.alias),
-                    testId: `payment-method-${method.id}-${rk.alias}`,
-                    label: robokassaMethodLabel(tm, rk, locale),
-                    processor: "Robokassa",
-                    icon: isRobokassaSbp(rk.alias) ? (
-                      <Bolt className="w-3 h-3" />
-                    ) : (
-                      <CreditCard className="w-3 h-3" />
-                    ),
+                  return robokassaGroups.map((entry) => ({
+                    key: `${method.id}-${entry.group}`,
+                    headingId: `${groupHeadingId}-${entry.group}`,
+                    heading: tm(robokassaGroupLabelKey(entry.group)),
+                    rows: entry.methods.map((rk) => ({
+                      value: robokassaChoiceValue(method.id, rk.alias),
+                      testId: `payment-method-${method.id}-${rk.alias}`,
+                      label: robokassaMethodLabel(tm, rk, locale),
+                      processor: "Robokassa",
+                      icon: isRobokassaSbp(rk.alias) ? (
+                        <Bolt className="w-3 h-3" />
+                      ) : (
+                        <CreditCard className="w-3 h-3" />
+                      ),
+                    })),
                   }))
                 }
                 const info = paymentInfoMap[method.id]
                 return [
                   {
-                    value: method.id,
-                    testId: `payment-method-${method.id}`,
-                    label:
-                      isManual(method.id) && offersRequisites
-                        ? tmp("methodRequisites")
-                        : paymentMethodName(tm, method.id),
-                    processor: method.id.includes("stripe")
-                      ? "Stripe"
-                      : method.id.includes("paypal")
-                        ? "PayPal"
-                        : isBtcpay(method.id)
-                          ? "BTCPay Server"
-                          : "",
-                    icon: info?.icon || <CreditCard className="w-3 h-3" />,
+                    key: method.id,
+                    headingId: null,
+                    heading: null,
+                    rows: [
+                      {
+                        value: method.id,
+                        testId: `payment-method-${method.id}`,
+                        label:
+                          isManual(method.id) && offersRequisites
+                            ? tmp("methodRequisites")
+                            : paymentMethodName(tm, method.id),
+                        processor: method.id.includes("stripe")
+                          ? "Stripe"
+                          : method.id.includes("paypal")
+                            ? "PayPal"
+                            : isBtcpay(method.id)
+                              ? "BTCPay Server"
+                              : "",
+                        icon: info?.icon || <CreditCard className="w-3 h-3" />,
+                      },
+                    ],
                   },
                 ]
               })
-              .map((row) => {
-                const isSelected = choiceValue === row.value
+              .map((section) => {
+                const rows = section.rows.map((row) => {
+                  const isSelected = choiceValue === row.value
 
+                  return (
+                    <div
+                      key={row.value}
+                      className={clx(
+                        "relative flex items-center gap-x-3 rounded-lg border px-4 py-3 text-start transition-colors",
+                        // The theme's accent border on the chosen row, as on delivery.
+                        isSelected
+                          ? "border-ui-border-interactive bg-ui-bg-base"
+                          : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
+                      )}
+                    >
+                      <RadioGroup.Item
+                        value={row.value}
+                        aria-label={row.label}
+                        aria-describedby={section.headingId ?? undefined}
+                        data-testid={row.testId}
+                        className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                      />
+                      {/* The radio mark of `RadioGroup.ChoiceBox`, the same as the
+                          delivery rows draw. */}
+                      <div className="flex h-5 w-5 shrink-0 items-center justify-center">
+                        <div
+                          className={clx(
+                            "flex h-3.5 w-3.5 items-center justify-center rounded-full",
+                            isSelected
+                              ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
+                              : "bg-ui-bg-base shadow-borders-base"
+                          )}
+                        >
+                          {isSelected && (
+                            <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
+                          )}
+                        </div>
+                      </div>
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ui-bg-component shadow-borders-base">
+                        {row.icon}
+                      </span>
+                      <span className="flex min-w-0 flex-col">
+                        <span className="txt-compact-medium-plus text-ui-fg-base">
+                          {row.label}
+                        </span>
+                        {row.processor && (
+                          <span className="txt-compact-small text-ui-fg-subtle">
+                            {row.processor}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                  )
+                })
+
+                if (!section.heading) {
+                  return <Fragment key={section.key}>{rows}</Fragment>
+                }
+                // A heading over its group's rows. Each radio names it through
+                // `aria-describedby`, since a radiogroup owns radios only and a
+                // `role="group"` wrapper inside one is not valid ARIA.
                 return (
                   <div
-                    key={row.value}
-                    className={clx(
-                      "relative flex items-center gap-x-3 rounded-lg border px-4 py-3 text-start transition-colors",
-                      // The theme's accent border on the chosen row, as on delivery.
-                      isSelected
-                        ? "border-ui-border-interactive bg-ui-bg-base"
-                        : "border-ui-border-base bg-ui-bg-base hover:bg-ui-bg-base-hover"
-                    )}
+                    key={section.key}
+                    className="flex flex-col gap-y-2 pt-2 first:pt-0"
+                    data-testid={`payment-group-${section.key}`}
                   >
-                    <RadioGroup.Item
-                      value={row.value}
-                      aria-label={row.label}
-                      data-testid={row.testId}
-                      className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-lg bg-transparent outline-none [&>div]:hidden focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-                    />
-                    {/* The radio mark of `RadioGroup.ChoiceBox`, the same as the
-                        delivery rows draw. */}
-                    <div className="flex h-5 w-5 shrink-0 items-center justify-center">
-                      <div
-                        className={clx(
-                          "flex h-3.5 w-3.5 items-center justify-center rounded-full",
-                          isSelected
-                            ? "bg-ui-bg-interactive shadow-borders-interactive-with-shadow"
-                            : "bg-ui-bg-base shadow-borders-base"
-                        )}
-                      >
-                        {isSelected && (
-                          <div className="h-1.5 w-1.5 rounded-full bg-ui-bg-base shadow-details-contrast-on-bg-interactive" />
-                        )}
-                      </div>
-                    </div>
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ui-bg-component shadow-borders-base">
-                      {row.icon}
-                    </span>
-                    <span className="flex min-w-0 flex-col">
-                      <span className="txt-compact-medium-plus text-ui-fg-base">
-                        {row.label}
-                      </span>
-                      {row.processor && (
-                        <span className="txt-compact-small text-ui-fg-subtle">
-                          {row.processor}
-                        </span>
-                      )}
-                    </span>
+                    <p
+                      id={section.headingId ?? undefined}
+                      className="txt-compact-small-plus text-ui-fg-subtle"
+                    >
+                      {section.heading}
+                    </p>
+                    {rows}
                   </div>
                 )
               })}

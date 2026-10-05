@@ -919,6 +919,9 @@
     "pp_system_default": "ხელით გადახდა",
     "robokassaBankCard": "საბანკო ბარათი",
     "robokassaCard120Days": "ბარათი „120 დღე უპროცენტოდ“",
+    "robokassaGroupForeignCards": "უცხოური ბარათები",
+    "robokassaGroupOther": "სხვა გზები",
+    "robokassaGroupRuCards": "რუსული ბარათები (Mir)",
     "robokassaHalva": "Halva ბარათი",
     "robokassaSbp": "სწრაფი გადახდების სისტემა (SBP)"
   },

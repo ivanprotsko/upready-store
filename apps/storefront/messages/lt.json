@@ -919,6 +919,9 @@
     "pp_system_default": "Rankinis mokėjimas",
     "robokassaBankCard": "Banko kortelė",
     "robokassaCard120Days": "Kortelė „120 dienų be palūkanų“",
+    "robokassaGroupForeignCards": "Užsienio kortelės",
+    "robokassaGroupOther": "Kiti būdai",
+    "robokassaGroupRuCards": "Rusijos kortelės (Mir)",
     "robokassaHalva": "Halva kortelė",
     "robokassaSbp": "Greitųjų mokėjimų sistema (SBP)"
   },

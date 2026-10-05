@@ -919,6 +919,9 @@
     "pp_system_default": "Manual payment",
     "robokassaBankCard": "Bank card",
     "robokassaCard120Days": "120 Days Interest-Free card",
+    "robokassaGroupForeignCards": "Foreign cards",
+    "robokassaGroupOther": "Other methods",
+    "robokassaGroupRuCards": "Russian cards (Mir)",
     "robokassaHalva": "Halva card",
     "robokassaSbp": "Faster Payments (SBP)"
   },

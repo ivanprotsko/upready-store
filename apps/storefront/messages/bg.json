@@ -919,6 +919,9 @@
     "pp_system_default": "Ръчно плащане",
     "robokassaBankCard": "Банкова карта",
     "robokassaCard120Days": "Карта „120 дни без лихва“",
+    "robokassaGroupForeignCards": "Чуждестранни карти",
+    "robokassaGroupOther": "Други методи",
+    "robokassaGroupRuCards": "Руски карти (Мир)",
     "robokassaHalva": "Карта Халва",
     "robokassaSbp": "Система за бързи плащания (SBP)"
   },

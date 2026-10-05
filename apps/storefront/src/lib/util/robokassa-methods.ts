@@ -1,7 +1,7 @@
 /**
  * The Robokassa methods the checkout lists as rows of its own under «Способ
- * оплаты» (t-2026-10-04-49), and the request that opens Robokassa straight on
- * the one the buyer picked.
+ * оплаты» (t-2026-10-04-49), the groups it files them under (t-2026-10-04-19),
+ * and the request that opens Robokassa straight on the one the buyer picked.
  *
  * The list comes from the backend (`GET /store/tenant/robokassa-methods`, read
  * from Robokassa's `GetCurrencies`). Each method is named by its `alias`, the
@@ -72,6 +72,65 @@ export function robokassaMethodLabel(
 
 /** True for the methods whose icon is a card rather than SBP's. */
 export const isRobokassaSbp = (alias: string | null | undefined) => alias === "SBP"
+
+/**
+ * The groups the checkout files the methods under (P7 of the cherkashino.ru
+ * checklist, t-2026-10-04-19), in this order: Russian cards, foreign cards,
+ * SBP, then everything else (SberPay, T-Pay, Яндекс Пэй, the installment
+ * cards…). A group none of the shop's methods falls into is not shown, so
+ * every row still comes from the shop's own `GetCurrencies` list.
+ *
+ * The group comes from the alias, not from `GetCurrencies`' own `Group`
+ * element: Robokassa files every method, SBP included, under one group
+ * `BankCard`, for this shop and for its documented `robo-demo` shop alike.
+ *
+ * `foreignCards` takes no alias yet. The aliases Robokassa documents for
+ * `GetCurrencies` (2026-10-05) include none for foreign cards: a Visa or
+ * Mastercard of a foreign bank is paid through `BankCard`, in the same card
+ * field as a Russian one. The group shows once Robokassa lists a method of its
+ * own for them and that alias is added to `GROUP_BY_ALIAS`.
+ */
+export const ROBOKASSA_GROUPS = ["ruCards", "foreignCards", "sbp", "other"] as const
+
+export type RobokassaGroup = (typeof ROBOKASSA_GROUPS)[number]
+
+const GROUP_BY_ALIAS: Record<string, RobokassaGroup> = {
+  BankCard: "ruCards",
+  SBP: "sbp",
+}
+
+export const robokassaMethodGroup = (alias: string): RobokassaGroup =>
+  GROUP_BY_ALIAS[alias] ?? "other"
+
+/** `PaymentMethods` catalog keys for the group headings; SBP's is the method's own name. */
+const GROUP_LABEL_KEYS: Record<RobokassaGroup, string> = {
+  ruCards: "robokassaGroupRuCards",
+  foreignCards: "robokassaGroupForeignCards",
+  sbp: "robokassaSbp",
+  other: "robokassaGroupOther",
+}
+
+export const robokassaGroupLabelKey = (group: RobokassaGroup): string =>
+  GROUP_LABEL_KEYS[group]
+
+export type RobokassaMethodGroup = {
+  group: RobokassaGroup
+  methods: RobokassaMethod[]
+}
+
+/**
+ * The rows split into their groups, in the order of {@link ROBOKASSA_GROUPS},
+ * empty groups left out. Inside a group the methods keep the order they came
+ * in, which is the backend's (card and SBP first, then Robokassa's own).
+ */
+export function groupRobokassaMethods(
+  methods: RobokassaMethod[]
+): RobokassaMethodGroup[] {
+  return ROBOKASSA_GROUPS.map((group) => ({
+    group,
+    methods: methods.filter((method) => robokassaMethodGroup(method.alias) === group),
+  })).filter((entry) => entry.methods.length > 0)
+}
 
 /**
  * The rows to show for this cart: the backend's list (the fallback when it

@@ -919,6 +919,9 @@
     "pp_system_default": "Ruční platba",
     "robokassaBankCard": "Platební karta",
     "robokassaCard120Days": "Karta 120 dní bez úroku",
+    "robokassaGroupForeignCards": "Zahraniční karty",
+    "robokassaGroupOther": "Další způsoby",
+    "robokassaGroupRuCards": "Ruské karty (Mir)",
     "robokassaHalva": "Karta Halva",
     "robokassaSbp": "Systém rychlých plateb (SBP)"
   },

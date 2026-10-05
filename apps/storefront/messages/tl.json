@@ -919,6 +919,9 @@
     "pp_system_default": "Manual na bayad",
     "robokassaBankCard": "Kard ng bangko",
     "robokassaCard120Days": "Kard na 120 araw na walang interes",
+    "robokassaGroupForeignCards": "Mga dayuhang kard",
+    "robokassaGroupOther": "Iba pang paraan",
+    "robokassaGroupRuCards": "Mga kard ng Russia (Mir)",
     "robokassaHalva": "Kard na Halva",
     "robokassaSbp": "Mabilis na Pagbabayad (SBP)"
   },

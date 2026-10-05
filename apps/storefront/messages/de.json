@@ -919,6 +919,9 @@
     "pp_system_default": "Manuelle Zahlung",
     "robokassaBankCard": "Bankkarte",
     "robokassaCard120Days": "Karte „120 Tage zinsfrei“",
+    "robokassaGroupForeignCards": "Ausländische Karten",
+    "robokassaGroupOther": "Weitere Zahlungsarten",
+    "robokassaGroupRuCards": "Russische Karten (Mir)",
     "robokassaHalva": "Halva-Karte",
     "robokassaSbp": "Schnellzahlungssystem (SBP)"
   },

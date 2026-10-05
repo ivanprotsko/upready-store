@@ -919,6 +919,9 @@
     "pp_system_default": "Pagamento manual",
     "robokassaBankCard": "Cartão bancário",
     "robokassaCard120Days": "Cartão 120 dias sem juros",
+    "robokassaGroupForeignCards": "Cartões estrangeiros",
+    "robokassaGroupOther": "Outros métodos",
+    "robokassaGroupRuCards": "Cartões russos (Mir)",
     "robokassaHalva": "Cartão Halva",
     "robokassaSbp": "Sistema de pagamentos rápidos (SBP)"
   },

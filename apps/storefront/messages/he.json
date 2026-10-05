@@ -919,6 +919,9 @@
     "pp_system_default": "תשלום ידני",
     "robokassaBankCard": "כרטיס בנק",
     "robokassaCard120Days": "כרטיס 120 יום ללא ריבית",
+    "robokassaGroupForeignCards": "כרטיסים זרים",
+    "robokassaGroupOther": "אמצעים אחרים",
+    "robokassaGroupRuCards": "כרטיסים רוסיים (Mir)",
     "robokassaHalva": "כרטיס Halva",
     "robokassaSbp": "מערכת תשלומים מהירים (SBP)"
   },

@@ -919,6 +919,9 @@
     "pp_system_default": "دفع يدوي",
     "robokassaBankCard": "بطاقة بنكية",
     "robokassaCard120Days": "بطاقة 120 يومًا بدون فوائد",
+    "robokassaGroupForeignCards": "بطاقات أجنبية",
+    "robokassaGroupOther": "طرق أخرى",
+    "robokassaGroupRuCards": "بطاقات روسية (Mir)",
     "robokassaHalva": "بطاقة Halva",
     "robokassaSbp": "نظام الدفع السريع (SBP)"
   },

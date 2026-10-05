@@ -919,6 +919,9 @@
     "pp_system_default": "Płatność ręczna",
     "robokassaBankCard": "Karta płatnicza",
     "robokassaCard120Days": "Karta 120 dni bez odsetek",
+    "robokassaGroupForeignCards": "Karty zagraniczne",
+    "robokassaGroupOther": "Inne metody",
+    "robokassaGroupRuCards": "Rosyjskie karty (Mir)",
     "robokassaHalva": "Karta Halva",
     "robokassaSbp": "System szybkich płatności (SBP)"
   },
