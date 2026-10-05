@@ -73,8 +73,8 @@ describe("RobokassaRetryNotice with Robokassa's own answer", () => {
     expect(html).toContain('href="/payment-return"')
     expect(html).toContain("Проверить ещё раз")
     // Amber for a wait, not the red of an error.
-    expect(html).toContain("bg-ui-tag-orange-bg")
-    expect(html).not.toContain("bg-ui-tag-red-bg")
+    expect(html).toContain("bg-status-warning-bg")
+    expect(html).not.toContain("bg-status-error-bg")
   })
 
   it("renders English from the en catalog", () => {
@@ -112,7 +112,7 @@ describe("RobokassaRetryNotice for a buyer back from BTCPay", () => {
 
     expect(html).toContain('data-testid="crypto-invoice-expired-notice"')
     expect(html).toContain("The invoice has expired")
-    expect(html).toContain("bg-ui-tag-red-bg")
+    expect(html).toContain("bg-status-error-bg")
     expect(html).not.toContain("being confirmed")
   })
 

@@ -476,7 +476,7 @@ export default function CheckoutShippingSection({
             {t("shippingHeading")}
             {isShippingComplete && (
               <CheckMini
-                className="text-ui-tag-green-icon shrink-0"
+                className="text-status-success shrink-0"
                 aria-hidden
                 data-testid="shipping-section-checkmark"
               />
@@ -683,7 +683,7 @@ export default function CheckoutShippingSection({
                         unpriced || awaitingAddress
                           ? "txt-compact-small text-ui-fg-subtle"
                           : isFreeShipping
-                            ? "txt-compact-medium-plus text-ui-tag-green-icon"
+                            ? "txt-compact-medium-plus text-status-success"
                             : "txt-compact-medium-plus text-ui-fg-base"
                       )}
                       data-testid={

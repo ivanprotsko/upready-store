@@ -12,9 +12,9 @@ const OPTION =
 // The tag text colours are the theme's success and destructive; the tag fills and borders follow
 // its chart colours instead, which a neutral preset (supplements) paints grey.
 const RIGHT =
-  "border-ui-tag-green-text bg-[color-mix(in_srgb,var(--tag-green-text)_8%,transparent)] text-ui-tag-green-text"
+  "border-status-success-text bg-status-success-bg text-status-success-text"
 const WRONG =
-  "border-ui-tag-red-text bg-[color-mix(in_srgb,var(--tag-red-text)_8%,transparent)] text-ui-tag-red-text"
+  "border-status-error-text bg-status-error-bg text-status-error-text"
 
 /**
  * The test after a lesson (ask-20261005-061005-2e78, Ivan 05.10: «После
@@ -135,9 +135,9 @@ export default function LessonQuiz({
             </ul>
             <p aria-live="polite" className="min-h-6 text-base" data-testid="lesson-quiz-feedback">
               {answer === null ? null : answer === question.correct ? (
-                <span className="text-ui-tag-green-text">{t("answerCorrect")}</span>
+                <span className="text-status-success-text">{t("answerCorrect")}</span>
               ) : (
-                <span className="text-ui-tag-red-text">
+                <span className="text-status-error-text">
                   {t("answerWrong", { answer: question.options[question.correct] })}
                 </span>
               )}

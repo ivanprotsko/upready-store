@@ -2,27 +2,28 @@
  * H7 · Olavka header (t-2026-09-24-n15), Figma 227:9557 «Header», `Scrolled=false`
  * (values from `w15-cache-nodes2.json`): a bar with no fill (Ivan's remark 7.1.1) and no
  * visible bottom line (the node's 0.5px stroke is hidden), ink #18181b, wordmark #1a1b09.
- * In the dark mode the controls follow the theme's own tokens.
+ * Those mockup values are Medusa UI's light ramp, so the bar paints them through the theme's
+ * own tokens in both modes (t-theme-hardcoded-colours): ink and wordmark --foreground, the
+ * discs --background, the divider --border, the drop shadows Medusa's --buttons-neutral, whose
+ * light value is the node's ring and shadow byte for byte.
  */
 
+/* The logo pill v3 (Ivan's remark 10, Header 227:9557 as of 2026-09-25 06:51): #f0f0f0
+   and a white 0.5px ring, both clear at rest, 80% / 75% scrolled; the text's white glow.
+   Here the theme's muted surface at 80%, the page colour's ring at 75% and its glow, so the
+   wordmark keeps its contrast in either mode. */
 .root {
-  --h7-divider: #e4e4e7;
-  /* The logo pill v3 (Ivan's remark 10, Header 227:9557 as of 2026-09-25 06:51): #f0f0f0
-     and a white 0.5px ring, both clear at rest, 80% / 75% scrolled; the text's white glow. */
-  --h7-logo-pill: rgba(240, 240, 240, 0.8);
-  --h7-logo-pill-ring: rgba(255, 255, 255, 0.75);
-  --h7-logo-glow: #ffffff;
-  --h7-logo-glow-half: rgba(255, 255, 255, 0.5);
-}
-
-/* Dark (no values from Ivan): the theme's muted surface at 80%, the bar's 16% white ring,
-   and the glow in the page colour, so the light wordmark keeps its contrast. */
-:global([data-mode="dark"]) .root {
   --h7-divider: var(--border);
   --h7-logo-pill: color-mix(in srgb, var(--muted) 80%, transparent);
-  --h7-logo-pill-ring: rgba(255, 255, 255, 0.16);
+  --h7-logo-pill-ring: color-mix(in srgb, var(--background) 75%, transparent);
   --h7-logo-glow: var(--background);
   --h7-logo-glow-half: color-mix(in srgb, var(--background) 50%, transparent);
+}
+
+/* Dark (no values from Ivan): a ring of the page colour vanishes on a dark bar, so it takes
+   the ink at 16%. */
+:global([data-mode="dark"]) .root {
+  --h7-logo-pill-ring: color-mix(in srgb, var(--foreground) 16%, transparent);
 }
 
 /* The bar's control tokens. `tokens` carries them outside the bar, for header controls drawn
@@ -31,9 +32,10 @@
    remark of 2026-09-27 on the hero slider and its addition). */
 .bar,
 .tokens {
-  --h7-ink: #18181b;
-  --h7-surface: #ffffff;
-  --h7-ring: rgba(0, 0, 0, 0.08);
+  --h7-ink: var(--foreground);
+  --h7-surface: var(--background);
+  /* The disc's 1px ring and its drop shadow, Medusa's neutral button elevation. */
+  --h7-elevation: var(--buttons-neutral);
   /* The desktop columns' outer padding: the burger's left, «Корзина»'s right; scrolled. */
   --h7-edge: 24px;
   --h7-edge-scrolled: 12px;
@@ -42,24 +44,12 @@
 }
 
 .bar {
-  --h7-wordmark: #1a1b09;
+  --h7-wordmark: var(--foreground);
   height: 53px;
   /* No fill of its own (Ivan's remark 7.1.1): the page shows through, the pills, discs and
      the logo pill keep theirs. The node frame's #ffffff fill is the component's backdrop. */
   background: transparent;
   color: var(--h7-ink);
-}
-
-:global([data-mode="dark"]) .bar,
-:global([data-mode="dark"]) .tokens {
-  --h7-ink: var(--foreground);
-  --h7-surface: var(--background);
-  /* A black 8% ring vanishes on a dark bar: the outline turns light. */
-  --h7-ring: rgba(255, 255, 255, 0.16);
-}
-
-:global([data-mode="dark"]) .bar {
-  --h7-wordmark: var(--foreground);
 }
 
 @media (min-width: 640px) {
@@ -126,9 +116,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    0 0 0 1px var(--h7-ring),
-    0 1px 2px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--h7-elevation);
   transition: background-color 150ms ease-out;
 }
 
@@ -152,15 +140,16 @@
 }
 
 /* The inverse disc, black with a white icon in both modes, a touch lighter on hover: the
-   hero slider's arrows (Ivan's addition of 2026-09-27, «на черном фоне»). The burger's
-   box, icon, ring, shadow and focus ring otherwise. */
+   hero slider's arrows (Ivan's addition of 2026-09-27, «на черном фоне»). Literal on purpose:
+   the theme's inverted surface is #27272a in dark mode, not black (lead, t-theme-hardcoded-colours).
+   The burger's box, icon, ring, shadow and focus ring otherwise. */
 .disc.discInverse {
-  background: #000000;
-  color: #ffffff;
+  background: #000000; /* theme-colours allowlist: Ivan, «на черном фоне» (2026-09-27) */
+  color: #ffffff; /* theme-colours allowlist: white icon on the black disc, same order */
 }
 
 .disc.discInverse:hover {
-  background: #262626;
+  background: #262626; /* theme-colours allowlist: the black disc a touch lighter on hover */
 }
 
 /* Every control keeps its own round shape on keyboard focus (Ivan's remark 21). The app-wide
@@ -177,7 +166,7 @@
 /* On the black disc the ring's 2px gap is filled white, so the ring reads against the disc
    and against a dark picture behind it. */
 .disc.discInverse:focus-visible {
-  box-shadow: 0 0 0 2px #ffffff;
+  box-shadow: 0 0 0 2px #ffffff; /* theme-colours allowlist: the white gap around the black disc */
 }
 
 .wordmark:focus-visible {
@@ -341,7 +330,7 @@
 .wordmark {
   border: 0.5px solid transparent;
   border-radius: 32px;
-  background-color: rgba(240, 240, 240, 0);
+  background-color: transparent;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   transition:
@@ -355,9 +344,7 @@
 .root[data-scrolled="true"] .wordmark {
   background-color: var(--h7-logo-pill);
   border-color: var(--h7-logo-pill-ring);
-  box-shadow:
-    0 0 0 1px var(--h7-ring),
-    0 1px 2px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: var(--h7-elevation);
   /* The node's eight white drop shadows on the text, offset 0. */
   text-shadow:
     0 0 1px var(--h7-logo-glow),
@@ -397,16 +384,12 @@
 
 .root[data-scrolled="true"] .trailing .iconButton {
   background: var(--h7-surface);
-  box-shadow:
-    0 0 0 1px var(--h7-ring),
-    0 1px 2px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--h7-elevation);
 }
 
 .root[data-scrolled="true"] .compactPill {
   background: var(--h7-surface);
-  box-shadow:
-    0 0 0 1px var(--h7-ring),
-    0 1px 2px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--h7-elevation);
 }
 
 .root[data-scrolled="true"] .divider {

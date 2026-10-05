@@ -50,7 +50,7 @@ describe("the bottom bar", () => {
 
   it("draws the progress as an 8 px strip in the theme's success colour", () => {
     expect(bar).toMatch(/role="progressbar"[\s\S]*className="h-2 w-full/)
-    expect(bar).toContain("bg-ui-tag-green-text")
+    expect(bar).toContain("bg-status-success")
     expect(bar).not.toMatch(/#[0-9a-fA-F]{3,8}\b/)
     for (const attribute of ["aria-valuemin", "aria-valuemax", "aria-valuenow", "aria-valuetext"]) {
       expect(bar).toContain(attribute)

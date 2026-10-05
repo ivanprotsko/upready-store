@@ -144,10 +144,10 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: var(--bg-base, #fff);
-  border: 1px solid var(--border-base, #e5e7eb);
+  background: var(--bg-base);
+  border: 1px solid var(--border-base);
   border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--elevation-flyout);
   margin-top: 2px;
   max-height: 260px;
   overflow-y: auto;
@@ -157,12 +157,12 @@
   padding: 8px 12px;
   font-size: 0.8125rem;
   line-height: 1.25rem;
-  color: var(--fg-base, #1a1a1a);
+  color: var(--fg-base);
   cursor: pointer;
 }
 .react-dadata-container .react-dadata__suggestion:hover,
 .react-dadata-container .react-dadata__suggestion--current {
-  background: var(--bg-field-hover, #f4f4f5);
+  background: var(--bg-field-hover);
 }
 .react-dadata-container .react-dadata__suggestion mark {
   background: transparent;
@@ -341,13 +341,15 @@
  * on every channel. The mockup is light only, and the panel's ink follows the mode, so dark
  * mode takes the preset's own untinted dark --bg-subtle, rgb(24, 24, 27), instead of keeping a
  * light panel under light text.
+ *
+ * theme-colours allowlist: Ivan's order t-2026-10-03-63, the panel «без оттенка» after Figma 3:60739.
  */
 :root {
-  --cart-sidebar-bg: #f5f5f5;
+  --cart-sidebar-bg: #f5f5f5; /* theme-colours allowlist: Ivan, t-2026-10-03-63, see above */
 }
 
 [data-mode="dark"] {
-  --cart-sidebar-bg: #18181b;
+  --cart-sidebar-bg: #18181b; /* theme-colours allowlist: Ivan, t-2026-10-03-63, see above */
 }
 
 /*
@@ -363,10 +365,15 @@
  * by every field: `FIELD_FOCUS` in `modules/common/components/input/field-classes.ts`.
  */
 :root {
+  /* theme-colours allowlist: Ivan's order of 04.10, the field ring in no hue at all (field-classes.test.tsx). */
   --borders-field-focus: 0px 0px 0px 1px rgba(0, 0, 0, 0.56), 0px 0px 0px 4px rgba(0, 0, 0, 0.08);
+  /* The invalid field, the same shape in the preset's own --destructive. */
+  --borders-field-error: 0px 0px 0px 1px var(--destructive),
+    0px 0px 0px 3px color-mix(in srgb, var(--destructive) 15%, transparent);
 }
 
 [data-mode="dark"] {
+  /* theme-colours allowlist: Ivan's order of 04.10, the field ring in no hue at all (field-classes.test.tsx). */
   --borders-field-focus: 0px 0px 0px 1px rgba(255, 255, 255, 0.56), 0px 0px 0px 4px rgba(255, 255, 255, 0.1);
 }
 
@@ -386,11 +393,36 @@
  * every theme and mode, like the Yandex mark beside it. #26A5E4 is Telegram's brand colour
  * as Simple Icons publishes it (simpleicons.org/?q=telegram); the ink and the mark on it are
  * white. Read only by `modules/account/components/telegram-login/telegram-button.tsx`.
+ *
+ * theme-colours allowlist: Telegram's brand colour and ink, the same in every theme and mode.
  */
 :root {
+  /* theme-colours allowlist: Telegram's brand colour, see above. */
   --telegram-brand: #26a5e4;
+  /* theme-colours allowlist: the brand colour darkened for hover, see above. */
   --telegram-brand-hover: color-mix(in srgb, var(--telegram-brand) 88%, #000);
+  /* theme-colours allowlist: white ink on Telegram's blue, see above. */
   --telegram-brand-fg: #ffffff;
+}
+
+/*
+ * The Yandex ID button in the colours of Yandex's own button constructor, `main` view: black
+ * with white ink on a light site, white with black ink on a dark one. Read only by
+ * `modules/account/components/yandex-login/yandex-id-button.tsx`. The swap rides on
+ * [data-mode], the axis the presets switch on, instead of a `dark:` variant.
+ */
+:root {
+  /* theme-colours allowlist: Yandex's brand button on a light site. */
+  --yandex-id-bg: #000000;
+  /* theme-colours allowlist: Yandex's brand button ink on a light site. */
+  --yandex-id-fg: #ffffff;
+}
+
+[data-mode="dark"] {
+  /* theme-colours allowlist: Yandex's brand button on a dark site. */
+  --yandex-id-bg: #ffffff;
+  /* theme-colours allowlist: Yandex's brand button ink on a dark site. */
+  --yandex-id-fg: #000000;
 }
 
 /*

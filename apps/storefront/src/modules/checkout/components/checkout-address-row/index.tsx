@@ -89,7 +89,7 @@ export default function CheckoutAddressRow({
         {t("addressHeading")}
         {isComplete && (
           <CheckMini
-            className="text-ui-tag-green-icon shrink-0"
+            className="text-status-success shrink-0"
             aria-hidden
             data-testid="address-section-checkmark"
           />
@@ -117,7 +117,7 @@ export default function CheckoutAddressRow({
                 {tPickup("label")}
                 {isComplete && (
                   <CheckMini
-                    className="text-ui-tag-green-icon shrink-0"
+                    className="text-status-success shrink-0"
                     aria-hidden
                     data-testid="address-section-checkmark"
                   />

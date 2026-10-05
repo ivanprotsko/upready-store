@@ -12,7 +12,7 @@ import {
  * (`~/upready/packages/geist-kit/AGENTS.md`), built on this storefront's own
  * `@medusajs/ui` tag-color tokens rather than a raw hex — the same tokens
  * `checkout-shipping-section/index.tsx:358` already reads
- * (`text-ui-tag-green-icon`). Replaces `OrderStatusBadge`'s `StatusBadge` pill
+ * (`text-status-success`). Replaces `OrderStatusBadge`'s `StatusBadge` pill
  * on every account surface (`OrderCard`, order details, the timeline's
  * canceled line) per the account mockup's own fork resolution (D3 Open forks,
  * "a shared `<StatusDot>` reusing the same color table").
@@ -21,9 +21,9 @@ import {
 export type { StatusTone }
 
 const TONE_DOT_CLASSES: Record<StatusTone, string> = {
-  green: "bg-ui-tag-green-icon",
-  red: "bg-ui-tag-red-icon",
-  orange: "bg-ui-tag-orange-icon",
+  green: "bg-status-success",
+  red: "bg-status-error",
+  orange: "bg-status-warning-text",
   blue: "bg-ui-tag-blue-icon",
   purple: "bg-ui-tag-purple-icon",
   neutral: "bg-ui-tag-neutral-icon",

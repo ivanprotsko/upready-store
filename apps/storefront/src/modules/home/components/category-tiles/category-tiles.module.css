@@ -22,7 +22,8 @@
 
 @media (hover: hover) and (pointer: fine) {
   .tile:hover {
-    border-color: var(--image-frame-ring, #9a9a9a);
+    /* The page ink at 45% over the page: #999999 on supplements light, the old #9a9a9a. */
+    border-color: color-mix(in srgb, var(--foreground) 45%, var(--background));
   }
 
   .tile:hover .image {

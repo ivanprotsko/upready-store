@@ -24,7 +24,7 @@ export default function TestModeDot({ mode, locale }: { mode: TenantTestMode; lo
       <span
         aria-hidden
         className="block h-2.5 w-2.5 rounded-full"
-        style={{ backgroundColor: "#e5282b", boxShadow: "0 0 0 2px #ffffff" }}
+        style={{ backgroundColor: "var(--destructive)", boxShadow: "0 0 0 2px var(--background)" }}
       />
     </span>
   )

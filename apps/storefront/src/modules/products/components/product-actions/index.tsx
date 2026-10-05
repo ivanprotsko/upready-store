@@ -154,7 +154,7 @@ export default function ProductActions({
               aria-hidden
               className={
                 inStock && isValidVariant
-                  ? "size-2 rounded-full bg-ui-tag-green-icon"
+                  ? "size-2 rounded-full bg-status-success"
                   : "size-2 rounded-full bg-ui-fg-muted"
               }
             />

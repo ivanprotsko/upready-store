@@ -92,7 +92,7 @@ const useFilterQuery = () => {
 }
 
 const CHECKBOX =
-  "size-4 shrink-0 rounded border-ui-border-strong accent-[var(--primary,#111)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-border-interactive"
+  "size-4 shrink-0 rounded border-ui-border-strong accent-[var(--primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-border-interactive"
 
 const Group = ({
   title,

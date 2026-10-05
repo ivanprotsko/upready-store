@@ -114,7 +114,12 @@ describe("Yandex ID: the button from Yandex's constructor, one shared place (t-2
     for (const cls of ["h-10", "rounded-lg", "px-[11px]", "py-[9px]", "text-[14px]", "leading-4", "min-w-[156px]"]) {
       expect(buttonSource).toContain(cls)
     }
-    expect(buttonSource).toContain("bg-[#000] text-[#fff] dark:bg-[#fff] dark:text-[#000]")
+    // Black on a light site, white on a dark one: the pair lives in globals.css and swaps on
+    // [data-mode], the axis the presets switch on (t-theme-hardcoded-colours, no dark: variant).
+    expect(buttonSource).toContain("bg-[var(--yandex-id-bg)] text-[var(--yandex-id-fg)]")
+    const globalsCss = readFileSync(join(here, "../../../../styles/globals.css"), "utf8")
+    expect(globalsCss).toMatch(/:root \{[^}]*--yandex-id-bg: #000000;[^}]*--yandex-id-fg: #ffffff;/)
+    expect(globalsCss).toMatch(/\[data-mode="dark"\] \{[^}]*--yandex-id-bg: #ffffff;[^}]*--yandex-id-fg: #000000;/)
     expect(buttonSource).toContain("font-['YS_Text','Helvetica_Neue',Arial,sans-serif]")
     expect(buttonSource).toContain('fill="#FC3F1D"')
     expect(buttonSource).toContain("/images/yandex-id/avatar-placeholder.png")

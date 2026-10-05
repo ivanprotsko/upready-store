@@ -495,7 +495,7 @@ export default function CheckoutPaymentSection({
             {t("paymentHeading")}
             {isPaymentComplete && (
               <CheckMini
-                className="text-ui-tag-green-icon shrink-0"
+                className="text-status-success shrink-0"
                 aria-hidden
                 data-testid="payment-section-checkmark"
               />

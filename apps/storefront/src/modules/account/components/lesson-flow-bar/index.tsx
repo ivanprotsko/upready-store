@@ -43,7 +43,7 @@ const NEXT = clx(
  * всю ширину и высотой = 8, а справа и слева в углах сделать контролы "Назад"
  * и "Дальше"»). The strip is 8 px high across the whole width, filled to the
  * share of lessons counted, in the theme's success colour (`--success`,
- * bridged to `ui-tag-green-text` in styles/themes.css). «Назад» sits in the
+ * read through `status-success` in tailwind.config.js). «Назад» sits in the
  * start corner above it, «Дальше» in the end corner with the reason it is off.
  * The top right corner of the page stays free for the contents control.
  */
@@ -127,7 +127,7 @@ export default function LessonFlowBar({
           data-testid="lesson-flow-progress"
         >
           <div
-            className="h-full bg-ui-tag-green-text transition-[width] duration-300"
+            className="h-full bg-status-success transition-[width] duration-300"
             style={{ width: `${progress.percent}%` }}
           />
         </div>

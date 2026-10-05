@@ -179,13 +179,13 @@ const ValueRow = ({
       <span className="inline-flex shrink-0 items-center gap-x-1.5">
         <span
           role="status"
-          className={clx("txt-compact-xsmall-plus text-ui-tag-green-text", !copied && "sr-only")}
+          className={clx("txt-compact-xsmall-plus text-status-success-text", !copied && "sr-only")}
           data-testid={`${testId}-copy-status`}
         >
           {copied ? t("copied") : ""}
         </span>
         <span className="inline-flex h-7 w-7 items-center justify-center text-ui-fg-muted" aria-hidden>
-          {copied ? <Check className="text-ui-tag-green-icon" /> : <SquareTwoStack />}
+          {copied ? <Check className="text-status-success" /> : <SquareTwoStack />}
         </span>
       </span>
     </button>

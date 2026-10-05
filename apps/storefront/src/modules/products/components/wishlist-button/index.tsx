@@ -98,6 +98,7 @@ export default function WishlistButton({
         "inline-flex items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--ui-bg-base)_80%,transparent)] p-1.5 text-ui-fg-subtle shadow-elevation-card-rest transition-colors hover:text-ui-fg-base disabled:opacity-60"
       }
     >
+      {/* theme-colours allowlist: a saved item's heart, a decorative tag colour and not an error status. */}
       <Heart filled={active} className={active ? "text-ui-tag-red-icon" : undefined} />
     </button>
   )

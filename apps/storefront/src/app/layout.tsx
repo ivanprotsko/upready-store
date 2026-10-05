@@ -116,6 +116,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const brandStyle = branding.primary_color
     ? ({
         "--primary": branding.primary_color,
+        // theme-colours allowlist: the owner's brand pipeline; the backend computes the ink, this only covers its absence.
         "--primary-foreground": branding.primary_foreground ?? "#ffffff",
         "--ring": branding.primary_color,
       } as React.CSSProperties)
