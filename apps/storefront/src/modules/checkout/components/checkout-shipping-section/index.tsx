@@ -490,10 +490,11 @@ export default function CheckoutShippingSection({
     (availableShippingOptions ?? []).find((o) => o.id === shippingMethodId) ??
     null
   const selectedWay = deliveryWayOf(selectedOption)?.way ?? null
-  // The open card, else the card of the cart's own method.
-  const activeWay = wayGroups
-    ? openWay ?? (wayGroups.cards.some((card) => card.way === selectedWay) ? selectedWay : null)
-    : null
+  // The open card, else the card of the cart's own method. A way whose card is
+  // gone (a new address left it no options) is neither.
+  const hasWayCard = (way: DeliveryWay | null): way is DeliveryWay =>
+    !!way && !!wayGroups?.cards.some((card) => card.way === way)
+  const activeWay = hasWayCard(openWay) ? openWay : hasWayCard(selectedWay) ? selectedWay : null
   const outerValue = activeWay ? WAY_VALUE[activeWay] : radioGroupValue
   const hasPickupPointMeta = !!(
     cart.metadata as Record<string, string> | null
@@ -501,7 +502,7 @@ export default function CheckoutShippingSection({
   const isShippingComplete =
     !!shippingMethodId &&
     // A card opened for a different way means the buyer is still choosing.
-    (!openWay || openWay === selectedWay) &&
+    (!activeWay || activeWay === selectedWay) &&
     (isPickupShippingOption(selectedOption)
       ? hasPickupPointMeta
       : cdekNeedsPoint(selectedOption)
