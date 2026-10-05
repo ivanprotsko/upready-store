@@ -11,6 +11,8 @@
  * not fit rather than trusting a cast.
  */
 
+import { pickLocaleCopy } from "./locale-copy"
+
 export type CourseCover = {
   src: string
   srcset: { w: number; url: string }[]
@@ -93,13 +95,46 @@ export function coverSrcSet(cover: CourseCover): string {
 export const COURSE_COVER_SIZES =
   "(min-width: 1440px) 984px, (min-width: 1024px) calc(100vw - 456px), calc(100vw - 32px)"
 
-/** `metadata.course_page`, each list filtered to well-formed entries; `null` when nothing is left. */
-export function readCoursePage(metadata: Metadata): CoursePageContent | null {
+/**
+ * `metadata.course_page` in the page's language, each list filtered to
+ * well-formed entries; `null` when nothing is left.
+ *
+ * The base lists are in the shop's own language. A translation sits next to
+ * them under `course_page.i18n.<locale>` (`{ about, faq, testimonials }`), the
+ * same convention as the home document's `hero.i18n` (`pickLocaleCopy`). The
+ * Translation module of t-cherk-37 cannot carry it: `applyTranslations` skips
+ * `metadata`, and the module drops every key of a row that is not a
+ * `.translatable()` text field of the entity. Each list is replaced whole, and
+ * a list the translation lacks or leaves empty falls back to the base one, so
+ * a page translated in part never shows a blank section.
+ */
+export function readCoursePage(
+  metadata: Metadata,
+  locale?: string | null
+): CoursePageContent | null {
   const page = metadata?.course_page
   if (!isRecord(page)) {
     return null
   }
 
+  const base = readCourseLists(page)
+  const copy = pickLocaleCopy(page.i18n, locale)
+  const translated = copy ? readCourseLists(copy) : null
+
+  const about = translated?.about.length ? translated.about : base.about
+  const faq = translated?.faq.length ? translated.faq : base.faq
+  const testimonials = translated?.testimonials.length
+    ? translated.testimonials
+    : base.testimonials
+
+  if (!about.length && !faq.length && !testimonials.length) {
+    return null
+  }
+
+  return { about, faq, testimonials }
+}
+
+function readCourseLists(page: Record<string, unknown>): CoursePageContent {
   const list = (value: unknown) => (Array.isArray(value) ? value : [])
 
   const about = list(page.about)
@@ -124,10 +159,6 @@ export function readCoursePage(metadata: Metadata): CoursePageContent | null {
       text,
       source: source === "image" ? ("image" as const) : ("text" as const),
     }))
-
-  if (!about.length && !faq.length && !testimonials.length) {
-    return null
-  }
 
   return { about, faq, testimonials }
 }
