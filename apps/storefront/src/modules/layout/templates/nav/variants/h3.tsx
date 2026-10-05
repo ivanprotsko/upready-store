@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
 import { listCategories } from "@lib/data/categories"
-import { listRegions } from "@lib/data/regions"
+import { listShopRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { shopPromoText, shopTagline } from "@lib/data/shop-copy"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
@@ -48,7 +48,7 @@ export default async function NavH3() {
       getTranslations(),
       getLocale(),
       listCategories(),
-      listRegions().then((regions: StoreRegion[]) => regions),
+      listShopRegions().then((regions: StoreRegion[]) => regions),
       getCountryCode(),
       getSiteName(),
       getSwitcherLocales(),

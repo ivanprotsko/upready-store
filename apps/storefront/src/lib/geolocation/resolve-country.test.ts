@@ -101,4 +101,33 @@ describe("resolveCountry", () => {
 
     expect(countryCode).toBe("de")
   })
+
+  it("drops a picked country outside the shop's regions for the shop's own (N9)", async () => {
+    vi.stubEnv("LOCALE_COUNTRY_MAP", "ru:ru")
+    vi.stubEnv("REGION_PIN", "true")
+    vi.stubEnv("NEXT_PUBLIC_DEFAULT_REGION", "ru")
+    const { narrowRegionMap, pinnedRegionCountry, resolveCountry, shopRegionIds, countryForLocale } =
+      await load()
+    const regions = new Map([
+      ["ru", { id: "reg_ru" }],
+      ["de", { id: "reg_de" }],
+    ]) as unknown as RegionMap
+    const shop = narrowRegionMap(
+      regions,
+      shopRegionIds({
+        locales: ["ru", "en"],
+        countryFor: (code) => countryForLocale(code),
+        fallbackCountry: pinnedRegionCountry(),
+        regionMap: regions,
+      })
+    )
+
+    const { countryCode } = await resolveCountry(
+      request({ _medusa_country: "de", _medusa_country_choice: "1" }),
+      shop,
+      "ru"
+    )
+
+    expect(countryCode).toBe("ru")
+  })
 })

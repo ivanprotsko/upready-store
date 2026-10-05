@@ -1053,6 +1053,7 @@
     "apply": "Taikyti",
     "close": "Uždaryti",
     "placeholder": "Ieškoti šalies ar kalbos",
+    "placeholderLanguage": "Ieškoti kalbos",
     "tabCountry": "Šalis",
     "tabLanguage": "Kalba",
     "title": "Keisti regioną"

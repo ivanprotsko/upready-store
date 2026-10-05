@@ -1053,6 +1053,7 @@
     "apply": "Toepassen",
     "close": "Sluiten",
     "placeholder": "Zoek land of taal",
+    "placeholderLanguage": "Zoek taal",
     "tabCountry": "Land",
     "tabLanguage": "Taal",
     "title": "Regio wijzigen"

@@ -1053,6 +1053,7 @@
     "apply": "تطبيق",
     "close": "إغلاق",
     "placeholder": "ابحث عن دولة أو لغة",
+    "placeholderLanguage": "ابحث عن لغة",
     "tabCountry": "الدولة",
     "tabLanguage": "اللغة",
     "title": "تغيير المنطقة"

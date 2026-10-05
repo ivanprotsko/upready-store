@@ -1053,6 +1053,7 @@
     "apply": "Použít",
     "close": "Zavřít",
     "placeholder": "Hledat zemi nebo jazyk",
+    "placeholderLanguage": "Hledat jazyk",
     "tabCountry": "Země",
     "tabLanguage": "Jazyk",
     "title": "Změnit region"

@@ -1053,6 +1053,7 @@
     "apply": "应用",
     "close": "关闭",
     "placeholder": "搜索国家或语言",
+    "placeholderLanguage": "搜索语言",
     "tabCountry": "国家",
     "tabLanguage": "语言",
     "title": "更改地区"

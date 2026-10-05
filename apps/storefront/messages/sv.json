@@ -1053,6 +1053,7 @@
     "apply": "Tillämpa",
     "close": "Stäng",
     "placeholder": "Sök land eller språk",
+    "placeholderLanguage": "Sök språk",
     "tabCountry": "Land",
     "tabLanguage": "Språk",
     "title": "Byt region"

@@ -1053,6 +1053,7 @@
     "apply": "Anvend",
     "close": "Luk",
     "placeholder": "Søg efter land eller sprog",
+    "placeholderLanguage": "Søg efter sprog",
     "tabCountry": "Land",
     "tabLanguage": "Sprog",
     "title": "Skift region"

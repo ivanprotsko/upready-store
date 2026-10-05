@@ -1053,6 +1053,7 @@
     "apply": "Εφαρμογή",
     "close": "Κλείσιμο",
     "placeholder": "Αναζήτηση χώρας ή γλώσσας",
+    "placeholderLanguage": "Αναζήτηση γλώσσας",
     "tabCountry": "Χώρα",
     "tabLanguage": "Γλώσσα",
     "title": "Αλλαγή περιοχής"

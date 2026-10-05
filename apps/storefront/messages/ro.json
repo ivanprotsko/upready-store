@@ -1053,6 +1053,7 @@
     "apply": "Aplică",
     "close": "Închide",
     "placeholder": "Caută țara sau limba",
+    "placeholderLanguage": "Caută limba",
     "tabCountry": "Țară",
     "tabLanguage": "Limbă",
     "title": "Schimbă regiunea"

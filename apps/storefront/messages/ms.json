@@ -1053,6 +1053,7 @@
     "apply": "Guna",
     "close": "Tutup",
     "placeholder": "Cari negara atau bahasa",
+    "placeholderLanguage": "Cari bahasa",
     "tabCountry": "Negara",
     "tabLanguage": "Bahasa",
     "title": "Tukar wilayah"

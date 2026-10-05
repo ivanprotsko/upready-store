@@ -1053,6 +1053,7 @@
     "apply": "Bruk",
     "close": "Lukk",
     "placeholder": "Søk etter land eller språk",
+    "placeholderLanguage": "Søk etter språk",
     "tabCountry": "Land",
     "tabLanguage": "Språk",
     "title": "Endre region"

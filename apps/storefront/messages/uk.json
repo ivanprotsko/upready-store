@@ -1053,6 +1053,7 @@
     "apply": "Застосувати",
     "close": "Закрити",
     "placeholder": "Пошук країни або мови",
+    "placeholderLanguage": "Пошук мови",
     "tabCountry": "Країна",
     "tabLanguage": "Мова",
     "title": "Зміна регіону"

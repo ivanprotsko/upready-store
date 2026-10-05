@@ -2,7 +2,8 @@
 
 import { sdk } from "@lib/config"
 import type { HttpTypes } from "@medusajs/types"
-import { getCacheOptions } from "./cookies"
+import { narrowRegions } from "@lib/geolocation/shop-regions"
+import { getCacheOptions, getShopRegionIds } from "./cookies"
 import { siteWideRead } from "./site-wide"
 
 /**
@@ -30,6 +31,30 @@ export const listRegions = async () => {
         .then(({ regions }) => regions),
     []
   )
+}
+
+/**
+ * The regions THIS shop sells in (N9, t-2026-10-04-19): what the region
+ * switcher and the checkout's country list offer, so a buyer can no longer
+ * pick a region the shop has no prices in. `listRegions` stays the whole
+ * store-wide list for everything that is not a pick of the shop's currency —
+ * `getRegion` among them, which prices a country the middleware has already
+ * kept inside these.
+ */
+export const listShopRegions = async () => {
+  const [regions, ids] = await Promise.all([listRegions(), getShopRegionIds()])
+
+  return narrowRegions(regions, ids)
+}
+
+/**
+ * Whether `regionId` is one of the shop's own (`listShopRegions`); true when
+ * nothing narrows them.
+ */
+export const isShopRegion = async (regionId: string) => {
+  const ids = await getShopRegionIds()
+
+  return !ids || ids.includes(regionId)
 }
 
 export const retrieveRegion = async (id: string) => {

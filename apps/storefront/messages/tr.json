@@ -1053,6 +1053,7 @@
     "apply": "Uygula",
     "close": "Kapat",
     "placeholder": "Ülke veya dil ara",
+    "placeholderLanguage": "Dil ara",
     "tabCountry": "Ülke",
     "tabLanguage": "Dil",
     "title": "Bölgeyi değiştir"

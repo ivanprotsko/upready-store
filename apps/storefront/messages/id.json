@@ -1053,6 +1053,7 @@
     "apply": "Terapkan",
     "close": "Tutup",
     "placeholder": "Cari negara atau bahasa",
+    "placeholderLanguage": "Cari bahasa",
     "tabCountry": "Negara",
     "tabLanguage": "Bahasa",
     "title": "Ubah wilayah"
