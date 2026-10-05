@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Keranjang Anda masih kosong. Gunakan tautan di bawah ini untuk mulai menjelajahi produk kami.",
     "exploreProducts": "Jelajahi produk",
-    "heading": "Keranjang"
+    "heading": "Keranjang",
+    "columnProduct": "Produk",
+    "columnPrice": "Harga",
+    "columnQuantity": "Jumlah",
+    "columnTotal": "Total"
   },
   "CartMismatchBanner": {
     "errorMessage": "Terjadi kesalahan saat kami mencoba mentransfer keranjang Anda",

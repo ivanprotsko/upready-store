@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Wala pang laman ang cart mo. Gamitin ang link sa ibaba para simulan ang pamimili.",
     "exploreProducts": "Tuklasin ang mga produkto",
-    "heading": "Cart"
+    "heading": "Cart",
+    "columnProduct": "Produkto",
+    "columnPrice": "Presyo",
+    "columnQuantity": "Dami",
+    "columnTotal": "Kabuuan"
   },
   "CartMismatchBanner": {
     "errorMessage": "May nagkamali nang sinubukan naming ilipat ang iyong cart",

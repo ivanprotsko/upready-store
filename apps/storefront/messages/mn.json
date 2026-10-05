@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Таны сагс хоосон байна. Доорх холбоосыг ашиглан бүтээгдэхүүнүүдийг үзэж эхэлнэ үү.",
     "exploreProducts": "Бүтээгдэхүүн үзэх",
-    "heading": "Сагс"
+    "heading": "Сагс",
+    "columnProduct": "Бүтээгдэхүүн",
+    "columnPrice": "Үнэ",
+    "columnQuantity": "Тоо ширхэг",
+    "columnTotal": "Нийт"
   },
   "CartMismatchBanner": {
     "errorMessage": "Таны сагсыг шилжүүлэх гэж оролдох үед ямар нэг зүйл буруу боллоо",

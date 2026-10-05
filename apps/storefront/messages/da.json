@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Din kurv er tom. Brug linket nedenfor for at begynde at browse vores produkter.",
     "exploreProducts": "Udforsk produkter",
-    "heading": "Kurv"
+    "heading": "Kurv",
+    "columnProduct": "Produkt",
+    "columnPrice": "Pris",
+    "columnQuantity": "Antal",
+    "columnTotal": "I alt"
   },
   "CartMismatchBanner": {
     "errorMessage": "Der opstod en fejl, da vi forsøgte at overføre din kurv",

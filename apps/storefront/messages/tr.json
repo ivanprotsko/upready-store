@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Sepetiniz boş. Ürünlerimize göz atmak için aşağıdaki bağlantıyı kullanın.",
     "exploreProducts": "Ürünlere göz at",
-    "heading": "Sepet"
+    "heading": "Sepet",
+    "columnProduct": "Ürün",
+    "columnPrice": "Fiyat",
+    "columnQuantity": "Adet",
+    "columnTotal": "Toplam"
   },
   "CartMismatchBanner": {
     "errorMessage": "Sepetinizi aktarmaya çalışırken bir şeyler ters gitti",

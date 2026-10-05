@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "سلتك فارغة. استخدم الرابط أدناه لبدء تصفح منتجاتنا.",
     "exploreProducts": "استكشف المنتجات",
-    "heading": "السلة"
+    "heading": "السلة",
+    "columnProduct": "المنتج",
+    "columnPrice": "السعر",
+    "columnQuantity": "الكمية",
+    "columnTotal": "المجموع"
   },
   "CartMismatchBanner": {
     "errorMessage": "حدث خطأ أثناء محاولة نقل سلتك",

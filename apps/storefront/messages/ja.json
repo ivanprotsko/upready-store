@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "カートに商品がありません。下のリンクから商品を見てみましょう。",
     "exploreProducts": "商品を見る",
-    "heading": "カート"
+    "heading": "カート",
+    "columnProduct": "商品",
+    "columnPrice": "価格",
+    "columnQuantity": "数量",
+    "columnTotal": "小計"
   },
   "CartMismatchBanner": {
     "errorMessage": "カートの移行中に問題が発生しました",

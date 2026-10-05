@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Coșul dvs. este gol. Folosiți linkul de mai jos pentru a începe să răsfoiți produsele noastre.",
     "exploreProducts": "Explorează produsele",
-    "heading": "Coș"
+    "heading": "Coș",
+    "columnProduct": "Produs",
+    "columnPrice": "Preț",
+    "columnQuantity": "Cantitate",
+    "columnTotal": "Total"
   },
   "CartMismatchBanner": {
     "errorMessage": "Ceva nu a mers bine la încercarea de a transfera coșul dvs.",

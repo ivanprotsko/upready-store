@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Din varukorg är tom. Använd länken nedan för att börja utforska våra produkter.",
     "exploreProducts": "Utforska produkter",
-    "heading": "Varukorg"
+    "heading": "Varukorg",
+    "columnProduct": "Produkt",
+    "columnPrice": "Pris",
+    "columnQuantity": "Antal",
+    "columnTotal": "Summa"
   },
   "CartMismatchBanner": {
     "errorMessage": "Något gick fel när vi försökte överföra din varukorg",

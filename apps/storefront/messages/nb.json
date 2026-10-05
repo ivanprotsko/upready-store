@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Handlekurven din er tom. Bruk lenken nedenfor for å begynne å utforske produktene våre.",
     "exploreProducts": "Utforsk produkter",
-    "heading": "Handlekurv"
+    "heading": "Handlekurv",
+    "columnProduct": "Produkt",
+    "columnPrice": "Pris",
+    "columnQuantity": "Antall",
+    "columnTotal": "Sum"
   },
   "CartMismatchBanner": {
     "errorMessage": "Noe gikk galt da vi prøvde å overføre handlekurven din",

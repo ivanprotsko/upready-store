@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Ostoskorisi on tyhjä. Aloita tuotteiden selaaminen alla olevasta linkistä.",
     "exploreProducts": "Selaa tuotteita",
-    "heading": "Ostoskori"
+    "heading": "Ostoskori",
+    "columnProduct": "Tuote",
+    "columnPrice": "Hinta",
+    "columnQuantity": "Määrä",
+    "columnTotal": "Yhteensä"
   },
   "CartMismatchBanner": {
     "errorMessage": "Jokin meni pieleen yritettäessä siirtää ostoskoriasi",

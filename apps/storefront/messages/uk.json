@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "У вашому кошику поки що порожньо. Скористайтеся посиланням нижче, щоб почати перегляд наших товарів.",
     "exploreProducts": "Переглянути товари",
-    "heading": "Кошик"
+    "heading": "Кошик",
+    "columnProduct": "Товар",
+    "columnPrice": "Ціна",
+    "columnQuantity": "Кількість",
+    "columnTotal": "Сума"
   },
   "CartMismatchBanner": {
     "errorMessage": "Щось пішло не так під час спроби перенести ваш кошик",

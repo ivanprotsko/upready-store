@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Váš košík je prázdný. Pomocí odkazu níže si prohlédněte naše produkty.",
     "exploreProducts": "Prozkoumat produkty",
-    "heading": "Košík"
+    "heading": "Košík",
+    "columnProduct": "Produkt",
+    "columnPrice": "Cena",
+    "columnQuantity": "Množství",
+    "columnTotal": "Celkem"
   },
   "CartMismatchBanner": {
     "errorMessage": "Při pokusu o převod vašeho košíku došlo k chybě",

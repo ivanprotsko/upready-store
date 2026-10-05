@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Twój koszyk jest pusty. Skorzystaj z poniższego linku, aby zacząć przeglądać nasze produkty.",
     "exploreProducts": "Przeglądaj produkty",
-    "heading": "Koszyk"
+    "heading": "Koszyk",
+    "columnProduct": "Produkt",
+    "columnPrice": "Cena",
+    "columnQuantity": "Ilość",
+    "columnTotal": "Suma"
   },
   "CartMismatchBanner": {
     "errorMessage": "Coś poszło nie tak podczas próby przeniesienia Twojego koszyka",

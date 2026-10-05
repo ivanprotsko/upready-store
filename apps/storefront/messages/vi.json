@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Giỏ hàng của bạn đang trống. Hãy nhấn vào liên kết bên dưới để xem sản phẩm của chúng tôi.",
     "exploreProducts": "Khám phá sản phẩm",
-    "heading": "Giỏ hàng"
+    "heading": "Giỏ hàng",
+    "columnProduct": "Sản phẩm",
+    "columnPrice": "Giá",
+    "columnQuantity": "Số lượng",
+    "columnTotal": "Thành tiền"
   },
   "CartMismatchBanner": {
     "errorMessage": "Đã xảy ra lỗi khi chúng tôi cố gắng chuyển giỏ hàng của bạn",

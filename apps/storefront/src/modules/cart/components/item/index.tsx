@@ -18,9 +18,9 @@ type ItemProps = {
 }
 
 /**
- * A cart line in the upstream starter's shape. The cart page no longer draws it: since
- * t-2026-10-04-42 its lines are the cart sidebar's cards (`cart/templates/items.tsx`),
- * and `type="preview"` is what `templates/preview.tsx` still reads. Its quantity and its
+ * A cart line in the upstream starter's shape. The cart page no longer draws it: its
+ * lines are the table rows of `cart/components/cart-line` (t-2026-10-06-11), and
+ * `type="preview"` is what `templates/preview.tsx` still reads. Its quantity and its
  * removal go through the client cart queue (t-2026-10-03-66): they show at once, the
  * request follows after a pause, and a refused change falls back to the server's
  * quantity with the reason under the line.

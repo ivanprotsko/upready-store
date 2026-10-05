@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Το καλάθι σας είναι άδειο. Χρησιμοποιήστε τον παρακάτω σύνδεσμο για να δείτε τα προϊόντα μας.",
     "exploreProducts": "Δείτε τα προϊόντα",
-    "heading": "Καλάθι"
+    "heading": "Καλάθι",
+    "columnProduct": "Προϊόν",
+    "columnPrice": "Τιμή",
+    "columnQuantity": "Ποσότητα",
+    "columnTotal": "Σύνολο"
   },
   "CartMismatchBanner": {
     "errorMessage": "Κάτι πήγε στραβά κατά τη μεταφορά του καλαθιού σας",

@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Il tuo carrello è vuoto. Usa il link qui sotto per iniziare a sfogliare i nostri prodotti.",
     "exploreProducts": "Scopri i prodotti",
-    "heading": "Carrello"
+    "heading": "Carrello",
+    "columnProduct": "Prodotto",
+    "columnPrice": "Prezzo",
+    "columnQuantity": "Quantità",
+    "columnTotal": "Totale"
   },
   "CartMismatchBanner": {
     "errorMessage": "Qualcosa è andato storto durante il trasferimento del tuo carrello",
