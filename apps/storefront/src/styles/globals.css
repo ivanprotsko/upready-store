@@ -359,22 +359,22 @@
  * стилю medusjs ui и убрать этот зеленый оттенок в полях». @medusajs/ui rings a focused field with
  * --borders-interactive-with-active, a 1px line plus a soft halo in blue; the storefront's own
  * fields used a 2px ring in --ring, the shop's brand colour, which is the dark green border Ivan
- * pointed at. This keeps Medusa's shape and draws it in the page ink (--foreground, near-black in
- * light and near-white in dark) at an alpha, so it carries no brand hue and reads on any page. The 1px line clears 3:1 against the field in both
+ * pointed at. This keeps Medusa's shape and draws it in black (light) or white (dark) alpha, so it
+ * carries no preset's hue and reads on any page. The 1px line clears 3:1 against the field in both
  * modes (WCAG 1.4.11). Read through the `shadow-borders-field-focus` utility (tailwind.config.js)
  * by every field: `FIELD_FOCUS` in `modules/common/components/input/field-classes.ts`.
  */
 :root {
-  --borders-field-focus: 0px 0px 0px 1px color-mix(in srgb, var(--foreground) 56%, transparent),
-    0px 0px 0px 4px color-mix(in srgb, var(--foreground) 8%, transparent);
+  /* theme-colours allowlist: Ivan's order of 04.10, the field ring in no hue at all (field-classes.test.tsx). */
+  --borders-field-focus: 0px 0px 0px 1px rgba(0, 0, 0, 0.56), 0px 0px 0px 4px rgba(0, 0, 0, 0.08);
   /* The invalid field, the same shape in the preset's own --destructive. */
   --borders-field-error: 0px 0px 0px 1px var(--destructive),
     0px 0px 0px 3px color-mix(in srgb, var(--destructive) 15%, transparent);
 }
 
 [data-mode="dark"] {
-  --borders-field-focus: 0px 0px 0px 1px color-mix(in srgb, var(--foreground) 56%, transparent),
-    0px 0px 0px 4px color-mix(in srgb, var(--foreground) 10%, transparent);
+  /* theme-colours allowlist: Ivan's order of 04.10, the field ring in no hue at all (field-classes.test.tsx). */
+  --borders-field-focus: 0px 0px 0px 1px rgba(255, 255, 255, 0.56), 0px 0px 0px 4px rgba(255, 255, 255, 0.1);
 }
 
 /*
