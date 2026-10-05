@@ -29,6 +29,15 @@
       "integrationModules": ["payment-btcpay"]
     },
     {
+      "service": "Bitcart (the shop owner's own store)",
+      "country": "wherever the shop owner hosts it; self-hosted open-source software, not a company",
+      "whatItReceives": "order amount and currency, the payment session id as the invoice's order_id, the address its payment notification goes to, and the return URL to the shop; the buyer's browser then opens the invoice page on that server's admin app directly. No name, email or address is sent",
+      "why": "cryptocurrency payments for INTL-instance orders, paid straight into the shop owner's own wallets (ask-20261005-070255-438f, stage 2)",
+      "instances": ["intl"],
+      "legalBasis": "contract performance; the server is run by the shop owner or a host the owner chose, never by the platform — never used on the RU instance, where 282-FZ Art. 1 part 6 bans accepting cryptocurrency for goods (docs/instances/RULES.md §2)",
+      "integrationModules": ["payment-bitcart"]
+    },
+    {
       "service": "Yandex ID",
       "country": "Russia",
       "whatItReceives": "the buyer's Yandex account id, email and display name, returned by the OAuth callback",
