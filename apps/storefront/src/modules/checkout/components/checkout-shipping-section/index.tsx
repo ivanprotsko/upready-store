@@ -650,12 +650,15 @@ export default function CheckoutShippingSection({
             </span>
             <span
               className={clx(
-                "flex min-h-[20px] shrink-0 items-center",
+                "flex min-h-[20px] items-center",
+                // The reason in place of a price is a sentence: it wraps, at
+                // most half the row, rather than pushing a 390px page sideways
+                // inside a way card (D10).
                 unpriced || awaitingAddress
-                  ? "txt-compact-small text-ui-fg-subtle"
+                  ? "max-w-[50%] text-end txt-compact-small text-ui-fg-subtle"
                   : isFreeShipping
-                    ? "txt-compact-medium-plus text-status-success"
-                    : "txt-compact-medium-plus text-ui-fg-base"
+                    ? "shrink-0 txt-compact-medium-plus text-status-success"
+                    : "shrink-0 txt-compact-medium-plus text-ui-fg-base"
               )}
               data-testid={
                 awaitingAddress
