@@ -1,5 +1,7 @@
+import { getSiteName } from "@lib/data/cookies"
 import { getSiteBranding } from "@lib/data/tenant-branding"
-import { BUILD_ICON_SVG, resolveTenantIcon } from "@lib/tenant/icon-file"
+import { resolveTenantIcon } from "@lib/tenant/icon-file"
+import { placeholderIconSvg } from "@lib/tenant/placeholder-icon"
 
 /**
  * `/favicon.ico`, `/icon.svg` and `/apple-touch-icon.png` (also asked for as `/apple-icon.png`) of
@@ -13,7 +15,8 @@ const CACHE_CONTROL = "public, max-age=300"
 
 export async function GET(_request: Request, { params }: { params: Promise<{ file: string }> }) {
   const { file } = await params
-  const target = resolveTenantIcon(file, await getSiteBranding())
+  const branding = await getSiteBranding()
+  const target = resolveTenantIcon(file, branding)
 
   if (target.kind === "redirect") {
     return new Response(null, {
@@ -22,8 +25,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ fil
     })
   }
 
-  if (target.kind === "build-svg") {
-    return new Response(BUILD_ICON_SVG, {
+  if (target.kind === "placeholder") {
+    const svg = placeholderIconSvg({
+      name: await getSiteName(),
+      color: branding.primary_color,
+      ink: branding.primary_foreground,
+    })
+
+    return new Response(svg, {
       headers: { "Content-Type": "image/svg+xml", "Cache-Control": CACHE_CONTROL },
     })
   }
