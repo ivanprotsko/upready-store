@@ -3,6 +3,7 @@ import { deriveKey, encryptJson } from "../crypto";
 import { readCdekSecretPublic } from "../cdek";
 import { readPochtaSecretPublic } from "../pochta";
 import { readBtcpaySecretPublic } from "../btcpay";
+import { readBitcartSecretPublic } from "../bitcart";
 
 /**
  * 46df A-02: the buyer-facing CDEK and Russian Post routes read the shop's
@@ -59,6 +60,8 @@ const READS: { name: string; provider: string; read: PublicSecretRead; value: Re
   { name: "readPochtaSecretPublic", provider: "pochta", read: readPochtaSecretPublic, value: { token: "tok" } },
   // ask-20261005-070255-438f: the checkout's provider filter reads BTCPay the same way.
   { name: "readBtcpaySecretPublic", provider: "btcpay", read: readBtcpaySecretPublic, value: { api_key: "btcpay-key" } },
+  // Stage 2 of the same task: Bitcart's store is read on the same public paths.
+  { name: "readBitcartSecretPublic", provider: "bitcart", read: readBitcartSecretPublic, value: { api_key: "bitcart-token" } },
 ];
 
 describe.each(READS)("$name", ({ provider, read, value }) => {
