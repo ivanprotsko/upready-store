@@ -15,6 +15,11 @@ export const TENANT_ICON_FILES = {
   "/favicon.ico": "favicon-ico",
   "/icon.svg": "icon-svg",
   "/apple-touch-icon.png": "apple-touch-icon",
+  // Next's own file-convention name for the same icon (`app/apple-icon.png`), which a crawler
+  // or an audit asks for by name. No page links it, and without this entry `[locale]` rendered
+  // it as a page: 200 text/html on both Черкашино sites (t-2026-10-04-19, F09). It is the
+  // same 180×180 picture, so it answers with the tenant's apple-touch icon.
+  "/apple-icon.png": "apple-touch-icon",
 } as const
 
 export type TenantIconFile = (typeof TENANT_ICON_FILES)[keyof typeof TENANT_ICON_FILES]
