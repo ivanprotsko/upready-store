@@ -13,12 +13,13 @@ import {
   useNavigation,
 } from "react-router-dom"
 
-import { useDomains } from "../../../hooks/api/domains"
-import { useTenantLocaleSettings } from "../../../hooks/api/locale-settings"
 import { DocumentTitle } from "../../../hooks/use-document-title"
+import { useShopUrl } from "../../../hooks/use-shop-url"
+import { CommandMenuProvider } from "../../../providers/command-menu-provider"
 import { KeybindProvider } from "../../../providers/keybind-provider"
 import { useGlobalShortcuts } from "../../../providers/keybind-provider/hooks"
 import { useSidebar } from "../../../providers/sidebar-provider"
+import { CommandMenuTopbarButton } from "../../command-menu"
 import { ProgressBar } from "../../common/progress-bar"
 import { SectionTabs, findActive } from "../owner-nav"
 
@@ -30,7 +31,9 @@ import { SectionTabs, findActive } from "../owner-nav"
 // `/tenants/notifications` route, so the topbar's right side is empty
 // instead of hosting dead controls. `KeybindProvider` stays: `UserMenu` and
 // `NavItem` still read `useGlobalShortcuts()` for the shortcuts modal and
-// per-item tooltips.
+// per-item tooltips. The Admin's `SearchProvider` (⌘K) comes back as
+// `CommandMenuProvider` (ask-20261005-112844-10ba), which lists the owner's
+// screens, actions, products and orders instead of `/admin/search`.
 
 export const Shell = ({ children }: PropsWithChildren) => {
   const globalShortcuts = useGlobalShortcuts()
@@ -40,30 +43,32 @@ export const Shell = ({ children }: PropsWithChildren) => {
 
   return (
     <KeybindProvider shortcuts={globalShortcuts}>
-      <DocumentTitle />
-      <div className="relative flex h-screen flex-col items-start overflow-hidden lg:flex-row">
-        <NavigationBar loading={loading} />
-        <div>
-          <MobileSidebarContainer>{children}</MobileSidebarContainer>
-          <DesktopSidebarContainer>{children}</DesktopSidebarContainer>
+      <CommandMenuProvider>
+        <DocumentTitle />
+        <div className="relative flex h-screen flex-col items-start overflow-hidden lg:flex-row">
+          <NavigationBar loading={loading} />
+          <div>
+            <MobileSidebarContainer>{children}</MobileSidebarContainer>
+            <DesktopSidebarContainer>{children}</DesktopSidebarContainer>
+          </div>
+          <div className="flex h-screen w-full flex-col overflow-auto">
+            <Topbar />
+            <main
+              className={clx(
+                "flex h-full w-full flex-col items-center overflow-y-auto transition-opacity delay-200 duration-200",
+                {
+                  "opacity-25": loading,
+                }
+              )}
+            >
+              <Gutter>
+                <SectionTabs />
+                <Outlet />
+              </Gutter>
+            </main>
+          </div>
         </div>
-        <div className="flex h-screen w-full flex-col overflow-auto">
-          <Topbar />
-          <main
-            className={clx(
-              "flex h-full w-full flex-col items-center overflow-y-auto transition-opacity delay-200 duration-200",
-              {
-                "opacity-25": loading,
-              }
-            )}
-          >
-            <Gutter>
-              <SectionTabs />
-              <Outlet />
-            </Gutter>
-          </main>
-        </div>
-      </div>
+      </CommandMenuProvider>
     </KeybindProvider>
   )
 }
@@ -216,13 +221,11 @@ const ToggleSidebar = () => {
  */
 const OpenShop = () => {
   const { t } = useTranslation()
-  const { primary_host: primaryHost } = useDomains()
-  const { locale_settings: localeSettings } = useTenantLocaleSettings()
+  const href = useShopUrl()
 
-  if (!primaryHost) {
+  if (!href) {
     return null
   }
-  const href = `https://${primaryHost}/${localeSettings?.default_locale ?? "ru"}`
 
   return (
     <a
@@ -271,7 +274,10 @@ const Topbar = () => {
           <Breadcrumbs />
         </div>
       </div>
-      <OpenShop />
+      <div className="flex shrink-0 items-center gap-x-1.5">
+        <CommandMenuTopbarButton />
+        <OpenShop />
+      </div>
     </div>
   )
 }

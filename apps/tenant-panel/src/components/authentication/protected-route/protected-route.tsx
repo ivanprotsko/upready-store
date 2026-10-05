@@ -7,8 +7,9 @@ import { SidebarProvider } from "../../../providers/sidebar-provider"
 // behaviour (spinner while `useMe` loads, redirect to `/login` with
 // `state.from` when there is no user, `SidebarProvider` around the outlet),
 // without RBAC (no `PermissionsProvider`/`useMePermissions`, since the tenant
-// API has no roles or permissions) and without the Admin's `SearchProvider`
-// (the panel has no command-K search).
+// API has no roles or permissions) and without the Admin's `SearchProvider`:
+// the panel's ⌘K menu is `CommandMenuProvider`, mounted by the shell
+// (ask-20261005-112844-10ba).
 export const ProtectedRoute = () => {
   const location = useLocation()
 
