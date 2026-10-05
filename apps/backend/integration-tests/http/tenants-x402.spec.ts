@@ -139,6 +139,31 @@ medusaIntegrationTestRunner({
         return pg("order").select("id").where({ email }).whereNull("deleted_at");
       };
 
+      /**
+       * Waits for the `order.placed` subscribers: the order's link to the shop
+       * (what the panel lists) and the capture, so `payment.captured` fired.
+       * Waiting also keeps them from running into the database restore that
+       * starts the next test.
+       */
+      const placedInBackground = async (orderId: string) => {
+        const pg = getContainer().resolve(ContainerRegistrationKeys.PG_CONNECTION);
+        let linked = false;
+        let captured = false;
+        for (let attempt = 0; attempt < 80 && !(linked && captured); attempt += 1) {
+          await new Promise((resolve) => setTimeout(resolve, 250));
+          linked = Boolean(
+            await pg("tenant_tenant_order_order").where({ order_id: orderId, tenant_id: a.tenant.id }).whereNull("deleted_at").first(),
+          );
+          const payment = await pg("payment as p")
+            .join("order_payment_collection as opc", "opc.payment_collection_id", "p.payment_collection_id")
+            .where("opc.order_id", orderId)
+            .whereNull("opc.deleted_at")
+            .first("p.captured_at");
+          captured = Boolean(payment?.captured_at);
+        }
+        expect({ linked, captured }).toEqual({ linked: true, captured: true });
+      };
+
       beforeAll(async () => {
         facilitator = await startFacilitatorMock();
 
@@ -296,13 +321,8 @@ medusaIntegrationTestRunner({
         });
         expect(payment.data.explorer_url).toBe(`https://sepolia.basescan.org/tx/${facilitator.mock.transactionFor(nonce)}`);
 
-        // The order.placed subscriber captures it, so payment.captured fires.
-        let capturedAt: unknown = null;
-        for (let attempt = 0; attempt < 40 && !capturedAt; attempt += 1) {
-          await new Promise((resolve) => setTimeout(resolve, 250));
-          capturedAt = (await pg("payment").select("captured_at").where({ id: payment.id }).first())?.captured_at;
-        }
-        expect(capturedAt).toBeTruthy();
+        // The order.placed subscribers link it to the shop and capture it, so payment.captured fires.
+        await placedInBackground(completed.data.order.id);
 
         // A settled cart is never given a new session: that would delete the settlement.
         const replaced = await failed(
@@ -355,6 +375,8 @@ medusaIntegrationTestRunner({
           network: "eip155:84532",
           payer: PAYER.toLowerCase(),
         });
+        // The agent's order is the shop's like any other: listed in its panel, and captured.
+        await placedInBackground(paid.data.order.id);
 
         const settles = facilitator.mock.calls.filter((call) => call.step === "settle").length;
         const replay = await api.post("/store/x402/purchase", body, withKey(a.tenant.api_key.token, { "payment-signature": header }));
