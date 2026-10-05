@@ -2,7 +2,10 @@ import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
 import { Divider, Text } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
-import { isNoDeliveryLine } from "@lib/util/shipping-address"
+import { chosenCdekPoint, cdekTermOf } from "@lib/util/cdek"
+import { pochtaPointOf } from "@lib/util/pochta"
+import { cartNeedsShipping, isNoDeliveryLine } from "@lib/util/shipping-address"
+import { isWayCardMethod } from "@lib/util/shipping-card"
 import CheckoutItemList from "@modules/checkout/components/checkout-item-list"
 import CheckoutPickupSummary from "@modules/checkout/components/checkout-pickup-summary"
 import DiscountCode from "@modules/checkout/components/discount-code"
@@ -21,6 +24,24 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
   const meta = cart.metadata as Record<string, string> | null
   const pickupPointName = meta?.[PICKUP_METADATA_KEYS.name]
   const pickupPointAddress = meta?.[PICKUP_METADATA_KEYS.address]
+
+  // D10: the carrier's tariff the buyer picked in a way card, with its point
+  // and term, the way the shop's own pickup point is echoed above.
+  const tCheckout = await getTranslations("CheckoutPage")
+  const tPochta = await getTranslations("PochtaPoint")
+  const shippingMethod = cartNeedsShipping(cart) ? cart.shipping_methods?.at(-1) : undefined
+  const carrierMethod =
+    !pickupPointName && shippingMethod && isWayCardMethod(shippingMethod) ? shippingMethod : null
+  const cdekPoint = chosenCdekPoint(cart)
+  const pochtaPoint = pochtaPointOf(cart)
+  const carrierPoint = cdekPoint
+    ? cdekPoint.name ?? cdekPoint.code
+    : pochtaPoint
+      ? `${[pochtaPoint.pochta_point_address, pochtaPoint.pochta_point_city]
+          .filter(Boolean)
+          .join(", ")} · ${tPochta("postcode", { index: pochtaPoint.pochta_point_index })}`
+      : null
+  const carrierTerm = cdekTermOf(cart) ?? pochtaPoint?.term_label ?? null
 
   return (
     <div className="flex flex-col gap-y-6" data-testid="checkout-summary">
@@ -41,6 +62,16 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
         <CheckoutPickupSummary
           name={pickupPointName}
           address={pickupPointAddress ?? ""}
+        />
+      )}
+
+      {carrierMethod && (
+        <CheckoutPickupSummary
+          label={tCheckout("shippingCost")}
+          name={carrierMethod.name}
+          address={carrierPoint ?? ""}
+          details={carrierTerm ? [carrierTerm] : []}
+          testId="checkout-summary-shipping-method"
         />
       )}
 
