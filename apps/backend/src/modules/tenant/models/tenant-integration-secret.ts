@@ -65,6 +65,12 @@ import Tenant from "./tenant";
  * and the admin address is where Bitcart serves the checkout page. A new row
  * is saved switched off.
  *
+ * `x402` is the shop's x402 settings, `{ pay_to, networks, facilitator_url }`
+ * (t-2026-10-03-33). No secret at all: the buyer signs a USDC transfer straight
+ * to `pay_to` and the facilitator moves it. It is a row here because a shop's
+ * payment method, its switch and its test flag live here: `is_test` is on while
+ * any chosen network is a test network. A new row is saved switched off.
+ *
  * This list is not decoration — `model.enum` renders it as a CHECK constraint
  * on `provider`, so a slot absent here cannot hold a row at all. Measured on
  * the local stand 2026-09-16: an insert into `wildberries_write` died on
@@ -83,6 +89,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "telegram",
   "btcpay",
   "bitcart",
+  "x402",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 

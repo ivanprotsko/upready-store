@@ -15,12 +15,15 @@ import type { TenantPaymentMethods } from "../hooks/api/payment-settings"
  * `manualManager` off). The panel shows the owner ONE method, «Перевод по
  * реквизитам», on if either half is: `isManualConnected` is that OR.
  */
-export type PaymentMethodKey = "robokassa" | "btcpay" | "bitcart" | "manual"
+export type PaymentMethodKey = "robokassa" | "btcpay" | "bitcart" | "x402" | "manual"
 
-export const PAYMENT_METHOD_KEYS: PaymentMethodKey[] = ["robokassa", "btcpay", "bitcart", "manual"]
+export const PAYMENT_METHOD_KEYS: PaymentMethodKey[] = ["robokassa", "btcpay", "bitcart", "x402", "manual"]
 
-/** The methods that exist only where the instance takes cryptocurrency (ask-20261005-070255-438f). */
-const CRYPTO_METHOD_KEYS: PaymentMethodKey[] = ["btcpay", "bitcart"]
+/**
+ * The methods that exist only where the instance takes cryptocurrency
+ * (ask-20261005-070255-438f; x402, t-2026-10-03-33).
+ */
+const CRYPTO_METHOD_KEYS: PaymentMethodKey[] = ["btcpay", "bitcart", "x402"]
 
 export const isManualConnected = (methods: TenantPaymentMethods): boolean =>
   methods.manualCrypto || methods.manualManager
@@ -31,14 +34,15 @@ export const isMethodConnected = (methods: TenantPaymentMethods, key: PaymentMet
   if (key === "btcpay") return Boolean(methods.btcpay)
   // Nor one older than its stage 2 a `bitcart`.
   if (key === "bitcart") return Boolean(methods.bitcart)
+  if (key === "x402") return Boolean(methods.x402)
   return methods.robokassa
 }
 
 /**
- * The rows «Что видит покупатель» lists. BTCPay and Bitcart are rows only
- * where the instance takes cryptocurrency (ask-20261005-070255-438f): on RU
- * they are not methods the owner could connect, so they are not listed as
- * «not connected» either.
+ * The rows «Что видит покупатель» lists. BTCPay, Bitcart and x402 are rows
+ * only where the instance takes cryptocurrency (ask-20261005-070255-438f;
+ * t-2026-10-03-33 for x402): on RU they are not methods the owner could
+ * connect, so they are not listed as «not connected» either.
  */
 export const visibleMethodKeys = ({ cryptoAvailable }: { cryptoAvailable: boolean }): PaymentMethodKey[] =>
   PAYMENT_METHOD_KEYS.filter((key) => !CRYPTO_METHOD_KEYS.includes(key) || cryptoAvailable)

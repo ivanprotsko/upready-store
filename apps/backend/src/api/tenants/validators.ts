@@ -7,6 +7,9 @@ import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
 import { ROBOKASSA_SNO_VALUES, ROBOKASSA_TAX_VALUES } from "../../tenant-secrets/robokassa";
 import { normalizeBtcpayServerUrl } from "../../tenant-secrets/btcpay";
 import { normalizeBitcartUrl } from "../../tenant-secrets/bitcart";
+import { normalizeX402FacilitatorUrl } from "../../tenant-secrets/x402";
+import { checkedEvmAddress } from "../../x402/eip55";
+import { x402NetworkById } from "../../x402/networks";
 import { LOCALE_CODES } from "./locale-settings/validators";
 import {
   BANK_NUMBER_PATTERN,
@@ -916,6 +919,45 @@ export const PutTenantBitcartSchema = z.strictObject({
   is_enabled: z.boolean().optional(),
 });
 export type PutTenantBitcartBody = z.infer<typeof PutTenantBitcartSchema>;
+
+/**
+ * `PUT /tenants/payment-settings/x402` (t-2026-10-03-33) — the shop's x402
+ * settings. Every field is optional, as for BTCPay: an absent one keeps the
+ * stored value, and the route decides on the merged result whether the
+ * switch may be on.
+ *
+ * `pay_to` comes out in its EIP-55 form, and a mixed-case address whose case
+ * contradicts its checksum is refused (`checkedEvmAddress`): a typo there
+ * sends the buyer's money to an address nobody holds. `networks` takes known
+ * CAIP-2 ids only; whether this instance offers each one is the route's call.
+ */
+export const PutTenantX402Schema = z.strictObject({
+  pay_to: z
+    .string()
+    .max(64)
+    .optional()
+    .refine((value) => value === undefined || !value.trim() || checkedEvmAddress(value) !== null, {
+      message:
+        "pay_to must be an EVM address, 0x and 40 hex digits; a mixed-case address must match its EIP-55 checksum, so copy it from your wallet.",
+    })
+    .transform((value) => (value && value.trim() ? (checkedEvmAddress(value) as string) : undefined)),
+  networks: z
+    .array(
+      z.string().refine((value) => x402NetworkById(value) !== null, {
+        message: "networks holds CAIP-2 ids x402 supports here: eip155:84532 (Base Sepolia) or eip155:8453 (Base).",
+      }),
+    )
+    .max(10)
+    .optional(),
+  facilitator_url: optionalBtcpayText(2048)
+    .refine((value) => value === undefined || normalizeX402FacilitatorUrl(value) !== null, {
+      message:
+        "facilitator_url must be an https:// address without a query or fragment (http:// only for localhost outside production).",
+    })
+    .transform((value) => (value === undefined ? undefined : (normalizeX402FacilitatorUrl(value) as string))),
+  is_enabled: z.boolean().optional(),
+});
+export type PutTenantX402Body = z.infer<typeof PutTenantX402Schema>;
 
 /**
  * `PUT /tenants/telegram-bot` (t-2026-10-02-telegram-auth) — the shop's own

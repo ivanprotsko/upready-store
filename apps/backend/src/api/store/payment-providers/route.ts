@@ -9,6 +9,7 @@ import { ROBOKASSA_PROVIDER_ID } from "../tenant/robokassa";
 import { TRIBUTE_PROVIDER_ID } from "../tenant/tribute";
 import { BTCPAY_PROVIDER_ID } from "../tenant/btcpay";
 import { BITCART_PROVIDER_ID } from "../tenant/bitcart";
+import { X402_PROVIDER_ID } from "../tenant/x402";
 import { tenantPaymentMethodsFor } from "../tenant/payment-methods";
 import { offersSystemDefault } from "../../../tenant-secrets/payment-methods";
 
@@ -27,7 +28,7 @@ const SYSTEM_DEFAULT_PROVIDER_ID = "pp_system_default";
  * mounted before the framework's own routes) and hides:
  *
  * - Robokassa, unless the shop has an enabled account; Tribute, BTCPay and
- *   Bitcart the same way;
+ *   Bitcart the same way, and x402 too;
  * - `pp_system_default`'s demo card, once the shop has connected a real
  *   method (Robokassa or a manual kind) and configured no manual kind of its
  *   own — a buyer never sees a "pay with anything" fallback next to a real
@@ -77,6 +78,8 @@ export const GET = async (
 
   const withBitcart = providers.some((provider) => provider.id === BITCART_PROVIDER_ID);
   const hideBitcart = withBitcart && !methods.bitcart;
+  const withX402 = providers.some((provider) => provider.id === X402_PROVIDER_ID);
+  const hideX402 = withX402 && !methods.x402;
 
   const withSystemDefault = providers.some((provider) => provider.id === SYSTEM_DEFAULT_PROVIDER_ID);
   const hideSystemDefault = withSystemDefault && !offersSystemDefault(methods);
@@ -86,6 +89,7 @@ export const GET = async (
     if (provider.id === TRIBUTE_PROVIDER_ID && hideTribute) return false;
     if (provider.id === BTCPAY_PROVIDER_ID && hideBtcpay) return false;
     if (provider.id === BITCART_PROVIDER_ID && hideBitcart) return false;
+    if (provider.id === X402_PROVIDER_ID && hideX402) return false;
     if (provider.id === SYSTEM_DEFAULT_PROVIDER_ID && hideSystemDefault) return false;
     return true;
   });
@@ -94,6 +98,7 @@ export const GET = async (
     (hideTribute ? 1 : 0) +
     (hideBtcpay ? 1 : 0) +
     (hideBitcart ? 1 : 0) +
+    (hideX402 ? 1 : 0) +
     (hideSystemDefault ? 1 : 0);
 
   res.json({

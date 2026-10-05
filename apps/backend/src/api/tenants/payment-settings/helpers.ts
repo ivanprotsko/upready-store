@@ -1,4 +1,4 @@
-import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
+import type { AuthenticatedMedusaRequest, MedusaRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { Logger } from "@medusajs/framework/types";
@@ -11,6 +11,7 @@ import {
 import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
 import { readBtcpaySecretPublic } from "../../../tenant-secrets/btcpay";
 import { readBitcartSecretPublic } from "../../../tenant-secrets/bitcart";
+import { readX402SecretPublic, x402Ready } from "../../../tenant-secrets/x402";
 import {
   manualPaymentMethods,
   resolveTenantPaymentMethods,
@@ -39,8 +40,11 @@ const LOCAL_HOST = /^(?:localhost|127\.0\.0\.1|\[::1\]|[a-z0-9-]+\.localhost)(?:
  * compose network. The owner was handed `http://…` for a field Robokassa refuses,
  * measured on the live panel 2026-09-15 (`artifacts/q02-qa-owner/report.md` §4).
  * A public host is therefore always `https`; only a local stand keeps `http`.
+ *
+ * Any request will do, not only the owner's: the x402 store routes
+ * (t-2026-10-03-33) name their own address in the payment requirements.
  */
-export const backendPublicOrigin = (req: AuthenticatedMedusaRequest): string => {
+export const backendPublicOrigin = (req: MedusaRequest): string => {
   const configured = process.env.BACKEND_PUBLIC_URL;
 
   if (configured) {
@@ -112,13 +116,15 @@ export const readOwnPaymentSettings = async (
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
-  const [{ secret, unreadable }, tributeSecret, btcpaySecret, bitcartSecret, tenantResult] = await Promise.all([
-    readOwnRobokassaSecret(req, tenant.id, pg, logger),
-    readTributeSecretPublic(pg, tenant.id, logger),
-    readBtcpaySecretPublic(pg, tenant.id, logger),
-    readBitcartSecretPublic(pg, tenant.id, logger),
-    query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
-  ]);
+  const [{ secret, unreadable }, tributeSecret, btcpaySecret, bitcartSecret, x402Secret, tenantResult] =
+    await Promise.all([
+      readOwnRobokassaSecret(req, tenant.id, pg, logger),
+      readTributeSecretPublic(pg, tenant.id, logger),
+      readBtcpaySecretPublic(pg, tenant.id, logger),
+      readBitcartSecretPublic(pg, tenant.id, logger),
+      readX402SecretPublic(pg, tenant.id, logger),
+      query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
+    ]);
   const metadata = (tenantResult.data[0]?.metadata ?? null) as Record<string, unknown> | null;
   const manualPayment = readManualPayment(metadata);
   return {
@@ -127,15 +133,17 @@ export const readOwnPaymentSettings = async (
     result_url: resultUrlFor(req),
     providers: [{ id: "robokassa", title: "Robokassa" }],
     // Tribute's own write side is `/tenants/tribute` (t-cherk-22), BTCPay's
-    // is `/tenants/payment-settings/btcpay` and Bitcart's
-    // `/tenants/payment-settings/bitcart`; all three are only read here, so
-    // the panel's unified "which methods are connected" status includes them
+    // is `/tenants/payment-settings/btcpay`, Bitcart's
+    // `/tenants/payment-settings/bitcart` and x402's
+    // `/tenants/payment-settings/x402`; all are only read here, so the
+    // panel's unified "which methods are connected" status includes them
     // without this route owning their credentials.
     methods: resolveTenantPaymentMethods({
       robokassaEnabled: Boolean(secret?.is_enabled),
       tributeEnabled: Boolean(tributeSecret),
       btcpayEnabled: Boolean(btcpaySecret),
       bitcartEnabled: Boolean(bitcartSecret),
+      x402Enabled: x402Ready(x402Secret),
       ...manualPaymentMethods(legacyManualPayment(manualPayment)),
     }),
   };

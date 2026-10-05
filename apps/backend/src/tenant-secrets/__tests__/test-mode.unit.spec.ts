@@ -13,6 +13,10 @@ describe("testModeOf", () => {
     expect(testModeOf(["robokassa"])).toEqual({ payments: true, delivery: false });
   });
 
+  it("x402 on a test network is a test payment (t-2026-10-03-33)", () => {
+    expect(testModeOf(["x402"])).toEqual({ payments: true, delivery: false });
+  });
+
   it("any of CDEK, ApiShip, Russian Post in test mode is a test delivery", () => {
     expect(testModeOf(["pochta"])).toEqual({ payments: false, delivery: true });
     expect(testModeOf(["cdek"])).toEqual({ payments: false, delivery: true });

@@ -1913,8 +1913,11 @@
       "provider": {
         "manual": "Manual payment",
         "robokassa": "Robokassa",
-        "unknown": "Unknown provider"
+        "unknown": "Unknown provider",
+        "x402": "x402 (USDC)"
       },
+      "x402Transaction": "Transaction",
+      "x402TestNetwork": "test network",
       "refund": "Refund",
       "refundAmount": "Refund {{ amount }}",
       "refundPaymentSuccess": "Refund of amount {{amount}} successful",
@@ -4337,6 +4340,7 @@
       "robokassa": "Robokassa",
       "btcpay": "Cryptocurrency (BTCPay Server)",
       "bitcart": "Cryptocurrency (Bitcart)",
+      "x402": "x402 (USDC)",
       "manual": "Transfer to requisites",
       "connected": "Connected",
       "notConnected": "Not connected",
@@ -4467,6 +4471,35 @@
       "url": "Enter an https:// address with nothing after ? or # (http:// only for localhost)",
       "storeId": "Latin letters, digits, «-» and «_» only, as Bitcart shows the store ID",
       "required": "Needed to switch cryptocurrency on",
+      "fixFields": "Check the highlighted fields"
+    }
+  },
+  "x402": {
+    "title": "x402 (USDC)",
+    "subtitle": "buyers and AI agents pay in USDC from their own wallet, and the money goes straight to your address",
+    "stateOn": "on",
+    "stateOff": "off",
+    "stateNone": "not set up",
+    "testBadge": "test network",
+    "intro": "With x402 a buyer or an AI agent pays in USDC from their own wallet, and the money goes straight to the address you enter below. USDC on a test network has no value.",
+    "fields": {
+      "is_enabled": "Accept USDC via x402",
+      "pay_to": "Your address for payments",
+      "networks": "Networks",
+      "facilitator_url": "Facilitator address"
+    },
+    "payToHint": "Copy the address from your wallet. A mistake sends the money to an address nobody controls.",
+    "networksHint": "Tick the networks you accept. Use a test network first to check that payments arrive.",
+    "facilitatorHint": "The public x402.org facilitator serves test networks only.",
+    "agentTitle": "Address for AI agents",
+    "agentHint": "An AI agent sends a POST request to this address with the shop's publishable key and gets a 402 answer with the x402 payment requirements.",
+    "save": "Save",
+    "saved": "x402 settings saved",
+    "errors": {
+      "payTo": "Enter an address of 0x and 40 hex digits",
+      "facilitatorUrl": "Enter an https:// address with nothing after ? or # (http:// only for localhost)",
+      "required": "Needed to switch x402 on",
+      "networks": "Tick at least one network to switch x402 on",
       "fixFields": "Check the highlighted fields"
     }
   },

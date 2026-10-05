@@ -7,6 +7,7 @@ import {
   isPaymentSessionReady,
   isRobokassa,
   isStripeLike,
+  isX402,
 } from "@lib/constants"
 import type { ManualPaymentKind } from "@lib/tenant/manual-payment"
 import { convertToLocale } from "@lib/util/money"
@@ -26,6 +27,7 @@ import BtcpayPaymentButton from "./providers/btcpay"
 import ManualPaymentButton from "./providers/manual"
 import RobokassaPaymentButton from "./providers/robokassa"
 import StripePaymentButton from "./providers/stripe"
+import X402PaymentButton from "./providers/x402"
 import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 
 type PaymentButtonProps = {
@@ -143,6 +145,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       return <BtcpayPaymentButton {...providerProps} />
     case isBitcart(activePaymentMethod):
       return <BitcartPaymentButton {...providerProps} />
+    case isX402(activePaymentMethod):
+      return <X402PaymentButton {...providerProps} />
     default:
       return (
         <Button disabled size="large" className="w-full">

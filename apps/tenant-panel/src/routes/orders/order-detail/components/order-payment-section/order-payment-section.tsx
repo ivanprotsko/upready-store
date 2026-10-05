@@ -38,6 +38,7 @@ import {
 import { getPaymentsFromOrder } from "../../../../../lib/orders"
 import { getTotalCaptured, getTotalPending } from "../../../../../lib/payment"
 import { getLoyaltyPlugin } from "../../../../../lib/plugins"
+import { readX402Payment, shortHash } from "../../../../../lib/x402-settings"
 import { ExtendedOrder, ExtendedRefund } from "../../constants"
 
 type OrderPaymentSectionProps = {
@@ -329,6 +330,12 @@ const Payment = ({
       ? readPaymentReceipt(order.metadata)
       : null
 
+  // t-2026-10-03-33: the on-chain transaction of an x402 (USDC) payment.
+  const x402Payment =
+    payment.provider_id === "pp_x402_x402"
+      ? readX402Payment(payment.data as Record<string, unknown> | null | undefined)
+      : null
+
   const totalRefunded = (payment.refunds ?? []).reduce(
     (acc, next) => next.amount + acc,
     0
@@ -411,6 +418,38 @@ const Payment = ({
           >
             {t("orders.payment.receiptOpen")}
           </a>
+        </div>
+      )}
+      {x402Payment && (
+        <div
+          className="flex items-center justify-between gap-x-4 px-6 py-4"
+          data-testid="order-payment-x402-transaction"
+        >
+          <Text size="small" leading="compact">
+            {t("orders.payment.x402Transaction")}
+            {x402Payment.network ? `, ${x402Payment.network}` : ""}
+          </Text>
+          <div className="flex shrink-0 items-center gap-x-2">
+            {x402Payment.testnet && (
+              <Badge size="2xsmall" color="orange">
+                {t("orders.payment.x402TestNetwork")}
+              </Badge>
+            )}
+            {x402Payment.explorerUrl ? (
+              <a
+                href={x402Payment.explorerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              >
+                {shortHash(x402Payment.transaction)}
+              </a>
+            ) : (
+              <Text size="small" leading="compact" weight="plus">
+                {shortHash(x402Payment.transaction)}
+              </Text>
+            )}
+          </div>
         </div>
       )}
       {showCapture && (

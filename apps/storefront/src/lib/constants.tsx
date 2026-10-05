@@ -6,8 +6,9 @@ import type { HttpTypes } from "@medusajs/types"
 import type React from "react"
 import { btcpayReturnUrl, isBtcpay } from "@lib/util/btcpay"
 import { bitcartReturnUrl, isBitcart } from "@lib/util/bitcart"
+import { isX402 } from "@lib/util/x402"
 
-export { isBtcpay, isBitcart }
+export { isBtcpay, isBitcart, isX402 }
 
 /* Map of payment provider_id to their icon and, as a fallback for a provider
    with no entry in the `PaymentMethods` catalog, an English title. Add in any
@@ -58,6 +59,12 @@ export const paymentInfoMap: Record<
   // processor name the checkout prints next to each.
   pp_bitcart_bitcart: {
     title: "Cryptocurrency",
+    icon: <CurrencyDollar />,
+  },
+  // USDC through the x402 protocol: the buyer signs the payment in a browser
+  // wallet and the backend settles it when the order is placed.
+  pp_x402_x402: {
+    title: "USDC (x402)",
     icon: <CurrencyDollar />,
   },
   // Add more payment providers here

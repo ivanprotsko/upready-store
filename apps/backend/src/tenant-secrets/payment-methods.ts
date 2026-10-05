@@ -34,6 +34,12 @@ export type TenantPaymentMethods = {
    * under the same instance switch as BTCPay.
    */
   bitcart: boolean;
+  /**
+   * x402, USDC signed in a wallet or by an AI agent (t-2026-10-03-33):
+   * switched on, complete, with a network this instance offers, and only on
+   * an instance that takes cryptocurrency at all.
+   */
+  x402: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
   demo: boolean;
@@ -64,24 +70,32 @@ export const resolveTenantPaymentMethods = (params: {
   btcpayEnabled: boolean;
   /** The shop's Bitcart store is saved and switched on. Absent reads as `false`. */
   bitcartEnabled?: boolean;
+  /**
+   * The shop's x402 row is ready (`x402Ready` in `tenant-secrets/x402.ts`).
+   * Optional so the many unit fixtures written before x402 stay as they are;
+   * every route that resolves methods passes it.
+   */
+  x402Enabled?: boolean;
   manualCrypto: boolean;
   manualManager: boolean;
   /**
    * Whether this instance takes cryptocurrency (`btcpay/availability.ts`).
    * Read from the environment unless given; a shop's saved BTCPay or Bitcart
-   * store counts for nothing where it is `false`, so neither the checkout's
-   * provider list nor `by-host` ever offer it there.
+   * store, or its x402 row, counts for nothing where it is `false`, so
+   * neither the checkout's provider list nor `by-host` ever offer them there.
    */
   cryptoAvailable?: boolean;
 }): TenantPaymentMethods => {
   const crypto = params.cryptoAvailable ?? cryptoPaymentsAvailable();
   const btcpay = params.btcpayEnabled && crypto;
   const bitcart = Boolean(params.bitcartEnabled) && crypto;
+  const x402 = Boolean(params.x402Enabled) && crypto;
   const hasRealMethod =
     params.robokassaEnabled ||
     params.tributeEnabled ||
     btcpay ||
     bitcart ||
+    x402 ||
     params.manualCrypto ||
     params.manualManager;
 
@@ -90,6 +104,7 @@ export const resolveTenantPaymentMethods = (params: {
     tribute: params.tributeEnabled,
     btcpay,
     bitcart,
+    x402,
     manualCrypto: params.manualCrypto,
     manualManager: params.manualManager,
     demo: !hasRealMethod,
