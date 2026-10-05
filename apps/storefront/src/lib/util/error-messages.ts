@@ -17,6 +17,10 @@ export const ERROR_MESSAGE_KEYS = [
   "pickupPointMissing",
   "itemUnavailable",
   "paymentNotReady",
+  "x402WalletMissing",
+  "x402WalletRejected",
+  "x402NetworkFailed",
+  "x402PaymentRefused",
 ] as const
 
 export type ErrorMessageKey = (typeof ERROR_MESSAGE_KEYS)[number]

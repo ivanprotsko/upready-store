@@ -7,6 +7,7 @@ import {
   buildPaymentSessionData,
   isBitcart,
   isBtcpay,
+  isX402,
   isManual,
   isPaymentSessionReady,
   isRobokassa,
@@ -590,7 +591,9 @@ export default function CheckoutPaymentSection({
                               ? "BTCPay Server"
                               : isBitcart(method.id)
                                 ? "Bitcart"
-                                : "",
+                                : isX402(method.id)
+                                  ? "x402"
+                                  : "",
                         icon: info?.icon || <CreditCard className="w-3 h-3" />,
                       },
                     ],
