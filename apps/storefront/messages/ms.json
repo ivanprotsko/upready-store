@@ -90,6 +90,7 @@
     "discount": "Diskaun",
     "shipping": "Penghantaran",
     "subtotal": "Jumlah kecil (tidak termasuk penghantaran dan cukai)",
+    "subtotalNothingToShip": "Jumlah kecil",
     "taxes": "Cukai",
     "total": "Jumlah",
     "shippingAtCheckout": "semasa pembayaran"

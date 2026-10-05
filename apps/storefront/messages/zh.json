@@ -90,6 +90,7 @@
     "discount": "折扣",
     "shipping": "运费",
     "subtotal": "小计（不含运费和税费）",
+    "subtotalNothingToShip": "小计",
     "taxes": "税费",
     "total": "总计",
     "shippingAtCheckout": "结账时计算"

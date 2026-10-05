@@ -90,6 +90,7 @@
     "discount": "İndirim",
     "shipping": "Kargo",
     "subtotal": "Ara toplam (kargo ve vergiler hariç)",
+    "subtotalNothingToShip": "Ara toplam",
     "taxes": "Vergiler",
     "total": "Toplam",
     "shippingAtCheckout": "ödeme adımında"

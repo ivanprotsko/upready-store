@@ -90,6 +90,7 @@
     "discount": "ছাড়",
     "shipping": "শিপিং",
     "subtotal": "সাবটোটাল (শিপিং ও কর ব্যতীত)",
+    "subtotalNothingToShip": "সাবটোটাল",
     "taxes": "কর",
     "total": "মোট",
     "shippingAtCheckout": "চেকআউটে"

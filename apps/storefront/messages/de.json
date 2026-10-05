@@ -90,6 +90,7 @@
     "discount": "Rabatt",
     "shipping": "Versand",
     "subtotal": "Zwischensumme (zzgl. Versand und MwSt.)",
+    "subtotalNothingToShip": "Zwischensumme",
     "taxes": "Steuern",
     "total": "Gesamt",
     "shippingAtCheckout": "an der Kasse"

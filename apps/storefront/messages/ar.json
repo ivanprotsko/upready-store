@@ -90,6 +90,7 @@
     "discount": "الخصم",
     "shipping": "الشحن",
     "subtotal": "المجموع الفرعي (غير شامل الشحن والضرائب)",
+    "subtotalNothingToShip": "المجموع الفرعي",
     "taxes": "الضرائب",
     "total": "الإجمالي",
     "shippingAtCheckout": "عند إتمام الطلب"

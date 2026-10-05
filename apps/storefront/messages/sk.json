@@ -90,6 +90,7 @@
     "discount": "Zľava",
     "shipping": "Doprava",
     "subtotal": "Medzisúčet (bez dopravy a daní)",
+    "subtotalNothingToShip": "Medzisúčet",
     "taxes": "Dane",
     "total": "Spolu",
     "shippingAtCheckout": "pri objednávke"

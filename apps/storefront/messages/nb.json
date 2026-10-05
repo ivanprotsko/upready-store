@@ -90,6 +90,7 @@
     "discount": "Rabatt",
     "shipping": "Frakt",
     "subtotal": "Delsum (eks. frakt og avgifter)",
+    "subtotalNothingToShip": "Delsum",
     "taxes": "Avgifter",
     "total": "Totalt",
     "shippingAtCheckout": "i kassen"

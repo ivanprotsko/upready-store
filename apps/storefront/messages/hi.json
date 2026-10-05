@@ -90,6 +90,7 @@
     "discount": "छूट",
     "shipping": "शिपिंग",
     "subtotal": "उप-कुल (शिपिंग और कर को छोड़कर)",
+    "subtotalNothingToShip": "उप-कुल",
     "taxes": "कर",
     "total": "कुल",
     "shippingAtCheckout": "चेकआउट पर"

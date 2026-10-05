@@ -90,6 +90,7 @@
     "discount": "Giảm giá",
     "shipping": "Phí vận chuyển",
     "subtotal": "Tạm tính (chưa gồm phí vận chuyển và thuế)",
+    "subtotalNothingToShip": "Tạm tính",
     "taxes": "Thuế",
     "total": "Tổng cộng",
     "shippingAtCheckout": "khi thanh toán"

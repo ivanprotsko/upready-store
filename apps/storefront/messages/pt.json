@@ -90,6 +90,7 @@
     "discount": "Desconto",
     "shipping": "Envio",
     "subtotal": "Subtotal (sem envio nem impostos)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Impostos",
     "total": "Total",
     "shippingAtCheckout": "ao finalizar o pedido"

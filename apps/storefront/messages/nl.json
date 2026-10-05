@@ -90,6 +90,7 @@
     "discount": "Korting",
     "shipping": "Verzending",
     "subtotal": "Subtotaal (excl. verzending en btw)",
+    "subtotalNothingToShip": "Subtotaal",
     "taxes": "Btw",
     "total": "Totaal",
     "shippingAtCheckout": "bij het afrekenen"

@@ -90,6 +90,7 @@
     "discount": "Отстъпка",
     "shipping": "Доставка",
     "subtotal": "Междинна сума (без доставка и данъци)",
+    "subtotalNothingToShip": "Междинна сума",
     "taxes": "Данъци",
     "total": "Общо",
     "shippingAtCheckout": "при поръчката"

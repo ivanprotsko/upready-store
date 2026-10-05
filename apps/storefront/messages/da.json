@@ -90,6 +90,7 @@
     "discount": "Rabat",
     "shipping": "Levering",
     "subtotal": "Subtotal (ekskl. levering og moms)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Moms",
     "total": "I alt",
     "shippingAtCheckout": "ved kassen"

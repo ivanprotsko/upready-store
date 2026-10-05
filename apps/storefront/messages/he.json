@@ -90,6 +90,7 @@
     "discount": "הנחה",
     "shipping": "משלוח",
     "subtotal": "סכום ביניים (לא כולל משלוח ומיסים)",
+    "subtotalNothingToShip": "סכום ביניים",
     "taxes": "מיסים",
     "total": "סה״כ",
     "shippingAtCheckout": "בקופה"

@@ -90,6 +90,7 @@
     "discount": "Diskwento",
     "shipping": "Paghahatid",
     "subtotal": "Subtotal (hindi kasama ang paghahatid at buwis)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Buwis",
     "total": "Kabuuan",
     "shippingAtCheckout": "sa checkout"

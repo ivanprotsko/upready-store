@@ -90,6 +90,7 @@
     "discount": "Discount",
     "shipping": "Shipping",
     "subtotal": "Subtotal (excl. shipping and taxes)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Taxes",
     "total": "Total",
     "shippingAtCheckout": "at checkout"

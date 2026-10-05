@@ -90,6 +90,7 @@
     "discount": "Sleva",
     "shipping": "Doprava",
     "subtotal": "Mezisoučet (bez dopravy a daní)",
+    "subtotalNothingToShip": "Mezisoučet",
     "taxes": "Daně",
     "total": "Celkem",
     "shippingAtCheckout": "v pokladně"

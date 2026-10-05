@@ -90,6 +90,7 @@
     "discount": "Reducere",
     "shipping": "Livrare",
     "subtotal": "Subtotal (fără livrare și taxe)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Taxe",
     "total": "Total",
     "shippingAtCheckout": "la finalizarea comenzii"

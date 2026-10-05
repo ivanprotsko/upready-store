@@ -90,6 +90,7 @@
     "discount": "Скидка",
     "shipping": "Доставка",
     "subtotal": "Промежуточный итог (без доставки и налогов)",
+    "subtotalNothingToShip": "Промежуточный итог",
     "taxes": "Налоги",
     "total": "Итого",
     "shippingAtCheckout": "при оформлении"

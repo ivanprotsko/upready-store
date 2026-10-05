@@ -90,6 +90,7 @@
     "discount": "Знижка",
     "shipping": "Доставка",
     "subtotal": "Проміжний підсумок (без доставки та податків)",
+    "subtotalNothingToShip": "Проміжний підсумок",
     "taxes": "Податки",
     "total": "Разом",
     "shippingAtCheckout": "під час оформлення"

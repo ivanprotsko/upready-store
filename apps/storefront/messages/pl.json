@@ -90,6 +90,7 @@
     "discount": "Rabat",
     "shipping": "Dostawa",
     "subtotal": "Suma częściowa (bez dostawy i podatków)",
+    "subtotalNothingToShip": "Suma częściowa",
     "taxes": "Podatki",
     "total": "Razem",
     "shippingAtCheckout": "przy składaniu zamówienia"

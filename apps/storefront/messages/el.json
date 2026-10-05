@@ -90,6 +90,7 @@
     "discount": "Έκπτωση",
     "shipping": "Αποστολή",
     "subtotal": "Μερικό σύνολο (χωρίς αποστολή και φόρους)",
+    "subtotalNothingToShip": "Μερικό σύνολο",
     "taxes": "Φόροι",
     "total": "Σύνολο",
     "shippingAtCheckout": "κατά την ολοκλήρωση"

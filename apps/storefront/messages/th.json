@@ -90,6 +90,7 @@
     "discount": "ส่วนลด",
     "shipping": "ค่าจัดส่ง",
     "subtotal": "ยอดรวมย่อย (ไม่รวมค่าจัดส่งและภาษี)",
+    "subtotalNothingToShip": "ยอดรวมย่อย",
     "taxes": "ภาษี",
     "total": "ยอดรวม",
     "shippingAtCheckout": "ตอนชำระเงิน"

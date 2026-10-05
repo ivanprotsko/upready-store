@@ -90,6 +90,7 @@
     "discount": "Rabatt",
     "shipping": "Frakt",
     "subtotal": "Delsumma (exkl. frakt och moms)",
+    "subtotalNothingToShip": "Delsumma",
     "taxes": "Moms",
     "total": "Totalt",
     "shippingAtCheckout": "i kassan"

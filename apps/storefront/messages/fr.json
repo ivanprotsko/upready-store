@@ -90,6 +90,7 @@
     "discount": "Remise",
     "shipping": "Livraison",
     "subtotal": "Sous-total (hors livraison et taxes)",
+    "subtotalNothingToShip": "Sous-total",
     "taxes": "Taxes",
     "total": "Total",
     "shippingAtCheckout": "lors de la commande"

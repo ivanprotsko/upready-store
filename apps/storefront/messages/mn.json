@@ -90,6 +90,7 @@
     "discount": "Хөнгөлөлт",
     "shipping": "Хүргэлт",
     "subtotal": "Дэд дүн (хүргэлт, татваргүй)",
+    "subtotalNothingToShip": "Дэд дүн",
     "taxes": "Татвар",
     "total": "Нийт",
     "shippingAtCheckout": "захиалга өгөхөд"
