@@ -9,7 +9,7 @@
  * migration needed.
  */
 
-export const PAYMENT_PRE_NOTICE_PROVIDER_KEYS = ["robokassa", "tribute", "manual", "card"] as const;
+export const PAYMENT_PRE_NOTICE_PROVIDER_KEYS = ["robokassa", "tribute", "btcpay", "manual", "card"] as const;
 export type PaymentPreNoticeProviderKey = (typeof PAYMENT_PRE_NOTICE_PROVIDER_KEYS)[number];
 
 export const PAYMENT_PRE_NOTICE_REDIRECT_KINDS = [
@@ -43,6 +43,9 @@ export const EMPTY_PRE_NOTICE_ENTRY: PaymentPreNoticeEntry = {
 export const EMPTY_PAYMENT_PRE_NOTICE: TenantPaymentPreNotice = {
   robokassa: { ...EMPTY_PRE_NOTICE_ENTRY },
   tribute: { ...EMPTY_PRE_NOTICE_ENTRY },
+  // ask-20261005-070255-438f: BTCPay takes the payment on the owner's own
+  // server, another domain, in a coin the buyer picks there.
+  btcpay: { ...EMPTY_PRE_NOTICE_ENTRY },
   manual: { ...EMPTY_PRE_NOTICE_ENTRY },
   card: { ...EMPTY_PRE_NOTICE_ENTRY },
 };

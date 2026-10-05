@@ -15,7 +15,7 @@ import { queryKeysFactory } from "../../lib/query-key-factory"
 // оплата, источник курса и условия возврата. `PUT` всегда называет один
 // `provider_key` и меняет только его поля.
 
-export const PAYMENT_PRE_NOTICE_PROVIDER_KEYS = ["robokassa", "tribute", "manual", "card"] as const
+export const PAYMENT_PRE_NOTICE_PROVIDER_KEYS = ["robokassa", "tribute", "btcpay", "manual", "card"] as const
 export type PaymentPreNoticeProviderKey = (typeof PAYMENT_PRE_NOTICE_PROVIDER_KEYS)[number]
 
 export const PAYMENT_PRE_NOTICE_REDIRECT_KINDS = [
