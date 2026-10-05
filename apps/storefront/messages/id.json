@@ -1238,6 +1238,9 @@
     "lost": "Hilang"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Jurnal kesehatan"
+    },
     "slider": {
       "course": "Kursus",
       "goTo": "Buka “{title}”",

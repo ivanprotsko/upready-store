@@ -1238,6 +1238,9 @@
     "lost": "Nawala"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Journal ng kalusugan"
+    },
     "slider": {
       "course": "Kurso",
       "goTo": "Pumunta sa “{title}”",

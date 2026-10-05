@@ -1238,6 +1238,9 @@
     "lost": "Thất lạc"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Tạp chí sức khỏe"
+    },
     "slider": {
       "course": "Khóa học",
       "goTo": "Đi tới “{title}”",

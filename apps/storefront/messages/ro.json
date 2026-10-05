@@ -1238,6 +1238,9 @@
     "lost": "Pierdut"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Jurnal de sănătate"
+    },
     "slider": {
       "course": "Curs",
       "goTo": "Mergi la „{title}”",

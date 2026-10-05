@@ -1238,6 +1238,9 @@
     "lost": "Smarrito"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Rivista della salute"
+    },
     "slider": {
       "course": "Corso",
       "goTo": "Vai a “{title}”",

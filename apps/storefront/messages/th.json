@@ -1238,6 +1238,9 @@
     "lost": "สูญหาย"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "บทความสุขภาพ"
+    },
     "slider": {
       "course": "คอร์ส",
       "goTo": "ไปที่ “{title}”",

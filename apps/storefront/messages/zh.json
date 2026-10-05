@@ -1238,6 +1238,9 @@
     "lost": "已丢失"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "健康专栏"
+    },
     "slider": {
       "course": "课程",
       "goTo": "前往「{title}」",

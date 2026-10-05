@@ -1238,6 +1238,9 @@
     "lost": "Elveszett"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Egészségmagazin"
+    },
     "slider": {
       "course": "Kurzus",
       "goTo": "Ugrás ide: „{title}”",

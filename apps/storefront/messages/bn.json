@@ -1238,6 +1238,9 @@
     "lost": "হারিয়ে গেছে"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "স্বাস্থ্য ম্যাগাজিন"
+    },
     "slider": {
       "course": "কোর্স",
       "goTo": "“{title}”-এ যান",

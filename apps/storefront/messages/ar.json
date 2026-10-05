@@ -1238,6 +1238,9 @@
     "lost": "مفقود"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "مجلة الصحة"
+    },
     "slider": {
       "course": "دورة",
       "goTo": "الانتقال إلى «{title}»",

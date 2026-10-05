@@ -1238,6 +1238,9 @@
     "lost": "Kayboldu"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Sağlık dergisi"
+    },
     "slider": {
       "course": "Kurs",
       "goTo": "“{title}” öğesine git",

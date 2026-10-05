@@ -1238,6 +1238,9 @@
     "lost": "Втрачено"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Журнал здоров’я"
+    },
     "slider": {
       "course": "Курс",
       "goTo": "Перейти до «{title}»",

@@ -1238,6 +1238,9 @@
     "lost": "Pamesta"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Sveikatos žurnalas"
+    },
     "slider": {
       "course": "Kursas",
       "goTo": "Eiti į „{title}“",

@@ -1238,6 +1238,9 @@
     "lost": "Kadonnut"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Terveyslehti"
+    },
     "slider": {
       "course": "Kurssi",
       "goTo": "Siirry kohteeseen “{title}”",

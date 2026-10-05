@@ -1238,6 +1238,9 @@
     "lost": "Stratená"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Magazín o zdraví"
+    },
     "slider": {
       "course": "Kurz",
       "goTo": "Prejsť na „{title}“",

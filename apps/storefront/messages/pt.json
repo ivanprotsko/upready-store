@@ -1238,6 +1238,9 @@
     "lost": "Extraviado"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Revista de saúde"
+    },
     "slider": {
       "course": "Curso",
       "goTo": "Ir para “{title}”",

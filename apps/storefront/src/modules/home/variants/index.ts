@@ -17,6 +17,7 @@ import HeroGA from "./hero-ga"
 import HeroGB from "./hero-gb"
 import OlavkaCover from "./olavka-cover"
 import OlavkaHeroSlider from "./olavka-hero-slider"
+import OlavkaJournalRail from "./olavka-journal-rail"
 import OlavkaNavigation from "./olavka-navigation"
 
 /**
@@ -142,3 +143,17 @@ export type OlavkaHomeBlockKey = keyof typeof OLAVKA_HOME_BLOCKS
  * components stay registered above, only this order names them no more.
  */
 export const OLAVKA_HOME_ORDER: readonly OlavkaHomeBlockKey[] = ["olavkaHeroSlider"]
+
+/**
+ * The Olavka blocks rendered BELOW the tenant's own composed blocks (ask d11e): «Журнал
+ * здоровья», the rail of the shop's journal articles the old Cherkashina shop closed its
+ * home page with (Ivan's frame of 2026-09-25). Zero-prop server components that fetch
+ * their own data, like the rest of this file; the rail renders nothing while the shop has
+ * no published article. Not a key of the tenant document either, for the reason
+ * `OLAVKA_HOME_BLOCKS` gives.
+ */
+export const OLAVKA_HOME_BLOCKS_AFTER = {
+  olavkaJournalRail: OlavkaJournalRail,
+} as const
+export type OlavkaHomeBlockAfterKey = keyof typeof OLAVKA_HOME_BLOCKS_AFTER
+export const OLAVKA_HOME_ORDER_AFTER: readonly OlavkaHomeBlockAfterKey[] = ["olavkaJournalRail"]

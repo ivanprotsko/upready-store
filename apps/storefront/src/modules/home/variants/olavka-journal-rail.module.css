@@ -1,0 +1,69 @@
+/*
+ * «Журнал здоровья» · Olavka home (ask d11e), after the block of the old Cherkashina shop
+ * (Ivan's frame of 2026-09-25): a heading with two round arrows, then a rail of article
+ * cards. Two cards in a row on a phone and a tablet, three from 1024, four from 1280, gap
+ * 16; the neighbours run past the content's own lines to the window edges.
+ *
+ * The track is native scroll-snap, so a swipe and a wheel come for free. Colours are the
+ * theme's tokens, in the components' classes; this file holds only the geometry.
+ */
+
+.rail {
+  /* The whole window wide, so the neighbours peek at both edges. The cards keep the page's
+     one container (`content-container`: 1440, 16px sides, 24 from 1024) through the three
+     values below, read in the rail's own container units by the track and its cards. */
+  container-type: inline-size;
+  --pad: 16px;
+  --content: min(100cqi, 1440px);
+  --side: calc((100cqi - var(--content)) / 2 + var(--pad));
+  --gap: 16px;
+  --n: 2;
+}
+
+@media (min-width: 1024px) {
+  .rail {
+    --pad: 24px;
+    --n: 3;
+  }
+}
+
+@media (min-width: 1280px) {
+  .rail {
+    --n: 4;
+  }
+}
+
+/* The island measures its cards with `offsetLeft`: the track is their offset parent. The
+   8px above (taken back by the margin) leaves room for a card's focus ring, which the
+   track's own overflow would cut. */
+.track {
+  position: relative;
+  display: flex;
+  gap: var(--gap);
+  margin: -8px 0 0;
+  padding: 8px var(--side) 12px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--side);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  display: flex;
+  flex: 0 0 auto;
+  width: calc((var(--content) - 2 * var(--pad) - (var(--n) - 1) * var(--gap)) / var(--n));
+  scroll-snap-align: start;
+}
+
+/* Until the island takes over, the loop's clones are not laid out: the first paint, and a
+   browser without scripts, show the real cards from the content's own line. */
+.track:not([data-loop-ready]) > [data-copy]:not([data-copy="real"]) {
+  display: none;
+}

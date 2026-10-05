@@ -1238,6 +1238,9 @@
     "lost": "紛失"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "健康の読みもの"
+    },
     "slider": {
       "course": "コース",
       "goTo": "「{title}」に移動",

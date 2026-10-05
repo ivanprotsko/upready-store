@@ -1238,6 +1238,9 @@
     "lost": "Алга болсон"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Эрүүл мэндийн сэтгүүл"
+    },
     "slider": {
       "course": "Курс",
       "goTo": "«{title}» руу очих",

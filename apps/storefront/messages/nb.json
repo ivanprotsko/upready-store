@@ -1238,6 +1238,9 @@
     "lost": "Forsvunnet"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "Helsemagasin"
+    },
     "slider": {
       "course": "Kurs",
       "goTo": "Gå til «{title}»",

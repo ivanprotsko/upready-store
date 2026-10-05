@@ -1238,6 +1238,9 @@
     "lost": "אבד"
   },
   "OlavkaHome": {
+    "journal": {
+      "title": "מגזין הבריאות"
+    },
     "slider": {
       "course": "קורס",
       "goTo": "עבור אל ”{title}”",
