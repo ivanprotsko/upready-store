@@ -1,5 +1,5 @@
-import type { MedusaRequest } from "@medusajs/framework/http";
-import { resolveTenantFromPublishableKeyHeader } from "../resolve-tenant";
+import type { MedusaRequest, MedusaStoreRequest } from "@medusajs/framework/http";
+import { listGroupTenantIds, resolveTenantFromPublishableKeyHeader } from "../resolve-tenant";
 
 /**
  * t-2026-10-02-shop-aware-account-emails: `/auth/customer/*` sits outside the
@@ -83,5 +83,47 @@ describe("resolveTenantFromPublishableKeyHeader", () => {
     });
 
     await expect(resolveTenantFromPublishableKeyHeader(req)).resolves.toEqual({ id: "ten_1", metadata: null });
+  });
+});
+
+/**
+ * pass 3b N13: the tenants a storefront reads shared catalogue records for.
+ * The route-level cases live in `product-categories/__tests__/route.unit.spec.ts`.
+ */
+describe("listGroupTenantIds", () => {
+  type Row = { id: string; group?: { id: string } | null; metadata?: Record<string, unknown> | null };
+
+  const buildStoreRequest = (tenants: Row[]) => {
+    const graph = jest.fn(async ({ filters }: { entity: string; filters: { id?: string[]; group_id?: string[] } }) => ({
+      data: tenants.filter((tenant) =>
+        filters.id ? filters.id.includes(tenant.id) : (filters.group_id ?? []).includes(tenant.group?.id ?? ""),
+      ),
+    }));
+
+    return { req: { scope: { resolve: () => ({ graph }) } } as unknown as MedusaStoreRequest, graph };
+  };
+
+  it("is the tenant alone, in one read, when it belongs to no group", async () => {
+    const { req, graph } = buildStoreRequest([{ id: "ten_1", group: null }, { id: "ten_2", group: { id: "tgrp_1" } }]);
+
+    await expect(listGroupTenantIds(req, "ten_1")).resolves.toEqual(["ten_1"]);
+    expect(graph).toHaveBeenCalledTimes(1);
+  });
+
+  it("puts the tenant first, then the live sites of its group", async () => {
+    const { req } = buildStoreRequest([
+      { id: "ten_owner", group: { id: "tgrp_1" } },
+      { id: "ten_closed", group: { id: "tgrp_1" }, metadata: { archived_at: "2026-10-01T00:00:00.000Z" } },
+      { id: "ten_sister", group: { id: "tgrp_1" } },
+      { id: "ten_elsewhere", group: { id: "tgrp_2" } },
+    ]);
+
+    await expect(listGroupTenantIds(req, "ten_sister")).resolves.toEqual(["ten_sister", "ten_owner"]);
+  });
+
+  it("is the tenant alone when its own row cannot be read", async () => {
+    const { req } = buildStoreRequest([]);
+
+    await expect(listGroupTenantIds(req, "ten_gone")).resolves.toEqual(["ten_gone"]);
   });
 });
