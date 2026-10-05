@@ -1,5 +1,5 @@
 import type { BitcartSettings, PutBitcartBody } from "../hooks/api/bitcart"
-import { isValidBtcpayServerUrl, isValidBtcpayStoreId } from "./btcpay-settings"
+import { isValidBtcpayServerUrl, isValidBtcpayStoreId } from "./btcpay-settings.ts"
 
 /**
  * The Bitcart card's form logic (ask-20261005-070255-438f, stage 2), plain TS
