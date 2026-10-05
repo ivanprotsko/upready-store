@@ -30,6 +30,7 @@ import {
   PaymentSessionStatus,
 } from "@medusajs/framework/utils";
 import { amountToNumber, toBtcpayAmount } from "../../btcpay/amount";
+import { cryptoPaymentsAvailable, CRYPTO_PAYMENTS_UNAVAILABLE_REASON } from "../../btcpay/availability";
 import {
   btcpayConnectionOf,
   createBtcpayInvoice,
@@ -77,6 +78,10 @@ const LANGUAGE = /^[a-z]{2,3}(?:-[A-Za-z]{2,4})?$/;
  *
  * Money never passes through the platform: the invoice pays into the owner's
  * own wallet, and a refund is a pull payment the owner funds from it.
+ *
+ * On an instance that takes no cryptocurrency (`btcpay/availability.ts`) no
+ * invoice is created and no unconfirmed session is authorized. A refund still
+ * goes through: it gives money back, it takes none.
  */
 export default class BtcpayPaymentProviderService extends AbstractPaymentProvider<Record<string, never>> {
   static identifier = "btcpay";
@@ -139,6 +144,9 @@ export default class BtcpayPaymentProviderService extends AbstractPaymentProvide
   }
 
   async initiatePayment(input: InitiatePaymentInput): Promise<InitiatePaymentOutput> {
+    if (!cryptoPaymentsAvailable()) {
+      throw new MedusaError(MedusaError.Types.NOT_ALLOWED, CRYPTO_PAYMENTS_UNAVAILABLE_REASON);
+    }
     const data = (input.data ?? {}) as Record<string, unknown>;
     const currencyCode = String(input.currency_code ?? "").toLowerCase();
     if (!/^[a-z]{3}$/.test(currencyCode)) {
@@ -213,6 +221,9 @@ export default class BtcpayPaymentProviderService extends AbstractPaymentProvide
     const data = (raw ?? {}) as BtcpaySessionData;
     if (data.confirmed_at) {
       return { status: PaymentSessionStatus.CAPTURED, data };
+    }
+    if (!cryptoPaymentsAvailable()) {
+      throw new MedusaError(MedusaError.Types.NOT_ALLOWED, CRYPTO_PAYMENTS_UNAVAILABLE_REASON);
     }
     if (!data.invoice_id) {
       throw new MedusaError(MedusaError.Types.UNEXPECTED_STATE, "BTCPay session has no invoice.");

@@ -78,7 +78,16 @@ const buildContainer = (rows: unknown[]) => {
   return { container: { resolve: (key: string) => services[key] } as never, calls, logger };
 };
 
+const FLAG = "PAYMENTS_CRYPTO_AVAILABLE";
+const previousFlag = process.env[FLAG];
+
+afterAll(() => {
+  if (previousFlag === undefined) delete process.env[FLAG];
+  else process.env[FLAG] = previousFlag;
+});
+
 beforeEach(() => {
+  process.env[FLAG] = "true";
   mockReadSecret.mockReset();
   mockGetInvoice.mockReset();
   mockSettle.mockReset();
@@ -92,6 +101,17 @@ beforeEach(() => {
 describe("btcpay-invoice-sweep", () => {
   it("runs every minute under a unique name", () => {
     expect(config).toEqual({ name: "btcpay-invoice-sweep", schedule: "* * * * *" });
+  });
+
+  it("returns before its first query on an instance without cryptocurrency", async () => {
+    const { container, calls } = buildContainer([rowFor("ps_1", "ten_a", "inv_1")]);
+    delete process.env[FLAG];
+
+    const summary = await sweepBtcpayInvoices(container);
+
+    expect(summary).toEqual({ checked: 0, changed: 0, failed: 0 });
+    expect(calls).toHaveLength(0);
+    expect(mockGetInvoice).not.toHaveBeenCalled();
   });
 
   it("asks only for BTCPay sessions that are not paid, newest first, in a bounded batch", async () => {

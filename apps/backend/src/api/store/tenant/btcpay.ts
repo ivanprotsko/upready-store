@@ -1,6 +1,7 @@
 import type { MedusaNextFunction, MedusaResponse, MedusaStoreRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
+import { cryptoPaymentsAvailable } from "../../../btcpay/availability";
 import { BTCPAY_PROVIDER_ID } from "../../../btcpay/session";
 import { readBtcpaySecretPublic } from "../../../tenant-secrets/btcpay";
 import { tenantOrNull } from "./robokassa";
@@ -20,7 +21,8 @@ const CLIENT_KEYS = ["return_url", "locale"] as const;
  * (ask-20261005-070255-438f), the counterpart of `injectTributeTenant`: the
  * shop is the SERVER's word, taken from the publishable key and checked
  * against the cart's own sales channel. A shop without an enabled BTCPay store
- * gets 404, the same answer as "provider does not exist".
+ * gets 404, the same answer as "provider does not exist", and so does every
+ * shop on an instance that takes no cryptocurrency (`btcpay/availability.ts`).
  *
  * Unlike Tribute's, this one whitelists the client's keys instead of removing
  * the server's: the provider rebuilds its data from scratch anyway
@@ -36,7 +38,7 @@ export const injectBtcpayTenant = async (
     return next();
   }
 
-  const tenant = await tenantOrNull(req);
+  const tenant = cryptoPaymentsAvailable() ? await tenantOrNull(req) : null;
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const secret = tenant
     ? await readBtcpaySecretPublic(pg, tenant.id, req.scope.resolve(ContainerRegistrationKeys.LOGGER))

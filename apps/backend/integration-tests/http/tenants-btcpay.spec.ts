@@ -31,8 +31,15 @@ jest.setTimeout(240_000);
  * minute during this suite too, so an assertion about who settled an invoice
  * accepts either the webhook or the sweep; the number of orders it never
  * relaxes.
+ *
+ * BTCPay exists only where `PAYMENTS_CRYPTO_AVAILABLE` is exactly `true`
+ * (`src/btcpay/availability.ts`). The suite runs with it on, and the last
+ * block turns it off around its own requests (the flag is read per request)
+ * to show what the RU instance, which never sets it, answers.
  */
 process.env.INTEGRATION_ENCRYPTION_KEY ||= "seam-test-encryption-key";
+const previousCryptoFlag = process.env.PAYMENTS_CRYPTO_AVAILABLE;
+process.env.PAYMENTS_CRYPTO_AVAILABLE = "true";
 process.env.STORE_MEDIA_BASE_URL ||= "https://media.example.test/static/store-media";
 
 type Registered = {
@@ -110,6 +117,8 @@ medusaIntegrationTestRunner({
 
       afterAll(async () => {
         await btcpay?.close();
+        if (previousCryptoFlag === undefined) delete process.env.PAYMENTS_CRYPTO_AVAILABLE;
+        else process.env.PAYMENTS_CRYPTO_AVAILABLE = previousCryptoFlag;
       });
 
       it("returns the saved store masked, with the webhook URL to paste into BTCPay", async () => {
@@ -127,6 +136,7 @@ medusaIntegrationTestRunner({
             webhook_secret: { set: true, last4: WEBHOOK_SECRET.slice(-4) },
           },
           unreadable: null,
+          available: true,
         });
         expect(read.data.webhook_url).toMatch(new RegExp(`/btcpay/webhook/${a.tenant.id}$`));
         const serialized = JSON.stringify(read.data);
@@ -373,6 +383,84 @@ medusaIntegrationTestRunner({
             .listPaymentSessions({ id: session.id }, { select: ["id", "status", "data"] });
           expect(stored.status).toBe("canceled");
           expect(stored.data).toMatchObject({ invoice_status: "Expired" });
+        });
+      });
+
+      describe("on an instance without cryptocurrency (PAYMENTS_CRYPTO_AVAILABLE not true)", () => {
+        const withFlagOff = async <T>(fn: () => Promise<T>): Promise<T> => {
+          process.env.PAYMENTS_CRYPTO_AVAILABLE = "false";
+          try {
+            return await fn();
+          } finally {
+            process.env.PAYMENTS_CRYPTO_AVAILABLE = "true";
+          }
+        };
+
+        it("says available:false, refuses a save with 403 and writes nothing", async () => {
+          await withFlagOff(async () => {
+            const read = await api.get("/tenants/payment-settings/btcpay", bearer(a.token));
+            expect(read.status).toBe(200);
+            expect(read.data.available).toBe(false);
+
+            const saved = await failed(
+              api.put("/tenants/payment-settings/btcpay", { api_key: "written-anyway-0000" }, bearer(a.token)),
+            );
+            expect(saved.status).toBe(403);
+            expect(saved.data.message).toMatch(/PAYMENTS_CRYPTO_AVAILABLE/);
+
+            const fresh = await failed(
+              api.put(
+                "/tenants/payment-settings/btcpay",
+                { server_url: "https://pay.fiatonly.test", store_id: "Store9" },
+                bearer(b.token),
+              ),
+            );
+            expect(fresh.status).toBe(403);
+          });
+
+          const pg = getContainer().resolve(ContainerRegistrationKeys.PG_CONNECTION);
+          expect(await pg("tenant_integration_secret").where({ tenant_id: b.tenant.id, provider: "btcpay" })).toHaveLength(0);
+          const after = await api.get("/tenants/payment-settings/btcpay", bearer(a.token));
+          expect(after.data.settings.api_key.last4).toBe(API_KEY.slice(-4));
+        });
+
+        it("offers no BTCPay at checkout, opens no session, and ignores the webhook", async () => {
+          const { collection, headers } = await (async () => {
+            const keyed = withKey(a.tenant.api_key.token);
+            const products = await api.get(`/store/products?region_id=${regionId}&limit=1&fields=id,*variants`, keyed);
+            const variant = products.data.products[0]?.variants?.[0];
+            const items = variant ? [{ variant_id: variant.id, quantity: 1 }] : [];
+            const cart = (await api.post("/store/carts", { region_id: regionId, items }, keyed)).data.cart;
+            const created = (await api.post("/store/payment-collections", { cart_id: cart.id }, keyed)).data
+              .payment_collection;
+            return { collection: created, headers: keyed };
+          })();
+
+          await withFlagOff(async () => {
+            const providers = await api.get(`/store/payment-providers?region_id=${regionId}`, headers);
+            expect(providers.data.payment_providers.map((p: { id: string }) => p.id)).toEqual(["pp_system_default"]);
+
+            const session = await failed(
+              api.post(`/store/payment-collections/${collection.id}/payment-sessions`, { provider_id: PROVIDER }, headers),
+            );
+            expect(session.status).toBe(404);
+
+            const raw = JSON.stringify({ type: "InvoiceSettled", storeId: STORE_ID, invoiceId: "inv_1", deliveryId: "d_off" });
+            const signature = `sha256=${createHmac("sha256", WEBHOOK_SECRET).update(raw).digest("hex")}`;
+            const delivered = await api.post(`/btcpay/webhook/${a.tenant.id}`, raw, {
+              headers: { "content-type": "application/json", "btcpay-sig": signature },
+            });
+            expect(delivered.status).toBe(200);
+            expect(delivered.data).toEqual({ status: "ignored", reason: "unavailable" });
+          });
+        });
+
+        it("still lets the owner remove a saved store", async () => {
+          await withFlagOff(async () => {
+            const removed = await api.delete("/tenants/payment-settings/btcpay", bearer(a.token));
+            expect(removed.status).toBe(200);
+            expect(removed.data).toMatchObject({ deleted: true, settings: null, available: false });
+          });
         });
       });
     });

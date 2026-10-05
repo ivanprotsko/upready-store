@@ -2,6 +2,7 @@ import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Logger } from "@medusajs/framework/types";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
+import { cryptoPaymentsAvailable } from "../../../../btcpay/availability";
 import { btcpayConnectionOf, getBtcpayInvoice } from "../../../../btcpay/client";
 import { BTCPAY_PROVIDER_ID } from "../../../../btcpay/session";
 import { BTCPAY_SESSION_COLUMNS, settleBtcpaySession, type BtcpaySessionRow } from "../../../../btcpay/settle";
@@ -28,7 +29,9 @@ import { readBtcpaySecretPublic, verifyBtcpaySignature } from "../../../../tenan
  *   included (idempotent, see `settleBtcpaySession`);
  * - 200 `ignored` for an event this shop has nothing to do with: a non-invoice
  *   event, another store's, or an invoice no payment session of this shop
- *   issued (BTCPay's own Point of Sale on the same store, say);
+ *   issued (BTCPay's own Point of Sale on the same store, say); and for every
+ *   delivery on an instance that takes no cryptocurrency
+ *   (`btcpay/availability.ts`), before anything is read;
  * - 401 for a missing or wrong signature, 404 for a shop with no BTCPay store
  *   saved, 400 for a body that is not BTCPay's;
  * - 502 when the shop's server could not be read, 500 when the order could not
@@ -66,6 +69,9 @@ const ignore = (res: MedusaResponse, logger: Logger, reason: string, detail: str
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
   const tenantId = String(req.params.tenant ?? "");
+  if (!cryptoPaymentsAvailable()) {
+    return ignore(res, logger, "unavailable", `delivery for tenant ${tenantId || "-"}`);
+  }
   if (!tenantId) {
     return reject(res, logger, 400, "missing_tenant", "");
   }

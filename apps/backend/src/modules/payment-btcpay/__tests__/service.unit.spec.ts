@@ -61,9 +61,18 @@ const initiate = (service: TestService, overrides: Record<string, unknown> = {})
     context: {},
   } as never);
 
+const FLAG = "PAYMENTS_CRYPTO_AVAILABLE";
+const previousFlag = process.env[FLAG];
+
 beforeEach(() => {
   mockReadSecret.mockReset();
   mockReadSecret.mockResolvedValue(SECRET);
+  process.env[FLAG] = "true";
+});
+
+afterAll(() => {
+  if (previousFlag === undefined) delete process.env[FLAG];
+  else process.env[FLAG] = previousFlag;
 });
 
 describe("initiatePayment", () => {
@@ -247,6 +256,40 @@ describe("refundPayment", () => {
     await expect(service.refundPayment({ amount: 10, data } as never)).rejects.toMatchObject({
       type: MedusaError.Types.NOT_ALLOWED,
     });
+  });
+});
+
+describe("on an instance without cryptocurrency (PAYMENTS_CRYPTO_AVAILABLE not true)", () => {
+  it("creates no invoice", async () => {
+    const { service } = buildService();
+    delete process.env[FLAG];
+
+    await expect(initiate(service)).rejects.toMatchObject({ type: MedusaError.Types.NOT_ALLOWED });
+    expect(service.server.calls).toHaveLength(0);
+    expect(mockReadSecret).not.toHaveBeenCalled();
+  });
+
+  it("authorizes no unconfirmed session, and answers the stored status from getPaymentStatus", async () => {
+    const { service } = buildService();
+    const { data } = await initiate(service);
+    service.server.setStatus("inv_1", "Settled");
+    process.env[FLAG] = "false";
+
+    await expect(service.authorizePayment({ data } as never)).rejects.toMatchObject({
+      type: MedusaError.Types.NOT_ALLOWED,
+    });
+    expect((await service.getPaymentStatus({ data } as never)).status).toBe(PaymentSessionStatus.PENDING);
+    expect(service.server.calls).toHaveLength(1);
+  });
+
+  it("still refunds: giving money back takes none", async () => {
+    const { service } = buildService();
+    const { data } = await initiate(service);
+    delete process.env[FLAG];
+
+    await service.refundPayment({ amount: 5, data: { ...data, confirmed_at: "2026-10-05T12:00:00.000Z" } } as never);
+
+    expect(service.server.calls[1]).toMatchObject({ method: "POST", path: "/api/v1/invoices/inv_1/refund" });
   });
 });
 

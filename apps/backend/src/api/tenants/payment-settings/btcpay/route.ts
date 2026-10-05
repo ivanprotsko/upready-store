@@ -3,6 +3,10 @@ import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/util
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { Logger } from "@medusajs/framework/types";
 
+import {
+  cryptoPaymentsAvailable,
+  CRYPTO_PAYMENTS_UNAVAILABLE_REASON,
+} from "../../../../btcpay/availability";
 import { TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
 import { writeTenantSecretSlot } from "../../../../tenant-secrets/slot";
@@ -34,6 +38,12 @@ import { backendPublicOrigin } from "../helpers";
  * A new row is saved switched OFF. The owner turns it on explicitly, and only
  * once all four values are known; a stored value absent from the body is kept.
  * The key is not tried against the server on save: the first invoice proves it.
+ *
+ * `available` says whether this instance takes cryptocurrency at all
+ * (`btcpay/availability.ts`). Where it does not, the panel hides the card and
+ * `PUT` answers 403 without writing anything, so a RU shop can never hold a
+ * BTCPay row that `instance-check.mjs --db` would then fail the deploy on.
+ * `DELETE` still works, so a row saved before the switch can be removed.
  */
 
 const PROVIDER = "btcpay" as const;
@@ -58,6 +68,7 @@ const view = async (req: AuthenticatedMedusaRequest, tenantId: string) => {
   return {
     provider: PROVIDER,
     label: "BTCPay Server",
+    available: cryptoPaymentsAvailable(),
     settings: secret ? maskBtcpaySettings(secret) : null,
     unreadable,
     webhook_url: webhookUrlFor(req, tenantId),
@@ -70,6 +81,9 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 };
 
 export const PUT = async (req: AuthenticatedMedusaRequest<PutTenantBtcpayBody>, res: MedusaResponse) => {
+  if (!cryptoPaymentsAvailable()) {
+    throw new MedusaError(MedusaError.Types.FORBIDDEN, CRYPTO_PAYMENTS_UNAVAILABLE_REASON);
+  }
   const body = req.validatedBody;
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);

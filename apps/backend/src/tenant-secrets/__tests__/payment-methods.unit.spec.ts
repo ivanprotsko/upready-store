@@ -77,6 +77,7 @@ describe("resolveTenantPaymentMethods", () => {
       btcpayEnabled: true,
       manualCrypto: false,
       manualManager: false,
+      cryptoAvailable: true,
     });
 
     expect(methods).toEqual({
@@ -88,6 +89,29 @@ describe("resolveTenantPaymentMethods", () => {
       demo: false,
     });
     expect(offersSystemDefault(methods)).toBe(false);
+  });
+
+  it("a saved BTCPay store counts for nothing on an instance without cryptocurrency", () => {
+    const params = {
+      robokassaEnabled: false,
+      tributeEnabled: false,
+      btcpayEnabled: true,
+      manualCrypto: false,
+      manualManager: false,
+    };
+
+    const off = resolveTenantPaymentMethods({ ...params, cryptoAvailable: false });
+    expect(off.btcpay).toBe(false);
+    expect(off.demo).toBe(true);
+
+    // Unset `PAYMENTS_CRYPTO_AVAILABLE` (the RU instance) reads as off too.
+    const previous = process.env.PAYMENTS_CRYPTO_AVAILABLE;
+    delete process.env.PAYMENTS_CRYPTO_AVAILABLE;
+    try {
+      expect(resolveTenantPaymentMethods(params).btcpay).toBe(false);
+    } finally {
+      if (previous !== undefined) process.env.PAYMENTS_CRYPTO_AVAILABLE = previous;
+    }
   });
 
   it("Robokassa and Tribute both connected: both read true, demo stays hidden", () => {

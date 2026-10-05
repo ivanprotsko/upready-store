@@ -127,12 +127,34 @@ const callWebhook = async (options: {
   return { ...answer, updates: payment.updatePaymentSession.mock.calls.map((call) => call[0]), logger };
 };
 
+const FLAG = "PAYMENTS_CRYPTO_AVAILABLE";
+const previousFlag = process.env[FLAG];
+
 beforeEach(() => {
   workflowRun.mockReset();
   workflowRun.mockImplementation(async () => ({ result: {} }));
   readBtcpaySecretPublic.mockReset();
   getBtcpayInvoice.mockReset();
   getBtcpayInvoice.mockResolvedValue(invoice({ status: "Settled" }));
+  process.env[FLAG] = "true";
+});
+
+afterAll(() => {
+  if (previousFlag === undefined) delete process.env[FLAG];
+  else process.env[FLAG] = previousFlag;
+});
+
+describe("BTCPay webhook on an instance without cryptocurrency", () => {
+  it("answers 200 ignored/unavailable and reads nothing, even for a well-signed Settled invoice", async () => {
+    delete process.env[FLAG];
+
+    const result = await callWebhook({});
+
+    expect(result).toMatchObject({ status: 200, body: { status: "ignored", reason: "unavailable" } });
+    expect(readBtcpaySecretPublic).not.toHaveBeenCalled();
+    expect(getBtcpayInvoice).not.toHaveBeenCalled();
+    expect(workflowRun).not.toHaveBeenCalled();
+  });
 });
 
 describe("BTCPay webhook signature", () => {

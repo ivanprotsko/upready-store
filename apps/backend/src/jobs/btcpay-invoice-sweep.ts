@@ -1,6 +1,7 @@
 import type { Logger, MedusaContainer } from "@medusajs/framework/types";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import { cryptoPaymentsAvailable } from "../btcpay/availability";
 import { btcpayConnectionOf, getBtcpayInvoice, type BtcpayClientOptions } from "../btcpay/client";
 import { BTCPAY_PROVIDER_ID } from "../btcpay/session";
 import { BTCPAY_SESSION_COLUMNS, settleBtcpaySession, type BtcpaySessionRow } from "../btcpay/settle";
@@ -26,6 +27,8 @@ import { readBtcpaySecretPublic, type ResolvedBtcpaySecret } from "../tenant-sec
  * the query scans it. Add an index there if the table ever makes this slow.
  *
  * Silent when nothing changed; a change is logged by `settleBtcpaySession`.
+ * On an instance that takes no cryptocurrency (`btcpay/availability.ts`) a run
+ * returns before its first query.
  */
 export const BATCH = 50;
 export const MAX_AGE_DAYS = 7;
@@ -54,6 +57,9 @@ export const sweepBtcpayInvoices = async (
   container: MedusaContainer,
   options: { clientOptions?: BtcpayClientOptions; now?: () => number } = {},
 ): Promise<{ checked: number; changed: number; failed: number }> => {
+  if (!cryptoPaymentsAvailable()) {
+    return { checked: 0, changed: 0, failed: 0 };
+  }
   const logger = container.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
   const pg = container.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const now = options.now ?? Date.now;
