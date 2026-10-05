@@ -160,7 +160,7 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `USE_REDIS` | Set it to `true` to use `REDIS_URL` in development too | unset |
 | `CACHE_REDIS_URL` | Separate Redis instance for the cache | `REDIS_URL` |
 | `INTEGRATION_ENCRYPTION_KEY` | Encrypts the secret fields the Integration Module stores, and the per-shop payment credentials in `tenant_integration_secret` (`src/tenant-secrets/`) | `supersecret` |
-| `BACKEND_PUBLIC_URL` | Public address of this backend, shown to shop owners as the Robokassa Result URL (`<BACKEND_PUBLIC_URL>/robokassa/result`). Falls back to the request host, which is wrong behind the panel proxy | unset |
+| `BACKEND_PUBLIC_URL` | Public address of this backend, shown to shop owners as the Robokassa Result URL (`<BACKEND_PUBLIC_URL>/robokassa/result`) and as the webhook URL of their BTCPay Server store (`<BACKEND_PUBLIC_URL>/btcpay/webhook/<tenant id>`). Falls back to the request host, which is wrong behind the panel proxy | unset |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | SMTP transport for transactional emails | `smtp.example.com`, `587`, `false` |
 | `SMTP_USER`, `SMTP_PASS` | SMTP credentials | — |
 | `SMTP_FROM`, `SMTP_REPLY_TO` | Sender and reply-to addresses. `SMTP_FROM` carries the address; the name beside it is the shop's own (`tenant_notification_settings.email_from_name`), falling back to `STORE_NAME` | — |
