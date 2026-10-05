@@ -154,7 +154,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   if (course) {
     const metadata = product.metadata as Record<string, unknown> | null
     const cover = readCourseCover(metadata)
-    const page = readCoursePage(metadata)
+    const page = readCoursePage(metadata, locale)
 
     const summaryCard = (
       <div

@@ -1,12 +1,13 @@
 "use server"
 
 import type { HttpTypes } from "@medusajs/types"
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 
 import { listCategories } from "./categories"
 import { getHomeRegion } from "./home"
 import { listProducts } from "./products"
 import { getTenantHome } from "./tenant-home"
+import { localizedBanner } from "@lib/util/localized-banner"
 import type { OlavkaHeroSlide, OlavkaNavItem } from "@modules/home/variants/olavka-types"
 
 /**
@@ -52,9 +53,10 @@ const isCourse = (product: HttpTypes.StoreProduct): boolean => {
 
 const isExternal = (href: string) => /^https?:\/\//i.test(href)
 
-/** The tenant's saved banners as slides, in `sort` order — or null when none is saved. */
+/** The tenant's saved banners as slides, in `sort` order and in the page's language
+ *  (`localizedBanner`) — or null when none is saved. */
 async function bannerSlides(): Promise<OlavkaHeroSlide[] | null> {
-  const home = await getTenantHome()
+  const [home, locale] = await Promise.all([getTenantHome(), getLocale()])
   const banners = home?.content.banners ?? []
   if (!banners.length) {
     return null
@@ -62,6 +64,7 @@ async function bannerSlides(): Promise<OlavkaHeroSlide[] | null> {
 
   return [...banners]
     .sort((a, b) => a.sort - b.sort)
+    .map((banner) => localizedBanner(banner, locale))
     .map((banner) => {
       const href =
         banner.link.type === "product"

@@ -101,6 +101,34 @@ describe("tenant home banners schema", () => {
     expect(PutTenantHomeBody.safeParse(withBanners([banner(), banner()])).success).toBe(false);
   });
 
+  // 2026-10-05, cherkashino.com/ru: the default is English, the Russian texts sit in
+  // `i18n.ru`. Zod strips an undeclared key, so without `i18n` in the schema the
+  // owner's next save in the panel would silently drop every translation.
+  it("keeps a banner's per-locale texts through a save, partial entries included", () => {
+    const i18n = {
+      ru: { kicker: "10 октября", label: "Курс", title: "Чистка\nпечени", button: "Смотреть", alt: "Печень среди трав" },
+      "pt-BR": { title: "Limpeza do fígado" },
+    };
+    const parsed = PutTenantHomeBody.safeParse(
+      withBanners([banner({ kicker: "October 10", label: "Course", title: "Liver\ncleanse", button: "View", i18n })]),
+    );
+    expect(parsed.success).toBe(true);
+    if (parsed.success) {
+      expect(parsed.data.content.banners[0].i18n).toEqual(i18n);
+    }
+  });
+
+  it("rejects a per-locale text over the chip cap and a key that is not a locale code", () => {
+    expect(
+      PutTenantHomeBody.safeParse(
+        withBanners([banner({ i18n: { ru: { title: "x".repeat(HOME_BANNER_TEXT_MAX + 1) } } })]),
+      ).success,
+    ).toBe(false);
+    expect(
+      PutTenantHomeBody.safeParse(withBanners([banner({ i18n: { "Русский": { title: "x" } } })])).success,
+    ).toBe(false);
+  });
+
   it("rejects a product link without a product id and an unknown link type", () => {
     expect(
       PutTenantHomeBody.safeParse(withBanners([banner({ link: { type: "product", product_id: "" } })])).success,

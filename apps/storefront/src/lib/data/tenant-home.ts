@@ -84,7 +84,14 @@ export type TenantHomeBanner = {
   button: string
   link: { type: "product"; product_id: string; handle: string } | { type: "url"; href: string }
   sort: number
+  /** Per-locale texts, keyed by storefront locale; absent on older documents. */
+  i18n?: Partial<Record<string, TenantBannerCopy>>
 }
+
+/** The texts a locale may override on a banner; the base fields stay the fallback. */
+export type TenantBannerCopy = Partial<
+  Pick<TenantHomeBanner, "kicker" | "label" | "title" | "button"> & { alt: string }
+>
 
 export type TenantHome = {
   schema: string
