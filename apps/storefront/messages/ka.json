@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "გამოყენება",
     "close": "დახურვა",
+    "currencyLabel": "ვალუტა: {currencyCode}",
     "placeholder": "მოძებნეთ ქვეყანა ან ენა",
     "placeholderLanguage": "მოძებნეთ ენა",
     "tabCountry": "ქვეყანა",

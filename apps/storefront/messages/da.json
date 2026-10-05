@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Anvend",
     "close": "Luk",
+    "currencyLabel": "Valuta: {currencyCode}",
     "placeholder": "Søg efter land eller sprog",
     "placeholderLanguage": "Søg efter sprog",
     "tabCountry": "Land",

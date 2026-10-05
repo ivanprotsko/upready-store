@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Terapkan",
     "close": "Tutup",
+    "currencyLabel": "Mata uang: {currencyCode}",
     "placeholder": "Cari negara atau bahasa",
     "placeholderLanguage": "Cari bahasa",
     "tabCountry": "Negara",

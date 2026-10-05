@@ -368,7 +368,7 @@ const RegionSelect = ({
           />
           {trigger({
             testId: "nav-region-select-button",
-            label: `${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`,
+            label: t("currencyLabel", { currencyCode: selectedCountryOption.currencyCode }),
             staticLabel: selectedCountryOption.currencyCode,
             className: ICON_CLASS,
             children: (
@@ -400,7 +400,7 @@ const RegionSelect = ({
           />
           {trigger({
             testId: "nav-region-select-button",
-            label: `${t("tabLanguage")}: ${selectedCountryOption.currencyCode}`,
+            label: t("currencyLabel", { currencyCode: selectedCountryOption.currencyCode }),
             staticLabel: selectedCountryOption.currencyCode,
             className: ICON_CLASS.replace("h-9 w-9", "h-10 w-10"),
             children: (

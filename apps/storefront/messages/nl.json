@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Toepassen",
     "close": "Sluiten",
+    "currencyLabel": "Valuta: {currencyCode}",
     "placeholder": "Zoek land of taal",
     "placeholderLanguage": "Zoek taal",
     "tabCountry": "Land",

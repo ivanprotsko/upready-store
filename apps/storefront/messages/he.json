@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "החלה",
     "close": "סגירה",
+    "currencyLabel": "מטבע: {currencyCode}",
     "placeholder": "חיפוש מדינה או שפה",
     "placeholderLanguage": "חיפוש שפה",
     "tabCountry": "מדינה",

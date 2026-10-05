@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "应用",
     "close": "关闭",
+    "currencyLabel": "货币：{currencyCode}",
     "placeholder": "搜索国家或语言",
     "placeholderLanguage": "搜索语言",
     "tabCountry": "国家",

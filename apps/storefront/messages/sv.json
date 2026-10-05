@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Tillämpa",
     "close": "Stäng",
+    "currencyLabel": "Valuta: {currencyCode}",
     "placeholder": "Sök land eller språk",
     "placeholderLanguage": "Sök språk",
     "tabCountry": "Land",

@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Застосувати",
     "close": "Закрити",
+    "currencyLabel": "Валюта: {currencyCode}",
     "placeholder": "Пошук країни або мови",
     "placeholderLanguage": "Пошук мови",
     "tabCountry": "Країна",

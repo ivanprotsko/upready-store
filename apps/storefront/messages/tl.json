@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "I-apply",
     "close": "Isara",
+    "currencyLabel": "Pera: {currencyCode}",
     "placeholder": "Maghanap ng bansa o wika",
     "placeholderLanguage": "Maghanap ng wika",
     "tabCountry": "Bansa",

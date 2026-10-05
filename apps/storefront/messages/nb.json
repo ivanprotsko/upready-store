@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Bruk",
     "close": "Lukk",
+    "currencyLabel": "Valuta: {currencyCode}",
     "placeholder": "Søk etter land eller språk",
     "placeholderLanguage": "Søk etter språk",
     "tabCountry": "Land",

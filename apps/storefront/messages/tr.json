@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Uygula",
     "close": "Kapat",
+    "currencyLabel": "Para birimi: {currencyCode}",
     "placeholder": "Ülke veya dil ara",
     "placeholderLanguage": "Dil ara",
     "tabCountry": "Ülke",

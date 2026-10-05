@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Anwenden",
     "close": "Schließen",
+    "currencyLabel": "Währung: {currencyCode}",
     "placeholder": "Land oder Sprache suchen",
     "placeholderLanguage": "Sprache suchen",
     "tabCountry": "Land",

@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Taikyti",
     "close": "Uždaryti",
+    "currencyLabel": "Valiuta: {currencyCode}",
     "placeholder": "Ieškoti šalies ar kalbos",
     "placeholderLanguage": "Ieškoti kalbos",
     "tabCountry": "Šalis",

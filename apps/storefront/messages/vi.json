@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Áp dụng",
     "close": "Đóng",
+    "currencyLabel": "Tiền tệ: {currencyCode}",
     "placeholder": "Tìm quốc gia hoặc ngôn ngữ",
     "placeholderLanguage": "Tìm ngôn ngữ",
     "tabCountry": "Quốc gia",

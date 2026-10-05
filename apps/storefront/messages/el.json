@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Εφαρμογή",
     "close": "Κλείσιμο",
+    "currencyLabel": "Νόμισμα: {currencyCode}",
     "placeholder": "Αναζήτηση χώρας ή γλώσσας",
     "placeholderLanguage": "Αναζήτηση γλώσσας",
     "tabCountry": "Χώρα",

@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "適用",
     "close": "閉じる",
+    "currencyLabel": "通貨: {currencyCode}",
     "placeholder": "国または言語を検索",
     "placeholderLanguage": "言語を検索",
     "tabCountry": "国",

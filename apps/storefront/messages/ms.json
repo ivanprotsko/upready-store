@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Guna",
     "close": "Tutup",
+    "currencyLabel": "Mata wang: {currencyCode}",
     "placeholder": "Cari negara atau bahasa",
     "placeholderLanguage": "Cari bahasa",
     "tabCountry": "Negara",

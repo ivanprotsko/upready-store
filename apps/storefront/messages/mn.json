@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Хэрэгжүүлэх",
     "close": "Хаах",
+    "currencyLabel": "Валют: {currencyCode}",
     "placeholder": "Улс эсвэл хэл хайх",
     "placeholderLanguage": "Хэл хайх",
     "tabCountry": "Улс",

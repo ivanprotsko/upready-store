@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Použiť",
     "close": "Zavrieť",
+    "currencyLabel": "Mena: {currencyCode}",
     "placeholder": "Hľadať krajinu alebo jazyk",
     "placeholderLanguage": "Hľadať jazyk",
     "tabCountry": "Krajina",

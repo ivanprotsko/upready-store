@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "लागू करें",
     "close": "बंद करें",
+    "currencyLabel": "मुद्रा: {currencyCode}",
     "placeholder": "देश या भाषा खोजें",
     "placeholderLanguage": "भाषा खोजें",
     "tabCountry": "देश",

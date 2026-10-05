@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Aplică",
     "close": "Închide",
+    "currencyLabel": "Monedă: {currencyCode}",
     "placeholder": "Caută țara sau limba",
     "placeholderLanguage": "Caută limba",
     "tabCountry": "Țară",

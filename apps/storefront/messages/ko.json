@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "적용",
     "close": "닫기",
+    "currencyLabel": "통화: {currencyCode}",
     "placeholder": "국가 또는 언어 검색",
     "placeholderLanguage": "언어 검색",
     "tabCountry": "국가",

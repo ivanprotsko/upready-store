@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "นำไปใช้",
     "close": "ปิด",
+    "currencyLabel": "สกุลเงิน: {currencyCode}",
     "placeholder": "ค้นหาประเทศหรือภาษา",
     "placeholderLanguage": "ค้นหาภาษา",
     "tabCountry": "ประเทศ",

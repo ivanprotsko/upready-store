@@ -1059,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Alkalmaz",
     "close": "Bezárás",
+    "currencyLabel": "Pénznem: {currencyCode}",
     "placeholder": "Ország vagy nyelv keresése",
     "placeholderLanguage": "Nyelv keresése",
     "tabCountry": "Ország",
