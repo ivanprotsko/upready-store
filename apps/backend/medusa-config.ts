@@ -311,6 +311,12 @@ module.exports = defineConfig({
             resolve: "./src/modules/payment-btcpay",
             id: "btcpay",
           },
+          {
+            // The shop's own Bitcart store, the same per-tenant-row pattern
+            // (ask-20261005-070255-438f, stage 2). Offered only where the owner switched it on.
+            resolve: "./src/modules/payment-bitcart",
+            id: "bitcart",
+          },
         ],
       },
     },
