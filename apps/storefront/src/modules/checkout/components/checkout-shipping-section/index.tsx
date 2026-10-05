@@ -18,6 +18,7 @@ import {
   type DeliveryWay,
   type DeliveryWayCard,
 } from "@lib/util/shipping-card"
+import { shippingOptionText } from "@lib/util/shipping-option-text"
 import {
   cdekKindOf,
   cdekNeedsPoint,
@@ -122,15 +123,6 @@ const zoneLabel = (
   const zone = (option.data as { zone?: { label?: unknown } | null } | null)?.zone
   const label = zone?.label
   return typeof label === "string" && label.trim() ? label.trim() : null
-}
-
-/** A string the owner wrote into the method's `data` (description, delivery hint), or null. */
-const dataText = (
-  option: HttpTypes.StoreCartShippingOption,
-  key: "description" | "delivery_hint"
-): string | null => {
-  const value = (option.data as Record<string, unknown> | null)?.[key]
-  return typeof value === "string" && value.trim() ? value.trim() : null
 }
 
 export default function CheckoutShippingSection({
@@ -566,8 +558,8 @@ export default function CheckoutShippingSection({
 
     const days = getDeliveryDays(option)
     const zone = isPickupCard ? null : zoneLabel(option)
-    const deliveryHint = dataText(option, "delivery_hint")
-    const description = dataText(option, "description")
+    const deliveryHint = shippingOptionText(option, "delivery_hint", locale)
+    const description = shippingOptionText(option, "description", locale)
     const deliveryLabel = !days
       ? deliveryHint
       : days.max === 0
