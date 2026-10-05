@@ -7,6 +7,7 @@ import type TenantModuleService from "../../../modules/tenant/service";
 import {
   isTenantMethodData,
   TENANT_METHOD_SCHEMA,
+  type MethodTextTranslations,
   type MethodZone,
   type ShippingTariff,
   type TariffSource,
@@ -176,6 +177,8 @@ export type TenantShippingMethod = {
   zone_label: string;
   /** `carriers.ts` key the owner picked, or null when she named the method herself. */
   carrier: string | null;
+  /** The description and hint in the shop's other languages (`TenantMethodData.i18n`), carried over on every save. */
+  i18n: MethodTextTranslations | null;
   sort_order: number;
   price_type: "flat" | "calculated";
   provider_id: string;
@@ -238,6 +241,7 @@ export const toMethod = (row: OptionRow, warehouse: TenantWarehouse, index: numb
     zone: data.zone ?? null,
     zone_label: data.zone?.label || zoneLabelFor(data.zone ?? null),
     carrier: data.carrier ?? null,
+    i18n: data.i18n ?? null,
     sort_order: typeof data.sort_order === "number" ? data.sort_order : index,
     price_type: row.price_type,
     provider_id: row.provider_id,
