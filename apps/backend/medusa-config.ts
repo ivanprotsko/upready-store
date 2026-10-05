@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from "@medusajs/framework/utils";
 import { installStaticFileHeaders } from "./src/tenant-files/static-headers";
+import { installHttpKeepAlive } from "./src/config/http-keep-alive";
 import { assertProductionEnv, cookieSecure, DEV_SECRET } from "./src/config/production-env";
 import { redisModules, useRedis } from "./src/config/redis";
 
@@ -10,6 +11,14 @@ loadEnv(process.env.NODE_ENV || "development", process.cwd());
 installStaticFileHeaders();
 
 const isProd = process.env.NODE_ENV === "production";
+
+// The proxy in front keeps an idle socket longer than Node does by default, and
+// a request written to a socket Node has just closed is a 502 (pass 3b N12):
+// src/config/http-keep-alive.ts. Production only: a dev or test server has no
+// proxy in front of it.
+if (isProd) {
+  installHttpKeepAlive();
+}
 
 // Event bus, workflow engine, locks and cache on Redis once REDIS_URL is set in
 // production (USE_REDIS=true opts development in): src/config/redis.ts.

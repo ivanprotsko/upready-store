@@ -293,6 +293,11 @@ services:
       NODE_ENV: production
       HOSTNAME: "0.0.0.0"
       PORT: "8000"
+      # Hold an idle keep-alive socket longer than the proxy does (traefik: 90 s,
+      # Node: 5 s by default), or a request the proxy writes to a socket Node has
+      # just closed is a 502 (pass 3b N12). The backend sets the same in
+      # apps/backend/src/config/http-keep-alive.ts.
+      KEEP_ALIVE_TIMEOUT: "95000"
       NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://${ENGINE_DOMAIN}
       NEXT_PUBLIC_BASE_URL: https://${STORES_DOMAIN}
       NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
