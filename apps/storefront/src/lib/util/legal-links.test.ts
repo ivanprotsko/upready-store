@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest"
 
 import {
   consentHref,
+  footerLegalLinks,
   legalHref,
+  pagesBesideLegalLinks,
   starterPageVerdict,
   NO_TENANT,
   type LegalLinkContext,
@@ -157,5 +159,41 @@ describe("starterPageVerdict", () => {
   it("answers 404 rather than a placeholder for a page the shop lacks", () => {
     expect(starterPageVerdict("returns", OKSANA)).toEqual({ kind: "gone" })
     expect(starterPageVerdict("shipping", BARE_TENANT)).toEqual({ kind: "gone" })
+  })
+})
+
+describe("pagesBesideLegalLinks", () => {
+  // The «Информация» list of cherkashino.ru on 2026-10-05, in its own order.
+  const PAGES = [
+    { key: "contacts", title: "Контакты и реквизиты" },
+    { key: "about", title: "Черкашина Оксана" },
+    { key: "privacy", title: "Политика конфиденциальности" },
+    { key: "offer", title: "Публичная оферта" },
+    { key: "returns", title: "Возврат и обмен" },
+    { key: "consent", title: "Согласие на обработку персональных данных" },
+  ]
+  const LABELS = { terms: "Terms of Sale", privacy: "Privacy Policy" }
+
+  it("drops the offer and the privacy policy the legal links already carry", () => {
+    const context: LegalLinkContext = { hasTenant: true, pageKeys: PAGES.map((page) => page.key) }
+    const links = footerLegalLinks(context, {}, LABELS)
+
+    expect(links.map((link) => link.href)).toEqual(["/pages/offer", "/pages/privacy"])
+    expect(pagesBesideLegalLinks(PAGES, links).map((page) => page.key)).toEqual([
+      "contacts",
+      "about",
+      "returns",
+      "consent",
+    ])
+  })
+
+  it("keeps every page when there are no legal links", () => {
+    expect(pagesBesideLegalLinks(PAGES, [])).toEqual(PAGES)
+  })
+
+  it("keeps a page whose key only resembles a linked one", () => {
+    const links = footerLegalLinks({ hasTenant: true, pageKeys: ["offer"] }, {}, LABELS)
+
+    expect(pagesBesideLegalLinks([{ key: "offer-archive" }], links)).toEqual([{ key: "offer-archive" }])
   })
 })

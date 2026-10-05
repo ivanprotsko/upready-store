@@ -228,3 +228,19 @@ export function footerLegalLinks(
     return [{ slot, href, label: titles[key] || fallbackLabels[slot] }]
   })
 }
+
+/**
+ * A footer's page list without the documents its legal links already carry
+ * (`footerLegalLinks`), so a footer that prints both lists names each document
+ * once. Measured on all three Черкашино sites 2026-10-05 (t-2026-10-04-19): the
+ * shop lists its offer and its privacy policy among its footer pages, so
+ * «Информация» and the «© shop» column under it both linked them.
+ */
+export function pagesBesideLegalLinks<Page extends { key: string }>(
+  pages: readonly Page[],
+  legalLinks: readonly FooterLegalLink[]
+): Page[] {
+  const linked = new Set(legalLinks.map((link) => link.href))
+
+  return pages.filter((page) => !linked.has(`/pages/${page.key}`))
+}
