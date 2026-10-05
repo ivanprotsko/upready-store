@@ -919,6 +919,9 @@
     "pp_system_default": "Thanh toán thủ công",
     "robokassaBankCard": "Thẻ ngân hàng",
     "robokassaCard120Days": "Thẻ 120 ngày không lãi",
+    "robokassaGroupForeignCards": "Thẻ nước ngoài",
+    "robokassaGroupOther": "Phương thức khác",
+    "robokassaGroupRuCards": "Thẻ Nga (Mir)",
     "robokassaHalva": "Thẻ Halva",
     "robokassaSbp": "Hệ thống thanh toán nhanh (SBP)"
   },

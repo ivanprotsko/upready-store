@@ -919,6 +919,9 @@
     "pp_system_default": "수동 결제",
     "robokassaBankCard": "은행 카드",
     "robokassaCard120Days": "120일 무이자 카드",
+    "robokassaGroupForeignCards": "해외 카드",
+    "robokassaGroupOther": "기타 결제 수단",
+    "robokassaGroupRuCards": "러시아 카드(Mir)",
     "robokassaHalva": "Halva 카드",
     "robokassaSbp": "빠른 결제 시스템(SBP)"
   },

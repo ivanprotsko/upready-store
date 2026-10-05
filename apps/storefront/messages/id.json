@@ -919,6 +919,9 @@
     "pp_system_default": "Pembayaran manual",
     "robokassaBankCard": "Kartu bank",
     "robokassaCard120Days": "Kartu 120 hari tanpa bunga",
+    "robokassaGroupForeignCards": "Kartu luar negeri",
+    "robokassaGroupOther": "Metode lain",
+    "robokassaGroupRuCards": "Kartu Rusia (Mir)",
     "robokassaHalva": "Kartu Halva",
     "robokassaSbp": "Sistem Pembayaran Cepat (SBP)"
   },

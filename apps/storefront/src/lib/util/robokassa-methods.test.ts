@@ -3,10 +3,14 @@ import { describe, expect, it } from "vitest"
 import en from "../../../messages/en.json"
 import ru from "../../../messages/ru.json"
 import {
+  ROBOKASSA_GROUPS,
+  groupRobokassaMethods,
   isRobokassaFailReturn,
   parsePaymentChoice,
   pickRobokassaMethod,
   robokassaChoiceValue,
+  robokassaGroupLabelKey,
+  robokassaMethodGroup,
   robokassaMethodLabel,
   robokassaMethodsForCart,
   robokassaPaymentRequest,
@@ -97,6 +101,61 @@ describe("robokassaMethodsForCart", () => {
   })
 })
 
+describe("groupRobokassaMethods (t-2026-10-04-19, P7)", () => {
+  const aliases = (list: RobokassaMethod[]) =>
+    groupRobokassaMethods(list).map(({ group, methods }) => [group, methods.map((item) => item.alias)])
+
+  it("files the shop's live list under Russian cards, SBP and the rest, with no foreign-card group", () => {
+    expect(aliases(LIVE)).toEqual([
+      ["ruCards", ["BankCard"]],
+      ["sbp", ["SBP"]],
+      ["other", ["Card120Days", "BankCardHalva"]],
+    ])
+  })
+
+  it("keeps the group order whatever order the methods come in, and their own order inside a group", () => {
+    const shuffled = [
+      method("YandexPay"),
+      method("SBP"),
+      method("SberPay"),
+      method("BankCard"),
+      method("TinkoffPay"),
+    ]
+    expect(aliases(shuffled)).toEqual([
+      ["ruCards", ["BankCard"]],
+      ["sbp", ["SBP"]],
+      ["other", ["YandexPay", "SberPay", "TinkoffPay"]],
+    ])
+  })
+
+  it("shows only the groups the shop has a method in", () => {
+    expect(aliases([method("SBP")])).toEqual([["sbp", ["SBP"]]])
+    expect(aliases(robokassaMethodsForCart(null, 1500))).toEqual([
+      ["ruCards", ["BankCard"]],
+      ["sbp", ["SBP"]],
+    ])
+    expect(groupRobokassaMethods([])).toEqual([])
+  })
+
+  it("puts every alias it does not know into the rest, never into a card group", () => {
+    for (const alias of ["Mokka", "AlfaPay", "MirPay", "OTP", "ERIP"]) {
+      expect(robokassaMethodGroup(alias)).toBe("other")
+    }
+    // Robokassa documents no foreign-card alias: Visa and Mastercard of a
+    // foreign bank are paid through BankCard, so no alias maps here yet.
+    expect(ROBOKASSA_GROUPS.includes("foreignCards")).toBe(true)
+    expect(LIVE.map((item) => robokassaMethodGroup(item.alias))).not.toContain("foreignCards")
+  })
+
+  it("heads every group from the catalogs in Russian and English", () => {
+    const headings = (catalog: typeof ru) =>
+      ROBOKASSA_GROUPS.map((group) => translator(catalog)(robokassaGroupLabelKey(group)))
+
+    expect(headings(ru)).toEqual(["Карты РФ (МИР)", "Зарубежные карты", "СБП", "Другие способы"])
+    expect(headings(en)).toEqual(["Russian cards (Mir)", "Foreign cards", "Faster Payments (SBP)", "Other methods"])
+  })
+})
+
 describe("pickRobokassaMethod and the radio values", () => {
   it("keeps the buyer's pick while it is listed, else takes the first", () => {
     expect(pickRobokassaMethod("SBP", LIVE)).toBe("SBP")
@@ -177,6 +236,38 @@ describe("robokassaPaymentRequest", () => {
       successUrl: null,
       failUrl: null,
     })
+  })
+})
+
+describe("a grouped row reaches Robokassa (t-2026-10-04-19, P7 / D2)", () => {
+  const session = {
+    payment_url: "https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=SHOP&OutSum=1500.00",
+    payment_fields: { MerchantLogin: "SHOP", OutSum: "1500.00", InvId: "123", SignatureValue: "abc" },
+    payment_methods: ["BankCard", "SBP", "Card120Days", "BankCardHalva"],
+  }
+
+  it("sends the alias of the row picked in any group as IncCurrLabel and as the modal's only method", () => {
+    const rows = groupRobokassaMethods(robokassaMethodsForCart(LIVE, 1500)).flatMap(({ methods }) => methods)
+    expect(rows.map((item) => item.alias)).toEqual(["BankCard", "SBP", "Card120Days", "BankCardHalva"])
+
+    for (const row of rows) {
+      // The radio's value, as the checkout's list carries it, back to the alias the pay button gets.
+      const { providerId, alias } = parsePaymentChoice(robokassaChoiceValue("pp_robokassa_robokassa", row.alias))
+      expect(providerId).toBe("pp_robokassa_robokassa")
+
+      const request = robokassaPaymentRequest(session, alias)
+      expect(request.alias).toBe(row.alias)
+      expect(request.modalParams?.IncCurrLabel).toBe(row.alias)
+      expect(JSON.parse(request.modalParams?.Settings ?? "{}")).toEqual({ PaymentMethods: [row.alias], Mode: "modal" })
+      expect(new URL(request.redirectUrl ?? "").searchParams.get("IncCurrLabel")).toBe(row.alias)
+    }
+  })
+
+  it("preselects the first row of the first group, so a buyer who picks nothing pays by Russian card", () => {
+    const rows = groupRobokassaMethods(robokassaMethodsForCart(LIVE, 1500)).flatMap(({ methods }) => methods)
+    const picked = pickRobokassaMethod(null, rows)
+    expect(picked).toBe("BankCard")
+    expect(robokassaPaymentRequest(session, picked).modalParams?.IncCurrLabel).toBe("BankCard")
   })
 })
 

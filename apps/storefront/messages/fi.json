@@ -919,6 +919,9 @@
     "pp_system_default": "Manuaalinen maksu",
     "robokassaBankCard": "Pankkikortti",
     "robokassaCard120Days": "120 päivää koroton -kortti",
+    "robokassaGroupForeignCards": "Ulkomaiset kortit",
+    "robokassaGroupOther": "Muut tavat",
+    "robokassaGroupRuCards": "Venäläiset kortit (Mir)",
     "robokassaHalva": "Halva-kortti",
     "robokassaSbp": "Pikamaksujärjestelmä (SBP)"
   },

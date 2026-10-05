@@ -919,6 +919,9 @@
     "pp_system_default": "ชำระเงินด้วยตนเอง",
     "robokassaBankCard": "บัตรธนาคาร",
     "robokassaCard120Days": "บัตร 120 วันไม่มีดอกเบี้ย",
+    "robokassaGroupForeignCards": "บัตรต่างประเทศ",
+    "robokassaGroupOther": "วิธีอื่น ๆ",
+    "robokassaGroupRuCards": "บัตรรัสเซีย (Mir)",
     "robokassaHalva": "บัตร Halva",
     "robokassaSbp": "ระบบชำระเงินด่วน (SBP)"
   },

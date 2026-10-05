@@ -919,6 +919,9 @@
     "pp_system_default": "ম্যানুয়াল পেমেন্ট",
     "robokassaBankCard": "ব্যাংক কার্ড",
     "robokassaCard120Days": "120 দিন সুদমুক্ত কার্ড",
+    "robokassaGroupForeignCards": "বিদেশি কার্ড",
+    "robokassaGroupOther": "অন্যান্য পদ্ধতি",
+    "robokassaGroupRuCards": "রাশিয়ান কার্ড (Mir)",
     "robokassaHalva": "Halva কার্ড",
     "robokassaSbp": "দ্রুত পেমেন্ট সিস্টেম (SBP)"
   },

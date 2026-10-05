@@ -919,6 +919,9 @@
     "pp_system_default": "Kézi fizetés",
     "robokassaBankCard": "Bankkártya",
     "robokassaCard120Days": "120 nap kamatmentes kártya",
+    "robokassaGroupForeignCards": "Külföldi kártyák",
+    "robokassaGroupOther": "Egyéb módok",
+    "robokassaGroupRuCards": "Orosz kártyák (Mir)",
     "robokassaHalva": "Halva kártya",
     "robokassaSbp": "Gyorsfizetési rendszer (SBP)"
   },

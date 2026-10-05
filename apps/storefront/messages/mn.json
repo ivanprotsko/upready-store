@@ -919,6 +919,9 @@
     "pp_system_default": "Гар аргаар төлөх",
     "robokassaBankCard": "Банкны карт",
     "robokassaCard120Days": "120 хоног хүүгүй карт",
+    "robokassaGroupForeignCards": "Гадаад карт",
+    "robokassaGroupOther": "Бусад арга",
+    "robokassaGroupRuCards": "Оросын карт (Мир)",
     "robokassaHalva": "Halva карт",
     "robokassaSbp": "Шуурхай төлбөрийн систем (SBP)"
   },

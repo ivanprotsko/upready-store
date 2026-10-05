@@ -919,6 +919,9 @@
     "pp_system_default": "Χειροκίνητη πληρωμή",
     "robokassaBankCard": "Τραπεζική κάρτα",
     "robokassaCard120Days": "Κάρτα 120 ημερών άτοκα",
+    "robokassaGroupForeignCards": "Ξένες κάρτες",
+    "robokassaGroupOther": "Άλλοι τρόποι",
+    "robokassaGroupRuCards": "Ρωσικές κάρτες (Mir)",
     "robokassaHalva": "Κάρτα Halva",
     "robokassaSbp": "Σύστημα ταχέων πληρωμών (SBP)"
   },

@@ -919,6 +919,9 @@
     "pp_system_default": "手动付款",
     "robokassaBankCard": "银行卡",
     "robokassaCard120Days": "120天免息卡",
+    "robokassaGroupForeignCards": "境外银行卡",
+    "robokassaGroupOther": "其他方式",
+    "robokassaGroupRuCards": "俄罗斯银行卡（Mir）",
     "robokassaHalva": "Halva 卡",
     "robokassaSbp": "快速支付系统（SBP）"
   },

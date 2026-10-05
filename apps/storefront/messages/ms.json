@@ -919,6 +919,9 @@
     "pp_system_default": "Pembayaran manual",
     "robokassaBankCard": "Kad bank",
     "robokassaCard120Days": "Kad 120 hari tanpa faedah",
+    "robokassaGroupForeignCards": "Kad asing",
+    "robokassaGroupOther": "Kaedah lain",
+    "robokassaGroupRuCards": "Kad Rusia (Mir)",
     "robokassaHalva": "Kad Halva",
     "robokassaSbp": "Sistem Pembayaran Pantas (SBP)"
   },

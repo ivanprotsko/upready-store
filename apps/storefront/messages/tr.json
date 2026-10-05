@@ -919,6 +919,9 @@
     "pp_system_default": "Manuel ödeme",
     "robokassaBankCard": "Banka kartı",
     "robokassaCard120Days": "120 gün faizsiz kart",
+    "robokassaGroupForeignCards": "Yabancı kartlar",
+    "robokassaGroupOther": "Diğer yöntemler",
+    "robokassaGroupRuCards": "Rus kartları (Mir)",
     "robokassaHalva": "Halva kartı",
     "robokassaSbp": "Hızlı Ödeme Sistemi (SBP)"
   },

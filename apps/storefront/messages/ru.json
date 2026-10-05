@@ -919,6 +919,9 @@
     "pp_system_default": "Оплата вручную",
     "robokassaBankCard": "Банковская карта",
     "robokassaCard120Days": "Карта 120 дней без %",
+    "robokassaGroupForeignCards": "Зарубежные карты",
+    "robokassaGroupOther": "Другие способы",
+    "robokassaGroupRuCards": "Карты РФ (МИР)",
     "robokassaHalva": "Карта Халва",
     "robokassaSbp": "СБП"
   },

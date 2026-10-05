@@ -919,6 +919,9 @@
     "pp_system_default": "Manuell betaling",
     "robokassaBankCard": "Bankkort",
     "robokassaCard120Days": "Kort med 120 rentefrie dager",
+    "robokassaGroupForeignCards": "Utenlandske kort",
+    "robokassaGroupOther": "Andre metoder",
+    "robokassaGroupRuCards": "Russiske kort (Mir)",
     "robokassaHalva": "Halva-kort",
     "robokassaSbp": "Hurtigbetalingssystemet (SBP)"
   },

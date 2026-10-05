@@ -919,6 +919,9 @@
     "pp_system_default": "मैनुअल भुगतान",
     "robokassaBankCard": "बैंक कार्ड",
     "robokassaCard120Days": "120 दिन ब्याज-मुक्त कार्ड",
+    "robokassaGroupForeignCards": "विदेशी कार्ड",
+    "robokassaGroupOther": "अन्य तरीके",
+    "robokassaGroupRuCards": "रूसी कार्ड (Mir)",
     "robokassaHalva": "Halva कार्ड",
     "robokassaSbp": "तेज़ भुगतान प्रणाली (SBP)"
   },
