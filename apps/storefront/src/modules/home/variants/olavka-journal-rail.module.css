@@ -1,8 +1,9 @@
 /*
  * «Журнал здоровья» · Olavka home (ask d11e), after the block of the old Cherkashina shop
  * (Ivan's frame of 2026-09-25): a heading with two round arrows, then a rail of article
- * cards. Two cards in a row on a phone and a tablet, three from 1024, four from 1280, gap
- * 16; the neighbours run past the content's own lines to the window edges.
+ * cards. Two cards in a row below 720, three from 720 to 960, four from 961: the widths at
+ * which the product grid above it changes its columns on these shops (`PRODUCT_GRID_CLASS`,
+ * Ivan 27.09). Gap 16; the neighbours run past the content's own lines to the window edges.
  *
  * The track is native scroll-snap, so a swipe and a wheel come for free. Colours are the
  * theme's tokens, in the components' classes; this file holds only the geometry.
@@ -20,16 +21,21 @@
   --n: 2;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 720px) {
   .rail {
-    --pad: 24px;
     --n: 3;
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 961px) {
   .rail {
     --n: 4;
+  }
+}
+
+@media (min-width: 1024px) {
+  .rail {
+    --pad: 24px;
   }
 }
 
