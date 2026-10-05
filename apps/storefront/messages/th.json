@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "ตะกร้าของคุณยังว่างอยู่ คลิกลิงก์ด้านล่างเพื่อเริ่มเลือกซื้อสินค้าของเรา",
     "exploreProducts": "สำรวจสินค้า",
-    "heading": "ตะกร้าสินค้า"
+    "heading": "ตะกร้าสินค้า",
+    "columnProduct": "สินค้า",
+    "columnPrice": "ราคา",
+    "columnQuantity": "จำนวน",
+    "columnTotal": "รวม"
   },
   "CartMismatchBanner": {
     "errorMessage": "เกิดข้อผิดพลาดขณะพยายามโอนตะกร้าของคุณ",

@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "আপনার কার্ট খালি। আমাদের পণ্য দেখা শুরু করতে নিচের লিঙ্কটি ব্যবহার করুন।",
     "exploreProducts": "পণ্য দেখুন",
-    "heading": "কার্ট"
+    "heading": "কার্ট",
+    "columnProduct": "পণ্য",
+    "columnPrice": "দাম",
+    "columnQuantity": "পরিমাণ",
+    "columnTotal": "মোট"
   },
   "CartMismatchBanner": {
     "errorMessage": "আপনার কার্ট স্থানান্তর করার সময় কিছু একটা সমস্যা হয়েছে",

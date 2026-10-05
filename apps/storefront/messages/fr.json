@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Votre panier est vide. Utilisez le lien ci-dessous pour parcourir nos produits.",
     "exploreProducts": "Découvrir les produits",
-    "heading": "Panier"
+    "heading": "Panier",
+    "columnProduct": "Produit",
+    "columnPrice": "Prix",
+    "columnQuantity": "Quantité",
+    "columnTotal": "Total"
   },
   "CartMismatchBanner": {
     "errorMessage": "Une erreur s'est produite lors du transfert de votre panier",

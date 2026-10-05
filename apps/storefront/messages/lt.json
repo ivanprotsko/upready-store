@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Jūsų krepšelis tuščias. Naudokite nuorodą žemiau ir pradėkite naršyti mūsų produktus.",
     "exploreProducts": "Peržiūrėti produktus",
-    "heading": "Krepšelis"
+    "heading": "Krepšelis",
+    "columnProduct": "Prekė",
+    "columnPrice": "Kaina",
+    "columnQuantity": "Kiekis",
+    "columnTotal": "Suma"
   },
   "CartMismatchBanner": {
     "errorMessage": "Kažkas nutiko ne taip bandant perkelti jūsų krepšelį",

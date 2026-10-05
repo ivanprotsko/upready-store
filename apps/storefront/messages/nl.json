@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Uw winkelwagen is leeg. Gebruik de onderstaande link om onze producten te bekijken.",
     "exploreProducts": "Bekijk producten",
-    "heading": "Winkelwagen"
+    "heading": "Winkelwagen",
+    "columnProduct": "Product",
+    "columnPrice": "Prijs",
+    "columnQuantity": "Aantal",
+    "columnTotal": "Totaal"
   },
   "CartMismatchBanner": {
     "errorMessage": "Er is iets misgegaan bij het overzetten van uw winkelwagen",

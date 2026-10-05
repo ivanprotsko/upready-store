@@ -24,12 +24,15 @@ type CartTotalsProps = {
    * the price comes at checkout instead of «Доставка 0,00 ₽», which read as free delivery.
    */
   shippingChosen?: boolean
+  /** Extra classes for the column of rows above the total, such as a row gap. */
+  rowsClassName?: string
 }
 
 const CartTotals: React.FC<CartTotalsProps> = ({
   totals,
   needsShipping = true,
   shippingChosen = true,
+  rowsClassName = "",
 }) => {
   const t = useTranslations("CartTotals")
   const locale = useLocale()
@@ -49,15 +52,15 @@ const CartTotals: React.FC<CartTotalsProps> = ({
 
   return (
     <div>
-      <div className="flex flex-col txt-medium text-ui-fg-subtle">
-        <div className="flex items-center justify-between">
+      <div className={`flex flex-col txt-medium text-ui-fg-subtle ${rowsClassName}`}>
+        <div className="flex items-center justify-between gap-x-4">
           <span>{needsShipping ? t("subtotal") : t("subtotalNothingToShip")}</span>
           <span data-testid="cart-subtotal" data-value={item_subtotal || 0}>
             {convertToLocale({ amount: item_subtotal ?? 0, currency_code, locale })}
           </span>
         </div>
         {needsShipping && (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-x-4">
             <span>{t("shipping")}</span>
             {shippingChosen ? (
               <span data-testid="cart-shipping" data-value={shipping_subtotal || 0}>
@@ -71,7 +74,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({
           </div>
         )}
         {!!discount_subtotal && (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-x-4">
             <span>{t("discount")}</span>
             <span
               className="text-ui-fg-interactive"
@@ -88,7 +91,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({
           </div>
         )}
         {showTaxes && (
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-x-4">
             <span className="flex gap-x-1 items-center ">{t("taxes")}</span>
             <span data-testid="cart-taxes" data-value={tax_total || 0}>
               {convertToLocale({ amount: tax_total ?? 0, currency_code, locale })}
@@ -97,7 +100,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({
         )}
       </div>
       <div className="h-px w-full border-b border-ui-border-base my-3" />
-      <div className="flex items-center justify-between text-ui-fg-base txt-medium ">
+      <div className="flex items-center justify-between gap-x-4 text-ui-fg-base txt-medium ">
         <span>{t("total")}</span>
         <span
           className="txt-xlarge-plus"

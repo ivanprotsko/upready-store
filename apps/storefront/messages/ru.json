@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "В вашей корзине ничего нет. Воспользуйтесь ссылкой ниже, чтобы начать просматривать наши товары.",
     "exploreProducts": "Смотреть товары",
-    "heading": "Корзина"
+    "heading": "Корзина",
+    "columnProduct": "Товар",
+    "columnPrice": "Цена",
+    "columnQuantity": "Количество",
+    "columnTotal": "Сумма"
   },
   "CartMismatchBanner": {
     "errorMessage": "Что-то пошло не так при попытке перенести вашу корзину",

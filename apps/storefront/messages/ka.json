@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "თქვენი კალათა ცარიელია. გამოიყენეთ ქვემოთ მოცემული ბმული ჩვენი პროდუქტების დასათვალიერებლად.",
     "exploreProducts": "პროდუქტების დათვალიერება",
-    "heading": "კალათა"
+    "heading": "კალათა",
+    "columnProduct": "პროდუქტი",
+    "columnPrice": "ფასი",
+    "columnQuantity": "რაოდენობა",
+    "columnTotal": "ჯამი"
   },
   "CartMismatchBanner": {
     "errorMessage": "დაფიქსირდა შეცდომა თქვენი კალათის გადატანისას",

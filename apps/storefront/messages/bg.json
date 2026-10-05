@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Кошницата ви е празна. Използвайте връзката по-долу, за да разгледате нашите продукти.",
     "exploreProducts": "Разгледай продуктите",
-    "heading": "Кошница"
+    "heading": "Кошница",
+    "columnProduct": "Продукт",
+    "columnPrice": "Цена",
+    "columnQuantity": "Количество",
+    "columnTotal": "Сума"
   },
   "CartMismatchBanner": {
     "errorMessage": "Нещо се обърка при опита за прехвърляне на кошницата ви",

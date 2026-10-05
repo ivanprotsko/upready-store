@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Ihr Warenkorb ist leer. Nutzen Sie den Link unten, um unsere Produkte zu entdecken.",
     "exploreProducts": "Produkte entdecken",
-    "heading": "Warenkorb"
+    "heading": "Warenkorb",
+    "columnProduct": "Produkt",
+    "columnPrice": "Preis",
+    "columnQuantity": "Menge",
+    "columnTotal": "Summe"
   },
   "CartMismatchBanner": {
     "errorMessage": "Beim Übertragen Ihres Warenkorbs ist ein Fehler aufgetreten",

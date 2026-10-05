@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Your cart is empty. Use the link below to start browsing our products.",
     "exploreProducts": "Explore products",
-    "heading": "Cart"
+    "heading": "Cart",
+    "columnProduct": "Product",
+    "columnPrice": "Price",
+    "columnQuantity": "Quantity",
+    "columnTotal": "Total"
   },
   "CartMismatchBanner": {
     "errorMessage": "Something went wrong when we tried to transfer your cart",

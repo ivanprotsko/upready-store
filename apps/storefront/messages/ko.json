@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "장바구니가 비어 있습니다. 아래 링크를 클릭해 상품을 둘러보세요.",
     "exploreProducts": "상품 둘러보기",
-    "heading": "장바구니"
+    "heading": "장바구니",
+    "columnProduct": "상품",
+    "columnPrice": "가격",
+    "columnQuantity": "수량",
+    "columnTotal": "합계"
   },
   "CartMismatchBanner": {
     "errorMessage": "장바구니를 이전하는 중 문제가 발생했습니다",

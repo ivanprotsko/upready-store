@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "Troli anda kosong. Gunakan pautan di bawah untuk mula meneroka produk kami.",
     "exploreProducts": "Teroka produk",
-    "heading": "Troli"
+    "heading": "Troli",
+    "columnProduct": "Produk",
+    "columnPrice": "Harga",
+    "columnQuantity": "Kuantiti",
+    "columnTotal": "Jumlah"
   },
   "CartMismatchBanner": {
     "errorMessage": "Sesuatu tidak kena semasa kami cuba memindahkan troli anda",

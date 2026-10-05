@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "A kosara üres. Kattintson az alábbi linkre, és böngésszen termékeink között.",
     "exploreProducts": "Termékek böngészése",
-    "heading": "Kosár"
+    "heading": "Kosár",
+    "columnProduct": "Termék",
+    "columnPrice": "Ár",
+    "columnQuantity": "Mennyiség",
+    "columnTotal": "Összesen"
   },
   "CartMismatchBanner": {
     "errorMessage": "Hiba történt a kosár átvitele közben",

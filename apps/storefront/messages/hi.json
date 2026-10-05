@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "आपका कार्ट खाली है। हमारे उत्पाद देखने के लिए नीचे दिए गए लिंक का उपयोग करें।",
     "exploreProducts": "उत्पाद देखें",
-    "heading": "कार्ट"
+    "heading": "कार्ट",
+    "columnProduct": "उत्पाद",
+    "columnPrice": "कीमत",
+    "columnQuantity": "मात्रा",
+    "columnTotal": "कुल"
   },
   "CartMismatchBanner": {
     "errorMessage": "आपका कार्ट ट्रांसफर करने की कोशिश करते समय कुछ गड़बड़ हो गई",

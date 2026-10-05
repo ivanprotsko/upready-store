@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "您的购物车是空的。点击下方链接开始浏览我们的商品吧。",
     "exploreProducts": "浏览商品",
-    "heading": "购物车"
+    "heading": "购物车",
+    "columnProduct": "商品",
+    "columnPrice": "单价",
+    "columnQuantity": "数量",
+    "columnTotal": "小计"
   },
   "CartMismatchBanner": {
     "errorMessage": "转移您的购物车时出现问题",

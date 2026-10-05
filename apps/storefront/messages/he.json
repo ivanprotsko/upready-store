@@ -76,7 +76,11 @@
   "Cart": {
     "emptyMessage": "העגלה שלך ריקה. השתמשו בקישור למטה כדי להתחיל לעיין במוצרים שלנו.",
     "exploreProducts": "עיין במוצרים",
-    "heading": "עגלה"
+    "heading": "עגלה",
+    "columnProduct": "מוצר",
+    "columnPrice": "מחיר",
+    "columnQuantity": "כמות",
+    "columnTotal": "סה״כ"
   },
   "CartMismatchBanner": {
     "errorMessage": "משהו השתבש בעת הניסיון להעביר את העגלה שלך",
