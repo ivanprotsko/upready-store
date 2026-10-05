@@ -13,7 +13,8 @@ import {
  * account counts as not connected, and the demo card is never itself a
  * "connected" method. Tribute (t-cherk-22) joins the same resolver, so its
  * own on/off is exercised alongside Robokassa's rather than in a parallel
- * suite, and BTCPay (ask-20261005-070255-438f) after it.
+ * suite, and BTCPay (ask-20261005-070255-438f) after it, then Bitcart
+ * (the same task's stage 2) under the same instance switch.
  */
 
 describe("resolveTenantPaymentMethods", () => {
@@ -30,6 +31,7 @@ describe("resolveTenantPaymentMethods", () => {
       robokassa: false,
       tribute: false,
       btcpay: false,
+      bitcart: false,
       manualCrypto: false,
       manualManager: false,
       demo: true,
@@ -63,6 +65,7 @@ describe("resolveTenantPaymentMethods", () => {
       robokassa: false,
       tribute: true,
       btcpay: false,
+      bitcart: false,
       manualCrypto: false,
       manualManager: false,
       demo: false,
@@ -84,6 +87,7 @@ describe("resolveTenantPaymentMethods", () => {
       robokassa: false,
       tribute: false,
       btcpay: true,
+      bitcart: false,
       manualCrypto: false,
       manualManager: false,
       demo: false,
@@ -112,6 +116,67 @@ describe("resolveTenantPaymentMethods", () => {
     } finally {
       if (previous !== undefined) process.env.PAYMENTS_CRYPTO_AVAILABLE = previous;
     }
+  });
+
+  it("Bitcart only: the demo card disappears, and Bitcart alone reads true", () => {
+    const methods = resolveTenantPaymentMethods({
+      robokassaEnabled: false,
+      tributeEnabled: false,
+      btcpayEnabled: false,
+      bitcartEnabled: true,
+      manualCrypto: false,
+      manualManager: false,
+      cryptoAvailable: true,
+    });
+
+    expect(methods).toEqual({
+      robokassa: false,
+      tribute: false,
+      btcpay: false,
+      bitcart: true,
+      manualCrypto: false,
+      manualManager: false,
+      demo: false,
+    });
+    expect(offersSystemDefault(methods)).toBe(false);
+
+    // Both crypto providers at once: each reads for itself.
+    const both = resolveTenantPaymentMethods({
+      robokassaEnabled: false,
+      tributeEnabled: false,
+      btcpayEnabled: true,
+      bitcartEnabled: true,
+      manualCrypto: false,
+      manualManager: false,
+      cryptoAvailable: true,
+    });
+    expect(both).toMatchObject({ btcpay: true, bitcart: true, demo: false });
+  });
+
+  it("a saved Bitcart store counts for nothing on an instance without cryptocurrency, and a caller that never names it reads false", () => {
+    const params = {
+      robokassaEnabled: false,
+      tributeEnabled: false,
+      btcpayEnabled: false,
+      bitcartEnabled: true,
+      manualCrypto: false,
+      manualManager: false,
+    };
+
+    const off = resolveTenantPaymentMethods({ ...params, cryptoAvailable: false });
+    expect(off.bitcart).toBe(false);
+    expect(off.demo).toBe(true);
+
+    const previous = process.env.PAYMENTS_CRYPTO_AVAILABLE;
+    delete process.env.PAYMENTS_CRYPTO_AVAILABLE;
+    try {
+      expect(resolveTenantPaymentMethods(params).bitcart).toBe(false);
+    } finally {
+      if (previous !== undefined) process.env.PAYMENTS_CRYPTO_AVAILABLE = previous;
+    }
+
+    const { bitcartEnabled: _omitted, ...withoutBitcart } = params;
+    expect(resolveTenantPaymentMethods({ ...withoutBitcart, cryptoAvailable: true }).bitcart).toBe(false);
   });
 
   it("Robokassa and Tribute both connected: both read true, demo stays hidden", () => {

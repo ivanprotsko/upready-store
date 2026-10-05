@@ -10,6 +10,7 @@ import {
 } from "../../../tenant-secrets/robokassa";
 import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
 import { readBtcpaySecretPublic } from "../../../tenant-secrets/btcpay";
+import { readBitcartSecretPublic } from "../../../tenant-secrets/bitcart";
 import {
   manualPaymentMethods,
   resolveTenantPaymentMethods,
@@ -111,10 +112,11 @@ export const readOwnPaymentSettings = async (
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
-  const [{ secret, unreadable }, tributeSecret, btcpaySecret, tenantResult] = await Promise.all([
+  const [{ secret, unreadable }, tributeSecret, btcpaySecret, bitcartSecret, tenantResult] = await Promise.all([
     readOwnRobokassaSecret(req, tenant.id, pg, logger),
     readTributeSecretPublic(pg, tenant.id, logger),
     readBtcpaySecretPublic(pg, tenant.id, logger),
+    readBitcartSecretPublic(pg, tenant.id, logger),
     query.graph({ entity: "tenant", fields: ["metadata"], filters: { id: [tenant.id] } }),
   ]);
   const metadata = (tenantResult.data[0]?.metadata ?? null) as Record<string, unknown> | null;
@@ -125,13 +127,15 @@ export const readOwnPaymentSettings = async (
     result_url: resultUrlFor(req),
     providers: [{ id: "robokassa", title: "Robokassa" }],
     // Tribute's own write side is `/tenants/tribute` (t-cherk-22), BTCPay's
-    // is `/tenants/payment-settings/btcpay`; both are only read here, so the
-    // panel's unified "which methods are connected" status includes them
+    // is `/tenants/payment-settings/btcpay` and Bitcart's
+    // `/tenants/payment-settings/bitcart`; all three are only read here, so
+    // the panel's unified "which methods are connected" status includes them
     // without this route owning their credentials.
     methods: resolveTenantPaymentMethods({
       robokassaEnabled: Boolean(secret?.is_enabled),
       tributeEnabled: Boolean(tributeSecret),
       btcpayEnabled: Boolean(btcpaySecret),
+      bitcartEnabled: Boolean(bitcartSecret),
       ...manualPaymentMethods(legacyManualPayment(manualPayment)),
     }),
   };

@@ -8,6 +8,7 @@ import type { HttpTypes } from "@medusajs/framework/types";
 import { ROBOKASSA_PROVIDER_ID } from "../tenant/robokassa";
 import { TRIBUTE_PROVIDER_ID } from "../tenant/tribute";
 import { BTCPAY_PROVIDER_ID } from "../tenant/btcpay";
+import { BITCART_PROVIDER_ID } from "../tenant/bitcart";
 import { tenantPaymentMethodsFor } from "../tenant/payment-methods";
 import { offersSystemDefault } from "../../../tenant-secrets/payment-methods";
 
@@ -25,8 +26,8 @@ const SYSTEM_DEFAULT_PROVIDER_ID = "pp_system_default";
  * route (same path, measured on the stand: the project's `src/api` is
  * mounted before the framework's own routes) and hides:
  *
- * - Robokassa, unless the shop has an enabled account; Tribute and BTCPay
- *   the same way;
+ * - Robokassa, unless the shop has an enabled account; Tribute, BTCPay and
+ *   Bitcart the same way;
  * - `pp_system_default`'s demo card, once the shop has connected a real
  *   method (Robokassa or a manual kind) and configured no manual kind of its
  *   own — a buyer never sees a "pay with anything" fallback next to a real
@@ -74,6 +75,9 @@ export const GET = async (
   const withBtcpay = providers.some((provider) => provider.id === BTCPAY_PROVIDER_ID);
   const hideBtcpay = withBtcpay && !methods.btcpay;
 
+  const withBitcart = providers.some((provider) => provider.id === BITCART_PROVIDER_ID);
+  const hideBitcart = withBitcart && !methods.bitcart;
+
   const withSystemDefault = providers.some((provider) => provider.id === SYSTEM_DEFAULT_PROVIDER_ID);
   const hideSystemDefault = withSystemDefault && !offersSystemDefault(methods);
 
@@ -81,11 +85,16 @@ export const GET = async (
     if (provider.id === ROBOKASSA_PROVIDER_ID && hideRobokassa) return false;
     if (provider.id === TRIBUTE_PROVIDER_ID && hideTribute) return false;
     if (provider.id === BTCPAY_PROVIDER_ID && hideBtcpay) return false;
+    if (provider.id === BITCART_PROVIDER_ID && hideBitcart) return false;
     if (provider.id === SYSTEM_DEFAULT_PROVIDER_ID && hideSystemDefault) return false;
     return true;
   });
   const hiddenCount =
-    (hideRobokassa ? 1 : 0) + (hideTribute ? 1 : 0) + (hideBtcpay ? 1 : 0) + (hideSystemDefault ? 1 : 0);
+    (hideRobokassa ? 1 : 0) +
+    (hideTribute ? 1 : 0) +
+    (hideBtcpay ? 1 : 0) +
+    (hideBitcart ? 1 : 0) +
+    (hideSystemDefault ? 1 : 0);
 
   res.json({
     payment_providers: visible,

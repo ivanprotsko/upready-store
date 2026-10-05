@@ -168,6 +168,7 @@ import {
   PutTenantPochtaSchema,
   PutTenantTributeSchema,
   PutTenantBtcpaySchema,
+  PutTenantBitcartSchema,
   PutTenantTelegramBotSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantManualPaymentSchema,
@@ -256,6 +257,7 @@ import { resolveTelegramTenant } from "./auth/telegram-tenant";
 import { injectRobokassaTenant } from "./store/tenant/robokassa";
 import { injectTributeTenant } from "./store/tenant/tribute";
 import { injectBtcpayTenant } from "./store/tenant/btcpay";
+import { injectBitcartTenant } from "./store/tenant/bitcart";
 import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
@@ -452,6 +454,12 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantBtcpaySchema)],
     },
     {
+      // The shop's own Bitcart store (ask-20261005-070255-438f, stage 2).
+      matcher: "/tenants/payment-settings/bitcart",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantBitcartSchema)],
+    },
+    {
       // BTCPay's per-shop webhook (ask-20261005-070255-438f): `BTCPay-Sig` is
       // an HMAC-SHA256 of the RAW body, so the exact bytes have to survive JSON
       // parsing (`req.rawBody`), for the reason the Tribute webhook gives above.
@@ -487,14 +495,14 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantRequisitesSchema)],
     },
     {
-      // Robokassa, Tribute and BTCPay all need the SERVER's word on which shop
-      // the cart belongs to; the client's `data.tenant_id`, if any, is
-      // overwritten (step 4 of the task; t-cherk-22 for Tribute;
-      // ask-20261005-070255-438f for BTCPay). Each middleware is a no-op unless
-      // `body.provider_id` is its own, so they compose cleanly.
+      // Robokassa, Tribute, BTCPay and Bitcart all need the SERVER's word on
+      // which shop the cart belongs to; the client's `data.tenant_id`, if any,
+      // is overwritten (step 4 of the task; t-cherk-22 for Tribute;
+      // ask-20261005-070255-438f for BTCPay and Bitcart). Each middleware is a
+      // no-op unless `body.provider_id` is its own, so they compose cleanly.
       matcher: "/store/payment-collections/:id/payment-sessions",
       method: ["POST"],
-      middlewares: [injectRobokassaTenant, injectTributeTenant, injectBtcpayTenant],
+      middlewares: [injectRobokassaTenant, injectTributeTenant, injectBtcpayTenant, injectBitcartTenant],
     },
     {
       // The shadowing route in `src/api/store/payment-providers/route.ts`

@@ -6,6 +6,7 @@ import { SiteScopeSchema } from "./products/site-scope";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
 import { ROBOKASSA_SNO_VALUES, ROBOKASSA_TAX_VALUES } from "../../tenant-secrets/robokassa";
 import { normalizeBtcpayServerUrl } from "../../tenant-secrets/btcpay";
+import { normalizeBitcartUrl } from "../../tenant-secrets/bitcart";
 import { LOCALE_CODES } from "./locale-settings/validators";
 import {
   BANK_NUMBER_PATTERN,
@@ -890,6 +891,31 @@ export const PutTenantBtcpaySchema = z.strictObject({
   is_enabled: z.boolean().optional(),
 });
 export type PutTenantBtcpayBody = z.infer<typeof PutTenantBtcpaySchema>;
+
+const bitcartUrl = (field: string) =>
+  optionalBtcpayText(2048)
+    .refine((value) => value === undefined || normalizeBitcartUrl(value) !== null, {
+      message: `${field} must be an https:// address without a query or fragment (http:// only for localhost outside production).`,
+    })
+    .transform((value) => (value === undefined ? undefined : (normalizeBitcartUrl(value) as string)));
+
+/**
+ * `PUT /tenants/payment-settings/bitcart` (ask-20261005-070255-438f, stage 2)
+ * — the shop's own Bitcart store, the shape of `PutTenantBtcpaySchema`: every
+ * field optional, an absent or empty one keeps the stored value, and both
+ * addresses come out normalized (`normalizeBitcartUrl`). `server_url` is the
+ * Merchants API, `admin_url` the admin app that serves the checkout page.
+ */
+export const PutTenantBitcartSchema = z.strictObject({
+  server_url: bitcartUrl("server_url"),
+  admin_url: bitcartUrl("admin_url"),
+  store_id: optionalBtcpayText(128).refine((value) => value === undefined || /^[A-Za-z0-9_-]+$/.test(value), {
+    message: "store_id holds letters, digits, «-» and «_» only, as Bitcart shows it on the store.",
+  }),
+  api_key: optionalBtcpayText(500),
+  is_enabled: z.boolean().optional(),
+});
+export type PutTenantBitcartBody = z.infer<typeof PutTenantBitcartSchema>;
 
 /**
  * `PUT /tenants/telegram-bot` (t-2026-10-02-telegram-auth) — the shop's own
