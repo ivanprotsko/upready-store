@@ -6,6 +6,7 @@ import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import { cartShipmentLines, shipmentGroups } from "@lib/util/shipment-groups"
 import { Badge } from "@medusajs/ui"
 import DeleteButton from "@modules/common/components/delete-button"
+import { variantLabel } from "@modules/layout/components/cart-sidebar/line"
 import ProductMedia from "@modules/products/components/product-media"
 import { Link } from "@i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
@@ -40,12 +41,12 @@ function CheckoutItem({
     locale,
   })
 
-  // The variant line only when it says something the title does not (today a
-  // single-variant product printed its own name twice).
-  const variantTitle =
-    item.variant?.title && item.variant.title.trim().toLowerCase() !== (item.product_title ?? "").trim().toLowerCase()
-      ? item.variant.title
-      : null
+  // The cart sidebar's own rule (`variantLabel`): the line's `variant_title`, shown only
+  // when it says something the title does not. Not `item.variant.title`: the cart's
+  // nested variant comes back untranslated, so on .com/en the checkout printed
+  // «Зубная паста тайская отбеливающая, 50 гр» under an English title while the
+  // sidebar and `/cart` showed the English line (t-2026-10-04-19 N3).
+  const variantTitle = variantLabel(item)
   const noDelivery = isNoDeliveryLine(item)
 
   return (

@@ -90,6 +90,7 @@
     "discount": "Rabatt",
     "shipping": "Versand",
     "subtotal": "Zwischensumme (zzgl. Versand und MwSt.)",
+    "subtotalNothingToShip": "Zwischensumme",
     "taxes": "Steuern",
     "total": "Gesamt",
     "shippingAtCheckout": "an der Kasse"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Anwenden",
     "close": "Schließen",
+    "currencyLabel": "Währung: {currencyCode}",
     "placeholder": "Land oder Sprache suchen",
     "placeholderLanguage": "Sprache suchen",
     "tabCountry": "Land",

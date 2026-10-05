@@ -90,6 +90,7 @@
     "discount": "할인",
     "shipping": "배송비",
     "subtotal": "소계 (배송비 및 세금 별도)",
+    "subtotalNothingToShip": "소계",
     "taxes": "세금",
     "total": "합계",
     "shippingAtCheckout": "주문 단계에서"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "적용",
     "close": "닫기",
+    "currencyLabel": "통화: {currencyCode}",
     "placeholder": "국가 또는 언어 검색",
     "placeholderLanguage": "언어 검색",
     "tabCountry": "국가",

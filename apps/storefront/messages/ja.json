@@ -90,6 +90,7 @@
     "discount": "割引",
     "shipping": "配送料",
     "subtotal": "小計（送料・税抜き）",
+    "subtotalNothingToShip": "小計",
     "taxes": "税金",
     "total": "合計",
     "shippingAtCheckout": "注文手続きで計算"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "適用",
     "close": "閉じる",
+    "currencyLabel": "通貨: {currencyCode}",
     "placeholder": "国または言語を検索",
     "placeholderLanguage": "言語を検索",
     "tabCountry": "国",

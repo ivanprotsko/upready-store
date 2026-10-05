@@ -21,10 +21,12 @@ const WITH_SET: TenantBranding = { ...EMPTY_BRANDING, app_icons: APP_ICONS }
 const LEGACY: TenantBranding = { ...EMPTY_BRANDING, favicon_url: "https://cdn.example.com/old.svg" }
 
 describe("tenantIconFileOf", () => {
-  it("maps the three root icon paths and nothing else", () => {
+  it("maps the root icon paths and nothing else", () => {
     expect(tenantIconFileOf("/favicon.ico")).toBe("favicon-ico")
     expect(tenantIconFileOf("/icon.svg")).toBe("icon-svg")
     expect(tenantIconFileOf("/apple-touch-icon.png")).toBe("apple-touch-icon")
+    expect(tenantIconFileOf("/apple-icon.png")).toBe("apple-touch-icon")
+    expect(tenantIconFileOf("/ru/apple-icon.png")).toBeNull()
     expect(tenantIconFileOf("/ru/favicon.ico")).toBeNull()
     expect(tenantIconFileOf("/robots.txt")).toBeNull()
   })

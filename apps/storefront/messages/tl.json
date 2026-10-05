@@ -90,6 +90,7 @@
     "discount": "Diskwento",
     "shipping": "Paghahatid",
     "subtotal": "Subtotal (hindi kasama ang paghahatid at buwis)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Buwis",
     "total": "Kabuuan",
     "shippingAtCheckout": "sa checkout"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "I-apply",
     "close": "Isara",
+    "currencyLabel": "Pera: {currencyCode}",
     "placeholder": "Maghanap ng bansa o wika",
     "placeholderLanguage": "Maghanap ng wika",
     "tabCountry": "Bansa",

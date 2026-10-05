@@ -90,6 +90,7 @@
     "discount": "Korting",
     "shipping": "Verzending",
     "subtotal": "Subtotaal (excl. verzending en btw)",
+    "subtotalNothingToShip": "Subtotaal",
     "taxes": "Btw",
     "total": "Totaal",
     "shippingAtCheckout": "bij het afrekenen"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Toepassen",
     "close": "Sluiten",
+    "currencyLabel": "Valuta: {currencyCode}",
     "placeholder": "Zoek land of taal",
     "placeholderLanguage": "Zoek taal",
     "tabCountry": "Land",

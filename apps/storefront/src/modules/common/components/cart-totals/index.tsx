@@ -42,11 +42,16 @@ const CartTotals: React.FC<CartTotalsProps> = ({
     discount_subtotal,
   } = totals
 
+  // t-2026-10-04-19 N5: a cart with nothing to post (an online course alone) has no
+  // delivery to leave out, so its subtotal reads plain «Промежуточный итог», and its
+  // taxes row shows only when there is a tax, never as «Налоги 0,00 ₽».
+  const showTaxes = needsShipping || !!tax_total
+
   return (
     <div>
       <div className="flex flex-col txt-medium text-ui-fg-subtle">
         <div className="flex items-center justify-between">
-          <span>{t("subtotal")}</span>
+          <span>{needsShipping ? t("subtotal") : t("subtotalNothingToShip")}</span>
           <span data-testid="cart-subtotal" data-value={item_subtotal || 0}>
             {convertToLocale({ amount: item_subtotal ?? 0, currency_code, locale })}
           </span>
@@ -82,12 +87,14 @@ const CartTotals: React.FC<CartTotalsProps> = ({
             </span>
           </div>
         )}
-        <div className="flex justify-between">
-          <span className="flex gap-x-1 items-center ">{t("taxes")}</span>
-          <span data-testid="cart-taxes" data-value={tax_total || 0}>
-            {convertToLocale({ amount: tax_total ?? 0, currency_code, locale })}
-          </span>
-        </div>
+        {showTaxes && (
+          <div className="flex justify-between">
+            <span className="flex gap-x-1 items-center ">{t("taxes")}</span>
+            <span data-testid="cart-taxes" data-value={tax_total || 0}>
+              {convertToLocale({ amount: tax_total ?? 0, currency_code, locale })}
+            </span>
+          </div>
+        )}
       </div>
       <div className="h-px w-full border-b border-ui-border-base my-3" />
       <div className="flex items-center justify-between text-ui-fg-base txt-medium ">

@@ -90,6 +90,7 @@
     "discount": "Kedvezmény",
     "shipping": "Szállítás",
     "subtotal": "Részösszeg (szállítás és áfa nélkül)",
+    "subtotalNothingToShip": "Részösszeg",
     "taxes": "Adók",
     "total": "Összesen",
     "shippingAtCheckout": "a pénztárnál"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Alkalmaz",
     "close": "Bezárás",
+    "currencyLabel": "Pénznem: {currencyCode}",
     "placeholder": "Ország vagy nyelv keresése",
     "placeholderLanguage": "Nyelv keresése",
     "tabCountry": "Ország",

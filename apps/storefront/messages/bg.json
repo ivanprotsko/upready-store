@@ -90,6 +90,7 @@
     "discount": "Отстъпка",
     "shipping": "Доставка",
     "subtotal": "Междинна сума (без доставка и данъци)",
+    "subtotalNothingToShip": "Междинна сума",
     "taxes": "Данъци",
     "total": "Общо",
     "shippingAtCheckout": "при поръчката"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Приложи",
     "close": "Затвори",
+    "currencyLabel": "Валута: {currencyCode}",
     "placeholder": "Търси държава или език",
     "placeholderLanguage": "Търси език",
     "tabCountry": "Държава",

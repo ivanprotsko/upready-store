@@ -90,6 +90,7 @@
     "discount": "Rabat",
     "shipping": "Levering",
     "subtotal": "Subtotal (ekskl. levering og moms)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Moms",
     "total": "I alt",
     "shippingAtCheckout": "ved kassen"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Anvend",
     "close": "Luk",
+    "currencyLabel": "Valuta: {currencyCode}",
     "placeholder": "Søg efter land eller sprog",
     "placeholderLanguage": "Søg efter sprog",
     "tabCountry": "Land",

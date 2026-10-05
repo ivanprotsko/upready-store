@@ -90,6 +90,7 @@
     "discount": "ส่วนลด",
     "shipping": "ค่าจัดส่ง",
     "subtotal": "ยอดรวมย่อย (ไม่รวมค่าจัดส่งและภาษี)",
+    "subtotalNothingToShip": "ยอดรวมย่อย",
     "taxes": "ภาษี",
     "total": "ยอดรวม",
     "shippingAtCheckout": "ตอนชำระเงิน"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "นำไปใช้",
     "close": "ปิด",
+    "currencyLabel": "สกุลเงิน: {currencyCode}",
     "placeholder": "ค้นหาประเทศหรือภาษา",
     "placeholderLanguage": "ค้นหาภาษา",
     "tabCountry": "ประเทศ",

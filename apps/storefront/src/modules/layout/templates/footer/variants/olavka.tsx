@@ -6,7 +6,7 @@ import { getSiteName } from "@lib/data/cookies"
 import { getLegalLinkContext } from "@lib/data/legal-links"
 import { listTenantPages } from "@lib/data/tenant-pages"
 import { getTenantSeller } from "@lib/data/tenant-seller"
-import { footerLegalLinks } from "@lib/util/legal-links"
+import { footerLegalLinks, pagesBesideLegalLinks } from "@lib/util/legal-links"
 import { PRODUCT_GRID_CLASS } from "@modules/products/components/product-card"
 import { FooterContacts } from "@modules/layout/components/footer-seller"
 
@@ -56,6 +56,10 @@ export default async function FooterOlavka() {
     terms: tMeta("terms.title"),
     privacy: tMeta("privacy.title"),
   })
+  // The offer and the privacy policy stay in the «©» column, which links them from every
+  // page whatever the shop lists (remark 19), so «Информация» leaves them out rather than
+  // naming them a second time (t-2026-10-04-19, all three Черкашино sites).
+  const infoPages = pagesBesideLegalLinks(tenantPages, legalLinks)
   // The attribution's own anchor (the shop's override, else ours), as a menu item; none
   // at all for a shop switched off with `attribution_hidden` (Ivan 04.10.2026).
   const creditLabel = attribution
@@ -83,11 +87,11 @@ export default async function FooterOlavka() {
             </div>
           )}
 
-          {tenantPages.length > 0 && (
+          {infoPages.length > 0 && (
             <div className="flex min-w-0 flex-col gap-y-3">
               <span className={HEADING}>{t("infoHeading")}</span>
               <ul className="flex flex-col gap-y-2">
-                {tenantPages.map((page) => (
+                {infoPages.map((page) => (
                   <li key={page.key}>
                     <Link href={`/pages/${page.key}`} className={LINK}>
                       {page.title}

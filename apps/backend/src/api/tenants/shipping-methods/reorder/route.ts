@@ -1,7 +1,7 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { MedusaError } from "@medusajs/framework/utils";
 import { updateShippingOptionsWorkflow } from "@medusajs/medusa/core-flows";
-import { TENANT_METHOD_SCHEMA, type TenantMethodData } from "../../../../shipping-tariffs/tariff";
+import { keptMethodData, TENANT_METHOD_SCHEMA, type TenantMethodData } from "../../../../shipping-tariffs/tariff";
 import { getTenantWarehouse, listTenantMethods } from "../helpers";
 import type { PostTenantShippingMethodsReorderBody } from "../validators";
 
@@ -34,6 +34,7 @@ export const POST = async (
       default_weight_g: warehouse.default_weight_g,
       own_zone: method.own_zone,
       zone: method.zone,
+      ...keptMethodData(method),
     };
     return { id, data };
   });

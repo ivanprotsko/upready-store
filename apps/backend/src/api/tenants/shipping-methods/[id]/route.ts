@@ -58,6 +58,8 @@ export const POST = async (
     // method on or off, or renaming it, leaves the badge on the list where it
     // is — that edit says nothing about the price.
     ...(body.tariff === undefined && current.tariff_source ? { tariff_source: current.tariff_source } : {}),
+    // The form has no field for the other languages' texts yet; they stay as they were.
+    ...(current.i18n ? { i18n: current.i18n } : {}),
   };
 
   await updateTenantShippingMethodWorkflow(req.scope).run({

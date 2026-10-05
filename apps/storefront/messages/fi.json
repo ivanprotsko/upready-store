@@ -90,6 +90,7 @@
     "discount": "Alennus",
     "shipping": "Toimitus",
     "subtotal": "Välisumma (ilman toimitusta ja veroja)",
+    "subtotalNothingToShip": "Välisumma",
     "taxes": "Verot",
     "total": "Yhteensä",
     "shippingAtCheckout": "kassalla"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Käytä",
     "close": "Sulje",
+    "currencyLabel": "Valuutta: {currencyCode}",
     "placeholder": "Hae maata tai kieltä",
     "placeholderLanguage": "Hae kieltä",
     "tabCountry": "Maa",

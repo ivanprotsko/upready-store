@@ -90,6 +90,7 @@
     "discount": "ছাড়",
     "shipping": "শিপিং",
     "subtotal": "সাবটোটাল (শিপিং ও কর ব্যতীত)",
+    "subtotalNothingToShip": "সাবটোটাল",
     "taxes": "কর",
     "total": "মোট",
     "shippingAtCheckout": "চেকআউটে"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "প্রয়োগ করুন",
     "close": "বন্ধ করুন",
+    "currencyLabel": "মুদ্রা: {currencyCode}",
     "placeholder": "দেশ বা ভাষা খুঁজুন",
     "placeholderLanguage": "ভাষা খুঁজুন",
     "tabCountry": "দেশ",

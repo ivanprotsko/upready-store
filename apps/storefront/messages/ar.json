@@ -90,6 +90,7 @@
     "discount": "الخصم",
     "shipping": "الشحن",
     "subtotal": "المجموع الفرعي (غير شامل الشحن والضرائب)",
+    "subtotalNothingToShip": "المجموع الفرعي",
     "taxes": "الضرائب",
     "total": "الإجمالي",
     "shippingAtCheckout": "عند إتمام الطلب"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "تطبيق",
     "close": "إغلاق",
+    "currencyLabel": "العملة: {currencyCode}",
     "placeholder": "ابحث عن دولة أو لغة",
     "placeholderLanguage": "ابحث عن لغة",
     "tabCountry": "الدولة",

@@ -90,6 +90,7 @@
     "discount": "折扣",
     "shipping": "运费",
     "subtotal": "小计（不含运费和税费）",
+    "subtotalNothingToShip": "小计",
     "taxes": "税费",
     "total": "总计",
     "shippingAtCheckout": "结账时计算"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "应用",
     "close": "关闭",
+    "currencyLabel": "货币：{currencyCode}",
     "placeholder": "搜索国家或语言",
     "placeholderLanguage": "搜索语言",
     "tabCountry": "国家",

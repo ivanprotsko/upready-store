@@ -90,6 +90,7 @@
     "discount": "Sleva",
     "shipping": "Doprava",
     "subtotal": "Mezisoučet (bez dopravy a daní)",
+    "subtotalNothingToShip": "Mezisoučet",
     "taxes": "Daně",
     "total": "Celkem",
     "shippingAtCheckout": "v pokladně"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Použít",
     "close": "Zavřít",
+    "currencyLabel": "Měna: {currencyCode}",
     "placeholder": "Hledat zemi nebo jazyk",
     "placeholderLanguage": "Hledat jazyk",
     "tabCountry": "Země",

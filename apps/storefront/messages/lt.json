@@ -90,6 +90,7 @@
     "discount": "Nuolaida",
     "shipping": "Pristatymas",
     "subtotal": "Tarpinė suma (be pristatymo ir mokesčių)",
+    "subtotalNothingToShip": "Tarpinė suma",
     "taxes": "Mokesčiai",
     "total": "Iš viso",
     "shippingAtCheckout": "užsakymo metu"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Taikyti",
     "close": "Uždaryti",
+    "currencyLabel": "Valiuta: {currencyCode}",
     "placeholder": "Ieškoti šalies ar kalbos",
     "placeholderLanguage": "Ieškoti kalbos",
     "tabCountry": "Šalis",

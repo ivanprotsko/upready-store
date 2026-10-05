@@ -90,6 +90,7 @@
     "discount": "Rabatt",
     "shipping": "Frakt",
     "subtotal": "Delsumma (exkl. frakt och moms)",
+    "subtotalNothingToShip": "Delsumma",
     "taxes": "Moms",
     "total": "Totalt",
     "shippingAtCheckout": "i kassan"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Tillämpa",
     "close": "Stäng",
+    "currencyLabel": "Valuta: {currencyCode}",
     "placeholder": "Sök land eller språk",
     "placeholderLanguage": "Sök språk",
     "tabCountry": "Land",

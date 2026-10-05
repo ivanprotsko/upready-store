@@ -90,6 +90,7 @@
     "discount": "Desconto",
     "shipping": "Envio",
     "subtotal": "Subtotal (sem envio nem impostos)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Impostos",
     "total": "Total",
     "shippingAtCheckout": "ao finalizar o pedido"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Aplicar",
     "close": "Fechar",
+    "currencyLabel": "Moeda: {currencyCode}",
     "placeholder": "Pesquisar país ou idioma",
     "placeholderLanguage": "Pesquisar idioma",
     "tabCountry": "País",

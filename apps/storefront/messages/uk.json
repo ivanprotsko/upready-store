@@ -90,6 +90,7 @@
     "discount": "Знижка",
     "shipping": "Доставка",
     "subtotal": "Проміжний підсумок (без доставки та податків)",
+    "subtotalNothingToShip": "Проміжний підсумок",
     "taxes": "Податки",
     "total": "Разом",
     "shippingAtCheckout": "під час оформлення"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Застосувати",
     "close": "Закрити",
+    "currencyLabel": "Валюта: {currencyCode}",
     "placeholder": "Пошук країни або мови",
     "placeholderLanguage": "Пошук мови",
     "tabCountry": "Країна",

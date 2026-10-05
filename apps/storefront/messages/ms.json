@@ -90,6 +90,7 @@
     "discount": "Diskaun",
     "shipping": "Penghantaran",
     "subtotal": "Jumlah kecil (tidak termasuk penghantaran dan cukai)",
+    "subtotalNothingToShip": "Jumlah kecil",
     "taxes": "Cukai",
     "total": "Jumlah",
     "shippingAtCheckout": "semasa pembayaran"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Guna",
     "close": "Tutup",
+    "currencyLabel": "Mata wang: {currencyCode}",
     "placeholder": "Cari negara atau bahasa",
     "placeholderLanguage": "Cari bahasa",
     "tabCountry": "Negara",

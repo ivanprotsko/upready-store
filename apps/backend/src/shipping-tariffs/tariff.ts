@@ -64,7 +64,43 @@ export type TenantMethodData = {
    * route rebuilds `data` from her form (`api/tenants/shipping-methods/[id]`).
    */
   tariff_source?: TariffSource | null;
+  /**
+   * The buyer-facing texts in the shop's other languages, keyed by storefront
+   * locale: `{ ru: { description, delivery_hint } }`. Medusa's translations
+   * cover the option's `name` and not its `data`, so the checkout reads these
+   * beside the base texts (storefront `lib/util/shipping-option-text.ts`).
+   * The panel does not edit them yet, so every route that rebuilds `data`
+   * carries them over, or the owner's next save, reorder or weight change
+   * would erase them (t-2026-10-04-19, DHL on cherkashino.com/ru).
+   */
+  i18n?: MethodTextTranslations | null;
 };
+
+/** Per-locale copies of a method's buyer-facing texts (`TenantMethodData.i18n`). */
+export type MethodTextTranslations = Record<
+  string,
+  { description?: string | null; delivery_hint?: string | null }
+>;
+
+/**
+ * What a route that rebuilds `data` without the owner's form (`reorder`,
+ * `settings`) has to carry over as it was: the carrier, who set the tariff and
+ * the texts in the shop's other languages. Before this both routes dropped
+ * `carrier`, and the checkout groups a method into its card by
+ * `data.carrier` (the «Почта России — до отделения» tariff goes under «В пункт
+ * выдачи» by `post_ru`), so the first reorder in the panel took it out of its
+ * card (t-2026-10-04-19, with D10). The update route decides `carrier` and
+ * `tariff_source` from the form and carries only `i18n`.
+ */
+export const keptMethodData = (method: {
+  carrier?: string | null;
+  tariff_source?: TariffSource | null;
+  i18n?: MethodTextTranslations | null;
+}): Pick<TenantMethodData, "carrier" | "tariff_source" | "i18n"> => ({
+  ...(method.carrier ? { carrier: method.carrier } : {}),
+  ...(method.tariff_source ? { tariff_source: method.tariff_source } : {}),
+  ...(method.i18n ? { i18n: method.i18n } : {}),
+});
 
 /** Who set the tariff the method carries. Absent means the owner did. */
 export type TariffSource = "provisioned-default";

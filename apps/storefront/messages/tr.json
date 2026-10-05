@@ -90,6 +90,7 @@
     "discount": "İndirim",
     "shipping": "Kargo",
     "subtotal": "Ara toplam (kargo ve vergiler hariç)",
+    "subtotalNothingToShip": "Ara toplam",
     "taxes": "Vergiler",
     "total": "Toplam",
     "shippingAtCheckout": "ödeme adımında"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Uygula",
     "close": "Kapat",
+    "currencyLabel": "Para birimi: {currencyCode}",
     "placeholder": "Ülke veya dil ara",
     "placeholderLanguage": "Dil ara",
     "tabCountry": "Ülke",

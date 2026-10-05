@@ -90,6 +90,7 @@
     "discount": "Diskon",
     "shipping": "Pengiriman",
     "subtotal": "Subtotal (belum termasuk pengiriman dan pajak)",
+    "subtotalNothingToShip": "Subtotal",
     "taxes": "Pajak",
     "total": "Total",
     "shippingAtCheckout": "saat checkout"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Terapkan",
     "close": "Tutup",
+    "currencyLabel": "Mata uang: {currencyCode}",
     "placeholder": "Cari negara atau bahasa",
     "placeholderLanguage": "Cari bahasa",
     "tabCountry": "Negara",

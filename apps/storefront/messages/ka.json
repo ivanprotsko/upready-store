@@ -90,6 +90,7 @@
     "discount": "ფასდაკლება",
     "shipping": "მიწოდება",
     "subtotal": "შუალედური ჯამი (მიწოდებისა და გადასახადების გარეშე)",
+    "subtotalNothingToShip": "შუალედური ჯამი",
     "taxes": "გადასახადები",
     "total": "ჯამი",
     "shippingAtCheckout": "გაფორმებისას"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "გამოყენება",
     "close": "დახურვა",
+    "currencyLabel": "ვალუტა: {currencyCode}",
     "placeholder": "მოძებნეთ ქვეყანა ან ენა",
     "placeholderLanguage": "მოძებნეთ ენა",
     "tabCountry": "ქვეყანა",

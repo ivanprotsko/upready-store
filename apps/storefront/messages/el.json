@@ -90,6 +90,7 @@
     "discount": "Έκπτωση",
     "shipping": "Αποστολή",
     "subtotal": "Μερικό σύνολο (χωρίς αποστολή και φόρους)",
+    "subtotalNothingToShip": "Μερικό σύνολο",
     "taxes": "Φόροι",
     "total": "Σύνολο",
     "shippingAtCheckout": "κατά την ολοκλήρωση"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Εφαρμογή",
     "close": "Κλείσιμο",
+    "currencyLabel": "Νόμισμα: {currencyCode}",
     "placeholder": "Αναζήτηση χώρας ή γλώσσας",
     "placeholderLanguage": "Αναζήτηση γλώσσας",
     "tabCountry": "Χώρα",

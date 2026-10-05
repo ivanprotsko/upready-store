@@ -90,6 +90,7 @@
     "discount": "Zľava",
     "shipping": "Doprava",
     "subtotal": "Medzisúčet (bez dopravy a daní)",
+    "subtotalNothingToShip": "Medzisúčet",
     "taxes": "Dane",
     "total": "Spolu",
     "shippingAtCheckout": "pri objednávke"
@@ -1058,6 +1059,7 @@
   "RegionSelect": {
     "apply": "Použiť",
     "close": "Zavrieť",
+    "currencyLabel": "Mena: {currencyCode}",
     "placeholder": "Hľadať krajinu alebo jazyk",
     "placeholderLanguage": "Hľadať jazyk",
     "tabCountry": "Krajina",
