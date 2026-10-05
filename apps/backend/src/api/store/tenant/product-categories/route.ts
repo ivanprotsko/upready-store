@@ -1,7 +1,7 @@
 import type { MedusaResponse, MedusaStoreRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import tenantProductCategoryLink from "../../../../links/tenant-product-category";
-import { resolveTenantFromPublishableKey } from "../resolve-tenant";
+import { listGroupTenantIds, resolveTenantFromPublishableKey } from "../resolve-tenant";
 
 /**
  * `GET /store/tenant/product-categories` — the public read of one tenant's
@@ -14,6 +14,12 @@ import { resolveTenantFromPublishableKey } from "../resolve-tenant";
  * `tenant_product_category` rather than through `tenant_admin`, because there is
  * no tenant admin in a storefront request.
  *
+ * A site of a `tenant_group` reads the categories of every live site of its
+ * group (`listGroupTenantIds`): the group's products reach it through its own
+ * sales channel, and their categories have to come with them. Which of those
+ * categories hold a product this site sells is the storefront's own question
+ * (`withoutEmptyCategories`, asked of `/store/products`).
+ *
  * The response is `/store/product-categories`'s own shape and its own parameters
  * (`StoreProductCategoriesParams` + `listProductCategoryConfig`, wired in
  * `src/api/middlewares.ts`), so a storefront can swap one URL for the other.
@@ -25,15 +31,21 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req);
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
+  const tenantIds = await listGroupTenantIds(req, tenant.id);
+
   const { data: links } = await query.graph({
     entity: tenantProductCategoryLink.entryPoint,
     fields: ["product_category_id"],
-    filters: { tenant_id: tenant.id },
+    filters: { tenant_id: tenantIds },
   });
 
-  const ownedIds = links
-    .map((link) => link?.product_category_id as string | undefined)
-    .filter((id): id is string => Boolean(id));
+  const ownedIds = [
+    ...new Set(
+      links
+        .map((link) => link?.product_category_id as string | undefined)
+        .filter((id): id is string => Boolean(id)),
+    ),
+  ];
 
   const requested = req.filterableFields.id;
   const wanted =

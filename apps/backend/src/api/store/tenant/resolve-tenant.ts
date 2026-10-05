@@ -38,6 +38,60 @@ export const resolveTenantFromPublishableKey = async (req: MedusaStoreRequest): 
   };
 };
 
+/**
+ * The tenants whose shared catalogue this storefront reads (t-2026-09-24-n12,
+ * `tenant_group`): the tenant itself first, then every other live site of its
+ * group. A site made by «Создать сайт» sells the group's products through its
+ * own sales channel, but the record that says whose a category is stays with
+ * the site that created it, so a storefront read scoped to one tenant alone
+ * gave such a site no category at all (pass 3b N13: cherkashino.com had no
+ * category menu and answered 404 on every category page its own breadcrumbs
+ * led to).
+ *
+ * A tenant without a group is alone in the list, which keeps every read built
+ * on it unchanged for a single shop. The membership rule is `listGroupSites`'s
+ * own (`tenants/tenant-scope.ts`): same group, not archived.
+ */
+export const listGroupTenantIds = async (req: MedusaStoreRequest, tenantId: string): Promise<string[]> => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [row],
+  } = await query.graph({
+    entity: "tenant",
+    fields: ["id", "group.id"],
+    filters: { id: [tenantId] },
+  });
+
+  const groupId = (row as { group?: { id?: string } | null } | undefined)?.group?.id ?? null;
+
+  if (!groupId) {
+    return [tenantId];
+  }
+
+  const { data: members } = await query.graph({
+    entity: "tenant",
+    fields: ["id", "metadata", "group.id"],
+    filters: { group_id: [groupId] } as Record<string, unknown>,
+  });
+
+  const others = (members as {
+    id?: string;
+    metadata?: Record<string, unknown> | null;
+    group?: { id?: string } | null;
+  }[])
+    .filter(
+      (member) =>
+        member.id &&
+        member.id !== tenantId &&
+        member.group?.id === groupId &&
+        typeof member.metadata?.["archived_at"] !== "string",
+    )
+    .map((member) => member.id as string);
+
+  return [tenantId, ...others];
+};
+
 export type TenantFromPublishableKey = { id: string; metadata: Record<string, unknown> | null };
 
 /**
