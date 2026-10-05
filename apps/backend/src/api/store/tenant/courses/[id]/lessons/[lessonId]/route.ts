@@ -9,7 +9,14 @@ import { parseLessonQuiz } from "../../../../../../../modules/course/quiz";
 import type CourseModuleService from "../../../../../../../modules/course/service";
 import type { LessonRow } from "../../../../../../tenants/courses/course-helpers";
 import { resolveTenantFromPublishableKey } from "../../../../resolve-tenant";
-import { assertCourseAccess, getOwnedCourse, type ProgressRow } from "../../../store-course-helpers";
+import {
+  assertCourseAccess,
+  getOwnedCourse,
+  LESSON_REFERENCE,
+  LESSON_TRANSLATABLE_FIELDS,
+  translateRows,
+  type ProgressRow,
+} from "../../../store-course-helpers";
 
 /**
  * `GET /store/tenant/courses/:id/lessons/:lessonId` — the lesson player's one
@@ -23,6 +30,11 @@ import { assertCourseAccess, getOwnedCourse, type ProgressRow } from "../../../s
  * answers included: a self-check the storefront scores on the spot, not an
  * exam, behind the same access check as the body. Null when the lesson has
  * none, or when what is stored is not a test `parseLessonQuiz` accepts.
+ *
+ * The title comes in the visitor's language (`translateRows`,
+ * t-2026-10-04-19), the same one the contents list shows for this lesson. The
+ * body and the questions stay as the owner wrote them: neither is a
+ * translatable field.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -49,17 +61,20 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     );
   }
 
-  const [progress] = (await courseService.listCourseProgresses({
-    tenant_id: tenant.id,
-    customer_id: customerId,
-    lesson_id: lesson.id,
-  })) as ProgressRow[];
+  const [[progress], [translated]] = await Promise.all([
+    courseService.listCourseProgresses({
+      tenant_id: tenant.id,
+      customer_id: customerId,
+      lesson_id: lesson.id,
+    }) as Promise<ProgressRow[]>,
+    translateRows(req.scope, LESSON_REFERENCE, [lesson], LESSON_TRANSLATABLE_FIELDS, req.locale),
+  ]);
 
   res.json({
     lesson: {
       id: lesson.id,
       course_id: lesson.course_id,
-      title: lesson.title,
+      title: translated.title,
       order: lesson.order,
       body: lesson.body,
       video_url: lesson.video_url,

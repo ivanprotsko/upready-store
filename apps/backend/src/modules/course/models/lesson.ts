@@ -18,13 +18,18 @@ import { model } from "@medusajs/framework/utils";
  * (ask-20261005-061005-2e78): up to three questions, each with two to four
  * options and the index of the right one, shaped and checked by
  * `LessonQuizSchema` in `../quiz.ts`. Null for a lesson with no test.
+ *
+ * `title` is `.translatable()` (t-2026-10-04-19), under the reference
+ * `lesson`, the same way `course.title` is; see `course.ts`. `body` and the
+ * quiz are not: a lesson's text in a second language is a separate piece of
+ * work, not a field of the translation module.
  */
 const Lesson = model
   .define("lesson", {
     id: model.id({ prefix: "lsn" }).primaryKey(),
     tenant_id: model.text(),
     course_id: model.text(),
-    title: model.text(),
+    title: model.text().translatable(),
     order: model.number(),
     body: model.text(),
     video_url: model.text().nullable(),

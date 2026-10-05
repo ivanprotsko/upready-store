@@ -11,6 +11,7 @@ import { resolveTenantFromPublishableKey } from "../resolve-tenant";
 import {
   computeCourseProgress,
   hasCourseAccess,
+  translateCourse,
   type CourseProgressSummary,
   type ProgressRow,
 } from "./store-course-helpers";
@@ -30,6 +31,10 @@ import {
  * this route regardless of access — the player route
  * (`/store/tenant/courses/:id/lessons/:lessonId`) is the only place content
  * leaves the server, so a locked lesson cannot be read from the network tab.
+ *
+ * The course's title and description and every lesson title come in the
+ * visitor's language (`x-medusa-locale`, t-2026-10-04-19), from the
+ * translation module, else in the owner's own text (`translateCourse`).
  */
 export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req);
@@ -78,15 +83,17 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
     progress = computeCourseProgress(lessons, progressRows);
   }
 
+  const translated = await translateCourse(req.scope, course, lessons, req.locale);
+
   res.json({
     course: {
       id: course.id,
       product_id: course.product_id,
-      title: course.title,
+      title: translated.course.title,
       slug: course.slug,
-      description: course.description,
+      description: translated.course.description,
     },
-    lessons: lessons.map((lesson) => ({
+    lessons: translated.lessons.map((lesson) => ({
       id: lesson.id,
       title: lesson.title,
       order: lesson.order,

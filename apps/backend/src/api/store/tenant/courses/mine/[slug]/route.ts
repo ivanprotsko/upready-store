@@ -13,6 +13,7 @@ import {
   assertCourseAccess,
   computeCourseProgress,
   pickContinueLessonId,
+  translateCourse,
   type ProgressRow,
 } from "../../store-course-helpers";
 
@@ -31,6 +32,10 @@ import {
  * Lesson `body`/`video_url` stay with the player route, and so do the
  * questions: `has_quiz` only tells the lesson page whether the lesson before
  * it ends with a test, the step its «Назад» opens (ask-20261005-061005-2e78).
+ *
+ * Titles and the description come in the visitor's language
+ * (`translateCourse`, t-2026-10-04-19): this is the read behind the contents,
+ * the lesson page and the test page alike, titles included.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -64,15 +69,16 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     course_id: course.id,
   })) as ProgressRow[];
   const viewedAt = new Map(progressRows.map((row) => [row.lesson_id, row.viewed_at]));
+  const translated = await translateCourse(req.scope, course, lessons, req.locale);
 
   res.json({
     course: {
       id: course.id,
-      title: course.title,
+      title: translated.course.title,
       slug: course.slug,
-      description: course.description,
+      description: translated.course.description,
     },
-    lessons: lessons.map((lesson) => ({
+    lessons: translated.lessons.map((lesson) => ({
       id: lesson.id,
       title: lesson.title,
       order: lesson.order,
