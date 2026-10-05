@@ -278,7 +278,7 @@ const orderSummary = async (container: MedusaContainer, orderId: string) => {
   const order = data[0] as
     | {
         id: string;
-        display_id: number;
+        display_id: number | null;
         email: string | null;
         currency_code: string;
         total: unknown;
