@@ -205,6 +205,10 @@ services:
       # Closed mode for every shop bot on this deployment (shop-bot/access-gate.ts):
       # SHA-256 hex of the access password; empty = open mode.
       SHOP_BOT_ACCESS_PASSWORD_SHA256: ${SHOP_BOT_ACCESS_PASSWORD_SHA256:-}
+      # The marketplace scheduler's switch (src/jobs/marketplace-sync.ts): `off` stops
+      # the five-minute tick that mirrors Wildberries and Ozon, «Обновить сейчас» in
+      # the panel keeps working. Unset, or any other value, leaves the schedule on.
+      MP_SCHEDULER: ${MP_SCHEDULER:-}
       # Where the owner opens an order: the panel, not the engine. The Telegram
       # message links here.
       PANEL_PUBLIC_URL: https://${PANEL_DOMAIN}
@@ -402,11 +406,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=coolify
-      - traefik.http.routers.mt-panel-http.rule=Host(`${PANEL_DOMAIN}`) || Host(`${PANEL_DOMAIN_ALT:-${PANEL_DOMAIN}}`)
+      - traefik.http.routers.mt-panel-http.rule=Host(`${PANEL_DOMAIN}`) || Host(`${PANEL_DOMAIN_ALT:-${PANEL_DOMAIN}}`) || Host(`${PANEL_DOMAIN_ALT_2:-${PANEL_DOMAIN}}`)
       - traefik.http.routers.mt-panel-http.entrypoints=http
       - traefik.http.routers.mt-panel-http.middlewares=mt-https
       - traefik.http.routers.mt-panel-http.service=mt-panel
-      - traefik.http.routers.mt-panel.rule=Host(`${PANEL_DOMAIN}`) || Host(`${PANEL_DOMAIN_ALT:-${PANEL_DOMAIN}}`)
+      - traefik.http.routers.mt-panel.rule=Host(`${PANEL_DOMAIN}`) || Host(`${PANEL_DOMAIN_ALT:-${PANEL_DOMAIN}}`) || Host(`${PANEL_DOMAIN_ALT_2:-${PANEL_DOMAIN}}`)
       - traefik.http.routers.mt-panel.entrypoints=https
       - traefik.http.routers.mt-panel.tls=true
       - traefik.http.routers.mt-panel.tls.certresolver=letsencrypt
