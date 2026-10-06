@@ -4,9 +4,12 @@
   "$schema-note": "Read by deploy/scripts/instance-check.mjs. docs/instances/RULES.md is the prose this file enforces; edit both together.",
   "domains": {
     "primary": ["cherkashino.ru"],
-    "aliases": ["www.cherkashino.ru"],
+    "aliases": ["www.cherkashino.ru", "xn--80ajkgrgj8cn.xn--p1ai", "www.xn--80ajkgrgj8cn.xn--p1ai"],
     "otherShops": false,
-    "note": "instance-check --db fails on a tenant with no address on these domains, and on a tenant with an address on a domain intl.json names: every other shop belongs to INTL (docs/instances/RULES.md, the first lines and §1)"
+    "note": "instance-check --db fails on a tenant with no address on these domains, and on a tenant with an address on a domain intl.json names: every other shop belongs to INTL (docs/instances/RULES.md, the first lines and §1). The two xn-- hosts are the shop's addresses in the .рф zone, held by the same tenant in the RU database."
+  },
+  "tenants": {
+    "recordedExceptions": []
   },
   "dataResidency": {
     "customerDatabase": "RU host only (Timeweb, Moscow) — 152-FZ Art. 18(5)",
@@ -83,7 +86,8 @@
     "crossBorderCopy": "forbidden",
     "s3EndpointHosts": ["s3.twcstorage.ru"],
     "crossCopyHosts": [],
-    "note": "instance-check --backup-env fails when S3_ENABLED=1 points S3_ENDPOINT_URL at a host outside s3EndpointHosts, and when CROSS_COPY_SSH_HOST names a host outside crossCopyHosts. The lists are allowlists: a second host or bucket in Russia is added here and in docs/instances/RULES.md §1 before it is used."
+    "envFileOnHost": "/opt/upready-store/backup-ru.env",
+    "note": "instance-check --backup-env fails when S3_ENABLED=1 points S3_ENDPOINT_URL at a host outside s3EndpointHosts, and when CROSS_COPY_SSH_HOST names a host outside crossCopyHosts. The lists are allowlists: a second host or bucket in Russia is added here and in docs/instances/RULES.md §1 before it is used. envFileOnHost is the file on the host that carries those keys; deploy/scripts/deploy-instance.sh hands it to the check."
   },
   "mailRelay": {
     "description": "self-hosted outbound-only relay on the RU host (same shape as deploy/mt/MAIL.md's mail service), or another provider whose own processing stays inside Russia"

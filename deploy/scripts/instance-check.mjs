@@ -20,13 +20,16 @@
 // The --backup-env check reads where the host's backup copies go
 // (deploy/backup/nightly.env.example). It reads the value of the three keys in
 // BACKUP_TARGET_KEYS and of no other key, and a message names the key and the
-// profile's own list, never the value. The --db check also counts the tenants
-// that belong to another instance. A message carries the count and the
-// domains the profiles name, never a tenant's name or address.
+// profile's own list, never the value. Without the flag, or when the file is
+// not there, the tool says in one line that backup targets were not checked.
+// The --db check also finds the tenants that belong to another instance. A
+// message names a tenant's handle and its hosts, never an admin, a buyer or
+// an e-mail. A tenant the profile records as a known exception is printed as
+// "KNOWN VIOLATION (recorded)" and does not change the exit code.
 //
 // Exit codes: 0 clean, 1 one or more violations (printed one per line to
 // stderr, "VIOLATION: <reason>"), 2 usage or configuration error.
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, realpathSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -120,8 +123,23 @@ export function validateProfile(profile) {
   if (typeof profile.domains?.otherShops !== "boolean") missing.push("domains.otherShops");
   if (!isList(profile.backup?.s3EndpointHosts)) missing.push("backup.s3EndpointHosts");
   if (!isList(profile.backup?.crossCopyHosts)) missing.push("backup.crossCopyHosts");
+  const envFile = profile.backup?.envFileOnHost;
+  if (envFile !== null && typeof envFile !== "string") missing.push("backup.envFileOnHost");
+  const exceptions = profile.tenants?.recordedExceptions ?? [];
+  if (!Array.isArray(exceptions)) missing.push("tenants.recordedExceptions");
   if (missing.length > 0) {
     throw new UsageError(`profile "${profile.instance}" has no valid ${missing.join(", ")}`);
+  }
+  // A recorded exception lets a known violation through, so it has to say why and what closes it.
+  for (const entry of exceptions) {
+    const isText = (value) => typeof value === "string" && value.trim().length > 0;
+    const absent = ["handle", "reason", "recorded", "closes"].filter((key) => !isText(entry?.[key]));
+    if (!isList(entry?.hosts) || entry.hosts.length === 0) absent.push("hosts");
+    if (absent.length > 0) {
+      throw new UsageError(
+        `profile "${profile.instance}" has a recorded exception${isText(entry?.handle) ? ` for "${entry.handle}"` : ""} without ${absent.join(", ")}`,
+      );
+    }
   }
 }
 
@@ -250,34 +268,47 @@ export function profileHosts(profile) {
 /**
  * Tenant violations: a shop in this database belongs to another instance (docs/instances/RULES.md
  * §1, "A tenant belongs to exactly one instance's database"). The domains in the profiles tell the
- * instance of a shop. `tenantHosts` holds one list of `tenant_domain` hosts per tenant. A message
- * carries a count and the profiles' own domains, never a tenant's name or address.
+ * instance of a shop. `tenants` holds one `{ handle, hosts }` per tenant, the hosts from
+ * `tenant_domain`. A message names the handle and the hosts, never an admin, a buyer or an e-mail.
+ *
+ * A tenant on another instance's domain that the profile lists in `tenants.recordedExceptions` goes
+ * to `known` and does not fail the check. The entry has to match exactly, the handle and every
+ * offending host. One more foreign host on the same tenant is a violation again.
  */
-export function checkDbTenants(tenantHosts, profile, otherProfiles) {
+export function checkDbTenants(tenants, profile, otherProfiles) {
   const violations = [];
-  let unclaimed = tenantHosts;
+  const known = [];
+  const exceptions = profile.tenants?.recordedExceptions ?? [];
+  let unclaimed = tenants;
   for (const other of otherProfiles ?? []) {
     const theirs = profileHosts(other);
-    const isTheirs = (hosts) => hosts.some((host) => onList(host, theirs));
-    const count = unclaimed.filter(isTheirs).length;
-    unclaimed = unclaimed.filter((hosts) => !isTheirs(hosts));
-    if (count > 0) {
-      violations.push(
-        `${count} tenant(s) in this database answer on a domain of instance ${other.instance} (${theirs.join(", ")}) — a tenant of another instance, not allowed on instance ${profile.instance}`,
+    const offending = (tenant) => tenant.hosts.filter((host) => onList(host, theirs));
+    for (const tenant of unclaimed) {
+      const hosts = offending(tenant);
+      if (hosts.length === 0) continue;
+      const what = `tenant "${tenant.handle}" answers on a domain of instance ${other.instance} (${hosts.join(", ")})`;
+      const entry = exceptions.find(
+        (each) => each.handle === tenant.handle && hosts.every((host) => each.hosts.some((recorded) => recorded.toLowerCase() === host)),
       );
+      if (entry) {
+        known.push(`${what} — recorded ${entry.recorded}: ${entry.reason}. Closes with: ${entry.closes}`);
+      } else {
+        violations.push(`${what} — a tenant of another instance, not allowed on instance ${profile.instance}`);
+      }
     }
+    unclaimed = unclaimed.filter((tenant) => offending(tenant).length === 0);
   }
   // RULES.md gives "every other shop" to INTL, so RU holds the shops its profile names and no other.
   if (profile.domains?.otherShops === false) {
     const own = profileHosts(profile);
-    const count = unclaimed.filter((hosts) => !hosts.some((host) => onList(host, own))).length;
-    if (count > 0) {
+    for (const tenant of unclaimed) {
+      if (tenant.hosts.some((host) => onList(host, own))) continue;
       violations.push(
-        `${count} tenant(s) in this database have no address on the domains of instance ${profile.instance} (${own.join(", ")}) — a tenant of another instance, not allowed on instance ${profile.instance}`,
+        `tenant "${tenant.handle}" has no address on the domains of instance ${profile.instance} (${own.join(", ")}) — a tenant of another instance, not allowed on instance ${profile.instance}`,
       );
     }
   }
-  return violations;
+  return { violations, known };
 }
 
 /** Shells out to psql, the same way deploy/scripts/tenant-ingress-sync.sh does. Throws rather than guessing on a database that cannot be read. */
@@ -310,14 +341,17 @@ export function queryDb(databaseUrl) {
     databaseUrl,
     "select coalesce(metadata->>'buyer_login_method', 'both') from tenant where deleted_at is null",
   );
-  // One line per tenant, its id and then its custom hosts. A tenant with no tenant_domain row keeps
-  // its line, because a shop with no address of this instance is what checkDbTenants looks for.
+  // One line per tenant, its handle and then its custom hosts. A tenant with no tenant_domain row
+  // keeps its line, because a shop with no address of this instance is what checkDbTenants looks for.
   const tenantRows = psql(
     databaseUrl,
-    "select t.id || '|' || coalesce(string_agg(lower(d.host), ','), '') from tenant t left join tenant_domain d on d.tenant_id = t.id and d.deleted_at is null where t.deleted_at is null group by t.id",
+    "select t.handle || '|' || coalesce(string_agg(lower(d.host), ',' order by d.host), '') from tenant t left join tenant_domain d on d.tenant_id = t.id and d.deleted_at is null where t.deleted_at is null group by t.id, t.handle order by t.handle",
   );
-  const tenantHosts = tenantRows.map((row) => row.slice(row.indexOf("|") + 1).split(",").filter(Boolean));
-  return { configuredProviders, ga4TenantCount: Number(ga4Rows[0] ?? "0"), loginMethods, tenantHosts };
+  const tenants = tenantRows.map((row) => {
+    const bar = row.indexOf("|");
+    return { handle: row.slice(0, bar), hosts: row.slice(bar + 1).split(",").filter(Boolean) };
+  });
+  return { configuredProviders, ga4TenantCount: Number(ga4Rows[0] ?? "0"), loginMethods, tenants };
 }
 
 const USAGE = "usage: instance-check.mjs --instance <ru|intl> --env <path> [--backup-env <path>] [--db <postgres-url>]";
@@ -351,19 +385,23 @@ function main(argv) {
     process.exit(2);
   }
 
-  for (const file of [args.env, args.backupEnv]) {
-    if (file && !existsSync(file)) {
-      console.error(`usage error: no such env file: ${file}`);
-      process.exit(2);
-    }
+  if (!existsSync(args.env)) {
+    console.error(`usage error: no such env file: ${args.env}`);
+    process.exit(2);
   }
 
   const envMap = parseEnvFile(readFileSync(args.env, "utf8"));
   const violations = [...checkEnv(envMap, profile)];
 
-  if (args.backupEnv) {
+  // A host with no backup env file copies nowhere, so its absence is not a violation. Say that the
+  // check did not run, so a deploy log never reads as if the targets were looked at.
+  const backupChecked = Boolean(args.backupEnv) && existsSync(args.backupEnv);
+  if (backupChecked) {
     const targets = readEnvValues(readFileSync(args.backupEnv, "utf8"), BACKUP_TARGET_KEYS);
     violations.push(...checkBackupTargets(targets, profile));
+  } else {
+    const why = args.backupEnv ? `no such file: ${args.backupEnv}` : "no --backup-env given";
+    console.log(`instance-check: backup targets NOT checked (${why})`);
   }
 
   if (args.db) {
@@ -379,8 +417,12 @@ function main(argv) {
       ...checkDbProviders(db.configuredProviders, profile),
       ...checkDbAnalytics(db.ga4TenantCount, profile),
       ...checkDbLoginMethods(db.loginMethods, profile),
-      ...checkDbTenants(db.tenantHosts, profile, otherProfiles),
     );
+    const tenants = checkDbTenants(db.tenants, profile, otherProfiles);
+    violations.push(...tenants.violations);
+    for (const line of tenants.known) {
+      console.error(`KNOWN VIOLATION (recorded): ${line}`);
+    }
   }
 
   if (violations.length > 0) {
@@ -390,11 +432,20 @@ function main(argv) {
     process.exit(1);
   }
 
-  const checked = [args.env, args.backupEnv ? `backup targets in ${args.backupEnv}` : null, args.db ? "--db checked" : null];
+  const checked = [args.env, backupChecked ? `backup targets in ${args.backupEnv}` : null, args.db ? "--db checked" : null];
   console.log(`instance-check: ${args.instance} is clean (${checked.filter(Boolean).join(", ")})`);
   process.exit(0);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+/** True when this file is the script node was started with. Node resolves a symlink in that path before it loads the file, so compare real paths: a plain string compare skipped main() and exited 0 without checking anything. */
+function startedDirectly() {
+  try {
+    return realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
+  } catch {
+    return false;
+  }
+}
+
+if (startedDirectly()) {
   main(process.argv.slice(2));
 }
