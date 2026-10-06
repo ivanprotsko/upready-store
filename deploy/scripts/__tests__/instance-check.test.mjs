@@ -3,17 +3,33 @@
 // to psql (queryDb) is exercised only through the pure functions it feeds
 // (checkDbProviders, checkDbAnalytics), never by actually running psql.
 //
+// The tests at the end of the file run the tool itself as a child process and
+// read its real exit code. Where they pass --db, a stand-in `psql` script
+// comes first on PATH and answers each query with rows the test names.
+//
 //   node --test deploy/scripts/__tests__/instance-check.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { chmodSync, cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   parseArgs,
   parseEnvFile,
+  readEnvValues,
   loadProfile,
+  loadOtherProfiles,
+  validateProfile,
   forbiddenProviders,
   checkEnv,
+  checkBackupTargets,
   checkDbProviders,
   checkDbAnalytics,
+  checkDbTenants,
+  hostOf,
+  BACKUP_TARGET_KEYS,
   UsageError,
   INSTANCES_DIR,
 } from "../instance-check.mjs";
@@ -22,11 +38,13 @@ test("parseArgs reads --flag value and --flag=value the same way", () => {
   assert.deepEqual(parseArgs(["--instance", "ru", "--env", "a.env"]), {
     instance: "ru",
     env: "a.env",
+    backupEnv: null,
     db: null,
   });
-  assert.deepEqual(parseArgs(["--instance=intl", "--env=b.env", "--db=postgres://x"]), {
+  assert.deepEqual(parseArgs(["--instance=intl", "--env=b.env", "--backup-env=c.env", "--db=postgres://x"]), {
     instance: "intl",
     env: "b.env",
+    backupEnv: "c.env",
     db: "postgres://x",
   });
 });
@@ -190,4 +208,308 @@ test("checkDbLoginMethods: RU allows Yandex ID only, INTL allows e-mail and Yand
   assert.match(checkDbLoginMethods(["both", "both"], ru)[0], /^2 tenant\(s\) .*"both".*emailpass/);
   assert.deepEqual(checkDbLoginMethods(["both", "email", "yandex"], intl), []);
   assert.deepEqual(checkDbLoginMethods(["both"], { instance: "x", providers: {} }), []);
+});
+
+test("readEnvValues returns the keys you ask for and no other, read the way a shell sources the file", () => {
+  const values = readEnvValues(
+    [
+      "# S3_ENABLED=1",
+      "S3_ENABLED=1 # on",
+      'S3_ENDPOINT_URL="https://s3.twcstorage.ru"',
+      "export CROSS_COPY_SSH_HOST='203.0.113.7'",
+      "AWS_SECRET_ACCESS_KEY=never-read",
+    ].join("\n"),
+    BACKUP_TARGET_KEYS,
+  );
+  assert.deepEqual([...values.keys()].sort(), ["CROSS_COPY_SSH_HOST", "S3_ENABLED", "S3_ENDPOINT_URL"]);
+  assert.equal(values.get("S3_ENABLED"), "1");
+  assert.equal(values.get("S3_ENDPOINT_URL"), "https://s3.twcstorage.ru");
+  assert.equal(values.get("CROSS_COPY_SSH_HOST"), "203.0.113.7");
+});
+
+test("hostOf reads the host of a URL and of a bare host, and gives null for nothing", () => {
+  assert.equal(hostOf("https://S3.twcstorage.ru/bucket"), "s3.twcstorage.ru");
+  assert.equal(hostOf("s3.twcstorage.ru:443"), "s3.twcstorage.ru");
+  assert.equal(hostOf("203.0.113.7"), "203.0.113.7");
+  assert.equal(hostOf(""), null);
+  assert.equal(hostOf(undefined), null);
+});
+
+test("the real profiles carry every field the backup and tenant checks read", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  validateProfile(ru);
+  validateProfile(loadProfile("intl", INSTANCES_DIR));
+  assert.deepEqual(loadOtherProfiles("ru", INSTANCES_DIR).map((profile) => profile.instance), ["intl"]);
+  assert.deepEqual(loadOtherProfiles("intl", INSTANCES_DIR).map((profile) => profile.instance), ["ru"]);
+  assert.throws(() => validateProfile({ ...ru, backup: { crossBorderCopy: "forbidden" } }), /backup\.s3EndpointHosts, backup\.crossCopyHosts/);
+  assert.throws(() => validateProfile({ ...ru, domains: { primary: [] } }), UsageError);
+});
+
+test("a recorded exception without a reason or without what closes it is a configuration error", () => {
+  const intl = loadProfile("intl", INSTANCES_DIR);
+  const [entry] = intl.tenants.recordedExceptions;
+  assert.equal(entry.handle, "olavka");
+  const withEntry = (changed) => ({ ...intl, tenants: { recordedExceptions: [changed] } });
+  validateProfile(withEntry(entry));
+  assert.throws(() => validateProfile(withEntry({ ...entry, reason: "" })), /recorded exception for "olavka" without reason/);
+  assert.throws(() => validateProfile(withEntry({ ...entry, closes: undefined })), /recorded exception for "olavka" without closes/);
+  assert.throws(() => validateProfile(withEntry({ ...entry, hosts: [] })), UsageError);
+});
+
+const targets = (lines) => readEnvValues(lines.join("\n"), BACKUP_TARGET_KEYS);
+
+test("checkBackupTargets: RU passes on the Timeweb endpoint and fails on any other S3 endpoint", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  assert.deepEqual(checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.twcstorage.ru"]), ru), []);
+
+  const abroad = checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.eu-central-1.amazonaws.com"]), ru);
+  assert.equal(abroad.length, 1);
+  assert.match(abroad[0], /^backup target S3_ENDPOINT_URL .*allowed: s3\.twcstorage\.ru.*outside the country of instance ru$/);
+  // The message names the key and the profile's list, never the value it read.
+  assert.doesNotMatch(abroad[0], /amazonaws/);
+
+  assert.equal(checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL="]), ru).length, 1);
+  // cross-copy.sh copies nowhere while S3_ENABLED is not 1, so a stale endpoint is no copy.
+  assert.deepEqual(checkBackupTargets(targets(["S3_ENABLED=0", "S3_ENDPOINT_URL=https://s3.eu-central-1.amazonaws.com"]), ru), []);
+  assert.deepEqual(checkBackupTargets(targets([]), ru), []);
+});
+
+test("checkBackupTargets: a cross-copy host fails on both instances, and INTL fails on an enabled S3 copy", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const intl = loadProfile("intl", INSTANCES_DIR);
+
+  for (const profile of [ru, intl]) {
+    const crossCopy = checkBackupTargets(targets(["CROSS_COPY_SSH_HOST=203.0.113.7"]), profile);
+    assert.equal(crossCopy.length, 1);
+    assert.match(crossCopy[0], /^backup target CROSS_COPY_SSH_HOST .*allowed: none/);
+    assert.doesNotMatch(crossCopy[0], /203\.0\.113\.7/);
+    assert.deepEqual(checkBackupTargets(targets(["CROSS_COPY_SSH_HOST="]), profile), []);
+  }
+
+  // intl.json names no S3 endpoint yet, so the RU bucket and an unknown one fail alike.
+  assert.equal(checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.twcstorage.ru"]), intl).length, 1);
+  assert.equal(checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.example.eu"]), intl).length, 1);
+
+  const listed = { instance: "x", backup: { s3EndpointHosts: ["s3.example.eu"], crossCopyHosts: ["backup2.example.eu"] } };
+  assert.deepEqual(
+    checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.example.eu", "CROSS_COPY_SSH_HOST=backup2.example.eu"]), listed),
+    [],
+  );
+});
+
+const RU_HOSTS = ["cherkashino.ru", "www.cherkashino.ru", "xn--80ajkgrgj8cn.xn--p1ai", "www.xn--80ajkgrgj8cn.xn--p1ai"];
+
+test("checkDbTenants: INTL fails on a tenant that answers on a RU domain, and names its handle and hosts", () => {
+  const intl = { ...loadProfile("intl", INSTANCES_DIR), tenants: { recordedExceptions: [] } };
+  const others = loadOtherProfiles("intl", INSTANCES_DIR);
+  const clean = [
+    { handle: "cherkashino-com", hosts: ["cherkashino.com", "www.cherkashino.com"] },
+    { handle: "acme", hosts: ["shop.example"] },
+    { handle: "globex", hosts: [] },
+  ];
+  assert.deepEqual(checkDbTenants(clean, intl, others), { violations: [], known: [] });
+
+  const moved = checkDbTenants(
+    [...clean, { handle: "initech", hosts: ["shop2.example", "www.cherkashino.ru"] }, { handle: "umbrella", hosts: ["m.cherkashino.ru"] }],
+    intl,
+    others,
+  );
+  assert.deepEqual(moved.known, []);
+  assert.equal(moved.violations.length, 2);
+  assert.match(moved.violations[0], /^tenant "initech" answers on a domain of instance ru \(www\.cherkashino\.ru\) .*not allowed on instance intl$/);
+  assert.match(moved.violations[1], /^tenant "umbrella" .*\(m\.cherkashino\.ru\)/);
+  // Only the hosts that offend are named: a tenant's other address stays out of the log.
+  assert.doesNotMatch(moved.violations[0], /shop2\.example/);
+});
+
+test("checkDbTenants: a recorded exception is known, not a violation, only while it matches exactly", () => {
+  const intl = loadProfile("intl", INSTANCES_DIR);
+  const others = loadOtherProfiles("intl", INSTANCES_DIR);
+
+  // The live state of 06.10.2026: the RU shop's record with its four RU hosts.
+  const recorded = checkDbTenants([{ handle: "olavka", hosts: RU_HOSTS }], intl, others);
+  assert.deepEqual(recorded.violations, []);
+  assert.equal(recorded.known.length, 1);
+  assert.match(recorded.known[0], /^tenant "olavka" answers on a domain of instance ru .*recorded 2026-10-06: .*Closes with: Ivan's decision/);
+
+  // One more RU host on the same tenant is outside the record.
+  const grown = checkDbTenants([{ handle: "olavka", hosts: [...RU_HOSTS, "m.cherkashino.ru"] }], intl, others);
+  assert.deepEqual(grown.known, []);
+  assert.equal(grown.violations.length, 1);
+  assert.match(grown.violations[0], /^tenant "olavka" .*m\.cherkashino\.ru/);
+
+  // The same hosts on another tenant are not the recorded case.
+  const other = checkDbTenants([{ handle: "acme", hosts: ["cherkashino.ru"] }], intl, others);
+  assert.deepEqual(other.known, []);
+  assert.equal(other.violations.length, 1);
+});
+
+test("checkDbTenants: RU fails on a tenant with a .com address and on a tenant with no RU address", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const others = loadOtherProfiles("ru", INSTANCES_DIR);
+  // The live state of 06.10.2026: one tenant with the four RU hosts.
+  assert.deepEqual(checkDbTenants([{ handle: "olavka", hosts: RU_HOSTS }], ru, others), { violations: [], known: [] });
+
+  const foreign = checkDbTenants([{ handle: "olavka", hosts: RU_HOSTS }, { handle: "cherkashino-com", hosts: ["cherkashino.com"] }], ru, others);
+  assert.equal(foreign.violations.length, 1);
+  assert.match(foreign.violations[0], /^tenant "cherkashino-com" answers on a domain of instance intl \(cherkashino\.com\)/);
+
+  const stray = checkDbTenants(
+    [{ handle: "olavka", hosts: RU_HOSTS }, { handle: "acme", hosts: ["shop.example"] }, { handle: "globex", hosts: [] }],
+    ru,
+    others,
+  );
+  assert.equal(stray.violations.length, 2);
+  assert.match(stray.violations[0], /^tenant "acme" has no address on the domains of instance ru \(cherkashino\.ru, /);
+  assert.match(stray.violations[1], /^tenant "globex" has no address/);
+  assert.doesNotMatch(stray.violations.join("\n"), /shop\.example/);
+});
+
+// ---- the tool itself, as a child process -----------------------------------
+
+const TOOL = fileURLToPath(new URL("../instance-check.mjs", import.meta.url));
+const REPO = path.resolve(path.dirname(TOOL), "..", "..");
+const SCRATCH = mkdtempSync(path.join(os.tmpdir(), "instance-check-test-"));
+const DB_URL = "postgres://medusa:s3cretpw@mt-postgres:5432/medusa_mt";
+
+// Stands in for psql: one answer per query of queryDb, picked by a word of its SQL.
+writeFileSync(
+  path.join(SCRATCH, "psql"),
+  [
+    "#!/bin/sh",
+    'if [ -n "$FAKE_PSQL_FAIL" ]; then echo "psql: error: connection to \\"$1\\" failed" >&2; exit 2; fi',
+    'case "$4" in',
+    '  *tenant_integration_secret*) printf "%s\\n" "$FAKE_PROVIDERS" ;;',
+    '  *ga4_measurement_id*) echo 0 ;;',
+    '  *buyer_login_method*) printf "%s\\n" "$FAKE_LOGINS" ;;',
+    '  *string_agg*) printf "%s\\n" "$FAKE_TENANTS" ;;',
+    "esac",
+    "",
+  ].join("\n"),
+);
+chmodSync(path.join(SCRATCH, "psql"), 0o755);
+
+function writeScratch(name, lines) {
+  const file = path.join(SCRATCH, name);
+  writeFileSync(file, `${lines.join("\n")}\n`);
+  return file;
+}
+
+function runTool(args, fake = {}) {
+  return spawnSync(process.execPath, [TOOL, ...args], {
+    cwd: REPO,
+    encoding: "utf8",
+    env: { ...process.env, PATH: `${SCRATCH}${path.delimiter}${process.env.PATH}`, ...fake },
+  });
+}
+
+test("the tool exits 0 on both profiles against the env templates this repository ships", () => {
+  for (const [instance, env] of [["ru", "deploy/mt/ru.env.example"], ["intl", "deploy/mt/shipshift.env.example"]]) {
+    const run = runTool(["--instance", instance, "--env", env, "--backup-env", "deploy/backup/nightly.env.example"]);
+    assert.equal(run.status, 0, run.stderr);
+    assert.match(run.stdout, new RegExp(`^instance-check: ${instance} is clean`));
+  }
+});
+
+test("the tool exits 1 on a backup target outside the instance's country and never prints the target", () => {
+  const backupEnv = writeScratch("abroad.env", [
+    "S3_ENABLED=1",
+    "S3_ENDPOINT_URL=https://s3.eu-central-1.amazonaws.com",
+    "CROSS_COPY_SSH_HOST=203.0.113.7",
+  ]);
+  for (const [instance, env] of [["ru", "deploy/mt/ru.env.example"], ["intl", "deploy/mt/shipshift.env.example"]]) {
+    const run = runTool(["--instance", instance, "--env", env, "--backup-env", backupEnv]);
+    assert.equal(run.status, 1);
+    assert.equal(run.stderr.match(/^VIOLATION: backup target /gm).length, 2);
+    assert.doesNotMatch(run.stdout + run.stderr, /amazonaws|203\.0\.113\.7/);
+  }
+
+  const home = writeScratch("home.env", ["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.twcstorage.ru", "CROSS_COPY_SSH_HOST="]);
+  assert.equal(runTool(["--instance", "ru", "--env", "deploy/mt/ru.env.example", "--backup-env", home]).status, 0);
+});
+
+const RU_ROW = `olavka|${RU_HOSTS.join(",")}`;
+
+test("the tool exits 1 on a tenant of another instance and 0 on a database of its own shops", () => {
+  const intlArgs = ["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--db", DB_URL];
+  const ruArgs = ["--instance", "ru", "--env", "deploy/mt/ru.env.example", "--db", DB_URL];
+
+  const intlClean = runTool(intlArgs, { FAKE_LOGINS: "both\nboth", FAKE_TENANTS: "acme|\ncherkashino-com|cherkashino.com,www.cherkashino.com" });
+  assert.equal(intlClean.status, 0, intlClean.stderr);
+  assert.equal(intlClean.stderr, "");
+  const ruClean = runTool(ruArgs, { FAKE_LOGINS: "yandex", FAKE_TENANTS: RU_ROW });
+  assert.equal(ruClean.status, 0, ruClean.stderr);
+
+  const intlDirty = runTool(intlArgs, { FAKE_LOGINS: "both\nboth", FAKE_TENANTS: "acme|cherkashino.ru\ncherkashino-com|cherkashino.com" });
+  assert.equal(intlDirty.status, 1);
+  assert.match(intlDirty.stderr, /^VIOLATION: tenant "acme" answers on a domain of instance ru \(cherkashino\.ru\) /m);
+
+  const ruDirty = runTool(ruArgs, { FAKE_LOGINS: "yandex\nyandex", FAKE_TENANTS: `acme|\n${RU_ROW}` });
+  assert.equal(ruDirty.status, 1);
+  assert.match(ruDirty.stderr, /^VIOLATION: tenant "acme" has no address on the domains of instance ru /m);
+});
+
+test("the tool prints a recorded exception as a known violation and keeps its exit code", () => {
+  const intlArgs = ["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--db", DB_URL];
+
+  // Recorded exactly: named in the log, exit 0.
+  const recorded = runTool(intlArgs, { FAKE_LOGINS: "both\nboth", FAKE_TENANTS: `cherkashino-com|cherkashino.com\n${RU_ROW}` });
+  assert.equal(recorded.status, 0, recorded.stderr);
+  assert.match(recorded.stderr, /^KNOWN VIOLATION \(recorded\): tenant "olavka" answers on a domain of instance ru /m);
+  assert.doesNotMatch(recorded.stderr, /^VIOLATION: /m);
+  // The run passes, and its last line does not call the instance clean.
+  assert.match(recorded.stdout, /^instance-check: intl has no new violation, 1 recorded one\(s\) above /m);
+  assert.doesNotMatch(recorded.stdout, /is clean/);
+
+  // One more RU host on the recorded tenant: exit 1.
+  const grown = runTool(intlArgs, { FAKE_LOGINS: "both", FAKE_TENANTS: `${RU_ROW},m.cherkashino.ru` });
+  assert.equal(grown.status, 1);
+  assert.match(grown.stderr, /^VIOLATION: tenant "olavka" .*m\.cherkashino\.ru/m);
+
+  // The recorded tenant next to an unrecorded one: the known line stays, the exit code is 1.
+  const mixed = runTool(intlArgs, { FAKE_LOGINS: "both\nboth", FAKE_TENANTS: `acme|www.cherkashino.ru\n${RU_ROW}` });
+  assert.equal(mixed.status, 1);
+  assert.match(mixed.stderr, /^KNOWN VIOLATION \(recorded\): tenant "olavka" /m);
+  assert.match(mixed.stderr, /^VIOLATION: tenant "acme" /m);
+});
+
+test("the tool exits 2 on a recorded exception that does not say what closes it", () => {
+  // A copy of the tool beside a copy of the profiles, with the entry's `closes` taken out.
+  const copy = path.join(SCRATCH, "copy");
+  mkdirSync(path.join(copy, "scripts"), { recursive: true });
+  cpSync(TOOL, path.join(copy, "scripts", "instance-check.mjs"));
+  cpSync(INSTANCES_DIR, path.join(copy, "instances"), { recursive: true });
+  const file = path.join(copy, "instances", "intl.json");
+  const profile = JSON.parse(readFileSync(file, "utf8"));
+  delete profile.tenants.recordedExceptions[0].closes;
+  writeFileSync(file, JSON.stringify(profile));
+
+  const run = spawnSync(process.execPath, [path.join(copy, "scripts", "instance-check.mjs"), "--instance", "intl", "--env", "deploy/mt/shipshift.env.example"], {
+    cwd: REPO,
+    encoding: "utf8",
+  });
+  assert.equal(run.status, 2);
+  assert.match(run.stderr, /usage error: profile "intl" has a recorded exception for "olavka" without closes/);
+});
+
+test("the tool exits 2 without the database password in its output when psql fails", () => {
+  const failed = runTool(["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--db", DB_URL], { FAKE_PSQL_FAIL: "1" });
+  assert.equal(failed.status, 2);
+  assert.match(failed.stderr, /error reading --db: psql failed with status 2/);
+  assert.doesNotMatch(failed.stdout + failed.stderr, /s3cretpw/);
+});
+
+test("the tool says that backup targets were not checked when it has no backup env to read, and does not fail on it", () => {
+  const none = path.join(SCRATCH, "none.env");
+  const missing = runTool(["--instance", "ru", "--env", "deploy/mt/ru.env.example", "--backup-env", none]);
+  assert.equal(missing.status, 0, missing.stderr);
+  assert.ok(missing.stdout.includes(`instance-check: backup targets NOT checked (no such file: ${none})`));
+  assert.doesNotMatch(missing.stdout, /backup targets in /);
+
+  const notGiven = runTool(["--instance", "intl", "--env", "deploy/mt/shipshift.env.example"]);
+  assert.equal(notGiven.status, 0, notGiven.stderr);
+  assert.match(notGiven.stdout, /^instance-check: backup targets NOT checked \(no --backup-env given\)$/m);
+
+  const given = runTool(["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--backup-env", "deploy/backup/nightly.env.example"]);
+  assert.doesNotMatch(given.stdout, /NOT checked/);
 });

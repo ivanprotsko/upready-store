@@ -42,6 +42,8 @@ crypto that this document's INTL rules make room for without implementing yet:
 | Second backup copy | RU host **and** an S3-compatible bucket **in Russia** (Timeweb Cloud S3, `S3_ENDPOINT_URL=https://s3.twcstorage.ru` in `deploy/backup/cross-copy.sh`). Never the Contabo host, never any EU/US bucket. | Contabo host **and** an EU-region bucket (Selectel S3 or an EU-region S3-compatible bucket). Never the RU host. |
 | Tenant media uploads | RU host only. | Contabo host only. |
 
+What `instance-check.mjs` accepts as a second-copy target today is `s3.twcstorage.ru` on RU and nothing on INTL, until an endpoint is added to `deploy/instances/intl.json`.
+
 This is 152-FZ Art. 18(5) (as amended by 23-FZ, 2025-02-28): recording, systematising, accumulating,
 storing, amending and retrieving the personal data of Russian citizens using a database outside the
 Russian Federation is not allowed, with narrow exceptions this deployment does not rely on. `cross-copy.sh`
@@ -52,6 +54,17 @@ and which host each instance is allowed to point it at, not new code.
 replication, no shared database, and no script that copies a RU tenant's rows into the INTL database
 or back. The one exception is the one-way catalog sync from `.ru` to `.com` (`t-cherk-24`), which
 carries product data, never customer or order data.
+
+**Current violation, recorded here rather than left silent.** As of 2026-10-06 the INTL database
+still holds the RU shop's record from before the split into two instances. It is the tenant `olavka`,
+with the four RU hosts `cherkashino.ru`, `www.cherkashino.ru`, `xn--80ajkgrgj8cn.xn--p1ai` and
+`www.xn--80ajkgrgj8cn.xn--p1ai`, none of them primary. It shares a group with the tenant
+`cherkashino-com`, and it carries 41 products and 10 orders of 7 buyers dated 14.09 to 01.10.2026. The
+RU database holds the same shop as its one tenant. The record is listed in
+`deploy/instances/intl.json` under `tenants.recordedExceptions`, so `instance-check.mjs` prints it as
+`KNOWN VIOLATION (recorded)` at every INTL deploy and does not stop the deploy on it. It closes with
+Ivan's decision on the RU shop's record in the INTL database, which lead-upready-store asked for on
+2026-10-06.
 
 ## 2. Which third-party services each instance may use
 
@@ -153,12 +166,42 @@ it does not file anything on a live government portal or sign anything on Ivan's
 
 ## Enforcement
 
-`deploy/scripts/instance-check.mjs --instance ru|intl --env <path> [--db <postgres-url>]` reads an
-env file's variable **names** (never values) against the forbidden names and prefixes in that
+`deploy/scripts/instance-check.mjs --instance ru|intl --env <path> [--backup-env <path>] [--db <postgres-url>]`
+reads an env file's variable **names** (never values) against the forbidden names and prefixes in that
 instance's profile, and, with `--db`, the providers actually configured by tenants in that instance's
 own database. It exits non-zero and lists every violation, one per line, the moment any of §2's rules
 is broken. It runs at deploy time (`deploy/scripts/deploy-instance.sh`, step 3) and has its own unit
 tests (`deploy/scripts/__tests__/instance-check.test.mjs`).
+
+Two more checks enforce §1.
+
+- **A backup copy outside the instance's country.** With `--backup-env` the tool reads where the
+  host's copies go. The profile's `backup.envFileOnHost` names the file on the host that carries
+  those keys, and `deploy-instance.sh` hands it to the check. The tool reads the value of
+  `S3_ENABLED`, `S3_ENDPOINT_URL` and `CROSS_COPY_SSH_HOST` and of no other key, and it prints the
+  key and the verdict, never the value. The profile's `backup.s3EndpointHosts` and
+  `backup.crossCopyHosts` are allowlists. An enabled S3 copy fails unless its endpoint host is on
+  the first list, and a cross-copy host fails unless it is on the second. A target nobody wrote down
+  fails the same way a known foreign one does. Add a host to the profile and to §1 before you point
+  a copy at it. A host with no such file copies nowhere, so a missing file is not a violation. The
+  tool then prints one line, `backup targets NOT checked`, and the deploy log carries it.
+- **A tenant of another instance.** With `--db` the tool reads each tenant's handle and custom hosts
+  (`tenant_domain`) and compares the hosts with the `domains` of both profiles. A tenant that
+  answers on a domain the other profile names fails on either instance. On RU, where
+  `domains.otherShops` is `false`, a tenant with no address on RU's own domains fails too, because
+  every other shop belongs to INTL. A message names the tenant's handle and the hosts, never an
+  admin, a buyer or an e-mail.
+- **A recorded exception.** A known violation that waits for a decision is listed in the profile
+  under `tenants.recordedExceptions` with `handle`, `hosts`, `reason`, `recorded` and `closes`. A
+  tenant that matches an entry exactly, the handle and every offending host, is printed as
+  `KNOWN VIOLATION (recorded)` and does not change the exit code. Any other tenant on the other
+  instance's domain fails, and so does one more foreign host on the recorded tenant. An entry
+  without one of the five fields is a configuration error. Remove the entry when what it names in
+  `closes` has happened.
+
+The same tool runs in CI on both profiles (`.github/workflows/pr-checks.yml`, job Deploy Checks),
+against the env templates this repository ships. That run needs no secret and no database, so the
+tenant check there is covered by the unit tests alone.
 
 `docs/instances/processors.json` is the data-processor registry: every third party, what it receives,
 why, which instance(s) may use it, and the legal basis for sending it data. A new payment-* or auth-*

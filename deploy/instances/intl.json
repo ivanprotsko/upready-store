@@ -5,7 +5,20 @@
   "domains": {
     "primary": ["cherkashino.com"],
     "aliases": ["www.cherkashino.com"],
-    "note": "every other tenant this deployment serves (the mt stack's own shops) is also INTL — this is the general, not the RU, instance"
+    "otherShops": true,
+    "note": "every other tenant this deployment serves (the mt stack's own shops) is also INTL — this is the general, not the RU, instance. instance-check --db fails here on a tenant with an address on a domain ru.json names."
+  },
+  "tenants": {
+    "recordedExceptions": [
+      {
+        "handle": "olavka",
+        "hosts": ["cherkashino.ru", "www.cherkashino.ru", "xn--80ajkgrgj8cn.xn--p1ai", "www.xn--80ajkgrgj8cn.xn--p1ai"],
+        "reason": "the RU shop's record left in the INTL database from before the split into two instances",
+        "recorded": "2026-10-06",
+        "closes": "Ivan's decision on the RU shop's record in the INTL database (lead-upready-store asked on 2026-10-06)"
+      }
+    ],
+    "note": "A known violation, recorded rather than left silent (docs/instances/RULES.md §1). instance-check --db prints a tenant that matches an entry exactly, the handle and every offending host, as KNOWN VIOLATION (recorded) and does not fail on it. Any other tenant on a RU domain, and one more RU host on this tenant, fail the check. An entry needs handle, hosts, reason, recorded and closes."
   },
   "dataResidency": {
     "customerDatabase": "EU host only (Contabo, Germany)",
@@ -41,7 +54,11 @@
   },
   "backup": {
     "destinations": ["Contabo host local disk", "EU-region S3-compatible bucket"],
-    "crossBorderCopy": "forbidden"
+    "crossBorderCopy": "forbidden",
+    "s3EndpointHosts": [],
+    "crossCopyHosts": [],
+    "envFileOnHost": null,
+    "note": "instance-check --backup-env reads these two allowlists the same way as on RU. docs/instances/RULES.md §1 names no EU endpoint yet, so s3EndpointHosts is empty and an enabled S3 copy fails here until its endpoint host is written into this list and into RULES.md. envFileOnHost is null because this host has no env file with backup target keys today; name it here when one appears."
   },
   "mailRelay": {
     "description": "self-hosted outbound-only relay on the Contabo host (deploy/mt/MAIL.md's mail service), or a third-party mail API with a GDPR-compliant DPA / SCC on file (e.g. Resend)"
