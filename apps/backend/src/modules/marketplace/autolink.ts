@@ -12,6 +12,7 @@
  * plan says.
  */
 
+import { chunk, readInPages, type PagedList } from "./batch";
 import { matchByVendorCode, planLinkWrites } from "./link";
 import type { LinkableCard, LinkableVariant, LinkReport, StoredLinkRow } from "./link";
 import type MarketplaceModuleService from "./service";
@@ -54,7 +55,14 @@ export const autoLink = async (
 ): Promise<AutoLinkResult> => {
   const report = matchByVendorCode(cards, variants);
 
-  const stored = ((await mp.listMpLinks(scope)) as Record<string, unknown>[]).map((row) => ({
+  /** The five columns the plan compares, a page at a time (t-2026-10-06-21). */
+  const stored = (
+    await readInPages(
+      mp.listMpLinks.bind(mp) as unknown as PagedList<Record<string, unknown>>,
+      scope,
+      ["id", "external_id", "matched_by", "product_id", "variant_id"],
+    )
+  ).map((row) => ({
     id: String(row.id),
     external_id: String(row.external_id),
     matched_by: String(row.matched_by),
@@ -73,14 +81,15 @@ export const autoLink = async (
     linked_at: linkedAt,
   }));
 
-  if (plan.create.length) {
-    await mp.createMpLinks(plan.create);
+  /** No call carries more than `MP_BATCH_SIZE` rows or ids, for the reason `batch.ts` gives. */
+  for (const batch of chunk(plan.create)) {
+    await mp.createMpLinks(batch);
   }
-  if (plan.update.length) {
-    await mp.updateMpLinks(plan.update);
+  for (const batch of chunk(plan.update)) {
+    await mp.updateMpLinks(batch);
   }
-  if (plan.remove.length) {
-    await mp.softDeleteMpLinks(plan.remove);
+  for (const batch of chunk(plan.remove)) {
+    await mp.softDeleteMpLinks(batch);
   }
 
   return {

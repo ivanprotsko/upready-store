@@ -1,4 +1,5 @@
 import type { Logger } from "@medusajs/framework/types";
+import { chunk, pagesOf, type PagedList } from "../marketplace/batch";
 import type WbModuleService from "./service";
 import { WB_SYNC_KINDS, type WbSyncKind } from "./models/wb-sync-run";
 import { WbApiError, wbRead, type WbApiCallRecord } from "./transport";
@@ -221,10 +222,28 @@ export const MIRROR_PLURAL: Record<MirrorEntity, string> = {
   WbSupply: "WbSupplies",
 };
 
+/** One generated `list…` method of the module service, shaped for a paged read. */
+const pagedList = <Row>(wb: WbModuleService, entity: MirrorEntity): PagedList<Row> => {
+  const service = wb as unknown as Record<string, (...input: unknown[]) => Promise<unknown>>;
+  return service[`list${MIRROR_PLURAL[entity]}`].bind(wb) as unknown as PagedList<Row>;
+};
+
 /**
- * Writes one batch of mirror rows through the module service. Existing rows
- * are matched on the model's own unique key inside this tenant, so a second
- * run of the same import updates and never duplicates.
+ * Writes the mirror rows of one answer through the module service. Existing
+ * rows are matched on the model's own unique key inside this tenant, so a
+ * second run of the same import updates and never duplicates.
+ *
+ * NO CALL CARRIES MORE THAN `MP_BATCH_SIZE` ROWS OR KEYS (t-2026-10-06-21).
+ * The statistics feed answers with everything that changed in its window in
+ * one array, 25 597 orders on 2026-10-06, and this function used to hand that
+ * array to the service whole. The lookup then loaded every matched row with
+ * its `raw` answer, and `update` loaded them all a second time by a chain of
+ * one `id = ?` per row. Both are now asked a batch at a time, and the lookup
+ * reads the id and the key columns only, which is all it compares.
+ *
+ * The ids are resolved for the whole answer BEFORE the first write, exactly as
+ * the single lookup did, so which row is created and which is updated does not
+ * depend on where a batch happens to end.
  */
 export const upsertRows = async (
   wb: WbModuleService,
@@ -238,23 +257,28 @@ export const upsertRows = async (
 
   const service = wb as unknown as Record<string, (input: unknown) => Promise<unknown>>;
   const plural = MIRROR_PLURAL[entity];
-  const list = service[`list${plural}`].bind(wb) as (
-    filter: unknown,
-  ) => Promise<Array<Record<string, unknown> & { id: string }>>;
+  const list = pagedList<Record<string, unknown> & { id: string }>(wb, entity);
   const create = service[`create${plural}`].bind(wb);
   const update = service[`update${plural}`].bind(wb);
 
   const keyNames = Object.keys(rows[0].keys);
-  const existing = await list({
-    tenant_id: tenantId,
-    ...Object.fromEntries(
-      keyNames.map((name) => [name, [...new Set(rows.map((row) => row.keys[name]))]]),
-    ),
-  });
-
   const keyOf = (source: Record<string, unknown>) =>
     keyNames.map((name) => String(source[name])).join(" ");
-  const byKey = new Map(existing.map((row) => [keyOf(row), row.id]));
+
+  const byKey = new Map<string, string>();
+  for (const batch of chunk(rows)) {
+    const filter = {
+      tenant_id: tenantId,
+      ...Object.fromEntries(
+        keyNames.map((name) => [name, [...new Set(batch.map((row) => row.keys[name]))]]),
+      ),
+    };
+    for await (const page of pagesOf(list, filter, ["id", ...keyNames])) {
+      for (const row of page) {
+        byKey.set(keyOf(row), row.id);
+      }
+    }
+  }
 
   const toCreate = new Map<string, Record<string, unknown>>();
   const toUpdate: Record<string, unknown>[] = [];
@@ -281,11 +305,11 @@ export const upsertRows = async (
     }
   }
 
-  if (toCreate.size) {
-    await create([...toCreate.values()]);
+  for (const batch of chunk([...toCreate.values()])) {
+    await create(batch);
   }
-  if (toUpdate.length) {
-    await update(toUpdate);
+  for (const batch of chunk(toUpdate)) {
+    await update(batch);
   }
 
   return toCreate.size + toUpdate.length;
@@ -412,22 +436,24 @@ const syncStocks = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounte
     return;
   }
 
-  const products = (await deps.wb.listWbProducts({ tenant_id: deps.tenantId })) as Array<{
-    nm_id: string;
-    sizes: unknown;
-  }>;
-
   const chrtIds: number[] = [];
   const bySku = new Map<string, { chrt_id: string | null; nm_id: string }>();
 
-  for (const product of products) {
-    for (const size of (product.sizes as Array<Record<string, unknown>> | null) ?? []) {
-      const chrtId = asNumber(size.chrtID);
-      if (chrtId !== null) {
-        chrtIds.push(chrtId);
-      }
-      for (const sku of (size.skus as string[] | undefined) ?? []) {
-        bySku.set(String(sku), { chrt_id: asText(size.chrtID), nm_id: product.nm_id });
+  /** Two columns of the card mirror, a page at a time: the size ids are all this import reads. */
+  for await (const products of pagesOf(
+    pagedList<{ id: string; nm_id: string; sizes: unknown }>(deps.wb, "WbProduct"),
+    { tenant_id: deps.tenantId },
+    ["id", "nm_id", "sizes"],
+  )) {
+    for (const product of products) {
+      for (const size of (product.sizes as Array<Record<string, unknown>> | null) ?? []) {
+        const chrtId = asNumber(size.chrtID);
+        if (chrtId !== null) {
+          chrtIds.push(chrtId);
+        }
+        for (const sku of (size.skus as string[] | undefined) ?? []) {
+          bySku.set(String(sku), { chrt_id: asText(size.chrtID), nm_id: product.nm_id });
+        }
       }
     }
   }
@@ -825,9 +851,17 @@ const syncAnalytics = async (
     currency?: string;
   };
 
-  const products = (await deps.wb.listWbProducts({ tenant_id: deps.tenantId })) as Array<{
-    nm_id: string;
-  }>;
+  /** The ranking reads one column of each mirror, so one column is what is asked for. */
+  const products: string[] = [];
+  for await (const page of pagesOf(
+    pagedList<{ id: string; nm_id: string }>(deps.wb, "WbProduct"),
+    { tenant_id: deps.tenantId },
+    ["id", "nm_id"],
+  )) {
+    for (const product of page) {
+      products.push(product.nm_id);
+    }
+  }
 
   if (!products.length) {
     deps.logger.warn(
@@ -836,22 +870,23 @@ const syncAnalytics = async (
     return;
   }
 
-  const sales = (await deps.wb.listWbSales({ tenant_id: deps.tenantId })) as Array<{
-    nm_id: string | null;
-  }>;
   const salesByNm = new Map<string, number>();
-  for (const sale of sales) {
-    if (sale.nm_id) {
-      salesByNm.set(sale.nm_id, (salesByNm.get(sale.nm_id) ?? 0) + 1);
+  for await (const page of pagesOf(
+    pagedList<{ id: string; nm_id: string | null }>(deps.wb, "WbSale"),
+    { tenant_id: deps.tenantId },
+    ["id", "nm_id"],
+  )) {
+    for (const sale of page) {
+      if (sale.nm_id) {
+        salesByNm.set(sale.nm_id, (salesByNm.get(sale.nm_id) ?? 0) + 1);
+      }
     }
   }
 
-  const ranked = [...products]
-    .map((product) => product.nm_id)
-    .sort((left, right) => {
-      const bySales = (salesByNm.get(right) ?? 0) - (salesByNm.get(left) ?? 0);
-      return bySales !== 0 ? bySales : left.localeCompare(right);
-    });
+  const ranked = [...products].sort((left, right) => {
+    const bySales = (salesByNm.get(right) ?? 0) - (salesByNm.get(left) ?? 0);
+    return bySales !== 0 ? bySales : left.localeCompare(right);
+  });
 
   const wanted = deps.limits?.nmIds?.length
     ? deps.limits.nmIds
@@ -1118,13 +1153,21 @@ const syncFbsOrders = async (
   }
 
   // Statuses for everything in the mirror, WB's own 1000-per-request chunks.
-  const mirrored = (await deps.wb.listWbFbsOrders({ tenant_id: deps.tenantId })) as Array<{
-    order_id: string;
-  }>;
-
-  const ids = mirrored
-    .map((row) => Number(row.order_id))
-    .filter((id) => Number.isSafeInteger(id));
+  // The mirror is read for its order numbers only, a page at a time: this used
+  // to load all 11 170 rows with their `raw` answer on every run.
+  const ids: number[] = [];
+  for await (const page of pagesOf(
+    pagedList<{ id: string; order_id: string }>(deps.wb, "WbFbsOrder"),
+    { tenant_id: deps.tenantId },
+    ["id", "order_id"],
+  )) {
+    for (const row of page) {
+      const id = Number(row.order_id);
+      if (Number.isSafeInteger(id)) {
+        ids.push(id);
+      }
+    }
+  }
 
   if (!ids.length) {
     deps.logger.warn(

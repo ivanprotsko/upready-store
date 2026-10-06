@@ -1,7 +1,7 @@
 import { MP_MAX_ATTEMPTS, backoffForMs, sleep } from "./backoff";
 import type { MarketplaceAdapter, SyncDeps, SyncOutcome } from "./contract";
 import { MARKETPLACE_MODULE } from "./index";
-import { projectFromMirrors } from "./project";
+import { journalPages, projectFromMirrors } from "./project";
 import {
   consecutiveFailures,
   MP_AUTH_FAILED,
@@ -218,9 +218,14 @@ const closeStaleLock = async (
  *
  * The operator's log line has to name the endpoint id and the status
  * (spec 2.6), and both are already recorded, one row per request, by the
- * transport that sent it. Reading them costs one journal load and only on a
- * failure. A regex over the error text would be a second, weaker copy of what
- * the journal already knows.
+ * transport that sent it. Reading them costs the calls of this one run and
+ * only on a failure. A regex over the error text would be a second, weaker
+ * copy of what the journal already knows.
+ *
+ * THE CALLS OF THIS RUN, NOT THE JOURNAL (t-2026-10-06-21). This used to load
+ * the adapter's whole run log and whole transport journal to pick a handful of
+ * rows out of them, on every run that did not succeed. A statistics import is
+ * rate limited on most ticks, so that was every ten minutes.
  */
 const failureCall = async (
   adapter: MarketplaceAdapter,
@@ -228,12 +233,22 @@ const failureCall = async (
   runId: string,
 ): Promise<{ endpointId: string; status: number | null } | null> => {
   try {
-    const { calls } = await adapter.loadJournal(syncDeps);
-    const mine = calls.filter((call) => String(call.sync_run_id ?? "") === runId);
-    const bad = mine.filter(
-      (call) => call.error !== null || (typeof call.status === "number" && call.status >= 400),
-    );
-    const last = bad[bad.length - 1] ?? mine[mine.length - 1];
+    let lastOfRun: Record<string, unknown> | null = null;
+    let lastBad: Record<string, unknown> | null = null;
+
+    for await (const calls of journalPages(adapter, syncDeps, "calls", runId)) {
+      for (const call of calls) {
+        if (String(call.sync_run_id ?? "") !== runId) {
+          continue;
+        }
+        lastOfRun = call;
+        if (call.error !== null || (typeof call.status === "number" && call.status >= 400)) {
+          lastBad = call;
+        }
+      }
+    }
+
+    const last = lastBad ?? lastOfRun;
     return last
       ? {
           endpointId: String(last.endpoint_id ?? "unknown"),

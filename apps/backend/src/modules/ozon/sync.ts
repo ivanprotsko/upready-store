@@ -1,4 +1,5 @@
 import type { Logger } from "@medusajs/framework/types";
+import { chunk, pagesOf, type PagedList } from "../marketplace/batch";
 import type OzonModuleService from "./service";
 import { OZON_SYNC_KINDS, type OzonSyncKind } from "./models/ozon-sync-run";
 import { resolveEndpoint } from "./endpoints";
@@ -215,8 +216,12 @@ type MirrorEntity =
  *
  * Same shape as the Wildberries import's `upsertRows`; w12 folds the two into
  * the shared marketplace core.
+ *
+ * No call carries more than `MP_BATCH_SIZE` rows or keys, for the reason
+ * written at the Wildberries twin (t-2026-10-06-21). The ids are resolved for
+ * the whole answer before the first write, as the single lookup did.
  */
-const upsertRows = async (
+export const upsertRows = async (
   ozon: OzonModuleService,
   entity: MirrorEntity,
   tenantId: string,
@@ -227,23 +232,30 @@ const upsertRows = async (
   }
 
   const service = ozon as unknown as Record<string, (input: unknown) => Promise<unknown>>;
-  const list = service[`list${entity}s`].bind(ozon) as (
-    filter: unknown,
-  ) => Promise<Array<Record<string, unknown> & { id: string }>>;
+  const list = service[`list${entity}s`].bind(ozon) as unknown as PagedList<
+    Record<string, unknown> & { id: string }
+  >;
   const create = service[`create${entity}s`].bind(ozon);
   const update = service[`update${entity}s`].bind(ozon);
 
   const keyNames = Object.keys(rows[0].keys);
-  const existing = await list({
-    tenant_id: tenantId,
-    ...Object.fromEntries(
-      keyNames.map((name) => [name, [...new Set(rows.map((row) => row.keys[name]))]]),
-    ),
-  });
-
   const keyOf = (source: Record<string, unknown>) =>
     keyNames.map((name) => String(source[name])).join(" ");
-  const byKey = new Map(existing.map((row) => [keyOf(row), row.id]));
+
+  const byKey = new Map<string, string>();
+  for (const batch of chunk(rows)) {
+    const filter = {
+      tenant_id: tenantId,
+      ...Object.fromEntries(
+        keyNames.map((name) => [name, [...new Set(batch.map((row) => row.keys[name]))]]),
+      ),
+    };
+    for await (const page of pagesOf(list, filter, ["id", ...keyNames])) {
+      for (const row of page) {
+        byKey.set(keyOf(row), row.id);
+      }
+    }
+  }
 
   const toCreate: Record<string, unknown>[] = [];
   const toUpdate: Record<string, unknown>[] = [];
@@ -257,11 +269,11 @@ const upsertRows = async (
     }
   }
 
-  if (toCreate.length) {
-    await create(toCreate);
+  for (const batch of chunk(toCreate)) {
+    await create(batch);
   }
-  if (toUpdate.length) {
-    await update(toUpdate);
+  for (const batch of chunk(toUpdate)) {
+    await update(batch);
   }
 
   return rows.length;
@@ -323,17 +335,28 @@ const syncProducts = async (
   type AttributesAnswer = { result?: Array<Record<string, unknown> & { id?: number | string }> };
 
   const fetchedAt = new Date();
-  const cards: Card[] = [];
+  /**
+   * How many cards answered, and the ids of the ones whose description is read
+   * below. The cards themselves are written page by page and not kept: the
+   * whole catalogue in one array is the answer held at once (t-2026-10-06-21).
+   */
+  let answered = 0;
+  const described: string[] = [];
 
   for (let offset = 0; offset < ids.length; offset += PRODUCT_INFO_CHUNK) {
-    const chunk = ids.slice(offset, offset + PRODUCT_INFO_CHUNK);
-    const answer = await read<InfoAnswer>("product.info.list", { body: { product_id: chunk } });
-    cards.push(...(answer.items ?? []));
+    const idChunk = ids.slice(offset, offset + PRODUCT_INFO_CHUNK);
+    const answer = await read<InfoAnswer>("product.info.list", { body: { product_id: idChunk } });
+    for (const card of answer.items ?? []) {
+      answered += 1;
+      if (described.length < DESCRIPTIONS_MAX) {
+        described.push(String(card.id));
+      }
+    }
 
     const attributes = await read<AttributesAnswer>("product.info.attributes", {
       body: {
-        filter: { product_id: chunk, visibility: "ALL" },
-        limit: chunk.length,
+        filter: { product_id: idChunk, visibility: "ALL" },
+        limit: idChunk.length,
         last_id: "",
       },
     });
@@ -373,22 +396,20 @@ const syncProducts = async (
     );
   }
 
-  deps.logger.info(`[ozon] cards: ${cards.length} of ${ids.length} ids answered`);
+  deps.logger.info(`[ozon] cards: ${answered} of ${ids.length} ids answered`);
 
   // The description is one request per card. Bounded, and the bound is said
   // out loud when it bites (no silent caps).
-  const described = cards.slice(0, DESCRIPTIONS_MAX);
-  if (cards.length > DESCRIPTIONS_MAX) {
+  if (answered > DESCRIPTIONS_MAX) {
     deps.logger.warn(
-      `[ozon] descriptions: only the first ${DESCRIPTIONS_MAX} of ${cards.length} cards were asked ` +
+      `[ozon] descriptions: only the first ${DESCRIPTIONS_MAX} of ${answered} cards were asked ` +
         "for (/v1/product/info/description answers for one card per request). The rest keep the " +
         "description they already had; raise DESCRIPTIONS_MAX or run this kind again to continue.",
     );
   }
 
   const descriptions: Upsert[] = [];
-  for (const card of described) {
-    const productId = String(card.id);
+  for (const productId of described) {
     try {
       const answer = await read<{ result?: { description?: string } }>("product.info.description", {
         body: { product_id: Number(productId) },
