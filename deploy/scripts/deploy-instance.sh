@@ -183,6 +183,13 @@ step_instance_check() {
     return 0
   fi
   log "instance-check --instance $INSTANCE on the host's own env file"
+  # Where this host's backup copies go (deploy/backup/RUNBOOK.md keeps that file apart from the stack's env).
+  local backup_env=""
+  if rssh "test -f '$REMOTE_DIR/deploy/backup/mt.env'"; then
+    backup_env="--backup-env deploy/backup/mt.env"
+  else
+    log "no deploy/backup/mt.env on the host — no backup targets to check"
+  fi
   if postgres_running; then
     local pw db
     pw="$(rssh "grep '^POSTGRES_PASSWORD=' '$REMOTE_ENV' | cut -d= -f2-")"
@@ -190,12 +197,12 @@ step_instance_check() {
     log "mt-postgres is up — checking --db too (instance-check runs inside a disposable node+psql container on the coolify network, never on this machine)"
     rssh "docker run --rm --network coolify -v '$REMOTE_DIR':/repo -w /repo node:22-alpine \
       sh -c \"apk add --no-cache postgresql-client >/dev/null 2>&1 && \
-      node deploy/scripts/instance-check.mjs --instance $INSTANCE --env '$(basename "$REMOTE_ENV")' --db postgres://medusa:$pw@mt-postgres:5432/$db\"" \
+      node deploy/scripts/instance-check.mjs --instance $INSTANCE --env '$(basename "$REMOTE_ENV")' $backup_env --db postgres://medusa:$pw@mt-postgres:5432/$db\"" \
       || fail "instance-check found a violation (see the VIOLATION lines above) — stopping before step 4/5 touch this host"
   else
     log "mt-postgres is not running yet (first boot) — env-only check, nothing to query"
     rssh "docker run --rm -v '$REMOTE_DIR':/repo -w /repo node:22-alpine \
-      node deploy/scripts/instance-check.mjs --instance $INSTANCE --env '$(basename "$REMOTE_ENV")'" \
+      node deploy/scripts/instance-check.mjs --instance $INSTANCE --env '$(basename "$REMOTE_ENV")' $backup_env" \
       || fail "instance-check found a violation in the env file (see the VIOLATION lines above) — stopping before step 4/5 touch this host"
   fi
 }

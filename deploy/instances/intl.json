@@ -5,7 +5,8 @@
   "domains": {
     "primary": ["cherkashino.com"],
     "aliases": ["www.cherkashino.com"],
-    "note": "every other tenant this deployment serves (the mt stack's own shops) is also INTL — this is the general, not the RU, instance"
+    "otherShops": true,
+    "note": "every other tenant this deployment serves (the mt stack's own shops) is also INTL — this is the general, not the RU, instance. instance-check --db fails here on a tenant with an address on a domain ru.json names."
   },
   "dataResidency": {
     "customerDatabase": "EU host only (Contabo, Germany)",
@@ -41,7 +42,10 @@
   },
   "backup": {
     "destinations": ["Contabo host local disk", "EU-region S3-compatible bucket"],
-    "crossBorderCopy": "forbidden"
+    "crossBorderCopy": "forbidden",
+    "s3EndpointHosts": [],
+    "crossCopyHosts": [],
+    "note": "instance-check --backup-env reads these two allowlists the same way as on RU. docs/instances/RULES.md §1 names no EU endpoint yet, so s3EndpointHosts is empty and an enabled S3 copy fails here until its endpoint host is written into this list and into RULES.md."
   },
   "mailRelay": {
     "description": "self-hosted outbound-only relay on the Contabo host (deploy/mt/MAIL.md's mail service), or a third-party mail API with a GDPR-compliant DPA / SCC on file (e.g. Resend)"

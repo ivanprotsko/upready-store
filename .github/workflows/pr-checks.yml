@@ -143,3 +143,13 @@ jobs:
           node-version: 22
       - name: instance-check unit tests
         run: node --test deploy/scripts/__tests__/*.test.mjs
+      # The tool itself, once per profile, on the env templates this
+      # repository ships. It needs no secret and no database, and it fails
+      # when a profile loses a field a check reads or a template gains a
+      # service or a backup target its instance forbids.
+      - name: instance-check on the RU profile
+        if: ${{ !cancelled() }}
+        run: node deploy/scripts/instance-check.mjs --instance ru --env deploy/mt/ru.env.example --backup-env deploy/backup/nightly.env.example
+      - name: instance-check on the INTL profile
+        if: ${{ !cancelled() }}
+        run: node deploy/scripts/instance-check.mjs --instance intl --env deploy/mt/shipshift.env.example --backup-env deploy/backup/nightly.env.example

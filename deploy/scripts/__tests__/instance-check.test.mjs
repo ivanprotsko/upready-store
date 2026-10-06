@@ -3,17 +3,33 @@
 // to psql (queryDb) is exercised only through the pure functions it feeds
 // (checkDbProviders, checkDbAnalytics), never by actually running psql.
 //
+// The tests at the end of the file run the tool itself as a child process and
+// read its real exit code. Where they pass --db, a stand-in `psql` script
+// comes first on PATH and answers each query with rows the test names.
+//
 //   node --test deploy/scripts/__tests__/instance-check.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { chmodSync, mkdtempSync, writeFileSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   parseArgs,
   parseEnvFile,
+  readEnvValues,
   loadProfile,
+  loadOtherProfiles,
+  validateProfile,
   forbiddenProviders,
   checkEnv,
+  checkBackupTargets,
   checkDbProviders,
   checkDbAnalytics,
+  checkDbTenants,
+  hostOf,
+  BACKUP_TARGET_KEYS,
   UsageError,
   INSTANCES_DIR,
 } from "../instance-check.mjs";
@@ -22,11 +38,13 @@ test("parseArgs reads --flag value and --flag=value the same way", () => {
   assert.deepEqual(parseArgs(["--instance", "ru", "--env", "a.env"]), {
     instance: "ru",
     env: "a.env",
+    backupEnv: null,
     db: null,
   });
-  assert.deepEqual(parseArgs(["--instance=intl", "--env=b.env", "--db=postgres://x"]), {
+  assert.deepEqual(parseArgs(["--instance=intl", "--env=b.env", "--backup-env=c.env", "--db=postgres://x"]), {
     instance: "intl",
     env: "b.env",
+    backupEnv: "c.env",
     db: "postgres://x",
   });
 });
@@ -190,4 +208,199 @@ test("checkDbLoginMethods: RU allows Yandex ID only, INTL allows e-mail and Yand
   assert.match(checkDbLoginMethods(["both", "both"], ru)[0], /^2 tenant\(s\) .*"both".*emailpass/);
   assert.deepEqual(checkDbLoginMethods(["both", "email", "yandex"], intl), []);
   assert.deepEqual(checkDbLoginMethods(["both"], { instance: "x", providers: {} }), []);
+});
+
+test("readEnvValues returns the keys you ask for and no other, read the way a shell sources the file", () => {
+  const values = readEnvValues(
+    [
+      "# S3_ENABLED=1",
+      "S3_ENABLED=1 # on",
+      'S3_ENDPOINT_URL="https://s3.twcstorage.ru"',
+      "export CROSS_COPY_SSH_HOST='203.0.113.7'",
+      "AWS_SECRET_ACCESS_KEY=never-read",
+    ].join("\n"),
+    BACKUP_TARGET_KEYS,
+  );
+  assert.deepEqual([...values.keys()].sort(), ["CROSS_COPY_SSH_HOST", "S3_ENABLED", "S3_ENDPOINT_URL"]);
+  assert.equal(values.get("S3_ENABLED"), "1");
+  assert.equal(values.get("S3_ENDPOINT_URL"), "https://s3.twcstorage.ru");
+  assert.equal(values.get("CROSS_COPY_SSH_HOST"), "203.0.113.7");
+});
+
+test("hostOf reads the host of a URL and of a bare host, and gives null for nothing", () => {
+  assert.equal(hostOf("https://S3.twcstorage.ru/bucket"), "s3.twcstorage.ru");
+  assert.equal(hostOf("s3.twcstorage.ru:443"), "s3.twcstorage.ru");
+  assert.equal(hostOf("203.0.113.7"), "203.0.113.7");
+  assert.equal(hostOf(""), null);
+  assert.equal(hostOf(undefined), null);
+});
+
+test("the real profiles carry every field the backup and tenant checks read", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  validateProfile(ru);
+  validateProfile(loadProfile("intl", INSTANCES_DIR));
+  assert.deepEqual(loadOtherProfiles("ru", INSTANCES_DIR).map((profile) => profile.instance), ["intl"]);
+  assert.deepEqual(loadOtherProfiles("intl", INSTANCES_DIR).map((profile) => profile.instance), ["ru"]);
+  assert.throws(() => validateProfile({ ...ru, backup: { crossBorderCopy: "forbidden" } }), /backup\.s3EndpointHosts, backup\.crossCopyHosts/);
+  assert.throws(() => validateProfile({ ...ru, domains: { primary: [] } }), UsageError);
+});
+
+const targets = (lines) => readEnvValues(lines.join("\n"), BACKUP_TARGET_KEYS);
+
+test("checkBackupTargets: RU passes on the Timeweb endpoint and fails on any other S3 endpoint", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  assert.deepEqual(checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.twcstorage.ru"]), ru), []);
+
+  const abroad = checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.eu-central-1.amazonaws.com"]), ru);
+  assert.equal(abroad.length, 1);
+  assert.match(abroad[0], /^backup target S3_ENDPOINT_URL .*allowed: s3\.twcstorage\.ru.*outside the country of instance ru$/);
+  // The message names the key and the profile's list, never the value it read.
+  assert.doesNotMatch(abroad[0], /amazonaws/);
+
+  assert.equal(checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL="]), ru).length, 1);
+  // cross-copy.sh copies nowhere while S3_ENABLED is not 1, so a stale endpoint is no copy.
+  assert.deepEqual(checkBackupTargets(targets(["S3_ENABLED=0", "S3_ENDPOINT_URL=https://s3.eu-central-1.amazonaws.com"]), ru), []);
+  assert.deepEqual(checkBackupTargets(targets([]), ru), []);
+});
+
+test("checkBackupTargets: a cross-copy host fails on both instances, and INTL fails on an enabled S3 copy", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const intl = loadProfile("intl", INSTANCES_DIR);
+
+  for (const profile of [ru, intl]) {
+    const crossCopy = checkBackupTargets(targets(["CROSS_COPY_SSH_HOST=203.0.113.7"]), profile);
+    assert.equal(crossCopy.length, 1);
+    assert.match(crossCopy[0], /^backup target CROSS_COPY_SSH_HOST .*allowed: none/);
+    assert.doesNotMatch(crossCopy[0], /203\.0\.113\.7/);
+    assert.deepEqual(checkBackupTargets(targets(["CROSS_COPY_SSH_HOST="]), profile), []);
+  }
+
+  // intl.json names no S3 endpoint yet, so the RU bucket and an unknown one fail alike.
+  assert.equal(checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.twcstorage.ru"]), intl).length, 1);
+  assert.equal(checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.example.eu"]), intl).length, 1);
+
+  const listed = { instance: "x", backup: { s3EndpointHosts: ["s3.example.eu"], crossCopyHosts: ["backup2.example.eu"] } };
+  assert.deepEqual(
+    checkBackupTargets(targets(["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.example.eu", "CROSS_COPY_SSH_HOST=backup2.example.eu"]), listed),
+    [],
+  );
+});
+
+test("checkDbTenants: INTL fails on a tenant that answers on a RU domain", () => {
+  const intl = loadProfile("intl", INSTANCES_DIR);
+  const others = loadOtherProfiles("intl", INSTANCES_DIR);
+  assert.deepEqual(checkDbTenants([["cherkashino.com", "www.cherkashino.com"], ["shop.example"], []], intl, others), []);
+
+  const moved = checkDbTenants([["cherkashino.com"], ["shop.example", "www.cherkashino.ru"], ["m.cherkashino.ru"]], intl, others);
+  assert.equal(moved.length, 1);
+  assert.match(moved[0], /^2 tenant\(s\) .*a domain of instance ru \(cherkashino\.ru, www\.cherkashino\.ru\).*not allowed on instance intl$/);
+  // Counts and the profiles' own domains only: a tenant's other address is never printed.
+  assert.doesNotMatch(moved[0], /shop\.example/);
+});
+
+test("checkDbTenants: RU fails on a tenant with a .com address and on a tenant with no RU address", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const others = loadOtherProfiles("ru", INSTANCES_DIR);
+  assert.deepEqual(checkDbTenants([["cherkashino.ru", "www.cherkashino.ru"]], ru, others), []);
+
+  const foreign = checkDbTenants([["cherkashino.ru"], ["cherkashino.com"]], ru, others);
+  assert.equal(foreign.length, 1);
+  assert.match(foreign[0], /^1 tenant\(s\) .*a domain of instance intl/);
+
+  const stray = checkDbTenants([["cherkashino.ru"], ["shop.example"], []], ru, others);
+  assert.equal(stray.length, 1);
+  assert.match(stray[0], /^2 tenant\(s\) .*no address on the domains of instance ru \(cherkashino\.ru, www\.cherkashino\.ru\)/);
+  assert.doesNotMatch(stray[0], /shop\.example/);
+});
+
+// ---- the tool itself, as a child process -----------------------------------
+
+const TOOL = fileURLToPath(new URL("../instance-check.mjs", import.meta.url));
+const REPO = path.resolve(path.dirname(TOOL), "..", "..");
+const SCRATCH = mkdtempSync(path.join(os.tmpdir(), "instance-check-test-"));
+const DB_URL = "postgres://medusa:s3cretpw@mt-postgres:5432/medusa_mt";
+
+// Stands in for psql: one answer per query of queryDb, picked by a word of its SQL.
+writeFileSync(
+  path.join(SCRATCH, "psql"),
+  [
+    "#!/bin/sh",
+    'if [ -n "$FAKE_PSQL_FAIL" ]; then echo "psql: error: connection to \\"$1\\" failed" >&2; exit 2; fi',
+    'case "$4" in',
+    '  *tenant_integration_secret*) printf "%s\\n" "$FAKE_PROVIDERS" ;;',
+    '  *ga4_measurement_id*) echo 0 ;;',
+    '  *buyer_login_method*) printf "%s\\n" "$FAKE_LOGINS" ;;',
+    '  *string_agg*) printf "%s\\n" "$FAKE_TENANTS" ;;',
+    "esac",
+    "",
+  ].join("\n"),
+);
+chmodSync(path.join(SCRATCH, "psql"), 0o755);
+
+function writeScratch(name, lines) {
+  const file = path.join(SCRATCH, name);
+  writeFileSync(file, `${lines.join("\n")}\n`);
+  return file;
+}
+
+function runTool(args, fake = {}) {
+  return spawnSync(process.execPath, [TOOL, ...args], {
+    cwd: REPO,
+    encoding: "utf8",
+    env: { ...process.env, PATH: `${SCRATCH}${path.delimiter}${process.env.PATH}`, ...fake },
+  });
+}
+
+test("the tool exits 0 on both profiles against the env templates this repository ships", () => {
+  for (const [instance, env] of [["ru", "deploy/mt/ru.env.example"], ["intl", "deploy/mt/shipshift.env.example"]]) {
+    const run = runTool(["--instance", instance, "--env", env, "--backup-env", "deploy/backup/nightly.env.example"]);
+    assert.equal(run.status, 0, run.stderr);
+    assert.match(run.stdout, new RegExp(`^instance-check: ${instance} is clean`));
+  }
+});
+
+test("the tool exits 1 on a backup target outside the instance's country and never prints the target", () => {
+  const backupEnv = writeScratch("abroad.env", [
+    "S3_ENABLED=1",
+    "S3_ENDPOINT_URL=https://s3.eu-central-1.amazonaws.com",
+    "CROSS_COPY_SSH_HOST=203.0.113.7",
+  ]);
+  for (const [instance, env] of [["ru", "deploy/mt/ru.env.example"], ["intl", "deploy/mt/shipshift.env.example"]]) {
+    const run = runTool(["--instance", instance, "--env", env, "--backup-env", backupEnv]);
+    assert.equal(run.status, 1);
+    assert.equal(run.stderr.match(/^VIOLATION: backup target /gm).length, 2);
+    assert.doesNotMatch(run.stdout + run.stderr, /amazonaws|203\.0\.113\.7/);
+  }
+
+  const home = writeScratch("home.env", ["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.twcstorage.ru", "CROSS_COPY_SSH_HOST="]);
+  assert.equal(runTool(["--instance", "ru", "--env", "deploy/mt/ru.env.example", "--backup-env", home]).status, 0);
+});
+
+test("the tool exits 1 on a tenant of another instance and 0 on a database of its own shops", () => {
+  const intlArgs = ["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--db", DB_URL];
+  const ruArgs = ["--instance", "ru", "--env", "deploy/mt/ru.env.example", "--db", DB_URL];
+
+  const intlClean = runTool(intlArgs, { FAKE_LOGINS: "both\nboth", FAKE_TENANTS: "ten_1|cherkashino.com,www.cherkashino.com\nten_2|" });
+  assert.equal(intlClean.status, 0, intlClean.stderr);
+  const ruClean = runTool(ruArgs, { FAKE_LOGINS: "yandex", FAKE_TENANTS: "ten_1|cherkashino.ru,www.cherkashino.ru" });
+  assert.equal(ruClean.status, 0, ruClean.stderr);
+
+  const intlDirty = runTool(intlArgs, { FAKE_LOGINS: "both\nboth", FAKE_TENANTS: "ten_1|cherkashino.com\nten_2|cherkashino.ru" });
+  assert.equal(intlDirty.status, 1);
+  assert.match(intlDirty.stderr, /^VIOLATION: 1 tenant\(s\) in this database answer on a domain of instance ru /m);
+
+  const ruDirty = runTool(ruArgs, { FAKE_LOGINS: "yandex\nyandex", FAKE_TENANTS: "ten_1|cherkashino.ru\nten_2|" });
+  assert.equal(ruDirty.status, 1);
+  assert.match(ruDirty.stderr, /^VIOLATION: 1 tenant\(s\) in this database have no address on the domains of instance ru /m);
+});
+
+test("the tool exits 2 without the database password in its output when psql fails, and on a missing backup env file", () => {
+  const failed = runTool(["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--db", DB_URL], { FAKE_PSQL_FAIL: "1" });
+  assert.equal(failed.status, 2);
+  assert.match(failed.stderr, /error reading --db: psql failed with status 2/);
+  assert.doesNotMatch(failed.stdout + failed.stderr, /s3cretpw/);
+
+  const missing = runTool(["--instance", "ru", "--env", "deploy/mt/ru.env.example", "--backup-env", path.join(SCRATCH, "none.env")]);
+  assert.equal(missing.status, 2);
+  assert.match(missing.stderr, /no such env file/);
 });

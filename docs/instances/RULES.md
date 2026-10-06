@@ -153,12 +153,34 @@ it does not file anything on a live government portal or sign anything on Ivan's
 
 ## Enforcement
 
-`deploy/scripts/instance-check.mjs --instance ru|intl --env <path> [--db <postgres-url>]` reads an
-env file's variable **names** (never values) against the forbidden names and prefixes in that
+`deploy/scripts/instance-check.mjs --instance ru|intl --env <path> [--backup-env <path>] [--db <postgres-url>]`
+reads an env file's variable **names** (never values) against the forbidden names and prefixes in that
 instance's profile, and, with `--db`, the providers actually configured by tenants in that instance's
 own database. It exits non-zero and lists every violation, one per line, the moment any of §2's rules
 is broken. It runs at deploy time (`deploy/scripts/deploy-instance.sh`, step 3) and has its own unit
 tests (`deploy/scripts/__tests__/instance-check.test.mjs`).
+
+Two more checks enforce §1.
+
+- **A backup copy outside the instance's country.** With `--backup-env` the tool reads where the
+  host's copies go, from the env file `deploy/backup/install.sh` was given (`deploy/backup/mt.env`
+  on the host). It reads the value of `S3_ENABLED`, `S3_ENDPOINT_URL` and `CROSS_COPY_SSH_HOST` and
+  of no other key, and it prints the key and the verdict, never the value. The profile's
+  `backup.s3EndpointHosts` and `backup.crossCopyHosts` are allowlists. An enabled S3 copy fails
+  unless its endpoint host is on the first list, and a cross-copy host fails unless it is on the
+  second. A target nobody wrote down fails the same way a known foreign one does. `ru.json` lists
+  `s3.twcstorage.ru` and no cross-copy host. `intl.json` lists nothing yet, because §1 names no EU
+  endpoint. Add the host to the profile and to §1 before you point a copy at it.
+- **A tenant of another instance.** With `--db` the tool reads each tenant's custom hosts
+  (`tenant_domain`) and compares them with the `domains` of both profiles. A tenant that answers on
+  a domain the other profile names fails on either instance. On RU, where `domains.otherShops` is
+  `false`, a tenant with no address on RU's own domains fails too, because every other shop belongs
+  to INTL. A message carries a count and the profiles' own domains, never a tenant's name or
+  address.
+
+The same tool runs in CI on both profiles (`.github/workflows/pr-checks.yml`, job Deploy Checks),
+against the env templates this repository ships. That run needs no secret and no database, so the
+tenant check there is covered by the unit tests alone.
 
 `docs/instances/processors.json` is the data-processor registry: every third party, what it receives,
 why, which instance(s) may use it, and the legal basis for sending it data. A new payment-* or auth-*
