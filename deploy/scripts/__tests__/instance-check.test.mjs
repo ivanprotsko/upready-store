@@ -457,6 +457,9 @@ test("the tool prints a recorded exception as a known violation and keeps its ex
   assert.equal(recorded.status, 0, recorded.stderr);
   assert.match(recorded.stderr, /^KNOWN VIOLATION \(recorded\): tenant "olavka" answers on a domain of instance ru /m);
   assert.doesNotMatch(recorded.stderr, /^VIOLATION: /m);
+  // The run passes, and its last line does not call the instance clean.
+  assert.match(recorded.stdout, /^instance-check: intl has no new violation, 1 recorded one\(s\) above /m);
+  assert.doesNotMatch(recorded.stdout, /is clean/);
 
   // One more RU host on the recorded tenant: exit 1.
   const grown = runTool(intlArgs, { FAKE_LOGINS: "both", FAKE_TENANTS: `${RU_ROW},m.cherkashino.ru` });

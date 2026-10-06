@@ -392,6 +392,7 @@ function main(argv) {
 
   const envMap = parseEnvFile(readFileSync(args.env, "utf8"));
   const violations = [...checkEnv(envMap, profile)];
+  let knownCount = 0;
 
   // A host with no backup env file copies nowhere, so its absence is not a violation. Say that the
   // check did not run, so a deploy log never reads as if the targets were looked at.
@@ -420,6 +421,7 @@ function main(argv) {
     );
     const tenants = checkDbTenants(db.tenants, profile, otherProfiles);
     violations.push(...tenants.violations);
+    knownCount = tenants.known.length;
     for (const line of tenants.known) {
       console.error(`KNOWN VIOLATION (recorded): ${line}`);
     }
@@ -433,7 +435,9 @@ function main(argv) {
   }
 
   const checked = [args.env, backupChecked ? `backup targets in ${args.backupEnv}` : null, args.db ? "--db checked" : null];
-  console.log(`instance-check: ${args.instance} is clean (${checked.filter(Boolean).join(", ")})`);
+  // A recorded violation lets the run pass. It does not make the instance clean, so the last line says which it is.
+  const verdict = knownCount > 0 ? `has no new violation, ${knownCount} recorded one(s) above` : "is clean";
+  console.log(`instance-check: ${args.instance} ${verdict} (${checked.filter(Boolean).join(", ")})`);
   process.exit(0);
 }
 
