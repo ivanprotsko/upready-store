@@ -33,14 +33,30 @@ export const PRODUCT_GRID_CLASS =
   "grid w-full grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-3 small:gap-x-6 small:gap-y-10 large:grid-cols-4 [[data-shop=olavka]_&]:min-[720px]:grid-cols-3 [[data-shop=olavka]_&]:min-[961px]:grid-cols-4"
 
 /**
- * The same grid beside the catalog's side column (`/store`, a category, a collection: 248
- * and a gap of 32 from 1024), where the row is 280 narrower than the page. On the Olavka
- * shops four columns there would be cards of 156 at 1024, narrower than a phone's 173. So
- * the row goes back to three columns where the side column appears and turns four again
- * once it is as wide as a full row is at 961: from 1280. Every other shop has one set of
- * columns for both.
+ * The catalog's page beside its side column (`/store`, a category, a collection), from 1024,
+ * where the side column appears. Every shop but the Olavka ones keeps a side column of 248
+ * and a gap of 32.
+ *
+ * On the Olavka shops the page is four equal columns on the product grid's own gap (Ivan,
+ * 06.10.2026: «максимальное число колонок страницы = 4, поэтому на этой странице при
+ * наличии сайдабара можно отображать три колонки в ряд, чтобы данные футера выравнивались
+ * правильно»). The side column takes the first one and the cards the other three, so a
+ * card column starts where a footer column starts: the Olavka footer stands on the same
+ * four tracks with its first one empty (`footer/variants/olavka.tsx`).
  */
-export const PRODUCT_GRID_BESIDE_SIDEBAR_CLASS = `${PRODUCT_GRID_CLASS} [[data-shop=olavka]_&]:min-[1024px]:grid-cols-3 [[data-shop=olavka]_&]:min-[1280px]:grid-cols-4`
+export const CATALOG_COLUMNS_CLASS =
+  "grid grid-cols-1 gap-8 lg:grid-cols-[248px_1fr] [[data-shop=olavka]_&]:min-[1024px]:grid-cols-4 [[data-shop=olavka]_&]:min-[1024px]:gap-x-6"
+
+/** The cell of `CATALOG_COLUMNS_CLASS` that holds the cards: columns 2 to 4 on the Olavka shops. */
+export const CATALOG_MAIN_COLUMN_CLASS = "w-full [[data-shop=olavka]_&]:min-[1024px]:col-span-3"
+
+/**
+ * The product grid inside `CATALOG_MAIN_COLUMN_CLASS`. On the Olavka shops it is three
+ * columns from 1024 at every width, one per page column, and never turns four: four
+ * tracks beside the side column are not the page's tracks. Every other shop has one set of
+ * columns for both grids.
+ */
+export const PRODUCT_GRID_BESIDE_SIDEBAR_CLASS = `${PRODUCT_GRID_CLASS} [[data-shop=olavka]_&]:min-[1024px]:grid-cols-3`
 
 /**
  * A row budget for a grid that is a teaser, not a listing (a home section, the related
