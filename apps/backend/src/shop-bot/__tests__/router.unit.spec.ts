@@ -395,7 +395,7 @@ describe("/cart", () => {
       { text: "✕", callback_data: "r:line_1" },
     ]);
     expect(call.reply_markup.inline_keyboard.at(-1)).toEqual([
-      { text: "Оформить", web_app: { url: "https://olavka.ru/ru/checkout" } },
+      { text: "Оформить", web_app: { url: "https://olavka.ru/ru/mini/checkout" } },
     ]);
   });
 

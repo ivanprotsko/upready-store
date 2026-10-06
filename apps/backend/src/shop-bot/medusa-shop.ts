@@ -17,6 +17,7 @@ import { WISHLIST_MODULE } from "../modules/wishlist";
 import type WishlistModuleService from "../modules/wishlist/service";
 import { writeTenantSecretSlot } from "../tenant-secrets/slot";
 import { readUsableTelegramBot } from "../tenant-secrets/telegram";
+import { newestCartsQuery } from "./open-cart";
 import type {
   ShopCart,
   ShopCartLine,
@@ -259,12 +260,12 @@ export function createMedusaShop(container: MedusaContainer, tenant: MedusaShopT
 
   /** This customer's newest cart in THIS shop's channel that is not completed, or null. */
   const findOpenCart = async (customerId: string): Promise<RawCart | null> => {
-    const { data: carts } = await query.graph({
-      entity: "cart",
-      fields: CART_FIELDS,
-      filters: { customer_id: customerId, sales_channel_id: tenant.salesChannelId },
-      pagination: { take: 10, order: { created_at: "DESC" } },
-    } as never);
+    // `newestCartsQuery` is the one definition of "this buyer's carts in this
+    // shop". The storefront's Mini App entry reads the same one, so it opens
+    // the cart this bot shows (`./cart-adoption.ts`).
+    const { data: carts } = await query.graph(
+      newestCartsQuery(CART_FIELDS, { customerId, salesChannelId: tenant.salesChannelId }) as never,
+    );
     return (carts as RawCart[]).find((cart) => !cart.completed_at) ?? null;
   };
 

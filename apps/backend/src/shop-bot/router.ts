@@ -411,7 +411,12 @@ async function renderCart(ctx: ShopBotContext, user: TgUser): Promise<View> {
   lines.push(t(ctx.locale, "cart_total", { sum: formatPrice(cart.total, cart.currency_code, ctx.locale) }));
 
   if (ctx.storefrontUrl) {
-    keyboard.push([{ text: t(ctx.locale, "btn_checkout"), web_app: { url: `${ctx.storefrontUrl}/checkout` } }]);
+    // The link is `/mini/checkout`, not `/checkout`. The storefront's Mini App
+    // entry first opens this very cart for the buyer
+    // (`POST /store/telegram-bot/cart`) and only then shows the checkout. The
+    // checkout page itself reads the cart of the webview's own cookie, which is
+    // another cart or none.
+    keyboard.push([{ text: t(ctx.locale, "btn_checkout"), web_app: { url: `${ctx.storefrontUrl}/mini/checkout` } }]);
   }
   return { text: lines.join("\n"), keyboard };
 }
