@@ -4,6 +4,10 @@ import { getTranslations } from "next-intl/server"
 import type { OptionValueIds } from "@lib/util/product-option-filters"
 import type { AttributeSelection } from "@lib/util/product-attribute-filters"
 import { listProductAttributeFacets } from "@lib/data/product-attributes"
+import {
+  CATALOG_COLUMNS_CLASS,
+  CATALOG_MAIN_COLUMN_CLASS,
+} from "@modules/products/components/product-card"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import RefinementList from "@modules/store/components/refinement-list"
@@ -99,12 +103,12 @@ const StoreTemplate = async ({
           real one needs a catalog key in all 36 locales (AGENTS.md, "Localization"). */}
       <CategoryImageTiles categories={picturedCategories} dense />
 
-      <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
+      <div className={CATALOG_COLUMNS_CLASS}>
         <div className="hidden flex-col gap-y-8 lg:flex">
           <CategorySidebar categories={categories} />
           <FilterSidebar optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
         </div>
-        <div className="w-full">
+        <div className={CATALOG_MAIN_COLUMN_CLASS}>
           <ActiveFilters optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
           <Suspense fallback={<SkeletonProductGrid besideSidebar />}>
             <PaginatedProducts
