@@ -15,9 +15,11 @@
  * than `MP_BATCH_SIZE`, and no read brings back more rows than that at once.
  * The number is the one `project.ts` already measured for its own writes.
  *
- * This file imports nothing, because the adapters and the core both need it
- * and the adapters are imported by the core's registry.
+ * This file imports nothing of this repository, because the adapters and the
+ * core both need it and the adapters are imported by the core's registry.
  */
+import { MedusaError } from "@medusajs/framework/utils";
+
 export const MP_BATCH_SIZE = 500;
 
 export const chunk = <T>(items: readonly T[], size: number = MP_BATCH_SIZE): T[][] => {
@@ -70,7 +72,10 @@ export async function* cursorPages<Row>(
        * A full page that ends where the previous one ended is a list that
        * ignored the cursor. Reading on would never end, so it stops loudly.
        */
-      throw new Error(`A paged read did not move past id ${last}; the list ignores the id cursor.`);
+      throw new MedusaError(
+        MedusaError.Types.UNEXPECTED_STATE,
+        `A paged read did not move past id ${last}; the list ignores the id cursor.`,
+      );
     }
     cursor = last;
   }
@@ -82,19 +87,30 @@ export async function* cursorPages<Row>(
  * `select` names the columns the caller reads. A mirror row carries the
  * marketplace's whole answer in `raw`, and a read that leaves it out is most
  * of what keeps a page small.
+ *
+ * The cursor is written into the filter as `id`, so a filter that already
+ * names ids is refused. The cursor would replace that list on the second page
+ * and the read would walk the rest of the table instead of ending.
  */
 export const pagesOf = <Row>(
   list: PagedList<Row>,
   filter: Record<string, unknown>,
   select?: string[],
-): AsyncGenerator<Row[]> =>
-  cursorPages((after, take) =>
+): AsyncGenerator<Row[]> => {
+  if ("id" in filter) {
+    throw new MedusaError(
+      MedusaError.Types.UNEXPECTED_STATE,
+      "A paged read pages by id and cannot take a filter on id. Read a list of ids in one call.",
+    );
+  }
+  return cursorPages((after, take) =>
     list(after === null ? filter : { ...filter, id: { $gt: after } }, {
       ...(select ? { select } : {}),
       take,
       order: { id: "ASC" },
     }),
   );
+};
 
 /** Every row a filter matches, read through `pagesOf` and kept as the columns `select` names. */
 export const readInPages = async <Row>(

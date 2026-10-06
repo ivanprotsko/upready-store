@@ -58,6 +58,12 @@ describe("pagesOf", () => {
     expect(asked).toHaveLength(2);
   });
 
+  it("refuses a filter on id, which the cursor would replace on the second page", () => {
+    const { asked, list } = listOver(table(3));
+    expect(() => pagesOf(list, { id: ["row_000001"] })).toThrow(/cannot take a filter on id/);
+    expect(asked).toEqual([]);
+  });
+
   it("stops loudly when the list ignores the cursor", async () => {
     const rows = table(MP_BATCH_SIZE);
     const stuck = async () => rows;

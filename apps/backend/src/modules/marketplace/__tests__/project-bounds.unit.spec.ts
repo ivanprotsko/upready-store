@@ -191,6 +191,7 @@ describe("a projection over 30 000 orders, a journal of 30 000 calls and 1 200 c
   let second: Awaited<ReturnType<typeof projectFromMirrors>>;
   let eventsAfterFirst: number;
   let callsOfFirst: number;
+  let journalLookupsOfFirst: number;
 
   beforeAll(async () => {
     fake = recordingService(seedTables());
@@ -263,6 +264,7 @@ describe("a projection over 30 000 orders, a journal of 30 000 calls and 1 200 c
     first = await projectFromMirrors(deps as never, "wb");
     eventsAfterFirst = fake.tables.MpOrderStatusEvents.length;
     callsOfFirst = fake.calls.length;
+    journalLookupsOfFirst = fake.calls.filter((call) => call.method === "listMpApiCalls").length;
     second = await projectFromMirrors(deps as never, "wb");
   });
 
@@ -344,5 +346,10 @@ describe("a projection over 30 000 orders, a journal of 30 000 calls and 1 200 c
   it("asks the adapter for its journal a page at a time", () => {
     expect(journalAsks.length).toBeGreaterThan(0);
     expect(journalAsks.filter((page) => page === null || page.take > BOUND)).toEqual([]);
+  });
+
+  it("looks a page of the journal up in the shared table with one read, not with a walk of the table", () => {
+    /** 60 pages of calls, one lookup each. A lookup that pages on would read the table once per page. */
+    expect(journalLookupsOfFirst).toBe(CALLS / BOUND);
   });
 });

@@ -1,5 +1,5 @@
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { chunk, cursorPages, pagesOf, type PagedList } from "./batch";
+import { chunk, cursorPages, MP_BATCH_SIZE, pagesOf, type PagedList } from "./batch";
 import type {
   JournalPage,
   MarketplaceAdapter,
@@ -74,6 +74,19 @@ const paged = (
   mp: MarketplaceModuleService,
   list: (...input: never[]) => Promise<unknown>,
 ): PagedList<Row> => list.bind(mp) as unknown as PagedList<Row>;
+
+/**
+ * Which of a batch of ids one table already holds. One read and no paging: an
+ * id names one row, so a batch of `MP_BATCH_SIZE` ids answers with at most
+ * that many.
+ */
+const heldIds = async (list: PagedList<Row>, scope: Scope, ids: string[]): Promise<Set<string>> => {
+  const rows = await list(
+    { ...scope, id: ids },
+    { select: ["id"], take: MP_BATCH_SIZE, order: { id: "ASC" } },
+  );
+  return new Set(rows.map((row) => row.id));
+};
 
 /**
  * The ids of the rows a set of keys already has in one normalized table.
@@ -282,16 +295,11 @@ const carryJournal = async (
      * would leave two rows in the shared table, the scheduler's and the carried
      * one, and the sync screen would show every sync twice.
      */
-    const knownRuns = new Set<string>();
-    for await (const page of pagesOf(
+    const knownRuns = await heldIds(
       storedRuns,
-      { ...scope, id: finished.map((run) => `mprun_${String(run.id)}`) },
-      ["id"],
-    )) {
-      for (const row of page) {
-        knownRuns.add(row.id);
-      }
-    }
+      scope,
+      finished.map((run) => `mprun_${String(run.id)}`),
+    );
     for await (const page of pagesOf(
       storedRuns,
       { ...scope, source_run_id: finished.map((run) => String(run.id)) },
@@ -325,16 +333,11 @@ const carryJournal = async (
   }
 
   for await (const calls of journalPages(adapter, syncDeps, "calls")) {
-    const knownCalls = new Set<string>();
-    for await (const page of pagesOf(
+    const knownCalls = await heldIds(
       storedCalls,
-      { ...scope, id: calls.map((call) => `mpcall_${String(call.id)}`) },
-      ["id"],
-    )) {
-      for (const row of page) {
-        knownCalls.add(row.id);
-      }
-    }
+      scope,
+      calls.map((call) => `mpcall_${String(call.id)}`),
+    );
 
     const callDrafts = calls
       .map((call) => ({
