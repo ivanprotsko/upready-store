@@ -3,6 +3,7 @@ import type {
   CredentialFacts,
   CredentialSlot,
   InspectOptions,
+  JournalPage,
   MarketplaceAdapter,
   MpKind,
   ReadOptions,
@@ -11,6 +12,7 @@ import type {
   SyncOutcome,
 } from "../marketplace/contract";
 import { EXPIRY_WARNING_DAYS } from "../marketplace/contract";
+import { pagesOf, readInPages, type PagedList } from "../marketplace/batch";
 import { validateAdapter } from "../marketplace/guards";
 import { WB_MODULE } from "./index";
 import type WbModuleService from "./service";
@@ -176,20 +178,31 @@ const runSyncForKind = async (deps: SyncDeps, kind: string): Promise<SyncOutcome
  * `vendorCode` and an offer needs both the price and the stock table, so the
  * loader is where the mirrors are read and stitched, and `normalize` stays a
  * pure function of whatever it is handed.
+ *
+ * EVERY MIRROR IS READ A PAGE AT A TIME, FOR THE COLUMNS `normalize` READS
+ * (t-2026-10-06-21). One `list…(scope)` used to bring back a whole table with
+ * every column, `raw` included, as entities and then again as plain rows. Now
+ * a page of `MP_BATCH_SIZE` rows is all the service holds at once, and what is
+ * kept between pages is the columns named in `normalize.MIRROR_COLUMNS`.
  */
 const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
   const wb = wbService(deps);
   const scope = { tenant_id: deps.tenantId };
+  const columns = normalize.MIRROR_COLUMNS;
+
+  type MirrorRow = Record<string, unknown>;
+  const paged = (list: (...input: never[]) => Promise<unknown>) =>
+    list.bind(wb) as unknown as PagedList<MirrorRow>;
+  const mirror = (list: (...input: never[]) => Promise<unknown>, select: readonly string[]) =>
+    readInPages(paged(list), scope, [...select]);
 
   if (kind === "products") {
-    return (await wb.listWbProducts(scope)) as unknown[];
+    return mirror(wb.listWbProducts, columns.products);
   }
 
   if (kind === "offers") {
-    const [prices, stocks] = await Promise.all([
-      wb.listWbPrices(scope) as Promise<Record<string, unknown>[]>,
-      wb.listWbStocks(scope) as Promise<Record<string, unknown>[]>,
-    ]);
+    const prices = await mirror(wb.listWbPrices, columns.prices);
+    const stocks = await mirror(wb.listWbStocks, columns.stocks);
     return [
       ...prices.map((row) => ({ source: "price" as const, row })),
       ...stocks.map((row) => ({ source: "stock" as const, row })),
@@ -208,10 +221,15 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
    * column added on either side would change that guess silently.
    */
   if (kind === "orders") {
-    const [statistics, fbs] = await Promise.all([
-      wb.listWbOrders(scope) as Promise<Record<string, unknown>[]>,
-      wb.listWbFbsOrders(scope) as Promise<Record<string, unknown>[]>,
-    ]);
+    const statistics: MirrorRow[] = [];
+    for await (const page of pagesOf(paged(wb.listWbOrders), scope, [
+      ...columns.statisticsOrders,
+    ])) {
+      for (const row of page) {
+        statistics.push(normalize.slimStatisticsOrder(row));
+      }
+    }
+    const fbs = await mirror(wb.listWbFbsOrders, columns.fbsOrders);
     return [
       ...statistics.map((row) => ({ source: "statistics" as const, row })),
       ...fbs.map((row) => ({ source: "fbs" as const, row })),
@@ -219,10 +237,8 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
   }
 
   if (kind === "reviews") {
-    const [feedbacks, products] = await Promise.all([
-      wb.listWbFeedbacks(scope) as Promise<Record<string, unknown>[]>,
-      wb.listWbProducts(scope) as Promise<Record<string, unknown>[]>,
-    ]);
+    const feedbacks = await mirror(wb.listWbFeedbacks, columns.feedbacks);
+    const products = await mirror(wb.listWbProducts, columns.feedbackProducts);
     const vendorCodeByNmId = new Map<string, string | null>(
       products.map((product) => [
         String(product.nm_id),
@@ -240,7 +256,7 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
    * and registered the read; before that this was an empty list, and saying so
    * in a comment is the only reason the change was noticed here at all.
    */
-  return (await wb.listWbQuestions(scope)) as unknown[];
+  return mirror(wb.listWbQuestions, columns.questions);
 };
 
 /**
@@ -248,14 +264,24 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
  * them. `sync.ts` is untouched by this task, so this is how its rows reach the
  * shared tables (see `loadJournal` in the contract).
  */
-const loadJournal = async (deps: SyncDeps) => {
+const loadJournal = async (deps: SyncDeps, page: JournalPage) => {
   const wb = wbService(deps);
-  const scope = { tenant_id: deps.tenantId };
-  const [runs, calls] = await Promise.all([
-    wb.listWbSyncRuns(scope) as Promise<Record<string, unknown>[]>,
-    wb.listWbApiCalls(scope) as Promise<Record<string, unknown>[]>,
-  ]);
-  return { runs, calls };
+  const filter: Record<string, unknown> = { tenant_id: deps.tenantId };
+  if (page.after !== null) {
+    filter.id = { $gt: page.after };
+  }
+  const config = { take: page.take, order: { id: "ASC" as const } };
+
+  if (page.of === "runs") {
+    const runs = (await wb.listWbSyncRuns(filter, config)) as Record<string, unknown>[];
+    return { runs, calls: [] };
+  }
+
+  if (page.syncRunId) {
+    filter.sync_run_id = page.syncRunId;
+  }
+  const calls = (await wb.listWbApiCalls(filter, config)) as Record<string, unknown>[];
+  return { runs: [], calls };
 };
 
 export const wbAdapter: MarketplaceAdapter = {

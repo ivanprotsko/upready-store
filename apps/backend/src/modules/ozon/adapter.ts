@@ -3,6 +3,7 @@ import type {
   CredentialFacts,
   CredentialSlot,
   InspectOptions,
+  JournalPage,
   MarketplaceAdapter,
   MpKind,
   MutationEntry,
@@ -12,6 +13,7 @@ import type {
   SyncOutcome,
 } from "../marketplace/contract";
 import { EXPIRY_WARNING_DAYS } from "../marketplace/contract";
+import { readInPages, type PagedList } from "../marketplace/batch";
 import { validateAdapter } from "../marketplace/guards";
 import { OZON_MODULE } from "./index";
 import type OzonModuleService from "./service";
@@ -242,19 +244,26 @@ const vendorCodeBySku = (products: Record<string, unknown>[]): Map<string, strin
       ]),
   );
 
+/**
+ * Every mirror is read a page at a time, for the columns `normalize` reads.
+ * The reason is written at the Wildberries twin (t-2026-10-06-21).
+ */
 const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
   const ozon = ozonService(deps);
   const scope = { tenant_id: deps.tenantId };
+  const columns = normalize.MIRROR_COLUMNS;
+
+  type MirrorRow = Record<string, unknown>;
+  const mirror = (list: (...input: never[]) => Promise<unknown>, select: readonly string[]) =>
+    readInPages(list.bind(ozon) as unknown as PagedList<MirrorRow>, scope, [...select]);
 
   if (kind === "products") {
-    return (await ozon.listOzonProducts(scope)) as unknown[];
+    return mirror(ozon.listOzonProducts, columns.products);
   }
 
   if (kind === "offers") {
-    const [prices, stocks] = await Promise.all([
-      ozon.listOzonPrices(scope) as Promise<Record<string, unknown>[]>,
-      ozon.listOzonStocks(scope) as Promise<Record<string, unknown>[]>,
-    ]);
+    const prices = await mirror(ozon.listOzonPrices, columns.prices);
+    const stocks = await mirror(ozon.listOzonStocks, columns.stocks);
     return [
       ...prices.map((row) => ({ source: "price" as const, row })),
       ...stocks.map((row) => ({ source: "stock" as const, row })),
@@ -262,14 +271,12 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
   }
 
   if (kind === "orders") {
-    return (await ozon.listOzonPostings(scope)) as unknown[];
+    return mirror(ozon.listOzonPostings, columns.postings);
   }
 
   if (kind === "reviews") {
-    const [reviews, products] = await Promise.all([
-      ozon.listOzonReviews(scope) as Promise<Record<string, unknown>[]>,
-      ozon.listOzonProducts(scope) as Promise<Record<string, unknown>[]>,
-    ]);
+    const reviews = await mirror(ozon.listOzonReviews, columns.reviews);
+    const products = await mirror(ozon.listOzonProducts, columns.joinedProducts);
     const bySku = vendorCodeBySku(products);
     return reviews.map((review) => ({
       ...review,
@@ -277,10 +284,8 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
     }));
   }
 
-  const [questions, products] = await Promise.all([
-    ozon.listOzonQuestions(scope) as Promise<Record<string, unknown>[]>,
-    ozon.listOzonProducts(scope) as Promise<Record<string, unknown>[]>,
-  ]);
+  const questions = await mirror(ozon.listOzonQuestions, columns.questions);
+  const products = await mirror(ozon.listOzonProducts, columns.joinedProducts);
   const bySku = vendorCodeBySku(products);
   return questions.map((question) => ({
     ...question,
@@ -289,14 +294,24 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
 };
 
 /** The Ozon run log and transport journal. Same reason as the WB adapter's. */
-const loadJournal = async (deps: SyncDeps) => {
+const loadJournal = async (deps: SyncDeps, page: JournalPage) => {
   const ozon = ozonService(deps);
-  const scope = { tenant_id: deps.tenantId };
-  const [runs, calls] = await Promise.all([
-    ozon.listOzonSyncRuns(scope) as Promise<Record<string, unknown>[]>,
-    ozon.listOzonApiCalls(scope) as Promise<Record<string, unknown>[]>,
-  ]);
-  return { runs, calls };
+  const filter: Record<string, unknown> = { tenant_id: deps.tenantId };
+  if (page.after !== null) {
+    filter.id = { $gt: page.after };
+  }
+  const config = { take: page.take, order: { id: "ASC" as const } };
+
+  if (page.of === "runs") {
+    const runs = (await ozon.listOzonSyncRuns(filter, config)) as Record<string, unknown>[];
+    return { runs, calls: [] };
+  }
+
+  if (page.syncRunId) {
+    filter.sync_run_id = page.syncRunId;
+  }
+  const calls = (await ozon.listOzonApiCalls(filter, config)) as Record<string, unknown>[];
+  return { runs: [], calls };
 };
 
 export const ozonAdapter: MarketplaceAdapter = {

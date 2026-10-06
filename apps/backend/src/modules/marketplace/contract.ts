@@ -398,6 +398,18 @@ export type SyncOutcome = {
   retryAt?: Date | null;
 };
 
+/** Which rows of its journal an adapter is asked for. See `loadJournal`. */
+export type JournalPage = {
+  /** The table the page is of. The other one comes back empty. */
+  of: "runs" | "calls";
+  /** The id of the last row of the previous page, `null` for the first. Rows come in id order. */
+  after: string | null;
+  /** The most rows the page holds. */
+  take: number;
+  /** Only the calls of this run, named by the adapter's own run id. */
+  syncRunId?: string;
+};
+
 /**
  * One marketplace, under one contract.
  *
@@ -508,8 +520,16 @@ export type MarketplaceAdapter = {
    *
    * The shapes are the adapter's own; `project.ts` maps the fields it needs
    * and carries the rest untouched.
+   *
+   * ONE PAGE OF ONE TABLE PER CALL (t-2026-10-06-21). The transport journal
+   * grows by a row per request and held 154 506 rows on the Russian host on
+   * 2026-10-06; answering with all of it, on every projection and on every
+   * failed run, is a whole table held at once.
    */
-  loadJournal: (deps: SyncDeps) => Promise<{
+  loadJournal: (
+    deps: SyncDeps,
+    page: JournalPage,
+  ) => Promise<{
     runs: Record<string, unknown>[];
     calls: Record<string, unknown>[];
   }>;

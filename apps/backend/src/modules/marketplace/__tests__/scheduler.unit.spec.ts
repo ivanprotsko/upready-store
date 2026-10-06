@@ -433,6 +433,31 @@ describe("a refused key and repeated failures (audit 2026-09-23, C-01)", () => {
     }),
   }) as unknown as MarketplaceAdapter;
 
+  it("reads the calls of the failed run only, one page of the adapter's journal at a time", async () => {
+    /**
+     * t-2026-10-06-21: this lookup used to load the adapter's whole run log
+     * and whole transport journal, 154 506 rows on the Russian host, after
+     * every run that did not succeed.
+     */
+    const mp = fakeService();
+    const asked: unknown[] = [];
+    const adapter = {
+      ...fakeAdapter(async () => unauthorized()),
+      loadJournal: async (_deps: unknown, page?: unknown) => {
+        asked.push(page ?? null);
+        return {
+          runs: [],
+          calls: [{ sync_run_id: "wbrun_401", endpoint_id: "stocks.list", status: 401, error: "denied" }],
+        };
+      },
+    } as unknown as MarketplaceAdapter;
+
+    const result = await runOneSync(deps(mp), adapter, "stocks", "token");
+
+    expect(result.outcome).toBe("auth_failed");
+    expect(asked).toEqual([{ of: "calls", after: null, take: 500, syncRunId: "wbrun_401" }]);
+  });
+
   it("a 401 on the breaking call is recorded as auth_failed", async () => {
     const mp = fakeService();
     const adapter = withJournal(fakeAdapter(async () => unauthorized()), 401);

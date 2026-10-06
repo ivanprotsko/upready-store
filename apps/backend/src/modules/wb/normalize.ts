@@ -21,6 +21,109 @@ import { canonicalScheme } from "../marketplace/scheme";
 
 type Row = Record<string, unknown>;
 
+/**
+ * The columns of each mirror the functions below read, and nothing else
+ * (t-2026-10-06-21).
+ *
+ * The loader asks the database for these and leaves the rest where it is. The
+ * rest is mostly `raw`, the marketplace's whole answer kept next to every row,
+ * and loading it for 30 248 orders on every projection is what a 1 GB heap
+ * could not hold. `__tests__/mirror-columns.unit.spec.ts` reads every row
+ * through a recorder and fails when a function here reads a column this list
+ * does not name, so a new read cannot become a silent `null`.
+ */
+export const MIRROR_COLUMNS = {
+  products: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "nm_id",
+    "imt_id",
+    "vendor_code",
+    "title",
+    "brand",
+    "subject_id",
+    "subject_name",
+    "photos",
+    "dimensions",
+    "sizes",
+    "wb_updated_at",
+  ],
+  prices: ["id", "tenant_id", "fetched_at", "nm_id", "vendor_code", "currency_iso", "sizes"],
+  stocks: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "nm_id",
+    "chrt_id",
+    "sku",
+    "warehouse_id",
+    "warehouse_name",
+    "amount",
+  ],
+  /** `raw` is here for one field, `currencyCode`. `slimStatisticsOrder` drops the rest. */
+  statisticsOrders: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "srid",
+    "nm_id",
+    "supplier_article",
+    "finished_price",
+    "discount_percent",
+    "is_cancel",
+    "warehouse_name",
+    "region_name",
+    "order_date",
+    "last_change_date",
+    "raw",
+  ],
+  fbsOrders: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "order_id",
+    "rid",
+    "nm_id",
+    "chrt_id",
+    "article",
+    "price",
+    "converted_price",
+    "currency_code",
+    "delivery_type",
+    "warehouse_id",
+    "supplier_status",
+    "wb_status",
+    "wb_created_at",
+  ],
+  feedbacks: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "feedback_id",
+    "nm_id",
+    "product_valuation",
+    "text",
+    "pros",
+    "cons",
+    "user_name",
+    "is_answered",
+    "created_date",
+  ],
+  /** The card columns the loader joins a feedback to its article on. */
+  feedbackProducts: ["id", "nm_id", "vendor_code"],
+  questions: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "question_id",
+    "supplier_article",
+    "text",
+    "is_answered",
+    "created_date",
+  ],
+} as const;
+
 const text = (value: unknown): string | null => {
   if (value === undefined || value === null || value === "") {
     return null;
@@ -230,6 +333,16 @@ const minorToMajor = (value: number | null): number | null =>
  * `scheme` stays `null`: this method does not say whether the order is FBS or
  * FBO, and guessing it from a warehouse name would be an invention (rule 17a).
  */
+/**
+ * A statistics row with `raw` cut down to the one field `statisticsOrder`
+ * reads from it. The loader calls this on every page, so the projection keeps
+ * a currency code per order instead of WB's whole answer per order.
+ */
+export const slimStatisticsOrder = (row: Row): Row => ({
+  ...row,
+  raw: { currencyCode: ((row.raw ?? {}) as Row).currencyCode },
+});
+
 const statisticsOrder = (row: Row): MpOrderDraft => {
   const raw = (row.raw ?? {}) as Row;
   const externalId = String(row.srid);

@@ -91,12 +91,29 @@ const fakeService = (seed: { mpOffers?: Row[] } = {}) => {
     }
   };
 
+  /**
+   * A list of values, the `$gt` id cursor and `take` are what the projector's
+   * paged reads ask for (t-2026-10-06-21), so the stand-in answers them the
+   * way the generated service does.
+   */
   const list =
     (table: keyof typeof store) =>
-    async (filter: Record<string, unknown> = {}) =>
-      store[table].filter((row) =>
-        Object.entries(filter).every(([key, value]) => row[key] === value),
-      );
+    async (filter: Record<string, unknown> = {}, config: { take?: number } = {}) => {
+      const found = store[table]
+        .filter((row) =>
+          Object.entries(filter).every(([key, value]) => {
+            if (Array.isArray(value)) {
+              return value.includes(row[key]);
+            }
+            if (value !== null && typeof value === "object" && "$gt" in value) {
+              return String(row[key]) > String((value as { $gt: unknown }).$gt);
+            }
+            return row[key] === value;
+          }),
+        )
+        .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+      return config.take ? found.slice(0, config.take) : found;
+    };
 
   const create =
     (table: keyof typeof store, prefix: string, sizes?: number[]) =>

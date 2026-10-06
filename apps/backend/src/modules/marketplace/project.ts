@@ -1,5 +1,7 @@
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import { chunk, cursorPages, pagesOf, type PagedList } from "./batch";
 import type {
+  JournalPage,
   MarketplaceAdapter,
   MpKind,
   MpOfferDraft,
@@ -65,51 +67,86 @@ type Deps = {
 const service = (deps: Deps): MarketplaceModuleService =>
   deps.container.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE);
 
-/**
- * The most rows one `create`/`update` call is handed at once.
- *
- * MEASURED, not guessed: a single `updateMpOffers` / `updateMpOrders` call
- * over the whole normalized table (12 035 offers, 29 007 orders on the
- * production mirror) died with `select "m0".* from "mp_offer" as "m0" where
- * ... ("m0"."id" = '…' or "m0"."id" = '…' or …)` — the generated repository
- * loads every targeted row by an OR-chain before it writes, and a chain that
- * long either blows the statement past what the driver will send or the
- * planner will parse. Splitting the call keeps every generated statement
- * bounded regardless of how many rows a projection touches.
- */
-const UPSERT_BATCH_SIZE = 500;
+type Scope = { tenant_id: string; marketplace: string };
 
-const chunk = <T>(items: T[], size: number): T[][] => {
-  const batches: T[][] = [];
-  for (let i = 0; i < items.length; i += size) {
-    batches.push(items.slice(i, i + size));
+/** A generated `list…` method of the core service, shaped for a paged read. */
+const paged = (
+  mp: MarketplaceModuleService,
+  list: (...input: never[]) => Promise<unknown>,
+): PagedList<Row> => list.bind(mp) as unknown as PagedList<Row>;
+
+/**
+ * The ids of the rows a set of keys already has in one normalized table.
+ *
+ * A BATCH OF KEYS PER CALL, AND TWO COLUMNS (t-2026-10-06-21). The projector
+ * used to read each normalized table whole, every column, to learn which of
+ * its drafts exist: 31 061 orders with all they carry, to compare one key. It
+ * now asks for the keys of the drafts themselves, `MP_BATCH_SIZE` at a time,
+ * and reads back the key and the id.
+ *
+ * `scope` already holds the tenant and the marketplace, so inside it the key
+ * column alone is the identity the unique index is built on.
+ */
+const idsByKey = async (
+  list: PagedList<Row>,
+  scope: Scope,
+  column: string,
+  keys: readonly string[],
+): Promise<Map<string, string>> => {
+  const ids = new Map<string, string>();
+  for (const batch of chunk([...new Set(keys)])) {
+    for await (const page of pagesOf(list, { ...scope, [column]: batch }, ["id", column])) {
+      for (const row of page) {
+        ids.set(String(row[column]), row.id);
+      }
+    }
   }
-  return batches;
+  return ids;
 };
 
 /**
- * Writes a set of drafts into one table, keyed by `keyOf`.
+ * Writes a set of drafts into one table, keyed by `column` inside `scope`.
  *
  * Rows that exist are UPDATED, rows that do not are CREATED, and rows that the
  * mirrors no longer produce are left alone: a card withdrawn from the
  * marketplace is a fact worth keeping, and deleting it here would silently
  * shrink the owner's history. Deleting it is a separate decision with its own
  * screen, not a side effect of a projection.
+ *
+ * NO `create`/`update` CALL CARRIES MORE THAN `MP_BATCH_SIZE` ROWS. MEASURED,
+ * not guessed: a single `updateMpOffers` / `updateMpOrders` call over the
+ * whole normalized table (12 035 offers, 29 007 orders on the production
+ * mirror) died with `select "m0".* from "mp_offer" as "m0" where
+ * ... ("m0"."id" = '…' or "m0"."id" = '…' or …)` — the generated repository
+ * loads every targeted row by an OR-chain before it writes, and a chain that
+ * long either blows the statement past what the driver will send or the
+ * planner will parse. Splitting the call keeps every generated statement
+ * bounded regardless of how many rows a projection touches.
+ *
+ * The ids are resolved for every draft BEFORE the first write, as the single
+ * whole-table read did, so which draft is created and which is updated does
+ * not depend on where a batch happens to end.
  */
 const upsert = async <T extends Record<string, unknown>>(
-  existing: Row[],
+  list: PagedList<Row>,
+  scope: Scope,
+  column: string,
   drafts: T[],
-  keyOf: (row: Record<string, unknown>) => string,
   create: (rows: T[]) => Promise<unknown>,
   update: (rows: (T & { id: string })[]) => Promise<unknown>,
 ): Promise<number> => {
-  const byKey = new Map(existing.map((row) => [keyOf(row), row.id]));
+  const byKey = await idsByKey(
+    list,
+    scope,
+    column,
+    drafts.map((draft) => String(draft[column])),
+  );
 
   const toCreate: T[] = [];
   const toUpdate: (T & { id: string })[] = [];
 
   for (const draft of drafts) {
-    const id = byKey.get(keyOf(draft));
+    const id = byKey.get(String(draft[column]));
     if (id) {
       toUpdate.push({ ...draft, id });
     } else {
@@ -117,18 +154,15 @@ const upsert = async <T extends Record<string, unknown>>(
     }
   }
 
-  for (const batch of chunk(toCreate, UPSERT_BATCH_SIZE)) {
+  for (const batch of chunk(toCreate)) {
     await create(batch);
   }
-  for (const batch of chunk(toUpdate, UPSERT_BATCH_SIZE)) {
+  for (const batch of chunk(toUpdate)) {
     await update(batch);
   }
 
   return toCreate.length + toUpdate.length;
 };
-
-const identity = (row: Record<string, unknown>): string =>
-  `${row.tenant_id}|${row.marketplace}|${row.external_id}`;
 
 /**
  * Every variant of every product this tenant owns, with its SKU.
@@ -162,6 +196,27 @@ export const tenantVariants = async (deps: Deps) => {
 };
 
 /**
+ * The adapter's own journal, a page at a time and in id order. `syncRunId`
+ * narrows the transport journal to the calls of one run, which is all the
+ * scheduler reads after a failure.
+ */
+export const journalPages = (
+  adapter: MarketplaceAdapter,
+  syncDeps: SyncDeps,
+  of: JournalPage["of"],
+  syncRunId?: string,
+): AsyncGenerator<Record<string, unknown>[]> =>
+  cursorPages(async (after, take) => {
+    const answer = await adapter.loadJournal(syncDeps, {
+      of,
+      after,
+      take,
+      ...(syncRunId ? { syncRunId } : {}),
+    });
+    return answer[of];
+  });
+
+/**
  * Carries the adapter's OWN run log and transport journal into the shared
  * tables, on every projection.
  *
@@ -182,43 +237,22 @@ const carryJournal = async (
   deps: Deps,
   syncDeps: SyncDeps,
 ): Promise<{ runs: number; calls: number }> => {
-  const { runs, calls } = await adapter.loadJournal(syncDeps);
+  const scope: Scope = { tenant_id: deps.tenantId, marketplace: adapter.id };
+  const storedRuns = paged(mp, mp.listMpSyncRuns);
+  const storedCalls = paged(mp, mp.listMpApiCalls);
 
-  const scope = { tenant_id: deps.tenantId, marketplace: adapter.id };
-  const [storedRuns, storedCalls] = await Promise.all([
-    mp.listMpSyncRuns(scope) as Promise<Row[]>,
-    mp.listMpApiCalls(scope) as Promise<Row[]>,
-  ]);
+  let carriedRuns = 0;
+  let carriedCalls = 0;
 
   /**
-   * A run the SCHEDULER already recorded is not carried a second time
-   * (w16-mp-scheduler-ops). Its row holds `source_run_id` — the adapter's own
-   * run id — and the id this function would derive from that adapter run is
-   * exactly `mprun_<source_run_id>`. Without this line one scheduled import
-   * would leave two rows in the shared table, the scheduler's and the carried
-   * one, and the sync screen would show every sync twice.
+   * A PAGE OF THE ADAPTER'S JOURNAL AT A TIME (t-2026-10-06-21). Both journals
+   * and both shared tables used to be read whole on every projection, to
+   * subtract one set of ids from the other: 154 506 transport rows and 11 002
+   * run rows with their error texts on the Russian host on 2026-10-06. Each
+   * page is now checked against the shared table by its own ids, and what is
+   * missing is written before the next page is read.
    */
-  const knownRuns = new Set(
-    storedRuns.flatMap((row) =>
-      row.source_run_id ? [row.id, `mprun_${String(row.source_run_id)}`] : [row.id],
-    ),
-  );
-  const knownCalls = new Set(storedCalls.map((row) => row.id));
-
-  const runDrafts = runs
-    .map((run) => ({
-      id: `mprun_${String(run.id)}`,
-      tenant_id: String(run.tenant_id),
-      marketplace: adapter.id,
-      kind: String(run.kind),
-      status: String(run.status),
-      is_fixture: Boolean(run.is_fixture),
-      started_at: run.started_at as Date,
-      finished_at: (run.finished_at ?? null) as Date | null,
-      rows: Number(run.rows ?? 0),
-      requests: Number(run.requests ?? 0),
-      error: (run.error ?? null) as string | null,
-    }))
+  for await (const runs of journalPages(adapter, syncDeps, "runs")) {
     /**
      * A `running` row in the ADAPTER'S OWN log is not history yet, carried or
      * not: it is either a sync genuinely in flight (its terminal row will
@@ -235,41 +269,98 @@ const carryJournal = async (
      * yet (measured on `upready_store_w28_wbsync`, 34 stuck `orders` rows in
      * `wb_sync_run` going back to 2026-09-16).
      */
-    .filter((run) => run.status !== "running" && !knownRuns.has(run.id));
+    const finished = runs.filter((run) => String(run.status) !== "running");
+    if (!finished.length) {
+      continue;
+    }
 
-  const callDrafts = calls
-    .map((call) => ({
-      id: `mpcall_${String(call.id)}`,
-      tenant_id: (call.tenant_id ?? null) as string | null,
-      marketplace: adapter.id,
-      sync_run_id: call.sync_run_id ? `mprun_${String(call.sync_run_id)}` : null,
-      endpoint_id: String(call.endpoint_id),
-      host: String(call.host),
-      method: String(call.method),
-      path: String(call.path),
-      status: (call.status ?? null) as number | null,
-      ms: Number(call.ms ?? 0),
-      error: (call.error ?? null) as string | null,
-      is_fixture: Boolean(call.is_fixture),
-      fetched_at: call.fetched_at as Date,
-    }))
-    .filter((call) => !knownCalls.has(call.id));
+    /**
+     * A run the SCHEDULER already recorded is not carried a second time
+     * (w16-mp-scheduler-ops). Its row holds `source_run_id` — the adapter's own
+     * run id — and the id this function would derive from that adapter run is
+     * exactly `mprun_<source_run_id>`. Without this line one scheduled import
+     * would leave two rows in the shared table, the scheduler's and the carried
+     * one, and the sync screen would show every sync twice.
+     */
+    const knownRuns = new Set<string>();
+    for await (const page of pagesOf(
+      storedRuns,
+      { ...scope, id: finished.map((run) => `mprun_${String(run.id)}`) },
+      ["id"],
+    )) {
+      for (const row of page) {
+        knownRuns.add(row.id);
+      }
+    }
+    for await (const page of pagesOf(
+      storedRuns,
+      { ...scope, source_run_id: finished.map((run) => String(run.id)) },
+      ["id", "source_run_id"],
+    )) {
+      for (const row of page) {
+        knownRuns.add(`mprun_${String(row.source_run_id)}`);
+      }
+    }
 
-  /**
-   * Batched for the same reason `upsert` is: the first carry after this task
-   * had 6 000+ uncarried `wb_api_call` rows waiting (nothing had carried
-   * cleanly since 2026-09-16), and one INSERT of that size is the same risk
-   * `upsert`'s doc comment measures, just on the journal tables instead of the
-   * normalized ones.
-   */
-  for (const batch of chunk(runDrafts, UPSERT_BATCH_SIZE)) {
-    await mp.createMpSyncRuns(batch);
+    const runDrafts = finished
+      .map((run) => ({
+        id: `mprun_${String(run.id)}`,
+        tenant_id: String(run.tenant_id),
+        marketplace: adapter.id,
+        kind: String(run.kind),
+        status: String(run.status),
+        is_fixture: Boolean(run.is_fixture),
+        started_at: run.started_at as Date,
+        finished_at: (run.finished_at ?? null) as Date | null,
+        rows: Number(run.rows ?? 0),
+        requests: Number(run.requests ?? 0),
+        error: (run.error ?? null) as string | null,
+      }))
+      .filter((run) => !knownRuns.has(run.id));
+
+    if (runDrafts.length) {
+      await mp.createMpSyncRuns(runDrafts);
+      carriedRuns += runDrafts.length;
+    }
   }
-  for (const batch of chunk(callDrafts, UPSERT_BATCH_SIZE)) {
-    await mp.createMpApiCalls(batch);
+
+  for await (const calls of journalPages(adapter, syncDeps, "calls")) {
+    const knownCalls = new Set<string>();
+    for await (const page of pagesOf(
+      storedCalls,
+      { ...scope, id: calls.map((call) => `mpcall_${String(call.id)}`) },
+      ["id"],
+    )) {
+      for (const row of page) {
+        knownCalls.add(row.id);
+      }
+    }
+
+    const callDrafts = calls
+      .map((call) => ({
+        id: `mpcall_${String(call.id)}`,
+        tenant_id: (call.tenant_id ?? null) as string | null,
+        marketplace: adapter.id,
+        sync_run_id: call.sync_run_id ? `mprun_${String(call.sync_run_id)}` : null,
+        endpoint_id: String(call.endpoint_id),
+        host: String(call.host),
+        method: String(call.method),
+        path: String(call.path),
+        status: (call.status ?? null) as number | null,
+        ms: Number(call.ms ?? 0),
+        error: (call.error ?? null) as string | null,
+        is_fixture: Boolean(call.is_fixture),
+        fetched_at: call.fetched_at as Date,
+      }))
+      .filter((call) => !knownCalls.has(call.id));
+
+    if (callDrafts.length) {
+      await mp.createMpApiCalls(callDrafts);
+      carriedCalls += callDrafts.length;
+    }
   }
 
-  return { runs: runDrafts.length, calls: callDrafts.length };
+  return { runs: carriedRuns, calls: carriedCalls };
 };
 
 /**
@@ -296,19 +387,44 @@ const recordStatusEvents = async (
   orders: MpOrderDraft[],
   orderIdByExternal: Map<string, string>,
 ): Promise<number> => {
-  const stored = (await mp.listMpOrderStatusEvents(scope)) as Row[];
+  /**
+   * The events of the orders this run carries, by a batch of order ids and a
+   * page of events at a time (t-2026-10-06-21). The whole history of every
+   * order of the shop used to be read on every projection.
+   */
+  const orderIds = [
+    ...new Set(
+      orders.flatMap((order) => {
+        const orderId = orderIdByExternal.get(order.external_id);
+        return orderId ? [orderId] : [];
+      }),
+    ),
+  ];
 
   /** The newest observation per order, which is what a change is measured against. */
   const latestByOrder = new Map<string, Row>();
-  for (const event of stored) {
-    const orderId = String(event.order_id);
-    const current = latestByOrder.get(orderId);
-    if (!current || new Date(String(event.observed_at)) > new Date(String(current.observed_at))) {
-      latestByOrder.set(orderId, event);
+  const known = new Set<string>();
+
+  for (const batch of chunk(orderIds)) {
+    for await (const page of pagesOf(
+      paged(mp, mp.listMpOrderStatusEvents),
+      { ...scope, order_id: batch },
+      ["id", "order_id", "event_key", "status", "status_detail", "observed_at"],
+    )) {
+      for (const event of page) {
+        const orderId = String(event.order_id);
+        const current = latestByOrder.get(orderId);
+        if (
+          !current ||
+          new Date(String(event.observed_at)) > new Date(String(current.observed_at))
+        ) {
+          latestByOrder.set(orderId, event);
+        }
+        known.add(String(event.event_key));
+      }
     }
   }
 
-  const known = new Set(stored.map((event) => String(event.event_key)));
   const drafts: Record<string, unknown>[] = [];
 
   for (const order of orders) {
@@ -344,8 +460,8 @@ const recordStatusEvents = async (
     });
   }
 
-  if (drafts.length) {
-    await mp.createMpOrderStatusEvents(drafts);
+  for (const batch of chunk(drafts)) {
+    await mp.createMpOrderStatusEvents(batch);
   }
 
   return drafts.length;
@@ -431,9 +547,10 @@ export const projectFromMirrors = async (
 
       if (kind === "products") {
         counts.products = await upsert(
-          (await mp.listMpProducts(scope)) as Row[],
+          paged(mp, mp.listMpProducts),
+          scope,
+          "external_id",
           drafts as MpProductDraft[],
-          identity,
           /**
            * The cast is here and nowhere else. Medusa generates the type of a
            * `model.json()` column as `Record<string, unknown>`, while `jsonb`
@@ -450,9 +567,10 @@ export const projectFromMirrors = async (
 
       if (kind === "offers") {
         counts.offers = await upsert(
-          (await mp.listMpOffers(scope)) as Row[],
+          paged(mp, mp.listMpOffers),
+          scope,
+          "offer_key",
           drafts as MpOfferDraft[],
-          (row) => `${row.tenant_id}|${row.marketplace}|${row.offer_key}`,
           (created) => mp.createMpOffers(created),
           (updated) => mp.updateMpOffers(updated),
         );
@@ -462,9 +580,10 @@ export const projectFromMirrors = async (
       if (kind === "orders") {
         const orders = drafts as MpOrderDraft[];
         counts.orders = await upsert(
-          (await mp.listMpOrders(scope)) as Row[],
+          paged(mp, mp.listMpOrders),
+          scope,
+          "external_id",
           orders.map(({ lines: _lines, ...order }) => order),
-          identity,
           (created) => mp.createMpOrders(created),
           (updated) => mp.updateMpOrders(updated),
         );
@@ -474,8 +593,12 @@ export const projectFromMirrors = async (
          * `mp_order.id` of its owner and that id only exists once the order
          * row does.
          */
-        const stored = (await mp.listMpOrders(scope)) as Row[];
-        const orderIdByExternal = new Map(stored.map((row) => [String(row.external_id), row.id]));
+        const orderIdByExternal = await idsByKey(
+          paged(mp, mp.listMpOrders),
+          scope,
+          "external_id",
+          orders.map((order) => order.external_id),
+        );
 
         const lineDrafts = orders.flatMap((order) => {
           const orderId = orderIdByExternal.get(order.external_id);
@@ -498,9 +621,10 @@ export const projectFromMirrors = async (
         });
 
         counts.order_lines = await upsert(
-          (await mp.listMpOrderLines(scope)) as Row[],
+          paged(mp, mp.listMpOrderLines),
+          scope,
+          "line_key",
           lineDrafts,
-          (row) => `${row.tenant_id}|${row.marketplace}|${row.line_key}`,
           (created) => mp.createMpOrderLines(created),
           (updated) => mp.updateMpOrderLines(updated),
         );
@@ -511,12 +635,13 @@ export const projectFromMirrors = async (
 
       if (kind === "reviews") {
         counts.reviews = await upsert(
-          (await mp.listMpReviews(scope)) as Row[],
+          paged(mp, mp.listMpReviews),
+          scope,
+          "external_id",
           (drafts as MpReviewDraft[]).map(({ created_at, ...review }) => ({
             ...review,
             created_at_mp: created_at,
           })),
-          identity,
           (created) => mp.createMpReviews(created),
           (updated) => mp.updateMpReviews(updated),
         );
@@ -524,22 +649,32 @@ export const projectFromMirrors = async (
       }
 
       counts.questions = await upsert(
-        (await mp.listMpQuestions(scope)) as Row[],
+        paged(mp, mp.listMpQuestions),
+        scope,
+        "external_id",
         (drafts as MpQuestionDraft[]).map(({ created_at, ...question }) => ({
           ...question,
           created_at_mp: created_at,
         })),
-        identity,
         (created) => mp.createMpQuestions(created),
         (updated) => mp.updateMpQuestions(updated),
       );
     }
 
     /* The catalog match. One matcher, both marketplaces (spec 2.4). */
-    const cards = ((await mp.listMpProducts(scope)) as Row[]).map((row) => ({
-      external_id: String(row.external_id),
-      vendor_code: row.vendor_code ? String(row.vendor_code) : null,
-    }));
+    const cards: { external_id: string; vendor_code: string | null }[] = [];
+    for await (const page of pagesOf(paged(mp, mp.listMpProducts), scope, [
+      "id",
+      "external_id",
+      "vendor_code",
+    ])) {
+      for (const row of page) {
+        cards.push({
+          external_id: String(row.external_id),
+          vendor_code: row.vendor_code ? String(row.vendor_code) : null,
+        });
+      }
+    }
     /**
      * The write goes through `autoLink` and not through the `upsert` above,
      * because a link is the one row here a PERSON can own: `matched_by =

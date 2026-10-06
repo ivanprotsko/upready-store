@@ -19,6 +19,95 @@ import { canonicalScheme } from "../marketplace/scheme";
 
 type Row = Record<string, unknown>;
 
+/**
+ * The columns of each mirror the functions below read, and nothing else
+ * (t-2026-10-06-21). Same reason and same guard as the Wildberries twin:
+ * the loader leaves `raw` in the database, and
+ * `__tests__/mirror-columns.unit.spec.ts` fails when a function here reads a
+ * column this list does not name.
+ */
+export const MIRROR_COLUMNS = {
+  products: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "product_id",
+    "offer_id",
+    "sku",
+    "name",
+    "barcodes",
+    "category_id",
+    "type_id",
+    "images",
+    "primary_image",
+    "statuses",
+    "attributes",
+    "archived",
+    "ozon_updated_at",
+  ],
+  prices: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "product_id",
+    "offer_id",
+    "price",
+    "old_price",
+    "currency_code",
+  ],
+  stocks: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "product_id",
+    "offer_id",
+    "sku",
+    "stock_type",
+    "shipment_type",
+    "present",
+    "reserved",
+  ],
+  postings: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "posting_number",
+    "scheme",
+    "status",
+    "substatus",
+    "products",
+    "analytics_data",
+    "financial_data",
+    "posting_created_at",
+    "in_process_at",
+    "cancel_reason_id",
+  ],
+  reviews: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "review_id",
+    "sku",
+    "text",
+    "rating",
+    "comments_amount",
+    "published_at",
+  ],
+  questions: [
+    "id",
+    "tenant_id",
+    "fetched_at",
+    "question_id",
+    "sku",
+    "text",
+    "author_name",
+    "answers_count",
+    "published_at",
+  ],
+  /** The card columns the loader joins a review or a question to its article on. */
+  joinedProducts: ["id", "sku", "offer_id"],
+} as const;
+
 const text = (value: unknown): string | null => {
   if (value === undefined || value === null || value === "") {
     return null;
