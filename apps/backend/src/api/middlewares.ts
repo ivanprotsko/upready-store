@@ -1785,6 +1785,16 @@ export default defineMiddlewares({
       method: ["POST"],
       middlewares: [authenticate("customer", ["session", "bearer"])],
     },
+    // t-cherk-23. The cart a buyer filled in the shop's bot. The proof is the
+    // Mini App's `initData` in the body, so a call with no session is let
+    // through. A session is read only to refuse another customer's.
+    {
+      matcher: "/store/telegram-bot/cart",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"], { allowUnauthenticated: true }),
+      ],
+    },
     {
       matcher: "/store/customers",
       method: ["POST"],

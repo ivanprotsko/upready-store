@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 
-import { signInWithTelegramMiniApp } from "@lib/data/telegram-auth"
+import { enterMiniApp } from "@lib/data/telegram-cart"
+import { miniAppEntry, runMiniAppEntry } from "@lib/telegram/mini-app-entry"
 import { getWebApp, isTelegramLaunch, loadWebApp, type TelegramWebApp } from "@lib/telegram/web-app"
 
 /** Once per webview session: a buyer who signs out inside the Mini App stays signed out. */
@@ -20,8 +21,11 @@ const SILENT_SIGN_IN_KEY = "__upready_tg_sign_in"
  * and wired to history — the header's own links keep working, this only adds
  * the control a Telegram user reaches for first.
  *
- * It also signs the buyer in from `initData` (verified on the backend with the
- * shop's own bot), then refreshes: the page was server-rendered signed out.
+ * It also opens the cart the buyer filled in the chat with the shop's bot and
+ * signs the buyer in, both from `initData` (verified on the backend with the
+ * shop's own bot), then refreshes, because the page was server-rendered signed
+ * out and with the webview's own cart. The cart is opened on every launch, the
+ * sign-in runs once per webview session (`lib/telegram/mini-app-entry.ts`).
  */
 export default function MiniAppBridge() {
   const router = useRouter()
@@ -32,7 +36,12 @@ export default function MiniAppBridge() {
     if (!isTelegramLaunch()) return
     let cancelled = false
     loadWebApp().then((webApp) => {
-      if (cancelled || !webApp) return
+      if (cancelled) return
+      if (!webApp) {
+        // telegram-web-app.js did not load, so the checkout entry stops waiting.
+        miniAppEntry.mark()
+        return
+      }
       document.documentElement.dataset.tg = "1"
       if (webApp.colorScheme) {
         document.documentElement.dataset.mode = webApp.colorScheme
@@ -44,14 +53,15 @@ export default function MiniAppBridge() {
       webApp.disableVerticalSwipes?.()
       setTg(webApp)
 
-      if (webApp.initData && !silentSignInDone()) {
-        markSilentSignInDone()
-        signInWithTelegramMiniApp(webApp.initData)
-          .then((signedIn) => {
-            if (signedIn && !cancelled) router.refresh()
-          })
-          .catch((error) => console.error("[mini-app] silent sign-in failed:", error))
-      }
+      runMiniAppEntry({
+        initData: webApp.initData,
+        signInDone: silentSignInDone,
+        markSignInDone: markSilentSignInDone,
+        enter: enterMiniApp,
+        refresh: () => {
+          if (!cancelled) router.refresh()
+        },
+      }).finally(() => miniAppEntry.mark())
     })
     return () => {
       cancelled = true
