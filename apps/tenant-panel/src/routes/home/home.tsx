@@ -3,6 +3,7 @@ import { Container, Heading } from "@medusajs/ui"
 
 import { SingleColumnPage } from "../../components/layout/pages"
 import { useMe } from "../../hooks/api/users"
+import { usePermissions } from "../../hooks/use-permissions"
 import { OverviewStats } from "./overview-stats"
 import { SalesSummary } from "./sales-summary"
 import { DeveloperDetails } from "./developer-details"
@@ -24,6 +25,9 @@ import { PlanInfo } from "./plan-info"
 export const Home = () => {
   const { t } = useTranslation()
   const { user, isPending, isError, error } = useMe()
+  // t-2026-10-07-11: a block outside the login's permissions is neither drawn
+  // nor requested, so the overview opens under every role.
+  const { can } = usePermissions()
   if (isError) {
     throw error
   }
@@ -45,11 +49,11 @@ export const Home = () => {
           <PlanInfo tenant={tenant} />
         </div>
 
-        <OverviewStats />
+        {can("catalog") ? <OverviewStats /> : null}
 
-        <SalesSummary />
+        {can("orders") ? <SalesSummary /> : null}
 
-        <DeveloperDetails tenant={tenant} />
+        {can("settings") ? <DeveloperDetails tenant={tenant} /> : null}
       </Container>
     </SingleColumnPage>
   )

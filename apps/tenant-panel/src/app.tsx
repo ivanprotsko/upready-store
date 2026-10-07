@@ -13,6 +13,8 @@ import { ProtectedRoute } from "./components/authentication/protected-route"
 import { MainLayout } from "./components/layout/main-layout"
 import { PublicLayout } from "./components/layout/public-layout"
 import { ErrorBoundary } from "./components/utilities/error-boundary"
+import { callerMayOpen } from "./lib/caller-may-open"
+import { guardRoutes } from "./lib/route-guard"
 import { Providers } from "./providers"
 import {
   AnalyticsRedirect,
@@ -1046,6 +1048,16 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/ozon"),
           },
           {
+            // t-2026-10-07-11: «Сотрудники» — the owner creates the logins of
+            // her staff herself and gives each a role. Needs the `staff`
+            // permission (`lib/permissions.ts`). One screen, no children: the
+            // forms are drawers of the list.
+            path: "/settings/staff",
+            handle: { breadcrumb: () => t("staff.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/staff"),
+          },
+          {
             // «Бренд владельца» (t16-owner-branding): логотип, фавикон,
             // картинка для соцсетей, основной цвет, подпись в подвале. No
             // Admin counterpart — a native install has one build-time theme
@@ -1094,7 +1106,9 @@ const routes: RouteObject[] = [
 ]
 
 function App() {
-  const router = createBrowserRouter(routes, {
+  // t-2026-10-07-11: no loader asks the server for a screen the login's role
+  // does not open; the screen itself is swapped for «Нет доступа» by the shell.
+  const router = createBrowserRouter(guardRoutes(routes, callerMayOpen), {
     basename: __BASE__ || "/",
   })
 

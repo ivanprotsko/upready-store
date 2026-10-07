@@ -8,6 +8,7 @@ import { useDocumentDirection } from "../../../../../hooks/use-document-directio
 // `HttpTypes.AdminUser` — same three fields this component reads.
 import { TenantAdmin, useUpdateUser } from "../../../../../hooks/api/users"
 import { languages } from "../../../../../i18n/languages"
+import { isStaffRole } from "../../../../../lib/permissions"
 
 type ProfileGeneralSectionProps = {
   user: TenantAdmin
@@ -87,6 +88,18 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
           {user.email}
         </Text>
       </div>
+      {/* t-2026-10-07-11: the login's own role in this shop, as the server
+          named it; a server without roles sends none and the row is absent. */}
+      {user.role ? (
+        <div className="grid grid-cols-2 items-center px-6 py-4" data-testid="profile-role">
+          <Text size="small" leading="compact" weight="plus">
+            {t("profile.fields.roleLabel")}
+          </Text>
+          <Text size="small" leading="compact">
+            {isStaffRole(user.role) ? t(`staff.roles.${user.role}`) : user.role}
+          </Text>
+        </div>
+      ) : null}
       <div className="grid grid-cols-2 items-center px-6 py-4">
         <Text size="small" leading="compact" weight="plus">
           {t("profile.fields.languageLabel")}

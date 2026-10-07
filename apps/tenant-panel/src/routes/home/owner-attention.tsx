@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import { useOwnerCounters } from "../../components/layout/owner-nav"
 import { useTenantPages } from "../../hooks/api/pages"
 import { useProducts } from "../../hooks/api/products"
+import { usePermissions } from "../../hooks/use-permissions"
 import { PAGE_SECTIONS, statusOf } from "../pages/page-sections"
 
 type Row = { key: string; count: number; to: string }
@@ -17,11 +18,18 @@ type Row = { key: string; count: number; to: string }
  */
 export const OwnerAttention = () => {
   const { t } = useTranslation()
+  // t-2026-10-07-11: a row is read and shown only to a login that may open
+  // the screen it leads to. The counters gate their own reads.
+  const { can, allowed } = usePermissions()
   const counters = useOwnerCounters()
-  const { pages } = useTenantPages({ staleTime: 60_000, retry: false })
+  const { pages } = useTenantPages({
+    staleTime: 60_000,
+    retry: false,
+    enabled: can("storefront"),
+  })
   const drafts = useProducts(
     { status: ["draft"], limit: 1, fields: "id" },
-    { staleTime: 60_000, retry: false }
+    { staleTime: 60_000, retry: false, enabled: can("catalog") }
   )
 
   const emptyPages = pages
@@ -36,7 +44,7 @@ export const OwnerAttention = () => {
     { key: "reviewsToModerate", count: counters.reviewsToModerate ?? 0, to: "/reviews" },
     { key: "emptyPages", count: emptyPages, to: "/pages" },
     { key: "draftProducts", count: drafts.count ?? 0, to: "/products?status=draft" },
-  ].filter((row) => row.count > 0)
+  ].filter((row) => row.count > 0 && allowed(row.to))
 
   return (
     <Container className="divide-y p-0" data-testid="owner-attention">
