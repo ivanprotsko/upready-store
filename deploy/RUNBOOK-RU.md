@@ -88,6 +88,21 @@ Generate each secret separately (`openssl rand -hex 32`): `POSTGRES_PASSWORD`, `
 `COOKIE_SECRET`, `INTEGRATION_ENCRYPTION_KEY`, `REVALIDATE_SECRET`, `STOREFRONT_SETTINGS_SECRET`,
 `STOREFRONT_DEVTOOLS_PASSWORD`.
 
+Robokassa moderates a shop only when the seller's requisites stand in its footer. The storefront
+prints them as one line under the footer's columns when `STOREFRONT_FOOTER_REQUISITES=1` is in the
+env file, and prints none without it (Ivan, 03.10.2026: «никаких ссылок на ИП Черкашина и т.д. Быть
+не должно», which stays in force on every host that does not set the variable).
+`deploy/compose.mt.yml` hands the variable to the storefront container, and the storefront reads
+it at render time, so adding the line to the env file and running `up -d` is enough, with no image
+rebuild. The line shows what the owner saved in the panel under the shop's requisites.
+
+While payments or delivery run in a provider's test contour, every page carries a red dot in its
+top right corner with the hint «Включены тестовые оплаты и доставка». It is the owner's mark, and no
+shop setting removes it while the test contour is on. Robokassa keeps a shop in test until its
+moderation ends, so for that time put `STOREFRONT_HIDE_TEST_MODE_DOT=1` into the env file and run
+`up -d`. Remove the line after the moderation, or the owner loses the mark that says the shop does
+not take real money yet.
+
 **Check the env file before it ever reaches the host:**
 
 ```bash

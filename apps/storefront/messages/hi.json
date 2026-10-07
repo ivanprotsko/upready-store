@@ -180,6 +180,8 @@
     "recipientHeading": "प्राप्तकर्ता विवरण",
     "recipientLabel": "प्राप्तकर्ता:",
     "returnsLink": "रिटर्न नीति",
+    "paymentTermsLink": "भुगतान और डिलीवरी की शर्तें",
+    "offerLink": "सार्वजनिक प्रस्ताव",
     "sameAsShipping": "शिपिंग पते जैसा ही",
     "save": "सहेजें",
     "saving": "सहेजा जा रहा है...",
@@ -444,9 +446,11 @@
     "contactsHeading": "संपर्क",
     "taxId": "कर संख्या: {value}",
     "regNumber": "पंजीकरण संख्या: {value}",
+    "regNumberSoleTrader": "एकल उद्यमी की पंजीकरण संख्या: {value}",
     "aboutHeading": "स्टोर के बारे में",
     "trackOrder": "अपना ऑर्डर ट्रैक करें",
-    "badgesLabel": "डिलीवरी और भुगतान"
+    "badgesLabel": "डिलीवरी और भुगतान",
+    "robokassaNote": "कार्ड या SBP से भुगतान। भुगतान Robokassa स्वीकार करता है"
   },
   "ForgotPassword": {
     "backToSignIn": "साइन इन पर लौटें",

@@ -180,6 +180,8 @@
     "recipientHeading": "פרטי הנמען",
     "recipientLabel": "נמען:",
     "returnsLink": "מדיניות החזרות",
+    "paymentTermsLink": "תנאי תשלום ומשלוח",
+    "offerLink": "הצעה פומבית",
     "sameAsShipping": "זהה לכתובת המשלוח",
     "save": "שמירה",
     "saving": "שומר...",
@@ -444,9 +446,11 @@
     "contactsHeading": "יצירת קשר",
     "taxId": "מספר מס: {value}",
     "regNumber": "מספר רישום: {value}",
+    "regNumberSoleTrader": "מספר רישום של עוסק יחיד: {value}",
     "aboutHeading": "על החנות",
     "trackOrder": "מעקב אחר ההזמנה",
-    "badgesLabel": "משלוח ותשלום"
+    "badgesLabel": "משלוח ותשלום",
+    "robokassaNote": "תשלום בכרטיס או דרך SBP. את התשלומים מקבלת Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "חזרה להתחברות",

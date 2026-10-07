@@ -180,6 +180,8 @@
     "recipientHeading": "প্রাপকের বিবরণ",
     "recipientLabel": "প্রাপক:",
     "returnsLink": "রিটার্ন নীতি",
+    "paymentTermsLink": "পেমেন্ট ও ডেলিভারির শর্তাবলি",
+    "offerLink": "পাবলিক অফার",
     "sameAsShipping": "শিপিং ঠিকানার মতোই",
     "save": "সংরক্ষণ করুন",
     "saving": "সংরক্ষণ করা হচ্ছে...",
@@ -444,9 +446,11 @@
     "contactsHeading": "যোগাযোগ",
     "taxId": "কর নম্বর: {value}",
     "regNumber": "নিবন্ধন নম্বর: {value}",
+    "regNumberSoleTrader": "একক উদ্যোক্তার নিবন্ধন নম্বর: {value}",
     "aboutHeading": "দোকান সম্পর্কে",
     "trackOrder": "আপনার অর্ডার ট্র্যাক করুন",
-    "badgesLabel": "ডেলিভারি ও পেমেন্ট"
+    "badgesLabel": "ডেলিভারি ও পেমেন্ট",
+    "robokassaNote": "কার্ড বা SBP-এর মাধ্যমে পেমেন্ট। পেমেন্ট গ্রহণ করে Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "সাইন ইনে ফিরে যান",

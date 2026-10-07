@@ -180,6 +180,8 @@
     "recipientHeading": "Gegevens ontvanger",
     "recipientLabel": "Ontvanger:",
     "returnsLink": "Retourbeleid",
+    "paymentTermsLink": "Betalings- en leveringsvoorwaarden",
+    "offerLink": "Openbaar aanbod",
     "sameAsShipping": "Zelfde als verzendadres",
     "save": "Opslaan",
     "saving": "Opslaan...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Contact",
     "taxId": "Belastingnummer (INN): {value}",
     "regNumber": "Registratienummer (OGRN): {value}",
+    "regNumberSoleTrader": "Registratienummer eenmanszaak (OGRNIP): {value}",
     "aboutHeading": "Over de winkel",
     "trackOrder": "Bestelling volgen",
-    "badgesLabel": "Bezorging en betaling"
+    "badgesLabel": "Bezorging en betaling",
+    "robokassaNote": "Betalen met kaart of via SBP. Robokassa verwerkt de betalingen"
   },
   "ForgotPassword": {
     "backToSignIn": "Terug naar inloggen",

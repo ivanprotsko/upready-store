@@ -180,6 +180,8 @@
     "recipientHeading": "Дані отримувача",
     "recipientLabel": "Отримувач:",
     "returnsLink": "Умови повернення",
+    "paymentTermsLink": "Умови оплати та доставки",
+    "offerLink": "Публічна оферта",
     "sameAsShipping": "Збігається з адресою доставки",
     "save": "Зберегти",
     "saving": "Збереження...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Контакти",
     "taxId": "ІПН {value}",
     "regNumber": "ОДРН {value}",
+    "regNumberSoleTrader": "ОДРНІП {value}",
     "aboutHeading": "Про магазин",
     "trackOrder": "Відстежити замовлення",
-    "badgesLabel": "Доставка й оплата"
+    "badgesLabel": "Доставка й оплата",
+    "robokassaNote": "Оплата карткою та через СБП. Платежі приймає Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "Повернутися до входу",

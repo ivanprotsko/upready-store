@@ -180,6 +180,8 @@
     "recipientHeading": "Alıcı bilgileri",
     "recipientLabel": "Alıcı:",
     "returnsLink": "İade Politikası",
+    "paymentTermsLink": "Ödeme ve teslimat koşulları",
+    "offerLink": "Genel teklif",
     "sameAsShipping": "Teslimat adresiyle aynı",
     "save": "Kaydet",
     "saving": "Kaydediliyor...",
@@ -444,9 +446,11 @@
     "contactsHeading": "İletişim",
     "taxId": "Vergi no. (INN): {value}",
     "regNumber": "Sicil no. (OGRN): {value}",
+    "regNumberSoleTrader": "Şahıs işletmesi sicil no. (OGRNIP): {value}",
     "aboutHeading": "Mağaza hakkında",
     "trackOrder": "Siparişini takip et",
-    "badgesLabel": "Teslimat ve ödeme"
+    "badgesLabel": "Teslimat ve ödeme",
+    "robokassaNote": "Kartla veya SBP ile ödeme. Ödemeleri Robokassa alır"
   },
   "ForgotPassword": {
     "backToSignIn": "Girişe dön",

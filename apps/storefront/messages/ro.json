@@ -180,6 +180,8 @@
     "recipientHeading": "Detalii destinatar",
     "recipientLabel": "Destinatar:",
     "returnsLink": "Politica de retur",
+    "paymentTermsLink": "Condiții de plată și livrare",
+    "offerLink": "Ofertă publică",
     "sameAsShipping": "Identică cu adresa de livrare",
     "save": "Salvează",
     "saving": "Se salvează...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Contact",
     "taxId": "Cod fiscal (INN): {value}",
     "regNumber": "Nr. de înregistrare (OGRN): {value}",
+    "regNumberSoleTrader": "Nr. de înregistrare al întreprinzătorului individual (OGRNIP): {value}",
     "aboutHeading": "Despre magazin",
     "trackOrder": "Urmărește comanda",
-    "badgesLabel": "Livrare și plată"
+    "badgesLabel": "Livrare și plată",
+    "robokassaNote": "Plată cu cardul sau prin SBP. Robokassa procesează plățile"
   },
   "ForgotPassword": {
     "backToSignIn": "Înapoi la autentificare",

@@ -180,6 +180,8 @@
     "recipientHeading": "بيانات المستلم",
     "recipientLabel": "المستلم:",
     "returnsLink": "سياسة الإرجاع",
+    "paymentTermsLink": "شروط الدفع والتوصيل",
+    "offerLink": "العرض العام",
     "sameAsShipping": "نفس عنوان الشحن",
     "save": "حفظ",
     "saving": "جارٍ الحفظ...",
@@ -444,9 +446,11 @@
     "contactsHeading": "جهات الاتصال",
     "taxId": "الرقم الضريبي: {value}",
     "regNumber": "رقم التسجيل: {value}",
+    "regNumberSoleTrader": "رقم تسجيل رائد الأعمال الفردي: {value}",
     "aboutHeading": "عن المتجر",
     "trackOrder": "تتبع طلبك",
-    "badgesLabel": "التوصيل والدفع"
+    "badgesLabel": "التوصيل والدفع",
+    "robokassaNote": "الدفع بالبطاقة أو عبر SBP. تتم معالجة المدفوعات عبر Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "العودة إلى تسجيل الدخول",

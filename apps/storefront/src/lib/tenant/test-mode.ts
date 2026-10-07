@@ -12,6 +12,34 @@ export type TenantTestMode = {
 
 export const EMPTY_TENANT_TEST_MODE: TenantTestMode = { payments: false, delivery: false }
 
+/**
+ * The switch that takes the dot off the page (t-2026-10-08-13). The dot is the owner's own
+ * mark from t-2026-10-04-21 (acceptance A3, Ivan: «включены тестовые оплаты и доставка»). A
+ * shop under Robokassa moderation keeps its payments in test until the moderation ends, so
+ * no shop setting takes the dot away, and a moderator would see a test mark on every page.
+ * A deployment sets `STOREFRONT_HIDE_TEST_MODE_DOT=1` for the time of the moderation and
+ * removes the variable after it.
+ */
+export const HIDE_TEST_MODE_DOT_ENV = "STOREFRONT_HIDE_TEST_MODE_DOT"
+
+/**
+ * On for `1` and for `true`, off for everything else. The storefront reads it on the server
+ * at render time, so you flip it with the container's environment and a restart, with no
+ * rebuild.
+ */
+export const testModeDotHidden = (
+  env: Record<string, string | undefined> = process.env
+): boolean => {
+  const value = (env[HIDE_TEST_MODE_DOT_ENV] ?? "").trim().toLowerCase()
+  return value === "1" || value === "true"
+}
+
+/** What the layout hands to the dot: the shop's test mode, or nothing in test with the switch on. */
+export const visibleTestMode = (
+  mode: TenantTestMode,
+  env: Record<string, string | undefined> = process.env
+): TenantTestMode => (testModeDotHidden(env) ? EMPTY_TENANT_TEST_MODE : mode)
+
 /** Anything that is not a clear `true` reads as live: the dot never shows on a guess. */
 export const readTenantTestMode = (value: unknown): TenantTestMode => {
   if (!value || typeof value !== "object") {

@@ -5,8 +5,11 @@ import { listCategories } from "@lib/data/categories"
 import { getSiteName } from "@lib/data/cookies"
 import { getLegalLinkContext } from "@lib/data/legal-links"
 import { listTenantPages } from "@lib/data/tenant-pages"
+import { getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
 import { getTenantSeller } from "@lib/data/tenant-seller"
+import { footerRequisitesLine } from "@lib/util/footer-requisites"
 import { footerLegalLinks, pagesBesideLegalLinks } from "@lib/util/legal-links"
+import HydrationSlot from "@modules/common/components/hydration-slot"
 import { PRODUCT_GRID_CLASS } from "@modules/products/components/product-card"
 import { FooterContacts } from "@modules/layout/components/footer-seller"
 
@@ -35,11 +38,27 @@ const LINK = "txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transit
  * No requisites block (batch 7, Ivan 03.10: «никаких ссылок на ИП Черкашина и т.д. Быть
  * не должно»): the legal name, the tax and registration numbers and the legal address
  * are not printed on these shops. The phone and the e-mail stay (`FooterContacts`).
+ *
+ * 08.10.2026 (t-2026-10-08-13): the requisites are back as one quiet line under the
+ * columns, behind the switch `STOREFRONT_FOOTER_REQUISITES`, off by default. Robokassa
+ * moderates a shop only when «Реквизиты продавца … размещены в подвале сайта», so the
+ * Russian deployment turns the line on. Without the switch the footer prints no requisites,
+ * as Ivan ordered on 03.10 (`@lib/util/footer-requisites`).
+ *
+ * The Robokassa mark stands in the same row under the columns, for a shop that connected
+ * Robokassa and for no other (`getSitePaymentMethods`, a header read). The Robokassa
+ * contract, clause 4.3.4, asks for the system's mark, a link to its site and the payment
+ * terms where the buyer sees them before paying.
  */
 const SKIP_FIRST_COLUMN = "min-[961px]:[&>*:nth-child(3n+1)]:col-start-2"
+// The row under the columns takes the whole width and starts where the columns start, so
+// it carries the same prefix as the skip above (`olavka.test.ts` holds the three together).
+const UNDER_COLUMNS = "col-span-full min-[961px]:col-start-2"
+const FINE_PRINT = "txt-compact-small text-ui-fg-muted"
+const ROBOKASSA_URL = "https://robokassa.com/"
 
 export default async function FooterOlavka() {
-  const [t, tMeta, siteName, seller, categories, tenantPages, legal, attribution] =
+  const [t, tMeta, siteName, seller, categories, tenantPages, legal, attribution, paymentMethods] =
     await Promise.all([
       getTranslations("Footer"),
       getTranslations("Metadata"),
@@ -49,6 +68,7 @@ export default async function FooterOlavka() {
       listTenantPages(),
       getLegalLinkContext(),
       getSiteAttribution(),
+      getSitePaymentMethods(),
     ])
   const topLevelCategories = categories.filter((category) => !category.parent_category_id)
   const titles = Object.fromEntries(tenantPages.map((page) => [page.key, page.title]))
@@ -65,70 +85,112 @@ export default async function FooterOlavka() {
   const creditLabel = attribution
     ? attribution.anchor.charAt(0).toUpperCase() + attribution.anchor.slice(1)
     : null
+  // Empty while the switch is off, and for a seller with no requisites filled in.
+  const requisites = footerRequisitesLine(seller, {
+    taxId: (value) => t("taxId", { value }),
+    regNumber: (value) => t("regNumber", { value }),
+    regNumberSoleTrader: (value) => t("regNumberSoleTrader", { value }),
+  })
+  const showRobokassa = paymentMethods.robokassa
 
   return (
     // No horizontal line anywhere (Ivan's remark 13 addition), and no legal row under it
     // (remark 19): the offer and the privacy policy are in the «©» column.
     <footer className="w-full bg-ui-bg-base" data-testid="footer-olavka">
       <div className="content-container py-10 lg:py-16">
-        <div className={`${PRODUCT_GRID_CLASS} ${SKIP_FIRST_COLUMN}`}>
-          {topLevelCategories.length > 0 && (
-            <div className="flex min-w-0 flex-col gap-y-3">
-              <span className={HEADING}>{t("categoriesHeading")}</span>
+        {/* The row under the columns comes late in the footer's payload, where Flight may
+            hand it over as a lazy reference. The slot is this `<div>`'s first and only
+            child, so that lazy is never the `<div>`'s own child (HydrationSlot). */}
+        <HydrationSlot>
+          <div className={`${PRODUCT_GRID_CLASS} ${SKIP_FIRST_COLUMN}`}>
+            {topLevelCategories.length > 0 && (
+              <div className="flex min-w-0 flex-col gap-y-3">
+                <span className={HEADING}>{t("categoriesHeading")}</span>
+                <ul className="flex flex-col gap-y-2">
+                  {topLevelCategories.map((category) => (
+                    <li key={category.id}>
+                      <Link href={`/categories/${category.handle}`} className={LINK}>
+                        {category.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {infoPages.length > 0 && (
+              <div className="flex min-w-0 flex-col gap-y-3">
+                <span className={HEADING}>{t("infoHeading")}</span>
+                <ul className="flex flex-col gap-y-2">
+                  {infoPages.map((page) => (
+                    <li key={page.key}>
+                      <Link href={`/pages/${page.key}`} className={LINK}>
+                        {page.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="flex min-w-0 flex-col gap-y-3" data-testid="footer-olavka-shop">
+              <span className={HEADING}>{`© ${siteName}`}</span>
               <ul className="flex flex-col gap-y-2">
-                {topLevelCategories.map((category) => (
-                  <li key={category.id}>
-                    <Link href={`/categories/${category.handle}`} className={LINK}>
-                      {category.name}
+                {legalLinks.map((link) => (
+                  <li key={link.slot}>
+                    <Link href={link.href} className={LINK}>
+                      {link.label}
                     </Link>
                   </li>
                 ))}
-              </ul>
-            </div>
-          )}
-
-          {infoPages.length > 0 && (
-            <div className="flex min-w-0 flex-col gap-y-3">
-              <span className={HEADING}>{t("infoHeading")}</span>
-              <ul className="flex flex-col gap-y-2">
-                {infoPages.map((page) => (
-                  <li key={page.key}>
-                    <Link href={`/pages/${page.key}`} className={LINK}>
-                      {page.title}
-                    </Link>
+                {attribution && (
+                  <li>
+                    <a
+                      href={attribution.href}
+                      target="_blank"
+                      rel={attribution.rel}
+                      className={LINK}
+                      data-testid="site-attribution"
+                    >
+                      {creditLabel}
+                    </a>
                   </li>
-                ))}
+                )}
               </ul>
+              <FooterContacts seller={seller} />
             </div>
-          )}
-
-          <div className="flex min-w-0 flex-col gap-y-3" data-testid="footer-olavka-shop">
-            <span className={HEADING}>{`© ${siteName}`}</span>
-            <ul className="flex flex-col gap-y-2">
-              {legalLinks.map((link) => (
-                <li key={link.slot}>
-                  <Link href={link.href} className={LINK}>
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              {attribution && (
-                <li>
-                  <a
-                    href={attribution.href}
-                    target="_blank"
-                    rel={attribution.rel}
-                    className={LINK}
-                    data-testid="site-attribution"
-                  >
-                    {creditLabel}
-                  </a>
-                </li>
-              )}
-            </ul>
-            <FooterContacts seller={seller} />
           </div>
-        </div>
+
+          {(showRobokassa || requisites.length > 0) && (
+            <div className={`${PRODUCT_GRID_CLASS} mt-10`} data-testid="footer-olavka-under-columns">
+              <div className={`${UNDER_COLUMNS} flex min-w-0 flex-col gap-y-3`}>
+                {showRobokassa && (
+                  <p
+                    className={`${FINE_PRINT} flex flex-wrap items-center gap-x-3 gap-y-2`}
+                    data-testid="footer-robokassa"
+                  >
+                    {/* A word mark set in text: this repository carries no Robokassa logo file. */}
+                    <a
+                      href={ROBOKASSA_URL}
+                      target="_blank"
+                      rel="noopener"
+                      className="rounded-md border border-ui-border-base px-2 py-1 txt-compact-small-plus font-semibold uppercase tracking-[0.08em] text-ui-fg-base transition-colors hover:text-ui-fg-subtle"
+                      data-testid="footer-robokassa-link"
+                    >
+                      Robokassa
+                    </a>
+                    <span>{t("robokassaNote")}</span>
+                  </p>
+                )}
+                {requisites.length > 0 && (
+                  <p className={`${FINE_PRINT} text-pretty`} data-testid="footer-requisites-line">
+                    {requisites.join(" · ")}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+        </HydrationSlot>
       </div>
     </footer>
   )

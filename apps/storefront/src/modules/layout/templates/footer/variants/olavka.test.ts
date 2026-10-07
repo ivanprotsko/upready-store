@@ -25,6 +25,7 @@ const productCard = readFileSync(
 
 const gridClass = productCard.match(/export const PRODUCT_GRID_CLASS =\s*"([^"]+)"/)?.[1]
 const skipClass = footer.match(/const SKIP_FIRST_COLUMN = "([^"]+)"/)?.[1]
+const underColumnsClass = footer.match(/const UNDER_COLUMNS = "([^"]+)"/)?.[1]
 
 describe("Olavka footer: the first column is skipped only on a four-column grid", () => {
   it("reads both class strings from the source", () => {
@@ -47,5 +48,12 @@ describe("Olavka footer: the first column is skipped only on a four-column grid"
 
   it("puts the grid and the skip on the same element", () => {
     expect(footer).toContain("${PRODUCT_GRID_CLASS} ${SKIP_FIRST_COLUMN}")
+  })
+
+  // t-2026-10-08-13: the row under the columns (the Robokassa mark and the seller's
+  // requisites) starts where the columns start, so it moves at the same width.
+  it("starts the row under the columns at column 2 from the same width", () => {
+    const fourColumnsAt = gridClass?.match(/\[\[data-shop=olavka\]_&\]:(\S+?:)grid-cols-4\b/)?.[1]
+    expect(underColumnsClass).toBe(`col-span-full ${fourColumnsAt}col-start-2`)
   })
 })

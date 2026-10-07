@@ -180,6 +180,8 @@
     "recipientHeading": "Mottakerdetaljer",
     "recipientLabel": "Mottaker:",
     "returnsLink": "Returvilkår",
+    "paymentTermsLink": "Betalings- og leveringsvilkår",
+    "offerLink": "Offentlig tilbud",
     "sameAsShipping": "Samme som leveringsadresse",
     "save": "Lagre",
     "saving": "Lagrer...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Kontakt",
     "taxId": "Skattenr. (INN): {value}",
     "regNumber": "Registreringsnr. (OGRN): {value}",
+    "regNumberSoleTrader": "Registreringsnr. for enkeltpersonforetak (OGRNIP): {value}",
     "aboutHeading": "Om butikken",
     "trackOrder": "Spor bestillingen",
-    "badgesLabel": "Levering og betaling"
+    "badgesLabel": "Levering og betaling",
+    "robokassaNote": "Betal med kort eller via SBP. Robokassa tar imot betalingene"
   },
   "ForgotPassword": {
     "backToSignIn": "Tilbake til innlogging",

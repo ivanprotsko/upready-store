@@ -180,6 +180,8 @@
     "recipientHeading": "收件人信息",
     "recipientLabel": "收件人：",
     "returnsLink": "退货政策",
+    "paymentTermsLink": "支付与配送条款",
+    "offerLink": "公开要约",
     "sameAsShipping": "与收货地址相同",
     "save": "保存",
     "saving": "保存中...",
@@ -444,9 +446,11 @@
     "contactsHeading": "联系方式",
     "taxId": "纳税人识别号：{value}",
     "regNumber": "注册号：{value}",
+    "regNumberSoleTrader": "个体经营者注册号：{value}",
     "aboutHeading": "关于本店",
     "trackOrder": "查询订单",
-    "badgesLabel": "配送与支付"
+    "badgesLabel": "配送与支付",
+    "robokassaNote": "支持银行卡或 SBP 支付。款项由 Robokassa 收取"
   },
   "ForgotPassword": {
     "backToSignIn": "返回登录",

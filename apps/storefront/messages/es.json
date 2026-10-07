@@ -180,6 +180,8 @@
     "recipientHeading": "Datos del destinatario",
     "recipientLabel": "Destinatario:",
     "returnsLink": "Política de devoluciones",
+    "paymentTermsLink": "Condiciones de pago y envío",
+    "offerLink": "Oferta pública",
     "sameAsShipping": "Igual que la dirección de envío",
     "save": "Guardar",
     "saving": "Guardando...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Contacto",
     "taxId": "NIF (INN): {value}",
     "regNumber": "N.º de registro (OGRN): {value}",
+    "regNumberSoleTrader": "N.º de registro de empresario individual (OGRNIP): {value}",
     "aboutHeading": "Sobre la tienda",
     "trackOrder": "Seguimiento del pedido",
-    "badgesLabel": "Envío y pago"
+    "badgesLabel": "Envío y pago",
+    "robokassaNote": "Pago con tarjeta o mediante SBP. Robokassa procesa los pagos"
   },
   "ForgotPassword": {
     "backToSignIn": "Volver al inicio de sesión",

@@ -180,6 +180,8 @@
     "recipientHeading": "Хүлээн авагчийн мэдээлэл",
     "recipientLabel": "Хүлээн авагч:",
     "returnsLink": "Буцаалтын бодлого",
+    "paymentTermsLink": "Төлбөр ба хүргэлтийн нөхцөл",
+    "offerLink": "Нийтийн санал",
     "sameAsShipping": "Хүргэлтийн хаягтай ижил",
     "save": "Хадгалах",
     "saving": "Хадгалж байна...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Холбоо барих",
     "taxId": "Татвар төлөгчийн дугаар: {value}",
     "regNumber": "Бүртгэлийн дугаар: {value}",
+    "regNumberSoleTrader": "Хувиараа бизнес эрхлэгчийн бүртгэлийн дугаар: {value}",
     "aboutHeading": "Дэлгүүрийн тухай",
     "trackOrder": "Захиалгаа хянах",
-    "badgesLabel": "Хүргэлт ба төлбөр"
+    "badgesLabel": "Хүргэлт ба төлбөр",
+    "robokassaNote": "Картаар эсвэл SBP-ээр төлнө. Төлбөрийг Robokassa хүлээн авна"
   },
   "ForgotPassword": {
     "backToSignIn": "Нэвтрэх рүү буцах",

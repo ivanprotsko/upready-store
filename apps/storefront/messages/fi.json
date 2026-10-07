@@ -180,6 +180,8 @@
     "recipientHeading": "Vastaanottajan tiedot",
     "recipientLabel": "Vastaanottaja:",
     "returnsLink": "Palautusehdot",
+    "paymentTermsLink": "Maksu- ja toimitusehdot",
+    "offerLink": "Julkinen tarjous",
     "sameAsShipping": "Sama kuin toimitusosoite",
     "save": "Tallenna",
     "saving": "Tallennetaan...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Yhteystiedot",
     "taxId": "Verotunnus (INN): {value}",
     "regNumber": "Rekisterinumero (OGRN): {value}",
+    "regNumberSoleTrader": "Yksityisyrittäjän rekisterinumero (OGRNIP): {value}",
     "aboutHeading": "Tietoa kaupasta",
     "trackOrder": "Seuraa tilaustasi",
-    "badgesLabel": "Toimitus ja maksu"
+    "badgesLabel": "Toimitus ja maksu",
+    "robokassaNote": "Maksu kortilla tai SBP:n kautta. Maksut vastaanottaa Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "Takaisin kirjautumiseen",

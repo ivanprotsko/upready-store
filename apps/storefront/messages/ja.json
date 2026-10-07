@@ -180,6 +180,8 @@
     "recipientHeading": "受取人情報",
     "recipientLabel": "受取人：",
     "returnsLink": "返品ポリシー",
+    "paymentTermsLink": "お支払いと配送の条件",
+    "offerLink": "公開オファー",
     "sameAsShipping": "配送先住所と同じ",
     "save": "保存",
     "saving": "保存中...",
@@ -444,9 +446,11 @@
     "contactsHeading": "お問い合わせ",
     "taxId": "納税者番号：{value}",
     "regNumber": "登録番号：{value}",
+    "regNumberSoleTrader": "個人事業主登録番号：{value}",
     "aboutHeading": "ショップについて",
     "trackOrder": "注文状況を確認",
-    "badgesLabel": "配送と支払い"
+    "badgesLabel": "配送と支払い",
+    "robokassaNote": "カードまたはSBPでお支払いいただけます。決済はRobokassaが処理します"
   },
   "ForgotPassword": {
     "backToSignIn": "ログインに戻る",

@@ -180,6 +180,8 @@
     "recipientHeading": "Údaje príjemcu",
     "recipientLabel": "Príjemca:",
     "returnsLink": "Podmienky vrátenia",
+    "paymentTermsLink": "Platobné a dodacie podmienky",
+    "offerLink": "Verejná ponuka",
     "sameAsShipping": "Rovnaká ako adresa doručenia",
     "save": "Uložiť",
     "saving": "Ukladá sa...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Kontakty",
     "taxId": "DIČ (INN): {value}",
     "regNumber": "Registračné číslo (OGRN): {value}",
+    "regNumberSoleTrader": "Registračné číslo podnikateľa (OGRNIP): {value}",
     "aboutHeading": "O obchode",
     "trackOrder": "Sledovať objednávku",
-    "badgesLabel": "Doprava a platba"
+    "badgesLabel": "Doprava a platba",
+    "robokassaNote": "Platba kartou alebo cez SBP. Platby prijíma Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "Späť na prihlásenie",

@@ -180,6 +180,8 @@
     "recipientHeading": "Данни на получателя",
     "recipientLabel": "Получател:",
     "returnsLink": "Политика за връщане",
+    "paymentTermsLink": "Условия за плащане и доставка",
+    "offerLink": "Публична оферта",
     "sameAsShipping": "Същият като адреса за доставка",
     "save": "Запази",
     "saving": "Запазване...",
@@ -444,9 +446,11 @@
     "contactsHeading": "Контакти",
     "taxId": "ИНН {value}",
     "regNumber": "ОГРН {value}",
+    "regNumberSoleTrader": "ОГРНИП {value}",
     "aboutHeading": "За магазина",
     "trackOrder": "Проследяване на поръчка",
-    "badgesLabel": "Доставка и плащане"
+    "badgesLabel": "Доставка и плащане",
+    "robokassaNote": "Плащане с карта или чрез SBP. Плащанията приема Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "Обратно към входа",
