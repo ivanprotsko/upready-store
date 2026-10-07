@@ -607,9 +607,11 @@ route with method → the one permission it needs. The panel holds neither: it r
   without that decision.
 - Reference reads (`any` in the table) are open to every role: the caller's own profile and shops,
   `GET` of the shop, regions, sales channels, stock locations, shipping options, fulfillment
-  providers, the shop's languages, products and variants. Their writes keep their own permission.
-- Reads that carry settings or keys (payment, marketplace and delivery keys, domains, integrations)
-  need `settings` for `GET` as well.
+  providers, the shop's languages, its addresses (`GET /tenants/domains`) and its look
+  (`GET /tenants/branding`), products and variants. Their writes keep their own permission.
+- Reads that carry settings or keys (payment, marketplace and delivery keys, integrations) need
+  `settings` for `GET` as well. The gates of writing to Wildberries (`/tenants/wb/write-settings`)
+  are read with `marketplaces` and switched with `settings`.
 
 ## The gate
 
@@ -630,7 +632,9 @@ force on the caller's next request.
   `tenant.metadata` is in the answer only for a caller with `settings`: it is where the shop's
   settings are kept, and the routes that answer them are closed for reading without that permission.
 - `GET /tenants/staff` → `{ staff: [{ id, email, first_name, last_name, role, created_at, updated_at,
-  is_self }] }`. The platform's own row is not listed.
+  is_self }], roles: [{ role, permissions }] }`. The platform's own row is not listed. `roles` is
+  every role with what it opens, in the order owner, manager, operator: the panel words «what this
+  role sees» from it and keeps no text of its own about a role.
 - `POST /tenants/staff` body `{ email, password, role, first_name?, last_name? }` → `201 { staff_member }`.
   `400` when the email already has a login in this shop, and `400` when the email already has ANY
   account on the platform (another shop's login, a platform user, a buyer, an identity registered in
@@ -641,7 +645,11 @@ force on the caller's next request.
 - `DELETE /tenants/staff/:id` → `{ id, object: "tenant_admin", deleted: true }`. `400` for the
   caller's own login and for the last owner.
 - On both `:id` routes the platform's row and another shop's login answer `404`, like a missing id.
-- `POST /tenants/me/switch` into a sister site creates the caller's row there with the role the
-  caller holds on the site she comes from.
+- `POST /tenants/me/switch` into a sister site the caller has no row in creates that row only for an
+  `owner`, as an owner's row. A manager or an operator gets the `403` of a foreign shop, and
+  `GET /tenants/me/shops` does not offer her such a site.
+- The texts of the seven refusals of the staff routes are `STAFF_REFUSALS` in
+  `tenants/staff/staff-refusals.ts`, a file with no imports: the panel recognises a refusal by its
+  text and translates it.
 
 Seam test: `integration-tests/http/tenants-staff-roles.spec.ts`.

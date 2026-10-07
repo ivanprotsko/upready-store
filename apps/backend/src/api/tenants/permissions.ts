@@ -84,6 +84,10 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   "/tenants/shipping-options": { GET: "any" },
   "/tenants/fulfillment-providers": { GET: "any" },
   "/tenants/locale-settings": { GET: "any", PUT: "settings" },
+  // The shop's addresses and its look: what any visitor of the storefront
+  // sees, and what the panel's shell reads on every screen (§12.1).
+  "/tenants/domains": { GET: "any", POST: "settings" },
+  "/tenants/branding": { GET: "any", PUT: "storefront" },
   "/tenants/products": { GET: "any", POST: "catalog" },
   "/tenants/products/[id]": { GET: "any", POST: "catalog", DELETE: "catalog" },
   "/tenants/products/[id]/variants": { GET: "any", POST: "catalog" },
@@ -168,7 +172,6 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   "/tenants/articles": { GET: "storefront", POST: "storefront" },
   "/tenants/articles/[slug]": { GET: "storefront", PUT: "storefront", DELETE: "storefront" },
   "/tenants/article-categories": { GET: "storefront" },
-  "/tenants/branding": { GET: "storefront", PUT: "storefront" },
   "/tenants/branding/upload": { POST: "storefront" },
 
   // ---- marketing
@@ -214,14 +217,16 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   "/tenants/wb/feedback-answers": { GET: "marketplaces", PUT: "marketplaces" },
   "/tenants/wb/feedback-answers/send": { POST: "marketplaces" },
   "/tenants/ozon/status": { GET: "marketplaces" },
+  "/tenants/wb/write-preview": { GET: "marketplaces", PUT: "marketplaces" },
+  // The gates of writing to Wildberries: seen from the working screens,
+  // switched only with `settings` (§12.4).
+  "/tenants/wb/write-settings": { GET: "marketplaces", PUT: "settings" },
 
   // ---- settings: the «Настройки» group, every key and every integration.
   // Closed for reading too: these answers carry what the shop is paid through
   // and what it is connected to.
   "/tenants/marketplaces/[marketplace]/key": { GET: "settings", PUT: "settings", DELETE: "settings" },
   "/tenants/wb/key": { GET: "settings", PUT: "settings", DELETE: "settings" },
-  "/tenants/wb/write-settings": { GET: "settings", PUT: "settings" },
-  "/tenants/wb/write-preview": { GET: "settings", PUT: "settings" },
   "/tenants/ozon/key": { GET: "settings", PUT: "settings", DELETE: "settings" },
   "/tenants/payment-settings": { GET: "settings", PUT: "settings", DELETE: "settings" },
   "/tenants/payment-settings/[id]": { GET: "settings" },
@@ -245,7 +250,6 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
   "/tenants/shipping-methods/settings": { GET: "settings", POST: "settings" },
   "/tenants/shipping-methods/zone-presets": { GET: "settings", POST: "settings" },
   "/tenants/requisites": { GET: "settings", PUT: "settings" },
-  "/tenants/domains": { GET: "settings", POST: "settings" },
   "/tenants/domains/[id]": { DELETE: "settings" },
   "/tenants/domains/[id]/primary": { POST: "settings", DELETE: "settings" },
   "/tenants/handle": { POST: "settings" },

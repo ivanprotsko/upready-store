@@ -38,6 +38,7 @@ const addPlatformAdminToTenantStep = createStep(
 
     const admin = await tenantModuleService.createTenantAdmins({
       email,
+      role: "owner",
       tenant_id: input.tenant_id,
     });
 

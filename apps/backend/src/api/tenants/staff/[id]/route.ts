@@ -7,6 +7,7 @@ import { updateTenantAdminByStaffWorkflow } from "../../../../workflows/tenant/u
 import { getTenantAdminAccess } from "../../tenant-admin-gate";
 import type { PostTenantStaffUpdateBody } from "../../validators";
 import { toStaffMember } from "../staff-member";
+import { STAFF_REFUSALS } from "../staff-refusals";
 import { assertAnotherOwnerStays, assertPasswordIsThisShopsOnly, isPlatformRow } from "../staff-rules";
 
 const invalid = (message: string) => new MedusaError(MedusaError.Types.INVALID_DATA, message);
@@ -48,7 +49,7 @@ export const POST = async (
 
   if (role !== undefined && role !== target.role) {
     if (target.id === access.id) {
-      throw invalid("You cannot change your own role. Another owner of the shop can do it.");
+      throw invalid(STAFF_REFUSALS.own_role);
     }
 
     const rows = await tenantModuleService.listTenantAdmins({ tenant_id: access.tenant_id });
@@ -85,7 +86,7 @@ export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaRespons
   const target = await retrieveStaffRow(tenantModuleService, access.tenant_id, req.params.id);
 
   if (target.id === access.id) {
-    throw invalid("You cannot remove your own login. Another owner of the shop can do it.");
+    throw invalid(STAFF_REFUSALS.own_login);
   }
 
   const rows = await tenantModuleService.listTenantAdmins({ tenant_id: access.tenant_id });

@@ -44,7 +44,10 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     filters: { email: [caller.email] },
   });
 
-  const siblings = await listGroupTenants(req.scope, caller.group_id);
+  // A sister site the caller has no row in is offered to an owner only
+  // (t-2026-10-07-11, §11.1): the switch would refuse anybody else, and the
+  // panel must not offer a switch that ends in a refusal.
+  const siblings = caller.role === "owner" ? await listGroupTenants(req.scope, caller.group_id) : [];
 
   const shops = mergeSwitchableShops(
     caller.tenant_id,

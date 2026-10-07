@@ -4,6 +4,7 @@ import { TENANT_ACTOR_TYPE, TENANT_MODULE } from "../../../modules/tenant";
 import type { TenantAdminRole } from "../../../modules/tenant/models/tenant-admin";
 import type TenantModuleService from "../../../modules/tenant/service";
 import { isPlatformAdminEmail } from "../../admin/tenants/helpers";
+import { STAFF_REFUSALS } from "./staff-refusals";
 
 /**
  * The rules of a shop's logins that do not depend on who is asking
@@ -47,11 +48,7 @@ export const assertAnotherOwnerStays = (rows: StaffRow[], target: StaffRow, acti
   );
 
   if (otherOwners.length === 0) {
-    throw invalid(
-      action === "remove"
-        ? "This is the last owner of the shop; it cannot be removed. Make another login an owner first."
-        : "This is the last owner of the shop; its role cannot be changed. Make another login an owner first.",
-    );
+    throw invalid(action === "remove" ? STAFF_REFUSALS.last_owner_remove : STAFF_REFUSALS.last_owner_demote);
   }
 };
 
@@ -81,10 +78,7 @@ const findIdentity = async (container: MedusaContainer, email: string) => {
  */
 export const assertEmailHasNoIdentity = async (container: MedusaContainer, email: string) => {
   if (await findIdentity(container, email)) {
-    throw invalid(
-      "This email already has an account on the platform, so a login with a new password cannot be created for it here. " +
-        "Use another email, or ask platform support to attach the existing account to this shop.",
-    );
+    throw invalid(STAFF_REFUSALS.email_has_account);
   }
 };
 
@@ -92,7 +86,8 @@ export const assertEmailHasNoIdentity = async (container: MedusaContainer, email
  * Changing a password changes it for the IDENTITY, and one identity can be
  * the login of several things. The owner may set a new password only for an
  * identity that is this one row's and nothing else's: no row under the same
- * email in another shop, and no other actor (`user_id`, `customer_id`) on the
+ * email in another shop (a row the switch into a sister site made counts like
+ * any other), and no other actor (`user_id`, `customer_id`) on the
  * identity. Otherwise the owner of one shop would walk into another shop, the
  * platform or a buyer's account with a password of her own choosing.
  */
@@ -104,9 +99,6 @@ export const assertPasswordIsThisShopsOnly = async (container: MedusaContainer, 
   const otherActors = Object.keys(identity?.app_metadata ?? {}).filter((key) => key !== ACTOR_KEY);
 
   if (rows.some((row) => row.id !== target.id) || otherActors.length > 0) {
-    throw invalid(
-      "This login is also used outside this shop, so its password cannot be changed here. " +
-        "The person can change it in their own profile or through the reset link on the login page.",
-    );
+    throw invalid(STAFF_REFUSALS.password_shared);
   }
 };

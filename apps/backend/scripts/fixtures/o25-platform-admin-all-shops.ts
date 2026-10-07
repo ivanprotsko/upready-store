@@ -96,6 +96,7 @@ export default async function backfillPlatformAdminAllShops({ container }: { con
 
     await tenantModuleService.createTenantAdmins({
       email,
+      role: "owner",
       tenant_id: tenant.id,
     });
     created += 1;

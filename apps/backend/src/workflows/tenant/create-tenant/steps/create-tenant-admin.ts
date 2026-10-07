@@ -7,7 +7,7 @@ export type CreateTenantAdminStepInput = {
   email: string;
   first_name?: string;
   last_name?: string;
-  /** Left out, the row takes the column's default, `owner`: the first login of a shop is its owner. */
+  /** Left out, the login is an `owner`: the first login of a shop is its owner. */
   role?: TenantAdminRole;
   tenant_id: string;
 };
@@ -17,7 +17,12 @@ const createTenantAdminStep = createStep(
   async (adminData: CreateTenantAdminStepInput, { container }) => {
     const tenantModuleService: TenantModuleService = container.resolve(TENANT_MODULE);
 
-    const tenantAdmin = await tenantModuleService.createTenantAdmins(adminData);
+    // The role is always written here and never left to the column's
+    // default, which exists for the rows older than the column.
+    const tenantAdmin = await tenantModuleService.createTenantAdmins({
+      ...adminData,
+      role: adminData.role ?? "owner",
+    });
 
     return new StepResponse(tenantAdmin, tenantAdmin.id);
   },

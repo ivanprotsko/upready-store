@@ -6,7 +6,7 @@ export type DeleteTenantAdminRowStepInput = { id: string };
 
 /**
  * Deletes the `tenant_admin` row. Compensation re-inserts it with the SAME
- * id and the same role (Medusa's `model.id()` accepts an explicit id on
+ * id, the same role and the same `metadata` (Medusa's `model.id()` accepts an explicit id on
  * create, the way every other `create<Model>` call in this codebase that
  * restores a deleted row relies on), so a later step's failure (deleting the
  * auth identity) does not leave the row permanently gone while the identity
@@ -36,6 +36,7 @@ const deleteTenantAdminRowStep = createStep(
       first_name: admin.first_name,
       last_name: admin.last_name,
       role: admin.role,
+      metadata: admin.metadata,
       tenant_id: admin.tenant_id as string,
     });
   },

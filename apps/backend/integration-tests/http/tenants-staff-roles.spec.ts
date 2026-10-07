@@ -2,6 +2,7 @@ import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
 import { createUserAccountWorkflow } from "@medusajs/medusa/core-flows";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import type { IAuthModuleService } from "@medusajs/framework/types";
+import { STAFF_REFUSALS } from "../../src/api/tenants/staff/staff-refusals";
 import { TENANT_MODULE } from "../../src/modules/tenant";
 import { Migration20261008010000 } from "../../src/modules/tenant/migrations/Migration20261008010000";
 import type TenantModuleService from "../../src/modules/tenant/service";
@@ -332,7 +333,7 @@ medusaIntegrationTestRunner({
         it("keeps the reads that carry settings and keys closed for a manager, read included", async () => {
           for (const path of [
             "/tenants/payment-settings",
-            "/tenants/domains",
+            "/tenants/sites",
             "/tenants/wb/key",
             "/tenants/marketplaces/wb/key",
             "/tenants/telegram-bot",
@@ -351,10 +352,33 @@ medusaIntegrationTestRunner({
             "/tenants/shipping-options",
             "/tenants/product-variants",
             "/tenants/me/shops",
+            // What the panel's shell reads on every screen (§12.1).
+            "/tenants/domains",
+            "/tenants/branding",
+            "/tenants/locale-settings",
           ]) {
             const response = await answer(api.get(path, bearer(operatorToken)));
             expect(`${path} ${response.status}`).toBe(`${path} 200`);
           }
+        });
+
+        it("keeps the writes next to the shell's reads under their own permission", async () => {
+          const domain = await answer(api.post("/tenants/domains", { host: "shop.example.com" }, bearer(managerToken)));
+          expect(`${domain.status} ${domain.data.permission}`).toBe("403 settings");
+
+          const look = await answer(api.put("/tenants/branding", {}, bearer(operatorToken)));
+          expect(`${look.status} ${look.data.permission}`).toBe("403 storefront");
+        });
+
+        it("shows a manager the gates of writing to Wildberries and lets only an owner switch them", async () => {
+          const read = await answer(api.get("/tenants/wb/write-settings", bearer(managerToken)));
+          expect(read.status).toBe(200);
+
+          const write = await answer(api.put("/tenants/wb/write-settings", {}, bearer(managerToken)));
+          expect(`${write.status} ${write.data.permission}`).toBe("403 settings");
+
+          const asOperator = await answer(api.get("/tenants/wb/write-settings", bearer(operatorToken)));
+          expect(`${asOperator.status} ${asOperator.data.permission}`).toBe("403 marketplaces");
         });
 
         it("refuses before the body is looked at: 403, not the validator's 400", async () => {
@@ -446,6 +470,16 @@ medusaIntegrationTestRunner({
           );
         });
 
+        it("answers every role with what it opens, in the order owner, manager, operator", async () => {
+          const response = await api.get("/tenants/staff", bearer(ownerToken));
+
+          expect(response.data.roles).toEqual([
+            { role: "owner", permissions: ALL_PERMISSIONS },
+            { role: "manager", permissions: MANAGER_PERMISSIONS },
+            { role: "operator", permissions: OPERATOR_PERMISSIONS },
+          ]);
+        });
+
         it("never shows another shop's logins", async () => {
           const staffB = await staffOf(ownerBToken);
           expect(staffB.map((member) => member.email)).toEqual([OWNER_B]);
@@ -504,7 +538,7 @@ medusaIntegrationTestRunner({
           const response = await addStaff(ownerToken, { email: MANAGER_A, password: OTHER_PASSWORD, role: "owner" });
 
           expect(response.status).toBe(400);
-          expect(response.data.message).toContain("already exists in this shop");
+          expect(response.data.message).toBe(STAFF_REFUSALS.email_taken_in_shop);
 
           const staff = await staffOf(ownerToken);
           expect(staff.length).toBe(3);
@@ -518,7 +552,7 @@ medusaIntegrationTestRunner({
           const response = await addStaff(ownerToken, { email: OWNER_B, password: OTHER_PASSWORD, role: "operator" });
 
           expect(response.status).toBe(400);
-          expect(response.data.message).toContain("already has an account on the platform");
+          expect(response.data.message).toBe(STAFF_REFUSALS.email_has_account);
 
           expect((await staffOf(ownerToken)).map((member) => member.email)).not.toContain(OWNER_B);
           // Owner B still logs in with her own password and not with the one shop A's owner chose.
@@ -544,6 +578,44 @@ medusaIntegrationTestRunner({
           expect(response.status).toBe(400);
           expect(response.data.message).toContain("already has an account on the platform");
           expect((await staffOf(ownerToken)).length).toBe(3);
+        });
+
+        it("refuses an email this shop already has in another letter case", async () => {
+          const response = await addStaff(ownerToken, {
+            email: MANAGER_A.toUpperCase(),
+            password: OTHER_PASSWORD,
+            role: "operator",
+          });
+
+          expect(response.status).toBe(400);
+          expect(response.data.message).toBe(STAFF_REFUSALS.email_taken_in_shop);
+          expect((await staffOf(ownerToken)).length).toBe(3);
+        });
+
+        it("gives a login whose email differs from another shop's owner only by case nothing of that shop", async () => {
+          // Emails are told apart exactly, the way the identities behind them
+          // are: this is a different person's login, with its own password.
+          const lookalike = OWNER_B.replace("owner-b", "Owner-B");
+          expect(lookalike).not.toBe(OWNER_B);
+          expect(lookalike.toLowerCase()).toBe(OWNER_B);
+
+          const created = await addStaff(ownerToken, { email: lookalike, password: OTHER_PASSWORD, role: "owner" });
+          expect(created.status).toBe(201);
+
+          const token = await login(lookalike, OTHER_PASSWORD);
+
+          const shops = await api.get("/tenants/me/shops", bearer(token));
+          const shopIds = (shops.data.shops as { id: string }[]).map((shop) => shop.id);
+          expect(shopIds).toContain(shopA.id);
+          expect(shopIds).not.toContain(shopB.id);
+
+          const switched = await answer(api.post("/tenants/me/switch", { tenant_id: shopB.id }, bearer(token)));
+          expect(switched.status).toBe(403);
+
+          // And owner B is who she was, under her own password.
+          expect((await tryLogin(OWNER_B, OTHER_PASSWORD)).status).toBe(401);
+          const me = await api.get("/tenants/me", bearer(await login(OWNER_B)));
+          expect(me.data.tenant_admin.tenant.id).toBe(shopB.id);
         });
 
         it("refuses the platform's own email the same way as any taken one", async () => {
@@ -577,7 +649,7 @@ medusaIntegrationTestRunner({
 
           const demoted = await editStaff(ownerToken, self.id, { role: "manager" });
           expect(demoted.status).toBe(400);
-          expect(demoted.data.message).toContain("your own role");
+          expect(demoted.data.message).toBe(STAFF_REFUSALS.own_role);
 
           const renamed = await editStaff(ownerToken, self.id, { first_name: "Anna", role: "owner" });
           expect(renamed.status).toBe(200);
@@ -611,7 +683,7 @@ medusaIntegrationTestRunner({
 
           const response = await editStaff(ownerToken, attached.id, { password: OTHER_PASSWORD });
           expect(response.status).toBe(400);
-          expect(response.data.message).toContain("also used outside this shop");
+          expect(response.data.message).toBe(STAFF_REFUSALS.password_shared);
 
           expect((await tryLogin(OWNER_B, OTHER_PASSWORD)).status).toBe(401);
           expect((await tryLogin(OWNER_B, PASSWORD)).status).toBe(200);
@@ -665,7 +737,7 @@ medusaIntegrationTestRunner({
 
           const response = await removeStaff(ownerToken, self.id);
           expect(response.status).toBe(400);
-          expect(response.data.message).toContain("your own login");
+          expect(response.data.message).toBe(STAFF_REFUSALS.own_login);
           expect((await staffOf(ownerToken)).length).toBe(3);
         });
 
@@ -687,13 +759,13 @@ medusaIntegrationTestRunner({
             api.post(`/admin/tenants/${shopA.id}/admins/${second.data.staff_member.id}`, { role: "operator" }, adminHeaders),
           );
           expect(byPlatform.status).toBe(400);
-          expect(byPlatform.data.message).toContain("last owner");
+          expect(byPlatform.data.message).toBe(STAFF_REFUSALS.last_owner_demote);
 
           const removedByPlatform = await answer(
             api.delete(`/admin/tenants/${shopA.id}/admins/${second.data.staff_member.id}`, adminHeaders),
           );
           expect(removedByPlatform.status).toBe(400);
-          expect(removedByPlatform.data.message).toContain("last owner");
+          expect(removedByPlatform.data.message).toBe(STAFF_REFUSALS.last_owner_remove);
 
           // A login that is not an owner can be removed by her.
           const removedFirst = await removeStaff(secondToken, first.id);
@@ -767,11 +839,11 @@ medusaIntegrationTestRunner({
             api.post(`/admin/tenants/${shopA.id}/admins/${owner.id}`, { role: "manager" }, adminHeaders),
           );
           expect(demoted.status).toBe(400);
-          expect(demoted.data.message).toContain("last owner");
+          expect(demoted.data.message).toBe(STAFF_REFUSALS.last_owner_demote);
 
           const removed = await answer(api.delete(`/admin/tenants/${shopA.id}/admins/${owner.id}`, adminHeaders));
           expect(removed.status).toBe(400);
-          expect(removed.data.message).toContain("last owner");
+          expect(removed.data.message).toBe(STAFF_REFUSALS.last_owner_remove);
 
           // A manager and an operator can always be removed.
           const removedManager = await answer(
@@ -865,27 +937,96 @@ medusaIntegrationTestRunner({
         });
       });
 
-      describe("POST /tenants/me/switch into a sister site", () => {
-        it("carries the caller's role to the row it creates there, never the default", async () => {
-          const switched = await answer(
-            api.post("/tenants/me/switch", { tenant_id: shopS.id }, bearer(operatorToken)),
-          );
+      describe("the sister sites of one client (POST /tenants/me/switch, GET /tenants/me/shops)", () => {
+        const shopIdsOf = async (token: string) => {
+          const shops = await api.get("/tenants/me/shops", bearer(token));
+          expect(shops.status).toBe(200);
+          return (shops.data.shops as { id: string }[]).map((shop) => shop.id);
+        };
+
+        const switchTo = (token: string, tenantId: string) =>
+          answer(api.post("/tenants/me/switch", { tenant_id: tenantId }, bearer(token)));
+
+        it.each([
+          ["operator", () => operatorToken],
+          ["manager", () => managerToken],
+        ])("neither offers a sister site to an %s nor lets her in", async (_role, token) => {
+          expect(await shopIdsOf(token())).toEqual([shopA.id]);
+
+          const refused = await switchTo(token(), shopS.id);
+          expect(refused.status).toBe(403);
+          // The same refusal as for a shop that is not of this client at all.
+          const foreign = await switchTo(token(), shopB.id);
+          expect(foreign.status).toBe(403);
+          expect(refused.data.message.replace(shopS.id, "")).toBe(foreign.data.message.replace(shopB.id, ""));
+
+          // No row was made for her on the sister site.
+          const admins = await platformAdminsOf(shopS);
+          expect(admins.map((admin) => admin.email).sort()).toEqual([PLATFORM_EMAIL, OWNER_S].sort());
+        });
+
+        it("offers the sister site to an owner and makes her an owner there", async () => {
+          expect((await shopIdsOf(ownerToken)).sort()).toEqual([shopA.id, shopS.id].sort());
+
+          const switched = await switchTo(ownerToken, shopS.id);
           expect(switched.status).toBe(200);
 
           const me = await api.get("/tenants/me", bearer(switched.data.token));
           expect(me.data.tenant_admin.tenant.id).toBe(shopS.id);
-          expect(me.data.tenant_admin.role).toBe("operator");
-          expect(me.data.tenant_admin.permissions).toEqual(OPERATOR_PERMISSIONS);
-
-          const staffRoute = await answer(api.get("/tenants/staff", bearer(switched.data.token)));
-          expect(staffRoute.status).toBe(403);
+          expect(me.data.tenant_admin.role).toBe("owner");
+          expect(me.data.tenant_admin.permissions).toEqual(ALL_PERMISSIONS);
         });
 
-        it("still makes an owner of an owner", async () => {
-          const switched = await answer(api.post("/tenants/me/switch", { tenant_id: shopS.id }, bearer(ownerToken)));
+        it("lets a manager into a sister site once a row waits for her there, with that row's role", async () => {
+          const tenantModuleService: TenantModuleService = getContainer().resolve(TENANT_MODULE);
+          await tenantModuleService.createTenantAdmins({ email: MANAGER_A, tenant_id: shopS.id, role: "operator" });
+
+          expect((await shopIdsOf(managerToken)).sort()).toEqual([shopA.id, shopS.id].sort());
+
+          const switched = await switchTo(managerToken, shopS.id);
           expect(switched.status).toBe(200);
 
           const me = await api.get("/tenants/me", bearer(switched.data.token));
+          expect(me.data.tenant_admin.role).toBe("operator");
+        });
+
+        it("does not let the owner of a sister site set the password of a row the switch made", async () => {
+          // Owner A opens the sister site: the switch makes her a row there.
+          const switched = await switchTo(ownerToken, shopS.id);
+          expect(switched.status).toBe(200);
+
+          const ownerSToken = await login(OWNER_S);
+          const arrived = (await staffOf(ownerSToken)).find((member) => member.email === OWNER_A);
+          expect(arrived).toBeDefined();
+
+          const response = await editStaff(ownerSToken, arrived!.id, { password: OTHER_PASSWORD });
+          expect(response.status).toBe(400);
+          expect(response.data.message).toBe(STAFF_REFUSALS.password_shared);
+
+          // Owner A still logs in with her own password, and only with it.
+          expect((await tryLogin(OWNER_A, OTHER_PASSWORD)).status).toBe(401);
+          expect((await tryLogin(OWNER_A, PASSWORD)).status).toBe(200);
+        });
+
+        it("an owner removed from one site is still an owner of its sister and comes back by the switch", async () => {
+          // §11.6: described, not changed. Two owners of site A, one of them
+          // also holds a row on the sister site.
+          const second = await addStaff(ownerToken, { email: SECOND_OWNER_A, password: PASSWORD, role: "owner" });
+          expect(second.status).toBe(201);
+          const secondToken = await login(SECOND_OWNER_A);
+          const onSister = await switchTo(secondToken, shopS.id);
+          expect(onSister.status).toBe(200);
+
+          const removed = await removeStaff(ownerToken, second.data.staff_member.id);
+          expect(removed.status).toBe(200);
+
+          // Her token for site A is dead, her token for the sister site is not.
+          expect((await answer(api.get("/tenants/me", bearer(secondToken)))).status).toBe(401);
+          const back = await switchTo(onSister.data.token, shopA.id);
+          expect(back.status).toBe(200);
+
+          const me = await api.get("/tenants/me", bearer(back.data.token));
+          expect(me.data.tenant_admin.tenant.id).toBe(shopA.id);
           expect(me.data.tenant_admin.role).toBe("owner");
         });
       });

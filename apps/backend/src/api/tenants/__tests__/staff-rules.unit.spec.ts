@@ -1,6 +1,9 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { MedusaContainer } from "@medusajs/framework/types";
 import { Modules } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../../modules/tenant";
+import { STAFF_REFUSALS } from "../staff/staff-refusals";
 import {
   assertAnotherOwnerStays,
   assertEmailHasNoIdentity,
@@ -51,6 +54,42 @@ const containerWith = (identities: Record<string, Identity>, rows: StaffRow[]) =
       throw new Error(`The rules resolved something this test does not provide: ${key}`);
     },
   }) as unknown as MedusaContainer;
+
+describe("the refusal texts (§13.1)", () => {
+  const STAFF_DIR = path.resolve(__dirname, "../staff");
+  const read = (...file: string[]) => fs.readFileSync(path.join(STAFF_DIR, ...file), "utf8");
+
+  it("holds exactly the seven codes, each with a text of its own", () => {
+    expect(Object.keys(STAFF_REFUSALS).sort()).toEqual(
+      [
+        "email_has_account",
+        "email_taken_in_shop",
+        "last_owner_demote",
+        "last_owner_remove",
+        "own_login",
+        "own_role",
+        "password_shared",
+      ].sort(),
+    );
+    expect(new Set(Object.values(STAFF_REFUSALS)).size).toBe(7);
+  });
+
+  it("imports nothing, so the panel's test can read the file as it is", () => {
+    expect(read("staff-refusals.ts")).not.toMatch(/^\s*import\s|require\(/m);
+  });
+
+  it("is the only place a refusal of the staff routes is worded", () => {
+    // Every 400 the three files raise goes through `invalid(…)` or a
+    // `MedusaError` with a text from the table: no string literal of their own.
+    for (const file of [["staff-rules.ts"], ["route.ts"], ["[id]", "route.ts"]]) {
+      const source = read(...file);
+      const literals = [...source.matchAll(/(?:invalid\(|INVALID_DATA,)\s*(["'`])/g)];
+
+      expect(`${file.join("/")}: ${literals.length}`).toBe(`${file.join("/")}: 0`);
+      expect(source).toContain("STAFF_REFUSALS.");
+    }
+  });
+});
 
 describe("the platform's row", () => {
   const previous = process.env.PLATFORM_ADMIN_EMAIL;
@@ -115,9 +154,9 @@ describe("a shop keeps one owner of its own", () => {
     expect(() => assertAnotherOwnerStays([platform], platform, "demote")).not.toThrow();
   });
 
-  it("says which of the two was refused", () => {
-    expect(() => assertAnotherOwnerStays([owner], owner, "remove")).toThrow(/cannot be removed/);
-    expect(() => assertAnotherOwnerStays([owner], owner, "demote")).toThrow(/role cannot be changed/);
+  it("says which of the two was refused, in the words of STAFF_REFUSALS", () => {
+    expect(() => assertAnotherOwnerStays([owner], owner, "remove")).toThrow(STAFF_REFUSALS.last_owner_remove);
+    expect(() => assertAnotherOwnerStays([owner], owner, "demote")).toThrow(STAFF_REFUSALS.last_owner_demote);
   });
 });
 
@@ -135,7 +174,7 @@ describe("a new login needs an email nobody logs in with yet", () => {
     const container = containerWith({ "taken@staff-rules.test": { id: "authid_1", app_metadata: appMetadata } }, []);
 
     await expect(assertEmailHasNoIdentity(container, "taken@staff-rules.test")).rejects.toThrow(
-      /already has an account on the platform/,
+      STAFF_REFUSALS.email_has_account,
     );
   });
 });
@@ -159,7 +198,7 @@ describe("a password is the shop's to set only when the identity is the shop's a
       [target, elsewhere],
     );
 
-    await expect(assertPasswordIsThisShopsOnly(container, target)).rejects.toThrow(/also used outside this shop/);
+    await expect(assertPasswordIsThisShopsOnly(container, target)).rejects.toThrow(STAFF_REFUSALS.password_shared);
   });
 
   it.each([
@@ -168,7 +207,7 @@ describe("a password is the shop's to set only when the identity is the shop's a
   ])("refuses when the identity is also %s", async (_who, appMetadata) => {
     const container = containerWith({ [target.email]: { id: "authid_1", app_metadata: appMetadata } }, [target]);
 
-    await expect(assertPasswordIsThisShopsOnly(container, target)).rejects.toThrow(/also used outside this shop/);
+    await expect(assertPasswordIsThisShopsOnly(container, target)).rejects.toThrow(STAFF_REFUSALS.password_shared);
   });
 
   it("leaves a row with no identity at all to the workflow, which answers that it was not found", async () => {

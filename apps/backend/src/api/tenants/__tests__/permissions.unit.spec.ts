@@ -195,6 +195,8 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "GET /tenants/shipping-options",
     "GET /tenants/fulfillment-providers",
     "GET /tenants/locale-settings",
+    "GET /tenants/domains",
+    "GET /tenants/branding",
     "GET /tenants/products",
     "GET /tenants/products/[id]",
     "GET /tenants/products/[id]/variants",
@@ -299,7 +301,6 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "PUT /tenants/articles/[slug]",
     "DELETE /tenants/articles/[slug]",
     "GET /tenants/article-categories",
-    "GET /tenants/branding",
     "PUT /tenants/branding",
     "POST /tenants/branding/upload",
   ],
@@ -355,6 +356,9 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "PUT /tenants/wb/feedback-answers",
     "POST /tenants/wb/feedback-answers/send",
     "GET /tenants/ozon/status",
+    "GET /tenants/wb/write-preview",
+    "PUT /tenants/wb/write-preview",
+    "GET /tenants/wb/write-settings",
   ],
   settings: [
     "PUT /tenants/locale-settings",
@@ -364,10 +368,7 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "GET /tenants/wb/key",
     "PUT /tenants/wb/key",
     "DELETE /tenants/wb/key",
-    "GET /tenants/wb/write-settings",
     "PUT /tenants/wb/write-settings",
-    "GET /tenants/wb/write-preview",
-    "PUT /tenants/wb/write-preview",
     "GET /tenants/ozon/key",
     "PUT /tenants/ozon/key",
     "DELETE /tenants/ozon/key",
@@ -420,7 +421,6 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "POST /tenants/shipping-methods/zone-presets",
     "GET /tenants/requisites",
     "PUT /tenants/requisites",
-    "GET /tenants/domains",
     "POST /tenants/domains",
     "DELETE /tenants/domains/[id]",
     "POST /tenants/domains/[id]/primary",
@@ -558,13 +558,31 @@ describe("matching a request to a row", () => {
       "/tenants/wb/key",
       "/tenants/ozon/key",
       "/tenants/marketplaces/wb/key",
-      "/tenants/domains",
+      "/tenants/sites",
       "/tenants/telegram-bot",
       "/tenants/apiship/key",
     ]) {
       expect(decideAccess("manager", "GET", closed)).toEqual({ allowed: false, permission: "settings" });
       expect(decideAccess("owner", "GET", closed).allowed).toBe(true);
     }
+  });
+
+  it("opens what the panel's shell reads to every role, and keeps the writes under their permission", () => {
+    for (const open of ["/tenants/domains", "/tenants/branding", "/tenants/locale-settings"]) {
+      expect(decideAccess("operator", "GET", open).allowed).toBe(true);
+    }
+    expect(decideAccess("manager", "POST", "/tenants/domains")).toEqual({ allowed: false, permission: "settings" });
+    expect(decideAccess("manager", "DELETE", "/tenants/domains/dom_1")).toEqual({
+      allowed: false,
+      permission: "settings",
+    });
+    expect(decideAccess("operator", "PUT", "/tenants/branding")).toEqual({ allowed: false, permission: "storefront" });
+    // The gates of writing to Wildberries: read with the working screens, switched with `settings`.
+    expect(decideAccess("manager", "GET", "/tenants/wb/write-settings").allowed).toBe(true);
+    expect(decideAccess("manager", "PUT", "/tenants/wb/write-settings")).toEqual({
+      allowed: false,
+      permission: "settings",
+    });
   });
 
   it("prefers a static segment to a parameter, so a closed route is not read as an open one", () => {
