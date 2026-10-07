@@ -228,6 +228,31 @@ medusaIntegrationTestRunner({
           expect(updated.data.tenant_admin.permissions).toEqual(OPERATOR_PERMISSIONS);
         });
 
+        it("hands the shop's metadata, where its settings live, only to a role with `settings`", async () => {
+          // Something a settings route keeps in `tenant.metadata`: the counters.
+          const saved = await answer(
+            api.put("/tenants/analytics", { yandex_metrica_id: "12345678" }, bearer(ownerToken)),
+          );
+          expect(saved.status).toBe(200);
+
+          const asOwner = await api.get("/tenants/me", bearer(ownerToken));
+          expect(JSON.stringify(asOwner.data.tenant_admin.tenant.metadata)).toContain("12345678");
+
+          for (const token of [managerToken, operatorToken]) {
+            const me = await api.get("/tenants/me", bearer(token));
+            expect(me.status).toBe(200);
+            expect(me.data.tenant_admin.tenant).not.toHaveProperty("metadata");
+            expect(JSON.stringify(me.data)).not.toContain("12345678");
+            // What the shell shows is still there.
+            expect(me.data.tenant_admin.tenant).toMatchObject({ id: shopA.id, handle: "roles-shop-a" });
+            expect(me.data.tenant_admin.tenant.sales_channel.id).toEqual(expect.any(String));
+
+            const updated = await api.post("/tenants/me", { first_name: "Same" }, bearer(token));
+            expect(updated.data.tenant_admin.tenant).not.toHaveProperty("metadata");
+            expect(JSON.stringify(updated.data)).not.toContain("12345678");
+          }
+        });
+
         it("has no way to set a role through the profile", async () => {
           const response = await answer(api.post("/tenants/me", { role: "owner" }, bearer(operatorToken)));
           expect(response.status).toBe(400);

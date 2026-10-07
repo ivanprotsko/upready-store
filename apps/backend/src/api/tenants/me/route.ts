@@ -27,14 +27,28 @@ const TENANT_ADMIN_ME_FIELDS = [
  * from (t-2026-10-07-11); it has no table of its own. Both are the ones the
  * gate decided THIS request by, so the answer cannot disagree with what the
  * next request will be allowed.
+ *
+ * `tenant.metadata` goes only to a caller with the `settings` permission. It
+ * is where the shop keeps what the settings routes answer piece by piece (the
+ * manual payment details, the analytics counters, the search engines'
+ * verification codes, the buyers' login method), and those routes are closed
+ * for reading without `settings`. Sent whole from here, it would be the one
+ * read that lets a manager or an operator see them anyway. The panel reads
+ * nothing from it.
  */
-const withAccess = <Row extends Record<string, unknown>>(
+const withAccess = <Row extends { tenant?: Record<string, unknown> | null }>(
   tenantAdmin: Row,
   req: AuthenticatedMedusaRequest<unknown>,
 ) => {
   const { role, permissions } = getTenantAdminAccess(req);
 
-  return { ...tenantAdmin, role, permissions };
+  if (permissions.includes("settings") || !tenantAdmin.tenant) {
+    return { ...tenantAdmin, role, permissions };
+  }
+
+  const tenant = Object.fromEntries(Object.entries(tenantAdmin.tenant).filter(([key]) => key !== "metadata"));
+
+  return { ...tenantAdmin, tenant, role, permissions };
 };
 
 /**

@@ -627,6 +627,8 @@ force on the caller's next request.
 ## Routes
 
 - `GET /tenants/me`, `POST /tenants/me` → `tenant_admin` also carries `role` and `permissions`.
+  `tenant.metadata` is in the answer only for a caller with `settings`: it is where the shop's
+  settings are kept, and the routes that answer them are closed for reading without that permission.
 - `GET /tenants/staff` → `{ staff: [{ id, email, first_name, last_name, role, created_at, updated_at,
   is_self }] }`. The platform's own row is not listed.
 - `POST /tenants/staff` body `{ email, password, role, first_name?, last_name? }` → `201 { staff_member }`.
