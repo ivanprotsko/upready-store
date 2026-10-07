@@ -1,6 +1,7 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import updateTenantAdminWorkflow from "../../../workflows/tenant/update-tenant-admin";
+import { getTenantAdminAccess } from "../tenant-admin-gate";
 import type { PostTenantUpdateMeBody } from "../validators";
 
 const TENANT_ADMIN_ME_FIELDS = [
@@ -8,6 +9,7 @@ const TENANT_ADMIN_ME_FIELDS = [
   "email",
   "first_name",
   "last_name",
+  "role",
   "metadata",
   "tenant.*",
   "tenant.sales_channel.id",
@@ -19,6 +21,35 @@ const TENANT_ADMIN_ME_FIELDS = [
   "tenant.api_key.title",
   "tenant.api_key.type",
 ];
+
+/**
+ * `role` and `permissions` are what the panel builds its menu and its routes
+ * from (t-2026-10-07-11); it has no table of its own. Both are the ones the
+ * gate decided THIS request by, so the answer cannot disagree with what the
+ * next request will be allowed.
+ *
+ * `tenant.metadata` goes only to a caller with the `settings` permission. It
+ * is where the shop keeps what the settings routes answer piece by piece (the
+ * manual payment details, the analytics counters, the search engines'
+ * verification codes, the buyers' login method), and those routes are closed
+ * for reading without `settings`. Sent whole from here, it would be the one
+ * read that lets a manager or an operator see them anyway. The panel reads
+ * nothing from it.
+ */
+const withAccess = <Row extends { tenant?: Record<string, unknown> | null }>(
+  tenantAdmin: Row,
+  req: AuthenticatedMedusaRequest<unknown>,
+) => {
+  const { role, permissions } = getTenantAdminAccess(req);
+
+  if (permissions.includes("settings") || !tenantAdmin.tenant) {
+    return { ...tenantAdmin, role, permissions };
+  }
+
+  const tenant = Object.fromEntries(Object.entries(tenantAdmin.tenant).filter(([key]) => key !== "metadata"));
+
+  return { ...tenantAdmin, tenant, role, permissions };
+};
 
 /**
  * `GET /tenants/me` — the tenant behind the token, with its sales channel and
@@ -49,7 +80,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   }
 
   res.json({
-    tenant_admin: tenantAdmin,
+    tenant_admin: withAccess(tenantAdmin, req),
   });
 };
 
@@ -90,6 +121,6 @@ export const POST = async (
   });
 
   res.json({
-    tenant_admin: tenantAdmin,
+    tenant_admin: withAccess(tenantAdmin, req),
   });
 };

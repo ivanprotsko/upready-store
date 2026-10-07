@@ -188,6 +188,8 @@ import {
   PostTenantSiteSchema,
   PutTenantHreflangSistersSchema,
   PostTenantSwitchShopSchema,
+  PostTenantStaffCreateSchema,
+  PostTenantStaffUpdateSchema,
   PostTenantUpdateProductSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
@@ -250,7 +252,8 @@ import {
   PostAdminTenantUpdateSchema,
 } from "./admin/tenants/validators";
 import { PostAdminPlatformPricingSchema } from "../modules/platform-pricing/schema";
-import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
+import { blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
+import { guardTenantAdmin } from "./tenants/tenant-admin-gate";
 import { requireOwnerPasswordLength } from "./auth/password-length-gate";
 import { gateBuyerEmailpassAuth, gateBuyerYandexAuth } from "./tenants/login-settings/login-method-gate";
 import { guardSyntheticTelegramEmail } from "./store/customers/synthetic-email-guard";
@@ -340,9 +343,12 @@ export default defineMiddlewares({
     { matcher: "/tenants/*", middlewares: [guardRequestedFields] },
     {
       matcher: "/tenants/*",
-      // `blockArchivedTenantAdmin` runs right after `authenticate`, on the
-      // same matcher, so it sees `req.auth_context.actor_id` (contract §4).
-      middlewares: [authenticate(TENANT_ACTOR_TYPE, ["session", "bearer"]), blockArchivedTenantAdmin],
+      // `guardTenantAdmin` runs right after `authenticate`, on the same
+      // matcher, so it sees `req.auth_context.actor_id`. One read of the
+      // caller's login row answers whether the login still exists, whether the
+      // shop is archived (contract §4) and whether the caller's role may call
+      // this route (t-2026-10-07-11, `tenants/permissions.ts`).
+      middlewares: [authenticate(TENANT_ACTOR_TYPE, ["session", "bearer"]), guardTenantAdmin],
     },
     {
       // Login gate (contract §4): refuses an archived tenant's admin before
@@ -696,6 +702,18 @@ export default defineMiddlewares({
       matcher: "/tenants/me/switch",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantSwitchShopSchema)],
+    },
+    // t-2026-10-07-11: «Настройки → Сотрудники», the shop's own logins. The
+    // `staff` permission is checked by `guardTenantAdmin` on "/tenants/*".
+    {
+      matcher: "/tenants/staff",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantStaffCreateSchema)],
+    },
+    {
+      matcher: "/tenants/staff/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantStaffUpdateSchema)],
     },
 
     // ---- t14-product-import: catalogue export and import (/tenants/products/export,

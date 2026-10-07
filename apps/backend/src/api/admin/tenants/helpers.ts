@@ -1,5 +1,6 @@
 import type { MedusaContainer } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
+import type { TenantAdminRole } from "../../../modules/tenant/models/tenant-admin";
 
 export type TenantSalesChannelSummary = { id: string; name: string; is_disabled: boolean } | null;
 export type TenantApiKeySummary = { id: string; token: string; revoked_at: string | null } | null;
@@ -24,6 +25,8 @@ export type TenantAdminSummary = {
   email: string;
   first_name: string | null;
   last_name: string | null;
+  /** What the login may do in this shop (t-2026-10-07-11); the platform's screen shows it per login. */
+  role: TenantAdminRole;
   created_at: string;
   updated_at: string;
 };
@@ -57,6 +60,7 @@ type RawTenantRow = {
     email?: string;
     first_name?: string | null;
     last_name?: string | null;
+    role?: TenantAdminRole;
     created_at?: string;
     updated_at?: string;
   })[];
@@ -100,6 +104,7 @@ const TENANT_DETAIL_FIELDS = [
   "admins.email",
   "admins.first_name",
   "admins.last_name",
+  "admins.role",
   "admins.created_at",
   "admins.updated_at",
   "products.id",
@@ -168,6 +173,7 @@ const toDetail = (row: RawTenantRow): TenantDetail => ({
       email: admin.email as string,
       first_name: admin.first_name ?? null,
       last_name: admin.last_name ?? null,
+      role: admin.role as TenantAdminRole,
       created_at: admin.created_at as string,
       updated_at: admin.updated_at as string,
     })),

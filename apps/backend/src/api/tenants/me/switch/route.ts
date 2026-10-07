@@ -36,7 +36,10 @@ const PROVIDER = "emailpass";
  * caller's row there, same email and name, marked `metadata.via_group` with
  * the group id. A tenant outside the group, like any tenant the email has no
  * row in, keeps answering the same `403` for an existing and an unknown id
- * alike, which tells the caller nothing a `404` would hide.
+ * alike, which tells the caller nothing a `404` would hide. Only an OWNER of
+ * the current site gets that first row made for her, and it is an owner's
+ * row; a manager or an operator switches only into a site where her email
+ * already holds a row, with the role that row has.
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<PostTenantSwitchShopBody>,
@@ -63,7 +66,10 @@ export const POST = async (
   });
 
   if (!target) {
-    const siblings = await listGroupTenants(req.scope, caller.group_id);
+    // Only an owner opens a sister site she has no login in yet
+    // (t-2026-10-07-11, §11.1). A manager or an operator goes where a row
+    // already waits for her, and gets the foreign shop's refusal otherwise.
+    const siblings = caller.role === "owner" ? await listGroupTenants(req.scope, caller.group_id) : [];
 
     if (!siblings.some((tenant) => tenant.id === tenant_id)) {
       throw new MedusaError(MedusaError.Types.FORBIDDEN, `No access to tenant "${tenant_id}".`);
@@ -73,6 +79,9 @@ export const POST = async (
       email: caller.email,
       first_name: caller.first_name,
       last_name: caller.last_name,
+      // Said out loud, not left to the column's default: the caller is an
+      // owner here, and the sites of one client have the same owner.
+      role: "owner",
       tenant_id,
       metadata: { via_group: caller.group_id },
     });

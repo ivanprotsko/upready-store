@@ -1,4 +1,5 @@
 import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
+import type { TenantAdminRole } from "../../../modules/tenant/models/tenant-admin";
 import updateTenantAdminStep, {
   type UpdateTenantAdminStepInput,
 } from "./steps/update-tenant-admin";
@@ -11,8 +12,11 @@ import updateTenantAdminProfileStep from "./steps/update-tenant-admin-profile";
  *
  *   - `updateTenantAdminWorkflow` — the admin editing THEMSELVES from the
  *     tenant panel (`POST /tenants/me`, wave 2 piece 4).
- *   - `updateTenantAdminByStaffWorkflow` — platform staff editing someone
- *     else's admin (`POST /admin/tenants/:id/admins/:adminId`, contract §3).
+ *   - `updateTenantAdminByStaffWorkflow` — somebody else editing the admin:
+ *     platform staff (`POST /admin/tenants/:id/admins/:adminId`, contract §3)
+ *     or the shop's owner (`POST /tenants/staff/:id`, t-2026-10-07-11). Who
+ *     may change what, the last owner and a password on a shared identity
+ *     included, is decided by the route before this runs.
  *
  * Their workflow ids MUST differ: Medusa registers workflows by that string,
  * so two `createWorkflow("update-tenant-admin", …)` calls in one process make
@@ -39,6 +43,7 @@ export type UpdateTenantAdminByStaffWorkflowInput = {
   password?: string;
   first_name?: string;
   last_name?: string;
+  role?: TenantAdminRole;
 };
 
 /**
@@ -57,6 +62,7 @@ export const updateTenantAdminByStaffWorkflow = createWorkflow(
       email: input.email,
       first_name: input.first_name,
       last_name: input.last_name,
+      role: input.role,
     });
 
     return new WorkflowResponse(tenantAdmin);

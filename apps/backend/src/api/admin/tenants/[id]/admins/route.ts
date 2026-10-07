@@ -33,7 +33,16 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     data: [tenant],
   } = await query.graph({
     entity: "tenant",
-    fields: ["id", "admins.id", "admins.email", "admins.first_name", "admins.last_name", "admins.created_at", "admins.updated_at"],
+    fields: [
+      "id",
+      "admins.id",
+      "admins.email",
+      "admins.first_name",
+      "admins.last_name",
+      "admins.role",
+      "admins.created_at",
+      "admins.updated_at",
+    ],
     filters: { id: [req.params.id] },
   });
 
@@ -44,6 +53,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       email: admin.email,
       first_name: admin.first_name ?? null,
       last_name: admin.last_name ?? null,
+      role: admin.role,
       created_at: admin.created_at,
       updated_at: admin.updated_at,
     }));
@@ -55,6 +65,9 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
  * `POST /admin/tenants/:id/admins` (contract §3). Refused on an archived
  * tenant (`400`): the delete workflow closes login for the tenant's admins,
  * and adding a new one to an archived tenant would just be a dead account.
+ *
+ * `role` is optional (t-2026-10-07-11): without it the login is an `owner`,
+ * which is what this route created before roles existed.
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<PostAdminTenantAdminCreateBody>,
@@ -80,6 +93,7 @@ export const POST = async (
       email: result.email,
       first_name: result.first_name ?? null,
       last_name: result.last_name ?? null,
+      role: result.role,
       created_at: result.created_at,
       updated_at: result.updated_at,
     },

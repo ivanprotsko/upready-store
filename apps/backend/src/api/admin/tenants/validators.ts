@@ -1,11 +1,14 @@
 import { z } from "@medusajs/framework/zod";
 import { OWNER_PASSWORD_MIN_LENGTH, OWNER_PASSWORD_TOO_SHORT_MESSAGE } from "../../auth/password-length-gate";
+import { TENANT_ADMIN_ROLES } from "../../../modules/tenant/models/tenant-admin";
 
 /**
  * 46df A-22: a staff-issued password for a shop admin has the same floor as
  * one the owner sets herself (`POST /tenants/me/password`, the reset link).
+ * Exported for `POST /tenants/staff` (t-2026-10-07-11): a password the owner
+ * issues to her staff goes through this very check.
  */
-const tenantAdminPassword = () => z.string().min(OWNER_PASSWORD_MIN_LENGTH, OWNER_PASSWORD_TOO_SHORT_MESSAGE);
+export const tenantAdminPassword = () => z.string().min(OWNER_PASSWORD_MIN_LENGTH, OWNER_PASSWORD_TOO_SHORT_MESSAGE);
 
 /**
  * Query params for `GET /admin/tenants` (contract §3). `q` matches `handle`
@@ -74,12 +77,19 @@ export const DeleteAdminTenantParams = z.object({
 
 export type DeleteAdminTenantParamsType = z.infer<typeof DeleteAdminTenantParams>;
 
-/** `POST /admin/tenants/:id/admins` body (contract §3). */
+/** One of `TENANT_ADMIN_ROLES` (t-2026-10-07-11). */
+export const tenantAdminRole = () => z.enum(TENANT_ADMIN_ROLES);
+
+/**
+ * `POST /admin/tenants/:id/admins` body (contract §3). Without `role` the
+ * login is an `owner`, as every login was before roles existed.
+ */
 export const PostAdminTenantAdminCreateSchema = z.strictObject({
   email: z.string().email(),
   password: tenantAdminPassword(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
+  role: tenantAdminRole().optional(),
 });
 
 export type PostAdminTenantAdminCreateBody = z.infer<typeof PostAdminTenantAdminCreateSchema>;
@@ -90,6 +100,7 @@ export const PostAdminTenantAdminUpdateSchema = z.strictObject({
   password: tenantAdminPassword().optional(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
+  role: tenantAdminRole().optional(),
 });
 
 export type PostAdminTenantAdminUpdateBody = z.infer<typeof PostAdminTenantAdminUpdateSchema>;
