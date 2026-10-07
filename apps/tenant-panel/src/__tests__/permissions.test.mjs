@@ -398,7 +398,7 @@ test("the router is built from guarded routes and the shell swaps a closed scree
   assert.match(tabs, /allowed\(pathname\) \? visibleTabs\(section\.tabs, permissions\) : \[\]/)
 
   const guard = read("lib/caller-may-open.ts")
-  assert.match(guard, /ensureQueryData\(meQueryOptions\(\)\)/, "the guard must reuse the cached «who am I»")
+  assert.match(guard, /queryClient\.fetchQuery\(meQueryOptions\(\)\)/, "the guard must reuse the cached «who am I»")
 })
 
 // ---------------------------------------------------------------- the sidebar and the overview ask only for what is open

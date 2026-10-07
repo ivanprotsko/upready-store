@@ -255,7 +255,7 @@ test("the form asks for email, names, role and password, and says under the role
   assert.match(drawer, /disabled=\{!!member\}/)
   assert.match(drawer, /disabled=\{!canChangeRole\}/)
   // A refusal of the server is shown under the fields in its own words.
-  assert.match(drawer, /setError\(staffErrorText\(submitError, t\("staff\.errors\.general"\)\)\)/)
+  assert.match(drawer, /setError\(staffErrorText\(submitError, t\("staff\.errors\.general"\), /)
   assert.doesNotMatch(drawer, /console\.|localStorage|searchParams/, "a password may reach a log or an address")
 })
 
