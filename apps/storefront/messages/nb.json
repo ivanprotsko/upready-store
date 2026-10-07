@@ -1021,15 +1021,6 @@
     "pageOf": "Side {page} av {pages}",
     "reviewCount": "{count, plural, one {# anmeldelse} other {# anmeldelser}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Enkel retur",
-    "easyReturnsDesc": "Bare returner produktet, så refunderer vi pengene dine. Ingen spørsmål stilt – vi gjør vårt beste for å gjøre returen problemfri for deg.",
-    "fastDelivery": "Rask levering",
-    "fastDeliveryDesc": "Pakken din kommer innen 3–5 virkedager til hentestedet eller rett hjem til deg.",
-    "shippingReturns": "Frakt og retur",
-    "simpleExchanges": "Enkelt bytte",
-    "simpleExchangesDesc": "Passer det ikke helt? Ingen problem – vi bytter produktet ditt mot et nytt."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Fakturaadresse",
     "noBillingAddress": "Ingen fakturaadresse"
@@ -1114,27 +1105,12 @@
     "password": "Nytt passord",
     "submit": "Lagre passordet"
   },
-  "Review": {
-    "confirmText": "Ved å klikke på Betal-knappen bekrefter du at du har lest, forstått og godtar våre brukervilkår, salgsvilkår og returvilkår, og bekrefter at du har lest {siteName}s personvernerklæring.",
-    "heading": "Gjennomgang"
-  },
   "Search": {
     "empty": "Ingen resultater for «{query}»",
     "label": "Søk",
     "loading": "Søker…",
     "placeholder": "Søk etter produkter",
     "popular": "Populære produkter"
-  },
-  "Shipping": {
-    "chooseStore": "Velg en butikk i nærheten",
-    "continueToPayment": "Fortsett til betaling",
-    "deliveryDescription": "Hvordan ønsker du å motta bestillingen",
-    "edit": "Rediger",
-    "heading": "Levering",
-    "method": "Metode",
-    "pickUpOrder": "Hent bestillingen din",
-    "shippingMethod": "Fraktmetode",
-    "store": "Butikk"
   },
   "ShippingDetails": {
     "contact": "Kontakt",

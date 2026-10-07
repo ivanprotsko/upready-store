@@ -1021,15 +1021,6 @@
     "pageOf": "Sida {page} av {pages}",
     "reviewCount": "{count, plural, one {# omdöme} other {# omdömen}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Enkla returer",
-    "easyReturnsDesc": "Returnera bara din produkt så återbetalar vi pengarna. Inga frågor ställs – vi gör vårt bästa för att göra din retur så smidig som möjligt.",
-    "fastDelivery": "Snabb leverans",
-    "fastDeliveryDesc": "Ditt paket anländer inom 3–5 arbetsdagar till ditt utlämningsställe eller bekvämt hem till dig.",
-    "shippingReturns": "Frakt & returer",
-    "simpleExchanges": "Enkla byten",
-    "simpleExchangesDesc": "Passar det inte riktigt? Inga problem - vi byter din produkt mot en ny."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Faktureringsadress",
     "noBillingAddress": "Ingen faktureringsadress"
@@ -1114,27 +1105,12 @@
     "password": "Nytt lösenord",
     "submit": "Spara lösenordet"
   },
-  "Review": {
-    "confirmText": "Genom att klicka på knappen Betala bekräftar du att du har läst, förstått och accepterar våra användarvillkor, försäljningsvillkor och returpolicy, samt att du har tagit del av integritetspolicyn för {siteName}.",
-    "heading": "Granska"
-  },
   "Search": {
     "empty": "Inga resultat för ”{query}”",
     "label": "Sök",
     "loading": "Söker…",
     "placeholder": "Sök produkter",
     "popular": "Populära produkter"
-  },
-  "Shipping": {
-    "chooseStore": "Välj en butik nära dig",
-    "continueToPayment": "Fortsätt till betalning",
-    "deliveryDescription": "Hur vill du få din order levererad",
-    "edit": "Redigera",
-    "heading": "Leverans",
-    "method": "Metod",
-    "pickUpOrder": "Hämta din order",
-    "shippingMethod": "Fraktmetod",
-    "store": "Butik"
   },
   "ShippingDetails": {
     "contact": "Kontakt",

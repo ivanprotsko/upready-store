@@ -1021,15 +1021,6 @@
     "pageOf": "{pages} oldalból a(z) {page}.",
     "reviewCount": "{count, plural, one {# vélemény} other {# vélemény}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Könnyű visszaküldés",
-    "easyReturnsDesc": "Egyszerűen küldje vissza a terméket, mi pedig visszatérítjük a pénzét. Kérdés nélkül – mindent megteszünk, hogy a visszaküldés zökkenőmentes legyen.",
-    "fastDelivery": "Gyors szállítás",
-    "fastDeliveryDesc": "Csomagja 3–5 munkanapon belül megérkezik az átvételi helyre vagy kényelmesen az otthonába.",
-    "shippingReturns": "Szállítás és visszaküldés",
-    "simpleExchanges": "Egyszerű csere",
-    "simpleExchangesDesc": "Nem megfelelő a méret? Semmi gond – kicseréljük a termékét egy újra."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Számlázási cím",
     "noBillingAddress": "Nincs megadva számlázási cím"
@@ -1114,27 +1105,12 @@
     "password": "Új jelszó",
     "submit": "Jelszó mentése"
   },
-  "Review": {
-    "confirmText": "A Fizetés gombra kattintva megerősíti, hogy elolvasta, megértette és elfogadja Felhasználási feltételeinket, Értékesítési feltételeinket és Visszaküldési szabályzatunkat, valamint igazolja, hogy elolvasta a {siteName} Adatvédelmi szabályzatát.",
-    "heading": "Áttekintés"
-  },
   "Search": {
     "empty": "Nincs találat erre: „{query}”",
     "label": "Keresés",
     "loading": "Keresés…",
     "placeholder": "Termékek keresése",
     "popular": "Népszerű termékek"
-  },
-  "Shipping": {
-    "chooseStore": "Válasszon egy közeli üzletet",
-    "continueToPayment": "Tovább a fizetéshez",
-    "deliveryDescription": "Hogyan szeretné átvenni a rendelését",
-    "edit": "Szerkesztés",
-    "heading": "Kézbesítés",
-    "method": "Mód",
-    "pickUpOrder": "Rendelés átvétele",
-    "shippingMethod": "Szállítási mód",
-    "store": "Üzlet"
   },
   "ShippingDetails": {
     "contact": "Elérhetőség",

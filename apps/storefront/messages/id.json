@@ -1021,15 +1021,6 @@
     "pageOf": "Halaman {page} dari {pages}",
     "reviewCount": "{count, plural, other {# ulasan}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Pengembalian mudah",
-    "easyReturnsDesc": "Cukup kembalikan produk Anda dan kami akan mengembalikan uang Anda. Tanpa banyak tanya - kami akan memastikan proses pengembalian berjalan tanpa repot.",
-    "fastDelivery": "Pengiriman cepat",
-    "fastDeliveryDesc": "Paket Anda akan tiba dalam 3-5 hari kerja di lokasi pengambilan pilihan Anda atau langsung ke rumah Anda.",
-    "shippingReturns": "Pengiriman & Pengembalian",
-    "simpleExchanges": "Penukaran mudah",
-    "simpleExchangesDesc": "Ukurannya kurang pas? Tenang saja - kami akan menukarkan produk Anda dengan yang baru."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Alamat penagihan",
     "noBillingAddress": "Tidak ada alamat penagihan"
@@ -1114,27 +1105,12 @@
     "password": "Kata sandi baru",
     "submit": "Simpan kata sandi"
   },
-  "Review": {
-    "confirmText": "Dengan mengklik tombol Bayar, Anda mengonfirmasi bahwa Anda telah membaca, memahami, dan menyetujui Ketentuan Penggunaan, Ketentuan Penjualan, dan Kebijakan Pengembalian kami, serta menyatakan telah membaca Kebijakan Privasi {siteName}.",
-    "heading": "Tinjau"
-  },
   "Search": {
     "empty": "Tidak ada hasil untuk “{query}”",
     "label": "Cari",
     "loading": "Mencari…",
     "placeholder": "Cari produk",
     "popular": "Produk populer"
-  },
-  "Shipping": {
-    "chooseStore": "Pilih toko terdekat",
-    "continueToPayment": "Lanjut ke pembayaran",
-    "deliveryDescription": "Bagaimana Anda ingin pesanan dikirim",
-    "edit": "Ubah",
-    "heading": "Pengiriman",
-    "method": "Metode",
-    "pickUpOrder": "Ambil pesanan Anda sendiri",
-    "shippingMethod": "Metode pengiriman",
-    "store": "Toko"
   },
   "ShippingDetails": {
     "contact": "Kontak",

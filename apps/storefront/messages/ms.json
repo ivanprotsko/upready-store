@@ -1021,15 +1021,6 @@
     "pageOf": "Halaman {page} daripada {pages}",
     "reviewCount": "{count, plural, other {# ulasan}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Pemulangan mudah",
-    "easyReturnsDesc": "Hanya pulangkan produk anda dan kami akan memulangkan wang anda. Tiada soalan ditanya - kami akan pastikan proses pemulangan anda lancar.",
-    "fastDelivery": "Penghantaran pantas",
-    "fastDeliveryDesc": "Bungkusan anda akan tiba dalam 3-5 hari bekerja di lokasi pengambilan pilihan anda atau terus ke rumah anda.",
-    "shippingReturns": "Penghantaran & Pemulangan",
-    "simpleExchanges": "Pertukaran mudah",
-    "simpleExchangesDesc": "Saiznya tidak sesuai? Jangan risau - kami akan menukar produk anda dengan yang baharu."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Alamat bil",
     "noBillingAddress": "Tiada alamat bil"
@@ -1114,27 +1105,12 @@
     "password": "Kata laluan baharu",
     "submit": "Simpan kata laluan"
   },
-  "Review": {
-    "confirmText": "Dengan mengklik butang Bayar, anda mengesahkan bahawa anda telah membaca, memahami dan menerima Terma Penggunaan, Terma Jualan dan Dasar Pemulangan kami, serta mengakui bahawa anda telah membaca Dasar Privasi {siteName}.",
-    "heading": "Semakan"
-  },
   "Search": {
     "empty": "Tiada hasil untuk “{query}”",
     "label": "Cari",
     "loading": "Mencari…",
     "placeholder": "Cari produk",
     "popular": "Produk popular"
-  },
-  "Shipping": {
-    "chooseStore": "Pilih kedai berhampiran anda",
-    "continueToPayment": "Teruskan ke pembayaran",
-    "deliveryDescription": "Bagaimana anda mahu pesanan anda dihantar",
-    "edit": "Edit",
-    "heading": "Penghantaran",
-    "method": "Kaedah",
-    "pickUpOrder": "Ambil pesanan anda sendiri",
-    "shippingMethod": "Kaedah penghantaran",
-    "store": "Kedai"
   },
   "ShippingDetails": {
     "contact": "Kenalan",

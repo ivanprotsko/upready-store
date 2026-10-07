@@ -1021,15 +1021,6 @@
     "pageOf": "עמוד {page} מתוך {pages}",
     "reviewCount": "{count, plural, one {ביקורת אחת} two {שתי ביקורות} other {# ביקורות}}"
   },
-  "ProductTabs": {
-    "easyReturns": "החזרות קלות",
-    "easyReturnsDesc": "פשוט החזר את המוצר ואנחנו נחזיר לך את הכסף. ללא שאלות מיותרות - נעשה כמיטב יכולתנו כדי שההחזרה תהיה פשוטה וללא טרחה.",
-    "fastDelivery": "משלוח מהיר",
-    "fastDeliveryDesc": "החבילה שלך תגיע תוך 3-5 ימי עסקים לנקודת האיסוף שבחרת או ישירות אליך הביתה.",
-    "shippingReturns": "משלוח והחזרות",
-    "simpleExchanges": "החלפות פשוטות",
-    "simpleExchangesDesc": "המידה לא בדיוק מתאימה? אין בעיה - נחליף את המוצר שלך בחדש."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "כתובת לחיוב",
     "noBillingAddress": "אין כתובת לחיוב"
@@ -1114,27 +1105,12 @@
     "password": "סיסמה חדשה",
     "submit": "שמירת הסיסמה"
   },
-  "Review": {
-    "confirmText": "בלחיצה על כפתור התשלום, אתה מאשר שקראת, הבנת ומקבל את תנאי השימוש, תנאי המכירה ומדיניות ההחזרות שלנו, ומאשר שקראת את מדיניות הפרטיות של {siteName}.",
-    "heading": "סקירה"
-  },
   "Search": {
     "empty": "אין תוצאות עבור “{query}”",
     "label": "חיפוש",
     "loading": "מחפש…",
     "placeholder": "חיפוש מוצרים",
     "popular": "מוצרים פופולריים"
-  },
-  "Shipping": {
-    "chooseStore": "בחר חנות בקרבתך",
-    "continueToPayment": "המשך לתשלום",
-    "deliveryDescription": "כיצד תרצה לקבל את ההזמנה שלך",
-    "edit": "עריכה",
-    "heading": "משלוח",
-    "method": "שיטה",
-    "pickUpOrder": "איסוף עצמי של ההזמנה",
-    "shippingMethod": "שיטת משלוח",
-    "store": "חנות"
   },
   "ShippingDetails": {
     "contact": "פרטי קשר",

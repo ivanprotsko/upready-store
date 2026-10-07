@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
+import { getClientMessages } from "@lib/data/client-messages"
 import { getSiteName, getTenantHandle } from "@lib/data/cookies"
 import { buildSocialImageMetadata } from "@lib/tenant/social-card"
 import HtmlDirSync from "@modules/common/components/html-dir-sync"
@@ -29,10 +30,13 @@ export default async function LocaleLayout({
 }: {
   children: React.ReactNode
 }) {
-  const locale = await getLocale()
+  // t-2026-10-08-13, part A6: the browser gets the dictionary without the strings of what
+  // this shop has switched off (`lib/util/client-messages.ts`). With no `messages` the
+  // provider takes the whole catalogue, and all of it lands in the code of every page.
+  const [locale, messages] = await Promise.all([getLocale(), getClientMessages()])
 
   return (
-    <NextIntlClientProvider>
+    <NextIntlClientProvider messages={messages}>
       <JsonLd data={await buildSiteJsonLd(locale)} />
       <HtmlDirSync />
       {/* The one client-side cart (t-2026-10-03-66), above (main) and (checkout) so a

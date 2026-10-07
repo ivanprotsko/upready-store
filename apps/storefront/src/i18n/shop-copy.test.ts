@@ -42,9 +42,23 @@ describe("the Russian catalog", () => {
     ["CheckoutPage.fieldEmail", "Электронная почта"],
     ["CheckoutPage.giftCard", "Подарочная карта"],
     ["Cart.emptyMessage", "Корзина пуста. Загляните в каталог."],
+    // Part A6: «Посмотрите все вещи и выберите свою» spoke of clothes on any shop.
+    [
+      "Metadata.collection.description",
+      "Откройте коллекцию «{collection}» в {siteName}. Посмотрите все товары и выберите подходящий.",
+    ],
   ])("%s reads «%s»", (key, text) => {
     expect(read(ru, key)).toBe(text)
   })
+
+  // Part A6: the starter's lines the three checks of the night quoted from the page code.
+  // Their sections had no mounted reader and left the catalogs with their components.
+  it.each(["Размер не подошёл", "все вещи", "ближайший магазин", "Условия продажи"])(
+    "no value says «%s»",
+    (phrase) => {
+      expect(values(ru).filter((value) => value.includes(phrase))).toEqual([])
+    }
+  )
 })
 
 describe("every catalog", () => {
@@ -62,6 +76,16 @@ describe("every catalog", () => {
     expect(typeof text === "string" && text.trim().length > 0).toBe(true)
     if (code !== "en") {
       expect(text).not.toBe(read(english, "Metadata.home.description"))
+    }
+  })
+
+  // Part A6: `Review`, `ProductTabs` and `Shipping` were read only by components nothing
+  // imported (the starter's review step, product tabs and shipping step).
+  it.each([...locales])("%s: carries no section of a component that is gone", (code) => {
+    const messages = catalog(code)
+
+    for (const section of ["Review", "ProductTabs", "Shipping"]) {
+      expect(messages[section], section).toBeUndefined()
     }
   })
 

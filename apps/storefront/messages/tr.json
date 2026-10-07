@@ -1021,15 +1021,6 @@
     "pageOf": "Sayfa {page} / {pages}",
     "reviewCount": "{count, plural, one {# değerlendirme} other {# değerlendirme}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Kolay iade",
-    "easyReturnsDesc": "Ürününüzü iade etmeniz yeterli, paranızı geri veririz. Soru sormadan, iade işleminizi mümkün olduğunca sorunsuz hale getirmek için elimizden geleni yaparız.",
-    "fastDelivery": "Hızlı teslimat",
-    "fastDeliveryDesc": "Paketiniz 3-5 iş günü içinde teslim alma noktanıza veya evinizin konforuna ulaşacak.",
-    "shippingReturns": "Kargo ve İade",
-    "simpleExchanges": "Kolay değişim",
-    "simpleExchangesDesc": "Beden tam oturmadı mı? Sorun değil - ürününüzü yenisiyle değiştiririz."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Fatura adresi",
     "noBillingAddress": "Fatura adresi yok"
@@ -1114,27 +1105,12 @@
     "password": "Yeni şifre",
     "submit": "Şifreyi kaydet"
   },
-  "Review": {
-    "confirmText": "Öde düğmesine tıklayarak, Kullanım Koşullarımızı, Satış Koşullarımızı ve İade Politikamızı okuduğunuzu, anladığınızı ve kabul ettiğinizi; ayrıca {siteName}'un Gizlilik Politikası'nı okuduğunuzu onaylamış olursunuz.",
-    "heading": "Gözden Geçir"
-  },
   "Search": {
     "empty": "“{query}” için sonuç bulunamadı",
     "label": "Ara",
     "loading": "Aranıyor…",
     "placeholder": "Ürün ara",
     "popular": "Popüler ürünler"
-  },
-  "Shipping": {
-    "chooseStore": "Size yakın bir mağaza seçin",
-    "continueToPayment": "Ödemeye devam et",
-    "deliveryDescription": "Siparişinizin nasıl teslim edilmesini istersiniz",
-    "edit": "Düzenle",
-    "heading": "Teslimat",
-    "method": "Yöntem",
-    "pickUpOrder": "Siparişinizi teslim alın",
-    "shippingMethod": "Teslimat yöntemi",
-    "store": "Mağaza"
   },
   "ShippingDetails": {
     "contact": "İletişim",

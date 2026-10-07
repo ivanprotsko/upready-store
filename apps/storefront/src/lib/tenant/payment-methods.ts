@@ -11,10 +11,23 @@
  * say: whether `pp_system_default` is present as a real manual kind or only
  * as the last-resort demo card, which decides whether the checkout labels it
  * honestly as a test payment.
+ *
+ * t-2026-10-08-13, part A6: the three cryptocurrency gateways travel too
+ * (`btcpay`, `bitcart`, `x402`). The backend's document always carried them,
+ * each already counted only on an instance that takes cryptocurrency at all
+ * (`resolveTenantPaymentMethods`); this reader used to drop them. Their one
+ * reader is `lib/util/client-messages.ts`, which keeps the strings of a
+ * gateway out of the page code of a shop that does not have it.
  */
 
 export type TenantPaymentMethods = {
   robokassa: boolean
+  /** The shop's own BTCPay Server store, enabled, on an instance that takes cryptocurrency. */
+  btcpay: boolean
+  /** The shop's own Bitcart store, the same way. */
+  bitcart: boolean
+  /** x402 (USDC signed in a wallet), the same way. */
+  x402: boolean
   manualCrypto: boolean
   manualManager: boolean
   /** Whether `pp_system_default`'s demo card is this shop's only way to pay. */
@@ -24,6 +37,9 @@ export type TenantPaymentMethods = {
 /** A shop that connected nothing (including no tenant at all, the single-store fallback): the demo card is all there is. */
 export const EMPTY_TENANT_PAYMENT_METHODS: TenantPaymentMethods = {
   robokassa: false,
+  btcpay: false,
+  bitcart: false,
+  x402: false,
   manualCrypto: false,
   manualManager: false,
   demo: true,
@@ -39,6 +55,9 @@ export const readTenantPaymentMethods = (raw: unknown): TenantPaymentMethods => 
 
   return {
     robokassa: Boolean(doc.robokassa),
+    btcpay: Boolean(doc.btcpay),
+    bitcart: Boolean(doc.bitcart),
+    x402: Boolean(doc.x402),
     manualCrypto: Boolean(doc.manualCrypto),
     manualManager: Boolean(doc.manualManager),
     demo: doc.demo !== undefined ? Boolean(doc.demo) : EMPTY_TENANT_PAYMENT_METHODS.demo,

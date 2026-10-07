@@ -1021,15 +1021,6 @@
     "pageOf": "صفحة {page} من {pages}",
     "reviewCount": "{count, plural, one {تقييم واحد} two {تقييمان} few {# تقييمات} many {# تقييمًا} other {# تقييم}}"
   },
-  "ProductTabs": {
-    "easyReturns": "إرجاع سهل",
-    "easyReturnsDesc": "ما عليك سوى إرجاع المنتج وسنقوم برد أموالك. دون أي أسئلة، وسنبذل قصارى جهدنا لجعل عملية الإرجاع سهلة وخالية من المتاعب.",
-    "fastDelivery": "توصيل سريع",
-    "fastDeliveryDesc": "ستصل شحنتك خلال 3-5 أيام عمل إلى نقطة الاستلام أو مباشرة إلى منزلك.",
-    "shippingReturns": "الشحن والإرجاع",
-    "simpleExchanges": "استبدال سهل",
-    "simpleExchangesDesc": "المقاس غير مناسب؟ لا داعي للقلق، سنستبدل منتجك بآخر جديد."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "عنوان الفوترة",
     "noBillingAddress": "لا يوجد عنوان فوترة"
@@ -1114,27 +1105,12 @@
     "password": "كلمة المرور الجديدة",
     "submit": "حفظ كلمة المرور"
   },
-  "Review": {
-    "confirmText": "بالنقر على زر «ادفع»، فإنك تؤكد أنك قرأت وفهمت ووافقت على شروط الاستخدام وشروط البيع وسياسة الإرجاع الخاصة بنا، وتقر بأنك اطّلعت على سياسة الخصوصية الخاصة بـ {siteName}.",
-    "heading": "المراجعة"
-  },
   "Search": {
     "empty": "لا توجد نتائج لـ «{query}»",
     "label": "بحث",
     "loading": "جارٍ البحث…",
     "placeholder": "ابحث عن المنتجات",
     "popular": "المنتجات الشائعة"
-  },
-  "Shipping": {
-    "chooseStore": "اختر متجرًا قريبًا منك",
-    "continueToPayment": "المتابعة إلى الدفع",
-    "deliveryDescription": "كيف تود استلام طلبك",
-    "edit": "تعديل",
-    "heading": "التوصيل",
-    "method": "الطريقة",
-    "pickUpOrder": "استلام طلبك من المتجر",
-    "shippingMethod": "طريقة الشحن",
-    "store": "المتجر"
   },
   "ShippingDetails": {
     "contact": "التواصل",
