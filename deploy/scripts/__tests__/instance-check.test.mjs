@@ -430,6 +430,23 @@ test("checkMailRelay: RU fails while the relay would take the INTL host's name o
   assert.deepEqual(checkMailRelay(mail(own), ru), []);
 });
 
+test("the footer requisites switch passes the env check on ru and on intl, and compose hands it to the storefront (t-2026-10-08-13)", () => {
+  // The switch is a storefront setting, not a service a profile forbids. Whether a host sets it is
+  // the operator's decision, so the check lets it through on both instances.
+  for (const instance of ["ru", "intl"]) {
+    const profile = loadProfile(instance, INSTANCES_DIR);
+    assert.deepEqual(checkEnv(parseEnvFile("STOREFRONT_FOOTER_REQUISITES=1\n"), profile), [], instance);
+  }
+
+  // Off by default: compose passes an empty value when the env file does not name the variable.
+  const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
+  const storefront = compose.slice(compose.indexOf("container_name: mt-storefront"));
+  const service = storefront.slice(0, storefront.indexOf("\n    networks:"));
+  assert.match(service, /^ {6}STOREFRONT_FOOTER_REQUISITES: \$\{STOREFRONT_FOOTER_REQUISITES:-\}$/m);
+  // The storefront alone gets it: no other service of the stack reads the variable.
+  assert.equal(compose.match(/^\s+STOREFRONT_FOOTER_REQUISITES:/gm).length, 1);
+});
+
 test("compose.mt.yml gives the relay the default domain this check assumes, and takes both keys from the env file", () => {
   const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
   assert.ok(compose.includes(`ALLOWED_SENDER_DOMAINS: \${MAIL_SENDER_DOMAINS:-${DEFAULT_SENDER_DOMAINS.join(" ")}}`));

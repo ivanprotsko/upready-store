@@ -88,6 +88,14 @@ Generate each secret separately (`openssl rand -hex 32`): `POSTGRES_PASSWORD`, `
 `COOKIE_SECRET`, `INTEGRATION_ENCRYPTION_KEY`, `REVALIDATE_SECRET`, `STOREFRONT_SETTINGS_SECRET`,
 `STOREFRONT_DEVTOOLS_PASSWORD`.
 
+Robokassa moderates a shop only when the seller's requisites stand in its footer. The storefront
+prints them as one line under the footer's columns when `STOREFRONT_FOOTER_REQUISITES=1` is in the
+env file, and prints none without it (Ivan, 03.10.2026: «никаких ссылок на ИП Черкашина и т.д. Быть
+не должно», which stays in force on every host that does not set the variable).
+`deploy/compose.mt.yml` hands the variable to the storefront container, and the storefront reads
+it at render time, so adding the line to the env file and running `up -d` is enough, with no image
+rebuild. The line shows what the owner saved in the panel under the shop's requisites.
+
 **Check the env file before it ever reaches the host:**
 
 ```bash
