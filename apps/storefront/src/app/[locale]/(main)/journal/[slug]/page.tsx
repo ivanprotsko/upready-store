@@ -9,6 +9,7 @@ import { getRequestBaseURL, getSiteName } from "@lib/data/cookies"
 import { buildAlternates } from "@lib/util/alternates"
 import { decodeSegment } from "@lib/util/decode-segment"
 import { localeUrl } from "@lib/util/json-ld"
+import { markdownText } from "@lib/util/markdown-text"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
 import ArticleShare from "@modules/content/components/article-share"
@@ -43,8 +44,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   const base = await getRequestBaseURL()
+  // The body is markdown, the same as a content page's: its words, never its markup
+  // (t-2026-10-08-13, part A5).
   const description =
-    article.seo_description ?? article.excerpt ?? metaDescription(article.body) ?? undefined
+    article.seo_description ??
+    article.excerpt ??
+    metaDescription(markdownText(article.body)) ??
+    undefined
   const cover = article.cover_url ? absolute(base, article.cover_url) : null
 
   return {

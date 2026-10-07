@@ -322,3 +322,123 @@ describe("listCategories: U-17 only products the buyer can open count", () => {
     error.mockRestore()
   })
 })
+
+/**
+ * t-2026-10-08-13, part A5: the tree `listCategories` returns goes to the
+ * header, the footer and the menus and from there into client components, so
+ * React writes every field of it into the code of every page. With `*products`
+ * the backend answers with EVERY linked product, whole: the code of a page
+ * that shows no product carried the full card texts and three drafts. The
+ * loaders hand out ids of published products only; the cut itself is
+ * `util/category-products.ts`. `JSON.stringify` stands for what React does.
+ */
+describe("category loaders: a category's products leave as ids of published cards", () => {
+  const card = (over: Record<string, unknown> = {}) => ({
+    id: "p-published",
+    title: "Мёд липовый",
+    subtitle: "подзаголовок карточки",
+    description: "полный текст карточки",
+    status: "published",
+    metadata: { course_page: { faq: [{ q: "вопрос курса", a: "ответ курса" }] } },
+    ...over,
+  })
+  const hidden = card({
+    id: "p-draft",
+    title: "Скрытая карточка",
+    description: "текст скрытой карточки",
+    status: "draft",
+  })
+  const leaked = [
+    "draft",
+    "Скрытая карточка",
+    "текст скрытой карточки",
+    "полный текст карточки",
+    "подзаголовок карточки",
+    "course_page",
+    "вопрос курса",
+    '"status"',
+  ]
+
+  it("listCategories returns no draft, no card text and no card metadata", async () => {
+    serve(
+      {
+        product_categories: [
+          category({ id: "honey", handle: "honey", products: [card(), hidden] }),
+          category({ id: "tea", handle: "tea", products: [card({ id: "p-tea" })] }),
+        ],
+      },
+      [
+        { id: "p-published", categories: [{ id: "honey" }] },
+        { id: "p-tea", categories: [{ id: "tea" }] },
+      ]
+    )
+    const { listCategories } = await import("./categories")
+
+    const result = await listCategories()
+
+    expect(result.map((c) => c.handle)).toEqual(["honey", "tea"])
+    expect(result[0].products).toEqual([{ id: "p-published" }])
+    expect(result[1].products).toEqual([{ id: "p-tea" }])
+    const code = JSON.stringify(result)
+    for (const text of leaked) {
+      expect(code).not.toContain(text)
+    }
+  })
+
+  it("getCategoryByHandle returns the same cut", async () => {
+    serve({
+      product_categories: [category({ id: "honey", handle: "honey", products: [card(), hidden] })],
+    })
+    const { getCategoryByHandle } = await import("./categories")
+
+    const result = await getCategoryByHandle(["honey"])
+
+    expect(result?.products).toEqual([{ id: "p-published" }])
+    const code = JSON.stringify(result)
+    for (const text of leaked) {
+      expect(code).not.toContain(text)
+    }
+  })
+
+  it("a category that holds only drafts is empty for the menu's fallback as well", async () => {
+    const response = {
+      product_categories: [
+        category({ id: "honey", handle: "honey", products: [card()] }),
+        category({ id: "only-drafts", handle: "only-drafts", products: [hidden] }),
+      ],
+    }
+    clientFetch.mockImplementation(async (path: string) => {
+      if (path === "/store/products") {
+        throw new Error("backend down")
+      }
+      return response
+    })
+    const error = vi.spyOn(console, "error").mockImplementation(() => {})
+    const { listCategories } = await import("./categories")
+
+    const result = await listCategories()
+
+    expect(result.map((c) => c.handle)).toEqual(["honey"])
+    error.mockRestore()
+  })
+
+  it("a count read through `handle,*products` sees published products only", async () => {
+    serve(
+      {
+        product_categories: [
+          category({
+            id: "honey",
+            handle: "honey",
+            products: [card(), card({ id: "p-second" }), hidden],
+          }),
+        ],
+      },
+      [{ id: "p-published", categories: [{ id: "honey" }] }]
+    )
+    const { listCategories } = await import("./categories")
+
+    const result = await listCategories({ fields: "handle,*products" })
+
+    expect(result[0].products?.length).toBe(2)
+  })
+})

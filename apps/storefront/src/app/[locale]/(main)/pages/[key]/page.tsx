@@ -9,6 +9,7 @@ import { getSiteName } from "@lib/data/cookies"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
 import { parseInline } from "@lib/util/markdown"
+import { markdownText } from "@lib/util/markdown-text"
 import MarkdownContent, { Inline } from "@modules/content/components/markdown-content"
 
 /**
@@ -41,8 +42,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   return {
     title: await pageTitle(page.seo_title || page.title),
+    // The body is markdown: its words go into the tag, never its `##`, `**` and table
+    // pipes (t-2026-10-08-13, part A5). A filled `seo_description` stays as the owner wrote it.
     description:
-      metaDescription(page.seo_description, page.body) ??
+      metaDescription(page.seo_description, markdownText(page.body)) ??
       t("metaDescription", { title: page.title, siteName: await getSiteName() }),
     alternates: await buildAlternates(locale, `/pages/${params.key}`),
   }
