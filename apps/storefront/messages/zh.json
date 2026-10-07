@@ -1021,15 +1021,6 @@
     "pageOf": "第 {page} 页，共 {pages} 页",
     "reviewCount": "{count, plural, other {# 条评价}}"
   },
-  "ProductTabs": {
-    "easyReturns": "轻松退货",
-    "easyReturnsDesc": "只需退回商品，我们即为您全额退款。无需说明理由，我们会尽力让退货过程简单无忧。",
-    "fastDelivery": "快速配送",
-    "fastDeliveryDesc": "您的包裹将在 3-5 个工作日内送达自提点或您的家中。",
-    "shippingReturns": "配送与退货",
-    "simpleExchanges": "轻松换货",
-    "simpleExchangesDesc": "尺码不合适？别担心，我们会为您更换新品。"
-  },
   "ProfileBillingAddress": {
     "billingAddress": "账单地址",
     "noBillingAddress": "暂无账单地址"
@@ -1114,27 +1105,12 @@
     "password": "新密码",
     "submit": "保存密码"
   },
-  "Review": {
-    "confirmText": "点击「支付」按钮，即表示您确认已阅读、理解并接受我们的使用条款、销售条款和退货政策，并确认已阅读 {siteName} 的隐私政策。",
-    "heading": "确认订单"
-  },
   "Search": {
     "empty": "未找到与“{query}”相关的结果",
     "label": "搜索",
     "loading": "搜索中…",
     "placeholder": "搜索商品",
     "popular": "热门商品"
-  },
-  "Shipping": {
-    "chooseStore": "选择附近的门店",
-    "continueToPayment": "继续支付",
-    "deliveryDescription": "您希望如何收到订单",
-    "edit": "编辑",
-    "heading": "配送",
-    "method": "方式",
-    "pickUpOrder": "自提订单",
-    "shippingMethod": "配送方式",
-    "store": "门店"
   },
   "ShippingDetails": {
     "contact": "联系方式",

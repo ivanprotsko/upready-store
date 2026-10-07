@@ -1021,15 +1021,6 @@
     "pageOf": "Strona {page} z {pages}",
     "reviewCount": "{count, plural, one {# opinia} few {# opinie} many {# opinii} other {# opinii}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Łatwe zwroty",
-    "easyReturnsDesc": "Po prostu zwróć produkt, a my zwrócimy Ci pieniądze. Bez zbędnych pytań – zrobimy wszystko, aby zwrot przebiegł bezproblemowo.",
-    "fastDelivery": "Szybka dostawa",
-    "fastDeliveryDesc": "Twoja paczka dotrze w ciągu 3-5 dni roboczych do punktu odbioru lub prosto do Twojego domu.",
-    "shippingReturns": "Dostawa i zwroty",
-    "simpleExchanges": "Proste wymiany",
-    "simpleExchangesDesc": "Rozmiar nie pasuje? Bez obaw - wymienimy produkt na nowy."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Adres rozliczeniowy",
     "noBillingAddress": "Brak adresu rozliczeniowego"
@@ -1114,27 +1105,12 @@
     "password": "Nowe hasło",
     "submit": "Zapisz hasło"
   },
-  "Review": {
-    "confirmText": "Klikając przycisk Zapłać, potwierdzasz, że przeczytałeś, rozumiesz i akceptujesz nasze Zasady korzystania, Warunki sprzedaży i Politykę zwrotów oraz że zapoznałeś się z Polityką prywatności {siteName}.",
-    "heading": "Podsumowanie"
-  },
   "Search": {
     "empty": "Brak wyników dla „{query}”",
     "label": "Szukaj",
     "loading": "Szukanie…",
     "placeholder": "Szukaj produktów",
     "popular": "Popularne produkty"
-  },
-  "Shipping": {
-    "chooseStore": "Wybierz sklep w pobliżu",
-    "continueToPayment": "Przejdź do płatności",
-    "deliveryDescription": "Jak chcesz otrzymać zamówienie",
-    "edit": "Edytuj",
-    "heading": "Dostawa",
-    "method": "Metoda",
-    "pickUpOrder": "Odbiór osobisty zamówienia",
-    "shippingMethod": "Sposób dostawy",
-    "store": "Sklep"
   },
   "ShippingDetails": {
     "contact": "Kontakt",

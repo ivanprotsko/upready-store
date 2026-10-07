@@ -1021,15 +1021,6 @@
     "pageOf": "Pahina {page} ng {pages}",
     "reviewCount": "{count, plural, one {# review} other {# na review}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Madaling Pagsauli",
-    "easyReturnsDesc": "Isauli mo lang ang produkto at ire-refund namin ang iyong pera. Walang tanong-tanong – gagawin namin ang lahat para maging walang gulo ang iyong pagsauli.",
-    "fastDelivery": "Mabilis na Paghahatid",
-    "fastDeliveryDesc": "Darating ang iyong package sa loob ng 3-5 araw ng trabaho sa iyong pickup location o direkta sa iyong tahanan.",
-    "shippingReturns": "Paghahatid at Pagsauli",
-    "simpleExchanges": "Madaling Palitan",
-    "simpleExchangesDesc": "Hindi tama ang sukat? Huwag mag-alala - papalitan namin ito ng bago."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Billing Address",
     "noBillingAddress": "Walang billing address"
@@ -1114,27 +1105,12 @@
     "password": "Bagong password",
     "submit": "I-save ang password"
   },
-  "Review": {
-    "confirmText": "Sa pag-click ng button na Bayaran, kinukumpirma mong nabasa, naunawaan, at tinatanggap mo ang aming Mga Tuntunin sa Paggamit, Mga Tuntunin sa Pagbebenta, at Patakaran sa Pagsauli, at kinikilala mong nabasa mo ang Patakaran sa Privacy ng {siteName}.",
-    "heading": "Pagsusuri"
-  },
   "Search": {
     "empty": "Walang resulta para sa “{query}”",
     "label": "Maghanap",
     "loading": "Naghahanap…",
     "placeholder": "Maghanap ng produkto",
     "popular": "Sikat na mga produkto"
-  },
-  "Shipping": {
-    "chooseStore": "Pumili ng tindahang malapit sa iyo",
-    "continueToPayment": "Magpatuloy sa bayad",
-    "deliveryDescription": "Paano mo gustong maihatid ang iyong order",
-    "edit": "I-edit",
-    "heading": "Paghahatid",
-    "method": "Paraan",
-    "pickUpOrder": "Kunin ang iyong order",
-    "shippingMethod": "Paraan ng paghahatid",
-    "store": "Tindahan"
   },
   "ShippingDetails": {
     "contact": "Contact",

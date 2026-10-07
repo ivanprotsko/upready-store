@@ -1021,15 +1021,6 @@
     "pageOf": "Page {page} of {pages}",
     "reviewCount": "{count, plural, one {# review} other {# reviews}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Straightforward returns",
-    "easyReturnsDesc": "Send your product back and we refund your money. We do our best to keep the return straightforward.",
-    "fastDelivery": "Fast delivery",
-    "fastDeliveryDesc": "Your package arrives in 3 to 5 business days, at your pickup location or at your home.",
-    "shippingReturns": "Shipping and returns",
-    "simpleExchanges": "Simple exchanges",
-    "simpleExchangesDesc": "Not the right fit? We exchange your product for a new one."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Billing address",
     "noBillingAddress": "No billing address"
@@ -1114,27 +1105,12 @@
     "password": "New password",
     "submit": "Save password"
   },
-  "Review": {
-    "confirmText": "By clicking the Pay button, you confirm that you have read, understand and accept our Terms of Use, Terms of Sale and Returns Policy and acknowledge that you have read {siteName}'s Privacy Policy.",
-    "heading": "Review"
-  },
   "Search": {
     "empty": "No results for “{query}”",
     "label": "Search",
     "loading": "Searching…",
     "placeholder": "Search products",
     "popular": "Popular products"
-  },
-  "Shipping": {
-    "chooseStore": "Choose a store near you",
-    "continueToPayment": "Continue to payment",
-    "deliveryDescription": "How would you like your order delivered",
-    "edit": "Edit",
-    "heading": "Delivery",
-    "method": "Method",
-    "pickUpOrder": "Pick up your order",
-    "shippingMethod": "Shipping method",
-    "store": "Store"
   },
   "ShippingDetails": {
     "contact": "Contact",

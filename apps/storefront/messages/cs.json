@@ -1021,15 +1021,6 @@
     "pageOf": "Strana {page} z {pages}",
     "reviewCount": "{count, plural, one {# recenze} few {# recenze} many {# recenze} other {# recenzí}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Snadné vrácení",
-    "easyReturnsDesc": "Stačí produkt vrátit a my vám vrátíme peníze. Bez zbytečných otázek – uděláme vše pro to, aby bylo vrácení co nejjednodušší.",
-    "fastDelivery": "Rychlé doručení",
-    "fastDeliveryDesc": "Vaše zásilka dorazí do 3–5 pracovních dnů na odběrné místo nebo pohodlně k vám domů.",
-    "shippingReturns": "Doprava a vrácení",
-    "simpleExchanges": "Snadná výměna",
-    "simpleExchangesDesc": "Velikost nesedí úplně? Žádný problém – váš produkt vám vyměníme za nový."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Fakturační adresa",
     "noBillingAddress": "Žádná fakturační adresa"
@@ -1114,27 +1105,12 @@
     "password": "Nové heslo",
     "submit": "Uložit heslo"
   },
-  "Review": {
-    "confirmText": "Kliknutím na tlačítko Zaplatit potvrzujete, že jste si přečetli, rozumíte a přijímáte naše Podmínky užívání, Obchodní podmínky a Zásady vracení zboží, a potvrzujete, že jste se seznámili se Zásadami ochrany osobních údajů obchodu {siteName}.",
-    "heading": "Kontrola"
-  },
   "Search": {
     "empty": "Žádné výsledky pro „{query}“",
     "label": "Hledat",
     "loading": "Vyhledávání…",
     "placeholder": "Hledat produkty",
     "popular": "Oblíbené produkty"
-  },
-  "Shipping": {
-    "chooseStore": "Vyberte prodejnu ve vašem okolí",
-    "continueToPayment": "Pokračovat k platbě",
-    "deliveryDescription": "Jak si přejete doručit objednávku",
-    "edit": "Upravit",
-    "heading": "Doručení",
-    "method": "Metoda",
-    "pickUpOrder": "Vyzvednout objednávku osobně",
-    "shippingMethod": "Způsob dopravy",
-    "store": "Prodejna"
   },
   "ShippingDetails": {
     "contact": "Kontakt",

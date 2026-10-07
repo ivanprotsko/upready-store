@@ -1021,15 +1021,6 @@
     "pageOf": "Pagina {page} van {pages}",
     "reviewCount": "{count, plural, one {# beoordeling} other {# beoordelingen}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Gemakkelijk retourneren",
-    "easyReturnsDesc": "Retourneer eenvoudig uw product en wij betalen uw geld terug. Geen vragen gesteld – we doen ons best om uw retour zo moeiteloos mogelijk te maken.",
-    "fastDelivery": "Snelle levering",
-    "fastDeliveryDesc": "Uw pakket komt binnen 3-5 werkdagen aan op uw afhaallocatie of gewoon bij u thuis.",
-    "shippingReturns": "Verzending & Retourneren",
-    "simpleExchanges": "Eenvoudig ruilen",
-    "simpleExchangesDesc": "Past het toch niet helemaal goed? Geen zorgen - we ruilen uw product om voor een nieuw exemplaar."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Factuuradres",
     "noBillingAddress": "Geen factuuradres"
@@ -1114,27 +1105,12 @@
     "password": "Nieuw wachtwoord",
     "submit": "Wachtwoord opslaan"
   },
-  "Review": {
-    "confirmText": "Door op de knop Betalen te klikken, bevestigt u dat u onze Gebruiksvoorwaarden, Verkoopvoorwaarden en Retourbeleid heeft gelezen, begrepen en accepteert, en dat u kennis heeft genomen van het Privacybeleid van {siteName}.",
-    "heading": "Controleren"
-  },
   "Search": {
     "empty": "Geen resultaten voor “{query}”",
     "label": "Zoeken",
     "loading": "Zoeken…",
     "placeholder": "Zoek producten",
     "popular": "Populaire producten"
-  },
-  "Shipping": {
-    "chooseStore": "Kies een winkel bij u in de buurt",
-    "continueToPayment": "Verder naar betaling",
-    "deliveryDescription": "Hoe wilt u uw bestelling laten bezorgen",
-    "edit": "Bewerken",
-    "heading": "Bezorging",
-    "method": "Methode",
-    "pickUpOrder": "Bestelling afhalen",
-    "shippingMethod": "Verzendmethode",
-    "store": "Winkel"
   },
   "ShippingDetails": {
     "contact": "Contact",

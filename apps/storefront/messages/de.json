@@ -1021,15 +1021,6 @@
     "pageOf": "Seite {page} von {pages}",
     "reviewCount": "{count, plural, one {# Bewertung} other {# Bewertungen}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Einfache Rückgabe",
-    "easyReturnsDesc": "Senden Sie Ihr Produkt einfach zurück und wir erstatten Ihr Geld. Ohne Rückfragen – wir sorgen dafür, dass Ihre Rückgabe unkompliziert verläuft.",
-    "fastDelivery": "Schnelle Lieferung",
-    "fastDeliveryDesc": "Ihr Paket kommt innerhalb von 3-5 Werktagen an Ihrer Abholstation oder bequem bei Ihnen zu Hause an.",
-    "shippingReturns": "Versand & Rückgabe",
-    "simpleExchanges": "Einfacher Umtausch",
-    "simpleExchangesDesc": "Passt es nicht ganz? Kein Problem - wir tauschen Ihr Produkt gegen ein neues um."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Rechnungsadresse",
     "noBillingAddress": "Keine Rechnungsadresse"
@@ -1114,27 +1105,12 @@
     "password": "Neues Passwort",
     "submit": "Passwort speichern"
   },
-  "Review": {
-    "confirmText": "Mit Klick auf die Schaltfläche Bezahlen bestätigen Sie, dass Sie unsere Nutzungsbedingungen, Verkaufsbedingungen und Rückgaberichtlinie gelesen, verstanden und akzeptiert haben, und bestätigen, dass Sie die Datenschutzerklärung von {siteName} gelesen haben.",
-    "heading": "Überprüfung"
-  },
   "Search": {
     "empty": "Keine Ergebnisse für „{query}“",
     "label": "Suche",
     "loading": "Suche läuft…",
     "placeholder": "Produkte suchen",
     "popular": "Beliebte Produkte"
-  },
-  "Shipping": {
-    "chooseStore": "Wählen Sie ein Geschäft in Ihrer Nähe",
-    "continueToPayment": "Weiter zur Zahlung",
-    "deliveryDescription": "Wie möchten Sie Ihre Bestellung erhalten",
-    "edit": "Bearbeiten",
-    "heading": "Lieferung",
-    "method": "Methode",
-    "pickUpOrder": "Bestellung abholen",
-    "shippingMethod": "Versandart",
-    "store": "Geschäft"
   },
   "ShippingDetails": {
     "contact": "Kontakt",

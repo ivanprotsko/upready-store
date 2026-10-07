@@ -1021,15 +1021,6 @@
     "pageOf": "{pages}ページ中{page}ページ",
     "reviewCount": "{count, plural, other {#件のレビュー}}"
   },
-  "ProductTabs": {
-    "easyReturns": "簡単な返品",
-    "easyReturnsDesc": "商品を返送いただくだけで、返金いたします。理由は問いません。返品ができるだけスムーズに完了するよう努めます。",
-    "fastDelivery": "スピード配送",
-    "fastDeliveryDesc": "ご注文の商品は3〜5営業日以内に、受け取り場所またはご自宅にお届けします。",
-    "shippingReturns": "配送・返品",
-    "simpleExchanges": "簡単な交換",
-    "simpleExchangesDesc": "サイズが合わない場合もご安心ください。新しい商品と交換いたします。"
-  },
   "ProfileBillingAddress": {
     "billingAddress": "請求先住所",
     "noBillingAddress": "請求先住所が登録されていません"
@@ -1114,27 +1105,12 @@
     "password": "新しいパスワード",
     "submit": "パスワードを保存"
   },
-  "Review": {
-    "confirmText": "「支払う」ボタンをクリックすることで、当店の利用規約、販売条件、返品ポリシーを読み、理解し、同意したこと、および{siteName}のプライバシーポリシーを確認したことを承認するものとします。",
-    "heading": "確認"
-  },
   "Search": {
     "empty": "「{query}」に一致する商品が見つかりませんでした",
     "label": "検索",
     "loading": "検索中…",
     "placeholder": "商品を検索",
     "popular": "人気の商品"
-  },
-  "Shipping": {
-    "chooseStore": "近くの店舗を選択してください",
-    "continueToPayment": "支払いへ進む",
-    "deliveryDescription": "ご注文の受け取り方法を選択してください",
-    "edit": "編集",
-    "heading": "配送",
-    "method": "方法",
-    "pickUpOrder": "店舗で受け取る",
-    "shippingMethod": "配送方法",
-    "store": "店舗"
   },
   "ShippingDetails": {
     "contact": "連絡先",

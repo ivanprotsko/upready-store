@@ -1021,15 +1021,6 @@
     "pageOf": "Página {page} de {pages}",
     "reviewCount": "{count, plural, one {# avaliação} other {# avaliações}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Devoluções fáceis",
-    "easyReturnsDesc": "Basta devolver o seu produto e reembolsamos o seu dinheiro. Sem perguntas – faremos os possíveis para que a sua devolução seja simples e sem complicações.",
-    "fastDelivery": "Entrega rápida",
-    "fastDeliveryDesc": "A sua encomenda chegará em 3-5 dias úteis ao seu local de levantamento ou ao conforto da sua casa.",
-    "shippingReturns": "Envio e Devoluções",
-    "simpleExchanges": "Trocas simples",
-    "simpleExchangesDesc": "O tamanho não ficou bem? Sem problema - trocamos o seu produto por um novo."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Morada de faturação",
     "noBillingAddress": "Sem morada de faturação"
@@ -1114,27 +1105,12 @@
     "password": "Nova palavra-passe",
     "submit": "Guardar"
   },
-  "Review": {
-    "confirmText": "Ao clicar no botão Pagar, confirma que leu, compreende e aceita os nossos Termos de Utilização, Termos de Venda e Política de Devolução, e reconhece que leu a Política de Privacidade da {siteName}.",
-    "heading": "Revisão"
-  },
   "Search": {
     "empty": "Sem resultados para “{query}”",
     "label": "Pesquisar",
     "loading": "A pesquisar…",
     "placeholder": "Pesquisar produtos",
     "popular": "Produtos populares"
-  },
-  "Shipping": {
-    "chooseStore": "Escolha uma loja perto de si",
-    "continueToPayment": "Continuar para o pagamento",
-    "deliveryDescription": "Como pretende receber a sua encomenda",
-    "edit": "Editar",
-    "heading": "Entrega",
-    "method": "Método",
-    "pickUpOrder": "Levantar a sua encomenda",
-    "shippingMethod": "Método de envio",
-    "store": "Loja"
   },
   "ShippingDetails": {
     "contact": "Contacto",
