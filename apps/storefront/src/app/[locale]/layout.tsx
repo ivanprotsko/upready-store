@@ -7,6 +7,9 @@ import HtmlDirSync from "@modules/common/components/html-dir-sync"
 import JsonLd from "@modules/common/components/json-ld"
 import { buildSiteJsonLd } from "@lib/util/json-ld"
 import { CartQueueProvider } from "@lib/cart-store"
+import { hasLocale } from "next-intl"
+import { notFound } from "next/navigation"
+import { routing } from "@i18n/routing"
 
 /**
  * t-2026-10-08-13: a shop's `og:image:alt` and `twitter:image:alt` are its own
@@ -24,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildSocialImageMetadata(handle ? shopName : null)
 }
 
-export default async function LocaleLayout({
+async function LocaleTree({
   children,
 }: {
   children: React.ReactNode
@@ -40,4 +43,27 @@ export default async function LocaleLayout({
       <CartQueueProvider>{children}</CartQueueProvider>
     </NextIntlClientProvider>
   )
+}
+
+/**
+ * t-2026-10-08-13, part A7: `middleware.ts` lets a path with a dot through as a
+ * file, and one with no file behind it (`/humans.txt`, `/index.php`) lands here
+ * with its own name in the place of the language. `getLocale()` then falls back
+ * to a real language, so the home page answered 200 at an address that does not
+ * exist. A value that is not a language is no page: the answer is 404.
+ *
+ * Kept apart from the tree above, which reads nothing from the address.
+ */
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}) {
+  if (!hasLocale(routing.locales, (await params).locale)) {
+    notFound()
+  }
+
+  return <LocaleTree>{children}</LocaleTree>
 }

@@ -210,6 +210,33 @@ function withoutEmptyCategories(
     .map(prune)
 }
 
+/**
+ * The menu's rule for a caller that reads its own category list
+ * (t-2026-10-08-13, part A7): the sitemap listed 10 categories of a shop whose
+ * menu showed 9, and `/llms.txt` named the same empty one. Each category has to
+ * come with `id` and `*category_children`, which is what the rule walks: a
+ * parent stays while a child still has a card the buyer can open.
+ *
+ * A failed product read keeps every category, the list the caller had before:
+ * a sitemap that drops its categories on a network blip is worse than one that
+ * names an empty page.
+ */
+export async function withoutCategoriesOffTheMenu<
+  Category extends HttpTypes.StoreProductCategory
+>(categories: Category[]): Promise<Category[]> {
+  const visible = await fetchCategoryIdsWithVisibleProducts()
+
+  if (!visible) {
+    return categories
+  }
+
+  const byId = new Map<string, HttpTypes.StoreProductCategory>(
+    categories.map((category) => [category.id, category])
+  )
+
+  return categories.filter((category) => categoryHasProducts(category, byId, visible))
+}
+
 export const listCategories = async (query?: Record<string, unknown>) => {
   const next = {
     ...(await getCacheOptions("categories")),
