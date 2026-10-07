@@ -7,9 +7,11 @@
     "updatedSuccessfully": "อัปเดต {label} สำเร็จแล้ว"
   },
   "AccountLayout": {
+    "contacts": "ติดต่อเรา",
     "customerService": "บริการลูกค้า",
     "faqDescription": "คุณสามารถดูคำถามที่พบบ่อยและคำตอบได้ที่หน้าบริการลูกค้าของเรา",
-    "gotQuestions": "คำถามและคำตอบ"
+    "gotQuestions": "คำถามและคำตอบ",
+    "shopQuestions": "หากมีคำถามเกี่ยวกับคำสั่งซื้อ โปรดติดต่อตามช่องทางติดต่อของร้าน"
   },
   "AccountNav": {
     "account": "บัญชี",
@@ -475,10 +477,6 @@
     "needHelp": "ความช่วยเหลือ",
     "returnsExchanges": "การคืนและเปลี่ยนสินค้า"
   },
-  "Hero": {
-    "subtitle": "ทุกสิ่งที่ Medusa DTC Starter เวอร์ชันทางการไม่มีให้คุณ",
-    "title": "Medusa DTC Starter พร้อมใช้งานจริง"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "ฝ่ายบริการลูกค้า"
     },
     "home": {
-      "description": "ค้นพบคอลเลกชันสินค้าคัดสรรของเรา เลือกซื้อสไตล์ล่าสุดและค้นหาสิ่งที่คุณชื่นชอบ"
+      "description": "แคตตาล็อกสินค้าของร้าน เงื่อนไขการจัดส่งและการชำระเงิน"
     },
     "login": {
       "description": "เข้าสู่ระบบบัญชี {siteName} ของคุณ",

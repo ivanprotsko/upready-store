@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} успішно оновлено"
   },
   "AccountLayout": {
+    "contacts": "Контакти",
     "customerService": "Служба підтримки",
     "faqDescription": "Відповіді на часті запитання можна знайти на сторінці служби підтримки.",
-    "gotQuestions": "Запитання та відповіді"
+    "gotQuestions": "Запитання та відповіді",
+    "shopQuestions": "Питання щодо замовлення ставте за контактами магазину."
   },
   "AccountNav": {
     "account": "Акаунт",
@@ -475,10 +477,6 @@
     "needHelp": "Допомога",
     "returnsExchanges": "Повернення та обмін"
   },
-  "Hero": {
-    "subtitle": "Усе, чого бракує офіційному Medusa DTC Starter.",
-    "title": "Готовий до продакшену Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "Служба підтримки"
     },
     "home": {
-      "description": "Відкрийте для себе нашу добірку товарів. Обирайте останні новинки та знаходьте те, що вам до вподоби."
+      "description": "Каталог товарів магазину, умови доставки та оплати."
     },
     "login": {
       "description": "Увійдіть у свій акаунт {siteName}.",

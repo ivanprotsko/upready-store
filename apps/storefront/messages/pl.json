@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} zaktualizowano pomyślnie"
   },
   "AccountLayout": {
+    "contacts": "Kontakt",
     "customerService": "Obsługa klienta",
     "faqDescription": "Odpowiedzi na najczęściej zadawane pytania znajdziesz na stronie obsługi klienta.",
-    "gotQuestions": "Pytania i odpowiedzi"
+    "gotQuestions": "Pytania i odpowiedzi",
+    "shopQuestions": "Pytania dotyczące zamówienia kieruj na dane kontaktowe sklepu."
   },
   "AccountNav": {
     "account": "Konto",
@@ -475,10 +477,6 @@
     "needHelp": "Pomoc",
     "returnsExchanges": "Zwroty i wymiany"
   },
-  "Hero": {
-    "subtitle": "Wszystko, czego brakuje w oficjalnym Medusa DTC starterze.",
-    "title": "Gotowy do produkcji Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "Obsługa klienta"
     },
     "home": {
-      "description": "Odkryj naszą starannie wyselekcjonowaną kolekcję produktów. Kupuj najnowsze style i znajdź coś dla siebie."
+      "description": "Katalog produktów sklepu, warunki dostawy i płatności."
     },
     "login": {
       "description": "Zaloguj się do swojego konta {siteName}.",

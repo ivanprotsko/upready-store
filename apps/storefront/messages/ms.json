@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} berjaya dikemas kini"
   },
   "AccountLayout": {
+    "contacts": "Hubungi kami",
     "customerService": "Perkhidmatan Pelanggan",
     "faqDescription": "Anda boleh dapatkan soalan lazim dan jawapan di halaman perkhidmatan pelanggan kami.",
-    "gotQuestions": "Soalan dan jawapan"
+    "gotQuestions": "Soalan dan jawapan",
+    "shopQuestions": "Soalan tentang pesanan boleh diajukan melalui maklumat hubungan kedai."
   },
   "AccountNav": {
     "account": "Akaun",
@@ -475,10 +477,6 @@
     "needHelp": "Bantuan",
     "returnsExchanges": "Pemulangan & Pertukaran"
   },
-  "Hero": {
-    "subtitle": "Semua yang tiada dalam Medusa DTC starter rasmi.",
-    "title": "Medusa DTC Starter Sedia Pengeluaran"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "Khidmat pelanggan"
     },
     "home": {
-      "description": "Terokai koleksi produk pilihan kami. Beli-belah gaya terkini dan temui sesuatu yang anda sukai."
+      "description": "Katalog produk kedai, syarat penghantaran dan pembayaran."
     },
     "login": {
       "description": "Log masuk ke akaun {siteName} anda.",

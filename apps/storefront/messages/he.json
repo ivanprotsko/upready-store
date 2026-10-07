@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} עודכן בהצלחה"
   },
   "AccountLayout": {
+    "contacts": "יצירת קשר",
     "customerService": "שירות לקוחות",
     "faqDescription": "תוכל למצוא שאלות ותשובות נפוצות בעמוד שירות הלקוחות שלנו.",
-    "gotQuestions": "שאלות ותשובות"
+    "gotQuestions": "שאלות ותשובות",
+    "shopQuestions": "לשאלות על ההזמנה פנו דרך פרטי הקשר של החנות."
   },
   "AccountNav": {
     "account": "חשבון",
@@ -475,10 +477,6 @@
     "needHelp": "עזרה",
     "returnsExchanges": "החזרות והחלפות"
   },
-  "Hero": {
-    "subtitle": "כל מה שהסטארטר הרשמי של Medusa DTC משמיט.",
-    "title": "מוכן לסביבת ייצור Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "שירות לקוחות"
     },
     "home": {
-      "description": "גלה את אוסף המוצרים הנבחר שלנו. קנה את הסטיילים העדכניים ומצא משהו שתאהב."
+      "description": "קטלוג המוצרים של החנות, תנאי משלוח ותשלום."
     },
     "login": {
       "description": "התחבר לחשבון {siteName} שלך.",

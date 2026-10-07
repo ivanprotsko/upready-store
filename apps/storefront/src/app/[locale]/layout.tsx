@@ -1,9 +1,28 @@
+import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
+import { getSiteName, getTenantHandle } from "@lib/data/cookies"
+import { buildSocialImageMetadata } from "@lib/tenant/social-card"
 import HtmlDirSync from "@modules/common/components/html-dir-sync"
 import JsonLd from "@modules/common/components/json-ld"
 import { buildSiteJsonLd } from "@lib/util/json-ld"
 import { CartQueueProvider } from "@lib/cart-store"
+
+/**
+ * t-2026-10-08-13: a shop's `og:image:alt` and `twitter:image:alt` are its own
+ * name. It is set HERE and not in the root layout on purpose. Next 15.5 adds
+ * the entries of `app/opengraph-image.tsx` and `app/twitter-image.tsx`, with
+ * their fixed `alt`, at the root segment and once more at the first segment
+ * under it, which is this one; `images` given at a segment replace the file's
+ * entry at that segment only (`mergeStaticMetadata`). Given in the root layout
+ * they were overwritten here (measured on the built storefront). A host with
+ * no shop gets no keys and keeps the file's own tags.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const [handle, shopName] = await Promise.all([getTenantHandle(), getSiteName()])
+
+  return buildSocialImageMetadata(handle ? shopName : null)
+}
 
 export default async function LocaleLayout({
   children,

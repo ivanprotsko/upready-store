@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} erfolgreich aktualisiert"
   },
   "AccountLayout": {
+    "contacts": "Kontakt",
     "customerService": "Kundenservice",
     "faqDescription": "Häufig gestellte Fragen und Antworten finden Sie auf unserer Kundenservice-Seite.",
-    "gotQuestions": "Fragen und Antworten"
+    "gotQuestions": "Fragen und Antworten",
+    "shopQuestions": "Fragen zur Bestellung richten Sie bitte an die Kontaktdaten des Shops."
   },
   "AccountNav": {
     "account": "Konto",
@@ -475,10 +477,6 @@
     "needHelp": "Hilfe",
     "returnsExchanges": "Rückgabe & Umtausch"
   },
-  "Hero": {
-    "subtitle": "Alles, was im offiziellen Medusa DTC Starter fehlt.",
-    "title": "Produktionsreifer Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "Kundenservice"
     },
     "home": {
-      "description": "Entdecken Sie unsere kuratierte Produktauswahl. Shoppen Sie die neuesten Styles und finden Sie, was Ihnen gefällt."
+      "description": "Der Warenkatalog des Shops sowie Liefer- und Zahlungsbedingungen."
     },
     "login": {
       "description": "Melden Sie sich bei Ihrem {siteName}-Konto an.",

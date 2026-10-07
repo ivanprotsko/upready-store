@@ -7,9 +7,11 @@
     "updatedSuccessfully": "تم تحديث {label} بنجاح"
   },
   "AccountLayout": {
+    "contacts": "اتصل بنا",
     "customerService": "خدمة العملاء",
     "faqDescription": "يمكنك العثور على الأسئلة الشائعة وإجاباتها في صفحة خدمة العملاء لدينا.",
-    "gotQuestions": "الأسئلة والأجوبة"
+    "gotQuestions": "الأسئلة والأجوبة",
+    "shopQuestions": "للاستفسار عن طلبك تواصل عبر بيانات الاتصال بالمتجر."
   },
   "AccountNav": {
     "account": "الحساب",
@@ -475,10 +477,6 @@
     "needHelp": "المساعدة",
     "returnsExchanges": "الإرجاع والاستبدال"
   },
-  "Hero": {
-    "subtitle": "كل ما أغفله قالب Medusa DTC Starter الرسمي.",
-    "title": "قالب Medusa DTC Starter الجاهز للإنتاج"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "خدمة العملاء"
     },
     "home": {
-      "description": "اكتشف مجموعتنا المختارة من المنتجات. تسوّق أحدث التصاميم واعثر على ما يعجبك."
+      "description": "كتالوج منتجات المتجر وشروط التوصيل والدفع."
     },
     "login": {
       "description": "سجّل الدخول إلى حسابك في {siteName}.",

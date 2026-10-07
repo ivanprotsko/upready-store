@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} updated successfully"
   },
   "AccountLayout": {
+    "contacts": "Contact",
     "customerService": "Customer Service",
     "faqDescription": "You can find frequently asked questions and answers on our customer service page.",
-    "gotQuestions": "Questions and answers"
+    "gotQuestions": "Questions and answers",
+    "shopQuestions": "Ask about your order through the shop's contacts."
   },
   "AccountNav": {
     "account": "Account",
@@ -475,10 +477,6 @@
     "needHelp": "Help",
     "returnsExchanges": "Returns and exchanges"
   },
-  "Hero": {
-    "subtitle": "Everything the official Medusa DTC starter leaves out.",
-    "title": "Production-ready Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "Customer service"
     },
     "home": {
-      "description": "Discover our curated collection of products. Shop the latest styles and find something you love."
+      "description": "The shop's product catalog, delivery and payment terms."
     },
     "login": {
       "description": "Sign in to your {siteName} account.",
