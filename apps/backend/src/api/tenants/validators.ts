@@ -3,6 +3,7 @@ import { AdminGetProductOptionsParams } from "@medusajs/medusa/api/admin/product
 import { UpdateProduct } from "@medusajs/medusa/api/admin/products/validators";
 import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
 import { SiteScopeSchema } from "./products/site-scope";
+import { tenantAdminPassword, tenantAdminRole } from "../admin/tenants/validators";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
 import { ROBOKASSA_SNO_VALUES, ROBOKASSA_TAX_VALUES } from "../../tenant-secrets/robokassa";
 import { normalizeBtcpayServerUrl } from "../../tenant-secrets/btcpay";
@@ -143,6 +144,37 @@ export const PostTenantSwitchShopSchema = z.strictObject({
 });
 
 export type PostTenantSwitchShopBody = z.infer<typeof PostTenantSwitchShopSchema>;
+
+// ---- t-2026-10-07-11: the shop's own staff (/tenants/staff/**)
+
+/**
+ * `POST /tenants/staff` body. `role` is required: the owner says what the new
+ * login may do, there is no default to forget about. The password goes
+ * through the same check as one issued by platform staff.
+ */
+export const PostTenantStaffCreateSchema = z.strictObject({
+  email: z.string().email(),
+  password: tenantAdminPassword(),
+  role: tenantAdminRole(),
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
+});
+
+export type PostTenantStaffCreateBody = z.infer<typeof PostTenantStaffCreateSchema>;
+
+/**
+ * `POST /tenants/staff/:id` body. No `email`: the email is the login's
+ * identity, and moving it is the platform's job
+ * (`POST /admin/tenants/:id/admins/:adminId`).
+ */
+export const PostTenantStaffUpdateSchema = z.strictObject({
+  role: tenantAdminRole().optional(),
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
+  password: tenantAdminPassword().optional(),
+});
+
+export type PostTenantStaffUpdateBody = z.infer<typeof PostTenantStaffUpdateSchema>;
 
 // ---- piece 7: content pages (/tenants/pages/**)
 

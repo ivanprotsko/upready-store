@@ -1,5 +1,6 @@
 import type { MedusaContainer } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import type { TenantAdminRole } from "../../../modules/tenant/models/tenant-admin";
 import { isTestShop } from "../../../modules/tenant/test-shop";
 
 /**
@@ -41,14 +42,21 @@ const isArchived = (metadata: unknown): boolean =>
 export const readCallerTenant = async (
   scope: MedusaContainer,
   actorId: string,
-): Promise<{ email: string; first_name: string | null; last_name: string | null; tenant_id: string; group_id: string | null } | null> => {
+): Promise<{
+  email: string;
+  first_name: string | null;
+  last_name: string | null;
+  role: TenantAdminRole;
+  tenant_id: string;
+  group_id: string | null;
+} | null> => {
   const query = scope.resolve(ContainerRegistrationKeys.QUERY);
 
   const {
     data: [caller],
   } = await query.graph({
     entity: "tenant_admin",
-    fields: ["id", "email", "first_name", "last_name", "tenant.id", "tenant.group.id"],
+    fields: ["id", "email", "first_name", "last_name", "role", "tenant.id", "tenant.group.id"],
     filters: { id: [actorId] },
   });
 
@@ -60,6 +68,7 @@ export const readCallerTenant = async (
     email: caller.email as string,
     first_name: (caller.first_name as string | null) ?? null,
     last_name: (caller.last_name as string | null) ?? null,
+    role: caller.role as TenantAdminRole,
     tenant_id: caller.tenant.id as string,
     group_id: ((caller.tenant as TenantRow).group?.id as string | undefined) ?? null,
   };
@@ -67,7 +76,7 @@ export const readCallerTenant = async (
 
 /**
  * Every live tenant of `groupId`, archived ones left out: an archived site is
- * closed for login by `blockArchivedTenantAdmin`, so offering it would only
+ * closed for login by `guardTenantAdmin`, so offering it would only
  * lead to a session that 403s on its first request. `null` group = no
  * siblings at all, which is what a single-site shop gets.
  */

@@ -1,6 +1,7 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import updateTenantAdminWorkflow from "../../../workflows/tenant/update-tenant-admin";
+import { getTenantAdminAccess } from "../tenant-admin-gate";
 import type { PostTenantUpdateMeBody } from "../validators";
 
 const TENANT_ADMIN_ME_FIELDS = [
@@ -8,6 +9,7 @@ const TENANT_ADMIN_ME_FIELDS = [
   "email",
   "first_name",
   "last_name",
+  "role",
   "metadata",
   "tenant.*",
   "tenant.sales_channel.id",
@@ -19,6 +21,21 @@ const TENANT_ADMIN_ME_FIELDS = [
   "tenant.api_key.title",
   "tenant.api_key.type",
 ];
+
+/**
+ * `role` and `permissions` are what the panel builds its menu and its routes
+ * from (t-2026-10-07-11); it has no table of its own. Both are the ones the
+ * gate decided THIS request by, so the answer cannot disagree with what the
+ * next request will be allowed.
+ */
+const withAccess = <Row extends Record<string, unknown>>(
+  tenantAdmin: Row,
+  req: AuthenticatedMedusaRequest<unknown>,
+) => {
+  const { role, permissions } = getTenantAdminAccess(req);
+
+  return { ...tenantAdmin, role, permissions };
+};
 
 /**
  * `GET /tenants/me` — the tenant behind the token, with its sales channel and
@@ -49,7 +66,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   }
 
   res.json({
-    tenant_admin: tenantAdmin,
+    tenant_admin: withAccess(tenantAdmin, req),
   });
 };
 
@@ -90,6 +107,6 @@ export const POST = async (
   });
 
   res.json({
-    tenant_admin: tenantAdmin,
+    tenant_admin: withAccess(tenantAdmin, req),
   });
 };

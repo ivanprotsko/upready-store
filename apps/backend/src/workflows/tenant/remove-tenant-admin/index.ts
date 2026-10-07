@@ -9,8 +9,9 @@ export type RemoveTenantAdminWorkflowInput = {
 };
 
 /**
- * `DELETE /admin/tenants/:id/admins/:adminId` (contract §3). The "last admin
- * cannot be removed" guard is the route's job (it already reads the
+ * `DELETE /admin/tenants/:id/admins/:adminId` (contract §3) and
+ * `DELETE /tenants/staff/:id` (t-2026-10-07-11). The "last owner cannot be
+ * removed" guard is the route's job (it already reads the
  * tenant's `admins_count` to answer `404` on a foreign admin, so it counts
  * there too) rather than a step here, because it is a read-only check with
  * nothing to compensate.

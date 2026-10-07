@@ -36,7 +36,9 @@ const PROVIDER = "emailpass";
  * caller's row there, same email and name, marked `metadata.via_group` with
  * the group id. A tenant outside the group, like any tenant the email has no
  * row in, keeps answering the same `403` for an existing and an unknown id
- * alike, which tells the caller nothing a `404` would hide.
+ * alike, which tells the caller nothing a `404` would hide. That first row
+ * carries the caller's role on the site it comes from; after that the two
+ * rows are separate, and each site's owner sets the role on her own.
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<PostTenantSwitchShopBody>,
@@ -73,6 +75,10 @@ export const POST = async (
       email: caller.email,
       first_name: caller.first_name,
       last_name: caller.last_name,
+      // The role the caller holds on the site it comes from (t-2026-10-07-11):
+      // without it the new row would take the column's default and an
+      // operator would become an owner by opening a sister site.
+      role: caller.role,
       tenant_id,
       metadata: { via_group: caller.group_id },
     });

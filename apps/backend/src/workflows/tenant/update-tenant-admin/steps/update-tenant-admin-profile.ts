@@ -2,6 +2,7 @@ import { MedusaError, Modules } from "@medusajs/framework/utils";
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 import type { IAuthModuleService } from "@medusajs/framework/types";
 import { TENANT_MODULE } from "../../../../modules/tenant";
+import type { TenantAdminRole } from "../../../../modules/tenant/models/tenant-admin";
 import type TenantModuleService from "../../../../modules/tenant/service";
 
 export type UpdateTenantAdminProfileStepInput = {
@@ -9,16 +10,17 @@ export type UpdateTenantAdminProfileStepInput = {
   email?: string;
   first_name?: string;
   last_name?: string;
+  role?: TenantAdminRole;
 };
 
 type Compensation = {
   tenant_admin_id: string;
-  previous: { email: string; first_name: string | null; last_name: string | null };
+  previous: { email: string; first_name: string | null; last_name: string | null; role: TenantAdminRole };
   providerIdentityId?: string;
 };
 
 /**
- * Updates the `tenant_admin` row's email/first_name/last_name, and — when the
+ * Updates the `tenant_admin` row's email/first_name/last_name/role, and — when the
  * email changes — the emailpass provider identity's `entity_id` alongside it
  * (contract §3: "find it by `listAuthIdentities` filtering
  * `provider_identities.entity_id = old email` and `provider = "emailpass"`").
@@ -26,7 +28,7 @@ type Compensation = {
  * still the row's pre-change email regardless of whether the password step
  * ran.
  *
- * Compensation restores the row (email, first_name, last_name) and the
+ * Compensation restores the row (email, first_name, last_name, role) and the
  * provider identity's `entity_id` to what this step read at the start.
  */
 const updateTenantAdminProfileStep = createStep(
@@ -61,12 +63,19 @@ const updateTenantAdminProfileStep = createStep(
       await authModuleService.updateProviderIdentities({ id: providerIdentityId, entity_id: input.email });
     }
 
-    const updateData: { id: string; email?: string; first_name?: string; last_name?: string } = {
+    const updateData: {
+      id: string;
+      email?: string;
+      first_name?: string;
+      last_name?: string;
+      role?: TenantAdminRole;
+    } = {
       id: input.tenant_admin_id,
     };
     if (input.email !== undefined) updateData.email = input.email;
     if (input.first_name !== undefined) updateData.first_name = input.first_name;
     if (input.last_name !== undefined) updateData.last_name = input.last_name;
+    if (input.role !== undefined) updateData.role = input.role;
 
     const updated = await tenantModuleService.updateTenantAdmins(updateData);
 
@@ -76,6 +85,7 @@ const updateTenantAdminProfileStep = createStep(
         email: before.email,
         first_name: before.first_name ?? null,
         last_name: before.last_name ?? null,
+        role: before.role,
       },
       providerIdentityId,
     };
@@ -102,6 +112,7 @@ const updateTenantAdminProfileStep = createStep(
       email: compensation.previous.email,
       first_name: compensation.previous.first_name,
       last_name: compensation.previous.last_name,
+      role: compensation.previous.role,
     });
   },
 );
