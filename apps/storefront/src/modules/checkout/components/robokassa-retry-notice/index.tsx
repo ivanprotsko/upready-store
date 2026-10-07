@@ -56,7 +56,14 @@ export default function RobokassaRetryNotice({
     return () => window.removeEventListener("pageshow", onPageShow)
   }, [])
 
-  const crypto = notice === "pending" ? (btcpayReturnState(cart) ?? bitcartReturnState(cart)) : null
+  // The wording for an invoice of BTCPay or Bitcart reaches the browser only for a shop that
+  // has one of the two (`lib/util/client-messages.ts`). A cart can still hold such a session
+  // after the shop switched the gateway off: that buyer gets the general «being confirmed»
+  // notice below, never the name of a key.
+  const crypto =
+    notice === "pending" && t.has("paymentPendingCryptoText")
+      ? (btcpayReturnState(cart) ?? bitcartReturnState(cart))
+      : null
 
   if (crypto === "expired") {
     return (
