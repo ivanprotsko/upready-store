@@ -2,6 +2,7 @@ import { getLocaleDir } from "@i18n/config"
 import { getRequestBaseURL } from "@lib/data/cookies"
 import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getTenantAnalytics } from "@lib/data/analytics"
+import { getClientMessages } from "@lib/data/client-messages"
 import Analytics from "@modules/common/components/analytics"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import { getSiteTestMode } from "@lib/data/tenant-test-mode"
@@ -81,15 +82,17 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode] = await Promise.all([
-    getEffectiveSettings(),
-    getTenantThemePreset(),
-    getTenantModeDefault(),
-    getTenantAnalytics(),
-    getSiteBranding(),
-    isOlavkaShop(),
-    getSiteTestMode(),
-  ])
+  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode, messages] =
+    await Promise.all([
+      getEffectiveSettings(),
+      getTenantThemePreset(),
+      getTenantModeDefault(),
+      getTenantAnalytics(),
+      getSiteBranding(),
+      isOlavkaShop(),
+      getSiteTestMode(),
+      getClientMessages(),
+    ])
   // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
   // this parse only ever produces a clean integer or null, never NaN reaching
   // the component (t17-analytics step 1).
@@ -167,13 +170,17 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             component calling useTranslations("Composition") — without the provider the
             popover threw on open (measured 2026-09-10 on every stand: "Application
             error: a client-side exception", next-intl rethrows as Error(undefined) in
-            production). The provider without props inherits locale and messages from
-            the request config.
+            production). The provider inherits the locale from the request config.
+
+            t-2026-10-08-13, part A6: `messages` is the same object `[locale]/layout.tsx`
+            hands over (`getClientMessages`), the dictionary without the strings of what
+            this shop has switched off. Without the prop the provider takes the whole
+            catalogue, and the page code carries it whatever the other provider got.
 
             Analytics' own consent banner (`useTranslations("AnalyticsConsent")`)
             needs the same provider, so it is mounted here rather than as a
             second sibling provider (t17-analytics step 3). */}
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
           <Analytics
             ga4MeasurementId={analytics.ga4MeasurementId}
             yandexCounterId={yandexCounterId}
