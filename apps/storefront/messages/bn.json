@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} সফলভাবে আপডেট হয়েছে"
   },
   "AccountLayout": {
+    "contacts": "যোগাযোগ",
     "customerService": "গ্রাহক সেবা",
     "faqDescription": "আমাদের গ্রাহক সেবা পাতায় আপনি সচরাচর জিজ্ঞাসিত প্রশ্ন ও উত্তর পাবেন।",
-    "gotQuestions": "প্রশ্ন ও উত্তর"
+    "gotQuestions": "প্রশ্ন ও উত্তর",
+    "shopQuestions": "অর্ডার নিয়ে প্রশ্ন থাকলে দোকানের যোগাযোগের ঠিকানায় জানান।"
   },
   "AccountNav": {
     "account": "অ্যাকাউন্ট",
@@ -471,10 +473,6 @@
     "needHelp": "সহায়তা",
     "returnsExchanges": "রিটার্ন ও এক্সচেঞ্জ"
   },
-  "Hero": {
-    "subtitle": "অফিসিয়াল Medusa DTC স্টার্টারে যা বাদ পড়েছে, সবকিছু এখানে আছে।",
-    "title": "প্রোডাকশন-রেডি Medusa DTC স্টার্টার"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "গ্রাহক সেবা"
     },
     "home": {
-      "description": "আমাদের কিউরেটেড পণ্যের সংগ্রহ আবিষ্কার করুন। সর্বশেষ স্টাইল কিনুন এবং আপনার পছন্দের কিছু খুঁজে নিন।"
+      "description": "দোকানের পণ্যের ক্যাটালগ, ডেলিভারি ও পেমেন্টের শর্তাবলি।"
     },
     "login": {
       "description": "আপনার {siteName} অ্যাকাউন্টে সাইন ইন করুন।",

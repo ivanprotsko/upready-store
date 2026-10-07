@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} सफलतापूर्वक अपडेट हो गया"
   },
   "AccountLayout": {
+    "contacts": "संपर्क करें",
     "customerService": "ग्राहक सेवा",
     "faqDescription": "आप हमारे ग्राहक सेवा पेज पर अक्सर पूछे जाने वाले प्रश्न और उत्तर पा सकते हैं।",
-    "gotQuestions": "प्रश्न और उत्तर"
+    "gotQuestions": "प्रश्न और उत्तर",
+    "shopQuestions": "ऑर्डर से जुड़े सवाल दुकान के संपर्क विवरण पर पूछें।"
   },
   "AccountNav": {
     "account": "खाता",
@@ -471,10 +473,6 @@
     "needHelp": "सहायता",
     "returnsExchanges": "रिटर्न और एक्सचेंज"
   },
-  "Hero": {
-    "subtitle": "वह सब कुछ जो आधिकारिक Medusa DTC स्टार्टर में शामिल नहीं है।",
-    "title": "प्रोडक्शन के लिए तैयार Medusa DTC स्टार्टर"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "ग्राहक सेवा"
     },
     "home": {
-      "description": "हमारे चुनिंदा उत्पादों के संग्रह की खोज करें। नवीनतम स्टाइल खरीदें और अपनी पसंद की चीज़ पाएं।"
+      "description": "दुकान के उत्पादों की सूची, डिलीवरी और भुगतान की शर्तें।"
     },
     "login": {
       "description": "अपने {siteName} खाते में साइन इन करें।",

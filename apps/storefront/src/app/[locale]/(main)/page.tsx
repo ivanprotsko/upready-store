@@ -18,6 +18,7 @@ import type { HomeHeroProps } from "@modules/home/variants/types"
 import { buildAlternates } from "@lib/util/alternates"
 import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
+import { homeDescription } from "@lib/util/home-description"
 import { localizedHero } from "@lib/util/localized-hero"
 import { getTranslations, getLocale } from "next-intl/server"
 import { getSiteName } from "@lib/data/cookies"
@@ -91,14 +92,15 @@ async function tilesForThisShop(): Promise<readonly ProfileCategoryTile[]> {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [t, locale, siteName] = await Promise.all([
+  const [t, locale, siteName, home] = await Promise.all([
     getTranslations("Metadata.home"),
     getLocale(),
     getSiteName(),
+    getTenantHome(),
   ])
   return {
     title: siteName,
-    description: t("description"),
+    description: homeDescription(localizedHero(home?.content.hero, locale)?.subtitle, t("description")),
     alternates: await buildAlternates(locale, "/"),
   }
 }

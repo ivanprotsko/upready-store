@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} päivitetty onnistuneesti"
   },
   "AccountLayout": {
+    "contacts": "Yhteystiedot",
     "customerService": "Asiakaspalvelu",
     "faqDescription": "Löydät usein kysytyt kysymykset ja niiden vastaukset asiakaspalvelusivultamme.",
-    "gotQuestions": "Kysymykset ja vastaukset"
+    "gotQuestions": "Kysymykset ja vastaukset",
+    "shopQuestions": "Tilausta koskevat kysymykset voit esittää kaupan yhteystietojen kautta."
   },
   "AccountNav": {
     "account": "Tili",
@@ -471,10 +473,6 @@
     "needHelp": "Ohje",
     "returnsExchanges": "Palautukset ja vaihdot"
   },
-  "Hero": {
-    "subtitle": "Kaikki, mitä virallisesta Medusa DTC Starterista puuttuu.",
-    "title": "Tuotantovalmis Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "Asiakaspalvelu"
     },
     "home": {
-      "description": "Tutustu valikoituun tuotevalikoimaamme. Osta uusimmat tyylit ja löydä jotain, josta pidät."
+      "description": "Kaupan tuoteluettelo sekä toimitus- ja maksuehdot."
     },
     "login": {
       "description": "Kirjaudu sisään {siteName}-tilillesi.",

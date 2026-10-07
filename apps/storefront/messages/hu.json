@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} sikeresen frissítve"
   },
   "AccountLayout": {
+    "contacts": "Kapcsolat",
     "customerService": "Ügyfélszolgálat",
     "faqDescription": "A gyakran ismételt kérdéseket és válaszokat az ügyfélszolgálati oldalunkon találja.",
-    "gotQuestions": "Kérdések és válaszok"
+    "gotQuestions": "Kérdések és válaszok",
+    "shopQuestions": "A rendeléssel kapcsolatos kérdéseit az üzlet elérhetőségein teheti fel."
   },
   "AccountNav": {
     "account": "Fiók",
@@ -471,10 +473,6 @@
     "needHelp": "Segítség",
     "returnsExchanges": "Visszaküldés és csere"
   },
-  "Hero": {
-    "subtitle": "Minden, amit a hivatalos Medusa DTC starter kihagy.",
-    "title": "Éles környezetre kész Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "Ügyfélszolgálat"
     },
     "home": {
-      "description": "Fedezze fel válogatott termékkínálatunkat. Vásárolja meg a legújabb divatot, és találja meg, amit szeret."
+      "description": "Az üzlet termékkatalógusa, szállítási és fizetési feltételek."
     },
     "login": {
       "description": "Jelentkezzen be a {siteName} fiókjába.",

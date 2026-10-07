@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label}更新成功"
   },
   "AccountLayout": {
+    "contacts": "联系我们",
     "customerService": "客户服务",
     "faqDescription": "您可以在客户服务页面找到常见问题解答。",
-    "gotQuestions": "常见问题"
+    "gotQuestions": "常见问题",
+    "shopQuestions": "有关订单的问题，请通过店铺联系方式咨询。"
   },
   "AccountNav": {
     "account": "账户",
@@ -471,10 +473,6 @@
     "needHelp": "帮助",
     "returnsExchanges": "退换货"
   },
-  "Hero": {
-    "subtitle": "官方 Medusa DTC 启动模板所缺少的一切。",
-    "title": "生产就绪的 Medusa DTC 启动模板"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "客户服务"
     },
     "home": {
-      "description": "探索我们精心挑选的商品系列，选购最新款式，找到您的心头好。"
+      "description": "店铺商品目录、配送与支付条款。"
     },
     "login": {
       "description": "登录您的 {siteName} 账户。",

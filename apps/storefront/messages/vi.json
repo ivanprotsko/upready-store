@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} đã được cập nhật thành công"
   },
   "AccountLayout": {
+    "contacts": "Liên hệ",
     "customerService": "Chăm sóc khách hàng",
     "faqDescription": "Bạn có thể tìm câu hỏi thường gặp và câu trả lời trên trang chăm sóc khách hàng của chúng tôi.",
-    "gotQuestions": "Câu hỏi và giải đáp"
+    "gotQuestions": "Câu hỏi và giải đáp",
+    "shopQuestions": "Thắc mắc về đơn hàng xin gửi qua thông tin liên hệ của cửa hàng."
   },
   "AccountNav": {
     "account": "Tài khoản",
@@ -471,10 +473,6 @@
     "needHelp": "Trợ giúp",
     "returnsExchanges": "Đổi trả hàng"
   },
-  "Hero": {
-    "subtitle": "Mọi thứ mà Medusa DTC Starter chính thức còn thiếu.",
-    "title": "Medusa DTC Starter sẵn sàng cho production"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "Chăm sóc khách hàng"
     },
     "home": {
-      "description": "Khám phá bộ sưu tập sản phẩm được tuyển chọn của chúng tôi. Mua sắm những mẫu mới nhất và tìm thấy thứ bạn yêu thích."
+      "description": "Danh mục sản phẩm của cửa hàng, điều kiện giao hàng và thanh toán."
     },
     "login": {
       "description": "Đăng nhập vào tài khoản {siteName} của bạn.",

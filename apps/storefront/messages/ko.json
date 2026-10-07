@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label}이(가) 성공적으로 업데이트되었습니다"
   },
   "AccountLayout": {
+    "contacts": "문의하기",
     "customerService": "고객센터",
     "faqDescription": "자주 묻는 질문과 답변은 고객센터 페이지에서 확인하실 수 있습니다.",
-    "gotQuestions": "자주 묻는 질문"
+    "gotQuestions": "자주 묻는 질문",
+    "shopQuestions": "주문 관련 문의는 상점 연락처로 해 주세요."
   },
   "AccountNav": {
     "account": "계정",
@@ -471,10 +473,6 @@
     "needHelp": "도움말",
     "returnsExchanges": "반품 및 교환"
   },
-  "Hero": {
-    "subtitle": "공식 Medusa DTC 스타터에 없는 모든 것을 담았습니다.",
-    "title": "프로덕션 준비 완료 Medusa DTC 스타터"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "고객 서비스"
     },
     "home": {
-      "description": "엄선된 상품 컬렉션을 만나보세요. 최신 스타일을 쇼핑하고 마음에 드는 상품을 찾아보세요."
+      "description": "상점의 상품 카탈로그, 배송 및 결제 조건."
     },
     "login": {
       "description": "{siteName} 계정으로 로그인하세요.",

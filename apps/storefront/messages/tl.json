@@ -7,9 +7,11 @@
     "updatedSuccessfully": "Matagumpay na na-update ang {label}"
   },
   "AccountLayout": {
+    "contacts": "Kontak",
     "customerService": "Customer Service",
     "faqDescription": "Makikita mo ang mga madalas itanong at ang mga sagot dito sa aming customer service page.",
-    "gotQuestions": "Mga tanong at sagot"
+    "gotQuestions": "Mga tanong at sagot",
+    "shopQuestions": "Para sa mga tanong tungkol sa order, gamitin ang mga contact ng tindahan."
   },
   "AccountNav": {
     "account": "Account",
@@ -471,10 +473,6 @@
     "needHelp": "Tulong",
     "returnsExchanges": "Pagsauli at Palitan"
   },
-  "Hero": {
-    "subtitle": "Lahat ng nawawala sa opisyal na Medusa DTC starter.",
-    "title": "Production-ready na Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "Serbisyo sa customer"
     },
     "home": {
-      "description": "Tuklasin ang aming pinili nang koleksyon ng mga produkto. Mamili ng pinakabagong estilo at makahanap ng iyong magugustuhan."
+      "description": "Katalogo ng mga produkto ng tindahan, mga tuntunin sa paghahatid at pagbabayad."
     },
     "login": {
       "description": "Mag-sign in sa iyong {siteName} account.",

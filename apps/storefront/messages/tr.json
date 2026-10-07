@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} başarıyla güncellendi"
   },
   "AccountLayout": {
+    "contacts": "İletişim",
     "customerService": "Müşteri Hizmetleri",
     "faqDescription": "Sıkça sorulan soruları ve yanıtlarını müşteri hizmetleri sayfamızda bulabilirsiniz.",
-    "gotQuestions": "Sorular ve cevaplar"
+    "gotQuestions": "Sorular ve cevaplar",
+    "shopQuestions": "Siparişinizle ilgili sorularınızı mağazanın iletişim bilgileri üzerinden iletin."
   },
   "AccountNav": {
     "account": "Hesap",
@@ -471,10 +473,6 @@
     "needHelp": "Yardım",
     "returnsExchanges": "İade ve Değişim"
   },
-  "Hero": {
-    "subtitle": "Resmi Medusa DTC starter'ının eksik bıraktığı her şey.",
-    "title": "Üretime hazır Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "Müşteri hizmetleri"
     },
     "home": {
-      "description": "Özenle seçilmiş ürün koleksiyonumuzu keşfedin. En yeni tarzları alışveriş edin ve seveceğiniz bir şey bulun."
+      "description": "Mağazanın ürün kataloğu, teslimat ve ödeme koşulları."
     },
     "login": {
       "description": "{siteName} hesabınıza giriş yapın.",

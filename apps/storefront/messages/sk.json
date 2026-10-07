@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} bolo úspešne aktualizované"
   },
   "AccountLayout": {
+    "contacts": "Kontakt",
     "customerService": "Zákaznícka podpora",
     "faqDescription": "Odpovede na často kladené otázky nájdete na našej stránke zákazníckej podpory.",
-    "gotQuestions": "Otázky a odpovede"
+    "gotQuestions": "Otázky a odpovede",
+    "shopQuestions": "S otázkami k objednávke sa obráťte na kontakty obchodu."
   },
   "AccountNav": {
     "account": "Účet",
@@ -471,10 +473,6 @@
     "needHelp": "Pomoc",
     "returnsExchanges": "Vrátenie a výmena"
   },
-  "Hero": {
-    "subtitle": "Všetko, čo v oficiálnom Medusa DTC starteri chýba.",
-    "title": "Produkčne pripravený Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "Zákaznícka podpora"
     },
     "home": {
-      "description": "Objavte našu starostlivo vybranú kolekciu produktov. Nakupujte najnovšie trendy a nájdite si niečo, čo si obľúbite."
+      "description": "Katalóg tovaru obchodu, podmienky doručenia a platby."
     },
     "login": {
       "description": "Prihláste sa do svojho účtu {siteName}.",

@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} blev opdateret"
   },
   "AccountLayout": {
+    "contacts": "Kontakt",
     "customerService": "Kundeservice",
     "faqDescription": "Du kan finde ofte stillede spørgsmål og svar på vores kundeservice-side.",
-    "gotQuestions": "Spørgsmål og svar"
+    "gotQuestions": "Spørgsmål og svar",
+    "shopQuestions": "Har du spørgsmål til din ordre, så brug butikkens kontaktoplysninger."
   },
   "AccountNav": {
     "account": "Konto",
@@ -471,10 +473,6 @@
     "needHelp": "Hjælp",
     "returnsExchanges": "Retur & ombytning"
   },
-  "Hero": {
-    "subtitle": "Alt det, den officielle Medusa DTC starter ikke har.",
-    "title": "Produktionsklar Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "Kundeservice"
     },
     "home": {
-      "description": "Udforsk vores udvalgte kollektion af produkter. Shop de nyeste stilarter, og find noget, du elsker."
+      "description": "Butikkens varekatalog samt vilkår for levering og betaling."
     },
     "login": {
       "description": "Log ind på din {siteName}-konto.",

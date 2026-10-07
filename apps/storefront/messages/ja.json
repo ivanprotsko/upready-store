@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label}を更新しました"
   },
   "AccountLayout": {
+    "contacts": "お問い合わせ",
     "customerService": "カスタマーサービス",
     "faqDescription": "よくある質問と回答はカスタマーサービスページでご確認いただけます。",
-    "gotQuestions": "よくある質問"
+    "gotQuestions": "よくある質問",
+    "shopQuestions": "ご注文に関するご質問は、ショップの連絡先までお問い合わせください。"
   },
   "AccountNav": {
     "account": "アカウント",
@@ -471,10 +473,6 @@
     "needHelp": "ヘルプ",
     "returnsExchanges": "返品・交換"
   },
-  "Hero": {
-    "subtitle": "公式のMedusa DTC Starterに足りないものすべてを。",
-    "title": "本番環境対応のMedusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "カスタマーサービス"
     },
     "home": {
-      "description": "厳選された商品コレクションをご覧ください。最新のスタイルの中からお気に入りを見つけましょう。"
+      "description": "ショップの商品カタログ、配送とお支払いの条件。"
     },
     "login": {
       "description": "{siteName} のアカウントにサインインしてください。",

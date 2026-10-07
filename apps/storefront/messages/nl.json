@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} succesvol bijgewerkt"
   },
   "AccountLayout": {
+    "contacts": "Contact",
     "customerService": "Klantenservice",
     "faqDescription": "Veelgestelde vragen en antwoorden vindt u op onze klantenservicepagina.",
-    "gotQuestions": "Vragen en antwoorden"
+    "gotQuestions": "Vragen en antwoorden",
+    "shopQuestions": "Vragen over je bestelling stel je via de contactgegevens van de winkel."
   },
   "AccountNav": {
     "account": "Account",
@@ -471,10 +473,6 @@
     "needHelp": "Hulp",
     "returnsExchanges": "Retourneren & Ruilen"
   },
-  "Hero": {
-    "subtitle": "Alles wat de officiële Medusa DTC starter niet biedt.",
-    "title": "Productieklare Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -735,7 +733,7 @@
       "title": "Klantenservice"
     },
     "home": {
-      "description": "Ontdek onze zorgvuldig samengestelde productcollectie. Shop de nieuwste stijlen en vind iets waar u van houdt."
+      "description": "De productcatalogus van de winkel, leverings- en betalingsvoorwaarden."
     },
     "login": {
       "description": "Meld u aan bij uw {siteName}-account.",
