@@ -43,17 +43,21 @@ export const StaffDrawer = ({ member, onClose }: StaffDrawerProps) => {
     event.preventDefault()
     setError(null)
 
-    const built = member ? updateStaffBody(member, draft) : createStaffBody(draft)
-    if ("error" in built) {
-      setError(t(`staff.errors.${built.error}`))
-      return
-    }
-
     try {
       if (member) {
+        const built = updateStaffBody(member, draft)
+        if ("error" in built) {
+          setError(t(`staff.errors.${built.error}`))
+          return
+        }
         await update({ id: member.id, body: built.body })
         toast.success(t("staff.edit.success"))
-      } else if ("email" in built.body) {
+      } else {
+        const built = createStaffBody(draft)
+        if ("error" in built) {
+          setError(t(`staff.errors.${built.error}`))
+          return
+        }
         await create(built.body)
         toast.success(t("staff.create.success"))
       }

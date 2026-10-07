@@ -1,8 +1,14 @@
 import { useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
-import { Button, Drawer, Input, Label, Text, toast } from "@medusajs/ui"
+import { Button, Drawer, Input, Label, Select, Text, toast } from "@medusajs/ui"
 
 import { updateTenantAdmin, type TenantAdmin } from "../../../../lib/tenants-api"
+import {
+  DEFAULT_TENANT_ADMIN_ROLE,
+  TENANT_ADMIN_ROLES,
+  isTenantAdminRole,
+  type TenantAdminRole,
+} from "./admin-roles"
 
 export function EditAdminDrawer({
   tenantId,
@@ -18,6 +24,9 @@ export function EditAdminDrawer({
   const queryClient = useQueryClient()
   const [email, setEmail] = useState(admin.email)
   const [password, setPassword] = useState("")
+  // A login a backend without roles returned is an owner, as every login was.
+  const currentRole = isTenantAdminRole(admin.role) ? admin.role : DEFAULT_TENANT_ADMIN_ROLE
+  const [role, setRole] = useState<TenantAdminRole>(currentRole)
   const [error, setError] = useState<string | null>(null)
   const [isPending, setIsPending] = useState(false)
 
@@ -25,9 +34,12 @@ export function EditAdminDrawer({
     event.preventDefault()
     setError(null)
 
-    const input: { email?: string; password?: string } = {}
+    const input: { email?: string; password?: string; role?: string } = {}
     if (email.trim() && email.trim() !== admin.email) {
       input.email = email.trim()
+    }
+    if (role !== currentRole) {
+      input.role = role
     }
     if (password.length > 0) {
       if (password.length < 12) {
@@ -36,8 +48,8 @@ export function EditAdminDrawer({
       }
       input.password = password
     }
-    if (!input.email && !input.password) {
-      setError("Измените email или пароль перед сохранением.")
+    if (!input.email && !input.password && !input.role) {
+      setError("Измените email, роль или пароль перед сохранением.")
       return
     }
 
@@ -60,12 +72,32 @@ export function EditAdminDrawer({
       <Drawer.Content>
         <form onSubmit={handleSubmit}>
           <Drawer.Header>
-            <Drawer.Title>Сменить email и пароль</Drawer.Title>
+            <Drawer.Title>Сменить email, роль и пароль</Drawer.Title>
           </Drawer.Header>
           <Drawer.Body className="flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-2">
               <Label size="small">Email</Label>
               <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <Label size="small">Роль</Label>
+              <Select
+                value={role}
+                onValueChange={(value) => {
+                  if (isTenantAdminRole(value)) setRole(value)
+                }}
+              >
+                <Select.Trigger>
+                  <Select.Value />
+                </Select.Trigger>
+                <Select.Content>
+                  {TENANT_ADMIN_ROLES.map((option) => (
+                    <Select.Item key={option.value} value={option.value}>
+                      {option.label}
+                    </Select.Item>
+                  ))}
+                </Select.Content>
+              </Select>
             </div>
             <div className="flex flex-col gap-y-2">
               <Label size="small">Новый пароль</Label>

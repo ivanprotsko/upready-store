@@ -40,6 +40,8 @@ export type TenantAdmin = {
   email: string
   first_name: string | null
   last_name: string | null
+  /** t-2026-10-07-11: `owner`, `manager` or `operator`; absent from a backend without roles. */
+  role?: string
   created_at: string
   updated_at: string
 }
@@ -65,6 +67,8 @@ export type ListTenantsResponse = {
 export type CreateTenantAdminInput = {
   email: string
   password: string
+  /** Without it the backend creates an owner, as before roles. */
+  role?: string
   first_name?: string
   last_name?: string
 }
@@ -83,6 +87,7 @@ export type UpdateTenantInput = {
 export type UpdateTenantAdminInput = {
   email?: string
   password?: string
+  role?: string
   first_name?: string
   last_name?: string
 }
