@@ -437,6 +437,13 @@ services:
     container_name: mt-mail
     restart: unless-stopped
     environment:
+      # MAIL_HOSTNAME and MAIL_SENDER_DOMAINS are per host. Both defaults are the
+      # INTL (Contabo) host's own, so its env file needs neither key. Any other
+      # host sets both (deploy/mt/MAIL.md, "A Second Host"): with the default
+      # name the relay introduces itself as a machine it is not, and with the
+      # default domain it refuses a sender of any other domain.
+      # deploy/scripts/instance-check.mjs fails a deploy on either mistake.
+      #
       # The host's own reverse DNS (measured 2026-10-02: PTR of 84.46.251.149
       # is vmi3137962.contaboserver.net) — HELO/EHLO must match it, or a
       # receiving MTA's PTR check fails before SPF or DKIM are even read.
@@ -445,10 +452,12 @@ services:
       # 2026-10-02); forcing IPv4 keeps every outbound connection on the
       # address the PTR and the SPF `ip4:` record below actually describe.
       POSTFIX_inet_protocols: ipv4
-      ALLOWED_SENDER_DOMAINS: shipshift.dev
-      # Generates /etc/opendkim/keys/shipshift.dev.{private,txt} on first boot
-      # if the volume is empty; a key already there is left alone. Reading the
-      # public key and rolling the selector are in deploy/mt/MAIL.md.
+      # Space-separated. The domain of SMTP_FROM has to be one of them.
+      ALLOWED_SENDER_DOMAINS: ${MAIL_SENDER_DOMAINS:-shipshift.dev}
+      # Generates /etc/opendkim/keys/<domain>.{private,txt} for each domain
+      # above that has no key in the volume yet; a key already there is left
+      # alone. Reading the public key and rolling the selector are in
+      # deploy/mt/MAIL.md.
       DKIM_AUTOGENERATE: "1"
       DKIM_SELECTOR: mt1
     volumes:

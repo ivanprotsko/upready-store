@@ -199,6 +199,17 @@ Two more checks enforce §1.
   without one of the five fields is a configuration error. Remove the entry when what it names in
   `closes` has happened.
 
+One check is not a rule of this page but lives in the same tool, because the mistake it catches is
+made in the same env file and fails without a word to anyone.
+
+- **The relay set up as another host.** `deploy/compose.mt.yml` is one file for both hosts, and its
+  defaults for the relay's own name and sender domain are the INTL host's. When `SMTP_HOST` is the
+  stack's own relay, the tool reads the value of `SMTP_HOST`, `SMTP_FROM`, `MAIL_HOSTNAME` and
+  `MAIL_SENDER_DOMAINS` and of no other key, and prints the key, never the value. It fails when
+  `SMTP_FROM` is not an address in a domain the relay signs for, on either instance, and on an
+  instance whose profile says `mailRelay.defaultsAreThisHost` is `false` (RU) when `MAIL_HOSTNAME`
+  or `MAIL_SENDER_DOMAINS` is not set. The steps for a second host are in `deploy/mt/MAIL.md`.
+
 The same tool runs in CI on both profiles (`.github/workflows/pr-checks.yml`, job Deploy Checks),
 against the env templates this repository ships. That run needs no secret and no database, so the
 tenant check there is covered by the unit tests alone.

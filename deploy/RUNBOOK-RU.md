@@ -232,6 +232,26 @@ ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_do root@$RU_HOST_IP \
   'MONITOR_RAM_THRESHOLD_PCT=0 /opt/upready-store/mt/deploy/scripts/ru-host-monitor.sh'  # forces a RAM alert
 ```
 
+## 7. Mail: order and account letters
+
+Until this section is done the backend on this host sends no letter at all: with `SMTP_HOST` empty
+every order confirmation and panel password reset is only written to the log. The `mail` container
+runs, but nothing hands it a message.
+
+Turning it on takes two steps outside this repository, both Ivan's, then four DNS records, then four
+env keys. The order, the records and the checks are in `deploy/mt/MAIL.md`, "A Second Host":
+
+1. A support request to the hosting provider to open outbound ports 25, 465 and 587 for this server.
+   They were closed on 04.10.2026 and on 07.10.2026.
+2. The reverse DNS name (PTR) of this server's address, set in the provider's panel to
+   `mail.cherkashino.ru`.
+3. The A, DKIM, SPF and DMARC records of `cherkashino.ru`, at the registrar that holds the zone.
+4. `SMTP_HOST`, `SMTP_FROM`, `MAIL_HOSTNAME` and `MAIL_SENDER_DOMAINS` in `deploy/mt/ru.env`, a deploy,
+   `opendkim-testkey`, then `deploy/mt/mail-smoke.sh <an address Ivan can read mail at>`.
+
+`deploy/scripts/instance-check.mjs` stops the deploy of step 4 while `MAIL_HOSTNAME` or
+`MAIL_SENDER_DOMAINS` is missing, because the relay would then take the INTL host's values.
+
 ## What this runbook does not cover
 
 - Moving real `cherkashino.ru` data here — `t-cherk-14`, a separate task, run only after this runbook

@@ -25,11 +25,15 @@ import {
   forbiddenProviders,
   checkEnv,
   checkBackupTargets,
+  checkMailRelay,
+  senderDomain,
   checkDbProviders,
   checkDbAnalytics,
   checkDbTenants,
   hostOf,
   BACKUP_TARGET_KEYS,
+  MAIL_KEYS,
+  DEFAULT_SENDER_DOMAINS,
   UsageError,
   INSTANCES_DIR,
 } from "../instance-check.mjs";
@@ -243,6 +247,7 @@ test("the real profiles carry every field the backup and tenant checks read", ()
   assert.deepEqual(loadOtherProfiles("intl", INSTANCES_DIR).map((profile) => profile.instance), ["ru"]);
   assert.throws(() => validateProfile({ ...ru, backup: { crossBorderCopy: "forbidden" } }), /backup\.s3EndpointHosts, backup\.crossCopyHosts/);
   assert.throws(() => validateProfile({ ...ru, domains: { primary: [] } }), UsageError);
+  assert.throws(() => validateProfile({ ...ru, mailRelay: { description: "a relay" } }), /mailRelay\.defaultsAreThisHost/);
 });
 
 test("a recorded exception without a reason or without what closes it is a configuration error", () => {
@@ -369,6 +374,68 @@ test("checkDbTenants: RU fails on a tenant with a .com address and on a tenant w
 
 const TOOL = fileURLToPath(new URL("../instance-check.mjs", import.meta.url));
 const REPO = path.resolve(path.dirname(TOOL), "..", "..");
+const mail = (lines) => readEnvValues(lines.join("\n"), MAIL_KEYS, { wholeLine: true });
+
+test("readEnvValues with wholeLine reads an unquoted value to the end of the line, the way docker compose does", () => {
+  const values = mail([
+    "SMTP_FROM=Cherkashino <noreply@cherkashino.ru>",
+    "MAIL_SENDER_DOMAINS=cherkashino.ru shipshift.dev # two domains",
+    'MAIL_HOSTNAME="mail.cherkashino.ru"',
+    "SMTP_PASS=never-read",
+  ]);
+  assert.deepEqual([...values.keys()].sort(), ["MAIL_HOSTNAME", "MAIL_SENDER_DOMAINS", "SMTP_FROM"]);
+  assert.equal(values.get("SMTP_FROM"), "Cherkashino <noreply@cherkashino.ru>");
+  assert.equal(values.get("MAIL_SENDER_DOMAINS"), "cherkashino.ru shipshift.dev");
+  assert.equal(values.get("MAIL_HOSTNAME"), "mail.cherkashino.ru");
+});
+
+test("senderDomain reads the domain of a bare address and of one with a display name", () => {
+  assert.equal(senderDomain("noreply@Shipshift.dev"), "shipshift.dev");
+  assert.equal(senderDomain("Cherkashino <noreply@cherkashino.ru>"), "cherkashino.ru");
+  assert.equal(senderDomain("noreply"), null);
+  assert.equal(senderDomain(undefined), null);
+});
+
+test("checkMailRelay: a backend that does not send through the stack's own relay is not checked", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  assert.deepEqual(checkMailRelay(mail(["SMTP_HOST=", "SMTP_FROM="]), ru), []);
+  assert.deepEqual(checkMailRelay(mail(["SMTP_HOST=smtp.example.ru", "SMTP_FROM=shop@example.ru"]), ru), []);
+});
+
+test("checkMailRelay: INTL passes on the compose defaults and fails on a sender the relay does not sign for", () => {
+  const intl = loadProfile("intl", INSTANCES_DIR);
+  assert.deepEqual(checkMailRelay(mail(["SMTP_HOST=mail", "SMTP_FROM=noreply@shipshift.dev", "MAIL_SENDER_DOMAINS="]), intl), []);
+  for (const from of ["noreply@cherkashino.com", "", "noreply"]) {
+    const violations = checkMailRelay(mail(["SMTP_HOST=mail", `SMTP_FROM=${from}`]), intl);
+    assert.equal(violations.length, 1);
+    assert.match(violations[0], /^SMTP_FROM is not an address in a domain the relay signs for/);
+    assert.doesNotMatch(violations[0], /cherkashino/);
+  }
+  const both = ["SMTP_HOST=mail", "SMTP_FROM=noreply@cherkashino.com", "MAIL_SENDER_DOMAINS=shipshift.dev cherkashino.com"];
+  assert.deepEqual(checkMailRelay(mail(both), intl), []);
+  // The relay splits its list on spaces only, so a comma makes one domain that matches nothing.
+  assert.equal(checkMailRelay(mail(["SMTP_HOST=mail", "SMTP_FROM=noreply@shipshift.dev", "MAIL_SENDER_DOMAINS=shipshift.dev,cherkashino.com"]), intl).length, 1);
+});
+
+test("checkMailRelay: RU fails while the relay would take the INTL host's name or domain, and passes on its own", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const bare = checkMailRelay(mail(["SMTP_HOST=mail", "SMTP_FROM=noreply@shipshift.dev"]), ru);
+  assert.deepEqual(bare.map((line) => line.split(" ")[0]), ["MAIL_HOSTNAME", "MAIL_SENDER_DOMAINS"]);
+
+  const noName = checkMailRelay(mail(["SMTP_HOST=mail", "SMTP_FROM=noreply@cherkashino.ru", "MAIL_SENDER_DOMAINS=cherkashino.ru"]), ru);
+  assert.equal(noName.length, 1);
+  assert.match(noName[0], /^MAIL_HOSTNAME is not set/);
+
+  const own = ["SMTP_HOST=mail", "SMTP_FROM=noreply@cherkashino.ru", "MAIL_HOSTNAME=mail.cherkashino.ru", "MAIL_SENDER_DOMAINS=cherkashino.ru"];
+  assert.deepEqual(checkMailRelay(mail(own), ru), []);
+});
+
+test("compose.mt.yml gives the relay the default domain this check assumes, and takes both keys from the env file", () => {
+  const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
+  assert.ok(compose.includes(`ALLOWED_SENDER_DOMAINS: \${MAIL_SENDER_DOMAINS:-${DEFAULT_SENDER_DOMAINS.join(" ")}}`));
+  assert.match(compose, /POSTFIX_myhostname: \$\{MAIL_HOSTNAME:-[^}]+\}/);
+});
+
 const SCRATCH = mkdtempSync(path.join(os.tmpdir(), "instance-check-test-"));
 const DB_URL = "postgres://medusa:s3cretpw@mt-postgres:5432/medusa_mt";
 
@@ -426,6 +493,20 @@ test("the tool exits 1 on a backup target outside the instance's country and nev
 
   const home = writeScratch("home.env", ["S3_ENABLED=1", "S3_ENDPOINT_URL=https://s3.twcstorage.ru", "CROSS_COPY_SSH_HOST="]);
   assert.equal(runTool(["--instance", "ru", "--env", "deploy/mt/ru.env.example", "--backup-env", home]).status, 0);
+});
+
+test("the tool exits 1 on a RU env that turns its own relay on with the INTL host's name and domain, and never prints the sender", () => {
+  const template = readFileSync(path.join(REPO, "deploy", "mt", "ru.env.example"), "utf8");
+  const withMail = (lines) => writeScratch("ru-mail.env", [template, ...lines]);
+
+  const wrong = runTool(["--instance", "ru", "--env", withMail(["SMTP_HOST=mail", "SMTP_FROM=noreply@cherkashino.ru"])]);
+  assert.equal(wrong.status, 1);
+  assert.equal(wrong.stderr.match(/^VIOLATION: (MAIL_HOSTNAME|MAIL_SENDER_DOMAINS) is not set/gm).length, 2);
+  assert.match(wrong.stderr, /^VIOLATION: SMTP_FROM is not an address in a domain the relay signs for/m);
+  assert.doesNotMatch(wrong.stdout + wrong.stderr, /noreply@/);
+
+  const right = withMail(["SMTP_HOST=mail", "SMTP_FROM=noreply@cherkashino.ru", "MAIL_HOSTNAME=mail.cherkashino.ru", "MAIL_SENDER_DOMAINS=cherkashino.ru"]);
+  assert.equal(runTool(["--instance", "ru", "--env", right]).status, 0);
 });
 
 const RU_ROW = `olavka|${RU_HOSTS.join(",")}`;
