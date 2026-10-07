@@ -2,6 +2,7 @@ import type { AbstractIntlMessages } from "next-intl"
 
 import type { TenantManualPayment } from "@lib/tenant/manual-payment"
 import type { TenantPaymentMethods } from "@lib/tenant/payment-methods"
+import type { TenantPaymentPreNotice } from "@lib/util/payment-pre-notice"
 
 /**
  * The interface dictionary a page hands to the browser (t-2026-10-08-13, part A6).
@@ -30,6 +31,10 @@ import type { TenantPaymentMethods } from "@lib/tenant/payment-methods"
  *    checkout's payment step is no reading of a key: only `t("…")` is.
  * 3. A server reader (`getTranslations`) is never affected: it reads the catalogue of the
  *    request, not this copy.
+ * 4. One row cuts a BRANCH of a message, not a key (`selectBranch`, part A6b): the sentence
+ *    about where paying leads is one `select` over the kinds of redirect, and the branch for
+ *    a wallet in a network goes for a shop that set no such redirect. The key stays, and so
+ *    does `other {}`, which is what the message answers for a kind it has no branch for.
  *
  * A section with no row here is handed over whole. Moving every page to its own set of
  * sections is a different, larger change and is not made here.
@@ -57,6 +62,12 @@ export type ClientMessageFacts = {
   analytics: boolean
   /** The starter's onboarding cookie is set, the one thing that mounts `OnboardingCta`. */
   onboarding: boolean
+  /**
+   * An entry of the shop's pre-payment notice sends the buyer to a wallet in a network:
+   * `redirect_kind: "crypto_network"` in `payment_pre_notice` of `/storefront/by-host`, the
+   * owner's own setting per payment method («Настройки → Оплата»).
+   */
+  cryptoNetworkRedirect: boolean
 }
 
 /** The facts out of what the request already carries; no backend call is made for them. */
@@ -66,6 +77,7 @@ export const clientMessageFacts = (input: {
   manualPayment: Pick<TenantManualPayment, "enabled">
   analytics: { yandexMetricaId: string | null; ga4MeasurementId: string | null }
   onboarding: boolean
+  paymentPreNotice: TenantPaymentPreNotice
 }): ClientMessageFacts => {
   const methods = input.paymentMethods
   // Both readings of «the shop takes a transfer»: the backend's (`manualCrypto`,
@@ -88,6 +100,11 @@ export const clientMessageFacts = (input: {
     demoCard: systemDefault && !input.manualPayment.enabled,
     analytics: Boolean(input.analytics.yandexMetricaId || input.analytics.ga4MeasurementId),
     onboarding: input.onboarding,
+    // Any method's entry, not the picked one: the page's dictionary is prepared before the
+    // buyer picks a method.
+    cryptoNetworkRedirect: Object.values(input.paymentPreNotice).some(
+      (entry) => entry.redirectKind === "crypto_network"
+    ),
   }
 }
 
@@ -95,6 +112,11 @@ export type ClientMessageRule = {
   section: string
   /** The keys of the section this row speaks for; `"*"` is every key of it. */
   keys: readonly string[] | "*"
+  /**
+   * Set when the row cuts one branch of the keys' `select` message and leaves the keys
+   * themselves (`withoutSelectBranch`).
+   */
+  selectBranch?: string
   /** When the strings stay, in words. */
   condition: string
   /** Why they can go otherwise: who reads them and when that reader renders. */
@@ -185,6 +207,24 @@ export const CLIENT_MESSAGE_RULES: readonly ClientMessageRule[] = [
     keep: (facts) => facts.x402,
   },
   {
+    section: "CheckoutPage",
+    keys: ["paymentPendingCryptoText", "paymentExpiredCryptoHeading", "paymentExpiredCryptoText"],
+    condition: "the shop's BTCPay Server store or its Bitcart store is on",
+    reason:
+      "what a buyer back from an invoice of BTCPay or Bitcart is told. The one reader, `RobokassaRetryNotice`, takes this wording only for a cart that holds a session of one of the two (`btcpayReturnState`, `bitcartReturnState`); x402 and «Перевод по реквизитам» never reach it. A cart can keep such a session after the shop switched the gateway off, so the reader asks `t.has` first and gives that buyer the general «being confirmed» notice.",
+    keep: (facts) => facts.btcpay || facts.bitcart,
+  },
+  {
+    section: "PaymentPreNotice",
+    keys: ["redirect"],
+    selectBranch: "crypto_network",
+    condition:
+      "an entry of the shop's pre-payment notice has the redirect kind `crypto_network` (`payment_pre_notice` of the shop's data)",
+    reason:
+      "the sentence «you will send the transfer to a wallet in the … network». `PaymentPreNotice` formats `redirect` with the kind of the picked method's entry, and the kind comes from the shop's own `payment_pre_notice` alone. Without the branch the message answers that kind with `other {}`, an empty sentence the reader drops, so nothing breaks while the shop's data is a minute old.",
+    keep: (facts) => facts.cryptoNetworkRedirect,
+  },
+  {
     section: "Errors",
     keys: ["x402WalletMissing", "x402WalletRejected", "x402NetworkFailed", "x402PaymentRefused"],
     condition: "the shop's x402 is on",
@@ -236,6 +276,67 @@ export const CLIENT_MESSAGE_RULES: readonly ClientMessageRule[] = [
 const isSection = (value: AbstractIntlMessages[string] | undefined): value is AbstractIntlMessages =>
   typeof value === "object" && value !== null && !Array.isArray(value)
 
+/** What an apostrophe has to stand before to open quoted text in an ICU message. */
+const ICU_QUOTABLE = ["{", "}", "<", ">"]
+
+/**
+ * An ICU `select` message without one of its branches:
+ * `{kind, select, a {…} crypto_network {… {value}.} b {…} other {}}` without `crypto_network`
+ * is `{kind, select, a {…} b {…} other {}}`.
+ *
+ * The branch is found by its name where an option starts (white space, the name, a brace),
+ * and its end by counting braces. ICU's quoting is honoured: an apostrophe quotes only when
+ * a brace or a tag bracket follows it, and `''` is an apostrophe («l'importo» quotes
+ * nothing). A message that has no such branch, or whose braces do not close, comes back as
+ * it was: the function never hands over a broken message.
+ */
+export const withoutSelectBranch = (message: string, branch: string): string => {
+  let depth = 0
+  let quoted = false
+  // Where the cut begins (the white space before the branch's name) and the depth it sits at.
+  let start = -1
+  let startDepth = 0
+
+  for (let index = 0; index < message.length; index++) {
+    const char = message[index]
+
+    if (char === "'") {
+      if (message[index + 1] === "'") {
+        index++
+      } else if (quoted) {
+        quoted = false
+      } else if (ICU_QUOTABLE.includes(message[index + 1])) {
+        quoted = true
+      }
+      continue
+    }
+    if (quoted) {
+      continue
+    }
+
+    if (char === "{") {
+      depth++
+    } else if (char === "}") {
+      depth--
+      if (start !== -1 && depth === startDepth) {
+        return message.slice(0, start) + message.slice(index + 1)
+      }
+    } else if (start === -1 && depth > 0 && /\s/.test(char)) {
+      const name = message.slice(index).trimStart()
+      const body = name.slice(branch.length).trimStart()
+
+      if (name.startsWith(branch) && body.startsWith("{")) {
+        start = index
+        startDepth = depth
+        // On to the branch's own brace, which the next turn of the loop counts.
+        index = message.length - body.length - 1
+      }
+    }
+  }
+
+  return message
+}
+
 export function clientMessages(
   messages: AbstractIntlMessages,
   facts: ClientMessageFacts
@@ -254,6 +355,20 @@ export function clientMessages(
     }
 
     const keys = rule.keys
+    const branch = rule.selectBranch
+
+    if (branch !== undefined) {
+      cut[rule.section] = Object.fromEntries(
+        Object.entries(section).map(([key, value]): [string, AbstractIntlMessages[string]] => [
+          key,
+          typeof value === "string" && (keys === "*" || keys.includes(key))
+            ? withoutSelectBranch(value, branch)
+            : value,
+        ])
+      )
+      continue
+    }
+
     cut[rule.section] =
       keys === "*"
         ? {}

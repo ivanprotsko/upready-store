@@ -1,11 +1,17 @@
 import { readdirSync, readFileSync } from "node:fs"
 import path from "node:path"
-import type { AbstractIntlMessages } from "next-intl"
+import { createTranslator, type AbstractIntlMessages } from "next-intl"
 import { describe, expect, it } from "vitest"
 
 import { EMPTY_MANUAL_PAYMENT } from "../tenant/manual-payment"
 import { EMPTY_TENANT_PAYMENT_METHODS } from "../tenant/payment-methods"
-import { CLIENT_MESSAGE_RULES, clientMessageFacts, clientMessages } from "./client-messages"
+import {
+  CLIENT_MESSAGE_RULES,
+  clientMessageFacts,
+  clientMessages,
+  withoutSelectBranch,
+} from "./client-messages"
+import { EMPTY_PAYMENT_PRE_NOTICE, EMPTY_PRE_NOTICE_ENTRY } from "./payment-pre-notice"
 
 /**
  * t-2026-10-08-13, part A6. The page code of a shop that takes Robokassa alone carried the
@@ -49,6 +55,7 @@ const ROBOKASSA_ONLY = clientMessageFacts({
   manualPayment: EMPTY_MANUAL_PAYMENT,
   analytics: NO_ANALYTICS,
   onboarding: false,
+  paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
 })
 
 /** A shop of the international server: three cryptocurrency gateways, a transfer by requisites, a counter. */
@@ -66,6 +73,11 @@ const TAKES_CRYPTO = clientMessageFacts({
   manualPayment: { ...EMPTY_MANUAL_PAYMENT, enabled: true },
   analytics: { yandexMetricaId: "12345678", ga4MeasurementId: null },
   onboarding: false,
+  // Its transfer by requisites goes to a wallet, and the owner said so in the notice.
+  paymentPreNotice: {
+    ...EMPTY_PAYMENT_PRE_NOTICE,
+    manual: { ...EMPTY_PRE_NOTICE_ENTRY, redirectKind: "crypto_network", redirectValue: "TRC20" },
+  },
 })
 
 /** A shop that connected nothing: the demo card is its only way to pay. */
@@ -75,6 +87,7 @@ const DEMO_ONLY = clientMessageFacts({
   manualPayment: EMPTY_MANUAL_PAYMENT,
   analytics: NO_ANALYTICS,
   onboarding: false,
+  paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
 })
 
 /** The store lead's acceptance list for the page code of a shop that takes Robokassa alone. */
@@ -143,7 +156,8 @@ describe("clientMessages: a shop that takes Robokassa alone", () => {
       robokassaHalva: "Карта Халва",
       robokassaSbp: "СБП",
     })
-    expect(cut.PaymentPreNotice).toBe(ru.PaymentPreNotice)
+    // Part A6b: every key of the section stays; its sentence about a redirect loses one branch.
+    expect(Object.keys(cut.PaymentPreNotice)).toEqual(Object.keys(ru.PaymentPreNotice))
     expect(cut.PaymentButton).toBe(ru.PaymentButton)
     expect(cut.Cart).toBe(ru.Cart)
     expect(Object.keys(cut.PromoBanner)).toEqual(["close"])
@@ -223,6 +237,7 @@ describe("clientMessageFacts", () => {
       onboarding: false,
       paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false },
       manualPayment: EMPTY_MANUAL_PAYMENT,
+      paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
     }
 
     expect(clientMessageFacts(base)).toMatchObject({
@@ -249,6 +264,7 @@ describe("clientMessageFacts", () => {
       onboarding: false,
       paymentMethods: EMPTY_TENANT_PAYMENT_METHODS,
       manualPayment: EMPTY_MANUAL_PAYMENT,
+      paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
     }
 
     expect(clientMessageFacts({ ...base, analytics: NO_ANALYTICS }).analytics).toBe(false)
@@ -272,6 +288,7 @@ describe("CLIENT_MESSAGE_RULES: the table is the whole of the decision", () => {
     demoCard: false,
     analytics: false,
     onboarding: false,
+    cryptoNetworkRedirect: false,
   }
 
   it("names a condition and a reason for every row", () => {
@@ -364,5 +381,231 @@ describe("CLIENT_MESSAGE_RULES: the table is the whole of the decision", () => {
         ).toBe(false)
       }
     }
+  })
+})
+
+/**
+ * t-2026-10-08-13, part A6b. After part A6 four places still carried cryptocurrency into the
+ * page code of a shop that takes Robokassa alone: one branch of the sentence about where
+ * paying leads («…на кошелёк в сети…», the branch `crypto_network`), and the NAMES of three
+ * keys of the notice for a buyer back from an invoice of BTCPay or Bitcart.
+ */
+const LOCALES = readdirSync(MESSAGES_DIR)
+  .filter((name) => name.endsWith(".json"))
+  .map((name) => name.slice(0, -".json".length))
+  .sort()
+
+const CRYPTO_INVOICE_KEYS = [
+  "paymentPendingCryptoText",
+  "paymentExpiredCryptoHeading",
+  "paymentExpiredCryptoText",
+]
+
+/** The kinds of redirect that stay, with a value each sentence has to carry. */
+const REDIRECTS = {
+  domain: "pay.example.com",
+  telegram_bot: "@acme_pay_bot",
+  bank: "Example Bank",
+}
+
+const sectionOf = (messages: AbstractIntlMessages, name: string): AbstractIntlMessages => {
+  const section = messages[name]
+
+  return typeof section === "object" ? section : {}
+}
+
+describe("clientMessages: no cryptocurrency in the dictionary of a shop with Robokassa alone (part A6b)", () => {
+  it("has every catalogue of the storefront to check", () => {
+    expect(LOCALES.length).toBeGreaterThanOrEqual(36)
+  })
+
+  it("names no «crypto» and no «кошел» in keys or in texts, in any letter case", () => {
+    const whole = JSON.stringify(ru).toLowerCase()
+    const cut = JSON.stringify(clientMessages(ru, ROBOKASSA_ONLY)).toLowerCase()
+
+    // The whole catalogue does carry both, so the check is not empty.
+    expect(whole).toContain("crypto")
+    expect(whole).toContain("кошел")
+    expect(cut).not.toContain("crypto")
+    expect(cut).not.toContain("кошел")
+  })
+
+  it.each(LOCALES)("%s: no «crypto» in any key or text", (locale) => {
+    expect(JSON.stringify(clientMessages(catalogue(locale), ROBOKASSA_ONLY)).toLowerCase()).not.toContain(
+      "crypto"
+    )
+  })
+
+  it.each(LOCALES)("%s: the redirect sentence loses one branch and formats as before", (locale) => {
+    const whole = catalogue(locale)
+    const cut = clientMessages(whole, ROBOKASSA_ONLY)
+    const errors: string[] = []
+    // Through JSON, as the dictionary reaches the browser; it also leaves the translator
+    // untyped, the way a parsed catalogue is in `payment-pre-notice/messages.test.ts`.
+    const translator = (messages: AbstractIntlMessages) =>
+      createTranslator({
+        locale,
+        messages: JSON.parse(JSON.stringify(messages)),
+        namespace: "PaymentPreNotice",
+        onError: (error) => errors.push(`${error.code}: ${error.message}`),
+      })
+    const before = translator(whole)
+    const after = translator(cut)
+
+    expect(sectionOf(whole, "PaymentPreNotice").redirect).toContain("crypto_network")
+    expect(sectionOf(cut, "PaymentPreNotice").redirect).not.toContain("crypto_network")
+
+    for (const [kind, value] of Object.entries(REDIRECTS)) {
+      const sentence = after("redirect", { kind, value })
+
+      expect(sentence, kind).toBe(before("redirect", { kind, value }))
+      expect(sentence, kind).toContain(value)
+    }
+    // A kind the message has no branch for is an empty sentence, which the reader drops.
+    expect(before("redirect", { kind: "crypto_network", value: "TRC20" })).toContain("TRC20")
+    expect(after("redirect", { kind: "crypto_network", value: "TRC20" })).toBe("")
+    expect(after("redirect", { kind: "other", value: "unused" })).toBe("")
+    // The branch is all that left the section.
+    expect({
+      ...sectionOf(cut, "PaymentPreNotice"),
+      redirect: sectionOf(whole, "PaymentPreNotice").redirect,
+    }).toEqual(whole.PaymentPreNotice)
+    expect(errors).toEqual([])
+  })
+
+  it.each(LOCALES)("%s: a shop whose notice names a wallet in a network gets the message as it was", (locale) => {
+    const whole = catalogue(locale)
+
+    expect(clientMessages(whole, TAKES_CRYPTO).PaymentPreNotice).toBe(whole.PaymentPreNotice)
+    expect(clientMessages(whole, { ...ROBOKASSA_ONLY, cryptoNetworkRedirect: true }).PaymentPreNotice).toBe(
+      whole.PaymentPreNotice
+    )
+  })
+
+  it("the three keys of the invoice notice stay for BTCPay or Bitcart and for nothing else", () => {
+    const keysOf = (facts: typeof ROBOKASSA_ONLY) => Object.keys(sectionOf(clientMessages(ru, facts), "CheckoutPage"))
+
+    for (const key of CRYPTO_INVOICE_KEYS) {
+      expect(sectionOf(ru, "CheckoutPage"), key).toHaveProperty([key])
+      expect(keysOf(ROBOKASSA_ONLY), key).not.toContain(key)
+      expect(keysOf({ ...ROBOKASSA_ONLY, btcpay: true }), key).toContain(key)
+      expect(keysOf({ ...ROBOKASSA_ONLY, bitcart: true }), key).toContain(key)
+      // x402 and «Перевод по реквизитам» never reach that notice.
+      expect(keysOf({ ...ROBOKASSA_ONLY, x402: true }), key).not.toContain(key)
+      expect(keysOf({ ...ROBOKASSA_ONLY, manualPayment: true, systemDefault: true }), key).not.toContain(key)
+    }
+    expect(sectionOf(clientMessages(ru, TAKES_CRYPTO), "CheckoutPage")).toMatchObject(
+      Object.fromEntries(CRYPTO_INVOICE_KEYS.map((key) => [key, sectionOf(ru, "CheckoutPage")[key]]))
+    )
+  })
+
+  it("keeps the notice every gateway shares", () => {
+    expect(sectionOf(clientMessages(ru, ROBOKASSA_ONLY), "CheckoutPage")).toMatchObject({
+      paymentPendingHeading: "Оплата подтверждается",
+      paymentPendingText: sectionOf(ru, "CheckoutPage").paymentPendingText,
+      paymentPendingAction: "Проверить ещё раз",
+      paymentInterruptedAction: sectionOf(ru, "CheckoutPage").paymentInterruptedAction,
+    })
+  })
+})
+
+describe("clientMessageFacts: the redirect to a wallet in a network", () => {
+  const input = {
+    shop: true,
+    paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false },
+    manualPayment: EMPTY_MANUAL_PAYMENT,
+    analytics: NO_ANALYTICS,
+    onboarding: false,
+  }
+  const withRedirect = (redirectKind: "domain" | "telegram_bot" | "crypto_network" | "bank") =>
+    clientMessageFacts({
+      ...input,
+      paymentPreNotice: {
+        ...EMPTY_PAYMENT_PRE_NOTICE,
+        manual: { ...EMPTY_PRE_NOTICE_ENTRY, redirectKind, redirectValue: "value" },
+      },
+    })
+
+  it("is read from the shop's own pre-payment notice, any method's entry", () => {
+    expect(withRedirect("crypto_network").cryptoNetworkRedirect).toBe(true)
+    expect(
+      clientMessageFacts({
+        ...input,
+        paymentPreNotice: {
+          ...EMPTY_PAYMENT_PRE_NOTICE,
+          robokassa: { ...EMPTY_PRE_NOTICE_ENTRY, redirectKind: "crypto_network" },
+        },
+      }).cryptoNetworkRedirect
+    ).toBe(true)
+  })
+
+  it("is off for a shop with no notice and for every other kind of redirect", () => {
+    expect(clientMessageFacts({ ...input, paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE }).cryptoNetworkRedirect).toBe(
+      false
+    )
+    for (const kind of ["domain", "telegram_bot", "bank"] as const) {
+      expect(withRedirect(kind).cryptoNetworkRedirect, kind).toBe(false)
+    }
+  })
+
+  it("a gateway alone does not keep the branch: the kind is the owner's setting", () => {
+    expect(
+      clientMessageFacts({
+        ...input,
+        paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, btcpay: true, bitcart: true, demo: false },
+        paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
+      }).cryptoNetworkRedirect
+    ).toBe(false)
+  })
+})
+
+describe("withoutSelectBranch", () => {
+  const message = "{kind, select, domain {Go to {value}.} crypto_network {Send to a wallet on {value}.} bank {Via {value}.} other {}}"
+
+  it("cuts the branch with the white space before it and nothing else", () => {
+    expect(withoutSelectBranch(message, "crypto_network")).toBe(
+      "{kind, select, domain {Go to {value}.} bank {Via {value}.} other {}}"
+    )
+  })
+
+  it("cuts the first and the last branch as well", () => {
+    expect(withoutSelectBranch(message, "domain")).toBe(
+      "{kind, select, crypto_network {Send to a wallet on {value}.} bank {Via {value}.} other {}}"
+    )
+    expect(withoutSelectBranch("{kind, select, a {x} b {y}}", "b")).toBe("{kind, select, a {x}}")
+  })
+
+  it("returns a message without the branch as it was", () => {
+    expect(withoutSelectBranch(message, "telegram_bot")).toBe(message)
+    expect(withoutSelectBranch("Plain words about crypto_network.", "crypto_network")).toBe(
+      "Plain words about crypto_network."
+    )
+  })
+
+  it("does not take a longer name or the word in a sentence for the branch", () => {
+    const longer = "{kind, select, crypto_network_v2 {x} other {the crypto_network {value}}}"
+
+    expect(withoutSelectBranch(longer, "crypto_network")).toBe(
+      "{kind, select, crypto_network_v2 {x} other {the}}"
+    )
+    expect(withoutSelectBranch("{kind, select, crypto_network_v2 {x} other {}}", "crypto_network")).toBe(
+      "{kind, select, crypto_network_v2 {x} other {}}"
+    )
+  })
+
+  it("counts braces the way ICU does: an apostrophe quotes only before a brace", () => {
+    // «l'importo» quotes nothing; `'{'` and `'}'` are text, not structure; `''` is an apostrophe.
+    const quoted =
+      "{kind, select, a {l'importo {value}} crypto_network {it''s '{' not a brace '}' {value}} b {dell'ordine} other {}}"
+
+    expect(withoutSelectBranch(quoted, "crypto_network")).toBe(
+      "{kind, select, a {l'importo {value}} b {dell'ordine} other {}}"
+    )
+  })
+
+  it("never hands over a message it could not cut cleanly", () => {
+    const open = "{kind, select, a {x} crypto_network {never closed other {}"
+
+    expect(withoutSelectBranch(open, "crypto_network")).toBe(open)
   })
 })
