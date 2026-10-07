@@ -2,6 +2,8 @@ import { MetadataRoute } from "next"
 import { sdk, fetchWithoutLocale } from "@lib/config"
 import { listTenantArticles } from "@lib/data/tenant-articles"
 import { getRequestBaseURL, getTenantHandle, getEnabledLocales } from "@lib/data/cookies"
+import { withoutCategoriesOffTheMenu } from "@lib/data/categories"
+import type { HttpTypes } from "@medusajs/types"
 import { locales, defaultLocale } from "@i18n/config"
 import { shopLocales } from "@lib/util/shop-locales"
 
@@ -96,15 +98,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // tenant-scoped read (`/store/tenant/product-categories`, wired through
     // the tenant-product-category link) is what keeps two tenants' sitemaps
     // disjoint (t11-seo-redirects step 3).
+    //
+    // Only a category the menu shows (t-2026-10-08-13, part A7): the menu
+    // leaves out a category with no card a buyer can open, and the sitemap
+    // listed it all the same, 10 addresses against the menu's 9 on a live
+    // shop. `id` and `*category_children` are what that rule reads.
     const { product_categories } = await sdk.client.fetch<{
-      product_categories: Array<{ handle?: string; updated_at?: string }>
+      product_categories: HttpTypes.StoreProductCategory[]
     }>("/store/tenant/product-categories", {
-      query: { fields: "handle,updated_at", limit: 500 },
+      query: { fields: "id,handle,updated_at,*category_children", limit: 500 },
       next: { tags: ["categories"] },
       cache: "force-cache",
     })
 
-    for (const category of product_categories) {
+    for (const category of await withoutCategoriesOffTheMenu(product_categories)) {
       if (!category.handle) continue
       for (const locale of sitemapLocales) {
         entries.push({
