@@ -34,6 +34,13 @@ export type TenantAdmin = {
    * the same way it does for the Admin's own users.
    */
   avatar_url?: string | null
+  /**
+   * t-2026-10-07-11: the login's role in this shop and what it may open. The
+   * panel reads `permissions` and nothing else to decide what to draw
+   * (`lib/permissions.ts`); a server without roles sends neither field.
+   */
+  role?: string
+  permissions?: string[]
   tenant: {
     id: string
     handle: string
@@ -64,6 +71,21 @@ const usersQueryKeys = {
   me: () => [USERS_QUERY_KEY, "me"].filter((k) => !!k),
 }
 
+/**
+ * The «who am I» read as query options, so the route guard asks for the same
+ * cached answer `useMe` renders from (`lib/caller-may-open.ts`).
+ */
+export const meQueryOptions = () => ({
+  queryFn: async (): Promise<TenantMeResponse> => {
+    const { tenant_admin } = await sdk.client.fetch<{
+      tenant_admin: TenantAdmin
+    }>("/tenants/me")
+
+    return { user: tenant_admin }
+  },
+  queryKey: usersQueryKeys.me(),
+})
+
 export const useMe = (
   options?: Omit<
     UseQueryOptions<TenantMeResponse, FetchError, TenantMeResponse, QueryKey>,
@@ -71,14 +93,7 @@ export const useMe = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => {
-      const { tenant_admin } = await sdk.client.fetch<{
-        tenant_admin: TenantAdmin
-      }>("/tenants/me")
-
-      return { user: tenant_admin }
-    },
-    queryKey: usersQueryKeys.me(),
+    ...meQueryOptions(),
     ...options,
   })
 

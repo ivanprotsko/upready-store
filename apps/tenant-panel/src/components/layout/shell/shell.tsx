@@ -6,7 +6,6 @@ import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import {
   Link,
-  Outlet,
   UIMatch,
   useLocation,
   useMatches,
@@ -19,7 +18,9 @@ import { useShopUrl } from "../../../hooks/use-shop-url"
 import { CommandMenuProvider } from "../../../providers/command-menu-provider"
 import { KeybindProvider } from "../../../providers/keybind-provider"
 import { useGlobalShortcuts } from "../../../providers/keybind-provider/hooks"
+import { usePermissions } from "../../../hooks/use-permissions"
 import { useSidebar } from "../../../providers/sidebar-provider"
+import { PermissionOutlet } from "../../authentication/permission-outlet"
 import { CommandMenuTopbarButton } from "../../command-menu"
 import { ProgressBar } from "../../common/progress-bar"
 import { SectionTabs, findActive } from "../owner-nav"
@@ -65,7 +66,9 @@ export const Shell = ({ children }: PropsWithChildren) => {
             >
               <Gutter>
                 <SectionTabs />
-                <Outlet />
+                {/* t-2026-10-07-11: «Нет доступа» instead of a screen the
+                    login's role does not open. */}
+                <PermissionOutlet />
               </Gutter>
             </main>
           </div>
@@ -114,12 +117,20 @@ const Gutter = ({ children }: PropsWithChildren) => {
 }
 
 const Breadcrumbs = () => {
+  const { pathname } = useLocation()
+  const { allowed } = usePermissions()
   const matches = useMatches() as unknown as UIMatch<
     unknown,
     {
       breadcrumb?: (match?: UIMatch) => string | ReactNode
     }
   >[]
+
+  // t-2026-10-07-11: a crumb of a detail screen reads its record from the
+  // server («Заказ #1024»), so a closed address draws no crumbs at all.
+  if (!allowed(pathname)) {
+    return null
+  }
 
   const crumbs = matches
     .filter((match) => match.handle?.breadcrumb)

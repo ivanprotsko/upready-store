@@ -3,6 +3,7 @@ import {
   OWNER_NAV,
   type OwnerNavGroup,
 } from "../components/layout/owner-nav/nav-model.ts"
+import { pathAllowed, type Permission } from "./permissions.ts"
 
 /**
  * The command menu's data and matching (ask-20261005-112844-10ba), kept free of
@@ -89,6 +90,13 @@ export const COMMAND_MENU_ACTIONS: CommandMenuAction[] = [
   { id: "action:toggle-theme", labelKey: "app.commandMenu.actions.toggleTheme", run: "toggleTheme" },
   { id: "action:logout", labelKey: "app.commandMenu.actions.logout", run: "logout" },
 ]
+
+/**
+ * The actions a login may start (t-2026-10-07-11): one that opens a screen
+ * needs that screen's permission, one that runs a command is open to all.
+ */
+export const commandMenuActions = (permissions: readonly Permission[]): CommandMenuAction[] =>
+  COMMAND_MENU_ACTIONS.filter((action) => !action.to || pathAllowed(permissions, action.to))
 
 /**
  * ⌘K on a Mac, Ctrl+K elsewhere. The physical key is read (`code`), not the
