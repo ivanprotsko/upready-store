@@ -337,7 +337,8 @@ export const decideAccess = (role: TenantAdminRole, method: string, path: string
     return role === "owner" ? { allowed: true } : { allowed: false, permission: null };
   }
 
-  if (access === "any" || ROLE_PERMISSIONS[role].includes(access)) {
+  // A role this table does not know has no permissions, rather than a crash.
+  if (access === "any" || (ROLE_PERMISSIONS[role] ?? []).includes(access)) {
     return { allowed: true };
   }
 
