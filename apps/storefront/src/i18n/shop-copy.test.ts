@@ -72,7 +72,12 @@ describe("every catalog", () => {
 
 describe("the pages that use these rules", () => {
   it("the home page takes its description from homeDescription", () => {
-    expect(source("app/[locale]/(main)/page.tsx")).toContain("description: homeDescription(")
+    const page = source("app/[locale]/(main)/page.tsx")
+
+    expect(page).toContain("description: homeDescription(")
+    // One rule for the page and for its description: both read the order and the hero from it.
+    expect(page).toContain("homeBlockOrder(savedOrder, olavka)")
+    expect(page).toContain("heroIsDrawn({ olavka, hero, savedOrder })")
   })
 
   it("the account layout takes its text and link from accountSupport", () => {

@@ -17,8 +17,8 @@ import {
 import type { HomeHeroProps } from "@modules/home/variants/types"
 import { buildAlternates } from "@lib/util/alternates"
 import { isOlavkaShop } from "@lib/data/olavka-shop"
-import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
-import { homeDescription } from "@lib/util/home-description"
+import { getEffectiveSettings, getTenantHome, type TenantHome } from "@lib/data/tenant-home"
+import { heroIsDrawn, homeBlockOrder, homeDescription } from "@lib/util/home-description"
 import { localizedHero } from "@lib/util/localized-hero"
 import { getTranslations, getLocale } from "next-intl/server"
 import { getSiteName } from "@lib/data/cookies"
@@ -91,16 +91,31 @@ async function tilesForThisShop(): Promise<readonly ProfileCategoryTile[]> {
   }
 }
 
+/** The block order the shop saved, or the default one for a shop that saved none. */
+const savedBlockOrder = (home: TenantHome | null): readonly HomeBlockKey[] =>
+  home?.content.order?.length ? home.content.order : DEFAULT_BLOCK_ORDER
+
 export async function generateMetadata(): Promise<Metadata> {
-  const [t, locale, siteName, home] = await Promise.all([
+  const [t, locale, siteName, settings, home, olavka] = await Promise.all([
     getTranslations("Metadata.home"),
     getLocale(),
     getSiteName(),
+    getEffectiveSettings(),
     getTenantHome(),
+    isOlavkaShop(),
   ])
   return {
     title: siteName,
-    description: homeDescription(localizedHero(home?.content.hero, locale)?.subtitle, t("description")),
+    // The hero's text only when the page below draws the hero: `heroIsDrawn` is the
+    // same rule `Home` renders by, so a shop that switched the block off does not get
+    // its text back in a search result.
+    description: homeDescription({
+      olavka,
+      hero: settings?.hero ?? DEFAULT_HERO,
+      savedOrder: savedBlockOrder(home),
+      subtitle: localizedHero(home?.content.hero, locale)?.subtitle,
+      neutral: t("description"),
+    }),
     alternates: await buildAlternates(locale, "/"),
   }
 }
@@ -168,19 +183,15 @@ export default async function Home() {
       }
     : {}
 
-  const savedOrder: readonly HomeBlockKey[] = home?.content.order?.length
-    ? home.content.order
-    : DEFAULT_BLOCK_ORDER
+  const savedOrder = savedBlockOrder(home)
   // The Olavka shop's own blocks above take the hero's place, so the composed hero is
   // skipped for it — Ivan saw three heroes on one page otherwise (2026-09-24). Tiles and
   // listing keep rendering below the new blocks. Every other shop gets the saved order,
-  // untouched.
-  const order: readonly HomeBlockKey[] = olavka
-    ? savedOrder.filter((block) => block !== "hero")
-    : savedOrder
+  // untouched. The rule lives in `homeBlockOrder`, which `generateMetadata` reads too.
+  const order = homeBlockOrder(savedOrder, olavka)
 
   const blocks: Record<HomeBlockKey, React.ReactNode> = {
-    hero: Hero ? <Hero {...heroProps} /> : null,
+    hero: Hero && heroIsDrawn({ olavka, hero, savedOrder }) ? <Hero {...heroProps} /> : null,
     categories:
       tiles === "on" ? <CategoryTiles heading={t("title")} tiles={tileList} /> : null,
     products: Listing ? (
