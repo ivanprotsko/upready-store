@@ -1,4 +1,5 @@
 import { PERMISSIONS, STAFF_ROLES, isStaffRole, type Permission, type StaffRole } from "./permissions.ts"
+import { staffRefusalKey } from "./staff-refusals.ts"
 
 /**
  * The staff screen's data rules (t-2026-10-07-11), free of React so
@@ -159,12 +160,21 @@ export const staffRowActions = (member: Pick<StaffMember, "is_self">) => ({
   canChangeRole: !member.is_self,
 })
 
-/** The server's own words for a refusal, the general text only when it sent none. */
-export const staffErrorText = (error: unknown, fallback: string): string => {
+/**
+ * What the owner reads when the server refuses. A refusal the table knows
+ * (`lib/staff-refusals.ts`) is said in the panel's language; any other is
+ * shown in the server's own words, and the general text only when it sent none.
+ */
+export const staffErrorText = (
+  error: unknown,
+  fallback: string,
+  translate?: (key: string) => string
+): string => {
   if (error && typeof error === "object" && "message" in error) {
     const message = error.message
     if (typeof message === "string" && message.trim()) {
-      return message
+      const key = staffRefusalKey(message)
+      return key && translate ? translate(key) : message
     }
   }
   return fallback

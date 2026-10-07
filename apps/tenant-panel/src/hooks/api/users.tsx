@@ -10,6 +10,7 @@ import { HttpTypes } from "@medusajs/types"
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
+import { ME_QUERY_KEY } from "../../lib/stale-role"
 
 // tenant-panel: tenant equivalent of the Admin's hooks/api/users.tsx. The
 // Admin's `useMe` calls `GET /admin/users/me`, which already returns
@@ -68,7 +69,8 @@ export type TenantMeResponse = { user: TenantAdmin }
 const USERS_QUERY_KEY = "users" as const
 const usersQueryKeys = {
   ...queryKeysFactory(USERS_QUERY_KEY),
-  me: () => [USERS_QUERY_KEY, "me"].filter((k) => !!k),
+  // One key for the hook, the route guard and the reset on a 403 (`lib/stale-role.ts`).
+  me: () => [...ME_QUERY_KEY],
 }
 
 /**

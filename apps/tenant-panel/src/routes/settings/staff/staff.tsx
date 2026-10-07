@@ -63,8 +63,9 @@ export const Staff = () => {
     }
     await remove(member.id, {
       onSuccess: () => toast.success(t("staff.delete.success")),
-      // The server owns the refusal (the last owner) and its text is what she reads.
-      onError: (deleteError) => toast.error(staffErrorText(deleteError, t("staff.errors.general"))),
+      // The server owns the refusal (the last owner); she reads it in her language.
+      onError: (deleteError) =>
+        toast.error(staffErrorText(deleteError, t("staff.errors.general"), (key) => t(key))),
     }).catch(() => undefined)
   }
 

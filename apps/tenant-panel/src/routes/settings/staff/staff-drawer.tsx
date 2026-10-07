@@ -81,7 +81,7 @@ export const StaffDrawer = ({ member, roles, onClose }: StaffDrawerProps) => {
       }
       onClose()
     } catch (submitError) {
-      setError(staffErrorText(submitError, t("staff.errors.general")))
+      setError(staffErrorText(submitError, t("staff.errors.general"), (key) => t(key)))
     }
   }
 

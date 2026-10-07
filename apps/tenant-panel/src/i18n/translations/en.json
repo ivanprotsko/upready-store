@@ -5922,6 +5922,15 @@
       "passwordTooShort": "The password must be at least 12 characters.",
       "nothingChanged": "Change at least one field.",
       "general": "Could not save. Try again."
+    },
+    "refusals": {
+      "email_taken_in_shop": "A login with this email already exists in this shop. Use another email.",
+      "email_has_account": "This email already has an account on the platform, so you cannot set a password for it here. Use another email, or ask platform support to attach the account to this shop.",
+      "own_role": "You cannot change your own role. Ask another owner of the shop.",
+      "own_login": "You cannot remove your own login. Ask another owner of the shop.",
+      "last_owner_remove": "This is the last owner of the shop, so you cannot remove it. Make another login an owner first.",
+      "last_owner_demote": "This is the last owner of the shop, so you cannot change its role. Make another login an owner first.",
+      "password_shared": "This login is also used outside this shop, so you cannot change its password here. Ask the person to change it in their profile or through the reset link on the login page."
     }
   }
 }
