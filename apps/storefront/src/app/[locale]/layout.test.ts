@@ -22,6 +22,8 @@ vi.mock("@lib/data/cookies", () => ({
   getSiteName: async () => "Shop",
   getTenantHandle: async () => "acme",
 }))
+// Part A6 made the layout hand the browser a dictionary of its own; its reader is server-only.
+vi.mock("@lib/data/client-messages", () => ({ getClientMessages: async () => ({}) }))
 vi.mock("@lib/tenant/social-card", () => ({ buildSocialImageMetadata: () => ({}) }))
 vi.mock("@lib/util/json-ld", () => ({ buildSiteJsonLd: async () => ({}) }))
 vi.mock("@lib/cart-store", () => ({ CartQueueProvider: () => null }))
