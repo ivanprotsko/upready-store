@@ -7,6 +7,10 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { describe, expect, it, vi } from "vitest"
 
 import RobokassaRetryNotice from "."
+import { EMPTY_MANUAL_PAYMENT } from "@lib/tenant/manual-payment"
+import { EMPTY_TENANT_PAYMENT_METHODS } from "@lib/tenant/payment-methods"
+import { clientMessageFacts, clientMessages } from "@lib/util/client-messages"
+import { EMPTY_PAYMENT_PRE_NOTICE } from "@lib/util/payment-pre-notice"
 import type { PaymentReturnNotice } from "@lib/util/robokassa-return"
 
 /**
@@ -161,5 +165,60 @@ describe("RobokassaRetryNotice for a buyer back from Bitcart", () => {
     )
     expect(partial).toContain('data-testid="payment-pending-notice"')
     expect(partial).not.toContain("pay again to get a new invoice")
+  })
+})
+
+/**
+ * t-2026-10-08-13, part A6b. The browser of a shop without BTCPay and Bitcart gets a
+ * dictionary without the three keys of the invoice wording (`lib/util/client-messages.ts`).
+ * A cart can still hold an invoice session from the time the shop had the gateway: the
+ * notice must not print the name of a key then.
+ */
+describe("RobokassaRetryNotice with the dictionary of a shop that takes Robokassa alone", () => {
+  const dictionary = clientMessages(
+    messages("ru"),
+    clientMessageFacts({
+      shop: true,
+      paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false },
+      manualPayment: EMPTY_MANUAL_PAYMENT,
+      analytics: { yandexMetricaId: null, ga4MeasurementId: null },
+      onboarding: false,
+      paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
+    })
+  )
+  const renderCut = (notice: PaymentReturnNotice | null, forCart = cart) =>
+    renderToStaticMarkup(
+      <NextIntlClientProvider locale="ru" messages={dictionary}>
+        <RobokassaRetryNotice cart={forCart} notice={notice} />
+      </NextIntlClientProvider>
+    )
+
+  it("has no key of the invoice wording, which is what the cases below stand on", () => {
+    expect(JSON.stringify(dictionary)).not.toContain("Crypto")
+  })
+
+  it("says the same to a buyer back from Robokassa as the whole dictionary does", () => {
+    for (const notice of ["pending", "failed"] as const) {
+      expect(renderCut(notice)).toBe(render(notice))
+    }
+  })
+
+  it("gives a cart with a leftover invoice session the general notice, never the name of a key", () => {
+    const leftovers = [
+      btcpayCart("pending", { invoice_status: "Processing", expires_at: "2099-01-01T00:00:00.000Z" }),
+      btcpayCart("canceled", { invoice_status: "Expired", additional_status: "None" }),
+      bitcartCart("pending", { invoice_status: "confirmed", expires_at: "2099-01-01T00:00:00.000Z" }),
+      bitcartCart("canceled", { invoice_status: "expired", exception_status: "none" }),
+    ]
+
+    for (const leftover of leftovers) {
+      const html = renderCut("pending", leftover)
+
+      expect(html).toContain('data-testid="payment-pending-notice"')
+      expect(html).toContain("Оплата подтверждается")
+      expect(html).toContain("Проверить ещё раз")
+      expect(html).not.toContain("CheckoutPage.")
+      expect(html).not.toContain("Crypto")
+    }
   })
 })
