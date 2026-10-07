@@ -56,6 +56,8 @@ const SKIP_FIRST_COLUMN = "min-[961px]:[&>*:nth-child(3n+1)]:col-start-2"
 const UNDER_COLUMNS = "col-span-full min-[961px]:col-start-2"
 const FINE_PRINT = "txt-compact-small text-ui-fg-muted"
 const ROBOKASSA_URL = "https://robokassa.com/"
+// Robokassa's own logo, the file its site gives out, 161 by 24, dark ink.
+const ROBOKASSA_LOGO = "/payment/robokassa.svg"
 
 export default async function FooterOlavka() {
   const [t, tMeta, siteName, seller, categories, tenantPages, legal, attribution, paymentMethods] =
@@ -169,15 +171,18 @@ export default async function FooterOlavka() {
                     className={`${FINE_PRINT} flex flex-wrap items-center gap-x-3 gap-y-2`}
                     data-testid="footer-robokassa"
                   >
-                    {/* A word mark set in text: this repository carries no Robokassa logo file. */}
+                    {/* The logo is not recoloured and not stretched: it is drawn 20 high in its own
+                        ratio, on a white plate that holds in every theme and mode, because its
+                        ink is dark (`--robokassa-plate`, globals.css). */}
                     <a
                       href={ROBOKASSA_URL}
                       target="_blank"
                       rel="noopener"
-                      className="rounded-md border border-ui-border-base px-2 py-1 txt-compact-small-plus font-semibold uppercase tracking-[0.08em] text-ui-fg-base transition-colors hover:text-ui-fg-subtle"
+                      className="inline-flex items-center rounded-md border border-ui-border-base bg-[var(--robokassa-plate)] px-2 py-1 transition-opacity hover:opacity-80"
                       data-testid="footer-robokassa-link"
                     >
-                      Robokassa
+                      {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG from `public`, drawn as it is; next/image has no SVG config here. */}
+                      <img src={ROBOKASSA_LOGO} alt="Robokassa" width={161} height={24} className="h-5 w-auto" />
                     </a>
                     <span>{t("robokassaNote")}</span>
                   </p>

@@ -3,8 +3,10 @@ import { join } from "node:path"
 import { describe, expect, it } from "vitest"
 
 import {
+  IMAGE_METADATA_KEYS,
   PRODUCT_METADATA_KEYS,
   VARIANT_METADATA_KEYS,
+  allowImageMetadata,
   allowProductMetadata,
   allowVariantMetadata,
   redactProductMetadata,
@@ -291,6 +293,132 @@ describe("a variant's metadata", () => {
     expect(cleanLine.variant.sku).toBe("TEST-1")
     expect(cleanLine.variant.options).toBe(lineVariant.options)
     expect(cleanLine.variant.images).toBe(lineVariant.images)
+  })
+})
+
+/**
+ * The shape the second pass of the acceptance check read on a live product page on
+ * 08.10.2026: the importer's two notes on every picture record, the second one an address on
+ * the marketplace's picture host.
+ */
+const IMAGE_SERVICE = {
+  wb_photo_key: "wb:0:1",
+  wb_source_url: "https://basket-00.wbbasket.ru/vol0/part0/0/images/big/1.webp",
+}
+const IMAGE_LEAKS = ["wb_photo_key", "wb_source_url", "wbbasket"]
+const imageLeaksOf = (value: unknown) => {
+  const text = JSON.stringify(value)
+  return IMAGE_LEAKS.filter((needle) => text.includes(needle))
+}
+
+const image = (extra: Record<string, unknown> = {}) => ({
+  id: "img_test_1",
+  url: "https://cdn.test/a.webp",
+  rank: 0,
+  metadata: { ...IMAGE_SERVICE },
+  ...extra,
+})
+
+describe("a picture's metadata", () => {
+  it("has no key the storefront reads, so the list is empty", () => {
+    expect(IMAGE_METADATA_KEYS).toEqual([])
+  })
+
+  it("drops wb_photo_key and wb_source_url from one picture and keeps the picture", () => {
+    const clean = allowImageMetadata(image())
+
+    expect(clean.metadata).toEqual({})
+    expect(clean.url).toBe("https://cdn.test/a.webp")
+    expect(clean.rank).toBe(0)
+  })
+
+  it("returns a picture without metadata and one with an empty metadata as they came", () => {
+    const original = image()
+    allowImageMetadata(original)
+    const { metadata: _metadata, ...without } = image({ id: "img_test_2" })
+    const bare = image({ id: "img_test_3", metadata: null })
+    const empty = image({ id: "img_test_4", metadata: {} })
+    const answer = { product: { id: "prod_test_1", images: [without, bare, empty] } }
+
+    expect(original.metadata).toHaveProperty("wb_photo_key")
+    expect(allowImageMetadata(without)).toBe(without)
+    expect(allowImageMetadata(bare)).toBe(bare)
+    expect(allowImageMetadata(empty)).toBe(empty)
+    expect(redactProductMetadata(answer)).toBe(answer)
+  })
+
+  it("is cut inside a product, wherever a Store API answer carries one", () => {
+    const withImages = (extra: Record<string, unknown> = {}) =>
+      product({ metadata: { ...KEPT }, images: [image(), image({ id: "img_test_5", rank: 1 })], ...extra })
+    const answers = [
+      { products: [withImages(), withImages({ id: "prod_test_6" })], count: 2 },
+      { product: withImages() },
+      { product_categories: [{ id: "pcat_1", metadata: { image_url: "/a.jpg" }, products: [withImages()] }] },
+      { wishlist: { items: [{ id: "wli_1", product: withImages() }] } },
+    ]
+
+    for (const answer of answers) {
+      expect(imageLeaksOf(answer)).toEqual(IMAGE_LEAKS)
+      expect(imageLeaksOf(redactProductMetadata(answer))).toEqual([])
+    }
+    // The picture keeps its address and its rank, the product keeps the keys the storefront reads.
+    expect(redactProductMetadata({ product: withImages() })).toEqual({
+      product: product({
+        metadata: { ...KEPT },
+        images: [
+          { id: "img_test_1", url: "https://cdn.test/a.webp", rank: 0, metadata: {} },
+          { id: "img_test_5", url: "https://cdn.test/a.webp", rank: 1, metadata: {} },
+        ],
+      }),
+    })
+  })
+
+  it("is cut inside a variant", () => {
+    const withImages = variant({ metadata: {}, images: [image()] })
+    const answers = [
+      { product: product({ metadata: { ...KEPT }, variants: [withImages] }) },
+      { variants: [withImages] },
+      { variant: withImages },
+    ]
+
+    for (const answer of answers) {
+      expect(imageLeaksOf(answer)).toEqual(IMAGE_LEAKS)
+      expect(imageLeaksOf(redactProductMetadata(answer))).toEqual([])
+    }
+  })
+
+  it("is cut in a cart and in an order, where a line carries a variant and a product", () => {
+    const lineProduct = product({ metadata: { ...KEPT }, images: [image()] })
+    const lineVariant = variant({ metadata: {}, images: [image({ id: "img_test_6" })], product: lineProduct })
+    const line = { id: "cali_1", thumbnail: "https://cdn.test/a.webp", metadata: { gift: "1" }, product: lineProduct, variant: lineVariant }
+    const answers = [
+      { cart: { id: "cart_1", metadata: { pickup: "1" }, items: [line] } },
+      { order: { id: "order_1", items: [{ ...line, id: "ordli_1" }] } },
+    ]
+
+    for (const answer of answers) {
+      expect(imageLeaksOf(answer)).toEqual(IMAGE_LEAKS)
+      expect(imageLeaksOf(redactProductMetadata(answer))).toEqual([])
+    }
+    const clean = redactProductMetadata(answers[0]) as { cart: { metadata: unknown; items: Array<typeof line> } }
+    expect(clean.cart.metadata).toEqual({ pickup: "1" })
+    expect(clean.cart.items[0].metadata).toBe(line.metadata)
+    expect(clean.cart.items[0].thumbnail).toBe("https://cdn.test/a.webp")
+  })
+
+  it("is cut on a picture whose id the query left out, and by its id under a key of any other name", () => {
+    const { id: _id, ...withoutId } = image()
+
+    expect(imageLeaksOf(redactProductMetadata({ product: { title: "Мёд", images: [withoutId] } }))).toEqual([])
+    expect(imageLeaksOf(redactProductMetadata({ gallery: [image()] }))).toEqual([])
+  })
+
+  it("leaves a category's picture keys and an option value's metadata alone", () => {
+    const category = { id: "pcat_1", metadata: { image_url: "/a.jpg", image_alt: "Мёд", source_id: "c-1" } }
+    const optionValue = { id: "optval_1", value: "250 г", metadata: { hex: "#fff" } }
+    const answer = { product_categories: [category], product: { id: "prod_test_1", options: [{ id: "opt_1", values: [optionValue] }] } }
+
+    expect(redactProductMetadata(answer)).toBe(answer)
   })
 })
 
