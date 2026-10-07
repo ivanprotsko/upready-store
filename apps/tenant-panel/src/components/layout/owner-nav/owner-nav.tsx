@@ -1,13 +1,15 @@
 import { BuildingStorefront, ChartBar, ShoppingBag, TriangleRightMini } from "@medusajs/icons"
 import { Text, clx } from "@medusajs/ui"
-import { ReactNode, useEffect, useRef, useState } from "react"
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
 
 import { useMpReviews } from "../../../hooks/api/marketplace-section"
 import { useOrders } from "../../../hooks/api/orders"
 import { useTenantReviews } from "../../../hooks/api/reviews"
+import { usePermissions } from "../../../hooks/use-permissions"
 import { isOrderWithoutParcel } from "../../../lib/order-helpers"
+import { visibleNav } from "../../../lib/permissions"
 import {
   OWNER_HOME,
   OWNER_NAV,
@@ -50,20 +52,24 @@ const useStoredList = (key: string) => {
  * are small and fail silently: a menu without a number is still a menu.
  */
 export const useOwnerCounters = (): Record<OwnerCounter, number | null> => {
+  // t-2026-10-07-11: a number is read only by a login that may open the
+  // screen it counts; otherwise the request is not sent and the number is
+  // absent.
+  const { can } = usePermissions()
   const orders = useOrders(
     { limit: 50, fields: "id,status,fulfillment_status,items.requires_shipping" },
-    { staleTime: 60_000, retry: false }
+    { staleTime: 60_000, retry: false, enabled: can("orders") }
   )
   const reviews = useTenantReviews(
     { status: "pending", limit: 1 },
-    { staleTime: 60_000, retry: false }
+    { staleTime: 60_000, retry: false, enabled: can("reviews") }
   )
   // Reviews and questions on Wildberries the marketplace marks as unanswered
   // (task-05's `answered=no`): our own tables, no request to the marketplace.
   const mpReviews = useMpReviews(
     "wb",
     { limit: 1, answered: ["no"] },
-    { staleTime: 60_000, retry: false }
+    { staleTime: 60_000, retry: false, enabled: can("marketplaces") }
   )
 
   const toPack = orders.orders
@@ -355,6 +361,10 @@ export const OwnerNav = () => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
   const counters = useOwnerCounters()
+  // t-2026-10-07-11: the entries this login may open; a group with none of
+  // them is not drawn.
+  const { permissions } = usePermissions()
+  const nav = useMemo(() => visibleNav(OWNER_NAV, permissions), [permissions])
   const [closed, setClosed] = useStoredList(STORAGE_KEY)
   // An entry with children starts open and remembers what she folded, across
   // a reload too (`owner-nav-closed-parents`), the way a group does.
@@ -405,7 +415,7 @@ export const OwnerNav = () => {
             counter={null}
           />
         </li>
-        {OWNER_NAV.map((group) =>
+        {nav.map((group) =>
           group.heading ? (
             <HeadingGroup
               key={group.id}

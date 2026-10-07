@@ -10,6 +10,7 @@ import { HttpTypes } from "@medusajs/types"
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
+import { ME_QUERY_KEY } from "../../lib/stale-role"
 
 // tenant-panel: tenant equivalent of the Admin's hooks/api/users.tsx. The
 // Admin's `useMe` calls `GET /admin/users/me`, which already returns
@@ -34,6 +35,13 @@ export type TenantAdmin = {
    * the same way it does for the Admin's own users.
    */
   avatar_url?: string | null
+  /**
+   * t-2026-10-07-11: the login's role in this shop and what it may open. The
+   * panel reads `permissions` and nothing else to decide what to draw
+   * (`lib/permissions.ts`); a server without roles sends neither field.
+   */
+  role?: string
+  permissions?: string[]
   tenant: {
     id: string
     handle: string
@@ -61,8 +69,24 @@ export type TenantMeResponse = { user: TenantAdmin }
 const USERS_QUERY_KEY = "users" as const
 const usersQueryKeys = {
   ...queryKeysFactory(USERS_QUERY_KEY),
-  me: () => [USERS_QUERY_KEY, "me"].filter((k) => !!k),
+  // One key for the hook, the route guard and the reset on a 403 (`lib/stale-role.ts`).
+  me: () => [...ME_QUERY_KEY],
 }
+
+/**
+ * The «who am I» read as query options, so the route guard asks for the same
+ * cached answer `useMe` renders from (`lib/caller-may-open.ts`).
+ */
+export const meQueryOptions = () => ({
+  queryFn: async (): Promise<TenantMeResponse> => {
+    const { tenant_admin } = await sdk.client.fetch<{
+      tenant_admin: TenantAdmin
+    }>("/tenants/me")
+
+    return { user: tenant_admin }
+  },
+  queryKey: usersQueryKeys.me(),
+})
 
 export const useMe = (
   options?: Omit<
@@ -71,14 +95,7 @@ export const useMe = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: async () => {
-      const { tenant_admin } = await sdk.client.fetch<{
-        tenant_admin: TenantAdmin
-      }>("/tenants/me")
-
-      return { user: tenant_admin }
-    },
-    queryKey: usersQueryKeys.me(),
+    ...meQueryOptions(),
     ...options,
   })
 

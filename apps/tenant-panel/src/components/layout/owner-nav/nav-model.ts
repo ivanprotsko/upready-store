@@ -157,6 +157,8 @@ export const OWNER_NAV: OwnerNavGroup[] = [
         to: "/settings/seo",
         match: ["/settings/analytics", "/settings/redirects"],
       },
+      // t-2026-10-07-11: the owner's staff logins and their roles.
+      { labelKey: "app.nav.owner.staff", to: "/settings/staff" },
       { labelKey: "app.nav.owner.profile", to: "/settings/profile" },
     ],
   },

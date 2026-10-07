@@ -1,8 +1,14 @@
 import { useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
-import { Button, Drawer, Input, Label, Text, toast } from "@medusajs/ui"
+import { Button, Drawer, Input, Label, Select, Text, toast } from "@medusajs/ui"
 
 import { createTenantAdmin } from "../../../../lib/tenants-api"
+import {
+  DEFAULT_TENANT_ADMIN_ROLE,
+  TENANT_ADMIN_ROLES,
+  isTenantAdminRole,
+  type TenantAdminRole,
+} from "./admin-roles"
 
 export function AddAdminDrawer({
   tenantId,
@@ -18,6 +24,7 @@ export function AddAdminDrawer({
   const [password, setPassword] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
+  const [role, setRole] = useState<TenantAdminRole>(DEFAULT_TENANT_ADMIN_ROLE)
   const [error, setError] = useState<string | null>(null)
   const [isPending, setIsPending] = useState(false)
 
@@ -37,6 +44,7 @@ export function AddAdminDrawer({
       await createTenantAdmin(tenantId, {
         email: email.trim(),
         password,
+        role,
         first_name: firstName.trim() || undefined,
         last_name: lastName.trim() || undefined,
       })
@@ -46,6 +54,7 @@ export function AddAdminDrawer({
       setPassword("")
       setFirstName("")
       setLastName("")
+      setRole(DEFAULT_TENANT_ADMIN_ROLE)
       onOpenChange(false)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Не удалось добавить администратора.")
@@ -74,6 +83,26 @@ export function AddAdminDrawer({
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="не короче 12 символов"
               />
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <Label size="small">Роль</Label>
+              <Select
+                value={role}
+                onValueChange={(value) => {
+                  if (isTenantAdminRole(value)) setRole(value)
+                }}
+              >
+                <Select.Trigger>
+                  <Select.Value />
+                </Select.Trigger>
+                <Select.Content>
+                  {TENANT_ADMIN_ROLES.map((option) => (
+                    <Select.Item key={option.value} value={option.value}>
+                      {option.label}
+                    </Select.Item>
+                  ))}
+                </Select.Content>
+              </Select>
             </div>
             <div className="grid grid-cols-2 gap-x-4">
               <div className="flex flex-col gap-y-2">

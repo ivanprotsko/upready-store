@@ -143,6 +143,7 @@ export const OWNER_ROUTES = [
   { path: "/settings/redirects" },
   { path: "/settings/seo" },
   { path: "/settings/analytics" },
+  { path: "/settings/staff", note: "needs the staff permission (t-2026-10-07-11)" },
 
   // Торговые площадки и подключения (mp-section-design: the screens of one
   // marketplace are the children of its sidebar entry; the old addresses redirect)

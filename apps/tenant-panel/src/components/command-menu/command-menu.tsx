@@ -20,11 +20,13 @@ import { useLogout } from "../../hooks/api/auth"
 import { useOrders } from "../../hooks/api/orders"
 import { useProducts } from "../../hooks/api/products"
 import { useDebouncedSearch } from "../../hooks/use-debounced-search"
+import { usePermissions } from "../../hooks/use-permissions"
 import { useShopUrl } from "../../hooks/use-shop-url"
+import { OWNER_NAV } from "../layout/owner-nav/nav-model"
 import {
-  COMMAND_MENU_ACTIONS,
   COMMAND_MENU_RESULT_LIMIT,
   CommandMenuRun,
+  commandMenuActions,
   commandMenuNavigation,
   commandMenuSearchTerm,
   filterCommands,
@@ -33,6 +35,7 @@ import {
   pathKeywords,
   productPath,
 } from "../../lib/command-menu"
+import { visibleNav } from "../../lib/permissions"
 import { queryClient } from "../../lib/query-client"
 import { useCommandMenu } from "../../providers/command-menu-provider/use-command-menu"
 import { useTheme } from "../../providers/theme-provider"
@@ -67,6 +70,8 @@ export const CommandMenu = () => {
   const { open, onOpenChange } = useCommandMenu()
   const { searchValue, onSearchValueChange, query } = useDebouncedSearch()
   const run = useRunCommand()
+  // t-2026-10-07-11: the menu lists and searches only what the login may open.
+  const { permissions, can } = usePermissions()
 
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
@@ -79,7 +84,7 @@ export const CommandMenu = () => {
       fields: "id,title,thumbnail",
       is_giftcard: false,
     },
-    { enabled: !!term, staleTime: 30_000 }
+    { enabled: !!term && can("catalog"), staleTime: 30_000 }
   )
   const orders = useOrders(
     {
@@ -87,13 +92,13 @@ export const CommandMenu = () => {
       limit: COMMAND_MENU_RESULT_LIMIT,
       fields: "id,display_id,email",
     },
-    { enabled: !!term, staleTime: 30_000 }
+    { enabled: !!term && can("orders"), staleTime: 30_000 }
   )
   const isFetching = !!term && (products.isFetching || orders.isFetching)
 
   const navigation = useMemo<Row[]>(
     () =>
-      commandMenuNavigation().map((entry) => {
+      commandMenuNavigation(visibleNav(OWNER_NAV, permissions)).map((entry) => {
         const own = entry.label ?? t(entry.labelKey)
         const parent = entry.parent ? entry.parent.label ?? t(entry.parent.labelKey) : null
         const group = entry.groupLabelKey ? t(entry.groupLabelKey) : undefined
@@ -105,18 +110,18 @@ export const CommandMenu = () => {
           to: entry.to,
         }
       }),
-    [t]
+    [t, permissions]
   )
   const actions = useMemo<Row[]>(
     () =>
-      COMMAND_MENU_ACTIONS.map((action) => ({
+      commandMenuActions(permissions).map((action) => ({
         id: action.id,
         label: t(action.labelKey),
         keywords: action.to ? pathKeywords(action.to) : [],
         to: action.to,
         run: action.run,
       })),
-    [t]
+    [t, permissions]
   )
 
   const shownNavigation = useMemo(

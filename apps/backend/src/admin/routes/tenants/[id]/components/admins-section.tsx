@@ -4,6 +4,7 @@ import { Button, Container, Heading, Table, toast, usePrompt } from "@medusajs/u
 
 import { deleteTenantAdmin, type TenantAdmin, type TenantDetail } from "../../../../lib/tenants-api"
 import { AddAdminDrawer } from "./add-admin-drawer"
+import { tenantAdminRoleLabel } from "./admin-roles"
 import { EditAdminDrawer } from "./edit-admin-drawer"
 
 const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
@@ -23,7 +24,7 @@ export function AdminsSection({ tenant }: { tenant: TenantDetail }) {
   const handleRemove = async (admin: TenantAdmin) => {
     const confirmed = await prompt({
       title: "Удалить администратора?",
-      description: `«${admin.email}» потеряет доступ к магазину «${tenant.name}». Последнего администратора удалить нельзя.`,
+      description: `«${admin.email}» потеряет доступ к магазину «${tenant.name}». Последнего владельца удалить нельзя.`,
       confirmText: "Удалить",
       cancelText: "Отмена",
       variant: "danger",
@@ -54,6 +55,7 @@ export function AdminsSection({ tenant }: { tenant: TenantDetail }) {
           <Table.Row>
             <Table.HeaderCell>Email</Table.HeaderCell>
             <Table.HeaderCell>Имя</Table.HeaderCell>
+            <Table.HeaderCell>Роль</Table.HeaderCell>
             <Table.HeaderCell>Создан</Table.HeaderCell>
             <Table.HeaderCell />
           </Table.Row>
@@ -65,6 +67,7 @@ export function AdminsSection({ tenant }: { tenant: TenantDetail }) {
               <Table.Cell>
                 {[admin.first_name, admin.last_name].filter(Boolean).join(" ") || "—"}
               </Table.Cell>
+              <Table.Cell>{tenantAdminRoleLabel(admin.role)}</Table.Cell>
               <Table.Cell>{dateFormatter.format(new Date(admin.created_at))}</Table.Cell>
               <Table.Cell>
                 <div className="flex justify-end gap-x-2">

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import { Navigate, useLocation, useRouteError } from "react-router-dom"
 
 import { isFetchError } from "../../../lib/is-fetch-error"
+import { NoAccess } from "../../authentication/permission-outlet"
 
 export const ErrorBoundary = () => {
   const error = useRouteError()
@@ -16,6 +17,14 @@ export const ErrorBoundary = () => {
   if (isFetchError(error)) {
     if (error.status === 401) {
       return <Navigate to="/login" state={{ from: location }} replace />
+    }
+
+    // t-2026-10-07-11, addendum 13: the server refused the screen's request,
+    // which is what a role changed a moment ago looks like. The owner reads
+    // «Нет доступа», not a general error; the «who am I» answer is already
+    // being read again (`lib/query-client.ts`).
+    if (error.status === 403) {
+      return <NoAccess />
     }
 
     code = error.status ?? null

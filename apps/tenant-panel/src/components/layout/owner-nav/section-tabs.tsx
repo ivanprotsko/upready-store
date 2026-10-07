@@ -3,6 +3,8 @@ import { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
 
+import { usePermissions } from "../../../hooks/use-permissions"
+import { visibleTabs } from "../../../lib/permissions"
 import { findTabs } from "./nav-model"
 
 /**
@@ -14,6 +16,7 @@ import { findTabs } from "./nav-model"
 export const SectionTabs = () => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
+  const { permissions, allowed } = usePermissions()
   const section = findTabs(pathname)
   const row = useRef<HTMLElement>(null)
   const current = section?.current ?? null
@@ -26,7 +29,11 @@ export const SectionTabs = () => {
       ?.scrollIntoView({ block: "nearest", inline: "center" })
   }, [current])
 
-  if (!section) {
+  // t-2026-10-07-11: only the tabs the login may open, and no row at all over
+  // «Нет доступа».
+  const tabs = section && allowed(pathname) ? visibleTabs(section.tabs, permissions) : []
+
+  if (!section || !tabs.length) {
     return null
   }
 
@@ -37,7 +44,7 @@ export const SectionTabs = () => {
       className="border-ui-border-base -mx-3 -mt-3 mb-1 overflow-x-auto border-b px-3"
     >
       <ul className="flex w-max gap-x-1">
-        {section.tabs.map((tab) => {
+        {tabs.map((tab) => {
           const current = tab.to === section.current
           return (
             <li key={tab.to}>

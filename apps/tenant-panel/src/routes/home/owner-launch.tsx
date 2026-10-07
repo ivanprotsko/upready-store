@@ -8,6 +8,7 @@ import { usePaymentSettings } from "../../hooks/api/payment-settings"
 import { useProducts } from "../../hooks/api/products"
 import { useRequisites } from "../../hooks/api/requisites"
 import { useShippingOptions } from "../../hooks/api/shipping-options"
+import { usePermissions } from "../../hooks/use-permissions"
 import { PAGE_SECTIONS, statusOf } from "../pages/page-sections"
 
 type Step = { key: string; done: boolean | null; to: string }
@@ -21,12 +22,18 @@ type Step = { key: string; done: boolean | null; to: string }
 export const OwnerLaunch = () => {
   const { t } = useTranslation()
   const quiet = { staleTime: 60_000, retry: false } as const
+  // t-2026-10-07-11: a step is read and listed only for a login that may open
+  // the screen where it is done; a login with no such step sees no list.
+  const { can, allowed } = usePermissions()
+  const catalog = { ...quiet, enabled: can("catalog") }
+  const storefront = { ...quiet, enabled: can("storefront") }
+  const settings = { ...quiet, enabled: can("settings") }
 
-  const published = useProducts({ status: ["published"], limit: 1, fields: "id" }, quiet)
-  const { pages } = useTenantPages(quiet)
-  const requisites = useRequisites(quiet)
-  const payments = usePaymentSettings(quiet)
-  const shipping = useShippingOptions({ limit: 1, fields: "id" }, quiet)
+  const published = useProducts({ status: ["published"], limit: 1, fields: "id" }, catalog)
+  const { pages } = useTenantPages(storefront)
+  const requisites = useRequisites(settings)
+  const payments = usePaymentSettings(settings)
+  const shipping = useShippingOptions({ limit: 1, fields: "id" }, settings)
 
   const pagesDone = pages
     ? PAGE_SECTIONS.every((section) => {
@@ -58,7 +65,11 @@ export const OwnerLaunch = () => {
       done: typeof shipping.count === "number" ? shipping.count > 0 : null,
       to: "/shipping",
     },
-  ]
+  ].filter((step) => allowed(step.to))
+
+  if (steps.length === 0) {
+    return null
+  }
 
   const known = steps.filter((step) => step.done !== null)
   const left = known.filter((step) => !step.done).length
