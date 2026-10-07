@@ -426,6 +426,17 @@
 }
 
 /*
+ * t-2026-10-08-13: the plate under the Robokassa logo in the footer. The logo is the payment
+ * system's own file with dark ink (`public/payment/robokassa.svg`) and is not recoloured, so
+ * the plate under it is white in every theme and mode. Read only by
+ * `modules/layout/templates/footer/variants/olavka.tsx`.
+ */
+:root {
+  /* theme-colours allowlist: the white plate under Robokassa's dark logo, see above. */
+  --robokassa-plate: #ffffff;
+}
+
+/*
  * t16-owner-branding, step 3: the tenant's own light/dark logo pair in the
  * header (`modules/layout/components/site-logo`). The two classes exist only
  * when BOTH variants were uploaded and differ — the component renders a

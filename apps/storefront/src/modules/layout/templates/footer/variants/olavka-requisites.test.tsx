@@ -140,17 +140,29 @@ describe("Olavka footer: the requisites line behind the switch", { timeout: 30_0
 })
 
 describe("Olavka footer: the Robokassa mark", { timeout: 30_000 }, () => {
-  it("shows the mark, the link and the note for a shop that connected Robokassa", async () => {
+  it("shows the logo image inside the link, and the note, for a shop that connected Robokassa", async () => {
     paymentMethods = { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false }
     const html = await render()
-
-    expect(html).toMatch(
-      /<a href="https:\/\/robokassa\.com\/" target="_blank" rel="noopener"[^>]*data-testid="footer-robokassa-link">Robokassa<\/a>/
+    const link = html.match(
+      /<a href="https:\/\/robokassa\.com\/" target="_blank" rel="noopener"[^>]*data-testid="footer-robokassa-link">(.*?)<\/a>/
     )
+
+    // The contract, clause 4.3.4: «логотип Системы и соответствующую гипертекстовую ссылку».
+    expect(link?.[1]).toMatch(
+      /^<img src="\/payment\/robokassa\.svg" alt="Robokassa" width="161" height="24" class="h-5 w-auto"\/>$/
+    )
+    expect(html).toContain('data-testid="footer-robokassa"')
     expect(html).toContain("Оплата картой и через СБП. Платежи принимает Robokassa")
     // The mark does not bring the requisites with it.
     expect(html).not.toContain("footer-requisites-line")
     expect(html).not.toContain("Иванова")
+  })
+
+  it("ships the logo file the image points at: Robokassa's own, with nothing loaded from outside", () => {
+    const svg = readFileSync(join(__dirname, "../../../../../../public/payment/robokassa.svg"), "utf8")
+
+    expect(svg).toMatch(/^<svg width="161" height="24" viewBox="0 0 161 24"/)
+    expect(svg).not.toMatch(/<script|<image|<use|\son[a-z]+=|href=|url\(\s*['"]?https?:/i)
   })
 
   it("stands in the same row as the requisites when both are there", async () => {

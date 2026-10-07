@@ -1,6 +1,6 @@
 /**
- * A product's `metadata` and the `metadata` of its variants reach the browser with the keys
- * this storefront reads and with no other (t-2026-10-08-13).
+ * A product's `metadata`, the `metadata` of its variants and of its pictures reach the browser
+ * with the keys this storefront reads and with no other (t-2026-10-08-13).
  *
  * The owner's tools keep their working notes on the product and on each of its variants:
  * the price list with a price in dollars and the exchange rate (`pricelist`,
@@ -13,8 +13,8 @@
  * visitor does not see it, «View source» and a crawler do. Ivan, 08.10.2026: «проверили
  * содержание страниц на запрещенную информацию, или на наличие цен в долларах».
  *
- * These are allow-lists, so a key somebody writes on a product or a variant tomorrow stays
- * on the server until a line here says who reads it. `util/migration-metadata.ts` next to it
+ * These are allow-lists, so a key somebody writes on a product, a variant or a picture
+ * tomorrow stays on the server until a line here says who reads it. `util/migration-metadata.ts` next to it
  * is a deny-list for every entity, and both cuts run in `lib/config.ts`, where every Store
  * API answer passes.
  *
@@ -51,24 +51,41 @@ export const PRODUCT_METADATA_KEYS = [
  */
 export const VARIANT_METADATA_KEYS: readonly string[] = []
 
-const ALLOWED: ReadonlySet<string> = new Set(PRODUCT_METADATA_KEYS)
-const VARIANT_ALLOWED: ReadonlySet<string> = new Set(VARIANT_METADATA_KEYS)
+/**
+ * A picture's `metadata` has no reader in this storefront either: a picture is drawn from its
+ * `url` and ordered by its `rank`. The second pass of the acceptance check of 08.10.2026 found
+ * the importer's notes there: 12 product pages of 30 carried `wb_photo_key` and
+ * `wb_source_url` on every picture record (`images[].metadata`), the second one with the
+ * address of the marketplace's picture host.
+ */
+export const IMAGE_METADATA_KEYS: readonly string[] = []
 
 /** Whose `metadata` an object carries, as far as this cut is concerned. */
-type Carrier = "product" | "variant"
+type Carrier = "product" | "variant" | "image"
 
-/** Medusa gives every product and every variant an id that starts with this. */
+const ALLOWED_BY_CARRIER: Readonly<Record<Carrier, ReadonlySet<string>>> = {
+  product: new Set(PRODUCT_METADATA_KEYS),
+  variant: new Set(VARIANT_METADATA_KEYS),
+  image: new Set(IMAGE_METADATA_KEYS),
+}
+
+/** Medusa gives every product, every variant and every picture an id that starts with this. */
 const ID_PREFIX: ReadonlyArray<[string, Carrier]> = [
   ["prod_", "product"],
   ["variant_", "variant"],
+  ["img_", "image"],
 ]
 
-/** The keys a Store API answer keeps a product or a variant under. */
+/**
+ * The keys a Store API answer keeps a product, a variant or a picture under. Pictures stand
+ * under `images` only (a product's and a variant's); `thumbnail` is a plain address.
+ */
 const CARRIER_BY_KEY: ReadonlyMap<string, Carrier> = new Map([
   ["product", "product"],
   ["products", "product"],
   ["variant", "variant"],
   ["variants", "variant"],
+  ["images", "image"],
 ])
 
 const isPlainObject = (value: unknown): value is Record<string, unknown> =>
@@ -103,12 +120,17 @@ function allowMetadata<T>(entity: T, allowed: ReadonlySet<string>): T {
 
 /** A copy of one product with `metadata` cut to the allow-list, or the product as it was. */
 export function allowProductMetadata<T>(product: T): T {
-  return allowMetadata(product, ALLOWED)
+  return allowMetadata(product, ALLOWED_BY_CARRIER.product)
 }
 
 /** A copy of one variant with `metadata` cut to the allow-list, or the variant as it was. */
 export function allowVariantMetadata<T>(variant: T): T {
-  return allowMetadata(variant, VARIANT_ALLOWED)
+  return allowMetadata(variant, ALLOWED_BY_CARRIER.variant)
+}
+
+/** A copy of one picture with `metadata` cut to the allow-list, or the picture as it was. */
+export function allowImageMetadata<T>(image: T): T {
+  return allowMetadata(image, ALLOWED_BY_CARRIER.image)
 }
 
 const carrierOf = (value: Record<string, unknown>, under: Carrier | null): Carrier | null => {
@@ -127,12 +149,13 @@ const carrierOf = (value: Record<string, unknown>, under: Carrier | null): Carri
  * also whatever stands under a key named `product` or `products`: a category's `products`,
  * a cart line's `product`, the list a search answers with. A variant is an object with a
  * variant id, and whatever stands under `variant` or `variants`: a product's `variants`, the
- * `variant` of a cart line and of an order line. A `fields` list that leaves the id out is
- * covered by the second half.
+ * `variant` of a cart line and of an order line. A picture is an object with a picture id,
+ * and whatever stands under `images`: a product's and a variant's. A `fields` list that
+ * leaves the id out is covered by the second half.
  *
- * Nothing but a product and a variant loses a key here. A category keeps its image, a cart,
- * an order and their lines keep their own `metadata`, an option value keeps its colour. An
- * answer with nothing to cut is returned as it came, by identity.
+ * Nothing but a product, a variant and a picture loses a key here. A category keeps its
+ * image, a cart, an order and their lines keep their own `metadata`, an option value keeps
+ * its colour. An answer with nothing to cut is returned as it came, by identity.
  */
 export function redactProductMetadata<T>(value: T, under: Carrier | null = null, depth = 0): T {
   // The same guard `redactMigrationMetadata` has: a bound against a cycle, not a limit.
@@ -155,12 +178,7 @@ export function redactProductMetadata<T>(value: T, under: Carrier | null = null,
   }
 
   const carrier = carrierOf(value, under)
-  const allowed =
-    carrier === "product"
-      ? allowProductMetadata(value)
-      : carrier === "variant"
-        ? allowVariantMetadata(value)
-        : value
+  const allowed = carrier ? allowMetadata(value, ALLOWED_BY_CARRIER[carrier]) : value
   let changed = allowed !== value
   const out: Record<string, unknown> = { ...allowed }
 
