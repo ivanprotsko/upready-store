@@ -96,6 +96,13 @@ env file, and prints none without it (Ivan, 03.10.2026: «никаких ссы�
 it at render time, so adding the line to the env file and running `up -d` is enough, with no image
 rebuild. The line shows what the owner saved in the panel under the shop's requisites.
 
+While payments or delivery run in a provider's test contour, every page carries a red dot in its
+top right corner with the hint «Включены тестовые оплаты и доставка». It is the owner's mark, and no
+shop setting removes it while the test contour is on. Robokassa keeps a shop in test until its
+moderation ends, so for that time put `STOREFRONT_HIDE_TEST_MODE_DOT=1` into the env file and run
+`up -d`. Remove the line after the moderation, or the owner loses the mark that says the shop does
+not take real money yet.
+
 **Check the env file before it ever reaches the host:**
 
 ```bash

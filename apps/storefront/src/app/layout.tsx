@@ -5,6 +5,7 @@ import { getTenantAnalytics } from "@lib/data/analytics"
 import Analytics from "@modules/common/components/analytics"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import { getSiteTestMode } from "@lib/data/tenant-test-mode"
+import { visibleTestMode } from "@lib/tenant/test-mode"
 import { buildIconMetadata } from "@lib/tenant/icons"
 import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
@@ -153,7 +154,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             `start/layout.tsx` and the root `not-found.tsx`. */}
         <div className="relative">{props.children}</div>
         {/* t-2026-10-04-21 (checkout-v2 A3): red dot while payments or delivery are in test mode. */}
-        <TestModeDot mode={testMode} locale={locale} />
+        {/* t-2026-10-08-13: `STOREFRONT_HIDE_TEST_MODE_DOT` takes the dot off for the time of
+            the Robokassa moderation (`visibleTestMode`). */}
+        <TestModeDot mode={visibleTestMode(testMode)} locale={locale} />
         {/* Telegram Mini App bridge: inert in a browser, active only when a Telegram
             client opened the page (src/modules/telegram/components/mini-app-bridge). */}
         <MiniAppBridge />
