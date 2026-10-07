@@ -1021,15 +1021,6 @@
     "pageOf": "Pagina {page} di {pages}",
     "reviewCount": "{count, plural, one {# recensione} other {# recensioni}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Resi facili",
-    "easyReturnsDesc": "Restituisci semplicemente il prodotto e ti rimborseremo. Senza fare domande - faremo del nostro meglio per rendere il reso il più semplice possibile.",
-    "fastDelivery": "Consegna rapida",
-    "fastDeliveryDesc": "Il tuo pacco arriverà in 3-5 giorni lavorativi presso il punto di ritiro o comodamente a casa tua.",
-    "shippingReturns": "Spedizione e resi",
-    "simpleExchanges": "Cambi semplici",
-    "simpleExchangesDesc": "La taglia non è quella giusta? Nessun problema: sostituiremo il tuo prodotto con uno nuovo."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Indirizzo di fatturazione",
     "noBillingAddress": "Nessun indirizzo di fatturazione"
@@ -1114,27 +1105,12 @@
     "password": "Nuova password",
     "submit": "Salva la password"
   },
-  "Review": {
-    "confirmText": "Cliccando sul pulsante Paga, confermi di aver letto, compreso e accettato le nostre Condizioni d'uso, Condizioni di vendita e Politica di reso, e dichiari di aver preso visione dell'Informativa sulla privacy di {siteName}.",
-    "heading": "Verifica"
-  },
   "Search": {
     "empty": "Nessun risultato per «{query}»",
     "label": "Cerca",
     "loading": "Ricerca in corso…",
     "placeholder": "Cerca prodotti",
     "popular": "Prodotti popolari"
-  },
-  "Shipping": {
-    "chooseStore": "Scegli un negozio vicino a te",
-    "continueToPayment": "Continua al pagamento",
-    "deliveryDescription": "Come desideri ricevere il tuo ordine",
-    "edit": "Modifica",
-    "heading": "Consegna",
-    "method": "Metodo",
-    "pickUpOrder": "Ritira il tuo ordine",
-    "shippingMethod": "Metodo di spedizione",
-    "store": "Negozio"
   },
   "ShippingDetails": {
     "contact": "Contatto",

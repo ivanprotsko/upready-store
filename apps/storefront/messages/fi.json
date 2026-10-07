@@ -1021,15 +1021,6 @@
     "pageOf": "Sivu {page} / {pages}",
     "reviewCount": "{count, plural, one {# arvostelu} other {# arvostelua}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Helppo palautus",
-    "easyReturnsDesc": "Palauta vain tuote, niin hyvitämme rahasi. Ilman turhia kysymyksiä – teemme parhaamme, jotta palautus sujuu vaivattomasti.",
-    "fastDelivery": "Nopea toimitus",
-    "fastDeliveryDesc": "Pakettisi saapuu 3–5 arkipäivässä valitsemaasi noutopaikkaan tai suoraan kotiisi.",
-    "shippingReturns": "Toimitus ja palautukset",
-    "simpleExchanges": "Helppo vaihto",
-    "simpleExchangesDesc": "Eikö koko sopinut? Ei hätää – vaihdamme tuotteen uuteen."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Laskutusosoite",
     "noBillingAddress": "Ei laskutusosoitetta"
@@ -1114,27 +1105,12 @@
     "password": "Uusi salasana",
     "submit": "Tallenna salasana"
   },
-  "Review": {
-    "confirmText": "Klikkaamalla Maksa-painiketta vahvistat, että olet lukenut, ymmärtänyt ja hyväksynyt käyttöehtomme, myyntiehtomme ja palautuskäytäntömme, sekä vahvistat lukeneesi {siteName}n tietosuojakäytännön.",
-    "heading": "Tarkistus"
-  },
   "Search": {
     "empty": "Ei tuloksia haulle ”{query}”",
     "label": "Haku",
     "loading": "Haetaan…",
     "placeholder": "Hae tuotteita",
     "popular": "Suositut tuotteet"
-  },
-  "Shipping": {
-    "chooseStore": "Valitse lähin myymälä",
-    "continueToPayment": "Jatka maksamiseen",
-    "deliveryDescription": "Miten haluat tilauksesi toimitettavan",
-    "edit": "Muokkaa",
-    "heading": "Toimitus",
-    "method": "Tapa",
-    "pickUpOrder": "Nouda tilauksesi",
-    "shippingMethod": "Toimitustapa",
-    "store": "Myymälä"
   },
   "ShippingDetails": {
     "contact": "Yhteystieto",

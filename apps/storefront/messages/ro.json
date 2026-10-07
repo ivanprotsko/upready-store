@@ -1021,15 +1021,6 @@
     "pageOf": "Pagina {page} din {pages}",
     "reviewCount": "{count, plural, one {# recenzie} few {# recenzii} other {# de recenzii}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Retururi ușoare",
-    "easyReturnsDesc": "Returnați produsul și vă rambursăm banii. Fără întrebări - vom face tot posibilul ca returul dvs. să fie cât mai simplu.",
-    "fastDelivery": "Livrare rapidă",
-    "fastDeliveryDesc": "Coletul dvs. va ajunge în 3-5 zile lucrătoare la punctul de ridicare sau confortabil, acasă.",
-    "shippingReturns": "Livrare și retur",
-    "simpleExchanges": "Schimburi simple",
-    "simpleExchangesDesc": "Mărimea nu vi se potrivește? Nicio problemă - vă schimbăm produsul cu unul nou."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Adresa de facturare",
     "noBillingAddress": "Nicio adresă de facturare"
@@ -1114,27 +1105,12 @@
     "password": "Parolă nouă",
     "submit": "Salvează parola"
   },
-  "Review": {
-    "confirmText": "Făcând clic pe butonul Plătește, confirmați că ați citit, înțeles și acceptat Termenii de utilizare, Termenii de vânzare și Politica de retur ai noștri și confirmați că ați citit Politica de confidențialitate a {siteName}.",
-    "heading": "Verificare"
-  },
   "Search": {
     "empty": "Niciun rezultat pentru „{query}”",
     "label": "Căutare",
     "loading": "Se caută…",
     "placeholder": "Caută produse",
     "popular": "Produse populare"
-  },
-  "Shipping": {
-    "chooseStore": "Alege un magazin din apropiere",
-    "continueToPayment": "Continuă la plată",
-    "deliveryDescription": "Cum doriți să primiți comanda",
-    "edit": "Editează",
-    "heading": "Livrare",
-    "method": "Metodă",
-    "pickUpOrder": "Ridică-ți comanda",
-    "shippingMethod": "Metodă de livrare",
-    "store": "Magazin"
   },
   "ShippingDetails": {
     "contact": "Contact",

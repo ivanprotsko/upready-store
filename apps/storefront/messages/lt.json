@@ -1021,15 +1021,6 @@
     "pageOf": "Puslapis {page} iš {pages}",
     "reviewCount": "{count, plural, one {# atsiliepimas} few {# atsiliepimai} other {# atsiliepimų}}"
   },
-  "ProductTabs": {
-    "easyReturns": "Lengvas grąžinimas",
-    "easyReturnsDesc": "Tiesiog grąžinkite prekę, o mes grąžinsime jūsų pinigus. Jokių papildomų klausimų — pasistengsime, kad grąžinimas būtų kuo paprastesnis.",
-    "fastDelivery": "Greitas pristatymas",
-    "fastDeliveryDesc": "Jūsų siunta atkeliaus per 3–5 darbo dienas į atsiėmimo punktą arba tiesiai į jūsų namus.",
-    "shippingReturns": "Pristatymas ir grąžinimas",
-    "simpleExchanges": "Paprastas keitimas",
-    "simpleExchangesDesc": "Netiko dydis? Jokių problemų — pakeisime jūsų prekę nauja."
-  },
   "ProfileBillingAddress": {
     "billingAddress": "Atsiskaitymo adresas",
     "noBillingAddress": "Atsiskaitymo adreso nėra"
@@ -1114,27 +1105,12 @@
     "password": "Naujas slaptažodis",
     "submit": "Išsaugoti slaptažodį"
   },
-  "Review": {
-    "confirmText": "Spausdami mygtuką „Mokėti“, patvirtinate, kad perskaitėte, supratote ir sutinkate su mūsų Naudojimo sąlygomis, Pardavimo sąlygomis ir Grąžinimo politika bei patvirtinate, kad susipažinote su {siteName} Privatumo politika.",
-    "heading": "Peržiūra"
-  },
   "Search": {
     "empty": "Nerasta rezultatų pagal „{query}“",
     "label": "Paieška",
     "loading": "Ieškoma…",
     "placeholder": "Ieškoti produktų",
     "popular": "Populiarūs produktai"
-  },
-  "Shipping": {
-    "chooseStore": "Pasirinkite jums patogią parduotuvę",
-    "continueToPayment": "Tęsti į mokėjimą",
-    "deliveryDescription": "Kaip norėtumėte gauti savo užsakymą",
-    "edit": "Redaguoti",
-    "heading": "Pristatymas",
-    "method": "Būdas",
-    "pickUpOrder": "Atsiimkite savo užsakymą",
-    "shippingMethod": "Pristatymo būdas",
-    "store": "Parduotuvė"
   },
   "ShippingDetails": {
     "contact": "Kontaktas",
