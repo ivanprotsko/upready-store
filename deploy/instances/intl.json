@@ -61,7 +61,8 @@
     "note": "instance-check --backup-env reads these two allowlists the same way as on RU. docs/instances/RULES.md §1 names no EU endpoint yet, so s3EndpointHosts is empty and an enabled S3 copy fails here until its endpoint host is written into this list and into RULES.md. envFileOnHost is null because this host has no env file with backup target keys today; name it here when one appears."
   },
   "mailRelay": {
-    "description": "self-hosted outbound-only relay on the Contabo host (deploy/mt/MAIL.md's mail service), or a third-party mail API with a GDPR-compliant DPA / SCC on file (e.g. Resend)"
+    "description": "self-hosted outbound-only relay on the Contabo host (deploy/mt/MAIL.md's mail service), or a third-party mail API with a GDPR-compliant DPA / SCC on file (e.g. Resend)",
+    "defaultsAreThisHost": true
   },
   "notes": [
     "Robokassa, CDEK, Pochta Russia, Wildberries and Ozon all exist to serve Russian buyers and sellers of record; a tenant on the INTL database configuring one of them is a sign the wrong tenant landed on the wrong instance (docs/instances/RULES.md §2), not a legitimate use.",

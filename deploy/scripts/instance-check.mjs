@@ -17,6 +17,11 @@
 // prints a secret either, because tenant_integration_secret.payload is never
 // selected.
 //
+// The mail check is part of the env check. It reads the value of the four
+// keys in MAIL_KEYS and of no other key: the relay's name, the sender address,
+// the name the relay introduces itself by and the domains it signs for. None
+// is a secret, and a message names the key, never the value.
+//
 // The --backup-env check reads where the host's backup copies go
 // (deploy/backup/nightly.env.example). It reads the value of the three keys in
 // BACKUP_TARGET_KEYS and of no other key, and a message names the key and the
@@ -80,8 +85,12 @@ export function parseEnvFile(text) {
 /** The only env keys this tool reads a value of. They say where a backup copy goes, and none of them is a secret (deploy/backup/nightly.env.example). */
 export const BACKUP_TARGET_KEYS = ["S3_ENABLED", "S3_ENDPOINT_URL", "CROSS_COPY_SSH_HOST"];
 
-/** `KEY=value` lines -> Map<name, value>, for the names you ask for and no other. The file is sourced by a shell, so an unquoted value ends at the first space. */
-export function readEnvValues(text, names) {
+/**
+ * `KEY=value` lines -> Map<name, value>, for the names you ask for and no other. The file is sourced by a
+ * shell, so an unquoted value ends at the first space. With `wholeLine` it runs to the end of the line
+ * instead, less a trailing ` # comment`: that is how docker compose reads its --env-file.
+ */
+export function readEnvValues(text, names, { wholeLine = false } = {}) {
   const wanted = new Set(names);
   const result = new Map();
   for (const rawLine of text.split("\n")) {
@@ -94,9 +103,60 @@ export function readEnvValues(text, names) {
     const raw = line.slice(eq + 1).trim();
     const quote = raw[0] === '"' || raw[0] === "'" ? raw[0] : null;
     const end = quote ? raw.indexOf(quote, 1) : -1;
-    result.set(name, end !== -1 ? raw.slice(1, end) : raw.split(/\s/)[0]);
+    const unquoted = wholeLine ? raw.replace(/\s+#.*$/, "") : raw.split(/\s/)[0];
+    result.set(name, end !== -1 ? raw.slice(1, end) : unquoted);
   }
   return result;
+}
+
+/** The only env keys the mail check reads a value of. None of them is a secret (deploy/mt/MAIL.md). */
+export const MAIL_KEYS = ["SMTP_HOST", "SMTP_FROM", "MAIL_HOSTNAME", "MAIL_SENDER_DOMAINS"];
+
+/** The stack's own relay, by the name the backend reaches it under (deploy/compose.mt.yml, service `mail`). */
+const OWN_RELAY = "mail";
+
+/** What deploy/compose.mt.yml gives the relay when MAIL_SENDER_DOMAINS is absent. Keep the two in step. */
+export const DEFAULT_SENDER_DOMAINS = ["shipshift.dev"];
+
+/** The domain of a sender written as `a@b` or as `Name <a@b>`, in lower case. Null when there is no address in it. */
+export function senderDomain(from) {
+  const text = String(from ?? "");
+  const address = /<([^>]*)>/.exec(text)?.[1] ?? text;
+  const at = address.lastIndexOf("@");
+  return (at === -1 ? "" : address.slice(at + 1).trim().toLowerCase()) || null;
+}
+
+/**
+ * Mail violations of a backend that sends through the stack's own relay (SMTP_HOST=mail). `mail` comes from
+ * `readEnvValues`. A message names the key, never the value.
+ *
+ * Each of these mistakes fails without a word to anyone. The relay refuses a sender outside the domains it
+ * signs for, so no letter leaves and only the relay's own log says so. And compose.mt.yml's defaults are the
+ * INTL host's name and domain: on another host the relay would introduce itself as a machine it is not, and
+ * sign with a key no DNS record answers for.
+ */
+export function checkMailRelay(mail, profile) {
+  if ((mail.get("SMTP_HOST") ?? "") !== OWN_RELAY) return [];
+  const violations = [];
+  if (profile.mailRelay?.defaultsAreThisHost === false) {
+    for (const key of ["MAIL_HOSTNAME", "MAIL_SENDER_DOMAINS"]) {
+      if (!mail.get(key)) {
+        violations.push(
+          `${key} is not set while SMTP_HOST is the stack's own relay — the relay would take the INTL host's value, which is wrong on the host of instance ${profile.instance} (deploy/mt/MAIL.md)`,
+        );
+      }
+    }
+  }
+  // The relay reads its list split on spaces, and so does this.
+  const listed = (mail.get("MAIL_SENDER_DOMAINS") ?? "").toLowerCase().split(/\s+/).filter(Boolean);
+  const domains = listed.length > 0 ? listed : DEFAULT_SENDER_DOMAINS;
+  const domain = senderDomain(mail.get("SMTP_FROM"));
+  if (!domain || !domains.includes(domain)) {
+    violations.push(
+      `SMTP_FROM is not an address in a domain the relay signs for (MAIL_SENDER_DOMAINS, or ${DEFAULT_SENDER_DOMAINS.join(" ")} when that key is absent) — the relay refuses every letter the backend hands it`,
+    );
+  }
+  return violations;
 }
 
 export function loadProfile(instance, dir = INSTANCES_DIR) {
@@ -125,6 +185,7 @@ export function validateProfile(profile) {
   if (!isList(profile.backup?.crossCopyHosts)) missing.push("backup.crossCopyHosts");
   const envFile = profile.backup?.envFileOnHost;
   if (envFile !== null && typeof envFile !== "string") missing.push("backup.envFileOnHost");
+  if (typeof profile.mailRelay?.defaultsAreThisHost !== "boolean") missing.push("mailRelay.defaultsAreThisHost");
   const exceptions = profile.tenants?.recordedExceptions ?? [];
   if (!Array.isArray(exceptions)) missing.push("tenants.recordedExceptions");
   if (missing.length > 0) {
@@ -390,8 +451,12 @@ function main(argv) {
     process.exit(2);
   }
 
-  const envMap = parseEnvFile(readFileSync(args.env, "utf8"));
-  const violations = [...checkEnv(envMap, profile)];
+  const envText = readFileSync(args.env, "utf8");
+  const envMap = parseEnvFile(envText);
+  const violations = [
+    ...checkEnv(envMap, profile),
+    ...checkMailRelay(readEnvValues(envText, MAIL_KEYS, { wholeLine: true }), profile),
+  ];
   let knownCount = 0;
 
   // A host with no backup env file copies nowhere, so its absence is not a violation. Say that the
