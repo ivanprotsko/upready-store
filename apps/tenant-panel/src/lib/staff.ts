@@ -1,4 +1,4 @@
-import { isStaffRole, type StaffRole } from "./permissions.ts"
+import { PERMISSIONS, STAFF_ROLES, isStaffRole, type Permission, type StaffRole } from "./permissions.ts"
 
 /**
  * The staff screen's data rules (t-2026-10-07-11), free of React so
@@ -19,24 +19,31 @@ export type StaffMember = {
   is_self: boolean
 }
 
+/**
+ * A role and what it opens, as `GET /tenants/staff` lists them next to the
+ * logins (the lead's answer 12.3 of the task's brief). The server's table is
+ * the only one: the form's list of roles and the line under it are read here.
+ */
+export type StaffRoleGrant = { role: string; permissions: string[] }
+
 export type StaffDraft = {
   email: string
   firstName: string
   lastName: string
-  role: StaffRole
+  role: string
   password: string
 }
 
 export type CreateStaffBody = {
   email: string
   password: string
-  role: StaffRole
+  role: string
   first_name?: string
   last_name?: string
 }
 
 export type UpdateStaffBody = {
-  role?: StaffRole
+  role?: string
   first_name?: string
   last_name?: string
   password?: string
@@ -55,11 +62,34 @@ export const staffName = (member: Pick<StaffMember, "first_name" | "last_name">)
 export const staffRoleOf = (member: Pick<StaffMember, "role">): StaffRole | null =>
   isStaffRole(member.role) ? member.role : null
 
-export const emptyStaffDraft = (): StaffDraft => ({
+/** The roles the form offers, in the server's order; the three names when it sent none. */
+export const staffRoleOptions = (roles: StaffRoleGrant[] | undefined): string[] =>
+  roles?.length ? roles.map((grant) => grant.role) : [...STAFF_ROLES]
+
+/**
+ * What a role opens, for the line under the role select: the permissions the
+ * server lists for it, in the panel's own order. Empty when the server did
+ * not list the role, and then the form shows no line rather than a guess.
+ */
+export const roleSees = (roles: StaffRoleGrant[] | undefined, role: string): Permission[] => {
+  const granted = roles?.find((grant) => grant.role === role)?.permissions ?? []
+  return PERMISSIONS.filter((permission) => granted.includes(permission))
+}
+
+/** The role a new login starts with: the one that opens least, the last one on a tie. */
+export const leastRole = (roles: StaffRoleGrant[] | undefined): string => {
+  const options = staffRoleOptions(roles)
+  return options.reduce(
+    (least, role) => (roleSees(roles, role).length <= roleSees(roles, least).length ? role : least),
+    options[0]
+  )
+}
+
+export const emptyStaffDraft = (roles?: StaffRoleGrant[]): StaffDraft => ({
   email: "",
   firstName: "",
   lastName: "",
-  role: "operator",
+  role: leastRole(roles),
   password: "",
 })
 
@@ -67,7 +97,7 @@ export const draftOfStaff = (member: StaffMember): StaffDraft => ({
   email: member.email,
   firstName: member.first_name ?? "",
   lastName: member.last_name ?? "",
-  role: staffRoleOf(member) ?? "operator",
+  role: member.role,
   password: "",
 })
 

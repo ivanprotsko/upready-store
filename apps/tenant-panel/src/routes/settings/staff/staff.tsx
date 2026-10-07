@@ -36,7 +36,7 @@ export const Staff = () => {
   const { t } = useTranslation()
   const prompt = usePrompt()
   const { getFullDate } = useDate()
-  const { staff, isPending, isError, error } = useStaff()
+  const { staff, roles, isPending, isError, error } = useStaff()
   const { mutateAsync: remove } = useDeleteStaff()
 
   const [adding, setAdding] = useState(false)
@@ -145,9 +145,14 @@ export const Staff = () => {
         </Table>
       </Container>
 
-      {adding ? <StaffDrawer onClose={() => setAdding(false)} /> : null}
+      {adding ? <StaffDrawer roles={roles} onClose={() => setAdding(false)} /> : null}
       {editing ? (
-        <StaffDrawer key={editing.id} member={editing} onClose={() => setEditing(null)} />
+        <StaffDrawer
+          key={editing.id}
+          member={editing}
+          roles={roles}
+          onClose={() => setEditing(null)}
+        />
       ) : null}
     </SingleColumnPage>
   )

@@ -468,7 +468,9 @@ test("the new texts exist in both languages, key for key", () => {
     "noAccess.title",
     "noAccess.message",
     "noAccess.toOverview",
-    ...STAFF_ROLES.flatMap((role) => [`staff.roles.${role}`, `staff.roleHints.${role}`]),
+    "staff.roleSees",
+    ...STAFF_ROLES.map((role) => `staff.roles.${role}`),
+    ...PERMISSIONS.map((permission) => `staff.permissions.${permission}`),
   ]
   for (const [language, catalog] of Object.entries(catalogs)) {
     const missing = keys.filter((key) => typeof lookup(catalog, key) !== "string" || !lookup(catalog, key))

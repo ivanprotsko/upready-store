@@ -10,14 +10,15 @@ import {
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
-import { CreateStaffBody, StaffMember, UpdateStaffBody } from "../../lib/staff"
+import { CreateStaffBody, StaffMember, StaffRoleGrant, UpdateStaffBody } from "../../lib/staff"
 
 // t-2026-10-07-11: the shop's staff logins, `/tenants/staff*`. No Admin
 // counterpart: the Admin's users are the platform's, a shop's logins are its
 // own rows with a role each. Every route needs the `staff` permission; the
 // platform's own row never comes back in the list.
 
-export type StaffListResponse = { staff: StaffMember[] }
+/** `roles`: every role with what it opens, in the order `owner`, `manager`, `operator`. */
+export type StaffListResponse = { staff: StaffMember[]; roles?: StaffRoleGrant[] }
 export type StaffMemberResponse = { staff_member: StaffMember }
 export type StaffDeleteResponse = { id: string; object: "tenant_admin"; deleted: boolean }
 

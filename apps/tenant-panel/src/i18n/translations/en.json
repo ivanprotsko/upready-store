@@ -5880,10 +5880,17 @@
       "manager": "Manager",
       "operator": "Operator"
     },
-    "roleHints": {
-      "owner": "Sees the whole shop, changes the settings and adds staff.",
-      "manager": "Sees sales, the catalog, the storefront, promotions and the marketplaces. The settings and the staff are closed.",
-      "operator": "Sees orders and customers only."
+    "roleSees": "Sees: {{list}}.",
+    "permissions": {
+      "orders": "orders",
+      "customers": "customers",
+      "reviews": "reviews",
+      "catalog": "catalog",
+      "storefront": "storefront",
+      "marketing": "promotions",
+      "marketplaces": "marketplaces",
+      "settings": "settings",
+      "staff": "staff"
     },
     "fields": {
       "email": "Email",

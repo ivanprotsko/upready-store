@@ -3,14 +3,17 @@ import { Button, Drawer, Input, Label, Select, Text, toast } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { useCreateStaff, useUpdateStaff } from "../../../hooks/api/staff"
-import { STAFF_ROLES, isStaffRole } from "../../../lib/permissions"
+import { isStaffRole } from "../../../lib/permissions"
 import {
   StaffDraft,
   StaffMember,
+  StaffRoleGrant,
   createStaffBody,
   draftOfStaff,
   emptyStaffDraft,
+  roleSees,
   staffErrorText,
+  staffRoleOptions,
   staffRowActions,
   updateStaffBody,
 } from "../../../lib/staff"
@@ -20,16 +23,22 @@ import {
 // and, when the field is filled, the password. What the form sends and what it
 // refuses on its own is in `lib/staff.ts`; a refusal of the server is shown in
 // the server's words under the fields.
+//
+// The roles and what each opens come from the server with the list (`roles`):
+// the select offers them in its order, and the line under it names the
+// permissions of the chosen one. The panel translates the names of roles and
+// permissions and keeps no text of its own about what a role sees.
 
 type StaffDrawerProps = {
   member?: StaffMember
+  roles?: StaffRoleGrant[]
   onClose: () => void
 }
 
-export const StaffDrawer = ({ member, onClose }: StaffDrawerProps) => {
+export const StaffDrawer = ({ member, roles, onClose }: StaffDrawerProps) => {
   const { t } = useTranslation()
   const [draft, setDraft] = useState<StaffDraft>(() =>
-    member ? draftOfStaff(member) : emptyStaffDraft()
+    member ? draftOfStaff(member) : emptyStaffDraft(roles)
   )
   const [error, setError] = useState<string | null>(null)
 
@@ -37,6 +46,15 @@ export const StaffDrawer = ({ member, onClose }: StaffDrawerProps) => {
   const { mutateAsync: update, isPending: isUpdating } = useUpdateStaff()
 
   const canChangeRole = !member || staffRowActions(member).canChangeRole
+  const roleName = (role: string) => (isStaffRole(role) ? t(`staff.roles.${role}`) : role)
+  const sees = roleSees(roles, draft.role)
+  const roleHint = !canChangeRole
+    ? t("staff.edit.selfRole")
+    : sees.length
+      ? t("staff.roleSees", {
+          list: sees.map((permission) => t(`staff.permissions.${permission}`)).join(", "),
+        })
+      : null
   const set = (patch: Partial<StaffDraft>) => setDraft((now) => ({ ...now, ...patch }))
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -115,22 +133,24 @@ export const StaffDrawer = ({ member, onClose }: StaffDrawerProps) => {
               <Select
                 value={draft.role}
                 disabled={!canChangeRole}
-                onValueChange={(value) => (isStaffRole(value) ? set({ role: value }) : undefined)}
+                onValueChange={(value) => set({ role: value })}
               >
                 <Select.Trigger data-testid="staff-role">
                   <Select.Value />
                 </Select.Trigger>
                 <Select.Content>
-                  {STAFF_ROLES.map((role) => (
+                  {staffRoleOptions(roles).map((role) => (
                     <Select.Item key={role} value={role}>
-                      {t(`staff.roles.${role}`)}
+                      {roleName(role)}
                     </Select.Item>
                   ))}
                 </Select.Content>
               </Select>
-              <Text size="small" className="text-ui-fg-subtle" data-testid="staff-role-hint">
-                {canChangeRole ? t(`staff.roleHints.${draft.role}`) : t("staff.edit.selfRole")}
-              </Text>
+              {roleHint ? (
+                <Text size="small" className="text-ui-fg-subtle" data-testid="staff-role-hint">
+                  {roleHint}
+                </Text>
+              ) : null}
             </div>
             <div className="flex flex-col gap-y-2">
               <Label htmlFor="staff_password" size="small">

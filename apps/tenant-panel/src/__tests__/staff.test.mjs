@@ -5,15 +5,18 @@ import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { OWNER_NAV } from "../components/layout/owner-nav/nav-model.ts"
-import { permissionOfPath } from "../lib/permissions.ts"
+import { PERMISSIONS, permissionOfPath } from "../lib/permissions.ts"
 import {
   STAFF_PASSWORD_MIN,
   createStaffBody,
   draftOfStaff,
   emptyStaffDraft,
+  leastRole,
+  roleSees,
   staffErrorText,
   staffName,
   staffRoleOf,
+  staffRoleOptions,
   staffRowActions,
   updateStaffBody,
 } from "../lib/staff.ts"
@@ -30,6 +33,20 @@ const here = dirname(fileURLToPath(import.meta.url))
 const read = (path) => readFileSync(join(here, "..", path), "utf8")
 
 const PASSWORD = "made-up-for-the-test-1"
+
+/**
+ * What `GET /tenants/staff` lists next to the logins by the brief's contract
+ * (3.2 and the lead's answer 12.3): every role with what it opens. It lives in
+ * this test; the panel has no such table.
+ */
+const ROLES = [
+  { role: "owner", permissions: [...PERMISSIONS] },
+  {
+    role: "manager",
+    permissions: ["orders", "customers", "reviews", "catalog", "storefront", "marketing", "marketplaces"],
+  },
+  { role: "operator", permissions: ["orders", "customers"] },
+]
 const member = (patch = {}) => ({
   id: "ta_2",
   email: "packer@shop.test",
@@ -58,7 +75,49 @@ test("a new login is sent as the contract names it: email, password, role, the n
   })
 })
 
+test("the form offers the server's roles in the server's order", () => {
+  assert.deepEqual(staffRoleOptions(ROLES), ["owner", "manager", "operator"])
+  assert.deepEqual(
+    staffRoleOptions([...ROLES, { role: "auditor", permissions: ["orders"] }]),
+    ["owner", "manager", "operator", "auditor"],
+    "a role the server adds is offered without a change in the panel"
+  )
+  // A server that listed none still gets a form with the three names.
+  assert.deepEqual(staffRoleOptions(undefined), ["owner", "manager", "operator"])
+  assert.deepEqual(staffRoleOptions([]), ["owner", "manager", "operator"])
+})
+
+test("the line under the role is built from what the server says the role opens", () => {
+  assert.deepEqual(roleSees(ROLES, "operator"), ["orders", "customers"])
+  assert.deepEqual(roleSees(ROLES, "manager"), [
+    "orders",
+    "customers",
+    "reviews",
+    "catalog",
+    "storefront",
+    "marketing",
+    "marketplaces",
+  ])
+  assert.deepEqual(roleSees(ROLES, "owner"), [...PERMISSIONS])
+  // The server's table is the only one: change it and the line follows.
+  const changed = [{ role: "operator", permissions: ["reviews", "orders", "billing"] }]
+  assert.deepEqual(roleSees(changed, "operator"), ["orders", "reviews"])
+  // No list from the server, or a role it did not list: no line rather than a guess.
+  assert.deepEqual(roleSees(undefined, "manager"), [])
+  assert.deepEqual(roleSees(ROLES, "auditor"), [])
+})
+
 test("the form opens on the role that sees least", () => {
+  assert.equal(leastRole(ROLES), "operator")
+  assert.equal(emptyStaffDraft(ROLES).role, "operator")
+  assert.equal(
+    leastRole([
+      { role: "owner", permissions: [...PERMISSIONS] },
+      { role: "cashier", permissions: ["orders"] },
+      { role: "operator", permissions: ["orders", "customers"] },
+    ]),
+    "cashier"
+  )
   assert.equal(emptyStaffDraft().role, "operator")
 })
 
@@ -117,6 +176,7 @@ test("a row shows the name, and a role the panel has no name for as the server s
   assert.equal(staffRoleOf(member()), "operator")
   assert.equal(staffRoleOf(member({ role: "auditor" })), null)
   assert.equal(draftOfStaff(member({ first_name: null })).firstName, "")
+  assert.equal(draftOfStaff(member({ role: "auditor" })).role, "auditor", "an edit keeps a role as it is")
 })
 
 test("a refusal of the server is shown in the server's words", () => {
@@ -180,17 +240,33 @@ test("the form asks for email, names, role and password, and says under the role
   }
   assert.match(drawer, /member \? t\("staff\.fields\.newPassword"\) : t\("staff\.fields\.password"\)/)
   assert.match(drawer, /type="password"\s+autoComplete="new-password"/)
-  assert.match(drawer, /STAFF_ROLES\.map\(\(role\) => \(\s*<Select\.Item key=\{role\} value=\{role\}>/)
-  // One line under the select: what the chosen role sees.
+  assert.match(drawer, /staffRoleOptions\(roles\)\.map\(\(role\) => \(\s*<Select\.Item key=\{role\} value=\{role\}>/)
+  // One line under the select: what the chosen role sees, from the server's list.
   const select = drawer.indexOf("</Select>")
-  const hint = drawer.indexOf("t(`staff.roleHints.${draft.role}`)")
+  const hint = drawer.indexOf('data-testid="staff-role-hint"')
   assert.ok(select > 0 && hint > select, "the hint is not under the role select")
+  assert.match(drawer, /const sees = roleSees\(roles, draft\.role\)/)
+  assert.match(drawer, /sees\.map\(\(permission\) => t\(`staff\.permissions\.\$\{permission\}`\)\)\.join\(", "\)/)
+  // The screen hands the server's list to the form.
+  const screen = read("routes/settings/staff/staff.tsx")
+  assert.match(screen, /const \{ staff, roles, isPending, isError, error \} = useStaff\(\)/)
+  assert.equal(screen.match(/roles=\{roles\}/g)?.length, 2, "a form opens without the server's roles")
   // An existing login keeps its email; its own role is locked.
   assert.match(drawer, /disabled=\{!!member\}/)
   assert.match(drawer, /disabled=\{!canChangeRole\}/)
   // A refusal of the server is shown under the fields in its own words.
   assert.match(drawer, /setError\(staffErrorText\(submitError, t\("staff\.errors\.general"\)\)\)/)
   assert.doesNotMatch(drawer, /console\.|localStorage|searchParams/, "a password may reach a log or an address")
+})
+
+test("the catalogs name roles and permissions and keep no text about what a role sees", () => {
+  for (const language of ["ru", "en"]) {
+    const { staff } = JSON.parse(read(`i18n/translations/${language}.json`))
+    assert.deepEqual(Object.keys(staff.permissions), [...PERMISSIONS], `${language}: the permission names`)
+    assert.deepEqual(Object.keys(staff.roles), ["owner", "manager", "operator"], `${language}: the role names`)
+    assert.equal(staff.roleHints, undefined, `${language}: a ready text per role is back`)
+    assert.match(staff.roleSees, /\{\{list\}\}/, `${language}: the line has no place for the list`)
+  }
 })
 
 test("every text of the screen exists in Russian and in English", () => {
@@ -208,6 +284,9 @@ test("every text of the screen exists in Russian and in English", () => {
   }
   for (const error of ["emailRequired", "passwordTooShort", "nothingChanged", "general"]) {
     used.add(`staff.errors.${error}`)
+  }
+  for (const permission of PERMISSIONS) {
+    used.add(`staff.permissions.${permission}`)
   }
   assert.ok(used.size > 20, `the screen yielded ${used.size} keys, which cannot be right`)
   for (const [language, catalog] of Object.entries(catalogs)) {
