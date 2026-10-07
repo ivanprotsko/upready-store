@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} sėkmingai atnaujinta"
   },
   "AccountLayout": {
+    "contacts": "Kontaktai",
     "customerService": "Klientų aptarnavimas",
     "faqDescription": "Dažniausiai užduodamus klausimus ir atsakymus rasite mūsų klientų aptarnavimo puslapyje.",
-    "gotQuestions": "Klausimai ir atsakymai"
+    "gotQuestions": "Klausimai ir atsakymai",
+    "shopQuestions": "Klausimus dėl užsakymo užduokite parduotuvės kontaktais."
   },
   "AccountNav": {
     "account": "Paskyra",
@@ -475,10 +477,6 @@
     "needHelp": "Pagalba",
     "returnsExchanges": "Grąžinimai ir keitimai"
   },
-  "Hero": {
-    "subtitle": "Viskas, ko trūksta oficialiame Medusa DTC starteryje.",
-    "title": "Gamybai paruoštas Medusa DTC Starter"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "Klientų aptarnavimas"
     },
     "home": {
-      "description": "Atraskite mūsų atrinktą produktų kolekciją. Apsipirkite naujausiais stiliais ir raskite tai, kas jums patiks."
+      "description": "Parduotuvės prekių katalogas, pristatymo ir apmokėjimo sąlygos."
     },
     "login": {
       "description": "Prisijunkite prie savo {siteName} paskyros.",

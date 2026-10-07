@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} a fost actualizat cu succes"
   },
   "AccountLayout": {
+    "contacts": "Contact",
     "customerService": "Servicii pentru clienți",
     "faqDescription": "Puteți găsi întrebări frecvente și răspunsuri pe pagina noastră de servicii pentru clienți.",
-    "gotQuestions": "Întrebări și răspunsuri"
+    "gotQuestions": "Întrebări și răspunsuri",
+    "shopQuestions": "Pentru întrebări despre comandă, folosiți datele de contact ale magazinului."
   },
   "AccountNav": {
     "account": "Cont",
@@ -475,10 +477,6 @@
     "needHelp": "Ajutor",
     "returnsExchanges": "Retururi și schimburi"
   },
-  "Hero": {
-    "subtitle": "Tot ce lipsește din starterul oficial Medusa DTC.",
-    "title": "Medusa DTC Starter gata pentru producție"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "Serviciu clienți"
     },
     "home": {
-      "description": "Descoperiți colecția noastră de produse atent selecționate. Cumpărați cele mai noi stiluri și găsiți ceva ce vă place."
+      "description": "Catalogul de produse al magazinului, condiții de livrare și plată."
     },
     "login": {
       "description": "Autentificați-vă în contul dvs. {siteName}.",

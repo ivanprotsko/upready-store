@@ -3,7 +3,7 @@ import type React from "react"
 import UnderlineLink from "@modules/common/components/interactive-link"
 
 import { getLegalLinkContext } from "@lib/data/legal-links"
-import { legalHref } from "@lib/util/legal-links"
+import { accountSupport } from "@lib/util/account-support"
 
 import AccountNav from "../components/account-nav"
 import type { HttpTypes } from "@medusajs/types"
@@ -24,7 +24,10 @@ const AccountLayout = async ({ customer, children }: AccountLayoutProps) => {
   // (f05-checkout-legal-stubs). It now reaches the shop's own support or
   // contacts page, and the whole block goes away when the shop has neither —
   // an invitation to "get in touch" that leads nowhere is worse than silence.
-  const supportLink = legalHref("support", legal)
+  //
+  // t-2026-10-08-13: the starter's copy promises answers to frequent questions,
+  // and a shop has no such page. A shop is sent to its contacts under that name.
+  const support = accountSupport(legal)
 
   return (
     <div className="flex-1" data-testid="account-page">
@@ -39,13 +42,13 @@ const AccountLayout = async ({ customer, children }: AccountLayoutProps) => {
         <div className="flex flex-col small:flex-row items-end justify-between py-12 gap-8 content-container">
           <div>
             <h2 className="text-xl-semi mb-4">{t("gotQuestions")}</h2>
-            <span className="txt-medium">{t("faqDescription")}</span>
+            <span className="txt-medium" data-testid="account-support-text">
+              {t(support.text)}
+            </span>
           </div>
-          {supportLink && (
+          {support.href && (
             <div>
-              <UnderlineLink href={supportLink}>
-                {t("customerService")}
-              </UnderlineLink>
+              <UnderlineLink href={support.href}>{t(support.label)}</UnderlineLink>
             </div>
           )}
         </div>

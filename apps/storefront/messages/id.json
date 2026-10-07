@@ -7,9 +7,11 @@
     "updatedSuccessfully": "{label} berhasil diperbarui"
   },
   "AccountLayout": {
+    "contacts": "Kontak",
     "customerService": "Layanan Pelanggan",
     "faqDescription": "Anda dapat menemukan pertanyaan yang sering diajukan beserta jawabannya di halaman layanan pelanggan kami.",
-    "gotQuestions": "Pertanyaan dan jawaban"
+    "gotQuestions": "Pertanyaan dan jawaban",
+    "shopQuestions": "Pertanyaan tentang pesanan dapat disampaikan melalui kontak toko."
   },
   "AccountNav": {
     "account": "Akun",
@@ -475,10 +477,6 @@
     "needHelp": "Bantuan",
     "returnsExchanges": "Pengembalian & Penukaran"
   },
-  "Hero": {
-    "subtitle": "Semuanya yang tidak ada di Medusa DTC starter resmi.",
-    "title": "Medusa DTC Starter yang Siap Produksi"
-  },
   "Home": {
     "gallery": {
       "carouselLabel": "Category gallery",
@@ -739,7 +737,7 @@
       "title": "Layanan pelanggan"
     },
     "home": {
-      "description": "Temukan koleksi produk pilihan kami. Belanja gaya terbaru dan temukan yang Anda suka."
+      "description": "Katalog produk toko, ketentuan pengiriman dan pembayaran."
     },
     "login": {
       "description": "Masuk ke akun {siteName} Anda.",
