@@ -178,6 +178,8 @@
     "recipientHeading": "Címzett adatai",
     "recipientLabel": "Címzett:",
     "returnsLink": "Visszaküldési feltételek",
+    "paymentTermsLink": "Fizetési és szállítási feltételek",
+    "offerLink": "Nyilvános ajánlat",
     "sameAsShipping": "Megegyezik a szállítási címmel",
     "save": "Mentés",
     "saving": "Mentés...",
@@ -442,9 +444,11 @@
     "contactsHeading": "Kapcsolat",
     "taxId": "Adószám (INN): {value}",
     "regNumber": "Nyilvántartási szám (OGRN): {value}",
+    "regNumberSoleTrader": "Egyéni vállalkozó nyilvántartási száma (OGRNIP): {value}",
     "aboutHeading": "Az üzletről",
     "trackOrder": "Rendelés követése",
-    "badgesLabel": "Szállítás és fizetés"
+    "badgesLabel": "Szállítás és fizetés",
+    "robokassaNote": "Fizetés kártyával vagy SBP-n keresztül. A fizetéseket a Robokassa fogadja"
   },
   "ForgotPassword": {
     "backToSignIn": "Vissza a bejelentkezéshez",

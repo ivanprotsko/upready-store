@@ -178,6 +178,8 @@
     "recipientHeading": "수령인 정보",
     "recipientLabel": "수령인:",
     "returnsLink": "반품 정책",
+    "paymentTermsLink": "결제 및 배송 조건",
+    "offerLink": "공개 오퍼",
     "sameAsShipping": "배송지와 동일",
     "save": "저장",
     "saving": "저장 중...",
@@ -442,9 +444,11 @@
     "contactsHeading": "연락처",
     "taxId": "납세자 번호: {value}",
     "regNumber": "등록 번호: {value}",
+    "regNumberSoleTrader": "개인사업자 등록 번호: {value}",
     "aboutHeading": "쇼핑몰 소개",
     "trackOrder": "주문 조회",
-    "badgesLabel": "배송 및 결제"
+    "badgesLabel": "배송 및 결제",
+    "robokassaNote": "카드 또는 SBP로 결제할 수 있습니다. 결제는 Robokassa가 처리합니다"
   },
   "ForgotPassword": {
     "backToSignIn": "로그인으로 돌아가기",

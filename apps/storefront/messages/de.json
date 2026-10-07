@@ -178,6 +178,8 @@
     "recipientHeading": "Empfängerdaten",
     "recipientLabel": "Empfänger:",
     "returnsLink": "Rückgaberecht",
+    "paymentTermsLink": "Zahlungs- und Lieferbedingungen",
+    "offerLink": "Öffentliches Angebot",
     "sameAsShipping": "Identisch mit Lieferadresse",
     "save": "Speichern",
     "saving": "Speichern...",
@@ -442,9 +444,11 @@
     "contactsHeading": "Kontakt",
     "taxId": "Steuernummer (INN): {value}",
     "regNumber": "Registernummer (OGRN): {value}",
+    "regNumberSoleTrader": "Registernummer des Einzelunternehmers (OGRNIP): {value}",
     "aboutHeading": "Über den Shop",
     "trackOrder": "Bestellung verfolgen",
-    "badgesLabel": "Versand und Zahlung"
+    "badgesLabel": "Versand und Zahlung",
+    "robokassaNote": "Zahlung per Karte oder über SBP. Robokassa wickelt die Zahlungen ab"
   },
   "ForgotPassword": {
     "backToSignIn": "Zurück zur Anmeldung",

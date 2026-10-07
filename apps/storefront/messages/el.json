@@ -178,6 +178,8 @@
     "recipientHeading": "Στοιχεία παραλήπτη",
     "recipientLabel": "Παραλήπτης:",
     "returnsLink": "Πολιτική επιστροφών",
+    "paymentTermsLink": "Όροι πληρωμής και παράδοσης",
+    "offerLink": "Δημόσια προσφορά",
     "sameAsShipping": "Ίδια με τη διεύθυνση αποστολής",
     "save": "Αποθήκευση",
     "saving": "Αποθηκεύεται...",
@@ -442,9 +444,11 @@
     "contactsHeading": "Επικοινωνία",
     "taxId": "ΑΦΜ (INN): {value}",
     "regNumber": "Αρ. μητρώου (OGRN): {value}",
+    "regNumberSoleTrader": "Αρ. μητρώου ατομικής επιχείρησης (OGRNIP): {value}",
     "aboutHeading": "Σχετικά με το κατάστημα",
     "trackOrder": "Παρακολούθηση παραγγελίας",
-    "badgesLabel": "Αποστολή και πληρωμή"
+    "badgesLabel": "Αποστολή και πληρωμή",
+    "robokassaNote": "Πληρωμή με κάρτα ή μέσω SBP. Τις πληρωμές δέχεται η Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "Επιστροφή στη σύνδεση",

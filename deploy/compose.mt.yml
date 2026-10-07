@@ -323,6 +323,19 @@ services:
       REVALIDATE_SECRET: ${REVALIDATE_SECRET}
       STOREFRONT_STUDIO_PASSWORD: ${STOREFRONT_STUDIO_PASSWORD}
       STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}
+      # The seller's requisites line in the Olavka footer (t-2026-10-08-13): the
+      # legal name, the ОГРНИП and the ИНН under the footer's columns. Off unless
+      # this is 1 or true. Robokassa moderates a shop only with the requisites in
+      # its footer, so the RU env file is where it is meant to be set; everywhere
+      # else Ivan's order of 03.10.2026 keeps the requisites off. The storefront
+      # reads it at render time: edit the env file and run `up -d`, no rebuild.
+      STOREFRONT_FOOTER_REQUISITES: ${STOREFRONT_FOOTER_REQUISITES:-}
+      # Takes the red test-mode dot off every page (t-2026-10-08-13). The dot is
+      # the owner's mark of test payments and delivery (t-2026-10-04-21). A shop
+      # under Robokassa moderation keeps its payments in test until the
+      # moderation ends, so set this to 1 for that time and remove it after.
+      # Off unless it is 1 or true. Read at render time, like the line above.
+      STOREFRONT_HIDE_TEST_MODE_DOT: ${STOREFRONT_HIDE_TEST_MODE_DOT:-}
       # Hosts that carry the paywall->onboarding demo instead of a shop
       # (t-2026-09-12-paywall-onboarding-demo). They resolve to no tenant, so
       # src/middleware.ts sends them to /start, which lives outside [locale] and

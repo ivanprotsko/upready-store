@@ -4,6 +4,7 @@ import { headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
 import { resolveTenantByHost } from "@lib/tenant/resolve"
 import { redactMigrationMetadata } from "@lib/util/migration-metadata"
+import { redactProductMetadata } from "@lib/util/product-metadata"
 
 // Defaults to standard port for Medusa server
 let MEDUSA_BACKEND_URL = "http://localhost:9000"
@@ -100,14 +101,16 @@ export const fetchWithoutLocale = async <T>(
 ): Promise<T> => {
   const keyHeader = await getPublishableKeyHeader()
 
-  return redactMigrationMetadata(
-    await originalFetch<T>(input, {
-      ...init,
-      headers: {
-        ...keyHeader,
-        ...(init?.headers ?? {}),
-      },
-    })
+  return redactProductMetadata(
+    redactMigrationMetadata(
+      await originalFetch<T>(input, {
+        ...init,
+        headers: {
+          ...keyHeader,
+          ...(init?.headers ?? {}),
+        },
+      })
+    )
   )
 }
 
@@ -144,5 +147,8 @@ sdk.client.fetch = async <T>(
    * collection), and cleaning them one at a time is how the second and third
    * were found.
    */
-  return redactMigrationMetadata(await originalFetch<T>(input, init))
+  // The same place cuts a product's `metadata` to the keys the storefront reads
+  // (t-2026-10-08-13, `util/product-metadata.ts`): the owner's price list in dollars and
+  // the marketplace notes stay on the server.
+  return redactProductMetadata(redactMigrationMetadata(await originalFetch<T>(input, init)))
 }
