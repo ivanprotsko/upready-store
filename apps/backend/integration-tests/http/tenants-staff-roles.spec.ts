@@ -1,8 +1,9 @@
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
 import { createUserAccountWorkflow } from "@medusajs/medusa/core-flows";
-import { Modules } from "@medusajs/framework/utils";
+import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import type { IAuthModuleService } from "@medusajs/framework/types";
 import { TENANT_MODULE } from "../../src/modules/tenant";
+import { Migration20261008010000 } from "../../src/modules/tenant/migrations/Migration20261008010000";
 import type TenantModuleService from "../../src/modules/tenant/service";
 
 jest.setTimeout(180_000);
@@ -754,6 +755,88 @@ medusaIntegrationTestRunner({
           expect(removedManager.status).toBe(200);
 
           expect((await api.get("/tenants/me", bearer(ownerToken))).data.tenant_admin.role).toBe("owner");
+        });
+      });
+
+      describe("the migration, on a table that already holds logins", () => {
+        type Sql = { raw: (sql: string) => Promise<{ rows: Record<string, unknown>[] }> };
+        type Connection = Sql & { transaction: (work: (trx: Sql) => Promise<void>) => Promise<void> };
+
+        /** The statements of one direction, exactly as the migration file hands them to the runner. */
+        const statementsOf = async (direction: "up" | "down") => {
+          const migration = new Migration20261008010000(undefined as never, undefined as never);
+          await migration[direction]();
+          return migration.getQueries() as string[];
+        };
+
+        const ROLLBACK = new Error("rolled back on purpose");
+
+        it("turns every login into an owner, refuses an unknown role, and comes off cleanly", async () => {
+          const connection: Connection = getContainer().resolve(ContainerRegistrationKeys.PG_CONNECTION);
+          const up = await statementsOf("up");
+          const down = await statementsOf("down");
+          expect(up.length).toBeGreaterThan(0);
+          expect(down.length).toBeGreaterThan(0);
+
+          const seen: Record<string, unknown> = {};
+
+          // DDL is transactional in Postgres: everything below is undone, so
+          // the next test still finds the roles `beforeAll` gave.
+          await connection
+            .transaction(async (trx) => {
+              // The table as it was before this task: the same rows, no column.
+              for (const statement of down) {
+                await trx.raw(statement);
+              }
+              seen.columnsBefore = (
+                await trx.raw(
+                  `select column_name from information_schema.columns where table_name = 'tenant_admin' and column_name = 'role'`,
+                )
+              ).rows.length;
+              seen.loginsBefore = Number((await trx.raw(`select count(*) as n from "tenant_admin"`)).rows[0].n);
+
+              for (const statement of up) {
+                await trx.raw(statement);
+              }
+              // A second run must be a no-op, the way every migration here is written.
+              for (const statement of up) {
+                await trx.raw(statement);
+              }
+
+              seen.roles = (
+                await trx.raw(`select "role", count(*) as n from "tenant_admin" group by "role"`)
+              ).rows.map((row) => `${row.role} ${row.n}`);
+              seen.nullable = (
+                await trx.raw(
+                  `select is_nullable, column_default from information_schema.columns where table_name = 'tenant_admin' and column_name = 'role'`,
+                )
+              ).rows[0];
+
+              await trx.raw(`savepoint before_bad_role`);
+              seen.badRole = await trx
+                .raw(`update "tenant_admin" set "role" = 'root'`)
+                .then(() => "accepted")
+                .catch((error: Error) => error.message);
+              await trx.raw(`rollback to savepoint before_bad_role`);
+
+              throw ROLLBACK;
+            })
+            .catch((error) => {
+              if (error !== ROLLBACK) {
+                throw error;
+              }
+            });
+
+          expect(seen.columnsBefore).toBe(0);
+          // Shop A's three, the three owners' and the platform's row in each of the three shops.
+          expect(seen.loginsBefore).toBe(8);
+          expect(seen.roles).toEqual(["owner 8"]);
+          expect(seen.nullable).toEqual({ is_nullable: "NO", column_default: "'owner'::text" });
+          expect(String(seen.badRole)).toContain("check");
+
+          // And the rollback really put the suite's own roles back.
+          const me = await api.get("/tenants/me", bearer(operatorToken));
+          expect(me.data.tenant_admin.role).toBe("operator");
         });
       });
 

@@ -20,7 +20,8 @@ jest.setTimeout(180_000);
  * the auth module, attach a user to it with `createUserAccountWorkflow`
  * (verified in `@medusajs/core-flows` 2.19.0), then log in over HTTP.
  */
-const PASSWORD = "supersecret";
+// 12 characters at least: the floor `tenantAdminPassword` holds since 46df A-22.
+const PASSWORD = "supersecret-owner";
 
 const productBody = (title: string) => ({
   title,
