@@ -1,4 +1,5 @@
 import { sdk } from "@lib/config"
+import { withCategoryProductRefs } from "@lib/util/category-products"
 import type { HttpTypes } from "@medusajs/types"
 import { getCacheOptions, getTenantHandle } from "./cookies"
 import { siteWideRead } from "./site-wide"
@@ -33,6 +34,14 @@ async function fetchTenantCategories(
    * for, and the buyer's confirmation answered 500. `lib/data/site-wide.ts`
    * carries the rule and the log line.
    */
+  /*
+   * Every category leaves this function with its `products` cut down
+   * (t-2026-10-08-13, part A5, `util/category-products.ts`): drafts removed,
+   * one `{ id }` per product that stays. It is the one read both
+   * `listCategories` and `getCategoryByHandle` go through, and it runs BEFORE
+   * any count below, so neither a menu nor a page's code ever holds a hidden
+   * card or a card's text.
+   */
   return siteWideRead<HttpTypes.StoreProductCategory[] | null>(
     "listCategories /store/tenant/product-categories",
     async () => {
@@ -42,7 +51,7 @@ async function fetchTenantCategories(
             "/store/tenant/product-categories",
             { query, next, cache: "force-cache" }
           )
-        return product_categories
+        return product_categories.map((category) => withCategoryProductRefs(category))
       } catch (error) {
         if ((error as { status?: number })?.status !== 404) {
           throw error
@@ -53,7 +62,7 @@ async function fetchTenantCategories(
             "/store/product-categories",
             { query, next, cache: "force-cache" }
           )
-        return product_categories
+        return product_categories.map((category) => withCategoryProductRefs(category))
       }
     },
     null
