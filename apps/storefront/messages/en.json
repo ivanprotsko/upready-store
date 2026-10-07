@@ -178,6 +178,8 @@
     "recipientHeading": "Recipient details",
     "recipientLabel": "Recipient:",
     "returnsLink": "Return Policy",
+    "paymentTermsLink": "Payment and Delivery Terms",
+    "offerLink": "Public Offer",
     "sameAsShipping": "Same as shipping address",
     "save": "Save",
     "saving": "Saving...",
@@ -442,9 +444,11 @@
     "contactsHeading": "Contacts",
     "taxId": "Tax ID (INN): {value}",
     "regNumber": "Registration no. (OGRN): {value}",
+    "regNumberSoleTrader": "Sole trader registration no. (OGRNIP): {value}",
     "aboutHeading": "About the shop",
     "trackOrder": "Track your order",
-    "badgesLabel": "Delivery and payment"
+    "badgesLabel": "Delivery and payment",
+    "robokassaNote": "Pay by card or through SBP. Robokassa processes the payments"
   },
   "ForgotPassword": {
     "backToSignIn": "Back to sign in",

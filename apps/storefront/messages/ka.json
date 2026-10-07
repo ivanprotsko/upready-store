@@ -178,6 +178,8 @@
     "recipientHeading": "მიმღების მონაცემები",
     "recipientLabel": "მიმღები:",
     "returnsLink": "დაბრუნების პოლიტიკა",
+    "paymentTermsLink": "გადახდისა და მიწოდების პირობები",
+    "offerLink": "საჯარო ოფერტა",
     "sameAsShipping": "იგივეა, რაც მიწოდების მისამართი",
     "save": "შენახვა",
     "saving": "ინახება...",
@@ -442,9 +444,11 @@
     "contactsHeading": "კონტაქტები",
     "taxId": "საგადასახადო ნომერი: {value}",
     "regNumber": "სარეგისტრაციო ნომერი: {value}",
+    "regNumberSoleTrader": "ინდივიდუალური მეწარმის სარეგისტრაციო ნომერი: {value}",
     "aboutHeading": "მაღაზიის შესახებ",
     "trackOrder": "შეკვეთის თვალყურის დევნება",
-    "badgesLabel": "მიწოდება და გადახდა"
+    "badgesLabel": "მიწოდება და გადახდა",
+    "robokassaNote": "გადახდა ბარათით ან SBP-ის მეშვეობით. გადახდებს იღებს Robokassa"
   },
   "ForgotPassword": {
     "backToSignIn": "დაბრუნება შესვლაზე",

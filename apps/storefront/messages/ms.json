@@ -178,6 +178,8 @@
     "recipientHeading": "Butiran penerima",
     "recipientLabel": "Penerima:",
     "returnsLink": "Dasar Pemulangan",
+    "paymentTermsLink": "Terma pembayaran dan penghantaran",
+    "offerLink": "Tawaran awam",
     "sameAsShipping": "Sama seperti alamat penghantaran",
     "save": "Simpan",
     "saving": "Menyimpan...",
@@ -442,9 +444,11 @@
     "contactsHeading": "Hubungi",
     "taxId": "No. cukai (INN): {value}",
     "regNumber": "No. pendaftaran (OGRN): {value}",
+    "regNumberSoleTrader": "No. pendaftaran peniaga tunggal (OGRNIP): {value}",
     "aboutHeading": "Tentang kedai",
     "trackOrder": "Jejak pesanan anda",
-    "badgesLabel": "Penghantaran dan pembayaran"
+    "badgesLabel": "Penghantaran dan pembayaran",
+    "robokassaNote": "Bayar dengan kad atau melalui SBP. Robokassa memproses pembayaran"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke log masuk",

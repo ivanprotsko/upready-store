@@ -44,6 +44,7 @@ import AddressGapMessage from "@modules/checkout/components/address-gap-message"
 import PaymentButton from "@modules/checkout/components/payment-button"
 import PaymentPreNotice from "@modules/checkout/components/payment-pre-notice"
 import { CHECKOUT_PAYMENT_ANCHOR } from "@modules/checkout/components/robokassa-retry-notice"
+import RobokassaTermsLinks from "@modules/checkout/components/robokassa-terms-links"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import PaymentSessionError from "@modules/checkout/components/payment-session-error"
 import { StripePaymentContainer } from "@modules/checkout/components/payment-container"
@@ -817,6 +818,9 @@ export default function CheckoutPaymentSection({
             {tc("receipt")}
           </p>
         )}
+        {/* t-2026-10-08-13: the payment terms and the offer, right at the method that takes
+            the money (the Robokassa contract, clause 4.3.4). */}
+        {isRobokassa(selectedPaymentMethod) && <RobokassaTermsLinks legal={legal} />}
         {/* Rule 5zd (t-2026-10-03-32): right above the button and the total,
             never a modal — the buyer sees it before clicking «Pay». */}
         {showPreNotice && (

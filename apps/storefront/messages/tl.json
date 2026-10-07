@@ -178,6 +178,8 @@
     "recipientHeading": "Detalye ng tatanggap",
     "recipientLabel": "Tatanggap:",
     "returnsLink": "Patakaran sa Pagsauli",
+    "paymentTermsLink": "Mga tuntunin sa pagbabayad at paghahatid",
+    "offerLink": "Pampublikong alok",
     "sameAsShipping": "Kapareho ng address ng paghahatid",
     "save": "I-save",
     "saving": "Sine-save...",
@@ -442,9 +444,11 @@
     "contactsHeading": "Makipag-ugnayan",
     "taxId": "Numero ng buwis (INN): {value}",
     "regNumber": "Numero ng rehistro (OGRN): {value}",
+    "regNumberSoleTrader": "Numero ng rehistro ng solong negosyante (OGRNIP): {value}",
     "aboutHeading": "Tungkol sa tindahan",
     "trackOrder": "Subaybayan ang order",
-    "badgesLabel": "Paghahatid at pagbabayad"
+    "badgesLabel": "Paghahatid at pagbabayad",
+    "robokassaNote": "Magbayad gamit ang kard o sa pamamagitan ng SBP. Robokassa ang tumatanggap ng mga bayad"
   },
   "ForgotPassword": {
     "backToSignIn": "Bumalik sa pag-sign in",

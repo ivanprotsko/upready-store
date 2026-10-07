@@ -178,6 +178,8 @@
     "recipientHeading": "Detail penerima",
     "recipientLabel": "Penerima:",
     "returnsLink": "Kebijakan Pengembalian",
+    "paymentTermsLink": "Ketentuan pembayaran dan pengiriman",
+    "offerLink": "Penawaran publik",
     "sameAsShipping": "Sama dengan alamat pengiriman",
     "save": "Simpan",
     "saving": "Menyimpan...",
@@ -442,9 +444,11 @@
     "contactsHeading": "Kontak",
     "taxId": "NPWP (INN): {value}",
     "regNumber": "No. registrasi (OGRN): {value}",
+    "regNumberSoleTrader": "No. registrasi pengusaha perorangan (OGRNIP): {value}",
     "aboutHeading": "Tentang toko",
     "trackOrder": "Lacak pesanan Anda",
-    "badgesLabel": "Pengiriman dan pembayaran"
+    "badgesLabel": "Pengiriman dan pembayaran",
+    "robokassaNote": "Bayar dengan kartu atau melalui SBP. Robokassa memproses pembayaran"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke masuk",

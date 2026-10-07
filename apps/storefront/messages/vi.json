@@ -178,6 +178,8 @@
     "recipientHeading": "Thông tin người nhận",
     "recipientLabel": "Người nhận:",
     "returnsLink": "Chính sách đổi trả",
+    "paymentTermsLink": "Điều khoản thanh toán và giao hàng",
+    "offerLink": "Đề nghị công khai",
     "sameAsShipping": "Giống địa chỉ giao hàng",
     "save": "Lưu",
     "saving": "Đang lưu...",
@@ -442,9 +444,11 @@
     "contactsHeading": "Liên hệ",
     "taxId": "Mã số thuế: {value}",
     "regNumber": "Số đăng ký: {value}",
+    "regNumberSoleTrader": "Số đăng ký hộ kinh doanh cá thể: {value}",
     "aboutHeading": "Về cửa hàng",
     "trackOrder": "Theo dõi đơn hàng",
-    "badgesLabel": "Giao hàng và thanh toán"
+    "badgesLabel": "Giao hàng và thanh toán",
+    "robokassaNote": "Thanh toán bằng thẻ hoặc qua SBP. Robokassa xử lý các khoản thanh toán"
   },
   "ForgotPassword": {
     "backToSignIn": "Quay lại đăng nhập",
