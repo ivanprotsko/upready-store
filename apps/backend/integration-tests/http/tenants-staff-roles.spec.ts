@@ -787,6 +787,42 @@ medusaIntegrationTestRunner({
           );
         });
 
+        it("carries the role of every login in the shop card, which is what the platform's screen reads", async () => {
+          const expected = [
+            `${PLATFORM_EMAIL} owner`,
+            `${OWNER_A} owner`,
+            `${MANAGER_A} manager`,
+            `${OPERATOR_A} operator`,
+          ].sort();
+          const rolesIn = (admins: PlatformAdmin[]) => admins.map((admin) => `${admin.email} ${admin.role}`).sort();
+
+          // GET /admin/tenants/:id
+          const card = await api.get(`/admin/tenants/${shopA.id}`, adminHeaders);
+          expect(card.status).toBe(200);
+          expect(rolesIn(card.data.tenant.admins)).toEqual(expected);
+
+          // POST /admin/tenants/:id answers the same card.
+          const renamed = await api.post(`/admin/tenants/${shopA.id}`, { name: "Roles shop A, renamed" }, adminHeaders);
+          expect(renamed.status).toBe(200);
+          expect(renamed.data.tenant.name).toBe("Roles shop A, renamed");
+          expect(rolesIn(renamed.data.tenant.admins)).toEqual(expected);
+
+          // A role changed by the shop's owner is in the card at once.
+          const promoted = await editStaff(ownerToken, operator.id, { role: "manager" });
+          expect(promoted.status).toBe(200);
+          const after = await api.get(`/admin/tenants/${shopA.id}`, adminHeaders);
+          expect(
+            (after.data.tenant.admins as PlatformAdmin[]).find((admin) => admin.email === OPERATOR_A)?.role,
+          ).toBe("manager");
+
+          // DELETE /admin/tenants/:id answers no logins at all; the card of the archived shop still does.
+          const archived = await api.delete(`/admin/tenants/${shopB.id}`, adminHeaders);
+          expect(archived.status).toBe(200);
+          expect(archived.data).not.toHaveProperty("tenant");
+          const cardB = await api.get(`/admin/tenants/${shopB.id}`, adminHeaders);
+          expect(rolesIn(cardB.data.tenant.admins)).toEqual([`${PLATFORM_EMAIL} owner`, `${OWNER_B} owner`].sort());
+        });
+
         it("creates an owner when no role is named, and the role named otherwise", async () => {
           const byDefault = await answer(
             api.post(

@@ -39,6 +39,7 @@ type TenantAdmin = {
   email: string;
   first_name: string | null;
   last_name: string | null;
+  role: "owner" | "manager" | "operator"; // t-2026-10-07-11; in the shop card (`TenantDetail.admins`) too
   created_at: string;
   updated_at: string;
 };
