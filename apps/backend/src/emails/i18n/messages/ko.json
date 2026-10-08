@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "주문 <strong>#{id}</strong>이(가) 완료되었습니다. 저희를 선택해 주셔서 감사합니다!",
-    "bodyPromo": "다시 뵙기를 기대합니다. 스토어의 새로운 상품도 확인해 보세요.",
     "deliveryCity": "배송 완료: {city}.",
     "headingAnon": "주문이 완료되었습니다!",
     "headingWithName": "{name}님, 주문이 완료되었습니다!",

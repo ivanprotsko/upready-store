@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Objednávka <strong>č. {id}</strong> byla dokončena. Děkujeme, že jste si vybrali nás!",
-    "bodyPromo": "Budeme rádi, když se k nám vrátíte. Podívejte se na novinky v našem obchodě.",
     "deliveryCity": "Doručeno do {city}.",
     "headingAnon": "Vaše objednávka je dokončena!",
     "headingWithName": "{name}, vaše objednávka je dokončena!",

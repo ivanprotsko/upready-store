@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "הזמנה מספר <strong>{id}</strong> הושלמה. תודה שבחרת בנו!",
-    "bodyPromo": "נשמח לראות אותך שוב. הצץ במוצרים החדשים בחנות שלנו.",
     "deliveryCity": "נמסר אל {city}.",
     "headingAnon": "ההזמנה שלך הושלמה!",
     "headingWithName": "{name}, ההזמנה שלך הושלמה!",

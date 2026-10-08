@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Beställning <strong>#{id}</strong> är slutförd. Tack för att du valde oss!",
-    "bodyPromo": "Vi ser gärna att du kommer tillbaka. Kika på nyheterna i vår butik.",
     "deliveryCity": "Levererad till {city}.",
     "headingAnon": "Din beställning är slutförd!",
     "headingWithName": "{name}, din beställning är slutförd!",

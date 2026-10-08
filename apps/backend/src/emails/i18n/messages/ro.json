@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Comanda <strong>#{id}</strong> a fost finalizată. Vă mulțumim că ne-ați ales!",
-    "bodyPromo": "Ne-ar face plăcere să vă revedem. Descoperiți noutățile din magazinul nostru.",
     "deliveryCity": "Livrat în {city}.",
     "headingAnon": "Comanda dvs. este finalizată!",
     "headingWithName": "{name}, comanda dvs. este finalizată!",

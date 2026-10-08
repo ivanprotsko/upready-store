@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Nakumpleto na ang order <strong>#{id}</strong>. Salamat sa pagpili sa amin!",
-    "bodyPromo": "Ikinagagalak naming makita kang muli. Tingnan ang mga bagong produkto sa aming tindahan.",
     "deliveryCity": "Naihatid sa {city}.",
     "headingAnon": "Nakumpleto na ang order mo!",
     "headingWithName": "{name}, nakumpleto na ang order mo!",

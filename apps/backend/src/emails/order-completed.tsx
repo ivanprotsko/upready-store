@@ -112,8 +112,6 @@ export function OrderCompletedEmail({
         </Section>
       )}
 
-      <Text style={s.paragraph}>{t("OrderCompleted.bodyPromo")}</Text>
-
       <Section style={s.buttonSection}>
         <Button href={ordersUrl} style={s.button}>
           {t("Common.myOrders")}

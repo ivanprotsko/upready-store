@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "订单 <strong>#{id}</strong> 已完成。感谢您选择我们！",
-    "bodyPromo": "期待您的再次光临。欢迎浏览店铺的新品。",
     "deliveryCity": "已送达 {city}。",
     "headingAnon": "您的订单已完成！",
     "headingWithName": "{name}，您的订单已完成！",

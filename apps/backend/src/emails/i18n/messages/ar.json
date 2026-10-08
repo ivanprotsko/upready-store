@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "اكتمل الطلب رقم <strong>{id}</strong>. شكرًا لاختيارك لنا!",
-    "bodyPromo": "يسعدنا أن نراك مرة أخرى. اطّلع على المنتجات الجديدة في متجرنا.",
     "deliveryCity": "تم التوصيل إلى {city}.",
     "headingAnon": "اكتمل طلبك!",
     "headingWithName": "{name}، اكتمل طلبك!",
