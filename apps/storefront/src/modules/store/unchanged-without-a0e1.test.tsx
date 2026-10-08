@@ -45,6 +45,7 @@ vi.mock("@i18n/navigation", () => ({
 }))
 vi.mock("@lib/data/catalog-view", () => ({ catalogViewControlsOn: async () => state.controls }))
 vi.mock("@lib/data/categories", () => ({ listCategories: async () => state.categories }))
+vi.mock("@lib/data/cookies", () => ({ getTenantHandle: async () => null }))
 vi.mock("@lib/data/regions", () => ({ getRegion: async () => ({ id: "reg_1" }) }))
 vi.mock("@lib/data/products", () => ({
   listProductsWithSort: async ({ queryParams }: { queryParams: { limit: number } }) => ({

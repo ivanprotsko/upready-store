@@ -32,4 +32,13 @@ describe("brandsOf", () => {
     expect(brandsOf([category({ id: "c0", handle: "hair" })])).toEqual([])
     expect(brandsOf([category({ id: "c9", handle: "brands", parent_category_id: "c0", category_children: [lebel] })])).toEqual([])
   })
+
+  it("takes the seeded root `brands-<shop>` of this shop, and no other shop's", () => {
+    const seeded = { ...brands, handle: "brands-bpj" } as Category
+
+    expect(brandsOf([seeded, lebel, milbon], "bpj").map((brand) => brand.handle)).toEqual(["milbon", "lebel"])
+    expect(brandsOf([seeded, lebel, milbon], "other")).toEqual([])
+    expect(brandsOf([seeded, lebel, milbon])).toEqual([])
+    expect(brandsOf([seeded, lebel, milbon], null)).toEqual([])
+  })
 })
