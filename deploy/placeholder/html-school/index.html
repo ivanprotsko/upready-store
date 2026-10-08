@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Школа Оксаны Черкашиной — онлайн-курсы</title>
+<meta name="description" content="Авторские онлайн-курсы Оксаны Черкашиной: уроки с видео, материалы и ваш прогресс в личном кабинете школы. Курсы продаются в магазине cherkashino.ru.">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Школа Оксаны Черкашиной">
+<meta property="og:title" content="Школа Оксаны Черкашиной — онлайн-курсы">
+<meta property="og:description" content="Уроки с видео, материалы и ваш прогресс в личном кабинете школы.">
+<meta property="og:url" content="https://school.cherkashina.ru/">
+<meta property="og:image" content="https://school.cherkashina.ru/landing/course-ochishchenie-pecheni-720.webp">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Crect width='1024' height='1024' rx='160' fill='%23ffffff'/%3E%3Cpath d='M558.5 545.4Q554.3 490.1 554.3 410.2Q554.3 330.2 561.6 250.9L849.9 250.9Q811.3 444.1 811.3 620.6Q811.3 703.2 818.6 773.1L589.8 773.1Q574.2 692.7 566.8 629.0Q514.6 595.6 387.2 595.6Q326.6 595.6 268.1 602.9Q197.1 443.1 174.1 250.9L440.4 250.9Q440.4 521.4 558.5 545.4Z' fill='%231a1b09'/%3E%3C/svg%3E">
+<link rel="preload" href="/landing/fonts/inter-500-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* The look of the shop cherkashino.ru: theme `supplements`, light mode (apps/storefront/src/styles/themes.css),
+     Inter 500 for text (public/fonts/olavka), PT Serif italic for the cover lines and the wordmark ink #1a1b09
+     (modules/home/variants/olavka-cover.tsx). */
+  @font-face { font-family: Inter; font-style: normal; font-weight: 500; font-display: swap; src: url(/landing/fonts/inter-500-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: Inter; font-style: normal; font-weight: 500; font-display: swap; src: url(/landing/fonts/inter-500-latin.woff2) format("woff2"); unicode-range: U+00??, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  :root {
+    --background: #ffffff; --foreground: #1d1d1d; --ink: #1a1b09;
+    --primary: #0a6a52; --primary-hover: #08563f; --primary-foreground: #ffffff;
+    --muted: #f3f3f3; --muted-foreground: #5b5b5b; --border: #e0e0e0; --sage: #eef0e6;
+    --radius: 0.5rem;
+    --shadow-card: inset 0 0 0 1px #1d1d1d14, 0 1px 2px #1d1d1d0a, 0 8px 8px -8px #1d1d1d0a;
+    --sans: Inter, -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif: "PT Serif", Georgia, "Times New Roman", serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--background); color: var(--foreground); font: 500 16px/1.55 var(--sans); }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: var(--primary); }
+  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: var(--radius); }
+  h1, h2, h3, p, ul, ol { margin: 0; }
+  .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+  .skip { position: absolute; left: -9999px; top: 8px; background: var(--background); padding: 8px 12px; z-index: 10; }
+  .skip:focus { left: 8px; }
+
+  .top { border-bottom: 1px solid var(--border); background: var(--background); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; }
+  .brand { display: flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; }
+  .brand svg { width: 30px; height: 30px; flex: none; }
+  .brand span { font: italic 700 15px/1.2 var(--serif); max-width: 9.5em; }
+  .top nav { display: flex; align-items: center; gap: 16px; }
+  .top .shop { display: none; color: var(--foreground); text-decoration: none; font-size: 15px; }
+  .top .shop:hover { color: var(--primary); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 18px; border-radius: var(--radius); border: 1px solid transparent; font: 500 15px/1.2 var(--sans); text-decoration: none; text-align: center; transition: background-color 150ms ease-out, border-color 150ms ease-out; }
+  .btn-primary { background: var(--primary); color: var(--primary-foreground); }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-ghost { background: var(--background); color: var(--foreground); border-color: var(--border); }
+  .btn-ghost:hover { border-color: var(--foreground); }
+  .btn-small { min-height: 40px; padding: 8px 14px; font-size: 14px; }
+
+  .cover { padding: 40px 0 36px; text-align: center; }
+  .cover .eyebrow { color: var(--muted-foreground); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 14px; }
+  .cover h1 { max-width: 850px; margin: 0 auto; font: italic 400 26px/1.35 var(--serif); color: var(--ink); text-wrap: balance; }
+  .cover h1 > strong, .cover h1 > span { display: block; text-wrap: balance; }
+  .nw { white-space: nowrap; }
+  .cover h1 strong { font-weight: 700; }
+  .cover .lead { max-width: 620px; margin: 18px auto 0; color: var(--muted-foreground); font-size: 16px; text-wrap: pretty; }
+  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
+
+  section h2 { font: italic 700 24px/1.25 var(--serif); color: var(--ink); margin-bottom: 20px; }
+  .block { padding: 40px 0; }
+  .block.tint { background: var(--sage); }
+
+  .course { display: grid; gap: 0; overflow: hidden; border-radius: calc(var(--radius) * 1.5); box-shadow: var(--shadow-card); background: var(--background); }
+  .course img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 45%; background: #bbc19f; }
+  .course .body { padding: 20px 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .course .kind { color: var(--primary); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+  .course h3 { font: italic 700 26px/1.2 var(--serif); color: var(--ink); }
+  .course .desc { color: var(--foreground); }
+  .facts { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .facts li { background: var(--muted); border-radius: var(--radius); padding: 10px 8px 12px; font-size: 13px; line-height: 1.3; color: var(--muted-foreground); }
+  .facts b { display: block; font: italic 700 17px/1.2 var(--serif); color: var(--ink); margin-bottom: 2px; }
+  .includes { padding-left: 1.15em; color: var(--foreground); }
+  .includes li + li { margin-top: 4px; }
+  .includes li::marker { color: var(--primary); }
+  .buy { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 4px; }
+  .buy .note { color: var(--muted-foreground); font-size: 14px; }
+
+  .steps { list-style: none; padding: 0; display: grid; gap: 12px; counter-reset: step; }
+  .steps li { counter-increment: step; background: var(--background); border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 18px 18px 20px; }
+  .steps li::before { content: counter(step); display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 999px; background: var(--primary); color: var(--primary-foreground); font: italic 700 17px/1 var(--serif); margin-bottom: 12px; }
+  .steps h3 { font: 500 17px/1.3 var(--sans); margin-bottom: 6px; color: var(--foreground); }
+  .steps p { color: var(--muted-foreground); font-size: 15px; }
+
+  .author { display: grid; gap: 14px; max-width: 760px; }
+  .author .name { font: italic 700 22px/1.25 var(--serif); color: var(--ink); }
+  .author ul { padding-left: 1.15em; }
+  .author li + li { margin-top: 4px; }
+  .author li::marker { color: var(--primary); }
+
+  .final { display: grid; gap: 12px; }
+  .final .card { border: 1px solid var(--border); border-radius: calc(var(--radius) * 1.5); padding: 20px 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .final .card p { font: italic 700 20px/1.3 var(--serif); color: var(--ink); }
+
+  footer { border-top: 1px solid var(--border); padding: 28px 0 36px; color: var(--muted-foreground); font-size: 14px; }
+  footer .name { font: italic 700 16px/1.3 var(--serif); color: var(--ink); margin-bottom: 12px; }
+  footer nav ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 16px; }
+  footer nav a { color: var(--foreground); text-decoration: none; }
+  footer nav a:hover { color: var(--primary); text-decoration: underline; }
+
+  @media (min-width: 560px) {
+    .top .shop { display: inline; }
+    .brand span { max-width: none; font-size: 17px; }
+    .final { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 768px) {
+    .wrap { padding: 0 32px; }
+    .cover { padding: 64px 0 56px; }
+    .cover h1 { font-size: 32px; line-height: 1.4; }
+    .cover .lead { font-size: 18px; }
+    .block { padding: 56px 0; }
+    section h2 { font-size: 28px; margin-bottom: 24px; }
+    .course { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .course img { aspect-ratio: 3 / 4; height: 100%; }
+    .course .body { padding: 32px 32px 34px; gap: 16px; justify-content: center; }
+    .course h3 { font-size: 32px; }
+    .facts li { padding: 12px 14px 14px; font-size: 14px; }
+    .facts b { font-size: 24px; }
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  }
+  @media (min-width: 1024px) {
+    .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .course { grid-template-columns: 400px minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">К содержимому</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Школа Оксаны Черкашиной, главная">
+      <svg viewBox="0 0 1024 1024" aria-hidden="true"><path d="M558.5 545.4Q554.3 490.1 554.3 410.2Q554.3 330.2 561.6 250.9L849.9 250.9Q811.3 444.1 811.3 620.6Q811.3 703.2 818.6 773.1L589.8 773.1Q574.2 692.7 566.8 629.0Q514.6 595.6 387.2 595.6Q326.6 595.6 268.1 602.9Q197.1 443.1 174.1 250.9L440.4 250.9Q440.4 521.4 558.5 545.4Z" fill="currentColor"/></svg>
+      <span>Школа Оксаны Черкашиной</span>
+    </a>
+    <nav aria-label="Основное">
+      <a class="shop" href="https://cherkashino.ru/ru">Магазин</a>
+      <a class="btn btn-primary btn-small" href="/login">Войти в кабинет</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="cover">
+    <div class="wrap">
+      <p class="eyebrow">Онлайн-школа</p>
+      <h1><strong>Школа Оксаны Черкашиной</strong> <span>авторские <span class="nw">онлайн-курсы</span> о питании, привычках и образе жизни</span></h1>
+      <p class="lead">Уроки с видео, материалы к ним и ваш прогресс — в личном кабинете школы. Курсы продаются в магазине cherkashino.ru.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#courses">Выбрать курс</a>
+        <a class="btn btn-ghost" href="/login">Войти в кабинет</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block tint" id="courses" aria-labelledby="courses-title">
+    <div class="wrap">
+      <h2 id="courses-title">Курсы</h2>
+      <article class="course" aria-labelledby="course-liver">
+        <img src="/landing/course-ochishchenie-pecheni-360.webp" srcset="/landing/course-ochishchenie-pecheni-360.webp 360w, /landing/course-ochishchenie-pecheni-720.webp 720w" sizes="(min-width: 1024px) 400px, (min-width: 768px) 42vw, 100vw" width="360" height="480" alt="Обложка курса: рисунок с травами, цветами и флаконами на зелёном фоне">
+        <div class="body">
+          <p class="kind">Онлайн-программа</p>
+          <h3 id="course-liver">Очищение печени</h3>
+          <p class="desc">Авторская программа Оксаны Черкашиной. Всё по плану: меню и план дня, дыхательные практики и гимнастика, уроки и прямые эфиры с автором.</p>
+          <ul class="facts">
+            <li><b>23</b>урока в кабинете</li>
+            <li><b>7 дней</b>программа</li>
+            <li><b>3 месяца</b>доступа после неё</li>
+          </ul>
+          <ul class="includes" aria-label="Что входит">
+            <li>Уроки с видео и материалами</li>
+            <li>Прямые эфиры с Оксаной Черкашиной</li>
+            <li>Углеводное меню на период программы</li>
+            <li>Дыхательные практики</li>
+          </ul>
+          <div class="buy">
+            <a class="btn btn-primary" href="https://cherkashino.ru/ru/products/course-ochishchenie-pecheni-cherkashino">Купить</a>
+            <span class="note">Цена, оплата и подробности — на странице курса в магазине</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title">Как устроено обучение</h2>
+      <ol class="steps">
+        <li><h3>Покупка в магазине</h3><p>Курс оплачивается на своей странице в магазине cherkashino.ru.</p></li>
+        <li><h3>Вход в кабинет</h3><p>После оплаты войдите в кабинет школы: купленный курс будет там.</p></li>
+        <li><h3>Уроки по порядку</h3><p>В каждом уроке видео, текст и материалы. Смотрите с телефона или с компьютера.</p></li>
+        <li><h3>Ваш прогресс</h3><p>Кабинет отмечает пройденные уроки: видно, сколько пройдено и что дальше.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block tint" aria-labelledby="author-title">
+    <div class="wrap">
+      <div class="author">
+        <h2 id="author-title">Автор курсов</h2>
+        <p class="name">Оксана Черкашина</p>
+        <ul>
+          <li>Биолог, нутрициолог, натуропат</li>
+          <li>Автор Школы естественного оздоровления и авторских программ</li>
+          <li>Более 4000 учеников</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-label="Куда дальше">
+    <div class="wrap final">
+      <div class="card">
+        <p>Уже купили курс?</p>
+        <a class="btn btn-primary" href="/login">Войти в кабинет</a>
+      </div>
+      <div class="card">
+        <p>Ещё выбираете?</p>
+        <a class="btn btn-ghost" href="https://cherkashino.ru/ru">Перейти в магазин</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="name">Школа Оксаны Черкашиной</p>
+    <nav aria-label="Ссылки в подвале">
+      <ul>
+        <li><a href="https://cherkashino.ru/ru">Магазин cherkashino.ru</a></li>
+        <li><a href="/login">Войти в кабинет</a></li>
+        <li><a href="https://cherkashino.ru/ru/pages/offer">Публичная оферта</a></li>
+        <li><a href="https://cherkashino.ru/ru/pages/privacy">Политика конфиденциальности</a></li>
+        <li><a href="https://cherkashino.ru/ru/pages/contacts">Контакты</a></li>
+      </ul>
+    </nav>
+    <p>© 2026 Школа Оксаны Черкашиной. Курсы продаёт магазин cherkashino.ru: оплата, документы и контакты — на его страницах.</p>
+  </div>
+</footer>
+</body>
+</html>
