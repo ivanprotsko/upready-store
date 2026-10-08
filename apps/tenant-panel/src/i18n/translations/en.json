@@ -5932,5 +5932,42 @@
       "last_owner_demote": "This is the last owner of the shop, so you cannot change its role. Make another login an owner first.",
       "password_shared": "This login is also used outside this shop, so you cannot change its password here. Ask the person to change it in their profile or through the reset link on the login page."
     }
+  },
+  "coursePage": {
+    "header": "Course page",
+    "description": "The sections under the course card on the product page of your shop. Buyers see the changes once you save.",
+    "loading": "Loading the course's product…",
+    "productMissing": "The course's product was not found, so its page cannot be changed here.",
+    "translations": "The page also has a translation ({{locales}}). It is not edited here, and a buyer who reads the shop in that language sees the translation.",
+    "readOnly": "Only a login with access to products can change the course page.",
+    "unsaved": "Unsaved changes",
+    "save": "Save page",
+    "saved": "Course page saved",
+    "incomplete": "Fill in the highlighted fields or delete the entries you do not need.",
+    "remove": "Delete",
+    "about": {
+      "title": "About the course",
+      "hint": "Blocks with a heading and a text. The text takes Markdown. Drag a row by its handle to change the order.",
+      "add": "Add block",
+      "empty": "No blocks yet. The page shows no such section.",
+      "heading": "Heading",
+      "body": "Text"
+    },
+    "faq": {
+      "title": "Questions and answers",
+      "hint": "The answer takes Markdown. Drag a row by its handle to change the order.",
+      "add": "Add question",
+      "empty": "No questions yet. The page shows no such section.",
+      "q": "Question",
+      "a": "Answer"
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "hint": "The author's name and the testimonial itself. Drag a row by its handle to change the order.",
+      "add": "Add testimonial",
+      "empty": "No testimonials yet. The page shows no such section.",
+      "author": "Author",
+      "text": "Testimonial"
+    }
   }
 }

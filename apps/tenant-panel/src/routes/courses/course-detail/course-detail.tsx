@@ -18,6 +18,7 @@ import { useDomains } from "../../../hooks/api/domains"
 import { useTenantLocaleSettings } from "../../../hooks/api/locale-settings"
 import { useProduct } from "../../../hooks/api/products"
 import { buildCourseStorefrontUrl } from "../course-labels"
+import { CoursePageSection } from "./course-page-section"
 
 // o24-courses: one page for everything an owner does with a course, the same
 // shape `product-attributes/attribute-edit` uses (view and edit share the page,
@@ -42,7 +43,7 @@ export const CourseDetail = () => {
   // empty `product_id`.
   const { primary_host: primaryHost } = useDomains()
   const { locale_settings: localeSettings } = useTenantLocaleSettings()
-  const { product } = useProduct(course?.product_id ?? "", undefined, {
+  const { product, isError: isProductError } = useProduct(course?.product_id ?? "", undefined, {
     enabled: Boolean(course?.product_id),
   })
   const storefrontUrl = buildCourseStorefrontUrl(
@@ -314,6 +315,7 @@ export const CourseDetail = () => {
           )}
         </div>
       </Container>
+      <CoursePageSection product={product} productMissing={isProductError} />
     </SingleColumnPage>
   )
 }
