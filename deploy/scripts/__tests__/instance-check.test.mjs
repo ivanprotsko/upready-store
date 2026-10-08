@@ -138,6 +138,22 @@ test("checkEnv: ru profile fails on the crypto payments switch and on BTCPay or 
   assert.deepEqual(checkEnv(parseEnvFile("PAYMENTS_CRYPTO_AVAILABLE=true\nBTCPAY_SERVER_URL=https://pay.test\n"), intl), []);
 });
 
+test("checkEnv: ru profile fails on the Tribute switch, whatever its value, and intl takes it (t-cherk-22)", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const intl = loadProfile("intl", INSTANCES_DIR);
+
+  const flag = checkEnv(parseEnvFile("TRIBUTE_AVAILABLE=true\n"), ru);
+  assert.equal(flag.length, 1);
+  assert.match(flag[0], /TRIBUTE_AVAILABLE/);
+  assert.equal(checkEnv(parseEnvFile("TRIBUTE_AVAILABLE=false\n"), ru).length, 1);
+
+  const rows = checkDbProviders(["tribute"], ru);
+  assert.equal(rows.length, 1);
+  assert.match(rows[0], /forbidden provider "tribute"/);
+
+  assert.deepEqual(checkEnv(parseEnvFile("TRIBUTE_AVAILABLE=true\n"), intl), []);
+});
+
 test("ru profile has no x402 (t-2026-10-03-33): X402_ variables and an x402 tenant row both fail, intl takes both", () => {
   const ru = loadProfile("ru", INSTANCES_DIR);
   const intl = loadProfile("intl", INSTANCES_DIR);

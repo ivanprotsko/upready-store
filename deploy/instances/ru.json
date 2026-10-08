@@ -39,7 +39,7 @@
     "forbiddenPrefixes": [
       {
         "prefix": "TRIBUTE_",
-        "reason": "Tribute is INTL-only (Wallet Pay, crypto rails, non-RU payment entity) — forbidden on RU"
+        "reason": "Tribute is INTL-only (Wallet Pay, crypto rails, non-RU payment entity) — forbidden on RU; TRIBUTE_AVAILABLE=true is what switches Tribute on in the backend and panel (t-cherk-22)"
       },
       {
         "prefix": "X402_",

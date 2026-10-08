@@ -42,6 +42,7 @@ import {
   type ResolvedTributeSecret,
   type TributeCurrency,
 } from "../../tenant-secrets/tribute";
+import { tributeAvailable, TRIBUTE_UNAVAILABLE_REASON } from "../../tribute/availability";
 
 type InjectedDependencies = {
   logger: Logger;
@@ -133,7 +134,15 @@ export default class TributePaymentProviderService extends AbstractPaymentProvid
     return {};
   }
 
+  /**
+   * Refused before anything is read on an instance that does not offer
+   * Tribute (`tribute/availability.ts`). The store middleware already answers
+   * 404 there; this is the second wall, as in the BTCPay provider.
+   */
   async initiatePayment(input: InitiatePaymentInput): Promise<InitiatePaymentOutput> {
+    if (!tributeAvailable()) {
+      throw new MedusaError(MedusaError.Types.NOT_ALLOWED, TRIBUTE_UNAVAILABLE_REASON);
+    }
     const data = (input.data ?? {}) as Record<string, unknown>;
     const currencyCode = String(input.currency_code ?? "").toLowerCase();
     if (!TRIBUTE_CURRENCIES.includes(currencyCode as TributeCurrency)) {
