@@ -64,6 +64,59 @@ describe("notifyBuyerTelegram", () => {
     expect(sendTelegramMessageMock).toHaveBeenCalledWith("123:abc", "777", expect.stringContaining("42"));
   });
 
+  it.each([
+    {
+      kind: "payment-captured",
+      tag: "payment-captured-telegram-buyer",
+      locale: "ru",
+      title: "Заказ №42 оплачен",
+      otherEvents: ["оформлен", "отправлен"],
+    },
+    {
+      kind: "payment-captured",
+      tag: "payment-captured-telegram-buyer",
+      locale: "en",
+      title: "Order #42 paid",
+      otherEvents: ["placed", "shipped"],
+    },
+    {
+      kind: "shipment-created",
+      tag: "order-shipment-created-telegram-buyer",
+      locale: "ru",
+      title: "Заказ №42 отправлен",
+      otherEvents: ["оформлен", "оплачен"],
+    },
+    {
+      kind: "shipment-created",
+      tag: "order-shipment-created-telegram-buyer",
+      locale: "en",
+      title: "Order #42 shipped",
+      otherEvents: ["placed", "paid"],
+    },
+  ] as const)(
+    "sends the buyer a Telegram message on $kind in the order's language ($locale)",
+    async ({ kind, tag, locale, title, otherEvents }) => {
+      sendTelegramMessageMock.mockResolvedValue({ message_id: 57 });
+      const { container } = buildContainer();
+
+      const sent = await notifyBuyerTelegram({
+        container: container as any,
+        tag,
+        kind,
+        order: buildOrder({ locale }),
+      });
+
+      expect(sent).toBe(true);
+      expect(sendTelegramMessageMock).toHaveBeenCalledTimes(1);
+      const [token, chatId, text] = sendTelegramMessageMock.mock.calls[0];
+      expect([token, chatId]).toEqual(["123:abc", "777"]);
+      expect(text.split("\n")[0]).toBe(title);
+      for (const word of otherEvents) {
+        expect(text).not.toContain(word);
+      }
+    },
+  );
+
   it("does not call the Bot API when the buyer has no Telegram identity", async () => {
     const { container } = buildContainer();
 
