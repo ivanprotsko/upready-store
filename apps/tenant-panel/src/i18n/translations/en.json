@@ -4416,6 +4416,33 @@
       "nothingToOffer": "Add at least one requisite or a manager contact before switching transfers on"
     }
   },
+  "tribute": {
+    "title": "Tribute",
+    "subtitle": "buyers pay through Tribute in Telegram, and the money goes to your shop on Tribute",
+    "stateOn": "on",
+    "stateOff": "off",
+    "stateNone": "not set up",
+    "fields": {
+      "is_enabled": "Accept payments through Tribute",
+      "api_key": "API key"
+    },
+    "keepPlaceholder": "leave empty to keep the current one",
+    "emptyPlaceholder": "paste from Tribute",
+    "apiKeyHint": "Create the API key in the Tribute dashboard under Settings → API Keys. Tribute signs its payment notices with the same key, so after you change the key in Tribute, paste the new one here.",
+    "save": "Save",
+    "saved": "Tribute settings saved",
+    "remove": "Remove key",
+    "removeTitle": "Remove the Tribute key?",
+    "removeDescription": "The key is forgotten and payments through Tribute switch off. To take them again, paste the key once more.",
+    "cancel": "Cancel",
+    "removed": "Tribute key removed",
+    "webhookTitle": "Webhook URL for Tribute",
+    "webhookHint": "In the Tribute dashboard open Settings → API Keys and paste this address into the webhook settings. Without it your shop never learns that an order was paid.",
+    "errors": {
+      "required": "Needed to switch Tribute on",
+      "fixFields": "Check the highlighted fields"
+    }
+  },
   "btcpay": {
     "title": "Cryptocurrency (BTCPay Server)",
     "subtitle": "buyers pay in crypto through your own store on BTCPay Server, and the money goes straight to your wallet",

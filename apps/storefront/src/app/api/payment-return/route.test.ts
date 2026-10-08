@@ -138,3 +138,40 @@ describe("GET /api/payment-return, provider=bitcart", () => {
     expect(placeOrder).not.toHaveBeenCalled()
   })
 })
+
+/**
+ * t-cherk-22, part B. Tribute's success and fail addresses carry an `outcome`
+ * the way Robokassa's do, and Tribute's final `shop_order` webhook is what makes
+ * the order on the backend, so the return decides nothing either.
+ */
+describe("GET /api/payment-return, provider=tribute", () => {
+  beforeEach(() => {
+    setCartId.mockReset()
+    placeOrder.mockReset()
+  })
+
+  it("sends a success to the waiting page at once, without completing the cart itself", async () => {
+    const res = await robokassaReturn("provider=tribute&cart_id=cart_1&outcome=success&locale=ru")
+
+    expect(res.status).toBe(307)
+    expect(res.headers.get("location")).toBe("https://cherkashino.ru/ru/payment-return")
+    expect(setCartId).toHaveBeenCalledWith("cart_1")
+    expect(placeOrder).not.toHaveBeenCalled()
+  })
+
+  it("sends a failure straight to the filled checkout with the failure notice", async () => {
+    const res = await robokassaReturn("provider=tribute&cart_id=cart_1&outcome=fail&locale=en")
+
+    expect(res.status).toBe(307)
+    expect(res.headers.get("location")).toBe("https://cherkashino.ru/en/checkout?payment=failed")
+    expect(setCartId).toHaveBeenCalledWith("cart_1")
+    expect(placeOrder).not.toHaveBeenCalled()
+  })
+
+  it("lands a Tribute return without a cart on the checkout, never on the cart", async () => {
+    const res = await robokassaReturn("provider=tribute&outcome=success&locale=ru")
+
+    expect(res.headers.get("location")).toBe("https://cherkashino.ru/ru/checkout?payment=failed")
+    expect(setCartId).not.toHaveBeenCalled()
+  })
+})

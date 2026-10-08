@@ -150,6 +150,10 @@ services:
       # storefront reads. Empty mints no code. RU only
       # (deploy/instances/ru.json; intl.json forbids it).
       SCHOOL_SSO_RETURN_HOSTS: ${SCHOOL_SSO_RETURN_HOSTS:-}
+      # Tribute (t-cherk-22): offered only where this is exactly `true`
+      # (src/tribute/availability.ts). INTL only: ru.json forbids every
+      # TRIBUTE_ variable, so a RU env file that sets it fails instance-check.
+      TRIBUTE_AVAILABLE: ${TRIBUTE_AVAILABLE:-}
       # The profile the FIRST boot seeds (store, 241 regions, stock locations,
       # fulfillment + this profile's catalog). The other two demo catalogs are
       # seeded by re-running the same seed with another STORE_PROFILE —

@@ -52,8 +52,15 @@ export async function GET(req: NextRequest) {
   // take the same path as Robokassa's success: the backend reads the invoice
   // from the shop's own server, and the waiting page looks for the order it
   // made. Neither sends an `outcome`, so this never reads as a failure.
+  // Tribute's success and fail addresses (t-cherk-22) carry an `outcome` the
+  // way Robokassa's do, and its final `shop_order` webhook makes the order.
   const provider = req.nextUrl.searchParams.get("provider")
-  if (provider === "robokassa" || provider === "btcpay" || provider === "bitcart") {
+  if (
+    provider === "robokassa" ||
+    provider === "tribute" ||
+    provider === "btcpay" ||
+    provider === "bitcart"
+  ) {
     return robokassaReturn(req)
   }
 

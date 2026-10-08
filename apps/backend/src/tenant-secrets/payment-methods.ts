@@ -1,4 +1,5 @@
 import { cryptoPaymentsAvailable } from "../btcpay/availability";
+import { tributeAvailable } from "../tribute/availability";
 
 /**
  * Which payment methods a shop has actually connected, the one resolver every
@@ -23,6 +24,10 @@ import { cryptoPaymentsAvailable } from "../btcpay/availability";
 
 export type TenantPaymentMethods = {
   robokassa: boolean;
+  /**
+   * The shop's Tribute account, enabled (t-cherk-22), and only on an instance
+   * that offers Tribute at all (`tribute/availability.ts`).
+   */
   tribute: boolean;
   /**
    * The shop's own BTCPay Server store, enabled (ask-20261005-070255-438f),
@@ -85,14 +90,21 @@ export const resolveTenantPaymentMethods = (params: {
    * neither the checkout's provider list nor `by-host` ever offer them there.
    */
   cryptoAvailable?: boolean;
+  /**
+   * Whether this instance offers Tribute (`tribute/availability.ts`). Read
+   * from the environment unless given; a shop's saved Tribute account counts
+   * for nothing where it is `false`, the way `cryptoAvailable` treats BTCPay.
+   */
+  tributeAvailable?: boolean;
 }): TenantPaymentMethods => {
   const crypto = params.cryptoAvailable ?? cryptoPaymentsAvailable();
+  const tribute = params.tributeEnabled && (params.tributeAvailable ?? tributeAvailable());
   const btcpay = params.btcpayEnabled && crypto;
   const bitcart = Boolean(params.bitcartEnabled) && crypto;
   const x402 = Boolean(params.x402Enabled) && crypto;
   const hasRealMethod =
     params.robokassaEnabled ||
-    params.tributeEnabled ||
+    tribute ||
     btcpay ||
     bitcart ||
     x402 ||
@@ -101,7 +113,7 @@ export const resolveTenantPaymentMethods = (params: {
 
   return {
     robokassa: params.robokassaEnabled,
-    tribute: params.tributeEnabled,
+    tribute,
     btcpay,
     bitcart,
     x402,

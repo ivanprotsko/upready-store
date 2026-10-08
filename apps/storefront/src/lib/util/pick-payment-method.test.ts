@@ -29,4 +29,15 @@ describe("pickActivePaymentMethod", () => {
   it("picks the first available method when nothing was selected yet", () => {
     expect(pickActivePaymentMethod("", [{ id: "pp_system_default" }])).toBe("pp_system_default")
   })
+
+  // t-cherk-22, part B: the checkout lists what `/store/payment-providers` answered and nothing
+  // else, and the backend answers Tribute only for a shop that saved its API key.
+  it("keeps Tribute while the backend lists it, and drops it the moment it does not", () => {
+    const withTribute = [{ id: "pp_robokassa_robokassa" }, { id: "pp_tribute_tribute" }]
+
+    expect(pickActivePaymentMethod("pp_tribute_tribute", withTribute)).toBe("pp_tribute_tribute")
+    expect(pickActivePaymentMethod("pp_tribute_tribute", [{ id: "pp_robokassa_robokassa" }])).toBe(
+      "pp_robokassa_robokassa"
+    )
+  })
 })
