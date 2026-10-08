@@ -11,6 +11,11 @@ import { fileURLToPath } from "node:url"
  * category the shop's menu leaves out as empty. A host with a shop behind it
  * gets its own data and no line of that text; a host with none keeps the file
  * it had.
+ *
+ * Part A7b: all 42 links of the live file went without `/ru` and answered a
+ * 302 each, and a product line gave the first words of its description, the
+ * owner's own text cut in the middle. A link of a page now carries the shop's
+ * language, and a product is its name and its link.
  */
 
 const BASE = "https://shop.example"
@@ -34,6 +39,7 @@ const CATEGORIES = [
 
 const PRODUCTS = [
   { handle: "green-tea", title: "Зелёный чай", subtitle: null, description: "Чай с горных склонов" },
+  { handle: "black-tea", title: "Чёрный чай", subtitle: "Крепкий настой", description: null },
 ]
 
 const answer = async (path: string, init?: { query?: Record<string, unknown> }) => {
@@ -169,10 +175,10 @@ describe("/llms.txt of a host with a shop", () => {
   it("labels its sections and links from the dictionary of the shop's language", async () => {
     const text = await file()
 
-    expect(text).toContain("## Магазин\n\n- [Главная](https://shop.example)\n- [Все товары](https://shop.example/store)\n")
-    expect(text).toContain("## Коллекции\n\n- [Новинки](https://shop.example/collections/new)\n")
+    expect(text).toContain("## Магазин\n\n- [Главная](https://shop.example/ru)\n- [Все товары](https://shop.example/ru/store)\n")
+    expect(text).toContain("## Коллекции\n\n- [Новинки](https://shop.example/ru/collections/new)\n")
     expect(text).toContain("## Категории\n")
-    expect(text).toContain("## Товары\n\n- [Зелёный чай](https://shop.example/products/green-tea): Чай с горных склонов\n")
+    expect(text).toContain("## Товары\n\n- [Зелёный чай](https://shop.example/ru/products/green-tea)\n")
     expect(text).not.toMatch(/Home|All products|Categories|Products|Collections/)
   })
 
@@ -180,8 +186,46 @@ describe("/llms.txt of a host with a shop", () => {
     const text = await file()
 
     expect(text).not.toContain("## Язык")
-    expect(text).not.toContain("https://shop.example/ru")
     expect(text).not.toContain("https://shop.example/en")
+  })
+
+  it("puts the shop's language into the address of every page it links", async () => {
+    const links = ((await file()).match(/\]\([^)]+\)/g) ?? []).map((link) => link.slice(2, -1))
+    const pages = links.filter((href) => !href.endsWith("/sitemap.xml"))
+
+    expect(pages.length).toBeGreaterThan(5)
+    for (const href of pages) {
+      expect(href === "https://shop.example/ru" || href.startsWith("https://shop.example/ru/"), href).toBe(true)
+    }
+  })
+
+  it("leaves the link of the sitemap as it was", async () => {
+    const text = await file()
+
+    expect(text).toContain("- [sitemap.xml](https://shop.example/sitemap.xml)\n")
+    expect(text).not.toContain("/ru/sitemap.xml")
+  })
+
+  it("links a page in a language the shop publishes when its default is not one of them", async () => {
+    state.enabledLocales = ["de"]
+    state.defaultLocale = "ru"
+
+    const text = await file()
+
+    expect(text).toContain("(https://shop.example/de/products/green-tea)")
+    expect(text).not.toContain("https://shop.example/ru")
+  })
+
+  it("gives a product as its name and its link, with no word of its description", async () => {
+    const text = await file()
+    const section = text.slice(text.indexOf("## Товары"))
+
+    expect(section.split("\n").filter((line) => line.startsWith("- "))).toEqual([
+      "- [Зелёный чай](https://shop.example/ru/products/green-tea)",
+      "- [Чёрный чай](https://shop.example/ru/products/black-tea)",
+    ])
+    expect(text).not.toContain("Чай с горных склонов")
+    expect(text).not.toContain("Крепкий настой")
   })
 
   it("lists exactly the shop's languages when it is published in several", async () => {
@@ -198,7 +242,7 @@ describe("/llms.txt of a host with a shop", () => {
   it("leaves out a category with no card a buyer can open, as the menu does", async () => {
     const text = await file()
 
-    expect(text).toContain("- [Чай](https://shop.example/categories/tea): Листовой чай")
+    expect(text).toContain("- [Чай](https://shop.example/ru/categories/tea): Листовой чай")
     expect(text).not.toContain("Мёд")
     expect(text).not.toContain("/categories/honey")
   })
@@ -227,7 +271,7 @@ describe("/llms.txt of a host with a shop", () => {
 
     const text = await file()
 
-    expect(text).toContain("## Store\n\n- [Home](https://shop.example)\n- [All products](https://shop.example/store)\n")
+    expect(text).toContain("## Store\n\n- [Home](https://shop.example/en)\n- [All products](https://shop.example/en/store)\n")
     for (const word of STARTER_WORDS) {
       expect(text, word).not.toContain(word)
     }
@@ -249,6 +293,7 @@ describe("/llms.txt of a host with no shop", () => {
     expect(text).toContain("- [English storefront](https://shop.example/en): Same store in English")
     expect(text.match(/ storefront\]/g)).toHaveLength(36)
     expect(text).toContain("## Categories\n\n- [Чай](https://shop.example/categories/tea): Листовой чай\n- [Мёд](https://shop.example/categories/honey)")
+    expect(text).toContain("- [Зелёный чай](https://shop.example/products/green-tea): Чай с горных склонов\n")
   })
 
   it("reads the unscoped routes, as before", async () => {
