@@ -7,6 +7,7 @@ import {
   isPaymentSessionReady,
   isRobokassa,
   isStripeLike,
+  isTribute,
   isX402,
 } from "@lib/constants"
 import type { ManualPaymentKind } from "@lib/tenant/manual-payment"
@@ -27,6 +28,7 @@ import BtcpayPaymentButton from "./providers/btcpay"
 import ManualPaymentButton from "./providers/manual"
 import RobokassaPaymentButton from "./providers/robokassa"
 import StripePaymentButton from "./providers/stripe"
+import TributePaymentButton from "./providers/tribute"
 import X402PaymentButton from "./providers/x402"
 import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 
@@ -141,6 +143,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       return <ManualPaymentButton {...providerProps} />
     case isRobokassa(activePaymentMethod):
       return <RobokassaPaymentButton {...providerProps} />
+    case isTribute(activePaymentMethod):
+      return <TributePaymentButton {...providerProps} />
     case isBtcpay(activePaymentMethod):
       return <BtcpayPaymentButton {...providerProps} />
     case isBitcart(activePaymentMethod):

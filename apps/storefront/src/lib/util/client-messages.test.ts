@@ -287,6 +287,7 @@ describe("CLIENT_MESSAGE_RULES: the table is the whole of the decision", () => {
   /** Every switch off: the most the function can ever cut. */
   const EVERYTHING_OFF = {
     shop: true,
+    tribute: false,
     btcpay: false,
     bitcart: false,
     x402: false,
@@ -708,5 +709,61 @@ describe("withoutSelectBranch", () => {
     const open = "{kind, select, a {x} crypto_network {never closed other {}"
 
     expect(withoutSelectBranch(open, "crypto_network")).toBe(open)
+  })
+})
+
+/**
+ * t-cherk-22, part B. Tribute's row is labelled by the brand, the same in every language, as
+ * Robokassa's is. cherkashino.ru is under Robokassa's moderation: its page code must not name
+ * a way to pay the shop does not offer, so the label goes only to a shop that has Tribute.
+ */
+describe("clientMessages: Tribute's label", () => {
+  const locales = readdirSync(MESSAGES_DIR)
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => file.replace(/\.json$/, ""))
+  // A word, not a part of one: «attribute» is no mention of Tribute.
+  const TRIBUTE = /\bTribute\b/i
+  const mentions = (messages: AbstractIntlMessages) =>
+    texts(messages)
+      .filter(({ key, text }) => TRIBUTE.test(text) || TRIBUTE.test(key.replace(/_/g, " ")))
+      .map(({ key }) => key)
+
+  const WITH_TRIBUTE = clientMessageFacts({
+    shop: true,
+    paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, tribute: true, demo: false },
+    manualPayment: EMPTY_MANUAL_PAYMENT,
+    analytics: NO_ANALYTICS,
+    onboarding: false,
+    paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
+  })
+
+  it("every catalogue does carry the label, so the check below is not empty", () => {
+    expect(locales).toHaveLength(36)
+    for (const locale of locales) {
+      expect(mentions(catalogue(locale)), locale).toEqual(["PaymentMethods.pp_tribute_tribute"])
+    }
+  })
+
+  it("a shop without Tribute gets no mention of it, in any of the 36 languages", () => {
+    for (const locale of locales) {
+      for (const facts of [ROBOKASSA_ONLY, TAKES_CRYPTO, DEMO_ONLY]) {
+        expect(mentions(clientMessages(catalogue(locale), facts)), locale).toEqual([])
+      }
+    }
+  })
+
+  it("a shop with Tribute keeps its label next to Robokassa's", () => {
+    for (const locale of locales) {
+      const cut = clientMessages(catalogue(locale), WITH_TRIBUTE)
+      expect(cut.PaymentMethods, locale).toMatchObject({
+        pp_tribute_tribute: "Tribute",
+        pp_robokassa_robokassa: "Robokassa",
+      })
+    }
+  })
+
+  it("the fact is the backend's own `payment_methods.tribute`", () => {
+    expect(WITH_TRIBUTE.tribute).toBe(true)
+    expect(ROBOKASSA_ONLY.tribute).toBe(false)
   })
 })

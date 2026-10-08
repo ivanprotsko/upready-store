@@ -924,6 +924,7 @@
     "pp_medusa-payments_default": "Karta płatnicza",
     "pp_paypal_paypal": "PayPal",
     "pp_robokassa_robokassa": "Robokassa",
+    "pp_tribute_tribute": "Tribute",
     "pp_btcpay_btcpay": "Kryptowaluty",
     "pp_bitcart_bitcart": "Kryptowaluty",
     "pp_x402_x402": "USDC (x402)",
