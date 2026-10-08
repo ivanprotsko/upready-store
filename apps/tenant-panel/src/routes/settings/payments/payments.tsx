@@ -17,6 +17,7 @@ import { BtcpayCard } from "./components/btcpay-card"
 import { ManualPaymentCard } from "./components/manual-payment-card"
 import { PaymentPreNoticeCard } from "./components/payment-pre-notice-card"
 import { RobokassaBehaviourFields } from "./components/robokassa-behaviour-fields"
+import { TributeCard } from "./components/tribute-card"
 import { X402Card } from "./components/x402-card"
 import { useRobokassaForm } from "./use-robokassa-form"
 
@@ -203,6 +204,9 @@ export const PaymentSettings = () => {
           </code>
         </div>
       </Container>
+
+      {/* t-cherk-22: the shop's Tribute Shop API key, only where the instance offers Tribute. */}
+      <TributeCard />
 
       {/* ask-20261005-070255-438f: the shop's own BTCPay Server store. */}
       <BtcpayCard />

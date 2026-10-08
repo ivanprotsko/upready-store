@@ -2,6 +2,7 @@ import type { MedusaNextFunction, MedusaResponse, MedusaStoreRequest } from "@me
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { readTributeSecretPublic } from "../../../tenant-secrets/tribute";
+import { tributeAvailable } from "../../../tribute/availability";
 import { tenantOrNull } from "./robokassa";
 
 export const TRIBUTE_PROVIDER_ID = "pp_tribute_tribute";
@@ -23,7 +24,9 @@ export const tributeAvailableFor = async (req: MedusaStoreRequest): Promise<bool
  * word, taken from the publishable key and checked against the cart's own
  * sales channel — never the client's. A shop without an enabled Tribute
  * account gets 404, the same answer as "provider does not exist", so a second
- * tenant cannot probe whether the first one configured Tribute.
+ * tenant cannot probe whether the first one configured Tribute. Every shop on
+ * an instance that does not offer Tribute (`tribute/availability.ts`) gets the
+ * same 404, its saved key or not.
  */
 export const injectTributeTenant = async (
   req: MedusaStoreRequest,
@@ -35,7 +38,7 @@ export const injectTributeTenant = async (
     return next();
   }
 
-  const tenant = await tenantOrNull(req);
+  const tenant = tributeAvailable() ? await tenantOrNull(req) : null;
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const secret = tenant
     ? await readTributeSecretPublic(pg, tenant.id, req.scope.resolve(ContainerRegistrationKeys.LOGGER))

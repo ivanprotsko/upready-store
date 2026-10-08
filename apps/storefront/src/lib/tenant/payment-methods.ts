@@ -18,10 +18,19 @@
  * (`resolveTenantPaymentMethods`); this reader used to drop them. Their one
  * reader is `lib/util/client-messages.ts`, which keeps the strings of a
  * gateway out of the page code of a shop that does not have it.
+ *
+ * t-cherk-22, part B: Tribute travels the same way and for the same one reader.
  */
 
 export type TenantPaymentMethods = {
   robokassa: boolean
+  /**
+   * The shop saved its Tribute API key, and the account is enabled. Absent rather than
+   * false otherwise: this object reaches the checkout's client props, and the page code of
+   * a shop without Tribute must not carry the word (t-cherk-22, part B; cherkashino.ru is
+   * under Robokassa's moderation).
+   */
+  tribute?: true
   /** The shop's own BTCPay Server store, enabled, on an instance that takes cryptocurrency. */
   btcpay: boolean
   /** The shop's own Bitcart store, the same way. */
@@ -55,6 +64,7 @@ export const readTenantPaymentMethods = (raw: unknown): TenantPaymentMethods => 
 
   return {
     robokassa: Boolean(doc.robokassa),
+    ...(doc.tribute ? { tribute: true as const } : {}),
     btcpay: Boolean(doc.btcpay),
     bitcart: Boolean(doc.bitcart),
     x402: Boolean(doc.x402),

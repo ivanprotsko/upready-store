@@ -75,6 +75,7 @@
   },
   "notes": [
     "Robokassa, CDEK, Pochta Russia, Wildberries and Ozon all exist to serve Russian buyers and sellers of record; a tenant on the INTL database configuring one of them is a sign the wrong tenant landed on the wrong instance (docs/instances/RULES.md §2), not a legitimate use.",
+    "Tribute (t-cherk-22) runs on this instance only, behind TRIBUTE_AVAILABLE=true, a switch of its own and not PAYMENTS_CRYPTO_AVAILABLE; without it the panel shows no Tribute card and the checkout offers no Tribute, even to a shop that saved a key.",
     "x402 (t-2026-10-03-33) runs on this instance only, behind PAYMENTS_CRYPTO_AVAILABLE=true like BTCPay; real-money networks (Base) additionally need X402_MAINNET_AVAILABLE=true, which stays unset until the crypto intermediary company's wallet exists (Ivan's words on the task), so until then shops take test USDC on Base Sepolia only."
   ]
 }
