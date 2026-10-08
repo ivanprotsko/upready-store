@@ -329,6 +329,16 @@ npx medusa exec ./scripts/fixtures/<file>.ts   # run one against a scratch datab
 copies `src/migration-scripts/data` into the build output and filters everything that is not a
 directory or a `.json` file. Seed data in any other format is missing at runtime after `medusa build`.
 
+**The Store API allow lists of `metadata`.** [store-metadata.ts](apps/backend/src/api/store-metadata.ts)
+cuts the `metadata` of a product, a variant, a picture, a category and a collection in every answer
+under `/store` to the keys it lists, at every depth. `/admin` and `/tenants` answer with `metadata`
+whole, and so does the database. A new key the storefront reads from one of the five needs a line
+there, and for a product, a variant or a picture a line in the storefront's own
+[product-metadata.ts](apps/storefront/src/lib/util/product-metadata.ts) as well. Skip the backend
+line and the key arrives absent, with no error anywhere.
+[store-metadata.unit.spec.ts](apps/backend/src/api/__tests__/store-metadata.unit.spec.ts) fails when
+the storefront lists a key the backend does not.
+
 ## Relationship to Upstream
 
 This repository tracks [medusajs/dtc-starter](https://github.com/medusajs/dtc-starter) by porting

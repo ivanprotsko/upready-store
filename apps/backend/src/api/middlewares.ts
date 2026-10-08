@@ -267,6 +267,7 @@ import { PostStoreX402PurchaseSchema } from "./store/x402/validators";
 import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-metadata";
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
+import { allowStoreMetadataOnAnswer } from "./store-metadata";
 import { rateLimit } from "./rate-limit";
 import { StoreGetPaymentProvidersParams } from "@medusajs/medusa/api/store/payment-providers/validators";
 import { listTransformPaymentProvidersQueryConfig } from "@medusajs/medusa/api/store/payment-providers/query-config";
@@ -339,7 +340,11 @@ export default defineMiddlewares({
     // matchers are wildcards, and a wildcard sorts before every static and
     // parametric route, Medusa's own included, so the guard runs before any
     // `validateAndTransformQuery` reads the fields.
-    { matcher: "/store/*", middlewares: [guardRequestedFields] },
+    //
+    // `allowStoreMetadataOnAnswer` rides the same wildcard for the same reason: it
+    // has to be in place before any Store route answers (t-2026-10-08-13). It is
+    // on `/store/*` only, so `/admin` and `/tenants` answer with `metadata` whole.
+    { matcher: "/store/*", middlewares: [guardRequestedFields, allowStoreMetadataOnAnswer] },
     { matcher: "/tenants/*", middlewares: [guardRequestedFields] },
     {
       matcher: "/tenants/*",
