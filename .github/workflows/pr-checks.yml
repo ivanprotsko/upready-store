@@ -120,6 +120,28 @@ jobs:
       - name: Shared markdown
         if: ${{ !cancelled() }}
         run: pnpm check:shared-markdown
+      # apps/school installs on its own, from its own lockfile: the root
+      # workspace excludes it (t-2026-10-08-37).
+      - name: School install
+        if: ${{ !cancelled() }}
+        working-directory: apps/school
+        run: pnpm install --frozen-lockfile
+      - name: School typecheck
+        if: ${{ !cancelled() }}
+        working-directory: apps/school
+        run: pnpm run typecheck
+      - name: School lint
+        if: ${{ !cancelled() }}
+        working-directory: apps/school
+        run: pnpm run lint
+      - name: School tests
+        if: ${{ !cancelled() }}
+        working-directory: apps/school
+        run: pnpm run test
+      - name: School build
+        if: ${{ !cancelled() }}
+        working-directory: apps/school
+        run: pnpm run build
       # A screenshot from a stand on a copy of live data shows real buyers
       # (t-2026-10-03-59). The checkout is one shallow merge commit, so the
       # base tip is fetched to see what the pull request adds or changes.

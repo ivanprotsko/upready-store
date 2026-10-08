@@ -182,6 +182,7 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `S3_BUCKET`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION` | S3-compatible file storage, used when `NODE_ENV=production` | — |
 | `MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY` | Storefront directory for Medusa's onboarding flow | `medusa-storefront` |
 | `PLATFORM_ADMIN_EMAIL` | The platform's own login, added as a `tenant_admin` row to every shop a tenant creates (`createTenantWorkflow`) and backfilled onto every existing shop by `scripts/fixtures/o25-platform-admin-all-shops.ts`. The auth identity is shared across shops; unset disables the feature entirely, and no shop gets the row | unset |
+| `SCHOOL_SSO_RETURN_HOSTS` | The hosts a school may receive a buyer's single-use sign-in code on, comma separated, such as `school.cherkashina.ru`. `POST /store/tenant/sso/code` mints a code only for a `return_to` on one of them, and `POST /store/tenant/sso/exchange` trades it for the buyer's token (`src/api/store/tenant/sso/`). Empty mints no code. Give the storefront the same list. RU only: `deploy/instances/intl.json` forbids it | — |
 
 ## Project Structure
 

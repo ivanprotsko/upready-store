@@ -11,6 +11,10 @@
   "tenants": {
     "recordedExceptions": []
   },
+  "school": {
+    "domains": ["school.cherkashina.ru"],
+    "note": "The school cabinet (apps/school, the `school` service of deploy/compose.mt.yml) on its own host. It reads the buyers and their courses of the shop SCHOOL_SHOP_ORIGIN names, so it runs on that shop's instance. instance-check fails a SCHOOL_DOMAIN outside this list and a SCHOOL_SHOP_ORIGIN on another instance's domain (docs/instances/RULES.md §1)."
+  },
   "dataResidency": {
     "customerDatabase": "RU host only (Timeweb, Moscow) — 152-FZ Art. 18(5)",
     "primaryBackup": "RU host local disk, deploy/backup/ tier 1",
@@ -96,6 +100,7 @@
   },
   "notes": [
     "Since 04.10.2026 (checklist K15) buyers sign in on RU with Yandex ID only, and instance-check --db fails on a tenant whose buyer_login_method needs another provider. Were Telegram sign-in or the shop bot ever allowed on RU again, they must be named — including that Telegram's operating entity is outside Russia — in the privacy policy, with a consent separate from the general personal-data consent (docs/instances/RULES.md §2). instance-check.mjs cannot verify page text, so this is a paper requirement, not a check here.",
-    "Stands and local development against this instance's data must use anonymised or synthetic data only (docs/instances/RULES.md §3)."
+    "Stands and local development against this instance's data must use anonymised or synthetic data only (docs/instances/RULES.md §3).",
+    "SCHOOL_SSO_RETURN_HOSTS (t-2026-10-08-36) is allowed here and only here: the school at school.cherkashina.ru signs its buyers in through this shop, and the backend and the storefront send a sign-in code only to the hosts it lists (school.cherkashina.ru). intl.json forbids the variable (docs/instances/RULES.md §2)."
   ]
 }
