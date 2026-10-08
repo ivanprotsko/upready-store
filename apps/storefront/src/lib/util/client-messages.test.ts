@@ -743,6 +743,7 @@ describe("clientMessages: Tribute's label", () => {
     analytics: NO_ANALYTICS,
     onboarding: false,
     paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
+    catalogViewControls: false,
   })
 
   it("every catalogue does carry the label, so the check below is not empty", () => {
