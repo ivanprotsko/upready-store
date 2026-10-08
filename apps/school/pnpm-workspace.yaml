@@ -1,0 +1,5 @@
+# apps/school is its OWN pnpm workspace root, the way apps/homepage/port is:
+# this file stops pnpm from walking up to the monorepo root, which excludes
+# apps/school/** so its lockfile and the backend, storefront and panel images
+# stay untouched by the school's dependencies. Install: `pnpm install` here.
+packages: []

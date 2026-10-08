@@ -145,6 +145,11 @@ services:
       YANDEX_CALLBACK_ORIGINS: ${YANDEX_CALLBACK_ORIGINS:-}
       YANDEX_SCOPE: ${YANDEX_SCOPE:-}
       YANDEX_FORCE_CONFIRM: ${YANDEX_FORCE_CONFIRM:-false}
+      # The school's sign-in through the shop (t-2026-10-08-36): the hosts a
+      # sign-in code may be sent to, comma separated, the same list the
+      # storefront reads. Empty mints no code. RU only
+      # (deploy/instances/ru.json; intl.json forbids it).
+      SCHOOL_SSO_RETURN_HOSTS: ${SCHOOL_SSO_RETURN_HOSTS:-}
       # The profile the FIRST boot seeds (store, 241 regions, stock locations,
       # fulfillment + this profile's catalog). The other two demo catalogs are
       # seeded by re-running the same seed with another STORE_PROFILE —
@@ -309,6 +314,10 @@ services:
       NEXT_PUBLIC_SITE_NAME: ${STORE_NAME:-Shipshift}
       NEXT_PUBLIC_YANDEX_MAPS_KEY: ${NEXT_PUBLIC_YANDEX_MAPS_KEY:-}
       NEXT_PUBLIC_YANDEX_LOGIN_ENABLED: ${NEXT_PUBLIC_YANDEX_LOGIN_ENABLED:-false}
+      # /api/school-sso (t-2026-10-08-36) answers 400 to a return_to on any
+      # other host. Read per request, so a runtime env edit is enough. Same
+      # value as the backend's.
+      SCHOOL_SSO_RETURN_HOSTS: ${SCHOOL_SSO_RETURN_HOSTS:-}
       REGION_PIN: "true"
       # A visitor without a locale in the URL gets NEXT_PUBLIC_DEFAULT_LOCALE
       # whatever their browser sends: this storefront's audience is Russian
@@ -429,6 +438,68 @@ services:
       - traefik.http.routers.mt-panel.tls.certresolver=letsencrypt
       - traefik.http.routers.mt-panel.service=mt-panel
       - traefik.http.services.mt-panel.loadbalancer.server.port=8080
+
+  # The school cabinet (apps/school, t-2026-10-08-37): a buyer's courses on the
+  # school's own host. It has no sign-in and no database of its own: the shop
+  # signs the buyer in (/api/school-sso on the storefront, the
+  # /store/tenant/sso routes on the backend) and the school's server reads the
+  # courses from the Store API with the buyer's token and the shop's key.
+  #
+  # Off unless the compose profile `school` is on (`--profile school`, or
+  # COMPOSE_PROFILES=school in the shell that runs compose), so a host with no
+  # school never builds or starts it. It holds the buyers of the shop it reads,
+  # so it runs on that shop's instance only: instance-check.mjs fails a
+  # SCHOOL_DOMAIN the profile does not name and a SCHOOL_SHOP_ORIGIN of another
+  # instance's shop.
+  #
+  # The proxy sends only the cabinet's paths here. `/` on the same host is the
+  # school's landing, a separate service with a shorter rule, which traefik
+  # ranks below this one.
+  school:
+    profiles: ["school"]
+    build:
+      context: ../.
+      dockerfile: apps/school/Dockerfile
+    image: mt-school:${IMAGE_TAG:-latest}
+    container_name: mt-school
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      PORT: "3000"
+      SCHOOL_DOMAIN: ${SCHOOL_DOMAIN:-}
+      # The backend on this host, by its container name on `coolify`.
+      SCHOOL_API_BASE: ${SCHOOL_API_BASE:-http://mt-backend:9000}
+      SCHOOL_PUBLISHABLE_KEY: ${SCHOOL_PUBLISHABLE_KEY:-}
+      SCHOOL_SHOP_ORIGIN: ${SCHOOL_SHOP_ORIGIN:-}
+    networks:
+      - coolify
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      - traefik.http.routers.mt-school-http.rule=Host(`${SCHOOL_DOMAIN:-school.invalid}`) && (PathPrefix(`/app`) || PathPrefix(`/login`) || PathPrefix(`/auth`) || PathPrefix(`/logout`) || PathPrefix(`/assets`))
+      - traefik.http.routers.mt-school-http.entrypoints=http
+      - traefik.http.routers.mt-school-http.middlewares=mt-https
+      - traefik.http.routers.mt-school-http.service=mt-school
+      - traefik.http.routers.mt-school.rule=Host(`${SCHOOL_DOMAIN:-school.invalid}`) && (PathPrefix(`/app`) || PathPrefix(`/login`) || PathPrefix(`/auth`) || PathPrefix(`/logout`) || PathPrefix(`/assets`))
+      - traefik.http.routers.mt-school.entrypoints=https
+      - traefik.http.routers.mt-school.tls=true
+      - traefik.http.routers.mt-school.tls.certresolver=letsencrypt
+      - traefik.http.routers.mt-school.service=mt-school
+      - traefik.http.services.mt-school.loadbalancer.server.port=3000
 
   # Send-only relay for the backend's transactional e-mail (t-2026-10-02-mail-relay).
   # No published ports and no SASL: `mt-private` is the only network it is on,

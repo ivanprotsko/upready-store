@@ -12,7 +12,13 @@
  *
  *   node scripts/check-shared-markdown.mjs      # pnpm check:shared-markdown
  *
- * Exit 0 when the two files are equal, 1 when they drift, naming the first
+ * The school cabinet (`apps/school`, t-2026-10-08-37) keeps a copy of the
+ * same reader and of the lesson-text parser built on it, so a lesson reads the
+ * same in the school as in the shop's account. The school installs and builds
+ * on its own, with no import path into the storefront, so it is a copy for the
+ * same reason, held to the same rule.
+ *
+ * Exit 0 when every pair is equal, 1 when one drifts, naming the first
  * differing line so the fix is a copy and not a hunt.
  */
 import { readFileSync } from "node:fs"
@@ -20,9 +26,10 @@ import { fileURLToPath } from "node:url"
 import path from "node:path"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const pair = [
-  "apps/storefront/src/lib/util/markdown.ts",
-  "apps/tenant-panel/src/lib/markdown.ts",
+const pairs = [
+  ["apps/storefront/src/lib/util/markdown.ts", "apps/tenant-panel/src/lib/markdown.ts"],
+  ["apps/storefront/src/lib/util/markdown.ts", "apps/school/app/lib/vendor/markdown.ts"],
+  ["apps/storefront/src/lib/util/lesson-body.ts", "apps/school/app/lib/vendor/lesson-body.ts"],
 ]
 
 const read = (rel) => {
@@ -34,29 +41,35 @@ const read = (rel) => {
   }
 }
 
-const [a, b] = pair.map(read)
+let drifted = false
 
-if (a === b) {
-  const lines = a.split("\n").length
-  console.log(`check-shared-markdown: OK — ${pair.join(" == ")} (${lines} lines, identical)`)
-  process.exit(0)
+for (const pair of pairs) {
+  const [a, b] = pair.map(read)
+
+  if (a === b) {
+    const lines = a.split("\n").length
+    console.log(`check-shared-markdown: OK — ${pair.join(" == ")} (${lines} lines, identical)`)
+    continue
+  }
+
+  drifted = true
+  const linesA = a.split("\n")
+  const linesB = b.split("\n")
+  const at = linesA.findIndex((line, index) => line !== linesB[index])
+
+  console.error(
+    [
+      "check-shared-markdown: two copies of a shared reader have drifted.",
+      `  ${pair[0]}  (${linesA.length} lines)`,
+      `  ${pair[1]}  (${linesB.length} lines)`,
+      at >= 0 ? `  first difference at line ${at + 1}:` : "  one file is a prefix of the other:",
+      at >= 0 ? `    storefront: ${JSON.stringify(linesA[at] ?? null)}` : "",
+      at >= 0 ? `    copy:       ${JSON.stringify(linesB[at] ?? null)}` : "",
+      `  fix: cp ${pair[0]} ${pair[1]}   (after deciding which side is right)`,
+    ]
+      .filter(Boolean)
+      .join("\n"),
+  )
 }
 
-const linesA = a.split("\n")
-const linesB = b.split("\n")
-const at = linesA.findIndex((line, index) => line !== linesB[index])
-
-console.error(
-  [
-    "check-shared-markdown: the two copies of the markdown reader have drifted.",
-    `  ${pair[0]}  (${linesA.length} lines)`,
-    `  ${pair[1]}  (${linesB.length} lines)`,
-    at >= 0 ? `  first difference at line ${at + 1}:` : "  one file is a prefix of the other:",
-    at >= 0 ? `    storefront: ${JSON.stringify(linesA[at] ?? null)}` : "",
-    at >= 0 ? `    panel:      ${JSON.stringify(linesB[at] ?? null)}` : "",
-    `  fix: cp ${pair[0]} ${pair[1]}   (after deciding which side is right)`,
-  ]
-    .filter(Boolean)
-    .join("\n"),
-)
-process.exit(1)
+process.exit(drifted ? 1 : 0)
