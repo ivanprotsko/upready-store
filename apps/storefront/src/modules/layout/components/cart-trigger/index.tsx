@@ -13,9 +13,11 @@ import { useCartSidebar } from "@modules/layout/components/cart-sidebar/context"
  * viewport it opens the cart sidebar; below 1024 px, and with no JavaScript, it is the
  * link to the cart page it always was. The badge with the count stays on the icon.
  *
- * `"pill"` (the Olavka h7 header, t-2026-09-24-n15): cart icon + «Корзина» in a 40px
- * white pill whose outline is the Figma node's two drop shadows. Default: the bare icon
- * every other header and the phone's bottom nav use.
+ * `"text"` (the Olavka h7 header): cart icon + «Корзина» in a 40px button with no fill,
+ * the `ToggleButton` of Ivan's frame CatalogNav (176:166085, padding 0 16, gap 6;
+ * t-2026-10-09-41, before it the white pill of node 227:9557). The header's scrolled state
+ * gives it its surface. Default: the bare icon every other header and the phone's bottom
+ * nav use.
  *
  * The count is the client cart queue's (t-2026-10-03-66): it moves the moment a
  * «В корзину» or a «+» is clicked anywhere on the page, before the server has answered.
@@ -26,7 +28,7 @@ export default function CartTrigger({
   variant = "icon",
 }: {
   snapshot?: CartSnapshot | null
-  variant?: "icon" | "pill"
+  variant?: "icon" | "text"
 }) {
   const t = useTranslations("CartSidebar")
   const tNav = useTranslations("Nav")
@@ -40,8 +42,8 @@ export default function CartTrigger({
     <Link
       href="/cart"
       className={
-        variant === "pill"
-          ? "inline-flex h-10 items-center gap-x-2 rounded-full bg-[var(--h7-surface,var(--background))] px-4 font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] shadow-buttons-neutral transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+        variant === "text"
+          ? "inline-flex h-10 items-center gap-x-1.5 rounded-full px-4 font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
           : "flex h-full items-center hover:text-ui-fg-base"
       }
       aria-label={tNav("cart", { count: totalItems })}
@@ -57,7 +59,7 @@ export default function CartTrigger({
       data-testid="nav-cart-link"
     >
       <span className="relative flex items-center leading-none">
-        <ShoppingCart className={variant === "pill" ? "h-[15px] w-[15px]" : undefined} />
+        <ShoppingCart className={variant === "text" ? "h-[15px] w-[15px]" : undefined} />
         {totalItems > 0 && (
           <span
             className="absolute -top-2 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-ui-contrast-bg-base text-ui-contrast-fg-primary text-[10px] font-medium leading-none"
@@ -67,7 +69,7 @@ export default function CartTrigger({
           </span>
         )}
       </span>
-      {variant === "pill" ? <span className="hidden sm:inline">{t("title")}</span> : null}
+      {variant === "text" ? <span className="hidden sm:inline">{t("title")}</span> : null}
     </Link>
   )
 }

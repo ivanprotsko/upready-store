@@ -16,6 +16,7 @@ import { ActiveFilters, FilterSidebar } from "@modules/store/components/filter-p
 import CategorySidebar from "@modules/store/components/category-sidebar"
 import { withoutOptionsNamedLikeFacets } from "@lib/util/option-filter-groups"
 import { listCategories } from "@lib/data/categories"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
 import { categoriesWithImages } from "@lib/util/category-image"
 import { listProductOptionFilters } from "@lib/data/products"
@@ -48,11 +49,12 @@ const StoreTemplate = async ({
 }) => {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
-  const [t, categories, allOptionFilters, attributeFacets] = await Promise.all([
+  const [t, categories, allOptionFilters, attributeFacets, olavka] = await Promise.all([
     getTranslations(),
     listCategories(),
     listProductOptionFilters(),
     listProductAttributeFacets({ selection: attributeSelection }),
+    isOlavkaShop(),
   ])
 
   // The categories whose picture the owner uploaded in the panel. Empty for a shop
@@ -105,7 +107,7 @@ const StoreTemplate = async ({
 
       <div className={CATALOG_COLUMNS_CLASS}>
         <div className="hidden flex-col gap-y-8 lg:flex">
-          <CategorySidebar categories={categories} />
+          <CategorySidebar categories={categories} showCategoryList={!olavka} />
           <FilterSidebar optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
         </div>
         <div className={CATALOG_MAIN_COLUMN_CLASS}>

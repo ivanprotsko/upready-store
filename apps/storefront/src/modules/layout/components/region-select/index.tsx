@@ -47,8 +47,9 @@ type RegionSelectProps = {
   className?: string
   /**
    * Branch `redesign-olavka` (t-2026-09-24-n15), the Figma header 227:9557:
-   * `"text"` — desktop: flag + country name as plain text, then the currency sign alone
-   * in a 40px square, no fills; `"icons"` — tablet/mobile: a flag button and a
+   * `"text"` — desktop: flag + country name as plain text, then the currency sign and its
+   * code («$ USD»), two `ToggleButton`s of the frame CatalogNav (176:166085, padding 0 16,
+   * gap 6, t-2026-10-09-41), no fills; `"icons"` — tablet/mobile: a flag button and a
    * currency-sign button, 36px below 640 and 40px above, no fills, no dividers.
    * The language keeps its tab inside the same dialog. Default: today's two text links.
    */
@@ -56,7 +57,7 @@ type RegionSelectProps = {
 }
 
 const TEXT_CLASS =
-  "inline-flex h-10 items-center gap-x-2 rounded-full px-[12.5px] font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+  "inline-flex h-10 items-center gap-x-1.5 rounded-full px-4 font-[family-name:var(--font-olavka-ui)] text-[14px] font-medium leading-[1.1] text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
 
 const ICON_CLASS =
   "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[var(--h7-ink,var(--foreground))] transition-colors hover:bg-[var(--accent)] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] sm:h-10 sm:w-10"
@@ -402,9 +403,14 @@ const RegionSelect = ({
             testId: "nav-region-select-button",
             label: t("currencyLabel", { currencyCode: selectedCountryOption.currencyCode }),
             staticLabel: selectedCountryOption.currencyCode,
-            className: ICON_CLASS.replace("h-9 w-9", "h-10 w-10"),
+            className: TEXT_CLASS,
             children: (
-              <span className={SIGN_CLASS}>{selectedCountryOption.currencySymbol}</span>
+              <>
+                <span aria-hidden className={SIGN_CLASS}>
+                  {selectedCountryOption.currencySymbol}
+                </span>
+                <span>{selectedCountryOption.currencyCode}</span>
+              </>
             ),
           })}
         </span>

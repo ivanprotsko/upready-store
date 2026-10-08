@@ -12,8 +12,8 @@ import CartTrigger from "@modules/layout/components/cart-trigger"
 export default function CartButton({
   variant,
 }: {
-  /** Passed through to `CartTrigger` (`"pill"` on the h7 header). */
-  variant?: "icon" | "pill"
+  /** Passed through to `CartTrigger` (`"text"` on the h7 header). */
+  variant?: "icon" | "text"
 } = {}) {
   return (
     <HydrationSlot>
@@ -22,7 +22,7 @@ export default function CartButton({
   )
 }
 
-async function CartButtonContent({ variant }: { variant?: "icon" | "pill" }) {
+async function CartButtonContent({ variant }: { variant?: "icon" | "text" }) {
   // With the time of the read, so the client cart queue can tell it from a newer one
   // (t-2026-10-03-66); the count itself is the queue's from the first click on.
   const snapshot = await retrieveCartSnapshot()
