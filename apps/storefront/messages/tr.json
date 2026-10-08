@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Fiyat: Düşükten Yükseğe"
   },
   "Store": {
-    "allProducts": "Tüm ürünler"
+    "allProducts": "Tüm ürünler",
+    "brands": "Markalar",
+    "allBrands": "Tüm markalar",
+    "view": "Görünüm",
+    "viewGrid": "Izgara",
+    "viewList": "Liste",
+    "viewCompact": "Sık ızgara",
+    "perPage": "Sayfa başına ürün"
   },
   "TenantPage": {
     "emptyBody": "Bu sayfada henüz metin yok.",

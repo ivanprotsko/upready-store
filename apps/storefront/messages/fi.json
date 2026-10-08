@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Hinta: Halvin → Kallein"
   },
   "Store": {
-    "allProducts": "Kaikki tuotteet"
+    "allProducts": "Kaikki tuotteet",
+    "brands": "Merkit",
+    "allBrands": "Kaikki merkit",
+    "view": "Näkymä",
+    "viewGrid": "Ruudukko",
+    "viewList": "Luettelo",
+    "viewCompact": "Tiivis ruudukko",
+    "perPage": "Tuotteita sivulla"
   },
   "TenantPage": {
     "emptyBody": "Tällä sivulla ei ole vielä tekstiä.",

@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Cena: Nejnižší → Nejvyšší"
   },
   "Store": {
-    "allProducts": "Všechny produkty"
+    "allProducts": "Všechny produkty",
+    "brands": "Značky",
+    "allBrands": "Všechny značky",
+    "view": "Zobrazení",
+    "viewGrid": "Mřížka",
+    "viewList": "Seznam",
+    "viewCompact": "Hustá mřížka",
+    "perPage": "Produktů na stránku"
   },
   "TenantPage": {
     "emptyBody": "Tato stránka zatím nemá žádný text.",

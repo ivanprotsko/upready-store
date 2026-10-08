@@ -46,6 +46,7 @@ const factsOf = (paymentPreNotice: TenantPaymentPreNotice) =>
     analytics: { yandexMetricaId: null, ga4MeasurementId: null },
     onboarding: false,
     paymentPreNotice,
+    catalogViewControls: false,
   })
 
 const noticeOf = (entry: Partial<PaymentPreNoticeEntry>): TenantPaymentPreNotice => ({

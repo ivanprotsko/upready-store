@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Giá: Thấp → Cao"
   },
   "Store": {
-    "allProducts": "Tất cả sản phẩm"
+    "allProducts": "Tất cả sản phẩm",
+    "brands": "Thương hiệu",
+    "allBrands": "Tất cả thương hiệu",
+    "view": "Kiểu xem",
+    "viewGrid": "Lưới",
+    "viewList": "Danh sách",
+    "viewCompact": "Lưới dày",
+    "perPage": "Số sản phẩm mỗi trang"
   },
   "TenantPage": {
     "emptyBody": "Trang này chưa có nội dung.",
