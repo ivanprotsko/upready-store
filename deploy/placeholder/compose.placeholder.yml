@@ -7,15 +7,21 @@
 #
 # placeholder.env on each host:
 #   PH_RULE=Host(`olavka.ru`) || Host(`www.olavka.ru`)      # the hosts this page answers on
-#   PH_LANG=ru                                              # html-ru or html-en
+#   PH_LANG=ru                                              # the page: html-ru, html-en, html-store
 #   PH_DIR=/opt/upready-store/placeholder                   # where html-*/ and nginx.conf live
+#
+# A second page on the same host (t-2026-10-07-08, store.upready.dev) is a second compose
+# project of this file with its own names, so the two never share a container or a router:
+#   PH_NAME=store                                           # container `store-placeholder`, routers `store-ph*`
+#   PH_PRIORITY=300                                         # only when the rule shares its host with another router
+# Unset, the names stay `olavka-*` and the priority stays traefik's default (0 = by rule length).
 #
 # The real site (upready-store-marketing, t-2026-10-04-12) replaces this project: stop it with
 # `docker compose -p placeholder down` and the routers disappear with the container.
 services:
   placeholder:
     image: nginx:alpine
-    container_name: olavka-placeholder
+    container_name: ${PH_NAME:-olavka}-placeholder
     restart: unless-stopped
     volumes:
       - ${PH_DIR:-/opt/upready-store/placeholder}/html-${PH_LANG:-ru}:/usr/share/nginx/html:ro
@@ -25,17 +31,19 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=coolify
-      - traefik.http.middlewares.olavka-ph-https.redirectscheme.scheme=https
-      - traefik.http.routers.olavka-ph-http.rule=${PH_RULE}
-      - traefik.http.routers.olavka-ph-http.entrypoints=http
-      - traefik.http.routers.olavka-ph-http.middlewares=olavka-ph-https
-      - traefik.http.routers.olavka-ph-http.service=olavka-ph
-      - traefik.http.routers.olavka-ph.rule=${PH_RULE}
-      - traefik.http.routers.olavka-ph.entrypoints=https
-      - traefik.http.routers.olavka-ph.tls=true
-      - traefik.http.routers.olavka-ph.tls.certresolver=letsencrypt
-      - traefik.http.routers.olavka-ph.service=olavka-ph
-      - traefik.http.services.olavka-ph.loadbalancer.server.port=80
+      - traefik.http.middlewares.${PH_NAME:-olavka}-ph-https.redirectscheme.scheme=https
+      - traefik.http.routers.${PH_NAME:-olavka}-ph-http.rule=${PH_RULE}
+      - traefik.http.routers.${PH_NAME:-olavka}-ph-http.priority=${PH_PRIORITY:-0}
+      - traefik.http.routers.${PH_NAME:-olavka}-ph-http.entrypoints=http
+      - traefik.http.routers.${PH_NAME:-olavka}-ph-http.middlewares=${PH_NAME:-olavka}-ph-https
+      - traefik.http.routers.${PH_NAME:-olavka}-ph-http.service=${PH_NAME:-olavka}-ph
+      - traefik.http.routers.${PH_NAME:-olavka}-ph.rule=${PH_RULE}
+      - traefik.http.routers.${PH_NAME:-olavka}-ph.priority=${PH_PRIORITY:-0}
+      - traefik.http.routers.${PH_NAME:-olavka}-ph.entrypoints=https
+      - traefik.http.routers.${PH_NAME:-olavka}-ph.tls=true
+      - traefik.http.routers.${PH_NAME:-olavka}-ph.tls.certresolver=letsencrypt
+      - traefik.http.routers.${PH_NAME:-olavka}-ph.service=${PH_NAME:-olavka}-ph
+      - traefik.http.services.${PH_NAME:-olavka}-ph.loadbalancer.server.port=80
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/healthz"]
       interval: 30s
