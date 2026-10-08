@@ -9,7 +9,7 @@ import {
   type CreateProductsWorkflowInput,
 } from "@medusajs/medusa/core-flows";
 import { TENANT_MODULE } from "../../../modules/tenant";
-import type { SeedPlan } from "../../../migration-scripts/data/abstract-datasets";
+import { seedProductStatus, type SeedPlan } from "../../../migration-scripts/data/abstract-datasets";
 
 export type SeedTenantDatasetWorkflowInput = {
   tenant_id: string;
@@ -154,7 +154,7 @@ const seedTenantDatasetWorkflow = createWorkflow(
           handle: product.handle,
           ...(product.subtitle ? { subtitle: product.subtitle } : {}),
           description: product.description,
-          status: "published",
+          status: seedProductStatus(product),
           weight: product.weight,
           metadata: product.metadata,
           category_ids: [categoryId],
