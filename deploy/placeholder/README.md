@@ -34,6 +34,29 @@ The certificate is issued over HTTP-01 a minute or two after the domain's A reco
 the host. Before that traefik serves its default certificate, which is why `up.sh` checks with
 `curl -k`.
 
+## A second page on the same host: store.upready.dev
+
+Ordered in t-2026-10-07-08 (Ivan, 2026-10-07: «а лендинг который скоро сделаем, по адресу
+store.upready.dev/ ( а пока лендинга нет, давай там заглушку )»). The page is
+[html-store](./html-store/index.html): two languages on one page and a sign-in link to `/app`.
+
+contabo already runs `olavka-placeholder`, so this one is a second compose project with its own
+names. `up.sh` takes them as a third and a fourth argument:
+
+```bash
+/opt/upready-store/placeholder/up.sh store \
+  'Host(`store.upready.dev`) && (Path(`/`) || Path(`/index.html`))' store 300
+```
+
+That gives project `placeholder-store`, container `store-placeholder`, routers `store-ph*` and
+the env file `placeholder-store.env`. The rule names the two paths only, because `/app` on the
+same host belongs to another router; the priority puts this router ahead of it for those two
+paths (traefik's default order is by rule length, and the other rule is the longer one). The
+same pattern already serves the landing on shipshift.dev (`mt-homepage.yml` on the host,
+priority 300).
+
+Remove it with `docker compose -p placeholder-store … --env-file placeholder-store.env down`.
+
 ## Precondition on contabo
 
 olavka.com and www.olavka.com were custom domains of the INTL tenant `olavka` (handle
