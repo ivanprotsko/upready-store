@@ -211,6 +211,8 @@ import { PostTenantReviewSchema } from "./tenants/reviews/validators";
 import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
 // ---- t-cherk-32: the wishlist's one write body (`DELETE` takes none).
 import { PostStoreWishlistSchema } from "./store/wishlist/validators";
+// ---- t-2026-10-08-36: the school's sign-in through the shop, code and exchange.
+import { PostStoreSsoCodeSchema, PostStoreSsoExchangeSchema } from "./store/tenant/sso/validators";
 // ---- t-2026-10-03-32 (rule 5zd): the pre-payment notice's charge estimate.
 import { PostStoreChargeEstimateSchema } from "./store/payment-settings/charge-estimate/validators";
 // ---- t-cherk-com-hotfix batch 5: the owner rejects a buyer's payment receipt.
@@ -1752,6 +1754,25 @@ export default defineMiddlewares({
       matcher: "/store/tenant/courses/:id/lessons/:lessonId/viewed",
       method: ["POST"],
       middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+
+    // ---- t-2026-10-08-36: the school signs its buyers in through the shop.
+    // The storefront asks for a code with the buyer's token; the school's
+    // server trades the code for that token with nothing but the shop's
+    // publishable key, which the framework's gate already checks, so the
+    // exchange carries no authenticate of its own.
+    {
+      matcher: "/store/tenant/sso/code",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        validateAndTransformBody(PostStoreSsoCodeSchema),
+      ],
+    },
+    {
+      matcher: "/store/tenant/sso/exchange",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostStoreSsoExchangeSchema)],
     },
 
     // ---- f03-guest-order-not-in-account: the buyer takes over the orders

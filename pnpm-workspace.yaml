@@ -6,3 +6,7 @@ packages:
   # standalone with its own lockfile, so the root lockfile and both Dockerfiles
   # (which COPY only backend/storefront package.json) stay untouched.
   - "!apps/homepage/**"
+  # apps/school, the school cabinet (React Router), installs standalone the same
+  # way, with its own lockfile: its dependencies never move a version the
+  # backend or the storefront resolves.
+  - "!apps/school/**"

@@ -22,6 +22,10 @@
 // the name the relay introduces itself by and the domains it signs for. None
 // is a secret, and a message names the key, never the value.
 //
+// The school check is part of the env check too. It reads the value of the two
+// keys in SCHOOL_KEYS, the school's host and the shop it reads, and of no other
+// key; a message names the key, never the value.
+//
 // The --backup-env check reads where the host's backup copies go
 // (deploy/backup/nightly.env.example). It reads the value of the three keys in
 // BACKUP_TARGET_KEYS and of no other key, and a message names the key and the
@@ -326,6 +330,37 @@ export function profileHosts(profile) {
   return [...(profile.domains?.primary ?? []), ...(profile.domains?.aliases ?? [])];
 }
 
+/** The only env keys the school check reads a value of: the school's host and the shop it reads. Neither is a secret. */
+export const SCHOOL_KEYS = ["SCHOOL_DOMAIN", "SCHOOL_SHOP_ORIGIN"];
+
+/**
+ * School violations (apps/school, t-2026-10-08-37). The school reads the buyers of the shop
+ * SCHOOL_SHOP_ORIGIN names, so it runs on that shop's instance and on a host the profile lists in
+ * `school.domains`. `school` comes from `readEnvValues`. A message names the key and the profile's own
+ * list, never the value.
+ */
+export function checkSchool(school, profile, otherProfiles) {
+  const violations = [];
+  const allowed = profile.school?.domains ?? [];
+  const domain = hostOf(school.get("SCHOOL_DOMAIN"));
+  if (school.get("SCHOOL_DOMAIN") && !(domain && allowed.some((entry) => entry.toLowerCase() === domain))) {
+    violations.push(
+      `SCHOOL_DOMAIN is not a school domain of instance ${profile.instance} (allowed: ${allowed.length ? allowed.join(", ") : "none"})`,
+    );
+  }
+  const shop = hostOf(school.get("SCHOOL_SHOP_ORIGIN"));
+  if (school.get("SCHOOL_SHOP_ORIGIN")) {
+    const owner = (otherProfiles ?? []).find((other) => shop && onList(shop, profileHosts(other)));
+    const notOurs = profile.domains?.otherShops === false && !(shop && onList(shop, profileHosts(profile)));
+    if (!shop || owner || notOurs) {
+      violations.push(
+        `SCHOOL_SHOP_ORIGIN is not a shop of instance ${profile.instance}${owner ? ` but of instance ${owner.instance}` : ""} — the school would carry that shop's buyers across instances`,
+      );
+    }
+  }
+  return violations;
+}
+
 /**
  * Tenant violations: a shop in this database belongs to another instance (docs/instances/RULES.md
  * §1, "A tenant belongs to exactly one instance's database"). The domains in the profiles tell the
@@ -456,6 +491,7 @@ function main(argv) {
   const violations = [
     ...checkEnv(envMap, profile),
     ...checkMailRelay(readEnvValues(envText, MAIL_KEYS, { wholeLine: true }), profile),
+    ...checkSchool(readEnvValues(envText, SCHOOL_KEYS), profile, otherProfiles),
   ];
   let knownCount = 0;
 

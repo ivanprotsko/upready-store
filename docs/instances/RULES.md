@@ -100,6 +100,11 @@ own terms:
 - **RU allows Robokassa, Yandex ID, CDEK, Pochta Russia, Wildberries (read) and Ozon.** All of them
   are Russian entities already represented in `processors.json`; none needs a cross-border consent
   beyond the standard privacy policy.
+- **The school signs in through the RU shop only.** The school at `school.cherkashina.ru` keeps no
+  login of its own: the RU shop `cherkashino.ru` attests the buyer and hands the school a single-use
+  code (`t-2026-10-08-36`). `SCHOOL_SSO_RETURN_HOSTS` names the hosts that may receive one. It is
+  set on RU and forbidden on INTL, where `intl.json` lists it, so an INTL backend never mints a
+  buyer's token for the school.
 
 ## 3. Stands and development: anonymised data only
 
@@ -173,7 +178,7 @@ own database. It exits non-zero and lists every violation, one per line, the mom
 is broken. It runs at deploy time (`deploy/scripts/deploy-instance.sh`, step 3) and has its own unit
 tests (`deploy/scripts/__tests__/instance-check.test.mjs`).
 
-Two more checks enforce §1.
+Three more checks enforce §1.
 
 - **A backup copy outside the instance's country.** With `--backup-env` the tool reads where the
   host's copies go. The profile's `backup.envFileOnHost` names the file on the host that carries
@@ -198,6 +203,12 @@ Two more checks enforce §1.
   instance's domain fails, and so does one more foreign host on the recorded tenant. An entry
   without one of the five fields is a configuration error. Remove the entry when what it names in
   `closes` has happened.
+- **The school on the wrong instance.** The school cabinet (`apps/school`, the `school` service of
+  `deploy/compose.mt.yml`, t-2026-10-08-37) reads the buyers and the courses of one shop, so it runs
+  on that shop's instance. The tool reads the value of `SCHOOL_DOMAIN` and `SCHOOL_SHOP_ORIGIN` and of
+  no other school key. It fails a `SCHOOL_DOMAIN` the profile does not list under `school.domains`
+  (`school.cherkashina.ru` on RU, none on INTL) and a `SCHOOL_SHOP_ORIGIN` on a domain of the other
+  instance, or on RU, where `domains.otherShops` is `false`, on no domain of RU's own.
 
 One check is not a rule of this page but lives in the same tool, because the mistake it catches is
 made in the same env file and fails without a word to anyone.
