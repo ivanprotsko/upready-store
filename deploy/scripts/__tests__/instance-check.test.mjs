@@ -461,6 +461,24 @@ test("the test-mode dot switch passes the env check on ru and on intl, and compo
   assert.equal(compose.match(/^\s+STOREFRONT_HIDE_TEST_MODE_DOT:/gm).length, 1);
 });
 
+test("the school's sign-in hosts pass the env check on ru, fail it on intl, and compose hands them to the backend and the storefront (t-2026-10-08-36)", () => {
+  const env = parseEnvFile("SCHOOL_SSO_RETURN_HOSTS=school.cherkashina.ru\n");
+  assert.deepEqual(checkEnv(env, loadProfile("ru", INSTANCES_DIR)), []);
+  const intl = checkEnv(env, loadProfile("intl", INSTANCES_DIR));
+  assert.equal(intl.length, 1);
+  assert.match(intl[0], /^forbidden env SCHOOL_SSO_RETURN_HOSTS is set/);
+  // Named but empty is not set, so the INTL template's silence and an empty line both pass.
+  assert.deepEqual(checkEnv(parseEnvFile("SCHOOL_SSO_RETURN_HOSTS=\n"), loadProfile("intl", INSTANCES_DIR)), []);
+
+  const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
+  for (const name of ["mt-backend", "mt-storefront"]) {
+    const from = compose.slice(compose.indexOf(`container_name: ${name}`));
+    const service = from.slice(0, from.indexOf("\n    networks:"));
+    assert.match(service, /^ {6}SCHOOL_SSO_RETURN_HOSTS: \$\{SCHOOL_SSO_RETURN_HOSTS:-\}$/m, name);
+  }
+  assert.equal(compose.match(/^\s+SCHOOL_SSO_RETURN_HOSTS:/gm).length, 2);
+});
+
 test("compose.mt.yml gives the relay the default domain this check assumes, and takes both keys from the env file", () => {
   const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
   assert.ok(compose.includes(`ALLOWED_SENDER_DOMAINS: \${MAIL_SENDER_DOMAINS:-${DEFAULT_SENDER_DOMAINS.join(" ")}}`));

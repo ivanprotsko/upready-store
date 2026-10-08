@@ -145,6 +145,11 @@ services:
       YANDEX_CALLBACK_ORIGINS: ${YANDEX_CALLBACK_ORIGINS:-}
       YANDEX_SCOPE: ${YANDEX_SCOPE:-}
       YANDEX_FORCE_CONFIRM: ${YANDEX_FORCE_CONFIRM:-false}
+      # The school's sign-in through the shop (t-2026-10-08-36): the hosts a
+      # sign-in code may be sent to, comma separated, the same list the
+      # storefront reads. Empty mints no code. RU only
+      # (deploy/instances/ru.json; intl.json forbids it).
+      SCHOOL_SSO_RETURN_HOSTS: ${SCHOOL_SSO_RETURN_HOSTS:-}
       # The profile the FIRST boot seeds (store, 241 regions, stock locations,
       # fulfillment + this profile's catalog). The other two demo catalogs are
       # seeded by re-running the same seed with another STORE_PROFILE —
@@ -309,6 +314,10 @@ services:
       NEXT_PUBLIC_SITE_NAME: ${STORE_NAME:-Shipshift}
       NEXT_PUBLIC_YANDEX_MAPS_KEY: ${NEXT_PUBLIC_YANDEX_MAPS_KEY:-}
       NEXT_PUBLIC_YANDEX_LOGIN_ENABLED: ${NEXT_PUBLIC_YANDEX_LOGIN_ENABLED:-false}
+      # /api/school-sso (t-2026-10-08-36) answers 400 to a return_to on any
+      # other host. Read per request, so a runtime env edit is enough. Same
+      # value as the backend's.
+      SCHOOL_SSO_RETURN_HOSTS: ${SCHOOL_SSO_RETURN_HOSTS:-}
       REGION_PIN: "true"
       # A visitor without a locale in the URL gets NEXT_PUBLIC_DEFAULT_LOCALE
       # whatever their browser sends: this storefront's audience is Russian

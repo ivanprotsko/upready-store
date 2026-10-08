@@ -27,7 +27,12 @@
     "mediaUploads": "Contabo host only"
   },
   "env": {
-    "forbiddenNames": [],
+    "forbiddenNames": [
+      {
+        "name": "SCHOOL_SSO_RETURN_HOSTS",
+        "reason": "the school's sign-in is attested by the RU shop cherkashino.ru (t-2026-10-08-36); an INTL backend minting a buyer's token for the school would sign RU buyers in outside the RU instance"
+      }
+    ],
     "forbiddenPrefixes": []
   },
   "providers": {

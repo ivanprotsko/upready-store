@@ -100,6 +100,11 @@ own terms:
 - **RU allows Robokassa, Yandex ID, CDEK, Pochta Russia, Wildberries (read) and Ozon.** All of them
   are Russian entities already represented in `processors.json`; none needs a cross-border consent
   beyond the standard privacy policy.
+- **The school signs in through the RU shop only.** The school at `school.cherkashina.ru` keeps no
+  login of its own: the RU shop `cherkashino.ru` attests the buyer and hands the school a single-use
+  code (`t-2026-10-08-36`). `SCHOOL_SSO_RETURN_HOSTS` names the hosts that may receive one. It is
+  set on RU and forbidden on INTL, where `intl.json` lists it, so an INTL backend never mints a
+  buyer's token for the school.
 
 ## 3. Stands and development: anonymised data only
 
