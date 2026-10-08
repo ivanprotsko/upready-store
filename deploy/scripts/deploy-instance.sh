@@ -105,7 +105,9 @@ REMOTE_ENV="$REMOTE_DIR/$(basename "$ENV_FILE")"
 # The school cabinet (the `school` service of compose.mt.yml, t-2026-10-08-37) is the compose profile
 # `school`: on where the env file names SCHOOL_DOMAIN, off everywhere else. Step 3 fails a SCHOOL_DOMAIN
 # this instance's profile does not list, before anything is started.
-SCHOOL_DOMAIN="$(grep -E '^SCHOOL_DOMAIN=' "$ENV_FILE" | head -1 | cut -d= -f2- | sed -e "s/^[\"']//" -e "s/[\"']\$//")"
+# An env file without the line is the usual case (INTL): grep finds nothing, and under pipefail that must
+# not end the script.
+SCHOOL_DOMAIN="$(grep -E '^SCHOOL_DOMAIN=' "$ENV_FILE" | head -1 | cut -d= -f2- | sed -e "s/^[\"']//" -e "s/[\"']\$//")" || SCHOOL_DOMAIN=""
 SCHOOL_PROFILE=""; [ -n "$SCHOOL_DOMAIN" ] && SCHOOL_PROFILE=" --profile school"
 COMPOSE="docker compose -p mt -f $REMOTE_DIR/deploy/compose.mt.yml --env-file $REMOTE_ENV$SCHOOL_PROFILE"
 SERVICES="backend storefront panel"; [ -n "$SCHOOL_DOMAIN" ] && SERVICES="$SERVICES school"
