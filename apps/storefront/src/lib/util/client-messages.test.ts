@@ -55,6 +55,7 @@ const ROBOKASSA_ONLY = clientMessageFacts({
   manualPayment: EMPTY_MANUAL_PAYMENT,
   analytics: NO_ANALYTICS,
   onboarding: false,
+  catalogViewControls: false,
   paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
 })
 
@@ -73,6 +74,7 @@ const TAKES_CRYPTO = clientMessageFacts({
   manualPayment: { ...EMPTY_MANUAL_PAYMENT, enabled: true },
   analytics: { yandexMetricaId: "12345678", ga4MeasurementId: null },
   onboarding: false,
+  catalogViewControls: false,
   // Its transfer by requisites goes to a wallet and is charged in another currency, and the
   // owner said so in the notice.
   paymentPreNotice: {
@@ -94,6 +96,7 @@ const DEMO_ONLY = clientMessageFacts({
   manualPayment: EMPTY_MANUAL_PAYMENT,
   analytics: NO_ANALYTICS,
   onboarding: false,
+  catalogViewControls: false,
   paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
 })
 
@@ -243,6 +246,7 @@ describe("clientMessageFacts", () => {
       shop: true,
       analytics: NO_ANALYTICS,
       onboarding: false,
+      catalogViewControls: false,
       paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false },
       manualPayment: EMPTY_MANUAL_PAYMENT,
       paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
@@ -270,6 +274,7 @@ describe("clientMessageFacts", () => {
     const base = {
       shop: true,
       onboarding: false,
+      catalogViewControls: false,
       paymentMethods: EMPTY_TENANT_PAYMENT_METHODS,
       manualPayment: EMPTY_MANUAL_PAYMENT,
       paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
@@ -296,6 +301,7 @@ describe("CLIENT_MESSAGE_RULES: the table is the whole of the decision", () => {
     demoCard: false,
     analytics: false,
     onboarding: false,
+    catalogViewControls: false,
     cryptoNetworkRedirect: false,
     chargeNotice: false,
   }
@@ -531,6 +537,7 @@ describe("clientMessageFacts: the redirect to a wallet in a network", () => {
     manualPayment: EMPTY_MANUAL_PAYMENT,
     analytics: NO_ANALYTICS,
     onboarding: false,
+    catalogViewControls: false,
   }
   const withRedirect = (redirectKind: "domain" | "telegram_bot" | "crypto_network" | "bank") =>
     clientMessageFacts({
@@ -627,6 +634,7 @@ describe("clientMessageFacts: the charge currency and the rate of the notice", (
     manualPayment: EMPTY_MANUAL_PAYMENT,
     analytics: NO_ANALYTICS,
     onboarding: false,
+    catalogViewControls: false,
   }
   const withEntry = (key: "robokassa" | "tribute" | "manual", entry: Partial<typeof EMPTY_PRE_NOTICE_ENTRY>) =>
     clientMessageFacts({

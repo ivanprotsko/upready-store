@@ -90,9 +90,16 @@ const CategoryMenu = ({ categories, className, settings }: CategoryMenuProps) =>
     setActiveId(category.id)
   }
 
+  // One level up: from a third level back to the second, from the second to the top.
   const goBack = () => {
     setDirection("backward")
-    setActiveId(null)
+    setActiveId(activeCategory?.parent_category_id ?? null)
+  }
+
+  /** The children of a child, which a child entry of the list does not carry itself. */
+  const withChildren = (id: string) => {
+    const category = categories.find((c) => c.id === id)
+    return category?.category_children?.length ? category : null
   }
 
   const toggleSub = (
@@ -232,7 +239,12 @@ const CategoryMenu = ({ categories, className, settings }: CategoryMenuProps) =>
                               </Link>
                             </li>
                             {activeCategory.category_children.map((sub) => (
-                              <li key={sub.id}>
+                              <li
+                                key={sub.id}
+                                // A row grows the step deeper only when the child has children
+                                // of its own; a shop of two levels keeps its plain rows.
+                                className={withChildren(sub.id) ? "flex items-center gap-2" : undefined}
+                              >
                                 <label
                                   htmlFor={`cat-${sub.id}`}
                                   className="flex cursor-pointer items-center gap-3 text-2xl text-ui-fg-base"
@@ -250,6 +262,17 @@ const CategoryMenu = ({ categories, className, settings }: CategoryMenuProps) =>
                                   />
                                   {sub.name}
                                 </label>
+                                {withChildren(sub.id) ? (
+                                  <button
+                                    type="button"
+                                    aria-label={sub.name}
+                                    onClick={() => goForward(withChildren(sub.id) as HttpTypes.StoreProductCategory)}
+                                    className="flex items-center text-ui-fg-subtle transition-colors hover:text-ui-fg-base"
+                                    data-testid="category-menu-deeper"
+                                  >
+                                    <ChevronRightMini className="rtl:rotate-180" />
+                                  </button>
+                                ) : null}
                               </li>
                             ))}
                           </ul>

@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Ціна: за зростанням"
   },
   "Store": {
-    "allProducts": "Усі товари"
+    "allProducts": "Усі товари",
+    "brands": "Бренди",
+    "allBrands": "Усі бренди",
+    "view": "Вигляд списку",
+    "viewGrid": "Сітка",
+    "viewList": "Список",
+    "viewCompact": "Щільна сітка",
+    "perPage": "Товарів на сторінці"
   },
   "TenantPage": {
     "emptyBody": "На цій сторінці ще немає тексту.",

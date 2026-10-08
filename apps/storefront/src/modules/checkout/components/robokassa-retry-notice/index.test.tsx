@@ -184,6 +184,7 @@ describe("RobokassaRetryNotice with the dictionary of a shop that takes Robokass
       analytics: { yandexMetricaId: null, ga4MeasurementId: null },
       onboarding: false,
       paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
+      catalogViewControls: false,
     })
   )
   const renderCut = (notice: PaymentReturnNotice | null, forCart = cart) =>

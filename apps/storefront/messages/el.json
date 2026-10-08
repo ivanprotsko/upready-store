@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Τιμή: Χαμηλή → Υψηλή"
   },
   "Store": {
-    "allProducts": "Όλα τα προϊόντα"
+    "allProducts": "Όλα τα προϊόντα",
+    "brands": "Μάρκες",
+    "allBrands": "Όλες οι μάρκες",
+    "view": "Προβολή",
+    "viewGrid": "Πλέγμα",
+    "viewList": "Λίστα",
+    "viewCompact": "Πυκνό πλέγμα",
+    "perPage": "Προϊόντα ανά σελίδα"
   },
   "TenantPage": {
     "emptyBody": "Αυτή η σελίδα δεν έχει ακόμη κείμενο.",
