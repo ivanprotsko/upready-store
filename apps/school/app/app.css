@@ -1,0 +1,47 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * The shop's `supplements` preset, light mode, copied from
+ * apps/storefront/src/styles/themes.css. Change the shop's preset there and
+ * here together, or the school stops looking like the shop.
+ */
+:root {
+  --accent: #ebebeb;
+  --accent-foreground: #1d1d1d;
+  --background: #ffffff;
+  --border: #e0e0e0;
+  --card: #ffffff;
+  --destructive: #b3261e;
+  --foreground: #1d1d1d;
+  --link: #0a6a52;
+  --muted: #f3f3f3;
+  --muted-foreground: #5b5b5b;
+  --primary: #0a6a52;
+  --primary-foreground: #ffffff;
+  --radius: 0.5rem;
+  --ring: #0a6a52;
+  --shadow-card: inset 0 0 0 1px #1d1d1d14, 0 1px 2px #1d1d1d0a, 0 8px 8px -8px #1d1d1d0a;
+  --shadow-float: inset 0 0 0 1px #1d1d1d14, 0 2px 4px #1d1d1d0a, 0 8px 16px -4px #1d1d1d0f;
+  --success: #0a6a52;
+  --warning: #7a4b00;
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-background font-sans text-foreground antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}

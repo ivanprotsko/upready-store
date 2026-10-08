@@ -11,6 +11,10 @@
   "tenants": {
     "recordedExceptions": []
   },
+  "school": {
+    "domains": ["school.cherkashina.ru"],
+    "note": "The school cabinet (apps/school, the `school` service of deploy/compose.mt.yml) on its own host. It reads the buyers and their courses of the shop SCHOOL_SHOP_ORIGIN names, so it runs on that shop's instance. instance-check fails a SCHOOL_DOMAIN outside this list and a SCHOOL_SHOP_ORIGIN on another instance's domain (docs/instances/RULES.md §1)."
+  },
   "dataResidency": {
     "customerDatabase": "RU host only (Timeweb, Moscow) — 152-FZ Art. 18(5)",
     "primaryBackup": "RU host local disk, deploy/backup/ tier 1",
