@@ -96,7 +96,18 @@
 
 .trailing {
   justify-content: flex-end;
-  gap: 8px;
+}
+
+/* The frame CatalogNav (176:166085, t-2026-10-09-41): heart, account and «Корзина» side by
+   side with no gap, no fill at rest; scrolled, one white pill, as country and currency. */
+.actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  transition:
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
 }
 
 .main {
@@ -376,13 +387,7 @@
 /* Ivan 05.10 (ask 2f6e) withdrew the compact bar's scrolled fill of QA f14 (t-2026-10-04-22):
    the header container has no colour at any width, the pills and discs keep their own. */
 
-.trailing .iconButton {
-  transition:
-    background-color 200ms ease-out,
-    box-shadow 200ms ease-out;
-}
-
-.root[data-scrolled="true"] .trailing .iconButton {
+.root[data-scrolled="true"] .actions {
   background: var(--h7-surface);
   box-shadow: var(--h7-elevation);
 }
@@ -431,7 +436,7 @@
   .wordmark,
   .compactPill,
   .divider,
-  .trailing .iconButton {
+  .actions {
     transition: none;
   }
 }

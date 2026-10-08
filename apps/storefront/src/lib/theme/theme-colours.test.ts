@@ -37,6 +37,10 @@ const FILE_ALLOWLIST: Record<string, string> = {
     "brand graphic: cherkashino.com category chips from the mockup, each a self-contained fill and ink pair",
   "modules/home/variants/olavka-navigation.module.css":
     "brand graphic: the default pair of the same category chips and their highlight",
+  "modules/layout/components/olavka-category-rail/palette.ts":
+    "brand graphic: the category buttons of Ivan's frame CatalogNav, each a self-contained fill and ink pair",
+  "modules/layout/components/olavka-category-rail/rail.module.css":
+    "brand graphic: the white inner highlight of the same buttons, the frame's own shadow",
   "modules/home/variants/olavka-hero-slider.module.css":
     "brand graphic: chips and frames drawn over slide photos, the chip variant is chosen per slide",
   "modules/account/components/yandex-login/yandex-id-button.tsx":
