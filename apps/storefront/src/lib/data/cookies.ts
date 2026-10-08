@@ -270,6 +270,22 @@ export const getCountryCode = async (): Promise<string | null> => {
 }
 
 /**
+ * Whether `src/middleware.ts` resolved a country for this request. It writes
+ * `COUNTRY_HEADER` and narrows the shop's regions in one place, past the branch
+ * that hands a path with a dot on as a file. So a request with no such header
+ * is one whose regions nobody has narrowed: the list of a shop is unknown
+ * there, not «every region of the engine».
+ */
+export const hasResolvedCountry = async (): Promise<boolean> => {
+  try {
+    const headers = await nextHeaders()
+    return headers.has(COUNTRY_HEADER)
+  } catch {
+    return false
+  }
+}
+
+/**
  * The ids of the regions this shop sells in, as `src/middleware.ts` narrowed
  * them (`shopRegionIds`, N9), or null when nothing narrows them — a
  * single-store deployment, a shop whose country is left to detection, or a
