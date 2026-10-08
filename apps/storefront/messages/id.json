@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Harga: Rendah → Tinggi"
   },
   "Store": {
-    "allProducts": "Semua produk"
+    "allProducts": "Semua produk",
+    "brands": "Merek",
+    "allBrands": "Semua merek",
+    "view": "Tampilan",
+    "viewGrid": "Kisi",
+    "viewList": "Daftar",
+    "viewCompact": "Kisi ringkas",
+    "perPage": "Produk per halaman"
   },
   "TenantPage": {
     "emptyBody": "Halaman ini belum memiliki teks.",
@@ -1252,16 +1259,5 @@
     "marketing": "Saya setuju menerima berita, promosi, dan penawaran khusus melalui e-mail. Saya dapat berhenti berlangganan kapan saja melalui tautan di setiap e-mail.",
     "receipt": "Struk pembayaran akan dikirim ke e-mail yang Anda masukkan saat pemesanan (54-FZ).",
     "hint": "Untuk melakukan pemesanan, centang persetujuan pemrosesan data pribadi."
-  },
-  "CatalogView": {
-    "compact": "Kisi ringkas",
-    "grid": "Kisi",
-    "label": "Tampilan",
-    "list": "Daftar",
-    "perPage": "Produk per halaman"
-  },
-  "Brands": {
-    "all": "Semua merek",
-    "title": "Merek"
   }
 }

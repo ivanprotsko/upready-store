@@ -14,6 +14,9 @@ import {
 
 const YEAR = 60 * 60 * 24 * 365
 
+/** Each view's name in the `Store` section. */
+const VIEW_KEY = { grid: "viewGrid", list: "viewList", compact: "viewCompact" } as const satisfies Record<CatalogView, string>
+
 const ICONS: Record<CatalogView, ReactNode> = {
   grid: (
     <path d="M3 3h6v6H3zM11 3h6v6h-6zM3 11h6v6H3zM11 11h6v6h-6z" />
@@ -33,7 +36,7 @@ const ICONS: Record<CatalogView, ReactNode> = {
  * because page 5 of twelve is not page 5 of forty-eight.
  */
 export default function ViewControls({ view, perPage }: { view: CatalogView; perPage: number }) {
-  const t = useTranslations("CatalogView")
+  const t = useTranslations("Store")
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -63,15 +66,15 @@ export default function ViewControls({ view, perPage }: { view: CatalogView; per
     >
       <div
         role="group"
-        aria-label={t("label")}
+        aria-label={t("view")}
         className="inline-flex overflow-hidden rounded-[var(--radius,8px)] border border-ui-border-base"
       >
         {CATALOG_VIEWS.map((option) => (
           <button
             key={option}
             type="button"
-            title={t(option)}
-            aria-label={t(option)}
+            title={t(VIEW_KEY[option])}
+            aria-label={t(VIEW_KEY[option])}
             aria-pressed={option === view}
             onClick={() => apply(CATALOG_VIEW_COOKIE, option)}
             className={

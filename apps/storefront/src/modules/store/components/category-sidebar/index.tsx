@@ -18,12 +18,16 @@ const CategorySidebar = ({
   const activeCategory = categories.find((c) => c.id === activeCategoryId)
   const childCategories = activeCategory?.category_children ?? []
 
-  // The branch the buyer is in, from the open category up to its root. Its levels are drawn
-  // open under the root, so a second or third level shows where it sits (ask a0e1); every
-  // other root stays one line, as before.
+  // The branch the buyer is in, from the open category up to its root. In a shop with a
+  // third level its levels are drawn open under the root, so a second or third level shows
+  // where it sits (ask a0e1); every other root stays one line. A shop of two levels keeps
+  // the column it had, one line per root and nothing under it.
   const byId = new Map(categories.map((c) => [c.id, c]))
+  const threeLevels = categories.some(
+    (c) => c.parent_category_id && byId.get(c.parent_category_id)?.parent_category_id
+  )
   const branch = new Set<string>()
-  for (let c = activeCategory; c && !branch.has(c.id); c = c.parent_category_id ? byId.get(c.parent_category_id) : undefined) {
+  for (let c = threeLevels ? activeCategory : undefined; c && !branch.has(c.id); c = c.parent_category_id ? byId.get(c.parent_category_id) : undefined) {
     branch.add(c.id)
   }
 
@@ -40,8 +44,9 @@ const CategorySidebar = ({
           <Link
             href={`/categories/${item.handle}`}
             className={clx(
-              "txt-compact-small text-ui-fg-base hover:text-ui-fg-base hover:bg-ui-bg-subtle rounded-md transition-colors w-full py-1",
+              "txt-compact-small text-ui-fg-base hover:text-ui-fg-base hover:bg-ui-bg-subtle rounded-md transition-colors w-full",
               INDENT[depth],
+              "py-1",
               {
                 "text-ui-fg-base font-medium bg-ui-bg-base-hover": item.id === activeCategoryId,
               }

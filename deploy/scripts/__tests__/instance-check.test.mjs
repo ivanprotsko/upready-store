@@ -461,6 +461,20 @@ test("the test-mode dot switch passes the env check on ru and on intl, and compo
   assert.equal(compose.match(/^\s+STOREFRONT_HIDE_TEST_MODE_DOT:/gm).length, 1);
 });
 
+test("the catalog view controls switch passes the env check on ru and on intl, and compose hands it to the storefront (t-2026-10-06-09)", () => {
+  for (const instance of ["ru", "intl"]) {
+    const profile = loadProfile(instance, INSTANCES_DIR);
+    assert.deepEqual(checkEnv(parseEnvFile("STOREFRONT_CATALOG_VIEW_CONTROLS=bpj,other-shop\n"), profile), [], instance);
+  }
+
+  // Off by default, and the storefront alone gets it.
+  const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
+  const storefront = compose.slice(compose.indexOf("container_name: mt-storefront"));
+  const service = storefront.slice(0, storefront.indexOf("\n    networks:"));
+  assert.match(service, /^ {6}STOREFRONT_CATALOG_VIEW_CONTROLS: \$\{STOREFRONT_CATALOG_VIEW_CONTROLS:-\}$/m);
+  assert.equal(compose.match(/^\s+STOREFRONT_CATALOG_VIEW_CONTROLS:/gm).length, 1);
+});
+
 test("compose.mt.yml gives the relay the default domain this check assumes, and takes both keys from the env file", () => {
   const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
   assert.ok(compose.includes(`ALLOWED_SENDER_DOMAINS: \${MAIL_SENDER_DOMAINS:-${DEFAULT_SENDER_DOMAINS.join(" ")}}`));

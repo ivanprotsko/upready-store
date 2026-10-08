@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Preis: aufsteigend"
   },
   "Store": {
-    "allProducts": "Alle Produkte"
+    "allProducts": "Alle Produkte",
+    "brands": "Marken",
+    "allBrands": "Alle Marken",
+    "view": "Ansicht",
+    "viewGrid": "Raster",
+    "viewList": "Liste",
+    "viewCompact": "Kompaktes Raster",
+    "perPage": "Produkte pro Seite"
   },
   "TenantPage": {
     "emptyBody": "Diese Seite hat noch keinen Text.",
@@ -1252,16 +1259,5 @@
     "marketing": "Ich möchte Neuigkeiten, Aktionen und Sonderangebote per E-Mail erhalten. Ich kann mich jederzeit über den Link in jeder E-Mail abmelden.",
     "receipt": "Ein Kassenbeleg wird an die beim Bestellen angegebene E-Mail-Adresse gesendet (54-FZ).",
     "hint": "Um die Bestellung aufzugeben, stimmen Sie der Verarbeitung personenbezogener Daten zu."
-  },
-  "CatalogView": {
-    "compact": "Kompaktes Raster",
-    "grid": "Raster",
-    "label": "Ansicht",
-    "list": "Liste",
-    "perPage": "Produkte pro Seite"
-  },
-  "Brands": {
-    "all": "Alle Marken",
-    "title": "Marken"
   }
 }

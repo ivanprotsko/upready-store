@@ -5,6 +5,7 @@ import type { AbstractIntlMessages } from "next-intl"
 import { getMessages } from "next-intl/server"
 
 import { getTenantAnalytics } from "@lib/data/analytics"
+import { catalogViewControlsOn } from "@lib/data/catalog-view"
 import { getTenantHandle } from "@lib/data/cookies"
 import { getTenantManualPayment } from "@lib/data/tenant-manual-payment"
 import { getTenantPaymentPreNotice } from "@lib/data/tenant-payment-pre-notice"
@@ -25,16 +26,25 @@ import { clientMessageFacts, clientMessages } from "@lib/util/client-messages"
  * once and refers to it the second time.
  */
 export const getClientMessages = cache(async (): Promise<AbstractIntlMessages> => {
-  const [messages, handle, paymentMethods, manualPayment, analytics, paymentPreNotice, cookies] =
-    await Promise.all([
-      getMessages(),
-      getTenantHandle(),
-      getSitePaymentMethods(),
-      getTenantManualPayment(),
-      getTenantAnalytics(),
-      getTenantPaymentPreNotice(),
-      nextCookies(),
-    ])
+  const [
+    messages,
+    handle,
+    paymentMethods,
+    manualPayment,
+    analytics,
+    paymentPreNotice,
+    cookies,
+    catalogViewControls,
+  ] = await Promise.all([
+    getMessages(),
+    getTenantHandle(),
+    getSitePaymentMethods(),
+    getTenantManualPayment(),
+    getTenantAnalytics(),
+    getTenantPaymentPreNotice(),
+    nextCookies(),
+    catalogViewControlsOn(),
+  ])
 
   return clientMessages(
     messages,
@@ -46,6 +56,7 @@ export const getClientMessages = cache(async (): Promise<AbstractIntlMessages> =
       // The cookie `OrderCompletedTemplate` reads before it mounts `OnboardingCta`.
       onboarding: cookies.get("_medusa_onboarding")?.value === "true",
       paymentPreNotice,
+      catalogViewControls,
     })
   )
 })

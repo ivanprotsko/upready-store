@@ -239,7 +239,12 @@ const CategoryMenu = ({ categories, className, settings }: CategoryMenuProps) =>
                               </Link>
                             </li>
                             {activeCategory.category_children.map((sub) => (
-                              <li key={sub.id} className="flex items-center gap-2">
+                              <li
+                                key={sub.id}
+                                // A row grows the step deeper only when the child has children
+                                // of its own; a shop of two levels keeps its plain rows.
+                                className={withChildren(sub.id) ? "flex items-center gap-2" : undefined}
+                              >
                                 <label
                                   htmlFor={`cat-${sub.id}`}
                                   className="flex cursor-pointer items-center gap-3 text-2xl text-ui-fg-base"

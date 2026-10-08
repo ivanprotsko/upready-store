@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Prix : croissant"
   },
   "Store": {
-    "allProducts": "Tous les produits"
+    "allProducts": "Tous les produits",
+    "brands": "Marques",
+    "allBrands": "Toutes les marques",
+    "view": "Affichage",
+    "viewGrid": "Grille",
+    "viewList": "Liste",
+    "viewCompact": "Grille compacte",
+    "perPage": "Produits par page"
   },
   "TenantPage": {
     "emptyBody": "Cette page n'a pas encore de texte.",
@@ -1252,16 +1259,5 @@
     "marketing": "J'accepte de recevoir des actualités, promotions et offres spéciales par e-mail. Je peux me désinscrire à tout moment via le lien présent dans chaque e-mail.",
     "receipt": "Un reçu de caisse sera envoyé à l'adresse e-mail indiquée lors de la commande (54-FZ).",
     "hint": "Pour passer la commande, cochez le consentement au traitement des données personnelles."
-  },
-  "CatalogView": {
-    "compact": "Grille compacte",
-    "grid": "Grille",
-    "label": "Affichage",
-    "list": "Liste",
-    "perPage": "Produits par page"
-  },
-  "Brands": {
-    "all": "Toutes les marques",
-    "title": "Marques"
   }
 }

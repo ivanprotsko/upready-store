@@ -30,3 +30,34 @@ export const parseCatalogPerPage = (raw: string | null | undefined): number => {
 
   return (CATALOG_PER_PAGE_OPTIONS as readonly number[]).includes(value) ? value : DEFAULT_CATALOG_PER_PAGE
 }
+
+/**
+ * The switch the controls sit behind. Without it a shop's listing, its page size and the
+ * dictionary its pages hand to the browser stay exactly what they were before the controls
+ * existed, whatever cookie a buyer carries.
+ */
+export const CATALOG_VIEW_CONTROLS_ENV = "STOREFRONT_CATALOG_VIEW_CONTROLS"
+
+type Env = Record<string, string | undefined>
+
+/**
+ * On for `1` and for `true`, which is every shop of the deployment, or for a shop whose
+ * handle a comma-separated list names. Off for anything else and for no value. The
+ * storefront reads it on the server at render time, so you change it with the container's
+ * environment and a restart, with no rebuild.
+ */
+export const catalogViewControlsEnabled = (handle: string | null, env: Env = process.env): boolean => {
+  const value = (env[CATALOG_VIEW_CONTROLS_ENV] ?? "").trim()
+
+  if (value.toLowerCase() === "1" || value.toLowerCase() === "true") {
+    return true
+  }
+
+  return (
+    handle !== null &&
+    value
+      .split(",")
+      .map((entry) => entry.trim())
+      .includes(handle)
+  )
+}

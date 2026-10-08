@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Pris: Lågt → Högt"
   },
   "Store": {
-    "allProducts": "Alla produkter"
+    "allProducts": "Alla produkter",
+    "brands": "Varumärken",
+    "allBrands": "Alla varumärken",
+    "view": "Vy",
+    "viewGrid": "Rutnät",
+    "viewList": "Lista",
+    "viewCompact": "Tätt rutnät",
+    "perPage": "Produkter per sida"
   },
   "TenantPage": {
     "emptyBody": "Den här sidan har ingen text än.",
@@ -1252,16 +1259,5 @@
     "marketing": "Jag vill få nyheter, kampanjer och specialerbjudanden via e-post. Jag kan när som helst avregistrera mig via länken i varje e-postmeddelande.",
     "receipt": "Ett kassakvitto skickas till den e-postadress du angav vid beställningen (54-FZ).",
     "hint": "För att lägga beställningen, kryssa i samtycket till behandling av personuppgifter."
-  },
-  "CatalogView": {
-    "compact": "Tätt rutnät",
-    "grid": "Rutnät",
-    "label": "Vy",
-    "list": "Lista",
-    "perPage": "Produkter per sida"
-  },
-  "Brands": {
-    "all": "Alla varumärken",
-    "title": "Varumärken"
   }
 }

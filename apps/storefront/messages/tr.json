@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Fiyat: Düşükten Yükseğe"
   },
   "Store": {
-    "allProducts": "Tüm ürünler"
+    "allProducts": "Tüm ürünler",
+    "brands": "Markalar",
+    "allBrands": "Tüm markalar",
+    "view": "Görünüm",
+    "viewGrid": "Izgara",
+    "viewList": "Liste",
+    "viewCompact": "Sık ızgara",
+    "perPage": "Sayfa başına ürün"
   },
   "TenantPage": {
     "emptyBody": "Bu sayfada henüz metin yok.",
@@ -1252,16 +1259,5 @@
     "marketing": "Haberleri, kampanyaları ve özel teklifleri e-posta ile almayı kabul ediyorum. Her e-postadaki bağlantıdan istediğim zaman abonelikten çıkabilirim.",
     "receipt": "Kasa fişi, sipariş sırasında girdiğiniz e-posta adresine gönderilecektir (54-FZ).",
     "hint": "Siparişi vermek için kişisel verilerin işlenmesine onay kutusunu işaretleyin."
-  },
-  "CatalogView": {
-    "compact": "Sık ızgara",
-    "grid": "Izgara",
-    "label": "Görünüm",
-    "list": "Liste",
-    "perPage": "Sayfa başına ürün"
-  },
-  "Brands": {
-    "all": "Tüm markalar",
-    "title": "Markalar"
   }
 }

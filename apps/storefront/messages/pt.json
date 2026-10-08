@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Preço: Menor → Maior"
   },
   "Store": {
-    "allProducts": "Todos os produtos"
+    "allProducts": "Todos os produtos",
+    "brands": "Marcas",
+    "allBrands": "Todas as marcas",
+    "view": "Vista",
+    "viewGrid": "Grelha",
+    "viewList": "Lista",
+    "viewCompact": "Grelha compacta",
+    "perPage": "Produtos por página"
   },
   "TenantPage": {
     "emptyBody": "Esta página ainda não tem texto.",
@@ -1252,16 +1259,5 @@
     "marketing": "Aceito receber novidades, promoções e ofertas especiais por e-mail. Posso cancelar a subscrição a qualquer momento através da ligação em cada e-mail.",
     "receipt": "Será enviado um recibo para o e-mail indicado na encomenda (54-FZ).",
     "hint": "Para fazer a encomenda, assinale o consentimento para o tratamento de dados pessoais."
-  },
-  "CatalogView": {
-    "compact": "Grelha compacta",
-    "grid": "Grelha",
-    "label": "Vista",
-    "list": "Lista",
-    "perPage": "Produtos por página"
-  },
-  "Brands": {
-    "all": "Todas as marcas",
-    "title": "Marcas"
   }
 }

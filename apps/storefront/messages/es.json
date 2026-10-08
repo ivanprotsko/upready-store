@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Precio: de menor a mayor"
   },
   "Store": {
-    "allProducts": "Todos los productos"
+    "allProducts": "Todos los productos",
+    "brands": "Marcas",
+    "allBrands": "Todas las marcas",
+    "view": "Vista",
+    "viewGrid": "Cuadrícula",
+    "viewList": "Lista",
+    "viewCompact": "Cuadrícula compacta",
+    "perPage": "Productos por página"
   },
   "TenantPage": {
     "emptyBody": "Esta página aún no tiene texto.",
@@ -1252,16 +1259,5 @@
     "marketing": "Acepto recibir noticias, promociones y ofertas especiales por correo electrónico. Puedo darme de baja en cualquier momento mediante el enlace de cada correo.",
     "receipt": "Se enviará un recibo de caja al correo electrónico indicado al realizar el pedido (54-FZ).",
     "hint": "Para realizar el pedido, marca el consentimiento para el tratamiento de datos personales."
-  },
-  "CatalogView": {
-    "compact": "Cuadrícula compacta",
-    "grid": "Cuadrícula",
-    "label": "Vista",
-    "list": "Lista",
-    "perPage": "Productos por página"
-  },
-  "Brands": {
-    "all": "Todas las marcas",
-    "title": "Marcas"
   }
 }

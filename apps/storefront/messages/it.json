@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Prezzo: crescente"
   },
   "Store": {
-    "allProducts": "Tutti i prodotti"
+    "allProducts": "Tutti i prodotti",
+    "brands": "Marchi",
+    "allBrands": "Tutti i marchi",
+    "view": "Vista",
+    "viewGrid": "Griglia",
+    "viewList": "Elenco",
+    "viewCompact": "Griglia compatta",
+    "perPage": "Prodotti per pagina"
   },
   "TenantPage": {
     "emptyBody": "Questa pagina non ha ancora testo.",
@@ -1252,16 +1259,5 @@
     "marketing": "Accetto di ricevere novità, promozioni e offerte speciali via e-mail. Posso annullare l'iscrizione in qualsiasi momento tramite il link in ogni e-mail.",
     "receipt": "Lo scontrino fiscale verrà inviato all'e-mail indicata al momento dell'ordine (54-FZ).",
     "hint": "Per effettuare l'ordine, seleziona il consenso al trattamento dei dati personali."
-  },
-  "CatalogView": {
-    "compact": "Griglia compatta",
-    "grid": "Griglia",
-    "label": "Vista",
-    "list": "Elenco",
-    "perPage": "Prodotti per pagina"
-  },
-  "Brands": {
-    "all": "Tutti i marchi",
-    "title": "Marchi"
   }
 }

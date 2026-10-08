@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Cena: najnižšia → najvyššia"
   },
   "Store": {
-    "allProducts": "Všetky produkty"
+    "allProducts": "Všetky produkty",
+    "brands": "Značky",
+    "allBrands": "Všetky značky",
+    "view": "Zobrazenie",
+    "viewGrid": "Mriežka",
+    "viewList": "Zoznam",
+    "viewCompact": "Hustá mriežka",
+    "perPage": "Produktov na stránku"
   },
   "TenantPage": {
     "emptyBody": "Táto stránka zatiaľ nemá žiadny text.",
@@ -1252,16 +1259,5 @@
     "marketing": "Súhlasím so zasielaním noviniek, akcií a špeciálnych ponúk na uvedený e-mail. Odhlásiť sa môžem kedykoľvek cez odkaz v každom e-maile.",
     "receipt": "Pokladničný doklad bude zaslaný na e-mail zadaný pri objednávke (54-FZ).",
     "hint": "Na dokončenie objednávky označte súhlas so spracovaním osobných údajov."
-  },
-  "CatalogView": {
-    "compact": "Hustá mriežka",
-    "grid": "Mriežka",
-    "label": "Zobrazenie",
-    "list": "Zoznam",
-    "perPage": "Produktov na stránku"
-  },
-  "Brands": {
-    "all": "Všetky značky",
-    "title": "Značky"
   }
 }

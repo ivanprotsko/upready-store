@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Harga: Rendah → Tinggi"
   },
   "Store": {
-    "allProducts": "Semua produk"
+    "allProducts": "Semua produk",
+    "brands": "Jenama",
+    "allBrands": "Semua jenama",
+    "view": "Paparan",
+    "viewGrid": "Grid",
+    "viewList": "Senarai",
+    "viewCompact": "Grid padat",
+    "perPage": "Produk setiap halaman"
   },
   "TenantPage": {
     "emptyBody": "Halaman ini belum mempunyai teks.",
@@ -1252,16 +1259,5 @@
     "marketing": "Saya bersetuju menerima berita, promosi dan tawaran istimewa melalui e-mel. Saya boleh berhenti melanggan pada bila-bila masa melalui pautan dalam setiap e-mel.",
     "receipt": "Resit tunai akan dihantar ke e-mel yang anda masukkan semasa membuat pesanan (54-FZ).",
     "hint": "Untuk membuat pesanan, tandakan persetujuan pemprosesan data peribadi."
-  },
-  "CatalogView": {
-    "compact": "Grid padat",
-    "grid": "Grid",
-    "label": "Paparan",
-    "list": "Senarai",
-    "perPage": "Produk setiap halaman"
-  },
-  "Brands": {
-    "all": "Semua jenama",
-    "title": "Jenama"
   }
 }

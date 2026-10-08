@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Giá: Thấp → Cao"
   },
   "Store": {
-    "allProducts": "Tất cả sản phẩm"
+    "allProducts": "Tất cả sản phẩm",
+    "brands": "Thương hiệu",
+    "allBrands": "Tất cả thương hiệu",
+    "view": "Kiểu xem",
+    "viewGrid": "Lưới",
+    "viewList": "Danh sách",
+    "viewCompact": "Lưới dày",
+    "perPage": "Số sản phẩm mỗi trang"
   },
   "TenantPage": {
     "emptyBody": "Trang này chưa có nội dung.",
@@ -1252,16 +1259,5 @@
     "marketing": "Tôi đồng ý nhận tin tức, khuyến mãi và ưu đãi đặc biệt qua e-mail. Tôi có thể hủy đăng ký bất cứ lúc nào qua liên kết trong mỗi e-mail.",
     "receipt": "Biên lai sẽ được gửi đến e-mail bạn đã nhập khi đặt hàng (54-FZ).",
     "hint": "Để đặt hàng, hãy đánh dấu đồng ý xử lý dữ liệu cá nhân."
-  },
-  "CatalogView": {
-    "compact": "Lưới dày",
-    "grid": "Lưới",
-    "label": "Kiểu xem",
-    "list": "Danh sách",
-    "perPage": "Số sản phẩm mỗi trang"
-  },
-  "Brands": {
-    "all": "Tất cả thương hiệu",
-    "title": "Thương hiệu"
   }
 }

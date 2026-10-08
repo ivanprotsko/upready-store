@@ -1,7 +1,7 @@
 import { cookies } from "next/headers"
 import { getTranslations } from "next-intl/server"
 
-import { isOlavkaShop } from "@lib/data/olavka-shop"
+import { catalogViewControlsOn } from "@lib/data/catalog-view"
 import { listProductsWithSort } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import {
@@ -89,13 +89,14 @@ export default async function PaginatedProducts({
    */
   attributeProductIds?: string[] | null
 }) {
-  // The Olavka shops keep their own grid and page size (Ivan's widths of 27.09), so they
-  // get no controls and no cookie changes their listing.
-  const [olavka, cookieStore] = await Promise.all([isOlavkaShop(), cookies()])
-  const view = olavka ? DEFAULT_CATALOG_VIEW : parseCatalogView(cookieStore.get(CATALOG_VIEW_COOKIE)?.value)
-  const perPage = olavka
-    ? DEFAULT_CATALOG_PER_PAGE
-    : parseCatalogPerPage(cookieStore.get(CATALOG_PER_PAGE_COOKIE)?.value)
+  // A shop the switch does not name, and every Olavka shop, keeps the listing it had: the
+  // grid, twelve to a page, no controls, and no cookie is read (`catalogViewControlsOn`).
+  const controls = await catalogViewControlsOn()
+  const cookieStore = controls ? await cookies() : null
+  const view = cookieStore ? parseCatalogView(cookieStore.get(CATALOG_VIEW_COOKIE)?.value) : DEFAULT_CATALOG_VIEW
+  const perPage = cookieStore
+    ? parseCatalogPerPage(cookieStore.get(CATALOG_PER_PAGE_COOKIE)?.value)
+    : DEFAULT_CATALOG_PER_PAGE
 
   const queryParams: PaginatedProductsParams = {
     limit: perPage,
@@ -152,12 +153,12 @@ export default async function PaginatedProducts({
 
   return (
     <>
-      {!olavka && <ViewControls view={view} perPage={perPage} />}
+      {controls && <ViewControls view={view} perPage={perPage} />}
       <ul
         className={LISTING_CLASS[view]}
         data-testid="products-list"
         data-total-count={count}
-        data-view={view}
+        data-view={controls ? view : undefined}
       >
         {products.map((p, index) => {
           return (

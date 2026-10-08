@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Ár: Alacsony → Magas"
   },
   "Store": {
-    "allProducts": "Összes termék"
+    "allProducts": "Összes termék",
+    "brands": "Márkák",
+    "allBrands": "Összes márka",
+    "view": "Nézet",
+    "viewGrid": "Rács",
+    "viewList": "Lista",
+    "viewCompact": "Sűrű rács",
+    "perPage": "Termék oldalanként"
   },
   "TenantPage": {
     "emptyBody": "Ezen az oldalon még nincs szöveg.",
@@ -1252,16 +1259,5 @@
     "marketing": "Hozzájárulok, hogy híreket, akciókat és különleges ajánlatokat kapjak e-mailben. Bármikor leiratkozhatok az e-mailekben található linkkel.",
     "receipt": "A pénztári nyugtát a rendeléskor megadott e-mail-címre küldjük (54-FZ).",
     "hint": "A rendelés leadásához jelölje be a személyes adatok kezeléséhez való hozzájárulást."
-  },
-  "CatalogView": {
-    "compact": "Sűrű rács",
-    "grid": "Rács",
-    "label": "Nézet",
-    "list": "Lista",
-    "perPage": "Termék oldalanként"
-  },
-  "Brands": {
-    "all": "Összes márka",
-    "title": "Márkák"
   }
 }

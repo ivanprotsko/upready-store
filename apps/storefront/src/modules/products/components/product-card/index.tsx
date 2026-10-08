@@ -136,9 +136,11 @@ export default async function ProductCard({
   return (
     <Link
       href={`/products/${product.handle}`}
-      className={`group flex h-full rounded-[var(--radius,8px)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive ${
-        row ? "flex-row items-start gap-x-4" : "flex-col"
-      }`}
+      className={
+        row
+          ? "group flex h-full flex-row items-start gap-x-4 rounded-[var(--radius,8px)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
+          : "group flex h-full flex-col rounded-[var(--radius,8px)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
+      }
       data-testid="product-wrapper"
     >
       <div className={row ? "relative w-28 shrink-0 small:w-40" : "relative"}>
