@@ -33,6 +33,8 @@
 #     --skip-backend-build        reuse the image already on the host
 #     --skip-storefront-build     reuse the image already on the host
 #     --skip-panel-build          reuse the image already on the host
+#     --skip-school-build         reuse the image already on the host (only
+#                                 where the env file names SCHOOL_DOMAIN)
 #     --skip-instance-check       escape hatch for a dry run only — never use
 #                                 this against a real host; the script logs a
 #                                 warning every time it is set
@@ -46,16 +48,17 @@ set -euo pipefail
 
 INSTANCE="${1:-}"
 GIT_REF="${2:-}"
-[ -n "$INSTANCE" ] && [ -n "$GIT_REF" ] || { sed -n '2,38p' "$0"; exit 2; }
+[ -n "$INSTANCE" ] && [ -n "$GIT_REF" ] || { sed -n '2,40p' "$0"; exit 2; }
 shift 2
 
-ENV_FILE_OVERRIDE=""; SKIP_BE=0; SKIP_SF=0; SKIP_PANEL=0; SKIP_CHECK=0; VERIFY_ONLY=0; ROLLBACK_TAG=""
+ENV_FILE_OVERRIDE=""; SKIP_BE=0; SKIP_SF=0; SKIP_PANEL=0; SKIP_SCHOOL=0; SKIP_CHECK=0; VERIFY_ONLY=0; ROLLBACK_TAG=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --env-file) ENV_FILE_OVERRIDE="$2"; shift ;;
     --skip-backend-build) SKIP_BE=1 ;;
     --skip-storefront-build) SKIP_SF=1 ;;
     --skip-panel-build) SKIP_PANEL=1 ;;
+    --skip-school-build) SKIP_SCHOOL=1 ;;
     --skip-instance-check) SKIP_CHECK=1 ;;
     --verify-only) VERIFY_ONLY=1 ;;
     --rollback) ROLLBACK_TAG="$2"; shift ;;
@@ -99,7 +102,13 @@ else
 fi
 [ -f "$ENV_FILE" ] || { echo "missing env file $ENV_FILE (copy deploy/mt/shipshift.env.example, or pass --env-file)" >&2; exit 2; }
 REMOTE_ENV="$REMOTE_DIR/$(basename "$ENV_FILE")"
-COMPOSE="docker compose -p mt -f $REMOTE_DIR/deploy/compose.mt.yml --env-file $REMOTE_ENV"
+# The school cabinet (the `school` service of compose.mt.yml, t-2026-10-08-37) is the compose profile
+# `school`: on where the env file names SCHOOL_DOMAIN, off everywhere else. Step 3 fails a SCHOOL_DOMAIN
+# this instance's profile does not list, before anything is started.
+SCHOOL_DOMAIN="$(grep -E '^SCHOOL_DOMAIN=' "$ENV_FILE" | head -1 | cut -d= -f2- | sed -e "s/^[\"']//" -e "s/[\"']\$//")"
+SCHOOL_PROFILE=""; [ -n "$SCHOOL_DOMAIN" ] && SCHOOL_PROFILE=" --profile school"
+COMPOSE="docker compose -p mt -f $REMOTE_DIR/deploy/compose.mt.yml --env-file $REMOTE_ENV$SCHOOL_PROFILE"
+SERVICES="backend storefront panel"; [ -n "$SCHOOL_DOMAIN" ] && SERVICES="$SERVICES school"
 RU_HOST_COMPOSE="docker compose -p ru-host -f $REMOTE_DIR/deploy/compose.ru-host.yml"
 
 LOG_DIR="${DEPLOY_LOG_DIR:-$REPO_ROOT/.ai/deploy-logs}"; mkdir -p "$LOG_DIR"
@@ -163,11 +172,12 @@ step_build_images() {
     log "RU host: bringing up deploy/compose.ru-host.yml (own traefik, idempotent) before the mt stack needs the coolify network"
     rssh "cd '$REMOTE_DIR' && $RU_HOST_COMPOSE up -d 2>&1 | tail -10"
   fi
-  for svc in backend storefront panel; do
+  for svc in $SERVICES; do
     case "$svc" in
       backend) [ "$SKIP_BE" = 1 ] && { log "skip backend build"; continue; } ;;
       storefront) [ "$SKIP_SF" = 1 ] && { log "skip storefront build"; continue; } ;;
       panel) [ "$SKIP_PANEL" = 1 ] && { log "skip panel build"; continue; } ;;
+      school) [ "$SKIP_SCHOOL" = 1 ] && { log "skip school build"; continue; } ;;
     esac
     local f="/opt/upready-store/mt-build-$svc-$TS.log"
     log "building $svc image detached on the host, log $f"
@@ -246,6 +256,9 @@ step_verify() {
     check "GET https://$host/ (tenant storefront)" "200" "$(curl -sS -m 30 -o /dev/null -w '%{http_code}' "https://$host/" || echo 000)"
   done
   [ -n "$stores" ] && log "note: $stores is the CNAME target, not a shop — it 301s to $engine by design (compose.mt.yml), not checked here as a 200"
+  # The school by its container's own health check, not by its host: the cabinet's host may have no
+  # DNS record yet, and `/` of that host is the landing, another service.
+  [ -n "$SCHOOL_DOMAIN" ] && check "mt-school health ($SCHOOL_DOMAIN)" "healthy" "$(rssh "docker inspect mt-school --format '{{.State.Health.Status}}'" 2>/dev/null || echo missing)"
   if [ "$FAILS" = 0 ]; then log "VERIFY OK — every check passed"; else log "VERIFY FAILED — $FAILS check(s) red"; return 1; fi
 }
 
@@ -253,7 +266,7 @@ step_verify() {
 step_rollback() {
   local tag="$1"
   log "rollback: retagging every mt-* image to :$tag and restarting, no rebuild"
-  for svc in backend storefront panel; do
+  for svc in $SERVICES; do
     rssh "docker image inspect mt-$svc:$tag >/dev/null 2>&1" || { log "no mt-$svc:$tag on host — skipping that service"; continue; }
     rssh "docker tag mt-$svc:$tag mt-$svc:latest"
   done
