@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Заказ <strong>№{id}</strong> успешно выполнен. Спасибо, что выбрали нас!",
-    "bodyPromo": "Будем рады видеть вас снова. Посмотрите новые поступления в нашем магазине.",
     "deliveryCity": "Доставлено в {city}.",
     "headingAnon": "Заказ выполнен!",
     "headingWithName": "{name}, заказ выполнен!",

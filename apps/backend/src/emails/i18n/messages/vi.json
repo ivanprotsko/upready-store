@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Đơn hàng <strong>#{id}</strong> đã hoàn tất. Cảm ơn bạn đã chọn chúng tôi!",
-    "bodyPromo": "Rất mong được gặp lại bạn. Hãy xem các sản phẩm mới trong cửa hàng của chúng tôi.",
     "deliveryCity": "Đã giao đến {city}.",
     "headingAnon": "Đơn hàng của bạn đã hoàn tất!",
     "headingWithName": "{name}, đơn hàng của bạn đã hoàn tất!",

@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "A <strong>#{id}</strong> rendelés teljesítve. Köszönjük, hogy minket választott!",
-    "bodyPromo": "Örülnénk, ha újra ellátogatna hozzánk. Nézze meg az újdonságokat a boltunkban.",
     "deliveryCity": "Kiszállítva ide: {city}.",
     "headingAnon": "A rendelése teljesítve!",
     "headingWithName": "{name}, a rendelése teljesítve!",

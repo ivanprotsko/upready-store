@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Užsakymas <strong>Nr. {id}</strong> įvykdytas. Ačiū, kad pasirinkote mus!",
-    "bodyPromo": "Mielai sulauksime jūsų vėl. Apžiūrėkite naujienas mūsų parduotuvėje.",
     "deliveryCity": "Pristatyta į {city}.",
     "headingAnon": "Jūsų užsakymas įvykdytas!",
     "headingWithName": "{name}, jūsų užsakymas įvykdytas!",

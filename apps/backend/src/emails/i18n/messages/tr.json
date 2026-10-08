@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "<strong>#{id}</strong> numaralı sipariş tamamlandı. Bizi tercih ettiğiniz için teşekkürler!",
-    "bodyPromo": "Sizi yeniden görmekten mutluluk duyarız. Mağazamızdaki yenilikleri inceleyin.",
     "deliveryCity": "Teslim edildi: {city}.",
     "headingAnon": "Siparişiniz tamamlandı!",
     "headingWithName": "{name}, siparişiniz tamamlandı!",

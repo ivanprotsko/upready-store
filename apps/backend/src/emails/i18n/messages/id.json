@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Pesanan <strong>#{id}</strong> telah selesai. Terima kasih telah memilih kami!",
-    "bodyPromo": "Kami senang bila Anda kembali lagi. Lihat produk terbaru di toko kami.",
     "deliveryCity": "Dikirim ke {city}.",
     "headingAnon": "Pesanan Anda selesai!",
     "headingWithName": "{name}, pesanan Anda selesai!",
