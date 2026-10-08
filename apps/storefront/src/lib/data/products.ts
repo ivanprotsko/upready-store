@@ -143,6 +143,10 @@ export const listProductOptionFilters = async (
   return groupOptionFilters(products)
 }
 
+/** One request of the sorted listing, and how many of them it makes at most (2000 products). */
+const SORTED_LISTING_PAGE = 100
+const SORTED_LISTING_MAX_PAGES = 20
+
 export const listProductsWithSort = async ({
   page = 0,
   queryParams,
@@ -165,19 +169,24 @@ export const listProductsWithSort = async ({
     new Set((optionValueIds || []).filter(Boolean))
   )
 
-  const {
-    response: { products },
-  } = await listProducts({
-    pageParam: 0,
-    queryParams: {
-      ...queryParams,
-      ...(selectedValueIds.length
-        ? { option_value_id: selectedValueIds }
-        : {}),
-      limit: 100,
-    },
-    countryCode,
-  })
+  // The whole listing is read and sorted here, a hundred at a time. It used to stop at the
+  // first hundred, so a category of 187 showed 100 and no sign of the rest (ask a0e1).
+  const products: HttpTypes.StoreProduct[] = []
+  for (let pageParam: number | null = 1; pageParam !== null && pageParam <= SORTED_LISTING_MAX_PAGES; ) {
+    const { response, nextPage } = await listProducts({
+      pageParam,
+      queryParams: {
+        ...queryParams,
+        ...(selectedValueIds.length
+          ? { option_value_id: selectedValueIds }
+          : {}),
+        limit: SORTED_LISTING_PAGE,
+      },
+      countryCode,
+    })
+    products.push(...response.products)
+    pageParam = nextPage
+  }
 
   const sortedProducts = sortProducts(products, sortBy)
   const filteredCount = sortedProducts.length

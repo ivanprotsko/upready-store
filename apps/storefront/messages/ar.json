@@ -1141,7 +1141,14 @@
     "priceLowHigh": "السعر: من الأقل إلى الأعلى"
   },
   "Store": {
-    "allProducts": "جميع المنتجات"
+    "allProducts": "جميع المنتجات",
+    "brands": "العلامات التجارية",
+    "allBrands": "كل العلامات التجارية",
+    "view": "طريقة العرض",
+    "viewGrid": "شبكة",
+    "viewList": "قائمة",
+    "viewCompact": "شبكة مضغوطة",
+    "perPage": "عدد المنتجات في الصفحة"
   },
   "TenantPage": {
     "emptyBody": "لا يوجد نص في هذه الصفحة بعد.",

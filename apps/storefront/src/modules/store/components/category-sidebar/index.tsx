@@ -1,3 +1,4 @@
+import { Fragment, type ReactNode } from "react"
 import type { HttpTypes } from "@medusajs/types"
 import { Link } from "@i18n/navigation"
 import { clx } from "@medusajs/ui"
@@ -25,6 +26,47 @@ const CategorySidebar = ({
   const activeCategory = categories.find((c) => c.id === activeCategoryId)
   const childCategories = activeCategory?.category_children ?? []
 
+  // The branch the buyer is in, from the open category up to its root. In a shop with a
+  // third level its levels are drawn open under the root, so a second or third level shows
+  // where it sits (ask a0e1); every other root stays one line. A shop of two levels keeps
+  // the column it had, one line per root and nothing under it.
+  const byId = new Map(categories.map((c) => [c.id, c]))
+  const threeLevels = categories.some(
+    (c) => c.parent_category_id && byId.get(c.parent_category_id)?.parent_category_id
+  )
+  const branch = new Set<string>()
+  for (let c = threeLevels ? activeCategory : undefined; c && !branch.has(c.id); c = c.parent_category_id ? byId.get(c.parent_category_id) : undefined) {
+    branch.add(c.id)
+  }
+
+  const INDENT = ["px-2", "ps-5 pe-2", "ps-8 pe-2"]
+
+  const level = (items: HttpTypes.StoreProductCategory[], depth: number): ReactNode =>
+    items.map((item) => {
+      const children = (byId.get(item.id) ?? item).category_children ?? []
+      // The open category's own children are the checkboxes above, not a second list here.
+      const open = branch.has(item.id) && item.id !== activeCategoryId && depth < INDENT.length - 1
+
+      return (
+        <Fragment key={item.id}>
+          <Link
+            href={`/categories/${item.handle}`}
+            className={clx(
+              "txt-compact-small text-ui-fg-base hover:text-ui-fg-base hover:bg-ui-bg-subtle rounded-md transition-colors w-full",
+              INDENT[depth],
+              "py-1",
+              {
+                "text-ui-fg-base font-medium bg-ui-bg-base-hover": item.id === activeCategoryId,
+              }
+            )}
+          >
+            {item.name}
+          </Link>
+          {open && children.length ? level(children, depth + 1) : null}
+        </Fragment>
+      )
+    })
+
   return (
     <div className="hidden flex-col lg:flex gap-5">
       <SubcategoryFilter
@@ -36,20 +78,7 @@ const CategorySidebar = ({
       />
       {showCategoryList ? (
         <div className="flex flex-col gap-1">
-          {topLevel.map((category) => (
-            <Link
-              key={category.id}
-              href={`/categories/${category.handle}`}
-              className={clx(
-                "txt-compact-small text-ui-fg-base hover:text-ui-fg-base hover:bg-ui-bg-subtle rounded-md transition-colors w-full px-2 py-1",
-                {
-                  "text-ui-fg-base font-medium bg-ui-bg-base-hover": category.id === activeCategoryId,
-                }
-              )}
-            >
-              {category.name}
-            </Link>
-          ))}
+          {level(topLevel, 0)}
         </div>
       ) : null}
     </div>

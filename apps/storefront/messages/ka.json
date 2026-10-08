@@ -1141,7 +1141,14 @@
     "priceLowHigh": "ფასი: დაბალი → მაღალი"
   },
   "Store": {
-    "allProducts": "ყველა პროდუქტი"
+    "allProducts": "ყველა პროდუქტი",
+    "brands": "ბრენდები",
+    "allBrands": "ყველა ბრენდი",
+    "view": "ხედი",
+    "viewGrid": "ბადე",
+    "viewList": "სია",
+    "viewCompact": "მჭიდრო ბადე",
+    "perPage": "პროდუქტები გვერდზე"
   },
   "TenantPage": {
     "emptyBody": "ამ გვერდს ჯერ ტექსტი არ აქვს.",

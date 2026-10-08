@@ -21,6 +21,7 @@ import PaginatedProducts, {
 } from "@modules/store/templates/paginated-products"
 import { listCategories } from "@lib/data/categories"
 import { isOlavkaShop } from "@lib/data/olavka-shop"
+import { categoryBranchIds } from "@lib/util/category-tree"
 import { listProductOptionFilters } from "@lib/data/products"
 import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
 import CategoryHeaderImage from "@modules/categories/components/category-header-image"
@@ -59,14 +60,16 @@ export default async function CategoryTemplate({
   const selectedSubcategories = subcategories.filter((c) =>
     subcategoryHandles.includes(c.handle)
   )
+  // The whole branch, at any depth: a shop with three levels of categories keeps products
+  // on the leaves, and a parent's page listed none of them (ask a0e1).
+  const categories = await listCategories()
   const categoryIds = selectedSubcategories.length
-    ? selectedSubcategories.map((c) => c.id)
-    : [category.id, ...subcategories.map((c) => c.id)]
+    ? selectedSubcategories.flatMap((c) => categoryBranchIds(c.id, categories))
+    : categoryBranchIds(category.id, categories)
 
-  const [t, locale, categories, allOptionFilters, attributeFacets, olavka] = await Promise.all([
+  const [t, locale, allOptionFilters, attributeFacets, olavka] = await Promise.all([
     getTranslations(),
     getLocale(),
-    listCategories(),
     listProductOptionFilters({ category_id: categoryIds }),
     // The facets follow the category the visitor is looking at, subtree
     // included, so their counts describe THIS listing and not the whole shop.

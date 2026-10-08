@@ -345,6 +345,12 @@ services:
       # moderation ends, so set this to 1 for that time and remove it after.
       # Off unless it is 1 or true. Read at render time, like the line above.
       STOREFRONT_HIDE_TEST_MODE_DOT: ${STOREFRONT_HIDE_TEST_MODE_DOT:-}
+      # The catalog's view controls (ask a0e1, t-2026-10-06-09): grid, rows, a
+      # denser grid and 12/24/48 per page. 1 or true turns them on for every shop
+      # of the stack, a comma-separated list of tenant handles for those shops
+      # alone; the Olavka shops never get them. Off unless set, and a shop without
+      # them keeps its listing and its page code as they were. Read at render time.
+      STOREFRONT_CATALOG_VIEW_CONTROLS: ${STOREFRONT_CATALOG_VIEW_CONTROLS:-}
       # Hosts that carry the paywall->onboarding demo instead of a shop
       # (t-2026-09-12-paywall-onboarding-demo). They resolve to no tenant, so
       # src/middleware.ts sends them to /start, which lives outside [locale] and

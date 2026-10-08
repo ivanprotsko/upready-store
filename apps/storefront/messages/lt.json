@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Kaina: nuo mažiausios"
   },
   "Store": {
-    "allProducts": "Visi produktai"
+    "allProducts": "Visi produktai",
+    "brands": "Prekių ženklai",
+    "allBrands": "Visi prekių ženklai",
+    "view": "Rodinys",
+    "viewGrid": "Tinklelis",
+    "viewList": "Sąrašas",
+    "viewCompact": "Tankus tinklelis",
+    "perPage": "Prekių puslapyje"
   },
   "TenantPage": {
     "emptyBody": "Šiame puslapyje dar nėra teksto.",

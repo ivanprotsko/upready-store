@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Prijs: laag → hoog"
   },
   "Store": {
-    "allProducts": "Alle producten"
+    "allProducts": "Alle producten",
+    "brands": "Merken",
+    "allBrands": "Alle merken",
+    "view": "Weergave",
+    "viewGrid": "Raster",
+    "viewList": "Lijst",
+    "viewCompact": "Compact raster",
+    "perPage": "Producten per pagina"
   },
   "TenantPage": {
     "emptyBody": "Deze pagina heeft nog geen tekst.",

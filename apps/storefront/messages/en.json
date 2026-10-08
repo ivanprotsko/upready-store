@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Price: Low → High"
   },
   "Store": {
-    "allProducts": "All products"
+    "allProducts": "All products",
+    "brands": "Brands",
+    "allBrands": "All brands",
+    "view": "View",
+    "viewGrid": "Grid",
+    "viewList": "List",
+    "viewCompact": "Compact grid",
+    "perPage": "Products per page"
   },
   "TenantPage": {
     "emptyBody": "This page has no text yet.",

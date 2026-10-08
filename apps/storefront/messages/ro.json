@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Preț: crescător"
   },
   "Store": {
-    "allProducts": "Toate produsele"
+    "allProducts": "Toate produsele",
+    "brands": "Mărci",
+    "allBrands": "Toate mărcile",
+    "view": "Afișare",
+    "viewGrid": "Grilă",
+    "viewList": "Listă",
+    "viewCompact": "Grilă compactă",
+    "perPage": "Produse pe pagină"
   },
   "TenantPage": {
     "emptyBody": "Această pagină nu are încă text.",

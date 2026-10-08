@@ -13,11 +13,14 @@ import ProductCard from "@modules/products/components/product-card"
 export default async function ProductPreview({
   product,
   priority,
+  layout,
 }: {
   product: HttpTypes.StoreProduct
   isFeatured?: boolean
   priority?: boolean
   region: HttpTypes.StoreRegion
+  /** `row` in the catalog's list view; the card everywhere else. */
+  layout?: "card" | "row"
 }) {
-  return <ProductCard product={product} priority={priority} />
+  return <ProductCard product={product} priority={priority} layout={layout} />
 }

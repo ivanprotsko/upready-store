@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Цена: по возрастанию"
   },
   "Store": {
-    "allProducts": "Все товары"
+    "allProducts": "Все товары",
+    "brands": "Бренды",
+    "allBrands": "Все бренды",
+    "view": "Вид списка",
+    "viewGrid": "Сетка",
+    "viewList": "Список",
+    "viewCompact": "Плотная сетка",
+    "perPage": "Товаров на странице"
   },
   "TenantPage": {
     "emptyBody": "На этой странице пока нет текста.",
