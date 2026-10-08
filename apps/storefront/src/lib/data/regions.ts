@@ -3,7 +3,12 @@
 import { sdk } from "@lib/config"
 import type { HttpTypes } from "@medusajs/types"
 import { narrowRegions } from "@lib/geolocation/shop-regions"
-import { getCacheOptions, getShopRegionIds } from "./cookies"
+import {
+  getCacheOptions,
+  getShopRegionIds,
+  getTenantHandle,
+  hasResolvedCountry,
+} from "./cookies"
 import { siteWideRead } from "./site-wide"
 
 /**
@@ -40,8 +45,25 @@ export const listRegions = async () => {
  * store-wide list for everything that is not a pick of the shop's currency —
  * `getRegion` among them, which prices a country the middleware has already
  * kept inside these.
+ *
+ * t-2026-10-08-13, part A7b: the middleware narrows them only for a path it
+ * treats as a page. A path with a dot (`/humans.txt`, `/ru/products/abc.html`)
+ * reaches the shop's header with its name and key and with no narrowing, and
+ * «nothing narrows them» then meant all of the engine's regions: the 404 of a
+ * live shop carried 241 countries and their currencies in its code. A shop's
+ * request the middleware resolved no country for gets no region at all, the
+ * state the switcher already has for a failed read.
  */
 export const listShopRegions = async () => {
+  const [handle, resolved] = await Promise.all([
+    getTenantHandle(),
+    hasResolvedCountry(),
+  ])
+
+  if (handle && !resolved) {
+    return []
+  }
+
   const [regions, ids] = await Promise.all([listRegions(), getShopRegionIds()])
 
   return narrowRegions(regions, ids)
