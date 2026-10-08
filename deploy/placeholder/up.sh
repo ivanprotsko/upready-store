@@ -5,13 +5,16 @@
 # A second page on the same host takes a name and, when its rule shares the host with another
 # router, a priority (t-2026-10-07-08):
 #   /opt/upready-store/placeholder/up.sh store 'Host(`store.upready.dev`) && Path(`/`)' store 300
+# A page with files of its own (fonts, pictures under html-<page>/landing/) names that path too
+# (t-2026-10-08-35, the school landing):
+#   /opt/upready-store/placeholder/up.sh school 'Host(`school.cherkashina.ru`) && (Path(`/`) || PathPrefix(`/landing/`))' school 300
 # Writes the env file next to this script, pulls nginx:alpine if missing, brings the compose
 # project up and fetches the page on the host for every Host(...) in the rule
 # (-k: until the domain's A record points here, traefik answers with its default certificate).
 # Without a name the project is `placeholder` and the container `olavka-placeholder`, as before;
 # with one they are `placeholder-<name>` and `<name>-placeholder`.
 set -euo pipefail
-USAGE="usage: up.sh <ru|en|store> '<traefik rule>' [name] [priority]"
+USAGE="usage: up.sh <ru|en|store|school> '<traefik rule>' [name] [priority]"
 LANG_CODE="${1:?$USAGE}"
 RULE="${2:?$USAGE}"
 NAME="${3:-olavka}"

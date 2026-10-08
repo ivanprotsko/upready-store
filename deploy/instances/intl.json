@@ -20,6 +20,10 @@
     ],
     "note": "A known violation, recorded rather than left silent (docs/instances/RULES.md §1). instance-check --db prints a tenant that matches an entry exactly, the handle and every offending host, as KNOWN VIOLATION (recorded) and does not fail on it. Any other tenant on a RU domain, and one more RU host on this tenant, fail the check. An entry needs handle, hosts, reason, recorded and closes."
   },
+  "school": {
+    "domains": [],
+    "note": "No school runs on INTL: the one school reads the buyers of cherkashino.ru, a RU shop (ru.json). instance-check fails any SCHOOL_DOMAIN here until a domain is listed."
+  },
   "dataResidency": {
     "customerDatabase": "EU host only (Contabo, Germany)",
     "primaryBackup": "Contabo host local disk, deploy/backup/ tier 1",
@@ -27,7 +31,12 @@
     "mediaUploads": "Contabo host only"
   },
   "env": {
-    "forbiddenNames": [],
+    "forbiddenNames": [
+      {
+        "name": "SCHOOL_SSO_RETURN_HOSTS",
+        "reason": "the school's sign-in is attested by the RU shop cherkashino.ru (t-2026-10-08-36); an INTL backend minting a buyer's token for the school would sign RU buyers in outside the RU instance"
+      }
+    ],
     "forbiddenPrefixes": []
   },
   "providers": {
