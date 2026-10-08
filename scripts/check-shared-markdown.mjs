@@ -18,6 +18,11 @@
  * on its own, with no import path into the storefront, so it is a copy for the
  * same reason, held to the same rule.
  *
+ * The school also keeps a copy of the `@upready/shop-sso` package
+ * (`apps/shared/shop-sso`, t-2026-10-08-36), the shop sign-in it runs on.
+ * `apps/school/Dockerfile` copies only `apps/school`, so the package cannot be
+ * imported there either.
+ *
  * Exit 0 when every pair is equal, 1 when one drifts, naming the first
  * differing line so the fix is a copy and not a hunt.
  */
@@ -30,6 +35,7 @@ const pairs = [
   ["apps/storefront/src/lib/util/markdown.ts", "apps/tenant-panel/src/lib/markdown.ts"],
   ["apps/storefront/src/lib/util/markdown.ts", "apps/school/app/lib/vendor/markdown.ts"],
   ["apps/storefront/src/lib/util/lesson-body.ts", "apps/school/app/lib/vendor/lesson-body.ts"],
+  ["apps/shared/shop-sso/src/index.ts", "apps/school/app/lib/vendor/shop-sso.ts"],
 ]
 
 const read = (rel) => {
@@ -59,12 +65,12 @@ for (const pair of pairs) {
 
   console.error(
     [
-      "check-shared-markdown: two copies of a shared reader have drifted.",
+      "check-shared-markdown: two copies of a shared module have drifted.",
       `  ${pair[0]}  (${linesA.length} lines)`,
       `  ${pair[1]}  (${linesB.length} lines)`,
       at >= 0 ? `  first difference at line ${at + 1}:` : "  one file is a prefix of the other:",
-      at >= 0 ? `    storefront: ${JSON.stringify(linesA[at] ?? null)}` : "",
-      at >= 0 ? `    copy:       ${JSON.stringify(linesB[at] ?? null)}` : "",
+      at >= 0 ? `    source: ${JSON.stringify(linesA[at] ?? null)}` : "",
+      at >= 0 ? `    copy:   ${JSON.stringify(linesB[at] ?? null)}` : "",
       `  fix: cp ${pair[0]} ${pair[1]}   (after deciding which side is right)`,
     ]
       .filter(Boolean)

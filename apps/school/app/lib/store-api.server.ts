@@ -3,12 +3,13 @@ import { readConfig, type SchoolConfig } from "./config.server"
 import { loginPath, requestPath } from "./next-path"
 import { clearTokenCookie, readToken } from "./session.server"
 import type { CourseContents, LessonContent, MyCourse, CourseProgress } from "./types"
+import { shopApiHeaders } from "./vendor/shop-sso"
 
 /**
  * The school's only way into the shop: the Store API's course routes
  * (apps/backend/src/api/store/tenant/courses), called from the school's
- * server with the buyer's token and the shop's publishable key. The browser
- * never talks to the API.
+ * server with the buyer's token and the shop's publishable key, the headers
+ * `@upready/shop-sso` builds. The browser never talks to the API.
  *
  * Every answer the page cannot use turns into a response here, so a loader
  * reads as the happy path:
@@ -43,9 +44,8 @@ async function callApi<T>(
     response = await fetch(`${config.apiBase}${path}`, {
       method: init.method ?? "GET",
       headers: {
+        ...shopApiHeaders({ token, publishableKey: config.publishableKey }),
         accept: "application/json",
-        authorization: `Bearer ${token}`,
-        "x-publishable-api-key": config.publishableKey,
         // Course and lesson titles in Russian, the language of the school.
         "x-medusa-locale": "ru",
         ...(init.method === "POST" ? { "content-type": "application/json" } : {}),

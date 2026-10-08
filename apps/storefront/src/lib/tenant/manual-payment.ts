@@ -120,6 +120,25 @@ const str = (value: unknown): string | null =>
 export const hasManagerContact = (contacts: ManualPaymentContacts): boolean =>
   Boolean(contacts.whatsapp || contacts.telegram || contacts.email)
 
+/**
+ * Where a «write to the shop» control opens a conversation: the first contact the owner
+ * entered, in the order `ManagerContactCTA`'s single button takes them (WhatsApp, then
+ * Telegram, then e-mail), with no prefilled text. Null when there is none: the control is
+ * then not drawn at all, rather than drawn and leading nowhere.
+ */
+export const managerChatHref = (contacts: ManualPaymentContacts): string | null => {
+  if (contacts.whatsapp) {
+    return `https://wa.me/${contacts.whatsapp.replace(/^\+/, "")}`
+  }
+  if (contacts.telegram) {
+    return `https://t.me/${contacts.telegram}`
+  }
+  if (contacts.email) {
+    return `mailto:${contacts.email}`
+  }
+  return null
+}
+
 /** The icon key of a crypto asset the storefront ships a mark for (`public/payment/<key>.svg`), or null. */
 export const cryptoIconFor = (currency: string): string | null => {
   const key = currency.trim().toLowerCase()

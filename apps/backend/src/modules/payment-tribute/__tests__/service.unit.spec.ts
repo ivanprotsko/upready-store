@@ -40,11 +40,20 @@ const buildService = () => {
   return new TributePaymentProviderService(container as never, {});
 };
 
+const FLAG = "TRIBUTE_AVAILABLE";
+const previousFlag = process.env[FLAG];
+
 beforeEach(() => {
   mockCreateOrder.mockReset();
   mockListTx.mockReset();
   mockRefund.mockReset();
   mockReadSecret.mockReset();
+  process.env[FLAG] = "true";
+});
+
+afterAll(() => {
+  if (previousFlag === undefined) delete process.env[FLAG];
+  else process.env[FLAG] = previousFlag;
 });
 
 describe("initiatePayment", () => {
@@ -167,5 +176,40 @@ describe("refundPayment", () => {
       service.refundPayment({ data: { tenant_id: "ten_1", order_uuid: "order-uuid-1" } } as never),
     ).rejects.toMatchObject({ type: MedusaError.Types.NOT_ALLOWED });
     expect(mockRefund).not.toHaveBeenCalled();
+  });
+});
+
+describe("on an instance without Tribute (TRIBUTE_AVAILABLE not true)", () => {
+  const initiate = (service: TributePaymentProviderService) =>
+    service.initiatePayment({
+      amount: 1500,
+      currency_code: "rub",
+      data: { tenant_id: "ten_1", session_id: "payses_1", success_url: "https://x/s", fail_url: "https://x/f" },
+      context: {},
+    } as never);
+
+  it.each([undefined, "false"])("creates no order when the switch is %p, and reads no key", async (value) => {
+    mockReadSecret.mockResolvedValue(SECRET);
+    if (value === undefined) delete process.env[FLAG];
+    else process.env[FLAG] = value;
+
+    await expect(initiate(buildService())).rejects.toMatchObject({
+      type: MedusaError.Types.NOT_ALLOWED,
+      message: expect.stringContaining("TRIBUTE_AVAILABLE"),
+    });
+    expect(mockReadSecret).not.toHaveBeenCalled();
+    expect(mockCreateOrder).not.toHaveBeenCalled();
+  });
+
+  it("still refunds: giving money back takes no switch", async () => {
+    mockReadSecret.mockResolvedValue(SECRET);
+    mockListTx.mockResolvedValue([
+      { id: "tx_1", type: "shop_order_sell", amount: 15, isRefunded: false, isRefundable: true },
+    ]);
+    mockRefund.mockResolvedValue({ status: "initiated" });
+    delete process.env[FLAG];
+
+    await buildService().refundPayment({ data: { tenant_id: "ten_1", order_uuid: "order-uuid-1" } } as never);
+    expect(mockRefund).toHaveBeenCalledTimes(1);
   });
 });

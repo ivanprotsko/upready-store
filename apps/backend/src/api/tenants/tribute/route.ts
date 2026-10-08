@@ -11,6 +11,7 @@ import {
   readTributeSecret,
   type TributeCredentials,
 } from "../../../tenant-secrets/tribute";
+import { tributeAvailable, TRIBUTE_UNAVAILABLE_REASON } from "../../../tribute/availability";
 import { getTenantScope } from "../tenant-scope";
 import { backendPublicOrigin } from "../payment-settings/helpers";
 import type { PutTenantTributeBody } from "../validators";
@@ -29,6 +30,13 @@ import type { PutTenantTributeBody } from "../validators";
  * the first real payment attempt fails — which is why the response also
  * names the exact webhook URL to paste into the Tribute dashboard, so a typo
  * there is at least ruled out.
+ *
+ * `available` says whether this instance offers Tribute at all
+ * (`tribute/availability.ts`, `TRIBUTE_AVAILABLE`). Where it does not, the
+ * panel hides the card and `PUT` answers 403 without writing anything, so a RU
+ * shop can never hold a Tribute row that `instance-check.mjs --db` would then
+ * fail the deploy on. `DELETE` still works, so a row saved before the switch
+ * can be removed. The same shape as `/tenants/payment-settings/btcpay`.
  */
 
 const callbackUrlFor = (req: AuthenticatedMedusaRequest, tenantId: string): string =>
@@ -41,6 +49,7 @@ const view = async (req: AuthenticatedMedusaRequest, tenantId: string) => {
   return {
     provider: "tribute" as const,
     label: "Tribute",
+    available: tributeAvailable(),
     settings: secret ? maskTributeSettings(secret) : null,
     callback_url: callbackUrlFor(req, tenantId),
   };
@@ -52,6 +61,9 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 };
 
 export const PUT = async (req: AuthenticatedMedusaRequest<PutTenantTributeBody>, res: MedusaResponse) => {
+  if (!tributeAvailable()) {
+    throw new MedusaError(MedusaError.Types.FORBIDDEN, TRIBUTE_UNAVAILABLE_REASON);
+  }
   const body = req.validatedBody;
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);

@@ -87,7 +87,10 @@ own terms:
   independent of where the server sits. It took over the ban of 259-FZ Art. 14(5), which 283-FZ
   Art. 22 repealed from the same date. The backend offers BTCPay, Bitcart and x402 only where
   `PAYMENTS_CRYPTO_AVAILABLE` is exactly `true`, and `ru.json` forbids setting that variable at all,
-  every `X402_` variable, and a tenant row for the `x402` provider.
+  every `X402_` variable, and a tenant row for the `x402` provider. Tribute has a switch of its own
+  (`t-cherk-22`): the backend offers it, its panel card included, only where `TRIBUTE_AVAILABLE` is
+  exactly `true`, and `ru.json` forbids that variable through its `TRIBUTE_` prefix and a tenant row
+  for the `tribute` provider.
 - **Telegram is allowed on RU**, for sign-in and for the shop bot, but it must be named — including
   the fact that Telegram's own operating entity is outside Russia — in the privacy policy, and the
   buyer's consent to that specific transfer must be separate from the general personal-data consent.

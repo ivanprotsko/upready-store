@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
   EMPTY_MANUAL_PAYMENT,
   availableManualPaymentKinds,
+  managerChatHref,
   parseManualPaymentHeader,
   readManualPayment,
   readManualPaymentKind,
@@ -148,5 +149,27 @@ describe("parseManualPaymentHeader", () => {
     expect(readManualPayment({ crypto: { enabled: false }, manager: { enabled: false } })).toEqual(
       EMPTY_MANUAL_PAYMENT
     )
+  })
+})
+
+// t-2026-10-09-41: the Olavka header's chat button opens the owner's first contact, in the
+// order the checkout's «Связаться с менеджером» takes them, and is not drawn without one.
+describe("managerChatHref", () => {
+  const none = { whatsapp: null, telegram: null, email: null, note: null }
+
+  it("WhatsApp first, the number without its plus", () => {
+    expect(
+      managerChatHref({ ...none, whatsapp: "+79001234567", telegram: "shop", email: "a@b.ru" })
+    ).toBe("https://wa.me/79001234567")
+  })
+
+  it("then Telegram, then e-mail", () => {
+    expect(managerChatHref({ ...none, telegram: "shop", email: "a@b.ru" })).toBe("https://t.me/shop")
+    expect(managerChatHref({ ...none, email: "a@b.ru" })).toBe("mailto:a@b.ru")
+  })
+
+  it("no contact: no address, so no button", () => {
+    expect(managerChatHref(none)).toBeNull()
+    expect(managerChatHref(EMPTY_MANUAL_PAYMENT.contacts)).toBeNull()
   })
 })

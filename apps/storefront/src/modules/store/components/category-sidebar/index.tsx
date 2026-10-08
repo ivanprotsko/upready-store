@@ -8,11 +8,19 @@ import SubcategoryFilter from "./subcategory-filter"
 type CategorySidebarProps = {
   categories: HttpTypes.StoreProductCategory[]
   activeCategoryId?: string
+  /**
+   * The list of top-level categories under the subcategory filter. Off on the Olavka shops
+   * (t-2026-10-09-41): the category row under their header lists the same categories with
+   * the current one lit, and chrxnasdmds' catalog has no side list. The subcategory filter
+   * stays, it narrows this page rather than leaving it.
+   */
+  showCategoryList?: boolean
 }
 
 const CategorySidebar = ({
   categories,
   activeCategoryId,
+  showCategoryList = true,
 }: CategorySidebarProps) => {
   const topLevel = categories.filter((c) => !c.parent_category_id)
   const activeCategory = categories.find((c) => c.id === activeCategoryId)
@@ -68,9 +76,11 @@ const CategorySidebar = ({
           handle: c.handle,
         }))}
       />
-      <div className="flex flex-col gap-1">
-        {level(topLevel, 0)}
-      </div>
+      {showCategoryList ? (
+        <div className="flex flex-col gap-1">
+          {level(topLevel, 0)}
+        </div>
+      ) : null}
     </div>
   )
 }

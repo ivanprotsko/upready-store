@@ -4164,6 +4164,33 @@
       "nothingToOffer": "Добавьте хотя бы один реквизит или контакт менеджера, прежде чем включать переводы"
     }
   },
+  "tribute": {
+    "title": "Tribute",
+    "subtitle": "покупатель платит через Tribute в Telegram, деньги приходят в ваш магазин в Tribute",
+    "stateOn": "включено",
+    "stateOff": "выключено",
+    "stateNone": "не настроено",
+    "fields": {
+      "is_enabled": "Принимать оплату через Tribute",
+      "api_key": "API-ключ"
+    },
+    "keepPlaceholder": "оставьте пустым, чтобы не менять",
+    "emptyPlaceholder": "вставьте из Tribute",
+    "apiKeyHint": "API-ключ создаётся в кабинете Tribute: Settings → API Keys. Тем же ключом Tribute подписывает уведомления об оплате, поэтому после смены ключа в Tribute вставьте сюда новый.",
+    "save": "Сохранить",
+    "saved": "Настройки Tribute сохранены",
+    "remove": "Удалить ключ",
+    "removeTitle": "Удалить ключ Tribute?",
+    "removeDescription": "Ключ удалится из панели, и оплата через Tribute выключится. Чтобы снова принимать оплату, вставьте ключ заново.",
+    "cancel": "Отмена",
+    "removed": "Ключ Tribute удалён",
+    "webhookTitle": "Адрес вебхука для Tribute",
+    "webhookHint": "В кабинете Tribute откройте Settings → API Keys и вставьте этот адрес в настройки вебхука. Без него магазин не узнает об оплате.",
+    "errors": {
+      "required": "Нужен, чтобы включить Tribute",
+      "fixFields": "Проверьте отмеченные поля"
+    }
+  },
   "btcpay": {
     "title": "Криптовалюта (BTCPay Server)",
     "subtitle": "покупатель платит криптовалютой через ваш магазин на BTCPay Server, деньги приходят прямо в ваш кошелёк",

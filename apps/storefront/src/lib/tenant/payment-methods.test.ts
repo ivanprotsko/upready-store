@@ -6,6 +6,7 @@ describe("parseTenantPaymentMethodsHeader", () => {
   it("reads the header the middleware wrote", () => {
     const full = {
       robokassa: true,
+      tribute: true,
       btcpay: false,
       bitcart: true,
       x402: true,
@@ -25,6 +26,26 @@ describe("parseTenantPaymentMethodsHeader", () => {
       bitcart: false,
       x402: false,
     })
+  })
+
+  // t-cherk-22, part B: `by-host` always sent `tribute`; this reader used to drop it.
+  it("reads the shop's Tribute account from the backend's document", () => {
+    const withTribute = { robokassa: false, tribute: true, demo: false }
+    expect(parseTenantPaymentMethodsHeader(JSON.stringify(withTribute))).toMatchObject({
+      tribute: true,
+      robokassa: false,
+    })
+  })
+
+  // The object reaches the checkout's client props, so it is page code: a shop without
+  // Tribute carries no key of that name at all, not even `"tribute":false`.
+  it("leaves the key out for a shop without Tribute", () => {
+    for (const doc of [{ robokassa: true, tribute: false, demo: false }, { robokassa: true }]) {
+      const read = parseTenantPaymentMethodsHeader(JSON.stringify(doc))
+      expect(read).not.toHaveProperty("tribute")
+      expect(JSON.stringify(read)).not.toMatch(/tribute/i)
+    }
+    expect(EMPTY_TENANT_PAYMENT_METHODS).not.toHaveProperty("tribute")
   })
 
   it("treats an unparsable header as no header at all", () => {

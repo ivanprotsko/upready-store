@@ -50,6 +50,7 @@ export type ClientMessageFacts = {
    */
   shop: boolean
   /** The shop's own gateways, as `/storefront/by-host` counts them (`TenantPaymentMethods`). */
+  tribute: boolean
   btcpay: boolean
   bitcart: boolean
   x402: boolean
@@ -105,6 +106,7 @@ export const clientMessageFacts = (input: {
 
   return {
     shop: input.shop,
+    tribute: Boolean(methods.tribute),
     btcpay: methods.btcpay,
     bitcart: methods.bitcart,
     x402: methods.x402,
@@ -165,6 +167,14 @@ export const CLIENT_MESSAGE_RULES: readonly ClientMessageRule[] = [
     reason:
       "labels of the starter's Stripe and PayPal rows. The backend every shop is served by registers Robokassa, Tribute, BTCPay, Bitcart, x402 and the built-in manual provider (apps/backend/medusa-config.ts) and none of these, so no shop's checkout can list them. The reader, `paymentMethodName`, asks `t.has` first.",
     keep: () => false,
+  },
+  {
+    section: "PaymentMethods",
+    keys: ["pp_tribute_tribute"],
+    condition: "the shop's Tribute account is on",
+    reason:
+      "label of the Tribute row of the checkout (t-cherk-22), listed only when the shop saved its Tribute API key. `paymentMethodName` asks `t.has` first and falls back to the provider's title.",
+    keep: (facts) => facts.tribute,
   },
   {
     section: "PaymentMethods",

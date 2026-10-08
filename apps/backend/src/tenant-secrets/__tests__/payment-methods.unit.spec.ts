@@ -61,6 +61,7 @@ describe("resolveTenantPaymentMethods", () => {
       btcpayEnabled: false,
       manualCrypto: false,
       manualManager: false,
+      tributeAvailable: true,
     });
 
     expect(methods).toEqual({
@@ -240,11 +241,39 @@ describe("resolveTenantPaymentMethods", () => {
       btcpayEnabled: false,
       manualCrypto: false,
       manualManager: false,
+      tributeAvailable: true,
     });
 
     expect(methods.robokassa).toBe(true);
     expect(methods.tribute).toBe(true);
     expect(methods.demo).toBe(false);
+  });
+
+  it("a saved Tribute account counts for nothing on an instance without Tribute", () => {
+    const params = {
+      robokassaEnabled: false,
+      tributeEnabled: true,
+      btcpayEnabled: false,
+      manualCrypto: false,
+      manualManager: false,
+    };
+
+    const off = resolveTenantPaymentMethods({ ...params, tributeAvailable: false });
+    expect(off.tribute).toBe(false);
+    expect(off.demo).toBe(true);
+
+    // Unset `TRIBUTE_AVAILABLE` (the RU instance) reads as off too, and the
+    // cryptocurrency switch does not turn Tribute on.
+    const previous = process.env.TRIBUTE_AVAILABLE;
+    delete process.env.TRIBUTE_AVAILABLE;
+    try {
+      expect(resolveTenantPaymentMethods({ ...params, cryptoAvailable: true }).tribute).toBe(false);
+      process.env.TRIBUTE_AVAILABLE = "true";
+      expect(resolveTenantPaymentMethods(params).tribute).toBe(true);
+    } finally {
+      if (previous === undefined) delete process.env.TRIBUTE_AVAILABLE;
+      else process.env.TRIBUTE_AVAILABLE = previous;
+    }
   });
 
   it("manual crypto only: pp_system_default stays, for the crypto kind, not as demo", () => {
