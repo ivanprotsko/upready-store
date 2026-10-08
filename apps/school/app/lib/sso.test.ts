@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest"
-import { buildLoginUrl, exchangeCode, readCallback } from "./sso"
+import { buildLoginUrl, exchangeCode, exchangeFailure, readCallback } from "./sso"
+import { ShopSsoError } from "./vendor/shop-sso"
 
 describe("buildLoginUrl", () => {
   it("sends the buyer to the shop's sign-in with the school's callback and the page to come back to", () => {
@@ -47,7 +48,7 @@ describe("readCallback", () => {
   })
 })
 
-describe("exchangeCode", () => {
+describe("exchangeCode, the package's, and the cabinet's reading of its refusal", () => {
   const call = (response: Response | Error) => {
     const fetchImpl = vi.fn(async () => {
       if (response instanceof Error) {
@@ -59,14 +60,17 @@ describe("exchangeCode", () => {
 
     return {
       fetchImpl,
-      result: exchangeCode({ apiBase: "http://api.test", publishableKey: "pk_test", code: "abc", fetchImpl }),
+      result: exchangeCode({ backendUrl: "http://api.test", publishableKey: "pk_test", code: "abc", fetch: fetchImpl }),
     }
   }
+
+  /** The words `/login` gets for an exchange that throws. */
+  const reason = (result: Promise<unknown>) => result.then(() => "no throw", exchangeFailure)
 
   it("posts the code with the shop's key and returns the token", async () => {
     const { fetchImpl, result } = call(Response.json({ token: "jwt-1" }))
 
-    await expect(result).resolves.toEqual({ ok: true, token: "jwt-1" })
+    await expect(result).resolves.toEqual({ token: "jwt-1" })
     expect(fetchImpl).toHaveBeenCalledWith(
       "http://api.test/store/tenant/sso/exchange",
       expect.objectContaining({
@@ -77,13 +81,16 @@ describe("exchangeCode", () => {
     )
   })
 
-  it("reads a second exchange of the same code (401) as an expired code", async () => {
-    await expect(call(new Response("", { status: 401 })).result).resolves.toEqual({ ok: false, reason: "expired" })
+  it("throws a ShopSsoError on a second exchange of the same code (401), which the cabinet reads as an expired code", async () => {
+    await expect(call(new Response("", { status: 401 })).result).rejects.toBeInstanceOf(ShopSsoError)
+    await expect(reason(call(new Response("", { status: 401 })).result)).resolves.toBe("expired")
+    await expect(reason(call(new Response("", { status: 404 })).result)).resolves.toBe("expired")
   })
 
-  it("reads a server error, a broken answer and no answer at all as a failure", async () => {
-    await expect(call(new Response("", { status: 500 })).result).resolves.toEqual({ ok: false, reason: "failed" })
-    await expect(call(Response.json({})).result).resolves.toEqual({ ok: false, reason: "failed" })
-    await expect(call(new TypeError("fetch failed")).result).resolves.toEqual({ ok: false, reason: "failed" })
+  it("reads a server error, a broken answer, no answer at all and a stray error as a failure", async () => {
+    await expect(reason(call(new Response("", { status: 500 })).result)).resolves.toBe("failed")
+    await expect(reason(call(Response.json({})).result)).resolves.toBe("failed")
+    await expect(reason(call(new TypeError("fetch failed")).result)).resolves.toBe("failed")
+    expect(exchangeFailure(new Error("not the package's"))).toBe("failed")
   })
 })

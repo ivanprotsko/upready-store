@@ -196,6 +196,25 @@ describe("/auth/callback", () => {
     expect(response?.headers.get("set-cookie")).toBeNull()
   })
 
+  it.each([
+    ["a server error", () => new Response("", { status: 500 })],
+    ["an answer without a token", () => Response.json({ token: "" })],
+    [
+      "no answer at all",
+      () => {
+        throw new TypeError("fetch failed")
+      },
+    ],
+  ])("catches the package's refusal on %s and sends the buyer to /login, not to a 500", async (_, answer) => {
+    api["POST /store/tenant/sso/exchange"] = answer
+
+    const { response } = await open("/auth/callback?next=%2Fapp%2Fyoga&code=c1")
+
+    expect(response?.status).toBe(302)
+    expect(response?.headers.get("location")).toBe("/login?next=%2Fapp%2Fyoga&error=failed")
+    expect(response?.headers.get("set-cookie")).toBeNull()
+  })
+
   it("does not call the API without a code", async () => {
     const { response } = await open("/auth/callback?next=%2Fapp")
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 import { loginPath, safeNextPath } from "./next-path"
 import { mediaUrl, publicApiOrigin } from "./media"
 import { clearTokenCookie, readToken, setTokenCookie } from "./session.server"
+import { safeNextPath as packageSafeNextPath } from "./vendor/shop-sso"
 import { lessonsWord, progressText } from "~/components/progress-bar"
 import { scoreQuiz } from "~/components/lesson-quiz"
 
@@ -17,6 +18,14 @@ describe("safeNextPath", () => {
   it.each([null, "", "/", "/application", "//evil.example/app", "https://evil.example/app", "/app\\..\\x", "/app /x", "/login"])(
     "sends %s home",
     (next) => {
+      expect(safeNextPath(next)).toBe("/app")
+    },
+  )
+
+  it.each(["/", "/login", "/application", "/courses/yoga", "/app\\..\\x"])(
+    "stays stricter than the package's rule: %s is a local path to the package and home to the cabinet",
+    (next) => {
+      expect(packageSafeNextPath(next)).toBe(next)
       expect(safeNextPath(next)).toBe("/app")
     },
   )
