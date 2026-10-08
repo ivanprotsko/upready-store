@@ -49,7 +49,11 @@ export default function PaymentPreNotice({ entry, buttonText, seller, legal, amo
     : null
 
   const currency = entry.chargeCurrencyCode
-  const chargeClause = !currency
+  // The three charge sentences reach the browser only for a shop whose notice names a
+  // charge currency or a rate source (`CLIENT_MESSAGE_RULES`, part A6c), and they leave
+  // together. A page opened before the owner saved one holds the older dictionary, so the
+  // sentence is asked for first: the notice then goes without it, never with a key's name.
+  const chargeClause = !currency || !t.has("chargeNoSource")
     ? null
     : !entry.rateSource
       ? t("chargeNoSource", { currency: currency.toUpperCase() })
