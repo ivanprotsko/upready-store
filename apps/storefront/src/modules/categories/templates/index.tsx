@@ -20,6 +20,7 @@ import PaginatedProducts, {
   PRODUCT_LIMIT,
 } from "@modules/store/templates/paginated-products"
 import { listCategories } from "@lib/data/categories"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { listProductOptionFilters } from "@lib/data/products"
 import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
 import CategoryHeaderImage from "@modules/categories/components/category-header-image"
@@ -62,7 +63,7 @@ export default async function CategoryTemplate({
     ? selectedSubcategories.map((c) => c.id)
     : [category.id, ...subcategories.map((c) => c.id)]
 
-  const [t, locale, categories, allOptionFilters, attributeFacets] = await Promise.all([
+  const [t, locale, categories, allOptionFilters, attributeFacets, olavka] = await Promise.all([
     getTranslations(),
     getLocale(),
     listCategories(),
@@ -73,6 +74,7 @@ export default async function CategoryTemplate({
       categoryId: category.id,
       selection: attributeSelection,
     }),
+    isOlavkaShop(),
   ])
 
   const optionFilters = withoutOptionsNamedLikeFacets(allOptionFilters, attributeFacets.facets)
@@ -150,6 +152,7 @@ export default async function CategoryTemplate({
           <CategorySidebar
             categories={categories}
             activeCategoryId={category.id}
+            showCategoryList={!olavka}
           />
           <FilterSidebar optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
         </div>

@@ -66,8 +66,18 @@ describe("one palette per page", () => {
 })
 
 describe("the search control stands right before the header's account icon", () => {
-  it.each(["h1", "h2", "h4", "h7"])("in %s", (variant) => {
+  it.each(["h1", "h2", "h4"])("in %s", (variant) => {
     const nav = read(`modules/layout/templates/nav/variants/${variant}.tsx`)
     expect(nav).toMatch(/<Search className=(\{[^}]+\}|"[^"]+") \/>\s*(\{\/\*[\s\S]*?\*\/\}\s*)?<AccountLink\b/)
+  })
+
+  // Ivan, 09.10 (ask-20261009-045323-4c05), the Olavka header after his frame CatalogNav
+  // (176:166085): the magnifier is the first button of the category row under the bar, and the
+  // bar's right side is heart, account, «Корзина», chat (t-2026-10-09-41).
+  it("in h7 it is the first button of the category row, the same control", () => {
+    const rail = read("modules/layout/components/olavka-category-rail/rail.tsx")
+    const search = rail.indexOf("<Search className=")
+    expect(search).toBeGreaterThan(-1)
+    expect(search).toBeLessThan(rail.indexOf("olavka-category-rail-link"))
   })
 })
