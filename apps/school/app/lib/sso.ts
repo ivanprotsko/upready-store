@@ -1,4 +1,5 @@
 import { safeNextPath } from "./next-path"
+import { buildLoginUrl as buildShopLoginUrl, ShopSsoError } from "./vendor/shop-sso"
 
 /**
  * The school's half of the shared sign-in (t-2026-10-08-37, parts B and C).
@@ -12,13 +13,16 @@ import { safeNextPath } from "./next-path"
  *    server (`POST /store/tenant/sso/exchange`, with the shop's publishable
  *    key) and keeps the token in the `school_jwt` cookie.
  *
- * Part B ships the same two functions as the `@upready/shop-sso` package; this
- * module is replaced by that import once both parts are in.
+ * The login address and the exchange are the `@upready/shop-sso` package's
+ * (t-2026-10-08-36), read from its copy in `vendor/shop-sso.ts`. The school
+ * builds on its own and its image never sees `apps/shared`, and
+ * `pnpm check:shared-markdown` keeps the copy byte-identical. This module
+ * holds what the cabinet adds on top of the package.
  */
 
-export const CALLBACK_PATH = "/auth/callback"
+export { exchangeCode } from "./vendor/shop-sso"
 
-/** The address of the shop's sign-in that brings the buyer back to `next`. */
+/** The address of the shop's sign-in that brings the buyer back to `next`, a cabinet page or `/app`. */
 export function buildLoginUrl({
   shopOrigin,
   schoolOrigin,
@@ -28,13 +32,7 @@ export function buildLoginUrl({
   schoolOrigin: string
   next: string
 }): string {
-  const returnTo = new URL(CALLBACK_PATH, schoolOrigin)
-  returnTo.searchParams.set("next", safeNextPath(next))
-
-  const login = new URL("/api/school-sso", shopOrigin)
-  login.searchParams.set("return_to", returnTo.toString())
-
-  return login.toString()
+  return buildShopLoginUrl({ shopOrigin, schoolOrigin, next: safeNextPath(next) })
 }
 
 /**
@@ -57,50 +55,12 @@ export function readCallback(url: URL): { code: string | null; next: string } {
   return { code: code?.trim() || null, next: safeNextPath(next) }
 }
 
-export type ExchangeResult =
-  | { ok: true; token: string }
-  /** `expired`: the API refused the code (used, older than 60 s, or not this shop's). */
-  | { ok: false; reason: "expired" | "failed" }
-
-/** Trades a sign-in code for the buyer's token. Never throws; never logs the code or the token. */
-export async function exchangeCode({
-  apiBase,
-  publishableKey,
-  code,
-  fetchImpl = fetch,
-}: {
-  apiBase: string
-  publishableKey: string
-  code: string
-  fetchImpl?: typeof fetch
-}): Promise<ExchangeResult> {
-  let response: Response
-
-  try {
-    response = await fetchImpl(`${apiBase}/store/tenant/sso/exchange`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        "x-publishable-api-key": publishableKey,
-      },
-      body: JSON.stringify({ code }),
-    })
-  } catch {
-    return { ok: false, reason: "failed" }
-  }
-
-  if (response.status === 401 || response.status === 400 || response.status === 404) {
-    return { ok: false, reason: "expired" }
-  }
-
-  if (!response.ok) {
-    return { ok: false, reason: "failed" }
-  }
-
-  const body = (await response.json().catch(() => null)) as { token?: unknown } | null
-
-  return typeof body?.token === "string" && body.token
-    ? { ok: true, token: body.token }
-    : { ok: false, reason: "failed" }
+/**
+ * Why a failed exchange failed, in the words `/login` knows. The package
+ * throws a `ShopSsoError`; `expired` is the API refusing the code (used, older
+ * than 60 s, or not this shop's), `failed` is anything else, an answer
+ * without a token or no answer at all.
+ */
+export function exchangeFailure(error: unknown): "expired" | "failed" {
+  return error instanceof ShopSsoError && [400, 401, 404].includes(error.status) ? "expired" : "failed"
 }
