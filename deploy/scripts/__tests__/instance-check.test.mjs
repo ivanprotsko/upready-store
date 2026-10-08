@@ -154,6 +154,13 @@ test("checkEnv: ru profile fails on the Tribute switch, whatever its value, and 
   assert.match(rows[0], /forbidden provider "tribute"/);
 
   assert.deepEqual(checkEnv(parseEnvFile("TRIBUTE_AVAILABLE=true\n"), intl), []);
+
+  // The backend reads only the variables compose names, so the switch must be one of them.
+  const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
+  const from = compose.slice(compose.indexOf("container_name: mt-backend"));
+  const backend = from.slice(0, from.indexOf("\n    networks:"));
+  assert.match(backend, /^ {6}TRIBUTE_AVAILABLE: \$\{TRIBUTE_AVAILABLE:-\}$/m);
+  assert.equal(compose.match(/^\s+TRIBUTE_AVAILABLE:/gm).length, 1);
 });
 
 test("ru profile has no x402 (t-2026-10-03-33): X402_ variables and an x402 tenant row both fail, intl takes both", () => {
