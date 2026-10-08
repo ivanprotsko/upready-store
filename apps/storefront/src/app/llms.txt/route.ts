@@ -40,8 +40,9 @@ type Entry = {
   description?: string | null
 }
 
-// Links omit the locale prefix: middleware 302s to the visitor's language, and
-// every locale root is listed under ## Optional.
+// The starter's links omit the locale prefix: middleware 302s to the visitor's
+// language, and every locale root is listed under ## Optional. A shop's links
+// carry its language (`shopFile`).
 function absolute(base: string, path: string) {
   return `${base}${path}`
 }
@@ -177,6 +178,11 @@ function shopSection(heading: string, items: string[]) {
  * The starter's file below told a crawler that a live shop was a demo whose
  * orders are not fulfilled and whose payments are not taken, and listed 36
  * languages for a shop published in one.
+ *
+ * Part A7b: every link of a page carries the shop's language in its address.
+ * Without it each of them answered a 302 to the same page under `/ru`. And a
+ * product is its name and its link: the first words of a description are the
+ * owner's own text cut in the middle, with no page around it.
  */
 async function shopFile(base: string, siteName: string) {
   const published = shopLocales(locales, await getEnabledLocales(), defaultLocale)
@@ -190,6 +196,8 @@ async function shopFile(base: string, siteName: string) {
   const label = (key: string) => (t.has(key) ? t(key) : "")
   const link = (text: string, href: string, note?: string | null) =>
     listItem(text || href, href, note)
+  // The address the middleware answers 200 on: the language is in it already.
+  const page = (path: string) => absolute(base, `/${locale}${path}`)
 
   const [collections, categories, catalog, description] = await Promise.all([
     fetchShopCollections().catch(() => [] as Entry[]),
@@ -219,8 +227,8 @@ async function shopFile(base: string, siteName: string) {
     "",
     ...(summary ? [`> ${summary}`, ""] : []),
     ...shopSection(label(SHOP_LABELS.shop), [
-      link(label(SHOP_LABELS.home), absolute(base, "")),
-      link(label(SHOP_LABELS.allProducts), absolute(base, "/store")),
+      link(label(SHOP_LABELS.home), page("")),
+      link(label(SHOP_LABELS.allProducts), page("/store")),
       link("sitemap.xml", `${base}/sitemap.xml`),
     ]),
     // One language is the shop itself, not a choice to list.
@@ -234,26 +242,20 @@ async function shopFile(base: string, siteName: string) {
       label(SHOP_LABELS.collections),
       collections
         .filter((c) => c.handle)
-        .map((c) => link(c.title || c.handle!, absolute(base, `/collections/${c.handle}`)))
+        .map((c) => link(c.title || c.handle!, page(`/collections/${c.handle}`)))
     ),
     ...shopSection(
       label(SHOP_LABELS.categories),
       categories
         .filter((c) => c.handle)
         .map((c) =>
-          link(c.name || c.handle, absolute(base, `/categories/${c.handle}`), c.description)
+          link(c.name || c.handle, page(`/categories/${c.handle}`), c.description)
         )
     ),
     ...shopSection(label(SHOP_LABELS.products), [
       ...catalog.products
         .filter((p) => p.handle)
-        .map((p) =>
-          link(
-            p.title || p.handle!,
-            absolute(base, `/products/${p.handle}`),
-            p.subtitle || p.description
-          )
-        ),
+        .map((p) => link(p.title || p.handle!, page(`/products/${p.handle}`))),
       // What was cut is stated, in figures: the rest is in the sitemap.
       ...(catalog.count > shown
         ? [link("sitemap.xml", `${base}/sitemap.xml`, `+${catalog.count - shown}`)]
