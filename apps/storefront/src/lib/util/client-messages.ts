@@ -77,6 +77,12 @@ export type ClientMessageFacts = {
    * of `/storefront/by-host`, the same owner's setting per payment method.
    */
   chargeNotice: boolean
+  /**
+   * The listing's view controls are on for this shop: the deployment's
+   * `STOREFRONT_CATALOG_VIEW_CONTROLS` names it and it is no Olavka shop
+   * (`catalogViewControlsOn`, ask a0e1).
+   */
+  catalogViewControls: boolean
 }
 
 /** The facts out of what the request already carries; no backend call is made for them. */
@@ -87,6 +93,7 @@ export const clientMessageFacts = (input: {
   analytics: { yandexMetricaId: string | null; ga4MeasurementId: string | null }
   onboarding: boolean
   paymentPreNotice: TenantPaymentPreNotice
+  catalogViewControls: boolean
 }): ClientMessageFacts => {
   const methods = input.paymentMethods
   // Both readings of «the shop takes a transfer»: the backend's (`manualCrypto`,
@@ -117,6 +124,7 @@ export const clientMessageFacts = (input: {
     chargeNotice: Object.values(input.paymentPreNotice).some(
       (entry) => Boolean(entry.chargeCurrencyCode || entry.rateSource)
     ),
+    catalogViewControls: input.catalogViewControls,
   }
 }
 
@@ -292,9 +300,26 @@ export const CLIENT_MESSAGE_RULES: readonly ClientMessageRule[] = [
       "the starter's own promo line. `(main)/layout.tsx` suppresses the strip for every shop, and the strip reads the key only when it is drawn. `close` stays: the component asks for the section on every page.",
     keep: () => false,
   },
+  {
+    section: "Store",
+    keys: ["view", "viewGrid", "viewList", "viewCompact", "perPage"],
+    condition:
+      "the deployment's STOREFRONT_CATALOG_VIEW_CONTROLS names the shop and it is no Olavka shop",
+    reason:
+      "the names of the listing's views and of its page size (ask a0e1). Their one reader, `ViewControls`, is mounted by `PaginatedProducts` under the same `catalogViewControlsOn`, so a shop without the controls hands the browser the dictionary it had before them.",
+    keep: (facts) => facts.catalogViewControls,
+  },
+  {
+    section: "Store",
+    keys: ["brands", "allBrands"],
+    condition: "never",
+    reason:
+      "the title of the shop's brands and the link to all of them (ask a0e1). Both readers, `HomeBrands` and the /brands page, are server components (`getTranslations`). Not marked `serverOnly`: the rest of the section has client readers.",
+    keep: () => false,
+  },
 ]
 
-const isSection = (value: AbstractIntlMessages[string] | undefined): value is AbstractIntlMessages =>
+const isSection =(value: AbstractIntlMessages[string] | undefined): value is AbstractIntlMessages =>
   typeof value === "object" && value !== null && !Array.isArray(value)
 
 /** What an apostrophe has to stand before to open quoted text in an ICU message. */

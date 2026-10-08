@@ -463,6 +463,20 @@ test("the test-mode dot switch passes the env check on ru and on intl, and compo
   assert.equal(compose.match(/^\s+STOREFRONT_HIDE_TEST_MODE_DOT:/gm).length, 1);
 });
 
+test("the catalog view controls switch passes the env check on ru and on intl, and compose hands it to the storefront (t-2026-10-06-09)", () => {
+  for (const instance of ["ru", "intl"]) {
+    const profile = loadProfile(instance, INSTANCES_DIR);
+    assert.deepEqual(checkEnv(parseEnvFile("STOREFRONT_CATALOG_VIEW_CONTROLS=bpj,other-shop\n"), profile), [], instance);
+  }
+
+  // Off by default, and the storefront alone gets it.
+  const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
+  const storefront = compose.slice(compose.indexOf("container_name: mt-storefront"));
+  const service = storefront.slice(0, storefront.indexOf("\n    networks:"));
+  assert.match(service, /^ {6}STOREFRONT_CATALOG_VIEW_CONTROLS: \$\{STOREFRONT_CATALOG_VIEW_CONTROLS:-\}$/m);
+  assert.equal(compose.match(/^\s+STOREFRONT_CATALOG_VIEW_CONTROLS:/gm).length, 1);
+});
+
 test("the school's sign-in hosts pass the env check on ru, fail it on intl, and compose hands them to the backend and the storefront (t-2026-10-08-36)", () => {
   const env = parseEnvFile("SCHOOL_SSO_RETURN_HOSTS=school.cherkashina.ru\n");
   assert.deepEqual(checkEnv(env, loadProfile("ru", INSTANCES_DIR)), []);

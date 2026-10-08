@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Цена: ниска → висока"
   },
   "Store": {
-    "allProducts": "Всички продукти"
+    "allProducts": "Всички продукти",
+    "brands": "Марки",
+    "allBrands": "Всички марки",
+    "view": "Изглед",
+    "viewGrid": "Мрежа",
+    "viewList": "Списък",
+    "viewCompact": "Сбита мрежа",
+    "perPage": "Продукти на страница"
   },
   "TenantPage": {
     "emptyBody": "Тази страница все още няма текст.",

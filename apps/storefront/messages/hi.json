@@ -1141,7 +1141,14 @@
     "priceLowHigh": "कीमत: कम → अधिक"
   },
   "Store": {
-    "allProducts": "सभी उत्पाद"
+    "allProducts": "सभी उत्पाद",
+    "brands": "ब्रांड",
+    "allBrands": "सभी ब्रांड",
+    "view": "दृश्य",
+    "viewGrid": "ग्रिड",
+    "viewList": "सूची",
+    "viewCompact": "सघन ग्रिड",
+    "perPage": "प्रति पृष्ठ उत्पाद"
   },
   "TenantPage": {
     "emptyBody": "इस पेज पर अभी कोई टेक्स्ट नहीं है।",

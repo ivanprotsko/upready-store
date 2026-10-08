@@ -1141,7 +1141,14 @@
     "priceLowHigh": "価格：安い順"
   },
   "Store": {
-    "allProducts": "すべての商品"
+    "allProducts": "すべての商品",
+    "brands": "ブランド",
+    "allBrands": "すべてのブランド",
+    "view": "表示",
+    "viewGrid": "グリッド",
+    "viewList": "リスト",
+    "viewCompact": "コンパクトグリッド",
+    "perPage": "1ページの商品数"
   },
   "TenantPage": {
     "emptyBody": "このページにはまだ本文がありません。",

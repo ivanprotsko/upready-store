@@ -1141,7 +1141,14 @@
     "priceLowHigh": "מחיר: מהנמוך לגבוה"
   },
   "Store": {
-    "allProducts": "כל המוצרים"
+    "allProducts": "כל המוצרים",
+    "brands": "מותגים",
+    "allBrands": "כל המותגים",
+    "view": "תצוגה",
+    "viewGrid": "רשת",
+    "viewList": "רשימה",
+    "viewCompact": "רשת צפופה",
+    "perPage": "מוצרים בעמוד"
   },
   "TenantPage": {
     "emptyBody": "בדף הזה עדיין אין טקסט.",

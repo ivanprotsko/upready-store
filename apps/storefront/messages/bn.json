@@ -1141,7 +1141,14 @@
     "priceLowHigh": "মূল্য: কম → বেশি"
   },
   "Store": {
-    "allProducts": "সব পণ্য"
+    "allProducts": "সব পণ্য",
+    "brands": "ব্র্যান্ড",
+    "allBrands": "সব ব্র্যান্ড",
+    "view": "ভিউ",
+    "viewGrid": "গ্রিড",
+    "viewList": "তালিকা",
+    "viewCompact": "ঘন গ্রিড",
+    "perPage": "প্রতি পৃষ্ঠায় পণ্য"
   },
   "TenantPage": {
     "emptyBody": "এই পাতায় এখনও কোনও লেখা নেই।",

@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Preis: aufsteigend"
   },
   "Store": {
-    "allProducts": "Alle Produkte"
+    "allProducts": "Alle Produkte",
+    "brands": "Marken",
+    "allBrands": "Alle Marken",
+    "view": "Ansicht",
+    "viewGrid": "Raster",
+    "viewList": "Liste",
+    "viewCompact": "Kompaktes Raster",
+    "perPage": "Produkte pro Seite"
   },
   "TenantPage": {
     "emptyBody": "Diese Seite hat noch keinen Text.",

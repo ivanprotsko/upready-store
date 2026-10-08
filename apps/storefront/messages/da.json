@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Pris: Lav → Høj"
   },
   "Store": {
-    "allProducts": "Alle produkter"
+    "allProducts": "Alle produkter",
+    "brands": "Mærker",
+    "allBrands": "Alle mærker",
+    "view": "Visning",
+    "viewGrid": "Gitter",
+    "viewList": "Liste",
+    "viewCompact": "Tæt gitter",
+    "perPage": "Produkter pr. side"
   },
   "TenantPage": {
     "emptyBody": "Denne side har endnu ingen tekst.",

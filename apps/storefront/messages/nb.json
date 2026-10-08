@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Pris: Lav → Høy"
   },
   "Store": {
-    "allProducts": "Alle produkter"
+    "allProducts": "Alle produkter",
+    "brands": "Merker",
+    "allBrands": "Alle merker",
+    "view": "Visning",
+    "viewGrid": "Rutenett",
+    "viewList": "Liste",
+    "viewCompact": "Tett rutenett",
+    "perPage": "Produkter per side"
   },
   "TenantPage": {
     "emptyBody": "Denne siden har ennå ingen tekst.",

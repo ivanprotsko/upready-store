@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Ár: Alacsony → Magas"
   },
   "Store": {
-    "allProducts": "Összes termék"
+    "allProducts": "Összes termék",
+    "brands": "Márkák",
+    "allBrands": "Összes márka",
+    "view": "Nézet",
+    "viewGrid": "Rács",
+    "viewList": "Lista",
+    "viewCompact": "Sűrű rács",
+    "perPage": "Termék oldalanként"
   },
   "TenantPage": {
     "emptyBody": "Ezen az oldalon még nincs szöveg.",
