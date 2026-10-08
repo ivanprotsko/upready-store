@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Bestelling <strong>#{id}</strong> is afgerond. Bedankt dat u voor ons hebt gekozen!",
-    "bodyPromo": "We zien u graag terug. Bekijk de nieuwe artikelen in onze winkel.",
     "deliveryCity": "Bezorgd in {city}.",
     "headingAnon": "Uw bestelling is afgerond!",
     "headingWithName": "{name}, uw bestelling is afgerond!",

@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Bestilling <strong>#{id}</strong> er fullført. Takk for at du valgte oss!",
-    "bodyPromo": "Vi ser deg gjerne igjen. Se nyhetene i butikken vår.",
     "deliveryCity": "Levert til {city}.",
     "headingAnon": "Bestillingen din er fullført!",
     "headingWithName": "{name}, bestillingen din er fullført!",

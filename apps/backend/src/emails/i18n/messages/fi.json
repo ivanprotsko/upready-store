@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Tilaus <strong>#{id}</strong> on valmis. Kiitos, että valitsit meidät!",
-    "bodyPromo": "Näemme sinut mielellämme uudelleen. Tutustu kauppamme uutuuksiin.",
     "deliveryCity": "Toimitettu kaupunkiin {city}.",
     "headingAnon": "Tilauksesi on valmis!",
     "headingWithName": "{name}, tilauksesi on valmis!",

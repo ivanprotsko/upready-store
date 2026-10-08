@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "Order <strong>#{id}</strong> has been completed. Thank you for choosing us!",
-    "bodyPromo": "We'd love to see you again. Check out new arrivals in our store.",
     "deliveryCity": "Delivered to {city}.",
     "headingAnon": "Your order is complete!",
     "headingWithName": "{name}, your order is complete!",

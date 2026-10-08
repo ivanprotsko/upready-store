@@ -55,7 +55,6 @@
   },
   "OrderCompleted": {
     "bodyOrder": "ご注文 <strong>#{id}</strong> が完了しました。ご利用いただきありがとうございます！",
-    "bodyPromo": "またのご利用をお待ちしております。ストアの新着商品もぜひご覧ください。",
     "deliveryCity": "お届け先：{city}。",
     "headingAnon": "ご注文が完了しました！",
     "headingWithName": "{name}様、ご注文が完了しました！",
