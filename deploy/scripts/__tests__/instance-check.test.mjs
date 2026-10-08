@@ -26,6 +26,7 @@ import {
   checkEnv,
   checkBackupTargets,
   checkMailRelay,
+  checkSchool,
   senderDomain,
   checkDbProviders,
   checkDbAnalytics,
@@ -33,6 +34,7 @@ import {
   hostOf,
   BACKUP_TARGET_KEYS,
   MAIL_KEYS,
+  SCHOOL_KEYS,
   DEFAULT_SENDER_DOMAINS,
   UsageError,
   INSTANCES_DIR,
@@ -475,6 +477,24 @@ test("the catalog view controls switch passes the env check on ru and on intl, a
   assert.equal(compose.match(/^\s+STOREFRONT_CATALOG_VIEW_CONTROLS:/gm).length, 1);
 });
 
+test("the school's sign-in hosts pass the env check on ru, fail it on intl, and compose hands them to the backend and the storefront (t-2026-10-08-36)", () => {
+  const env = parseEnvFile("SCHOOL_SSO_RETURN_HOSTS=school.cherkashina.ru\n");
+  assert.deepEqual(checkEnv(env, loadProfile("ru", INSTANCES_DIR)), []);
+  const intl = checkEnv(env, loadProfile("intl", INSTANCES_DIR));
+  assert.equal(intl.length, 1);
+  assert.match(intl[0], /^forbidden env SCHOOL_SSO_RETURN_HOSTS is set/);
+  // Named but empty is not set, so the INTL template's silence and an empty line both pass.
+  assert.deepEqual(checkEnv(parseEnvFile("SCHOOL_SSO_RETURN_HOSTS=\n"), loadProfile("intl", INSTANCES_DIR)), []);
+
+  const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
+  for (const name of ["mt-backend", "mt-storefront"]) {
+    const from = compose.slice(compose.indexOf(`container_name: ${name}`));
+    const service = from.slice(0, from.indexOf("\n    networks:"));
+    assert.match(service, /^ {6}SCHOOL_SSO_RETURN_HOSTS: \$\{SCHOOL_SSO_RETURN_HOSTS:-\}$/m, name);
+  }
+  assert.equal(compose.match(/^\s+SCHOOL_SSO_RETURN_HOSTS:/gm).length, 2);
+});
+
 test("compose.mt.yml gives the relay the default domain this check assumes, and takes both keys from the env file", () => {
   const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
   assert.ok(compose.includes(`ALLOWED_SENDER_DOMAINS: \${MAIL_SENDER_DOMAINS:-${DEFAULT_SENDER_DOMAINS.join(" ")}}`));
@@ -638,4 +658,59 @@ test("the tool says that backup targets were not checked when it has no backup e
 
   const given = runTool(["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--backup-env", "deploy/backup/nightly.env.example"]);
   assert.doesNotMatch(given.stdout, /NOT checked/);
+});
+
+const school = (lines) => readEnvValues(lines.join("\n"), SCHOOL_KEYS);
+
+test("checkSchool: the school runs on RU's own domain and reads RU's own shop, and nowhere else (t-2026-10-08-37)", () => {
+  const ru = loadProfile("ru", INSTANCES_DIR);
+  const intl = loadProfile("intl", INSTANCES_DIR);
+  const own = ["SCHOOL_DOMAIN=school.cherkashina.ru", "SCHOOL_SHOP_ORIGIN=https://cherkashino.ru"];
+  assert.deepEqual(checkSchool(school(own), ru, [intl]), []);
+  // No school at all is no violation on either instance.
+  assert.deepEqual(checkSchool(school([]), ru, [intl]), []);
+  assert.deepEqual(checkSchool(school(["SCHOOL_DOMAIN="]), intl, [ru]), []);
+
+  const otherHost = checkSchool(school(["SCHOOL_DOMAIN=school.example.org"]), ru, [intl]);
+  assert.deepEqual(otherHost, ["SCHOOL_DOMAIN is not a school domain of instance ru (allowed: school.cherkashina.ru)"]);
+
+  const foreignShop = checkSchool(school(["SCHOOL_SHOP_ORIGIN=https://cherkashino.com"]), ru, [intl]);
+  assert.equal(foreignShop.length, 1);
+  assert.match(foreignShop[0], /^SCHOOL_SHOP_ORIGIN is not a shop of instance ru but of instance intl/);
+  // RU holds only the shops its profile names, so a shop on no profile's domain is not RU's either.
+  assert.match(checkSchool(school(["SCHOOL_SHOP_ORIGIN=https://shop.example.org"]), ru, [intl])[0], /^SCHOOL_SHOP_ORIGIN is not a shop of instance ru —/);
+
+  // INTL names no school domain, and RU's shop is not INTL's to read.
+  const onIntl = checkSchool(school(own), intl, [ru]);
+  assert.deepEqual(onIntl.map((line) => line.split(" ")[0]), ["SCHOOL_DOMAIN", "SCHOOL_SHOP_ORIGIN"]);
+  assert.match(onIntl[0], /\(allowed: none\)$/);
+  assert.match(onIntl[1], /but of instance ru/);
+});
+
+test("the tool exits 1 on an INTL env that runs RU's school, and never prints the domain or the shop", () => {
+  const env = writeScratch("intl-school.env", [
+    readFileSync(path.join(REPO, "deploy", "mt", "shipshift.env.example"), "utf8"),
+    "SCHOOL_DOMAIN=school.cherkashina.ru",
+    "SCHOOL_SHOP_ORIGIN=https://cherkashino.ru",
+  ]);
+  const run = runTool(["--instance", "intl", "--env", env]);
+  assert.equal(run.status, 1);
+  assert.equal(run.stderr.match(/^VIOLATION: SCHOOL_/gm).length, 2);
+  assert.doesNotMatch(run.stderr, /school\.cherkashina\.ru|https:\/\/cherkashino\.ru/);
+});
+
+test("compose.mt.yml starts the school only under its own profile and takes its keys from the env file", () => {
+  const compose = readFileSync(path.join(REPO, "deploy", "compose.mt.yml"), "utf8");
+  const start = compose.indexOf("\n  school:\n");
+  assert.notEqual(start, -1);
+  const service = compose.slice(start, compose.indexOf("\n\n", start + 1));
+  assert.match(service, /^ {4}profiles: \["school"\]$/m);
+  for (const key of ["SCHOOL_DOMAIN", "SCHOOL_PUBLISHABLE_KEY", "SCHOOL_SHOP_ORIGIN"]) {
+    assert.match(service, new RegExp(`^ {6}${key}: \\$\\{${key}:-\\}$`, "m"), key);
+  }
+  // The landing owns `/` on the same host: the school's routers never claim it.
+  for (const rule of service.match(/rule=.*$/gm)) {
+    assert.match(rule, /PathPrefix\(`\/app`\)/);
+    assert.doesNotMatch(rule, /PathPrefix\(`\/`\)/);
+  }
 });

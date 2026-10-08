@@ -11,7 +11,8 @@ marketing site (upready-store-marketing, t-2026-10-04-12) goes live. Ordered in 
   https router on the `letsencrypt` resolver. It works unchanged behind both hosts' traefik
   (RU `ru-host-traefik`, contabo `coolify-proxy`): both read docker labels on network `coolify`.
 - [nginx.conf](./nginx.conf) — every path answers `index.html` with `Cache-Control: no-cache`,
-  `/healthz` answers `ok`, `/robots.txt` disallows everything.
+  `/healthz` answers `ok`, `/robots.txt` disallows everything, `/landing/` answers the page's own
+  files (a day of caching, 404 for a missing one).
 - [html-ru](./html-ru/index.html), [html-en](./html-en/index.html) — the page itself, with
   `<meta name="robots" content="noindex">` so "coming soon" never lands in search results.
 - [up.sh](./up.sh) — writes `placeholder.env` (hosts + language + directory) and brings the
@@ -56,6 +57,27 @@ same pattern already serves the landing on shipshift.dev (`mt-homepage.yml` on t
 priority 300).
 
 Remove it with `docker compose -p placeholder-store … --env-file placeholder-store.env down`.
+
+## The school landing: school.cherkashina.ru
+
+Ordered in t-2026-10-08-35 (Ivan, 2026-10-08, ask 81da: «а лендинг школы тут school.cherkashina.ru»).
+The page is [html-school](./html-school/index.html): the school of Oksana Cherkashina, its course
+with a «Купить» link to the course page of the shop cherkashino.ru, how the learning works and a
+«Войти в кабинет» button to `/login`. It carries `noindex` until the school opens.
+
+The school cabinet runs on the same host and owns `/app`, `/login`, `/auth`, `/logout` and
+`/assets`. The landing owns the root and `/landing/`, where its fonts and the course cover live
+(`html-school/landing/`). [nginx.conf](./nginx.conf) answers `/landing/` with the files themselves
+and a 404 for a missing one, so the rule names both paths:
+
+```bash
+/opt/upready-store/placeholder/up.sh school \
+  'Host(`school.cherkashina.ru`) && (Path(`/`) || PathPrefix(`/landing/`))' school 300
+```
+
+That gives project `placeholder-school`, container `school-placeholder`, routers `school-ph*` and
+the env file `placeholder-school.env`. `/robots.txt` and `/favicon.ico` on this host go to the
+cabinet's router, not to this page.
 
 ## Precondition on contabo
 
