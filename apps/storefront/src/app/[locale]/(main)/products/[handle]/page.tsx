@@ -10,7 +10,8 @@ import type { HttpTypes } from "@medusajs/types"
 import { getLocale } from "next-intl/server"
 import { DEFAULT_REGION } from "@lib/util/env"
 import { getSiteName } from "@lib/data/cookies"
-import { metaDescription } from "@lib/util/meta-description"
+import { getProductDescriptionCopy } from "@lib/data/product-description-copy"
+import { productMetaDescription } from "@lib/util/product-description"
 import { pageTitle } from "@lib/util/page-title"
 import { seoOverride } from "@lib/util/tenant-seo"
 
@@ -75,10 +76,16 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       ? await pageTitle(product.title)
       : await getSiteName()
 
-  const description = metaDescription(
-    override.description,
-    product.description,
-    product.subtitle
+  // A product without a text of its own still gets a description (part A8): its title in
+  // the shop and the shop's neutral line. A product with a text keeps the line it had.
+  const description = productMetaDescription(
+    {
+      override: override.description,
+      description: product.description,
+      subtitle: product.subtitle,
+      title: product.title,
+    },
+    await getProductDescriptionCopy()
   )
 
   return {

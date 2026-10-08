@@ -6,6 +6,8 @@ import {
   type VariantWithPrice,
 } from "@lib/util/get-product-price"
 import { getRequestBaseURL, getSiteName } from "@lib/data/cookies"
+import { getProductDescriptionCopy } from "@lib/data/product-description-copy"
+import { productFallbackDescription } from "@lib/util/product-description"
 
 /**
  * Fields Medusa has no column for. Set them on the product's `metadata` in
@@ -247,7 +249,12 @@ export async function buildProductJsonLd({
     .filter((offer): offer is JsonLdNode => offer !== null)
 
   const brand = strMeta(meta.brand) ?? siteName
-  const description = stripHtml(product.description ?? product.subtitle)
+  // The product's own text, as before; a product without one gets the line its
+  // `<meta name="description">` gets (part A8), so the two never disagree.
+  const description =
+    stripHtml(product.description) ??
+    stripHtml(product.subtitle) ??
+    productFallbackDescription(product.title, await getProductDescriptionCopy())
   const category = categoryPath(product)
 
   const aggregateRating = buildAggregateRating(reviews)
