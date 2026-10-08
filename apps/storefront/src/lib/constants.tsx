@@ -7,8 +7,9 @@ import type React from "react"
 import { btcpayReturnUrl, isBtcpay } from "@lib/util/btcpay"
 import { bitcartReturnUrl, isBitcart } from "@lib/util/bitcart"
 import { isX402 } from "@lib/util/x402"
+import { isTribute, tributeSessionData } from "@lib/util/tribute"
 
-export { isBtcpay, isBitcart, isX402 }
+export { isBtcpay, isBitcart, isTribute, isX402 }
 
 /* Map of payment provider_id to their icon and, as a fallback for a provider
    with no entry in the `PaymentMethods` catalog, an English title. Add in any
@@ -46,6 +47,12 @@ export const paymentInfoMap: Record<
   // saved its account in the panel.
   pp_robokassa_robokassa: {
     title: "Robokassa",
+    icon: <CreditCard />,
+  },
+  // Tribute (t-cherk-22), a redirect provider with per-shop credentials like
+  // Robokassa. The backend lists it only for a shop that saved its API key.
+  pp_tribute_tribute: {
+    title: "Tribute",
     icon: <CreditCard />,
   },
   // The shop's own BTCPay Server store (ask-20261005-070255-438f), a redirect
@@ -144,6 +151,17 @@ const paymentSessionDataBuilders: Array<{
         typeof window !== "undefined" ? window.location.pathname.split("/")[1] || "" : ""
       const origin = typeof window !== "undefined" ? window.location.origin : ""
       return { return_url: bitcartReturnUrl(cart.id, { origin, locale }) }
+    },
+  },
+  {
+    // Tribute sends the buyer back to the same return route, after a payment
+    // and after a failure alike (`lib/util/tribute.ts`).
+    test: isTribute,
+    build: (cart) => {
+      const locale =
+        typeof window !== "undefined" ? window.location.pathname.split("/")[1] || "" : ""
+      const origin = typeof window !== "undefined" ? window.location.origin : ""
+      return tributeSessionData(cart, { origin, locale })
     },
   },
 ]

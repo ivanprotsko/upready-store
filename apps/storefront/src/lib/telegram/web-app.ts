@@ -22,6 +22,13 @@ export type TelegramWebApp = {
   ready: () => void
   expand: () => void
   disableVerticalSwipes?: () => void
+  /**
+   * Opens a `https://t.me/…` link in Telegram itself; any other address throws
+   * `WebAppTgUrlInvalid`. Since Bot API 7.0 the Mini App stays open behind it.
+   * A pay button whose payment page is a Mini App of its own opens it through
+   * this (t-cherk-22).
+   */
+  openTelegramLink?: (url: string) => void
   BackButton: {
     show: () => void
     hide: () => void

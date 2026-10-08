@@ -924,6 +924,7 @@
     "pp_medusa-payments_default": "信用卡",
     "pp_paypal_paypal": "PayPal",
     "pp_robokassa_robokassa": "Robokassa",
+    "pp_tribute_tribute": "Tribute",
     "pp_btcpay_btcpay": "加密货币",
     "pp_bitcart_bitcart": "加密货币",
     "pp_x402_x402": "USDC (x402)",
