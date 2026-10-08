@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Pris: Lågt → Högt"
   },
   "Store": {
-    "allProducts": "Alla produkter"
+    "allProducts": "Alla produkter",
+    "brands": "Varumärken",
+    "allBrands": "Alla varumärken",
+    "view": "Vy",
+    "viewGrid": "Rutnät",
+    "viewList": "Lista",
+    "viewCompact": "Tätt rutnät",
+    "perPage": "Produkter per sida"
   },
   "TenantPage": {
     "emptyBody": "Den här sidan har ingen text än.",

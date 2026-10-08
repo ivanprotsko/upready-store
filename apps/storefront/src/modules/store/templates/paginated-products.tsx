@@ -1,14 +1,36 @@
+import { cookies } from "next/headers"
 import { getTranslations } from "next-intl/server"
 
+import { catalogViewControlsOn } from "@lib/data/catalog-view"
 import { listProductsWithSort } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
+import {
+  CATALOG_PER_PAGE_COOKIE,
+  CATALOG_VIEW_COOKIE,
+  DEFAULT_CATALOG_PER_PAGE,
+  DEFAULT_CATALOG_VIEW,
+  parseCatalogPerPage,
+  parseCatalogView,
+  type CatalogView,
+} from "@lib/util/catalog-view"
 import type { OptionValueIds } from "@lib/util/product-option-filters"
 import { PRODUCT_GRID_BESIDE_SIDEBAR_CLASS } from "@modules/products/components/product-card"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Pagination } from "@modules/store/components/pagination"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import ViewControls from "@modules/store/components/view-controls"
 
-export const PRODUCT_LIMIT = 12
+export const PRODUCT_LIMIT = DEFAULT_CATALOG_PER_PAGE
+
+/**
+ * The listing in each view the buyer can pick (`ViewControls`): the shop's grid, rows of one
+ * product each, and a denser grid with one column more than the shop's own at every width.
+ */
+const LISTING_CLASS: Record<CatalogView, string> = {
+  grid: PRODUCT_GRID_BESIDE_SIDEBAR_CLASS,
+  list: "flex w-full flex-col divide-y divide-ui-border-base [&>li]:py-4 [&>li:first-child]:pt-0",
+  compact: "grid w-full grid-cols-3 gap-x-3 gap-y-6 small:grid-cols-4 small:gap-x-4 small:gap-y-8 large:grid-cols-5",
+}
 
 /**
  * The listing when a filter leaves nothing: a sentence that says so and what to do, in the
@@ -67,8 +89,17 @@ export default async function PaginatedProducts({
    */
   attributeProductIds?: string[] | null
 }) {
+  // A shop the switch does not name, and every Olavka shop, keeps the listing it had: the
+  // grid, twelve to a page, no controls, and no cookie is read (`catalogViewControlsOn`).
+  const controls = await catalogViewControlsOn()
+  const cookieStore = controls ? await cookies() : null
+  const view = cookieStore ? parseCatalogView(cookieStore.get(CATALOG_VIEW_COOKIE)?.value) : DEFAULT_CATALOG_VIEW
+  const perPage = cookieStore
+    ? parseCatalogPerPage(cookieStore.get(CATALOG_PER_PAGE_COOKIE)?.value)
+    : DEFAULT_CATALOG_PER_PAGE
+
   const queryParams: PaginatedProductsParams = {
-    limit: 12,
+    limit: perPage,
   }
 
   if (collectionId) {
@@ -118,11 +149,17 @@ export default async function PaginatedProducts({
     optionValueIds,
   })
 
-  const totalPages = Math.ceil(count / PRODUCT_LIMIT)
+  const totalPages = Math.ceil(count / perPage)
 
   return (
     <>
-      <ul className={PRODUCT_GRID_BESIDE_SIDEBAR_CLASS} data-testid="products-list" data-total-count={count}>
+      {controls && <ViewControls view={view} perPage={perPage} />}
+      <ul
+        className={LISTING_CLASS[view]}
+        data-testid="products-list"
+        data-total-count={count}
+        data-view={controls ? view : undefined}
+      >
         {products.map((p, index) => {
           return (
             <li key={p.id} className="min-w-0">
@@ -130,6 +167,7 @@ export default async function PaginatedProducts({
                 product={p}
                 region={region}
                 priority={index < 4}
+                layout={view === "list" ? "row" : "card"}
               />
             </li>
           )

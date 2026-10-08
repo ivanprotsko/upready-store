@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Harga: Rendah → Tinggi"
   },
   "Store": {
-    "allProducts": "Semua produk"
+    "allProducts": "Semua produk",
+    "brands": "Jenama",
+    "allBrands": "Semua jenama",
+    "view": "Paparan",
+    "viewGrid": "Grid",
+    "viewList": "Senarai",
+    "viewCompact": "Grid padat",
+    "perPage": "Produk setiap halaman"
   },
   "TenantPage": {
     "emptyBody": "Halaman ini belum mempunyai teks.",

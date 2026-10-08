@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Presyo: Mababa → Mataas"
   },
   "Store": {
-    "allProducts": "Lahat ng produkto"
+    "allProducts": "Lahat ng produkto",
+    "brands": "Mga brand",
+    "allBrands": "Lahat ng brand",
+    "view": "Tanaw",
+    "viewGrid": "Grid",
+    "viewList": "Listahan",
+    "viewCompact": "Siksik na grid",
+    "perPage": "Mga produkto bawat pahina"
   },
   "TenantPage": {
     "emptyBody": "Wala pang teksto ang pahinang ito.",

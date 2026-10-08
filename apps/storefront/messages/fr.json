@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Prix : croissant"
   },
   "Store": {
-    "allProducts": "Tous les produits"
+    "allProducts": "Tous les produits",
+    "brands": "Marques",
+    "allBrands": "Toutes les marques",
+    "view": "Affichage",
+    "viewGrid": "Grille",
+    "viewList": "Liste",
+    "viewCompact": "Grille compacte",
+    "perPage": "Produits par page"
   },
   "TenantPage": {
     "emptyBody": "Cette page n'a pas encore de texte.",

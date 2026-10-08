@@ -1141,7 +1141,14 @@
     "priceLowHigh": "Үнэ: Багаас Их рүү"
   },
   "Store": {
-    "allProducts": "Бүх бүтээгдэхүүн"
+    "allProducts": "Бүх бүтээгдэхүүн",
+    "brands": "Брэндүүд",
+    "allBrands": "Бүх брэнд",
+    "view": "Харагдац",
+    "viewGrid": "Тор",
+    "viewList": "Жагсаалт",
+    "viewCompact": "Нягт тор",
+    "perPage": "Хуудас дахь бараа"
   },
   "TenantPage": {
     "emptyBody": "Энэ хуудсанд одоохондоо текст алга.",
