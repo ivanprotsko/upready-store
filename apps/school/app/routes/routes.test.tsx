@@ -8,6 +8,7 @@ import * as appLesson from "./app-lesson"
 import * as authCallback from "./auth-callback"
 import * as login from "./login"
 import * as logout from "./logout"
+import { readSetCookie } from "~/test-support/set-cookie"
 
 /**
  * The pages end to end on the server: a request goes through the real route
@@ -182,7 +183,15 @@ describe("/auth/callback", () => {
 
     expect(response?.status).toBe(302)
     expect(response?.headers.get("location")).toBe("/app/yoga")
-    expect(response?.headers.get("set-cookie")).toMatch(/^school_jwt=jwt-new; Path=\/; HttpOnly; Secure; SameSite=Lax/)
+    expect(readSetCookie(response?.headers.get("set-cookie"))).toEqual({
+      name: "school_jwt",
+      value: "jwt-new",
+      path: "/",
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60,
+    })
     expect(calls[0]?.init?.body).toBe(JSON.stringify({ code: "c1" }))
     expect(new Headers(calls[0]?.init?.headers).get("x-publishable-api-key")).toBe("pk_school")
   })
@@ -228,7 +237,7 @@ describe("/logout", () => {
     const { response } = await open("/logout", { cookie: SIGNED_IN, method: "POST" })
 
     expect(response?.headers.get("location")).toBe("/login?next=%2Fapp")
-    expect(response?.headers.get("set-cookie")).toMatch(/^school_jwt=; .*Max-Age=0/)
+    expect(readSetCookie(response?.headers.get("set-cookie"))).toMatchObject({ name: "school_jwt", value: "", path: "/", maxAge: 0 })
   })
 })
 
@@ -281,7 +290,7 @@ describe("/app", () => {
     const { response } = await open("/app", { cookie: SIGNED_IN })
 
     expect(response?.headers.get("location")).toBe("/login?next=%2Fapp")
-    expect(response?.headers.get("set-cookie")).toMatch(/^school_jwt=; .*Max-Age=0/)
+    expect(readSetCookie(response?.headers.get("set-cookie"))).toMatchObject({ name: "school_jwt", value: "", path: "/", maxAge: 0 })
   })
 
   it("shows the error view, with the header, when the API fails", async () => {

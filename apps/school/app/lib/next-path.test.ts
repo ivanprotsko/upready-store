@@ -3,6 +3,7 @@ import { loginPath, safeNextPath } from "./next-path"
 import { mediaUrl, publicApiOrigin } from "./media"
 import { clearTokenCookie, readToken, setTokenCookie } from "./session.server"
 import { safeNextPath as packageSafeNextPath } from "./vendor/shop-sso"
+import { readSetCookie } from "~/test-support/set-cookie"
 import { lessonsWord, progressText } from "~/components/progress-bar"
 import { scoreQuiz } from "~/components/lesson-quiz"
 
@@ -36,15 +37,31 @@ describe("safeNextPath", () => {
 })
 
 describe("the school_jwt cookie", () => {
-  it("is httpOnly, Secure, SameSite=Lax and bound to the school's host only", () => {
-    const cookie = setTokenCookie("jwt-1")
+  /** A week, as long as the shop keeps its own `_medusa_jwt`. */
+  const WEEK_SECONDS = 7 * 24 * 60 * 60
 
-    expect(cookie).toMatch(/^school_jwt=jwt-1;/)
-    expect(cookie).toContain("HttpOnly")
-    expect(cookie).toContain("Secure")
-    expect(cookie).toContain("SameSite=Lax")
-    expect(cookie).not.toMatch(/domain=/i)
-    expect(clearTokenCookie()).toContain("Max-Age=0")
+  it("is httpOnly, Secure, SameSite=Lax, lives a week and is bound to the school's host only", () => {
+    expect(readSetCookie(setTokenCookie("jwt-1"))).toEqual({
+      name: "school_jwt",
+      value: "jwt-1",
+      path: "/",
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: WEEK_SECONDS,
+    })
+  })
+
+  it("is removed with the same attributes and no age", () => {
+    expect(readSetCookie(clearTokenCookie())).toEqual({
+      name: "school_jwt",
+      value: "",
+      path: "/",
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 0,
+    })
   })
 
   it("is read from the request and nothing else is", () => {
@@ -53,6 +70,7 @@ describe("the school_jwt cookie", () => {
     expect(readToken(request("a=1; school_jwt=jwt-1; _medusa_jwt=shop"))).toBe("jwt-1")
     expect(readToken(request("_medusa_jwt=shop"))).toBeNull()
     expect(readToken(request("school_jwt="))).toBeNull()
+    expect(readToken(request("school_jwt=%E0%A4%A"))).toBeNull()
   })
 })
 

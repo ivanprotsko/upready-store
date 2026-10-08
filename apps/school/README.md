@@ -77,9 +77,12 @@ lesson's text, copied so a lesson reads the same in the school as in the shop's 
 storefront's copy first, under `apps/storefront/src/lib/util`, and carry the change here.
 
 `app/lib/vendor/shop-sso.ts` is the `@upready/shop-sso` package (`apps/shared/shop-sso/src/index.ts`,
-t-2026-10-08-36), with the login address, the code exchange and the `next` rule. The school's image
-never sees `apps/shared`, so it is a copy too. Change the package first and carry the change here.
-`app/lib/next-path.ts` narrows the package's `next` rule to a cabinet path under `/app`, and
-`app/lib/sso.ts` turns the exchange's `ShopSsoError` into the reason `/login` shows.
+t-2026-10-08-36), with the login address, the code exchange, the `next` rule, the `school_jwt`
+cookie and the headers of every call to the Store API. The school's image never sees `apps/shared`,
+so it is a copy too. Change the package first and carry the change here. `app/lib/next-path.ts`
+narrows the package's `next` rule to a cabinet path under `/app`, `app/lib/sso.ts` turns the
+exchange's `ShopSsoError` into the reason `/login` shows, `app/lib/session.server.ts` reads and
+writes the cookie through the package, and `app/lib/store-api.server.ts` adds `accept` and the
+Russian `x-medusa-locale` to the package's headers.
 
 `pnpm check:shared-markdown` at the repo root fails when any of the three copies drifts.
