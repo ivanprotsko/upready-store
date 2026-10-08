@@ -35,6 +35,9 @@ import type { TenantPaymentPreNotice } from "@lib/util/payment-pre-notice"
  *    about where paying leads is one `select` over the kinds of redirect, and the branch for
  *    a wallet in a network goes for a shop that set no such redirect. The key stays, and so
  *    does `other {}`, which is what the message answers for a kind it has no branch for.
+ * 5. The sentences about the charge currency and the rate (part A6c) follow the shop's own
+ *    pre-payment notice as well: a shop that named neither a currency nor a rate source
+ *    gets none of the three.
  *
  * A section with no row here is handed over whole. Moving every page to its own set of
  * sections is a different, larger change and is not made here.
@@ -68,6 +71,12 @@ export type ClientMessageFacts = {
    * owner's own setting per payment method («Настройки → Оплата»).
    */
   cryptoNetworkRedirect: boolean
+  /**
+   * An entry of the shop's pre-payment notice names the currency the charge is made in or
+   * the source of its rate: `charge_currency_code` or `rate_source` in `payment_pre_notice`
+   * of `/storefront/by-host`, the same owner's setting per payment method.
+   */
+  chargeNotice: boolean
 }
 
 /** The facts out of what the request already carries; no backend call is made for them. */
@@ -104,6 +113,9 @@ export const clientMessageFacts = (input: {
     // buyer picks a method.
     cryptoNetworkRedirect: Object.values(input.paymentPreNotice).some(
       (entry) => entry.redirectKind === "crypto_network"
+    ),
+    chargeNotice: Object.values(input.paymentPreNotice).some(
+      (entry) => Boolean(entry.chargeCurrencyCode || entry.rateSource)
     ),
   }
 }
@@ -223,6 +235,15 @@ export const CLIENT_MESSAGE_RULES: readonly ClientMessageRule[] = [
     reason:
       "the sentence «you will send the transfer to a wallet in the … network». `PaymentPreNotice` formats `redirect` with the kind of the picked method's entry, and the kind comes from the shop's own `payment_pre_notice` alone. Without the branch the message answers that kind with `other {}`, an empty sentence the reader drops, so nothing breaks while the shop's data is a minute old.",
     keep: (facts) => facts.cryptoNetworkRedirect,
+  },
+  {
+    section: "PaymentPreNotice",
+    keys: ["chargeWithAmount", "chargeWithoutAmount", "chargeNoSource"],
+    condition:
+      "an entry of the shop's pre-payment notice names a charge currency or a rate source (`payment_pre_notice` of the shop's data)",
+    reason:
+      "the sentence «the amount will be charged in … at the rate of …». `PaymentPreNotice` takes one of the three only for an entry that names a charge currency, and both the currency and the rate source come from the shop's own `payment_pre_notice` alone. The dictionary of a page opened before the owner saved one is older than the entry, so the reader asks `t.has` first and leaves the sentence out.",
+    keep: (facts) => facts.chargeNotice,
   },
   {
     section: "Errors",

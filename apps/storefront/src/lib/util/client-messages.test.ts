@@ -73,10 +73,17 @@ const TAKES_CRYPTO = clientMessageFacts({
   manualPayment: { ...EMPTY_MANUAL_PAYMENT, enabled: true },
   analytics: { yandexMetricaId: "12345678", ga4MeasurementId: null },
   onboarding: false,
-  // Its transfer by requisites goes to a wallet, and the owner said so in the notice.
+  // Its transfer by requisites goes to a wallet and is charged in another currency, and the
+  // owner said so in the notice.
   paymentPreNotice: {
     ...EMPTY_PAYMENT_PRE_NOTICE,
-    manual: { ...EMPTY_PRE_NOTICE_ENTRY, redirectKind: "crypto_network", redirectValue: "TRC20" },
+    manual: {
+      ...EMPTY_PRE_NOTICE_ENTRY,
+      redirectKind: "crypto_network",
+      redirectValue: "TRC20",
+      chargeCurrencyCode: "usdt",
+      rateSource: "the exchange's rate",
+    },
   },
 })
 
@@ -156,8 +163,9 @@ describe("clientMessages: a shop that takes Robokassa alone", () => {
       robokassaHalva: "Карта Халва",
       robokassaSbp: "СБП",
     })
-    // Part A6b: every key of the section stays; its sentence about a redirect loses one branch.
-    expect(Object.keys(cut.PaymentPreNotice)).toEqual(Object.keys(ru.PaymentPreNotice))
+    // Part A6b: the sentence about a redirect loses one branch. Part A6c: the three sentences
+    // about the charge currency go, the rest of the section stays.
+    expect(Object.keys(cut.PaymentPreNotice)).toEqual(["becomesClient", "redirect", "refund"])
     expect(cut.PaymentButton).toBe(ru.PaymentButton)
     expect(cut.Cart).toBe(ru.Cart)
     expect(Object.keys(cut.PromoBanner)).toEqual(["close"])
@@ -289,6 +297,7 @@ describe("CLIENT_MESSAGE_RULES: the table is the whole of the decision", () => {
     analytics: false,
     onboarding: false,
     cryptoNetworkRedirect: false,
+    chargeNotice: false,
   }
 
   it("names a condition and a reason for every row", () => {
@@ -465,9 +474,10 @@ describe("clientMessages: no cryptocurrency in the dictionary of a shop with Rob
     expect(before("redirect", { kind: "crypto_network", value: "TRC20" })).toContain("TRC20")
     expect(after("redirect", { kind: "crypto_network", value: "TRC20" })).toBe("")
     expect(after("redirect", { kind: "other", value: "unused" })).toBe("")
-    // The branch is all that left the section.
+    // The branch is all that left the section of a shop whose notice names a charge currency
+    // (part A6c cuts the three charge sentences for a shop that names none).
     expect({
-      ...sectionOf(cut, "PaymentPreNotice"),
+      ...sectionOf(clientMessages(whole, { ...ROBOKASSA_ONLY, chargeNotice: true }), "PaymentPreNotice"),
       redirect: sectionOf(whole, "PaymentPreNotice").redirect,
     }).toEqual(whole.PaymentPreNotice)
     expect(errors).toEqual([])
@@ -477,9 +487,14 @@ describe("clientMessages: no cryptocurrency in the dictionary of a shop with Rob
     const whole = catalogue(locale)
 
     expect(clientMessages(whole, TAKES_CRYPTO).PaymentPreNotice).toBe(whole.PaymentPreNotice)
-    expect(clientMessages(whole, { ...ROBOKASSA_ONLY, cryptoNetworkRedirect: true }).PaymentPreNotice).toBe(
-      whole.PaymentPreNotice
-    )
+    expect(
+      clientMessages(whole, { ...ROBOKASSA_ONLY, cryptoNetworkRedirect: true, chargeNotice: true }).PaymentPreNotice
+    ).toBe(whole.PaymentPreNotice)
+    // The branch follows the redirect alone: a shop that names a wallet and no charge currency
+    // keeps the whole sentence about the redirect.
+    expect(
+      sectionOf(clientMessages(whole, { ...ROBOKASSA_ONLY, cryptoNetworkRedirect: true }), "PaymentPreNotice").redirect
+    ).toBe(sectionOf(whole, "PaymentPreNotice").redirect)
   })
 
   it("the three keys of the invoice notice stay for BTCPay or Bitcart and for nothing else", () => {
@@ -555,6 +570,92 @@ describe("clientMessageFacts: the redirect to a wallet in a network", () => {
         paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, btcpay: true, bitcart: true, demo: false },
         paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
       }).cryptoNetworkRedirect
+    ).toBe(false)
+  })
+})
+
+/** The three sentences about the currency a charge is made in, and its rate (part A6c). */
+const CHARGE_KEYS = ["chargeWithAmount", "chargeWithoutAmount", "chargeNoSource"]
+
+/** What the store lead's acceptance counts in the page code of a shop with an empty notice. */
+const CHARGE_WORDS = ["по курсу", "rateSource", "будет списана"]
+
+describe("clientMessages: no charge currency and no rate in the dictionary of a shop that names none (part A6c)", () => {
+  it("names none of the acceptance words, which the whole catalogue does carry", () => {
+    const whole = JSON.stringify(ru)
+    const cut = JSON.stringify(clientMessages(ru, ROBOKASSA_ONLY))
+
+    for (const word of CHARGE_WORDS) {
+      expect(whole, word).toContain(word)
+      expect(cut, word).not.toContain(word)
+    }
+  })
+
+  it.each(LOCALES)("%s: the three charge sentences go and nothing else of the section does", (locale) => {
+    const whole = catalogue(locale)
+    const section = sectionOf(whole, "PaymentPreNotice")
+    const cut = sectionOf(clientMessages(whole, ROBOKASSA_ONLY), "PaymentPreNotice")
+
+    for (const key of CHARGE_KEYS) {
+      expect(section, key).toHaveProperty([key])
+      expect(cut, key).not.toHaveProperty([key])
+    }
+    // `rateSource` is the name of an argument: it is in the page code of every locale.
+    expect(JSON.stringify(section)).toContain("rateSource")
+    expect(JSON.stringify(clientMessages(whole, ROBOKASSA_ONLY))).not.toContain("rateSource")
+    expect(Object.keys(cut)).toEqual(Object.keys(section).filter((key) => !CHARGE_KEYS.includes(key)))
+    expect(cut.becomesClient).toBe(section.becomesClient)
+    expect(cut.refund).toBe(section.refund)
+  })
+
+  it.each(LOCALES)("%s: a shop whose notice names a charge currency keeps the three as they were", (locale) => {
+    const whole = catalogue(locale)
+    const section = sectionOf(whole, "PaymentPreNotice")
+    const cut = sectionOf(clientMessages(whole, { ...ROBOKASSA_ONLY, chargeNotice: true }), "PaymentPreNotice")
+
+    for (const key of CHARGE_KEYS) {
+      expect(cut[key], key).toBe(section[key])
+    }
+    expect(clientMessages(whole, TAKES_CRYPTO).PaymentPreNotice).toBe(whole.PaymentPreNotice)
+  })
+})
+
+describe("clientMessageFacts: the charge currency and the rate of the notice", () => {
+  const input = {
+    shop: true,
+    paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false },
+    manualPayment: EMPTY_MANUAL_PAYMENT,
+    analytics: NO_ANALYTICS,
+    onboarding: false,
+  }
+  const withEntry = (key: "robokassa" | "tribute" | "manual", entry: Partial<typeof EMPTY_PRE_NOTICE_ENTRY>) =>
+    clientMessageFacts({
+      ...input,
+      paymentPreNotice: { ...EMPTY_PAYMENT_PRE_NOTICE, [key]: { ...EMPTY_PRE_NOTICE_ENTRY, ...entry } },
+    })
+
+  it("is read from a charge currency or a rate source, any method's entry", () => {
+    expect(withEntry("robokassa", { chargeCurrencyCode: "usd" }).chargeNotice).toBe(true)
+    expect(withEntry("tribute", { chargeCurrencyCode: "eur", rateSource: "the bank's rate" }).chargeNotice).toBe(true)
+    expect(withEntry("manual", { rateSource: "the bank's rate" }).chargeNotice).toBe(true)
+  })
+
+  it("is off for an empty notice and for an entry that names neither", () => {
+    expect(clientMessageFacts({ ...input, paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE }).chargeNotice).toBe(false)
+    expect(withEntry("robokassa", { redirectKind: "domain", redirectValue: "pay.example.com" }).chargeNotice).toBe(
+      false
+    )
+    expect(withEntry("robokassa", { isForeignCard: true }).chargeNotice).toBe(false)
+    expect(withEntry("robokassa", { refundTerms: "14 days" }).chargeNotice).toBe(false)
+  })
+
+  it("a gateway alone does not keep the sentences: the currency is the owner's setting", () => {
+    expect(
+      clientMessageFacts({
+        ...input,
+        paymentMethods: { ...EMPTY_TENANT_PAYMENT_METHODS, btcpay: true, bitcart: true, x402: true, demo: false },
+        paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
+      }).chargeNotice
     ).toBe(false)
   })
 })
