@@ -41,10 +41,8 @@ const stub = (name: string) => {
 }
 
 vi.mock("next-intl/server", async () => {
-  const ru = (await import("../../../../messages/ru.json")).default as Record<
-    string,
-    Record<string, string>
-  >
+  const ru = (await import("../../../../messages/ru.json"))
+    .default as unknown as Record<string, Record<string, string>>
   return {
     getTranslations: async () => (key: string) => {
       const [section, name] = key.split(".")
