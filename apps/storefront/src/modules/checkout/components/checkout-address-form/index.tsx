@@ -14,6 +14,7 @@ import { Button, RadioGroup } from "@medusajs/ui"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
 import {
   cartCountryCode,
+  isPostalCodeValid,
   shippingAddressGaps,
   type ShippingAddressField,
 } from "@lib/util/shipping-address"
@@ -151,6 +152,20 @@ export default function CheckoutAddressForm({
       setAddressGaps(savedGaps)
       return
     }
+    // t-2026-10-09-56, item 9: a saved address with a postcode of the wrong shape opens
+    // in the form, where the postcode field names the problem.
+    if (!isPostalCodeValid(address.postal_code, address.country_code)) {
+      setSelectedId(undefined)
+      setAddressFields({
+        address_1: address.address_1 ?? "",
+        postal_code: address.postal_code ?? "",
+        city: address.city ?? "",
+        province: address.province ?? "",
+      })
+      setCompany(address.company ?? "")
+      setMode("new")
+      return
+    }
     setApplyingId(address.id)
     setError(null)
     setAddressGaps([])
@@ -198,6 +213,10 @@ export default function CheckoutAddressForm({
       setAddressGaps(gaps)
       return
     }
+    // t-2026-10-09-56, item 9: the field says why, under itself.
+    if (!isPostalCodeValid(addressFields.postal_code, countryCode)) {
+      return
+    }
     setAddressGaps([])
     setIsSubmitting(true)
     setError(null)
@@ -219,6 +238,7 @@ export default function CheckoutAddressForm({
   // Once the buyer has typed anything, the fields still missing are named under the
   // form in the quiet colour, so the disabled button never stands without a reason.
   const liveGaps = shippingAddressGaps(addressFields, countryCode)
+  const postalInvalid = !isPostalCodeValid(addressFields.postal_code, countryCode)
   const typedAnything = Object.values(addressFields).some((value) => !!value?.trim())
   const shownGaps = addressGaps.length > 0 ? addressGaps : typedAnything ? liveGaps : []
 
@@ -320,7 +340,7 @@ export default function CheckoutAddressForm({
         )}
         <Button
           type="submit"
-          disabled={liveGaps.length > 0 || isSubmitting || isRefreshing}
+          disabled={liveGaps.length > 0 || postalInvalid || isSubmitting || isRefreshing}
           size="large"
           className="w-full"
           data-testid="checkout-address-next"

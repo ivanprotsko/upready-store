@@ -133,6 +133,8 @@ export default function CheckoutShippingSection({
   const [calculatedPricesMap, setCalculatedPricesMap] = useState<
     Record<string, number>
   >({})
+  // t-2026-10-09-56, item 9: the options whose price CDEK refused for the address.
+  const [addressRejectedIds, setAddressRejectedIds] = useState<Set<string>>(new Set())
   const [shippingError, setShippingError] = useState<string | null>(null)
   const [shippingMethodId, setShippingMethodId] = useState<string | null>(
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
@@ -260,6 +262,7 @@ export default function CheckoutShippingSection({
 
     if (!calculatedMethods.length || !quoteAddressKey) {
       setCalculatedPricesMap({})
+      setAddressRejectedIds(new Set())
       setIsLoadingPrices(false)
       return
     }
@@ -277,18 +280,25 @@ export default function CheckoutShippingSection({
             : null
         }
         const priced = await calculatePriceForShippingOption(sm.id, cart.id)
+        if (priced && "error" in priced) {
+          return priced.error === "cdek_address_rejected"
+            ? { id: sm.id, addressRejected: true }
+            : null
+        }
         return priced?.id
           ? { id: priced.id, amount: priced.amount ?? 0 }
           : null
       })
     ).then((results) => {
       const pricesMap: Record<string, number> = {}
+      const rejected = new Set<string>()
       results.forEach((r) => {
-        if (r.status === "fulfilled" && r.value?.id) {
-          pricesMap[r.value.id] = r.value.amount
-        }
+        if (r.status !== "fulfilled" || !r.value?.id) return
+        if ("addressRejected" in r.value) rejected.add(r.value.id)
+        else if (typeof r.value.amount === "number") pricesMap[r.value.id] = r.value.amount
       })
       setCalculatedPricesMap(pricesMap)
+      setAddressRejectedIds(rejected)
       setIsLoadingPrices(false)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -542,7 +552,9 @@ export default function CheckoutShippingSection({
           : isLoadingPrices
             ? null
             : unpriced
-              ? t("shippingPriceUnavailable")
+              ? addressRejectedIds.has(option.id)
+                ? t("shippingPriceAddressRejected")
+                : t("shippingPriceUnavailable")
               : "—"
     return { priceAmount, isFreeShipping, awaitingAddress, unpriced, price }
   }

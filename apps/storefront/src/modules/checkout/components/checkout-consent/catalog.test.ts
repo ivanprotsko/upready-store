@@ -26,6 +26,9 @@ describe("checkout catalogs", () => {
       expect(m.CheckoutPage.legal).toMatch(/<terms>.+<\/terms>/)
       expect(m.CheckoutPage.legal).not.toMatch(/privacyPolicy|termsOfUse|returnPolicy/)
       expect(m.CheckoutPage.legal).toContain("{button}")
+      // Item 9 (the return): the postcode error and CDEK's address refusal at the card.
+      expect(m.CheckoutPage.postalCodeInvalid).toMatch(/6|৬/)
+      expect(typeof m.CheckoutPage.shippingPriceAddressRejected).toBe("string")
     }
   )
 

@@ -62,7 +62,7 @@ describe("the sections open in order, «Далее» instead of «Сохрани
   })
 
   it("names the address and contacts button «Далее» and disables it until the fields are right", () => {
-    expect(addressForm).toMatch(/disabled=\{liveGaps\.length > 0 \|\| isSubmitting \|\| isRefreshing\}/)
+    expect(addressForm).toMatch(/disabled=\{liveGaps\.length > 0 \|\| postalInvalid \|\| isSubmitting \|\| isRefreshing\}/)
     expect(addressForm).toMatch(/t\("next"\)/)
     expect(addressForm).not.toMatch(/t\("save"\)/)
     expect(contactsForm).toMatch(/disabled=\{Object\.keys\(fieldErrors\)\.length > 0/)
@@ -85,6 +85,20 @@ describe("the consents at «Оплатить» (item 6)", () => {
 
   it("drops the «Доставка» / «Правила возврата» pair under the button", () => {
     expect(paymentTemplate).not.toMatch(/t\("shippingLink"\)|t\("returnsLink"\)/)
+  })
+})
+
+describe("item 9, returned: the postcode and CDEK's refusal", () => {
+  const fields = read("../../../common/components/address-autocomplete/manual-address-fields.tsx")
+
+  it("disables «Далее» on a postcode of the wrong shape and names it at the field", () => {
+    expect(addressForm).toMatch(/disabled=\{liveGaps\.length > 0 \|\| postalInvalid \|\| isSubmitting \|\| isRefreshing\}/)
+    expect(fields).toMatch(/data-testid="address-postal-code-error"/)
+    expect(fields).toMatch(/t\("postalCodeInvalid"\)/)
+  })
+
+  it("says at the card that CDEK could not find the address", () => {
+    expect(shipping).toMatch(/addressRejectedIds\.has\(option\.id\)\s*\?\s*t\("shippingPriceAddressRejected"\)/)
   })
 })
 

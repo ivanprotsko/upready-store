@@ -4,7 +4,12 @@ import { cdekNeedsPoint, chosenCdekPoint } from "@lib/util/cdek"
 import { contactsFieldErrors } from "@lib/util/checkout-contacts"
 import { isPickupShippingOption } from "@lib/util/fulfillment"
 import { chosenPochtaPoint, isPochtaOption } from "@lib/util/pochta"
-import { cartNeedsShipping, cartShippingAddressGaps } from "@lib/util/shipping-address"
+import {
+  cartCountryCode,
+  cartNeedsShipping,
+  cartShippingAddressGaps,
+  isPostalCodeValid,
+} from "@lib/util/shipping-address"
 import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 
 /**
@@ -49,7 +54,13 @@ export const isAddressStepDone = (
   if (isPickupShippingOption(selectedShippingOption(cart, options))) {
     return !!metaString(cart, PICKUP_METADATA_KEYS.name)
   }
-  return !!cart.shipping_address?.address_1 && cartShippingAddressGaps(cart).length === 0
+  return (
+    !!cart.shipping_address?.address_1 &&
+    cartShippingAddressGaps(cart).length === 0 &&
+    // t-2026-10-09-56, item 9: a saved Russian postcode that is not six digits keeps
+    // the address open, with the error at the field, rather than reaching CDEK.
+    isPostalCodeValid(cart.shipping_address?.postal_code, cartCountryCode(cart))
+  )
 }
 
 /**

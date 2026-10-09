@@ -92,6 +92,16 @@ describe("the step tests read off the cart", () => {
     expect(isAddressStepDone(cart({ shipping_address: address }), [courier])).toBe(true)
   })
 
+  it("keeps the address open on a Russian postcode that is not six digits (item 9: 80571)", () => {
+    expect(
+      isAddressStepDone(cart({ shipping_address: { ...address, postal_code: "80571" } }), [courier])
+    ).toBe(false)
+    expect(
+      checkoutStepLocksOf(cart({ shipping_address: { ...address, postal_code: "80571" } }), [courier])
+        .shipping
+    ).toBe(true)
+  })
+
   it("counts a Russian Post method done only with its point", () => {
     const withMethod = cart({
       shipping_address: address,
