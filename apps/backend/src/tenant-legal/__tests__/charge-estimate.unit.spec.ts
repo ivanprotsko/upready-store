@@ -91,3 +91,25 @@ describe("chargeConversionFactor", () => {
     expect(factor).toBeNull();
   });
 });
+
+describe("chargeConversionFactor: the source of the stamped rate", () => {
+  it("ignores a rate the script quoted from another currency (from=jpy: yen per dollar, not roubles)", () => {
+    const factor = chargeConversionFactor(
+      [line("v1")],
+      [{ id: "v1", metadata: { script_prices: { usd: { rate: 158.28, from: "jpy" } } } }],
+      "usd",
+      "rub",
+    );
+    expect(factor).toBeNull();
+  });
+
+  it("reads a rate stamped from=rub the same as one written before from= existed", () => {
+    const factor = chargeConversionFactor(
+      [line("v1")],
+      [{ id: "v1", metadata: { script_prices: { usd: { rate: 95, from: "rub" } } } }],
+      "usd",
+      "rub",
+    );
+    expect(factor).toBe(95);
+  });
+});
