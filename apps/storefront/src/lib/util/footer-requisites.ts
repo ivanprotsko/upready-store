@@ -94,6 +94,13 @@ export const footerRequisitesParts = (
   ].filter((part): part is string => Boolean(part))
 }
 
+/**
+ * The line as one text: the pieces joined with commas (t-2026-10-09-76, Ivan 09.10: «вместо
+ * булетов поставить запятые, а после аббревиатур двоеточие»). The colon after «ОГРНИП» and
+ * «ИНН» is the catalog's own (`Footer.regNumberSoleTrader`, `Footer.taxId`).
+ */
+export const footerRequisitesText = (parts: string[]): string => parts.join(", ")
+
 /** What the footer prints: the pieces above with the switch on, nothing with it off. */
 export const footerRequisitesLine = (
   seller: SellerRequisites | null | undefined,

@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Registreringsnr. for enkeltpersonforetak (OGRNIP): {value}",
     "aboutHeading": "Om butikken",
     "trackOrder": "Spor bestillingen",
-    "badgesLabel": "Levering og betaling",
-    "robokassaNote": "Betal med kort eller via SBP. Robokassa tar imot betalingene"
+    "badgesLabel": "Levering og betaling"
   },
   "ForgotPassword": {
     "backToSignIn": "Tilbake til innlogging",

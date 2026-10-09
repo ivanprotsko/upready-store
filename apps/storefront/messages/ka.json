@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "ინდივიდუალური მეწარმის სარეგისტრაციო ნომერი: {value}",
     "aboutHeading": "მაღაზიის შესახებ",
     "trackOrder": "შეკვეთის თვალყურის დევნება",
-    "badgesLabel": "მიწოდება და გადახდა",
-    "robokassaNote": "გადახდა ბარათით ან SBP-ის მეშვეობით. გადახდებს იღებს Robokassa"
+    "badgesLabel": "მიწოდება და გადახდა"
   },
   "ForgotPassword": {
     "backToSignIn": "დაბრუნება შესვლაზე",

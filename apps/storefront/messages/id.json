@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "No. registrasi pengusaha perorangan (OGRNIP): {value}",
     "aboutHeading": "Tentang toko",
     "trackOrder": "Lacak pesanan Anda",
-    "badgesLabel": "Pengiriman dan pembayaran",
-    "robokassaNote": "Bayar dengan kartu atau melalui SBP. Robokassa memproses pembayaran"
+    "badgesLabel": "Pengiriman dan pembayaran"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke masuk",

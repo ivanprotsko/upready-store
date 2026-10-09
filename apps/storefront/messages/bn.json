@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "একক উদ্যোক্তার নিবন্ধন নম্বর: {value}",
     "aboutHeading": "দোকান সম্পর্কে",
     "trackOrder": "আপনার অর্ডার ট্র্যাক করুন",
-    "badgesLabel": "ডেলিভারি ও পেমেন্ট",
-    "robokassaNote": "কার্ড বা SBP-এর মাধ্যমে পেমেন্ট। পেমেন্ট গ্রহণ করে Robokassa"
+    "badgesLabel": "ডেলিভারি ও পেমেন্ট"
   },
   "ForgotPassword": {
     "backToSignIn": "সাইন ইনে ফিরে যান",

@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs"
+import { join } from "node:path"
+import { createTranslator } from "next-intl"
 import { describe, expect, it } from "vitest"
 
 import {
@@ -5,6 +8,7 @@ import {
   footerRequisitesEnabled,
   footerRequisitesLine,
   footerRequisitesParts,
+  footerRequisitesText,
   isSoleTraderRegNumber,
   sellerNameWithForm,
 } from "./footer-requisites"
@@ -135,5 +139,34 @@ describe("the pieces of the requisites line", () => {
       footerRequisitesParts({ legal_name: "Иванова Мария Петровна", inn: " ", ogrn: null, legal_address: "" }, labels)
     ).toEqual(["Иванова Мария Петровна"])
     expect(footerRequisitesParts(null, labels)).toEqual([])
+  })
+})
+
+describe("the requisites line as one text (t-2026-10-09-76)", () => {
+  const t = createTranslator({
+    locale: "ru",
+    messages: JSON.parse(readFileSync(join(__dirname, "../../../messages/ru.json"), "utf8")),
+    namespace: "Footer",
+  })
+  const catalog = {
+    taxId: (value: string) => t("taxId", { value }),
+    regNumber: (value: string) => t("regNumber", { value }),
+    regNumberSoleTrader: (value: string) => t("regNumberSoleTrader", { value }),
+  }
+
+  it("joins the pieces with commas, with a colon after each abbreviation", () => {
+    // Ivan 09.10: «вместо булетов поставить запятые, а после аббревиатур ддвоеточие».
+    expect(footerRequisitesText(footerRequisitesParts(soleTrader, catalog))).toBe(
+      `ИП Иванова Мария Петровна, ОГРНИП: ${SOLE_TRADER_NUMBER}, ИНН: 000000000001`
+    )
+    expect(
+      footerRequisitesText(
+        footerRequisitesParts({ ...soleTrader, legal_name: "ООО «Ромашка»", ogrn: COMPANY_NUMBER }, catalog)
+      )
+    ).toBe(`ООО «Ромашка», ОГРН: ${COMPANY_NUMBER}, ИНН: 000000000001`)
+  })
+
+  it("gives an empty text for no pieces", () => {
+    expect(footerRequisitesText([])).toBe("")
   })
 })

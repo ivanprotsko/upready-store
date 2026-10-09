@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Egyéni vállalkozó nyilvántartási száma (OGRNIP): {value}",
     "aboutHeading": "Az üzletről",
     "trackOrder": "Rendelés követése",
-    "badgesLabel": "Szállítás és fizetés",
-    "robokassaNote": "Fizetés kártyával vagy SBP-n keresztül. A fizetéseket a Robokassa fogadja"
+    "badgesLabel": "Szállítás és fizetés"
   },
   "ForgotPassword": {
     "backToSignIn": "Vissza a bejelentkezéshez",

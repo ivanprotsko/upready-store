@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Хувиараа бизнес эрхлэгчийн бүртгэлийн дугаар: {value}",
     "aboutHeading": "Дэлгүүрийн тухай",
     "trackOrder": "Захиалгаа хянах",
-    "badgesLabel": "Хүргэлт ба төлбөр",
-    "robokassaNote": "Картаар эсвэл SBP-ээр төлнө. Төлбөрийг Robokassa хүлээн авна"
+    "badgesLabel": "Хүргэлт ба төлбөр"
   },
   "ForgotPassword": {
     "backToSignIn": "Нэвтрэх рүү буцах",

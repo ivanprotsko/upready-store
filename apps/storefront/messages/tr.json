@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Şahıs işletmesi sicil no. (OGRNIP): {value}",
     "aboutHeading": "Mağaza hakkında",
     "trackOrder": "Siparişini takip et",
-    "badgesLabel": "Teslimat ve ödeme",
-    "robokassaNote": "Kartla veya SBP ile ödeme. Ödemeleri Robokassa alır"
+    "badgesLabel": "Teslimat ve ödeme"
   },
   "ForgotPassword": {
     "backToSignIn": "Girişe dön",

@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Individualaus verslininko registracijos nr. (OGRNIP): {value}",
     "aboutHeading": "Apie parduotuvę",
     "trackOrder": "Sekti užsakymą",
-    "badgesLabel": "Pristatymas ir mokėjimas",
-    "robokassaNote": "Mokėjimas kortele arba per SBP. Mokėjimus priima Robokassa"
+    "badgesLabel": "Pristatymas ir mokėjimas"
   },
   "ForgotPassword": {
     "backToSignIn": "Grįžti prie prisijungimo",
