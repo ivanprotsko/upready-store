@@ -151,11 +151,12 @@
     "fieldLastName": "Příjmení",
     "fieldPhone": "Telefon",
     "fieldPostalCode": "PSČ",
+    "postalCodeInvalid": "Ruské PSČ má 6 číslic.",
     "fieldProvince": "Kraj",
     "freeShipping": "Zdarma",
     "giftCard": "Dárková karta",
     "itemsCount": "{count, plural, one {{count} položka} few {{count} položky} many {{count} položky} other {{count} položek}}",
-    "legal": "Kliknutím na tlačítko „{button}“ přijímáte naše <terms>podmínky</terms>, <termsOfUse>podmínky užívání</termsOfUse> a <returnPolicy>zásady vracení zboží</returnPolicy> a potvrzujete, že jste se seznámili s našimi <privacyPolicy>zásadami ochrany osobních údajů</privacyPolicy>.",
+    "legal": "Kliknutím na tlačítko „{button}“ přijímáte <terms>obchodní podmínky</terms>.",
     "manualInput": "Zadat adresu ručně",
     "addressIncomplete": "Vyplňte povinná pole adresy: {fields}.",
     "provinceRequired": "Vyberte kraj ze seznamu.",
@@ -184,6 +185,7 @@
     "offerLink": "Veřejná nabídka",
     "sameAsShipping": "Stejná jako doručovací adresa",
     "save": "Uložit",
+    "next": "Pokračovat",
     "saving": "Ukládání...",
     "shippingCost": "Doprava",
     "shippingDescription": "Zvolte, jak chcete objednávku doručit",
@@ -191,7 +193,7 @@
     "shippingLink": "Doprava",
     "shippingUnavailable": "Žádné dostupné způsoby dopravy",
     "shippingPriceUnavailable": "Nedostupné: cenu se nepodařilo spočítat",
-    "deliveryPriceAfterAddress": "Zadejte adresu a ukážeme cenu i termín",
+    "shippingPriceAddressRejected": "CDEK adresu nenašel — zkontrolujte PSČ a město",
     "deliveryWayPickup": "Na výdejní místo",
     "deliveryWayCourier": "Kurýrem až ke dveřím",
     "deliveryWayFrom": "od {price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Souhlasím se zpracováním svých osobních údajů v souladu se <privacy>Zásadami ochrany osobních údajů</privacy>.",
-    "marketing": "Souhlasím se zasíláním novinek, akcí a speciálních nabídek na uvedený e-mail. Odhlásit se mohu kdykoli pomocí odkazu v každém e-mailu.",
-    "receipt": "Pokladní doklad bude zaslán na e-mail zadaný při objednávce (54-FZ).",
+    "marketing": "Chci dostávat novinky a nabídky e-mailem, odhlásit se mohu kdykoli.",
+    "receipt": "Elektronická účtenka (54-FZ) přijde na váš e-mail.",
     "hint": "Pro dokončení objednávky zaškrtněte souhlas se zpracováním osobních údajů."
   }
 }

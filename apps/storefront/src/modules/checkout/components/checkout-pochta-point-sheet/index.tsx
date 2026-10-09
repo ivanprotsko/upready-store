@@ -184,7 +184,7 @@ export default function CheckoutPochtaPointSheet({
 
   const pointRows = (
     <ul
-      className="flex max-h-[40vh] flex-col overflow-y-auto small:max-h-[440px]"
+      className="flex max-h-[40vh] flex-col overflow-y-auto small:h-full small:max-h-none"
       data-testid="pochta-point-list"
     >
       {filtered.map((point) => {
@@ -224,8 +224,8 @@ export default function CheckoutPochtaPointSheet({
   )
 
   return (
-    <CheckoutModal open={open} onClose={onClose} title={t("chooseHeading")} wide>
-      <div className="flex flex-col gap-y-4" data-testid="pochta-point-sheet">
+    <CheckoutModal open={open} onClose={onClose} title={t("chooseHeading")} fullscreen>
+      <div className="flex flex-col gap-y-4 small:h-full small:min-h-0" data-testid="pochta-point-sheet">
         <SuggestInput<PochtaCity>
           label={tPoint("cityLabel")}
           value={city}
@@ -272,7 +272,7 @@ export default function CheckoutPochtaPointSheet({
             {tPoint("noResults", { city: city.trim() })}
           </p>
         ) : (
-          <div className="flex flex-col gap-y-3">
+          <div className="flex flex-col gap-y-3 small:min-h-0 small:flex-1">
             <p className="txt-compact-xsmall text-ui-fg-muted" data-testid="pochta-point-count">
               {tPoint("found", { count: filtered.length })}
             </p>
@@ -319,15 +319,17 @@ export default function CheckoutPochtaPointSheet({
             )}
 
             {/* On a narrow screen the map comes first and the list under it;
-                from `small` up they stand side by side, list on the left. */}
-            <div className="grid gap-3 small:grid-cols-2">
-              <div className="min-w-0">{pointRows}</div>
-              <div className="order-first min-w-0 small:order-none">
+                from `small` up they stand side by side, list on the left. Ivan's
+                item 9б: the list a third, the map two thirds, both down to the
+                bottom of the full-screen window. */}
+            <div className="grid gap-3 small:min-h-0 small:flex-1 small:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] small:grid-rows-[minmax(0,1fr)]">
+              <div className="min-w-0 small:min-h-0">{pointRows}</div>
+              <div className="order-first min-w-0 small:order-none small:min-h-0">
                 <PochtaMap
                   points={filtered}
                   selectedIndex={previewIndex ?? selectedIndex}
                   onSelect={selectPoint}
-                  className="h-[260px] w-full rounded-md border border-ui-border-base small:h-[440px]"
+                  className="h-[260px] w-full rounded-md border border-ui-border-base small:h-full"
                 />
               </div>
             </div>

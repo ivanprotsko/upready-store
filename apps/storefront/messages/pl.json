@@ -151,11 +151,12 @@
     "fieldLastName": "Nazwisko",
     "fieldPhone": "Telefon",
     "fieldPostalCode": "Kod pocztowy",
+    "postalCodeInvalid": "Rosyjski kod pocztowy ma 6 cyfr.",
     "fieldProvince": "Województwo",
     "freeShipping": "Za darmo",
     "giftCard": "Karta podarunkowa",
     "itemsCount": "{count, plural, one {{count} produkt} few {{count} produkty} many {{count} produktów} other {{count} produktu}}",
-    "legal": "Klikając «{button}», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz potwierdzasz, że zapoznałeś się z naszą <privacyPolicy>polityką prywatności</privacyPolicy>.",
+    "legal": "Klikając «{button}», akceptujesz <terms>warunki sprzedaży</terms>.",
     "manualInput": "Wprowadź adres ręcznie",
     "addressIncomplete": "Wypełnij wymagane pola adresu: {fields}.",
     "provinceRequired": "Wybierz region z listy.",
@@ -184,6 +185,7 @@
     "offerLink": "Oferta publiczna",
     "sameAsShipping": "Taki sam jak adres dostawy",
     "save": "Zapisz",
+    "next": "Dalej",
     "saving": "Zapisywanie...",
     "shippingCost": "Dostawa",
     "shippingDescription": "Wybierz, jak chcesz otrzymać zamówienie",
@@ -191,7 +193,7 @@
     "shippingLink": "Dostawa",
     "shippingUnavailable": "Brak dostępnych metod dostawy",
     "shippingPriceUnavailable": "Niedostępne: nie udało się obliczyć ceny",
-    "deliveryPriceAfterAddress": "Podaj adres, aby zobaczyć cenę i termin",
+    "shippingPriceAddressRejected": "CDEK nie znalazł adresu — sprawdź kod pocztowy i miasto",
     "deliveryWayPickup": "Do punktu odbioru",
     "deliveryWayCourier": "Kurierem pod drzwi",
     "deliveryWayFrom": "od {price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z <privacy>Polityką prywatności</privacy>.",
-    "marketing": "Zgadzam się na otrzymywanie nowości, promocji i ofert specjalnych na podany e-mail. Mogę zrezygnować w każdej chwili, klikając link w wiadomości.",
-    "receipt": "Paragon fiskalny zostanie wysłany na e-mail podany przy zamówieniu (54-FZ).",
+    "marketing": "Chcę otrzymywać nowości i oferty e-mailem i mogę zrezygnować w każdej chwili.",
+    "receipt": "Paragon elektroniczny (54-FZ) zostanie wysłany na Twój e-mail.",
     "hint": "Aby złożyć zamówienie, zaznacz zgodę na przetwarzanie danych osobowych."
   }
 }

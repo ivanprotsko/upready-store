@@ -151,11 +151,12 @@
     "fieldLastName": "שם משפחה",
     "fieldPhone": "טלפון",
     "fieldPostalCode": "מיקוד",
+    "postalCodeInvalid": "מיקוד רוסי מורכב מ-6 ספרות.",
     "fieldProvince": "מחוז",
     "freeShipping": "חינם",
     "giftCard": "כרטיס מתנה",
     "itemsCount": "{count, plural, one {{count} פריט} two {{count} פריטים} many {{count} פריטים} other {{count} פריטים}}",
-    "legal": "בלחיצה על «{button}», אתה מאשר את <terms>התנאים</terms> שלנו, את <termsOfUse>תנאי השימוש</termsOfUse> ואת <returnPolicy>מדיניות ההחזרות</returnPolicy>, ומאשר שקראת את <privacyPolicy>מדיניות הפרטיות</privacyPolicy> שלנו.",
+    "legal": "בלחיצה על «{button}», אתה מאשר את <terms>תנאי המכירה</terms>.",
     "manualInput": "הזנת כתובת ידנית",
     "addressIncomplete": "מלאו את שדות החובה בכתובת: {fields}.",
     "provinceRequired": "בחר אזור מהרשימה.",
@@ -184,6 +185,7 @@
     "offerLink": "הצעה פומבית",
     "sameAsShipping": "זהה לכתובת המשלוח",
     "save": "שמירה",
+    "next": "הבא",
     "saving": "שומר...",
     "shippingCost": "משלוח",
     "shippingDescription": "בחרו כיצד לקבל את ההזמנה שלכם",
@@ -191,7 +193,7 @@
     "shippingLink": "משלוח",
     "shippingUnavailable": "אין שיטות משלוח זמינות",
     "shippingPriceUnavailable": "לא זמין: לא ניתן לחשב את המחיר",
-    "deliveryPriceAfterAddress": "הזינו כתובת כדי לראות מחיר וזמן משלוח",
+    "shippingPriceAddressRejected": "CDEK לא מצאה את הכתובת — בדקו את המיקוד ואת העיר",
     "deliveryWayPickup": "לנקודת איסוף",
     "deliveryWayCourier": "בשליח עד הדלת",
     "deliveryWayFrom": "החל מ-{price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "אני מסכים לעיבוד המידע האישי שלי בהתאם ל<privacy>מדיניות הפרטיות</privacy>.",
-    "marketing": "אני מסכים לקבל חדשות, מבצעים והצעות מיוחדות בדוא״ל. אפשר לבטל את המינוי בכל עת דרך הקישור בכל הודעה.",
-    "receipt": "קבלה תישלח לכתובת הדוא״ל שהזנת בעת ההזמנה (54-FZ).",
+    "marketing": "אני רוצה לקבל חדשות ומבצעים בדוא״ל, ואפשר לבטל את המינוי בכל עת.",
+    "receipt": "קבלה אלקטרונית (54-FZ) תישלח לדוא״ל שלך.",
     "hint": "כדי לבצע את ההזמנה, סמן את ההסכמה לעיבוד מידע אישי."
   }
 }

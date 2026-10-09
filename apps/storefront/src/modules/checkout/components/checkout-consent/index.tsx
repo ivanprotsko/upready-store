@@ -1,10 +1,10 @@
 "use client"
 
 import { useId, type ReactNode } from "react"
-import { Link } from "@i18n/navigation"
 import type { CheckoutConsentValue } from "@lib/util/checkout-consent"
 import { consentHref, legalHref, type LegalLinkContext } from "@lib/util/legal-links"
 import { Checkbox, Label } from "@medusajs/ui"
+import LegalPageLink from "@modules/checkout/components/legal-page-link"
 import { useTranslations } from "next-intl"
 
 type Props = {
@@ -31,6 +31,10 @@ type Props = {
  * of its own and not the policy, and the policy's name goes to the policy. A shop that has not
  * published a consent page leaves those words as plain text, so no link points twice at the
  * policy.
+ *
+ * t-2026-10-09-56 (Ivan 09.10: «чтобы все уместилось максимум в 2 строки, и тем более без
+ * дубликатов»): each label is one line at 1440 px, and the policy is named here only, not
+ * again in the offer sentence under it. Both links open over the checkout (`LegalPageLink`).
  */
 export default function CheckoutConsent({ value, onChange, legal, disabled = false }: Props) {
   const t = useTranslations("CheckoutConsent")
@@ -43,9 +47,7 @@ export default function CheckoutConsent({ value, onChange, legal, disabled = fal
   // function that returns JSX as a component without a name.
   const privacy = function PrivacyDocument(chunks: ReactNode) {
     return privacyHref ? (
-      <Link href={privacyHref} target="_blank" className="underline">
-        {chunks}
-      </Link>
+      <LegalPageLink href={privacyHref}>{chunks}</LegalPageLink>
     ) : (
       <>{chunks}</>
     )
@@ -53,9 +55,7 @@ export default function CheckoutConsent({ value, onChange, legal, disabled = fal
 
   const consentDocument = function ConsentDocument(chunks: ReactNode) {
     return consentPageHref ? (
-      <Link href={consentPageHref} target="_blank" className="underline">
-        {chunks}
-      </Link>
+      <LegalPageLink href={consentPageHref}>{chunks}</LegalPageLink>
     ) : (
       <>{chunks}</>
     )

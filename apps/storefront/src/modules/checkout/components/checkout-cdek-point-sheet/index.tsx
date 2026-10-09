@@ -176,7 +176,7 @@ export default function CheckoutCdekPointSheet({
       points={filtered}
       selectedCode={previewCode ?? selectedCode}
       onSelect={selectOnMap}
-      className="h-[320px] w-full rounded-md border border-ui-border-base small:h-full small:min-h-[360px]"
+      className="h-[320px] w-full rounded-md border border-ui-border-base small:h-full"
       emptyHint={t("mapEmpty")}
       failedHint={t("mapFailed")}
     />
@@ -184,7 +184,7 @@ export default function CheckoutCdekPointSheet({
 
   const pointRows = (
     <ul
-      className="flex max-h-[50vh] flex-col overflow-y-auto small:max-h-[420px]"
+      className="flex max-h-[50vh] flex-col overflow-y-auto small:h-full small:max-h-none"
       data-testid="cdek-point-list"
     >
       {filtered.map((point) => {
@@ -237,8 +237,8 @@ export default function CheckoutCdekPointSheet({
   )
 
   return (
-    <CheckoutModal open={open} onClose={onClose} title={t("chooseHeading")} wide>
-      <div className="flex flex-col gap-y-4">
+    <CheckoutModal open={open} onClose={onClose} title={t("chooseHeading")} fullscreen>
+      <div className="flex flex-col gap-y-4 small:h-full small:min-h-0">
         <SuggestInput<CdekCity>
           label={t("cityLabel")}
           value={city}
@@ -284,7 +284,7 @@ export default function CheckoutCdekPointSheet({
             {t("noResults", { city: city.trim() })}
           </p>
         ) : (
-          <div className="flex flex-col gap-y-3">
+          <div className="flex flex-col gap-y-3 small:min-h-0 small:flex-1">
             <div className="flex items-center justify-between gap-x-3">
               <p className="txt-compact-xsmall text-ui-fg-muted" data-testid="cdek-point-count">
                 {t("found", { count: filtered.length })}
@@ -354,11 +354,13 @@ export default function CheckoutCdekPointSheet({
               </div>
             )}
 
-            <div className="grid gap-3 small:grid-cols-2">
-              <div className={clx("min-w-0", mobileTab === "map" && "hidden small:block")}>
+            {/* Ivan's item 9б: on a desktop the list takes a third, the map two thirds,
+                both down to the bottom of the full-screen window. */}
+            <div className="grid gap-3 small:min-h-0 small:flex-1 small:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] small:grid-rows-[minmax(0,1fr)]">
+              <div className={clx("min-w-0 small:min-h-0", mobileTab === "map" && "hidden small:block")}>
                 {pointRows}
               </div>
-              <div className={clx("min-w-0", mobileTab === "list" && "hidden small:block")}>
+              <div className={clx("min-w-0 small:min-h-0", mobileTab === "list" && "hidden small:block")}>
                 {mapPane}
               </div>
             </div>

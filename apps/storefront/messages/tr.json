@@ -151,11 +151,12 @@
     "fieldLastName": "Soyad",
     "fieldPhone": "Telefon",
     "fieldPostalCode": "Posta kodu",
+    "postalCodeInvalid": "Rusya posta kodu 6 hanelidir.",
     "fieldProvince": "İl",
     "freeShipping": "Ücretsiz",
     "giftCard": "Hediye Kartı",
     "itemsCount": "{count, plural, one {{count} ürün} other {{count} ürün}}",
-    "legal": "«{button}» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> okuduğunuzu onaylamış olursunuz.",
+    "legal": "«{button}» düğmesine tıklayarak <terms>satış şartlarını</terms> kabul etmiş olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
     "addressIncomplete": "Adresin zorunlu alanlarını doldurun: {fields}.",
     "provinceRequired": "Listeden bölgenizi seçin.",
@@ -184,6 +185,7 @@
     "offerLink": "Genel teklif",
     "sameAsShipping": "Teslimat adresiyle aynı",
     "save": "Kaydet",
+    "next": "İleri",
     "saving": "Kaydediliyor...",
     "shippingCost": "Kargo",
     "shippingDescription": "Siparişinizin nasıl teslim edileceğini seçin",
@@ -191,7 +193,7 @@
     "shippingLink": "Kargo",
     "shippingUnavailable": "Kullanılabilir teslimat yöntemi yok",
     "shippingPriceUnavailable": "Kullanılamıyor: ücret hesaplanamadı",
-    "deliveryPriceAfterAddress": "Fiyatı ve teslim süresini görmek için adresinizi girin",
+    "shippingPriceAddressRejected": "CDEK adresi bulamadı — posta kodunu ve şehri kontrol edin",
     "deliveryWayPickup": "Teslim noktasına",
     "deliveryWayCourier": "Kuryeyle kapıya",
     "deliveryWayFrom": "en düşük {price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Kişisel verilerimin <privacy>Gizlilik Politikası</privacy> uyarınca işlenmesine onay veriyorum.",
-    "marketing": "Haberleri, kampanyaları ve özel teklifleri e-posta ile almayı kabul ediyorum. Her e-postadaki bağlantıdan istediğim zaman abonelikten çıkabilirim.",
-    "receipt": "Kasa fişi, sipariş sırasında girdiğiniz e-posta adresine gönderilecektir (54-FZ).",
+    "marketing": "Haberleri ve fırsatları e-postayla almak istiyorum, istediğim zaman abonelikten çıkabilirim.",
+    "receipt": "Elektronik fiş (54-FZ) e-posta adresinize gönderilecektir.",
     "hint": "Siparişi vermek için kişisel verilerin işlenmesine onay kutusunu işaretleyin."
   }
 }

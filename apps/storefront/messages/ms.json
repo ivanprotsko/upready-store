@@ -151,11 +151,12 @@
     "fieldLastName": "Nama akhir",
     "fieldPhone": "Telefon",
     "fieldPostalCode": "Poskod",
+    "postalCodeInvalid": "Poskod Rusia mempunyai 6 digit.",
     "fieldProvince": "Wilayah",
     "freeShipping": "Percuma",
     "giftCard": "Kad Hadiah",
     "itemsCount": "{count, plural, other {{count} barang}}",
-    "legal": "Dengan mengklik «{button}», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta mengesahkan bahawa anda telah membaca <privacyPolicy>dasar privasi</privacyPolicy> kami.",
+    "legal": "Dengan mengklik «{button}», anda menerima <terms>terma jualan</terms>.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapkan medan alamat yang diwajibkan: {fields}.",
     "provinceRequired": "Pilih wilayah daripada senarai.",
@@ -184,6 +185,7 @@
     "offerLink": "Tawaran awam",
     "sameAsShipping": "Sama seperti alamat penghantaran",
     "save": "Simpan",
+    "next": "Seterusnya",
     "saving": "Menyimpan...",
     "shippingCost": "Penghantaran",
     "shippingDescription": "Pilih cara pesanan anda dihantar",
@@ -191,7 +193,7 @@
     "shippingLink": "Penghantaran",
     "shippingUnavailable": "Tiada kaedah penghantaran tersedia",
     "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dikira",
-    "deliveryPriceAfterAddress": "Masukkan alamat untuk melihat harga dan tempoh penghantaran",
+    "shippingPriceAddressRejected": "CDEK tidak menemui alamat — semak poskod dan bandar",
     "deliveryWayPickup": "Ke titik pengambilan",
     "deliveryWayCourier": "Kurier hingga ke pintu",
     "deliveryWayFrom": "dari {price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Saya bersetuju dengan pemprosesan data peribadi saya menurut <privacy>Dasar Privasi</privacy>.",
-    "marketing": "Saya bersetuju menerima berita, promosi dan tawaran istimewa melalui e-mel. Saya boleh berhenti melanggan pada bila-bila masa melalui pautan dalam setiap e-mel.",
-    "receipt": "Resit tunai akan dihantar ke e-mel yang anda masukkan semasa membuat pesanan (54-FZ).",
+    "marketing": "Saya mahu menerima berita dan tawaran melalui e-mel dan boleh berhenti melanggan bila-bila masa.",
+    "receipt": "Resit elektronik (54-FZ) akan dihantar ke e-mel anda.",
     "hint": "Untuk membuat pesanan, tandakan persetujuan pemprosesan data peribadi."
   }
 }

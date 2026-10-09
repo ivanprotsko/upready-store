@@ -203,3 +203,21 @@ describe("cartHasStaleShipping (t-2026-10-04-23)", () => {
     expect(cartHasStaleShipping(cart([course], []))).toBe(false)
   })
 })
+
+describe("isPostalCodeValid (t-2026-10-09-56, item 9)", () => {
+  it("takes a Russian postcode of six digits only", async () => {
+    const { isPostalCodeValid } = await import("@lib/util/shipping-address")
+    expect(isPostalCodeValid("190000", "ru")).toBe(true)
+    expect(isPostalCodeValid(" 190000 ", "RU")).toBe(true)
+    expect(isPostalCodeValid("80571", "ru")).toBe(false)
+    expect(isPostalCodeValid("1900001", "ru")).toBe(false)
+    expect(isPostalCodeValid("19000a", "ru")).toBe(false)
+  })
+
+  it("leaves an empty postcode to shippingAddressGaps and other countries alone", async () => {
+    const { isPostalCodeValid } = await import("@lib/util/shipping-address")
+    expect(isPostalCodeValid("", "ru")).toBe(true)
+    expect(isPostalCodeValid("10118", "us")).toBe(true)
+    expect(isPostalCodeValid("SW1A 1AA", "gb")).toBe(true)
+  })
+})
