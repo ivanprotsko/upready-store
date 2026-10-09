@@ -113,27 +113,38 @@ export const mediaUrl = (base: string, datasetId: string, ref: string): string =
 /** A tenant's copy of a handle: unique across the database, still readable in a URL. */
 export const scopedHandle = (handle: string, tenantHandle: string): string => `${handle}-${tenantHandle}`;
 
-const scopedSku = (sku: string, tenantHandle: string): string =>
+export const scopedSku = (sku: string, tenantHandle: string): string =>
   `${sku}-${tenantHandle.toUpperCase().replace(/[^A-Z0-9]+/g, "-")}`;
 
+/**
+ * `starter` marks the starter catalog. A plan built from a client's own catalog
+ * (scripts/bpj) leaves it out, so the client's goods are never taken for demo rows.
+ */
 export type SeedPlanCategory = {
   handle: string;
   sourceHandle: string;
   name: string;
-  metadata: { image_url: string; image_alt: string; starter: true; dataset: string };
+  metadata: { image_url: string; image_alt: string; starter?: true; dataset: string };
   children: SeedPlanCategory[];
 };
 
+/**
+ * The optional fields are for a plan built from a client's own catalog (scripts/bpj):
+ * a product without a price goes in as a draft, a source without a weight or a picture
+ * leaves the field unset. `buildSeedPlan` sets none of them but `thumbnail` and `weight`,
+ * so the starter catalog comes out exactly as before.
+ */
 export type SeedPlanProduct = {
   handle: string;
   sourceHandle: string;
   title: string;
   subtitle?: string;
   description: string;
-  weight: number;
+  status?: "draft" | "published";
+  weight?: number;
   metadata: Record<string, unknown>;
   images: string[];
-  thumbnail: string;
+  thumbnail?: string;
   categorySourceHandle: string;
   collectionSourceHandle: string | null;
   options: { title: string; values: string[] }[];
@@ -143,8 +154,13 @@ export type SeedPlanProduct = {
     options: Record<string, string>;
     prices: { currency_code: string; amount: number }[];
     manage_inventory: false;
+    metadata?: Record<string, unknown>;
   }[];
 };
+
+/** The status a planned product is created with: published unless the plan says draft. */
+export const seedProductStatus = (product: Pick<SeedPlanProduct, "status">): "draft" | "published" =>
+  product.status ?? "published";
 
 export type SeedPlan = {
   datasetId: string;
@@ -173,8 +189,8 @@ export type SeedPlan = {
 // plan builder every tenant onboarding actually runs through, so it, and the
 // storefront's placeholder-hiding filter it must stay in sync with
 // (`storefront/lib/util/option-filter-groups.ts`), both use these values now.
-const DEFAULT_OPTION_TITLE = "Опция по умолчанию";
-const DEFAULT_OPTION_VALUE = "Значение по умолчанию";
+export const DEFAULT_OPTION_TITLE = "Опция по умолчанию";
+export const DEFAULT_OPTION_VALUE = "Значение по умолчанию";
 
 /**
  * Turns a dataset into the exact rows one tenant receives. Pure and deterministic: the same

@@ -7,6 +7,7 @@ import {
   resolveAbstractDataset,
   resolveMediaBaseUrl,
   scopedHandle,
+  seedProductStatus,
 } from "../data/abstract-datasets";
 import { PROFILES_DIR } from "../data/store-profile";
 
@@ -95,6 +96,25 @@ describe("abstract datasets", () => {
         expect(leaf.metadata.image_url).toBe(`https://shipshift.dev/static/store-profiles/abstract/tile-${leaf.sourceHandle}.webp`);
       }
     }
+  });
+
+  it("leaves the starter catalog as it was: no status in the plan, so every product is created published, and the starter mark stays", () => {
+    const plan = buildSeedPlan(resolveAbstractDataset("geist"), { tenantHandle: "nochlavka", mediaBase: "https://shipshift.dev/static/store-profiles" });
+
+    for (const product of plan.products) {
+      expect("status" in product).toBe(false);
+      expect(seedProductStatus(product)).toBe("published");
+      expect(product.metadata).toMatchObject({ starter: true, dataset: "abstract" });
+      expect(typeof product.weight).toBe("number");
+      expect(product.thumbnail).toBe(product.images[0]);
+      for (const variant of product.variants) expect("metadata" in variant).toBe(false);
+    }
+    for (const category of plan.categories.flatMap((root) => [root, ...root.children])) {
+      expect(category.metadata).toMatchObject({ starter: true, dataset: "abstract" });
+    }
+    // A plan from a client's own catalog (scripts/bpj) asks for a draft by name.
+    expect(seedProductStatus({ status: "draft" })).toBe("draft");
+    expect(seedProductStatus({ status: "published" })).toBe("published");
   });
 
   it("is deterministic: the same tenant gets the same plan twice", () => {

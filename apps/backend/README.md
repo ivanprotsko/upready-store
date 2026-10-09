@@ -88,7 +88,7 @@ Linting runs through `medusa lint`, which reads [`eslint.config.mjs`](eslint.con
 
 One-off backfills and imports under [`src/scripts`](src/scripts) that take a `dry-run` switch
 (`backfill-tenant-locale-settings.ts`, `backfill-product-attributes.ts`, `import-cherkashino-redirects.ts`,
-`import-cherkashina-reviews.ts`, `prefill-cherkashino-requisites.ts`) run through `medusa exec` and spell
+`import-cherkashina-reviews.ts`, `prefill-cherkashino-requisites.ts`, `bpj/import-catalog.ts`) run through `medusa exec` and spell
 it as a bare, dash-less word rather than `--dry-run`: `medusa exec ./src/scripts/<name>.ts dry-run`.
 `medusa exec` hands a script its own positionals verbatim but swallows a leading `--` before it ever
 reaches them (measured on the Medusa CLI 2.19), so the dashed spelling silently runs the script for
