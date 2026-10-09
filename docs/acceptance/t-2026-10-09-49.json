@@ -1,0 +1,20 @@
+{
+  "task": "t-2026-10-09-49",
+  "items": [
+    {
+      "n": 1,
+      "test": "apps/storefront/src/modules/products/templates/supplement-notice.test.tsx",
+      "grep": "the panel offers the mark in the product form and stores it under metadata.regulated_as"
+    },
+    {
+      "n": 2,
+      "test": "apps/storefront/src/modules/products/templates/supplement-notice.test.tsx",
+      "grep": "a product marked as a supplement says «Не является лекарственным средством» under its description"
+    },
+    {
+      "n": 3,
+      "test": "apps/storefront/src/modules/products/templates/supplement-notice.test.tsx",
+      "grep": "a product without the mark renders no notice"
+    }
+  ]
+}

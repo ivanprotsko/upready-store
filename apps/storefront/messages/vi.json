@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Mô tả",
     "fullDescription": "Xem toàn bộ mô tả",
-    "details": "Thông số và mô tả"
+    "details": "Thông số và mô tả",
+    "supplementNotice": "Không phải là thuốc."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tiếp tục thiết lập trong trang quản trị",

@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Descriere",
     "fullDescription": "Descrierea completă",
-    "details": "Caracteristici și descriere"
+    "details": "Caracteristici și descriere",
+    "supplementNotice": "Nu este un medicament."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuă configurarea în admin",

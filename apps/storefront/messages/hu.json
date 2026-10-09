@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Leírás",
     "fullDescription": "Teljes leírás",
-    "details": "Jellemzők és leírás"
+    "details": "Jellemzők és leírás",
+    "supplementNotice": "Nem gyógyszer."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Beállítás folytatása az adminban",

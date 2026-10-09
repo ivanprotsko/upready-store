@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Beschreibung",
     "fullDescription": "Vollständige Beschreibung",
-    "details": "Eigenschaften und Beschreibung"
+    "details": "Eigenschaften und Beschreibung",
+    "supplementNotice": "Kein Arzneimittel."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Einrichtung im Adminbereich fortsetzen",

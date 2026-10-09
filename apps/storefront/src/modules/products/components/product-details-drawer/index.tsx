@@ -10,12 +10,15 @@ import { displayAttributeValue } from "@modules/products/components/product-attr
 import ProductPrice from "@modules/products/components/product-price"
 import { useProductSelection } from "@modules/products/components/product-selection"
 import { useProductPurchase } from "@modules/products/components/product-selection/use-product-purchase"
+import SupplementNotice from "@modules/products/components/supplement-notice"
 
 type ProductDetailsDrawerProps = {
   /** Every characteristic, already cleaned by `prepareAttributeRows`. */
   rows: ProductAttributeRow[]
   /** The description with its HTML stripped (`stripHtml`), or "" when there is none. */
   description: string
+  /** «Не является лекарственным средством» for a product marked as a supplement, else null. */
+  supplementNotice?: string | null
 }
 
 /**
@@ -33,6 +36,7 @@ type ProductDetailsDrawerProps = {
 export default function ProductDetailsDrawer({
   rows,
   description,
+  supplementNotice = null,
 }: ProductDetailsDrawerProps) {
   const t = useTranslations("ProductInfo")
   const tAttributes = useTranslations("ProductAttributes")
@@ -131,6 +135,8 @@ export default function ProductDetailsDrawer({
               ))}
             </section>
           )}
+
+          {supplementNotice && <SupplementNotice text={supplementNotice} />}
         </div>
 
         <div

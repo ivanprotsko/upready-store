@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "상품 설명",
     "fullDescription": "상품 설명 전체 보기",
-    "details": "사양 및 설명"
+    "details": "사양 및 설명",
+    "supplementNotice": "의약품이 아닙니다."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "관리자에서 설정 계속하기",

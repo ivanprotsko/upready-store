@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Kuvaus",
     "fullDescription": "Koko kuvaus",
-    "details": "Ominaisuudet ja kuvaus"
+    "details": "Ominaisuudet ja kuvaus",
+    "supplementNotice": "Ei ole lääke."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Jatka asetusten määrittämistä hallintapaneelissa",

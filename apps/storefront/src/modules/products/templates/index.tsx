@@ -13,6 +13,7 @@ import { ProductSelectionProvider } from "@modules/products/components/product-s
 import VariantPicker from "@modules/products/components/product-selection/variant-picker"
 import RelatedProducts from "@modules/products/components/related-products"
 import RecentlyViewed from "@modules/products/components/recently-viewed"
+import SupplementNotice from "@modules/products/components/supplement-notice"
 import ProductInfo from "@modules/products/templates/product-info"
 import CourseBlock from "@modules/products/components/course-block"
 import CourseCover from "@modules/products/components/course-page/cover"
@@ -37,6 +38,7 @@ import { listProductAttributes } from "@lib/data/product-attributes"
 import { listProductReviews } from "@lib/data/product-reviews"
 import { buildProductJsonLd } from "@lib/util/json-ld"
 import { readCourseCover, readCoursePage } from "@lib/util/course-page"
+import { showsSupplementNotice } from "@lib/util/regulated-product"
 import { stripHtml } from "@lib/util/strip-html"
 import { notFound } from "next/navigation"
 import type { HttpTypes } from "@medusajs/types"
@@ -132,6 +134,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
 
   const description = product.description ? stripHtml(product.description) : ""
   const hasDetails = Boolean(description) || attributeRows.length > 0
+  // A product the owner marked as a dietary supplement says so under its description, in the
+  // card and in the drawer (t-2026-10-09-49); any other product gets nothing.
+  const supplementNotice = showsSupplementNotice(product)
+    ? t("ProductInfo.supplementNotice")
+    : null
 
   const breadcrumbPill = (
     <div className="absolute inset-x-4 top-0 flex -translate-y-1/2 justify-center">
@@ -170,6 +177,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
           <VariantPicker />
           <AttributesSummary rows={attributeRows} />
           <CourseDescription description={product.description} />
+          {supplementNotice && <SupplementNotice text={supplementNotice} />}
           {hasDetails && <ProductDetailsOpener />}
         </HydrationSlot>
       </div>
@@ -258,6 +266,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                   <ProductDetailsDrawer
                     rows={attributeRows}
                     description={description}
+                    supplementNotice={supplementNotice}
                   />
                 )}
               </ProductSelectionProvider>
@@ -332,6 +341,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                     <VariantPicker />
                     <AttributesSummary rows={attributeRows} />
                     <DescriptionExcerpt product={product} />
+                    {supplementNotice && (
+                      <SupplementNotice text={supplementNotice} />
+                    )}
                     {hasDetails && <ProductDetailsOpener />}
                   </HydrationSlot>
                 </div>
@@ -361,6 +373,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                 <ProductDetailsDrawer
                   rows={attributeRows}
                   description={description}
+                  supplementNotice={supplementNotice}
                 />
               )}
             </ProductSelectionProvider>

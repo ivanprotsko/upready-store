@@ -2524,6 +2524,19 @@
     "deleteVariantWarning": "You are about to delete the variant {{title}}. This action cannot be undone.",
     "deleteWarning": "You are about to delete the product {{title}}. This action cannot be undone.",
     "discountableHint": "When unchecked, discounts will not be applied to this product.",
+    "regulatedAs": {
+      "label": "Legal mark",
+      "options": {
+        "none": "No mark",
+        "supplement": "Dietary supplement (БАД)",
+        "medicine": "Medicinal product"
+      },
+      "hints": {
+        "none": "The storefront adds nothing to the description.",
+        "supplement": "The storefront shows «Not a medicinal product» under the description. Russia's advertising law asks for this warning in every advertisement of a supplement (38-FZ, art. 25, part 1.1).",
+        "medicine": "The storefront adds no line. Online, only a pharmacy with a licence and a Roszdravnadzor permit may sell medicines, and prescription medicines are not sold that way (61-FZ, art. 55, part 1.1)."
+      }
+    },
     "domain": "Products",
     "edit": {
       "description": "Edit the product details.",

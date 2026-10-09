@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "商品説明",
     "fullDescription": "商品説明をすべて見る",
-    "details": "仕様と説明"
+    "details": "仕様と説明",
+    "supplementNotice": "医薬品ではありません。"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "管理画面で設定を続ける",

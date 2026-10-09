@@ -34,6 +34,7 @@ const PRODUCT_READ = {
   brand: "b",
   mpn: "m-1",
   aspect_ratio: "3/4",
+  regulated_as: "supplement",
 };
 
 const CATEGORY_READ = { image_url: "/cat.jpg", image_alt: "honey", seo: { ru: { title: "t" } } };

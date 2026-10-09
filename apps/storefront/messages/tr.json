@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Açıklama",
     "fullDescription": "Tam açıklama",
-    "details": "Özellikler ve açıklama"
+    "details": "Özellikler ve açıklama",
+    "supplementNotice": "İlaç değildir."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kuruluma yönetim panelinde devam et",

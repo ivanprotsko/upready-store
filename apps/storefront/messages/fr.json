@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Description",
     "fullDescription": "Description complète",
-    "details": "Caractéristiques et description"
+    "details": "Caractéristiques et description",
+    "supplementNotice": "N'est pas un médicament."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuer la configuration dans l'admin",

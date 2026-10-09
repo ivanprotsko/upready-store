@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { SectionRow } from "../../../../../components/common/section"
 import { useDeleteProduct } from "../../../../../hooks/api/products"
+import { readRegulatedAs } from "../../../../../lib/regulated-product"
 import { useExtension } from "../../../../../providers/extension-provider"
 
 const productStatusColor = (status: string) => {
@@ -39,6 +40,9 @@ export const ProductGeneralSection = ({
   const displays = getDisplays("product", "general")
 
   const { mutateAsync } = useDeleteProduct(product.id)
+  const regulatedAs = readRegulatedAs(
+    product.metadata as Record<string, unknown> | null
+  )
 
   const handleDelete = async () => {
     const res = await prompt({
@@ -112,6 +116,12 @@ export const ProductGeneralSection = ({
       <SectionRow
         title={t("fields.discountable")}
         value={product.discountable ? t("fields.true") : t("fields.false")}
+      />
+      <SectionRow
+        title={t("products.regulatedAs.label")}
+        value={
+          regulatedAs ? t(`products.regulatedAs.options.${regulatedAs}`) : null
+        }
       />
       {displays.map((Component, index) => {
         return <Component key={index} data={product} />
