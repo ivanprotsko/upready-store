@@ -2,7 +2,8 @@
 // Finds the owner guide frames that no longer match the panel.
 //
 //   node docs/owner-guide/check.mjs                 # stale frames and broken references, exit 1 if any
-//   node docs/owner-guide/check.mjs --structure     # only what needs no stand: scenes, sources, references, frame files, brands.json
+//   node docs/owner-guide/check.mjs --structure     # only what needs no stand: scenes, sources, references, frame files,
+//                                                   # pages and anchors, brands.json
 //   node docs/owner-guide/check.mjs --warn          # print the same, exit 0 (pr-checks.yml)
 //
 // A frame is stale when, since it was shot,
@@ -15,7 +16,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { execFileSync } from "node:child_process"
 import { join } from "node:path"
 import { SCENES } from "./scenes.mjs"
-import { LOCK, REPO, RU, SHOTS_DIR, brandProblems, flatten, hashSources, hashStrings, imageRefs, parseArgs, pickStrings, readCatalog, sceneI18n, sceneSources, sha256File } from "./lib.mjs"
+import { LOCK, PAGES_DIR, REPO, RU, SHOTS_DIR, brandProblems, guidePages, pageHeadings, flatten, hashSources, hashStrings, imageRefs, parseArgs, pickStrings, readCatalog, sceneI18n, sceneSources, sha256File } from "./lib.mjs"
 
 const args = parseArgs(process.argv.slice(2), { structure: "flag", warn: "flag" })
 const problems = []
@@ -48,10 +49,29 @@ for (const f of existsSync(SHOTS_DIR) ? readdirSync(SHOTS_DIR) : []) {
   if (!used.has(f.replace(/\.webp$/, ""))) say(`guide/shots/${f}: кадр не показан ни на одной странице`)
 }
 
-// 4. The brands table. publish.mjs builds every brand's logo into the help, so a broken row would break the panel image.
+// 4. Pages and anchors. The folder holds exactly the pages of PAGES, every `## ` heading has a short Latin anchor that
+// is unique on its page, and every link to another page names a page and an anchor that exist.
+const files = readdirSync(PAGES_DIR).filter((f) => f.endsWith(".md")).sort()
+for (const f of files) if (!guidePages().includes(f)) say(`guide/${f}: страницы нет в PAGES (lib.mjs), её нет в меню`)
+for (const f of guidePages()) if (!files.includes(f)) say(`guide/${f}: страница из PAGES (lib.mjs) не найдена`)
+const anchors = new Map(guidePages().filter((f) => files.includes(f)).map((f) => [f, pageHeadings(f)]))
+for (const [f, heads] of anchors) {
+  const seenIds = new Set()
+  for (const h of heads) {
+    if (!h.id || !/^[a-z0-9-]+$/.test(h.id)) say(`guide/${f}: у подзаголовка «${h.text}» нет короткого якоря латиницей ({#id})`)
+    else if (seenIds.has(h.id)) say(`guide/${f}: якорь #${h.id} повторяется`)
+    seenIds.add(h.id)
+  }
+  for (const m of readFileSync(join(PAGES_DIR, f), "utf8").matchAll(/\]\(([^)#:]+\.md)(?:#([^)]*))?\)/g)) {
+    if (!anchors.has(m[1])) say(`guide/${f}: ссылка на ${m[1]}, такой страницы нет`)
+    else if (m[2] && !anchors.get(m[1]).some((h) => h.id === m[2])) say(`guide/${f}: ссылка на ${m[1]}#${m[2]}, такого якоря нет`)
+  }
+}
+
+// 5. The brands table. publish.mjs builds every brand's logo into the help, so a broken row would break the panel image.
 for (const p of brandProblems()) say(p)
 
-// 5. Freshness against the lock.
+// 6. Freshness against the lock.
 if (!args.structure) {
   if (!lock) say("нет shots.lock.json: кадры ни разу не снимали (shoot.mjs)")
   else {

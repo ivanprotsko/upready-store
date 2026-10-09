@@ -23,8 +23,9 @@ RUN pnpm install --frozen-lockfile
 
 COPY apps/tenant-panel apps/tenant-panel
 # The panel guide (t-2026-10-09-103). Its pages, its frames, the brands table
-# with the logos and publish.mjs, which turns them into the help served at
-# /help/ and, on port 8081, at the root of the docs hosts (t-2026-10-09-104).
+# with the logos and publish.mjs, which builds them with VitePress (a package
+# of the panel, installed above) into the help served at /help/ and, on port
+# 8081, at the root of the docs hosts (t-2026-10-09-104).
 COPY docs/owner-guide docs/owner-guide
 
 FROM workspace AS build
@@ -37,12 +38,14 @@ WORKDIR /repo/apps/tenant-panel
 # `pnpm build` is `tsc --noEmit && vite build`; the typecheck needs the whole
 # workspace's types, which the install above provides.
 RUN npx vite build
-# After vite, which empties dist. publish.mjs needs only node itself and
+# The help, after vite. publish.mjs builds it with the panel's vitepress and
 # fails when a page shows a frame that is not in git.
-RUN node /repo/docs/owner-guide/publish.mjs --site dist/help
+RUN node /repo/docs/owner-guide/publish.mjs --out /repo/help-sites
 
 FROM nginx:1.27-alpine AS runtime
 COPY --from=build /repo/apps/tenant-panel/dist /usr/share/nginx/html
+# One build per brand and the nginx map of hosts to brands (nginx.conf).
+COPY --from=build /repo/help-sites /usr/share/nginx/help
 COPY apps/tenant-panel/nginx.conf /etc/nginx/templates/default.conf.template
 # 8080 the panel, 8081 the docs hosts (nginx.conf).
 EXPOSE 8080 8081

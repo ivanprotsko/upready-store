@@ -80,8 +80,19 @@ export const readCatalog = (root = REPO) => flatten(JSON.parse(readFileSync(join
 
 export const sha256File = (file) => createHash("sha256").update(readFileSync(file)).digest("hex")
 
-/** The guide pages, in reading order: 00-oglavlenie.md first. */
-export const guidePages = () => readdirSync(PAGES_DIR).filter((f) => f.endsWith(".md")).sort()
+/**
+ * The guide pages in reading order, which is also the order of the menu (t-2026-10-09-104). A file name is the
+ * page's address on the site (zakazy.md is /zakazy), so names are short and Latin; index.md is the table of contents.
+ */
+export const PAGES = ["index", "vhod-i-roli", "zakazy", "pokupateli-i-otzyvy", "tovary", "kursy", "vitrina", "nastrojki", "robokassa"]
+export const guidePages = () => PAGES.map((name) => `${name}.md`)
+
+/**
+ * The `## ` headings of a page with the short Latin anchor each one carries (`## Цены {#ceny}`), the one the site
+ * links to. A heading without one is `{ id: null }`, which check.mjs reports.
+ */
+export const pageHeadings = (file) =>
+  [...readFileSync(join(PAGES_DIR, file), "utf8").matchAll(/^## (.+?)(?: \{#([^}]*)\})?$/gm)].map((m) => ({ text: m[1], id: m[2] ?? null }))
 
 /** `![…](shots/<id>.webp)` references of every guide page: `{ page, id }[]`. */
 export const imageRefs = () =>
@@ -92,7 +103,7 @@ export const imageRefs = () =>
 /**
  * Which name and logo the help shows on which host (t-2026-10-09-104). A host the table does not list gets the
  * platform's, and a customer's docs host and panel host get the customer's. One file serves the docs hosts, the
- * panel's /help/ and the one-file HTML. publish.mjs reads it, and README.md says how you add a customer.
+ * panel's /help/, one build per brand. publish.mjs reads it, and README.md says how you add a customer.
  */
 export const BRANDS_FILE = join(GUIDE_DIR, "brands.json")
 export const readBrands = () => JSON.parse(readFileSync(BRANDS_FILE, "utf8"))
