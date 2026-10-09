@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, toast } from "@medusajs/ui"
 import { useForm } from "react-hook-form"
+import type { TFunction } from "i18next"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
 
@@ -19,19 +20,29 @@ import { useUpdatePassword } from "../../../../../hooks/api/users"
 // `MedusaError.Types.UNAUTHORIZED` (401, `apps/backend/src/api/tenants/me/password/route.ts`);
 // that one case gets a Russian inline error instead of the raw English
 // `error.message` a generic toast would otherwise show.
+//
+// t-2026-10-09-105: `Form.ErrorMessage` prints the field error's own message
+// and ignores its children, so the schema carries the translated texts itself.
+// Before, a short new password read «Invalid input» (zod's default) and a
+// mismatch read the bare key `profile.changePassword.passwordsDontMatch`.
 
-const ChangePasswordSchema = zod
-  .object({
-    current_password: zod.string().min(1),
-    new_password: zod.string().min(12),
-    confirm_password: zod.string().min(1),
-  })
-  .refine((data) => data.new_password === data.confirm_password, {
-    path: ["confirm_password"],
-    message: "profile.changePassword.passwordsDontMatch",
-  })
+const changePasswordSchema = (t: TFunction) =>
+  zod
+    .object({
+      current_password: zod
+        .string()
+        .min(1, t("profile.changePassword.currentPasswordRequired")),
+      new_password: zod.string().min(12, t("profile.changePassword.tooShort")),
+      confirm_password: zod.string(),
+    })
+    .refine((data) => data.new_password === data.confirm_password, {
+      path: ["confirm_password"],
+      message: t("profile.changePassword.passwordsDontMatch"),
+    })
 
-type ChangePasswordFormValues = zod.infer<typeof ChangePasswordSchema>
+type ChangePasswordFormValues = zod.infer<
+  ReturnType<typeof changePasswordSchema>
+>
 
 export const ChangePasswordForm = () => {
   const { t } = useTranslation()
@@ -43,7 +54,7 @@ export const ChangePasswordForm = () => {
       new_password: "",
       confirm_password: "",
     },
-    resolver: zodResolver(ChangePasswordSchema),
+    resolver: zodResolver(changePasswordSchema(t)),
   })
 
   const { mutateAsync, isPending } = useUpdatePassword()
@@ -105,11 +116,7 @@ export const ChangePasswordForm = () => {
                   <Form.Control>
                     <PasswordInput autoComplete="new-password" {...field} />
                   </Form.Control>
-                  <Form.ErrorMessage>
-                    {form.formState.errors.new_password
-                      ? t("profile.changePassword.tooShort")
-                      : undefined}
-                  </Form.ErrorMessage>
+                  <Form.ErrorMessage />
                 </Form.Item>
               )}
             />
@@ -124,11 +131,7 @@ export const ChangePasswordForm = () => {
                   <Form.Control>
                     <PasswordInput autoComplete="new-password" {...field} />
                   </Form.Control>
-                  <Form.ErrorMessage>
-                    {form.formState.errors.confirm_password
-                      ? t("profile.changePassword.passwordsDontMatch")
-                      : undefined}
-                  </Form.ErrorMessage>
+                  <Form.ErrorMessage />
                 </Form.Item>
               )}
             />

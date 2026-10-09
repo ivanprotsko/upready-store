@@ -412,7 +412,8 @@
       "continueWithProvider": "Continue with {{provider}}",
       "noProviders": "Register an auth provider in your Medusa config to be able to login",
       "or": "or",
-      "provisioningFailed": "We couldn't complete your sign in. Please contact an administrator."
+      "provisioningFailed": "We couldn't complete your sign in. Please contact an administrator.",
+      "tooManyAttempts": "Too many sign-in attempts. Wait a minute and try again."
     }
   },
   "brandingSettings": {
@@ -2872,6 +2873,7 @@
       "confirmPasswordLabel": "Confirm new password",
       "currentPasswordIncorrect": "The current password is incorrect.",
       "currentPasswordLabel": "Current password",
+      "currentPasswordRequired": "Enter your current password.",
       "description": "Update the password you use to sign in.",
       "newPasswordLabel": "New password",
       "passwordsDontMatch": "The new passwords don't match.",
