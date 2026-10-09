@@ -786,12 +786,19 @@ export default function CheckoutShippingSection({
   // point picked in a sheet included. The key changes with the method and the
   // point, so picking another one after «Изменить» folds it again; a sheet still
   // open holds the fold until it closes.
+  // Only the point of the method that needs one: a point the previous method left on
+  // the cart is cleared by the refresh that follows a switch, and counting it would
+  // fold the section a second time, after the buyer had opened it again.
   const completionKey = isShippingComplete
     ? [
         shippingMethodId,
-        cdekChosen?.code ?? "",
-        pochtaChosen?.pochta_point_index ?? "",
-        pickupPointName,
+        isPickupShippingOption(selectedOption)
+          ? pickupPointName
+          : cdekNeedsPoint(selectedOption)
+            ? cdekChosen?.code ?? ""
+            : isPochtaOption(selectedOption)
+              ? pochtaChosen?.pochta_point_index ?? ""
+              : "",
       ].join("|")
     : null
   const sheetOpen = !!cdekSheetOptionId || !!pochtaSheetOptionId
