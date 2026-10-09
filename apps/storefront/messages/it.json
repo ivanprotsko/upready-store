@@ -151,11 +151,12 @@
     "fieldLastName": "Cognome",
     "fieldPhone": "Telefono",
     "fieldPostalCode": "Codice postale",
+    "postalCodeInvalid": "Il codice postale russo ha 6 cifre.",
     "fieldProvince": "Provincia",
     "freeShipping": "Gratis",
     "giftCard": "Carta regalo",
     "itemsCount": "{count, plural, one {{count} articolo} other {{count} articoli}}",
-    "legal": "Cliccando su «{button}», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e confermi di aver letto la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
+    "legal": "Cliccando su «{button}», accetti i <terms>termini di vendita</terms>.",
     "manualInput": "Inserisci l'indirizzo manualmente",
     "addressIncomplete": "Compila i campi obbligatori dell'indirizzo: {fields}.",
     "provinceRequired": "Scegli la regione dall’elenco.",
@@ -184,6 +185,7 @@
     "offerLink": "Offerta pubblica",
     "sameAsShipping": "Uguale all'indirizzo di spedizione",
     "save": "Salva",
+    "next": "Avanti",
     "saving": "Salvataggio in corso...",
     "shippingCost": "Spedizione",
     "shippingDescription": "Scegli come vuoi ricevere il tuo ordine",
@@ -191,7 +193,7 @@
     "shippingLink": "Spedizione",
     "shippingUnavailable": "Nessun metodo di spedizione disponibile",
     "shippingPriceUnavailable": "Non disponibile: impossibile calcolare il prezzo",
-    "deliveryPriceAfterAddress": "Inserisci l'indirizzo per vedere prezzo e tempi",
+    "shippingPriceAddressRejected": "CDEK non ha trovato l’indirizzo: controlla il codice postale e la città",
     "deliveryWayPickup": "In un punto di ritiro",
     "deliveryWayCourier": "Con corriere fino alla porta",
     "deliveryWayFrom": "da {price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Acconsento al trattamento dei miei dati personali in conformità con l'<privacy>informativa sulla privacy</privacy>.",
-    "marketing": "Accetto di ricevere novità, promozioni e offerte speciali via e-mail. Posso annullare l'iscrizione in qualsiasi momento tramite il link in ogni e-mail.",
-    "receipt": "Lo scontrino fiscale verrà inviato all'e-mail indicata al momento dell'ordine (54-FZ).",
+    "marketing": "Voglio ricevere novità e offerte via e-mail e posso disiscrivermi in qualsiasi momento.",
+    "receipt": "La ricevuta elettronica (54-FZ) arriverà alla tua e-mail.",
     "hint": "Per effettuare l'ordine, seleziona il consenso al trattamento dei dati personali."
   }
 }

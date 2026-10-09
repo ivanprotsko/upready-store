@@ -151,11 +151,12 @@
     "fieldLastName": "Priezvisko",
     "fieldPhone": "Telefón",
     "fieldPostalCode": "PSČ",
+    "postalCodeInvalid": "Ruské PSČ má 6 číslic.",
     "fieldProvince": "Kraj",
     "freeShipping": "Zdarma",
     "giftCard": "Darčeková karta",
     "itemsCount": "{count, plural, one {{count} položka} few {{count} položky} many {{count} položky} other {{count} položiek}}",
-    "legal": "Kliknutím na «{button}» prijímate naše <terms>podmienky</terms>, <termsOfUse>podmienky používania</termsOfUse> a <returnPolicy>podmienky vrátenia</returnPolicy> a potvrdzujete, že ste sa oboznámili s našimi <privacyPolicy>zásadami ochrany osobných údajov</privacyPolicy>.",
+    "legal": "Kliknutím na «{button}» prijímate <terms>obchodné podmienky</terms>.",
     "manualInput": "Zadať adresu manuálne",
     "addressIncomplete": "Vyplňte povinné polia adresy: {fields}.",
     "provinceRequired": "Vyberte kraj zo zoznamu.",
@@ -184,6 +185,7 @@
     "offerLink": "Verejná ponuka",
     "sameAsShipping": "Rovnaká ako adresa doručenia",
     "save": "Uložiť",
+    "next": "Ďalej",
     "saving": "Ukladá sa...",
     "shippingCost": "Doprava",
     "shippingDescription": "Vyberte, ako si želáte doručiť objednávku",
@@ -191,7 +193,7 @@
     "shippingLink": "Doprava",
     "shippingUnavailable": "Nie sú dostupné žiadne spôsoby dopravy",
     "shippingPriceUnavailable": "Nedostupné: cenu sa nepodarilo vypočítať",
-    "deliveryPriceAfterAddress": "Zadajte adresu a ukážeme cenu aj termín",
+    "shippingPriceAddressRejected": "CDEK adresu nenašiel — skontrolujte PSČ a mesto",
     "deliveryWayPickup": "Na výdajné miesto",
     "deliveryWayCourier": "Kuriérom až k dverám",
     "deliveryWayFrom": "od {price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Súhlasím so spracovaním mojich osobných údajov v súlade so <privacy>Zásadami ochrany osobných údajov</privacy>.",
-    "marketing": "Súhlasím so zasielaním noviniek, akcií a špeciálnych ponúk na uvedený e-mail. Odhlásiť sa môžem kedykoľvek cez odkaz v každom e-maile.",
-    "receipt": "Pokladničný doklad bude zaslaný na e-mail zadaný pri objednávke (54-FZ).",
+    "marketing": "Chcem dostávať novinky a ponuky e-mailom, odhlásiť sa môžem kedykoľvek.",
+    "receipt": "Elektronický doklad (54-FZ) príde na váš e-mail.",
     "hint": "Na dokončenie objednávky označte súhlas so spracovaním osobných údajov."
   }
 }

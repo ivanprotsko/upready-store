@@ -151,11 +151,12 @@
     "fieldLastName": "Nachname",
     "fieldPhone": "Telefon",
     "fieldPostalCode": "Postleitzahl",
+    "postalCodeInvalid": "Eine russische Postleitzahl hat 6 Ziffern.",
     "fieldProvince": "Bundesland",
     "freeShipping": "Kostenlos",
     "giftCard": "Geschenkkarte",
     "itemsCount": "{count, plural, one {{count} Artikel} other {{count} Artikel}}",
-    "legal": "Mit Klick auf «{button}» akzeptieren Sie unsere <terms>Bedingungen</terms>, <termsOfUse>Nutzungsbedingungen</termsOfUse> und <returnPolicy>Rückgaberichtlinie</returnPolicy> und bestätigen, dass Sie unsere <privacyPolicy>Datenschutzerklärung</privacyPolicy> gelesen haben.",
+    "legal": "Mit Klick auf «{button}» akzeptieren Sie die <terms>Verkaufsbedingungen</terms>.",
     "manualInput": "Adresse manuell eingeben",
     "addressIncomplete": "Füllen Sie die Pflichtfelder der Adresse aus: {fields}.",
     "provinceRequired": "Wähle die Region aus der Liste.",
@@ -184,6 +185,7 @@
     "offerLink": "Öffentliches Angebot",
     "sameAsShipping": "Identisch mit Lieferadresse",
     "save": "Speichern",
+    "next": "Weiter",
     "saving": "Speichern...",
     "shippingCost": "Versand",
     "shippingDescription": "Wählen Sie, wie Ihre Bestellung geliefert werden soll",
@@ -191,7 +193,7 @@
     "shippingLink": "Versand",
     "shippingUnavailable": "Keine Versandarten verfügbar",
     "shippingPriceUnavailable": "Nicht verfügbar: Preis konnte nicht berechnet werden",
-    "deliveryPriceAfterAddress": "Geben Sie Ihre Adresse ein, um Preis und Lieferzeit zu sehen",
+    "shippingPriceAddressRejected": "CDEK hat die Adresse nicht gefunden – prüfen Sie Postleitzahl und Ort",
     "deliveryWayPickup": "An eine Abholstelle",
     "deliveryWayCourier": "Per Kurier bis zur Tür",
     "deliveryWayFrom": "ab {price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Ich willige in die Verarbeitung meiner personenbezogenen Daten gemäß der <privacy>Datenschutzerklärung</privacy> ein.",
-    "marketing": "Ich möchte Neuigkeiten, Aktionen und Sonderangebote per E-Mail erhalten. Ich kann mich jederzeit über den Link in jeder E-Mail abmelden.",
-    "receipt": "Ein Kassenbeleg wird an die beim Bestellen angegebene E-Mail-Adresse gesendet (54-FZ).",
+    "marketing": "Ich möchte Neuigkeiten und Angebote per E-Mail erhalten und kann mich jederzeit abmelden.",
+    "receipt": "Ein elektronischer Kassenbeleg (54-FZ) wird an Ihre E-Mail gesendet.",
     "hint": "Um die Bestellung aufzugeben, stimmen Sie der Verarbeitung personenbezogener Daten zu."
   }
 }

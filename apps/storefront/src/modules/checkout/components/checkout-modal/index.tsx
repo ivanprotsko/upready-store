@@ -24,6 +24,14 @@ interface CheckoutModalProps {
    */
   wide?: boolean
   /**
+   * A point picker (t-2026-10-09-56, Ivan 09.10: «на десктоп следует разворачивать окно
+   * на весь экран и карту показывать размером 2/3»): from `small` up the panel fills the
+   * whole screen and its body stretches to the bottom, so the sheet inside can give the
+   * map two thirds of the width and the full height. Below `small` it is the same
+   * bottom sheet as every other one.
+   */
+  fullscreen?: boolean
+  /**
    * The sign-in modal (t-2026-10-04-45, Ivan 04.10: «Высота 40, скругления 8, ширина 320 …
    * Отступы вокруг внутри контейнера на десктоп 24 и планшете, на мобайл 16»). The content is a
    * 320 px column with 24 px all round from 640 px up, so the panel is 368 wide. On a phone the
@@ -40,6 +48,7 @@ export function CheckoutModal({
   children,
   wide = false,
   compact = false,
+  fullscreen = false,
 }: CheckoutModalProps) {
   const t = useTranslations("Common")
 
@@ -75,13 +84,17 @@ export function CheckoutModal({
               className={clx(
                 "relative w-full max-h-[90dvh] overflow-y-auto bg-ui-bg-base rounded-t-xl sm:rounded-xl shadow-elevation-modal",
                 compact ? "sm:w-[368px]" : "sm:w-[540px]",
-                wide && "small:w-[880px]"
+                wide && "small:w-[880px]",
+                fullscreen &&
+                  "small:flex small:h-dvh small:max-h-none small:w-screen small:flex-col small:overflow-hidden small:rounded-none"
               )}
+              data-fullscreen={fullscreen ? "" : undefined}
               data-compact={compact ? "" : undefined}
             >
               <div
                 className={clx(
-                  compact && "mx-auto flex w-full max-w-[352px] flex-col gap-y-4 p-4 sm:max-w-none sm:p-6"
+                  compact && "mx-auto flex w-full max-w-[352px] flex-col gap-y-4 p-4 sm:max-w-none sm:p-6",
+                  fullscreen && "small:flex small:min-h-0 small:flex-1 small:flex-col"
                 )}
               >
                 <div className={clx("flex items-center justify-between", !compact && "px-6 py-4")}>
@@ -97,7 +110,14 @@ export function CheckoutModal({
                     <XMark />
                   </button>
                 </div>
-                <div className={clx(!compact && "px-6 pb-4")}>{children}</div>
+                <div
+                  className={clx(
+                    !compact && "px-6 pb-4",
+                    fullscreen && "small:min-h-0 small:flex-1 small:pb-6"
+                  )}
+                >
+                  {children}
+                </div>
               </div>
             </DialogPanel>
           </TransitionChild>

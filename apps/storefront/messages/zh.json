@@ -151,11 +151,12 @@
     "fieldLastName": "姓氏",
     "fieldPhone": "电话",
     "fieldPostalCode": "邮政编码",
+    "postalCodeInvalid": "俄罗斯邮政编码为6位数字。",
     "fieldProvince": "省份",
     "freeShipping": "免费",
     "giftCard": "礼品卡",
     "itemsCount": "{count, plural, other {{count}件}}",
-    "legal": "点击「{button}」即表示您接受我们的<terms>条款</terms>、<termsOfUse>使用条款</termsOfUse>和<returnPolicy>退货政策</returnPolicy>，并确认您已阅读我们的<privacyPolicy>隐私政策</privacyPolicy>。",
+    "legal": "点击「{button}」即表示您接受<terms>销售条款</terms>。",
     "manualInput": "手动输入地址",
     "addressIncomplete": "请填写地址的必填项：{fields}。",
     "provinceRequired": "请从列表中选择地区。",
@@ -184,6 +185,7 @@
     "offerLink": "公开要约",
     "sameAsShipping": "与收货地址相同",
     "save": "保存",
+    "next": "下一步",
     "saving": "保存中...",
     "shippingCost": "运费",
     "shippingDescription": "选择您希望的收货方式",
@@ -191,7 +193,7 @@
     "shippingLink": "配送",
     "shippingUnavailable": "暂无可用的配送方式",
     "shippingPriceUnavailable": "不可用：无法计算运费",
-    "deliveryPriceAfterAddress": "填写地址后显示价格和配送时间",
+    "shippingPriceAddressRejected": "CDEK未找到该地址，请检查邮政编码和城市",
     "deliveryWayPickup": "送至自提点",
     "deliveryWayCourier": "快递送货上门",
     "deliveryWayFrom": "{price} 起",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "我同意根据<privacy>隐私政策</privacy>处理我的个人数据。",
-    "marketing": "我同意通过电子邮件接收新闻、促销和特别优惠。我可以随时通过每封邮件中的链接退订。",
-    "receipt": "收据将发送至您下单时填写的电子邮箱（54-FZ）。",
+    "marketing": "我希望通过邮件接收新闻和优惠，可随时退订。",
+    "receipt": "电子收据（54-FZ）将发送至您的邮箱。",
     "hint": "如需下单，请勾选同意处理个人数据。"
   }
 }

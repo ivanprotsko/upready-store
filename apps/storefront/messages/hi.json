@@ -151,11 +151,12 @@
     "fieldLastName": "अंतिम नाम",
     "fieldPhone": "फ़ोन",
     "fieldPostalCode": "पिन कोड",
+    "postalCodeInvalid": "रूसी पिन कोड 6 अंकों का होता है।",
     "fieldProvince": "प्रांत",
     "freeShipping": "मुफ्त",
     "giftCard": "गिफ्ट कार्ड",
     "itemsCount": "{count, plural, one {{count} आइटम} other {{count} आइटम}}",
-    "legal": "«{button}» पर क्लिक करके, आप हमारी <terms>शर्तों</terms>, <termsOfUse>उपयोग की शर्तों</termsOfUse> और <returnPolicy>रिटर्न नीति</returnPolicy> को स्वीकार करते हैं, और पुष्टि करते हैं कि आपने हमारी <privacyPolicy>गोपनीयता नीति</privacyPolicy> पढ़ ली है।",
+    "legal": "«{button}» पर क्लिक करके, आप <terms>बिक्री की शर्तें</terms> स्वीकार करते हैं।",
     "manualInput": "पता मैन्युअल रूप से दर्ज करें",
     "addressIncomplete": "पते के अनिवार्य फ़ील्ड भरें: {fields}।",
     "provinceRequired": "सूची से क्षेत्र चुनें।",
@@ -184,6 +185,7 @@
     "offerLink": "सार्वजनिक प्रस्ताव",
     "sameAsShipping": "शिपिंग पते जैसा ही",
     "save": "सहेजें",
+    "next": "आगे",
     "saving": "सहेजा जा रहा है...",
     "shippingCost": "शिपिंग",
     "shippingDescription": "चुनें कि आप अपना ऑर्डर कैसे प्राप्त करना चाहते हैं",
@@ -191,7 +193,7 @@
     "shippingLink": "शिपिंग",
     "shippingUnavailable": "कोई शिपिंग विधि उपलब्ध नहीं है",
     "shippingPriceUnavailable": "उपलब्ध नहीं: कीमत की गणना नहीं हो सकी",
-    "deliveryPriceAfterAddress": "कीमत और डिलीवरी का समय देखने के लिए पता दर्ज करें",
+    "shippingPriceAddressRejected": "CDEK को पता नहीं मिला — पिन कोड और शहर जाँचें",
     "deliveryWayPickup": "पिकअप पॉइंट पर",
     "deliveryWayCourier": "कूरियर से दरवाज़े तक",
     "deliveryWayFrom": "{price} से",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "मैं <privacy>गोपनीयता नीति</privacy> के अनुसार अपने व्यक्तिगत डेटा के प्रसंस्करण के लिए सहमति देता/देती हूँ।",
-    "marketing": "मैं ई-मेल पर समाचार, प्रचार और विशेष ऑफ़र प्राप्त करने के लिए सहमत हूँ। मैं हर ई-मेल में दिए गए लिंक से कभी भी सदस्यता रद्द कर सकता/सकती हूँ।",
-    "receipt": "ऑर्डर के समय दर्ज किए गए ई-मेल पर कैश रसीद भेजी जाएगी (54-FZ)।",
+    "marketing": "ई-मेल पर समाचार और ऑफ़र भेजें, सदस्यता कभी भी रद्द की जा सकती है।",
+    "receipt": "इलेक्ट्रॉनिक रसीद (54-FZ) आपके ई-मेल पर भेजी जाएगी।",
     "hint": "ऑर्डर देने के लिए, व्यक्तिगत डेटा के प्रसंस्करण की सहमति पर टिक करें।"
   }
 }

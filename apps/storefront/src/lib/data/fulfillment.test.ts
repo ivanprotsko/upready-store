@@ -56,3 +56,34 @@ describe("calculatePriceForShippingOption: cache option", () => {
     expect(fetchOptions().cache).toBe("no-store")
   })
 })
+
+describe("calculatePriceForShippingOption: a refusal reaches the card (t-2026-10-09-56, item 9)", () => {
+  it("tells CDEK's address refusal from any other failure, and logs the backend's reason", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => undefined)
+    const { calculatePriceForShippingOption } = await import("./fulfillment")
+
+    clientFetch.mockRejectedValueOnce(
+      new Error("cdek_address_rejected: СДЭК не нашёл адрес — проверьте индекс и город")
+    )
+    expect(await calculatePriceForShippingOption("so_cdek", "cart_1")).toEqual({
+      error: "cdek_address_rejected",
+    })
+
+    clientFetch.mockRejectedValueOnce(new Error("An unknown error occurred."))
+    expect(await calculatePriceForShippingOption("so_other", "cart_1")).toEqual({ error: "other" })
+
+    expect(log).toHaveBeenCalledTimes(2)
+    expect(String(log.mock.calls[0][0])).toContain("so_cdek")
+    log.mockRestore()
+  })
+
+  // `next build` refuses a "use server" module that exports anything but async functions;
+  // tsc and vitest do not, so an exported string constant here broke only the build.
+  it("exports functions only, as a \"use server\" module must", async () => {
+    const exported = await import("./fulfillment")
+
+    for (const [name, value] of Object.entries(exported)) {
+      expect(typeof value, name).toBe("function")
+    }
+  })
+})

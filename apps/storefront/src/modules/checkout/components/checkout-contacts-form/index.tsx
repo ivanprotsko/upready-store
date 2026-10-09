@@ -10,44 +10,14 @@ import ErrorMessage from "@modules/checkout/components/error-message"
 import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 import { useTranslations } from "next-intl"
 
-export type ContactsField =
-  | "first_name"
-  | "last_name"
-  | "email"
-  | "recipient_first_name"
-  | "recipient_last_name"
+import {
+  contactsFieldErrors,
+  type ContactsField,
+} from "@lib/util/checkout-contacts"
 
-/** Plain e-mail shape: something, `@`, something, a dot, something — the typo «anna@» fails it. */
-export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-/**
- * Which field says what (batch 6): a required field left empty says «Заполните это
- * поле», an e-mail that is not an address says so in words — the browser's own
- * tooltip is not a text the buyer can read later. Returns the catalog KEY per field
- * (`CheckoutPage.*`), nothing for a field that is fine.
- */
-export function contactsFieldErrors(
-  values: {
-    first_name: string
-    last_name: string
-    email: string
-    recipient_first_name: string
-    recipient_last_name: string
-  },
-  differentRecipient: boolean
-): Partial<Record<ContactsField, "fieldRequired" | "emailInvalid">> {
-  const errors: Partial<Record<ContactsField, "fieldRequired" | "emailInvalid">> = {}
-  if (!values.first_name.trim()) errors.first_name = "fieldRequired"
-  if (!values.last_name.trim()) errors.last_name = "fieldRequired"
-  const email = values.email.trim()
-  if (!email) errors.email = "fieldRequired"
-  else if (!EMAIL_RE.test(email)) errors.email = "emailInvalid"
-  if (differentRecipient) {
-    if (!values.recipient_first_name.trim()) errors.recipient_first_name = "fieldRequired"
-    if (!values.recipient_last_name.trim()) errors.recipient_last_name = "fieldRequired"
-  }
-  return errors
-}
+// Moved to `@lib/util/checkout-contacts` so the server template can run the same
+// test (t-2026-10-09-56); re-exported for the modules that import it from here.
+export { contactsFieldErrors, EMAIL_RE, type ContactsField } from "@lib/util/checkout-contacts"
 
 interface CheckoutContactsFormProps {
   cart: HttpTypes.StoreCart
@@ -326,13 +296,17 @@ export default function CheckoutContactsForm({
             {t("close")}
           </Button>
         )}
+        {/* t-2026-10-09-56 (Ivan 09.10: «избавиться от кнопки сохранить, ее нужно
+            переименовать в "Далее" и пока поля не заполнены, она должна быть
+            disabled»): the same test the section's checkmark uses. */}
         <Button
           type="submit"
-          disabled={isSubmitting || isRefreshing}
+          disabled={Object.keys(fieldErrors).length > 0 || isSubmitting || isRefreshing}
           size="large"
           className="w-full"
+          data-testid="checkout-contacts-next"
         >
-          {isSubmitting || isRefreshing ? t("saving") : t("save")}
+          {isSubmitting || isRefreshing ? t("saving") : t("next")}
         </Button>
       </div>
     </form>

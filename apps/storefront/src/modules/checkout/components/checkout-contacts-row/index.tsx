@@ -2,6 +2,7 @@
 
 import { useId, useRef, useState } from "react"
 import { CheckMini } from "@medusajs/icons"
+import { clx } from "@medusajs/ui"
 import User from "@modules/common/icons/user"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutContactsForm, {
@@ -12,6 +13,11 @@ import { useTranslations } from "next-intl"
 
 interface CheckoutContactsRowProps {
   cart: HttpTypes.StoreCart
+  /**
+   * t-2026-10-09-56 (Ivan's item 7): the sections before this one are not done
+   * yet, so this one shows its heading alone (`checkoutStepLocksOf`).
+   */
+  locked?: boolean
 }
 
 /**
@@ -26,7 +32,10 @@ interface CheckoutContactsRowProps {
  * states and is a button only when there is something to open, so a click on the
  * heading of an open form never folds it away.
  */
-export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) {
+export default function CheckoutContactsRow({
+  cart,
+  locked = false,
+}: CheckoutContactsRowProps) {
   const t = useTranslations("CheckoutPage")
   const panelId = useId()
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -71,12 +80,19 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
 
   const heading = (
     <span className="flex items-center gap-x-2">
-      <span className="flex-shrink-0 text-ui-fg-base">
+      <span
+        className={clx("flex-shrink-0", locked ? "text-ui-fg-disabled" : "text-ui-fg-base")}
+      >
         <User size={24} />
       </span>
-      <h2 className="h2-docs text-ui-fg-base flex items-center gap-x-1.5">
+      <h2
+        className={clx(
+          "h2-docs flex items-center gap-x-1.5",
+          locked ? "text-ui-fg-disabled" : "text-ui-fg-base"
+        )}
+      >
         {t("contactsHeading")}
-        {isComplete && (
+        {isComplete && !locked && (
           <CheckMini
             className="text-status-success shrink-0"
             aria-hidden
@@ -92,7 +108,11 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
       <div className="h-px bg-ui-border-base w-full first:hidden" />
 
       <div className="flex flex-col gap-y-1">
-        {showForm ? (
+        {locked ? (
+          <div className="py-2" aria-disabled="true" data-testid="checkout-contacts-locked">
+            {heading}
+          </div>
+        ) : showForm ? (
           <div className="py-2" data-testid="checkout-contacts-row">
             {heading}
           </div>
@@ -131,7 +151,7 @@ export default function CheckoutContactsRow({ cart }: CheckoutContactsRowProps) 
           </button>
         )}
 
-        {showForm && (
+        {showForm && !locked && (
           <div id={panelId}>
             <CheckoutContactsForm
               cart={cart}

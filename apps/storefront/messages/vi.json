@@ -151,11 +151,12 @@
     "fieldLastName": "Họ",
     "fieldPhone": "Số điện thoại",
     "fieldPostalCode": "Mã bưu điện",
+    "postalCodeInvalid": "Mã bưu chính Nga gồm 6 chữ số.",
     "fieldProvince": "Tỉnh/Thành",
     "freeShipping": "Miễn phí",
     "giftCard": "Thẻ quà tặng",
     "itemsCount": "{count, plural, other {{count} sản phẩm}}",
-    "legal": "Bằng cách nhấn «{button}», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời xác nhận đã đọc <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
+    "legal": "Bằng cách nhấn «{button}», bạn đồng ý với <terms>điều khoản bán hàng</terms>.",
     "manualInput": "Nhập địa chỉ thủ công",
     "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ: {fields}.",
     "provinceRequired": "Chọn khu vực từ danh sách.",
@@ -184,6 +185,7 @@
     "offerLink": "Đề nghị công khai",
     "sameAsShipping": "Giống địa chỉ giao hàng",
     "save": "Lưu",
+    "next": "Tiếp tục",
     "saving": "Đang lưu...",
     "shippingCost": "Phí vận chuyển",
     "shippingDescription": "Chọn cách bạn muốn nhận đơn hàng",
@@ -191,7 +193,7 @@
     "shippingLink": "Vận chuyển",
     "shippingUnavailable": "Không có phương thức vận chuyển khả dụng",
     "shippingPriceUnavailable": "Không khả dụng: không tính được giá",
-    "deliveryPriceAfterAddress": "Nhập địa chỉ để xem giá và thời gian giao hàng",
+    "shippingPriceAddressRejected": "CDEK không tìm thấy địa chỉ — hãy kiểm tra mã bưu chính và thành phố",
     "deliveryWayPickup": "Đến điểm nhận hàng",
     "deliveryWayCourier": "Giao tận cửa bằng chuyển phát",
     "deliveryWayFrom": "từ {price}",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Tôi đồng ý cho xử lý dữ liệu cá nhân của mình theo <privacy>Chính sách bảo mật</privacy>.",
-    "marketing": "Tôi đồng ý nhận tin tức, khuyến mãi và ưu đãi đặc biệt qua e-mail. Tôi có thể hủy đăng ký bất cứ lúc nào qua liên kết trong mỗi e-mail.",
-    "receipt": "Biên lai sẽ được gửi đến e-mail bạn đã nhập khi đặt hàng (54-FZ).",
+    "marketing": "Tôi muốn nhận tin tức và ưu đãi qua e-mail, có thể hủy đăng ký bất cứ lúc nào.",
+    "receipt": "Biên lai điện tử (54-FZ) sẽ được gửi đến e-mail của bạn.",
     "hint": "Để đặt hàng, hãy đánh dấu đồng ý xử lý dữ liệu cá nhân."
   }
 }
