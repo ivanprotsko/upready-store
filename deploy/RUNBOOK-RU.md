@@ -125,6 +125,16 @@ On this FIRST boot there is no `mt-postgres` container yet, so step 3 runs the e
 failing. Every later deploy to this host runs the full `--db` check and a real backup, because by
 then the database exists.
 
+Two disk steps keep a deploy from filling this host (t-2026-10-09-58). After the images are built
+(step 2), the script cuts the Docker build cache down to `host.buildCache.maxUsedGb` of
+`deploy/instances/ru.json` (8 GB) with `docker buildx prune --force --all --max-used-space 8gb`; a
+failed prune is a warning in the log, not a failed release. The INTL profile leaves `prune` off, because
+other projects build on that shared host. Before the pre-migration dump (step 4), the script stops when
+the disk has less free space than max(database size × 2, 5 GB), and prints `docker system df` and the
+size of `/opt/upready-store/backups/mt`. Both numbers live in the profile's `host.backupRoom`; why they
+are what they are is in [`deploy/scripts/host-disk.mjs`](scripts/host-disk.mjs). On 09.10.2026 the
+cache alone held 39.3 GB of the 77 GB disk and pg_dump failed with «no space left on device».
+
 ## 3. Verifying before DNS points here
 
 `ENGINE_DOMAIN`/`PANEL_DOMAIN`/`STORES_DOMAIN` in `deploy/mt/ru.env` are already the real domains
