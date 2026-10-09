@@ -10,7 +10,7 @@
 | Где читают | Что видно сверху |
 |---|---|
 | `docs.upready.dev` — документация платформы | знак и название Upready Store |
-| адрес документации заказчика, например `docs.cherkashina.ru` | знак и название магазина заказчика |
+| адрес документации заказчика, например `docs.cherkashino.ru` | знак и название магазина заказчика |
 | `/help/` в панели: пункт «Справка» внизу меню открывает её в новой вкладке на адресе панели | бренд по адресу панели: на `panel.cherkashino.ru` «Черкашино», на остальных Upready Store |
 
 Тексты и снимки у всех одни и те же: ни на странице, ни на снимке нет названия, адреса или людей
@@ -74,7 +74,7 @@ owner@example.ru, «Менеджер Анна» manager1@example.ru, «Мене�
   "default": { "name": "Upready Store", "logo": "brands/upready.svg" },
   "hosts": {
     "docs.upready.dev": { "name": "Upready Store", "logo": "brands/upready.svg" },
-    "docs.cherkashina.ru": { "name": "Черкашино", "logo": "brands/cherkashino.svg" },
+    "docs.cherkashino.ru": { "name": "Черкашино", "logo": "brands/cherkashino.svg" },
     "panel.cherkashino.ru": { "name": "Черкашино", "logo": "brands/cherkashino.svg" }
   }
 }

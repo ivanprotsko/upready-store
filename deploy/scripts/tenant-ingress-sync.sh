@@ -33,7 +33,7 @@
 #   TRAEFIK_DYNAMIC_DIR  default /traefik-dynamic
 #   STOREFRONT_SERVICE   default http://mt-storefront:8000
 #   SYNC_INTERVAL        seconds between polls, default 15
-#   DOCS_DOMAINS         comma-separated docs hosts, e.g. "docs.upready.dev,docs.cherkashina.ru";
+#   DOCS_DOMAINS         comma-separated docs hosts, e.g. "docs.upready.dev,docs.cherkashino.ru";
 #                        empty or unset means no docs routers at all (t-2026-10-09-104)
 #   DOCS_SERVICE         default http://mt-panel:8081 (the panel image serves the help there)
 #
