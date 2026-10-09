@@ -52,6 +52,9 @@ export const STORE_METADATA_KEYS: Readonly<Record<StoreMetadataCarrier, readonly
     // The ratio of the first picture. `modules/products/components/image-gallery/items.ts`
     // documents it and the storefront's own list keeps it.
     "aspect_ratio",
+    // The owner's mark for the law, a dietary supplement or a medicine. `lib/util/regulated-product.ts`,
+    // the warning under the description (t-2026-10-09-49).
+    "regulated_as",
   ],
   // No reader. A variant's pictures come from its `images`.
   variant: [],

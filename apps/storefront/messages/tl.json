@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Paglalarawan",
     "fullDescription": "Buong paglalarawan",
-    "details": "Mga katangian at paglalarawan"
+    "details": "Mga katangian at paglalarawan",
+    "supplementNotice": "Hindi ito gamot."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Ipagpatuloy ang setup sa admin",

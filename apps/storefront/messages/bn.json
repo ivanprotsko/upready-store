@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "বিবরণ",
     "fullDescription": "সম্পূর্ণ বিবরণ",
-    "details": "বৈশিষ্ট্য ও বিবরণ"
+    "details": "বৈশিষ্ট্য ও বিবরণ",
+    "supplementNotice": "এটি কোনো ওষুধ নয়।"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "অ্যাডমিনে সেটআপ চালিয়ে যান",

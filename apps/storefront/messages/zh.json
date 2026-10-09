@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "商品描述",
     "fullDescription": "查看完整描述",
-    "details": "规格与描述"
+    "details": "规格与描述",
+    "supplementNotice": "本品不是药品。"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "前往管理后台继续设置",

@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "الوصف",
     "fullDescription": "الوصف الكامل",
-    "details": "المواصفات والوصف"
+    "details": "المواصفات والوصف",
+    "supplementNotice": "ليس منتجًا دوائيًا."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "متابعة الإعداد في لوحة التحكم",

@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Penerangan",
     "fullDescription": "Penerangan penuh",
-    "details": "Spesifikasi dan penerangan"
+    "details": "Spesifikasi dan penerangan",
+    "supplementNotice": "Bukan produk ubat."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Teruskan persediaan di admin",

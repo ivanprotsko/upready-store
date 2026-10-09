@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "विवरण",
     "fullDescription": "पूरा विवरण",
-    "details": "विशेषताएँ और विवरण"
+    "details": "विशेषताएँ और विवरण",
+    "supplementNotice": "यह दवा नहीं है।"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "एडमिन में सेटअप जारी रखें",

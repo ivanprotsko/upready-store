@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Описание",
     "fullDescription": "Пълно описание",
-    "details": "Характеристики и описание"
+    "details": "Характеристики и описание",
+    "supplementNotice": "Не е лекарствено средство."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продължи настройката в администрацията",

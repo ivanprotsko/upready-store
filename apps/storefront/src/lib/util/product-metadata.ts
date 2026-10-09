@@ -40,6 +40,9 @@ export const PRODUCT_METADATA_KEYS = [
   // The first image's ratio, "3/4" or "1:1": `modules/products/components/image-gallery/items.ts`
   // (`parseAspect`).
   "aspect_ratio",
+  // The owner's mark for the law, a dietary supplement or a medicine: `lib/util/regulated-product.ts`
+  // (`showsSupplementNotice`), the warning under the description (t-2026-10-09-49).
+  "regulated_as",
 ] as const
 
 /**

@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Beskrivelse",
     "fullDescription": "Hele beskrivelsen",
-    "details": "Egenskaper og beskrivelse"
+    "details": "Egenskaper og beskrivelse",
+    "supplementNotice": "Er ikke et legemiddel."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsett oppsett i admin",

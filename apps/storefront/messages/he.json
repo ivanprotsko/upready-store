@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "תיאור",
     "fullDescription": "התיאור המלא",
-    "details": "מאפיינים ותיאור"
+    "details": "מאפיינים ותיאור",
+    "supplementNotice": "אינו תכשיר רפואי."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "המשך ההגדרה בממשק הניהול",

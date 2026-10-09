@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Опис",
     "fullDescription": "Увесь опис",
-    "details": "Характеристики та опис"
+    "details": "Характеристики та опис",
+    "supplementNotice": "Не є лікарським засобом."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продовжити налаштування в адмін-панелі",

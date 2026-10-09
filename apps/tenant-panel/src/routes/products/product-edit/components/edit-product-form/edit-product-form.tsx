@@ -19,6 +19,12 @@ import { useDocumentDirection } from "../../../../../hooks/use-document-directio
 import { mergeSeoMetadata, readSeoOverride, DEFAULT_SEO_METADATA_LOCALE } from "../../../../../lib/seo-metadata"
 import { useTenantLocaleSettings } from "../../../../../hooks/api/locale-settings"
 import { LOCALE_LABELS, type LocaleCode } from "../../../../../lib/locale-catalog"
+import {
+  REGULATED_AS_CHOICES,
+  REGULATED_AS_NONE,
+  mergeRegulatedAs,
+  readRegulatedAs,
+} from "../../../../../lib/regulated-product"
 
 type EditProductFormProps = {
   product: HttpTypes.AdminProduct
@@ -34,6 +40,7 @@ const EditProductSchema = zod.object({
   discountable: zod.boolean(),
   seo_title: zod.string().max(70),
   seo_description: zod.string().max(320),
+  regulated_as: zod.enum(["none", "supplement", "medicine"]),
 })
 
 export const EditProductForm = ({ product }: EditProductFormProps) => {
@@ -58,6 +65,7 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
       discountable: product.discountable,
       seo_title: seoOverride.seo_title,
       seo_description: seoOverride.seo_description,
+      regulated_as: readRegulatedAs(productMetadata) ?? REGULATED_AS_NONE,
     },
     schema: EditProductSchema,
     configs: configs,
@@ -88,15 +96,26 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   const { mutateAsync, isPending } = useUpdateProduct(product.id)
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    const { title, discountable, handle, status, seo_title, seo_description, ...optional } =
-      data
-
-    const nullableData = transformNullableFormData(optional)
-    const metadata = mergeSeoMetadata(
-      product.metadata as Record<string, unknown> | null,
+    const {
+      title,
+      discountable,
+      handle,
+      status,
       seo_title,
       seo_description,
-      seoLocale
+      regulated_as,
+      ...optional
+    } = data
+
+    const nullableData = transformNullableFormData(optional)
+    const metadata = mergeRegulatedAs(
+      mergeSeoMetadata(
+        product.metadata as Record<string, unknown> | null,
+        seo_title,
+        seo_description,
+        seoLocale
+      ),
+      regulated_as
     )
 
     await mutateAsync(
@@ -269,6 +288,48 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
                       <Form.Control>
                         <Textarea {...field} />
                       </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+              {/*
+                The mark for the law (t-2026-10-09-49): what it does on the
+                storefront and the norm behind it are in
+                lib/regulated-product.ts. The hint under the select says it to
+                the owner for the value she picked.
+              */}
+              <Form.Field
+                control={form.control}
+                name="regulated_as"
+                render={({ field: { onChange, ref, ...field } }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label>{t("products.regulatedAs.label")}</Form.Label>
+                      <Form.Control>
+                        <Select
+                          dir={direction}
+                          {...field}
+                          onValueChange={onChange}
+                        >
+                          <Select.Trigger
+                            ref={ref}
+                            data-testid="product-regulated-as"
+                          >
+                            <Select.Value />
+                          </Select.Trigger>
+                          <Select.Content>
+                            {REGULATED_AS_CHOICES.map((choice) => (
+                              <Select.Item key={choice} value={choice}>
+                                {t(`products.regulatedAs.options.${choice}`)}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select>
+                      </Form.Control>
+                      <Form.Hint data-testid="product-regulated-as-hint">
+                        {t(`products.regulatedAs.hints.${field.value}`)}
+                      </Form.Hint>
                       <Form.ErrorMessage />
                     </Form.Item>
                   )

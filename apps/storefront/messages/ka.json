@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "აღწერა",
     "fullDescription": "სრული აღწერა",
-    "details": "მახასიათებლები და აღწერა"
+    "details": "მახასიათებლები და აღწერა",
+    "supplementNotice": "არ არის სამკურნალო საშუალება."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "კონფიგურაციის გაგრძელება ადმინში",

@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Aprašymas",
     "fullDescription": "Visas aprašymas",
-    "details": "Savybės ir aprašymas"
+    "details": "Savybės ir aprašymas",
+    "supplementNotice": "Nėra vaistinis preparatas."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tęsti nustatymą administravimo skydelyje",

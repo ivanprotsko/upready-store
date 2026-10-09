@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Popis",
     "fullDescription": "Celý popis",
-    "details": "Parametre a popis"
+    "details": "Parametre a popis",
+    "supplementNotice": "Nie je liek."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovať v nastavení v administrácii",

@@ -37,6 +37,7 @@ const KEPT = {
   brand: "Марка",
   mpn: "A-1",
   aspect_ratio: "3/4",
+  regulated_as: "supplement",
 }
 
 const product = (extra: Record<string, unknown> = {}) => ({

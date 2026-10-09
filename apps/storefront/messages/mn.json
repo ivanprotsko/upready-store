@@ -989,7 +989,8 @@
   "ProductInfo": {
     "description": "Тайлбар",
     "fullDescription": "Бүрэн тайлбар",
-    "details": "Шинж чанар ба тайлбар"
+    "details": "Шинж чанар ба тайлбар",
+    "supplementNotice": "Эмийн бүтээгдэхүүн биш."
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Админ хэсэгт тохиргоог үргэлжлүүлэх",
