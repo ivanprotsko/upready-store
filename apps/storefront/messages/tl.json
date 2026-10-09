@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Numero ng rehistro ng solong negosyante (OGRNIP): {value}",
     "aboutHeading": "Tungkol sa tindahan",
     "trackOrder": "Subaybayan ang order",
-    "badgesLabel": "Paghahatid at pagbabayad",
-    "robokassaNote": "Magbayad gamit ang kard o sa pamamagitan ng SBP. Robokassa ang tumatanggap ng mga bayad"
+    "badgesLabel": "Paghahatid at pagbabayad"
   },
   "ForgotPassword": {
     "backToSignIn": "Bumalik sa pag-sign in",

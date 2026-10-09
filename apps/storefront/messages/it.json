@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "N. di registrazione imprenditore individuale (OGRNIP): {value}",
     "aboutHeading": "Informazioni sul negozio",
     "trackOrder": "Traccia il tuo ordine",
-    "badgesLabel": "Spedizione e pagamento",
-    "robokassaNote": "Pagamento con carta o tramite SBP. Robokassa elabora i pagamenti"
+    "badgesLabel": "Spedizione e pagamento"
   },
   "ForgotPassword": {
     "backToSignIn": "Torna all'accesso",

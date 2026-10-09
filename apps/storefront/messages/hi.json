@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "एकल उद्यमी की पंजीकरण संख्या: {value}",
     "aboutHeading": "स्टोर के बारे में",
     "trackOrder": "अपना ऑर्डर ट्रैक करें",
-    "badgesLabel": "डिलीवरी और भुगतान",
-    "robokassaNote": "कार्ड या SBP से भुगतान। भुगतान Robokassa स्वीकार करता है"
+    "badgesLabel": "डिलीवरी और भुगतान"
   },
   "ForgotPassword": {
     "backToSignIn": "साइन इन पर लौटें",

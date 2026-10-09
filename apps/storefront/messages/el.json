@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Αρ. μητρώου ατομικής επιχείρησης (OGRNIP): {value}",
     "aboutHeading": "Σχετικά με το κατάστημα",
     "trackOrder": "Παρακολούθηση παραγγελίας",
-    "badgesLabel": "Αποστολή και πληρωμή",
-    "robokassaNote": "Πληρωμή με κάρτα ή μέσω SBP. Τις πληρωμές δέχεται η Robokassa"
+    "badgesLabel": "Αποστολή και πληρωμή"
   },
   "ForgotPassword": {
     "backToSignIn": "Επιστροφή στη σύνδεση",

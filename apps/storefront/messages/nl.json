@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Registratienummer eenmanszaak (OGRNIP): {value}",
     "aboutHeading": "Over de winkel",
     "trackOrder": "Bestelling volgen",
-    "badgesLabel": "Bezorging en betaling",
-    "robokassaNote": "Betalen met kaart of via SBP. Robokassa verwerkt de betalingen"
+    "badgesLabel": "Bezorging en betaling"
   },
   "ForgotPassword": {
     "backToSignIn": "Terug naar inloggen",

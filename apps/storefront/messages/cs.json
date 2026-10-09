@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Registrační číslo podnikatele (OGRNIP): {value}",
     "aboutHeading": "O obchodu",
     "trackOrder": "Sledovat objednávku",
-    "badgesLabel": "Doprava a platba",
-    "robokassaNote": "Platba kartou nebo přes SBP. Platby přijímá Robokassa"
+    "badgesLabel": "Doprava a platba"
   },
   "ForgotPassword": {
     "backToSignIn": "Zpět na přihlášení",

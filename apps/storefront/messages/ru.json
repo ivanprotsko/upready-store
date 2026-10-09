@@ -446,13 +446,12 @@
     "infoHeading": "Информация",
     "sellerHeading": "Продавец",
     "contactsHeading": "Контакты",
-    "taxId": "ИНН {value}",
-    "regNumber": "ОГРН {value}",
-    "regNumberSoleTrader": "ОГРНИП {value}",
+    "taxId": "ИНН: {value}",
+    "regNumber": "ОГРН: {value}",
+    "regNumberSoleTrader": "ОГРНИП: {value}",
     "aboutHeading": "О магазине",
     "trackOrder": "Отследить заказ",
-    "badgesLabel": "Доставка и оплата",
-    "robokassaNote": "Оплата картой и через СБП. Платежи принимает Robokassa"
+    "badgesLabel": "Доставка и оплата"
   },
   "ForgotPassword": {
     "backToSignIn": "Вернуться ко входу",
