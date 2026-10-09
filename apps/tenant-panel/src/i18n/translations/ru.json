@@ -2802,6 +2802,7 @@
       "confirmPasswordLabel": "Подтвердите новый пароль",
       "currentPasswordIncorrect": "Текущий пароль неверен.",
       "currentPasswordLabel": "Текущий пароль",
+      "currentPasswordRequired": "Введите текущий пароль.",
       "description": "Обновите пароль для входа в систему.",
       "newPasswordLabel": "Новый пароль",
       "passwordsDontMatch": "Новые пароли не совпадают.",
@@ -4345,7 +4346,8 @@
       "continueWithProvider": "Продолжить через {{provider}}",
       "noProviders": "Настройте провайдера авторизации в конфигурации Medusa, чтобы можно было войти",
       "or": "или",
-      "provisioningFailed": "Не удалось завершить вход. Обратитесь к администратору."
+      "provisioningFailed": "Не удалось завершить вход. Обратитесь к администратору.",
+      "tooManyAttempts": "Слишком много попыток входа. Подождите минуту и попробуйте снова."
     }
   },
   "layout": {

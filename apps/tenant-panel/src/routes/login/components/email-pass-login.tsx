@@ -50,11 +50,23 @@ export const EmailPassLogin = ({ onMfaChallenge }: EmailPassLoginProps) => {
       },
       {
         onError: (error) => {
+          // t-2026-10-09-105: the server's own texts are English («Invalid
+          // email or password», «Too many attempts. Try again in N s.»), so
+          // these two answers get the panel's translated ones.
           if (isFetchError(error)) {
             if (error.status === 401) {
               form.setError("email", {
                 type: "manual",
-                message: error.message,
+                message: t("errors.invalidCredentials"),
+              })
+
+              return
+            }
+
+            if (error.status === 429) {
+              form.setError("root.serverError", {
+                type: "manual",
+                message: t("auth.login.tooManyAttempts"),
               })
 
               return
