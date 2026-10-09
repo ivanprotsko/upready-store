@@ -76,4 +76,14 @@ describe("calculatePriceForShippingOption: a refusal reaches the card (t-2026-10
     expect(String(log.mock.calls[0][0])).toContain("so_cdek")
     log.mockRestore()
   })
+
+  // `next build` refuses a "use server" module that exports anything but async functions;
+  // tsc and vitest do not, so an exported string constant here broke only the build.
+  it("exports functions only, as a \"use server\" module must", async () => {
+    const exported = await import("./fulfillment")
+
+    for (const [name, value] of Object.entries(exported)) {
+      expect(typeof value, name).toBe("function")
+    }
+  })
 })

@@ -105,7 +105,8 @@ export const listPickupPoints = async () => {
  * t-2026-10-09-56): the checkout then shows its own sentence about the postcode and
  * the city instead of the general «Недоступно».
  */
-export const CDEK_ADDRESS_REJECTED_CODE = "cdek_address_rejected"
+// Not exported: a "use server" module may export async functions only.
+const CDEK_ADDRESS_REJECTED_CODE = "cdek_address_rejected"
 
 /** What a failed `/calculate` said, for the card: the backend's code, else `other`. */
 export type ShippingPriceFailure = { error: "cdek_address_rejected" | "other" }
