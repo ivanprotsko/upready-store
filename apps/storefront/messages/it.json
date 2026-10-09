@@ -72,8 +72,8 @@
     "decline": "Rifiuta"
   },
   "Breadcrumb": {
-    "home": "Home",
-    "store": "Negozio"
+    "home": "Vetrina",
+    "store": "Catalogo"
   },
   "Cart": {
     "emptyMessage": "Il tuo carrello è vuoto. Usa il link qui sotto per iniziare a sfogliare i nostri prodotti.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Cognome",
     "fieldPhone": "Telefono",
     "fieldPostalCode": "Codice postale",
+    "postalCodeInvalid": "Il codice postale russo ha 6 cifre.",
     "fieldProvince": "Provincia",
     "freeShipping": "Gratis",
     "giftCard": "Carta regalo",
     "itemsCount": "{count, plural, one {{count} articolo} other {{count} articoli}}",
-    "legal": "Cliccando su «{button}», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e confermi di aver letto la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
+    "legal": "Cliccando su «{button}», accetti i <terms>termini di vendita</terms>.",
     "manualInput": "Inserisci l'indirizzo manualmente",
     "addressIncomplete": "Compila i campi obbligatori dell'indirizzo: {fields}.",
     "provinceRequired": "Scegli la regione dall’elenco.",
@@ -184,6 +185,7 @@
     "offerLink": "Offerta pubblica",
     "sameAsShipping": "Uguale all'indirizzo di spedizione",
     "save": "Salva",
+    "next": "Avanti",
     "saving": "Salvataggio in corso...",
     "shippingCost": "Spedizione",
     "shippingDescription": "Scegli come vuoi ricevere il tuo ordine",
@@ -191,7 +193,7 @@
     "shippingLink": "Spedizione",
     "shippingUnavailable": "Nessun metodo di spedizione disponibile",
     "shippingPriceUnavailable": "Non disponibile: impossibile calcolare il prezzo",
-    "deliveryPriceAfterAddress": "Inserisci l'indirizzo per vedere prezzo e tempi",
+    "shippingPriceAddressRejected": "CDEK non ha trovato l’indirizzo: controlla il codice postale e la città",
     "deliveryWayPickup": "In un punto di ritiro",
     "deliveryWayCourier": "Con corriere fino alla porta",
     "deliveryWayFrom": "da {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "N. di registrazione imprenditore individuale (OGRNIP): {value}",
     "aboutHeading": "Informazioni sul negozio",
     "trackOrder": "Traccia il tuo ordine",
-    "badgesLabel": "Spedizione e pagamento",
-    "robokassaNote": "Pagamento con carta o tramite SBP. Robokassa elabora i pagamenti"
+    "badgesLabel": "Spedizione e pagamento"
   },
   "ForgotPassword": {
     "backToSignIn": "Torna all'accesso",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Sfoglia l'intero catalogo. Filtra per categoria e opzione, ordina per prezzo e trova esattamente ciò che ti serve.",
-      "title": "Negozio"
+      "title": "Catalogo"
     },
     "terms": {
       "description": "Leggi le regole che accetti quando acquisti da noi.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Account",
       "cart": "Carrello",
-      "home": "Home",
-      "store": "Negozio",
+      "home": "Vetrina",
+      "store": "Catalogo",
       "journal": "Rivista"
     },
     "menuButton": "Menu"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Griglia",
     "viewList": "Elenco",
     "viewCompact": "Griglia compatta",
-    "perPage": "Prodotti per pagina"
+    "endOfList": "Hai visto tutti i prodotti",
+    "loadingMore": "Caricamento di altri prodotti"
   },
   "TenantPage": {
     "emptyBody": "Questa pagina non ha ancora testo.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Acconsento al trattamento dei miei dati personali in conformità con l'<privacy>informativa sulla privacy</privacy>.",
-    "marketing": "Accetto di ricevere novità, promozioni e offerte speciali via e-mail. Posso annullare l'iscrizione in qualsiasi momento tramite il link in ogni e-mail.",
-    "receipt": "Lo scontrino fiscale verrà inviato all'e-mail indicata al momento dell'ordine (54-FZ).",
+    "marketing": "Voglio ricevere novità e offerte via e-mail e posso disiscrivermi in qualsiasi momento.",
+    "receipt": "La ricevuta elettronica (54-FZ) arriverà alla tua e-mail.",
     "hint": "Per effettuare l'ordine, seleziona il consenso al trattamento dei dati personali."
   }
 }

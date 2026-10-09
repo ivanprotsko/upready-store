@@ -45,6 +45,7 @@ import PaymentButton from "@modules/checkout/components/payment-button"
 import PaymentPreNotice from "@modules/checkout/components/payment-pre-notice"
 import { CHECKOUT_PAYMENT_ANCHOR } from "@modules/checkout/components/robokassa-retry-notice"
 import RobokassaTermsLinks from "@modules/checkout/components/robokassa-terms-links"
+import LegalPageLink from "@modules/checkout/components/legal-page-link"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import PaymentSessionError from "@modules/checkout/components/payment-session-error"
 import { StripePaymentContainer } from "@modules/checkout/components/payment-container"
@@ -60,7 +61,6 @@ import {
   type ManualPaymentKind,
   type TenantManualPayment,
 } from "@lib/tenant/manual-payment"
-import { Link } from "@i18n/navigation"
 import {
   consentHref,
   type LegalLinkContext,
@@ -226,6 +226,9 @@ export default function CheckoutPaymentSection({
     }
   }
   const consentGiven = consent.personalData && consentRecorded && !consentSaving
+  // t-2026-10-09-56 (Ivan's item 6): the «отметьте согласие» line shows only after the
+  // buyer tried to pay without the box ticked, not as a standing line under the button.
+  const [payTriedWithoutConsent, setPayTriedWithoutConsent] = useState(false)
 
   // Batch 7: ONE kind inside the manual provider, «Перевод по реквизитам», when
   // the owner entered a requisite or a contact; the bank or the wallet is picked
@@ -436,13 +439,8 @@ export default function CheckoutPaymentSection({
     // A named function expression, because `react/display-name` counts any
     // anonymous function that returns JSX as a component without a name.
     return function LegalChunk(chunks: ReactNode) {
-      return href ? (
-        <Link href={href} className="underline">
-          {chunks}
-        </Link>
-      ) : (
-        <>{chunks}</>
-      )
+      // t-2026-10-09-56 (Ivan's item 12): the document opens over the checkout.
+      return href ? <LegalPageLink href={href}>{chunks}</LegalPageLink> : <>{chunks}</>
     }
   }
 
@@ -810,17 +808,6 @@ export default function CheckoutPaymentSection({
           legal={legal}
           disabled={consentSaving}
         />
-        {/* C6 of the 04.10 checklist: the 54-ФЗ line, where a receipt is actually issued —
-            Robokassa, the Russian shop's gateway (fiscalised receipts, t-cherk-30). A transfer
-            by requisites issues none, so it promises none. */}
-        {isRobokassa(selectedPaymentMethod) && (
-          <p className="txt-compact-small text-ui-fg-subtle" data-testid="consent-receipt-note">
-            {tc("receipt")}
-          </p>
-        )}
-        {/* t-2026-10-08-13: the payment terms and the offer, right at the method that takes
-            the money (the Robokassa contract, clause 4.3.4). */}
-        {isRobokassa(selectedPaymentMethod) && <RobokassaTermsLinks legal={legal} />}
         {/* Rule 5zd (t-2026-10-03-32): right above the button and the total,
             never a modal — the buyer sees it before clicking «Pay». */}
         {showPreNotice && (
@@ -832,36 +819,58 @@ export default function CheckoutPaymentSection({
             amount={chargeEstimate}
           />
         )}
-        {/* C2 of the 04.10 checklist (t-2026-10-04-22): one line right ABOVE the button.
-            The offer is accepted by pressing it, the policy is only read, and each
-            document name links its own page. Batch 7: the sentence names the button's own
-            words — «Оформить заказ» for a transfer by requisites, «Оплатить» for a gateway.
-            Catalogs that still name the usage terms and the return policy keep their chunks. */}
-        <p
-          className="txt-compact-small text-ui-fg-subtle"
-          data-testid="checkout-offer-line"
-        >
-          {t.rich("legal", {
-            button: buttonText,
-            terms: legalChunk("terms"),
-            termsOfUse: legalChunk("termsOfUse"),
-            returnPolicy: legalChunk("returns"),
-            privacyPolicy: legalChunk("privacy"),
-          })}
-        </p>
-        <PaymentButton
-          cart={cart}
-          selectedPaymentMethod={selectedPaymentMethod}
-          demoCard={demoCard}
-          manualKind={manualKinds.length > 0 ? manualKind : null}
-          robokassaMethod={isRobokassa(selectedPaymentMethod) ? robokassaMethod : null}
-          requiresSignIn={requiresSignIn}
-          consentGiven={consentGiven}
-          data-testid="submit-order-button"
-        />
-        {/* A disabled button with no reason next to it reads as a broken shop. */}
-        {!consent.personalData && (
-          <p className="txt-compact-small text-ui-fg-subtle text-center" data-testid="consent-hint">
+        {/* t-2026-10-09-56 (Ivan 09.10: «чтобы все уместилось максимум в 2 строки, и тем
+            более без дубликатов»): two lines at most between the boxes and the button, each
+            document named once. The first line is C2 of the 04.10 checklist: the offer is
+            accepted by pressing the button (batch 7: the sentence names the button's own
+            words), followed by C6, the 54-ФЗ receipt, where a receipt is actually issued:
+            Robokassa, the Russian shop's gateway (fiscalised receipts, t-cherk-30); a transfer
+            by requisites issues none, so it promises none. The policy is named once, in the
+            personal-data box above. The second line is the payment and delivery terms the
+            Robokassa contract (clause 4.3.4, t-2026-10-08-13) wants before paying, and the
+            returns rules, the pair that used to stand again under the button. */}
+        <div className="flex flex-col gap-y-1" data-testid="checkout-legal-lines">
+          <p className="txt-compact-small text-ui-fg-subtle" data-testid="checkout-offer-line">
+            {t.rich("legal", { button: buttonText, terms: legalChunk("terms") })}
+            {isRobokassa(selectedPaymentMethod) && (
+              <>
+                {" "}
+                <span data-testid="consent-receipt-note">{tc("receipt")}</span>
+              </>
+            )}
+          </p>
+          <RobokassaTermsLinks legal={legal} />
+        </div>
+        <div className="relative">
+          <PaymentButton
+            cart={cart}
+            selectedPaymentMethod={selectedPaymentMethod}
+            demoCard={demoCard}
+            manualKind={manualKinds.length > 0 ? manualKind : null}
+            robokassaMethod={isRobokassa(selectedPaymentMethod) ? robokassaMethod : null}
+            requiresSignIn={requiresSignIn}
+            consentGiven={consentGiven}
+            data-testid="submit-order-button"
+          />
+          {/* A disabled button takes no click, so this layer over it catches the try
+              while the personal-data box is empty, and the line below says why. */}
+          {!consent.personalData && (
+            <button
+              type="button"
+              tabIndex={-1}
+              aria-hidden="true"
+              className="absolute inset-0 cursor-not-allowed rounded-md bg-transparent"
+              onClick={() => setPayTriedWithoutConsent(true)}
+              data-testid="consent-pay-attempt"
+            />
+          )}
+        </div>
+        {payTriedWithoutConsent && !consent.personalData && (
+          <p
+            className="txt-compact-small text-ui-fg-error text-center"
+            role="alert"
+            data-testid="consent-hint"
+          >
             {tc("hint")}
           </p>
         )}

@@ -72,8 +72,8 @@
     "decline": "প্রত্যাখ্যান করুন"
   },
   "Breadcrumb": {
-    "home": "হোম",
-    "store": "স্টোর"
+    "home": "শোকেস",
+    "store": "ক্যাটালগ"
   },
   "Cart": {
     "emptyMessage": "আপনার কার্ট খালি। আমাদের পণ্য দেখা শুরু করতে নিচের লিঙ্কটি ব্যবহার করুন।",
@@ -151,11 +151,12 @@
     "fieldLastName": "পদবি",
     "fieldPhone": "ফোন",
     "fieldPostalCode": "পোস্টাল কোড",
+    "postalCodeInvalid": "রাশিয়ার পোস্টাল কোড ৬ অঙ্কের।",
     "fieldProvince": "প্রদেশ",
     "freeShipping": "ফ্রি",
     "giftCard": "গিফট কার্ড",
     "itemsCount": "{count, plural, one {{count}টি আইটেম} other {{count}টি আইটেম}}",
-    "legal": "«{button}»-এ ক্লিক করে, আপনি আমাদের <terms>শর্তাবলী</terms>, <termsOfUse>ব্যবহারের শর্তাবলী</termsOfUse> এবং <returnPolicy>রিটার্ন নীতি</returnPolicy> গ্রহণ করছেন এবং নিশ্চিত করছেন যে আপনি আমাদের <privacyPolicy>গোপনীয়তা নীতি</privacyPolicy> পড়েছেন।",
+    "legal": "«{button}»-এ ক্লিক করে আপনি <terms>বিক্রয়ের শর্তাবলী</terms> গ্রহণ করছেন।",
     "manualInput": "ঠিকানা ম্যানুয়ালি লিখুন",
     "addressIncomplete": "ঠিকানার আবশ্যক ঘরগুলো পূরণ করুন: {fields}।",
     "provinceRequired": "তালিকা থেকে অঞ্চল বেছে নিন।",
@@ -184,6 +185,7 @@
     "offerLink": "পাবলিক অফার",
     "sameAsShipping": "শিপিং ঠিকানার মতোই",
     "save": "সংরক্ষণ করুন",
+    "next": "পরবর্তী",
     "saving": "সংরক্ষণ করা হচ্ছে...",
     "shippingCost": "শিপিং",
     "shippingDescription": "আপনার অর্ডার কীভাবে পেতে চান তা বেছে নিন",
@@ -191,7 +193,7 @@
     "shippingLink": "শিপিং",
     "shippingUnavailable": "কোনো শিপিং পদ্ধতি উপলব্ধ নেই",
     "shippingPriceUnavailable": "অনুপলব্ধ: খরচ হিসাব করা যায়নি",
-    "deliveryPriceAfterAddress": "দাম ও ডেলিভারির সময় দেখতে ঠিকানা লিখুন",
+    "shippingPriceAddressRejected": "CDEK ঠিকানা খুঁজে পায়নি — পোস্টাল কোড ও শহর যাচাই করুন",
     "deliveryWayPickup": "পিকআপ পয়েন্টে",
     "deliveryWayCourier": "কুরিয়ারে দরজা পর্যন্ত",
     "deliveryWayFrom": "{price} থেকে",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "একক উদ্যোক্তার নিবন্ধন নম্বর: {value}",
     "aboutHeading": "দোকান সম্পর্কে",
     "trackOrder": "আপনার অর্ডার ট্র্যাক করুন",
-    "badgesLabel": "ডেলিভারি ও পেমেন্ট",
-    "robokassaNote": "কার্ড বা SBP-এর মাধ্যমে পেমেন্ট। পেমেন্ট গ্রহণ করে Robokassa"
+    "badgesLabel": "ডেলিভারি ও পেমেন্ট"
   },
   "ForgotPassword": {
     "backToSignIn": "সাইন ইনে ফিরে যান",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "সম্পূর্ণ ক্যাটালগ দেখুন। বিভাগ ও বিকল্প অনুযায়ী ফিল্টার করুন, দাম অনুযায়ী সাজান এবং যা প্রয়োজন তা খুঁজে নিন।",
-      "title": "স্টোর"
+      "title": "ক্যাটালগ"
     },
     "terms": {
       "description": "আমাদের কাছ থেকে কেনার সময় আপনি যে নিয়মে সম্মত হন তা পড়ুন।",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "অ্যাকাউন্ট",
       "cart": "কার্ট",
-      "home": "হোম",
-      "store": "স্টোর",
+      "home": "শোকেস",
+      "store": "ক্যাটালগ",
       "journal": "ম্যাগাজিন"
     },
     "menuButton": "মেনু"
@@ -1150,7 +1151,8 @@
     "viewGrid": "গ্রিড",
     "viewList": "তালিকা",
     "viewCompact": "ঘন গ্রিড",
-    "perPage": "প্রতি পৃষ্ঠায় পণ্য"
+    "endOfList": "সব পণ্য দেখানো হয়েছে",
+    "loadingMore": "আরও পণ্য লোড হচ্ছে"
   },
   "TenantPage": {
     "emptyBody": "এই পাতায় এখনও কোনও লেখা নেই।",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "আমি <privacy>গোপনীয়তা নীতি</privacy> অনুযায়ী আমার ব্যক্তিগত তথ্য প্রক্রিয়াকরণে সম্মতি দিচ্ছি।",
-    "marketing": "আমি ই-মেইলে খবর, প্রচার ও বিশেষ অফার পেতে সম্মত। প্রতিটি ই-মেইলের লিঙ্কের মাধ্যমে যেকোনো সময় সদস্যতা বাতিল করতে পারি।",
-    "receipt": "অর্ডারের সময় দেওয়া ই-মেইলে ক্যাশ রসিদ পাঠানো হবে (54-FZ)।",
+    "marketing": "ই-মেইলে খবর ও অফার পেতে চাই, যেকোনো সময় আনসাবস্ক্রাইব করা যাবে।",
+    "receipt": "ইলেকট্রনিক রসিদ (54-FZ) আপনার ই-মেইলে পাঠানো হবে।",
     "hint": "অর্ডার দিতে, ব্যক্তিগত তথ্য প্রক্রিয়াকরণের সম্মতিতে টিক দিন।"
   }
 }

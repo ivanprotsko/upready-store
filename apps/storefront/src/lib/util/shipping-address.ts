@@ -55,6 +55,29 @@ export const shippingAddressGaps = (
   return required.filter((field) => !address?.[field]?.trim())
 }
 
+/**
+ * The postcode's own shape where a carrier insists on one (t-2026-10-09-56, item 9): a
+ * Russian «Почтовый индекс» is six digits. On the live shop the index 80571 (five
+ * digits) was saved, CDEK's calculator refused it, and the delivery step said only
+ * «Недоступно». A country with no pattern here takes any postcode.
+ */
+const POSTAL_CODE_PATTERNS: Record<string, RegExp> = {
+  ru: /^\d{6}$/,
+}
+
+/**
+ * Whether the postcode has its country's shape. An empty one counts as valid here:
+ * that it is missing is `shippingAddressGaps`'s answer, with its own sentence.
+ */
+export const isPostalCodeValid = (
+  postalCode: string | null | undefined,
+  countryCode?: string | null
+): boolean => {
+  const pattern = POSTAL_CODE_PATTERNS[(countryCode ?? "").toLowerCase()]
+  const value = (postalCode ?? "").trim()
+  return !pattern || !value || pattern.test(value)
+}
+
 /** The fields a buyer types, as against the province, which is picked from a list. */
 export type TypedAddressField = Exclude<ShippingAddressField, "province">
 

@@ -72,8 +72,8 @@
     "decline": "拒否する"
   },
   "Breadcrumb": {
-    "home": "ホーム",
-    "store": "ストア"
+    "home": "ショーケース",
+    "store": "カタログ"
   },
   "Cart": {
     "emptyMessage": "カートに商品がありません。下のリンクから商品を見てみましょう。",
@@ -151,11 +151,12 @@
     "fieldLastName": "姓",
     "fieldPhone": "電話番号",
     "fieldPostalCode": "郵便番号",
+    "postalCodeInvalid": "ロシアの郵便番号は6桁です。",
     "fieldProvince": "都道府県",
     "freeShipping": "無料",
     "giftCard": "ギフトカード",
     "itemsCount": "{count, plural, other {{count}点}}",
-    "legal": "「{button}」をクリックすることで、<terms>販売条件</terms>、<termsOfUse>利用規約</termsOfUse>、<returnPolicy>返品ポリシー</returnPolicy>に同意し、<privacyPolicy>プライバシーポリシー</privacyPolicy>を確認したことを認めるものとします。",
+    "legal": "「{button}」をクリックすると、<terms>販売条件</terms>に同意したものとみなされます。",
     "manualInput": "住所を手入力する",
     "addressIncomplete": "住所の必須項目を入力してください：{fields}。",
     "provinceRequired": "リストから地域を選択してください。",
@@ -184,6 +185,7 @@
     "offerLink": "公開オファー",
     "sameAsShipping": "配送先住所と同じ",
     "save": "保存",
+    "next": "次へ",
     "saving": "保存中...",
     "shippingCost": "配送料",
     "shippingDescription": "ご注文の受け取り方法を選択してください",
@@ -191,7 +193,7 @@
     "shippingLink": "配送",
     "shippingUnavailable": "利用可能な配送方法がありません",
     "shippingPriceUnavailable": "ご利用いただけません：料金を計算できませんでした",
-    "deliveryPriceAfterAddress": "住所を入力すると料金と配送日数が表示されます",
+    "shippingPriceAddressRejected": "CDEKが住所を見つけられませんでした。郵便番号と市区町村をご確認ください",
     "deliveryWayPickup": "受取拠点へ",
     "deliveryWayCourier": "宅配便でご自宅まで",
     "deliveryWayFrom": "{price}～",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "個人事業主登録番号：{value}",
     "aboutHeading": "ショップについて",
     "trackOrder": "注文状況を確認",
-    "badgesLabel": "配送と支払い",
-    "robokassaNote": "カードまたはSBPでお支払いいただけます。決済はRobokassaが処理します"
+    "badgesLabel": "配送と支払い"
   },
   "ForgotPassword": {
     "backToSignIn": "ログインに戻る",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "カタログ全体をご覧ください。カテゴリーやオプションで絞り込み、価格で並べ替えて、お探しの一点が見つかります。",
-      "title": "ストア"
+      "title": "カタログ"
     },
     "terms": {
       "description": "ご購入時に同意いただく規約をお読みください。",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "アカウント",
       "cart": "カート",
-      "home": "ホーム",
-      "store": "ストア",
+      "home": "ショーケース",
+      "store": "カタログ",
       "journal": "読みもの"
     },
     "menuButton": "メニュー"
@@ -1150,7 +1151,8 @@
     "viewGrid": "グリッド",
     "viewList": "リスト",
     "viewCompact": "コンパクトグリッド",
-    "perPage": "1ページの商品数"
+    "endOfList": "すべての商品を表示しました",
+    "loadingMore": "商品を読み込み中"
   },
   "TenantPage": {
     "emptyBody": "このページにはまだ本文がありません。",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "<privacy>プライバシーポリシー</privacy>に従って個人データが処理されることに同意します。",
-    "marketing": "ニュース、キャンペーン、特別オファーをメールで受け取ることに同意します。各メールのリンクからいつでも配信停止できます。",
-    "receipt": "注文時に入力したメールアドレスにレシートが送信されます（54-FZ）。",
+    "marketing": "ニュースやお得な情報をメールで受け取る（いつでも配信停止できます）",
+    "receipt": "電子レシート（54-FZ）はメールで送信されます。",
     "hint": "注文するには、個人データの処理への同意にチェックを入れてください。"
   }
 }

@@ -72,8 +72,8 @@
     "decline": "Weigeren"
   },
   "Breadcrumb": {
-    "home": "Home",
-    "store": "Winkel"
+    "home": "Etalage",
+    "store": "Catalogus"
   },
   "Cart": {
     "emptyMessage": "Uw winkelwagen is leeg. Gebruik de onderstaande link om onze producten te bekijken.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Achternaam",
     "fieldPhone": "Telefoon",
     "fieldPostalCode": "Postcode",
+    "postalCodeInvalid": "Een Russische postcode heeft 6 cijfers.",
     "fieldProvince": "Provincie",
     "freeShipping": "Gratis",
     "giftCard": "Cadeaubon",
     "itemsCount": "{count, plural, one {{count} artikel} other {{count} artikelen}}",
-    "legal": "Door op «{button}» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en bevestigt u dat u ons <privacyPolicy>privacybeleid</privacyPolicy> hebt gelezen.",
+    "legal": "Door op «{button}» te klikken, accepteert u de <terms>verkoopvoorwaarden</terms>.",
     "manualInput": "Adres handmatig invoeren",
     "addressIncomplete": "Vul de verplichte adresvelden in: {fields}.",
     "provinceRequired": "Kies je regio uit de lijst.",
@@ -184,6 +185,7 @@
     "offerLink": "Openbaar aanbod",
     "sameAsShipping": "Zelfde als verzendadres",
     "save": "Opslaan",
+    "next": "Volgende",
     "saving": "Opslaan...",
     "shippingCost": "Verzending",
     "shippingDescription": "Kies hoe u uw bestelling wilt laten bezorgen",
@@ -191,7 +193,7 @@
     "shippingLink": "Verzending",
     "shippingUnavailable": "Geen verzendmethoden beschikbaar",
     "shippingPriceUnavailable": "Niet beschikbaar: de prijs kon niet worden berekend",
-    "deliveryPriceAfterAddress": "Vul je adres in om prijs en levertijd te zien",
+    "shippingPriceAddressRejected": "CDEK heeft het adres niet gevonden — controleer de postcode en de plaats",
     "deliveryWayPickup": "Naar een afhaalpunt",
     "deliveryWayCourier": "Per koerier aan de deur",
     "deliveryWayFrom": "vanaf {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "Registratienummer eenmanszaak (OGRNIP): {value}",
     "aboutHeading": "Over de winkel",
     "trackOrder": "Bestelling volgen",
-    "badgesLabel": "Bezorging en betaling",
-    "robokassaNote": "Betalen met kaart of via SBP. Robokassa verwerkt de betalingen"
+    "badgesLabel": "Bezorging en betaling"
   },
   "ForgotPassword": {
     "backToSignIn": "Terug naar inloggen",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Bekijk de hele catalogus. Filter op categorie en optie, sorteer op prijs en vind precies wat je zoekt.",
-      "title": "Winkel"
+      "title": "Catalogus"
     },
     "terms": {
       "description": "Lees de regels waarmee u akkoord gaat bij een aankoop.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Account",
       "cart": "Winkelwagen",
-      "home": "Home",
-      "store": "Winkel",
+      "home": "Etalage",
+      "store": "Catalogus",
       "journal": "Magazine"
     },
     "menuButton": "Menu"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Raster",
     "viewList": "Lijst",
     "viewCompact": "Compact raster",
-    "perPage": "Producten per pagina"
+    "endOfList": "Dit zijn alle producten",
+    "loadingMore": "Meer producten laden"
   },
   "TenantPage": {
     "emptyBody": "Deze pagina heeft nog geen tekst.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Ik geef toestemming voor de verwerking van mijn persoonsgegevens in overeenstemming met het <privacy>privacybeleid</privacy>.",
-    "marketing": "Ik ontvang graag nieuws, acties en speciale aanbiedingen per e-mail. Ik kan me altijd afmelden via de link in elke e-mail.",
-    "receipt": "Een kassabon wordt verzonden naar het e-mailadres dat u bij de bestelling hebt opgegeven (54-FZ).",
+    "marketing": "Ik ontvang graag nieuws en aanbiedingen per e-mail en kan me altijd afmelden.",
+    "receipt": "Een elektronische kassabon (54-FZ) wordt naar uw e-mail gestuurd.",
     "hint": "Vink de toestemming voor de verwerking van persoonsgegevens aan om de bestelling te plaatsen."
   }
 }

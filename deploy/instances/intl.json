@@ -73,6 +73,18 @@
     "description": "self-hosted outbound-only relay on the Contabo host (deploy/mt/MAIL.md's mail service), or a third-party mail API with a GDPR-compliant DPA / SCC on file (e.g. Resend)",
     "defaultsAreThisHost": true
   },
+  "host": {
+    "buildCache": {
+      "prune": false,
+      "dockerVersion": "27.0.3",
+      "note": "A shared Coolify host other projects build on: deploy-instance.sh never prunes its build cache unless this says `prune: true`. The cache belongs to every project on the host, not to this one."
+    },
+    "backupRoom": {
+      "minFreeGb": 5,
+      "dbSizeFactor": 2,
+      "note": "Same check as on RU before the pre-migration pg_dump (step 4): deploy/scripts/host-disk.mjs."
+    }
+  },
   "notes": [
     "Robokassa, CDEK, Pochta Russia, Wildberries and Ozon all exist to serve Russian buyers and sellers of record; a tenant on the INTL database configuring one of them is a sign the wrong tenant landed on the wrong instance (docs/instances/RULES.md §2), not a legitimate use.",
     "Tribute (t-cherk-22) runs on this instance only, behind TRIBUTE_AVAILABLE=true, a switch of its own and not PAYMENTS_CRYPTO_AVAILABLE; without it the panel shows no Tribute card and the checkout offers no Tribute, even to a shop that saved a key.",

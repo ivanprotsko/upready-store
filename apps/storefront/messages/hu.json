@@ -72,8 +72,8 @@
     "decline": "Elutasítom"
   },
   "Breadcrumb": {
-    "home": "Főoldal",
-    "store": "Bolt"
+    "home": "Kirakat",
+    "store": "Katalógus"
   },
   "Cart": {
     "emptyMessage": "A kosara üres. Kattintson az alábbi linkre, és böngésszen termékeink között.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Vezetéknév",
     "fieldPhone": "Telefon",
     "fieldPostalCode": "Irányítószám",
+    "postalCodeInvalid": "Az orosz irányítószám 6 számjegyű.",
     "fieldProvince": "Megye",
     "freeShipping": "Ingyenes",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} termék} other {{count} termék}}",
-    "legal": "„{button}” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, és megerősíti, hogy elolvasta <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
+    "legal": "„{button}” gombra kattintva elfogadja az <terms>értékesítési feltételeket</terms>.",
     "manualInput": "Cím megadása kézzel",
     "addressIncomplete": "Töltse ki a cím kötelező mezőit: {fields}.",
     "provinceRequired": "Válassza ki a régiót a listából.",
@@ -184,6 +185,7 @@
     "offerLink": "Nyilvános ajánlat",
     "sameAsShipping": "Megegyezik a szállítási címmel",
     "save": "Mentés",
+    "next": "Tovább",
     "saving": "Mentés...",
     "shippingCost": "Szállítás",
     "shippingDescription": "Válassza ki, hogyan szeretné átvenni a rendelését",
@@ -191,7 +193,7 @@
     "shippingLink": "Szállítás",
     "shippingUnavailable": "Nincs elérhető szállítási mód",
     "shippingPriceUnavailable": "Nem elérhető: az árat nem sikerült kiszámítani",
-    "deliveryPriceAfterAddress": "Adja meg a címét az ár és a határidő megtekintéséhez",
+    "shippingPriceAddressRejected": "A CDEK nem találta a címet – ellenőrizze az irányítószámot és a várost",
     "deliveryWayPickup": "Átvételi pontra",
     "deliveryWayCourier": "Futárral házhoz",
     "deliveryWayFrom": "{price}-tól",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "Egyéni vállalkozó nyilvántartási száma (OGRNIP): {value}",
     "aboutHeading": "Az üzletről",
     "trackOrder": "Rendelés követése",
-    "badgesLabel": "Szállítás és fizetés",
-    "robokassaNote": "Fizetés kártyával vagy SBP-n keresztül. A fizetéseket a Robokassa fogadja"
+    "badgesLabel": "Szállítás és fizetés"
   },
   "ForgotPassword": {
     "backToSignIn": "Vissza a bejelentkezéshez",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Böngéssze a teljes kínálatot. Szűrjön kategória és változat szerint, rendezzen ár alapján, és találja meg pontosan azt, amire szüksége van.",
-      "title": "Bolt"
+      "title": "Katalógus"
     },
     "terms": {
       "description": "Olvassa el a szabályokat, amelyeket vásárláskor elfogad.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Fiók",
       "cart": "Kosár",
-      "home": "Főoldal",
-      "store": "Bolt",
+      "home": "Kirakat",
+      "store": "Katalógus",
       "journal": "Magazin"
     },
     "menuButton": "Menü"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Rács",
     "viewList": "Lista",
     "viewCompact": "Sűrű rács",
-    "perPage": "Termék oldalanként"
+    "endOfList": "Ez az összes termék",
+    "loadingMore": "További termékek betöltése"
   },
   "TenantPage": {
     "emptyBody": "Ezen az oldalon még nincs szöveg.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Hozzájárulok személyes adataim kezeléséhez az <privacy>Adatvédelmi szabályzat</privacy> szerint.",
-    "marketing": "Hozzájárulok, hogy híreket, akciókat és különleges ajánlatokat kapjak e-mailben. Bármikor leiratkozhatok az e-mailekben található linkkel.",
-    "receipt": "A pénztári nyugtát a rendeléskor megadott e-mail-címre küldjük (54-FZ).",
+    "marketing": "Híreket és ajánlatokat kérek e-mailben, bármikor leiratkozhatok.",
+    "receipt": "Az elektronikus nyugtát (54-FZ) e-mailben küldjük el.",
     "hint": "A rendelés leadásához jelölje be a személyes adatok kezeléséhez való hozzájárulást."
   }
 }

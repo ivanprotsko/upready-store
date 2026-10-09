@@ -22,6 +22,9 @@ COPY apps/tenant-panel/package.json apps/tenant-panel/package.json
 RUN pnpm install --frozen-lockfile
 
 COPY apps/tenant-panel apps/tenant-panel
+# The panel guide (t-2026-10-09-103). Its pages, its frames and publish.mjs,
+# which turns them into the help served at /help/.
+COPY docs/owner-guide docs/owner-guide
 
 FROM workspace AS build
 ARG VITE_MEDUSA_STOREFRONT_URL
@@ -33,6 +36,9 @@ WORKDIR /repo/apps/tenant-panel
 # `pnpm build` is `tsc --noEmit && vite build`; the typecheck needs the whole
 # workspace's types, which the install above provides.
 RUN npx vite build
+# After vite, which empties dist. publish.mjs needs only node itself and
+# fails when a page shows a frame that is not in git.
+RUN node /repo/docs/owner-guide/publish.mjs --site dist/help
 
 FROM nginx:1.27-alpine AS runtime
 COPY --from=build /repo/apps/tenant-panel/dist /usr/share/nginx/html

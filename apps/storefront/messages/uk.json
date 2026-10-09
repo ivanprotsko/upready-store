@@ -72,8 +72,8 @@
     "decline": "Відхилити"
   },
   "Breadcrumb": {
-    "home": "Головна",
-    "store": "Магазин"
+    "home": "Вітрина",
+    "store": "Каталог"
   },
   "Cart": {
     "emptyMessage": "У вашому кошику поки що порожньо. Скористайтеся посиланням нижче, щоб почати перегляд наших товарів.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Прізвище",
     "fieldPhone": "Телефон",
     "fieldPostalCode": "Поштовий індекс",
+    "postalCodeInvalid": "Поштовий індекс у Росії — 6 цифр.",
     "fieldProvince": "Область",
     "freeShipping": "Безкоштовно",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} товар} few {{count} товари} many {{count} товарів} other {{count} товару}}",
-    "legal": "Натискаючи «{button}», ви приймаєте <terms>умови</terms>, <termsOfUse>умови використання</termsOfUse> та <returnPolicy>політику повернення</returnPolicy> і підтверджуєте, що ознайомилися з <privacyPolicy>політикою конфіденційності</privacyPolicy>.",
+    "legal": "Натискаючи «{button}», ви приймаєте умови <terms>публічної оферти</terms>.",
     "manualInput": "Ввести адресу вручну",
     "addressIncomplete": "Заповніть обов'язкові поля адреси: {fields}.",
     "provinceRequired": "Виберіть область зі списку.",
@@ -184,6 +185,7 @@
     "offerLink": "Публічна оферта",
     "sameAsShipping": "Збігається з адресою доставки",
     "save": "Зберегти",
+    "next": "Далі",
     "saving": "Збереження...",
     "shippingCost": "Доставка",
     "shippingDescription": "Виберіть, як ви хочете отримати замовлення",
@@ -191,7 +193,7 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Немає доступних способів доставки",
     "shippingPriceUnavailable": "Недоступно: не вдалося розрахувати вартість",
-    "deliveryPriceAfterAddress": "Вкажіть адресу — покажемо ціну й термін",
+    "shippingPriceAddressRejected": "СДЕК не знайшов адресу — перевірте індекс і місто",
     "deliveryWayPickup": "У пункт видачі",
     "deliveryWayCourier": "Кур'єром до дверей",
     "deliveryWayFrom": "від {price}",
@@ -444,13 +446,12 @@
     "infoHeading": "Інформація",
     "sellerHeading": "Продавець",
     "contactsHeading": "Контакти",
-    "taxId": "ІПН {value}",
-    "regNumber": "ОДРН {value}",
-    "regNumberSoleTrader": "ОДРНІП {value}",
+    "taxId": "ІПН: {value}",
+    "regNumber": "ОДРН: {value}",
+    "regNumberSoleTrader": "ОДРНІП: {value}",
     "aboutHeading": "Про магазин",
     "trackOrder": "Відстежити замовлення",
-    "badgesLabel": "Доставка й оплата",
-    "robokassaNote": "Оплата карткою та через СБП. Платежі приймає Robokassa"
+    "badgesLabel": "Доставка й оплата"
   },
   "ForgotPassword": {
     "backToSignIn": "Повернутися до входу",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Перегляньте весь каталог. Фільтруйте за категорією та параметрами, сортуйте за ціною і знаходьте саме те, що потрібно.",
-      "title": "Магазин"
+      "title": "Каталог"
     },
     "terms": {
       "description": "Прочитайте правила, з якими ви погоджуєтесь під час покупки.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Профіль",
       "cart": "Кошик",
-      "home": "Головна",
-      "store": "Магазин",
+      "home": "Вітрина",
+      "store": "Каталог",
       "journal": "Журнал"
     },
     "menuButton": "Меню"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Сітка",
     "viewList": "Список",
     "viewCompact": "Щільна сітка",
-    "perPage": "Товарів на сторінці"
+    "endOfList": "Це всі товари",
+    "loadingMore": "Завантажуємо ще товари"
   },
   "TenantPage": {
     "emptyBody": "На цій сторінці ще немає тексту.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Я даю згоду на обробку моїх персональних даних відповідно до <privacy>Політики конфіденційності</privacy>.",
-    "marketing": "Я погоджуюся отримувати новини, акції та спеціальні пропозиції на вказаний e-mail. Відписатися можна будь-коли за посиланням у листі.",
-    "receipt": "На вказаний під час оформлення e-mail надійде електронний касовий чек (54-ФЗ).",
+    "marketing": "Хочу отримувати новини та акції на e-mail, відписатися можна будь-коли.",
+    "receipt": "Електронний чек (54-ФЗ) надійде на e-mail.",
     "hint": "Щоб оформити замовлення, позначте згоду на обробку персональних даних."
   }
 }

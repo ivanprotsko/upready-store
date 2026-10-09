@@ -72,8 +72,8 @@
     "decline": "Refuser"
   },
   "Breadcrumb": {
-    "home": "Accueil",
-    "store": "Boutique"
+    "home": "Vitrine",
+    "store": "Catalogue"
   },
   "Cart": {
     "emptyMessage": "Votre panier est vide. Utilisez le lien ci-dessous pour parcourir nos produits.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Nom",
     "fieldPhone": "Téléphone",
     "fieldPostalCode": "Code postal",
+    "postalCodeInvalid": "Un code postal russe comporte 6 chiffres.",
     "fieldProvince": "Région",
     "freeShipping": "Gratuit",
     "giftCard": "Carte cadeau",
     "itemsCount": "{count, plural, one {{count} article} other {{count} articles}}",
-    "legal": "En cliquant sur « {button} », vous acceptez nos <terms>conditions</terms>, nos <termsOfUse>conditions d'utilisation</termsOfUse> et notre <returnPolicy>politique de retour</returnPolicy>, et confirmez avoir lu notre <privacyPolicy>politique de confidentialité</privacyPolicy>.",
+    "legal": "En cliquant sur « {button} », vous acceptez les <terms>conditions de vente</terms>.",
     "manualInput": "Saisir l'adresse manuellement",
     "addressIncomplete": "Renseignez les champs obligatoires de l'adresse : {fields}.",
     "provinceRequired": "Choisissez la région dans la liste.",
@@ -184,6 +185,7 @@
     "offerLink": "Offre publique",
     "sameAsShipping": "Identique à l'adresse de livraison",
     "save": "Enregistrer",
+    "next": "Suivant",
     "saving": "Enregistrement...",
     "shippingCost": "Livraison",
     "shippingDescription": "Choisissez le mode de livraison de votre commande",
@@ -191,7 +193,7 @@
     "shippingLink": "Livraison",
     "shippingUnavailable": "Aucun mode de livraison disponible",
     "shippingPriceUnavailable": "Indisponible : le prix n’a pas pu être calculé",
-    "deliveryPriceAfterAddress": "Indiquez votre adresse pour voir le prix et le délai",
+    "shippingPriceAddressRejected": "CDEK n’a pas trouvé l’adresse : vérifiez le code postal et la ville",
     "deliveryWayPickup": "En point de retrait",
     "deliveryWayCourier": "Par coursier à votre porte",
     "deliveryWayFrom": "à partir de {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "N° d’immatriculation d’entrepreneur individuel (OGRNIP) : {value}",
     "aboutHeading": "À propos de la boutique",
     "trackOrder": "Suivre ma commande",
-    "badgesLabel": "Livraison et paiement",
-    "robokassaNote": "Paiement par carte ou via SBP. Robokassa traite les paiements"
+    "badgesLabel": "Livraison et paiement"
   },
   "ForgotPassword": {
     "backToSignIn": "Retour à la connexion",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Parcourez tout le catalogue. Filtrez par catégorie et par option, triez par prix et trouvez exactement ce qu'il vous faut.",
-      "title": "Boutique"
+      "title": "Catalogue"
     },
     "terms": {
       "description": "Lisez les règles que vous acceptez en achetant chez nous.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Compte",
       "cart": "Panier",
-      "home": "Accueil",
-      "store": "Boutique",
+      "home": "Vitrine",
+      "store": "Catalogue",
       "journal": "Journal"
     },
     "menuButton": "Menu"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Grille",
     "viewList": "Liste",
     "viewCompact": "Grille compacte",
-    "perPage": "Produits par page"
+    "endOfList": "Vous avez vu tous les produits",
+    "loadingMore": "Chargement d'autres produits"
   },
   "TenantPage": {
     "emptyBody": "Cette page n'a pas encore de texte.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Je consens au traitement de mes données personnelles conformément à la <privacy>politique de confidentialité</privacy>.",
-    "marketing": "J'accepte de recevoir des actualités, promotions et offres spéciales par e-mail. Je peux me désinscrire à tout moment via le lien présent dans chaque e-mail.",
-    "receipt": "Un reçu de caisse sera envoyé à l'adresse e-mail indiquée lors de la commande (54-FZ).",
+    "marketing": "Je souhaite recevoir les actualités et offres par e-mail, avec désinscription possible à tout moment.",
+    "receipt": "Le reçu électronique (54-FZ) sera envoyé à votre e-mail.",
     "hint": "Pour passer la commande, cochez le consentement au traitement des données personnelles."
   }
 }

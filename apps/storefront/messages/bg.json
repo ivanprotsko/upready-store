@@ -72,8 +72,8 @@
     "decline": "Отказвам"
   },
   "Breadcrumb": {
-    "home": "Начало",
-    "store": "Магазин"
+    "home": "Витрина",
+    "store": "Каталог"
   },
   "Cart": {
     "emptyMessage": "Кошницата ви е празна. Използвайте връзката по-долу, за да разгледате нашите продукти.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Фамилия",
     "fieldPhone": "Телефон",
     "fieldPostalCode": "Пощенски код",
+    "postalCodeInvalid": "Пощенският код в Русия е от 6 цифри.",
     "fieldProvince": "Област",
     "freeShipping": "Безплатно",
     "giftCard": "Подаръчна карта",
     "itemsCount": "{count, plural, one {{count} артикул} other {{count} артикула}}",
-    "legal": "С натискането на «{button}» приемате нашите <terms>условия</terms>, <termsOfUse>условия за ползване</termsOfUse> и <returnPolicy>политика за връщане</returnPolicy> и потвърждавате, че сте се запознали с нашата <privacyPolicy>политика за поверителност</privacyPolicy>.",
+    "legal": "С натискането на «{button}» приемате <terms>условията за продажба</terms>.",
     "manualInput": "Въведи адрес ръчно",
     "addressIncomplete": "Попълнете задължителните полета на адреса: {fields}.",
     "provinceRequired": "Изберете област от списъка.",
@@ -184,6 +185,7 @@
     "offerLink": "Публична оферта",
     "sameAsShipping": "Същият като адреса за доставка",
     "save": "Запази",
+    "next": "Напред",
     "saving": "Запазване...",
     "shippingCost": "Доставка",
     "shippingDescription": "Изберете как да получите поръчката си",
@@ -191,7 +193,7 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Няма налични методи за доставка",
     "shippingPriceUnavailable": "Недостъпно: цената не може да се изчисли",
-    "deliveryPriceAfterAddress": "Въведете адрес, за да видите цената и срока",
+    "shippingPriceAddressRejected": "СДЕК не намери адреса — проверете пощенския код и града",
     "deliveryWayPickup": "До пункт за получаване",
     "deliveryWayCourier": "С куриер до вратата",
     "deliveryWayFrom": "от {price}",
@@ -444,13 +446,12 @@
     "infoHeading": "Информация",
     "sellerHeading": "Продавач",
     "contactsHeading": "Контакти",
-    "taxId": "ИНН {value}",
-    "regNumber": "ОГРН {value}",
-    "regNumberSoleTrader": "ОГРНИП {value}",
+    "taxId": "ИНН: {value}",
+    "regNumber": "ОГРН: {value}",
+    "regNumberSoleTrader": "ОГРНИП: {value}",
     "aboutHeading": "За магазина",
     "trackOrder": "Проследяване на поръчка",
-    "badgesLabel": "Доставка и плащане",
-    "robokassaNote": "Плащане с карта или чрез SBP. Плащанията приема Robokassa"
+    "badgesLabel": "Доставка и плащане"
   },
   "ForgotPassword": {
     "backToSignIn": "Обратно към входа",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Разгледайте целия каталог. Филтрирайте по категория и опция, подредете по цена и намерете точно каквото ви трябва.",
-      "title": "Магазин"
+      "title": "Каталог"
     },
     "terms": {
       "description": "Прочетете правилата, с които се съгласявате при покупка.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Профил",
       "cart": "Кошница",
-      "home": "Начало",
-      "store": "Магазин",
+      "home": "Витрина",
+      "store": "Каталог",
       "journal": "Списание"
     },
     "menuButton": "Меню"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Мрежа",
     "viewList": "Списък",
     "viewCompact": "Сбита мрежа",
-    "perPage": "Продукти на страница"
+    "endOfList": "Това са всички продукти",
+    "loadingMore": "Зареждаме още продукти"
   },
   "TenantPage": {
     "emptyBody": "Тази страница все още няма текст.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Давам съгласие за обработване на личните ми данни в съответствие с <privacy>Политиката за поверителност</privacy>.",
-    "marketing": "Съгласен съм да получавам новини, промоции и специални оферти на посочения имейл. Мога да се отпиша по всяко време чрез връзката във всеки имейл.",
-    "receipt": "Касовата бележка ще бъде изпратена на имейла, посочен при поръчката (54-FZ).",
+    "marketing": "Искам да получавам новини и оферти по имейл, мога да се отпиша по всяко време.",
+    "receipt": "Електронна касова бележка (54-FZ) ще бъде изпратена на вашия имейл.",
     "hint": "За да направите поръчката, отбележете съгласието за обработване на лични данни."
   }
 }

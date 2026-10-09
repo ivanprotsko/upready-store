@@ -72,8 +72,8 @@
     "decline": "Từ chối"
   },
   "Breadcrumb": {
-    "home": "Trang chủ",
-    "store": "Cửa hàng"
+    "home": "Trưng bày",
+    "store": "Danh mục"
   },
   "Cart": {
     "emptyMessage": "Giỏ hàng của bạn đang trống. Hãy nhấn vào liên kết bên dưới để xem sản phẩm của chúng tôi.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Họ",
     "fieldPhone": "Số điện thoại",
     "fieldPostalCode": "Mã bưu điện",
+    "postalCodeInvalid": "Mã bưu chính Nga gồm 6 chữ số.",
     "fieldProvince": "Tỉnh/Thành",
     "freeShipping": "Miễn phí",
     "giftCard": "Thẻ quà tặng",
     "itemsCount": "{count, plural, other {{count} sản phẩm}}",
-    "legal": "Bằng cách nhấn «{button}», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời xác nhận đã đọc <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
+    "legal": "Bằng cách nhấn «{button}», bạn đồng ý với <terms>điều khoản bán hàng</terms>.",
     "manualInput": "Nhập địa chỉ thủ công",
     "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ: {fields}.",
     "provinceRequired": "Chọn khu vực từ danh sách.",
@@ -184,6 +185,7 @@
     "offerLink": "Đề nghị công khai",
     "sameAsShipping": "Giống địa chỉ giao hàng",
     "save": "Lưu",
+    "next": "Tiếp tục",
     "saving": "Đang lưu...",
     "shippingCost": "Phí vận chuyển",
     "shippingDescription": "Chọn cách bạn muốn nhận đơn hàng",
@@ -191,7 +193,7 @@
     "shippingLink": "Vận chuyển",
     "shippingUnavailable": "Không có phương thức vận chuyển khả dụng",
     "shippingPriceUnavailable": "Không khả dụng: không tính được giá",
-    "deliveryPriceAfterAddress": "Nhập địa chỉ để xem giá và thời gian giao hàng",
+    "shippingPriceAddressRejected": "CDEK không tìm thấy địa chỉ — hãy kiểm tra mã bưu chính và thành phố",
     "deliveryWayPickup": "Đến điểm nhận hàng",
     "deliveryWayCourier": "Giao tận cửa bằng chuyển phát",
     "deliveryWayFrom": "từ {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "Số đăng ký hộ kinh doanh cá thể: {value}",
     "aboutHeading": "Về cửa hàng",
     "trackOrder": "Theo dõi đơn hàng",
-    "badgesLabel": "Giao hàng và thanh toán",
-    "robokassaNote": "Thanh toán bằng thẻ hoặc qua SBP. Robokassa xử lý các khoản thanh toán"
+    "badgesLabel": "Giao hàng và thanh toán"
   },
   "ForgotPassword": {
     "backToSignIn": "Quay lại đăng nhập",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Khám phá toàn bộ danh mục. Lọc theo danh mục và tùy chọn, sắp xếp theo giá và tìm đúng thứ bạn cần.",
-      "title": "Cửa hàng"
+      "title": "Danh mục"
     },
     "terms": {
       "description": "Đọc các quy định bạn chấp nhận khi mua hàng của chúng tôi.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Tài khoản",
       "cart": "Giỏ hàng",
-      "home": "Trang chủ",
-      "store": "Cửa hàng",
+      "home": "Trưng bày",
+      "store": "Danh mục",
       "journal": "Tạp chí"
     },
     "menuButton": "Menu"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Lưới",
     "viewList": "Danh sách",
     "viewCompact": "Lưới dày",
-    "perPage": "Số sản phẩm mỗi trang"
+    "endOfList": "Đã hiển thị tất cả sản phẩm",
+    "loadingMore": "Đang tải thêm sản phẩm"
   },
   "TenantPage": {
     "emptyBody": "Trang này chưa có nội dung.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Tôi đồng ý cho xử lý dữ liệu cá nhân của mình theo <privacy>Chính sách bảo mật</privacy>.",
-    "marketing": "Tôi đồng ý nhận tin tức, khuyến mãi và ưu đãi đặc biệt qua e-mail. Tôi có thể hủy đăng ký bất cứ lúc nào qua liên kết trong mỗi e-mail.",
-    "receipt": "Biên lai sẽ được gửi đến e-mail bạn đã nhập khi đặt hàng (54-FZ).",
+    "marketing": "Tôi muốn nhận tin tức và ưu đãi qua e-mail, có thể hủy đăng ký bất cứ lúc nào.",
+    "receipt": "Biên lai điện tử (54-FZ) sẽ được gửi đến e-mail của bạn.",
     "hint": "Để đặt hàng, hãy đánh dấu đồng ý xử lý dữ liệu cá nhân."
   }
 }

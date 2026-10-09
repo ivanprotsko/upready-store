@@ -426,14 +426,16 @@
 }
 
 /*
- * t-2026-10-08-13: the plate under the Robokassa logo in the footer. The logo is the payment
- * system's own file with dark ink (`public/payment/robokassa.svg`) and is not recoloured, so
- * the plate under it is white in every theme and mode. Read only by
+ * t-2026-10-08-13, t-2026-10-09-76: the plate under each payment mark in the footer
+ * (Robokassa, Мир, Visa, Mastercard, СБП). The marks are their owners' own files in full
+ * colour (`public/payment/*.svg`) and are not recoloured: Visa asks for Visa Blue on a light
+ * background, Mastercard forbids its symbol in grey or other colours, and the ink of Robokassa
+ * and СБП is dark. So the plate under them is white in every theme and mode. Read only by
  * `modules/layout/templates/footer/variants/olavka.tsx`.
  */
 :root {
-  /* theme-colours allowlist: the white plate under Robokassa's dark logo, see above. */
-  --robokassa-plate: #ffffff;
+  /* theme-colours allowlist: the white plate under the payment marks' own colours, see above. */
+  --payment-mark-plate: #ffffff;
 }
 
 /*

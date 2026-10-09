@@ -312,11 +312,11 @@ export const CLIENT_MESSAGE_RULES: readonly ClientMessageRule[] = [
   },
   {
     section: "Store",
-    keys: ["view", "viewGrid", "viewList", "viewCompact", "perPage"],
+    keys: ["view", "viewGrid", "viewList", "viewCompact"],
     condition:
       "the deployment's STOREFRONT_CATALOG_VIEW_CONTROLS names the shop and it is no Olavka shop",
     reason:
-      "the names of the listing's views and of its page size (ask a0e1). Their one reader, `ViewControls`, is mounted by `PaginatedProducts` under the same `catalogViewControlsOn`, so a shop without the controls hands the browser the dictionary it had before them.",
+      "the names of the listing's views (ask a0e1). Their one reader, `ViewControls`, is mounted by `ProductsListing` under the same `catalogViewControlsOn`, so a shop without the controls hands the browser the dictionary it had before them. `endOfList` and `loadingMore` stay: `InfiniteProducts` reads them on every product list.",
     keep: (facts) => facts.catalogViewControls,
   },
   {

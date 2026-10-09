@@ -7,7 +7,7 @@ import NativeSelect from "@modules/common/components/native-select"
 import { listShippingRegions, type ShippingRegion } from "@lib/data/fulfillment"
 import { fetchCdekCities, type CdekCity } from "@lib/util/cdek"
 import SuggestInput from "@modules/common/components/suggest-input"
-import { requiresProvince } from "@lib/util/shipping-address"
+import { isPostalCodeValid, requiresProvince } from "@lib/util/shipping-address"
 import { useTranslations } from "next-intl"
 import type { AddressAutocompleteProps } from "./types"
 
@@ -28,6 +28,12 @@ const ManualAddressFields = ({
   // needs it whether the list has arrived yet or not, so the flag comes from
   // the country rather than from `regions.length`.
   const provinceRequired = required && requiresProvince(countryCode)
+  // t-2026-10-09-56, item 9: a postcode of the wrong shape (five digits in Russia) is
+  // named at the field once the buyer leaves it, and at once for a saved one.
+  const [postalTouched, setPostalTouched] = useState(Boolean(values.postal_code))
+  const postalInvalid =
+    postalTouched && !isPostalCodeValid(values.postal_code, countryCode)
+  const russianPostcode = (countryCode ?? "").toLowerCase() === "ru"
 
   useEffect(() => {
     let cancelled = false
@@ -66,14 +72,29 @@ const ManualAddressFields = ({
         required={required}
       />
       <div className="grid grid-cols-2 gap-3">
-        <Input
-          label={t("fieldPostalCode")}
-          name="postal_code"
-          autoComplete="postal-code"
-          value={values.postal_code}
-          onChange={handleChange}
-          required={required}
-        />
+        <div>
+          <Input
+            label={t("fieldPostalCode")}
+            name="postal_code"
+            autoComplete="postal-code"
+            inputMode={russianPostcode ? "numeric" : undefined}
+            value={values.postal_code}
+            onChange={handleChange}
+            onBlur={() => setPostalTouched(true)}
+            required={required}
+            aria-invalid={postalInvalid}
+            data-testid="address-postal-code-input"
+          />
+          {postalInvalid && (
+            <p
+              className="txt-compact-small text-ui-fg-error pt-1"
+              role="alert"
+              data-testid="address-postal-code-error"
+            >
+              {t("postalCodeInvalid")}
+            </p>
+          )}
+        </div>
         {/* i03: the city is the one field of this form a directory we already
             hold can suggest — CDEK's own city list, the same directory every
             later CDEK call resolves against, so a picked city can never be a

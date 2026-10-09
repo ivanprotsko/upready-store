@@ -1,4 +1,11 @@
-import { BuildingStorefront, ChartBar, ShoppingBag, TriangleRightMini } from "@medusajs/icons"
+import {
+  ArrowUpRightMini,
+  BuildingStorefront,
+  ChartBar,
+  QuestionMarkCircle,
+  ShoppingBag,
+  TriangleRightMini,
+} from "@medusajs/icons"
 import { Text, clx } from "@medusajs/ui"
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -19,6 +26,9 @@ import {
   findActive,
   findParent,
 } from "./nav-model"
+
+/** Where the panel guide is served: the same host, see HelpLink. */
+export const HELP_URL = "/help/"
 
 const STORAGE_KEY = "owner-nav-closed-groups"
 /** The entries with children she folded, by `to` («Wildberries»). */
@@ -449,5 +459,31 @@ export const OwnerNav = () => {
         )}
       </ul>
     </nav>
+  )
+}
+
+/**
+ * t-2026-10-09-103: the panel guide (docs/owner-guide) is served by the
+ * panel's own host at `/help/`; the image build puts it there. Every role
+ * sees the entry, and it opens in a new tab so the screen she asked about
+ * stays where it was. A plain `<a>`: `/help/` is static pages, not a route.
+ */
+export const HelpLink = () => {
+  const { t } = useTranslation()
+  return (
+    <a
+      href={HELP_URL}
+      target="_blank"
+      rel="noopener"
+      aria-label={t("app.nav.owner.helpNewTab")}
+      data-testid="nav-help"
+      className={clx(ROW, ROW_IDLE)}
+    >
+      <QuestionMarkCircle className="text-ui-fg-subtle shrink-0" />
+      <Text size="small" weight="plus" leading="compact" className="min-w-0 break-words">
+        {t("app.nav.owner.help")}
+      </Text>
+      <ArrowUpRightMini className="text-ui-fg-muted ms-auto shrink-0 rtl:-scale-x-100" />
+    </a>
   )
 }

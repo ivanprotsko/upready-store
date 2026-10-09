@@ -52,17 +52,51 @@ export type CdekClientOptions = {
 export class CdekError extends Error {
   readonly status: number | null;
   readonly cdekErrors: Array<{ code: string; message: string }>;
+  /** The API path that answered (`/calculator/tarifflist`), null for the auth call. */
+  readonly path: string | null;
 
   constructor(
     message: string,
-    options: { status?: number | null; errors?: Array<{ code: string; message: string }> } = {},
+    options: {
+      status?: number | null;
+      errors?: Array<{ code: string; message: string }>;
+      path?: string | null;
+    } = {},
   ) {
     super(message);
     this.name = "CdekError";
     this.status = options.status ?? null;
     this.cdekErrors = options.errors ?? [];
+    this.path = options.path ?? null;
   }
 }
+
+/**
+ * One log line for a CDEK refusal (t-2026-10-09-56, item 9): the call and its status,
+ * then each of CDEK's own `errors` as `code: message`. Before, the log said only «CDEK
+ * /calculator/tarifflist answered 400», and the reason (a five-digit postcode CDEK could
+ * not place) had to be found by hand. CDEK's texts can quote what it was sent, so every
+ * part of the buyer's address passed in `address` is cut out of them, and so is any run
+ * of five or more digits (a postcode, a house number glued to it, a phone).
+ */
+export const cdekErrorLogLine = (
+  error: CdekError,
+  address: Array<string | null | undefined> = [],
+): string => {
+  const parts = address
+    .map((part) => (part ?? "").trim())
+    .filter((part) => part.length >= 2)
+    .sort((a, b) => b.length - a.length);
+  const redact = (text: string) => {
+    let out = text;
+    for (const part of parts) out = out.split(part).join("<адрес>");
+    return out.replace(/\d{5,}/g, "<цифры>");
+  };
+  const reasons = error.cdekErrors.length
+    ? error.cdekErrors.map((entry) => `${entry.code}: ${redact(entry.message ?? "")}`).join("; ")
+    : "CDEK gave no error list";
+  return `${error.message} — ${reasons}`;
+};
 
 /* ------------------------------------------------------------------ types */
 
@@ -317,6 +351,7 @@ const request = async <T>(
     throw new CdekError(`CDEK ${path} answered ${res.status}`, {
       status: res.status,
       errors: extractErrors(text),
+      path,
     });
   }
   if (!text) {

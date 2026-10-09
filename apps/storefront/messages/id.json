@@ -72,8 +72,8 @@
     "decline": "Tolak"
   },
   "Breadcrumb": {
-    "home": "Beranda",
-    "store": "Toko"
+    "home": "Etalase",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Keranjang Anda masih kosong. Gunakan tautan di bawah ini untuk mulai menjelajahi produk kami.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Nama belakang",
     "fieldPhone": "Telepon",
     "fieldPostalCode": "Kode pos",
+    "postalCodeInvalid": "Kode pos Rusia terdiri dari 6 digit.",
     "fieldProvince": "Provinsi",
     "freeShipping": "Gratis",
     "giftCard": "Kartu Hadiah",
     "itemsCount": "{count, plural, other {{count} barang}}",
-    "legal": "Dengan mengklik «{button}», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta mengonfirmasi bahwa Anda telah membaca <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
+    "legal": "Dengan mengklik «{button}», Anda menyetujui <terms>syarat penjualan</terms>.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapi kolom alamat yang wajib diisi: {fields}.",
     "provinceRequired": "Pilih wilayah dari daftar.",
@@ -184,6 +185,7 @@
     "offerLink": "Penawaran publik",
     "sameAsShipping": "Sama dengan alamat pengiriman",
     "save": "Simpan",
+    "next": "Lanjut",
     "saving": "Menyimpan...",
     "shippingCost": "Pengiriman",
     "shippingDescription": "Pilih bagaimana pesanan Anda dikirim",
@@ -191,7 +193,7 @@
     "shippingLink": "Pengiriman",
     "shippingUnavailable": "Tidak ada metode pengiriman yang tersedia",
     "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dihitung",
-    "deliveryPriceAfterAddress": "Masukkan alamat untuk melihat harga dan waktu pengiriman",
+    "shippingPriceAddressRejected": "CDEK tidak menemukan alamat — periksa kode pos dan kota",
     "deliveryWayPickup": "Ke titik pengambilan",
     "deliveryWayCourier": "Kurir sampai ke pintu",
     "deliveryWayFrom": "mulai {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "No. registrasi pengusaha perorangan (OGRNIP): {value}",
     "aboutHeading": "Tentang toko",
     "trackOrder": "Lacak pesanan Anda",
-    "badgesLabel": "Pengiriman dan pembayaran",
-    "robokassaNote": "Bayar dengan kartu atau melalui SBP. Robokassa memproses pembayaran"
+    "badgesLabel": "Pengiriman dan pembayaran"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke masuk",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Jelajahi seluruh katalog. Saring berdasarkan kategori dan pilihan, urutkan berdasarkan harga, dan temukan yang Anda butuhkan.",
-      "title": "Toko"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Baca aturan yang Anda setujui saat berbelanja di toko kami.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Akun",
       "cart": "Keranjang",
-      "home": "Beranda",
-      "store": "Toko",
+      "home": "Etalase",
+      "store": "Katalog",
       "journal": "Jurnal"
     },
     "menuButton": "Menu"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Kisi",
     "viewList": "Daftar",
     "viewCompact": "Kisi ringkas",
-    "perPage": "Produk per halaman"
+    "endOfList": "Semua produk sudah ditampilkan",
+    "loadingMore": "Memuat produk lainnya"
   },
   "TenantPage": {
     "emptyBody": "Halaman ini belum memiliki teks.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Saya menyetujui pemrosesan data pribadi saya sesuai dengan <privacy>Kebijakan Privasi</privacy>.",
-    "marketing": "Saya setuju menerima berita, promosi, dan penawaran khusus melalui e-mail. Saya dapat berhenti berlangganan kapan saja melalui tautan di setiap e-mail.",
-    "receipt": "Struk pembayaran akan dikirim ke e-mail yang Anda masukkan saat pemesanan (54-FZ).",
+    "marketing": "Saya ingin menerima berita dan penawaran lewat e-mail dan bisa berhenti berlangganan kapan saja.",
+    "receipt": "Struk elektronik (54-FZ) akan dikirim ke e-mail Anda.",
     "hint": "Untuk melakukan pemesanan, centang persetujuan pemrosesan data pribadi."
   }
 }

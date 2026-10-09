@@ -72,8 +72,8 @@
     "decline": "رفض"
   },
   "Breadcrumb": {
-    "home": "الرئيسية",
-    "store": "المتجر"
+    "home": "الواجهة",
+    "store": "الكتالوج"
   },
   "Cart": {
     "emptyMessage": "سلتك فارغة. استخدم الرابط أدناه لبدء تصفح منتجاتنا.",
@@ -151,11 +151,12 @@
     "fieldLastName": "اسم العائلة",
     "fieldPhone": "الهاتف",
     "fieldPostalCode": "الرمز البريدي",
+    "postalCodeInvalid": "الرمز البريدي الروسي يتكون من 6 أرقام.",
     "fieldProvince": "المحافظة",
     "freeShipping": "مجاني",
     "giftCard": "بطاقة هدايا",
     "itemsCount": "{count, plural, zero {{count} منتج} one {{count} منتج} two {{count} منتجان} few {{count} منتجات} many {{count} منتجًا} other {{count} منتج}}",
-    "legal": "بالنقر على «{button}»، فإنك توافق على <terms>الشروط</terms> و<termsOfUse>شروط الاستخدام</termsOfUse> و<returnPolicy>سياسة الإرجاع</returnPolicy> الخاصة بنا، وتؤكد أنك اطلعت على <privacyPolicy>سياسة الخصوصية</privacyPolicy> الخاصة بنا.",
+    "legal": "بالنقر على «{button}»، فإنك توافق على <terms>شروط البيع</terms>.",
     "manualInput": "إدخال العنوان يدويًا",
     "addressIncomplete": "املأ حقول العنوان المطلوبة: {fields}.",
     "provinceRequired": "اختر المنطقة من القائمة.",
@@ -184,6 +185,7 @@
     "offerLink": "العرض العام",
     "sameAsShipping": "نفس عنوان الشحن",
     "save": "حفظ",
+    "next": "التالي",
     "saving": "جارٍ الحفظ...",
     "shippingCost": "الشحن",
     "shippingDescription": "اختر طريقة استلام طلبك",
@@ -191,7 +193,7 @@
     "shippingLink": "الشحن",
     "shippingUnavailable": "لا توجد طرق شحن متاحة",
     "shippingPriceUnavailable": "غير متاح: تعذّر حساب التكلفة",
-    "deliveryPriceAfterAddress": "أدخل عنوانك لعرض السعر ومدة التوصيل",
+    "shippingPriceAddressRejected": "لم تعثر CDEK على العنوان، تحقق من الرمز البريدي والمدينة",
     "deliveryWayPickup": "إلى نقطة استلام",
     "deliveryWayCourier": "بالمندوب حتى الباب",
     "deliveryWayFrom": "من {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "رقم تسجيل رائد الأعمال الفردي: {value}",
     "aboutHeading": "عن المتجر",
     "trackOrder": "تتبع طلبك",
-    "badgesLabel": "التوصيل والدفع",
-    "robokassaNote": "الدفع بالبطاقة أو عبر SBP. تتم معالجة المدفوعات عبر Robokassa"
+    "badgesLabel": "التوصيل والدفع"
   },
   "ForgotPassword": {
     "backToSignIn": "العودة إلى تسجيل الدخول",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "تصفح الكتالوج بالكامل. صفِّ حسب الفئة والخيار، ورتِّب حسب السعر، واعثر على ما تحتاجه بالضبط.",
-      "title": "المتجر"
+      "title": "الكتالوج"
     },
     "terms": {
       "description": "اقرأ القواعد التي توافق عليها عند الشراء من متجرنا.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "الحساب",
       "cart": "السلة",
-      "home": "الرئيسية",
-      "store": "المتجر",
+      "home": "الواجهة",
+      "store": "الكتالوج",
       "journal": "المجلة"
     },
     "menuButton": "القائمة"
@@ -1150,7 +1151,8 @@
     "viewGrid": "شبكة",
     "viewList": "قائمة",
     "viewCompact": "شبكة مضغوطة",
-    "perPage": "عدد المنتجات في الصفحة"
+    "endOfList": "هذه كل المنتجات",
+    "loadingMore": "جارٍ تحميل المزيد من المنتجات"
   },
   "TenantPage": {
     "emptyBody": "لا يوجد نص في هذه الصفحة بعد.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "أوافق على معالجة بياناتي الشخصية وفقًا لـ<privacy>سياسة الخصوصية</privacy>.",
-    "marketing": "أوافق على تلقي الأخبار والعروض الترويجية والعروض الخاصة عبر البريد الإلكتروني. يمكنني إلغاء الاشتراك في أي وقت عبر الرابط في كل رسالة.",
-    "receipt": "سيتم إرسال إيصال الدفع إلى البريد الإلكتروني الذي أدخلته عند الطلب (54-FZ).",
+    "marketing": "أرغب في تلقي الأخبار والعروض عبر البريد الإلكتروني، ويمكنني إلغاء الاشتراك في أي وقت.",
+    "receipt": "سيصلك إيصال إلكتروني (54-FZ) على بريدك الإلكتروني.",
     "hint": "لإتمام الطلب، ضع علامة على الموافقة على معالجة البيانات الشخصية."
   }
 }

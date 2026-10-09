@@ -72,8 +72,8 @@
     "decline": "Hylkää"
   },
   "Breadcrumb": {
-    "home": "Etusivu",
-    "store": "Kauppa"
+    "home": "Näyteikkuna",
+    "store": "Katalogi"
   },
   "Cart": {
     "emptyMessage": "Ostoskorisi on tyhjä. Aloita tuotteiden selaaminen alla olevasta linkistä.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Sukunimi",
     "fieldPhone": "Puhelin",
     "fieldPostalCode": "Postinumero",
+    "postalCodeInvalid": "Venäläisessä postinumerossa on 6 numeroa.",
     "fieldProvince": "Alue",
     "freeShipping": "Ilmainen",
     "giftCard": "Lahjakortti",
     "itemsCount": "{count, plural, one {{count} tuote} other {{count} tuotetta}}",
-    "legal": "Klikkaamalla «{button}» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä vahvistat lukeneesi <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
+    "legal": "Klikkaamalla «{button}» hyväksyt <terms>myyntiehdot</terms>.",
     "manualInput": "Syötä osoite manuaalisesti",
     "addressIncomplete": "Täytä osoitteen pakolliset kentät: {fields}.",
     "provinceRequired": "Valitse alue luettelosta.",
@@ -184,6 +185,7 @@
     "offerLink": "Julkinen tarjous",
     "sameAsShipping": "Sama kuin toimitusosoite",
     "save": "Tallenna",
+    "next": "Seuraava",
     "saving": "Tallennetaan...",
     "shippingCost": "Toimitus",
     "shippingDescription": "Valitse, miten haluat tilauksesi toimitettavan",
@@ -191,7 +193,7 @@
     "shippingLink": "Toimitus",
     "shippingUnavailable": "Toimitustapoja ei ole saatavilla",
     "shippingPriceUnavailable": "Ei käytettävissä: hintaa ei voitu laskea",
-    "deliveryPriceAfterAddress": "Anna osoitteesi, niin näet hinnan ja toimitusajan",
+    "shippingPriceAddressRejected": "CDEK ei löytänyt osoitetta – tarkista postinumero ja kaupunki",
     "deliveryWayPickup": "Noutopisteeseen",
     "deliveryWayCourier": "Kuriirilla ovelle",
     "deliveryWayFrom": "alkaen {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "Yksityisyrittäjän rekisterinumero (OGRNIP): {value}",
     "aboutHeading": "Tietoa kaupasta",
     "trackOrder": "Seuraa tilaustasi",
-    "badgesLabel": "Toimitus ja maksu",
-    "robokassaNote": "Maksu kortilla tai SBP:n kautta. Maksut vastaanottaa Robokassa"
+    "badgesLabel": "Toimitus ja maksu"
   },
   "ForgotPassword": {
     "backToSignIn": "Takaisin kirjautumiseen",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Selaa koko valikoimaa. Suodata kategorian ja vaihtoehdon mukaan, järjestä hinnan mukaan ja löydä juuri se, mitä tarvitset.",
-      "title": "Kauppa"
+      "title": "Katalogi"
     },
     "terms": {
       "description": "Lue säännöt, jotka hyväksyt ostaessasi meiltä.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Tili",
       "cart": "Ostoskori",
-      "home": "Etusivu",
-      "store": "Kauppa",
+      "home": "Näyteikkuna",
+      "store": "Katalogi",
       "journal": "Lehti"
     },
     "menuButton": "Valikko"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Ruudukko",
     "viewList": "Luettelo",
     "viewCompact": "Tiivis ruudukko",
-    "perPage": "Tuotteita sivulla"
+    "endOfList": "Siinä kaikki tuotteet",
+    "loadingMore": "Ladataan lisää tuotteita"
   },
   "TenantPage": {
     "emptyBody": "Tällä sivulla ei ole vielä tekstiä.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Annan suostumukseni henkilötietojeni käsittelyyn <privacy>tietosuojakäytännön</privacy> mukaisesti.",
-    "marketing": "Haluan saada uutisia, kampanjoita ja erikoistarjouksia sähköpostitse. Voin perua tilauksen milloin tahansa kunkin viestin linkistä.",
-    "receipt": "Kuitti lähetetään tilauksessa antamaasi sähköpostiosoitteeseen (54-FZ).",
+    "marketing": "Haluan uutisia ja tarjouksia sähköpostiin, ja voin perua tilauksen milloin tahansa.",
+    "receipt": "Sähköinen kuitti (54-FZ) lähetetään sähköpostiisi.",
     "hint": "Tee tilaus valitsemalla suostumus henkilötietojen käsittelyyn."
   }
 }

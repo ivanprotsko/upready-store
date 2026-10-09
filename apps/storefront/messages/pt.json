@@ -72,8 +72,8 @@
     "decline": "Recusar"
   },
   "Breadcrumb": {
-    "home": "Início",
-    "store": "Loja"
+    "home": "Montra",
+    "store": "Catálogo"
   },
   "Cart": {
     "emptyMessage": "O seu carrinho está vazio. Utilize o link abaixo para começar a explorar os nossos produtos.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Apelido",
     "fieldPhone": "Telefone",
     "fieldPostalCode": "Código postal",
+    "postalCodeInvalid": "O código postal russo tem 6 dígitos.",
     "fieldProvince": "Distrito",
     "freeShipping": "Grátis",
     "giftCard": "Cartão-presente",
     "itemsCount": "{count, plural, one {{count} item} other {{count} itens}}",
-    "legal": "Ao clicar em «{button}», aceita os nossos <terms>termos</terms>, <termsOfUse>termos de utilização</termsOfUse> e <returnPolicy>política de devolução</returnPolicy>, e confirma que leu a nossa <privacyPolicy>política de privacidade</privacyPolicy>.",
+    "legal": "Ao clicar em «{button}», aceita os <terms>termos de venda</terms>.",
     "manualInput": "Introduzir morada manualmente",
     "addressIncomplete": "Preencha os campos obrigatórios do endereço: {fields}.",
     "provinceRequired": "Escolha a região na lista.",
@@ -184,6 +185,7 @@
     "offerLink": "Oferta pública",
     "sameAsShipping": "Igual à morada de entrega",
     "save": "Guardar",
+    "next": "Seguinte",
     "saving": "A guardar...",
     "shippingCost": "Envio",
     "shippingDescription": "Escolha como pretende receber a sua encomenda",
@@ -191,7 +193,7 @@
     "shippingLink": "Envio",
     "shippingUnavailable": "Não existem métodos de envio disponíveis",
     "shippingPriceUnavailable": "Indisponível: não foi possível calcular o preço",
-    "deliveryPriceAfterAddress": "Indique o seu endereço para ver o preço e o prazo",
+    "shippingPriceAddressRejected": "A CDEK não encontrou o endereço: verifique o código postal e a cidade",
     "deliveryWayPickup": "Para um ponto de recolha",
     "deliveryWayCourier": "Por estafeta até à porta",
     "deliveryWayFrom": "a partir de {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "N.º de registo de empresário em nome individual (OGRNIP): {value}",
     "aboutHeading": "Sobre a loja",
     "trackOrder": "Acompanhar pedido",
-    "badgesLabel": "Entrega e pagamento",
-    "robokassaNote": "Pagamento com cartão ou através do SBP. A Robokassa processa os pagamentos"
+    "badgesLabel": "Entrega e pagamento"
   },
   "ForgotPassword": {
     "backToSignIn": "Voltar ao início de sessão",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Explore o catálogo completo. Filtre por categoria e opção, ordene por preço e encontre exatamente o que precisa.",
-      "title": "Loja"
+      "title": "Catálogo"
     },
     "terms": {
       "description": "Leia as regras que aceita ao comprar connosco.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Conta",
       "cart": "Carrinho",
-      "home": "Início",
-      "store": "Loja",
+      "home": "Montra",
+      "store": "Catálogo",
       "journal": "Revista"
     },
     "menuButton": "Menu"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Grelha",
     "viewList": "Lista",
     "viewCompact": "Grelha compacta",
-    "perPage": "Produtos por página"
+    "endOfList": "Estes são todos os produtos",
+    "loadingMore": "A carregar mais produtos"
   },
   "TenantPage": {
     "emptyBody": "Esta página ainda não tem texto.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Dou o meu consentimento para o tratamento dos meus dados pessoais de acordo com a <privacy>política de privacidade</privacy>.",
-    "marketing": "Aceito receber novidades, promoções e ofertas especiais por e-mail. Posso cancelar a subscrição a qualquer momento através da ligação em cada e-mail.",
-    "receipt": "Será enviado um recibo para o e-mail indicado na encomenda (54-FZ).",
+    "marketing": "Quero receber novidades e ofertas por e-mail e posso cancelar a qualquer momento.",
+    "receipt": "O recibo eletrónico (54-FZ) será enviado para o seu e-mail.",
     "hint": "Para fazer a encomenda, assinale o consentimento para o tratamento de dados pessoais."
   }
 }

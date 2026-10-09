@@ -6,7 +6,7 @@ import type { HttpTypes } from "@medusajs/types"
 import { describe, expect, it } from "vitest"
 
 import { CATEGORY_TINTS, SEARCH_TINT, categoryTint } from "./palette"
-import { activeItemId, railItems, railShownOn } from "./rail-items"
+import { activeItemId, hasRailItems, railItems, railShownOn } from "./rail-items"
 
 /**
  * t-2026-10-09-41 (Ivan, ask 4c05): the category row of the frame CatalogNav on the Olavka
@@ -91,13 +91,24 @@ describe("categoryTint", () => {
   })
 })
 
-describe("railShownOn: the shopping pages", () => {
-  it("home, store, a category, a product", () => {
-    for (const path of ["/", "/store", "/categories/asd-cherkashino", "/products/asd-2"]) expect(railShownOn(path), path).toBe(true)
+// t-2026-10-09-75, Ivan, 09.10 (75.png): «вот эту навигацию оставляем только на главной странице».
+describe("railShownOn: the home page only", () => {
+  it("the home page has the row", () => {
+    expect(railShownOn("/")).toBe(true)
   })
 
-  it("not on the account, the cart, an order or a content page", () => {
-    for (const path of ["/account", "/account/wishlist", "/cart", "/order/1/confirmed", "/journal", "/privacy"]) expect(railShownOn(path), path).toBe(false)
+  it("the catalog, a category and a product page no longer have it, nor any other page", () => {
+    for (const path of ["/store", "/categories/asd-cherkashino", "/categories/asd/kapli", "/products/asd-2", "/collections/hits", "/brands", "/account", "/account/wishlist", "/cart", "/order/1/confirmed", "/journal", "/privacy"]) {
+      expect(railShownOn(path), path).toBe(false)
+    }
+  })
+})
+
+describe("hasRailItems: whether the row has a button at all", () => {
+  it("a top-level category with a handle is a button; a child or a shop without categories is none", () => {
+    expect(hasRailItems(SHOP)).toBe(true)
+    expect(hasRailItems([category("c10", "Капли АСД", "asd-kapli", "c3")])).toBe(false)
+    expect(hasRailItems([])).toBe(false)
   })
 })
 
@@ -133,9 +144,12 @@ describe("the row belongs to the Olavka header only", () => {
     expect(importers).toEqual(["h7.tsx"])
   })
 
-  it("the Olavka bar keeps no magnifier of its own: the frame moved search into the row", () => {
+  // t-2026-10-09-75: the row's magnifier was the bar's search; off the home page the bar carries
+  // it again (`HeaderSearch`), and on the home page the row's own stays the only one.
+  it("the Olavka bar draws the row and, off the home page, its own magnifier through HeaderSearch", () => {
     const h7 = readFileSync(join(variants, "h7.tsx"), "utf8")
     expect(h7).not.toMatch(/<Search\b/)
     expect(h7).toMatch(/<OlavkaCategoryRail\s*\/>/)
+    expect(h7).toMatch(/<HeaderSearch className=\{styles\.iconButton\} railDrawn=\{hasRailItems\(categories\)\} \/>/)
   })
 })

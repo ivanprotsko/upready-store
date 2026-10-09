@@ -72,8 +72,8 @@
     "decline": "Afvis"
   },
   "Breadcrumb": {
-    "home": "Forside",
-    "store": "Butik"
+    "home": "Butiksvindue",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Din kurv er tom. Brug linket nedenfor for at begynde at browse vores produkter.",
@@ -151,11 +151,12 @@
     "fieldLastName": "Efternavn",
     "fieldPhone": "Telefon",
     "fieldPostalCode": "Postnummer",
+    "postalCodeInvalid": "Et russisk postnummer har 6 cifre.",
     "fieldProvince": "Region",
     "freeShipping": "Gratis",
     "giftCard": "Gavekort",
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
-    "legal": "Ved at klikke på «{button}» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy> og bekræfter, at du har læst vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
+    "legal": "Ved at klikke på «{button}» accepterer du <terms>salgsbetingelserne</terms>.",
     "manualInput": "Indtast adresse manuelt",
     "addressIncomplete": "Udfyld de obligatoriske adressefelter: {fields}.",
     "provinceRequired": "Vælg region på listen.",
@@ -184,6 +185,7 @@
     "offerLink": "Offentligt tilbud",
     "sameAsShipping": "Samme som leveringsadresse",
     "save": "Gem",
+    "next": "Næste",
     "saving": "Gemmer...",
     "shippingCost": "Levering",
     "shippingDescription": "Vælg, hvordan din ordre skal leveres",
@@ -191,7 +193,7 @@
     "shippingLink": "Levering",
     "shippingUnavailable": "Ingen leveringsmetoder tilgængelige",
     "shippingPriceUnavailable": "Ikke tilgængelig: prisen kunne ikke beregnes",
-    "deliveryPriceAfterAddress": "Angiv din adresse for at se pris og leveringstid",
+    "shippingPriceAddressRejected": "CDEK fandt ikke adressen – tjek postnummer og by",
     "deliveryWayPickup": "Til et udleveringssted",
     "deliveryWayCourier": "Med bud til døren",
     "deliveryWayFrom": "fra {price}",
@@ -449,8 +451,7 @@
     "regNumberSoleTrader": "Registreringsnr. for enkeltmandsvirksomhed (OGRNIP): {value}",
     "aboutHeading": "Om butikken",
     "trackOrder": "Spor din ordre",
-    "badgesLabel": "Levering og betaling",
-    "robokassaNote": "Betal med kort eller via SBP. Robokassa modtager betalingerne"
+    "badgesLabel": "Levering og betaling"
   },
   "ForgotPassword": {
     "backToSignIn": "Tilbage til login",
@@ -779,7 +780,7 @@
     },
     "store": {
       "description": "Se hele kataloget. Filtrér efter kategori og variant, sortér efter pris, og find præcis det, du skal bruge.",
-      "title": "Butik"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Læs de regler, du accepterer, når du handler hos os.",
@@ -1125,8 +1126,8 @@
     "items": {
       "account": "Konto",
       "cart": "Kurv",
-      "home": "Forside",
-      "store": "Butik",
+      "home": "Butiksvindue",
+      "store": "Katalog",
       "journal": "Magasin"
     },
     "menuButton": "Menu"
@@ -1150,7 +1151,8 @@
     "viewGrid": "Gitter",
     "viewList": "Liste",
     "viewCompact": "Tæt gitter",
-    "perPage": "Produkter pr. side"
+    "endOfList": "Det var alle produkter",
+    "loadingMore": "Henter flere produkter"
   },
   "TenantPage": {
     "emptyBody": "Denne side har endnu ingen tekst.",
@@ -1258,8 +1260,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Jeg giver samtykke til behandling af mine personoplysninger i overensstemmelse med <privacy>privatlivspolitikken</privacy>.",
-    "marketing": "Jeg vil gerne modtage nyheder, kampagner og særlige tilbud på e-mail. Jeg kan til enhver tid afmelde mig via linket i hver e-mail.",
-    "receipt": "En kvittering sendes til den e-mail, du angav ved bestillingen (54-FZ).",
+    "marketing": "Jeg vil gerne modtage nyheder og tilbud på e-mail og kan altid afmelde mig.",
+    "receipt": "En elektronisk kvittering (54-FZ) sendes til din e-mail.",
     "hint": "For at afgive ordren skal du sætte flueben ved samtykke til behandling af personoplysninger."
   }
 }

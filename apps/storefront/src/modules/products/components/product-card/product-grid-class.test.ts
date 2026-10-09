@@ -133,10 +133,10 @@ describe("product grid beside the catalog's side column", () => {
   // The list has three views since ask a0e1; `grid`, the default and the only one a shop
   // without the controls' switch (and every Olavka shop) ever gets, is this grid.
   it("is the grid of the catalog's list", () => {
-    const list = read("store/templates/paginated-products.tsx")
+    const list = read("store/templates/products-listing.tsx")
     expect(list).toMatch(/LISTING_CLASS: Record<CatalogView, string> = \{\s*grid: PRODUCT_GRID_BESIDE_SIDEBAR_CLASS,/)
     expect(list).toContain("className={LISTING_CLASS[view]}")
-    expect(list).toMatch(/const view = cookieStore \? parseCatalogView\([^\n]*\) : DEFAULT_CATALOG_VIEW\n/)
+    expect(list).toContain("const { controls, view } = await catalogListingView()")
     expect(list).not.toMatch(/\bPRODUCT_GRID_CLASS\b/)
   })
 })

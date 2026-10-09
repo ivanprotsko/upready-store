@@ -99,6 +99,18 @@ export const listPickupPoints = async () => {
 // either, which the framework's own default has changed across versions; an
 // explicit `no-store` says so rather than leaning on whatever that default is
 // today.
+/**
+ * The code the backend opens its answer with when CDEK's calculator refuses the
+ * buyer's address (`CDEK_ADDRESS_REJECTED` in the cdek-fulfillment provider,
+ * t-2026-10-09-56): the checkout then shows its own sentence about the postcode and
+ * the city instead of the general «Недоступно».
+ */
+// Not exported: a "use server" module may export async functions only.
+const CDEK_ADDRESS_REJECTED_CODE = "cdek_address_rejected"
+
+/** What a failed `/calculate` said, for the card: the backend's code, else `other`. */
+export type ShippingPriceFailure = { error: "cdek_address_rejected" | "other" }
+
 export const calculatePriceForShippingOption = cache(async (
   optionId: string,
   cartId: string,
@@ -129,9 +141,23 @@ export const calculatePriceForShippingOption = cache(async (
         cache: "no-store",
       }
     )
-    .then(({ shipping_option }) => shipping_option)
-    .catch((_e) => {
-      return null
+    .then(
+      ({ shipping_option }): HttpTypes.StoreCartShippingOption | ShippingPriceFailure =>
+        shipping_option
+    )
+    .catch((e: unknown): ShippingPriceFailure => {
+      // t-2026-10-09-56 (Ivan's item 9, «почему-то не показывает стоимость сдэк»):
+      // the card says «Недоступно: не удалось рассчитать стоимость», and the backend's
+      // reason (the provider's own sentence) stays in this server's log, where it
+      // can be read; before, it was dropped without a trace.
+      console.error(
+        `calculatePriceForShippingOption: option ${optionId} was not priced:`,
+        e instanceof Error ? e.message : e
+      )
+      const message = e instanceof Error ? e.message : String(e)
+      return {
+        error: message.includes(CDEK_ADDRESS_REJECTED_CODE) ? "cdek_address_rejected" : "other",
+      }
     })
 })
 

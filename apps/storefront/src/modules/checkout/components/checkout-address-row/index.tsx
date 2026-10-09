@@ -6,7 +6,11 @@ import MapPin from "@modules/common/icons/map-pin"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutAddressForm from "@modules/checkout/components/checkout-address-form"
 import { isPickupShippingOption } from "@lib/util/fulfillment"
-import { cartShippingAddressGaps } from "@lib/util/shipping-address"
+import {
+  cartCountryCode,
+  cartShippingAddressGaps,
+  isPostalCodeValid,
+} from "@lib/util/shipping-address"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import { usePickupSheet } from "@modules/checkout/context/pickup-sheet-context"
 import { useTranslations } from "next-intl"
@@ -65,9 +69,13 @@ export default function CheckoutAddressRow({
   // t-2026-10-01-checkout-ivan-3 #3: the same bar `cartShippingAddressGaps`
   // already holds the order to (`payment-button`'s own `notReady` gate), so
   // the checkmark never lights up on an address the backend would reject.
+  // t-2026-10-09-56, item 9: and a postcode of its country's shape (six digits in
+  // Russia), the same test `isAddressStepDone` gates the next section by.
   const isComplete = isPickup
     ? hasPickupPoint
-    : hasAddress && cartShippingAddressGaps(cart).length === 0
+    : hasAddress &&
+      cartShippingAddressGaps(cart).length === 0 &&
+      isPostalCodeValid(addr?.postal_code, cartCountryCode(cart))
 
   // Batch 6 part 1: no collapsed row to discover. While the address is not complete
   // the form is open under the heading; once it is, the section shows the address

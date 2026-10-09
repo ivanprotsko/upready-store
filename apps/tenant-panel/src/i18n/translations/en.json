@@ -289,6 +289,8 @@
         "staff": "Staff",
         "openShop": "Open the shop",
         "openShopShort": "Shop",
+        "help": "Help",
+        "helpNewTab": "Panel help, opens in a new tab",
         "openMenu": "Open the menu",
         "groups": {
           "sales": "Sales",

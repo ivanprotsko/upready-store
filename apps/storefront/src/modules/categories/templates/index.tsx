@@ -16,9 +16,9 @@ import MobileRefinement from "@modules/store/components/mobile-refinement"
 import CategorySidebar from "@modules/store/components/category-sidebar"
 import { ActiveFilters, FilterSidebar } from "@modules/store/components/filter-panel"
 import { withoutOptionsNamedLikeFacets } from "@lib/util/option-filter-groups"
-import PaginatedProducts, {
+import ProductsListing, {
   PRODUCT_LIMIT,
-} from "@modules/store/templates/paginated-products"
+} from "@modules/store/templates/products-listing"
 import { listCategories } from "@lib/data/categories"
 import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { categoryBranchIds } from "@lib/util/category-tree"
@@ -36,7 +36,6 @@ import { buildBreadcrumbJsonLd } from "@lib/util/json-ld"
 export default async function CategoryTemplate({
   category,
   sortBy,
-  page,
   countryCode,
   optionValueIds,
   attributeSelection,
@@ -44,14 +43,12 @@ export default async function CategoryTemplate({
 }: {
   category: HttpTypes.StoreProductCategory
   sortBy?: SortOptions
-  page?: string
   countryCode: string
   optionValueIds?: OptionValueIds
   /** The shop's own characteristics picked in the URL, t15-product-attributes. */
   attributeSelection?: AttributeSelection
   subcategoryHandles?: string[]
 }) {
-  const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
 
   if (!category || !countryCode) notFound()
@@ -174,9 +171,8 @@ export default async function CategoryTemplate({
               />
             }
           >
-            <PaginatedProducts
+            <ProductsListing
               sortBy={sort}
-              page={pageNumber}
               categoryIds={categoryIds}
               countryCode={countryCode}
               optionValueIds={optionValueIds}

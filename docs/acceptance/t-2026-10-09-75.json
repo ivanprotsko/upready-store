@@ -1,0 +1,25 @@
+{
+  "task": "t-2026-10-09-75",
+  "items": [
+    {
+      "n": 1,
+      "test": "apps/storefront/src/modules/layout/components/olavka-category-rail/rail-items.test.ts",
+      "grep": "the catalog, a category and a product page no longer have it, nor any other page"
+    },
+    {
+      "n": 2,
+      "test": "apps/storefront/src/modules/layout/components/side-menu/labels.test.ts",
+      "grep": "the burger menu, in Ivan's words"
+    },
+    {
+      "n": 3,
+      "test": "apps/storefront/src/modules/store/no-pagination.test.ts",
+      "grep": "the pagination component is gone and nothing draws a page row or a page size"
+    },
+    {
+      "n": 4,
+      "test": "apps/storefront/src/lib/util/infinite-list.test.ts",
+      "grep": "asks for the products of the 4th and 5th screens on start, before any scroll"
+    }
+  ]
+}

@@ -1,14 +1,14 @@
 import { getLegalLinkContext } from "@lib/data/legal-links"
+import { listCartShippingMethods } from "@lib/data/fulfillment"
 import { listCartPaymentMethods, listRobokassaMethods } from "@lib/data/payment"
 import { getTenantManualPayment } from "@lib/data/tenant-manual-payment"
 import { getTenantPaymentPreNotice } from "@lib/data/tenant-payment-pre-notice"
 import { getTenantSeller } from "@lib/data/tenant-seller"
 import { listPublishedPageVersions } from "@lib/data/tenant-pages"
 import { getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
-import { legalHref } from "@lib/util/legal-links"
+import { checkoutStepLocksOf } from "@lib/util/checkout-steps"
 import { sellerLabel } from "@lib/util/payment-pre-notice"
 import type { HttpTypes } from "@medusajs/types"
-import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
 import CheckoutPaymentSection from "@modules/checkout/components/checkout-payment-section"
 
@@ -25,6 +25,22 @@ const CheckoutPayment = async ({
   cart: HttpTypes.StoreCart
   customer: HttpTypes.StoreCustomer | null
 }) => {
+  // t-2026-10-09-56 (Ivan's item 7): the payment block opens last, once the address, the
+  // delivery and the contacts are done (`checkoutStepLocksOf`, the same test the form
+  // template locks its own sections by). Until then it is its heading alone, and no
+  // payment session is started for a cart that cannot be paid yet.
+  const [shippingOptions, tLocked] = await Promise.all([
+    listCartShippingMethods(cart.id),
+    getTranslations("CheckoutPage"),
+  ])
+  if (checkoutStepLocksOf(cart, shippingOptions).payment) {
+    return (
+      <div className="flex flex-col gap-y-3 py-2" aria-disabled="true" data-testid="checkout-payment-locked">
+        <h2 className="h2-docs text-ui-fg-disabled">{tLocked("paymentHeading")}</h2>
+      </div>
+    )
+  }
+
   // Batch 7: no guest pays at all — every order lands in an account (the pay button stays
   // disabled until the sign-in, `CheckoutSignIn` above the form says why).
   const requiresSignIn = !customer
@@ -35,7 +51,6 @@ const CheckoutPayment = async ({
     tenantPaymentMethods,
     prePaymentNotice,
     seller,
-    t,
     pageVersions,
     robokassaMethods,
   ] = await Promise.all([
@@ -56,7 +71,6 @@ const CheckoutPayment = async ({
       // The seller the notice names — legal name, or the shop's display name
       // while there is none; never an INN or an OGRN (`sellerLabel`).
       getTenantSeller(),
-      getTranslations("CheckoutPage"),
       // The version of each document the consents point to, stamped on the order
       // (`@lib/util/checkout-consent`, rule C3 of the 04.10 checklist).
       listPublishedPageVersions(),
@@ -67,15 +81,10 @@ const CheckoutPayment = async ({
     ])
   const legal = { ...legalLinks, versions: pageVersions }
 
-  // Navigation links, not consent: each one is shown only while the shop has a
-  // page behind it. Before f05-checkout-legal-stubs both went to the starter's
-  // placeholder routes, so a shop that never wrote its shipping terms still
-  // offered the buyer a page saying so in English (rule 20 — the same fix as
-  // the consent sentence above it, at every call site). The phone shows the same
-  // two in the layout's footer.
-  const shippingLink = legalHref("shipping", legal)
-  const returnsLink = legalHref("returns", legal)
-
+  // t-2026-10-09-56 (Ivan 09.10: «и тем более без дубликатов»): the «Доставка» and
+  // «Правила возврата» links that stood under the button (and in the layout's footer on
+  // a phone) moved into the line right above it (`RobokassaTermsLinks`), so the delivery
+  // page is linked once.
   return (
     <div className="flex flex-col gap-y-6">
       <CheckoutPaymentSection
@@ -89,27 +98,6 @@ const CheckoutPayment = async ({
         prePaymentNotice={prePaymentNotice}
         seller={sellerLabel(seller ?? { name: null, legal_name: null })}
       />
-
-      {(shippingLink || returnsLink) && (
-        <div className="hidden lg:flex gap-x-4">
-          {shippingLink && (
-            <Link
-              href={shippingLink}
-              className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
-            >
-              {t("shippingLink")}
-            </Link>
-          )}
-          {returnsLink && (
-            <Link
-              href={returnsLink}
-              className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
-            >
-              {t("returnsLink")}
-            </Link>
-          )}
-        </div>
-      )}
     </div>
   )
 }

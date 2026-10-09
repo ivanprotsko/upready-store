@@ -98,6 +98,19 @@
     "defaultsAreThisHost": false,
     "note": "deploy/compose.mt.yml's defaults for the relay's own name and sender domain are the INTL host's. instance-check fails when SMTP_HOST is the stack's own relay and MAIL_HOSTNAME or MAIL_SENDER_DOMAINS is not set here, and on either instance when SMTP_FROM is not an address in a domain the relay signs for."
   },
+  "host": {
+    "buildCache": {
+      "prune": true,
+      "maxUsedGb": 8,
+      "dockerVersion": "29.8.2",
+      "note": "deploy-instance.sh builds the images on this host (step 2) and, after it, cuts the Docker build cache down to maxUsedGb with `docker buildx prune --force --all --max-used-space <N>gb` (deploy/scripts/host-disk.mjs). On 09.10.2026 the cache had grown to 39.3 GB and filled the 77 GB disk, so the release's pg_dump failed. A failed prune is a warning in the log, never a failed release."
+    },
+    "backupRoom": {
+      "minFreeGb": 5,
+      "dbSizeFactor": 2,
+      "note": "Before the pre-migration pg_dump (step 4), deploy-instance.sh refuses to go on when the disk holding /opt/upready-store/backups/mt has less free space than max(database size × dbSizeFactor, minFreeGb), and prints `docker system df` and the size of the backup folder. Why these numbers: deploy/scripts/host-disk.mjs."
+    }
+  },
   "notes": [
     "Since 04.10.2026 (checklist K15) buyers sign in on RU with Yandex ID only, and instance-check --db fails on a tenant whose buyer_login_method needs another provider. Were Telegram sign-in or the shop bot ever allowed on RU again, they must be named — including that Telegram's operating entity is outside Russia — in the privacy policy, with a consent separate from the general personal-data consent (docs/instances/RULES.md §2). instance-check.mjs cannot verify page text, so this is a paper requirement, not a check here.",
     "Stands and local development against this instance's data must use anonymised or synthetic data only (docs/instances/RULES.md §3).",
