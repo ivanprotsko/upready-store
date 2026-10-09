@@ -21,7 +21,7 @@ import CategoryImageTiles from "@modules/categories/components/category-image-ti
 import { categoriesWithImages } from "@lib/util/category-image"
 import { listProductOptionFilters } from "@lib/data/products"
 
-import PaginatedProducts from "./paginated-products"
+import ProductsListing from "./products-listing"
 import Breadcrumb from "@modules/common/components/breadcrumb"
 
 
@@ -35,19 +35,16 @@ const CATALOG_TILE_LIMIT = 12
 
 const StoreTemplate = async ({
   sortBy,
-  page,
   countryCode,
   optionValueIds,
   attributeSelection,
 }: {
   sortBy?: SortOptions
-  page?: string
   countryCode: string
   optionValueIds?: OptionValueIds
   /** The shop's own characteristics picked in the URL, t15-product-attributes. */
   attributeSelection?: AttributeSelection
 }) => {
-  const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
   const [t, categories, allOptionFilters, attributeFacets, olavka] = await Promise.all([
     getTranslations(),
@@ -113,9 +110,8 @@ const StoreTemplate = async ({
         <div className={CATALOG_MAIN_COLUMN_CLASS}>
           <ActiveFilters optionFilters={optionFilters} attributeFacets={attributeFacets.facets} />
           <Suspense fallback={<SkeletonProductGrid besideSidebar />}>
-            <PaginatedProducts
+            <ProductsListing
               sortBy={sort}
-              page={pageNumber}
               countryCode={countryCode}
               optionValueIds={optionValueIds}
               attributeProductIds={attributeFacets.productIds}

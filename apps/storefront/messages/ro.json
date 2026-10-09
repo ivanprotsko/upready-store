@@ -72,8 +72,8 @@
     "decline": "Refuz"
   },
   "Breadcrumb": {
-    "home": "Acasă",
-    "store": "Magazin"
+    "home": "Vitrină",
+    "store": "Catalog"
   },
   "Cart": {
     "emptyMessage": "Coșul dvs. este gol. Folosiți linkul de mai jos pentru a începe să răsfoiți produsele noastre.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Explorează întregul catalog. Filtrează după categorie și opțiune, sortează după preț și găsește exact ce îți trebuie.",
-      "title": "Magazin"
+      "title": "Catalog"
     },
     "terms": {
       "description": "Citiți regulile pe care le acceptați când cumpărați de la noi.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Cont",
       "cart": "Coș",
-      "home": "Acasă",
-      "store": "Magazin",
+      "home": "Vitrină",
+      "store": "Catalog",
       "journal": "Jurnal"
     },
     "menuButton": "Meniu"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Grilă",
     "viewList": "Listă",
     "viewCompact": "Grilă compactă",
-    "perPage": "Produse pe pagină"
+    "endOfList": "Acestea sunt toate produsele",
+    "loadingMore": "Se încarcă mai multe produse"
   },
   "TenantPage": {
     "emptyBody": "Această pagină nu are încă text.",

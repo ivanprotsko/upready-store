@@ -72,8 +72,8 @@
     "decline": "Decline"
   },
   "Breadcrumb": {
-    "home": "Home",
-    "store": "Store"
+    "home": "Showcase",
+    "store": "Catalog"
   },
   "Cart": {
     "emptyMessage": "Your cart is empty. Use the link below to start browsing our products.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Browse the full catalog. Filter by category and option, sort by price, and find exactly what you need.",
-      "title": "Store"
+      "title": "Catalog"
     },
     "terms": {
       "description": "Read the rules you agree to when you shop with us.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Account",
       "cart": "Cart",
-      "home": "Home",
-      "store": "Store",
+      "home": "Showcase",
+      "store": "Catalog",
       "journal": "Journal"
     },
     "menuButton": "Menu"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Grid",
     "viewList": "List",
     "viewCompact": "Compact grid",
-    "perPage": "Products per page"
+    "endOfList": "You have seen every product",
+    "loadingMore": "Loading more products"
   },
   "TenantPage": {
     "emptyBody": "This page has no text yet.",

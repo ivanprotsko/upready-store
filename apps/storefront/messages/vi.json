@@ -72,8 +72,8 @@
     "decline": "Từ chối"
   },
   "Breadcrumb": {
-    "home": "Trang chủ",
-    "store": "Cửa hàng"
+    "home": "Trưng bày",
+    "store": "Danh mục"
   },
   "Cart": {
     "emptyMessage": "Giỏ hàng của bạn đang trống. Hãy nhấn vào liên kết bên dưới để xem sản phẩm của chúng tôi.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Khám phá toàn bộ danh mục. Lọc theo danh mục và tùy chọn, sắp xếp theo giá và tìm đúng thứ bạn cần.",
-      "title": "Cửa hàng"
+      "title": "Danh mục"
     },
     "terms": {
       "description": "Đọc các quy định bạn chấp nhận khi mua hàng của chúng tôi.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Tài khoản",
       "cart": "Giỏ hàng",
-      "home": "Trang chủ",
-      "store": "Cửa hàng",
+      "home": "Trưng bày",
+      "store": "Danh mục",
       "journal": "Tạp chí"
     },
     "menuButton": "Menu"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Lưới",
     "viewList": "Danh sách",
     "viewCompact": "Lưới dày",
-    "perPage": "Số sản phẩm mỗi trang"
+    "endOfList": "Đã hiển thị tất cả sản phẩm",
+    "loadingMore": "Đang tải thêm sản phẩm"
   },
   "TenantPage": {
     "emptyBody": "Trang này chưa có nội dung.",

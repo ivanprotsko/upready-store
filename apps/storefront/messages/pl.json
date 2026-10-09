@@ -72,8 +72,8 @@
     "decline": "Odrzuć"
   },
   "Breadcrumb": {
-    "home": "Strona główna",
-    "store": "Sklep"
+    "home": "Witryna",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Twój koszyk jest pusty. Skorzystaj z poniższego linku, aby zacząć przeglądać nasze produkty.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Przeglądaj cały katalog. Filtruj według kategorii i opcji, sortuj według ceny i znajdź dokładnie to, czego szukasz.",
-      "title": "Sklep"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Przeczytaj zasady, które akceptujesz, kupując u nas.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Konto",
       "cart": "Koszyk",
-      "home": "Strona główna",
-      "store": "Sklep",
+      "home": "Witryna",
+      "store": "Katalog",
       "journal": "Magazyn"
     },
     "menuButton": "Menu"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Siatka",
     "viewList": "Lista",
     "viewCompact": "Gęsta siatka",
-    "perPage": "Produktów na stronie"
+    "endOfList": "To wszystkie produkty",
+    "loadingMore": "Wczytujemy kolejne produkty"
   },
   "TenantPage": {
     "emptyBody": "Ta strona nie ma jeszcze treści.",

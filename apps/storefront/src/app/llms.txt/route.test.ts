@@ -175,7 +175,7 @@ describe("/llms.txt of a host with a shop", () => {
   it("labels its sections and links from the dictionary of the shop's language", async () => {
     const text = await file()
 
-    expect(text).toContain("## Магазин\n\n- [Главная](https://shop.example/ru)\n- [Все товары](https://shop.example/ru/store)\n")
+    expect(text).toContain("## Каталог\n\n- [Витрина](https://shop.example/ru)\n- [Все товары](https://shop.example/ru/store)\n")
     expect(text).toContain("## Коллекции\n\n- [Новинки](https://shop.example/ru/collections/new)\n")
     expect(text).toContain("## Категории\n")
     expect(text).toContain("## Товары\n\n- [Зелёный чай](https://shop.example/ru/products/green-tea)\n")
@@ -271,7 +271,7 @@ describe("/llms.txt of a host with a shop", () => {
 
     const text = await file()
 
-    expect(text).toContain("## Store\n\n- [Home](https://shop.example/en)\n- [All products](https://shop.example/en/store)\n")
+    expect(text).toContain("## Catalog\n\n- [Showcase](https://shop.example/en)\n- [All products](https://shop.example/en/store)\n")
     for (const word of STARTER_WORDS) {
       expect(text, word).not.toContain(word)
     }

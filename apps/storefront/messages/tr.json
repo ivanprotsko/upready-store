@@ -72,8 +72,8 @@
     "decline": "Reddet"
   },
   "Breadcrumb": {
-    "home": "Ana Sayfa",
-    "store": "Mağaza"
+    "home": "Vitrin",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Sepetiniz boş. Ürünlerimize göz atmak için aşağıdaki bağlantıyı kullanın.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Katalogun tamamına göz atın. Kategoriye ve seçeneğe göre filtreleyin, fiyata göre sıralayın ve tam aradığınızı bulun.",
-      "title": "Mağaza"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Bizden alışveriş ederken kabul ettiğiniz kuralları okuyun.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Hesap",
       "cart": "Sepet",
-      "home": "Ana Sayfa",
-      "store": "Mağaza",
+      "home": "Vitrin",
+      "store": "Katalog",
       "journal": "Dergi"
     },
     "menuButton": "Menü"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Izgara",
     "viewList": "Liste",
     "viewCompact": "Sık ızgara",
-    "perPage": "Sayfa başına ürün"
+    "endOfList": "Tüm ürünler bu kadar",
+    "loadingMore": "Daha fazla ürün yükleniyor"
   },
   "TenantPage": {
     "emptyBody": "Bu sayfada henüz metin yok.",

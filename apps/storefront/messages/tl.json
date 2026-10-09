@@ -72,8 +72,8 @@
     "decline": "Tanggihan"
   },
   "Breadcrumb": {
-    "home": "Home",
-    "store": "Tindahan"
+    "home": "Showcase",
+    "store": "Katalogo"
   },
   "Cart": {
     "emptyMessage": "Wala pang laman ang cart mo. Gamitin ang link sa ibaba para simulan ang pamimili.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Tingnan ang buong katalogo. Mag-filter ayon sa kategorya at opsyon, ayusin ayon sa presyo, at hanapin ang eksaktong kailangan mo.",
-      "title": "Tindahan"
+      "title": "Katalogo"
     },
     "terms": {
       "description": "Basahin ang mga patakarang sinasang-ayunan mo kapag bumibili ka sa amin.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Account",
       "cart": "Cart",
-      "home": "Home",
-      "store": "Tindahan",
+      "home": "Showcase",
+      "store": "Katalogo",
       "journal": "Journal"
     },
     "menuButton": "Menu"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Grid",
     "viewList": "Listahan",
     "viewCompact": "Siksik na grid",
-    "perPage": "Mga produkto bawat pahina"
+    "endOfList": "Iyan na ang lahat ng produkto",
+    "loadingMore": "Naglo-load ng iba pang produkto"
   },
   "TenantPage": {
     "emptyBody": "Wala pang teksto ang pahinang ito.",

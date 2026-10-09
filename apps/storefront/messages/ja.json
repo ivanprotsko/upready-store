@@ -72,8 +72,8 @@
     "decline": "拒否する"
   },
   "Breadcrumb": {
-    "home": "ホーム",
-    "store": "ストア"
+    "home": "ショーケース",
+    "store": "カタログ"
   },
   "Cart": {
     "emptyMessage": "カートに商品がありません。下のリンクから商品を見てみましょう。",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "カタログ全体をご覧ください。カテゴリーやオプションで絞り込み、価格で並べ替えて、お探しの一点が見つかります。",
-      "title": "ストア"
+      "title": "カタログ"
     },
     "terms": {
       "description": "ご購入時に同意いただく規約をお読みください。",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "アカウント",
       "cart": "カート",
-      "home": "ホーム",
-      "store": "ストア",
+      "home": "ショーケース",
+      "store": "カタログ",
       "journal": "読みもの"
     },
     "menuButton": "メニュー"
@@ -1151,7 +1151,8 @@
     "viewGrid": "グリッド",
     "viewList": "リスト",
     "viewCompact": "コンパクトグリッド",
-    "perPage": "1ページの商品数"
+    "endOfList": "すべての商品を表示しました",
+    "loadingMore": "商品を読み込み中"
   },
   "TenantPage": {
     "emptyBody": "このページにはまだ本文がありません。",

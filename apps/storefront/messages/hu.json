@@ -72,8 +72,8 @@
     "decline": "Elutasítom"
   },
   "Breadcrumb": {
-    "home": "Főoldal",
-    "store": "Bolt"
+    "home": "Kirakat",
+    "store": "Katalógus"
   },
   "Cart": {
     "emptyMessage": "A kosara üres. Kattintson az alábbi linkre, és böngésszen termékeink között.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Böngéssze a teljes kínálatot. Szűrjön kategória és változat szerint, rendezzen ár alapján, és találja meg pontosan azt, amire szüksége van.",
-      "title": "Bolt"
+      "title": "Katalógus"
     },
     "terms": {
       "description": "Olvassa el a szabályokat, amelyeket vásárláskor elfogad.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Fiók",
       "cart": "Kosár",
-      "home": "Főoldal",
-      "store": "Bolt",
+      "home": "Kirakat",
+      "store": "Katalógus",
       "journal": "Magazin"
     },
     "menuButton": "Menü"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Rács",
     "viewList": "Lista",
     "viewCompact": "Sűrű rács",
-    "perPage": "Termék oldalanként"
+    "endOfList": "Ez az összes termék",
+    "loadingMore": "További termékek betöltése"
   },
   "TenantPage": {
     "emptyBody": "Ezen az oldalon még nincs szöveg.",

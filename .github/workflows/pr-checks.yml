@@ -120,6 +120,11 @@ jobs:
       - name: Shared markdown
         if: ${{ !cancelled() }}
         run: pnpm check:shared-markdown
+      # Lists the owner guide frames the change made stale (docs/owner-guide).
+      # Refreshing them needs a stand, so the step reports and never fails.
+      - name: Owner guide
+        if: ${{ !cancelled() }}
+        run: pnpm check:owner-guide --warn
       # apps/school installs on its own, from its own lockfile: the root
       # workspace excludes it (t-2026-10-08-37).
       - name: School install

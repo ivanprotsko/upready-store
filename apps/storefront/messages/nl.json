@@ -72,8 +72,8 @@
     "decline": "Weigeren"
   },
   "Breadcrumb": {
-    "home": "Home",
-    "store": "Winkel"
+    "home": "Etalage",
+    "store": "Catalogus"
   },
   "Cart": {
     "emptyMessage": "Uw winkelwagen is leeg. Gebruik de onderstaande link om onze producten te bekijken.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Bekijk de hele catalogus. Filter op categorie en optie, sorteer op prijs en vind precies wat je zoekt.",
-      "title": "Winkel"
+      "title": "Catalogus"
     },
     "terms": {
       "description": "Lees de regels waarmee u akkoord gaat bij een aankoop.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Account",
       "cart": "Winkelwagen",
-      "home": "Home",
-      "store": "Winkel",
+      "home": "Etalage",
+      "store": "Catalogus",
       "journal": "Magazine"
     },
     "menuButton": "Menu"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Raster",
     "viewList": "Lijst",
     "viewCompact": "Compact raster",
-    "perPage": "Producten per pagina"
+    "endOfList": "Dit zijn alle producten",
+    "loadingMore": "Meer producten laden"
   },
   "TenantPage": {
     "emptyBody": "Deze pagina heeft nog geen tekst.",

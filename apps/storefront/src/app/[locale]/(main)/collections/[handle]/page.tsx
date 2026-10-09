@@ -16,7 +16,6 @@ type Props = {
   params: Promise<{ handle: string }>
   searchParams: Promise<
     Record<string, string | string[] | undefined> & {
-      page?: string
       sortBy?: SortOptions
       optionValueIds?: string | string[]
     }
@@ -53,7 +52,9 @@ export default async function CollectionPage(props: Props) {
     getCountryCode(),
   ])
 
-  const { sortBy, page } = searchParams
+  // `page` of an old address is read by nothing: a product list has no pages (rule 5zg),
+  // so `?page=N` opens the list from its start.
+  const { sortBy } = searchParams
   const optionValueIds = parseOptionValueIds(searchParams)
 
   const collection = await getCollectionByHandle(decodeSegment(params.handle))
@@ -65,7 +66,6 @@ export default async function CollectionPage(props: Props) {
   return (
     <CollectionTemplate
       collection={collection}
-      page={page}
       sortBy={sortBy}
       countryCode={countryCode ?? DEFAULT_REGION}
       optionValueIds={optionValueIds}

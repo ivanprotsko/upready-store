@@ -72,8 +72,8 @@
     "decline": "Odmietnuť"
   },
   "Breadcrumb": {
-    "home": "Domov",
-    "store": "Obchod"
+    "home": "Výklad",
+    "store": "Katalóg"
   },
   "Cart": {
     "emptyMessage": "Váš košík je prázdny. Kliknite na odkaz nižšie a prezrite si naše produkty.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Prezrite si celý katalóg. Filtrujte podľa kategórie a možnosti, zoraďte podľa ceny a nájdite presne to, čo potrebujete.",
-      "title": "Obchod"
+      "title": "Katalóg"
     },
     "terms": {
       "description": "Prečítajte si pravidlá, s ktorými pri nákupe súhlasíte.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Účet",
       "cart": "Košík",
-      "home": "Domov",
-      "store": "Obchod",
+      "home": "Výklad",
+      "store": "Katalóg",
       "journal": "Magazín"
     },
     "menuButton": "Menu"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Mriežka",
     "viewList": "Zoznam",
     "viewCompact": "Hustá mriežka",
-    "perPage": "Produktov na stránku"
+    "endOfList": "To sú všetky produkty",
+    "loadingMore": "Načítavame ďalšie produkty"
   },
   "TenantPage": {
     "emptyBody": "Táto stránka zatiaľ nemá žiadny text.",

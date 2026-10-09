@@ -55,20 +55,19 @@ export function railItems(
     }))
 }
 
+/** Whether the shop has a button for the row at all: a top-level category with a handle. */
+export function hasRailItems(categories: HttpTypes.StoreProductCategory[]): boolean {
+  return categories.some((category) => !category.parent_category_id && category.handle)
+}
+
 /**
- * Whether the row belongs on this page (the path without its locale): the shopping pages,
- * the way chrxnasdmds puts its rail on the home page, the store and every category page.
- * The product page has it as well: the header keeps no search of its own (the frame moves
- * the magnifier into the row), and a buyer reading a product is one tap from the next
- * category. The account, the cart, an order and the content pages stay without it.
+ * Whether the row belongs on this page (the path without its locale): the home page only
+ * (Ivan, 09.10.2026, t-2026-10-09-75: «вот эту навигацию оставляем только на главной
+ * странице»). The catalog, a category and a product page used to have it too; there the bar
+ * now carries the magnifier the row's first button was (`HeaderSearch`).
  */
 export function railShownOn(path: string): boolean {
-  return (
-    path === "/" ||
-    path === "/store" ||
-    path.startsWith("/categories/") ||
-    path.startsWith("/products/")
-  )
+  return path === "/"
 }
 
 /** The id of the button the page is inside: on `/categories/<handle…>` the one whose subtree holds the last segment. */

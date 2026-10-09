@@ -149,12 +149,19 @@ const SORTED_LISTING_MAX_PAGES = 20
 
 export const listProductsWithSort = async ({
   page = 0,
+  offset,
   queryParams,
   sortBy = "created_at",
   countryCode,
   optionValueIds,
 }: {
   page?: number
+  /**
+   * Where the slice starts, in products. A product list has no pages (rule 5zg): the server
+   * renders the first screens and the browser asks for the next products from where it stands.
+   * Without it the slice starts at `page`, as before.
+   */
+  offset?: number
   queryParams?: ProductListQueryParams
   sortBy?: SortOptions
   countryCode: string
@@ -190,14 +197,13 @@ export const listProductsWithSort = async ({
 
   const sortedProducts = sortProducts(products, sortBy)
   const filteredCount = sortedProducts.length
-  const pageParam = (page - 1) * limit
-  const nextPage =
-    filteredCount > pageParam + limit ? pageParam + limit : null
-  const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
+  const start = offset ?? (page - 1) * limit
+  const nextPage = filteredCount > start + limit ? start + limit : null
+  const slice = sortedProducts.slice(start, start + limit)
 
   return {
     response: {
-      products: paginatedProducts,
+      products: slice,
       count: filteredCount,
     },
     nextPage,

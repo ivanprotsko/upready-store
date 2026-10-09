@@ -4,7 +4,7 @@ import {
   PRODUCT_GRID_BESIDE_SIDEBAR_CLASS,
   PRODUCT_GRID_CLASS,
 } from "@modules/products/components/product-card"
-import { PRODUCT_LIMIT } from "@modules/store/templates/paginated-products"
+import { PRODUCT_LIMIT } from "@modules/store/templates/products-listing"
 
 /** `besideSidebar`: the loader of a grid that stands beside the catalog's side column. */
 const SkeletonProductGrid = ({

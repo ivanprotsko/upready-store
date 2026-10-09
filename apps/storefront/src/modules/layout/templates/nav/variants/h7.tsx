@@ -2,6 +2,7 @@ import type { CSSProperties } from "react"
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
+import { listCategories } from "@lib/data/categories"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { listShopRegions } from "@lib/data/regions"
@@ -14,6 +15,8 @@ import HydrationSlot from "@modules/common/components/hydration-slot"
 import AccountLink from "@modules/layout/components/account-link"
 import CartButton from "@modules/layout/components/cart-button"
 import OlavkaCategoryRail from "@modules/layout/components/olavka-category-rail"
+import HeaderSearch from "@modules/layout/components/olavka-category-rail/header-search"
+import { hasRailItems } from "@modules/layout/components/olavka-category-rail/rail-items"
 import RegionSelect from "@modules/layout/components/region-select"
 import ScrollFlag from "@modules/layout/components/scroll-flag"
 import SideMenu from "@modules/layout/components/side-menu"
@@ -40,7 +43,8 @@ import styles from "./h7.module.css"
  *              chat in the burger's white disc → the shop's manager contact
  *              (`managerChatHref`), drawn only when the owner entered one. The search left
  *              the bar for the frame's category row, `OlavkaCategoryRail`, rendered under the
- *              bar on the shopping pages.
+ *              bar on the home page only (t-2026-10-09-75); on every other page the
+ *              magnifier stands in the bar again, left of the account icon (`HeaderSearch`).
  * Tablet (640–1023, 235:16409, 57px) and mobile (<640, 235:16816, 53px): the wordmark
  * LEFT at 28px, then flag · currency sign · cart · burger as plain 40px / 36px icon
  * buttons, 1px apart (the node's dividers are at opacity 0), no fills, no rings.
@@ -58,7 +62,7 @@ import styles from "./h7.module.css"
  */
 export default async function NavH7() {
   const t = await getTranslations()
-  const [regions, countryCode, siteName, locales, showJournal, branding, olavka, manualPayment] =
+  const [regions, countryCode, siteName, locales, showJournal, branding, olavka, manualPayment, categories] =
     await Promise.all([
       listShopRegions(),
       getCountryCode(),
@@ -68,6 +72,8 @@ export default async function NavH7() {
       getSiteBranding(),
       isOlavkaShop(),
       getTenantManualPayment(),
+      // The row's own read (one cached fetch per request): whether the row has a button at all.
+      listCategories(),
     ])
   const wordmarkStyle = {
     "--wm-chars": Array.from(branding.shop_name_short || siteName).length,
@@ -127,6 +133,8 @@ export default async function NavH7() {
                 >
                   <Heart className={styles.icon} />
                 </Link>
+                {/* Off the home page the category row is gone, and its magnifier with it. */}
+                <HeaderSearch className={styles.iconButton} railDrawn={hasRailItems(categories)} />
                 {/* A guest's click opens the sign-in modal over the page (t-2026-10-04-24). */}
                 <AccountLink
                   aria-label={t("Nav.account")}

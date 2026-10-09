@@ -72,8 +72,8 @@
     "decline": "거부"
   },
   "Breadcrumb": {
-    "home": "홈",
-    "store": "스토어"
+    "home": "쇼케이스",
+    "store": "카탈로그"
   },
   "Cart": {
     "emptyMessage": "장바구니가 비어 있습니다. 아래 링크를 클릭해 상품을 둘러보세요.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "전체 카탈로그를 둘러보세요. 카테고리와 옵션으로 필터링하고 가격순으로 정렬해 필요한 제품을 찾을 수 있습니다.",
-      "title": "스토어"
+      "title": "카탈로그"
     },
     "terms": {
       "description": "구매 시 동의하는 약관을 읽어보세요.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "계정",
       "cart": "장바구니",
-      "home": "홈",
-      "store": "스토어",
+      "home": "쇼케이스",
+      "store": "카탈로그",
       "journal": "매거진"
     },
     "menuButton": "메뉴"
@@ -1151,7 +1151,8 @@
     "viewGrid": "그리드",
     "viewList": "목록",
     "viewCompact": "촘촘한 그리드",
-    "perPage": "페이지당 상품 수"
+    "endOfList": "모든 상품을 표시했습니다",
+    "loadingMore": "상품을 더 불러오는 중"
   },
   "TenantPage": {
     "emptyBody": "이 페이지에는 아직 내용이 없습니다.",

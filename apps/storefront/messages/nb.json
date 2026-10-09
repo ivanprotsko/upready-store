@@ -72,8 +72,8 @@
     "decline": "Avvis"
   },
   "Breadcrumb": {
-    "home": "Hjem",
-    "store": "Butikk"
+    "home": "Butikkvindu",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Handlekurven din er tom. Bruk lenken nedenfor for å begynne å utforske produktene våre.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Se hele katalogen. Filtrer etter kategori og variant, sorter etter pris, og finn akkurat det du trenger.",
-      "title": "Butikk"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Les reglene du godtar når du handler hos oss.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Konto",
       "cart": "Handlekurv",
-      "home": "Hjem",
-      "store": "Butikk",
+      "home": "Butikkvindu",
+      "store": "Katalog",
       "journal": "Magasin"
     },
     "menuButton": "Meny"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Rutenett",
     "viewList": "Liste",
     "viewCompact": "Tett rutenett",
-    "perPage": "Produkter per side"
+    "endOfList": "Det var alle produktene",
+    "loadingMore": "Laster inn flere produkter"
   },
   "TenantPage": {
     "emptyBody": "Denne siden har ennå ingen tekst.",

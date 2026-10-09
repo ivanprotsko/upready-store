@@ -72,8 +72,8 @@
     "decline": "Avvisa"
   },
   "Breadcrumb": {
-    "home": "Hem",
-    "store": "Butik"
+    "home": "Skyltfönster",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Din varukorg är tom. Använd länken nedan för att börja utforska våra produkter.",
@@ -780,7 +780,7 @@
     },
     "store": {
       "description": "Bläddra i hela katalogen. Filtrera på kategori och variant, sortera på pris och hitta precis det du behöver.",
-      "title": "Butik"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Läs reglerna du godkänner när du handlar hos oss.",
@@ -1126,8 +1126,8 @@
     "items": {
       "account": "Konto",
       "cart": "Varukorg",
-      "home": "Hem",
-      "store": "Butik",
+      "home": "Skyltfönster",
+      "store": "Katalog",
       "journal": "Magasin"
     },
     "menuButton": "Meny"
@@ -1151,7 +1151,8 @@
     "viewGrid": "Rutnät",
     "viewList": "Lista",
     "viewCompact": "Tätt rutnät",
-    "perPage": "Produkter per sida"
+    "endOfList": "Det var alla produkter",
+    "loadingMore": "Laddar fler produkter"
   },
   "TenantPage": {
     "emptyBody": "Den här sidan har ingen text än.",
