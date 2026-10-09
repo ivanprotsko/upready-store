@@ -45,6 +45,9 @@
 
 ![Приём оплат: Robokassa в тестовом режиме](shots/07-payments.png)
 
+На снимке Result URL учебной копии. В вашей панели там
+[https://api.cherkashino.ru/robokassa/result](https://api.cherkashino.ru/robokassa/result): этот адрес и вписывают в кабинет Robokassa.
+
 ## Реквизиты продавца
 
 «Настройки» → «Реквизиты». Эти данные сами подставляются в оферту, политику конфиденциальности,

@@ -27,7 +27,9 @@ export const SCENES = [
   // 02 — заказы
   { id: "02-orders", role: "manager", path: "/orders", sources: R("routes/orders/order-list", "routes/orders/common"), i18n: ["orders.", "filters."] },
   { id: "02-order-pack", role: "manager", path: "/orders/{orderPack}", mark: { role: "link", name: "Собрать" }, sources: R("routes/orders/order-detail"), i18n: ["orders."] },
-  { id: "02-order-pack-form", role: "manager", path: "/orders/{orderPack}/fulfillment", sources: R("routes/orders/order-create-fulfillment"), i18n: ["orders.fulfillment."] },
+  // The form is opened by «Собрать» itself: the link carries ?requires_shipping=, and the form
+  // opened by its bare address lists no parcel lines («Нет товаров для сборки»).
+  { id: "02-order-pack-form", role: "manager", path: "/orders/{orderPack}", steps: [{ click: { role: "link", name: "Собрать" } }, { wait: 1200 }], sources: R("routes/orders/order-create-fulfillment", "routes/orders/order-detail"), i18n: ["orders.fulfillment."] },
   { id: "02-order-packed", role: "manager", path: "/orders/{orderPacked}", mark: { role: "button", name: "Передать в доставку" }, sources: R("routes/orders/order-detail"), i18n: ["orders."] },
   { id: "02-order-ship-form", role: "manager", path: "/orders/{orderPacked}", steps: [{ click: { role: "button", name: "Передать в доставку" } }, { wait: 1200 }], sources: R("routes/orders/order-create-shipment", "routes/orders/order-detail"), i18n: ["orders.fulfillment.", "orders.shipment."] },
   { id: "02-order-delivery", role: "manager", path: "/orders/{orderShipped}", sources: R("routes/orders/order-detail"), i18n: ["orders."] },
