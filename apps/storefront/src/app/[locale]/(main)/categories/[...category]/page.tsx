@@ -20,7 +20,6 @@ type Props = {
   searchParams: Promise<
     Record<string, string | string[] | undefined> & {
       sortBy?: SortOptions
-      page?: string
       optionValueIds?: string | string[]
     }
   >
@@ -70,7 +69,9 @@ export default async function CategoryPage(props: Props) {
     getCountryCode(),
   ])
 
-  const { sortBy, page } = searchParams
+  // `page` of an old address is read by nothing: a product list has no pages (rule 5zg),
+  // so `?page=N` opens the list from its start.
+  const { sortBy } = searchParams
   const optionValueIds = parseOptionValueIds(searchParams)
   const attributeSelection = parseAttributeSelection(searchParams)
   const subcategoryHandles = parseSubcategoryHandles(searchParams)
@@ -85,7 +86,6 @@ export default async function CategoryPage(props: Props) {
     <CategoryTemplate
       category={productCategory}
       sortBy={sortBy}
-      page={page}
       countryCode={countryCode ?? DEFAULT_REGION}
       optionValueIds={optionValueIds}
       attributeSelection={attributeSelection}

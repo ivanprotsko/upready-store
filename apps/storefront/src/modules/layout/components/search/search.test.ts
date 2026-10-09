@@ -80,4 +80,13 @@ describe("the search control stands right before the header's account icon", () 
     expect(search).toBeGreaterThan(-1)
     expect(search).toBeLessThan(rail.indexOf("olavka-category-rail-link"))
   })
+
+  // t-2026-10-09-75: the row stands on the home page only; on every other page the h7 bar has
+  // the same control right before its account icon, as h1, h2 and h4 do.
+  it("in h7, off the home page, it stands in the bar right before the account icon", () => {
+    const nav = read("modules/layout/templates/nav/variants/h7.tsx")
+    expect(nav).toMatch(/<HeaderSearch className=\{[^}]+\} railDrawn=\{[^}]+\)\} \/>\s*(\{\/\*[\s\S]*?\*\/\}\s*)?<AccountLink\b/)
+    const control = read("modules/layout/components/olavka-category-rail/header-search.tsx")
+    expect(control).toContain("<Search className={className} />")
+  })
 })

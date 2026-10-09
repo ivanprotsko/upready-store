@@ -72,8 +72,8 @@
     "decline": "Rifiuta"
   },
   "Breadcrumb": {
-    "home": "Home",
-    "store": "Negozio"
+    "home": "Vetrina",
+    "store": "Catalogo"
   },
   "Cart": {
     "emptyMessage": "Il tuo carrello è vuoto. Usa il link qui sotto per iniziare a sfogliare i nostri prodotti.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Sfoglia l'intero catalogo. Filtra per categoria e opzione, ordina per prezzo e trova esattamente ciò che ti serve.",
-      "title": "Negozio"
+      "title": "Catalogo"
     },
     "terms": {
       "description": "Leggi le regole che accetti quando acquisti da noi.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Account",
       "cart": "Carrello",
-      "home": "Home",
-      "store": "Negozio",
+      "home": "Vetrina",
+      "store": "Catalogo",
       "journal": "Rivista"
     },
     "menuButton": "Menu"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Griglia",
     "viewList": "Elenco",
     "viewCompact": "Griglia compatta",
-    "perPage": "Prodotti per pagina"
+    "endOfList": "Hai visto tutti i prodotti",
+    "loadingMore": "Caricamento di altri prodotti"
   },
   "TenantPage": {
     "emptyBody": "Questa pagina non ha ancora testo.",

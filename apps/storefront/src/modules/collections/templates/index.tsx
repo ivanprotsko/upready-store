@@ -12,9 +12,9 @@ import RefinementList from "@modules/store/components/refinement-list"
 import MobileRefinement from "@modules/store/components/mobile-refinement"
 import CategorySidebar from "@modules/store/components/category-sidebar"
 import { ActiveFilters, FilterSidebar } from "@modules/store/components/filter-panel"
-import PaginatedProducts, {
+import ProductsListing, {
   PRODUCT_LIMIT,
-} from "@modules/store/templates/paginated-products"
+} from "@modules/store/templates/products-listing"
 import { listCategories } from "@lib/data/categories"
 import { listProductOptionFilters } from "@lib/data/products"
 import type { HttpTypes } from "@medusajs/types"
@@ -27,17 +27,14 @@ import { buildBreadcrumbJsonLd } from "@lib/util/json-ld"
 export default async function CollectionTemplate({
   sortBy,
   collection,
-  page,
   countryCode,
   optionValueIds,
 }: {
   sortBy?: SortOptions
   collection: HttpTypes.StoreCollection
-  page?: string
   countryCode: string
   optionValueIds?: OptionValueIds
 }) {
-  const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
 
   const [t, locale, categories, optionFilters] = await Promise.all([
@@ -100,9 +97,8 @@ export default async function CollectionTemplate({
               />
             }
           >
-            <PaginatedProducts
+            <ProductsListing
               sortBy={sort}
-              page={pageNumber}
               collectionId={collection.id}
               countryCode={countryCode}
               optionValueIds={optionValueIds}

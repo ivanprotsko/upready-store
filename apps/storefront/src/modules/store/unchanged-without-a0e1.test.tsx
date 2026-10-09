@@ -27,6 +27,7 @@ const state = vi.hoisted(() => ({
   cookiesRead: 0,
   categories: [] as unknown[],
   previews: [] as { id: string; layout?: string }[],
+  listed: [] as { offset?: number; limit: number }[],
 }))
 
 vi.mock("next/headers", () => ({
@@ -36,6 +37,7 @@ vi.mock("next/headers", () => ({
   },
 }))
 vi.mock("next-intl/server", () => ({ getTranslations: async () => (key: string) => key }))
+vi.mock("next-intl", () => ({ useTranslations: () => (key: string) => key }))
 vi.mock("@i18n/navigation", () => ({
   Link: ({ href, children, ...rest }: { href: string; children: ReactNode }) => (
     <a href={href} {...rest}>
@@ -43,15 +45,23 @@ vi.mock("@i18n/navigation", () => ({
     </a>
   ),
 }))
-vi.mock("@lib/data/catalog-view", () => ({ catalogViewControlsOn: async () => state.controls }))
+// `catalogListingView` as it reads: the view cookie only for a shop with the controls.
+vi.mock("@lib/data/catalog-view", () => ({
+  catalogViewControlsOn: async () => state.controls,
+  catalogListingView: async () => {
+    if (!state.controls) return { controls: false, view: "grid" }
+    const { cookies } = await import("next/headers")
+    return { controls: true, view: (await cookies()).get("catalog_view")?.value ?? "grid" }
+  },
+}))
 vi.mock("@lib/data/categories", () => ({ listCategories: async () => state.categories }))
 vi.mock("@lib/data/cookies", () => ({ getTenantHandle: async () => null }))
 vi.mock("@lib/data/regions", () => ({ getRegion: async () => ({ id: "reg_1" }) }))
 vi.mock("@lib/data/products", () => ({
-  listProductsWithSort: async ({ queryParams }: { queryParams: { limit: number } }) => ({
-    response: { products: [{ id: "prod_1" }, { id: "prod_2" }], count: 30 },
-    limit: queryParams.limit,
-  }),
+  listProductsWithSort: async ({ offset, queryParams }: { offset?: number; queryParams: { limit: number } }) => {
+    state.listed.push({ offset, limit: queryParams.limit })
+    return { response: { products: [{ id: "prod_1" }, { id: "prod_2" }], count: 30 } }
+  },
 }))
 // The card pulls the whole catalog UI in; the listing takes one class string from it.
 vi.mock("@modules/products/components/product-card", () => ({
@@ -64,15 +74,9 @@ vi.mock("@modules/products/components/product-preview", () => ({
     return <span>{product.id}</span>
   },
 }))
-vi.mock("@modules/store/components/pagination", () => ({
-  Pagination: ({ page, totalPages }: { page: number; totalPages: number }) => (
-    <nav data-page={page} data-total-pages={totalPages} />
-  ),
-}))
+vi.mock("@modules/skeletons/components/skeleton-product-preview", () => ({ default: () => <i /> }))
 vi.mock("@modules/store/components/view-controls", () => ({
-  default: ({ view, perPage }: { view: string; perPage: number }) => (
-    <div data-testid="catalog-view-controls" data-view={view} data-per-page={perPage} />
-  ),
+  default: ({ view }: { view: string }) => <div data-testid="catalog-view-controls" data-view={view} />,
 }))
 vi.mock("@modules/store/components/category-sidebar/subcategory-filter", () => ({
   default: ({ subcategories }: { subcategories: { handle: string }[] }) => (
@@ -85,6 +89,7 @@ beforeEach(() => {
   state.cookiesRead = 0
   state.categories = []
   state.previews = []
+  state.listed = []
 })
 
 afterEach(() => {
@@ -93,31 +98,34 @@ afterEach(() => {
 
 describe("the listing of a shop without the controls", () => {
   const render = async () => {
-    const { default: PaginatedProducts } = await import("./templates/paginated-products")
-    return renderToStaticMarkup(await PaginatedProducts({ page: 2, countryCode: "ru", sortBy: "created_at" }))
+    const { default: ProductsListing } = await import("./templates/products-listing")
+    return renderToStaticMarkup(await ProductsListing({ countryCode: "ru", sortBy: "created_at" }))
   }
 
-  it("is dev's markup, twelve to a page, whatever cookie the buyer carries, and reads no cookie", async () => {
+  // t-2026-10-09-75 (rule 5zg): the first screens from the server and no pagination; the
+  // grid and the card are dev's, and still no cookie is read.
+  it("is the grid of the first screens, with no pages, whatever cookie the buyer carries, and reads no cookie", async () => {
     const html = await render()
 
     expect(html).toBe(
-      '<ul class="grid-beside-sidebar" data-testid="products-list" data-total-count="30">' +
+      '<ul class="grid-beside-sidebar" data-testid="products-list" data-total-count="30" data-loaded-count="2" aria-busy="false">' +
         '<li class="min-w-0"><span>prod_1</span></li><li class="min-w-0"><span>prod_2</span></li></ul>' +
-        '<nav data-page="2" data-total-pages="3"></nav>'
+        '<div aria-hidden="true" data-testid="products-sentinel"></div><p class="sr-only" role="status"></p>'
     )
+    expect(state.listed).toEqual([{ offset: 0, limit: 24 }])
     expect(state.cookiesRead).toBe(0)
     // The card the listing draws is the card dev drew: `card` is ProductCard's default.
     expect(state.previews.map((preview) => preview.layout)).toEqual(["card", "card"])
   })
 
-  it("gets the controls, the buyer's view and page size only with the switch on", async () => {
+  it("gets the controls and the buyer's view only with the switch on, and no page size", async () => {
     state.controls = true
     const html = await render()
 
-    expect(html).toContain('<div data-testid="catalog-view-controls" data-view="list" data-per-page="48"></div>')
-    expect(html).toContain('data-testid="products-list" data-total-count="30" data-view="list"')
-    // Thirty products at forty-eight a page are one page: no pagination.
+    expect(html).toContain('<div data-testid="catalog-view-controls" data-view="list"></div>')
+    expect(html).toContain('data-testid="products-list" data-total-count="30" data-loaded-count="2" data-view="list"')
     expect(html).not.toContain("<nav")
+    expect(html).not.toContain("per-page")
     expect(state.cookiesRead).toBe(1)
     expect(state.previews.map((preview) => preview.layout)).toEqual(["row", "row"])
   })
@@ -246,8 +254,10 @@ describe("the home page of a shop without a `brands` category", () => {
 describe("the dictionary the pages of a shop without the controls hand to the browser", () => {
   const MESSAGES_DIR = path.resolve(__dirname, "../../../messages")
   const LOCALES = readdirSync(MESSAGES_DIR).filter((name) => name.endsWith(".json"))
-  /** The keys ask a0e1 added; dev's catalogue is the branch's without them. */
-  const ADDED = ["brands", "allBrands", "view", "viewGrid", "viewList", "viewCompact", "perPage"]
+  /** The keys ask a0e1 added; dev's catalogue is the branch's without them. Its `perPage` went with rule 5zg. */
+  const ADDED = ["brands", "allBrands", "view", "viewGrid", "viewList", "viewCompact"]
+  /** The product list's own lines (t-2026-10-09-75), read in the browser on every list. */
+  const LIST = ["endOfList", "loadingMore"]
 
   const robokassaShop = (catalogViewControls: boolean) =>
     clientMessageFacts({
@@ -277,7 +287,7 @@ describe("the dictionary the pages of a shop without the controls hand to the br
   it.each(LOCALES)("is dev's, byte for byte, in %s", (file) => {
     const messages = catalogue(file)
 
-    expect(Object.keys(messages.Store as AbstractIntlMessages)).toEqual(["allProducts", ...ADDED])
+    expect(Object.keys(messages.Store as AbstractIntlMessages)).toEqual(["allProducts", ...ADDED, ...LIST])
     expect(JSON.stringify(clientMessages(messages, robokassaShop(false)))).toBe(
       JSON.stringify(clientMessages(withoutAdded(messages), robokassaShop(false)))
     )
@@ -286,7 +296,7 @@ describe("the dictionary the pages of a shop without the controls hand to the br
   it("carries the names of the views with the switch on, and never the brands' strings", () => {
     const store = clientMessages(catalogue("ru.json"), robokassaShop(true)).Store as AbstractIntlMessages
 
-    expect(Object.keys(store)).toEqual(["allProducts", "view", "viewGrid", "viewList", "viewCompact", "perPage"])
+    expect(Object.keys(store)).toEqual(["allProducts", "view", "viewGrid", "viewList", "viewCompact", ...LIST])
   })
 
   // The brands' strings are cut for every shop; that is right only while no client

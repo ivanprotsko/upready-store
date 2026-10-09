@@ -72,8 +72,8 @@
     "decline": "Refuser"
   },
   "Breadcrumb": {
-    "home": "Accueil",
-    "store": "Boutique"
+    "home": "Vitrine",
+    "store": "Catalogue"
   },
   "Cart": {
     "emptyMessage": "Votre panier est vide. Utilisez le lien ci-dessous pour parcourir nos produits.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Parcourez tout le catalogue. Filtrez par catégorie et par option, triez par prix et trouvez exactement ce qu'il vous faut.",
-      "title": "Boutique"
+      "title": "Catalogue"
     },
     "terms": {
       "description": "Lisez les règles que vous acceptez en achetant chez nous.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Compte",
       "cart": "Panier",
-      "home": "Accueil",
-      "store": "Boutique",
+      "home": "Vitrine",
+      "store": "Catalogue",
       "journal": "Journal"
     },
     "menuButton": "Menu"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Grille",
     "viewList": "Liste",
     "viewCompact": "Grille compacte",
-    "perPage": "Produits par page"
+    "endOfList": "Vous avez vu tous les produits",
+    "loadingMore": "Chargement d'autres produits"
   },
   "TenantPage": {
     "emptyBody": "Cette page n'a pas encore de texte.",

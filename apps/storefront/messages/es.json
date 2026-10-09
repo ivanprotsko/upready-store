@@ -72,8 +72,8 @@
     "decline": "Rechazar"
   },
   "Breadcrumb": {
-    "home": "Inicio",
-    "store": "Tienda"
+    "home": "Escaparate",
+    "store": "Catálogo"
   },
   "Cart": {
     "emptyMessage": "Tu carrito está vacío. Usa el enlace de abajo para explorar nuestros productos.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Explora todo el catálogo. Filtra por categoría y opción, ordena por precio y encuentra justo lo que necesitas.",
-      "title": "Tienda"
+      "title": "Catálogo"
     },
     "terms": {
       "description": "Lee las reglas que aceptas al comprar con nosotros.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Cuenta",
       "cart": "Carrito",
-      "home": "Inicio",
-      "store": "Tienda",
+      "home": "Escaparate",
+      "store": "Catálogo",
       "journal": "Revista"
     },
     "menuButton": "Menú"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Cuadrícula",
     "viewList": "Lista",
     "viewCompact": "Cuadrícula compacta",
-    "perPage": "Productos por página"
+    "endOfList": "Estos son todos los productos",
+    "loadingMore": "Cargando más productos"
   },
   "TenantPage": {
     "emptyBody": "Esta página aún no tiene texto.",
