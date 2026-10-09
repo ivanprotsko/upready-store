@@ -64,10 +64,10 @@
       "role": "manager"
     },
     "02-order-pack-form": {
-      "sources": "914083965f2ba617",
+      "sources": "c4c962f6492b65ec",
       "i18n": "006d4383fac0dfbe",
-      "frame": "e1b34f44f523bf82fb29f65043aad420ec0b62867958d00b9f660913f1ec4cc5",
-      "path": "/orders/{orderPack}/fulfillment",
+      "frame": "3ef2b6336ec022d7534986df9afbe589ae26854c8e0a3d4a97a4163da53fb788",
+      "path": "/orders/{orderPack}",
       "role": "manager"
     },
     "02-order-packed": {
@@ -295,7 +295,7 @@
       "role": "owner"
     }
   },
-  "shotAt": "2026-10-09T06:28:45.033Z",
-  "commit": "bd6cf61035974b121a29b5c7666b434a736f5ca5",
+  "shotAt": "2026-10-09T07:18:56.770Z",
+  "commit": "6869d4ffc082c85d18b8f63762e50f9165b59381",
   "dirty": true
 }
