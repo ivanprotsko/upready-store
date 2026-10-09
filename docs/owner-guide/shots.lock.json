@@ -1,0 +1,301 @@
+{
+  "scenes": {
+    "01-home-manager": {
+      "sources": "28c82cbdde0f03fb",
+      "i18n": "ee1aef7558ee6375",
+      "frame": "a13fc9466c9bdbfc3d3e479bfd524380eb6d7894c4da1bd2b1c23e8a1b35577f",
+      "path": "/",
+      "role": "manager"
+    },
+    "01-home-operator": {
+      "sources": "28c82cbdde0f03fb",
+      "i18n": "ee1aef7558ee6375",
+      "frame": "9292b08b3300a383b01a59db257c768145616b08015e6b42cf3c25de40112aa9",
+      "path": "/",
+      "role": "operator"
+    },
+    "01-home-owner": {
+      "sources": "dd280de6c8e1bb45",
+      "i18n": "9d67b237b70f81a9",
+      "frame": "bad0c2b9a14ddf1dbd4de3e81925209b5f2afdb842362f78dc5dde9b384d9e36",
+      "path": "/",
+      "role": "owner"
+    },
+    "01-login": {
+      "sources": "0262e24603adc68b",
+      "i18n": "0a6254d817c120e4",
+      "frame": "b1c165497826600b0e65ecf3c8911f3acbac3c3a4e0339f05a8b2b0aae75afc2",
+      "path": "/login",
+      "role": null
+    },
+    "01-no-access": {
+      "sources": "2428eb43e8eea072",
+      "i18n": "3b40c6eb2e4c7d62",
+      "frame": "fbd63f0b0e4e27e080df83d61862875453aabecd9566d4b0ba2ab6bcded56869",
+      "path": "/products",
+      "role": "operator"
+    },
+    "01-profile": {
+      "sources": "118ec741e67913d5",
+      "i18n": "5fd9185277032b14",
+      "frame": "fcd4207e9d543126bf160a77d12d2d926462e4c667cb7517fcd2a15a6074a4e7",
+      "path": "/settings/profile",
+      "role": "manager"
+    },
+    "02-order-course": {
+      "sources": "a43e815bf38d2d76",
+      "i18n": "49700d8bf9f6c2c5",
+      "frame": "dab84510ea83b52a84b8ea915a746bb9c15c0f8e00b44939220fe65006fe6916",
+      "path": "/orders/{orderCourse}",
+      "role": "manager"
+    },
+    "02-order-delivery": {
+      "sources": "a43e815bf38d2d76",
+      "i18n": "1b0358a3729df5df",
+      "frame": "56275dedcc6fb54c6b235c2bc53957d8b8000ba7a0961a10e03155349cb1844c",
+      "path": "/orders/{orderShipped}",
+      "role": "manager"
+    },
+    "02-order-pack": {
+      "sources": "a43e815bf38d2d76",
+      "i18n": "1b0358a3729df5df",
+      "frame": "aa46850b9b17576c845438f8c1bd3b09402a4d7e84be7ff2683f6eb311cc42df",
+      "path": "/orders/{orderPack}",
+      "role": "manager"
+    },
+    "02-order-pack-form": {
+      "sources": "914083965f2ba617",
+      "i18n": "006d4383fac0dfbe",
+      "frame": "e1b34f44f523bf82fb29f65043aad420ec0b62867958d00b9f660913f1ec4cc5",
+      "path": "/orders/{orderPack}/fulfillment",
+      "role": "manager"
+    },
+    "02-order-packed": {
+      "sources": "a43e815bf38d2d76",
+      "i18n": "1b0358a3729df5df",
+      "frame": "9fc33b0b69a98f4bd892c4cbbd8d51264c84117929b8137b5d470cf6dad7838d",
+      "path": "/orders/{orderPacked}",
+      "role": "manager"
+    },
+    "02-order-payment": {
+      "sources": "d092ffd4b541e4f1",
+      "i18n": "ee66c255cf30908a",
+      "frame": "d541750fc3e8db4edbaf9d79bb75fd4e7724b5374c044ab2ad36e89fa92ba7fb",
+      "path": "/orders/{orderPaymentWait}",
+      "role": "manager"
+    },
+    "02-order-ship-form": {
+      "sources": "5b6dec4e528e748d",
+      "i18n": "d4a43377f4a54da3",
+      "frame": "35a41f66695e8dcc798e44bd7840f006af19d90e65e3815287a1b73ea9f1f3e5",
+      "path": "/orders/{orderPacked}",
+      "role": "manager"
+    },
+    "02-orders": {
+      "sources": "5d026b89774f986c",
+      "i18n": "c1460d44210b7ec5",
+      "frame": "868ce147e97e0b67ab7e3ba8fe2bf05afe28fe0edc492396c3bc7bac03814be5",
+      "path": "/orders",
+      "role": "manager"
+    },
+    "03-customers": {
+      "sources": "f7ce03c41ff94fff",
+      "i18n": "1aa6dbc837ac66be",
+      "frame": "3bed9726a5716b2f9c7222c79011f0d18a19f7f2d7c75bbed5f48e762f50bf04",
+      "path": "/customers",
+      "role": "manager"
+    },
+    "03-reviews": {
+      "sources": "82eaa0754870b2bf",
+      "i18n": "6edf2ca9edbd149e",
+      "frame": "77e3bfe69ba07e67d0ba3cb4621d73218a226da0390140ff47448e0df6cffffe",
+      "path": "/reviews",
+      "role": "manager"
+    },
+    "04-categories": {
+      "sources": "d4896c190d59b3c7",
+      "i18n": "868dcc247de9c123",
+      "frame": "de1c37933a4492259bc98aa436daa33e0ba7d84150930fe2487c092183f2a458",
+      "path": "/categories",
+      "role": "manager"
+    },
+    "04-product": {
+      "sources": "4864fef85e3619b6",
+      "i18n": "8d624058ac02300a",
+      "frame": "2c3594482eec9967bef8ddcf3539f498637f18c9abff48b9fcdeeb0937262877",
+      "path": "/products/{product}",
+      "role": "manager"
+    },
+    "04-product-edit": {
+      "sources": "36d76d5f1acbb6b2",
+      "i18n": "f206fd084ea7dacf",
+      "frame": "cd8e826a2a88c9f413daf8b8a70adef3caece9c8639253b4829d90685c68fa0e",
+      "path": "/products/{product}/edit",
+      "role": "manager"
+    },
+    "04-product-photos": {
+      "sources": "ca04b00628585a31",
+      "i18n": "c9fe75a328b8d520",
+      "frame": "29af22acc3b4cb3a1aa00201c4323fff0a37f33a920612031826e45478b1f79b",
+      "path": "/products/{product}",
+      "role": "manager"
+    },
+    "04-product-prices": {
+      "sources": "1c8f22338e460a8c",
+      "i18n": "8d624058ac02300a",
+      "frame": "4233b79eb1337a539b69e097428b02ef5b8c786933f96f7b584d19b76daa21ad",
+      "path": "/products/{product}/prices",
+      "role": "manager"
+    },
+    "04-product-translations": {
+      "sources": "b4144b55dea07c92",
+      "i18n": "676ed99512a5a43c",
+      "frame": "5deb5dca915500f43ae187190653f5aadd21456ba6a5b2615ff5a923201ed569",
+      "path": "/products/{product}/translations",
+      "role": "manager"
+    },
+    "04-products": {
+      "sources": "4f71d2ee11d9134e",
+      "i18n": "719b4c96cac611f6",
+      "frame": "ee5ca3dae1c89c330d00cdbcf50807617d6dc58a022fb87fe64759cf98d2b9de",
+      "path": "/products",
+      "role": "manager"
+    },
+    "05-course-lessons": {
+      "sources": "10aa9bf9ae4b2ded",
+      "i18n": "799b8dc8f2aff9ae",
+      "frame": "f99ddb38f198a63f752cd1437c12b6a53de2c460592f266d31f2ec1e44256970",
+      "path": "/courses/{course}",
+      "role": "manager"
+    },
+    "05-course-page": {
+      "sources": "e529ffd6d3abd991",
+      "i18n": "799b8dc8f2aff9ae",
+      "frame": "88782873e4099bfe142820cfc359572606fb7eea3066740eab97bfc0b8f589e8",
+      "path": "/courses/{course}",
+      "role": "manager"
+    },
+    "05-courses": {
+      "sources": "af2c0b1298b957ac",
+      "i18n": "799b8dc8f2aff9ae",
+      "frame": "ae9ede31edfca2fcb72df59f7acc514991aec325fd29cf935259c7c0051339bf",
+      "path": "/courses",
+      "role": "manager"
+    },
+    "05-lesson": {
+      "sources": "730255a6e11c2ec4",
+      "i18n": "799b8dc8f2aff9ae",
+      "frame": "0b29996b004e27c2256a3560720d0eda34898d90e54b1e5c3aa53489934e2e53",
+      "path": "/courses/{course}/lessons/{lesson}",
+      "role": "manager"
+    },
+    "05-lesson-new": {
+      "sources": "23ca1cfbbfbfc08a",
+      "i18n": "799b8dc8f2aff9ae",
+      "frame": "38828eb16924f920ba29e6b57ef6fb4dc391af9c68770125d47a2f5f911c7b7b",
+      "path": "/courses/{course}/lessons/new",
+      "role": "manager"
+    },
+    "06-banners": {
+      "sources": "7178031b31605e33",
+      "i18n": "49f3cbbebac7d9f6",
+      "frame": "55084a25a0d1c2c24c38dafff503b2a0054718d57961b61573657643afb73fdc",
+      "path": "/home-settings",
+      "role": "manager"
+    },
+    "06-branding": {
+      "sources": "f51aabe2ee71e84b",
+      "i18n": "8ccbbb1f086e210e",
+      "frame": "eb84a83e161a2361f126ab89d7b6aa3ecc967f5f655722a2001ed69e7e01f8b4",
+      "path": "/settings/branding",
+      "role": "manager"
+    },
+    "06-home-settings": {
+      "sources": "7178031b31605e33",
+      "i18n": "49f3cbbebac7d9f6",
+      "frame": "035f124668e78e2d65c6153aaff8026b4e472ce64160e146144063f178bdb31f",
+      "path": "/home-settings",
+      "role": "manager"
+    },
+    "06-journal": {
+      "sources": "a8b0bcd7de0c05a2",
+      "i18n": "6edf2ca9edbd149e",
+      "frame": "095c8c79c276c5bf53acc48dc55056d83eb166f008d4715fe4efdd34e4d07e30",
+      "path": "/journal",
+      "role": "manager"
+    },
+    "06-pages": {
+      "sources": "dc823305a9a9afcb",
+      "i18n": "6edf2ca9edbd149e",
+      "frame": "078db68c2295cd1e6fc95b5584d404f8a395778b9b68c9603fe2f42293771692",
+      "path": "/pages",
+      "role": "manager"
+    },
+    "06-promotions": {
+      "sources": "9319c2cc2ff10f08",
+      "i18n": "407d109434706bff",
+      "frame": "0bdb97e1c37cbe3a68807df801c125b62ccc32d37ac7c0247861b0203da955cb",
+      "path": "/promotions",
+      "role": "manager"
+    },
+    "07-cdek": {
+      "sources": "993cac8e9098ae42",
+      "i18n": "3291e1a5a5aeb7f8",
+      "frame": "89ca939c6c9fd48b284cb8445e18a9f4eb99b598b8cc1d337d21b26e4a025cbc",
+      "path": "/settings/delivery",
+      "role": "owner"
+    },
+    "07-locale": {
+      "sources": "e96136a92ca1b162",
+      "i18n": "6edf2ca9edbd149e",
+      "frame": "ba0655f79262903b54af515971a7f0f55f77634831e746ed63869ff40a63afb0",
+      "path": "/settings/locale",
+      "role": "owner"
+    },
+    "07-notifications": {
+      "sources": "0ab6c08c2b287dcf",
+      "i18n": "493b34e93499f83b",
+      "frame": "dabd99131fcad2168580047f1342d8bac4ce9cc719ca7dcf0f5584fdddb0ad43",
+      "path": "/settings/notifications",
+      "role": "owner"
+    },
+    "07-payments": {
+      "sources": "f8df041a3e45f70d",
+      "i18n": "b9ac9e33730db4fd",
+      "frame": "6e1bd06aeada0d856a8a9cdb81dfbb570869b19b4f1720f3a688b32ac12115df",
+      "path": "/settings/payments",
+      "role": "owner"
+    },
+    "07-requisites": {
+      "sources": "2623c81618f63df6",
+      "i18n": "6edf2ca9edbd149e",
+      "frame": "ca07db5a9c26a9ed820017e93c261e5d16ba90a9eae6bd65bd6942ad1e44b85a",
+      "path": "/settings/requisites",
+      "role": "owner"
+    },
+    "07-shipping": {
+      "sources": "c62094ac63eb0fbe",
+      "i18n": "270783a810051dba",
+      "frame": "a7892106df64f0256b930db0a395e3fbcbc224e5a7fadecd3c4c0ab7b581f8cf",
+      "path": "/shipping",
+      "role": "owner"
+    },
+    "07-staff": {
+      "sources": "5ef46593ce69cbe4",
+      "i18n": "35f7e73d46063827",
+      "frame": "f7771957169b2f1a3fbe7f68867ba9b435957e2c4d4fe8c7e398a76c55fa51a1",
+      "path": "/settings/staff",
+      "role": "owner"
+    },
+    "07-staff-add": {
+      "sources": "5ef46593ce69cbe4",
+      "i18n": "35f7e73d46063827",
+      "frame": "693564a521b759d49ff990c1c3e335dcbe006cdb8b8499fc5c18a0810bf20358",
+      "path": "/settings/staff",
+      "role": "owner"
+    }
+  },
+  "shotAt": "2026-10-09T06:28:45.033Z",
+  "commit": "bd6cf61035974b121a29b5c7666b434a736f5ca5",
+  "dirty": true
+}
