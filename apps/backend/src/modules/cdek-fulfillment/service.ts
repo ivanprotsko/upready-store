@@ -32,6 +32,7 @@ import {
   type CdekMethodData,
   type QuoteItem,
 } from "../../cdek/method";
+import { packageItems } from "../../cdek/package-items";
 import { cdekApiCredentials, readCdekSecret, type ResolvedCdekSecret } from "../../tenant-secrets/cdek";
 
 type InjectedDependencies = {
@@ -57,6 +58,12 @@ export type CdekShippingMethodData = {
   period_max: number | null;
   term_label: string | null;
   carrier_amount: number | null;
+  /**
+   * Grams for a unit without a weight, copied from the option when the method
+   * is set, so the shipment weighs what the price was quoted for
+   * (t-2026-10-09-57). Absent on an order placed before it was kept.
+   */
+  default_weight_g?: number | null;
   /** Set by `createFulfillment`, read by the panel and the tracking link. */
   cdek_order_uuid?: string | null;
   cdek_number?: string | null;
@@ -162,6 +169,7 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
       period_max: quoted?.selected.period_max ?? null,
       term_label: quoted ? termLabel(quoted.selected.period_min, quoted.selected.period_max) : null,
       carrier_amount: quoted?.selected.carrier_amount ?? null,
+      default_weight_g: optionData.default_weight_g ?? null,
     };
     return { ...data, ...result };
   }
@@ -230,11 +238,9 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
       (order?.display_id as string | number | undefined) ?? fulfillment?.id ?? Date.now(),
     );
 
-    const weight = items.reduce((sum, item) => {
-      const quantity = Number(item.quantity ?? 1) || 1;
-      const itemWeight = Number(item.weight ?? 0) || 0;
-      return sum + quantity * itemWeight;
-    }, 0);
+    // CDEK refuses an online-shop parcel without its goods, and checks the
+    // parcel weight against them (t-2026-10-09-57, `cdek/package-items.ts`).
+    const parcel = packageItems(items, order, methodData.default_weight_g);
 
     const toLocation: CdekLocation | undefined = methodData.cdek_point_code
       ? undefined
@@ -277,8 +283,9 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
       packages: [
         {
           number: `${orderNumber}-1`,
-          weight: Math.max(1, Math.round(weight) || 1000),
+          weight: parcel.weight,
           comment: `Заказ ${orderNumber}`,
+          items: parcel.items,
         },
       ],
     });
