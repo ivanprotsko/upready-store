@@ -7,7 +7,7 @@ import { useMyShops, useSwitchShop } from "../../../hooks/api/shops"
 import { useStore } from "../../../hooks/api/store"
 import { CommandMenuTrigger } from "../../command-menu"
 import { Skeleton } from "../../common/skeleton"
-import { OwnerNav } from "../../layout/owner-nav"
+import { HelpLink, OwnerNav } from "../../layout/owner-nav"
 import { Shell } from "../../layout/shell"
 
 import { useNavigate } from "react-router-dom"
@@ -234,9 +234,14 @@ const SidebarRoutes = () => (
   </>
 )
 
+// t-2026-10-09-103: «Справка» sits in the pinned bottom block, above the
+// user menu, so it is in reach from any screen without scrolling the menu.
 const UserSection = () => {
   return (
     <div>
+      <div className="px-3 pb-1 pt-2">
+        <HelpLink />
+      </div>
       <div className="px-3">
         <Divider variant="dashed" />
       </div>

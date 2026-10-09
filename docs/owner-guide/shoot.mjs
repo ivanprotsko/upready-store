@@ -1,31 +1,42 @@
 #!/usr/bin/env node
 // Shoots every frame of the owner guide from a running panel and records what each frame was shot from.
 //
-//   node docs/owner-guide/shoot.mjs --base http://localhost:5181 --logins <file> --ids <file> --out <dir> [--only a,b] [--no-lock] [--compare <dir>]
+//   node docs/owner-guide/shoot.mjs --base http://localhost:5181 --logins <file> --ids <file> [--out <dir>] [--only a,b] [--no-lock] [--compare <dir>]
 //
 //   --base    the panel of a stand (never a live panel: the guide is shot on an anonymized copy)
 //   --logins  JSON { owner|manager|operator: { email, password } } — logins that exist on that stand only
 //   --ids     JSON with the stand's record ids the scenes name in `path`: product, course, lesson,
 //             orderPack, orderPacked, orderShipped, orderPaymentWait, orderCourse (README.md)
-//   --out     where the PNG files go; keep it outside the repository, frames are not committed
+//   --out     where the frames go; guide/shots by default, the frames the guide is published with (they are in git)
 //   --only    shoot these scene ids only (the lock keeps the other entries as they are)
 //   --no-lock do not touch shots.lock.json
-//   --compare compare every new frame with the frame of the same name in <dir> (the frames the guide is published
-//             with) and name the frames where more than 0.5 % of the pixels changed. Two shots of an unchanged
-//             screen differ in a few anti-aliased pixels, so a byte-for-byte comparison would flag every frame.
+//   --compare compare every new frame with the frame of the same name in <dir> (guide/shots: the frames the guide is
+//             published with) and name the frames where more than 0.5 % of the pixels changed. Two shots of an
+//             unchanged screen differ in a few anti-aliased pixels, so a byte-for-byte comparison would flag every frame.
 //
 // One Chromium, one tab per role, 1440×900, light theme, Russian. No video and no trace: `recordVideo`
 // is never set and tracing is never started. Every request to a host other than the stand's is aborted
 // and counted, so a frame cannot pull anything from a live service.
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs"
+//
+// A frame is a lossless WebP (`cwebp -lossless`, brew install webp): a third of the PNG, the same pixels. Before the
+// shot the visible text of the screen (and the values of its fields) is read; a screen that shows a real person of
+// the shop or a work mail (lib.mjs forbiddenIn) is not shot at all, and the text goes into shots.lock.json, where
+// the panel test looks for the same words once more.
+import { mkdirSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs"
 import { createRequire } from "node:module"
 import { execFileSync } from "node:child_process"
 import { join } from "node:path"
 import { SCENES } from "./scenes.mjs"
-import { LOCK, REPO, hashSources, hashStrings, parseArgs, readCatalog, sceneI18n, sceneSources, sha256File } from "./lib.mjs"
+import { LOCK, REPO, SHOTS_DIR, forbiddenIn, hashSources, hashStrings, parseArgs, readCatalog, sceneI18n, sceneSources, sha256File } from "./lib.mjs"
 
 const args = parseArgs(process.argv.slice(2), { base: "value", logins: "value", ids: "value", out: "value", only: "value", "no-lock": "flag", compare: "value" })
-for (const need of ["base", "logins", "ids", "out"]) if (!args[need]) throw new Error(`нужен --${need}`)
+for (const need of ["base", "logins", "ids"]) if (!args[need]) throw new Error(`нужен --${need}`)
+const out = args.out ?? SHOTS_DIR
+try {
+  execFileSync("cwebp", ["-version"], { stdio: "ignore" })
+} catch {
+  throw new Error("нужен cwebp: кадры сохраняются в WebP без потерь (brew install webp)")
+}
 const base = args.base.replace(/\/$/, "")
 const standHost = new URL(base).hostname
 const logins = JSON.parse(readFileSync(args.logins, "utf8"))
@@ -33,7 +44,7 @@ const ids = JSON.parse(readFileSync(args.ids, "utf8"))
 const only = args.only ? new Set(args.only.split(",")) : null
 const scenes = SCENES.filter((s) => !only || only.has(s.id))
 if (only) for (const id of only) if (!SCENES.some((s) => s.id === id)) throw new Error(`нет сцены ${id}`)
-mkdirSync(args.out, { recursive: true })
+mkdirSync(out, { recursive: true })
 
 // @playwright/test is a dependency of the storefront (its e2e suites); the guide borrows it from there.
 const require = createRequire(join(REPO, "apps/storefront/package.json"))
@@ -101,12 +112,13 @@ const pixelDiff = (page, before, after) =>
       for (let i = 0; i < p.length; i += 4) if (Math.abs(p[i] - q[i]) > 32 || Math.abs(p[i + 1] - q[i + 1]) > 32 || Math.abs(p[i + 2] - q[i + 2]) > 32) n++
       return n / (p.length / 4)
     },
-    [before, after].map((f) => "data:image/png;base64," + readFileSync(f).toString("base64"))
+    [before, after].map((f) => "data:image/webp;base64," + readFileSync(f).toString("base64"))
   )
 
 for (const scene of scenes) {
   const page = await tab(scene.role)
-  const file = join(args.out, `${scene.id}.png`)
+  const file = join(out, `${scene.id}.webp`)
+  const png = join(out, `${scene.id}.tmp.png`)
   try {
     await page.goto(base + fill(scene.path), { waitUntil: "networkidle", timeout: 45000 }).catch(() => {})
     await page.waitForTimeout(800)
@@ -125,8 +137,20 @@ for (const scene of scenes) {
       })
     }
     await page.mouse.move(0, 0)
-    await page.screenshot({ path: file, fullPage: Boolean(scene.full), animations: "disabled", caret: "hide" })
-    const old = args.compare ? join(args.compare, `${scene.id}.png`) : null
+    // What the frame shows in words, the page text plus what the fields hold (a name in an input is not innerText).
+    const text = await page.evaluate(() =>
+      [document.body.innerText, ...[...document.querySelectorAll("input, textarea")].map((e) => e.value)]
+        .join("\n")
+        .replace(/[ \t]+/g, " ")
+        .replace(/\s*\n\s*/g, "\n")
+        .trim()
+    )
+    const people = forbiddenIn(text)
+    if (people.length) throw new Error(`на экране ${people.join(", ")}: кадр не снят, обезличьте стенд (README.md)`)
+    await page.screenshot({ path: png, fullPage: Boolean(scene.full), animations: "disabled", caret: "hide" })
+    execFileSync("cwebp", ["-quiet", "-lossless", "-z", "9", "-metadata", "none", png, "-o", file])
+    rmSync(png)
+    const old = args.compare ? join(args.compare, `${scene.id}.webp`) : null
     if (old && existsSync(old)) {
       const share = await pixelDiff(page, old, file)
       if (share > 0.005) changed.push(`${scene.id} (${(share * 100).toFixed(1)} % точек)`)
@@ -137,10 +161,12 @@ for (const scene of scenes) {
       frame: sha256File(file),
       path: scene.path,
       role: scene.role,
+      text,
     }
     console.log(`снят ${scene.id}`)
   } catch (e) {
     failed.push(scene.id)
+    rmSync(png, { force: true })
     console.log(`НЕ снят ${scene.id}: ${String(e.message ?? e).split("\n")[0]}`)
   }
 }
