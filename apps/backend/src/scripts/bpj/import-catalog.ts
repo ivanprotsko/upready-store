@@ -1,8 +1,12 @@
 import type { ExecArgs } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import { uploadFilesWorkflow } from "@medusajs/medusa/core-flows";
 import { readFileSync } from "node:fs";
 import { PRODUCT_REFERENCE, upsertTranslationFields } from "../../api/tenants/products/translations-helpers";
+import type { SeedPlan, SeedPlanCategory } from "../../migration-scripts/data/abstract-datasets";
+import { fetchImage } from "../../product-csv/images";
 import { notifyStorefrontRevalidate } from "../../storefront-revalidate";
+import { tenantFilePrefix } from "../../tenant-files";
 import seedTenantDatasetWorkflow, { type SeedTenantDatasetWorkflowInput } from "../../workflows/tenant/seed-tenant-dataset";
 import { countBpjPlan, formatCounts, type BpjImportPlan, type BpjTranslation } from "./catalog";
 
@@ -25,6 +29,13 @@ import { countBpjPlan, formatCounts, type BpjImportPlan, type BpjTranslation } f
  * A shop that already has a product is refused, `dry-run` included: a second copy of the
  * catalog next to the first one is the duplicate nobody wants. `dry-run` prints numbers
  * only and writes nothing.
+ *
+ * Every picture is copied into the shop's own storage before the products are written,
+ * the way the panel's CSV import does it (`product-csv/apply.ts`, `resolveImages`). The
+ * plan names the old site's CDN (`static.tildacdn.one`), and the storefront's next/image
+ * serves only the hosts in its `remotePatterns`: left as they were, all 495 pictures came
+ * out broken on the B2 stand (t-2026-10-06-09). A picture that cannot be fetched is left
+ * out of its product and named in the log.
  */
 
 export const IMPORT_USAGE =
@@ -54,10 +65,61 @@ export type ImportShop = {
   categoryCount: number;
 };
 
+export type StoredImage = { ok: true; url: string } | { ok: false; error: string };
+
+/** Every picture address the plan names (products, their thumbnails, the categories), once each. */
+export const planImageUrls = (seed: SeedPlan): string[] => {
+  const urls = new Set<string>();
+  const walk = (categories: SeedPlanCategory[]) => {
+    for (const category of categories) {
+      if (category.metadata.image_url) urls.add(category.metadata.image_url);
+      walk(category.children);
+    }
+  };
+  for (const product of seed.products) {
+    for (const image of product.images) urls.add(image);
+    if (product.thumbnail) urls.add(product.thumbnail);
+  }
+  walk(seed.categories);
+  return [...urls];
+};
+
+/**
+ * The plan with each picture swapped for its copy in the shop's storage. A picture with
+ * no copy is left out of its product, whose thumbnail then becomes the first picture
+ * left. A category whose own picture has no copy takes the first copied picture of one
+ * of its products, then of its first child, so a brand tile never points at the old CDN.
+ */
+export const withStoredImages = (seed: SeedPlan, stored: ReadonlyMap<string, string>): SeedPlan => {
+  const products = seed.products.map((product) => {
+    const images = product.images.flatMap((image) => (stored.has(image) ? [stored.get(image) as string] : []));
+    const thumbnail = (product.thumbnail && stored.get(product.thumbnail)) || images[0];
+    const next = { ...product, images };
+    if (thumbnail) next.thumbnail = thumbnail;
+    else delete next.thumbnail;
+    return next;
+  });
+  const firstImageOf = (sourceHandle: string) =>
+    products.find((product) => product.categorySourceHandle === sourceHandle && product.images[0])?.images[0];
+  const categoriesOf = (categories: SeedPlanCategory[]): SeedPlanCategory[] =>
+    categories.map((category) => {
+      const children = categoriesOf(category.children);
+      const image_url =
+        stored.get(category.metadata.image_url) ??
+        firstImageOf(category.sourceHandle) ??
+        children[0]?.metadata.image_url ??
+        "";
+      return { ...category, metadata: { ...category.metadata, image_url }, children };
+    });
+  return { ...seed, products, categories: categoriesOf(seed.categories) };
+};
+
 /** Everything the import touches outside its own memory, so a test can stand in for it. */
 export type ImportDeps = {
   findShop: (handle: string) => Promise<ImportShop | null>;
   findShippingProfileId: () => Promise<string | null>;
+  /** Fetches one picture and stores it as the shop's own public file. */
+  storeImage: (url: string, index: number, tenantId: string) => Promise<StoredImage>;
   seed: (input: SeedTenantDatasetWorkflowInput) => Promise<{ product_ids: string[]; category_ids: string[] }>;
   findProductIdsByHandle: (handles: string[]) => Promise<Map<string, string>>;
   writeTranslation: (productId: string, locale: string, fields: Omit<BpjTranslation, "handle">) => Promise<void>;
@@ -97,16 +159,36 @@ export const runBpjImport = async (
     return refuse(`shop "${tenantHandle}" already has ${shop.productCount} product(s); the import is for a shop without products, so nothing is written.`);
   }
   if (!shop.sales_channel_id) return refuse(`shop "${tenantHandle}" has no sales channel to sell in.`);
+
+  const urls = planImageUrls(plan.seed);
+  const hostOf = (url: string) => {
+    try {
+      return new URL(url).host;
+    } catch {
+      return url;
+    }
+  };
+  const hosts = [...new Set(urls.map(hostOf))];
+  say(`pictures to copy into the shop's storage ${urls.length}, from ${hosts.join(", ") || "nowhere"}`);
   if (dryRun) return 0;
 
   const shippingProfileId = await deps.findShippingProfileId();
   if (!shippingProfileId) return refuse("no shipping profile exists, so no product can be created.");
 
+  const stored = new Map<string, string>();
+  for (const [index, url] of urls.entries()) {
+    const outcome = await deps.storeImage(url, index, shop.id);
+    if (outcome.ok) stored.set(url, outcome.url);
+    else deps.error(`bpj import: picture left out, ${outcome.error}: ${url}`);
+    if ((index + 1) % 50 === 0) say(`pictures copied ${stored.size} of ${index + 1}`);
+  }
+  say(`pictures copied into the shop's storage ${stored.size} of ${urls.length}`);
+
   const result = await deps.seed({
     tenant_id: shop.id,
     sales_channel_id: shop.sales_channel_id,
     shipping_profile_id: shippingProfileId,
-    plan: plan.seed,
+    plan: withStoredImages(plan.seed, stored),
   });
   say(`written: categories ${result.category_ids.length}, products ${result.product_ids.length}`);
 
@@ -171,6 +253,26 @@ export default async function importBpjCatalog({ container, args }: ExecArgs) {
         data: [profile],
       } = await query.graph({ entity: "shipping_profile", fields: ["id"] });
       return (profile?.id as string | undefined) ?? null;
+    },
+    storeImage: async (url, index, tenantId) => {
+      const fetched = await fetchImage(url, index);
+      if (!fetched.ok) return { ok: false, error: fetched.error };
+      // The old site names many files alike (`IMG_3085.JPG` under different folders); the
+      // number keeps each copy's name its own whatever the storage adds to it.
+      const { result } = await uploadFilesWorkflow(container).run({
+        input: {
+          files: [
+            {
+              filename: `${tenantFilePrefix(tenantId)}bpj-${index + 1}-${fetched.filename}`,
+              mimeType: fetched.mime_type,
+              content: fetched.content.toString("base64"),
+              access: "public" as const,
+            },
+          ],
+        },
+      });
+      const storedUrl = result[0]?.url;
+      return storedUrl ? { ok: true, url: storedUrl } : { ok: false, error: "the file storage gave no address" };
     },
     seed: async (input) => (await seedTenantDatasetWorkflow(container).run({ input })).result,
     findProductIdsByHandle: async (handles) => {

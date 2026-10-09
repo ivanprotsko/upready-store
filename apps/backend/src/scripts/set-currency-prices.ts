@@ -7,23 +7,33 @@ import { pricePayload } from "../product-csv/apply";
 import { readPrices, type CatalogPrice, type GraphPrice } from "../product-csv/catalog";
 
 /**
- * Prices one tenant's catalogue in a second currency, computed from its RUB
- * price at a given rate (t-cherk-34: cherkashino.com sells in USD).
+ * Prices one tenant's catalogue in a second currency, computed from its price
+ * in a source currency at a given rate. The source is RUB unless `from` names
+ * another one (t-cherk-34: cherkashino.com sells in USD from its roubles;
+ * t-2026-10-06-09: Beauty Pro Japan sells in USD from its yen).
  *
  *   npx medusa exec ./src/scripts/set-currency-prices.ts \
- *     tenant=cherkashino currency=usd rate=95 [round=0.99|1] [dry-run] [report=<path>]
+ *     tenant=cherkashino currency=usd rate=95 [from=rub] [round=0.99|1] [dry-run] [report=<path>]
+ *   npx medusa exec ./src/scripts/set-currency-prices.ts \
+ *     tenant=beautyprojapan from=jpy currency=usd rate=158.28 round=1 dry-run
  *
  * The arguments carry no leading dashes because `medusa exec` parses the
  * command line itself and rejects a flag it does not know (measured on the
  * Medusa CLI 2.19, the same trap `backfill-product-attributes.ts` documents):
  * what reaches the script is the positional tail.
  *
- * `rate` is RUB per one unit of `currency`: the new price is
- * `rub_amount / rate`, then rounded (see `roundTargetAmount`).
+ * `rate` is units of the source currency per one unit of `currency` (RUB per
+ * USD, or JPY per USD with `from=jpy`): the new price is
+ * `source_amount / rate`, then rounded (see `roundTargetAmount`).
  *
  * Hand-edit protection: every price this script writes is stamped into the
  * variant's own `metadata.script_prices.<currency>` (amount, rate, round,
- * written_at). A currency price row has no `metadata` of its own in
+ * from, written_at). `from` names the currency the rate is quoted in, so
+ * `tenant-legal/charge-estimate.ts`, which reads a stamp's rate as RUB per
+ * unit, never takes a yen rate for a rouble one. A stamp without `from` was
+ * written before it existed, from RUB.
+ *
+ * A currency price row has no `metadata` of its own in
  * `@medusajs/pricing` (`models/price.js`: id, title, currency_code, amount,
  * quantities, rules, price_set, price_list — nothing else), so the mark lives
  * one level up, on the variant that owns it. On the next run:
@@ -117,7 +127,7 @@ export const parseArgs = (argv: string[]): Args => {
 };
 
 /**
- * `rubAmount / rate`, then:
+ * `sourceAmount / rate`, then:
  *
  * - `round: "1"` to the nearest whole unit;
  * - `round: "0.99"` to the nearest whole unit, floored at 1, minus one cent
@@ -128,12 +138,12 @@ export const parseArgs = (argv: string[]): Args => {
  * A zero or negative source price (a free sample, a data error) stays 0
  * regardless of `round`, rather than coming out at -0.01.
  */
-export const roundTargetAmount = (rubAmount: number, rate: number, round: RoundMode): number => {
-  if (!(rubAmount > 0) || !(rate > 0)) {
+export const roundTargetAmount = (sourceAmount: number, rate: number, round: RoundMode): number => {
+  if (!(sourceAmount > 0) || !(rate > 0)) {
     return 0;
   }
 
-  const raw = rubAmount / rate;
+  const raw = sourceAmount / rate;
 
   if (round === "1") {
     return Math.max(1, Math.round(raw));
@@ -154,6 +164,8 @@ export type ScriptPriceStamp = {
   amount: number;
   rate: number;
   round: RoundMode;
+  /** The source currency `rate` is quoted in. Absent on a stamp written before `from`, which was RUB. */
+  from?: string;
   written_at: string;
 };
 
@@ -236,7 +248,15 @@ export default async function setCurrencyPrices({
     return;
   }
   if (!args.rate) {
-    logger.error("set-currency-prices: rate=<RUB per unit of currency>, a positive number, is required.");
+    logger.error(
+      `set-currency-prices: rate=<${args.sourceCurrency.toUpperCase()} per unit of currency>, a positive number, is required.`,
+    );
+    return;
+  }
+  if (!/^[a-z]{3}$/.test(args.sourceCurrency)) {
+    logger.error(
+      `set-currency-prices: from=<code> names the source currency, three letters such as rub or jpy; got "${args.sourceCurrency}".`,
+    );
     return;
   }
   if (args.currency === args.sourceCurrency) {
@@ -354,6 +374,7 @@ export default async function setCurrencyPrices({
         amount: desired,
         rate: args.rate,
         round: args.round,
+        from: args.sourceCurrency,
         written_at: new Date().toISOString(),
       };
 

@@ -1,10 +1,24 @@
-import {
+// The script imports `product-csv/apply.ts`, which builds workflows of its own from the real
+// core flows at import time, so only the one the script runs is replaced.
+jest.mock("@medusajs/medusa/core-flows", () => {
+  const run = jest.fn(async () => ({ result: [] }));
+  return {
+    ...jest.requireActual("@medusajs/medusa/core-flows"),
+    __run: run,
+    updateProductVariantsWorkflow: () => ({ run }),
+  };
+});
+
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import setCurrencyPrices, {
   canOverwrite,
   mergeScriptPriceMetadata,
   parseArgs,
   roundTargetAmount,
   type ScriptPriceStamp,
 } from "../set-currency-prices";
+
+const { __run: workflowRun } = jest.requireMock("@medusajs/medusa/core-flows") as { __run: jest.Mock };
 
 describe("set-currency-prices: parseArgs", () => {
   it("reads every flag written without leading dashes, the shape medusa exec hands over", () => {
@@ -19,6 +33,17 @@ describe("set-currency-prices: parseArgs", () => {
       dryRun: true,
       reportPath: null,
     });
+  });
+
+  it("reads from= as the source currency the rate is quoted in", () => {
+    const args = parseArgs(["tenant=beautyprojapan", "from=jpy", "currency=usd", "rate=158.28", "round=1"]);
+    expect(args).toMatchObject({ tenantHandle: "beautyprojapan", sourceCurrency: "jpy", currency: "usd", rate: 158.28 });
+    expect(parseArgs(["source=JPY"]).sourceCurrency).toBe("jpy");
+  });
+
+  it("keeps RUB as the source when from= is left out, as before from= existed", () => {
+    expect(parseArgs(["tenant=cherkashino", "currency=usd", "rate=95"]).sourceCurrency).toBe("rub");
+    expect(parseArgs([]).sourceCurrency).toBe("rub");
   });
 
   it("accepts the bare handle as the first positional argument", () => {
@@ -90,6 +115,13 @@ describe("set-currency-prices: roundTargetAmount", () => {
   it("returns 0 for a non-positive rate rather than dividing by it", () => {
     expect(roundTargetAmount(1990, 0, "1")).toBe(0);
   });
+
+  it("rounds a yen source the same way as a rouble one", () => {
+    // 3300 JPY at 158.28 JPY per USD is 20.849…
+    expect(roundTargetAmount(3300, 158.28, null)).toBeCloseTo(20.85, 5);
+    expect(roundTargetAmount(3300, 158.28, "1")).toBe(21);
+    expect(roundTargetAmount(3300, 158.28, "0.99")).toBe(20.99);
+  });
 });
 
 describe("set-currency-prices: canOverwrite", () => {
@@ -145,5 +177,88 @@ describe("set-currency-prices: mergeScriptPriceMetadata", () => {
   it("starts a fresh metadata object for a variant that had none", () => {
     const stamp: ScriptPriceStamp = { amount: 20.99, rate: 95, round: "0.99", written_at: "x" };
     expect(mergeScriptPriceMetadata(null, "usd", stamp)).toEqual({ script_prices: { usd: stamp } });
+  });
+});
+
+describe("set-currency-prices: a run over one shop", () => {
+  const logger = { info: jest.fn(), warn: jest.fn(), error: jest.fn() };
+  const price = (id: string, currency_code: string, amount: number) => ({ id, currency_code, amount, price_rules: [] });
+  const variant = (id: string, prices: ReturnType<typeof price>[]) => ({ id, sku: id, metadata: null, price_set: { prices } });
+
+  // One variant priced in yen (the BPJ import), one in roubles (cherkashino), and one in yen
+  // whose dollar price somebody typed by hand: no stamp, so it is never the script's to touch.
+  const products = [
+    {
+      id: "prod_1",
+      handle: "lebel-shampoo",
+      variants: [
+        variant("v_yen", [price("price_jpy", "jpy", 3300)]),
+        variant("v_rub", [price("price_rub", "rub", 1990)]),
+        variant("v_hand", [price("price_jpy_2", "jpy", 5500), price("price_usd_2", "usd", 40)]),
+      ],
+    },
+  ];
+
+  const container = () => {
+    const graph = jest.fn(async ({ entity }: { entity: string }) =>
+      entity === "tenant"
+        ? { data: [{ id: "ten_1", handle: "beautyprojapan", name: "Beauty Pro Japan", products: [{ id: "prod_1" }] }] }
+        : { data: products },
+    );
+    return { resolve: (key: string) => (key === ContainerRegistrationKeys.LOGGER ? logger : { graph }) } as never;
+  };
+
+  beforeEach(() => {
+    workflowRun.mockClear();
+    logger.error.mockClear();
+  });
+
+  it("from=jpy prices USD from the yen price, carries the yen row and stamps the source", async () => {
+    await setCurrencyPrices({
+      container: container(),
+      args: ["tenant=beautyprojapan", "from=jpy", "currency=usd", "rate=158.28", "round=1"],
+    });
+
+    expect(workflowRun).toHaveBeenCalledTimes(1);
+    const { input } = workflowRun.mock.calls[0][0];
+    expect(input.selector).toEqual({ id: "v_yen" });
+    expect(input.update.prices).toEqual([
+      { id: "price_jpy", currency_code: "jpy", amount: 3300 },
+      { currency_code: "usd", amount: 21 },
+    ]);
+    expect(input.update.metadata.script_prices.usd).toMatchObject({ amount: 21, rate: 158.28, round: "1", from: "jpy" });
+  });
+
+  it("without from= converts from RUB exactly as before, and leaves the yen variants alone", async () => {
+    await setCurrencyPrices({
+      container: container(),
+      args: ["tenant=beautyprojapan", "currency=usd", "rate=95", "round=0.99"],
+    });
+
+    expect(workflowRun).toHaveBeenCalledTimes(1);
+    const { input } = workflowRun.mock.calls[0][0];
+    expect(input.selector).toEqual({ id: "v_rub" });
+    expect(input.update.prices).toEqual([
+      { id: "price_rub", currency_code: "rub", amount: 1990 },
+      { currency_code: "usd", amount: 20.99 },
+    ]);
+    expect(input.update.metadata.script_prices.usd).toMatchObject({ amount: 20.99, rate: 95, round: "0.99", from: "rub" });
+  });
+
+  it("writes nothing in dry-run, from=jpy included", async () => {
+    await setCurrencyPrices({
+      container: container(),
+      args: ["tenant=beautyprojapan", "from=jpy", "currency=usd", "rate=158.28", "dry-run"],
+    });
+    expect(workflowRun).not.toHaveBeenCalled();
+  });
+
+  it("refuses a from= that is not a three-letter currency code", async () => {
+    await setCurrencyPrices({
+      container: container(),
+      args: ["tenant=beautyprojapan", "from=yen1", "currency=usd", "rate=158.28"],
+    });
+    expect(workflowRun).not.toHaveBeenCalled();
+    expect(logger.error).toHaveBeenCalledWith(expect.stringContaining("from=<code>"));
   });
 });

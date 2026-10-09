@@ -18,9 +18,18 @@ export type ChargeEstimateVariant = { id: string; metadata: Record<string, unkno
 
 const RATE_EPSILON = 0.01;
 
+/**
+ * A stamp's rate, only when it is quoted in RUB. The script's `from=` prices a
+ * currency from another source (t-2026-10-06-09: USD from yen), and 158 yen
+ * per dollar read as 158 roubles per dollar would put a wrong sum next to
+ * «≈». A stamp without `from` was written before it existed, from RUB.
+ */
 const rateFor = (metadata: Record<string, unknown> | null, currencyCode: string): number | null => {
   const scriptPrices = metadata?.script_prices as Record<string, unknown> | undefined;
-  const entry = scriptPrices?.[currencyCode.toLowerCase()] as { rate?: unknown } | undefined;
+  const entry = scriptPrices?.[currencyCode.toLowerCase()] as { rate?: unknown; from?: unknown } | undefined;
+  if (entry?.from !== undefined && entry.from !== "rub") {
+    return null;
+  }
   const rate = entry?.rate;
   return typeof rate === "number" && Number.isFinite(rate) && rate > 0 ? rate : null;
 };

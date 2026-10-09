@@ -1,10 +1,13 @@
 import { convertBpjCatalog } from "../catalog";
-import { parseImportArgs, runBpjImport, type ImportDeps, type ImportShop } from "../import-catalog";
+import { parseImportArgs, planImageUrls, runBpjImport, withStoredImages, type ImportDeps, type ImportShop } from "../import-catalog";
 import { sampleCatalog } from "./sample-catalog";
 
 const plan = () => convertBpjCatalog(sampleCatalog(), { tenantHandle: "sakura", currency: "rub", rateFromJpy: 0.55 });
 
 const emptyShop: ImportShop = { id: "tenant_1", handle: "sakura", sales_channel_id: "sc_1", productCount: 0, categoryCount: 0 };
+
+/** The address a picture gets in the shop's storage in these tests. */
+const copyOf = (url: string) => url.replace("https://static.example.test/", "https://files.example.test/tenants/tenant_1/");
 
 /** Stand-ins for the database: every call is recorded, nothing is written anywhere. */
 const fakeDeps = (shop: ImportShop | null = emptyShop) => {
@@ -13,6 +16,7 @@ const fakeDeps = (shop: ImportShop | null = emptyShop) => {
   const deps = {
     findShop: jest.fn(async () => shop),
     findShippingProfileId: jest.fn(async () => "sp_1"),
+    storeImage: jest.fn(async (url: string): ReturnType<ImportDeps["storeImage"]> => ({ ok: true, url: copyOf(url) })),
     seed: jest.fn(async (input: Parameters<ImportDeps["seed"]>[0]) => ({
       product_ids: input.plan.products.map((_, index) => `prod_${index}`),
       category_ids: ["cat_root", ...input.plan.categories[0].children.map((_, index) => `cat_${index}`)],
@@ -26,7 +30,7 @@ const fakeDeps = (shop: ImportShop | null = emptyShop) => {
   return { deps, lines, errors };
 };
 
-const writers = (deps: ReturnType<typeof fakeDeps>["deps"]) => [deps.seed, deps.writeTranslation, deps.revalidate, deps.findShippingProfileId];
+const writers = (deps: ReturnType<typeof fakeDeps>["deps"]) => [deps.seed, deps.storeImage, deps.writeTranslation, deps.revalidate, deps.findShippingProfileId];
 
 describe("parseImportArgs", () => {
   it("reads key=value arguments, dry-run with or without dashes, and the environment twins", () => {
@@ -57,6 +61,7 @@ describe("runBpjImport", () => {
       "bpj import: images 6, products without an image 1",
       "bpj import: shared options 2, english translations 2",
       "bpj import: the shop has products 0, categories 0",
+      "bpj import: pictures to copy into the shop's storage 6, from static.example.test",
     ]);
   });
 
@@ -90,14 +95,19 @@ describe("runBpjImport", () => {
     expect(notAPlan.errors[0]).toMatch(/not a bpj-import-plan@1/);
   });
 
-  it("seeds an empty shop through the seed workflow, then writes the English texts and asks the storefront to revalidate", async () => {
+  it("copies the pictures into the shop's storage, seeds an empty shop through the seed workflow, then writes the English texts and asks the storefront to revalidate", async () => {
     const { deps, lines, errors } = fakeDeps();
     const built = plan();
+    const urls = planImageUrls(built.seed);
 
     expect(await runBpjImport(built, { tenantHandle: "sakura", dryRun: false }, deps)).toBe(0);
 
     expect(errors).toEqual([]);
-    expect(deps.seed).toHaveBeenCalledWith({ tenant_id: "tenant_1", sales_channel_id: "sc_1", shipping_profile_id: "sp_1", plan: built.seed });
+    expect(deps.storeImage.mock.calls).toEqual(urls.map((url, index) => [url, index, "tenant_1"]));
+    const seeded = withStoredImages(built.seed, new Map(urls.map((url) => [url, copyOf(url)])));
+    expect(deps.seed).toHaveBeenCalledWith({ tenant_id: "tenant_1", sales_channel_id: "sc_1", shipping_profile_id: "sp_1", plan: seeded });
+    expect(JSON.stringify(deps.seed.mock.calls[0][0].plan)).not.toContain("static.example.test");
+    expect(lines).toContain("bpj import: pictures copied into the shop's storage 6 of 6");
     expect(deps.writeTranslation.mock.calls).toEqual([
       ["id_of_morning-dew-shampoo-sakura", "en", { title: "Morning Dew Shampoo", description: "A gentle shampoo." }],
       ["id_of_wind-scissors-sakura", "en", { title: "Wind Scissors" }],
@@ -113,5 +123,34 @@ describe("runBpjImport", () => {
     expect(await runBpjImport(plan(), { tenantHandle: "sakura", dryRun: false }, deps)).toBe(1);
     expect(deps.writeTranslation).toHaveBeenCalledTimes(1);
     expect(errors).toEqual(["bpj import: 1 translation(s) name a product the shop does not have after the import."]);
+  });
+});
+
+describe("pictures", () => {
+  it("names every picture of the plan once: product galleries, thumbnails and category tiles", () => {
+    const built = plan();
+    const urls = planImageUrls(built.seed);
+
+    expect(urls).toHaveLength(6);
+    expect(new Set(urls).size).toBe(urls.length);
+    for (const product of built.seed.products) for (const image of product.images) expect(urls).toContain(image);
+    for (const brand of built.seed.categories[0].children) expect(urls).toContain(brand.metadata.image_url);
+  });
+
+  it("leaves a picture that could not be copied out of its product and gives the category another copied one", async () => {
+    const { deps, errors } = fakeDeps();
+    deps.storeImage.mockImplementation(async (url: string) =>
+      url.endsWith("/dew-1.jpg") ? { ok: false, error: "server answered 404" } : { ok: true, url: copyOf(url) },
+    );
+
+    expect(await runBpjImport(plan(), { tenantHandle: "sakura", dryRun: false }, deps)).toBe(0);
+
+    expect(errors).toEqual(["bpj import: picture left out, server answered 404: https://static.example.test/dew-1.jpg"]);
+    const seeded = deps.seed.mock.calls[0][0].plan;
+    const dew = seeded.products.find((product) => product.handle.startsWith("morning-dew-shampoo"));
+    expect(dew?.images).toEqual(["https://files.example.test/tenants/tenant_1/dew-2.jpg"]);
+    expect(dew?.thumbnail).toBe("https://files.example.test/tenants/tenant_1/dew-2.jpg");
+    const tiles = [seeded.categories[0], ...seeded.categories[0].children].map((category) => category.metadata.image_url);
+    for (const tile of tiles) expect(tile).toMatch(/^https:\/\/files\.example\.test\//);
   });
 });
