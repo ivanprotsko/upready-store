@@ -155,7 +155,7 @@
     "freeShipping": "Libre",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} item} other {{count} na item}}",
-    "legal": "Sa pag-click ng «{button}», tinatanggap mo ang aming <terms>mga tuntunin</terms>, <termsOfUse>mga tuntunin sa paggamit</termsOfUse>, at <returnPolicy>patakaran sa pagsauli</returnPolicy>, at kinukumpirma mong nabasa mo ang aming <privacyPolicy>patakaran sa privacy</privacyPolicy>.",
+    "legal": "Sa pag-click ng «{button}», tinatanggap mo ang <terms>mga tuntunin ng pagbebenta</terms>.",
     "manualInput": "Ilagay ang address nang manu-mano",
     "addressIncomplete": "Punan ang mga kinakailangang field ng address: {fields}.",
     "provinceRequired": "Piliin ang rehiyon mula sa listahan.",
@@ -184,6 +184,7 @@
     "offerLink": "Pampublikong alok",
     "sameAsShipping": "Kapareho ng address ng paghahatid",
     "save": "I-save",
+    "next": "Susunod",
     "saving": "Sine-save...",
     "shippingCost": "Paghahatid",
     "shippingDescription": "Piliin kung paano ihahatid ang iyong order",
@@ -191,7 +192,6 @@
     "shippingLink": "Paghahatid",
     "shippingUnavailable": "Walang available na paraan ng paghahatid",
     "shippingPriceUnavailable": "Hindi available: hindi makalkula ang presyo",
-    "deliveryPriceAfterAddress": "Ilagay ang address para makita ang presyo at oras ng paghahatid",
     "deliveryWayPickup": "Sa pickup point",
     "deliveryWayCourier": "Courier hanggang pinto",
     "deliveryWayFrom": "mula {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Pumapayag ako sa pagproseso ng aking personal na data alinsunod sa <privacy>Patakaran sa Privacy</privacy>.",
-    "marketing": "Pumapayag akong makatanggap ng balita, promo at espesyal na alok sa e-mail. Maaari akong mag-unsubscribe anumang oras gamit ang link sa bawat e-mail.",
-    "receipt": "Ipapadala ang resibo sa e-mail na inilagay mo sa pag-order (54-FZ).",
+    "marketing": "Padalhan ako ng balita at alok sa e-mail; puwede akong mag-unsubscribe kahit kailan.",
+    "receipt": "Ipapadala sa iyong e-mail ang elektronikong resibo (54-FZ).",
     "hint": "Para mag-order, lagyan ng tsek ang pahintulot sa pagproseso ng personal na data."
   }
 }

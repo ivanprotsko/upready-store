@@ -155,7 +155,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Kartu Hadiah",
     "itemsCount": "{count, plural, other {{count} barang}}",
-    "legal": "Dengan mengklik «{button}», Anda menyetujui <terms>syarat</terms>, <termsOfUse>ketentuan penggunaan</termsOfUse>, dan <returnPolicy>kebijakan pengembalian</returnPolicy> kami, serta mengonfirmasi bahwa Anda telah membaca <privacyPolicy>kebijakan privasi</privacyPolicy> kami.",
+    "legal": "Dengan mengklik «{button}», Anda menyetujui <terms>syarat penjualan</terms>.",
     "manualInput": "Masukkan alamat secara manual",
     "addressIncomplete": "Lengkapi kolom alamat yang wajib diisi: {fields}.",
     "provinceRequired": "Pilih wilayah dari daftar.",
@@ -184,6 +184,7 @@
     "offerLink": "Penawaran publik",
     "sameAsShipping": "Sama dengan alamat pengiriman",
     "save": "Simpan",
+    "next": "Lanjut",
     "saving": "Menyimpan...",
     "shippingCost": "Pengiriman",
     "shippingDescription": "Pilih bagaimana pesanan Anda dikirim",
@@ -191,7 +192,6 @@
     "shippingLink": "Pengiriman",
     "shippingUnavailable": "Tidak ada metode pengiriman yang tersedia",
     "shippingPriceUnavailable": "Tidak tersedia: harga tidak dapat dihitung",
-    "deliveryPriceAfterAddress": "Masukkan alamat untuk melihat harga dan waktu pengiriman",
     "deliveryWayPickup": "Ke titik pengambilan",
     "deliveryWayCourier": "Kurir sampai ke pintu",
     "deliveryWayFrom": "mulai {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Saya menyetujui pemrosesan data pribadi saya sesuai dengan <privacy>Kebijakan Privasi</privacy>.",
-    "marketing": "Saya setuju menerima berita, promosi, dan penawaran khusus melalui e-mail. Saya dapat berhenti berlangganan kapan saja melalui tautan di setiap e-mail.",
-    "receipt": "Struk pembayaran akan dikirim ke e-mail yang Anda masukkan saat pemesanan (54-FZ).",
+    "marketing": "Saya ingin menerima berita dan penawaran lewat e-mail dan bisa berhenti berlangganan kapan saja.",
+    "receipt": "Struk elektronik (54-FZ) akan dikirim ke e-mail Anda.",
     "hint": "Untuk melakukan pemesanan, centang persetujuan pemrosesan data pribadi."
   }
 }

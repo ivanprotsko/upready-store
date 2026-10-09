@@ -155,7 +155,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Cadeaubon",
     "itemsCount": "{count, plural, one {{count} artikel} other {{count} artikelen}}",
-    "legal": "Door op «{button}» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en bevestigt u dat u ons <privacyPolicy>privacybeleid</privacyPolicy> hebt gelezen.",
+    "legal": "Door op «{button}» te klikken, accepteert u de <terms>verkoopvoorwaarden</terms>.",
     "manualInput": "Adres handmatig invoeren",
     "addressIncomplete": "Vul de verplichte adresvelden in: {fields}.",
     "provinceRequired": "Kies je regio uit de lijst.",
@@ -184,6 +184,7 @@
     "offerLink": "Openbaar aanbod",
     "sameAsShipping": "Zelfde als verzendadres",
     "save": "Opslaan",
+    "next": "Volgende",
     "saving": "Opslaan...",
     "shippingCost": "Verzending",
     "shippingDescription": "Kies hoe u uw bestelling wilt laten bezorgen",
@@ -191,7 +192,6 @@
     "shippingLink": "Verzending",
     "shippingUnavailable": "Geen verzendmethoden beschikbaar",
     "shippingPriceUnavailable": "Niet beschikbaar: de prijs kon niet worden berekend",
-    "deliveryPriceAfterAddress": "Vul je adres in om prijs en levertijd te zien",
     "deliveryWayPickup": "Naar een afhaalpunt",
     "deliveryWayCourier": "Per koerier aan de deur",
     "deliveryWayFrom": "vanaf {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Ik geef toestemming voor de verwerking van mijn persoonsgegevens in overeenstemming met het <privacy>privacybeleid</privacy>.",
-    "marketing": "Ik ontvang graag nieuws, acties en speciale aanbiedingen per e-mail. Ik kan me altijd afmelden via de link in elke e-mail.",
-    "receipt": "Een kassabon wordt verzonden naar het e-mailadres dat u bij de bestelling hebt opgegeven (54-FZ).",
+    "marketing": "Ik ontvang graag nieuws en aanbiedingen per e-mail en kan me altijd afmelden.",
+    "receipt": "Een elektronische kassabon (54-FZ) wordt naar uw e-mail gestuurd.",
     "hint": "Vink de toestemming voor de verwerking van persoonsgegevens aan om de bestelling te plaatsen."
   }
 }

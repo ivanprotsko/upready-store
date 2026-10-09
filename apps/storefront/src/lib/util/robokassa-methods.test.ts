@@ -70,13 +70,18 @@ describe("robokassaMethodLabel", () => {
 })
 
 describe("robokassaMethodsForCart", () => {
-  it("keeps the backend's list and order", () => {
-    expect(robokassaMethodsForCart(LIVE, 1500).map((item) => item.alias)).toEqual([
-      "BankCard",
-      "SBP",
-      "Card120Days",
-      "BankCardHalva",
-    ])
+  it("lists the verified card and SBP only: the installment cards Robokassa answers stay out (t-2026-10-09-56)", () => {
+    expect(robokassaMethodsForCart(LIVE, 1500).map((item) => item.alias)).toEqual(["BankCard", "SBP"])
+  })
+
+  it("shows SBP only while the shop's own list has it", () => {
+    const noSbp = LIVE.filter((item) => item.alias !== "SBP")
+    expect(robokassaMethodsForCart(noSbp, 1500).map((item) => item.alias)).toEqual(["BankCard"])
+  })
+
+  it("falls back to the bank card when the shop's list holds no verified method at all", () => {
+    const unverified = [method("Card120Days"), method("BankCardHalva"), method("SberPay")]
+    expect(robokassaMethodsForCart(unverified, 1500).map((item) => item.alias)).toEqual(["BankCard"])
   })
 
   it("falls back to card and SBP when the backend could not answer or answered nothing", () => {
@@ -85,13 +90,9 @@ describe("robokassaMethodsForCart", () => {
   })
 
   it("hides a method whose limits leave the cart's total out, never all of them", () => {
-    expect(robokassaMethodsForCart(LIVE, 1_500_000).map((item) => item.alias)).toEqual([
-      "BankCard",
-      "Card120Days",
-      "BankCardHalva",
-    ])
-    const onlyLimited = [method("Mokka", { min: 1000 })]
-    expect(robokassaMethodsForCart(onlyLimited, 10).map((item) => item.alias)).toEqual(["Mokka"])
+    expect(robokassaMethodsForCart(LIVE, 1_500_000).map((item) => item.alias)).toEqual(["BankCard"])
+    const onlyLimited = [method("BankCard", { min: 1000 })]
+    expect(robokassaMethodsForCart(onlyLimited, 10).map((item) => item.alias)).toEqual(["BankCard"])
   })
 
   it("drops an entry whose alias is not shaped like one", () => {
@@ -248,7 +249,7 @@ describe("a grouped row reaches Robokassa (t-2026-10-04-19, P7 / D2)", () => {
 
   it("sends the alias of the row picked in any group as IncCurrLabel and as the modal's only method", () => {
     const rows = groupRobokassaMethods(robokassaMethodsForCart(LIVE, 1500)).flatMap(({ methods }) => methods)
-    expect(rows.map((item) => item.alias)).toEqual(["BankCard", "SBP", "Card120Days", "BankCardHalva"])
+    expect(rows.map((item) => item.alias)).toEqual(["BankCard", "SBP"])
 
     for (const row of rows) {
       // The radio's value, as the checkout's list carries it, back to the alias the pay button gets.

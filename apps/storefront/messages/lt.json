@@ -155,7 +155,7 @@
     "freeShipping": "Nemokamas",
     "giftCard": "Dovanų kortelė",
     "itemsCount": "{count, plural, one {{count} prekė} few {{count} prekės} many {{count} prekės} other {{count} prekių}}",
-    "legal": "Spausdami „{button}“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei patvirtinate, kad susipažinote su <privacyPolicy>privatumo politika</privacyPolicy>.",
+    "legal": "Spausdami „{button}“, jūs sutinkate su <terms>pardavimo sąlygomis</terms>.",
     "manualInput": "Įvesti adresą rankiniu būdu",
     "addressIncomplete": "Užpildykite privalomus adreso laukus: {fields}.",
     "provinceRequired": "Pasirinkite regioną iš sąrašo.",
@@ -184,6 +184,7 @@
     "offerLink": "Viešasis pasiūlymas",
     "sameAsShipping": "Toks pat kaip pristatymo adresas",
     "save": "Išsaugoti",
+    "next": "Toliau",
     "saving": "Saugoma...",
     "shippingCost": "Pristatymas",
     "shippingDescription": "Pasirinkite, kaip norite gauti užsakymą",
@@ -191,7 +192,6 @@
     "shippingLink": "Pristatymas",
     "shippingUnavailable": "Nėra galimų pristatymo būdų",
     "shippingPriceUnavailable": "Nepasiekiama: nepavyko apskaičiuoti kainos",
-    "deliveryPriceAfterAddress": "Nurodykite adresą, kad pamatytumėte kainą ir terminą",
     "deliveryWayPickup": "Į atsiėmimo punktą",
     "deliveryWayCourier": "Kurjeriu iki durų",
     "deliveryWayFrom": "nuo {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Sutinku, kad mano asmens duomenys būtų tvarkomi pagal <privacy>Privatumo politiką</privacy>.",
-    "marketing": "Sutinku gauti naujienas, akcijas ir specialius pasiūlymus el. paštu. Bet kada galiu atsisakyti paspaudęs nuorodą kiekviename laiške.",
-    "receipt": "Kasos kvitas bus išsiųstas užsakymo metu nurodytu el. pašto adresu (54-FZ).",
+    "marketing": "Noriu gauti naujienas ir pasiūlymus el. paštu, atsisakyti galiu bet kada.",
+    "receipt": "Elektroninis kvitas (54-FZ) bus išsiųstas jūsų el. paštu.",
     "hint": "Norėdami pateikti užsakymą, pažymėkite sutikimą dėl asmens duomenų tvarkymo."
   }
 }

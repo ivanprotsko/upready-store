@@ -155,7 +155,7 @@
     "freeShipping": "Безкоштовно",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} товар} few {{count} товари} many {{count} товарів} other {{count} товару}}",
-    "legal": "Натискаючи «{button}», ви приймаєте <terms>умови</terms>, <termsOfUse>умови використання</termsOfUse> та <returnPolicy>політику повернення</returnPolicy> і підтверджуєте, що ознайомилися з <privacyPolicy>політикою конфіденційності</privacyPolicy>.",
+    "legal": "Натискаючи «{button}», ви приймаєте умови <terms>публічної оферти</terms>.",
     "manualInput": "Ввести адресу вручну",
     "addressIncomplete": "Заповніть обов'язкові поля адреси: {fields}.",
     "provinceRequired": "Виберіть область зі списку.",
@@ -184,6 +184,7 @@
     "offerLink": "Публічна оферта",
     "sameAsShipping": "Збігається з адресою доставки",
     "save": "Зберегти",
+    "next": "Далі",
     "saving": "Збереження...",
     "shippingCost": "Доставка",
     "shippingDescription": "Виберіть, як ви хочете отримати замовлення",
@@ -191,7 +192,6 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Немає доступних способів доставки",
     "shippingPriceUnavailable": "Недоступно: не вдалося розрахувати вартість",
-    "deliveryPriceAfterAddress": "Вкажіть адресу — покажемо ціну й термін",
     "deliveryWayPickup": "У пункт видачі",
     "deliveryWayCourier": "Кур'єром до дверей",
     "deliveryWayFrom": "від {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Я даю згоду на обробку моїх персональних даних відповідно до <privacy>Політики конфіденційності</privacy>.",
-    "marketing": "Я погоджуюся отримувати новини, акції та спеціальні пропозиції на вказаний e-mail. Відписатися можна будь-коли за посиланням у листі.",
-    "receipt": "На вказаний під час оформлення e-mail надійде електронний касовий чек (54-ФЗ).",
+    "marketing": "Хочу отримувати новини та акції на e-mail, відписатися можна будь-коли.",
+    "receipt": "Електронний чек (54-ФЗ) надійде на e-mail.",
     "hint": "Щоб оформити замовлення, позначте згоду на обробку персональних даних."
   }
 }

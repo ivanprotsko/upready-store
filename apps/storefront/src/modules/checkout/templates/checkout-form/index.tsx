@@ -3,6 +3,7 @@ import { listShopRegions } from "@lib/data/regions"
 import { getCountryCode } from "@lib/data/cookies"
 import { retrieveCustomerAddresses } from "@lib/data/customer"
 import { cartNeedsShipping, isNoDeliveryLine } from "@lib/util/shipping-address"
+import { checkoutStepLocksOf } from "@lib/util/checkout-steps"
 import CheckoutSignIn from "@modules/checkout/components/checkout-sign-in"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutShippingSection from "@modules/checkout/components/checkout-shipping-section"
@@ -51,6 +52,10 @@ export default async function CheckoutForm({
   // Batch 7: every checkout needs an account before paying (batch 6 asked it of a
   // course cart only); a course retitles the block.
   const hasCourse = (cart.items ?? []).some(isNoDeliveryLine)
+  // t-2026-10-09-56 (Ivan's item 7): each section opens once the ones before it
+  // are done, read off the cart (`checkoutStepLocksOf`); the payment template
+  // asks the same question for its own block.
+  const locks = checkoutStepLocksOf(cart, shippingOptions)
 
   return (
     // Batch 6 part 1: the left column of the two (page.tsx); the order composition
@@ -84,9 +89,10 @@ export default async function CheckoutForm({
               availableShippingOptions={shippingOptions}
               regions={regions ?? []}
               currentCountry={resolvedCountry}
+              locked={locks.shipping}
             />
           )}
-          <CheckoutContactsRow cart={cart} />
+          <CheckoutContactsRow cart={cart} locked={locks.contacts} />
           {!isDigital && <CheckoutPickupPointSheet />}
         </PickupSheetProvider>
       </HydrationSlot>

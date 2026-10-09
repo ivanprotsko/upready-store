@@ -155,7 +155,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Gavekort",
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
-    "legal": "Ved å klikke på «{button}» godtar du våre <terms>vilkår</terms>, <termsOfUse>brukervilkår</termsOfUse> og <returnPolicy>returvilkår</returnPolicy>, og bekrefter at du har lest vår <privacyPolicy>personvernerklæring</privacyPolicy>.",
+    "legal": "Ved å klikke på «{button}» godtar du <terms>salgsvilkårene</terms>.",
     "manualInput": "Skriv inn adresse manuelt",
     "addressIncomplete": "Fyll ut de obligatoriske adressefeltene: {fields}.",
     "provinceRequired": "Velg region fra listen.",
@@ -184,6 +184,7 @@
     "offerLink": "Offentlig tilbud",
     "sameAsShipping": "Samme som leveringsadresse",
     "save": "Lagre",
+    "next": "Neste",
     "saving": "Lagrer...",
     "shippingCost": "Frakt",
     "shippingDescription": "Velg hvordan du vil motta bestillingen",
@@ -191,7 +192,6 @@
     "shippingLink": "Frakt",
     "shippingUnavailable": "Ingen fraktmetoder tilgjengelig",
     "shippingPriceUnavailable": "Ikke tilgjengelig: prisen kunne ikke beregnes",
-    "deliveryPriceAfterAddress": "Oppgi adressen din for å se pris og leveringstid",
     "deliveryWayPickup": "Til et hentested",
     "deliveryWayCourier": "Med bud til døren",
     "deliveryWayFrom": "fra {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Jeg samtykker til behandling av mine personopplysninger i samsvar med <privacy>personvernerklæringen</privacy>.",
-    "marketing": "Jeg vil motta nyheter, kampanjer og spesialtilbud på e-post. Jeg kan når som helst melde meg av via lenken i hver e-post.",
-    "receipt": "En kassekvittering sendes til e-postadressen du oppga ved bestillingen (54-FZ).",
+    "marketing": "Jeg vil motta nyheter og tilbud på e-post og kan melde meg av når som helst.",
+    "receipt": "En elektronisk kvittering (54-FZ) sendes til e-posten din.",
     "hint": "For å legge inn bestillingen, kryss av for samtykke til behandling av personopplysninger."
   }
 }

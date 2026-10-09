@@ -155,7 +155,7 @@
     "freeShipping": "Ilmainen",
     "giftCard": "Lahjakortti",
     "itemsCount": "{count, plural, one {{count} tuote} other {{count} tuotetta}}",
-    "legal": "Klikkaamalla «{button}» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä vahvistat lukeneesi <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
+    "legal": "Klikkaamalla «{button}» hyväksyt <terms>myyntiehdot</terms>.",
     "manualInput": "Syötä osoite manuaalisesti",
     "addressIncomplete": "Täytä osoitteen pakolliset kentät: {fields}.",
     "provinceRequired": "Valitse alue luettelosta.",
@@ -184,6 +184,7 @@
     "offerLink": "Julkinen tarjous",
     "sameAsShipping": "Sama kuin toimitusosoite",
     "save": "Tallenna",
+    "next": "Seuraava",
     "saving": "Tallennetaan...",
     "shippingCost": "Toimitus",
     "shippingDescription": "Valitse, miten haluat tilauksesi toimitettavan",
@@ -191,7 +192,6 @@
     "shippingLink": "Toimitus",
     "shippingUnavailable": "Toimitustapoja ei ole saatavilla",
     "shippingPriceUnavailable": "Ei käytettävissä: hintaa ei voitu laskea",
-    "deliveryPriceAfterAddress": "Anna osoitteesi, niin näet hinnan ja toimitusajan",
     "deliveryWayPickup": "Noutopisteeseen",
     "deliveryWayCourier": "Kuriirilla ovelle",
     "deliveryWayFrom": "alkaen {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Annan suostumukseni henkilötietojeni käsittelyyn <privacy>tietosuojakäytännön</privacy> mukaisesti.",
-    "marketing": "Haluan saada uutisia, kampanjoita ja erikoistarjouksia sähköpostitse. Voin perua tilauksen milloin tahansa kunkin viestin linkistä.",
-    "receipt": "Kuitti lähetetään tilauksessa antamaasi sähköpostiosoitteeseen (54-FZ).",
+    "marketing": "Haluan uutisia ja tarjouksia sähköpostiin, ja voin perua tilauksen milloin tahansa.",
+    "receipt": "Sähköinen kuitti (54-FZ) lähetetään sähköpostiisi.",
     "hint": "Tee tilaus valitsemalla suostumus henkilötietojen käsittelyyn."
   }
 }

@@ -27,6 +27,22 @@ export const ROBOKASSA_FALLBACK_METHODS: readonly RobokassaMethod[] = [
   { alias: "SBP", name_ru: null, name_en: null, min: null, max: null },
 ]
 
+/**
+ * The methods the storefront lists out of the shop's `GetCurrencies` answer
+ * (t-2026-10-09-56). Robokassa answers with whatever the merchant account has
+ * switched on, installment and credit cards («Карта 120 дней без %», «Карта
+ * Халва») among them, and none of those has taken a test payment here. Ivan
+ * 09.10: «откуда взялись эти способы и проверяли ли их?». The bank card and SBP
+ * are the two the checkout was tested with (t-2026-10-04-49), so only they are
+ * listed, SBP only while the shop's own list has it. To list another method,
+ * pass a test payment with it first, then add its alias here. Nothing changes in
+ * the Robokassa account itself.
+ */
+export const ROBOKASSA_VERIFIED_ALIASES: readonly string[] = ["BankCard", "SBP"]
+
+export const isVerifiedRobokassaAlias = (alias: string): boolean =>
+  ROBOKASSA_VERIFIED_ALIASES.includes(alias)
+
 const ALIAS_PATTERN = /^[A-Za-z0-9_]{1,40}$/
 
 const isAlias = (value: unknown): value is string =>
@@ -134,17 +150,24 @@ export function groupRobokassaMethods(
 
 /**
  * The rows to show for this cart: the backend's list (the fallback when it
- * had none), well-formed aliases only, without a method whose
+ * had none), well-formed and verified aliases only
+ * ({@link ROBOKASSA_VERIFIED_ALIASES}), without a method whose
  * `MinValue`/`MaxValue` leaves the cart's total out. Should that leave
  * nothing, the unfiltered list stands: better Robokassa's own refusal than a
- * Robokassa option with no rows.
+ * Robokassa option with no rows. A shop list with no verified method at all
+ * gets the bank card, the one every Robokassa shop takes.
  */
 export function robokassaMethodsForCart(
   methods: RobokassaMethod[] | null | undefined,
   total: number | null | undefined
 ): RobokassaMethod[] {
   const source = (methods ?? []).filter((method) => isAlias(method?.alias))
-  const list = source.length ? source : [...ROBOKASSA_FALLBACK_METHODS]
+  const verified = source.filter((method) => isVerifiedRobokassaAlias(method.alias))
+  const list = !source.length
+    ? [...ROBOKASSA_FALLBACK_METHODS]
+    : verified.length
+      ? verified
+      : ROBOKASSA_FALLBACK_METHODS.filter((method) => method.alias === "BankCard")
   if (typeof total !== "number" || !Number.isFinite(total)) {
     return list
   }

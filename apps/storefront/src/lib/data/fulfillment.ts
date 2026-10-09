@@ -130,7 +130,15 @@ export const calculatePriceForShippingOption = cache(async (
       }
     )
     .then(({ shipping_option }) => shipping_option)
-    .catch((_e) => {
+    .catch((e: unknown) => {
+      // t-2026-10-09-56 (Ivan's item 9, «почему-то не показывает стоимость сдэк»):
+      // the card says «Недоступно: не удалось рассчитать стоимость», and the backend's
+      // reason (the provider's own sentence) stays in this server's log, where it
+      // can be read; before, it was dropped without a trace.
+      console.error(
+        `calculatePriceForShippingOption: option ${optionId} was not priced:`,
+        e instanceof Error ? e.message : e
+      )
       return null
     })
 })

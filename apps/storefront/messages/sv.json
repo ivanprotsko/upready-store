@@ -155,7 +155,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Presentkort",
     "itemsCount": "{count, plural, one {{count} vara} other {{count} varor}}",
-    "legal": "Genom att klicka på ”{button}” godkänner du våra <terms>villkor</terms>, <termsOfUse>användarvillkor</termsOfUse> och <returnPolicy>returpolicy</returnPolicy> och bekräftar att du har läst vår <privacyPolicy>integritetspolicy</privacyPolicy>.",
+    "legal": "Genom att klicka på ”{button}” godkänner du <terms>försäljningsvillkoren</terms>.",
     "manualInput": "Ange adress manuellt",
     "addressIncomplete": "Fyll i adressens obligatoriska fält: {fields}.",
     "provinceRequired": "Välj region i listan.",
@@ -184,6 +184,7 @@
     "offerLink": "Offentligt erbjudande",
     "sameAsShipping": "Samma som leveransadress",
     "save": "Spara",
+    "next": "Nästa",
     "saving": "Sparar...",
     "shippingCost": "Frakt",
     "shippingDescription": "Välj hur du vill få din order levererad",
@@ -191,7 +192,6 @@
     "shippingLink": "Frakt",
     "shippingUnavailable": "Inga fraktmetoder tillgängliga",
     "shippingPriceUnavailable": "Inte tillgängligt: priset kunde inte beräknas",
-    "deliveryPriceAfterAddress": "Ange din adress för att se pris och leveranstid",
     "deliveryWayPickup": "Till ett utlämningsställe",
     "deliveryWayCourier": "Med bud till dörren",
     "deliveryWayFrom": "från {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Jag samtycker till behandling av mina personuppgifter enligt <privacy>integritetspolicyn</privacy>.",
-    "marketing": "Jag vill få nyheter, kampanjer och specialerbjudanden via e-post. Jag kan när som helst avregistrera mig via länken i varje e-postmeddelande.",
-    "receipt": "Ett kassakvitto skickas till den e-postadress du angav vid beställningen (54-FZ).",
+    "marketing": "Jag vill få nyheter och erbjudanden via e-post och kan avregistrera mig när som helst.",
+    "receipt": "Ett elektroniskt kvitto (54-FZ) skickas till din e-post.",
     "hint": "För att lägga beställningen, kryssa i samtycket till behandling av personuppgifter."
   }
 }

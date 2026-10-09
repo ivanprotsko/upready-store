@@ -155,7 +155,7 @@
     "freeShipping": "Grátis",
     "giftCard": "Cartão-presente",
     "itemsCount": "{count, plural, one {{count} item} other {{count} itens}}",
-    "legal": "Ao clicar em «{button}», aceita os nossos <terms>termos</terms>, <termsOfUse>termos de utilização</termsOfUse> e <returnPolicy>política de devolução</returnPolicy>, e confirma que leu a nossa <privacyPolicy>política de privacidade</privacyPolicy>.",
+    "legal": "Ao clicar em «{button}», aceita os <terms>termos de venda</terms>.",
     "manualInput": "Introduzir morada manualmente",
     "addressIncomplete": "Preencha os campos obrigatórios do endereço: {fields}.",
     "provinceRequired": "Escolha a região na lista.",
@@ -184,6 +184,7 @@
     "offerLink": "Oferta pública",
     "sameAsShipping": "Igual à morada de entrega",
     "save": "Guardar",
+    "next": "Seguinte",
     "saving": "A guardar...",
     "shippingCost": "Envio",
     "shippingDescription": "Escolha como pretende receber a sua encomenda",
@@ -191,7 +192,6 @@
     "shippingLink": "Envio",
     "shippingUnavailable": "Não existem métodos de envio disponíveis",
     "shippingPriceUnavailable": "Indisponível: não foi possível calcular o preço",
-    "deliveryPriceAfterAddress": "Indique o seu endereço para ver o preço e o prazo",
     "deliveryWayPickup": "Para um ponto de recolha",
     "deliveryWayCourier": "Por estafeta até à porta",
     "deliveryWayFrom": "a partir de {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Dou o meu consentimento para o tratamento dos meus dados pessoais de acordo com a <privacy>política de privacidade</privacy>.",
-    "marketing": "Aceito receber novidades, promoções e ofertas especiais por e-mail. Posso cancelar a subscrição a qualquer momento através da ligação em cada e-mail.",
-    "receipt": "Será enviado um recibo para o e-mail indicado na encomenda (54-FZ).",
+    "marketing": "Quero receber novidades e ofertas por e-mail e posso cancelar a qualquer momento.",
+    "receipt": "O recibo eletrónico (54-FZ) será enviado para o seu e-mail.",
     "hint": "Para fazer a encomenda, assinale o consentimento para o tratamento de dados pessoais."
   }
 }

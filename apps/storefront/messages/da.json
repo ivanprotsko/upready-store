@@ -155,7 +155,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Gavekort",
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
-    "legal": "Ved at klikke på «{button}» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy> og bekræfter, at du har læst vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
+    "legal": "Ved at klikke på «{button}» accepterer du <terms>salgsbetingelserne</terms>.",
     "manualInput": "Indtast adresse manuelt",
     "addressIncomplete": "Udfyld de obligatoriske adressefelter: {fields}.",
     "provinceRequired": "Vælg region på listen.",
@@ -184,6 +184,7 @@
     "offerLink": "Offentligt tilbud",
     "sameAsShipping": "Samme som leveringsadresse",
     "save": "Gem",
+    "next": "Næste",
     "saving": "Gemmer...",
     "shippingCost": "Levering",
     "shippingDescription": "Vælg, hvordan din ordre skal leveres",
@@ -191,7 +192,6 @@
     "shippingLink": "Levering",
     "shippingUnavailable": "Ingen leveringsmetoder tilgængelige",
     "shippingPriceUnavailable": "Ikke tilgængelig: prisen kunne ikke beregnes",
-    "deliveryPriceAfterAddress": "Angiv din adresse for at se pris og leveringstid",
     "deliveryWayPickup": "Til et udleveringssted",
     "deliveryWayCourier": "Med bud til døren",
     "deliveryWayFrom": "fra {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Jeg giver samtykke til behandling af mine personoplysninger i overensstemmelse med <privacy>privatlivspolitikken</privacy>.",
-    "marketing": "Jeg vil gerne modtage nyheder, kampagner og særlige tilbud på e-mail. Jeg kan til enhver tid afmelde mig via linket i hver e-mail.",
-    "receipt": "En kvittering sendes til den e-mail, du angav ved bestillingen (54-FZ).",
+    "marketing": "Jeg vil gerne modtage nyheder og tilbud på e-mail og kan altid afmelde mig.",
+    "receipt": "En elektronisk kvittering (54-FZ) sendes til din e-mail.",
     "hint": "For at afgive ordren skal du sætte flueben ved samtykke til behandling af personoplysninger."
   }
 }

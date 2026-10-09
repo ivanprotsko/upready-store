@@ -213,6 +213,15 @@ export default function CheckoutAddressForm({
     }
   }
 
+  // t-2026-10-09-56 (Ivan 09.10: «избавиться от кнопки сохранить, ее нужно
+  // переименовать в "Далее" и пока поля не заполнены, она должна быть disabled»):
+  // «Далее» waits for every field a carrier needs, the test `handleSubmit` keeps.
+  // Once the buyer has typed anything, the fields still missing are named under the
+  // form in the quiet colour, so the disabled button never stands without a reason.
+  const liveGaps = shippingAddressGaps(addressFields, countryCode)
+  const typedAnything = Object.values(addressFields).some((value) => !!value?.trim())
+  const shownGaps = addressGaps.length > 0 ? addressGaps : typedAnything ? liveGaps : []
+
   return mode === "select" && hasSaved ? (
     <div className="flex flex-col pt-2" ref={setContainerRef} tabIndex={-1}>
       <RadioGroup
@@ -287,7 +296,16 @@ export default function CheckoutAddressForm({
         />
       </div>
       <ErrorMessage error={error} />
-      <AddressIncompleteMessage gaps={addressGaps} />
+      {addressGaps.length > 0 ? (
+        <AddressIncompleteMessage gaps={addressGaps} />
+      ) : (
+        <AddressGapMessage
+          gaps={shownGaps}
+          tone="hint"
+          className="pt-2"
+          data-testid="address-incomplete-hint"
+        />
+      )}
       <div className="flex gap-x-2 mt-4">
         {(hasSaved || onCancel) && (
           <Button
@@ -302,11 +320,12 @@ export default function CheckoutAddressForm({
         )}
         <Button
           type="submit"
-          disabled={isSubmitting || isRefreshing}
+          disabled={liveGaps.length > 0 || isSubmitting || isRefreshing}
           size="large"
           className="w-full"
+          data-testid="checkout-address-next"
         >
-          {isSubmitting || isRefreshing ? t("saving") : t("save")}
+          {isSubmitting || isRefreshing ? t("saving") : t("next")}
         </Button>
       </div>
     </form>

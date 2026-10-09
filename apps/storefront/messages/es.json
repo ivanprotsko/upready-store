@@ -155,7 +155,7 @@
     "freeShipping": "Gratis",
     "giftCard": "Tarjeta de regalo",
     "itemsCount": "{count, plural, one {{count} artículo} other {{count} artículos}}",
-    "legal": "Al hacer clic en «{button}», aceptas nuestros <terms>términos</terms>, nuestras <termsOfUse>condiciones de uso</termsOfUse> y nuestra <returnPolicy>política de devoluciones</returnPolicy>, y confirmas que has leído nuestra <privacyPolicy>política de privacidad</privacyPolicy>.",
+    "legal": "Al hacer clic en «{button}», aceptas los <terms>términos de venta</terms>.",
     "manualInput": "Introducir la dirección manualmente",
     "addressIncomplete": "Complete los campos obligatorios de la dirección: {fields}.",
     "provinceRequired": "Elige la región de la lista.",
@@ -184,6 +184,7 @@
     "offerLink": "Oferta pública",
     "sameAsShipping": "Igual que la dirección de envío",
     "save": "Guardar",
+    "next": "Siguiente",
     "saving": "Guardando...",
     "shippingCost": "Envío",
     "shippingDescription": "Elige cómo quieres recibir tu pedido",
@@ -191,7 +192,6 @@
     "shippingLink": "Envío",
     "shippingUnavailable": "No hay métodos de envío disponibles",
     "shippingPriceUnavailable": "No disponible: no se pudo calcular el precio",
-    "deliveryPriceAfterAddress": "Indica tu dirección para ver el precio y el plazo",
     "deliveryWayPickup": "A un punto de recogida",
     "deliveryWayCourier": "Por mensajero hasta tu puerta",
     "deliveryWayFrom": "desde {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Doy mi consentimiento para el tratamiento de mis datos personales de acuerdo con la <privacy>política de privacidad</privacy>.",
-    "marketing": "Acepto recibir noticias, promociones y ofertas especiales por correo electrónico. Puedo darme de baja en cualquier momento mediante el enlace de cada correo.",
-    "receipt": "Se enviará un recibo de caja al correo electrónico indicado al realizar el pedido (54-FZ).",
+    "marketing": "Quiero recibir novedades y ofertas por e-mail y puedo darme de baja cuando quiera.",
+    "receipt": "Recibirás el recibo electrónico (54-FZ) en tu e-mail.",
     "hint": "Para realizar el pedido, marca el consentimiento para el tratamiento de datos personales."
   }
 }

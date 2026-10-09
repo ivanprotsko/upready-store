@@ -155,7 +155,7 @@
     "freeShipping": "Ingyenes",
     "giftCard": "Gift Card",
     "itemsCount": "{count, plural, one {{count} termék} other {{count} termék}}",
-    "legal": "„{button}” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, és megerősíti, hogy elolvasta <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
+    "legal": "„{button}” gombra kattintva elfogadja az <terms>értékesítési feltételeket</terms>.",
     "manualInput": "Cím megadása kézzel",
     "addressIncomplete": "Töltse ki a cím kötelező mezőit: {fields}.",
     "provinceRequired": "Válassza ki a régiót a listából.",
@@ -184,6 +184,7 @@
     "offerLink": "Nyilvános ajánlat",
     "sameAsShipping": "Megegyezik a szállítási címmel",
     "save": "Mentés",
+    "next": "Tovább",
     "saving": "Mentés...",
     "shippingCost": "Szállítás",
     "shippingDescription": "Válassza ki, hogyan szeretné átvenni a rendelését",
@@ -191,7 +192,6 @@
     "shippingLink": "Szállítás",
     "shippingUnavailable": "Nincs elérhető szállítási mód",
     "shippingPriceUnavailable": "Nem elérhető: az árat nem sikerült kiszámítani",
-    "deliveryPriceAfterAddress": "Adja meg a címét az ár és a határidő megtekintéséhez",
     "deliveryWayPickup": "Átvételi pontra",
     "deliveryWayCourier": "Futárral házhoz",
     "deliveryWayFrom": "{price}-tól",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "Hozzájárulok személyes adataim kezeléséhez az <privacy>Adatvédelmi szabályzat</privacy> szerint.",
-    "marketing": "Hozzájárulok, hogy híreket, akciókat és különleges ajánlatokat kapjak e-mailben. Bármikor leiratkozhatok az e-mailekben található linkkel.",
-    "receipt": "A pénztári nyugtát a rendeléskor megadott e-mail-címre küldjük (54-FZ).",
+    "marketing": "Híreket és ajánlatokat kérek e-mailben, bármikor leiratkozhatok.",
+    "receipt": "Az elektronikus nyugtát (54-FZ) e-mailben küldjük el.",
     "hint": "A rendelés leadásához jelölje be a személyes adatok kezeléséhez való hozzájárulást."
   }
 }

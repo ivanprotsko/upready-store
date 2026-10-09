@@ -155,7 +155,7 @@
     "freeShipping": "مجاني",
     "giftCard": "بطاقة هدايا",
     "itemsCount": "{count, plural, zero {{count} منتج} one {{count} منتج} two {{count} منتجان} few {{count} منتجات} many {{count} منتجًا} other {{count} منتج}}",
-    "legal": "بالنقر على «{button}»، فإنك توافق على <terms>الشروط</terms> و<termsOfUse>شروط الاستخدام</termsOfUse> و<returnPolicy>سياسة الإرجاع</returnPolicy> الخاصة بنا، وتؤكد أنك اطلعت على <privacyPolicy>سياسة الخصوصية</privacyPolicy> الخاصة بنا.",
+    "legal": "بالنقر على «{button}»، فإنك توافق على <terms>شروط البيع</terms>.",
     "manualInput": "إدخال العنوان يدويًا",
     "addressIncomplete": "املأ حقول العنوان المطلوبة: {fields}.",
     "provinceRequired": "اختر المنطقة من القائمة.",
@@ -184,6 +184,7 @@
     "offerLink": "العرض العام",
     "sameAsShipping": "نفس عنوان الشحن",
     "save": "حفظ",
+    "next": "التالي",
     "saving": "جارٍ الحفظ...",
     "shippingCost": "الشحن",
     "shippingDescription": "اختر طريقة استلام طلبك",
@@ -191,7 +192,6 @@
     "shippingLink": "الشحن",
     "shippingUnavailable": "لا توجد طرق شحن متاحة",
     "shippingPriceUnavailable": "غير متاح: تعذّر حساب التكلفة",
-    "deliveryPriceAfterAddress": "أدخل عنوانك لعرض السعر ومدة التوصيل",
     "deliveryWayPickup": "إلى نقطة استلام",
     "deliveryWayCourier": "بالمندوب حتى الباب",
     "deliveryWayFrom": "من {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "أوافق على معالجة بياناتي الشخصية وفقًا لـ<privacy>سياسة الخصوصية</privacy>.",
-    "marketing": "أوافق على تلقي الأخبار والعروض الترويجية والعروض الخاصة عبر البريد الإلكتروني. يمكنني إلغاء الاشتراك في أي وقت عبر الرابط في كل رسالة.",
-    "receipt": "سيتم إرسال إيصال الدفع إلى البريد الإلكتروني الذي أدخلته عند الطلب (54-FZ).",
+    "marketing": "أرغب في تلقي الأخبار والعروض عبر البريد الإلكتروني، ويمكنني إلغاء الاشتراك في أي وقت.",
+    "receipt": "سيصلك إيصال إلكتروني (54-FZ) على بريدك الإلكتروني.",
     "hint": "لإتمام الطلب، ضع علامة على الموافقة على معالجة البيانات الشخصية."
   }
 }

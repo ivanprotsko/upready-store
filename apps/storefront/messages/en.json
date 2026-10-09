@@ -155,7 +155,7 @@
     "freeShipping": "Free",
     "giftCard": "Gift card",
     "itemsCount": "{count, plural, one {{count} item} other {{count} items}}",
-    "legal": "By clicking \"{button}\", I accept the <terms>Terms of Sale</terms> and confirm that I have read the <privacyPolicy>Privacy Policy</privacyPolicy>.",
+    "legal": "By clicking \"{button}\", I accept the <terms>Terms of Sale</terms>.",
     "manualInput": "Enter address manually",
     "addressIncomplete": "Fill in the required address fields: {fields}.",
     "provinceRequired": "Choose your region from the list.",
@@ -184,6 +184,7 @@
     "offerLink": "Public Offer",
     "sameAsShipping": "Same as shipping address",
     "save": "Save",
+    "next": "Next",
     "saving": "Saving...",
     "shippingCost": "Shipping",
     "shippingDescription": "Choose how you want your order delivered",
@@ -191,7 +192,6 @@
     "shippingLink": "Shipping",
     "shippingUnavailable": "Delivery to this address is not set up yet. Check the country and region, or write to us and we will find a way.",
     "shippingPriceUnavailable": "Unavailable: the price could not be calculated",
-    "deliveryPriceAfterAddress": "Enter your address to see the price and delivery time",
     "deliveryWayPickup": "To a pickup point",
     "deliveryWayCourier": "Courier to your door",
     "deliveryWayFrom": "from {price}",
@@ -1258,8 +1258,8 @@
   },
   "CheckoutConsent": {
     "personalData": "I <consent>consent to the processing of my personal data</consent> in accordance with the <privacy>Privacy Policy</privacy>.",
-    "marketing": "I agree to receive news, promotions and special offers by e-mail. I can unsubscribe at any time via the link in each e-mail.",
-    "receipt": "A cashier's receipt will be sent to the e-mail you entered at checkout (54-FZ).",
+    "marketing": "Send me news and offers by e-mail. I can unsubscribe at any time.",
+    "receipt": "An e-receipt (54-FZ) will be sent to your e-mail.",
     "hint": "To place the order, tick the consent to the processing of personal data."
   }
 }
