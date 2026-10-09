@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "个体经营者注册号：{value}",
     "aboutHeading": "关于本店",
     "trackOrder": "查询订单",
-    "badgesLabel": "配送与支付",
-    "robokassaNote": "支持银行卡或 SBP 支付。款项由 Robokassa 收取"
+    "badgesLabel": "配送与支付"
   },
   "ForgotPassword": {
     "backToSignIn": "返回登录",

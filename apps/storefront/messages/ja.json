@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "個人事業主登録番号：{value}",
     "aboutHeading": "ショップについて",
     "trackOrder": "注文状況を確認",
-    "badgesLabel": "配送と支払い",
-    "robokassaNote": "カードまたはSBPでお支払いいただけます。決済はRobokassaが処理します"
+    "badgesLabel": "配送と支払い"
   },
   "ForgotPassword": {
     "backToSignIn": "ログインに戻る",

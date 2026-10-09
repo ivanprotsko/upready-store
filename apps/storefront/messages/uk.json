@@ -446,13 +446,12 @@
     "infoHeading": "Інформація",
     "sellerHeading": "Продавець",
     "contactsHeading": "Контакти",
-    "taxId": "ІПН {value}",
-    "regNumber": "ОДРН {value}",
-    "regNumberSoleTrader": "ОДРНІП {value}",
+    "taxId": "ІПН: {value}",
+    "regNumber": "ОДРН: {value}",
+    "regNumberSoleTrader": "ОДРНІП: {value}",
     "aboutHeading": "Про магазин",
     "trackOrder": "Відстежити замовлення",
-    "badgesLabel": "Доставка й оплата",
-    "robokassaNote": "Оплата карткою та через СБП. Платежі приймає Robokassa"
+    "badgesLabel": "Доставка й оплата"
   },
   "ForgotPassword": {
     "backToSignIn": "Повернутися до входу",

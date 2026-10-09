@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Số đăng ký hộ kinh doanh cá thể: {value}",
     "aboutHeading": "Về cửa hàng",
     "trackOrder": "Theo dõi đơn hàng",
-    "badgesLabel": "Giao hàng và thanh toán",
-    "robokassaNote": "Thanh toán bằng thẻ hoặc qua SBP. Robokassa xử lý các khoản thanh toán"
+    "badgesLabel": "Giao hàng và thanh toán"
   },
   "ForgotPassword": {
     "backToSignIn": "Quay lại đăng nhập",

@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "מספר רישום של עוסק יחיד: {value}",
     "aboutHeading": "על החנות",
     "trackOrder": "מעקב אחר ההזמנה",
-    "badgesLabel": "משלוח ותשלום",
-    "robokassaNote": "תשלום בכרטיס או דרך SBP. את התשלומים מקבלת Robokassa"
+    "badgesLabel": "משלוח ותשלום"
   },
   "ForgotPassword": {
     "backToSignIn": "חזרה להתחברות",

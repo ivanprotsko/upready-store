@@ -117,9 +117,25 @@ describe("Olavka footer: the requisites line behind the switch", { timeout: 30_0
     vi.stubEnv("STOREFRONT_FOOTER_REQUISITES", "1")
     const html = await render()
 
+    // t-2026-10-09-76, Ivan 09.10: «вместо булетов поставить запятые, а после аббревиатур
+    // двоеточие». The full name stays: Robokassa asks for «ИП ФИО (полностью)».
     expect(html).toContain(
-      `data-testid="footer-requisites-line">ИП Иванова Мария Петровна · ОГРНИП ${SOLE_TRADER_NUMBER} · ИНН ${TAX_NUMBER} · 170000, г. Тверь, ул. Примерная, д. 1</p>`
+      `data-testid="footer-requisites-line">ИП Иванова Мария Петровна, ОГРНИП: ${SOLE_TRADER_NUMBER}, ИНН: ${TAX_NUMBER}, 170000, г. Тверь, ул. Примерная, д. 1</p>`
     )
+    expect(html).not.toContain(" · ")
+  })
+
+  it("prints the line in capitals, smaller than the footer's links", async () => {
+    vi.stubEnv("STOREFRONT_FOOTER_REQUISITES", "1")
+    const html = await render()
+    const classes = html.match(/<p class="([^"]*)" data-testid="footer-requisites-line">/)?.[1].split(" ")
+
+    // Ivan 09.10: «написать все прописными буквами и уменьшить». The capitals come from CSS, so
+    // the text itself keeps the owner's case for a screen reader and for a copy.
+    expect(classes).toContain("uppercase")
+    // 12 px against the 14 px of `txt-compact-medium`, the size of the footer's links.
+    expect(classes).toContain("txt-compact-xsmall")
+    expect(html).toContain('class="txt-compact-medium text-ui-fg-subtle')
   })
 
   it("adds one row under the columns and changes nothing else", async () => {
@@ -139,8 +155,20 @@ describe("Olavka footer: the requisites line behind the switch", { timeout: 30_0
   })
 })
 
-describe("Olavka footer: the Robokassa mark", { timeout: 30_000 }, () => {
-  it("shows the logo image inside the link, and the note, for a shop that connected Robokassa", async () => {
+/** The marks in the row, in the order they stand: the `src` of every image. */
+const markSources = (html: string) =>
+  Array.from(
+    (html.match(/<ul[^>]*data-testid="footer-payment-marks">.*?<\/ul>/)?.[0] ?? "").matchAll(/<img src="([^"]+)"/g),
+    (match) => match[1]
+  )
+
+const MARK_FILES = ["mir", "visa", "mastercard", "sbp"] as const
+
+const readMark = (name: string) =>
+  readFileSync(join(__dirname, `../../../../../../public/payment/${name}.svg`), "utf8")
+
+describe("Olavka footer: the Robokassa mark and the payment marks", { timeout: 30_000 }, () => {
+  it("keeps the Robokassa logo as the link to robokassa.com, for a shop that connected Robokassa", async () => {
     paymentMethods = { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false }
     const html = await render()
     const link = html.match(
@@ -151,11 +179,68 @@ describe("Olavka footer: the Robokassa mark", { timeout: 30_000 }, () => {
     expect(link?.[1]).toMatch(
       /^<img src="\/payment\/robokassa\.svg" alt="Robokassa" width="161" height="24" class="h-5 w-auto"\/>$/
     )
-    expect(html).toContain('data-testid="footer-robokassa"')
-    expect(html).toContain("Оплата картой и через СБП. Платежи принимает Robokassa")
     // The mark does not bring the requisites with it.
     expect(html).not.toContain("footer-requisites-line")
     expect(html).not.toContain("Иванова")
+  })
+
+  it("drops the sentence about card, SBP and Robokassa", async () => {
+    paymentMethods = { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false }
+    const html = await render()
+
+    // Ivan 09.10: «вот это "Оплата картой и через СБП. Платежи принимает Robokassa" особенно
+    // раздражает, с учетом того, что есть логотип робокасса». No source asks for it.
+    expect(html).not.toContain("Оплата картой")
+    expect(html).not.toContain("Платежи принимает")
+    expect(messages.Footer).not.toHaveProperty("robokassaNote")
+  })
+
+  it("puts the marks of Мир, Visa, Mastercard and СБП beside the Robokassa logo, in one row", async () => {
+    paymentMethods = { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false }
+    const html = await render()
+
+    // Ivan 09.10: «Раз логотипы нужно размещать тогда уже стоит и логотипа други систем».
+    expect(markSources(html)).toEqual([
+      "/payment/robokassa.svg",
+      "/payment/mir.svg",
+      "/payment/visa.svg",
+      "/payment/mastercard.svg",
+      "/payment/sbp.svg",
+    ])
+    for (const [name, alt] of [
+      ["mir", "Мир"],
+      ["visa", "Visa"],
+      ["mastercard", "Mastercard"],
+      ["sbp", "СБП"],
+    ]) {
+      expect(html).toMatch(new RegExp(`<img src="/payment/${name}\\.svg" alt="${alt}" width="\\d+" height="\\d+" class="h-5 w-auto"/>`))
+    }
+  })
+
+  it("draws every mark on the same plate at the same height", async () => {
+    paymentMethods = { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false }
+    const html = await render()
+    const row = html.match(/<ul[^>]*data-testid="footer-payment-marks">.*?<\/ul>/)?.[0] ?? ""
+    const plates = Array.from(
+      row.matchAll(/<li [^>]*class="([^"]*)"[^>]*data-testid="footer-payment-plate"/g),
+      (match) => match[1]
+    )
+    const images = Array.from(row.matchAll(/<img [^>]*class="([^"]*)"/g), (match) => match[1])
+
+    expect(plates).toHaveLength(5)
+    expect(new Set(plates).size).toBe(1)
+    // The plate stays light in the dark theme: the marks are the owners' full-colour files.
+    expect(plates[0]).toContain("bg-[var(--payment-mark-plate)]")
+    expect(images).toEqual(Array(5).fill("h-5 w-auto"))
+  })
+
+  it("shows no mark for a shop without Robokassa, as on cherkashino.com", async () => {
+    vi.stubEnv("STOREFRONT_FOOTER_REQUISITES", "1")
+    const html = await render()
+
+    expect(html).not.toContain("footer-payment-marks")
+    expect(html).not.toContain("/payment/")
+    expect(html).toContain("footer-requisites-line")
   })
 
   it("ships the logo file the image points at: Robokassa's own, with nothing loaded from outside", () => {
@@ -165,6 +250,22 @@ describe("Olavka footer: the Robokassa mark", { timeout: 30_000 }, () => {
     expect(svg).not.toMatch(/<script|<image|<use|\son[a-z]+=|href=|url\(\s*['"]?https?:/i)
   })
 
+  it.each(MARK_FILES)("ships %s.svg: an SVG with its own size, nothing loaded from outside", (name) => {
+    const svg = readMark(name)
+
+    expect(svg).toMatch(/^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="[\d.]+" height="[\d.]+" viewBox="[-\d. ]+"/)
+    expect(svg).not.toMatch(/<script|<image|<use|\son[a-z]+=|href=|url\(\s*['"]?https?:/i)
+  })
+
+  it("keeps each mark in its owner's colours", () => {
+    // Visa: «must be displayed in Visa Blue when the screen … supports full color».
+    expect(readMark("visa")).toContain('fill="#1434CB"')
+    // Mastercard: «The Mastercard Symbol must never be used in grayscale or other colors».
+    for (const colour of ["#ff5f00", "#eb001b", "#f79e1b"]) {
+      expect(readMark("mastercard")).toContain(colour)
+    }
+  })
+
   it("stands in the same row as the requisites when both are there", async () => {
     vi.stubEnv("STOREFRONT_FOOTER_REQUISITES", "1")
     paymentMethods = { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false }
@@ -172,6 +273,7 @@ describe("Olavka footer: the Robokassa mark", { timeout: 30_000 }, () => {
     const row = html.match(UNDER_COLUMNS)?.[0] ?? ""
 
     expect(row).toContain("footer-robokassa-link")
+    expect(row).toContain("footer-payment-marks")
     expect(row).toContain("footer-requisites-line")
     expect(html.match(/footer-olavka-under-columns/g)).toHaveLength(1)
   })

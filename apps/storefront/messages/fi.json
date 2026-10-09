@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "Yksityisyrittäjän rekisterinumero (OGRNIP): {value}",
     "aboutHeading": "Tietoa kaupasta",
     "trackOrder": "Seuraa tilaustasi",
-    "badgesLabel": "Toimitus ja maksu",
-    "robokassaNote": "Maksu kortilla tai SBP:n kautta. Maksut vastaanottaa Robokassa"
+    "badgesLabel": "Toimitus ja maksu"
   },
   "ForgotPassword": {
     "backToSignIn": "Takaisin kirjautumiseen",

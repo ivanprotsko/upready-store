@@ -451,8 +451,7 @@
     "regNumberSoleTrader": "เลขทะเบียนผู้ประกอบการรายบุคคล: {value}",
     "aboutHeading": "เกี่ยวกับร้านค้า",
     "trackOrder": "ติดตามคำสั่งซื้อ",
-    "badgesLabel": "การจัดส่งและการชำระเงิน",
-    "robokassaNote": "ชำระด้วยบัตรหรือผ่าน SBP โดย Robokassa เป็นผู้รับชำระเงิน"
+    "badgesLabel": "การจัดส่งและการชำระเงิน"
   },
   "ForgotPassword": {
     "backToSignIn": "กลับไปเข้าสู่ระบบ",
