@@ -72,8 +72,8 @@
     "decline": "Afvis"
   },
   "Breadcrumb": {
-    "home": "Forside",
-    "store": "Butik"
+    "home": "Butiksvindue",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Din kurv er tom. Brug linket nedenfor for at begynde at browse vores produkter.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Se hele kataloget. Filtrér efter kategori og variant, sortér efter pris, og find præcis det, du skal bruge.",
-      "title": "Butik"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Læs de regler, du accepterer, når du handler hos os.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Konto",
       "cart": "Kurv",
-      "home": "Forside",
-      "store": "Butik",
+      "home": "Butiksvindue",
+      "store": "Katalog",
       "journal": "Magasin"
     },
     "menuButton": "Menu"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Gitter",
     "viewList": "Liste",
     "viewCompact": "Tæt gitter",
-    "perPage": "Produkter pr. side"
+    "endOfList": "Det var alle produkter",
+    "loadingMore": "Henter flere produkter"
   },
   "TenantPage": {
     "emptyBody": "Denne side har endnu ingen tekst.",

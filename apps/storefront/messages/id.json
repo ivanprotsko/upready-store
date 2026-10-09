@@ -72,8 +72,8 @@
     "decline": "Tolak"
   },
   "Breadcrumb": {
-    "home": "Beranda",
-    "store": "Toko"
+    "home": "Etalase",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Keranjang Anda masih kosong. Gunakan tautan di bawah ini untuk mulai menjelajahi produk kami.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Jelajahi seluruh katalog. Saring berdasarkan kategori dan pilihan, urutkan berdasarkan harga, dan temukan yang Anda butuhkan.",
-      "title": "Toko"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Baca aturan yang Anda setujui saat berbelanja di toko kami.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Akun",
       "cart": "Keranjang",
-      "home": "Beranda",
-      "store": "Toko",
+      "home": "Etalase",
+      "store": "Katalog",
       "journal": "Jurnal"
     },
     "menuButton": "Menu"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Kisi",
     "viewList": "Daftar",
     "viewCompact": "Kisi ringkas",
-    "perPage": "Produk per halaman"
+    "endOfList": "Semua produk sudah ditampilkan",
+    "loadingMore": "Memuat produk lainnya"
   },
   "TenantPage": {
     "emptyBody": "Halaman ini belum memiliki teks.",

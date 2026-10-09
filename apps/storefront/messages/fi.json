@@ -72,8 +72,8 @@
     "decline": "Hylkää"
   },
   "Breadcrumb": {
-    "home": "Etusivu",
-    "store": "Kauppa"
+    "home": "Näyteikkuna",
+    "store": "Katalogi"
   },
   "Cart": {
     "emptyMessage": "Ostoskorisi on tyhjä. Aloita tuotteiden selaaminen alla olevasta linkistä.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Selaa koko valikoimaa. Suodata kategorian ja vaihtoehdon mukaan, järjestä hinnan mukaan ja löydä juuri se, mitä tarvitset.",
-      "title": "Kauppa"
+      "title": "Katalogi"
     },
     "terms": {
       "description": "Lue säännöt, jotka hyväksyt ostaessasi meiltä.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Tili",
       "cart": "Ostoskori",
-      "home": "Etusivu",
-      "store": "Kauppa",
+      "home": "Näyteikkuna",
+      "store": "Katalogi",
       "journal": "Lehti"
     },
     "menuButton": "Valikko"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Ruudukko",
     "viewList": "Luettelo",
     "viewCompact": "Tiivis ruudukko",
-    "perPage": "Tuotteita sivulla"
+    "endOfList": "Siinä kaikki tuotteet",
+    "loadingMore": "Ladataan lisää tuotteita"
   },
   "TenantPage": {
     "emptyBody": "Tällä sivulla ei ole vielä tekstiä.",

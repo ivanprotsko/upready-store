@@ -1,16 +1,10 @@
 "use client"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useTransition, type ReactNode } from "react"
 import { useTranslations } from "next-intl"
 
-import {
-  CATALOG_PER_PAGE_COOKIE,
-  CATALOG_PER_PAGE_OPTIONS,
-  CATALOG_VIEW_COOKIE,
-  CATALOG_VIEWS,
-  type CatalogView,
-} from "@lib/util/catalog-view"
+import { CATALOG_VIEW_COOKIE, CATALOG_VIEWS, type CatalogView } from "@lib/util/catalog-view"
 
 const YEAR = 60 * 60 * 24 * 365
 
@@ -30,32 +24,19 @@ const ICONS: Record<CatalogView, ReactNode> = {
 }
 
 /**
- * The listing's own controls, above the products: how they are drawn (grid, rows, a denser
- * grid) and how many a page holds. The choice goes to two cookies (`@lib/util/catalog-view`)
- * and the page is asked for again; a new page size also drops `page` from the address,
- * because page 5 of twelve is not page 5 of forty-eight.
+ * The listing's own control, above the products: how they are drawn (grid, rows, a denser
+ * grid). The choice goes to a cookie (`@lib/util/catalog-view`) and the page is asked for
+ * again, and the list starts over in the new view. There is no page size to pick: a product
+ * list has no pages (rule 5zg).
  */
-export default function ViewControls({ view, perPage }: { view: CatalogView; perPage: number }) {
+export default function ViewControls({ view }: { view: CatalogView }) {
   const t = useTranslations("Store")
   const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
   const [pending, startTransition] = useTransition()
 
-  const apply = (cookie: string, value: string) => {
-    document.cookie = `${cookie}=${value}; path=/; max-age=${YEAR}; samesite=lax`
-
-    startTransition(() => {
-      if (!searchParams.has("page")) {
-        router.refresh()
-        return
-      }
-
-      const params = new URLSearchParams(searchParams.toString())
-      params.delete("page")
-      const query = params.toString()
-      router.push(query ? `${pathname}?${query}` : pathname)
-    })
+  const apply = (value: CatalogView) => {
+    document.cookie = `${CATALOG_VIEW_COOKIE}=${value}; path=/; max-age=${YEAR}; samesite=lax`
+    startTransition(() => router.refresh())
   }
 
   return (
@@ -76,7 +57,7 @@ export default function ViewControls({ view, perPage }: { view: CatalogView; per
             title={t(VIEW_KEY[option])}
             aria-label={t(VIEW_KEY[option])}
             aria-pressed={option === view}
-            onClick={() => apply(CATALOG_VIEW_COOKIE, option)}
+            onClick={() => apply(option)}
             className={
               option === view
                 ? "flex size-9 items-center justify-center bg-ui-bg-subtle-hover text-ui-fg-base"
@@ -90,20 +71,6 @@ export default function ViewControls({ view, perPage }: { view: CatalogView; per
           </button>
         ))}
       </div>
-      <select
-        aria-label={t("perPage")}
-        title={t("perPage")}
-        value={perPage}
-        onChange={(event) => apply(CATALOG_PER_PAGE_COOKIE, event.target.value)}
-        className="h-9 rounded-[var(--radius,8px)] border border-ui-border-base bg-ui-bg-base px-2 text-sm tabular-nums text-ui-fg-base"
-        data-testid="catalog-per-page"
-      >
-        {CATALOG_PER_PAGE_OPTIONS.map((size) => (
-          <option key={size} value={size}>
-            {size}
-          </option>
-        ))}
-      </select>
     </div>
   )
 }

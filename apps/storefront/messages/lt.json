@@ -72,8 +72,8 @@
     "decline": "Atmesti"
   },
   "Breadcrumb": {
-    "home": "Pradžia",
-    "store": "Parduotuvė"
+    "home": "Vitrina",
+    "store": "Katalogas"
   },
   "Cart": {
     "emptyMessage": "Jūsų krepšelis tuščias. Naudokite nuorodą žemiau ir pradėkite naršyti mūsų produktus.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Naršykite visą katalogą. Filtruokite pagal kategoriją ir parinktį, rikiuokite pagal kainą ir raskite tiksliai tai, ko reikia.",
-      "title": "Parduotuvė"
+      "title": "Katalogas"
     },
     "terms": {
       "description": "Perskaitykite taisykles, su kuriomis sutinkate pirkdami.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Paskyra",
       "cart": "Krepšelis",
-      "home": "Pradžia",
-      "store": "Parduotuvė",
+      "home": "Vitrina",
+      "store": "Katalogas",
       "journal": "Žurnalas"
     },
     "menuButton": "Meniu"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Tinklelis",
     "viewList": "Sąrašas",
     "viewCompact": "Tankus tinklelis",
-    "perPage": "Prekių puslapyje"
+    "endOfList": "Tai visi produktai",
+    "loadingMore": "Įkeliama daugiau produktų"
   },
   "TenantPage": {
     "emptyBody": "Šiame puslapyje dar nėra teksto.",

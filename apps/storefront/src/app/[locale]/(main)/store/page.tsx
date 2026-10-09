@@ -11,7 +11,6 @@ import { pageTitle } from "@lib/util/page-title"
 
 type StorePageSearchParams = Record<string, string | string[] | undefined> & {
   sortBy?: SortOptions
-  page?: string
   optionValueIds?: string | string[]
 }
 
@@ -34,14 +33,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function StorePage(props: Params) {
   const searchParams = await props.searchParams
   const countryCode = await getCountryCode()
-  const { sortBy, page } = searchParams
+  // `page` of an old address is read by nothing: a product list has no pages (rule 5zg),
+  // so `?page=N` opens the list from its start.
+  const { sortBy } = searchParams
   const optionValueIds = parseOptionValueIds(searchParams)
   const attributeSelection = parseAttributeSelection(searchParams)
 
   return (
     <StoreTemplate
       sortBy={sortBy}
-      page={page}
       countryCode={countryCode ?? ""}
       optionValueIds={optionValueIds}
       attributeSelection={attributeSelection}

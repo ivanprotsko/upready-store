@@ -72,8 +72,8 @@
     "decline": "Tolak"
   },
   "Breadcrumb": {
-    "home": "Utama",
-    "store": "Kedai"
+    "home": "Pameran",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Troli anda kosong. Gunakan pautan di bawah untuk mula meneroka produk kami.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Lihat seluruh katalog. Tapis mengikut kategori dan pilihan, susun mengikut harga, dan cari tepat apa yang anda perlukan.",
-      "title": "Kedai"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Baca peraturan yang anda persetujui semasa membeli-belah.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Akaun",
       "cart": "Troli",
-      "home": "Utama",
-      "store": "Kedai",
+      "home": "Pameran",
+      "store": "Katalog",
       "journal": "Jurnal"
     },
     "menuButton": "Menu"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Grid",
     "viewList": "Senarai",
     "viewCompact": "Grid padat",
-    "perPage": "Produk setiap halaman"
+    "endOfList": "Semua produk telah dipaparkan",
+    "loadingMore": "Memuatkan lebih banyak produk"
   },
   "TenantPage": {
     "emptyBody": "Halaman ini belum mempunyai teks.",

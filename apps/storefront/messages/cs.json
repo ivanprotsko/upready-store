@@ -72,8 +72,8 @@
     "decline": "Odmítnout"
   },
   "Breadcrumb": {
-    "home": "Domů",
-    "store": "Obchod"
+    "home": "Výloha",
+    "store": "Katalog"
   },
   "Cart": {
     "emptyMessage": "Váš košík je prázdný. Pomocí odkazu níže si prohlédněte naše produkty.",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "Projděte si celý katalog. Filtrujte podle kategorie a varianty, seřaďte podle ceny a najděte přesně to, co potřebujete.",
-      "title": "Obchod"
+      "title": "Katalog"
     },
     "terms": {
       "description": "Přečtěte si pravidla, se kterými při nákupu souhlasíte.",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "Účet",
       "cart": "Košík",
-      "home": "Domů",
-      "store": "Obchod",
+      "home": "Výloha",
+      "store": "Katalog",
       "journal": "Magazín"
     },
     "menuButton": "Menu"
@@ -1152,7 +1152,8 @@
     "viewGrid": "Mřížka",
     "viewList": "Seznam",
     "viewCompact": "Hustá mřížka",
-    "perPage": "Produktů na stránku"
+    "endOfList": "To jsou všechny produkty",
+    "loadingMore": "Načítáme další produkty"
   },
   "TenantPage": {
     "emptyBody": "Tato stránka zatím nemá žádný text.",

@@ -72,8 +72,8 @@
     "decline": "拒绝"
   },
   "Breadcrumb": {
-    "home": "首页",
-    "store": "商店"
+    "home": "橱窗",
+    "store": "商品目录"
   },
   "Cart": {
     "emptyMessage": "您的购物车是空的。点击下方链接开始浏览我们的商品吧。",
@@ -781,7 +781,7 @@
     },
     "store": {
       "description": "浏览完整目录。按分类和选项筛选、按价格排序，找到你需要的商品。",
-      "title": "商店"
+      "title": "商品目录"
     },
     "terms": {
       "description": "阅读您在本店购物时接受的条款。",
@@ -1127,8 +1127,8 @@
     "items": {
       "account": "账户",
       "cart": "购物车",
-      "home": "首页",
-      "store": "商店",
+      "home": "橱窗",
+      "store": "商品目录",
       "journal": "专栏"
     },
     "menuButton": "菜单"
@@ -1152,7 +1152,8 @@
     "viewGrid": "网格",
     "viewList": "列表",
     "viewCompact": "紧凑网格",
-    "perPage": "每页商品数"
+    "endOfList": "已显示全部商品",
+    "loadingMore": "正在加载更多商品"
   },
   "TenantPage": {
     "emptyBody": "此页面还没有内容。",
