@@ -1381,10 +1381,10 @@
     "invalidTokenHint": "Try requesting a new invite link.",
     "invalidTokenTitle": "Your invite token is invalid",
     "passwordMismatch": "Passwords do not match",
-    "successAction": "Start Medusa Admin",
-    "successHint": "Get started with Medusa Admin right away.",
+    "successAction": "Open the store panel",
+    "successHint": "Get started in the store panel right away.",
     "successTitle": "Your account has been registered",
-    "title": "Welcome to Upready",
+    "title": "Welcome to the store panel",
     "toast": {
       "accepted": "Invite successfully accepted"
     }
@@ -1463,7 +1463,7 @@
       "verify": "Verify",
       "verifyError": "The verification code could not be confirmed."
     },
-    "title": "Welcome to Upready"
+    "title": "Sign in to the store panel"
   },
   "metadata": {
     "edit": {
