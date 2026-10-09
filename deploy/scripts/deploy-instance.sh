@@ -200,9 +200,13 @@ step_archive_and_rsync() {
   # Everything else tracked in this repository (handoff/ operator task registry, artifacts/, docs/ with its
   # evidence screenshots from stands that run on copies of live data, specs/, tools/, glossary/, AGENTS.md,
   # CLAUDE.md, .github/) is internal and must never be copied to a host that a hosting provider can snapshot.
-  # apps/*/Dockerfile copy only package manifests, apps/<app>, apps/backend/src/migration-scripts/data and
-  # specs/design-system; compose and the scripts live under deploy/ and scripts/.
-  git -C "$REPO_ROOT" archive "$GIT_REF" -- apps deploy scripts specs/design-system \
+  # apps/*/Dockerfile copy only package manifests, apps/<app>, apps/backend/src/migration-scripts/data,
+  # specs/design-system and docs/owner-guide; compose and the scripts live under deploy/ and scripts/.
+  # docs/owner-guide is the one folder of docs/ that goes, because the panel image builds its help (/help/ and
+  # the docs hosts) from it. It is public on purpose. Its frames come from a stand with made-up names, logins and
+  # requisites only, and the panel test and shoot.mjs refuse a frame that shows a real person or a customer's
+  # name or address. The rest of docs/ still never leaves this machine (t-2026-10-09-104).
+  git -C "$REPO_ROOT" archive "$GIT_REF" -- apps deploy scripts specs/design-system docs/owner-guide \
     package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc turbo.json .dockerignore LICENSE | tar -x -C "$workdir"
   log "rsync $workdir -> $HOST:$REMOTE_DIR/"
   rssh "mkdir -p '$REMOTE_DIR'"

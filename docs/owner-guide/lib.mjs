@@ -80,8 +80,19 @@ export const readCatalog = (root = REPO) => flatten(JSON.parse(readFileSync(join
 
 export const sha256File = (file) => createHash("sha256").update(readFileSync(file)).digest("hex")
 
-/** The guide pages, in reading order: 00-oglavlenie.md first. */
-export const guidePages = () => readdirSync(PAGES_DIR).filter((f) => f.endsWith(".md")).sort()
+/**
+ * The guide pages in reading order, which is also the order of the menu (t-2026-10-09-104). A file name is the
+ * page's address on the site (zakazy.md is /zakazy), so names are short and Latin; index.md is the table of contents.
+ */
+export const PAGES = ["index", "vhod-i-roli", "zakazy", "pokupateli-i-otzyvy", "tovary", "kursy", "vitrina", "nastrojki", "robokassa"]
+export const guidePages = () => PAGES.map((name) => `${name}.md`)
+
+/**
+ * The `## ` headings of a page with the short Latin anchor each one carries (`## Цены {#ceny}`), the one the site
+ * links to. A heading without one is `{ id: null }`, which check.mjs reports.
+ */
+export const pageHeadings = (file) =>
+  [...readFileSync(join(PAGES_DIR, file), "utf8").matchAll(/^## (.+?)(?: \{#([^}]*)\})?$/gm)].map((m) => ({ text: m[1], id: m[2] ?? null }))
 
 /** `![…](shots/<id>.webp)` references of every guide page: `{ page, id }[]`. */
 export const imageRefs = () =>
@@ -89,10 +100,34 @@ export const imageRefs = () =>
     [...readFileSync(join(PAGES_DIR, page), "utf8").matchAll(/!\[[^\]]*\]\(shots\/([a-z0-9-]+)\.webp\)/g)].map((m) => ({ page, id: m[1] }))
   )
 
+/**
+ * Which name and logo the help shows on which host (t-2026-10-09-104). A host the table does not list gets the
+ * platform's, and a customer's docs host and panel host get the customer's. One file serves the docs hosts, the
+ * panel's /help/, one build per brand. publish.mjs reads it, and README.md says how you add a customer.
+ */
+export const BRANDS_FILE = join(GUIDE_DIR, "brands.json")
+export const readBrands = () => JSON.parse(readFileSync(BRANDS_FILE, "utf8"))
+
+/** `[]` when the brands table holds together, otherwise a line per problem. */
+export const brandProblems = (brands = readBrands(), root = GUIDE_DIR) => {
+  const out = []
+  const one = (where, b) => {
+    if (!b || typeof b.name !== "string" || !b.name.trim()) out.push(`brands.json: у ${where} нет названия`)
+    if (!b || typeof b.logo !== "string" || !/^brands\/[a-z0-9-]+\.(svg|png|webp)$/.test(b.logo)) out.push(`brands.json: у ${where} логотип не в brands/ (svg, png или webp)`)
+    else if (!existsSync(join(root, b.logo))) out.push(`brands.json: у ${where} нет файла ${b.logo}`)
+  }
+  one("default", brands.default)
+  for (const [host, b] of Object.entries(brands.hosts ?? {})) {
+    if (host !== host.toLowerCase() || !/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(host)) out.push(`brands.json: «${host}» не похож на хост (строчные буквы, без схемы и пути)`)
+    one(host, b)
+  }
+  return out
+}
+
 // The frames are in git and the guide is served on the panel's host, so a frame must never show a real person:
 // not the shop's people (the stand's logins are «Владелица Пример», «Менеджер Анна» and so on) and not their work
 // mail. The surnames are kept as sha256 of their lowercased stem, so the names themselves are not in the repository;
-// a word is caught when its first `len` letters hash to `sha`. The shop's name is not a person and stays allowed.
+// a word is caught when its first `len` letters hash to `sha`.
 export const NAME_STEMS = [
   { len: 8, sha: "060f84421e153dd4" },
   { len: 7, sha: "43faf92cccccc9cc" },
@@ -101,15 +136,36 @@ export const NAME_STEMS = [
   { len: 7, sha: "2a6b4b735d98204e" },
   { len: 7, sha: "b4c18bfd18d57ae3" },
 ]
-const SHOP_NAME = new Set(["черкашино", "cherkashino"])
 const WORK_MAIL = /@cherkashino\.(ru|com)\b/i
 
-/** What in `text` a frame must not show: `[]` when it is clean, otherwise a line per finding (never the word itself). */
-export const forbiddenIn = (text, stems = NAME_STEMS) => {
+// Every customer reads the same frames under their own logo, so a frame must not name any customer either (the stand's
+// shop is «Демо-магазин»). Both marks come from brands.json. One is the words of
+// every brand name but the platform's. The other is the label of every customer host under its zone
+// (panel.cherkashino.ru gives cherkashino), which also sits in the shop's handles and SKUs. A customer you add to the
+// table is kept off the frames with no change here.
+const HOST_WORDS = new Set(["docs", "panel", "www", "api", "help", "shop", "store"])
+export const customerMarks = (brands = readBrands()) => {
+  const names = new Set()
+  const labels = new Set()
+  for (const [host, b] of Object.entries(brands.hosts ?? {})) {
+    if (b.name === brands.default.name) continue
+    for (const w of b.name.toLowerCase().match(/\p{L}+/gu) ?? []) names.add(w)
+    for (const l of host.split(".").slice(0, -1)) if (!HOST_WORDS.has(l)) labels.add(l)
+  }
+  return { names: [...names].sort(), labels: [...labels].sort() }
+}
+
+/**
+ * What in `text` a frame must not show: `[]` when it is clean, otherwise a line per finding. A person's surname is
+ * never repeated in the line; a customer's name and address are in brands.json anyway, so they are named.
+ */
+export const forbiddenIn = (text, stems = NAME_STEMS, marks = customerMarks()) => {
   const found = new Set()
+  const lower = text.toLowerCase()
   if (WORK_MAIL.test(text)) found.add("рабочая почта магазина")
-  for (const word of text.toLowerCase().match(/\p{L}+/gu) ?? []) {
-    if (SHOP_NAME.has(word)) continue
+  for (const label of marks.labels) if (lower.includes(label)) found.add(`адрес или код магазина-заказчика «${label}»`)
+  for (const word of lower.match(/\p{L}+/gu) ?? []) {
+    if (marks.names.includes(word)) found.add(`название магазина-заказчика «${word}»`)
     for (const { len, sha } of stems) {
       if (word.length >= len && createHash("sha256").update(word.slice(0, len)).digest("hex").slice(0, 16) === sha) found.add("фамилия человека магазина")
     }
