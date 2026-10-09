@@ -11,10 +11,18 @@ export const GUIDE_DIR = dirname(fileURLToPath(import.meta.url))
 export const REPO = join(GUIDE_DIR, "..", "..")
 export const LOCK = join(GUIDE_DIR, "shots.lock.json")
 export const PAGES_DIR = join(GUIDE_DIR, "guide")
+/** The frames, in git next to the pages that show them (README.md says why). */
+export const SHOTS_DIR = join(PAGES_DIR, "shots")
 export const RU = "apps/tenant-panel/src/i18n/translations/ru.json"
 
-/** Every frame with the sidebar shows the menu, so the menu's data and labels belong to each of them. */
-export const MENU = { sources: ["apps/tenant-panel/src/components/layout/owner-nav"], i18n: ["app.nav."] }
+/**
+ * Every frame with the sidebar shows the menu, so the menu's data and labels belong to each of them; main-layout
+ * draws the sidebar around it (the shop name on top, «Справка» and the user at the bottom).
+ */
+export const MENU = {
+  sources: ["apps/tenant-panel/src/components/layout/owner-nav", "apps/tenant-panel/src/components/layout/main-layout"],
+  i18n: ["app.nav."],
+}
 
 const SKIP = new Set(["node_modules", "__tests__", "dist", ".turbo"])
 
@@ -72,14 +80,42 @@ export const readCatalog = (root = REPO) => flatten(JSON.parse(readFileSync(join
 
 export const sha256File = (file) => createHash("sha256").update(readFileSync(file)).digest("hex")
 
-/** `![…](shots/<id>.png)` references of every guide page: `{ page, id }[]`. */
+/** The guide pages, in reading order: 00-oglavlenie.md first. */
+export const guidePages = () => readdirSync(PAGES_DIR).filter((f) => f.endsWith(".md")).sort()
+
+/** `![…](shots/<id>.webp)` references of every guide page: `{ page, id }[]`. */
 export const imageRefs = () =>
-  readdirSync(PAGES_DIR)
-    .filter((f) => f.endsWith(".md"))
-    .sort()
-    .flatMap((page) =>
-      [...readFileSync(join(PAGES_DIR, page), "utf8").matchAll(/!\[[^\]]*\]\(shots\/([a-z0-9-]+)\.png\)/g)].map((m) => ({ page, id: m[1] }))
-    )
+  guidePages().flatMap((page) =>
+    [...readFileSync(join(PAGES_DIR, page), "utf8").matchAll(/!\[[^\]]*\]\(shots\/([a-z0-9-]+)\.webp\)/g)].map((m) => ({ page, id: m[1] }))
+  )
+
+// The frames are in git and the guide is served on the panel's host, so a frame must never show a real person:
+// not the shop's people (the stand's logins are «Владелица Пример», «Менеджер Анна» and so on) and not their work
+// mail. The surnames are kept as sha256 of their lowercased stem, so the names themselves are not in the repository;
+// a word is caught when its first `len` letters hash to `sha`. The shop's name is not a person and stays allowed.
+export const NAME_STEMS = [
+  { len: 8, sha: "060f84421e153dd4" },
+  { len: 7, sha: "43faf92cccccc9cc" },
+  { len: 7, sha: "d6e9fe9a32895b5e" },
+  { len: 10, sha: "de33cd39c79ac838" },
+  { len: 7, sha: "2a6b4b735d98204e" },
+  { len: 7, sha: "b4c18bfd18d57ae3" },
+]
+const SHOP_NAME = new Set(["черкашино", "cherkashino"])
+const WORK_MAIL = /@cherkashino\.(ru|com)\b/i
+
+/** What in `text` a frame must not show: `[]` when it is clean, otherwise a line per finding (never the word itself). */
+export const forbiddenIn = (text, stems = NAME_STEMS) => {
+  const found = new Set()
+  if (WORK_MAIL.test(text)) found.add("рабочая почта магазина")
+  for (const word of text.toLowerCase().match(/\p{L}+/gu) ?? []) {
+    if (SHOP_NAME.has(word)) continue
+    for (const { len, sha } of stems) {
+      if (word.length >= len && createHash("sha256").update(word.slice(0, len)).digest("hex").slice(0, 16) === sha) found.add("фамилия человека магазина")
+    }
+  }
+  return [...found]
+}
 
 /** `--name value` and `--flag` from argv; anything unknown is refused by the caller. */
 export const parseArgs = (argv, known) => {

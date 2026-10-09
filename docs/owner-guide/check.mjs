@@ -2,7 +2,7 @@
 // Finds the owner guide frames that no longer match the panel.
 //
 //   node docs/owner-guide/check.mjs                 # stale frames and broken references, exit 1 if any
-//   node docs/owner-guide/check.mjs --structure     # only what needs no frames: scenes, sources, references
+//   node docs/owner-guide/check.mjs --structure     # only what needs no stand: scenes, sources, references, frame files
 //   node docs/owner-guide/check.mjs --warn          # print the same, exit 0 (pr-checks.yml)
 //
 // A frame is stale when, since it was shot,
@@ -11,11 +11,11 @@
 // For each stale frame the check names the changed files (git diff against the commit of the shoot) and
 // the changed strings. What the hashes cannot see (data, styles from a shared package, a dependency update)
 // is caught by comparing pixels: shoot.mjs --compare <published frames>.
-import { existsSync, readFileSync } from "node:fs"
+import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { execFileSync } from "node:child_process"
 import { join } from "node:path"
 import { SCENES } from "./scenes.mjs"
-import { LOCK, REPO, RU, flatten, hashSources, hashStrings, imageRefs, parseArgs, pickStrings, readCatalog, sceneI18n, sceneSources } from "./lib.mjs"
+import { LOCK, REPO, RU, SHOTS_DIR, flatten, hashSources, hashStrings, imageRefs, parseArgs, pickStrings, readCatalog, sceneI18n, sceneSources, sha256File } from "./lib.mjs"
 
 const args = parseArgs(process.argv.slice(2), { structure: "flag", warn: "flag" })
 const problems = []
@@ -35,9 +35,21 @@ for (const { page, id } of refs) if (!seen.has(id)) say(`guide/${page}: кадр
 const used = new Set(refs.map((r) => r.id))
 for (const s of SCENES) if (!used.has(s.id)) say(`сцена ${s.id} не показана ни на одной странице guide/`)
 
-// 3. Freshness against the lock.
+// 3. Frame files. They are in git (guide/shots) and the panel image builds the help from them, so a missing file
+// would break that build. A file must be the one shoot.mjs wrote, whose hash is in the lock together with the text
+// the panel test checks for real people's names. A frame no page shows only adds weight.
+const lock = existsSync(LOCK) ? JSON.parse(readFileSync(LOCK, "utf8")) : null
+for (const id of used) {
+  const file = join(SHOTS_DIR, `${id}.webp`)
+  if (!existsSync(file)) say(`нет файла кадра guide/shots/${id}.webp`)
+  else if (lock?.scenes?.[id] && lock.scenes[id].frame !== sha256File(file)) say(`кадр ${id}: файл не тот, что снял shoot.mjs (хеш не совпадает с shots.lock.json)`)
+}
+for (const f of existsSync(SHOTS_DIR) ? readdirSync(SHOTS_DIR) : []) {
+  if (!used.has(f.replace(/\.webp$/, ""))) say(`guide/shots/${f}: кадр не показан ни на одной странице`)
+}
+
+// 4. Freshness against the lock.
 if (!args.structure) {
-  const lock = existsSync(LOCK) ? JSON.parse(readFileSync(LOCK, "utf8")) : null
   if (!lock) say("нет shots.lock.json: кадры ни разу не снимали (shoot.mjs)")
   else {
     const catalog = readCatalog()
