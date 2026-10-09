@@ -4,19 +4,29 @@
 //                  (<dir>/<section>/index.html), a menu of the sections with the headings of the open one, «← previous»
 //                  and «next →» under the text, the frames in <dir>/shots. apps/tenant-panel/Dockerfile builds it into
 //                  the panel image; any static server shows it as well (the links are relative).
+//                  The same files serve every docs host (docs.upready.dev, a customer's docs.<their domain>) at / and
+//                  the panel at /help/; the name and logo on top are picked by the host, see «Brands» below.
 //   --html <file>  one HTML file with every page and every frame inside it and a table of contents on top, to send
-//                  to the shop as is
+//                  to the shop as is; --brand <host> puts that host's name and logo on top (the platform's without it)
 //
-//   node docs/owner-guide/publish.mjs [--shots <dir>] --site <dir> [--html <file>]
+//   node docs/owner-guide/publish.mjs [--shots <dir>] --site <dir> [--html <file> [--brand <host>]]
 //
 // --shots is guide/shots by default. Refuses when a page shows a frame that is not there, so the help never has a hole.
 // Nothing is fetched from elsewhere, so no web fonts and no outside scripts or styles. The pages ask not to be indexed.
+//
+// Brands (t-2026-10-09-104). brands.json maps a host to a name and a logo in brands/, and any other host gets the
+// default, Upready Store. The table and the logos go into the build, and a few lines of script right after the header
+// pick the row by location.hostname and fill in the name and the logo. They run while the page is parsed, before it is
+// first drawn, so no other brand's logo ever shows, not even for a frame. Without a script the header says «Справка по
+// панели» and nothing more. The page picks the brand, not nginx, so the same build works from any static server, at /
+// and at /help/.
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs"
 import { join } from "node:path"
-import { PAGES_DIR, SHOTS_DIR, guidePages, imageRefs, parseArgs } from "./lib.mjs"
+import { GUIDE_DIR, PAGES_DIR, SHOTS_DIR, brandProblems, guidePages, imageRefs, parseArgs, readBrands } from "./lib.mjs"
 
-const args = parseArgs(process.argv.slice(2), { shots: "value", site: "value", html: "value" })
+const args = parseArgs(process.argv.slice(2), { shots: "value", site: "value", html: "value", brand: "value" })
 if (!args.site && !args.html) throw new Error("нужен --site <папка> или --html <файл>")
+if (args.brand && !args.html) throw new Error("--brand выбирает бренд одного HTML-файла, нужен --html <файл>")
 const shots = args.shots ?? SHOTS_DIR
 
 const missing = imageRefs().filter(({ id }) => !existsSync(join(shots, `${id}.webp`)))
@@ -24,6 +34,13 @@ if (missing.length) {
   for (const m of missing) console.error(`нет кадра ${m.id}.webp (его показывает guide/${m.page})`)
   process.exit(1)
 }
+
+const brandIssues = brandProblems()
+if (brandIssues.length) {
+  for (const p of brandIssues) console.error(p)
+  process.exit(1)
+}
+const brands = readBrands()
 
 const TITLE = "Справка по панели"
 const HOME = "00-oglavlenie"
@@ -136,8 +153,13 @@ body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-appl
 a{color:var(--link);text-underline-offset:2px}
 .bar{display:none}
 .nav{position:fixed;top:0;bottom:0;left:0;width:300px;overflow-y:auto;background:var(--side);border-right:1px solid var(--line);padding:20px 12px 40px}
-.nav-head{display:flex;align-items:center;justify-content:space-between;padding:0 8px 16px}
-.nav-title{font-weight:600;color:var(--fg);text-decoration:none}
+.nav-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 8px 16px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;color:var(--fg);text-decoration:none}
+.brand-logo{flex:none;width:32px;height:32px;border-radius:8px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.brand-text{display:flex;flex-direction:column;min-width:0;line-height:1.25}
+.brand-name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-name:empty{display:none}
+.brand-sub{font-size:13px;color:var(--muted);white-space:nowrap}
 .nav-close{display:none}
 .nav ol,.nav ul{list-style:none;margin:0;padding:0}
 .nav a.sec{display:block;padding:6px 8px;border-radius:6px;color:var(--sub);text-decoration:none;font-size:14px;font-weight:500;line-height:1.4}
@@ -170,10 +192,10 @@ th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-ali
 .up{font-size:14px}
 hr{border:0;border-top:1px solid var(--line);margin:48px 0}
 body.one .doc{margin:0 auto;max-width:860px;padding:32px 24px 64px}
+.one-head{margin:0 0 28px;padding:0 0 20px;border-bottom:1px solid var(--line)}
 @media (max-width:1023.98px){
 html{scroll-padding-top:72px}
 .bar{display:flex;position:sticky;top:0;z-index:10;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:8px 16px;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line)}
-.bar-title{font-weight:600;color:var(--fg);text-decoration:none}
 .bar-menu{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:8px;color:var(--fg);text-decoration:none;font-weight:500;background:#fff}
 .nav{display:none;z-index:20;width:auto;right:0;border:0;background:var(--bg);padding:0 16px 40px}
 .nav:target,.menu-open .nav{display:block}
@@ -213,10 +235,32 @@ const head = (title, css) =>
   `<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n` +
   `<meta name="robots" content="noindex">\n<title>${esc(title)}</title>\n${css}\n</head>\n`
 
+/** The name and logo on top of the help. Both are filled in by BRAND_JS, so the markup carries no brand of its own. */
+const LOCKUP = (href) =>
+  `<a class="brand" href="${href}"><img class="brand-logo" alt="" width="32" height="32" hidden>` +
+  `<span class="brand-text"><span class="brand-name"></span><span class="brand-sub">${TITLE}</span></span></a>`
+
+/**
+ * Picks the brand of this host from the table and fills in every lockup above it. Inline and right after the header
+ * and the menu, so it runs before the page is first drawn: with a script in help.js, at the end of the page, a
+ * customer could see an empty or a wrong header for a moment.
+ */
+const brandScript = (up) => {
+  const table = { default: brands.default, hosts: brands.hosts }
+  return (
+    `<script>(function(t,up){var b=t.hosts[location.hostname.toLowerCase().replace(/\\.$/,"")]||t.default;` +
+    `var l=document.querySelectorAll(".brand");for(var i=0;i<l.length;i++){var g=l[i].querySelector(".brand-logo");` +
+    `g.src=up+b.logo;g.hidden=false;l[i].querySelector(".brand-name").textContent=b.name}` +
+    `document.title=document.title+" · "+b.name})(${JSON.stringify(table).replace(/</g, "\\u003c")},${JSON.stringify(up)})</script>`
+  )
+}
+
 if (args.site) {
   const site = args.site
   mkdirSync(join(site, "shots"), { recursive: true })
   for (const id of new Set(imageRefs().map((r) => r.id))) copyFileSync(join(shots, `${id}.webp`), join(site, "shots", `${id}.webp`))
+  mkdirSync(join(site, "brands"), { recursive: true })
+  for (const logo of new Set([brands.default, ...Object.values(brands.hosts)].map((b) => b.logo))) copyFileSync(join(GUIDE_DIR, logo), join(site, logo))
   writeFileSync(join(site, "help.css"), CSS + "\n")
   writeFileSync(join(site, "help.js"), JS + "\n")
   const size = new Map()
@@ -248,10 +292,10 @@ if (args.site) {
       p ? `<a class="${cls}" href="${hrefOf(p.name)}"><span>${word}</span><strong>${esc(p.name === HOME ? "Оглавление" : p.title)}</strong></a>` : ""
     const html =
       head(home ? TITLE : `${page.title} — ${TITLE}`, `<link rel="stylesheet" href="${up}help.css">`) +
-      `<body>\n<header class="bar"><a class="bar-title" href="${hrefOf(HOME)}">${TITLE}</a>` +
+      `<body>\n<header class="bar">${LOCKUP(hrefOf(HOME))}` +
       `<a class="bar-menu" href="#razdely" aria-controls="razdely" aria-expanded="false">Разделы</a></header>\n` +
-      `<nav id="razdely" class="nav" aria-label="Разделы справки">\n<div class="nav-head"><a class="nav-title" href="${hrefOf(HOME)}">${TITLE}</a>` +
-      `<a class="nav-close" href="#" aria-label="Закрыть разделы">×</a></div>\n<ol>\n${menu}\n</ol>\n</nav>\n` +
+      `<nav id="razdely" class="nav" aria-label="Разделы справки">\n<div class="nav-head">${LOCKUP(hrefOf(HOME))}` +
+      `<a class="nav-close" href="#" aria-label="Закрыть разделы">×</a></div>\n<ol>\n${menu}\n</ol>\n</nav>\n${brandScript(up)}\n` +
       `<main class="doc"><div class="text">\n${render(page.md, { link, frame, id: (a) => a })}\n` +
       `<nav class="pager" aria-label="Соседние разделы">${card(prev, "prev", "← Предыдущий")}${card(next, "next", "Следующий →")}</nav>\n` +
       `</div></main>\n<script src="${up}help.js"></script>\n</body>\n</html>\n`
@@ -259,10 +303,17 @@ if (args.site) {
     mkdirSync(dir, { recursive: true })
     writeFileSync(join(dir, "index.html"), html)
   })
-  console.log(`справка: страниц ${pages.length}, кадров ${size.size} → ${site}`)
+  console.log(`справка: страниц ${pages.length}, кадров ${size.size}, хостов со своим брендом ${Object.keys(brands.hosts).length} → ${site}`)
 }
 
 if (args.html) {
+  const brand = args.brand ? brands.hosts[args.brand.toLowerCase()] : brands.default
+  if (!brand) throw new Error(`--brand ${args.brand}: такого хоста нет в brands.json; есть: ${Object.keys(brands.hosts).join(", ")}`)
+  const logo = readFileSync(join(GUIDE_DIR, brand.logo))
+  const mime = { svg: "image/svg+xml", png: "image/png", webp: "image/webp" }[brand.logo.split(".").pop()]
+  const lockup =
+    `<header class="one-head"><span class="brand"><img class="brand-logo" src="data:${mime};base64,${logo.toString("base64")}" alt="" width="32" height="32">` +
+    `<span class="brand-text"><span class="brand-name">${esc(brand.name)}</span><span class="brand-sub">${TITLE}</span></span></span></header>`
   const frame = (id, alt) => {
     const data = readFileSync(join(shots, `${id}.webp`))
     const [w, h] = webpSize(data)
@@ -290,7 +341,8 @@ if (args.html) {
     .join("\n<hr>\n")
   writeFileSync(
     args.html,
-    head(`Панель магазина: как работать`, `<style>${CSS}</style>`) + `<body class="one">\n<main class="doc">\n${body}\n</main>\n<script>${JS}</script>\n</body>\n</html>\n`
+    head(`Панель магазина: как работать · ${brand.name}`, `<style>${CSS}</style>`) +
+      `<body class="one">\n<main class="doc">\n${lockup}\n${body}\n</main>\n<script>${JS}</script>\n</body>\n</html>\n`
   )
-  console.log(`один файл: ${args.html}`)
+  console.log(`один файл: ${args.html} (бренд ${brand.name})`)
 }

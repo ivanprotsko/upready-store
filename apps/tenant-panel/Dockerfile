@@ -22,8 +22,9 @@ COPY apps/tenant-panel/package.json apps/tenant-panel/package.json
 RUN pnpm install --frozen-lockfile
 
 COPY apps/tenant-panel apps/tenant-panel
-# The panel guide (t-2026-10-09-103). Its pages, its frames and publish.mjs,
-# which turns them into the help served at /help/.
+# The panel guide (t-2026-10-09-103). Its pages, its frames, the brands table
+# with the logos and publish.mjs, which turns them into the help served at
+# /help/ and, on port 8081, at the root of the docs hosts (t-2026-10-09-104).
 COPY docs/owner-guide docs/owner-guide
 
 FROM workspace AS build
@@ -43,4 +44,5 @@ RUN node /repo/docs/owner-guide/publish.mjs --site dist/help
 FROM nginx:1.27-alpine AS runtime
 COPY --from=build /repo/apps/tenant-panel/dist /usr/share/nginx/html
 COPY apps/tenant-panel/nginx.conf /etc/nginx/templates/default.conf.template
-EXPOSE 8080
+# 8080 the panel, 8081 the docs hosts (nginx.conf).
+EXPOSE 8080 8081

@@ -420,6 +420,9 @@ services:
     environment:
       # nginx.conf proxies /auth and /tenants here, so the browser sees one
       # origin and the session cookie stays first-party (no CORS on /tenants/*).
+      # Port 8081 of the same nginx is the help for the docs hosts; traefik
+      # reaches it through the routers the ingress service writes
+      # (DOCS_DOMAINS), not through labels here.
       BACKEND_ORIGIN: http://mt-backend:9000
     networks:
       - coolify
@@ -593,6 +596,12 @@ services:
       TENANT_BASE_DOMAINS: ${TENANT_BASE_DOMAINS}
       STOREFRONT_SERVICE: http://mt-storefront:8000
       SYNC_INTERVAL: ${INGRESS_SYNC_INTERVAL:-15}
+      # The docs hosts (t-2026-10-09-104) show the platform documentation, which
+      # the panel image serves on port 8081. The script writes one router and one
+      # certificate per host into mt-docs.yml, and none when this is empty. Its
+      # header says why these are not labels.
+      DOCS_DOMAINS: ${DOCS_DOMAINS:-}
+      DOCS_SERVICE: http://mt-panel:8081
     entrypoint: ["/bin/sh", "/usr/local/bin/tenant-ingress-sync.sh"]
     volumes:
       - ./scripts/tenant-ingress-sync.sh:/usr/local/bin/tenant-ingress-sync.sh:ro

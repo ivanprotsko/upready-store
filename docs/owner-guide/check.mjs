@@ -2,7 +2,7 @@
 // Finds the owner guide frames that no longer match the panel.
 //
 //   node docs/owner-guide/check.mjs                 # stale frames and broken references, exit 1 if any
-//   node docs/owner-guide/check.mjs --structure     # only what needs no stand: scenes, sources, references, frame files
+//   node docs/owner-guide/check.mjs --structure     # only what needs no stand: scenes, sources, references, frame files, brands.json
 //   node docs/owner-guide/check.mjs --warn          # print the same, exit 0 (pr-checks.yml)
 //
 // A frame is stale when, since it was shot,
@@ -15,7 +15,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { execFileSync } from "node:child_process"
 import { join } from "node:path"
 import { SCENES } from "./scenes.mjs"
-import { LOCK, REPO, RU, SHOTS_DIR, flatten, hashSources, hashStrings, imageRefs, parseArgs, pickStrings, readCatalog, sceneI18n, sceneSources, sha256File } from "./lib.mjs"
+import { LOCK, REPO, RU, SHOTS_DIR, brandProblems, flatten, hashSources, hashStrings, imageRefs, parseArgs, pickStrings, readCatalog, sceneI18n, sceneSources, sha256File } from "./lib.mjs"
 
 const args = parseArgs(process.argv.slice(2), { structure: "flag", warn: "flag" })
 const problems = []
@@ -48,7 +48,10 @@ for (const f of existsSync(SHOTS_DIR) ? readdirSync(SHOTS_DIR) : []) {
   if (!used.has(f.replace(/\.webp$/, ""))) say(`guide/shots/${f}: кадр не показан ни на одной странице`)
 }
 
-// 4. Freshness against the lock.
+// 4. The brands table. publish.mjs builds every brand's logo into the help, so a broken row would break the panel image.
+for (const p of brandProblems()) say(p)
+
+// 5. Freshness against the lock.
 if (!args.structure) {
   if (!lock) say("нет shots.lock.json: кадры ни разу не снимали (shoot.mjs)")
   else {
