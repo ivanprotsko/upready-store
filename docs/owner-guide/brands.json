@@ -1,0 +1,8 @@
+{
+  "default": { "name": "Upready Store", "logo": "brands/upready.svg" },
+  "hosts": {
+    "docs.upready.dev": { "name": "Upready Store", "logo": "brands/upready.svg" },
+    "docs.cherkashino.ru": { "name": "Черкашино", "logo": "brands/cherkashino.svg" },
+    "panel.cherkashino.ru": { "name": "Черкашино", "logo": "brands/cherkashino.svg" }
+  }
+}

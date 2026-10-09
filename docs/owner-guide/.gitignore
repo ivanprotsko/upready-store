@@ -1,0 +1,3 @@
+# VitePress build cache (publish.mjs, t-2026-10-09-104).
+.vitepress/cache/
+.vitepress/dist/
