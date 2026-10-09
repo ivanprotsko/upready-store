@@ -7,10 +7,12 @@
 #      host, no SSH between the RU and INTL hosts — there is none and there
 #      will not be one, docs/instances/RULES.md §4).
 #   2. docker compose build on the host (images are built there, never
-#      pushed from here).
+#      pushed from here); then, where the profile switches it on (RU), the
+#      build cache is cut down to host.buildCache.maxUsedGb.
 #   3. instance-check.mjs against THIS instance's own profile; a violation
 #      stops before anything below touches the running stack.
-#   4. pg_dump the database, before this release's migrations run.
+#   4. pg_dump the database, before this release's migrations run — after a
+#      check that the host has room for it (host.backupRoom in the profile).
 #   5. docker compose up -d --build; migrations run in docker-entrypoint.sh,
 #      exactly as every other boot of this backend already does.
 #   6. /health and the storefront, checked by host, from this machine.
@@ -144,6 +146,52 @@ wait_build() { # <remote log> <deadline s>
 }
 postgres_running() { rssh "docker inspect mt-postgres >/dev/null 2>&1"; }
 
+# --- host disk (t-2026-10-09-58) ------------------------------------------
+# On 09.10.2026 the RU release stopped at step 4: the build cache (39.3 GB) had filled the disk and
+# pg_dump wrote «no space left on device». The decisions live in deploy/scripts/host-disk.mjs and read
+# the profile's `host` section; deploy/scripts/__tests__/host-disk.test.mjs runs this block with a
+# stand-in ssh.
+BACKUP_DIR="/opt/upready-store/backups/mt"
+host_disk() { node "$REPO_ROOT/deploy/scripts/host-disk.mjs" "$@" --instance "$INSTANCE"; }
+
+# After step 2: cut the build cache down to the profile's limit where the profile switches it on (RU).
+# A failed prune is a warning, never a failed release.
+prune_build_cache() {
+  local cmd out
+  cmd="$(host_disk prune-command)" || { log "WARNING: build cache: could not read deploy/instances/$INSTANCE.json ($cmd) — not pruned"; return 0; }
+  if [ -z "$cmd" ]; then
+    log "build cache: not pruned on this host (host.buildCache.prune is off in deploy/instances/$INSTANCE.json)"
+    return 0
+  fi
+  log "build cache: $cmd"
+  if out="$(rssh "$cmd 2>&1")"; then
+    log "build cache pruned: $(printf '%s\n' "$out" | tail -1); disk / now $(rssh "df -h --output=used,avail,pcent / | tail -1" 2>/dev/null || echo '?')"
+  else
+    log "WARNING: build cache prune failed, the release goes on: $(printf '%s\n' "$out" | tail -2 | tr '\n' ' ')"
+  fi
+  return 0
+}
+
+# Before step 4: is there room for the dump? `<db name>`. Unreadable free space is a warning; too little
+# space stops the release before pg_dump and the migrations, with what takes the disk.
+backup_room_ok() {
+  local db="$1" free size line
+  free="$(rssh "df -B1 --output=avail \"\$(test -d '$BACKUP_DIR' && echo '$BACKUP_DIR' || echo /opt/upready-store)\" | tail -1 | tr -d ' '" 2>/dev/null)" || free=""
+  case "$free" in ''|*[!0-9]*) log "WARNING: disk: could not read the free space on the host — the room for the dump is not checked"; return 0 ;; esac
+  size="$(rssh "docker exec mt-postgres psql -U medusa -d '$db' -tAc 'select pg_database_size(current_database())'" 2>/dev/null | tr -d '[:space:]')" || size=""
+  case "$size" in ''|*[!0-9]*) log "WARNING: disk: could not read the size of $db — the floor alone decides"; size=0 ;; esac
+  if line="$(host_disk backup-room --free "$free" --db "$size")"; then
+    log "$line"
+    return 0
+  fi
+  log "$line"
+  log "what takes the space (docker system df):"
+  rssh "docker system df" || true
+  log "the backup copies in $BACKUP_DIR: $(rssh "du -sh '$BACKUP_DIR' 2>/dev/null | cut -f1" 2>/dev/null || echo '?')"
+  return 1
+}
+# --- end host disk ---------------------------------------------------------
+
 # ------------------------------------------------------------------- step 1
 step_archive_and_rsync() {
   local workdir; workdir="$(mktemp -d)"
@@ -186,6 +234,7 @@ step_build_images() {
     rssh "cd '$REMOTE_DIR' && setsid nohup $COMPOSE build $svc > '$f' 2>&1 < /dev/null &"
     wait_build "$f" 1800 || fail "$svc build"
   done
+  prune_build_cache
 }
 
 # ------------------------------------------------------------------- step 3
@@ -230,8 +279,9 @@ step_pre_migration_backup() {
     return 0
   fi
   local db; db="$(rssh "grep '^DB_NAME=' '$REMOTE_ENV' | cut -d= -f2-")"; db="${db:-medusa_mt}"
+  backup_room_ok "$db" || fail "not enough free disk for the pre-migration dump — free space on the host, then deploy again (pg_dump and the migrations did not run)"
   log "pg_dump $db before this release's migrations run (deploy/backup/pg-backup.sh, docker-exec mode)"
-  rssh "cd '$REMOTE_DIR' && BACKUP_TARGET_DIR=/opt/upready-store/backups/mt \
+  rssh "cd '$REMOTE_DIR' && BACKUP_TARGET_DIR=$BACKUP_DIR \
     PG_DUMP_DOCKER_CONTAINER=mt-postgres PG_DUMP_DB_USER=medusa PG_DUMP_DB_NAME=$db \
     BACKUP_LABEL=pre-deploy-$TS deploy/backup/pg-backup.sh" \
     || fail "pre-migration backup failed — not proceeding to step 5 without one"
