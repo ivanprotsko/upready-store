@@ -11,7 +11,7 @@
 |---|---|
 | `docs.upready.dev` — документация платформы | знак и название Upready Store |
 | адрес документации заказчика, например `docs.cherkashino.ru` | знак и название магазина заказчика |
-| `/help/` в панели: пункт «Справка» внизу меню открывает её в новой вкладке на адресе панели | бренд по адресу панели: на `panel.cherkashino.ru` «Черкашино», на остальных Upready Store |
+| `/help/` в панели: пункт «Справка» внизу меню открывает её в новой вкладке на адресе панели | бренд по адресу панели: на `panel.cherkashino.ru` и `panel.cherkashino.com` «Черкашино», на остальных Upready Store |
 
 Тексты и снимки у всех одни и те же: ни на странице, ни на снимке нет названия, адреса или людей
 конкретного магазина. Меняются только знак и название в шапке.
@@ -75,7 +75,9 @@ owner@example.ru, «Менеджер Анна» manager1@example.ru, «Мене�
   "hosts": {
     "docs.upready.dev": { "name": "Upready Store", "logo": "brands/upready.svg" },
     "docs.cherkashino.ru": { "name": "Черкашино", "logo": "brands/cherkashino.svg" },
-    "panel.cherkashino.ru": { "name": "Черкашино", "logo": "brands/cherkashino.svg" }
+    "panel.cherkashino.ru": { "name": "Черкашино", "logo": "brands/cherkashino.svg" },
+    "docs.cherkashino.com": { "name": "Черкашино", "logo": "brands/cherkashino.svg" },
+    "panel.cherkashino.com": { "name": "Черкашино", "logo": "brands/cherkashino.svg" }
   }
 }
 ```
