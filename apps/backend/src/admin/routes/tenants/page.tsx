@@ -135,8 +135,8 @@ function CreateTenantForm({ onClose }: { onClose: () => void }) {
       setFormError("Укажите email первого администратора.")
       return
     }
-    if (password.length < 12) {
-      setFormError("Пароль должен быть не короче 12 символов.")
+    if (password.length < 8) {
+      setFormError("Пароль должен быть не короче 8 символов.")
       return
     }
 
@@ -209,7 +209,7 @@ function CreateTenantForm({ onClose }: { onClose: () => void }) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="не короче 12 символов"
+              placeholder="не короче 8 символов"
             />
           </div>
 

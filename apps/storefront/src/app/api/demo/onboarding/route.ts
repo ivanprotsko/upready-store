@@ -113,11 +113,11 @@ export async function POST(request: NextRequest) {
   if (!email.includes("@")) {
     return NextResponse.json({ message: "Почта не похожа на адрес." }, { status: 400 })
   }
-  // The backend refuses an owner's password under 12 characters
-  // (`apps/backend/src/api/auth/password-length-gate.ts`, 46df A-22); checked
+  // The backend refuses an owner's password under 8 characters
+  // (`apps/backend/src/api/auth/password-length-gate.ts`, t-2026-10-11-23); checked
   // here first so the owner reads the reason in Russian.
-  if (password.length < 12) {
-    return NextResponse.json({ message: "Пароль короче двенадцати знаков." }, { status: 400 })
+  if (password.length < 8) {
+    return NextResponse.json({ message: "Пароль короче восьми знаков." }, { status: 400 })
   }
   if (!(THEME_IDS as readonly string[]).includes(preset)) {
     return NextResponse.json({ message: "Неизвестное оформление." }, { status: 400 })

@@ -3,8 +3,8 @@ import { OWNER_PASSWORD_TOO_SHORT_MESSAGE, requireOwnerPasswordLength } from "..
 
 /**
  * 46df A-22: `POST /auth/tenant/emailpass/update` (the owner's reset link) and
- * `POST /auth/user/emailpass/update` refuse a new password under 12
- * characters on the server, before Medusa's own handler stores it.
+ * `POST /auth/user/emailpass/update` refuse a new password under 8
+ * characters (t-2026-10-11-23; 12 before) on the server, before Medusa's own handler stores it.
  */
 const run = (body: Record<string, unknown> | undefined) => {
   const json = jest.fn();
@@ -21,17 +21,17 @@ const run = (body: Record<string, unknown> | undefined) => {
 };
 
 describe("requireOwnerPasswordLength", () => {
-  it("an 11-character password is refused with 400 and a clear message; the core handler never runs", () => {
-    const { status, json, next } = run({ password: "12345678901" });
+  it("a 7-character password is refused with 400 and a clear message; the core handler never runs", () => {
+    const { status, json, next } = run({ password: "1234567" });
 
     expect(status).toHaveBeenCalledWith(400);
     expect(json).toHaveBeenCalledWith({ type: "invalid_data", message: OWNER_PASSWORD_TOO_SHORT_MESSAGE });
-    expect(OWNER_PASSWORD_TOO_SHORT_MESSAGE).toBe("Password must be at least 12 characters long.");
+    expect(OWNER_PASSWORD_TOO_SHORT_MESSAGE).toBe("Password must be at least 8 characters long.");
     expect(next).not.toHaveBeenCalled();
   });
 
-  it("a 12-character password is passed on to the core handler", () => {
-    const { status, next } = run({ password: "123456789012" });
+  it("an 8-character password is passed on to the core handler", () => {
+    const { status, next } = run({ password: "12345678" });
 
     expect(next).toHaveBeenCalledTimes(1);
     expect(status).not.toHaveBeenCalled();

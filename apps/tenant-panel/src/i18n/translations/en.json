@@ -2878,7 +2878,7 @@
       "newPasswordLabel": "New password",
       "passwordsDontMatch": "The new passwords don't match.",
       "title": "Change password",
-      "tooShort": "The new password must be at least 12 characters.",
+      "tooShort": "The new password must be at least 8 characters.",
       "updateFailed": "Could not change the password. Please try again."
     },
     "domain": "Profile",
@@ -3293,7 +3293,7 @@
     "newPassword": "New password",
     "newPasswordHint": "Choose a new password below.",
     "passwordMismatch": "Passwords do no match",
-    "passwordTooShort": "The new password must be at least 12 characters.",
+    "passwordTooShort": "The new password must be at least 8 characters.",
     "repeatNewPassword": "Repeat new password",
     "resetPassword": "Reset password",
     "sendResetInstructions": "Send reset instructions",
@@ -5942,7 +5942,7 @@
       "lastName": "Last name",
       "role": "Role",
       "password": "Password",
-      "passwordHint": "At least 12 characters.",
+      "passwordHint": "At least 8 characters.",
       "newPassword": "New password",
       "newPasswordHint": "Leave empty to keep the password."
     },
@@ -5963,7 +5963,7 @@
     },
     "errors": {
       "emailRequired": "Enter an email.",
-      "passwordTooShort": "The password must be at least 12 characters.",
+      "passwordTooShort": "The password must be at least 8 characters.",
       "nothingChanged": "Change at least one field.",
       "general": "Could not save. Try again."
     },

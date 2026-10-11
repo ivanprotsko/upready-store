@@ -121,11 +121,11 @@ test("the form opens on the role that sees least", () => {
   assert.equal(emptyStaffDraft().role, "operator")
 })
 
-test("a new login needs an email and a password of twelve characters", () => {
-  assert.equal(STAFF_PASSWORD_MIN, 12)
+test("a new login needs an email and a password of eight characters", () => {
+  assert.equal(STAFF_PASSWORD_MIN, 8)
   assert.deepEqual(createStaffBody({ ...emptyStaffDraft(), password: PASSWORD }), { error: "emailRequired" })
   assert.deepEqual(
-    createStaffBody({ ...emptyStaffDraft(), email: "packer@shop.test", password: "elevenchars" }),
+    createStaffBody({ ...emptyStaffDraft(), email: "packer@shop.test", password: "sevench" }),
     { error: "passwordTooShort" }
   )
 })

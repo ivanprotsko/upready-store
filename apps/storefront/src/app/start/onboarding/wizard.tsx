@@ -324,7 +324,7 @@ export default function Wizard({ paidLine, tariff }: { paidLine: string | null; 
                 {passwordShown ? <Eye size="18" /> : <EyeOff size="18" />}
               </button>
             </div>
-            <span className={styles.hint}>Не короче двенадцати знаков.</span>
+            <span className={styles.hint}>Не короче восьми знаков.</span>
           </div>
 
           <div className={styles.actions}>
@@ -338,7 +338,7 @@ export default function Wizard({ paidLine, tariff }: { paidLine: string | null; 
             <button
               type="button"
               className={`${styles.btn} ${styles.btnPrimary} ${styles.grow}`}
-              disabled={!email.includes("@") || password.length < 12}
+              disabled={!email.includes("@") || password.length < 8}
               onClick={() => setStep(3)}
               data-testid="demo-step2-next"
             >
