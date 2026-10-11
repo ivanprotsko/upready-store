@@ -18,7 +18,7 @@ import { useResetPasswordForEmailPass } from "../../hooks/api/auth"
 
 const ResetPasswordSchema = z
   .object({
-    new_password: z.string().min(12),
+    new_password: z.string().min(8),
     confirm_password: z.string().min(1),
   })
   .refine((data) => data.new_password === data.confirm_password, {

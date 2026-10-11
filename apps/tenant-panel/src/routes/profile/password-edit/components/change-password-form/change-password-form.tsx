@@ -32,7 +32,7 @@ const changePasswordSchema = (t: TFunction) =>
       current_password: zod
         .string()
         .min(1, t("profile.changePassword.currentPasswordRequired")),
-      new_password: zod.string().min(12, t("profile.changePassword.tooShort")),
+      new_password: zod.string().min(8, t("profile.changePassword.tooShort")),
       confirm_password: zod.string(),
     })
     .refine((data) => data.new_password === data.confirm_password, {

@@ -368,7 +368,7 @@ export default defineMiddlewares({
     // 46df A-22: the reset-password link sets a new password through Medusa's
     // own `/update` handler, which checks no length, and so does `/register`,
     // where the owner's first password is set. The owner (actor `tenant`) and
-    // platform staff (actor `user`) get the same 12-character floor as
+    // platform staff (actor `user`) get the same 8-character floor as
     // `POST /tenants/me/password`; buyers' `/auth/customer/*` is not touched.
     {
       matcher: "/auth/tenant/emailpass/register",

@@ -30,7 +30,7 @@ export type AdminGetTenantsParamsType = z.infer<typeof AdminGetTenantsParams>;
  * `PostTenantCreateSchema` in `src/api/tenants/validators.ts`: lowercase
  * letters, digits and single hyphens, 3 to 63 characters, because it is the
  * same technical subdomain either route mints. The password floor is the
- * shared 12-character one (`OWNER_PASSWORD_MIN_LENGTH`).
+ * shared one (`OWNER_PASSWORD_MIN_LENGTH`, 8 characters).
  */
 export const PostAdminTenantCreateSchema = z.strictObject({
   name: z.string().min(1).max(200),

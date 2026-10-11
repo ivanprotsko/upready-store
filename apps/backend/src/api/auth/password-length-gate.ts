@@ -1,13 +1,14 @@
 import type { MedusaNextFunction, MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 
 /**
- * 46df A-22 (ASVS L2 §2.1.1): the floor for every password a shop owner or a
- * platform staff member SETS. The same number is written into
+ * The floor for every password a shop owner or a platform staff member SETS.
+ * 46df A-22 (ASVS L2 §2.1.1) set it at 12; Ivan lowered it to 8 on 11.10.2026
+ * (t-2026-10-11-23: «Пароль нужно сделать 8 символов а не 12»). The same number is written into
  * `PostTenantUpdatePasswordSchema` (`../tenants/validators.ts`) and the
  * staff-issued passwords in `../admin/tenants/validators.ts`. Buyers' own
  * passwords (`/auth/customer/*`) are not governed by it.
  */
-export const OWNER_PASSWORD_MIN_LENGTH = 12;
+export const OWNER_PASSWORD_MIN_LENGTH = 8;
 
 export const OWNER_PASSWORD_TOO_SHORT_MESSAGE = `Password must be at least ${OWNER_PASSWORD_MIN_LENGTH} characters long.`;
 

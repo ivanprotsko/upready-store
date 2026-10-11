@@ -54,7 +54,7 @@ export type UpdateStaffBody = {
 export type StaffFormError = "emailRequired" | "passwordTooShort" | "nothingChanged"
 
 /** The same length the platform's forms and the profile ask for. */
-export const STAFF_PASSWORD_MIN = 12
+export const STAFF_PASSWORD_MIN = 8
 
 export const staffName = (member: Pick<StaffMember, "first_name" | "last_name">) =>
   [member.first_name, member.last_name].filter(Boolean).join(" ")

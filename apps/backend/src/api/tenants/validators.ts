@@ -4,6 +4,7 @@ import { UpdateProduct } from "@medusajs/medusa/api/admin/products/validators";
 import { WithAdditionalData } from "@medusajs/medusa/api/utils/validators";
 import { SiteScopeSchema } from "./products/site-scope";
 import { tenantAdminPassword, tenantAdminRole } from "../admin/tenants/validators";
+import { OWNER_PASSWORD_MIN_LENGTH } from "../auth/password-length-gate";
 import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
 import { ROBOKASSA_SNO_VALUES, ROBOKASSA_TAX_VALUES } from "../../tenant-secrets/robokassa";
 import { normalizeBtcpayServerUrl } from "../../tenant-secrets/btcpay";
@@ -110,16 +111,16 @@ export const PostTenantUpdateMeSchema = z.strictObject({
 export type PostTenantUpdateMeBody = z.infer<typeof PostTenantUpdateMeSchema>;
 
 /**
- * `POST /tenants/me/password` body. `new_password` shorter than 12 characters
- * (46df A-22, ASVS L2 §2.1.1) is `INVALID_DATA` (zod raises before the route
- * runs) — an existing password already shorter than 12 is untouched, this
+ * `POST /tenants/me/password` body. `new_password` shorter than
+ * `OWNER_PASSWORD_MIN_LENGTH` (8, t-2026-10-11-23) is `INVALID_DATA` (zod raises before the route
+ * runs) — an existing password already shorter than that is untouched, this
  * only gates a NEW one; a wrong `current_password` is the route's own
  * `401 UNAUTHORIZED`, never a zod issue, because zod cannot see the stored
  * hash.
  */
 export const PostTenantUpdatePasswordSchema = z.strictObject({
   current_password: z.string().min(1),
-  new_password: z.string().min(12, "New password must be at least 12 characters long."),
+  new_password: z.string().min(OWNER_PASSWORD_MIN_LENGTH, `New password must be at least ${OWNER_PASSWORD_MIN_LENGTH} characters long.`),
 });
 
 export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswordSchema>;

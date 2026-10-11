@@ -20,7 +20,7 @@ describe("requireOwnerPasswordLength wiring", () => {
     "/auth/tenant/emailpass/register",
     "/auth/tenant/emailpass/update",
     "/auth/user/emailpass/update",
-  ])("POST %s runs the 12-character gate", (matcher) => {
+  ])("POST %s runs the 8-character gate", (matcher) => {
     expect(middlewaresFor(matcher)).toContain(requireOwnerPasswordLength);
   });
 

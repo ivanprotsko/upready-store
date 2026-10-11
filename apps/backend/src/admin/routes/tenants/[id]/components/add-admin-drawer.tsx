@@ -35,8 +35,8 @@ export function AddAdminDrawer({
       setError("Укажите email.")
       return
     }
-    if (password.length < 12) {
-      setError("Пароль должен быть не короче 12 символов.")
+    if (password.length < 8) {
+      setError("Пароль должен быть не короче 8 символов.")
       return
     }
     setIsPending(true)
@@ -81,7 +81,7 @@ export function AddAdminDrawer({
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="не короче 12 символов"
+                placeholder="не короче 8 символов"
               />
             </div>
             <div className="flex flex-col gap-y-2">
