@@ -240,7 +240,7 @@ function rows(kind) {
       const first = shots.find((s) => s.kind === kind && s.name === name)
       const label =
         kind === "template"
-          ? `<b>${esc(first.title ?? name)}</b><br><code>?template=${esc(name)}</code><br>${esc(JSON.stringify(first.facts ?? {}))}`
+          ? `<b>${esc(first.title ?? name)}</b><br><code>${opts.saved ? `/ (saved, no query)` : `?template=${esc(name)}`}</code><br>${esc(JSON.stringify(first.facts ?? {}))}`
           : `<b>${esc(first.block)}</b><br>${esc(first.state)}`
       return `<tr><th>${label}</th>${cells}</tr>`
     })
