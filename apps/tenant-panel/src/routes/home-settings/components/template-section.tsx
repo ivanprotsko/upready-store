@@ -19,11 +19,13 @@ import {
   previewHref,
   swatchFor,
   templateChoice,
+  textFor,
   type LayerName,
   type PaletteEntry,
   type TemplateCard,
   type TemplateChoice,
   type TemplateLayers,
+  type TemplateText,
 } from "../templates"
 
 // tenant-panel: the «Шаблоны» section of `/home-settings` (t-2026-10-12-33 P2). The owner
@@ -240,6 +242,8 @@ export const TemplateSection = ({
     value
       ? t(`homeSettings.templates.${LAYER_LABELS[layer].key}.${value}`, { defaultValue: LAYER_LABELS[layer].values[value] })
       : t(`homeSettings.templates.${LAYER_LABELS[layer].key}.label`, { defaultValue: LAYER_LABELS[layer].label })
+  /** A template's or a palette's words from the catalogue, in the panel's language. */
+  const text = (value: TemplateText) => textFor(value, i18n.language)
 
   if (isPending) {
     return (
@@ -273,7 +277,7 @@ export const TemplateSection = ({
 
   const apply = async (template: TemplateCard, picked: TemplateChoice) => {
     const confirmed = await prompt({
-      title: t("homeSettings.templates.confirmTitle", { defaultValue: "Apply «{{title}}»?", title: template.title }),
+      title: t("homeSettings.templates.confirmTitle", { defaultValue: "Apply «{{title}}»?", title: text(template.title) }),
       description: [
         t("homeSettings.templates.confirmDescription", {
           defaultValue:
@@ -337,7 +341,7 @@ export const TemplateSection = ({
               <SchematicPreview template={template} palette={palette} layers={layers} />
               <div className="flex items-start justify-between gap-x-2">
                 <Text size="small" weight="plus">
-                  {template.title}
+                  {text(template.title)}
                 </Text>
                 {live ? (
                   <Badge size="2xsmall" color="green" data-testid="template-current">
@@ -345,8 +349,8 @@ export const TemplateSection = ({
                   </Badge>
                 ) : null}
               </div>
-              <Text size="small" className="line-clamp-1 text-ui-fg-subtle">
-                {template.description}
+              <Text size="small" className="line-clamp-2 text-ui-fg-subtle">
+                {text(template.description)}
               </Text>
               <div className="flex items-center justify-between gap-x-2">
                 <Text size="xsmall" className="text-ui-fg-muted">
@@ -366,7 +370,7 @@ export const TemplateSection = ({
       {open && choice ? (
         <Container className="flex flex-col gap-y-6 p-4" data-testid="template-settings">
           <div className="flex items-center justify-between gap-x-4">
-            <Heading level="h3">{open.title}</Heading>
+            <Heading level="h3">{text(open.title)}</Heading>
             {previewHref(PREVIEW_ORIGIN, locale, open.id) ? (
               <a
                 href={previewHref(PREVIEW_ORIGIN, locale, open.id)!}
@@ -404,7 +408,7 @@ export const TemplateSection = ({
                         )}
                       >
                         <Swatches palette={palette} mode={open.defaultMode} />
-                        <span>{palette.label}</span>
+                        <span>{text(palette.label)}</span>
                       </button>
                     )
                   })}

@@ -29,6 +29,7 @@ import {
 import { FONT_NAMES, type FontName } from "@lib/theme/fonts"
 import { activeFonts } from "@lib/theme/fonts.generated"
 import { LIGHT_ONLY_THEME_IDS, THEME_IDS } from "@lib/theme/presets.generated"
+import { LOCALE_CODES, pickText, type LocalizedText } from "@modules/blocks/shared/localized-text"
 import type { BlockEntry } from "@modules/blocks/types"
 
 import { templateFontPair } from "./fonts"
@@ -101,12 +102,19 @@ export type TemplateTheme = {
 
 export type TemplateSection = { block: string; props?: Record<string, unknown> }
 
+/**
+ * Words the panel shows the owner (P2b): `{ "ru": "…", "en": "…" }` keyed by the codes of
+ * `i18n/config.ts`, the blocks' `LocalizedText`. A plain string is the same words in every
+ * language, so a template written before P2b stays valid.
+ */
+export type TemplateText = string | LocalizedText
+
 export type TemplateManifest = {
   schema: typeof TEMPLATE_SCHEMA
   id: string
-  /** English working name; the picker of the next wave gives it a next-intl key. */
-  title: string
-  description: string
+  /** The template's name, and one sentence on what it is for and how it looks; no internal names. */
+  title: TemplateText
+  description: TemplateText
   settings: StorefrontSettingsInput
   theme: TemplateTheme
   sections: TemplateSection[]
@@ -144,6 +152,25 @@ function oneOf<T extends string>(
   return false
 }
 
+/** A `TemplateText`: a non-empty string, or at least one language of `i18n/config.ts`, each a non-empty string. */
+function textErrors(field: string, value: unknown): FieldError[] {
+  if (typeof value === "string" && value.trim()) return []
+  if (!isObject(value) || Object.keys(value).length === 0) {
+    return [{ field, message: `${field} must be a non-empty string or an object of language code to text.` }]
+  }
+  const errors: FieldError[] = []
+  for (const [code, line] of Object.entries(value)) {
+    const at = `${field}.${code}`
+    if (!LOCALE_CODES.has(code)) errors.push({ field: at, message: `${at} is not a language of i18n/config.ts.` })
+    else if (typeof line !== "string" || !line.trim()) errors.push({ field: at, message: `${at} must be a non-empty string.` })
+  }
+  return errors
+}
+
+/** The words in `locale`, else English, else any line given; a string is the same in every language. */
+export const templateText = (text: TemplateText, locale: string): string =>
+  typeof text === "string" ? text : pickText(text, locale) ?? ""
+
 /**
  * Checks a parsed `template.json`. `lookup` answers a block id with its registry entry
  * (`blockById` in production, a stub in a test).
@@ -166,11 +193,7 @@ export function validateTemplate(
   if (typeof input.id !== "string" || !ID_PATTERN.test(input.id)) {
     errors.push({ field: "id", message: "id must be kebab-case: a-z, 0-9 and single hyphens." })
   }
-  for (const field of ["title", "description"] as const) {
-    if (typeof input[field] !== "string" || !(input[field] as string).trim()) {
-      errors.push({ field, message: `${field} must be a non-empty string.` })
-    }
-  }
+  for (const field of ["title", "description"] as const) errors.push(...textErrors(field, input[field]))
 
   // settings: the composition's own validation, field enums first and FORBIDDEN after.
   const settings = validate(input.settings)

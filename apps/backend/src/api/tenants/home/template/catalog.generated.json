@@ -29,7 +29,10 @@
   ],
   "swatches": {
     "default": {
-      "label": "Medusa default",
+      "label": {
+        "ru": "Стандартная",
+        "en": "Medusa default"
+      },
       "light": {
         "background": "rgba(255, 255, 255, 1)",
         "foreground": "rgba(24, 24, 27, 1)",
@@ -46,7 +49,10 @@
       }
     },
     "electronics": {
-      "label": "Ferrite",
+      "label": {
+        "ru": "Графит и синий",
+        "en": "Ferrite"
+      },
       "light": {
         "background": "#ffffff",
         "foreground": "#0d1013",
@@ -63,7 +69,10 @@
       }
     },
     "geist": {
-      "label": "Geist",
+      "label": {
+        "ru": "Чёрно-белая",
+        "en": "Geist"
+      },
       "light": {
         "background": "#ffffff",
         "foreground": "#171717",
@@ -80,7 +89,10 @@
       }
     },
     "home-goods": {
-      "label": "Long Morning",
+      "label": {
+        "ru": "Терракота",
+        "en": "Long Morning"
+      },
       "light": {
         "background": "#fdfbf7",
         "foreground": "#241c16",
@@ -97,7 +109,10 @@
       }
     },
     "medusa": {
-      "label": "Medusa default",
+      "label": {
+        "ru": "Стандартная",
+        "en": "Medusa default"
+      },
       "light": {
         "background": "rgba(255, 255, 255, 1)",
         "foreground": "rgba(24, 24, 27, 1)",
@@ -114,7 +129,10 @@
       }
     },
     "sneakers": {
-      "label": "Kerbstone",
+      "label": {
+        "ru": "Чёрный и лайм",
+        "en": "Kerbstone"
+      },
       "light": {
         "background": "#ffffff",
         "foreground": "#0a0a0a",
@@ -131,7 +149,10 @@
       }
     },
     "supplements": {
-      "label": "Scruple",
+      "label": {
+        "ru": "Белый и зелёный",
+        "en": "Scruple"
+      },
       "light": {
         "background": "#ffffff",
         "foreground": "#1d1d1d",
@@ -148,7 +169,10 @@
       }
     },
     "womens-fashion": {
-      "label": "Larchant",
+      "label": {
+        "ru": "Крем и глина",
+        "en": "Larchant"
+      },
       "light": {
         "background": "#f7f2e9",
         "foreground": "#17140f",
@@ -165,7 +189,10 @@
       }
     },
     "ferma": {
-      "label": "Ferma",
+      "label": {
+        "ru": "Ферма",
+        "en": "Ferma"
+      },
       "light": {
         "background": "#fbfaf7",
         "foreground": "#1c2620",
@@ -175,7 +202,10 @@
       }
     },
     "interier": {
-      "label": "Interior",
+      "label": {
+        "ru": "Интерьер",
+        "en": "Interior"
+      },
       "light": {
         "background": "#fbfaf8",
         "foreground": "#1a1917",
@@ -185,7 +215,10 @@
       }
     },
     "katalog": {
-      "label": "Catalogue",
+      "label": {
+        "ru": "Каталог",
+        "en": "Catalogue"
+      },
       "light": {
         "background": "#ffffff",
         "foreground": "#111214",
@@ -195,7 +228,10 @@
       }
     },
     "lending": {
-      "label": "Landing",
+      "label": {
+        "ru": "Лендинг",
+        "en": "Landing"
+      },
       "light": {
         "background": "#ffffff",
         "foreground": "#0d0f12",
@@ -205,7 +241,10 @@
       }
     },
     "moda": {
-      "label": "Moda",
+      "label": {
+        "ru": "Мода",
+        "en": "Moda"
+      },
       "light": {
         "background": "#faf8f5",
         "foreground": "#14110e",
@@ -215,7 +254,10 @@
       }
     },
     "opt": {
-      "label": "Wholesale",
+      "label": {
+        "ru": "Опт",
+        "en": "Wholesale"
+      },
       "light": {
         "background": "#fcfcfd",
         "foreground": "#14171c",
@@ -225,7 +267,10 @@
       }
     },
     "uhod": {
-      "label": "Care",
+      "label": {
+        "ru": "Уход",
+        "en": "Care"
+      },
       "light": {
         "background": "#fdfbfa",
         "foreground": "#221a1e",
@@ -353,8 +398,14 @@
     "ferrite": {
       "schema": "upready.storefront-template/v1",
       "id": "ferrite",
-      "title": "Ferrite",
-      "description": "Electronics, dark and dense. The electronics profile defaults (header h3, tiles, spec list p3, footer f5), with the showcase hero g in place of the profile-only announcement k, and the list ahead of the tiles. Type: IBM Plex Mono headings over IBM Plex Sans text, both with Cyrillic.",
+      "title": {
+        "ru": "Феррит",
+        "en": "Ferrite"
+      },
+      "description": {
+        "ru": "Электроника: тёмный и плотный, характеристики на виду.",
+        "en": "Electronics: dark and dense, with the specs up front."
+      },
       "settings": {
         "defaultMode": "dark",
         "header": "h3",
@@ -389,8 +440,14 @@
     "long-morning": {
       "schema": "upready.storefront-template/v1",
       "id": "long-morning",
-      "title": "Long Morning",
-      "description": "Home goods, light and unhurried. The home-goods profile defaults (header h2, shelf hero h, tiles, wall listing p4), with footer f1 in place of the f4 placeholder, under the shop's own text bar. Type: Cormorant Garamond headings over Manrope text, both with Cyrillic.",
+      "title": {
+        "ru": "Долгое утро",
+        "en": "Long Morning"
+      },
+      "description": {
+        "ru": "Товары для дома: светлый, спокойный, много воздуха.",
+        "en": "Home goods: light, calm and airy."
+      },
       "settings": {
         "defaultMode": "light",
         "header": "h2",

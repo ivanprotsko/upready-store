@@ -1,8 +1,11 @@
 {
   "schema": "upready.storefront-template/v1",
   "id": "long-morning",
-  "title": "Long Morning",
-  "description": "Home goods, light and unhurried. The home-goods profile defaults (header h2, shelf hero h, tiles, wall listing p4), with footer f1 in place of the f4 placeholder, under the shop's own text bar. Type: Cormorant Garamond headings over Manrope text, both with Cyrillic.",
+  "title": { "ru": "Долгое утро", "en": "Long Morning" },
+  "description": {
+    "ru": "Товары для дома: светлый, спокойный, много воздуха.",
+    "en": "Home goods: light, calm and airy."
+  },
   "settings": {
     "defaultMode": "light",
     "header": "h2",
