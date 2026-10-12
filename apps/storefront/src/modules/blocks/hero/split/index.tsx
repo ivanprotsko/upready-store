@@ -17,7 +17,12 @@ const BUTTON =
 const PRIMARY =
   "border-[var(--layer-button-border,var(--primary))] bg-[var(--layer-button-bg,var(--primary))] text-[var(--layer-button-fg,var(--primary-foreground))] hover:opacity-90"
 
-const SECONDARY = "border-[var(--border)] bg-transparent text-ui-fg-base hover:bg-ui-bg-base-hover"
+/**
+ * The theme's secondary pair, so the two buttons differ under either button layer: with
+ * `outlined` the primary is a bordered outline, and a bordered secondary would be its twin.
+ */
+const SECONDARY =
+  "border-[var(--secondary)] bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:opacity-90"
 
 function Cta({ button, label, role }: { button: HeroSplitButton; label: string; role: "cta-primary" | "cta-secondary" }) {
   const className = clx(BUTTON, role === "cta-primary" ? PRIMARY : SECONDARY)
@@ -89,7 +94,7 @@ export default async function HeroSplit({
           className={clx(
             "flex min-w-0 flex-col items-start gap-[calc(1.5rem*var(--layer-density,1))]",
             tone === "panel" &&
-              "rounded-[var(--radius)] border border-[var(--border)] bg-[var(--card)] p-6 small:p-10"
+              "rounded-[var(--radius)] border border-[var(--border)] bg-[var(--card)] p-6 small:p-12"
           )}
         >
           {label ? (
@@ -145,7 +150,7 @@ export default async function HeroSplit({
               fill
               priority
               sizes="(min-width: 1024px) 55vw, 100vw"
-              className={imageFit === "contain" ? "object-contain p-6 small:p-10" : "object-cover"}
+              className={imageFit === "contain" ? "object-contain p-6 small:p-12" : "object-cover"}
             />
           </div>
         ) : null}

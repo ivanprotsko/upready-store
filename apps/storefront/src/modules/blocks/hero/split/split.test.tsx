@@ -159,12 +159,14 @@ describe("HeroSplit", () => {
     expect(await render({ tone: "panel" })).toContain("border-[var(--border)] bg-[var(--card)]")
   })
 
-  it("dresses the primary button in the template's button layer and links in the shop's locale", async () => {
+  it("dresses the primary button in the template's button layer, the secondary in the theme's secondary pair, and links in the shop's locale", async () => {
     const html = (await render())!
     expect(html).toMatch(
       /<a href="\/ru\/store" data-role="cta-primary" class="[^"]*bg-\[var\(--layer-button-bg,var\(--primary\)\)\][^"]*">Смотреть каталог<\/a>/
     )
-    expect(html).toMatch(/<a href="\/ru\/journal" data-role="cta-secondary"[^>]*>Как мы выбираем<\/a>/)
+    expect(html).toMatch(
+      /<a href="\/ru\/journal" data-role="cta-secondary" class="[^"]*bg-\[var\(--secondary\)\] text-\[var\(--secondary-foreground\)\][^"]*">Как мы выбираем<\/a>/
+    )
     const outside = (await render({ secondary: { href: "https://example.test/about", label: { ru: "О нас" } } }))!
     expect(outside).toMatch(/<a data-role="cta-secondary" href="https:\/\/example.test\/about"/)
     const none = (await render({ primary: null, secondary: null }))!
