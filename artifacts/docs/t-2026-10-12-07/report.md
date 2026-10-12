@@ -109,8 +109,12 @@ The endpoint is `https://auth.robokassa.ru/Merchant/Index.aspx`. `OutSum` equals
 
 ## Hand-In
 
-PR_SECTION
+PR [#341](https://github.com/ivanprotsko/upready-store/pull/341) against `dev`, docs only: this report, [instruction-ru.md](/Users/ivanprotsko/upready/worktrees/upready-store/feat/t-2026-10-12-07-promo-stand/artifacts/docs/t-2026-10-12-07/instruction-ru.md) and the shots in [t-2026-10-12-07/](/Users/ivanprotsko/upready/worktrees/upready-store/feat/t-2026-10-12-07-promo-stand/artifacts/docs/t-2026-10-12-07/). No code change was needed to start the stand. Not merged by me.
+
+Left running for Ivan: the three stand processes above. The DB dump and the stand rows (stand owner login, TEST10, MINUS300, OLD15, test carts) stay in `upready_store_ivan_1003`.
+
+Not done: the full checkout form was not driven in the browser up to the pay button (see Robokassa Amount), and Yandex ID sign-in on the stand was not tried.
 
 ## Time
 
-Estimate 25–65 min (lead, size M). Actual: TIME_SECTION.
+Estimate 25–65 min (lead, size M). Actual: ≈ 50 min (14:36–15:26 WITA), of which 7:25 the storefront build waited in the run queue on memory.
