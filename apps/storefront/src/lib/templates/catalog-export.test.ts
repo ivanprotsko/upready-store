@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest"
 
 import { locales } from "@i18n/config"
 import { FONT_NAMES } from "@lib/theme/fonts"
-import { LIGHT_ONLY_THEME_IDS, THEME_IDS, THEME_LABELS } from "@lib/theme/presets.generated"
+import { LIGHT_ONLY_THEME_IDS, THEME_IDS, THEME_LABEL_TEXTS, THEME_LABELS } from "@lib/theme/presets.generated"
 import { BLOCKS } from "@modules/blocks/registry"
 
 // Which blocks the backend can check props of: `propsEditable` below. A pure module.
@@ -67,7 +67,8 @@ function swatches() {
     PALETTES.map((id) => [
       id,
       {
-        label: THEME_LABELS[id],
+        // `{ ru, en }` from the palette's theme file (P2b): the panel picks the owner's language.
+        label: THEME_LABEL_TEXTS[id],
         light: byPalette[id]?.light,
         ...(lightOnly.has(id) ? {} : { dark: byPalette[id]?.dark }),
       },
@@ -130,11 +131,22 @@ describe("the template catalogue the backend reads", () => {
     expect(readFileSync(TARGET, "utf8"), "run `pnpm templates:export` in apps/storefront").toBe(serialised())
   })
 
+  // P2b: the panel names a palette in the owner's language; the words live in the theme's own file.
+  it("names every palette in Russian and English, the default one «Стандартная»", () => {
+    for (const id of PALETTES) {
+      const label = THEME_LABEL_TEXTS[id] as Record<string, string>
+      expect(label, id).toMatchObject({ ru: expect.stringMatching(/[а-яё]/i), en: expect.any(String) })
+      expect(label.en, `${id}: the English label stays THEME_LABELS`).toBe(THEME_LABELS[id])
+    }
+    expect(THEME_LABEL_TEXTS.default).toEqual({ ru: "Стандартная", en: "Medusa default" })
+    expect(THEME_LABEL_TEXTS.medusa).toEqual(THEME_LABEL_TEXTS.default)
+  })
+
   it("gives every palette its name and five colours, both modes unless the palette is light-only", () => {
     const all = swatches()
     for (const id of PALETTES) {
       const entry = all[id]
-      expect(entry.label, id).toBeTruthy()
+      expect(entry.label, id).toEqual(THEME_LABEL_TEXTS[id])
       const modes = (LIGHT_ONLY_THEME_IDS as readonly string[]).includes(id) ? ["light"] : ["light", "dark"]
       expect(Object.keys(entry).filter((key) => key !== "label"), id).toEqual(modes)
       for (const mode of modes) {

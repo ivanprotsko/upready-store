@@ -5,7 +5,7 @@ import { LIGHT_ONLY_THEME_IDS } from "@lib/theme/presets.generated"
 import { blockById } from "@modules/blocks/registry"
 
 import { TEMPLATE_SOURCES, getTemplate } from "./catalog"
-import { TEMPLATE_SCHEMA, resolveTemplate, validateTemplate } from "./manifest"
+import { TEMPLATE_SCHEMA, resolveTemplate, templateText, validateTemplate } from "./manifest"
 import { TEMPLATE_PREVIEW_HEADER, applyTemplatePreview } from "./preview-header"
 
 // The registry reaches `server-only` loaders through the header and footer variants. Hoisted by vitest.
@@ -71,6 +71,23 @@ describe("the templates of this branch", () => {
 
   it("long-morning places the new text bar first", () => {
     expect(getTemplate("long-morning")!.manifest.sections[0].block).toBe("announcement/text-bar")
+  })
+
+  // P2b: the panel shows these to the owner, in the owner's language and plain words (rule 18e).
+  it.each(Object.keys(TEMPLATE_SOURCES))("%s names itself and says what it is for in Russian and English", (id) => {
+    const { title, description } = TEMPLATE_SOURCES[id] as { title: unknown; description: unknown }
+    for (const text of [title, description]) {
+      expect(text, id).toMatchObject({ ru: expect.any(String), en: expect.any(String) })
+      const { ru, en } = text as { ru: string; en: string }
+      expect(ru.trim() && en.trim(), id).toBeTruthy()
+      expect(ru, `${id}: Russian is Cyrillic`).toMatch(/[а-яё]/i)
+    }
+    // One sentence, no internal names: header, hero, listing and footer variants, profiles, fonts.
+    const { ru, en } = description as { ru: string; en: string }
+    for (const line of [ru, en]) {
+      expect(line, id).not.toMatch(/\b[a-z]\d\b|profile|профил|Garamond|Manrope|Plex/i)
+      expect(line.split(/[.!?](?:\s|$)/).filter((part) => part.trim()).length, `${id}: one sentence`).toBe(1)
+    }
   })
 })
 
@@ -194,6 +211,20 @@ describe("validateTemplate", () => {
     expect(messages(input)).toEqual([
       'settings.defaultMode: theme.palette "ferma" has no dark mode; settings.defaultMode must be "light".',
     ])
+  })
+})
+
+describe("templateText", () => {
+  it("is the page's language, else English, else any line given", () => {
+    const text = { ru: "Долгое утро", en: "Long Morning" }
+    expect(templateText(text, "ru")).toBe("Долгое утро")
+    expect(templateText(text, "en")).toBe("Long Morning")
+    expect(templateText(text, "de")).toBe("Long Morning")
+    expect(templateText({ ru: "Долгое утро" }, "de")).toBe("Долгое утро")
+  })
+
+  it("reads a string as the same words in every language", () => {
+    expect(templateText("Long Morning", "ru")).toBe("Long Morning")
   })
 })
 

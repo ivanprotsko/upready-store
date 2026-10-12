@@ -27,7 +27,9 @@ describe("templateCatalogue", () => {
 
     const longMorning = templates.find((template) => template.id === "long-morning")!;
     expect(longMorning).toMatchObject({
-      title: "Long Morning",
+      // P2b: the words in every language the manifest gives, for the panel to pick the owner's.
+      title: { ru: "Долгое утро", en: "Long Morning" },
+      description: { ru: expect.stringMatching(/[а-яё]/i), en: expect.any(String) },
       defaultMode: "light",
       theme: { palette: "home-goods", radius: "soft", buttonStyle: "filled", photoStyle: "landscape", density: "spacious" },
     });
@@ -52,7 +54,11 @@ describe("templateCatalogue", () => {
       expect(palette.lightOnly).toBe(CATALOG.lightOnlyPalettes.includes(palette.id));
       expect(Boolean(palette.colours.dark)).toBe(!palette.lightOnly);
     }
-    expect(palettes.find((palette) => palette.id === "ferma")).toMatchObject({ lightOnly: true, label: "Ferma" });
+    expect(palettes.find((palette) => palette.id === "ferma")).toMatchObject({
+      lightOnly: true,
+      label: { ru: "Ферма", en: "Ferma" },
+    });
+    expect(palettes.find((palette) => palette.id === "default")?.label).toEqual({ ru: "Стандартная", en: "Medusa default" });
   });
 
   it("answers the layer vocabularies of the catalogue", () => {

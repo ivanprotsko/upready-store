@@ -75,8 +75,76 @@
         "description"
       ],
       "errors": [
-        "title: title must be a non-empty string.",
-        "description: description must be a non-empty string."
+        "title: title must be a non-empty string or an object of language code to text.",
+        "description: description must be a non-empty string or an object of language code to text."
+      ]
+    },
+    {
+      "name": "a title and a description per language",
+      "set": {
+        "title": {
+          "ru": "Проба",
+          "en": "Probe"
+        },
+        "description": {
+          "ru": "Шаблон для тестов валидатора.",
+          "en": "A template for the validator's tests."
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "a title in one language only",
+      "set": {
+        "title": {
+          "ru": "Проба"
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "a title with no language",
+      "set": {
+        "title": {}
+      },
+      "errors": [
+        "title: title must be a non-empty string or an object of language code to text."
+      ]
+    },
+    {
+      "name": "a title that is a list",
+      "set": {
+        "title": [
+          "Probe"
+        ]
+      },
+      "errors": [
+        "title: title must be a non-empty string or an object of language code to text."
+      ]
+    },
+    {
+      "name": "a title in a language the shop has not",
+      "set": {
+        "title": {
+          "ru": "Проба",
+          "xx": "Probe"
+        }
+      },
+      "errors": [
+        "title.xx: title.xx is not a language of i18n/config.ts."
+      ]
+    },
+    {
+      "name": "a description with an empty Russian line and a number for English",
+      "set": {
+        "description": {
+          "ru": " ",
+          "en": 7
+        }
+      },
+      "errors": [
+        "description.ru: description.ru must be a non-empty string.",
+        "description.en: description.en must be a non-empty string."
       ]
     },
     {

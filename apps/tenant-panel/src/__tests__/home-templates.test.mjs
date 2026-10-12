@@ -10,6 +10,7 @@ import {
   previewHref,
   swatchFor,
   templateChoice,
+  textFor,
 } from "../routes/home-settings/templates.ts"
 
 // t-2026-10-12-33 P2: the «Шаблоны» section of /home-settings. The controls make the body
@@ -101,4 +102,21 @@ test("the preview link exists only with a preview origin", () => {
   assert.equal(previewHref(undefined, "ru", "long-morning"), null)
   assert.equal(previewHref("", "ru", "long-morning"), null)
   assert.equal(previewHref("https://preview.example/", "ru", "long-morning"), "https://preview.example/ru?template=long-morning")
+})
+
+// P2b: the catalogue's words come per language; the section shows the owner's.
+test("a catalogue text is read in the panel's language, else English, else any line given", () => {
+  const title = { ru: "Долгое утро", en: "Long Morning" }
+  assert.equal(textFor(title, "ru"), "Долгое утро")
+  assert.equal(textFor(title, "ru-RU"), "Долгое утро")
+  assert.equal(textFor(title, "en"), "Long Morning")
+  assert.equal(textFor(title, "de"), "Long Morning")
+  assert.equal(textFor({ ru: "Стандартная" }, "en"), "Стандартная")
+  assert.equal(textFor({ ru: " ", en: "Medusa default" }, "ru"), "Medusa default")
+})
+
+test("a catalogue text that is a string is the same words in every language", () => {
+  assert.equal(textFor("Long Morning", "ru"), "Long Morning")
+  assert.equal(textFor("Long Morning", undefined), "Long Morning")
+  assert.equal(textFor({ en: "Long Morning" }, undefined), "Long Morning")
 })
