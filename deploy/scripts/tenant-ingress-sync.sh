@@ -46,6 +46,25 @@
 # One router for all hosts would also ask for one certificate for all of them,
 # which a single host with no DNS record yet would fail for every other.
 #
+# An address under a base domain that names no shop — a typo, a shop not
+# created yet, a deleted one — gets a router too, one per base domain
+# (t-2026-10-12-32 FX4, audit 13.10 D4). Without it such a host matched no
+# router of ours and fell through to whatever else claims every host on the
+# proxy: measured 13.10 00:18 WITA as guest, `nosuchshop-t32.shipshift.dev/`
+# AND its `/healthz` (which never asks the backend) answered traefik's bare
+# 502 "Bad Gateway", and so did a foreign `Host` sent to the same IP — a
+# catch-all whose service is down (deploy/mt/traefik-demo-hosts.yml names one:
+# upready studio's `HostRegexp(`^.+$`)` at priority 1, its container exited).
+# The storefront itself answers such a host 404 «магазин не найден»
+# (apps/storefront/src/middleware.ts), but only once traefik sends it there.
+#
+# The router is `HostRegexp` for exactly one label under the base, at
+# priority UNKNOWN_HOST_PRIORITY = 2: above a priority-1 catch-all, below every
+# router with a real rule — traefik's default priority is the rule's length,
+# and the shortest `Host(`x.y`)` is already 11 — so a shop, the panel, the
+# engine and every other service keep their own router. One label only,
+# because that is what the `*.<base>` certificate covers.
+#
 # `--once` writes the files once and exits; `--list` prints the tenant hosts it
 # would publish, one per line, writes nothing and exits 1 when the database
 # cannot be read; `--docs` prints mt-docs.yml as it would be written and writes
@@ -60,6 +79,7 @@ UPSTREAM="${STOREFRONT_SERVICE:-http://mt-storefront:8000}"
 INTERVAL="${SYNC_INTERVAL:-15}"
 DOCS_OUT="$DIR/mt-docs.yml"
 DOCS_UPSTREAM="${DOCS_SERVICE:-http://mt-panel:8081}"
+UNKNOWN_HOST_PRIORITY=2
 
 hosts() {
   # Custom domains are rows; technical subdomains are derived from the handle
@@ -146,6 +166,27 @@ render() {
     fi
     printf '    mt-t-%s-http:\n' "$slug"
     printf '      rule: "Host(`%s`)"\n' "$host"
+    printf '      entryPoints: ["http"]\n'
+    printf '      middlewares: ["mt-to-https"]\n'
+    printf '      service: mt-storefront\n'
+  done
+  # The unknown hosts of each base domain (header, «An address under a base
+  # domain that names no shop»). Single-quoted YAML, so the regex's
+  # backslashes reach traefik as written.
+  q="'"
+  for base in $(echo "${TENANT_BASE_DOMAINS:-}" | tr ',' ' '); do
+    [ -n "$base" ] || continue
+    slug=$(echo "$base" | tr '.' '-' | tr -cd 'a-z0-9-')
+    regex="^[a-z0-9-]+\\.$(echo "$base" | sed 's/\./\\./g')\$"
+    printf '    mt-unknown-%s:\n' "$slug"
+    printf '      rule: %sHostRegexp(`%s`)%s\n' "$q" "$regex" "$q"
+    printf '      priority: %s\n' "$UNKNOWN_HOST_PRIORITY"
+    printf '      entryPoints: ["https"]\n'
+    printf '      service: mt-storefront\n'
+    printf '      tls: {}\n'
+    printf '    mt-unknown-%s-http:\n' "$slug"
+    printf '      rule: %sHostRegexp(`%s`)%s\n' "$q" "$regex" "$q"
+    printf '      priority: %s\n' "$UNKNOWN_HOST_PRIORITY"
     printf '      entryPoints: ["http"]\n'
     printf '      middlewares: ["mt-to-https"]\n'
     printf '      service: mt-storefront\n'

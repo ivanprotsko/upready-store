@@ -89,3 +89,31 @@ export async function resolveShopOfRequest(
     ? { tenant: forwardedTenant, host: forwarded }
     : { tenant: null, host }
 }
+
+/**
+ * True when EVERY address this request named — the `Host` header, and the
+ * forwarded name when it differs — got the backend's definite "no storefront
+ * for this host" (t-2026-10-12-32 FX4). One address in doubt (a backend error,
+ * never looked up) makes it false, so a live shop is never answered "not
+ * found" over a blip, and the Server Action self-fetch, whose `Host` names no
+ * shop by construction, still reaches its shop through the forwarded name.
+ * Call it after `resolveShopOfRequest`, whose lookups `isShopless` reads.
+ */
+export function requestNamesNoShop(
+  headers: Headers,
+  isShopless: (host: string) => boolean
+): boolean {
+  const host = (headers.get("host") ?? "").trim()
+
+  if (!isShopless(host)) {
+    return false
+  }
+
+  const forwarded = forwardedHost(headers)
+
+  return (
+    !forwarded ||
+    normalizeHost(forwarded) === normalizeHost(host) ||
+    isShopless(forwarded)
+  )
+}

@@ -108,7 +108,14 @@ export type ResolvedTenant = {
 
 const TTL_MS = 60_000
 
-type CacheEntry = { value: ResolvedTenant | null; at: number }
+/**
+ * `shopless` is true only for the backend's own 404 "No storefront is
+ * configured for host": the one answer that means no shop lives here. A null
+ * kept after a 5xx or an unreachable backend is never stored as an entry of
+ * its own (it returns the previous one), so a live shop's blip never reads as
+ * "no shop" (`isShoplessHost`).
+ */
+type CacheEntry = { value: ResolvedTenant | null; at: number; shopless: boolean }
 
 const cache = new Map<string, CacheEntry>()
 
@@ -138,6 +145,7 @@ export async function resolveTenantByHost(
   }
 
   let resolved: ResolvedTenant | null = null
+  let shopless = false
 
   try {
     const response = await fetch(
@@ -149,6 +157,7 @@ export async function resolveTenantByHost(
       // A definite answer: no shop on this host. Cached like any other, so an
       // unknown host does not ask the backend on every request.
       resolved = null
+      shopless = true
     } else if (!response.ok) {
       // NOT an answer. Caching a 500 as "no shop here" would black out a live
       // storefront for a minute over one bad backend response, so this keeps
@@ -236,7 +245,20 @@ export async function resolveTenantByHost(
     return cached?.value ?? null
   }
 
-  cache.set(host, { value: resolved, at: Date.now() })
+  cache.set(host, { value: resolved, at: Date.now(), shopless })
 
   return resolved
+}
+
+/**
+ * True when the backend's latest answer for this host, still within the TTL,
+ * was its own 404: no shop is configured here (t-2026-10-12-32 FX4). Read right
+ * after `resolveTenantByHost` for the same host, which is what fills the entry.
+ * False for a host never looked up, a stale entry, a resolved shop, and every
+ * failure the lookup above tolerates — "do not know" is not "no shop".
+ */
+export function isShoplessHost(rawHost: string | null | undefined): boolean {
+  const entry = cache.get(normalizeHost(rawHost))
+
+  return Boolean(entry && entry.shopless && Date.now() - entry.at < TTL_MS)
 }
