@@ -35,6 +35,16 @@ export const THRESHOLDS = Object.freeze({
 // own `--radius` («--r-md ≡ витринный --radius»), so the page's `--radius` takes the place of 8.
 export const LAB_RADII = Object.freeze({ sm: 6, md: 8, lg: 12 })
 
+/**
+ * Storefront parts a block may reuse and must not change, each by the CSS selector of its root. On a block target
+ * the rules also run with every element inside such a root left out; a failure only the part made, whose rule and
+ * signature the baseline already holds for a block at that width, is the part's known debt, not the block's
+ * (`compareWithBaseline()`). The product row's tile carries the card's test ids, so the selector covers it too.
+ */
+export const SHARED_PARTS = Object.freeze([
+  Object.freeze({ name: "ProductCard", selector: '[data-testid="product-wrapper"]', source: "apps/storefront/src/modules/products/components/product-card/index.tsx" }),
+])
+
 // The lab's card grammar, in order; a card may skip a role but never reorder two.
 export const CARD_CANON = Object.freeze(["card-media", "card-body", "card-badge", "card-title", "card-price", "card-price-old", "card-meta"])
 
@@ -422,6 +432,38 @@ export function evaluateTarget(facts, ctx) {
 }
 
 /**
+ * The measurements of `ctx` with every element inside a shared part left out: motion, focus and contrast list each
+ * element with the `part` it sits in (`measure.mjs`), so dropping those entries is measuring without them.
+ */
+export function withoutShared(ctx) {
+  const motion = (m) => {
+    if (!m) return m
+    const offenders = m.offenders.filter((o) => !o.part)
+    return { max: Math.max(0, ...offenders.map((o) => o.ms)), offenders }
+  }
+  return {
+    ...ctx,
+    motion: motion(ctx.motion),
+    reducedMotion: motion(ctx.reducedMotion),
+    focus: ctx.focus?.filter((x) => !x.part),
+    contrast: ctx.contrast?.violations ? { ...ctx.contrast, violations: ctx.contrast.violations.filter((v) => !v.part) } : ctx.contrast,
+  }
+}
+
+/**
+ * A block target's verdicts, run twice: on everything (`facts`, `ctx`), and on `ownFacts`, measured with every
+ * element inside a shared part left out. `shared`: the parts found in the block; `ownFailures`: the gate failures of
+ * the second run as `<rule> | <sig>`. Without a shared part in the block, the first run alone.
+ */
+export function evaluateBlock(facts, ownFacts, ctx) {
+  const results = evaluateTarget(facts, ctx)
+  if (!facts.shared?.length || !ownFacts || ownFacts.missing) return { results }
+  const own = evaluateTarget(ownFacts, withoutShared(ctx))
+  const ownFailures = own.filter((r) => r.kind === "gate").flatMap((r) => r.failures.map((f) => `${r.rule} | ${f.sig}`))
+  return { results, shared: facts.shared, ownFailures: [...new Set(ownFailures)].sort() }
+}
+
+/**
  * The rules that compare a template's pages at one width (lab: QR-TYPE-ROLE, QR-IMG-ASPECT, QR-CARD-GRAMMAR and
  * QR-RADIUS «на всех страницах шаблона»). `pages`: `{ home: facts, category: facts, product: facts }`.
  */
@@ -508,31 +550,60 @@ export function inheritedIndex(baseline) {
   return index
 }
 
+/** A block target `block/<id>[:empty]@<width>` as `{ block: "<id>[:empty]", width }`; anything else null. */
+export function blockTarget(target) {
+  const m = /^block\/(.+)@(\d+)$/.exec(target)
+  return m ? { block: m[1], width: Number(m[2]) } : null
+}
+
+/** The baseline's block failures by width, any block: `<width> | <rule> | <sig>` → the block ids that hold it. */
+export function blockIndex(baseline) {
+  const index = new Map()
+  for (const key of baseline) {
+    const cut = key.indexOf(" | ")
+    const b = blockTarget(key.slice(0, cut))
+    if (!b) continue
+    const k = `${b.width}${key.slice(cut)}`
+    if (!index.has(k)) index.set(k, new Set())
+    index.get(k).add(b.block)
+  }
+  return index
+}
+
 /**
  * Splits a run's gate failures in three. Report rules never count.
  * - `known`: the baseline holds this key.
  * - `inherited`: a template page's failure that the baseline holds for the same page kind and width of some
  *   template (`from`). A new template renders the storefront's shared header, card, gallery and footer, so their
  *   known debt shows on its pages too. It does not fail the run; it stays listed.
- * - `fresh`: the rest, the failures this run made. A block or the playground has no inherited class: a new block
- *   owns its failures.
- * `results`: `[{ target, results: [...] }]`; `baseline`: a Set of keys, always the whole baseline, `--only` too.
+ *   On a block or playground target: a failure the run without its shared parts does not have (`ownFailures`,
+ *   `evaluateBlock()`), whose rule and signature the baseline holds for some block at the same width; `from` names
+ *   those blocks and the part. Matching rule and signature alone would let a block's own 13px text hide behind the
+ *   card's: the signatures are generic.
+ * - `fresh`: the rest, the failures this run made. A block owns every failure its shared parts do not explain.
+ * `results`: `[{ target, results: [...], shared?, ownFailures? }]`; `baseline`: a Set of keys, always the whole
+ * baseline, `--only` too.
  */
 export function compareWithBaseline(results, baseline) {
   const index = inheritedIndex(baseline)
+  const blocks = blockIndex(baseline)
   const fresh = []
   const inherited = []
   const known = []
   for (const t of results) {
     const page = templatePage(t.target)
+    const own = !page && t.shared?.length && t.ownFailures ? new Set(t.ownFailures) : null
+    const width = own && /@(\d+)$/.exec(t.target)?.[1]
     for (const r of t.results) {
       if (r.kind !== "gate") continue
       for (const f of r.failures) {
         const key = failureKey(t.target, r.rule, f.sig)
         const failure = { key, target: t.target, rule: r.rule, sig: f.sig, detail: f.detail }
         const from = page && index.get(`${page.slot} | ${r.rule} | ${f.sig}`)
+        const heldBy = own && !own.has(`${r.rule} | ${f.sig}`) && blocks.get(`${width} | ${r.rule} | ${f.sig}`)
         if (baseline.has(key)) known.push(failure)
         else if (from) inherited.push({ ...failure, from: [...from].sort() })
+        else if (heldBy) inherited.push({ ...failure, from: [...[...heldBy].sort(), ...t.shared], part: t.shared.join(", ") })
         else fresh.push(failure)
       }
     }
