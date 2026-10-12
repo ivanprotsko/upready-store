@@ -203,13 +203,16 @@
     "signIn": "Masuk",
     "total": "Total",
     "shippingZone": "Zona: {zone}",
-    "courseSignInHeading": "Masuk untuk membeli kursus",
-    "courseSignInText": "Kursus dibuka di akun Anda, jadi pembelian memerlukan masuk atau pendaftaran.",
     "fieldRequired": "Isi kolom ini",
     "emailInvalid": "Periksa email: alamatnya salah",
-    "signInHeading": "Masuk untuk membuat pesanan",
-    "signInText": "Pesanan akan muncul di akun Anda: di sana ada rincian pembayaran, status, dan kursus yang dibeli. Masuk atau mendaftar hanya butuh satu menit, keranjang tetap tersimpan.",
-    "shippingNotChosen": "setelah memilih metode"
+    "shippingNotChosen": "setelah memilih metode",
+    "backToCartShort": "Keranjang",
+    "signInStepHeading": "Masuk ke akun Anda",
+    "signInStepGuest": "Silakan masuk agar pesanan tersimpan di akun Anda di toko kami.",
+    "signInDoneNamed": "Anda masuk sebagai {name}, alamat email: {email}",
+    "signInDoneEmail": "Anda masuk dengan alamat email: {email}",
+    "signInDoneHandle": "Anda masuk sebagai {name}",
+    "addressAfterSignIn": "Alamat terbuka setelah Anda masuk"
   },
   "ClaimOrders": {
     "heading": "Memesan tanpa akun?",

@@ -203,13 +203,16 @@
     "signIn": "Prihlásiť sa",
     "total": "Spolu",
     "shippingZone": "Zóna: {zone}",
-    "courseSignInHeading": "Prihláste sa, aby ste si kúpili kurz",
-    "courseSignInText": "Kurz sa otvára vo vašom účte, preto je na nákup potrebné prihlásenie alebo registrácia.",
     "fieldRequired": "Vyplňte toto pole",
     "emailInvalid": "Skontrolujte e-mail: v adrese je chyba",
-    "signInHeading": "Prihláste sa a dokončite objednávku",
-    "signInText": "Objednávka sa objaví vo vašom účte: tam budú platobné údaje, stav a zakúpené kurzy. Prihlásenie alebo registrácia zaberie minútu, košík zostane zachovaný.",
-    "shippingNotChosen": "po výbere spôsobu"
+    "shippingNotChosen": "po výbere spôsobu",
+    "backToCartShort": "Košík",
+    "signInStepHeading": "Prihlásenie do účtu",
+    "signInStepGuest": "Prihláste sa, prosím, aby sa objednávka uložila do vášho účtu v našom obchode.",
+    "signInDoneNamed": "Ste prihlásení ako {name}, e-mailová adresa: {email}",
+    "signInDoneEmail": "Ste prihlásení s e-mailovou adresou: {email}",
+    "signInDoneHandle": "Ste prihlásení ako {name}",
+    "addressAfterSignIn": "Adresa sa sprístupní po prihlásení"
   },
   "ClaimOrders": {
     "heading": "Objednávali ste bez účtu?",

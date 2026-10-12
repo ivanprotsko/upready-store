@@ -203,13 +203,16 @@
     "signIn": "Đăng nhập",
     "total": "Tổng cộng",
     "shippingZone": "Khu vực: {zone}",
-    "courseSignInHeading": "Đăng nhập để mua khóa học",
-    "courseSignInText": "Khóa học mở trong tài khoản của bạn, nên cần đăng nhập hoặc đăng ký để mua.",
     "fieldRequired": "Hãy điền vào trường này",
     "emailInvalid": "Kiểm tra email: địa chỉ có lỗi",
-    "signInHeading": "Đăng nhập để đặt hàng",
-    "signInText": "Đơn hàng sẽ xuất hiện trong tài khoản của bạn: ở đó có thông tin thanh toán, trạng thái và các khóa học đã mua. Đăng nhập hoặc đăng ký chỉ mất một phút, giỏ hàng được giữ lại.",
-    "shippingNotChosen": "sau khi chọn phương thức"
+    "shippingNotChosen": "sau khi chọn phương thức",
+    "backToCartShort": "Giỏ hàng",
+    "signInStepHeading": "Đăng nhập vào tài khoản",
+    "signInStepGuest": "Vui lòng đăng nhập để đơn hàng được lưu trong tài khoản của bạn tại cửa hàng chúng tôi.",
+    "signInDoneNamed": "Bạn đã đăng nhập với tên {name}, địa chỉ email: {email}",
+    "signInDoneEmail": "Bạn đã đăng nhập bằng địa chỉ email: {email}",
+    "signInDoneHandle": "Bạn đã đăng nhập với tên {name}",
+    "addressAfterSignIn": "Địa chỉ sẽ mở sau khi bạn đăng nhập"
   },
   "ClaimOrders": {
     "heading": "Bạn đã đặt hàng mà không có tài khoản?",

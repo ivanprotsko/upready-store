@@ -203,13 +203,16 @@
     "signIn": "Zaloguj się",
     "total": "Razem",
     "shippingZone": "Strefa: {zone}",
-    "courseSignInHeading": "Zaloguj się, aby kupić kurs",
-    "courseSignInText": "Kurs otwiera się na Twoim koncie, dlatego zakup wymaga logowania lub rejestracji.",
     "fieldRequired": "Wypełnij to pole",
     "emailInvalid": "Sprawdź e-mail: w adresie jest błąd",
-    "signInHeading": "Zaloguj się, aby złożyć zamówienie",
-    "signInText": "Zamówienie pojawi się na Twoim koncie: tam znajdziesz dane do płatności, status i kupione kursy. Logowanie lub rejestracja zajmuje minutę, koszyk zostaje zachowany.",
-    "shippingNotChosen": "po wyborze metody"
+    "shippingNotChosen": "po wyborze metody",
+    "backToCartShort": "Koszyk",
+    "signInStepHeading": "Logowanie do konta",
+    "signInStepGuest": "Zaloguj się, aby zamówienie zapisało się na Twoim koncie w naszym sklepie.",
+    "signInDoneNamed": "Zalogowano jako {name}, adres e-mail: {email}",
+    "signInDoneEmail": "Zalogowano adresem e-mail: {email}",
+    "signInDoneHandle": "Zalogowano jako {name}",
+    "addressAfterSignIn": "Adres będzie dostępny po zalogowaniu"
   },
   "ClaimOrders": {
     "heading": "Zamawiałeś bez konta?",

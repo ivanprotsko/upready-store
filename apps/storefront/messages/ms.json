@@ -203,13 +203,16 @@
     "signIn": "Log masuk",
     "total": "Jumlah",
     "shippingZone": "Zon: {zone}",
-    "courseSignInHeading": "Log masuk untuk membeli kursus",
-    "courseSignInText": "Kursus dibuka dalam akaun anda, jadi pembelian memerlukan log masuk atau pendaftaran.",
     "fieldRequired": "Isi ruangan ini",
     "emailInvalid": "Semak e-mel: alamat ada kesilapan",
-    "signInHeading": "Log masuk untuk membuat pesanan",
-    "signInText": "Pesanan akan muncul dalam akaun anda: di sana ada butiran pembayaran, status dan kursus yang dibeli. Log masuk atau mendaftar mengambil masa seminit, troli dikekalkan.",
-    "shippingNotChosen": "selepas memilih kaedah"
+    "shippingNotChosen": "selepas memilih kaedah",
+    "backToCartShort": "Troli",
+    "signInStepHeading": "Log masuk ke akaun anda",
+    "signInStepGuest": "Sila log masuk supaya pesanan disimpan dalam akaun anda di kedai kami.",
+    "signInDoneNamed": "Anda log masuk sebagai {name}, alamat e-mel: {email}",
+    "signInDoneEmail": "Anda log masuk dengan alamat e-mel: {email}",
+    "signInDoneHandle": "Anda log masuk sebagai {name}",
+    "addressAfterSignIn": "Alamat dibuka selepas anda log masuk"
   },
   "ClaimOrders": {
     "heading": "Membuat pesanan tanpa akaun?",

@@ -203,13 +203,16 @@
     "signIn": "Sign in",
     "total": "Total",
     "shippingZone": "Zone: {zone}",
-    "courseSignInHeading": "Sign in to buy the course",
-    "courseSignInText": "The course opens in your account, so buying it takes a sign-in or a registration.",
     "fieldRequired": "Fill in this field",
     "emailInvalid": "Check the e-mail: the address has a mistake",
-    "signInHeading": "Sign in to place the order",
-    "signInText": "The order will appear in your account: the payment details, the status and the courses you bought are there. Signing in or registering takes a minute, and the cart is kept.",
-    "shippingNotChosen": "once you choose a method"
+    "shippingNotChosen": "once you choose a method",
+    "backToCartShort": "Cart",
+    "signInStepHeading": "Sign in to your account",
+    "signInStepGuest": "Please sign in so that the order is saved in your account with our shop.",
+    "signInDoneNamed": "You are signed in as {name}, email address: {email}",
+    "signInDoneEmail": "You are signed in with the email address {email}",
+    "signInDoneHandle": "You are signed in as {name}",
+    "addressAfterSignIn": "The address opens once you sign in"
   },
   "ClaimOrders": {
     "heading": "Ordered without an account?",

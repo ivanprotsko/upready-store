@@ -203,13 +203,16 @@
     "signIn": "התחברות",
     "total": "סה״כ",
     "shippingZone": "אזור: {zone}",
-    "courseSignInHeading": "התחברו כדי לרכוש את הקורס",
-    "courseSignInText": "הקורס נפתח בחשבון שלכם, ולכן הרכישה דורשת התחברות או הרשמה.",
     "fieldRequired": "מלאו שדה זה",
     "emailInvalid": "בדקו את האימייל: יש שגיאה בכתובת",
-    "signInHeading": "התחברו כדי לבצע את ההזמנה",
-    "signInText": "ההזמנה תופיע בחשבון שלכם: שם יהיו פרטי התשלום, הסטטוס והקורסים שרכשתם. ההתחברות או ההרשמה לוקחות דקה, והעגלה נשמרת.",
-    "shippingNotChosen": "לאחר בחירת שיטה"
+    "shippingNotChosen": "לאחר בחירת שיטה",
+    "backToCartShort": "עגלה",
+    "signInStepHeading": "התחברות לחשבון",
+    "signInStepGuest": "יש להתחבר כדי שההזמנה תישמר בחשבון שלך בחנות שלנו.",
+    "signInDoneNamed": "התחברת בתור {name}, כתובת דוא״ל: {email}",
+    "signInDoneEmail": "התחברת עם כתובת הדוא״ל: {email}",
+    "signInDoneHandle": "התחברת בתור {name}",
+    "addressAfterSignIn": "הכתובת תיפתח לאחר ההתחברות"
   },
   "ClaimOrders": {
     "heading": "הזמנת בלי חשבון?",

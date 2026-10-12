@@ -203,13 +203,16 @@
     "signIn": "Iniciar sesión",
     "total": "Total",
     "shippingZone": "Zona: {zone}",
-    "courseSignInHeading": "Inicia sesión para comprar el curso",
-    "courseSignInText": "El curso se abre en tu cuenta, así que para comprarlo hace falta iniciar sesión o registrarse.",
     "fieldRequired": "Rellena este campo",
     "emailInvalid": "Revisa el correo: la dirección tiene un error",
-    "signInHeading": "Inicie sesión para realizar el pedido",
-    "signInText": "El pedido aparecerá en su cuenta: allí están los datos de pago, el estado y los cursos comprados. Iniciar sesión o registrarse lleva un minuto y el carrito se conserva.",
-    "shippingNotChosen": "al elegir el método"
+    "shippingNotChosen": "al elegir el método",
+    "backToCartShort": "Carrito",
+    "signInStepHeading": "Acceso a tu cuenta",
+    "signInStepGuest": "Inicia sesión para que el pedido se guarde en tu cuenta de nuestra tienda.",
+    "signInDoneNamed": "Has iniciado sesión como {name}, correo electrónico: {email}",
+    "signInDoneEmail": "Has iniciado sesión con el correo electrónico {email}",
+    "signInDoneHandle": "Has iniciado sesión como {name}",
+    "addressAfterSignIn": "La dirección se abre al iniciar sesión"
   },
   "ClaimOrders": {
     "heading": "¿Compraste sin cuenta?",

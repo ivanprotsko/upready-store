@@ -203,13 +203,16 @@
     "signIn": "Se connecter",
     "total": "Total",
     "shippingZone": "Zone : {zone}",
-    "courseSignInHeading": "Connectez-vous pour acheter le cours",
-    "courseSignInText": "Le cours s'ouvre dans votre compte : l'achat demande une connexion ou une inscription.",
     "fieldRequired": "Renseignez ce champ",
     "emailInvalid": "Vérifiez l'e-mail : l'adresse contient une erreur",
-    "signInHeading": "Connectez-vous pour passer la commande",
-    "signInText": "La commande apparaîtra dans votre compte : vous y trouverez les coordonnées de paiement, le statut et les cours achetés. La connexion ou l'inscription prend une minute, le panier est conservé.",
-    "shippingNotChosen": "après le choix du mode"
+    "shippingNotChosen": "après le choix du mode",
+    "backToCartShort": "Panier",
+    "signInStepHeading": "Connexion à votre compte",
+    "signInStepGuest": "Veuillez vous connecter pour que la commande soit enregistrée dans votre compte sur notre boutique.",
+    "signInDoneNamed": "Vous êtes connecté en tant que {name}, adresse e-mail : {email}",
+    "signInDoneEmail": "Vous êtes connecté avec l’adresse e-mail : {email}",
+    "signInDoneHandle": "Vous êtes connecté en tant que {name}",
+    "addressAfterSignIn": "L’adresse s’ouvre après la connexion"
   },
   "ClaimOrders": {
     "heading": "Vous avez commandé sans compte ?",

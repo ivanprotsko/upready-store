@@ -203,13 +203,16 @@
     "signIn": "登录",
     "total": "总计",
     "shippingZone": "配送区域：{zone}",
-    "courseSignInHeading": "登录后购买课程",
-    "courseSignInText": "课程在您的账户中开放，因此购买需要登录或注册。",
     "fieldRequired": "请填写此项",
     "emailInvalid": "请检查邮箱：地址有误",
-    "signInHeading": "登录后下单",
-    "signInText": "订单将显示在您的账户中：那里有付款信息、订单状态和已购课程。登录或注册只需一分钟，购物车会保留。",
-    "shippingNotChosen": "选择方式后计算"
+    "shippingNotChosen": "选择方式后计算",
+    "backToCartShort": "购物车",
+    "signInStepHeading": "登录个人账户",
+    "signInStepGuest": "请登录，以便订单保存在您在本店的个人账户中。",
+    "signInDoneNamed": "您已以 {name} 的身份登录，电子邮箱：{email}",
+    "signInDoneEmail": "您已使用电子邮箱 {email} 登录",
+    "signInDoneHandle": "您已以 {name} 的身份登录",
+    "addressAfterSignIn": "登录后即可填写地址"
   },
   "ClaimOrders": {
     "heading": "没有账户时下过单？",

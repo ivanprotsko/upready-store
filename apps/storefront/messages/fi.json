@@ -203,13 +203,16 @@
     "signIn": "Kirjaudu sisään",
     "total": "Yhteensä",
     "shippingZone": "Vyöhyke: {zone}",
-    "courseSignInHeading": "Kirjaudu sisään ostaaksesi kurssin",
-    "courseSignInText": "Kurssi avautuu tilillesi, joten ostaminen vaatii kirjautumisen tai rekisteröitymisen.",
     "fieldRequired": "Täytä tämä kenttä",
     "emailInvalid": "Tarkista sähköposti: osoitteessa on virhe",
-    "signInHeading": "Kirjaudu sisään tilataksesi",
-    "signInText": "Tilaus näkyy tililläsi: siellä ovat maksutiedot, tila ja ostetut kurssit. Kirjautuminen tai rekisteröinti vie minuutin, ja ostoskori säilyy.",
-    "shippingNotChosen": "kun valitset tavan"
+    "shippingNotChosen": "kun valitset tavan",
+    "backToCartShort": "Ostoskori",
+    "signInStepHeading": "Kirjaudu tilillesi",
+    "signInStepGuest": "Kirjaudu sisään, jotta tilaus tallentuu tilillesi kaupassamme.",
+    "signInDoneNamed": "Olet kirjautunut nimellä {name}, sähköpostiosoite: {email}",
+    "signInDoneEmail": "Olet kirjautunut sähköpostiosoitteella {email}",
+    "signInDoneHandle": "Olet kirjautunut nimellä {name}",
+    "addressAfterSignIn": "Osoite avautuu kirjautumisen jälkeen"
   },
   "ClaimOrders": {
     "heading": "Tilasitko ilman tiliä?",

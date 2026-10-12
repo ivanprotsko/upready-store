@@ -203,13 +203,16 @@
     "signIn": "Bejelentkezés",
     "total": "Összesen",
     "shippingZone": "Zóna: {zone}",
-    "courseSignInHeading": "Jelentkezzen be a tanfolyam megvásárlásához",
-    "courseSignInText": "A tanfolyam a fiókjában nyílik meg, ezért a vásárláshoz bejelentkezés vagy regisztráció kell.",
     "fieldRequired": "Töltse ki ezt a mezőt",
     "emailInvalid": "Ellenőrizze az e-mailt: a cím hibás",
-    "signInHeading": "Jelentkezzen be a rendeléshez",
-    "signInText": "A rendelés megjelenik a fiókjában: ott találja a fizetési adatokat, az állapotot és a megvásárolt kurzusokat. A belépés vagy a regisztráció egy percet vesz igénybe, a kosár megmarad.",
-    "shippingNotChosen": "a mód kiválasztása után"
+    "shippingNotChosen": "a mód kiválasztása után",
+    "backToCartShort": "Kosár",
+    "signInStepHeading": "Bejelentkezés a fiókba",
+    "signInStepGuest": "Kérjük, jelentkezzen be, hogy a rendelés a boltunkban vezetett fiókjába kerüljön.",
+    "signInDoneNamed": "Bejelentkezve mint {name}, e-mail-cím: {email}",
+    "signInDoneEmail": "Bejelentkezve ezzel az e-mail-címmel: {email}",
+    "signInDoneHandle": "Bejelentkezve mint {name}",
+    "addressAfterSignIn": "A cím a bejelentkezés után nyílik meg"
   },
   "ClaimOrders": {
     "heading": "Fiók nélkül rendelt?",
