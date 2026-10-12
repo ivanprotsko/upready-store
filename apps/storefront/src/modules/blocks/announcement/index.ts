@@ -4,4 +4,5 @@
  * file, sorts it by variant and puts the category where `BLOCK_CATEGORIES` says.
  */
 export {}
+export { rotator } from "./rotator/block"
 export { textBar } from "./text-bar/block"
