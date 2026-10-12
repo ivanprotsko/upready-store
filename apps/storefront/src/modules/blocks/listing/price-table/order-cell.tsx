@@ -9,6 +9,7 @@ import { useCartQueue } from "@lib/cart-store"
 import { draftLineFor } from "@lib/cart-store/draft"
 
 import type { OrderLine } from "./rows"
+import { BUTTON, CONTROL, focusRing } from "./styles"
 
 /** The table's words for this cell, already in the visitor's language. */
 export type OrderCellLabels = {
@@ -19,21 +20,8 @@ export type OrderCellLabels = {
   added: string
 }
 
-const focusRing =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
-
-/** 44 px on a phone and a tablet (QR-HIT), 36 px in the desktop table's denser rows. */
-const CONTROL = "h-11 small:h-9"
-
 const STEP = clx(
   "inline-flex w-11 shrink-0 items-center justify-center text-[var(--foreground)] transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none small:w-9",
-  CONTROL,
-  focusRing
-)
-
-export const BUTTON = clx(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-[var(--radius)] border px-4 text-base font-medium transition-opacity hover:opacity-90 motion-reduce:transition-none small:text-sm",
-  "border-[var(--layer-button-border,var(--primary))] bg-[var(--layer-button-bg,var(--primary))] text-[var(--layer-button-fg,var(--primary-foreground))]",
   CONTROL,
   focusRing
 )

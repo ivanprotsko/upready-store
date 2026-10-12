@@ -8,19 +8,17 @@ import BlockIcon from "../../shared/block-icon"
 import BlockSection from "../../shared/block-section"
 import { pickText } from "../../shared/localized-text"
 import type { SectionHeader } from "../../shared/section-header"
-import OrderCell, { BUTTON } from "./order-cell"
+import OrderCell from "./order-cell"
 import { PRICE_LIST_HEADING, type PriceTableLabels, type PriceTableProps } from "./props"
 import { toRows, type PriceTableRow, type StockState } from "./rows"
 import { readSelection } from "./selection"
-
-const focusRing =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
+import { focusRing, QUIET, SKU } from "./styles"
 
 /**
  * A cell from 600 px, where the rows are a table again. Below it the row is a grid and the
- * cell a grid item, so these classes do nothing there.
+ * cell a grid item with no padding of its own (a `td` keeps the browser's 1 px otherwise).
  */
-const PAD = "min-[600px]:px-2 min-[600px]:py-[calc(0.5rem*var(--layer-density,1))] min-[600px]:align-middle"
+const PAD = "p-0 min-[600px]:px-2 min-[600px]:py-[calc(0.5rem*var(--layer-density,1))] min-[600px]:align-middle"
 const CELL = clx("min-[600px]:table-cell", PAD)
 
 /** A column of SKU, stock or unit: its own from 1024 px, folded under the title below it. */
@@ -119,7 +117,7 @@ export default async function PriceTable({ header, source, limit, columns, unit,
       <table
         role="table"
         data-role="table"
-        className="block w-full border-collapse text-sm text-[var(--foreground)] min-[600px]:table"
+        className="block w-full border-collapse text-base text-[var(--foreground)] min-[600px]:table small:text-sm"
       >
         <thead role="rowgroup" className="hidden min-[600px]:table-header-group">
           <tr role="row" className="bg-[var(--muted)]">
@@ -172,11 +170,11 @@ export default async function PriceTable({ header, source, limit, columns, unit,
                       focusRing
                     )}
                   >
-                    <span className="line-clamp-2 text-sm text-[var(--foreground)]">{row.title}</span>
+                    <span className="line-clamp-2 text-base text-[var(--foreground)] small:text-sm">{row.title}</span>
                     {meta.length ? (
                       <span className="mt-1 flex flex-wrap gap-x-2 text-xs text-[var(--muted-foreground)] small:hidden">
                         {meta.map((item, index) => (
-                          <span key={index} className={index === 0 && show.sku && row.sku ? "tabular-nums" : undefined}>
+                          <span key={index} className={index === 0 && show.sku && row.sku ? SKU : undefined}>
                             {item}
                           </span>
                         ))}
@@ -185,7 +183,7 @@ export default async function PriceTable({ header, source, limit, columns, unit,
                   </Link>
                 </td>
                 {show.sku ? (
-                  <td role="cell" className={clx(META_CELL, "text-xs tabular-nums text-[var(--muted-foreground)] [overflow-wrap:anywhere]")}>
+                  <td role="cell" className={clx(META_CELL, SKU, "text-xs text-[var(--muted-foreground)] [overflow-wrap:anywhere]")}>
                     {row.sku ?? <span aria-hidden>—</span>}
                   </td>
                 ) : null}
@@ -208,7 +206,7 @@ export default async function PriceTable({ header, source, limit, columns, unit,
                         {row.fromPrice ? (
                           <span className="text-xs text-[var(--muted-foreground)]">{word("from")}</span>
                         ) : null}
-                        <span data-role="price" data-testid="price" className="text-sm font-semibold tabular-nums">
+                        <span data-role="price" data-testid="price" className="text-base font-semibold tabular-nums small:text-sm">
                           {row.price}
                         </span>
                       </span>
@@ -233,18 +231,15 @@ export default async function PriceTable({ header, source, limit, columns, unit,
                     <Link
                       href={`/products/${row.handle}`}
                       className={clx(
-                        "inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-[var(--radius)] border border-[var(--border)] px-4 text-base font-medium text-[var(--foreground)] transition-opacity hover:opacity-80 motion-reduce:transition-none min-[600px]:w-auto small:h-9 small:text-sm",
+                        QUIET,
+                        "text-[var(--foreground)] transition-opacity hover:opacity-80 motion-reduce:transition-none",
                         focusRing
                       )}
                     >
                       {word("choose")}
                     </Link>
                   ) : (
-                    <button
-                      type="button"
-                      disabled
-                      className={clx(BUTTON, "w-full cursor-not-allowed opacity-50 min-[600px]:w-auto")}
-                    >
+                    <button type="button" disabled className={clx(QUIET, "cursor-not-allowed text-[var(--muted-foreground)]")}>
                       {word("outOfStock")}
                     </button>
                   )}
@@ -255,7 +250,7 @@ export default async function PriceTable({ header, source, limit, columns, unit,
         </tbody>
       </table>
       {noteText ? (
-        <p data-role="description" className="mt-4 max-w-prose text-sm text-[var(--muted-foreground)]">
+        <p data-role="description" className="mt-4 max-w-prose text-base text-[var(--muted-foreground)] small:text-sm">
           {noteText}
         </p>
       ) : null}
