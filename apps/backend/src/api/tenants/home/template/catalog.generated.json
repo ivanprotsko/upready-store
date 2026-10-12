@@ -401,7 +401,8 @@
     {"id":"slideshow/banners","category":"slideshow","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"testimonials/cards","category":"testimonials","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"text/rich-text","category":"text","placement":"home","status":"lab","props":true,"propsEditable":false},
-    {"id":"tiles/on","category":"tiles","placement":"home","status":"live","setting":{"field":"tiles","value":"on"},"props":false,"propsEditable":false}
+    {"id":"tiles/on","category":"tiles","placement":"home","status":"live","setting":{"field":"tiles","value":"on"},"props":false,"propsEditable":false},
+    {"id":"video/embed","category":"video","placement":"home","status":"lab","props":true,"propsEditable":false}
   ],
   "templates": {
     "ferrite": {
