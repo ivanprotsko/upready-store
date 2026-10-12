@@ -26,7 +26,8 @@
     "modes": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["light", "dark"],
+      "required": ["light"],
+      "description": "A preset with no dark mode is light only: the build paints its light tokens under both data-mode values, no shop picker offers it, and a template that names it must default to light.",
       "properties": {
         "light": { "$ref": "#/$defs/mode" },
         "dark": { "$ref": "#/$defs/mode" }
@@ -44,7 +45,7 @@
           "minProperties": 1,
           "propertyNames": { "pattern": "^--[a-z][a-z0-9-]*$" },
           "additionalProperties": { "type": "string", "minLength": 1 },
-          "description": "token name -> CSS value string, exactly as emitted into [data-theme=<id>][data-mode=<mode>]; the key set must be identical across both modes and across every preset (checked by the build script, not by this schema)"
+          "description": "token name -> CSS value string, exactly as emitted into [data-theme=<id>][data-mode=<mode>]; the key set must be identical across every mode of every preset (checked by the build script, not by this schema)"
         }
       }
     }

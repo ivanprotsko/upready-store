@@ -7,15 +7,31 @@ export const THEME_MODES = ["light", "dark"] as const
 export type ThemeId = (typeof THEME_IDS)[number]
 export type ThemeMode = (typeof THEME_MODES)[number]
 
+/**
+ * Presets with no dark mode, painted light under both data-mode values. A template may
+ * name one with a light default; no shop picker offers one, because a shop's visitor can
+ * switch to dark.
+ */
+export const LIGHT_ONLY_THEME_IDS = ["ferma", "interier", "katalog", "lending", "moda", "opt", "uhod"] as const
+
+export type LightOnlyThemeId = (typeof LIGHT_ONLY_THEME_IDS)[number]
+
 /** Plain-language names for the settings panel; ids never reach the screen. */
 export const THEME_LABELS: Record<string, string> = {
   default: "Medusa default",
   "electronics": "Ferrite",
+  "ferma": "Ferma",
   "geist": "Geist",
   "home-goods": "Long Morning",
+  "interier": "Interior",
+  "katalog": "Catalogue",
+  "lending": "Landing",
   "medusa": "Medusa default",
+  "moda": "Moda",
+  "opt": "Wholesale",
   "sneakers": "Kerbstone",
   "supplements": "Scruple",
+  "uhod": "Care",
   "womens-fashion": "Larchant",
 }
 

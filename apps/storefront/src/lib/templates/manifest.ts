@@ -28,8 +28,10 @@ import {
 } from "@lib/theme/composition"
 import { FONT_NAMES, type FontName } from "@lib/theme/fonts"
 import { activeFonts } from "@lib/theme/fonts.generated"
-import { THEME_IDS } from "@lib/theme/presets.generated"
+import { LIGHT_ONLY_THEME_IDS, THEME_IDS } from "@lib/theme/presets.generated"
 import type { BlockEntry } from "@modules/blocks/types"
+
+import { templateFontPair } from "./fonts"
 
 export const TEMPLATE_SCHEMA = "upready.storefront-template/v1"
 
@@ -82,9 +84,12 @@ const DENSITY_VARS: Record<Density, Record<string, string>> = {
 }
 
 export type TemplateTheme = {
-  /** A preset of `specs/design-system/themes`, the `data-theme` the page paints with. */
+  /**
+   * A preset of `specs/design-system/themes`, the `data-theme` the page paints with. A
+   * light-only one (`LIGHT_ONLY_THEME_IDS`) asks for `settings.defaultMode` "light".
+   */
   palette: string
-  /** Fonts are loaded at build time (`lib/theme/fonts.ts`): see `ResolvedTemplate.fonts`. */
+  /** The template's own files when both families have them (`./fonts.ts`): see `ResolvedTemplate.fonts`. */
   fontPair: { display: FontName; body: FontName }
   radius: Radius
   buttonStyle: ButtonStyle
@@ -185,7 +190,15 @@ export function validateTemplate(
   if (!isObject(theme)) {
     errors.push({ field: "theme", message: "theme must be an object." })
   } else {
-    oneOf(errors, "theme.palette", theme.palette, ["default", ...THEME_IDS])
+    if (oneOf(errors, "theme.palette", theme.palette, ["default", ...THEME_IDS, ...LIGHT_ONLY_THEME_IDS])) {
+      const lightOnly = (LIGHT_ONLY_THEME_IDS as readonly string[]).includes(theme.palette)
+      if (lightOnly && settings.ok && settings.value.defaultMode !== "light") {
+        errors.push({
+          field: "settings.defaultMode",
+          message: `theme.palette "${theme.palette}" has no dark mode; settings.defaultMode must be "light".`,
+        })
+      }
+    }
     if (!isObject(theme.fontPair)) {
       errors.push({ field: "theme.fontPair", message: "theme.fontPair must be { display, body }." })
     } else {
@@ -272,17 +285,20 @@ export type ResolvedTemplate = {
   /** CSS variables for `<html>`'s inline style, merged over the owner's brand colour. */
   style: Record<string, string>
   /**
-   * The pair the template asks for, and whether this build loads it. Fonts are
-   * `next/font` calls generated at build time for the active profile only, so a preview
-   * shows the build's own pair until a build is made for the template.
+   * The pair the template asks for, and whether the page gets it. `pair` is the value of
+   * `<html data-font-pair>`: set when both families have files in `public/fonts/templates`
+   * (`./fonts.ts`), null otherwise. `loaded` is true then, or when the build profile's own
+   * `next/font` pair is this one; a pair with neither shows the build's type.
    */
-  fonts: { display: FontName; body: FontName; loaded: boolean }
+  fonts: { display: FontName; body: FontName; loaded: boolean; pair: string | null }
 }
 
 export function resolveTemplate(manifest: TemplateManifest): ResolvedTemplate {
   const { theme, settings } = manifest
+  const pair = templateFontPair(theme.fontPair)
   const fontsLoaded =
-    activeFonts?.display === theme.fontPair.display && activeFonts?.body === theme.fontPair.body
+    pair !== null ||
+    (activeFonts?.display === theme.fontPair.display && activeFonts?.body === theme.fontPair.body)
   return {
     manifest,
     settings,
@@ -294,7 +310,7 @@ export function resolveTemplate(manifest: TemplateManifest): ResolvedTemplate {
       "--layer-photo-aspect": PHOTO_ASPECT[theme.photoStyle],
       ...DENSITY_VARS[theme.density],
     },
-    fonts: { ...theme.fontPair, loaded: fontsLoaded },
+    fonts: { ...theme.fontPair, loaded: fontsLoaded, pair },
   }
 }
 

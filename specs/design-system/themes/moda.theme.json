@@ -1,0 +1,45 @@
+{
+  "schema": "upready.theme-preset/v0",
+  "id": "moda",
+  "label": "Moda",
+  "description": "Moda, the palette of the lab template «Мода» (16.09 templates lab, t-2026-10-12-33 T0a). Light only (no modes.dark): the lab drew no dark mode and the generator has no rule to derive one, so themes:build paints these tokens under both data-mode values. The lab has no --chart-*: they take the lab's own role colours in the order the bridge reads them as tag hues (1 blue = --link, 2 green = --success, 3 purple = --accent-foreground, 4 red = --destructive, 5 orange = --warning). The lab's --surface-media has no canon row and is not carried.",
+  "dictionary": "geist-kit/theme.css",
+  "source": "artifacts/docs/store-templates-lab/tools/palettes.json \"moda\" @ 2dc99d85; --radius is the lab's --r-md (8px), --shadow-card the lab's src/tokens/base.css, --shadow-float and --shadow-modal geist.theme.json",
+  "modes": {
+    "light": {
+      "tokens": {
+        "--radius": "0.5rem",
+        "--background": "#faf8f5",
+        "--foreground": "#14110e",
+        "--card": "#ffffff",
+        "--card-foreground": "#14110e",
+        "--popover": "#ffffff",
+        "--popover-foreground": "#14110e",
+        "--primary": "#14110e",
+        "--primary-foreground": "#faf8f5",
+        "--secondary": "#efeae3",
+        "--secondary-foreground": "#14110e",
+        "--muted": "#e6e0d7",
+        "--muted-foreground": "#5b5349",
+        "--accent": "#e7ded2",
+        "--accent-foreground": "#4a3a25",
+        "--destructive": "#9b2a2a",
+        "--destructive-foreground": "#ffffff",
+        "--border": "#e0d9ce",
+        "--input": "#e0d9ce",
+        "--ring": "#14110e",
+        "--link": "#6b4a22",
+        "--success": "#2c6142",
+        "--warning": "#7a4f10",
+        "--chart-1": "#6b4a22",
+        "--chart-2": "#2c6142",
+        "--chart-3": "#4a3a25",
+        "--chart-4": "#9b2a2a",
+        "--chart-5": "#7a4f10",
+        "--shadow-card": "0 0 0 1px rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.06), 0 4px 12px -4px rgb(0 0 0 / 0.06)",
+        "--shadow-float": "inset 0 0 0 1px #00000014, 0 2px 2px #0000000a, 0 8px 16px -4px #0000000a",
+        "--shadow-modal": "inset 0 0 0 1px #00000014, 0 1px 1px #00000005, 0 8px 16px -4px #0000000a, 0 24px 32px -8px #0000000f"
+      }
+    }
+  }
+}
