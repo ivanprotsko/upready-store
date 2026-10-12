@@ -1,6 +1,6 @@
 {
   "date": "2026-10-12",
-  "commit": "dd433f92",
+  "commit": "3fa38ef1",
   "base": "http://localhost:8132",
   "host": "globex.shipshift.dev",
   "locale": "en",
@@ -349,7 +349,7 @@
       "width": 360,
       "file": "block-text-rich-text-360.png",
       "status": 200,
-      "height": 702
+      "height": 690
     },
     {
       "kind": "block",
@@ -699,7 +699,7 @@
       "width": 768,
       "file": "block-text-rich-text-768.png",
       "status": 200,
-      "height": 486
+      "height": 474
     },
     {
       "kind": "block",
@@ -1049,7 +1049,7 @@
       "width": 1280,
       "file": "block-text-rich-text-1280.png",
       "status": 200,
-      "height": 580
+      "height": 600
     },
     {
       "kind": "block",
