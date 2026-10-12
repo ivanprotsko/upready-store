@@ -42,8 +42,12 @@ export default function BlockSection({
   const seeAll = header?.seeAll
   const seeAllLabel = seeAll ? pickText(seeAll.label, locale) : null
 
+  // A 44px target (QR-HIT), as wide as its words: the header is a column below `small`, where a
+  // stretched link would be a 328px bar. `-mb-3` lets the box grow into the gap under the header, so
+  // the words stay level with the heading's last line. No corner: the link has no surface, and the
+  // global focus ring takes `border-radius: inherit` (globals.css) whatever the class says.
   const linkClass = clx(
-    "shrink-0 rounded-sm text-ui-fg-interactive underline-offset-4 hover:text-ui-fg-interactive-hover hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive",
+    "-mb-3 inline-flex min-h-11 shrink-0 items-center self-start text-ui-fg-interactive underline-offset-4 hover:text-ui-fg-interactive-hover hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive small:self-auto",
     SECTION_TYPE.seeAll
   )
 
