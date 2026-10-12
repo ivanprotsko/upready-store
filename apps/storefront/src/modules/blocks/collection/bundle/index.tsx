@@ -14,6 +14,12 @@ import { readBundle, type BundleItem } from "./selection"
 const focusRing =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
 
+/**
+ * The pictures follow the template's photo layer. `ProductMedia` reads `--product-media-ratio`
+ * (3 / 4 by default), so the list hands it `--layer-photo-aspect`, as `collection/featured` does.
+ */
+const PHOTO_LAYER = "[--product-media-ratio:var(--layer-photo-aspect,3/4)]"
+
 /** The primary button of the template's button layer, full width of the summary card. */
 const BUTTON_CLASS = clx(
   "inline-flex min-h-11 w-full items-center justify-center rounded-[var(--radius)] border px-6 text-base font-medium transition-opacity hover:opacity-90 motion-reduce:transition-none disabled:cursor-not-allowed disabled:opacity-50",
@@ -97,7 +103,7 @@ export default async function Bundle({
   return (
     <BlockSection block="collection/bundle" locale={locale} header={header}>
       <div className="grid grid-cols-1 gap-8 small:grid-cols-[minmax(0,1fr)_minmax(16rem,20rem)] small:items-center small:gap-12">
-        <ul className="flex flex-col gap-8 min-[720px]:flex-row min-[720px]:items-start">
+        <ul className={clx("flex flex-col gap-8 min-[720px]:flex-row min-[720px]:items-start", PHOTO_LAYER)}>
           {bundle.items.map((item, index) => {
             const href = `/products/${item.product.handle}`
             const productTitle = item.product.title ?? ""

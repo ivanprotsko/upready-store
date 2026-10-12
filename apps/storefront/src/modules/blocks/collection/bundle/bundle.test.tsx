@@ -287,6 +287,12 @@ describe("Bundle, drawing", () => {
     expect(html).not.toMatch(/\brounded(?:-(?:[se][se]?|[tblr][lr]?))?-(?:none|xs|sm|md|lg|xl|2xl|3xl|full)\b|\brounded(?=[\s"])/)
     expect(html).toContain("rounded-[var(--radius)]")
   })
+
+  it("frames the pictures in the template's photo layer, 3 / 4 with no template", async () => {
+    shop(candle, rail)
+    const html = (await render(props(["candle-holder", "hook-rail"])))!
+    expect(html).toMatch(/<ul class="[^"]*\[--product-media-ratio:var\(--layer-photo-aspect,3\/4\)\]/)
+  })
 })
 
 /* ------------------------------------------------------------------ the button */
