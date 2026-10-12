@@ -50,6 +50,13 @@ export type YandexIdentity = {
     name: string | null;
     login: string | null;
     picture: string | null;
+    /**
+     * Yandex's `default_avatar_id`, null when the account has no picture or the
+     * application lacks `login:avatar`. The storefront keeps it on the customer
+     * (`/api/yandex-callback`) and draws the checkout header's avatar from it
+     * (t-2026-10-12-05).
+     */
+    avatar_id: string | null;
   };
 };
 
@@ -93,12 +100,19 @@ export function buildAuthorizeUrl(params: {
   return url.toString();
 }
 
-/** Public avatar URL for a `default_avatar_id`, or null when there is none. */
-export function avatarUrl(profile: YandexProfile): string | null {
-  if (!profile.default_avatar_id || profile.is_avatar_empty) {
+/** The account's `default_avatar_id`, or null when there is no picture to show. */
+export function avatarId(profile: YandexProfile): string | null {
+  const id = profile.default_avatar_id?.trim();
+  if (!id || profile.is_avatar_empty) {
     return null;
   }
-  return `https://avatars.yandex.net/get-yapic/${profile.default_avatar_id}/islands-200`;
+  return id;
+}
+
+/** Public avatar URL for a `default_avatar_id`, or null when there is none. */
+export function avatarUrl(profile: YandexProfile): string | null {
+  const id = avatarId(profile);
+  return id ? `https://avatars.yandex.net/get-yapic/${id}/islands-200` : null;
 }
 
 /** `default_email`, falling back to the first address in `emails`. */
@@ -154,6 +168,7 @@ export function mapProfileToIdentity(profile: YandexProfile): YandexIdentity {
       name,
       login: profile.login?.trim() || null,
       picture: avatarUrl(profile),
+      avatar_id: avatarId(profile),
     },
   };
 }

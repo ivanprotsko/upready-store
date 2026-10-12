@@ -202,13 +202,16 @@
     "signIn": "Giriş yap",
     "total": "Toplam",
     "shippingZone": "Bölge: {zone}",
-    "courseSignInHeading": "Kursu satın almak için giriş yapın",
-    "courseSignInText": "Kurs hesabınızda açılır, bu yüzden satın almak için giriş veya kayıt gerekir.",
     "fieldRequired": "Bu alanı doldurun",
     "emailInvalid": "E-postayı kontrol edin: adreste hata var",
-    "signInHeading": "Sipariş vermek için giriş yapın",
-    "signInText": "Sipariş hesabınızda görünecek: ödeme bilgileri, durum ve satın alınan kurslar orada. Giriş veya kayıt bir dakika sürer, sepet korunur.",
-    "shippingNotChosen": "yöntem seçildikten sonra"
+    "shippingNotChosen": "yöntem seçildikten sonra",
+    "backToCartShort": "Sepet",
+    "signInStepHeading": "Hesabınıza giriş",
+    "signInStepGuest": "Siparişin mağazamızdaki hesabınıza kaydedilmesi için lütfen giriş yapın.",
+    "signInDoneNamed": "{name} olarak giriş yaptınız, e-posta adresi: {email}",
+    "signInDoneEmail": "{email} e-posta adresiyle giriş yaptınız",
+    "signInDoneHandle": "{name} olarak giriş yaptınız",
+    "addressAfterSignIn": "Adres, giriş yaptıktan sonra açılır"
   },
   "ClaimOrders": {
     "heading": "Hesapsız mı sipariş verdiniz?",

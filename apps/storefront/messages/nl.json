@@ -202,13 +202,16 @@
     "signIn": "Inloggen",
     "total": "Totaal",
     "shippingZone": "Zone: {zone}",
-    "courseSignInHeading": "Log in om de cursus te kopen",
-    "courseSignInText": "De cursus opent in je account, dus voor de aankoop is inloggen of registreren nodig.",
     "fieldRequired": "Vul dit veld in",
     "emailInvalid": "Controleer het e-mailadres: er zit een fout in",
-    "signInHeading": "Log in om de bestelling te plaatsen",
-    "signInText": "De bestelling verschijnt in uw account: daar vindt u de betaalgegevens, de status en de gekochte cursussen. Inloggen of registreren duurt een minuut en de winkelwagen blijft bewaard.",
-    "shippingNotChosen": "na keuze van de methode"
+    "shippingNotChosen": "na keuze van de methode",
+    "backToCartShort": "Winkelwagen",
+    "signInStepHeading": "Inloggen op je account",
+    "signInStepGuest": "Log in zodat de bestelling in je account bij onze winkel wordt bewaard.",
+    "signInDoneNamed": "Je bent ingelogd als {name}, e-mailadres: {email}",
+    "signInDoneEmail": "Je bent ingelogd met het e-mailadres {email}",
+    "signInDoneHandle": "Je bent ingelogd als {name}",
+    "addressAfterSignIn": "Het adres wordt geopend na het inloggen"
   },
   "ClaimOrders": {
     "heading": "Zonder account besteld?",

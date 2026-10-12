@@ -59,7 +59,8 @@ describe("the sections open in order, «Далее» instead of «Сохрани
   it("locks the delivery, the contacts and the payment until the sections before are done", () => {
     expect(shipping).toMatch(/data-testid="checkout-shipping-locked"/)
     expect(contactsRow).toMatch(/data-testid="checkout-contacts-locked"/)
-    expect(paymentTemplate).toMatch(/checkoutStepLocksOf\(cart, shippingOptions\)\.payment/)
+    // t-2026-10-12-05: the sign-in is the first of the sections, a guest pays nothing.
+    expect(paymentTemplate).toMatch(/checkoutStepLocksOf\(cart, shippingOptions, !!customer\)\.payment/)
   })
 
   it("names the address and contacts button «Далее» and disables it until the fields are right", () => {

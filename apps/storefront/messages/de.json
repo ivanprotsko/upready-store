@@ -202,13 +202,16 @@
     "signIn": "Anmelden",
     "total": "Gesamt",
     "shippingZone": "Zone: {zone}",
-    "courseSignInHeading": "Melden Sie sich an, um den Kurs zu kaufen",
-    "courseSignInText": "Der Kurs wird in Ihrem Konto geöffnet, daher braucht der Kauf eine Anmeldung oder Registrierung.",
     "fieldRequired": "Bitte füllen Sie dieses Feld aus",
     "emailInvalid": "Prüfen Sie die E-Mail: die Adresse enthält einen Fehler",
-    "signInHeading": "Melden Sie sich an, um zu bestellen",
-    "signInText": "Die Bestellung erscheint in Ihrem Konto: dort finden Sie die Zahlungsdaten, den Status und die gekauften Kurse. Anmeldung oder Registrierung dauern eine Minute, der Warenkorb bleibt erhalten.",
-    "shippingNotChosen": "nach Wahl der Versandart"
+    "shippingNotChosen": "nach Wahl der Versandart",
+    "backToCartShort": "Warenkorb",
+    "signInStepHeading": "Anmeldung im Kundenkonto",
+    "signInStepGuest": "Bitte melden Sie sich an, damit die Bestellung in Ihrem Kundenkonto in unserem Shop gespeichert wird.",
+    "signInDoneNamed": "Sie sind angemeldet als {name}, E-Mail-Adresse: {email}",
+    "signInDoneEmail": "Sie sind angemeldet mit der E-Mail-Adresse: {email}",
+    "signInDoneHandle": "Sie sind angemeldet als {name}",
+    "addressAfterSignIn": "Die Adresse wird nach der Anmeldung freigeschaltet"
   },
   "ClaimOrders": {
     "heading": "Ohne Konto bestellt?",

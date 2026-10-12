@@ -1,80 +1,95 @@
-import { Button, clx, Text } from "@medusajs/ui"
-import { getTranslations } from "next-intl/server"
+"use client"
 
-import { getTelegramBot } from "@lib/data/telegram-bot"
-import { getSiteLoginSettings } from "@lib/data/tenant-login-settings"
-import { allowsEmailLogin, yandexLoginAvailable } from "@lib/tenant/login-settings"
+import { CheckMini } from "@medusajs/icons"
+import { useTranslations } from "next-intl"
+
+import { signedInText } from "@lib/util/customer-avatar"
+import LogIn from "@modules/common/icons/log-in"
 import AccountLink from "@modules/layout/components/account-link"
-import TelegramLogin from "@modules/account/components/telegram-login"
-import YandexIdButton from "@modules/account/components/yandex-login/yandex-id-button"
+
+type Customer = {
+  email?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  metadata?: Record<string, unknown> | null
+}
 
 type Props = {
-  /** Where to come back to after the sign-in: the checkout path with its query (`?return=`). */
-  returnTo: string
-  /** A course in the cart retitles the block: the course opens in the account. */
-  hasCourse: boolean
+  /** The signed-in buyer, or null for a guest. */
+  customer: Customer | null
 }
 
 /**
- * Batch 7 (the lead's decision on Ivan's «уже появился в личном кабинете»): EVERY
- * checkout needs an account, not only a course cart — the order, its requisites,
- * its payment status and the bought course all live in «Мой кабинет». The pay
- * button stays disabled for a guest (`requiresSignIn`, `PaymentButton`); the cart
- * survives the sign-in (`login`/`signup` transfer it and come back to `returnTo`,
- * `lib/data/customer.ts`).
+ * «Вход в личный кабинет», the first step of the checkout form (t-2026-10-12-05, Ivan 12.10 items
+ * 6.4 and 6.4.1: «шаг с авторизацией нужно показать в таком же стиле как шаги с адресом, способом
+ * доставки, контактами»). It is the same row as `CheckoutAddressRow` and `CheckoutContactsRow`:
+ * the 24 px icon, the `h2-docs` heading with the checkmark once done, the line under it at
+ * `ps-8`, and the action on the right where those rows have «Изменить».
  *
- * The ways in are the shop's own (`lib/tenant/login-settings.ts`): e-mail and
- * password (with registration on the same page), Yandex ID when the shop has
- * it, and Telegram when the shop has connected its own bot (`getTelegramBot`,
- * null renders nothing).
+ * A guest reads why to sign in and gets «Войти»; a signed-in buyer reads who they are and gets
+ * «Изменить». Both open the sign-in modal every other page opens (`AccountLink` →
+ * `LoginModalHost`, which the checkout layout keeps for a customer too, so signing in there with
+ * another account replaces the session; `login` and `/api/yandex-callback` move the cart over).
+ * The step never folds away after the sign-in.
+ *
+ * Every checkout needs an account (batch 7): the order, its requisites, its payment status and a
+ * bought course all live in «Мой кабинет». Until this step is done, the address, the delivery,
+ * the contacts and the payment stay closed (`checkoutStepLocks`).
  */
-export default async function CheckoutSignIn({ returnTo, hasCourse }: Props) {
-  const [t, tSide, loginSettings, telegramBot] = await Promise.all([
-    getTranslations("CheckoutPage"),
-    getTranslations("CartSidebar"),
-    getSiteLoginSettings(),
-    getTelegramBot(),
-  ])
-  const emailSignIn = allowsEmailLogin(loginSettings.method)
-  const yandexSignIn = yandexLoginAvailable(loginSettings)
-  // Yandex ID is the button from Yandex's own constructor (t-2026-10-04-45), always on a row of
-  // its own, so only e-mail and Telegram pair up.
-  const cells = [emailSignIn, telegramBot !== null].filter(Boolean).length
+export default function CheckoutSignIn({ customer }: Props) {
+  const t = useTranslations("CheckoutPage")
+  const done = customer !== null
+  const text = done
+    ? (() => {
+        const sentence = signedInText(customer)
+        return t(sentence.key, sentence.values)
+      })()
+    : t("signInStepGuest")
 
   return (
-    <div
-      className="flex flex-col gap-y-3 rounded-lg border border-ui-border-base bg-ui-bg-subtle p-4"
-      data-testid="checkout-sign-in"
-      data-has-course={hasCourse ? "true" : undefined}
-    >
-      <h2 className="h2-docs">{t(hasCourse ? "courseSignInHeading" : "signInHeading")}</h2>
-      <Text size="small" className="text-ui-fg-subtle">
-        {t(hasCourse ? "courseSignInText" : "signInText")}
-      </Text>
-      {/* One grid of equal cells (t-2026-10-03-65, Ivan: «кнопки которые стоят рядом» never
-          differ in size): two to a row from 1024 px; Yandex ID alone on its own row at
-          full width. Telegram renders nothing when this shop has no bot of its own
-          (`getTelegramBot` returns null). */}
+    <>
+      <div className="h-px bg-ui-border-base w-full first:hidden" />
+
       <div
-        className={clx("grid grid-cols-1 gap-2", cells > 1 && "small:grid-cols-2")}
-        data-testid="checkout-sign-in-methods"
+        className="flex items-start justify-between w-full gap-x-4 py-2"
+        data-testid="checkout-sign-in-step"
+        data-state={done ? "signed-in" : "guest"}
       >
-        {emailSignIn && (
-          <AccountLink className="flex w-full" emailForm>
-            <Button variant="primary" size="large" className="w-full min-w-0" data-testid="checkout-sign-in-button">
-              {tSide("signInEmail")}
-            </Button>
-          </AccountLink>
-        )}
-        <TelegramLogin bot={telegramBot} returnTo={returnTo} cell label={tSide("signInTelegram")} />
-        {yandexSignIn && (
-          <YandexIdButton
-            returnTo={returnTo}
-            className={clx(cells > 1 && "small:col-span-2")}
-            data-testid="checkout-sign-in-yandex"
-          />
-        )}
+        <div className="flex min-w-0 flex-col gap-y-1">
+          <span className="flex items-center gap-x-2">
+            <span className="flex-shrink-0 text-ui-fg-base">
+              <LogIn size={24} />
+            </span>
+            <h2 className="h2-docs text-ui-fg-base flex items-center gap-x-1.5">
+              {t("signInStepHeading")}
+              {done && (
+                <CheckMini
+                  className="text-status-success shrink-0"
+                  aria-hidden
+                  data-testid="sign-in-section-checkmark"
+                />
+              )}
+            </h2>
+          </span>
+          <p
+            className={
+              done
+                ? "ps-8 txt-small text-ui-fg-base [overflow-wrap:anywhere]"
+                : "ps-8 txt-small text-ui-fg-subtle"
+            }
+            data-testid="checkout-sign-in-step-text"
+          >
+            {text}
+          </p>
+        </div>
+
+        <AccountLink
+          className="txt-compact-small-plus text-ui-fg-interactive shrink-0 pt-1"
+          data-testid="checkout-sign-in-step-action"
+        >
+          {done ? t("edit") : t("signIn")}
+        </AccountLink>
       </div>
-    </div>
+    </>
   )
 }

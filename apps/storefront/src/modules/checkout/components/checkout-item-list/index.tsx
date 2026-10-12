@@ -5,7 +5,6 @@ import { convertToLocale } from "@lib/util/money"
 import { isNoDeliveryLine } from "@lib/util/shipping-address"
 import { cartShipmentLines, shipmentGroups } from "@lib/util/shipment-groups"
 import { Badge } from "@medusajs/ui"
-import DeleteButton from "@modules/common/components/delete-button"
 import { variantLabel } from "@modules/layout/components/cart-sidebar/line"
 import ProductMedia from "@modules/products/components/product-media"
 import { Link } from "@i18n/navigation"
@@ -78,9 +77,9 @@ function CheckoutItem({
           ) : variantTitle ? (
             <span className="txt-medium text-ui-fg-subtle">{variantTitle}</span>
           ) : null}
-          <div className="flex items-end h-[22.4px]">
-            <DeleteButton id={item.id} data-testid="product-delete-button" />
-          </div>
+          {/* Ivan 12.10 (t-2026-10-12-05, item 6.1): «На чекауте нельзя разрешать убирать
+              товары из заказа». No bin and no stepper here: the order is changed in the
+              cart, one click away through the header's «Вернуться в корзину». */}
         </div>
       </div>
 

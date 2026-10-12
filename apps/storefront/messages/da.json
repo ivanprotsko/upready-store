@@ -202,13 +202,16 @@
     "signIn": "Log ind",
     "total": "I alt",
     "shippingZone": "Zone: {zone}",
-    "courseSignInHeading": "Log ind for at købe kurset",
-    "courseSignInText": "Kurset åbnes i din konto, så købet kræver login eller oprettelse.",
     "fieldRequired": "Udfyld dette felt",
     "emailInvalid": "Tjek e-mailen: der er en fejl i adressen",
-    "signInHeading": "Log ind for at afgive ordren",
-    "signInText": "Ordren vises på din konto: der finder du betalingsoplysninger, status og købte kurser. Login eller oprettelse tager et minut, og kurven bevares.",
-    "shippingNotChosen": "når du har valgt en metode"
+    "shippingNotChosen": "når du har valgt en metode",
+    "backToCartShort": "Kurv",
+    "signInStepHeading": "Log ind på din konto",
+    "signInStepGuest": "Log venligst ind, så ordren gemmes på din konto i vores butik.",
+    "signInDoneNamed": "Du er logget ind som {name}, e-mailadresse: {email}",
+    "signInDoneEmail": "Du er logget ind med e-mailadressen: {email}",
+    "signInDoneHandle": "Du er logget ind som {name}",
+    "addressAfterSignIn": "Adressen åbner, når du har logget ind"
   },
   "ClaimOrders": {
     "heading": "Bestilte du uden konto?",

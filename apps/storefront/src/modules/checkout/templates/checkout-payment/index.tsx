@@ -25,15 +25,16 @@ const CheckoutPayment = async ({
   cart: HttpTypes.StoreCart
   customer: HttpTypes.StoreCustomer | null
 }) => {
-  // t-2026-10-09-56 (Ivan's item 7): the payment block opens last, once the address, the
-  // delivery and the contacts are done (`checkoutStepLocksOf`, the same test the form
-  // template locks its own sections by). Until then it is its heading alone, and no
-  // payment session is started for a cart that cannot be paid yet.
+  // t-2026-10-09-56 (Ivan's item 7): the payment block opens last, once the sign-in
+  // (t-2026-10-12-05), the address, the delivery and the contacts are done
+  // (`checkoutStepLocksOf`, the same test the form template locks its own sections by).
+  // Until then it is its heading alone, and no payment session is started for a cart that
+  // cannot be paid yet.
   const [shippingOptions, tLocked] = await Promise.all([
     listCartShippingMethods(cart.id),
     getTranslations("CheckoutPage"),
   ])
-  if (checkoutStepLocksOf(cart, shippingOptions).payment) {
+  if (checkoutStepLocksOf(cart, shippingOptions, !!customer).payment) {
     return (
       <div className="flex flex-col gap-y-3 py-2" aria-disabled="true" data-testid="checkout-payment-locked">
         <h2 className="h2-docs text-ui-fg-disabled">{tLocked("paymentHeading")}</h2>
@@ -41,8 +42,8 @@ const CheckoutPayment = async ({
     )
   }
 
-  // Batch 7: no guest pays at all — every order lands in an account (the pay button stays
-  // disabled until the sign-in, `CheckoutSignIn` above the form says why).
+  // Batch 7: no guest pays at all — every order lands in an account. The lock above already
+  // keeps a guest out of this block (t-2026-10-12-05); the button keeps its own guard.
   const requiresSignIn = !customer
   const [
     paymentMethods,

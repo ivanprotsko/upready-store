@@ -52,34 +52,86 @@ const contacts = {
 
 describe("checkoutStepLocks", () => {
   it("opens the delivery only after the address, the contacts after both, the payment last", () => {
-    const none = { needsShipping: true, address: false, shipping: false, contacts: false }
-    expect(checkoutStepLocks(none)).toEqual({ shipping: true, contacts: true, payment: true })
+    const none = { signedIn: true, needsShipping: true, address: false, shipping: false, contacts: false }
+    expect(checkoutStepLocks(none)).toEqual({
+      address: false,
+      shipping: true,
+      contacts: true,
+      payment: true,
+    })
     expect(checkoutStepLocks({ ...none, address: true })).toEqual({
+      address: false,
       shipping: false,
       contacts: true,
       payment: true,
     })
     expect(checkoutStepLocks({ ...none, address: true, shipping: true })).toEqual({
+      address: false,
       shipping: false,
       contacts: false,
       payment: true,
     })
-    expect(
-      checkoutStepLocks({ needsShipping: true, address: true, shipping: true, contacts: true })
-    ).toEqual({ shipping: false, contacts: false, payment: false })
+    expect(checkoutStepLocks({ ...none, address: true, shipping: true, contacts: true })).toEqual({
+      address: false,
+      shipping: false,
+      contacts: false,
+      payment: false,
+    })
   })
 
   it("keeps a later section closed even when its own data is there", () => {
     // Contacts saved on an earlier visit do not open the payment before the address.
     expect(
-      checkoutStepLocks({ needsShipping: true, address: false, shipping: true, contacts: true })
-    ).toEqual({ shipping: true, contacts: true, payment: true })
+      checkoutStepLocks({
+        signedIn: true,
+        needsShipping: true,
+        address: false,
+        shipping: true,
+        contacts: true,
+      })
+    ).toEqual({ address: false, shipping: true, contacts: true, payment: true })
   })
 
   it("starts a cart with nothing to post at the contacts", () => {
     expect(
-      checkoutStepLocks({ needsShipping: false, address: false, shipping: false, contacts: false })
-    ).toEqual({ shipping: false, contacts: false, payment: true })
+      checkoutStepLocks({
+        signedIn: true,
+        needsShipping: false,
+        address: false,
+        shipping: false,
+        contacts: false,
+      })
+    ).toEqual({ address: false, shipping: false, contacts: false, payment: true })
+  })
+
+  // t-2026-10-12-05, Ivan 12.10 item 6.3: «поля адреса не отображались пока пользователь
+  // не авторизуется». The sign-in is the first step: a guest opens nothing after it.
+  it("locks every section for a guest, even on a cart that is otherwise complete", () => {
+    const complete = { needsShipping: true, address: true, shipping: true, contacts: true }
+    expect(checkoutStepLocks({ ...complete, signedIn: false })).toEqual({
+      address: true,
+      shipping: true,
+      contacts: true,
+      payment: true,
+    })
+    expect(checkoutStepLocks({ ...complete, signedIn: true })).toEqual({
+      address: false,
+      shipping: false,
+      contacts: false,
+      payment: false,
+    })
+  })
+
+  it("locks the contacts of a cart with nothing to post until the sign-in", () => {
+    expect(
+      checkoutStepLocks({
+        signedIn: false,
+        needsShipping: false,
+        address: false,
+        shipping: false,
+        contacts: true,
+      })
+    ).toEqual({ address: false, shipping: false, contacts: true, payment: true })
   })
 })
 
@@ -97,8 +149,11 @@ describe("the step tests read off the cart", () => {
       isAddressStepDone(cart({ shipping_address: { ...address, postal_code: "80571" } }), [courier])
     ).toBe(false)
     expect(
-      checkoutStepLocksOf(cart({ shipping_address: { ...address, postal_code: "80571" } }), [courier])
-        .shipping
+      checkoutStepLocksOf(
+        cart({ shipping_address: { ...address, postal_code: "80571" } }),
+        [courier],
+        true
+      ).shipping
     ).toBe(true)
   })
 
@@ -137,8 +192,9 @@ describe("the step tests read off the cart", () => {
           metadata: contacts,
           email: "anna@example.ru",
         }),
-        [courier]
+        [courier],
+        true
       )
-    ).toEqual({ shipping: false, contacts: false, payment: false })
+    ).toEqual({ address: false, shipping: false, contacts: false, payment: false })
   })
 })

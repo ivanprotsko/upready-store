@@ -202,13 +202,16 @@
     "signIn": "로그인",
     "total": "합계",
     "shippingZone": "지역: {zone}",
-    "courseSignInHeading": "강의를 구매하려면 로그인하세요",
-    "courseSignInText": "강의는 계정에서 열리므로 구매하려면 로그인 또는 회원가입이 필요합니다.",
     "fieldRequired": "이 항목을 입력하세요",
     "emailInvalid": "이메일을 확인하세요: 주소에 오류가 있습니다",
-    "signInHeading": "주문하려면 로그인하세요",
-    "signInText": "주문은 계정에 표시됩니다. 결제 정보, 상태, 구매한 강의를 거기서 볼 수 있습니다. 로그인 또는 가입은 1분이면 되고 장바구니는 유지됩니다.",
-    "shippingNotChosen": "배송 방법 선택 후"
+    "shippingNotChosen": "배송 방법 선택 후",
+    "backToCartShort": "장바구니",
+    "signInStepHeading": "내 계정에 로그인",
+    "signInStepGuest": "주문이 저희 스토어의 회원님 계정에 저장되도록 로그인해 주세요.",
+    "signInDoneNamed": "{name}(으)로 로그인했습니다. 이메일 주소: {email}",
+    "signInDoneEmail": "이메일 주소 {email}(으)로 로그인했습니다",
+    "signInDoneHandle": "{name}(으)로 로그인했습니다",
+    "addressAfterSignIn": "로그인하면 주소를 입력할 수 있습니다"
   },
   "ClaimOrders": {
     "heading": "계정 없이 주문하셨나요?",

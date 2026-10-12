@@ -202,13 +202,16 @@
     "signIn": "Mag-sign in",
     "total": "Kabuuan",
     "shippingZone": "Sona: {zone}",
-    "courseSignInHeading": "Mag-sign in para bilhin ang kurso",
-    "courseSignInText": "Bubukas ang kurso sa account mo, kaya kailangan ng sign-in o pagrehistro para bumili.",
     "fieldRequired": "Punan ang field na ito",
     "emailInvalid": "Suriin ang email: may mali sa address",
-    "signInHeading": "Mag-sign in para mag-order",
-    "signInText": "Lalabas ang order sa iyong account: naroon ang mga detalye ng bayad, status, at mga biniling kurso. Isang minuto lang ang pag-sign in o pagrehistro, at mananatili ang cart.",
-    "shippingNotChosen": "pagkatapos pumili ng paraan"
+    "shippingNotChosen": "pagkatapos pumili ng paraan",
+    "backToCartShort": "Kariton",
+    "signInStepHeading": "Mag-sign in sa iyong account",
+    "signInStepGuest": "Mangyaring mag-sign in para mai-save ang order sa iyong account sa aming tindahan.",
+    "signInDoneNamed": "Naka-sign in ka bilang {name}, email address: {email}",
+    "signInDoneEmail": "Naka-sign in ka gamit ang email address na {email}",
+    "signInDoneHandle": "Naka-sign in ka bilang {name}",
+    "addressAfterSignIn": "Mabubuksan ang address pagkatapos mong mag-sign in"
   },
   "ClaimOrders": {
     "heading": "Nag-order nang walang account?",

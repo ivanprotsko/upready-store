@@ -2,7 +2,7 @@
 
 import { usePathname, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 import type { TelegramBot } from "@lib/data/telegram-bot"
 import type { TenantLoginSettings } from "@lib/tenant/login-settings"
@@ -27,6 +27,8 @@ type Props = {
   telegramBot: TelegramBot | null
   siteName: string
   legal: LegalLinkContext
+  /** The signed-in buyer behind the page, when the host keeps the modal for one (`forCustomer`). */
+  customerId?: string | null
 }
 
 /**
@@ -49,7 +51,7 @@ type Props = {
  * `?yandex_error=…` the modal opens by itself, so the buyer reads why on the page they
  * started from. `/account` shows that message in its own page and is left alone.
  */
-export default function LoginModal({ loginSettings, telegramBot, siteName, legal }: Props) {
+export default function LoginModal({ loginSettings, telegramBot, siteName, legal, customerId = null }: Props) {
   const t = useTranslations("Login")
   const { open, email } = useLoginModal()
   const pathname = usePathname() ?? "/"
@@ -66,6 +68,14 @@ export default function LoginModal({ loginSettings, telegramBot, siteName, legal
   useEffect(() => {
     if (yandexError && !isAccountPath(pathname)) openLoginModal()
   }, [yandexError, pathname])
+
+  // On the checkout the modal stays mounted for a customer (`LoginModalHost forCustomer`), so a
+  // sign-in no longer unmounts it: the buyer behind the page changing is what closes it.
+  const signedInAs = useRef(customerId)
+  useEffect(() => {
+    if (signedInAs.current !== customerId) closeLoginModal()
+    signedInAs.current = customerId
+  }, [customerId])
 
   return (
     <CheckoutModal open={open} onClose={closeLoginModal} title={t("heading")} compact>

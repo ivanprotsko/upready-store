@@ -202,13 +202,16 @@
     "signIn": "Accedi",
     "total": "Totale",
     "shippingZone": "Zona: {zone}",
-    "courseSignInHeading": "Accedi per acquistare il corso",
-    "courseSignInText": "Il corso si apre nel tuo account, quindi per acquistarlo serve l'accesso o la registrazione.",
     "fieldRequired": "Compila questo campo",
     "emailInvalid": "Controlla l'e-mail: l'indirizzo contiene un errore",
-    "signInHeading": "Accedi per completare l'ordine",
-    "signInText": "L'ordine comparirà nel tuo account: lì troverai i dati di pagamento, lo stato e i corsi acquistati. Accedere o registrarsi richiede un minuto e il carrello viene conservato.",
-    "shippingNotChosen": "dopo la scelta del metodo"
+    "shippingNotChosen": "dopo la scelta del metodo",
+    "backToCartShort": "Carrello",
+    "signInStepHeading": "Accesso al tuo account",
+    "signInStepGuest": "Accedi perché l’ordine venga salvato nel tuo account del nostro negozio.",
+    "signInDoneNamed": "Hai effettuato l’accesso come {name}, indirizzo email: {email}",
+    "signInDoneEmail": "Hai effettuato l’accesso con l’indirizzo email {email}",
+    "signInDoneHandle": "Hai effettuato l’accesso come {name}",
+    "addressAfterSignIn": "L’indirizzo si apre dopo l’accesso"
   },
   "ClaimOrders": {
     "heading": "Hai ordinato senza account?",

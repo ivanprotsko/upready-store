@@ -15,8 +15,10 @@ import { realEmailOrEmpty } from "@lib/util/telegram-contact"
 /**
  * The checkout's sections open in order (t-2026-10-09-56, Ivan 09.10: «нужно
  * сделать, чтобы к следующему разделу нельзя было перейти пока предыдущий не будет
- * завершен»): «Адрес доставки» → «Способ доставки» → «Контакты» → payment. A
- * section stays closed, its heading alone, until every section before it is done.
+ * завершен»): «Вход в личный кабинет» → «Адрес доставки» → «Способ доставки» →
+ * «Контакты» → payment. A section stays closed, its heading alone, until every section
+ * before it is done. The sign-in came first on 12.10 (t-2026-10-12-05, Ivan: «поля
+ * адреса не отображались пока пользователь не авторизуется»): a guest sees no field.
  *
  * «Done» is read off the cart, the same tests each section's own checkmark uses, so
  * the gate and the checkmark never disagree and a reload lands on the same step.
@@ -99,6 +101,8 @@ export const isContactsStepDone = (cart: HttpTypes.StoreCart): boolean => {
 }
 
 export type CheckoutStepsDone = {
+  /** The buyer is signed in: the first step, «Вход в личный кабинет», is done. */
+  signedIn: boolean
   /** False for a cart with nothing to post: no address, no delivery section. */
   needsShipping: boolean
   address: boolean
@@ -108,12 +112,14 @@ export type CheckoutStepsDone = {
 
 /** Which sections stay closed: each one until every section before it is done. */
 export type CheckoutStepLocks = {
+  address: boolean
   shipping: boolean
   contacts: boolean
   payment: boolean
 }
 
 export const checkoutStepLocks = ({
+  signedIn,
   needsShipping,
   address,
   shipping,
@@ -121,18 +127,21 @@ export const checkoutStepLocks = ({
 }: CheckoutStepsDone): CheckoutStepLocks => {
   const deliveryDone = !needsShipping || (address && shipping)
   return {
-    shipping: needsShipping && !address,
-    contacts: !deliveryDone,
-    payment: !deliveryDone || !contacts,
+    address: needsShipping && !signedIn,
+    shipping: needsShipping && (!signedIn || !address),
+    contacts: !signedIn || !deliveryDone,
+    payment: !signedIn || !deliveryDone || !contacts,
   }
 }
 
-/** The locks for this cart, every test above in one call. */
+/** The locks for this cart and this buyer, every test above in one call. */
 export const checkoutStepLocksOf = (
   cart: HttpTypes.StoreCart,
-  options: ShippingOption[] | null | undefined
+  options: ShippingOption[] | null | undefined,
+  signedIn: boolean
 ): CheckoutStepLocks =>
   checkoutStepLocks({
+    signedIn,
     needsShipping: cartNeedsShipping(cart),
     address: isAddressStepDone(cart, options),
     shipping: isShippingStepDone(cart, options),

@@ -202,13 +202,16 @@
     "signIn": "Prisijungti",
     "total": "Iš viso",
     "shippingZone": "Zona: {zone}",
-    "courseSignInHeading": "Prisijunkite, kad įsigytumėte kursą",
-    "courseSignInText": "Kursas atidaromas jūsų paskyroje, todėl pirkimui reikia prisijungti arba užsiregistruoti.",
     "fieldRequired": "Užpildykite šį lauką",
     "emailInvalid": "Patikrinkite el. paštą: adrese yra klaida",
-    "signInHeading": "Prisijunkite, kad pateiktumėte užsakymą",
-    "signInText": "Užsakymas atsiras jūsų paskyroje: ten bus mokėjimo rekvizitai, būsena ir įsigyti kursai. Prisijungimas ar registracija užtrunka minutę, krepšelis išsaugomas.",
-    "shippingNotChosen": "pasirinkus būdą"
+    "shippingNotChosen": "pasirinkus būdą",
+    "backToCartShort": "Krepšelis",
+    "signInStepHeading": "Prisijungimas prie paskyros",
+    "signInStepGuest": "Prisijunkite, kad užsakymas būtų išsaugotas jūsų paskyroje mūsų parduotuvėje.",
+    "signInDoneNamed": "Prisijungėte kaip {name}, el. pašto adresas: {email}",
+    "signInDoneEmail": "Prisijungėte el. pašto adresu: {email}",
+    "signInDoneHandle": "Prisijungėte kaip {name}",
+    "addressAfterSignIn": "Adresas atsivers prisijungus"
   },
   "ClaimOrders": {
     "heading": "Užsisakėte be paskyros?",

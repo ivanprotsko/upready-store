@@ -11,7 +11,8 @@
  *   3. first login (actor_id empty)                 -> link an existing account
  *      by verified email, else create one, then refresh the JWT so it carries
  *      the customer id
- *   4. set _medusa_jwt, move the anonymous cart onto the customer, revalidate
+ *   4. keep the Yandex ID picture's id on the customer (t-2026-10-12-05), set
+ *      _medusa_jwt, move the cart onto the customer, revalidate
  *   5. 302 back to the page the buyer started from
  *
  * Nothing renders here. Every failure redirects back with `?yandex_error=<code>`,
@@ -29,6 +30,7 @@ import {
   accountPath,
   backendUrl,
   decodeJwtPayload,
+  keepYandexAvatar,
   resolveLocale,
   resolveShop,
   sanitizeReturnPath,
@@ -199,6 +201,7 @@ export async function GET(req: NextRequest) {
             metadata: {
               locale,
               yandex_login: payload?.user_metadata?.login ?? null,
+              yandex_avatar_id: payload?.user_metadata?.avatar_id ?? null,
             },
           }),
         })
@@ -242,6 +245,10 @@ export async function GET(req: NextRequest) {
       return fail("failed")
     }
   }
+
+  // --- 3c. the Yandex ID picture, kept on the customer for the checkout header ---
+  // Read off the callback's own token: a refreshed one may not repeat the profile.
+  await keepYandexAvatar(storeHeaders(token), payload?.user_metadata?.avatar_id)
 
   // --- 4. session cookie, cart transfer, cache invalidation ------------------
   const response = clearCrossing(

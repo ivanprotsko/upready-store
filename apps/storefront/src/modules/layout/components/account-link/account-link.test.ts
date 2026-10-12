@@ -75,28 +75,44 @@ describe("when the link keeps its meaning", () => {
   })
 })
 
-describe("the checkout's «По эл. почте»", () => {
+describe("the e-mail form unfolded on open", () => {
   it("opens the modal with the e-mail form unfolded", () => {
     setLoginModalAvailable(true)
     const event = click()
     expect(openLoginModalOnClick(event, { email: true })).toBe(true)
     expect(getLoginModalState()).toMatchObject({ open: true, email: true })
-    expect(read("modules/checkout/components/checkout-sign-in/index.tsx")).toContain(
-      '<AccountLink className="flex w-full" emailForm>'
-    )
+  })
+})
+
+describe("the checkout's «Вход в личный кабинет» step (t-2026-10-12-05)", () => {
+  it("opens the same modal from «Войти» and «Изменить»", () => {
+    const step = read("modules/checkout/components/checkout-sign-in/index.tsx")
+    expect(step).toContain("<AccountLink")
+    expect(step).toContain('{done ? t("edit") : t("signIn")}')
   })
 })
 
 describe("the modal is on every page a guest can sign in from", () => {
-  it.each(["app/[locale]/(main)/layout.tsx", "app/[locale]/(checkout)/layout.tsx"])(
-    "%s places LoginModalHost",
-    (layout) => {
-      expect(read(layout)).toMatch(/<Suspense fallback=\{null\}>\s*<LoginModalHost \/>\s*<\/Suspense>/)
-    }
-  )
+  it("(main) places LoginModalHost for a guest", () => {
+    expect(read("app/[locale]/(main)/layout.tsx")).toMatch(
+      /<Suspense fallback=\{null\}>\s*<LoginModalHost \/>\s*<\/Suspense>/
+    )
+  })
+
+  it("(checkout) keeps it for a customer too, the sign-in step's «Изменить»", () => {
+    expect(read("app/[locale]/(checkout)/layout.tsx")).toMatch(
+      /<Suspense fallback=\{null\}>\s*<LoginModalHost forCustomer \/>\s*<\/Suspense>/
+    )
+    // Mounted for a customer, the modal closes when the buyer behind the page changes.
+    expect(read("modules/account/components/login-modal/index.tsx")).toContain(
+      "if (signedInAs.current !== customerId) closeLoginModal()"
+    )
+  })
 
   it("closes once the buyer is signed in: the host renders nothing for a customer", () => {
-    expect(read("modules/account/components/login-modal/host.tsx")).toContain("if (customer) return null")
+    expect(read("modules/account/components/login-modal/host.tsx")).toContain(
+      "if (customer && !forCustomer) return null"
+    )
     setLoginModalAvailable(true)
     openLoginModalOnClick(click())
     setLoginModalAvailable(false) // LoginModal unmounting after the sign-in redirect

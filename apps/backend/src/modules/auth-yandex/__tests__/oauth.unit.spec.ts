@@ -1,5 +1,6 @@
 import {
   YANDEX_AUTHORIZE_URL,
+  avatarId,
   avatarUrl,
   buildAuthorizeUrl,
   exchangeCodeForToken,
@@ -77,6 +78,9 @@ describe("auth-yandex profile mapping", () => {
     expect(identity.userMetadata.picture).toBe(
       "https://avatars.yandex.net/get-yapic/abc123/islands-200",
     );
+    // t-2026-10-12-05: the id itself is kept next to the name and the email,
+    // so the storefront can draw the checkout avatar at its own size.
+    expect(identity.userMetadata.avatar_id).toBe("abc123");
   });
 
   it("falls back to emails[] and to the name parts", () => {
@@ -90,11 +94,26 @@ describe("auth-yandex profile mapping", () => {
     expect(identity.userMetadata.email).toBe("ivan@example.com");
     expect(identity.userMetadata.name).toBe("Ivan Protsko");
     expect(identity.userMetadata.picture).toBeNull();
+    expect(identity.userMetadata.avatar_id).toBeNull();
   });
 
   it("treats an empty avatar as no avatar", () => {
     expect(avatarUrl({ default_avatar_id: "x", is_avatar_empty: true })).toBeNull();
     expect(avatarUrl({})).toBeNull();
+    expect(avatarId({ default_avatar_id: "x", is_avatar_empty: true })).toBeNull();
+    expect(avatarId({ default_avatar_id: "  " })).toBeNull();
+    expect(avatarId({})).toBeNull();
+  });
+
+  it("keeps no avatar id when the application lacks login:avatar", () => {
+    // Without the permission Yandex leaves both avatar fields out of the profile.
+    const identity = mapProfileToIdentity({
+      id: "42",
+      default_email: "buyer@example.com",
+    });
+
+    expect(identity.userMetadata.avatar_id).toBeNull();
+    expect(identity.userMetadata.picture).toBeNull();
   });
 
   it("names the missing permission when the profile has no email", () => {

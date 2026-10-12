@@ -202,13 +202,16 @@
     "signIn": "Logga in",
     "total": "Totalt",
     "shippingZone": "Zon: {zone}",
-    "courseSignInHeading": "Logga in för att köpa kursen",
-    "courseSignInText": "Kursen öppnas i ditt konto, så köpet kräver inloggning eller registrering.",
     "fieldRequired": "Fyll i det här fältet",
     "emailInvalid": "Kontrollera e-posten: adressen innehåller ett fel",
-    "signInHeading": "Logga in för att lägga ordern",
-    "signInText": "Ordern visas på ditt konto: där finns betalningsuppgifterna, statusen och de köpta kurserna. Inloggning eller registrering tar en minut och varukorgen sparas.",
-    "shippingNotChosen": "när du har valt sätt"
+    "shippingNotChosen": "när du har valt sätt",
+    "backToCartShort": "Varukorg",
+    "signInStepHeading": "Logga in på ditt konto",
+    "signInStepGuest": "Logga in så att beställningen sparas på ditt konto i vår butik.",
+    "signInDoneNamed": "Du är inloggad som {name}, e-postadress: {email}",
+    "signInDoneEmail": "Du är inloggad med e-postadressen {email}",
+    "signInDoneHandle": "Du är inloggad som {name}",
+    "addressAfterSignIn": "Adressen öppnas när du har loggat in"
   },
   "ClaimOrders": {
     "heading": "Beställde du utan konto?",

@@ -21,6 +21,13 @@ interface CheckoutAddressRowProps {
   availableShippingMethods:
     | HttpTypes.StoreCartShippingOptionWithServiceZone[]
     | null
+  /**
+   * t-2026-10-12-05 (Ivan 12.10, item 6.3: «поля адреса не отображались пока пользователь
+   * не авторизуется»): the buyer has not signed in yet, so the section is its muted heading
+   * and one line saying when it opens, with no field and nothing to click
+   * (`checkoutStepLocks`).
+   */
+  locked?: boolean
 }
 
 /**
@@ -36,6 +43,7 @@ export default function CheckoutAddressRow({
   cart,
   addresses,
   availableShippingMethods,
+  locked = false,
 }: CheckoutAddressRowProps) {
   const t = useTranslations("CheckoutPage")
   const tPickup = useTranslations("PickupPoint")
@@ -105,6 +113,28 @@ export default function CheckoutAddressRow({
       </h2>
     </span>
   )
+
+  if (locked) {
+    return (
+      <>
+        <div className="h-px bg-ui-border-base w-full first:hidden" />
+
+        <div
+          className="flex flex-col gap-y-1 py-2"
+          aria-disabled="true"
+          data-testid="checkout-address-locked"
+        >
+          <span className="flex items-center gap-x-2">
+            <span className="flex-shrink-0 text-ui-fg-disabled">
+              <MapPin size={24} />
+            </span>
+            <h2 className="h2-docs text-ui-fg-disabled">{t("addressHeading")}</h2>
+          </span>
+          <p className="ps-8 txt-small text-ui-fg-muted">{t("addressAfterSignIn")}</p>
+        </div>
+      </>
+    )
+  }
 
   return (
     <>

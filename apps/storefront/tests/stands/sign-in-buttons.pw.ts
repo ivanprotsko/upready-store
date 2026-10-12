@@ -128,19 +128,22 @@ test.describe("sign-in buttons that stand together are one size", () => {
   })
 
   for (const width of ["desktop", "@mobile"] as const) {
+    // t-2026-10-12-05: the checkout's «Вход в личный кабинет» step has no buttons of its own any
+    // more; its «Войти» opens the sign-in modal, whose methods are the shared block's.
     test(`checkout sign-in step ${width}`, async ({ page }) => {
       await addProductToCart(page)
       await page.goto("/ru/checkout")
-      const block = page.getByTestId("checkout-sign-in")
-      await expect(block).toBeVisible({ timeout: 20_000 })
-      const methods = block.getByTestId("checkout-sign-in-methods")
+      const step = page.getByTestId("checkout-sign-in-step")
+      await expect(step).toBeVisible({ timeout: 20_000 })
+      await step.getByTestId("checkout-sign-in-step-action").click()
+      const methods = page.getByTestId("login-modal").getByTestId("cart-sidebar-sign-in-methods")
       await expect(methods).toBeVisible()
       expectOneSize(
         `checkout sign-in ${width}`,
         await boxes(methods, [
-          "checkout-sign-in-button",
+          "cart-sidebar-sign-in-email",
           "telegram-login-cta",
-          "checkout-sign-in-yandex",
+          "cart-sidebar-sign-in-yandex",
         ])
       )
     })
