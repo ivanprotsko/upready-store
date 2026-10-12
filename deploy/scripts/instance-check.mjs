@@ -36,6 +36,11 @@
 // an e-mail. A tenant the profile records as a known exception is printed as
 // "KNOWN VIOLATION (recorded)" and does not change the exit code.
 //
+// The --db check also sets each tenant's live flag against the secondary signs of test data
+// (t-2026-10-12-31, docs/instances/RULES.md §7): one "live-check:" line per tenant with the flag, a
+// verdict and counts, and a "SIGNAL:" line where the flag and the data disagree. E-mails are classified
+// inside Postgres, so only counts leave the database. It never changes the exit code.
+//
 // Exit codes: 0 clean, 1 one or more violations (printed one per line to
 // stderr, "VIOLATION: <reason>"), 2 usage or configuration error.
 import { existsSync, readdirSync, readFileSync, realpathSync } from "node:fs";
@@ -407,6 +412,183 @@ export function checkDbTenants(tenants, profile, otherProfiles) {
   return { violations, known };
 }
 
+/**
+ * E-mail domains no real buyer writes from (t-2026-10-12-31). An entry matches the domain itself and
+ * every domain below it, so "test" matches acme.test. Besides these, an address counts as test when its
+ * domain starts with "test." or its local part carries a "+test" tag.
+ *
+ * The .local zone is not here on purpose: tg_<id>@telegram.local is the address the backend gives a
+ * real buyer who signs in with Telegram (apps/backend/src/modules/auth-telegram/lib/identity.ts).
+ */
+export const TEST_EMAIL_DOMAINS = [
+  // RFC 2606: reserved for examples and tests, no mailbox exists there.
+  "example.com",
+  "example.org",
+  "example.net",
+  "example",
+  "test",
+  "invalid",
+  "localhost",
+  // Throwaway mailboxes.
+  "mailinator.com",
+  "yopmail.com",
+  "guerrillamail.com",
+  "sharklasers.com",
+  "10minutemail.com",
+  "temp-mail.org",
+  "maildrop.cc",
+  "dispostable.com",
+  "trashmail.com",
+  // The platform's own domains: the team's accounts, not buyers.
+  "shipshift.dev",
+  "upready.dev",
+  "upready.store",
+];
+
+/**
+ * The providers whose `is_test` means a test contour, and only these. Keep both lists in step with
+ * PAYMENT_PROVIDERS and DELIVERY_PROVIDERS of apps/backend/src/tenant-secrets/test-mode.ts, the
+ * storefront's red dot; the unit test reads that file. Bitcart, BTCPay and Tribute rows carry an
+ * `is_test` nothing reads.
+ */
+export const TEST_MODE_PAYMENT_PROVIDERS = ["robokassa", "x402"];
+export const TEST_MODE_DELIVERY_PROVIDERS = ["cdek", "apiship", "pochta"];
+
+/** A plain host name, the only text this tool writes into its own SQL. */
+const SQL_SAFE_DOMAIN = /^[a-z0-9-]+(\.[a-z0-9-]+)*$/;
+
+function sqlTextArray(values) {
+  for (const value of values) {
+    if (!SQL_SAFE_DOMAIN.test(value)) throw new UsageError(`not a plain name for the SQL of the live check: ${value}`);
+  }
+  return `ARRAY[${values.map((value) => `'${value}'`).join(", ")}]::text[]`;
+}
+
+/** SQL that is true when the address in `column` is a test one. It runs inside Postgres, so no address ever reaches this tool. */
+function testEmailSql(column, domains) {
+  const address = `lower(trim(coalesce(${column}, '')))`;
+  const domain = `split_part(${address}, '@', 2)`;
+  return `(strpos(${address}, '@') > 0 AND (split_part(${address}, '@', 1) ~ '\\+test' OR ${domain} LIKE 'test.%' OR EXISTS (SELECT 1 FROM unnest(${sqlTextArray(domains)}) d WHERE ${domain} = d OR ${domain} LIKE '%.' || d)))`;
+}
+
+/**
+ * One line per tenant, counts and provider modes only:
+ *   handle|live|live_since|live_by|orders|orders with a test e-mail|orders paid in a test contour|test orders|
+ *   customers|customers with a test e-mail|test customers|provider=test,provider=live
+ *
+ * An order is a test one when its e-mail is, or when a payment session of it ran in a test contour
+ * (Robokassa `is_test`, an x402 test network). A customer of a shop is one whose account the shop
+ * registered (`metadata.tenant_id`) or who placed an order there; a test one has a test e-mail, or
+ * placed orders there and every one of them is a test order. `live` is the JSON boolean
+ * `metadata.live` of apps/backend/src/modules/tenant/live.ts, `live_since` and `live_by` its date and
+ * author.
+ */
+export function liveSignsSql(domains = TEST_EMAIL_DOMAINS) {
+  const providers = sqlTextArray([...TEST_MODE_PAYMENT_PROVIDERS, ...TEST_MODE_DELIVERY_PROVIDERS]);
+  return [
+    "/* live_signs */ WITH t AS (",
+    "  SELECT id, handle, coalesce(metadata->'live' = 'true'::jsonb, false) AS live,",
+    // Cut to the characters a date and a name need, so neither can break the line format below.
+    "    left(regexp_replace(coalesce(metadata->>'live_since', ''), '[^0-9-]', '', 'g'), 10) AS live_since,",
+    "    left(regexp_replace(coalesce(metadata->>'live_by', ''), '[^a-zA-Z0-9._-]', '', 'g'), 40) AS live_by",
+    "  FROM tenant WHERE deleted_at IS NULL",
+    "), o AS (",
+    `  SELECT l.tenant_id, o.id, o.customer_id, ${testEmailSql("o.email", domains)} AS test_email,`,
+    "    EXISTS (SELECT 1 FROM order_payment_collection opc JOIN payment_session ps ON ps.payment_collection_id = opc.payment_collection_id",
+    "      WHERE opc.order_id = o.id AND opc.deleted_at IS NULL AND ps.deleted_at IS NULL",
+    "        AND (ps.data->>'is_test' = 'true' OR ps.data->>'testnet' = 'true')) AS test_paid",
+    `  FROM tenant_tenant_order_order l JOIN "order" o ON o.id = l.order_id WHERE l.deleted_at IS NULL AND o.deleted_at IS NULL`,
+    "), c AS (",
+    `  SELECT t.id AS tenant_id, cu.id, ${testEmailSql("cu.email", domains)} AS test_email,`,
+    "    EXISTS (SELECT 1 FROM o WHERE o.tenant_id = t.id AND o.customer_id = cu.id) AS ordered,",
+    "    NOT EXISTS (SELECT 1 FROM o WHERE o.tenant_id = t.id AND o.customer_id = cu.id AND NOT (o.test_email OR o.test_paid)) AS only_test_orders",
+    "  FROM t JOIN customer cu ON cu.deleted_at IS NULL",
+    "    AND (cu.metadata->>'tenant_id' = t.id OR EXISTS (SELECT 1 FROM o WHERE o.tenant_id = t.id AND o.customer_id = cu.id))",
+    "), a AS (",
+    "  SELECT tenant_id, string_agg(provider || '=' || CASE WHEN is_test THEN 'test' ELSE 'live' END, ',' ORDER BY provider) AS accounts",
+    `  FROM tenant_integration_secret WHERE deleted_at IS NULL AND is_enabled AND provider = ANY(${providers}) GROUP BY tenant_id`,
+    ")",
+    "SELECT t.handle || '|' || t.live || '|' || t.live_since || '|' || t.live_by",
+    "  || '|' || (SELECT count(*) FROM o WHERE o.tenant_id = t.id)",
+    "  || '|' || (SELECT count(*) FROM o WHERE o.tenant_id = t.id AND o.test_email)",
+    "  || '|' || (SELECT count(*) FROM o WHERE o.tenant_id = t.id AND o.test_paid)",
+    "  || '|' || (SELECT count(*) FROM o WHERE o.tenant_id = t.id AND (o.test_email OR o.test_paid))",
+    "  || '|' || (SELECT count(*) FROM c WHERE c.tenant_id = t.id)",
+    "  || '|' || (SELECT count(*) FROM c WHERE c.tenant_id = t.id AND c.test_email)",
+    "  || '|' || (SELECT count(*) FROM c WHERE c.tenant_id = t.id AND (c.test_email OR (c.ordered AND c.only_test_orders)))",
+    "  || '|' || coalesce(a.accounts, '')",
+    "FROM t LEFT JOIN a ON a.tenant_id = t.id ORDER BY t.handle",
+  ].join("\n");
+}
+
+/** The lines of `liveSignsSql` -> one object per tenant. */
+export function parseLiveRows(rows) {
+  return rows.map((row) => {
+    const [handle, live, since, by, ...rest] = row.split("|");
+    const accounts = rest.pop();
+    const [orders, ordersTestEmail, ordersTestPaid, ordersTest, customers, customersTestEmail, customersTest] = rest.map(Number);
+    return {
+      handle,
+      live: live === "true",
+      since: since || null,
+      by: by || null,
+      orders: { total: orders, testEmail: ordersTestEmail, testPaid: ordersTestPaid, test: ordersTest },
+      customers: { total: customers, testEmail: customersTestEmail, test: customersTest },
+      accounts: accounts
+        .split(",")
+        .filter(Boolean)
+        .map((entry) => {
+          const [provider, mode] = entry.split("=");
+          return { provider, mode };
+        }),
+    };
+  });
+}
+
+/**
+ * `test-only`: no real sign at all, which includes a shop with nothing in it yet. `real-signs`: real
+ * signs and no test one. `mixed`: both. A real sign is an order or a customer that is not a test one,
+ * or an enabled payment account in live mode; a test sign is a test order, a test customer or an
+ * enabled payment or delivery account in a test contour.
+ *
+ * A delivery account in live mode is no sign either way: Ivan put olavka's CDEK on the live pair for
+ * real quotes while the shop was not in production (01.10.2026). It is printed all the same.
+ */
+export function liveVerdict(tenant) {
+  const accounts = (mode, providers) =>
+    tenant.accounts.filter((account) => account.mode === mode && (!providers || providers.includes(account.provider))).length;
+  const real = tenant.orders.total - tenant.orders.test + (tenant.customers.total - tenant.customers.test) + accounts("live", TEST_MODE_PAYMENT_PROVIDERS);
+  const test = tenant.orders.test + tenant.customers.test + accounts("test");
+  if (real === 0) return "test-only";
+  return test === 0 ? "real-signs" : "mixed";
+}
+
+/** What the tool prints for one tenant: handle, flag, verdict and counts, never an address. */
+export function liveLine(tenant, verdict = liveVerdict(tenant)) {
+  const { orders, customers } = tenant;
+  const accounts = tenant.accounts.map((account) => `${account.provider}=${account.mode}`).join(" ") || "none";
+  return (
+    `tenant "${tenant.handle}" live=${tenant.live}${tenant.since ? ` since ${tenant.since}` : ""}${tenant.by ? ` by ${tenant.by}` : ""} verdict=${verdict}: ` +
+    `orders ${orders.total} (test ${orders.test}: test e-mail ${orders.testEmail}, test payment ${orders.testPaid}), ` +
+    `customers ${customers.total} (test ${customers.test}: test e-mail ${customers.testEmail}), accounts ${accounts}`
+  );
+}
+
+/**
+ * A flag that disagrees with the data, or null. Not live with any real sign: an agent would take real
+ * buyers for test data. Live with test signs only: the flag may have been switched by mistake. Live
+ * and mixed is the usual state of a working shop and says nothing.
+ */
+export function liveSignal(tenant, verdict = liveVerdict(tenant)) {
+  if (!tenant.live && verdict !== "test-only") {
+    return `tenant "${tenant.handle}" is not live (metadata.live is not true) but shows real signs (${verdict}): either it takes real visitors and Ivan switches it on, or the real signs are test data a list here does not know (docs/instances/RULES.md §7, live flag)`;
+  }
+  if (tenant.live && verdict === "test-only") {
+    return `tenant "${tenant.handle}" is live since ${tenant.since ?? "an unknown date"} but shows test signs only: Ivan confirms the flag (docs/instances/RULES.md §7, live flag)`;
+  }
+  return null;
+}
+
 /** Shells out to psql, the same way deploy/scripts/tenant-ingress-sync.sh does. Throws rather than guessing on a database that cannot be read. */
 function psql(databaseUrl, sql) {
   let out;
@@ -448,6 +630,37 @@ export function queryDb(databaseUrl) {
     return { handle: row.slice(0, bar), hosts: row.slice(bar + 1).split(",").filter(Boolean) };
   });
   return { configuredProviders, ga4TenantCount: Number(ga4Rows[0] ?? "0"), loginMethods, tenants };
+}
+
+/** The secondary signs of `liveSignsSql`, one object per tenant. */
+export function queryLiveSigns(databaseUrl) {
+  return parseLiveRows(psql(databaseUrl, liveSignsSql()));
+}
+
+/**
+ * The live check (t-2026-10-12-31): one line per tenant on stdout, a SIGNAL line on stderr where the
+ * flag disagrees with the data. It never changes the exit code. A mismatch is a question for Ivan, not
+ * a broken instance, and a deploy goes on. When its query fails it says so and the run goes on too.
+ */
+function checkLive(databaseUrl) {
+  let tenants;
+  try {
+    tenants = queryLiveSigns(databaseUrl);
+  } catch (error) {
+    console.log(`live-check: NOT checked (${error.message})`);
+    return;
+  }
+  let signals = 0;
+  for (const tenant of tenants) {
+    const verdict = liveVerdict(tenant);
+    console.log(`live-check: ${liveLine(tenant, verdict)}`);
+    const signal = liveSignal(tenant, verdict);
+    if (signal) {
+      signals += 1;
+      console.error(`SIGNAL: ${signal}`);
+    }
+  }
+  console.log(`live-check: ${tenants.length} tenant(s), ${signals} SIGNAL line(s)`);
 }
 
 const USAGE = "usage: instance-check.mjs --instance <ru|intl> --env <path> [--backup-env <path>] [--db <postgres-url>]";
@@ -526,6 +739,7 @@ function main(argv) {
     for (const line of tenants.known) {
       console.error(`KNOWN VIOLATION (recorded): ${line}`);
     }
+    checkLive(args.db);
   }
 
   if (violations.length > 0) {

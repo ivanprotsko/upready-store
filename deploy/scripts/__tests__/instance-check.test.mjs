@@ -32,6 +32,14 @@ import {
   checkDbAnalytics,
   checkDbTenants,
   hostOf,
+  liveSignsSql,
+  parseLiveRows,
+  liveVerdict,
+  liveLine,
+  liveSignal,
+  TEST_EMAIL_DOMAINS,
+  TEST_MODE_PAYMENT_PROVIDERS,
+  TEST_MODE_DELIVERY_PROVIDERS,
   BACKUP_TARGET_KEYS,
   MAIL_KEYS,
   SCHOOL_KEYS,
@@ -534,6 +542,7 @@ writeFileSync(
     "#!/bin/sh",
     'if [ -n "$FAKE_PSQL_FAIL" ]; then echo "psql: error: connection to \\"$1\\" failed" >&2; exit 2; fi',
     'case "$4" in',
+    '  *live_signs*) if [ -n "$FAKE_LIVE_FAIL" ]; then echo "ERROR:  relation \\"order_payment_collection\\" does not exist" >&2; exit 1; fi; printf "%s\\n" "$FAKE_LIVE" ;;',
     '  *tenant_integration_secret*) printf "%s\\n" "$FAKE_PROVIDERS" ;;',
     '  *ga4_measurement_id*) echo 0 ;;',
     '  *buyer_login_method*) printf "%s\\n" "$FAKE_LOGINS" ;;',
@@ -736,4 +745,128 @@ test("compose.mt.yml starts the school only under its own profile and takes its 
     assert.match(rule, /PathPrefix\(`\/app`\)/);
     assert.doesNotMatch(rule, /PathPrefix\(`\/`\)/);
   }
+});
+
+// ---------------------------------------------------------------- live check (t-2026-10-12-31)
+
+test("the test e-mail domains are plain names, carry the reserved, throwaway and team domains, and leave .local out", () => {
+  for (const domain of TEST_EMAIL_DOMAINS) assert.match(domain, /^[a-z0-9-]+(\.[a-z0-9-]+)*$/, domain);
+  for (const domain of ["example.com", "example.org", "example.net", "test", "invalid", "mailinator.com", "shipshift.dev", "upready.dev"]) {
+    assert.ok(TEST_EMAIL_DOMAINS.includes(domain), domain);
+  }
+  // tg_<id>@telegram.local is a real buyer who signed in with Telegram.
+  assert.ok(!TEST_EMAIL_DOMAINS.includes("local"));
+  assert.ok(!TEST_EMAIL_DOMAINS.includes("telegram.local"));
+  const identity = readFileSync(path.join(REPO, "apps", "backend", "src", "modules", "auth-telegram", "lib", "identity.ts"), "utf8");
+  assert.match(identity, /SYNTHETIC_EMAIL_DOMAIN = "telegram\.local"/);
+});
+
+test("the test-mode providers are the storefront red dot's own lists", () => {
+  const source = readFileSync(path.join(REPO, "apps", "backend", "src", "tenant-secrets", "test-mode.ts"), "utf8");
+  const list = (name) => JSON.parse(new RegExp(`const ${name} = (\\[[^\\]]*\\]) as const;`).exec(source)[1]);
+  assert.deepEqual(TEST_MODE_PAYMENT_PROVIDERS, list("PAYMENT_PROVIDERS"));
+  assert.deepEqual(TEST_MODE_DELIVERY_PROVIDERS, list("DELIVERY_PROVIDERS"));
+});
+
+test("liveSignsSql returns counts and provider modes only, and refuses a domain that is not a plain name", () => {
+  const sql = liveSignsSql();
+  for (const domain of TEST_EMAIL_DOMAINS) assert.ok(sql.includes(`'${domain}'`), domain);
+  // What leaves the database: the handle, the flag, counts and provider=mode. No e-mail, no payload,
+  // only the yes/no `test_email` worked out inside Postgres.
+  const output = sql.slice(sql.lastIndexOf("\nSELECT "));
+  assert.doesNotMatch(output, /\b(o|cu)\.email\b|payload|first_name|last_name|phone|address/);
+  assert.equal(output.match(/count\(\*\)/g).length, 7);
+  assert.doesNotMatch(sql, /payload/);
+  assert.throws(() => liveSignsSql(["example.com", "x' OR true --"]), UsageError);
+  assert.throws(() => liveSignsSql(["exa_mple.com"]), UsageError);
+});
+
+const liveRow = (handle, live, counts, accounts = "", since = "", by = "") => [handle, live, since, by, ...counts, accounts].join("|");
+
+test("parseLiveRows reads a line of liveSignsSql", () => {
+  assert.deepEqual(parseLiveRows([liveRow("olavka", "false", [10, 3, 10, 10, 7, 3, 7], "cdek=test,robokassa=test")]), [
+    {
+      handle: "olavka",
+      live: false,
+      since: null,
+      by: null,
+      orders: { total: 10, testEmail: 3, testPaid: 10, test: 10 },
+      customers: { total: 7, testEmail: 3, test: 7 },
+      accounts: [
+        { provider: "cdek", mode: "test" },
+        { provider: "robokassa", mode: "test" },
+      ],
+    },
+  ]);
+  const [live] = parseLiveRows([liveRow("cherkashino", "true", [0, 0, 0, 0, 0, 0, 0], "", "2026-10-12", "ivan")]);
+  assert.equal(live.live, true);
+  assert.equal(live.since, "2026-10-12");
+  assert.equal(live.by, "ivan");
+  assert.deepEqual(live.accounts, []);
+});
+
+test("liveVerdict: test-only, real-signs and mixed, and an empty shop is test-only", () => {
+  const verdict = (counts, accounts = "") => liveVerdict(parseLiveRows([liveRow("x", "false", counts, accounts)])[0]);
+  assert.equal(verdict([10, 3, 10, 10, 7, 3, 7], "robokassa=test"), "test-only");
+  assert.equal(verdict([0, 0, 0, 0, 0, 0, 0]), "test-only");
+  assert.equal(verdict([2, 0, 0, 0, 1, 0, 0], "robokassa=live"), "real-signs");
+  // No order, no buyer, but a payment account in live mode: a real sign.
+  assert.equal(verdict([0, 0, 0, 0, 0, 0, 0], "robokassa=live"), "real-signs");
+  assert.equal(verdict([3, 1, 1, 2, 2, 1, 1]), "mixed");
+  assert.equal(verdict([1, 0, 0, 0, 0, 0, 0], "cdek=test"), "mixed");
+  // A live delivery account is no sign: Ivan put olavka's CDEK on the live pair before production.
+  assert.equal(verdict([10, 3, 10, 10, 7, 3, 7], "cdek=live,robokassa=test"), "test-only");
+  assert.equal(verdict([0, 0, 0, 0, 0, 0, 0], "cdek=live"), "test-only");
+  assert.equal(verdict([0, 0, 0, 0, 0, 0, 0], "x402=live"), "real-signs");
+});
+
+test("liveSignal: not live with any real sign, or live with test signs only; never a live shop with mixed signs", () => {
+  const tenant = (live, counts, accounts = "") => parseLiveRows([liveRow("shop", live, counts, accounts, live === "true" ? "2026-10-12" : "", live === "true" ? "ivan" : "")])[0];
+  assert.equal(liveSignal(tenant("false", [10, 3, 10, 10, 7, 3, 7], "robokassa=test")), null);
+  assert.match(liveSignal(tenant("false", [2, 0, 0, 0, 1, 0, 0])), /^tenant "shop" is not live .* shows real signs \(real-signs\)/);
+  assert.match(liveSignal(tenant("false", [3, 1, 1, 2, 2, 1, 1])), /shows real signs \(mixed\)/);
+  assert.match(liveSignal(tenant("true", [0, 0, 0, 0, 0, 0, 0])), /^tenant "shop" is live since 2026-10-12 but shows test signs only/);
+  assert.equal(liveSignal(tenant("true", [3, 1, 1, 2, 2, 1, 1])), null);
+  assert.equal(liveSignal(tenant("true", [2, 0, 0, 0, 1, 0, 0], "robokassa=live")), null);
+});
+
+test("liveLine names the handle, the flag, the verdict and counts", () => {
+  const [tenant] = parseLiveRows([liveRow("olavka", "false", [10, 3, 10, 10, 7, 3, 7], "robokassa=test")]);
+  assert.equal(
+    liveLine(tenant),
+    'tenant "olavka" live=false verdict=test-only: orders 10 (test 10: test e-mail 3, test payment 10), customers 7 (test 7: test e-mail 3), accounts robokassa=test',
+  );
+  const [live] = parseLiveRows([liveRow("cherkashino", "true", [5, 0, 0, 0, 4, 0, 0], "", "2026-10-12", "ivan")]);
+  assert.match(liveLine(live), /^tenant "cherkashino" live=true since 2026-10-12 by ivan verdict=real-signs: .* accounts none$/);
+});
+
+test("the tool prints a live line per tenant and a SIGNAL on a mismatch, and keeps its exit code", () => {
+  const intlArgs = ["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--db", DB_URL];
+  const base = { FAKE_LOGINS: "both\nboth", FAKE_TENANTS: "acme|\ncherkashino-com|cherkashino.com" };
+
+  const quiet = runTool(intlArgs, { ...base, FAKE_LIVE: [liveRow("acme", "false", [4, 4, 0, 4, 2, 2, 2]), liveRow("cherkashino-com", "false", [0, 0, 0, 0, 0, 0, 0], "robokassa=test")].join("\n") });
+  assert.equal(quiet.status, 0, quiet.stderr);
+  assert.equal(quiet.stderr, "");
+  assert.match(quiet.stdout, /^live-check: tenant "acme" live=false verdict=test-only: /m);
+  assert.match(quiet.stdout, /^live-check: 2 tenant\(s\), 0 SIGNAL line\(s\)$/m);
+  assert.match(quiet.stdout, /^instance-check: intl is clean /m);
+
+  const loud = runTool(intlArgs, { ...base, FAKE_LIVE: [liveRow("acme", "false", [2, 0, 0, 0, 1, 0, 0], "robokassa=live"), liveRow("cherkashino-com", "true", [0, 0, 0, 0, 0, 0, 0], "", "2026-10-12", "ivan")].join("\n") });
+  assert.equal(loud.status, 0, loud.stderr);
+  assert.equal(loud.stderr.match(/^SIGNAL: /gm).length, 2);
+  assert.match(loud.stderr, /^SIGNAL: tenant "acme" is not live /m);
+  assert.match(loud.stderr, /^SIGNAL: tenant "cherkashino-com" is live since 2026-10-12 /m);
+  assert.doesNotMatch(loud.stderr, /^VIOLATION: /m);
+  assert.match(loud.stdout, /^live-check: 2 tenant\(s\), 2 SIGNAL line\(s\)$/m);
+});
+
+test("the tool says the live check did not run when its query fails, without the password, and keeps its exit code", () => {
+  const run = runTool(["--instance", "intl", "--env", "deploy/mt/shipshift.env.example", "--db", DB_URL], {
+    FAKE_LOGINS: "both",
+    FAKE_TENANTS: "acme|",
+    FAKE_LIVE_FAIL: "1",
+  });
+  assert.equal(run.status, 0, run.stderr);
+  assert.match(run.stdout, /^live-check: NOT checked \(psql failed with status 1: ERROR: {2}relation "order_payment_collection" does not exist\)$/m);
+  assert.doesNotMatch(run.stdout + run.stderr, /s3cretpw/);
 });
