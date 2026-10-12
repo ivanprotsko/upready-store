@@ -99,15 +99,17 @@ PROFILE_FILE="$REPO_ROOT/deploy/instances/$INSTANCE.json"
 # (docs/instances/RULES.md §4). Both read from ~/upready/.env.keys the same
 # way deploy/scripts/deploy-stand.sh already reads CONTABO_SERVER_IP, rather
 # than hardcoding a real IP into a file this repository commits. --on-host
-# needs neither: the host is this machine.
+# needs neither: the host is this machine. The file is missing on the runner
+# and on both hosts: `|| true` keeps that lookup from ending the script under
+# pipefail (grep exits 2), and a missing IP is reported below instead.
 case "$INSTANCE" in
   intl)
-    IP="${CONTABO_SERVER_IP:-$(grep '^CONTABO_SERVER_IP=' "$HOME/upready/.env.keys" 2>/dev/null | cut -d= -f2)}"
+    IP="${CONTABO_SERVER_IP:-$(grep '^CONTABO_SERVER_IP=' "$HOME/upready/.env.keys" 2>/dev/null | cut -d= -f2 || true)}"
     SSH_KEY="${INTL_HOST_SSH_KEY:-$HOME/.ssh/id_ed25519_contabo}"
     BRING_UP_OWN_TRAEFIK=0
     ;;
   ru)
-    IP="${RU_HOST_IP:-$(grep '^RU_HOST_IP=' "$HOME/upready/.env.keys" 2>/dev/null | cut -d= -f2)}"
+    IP="${RU_HOST_IP:-$(grep '^RU_HOST_IP=' "$HOME/upready/.env.keys" 2>/dev/null | cut -d= -f2 || true)}"
     SSH_KEY="${RU_HOST_SSH_KEY:-$HOME/.ssh/id_ed25519_do}"
     BRING_UP_OWN_TRAEFIK=1
     ;;

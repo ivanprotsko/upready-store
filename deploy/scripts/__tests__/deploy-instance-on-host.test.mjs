@@ -54,8 +54,13 @@ function hostWorld() {
   copyFileSync(path.resolve(REPO_ROOT, "deploy/auto/__tests__/fake-curl.mjs"), path.join(bin, "curl"));
   for (const b of ["docker", "ssh", "curl"]) chmodSync(path.join(bin, b), 0o755);
   const routes = path.join(dir, "routes.json");
+  // HOME is the temporary folder and no host IP is set: like the runner and both hosts, there is no
+  // ~/upready/.env.keys, so a lookup of it must not end the script (it did on the runner, run 38250887193).
   const env = {
     ...process.env,
+    HOME: dir,
+    CONTABO_SERVER_IP: undefined,
+    RU_HOST_IP: undefined,
     PATH: `${bin}:${process.env.PATH}`,
     DEPLOY_HOST_ROOT: hostRoot,
     DEPLOY_LOG_DIR: path.join(dir, "logs"),
