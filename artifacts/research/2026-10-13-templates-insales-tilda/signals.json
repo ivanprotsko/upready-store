@@ -1,0 +1,1397 @@
+[
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "home",
+  "url": "https://demo-cream.myinsales.ru/",
+  "signal": "bonuses",
+  "section": "scrolling-text",
+  "snippet": "Дарим 5000 бонусов на первую покупку • Доставка бесплатно • Дарим 5000 бонусов на"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "home",
+  "url": "https://demo-cream.myinsales.ru/",
+  "signal": "bonuses",
+  "section": "stories",
+  "snippet": "5000 бонусов Подарки Бьюти Парфюм"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "home",
+  "url": "https://demo-cream.myinsales.ru/",
+  "signal": "free-delivery",
+  "section": "scrolling-text",
+  "snippet": "Дарим 5000 бонусов на первую покупку • Доставка бесплатно • Дарим 5000 бонусов на первую покупку • Доставка б"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "home",
+  "url": "https://demo-cream.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "home",
+  "url": "https://demo-cream.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "collection",
+  "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+  "signal": "bonuses",
+  "section": "scrolling-text",
+  "snippet": "Дарим 5000 бонусов на первую покупку • Доставка бесплатно • Дарим 5000 бонусов на"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "collection",
+  "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+  "signal": "free-delivery",
+  "section": "scrolling-text",
+  "snippet": "Дарим 5000 бонусов на первую покупку • Доставка бесплатно • Дарим 5000 бонусов на первую покупку • Доставка б"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "collection",
+  "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "collection",
+  "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "product",
+  "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+  "signal": "bonuses",
+  "section": "scrolling-text",
+  "snippet": "Дарим 5000 бонусов на первую покупку • Доставка бесплатно • Дарим 5000 бонусов на"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "product",
+  "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+  "signal": "free-delivery",
+  "section": "scrolling-text",
+  "snippet": "Дарим 5000 бонусов на первую покупку • Доставка бесплатно • Дарим 5000 бонусов на первую покупку • Доставка б"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "product",
+  "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+  "signal": "one-click",
+  "section": "main-product",
+  "snippet": "отой голубой зеленый графитовый 2 000 ₽ В корзину Купить в 1 клик Добавить в сравнение Характеристики Бренд Манн, Иванов"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "product",
+  "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+  "signal": "compare",
+  "section": "main-product",
+  "snippet": "овый 2 000 ₽ В корзину Купить в 1 клик Добавить в сравнение Характеристики Бренд Манн, Иванов и Фербер Описание 1. \"Сиян"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "product",
+  "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "product",
+  "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "home",
+  "url": "https://demo-minimalism.myinsales.ru/",
+  "signal": "messengers",
+  "section": "store-locations",
+  "snippet": "ailto:info@insales.ru https://t.me/ecom_with_love vk.me/insales"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "home",
+  "url": "https://demo-minimalism.myinsales.ru/",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "eement /page/exchange https://t.me/ecom_with_love vk.me/insales tel:88005551061 / Minimalism"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "home",
+  "url": "https://demo-minimalism.myinsales.ru/",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "home",
+  "url": "https://demo-minimalism.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "home",
+  "url": "https://demo-minimalism.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "collection",
+  "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "eement /page/exchange https://t.me/ecom_with_love vk.me/insales tel:88005551061 / Minimalism"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "collection",
+  "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль / /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "collection",
+  "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "collection",
+  "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "home",
+  "url": "https://demo-base.myinsales.ru/",
+  "signal": "messengers",
+  "section": "header",
+  "snippet": "in tel:+78008008080 https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "home",
+  "url": "https://demo-base.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "home",
+  "url": "https://demo-base.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "collection",
+  "url": "https://demo-base.myinsales.ru/collection/new",
+  "signal": "messengers",
+  "section": "header",
+  "snippet": "in tel:+78008008080 https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "collection",
+  "url": "https://demo-base.myinsales.ru/collection/new",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "collection",
+  "url": "https://demo-base.myinsales.ru/collection/new",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "product",
+  "url": "https://demo-base.myinsales.ru/product/primer-kostyum-muzhskoy",
+  "signal": "messengers",
+  "section": "header",
+  "snippet": "in tel:+78008008080 https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "product",
+  "url": "https://demo-base.myinsales.ru/product/primer-kostyum-muzhskoy",
+  "signal": "wishlist",
+  "section": "main-product",
+  "snippet": "[Пример] Костюм мужской (0) В избранное Размер S M L XL 13330.00 руб В корзину https://cdn.insales"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "product",
+  "url": "https://demo-base.myinsales.ru/product/primer-kostyum-muzhskoy",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "product",
+  "url": "https://demo-base.myinsales.ru/product/primer-kostyum-muzhskoy",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "home",
+  "url": "https://demo-bubble.myinsales.ru/",
+  "signal": "wishlist",
+  "section": "header",
+  "snippet": "Профиль Избранное Корзина Интернет-магазин BUBBLE /client_account/orders /favo"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "home",
+  "url": "https://demo-bubble.myinsales.ru/",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": ".me/username https://youtube.com/username https://vk.ru/username tel:+78008008080 / Интернет-магазин BUBBLE Иконка плате"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "home",
+  "url": "https://demo-bubble.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "home",
+  "url": "https://demo-bubble.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "collection",
+  "url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+  "signal": "wishlist",
+  "section": "header",
+  "snippet": "Профиль Избранное Корзина / Интернет-магазин BUBBLE /client_account/orders /fa"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "collection",
+  "url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": ".me/username https://youtube.com/username https://vk.ru/username tel:+78008008080 / Интернет-магазин BUBBLE Иконка плате"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "collection",
+  "url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "collection",
+  "url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "product",
+  "url": "https://demo-bubble.myinsales.ru/product/shkolnyy-ryukzak-school",
+  "signal": "wishlist",
+  "section": "header",
+  "snippet": "Профиль Избранное Корзина / Интернет-магазин BUBBLE /client_account/orders /fa"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "product",
+  "url": "https://demo-bubble.myinsales.ru/product/shkolnyy-ryukzak-school",
+  "signal": "compare",
+  "section": "main-product",
+  "snippet": "hool 3174.00 руб 5290.00 руб В корзину Добавить в сравнение Характеристики Вид застежки молния Спортивное назначение гим"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "product",
+  "url": "https://demo-bubble.myinsales.ru/product/shkolnyy-ryukzak-school",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": ".me/username https://youtube.com/username https://vk.ru/username tel:+78008008080 / Интернет-магазин BUBBLE Иконка плате"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "product",
+  "url": "https://demo-bubble.myinsales.ru/product/shkolnyy-ryukzak-school",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "product",
+  "url": "https://demo-bubble.myinsales.ru/product/shkolnyy-ryukzak-school",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "home",
+  "url": "https://demo-fine.myinsales.ru/",
+  "signal": "pickup-points",
+  "section": "header",
+  "snippet": "Доставка и оплата Пункты выдачи Поддержка +7(800) 800-80-80 Каталог Профиль Сравнение Из"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "home",
+  "url": "https://demo-fine.myinsales.ru/",
+  "signal": "compare",
+  "section": "header",
+  "snippet": "ыдачи Поддержка +7(800) 800-80-80 Каталог Профиль Сравнение Избранное Корзина /page/dostavka-i-oplata /page/punkty-vydac"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "home",
+  "url": "https://demo-fine.myinsales.ru/",
+  "signal": "wishlist",
+  "section": "header",
+  "snippet": "ержка +7(800) 800-80-80 Каталог Профиль Сравнение Избранное Корзина /page/dostavka-i-oplata /page/punkty-vydachi /page/f"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "home",
+  "url": "https://demo-fine.myinsales.ru/",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "home",
+  "url": "https://demo-fine.myinsales.ru/",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": ".ru/username https://youtube.com/username https://vk.ru/username"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "home",
+  "url": "https://demo-fine.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "home",
+  "url": "https://demo-fine.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "collection",
+  "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+  "signal": "pickup-points",
+  "section": "header",
+  "snippet": "Доставка и оплата Пункты выдачи Поддержка +7(800) 800-80-80 Каталог Профиль Сравнение Из"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "collection",
+  "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+  "signal": "compare",
+  "section": "header",
+  "snippet": "ыдачи Поддержка +7(800) 800-80-80 Каталог Профиль Сравнение Избранное Корзина /page/dostavka-i-oplata /page/punkty-vydac"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "collection",
+  "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+  "signal": "wishlist",
+  "section": "header",
+  "snippet": "ержка +7(800) 800-80-80 Каталог Профиль Сравнение Избранное Корзина /page/dostavka-i-oplata /page/punkty-vydachi /page/f"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "collection",
+  "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль / /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "collection",
+  "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": ".ru/username https://youtube.com/username https://vk.ru/username"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "collection",
+  "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "collection",
+  "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "pickup-points",
+  "section": "header",
+  "snippet": "Доставка и оплата Пункты выдачи Поддержка +7(800) 800-80-80 Каталог Профиль Сравнение Из"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "compare",
+  "section": "header",
+  "snippet": "ыдачи Поддержка +7(800) 800-80-80 Каталог Профиль Сравнение Избранное Корзина /page/dostavka-i-oplata /page/punkty-vydac"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "compare",
+  "section": "main-product",
+  "snippet": "32GB Black (SM-A125F) (0) В избранное Добавить в сравнение арт. 14979 Цвет черный красный белый Объем памяти 32GB 64GB"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "wishlist",
+  "section": "header",
+  "snippet": "ержка +7(800) 800-80-80 Каталог Профиль Сравнение Избранное Корзина /page/dostavka-i-oplata /page/punkty-vydachi /page/f"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "wishlist",
+  "section": "main-product",
+  "snippet": "тфон Samsung Galaxy A12 32GB Black (SM-A125F) (0) В избранное Добавить в сравнение арт. 14979 Цвет черный красный белый"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль / /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": ".ru/username https://youtube.com/username https://vk.ru/username"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "product",
+  "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "home",
+  "url": "https://demo-grand.myinsales.ru/",
+  "signal": "bonuses",
+  "section": "footer",
+  "snippet": "ация Сервис Как заказать Оплата Доставка Скидки и бонусы Возврат товаров Сотрудничество Оптовые заказы Поставщикам Конта"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "home",
+  "url": "https://demo-grand.myinsales.ru/",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "80 tel:+78008008080 https://t.me/username https://vk.ru/username https://youtube.com/username https://www.insales.ru/"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "home",
+  "url": "https://demo-grand.myinsales.ru/",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Каталог Поиск 0 Корзина 0 Избранное Профиль Каталог Обои Флизелиновые обои Освещение Освещение ж"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "home",
+  "url": "https://demo-grand.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "home",
+  "url": "https://demo-grand.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "collection",
+  "url": "https://demo-grand.myinsales.ru/collection/oboi",
+  "signal": "bonuses",
+  "section": "footer",
+  "snippet": "ация Сервис Как заказать Оплата Доставка Скидки и бонусы Возврат товаров Сотрудничество Оптовые заказы Поставщикам Конта"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "collection",
+  "url": "https://demo-grand.myinsales.ru/collection/oboi",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "80 tel:+78008008080 https://t.me/username https://vk.ru/username https://youtube.com/username https://www.insales.ru/"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "collection",
+  "url": "https://demo-grand.myinsales.ru/collection/oboi",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Каталог Поиск 0 Корзина 0 Избранное Профиль Каталог Обои Флизелиновые обои Освещение Освещение ж"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "collection",
+  "url": "https://demo-grand.myinsales.ru/collection/oboi",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "collection",
+  "url": "https://demo-grand.myinsales.ru/collection/oboi",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "product",
+  "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+  "signal": "one-click",
+  "section": "main-product",
+  "snippet": "ль для раковины 13895.26 руб КОЛИЧЕСТВО В корзину Купить в 1 клик Смесители компании FRAP это технологии, дизайн и качес"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "product",
+  "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+  "signal": "bonuses",
+  "section": "footer",
+  "snippet": "ация Сервис Как заказать Оплата Доставка Скидки и бонусы Возврат товаров Сотрудничество Оптовые заказы Поставщикам Конта"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "product",
+  "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "80 tel:+78008008080 https://t.me/username https://vk.ru/username https://youtube.com/username https://www.insales.ru/"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "product",
+  "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Каталог Поиск 0 Корзина 0 Избранное Профиль Каталог Обои Флизелиновые обои Освещение Освещение ж"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "product",
+  "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "product",
+  "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "home",
+  "url": "https://demo-moon.myinsales.ru/",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "н создан на inSales https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username tel"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "home",
+  "url": "https://demo-moon.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "home",
+  "url": "https://demo-moon.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "collection",
+  "url": "https://demo-moon.myinsales.ru/collection/parfyum",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "н создан на inSales https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username tel"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "collection",
+  "url": "https://demo-moon.myinsales.ru/collection/parfyum",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "collection",
+  "url": "https://demo-moon.myinsales.ru/collection/parfyum",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "product",
+  "url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes",
+  "signal": "one-click",
+  "section": "main-product",
+  "snippet": "а теней для век 1200.00 руб 1500.00 руб В корзину Купить в 1 клик https://cdn.insales-shop.ru/images/products/1/6959/569"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "product",
+  "url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "н создан на inSales https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username tel"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "product",
+  "url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "product",
+  "url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "home",
+  "url": "https://demo-idea.myinsales.ru/",
+  "signal": "bonuses",
+  "section": "multicolumn",
+  "snippet": "Быстрая доставка Акции и бонусы Шоурум в центре Быстрая доставка Акции и бонусы Шоурум в центре"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "home",
+  "url": "https://demo-idea.myinsales.ru/",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "home",
+  "url": "https://demo-idea.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "home",
+  "url": "https://demo-idea.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "collection",
+  "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль / /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "collection",
+  "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "collection",
+  "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "product",
+  "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/myagkaya-igrushka",
+  "signal": "one-click",
+  "section": "main-product",
+  "snippet": "Мягкая игрушка 1 720 ₽ В корзину Купить в 1 клик Описание Очаровательная мягкая игрушка – сказочный пер"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "product",
+  "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/myagkaya-igrushka",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль / /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "product",
+  "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/myagkaya-igrushka",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "product",
+  "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/myagkaya-igrushka",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "home",
+  "url": "https://demo-loft.myinsales.ru/",
+  "signal": "pickup-points",
+  "section": "header",
+  "snippet": "Доставка и оплата Пункты выдачи Магазины Возврат товаров +7 777 777-77-77 +7 777 777-77-"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "home",
+  "url": "https://demo-loft.myinsales.ru/",
+  "signal": "pickup-points",
+  "section": "footer",
+  "snippet": "Доставка и оплата Пункты выдачи Магазины Возврат товаров Корпоративным клиентам Сервисны"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "home",
+  "url": "https://demo-loft.myinsales.ru/",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "77 tel:+77777777777 https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username htt"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "home",
+  "url": "https://demo-loft.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "home",
+  "url": "https://demo-loft.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "collection",
+  "url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+  "signal": "pickup-points",
+  "section": "header",
+  "snippet": "Доставка и оплата Пункты выдачи Магазины Возврат товаров +7 777 777-77-77 +7 777 777-77-"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "collection",
+  "url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+  "signal": "pickup-points",
+  "section": "footer",
+  "snippet": "Доставка и оплата Пункты выдачи Магазины Возврат товаров Корпоративным клиентам Сервисны"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "collection",
+  "url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "77 tel:+77777777777 https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username htt"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "collection",
+  "url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "collection",
+  "url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "product",
+  "url": "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm",
+  "signal": "pickup-points",
+  "section": "header",
+  "snippet": "Доставка и оплата Пункты выдачи Магазины Возврат товаров +7 777 777-77-77 +7 777 777-77-"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "product",
+  "url": "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm",
+  "signal": "pickup-points",
+  "section": "footer",
+  "snippet": "Доставка и оплата Пункты выдачи Магазины Возврат товаров Корпоративным клиентам Сервисны"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "product",
+  "url": "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "77 tel:+77777777777 https://t.me/username https://vk.ru/username https://ok.ru/username https://youtube.com/username htt"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "product",
+  "url": "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "product",
+  "url": "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Stories",
+  "page": "home",
+  "url": "https://demo-stories.myinsales.ru/",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "https://t.me/username https://vk.ru/username https://youtube.com/username / Мой интернет-магазин"
+ },
+ {
+  "source": "insales",
+  "theme": "Stories",
+  "page": "home",
+  "url": "https://demo-stories.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Stories",
+  "page": "collection",
+  "url": "https://demo-stories.myinsales.ru/collection/kategoriya-1",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "https://t.me/username https://vk.ru/username https://youtube.com/username / Мой интернет-магазин"
+ },
+ {
+  "source": "insales",
+  "theme": "Stories",
+  "page": "collection",
+  "url": "https://demo-stories.myinsales.ru/collection/kategoriya-1",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Stories",
+  "page": "product",
+  "url": "https://demo-stories.myinsales.ru/product/koshelek-kozhanyy-korichnevyy",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "https://t.me/username https://vk.ru/username https://youtube.com/username / Мой интернет-магазин"
+ },
+ {
+  "source": "insales",
+  "theme": "Stories",
+  "page": "product",
+  "url": "https://demo-stories.myinsales.ru/product/koshelek-kozhanyy-korichnevyy",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "home",
+  "url": "https://demo-vibe.myinsales.ru/",
+  "signal": "pickup-points",
+  "section": "multicolumn",
+  "snippet": "обная доставка Доставляем курьером до двери или в пункты выдачи по всей РФ. Возможна примерка перед покупкой. Контроль к"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "home",
+  "url": "https://demo-vibe.myinsales.ru/",
+  "signal": "marketplaces",
+  "section": "testimonials",
+  "snippet": "ставка продуктов и всегда все свежее Макс отзыв с Wildberries Постоянно покупаю продукты в данном сервисе и меня все уст"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "home",
+  "url": "https://demo-vibe.myinsales.ru/",
+  "signal": "messengers",
+  "section": "testimonials",
+  "snippet": "вка продуктов и всегда все свежее Николай отзыв с VK Макс Юлия Екатерина Николай"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "home",
+  "url": "https://demo-vibe.myinsales.ru/",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "/page/payment https://t.me/ecom_with_love https://vk.com/insales https://youtube.com/insales tel:88005551061 / Иконка пл"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "home",
+  "url": "https://demo-vibe.myinsales.ru/",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "home",
+  "url": "https://demo-vibe.myinsales.ru/",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "home",
+  "url": "https://demo-vibe.myinsales.ru/",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "collection",
+  "url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "/page/payment https://t.me/ecom_with_love https://vk.com/insales https://youtube.com/insales tel:88005551061 / Иконка пл"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "collection",
+  "url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль / /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "collection",
+  "url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "collection",
+  "url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "product",
+  "url": "https://demo-vibe.myinsales.ru/product/prozrachnyy-top-bez-rukavov-na-molnii-chernyy",
+  "signal": "one-click",
+  "section": "main-product",
+  "snippet": "вов на молнии (Черный) 2 900 ₽ Размер M В корзину Купить в 1 клик Описание Модный полупрозрачный топ из сетчатого матери"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "product",
+  "url": "https://demo-vibe.myinsales.ru/product/prozrachnyy-top-bez-rukavov-na-molnii-chernyy",
+  "signal": "messengers",
+  "section": "footer",
+  "snippet": "/page/payment https://t.me/ecom_with_love https://vk.com/insales https://youtube.com/insales tel:88005551061 / Иконка пл"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "product",
+  "url": "https://demo-vibe.myinsales.ru/product/prozrachnyy-top-bez-rukavov-na-molnii-chernyy",
+  "signal": "wishlist",
+  "section": "bottom-nav",
+  "snippet": "Главная Поиск 0 Корзина 0 Избранное Профиль / /cart_items /favorites /client_account/orders"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "product",
+  "url": "https://demo-vibe.myinsales.ru/product/prozrachnyy-top-bez-rukavov-na-molnii-chernyy",
+  "signal": "callback",
+  "section": "callback",
+  "snippet": "Обратный звонок Запрос успешно отправлен! Имя * Телефон * Настоящим по"
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "product",
+  "url": "https://demo-vibe.myinsales.ru/product/prozrachnyy-top-bez-rukavov-na-molnii-chernyy",
+  "signal": "preorder",
+  "section": "preorder",
+  "snippet": "Предзаказ Предзаказ успешно отправлен! Имя * Телефон * Настоящим подтв"
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин комнатных растений",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/plantsshopru",
+  "signal": "promo-code",
+  "section": "promo-banner",
+  "snippet": "Дарим 10% скидку на первый заказ по промокоду FLOWERS Выберите растения, которые сделают дом или офис немн"
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин товаров для дома",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/homegoodsru",
+  "signal": "wishlist",
+  "section": "wishlist",
+  "snippet": ",function() {t_lazyload_update();});}},500));}}); Избранное: .t1002__addBtn:not(.t-popup .t1002__addBtn):not(.t-store__p"
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин товаров для дома",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/homegoodsru",
+  "signal": "messengers",
+  "section": "wishlist",
+  "snippet": "jacentHTML('beforeend','<style>@media screen and (max-width: 560px) {\\n.t-body_scrollable-fix-for-android {\\noverflow: v"
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин украшений",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/jewelryru",
+  "signal": "messengers",
+  "section": "image-gallery",
+  "snippet": "imgwrapper {height:calc(300px / (3 / 4));}@media (max-width:480px) {#rec2323216641 .t1196__slider {--slider-gap:10px;}#r"
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин украшений",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/jewelryru",
+  "signal": "messengers",
+  "section": "wishlist",
+  "snippet": "jacentHTML('beforeend','<style>@media screen and (max-width: 560px) {\\n.t-body_scrollable-fix-for-android {\\noverflow: v"
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин украшений",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/jewelryru",
+  "signal": "wishlist",
+  "section": "wishlist",
+  "snippet": ",function() {t_lazyload_update();});}},500));}}); Избранное: .t1002__addBtn:not(.t-popup .t1002__addBtn):not(.t-store__p"
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин мебели",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/furnitureru",
+  "signal": "wishlist",
+  "section": "wishlist",
+  "snippet": ",function() {t_lazyload_update();});}},500));}}); Избранное: .t1002__addBtn:not(.t-popup .t1002__addBtn):not(.t-store__p"
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин мебели",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/furnitureru",
+  "signal": "messengers",
+  "section": "wishlist",
+  "snippet": "jacentHTML('beforeend','<style>@media screen and (max-width: 560px) {\\n.t-body_scrollable-fix-for-android {\\noverflow: v"
+ },
+ {
+  "source": "tilda",
+  "theme": "Онлайн-магазин (shetuka)",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/shetukaru",
+  "signal": "messengers",
+  "section": "header",
+  "snippet": "@media screen and (max-width:980px){#rec45307831 .t454__leftcontainer{padding:20px;}}@med"
+ },
+ {
+  "source": "tilda",
+  "theme": "Онлайн-магазин (shetuka)",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/shetukaru",
+  "signal": "pickup-points",
+  "section": "delivery-payment",
+  "snippet": "Вы можете самостоятельно забрать покупку из точки самовывоза или заказать доставку курьером по Москве и Московской облас"
+ },
+ {
+  "source": "tilda",
+  "theme": "Онлайн-магазин (instore)",
+  "page": "home",
+  "url": "http://examples-ru.tilda.ws/instoreru",
+  "signal": "pickup-points",
+  "section": "delivery-payment",
+  "snippet": "Вы можете самостоятельно забрать покупку из точки самовывоза или заказать доставку курьером по городу в пределах КАД. Та"
+ }
+]

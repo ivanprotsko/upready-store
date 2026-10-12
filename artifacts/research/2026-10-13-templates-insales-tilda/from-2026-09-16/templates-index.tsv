@@ -1,0 +1,48 @@
+source	template	page_url	demo_url	category	price	pages_fetched	raw_file
+insales	Cream	https://www.insales.ru/collection/themes/product/cream	https://demo-cream.myinsales.ru	Косметика, парфюмерия	0 ₽	8	theme-cream.md
+insales	Minimalism	https://www.insales.ru/collection/themes/product/shablon-dlya-internet-magazina-minimalism	https://demo-minimalism.myinsales.ru	Дом и дача	0 ₽	4	theme-shablon-dlya-internet-magazina-minimalism.md
+insales	Base	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-base	https://demo-base.myinsales.ru	Здоровье и медицина	0 ₽	4	theme-shablon-internet-magazina-base.md
+insales	Bubble	https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-bubble	https://demo-bubble.myinsales.ru	Детские товары	0 ₽	6	theme-shablon-internet-magazina-bubble.md
+insales	Fine	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-fine	https://demo-fine.myinsales.ru	Авто, мото	0 ₽	9	theme-shablon-internet-magazina-fine.md
+insales	Fourth	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-fourth	http://demo-fourth.myinsales.ru	Авто, мото	0 ₽	2	theme-shablon-internet-magazina-fourth.md
+insales	Gift	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-gift	http://demo-gift.myinsales.ru	Детские товары	0 ₽	2	theme-shablon-internet-magazina-gift.md
+insales	Grand	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-grand	https://demo-grand.myinsales.ru	Дом и дача	0 ₽	7	theme-shablon-internet-magazina-grand.md
+insales	Idea	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-idea	https://demo-idea.myinsales.ru	Детские товары	0 ₽	4	theme-shablon-internet-magazina-idea.md
+insales	Jack	https://www.insales.ru/collection/themes/product/shablon-internet-magazina-landing-1	https://myshop-bcp658.myinsales.ru	Услуги	0 ₽	2	theme-shablon-internet-magazina-landing-1.md
+insales	Landing	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing	https://demo-landing2.myinsales.ru	Лендинг	0 ₽	2	theme-shablon-internet-magazina-landing.md
+insales	Loft	https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-loft	https://demo-loft.myinsales.ru	Дом и дача	0 ₽	4	theme-shablon-internet-magazina-loft.md
+insales	Markom	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-markom	http://demo-markom.myinsales.ru	Авто, мото	0 ₽	2	theme-shablon-internet-magazina-markom.md
+insales	Mono	https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-mono	http://demo-mono.myinsales.ru	Детские товары	0 ₽	2	theme-shablon-internet-magazina-mono.md
+insales	Moon	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon	https://demo-moon.myinsales.ru	Косметика, парфюмерия	0 ₽	4	theme-shablon-internet-magazina-moon.md
+insales	Newtone 2.0	https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-newtone-2	https://newtone-demo.myinsales.ru	Одежда, обувь и аксессуары	0 ₽	4	theme-shablon-internet-magazina-newtone-2.md
+insales	Открытие 4.0	https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40	https://demo-opening.myinsales.ru	Универсальные	0 ₽	2	theme-shablon-internet-magazina-otkrytie-40.md
+insales	Stories	https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-stories	https://demo-stories.myinsales.ru	Детские товары	0 ₽	4	theme-shablon-internet-magazina-stories.md
+insales	Vibe	https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-vibe-2	https://demo-vibe.myinsales.ru	Детские товары	0 ₽	4	theme-shablon-internet-magazina-vibe-2.md
+tilda	Продажа недвижимости	https://tilda.cc/tpls/page/?q=newsfeedrealestateru	http://examples-ru.tilda.ws/newsfeedrealestateru	Бизнес и услуги (type=bu)	в тарифе Tilda	1	demo-newsfeedrealestateru.md
+tilda	Шаблон сервиса доставки еды	https://tilda.cc/tpls/page/?q=fooddeliveryru	http://examples-ru.tilda.ws/fooddeliveryru	Бизнес и услуги (type=bu)	в тарифе Tilda	1	demo-fooddeliveryru.md
+tilda	Магазин комнатных растений	https://tilda.cc/tpls/page/?q=plantsshopru	http://examples-ru.tilda.ws/plantsshopru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-plantsshopru.md
+tilda	Магазин товаров для дома	https://tilda.cc/tpls/page/?q=homegoodsru	http://examples-ru.tilda.ws/homegoodsru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-homegoodsru.md
+tilda	Магазин украшений	https://tilda.cc/tpls/page/?q=jewelryru	http://examples-ru.tilda.ws/jewelryru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-jewelryru.md
+tilda	Магазин мебели	https://tilda.cc/tpls/page/?q=furnitureru	http://examples-ru.tilda.ws/furnitureru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-furnitureru.md
+tilda	Онлайн-магазин	https://tilda.cc/tpls/page/?q=shetukaru	http://examples-ru.tilda.ws/shetukaru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-shetukaru.md
+tilda	Онлайн-магазин	https://tilda.cc/tpls/page/?q=instoreru	http://examples-ru.tilda.ws/instoreru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-instoreru.md
+tilda	Онлайн-магазин	https://tilda.cc/tpls/page/?q=ascentru	http://examples-ru.tilda.ws/ascentru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-ascentru.md
+tilda	Магазин цветов	https://tilda.cc/tpls/page/?q=floristsru	http://examples-ru.tilda.ws/floristsru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-floristsru.md
+tilda	Аксессуары для дома	https://tilda.cc/tpls/page/?q=menidyonru	http://examples-ru.tilda.ws/menidyonru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-menidyonru.md
+tilda	Магазин ХВОЯ	https://tilda.cc/tpls/page/?q=hvoyastoreru	http://examples-ru.tilda.ws/hvoyastoreru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-hvoyastoreru.md
+tilda	Одежда и аксессуары	https://tilda.cc/tpls/page/?q=mythsru	http://examples-ru.tilda.ws/mythsru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-mythsru.md
+tilda	Растения для дома	https://tilda.cc/tpls/page/?q=tukaplantsru	http://examples-ru.tilda.ws/tukaplantsru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-tukaplantsru.md
+tilda	Блокноты ручной работы	https://tilda.cc/tpls/page/?q=voodoobooksru	http://examples-ru.tilda.ws/voodoobooksru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-voodoobooksru.md
+tilda	Магазин постеров	https://tilda.cc/tpls/page/?q=posteandcoru	http://examples-ru.tilda.ws/posteandcoru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-posteandcoru.md
+tilda	Промо страница товара	https://tilda.cc/tpls/page/?q=velottonstrru	http://examples-ru.tilda.ws/velottonstrru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-velottonstrru.md
+tilda	Магазин головоломок	https://tilda.cc/tpls/page/?q=puzzlesru	http://examples-ru.tilda.ws/puzzlesru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-puzzlesru.md
+tilda	Магазин аксессуаров для дома	https://tilda.cc/tpls/page/?q=bluerinru	http://examples-ru.tilda.ws/bluerinru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-bluerinru.md
+tilda	Магазин мебели	https://tilda.cc/tpls/page/?q=happychairru	http://examples-ru.tilda.ws/happychairru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-happychairru.md
+tilda	Аксессуары из кожи	https://tilda.cc/tpls/page/?q=longriverru	http://examples-ru.tilda.ws/longriverru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-longriverru.md
+tilda	Онлайн-магазин	https://tilda.cc/tpls/page/?q=pichyshopru	http://examples-ru.tilda.ws/pichyshopru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-pichyshopru.md
+tilda	Онлайн-магазин	https://tilda.cc/tpls/page/?q=loadstoneru	http://examples-ru.tilda.ws/loadstoneru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-loadstoneru.md
+tilda	Интернет-магазин	https://tilda.cc/tpls/page/?q=cannyonlinestoreru	http://examples-ru.tilda.ws/cannyonlinestoreru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-cannyonlinestoreru.md
+tilda	Страница товара	https://tilda.cc/tpls/page/?q=oneproductpageru	http://examples-ru.tilda.ws/oneproductpageru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-oneproductpageru.md
+tilda	Страница товара	https://tilda.cc/tpls/page/?q=phantomru	http://examples-ru.tilda.ws/phantomru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-phantomru.md
+tilda	Магазин украшений	https://tilda.cc/tpls/page/?q=jewelrystoreru	http://examples-ru.tilda.ws/jewelrystoreru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-jewelrystoreru.md
+tilda	Онлайн-сервис доставки еды	https://tilda.cc/tpls/page/?q=sushideliveryru	http://examples-ru.tilda.ws/sushideliveryru	Интернет-магазин (type=st)	в тарифе Tilda	1	demo-sushideliveryru.md

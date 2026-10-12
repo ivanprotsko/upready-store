@@ -1,0 +1,689 @@
+[
+ {
+  "role": "description",
+  "from": "analyser",
+  "analyserNodes": 1258,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "announcement-bar",
+   "main-collection-banner",
+   "multicolumn",
+   "image-with-text",
+   "newsletter",
+   "rich-text",
+   "image-banner",
+   "slideshow",
+   "video",
+   "featured-blog",
+   "icons-with-text",
+   "promo-grid",
+   "countdown",
+   "timeline",
+   "scrolling-text",
+   "multirow",
+   "before-after",
+   "image-gallery"
+  ]
+ },
+ {
+  "role": "cta-primary",
+  "from": "analyser",
+  "analyserNodes": 420,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "image-with-text",
+   "newsletter",
+   "rich-text",
+   "image-banner",
+   "slideshow",
+   "video",
+   "featured-product",
+   "popup",
+   "shop-the-look",
+   "promo-grid",
+   "countdown",
+   "multirow",
+   "quick-order-list",
+   "contact-form"
+  ]
+ },
+ {
+  "role": "section-header",
+  "from": "analyser",
+  "analyserNodes": 437,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "related-products",
+   "featured-collection",
+   "multicolumn",
+   "newsletter",
+   "rich-text",
+   "collection-list",
+   "collage",
+   "featured-blog",
+   "featured-collections-tabs",
+   "collapsible-content",
+   "testimonials",
+   "timeline",
+   "logo-list",
+   "image-gallery",
+   "recently-viewed"
+  ]
+ },
+ {
+  "role": "price",
+  "from": "analyser",
+  "analyserNodes": 31,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "main-collection-product-grid",
+   "related-products",
+   "featured-collection",
+   "featured-product",
+   "featured-collections-tabs",
+   "shop-the-look",
+   "quick-order-list",
+   "recently-viewed"
+  ]
+ },
+ {
+  "role": "heading",
+  "from": "analyser",
+  "analyserNodes": 529,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-collection-banner",
+   "featured-collection",
+   "image-with-text",
+   "newsletter",
+   "rich-text",
+   "collapsible-content",
+   "countdown",
+   "multirow",
+   "before-after"
+  ]
+ },
+ {
+  "role": "card-image",
+  "from": "analyser",
+  "analyserNodes": 70,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "featured-collection",
+   "multicolumn",
+   "collection-list",
+   "collage",
+   "featured-blog",
+   "promo-grid",
+   "timeline",
+   "image-gallery"
+  ]
+ },
+ {
+  "role": "card-title",
+  "from": "analyser",
+  "analyserNodes": 595,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "featured-collection",
+   "multicolumn",
+   "collection-list",
+   "featured-blog",
+   "featured-product",
+   "icons-with-text",
+   "timeline"
+  ]
+ },
+ {
+  "role": "trigger",
+  "from": "analyser",
+  "analyserNodes": 821,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "announcement-bar",
+   "slideshow",
+   "collapsible-content",
+   "testimonials",
+   "timeline"
+  ]
+ },
+ {
+  "role": "headline",
+  "from": "analyser",
+  "analyserNodes": 418,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "image-banner",
+   "slideshow",
+   "video",
+   "promo-grid"
+  ]
+ },
+ {
+  "role": "cta-secondary",
+  "from": "analyser",
+  "analyserNodes": 369,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "featured-collection",
+   "multicolumn",
+   "image-banner",
+   "featured-product"
+  ]
+ },
+ {
+  "role": "card",
+  "from": "analyser",
+  "analyserNodes": 582,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "collection-list",
+   "collage",
+   "featured-blog",
+   "promo-grid",
+   "timeline"
+  ]
+ },
+ {
+  "role": "nav-link",
+  "from": "analyser",
+  "analyserNodes": 421,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "header",
+   "footer",
+   "announcement-bar",
+   "scrolling-text"
+  ]
+ },
+ {
+  "role": "input",
+  "from": "analyser",
+  "analyserNodes": 481,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "header",
+   "newsletter",
+   "popup",
+   "contact-form"
+  ]
+ },
+ {
+  "role": "newsletter-form",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "footer",
+   "newsletter",
+   "popup"
+  ]
+ },
+ {
+  "role": "star-rating",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "featured-product",
+   "testimonials"
+  ]
+ },
+ {
+  "role": "hero-image",
+  "from": "analyser",
+  "analyserNodes": 367,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "image-banner",
+   "slideshow",
+   "shop-the-look"
+  ]
+ },
+ {
+  "role": "logo",
+  "from": "analyser",
+  "analyserNodes": 36,
+  "inTaxonomy": false,
+  "note": null,
+  "sections": [
+   "header",
+   "footer"
+  ]
+ },
+ {
+  "role": "social-link",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "footer",
+   "main-product"
+  ]
+ },
+ {
+  "role": "breadcrumb",
+  "from": "analyser",
+  "analyserNodes": 33,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "main-collection-banner"
+  ]
+ },
+ {
+  "role": "badge",
+  "from": "analyser",
+  "analyserNodes": 101,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "featured-collection"
+  ]
+ },
+ {
+  "role": "content",
+  "from": "analyser",
+  "analyserNodes": 3485,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "collapsible-content"
+  ]
+ },
+ {
+  "role": "feature-card",
+  "from": "analyser",
+  "analyserNodes": 51,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "multicolumn",
+   "icons-with-text"
+  ]
+ },
+ {
+  "role": "video-player",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "collage",
+   "video"
+  ]
+ },
+ {
+  "role": "tab-list",
+  "from": "analyser",
+  "analyserNodes": 24,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "featured-collections-tabs",
+   "product-tabs"
+  ]
+ },
+ {
+  "role": "tab-trigger",
+  "from": "analyser",
+  "analyserNodes": 24,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "featured-collections-tabs",
+   "product-tabs"
+  ]
+ },
+ {
+  "role": "tab-content",
+  "from": "analyser",
+  "analyserNodes": 14,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "featured-collections-tabs",
+   "product-tabs"
+  ]
+ },
+ {
+  "role": "nav",
+  "from": "analyser",
+  "analyserNodes": 66,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "header"
+  ]
+ },
+ {
+  "role": "mobile-menu",
+  "from": "analyser",
+  "analyserNodes": 14,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "header"
+  ]
+ },
+ {
+  "role": "icon-button",
+  "from": "analyser",
+  "analyserNodes": 176,
+  "inTaxonomy": false,
+  "note": null,
+  "sections": [
+   "header"
+  ]
+ },
+ {
+  "role": "nav-column",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "footer"
+  ]
+ },
+ {
+  "role": "legal-links",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "footer"
+  ]
+ },
+ {
+  "role": "pagination",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-collection-product-grid"
+  ]
+ },
+ {
+  "role": "cta-group",
+  "from": "analyser",
+  "analyserNodes": 606,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "image-banner"
+  ]
+ },
+ {
+  "role": "dialog",
+  "from": "analyser",
+  "analyserNodes": 13,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "popup"
+  ]
+ },
+ {
+  "role": "close-button",
+  "from": "analyser",
+  "analyserNodes": 29,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "popup"
+  ]
+ },
+ {
+  "role": "icon-wrapper",
+  "from": "analyser",
+  "analyserNodes": 9,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "icons-with-text"
+  ]
+ },
+ {
+  "role": "icon",
+  "from": "analyser",
+  "analyserNodes": 1337,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "icons-with-text"
+  ]
+ },
+ {
+  "role": "testimonial-card",
+  "from": "analyser",
+  "analyserNodes": 23,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "testimonials"
+  ]
+ },
+ {
+  "role": "quote-text",
+  "from": "analyser",
+  "analyserNodes": 47,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "testimonials"
+  ]
+ },
+ {
+  "role": "author-info",
+  "from": "analyser",
+  "analyserNodes": 57,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "testimonials"
+  ]
+ },
+ {
+  "role": "brand-slider",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "logo-list"
+  ]
+ },
+ {
+  "role": "brand-logo",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "logo-list"
+  ]
+ },
+ {
+  "role": "table",
+  "from": "analyser",
+  "analyserNodes": 66,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "quick-order-list"
+  ]
+ },
+ {
+  "role": "table-row",
+  "from": "analyser",
+  "analyserNodes": 46,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "quick-order-list"
+  ]
+ },
+ {
+  "role": "form",
+  "from": "analyser",
+  "analyserNodes": 84,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "contact-form"
+  ]
+ },
+ {
+  "role": "label",
+  "from": "analyser",
+  "analyserNodes": 277,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "contact-form"
+  ]
+ },
+ {
+  "role": "product-card",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "card for one product: image, title, price; the analyser has card + card-image + card-title + price, but no single commerce card",
+  "sections": [
+   "main-collection-product-grid",
+   "related-products",
+   "featured-collection",
+   "collage",
+   "featured-collections-tabs",
+   "shop-the-look",
+   "recently-viewed"
+  ]
+ },
+ {
+  "role": "media",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "image or video area of a non-hero section, or a product gallery",
+  "sections": [
+   "main-product",
+   "main-collection-banner",
+   "image-with-text",
+   "featured-product",
+   "multirow"
+  ]
+ },
+ {
+  "role": "variant-picker",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "option/variant selector (size, colour swatches)",
+  "sections": [
+   "main-product",
+   "featured-product",
+   "quick-order-list"
+  ]
+ },
+ {
+  "role": "quantity-input",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "quantity stepper next to the buy button",
+  "sections": [
+   "main-product",
+   "featured-product",
+   "quick-order-list"
+  ]
+ },
+ {
+  "role": "filter",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "faceted filters on a product listing",
+  "sections": [
+   "main-collection-product-grid"
+  ]
+ },
+ {
+  "role": "sort",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "sort selector on a product listing",
+  "sections": [
+   "main-collection-product-grid"
+  ]
+ },
+ {
+  "role": "hotspot",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "clickable dot on an image that opens a product",
+  "sections": [
+   "shop-the-look"
+  ]
+ },
+ {
+  "role": "countdown",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "ticking timer to a date",
+  "sections": [
+   "countdown"
+  ]
+ },
+ {
+  "role": "marquee",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "horizontally scrolling text line",
+  "sections": [
+   "scrolling-text"
+  ]
+ },
+ {
+  "role": "compare-slider",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "draggable before/after divider",
+  "sections": [
+   "before-after"
+  ]
+ }
+]
