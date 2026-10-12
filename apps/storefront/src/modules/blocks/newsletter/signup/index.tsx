@@ -31,7 +31,7 @@ const BUTTON_CLASS = {
   ),
   "cta-secondary": clx(
     BUTTON,
-    "border-[var(--border)] bg-[var(--background)] text-ui-fg-base transition-colors hover:border-[var(--foreground)]",
+    "border-[var(--border)] bg-transparent text-ui-fg-base transition-colors hover:border-[var(--foreground)]",
     focusRing
   ),
 } as const
@@ -40,7 +40,8 @@ const BUTTON_CLASS = {
  * `newsletter/signup` (t-2026-10-12-33, R1 build list item 6): subscribe to the shop. A heading, a
  * line of text and a button per channel of the shop, Telegram, a VK group, MAX, each with its
  * network's icon and name; the first one is the primary button in the template's button layer, the
- * others are outlined. Centred on a `--muted` panel by default, as Crave's «Spice up your inbox»;
+ * others are outlined on no fill of their own, so they never outweigh it: under an outlined button
+ * layer (`ferrite`) the primary is outlined too, and a filled secondary would read as the main one. Centred on a `--muted` panel by default, as Crave's «Spice up your inbox»;
  * left or on the page on request. Footer f4 will reuse it.
  *
  * Channels only: there is no subscribe endpoint in the backend or the storefront, so `parseProps`

@@ -159,7 +159,7 @@ describe("NewsletterSignup", () => {
     expect(icons.map((icon) => icon.match(/lucide-([a-z-]+)/)?.[1])).toEqual(["send", "users", "message-circle"])
   })
 
-  it("draws the primary in the template's button layer and the others outlined, 44 px high, full width on a phone", async () => {
+  it("draws the primary in the template's button layer and the others outlined with no fill, 44 px high, full width on a phone", async () => {
     const html = (await render({ ...blank, channels: [telegram, vk] }))!
     const [primary, secondary] = Array.from(html.matchAll(/<a data-role="cta-[a-z]+"[^>]*class="([^"]*)"/g), (m) => m[1].split(" "))
     expect(primary).toEqual(
@@ -172,8 +172,8 @@ describe("NewsletterSignup", () => {
         "rounded-[var(--radius)]",
       ])
     )
-    expect(secondary).toEqual(expect.arrayContaining(["min-h-11", "w-full", "xsmall:w-auto", "border-[var(--border)]", "bg-[var(--background)]"]))
-    expect(secondary.some((c) => c.includes("layer-button-bg"))).toBe(false)
+    expect(secondary).toEqual(expect.arrayContaining(["min-h-11", "w-full", "xsmall:w-auto", "border-[var(--border)]", "bg-transparent"]))
+    expect(secondary.some((c) => c.includes("layer-button") || c.startsWith("bg-[var("))).toBe(false)
   })
 
   it("uses the channel's own label, else the network's name, in the visitor's language, then English", async () => {
