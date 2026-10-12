@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest"
 
-import { resolveShopOfRequest } from "./request-shop"
+import { requestNamesNoShop, resolveShopOfRequest } from "./request-shop"
 import { EMPTY_BRANDING } from "./branding"
 import { EMPTY_LOGIN_SETTINGS } from "./login-settings"
 import { EMPTY_MANUAL_PAYMENT } from "./manual-payment"
@@ -119,5 +119,52 @@ describe("resolveShopOfRequest", () => {
 
     expect(shop.tenant?.handle).toBe("acme")
     expect(shop.host).toBe("acme.shipshift.dev")
+  })
+})
+
+/**
+ * t-2026-10-12-32 FX4: «магазин не найден» is answered only when every address
+ * the request named got the backend's own "no storefront for this host".
+ */
+describe("requestNamesNoShop", () => {
+  const shopless = (...hosts: string[]) => (host: string) =>
+    hosts.includes(host.trim().toLowerCase().replace(/:\d+$/, ""))
+
+  it("is true for a Host the backend said has no shop, with no forwarded name", () => {
+    const headers = new Headers({ host: "nosuchshop-t32.shipshift.dev" })
+
+    expect(requestNamesNoShop(headers, shopless("nosuchshop-t32.shipshift.dev"))).toBe(true)
+  })
+
+  it("is true when the forwarded name is the same address", () => {
+    const headers = new Headers({
+      host: "nosuchshop-t32.shipshift.dev:443",
+      "x-forwarded-host": "nosuchshop-t32.shipshift.dev",
+    })
+
+    expect(requestNamesNoShop(headers, shopless("nosuchshop-t32.shipshift.dev"))).toBe(true)
+  })
+
+  it("is false while the Host is in doubt (a backend error, never looked up)", () => {
+    const headers = new Headers({ host: "nosuchshop-t32.shipshift.dev" })
+
+    expect(requestNamesNoShop(headers, shopless())).toBe(false)
+  })
+
+  it("is false when the forwarded name is not known to be shopless", () => {
+    const headers = new Headers({ host: "localhost:8000", "x-forwarded-host": "shop.test" })
+
+    expect(requestNamesNoShop(headers, shopless("localhost"))).toBe(false)
+  })
+
+  it("is true when both the Host and the forwarded name are shopless", () => {
+    const headers = new Headers({
+      host: "localhost:8000",
+      "x-forwarded-host": "nosuchshop-t32.shipshift.dev",
+    })
+
+    expect(
+      requestNamesNoShop(headers, shopless("localhost", "nosuchshop-t32.shipshift.dev"))
+    ).toBe(true)
   })
 })

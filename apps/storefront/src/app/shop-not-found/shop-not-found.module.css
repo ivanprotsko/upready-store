@@ -1,0 +1,79 @@
+/*
+ * «Магазин не найден» (t-2026-10-12-32 FX4): the answer to an address no shop
+ * lives at. The platform's surface, not a shop's, so it is drawn the way the
+ * /start funnel is: Geist canon in this storefront's shadcn-flavoured token
+ * names (--background/--foreground/--border/--muted-foreground/--muted), no
+ * hardcoded colour, palette from data-theme/data-mode like every other surface.
+ */
+
+.shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.panel {
+  width: 100%;
+  max-width: 520px;
+}
+
+.wordmark {
+  margin: 0 0 32px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--muted-foreground);
+}
+
+.title {
+  margin: 0 0 20px;
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.titleLine {
+  display: block;
+}
+
+.titleLineSecond {
+  display: block;
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--muted-foreground);
+}
+
+.host {
+  margin: 0 0 24px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.text {
+  margin: 0 0 8px;
+  color: var(--muted-foreground);
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 26px;
+  }
+
+  .titleLineSecond {
+    font-size: 18px;
+  }
+}
