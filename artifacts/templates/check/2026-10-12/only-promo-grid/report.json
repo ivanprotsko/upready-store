@@ -1,7 +1,7 @@
 {
   "schema": "upready.template-check-report/v1",
   "date": "2026-10-12",
-  "commit": "47bda448",
+  "commit": "f2767eda",
   "base": "http://localhost:8137",
   "host": "globex.shipshift.dev",
   "locale": "en",

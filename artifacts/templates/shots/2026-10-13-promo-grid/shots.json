@@ -1,6 +1,6 @@
 {
   "date": "2026-10-12",
-  "commit": "47bda448",
+  "commit": "f2767eda",
   "base": "http://localhost:8137",
   "host": "globex.shipshift.dev",
   "locale": "en",
@@ -538,6 +538,26 @@
       "state": "empty",
       "width": 360,
       "file": "block-banner-image-empty-360.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
+      "name": "block-slideshow-banners",
+      "block": "slideshow/banners",
+      "state": "live",
+      "width": 360,
+      "file": "block-slideshow-banners-360.png",
+      "status": 200,
+      "height": 596
+    },
+    {
+      "kind": "block",
+      "name": "block-slideshow-banners-empty",
+      "block": "slideshow/banners",
+      "state": "empty",
+      "width": 360,
+      "file": "block-slideshow-banners-empty-360.png",
       "status": 200,
       "height": 44
     },
@@ -1133,6 +1153,26 @@
     },
     {
       "kind": "block",
+      "name": "block-slideshow-banners",
+      "block": "slideshow/banners",
+      "state": "live",
+      "width": 768,
+      "file": "block-slideshow-banners-768.png",
+      "status": 200,
+      "height": 686
+    },
+    {
+      "kind": "block",
+      "name": "block-slideshow-banners-empty",
+      "block": "slideshow/banners",
+      "state": "empty",
+      "width": 768,
+      "file": "block-slideshow-banners-empty-768.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-faq-accordion",
       "block": "faq/accordion",
       "state": "live",
@@ -1718,6 +1758,26 @@
       "state": "empty",
       "width": 1280,
       "file": "block-banner-image-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
+      "name": "block-slideshow-banners",
+      "block": "slideshow/banners",
+      "state": "live",
+      "width": 1280,
+      "file": "block-slideshow-banners-1280.png",
+      "status": 200,
+      "height": 629
+    },
+    {
+      "kind": "block",
+      "name": "block-slideshow-banners-empty",
+      "block": "slideshow/banners",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-slideshow-banners-empty-1280.png",
       "status": 200,
       "height": 28
     },
