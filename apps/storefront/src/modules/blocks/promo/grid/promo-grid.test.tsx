@@ -287,11 +287,15 @@ describe("PromoGrid", () => {
     )
   })
 
-  it("sets the gap tight or normal, with more room between rows when the words stand under the picture", async () => {
+  it("sets the gap tight or normal, on the template's space steps, with more room between rows when the words stand under the picture", async () => {
     const two = [tile("braiser", "Чугун"), tile("mug", "Кружки")]
-    expect(await render({ ...blank, tiles: two })).toMatch(/<ul class="[^"]*\bgap-4 small:gap-6"/)
+    expect(await render({ ...blank, tiles: two })).toContain(
+      '<ul class="grid grid-cols-1 xsmall:grid-cols-2 small:grid-cols-6 gap-[var(--layer-space-4,1rem)] small:gap-[var(--layer-space-6,1.5rem)]">'
+    )
     expect(await render({ ...blank, gap: "tight", tiles: two })).toMatch(/<ul class="[^"]*\bgap-2"/)
-    expect(await render({ ...blank, textPosition: "below", tiles: two })).toMatch(/<ul class="[^"]*\bgap-x-4 gap-y-8 small:gap-x-6"/)
+    expect(await render({ ...blank, textPosition: "below", tiles: two })).toMatch(
+      /<ul class="[^"]*\bgap-x-\[var\(--layer-space-4,1rem\)\] gap-y-\[var\(--layer-space-8,2rem\)\] small:gap-x-\[var\(--layer-space-6,1\.5rem\)\]"/
+    )
     expect(await render({ ...blank, textPosition: "below", gap: "tight", tiles: two })).toMatch(/<ul class="[^"]*\bgap-x-2 gap-y-6"/)
   })
 

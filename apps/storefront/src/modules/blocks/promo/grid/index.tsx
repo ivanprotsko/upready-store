@@ -63,8 +63,12 @@ const sizesOf = ({ small, xsmall }: TileSpan) =>
  * the picture below it.
  */
 const GAP = {
-  overlay: { tight: "gap-2", normal: "gap-4 small:gap-6" },
-  below: { tight: "gap-x-2 gap-y-6", normal: "gap-x-4 gap-y-8 small:gap-x-6" },
+  overlay: { tight: "gap-2", normal: "gap-[var(--layer-space-4,1rem)] small:gap-[var(--layer-space-6,1.5rem)]" },
+  below: {
+    tight: "gap-x-2 gap-y-6",
+    normal:
+      "gap-x-[var(--layer-space-4,1rem)] gap-y-[var(--layer-space-8,2rem)] small:gap-x-[var(--layer-space-6,1.5rem)]",
+  },
 } as const
 
 const focusRing =
@@ -192,7 +196,7 @@ export default async function PromoGrid({ tiles, layout, textPosition, gap }: Pr
                 XSMALL_SPAN[span.xsmall],
                 SMALL_SPAN[span.small],
                 overlay
-                  ? "relative flex min-h-[calc(24rem*var(--layer-density,1))] flex-col overflow-hidden rounded-[var(--radius)] bg-[var(--muted)] p-3 small:p-4"
+                  ? "relative flex min-h-[calc(24rem*var(--layer-density,1))] flex-col overflow-hidden rounded-[var(--radius)] bg-[var(--muted)] p-[var(--layer-space-3,0.75rem)] small:p-[var(--layer-space-4,1rem)]"
                   : "flex flex-col"
               )}
             >
@@ -204,7 +208,7 @@ export default async function PromoGrid({ tiles, layout, textPosition, gap }: Pr
                   {badge}
                   {/* The picture's own room above the panel, the badge in it: the panel never covers the whole picture. */}
                   <div aria-hidden="true" className="min-h-[calc(9rem*var(--layer-density,1))] flex-1" />
-                  <div className="relative flex max-w-md flex-col items-start gap-2 rounded-[var(--radius)] bg-[var(--background)] p-4 small:p-6">
+                  <div className="relative flex max-w-md flex-col items-start gap-2 rounded-[var(--radius)] bg-[var(--background)] p-[var(--layer-space-4,1rem)] small:p-[var(--layer-space-6,1.5rem)]">
                     <Words tile={tile} />
                   </div>
                 </>
@@ -217,7 +221,7 @@ export default async function PromoGrid({ tiles, layout, textPosition, gap }: Pr
                     {picture}
                     {badge}
                   </div>
-                  <div className="flex flex-1 flex-col items-start gap-2 pt-4">
+                  <div className="flex flex-1 flex-col items-start gap-2 pt-[var(--layer-space-4,1rem)]">
                     <Words tile={tile} />
                   </div>
                 </>
