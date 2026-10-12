@@ -206,6 +206,50 @@ it does not file anything on a live government portal or sign anything on Ivan's
 | Security level (УЗ-4) | A documented basis for classifying this system at protection level 4, the lowest of the four 152-FZ levels, consistent with the data categories actually processed (standard customer PII, no special categories, no biometric data) | Not yet documented as its own artifact. Recorded here as owed; `apps/backend`'s own access controls (JWT auth, per-tenant scoping, AES-256-GCM at rest for integration secrets, `deploy/backup`'s own retention) are the technical measures a УЗ-4 justification would cite. |
 | Processing instruction (поручение на обработку) | A written agreement between the data controller (ИП Черкашина / the shop owner) and upready as the processor operating the RU instance on their behalf | Not drafted. Owed before the RU instance holds its first real customer row (`t-cherk-14`), tracked here rather than assumed. |
 
+## 7. Live flag
+
+Ivan, 12.10.2026 21:4x WITA (t-2026-10-12-31), verbatim:
+
+> нужно внедрить механизм при котором будут понимать, что проект еще не работает для приёма
+> посетителей. Все эти 7 покупателей это всё тестовые! Это можно было понять по вторичным признакам:
+> имейлы, режим тестовой оплаты и так далее. Нужно где-то делать пометку и сделать явный флаг, по
+> которому агенты будут понимать, что проект уже принимает реальных посетителей
+
+A shop accepts real visitors when its tenant's `metadata.live` is `true`. A missing key reads as
+`false`. Two more keys go with it: `live_since`, the date of the last switch, and `live_by`, who made
+it. [live.ts](../../apps/backend/src/modules/tenant/live.ts) reads all three, and the project canon of
+ivanprotsko/devops uses the same keys.
+
+- **What it means.** While a shop is not live, its orders and buyers are test data. Reports and
+  agents say so and never count them as personal data of real people. Once it is live, the rules of
+  this page apply to them in full. `test_shop` is another mark: it hides a dev fixture such as acme
+  from the shop switcher. A real shop is not a `test_shop` and can still be not live.
+- **Who switches it.** Ivan, in either direction, because a wrong `false` hides real buyers as surely
+  as a wrong `true` invents them. An agent never changes the flag. It reads it with `--show` and names
+  the command for Ivan in its report. `POST /admin/tenants/:id` refuses the three keys, so no API
+  token sets them.
+- **The command.** Run it from the Mac, in this repository. It reaches the host the way
+  `deploy/scripts/deploy-instance.sh` does and prints the flag before and after. `--since YYYY-MM-DD`
+  records a day other than today.
+
+  ```bash
+  node deploy/scripts/tenant-live.mjs --instance intl --handle <handle> --live true --by ivan --yes-ivan
+  node deploy/scripts/tenant-live.mjs --instance ru --handle <handle> --show
+  ```
+
+- **The secondary signs.** With `--db`, `deploy/scripts/instance-check.mjs` prints one `live-check:`
+  line per tenant on every deploy (step 3). The line holds the flag, a verdict and counts: orders,
+  customers, how many of them are test ones, and which payment and delivery accounts run in a test
+  contour or live. A payment account in live mode is a real sign, and a delivery account in live
+  mode is none, because olavka's CDEK runs on the live pair for real quotes before production. An
+  order is a test one when its e-mail is on a domain in `TEST_EMAIL_DOMAINS` of that tool,
+  has a `+test` tag or a domain starting with `test.`, or when it was paid in a provider's test
+  contour. The e-mails are classified inside Postgres, so no address leaves the host. The verdict is
+  `test-only` (no real sign, which includes an empty shop), `real-signs` or `mixed`.
+- **The signal.** A shop that is not live but shows any real sign, and a live shop that shows test
+  signs only, get a `SIGNAL:` line. It does not fail the deploy: the lead takes it to Ivan, who
+  either switches the flag or says the signs are test data.
+
 ## Enforcement
 
 `deploy/scripts/instance-check.mjs --instance ru|intl --env <path> [--backup-env <path>] [--db <postgres-url>]`
