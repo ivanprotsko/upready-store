@@ -36,9 +36,12 @@ export const testimonialsCards: BlockEntry<TestimonialsCardsProps> = {
     empty: { header: null, items: [], layout: "grid", showRating: true, ...labels },
     sample: {
       header: {
-        eyebrow: {},
+        eyebrow: { ru: "Отзывы", en: "Reviews" },
         heading: { ru: "Что говорят покупатели", en: "What our customers say" },
-        description: {},
+        description: {
+          ru: "Что нам пишут в чат и на почту после доставки, слово в слово.",
+          en: "What people write to our chat and mail after delivery, word for word.",
+        },
         seeAll: null,
       },
       items: [

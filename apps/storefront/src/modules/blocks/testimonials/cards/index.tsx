@@ -37,10 +37,12 @@ function Stars({ rating, label }: { rating: number; label: string }) {
  * Static: the owner writes the testimonials into the template. Reading the shop's product reviews
  * is a later mode.
  *
- * The sizes keep to the lab's scale (`pnpm template:check`): the quote 16 px, the name and the city
- * 12 px (the name in capitals with 0.08em of tracking, as QR-CASE asks), under the shell's 20/24 px
- * heading. The grid is 1 column on a phone, 2 from 512, 3 from 1024; two or four cards stay 2 across,
- * so no card is left alone on a row.
+ * The sizes keep to the lab's scale (`pnpm template:check`) and to the shell's header
+ * (`shared/section-type.ts`): the quote 16 px, 18 px from `small`, the size of the section's
+ * description; the name and the city 12 px (the name in capitals with 0.08em of tracking, as QR-CASE
+ * asks), so a section reads 12 / 16 / 24 px at 360 and 12 / 18 / 32 px from 1024. The grid is 1
+ * column on a phone, 2 from 512, 3 from 1024; two or four cards stay 2 across, so no card is left
+ * alone on a row.
  *
  * With no quote in the visitor's language, nor in English, nor in any other, it draws nothing.
  */
@@ -84,7 +86,7 @@ export default async function TestimonialsCards({
         {showRating && card.rating ? (
           <Stars rating={card.rating} label={stars.replace("{rating}", String(card.rating))} />
         ) : null}
-        <blockquote data-role="quote-text" className="flex-1 text-pretty text-base leading-relaxed">
+        <blockquote data-role="quote-text" className="flex-1 text-pretty text-base leading-relaxed small:text-lg">
           {card.quote}
         </blockquote>
         {card.name || card.city ? (
