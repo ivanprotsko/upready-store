@@ -135,6 +135,40 @@ rolls back independently, by its own previous image tag (the script's step 7) �
 touches the INTL host and vice versa, because there is no SSH path between the two hosts at all
 (`deploy/RUNBOOK-RU.md`).
 
+### Releases of dev are automatic (t-2026-10-12-30)
+
+Ivan, 12.10.2026 18:04: «вливай и делай деплой, в следующий раз не жди и сразу делай это». Ivan,
+11.10.2026: «нужно сделать чтобы агенты сами не могли ничего делать, всё это должно управляться
+снаружи системы… чтобы случайная ошибка агентов не могло ничего поломать».
+
+- **An accepted hand-in is merged into dev at once.** The lead merges it on acceptance, without asking
+  Ivan for a separate «мержи».
+- **A merge into dev needs no ok for its release.** The release agent on each host
+  (`deploy/auto/release-agent.sh`, a systemd timer every two minutes) releases the newest commit of dev
+  whose required checks (`.github/workflows/pr-checks.yml`, run on every push to dev) are green: INTL
+  first, then RU, only after INTL published the commit status `release/intl` = success on that commit.
+  The order above holds without an SSH path between the hosts, because each host reads GitHub, not the
+  other host.
+- **Nobody else starts a release of dev.** No agent session, no script on the Mac and no `lead-accept`
+  step runs `deploy-instance.sh` for dev, and no release script is written in a scratchpad. A release by
+  hand from the Mac stays for what the agent does not do (a rollback, a ref that is not on dev, a host
+  without the agent), with Ivan's ok each time.
+- **Ivan's switch.** The repository variable `AUTO_RELEASE_DEV` (GitHub, Settings → Secrets and
+  variables → Actions → Variables) is `on` or `off`. Off, missing or unreadable means no new release
+  starts on either host; a release already running finishes. Only Ivan flips it; an agent never does.
+- **The record.** Each host keeps its journal (`/var/lib/upready-store-release/journal.json`, schema
+  `deploy/auto/journal.schema.json`) and its state (`state.json`, schema `deploy/auto/state.schema.json`):
+  one record per release with the commit, the start and the end, the result, the step that failed and
+  the folder of its logs. The commit statuses `release/intl` and `release/ru` carry the same result to
+  GitHub; a `failure` there is the signal to lead-upready-store and coo.
+- **A failed release is not retried.** The commit stays red in the journal, the stack keeps running what
+  step 5 left (a failure before step 5 changes nothing that runs), RU does not get it, and the next green
+  commit of dev is the next release. A rollback is step 7, by hand, with Ivan's ok.
+- **What goes on a host** is the agent `deploy/auto/install.sh` installs, after Ivan's ok to the lead,
+  on the `--dry-run` output of that script. A new version of the agent goes on a host the same way: a
+  merge into dev changes the release steps (`deploy-instance.sh` of the released commit), never the
+  agent that decides what to release.
+
 ## 5. Breach notification
 
 | | RU (152-FZ) | INTL (GDPR) |

@@ -15,17 +15,31 @@ name: PR Checks
 # not a config bug. workflow_dispatch stays for a manual re-run without a new
 # commit.
 
+# A push to dev runs the same checks on the merged commit itself (t-2026-10-12-30): the release agent on
+# each host (deploy/auto/release-agent.sh) releases the newest dev commit whose jobs below are all green.
+# A pull request was checked against the dev of its own time, so after five merges in a row the commit
+# that reaches dev was never checked as it is.
 on:
   pull_request:
+    branches: [ dev ]
+  push:
     branches: [ dev ]
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# The single self-hosted runner takes one job at a time, and not in the order the jobs were queued. On
+# 12.10.2026 the checks of dev 67430df1 ran 44 minutes for 34 minutes of their own jobs: three dependabot
+# pull requests, rebased by dependabot right after the merge, slipped their jobs in between until the lead
+# cancelled them. All dependabot runs now share one group: one runs, the newest waits, an older waiting one
+# is dropped, so at most one dependabot run is on the runner next to dev. (.github/dependabot.yml no longer
+# rebases its pull requests on every move of dev, which is what started all three at once.)
+# The lead merges in bursts (five pull requests within 61 seconds on 12.10): a push to dev cancels the run
+# of the push before it, so the last commit of a burst is checked at once and released.
 concurrency:
-  group: pr-checks-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: ${{ startsWith(github.head_ref, 'dependabot/') && 'pr-checks-dependabot' || format('pr-checks-{0}', github.event.pull_request.number || github.ref) }}
+  cancel-in-progress: ${{ !startsWith(github.head_ref, 'dependabot/') }}
 
 jobs:
   backend:
@@ -170,6 +184,9 @@ jobs:
           node-version: 22
       - name: instance-check unit tests
         run: node --test deploy/scripts/__tests__/*.test.mjs
+      - name: release agent tests
+        if: ${{ !cancelled() }}
+        run: node --test deploy/auto/__tests__/*.test.mjs
       # The tool itself, once per profile, on the env templates this
       # repository ships. It needs no secret and no database, and it fails
       # when a profile loses a field a check reads or a template gains a
