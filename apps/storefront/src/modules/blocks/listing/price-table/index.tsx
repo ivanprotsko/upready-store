@@ -18,7 +18,7 @@ import { focusRing, QUIET, SKU } from "./styles"
  * A cell from 600 px, where the rows are a table again. Below it the row is a grid and the
  * cell a grid item with no padding of its own (a `td` keeps the browser's 1 px otherwise).
  */
-const PAD = "p-0 min-[600px]:px-2 min-[600px]:py-[calc(0.5rem*var(--layer-density,1))] min-[600px]:align-middle"
+const PAD = "p-0 min-[600px]:px-2 min-[600px]:py-[var(--layer-space-2,0.5rem)] min-[600px]:align-middle"
 const CELL = clx("min-[600px]:table-cell", PAD)
 
 /** A column of SKU, stock or unit: its own from 1024 px, folded under the title below it. */
@@ -157,7 +157,7 @@ export default async function PriceTable({ header, source, limit, columns, unit,
                 key={row.id}
                 role="row"
                 data-role="table-row"
-                className="grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-3 border-b border-[var(--border)] py-[calc(0.75rem*var(--layer-density,1))] min-[600px]:table-row"
+                className="grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-3 border-b border-[var(--border)] py-[var(--layer-space-3,0.75rem)] min-[600px]:table-row"
               >
                 <td role="cell" className={clx(CELL, "col-start-1 row-start-1 min-[600px]:w-10 min-[600px]:pe-0")}>
                   <Thumbnail src={row.thumbnail} />

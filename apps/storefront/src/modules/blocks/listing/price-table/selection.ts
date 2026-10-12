@@ -21,8 +21,9 @@ const ORDER = { newest: "-created_at", title: "title" } as const
 /**
  * The products of one `source`, read through the storefront's own `"use server"` loaders
  * (BLOCK-CONTRACT.md §2) and priced for the visitor's region (`getHomeRegion`, as the listing
- * slot reads it). `collection/featured` reads its source the same way; its reader is not on
- * templates/main, so this one stands in the block's folder. Every read is `/store/products`
+ * slot reads it), the way `collection/featured` reads its source. Not its reader, though: that
+ * one keeps only the products with a picture once four have one, and knows the newest alone,
+ * where a price list shows the whole range and sorts by title too. Every read is `/store/products`
  * with `listProducts`' own fields: the variants with their SKU, stock rule and calculated
  * price. The shop's sales channel scopes it, and it answers published products only.
  *
