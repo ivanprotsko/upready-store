@@ -135,10 +135,12 @@ test("the drawer is a card on the right edge, with the page dimmed on its left",
 
   expect(found).not.toBeNull()
   const card = found as NonNullable<typeof found>
-  // 8 px from the right edge, as from the top and the bottom.
+  // 8 px from the right edge, as from the top and the bottom; at most 640 px wide, so the
+  // dimmed page shows on its left.
   expect(Math.abs(card.x + card.width - (width - 8))).toBeLessThanOrEqual(1)
-  expect(card.x).toBeGreaterThan(width / 2)
+  expect(card.y).toBe(8)
   expect(card.width).toBeLessThanOrEqual(640)
+  expect(card.x).toBeGreaterThanOrEqual(width - 8 - 640 - 1)
 })
 
 test("«В корзину» in the drawer closes it and opens the cart sidebar with the line", async ({
