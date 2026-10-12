@@ -26,7 +26,7 @@ That folder and that line make the whole diff of a block PR. Never touch `regist
 - `types.ts` declares every category and every role already. The categories are `header`, `hero`,
   `tiles`, `listing`, `footer`, `announcement`, `text`, `media`, `columns`, `collection`, `testimonials`,
   `newsletter`, `banner`, `collage`, `slideshow`, `faq`, `video`, `blog`, `promo`, `countdown`, `trust`,
-  `delivery` and `contacts`. The roles are those of R1's `roles.json`, plus the registry's own.
+  `delivery` and `contacts`. The roles are those of R1's and R2's `roles.json`, plus the registry's own.
 - `lucide-react` is already a dependency of the storefront.
 - Lab strings live in props, not in the catalogs (§2).
 

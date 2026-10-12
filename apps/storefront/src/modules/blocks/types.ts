@@ -55,14 +55,21 @@ export type BlockId = `${BlockCategory}/${string}`
 /**
  * What the block draws, as element roles. The same vocabulary the competitor teardowns use
  * (A-2026-10-12-55, point 2), so a section of another platform maps onto our blocks role
- * by role rather than by eye: every role of R1's `roles.json` (46 words of the
- * ui-upready-dev-monorepo analyser, 10 extensions) next to the ones this file had, sorted,
- * one per line. `roles.test.ts` fails when `roles.json` names a role missing here.
+ * by role rather than by eye: every role of R1's `roles.json` (Shopify: 46 words of the
+ * ui-upready-dev-monorepo analyser, 10 extensions) and of R2's (InSales and Tilda: 44 and 19,
+ * 12 of them new here), plus `marketplace-badge` from R2's build list, next to the ones this
+ * file had, sorted, one per line. `roles.test.ts` fails when either `roles.json` names a role
+ * missing here. R2's Russian-market roles, by group:
+ * - ordering: `step` (a numbered «how to order» step), `delivery-badge` (СДЭК, Почта России, pickup), `payment-badge` (СБП, Мир, Долями);
+ * - buying from a card: `one-click-buy` («Купить в 1 клик»), `phone-form` (name and phone to the manager), `stock-badge` (in stock, out, preorder), `bonus-badge` (bonuses, cashback);
+ * - keeping for later: `wishlist-toggle` and `compare-toggle` (on a product card), `drawer` (a side panel over the page: cart, favourites);
+ * - the shop beyond the page: `story-circle` (a round thumbnail opening a full-screen story), `map` (Яндекс Карты, 2ГИС), `marketplace-badge` (the same shop on Ozon, Wildberries, Яндекс Маркет).
  */
 export const BLOCK_ROLES = [
   "author-info",
   "badge",
   "body-text",
+  "bonus-badge",
   "brand",
   "brand-logo",
   "brand-slider",
@@ -74,14 +81,17 @@ export const BLOCK_ROLES = [
   "category-links",
   "close-button",
   "compare-slider",
+  "compare-toggle",
   "contacts",
   "content",
   "countdown",
   "cta-group",
   "cta-primary",
   "cta-secondary",
+  "delivery-badge",
   "description",
   "dialog",
+  "drawer",
   "feature-card",
   "filter",
   "form",
@@ -97,6 +107,8 @@ export const BLOCK_ROLES = [
   "legal",
   "legal-links",
   "logo",
+  "map",
+  "marketplace-badge",
   "marquee",
   "media",
   "mobile-menu",
@@ -106,7 +118,10 @@ export const BLOCK_ROLES = [
   "navigation",
   "newsletter",
   "newsletter-form",
+  "one-click-buy",
   "pagination",
+  "payment-badge",
+  "phone-form",
   "price",
   "product-card",
   "promo-text",
@@ -117,6 +132,9 @@ export const BLOCK_ROLES = [
   "social-link",
   "sort",
   "star-rating",
+  "step",
+  "stock-badge",
+  "story-circle",
   "tab-content",
   "tab-list",
   "tab-trigger",
@@ -126,6 +144,7 @@ export const BLOCK_ROLES = [
   "trigger",
   "variant-picker",
   "video-player",
+  "wishlist-toggle",
 ] as const
 
 export type BlockRole = (typeof BLOCK_ROLES)[number]

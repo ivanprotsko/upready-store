@@ -6,22 +6,30 @@ import { describe, expect, it } from "vitest"
 import { BLOCK_ROLES } from "./types"
 
 /**
- * R1's role list (t-2026-10-12-33, `artifacts/research/2026-10-13-templates-shopify/roles.json`):
- * the analyser's words and the extensions the Shopify sections needed. Every one is a `BlockRole`,
+ * The catalogues' role lists (t-2026-10-12-33): R1's for Shopify, R2's for InSales and Tilda,
+ * the analyser's words and the extensions their sections needed. Every one is a `BlockRole`,
  * so no block PR has to edit `types.ts` to describe what it draws.
  */
-const ROLES_JSON = fileURLToPath(
-  new URL("../../../../../artifacts/research/2026-10-13-templates-shopify/roles.json", import.meta.url)
-)
+const catalogue = (folder: string) =>
+  JSON.parse(
+    readFileSync(fileURLToPath(new URL(`../../../../../artifacts/research/${folder}/roles.json`, import.meta.url)), "utf8")
+  ) as { role: string; from: string }[]
 
 describe("BLOCK_ROLES", () => {
-  const catalogue = JSON.parse(readFileSync(ROLES_JSON, "utf8")) as { role: string; from: string }[]
+  const known = new Set<string>(BLOCK_ROLES)
 
-  it("holds every role of R1's roles.json", () => {
-    expect(catalogue.filter((r) => r.from === "analyser")).toHaveLength(46)
-    expect(catalogue.filter((r) => r.from === "extension")).toHaveLength(10)
-    const known = new Set<string>(BLOCK_ROLES)
-    expect(catalogue.map((r) => r.role).filter((role) => !known.has(role))).toEqual([])
+  it.each([
+    ["R1's", "2026-10-13-templates-shopify", 46, 10],
+    ["R2's", "2026-10-13-templates-insales-tilda", 44, 19],
+  ])("holds every role of %s roles.json", (_, folder, analyser, extension) => {
+    const roles = catalogue(folder)
+    expect(roles.filter((r) => r.from === "analyser")).toHaveLength(analyser)
+    expect(roles.filter((r) => r.from === "extension")).toHaveLength(extension)
+    expect(roles.map((r) => r.role).filter((role) => !known.has(role))).toEqual([])
+  })
+
+  it("holds the mark of the same shop on a marketplace, from R2's build list", () => {
+    expect(BLOCK_ROLES).toContain("marketplace-badge")
   })
 
   it("keeps the roles the registry used before", () => {
