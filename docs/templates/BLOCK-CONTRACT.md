@@ -198,6 +198,8 @@ export const parseRichTextProps = (input: unknown) =>
 - [ ] the contact sheet at 3 widths, live and empty, is linked in the PR body
 - [ ] rebase on `origin/templates/main` right before the hand-in. A conflict in your category file means
   another block of your category landed, so keep both lines
+- [ ] after the final rebase run `pnpm templates:export` and commit `catalog.generated.json`; on a conflict
+  there, take either side and run it again
 - [ ] base `templates/main`, never `dev`
 
 ## 7. What Is Left to the Eyes
