@@ -12,12 +12,12 @@ const focusRing =
 
 const BUTTON_CLASS = {
   "cta-primary": clx(
-    "inline-flex min-h-11 items-center justify-center rounded-[var(--radius)] border px-5 text-sm font-medium transition-opacity hover:opacity-90",
+    "inline-flex min-h-11 items-center justify-center rounded-[var(--radius)] border px-6 text-base font-medium transition-opacity hover:opacity-90 motion-reduce:transition-none small:text-sm",
     "border-[var(--layer-button-border,var(--primary))] bg-[var(--layer-button-bg,var(--primary))] text-[var(--layer-button-fg,var(--primary-foreground))]",
     focusRing
   ),
   "cta-secondary": clx(
-    "inline-flex min-h-11 items-center rounded-[var(--radius)] px-1 text-sm font-medium text-ui-fg-base underline decoration-[var(--muted-foreground)] decoration-1 underline-offset-4 transition-colors hover:decoration-[var(--foreground)]",
+    "inline-flex min-h-11 items-center rounded-[var(--radius)] px-1 text-base font-medium text-ui-fg-base underline decoration-[var(--muted-foreground)] decoration-1 underline-offset-4 transition-colors hover:decoration-[var(--foreground)] motion-reduce:transition-none small:text-sm",
     focusRing
   ),
 } as const
@@ -25,14 +25,19 @@ const BUTTON_CLASS = {
 /**
  * `text/rich-text` (t-2026-10-12-33, R1 build list item 1): the shop's own words as a home
  * section, «О нас», a brand story, a delivery promise. An eyebrow, a heading, plain paragraphs
- * with their line breaks, up to two buttons; left or centred, a 42rem or 56rem column, on the
- * page or on a `--muted` panel. Several stand on one page, so it brings no outer spacing of its
- * own: `BlockSection` sets the rhythm, `--layer-density` the inside.
+ * with their line breaks, up to two buttons; left or centred, a 42rem or 56rem column (the
+ * paragraphs keep a reading measure, `max-w-prose`, in both), on the page or on a `--muted` panel.
+ * Several stand on one page, so it brings no outer spacing of its own: `BlockSection` sets the
+ * rhythm, `--layer-density` the inside.
  *
  * It draws its own heading stack rather than the shell's header, because the header is always
  * left and 42rem, and this block centres and widens; the type is the same family of tokens, one
  * step larger, measured against the Shopify catalogue's rich-text (Sense, 30/36 px at 1280). The
  * storefront's `text-3xl` is 2rem with no line height of its own, hence `leading-tight`: 32/40.
+ *
+ * The sizes pass `pnpm template:check` (the lab's QR rules): neighbouring sizes ≥ 1.15× apart,
+ * heading ÷ body ≥ 1.5, so 12 / 16 / 16 / 24 px at 360 (eyebrow, buttons, body, heading) and
+ * 12 / 14 / 18 / 32 px from 1024; spacing on the 4·8·12·16·24·32·48·64 scale.
  *
  * With no heading and no paragraph in the visitor's language, nor in English, nor in any other,
  * it draws nothing: an eyebrow and a button alone are not a section.
@@ -72,12 +77,12 @@ export default async function RichText({
       <div
         className={clx(
           tone === "muted" &&
-            "rounded-[var(--radius)] bg-[var(--muted)] px-6 py-[calc(2.5rem*var(--layer-density,1))] xsmall:px-10 small:px-12 small:py-[calc(3.5rem*var(--layer-density,1))]"
+            "rounded-[var(--radius)] bg-[var(--muted)] px-6 py-[calc(2rem*var(--layer-density,1))] xsmall:px-12 small:px-16 small:py-[calc(4rem*var(--layer-density,1))]"
         )}
       >
         <div
           className={clx(
-            "flex flex-col gap-[calc(1.25rem*var(--layer-density,1))]",
+            "flex flex-col gap-[calc(1.5rem*var(--layer-density,1))]",
             width === "wide" ? "max-w-4xl" : "max-w-2xl",
             centred && "mx-auto items-center text-center"
           )}
@@ -85,7 +90,7 @@ export default async function RichText({
           {label || title ? (
             <div data-role="section-header" className="flex flex-col gap-3">
               {label ? (
-                <p data-role="label" className="text-sm font-medium text-ui-fg-muted">
+                <p data-role="label" className="text-xs font-medium uppercase tracking-widest text-ui-fg-muted">
                   {label}
                 </p>
               ) : null}
@@ -100,7 +105,7 @@ export default async function RichText({
             </div>
           ) : null}
           {body.length ? (
-            <div className="flex flex-col gap-4">
+            <div className="flex max-w-prose flex-col gap-4">
               {body.map((line, index) => (
                 <p
                   key={index}
