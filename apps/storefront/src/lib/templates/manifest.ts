@@ -93,12 +93,19 @@ export const LAYER_SPACE_STEPS = [2, 3, 4, 6, 8, 12, 16, 24] as const
 
 const DENSITY_SHIFT: Record<Density, number> = { compact: -1, comfortable: 0, spacious: 1 }
 
+/**
+ * `--layer-density` stays a factor for a block's heights alone (`banner/image` grows its `min-h` with it). The
+ * scale holds spaces, not heights; `pnpm lint:blocks` refuses the factor in a padding, margin or gap.
+ */
+const HEIGHT_FACTOR: Record<Density, string> = { compact: "0.75", comfortable: "1", spacious: "1.25" }
+
 const densityVars = (density: Density): Record<string, string> => {
   const scale: readonly number[] = SPACE_SCALE
   const step = (px: number) => `${scale[scale.indexOf(px) + DENSITY_SHIFT[density]] / 16}rem`
   return {
     ...Object.fromEntries(LAYER_SPACE_STEPS.map((n) => [`--layer-space-${n}`, step(n * 4)])),
     "--layer-section-gap": step(48),
+    "--layer-density": HEIGHT_FACTOR[density],
   }
 }
 

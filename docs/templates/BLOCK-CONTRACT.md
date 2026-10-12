@@ -146,8 +146,10 @@ export const parseRichTextProps = (input: unknown) =>
     6, 8, 12, 16, 24. Write `py-[var(--layer-space-8,2rem)]` where you would write `py-8`; the fallback is
     the step's own value, so a shop with no template draws what `comfortable` draws. A block never
     multiplies a space; it takes a step token. A multiple of a step falls off the scale QR-SPACE-SCALE
-    holds (0.75 × 24 = 18px), and `pnpm lint:blocks` refuses `--layer-density` and a `calc()` around a
-    step (`contract-density-step`);
+    holds (0.75 × 24 = 18px), and `pnpm lint:blocks` refuses `--layer-density` outside a height and a
+    `calc()` around a step (`contract-density-step`);
+  - `--layer-density` (0.75 / 1 / 1.25) for a height alone, never a space:
+    `min-h-[calc(18rem*var(--layer-density,1))]` lets a compact template's banner stand lower;
   - `--layer-section-gap` (3rem), which `BlockSection` already applies;
   - `--layer-photo-aspect` (1 / 1) for product and category pictures;
   - `--layer-button-bg`, `--layer-button-fg`, `--layer-button-border` for the primary button.
@@ -245,7 +247,7 @@ A template is `apps/storefront/src/templates/<id>/template.json`, schema
 | `radius` | `sharp`, `soft`, `round`, `pill` | the presets' own `--radius` |
 | `buttonStyle` | `filled`, `outlined` | `--layer-button-*` |
 | `photoStyle` | `square`, `portrait`, `landscape`, `wide` | `--layer-photo-aspect` |
-| `density` | `compact`, `comfortable`, `spacious` | `--layer-space-2` … `--layer-space-24` (8 to 96px at `comfortable`, one step down or up the space scale), `--layer-section-gap` (32 / 48 / 64px); never a multiplier |
+| `density` | `compact`, `comfortable`, `spacious` | `--layer-space-2` … `--layer-space-24` (8 to 96px at `comfortable`, one step down or up the space scale), `--layer-section-gap` (32 / 48 / 64px); `--layer-density` (0.75 / 1 / 1.25) for a height only, never a space |
 | `fontPair` | two of the twelve `FONT_NAMES` | `data-font-pair` on `<html>` when both have files, see below |
 
 - `sections`, the home page in order: `{ "block": "<id>", "props"?: {…} }`, `home` blocks only. A hero,

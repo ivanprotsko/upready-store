@@ -70,7 +70,7 @@ export default async function HeroType({ eyebrow, title, lead, primary, images, 
 
   return (
     <BlockSection block="hero/type" locale={locale}>
-      <div className={clx("flex flex-col gap-[calc(1.5rem*var(--layer-density,1))]", items, center && "text-center")}>
+      <div className={clx("flex flex-col gap-[var(--layer-space-6,1.5rem)]", items, center && "text-center")}>
         {label ? (
           <div className={clx("flex w-full flex-col gap-3", items)}>
             <p data-role="label" className="text-xs font-medium uppercase tracking-[0.08em] text-ui-fg-muted">

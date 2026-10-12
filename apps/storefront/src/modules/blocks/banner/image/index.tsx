@@ -189,15 +189,15 @@ export default async function ImageBanner({
             className={clx(
               "content-container relative flex text-[var(--foreground)]",
               stackOnMobile
-                ? "pt-6 [grid-area:2/1] xsmall:py-[calc(2rem*var(--layer-density,1))] xsmall:[grid-area:1/1] small:py-[calc(3rem*var(--layer-density,1))]"
-                : "py-[calc(2rem*var(--layer-density,1))] [grid-area:1/1] small:py-[calc(3rem*var(--layer-density,1))]",
+                ? "pt-6 [grid-area:2/1] xsmall:py-[var(--layer-space-8,2rem)] xsmall:[grid-area:1/1] small:py-[var(--layer-space-12,3rem)]"
+                : "py-[var(--layer-space-8,2rem)] [grid-area:1/1] small:py-[var(--layer-space-12,3rem)]",
               ROW_VERTICAL[vertical],
               ROW_HORIZONTAL[horizontal]
             )}
           >
             <div
               className={clx(
-                "flex max-w-xl flex-col gap-[calc(1rem*var(--layer-density,1))]",
+                "flex max-w-xl flex-col gap-[var(--layer-space-4,1rem)]",
                 align.text,
                 textBox &&
                   (stackOnMobile
@@ -222,7 +222,7 @@ export default async function ImageBanner({
                 <div
                   data-role="cta-group"
                   className={clx(
-                    "mt-[calc(0.5rem*var(--layer-density,1))] flex flex-wrap items-center gap-x-6 gap-y-3",
+                    "mt-[var(--layer-space-2,0.5rem)] flex flex-wrap items-center gap-x-6 gap-y-3",
                     align.buttons
                   )}
                 >

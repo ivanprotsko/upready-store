@@ -264,6 +264,7 @@ describe("resolveTemplate", () => {
       "--layer-space-16": "6rem",
       "--layer-space-24": "8rem",
       "--layer-section-gap": "4rem",
+      "--layer-density": "1.25",
     })
     // This build loads no profile font pair (`fonts.generated.ts`), and Fraunces has no
     // template file (no Cyrillic, `public/fonts/templates/LICENSES.md`), so none is loaded.
@@ -315,13 +316,13 @@ describe("the density layer", () => {
     expect([...SPACE_SCALE]).toEqual(THRESHOLDS.space)
   })
 
-  it("puts every space on the scale at every density and sets no multiplier", () => {
+  it("puts every space on the scale at every density; the one factor left is for heights", () => {
     for (const density of DENSITIES) {
       for (const [name, px] of Object.entries(spaces(density))) {
         expect(THRESHOLDS.space, `${density} ${name} = ${px}px`).toContain(px)
       }
-      expect(styleAt(density)).not.toHaveProperty("--layer-density")
     }
+    expect(DENSITIES.map((density) => styleAt(density)["--layer-density"])).toEqual(["0.75", "1", "1.25"])
   })
 
   it("is today's pixels at comfortable, one step down the scale at compact and one step up at spacious", () => {
@@ -334,7 +335,7 @@ describe("the density layer", () => {
 
   // A block reads a step with its comfortable value as the fallback, so a shop with no template draws exactly
   // what `comfortable` draws. `pnpm lint:blocks` refuses the multiplier on the other open block branches.
-  it("is what the blocks read: a step token with its comfortable value as the fallback, never a multiplier", () => {
+  it("is what the blocks read: a step token with its comfortable value as the fallback, a factor only on a height", () => {
     const blocks = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../modules/blocks")
     const sources = (fs.readdirSync(blocks, { recursive: true }) as string[])
       .filter((file) => /\.tsx?$/.test(file) && !/\.test\.tsx?$/.test(file))
@@ -343,7 +344,16 @@ describe("the density layer", () => {
       Array.from(code.matchAll(/var\(--layer-space-(\d+),([^)]+)\)/g), (m) => ({ file, step: Number(m[1]), fallback: m[2] }))
     )
 
-    expect(sources.filter(({ code }) => code.includes("--layer-density")).map(({ file }) => file)).toEqual([])
+    // Every `var(--layer-density` sits in a height utility (`small:min-h-[calc(26rem*var(--layer-density,1))]`).
+    const factors = sources.flatMap(({ file, code }) =>
+      Array.from(code.matchAll(/([\w:-]*)\[[^\]\s"']*var\(--layer-density\b|var\(--layer-density\b/g), (m) => ({
+        file,
+        utility: (m[1] ?? "").split(":").pop() ?? "",
+      }))
+    )
+    for (const { file, utility } of factors) {
+      expect(["h-", "min-h-", "max-h-"], `${file}: --layer-density in "${utility}"`).toContain(utility)
+    }
     expect(reads.length).toBeGreaterThan(0)
     for (const { file, step, fallback } of reads) {
       expect(LAYER_SPACE_STEPS, `${file}: --layer-space-${step}`).toContain(step)
