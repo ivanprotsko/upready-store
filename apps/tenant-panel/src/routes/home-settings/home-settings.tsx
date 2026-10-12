@@ -41,6 +41,7 @@ import {
   type ThemePreset,
 } from "./composition"
 import { HomeBannersEditor, validateBanners } from "./components/home-banners-editor"
+import { TemplateSection } from "./components/template-section"
 
 // tenant-panel: own screen, no Admin counterpart (`/home-settings`). It writes
 // the tenant's home-page document `upready.tenant-home/v1`
@@ -319,6 +320,15 @@ export const HomeSettings = () => {
             <Text size="small">{t("general.loading", { defaultValue: "Loading" })}</Text>
           </div>
         ) : null}
+
+        <TemplateSection
+          dirty={touchedRef.current}
+          onApplied={(applied) => {
+            // The server wrote the template's document: the page shows it, and its next save starts from it.
+            touchedRef.current = false
+            setDoc(applied)
+          }}
+        />
 
         <div className="flex flex-col gap-y-4">
           <Heading level="h2">

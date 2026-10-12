@@ -75,11 +75,16 @@ export type CatalogBlock = {
   propsEditable: boolean;
 };
 
+/** Five colours of a palette in one mode, as the storefront's generated `themes.css` paints them. */
+export type PaletteSwatch = { background: string; foreground: string; primary: string; accent: string; muted: string };
+
 export type TemplateCatalog = {
   schema: string;
   palettes: string[];
   /** Palettes with no dark mode (`LIGHT_ONLY_THEME_IDS`): they need `settings.defaultMode` "light". */
   lightOnlyPalettes: string[];
+  /** Each palette's name and colours, for the panel's swatches; a light-only palette has `light` alone. */
+  swatches: Record<string, { label: string; light: PaletteSwatch; dark?: PaletteSwatch }>;
   fonts: string[];
   layers: { radius: string[]; buttonStyle: string[]; photoStyle: string[]; density: string[] };
   locales: string[];

@@ -203,6 +203,39 @@ medusaIntegrationTestRunner({
         expect(resolved.data.theme).toEqual({ preset: "ferma", mode: "light" });
       });
 
+      it("lists the catalogue for the panel, with the shop's own template only", async () => {
+        const anonymous = await failed(api.get("/tenants/home/templates"));
+        expect(anonymous.status).toBe(401);
+
+        const before = await api.get("/tenants/home/templates", bearer(a.token));
+        expect(before.status).toBe(200);
+        expect(before.data.current).toBeNull();
+        expect(before.data.templates.map((template: { id: string }) => template.id)).toContain("long-morning");
+        const ferma = before.data.palettes.find((palette: { id: string }) => palette.id === "ferma");
+        expect(ferma).toMatchObject({ lightOnly: true });
+        expect(ferma.colours.light.primary).toBeTruthy();
+
+        const applied = await api.post(
+          "/tenants/home/template",
+          { id: "long-morning", overrides: { palette: "ferma", layers: { radius: "pill" } } },
+          bearer(a.token),
+        );
+        expect(applied.status).toBe(200);
+
+        const mine = await api.get("/tenants/home/templates", bearer(a.token));
+        expect(mine.data.current).toEqual({
+          id: "long-morning",
+          palette: "ferma",
+          layers: { ...LONG_MORNING.layers, radius: "pill" },
+          fontPair: LONG_MORNING.fontPair,
+        });
+
+        // Another shop reads the same catalogue and never this shop's template.
+        const theirs = await api.get("/tenants/home/templates", bearer(b.token));
+        expect(theirs.data.current).toBeNull();
+        expect(theirs.data.templates).toEqual(mine.data.templates);
+      });
+
       it("refuses an unknown template, a bad override and an override outside the three kinds", async () => {
         const unknown = await failed(api.post("/tenants/home/template", { id: "no-such" }, bearer(a.token)));
         expect(unknown.status).toBe(400);
