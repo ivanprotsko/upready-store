@@ -4,22 +4,42 @@ One block variant lands in one PR, on a `templates/*` branch, against `templates
 template is a manifest over the storefront's existing composition, so a block is a component plus a
 registry entry, and you never add a second theming path.
 
-## 1. One Folder and One Registry Line Make a Block
+## 1. One Folder and One Line in Its Category File Make a Block
 
 Put the block in `apps/storefront/src/modules/blocks/<category>/<variant>/`, kebab-case:
 
 - `index.tsx` holds the component, a server component unless it needs state.
 - `props.ts` holds the props type and its parser.
-- `block.ts` holds the registry entry, a `BlockEntry` from `modules/blocks/types.ts`.
+- `block.ts` holds the registry entry, a `BlockEntry<YourProps>` from `modules/blocks/types.ts`.
 
-Add one import and one array item to `modules/blocks/registry.ts`. The entry carries these fields:
+Then add one line to the category file, `modules/blocks/<category>/index.ts`, in path order:
+
+```ts
+export { richText } from "./rich-text/block"
+```
+
+That folder and that line make the whole diff of a block PR. Never touch `registry.ts`, `types.ts`,
+`package.json` or `messages/*.json`:
+
+- `registry.ts` imports every category file already, sorts each by variant, and puts the composition
+  variants first and then the categories in the order of `BLOCK_CATEGORIES`.
+- `types.ts` declares every category and every role already. The categories are `header`, `hero`,
+  `tiles`, `listing`, `footer`, `announcement`, `text`, `media`, `columns`, `collection`, `testimonials`,
+  `newsletter`, `banner`, `collage`, `slideshow`, `faq`, `video`, `blog`, `promo`, `countdown`, `trust`,
+  `delivery` and `contacts`. The roles are those of R1's `roles.json`, plus the registry's own.
+- `lucide-react` is already a dependency of the storefront.
+- Lab strings live in props, not in the catalogs (§2).
+
+A block that needs a new category or a new role is a question for the lead, not a line in your PR.
+
+The entry carries these fields:
 
 | Field | What you write |
 |---|---|
 | `id` | `<category>/<variant>`, the name a template uses |
-| `category`, `variant` | the two halves of the id |
+| `category`, `variant` | the two halves of the id; `category` is the folder the block lives in |
 | `title` | an English working name for the playground and the contact sheet |
-| `roles` | what it draws: `heading`, `cta-primary`, `product-card`, `promo-text` and the rest of `BlockRole` |
+| `roles` | what it draws, from `BLOCK_ROLES`: `section-header`, `heading`, `cta-primary`, `card-image`… |
 | `data` | where its content comes from: `products`, `categories`, `shop`, `profile`, `static` |
 | `status` | `lab` for a new block, `live` once the composition contract and the panel know it |
 | `placement` | `home` for a home section; `site` is reserved for header and footer |
@@ -28,21 +48,85 @@ Add one import and one array item to `modules/blocks/registry.ts`. The entry car
 The composition variants (header h1 to h6, hero g h j k l m ga gb, tiles, listing p1 to p5, footer f1
 to f7) are registered by reference in `modules/blocks/existing.ts`. Never move or copy one. Its entry
 points at the live registry's own component, and `registry.test.ts` fails when a composition key has
-no entry or the entry points elsewhere.
+no entry or the entry points elsewhere. A new variant of one of those categories written for
+templates goes into that category's file like any other block.
 
-## 2. Props Are Typed and Parsed, Data Comes Through a Loader
+## 2. Props Are Typed and Parsed With the Shared Helpers, Data Comes Through a Loader
 
 - Type the props in `props.ts`. `parseProps(input)` returns `{ ok: true, value }` or `{ ok: false, errors }`.
   The template validator calls it for every section of the block, absent props included.
-- Shop text arrives as `{ "<locale>": "…" }` keyed by the codes of `src/i18n/config.ts`. Pick the
-  visitor's language, then English, then any.
-- The block's own chrome, such as a button label, is a next-intl key in all 36 catalogs. Never a literal.
+- Build it from `modules/blocks/shared/parse.ts`, one call per field. Every helper takes the raw value
+  and its path and puts the path in front of each error (`items[1].title.ru is 95 characters, at most 90`):
+
+```ts
+export const parseRichTextProps = (input: unknown) =>
+  parseProps<RichTextProps>(input, "text/rich-text", {
+    header: (value, path) => parseSectionHeader(value, path),
+    body: (value, path) => parseLocalizedText(value, path, { max: 600 }),
+    align: (value, path) => parseEnum(value, path, ["left", "center"], { fallback: "left" }),
+    cta: (value, path) => parseObject(value, path, { label: …, href: … }, { optional: true }),
+  })
+```
+
+| Helper | Takes |
+|---|---|
+| `parseProps(input, blockId, fields)` | the whole props; absent props are `{}`, unknown keys are refused |
+| `parseObject(value, path, fields, { optional? })` | a nested object: a button, a list item |
+| `parseList(value, path, item, { min?, max, fallback? })` | a list, each item under `path[i]` |
+| `parseLocalizedText(value, path, { max, fallback? })` | shop text, see below |
+| `parseHref(value, path, { required? })` | `/…` inside the shop or `https://…`; not `//host`; absent is null |
+| `parseEnum(value, path, allowed, { fallback? })` | one of a list |
+| `parseInteger(value, path, { min, max, fallback? })` | a whole number in range (not `parseInt`: that name is the global's) |
+| `parseBoolean(value, path, { fallback })` | a switch |
+| `parseImageRef(value, path, { optional? })` | a picture, §3 |
+| `parseIcon(value, path, { fallback? })` | an icon name, §3 |
+| `parseSectionHeader(value, path)` | the section header, §3 |
+
+- Shop text is `LocalizedText`, `{ "<locale>": "…" }`, keyed by the codes of `src/i18n/config.ts`.
+  `pickText(text, locale)` from `shared/localized-text.ts` picks the visitor's language, then English, then
+  any, and answers null when there is nothing.
+- **While a block is `lab`, every visible string comes from its props as `LocalizedText`,** its own
+  chrome included: a button label, a form placeholder, a «see all», an empty-state line. Put a Russian
+  and an English default in `props.ts` and pass it as `fallback`, so a template that names the block
+  without props still reads well. Never a literal in the component, and never a `messages/*.json` edit.
+  The next-intl keys for all 36 catalogs come in one batch PR, the day the blocks go `live`.
 - Catalogue data is read through a `"use server"` loader in `src/lib/data`, never a fetch in the
   component. List what it reads in `data`.
 - With nothing to show, the block renders `null`. An empty frame is not an empty state.
 
-## 3. Tokens Only
+## 3. One Section Shell, Tokens Only
 
+- Wrap the block in `BlockSection` (`shared/block-section.tsx`). Only a full-width bar such as
+  `announcement/text-bar` draws its own markup.
+
+```tsx
+<BlockSection block="text/rich-text" locale={await getLocale()} header={header} width="content">
+  …
+</BlockSection>
+```
+
+  - It puts half of `--layer-section-gap` (3rem without a template) above the section and half below,
+    so two sections stand one gap apart. Never add your own outer margin or padding.
+  - `width: "content"` holds the children in the content container. `"full"` gives a banner or a
+    slideshow the page's width, and the header stays in the container.
+  - The header is `{ eyebrow, heading, description, seeAll }`, parsed by `parseSectionHeader`. It is
+    drawn only when it has words, with the roles `section-header`, `label`, `heading`, `description`
+    and `cta-secondary`. That is the one heading style of every home section; never draw your own `h2`
+    above a block.
+  - It writes `data-block`, the block's id.
+- Pictures are an `ImageRef` (`shared/image-ref.ts`), exactly one of:
+  - `{ "product": "<handle>", "index"?: n }`, picture n of one of the shop's own products;
+  - `{ "category": "<handle>" }`, the picture the owner gave a category;
+  - `{ "src": "/templates/<template-id>/<file>" }`, a file committed under
+    `apps/storefront/public/templates/<template-id>/`. It must be made for us; no third-party image, stock
+    or competitor's, is ever committed.
+  - `alt` is `LocalizedText` on all three.
+
+  `resolveImageRef(ref, locale)` from `src/lib/data/block-image.ts` turns one into
+  `{ url, alt, width, height }` through the shop's own loaders. It answers null when the product, the
+  category or the picture is not there, and the block then shows its empty state. Medusa keeps no
+  dimensions, so `width` and `height` are null today: draw the picture with `next/image` `fill` in a box
+  of `aspect-[var(--layer-photo-aspect,1/1)]`.
 - Colours come from the theme variables of `styles/themes.css` (`var(--primary)`, `var(--border)`,
   `var(--muted-foreground)` and the rest) or the `ui-*` classes of the Medusa preset. No hex, `rgb()`,
   `hsl()`, `oklch()`, no `bg-white` or `text-black`.
@@ -52,11 +136,14 @@ no entry or the entry points elsewhere.
 - The template layers are CSS variables on `<html>`. Read them with a fallback, so the block also works
   in a shop with no template:
   - `--layer-density` (a multiplier, 1) for the block's own vertical rhythm;
-  - `--layer-section-gap` (3rem) for the space around a home section;
+  - `--layer-section-gap` (3rem), which `BlockSection` already applies;
   - `--layer-photo-aspect` (1 / 1) for product and category pictures;
   - `--layer-button-bg`, `--layer-button-fg`, `--layer-button-border` for the primary button.
-- Icons are `lucide-react` only. The storefront does not depend on it yet, so the first block that needs
-  an icon adds it in its own PR. The lint refuses `@medusajs/icons` inside `modules/blocks`.
+- Icons are `BlockIcon` (`shared/block-icon.tsx`), named by string from the closed list of
+  `shared/icon-name.ts`, about 30 icons for delivery, payment, trust and the catalogue. A template's icon
+  prop is parsed with `parseIcon`, which refuses any other name. An icon the list lacks is a question for
+  the lead. `lucide-react` directly is allowed. The lint refuses `@medusajs/icons`, the storefront's
+  own `modules/common/icons` and every other set inside `modules/blocks`.
 
 ## 4. Fixtures Feed the Playground
 
@@ -76,11 +163,15 @@ no entry or the entry points elsewhere.
 
 ## 6. PR Checklist
 
-- [ ] `<category>/<variant>/{index.tsx,props.ts,block.ts}` and one line in `registry.ts`
-- [ ] `parseProps`, both fixtures, `roles`, `data`, `status: "lab"`
+- [ ] `<category>/<variant>/{index.tsx,props.ts,block.ts}` and one line in `<category>/index.ts`; nothing else
+- [ ] `parseProps` built from `shared/parse.ts`, both fixtures, `roles`, `data`, `status: "lab"`
+- [ ] every visible string a `LocalizedText` prop with Russian and English defaults; no `messages/*.json`
+- [ ] wrapped in `BlockSection`; pictures as `ImageRef`, icons as `BlockIcon`
 - [ ] `npx vitest run src/modules/blocks src/lib/templates page.baseline` passes
 - [ ] `npx tsc --noEmit`, `pnpm lint` and `pnpm lint:blocks` pass
 - [ ] the contact sheet at 3 widths, live and empty, is linked in the PR body
+- [ ] rebase on `origin/templates/main` right before the hand-in. A conflict in your category file means
+  another block of your category landed, so keep both lines
 - [ ] base `templates/main`, never `dev`
 
 ## Template Contract

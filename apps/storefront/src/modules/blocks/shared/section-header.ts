@@ -1,0 +1,45 @@
+import type { PropsResult } from "../types"
+import type { LocalizedText } from "./localized-text"
+import { parseHref, parseLocalizedText, parseObject } from "./parse"
+
+/**
+ * The header a home section may carry above its content (BLOCK-CONTRACT.md §3), drawn by
+ * `BlockSection`: the roles `section-header`, `label` (the eyebrow), `heading`, `description`
+ * and `cta-secondary` (the «see all» link). A block takes it as one prop, `header`, and parses
+ * it with one call, so twenty blocks share one heading style and one set of limits.
+ */
+export type SectionHeader = {
+  eyebrow: LocalizedText
+  heading: LocalizedText
+  description: LocalizedText
+  seeAll: { href: string; label: LocalizedText } | null
+}
+
+/** The «see all» link's own words while blocks are `lab` (§2): props, not the catalogs. */
+export const SEE_ALL_LABEL: LocalizedText = { ru: "Смотреть все", en: "See all" }
+
+const text = (max: number) => (value: unknown, path: string) => parseLocalizedText(value, path, { max, fallback: {} })
+
+/** `header` of a block's props. Absent is null: the section has no header. */
+export function parseSectionHeader(value: unknown, path: string): PropsResult<SectionHeader | null> {
+  return parseObject<SectionHeader>(
+    value,
+    path,
+    {
+      eyebrow: text(40),
+      heading: text(90),
+      description: text(280),
+      seeAll: (link, linkPath) =>
+        parseObject<{ href: string; label: LocalizedText }>(
+          link,
+          linkPath,
+          {
+            href: (href, hrefPath) => parseHref(href, hrefPath, { required: true }),
+            label: (label, labelPath) => parseLocalizedText(label, labelPath, { max: 30, fallback: SEE_ALL_LABEL }),
+          },
+          { optional: true }
+        ),
+    },
+    { optional: true }
+  )
+}

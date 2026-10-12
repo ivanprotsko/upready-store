@@ -59,7 +59,8 @@ const CONTRACT = [
   { rule: "contract-colour-function", pattern: /\b(?:rgba?|hsla?|oklch)\(\s*\d/g, why: "A colour literal: use a theme variable." },
   { rule: "contract-adhoc-shadow", pattern: /\bshadow-\[|\bboxShadow\b|box-shadow\s*:/g, why: "An ad-hoc shadow: use the preset's var(--shadow-card|float|modal) or none." },
   { rule: "contract-white-black", pattern: /\b(?:bg|border|ring|fill|stroke|from|via|to)-(?:white|black)\b/g, why: "White and black do not follow the theme: use a token." },
-  { rule: "contract-icons", pattern: /from\s+["'](?!lucide-react["'])[^"']*icons?[^"']*["']/g, why: "Icons come from lucide-react only." },
+  // `shared/block-icon` and `shared/icon-name` are the blocks' own lucide wrapper and its names.
+  { rule: "contract-icons", pattern: /from\s+["'](?!lucide-react["']|(?:\.\.?\/)+(?:shared\/)?(?:block-icon|icon-name)["']|@modules\/blocks\/shared\/)[^"']*icons?[^"']*["']/g, why: "Icons come from lucide-react only." },
 ]
 
 const walk = (target) => {

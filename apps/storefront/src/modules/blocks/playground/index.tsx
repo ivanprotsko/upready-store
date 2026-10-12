@@ -12,7 +12,9 @@ import type { HomeHeroProps } from "@modules/home/variants/types"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 
 import { BLOCKS } from "../registry"
-import type { BlockEntry } from "../types"
+import BlockSection from "../shared/block-section"
+import { SEE_ALL_LABEL, type SectionHeader } from "../shared/section-header"
+import type { BlockEntry, BlockId } from "../types"
 
 /** `hero/g` → `block-hero-g`; the shots script reads these anchors back off the page. */
 export const blockAnchor = (id: string, state: "live" | "empty") =>
@@ -32,6 +34,17 @@ async function shopTiles() {
   } catch {
     return []
   }
+}
+
+/** The section shell's header with every part filled, for its own anchor in the shots. */
+const SHELL_HEADER: SectionHeader = {
+  eyebrow: { ru: "Подборка недели", en: "This week's pick" },
+  heading: { ru: "Всё для неспешного утра", en: "Everything for a slow morning" },
+  description: {
+    ru: "Чайники, турки и чашки, которые мы сами берём на кухню. Привезём завтра.",
+    en: "Kettles, pots and cups we take to our own kitchen. Delivered tomorrow.",
+  },
+  seeAll: { href: "/store", label: SEE_ALL_LABEL },
 }
 
 /**
@@ -106,6 +119,19 @@ export default async function BlockPlayground() {
           </Link>
         ))}
       </nav>
+      <section
+        id={blockAnchor("shared/block-section", "live")}
+        data-block-anchor="shared/block-section"
+        data-block-state="live"
+        className="flex flex-col gap-3"
+      >
+        <p className="content-container font-mono text-xs text-ui-fg-muted">
+          shared/block-section · the shell every home block wraps itself in · header only
+        </p>
+        <div>
+          <BlockSection block={"shared/block-section" as BlockId} locale={locale} header={SHELL_HEADER} />
+        </div>
+      </section>
       {BLOCKS.map((entry) => {
         const Block = entry.component as ComponentType<Record<string, unknown>>
         const caption = `${entry.id} · ${entry.title} · ${entry.status} · ${entry.data.join(", ")}`
