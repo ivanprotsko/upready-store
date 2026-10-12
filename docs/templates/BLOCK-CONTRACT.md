@@ -261,3 +261,42 @@ one of them keeps the build's type and `fonts.loaded` false. A page without a te
 The preview is `?template=<id>` on any page of a storefront started with `STOREFRONT_TEMPLATE_PREVIEW=1`.
 It saves nothing. Without the flag every reader returns early, and `page.baseline.test.tsx` holds the
 home page to the tree it had before templates existed.
+
+## A Shop Keeps Its Template
+
+`POST /tenants/home/template` with `{ "id": "<id>", "overrides"?: {…} }` applies a template to the shop
+behind the token, with the auth, the `storefront` permission and the write of `PUT /tenants/home`. It
+expands the template into the shop's home document, `upready.tenant-home/v1`, and keeps the shop's own
+content (hero copy, products, banners, block order):
+
+| Template | Document |
+|---|---|
+| `settings` | `settings` |
+| `theme.palette` | `theme.preset` (`default` is stored as `medusa`, which `themes.css` paints the same) |
+| `theme.radius`, `buttonStyle`, `photoStyle`, `density` | `theme.layers` |
+| `sections` | `content.sections` |
+| `id`, `schema`, `theme.fontPair` | `template` |
+
+The three new fields are optional and come together. A document without them reads as it always did.
+
+`overrides` may set `palette`, any of the four `layers`, and the whole `props` of a section by
+`{ index, block, props }`. It cannot add or move a section and cannot touch `settings`, so it cannot
+bring in a block outside the registry or break a `FORBIDDEN` pair. The merged template passes the
+validator again before anything is written: 400 for a field, 422 with the `PUT` body for a pair.
+
+The backend cannot import this app, so it reads `apps/backend/src/api/tenants/home/template/catalog.generated.json`:
+the catalogue, the registry's block list and the vocabularies. `pnpm templates:export` in
+`apps/storefront` writes it, and `catalog-export.test.ts` fails when it is stale. The backend's
+`validation.ts` transcribes `validateTemplate()` by hand, and `parity.test.ts` runs both copies on
+`parity.fixtures.json`. A block with `parseProps` needs its check in `PROPS_CHECKS` there, or the
+backend refuses its props.
+
+The storefront reads the saved template through `getActiveTemplate()` (`lib/templates/active.ts`): the
+preview first, then the document's template, resolved by `validateTemplate()` and `resolveTemplate()`
+the way a preview is, so the root layout and the home page paint it through the same lines. A saved
+template that no longer validates is logged once and the shop renders from its composition. The
+template's font pair is recorded and not loaded, and `fonts.loaded` says so.
+
+A plain `PUT /tenants/home` from the panel carries a saved template over. Its slot sections follow
+the settings just saved: renamed to the new variant, dropped when the slot is off, appended when a
+slot is switched on that no section places.

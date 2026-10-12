@@ -419,6 +419,13 @@ Model `tenant_home_config.config` (JSON). Schema `upready.tenant-home/v1`:
 }
 ```
 
+Three optional fields join it when the shop applies a store template (t-2026-10-12-33, branch
+`templates/*`): `theme.layers` `{ radius, buttonStyle, photoStyle, density }`, `content.sections`
+`[{ block, props? }]` and `template` `{ id, schema, fontPair }`. They come together, are written by
+`POST /tenants/home/template { id, overrides? }` and carried over by `PUT`; with them the storefront lays
+the home page out from `content.sections` and does not read `content.order`. The rules are in
+`docs/templates/BLOCK-CONTRACT.md`, "A Shop Keeps Its Template".
+
 This is the ONE composition schema of the project: `settings` is the `feat/stands-composition`
 document (`upready.storefront-settings/v1`) unchanged, `content` is the tenant's text for those
 blocks (that document never had content fields — recorded as the resolution of the acceptance item
