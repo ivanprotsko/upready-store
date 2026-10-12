@@ -171,10 +171,25 @@ describe("Mosaic", () => {
   })
 
   it("draws nothing when fewer than two tiles resolve", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {})
     expect(await render(props({ tiles: [{ category: "gone" }, { product: "gone" }, tiles.tableware] }))).toBeNull()
+    expect(log).not.toHaveBeenCalled()
     loaders.getCategoryByHandle.mockRejectedValue(new Error("backend down"))
     loaders.listProducts.mockRejectedValue(new Error("backend down"))
     expect(await render(props())).toBeNull()
+    log.mockRestore()
+  })
+
+  it("drops a tile whose read fails and names it in the log: a failure is not an empty source", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {})
+    const failure = new Error("backend down")
+    loaders.listProducts.mockRejectedValue(failure)
+    const html = (await render(props()))!
+    expect(tilesOf(html)).toHaveLength(2)
+    expect(html).not.toContain('data-role="product-card"')
+    expect(log).toHaveBeenCalledTimes(1)
+    expect(log).toHaveBeenCalledWith('collage/mosaic: could not read product "skillet"', failure)
+    log.mockRestore()
   })
 
   it("draws the sample in its shell: the header, one large category, the product's own card, a small category", async () => {

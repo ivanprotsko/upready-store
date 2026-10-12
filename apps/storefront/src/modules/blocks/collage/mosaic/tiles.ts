@@ -38,17 +38,27 @@ async function resolveTile(tile: MosaicTile, locale: string): Promise<ResolvedTi
     })
     const product = response.products.find((candidate) => candidate.handle === tile.product)
     return product ? { kind: "product", product } : null
-  } catch {
+  } catch (error) {
+    // A failed read is not an empty source (rule 20a): the tile drops out, and the log names it.
+    console.error(`collage/mosaic: could not read ${nameOf(tile)}`, error)
     return null
   }
 }
+
+/** The tile as the log names it: `product "skillet"`, `category "cookware"`, `image {"src":…}`. */
+const nameOf = (tile: MosaicTile): string =>
+  "product" in tile
+    ? `product "${tile.product}"`
+    : "category" in tile
+      ? `category "${tile.category}"`
+      : `image ${JSON.stringify(tile.image)}`
 
 /**
  * The mosaic's tiles, each read through the shop's own loaders, the ones its pages use: a
  * picture through `resolveImageRef`, a category through `getCategoryByHandle` and the picture
  * its owner gave it (`categoryImage`), a product through `listProducts` with the prices of the
  * visitor's region. A tile that is not there (no such product or category, a category without a
- * picture, a failed read) is dropped; the rest keep their order.
+ * picture, a failed read) is dropped; the rest keep their order. A failed read is logged.
  */
 export async function resolveMosaicTiles(tiles: readonly MosaicTile[], locale: string): Promise<ResolvedTile[]> {
   const resolved = await Promise.all(tiles.map((tile) => resolveTile(tile, locale)))
