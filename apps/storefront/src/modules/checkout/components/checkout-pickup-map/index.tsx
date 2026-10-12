@@ -5,8 +5,8 @@ import { clx } from "@medusajs/ui"
 
 /**
  * The pickup points of one city on a Yandex map (i03-checkout-pvz-map-address-suggest),
- * since t-2026-10-12-03 the one map of both pickers, Russian Post and CDEK. Ivan's item 2
- * (12.10) replaced the Russian Post map, Leaflet over OpenStreetMap tiles, with this one.
+ * since t-2026-10-12-03 the one map of both pickers, Russian Post and CDEK: Ivan's item 2
+ * (12.10) replaced the Russian Post picker's own map library and tile server with this one.
  *
  * Mechanics are ported from the reference storefront's `pickup-map-yandex`
  * (chrxnasdmds), the components and the styling are this storefront's own —
