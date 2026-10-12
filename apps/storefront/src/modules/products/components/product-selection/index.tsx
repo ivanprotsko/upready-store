@@ -26,9 +26,6 @@ export type ProductSelection = {
   /** The variant the chosen options name, or undefined while the choice is incomplete. */
   selectedVariant: HttpTypes.StoreProductVariant | undefined
   isValidVariant: boolean
-  /** True while «Купить» waits for the cart to reach the server: the pickers disable themselves meanwhile. */
-  busy: boolean
-  setBusy: (busy: boolean) => void
   /**
    * The product WITH the region's prices, published by the buy box once
    * `ProductActionsWrapper` has fetched it; the details drawer's footer reads the price
@@ -93,7 +90,6 @@ export function ProductSelectionProvider({
     const linked = product.variants?.find((variant) => variant.id === linkedId)
     return linked ? optionsAsKeymap(linked.options) : {}
   })
-  const [busy, setBusy] = useState(false)
   const [pricedProduct, setPricedProduct] = useState<
     HttpTypes.StoreProduct | undefined
   >(undefined)
@@ -143,8 +139,6 @@ export function ProductSelectionProvider({
       setOptionValue,
       selectedVariant,
       isValidVariant,
-      busy,
-      setBusy,
       pricedProduct,
       setPricedProduct,
       detailsOpen,
@@ -157,7 +151,6 @@ export function ProductSelectionProvider({
       setOptionValue,
       selectedVariant,
       isValidVariant,
-      busy,
       pricedProduct,
       detailsOpen,
     ]

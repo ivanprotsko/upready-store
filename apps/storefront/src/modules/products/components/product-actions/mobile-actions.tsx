@@ -21,7 +21,6 @@ type MobileActionsProps = {
   updateOptions: (title: string, value: string) => void
   inStock?: boolean
   handleAddToCart: () => void
-  isAdding?: boolean
   /** The variant in the cart (the Olavka shop, remark 24): «В КОРЗИНЕ − N +» once it is in. */
   inCart?: { quantity: number; max: number; onStep: (delta: 1 | -1) => void }
   show: boolean
@@ -35,7 +34,6 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   updateOptions,
   inStock,
   handleAddToCart,
-  isAdding,
   inCart,
   show,
   optionsDisabled,
@@ -68,7 +66,6 @@ const MobileActions: React.FC<MobileActionsProps> = ({
       size="large"
       disabled={!inStock || !variant}
       className="min-w-0 flex-1"
-      isLoading={isAdding}
       data-testid="mobile-cart-button"
     >
       {!variant

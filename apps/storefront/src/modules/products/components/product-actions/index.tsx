@@ -30,7 +30,8 @@ type ProductActionsProps = {
 
 /**
  * The buy box: the right-hand card of the product page. Price, availability, «В корзину»
- * and «Оплатить», and the phone's sticky bar.
+ * on the card's whole width, and the phone's sticky bar. No «Купить» next to it (Ivan,
+ * 12.10.2026: «убери кнопку "купить" везде», t-2026-10-12-06).
  *
  * Which variant is meant comes from `ProductSelectionProvider`: the pickers live in the
  * centre card, this card only spends the choice. The provider knows the variant by id
@@ -49,10 +50,9 @@ export default function ProductActions({
     selectedVariant,
     inStock,
     isValidVariant,
-    isAdding,
     canBuy,
+    addLabel,
     handleAddToCart,
-    handleBuyNow,
   } = useProductPurchase(product, disabled)
   const { cart, queue } = useCart(cartSnapshot)
 
@@ -101,12 +101,6 @@ export default function ProductActions({
     return () => observer.disconnect()
   }, [])
 
-  const buttonLabel = !selectedVariant
-    ? t("selectVariant")
-    : !inStock || !isValidVariant
-    ? t("outOfStock")
-    : t("addToCart")
-
   // The variant's quantity in the cart and the way to change it; undefined when the shop
   // has no «В корзине» state.
   const inCart =
@@ -130,17 +124,16 @@ export default function ProductActions({
       size="large"
       className="w-full rounded-full"
       variant="primary"
-      isLoading={isAdding}
       data-testid="add-product-button"
     >
-      {buttonLabel}
+      {t(addLabel)}
     </Button>
   )
 
   return (
     <>
       {/* In the order a buyer reads it: what it costs, whether it can be had, then the
-          two ways to buy it. What exactly is sold is chosen in the centre card. */}
+          button that buys it. What exactly is sold is chosen in the centre card. */}
       <div className="flex flex-col gap-y-3" ref={actionsRef}>
         <ProductPrice product={product} variant={selectedVariant} />
 
@@ -184,17 +177,6 @@ export default function ProductActions({
         ) : (
           addButton
         )}
-        <Button
-          onClick={handleBuyNow}
-          disabled={!canBuy}
-          size="large"
-          className="w-full rounded-full"
-          variant="secondary"
-          data-testid="buy-now-button"
-        >
-          {/* Batch 6, Q3.4: «Купить», not «Оплатить» — nothing is paid on this page. */}
-          {t("buy")}
-        </Button>
         <CartLineError variantId={selectedVariant?.id} data-testid="product-cart-error" />
 
         <MobileActions
@@ -204,12 +186,11 @@ export default function ProductActions({
           updateOptions={setOptionValue}
           inStock={inStock}
           handleAddToCart={handleAddToCart}
-          isAdding={isAdding}
           inCart={inCart}
           // Hidden while the details drawer is open: it has its own buy footer, and two
           // buy bars on one phone screen is one too many.
           show={scrolledPast && !footerInView && !detailsOpen}
-          optionsDisabled={!!disabled || isAdding}
+          optionsDisabled={!!disabled}
         />
       </div>
     </>

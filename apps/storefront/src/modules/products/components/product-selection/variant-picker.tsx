@@ -34,7 +34,7 @@ const variantImage = (
  * a colour with a hex code) keeps the text chips and colour dots of `OptionSelect`.
  */
 export default function VariantPicker() {
-  const { product, options, setOptionValue, busy } = useProductSelection()
+  const { product, options, setOptionValue } = useProductSelection()
   const variants = product.variants ?? []
 
   if (variants.length <= 1) {
@@ -104,7 +104,6 @@ export default function VariantPicker() {
                 updateOption={setOptionValue}
                 title={option.title ?? ""}
                 data-testid="product-options"
-                disabled={busy}
               />
             )
           }
@@ -132,13 +131,12 @@ export default function VariantPicker() {
                       key={value.id}
                       type="button"
                       onClick={() => setOptionValue(option.id, value.value)}
-                      disabled={busy}
                       title={value.value}
                       aria-label={value.value}
                       aria-pressed={isSelected}
                       data-testid="option-button"
                       className={clx(
-                        "relative h-[82px] w-[72px] overflow-hidden rounded-rounded bg-ui-bg-base transition-shadow disabled:opacity-60",
+                        "relative h-[82px] w-[72px] overflow-hidden rounded-rounded bg-ui-bg-base transition-shadow",
                         FOCUS_RING,
                         isSelected
                           ? "ring-2 ring-ui-border-interactive"

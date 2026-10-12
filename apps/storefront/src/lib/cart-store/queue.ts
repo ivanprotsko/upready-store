@@ -331,7 +331,7 @@ export class CartQueue {
 
   /**
    * Sends everything now and waits until the queue is empty: what «К оформлению» and
-   * «Купить» do before they leave for the checkout. `ok` is false when a line failed
+   * «Оформить заказ» do before they leave for the checkout. `ok` is false when a line failed
    * meanwhile; the view has fallen back to the server's cart by then and the line
    * shows why.
    */
