@@ -4,10 +4,11 @@
  * шаблонов должно быть в отдельной ветке, и оно не должно попадать в ветку, которая идет на деплой». Template and
  * block work lives on templates/main and templates/<slug> (AGENTS.md, «`templates/*` Branches»).
  *
- *   node .github/scripts/templates-guard.mjs --base <base ref> --head <head ref> --labels '<JSON array of names>'
+ *   node .github/scripts/templates-guard.mjs --base <base ref> --head <head ref> --labels '<JSON array of names>' [--pr <number>]
  *
  * Exit 1 when a templates/* branch heads for dev or main without the label ivan-ok, exit 0 otherwise, exit 2 on a
  * bad call. .github/workflows/templates-guard.yml runs it on every pull request into dev, main and templates/**.
+ * With `--pr` it reads the pull request's base and labels from the API when it runs (see `main`).
  *
  *   git diff --name-only HEAD^1 HEAD | node .github/scripts/templates-guard.mjs --scope
  *
@@ -76,29 +77,51 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     const flag = argv[i]
     if (flag === "--scope") args.scope = true
-    else if (["--base", "--head", "--labels"].includes(flag) && i + 1 < argv.length) args[flag.slice(2)] = argv[++i]
+    else if (["--base", "--head", "--labels", "--pr"].includes(flag) && i + 1 < argv.length) args[flag.slice(2)] = argv[++i]
     else throw new Error(`unknown argument ${flag}`)
   }
   return args
 }
 
-function main(argv) {
+/**
+ * { base, labels } of the pull request as it is now. An event's payload is a snapshot, and a rerun replays it, so a
+ * run that went red before Ivan's label would stay red on a rerun, and a run that starts late would judge an old base.
+ */
+export async function currentPull({ repo, pr, token, apiUrl = "https://api.github.com", fetchImpl = fetch }) {
+  const where = `GET /repos/${repo}/pulls/${pr}`
+  const response = await fetchImpl(`${apiUrl}/repos/${repo}/pulls/${pr}`, {
+    headers: { authorization: `Bearer ${token}`, accept: "application/vnd.github+json" },
+  })
+  if (!response.ok) throw new Error(`${where}: HTTP ${response.status}`)
+  const body = await response.json()
+  const labels = (body.labels ?? []).map((label) => label?.name)
+  if (typeof body.base?.ref !== "string" || !labels.every((name) => typeof name === "string")) {
+    throw new Error(`${where}: no base ref or label names in the answer`)
+  }
+  return { base: body.base.ref, labels }
+}
+
+/**
+ * The command line. With `--pr`, GITHUB_TOKEN and GITHUB_REPOSITORY set (the workflow sets them), a templates/* head
+ * is judged by the base and labels the API returns now; when that call fails, by the event's `--base` and `--labels`.
+ */
+export async function main(argv, { env = process.env, fetchImpl = fetch, log = console.log, error = console.error } = {}) {
   let args
   try {
     args = parseArgs(argv)
-  } catch (error) {
-    console.error(`templates-guard: ${error.message}`)
+  } catch (failure) {
+    error(`templates-guard: ${failure.message}`)
     return 2
   }
   if (args.scope) {
     const files = readFileSync(0, "utf8").split("\n").map((line) => line.trim()).filter(Boolean)
     const scope = scopeOf(files)
-    for (const [job, needed] of Object.entries(scope)) console.log(`${job}=${needed}`)
-    console.error(`templates-guard --scope: ${files.length} changed file(s), ${JSON.stringify(scope)}`)
+    for (const [job, needed] of Object.entries(scope)) log(`${job}=${needed}`)
+    error(`templates-guard --scope: ${files.length} changed file(s), ${JSON.stringify(scope)}`)
     return 0
   }
   if (!args.base || !args.head || args.labels === undefined) {
-    console.error("usage: templates-guard.mjs --base <ref> --head <ref> --labels '<JSON array>' | --scope")
+    error("usage: templates-guard.mjs --base <ref> --head <ref> --labels '<JSON array>' [--pr <number>] | --scope")
     return 2
   }
   let labels
@@ -108,17 +131,37 @@ function main(argv) {
     labels = null
   }
   if (!Array.isArray(labels) || !labels.every((name) => typeof name === "string")) {
-    console.error(`templates-guard: --labels must be a JSON array of label names, got ${args.labels}`)
+    error(`templates-guard: --labels must be a JSON array of label names, got ${args.labels}`)
     return 2
   }
-  const { ok, message } = verdict({ base: args.base, head: args.head, labels })
+  let base = args.base
+  if (args.head.startsWith(TEMPLATE_PREFIX) && args.pr && env.GITHUB_TOKEN && env.GITHUB_REPOSITORY) {
+    try {
+      const now = await currentPull({
+        repo: env.GITHUB_REPOSITORY,
+        pr: args.pr,
+        token: env.GITHUB_TOKEN,
+        apiUrl: env.GITHUB_API_URL || undefined,
+        fetchImpl,
+      })
+      ;({ base, labels } = now)
+      log(`templates-guard: #${args.pr} now has base ${base} and labels ${JSON.stringify(labels)}`)
+    } catch (failure) {
+      log(`::warning title=Templates Guard::could not read #${args.pr} now (${failure.message}), the event's base and labels decide`)
+    }
+  }
+  const { ok, message } = verdict({ base, head: args.head, labels })
   if (ok) {
-    console.log(message)
+    log(message)
     return 0
   }
-  console.log(`::error title=Templates Guard::${message.split("\n")[0]} ${RULE}.`)
-  console.log(message)
+  log(`::error title=Templates Guard::${message.split("\n")[0]} ${RULE}.`)
+  log(message)
   return 1
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) process.exitCode = main(process.argv.slice(2))
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main(process.argv.slice(2)).then((code) => {
+    process.exitCode = code
+  })
+}

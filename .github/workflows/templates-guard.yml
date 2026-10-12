@@ -6,10 +6,14 @@ name: Templates Guard
 # main without the label ivan-ok, which only Ivan sets (t-2026-10-12-33). The rule and its test live in
 # .github/scripts/templates-guard.mjs.
 #
-# It is a workflow of its own, not a job of pr-checks.yml, so that adding or removing a label reruns this check
-# alone. A labeled run of pr-checks.yml would report Backend, Panel And Repository and Deploy Checks as skipped on
-# the same head commit. The pull request then shows the skipped runs in place of the real ones, and a skipped check
-# counts as passed, so ivan-ok could hide a red Backend. `edited` reruns the guard when the base branch changes.
+# It is a workflow of its own, not a job of pr-checks.yml, so that adding or removing a label runs this check
+# alone. A labeled run of pr-checks.yml would add Backend, Panel And Repository and Deploy Checks as skipped checks
+# on the same head commit, next to the real ones. `edited` runs the guard again when the base branch changes.
+#
+# Each run reads the pull request's base and labels from the API when it starts (`--pr`), not from the event, so a
+# run that starts late judges the pull request as it is, and a rerun of a red run turns green once Ivan has set
+# ivan-ok. There is no concurrency group on purpose. A run that a newer one cancels stays on the head commit as a
+# cancelled check, and a cancelled check reads as a failure (seen on PR #349).
 #
 # GitHub Free has no branch protection here (t-2026-10-12-25), so a red guard does not disable the merge button.
 # The workflow and the script run from the pull request's own merge commit, so a pull request that edits them can
@@ -21,11 +25,7 @@ on:
 
 permissions:
   contents: read
-
-# A newer event on the same pull request (a label, a push) replaces the verdict of the older one.
-concurrency:
-  group: templates-guard-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  pull-requests: read
 
 jobs:
   guard:
@@ -44,4 +44,6 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
           HEAD_REF: ${{ github.head_ref }}
           LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
-        run: node .github/scripts/templates-guard.mjs --base "$BASE_REF" --head "$HEAD_REF" --labels "$LABELS"
+          PR: ${{ github.event.pull_request.number }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/templates-guard.mjs --base "$BASE_REF" --head "$HEAD_REF" --labels "$LABELS" --pr "$PR"

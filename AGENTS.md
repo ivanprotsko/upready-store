@@ -382,7 +382,7 @@ Split a formatting pass out of a substantive change, always.
 - `templates/main` is the integration branch for templates and blocks, which never reach dev, the branch that deploys (Ivan, 12.10.2026).
 - You branch a block or a template off `templates/main` as `templates/<slug>`, the one exception to `<type>/<short-description>`, and its PR goes into `templates/main`.
 - You sync dev into `templates/main` with a PR from `dev`.
-- A `templates/*` PR into `dev` or `main` needs the label `ivan-ok`. Only Ivan sets it, and no agent ever does. [templates-guard.yml](.github/workflows/templates-guard.yml) goes red without it.
+- A `templates/*` PR into `dev` or `main` needs the label `ivan-ok`. Only Ivan sets it, and no agent ever does. [templates-guard.yml](.github/workflows/templates-guard.yml) goes red without it. Once Ivan sets it, rerun a red run, which reads the labels again.
 - A PR into `templates/**` runs `Templates Guard` and `Storefront` only. Backend, Panel And Repository and Deploy Checks join when it changes what they check ([templates-guard.mjs](.github/scripts/templates-guard.mjs), `SCOPES`).
 
 ## Writing

@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { LABEL, scopeOf, verdict } from "../templates-guard.mjs"
+import { LABEL, currentPull, main, scopeOf, verdict } from "../templates-guard.mjs"
 
 const script = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "templates-guard.mjs")
 const run = (args, input = "") => spawnSync("node", [script, ...args], { encoding: "utf8", input })
@@ -94,4 +94,53 @@ test("--scope prints the lines $GITHUB_OUTPUT takes", () => {
   const scope = run(["--scope"], "apps/storefront/src/a.tsx\napps/backend/src/b.ts\n")
   assert.equal(scope.status, 0)
   assert.equal(scope.stdout, "backend=true\npanel=false\ndeploy=false\n")
+})
+
+// The workflow passes --pr with GITHUB_TOKEN and GITHUB_REPOSITORY set: the API's answer decides over the event's.
+const env = { GITHUB_TOKEN: "t", GITHUB_REPOSITORY: "o/r", GITHUB_API_URL: "https://api.test" }
+const answer = (base, labels) => async () => ({ ok: true, json: async () => ({ base: { ref: base }, labels: labels.map((name) => ({ name })) }) })
+const broken = async () => ({ ok: false, status: 502, json: async () => ({}) })
+const never = async () => {
+  throw new Error("the API must not be called")
+}
+const quiet = { log: () => {}, error: () => {} }
+const judge = (args, fetchImpl, extra = env) => main(args, { env: extra, fetchImpl, ...quiet })
+const payload = (base, labels) => ["--base", base, "--head", "templates/x", "--labels", JSON.stringify(labels), "--pr", "7"]
+
+test("currentPull reads the base and the label names, and throws on an error answer", async () => {
+  let asked
+  const pull = await currentPull({
+    repo: "o/r",
+    pr: "7",
+    token: "t",
+    apiUrl: "https://api.test",
+    fetchImpl: async (url, init) => {
+      asked = { url, auth: init.headers.authorization }
+      return answer("dev", ["design", LABEL])()
+    },
+  })
+  assert.deepEqual(pull, { base: "dev", labels: ["design", LABEL] })
+  assert.deepEqual(asked, { url: "https://api.test/repos/o/r/pulls/7", auth: "Bearer t" })
+  await assert.rejects(currentPull({ repo: "o/r", pr: "7", token: "t", fetchImpl: broken }), /HTTP 502/)
+})
+
+test("ivan-ok set after the event turns a rerun green, and a removed one turns it red", async () => {
+  assert.equal(await judge(payload("dev", []), answer("dev", [LABEL])), 0)
+  assert.equal(await judge(payload("dev", [LABEL]), answer("dev", [])), 1)
+})
+
+test("a base changed after the event is judged as it is now", async () => {
+  assert.equal(await judge(payload("templates/main", []), answer("dev", [])), 1)
+  assert.equal(await judge(payload("dev", []), answer("templates/main", [])), 0)
+})
+
+test("when the API fails, the event's base and labels decide", async () => {
+  assert.equal(await judge(payload("dev", []), broken), 1)
+  assert.equal(await judge(payload("dev", [LABEL]), broken), 0)
+})
+
+test("the API is not called without a token, without --pr, or for a head outside templates/*", async () => {
+  assert.equal(await judge(payload("dev", []), never, { GITHUB_REPOSITORY: "o/r" }), 1)
+  assert.equal(await judge(["--base", "dev", "--head", "templates/x", "--labels", "[]"], never), 1)
+  assert.equal(await judge(["--base", "dev", "--head", "feat/x", "--labels", "[]", "--pr", "7"], never), 0)
 })
