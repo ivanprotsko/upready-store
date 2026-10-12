@@ -1,0 +1,3616 @@
+{
+  "schema": "upready.template-check-report/v1",
+  "date": "2026-10-12",
+  "commit": "70d91198",
+  "base": "http://localhost:8130",
+  "host": "globex.shipshift.dev",
+  "locale": "en",
+  "widths": [
+    360,
+    1280
+  ],
+  "only": [
+    "long-morning"
+  ],
+  "verdict": "PASS",
+  "exit": 0,
+  "baseline": {
+    "file": "/Users/ivanprotsko/upready/worktrees/upready-store/templates/quality-gate/artifacts/templates/check/baseline.json",
+    "failures": 745,
+    "found": true
+  },
+  "summary": {
+    "targets": 8,
+    "newGateFailures": 0,
+    "baselineGateFailures": 190,
+    "reportFailures": 3
+  },
+  "problems": [],
+  "thresholds": {
+    "typeRatio": 1.15,
+    "typeMaxSizes": 8,
+    "sectionRank": 1.5,
+    "weightMax": 600,
+    "caseMaxPx": 12,
+    "caseMinTracking": 0.06,
+    "measure": [
+      45,
+      90
+    ],
+    "columnMinPx": 480,
+    "columnMinChars": 200,
+    "space": [
+      4,
+      8,
+      12,
+      16,
+      24,
+      32,
+      48,
+      64,
+      96,
+      128
+    ],
+    "rhythmMax": 2,
+    "density": [
+      12,
+      32
+    ],
+    "aspectTolerance": 0.01,
+    "productPageMaxPx": 6000,
+    "shadowRecipesMax": 1,
+    "iconRunMax": 4,
+    "hitPx": 44,
+    "motionMaxMs": 240,
+    "reducedMotionMaxMs": 10,
+    "typeScale": [
+      12,
+      14,
+      16,
+      18,
+      20,
+      24,
+      32,
+      36,
+      48,
+      60,
+      72,
+      96,
+      128
+    ]
+  },
+  "rules": [
+    {
+      "id": "QR-TYPE-SCALE",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "every size on the declared type scale; neighbours ≥ 1.15×; ≤ 8 sizes"
+    },
+    {
+      "id": "QR-TYPE-ROLE",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block",
+        "pages"
+      ],
+      "threshold": "one role, one size on a page and across a template's pages"
+    },
+    {
+      "id": "QR-HEADING-RANK",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "one h1 per page; no level skipped; size never grows with the level"
+    },
+    {
+      "id": "QR-SECTION-RANK",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "section title ÷ body ≥ 1.5"
+    },
+    {
+      "id": "QR-WEIGHT",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "font-weight ≤ 600"
+    },
+    {
+      "id": "QR-CASE",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em"
+    },
+    {
+      "id": "QR-MEASURE",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "width": 1280,
+      "threshold": "45 ≤ characters per line ≤ 90 (45 for prose only)"
+    },
+    {
+      "id": "QR-COLUMN-RANK",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "width": 1280,
+      "threshold": "the longest text (> 200 chars) sits in a column ≥ 480px"
+    },
+    {
+      "id": "QR-SPACE-SCALE",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "padding, margin and gap on 4·8·12·16·24·32·48·64·96·128"
+    },
+    {
+      "id": "QR-SECTION-RHYTHM",
+      "kind": "report",
+      "on": [
+        "page"
+      ],
+      "threshold": "≤ 2 distinct gaps between bands"
+    },
+    {
+      "id": "QR-GRID-AXES",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "every content container on one left edge"
+    },
+    {
+      "id": "QR-DENSITY",
+      "kind": "report",
+      "on": [
+        "page"
+      ],
+      "width": 1280,
+      "threshold": "12 ≤ text elements above the fold ≤ 32"
+    },
+    {
+      "id": "QR-IMG-ASPECT",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block",
+        "pages"
+      ],
+      "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0"
+    },
+    {
+      "id": "QR-IMG-FRAME",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "card pictures on one surface, with one fit"
+    },
+    {
+      "id": "QR-CARD-SURFACE",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "a product card has a background, a border or a rounded picture"
+    },
+    {
+      "id": "QR-GALLERY",
+      "kind": "gate",
+      "on": [
+        "page"
+      ],
+      "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280"
+    },
+    {
+      "id": "QR-ALT",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "product pictures carry a real alt; no image lacks the attribute; no «Product image 1»"
+    },
+    {
+      "id": "QR-EMPTY",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "the no-photo placeholder sits in the frame's own ratio box; an empty block draws nothing"
+    },
+    {
+      "id": "QR-CARD-GRAMMAR",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block",
+        "pages"
+      ],
+      "threshold": "card roles in canon order; the same product has one card signature on every page"
+    },
+    {
+      "id": "QR-PRICE",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "tabular-nums; no «,00»; no-break space before ₽; card price differs from the title in weight or size"
+    },
+    {
+      "id": "QR-RADIUS",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block",
+        "pages"
+      ],
+      "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages"
+    },
+    {
+      "id": "QR-ELEVATION",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "≤ 1 shadow recipe"
+    },
+    {
+      "id": "QR-CONTROL-DENSITY",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "≤ 4 icon-only controls in one header row"
+    },
+    {
+      "id": "QR-TECTONICS",
+      "kind": "report",
+      "on": [
+        "page"
+      ],
+      "width": 1280,
+      "threshold": "the footer's surface differs from the page"
+    },
+    {
+      "id": "QR-OCCLUSION",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "titles, prices and buttons are on top at their own point"
+    },
+    {
+      "id": "QR-JS",
+      "kind": "gate",
+      "on": [
+        "page",
+        "playground"
+      ],
+      "threshold": "0 page errors"
+    },
+    {
+      "id": "QR-CONTRAST",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "0 axe color-contrast violations (AA)"
+    },
+    {
+      "id": "QR-OVERFLOW",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "width": 360,
+      "threshold": "0px horizontal overflow"
+    },
+    {
+      "id": "QR-HIT",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "width": 360,
+      "threshold": "every target ≥ 44px high; icon-only ≥ 44px wide; inline links exempt"
+    },
+    {
+      "id": "QR-FOCUS",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "a visible focus ring, distinct from rest, on every target"
+    },
+    {
+      "id": "QR-MOTION",
+      "kind": "gate",
+      "on": [
+        "page",
+        "block"
+      ],
+      "threshold": "durations ≤ 240ms; under prefers-reduced-motion ≤ 10ms"
+    }
+  ],
+  "notPorted": [
+    {
+      "id": "QR-PROSE",
+      "why": "checks the text of the lab's own template files; on the storefront the long text is the shop's catalogue, not the template"
+    },
+    {
+      "id": "QR-TOKENS",
+      "why": "a source check of literal values in block CSS; `pnpm lint:blocks` does it on src/modules/blocks"
+    },
+    {
+      "id": "QR-TOKEN-COVERAGE",
+      "why": "scale tokens a lab template overrode; a manifest here names closed layers only, held by validateTemplate()"
+    }
+  ],
+  "newFailures": [],
+  "targets": [
+    {
+      "target": "template/long-morning/home@360",
+      "kind": "template",
+      "template": "long-morning",
+      "page": "home",
+      "width": 360,
+      "url": "http://localhost:8130/en?template=long-morning",
+      "status": 200,
+      "results": [
+        {
+          "rule": "QR-TYPE-SCALE",
+          "kind": "gate",
+          "threshold": "every size on the declared type scale; neighbours ≥ 1.15×; ≤ 8 sizes",
+          "pass": false,
+          "value": [
+            11,
+            13,
+            14,
+            16,
+            18,
+            20,
+            26
+          ],
+          "failures": [
+            {
+              "sig": "size 26px off the scale",
+              "detail": "26px ×1, e.g. h2.text-balance «Globex»",
+              "baseline": true
+            },
+            {
+              "sig": "size 13px off the scale",
+              "detail": "13px ×12, e.g. span.truncate «Cookware»",
+              "baseline": true
+            },
+            {
+              "sig": "size 11px off the scale",
+              "detail": "11px ×1, e.g. span.flex «G»",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 13→14 closer than 1.15",
+              "detail": "13→14 = 1.077",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 14→16 closer than 1.15",
+              "detail": "14→16 = 1.143",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 16→18 closer than 1.15",
+              "detail": "16→18 = 1.125",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 18→20 closer than 1.15",
+              "detail": "18→20 = 1.111",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-TYPE-ROLE",
+          "kind": "gate",
+          "threshold": "one role, one size on a page and across a template's pages",
+          "pass": false,
+          "value": {
+            "page-title": [],
+            "section-title": [
+              26,
+              18,
+              20
+            ],
+            "card-title": [
+              14
+            ],
+            "card-price": [
+              16
+            ],
+            "price": []
+          },
+          "failures": [
+            {
+              "sig": "role section-title has more than one size",
+              "detail": "section-title: 26, 18, 20px",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-HEADING-RANK",
+          "kind": "gate",
+          "threshold": "one h1 per page; no level skipped; size never grows with the level",
+          "pass": false,
+          "value": [
+            "h2 26",
+            "h2 18",
+            "h2 20",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14"
+          ],
+          "failures": [
+            {
+              "sig": "not exactly one h1",
+              "detail": "h1 × 0",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RANK",
+          "kind": "gate",
+          "threshold": "section title ÷ body ≥ 1.5",
+          "pass": false,
+          "value": 1.29,
+          "failures": [
+            {
+              "sig": "section title ÷ body below 1.5",
+              "detail": "18px ÷ 14px = 1.29",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-WEIGHT",
+          "kind": "gate",
+          "threshold": "font-weight ≤ 600",
+          "pass": true,
+          "value": [
+            600,
+            400,
+            500
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-CASE",
+          "kind": "gate",
+          "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em",
+          "pass": false,
+          "value": 2,
+          "failures": [
+            {
+              "sig": "capitals: a[nav-store-link] «Globex»",
+              "detail": "a[nav-store-link] «Globex» at 14px, tracking 0em",
+              "baseline": true
+            },
+            {
+              "sig": "capitals: a.txt-compact-medium-plus «Globex»",
+              "detail": "a.txt-compact-medium-plus «Globex» at 14px, tracking 0em",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SPACE-SCALE",
+          "kind": "gate",
+          "threshold": "padding, margin and gap on 4·8·12·16·24·32·48·64·96·128",
+          "pass": false,
+          "value": [
+            4,
+            6,
+            8,
+            10,
+            12,
+            16,
+            20,
+            24,
+            32,
+            40,
+            48,
+            64
+          ],
+          "failures": [
+            {
+              "sig": "space 10px off the scale",
+              "detail": "10px ×2, e.g. div.flex «Delivery across town in two »",
+              "baseline": true
+            },
+            {
+              "sig": "space 40px off the scale",
+              "detail": "40px ×6, e.g. li[home-listing-p4] «In the shopAll productsCross»",
+              "baseline": true
+            },
+            {
+              "sig": "space 6px off the scale",
+              "detail": "6px ×32, e.g. button[wishlist-button] «Add to wishlist»",
+              "baseline": true
+            },
+            {
+              "sig": "space 20px off the scale",
+              "detail": "20px ×1, e.g. div.flex «Globex»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RHYTHM",
+          "kind": "report",
+          "threshold": "≤ 2 distinct gaps between bands",
+          "pass": true,
+          "value": [],
+          "failures": []
+        },
+        {
+          "rule": "QR-GRID-AXES",
+          "kind": "gate",
+          "threshold": "every content container on one left edge",
+          "pass": true,
+          "value": [
+            0
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-ASPECT",
+          "kind": "gate",
+          "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0",
+          "pass": true,
+          "value": {
+            "card": [
+              0.75
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-FRAME",
+          "kind": "gate",
+          "threshold": "card pictures on one surface, with one fit",
+          "pass": true,
+          "value": {
+            "surfaces": [
+              "rgb(242, 235, 224)"
+            ],
+            "fits": [
+              "contain"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-SURFACE",
+          "kind": "gate",
+          "threshold": "a product card has a background, a border or a rounded picture",
+          "pass": true,
+          "value": 8,
+          "failures": []
+        },
+        {
+          "rule": "QR-GALLERY",
+          "kind": "gate",
+          "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280",
+          "pass": true,
+          "value": {
+            "pageHeight": 3244
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-ALT",
+          "kind": "gate",
+          "threshold": "product pictures carry a real alt; no image lacks the attribute; no «Product image 1»",
+          "pass": true,
+          "value": 68,
+          "failures": []
+        },
+        {
+          "rule": "QR-EMPTY",
+          "kind": "gate",
+          "threshold": "the no-photo placeholder sits in the frame's own ratio box; an empty block draws nothing",
+          "pass": true,
+          "value": {
+            "placeholders": 0,
+            "drawn": {
+              "h": 3244,
+              "text": 817,
+              "media": 61
+            }
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-GRAMMAR",
+          "kind": "gate",
+          "threshold": "card roles in canon order; the same product has one card signature on every page",
+          "pass": false,
+          "value": [
+            "card-media>card-title>card-meta>card-price"
+          ],
+          "failures": [
+            {
+              "sig": "card signature off the canon: card-media>card-title>card-meta>card-price",
+              "detail": "card signature off the canon: card-media>card-title>card-meta>card-price",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-PRICE",
+          "kind": "gate",
+          "threshold": "tabular-nums; no «,00»; no-break space before ₽; card price differs from the title in weight or size",
+          "pass": true,
+          "value": [
+            "$67.99",
+            "$41.99",
+            "$31.99",
+            "$73.99",
+            "$25.99",
+            "$57.99",
+            "$67.99",
+            "$47.99"
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-RADIUS",
+          "kind": "gate",
+          "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages",
+          "pass": false,
+          "value": {
+            "used": [
+              6,
+              "pill",
+              8,
+              2,
+              24
+            ],
+            "allowed": [
+              0,
+              6,
+              12,
+              "pill"
+            ]
+          },
+          "failures": [
+            {
+              "sig": "radius 8px off the tokens",
+              "detail": "8px ×4, e.g. a[category-tile] «Cookware→»",
+              "baseline": true
+            },
+            {
+              "sig": "radius 2px off the tokens",
+              "detail": "2px ×1, e.g. a[home-listing-see-all] «All products»",
+              "baseline": true
+            },
+            {
+              "sig": "radius 24px off the tokens",
+              "detail": "24px ×1, e.g. nav.lg:hidden «G»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-ELEVATION",
+          "kind": "gate",
+          "threshold": "≤ 1 shadow recipe",
+          "pass": true,
+          "value": 1,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTROL-DENSITY",
+          "kind": "gate",
+          "threshold": "≤ 4 icon-only controls in one header row",
+          "pass": true,
+          "value": 1,
+          "failures": []
+        },
+        {
+          "rule": "QR-OCCLUSION",
+          "kind": "gate",
+          "threshold": "titles, prices and buttons are on top at their own point",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-JS",
+          "kind": "gate",
+          "threshold": "0 page errors",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTRAST",
+          "kind": "gate",
+          "threshold": "0 axe color-contrast violations (AA)",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-OVERFLOW",
+          "kind": "gate",
+          "threshold": "0px horizontal overflow",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-HIT",
+          "kind": "gate",
+          "threshold": "every target ≥ 44px high; icon-only ≥ 44px wide; inline links exempt",
+          "pass": false,
+          "value": 24,
+          "failures": [
+            {
+              "sig": "target under 44px high: a[nav-store-link] «Globex»",
+              "detail": "57×20: a[nav-store-link] «Globex»",
+              "baseline": true
+            },
+            {
+              "sig": "icon target under 44px wide: a[nav-cart-link] «Cart (0)»",
+              "detail": "20×63: a[nav-cart-link] «Cart (0)»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.underline «Delivery across town in two »",
+              "detail": "317×17: a.underline «Delivery across town in two »",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a[home-listing-see-all] «All products»",
+              "detail": "80×20: a[home-listing-see-all] «All products»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[wishlist-button] «Add to wishlist»",
+              "detail": "32×32: button[wishlist-button] «Add to wishlist»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium-plus «Globex»",
+              "detail": "328×20: a.txt-compact-medium-plus «Globex»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The kitchen»",
+              "detail": "76×17: a.txt-compact-medium «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The house»",
+              "detail": "68×17: a.txt-compact-medium «The house»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «Made to be used»",
+              "detail": "108×17: a.txt-compact-medium «Made to be used»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The morning table»",
+              "detail": "118×17: a.txt-compact-medium «The morning table»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.underline «создание интернет-магазина»",
+              "detail": "191×16: a.underline «создание интернет-магазина»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button.text-ui-fg-subtle «Categories»",
+              "detail": "20×20: button.text-ui-fg-subtle «Categories»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[search-button] «Search»",
+              "detail": "20×20: button[search-button] «Search»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a[bottom-nav-store-link] «G»",
+              "detail": "20×20: a[bottom-nav-store-link] «G»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a «Account»",
+              "detail": "20×20: a «Account»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[bottom-nav-mode-toggle] «Switch to dark mode»",
+              "detail": "20×20: button[bottom-nav-mode-toggle] «Switch to dark mode»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-FOCUS",
+          "kind": "gate",
+          "threshold": "a visible focus ring, distinct from rest, on every target",
+          "pass": true,
+          "value": "12/12",
+          "failures": []
+        },
+        {
+          "rule": "QR-MOTION",
+          "kind": "gate",
+          "threshold": "durations ≤ 240ms; under prefers-reduced-motion ≤ 10ms",
+          "pass": false,
+          "value": {
+            "max": 200,
+            "reduced": 200
+          },
+          "failures": [
+            {
+              "sig": "motion kept under prefers-reduced-motion",
+              "detail": "200ms, e.g. transition header.relative",
+              "baseline": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "template/long-morning/category@360",
+      "kind": "template",
+      "template": "long-morning",
+      "page": "category",
+      "width": 360,
+      "url": "http://localhost:8130/en/categories/the-kitchen?template=long-morning",
+      "status": 200,
+      "results": [
+        {
+          "rule": "QR-TYPE-SCALE",
+          "kind": "gate",
+          "threshold": "every size on the declared type scale; neighbours ≥ 1.15×; ≤ 8 sizes",
+          "pass": false,
+          "value": [
+            11,
+            13,
+            14,
+            16,
+            40
+          ],
+          "failures": [
+            {
+              "sig": "size 40px off the scale",
+              "detail": "40px ×1, e.g. h1[category-page-title] «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "size 13px off the scale",
+              "detail": "13px ×13, e.g. span «Filters»",
+              "baseline": true
+            },
+            {
+              "sig": "size 11px off the scale",
+              "detail": "11px ×1, e.g. span.flex «G»",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 13→14 closer than 1.15",
+              "detail": "13→14 = 1.077",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 14→16 closer than 1.15",
+              "detail": "14→16 = 1.143",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-TYPE-ROLE",
+          "kind": "gate",
+          "threshold": "one role, one size on a page and across a template's pages",
+          "pass": true,
+          "value": {
+            "page-title": [
+              40
+            ],
+            "section-title": [],
+            "card-title": [
+              14
+            ],
+            "card-price": [
+              16
+            ],
+            "price": []
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-HEADING-RANK",
+          "kind": "gate",
+          "threshold": "one h1 per page; no level skipped; size never grows with the level",
+          "pass": false,
+          "value": [
+            "h1 40",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14"
+          ],
+          "failures": [
+            {
+              "sig": "level skipped h1→h3",
+              "detail": "level skipped h1→h3",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RANK",
+          "kind": "gate",
+          "threshold": "section title ÷ body ≥ 1.5",
+          "pass": true,
+          "value": null,
+          "failures": [],
+          "na": "no section title or no body text"
+        },
+        {
+          "rule": "QR-WEIGHT",
+          "kind": "gate",
+          "threshold": "font-weight ≤ 600",
+          "pass": true,
+          "value": [
+            600,
+            400,
+            500
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-CASE",
+          "kind": "gate",
+          "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em",
+          "pass": false,
+          "value": 2,
+          "failures": [
+            {
+              "sig": "capitals: a[nav-store-link] «Globex»",
+              "detail": "a[nav-store-link] «Globex» at 14px, tracking 0em",
+              "baseline": true
+            },
+            {
+              "sig": "capitals: a.txt-compact-medium-plus «Globex»",
+              "detail": "a.txt-compact-medium-plus «Globex» at 14px, tracking 0em",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SPACE-SCALE",
+          "kind": "gate",
+          "threshold": "padding, margin and gap on 4·8·12·16·24·32·48·64·96·128",
+          "pass": false,
+          "value": [
+            4,
+            6,
+            8,
+            12,
+            16,
+            20,
+            24,
+            32,
+            40,
+            64
+          ],
+          "failures": [
+            {
+              "sig": "space 6px off the scale",
+              "detail": "6px ×36, e.g. button[wishlist-button] «Add to wishlist»",
+              "baseline": true
+            },
+            {
+              "sig": "space 40px off the scale",
+              "detail": "40px ×5, e.g. p[products-end] «You have seen every product»",
+              "baseline": true
+            },
+            {
+              "sig": "space 20px off the scale",
+              "detail": "20px ×1, e.g. div.flex «Globex»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RHYTHM",
+          "kind": "report",
+          "threshold": "≤ 2 distinct gaps between bands",
+          "pass": true,
+          "value": [
+            32
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-GRID-AXES",
+          "kind": "gate",
+          "threshold": "every content container on one left edge",
+          "pass": true,
+          "value": [
+            0
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-ASPECT",
+          "kind": "gate",
+          "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0",
+          "pass": true,
+          "value": {
+            "card": [
+              0.75
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-FRAME",
+          "kind": "gate",
+          "threshold": "card pictures on one surface, with one fit",
+          "pass": true,
+          "value": {
+            "surfaces": [
+              "rgb(242, 235, 224)"
+            ],
+            "fits": [
+              "contain"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-SURFACE",
+          "kind": "gate",
+          "threshold": "a product card has a background, a border or a rounded picture",
+          "pass": true,
+          "value": 9,
+          "failures": []
+        },
+        {
+          "rule": "QR-GALLERY",
+          "kind": "gate",
+          "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280",
+          "pass": true,
+          "value": {
+            "pageHeight": 3084
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-ALT",
+          "kind": "gate",
+          "threshold": "product pictures carry a real alt; no image lacks the attribute; no «Product image 1»",
+          "pass": true,
+          "value": 50,
+          "failures": []
+        },
+        {
+          "rule": "QR-EMPTY",
+          "kind": "gate",
+          "threshold": "the no-photo placeholder sits in the frame's own ratio box; an empty block draws nothing",
+          "pass": true,
+          "value": {
+            "placeholders": 0,
+            "drawn": {
+              "h": 3084,
+              "text": 719,
+              "media": 67
+            }
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-GRAMMAR",
+          "kind": "gate",
+          "threshold": "card roles in canon order; the same product has one card signature on every page",
+          "pass": false,
+          "value": [
+            "card-media>card-title>card-meta>card-price"
+          ],
+          "failures": [
+            {
+              "sig": "card signature off the canon: card-media>card-title>card-meta>card-price",
+              "detail": "card signature off the canon: card-media>card-title>card-meta>card-price",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-PRICE",
+          "kind": "gate",
+          "threshold": "tabular-nums; no «,00»; no-break space before ₽; card price differs from the title in weight or size",
+          "pass": true,
+          "value": [
+            "$57.99",
+            "$47.99",
+            "$73.99",
+            "$67.99",
+            "$25.99",
+            "$41.99",
+            "$33.99",
+            "$67.99",
+            "$95.99"
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-RADIUS",
+          "kind": "gate",
+          "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages",
+          "pass": false,
+          "value": {
+            "used": [
+              8,
+              "pill",
+              6,
+              24
+            ],
+            "allowed": [
+              0,
+              6,
+              12,
+              "pill"
+            ]
+          },
+          "failures": [
+            {
+              "sig": "radius 8px off the tokens",
+              "detail": "8px ×4, e.g. div[category-header-image]",
+              "baseline": true
+            },
+            {
+              "sig": "radius 24px off the tokens",
+              "detail": "24px ×1, e.g. nav.lg:hidden «G»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-ELEVATION",
+          "kind": "gate",
+          "threshold": "≤ 1 shadow recipe",
+          "pass": true,
+          "value": 1,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTROL-DENSITY",
+          "kind": "gate",
+          "threshold": "≤ 4 icon-only controls in one header row",
+          "pass": true,
+          "value": 1,
+          "failures": []
+        },
+        {
+          "rule": "QR-OCCLUSION",
+          "kind": "gate",
+          "threshold": "titles, prices and buttons are on top at their own point",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-JS",
+          "kind": "gate",
+          "threshold": "0 page errors",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTRAST",
+          "kind": "gate",
+          "threshold": "0 axe color-contrast violations (AA)",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-OVERFLOW",
+          "kind": "gate",
+          "threshold": "0px horizontal overflow",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-HIT",
+          "kind": "gate",
+          "threshold": "every target ≥ 44px high; icon-only ≥ 44px wide; inline links exempt",
+          "pass": false,
+          "value": 26,
+          "failures": [
+            {
+              "sig": "target under 44px high: a[nav-store-link] «Globex»",
+              "detail": "57×20: a[nav-store-link] «Globex»",
+              "baseline": true
+            },
+            {
+              "sig": "icon target under 44px wide: a[nav-cart-link] «Cart (0)»",
+              "detail": "20×63: a[nav-cart-link] «Cart (0)»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.hover:text-ui-fg-base «Showcase»",
+              "detail": "65×20: a.hover:text-ui-fg-base «Showcase»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.hover:text-ui-fg-base «Catalog»",
+              "detail": "50×20: a.hover:text-ui-fg-base «Catalog»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[mobile-filters-button] «Filters»",
+              "detail": "87×36: button[mobile-filters-button] «Filters»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[wishlist-button] «Add to wishlist»",
+              "detail": "32×32: button[wishlist-button] «Add to wishlist»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium-plus «Globex»",
+              "detail": "328×20: a.txt-compact-medium-plus «Globex»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The kitchen»",
+              "detail": "76×17: a.txt-compact-medium «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The house»",
+              "detail": "68×17: a.txt-compact-medium «The house»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «Made to be used»",
+              "detail": "108×17: a.txt-compact-medium «Made to be used»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The morning table»",
+              "detail": "118×17: a.txt-compact-medium «The morning table»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.underline «создание интернет-магазина»",
+              "detail": "191×16: a.underline «создание интернет-магазина»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button.text-ui-fg-subtle «Categories»",
+              "detail": "20×20: button.text-ui-fg-subtle «Categories»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[search-button] «Search»",
+              "detail": "20×20: button[search-button] «Search»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a[bottom-nav-store-link] «G»",
+              "detail": "20×20: a[bottom-nav-store-link] «G»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a «Account»",
+              "detail": "20×20: a «Account»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[bottom-nav-mode-toggle] «Switch to dark mode»",
+              "detail": "20×20: button[bottom-nav-mode-toggle] «Switch to dark mode»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-FOCUS",
+          "kind": "gate",
+          "threshold": "a visible focus ring, distinct from rest, on every target",
+          "pass": true,
+          "value": "12/12",
+          "failures": []
+        },
+        {
+          "rule": "QR-MOTION",
+          "kind": "gate",
+          "threshold": "durations ≤ 240ms; under prefers-reduced-motion ≤ 10ms",
+          "pass": false,
+          "value": {
+            "max": 200,
+            "reduced": 200
+          },
+          "failures": [
+            {
+              "sig": "motion kept under prefers-reduced-motion",
+              "detail": "200ms, e.g. transition header.relative",
+              "baseline": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "template/long-morning/product@360",
+      "kind": "template",
+      "template": "long-morning",
+      "page": "product",
+      "width": 360,
+      "url": "http://localhost:8130/en/products/cross-back-apron?template=long-morning",
+      "status": 200,
+      "results": [
+        {
+          "rule": "QR-TYPE-SCALE",
+          "kind": "gate",
+          "threshold": "every size on the declared type scale; neighbours ≥ 1.15×; ≤ 8 sizes",
+          "pass": false,
+          "value": [
+            11,
+            12,
+            13,
+            14,
+            16,
+            24
+          ],
+          "failures": [
+            {
+              "sig": "size 13px off the scale",
+              "detail": "13px ×7, e.g. a.shrink-0 «Showcase»",
+              "baseline": true
+            },
+            {
+              "sig": "size 11px off the scale",
+              "detail": "11px ×1, e.g. span.flex «G»",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 11→12 closer than 1.15",
+              "detail": "11→12 = 1.091",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 12→13 closer than 1.15",
+              "detail": "12→13 = 1.083",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 13→14 closer than 1.15",
+              "detail": "13→14 = 1.077",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 14→16 closer than 1.15",
+              "detail": "14→16 = 1.143",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-TYPE-ROLE",
+          "kind": "gate",
+          "threshold": "one role, one size on a page and across a template's pages",
+          "pass": true,
+          "value": {
+            "page-title": [
+              24
+            ],
+            "section-title": [
+              24
+            ],
+            "card-title": [
+              14
+            ],
+            "card-price": [
+              14
+            ],
+            "price": [
+              24
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-HEADING-RANK",
+          "kind": "gate",
+          "threshold": "one h1 per page; no level skipped; size never grows with the level",
+          "pass": true,
+          "value": [
+            "h1 24",
+            "h2 24"
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-SECTION-RANK",
+          "kind": "gate",
+          "threshold": "section title ÷ body ≥ 1.5",
+          "pass": true,
+          "value": 1.71,
+          "failures": []
+        },
+        {
+          "rule": "QR-WEIGHT",
+          "kind": "gate",
+          "threshold": "font-weight ≤ 600",
+          "pass": true,
+          "value": [
+            600,
+            400,
+            500
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-CASE",
+          "kind": "gate",
+          "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em",
+          "pass": false,
+          "value": 2,
+          "failures": [
+            {
+              "sig": "capitals: a[nav-store-link] «Globex»",
+              "detail": "a[nav-store-link] «Globex» at 14px, tracking 0em",
+              "baseline": true
+            },
+            {
+              "sig": "capitals: a.txt-compact-medium-plus «Globex»",
+              "detail": "a.txt-compact-medium-plus «Globex» at 14px, tracking 0em",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SPACE-SCALE",
+          "kind": "gate",
+          "threshold": "padding, margin and gap on 4·8·12·16·24·32·48·64·96·128",
+          "pass": false,
+          "value": [
+            4,
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            20,
+            24,
+            28,
+            32,
+            40,
+            48,
+            64
+          ],
+          "failures": [
+            {
+              "sig": "space 28px off the scale",
+              "detail": "28px ×1, e.g. div[product-summary-card] «Showcase/Catalog/The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "space 20px off the scale",
+              "detail": "20px ×4, e.g. div[product-summary-card] «Showcase/Catalog/The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "space 14px off the scale",
+              "detail": "14px ×2, e.g. nav[breadcrumb-pill] «Showcase/Catalog/The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "space 6px off the scale",
+              "detail": "6px ×4, e.g. nav[breadcrumb-pill] «Showcase/Catalog/The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "space 10px off the scale",
+              "detail": "10px ×8, e.g. button[add-product-button] «Select variant»",
+              "baseline": true
+            },
+            {
+              "sig": "space 40px off the scale",
+              "detail": "40px ×4, e.g. div.grid «GlobexCategoriesThe kitchenT»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RHYTHM",
+          "kind": "report",
+          "threshold": "≤ 2 distinct gaps between bands",
+          "pass": true,
+          "value": [],
+          "failures": []
+        },
+        {
+          "rule": "QR-GRID-AXES",
+          "kind": "gate",
+          "threshold": "every content container on one left edge",
+          "pass": true,
+          "value": [
+            0
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-ASPECT",
+          "kind": "gate",
+          "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0",
+          "pass": true,
+          "value": {
+            "gallery": [
+              0.75
+            ],
+            "card": [
+              0.75
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-FRAME",
+          "kind": "gate",
+          "threshold": "card pictures on one surface, with one fit",
+          "pass": true,
+          "value": {
+            "surfaces": [
+              "rgb(253, 251, 247)"
+            ],
+            "fits": [
+              "contain"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-SURFACE",
+          "kind": "gate",
+          "threshold": "a product card has a background, a border or a rounded picture",
+          "pass": true,
+          "value": 4,
+          "failures": []
+        },
+        {
+          "rule": "QR-GALLERY",
+          "kind": "gate",
+          "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280",
+          "pass": true,
+          "value": {
+            "frames": 1,
+            "main": 0.75,
+            "thumb": null,
+            "pageHeight": 2188
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-ALT",
+          "kind": "gate",
+          "threshold": "product pictures carry a real alt; no image lacks the attribute; no «Product image 1»",
+          "pass": true,
+          "value": 26,
+          "failures": []
+        },
+        {
+          "rule": "QR-EMPTY",
+          "kind": "gate",
+          "threshold": "the no-photo placeholder sits in the frame's own ratio box; an empty block draws nothing",
+          "pass": true,
+          "value": {
+            "placeholders": 0,
+            "drawn": {
+              "h": 2188,
+              "text": 1444,
+              "media": 34
+            }
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-GRAMMAR",
+          "kind": "gate",
+          "threshold": "card roles in canon order; the same product has one card signature on every page",
+          "pass": false,
+          "value": [
+            "card-media>card-price>card-title"
+          ],
+          "failures": [
+            {
+              "sig": "card signature off the canon: card-media>card-price>card-title",
+              "detail": "card signature off the canon: card-media>card-price>card-title",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-PRICE",
+          "kind": "gate",
+          "threshold": "tabular-nums; no «,00»; no-break space before ₽; card price differs from the title in weight or size",
+          "pass": true,
+          "value": [
+            "$67.99",
+            "$41.99",
+            "$31.99",
+            "$73.99",
+            "$67.99"
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-RADIUS",
+          "kind": "gate",
+          "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages",
+          "pass": false,
+          "value": {
+            "used": [
+              16,
+              6,
+              "pill",
+              8,
+              24
+            ],
+            "allowed": [
+              0,
+              6,
+              12,
+              "pill"
+            ]
+          },
+          "failures": [
+            {
+              "sig": "radius 16px off the tokens",
+              "detail": "16px ×3, e.g. div[product-gallery-card]",
+              "baseline": true
+            },
+            {
+              "sig": "radius 8px off the tokens",
+              "detail": "8px ×4, e.g. button[option-button]",
+              "baseline": true
+            },
+            {
+              "sig": "radius 24px off the tokens",
+              "detail": "24px ×1, e.g. nav.lg:hidden «G»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-ELEVATION",
+          "kind": "gate",
+          "threshold": "≤ 1 shadow recipe",
+          "pass": false,
+          "value": 3,
+          "failures": [
+            {
+              "sig": "more than 1 shadow recipe",
+              "detail": "rgba(36, 28, 22, 0.08) 0px 0px 0px 1px inset, rgba(36, 28, 22, 0.04) 0px 1px 2px 0px, rgba(36, 28, 22, 0.04) 0px 8px 8px -8px | rgba(0, 0, 0, 0.12) 0px 1px 2px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px | rgba(0, 0, 0, 0.06) 0px -4px 16px 0px",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-CONTROL-DENSITY",
+          "kind": "gate",
+          "threshold": "≤ 4 icon-only controls in one header row",
+          "pass": true,
+          "value": 1,
+          "failures": []
+        },
+        {
+          "rule": "QR-OCCLUSION",
+          "kind": "gate",
+          "threshold": "titles, prices and buttons are on top at their own point",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-JS",
+          "kind": "gate",
+          "threshold": "0 page errors",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTRAST",
+          "kind": "gate",
+          "threshold": "0 axe color-contrast violations (AA)",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-OVERFLOW",
+          "kind": "gate",
+          "threshold": "0px horizontal overflow",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-HIT",
+          "kind": "gate",
+          "threshold": "every target ≥ 44px high; icon-only ≥ 44px wide; inline links exempt",
+          "pass": false,
+          "value": 26,
+          "failures": [
+            {
+              "sig": "target under 44px high: a[nav-store-link] «Globex»",
+              "detail": "57×20: a[nav-store-link] «Globex»",
+              "baseline": true
+            },
+            {
+              "sig": "icon target under 44px wide: a[nav-cart-link] «Cart (0)»",
+              "detail": "20×63: a[nav-cart-link] «Cart (0)»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.shrink-0 «Showcase»",
+              "detail": "61×20: a.shrink-0 «Showcase»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.shrink-0 «Catalog»",
+              "detail": "47×20: a.shrink-0 «Catalog»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.shrink-0 «The kitchen»",
+              "detail": "71×20: a.shrink-0 «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[wishlist-button] «Add to wishlist»",
+              "detail": "38×38: button[wishlist-button] «Add to wishlist»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[option-button]",
+              "detail": "40×40: button[option-button]",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[option-button] «Small»",
+              "detail": "143×40: button[option-button] «Small»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[option-button] «Large»",
+              "detail": "143×40: button[option-button] «Large»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[product-details-opener] «Specifications and descripti»",
+              "detail": "237×40: button[product-details-opener] «Specifications and descripti»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[add-product-button] «Select variant»",
+              "detail": "294×40: button[add-product-button] «Select variant»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[mobile-actions-button] «Select options»",
+              "detail": "124×40: button[mobile-actions-button] «Select options»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[mobile-cart-button] «Select variant»",
+              "detail": "124×40: button[mobile-cart-button] «Select variant»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium-plus «Globex»",
+              "detail": "328×20: a.txt-compact-medium-plus «Globex»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The kitchen»",
+              "detail": "76×17: a.txt-compact-medium «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The house»",
+              "detail": "68×17: a.txt-compact-medium «The house»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «Made to be used»",
+              "detail": "108×17: a.txt-compact-medium «Made to be used»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.txt-compact-medium «The morning table»",
+              "detail": "118×17: a.txt-compact-medium «The morning table»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a.underline «создание интернет-магазина»",
+              "detail": "191×16: a.underline «создание интернет-магазина»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button.text-ui-fg-subtle «Categories»",
+              "detail": "20×20: button.text-ui-fg-subtle «Categories»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[search-button] «Search»",
+              "detail": "20×20: button[search-button] «Search»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a[bottom-nav-store-link] «G»",
+              "detail": "20×20: a[bottom-nav-store-link] «G»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: a «Account»",
+              "detail": "20×20: a «Account»",
+              "baseline": true
+            },
+            {
+              "sig": "target under 44px high: button[bottom-nav-mode-toggle] «Switch to dark mode»",
+              "detail": "20×20: button[bottom-nav-mode-toggle] «Switch to dark mode»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-FOCUS",
+          "kind": "gate",
+          "threshold": "a visible focus ring, distinct from rest, on every target",
+          "pass": true,
+          "value": "12/12",
+          "failures": []
+        },
+        {
+          "rule": "QR-MOTION",
+          "kind": "gate",
+          "threshold": "durations ≤ 240ms; under prefers-reduced-motion ≤ 10ms",
+          "pass": false,
+          "value": {
+            "max": 200,
+            "reduced": 200
+          },
+          "failures": [
+            {
+              "sig": "motion kept under prefers-reduced-motion",
+              "detail": "200ms, e.g. transition header.relative",
+              "baseline": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "template/long-morning/pages@360",
+      "kind": "template",
+      "template": "long-morning",
+      "page": "pages",
+      "width": 360,
+      "results": [
+        {
+          "rule": "QR-TYPE-ROLE",
+          "kind": "gate",
+          "threshold": "one role, one size on a page and across a template's pages",
+          "pass": false,
+          "value": {
+            "section-title": {
+              "home": 18,
+              "product": 24
+            },
+            "card-title": {
+              "home": 14,
+              "category": 14,
+              "product": 14
+            },
+            "card-price": {
+              "home": 16,
+              "category": 16,
+              "product": 14
+            },
+            "page-title": {
+              "category": 40,
+              "product": 24
+            },
+            "price": {
+              "product": 24
+            }
+          },
+          "failures": [
+            {
+              "sig": "role section-title differs across pages",
+              "detail": "home 18px, product 24px",
+              "baseline": true
+            },
+            {
+              "sig": "role card-price differs across pages",
+              "detail": "home 16px, category 16px, product 14px",
+              "baseline": true
+            },
+            {
+              "sig": "role page-title differs across pages",
+              "detail": "category 40px, product 24px",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-IMG-ASPECT",
+          "kind": "gate",
+          "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0",
+          "pass": true,
+          "value": {
+            "card": {
+              "home": 0.75,
+              "category": 0.75,
+              "product": 0.75
+            },
+            "gallery": {
+              "product": 0.75
+            }
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-GRAMMAR",
+          "kind": "gate",
+          "threshold": "card roles in canon order; the same product has one card signature on every page",
+          "pass": false,
+          "value": 10,
+          "failures": [
+            {
+              "sig": "one product, two card signatures: /en/products/serving-board",
+              "detail": "home card-media>card-title>card-meta>card-price · category card-media>card-title>card-meta>card-price · product card-media>card-price>card-title",
+              "baseline": true
+            },
+            {
+              "sig": "one product, two card signatures: /en/products/canister",
+              "detail": "home card-media>card-title>card-meta>card-price · product card-media>card-price>card-title",
+              "baseline": true
+            },
+            {
+              "sig": "one product, two card signatures: /en/products/skillet",
+              "detail": "home card-media>card-title>card-meta>card-price · category card-media>card-title>card-meta>card-price · product card-media>card-price>card-title",
+              "baseline": true
+            },
+            {
+              "sig": "one product, two card signatures: /en/products/dinner-plates",
+              "detail": "home card-media>card-title>card-meta>card-price · category card-media>card-title>card-meta>card-price · product card-media>card-price>card-title",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-RADIUS",
+          "kind": "gate",
+          "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages",
+          "pass": true,
+          "value": {
+            "card": {
+              "home": 6,
+              "category": 6,
+              "product": 6
+            },
+            "card-media": {
+              "home": 6,
+              "category": 6,
+              "product": 6
+            },
+            "gallery": {
+              "product": 6
+            }
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "target": "template/long-morning/home@1280",
+      "kind": "template",
+      "template": "long-morning",
+      "page": "home",
+      "width": 1280,
+      "url": "http://localhost:8130/en?template=long-morning",
+      "status": 200,
+      "results": [
+        {
+          "rule": "QR-TYPE-SCALE",
+          "kind": "gate",
+          "threshold": "every size on the declared type scale; neighbours ≥ 1.15×; ≤ 8 sizes",
+          "pass": false,
+          "value": [
+            12,
+            13,
+            14,
+            16,
+            18,
+            20,
+            24,
+            36
+          ],
+          "failures": [
+            {
+              "sig": "size 13px off the scale",
+              "detail": "13px ×12, e.g. a[nav-category-link] «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 12→13 closer than 1.15",
+              "detail": "12→13 = 1.083",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 13→14 closer than 1.15",
+              "detail": "13→14 = 1.077",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 14→16 closer than 1.15",
+              "detail": "14→16 = 1.143",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 16→18 closer than 1.15",
+              "detail": "16→18 = 1.125",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 18→20 closer than 1.15",
+              "detail": "18→20 = 1.111",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-TYPE-ROLE",
+          "kind": "gate",
+          "threshold": "one role, one size on a page and across a template's pages",
+          "pass": false,
+          "value": {
+            "page-title": [],
+            "section-title": [
+              36,
+              20,
+              24
+            ],
+            "card-title": [
+              14
+            ],
+            "card-price": [
+              16
+            ],
+            "price": []
+          },
+          "failures": [
+            {
+              "sig": "role section-title has more than one size",
+              "detail": "section-title: 36, 20, 24px",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-HEADING-RANK",
+          "kind": "gate",
+          "threshold": "one h1 per page; no level skipped; size never grows with the level",
+          "pass": false,
+          "value": [
+            "h2 36",
+            "h2 20",
+            "h2 24",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14"
+          ],
+          "failures": [
+            {
+              "sig": "not exactly one h1",
+              "detail": "h1 × 0",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RANK",
+          "kind": "gate",
+          "threshold": "section title ÷ body ≥ 1.5",
+          "pass": false,
+          "value": 1.43,
+          "failures": [
+            {
+              "sig": "section title ÷ body below 1.5",
+              "detail": "20px ÷ 14px = 1.43",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-WEIGHT",
+          "kind": "gate",
+          "threshold": "font-weight ≤ 600",
+          "pass": true,
+          "value": [
+            600,
+            400,
+            500
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-CASE",
+          "kind": "gate",
+          "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em",
+          "pass": false,
+          "value": 2,
+          "failures": [
+            {
+              "sig": "capitals: a[nav-store-link] «Globex»",
+              "detail": "a[nav-store-link] «Globex» at 14px, tracking 0em",
+              "baseline": true
+            },
+            {
+              "sig": "capitals: a.txt-compact-medium-plus «Globex»",
+              "detail": "a.txt-compact-medium-plus «Globex» at 14px, tracking 0em",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-MEASURE",
+          "kind": "gate",
+          "threshold": "45 ≤ characters per line ≤ 90 (45 for prose only)",
+          "pass": true,
+          "value": null,
+          "failures": []
+        },
+        {
+          "rule": "QR-COLUMN-RANK",
+          "kind": "gate",
+          "threshold": "the longest text (> 200 chars) sits in a column ≥ 480px",
+          "pass": true,
+          "value": {
+            "chars": 63,
+            "width": 335
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-SPACE-SCALE",
+          "kind": "gate",
+          "threshold": "padding, margin and gap on 4·8·12·16·24·32·48·64·96·128",
+          "pass": false,
+          "value": [
+            0.02,
+            4,
+            6,
+            8,
+            10,
+            12,
+            16,
+            20,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64
+          ],
+          "failures": [
+            {
+              "sig": "space 6px off the scale",
+              "detail": "6px ×49, e.g. button[nav-country-select-button] «$»",
+              "baseline": true
+            },
+            {
+              "sig": "space 10px off the scale",
+              "detail": "10px ×2, e.g. div.flex «Delivery across town in two »",
+              "baseline": true
+            },
+            {
+              "sig": "space 40px off the scale",
+              "detail": "40px ×4, e.g. div.flex",
+              "baseline": true
+            },
+            {
+              "sig": "space 56px off the scale",
+              "detail": "56px ×3, e.g. div.flex",
+              "baseline": true
+            },
+            {
+              "sig": "space 0.02px off the scale",
+              "detail": "0.02px ×8, e.g. div.mt-auto «$67.99»",
+              "baseline": true
+            },
+            {
+              "sig": "space 20px off the scale",
+              "detail": "20px ×1, e.g. div.flex «Globex»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RHYTHM",
+          "kind": "report",
+          "threshold": "≤ 2 distinct gaps between bands",
+          "pass": true,
+          "value": [],
+          "failures": []
+        },
+        {
+          "rule": "QR-GRID-AXES",
+          "kind": "gate",
+          "threshold": "every content container on one left edge",
+          "pass": true,
+          "value": [
+            0
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-DENSITY",
+          "kind": "report",
+          "threshold": "12 ≤ text elements above the fold ≤ 32",
+          "pass": true,
+          "value": 12,
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-ASPECT",
+          "kind": "gate",
+          "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0",
+          "pass": false,
+          "value": {
+            "card": [
+              0.75
+            ]
+          },
+          "failures": [
+            {
+              "sig": "picture without a hard box: img.shrink-0",
+              "detail": "picture without a hard box: img.shrink-0",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-IMG-FRAME",
+          "kind": "gate",
+          "threshold": "card pictures on one surface, with one fit",
+          "pass": true,
+          "value": {
+            "surfaces": [
+              "rgb(242, 235, 224)"
+            ],
+            "fits": [
+              "contain"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-SURFACE",
+          "kind": "gate",
+          "threshold": "a product card has a background, a border or a rounded picture",
+          "pass": true,
+          "value": 12,
+          "failures": []
+        },
+        {
+          "rule": "QR-GALLERY",
+          "kind": "gate",
+          "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280",
+          "pass": true,
+          "value": {
+            "pageHeight": 4330
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-ALT",
+          "kind": "gate",
+          "threshold": "product pictures carry a real alt; no image lacks the attribute; no «Product image 1»",
+          "pass": true,
+          "value": 68,
+          "failures": []
+        },
+        {
+          "rule": "QR-EMPTY",
+          "kind": "gate",
+          "threshold": "the no-photo placeholder sits in the frame's own ratio box; an empty block draws nothing",
+          "pass": true,
+          "value": {
+            "placeholders": 0,
+            "drawn": {
+              "h": 4306,
+              "text": 1011,
+              "media": 86
+            }
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-GRAMMAR",
+          "kind": "gate",
+          "threshold": "card roles in canon order; the same product has one card signature on every page",
+          "pass": false,
+          "value": [
+            "card-media>card-title>card-meta>card-price"
+          ],
+          "failures": [
+            {
+              "sig": "card signature off the canon: card-media>card-title>card-meta>card-price",
+              "detail": "card signature off the canon: card-media>card-title>card-meta>card-price",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-PRICE",
+          "kind": "gate",
+          "threshold": "tabular-nums; no «,00»; no-break space before ₽; card price differs from the title in weight or size",
+          "pass": true,
+          "value": [
+            "$67.99",
+            "$41.99",
+            "$31.99",
+            "$73.99",
+            "$25.99",
+            "$57.99",
+            "$67.99",
+            "$47.99",
+            "$95.99",
+            "$33.99",
+            "$53.99",
+            "$37.99"
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-RADIUS",
+          "kind": "gate",
+          "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages",
+          "pass": false,
+          "value": {
+            "used": [
+              2,
+              6,
+              "pill",
+              8
+            ],
+            "allowed": [
+              0,
+              6,
+              12,
+              "pill"
+            ]
+          },
+          "failures": [
+            {
+              "sig": "radius 2px off the tokens",
+              "detail": "2px ×2, e.g. img.shrink-0",
+              "baseline": true
+            },
+            {
+              "sig": "radius 8px off the tokens",
+              "detail": "8px ×4, e.g. a[category-tile] «Cookware→»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-ELEVATION",
+          "kind": "gate",
+          "threshold": "≤ 1 shadow recipe",
+          "pass": true,
+          "value": 1,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTROL-DENSITY",
+          "kind": "gate",
+          "threshold": "≤ 4 icon-only controls in one header row",
+          "pass": true,
+          "value": 4,
+          "failures": []
+        },
+        {
+          "rule": "QR-TECTONICS",
+          "kind": "report",
+          "threshold": "the footer's surface differs from the page",
+          "pass": false,
+          "value": {
+            "footer": "rgb(253, 251, 247)",
+            "page": "rgb(253, 251, 247)"
+          },
+          "failures": [
+            {
+              "sig": "footer on the page's own surface",
+              "detail": "rgb(253, 251, 247)",
+              "baseline": false
+            }
+          ]
+        },
+        {
+          "rule": "QR-OCCLUSION",
+          "kind": "gate",
+          "threshold": "titles, prices and buttons are on top at their own point",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-JS",
+          "kind": "gate",
+          "threshold": "0 page errors",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTRAST",
+          "kind": "gate",
+          "threshold": "0 axe color-contrast violations (AA)",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-FOCUS",
+          "kind": "gate",
+          "threshold": "a visible focus ring, distinct from rest, on every target",
+          "pass": true,
+          "value": "12/12",
+          "failures": []
+        },
+        {
+          "rule": "QR-MOTION",
+          "kind": "gate",
+          "threshold": "durations ≤ 240ms; under prefers-reduced-motion ≤ 10ms",
+          "pass": false,
+          "value": {
+            "max": 200,
+            "reduced": 200
+          },
+          "failures": [
+            {
+              "sig": "motion kept under prefers-reduced-motion",
+              "detail": "200ms, e.g. transition header.relative",
+              "baseline": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "template/long-morning/category@1280",
+      "kind": "template",
+      "template": "long-morning",
+      "page": "category",
+      "width": 1280,
+      "url": "http://localhost:8130/en/categories/the-kitchen?template=long-morning",
+      "status": 200,
+      "results": [
+        {
+          "rule": "QR-TYPE-SCALE",
+          "kind": "gate",
+          "threshold": "every size on the declared type scale; neighbours ≥ 1.15×; ≤ 8 sizes",
+          "pass": false,
+          "value": [
+            12,
+            13,
+            14,
+            16,
+            40
+          ],
+          "failures": [
+            {
+              "sig": "size 13px off the scale",
+              "detail": "13px ×27, e.g. a[nav-category-link] «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "size 40px off the scale",
+              "detail": "40px ×1, e.g. h1[category-page-title] «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 12→13 closer than 1.15",
+              "detail": "12→13 = 1.083",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 13→14 closer than 1.15",
+              "detail": "13→14 = 1.077",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 14→16 closer than 1.15",
+              "detail": "14→16 = 1.143",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-TYPE-ROLE",
+          "kind": "gate",
+          "threshold": "one role, one size on a page and across a template's pages",
+          "pass": true,
+          "value": {
+            "page-title": [
+              40
+            ],
+            "section-title": [],
+            "card-title": [
+              14
+            ],
+            "card-price": [
+              16
+            ],
+            "price": []
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-HEADING-RANK",
+          "kind": "gate",
+          "threshold": "one h1 per page; no level skipped; size never grows with the level",
+          "pass": false,
+          "value": [
+            "h1 40",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14",
+            "h3 14"
+          ],
+          "failures": [
+            {
+              "sig": "level skipped h1→h3",
+              "detail": "level skipped h1→h3",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RANK",
+          "kind": "gate",
+          "threshold": "section title ÷ body ≥ 1.5",
+          "pass": true,
+          "value": null,
+          "failures": [],
+          "na": "no section title or no body text"
+        },
+        {
+          "rule": "QR-WEIGHT",
+          "kind": "gate",
+          "threshold": "font-weight ≤ 600",
+          "pass": true,
+          "value": [
+            600,
+            400,
+            500
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-CASE",
+          "kind": "gate",
+          "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em",
+          "pass": false,
+          "value": 2,
+          "failures": [
+            {
+              "sig": "capitals: a[nav-store-link] «Globex»",
+              "detail": "a[nav-store-link] «Globex» at 14px, tracking 0em",
+              "baseline": true
+            },
+            {
+              "sig": "capitals: a.txt-compact-medium-plus «Globex»",
+              "detail": "a.txt-compact-medium-plus «Globex» at 14px, tracking 0em",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-MEASURE",
+          "kind": "gate",
+          "threshold": "45 ≤ characters per line ≤ 90 (45 for prose only)",
+          "pass": true,
+          "value": null,
+          "failures": []
+        },
+        {
+          "rule": "QR-COLUMN-RANK",
+          "kind": "gate",
+          "threshold": "the longest text (> 200 chars) sits in a column ≥ 480px",
+          "pass": true,
+          "value": {
+            "chars": 35,
+            "width": 228
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-SPACE-SCALE",
+          "kind": "gate",
+          "threshold": "padding, margin and gap on 4·8·12·16·24·32·48·64·96·128",
+          "pass": false,
+          "value": [
+            0.02,
+            2,
+            4,
+            6,
+            8,
+            12,
+            16,
+            20,
+            24,
+            32,
+            40,
+            64
+          ],
+          "failures": [
+            {
+              "sig": "space 6px off the scale",
+              "detail": "6px ×39, e.g. button[nav-country-select-button] «$»",
+              "baseline": true
+            },
+            {
+              "sig": "space 20px off the scale",
+              "detail": "20px ×4, e.g. div.hidden «CookwareTablewareKitchen tex»",
+              "baseline": true
+            },
+            {
+              "sig": "space 2px off the scale",
+              "detail": "2px ×6, e.g. div.flex «TerracottaSlateClayOat»",
+              "baseline": true
+            },
+            {
+              "sig": "space 40px off the scale",
+              "detail": "40px ×3, e.g. ul[products-list] «Table runner · heavy linen$5»",
+              "baseline": true
+            },
+            {
+              "sig": "space 0.02px off the scale",
+              "detail": "0.02px ×6, e.g. div.mt-auto «$57.99»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RHYTHM",
+          "kind": "report",
+          "threshold": "≤ 2 distinct gaps between bands",
+          "pass": true,
+          "value": [
+            32
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-GRID-AXES",
+          "kind": "gate",
+          "threshold": "every content container on one left edge",
+          "pass": true,
+          "value": [
+            0
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-DENSITY",
+          "kind": "report",
+          "threshold": "12 ≤ text elements above the fold ≤ 32",
+          "pass": true,
+          "value": 16,
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-ASPECT",
+          "kind": "gate",
+          "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0",
+          "pass": false,
+          "value": {
+            "card": [
+              0.75
+            ]
+          },
+          "failures": [
+            {
+              "sig": "picture without a hard box: img.shrink-0",
+              "detail": "picture without a hard box: img.shrink-0",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-IMG-FRAME",
+          "kind": "gate",
+          "threshold": "card pictures on one surface, with one fit",
+          "pass": true,
+          "value": {
+            "surfaces": [
+              "rgb(242, 235, 224)"
+            ],
+            "fits": [
+              "contain"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-SURFACE",
+          "kind": "gate",
+          "threshold": "a product card has a background, a border or a rounded picture",
+          "pass": true,
+          "value": 9,
+          "failures": []
+        },
+        {
+          "rule": "QR-GALLERY",
+          "kind": "gate",
+          "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280",
+          "pass": true,
+          "value": {
+            "pageHeight": 2837
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-ALT",
+          "kind": "gate",
+          "threshold": "product pictures carry a real alt; no image lacks the attribute; no «Product image 1»",
+          "pass": true,
+          "value": 50,
+          "failures": []
+        },
+        {
+          "rule": "QR-EMPTY",
+          "kind": "gate",
+          "threshold": "the no-photo placeholder sits in the frame's own ratio box; an empty block draws nothing",
+          "pass": true,
+          "value": {
+            "placeholders": 0,
+            "drawn": {
+              "h": 2813,
+              "text": 893,
+              "media": 70
+            }
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-GRAMMAR",
+          "kind": "gate",
+          "threshold": "card roles in canon order; the same product has one card signature on every page",
+          "pass": false,
+          "value": [
+            "card-media>card-title>card-meta>card-price"
+          ],
+          "failures": [
+            {
+              "sig": "card signature off the canon: card-media>card-title>card-meta>card-price",
+              "detail": "card signature off the canon: card-media>card-title>card-meta>card-price",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-PRICE",
+          "kind": "gate",
+          "threshold": "tabular-nums; no «,00»; no-break space before ₽; card price differs from the title in weight or size",
+          "pass": true,
+          "value": [
+            "$57.99",
+            "$47.99",
+            "$73.99",
+            "$67.99",
+            "$25.99",
+            "$41.99",
+            "$33.99",
+            "$67.99",
+            "$95.99"
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-RADIUS",
+          "kind": "gate",
+          "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages",
+          "pass": false,
+          "value": {
+            "used": [
+              2,
+              8,
+              6,
+              3,
+              4,
+              "pill"
+            ],
+            "allowed": [
+              0,
+              6,
+              12,
+              "pill"
+            ]
+          },
+          "failures": [
+            {
+              "sig": "radius 2px off the tokens",
+              "detail": "2px ×1, e.g. img.shrink-0",
+              "baseline": true
+            },
+            {
+              "sig": "radius 8px off the tokens",
+              "detail": "8px ×4, e.g. div[category-header-image]",
+              "baseline": true
+            },
+            {
+              "sig": "radius 3px off the tokens",
+              "detail": "3px ×3, e.g. div.text-ui-fg-on-inverted",
+              "baseline": true
+            },
+            {
+              "sig": "radius 4px off the tokens",
+              "detail": "4px ×2, e.g. summary.flex «Colour»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-ELEVATION",
+          "kind": "gate",
+          "threshold": "≤ 1 shadow recipe",
+          "pass": false,
+          "value": 2,
+          "failures": [
+            {
+              "sig": "more than 1 shadow recipe",
+              "detail": "rgba(0, 0, 0, 0.12) 0px 1px 2px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px | rgba(36, 28, 22, 0.08) 0px 0px 0px 1px inset, rgba(36, 28, 22, 0.04) 0px 1px 2px 0px, rgba(36, 28, 22, 0.04) 0px 8px 8px -8px",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-CONTROL-DENSITY",
+          "kind": "gate",
+          "threshold": "≤ 4 icon-only controls in one header row",
+          "pass": true,
+          "value": 4,
+          "failures": []
+        },
+        {
+          "rule": "QR-TECTONICS",
+          "kind": "report",
+          "threshold": "the footer's surface differs from the page",
+          "pass": false,
+          "value": {
+            "footer": "rgb(253, 251, 247)",
+            "page": "rgb(253, 251, 247)"
+          },
+          "failures": [
+            {
+              "sig": "footer on the page's own surface",
+              "detail": "rgb(253, 251, 247)",
+              "baseline": false
+            }
+          ]
+        },
+        {
+          "rule": "QR-OCCLUSION",
+          "kind": "gate",
+          "threshold": "titles, prices and buttons are on top at their own point",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-JS",
+          "kind": "gate",
+          "threshold": "0 page errors",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTRAST",
+          "kind": "gate",
+          "threshold": "0 axe color-contrast violations (AA)",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-FOCUS",
+          "kind": "gate",
+          "threshold": "a visible focus ring, distinct from rest, on every target",
+          "pass": true,
+          "value": "12/12",
+          "failures": []
+        },
+        {
+          "rule": "QR-MOTION",
+          "kind": "gate",
+          "threshold": "durations ≤ 240ms; under prefers-reduced-motion ≤ 10ms",
+          "pass": false,
+          "value": {
+            "max": 200,
+            "reduced": 200
+          },
+          "failures": [
+            {
+              "sig": "motion kept under prefers-reduced-motion",
+              "detail": "200ms, e.g. transition header.relative",
+              "baseline": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "template/long-morning/product@1280",
+      "kind": "template",
+      "template": "long-morning",
+      "page": "product",
+      "width": 1280,
+      "url": "http://localhost:8130/en/products/cross-back-apron?template=long-morning",
+      "status": 200,
+      "results": [
+        {
+          "rule": "QR-TYPE-SCALE",
+          "kind": "gate",
+          "threshold": "every size on the declared type scale; neighbours ≥ 1.15×; ≤ 8 sizes",
+          "pass": false,
+          "value": [
+            12,
+            13,
+            14,
+            16,
+            24,
+            28
+          ],
+          "failures": [
+            {
+              "sig": "size 13px off the scale",
+              "detail": "13px ×10, e.g. a[nav-category-link] «The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "size 28px off the scale",
+              "detail": "28px ×2, e.g. h1[product-title] «Cross-back apron · washed li»",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 12→13 closer than 1.15",
+              "detail": "12→13 = 1.083",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 13→14 closer than 1.15",
+              "detail": "13→14 = 1.077",
+              "baseline": true
+            },
+            {
+              "sig": "sizes 14→16 closer than 1.15",
+              "detail": "14→16 = 1.143",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-TYPE-ROLE",
+          "kind": "gate",
+          "threshold": "one role, one size on a page and across a template's pages",
+          "pass": true,
+          "value": {
+            "page-title": [
+              28
+            ],
+            "section-title": [
+              28
+            ],
+            "card-title": [
+              14
+            ],
+            "card-price": [
+              14
+            ],
+            "price": [
+              24
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-HEADING-RANK",
+          "kind": "gate",
+          "threshold": "one h1 per page; no level skipped; size never grows with the level",
+          "pass": true,
+          "value": [
+            "h1 28",
+            "h2 28"
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-SECTION-RANK",
+          "kind": "gate",
+          "threshold": "section title ÷ body ≥ 1.5",
+          "pass": true,
+          "value": 2,
+          "failures": []
+        },
+        {
+          "rule": "QR-WEIGHT",
+          "kind": "gate",
+          "threshold": "font-weight ≤ 600",
+          "pass": true,
+          "value": [
+            600,
+            400,
+            500
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-CASE",
+          "kind": "gate",
+          "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em",
+          "pass": false,
+          "value": 2,
+          "failures": [
+            {
+              "sig": "capitals: a[nav-store-link] «Globex»",
+              "detail": "a[nav-store-link] «Globex» at 14px, tracking 0em",
+              "baseline": true
+            },
+            {
+              "sig": "capitals: a.txt-compact-medium-plus «Globex»",
+              "detail": "a.txt-compact-medium-plus «Globex» at 14px, tracking 0em",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-MEASURE",
+          "kind": "gate",
+          "threshold": "45 ≤ characters per line ≤ 90 (45 for prose only)",
+          "pass": true,
+          "value": 66,
+          "failures": []
+        },
+        {
+          "rule": "QR-COLUMN-RANK",
+          "kind": "gate",
+          "threshold": "the longest text (> 200 chars) sits in a column ≥ 480px",
+          "pass": true,
+          "value": {
+            "chars": 792,
+            "width": 511
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-SPACE-SCALE",
+          "kind": "gate",
+          "threshold": "padding, margin and gap on 4·8·12·16·24·32·48·64·96·128",
+          "pass": false,
+          "value": [
+            4,
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            20,
+            24,
+            32,
+            36,
+            40,
+            64
+          ],
+          "failures": [
+            {
+              "sig": "space 6px off the scale",
+              "detail": "6px ×3, e.g. button[nav-country-select-button] «$»",
+              "baseline": true
+            },
+            {
+              "sig": "space 40px off the scale",
+              "detail": "40px ×2, e.g. div[product-container] «Showcase/Catalog/The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "space 36px off the scale",
+              "detail": "36px ×1, e.g. div[product-summary-card] «Showcase/Catalog/The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "space 20px off the scale",
+              "detail": "20px ×7, e.g. div[product-summary-card] «Showcase/Catalog/The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "space 14px off the scale",
+              "detail": "14px ×2, e.g. nav[breadcrumb-pill] «Showcase/Catalog/The kitchen»",
+              "baseline": true
+            },
+            {
+              "sig": "space 10px off the scale",
+              "detail": "10px ×2, e.g. button[add-product-button] «Select variant»",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-SECTION-RHYTHM",
+          "kind": "report",
+          "threshold": "≤ 2 distinct gaps between bands",
+          "pass": true,
+          "value": [],
+          "failures": []
+        },
+        {
+          "rule": "QR-GRID-AXES",
+          "kind": "gate",
+          "threshold": "every content container on one left edge",
+          "pass": true,
+          "value": [
+            0
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-DENSITY",
+          "kind": "report",
+          "threshold": "12 ≤ text elements above the fold ≤ 32",
+          "pass": true,
+          "value": 23,
+          "failures": []
+        },
+        {
+          "rule": "QR-IMG-ASPECT",
+          "kind": "gate",
+          "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0",
+          "pass": false,
+          "value": {
+            "gallery": [
+              0.75
+            ],
+            "card": [
+              0.75
+            ]
+          },
+          "failures": [
+            {
+              "sig": "picture without a hard box: img.shrink-0",
+              "detail": "picture without a hard box: img.shrink-0",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-IMG-FRAME",
+          "kind": "gate",
+          "threshold": "card pictures on one surface, with one fit",
+          "pass": true,
+          "value": {
+            "surfaces": [
+              "rgb(253, 251, 247)"
+            ],
+            "fits": [
+              "contain"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-SURFACE",
+          "kind": "gate",
+          "threshold": "a product card has a background, a border or a rounded picture",
+          "pass": true,
+          "value": 4,
+          "failures": []
+        },
+        {
+          "rule": "QR-GALLERY",
+          "kind": "gate",
+          "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280",
+          "pass": true,
+          "value": {
+            "frames": 1,
+            "main": 0.75,
+            "thumb": null,
+            "pageHeight": 1546
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-ALT",
+          "kind": "gate",
+          "threshold": "product pictures carry a real alt; no image lacks the attribute; no «Product image 1»",
+          "pass": true,
+          "value": 26,
+          "failures": []
+        },
+        {
+          "rule": "QR-EMPTY",
+          "kind": "gate",
+          "threshold": "the no-photo placeholder sits in the frame's own ratio box; an empty block draws nothing",
+          "pass": true,
+          "value": {
+            "placeholders": 0,
+            "drawn": {
+              "h": 1522,
+              "text": 1413,
+              "media": 34
+            }
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-GRAMMAR",
+          "kind": "gate",
+          "threshold": "card roles in canon order; the same product has one card signature on every page",
+          "pass": false,
+          "value": [
+            "card-media>card-price>card-title"
+          ],
+          "failures": [
+            {
+              "sig": "card signature off the canon: card-media>card-price>card-title",
+              "detail": "card signature off the canon: card-media>card-price>card-title",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-PRICE",
+          "kind": "gate",
+          "threshold": "tabular-nums; no «,00»; no-break space before ₽; card price differs from the title in weight or size",
+          "pass": true,
+          "value": [
+            "$67.99",
+            "$41.99",
+            "$31.99",
+            "$73.99",
+            "$67.99"
+          ],
+          "failures": []
+        },
+        {
+          "rule": "QR-RADIUS",
+          "kind": "gate",
+          "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages",
+          "pass": false,
+          "value": {
+            "used": [
+              2,
+              16,
+              6,
+              "pill",
+              8
+            ],
+            "allowed": [
+              0,
+              6,
+              12,
+              "pill"
+            ]
+          },
+          "failures": [
+            {
+              "sig": "radius 2px off the tokens",
+              "detail": "2px ×1, e.g. img.shrink-0",
+              "baseline": true
+            },
+            {
+              "sig": "radius 16px off the tokens",
+              "detail": "16px ×3, e.g. div[product-gallery-card]",
+              "baseline": true
+            },
+            {
+              "sig": "radius 8px off the tokens",
+              "detail": "8px ×4, e.g. button[option-button]",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-ELEVATION",
+          "kind": "gate",
+          "threshold": "≤ 1 shadow recipe",
+          "pass": false,
+          "value": 2,
+          "failures": [
+            {
+              "sig": "more than 1 shadow recipe",
+              "detail": "rgba(36, 28, 22, 0.08) 0px 0px 0px 1px inset, rgba(36, 28, 22, 0.04) 0px 1px 2px 0px, rgba(36, 28, 22, 0.04) 0px 8px 8px -8px | rgba(0, 0, 0, 0.12) 0px 1px 2px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-CONTROL-DENSITY",
+          "kind": "gate",
+          "threshold": "≤ 4 icon-only controls in one header row",
+          "pass": true,
+          "value": 4,
+          "failures": []
+        },
+        {
+          "rule": "QR-TECTONICS",
+          "kind": "report",
+          "threshold": "the footer's surface differs from the page",
+          "pass": false,
+          "value": {
+            "footer": "rgb(253, 251, 247)",
+            "page": "rgb(253, 251, 247)"
+          },
+          "failures": [
+            {
+              "sig": "footer on the page's own surface",
+              "detail": "rgb(253, 251, 247)",
+              "baseline": false
+            }
+          ]
+        },
+        {
+          "rule": "QR-OCCLUSION",
+          "kind": "gate",
+          "threshold": "titles, prices and buttons are on top at their own point",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-JS",
+          "kind": "gate",
+          "threshold": "0 page errors",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-CONTRAST",
+          "kind": "gate",
+          "threshold": "0 axe color-contrast violations (AA)",
+          "pass": true,
+          "value": 0,
+          "failures": []
+        },
+        {
+          "rule": "QR-FOCUS",
+          "kind": "gate",
+          "threshold": "a visible focus ring, distinct from rest, on every target",
+          "pass": true,
+          "value": "12/12",
+          "failures": []
+        },
+        {
+          "rule": "QR-MOTION",
+          "kind": "gate",
+          "threshold": "durations ≤ 240ms; under prefers-reduced-motion ≤ 10ms",
+          "pass": false,
+          "value": {
+            "max": 200,
+            "reduced": 200
+          },
+          "failures": [
+            {
+              "sig": "motion kept under prefers-reduced-motion",
+              "detail": "200ms, e.g. transition header.relative",
+              "baseline": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "template/long-morning/pages@1280",
+      "kind": "template",
+      "template": "long-morning",
+      "page": "pages",
+      "width": 1280,
+      "results": [
+        {
+          "rule": "QR-TYPE-ROLE",
+          "kind": "gate",
+          "threshold": "one role, one size on a page and across a template's pages",
+          "pass": false,
+          "value": {
+            "section-title": {
+              "home": 20,
+              "product": 28
+            },
+            "card-title": {
+              "home": 14,
+              "category": 14,
+              "product": 14
+            },
+            "card-price": {
+              "home": 16,
+              "category": 16,
+              "product": 14
+            },
+            "page-title": {
+              "category": 40,
+              "product": 28
+            },
+            "price": {
+              "product": 24
+            }
+          },
+          "failures": [
+            {
+              "sig": "role section-title differs across pages",
+              "detail": "home 20px, product 28px",
+              "baseline": true
+            },
+            {
+              "sig": "role card-price differs across pages",
+              "detail": "home 16px, category 16px, product 14px",
+              "baseline": true
+            },
+            {
+              "sig": "role page-title differs across pages",
+              "detail": "category 40px, product 28px",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-IMG-ASPECT",
+          "kind": "gate",
+          "threshold": "every picture in a hard box; one ratio per role, on a page and across pages; nothing drawn 0×0",
+          "pass": true,
+          "value": {
+            "card": {
+              "home": 0.75,
+              "category": 0.75,
+              "product": 0.75
+            },
+            "gallery": {
+              "product": 0.75
+            }
+          },
+          "failures": []
+        },
+        {
+          "rule": "QR-CARD-GRAMMAR",
+          "kind": "gate",
+          "threshold": "card roles in canon order; the same product has one card signature on every page",
+          "pass": false,
+          "value": 12,
+          "failures": [
+            {
+              "sig": "one product, two card signatures: /en/products/serving-board",
+              "detail": "home card-media>card-title>card-meta>card-price · category card-media>card-title>card-meta>card-price · product card-media>card-price>card-title",
+              "baseline": true
+            },
+            {
+              "sig": "one product, two card signatures: /en/products/canister",
+              "detail": "home card-media>card-title>card-meta>card-price · product card-media>card-price>card-title",
+              "baseline": true
+            },
+            {
+              "sig": "one product, two card signatures: /en/products/skillet",
+              "detail": "home card-media>card-title>card-meta>card-price · category card-media>card-title>card-meta>card-price · product card-media>card-price>card-title",
+              "baseline": true
+            },
+            {
+              "sig": "one product, two card signatures: /en/products/dinner-plates",
+              "detail": "home card-media>card-title>card-meta>card-price · category card-media>card-title>card-meta>card-price · product card-media>card-price>card-title",
+              "baseline": true
+            }
+          ]
+        },
+        {
+          "rule": "QR-RADIUS",
+          "kind": "gate",
+          "threshold": "radii only 6 · --radius · 12 · pill; one radius per component role across pages",
+          "pass": true,
+          "value": {
+            "card": {
+              "home": 6,
+              "category": 6,
+              "product": 6
+            },
+            "card-media": {
+              "home": 6,
+              "category": 6,
+              "product": 6
+            },
+            "gallery": {
+              "product": 6
+            }
+          },
+          "failures": []
+        }
+      ]
+    }
+  ]
+}

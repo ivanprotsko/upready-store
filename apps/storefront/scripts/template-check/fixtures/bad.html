@@ -1,0 +1,106 @@
+<!doctype html>
+<!--
+  template:check self-test, the BAD page (t-2026-10-12-33). Each block below breaks one gate rule of the lab on
+  purpose; `node scripts/template-check.mjs --self-test` passes only if every id in the meta below fails here.
+  It borrows the storefront's own markers (data-testid, data-product-media, .content-container) so the same
+  measuring code runs on it as on a template page.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="template-check-expect" content="QR-TYPE-SCALE,QR-TYPE-ROLE,QR-HEADING-RANK,QR-SECTION-RANK,QR-WEIGHT,QR-CASE,QR-MEASURE,QR-COLUMN-RANK,QR-SPACE-SCALE,QR-GRID-AXES,QR-IMG-ASPECT,QR-IMG-FRAME,QR-CARD-SURFACE,QR-GALLERY,QR-ALT,QR-EMPTY,QR-CARD-GRAMMAR,QR-PRICE,QR-RADIUS,QR-ELEVATION,QR-CONTROL-DENSITY,QR-OCCLUSION,QR-JS,QR-CONTRAST,QR-OVERFLOW,QR-HIT,QR-FOCUS,QR-MOTION">
+<title>template:check bad fixture</title>
+<style>
+  body { margin: 0; font: 16px/1.5 system-ui, sans-serif; color: #111; background: #fff; }
+  .content-container { padding: 0 16px; }
+  .shifted { margin-left: 40px; }                         /* QR-GRID-AXES: a second left edge */
+  .tiny { font-size: 13px; }                              /* QR-TYPE-SCALE: off the scale, 13→14 */
+  .small { font-size: 14px; }
+  h1 { font-size: 20px; }
+  .big-h2 { font-size: 32px; }                            /* QR-HEADING-RANK: h2 larger than h1 */
+  .h2b { font-size: 20px; }                               /* QR-TYPE-ROLE, QR-SECTION-RANK 20/16 */
+  .heavy { font-weight: 800; }                            /* QR-WEIGHT */
+  .shout { text-transform: uppercase; font-size: 20px; }  /* QR-CASE */
+  .wide-text { width: 1200px; }                           /* QR-MEASURE at 1280 */
+  .narrow { width: 300px; }                               /* QR-COLUMN-RANK */
+  .odd { padding: 6px; margin-bottom: 10px; }             /* QR-SPACE-SCALE */
+  .grid { display: grid; grid-template-columns: repeat(3, 100px); gap: 16px; }
+  .bare { display: block; color: inherit; text-decoration: none; }
+  .frame { position: relative; }
+  .fill { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .r3 { border-radius: 3px; }                             /* QR-RADIUS */
+  .s1 { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }       /* QR-ELEVATION: two recipes */
+  .s2 { box-shadow: 0 4px 12px rgba(0, 128, 0, 0.3); }
+  .tools { display: flex; gap: 4px; }
+  .tools button { width: 20px; height: 20px; padding: 0; } /* QR-HIT, QR-CONTROL-DENSITY */
+  .cover { position: absolute; inset: 0; background: #fff; } /* QR-OCCLUSION */
+  .pale { color: #ccc; }                                  /* QR-CONTRAST */
+  .overflow { width: 500px; height: 8px; background: #eee; } /* QR-OVERFLOW at 360 */
+  .nofocus:focus, .nofocus:focus-visible { outline: none; } /* QR-FOCUS */
+  .slow { transition: opacity 600ms; }                    /* QR-MOTION, and no reduced-motion block */
+  .thumb { width: 48px; height: 48px; }                   /* QR-GALLERY: square thumb under a 3:4 frame */
+</style>
+</head>
+<body>
+<header class="content-container">
+  <nav class="tools">
+    <button aria-label="Поиск"><svg viewBox="0 0 10 10" width="10" height="10"><circle cx="5" cy="5" r="4"/></svg></button>
+    <button aria-label="Язык"><svg viewBox="0 0 10 10" width="10" height="10"><circle cx="5" cy="5" r="4"/></svg></button>
+    <button aria-label="Валюта"><svg viewBox="0 0 10 10" width="10" height="10"><circle cx="5" cy="5" r="4"/></svg></button>
+    <button aria-label="Аккаунт"><svg viewBox="0 0 10 10" width="10" height="10"><circle cx="5" cy="5" r="4"/></svg></button>
+    <button aria-label="Корзина"><svg viewBox="0 0 10 10" width="10" height="10"><circle cx="5" cy="5" r="4"/></svg></button>
+  </nav>
+</header>
+<main>
+  <div class="content-container">
+    <div class="frame">
+      <h2 class="h2b">Заголовок под чужим слоем</h2>
+      <div class="cover"></div>
+    </div>
+    <h1>Первый заголовок страницы</h1>
+    <h1>Второй заголовок страницы</h1>
+    <h2 class="big-h2">Раздел крупнее страницы</h2>
+    <h4>Уровень пропущен</h4>
+    <p class="heavy">Слишком жирная строка текста для проверки веса шрифта на странице.</p>
+    <p class="shout">оксана черкашина</p>
+    <p class="tiny">Мелкая строка в тринадцать пикселей, рядом с соседней в четырнадцать.</p>
+    <p class="small">Строка в четырнадцать пикселей, отношение к соседней меньше порога.</p>
+    <p class="pale">Бледный текст, который почти не виден на белом фоне страницы магазина.</p>
+    <p class="odd">Отступы шесть и десять пикселей лежат вне шкалы отступов лаборатории.</p>
+    <p class="wide-text">Очень длинная строка без ограничения ширины колонки: на десктопе в ней набирается больше девяноста знаков, и глаз теряет начало следующей строки.</p>
+    <p class="narrow">Самый длинный текст страницы стоит в самой узкой колонке. Описание товара — главный текст карточки, и ему нужна колонка шире четырёхсот восьмидесяти пикселей, иначе строки рвутся через каждые три слова, абзац растягивается вниз на несколько экранов, а покупатель бросает читать на середине.</p>
+    <div class="overflow"></div>
+    <div class="r3 s1 slow">Скругление три пикселя и первая тень.</div>
+    <div class="s2">Вторая тень другого цвета.</div>
+    <button class="nofocus">Купить без кольца фокуса</button>
+    <div class="grid">
+      <a href="/products/a" data-testid="product-wrapper" class="bare">
+        <div class="frame" data-product-media="card" data-product-media-state="photo" style="aspect-ratio: 3 / 4; background: #fff">
+          <img class="fill" style="object-fit: contain" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 4'%3E%3Crect width='3' height='4' fill='%23c96'/%3E%3C/svg%3E">
+        </div>
+        <span data-testid="price" class="tiny">1 355,00 ₽</span>
+        <h3 data-testid="product-title" class="tiny">Мёд</h3>
+      </a>
+      <a href="/products/b" data-testid="product-wrapper" class="bare">
+        <div class="frame" data-product-media="card" data-product-media-state="photo" style="aspect-ratio: 1 / 1; background: #000">
+          <img class="fill" style="object-fit: cover" alt="Product image 1" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23696'/%3E%3C/svg%3E">
+        </div>
+        <h3 data-testid="product-title">Масло</h3>
+        <span data-testid="price">990 ₽</span>
+      </a>
+      <div data-product-media="card" data-product-media-state="placeholder" style="height: 120px; background: #eee"></div>
+    </div>
+    <div data-product-media="gallery" data-product-media-state="photo" class="frame" style="aspect-ratio: 3 / 4; width: 120px; background: #fff"></div>
+    <div data-product-media="gallery" data-product-media-state="photo" class="frame" style="aspect-ratio: 3 / 4; width: 120px; background: #fff"></div>
+    <button class="thumb" data-testid="product-gallery-thumbnail-1" aria-label="Кадр 1"></button>
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23999'/%3E%3C/svg%3E">
+  </div>
+  <div class="content-container shifted">
+    <p>Второй контейнер со своим левым краем, вертикали страницы не продолжаются.</p>
+  </div>
+</main>
+<footer class="content-container"><p class="tiny">Подвал на фоне страницы.</p></footer>
+<script>throw new Error("bad fixture: a script error on load")</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<!--
+  template:check self-test, the GOOD page (t-2026-10-12-33): the same storefront markers as bad.html, set the way
+  the lab's rules want them. `--self-test` passes only if this page fails no gate rule at 360 or 1280, so a rule
+  that fires on a clean page (a false positive) fails the self-test too.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>template:check good fixture</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font: 16px/1.5 system-ui, sans-serif; color: #111; background: #fff; }
+  button, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid #1f4d3a; outline-offset: 2px; }
+  .content-container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+  header .content-container { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-size: 20px; font-weight: 600; }
+  .tools { display: flex; gap: 8px; }
+  .icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 0; background: none; border-radius: 6px; }
+  .link { display: inline-flex; align-items: center; min-height: 44px; color: #1f4d3a; }
+  main .content-container { display: flex; flex-direction: column; gap: 32px; padding-top: 32px; padding-bottom: 48px; }
+  h1 { font-size: 32px; font-weight: 600; line-height: 1.25; }
+  h2 { font-size: 24px; font-weight: 600; line-height: 1.25; }
+  h3 { font-size: 16px; font-weight: 400; line-height: 1.5; }
+  .prose { max-width: 560px; display: flex; flex-direction: column; gap: 16px; }
+  .meta { font-size: 12px; color: #555; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .card { display: flex; flex-direction: column; gap: 8px; color: inherit; text-decoration: none; background: #f6f6f4; border-radius: 8px; padding: 8px; }
+  .frame { position: relative; aspect-ratio: 3 / 4; background: #ececea; border-radius: 8px; overflow: hidden; }
+  .fill { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .empty { display: flex; align-items: center; justify-content: center; }
+  .price { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .button { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; border: 0; border-radius: 6px; background: #1f4d3a; color: #fff; transition: background-color 150ms; }
+  footer { background: #1f4d3a; color: #fff; padding: 32px 0; }
+  @media (min-width: 1024px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="content-container">
+    <a class="link brand" href="/">Черкашино</a>
+    <nav class="tools" aria-label="Инструменты">
+      <button class="icon" aria-label="Поиск"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor"/></svg></button>
+      <button class="icon" aria-label="Корзина"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="2" y="4" width="12" height="10" fill="none" stroke="currentColor"/></svg></button>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="content-container">
+    <h1>Мёд и масла с пасеки</h1>
+    <div class="prose">
+      <p>Каждую банку мы наполняем на пасеке сами, без смешивания сортов и без нагрева. Мёд собран летом этого года.</p>
+      <p>Описание товара занимает колонку шириной в пятьсот шестьдесят пикселей: строка держит около семидесяти знаков, абзацы разделены, глазу есть где отдохнуть, а покупатель дочитывает текст до конца.</p>
+    </div>
+    <h2>В магазине</h2>
+    <div class="grid">
+      <a class="card" data-testid="product-wrapper" href="/products/med-grechishny">
+        <div class="frame" data-product-media="card" data-product-media-state="photo">
+          <img class="fill" alt="Мёд гречишный, банка 500 г" width="3" height="4" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 4'%3E%3Crect width='3' height='4' fill='%23c96'/%3E%3C/svg%3E">
+        </div>
+        <h3 data-testid="product-title">Мёд гречишный</h3>
+        <span class="price" data-testid="price">1&nbsp;355&nbsp;₽</span>
+      </a>
+      <a class="card" data-testid="product-wrapper" href="/products/maslo-kedrovoe">
+        <div class="frame empty" data-product-media="card" data-product-media-state="placeholder">
+          <span class="meta">Фото скоро</span>
+        </div>
+        <h3 data-testid="product-title">Масло кедровое</h3>
+        <span class="price" data-testid="price">990&nbsp;₽</span>
+      </a>
+    </div>
+    <div><button class="button" type="button">В корзину</button></div>
+  </div>
+</main>
+<footer>
+  <div class="content-container"><p class="meta" style="color: #fff">Черкашино, пасека с 1998 года.</p></div>
+</footer>
+</body>
+</html>
