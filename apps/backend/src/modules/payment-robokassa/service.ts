@@ -32,11 +32,12 @@ import {
 import {
   formatOutSum,
   readRobokassaSecret,
+  sameOutSum,
   type ResolvedRobokassaSecret,
   type RobokassaReceiptLineInput,
 } from "../../tenant-secrets/robokassa";
 import { buildRobokassaSession, type RobokassaSessionData } from "./build-session";
-import { robokassaPaymentMethods, sanitizeRobokassaAliases } from "./payment-methods";
+import { robokassaPaymentMethods, sanitizeRobokassaAliases, withoutDisabledMethods } from "./payment-methods";
 
 export type { RobokassaSessionData } from "./build-session";
 
@@ -61,9 +62,17 @@ const CURRENCY_CODE = "rub";
  *   returns. The Result route uses this to record the confirmation, and the
  *   cart refresh uses it to carry a changed total into a new payment URL.
  * - `authorizePaymentSession` calls `authorizePayment` with the stored data
- *   and refuses the cart completion unless the status is AUTHORIZED or
- *   CAPTURED. Only a session carrying `result_confirmed_at` answers CAPTURED,
- *   which is what makes the webhook, and not the browser, the source of truth.
+ *   and refuses the cart completion unless the status is AUTHORIZED,
+ *   CAPTURED or PENDING_AUTHORIZATION (the last one completes the cart with no
+ *   payment record, `@medusajs/core-flows` 2.19 `authorize-payment-session`).
+ *   Only a session carrying `result_confirmed_at` answers CAPTURED, which is
+ *   what makes the webhook the source of truth for the money. Since
+ *   t-2026-10-12-13 a session the buyer's return proved answers AUTHORIZED
+ *   (`return_confirmed_at`), and one the buyer came back to through the success
+ *   address with nothing proven answers PENDING_AUTHORIZATION
+ *   (`return_seen_at`), so the buyer lands on an order and not on the cart.
+ *   Neither stamp can come from the browser: `initiatePayment` builds the data
+ *   from scratch and the store middleware drops both from the request.
  *
  * Medusa's generic webhook route (`/hooks/payment/robokassa_robokassa`) is not
  * the Result URL: Robokassa expects the literal body `OK<InvId>` and retries on
@@ -129,7 +138,32 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
 
   private static isConfirmed(data: Record<string, unknown> | undefined): boolean {
     const session = (data ?? {}) as Partial<RobokassaSessionData>;
-    return Boolean(session.result_confirmed_at) && session.result_out_sum === session.out_sum;
+    return Boolean(session.result_confirmed_at) && sameOutSum(session.result_out_sum, session.out_sum);
+  }
+
+  /** The buyer's return proved the payment (t-2026-10-12-13). */
+  private static isReturnConfirmed(data: Record<string, unknown> | undefined): boolean {
+    const session = (data ?? {}) as Partial<RobokassaSessionData>;
+    return Boolean(session.return_confirmed_at) && sameOutSum(session.return_out_sum, session.out_sum);
+  }
+
+  /** The buyer came back through the success address, nothing proven (t-2026-10-12-13). */
+  private static isReturnSeen(data: Record<string, unknown> | undefined): boolean {
+    return Boolean(((data ?? {}) as Partial<RobokassaSessionData>).return_seen_at);
+  }
+
+  /** The status every read of the session answers, strongest proof first. */
+  private static statusOf(data: Record<string, unknown> | undefined): PaymentSessionStatus {
+    if (RobokassaPaymentProviderService.isConfirmed(data)) {
+      return PaymentSessionStatus.CAPTURED;
+    }
+    if (RobokassaPaymentProviderService.isReturnConfirmed(data)) {
+      return PaymentSessionStatus.AUTHORIZED;
+    }
+    if (RobokassaPaymentProviderService.isReturnSeen(data)) {
+      return PaymentSessionStatus.PENDING_AUTHORIZATION;
+    }
+    return PaymentSessionStatus.PENDING;
   }
 
   async initiatePayment(input: InitiatePaymentInput): Promise<InitiatePaymentOutput> {
@@ -150,7 +184,11 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
     // t-2026-10-04-49: the aliases the checkout may open Robokassa on, from the
     // server's own read of the shop's cabinet (cached; card and SBP when
     // Robokassa cannot be asked). Nothing the client sent decides this list.
-    const methods = await robokassaPaymentMethods(secret.credentials.merchant_login, this.logger_);
+    // t-2026-10-12-13: minus the methods the owner switched off in the panel.
+    const methods = withoutDisabledMethods(
+      await robokassaPaymentMethods(secret.credentials.merchant_login, this.logger_),
+      secret.credentials.disabled_methods,
+    );
 
     const session = buildRobokassaSession({
       secret,
@@ -176,12 +214,13 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
   /**
    * Two callers. The cart refresh (a changed total) sends the session's own data
    * plus the new amount: an unconfirmed session gets a new URL and signature for
-   * the new sum. The Result route sends the confirmation fields: stored as is.
-   * A confirmed session never changes its sum again.
+   * the new sum. The Result route and the return check send the confirmation
+   * fields: stored as is. A session the buyer has paid, or come back to, never
+   * changes its sum again.
    */
   async updatePayment(input: UpdatePaymentInput): Promise<UpdatePaymentOutput> {
     const data = (input.data ?? {}) as Partial<RobokassaSessionData> & Record<string, unknown>;
-    if (RobokassaPaymentProviderService.isConfirmed(data)) {
+    if (RobokassaPaymentProviderService.statusOf(data) !== PaymentSessionStatus.PENDING) {
       return { data };
     }
     const nextOutSum = formatOutSum(input.amount as number);
@@ -210,20 +249,12 @@ export default class RobokassaPaymentProviderService extends AbstractPaymentProv
 
   async authorizePayment(input: AuthorizePaymentInput): Promise<AuthorizePaymentOutput> {
     const data = (input.data ?? {}) as Record<string, unknown>;
-    if (RobokassaPaymentProviderService.isConfirmed(data)) {
-      return { status: PaymentSessionStatus.CAPTURED, data };
-    }
-    return { status: PaymentSessionStatus.PENDING, data };
+    return { status: RobokassaPaymentProviderService.statusOf(data), data };
   }
 
   async getPaymentStatus(input: GetPaymentStatusInput): Promise<GetPaymentStatusOutput> {
     const data = (input.data ?? {}) as Record<string, unknown>;
-    return {
-      status: RobokassaPaymentProviderService.isConfirmed(data)
-        ? PaymentSessionStatus.CAPTURED
-        : PaymentSessionStatus.PENDING,
-      data,
-    };
+    return { status: RobokassaPaymentProviderService.statusOf(data), data };
   }
 
   /** Robokassa settles at payment time; the capture is a bookkeeping step here. */

@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Pembayaran tidak berjaya",
     "paymentFailedText": "Butiran pesanan anda telah disimpan: cuba lagi atau pilih kaedah pembayaran lain.",
     "paymentPendingHeading": "Pembayaran sedang disahkan",
-    "paymentPendingText": "Bank belum mengesahkan pembayaran. Jika wang sudah ditolak, jangan bayar sekali lagi: pesanan akan dibuat sebaik sahaja pengesahan diterima.",
+    "paymentPendingText": "Pengesahan bayaran belum diterima. Jika wang sudah ditolak, jangan bayar lagi: pesanan akan dibuat sebaik sahaja pengesahan tiba.",
     "paymentPendingCryptoText": "Rangkaian belum mengesahkan pemindahan anda, dan ini mungkin mengambil masa lebih lama daripada pembayaran kad. Jangan bayar sekali lagi: pesanan akan dibuat sebaik sahaja pengesahan diterima.",
     "x402SignHint": "Dompet anda akan meminta anda menandatangani pembayaran USDC.",
     "x402TestNetwork": "Rangkaian ujian: USDC ini tidak bernilai.",
@@ -830,7 +830,10 @@
     "goToCourse": "Ke kursus",
     "orderCanceled": "Pesanan dibatalkan",
     "orderCanceledHint": "Tidak perlu membayar. Jika ini silap, hubungi kami.",
-    "paidGoodsHint": "Kami sedang menyediakan pesanan anda untuk penghantaran."
+    "paidGoodsHint": "Kami sedang menyediakan pesanan anda untuk penghantaran.",
+    "paymentSucceeded": "Pembayaran berjaya",
+    "orderAccepted": "Terima kasih! Pesanan diterima",
+    "paymentConfirmingText": "Robokassa telah menerima bayaran dan kami sedang menunggu pengesahannya. Halaman ini akan dikemas kini sendiri, tidak perlu membayar lagi."
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",

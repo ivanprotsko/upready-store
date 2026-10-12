@@ -60,6 +60,8 @@ export type RobokassaDraft = {
   fiscalization_enabled: boolean
   sno: RobokassaSno
   default_tax: RobokassaTax
+  /** t-2026-10-12-13 (Ivan 12.10, 4.1: «нужно выключить оплату СБП»): the methods switched off. */
+  disabled_methods: string[]
 }
 
 export const EMPTY_DRAFT: RobokassaDraft = {
@@ -74,6 +76,7 @@ export const EMPTY_DRAFT: RobokassaDraft = {
   fiscalization_enabled: false,
   sno: "osn",
   default_tax: "none",
+  disabled_methods: [],
 }
 
 const TEST_PAIR: SecretField[] = ["test_password1", "test_password2"]
@@ -117,6 +120,7 @@ const draftFrom = (
         fiscalization_enabled: record.fiscalization_enabled,
         sno: record.sno,
         default_tax: record.default_tax,
+        disabled_methods: record.disabled_methods ?? [],
       }
     : unreadable
       ? { ...EMPTY_DRAFT, is_test: unreadable.is_test, is_enabled: unreadable.is_enabled }
@@ -135,6 +139,7 @@ export const useRobokassaForm = ({ credentialsOnPage = false }: { credentialsOnP
     unreadable,
     result_url: resultUrl,
     methods,
+    robokassa_methods: robokassaMethods,
     isPending,
     isError,
     error,
@@ -212,6 +217,7 @@ export const useRobokassaForm = ({ credentialsOnPage = false }: { credentialsOnP
         fiscalization_enabled: draft.fiscalization_enabled,
         sno: draft.sno,
         default_tax: draft.default_tax,
+        disabled_methods: draft.disabled_methods,
         ...secrets,
       },
       {
@@ -275,6 +281,7 @@ export const useRobokassaForm = ({ credentialsOnPage = false }: { credentialsOnP
     unreadable: unreadable ?? null,
     resultUrl,
     methods: methods ?? null,
+    robokassaMethods: robokassaMethods ?? [],
     loaded,
     draft,
     update,

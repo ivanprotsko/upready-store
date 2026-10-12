@@ -735,6 +735,29 @@ export async function placeOrder(cartId?: string) {
 }
 
 /**
+ * The order behind a buyer back from Robokassa (t-2026-10-12-13), completed
+ * server-side by `app/api/payment-return` right after the backend stamped what
+ * the return proved (`confirmRobokassaReturn`): the confirmation page's path,
+ * or `null` when the cart did not become an order. A cart the Result webhook
+ * already completed answers with its order, so this is safe to ask twice.
+ */
+export async function completeCartAfterReturn(
+  cartId: string
+): Promise<string | null> {
+  try {
+    const result = await completeCart(cartId)
+    return "confirmedPath" in result ? result.confirmedPath : null
+  } catch (error) {
+    console.error(
+      `completeCartAfterReturn: cart ${cartId} was not completed: ${
+        (error as { message?: string })?.message ?? String(error)
+      }`
+    )
+    return null
+  }
+}
+
+/**
  * One look from the Robokassa waiting page (`[locale]/payment-return`,
  * t-2026-10-04-48) at whether the payment turned the cart into an order. The
  * cart is the one `app/api/payment-return` put into the cookie. Completing it

@@ -22,6 +22,11 @@ import {
   type UnreadableTenantSecret,
 } from "../../../tenant-secrets/unreadable";
 import { legacyManualPayment, readManualPayment } from "./manual/manual-payment";
+import {
+  robokassaMethodsForPanel,
+  robokassaPaymentMethods,
+  type RobokassaPanelMethod,
+} from "../../../modules/payment-robokassa/payment-methods";
 
 /**
  * A host served over plain HTTP for real: a local stand. Everything else on
@@ -83,6 +88,12 @@ export type PaymentSettingsResponse = {
    * Robokassa's own.
    */
   methods: TenantPaymentMethods;
+  /**
+   * t-2026-10-12-13: the shop's Robokassa methods, each with whether the
+   * checkout offers it, for the panel's switches. Empty without a readable
+   * Robokassa row.
+   */
+  robokassa_methods: RobokassaPanelMethod[];
 };
 
 /**
@@ -127,6 +138,13 @@ export const readOwnPaymentSettings = async (
     ]);
   const metadata = (tenantResult.data[0]?.metadata ?? null) as Record<string, unknown> | null;
   const manualPayment = readManualPayment(metadata);
+  // The same cached read the checkout uses (`GetCurrencies`), card and SBP when Robokassa cannot be asked.
+  const robokassaMethods = secret
+    ? robokassaMethodsForPanel(
+        await robokassaPaymentMethods(secret.credentials.merchant_login, logger),
+        secret.credentials.disabled_methods,
+      )
+    : [];
   return {
     settings: secret ? maskRobokassaSettings(secret) : null,
     unreadable,
@@ -146,6 +164,7 @@ export const readOwnPaymentSettings = async (
       x402Enabled: x402Ready(x402Secret),
       ...manualPaymentMethods(legacyManualPayment(manualPayment)),
     }),
+    robokassa_methods: robokassaMethods,
   };
 };
 

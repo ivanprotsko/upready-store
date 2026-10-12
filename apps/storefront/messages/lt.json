@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Mokėjimas nepavyko",
     "paymentFailedText": "Užsakymo duomenys išsaugoti: bandykite dar kartą arba pasirinkite kitą mokėjimo būdą.",
     "paymentPendingHeading": "Mokėjimas tvirtinamas",
-    "paymentPendingText": "Bankas dar nepatvirtino mokėjimo. Jei pinigai jau nuskaičiuoti, nemokėkite dar kartą: užsakymas bus sukurtas, kai tik gausime patvirtinimą.",
+    "paymentPendingText": "Mokėjimo patvirtinimas dar negautas. Jei pinigai jau nuskaityti, nemokėkite dar kartą: užsakymas bus pateiktas, kai tik patvirtinimas ateis.",
     "paymentPendingCryptoText": "Tinklas dar nepatvirtino jūsų pervedimo, ir tai gali užtrukti ilgiau nei mokėjimas kortele. Nemokėkite dar kartą: užsakymas bus sukurtas, kai tik gausime patvirtinimą.",
     "x402SignHint": "Jūsų piniginė paprašys pasirašyti mokėjimą USDC.",
     "x402TestNetwork": "Bandomasis tinklas: šis USDC neturi vertės.",
@@ -830,7 +830,10 @@
     "goToCourse": "Eiti į kursą",
     "orderCanceled": "Užsakymas atšauktas",
     "orderCanceledHint": "Mokėti nereikia. Jei tai klaida, parašykite mums.",
-    "paidGoodsHint": "Ruošiame jūsų užsakymą išsiuntimui."
+    "paidGoodsHint": "Ruošiame jūsų užsakymą išsiuntimui.",
+    "paymentSucceeded": "Mokėjimas sėkmingas",
+    "orderAccepted": "Ačiū! Užsakymas priimtas",
+    "paymentConfirmingText": "Robokassa priėmė mokėjimą, laukiame jos patvirtinimo. Puslapis atsinaujins pats, mokėti dar kartą nereikia."
   },
   "OrderDetails": {
     "backToOrders": "Atgal į užsakymus",

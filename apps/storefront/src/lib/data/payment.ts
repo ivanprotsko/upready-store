@@ -112,18 +112,53 @@ export const getChargeConversionFactor = async (
  * one cheap request per checkout render, fresh for the same reason
  * `listCartPaymentMethods` is.
  *
- * `null` when the backend could not answer; the checkout then lists card and
- * SBP (`robokassaMethodsForCart`).
+ * `methods` is `null` when the backend could not answer; the checkout then
+ * lists card and SBP (`robokassaMethodsForCart`). `disabled` are the methods
+ * the owner switched off in the panel (t-2026-10-12-13), already left out of
+ * `methods` and left out of that fallback too.
  */
-export const listRobokassaMethods = async (): Promise<RobokassaMethod[] | null> => {
+export const listRobokassaMethods = async (): Promise<{
+  methods: RobokassaMethod[] | null
+  disabled: string[]
+}> => {
   return sdk.client
-    .fetch<{ methods: RobokassaMethod[] }>(`/store/tenant/robokassa-methods`, {
-      method: "GET",
-      cache: "no-store",
-    })
-    .then(({ methods }) => (Array.isArray(methods) ? methods : null))
+    .fetch<{ methods: RobokassaMethod[]; disabled?: string[] }>(
+      `/store/tenant/robokassa-methods`,
+      {
+        method: "GET",
+        cache: "no-store",
+      }
+    )
+    .then(({ methods, disabled }) => ({
+      methods: Array.isArray(methods) ? methods : null,
+      disabled: Array.isArray(disabled)
+        ? disabled.filter((alias): alias is string => typeof alias === "string")
+        : [],
+    }))
     .catch((error) => {
       console.error("[robokassa-methods] could not be listed:", error)
-      return null
+      return { methods: null, disabled: [] }
     })
+}
+
+/**
+ * What the buyer's return from Robokassa proves (t-2026-10-12-13), asked by
+ * `app/api/payment-return` before it completes the cart: the backend checks
+ * the return's own signature or asks Robokassa's `OpStateExt`, and stamps the
+ * payment session so the completion that follows places the order
+ * (`apps/backend/src/api/store/tenant/robokassa-return/route.ts`). `params` are
+ * Robokassa's own query parameters on the return, passed on verbatim.
+ */
+export const confirmRobokassaReturn = async (
+  cartId: string,
+  params: Record<string, string | undefined>
+): Promise<{
+  status: "completed" | "confirmed" | "pending" | "not_paid" | "no_session"
+}> => {
+  return sdk.client.fetch(`/store/tenant/robokassa-return`, {
+    method: "POST",
+    body: { cart_id: cartId, ...params },
+    headers: { ...(await getAuthHeaders()) },
+    cache: "no-store",
+  })
 }

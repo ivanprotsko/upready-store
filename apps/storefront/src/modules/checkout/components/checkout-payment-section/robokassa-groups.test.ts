@@ -20,7 +20,7 @@ const robokassaButton = readFileSync(
 describe("CheckoutPaymentSection: Robokassa methods in groups", () => {
   it("builds the rows from the groups, so the preselected row is the first one shown", () => {
     expect(section).toMatch(
-      /groupRobokassaMethods\(robokassaMethodsForCart\(robokassaMethods, cart\.total\)\)/
+      /groupRobokassaMethods\(\s*robokassaMethodsForCart\(robokassaMethods, cart\.total, robokassaDisabled\)\s*\)/
     )
     expect(section).toMatch(/robokassaGroups\.flatMap\(\(entry\) => entry\.methods\)/)
     expect(section).toMatch(/pickRobokassaMethod\(null, robokassaRows\)/)

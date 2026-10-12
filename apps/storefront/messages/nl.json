@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Betaling mislukt",
     "paymentFailedText": "Je bestelgegevens zijn bewaard: probeer het opnieuw of kies een andere betaalmethode.",
     "paymentPendingHeading": "Betaling wordt bevestigd",
-    "paymentPendingText": "De bank heeft de betaling nog niet bevestigd. Is het bedrag al afgeschreven, betaal dan niet opnieuw: de bestelling wordt geplaatst zodra de bevestiging binnen is.",
+    "paymentPendingText": "De betalingsbevestiging is nog niet binnen. Is het geld al afgeschreven, betaal dan niet opnieuw: de bestelling wordt geplaatst zodra de bevestiging binnenkomt.",
     "paymentPendingCryptoText": "Het netwerk heeft je overboeking nog niet bevestigd, en dat kan langer duren dan een kaartbetaling. Betaal niet opnieuw: de bestelling wordt geplaatst zodra de bevestiging binnen is.",
     "x402SignHint": "Uw wallet vraagt u een USDC-betaling te ondertekenen.",
     "x402TestNetwork": "Testnetwerk: deze USDC heeft geen waarde.",
@@ -830,7 +830,10 @@
     "goToCourse": "Naar de cursus",
     "orderCanceled": "Bestelling geannuleerd",
     "orderCanceledHint": "Betalen is niet nodig. Is dit een vergissing, schrijf ons dan.",
-    "paidGoodsHint": "We maken je bestelling klaar voor verzending."
+    "paidGoodsHint": "We maken je bestelling klaar voor verzending.",
+    "paymentSucceeded": "Betaling geslaagd",
+    "orderAccepted": "Bedankt! Je bestelling is ontvangen",
+    "paymentConfirmingText": "Robokassa heeft de betaling ontvangen en we wachten op de bevestiging. Deze pagina werkt zichzelf bij, je hoeft niet opnieuw te betalen."
   },
   "OrderDetails": {
     "backToOrders": "Terug naar bestellingen",

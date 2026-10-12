@@ -123,6 +123,8 @@ interface CheckoutPaymentSectionProps {
    * falls back to card and SBP. Each one is a row of its own.
    */
   robokassaMethods?: RobokassaMethod[] | null
+  /** The methods the owner switched off (t-2026-10-12-13), never listed, the fallback included. */
+  robokassaDisabled?: string[]
   /** Batch 6, Q3.1: a guest with a course in the cart — the pay button waits for a sign-in. */
   requiresSignIn?: boolean
   /** The pre-payment notice's per-method fields (rule 5zd, t-2026-10-03-32), from the same server parent. */
@@ -131,6 +133,9 @@ interface CheckoutPaymentSectionProps {
   seller: string
 }
 
+/** One empty list for every render, so the rows' memo does not run again for nothing. */
+const EMPTY_ALIASES: string[] = []
+
 export default function CheckoutPaymentSection({
   cart,
   availablePaymentMethods,
@@ -138,6 +143,7 @@ export default function CheckoutPaymentSection({
   manualPayment,
   tenantPaymentMethods,
   robokassaMethods = null,
+  robokassaDisabled = EMPTY_ALIASES,
   requiresSignIn = false,
   prePaymentNotice,
   seller,
@@ -162,8 +168,11 @@ export default function CheckoutPaymentSection({
   // SBP and the rest, each under its heading; a group the shop has no method in
   // is left out. The first row of the first group is the one preselected.
   const robokassaGroups = useMemo(
-    () => groupRobokassaMethods(robokassaMethodsForCart(robokassaMethods, cart.total)),
-    [robokassaMethods, cart.total]
+    () =>
+      groupRobokassaMethods(
+        robokassaMethodsForCart(robokassaMethods, cart.total, robokassaDisabled)
+      ),
+    [robokassaMethods, cart.total, robokassaDisabled]
   )
   const robokassaRows = useMemo(
     () => robokassaGroups.flatMap((entry) => entry.methods),

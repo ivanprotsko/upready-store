@@ -211,11 +211,24 @@ describe("robokassaPaymentRequest", () => {
       const request = robokassaPaymentRequest(session, picked)
       expect(request.alias).toBeNull()
       expect(request.modalParams?.IncCurrLabel).toBeUndefined()
-      expect(request.modalParams?.Settings).toBe(JSON.stringify({ Mode: "modal" }))
+      // t-2026-10-12-13: Robokassa's own choice is narrowed to the whitelist.
+      expect(request.modalParams?.Settings).toBe(
+        JSON.stringify({ PaymentMethods: session.payment_methods, Mode: "modal" })
+      )
       expect(request.redirectUrl).toBe(session.payment_url)
     }
     const noWhitelist = robokassaPaymentRequest({ ...session, payment_methods: undefined }, "SBP")
     expect(noWhitelist.alias).toBeNull()
+    expect(noWhitelist.modalParams?.Settings).toBe(JSON.stringify({ Mode: "modal" }))
+  })
+
+  // t-2026-10-12-13, Ivan 12.10, 4.1: «нужно выключить оплату СБП».
+  it("never shows a switched-off method in the modal, picked or not", () => {
+    const withoutSbp = { ...session, payment_methods: ["BankCard", "Card120Days", "BankCardHalva"] }
+    const picked = robokassaPaymentRequest(withoutSbp, "SBP")
+    expect(picked.alias).toBeNull()
+    expect(JSON.parse(picked.modalParams?.Settings ?? "{}").PaymentMethods).not.toContain("SBP")
+    expect(picked.redirectUrl).not.toContain("IncCurrLabel=SBP")
   })
 
   it("has no modal request for a session built before the modal, only the redirect", () => {
@@ -284,5 +297,21 @@ describe("isRobokassaFailReturn", () => {
     expect(isRobokassaFailReturn("https://evil.test/api/payment-return?outcome=fail", failUrl)).toBe(false)
     expect(isRobokassaFailReturn("not a url", failUrl)).toBe(false)
     expect(isRobokassaFailReturn(failUrl, null)).toBe(false)
+  })
+})
+
+describe("robokassaMethodsForCart with methods the owner switched off (t-2026-10-12-13)", () => {
+  it("leaves a switched-off method out of the backend's list", () => {
+    const rows = robokassaMethodsForCart(LIVE.filter((item) => item.alias !== "SBP"), 1500, ["SBP"])
+    expect(rows.map((item) => item.alias)).toEqual(["BankCard"])
+  })
+
+  it("leaves it out of the card-and-SBP fallback, so a backend that did not answer brings nothing back", () => {
+    expect(robokassaMethodsForCart(null, 1500, ["SBP"]).map((item) => item.alias)).toEqual(["BankCard"])
+    expect(robokassaMethodsForCart(null, 1500).map((item) => item.alias)).toEqual(["BankCard", "SBP"])
+  })
+
+  it("lists nothing when every method is off, rather than inventing one", () => {
+    expect(robokassaMethodsForCart([], 1500, ["BankCard", "SBP"])).toEqual([])
   })
 })

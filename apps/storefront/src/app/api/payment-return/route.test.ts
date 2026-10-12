@@ -6,11 +6,15 @@ import { NextRequest } from "next/server"
  * stared at a blank tab for about nine seconds (this route retried `placeOrder`
  * six times) before landing on the CART under «Платёж не прошёл». The route now
  * answers at once and never names the cart: a failure goes to the filled
- * checkout, a success to the shop's waiting page, which looks for the order.
+ * checkout. A Robokassa success goes straight to the order page
+ * (t-2026-10-12-13); the other gateways' success to the waiting page, which
+ * looks for the order.
  */
 
 const setCartId = vi.fn()
 const placeOrder = vi.fn()
+const completeCartAfterReturn = vi.fn()
+const confirmRobokassaReturn = vi.fn()
 
 vi.mock("@lib/data/cookies", () => ({
   getAuthHeaders: async () => ({}),
@@ -18,6 +22,10 @@ vi.mock("@lib/data/cookies", () => ({
 }))
 vi.mock("@lib/data/cart", () => ({
   placeOrder: (...args: unknown[]) => placeOrder(...args),
+  completeCartAfterReturn: (...args: unknown[]) => completeCartAfterReturn(...args),
+}))
+vi.mock("@lib/data/payment", () => ({
+  confirmRobokassaReturn: (...args: unknown[]) => confirmRobokassaReturn(...args),
 }))
 vi.mock("@lib/config", () => ({ sdk: { client: { fetch: vi.fn() } } }))
 
@@ -36,6 +44,11 @@ describe("GET /api/payment-return, provider=robokassa", () => {
   beforeEach(() => {
     setCartId.mockReset()
     placeOrder.mockReset()
+    completeCartAfterReturn.mockReset()
+    confirmRobokassaReturn.mockReset()
+    // Unless a test says otherwise, the backend answers and no order comes out.
+    confirmRobokassaReturn.mockResolvedValue({ status: "pending" })
+    completeCartAfterReturn.mockResolvedValue(null)
   })
 
   it("sends a failed payment straight to the filled checkout with the failure notice", async () => {
@@ -51,18 +64,66 @@ describe("GET /api/payment-return, provider=robokassa", () => {
     expect(placeOrder).not.toHaveBeenCalled()
   })
 
-  it("sends a success to the waiting page at once, without completing the cart itself", async () => {
+  // t-2026-10-12-13, Ivan 12.10: «если заказ прошел успешно, то нужно
+  // перенаправлять на страницу успешного заказа а не корзину», and 1.3: no
+  // waiting screen of ours after Robokassa.
+  it("sends a success straight to the order page, the return checked and the cart completed server-side", async () => {
+    confirmRobokassaReturn.mockResolvedValue({ status: "confirmed" })
+    completeCartAfterReturn.mockResolvedValue("/en/order/order_1/confirmed?token=tok")
+
     const res = await robokassaReturn(
-      "provider=robokassa&cart_id=cart_1&outcome=success&locale=ru"
+      "OutSum=1740.00&InvId=1230629747&Shp_SessionID=payses_1&SignatureValue=ABC&IsTest=1&provider=robokassa&cart_id=cart_1&outcome=success&locale=ru&Culture=ru"
     )
 
     expect(res.status).toBe(307)
     expect(res.headers.get("location")).toBe(
-      "https://cherkashino.ru/ru/payment-return"
+      "https://cherkashino.ru/ru/order/order_1/confirmed?token=tok"
     )
     expect(setCartId).toHaveBeenCalledWith("cart_1")
-    // The old route blocked here for ~9 s, retrying the completion.
-    expect(placeOrder).not.toHaveBeenCalled()
+    // Robokassa's own parameters reach the backend's check verbatim.
+    expect(confirmRobokassaReturn).toHaveBeenCalledWith("cart_1", {
+      OutSum: "1740.00",
+      InvId: "1230629747",
+      SignatureValue: "ABC",
+      Shp_SessionID: "payses_1",
+    })
+    expect(completeCartAfterReturn).toHaveBeenCalledWith("cart_1")
+  })
+
+  it("places the order also when nothing proved the payment yet (the modal's return in test mode)", async () => {
+    confirmRobokassaReturn.mockResolvedValue({ status: "pending" })
+    completeCartAfterReturn.mockResolvedValue("/ru/order/order_2/confirmed")
+
+    const res = await robokassaReturn("provider=robokassa&cart_id=cart_1&outcome=success&locale=ru")
+
+    expect(res.headers.get("location")).toBe("https://cherkashino.ru/ru/order/order_2/confirmed")
+    expect(confirmRobokassaReturn).toHaveBeenCalledWith("cart_1", {
+      OutSum: undefined,
+      InvId: undefined,
+      SignatureValue: undefined,
+      Shp_SessionID: undefined,
+    })
+  })
+
+  it("sends a success Robokassa says was never paid back to the checkout with the failure notice", async () => {
+    confirmRobokassaReturn.mockResolvedValue({ status: "not_paid" })
+
+    const res = await robokassaReturn("provider=robokassa&cart_id=cart_1&outcome=success&locale=ru")
+
+    expect(res.headers.get("location")).toBe("https://cherkashino.ru/ru/checkout?payment=failed")
+    expect(completeCartAfterReturn).not.toHaveBeenCalled()
+  })
+
+  it("falls back to the waiting page only when the backend cannot be asked or no order came out", async () => {
+    confirmRobokassaReturn.mockRejectedValue(new Error("backend down"))
+    const down = await robokassaReturn("provider=robokassa&cart_id=cart_1&outcome=success&locale=ru")
+    expect(down.headers.get("location")).toBe("https://cherkashino.ru/ru/payment-return")
+    expect(completeCartAfterReturn).not.toHaveBeenCalled()
+
+    confirmRobokassaReturn.mockResolvedValue({ status: "pending" })
+    completeCartAfterReturn.mockResolvedValue(null)
+    const noOrder = await robokassaReturn("provider=robokassa&cart_id=cart_1&outcome=success&locale=ru")
+    expect(noOrder.headers.get("location")).toBe("https://cherkashino.ru/ru/payment-return")
   })
 
   it("keeps the buyer's language, and falls back to the default for an unknown one", async () => {
@@ -73,6 +134,7 @@ describe("GET /api/payment-return, provider=robokassa", () => {
       "https://cherkashino.ru/en/checkout?payment=failed"
     )
 
+    confirmRobokassaReturn.mockResolvedValue({ status: "no_session" })
     const unknown = await robokassaReturn(
       "provider=robokassa&cart_id=cart_1&outcome=success&locale=xx"
     )

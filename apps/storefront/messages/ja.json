@@ -168,7 +168,7 @@
     "paymentFailedHeading": "お支払いが完了しませんでした",
     "paymentFailedText": "ご注文内容は保存されています。もう一度お試しいただくか、別のお支払い方法をお選びください。",
     "paymentPendingHeading": "お支払いを確認中です",
-    "paymentPendingText": "銀行からのお支払い確認がまだ届いていません。すでに引き落としがある場合は、再度お支払いにならないでください。確認が届きしだい、ご注文が確定します。",
+    "paymentPendingText": "お支払いの確認がまだ届いていません。すでに代金が引き落とされている場合は、再度お支払いにならないでください。確認が届きしだい注文が確定します。",
     "paymentPendingCryptoText": "ネットワークによる送金の確認がまだ完了していません。カード決済よりも時間がかかる場合があります。再度お支払いにならないでください。確認が届きしだい、ご注文が確定します。",
     "x402SignHint": "ウォレットが USDC の支払いへの署名を求めます。",
     "x402TestNetwork": "テストネットワーク：この USDC に価値はありません。",
@@ -830,7 +830,10 @@
     "goToCourse": "講座へ進む",
     "orderCanceled": "注文はキャンセルされました",
     "orderCanceledHint": "お支払いは不要です。誤りの場合はご連絡ください。",
-    "paidGoodsHint": "ご注文の発送準備を進めています。"
+    "paidGoodsHint": "ご注文の発送準備を進めています。",
+    "paymentSucceeded": "お支払いが完了しました",
+    "orderAccepted": "ありがとうございます。ご注文を承りました",
+    "paymentConfirmingText": "Robokassa が支払いを受け付けました。確認を待っています。ページは自動で更新されます。もう一度支払う必要はありません。"
   },
   "OrderDetails": {
     "backToOrders": "注文一覧に戻る",

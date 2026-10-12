@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Payment didn't go through",
     "paymentFailedText": "Your order details are saved. Try again or choose another payment method.",
     "paymentPendingHeading": "Payment is being confirmed",
-    "paymentPendingText": "The bank hasn't confirmed the payment yet. If you've already been charged, don't pay again. The order is placed as soon as the confirmation arrives.",
+    "paymentPendingText": "The payment confirmation has not arrived yet. If the money has already been taken, do not pay again: the order will be placed as soon as it arrives.",
     "paymentPendingCryptoText": "The network hasn't confirmed your transfer yet, and this can take longer than a card payment. Don't pay again. The order is placed as soon as the confirmation arrives.",
     "x402SignHint": "Your wallet will ask you to sign a USDC payment.",
     "x402TestNetwork": "Test network: this USDC has no value.",
@@ -830,7 +830,10 @@
     "goToCourse": "Go to the course",
     "orderCanceled": "Order cancelled",
     "orderCanceledHint": "No payment is needed. If this is a mistake, write to us.",
-    "paidGoodsHint": "We are preparing your order for dispatch."
+    "paidGoodsHint": "We are preparing your order for dispatch.",
+    "paymentSucceeded": "Payment successful",
+    "orderAccepted": "Thank you! Your order is in",
+    "paymentConfirmingText": "Robokassa has accepted the payment and we are waiting for its confirmation. This page updates on its own, there is no need to pay again."
   },
   "OrderDetails": {
     "backToOrders": "Back to orders",

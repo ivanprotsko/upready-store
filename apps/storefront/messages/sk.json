@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Platba neprebehla",
     "paymentFailedText": "Údaje objednávky sú uložené: skúste to znova alebo zvoľte iný spôsob platby.",
     "paymentPendingHeading": "Platba sa overuje",
-    "paymentPendingText": "Banka platbu zatiaľ nepotvrdila. Ak vám už boli peniaze stiahnuté, neplaťte znova: objednávka sa vytvorí, hneď ako príde potvrdenie.",
+    "paymentPendingText": "Potvrdenie platby zatiaľ neprišlo. Ak už boli peniaze stiahnuté, neplaťte znova: objednávka sa dokončí, len čo potvrdenie príde.",
     "paymentPendingCryptoText": "Sieť váš prevod zatiaľ nepotvrdila a môže to trvať dlhšie ako platba kartou. Neplaťte znova: objednávka sa vytvorí, hneď ako príde potvrdenie.",
     "x402SignHint": "Peňaženka vás požiada o podpis platby v USDC.",
     "x402TestNetwork": "Testovacia sieť: tento USDC nemá žiadnu hodnotu.",
@@ -830,7 +830,10 @@
     "goToCourse": "Prejsť na kurz",
     "orderCanceled": "Objednávka zrušená",
     "orderCanceledHint": "Platiť netreba. Ak ide o omyl, napíšte nám.",
-    "paidGoodsHint": "Pripravujeme objednávku na odoslanie."
+    "paidGoodsHint": "Pripravujeme objednávku na odoslanie.",
+    "paymentSucceeded": "Platba prebehla úspešne",
+    "orderAccepted": "Ďakujeme! Objednávka je prijatá",
+    "paymentConfirmingText": "Robokassa platbu prijala, čakáme na jej potvrdenie. Stránka sa obnoví sama, znova platiť nemusíte."
   },
   "OrderDetails": {
     "backToOrders": "Späť na objednávky",

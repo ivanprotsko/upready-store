@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Pembayaran tidak berhasil",
     "paymentFailedText": "Data pesanan Anda tersimpan: coba lagi atau pilih metode pembayaran lain.",
     "paymentPendingHeading": "Pembayaran sedang dikonfirmasi",
-    "paymentPendingText": "Bank belum mengonfirmasi pembayaran. Jika dana sudah terpotong, jangan membayar lagi: pesanan akan dibuat segera setelah konfirmasi diterima.",
+    "paymentPendingText": "Konfirmasi pembayaran belum datang. Jika dana sudah terpotong, jangan membayar lagi: pesanan akan dibuat begitu konfirmasi tiba.",
     "paymentPendingCryptoText": "Jaringan belum mengonfirmasi transfer Anda, dan ini bisa memakan waktu lebih lama daripada pembayaran dengan kartu. Jangan membayar lagi: pesanan akan dibuat segera setelah konfirmasi diterima.",
     "x402SignHint": "Dompet Anda akan meminta Anda menandatangani pembayaran USDC.",
     "x402TestNetwork": "Jaringan uji: USDC ini tidak bernilai.",
@@ -830,7 +830,10 @@
     "goToCourse": "Buka kursus",
     "orderCanceled": "Pesanan dibatalkan",
     "orderCanceledHint": "Tidak perlu membayar. Jika ini keliru, hubungi kami.",
-    "paidGoodsHint": "Kami sedang menyiapkan pesanan Anda untuk dikirim."
+    "paidGoodsHint": "Kami sedang menyiapkan pesanan Anda untuk dikirim.",
+    "paymentSucceeded": "Pembayaran berhasil",
+    "orderAccepted": "Terima kasih! Pesanan diterima",
+    "paymentConfirmingText": "Robokassa telah menerima pembayaran dan kami menunggu konfirmasinya. Halaman ini akan diperbarui sendiri, tidak perlu membayar lagi."
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",

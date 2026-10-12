@@ -25,6 +25,13 @@ export type RobokassaCredentials = {
   fiscalization_enabled: boolean;
   sno: RobokassaSno;
   default_tax: RobokassaTax;
+  /**
+   * t-2026-10-12-13 (Ivan 12.10, 4.1: «нужно выключить оплату СБП»): the
+   * `IncCurrLabel` aliases the owner switched off in the panel. They never
+   * reach the checkout's rows, the session's whitelist or the modal's
+   * `Settings.PaymentMethods`, the card-and-SBP fallback included.
+   */
+  disabled_methods: string[];
 };
 
 export const ROBOKASSA_HASH_ALGORITHMS = ["md5", "sha256", "sha384", "sha512"] as const;
@@ -89,22 +96,27 @@ export const ROBOKASSA_RECEIPT_PAYMENT_METHOD = "full_payment" as const;
 
 export const ROBOKASSA_FISCALIZATION_DEFAULTS: Pick<
   RobokassaCredentials,
-  "fiscalization_enabled" | "sno" | "default_tax"
+  "fiscalization_enabled" | "sno" | "default_tax" | "disabled_methods"
 > = {
   fiscalization_enabled: false,
   sno: "osn",
   default_tax: "none",
+  disabled_methods: [],
 };
 
 /**
  * A row encrypted before t-cherk-30 decrypts without `fiscalization_enabled`/
- * `sno`/`default_tax` — there is no migration for an encrypted JSON blob, so
- * every reader fills the three in here, once, rather than each guessing its
- * own default.
+ * `sno`/`default_tax`, and one encrypted before t-2026-10-12-13 without
+ * `disabled_methods` — there is no migration for an encrypted JSON blob, so
+ * every reader fills them in here, once, rather than each guessing its own
+ * default.
  */
 const withFiscalizationDefaults = (credentials: RobokassaCredentials): RobokassaCredentials => ({
   ...ROBOKASSA_FISCALIZATION_DEFAULTS,
   ...credentials,
+  disabled_methods: Array.isArray(credentials.disabled_methods)
+    ? credentials.disabled_methods.filter((alias): alias is string => typeof alias === "string")
+    : [],
 });
 
 /** The secret fields of {@link RobokassaCredentials}, the ones every read masks. */
@@ -140,6 +152,8 @@ export type MaskedRobokassaSettings = {
   fiscalization_enabled: boolean;
   sno: RobokassaSno;
   default_tax: RobokassaTax;
+  /** t-2026-10-12-13: the methods the owner switched off; not secret either. */
+  disabled_methods: string[];
 };
 
 /** The masked view a route returns. Built here so no route can forget a field. */
@@ -157,6 +171,7 @@ export const maskRobokassaSettings = (row: ResolvedRobokassaSecret): MaskedRobok
   fiscalization_enabled: row.credentials.fiscalization_enabled,
   sno: row.credentials.sno,
   default_tax: row.credentials.default_tax,
+  disabled_methods: row.credentials.disabled_methods,
 });
 
 /**
@@ -273,6 +288,22 @@ export const passwordFor = (
 export const formatOutSum = (amount: number | string): string => Number(amount).toFixed(2);
 
 /**
+ * Whether two `OutSum` strings name the same amount, to the kopeck. The
+ * signature is checked over the string Robokassa sent, byte for byte; the
+ * comparison with the session's own sum is a comparison of money, so
+ * `1740.00` and `1740.000000` (the docs on the test mode note that the number
+ * of decimals differs between modes) are one sum, and `1740.01` is not.
+ */
+export const sameOutSum = (a: string | null | undefined, b: string | null | undefined): boolean => {
+  if (typeof a !== "string" || typeof b !== "string" || !a.trim() || !b.trim()) {
+    return false;
+  }
+  const left = Number(a);
+  const right = Number(b);
+  return Number.isFinite(left) && Number.isFinite(right) && Math.round(left * 100) === Math.round(right * 100);
+};
+
+/**
  * `InvId` must be a positive integer below 2^31. A hash of the payment session
  * id gives a stable, collision-resistant value without a counter shared across
  * shops; the last nine decimal digits of a SHA-256 keep it inside the range.
@@ -314,9 +345,15 @@ export const verifyResultSignature = (
 
 /**
  * Verifies the SuccessUrl2 redirect Robokassa sends the BROWSER through, signed
- * with password #1. This is proof the redirect is genuine, not proof of a
- * payment: the order is marked paid only by the Result webhook
- * (`src/api/robokassa/result/route.ts`).
+ * with password #1 (`OutSum:InvId:Password#1:Shp_SessionID=<id>`, docs
+ * «Уведомления и переадресация»). Robokassa sends it only after a successful
+ * payment, and nobody but Robokassa and the shop knows password #1, so a valid
+ * one authorizes the session at the return (t-2026-10-12-13, D2). It does not
+ * capture: the Result webhook (`src/api/robokassa/result/route.ts`, password
+ * #2) stays the final check of the sum and the capture. Measured on the test
+ * shop 12.10.2026: the full-page return carries `OutSum`, `InvId`,
+ * `Shp_SessionID`, `SignatureValue`, `IsTest` and `Culture`; the modal's
+ * success carries none of them.
  */
 export const verifySuccessSignature = (
   payload: RobokassaResultPayload,
@@ -328,6 +365,22 @@ export const verifySuccessSignature = (
   );
   return signaturesEqual(expected, payload.SignatureValue);
 };
+
+/**
+ * The shop's credentials in the mode the payment session was CREATED in (46df
+ * D2). Robokassa signs every message about an invoice, the browser return and
+ * the Result alike, with the pair of the mode the invoice was issued in, for
+ * the whole life of the invoice. The shop's `is_test` is the owner's switch and
+ * may have flipped since the payment page was built. A session written before
+ * `is_test` was stored on it falls back to the shop's mode.
+ */
+export const secretInSessionMode = (
+  secret: ResolvedRobokassaSecret,
+  sessionIsTest: unknown,
+): ResolvedRobokassaSecret =>
+  typeof sessionIsTest === "boolean" && sessionIsTest !== secret.is_test
+    ? { ...secret, is_test: sessionIsTest }
+    : secret;
 
 /**
  * One line of a `Receipt` before it is built: a cart item or the shipping

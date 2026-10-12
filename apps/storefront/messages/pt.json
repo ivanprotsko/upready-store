@@ -168,7 +168,7 @@
     "paymentFailedHeading": "O pagamento não foi concluído",
     "paymentFailedText": "Os dados do seu pedido foram guardados: tente novamente ou escolha outro método de pagamento.",
     "paymentPendingHeading": "Pagamento em confirmação",
-    "paymentPendingText": "O banco ainda não confirmou o pagamento. Se o valor já foi cobrado, não pague novamente: o pedido será criado assim que a confirmação chegar.",
+    "paymentPendingText": "A confirmação do pagamento ainda não chegou. Se o valor já foi cobrado, não pague de novo: a encomenda será registada assim que a confirmação chegar.",
     "paymentPendingCryptoText": "A rede ainda não confirmou a sua transferência, e isso pode demorar mais do que um pagamento com cartão. Não pague novamente: o pedido será criado assim que a confirmação chegar.",
     "x402SignHint": "Sua carteira vai pedir para assinar um pagamento em USDC.",
     "x402TestNetwork": "Rede de teste: este USDC não tem valor.",
@@ -830,7 +830,10 @@
     "goToCourse": "Ir para o curso",
     "orderCanceled": "Pedido cancelado",
     "orderCanceledHint": "Não é preciso pagar. Se for um engano, escreva-nos.",
-    "paidGoodsHint": "Estamos a preparar o seu pedido para envio."
+    "paidGoodsHint": "Estamos a preparar o seu pedido para envio.",
+    "paymentSucceeded": "Pagamento concluído",
+    "orderAccepted": "Obrigado! Pedido recebido",
+    "paymentConfirmingText": "A Robokassa aceitou o pagamento e aguardamos a confirmação. A página atualiza-se sozinha, não é preciso pagar de novo."
   },
   "OrderDetails": {
     "backToOrders": "Voltar às encomendas",

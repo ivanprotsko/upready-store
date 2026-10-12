@@ -156,18 +156,26 @@ export function groupRobokassaMethods(
  * nothing, the unfiltered list stands: better Robokassa's own refusal than a
  * Robokassa option with no rows. A shop list with no verified method at all
  * gets the bank card, the one every Robokassa shop takes.
+ *
+ * `disabled` are the methods the owner switched off in the panel
+ * (t-2026-10-12-13, Ivan 12.10: «нужно выключить оплату СБП»). The backend
+ * already left them out of `methods`; they are left out of every fallback
+ * here too, so no path brings a switched-off method back.
  */
 export function robokassaMethodsForCart(
   methods: RobokassaMethod[] | null | undefined,
-  total: number | null | undefined
+  total: number | null | undefined,
+  disabled: readonly string[] = []
 ): RobokassaMethod[] {
-  const source = (methods ?? []).filter((method) => isAlias(method?.alias))
+  const isOn = (method: RobokassaMethod) => !disabled.includes(method.alias)
+  const fallback = ROBOKASSA_FALLBACK_METHODS.filter(isOn)
+  const source = (methods ?? []).filter((method) => isAlias(method?.alias) && isOn(method))
   const verified = source.filter((method) => isVerifiedRobokassaAlias(method.alias))
   const list = !source.length
-    ? [...ROBOKASSA_FALLBACK_METHODS]
+    ? [...fallback]
     : verified.length
       ? verified
-      : ROBOKASSA_FALLBACK_METHODS.filter((method) => method.alias === "BankCard")
+      : fallback.filter((method) => method.alias === "BankCard")
   if (typeof total !== "number" || !Number.isFinite(total)) {
     return list
   }
@@ -234,7 +242,8 @@ const stringOrNull = (value: unknown): string | null =>
  * - The alias reaches Robokassa only when the session lists it in
  *   `payment_methods`: as `IncCurrLabel` and as the iframe's only
  *   `Settings.PaymentMethods` entry, so the modal shows that one method and no
- *   method-choice screen. Off the list, Robokassa opens with its own choice.
+ *   method-choice screen. Off the list, Robokassa opens with its own choice
+ *   among the session's whitelist.
  * - `payment_fields` are posted exactly as the backend signed them. Neither
  *   addition enters Robokassa's signature (pay-interface doc, «Сборка
  *   подписи»), so the signature stays valid.
@@ -261,11 +270,15 @@ export function robokassaPaymentRequest(
     )
     const fields = Object.fromEntries(entries)
     if (fields.MerchantLogin && fields.OutSum && fields.SignatureValue) {
+      // Off the list, Robokassa still opens on the session's own whitelist
+      // and nothing wider (t-2026-10-12-13): a method the owner switched off is
+      // not on it, so it never reaches the modal.
+      const methods = alias ? [alias] : allowed
       modalParams = {
         ...fields,
         ...(alias ? { IncCurrLabel: alias } : {}),
         Settings: JSON.stringify(
-          alias ? { PaymentMethods: [alias], Mode: "modal" } : { Mode: "modal" }
+          methods.length ? { PaymentMethods: methods, Mode: "modal" } : { Mode: "modal" }
         ),
       }
     }

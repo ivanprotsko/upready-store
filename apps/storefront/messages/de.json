@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Zahlung fehlgeschlagen",
     "paymentFailedText": "Ihre Bestelldaten sind gespeichert: Versuchen Sie es erneut oder wählen Sie eine andere Zahlungsart.",
     "paymentPendingHeading": "Zahlung wird bestätigt",
-    "paymentPendingText": "Die Bank hat die Zahlung noch nicht bestätigt. Wenn der Betrag bereits abgebucht wurde, zahlen Sie bitte nicht erneut: Die Bestellung wird angelegt, sobald die Bestätigung eintrifft.",
+    "paymentPendingText": "Die Zahlungsbestätigung ist noch nicht eingegangen. Wenn das Geld schon abgebucht wurde, zahlen Sie nicht noch einmal: Die Bestellung wird abgeschlossen, sobald die Bestätigung eintrifft.",
     "paymentPendingCryptoText": "Das Netzwerk hat Ihre Überweisung noch nicht bestätigt, und das kann länger dauern als eine Kartenzahlung. Zahlen Sie bitte nicht erneut: Die Bestellung wird angelegt, sobald die Bestätigung eintrifft.",
     "x402SignHint": "Ihre Wallet bittet Sie, eine USDC-Zahlung zu signieren.",
     "x402TestNetwork": "Testnetzwerk: Dieser USDC hat keinen Wert.",
@@ -830,7 +830,10 @@
     "goToCourse": "Zum Kurs",
     "orderCanceled": "Bestellung storniert",
     "orderCanceledHint": "Eine Zahlung ist nicht nötig. Falls das ein Irrtum ist, schreiben Sie uns.",
-    "paidGoodsHint": "Wir bereiten Ihre Bestellung für den Versand vor."
+    "paidGoodsHint": "Wir bereiten Ihre Bestellung für den Versand vor.",
+    "paymentSucceeded": "Zahlung erfolgreich",
+    "orderAccepted": "Danke! Die Bestellung ist eingegangen",
+    "paymentConfirmingText": "Robokassa hat die Zahlung angenommen, wir warten auf die Bestätigung. Die Seite aktualisiert sich von selbst, Sie müssen nicht erneut bezahlen."
   },
   "OrderDetails": {
     "backToOrders": "Zurück zu den Bestellungen",

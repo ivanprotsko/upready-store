@@ -12,9 +12,11 @@ import OrderDetails from "@modules/order/components/order-details"
 import OrderSection from "@modules/order/components/order-section"
 import OrderSummary from "@modules/order/components/order-summary"
 import PaymentDetails from "@modules/order/components/payment-details"
+import RobokassaConfirming from "@modules/order/components/robokassa-confirming"
 import ShippingDetails from "@modules/order/components/shipping-details"
 import PurchaseEvent from "@modules/common/components/purchase-event"
 import { getTenantAnalytics } from "@lib/data/analytics"
+import { robokassaOrderPayment } from "@lib/util/robokassa-order"
 import type { HttpTypes } from "@medusajs/types"
 import { getLocale, getTranslations } from "next-intl/server"
 
@@ -42,6 +44,13 @@ export default async function OrderCompletedTemplate({
   // отправке» only when something is posted. A course alone has no delivery block.
   const isCanceled = order.status === "canceled"
   const isPaid = order.payment_status === "captured"
+  // t-2026-10-12-13: a Robokassa order is paid for the buyer once Robokassa's
+  // payment exists (the return proved it, the Result captures it), and one
+  // placed while Robokassa's confirmation is on its way says so and refreshes
+  // itself. The course link waits for the capture, which is what grants it.
+  const robokassa = isCanceled ? null : robokassaOrderPayment(order)
+  const paidForBuyer = isPaid || robokassa === "paid"
+  const confirming = robokassa === "confirming"
   const items = order.items ?? []
   const courseLine = items.find((item) => isNoDeliveryLine(item))
   const shipsSomething = items.some((item) => !isNoDeliveryLine(item))
@@ -73,18 +82,28 @@ export default async function OrderCompletedTemplate({
       >
         <div className="flex flex-col gap-y-3">
           <Heading level="h1" className="text-2xl-semi text-ui-fg-base">
-            {isCanceled ? t("orderCanceled") : isPaid ? t("paymentConfirmed") : t("thankYou")}
+            {isCanceled
+              ? t("orderCanceled")
+              : robokassa === "paid"
+                ? t("paymentSucceeded")
+                : isPaid
+                  ? t("paymentConfirmed")
+                  : confirming
+                    ? t("orderAccepted")
+                    : t("thankYou")}
           </Heading>
           {isCanceled ? (
             <Text className="txt-medium text-ui-fg-subtle" data-testid="order-canceled">
               {t("orderCanceledHint")}
             </Text>
-          ) : isPaid ? (
+          ) : confirming ? (
+            <RobokassaConfirming />
+          ) : paidForBuyer ? (
             <div className="flex flex-col gap-y-3" data-testid="order-payment-confirmed">
               {shipsSomething && (
                 <Text className="txt-medium text-ui-fg-subtle">{t("paidGoodsHint")}</Text>
               )}
-              {courseLine?.product_handle && (
+              {isPaid && courseLine?.product_handle && (
                 <div>
                   <Button asChild size="large" data-testid="order-go-to-course">
                     <Link href={`/products/${courseLine.product_handle}`}>{t("goToCourse")}</Link>
@@ -96,7 +115,7 @@ export default async function OrderCompletedTemplate({
             <Text className="txt-medium text-ui-fg-subtle">{t("orderSuccess")}</Text>
           )}
           <OrderDetails order={order} locale={locale} showStatus showFulfillment={shipsSomething} />
-          {!isCanceled && !isPaid && (
+          {!isCanceled && !paidForBuyer && (
             <Text className="txt-medium text-ui-fg-subtle" data-testid="order-keep-number">
               {t("keepOrderNumber")}
             </Text>

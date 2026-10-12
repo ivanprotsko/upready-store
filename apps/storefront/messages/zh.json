@@ -168,7 +168,7 @@
     "paymentFailedHeading": "付款未成功",
     "paymentFailedText": "您的订单信息已保存：请重试或选择其他付款方式。",
     "paymentPendingHeading": "正在确认付款",
-    "paymentPendingText": "银行尚未确认这笔付款。如果款项已扣除，请勿重复付款：收到确认后订单将自动生成。",
+    "paymentPendingText": "付款确认尚未到达。如果款项已被扣除，请勿重复付款：确认一到，订单就会生成。",
     "paymentPendingCryptoText": "网络尚未确认您的转账，所需时间可能比银行卡支付更长。请勿重复付款：收到确认后订单将自动生成。",
     "x402SignHint": "您的钱包将请求您签署一笔 USDC 付款。",
     "x402TestNetwork": "测试网络：此 USDC 没有价值。",
@@ -830,7 +830,10 @@
     "goToCourse": "前往课程",
     "orderCanceled": "订单已取消",
     "orderCanceledHint": "无需付款。如有误，请联系我们。",
-    "paidGoodsHint": "我们正在为您的订单准备发货。"
+    "paidGoodsHint": "我们正在为您的订单准备发货。",
+    "paymentSucceeded": "支付成功",
+    "orderAccepted": "谢谢！订单已收到",
+    "paymentConfirmingText": "Robokassa 已接受付款，我们正在等待其确认。页面会自动更新，无需再次付款。"
   },
   "OrderDetails": {
     "backToOrders": "返回订单",

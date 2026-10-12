@@ -20,8 +20,10 @@ import { sanitizeRobokassaAliases } from "./payment-methods";
  * password, and the credentials themselves never leave `initiatePayment`.
  *
  * `tenant_id` is written by the server (`src/api/middlewares.ts` overwrites
- * whatever the client sent before the provider runs) and `result_*` only by
- * the Result webhook route through `updatePayment`, never from the storefront:
+ * whatever the client sent before the provider runs), `result_*` only by
+ * the Result webhook route and `return_*` only by the return check
+ * (`src/api/store/tenant/robokassa-return`) through `updatePayment`, never
+ * from the storefront:
  * `initiatePayment` builds this object from scratch, so a client-supplied
  * `result_confirmed_at` is dropped on the floor.
  *
@@ -62,6 +64,22 @@ export type RobokassaSessionData = {
   result_confirmed_at: string | null;
   /** `OutSum` verbatim from the accepted Result webhook. */
   result_out_sum: string | null;
+  /**
+   * t-2026-10-12-13: ISO time the buyer's return proved the payment (the
+   * return's password #1 signature, or `OpStateExt` state 100), `null` until
+   * then. The session then authorizes; the Result still captures.
+   */
+  return_confirmed_at: string | null;
+  return_confirmed_by: "success_signature" | "op_state" | null;
+  /** The session's `OutSum` the return confirmed. */
+  return_out_sum: string | null;
+  /**
+   * t-2026-10-12-13: ISO time the buyer came back through the success address
+   * with nothing proven either way. The session then answers
+   * `pending_authorization`: the cart becomes an order without a payment, and
+   * the Result webhook pays it.
+   */
+  return_seen_at: string | null;
   receipt_lines: RobokassaReceiptLineInput[];
   receipt: RobokassaReceipt | null;
   /** The `IncCurrLabel` aliases this shop may be opened on, best first. */
@@ -187,6 +205,10 @@ export const buildRobokassaSession = (input: BuildRobokassaSessionInput): Roboka
     fail_url: input.failUrl,
     result_confirmed_at: null,
     result_out_sum: null,
+    return_confirmed_at: null,
+    return_confirmed_by: null,
+    return_out_sum: null,
+    return_seen_at: null,
     receipt_lines: input.receiptLines,
     receipt,
     payment_methods: sanitizeRobokassaAliases(input.paymentMethods),

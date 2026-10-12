@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Plata nu a reușit",
     "paymentFailedText": "Datele comenzii sunt salvate: încercați din nou sau alegeți altă metodă de plată.",
     "paymentPendingHeading": "Plata este în curs de confirmare",
-    "paymentPendingText": "Banca nu a confirmat încă plata. Dacă suma a fost deja debitată, nu plătiți din nou: comanda va fi plasată imediat ce sosește confirmarea.",
+    "paymentPendingText": "Confirmarea plății nu a sosit încă. Dacă banii au fost deja retrași, nu plătiți din nou: comanda va fi înregistrată imediat ce sosește confirmarea.",
     "paymentPendingCryptoText": "Rețeaua nu a confirmat încă transferul dumneavoastră, iar acest lucru poate dura mai mult decât o plată cu cardul. Nu plătiți din nou: comanda va fi plasată imediat ce sosește confirmarea.",
     "x402SignHint": "Portofelul vă va cere să semnați o plată în USDC.",
     "x402TestNetwork": "Rețea de test: acest USDC nu are valoare.",
@@ -830,7 +830,10 @@
     "goToCourse": "Mergi la curs",
     "orderCanceled": "Comandă anulată",
     "orderCanceledHint": "Nu este nevoie de plată. Dacă este o greșeală, scrie-ne.",
-    "paidGoodsHint": "Pregătim comanda pentru expediere."
+    "paidGoodsHint": "Pregătim comanda pentru expediere.",
+    "paymentSucceeded": "Plata a reușit",
+    "orderAccepted": "Mulțumim! Comanda a fost primită",
+    "paymentConfirmingText": "Robokassa a acceptat plata și așteptăm confirmarea. Pagina se actualizează singură, nu trebuie să plătiți din nou."
   },
   "OrderDetails": {
     "backToOrders": "Înapoi la comenzi",

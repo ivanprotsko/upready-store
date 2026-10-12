@@ -168,7 +168,7 @@
     "paymentFailedHeading": "Ödeme gerçekleşmedi",
     "paymentFailedText": "Sipariş bilgileriniz kaydedildi: tekrar deneyin veya başka bir ödeme yöntemi seçin.",
     "paymentPendingHeading": "Ödeme onaylanıyor",
-    "paymentPendingText": "Banka ödemeyi henüz onaylamadı. Tutar zaten çekildiyse tekrar ödeme yapmayın: onay gelir gelmez sipariş oluşturulacak.",
+    "paymentPendingText": "Ödeme onayı henüz gelmedi. Para zaten çekildiyse tekrar ödeme yapmayın: onay gelir gelmez sipariş oluşturulacak.",
     "paymentPendingCryptoText": "Ağ transferinizi henüz onaylamadı ve bu, kartla ödemeden daha uzun sürebilir. Tekrar ödeme yapmayın: onay gelir gelmez sipariş oluşturulacak.",
     "x402SignHint": "Cüzdanınız sizden bir USDC ödemesini imzalamanızı isteyecek.",
     "x402TestNetwork": "Test ağı: bu USDC'nin değeri yoktur.",
@@ -830,7 +830,10 @@
     "goToCourse": "Kursa git",
     "orderCanceled": "Sipariş iptal edildi",
     "orderCanceledHint": "Ödeme gerekmiyor. Bu bir hataysa bize yazın.",
-    "paidGoodsHint": "Siparişinizi gönderime hazırlıyoruz."
+    "paidGoodsHint": "Siparişinizi gönderime hazırlıyoruz.",
+    "paymentSucceeded": "Ödeme başarılı",
+    "orderAccepted": "Teşekkürler! Siparişiniz alındı",
+    "paymentConfirmingText": "Robokassa ödemeyi kabul etti, onayını bekliyoruz. Sayfa kendiliğinden güncellenecek, yeniden ödeme yapmanıza gerek yok."
   },
   "OrderDetails": {
     "backToOrders": "Siparişlere dön",

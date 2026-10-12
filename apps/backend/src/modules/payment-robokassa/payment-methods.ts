@@ -298,3 +298,53 @@ export const robokassaPaymentMethods = (
   merchantLogin: string,
   logger?: WarnLogger,
 ): Promise<RobokassaPaymentMethodsResult> => sharedCache.methodsFor(merchantLogin, logger);
+
+/**
+ * The shop's list minus the methods its owner switched off in the panel
+ * (t-2026-10-12-13, Ivan 12.10, 4.1: «нужно выключить оплату СБП»). Applied
+ * wherever a list leaves the server: the checkout's rows
+ * (`GET /store/tenant/robokassa-methods`) and the session's whitelist
+ * (`initiatePayment`), so a switched-off alias reaches neither the checkout nor
+ * the modal's `Settings.PaymentMethods`. The fallback is filtered the same
+ * way: a Robokassa outage does not bring SBP back.
+ */
+export const withoutDisabledMethods = (
+  result: RobokassaPaymentMethodsResult,
+  disabled: readonly string[] | null | undefined,
+): RobokassaPaymentMethodsResult => {
+  const off = new Set(sanitizeRobokassaAliases(disabled ?? []));
+  if (!off.size) {
+    return result;
+  }
+  return { methods: result.methods.filter((method) => !off.has(method.alias)), source: result.source };
+};
+
+export type RobokassaPanelMethod = RobokassaPaymentMethod & { enabled: boolean };
+
+/**
+ * The list the owner switches in the panel: every method Robokassa lists for
+ * the shop, card and SBP even while Robokassa cannot be asked, and an alias
+ * she switched off that Robokassa no longer lists, so it can be switched on
+ * again. Each carries whether the checkout offers it.
+ */
+export const robokassaMethodsForPanel = (
+  result: RobokassaPaymentMethodsResult,
+  disabled: readonly string[] | null | undefined,
+): RobokassaPanelMethod[] => {
+  const off = new Set(sanitizeRobokassaAliases(disabled ?? []));
+  const seen = new Set<string>();
+  const methods: RobokassaPaymentMethod[] = [];
+  for (const method of [...result.methods, ...fallbackMethods()]) {
+    if (!seen.has(method.alias)) {
+      seen.add(method.alias);
+      methods.push(method);
+    }
+  }
+  for (const alias of off) {
+    if (!seen.has(alias)) {
+      seen.add(alias);
+      methods.push({ alias, name_ru: null, name_en: null, min: null, max: null });
+    }
+  }
+  return methods.map((method) => ({ ...method, enabled: !off.has(method.alias) }));
+};
