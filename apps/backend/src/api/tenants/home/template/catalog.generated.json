@@ -436,6 +436,14 @@
       "propsEditable": false
     },
     {
+      "id": "hero/type",
+      "category": "hero",
+      "placement": "home",
+      "status": "lab",
+      "props": true,
+      "propsEditable": false
+    },
+    {
       "id": "announcement/rotator",
       "category": "announcement",
       "placement": "home",
