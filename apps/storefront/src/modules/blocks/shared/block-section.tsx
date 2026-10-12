@@ -52,7 +52,7 @@ export default function BlockSection({
       {eyebrow || heading || description || (seeAll && seeAllLabel) ? (
         <header
           data-role="section-header"
-          className="content-container mb-[calc(1.5rem*var(--layer-density,1))] flex flex-col gap-3 small:flex-row small:items-end small:justify-between small:gap-8"
+          className="content-container mb-[var(--layer-space-6,1.5rem)] flex flex-col gap-3 small:flex-row small:items-end small:justify-between small:gap-8"
         >
           <div className="flex max-w-2xl flex-col gap-2">
             {eyebrow ? (

@@ -63,6 +63,9 @@ const CONTRACT = [
   { rule: "contract-icons", pattern: /from\s+["'](?!lucide-react["']|(?:\.\.?\/)+(?:shared\/)?(?:block-icon|icon-name)["']|@modules\/blocks\/shared\/)[^"']*icons?[^"']*["']/g, why: "Icons come from lucide-react only." },
   // §3: one size per role on a page (QR-TYPE-ROLE), so a section heading takes the shell's type.
   { rule: "contract-section-type", pattern: /<h2\b(?![^>]*\bSECTION_TYPE\.heading\b)/g, why: "A section heading takes its classes from shared/section-type: className={SECTION_TYPE.heading}." },
+  // §3: the density layer picks steps on the space scale (QR-SPACE-SCALE); a multiple of a step falls off it.
+  // `--layer-density` is left for a height (`min-h-[calc(18rem*var(--layer-density,1))]`), which the scale does not hold.
+  { rule: "contract-density-step", pattern: /(?<!\b(?:min-|max-)?h-\[[^\]\s"']*)--layer-density\b|calc\([^\]"'\s]*--layer-space-/g, why: "A block never multiplies a space: take the step token, py-[var(--layer-space-8,2rem)] where you would write py-8. --layer-density is for a height (min-h) alone." },
 ]
 
 const walk = (target) => {

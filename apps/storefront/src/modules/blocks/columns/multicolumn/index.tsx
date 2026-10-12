@@ -124,7 +124,7 @@ export default async function Multicolumn({ header, items, mode, columns, mobile
           PHONE[mobile],
           TABLET[tabletColumns(count)],
           DESKTOP[count],
-          "gap-x-4 gap-y-[calc(2rem*var(--layer-density,1))] small:gap-x-6"
+          "gap-x-4 gap-y-[var(--layer-space-8,2rem)] small:gap-x-6"
         )}
       >
         {shown.map((column) => {

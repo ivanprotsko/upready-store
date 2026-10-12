@@ -157,7 +157,7 @@ export default function RotatorBar({
           <div
             aria-live={rotating ? "off" : "polite"}
             className={clx(
-              "grid flex-1 justify-items-center py-[calc(0.5rem*var(--layer-density,1))] text-center",
+              "grid flex-1 justify-items-center py-[var(--layer-space-2,0.5rem)] text-center",
               many || dismissible ? "px-2" : "px-4"
             )}
           >

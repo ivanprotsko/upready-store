@@ -1,3 +1,7 @@
+import fs from "node:fs"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
+
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { PROFILE_DEFAULTS } from "@lib/theme/composition"
@@ -5,7 +9,16 @@ import { LIGHT_ONLY_THEME_IDS } from "@lib/theme/presets.generated"
 import { blockById } from "@modules/blocks/registry"
 
 import { TEMPLATE_SOURCES, getTemplate } from "./catalog"
-import { TEMPLATE_SCHEMA, resolveTemplate, templateText, validateTemplate } from "./manifest"
+import { THRESHOLDS } from "../../../scripts/template-check/rules.mjs"
+import {
+  DENSITIES,
+  LAYER_SPACE_STEPS,
+  SPACE_SCALE,
+  TEMPLATE_SCHEMA,
+  resolveTemplate,
+  templateText,
+  validateTemplate,
+} from "./manifest"
 import { TEMPLATE_PREVIEW_HEADER, applyTemplatePreview } from "./preview-header"
 
 // The registry reaches `server-only` loaders through the header and footer variants. Hoisted by vitest.
@@ -242,8 +255,16 @@ describe("resolveTemplate", () => {
       "--layer-button-fg": "var(--primary-foreground)",
       "--layer-button-border": "var(--primary)",
       "--layer-photo-aspect": "4 / 3",
+      "--layer-space-2": "0.75rem",
+      "--layer-space-3": "1rem",
+      "--layer-space-4": "1.5rem",
+      "--layer-space-6": "2rem",
+      "--layer-space-8": "3rem",
+      "--layer-space-12": "4rem",
+      "--layer-space-16": "6rem",
+      "--layer-space-24": "8rem",
+      "--layer-section-gap": "4rem",
       "--layer-density": "1.25",
-      "--layer-section-gap": "4.5rem",
     })
     // This build loads no profile font pair (`fonts.generated.ts`), and Fraunces has no
     // template file (no Cyrillic, `public/fonts/templates/LICENSES.md`), so none is loaded.
@@ -272,6 +293,72 @@ describe("resolveTemplate", () => {
     const fonts = resolveWith({ display: "Space Grotesk", body: "IBM Plex Sans" }).fonts
     expect(fonts.pair).toBeNull()
     expect(fonts.loaded).toBe(false)
+  })
+})
+
+describe("the density layer", () => {
+  const styleAt = (density: string) => {
+    const input = base()
+    input.theme = { ...input.theme, density }
+    const result = check(input)
+    if (!result.ok) throw new Error(result.errors.map((e) => e.message).join("; "))
+    return resolveTemplate(result.value).style
+  }
+  // The layer writes rem; the check measures px.
+  const spaces = (density: string) =>
+    Object.fromEntries(
+      Object.entries(styleAt(density))
+        .filter(([name]) => name.startsWith("--layer-space-") || name === "--layer-section-gap")
+        .map(([name, value]) => [name, parseFloat(value) * 16])
+    )
+
+  it("names the steps of the check's own space scale (QR-SPACE-SCALE)", () => {
+    expect([...SPACE_SCALE]).toEqual(THRESHOLDS.space)
+  })
+
+  it("puts every space on the scale at every density; the one factor left is for heights", () => {
+    for (const density of DENSITIES) {
+      for (const [name, px] of Object.entries(spaces(density))) {
+        expect(THRESHOLDS.space, `${density} ${name} = ${px}px`).toContain(px)
+      }
+    }
+    expect(DENSITIES.map((density) => styleAt(density)["--layer-density"])).toEqual(["0.75", "1", "1.25"])
+  })
+
+  it("is today's pixels at comfortable, one step down the scale at compact and one step up at spacious", () => {
+    const step = (px: number[]) => Object.fromEntries(LAYER_SPACE_STEPS.map((n, i) => [`--layer-space-${n}`, px[i]]))
+    expect(LAYER_SPACE_STEPS).toEqual([2, 3, 4, 6, 8, 12, 16, 24])
+    expect(spaces("compact")).toEqual({ ...step([4, 8, 12, 16, 24, 32, 48, 64]), "--layer-section-gap": 32 })
+    expect(spaces("comfortable")).toEqual({ ...step([8, 12, 16, 24, 32, 48, 64, 96]), "--layer-section-gap": 48 })
+    expect(spaces("spacious")).toEqual({ ...step([12, 16, 24, 32, 48, 64, 96, 128]), "--layer-section-gap": 64 })
+  })
+
+  // A block reads a step with its comfortable value as the fallback, so a shop with no template draws exactly
+  // what `comfortable` draws. `pnpm lint:blocks` refuses the multiplier on the other open block branches.
+  it("is what the blocks read: a step token with its comfortable value as the fallback, a factor only on a height", () => {
+    const blocks = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../modules/blocks")
+    const sources = (fs.readdirSync(blocks, { recursive: true }) as string[])
+      .filter((file) => /\.tsx?$/.test(file) && !/\.test\.tsx?$/.test(file))
+      .map((file) => ({ file, code: fs.readFileSync(path.join(blocks, file), "utf8") }))
+    const reads = sources.flatMap(({ file, code }) =>
+      Array.from(code.matchAll(/var\(--layer-space-(\d+),([^)]+)\)/g), (m) => ({ file, step: Number(m[1]), fallback: m[2] }))
+    )
+
+    // Every `var(--layer-density` sits in a height utility (`small:min-h-[calc(26rem*var(--layer-density,1))]`).
+    const factors = sources.flatMap(({ file, code }) =>
+      Array.from(code.matchAll(/([\w:-]*)\[[^\]\s"']*var\(--layer-density\b|var\(--layer-density\b/g), (m) => ({
+        file,
+        utility: (m[1] ?? "").split(":").pop() ?? "",
+      }))
+    )
+    for (const { file, utility } of factors) {
+      expect(["h-", "min-h-", "max-h-"], `${file}: --layer-density in "${utility}"`).toContain(utility)
+    }
+    expect(reads.length).toBeGreaterThan(0)
+    for (const { file, step, fallback } of reads) {
+      expect(LAYER_SPACE_STEPS, `${file}: --layer-space-${step}`).toContain(step)
+      expect(fallback, `${file}: --layer-space-${step}`).toBe(`${step / 4}rem`)
+    }
   })
 })
 

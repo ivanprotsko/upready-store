@@ -74,12 +74,12 @@ export default async function NewsletterSignup({ heading, text, channels, align,
       <div
         className={clx(
           tone === "muted" &&
-            "rounded-[var(--radius)] bg-[var(--muted)] px-6 py-[calc(2rem*var(--layer-density,1))] xsmall:px-12 small:px-16 small:py-[calc(3rem*var(--layer-density,1))]"
+            "rounded-[var(--radius)] bg-[var(--muted)] px-6 py-[var(--layer-space-8,2rem)] xsmall:px-12 small:px-16 small:py-[var(--layer-space-12,3rem)]"
         )}
       >
         <div
           className={clx(
-            "flex max-w-2xl flex-col gap-[calc(1.5rem*var(--layer-density,1))]",
+            "flex max-w-2xl flex-col gap-[var(--layer-space-6,1.5rem)]",
             centred && "mx-auto items-center text-center"
           )}
         >

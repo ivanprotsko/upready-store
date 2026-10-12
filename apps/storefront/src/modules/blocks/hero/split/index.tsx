@@ -92,7 +92,7 @@ export default async function HeroSplit({
       >
         <div
           className={clx(
-            "flex min-w-0 flex-col items-start gap-[calc(1.5rem*var(--layer-density,1))]",
+            "flex min-w-0 flex-col items-start gap-[var(--layer-space-6,1.5rem)]",
             tone === "panel" &&
               "rounded-[var(--radius)] border border-[var(--border)] bg-[var(--card)] p-6 small:p-12"
           )}
