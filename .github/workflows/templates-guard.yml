@@ -1,0 +1,47 @@
+name: Templates Guard
+
+# Ivan, 12.10.2026: «всё что касается шаблонов должно быть в отдельной ветке, и оно не должно попадать в ветку,
+# которая идет на деплой». Template and block work lives on templates/main and templates/<slug> (AGENTS.md,
+# «`templates/*` Branches»). This check goes red on a pull request that brings a templates/* branch into dev or
+# main without the label ivan-ok, which only Ivan sets (t-2026-10-12-33). The rule and its test live in
+# .github/scripts/templates-guard.mjs.
+#
+# It is a workflow of its own, not a job of pr-checks.yml, so that adding or removing a label reruns this check
+# alone. A labeled run of pr-checks.yml would report Backend, Panel And Repository and Deploy Checks as skipped on
+# the same head commit. The pull request then shows the skipped runs in place of the real ones, and a skipped check
+# counts as passed, so ivan-ok could hide a red Backend. `edited` reruns the guard when the base branch changes.
+#
+# GitHub Free has no branch protection here (t-2026-10-12-25), so a red guard does not disable the merge button.
+# The workflow and the script run from the pull request's own merge commit, so a pull request that edits them can
+# turn the check green. The lead's read of the diff covers that.
+on:
+  pull_request:
+    branches: [ dev, main, 'templates/**' ]
+    types: [ opened, synchronize, reopened, edited, labeled, unlabeled ]
+
+permissions:
+  contents: read
+
+# A newer event on the same pull request (a label, a push) replaces the verdict of the older one.
+concurrency:
+  group: templates-guard-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    name: Templates Guard
+    runs-on: [self-hosted, upready-store]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Guard tests
+        run: node --test .github/scripts/__tests__/templates-guard.test.mjs
+      - name: Verdict
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: node .github/scripts/templates-guard.mjs --base "$BASE_REF" --head "$HEAD_REF" --labels "$LABELS"
