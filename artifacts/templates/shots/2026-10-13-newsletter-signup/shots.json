@@ -1,6 +1,6 @@
 {
   "date": "2026-10-12",
-  "commit": "4f28b8e7",
+  "commit": "a8cea446",
   "base": "http://localhost:8137",
   "host": "globex.shipshift.dev",
   "locale": "en",
@@ -343,6 +343,26 @@
     },
     {
       "kind": "block",
+      "name": "block-hero-type",
+      "block": "hero/type",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-type-360.png",
+      "status": 200,
+      "height": 538
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-type-empty",
+      "block": "hero/type",
+      "state": "empty",
+      "width": 360,
+      "file": "block-hero-type-empty-360.png",
+      "status": 200,
+      "height": 168
+    },
+    {
+      "kind": "block",
       "name": "block-announcement-rotator",
       "block": "announcement/rotator",
       "state": "live",
@@ -478,6 +498,26 @@
       "state": "empty",
       "width": 360,
       "file": "block-newsletter-signup-empty-360.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
+      "name": "block-banner-image",
+      "block": "banner/image",
+      "state": "live",
+      "width": 360,
+      "file": "block-banner-image-360.png",
+      "status": 200,
+      "height": 598
+    },
+    {
+      "kind": "block",
+      "name": "block-banner-image-empty",
+      "block": "banner/image",
+      "state": "empty",
+      "width": 360,
+      "file": "block-banner-image-empty-360.png",
       "status": 200,
       "height": 44
     },
@@ -833,6 +873,26 @@
     },
     {
       "kind": "block",
+      "name": "block-hero-type",
+      "block": "hero/type",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-type-768.png",
+      "status": 200,
+      "height": 462
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-type-empty",
+      "block": "hero/type",
+      "state": "empty",
+      "width": 768,
+      "file": "block-hero-type-empty-768.png",
+      "status": 200,
+      "height": 118
+    },
+    {
+      "kind": "block",
       "name": "block-announcement-rotator",
       "block": "announcement/rotator",
       "state": "live",
@@ -968,6 +1028,26 @@
       "state": "empty",
       "width": 768,
       "file": "block-newsletter-signup-empty-768.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
+      "name": "block-banner-image",
+      "block": "banner/image",
+      "state": "live",
+      "width": 768,
+      "file": "block-banner-image-768.png",
+      "status": 200,
+      "height": 428
+    },
+    {
+      "kind": "block",
+      "name": "block-banner-image-empty",
+      "block": "banner/image",
+      "state": "empty",
+      "width": 768,
+      "file": "block-banner-image-empty-768.png",
       "status": 200,
       "height": 28
     },
@@ -1323,6 +1403,26 @@
     },
     {
       "kind": "block",
+      "name": "block-hero-type",
+      "block": "hero/type",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-type-1280.png",
+      "status": 200,
+      "height": 398
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-type-empty",
+      "block": "hero/type",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-hero-type-empty-1280.png",
+      "status": 200,
+      "height": 139
+    },
+    {
+      "kind": "block",
       "name": "block-announcement-rotator",
       "block": "announcement/rotator",
       "state": "live",
@@ -1458,6 +1558,26 @@
       "state": "empty",
       "width": 1280,
       "file": "block-newsletter-signup-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
+      "name": "block-banner-image",
+      "block": "banner/image",
+      "state": "live",
+      "width": 1280,
+      "file": "block-banner-image-1280.png",
+      "status": 200,
+      "height": 636
+    },
+    {
+      "kind": "block",
+      "name": "block-banner-image-empty",
+      "block": "banner/image",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-banner-image-empty-1280.png",
       "status": 200,
       "height": 28
     },

@@ -3,7 +3,7 @@
 **Итог: PASS.** Проверено целей: 4 (шаблоны × страницы, блоки площадки, ширины 360 и 1280 px). Новых отказов gate: **0**; унаследованных (долг общих частей витрины на страницах шаблона): 0; отказов из базы (известный долг существующих вариантов): 0; report-правил вне порога: 0.
 Что делать: ничего, новых отказов нет. Отказы из базы — долг существующих вариантов композиции, он виден в report.json.
 
-Commit 4f28b8e7 · http://localhost:8137 as globex.shipshift.dev · locale en · --only newsletter/signup · baseline 745 keys · exit 0
+Commit a8cea446 · http://localhost:8137 as globex.shipshift.dev · locale en · --only newsletter/signup · baseline 745 keys · exit 0
 
 ## Rules
 
