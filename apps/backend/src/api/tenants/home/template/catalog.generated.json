@@ -391,6 +391,7 @@
     {"id":"listing/p3","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p3"},"props":false,"propsEditable":false},
     {"id":"listing/p4","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p4"},"props":false,"propsEditable":false},
     {"id":"listing/p5","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p5"},"props":false,"propsEditable":false},
+    {"id":"listing/price-table","category":"listing","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"media/image-with-text","category":"media","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"newsletter/signup","category":"newsletter","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"promo/grid","category":"promo","placement":"home","status":"lab","props":true,"propsEditable":false},
