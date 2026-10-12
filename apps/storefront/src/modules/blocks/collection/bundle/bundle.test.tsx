@@ -210,7 +210,7 @@ describe("Bundle, drawing", () => {
     const html = (await render(props(["candle-holder", "hook-rail", "mug"], { title: { ru: "Тихий вечер" } })))!
 
     expect(html).toContain('data-block="collection/bundle"')
-    const titles = [...html.matchAll(/data-testid="product-title"[^>]*>([^<]*)</g)].map((match) => match[1])
+    const titles = Array.from(html.matchAll(/data-testid="product-title"[^>]*>([^<]*)</g)).map((match) => match[1])
     expect(titles).toEqual(["Подсвечник", "Вешалка", "Кружка"])
     expect(count(html, 'data-testid="product-wrapper"')).toBe(3)
     expect(count(html, 'data-role="product-card"')).toBe(3)
