@@ -1,0 +1,72 @@
+import type { PropsResult } from "../../types"
+import type { LocalizedText } from "../../shared/localized-text"
+import {
+  parseBoolean,
+  parseHref,
+  parseInteger,
+  parseList,
+  parseLocalizedText,
+  parseObject,
+  parseProps,
+} from "../../shared/parse"
+
+/** One announcement: its words and, optionally, where it leads (`/…` in the shop, or `https://…`). */
+export type RotatorMessage = { text: LocalizedText; href: string | null }
+
+export type RotatorProps = {
+  /** Two to five announcements, shown in turn. */
+  messages: RotatorMessage[]
+  /** Seconds each one stays, 4 to 10. */
+  interval: number
+  /** A close button; the choice is kept for the session, per set of messages. */
+  dismissible: boolean
+  /** The bar's name for a screen reader, and the words of its three icon buttons. */
+  label: LocalizedText
+  previousLabel: LocalizedText
+  nextLabel: LocalizedText
+  closeLabel: LocalizedText
+}
+
+/** The bar's own words while the block is `lab` (BLOCK-CONTRACT.md §2). */
+export const REGION_LABEL: LocalizedText = { ru: "Объявления магазина", en: "Shop announcements" }
+export const PREVIOUS_LABEL: LocalizedText = { ru: "Предыдущее объявление", en: "Previous announcement" }
+export const NEXT_LABEL: LocalizedText = { ru: "Следующее объявление", en: "Next announcement" }
+export const CLOSE_LABEL: LocalizedText = { ru: "Закрыть объявления", en: "Close announcements" }
+
+const chrome = (fallback: LocalizedText) => (value: unknown, path: string) =>
+  parseLocalizedText(value, path, { max: 60, fallback })
+
+export function parseRotatorProps(input: unknown): PropsResult<RotatorProps> {
+  return parseProps<RotatorProps>(input, "announcement/rotator", {
+    messages: (value, path) =>
+      parseList(
+        value,
+        path,
+        (item, itemPath) =>
+          parseObject<RotatorMessage>(item, itemPath, {
+            text: (text, textPath) => parseLocalizedText(text, textPath, { max: 140 }),
+            href: (href, hrefPath) => parseHref(href, hrefPath),
+          }),
+        { min: 2, max: 5 }
+      ),
+    interval: (value, path) => parseInteger(value, path, { min: 4, max: 10, fallback: 5 }),
+    dismissible: (value, path) => parseBoolean(value, path, { fallback: false }),
+    label: chrome(REGION_LABEL),
+    previousLabel: chrome(PREVIOUS_LABEL),
+    nextLabel: chrome(NEXT_LABEL),
+    closeLabel: chrome(CLOSE_LABEL),
+  })
+}
+
+/**
+ * The `sessionStorage` key of a dismissal: FNV-1a over the messages in every language, so a
+ * closed bar stays closed for the session and a new set of messages shows again.
+ */
+export function dismissKey(messages: RotatorMessage[]): string {
+  let hash = 0x811c9dc5
+  for (const char of JSON.stringify(messages)) {
+    hash ^= char.codePointAt(0) ?? 0
+    hash = Math.imul(hash, 0x01000193) >>> 0
+  }
+  return `announcement-rotator:${hash.toString(36)}`
+}

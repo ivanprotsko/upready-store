@@ -88,7 +88,7 @@ describe("block registry", () => {
       ),
     ]
     expect(BLOCKS.map((b) => b.id)).toEqual(expected.map((b) => b.id))
-    expect(CATEGORY_BLOCKS.announcement.map((b) => b.id)).toEqual(["announcement/text-bar"])
+    expect(CATEGORY_BLOCKS.announcement.map((b) => b.id)).toEqual(["announcement/rotator", "announcement/text-bar"])
   })
 
   it("describes every block with known roles", () => {
