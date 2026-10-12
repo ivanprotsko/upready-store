@@ -5,6 +5,12 @@ import {
   type ForbiddenRule,
   type StorefrontSettingsInput,
 } from "../../store/storefront-settings/validation";
+import type {
+  FontPair,
+  TemplateLayers,
+  TemplateSection,
+  TEMPLATE_SCHEMA,
+} from "./template/validation";
 
 /**
  * The tenant's home-page document, `upready.tenant-home/v1`
@@ -222,10 +228,34 @@ export const PutTenantHomeBody = z.object({
 
 export type PutTenantHomeBodyType = z.infer<typeof PutTenantHomeBody>;
 
-/** The stored document: the validated body plus the server's own stamp. */
+/**
+ * The template a shop applied (t-2026-10-12-33, `POST /tenants/home/template`): which one,
+ * under which manifest schema, and the font pair it asks for. The pair is recorded, not
+ * applied: fonts are built per image (`apps/storefront/src/lib/theme/fonts.ts`), and the
+ * storefront reports whether the build carries this one (`ResolvedTemplate.fonts.loaded`).
+ */
+export type TenantHomeTemplate = {
+  id: string;
+  schema: typeof TEMPLATE_SCHEMA;
+  fontPair: FontPair;
+};
+
+/**
+ * The stored document: the validated body plus the server's own stamp.
+ *
+ * A saved template adds three fields, all optional, under the same `v1`: the document has
+ * grown that way before (`content.banners`, `hero.i18n`), and an older document reads
+ * exactly as it did. The three come together or not at all: `theme.layers`,
+ * `content.sections` and `template`. With them the storefront lays the home page out from
+ * `content.sections` the way the template preview does, and `content.order` is not read.
+ */
 export type TenantHomeDocument = {
   schema: typeof TENANT_HOME_SCHEMA_ID;
-  theme: { preset: ThemePreset };
+  theme: {
+    preset: ThemePreset;
+    /** Absent on a document with no template. */
+    layers?: TemplateLayers;
+  };
   settings: StorefrontSettingsInput;
   content: {
     hero: {
@@ -242,7 +272,11 @@ export type TenantHomeDocument = {
     order: HomeBlock[];
     /** Absent on documents saved before t-2026-09-24-n15; the storefront reads it as `[]`. */
     banners?: HomeBanner[];
+    /** The home page in order, block by block. Absent on a document with no template. */
+    sections?: TemplateSection[];
   };
+  /** Absent on a document with no template. */
+  template?: TenantHomeTemplate;
   updatedAt: string;
 };
 

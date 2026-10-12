@@ -290,6 +290,7 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
   storefront: [
     "GET /tenants/home",
     "PUT /tenants/home",
+    "POST /tenants/home/template",
     "GET /tenants/pages",
     "POST /tenants/pages",
     "GET /tenants/pages/[key]",

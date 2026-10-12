@@ -9,7 +9,11 @@
 // script stops there and says so.
 //
 //   node scripts/template-shots.mjs --base http://localhost:8130 --locale en \
-//     [--host globex.shipshift.dev] [--out <dir>] [--baseline <dir>] [--widths 360,768,1280]
+//     [--host globex.shipshift.dev] [--out <dir>] [--baseline <dir>] [--widths 360,768,1280] [--saved <id>]
+//
+// `--saved <id>` shoots the home page the shop renders from its saved template (`POST /tenants/home/template`),
+// with no `?template=` and no playground, under the file names the preview of `<id>` gets. Shoot the preview
+// first, apply the template, then pass that run as `--baseline`: the diff is saved against preview.
 //
 // `--host` is sent as `x-forwarded-host`: a local storefront with no shop on `localhost` then resolves that
 // shop by its address (`lib/tenant/request-shop.ts`), so the shots carry a real catalogue, not lorem.
@@ -30,7 +34,7 @@ function args(argv) {
     const key = argv[i]
     if (!key.startsWith("--")) throw new Error(`unexpected argument ${key}`)
     const name = key.slice(2)
-    if (!["base", "locale", "host", "out", "baseline", "widths"].includes(name)) {
+    if (!["base", "locale", "host", "out", "baseline", "widths", "saved"].includes(name)) {
       throw new Error(`unknown flag ${key}`)
     }
     out[name] = argv[++i]
@@ -100,12 +104,16 @@ try {
   if (!response || response.status() !== 200) {
     throw new Error(`${labUrl} answered ${response?.status()}: is the storefront running with STOREFRONT_TEMPLATE_PREVIEW=1?`)
   }
-  const anchors = await probePage.$$eval("[data-block-anchor]", (els) =>
-    els.map((el) => ({ anchor: el.id, block: el.dataset.blockAnchor, state: el.dataset.blockState }))
-  )
-  const templates = await probePage.$$eval("[data-template-id]", (els) =>
-    els.map((el) => ({ id: el.dataset.templateId, valid: el.dataset.templateValid === "true", title: el.textContent }))
-  )
+  const anchors = opts.saved
+    ? []
+    : await probePage.$$eval("[data-block-anchor]", (els) =>
+        els.map((el) => ({ anchor: el.id, block: el.dataset.blockAnchor, state: el.dataset.blockState }))
+      )
+  const templates = opts.saved
+    ? [{ id: opts.saved, valid: true, title: `${opts.saved}, saved by the shop` }]
+    : await probePage.$$eval("[data-template-id]", (els) =>
+        els.map((el) => ({ id: el.dataset.templateId, valid: el.dataset.templateValid === "true", title: el.textContent }))
+      )
   await probe.close()
 
   for (const width of widths) {
@@ -115,7 +123,7 @@ try {
 
     // Templates: the whole home page, as a shopper would scroll it.
     for (const template of templates) {
-      const url = `${base}/${locale}?template=${template.id}`
+      const url = opts.saved ? `${base}/${locale}` : `${base}/${locale}?template=${template.id}`
       const res = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 180_000 })
       await settle(page)
       const facts = await page.evaluate(() => ({
@@ -129,7 +137,11 @@ try {
       shots.push({ kind: "template", name: template.id, title: template.title, width, file, status: res?.status(), url, facts })
     }
 
-    // Playground: one PNG per anchor.
+    // Playground: one PNG per anchor. A `--saved` run shoots the home page alone.
+    if (opts.saved) {
+      await context.close()
+      continue
+    }
     const res = await page.goto(labUrl, { waitUntil: "domcontentloaded", timeout: 180_000 })
     await settle(page)
     await hidePinnedOutside(page, "[data-block-playground]")

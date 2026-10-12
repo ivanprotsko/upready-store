@@ -1,10 +1,10 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
-import { TENANT_MODULE } from "../../../modules/tenant";
-import type TenantModuleService from "../../../modules/tenant/service";
 import upsertTenantHomeWorkflow from "../../../workflows/tenant/upsert-tenant-home";
 import { notifyStorefrontRevalidate } from "../../../storefront-revalidate";
 import { getTenantScope, listTenantCategoryIds, listTenantProductIds } from "../tenant-scope";
+import { readTenantHomeDocument } from "./document";
+import { carryTemplateOver } from "./template/apply";
 import {
   isForbidden,
   TENANT_HOME_SCHEMA_ID,
@@ -33,20 +33,6 @@ import type { StorefrontSettingsInput } from "../../store/storefront-settings/va
  * back. A bare service call from the route would also trip the repo's own lint
  * rule `@medusajs/no-service-mutations-in-api-route`.
  */
-
-const readDocument = async (
-  req: AuthenticatedMedusaRequest,
-  tenantId: string,
-): Promise<{ id: string; document: TenantHomeDocument } | null> => {
-  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
-  const [row] = await tenantModuleService.listTenantHomeConfigs({ tenant_id: tenantId });
-
-  if (!row) {
-    return null;
-  }
-
-  return { id: row.id, document: row.config as unknown as TenantHomeDocument };
-};
 
 const resolveBannerLinks = async (
   req: AuthenticatedMedusaRequest,
@@ -83,7 +69,7 @@ const resolveBannerLinks = async (
 
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await getTenantScope(req);
-  const existing = await readDocument(req, tenant.id);
+  const existing = await readTenantHomeDocument(req.scope, tenant.id);
 
   res.json({ home: existing?.document ?? null });
 };
@@ -140,13 +126,38 @@ export const PUT = async (
   // the id is the product's own, read here rather than trusted from the client.
   const banners = await resolveBannerLinks(req, body.content.banners ?? []);
 
-  const document: TenantHomeDocument = {
-    schema: TENANT_HOME_SCHEMA_ID,
-    theme: body.theme,
+  // A template the shop applied (`POST /tenants/home/template`, t-2026-10-12-33) is not in
+  // this body: the panel's form does not know templates yet. It is carried over, its slot
+  // sections following the settings just saved (`carryTemplateOver`), so a save of the
+  // form does not drop the shop's choice. A shop with no template writes the document it
+  // always wrote, key for key.
+  const existing = await readTenantHomeDocument(req.scope, tenant.id);
+  const { carried, reason } = carryTemplateOver(existing?.document ?? null, {
     settings,
-    content: { ...body.content, banners },
-    updatedAt: new Date().toISOString(),
-  };
+    preset: body.theme.preset,
+  });
+  if (reason) {
+    req.scope
+      .resolve(ContainerRegistrationKeys.LOGGER)
+      .warn(`[tenants/home] ${tenant.handle}: the saved template no longer fits and is dropped: ${reason}`);
+  }
+
+  const document: TenantHomeDocument = carried
+    ? {
+        schema: TENANT_HOME_SCHEMA_ID,
+        theme: { ...body.theme, layers: carried.layers },
+        settings,
+        content: { ...body.content, banners, sections: carried.sections },
+        template: carried.template,
+        updatedAt: new Date().toISOString(),
+      }
+    : {
+        schema: TENANT_HOME_SCHEMA_ID,
+        theme: body.theme,
+        settings,
+        content: { ...body.content, banners },
+        updatedAt: new Date().toISOString(),
+      };
 
   await upsertTenantHomeWorkflow(req.scope).run({
     input: { tenant_id: tenant.id, config: document },
