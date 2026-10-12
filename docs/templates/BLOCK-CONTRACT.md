@@ -160,6 +160,21 @@ export const parseRichTextProps = (input: unknown) =>
 - `pnpm lint:blocks` runs the design-docs ui-lint (19 detectors) over `src/modules/blocks`, plus the
   checks of section 3 it lacks. Any error or warning fails. It needs `~/upready/tools/ui-lint.js`, or
   `UI_LINT_PATH`. Without it the script exits 2, and that is not a pass.
+- `pnpm template:check --base http://localhost:8130 --locale en --host globex.shipshift.dev` measures the
+  rendered page against the 16.09 templates lab's quality rules (`QR-…`, `scripts/template-check/rules.mjs`):
+  - the same storefront and flag as the shots, the same headless Chromium;
+  - targets: every template's home, a category page and a product page, every playground anchor, at 360 and
+    1280 px;
+  - each rule keeps the lab's id, threshold and kind. A `gate` fails the run, a `report` only prints a number.
+  - It writes `report.json` and `report.md` to `artifacts/templates/check/<date>/`.
+  - It exits 1 only on a gate failure that `artifacts/templates/check/baseline.json` does not hold. The
+    baseline is the debt the existing composition variants already had.
+  - Check your own block or template with `--only <id>` (`--only hero/g`, `--only long-morning`).
+  - Exit 2 means the stand, the playground or axe-core was missing, and that is not a pass.
+  - Rewrite the baseline with `--write-baseline` only when a failure is fixed or accepted, never to hide a
+    new one.
+  - `node scripts/template-check.mjs --self-test` proves the measuring: a bad fixture fails every gate rule
+    with its id, and a good one passes them all.
 
 ## 6. PR Checklist
 
@@ -169,10 +184,27 @@ export const parseRichTextProps = (input: unknown) =>
 - [ ] wrapped in `BlockSection`; pictures as `ImageRef`, icons as `BlockIcon`
 - [ ] `npx vitest run src/modules/blocks src/lib/templates page.baseline` passes
 - [ ] `npx tsc --noEmit`, `pnpm lint` and `pnpm lint:blocks` pass
+- [ ] `pnpm template:check --only <id>` is green, with no new failure against the baseline, and its
+      `report.md` is linked in the PR body
 - [ ] the contact sheet at 3 widths, live and empty, is linked in the PR body
 - [ ] rebase on `origin/templates/main` right before the hand-in. A conflict in your category file means
   another block of your category landed, so keep both lines
 - [ ] base `templates/main`, never `dev`
+
+## 7. What Is Left to the Eyes
+
+The machine catches a number with a threshold. It does not judge the following, so a person checks them on the
+contact sheet, from the lab's §Checklist (`design/style-spec.md`):
+- the three pages of a template read as one shop, and templates side by side read as one system;
+- the difference between two templates can be named: palette, font, density, and nothing else;
+- the first screen has one dominant, and the first product or catalogue entry is above the fold;
+- a row of cards keeps titles and prices on one line, and a product is recognised by its picture;
+- a card without a photo looks designed, not broken;
+- the gallery is one frame with its thumbnails, and «add to cart» is the only primary action;
+- no second accent colour, no gradients on controls, and the footer carries the page;
+- the template has one device of its own that a token explains.
+
+`QR-TECTONICS` and `QR-DENSITY` print their numbers, but the person decides.
 
 ## Template Contract
 
