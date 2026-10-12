@@ -828,7 +828,10 @@
     "goToCourse": "Siirry kurssille",
     "orderCanceled": "Tilaus peruttu",
     "orderCanceledHint": "Maksua ei tarvita. Jos tämä on virhe, ota yhteyttä.",
-    "paidGoodsHint": "Valmistelemme tilaustasi lähetettäväksi."
+    "paidGoodsHint": "Valmistelemme tilaustasi lähetettäväksi.",
+    "paymentSucceeded": "Maksu onnistui",
+    "orderAccepted": "Kiitos! Tilaus on vastaanotettu",
+    "paymentConfirmingText": "Robokassa on vastaanottanut maksun, ja odotamme sen vahvistusta. Sivu päivittyy itsestään, sinun ei tarvitse maksaa uudelleen."
   },
   "OrderDetails": {
     "backToOrders": "Takaisin tilauksiin",

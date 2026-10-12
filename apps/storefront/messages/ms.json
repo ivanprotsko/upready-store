@@ -828,7 +828,10 @@
     "goToCourse": "Ke kursus",
     "orderCanceled": "Pesanan dibatalkan",
     "orderCanceledHint": "Tidak perlu membayar. Jika ini silap, hubungi kami.",
-    "paidGoodsHint": "Kami sedang menyediakan pesanan anda untuk penghantaran."
+    "paidGoodsHint": "Kami sedang menyediakan pesanan anda untuk penghantaran.",
+    "paymentSucceeded": "Pembayaran berjaya",
+    "orderAccepted": "Terima kasih! Pesanan diterima",
+    "paymentConfirmingText": "Robokassa telah menerima bayaran dan kami sedang menunggu pengesahannya. Halaman ini akan dikemas kini sendiri, tidak perlu membayar lagi."
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",

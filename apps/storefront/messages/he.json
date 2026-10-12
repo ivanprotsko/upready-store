@@ -828,7 +828,10 @@
     "goToCourse": "מעבר לקורס",
     "orderCanceled": "ההזמנה בוטלה",
     "orderCanceledHint": "אין צורך לשלם. אם זו טעות, כתבו לנו.",
-    "paidGoodsHint": "אנחנו מכינים את ההזמנה למשלוח."
+    "paidGoodsHint": "אנחנו מכינים את ההזמנה למשלוח.",
+    "paymentSucceeded": "התשלום בוצע בהצלחה",
+    "orderAccepted": "תודה! ההזמנה התקבלה",
+    "paymentConfirmingText": "Robokassa קיבלה את התשלום ואנחנו ממתינים לאישור שלה. הדף יתעדכן מעצמו, אין צורך לשלם שוב."
   },
   "OrderDetails": {
     "backToOrders": "חזרה להזמנות",

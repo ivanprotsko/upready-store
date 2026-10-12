@@ -828,7 +828,10 @@
     "goToCourse": "Go to the course",
     "orderCanceled": "Order cancelled",
     "orderCanceledHint": "No payment is needed. If this is a mistake, write to us.",
-    "paidGoodsHint": "We are preparing your order for dispatch."
+    "paidGoodsHint": "We are preparing your order for dispatch.",
+    "paymentSucceeded": "Payment successful",
+    "orderAccepted": "Thank you! Your order is in",
+    "paymentConfirmingText": "Robokassa has accepted the payment and we are waiting for its confirmation. This page updates on its own, there is no need to pay again."
   },
   "OrderDetails": {
     "backToOrders": "Back to orders",

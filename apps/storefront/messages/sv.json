@@ -828,7 +828,10 @@
     "goToCourse": "Gå till kursen",
     "orderCanceled": "Beställningen är avbruten",
     "orderCanceledHint": "Ingen betalning behövs. Skriv till oss om detta är ett misstag.",
-    "paidGoodsHint": "Vi förbereder din beställning för leverans."
+    "paidGoodsHint": "Vi förbereder din beställning för leverans.",
+    "paymentSucceeded": "Betalningen är genomförd",
+    "orderAccepted": "Tack! Beställningen är mottagen",
+    "paymentConfirmingText": "Robokassa har tagit emot betalningen och vi väntar på bekräftelsen. Sidan uppdateras av sig själv, du behöver inte betala igen."
   },
   "OrderDetails": {
     "backToOrders": "Tillbaka till beställningar",

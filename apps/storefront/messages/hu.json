@@ -828,7 +828,10 @@
     "goToCourse": "Tovább a tanfolyamhoz",
     "orderCanceled": "A rendelés törölve",
     "orderCanceledHint": "Fizetni nem kell. Ha ez tévedés, írjon nekünk.",
-    "paidGoodsHint": "Előkészítjük a rendelését feladásra."
+    "paidGoodsHint": "Előkészítjük a rendelését feladásra.",
+    "paymentSucceeded": "Sikeres fizetés",
+    "orderAccepted": "Köszönjük! A rendelés beérkezett",
+    "paymentConfirmingText": "A Robokassa elfogadta a fizetést, várjuk a megerősítését. Az oldal magától frissül, nem kell újra fizetnie."
   },
   "OrderDetails": {
     "backToOrders": "Vissza a rendelésekhez",

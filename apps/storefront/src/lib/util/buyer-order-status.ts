@@ -2,6 +2,7 @@ import type { HttpTypes } from "@medusajs/types"
 
 import { readPaymentReceipt } from "./payment-receipt"
 import type { StatusTone } from "./order-status"
+import { robokassaOrderPayment, type RobokassaPaymentOrder } from "./robokassa-order"
 
 /**
  * The ONE status a buyer reads on an order (batch 7, Ivan 03.10: «его заказ
@@ -12,10 +13,12 @@ import type { StatusTone } from "./order-status"
  * batch 6), so the buyer and the owner read one order the same way.
  *
  * - `canceled`: the shop cancelled the order; nothing to pay.
- * - `paid`: the payment was captured (a gateway did it, or the owner confirmed a transfer).
+ * - `paid`: the payment was captured (a gateway did it, or the owner confirmed a transfer),
+ *   or Robokassa's payment exists (t-2026-10-12-13, `robokassa-order.ts`).
  * - `refunded`: the money went back.
  * - `receiptRejected`: the shop did not accept the last receipt; the buyer sends another.
- * - `awaitingConfirmation`: a receipt is in, the shop has not confirmed it yet.
+ * - `awaitingConfirmation`: a receipt is in, the shop has not confirmed it yet; or a
+ *   Robokassa order waits for Robokassa's own confirmation.
  * - `awaitingPayment`: nothing paid, nothing sent — the order waits for the transfer.
  */
 export type BuyerOrderStatus =
@@ -28,7 +31,7 @@ export type BuyerOrderStatus =
 
 export type BuyerStatusOrder = Pick<HttpTypes.StoreOrder, "status" | "payment_status"> & {
   metadata?: Record<string, unknown> | null
-}
+} & RobokassaPaymentOrder
 
 export const buyerOrderStatus = (order: BuyerStatusOrder): BuyerOrderStatus => {
   if (order.status === "canceled") {
@@ -40,6 +43,16 @@ export const buyerOrderStatus = (order: BuyerStatusOrder): BuyerOrderStatus => {
   }
   if (payment === "captured" || payment === "partially_captured") {
     return "paid"
+  }
+  // t-2026-10-12-13: Robokassa took the money once its payment exists, the
+  // Result's capture follows; an order still waiting for that confirmation reads
+  // as one the shop is confirming, never as one the buyer has to pay.
+  const robokassa = robokassaOrderPayment(order)
+  if (robokassa === "paid") {
+    return "paid"
+  }
+  if (robokassa === "confirming") {
+    return "awaitingConfirmation"
   }
   const receipt = readPaymentReceipt(order.metadata)
   if (receipt.rejected) {

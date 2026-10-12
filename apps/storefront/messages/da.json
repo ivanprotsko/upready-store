@@ -828,7 +828,10 @@
     "goToCourse": "Gå til kurset",
     "orderCanceled": "Ordren er annulleret",
     "orderCanceledHint": "Du skal ikke betale. Skriv til os, hvis det er en fejl.",
-    "paidGoodsHint": "Vi gør din ordre klar til afsendelse."
+    "paidGoodsHint": "Vi gør din ordre klar til afsendelse.",
+    "paymentSucceeded": "Betalingen er gennemført",
+    "orderAccepted": "Tak! Ordren er modtaget",
+    "paymentConfirmingText": "Robokassa har modtaget betalingen, og vi venter på bekræftelsen. Siden opdaterer sig selv, du skal ikke betale igen."
   },
   "OrderDetails": {
     "backToOrders": "Tilbage til ordrer",

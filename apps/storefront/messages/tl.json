@@ -828,7 +828,10 @@
     "goToCourse": "Pumunta sa kurso",
     "orderCanceled": "Kinansela ang order",
     "orderCanceledHint": "Hindi na kailangang magbayad. Kung mali ito, sumulat sa amin.",
-    "paidGoodsHint": "Inihahanda na namin ang order mo para ipadala."
+    "paidGoodsHint": "Inihahanda na namin ang order mo para ipadala.",
+    "paymentSucceeded": "Matagumpay ang bayad",
+    "orderAccepted": "Salamat! Natanggap na ang order",
+    "paymentConfirmingText": "Tinanggap na ng Robokassa ang bayad at hinihintay namin ang kumpirmasyon nito. Kusang mag-a-update ang pahinang ito, hindi na kailangang magbayad muli."
   },
   "OrderDetails": {
     "backToOrders": "Bumalik sa mga order",

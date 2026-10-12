@@ -828,7 +828,10 @@
     "goToCourse": "Перейти к курсу",
     "orderCanceled": "Заказ отменён",
     "orderCanceledHint": "Оплачивать его не нужно. Если это ошибка, напишите нам.",
-    "paidGoodsHint": "Готовим заказ к отправке."
+    "paidGoodsHint": "Готовим заказ к отправке.",
+    "paymentSucceeded": "Оплата прошла успешно",
+    "orderAccepted": "Спасибо! Заказ принят",
+    "paymentConfirmingText": "Robokassa приняла оплату, ждём от неё подтверждения. Страница обновится сама, оплачивать заказ ещё раз не нужно."
   },
   "OrderDetails": {
     "backToOrders": "Назад к заказам",

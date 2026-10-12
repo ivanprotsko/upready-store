@@ -828,7 +828,10 @@
     "goToCourse": "Eiti į kursą",
     "orderCanceled": "Užsakymas atšauktas",
     "orderCanceledHint": "Mokėti nereikia. Jei tai klaida, parašykite mums.",
-    "paidGoodsHint": "Ruošiame jūsų užsakymą išsiuntimui."
+    "paidGoodsHint": "Ruošiame jūsų užsakymą išsiuntimui.",
+    "paymentSucceeded": "Mokėjimas sėkmingas",
+    "orderAccepted": "Ačiū! Užsakymas priimtas",
+    "paymentConfirmingText": "Robokassa priėmė mokėjimą, laukiame jos patvirtinimo. Puslapis atsinaujins pats, mokėti dar kartą nereikia."
   },
   "OrderDetails": {
     "backToOrders": "Atgal į užsakymus",

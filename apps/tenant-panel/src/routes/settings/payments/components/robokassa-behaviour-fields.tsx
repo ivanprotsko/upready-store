@@ -2,6 +2,7 @@ import { Label, Select, Switch, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { HASH_ALGORITHMS, type RobokassaForm } from "../use-robokassa-form"
+import { RobokassaMethodSwitches } from "./robokassa-method-switches"
 import {
   ROBOKASSA_SNO_VALUES,
   ROBOKASSA_TAX_VALUES,
@@ -68,6 +69,9 @@ export const RobokassaBehaviourFields = ({ form }: { form: RobokassaForm }) => {
       <Text size="small" className="text-ui-fg-subtle">
         {t("paymentSettings.testHint")}
       </Text>
+
+      {/* t-2026-10-12-13 (Ivan 12.10, 4.1: «нужно выключить оплату СБП»). */}
+      <RobokassaMethodSwitches form={form} />
 
       {/* t-cherk-30: the 54-FZ receipt (`Receipt`). Robokassa only prints one
           when the shop sends the item list, and it is mandatory in practice

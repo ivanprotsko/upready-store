@@ -828,7 +828,10 @@
     "goToCourse": "Đến khóa học",
     "orderCanceled": "Đơn hàng đã bị hủy",
     "orderCanceledHint": "Không cần thanh toán. Nếu đây là nhầm lẫn, hãy liên hệ với chúng tôi.",
-    "paidGoodsHint": "Chúng tôi đang chuẩn bị gửi đơn hàng của bạn."
+    "paidGoodsHint": "Chúng tôi đang chuẩn bị gửi đơn hàng của bạn.",
+    "paymentSucceeded": "Thanh toán thành công",
+    "orderAccepted": "Cảm ơn bạn! Đơn hàng đã được tiếp nhận",
+    "paymentConfirmingText": "Robokassa đã nhận thanh toán và chúng tôi đang chờ xác nhận. Trang sẽ tự cập nhật, bạn không cần thanh toán lại."
   },
   "OrderDetails": {
     "backToOrders": "Quay lại đơn hàng",

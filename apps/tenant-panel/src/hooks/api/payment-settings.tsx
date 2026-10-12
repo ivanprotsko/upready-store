@@ -56,6 +56,19 @@ export type PaymentSettings = {
   fiscalization_enabled: boolean
   sno: RobokassaSno
   default_tax: RobokassaTax
+  /** t-2026-10-12-13: the Robokassa methods the owner switched off. */
+  disabled_methods: string[]
+}
+
+/**
+ * One Robokassa method of the shop (t-2026-10-12-13), as the panel's switch
+ * shows it: Robokassa's `Alias`, its names, and whether the checkout offers it.
+ */
+export type RobokassaPanelMethod = {
+  alias: string
+  name_ru: string | null
+  name_en: string | null
+  enabled: boolean
 }
 
 /**
@@ -98,6 +111,8 @@ export type PaymentSettingsResponse = {
   result_url: string
   providers: Array<{ id: "robokassa"; title: string }>
   methods: TenantPaymentMethods
+  /** The shop's Robokassa methods with their switches; empty without a readable account. */
+  robokassa_methods?: RobokassaPanelMethod[]
 }
 
 export type PutPaymentSettingsBody = {
@@ -114,6 +129,8 @@ export type PutPaymentSettingsBody = {
   fiscalization_enabled?: boolean
   sno?: RobokassaSno
   default_tax?: RobokassaTax
+  /** The methods the checkout must not offer; left out, the stored list stays. */
+  disabled_methods?: string[]
 }
 
 const PAYMENT_SETTINGS_QUERY_KEY = "payment-settings" as const

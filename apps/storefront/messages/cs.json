@@ -828,7 +828,10 @@
     "goToCourse": "Přejít ke kurzu",
     "orderCanceled": "Objednávka zrušena",
     "orderCanceledHint": "Platit nemusíte. Pokud jde o omyl, napište nám.",
-    "paidGoodsHint": "Připravujeme objednávku k odeslání."
+    "paidGoodsHint": "Připravujeme objednávku k odeslání.",
+    "paymentSucceeded": "Platba proběhla úspěšně",
+    "orderAccepted": "Děkujeme! Objednávka je přijata",
+    "paymentConfirmingText": "Robokassa platbu přijala, čekáme na její potvrzení. Stránka se obnoví sama, znovu platit nemusíte."
   },
   "OrderDetails": {
     "backToOrders": "Zpět na objednávky",

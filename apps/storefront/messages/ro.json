@@ -828,7 +828,10 @@
     "goToCourse": "Mergi la curs",
     "orderCanceled": "Comandă anulată",
     "orderCanceledHint": "Nu este nevoie de plată. Dacă este o greșeală, scrie-ne.",
-    "paidGoodsHint": "Pregătim comanda pentru expediere."
+    "paidGoodsHint": "Pregătim comanda pentru expediere.",
+    "paymentSucceeded": "Plata a reușit",
+    "orderAccepted": "Mulțumim! Comanda a fost primită",
+    "paymentConfirmingText": "Robokassa a acceptat plata și așteptăm confirmarea. Pagina se actualizează singură, nu trebuie să plătiți din nou."
   },
   "OrderDetails": {
     "backToOrders": "Înapoi la comenzi",

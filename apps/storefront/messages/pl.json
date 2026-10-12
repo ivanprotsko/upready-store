@@ -828,7 +828,10 @@
     "goToCourse": "Przejdź do kursu",
     "orderCanceled": "Zamówienie anulowane",
     "orderCanceledHint": "Nie trzeba płacić. Jeśli to pomyłka, napisz do nas.",
-    "paidGoodsHint": "Przygotowujemy zamówienie do wysyłki."
+    "paidGoodsHint": "Przygotowujemy zamówienie do wysyłki.",
+    "paymentSucceeded": "Płatność zakończona sukcesem",
+    "orderAccepted": "Dziękujemy! Zamówienie przyjęte",
+    "paymentConfirmingText": "Robokassa przyjęła płatność, czekamy na jej potwierdzenie. Strona odświeży się sama, nie trzeba płacić ponownie."
   },
   "OrderDetails": {
     "backToOrders": "Powrót do zamówień",

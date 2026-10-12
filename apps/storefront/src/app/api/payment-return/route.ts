@@ -1,5 +1,6 @@
 import { sdk } from "@lib/config"
-import { placeOrder } from "@lib/data/cart"
+import { completeCartAfterReturn, placeOrder } from "@lib/data/cart"
+import { confirmRobokassaReturn } from "@lib/data/payment"
 import { getAuthHeaders, setCartId } from "@lib/data/cookies"
 import { isAppLocale, defaultLocale } from "@i18n/config"
 import type { HttpTypes } from "@medusajs/types"
@@ -9,16 +10,22 @@ import { type NextRequest, NextResponse } from "next/server"
 /**
  * Robokassa's return (t03-tenant-secrets-robokassa). Robokassa redirects the
  * browser to `SuccessUrl2`/`FailUrl2` (this route, `provider=robokassa`) and,
- * in parallel, posts the Result webhook to the backend, which is the only
- * thing that marks the payment paid and completes the cart. So this branch
- * decides nothing and answers at once (t-2026-10-04-48: it used to hold the
- * buyer on a blank tab for about nine seconds while it retried, then left
- * them on the cart). It puts the cart back into the cookie, then
+ * in parallel, posts the Result webhook to the backend. It puts the cart back
+ * into the cookie, then
  *   - a failed payment goes straight back to the checkout, every field and
  *     box as the buyer left them, with a notice (`?payment=failed`);
- *   - a success goes to the shop's waiting page (`[locale]/payment-return`),
- *     which asks the backend for the order for about half a minute and ends
- *     on the confirmation page, or on the checkout with `?payment=pending`.
+ *   - a success goes straight to the order page (t-2026-10-12-13, Ivan 12.10:
+ *     «если заказ прошел успешно, то нужно перенаправлять на страницу
+ *     успешного заказа а не корзину», and 1.3: no screen of ours in between).
+ *     The backend checks once what the return proves (its password #1
+ *     signature, or `OpStateExt` for a live invoice) and the cart is completed
+ *     here, server-side: into an order with the payment authorized when it was
+ *     proved, into an order awaiting Robokassa's confirmation when it was not.
+ *     Robokassa saying this invoice was never paid sends the buyer back to the
+ *     checkout with the failure notice.
+ * Only when the backend cannot be asked at all does the buyer reach the
+ * waiting page (`[locale]/payment-return`), which keeps asking for the order.
+ * Tribute, BTCPay and Bitcart keep that waiting page as their success return.
  * Never the cart: `/<locale>/cart?error=…` is for links already sent.
  */
 async function robokassaReturn(req: NextRequest) {
@@ -42,6 +49,33 @@ async function robokassaReturn(req: NextRequest) {
 
   if (searchParams.get("outcome") === "fail") {
     return paymentFailed()
+  }
+
+  if (searchParams.get("provider") === "robokassa") {
+    // Robokassa's own parameters on a full-page return; the modal's success
+    // brings none of them (measured on the test shop 12.10.2026).
+    const params = {
+      OutSum: searchParams.get("OutSum") ?? undefined,
+      InvId: searchParams.get("InvId") ?? undefined,
+      SignatureValue: searchParams.get("SignatureValue") ?? undefined,
+      Shp_SessionID: searchParams.get("Shp_SessionID") ?? undefined,
+    }
+    const check = await confirmRobokassaReturn(cartId, params).catch((error) => {
+      console.error(`[payment-return] robokassa return of cart ${cartId} was not checked:`, error)
+      return null
+    })
+    if (check?.status === "not_paid") {
+      return paymentFailed()
+    }
+    if (check && check.status !== "no_session") {
+      const confirmedPath = await completeCartAfterReturn(cartId)
+      if (confirmedPath) {
+        // The path carries the locale `getLocale` found; the buyer's is the one they paid in.
+        return NextResponse.redirect(
+          `${origin}${confirmedPath.replace(/^\/[^/]+\//, `/${locale}/`)}`
+        )
+      }
+    }
   }
 
   return NextResponse.redirect(`${origin}/${locale}/payment-return`)

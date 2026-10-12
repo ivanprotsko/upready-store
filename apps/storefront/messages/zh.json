@@ -828,7 +828,10 @@
     "goToCourse": "前往课程",
     "orderCanceled": "订单已取消",
     "orderCanceledHint": "无需付款。如有误，请联系我们。",
-    "paidGoodsHint": "我们正在为您的订单准备发货。"
+    "paidGoodsHint": "我们正在为您的订单准备发货。",
+    "paymentSucceeded": "支付成功",
+    "orderAccepted": "谢谢！订单已收到",
+    "paymentConfirmingText": "Robokassa 已接受付款，我们正在等待其确认。页面会自动更新，无需再次付款。"
   },
   "OrderDetails": {
     "backToOrders": "返回订单",

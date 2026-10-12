@@ -828,7 +828,10 @@
     "goToCourse": "Naar de cursus",
     "orderCanceled": "Bestelling geannuleerd",
     "orderCanceledHint": "Betalen is niet nodig. Is dit een vergissing, schrijf ons dan.",
-    "paidGoodsHint": "We maken je bestelling klaar voor verzending."
+    "paidGoodsHint": "We maken je bestelling klaar voor verzending.",
+    "paymentSucceeded": "Betaling geslaagd",
+    "orderAccepted": "Bedankt! Je bestelling is ontvangen",
+    "paymentConfirmingText": "Robokassa heeft de betaling ontvangen en we wachten op de bevestiging. Deze pagina werkt zichzelf bij, je hoeft niet opnieuw te betalen."
   },
   "OrderDetails": {
     "backToOrders": "Terug naar bestellingen",

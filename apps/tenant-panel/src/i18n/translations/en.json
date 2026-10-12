@@ -4366,6 +4366,18 @@
       "listSeparator": ", ",
       "buyerSees": "The buyer can pay with: {{methods}}",
       "buyerSeesDemoOnly": "The buyer only sees a test payment — no money is charged"
+    },
+    "robokassaMethods": {
+      "title": "Robokassa payment methods",
+      "hint": "A method you switch off is hidden from buyers both at checkout and in the Robokassa window. Changes apply after «Save».",
+      "lastOne": "At least one method has to stay on.",
+      "none": "The methods appear once Robokassa is connected.",
+      "labels": {
+        "BankCard": "Bank card",
+        "SBP": "Faster Payments (SBP)",
+        "BankCardHalva": "Halva card",
+        "Card120Days": "120 Days Interest-Free card"
+      }
     }
   },
   "manualPayment": {

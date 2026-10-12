@@ -828,7 +828,10 @@
     "goToCourse": "강의로 이동",
     "orderCanceled": "주문이 취소되었습니다",
     "orderCanceledHint": "결제가 필요하지 않습니다. 착오라면 문의해 주세요.",
-    "paidGoodsHint": "주문을 발송 준비 중입니다."
+    "paidGoodsHint": "주문을 발송 준비 중입니다.",
+    "paymentSucceeded": "결제가 완료되었습니다",
+    "orderAccepted": "감사합니다! 주문이 접수되었습니다",
+    "paymentConfirmingText": "Robokassa가 결제를 접수했으며 확인을 기다리고 있습니다. 페이지가 자동으로 새로 고쳐지니 다시 결제하지 않으셔도 됩니다."
   },
   "OrderDetails": {
     "backToOrders": "주문 목록으로",

@@ -828,7 +828,10 @@
     "goToCourse": "الانتقال إلى الدورة",
     "orderCanceled": "تم إلغاء الطلب",
     "orderCanceledHint": "لا حاجة للدفع. إذا كان هذا خطأ، فراسلنا.",
-    "paidGoodsHint": "نجهّز طلبك للشحن."
+    "paidGoodsHint": "نجهّز طلبك للشحن.",
+    "paymentSucceeded": "تم الدفع بنجاح",
+    "orderAccepted": "شكرًا لك! تم استلام الطلب",
+    "paymentConfirmingText": "قبلت Robokassa الدفع، وننتظر تأكيدها. ستتحدّث الصفحة تلقائيًا، ولا داعي للدفع مرة أخرى."
   },
   "OrderDetails": {
     "backToOrders": "العودة إلى الطلبات",

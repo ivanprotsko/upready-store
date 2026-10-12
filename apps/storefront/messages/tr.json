@@ -828,7 +828,10 @@
     "goToCourse": "Kursa git",
     "orderCanceled": "Sipariş iptal edildi",
     "orderCanceledHint": "Ödeme gerekmiyor. Bu bir hataysa bize yazın.",
-    "paidGoodsHint": "Siparişinizi gönderime hazırlıyoruz."
+    "paidGoodsHint": "Siparişinizi gönderime hazırlıyoruz.",
+    "paymentSucceeded": "Ödeme başarılı",
+    "orderAccepted": "Teşekkürler! Siparişiniz alındı",
+    "paymentConfirmingText": "Robokassa ödemeyi kabul etti, onayını bekliyoruz. Sayfa kendiliğinden güncellenecek, yeniden ödeme yapmanıza gerek yok."
   },
   "OrderDetails": {
     "backToOrders": "Siparişlere dön",
