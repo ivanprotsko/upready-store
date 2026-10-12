@@ -24,14 +24,20 @@ type ProductDetailsDrawerProps = {
 /**
  * «Характеристики и описание»: the шторка Ivan asked for after the Wildberries one. It
  * slides in from the right over a dimmed page (full width on a phone); the header with
- * the title and the X and the footer with the price and the two buy buttons stay in
- * place, only the body between them scrolls — all the characteristics as «name ···· value»
- * rows, then the whole description.
+ * the title and the X and the footer with the price and «В корзину» stay in place, only
+ * the body between them scrolls — all the characteristics as «name ···· value» rows,
+ * then the whole description.
  *
  * It opens from the one button at the bottom of the product card
  * (`./opener`); Esc, the X and a click on the dimmed page close it, and focus goes back
  * to that button. The footer buys through `useProductPurchase`, the same code as the buy
  * box, from the priced product the buy box publishes into the selection context.
+ *
+ * «В корзину» closes the drawer once the line is in the cart (t-2026-10-12-06, Ivan:
+ * «похоже в этой панели не работает кнопка "в корзину"»). The line did reach the cart
+ * before, but the drawer covered whatever said so: the whole page on a phone, the header's
+ * count and «В корзине − N +» below 1024 px, and from 1024 px the cart sidebar opened on
+ * the same layer. Now the buyer sees what the buy box's own button shows.
  */
 export default function ProductDetailsDrawer({
   rows,
@@ -44,8 +50,10 @@ export default function ProductDetailsDrawer({
   const tCommon = useTranslations("Common")
   const { detailsOpen, setDetailsOpen, detailsOpenerRef, pricedProduct } =
     useProductSelection()
-  const { selectedVariant, isAdding, canBuy, handleAddToCart, handleBuyNow } =
-    useProductPurchase(pricedProduct, !pricedProduct)
+  const { selectedVariant, canBuy, addLabel, handleAddToCart } =
+    useProductPurchase(pricedProduct, !pricedProduct, {
+      onAdded: () => setDetailsOpen(false),
+    })
 
   const words = { yes: tAttributes("yes"), no: tAttributes("no") }
   const paragraphs = description ? descriptionParagraphs(description) : []
@@ -54,15 +62,23 @@ export default function ProductDetailsDrawer({
     <Drawer open={detailsOpen} onOpenChange={setDetailsOpen}>
       <Drawer.Content
         // Placed with the storefront's own screens: a phone gets the whole screen, from
-        // 512 px it is a card on the LEFT, 640 px wide like the Wildberries one (Ivan,
-        // 2026-09-24: «1.2 сайдбар должен выезжать слева»). `!` forces the left position
-        // and slide-in direction over @medusajs/ui's own right-side defaults regardless
-        // of Tailwind's generated rule order across the xsmall/sm breakpoints.
-        className="inset-0 z-[80] w-full max-w-none rounded-none border-0 max-sm:inset-x-0 max-sm:w-full xsmall:inset-y-2 xsmall:!right-auto xsmall:!left-2 xsmall:max-w-[640px] sm:!right-auto sm:!left-2 sm:max-w-[640px] xsmall:rounded-lg xsmall:border data-[state=open]:!slide-in-from-left-1/2 data-[state=closed]:!slide-out-to-left-1/2"
+        // 512 px it is a card on the RIGHT edge, 640 px wide like the Wildberries one,
+        // with the same 8 px margin on every side, sliding in from the right as
+        // @medusajs/ui's Drawer does by default. Ivan's 12.10.2026 order rules here
+        // («панель с харектеристиками и описанием продукта нужно показывать справа»,
+        // t-2026-10-12-06); it replaced his 24.09 «1.2 сайдбар должен выезжать слева».
+        // `!` keeps the right edge and the width over the component's `max-sm:` defaults
+        // regardless of Tailwind's generated rule order across the xsmall/sm breakpoints.
+        className="inset-0 z-[80] w-full max-w-none rounded-none border-0 max-sm:inset-x-0 max-sm:w-full xsmall:inset-y-2 xsmall:!right-2 xsmall:!left-auto xsmall:!w-[calc(100%-16px)] xsmall:max-w-[640px] sm:max-w-[640px] xsmall:rounded-lg xsmall:border"
         overlayProps={{ className: "z-[80]" }}
         aria-describedby={undefined}
         onCloseAutoFocus={(event) => {
           event.preventDefault()
+          // After «В корзину» the cart sidebar is open and holds focus: leave it there.
+          const active = document.activeElement
+          if (active instanceof HTMLElement && active.closest("[role=dialog]")) {
+            return
+          }
           detailsOpenerRef.current?.focus()
         }}
         data-testid="product-details-drawer"
@@ -139,38 +155,27 @@ export default function ProductDetailsDrawer({
           {supplementNotice && <SupplementNotice text={supplementNotice} />}
         </div>
 
+        {/* The price, then the one primary button on the rest of the row, as in the
+            phone's sticky buy bar. */}
         <div
-          className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-ui-border-base px-4 py-4 small:px-6"
+          className="flex shrink-0 items-center gap-x-3 border-t border-ui-border-base px-4 py-4 small:px-6"
           data-testid="product-details-drawer-footer"
         >
-          <div className="min-w-0 flex-1">
+          <div className="shrink-0">
             {pricedProduct && (
               <ProductPrice product={pricedProduct} variant={selectedVariant} />
             )}
           </div>
-          <div className="flex gap-x-2">
-            <Button
-              onClick={handleBuyNow}
-              disabled={!canBuy}
-              size="large"
-              variant="secondary"
-              className="rounded-full"
-              data-testid="product-details-buy-now"
-            >
-              {tActions("buy")}
-            </Button>
-            <Button
-              onClick={handleAddToCart}
-              disabled={!canBuy}
-              isLoading={isAdding}
-              size="large"
-              variant="primary"
-              className="rounded-full"
-              data-testid="product-details-add"
-            >
-              {tActions("addToCart")}
-            </Button>
-          </div>
+          <Button
+            onClick={handleAddToCart}
+            disabled={!canBuy}
+            size="large"
+            variant="primary"
+            className="min-w-0 flex-1 rounded-full"
+            data-testid="product-details-add"
+          >
+            {tActions(addLabel)}
+          </Button>
         </div>
       </Drawer.Content>
     </Drawer>

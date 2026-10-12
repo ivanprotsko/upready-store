@@ -8,7 +8,7 @@ type OptionSelectProps = {
   current: string | undefined
   updateOption: (title: string, value: string) => void
   title: string
-  disabled: boolean
+  disabled?: boolean
   "data-testid"?: string
 }
 
