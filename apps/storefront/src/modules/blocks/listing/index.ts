@@ -6,4 +6,4 @@
  * The composition's own `listing` variants stay in `../existing.ts`, registered by reference;
  * this file holds the `listing/*` variants written for templates.
  */
-export {}
+export { priceTable } from "./price-table/block"
