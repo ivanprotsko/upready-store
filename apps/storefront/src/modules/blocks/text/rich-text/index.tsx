@@ -17,7 +17,7 @@ const BUTTON_CLASS = {
     focusRing
   ),
   "cta-secondary": clx(
-    "inline-flex min-h-11 items-center rounded-[var(--radius)] px-1 text-sm font-medium text-ui-fg-base underline decoration-[var(--border)] decoration-1 underline-offset-4 transition-colors hover:decoration-[var(--foreground)]",
+    "inline-flex min-h-11 items-center rounded-[var(--radius)] px-1 text-sm font-medium text-ui-fg-base underline decoration-[var(--muted-foreground)] decoration-1 underline-offset-4 transition-colors hover:decoration-[var(--foreground)]",
     focusRing
   ),
 } as const
