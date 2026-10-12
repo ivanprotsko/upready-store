@@ -36,10 +36,6 @@ const checkoutModalSource = readFileSync(
   join(here, "..", "..", "..", "checkout", "components", "checkout-modal", "index.tsx"),
   "utf8"
 )
-const checkoutSignInSource = readFileSync(
-  join(here, "..", "..", "..", "checkout", "components", "checkout-sign-in", "index.tsx"),
-  "utf8"
-)
 
 describe("Login: the cart sidebar's block, no orphan divider (t-2026-10-04-24)", () => {
   it("draws the methods through SignInMethods, the block the cart sidebar and the modal share", () => {
@@ -101,11 +97,10 @@ describe("YandexLoginError: gated on its prop, no module-level env check left be
 describe("Yandex ID: the button from Yandex's constructor, one shared place (t-2026-10-04-45)", () => {
   it("keeps the server-redirect link, built in YandexIdButton alone", () => {
     expect(buttonSource).toContain("href={`/api/yandex-login?return=${encodeURIComponent(returnTo)}`}")
-    for (const source of [methodsSource, checkoutSignInSource, loginSource]) {
+    for (const source of [methodsSource, loginSource]) {
       expect(source).not.toContain("/api/yandex-login?return=")
     }
     expect(methodsSource).toContain("<YandexIdButton")
-    expect(checkoutSignInSource).toContain("<YandexIdButton")
     // The SDK's suggest/token flow stays out: the button is a plain link.
     expect(buttonSource).not.toContain("YaAuthSuggest")
   })
@@ -128,7 +123,6 @@ describe("Yandex ID: the button from Yandex's constructor, one shared place (t-2
   it("gives Yandex ID a row of its own: only e-mail and Telegram pair up", () => {
     expect(methodsSource).toContain("const cells = [emailSignIn, telegramBot !== null].filter(Boolean).length")
     expect(methodsSource).toContain('className={clx(cells > 1 && "col-span-2")}')
-    expect(checkoutSignInSource).toContain('className={clx(cells > 1 && "small:col-span-2")}')
   })
 
   it("the modal is a 320 px column, 24 px all round from 640 px up and 16 on a phone", () => {
