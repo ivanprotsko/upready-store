@@ -1,0 +1,74 @@
+import type { PropsResult } from "../../types"
+import { parseImageRef, type ImageRef } from "../../shared/image-ref"
+import type { LocalizedText } from "../../shared/localized-text"
+import { parseEnum, parseHref, parseList, parseLocalizedText, parseObject, parseProps } from "../../shared/parse"
+import { parseSectionHeader, type SectionHeader } from "../../shared/section-header"
+
+/** A picture of the template's choosing, with its own caption and link. */
+export type MosaicImageTile = { image: ImageRef; title: LocalizedText; href: string | null }
+/** One of the shop's products, drawn with the storefront's own card. */
+export type MosaicProductTile = { product: string }
+/** One of the shop's categories: the picture its owner gave it, and its name. */
+export type MosaicCategoryTile = { category: string }
+
+export type MosaicTile = MosaicImageTile | MosaicProductTile | MosaicCategoryTile
+
+export type MosaicProps = {
+  header: SectionHeader | null
+  /** Exactly three when given, the first one large. Absent or empty: none, and the block draws nothing. */
+  tiles: MosaicTile[]
+  /** Which side the large tile stands on from 720 px. */
+  largeSide: "left" | "right"
+  /** Below 720 px: `stack` puts the large tile across and the two small ones side by side under it, `swipe` lines them up in a row that scrolls. */
+  mobile: "stack" | "swipe"
+}
+
+const KINDS = ["image", "product", "category"] as const
+
+/**
+ * A product's or a category's handle, checked by the shared `ImageRef` parser, so a tile and a
+ * picture take the same handles with the same message (`tiles[0].product must be a handle…`).
+ */
+const shopHandle =
+  (source: "product" | "category", tilePath: string) =>
+  (value: unknown): PropsResult<string> => {
+    const result = parseImageRef({ [source]: value }, tilePath)
+    if (!result.ok) return result
+    const ref = result.value
+    return { ok: true, value: "product" in ref ? ref.product : "category" in ref ? ref.category : "" }
+  }
+
+/** One tile: exactly one of `image`, `product` or `category`. */
+export function parseMosaicTile(value: unknown, path: string): PropsResult<MosaicTile> {
+  const given =
+    typeof value === "object" && value !== null && !Array.isArray(value) ? KINDS.filter((key) => key in value) : []
+  if (given.length !== 1) {
+    return { ok: false, errors: [`${path} must name exactly one of: ${KINDS.join(", ")}`] }
+  }
+  if (given[0] === "product") {
+    return parseObject<MosaicProductTile>(value, path, { product: shopHandle("product", path) })
+  }
+  if (given[0] === "category") {
+    return parseObject<MosaicCategoryTile>(value, path, { category: shopHandle("category", path) })
+  }
+  return parseObject<MosaicImageTile>(value, path, {
+    image: (image, imagePath) => parseImageRef(image, imagePath),
+    title: (title, titlePath) => parseLocalizedText(title, titlePath, { max: 60, fallback: {} }),
+    href: (href, hrefPath) => parseHref(href, hrefPath),
+  })
+}
+
+export function parseMosaicProps(input: unknown): PropsResult<MosaicProps> {
+  return parseProps<MosaicProps>(input, "collage/mosaic", {
+    header: (value, path) => parseSectionHeader(value, path),
+    // An empty list is no tiles, as an absent one is (the empty fixture); any tile at all asks for all three.
+    tiles: (value, path) =>
+      parseList(value, path, parseMosaicTile, {
+        min: Array.isArray(value) && value.length === 0 ? 0 : 3,
+        max: 3,
+        fallback: [],
+      }),
+    largeSide: (value, path) => parseEnum(value, path, ["left", "right"] as const, { fallback: "left" }),
+    mobile: (value, path) => parseEnum(value, path, ["stack", "swipe"] as const, { fallback: "stack" }),
+  })
+}
