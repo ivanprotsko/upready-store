@@ -631,3 +631,62 @@ been seeded before that package existed. Before `down -v` the script wrote
 `/opt/upready-store/backups/kerbstone-20260910-013029.sql.gz` (3.4 MB, `pg_dump`); the volume had
 held only seed data and the two demo accounts, both recreated on boot. Re-seeding minted a new
 publishable key, which the script wrote into both env copies and baked into the rebuilt storefront.
+
+## The templates stand — templates.store.upready.dev (t-2026-10-12-33)
+
+A sixth stand, not a shop: one storefront built from `templates/main` with
+`STOREFRONT_TEMPLATE_PREVIEW=1`, so `?template=<id>` re-skins any page and `/<locale>/template-lab`
+answers. It reads kerbstone's catalogue through kerbstone's backend and publishable key. It has no
+postgres, no backend and no database of its own (`deploy/compose.templates.yml` over
+`deploy/compose.stand.yml`, `up --no-deps`). Its panel is off because the studio password and the
+settings secret are empty, so it cannot write kerbstone's composition. Traefik adds
+`X-Robots-Tag: noindex, nofollow` to every response it serves.
+
+### Journal
+
+- **2026-10-13 00:29 WITA** — DNS `A templates.store.upready.dev → 84.46.251.149` (contabo INTL),
+  `proxied=false`, created by `DNS_APPLY_OK=1 node deploy/scripts/dns-records.mjs --apply --only
+  templates` on COO decision 22k. `--check` before: the name MISSING, the ten stand records matching.
+  After: `exists, content=84.46.251.149 proxied=false (matches)`.
+- **2026-10-13 01:08 WITA** — code (a8ce4879) and the env file on the host
+  (`/opt/upready-store/templates`, env written from kerbstone's on the host). Build not run: the
+  CI runner was running jobs back to back (2–3 s gaps, Backend ≈ 20 min). The lead runs the build
+  when the queue is empty.
+
+### Build, start and check — one command
+
+```bash
+# before this PR is merged into templates/main (compose.templates.yml is only on templates/stand):
+bash /Users/ivanprotsko/upready/worktrees/upready-store/templates/stand/deploy/scripts/templates-stand.sh --ref origin/templates/stand
+# after the merge, from any checkout of the repo: the current templates/main
+deploy/scripts/templates-stand.sh
+```
+
+It exports the ref (without `handoff/`, `artifacts/` and `docs/`), rsyncs it to
+`/opt/upready-store/templates`, rewrites `deploy/stands/templates.env` on the host from
+kerbstone's, waits until the runner has no job on two looks 30 s apart (`--runner-wait`, default
+30 min), builds the storefront image detached and stops it if the host's available memory drops
+under 1.5 GB, starts `templates-storefront` with `--no-deps`, then runs the public checks from
+this machine. Flags: `--skip-build` (reuse the image tagged with the ref's sha), `--verify-only`,
+`--runner-wait <min>`. Log: `.ai/deploy-logs/templates-<ts>.log`. Exit 0 all checks green, 1 a step
+or a check failed, 3 blocked (memory floor or runner still busy).
+
+Success ends with seven `ok` lines, `VERIFY OK — every check passed` and
+`DONE · https://templates.store.upready.dev serves templates/main <sha>`: `/` 200 with a valid
+certificate, `http://` redirects to `https://`, `X-Robots-Tag: noindex, nofollow` on `/en`,
+`data-theme` `home-goods` for `/en?template=long-morning` and `electronics` for
+`/en?template=ferrite`, `/ru/template-lab` 200, `POST /api/studio/unlock` 404.
+
+CORS: the browser does not call the Store API (catalogue, cart and checkout go through Next
+server actions; product images are `<img>` and `/_next/image`), so kerbstone's `STORE_CORS` keeps
+its one origin and kerbstone's backend is not restarted.
+
+### Take it down
+
+```bash
+ssh root@84.46.251.149 'cd /opt/upready-store/templates && docker compose -p templates \
+  -f deploy/compose.stand.yml -f deploy/compose.templates.yml --env-file deploy/stands/templates.env down'
+```
+
+This stops and removes `templates-storefront` and keeps its image and `/opt/upready-store/templates`.
+The DNS record stays until it is removed in Cloudflare (`dns-records.mjs` only creates records).

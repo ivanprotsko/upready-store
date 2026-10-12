@@ -1,0 +1,22 @@
+# The templates stand, templates.store.upready.dev (t-2026-10-12-33): the storefront
+# service of compose.stand.yml, built from `templates/main` with the template preview on,
+# over kerbstone's backend. No postgres and no backend of its own. Merged on top of
+# compose.stand.yml, run by deploy/scripts/templates-stand.sh:
+#   docker compose -p templates -f deploy/compose.stand.yml -f deploy/compose.templates.yml \
+#     --env-file deploy/stands/templates.env up -d --no-deps --no-build storefront
+services:
+  storefront:
+    # compose.stand.yml waits for the stand's own backend; this stand has none, and a
+    # bare `up` would otherwise start a second postgres and backend under -p templates.
+    depends_on: !reset {}
+    environment:
+      # ?template=<id> on any page, and /<locale>/template-lab (lib/templates/preview-header.ts).
+      STOREFRONT_TEMPLATE_PREVIEW: "1"
+    labels:
+      # compose.stand.yml defines the http→https redirect on the backend service, which
+      # this stand does not run.
+      - traefik.http.middlewares.${STAND}-https.redirectscheme.scheme=https
+      # A preview, not a shop: no page of it belongs in a search index, whatever its
+      # own metadata says.
+      - traefik.http.middlewares.${STAND}-noindex.headers.customresponseheaders.X-Robots-Tag=noindex, nofollow
+      - traefik.http.routers.${STAND}-storefront.middlewares=${STAND}-noindex

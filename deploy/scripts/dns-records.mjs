@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Lists the ten A records the five stands need (storefront + api subdomain
- * each), and can create them through the Cloudflare API. Dry-run by
+ * each), plus templates.store.upready.dev for the templates stand, and can
+ * create them through the Cloudflare API. Dry-run by
  * default; this package prepares the deploy, it does not perform it (order
  * t-2026-09-09-02, point 2 — DNS writes happen in wave 3 on Ivan's order).
  *
@@ -15,7 +16,9 @@
  *                                                          # records
  *   --only kerbstone[,ferrite]                             # narrow every mode
  *                                                          # to those stands'
- *                                                          # two records each
+ *                                                          # own records
+ *                                                          # (`--only templates`
+ *                                                          # is the one record)
  *
  * --only exists because stands go live one at a time: Ivan's 2026-09-09 order
  * put stand one on the host alone and said in the same sentence "never create
@@ -62,7 +65,15 @@ const STANDS = [
   { stand: "scruple", profile: "supplements" },
   { stand: "larchant", profile: "womens-fashion" },
   { stand: "long-morning", profile: "home-goods" },
+  // The templates stand (t-2026-10-12-33): one storefront built from `templates/main`
+  // over kerbstone's backend, so it has no api- record of its own.
+  { stand: "templates", profile: "sneakers", hosts: ["templates.store.upready.dev"] },
 ]
+
+/** A stand's own records: `<stand>` and `api-<stand>` under upready.dev, unless it names its hosts. */
+function hostsOf({ stand, hosts }) {
+  return hosts ?? [`${stand}.upready.dev`, `api-${stand}.upready.dev`]
+}
 
 /** Reads one KEY=value pair by name, without ever holding or printing the
  *  rest of the file's contents. */
@@ -75,11 +86,13 @@ function readEnvKey(name) {
   return undefined
 }
 
-function buildRecords(ip) {
+function buildRecords(ip, only) {
   const records = []
-  for (const { stand } of STANDS) {
-    records.push({ name: `${stand}.upready.dev`, type: "A", content: ip, proxied: false })
-    records.push({ name: `api-${stand}.upready.dev`, type: "A", content: ip, proxied: false })
+  for (const stand of STANDS) {
+    if (only && !only.includes(stand.stand)) continue
+    for (const name of hostsOf(stand)) {
+      records.push({ name, type: "A", content: ip, proxied: false })
+    }
   }
   return records
 }
@@ -132,16 +145,14 @@ async function main() {
     console.error(`CONTABO_SERVER_IP not found in ${ENV_KEYS_PATH}`)
     process.exit(1)
   }
-  const records = buildRecords(ip).filter(
-    (record) => !only || only.some((name) => record.name === `${name}.upready.dev` || record.name === `api-${name}.upready.dev`),
-  )
+  const records = buildRecords(ip, only)
 
   console.log(`Zone: upready.dev (${ZONE_ID})`)
   if (only) console.log(`Limited by --only to: ${only.join(", ")} (${records.length} records)`)
   console.log(`Target IP: ${ip}`)
   console.log("")
   for (const record of records) {
-    console.log(`  A  ${record.name.padEnd(28)} -> ${record.content}  proxied=${record.proxied}`)
+    console.log(`  A  ${record.name.padEnd(30)} -> ${record.content}  proxied=${record.proxied}`)
   }
 
   if (!check && !apply) {
