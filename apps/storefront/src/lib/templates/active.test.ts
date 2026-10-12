@@ -1,9 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
 import type { TenantHome } from "@lib/data/tenant-home"
+import { LIGHT_ONLY_THEME_IDS } from "@lib/theme/presets.generated"
+import { blockById } from "@modules/blocks/registry"
 
 import { TEMPLATE_SOURCES, getTemplate } from "./catalog"
-import type { TemplateManifest } from "./manifest"
+import { resolveTemplate, validateTemplate, type TemplateManifest } from "./manifest"
 import { resolveSavedTemplate } from "./saved"
 
 // The registry reaches `server-only` loaders through the header and footer variants. Hoisted by vitest.
@@ -58,6 +60,25 @@ describe("a template the shop saved", () => {
     expect(saved!.fonts).toEqual(preview!.fonts)
   })
 
+  // P1b: the backend stores a light-only palette as `theme.preset`, and the root layout takes the
+  // template's preset for `data-theme` as it is, so the page paints with it.
+  it.each([...LIGHT_ONLY_THEME_IDS])("on the light-only palette %s resolves to its preview on that palette", (palette) => {
+    const manifest = TEMPLATE_SOURCES["long-morning"] as TemplateManifest
+    const preview = validateTemplate({ ...manifest, theme: { ...manifest.theme, palette } }, blockById)
+    if (!preview.ok) throw new Error(`long-morning on ${palette}: ${JSON.stringify(preview.errors)}`)
+    const document = savedDocument("long-morning")
+    document.theme = { ...document.theme, preset: palette }
+    const saved = resolveSavedTemplate(document)
+    const expected = resolveTemplate(preview.value)
+    expect(saved).not.toBeNull()
+    expect(saved!.preset).toBe(palette)
+    expect(saved!.mode).toBe("light")
+    expect(saved!.style).toEqual(expected.style)
+    expect(saved!.settings).toEqual(expected.settings)
+    expect(saved!.manifest.sections).toEqual(expected.manifest.sections)
+    expect(saved!.fonts).toEqual(expected.fonts)
+  })
+
   it("is nothing on a document with no template", () => {
     const { template: _t, ...plain } = savedDocument("long-morning")
     expect(resolveSavedTemplate(plain)).toBeNull()
@@ -96,6 +117,13 @@ describe("getActiveTemplate", () => {
   it("is the saved template when there is no preview", async () => {
     state.home = savedDocument("long-morning")
     expect((await active())?.manifest.id).toBe("long-morning")
+  })
+
+  it("is the saved template on a light-only palette, with that preset", async () => {
+    const document = savedDocument("long-morning")
+    document.theme = { ...document.theme, preset: "ferma" }
+    state.home = document
+    expect(await active()).toMatchObject({ preset: "ferma", mode: "light", manifest: { id: "long-morning" } })
   })
 
   it("puts the stand's preview ahead of the saved one", async () => {

@@ -91,8 +91,9 @@ describe("the template validator's backend copy", () => {
   });
 
   it("reads the vocabularies the document already holds by hand", () => {
-    // Every preset the document stores is a palette of the catalogue; the catalogue may hold more.
-    expect(THEME_PRESETS.filter((id) => !CATALOG.palettes.includes(id))).toEqual([]);
+    // The document stores every palette of the catalogue, light-only ones too, `default` as `medusa`.
+    expect([...THEME_PRESETS].sort()).toEqual(CATALOG.palettes.filter((id) => id !== "default").sort());
+    expect(THEME_PRESETS).toEqual(expect.arrayContaining(CATALOG.lightOnlyPalettes));
     expect(CATALOG.locales).toEqual([...LOCALE_CODES]);
   });
 });

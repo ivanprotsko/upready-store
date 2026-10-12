@@ -6,6 +6,7 @@ import type {
 import {
   THEME_PRESETS,
   TENANT_HOME_SCHEMA_ID,
+  storedPreset,
   type TenantHomeDocument,
   type ThemePreset,
 } from "../validators";
@@ -104,13 +105,13 @@ export function applyTemplate(source: unknown, overrides: TemplateOverrides = {}
 }
 
 /**
- * `data-theme` of the stored document. `default` is not a preset id of the document's own
- * enum (`THEME_PRESETS`); `styles/themes.css` paints it from the very rule blocks of
- * `medusa`, so it is stored as that.
+ * `theme.preset` of the stored document, from the same list `PUT /tenants/home` accepts
+ * (`THEME_PRESETS`, the catalogue's palettes with `default` stored as `medusa`); null for
+ * a palette that list does not hold.
  */
 export function presetOf(palette: string): ThemePreset | null {
-  const preset = palette === "default" ? "medusa" : palette;
-  return (THEME_PRESETS as readonly string[]).includes(preset) ? (preset as ThemePreset) : null;
+  const preset = storedPreset(palette);
+  return THEME_PRESETS.includes(preset) ? preset : null;
 }
 
 const layersOf = (theme: TemplateManifest["theme"]): TemplateLayers => ({

@@ -5,11 +5,12 @@ import {
   type ForbiddenRule,
   type StorefrontSettingsInput,
 } from "../../store/storefront-settings/validation";
-import type {
-  FontPair,
-  TemplateLayers,
-  TemplateSection,
-  TEMPLATE_SCHEMA,
+import {
+  CATALOG,
+  type FontPair,
+  type TemplateLayers,
+  type TemplateSection,
+  type TEMPLATE_SCHEMA,
 } from "./template/validation";
 
 /**
@@ -30,25 +31,24 @@ import type {
  */
 
 /**
- * `apps/storefront/src/lib/theme/presets.generated.ts` `THEME_IDS`,
- * hand-transcribed. Same reason the composition enums are transcribed in
- * `store/storefront-settings/validation.ts`: `pnpm-workspace.yaml` lists only
- * `apps/**`, so there is no shared package the two apps could import one copy
- * from, and the storefront file itself is generated from
- * `specs/design-system/themes/*.theme.json` by `scripts/build-themes.mjs`.
- * Keep in step with that generator's output by hand.
+ * The preset a document stores for a template palette. `default` is not a preset id of
+ * its own: `styles/themes.css` paints it from the very rule blocks of `medusa`, so it is
+ * stored as that.
  */
-export const THEME_PRESETS = [
-  "electronics",
-  "geist",
-  "home-goods",
-  "medusa",
-  "sneakers",
-  "supplements",
-  "womens-fashion",
-] as const;
+export const storedPreset = (palette: string): string => (palette === "default" ? "medusa" : palette);
 
-export type ThemePreset = (typeof THEME_PRESETS)[number];
+/**
+ * The presets a document may name: every palette of the store template catalogue
+ * (`template/catalog.generated.json`, which `pnpm templates:export` in `apps/storefront`
+ * writes from `THEME_IDS` and `LIGHT_ONLY_THEME_IDS` of `lib/theme/presets.generated.ts`),
+ * `default` stored as `medusa`. There is no shared package between the two apps
+ * (`pnpm-workspace.yaml` lists only `apps/**`), and this is the one copy the backend keeps:
+ * a palette added on the storefront and exported needs no edit here. `PUT /tenants/home`,
+ * `POST /tenants/home/template` and `POST /tenants/seed` read it (t-2026-10-12-33).
+ */
+export const THEME_PRESETS = [...new Set(CATALOG.palettes.map(storedPreset))] as [string, ...string[]];
+
+export type ThemePreset = string;
 
 /** The three home blocks `content.order` may name, each at most once. */
 export const HOME_BLOCKS = ["hero", "categories", "products"] as const;
@@ -230,9 +230,9 @@ export type PutTenantHomeBodyType = z.infer<typeof PutTenantHomeBody>;
 
 /**
  * The template a shop applied (t-2026-10-12-33, `POST /tenants/home/template`): which one,
- * under which manifest schema, and the font pair it asks for. The pair is recorded, not
- * applied: fonts are built per image (`apps/storefront/src/lib/theme/fonts.ts`), and the
- * storefront reports whether the build carries this one (`ResolvedTemplate.fonts.loaded`).
+ * under which manifest schema, and the font pair it asks for. The storefront loads the pair
+ * when both families have files (`apps/storefront/src/lib/templates/fonts.ts`) and reports
+ * whether it did (`ResolvedTemplate.fonts.loaded`).
  */
 export type TenantHomeTemplate = {
   id: string;

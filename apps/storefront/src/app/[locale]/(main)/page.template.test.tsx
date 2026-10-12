@@ -40,7 +40,9 @@ vi.mock("@lib/data/categories", () => ({
   listCategories: async () => [{ handle: "chairs", name: "Chairs" }],
 }))
 vi.mock("@lib/util/alternates", () => ({ buildAlternates: async () => ({}) }))
-vi.mock("@lib/profile", () => ({
+// Partial: blocks of the registry reach `@lib/util/env` through their loaders, which reads `profile`.
+vi.mock("@lib/profile", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@lib/profile")>()),
   categoryTiles: [{ categoryHandle: "chairs", label: "Chairs", image: "/chairs.jpg" }],
 }))
 vi.mock("@modules/home/components/category-tiles", () => ({

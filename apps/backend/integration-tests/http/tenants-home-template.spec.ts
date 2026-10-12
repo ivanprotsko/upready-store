@@ -179,6 +179,30 @@ medusaIntegrationTestRunner({
         });
       });
 
+      it("stores a light-only palette of the catalogue, a plain PUT keeps it, and by-host serves it", async () => {
+        const applied = await api.post(
+          "/tenants/home/template",
+          { id: "long-morning", overrides: { palette: "ferma" } },
+          bearer(a.token),
+        );
+        expect(applied.status).toBe(200);
+        expect(applied.data.home.theme).toEqual({ preset: "ferma", layers: LONG_MORNING.layers });
+
+        const saved = await api.put(
+          "/tenants/home",
+          document({ theme: { preset: "ferma" }, settings: LONG_MORNING.settings }),
+          bearer(a.token),
+        );
+        expect(saved.status).toBe(200);
+        expect(saved.data.home.theme).toEqual({ preset: "ferma", layers: LONG_MORNING.layers });
+        expect(saved.data.home.template.id).toBe("long-morning");
+
+        // The storefront's middleware puts this preset in `x-tenant-theme` as it comes.
+        const resolved = await api.get(`/storefront/by-host?host=${a.tenant.handle}.localhost`);
+        expect(resolved.status).toBe(200);
+        expect(resolved.data.theme).toEqual({ preset: "ferma", mode: "light" });
+      });
+
       it("refuses an unknown template, a bad override and an override outside the three kinds", async () => {
         const unknown = await failed(api.post("/tenants/home/template", { id: "no-such" }, bearer(a.token)));
         expect(unknown.status).toBe(400);
