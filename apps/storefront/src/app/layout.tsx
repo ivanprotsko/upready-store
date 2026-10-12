@@ -20,6 +20,7 @@ import {
   getTenantModeDefault,
   getTenantThemePreset,
 } from "@lib/data/tenant-home"
+import { TEMPLATE_FONTS_STYLESHEET } from "@lib/templates/fonts"
 import { getPreviewTemplate } from "@lib/templates/preview"
 import StudioMount from "@modules/studio/components/studio-mount"
 import MiniAppBridge from "@modules/telegram/components/mini-app-bridge"
@@ -144,6 +145,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       className={[fontClassName, olavkaFontClassName].filter(Boolean).join(" ") || undefined}
       // The template's style layers (`--radius`, `--layer-*`) over the brand colour, preview only.
       style={preview ? ({ ...brandStyle, ...preview.style } as React.CSSProperties) : brandStyle}
+      // The template's font pair, when its files exist (`lib/templates/fonts.ts`): the attribute the
+      // stylesheet linked below keys on. The preview is the only template reader today; absent for a shop.
+      data-font-pair={preview?.fonts.pair ?? undefined}
       // Marks an Olavka shop (`OLAVKA_SHOP_HANDLES`) for the styles a client component or a
       // portal cannot learn from the server: the product row tile's 1rem type (remark 17),
       // the search input's focus ring (remark 18).
@@ -159,6 +163,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             ))
           : null}
         {olavka ? <style dangerouslySetInnerHTML={{ __html: OLAVKA_INTER_CSS }} /> : null}
+        {/* The template fonts' @font-face and [data-font-pair] rules; a page without the attribute
+            does not link it, so a shop with no template fetches neither the sheet nor a face. */}
+        {preview?.fonts.pair ? <link rel="stylesheet" href={TEMPLATE_FONTS_STYLESHEET} /> : null}
       </head>
       <body>
         {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside

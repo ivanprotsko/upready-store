@@ -26,6 +26,12 @@
  *
  * Determinism: keys are emitted in the order of the token map and of a sorted token
  * list, nothing is timestamped, so the same input produces a byte-identical file.
+ *
+ * A preset with no `modes.dark` is LIGHT ONLY (t-2026-10-12-33: the palettes of the 16.09
+ * templates lab, drawn in light alone). Its light tokens and solved inks are written under
+ * both data-mode values, the dark-only bridge rows skip it, and every gate measures it once.
+ * It stays out of THEME_IDS, the list the shop pickers offer next to a mode switch, and goes
+ * to LIGHT_ONLY_THEME_IDS, the palettes a template may name with a light default.
  */
 
 import { readFileSync, writeFileSync, readdirSync, mkdirSync } from "node:fs"
@@ -41,13 +47,16 @@ const HERE = dirname(fileURLToPath(import.meta.url))
 const STOREFRONT = resolve(HERE, "..")
 const REPO = resolve(STOREFRONT, "../..")
 const SPECS = join(REPO, "specs/design-system")
-const OUT = join(STOREFRONT, "src/styles/themes.css")
-const OUT_PRESETS = join(STOREFRONT, "src/lib/theme/presets.generated.ts")
-const OUT_FONTS = join(STOREFRONT, "src/lib/theme/fonts.generated.ts")
 // overridable so the font path can be exercised against a fixture without writing the
-// real profile, which another generator owns (see theme.test.ts)
+// real profile, which another generator owns (see theme.test.ts); THEME_OUT_DIR takes all
+// three outputs, so a test can also hold the committed files to a fresh run
 const PROFILE_JSON = process.env.THEME_PROFILE_JSON || join(STOREFRONT, "src/lib/profile/profile.generated.json")
 const OUT_DIR_OVERRIDE = process.env.THEME_OUT_DIR || null
+const OUT = OUT_DIR_OVERRIDE ? join(OUT_DIR_OVERRIDE, "themes.css") : join(STOREFRONT, "src/styles/themes.css")
+const OUT_PRESETS = OUT_DIR_OVERRIDE
+  ? join(OUT_DIR_OVERRIDE, "presets.generated.ts")
+  : join(STOREFRONT, "src/lib/theme/presets.generated.ts")
+const OUT_FONTS = join(STOREFRONT, "src/lib/theme/fonts.generated.ts")
 
 /**
  * `default` is what the pre-paint and the SSR fallback use when no profile has named a
@@ -55,6 +64,23 @@ const OUT_DIR_OVERRIDE = process.env.THEME_OUT_DIR || null
  * storefront with no profile at all still renders exactly what it rendered yesterday.
  */
 const DEFAULT_ALIAS_OF = "medusa"
+
+const isLightOnly = (preset) => !preset.modes.dark
+
+/** The modes a preset writes, each with the data-mode values its block paints. */
+const paintedModes = (preset) =>
+  isLightOnly(preset)
+    ? [{ mode: "light", paints: ["light", "dark"] }]
+    : [
+        { mode: "light", paints: ["light"] },
+        { mode: "dark", paints: ["dark"] },
+      ]
+
+/** The selectors of one written mode, with the default alias where it applies. */
+function modeSelectors(preset, paints, suffix = "") {
+  const ids = preset.id === DEFAULT_ALIAS_OF ? [preset.id, "default"] : [preset.id]
+  return ids.flatMap((id) => paints.map((m) => `[data-theme="${id}"][data-mode="${m}"]${suffix}`))
+}
 
 function main() {
   const schema = readJson(join(SPECS, "theme-preset.schema.json"))
@@ -79,10 +105,10 @@ function main() {
     presets.push(preset)
   }
 
-  // --- the key set must be identical across both modes and across every preset ---
+  // --- the key set must be identical across every mode of every preset ---
   const reference = Object.keys(presets[0].modes.light.tokens).sort()
   for (const p of presets) {
-    for (const mode of ["light", "dark"]) {
+    for (const { mode } of paintedModes(p)) {
       const keys = Object.keys(p.modes[mode].tokens).sort()
       const missing = reference.filter((k) => !keys.includes(k))
       const extra = keys.filter((k) => !reference.includes(k))
@@ -95,7 +121,10 @@ function main() {
       }
     }
   }
-  console.log(`${reference.length} keys, 0 missing (${presets.length} presets x 2 modes)`)
+  const lightOnly = presets.filter(isLightOnly)
+  console.log(
+    `${reference.length} keys, 0 missing (${presets.length - lightOnly.length} presets x 2 modes, ${lightOnly.length} light only)`
+  )
 
   // --- emit ---
   const out = []
@@ -107,10 +136,8 @@ function main() {
   out.push("")
 
   for (const preset of presets) {
-    for (const mode of ["light", "dark"]) {
-      const selectors = [`[data-theme="${preset.id}"][data-mode="${mode}"]`]
-      if (preset.id === DEFAULT_ALIAS_OF) selectors.push(`[data-theme="default"][data-mode="${mode}"]`)
-      out.push(`${selectors.join(",\n")} {`)
+    for (const { mode, paints } of paintedModes(preset)) {
+      out.push(`${modeSelectors(preset, paints).join(",\n")} {`)
       for (const key of reference) out.push(`  ${key}: ${preset.modes[mode].tokens[key]};`)
       out.push("}")
       out.push("")
@@ -141,7 +168,13 @@ function main() {
   out.push("}")
   out.push("")
   out.push("/* rows whose two modes need different blends (Medusa's dark ramp is white-at-low-alpha) */")
-  out.push('[data-mode="dark"]:not([data-theme-bridge="off"]) {')
+  // a light-only preset keeps its light blends in dark mode too; :where() adds no
+  // specificity, so every other preset meets this block exactly as before
+  const skipLightOnly = lightOnly.length
+    ? `:where(:not(${lightOnly.map((p) => `[data-theme="${p.id}"]`).join(", ")}))`
+    : ""
+  if (lightOnly.length) out.push(`/* light-only presets keep the light rows: ${lightOnly.map((p) => p.id).join(", ")} */`)
+  out.push(`[data-mode="dark"]:not([data-theme-bridge="off"])${skipLightOnly} {`)
   out.push(...dark)
   out.push("}")
   out.push("")
@@ -208,7 +241,7 @@ function emitContrastTargets(tokenMap, presets) {
   const table = []
   const solvedInks = {}
   for (const preset of presets) {
-    for (const mode of ["light", "dark"]) {
+    for (const { mode, paints } of paintedModes(preset)) {
       const tokens = preset.modes[mode].tokens
       const decls = []
       const inks = (solvedInks[`${preset.id}/${mode}`] = {})
@@ -222,9 +255,7 @@ function emitContrastTargets(tokenMap, presets) {
         for (const ink of row.derivation.solve) solveOne(ink, row.derivation.ratio)
       }
       solveOne(ACCENT_INK, ACCENT_INK.ratio)
-      const selectors = [`[data-theme="${preset.id}"][data-mode="${mode}"]:not([data-theme-bridge="off"])`]
-      if (preset.id === DEFAULT_ALIAS_OF) selectors.push(`[data-theme="default"][data-mode="${mode}"]:not([data-theme-bridge="off"])`)
-      out.push(`${selectors.join(",\n")} {`)
+      out.push(`${modeSelectors(preset, paints, ':not([data-theme-bridge="off"])').join(",\n")} {`)
       out.push(...decls)
       out.push("}")
       out.push("")
@@ -238,7 +269,7 @@ function emitContrastTargets(tokenMap, presets) {
   console.log(`contrast targets (minimum ${[...rows.map((r) => r.derivation.ratio), ACCENT_INK.ratio].join("/")}:1):`)
   console.log(`  ${"preset".padEnd(16)}${"mode".padEnd(7)}${inks.map((i) => i.replace(/^--/, "").padEnd(24)).join("")}`)
   for (const preset of presets) {
-    for (const mode of ["light", "dark"]) {
+    for (const { mode } of paintedModes(preset)) {
       const cells = inks.map((i) => {
         const c = table.find((t) => t.preset === preset.id && t.mode === mode && t.ink === i)
         return `${c.ratio.toFixed(2)}:1 (ceiling ${c.ceiling.toFixed(2)})`.padEnd(24)
@@ -367,7 +398,7 @@ function gateInvertedInks(tokenMap, presets) {
   console.log(`inverted-surface inks on --contrast-bg-base (gate ${AA}:1 on the two inks; the border is printed only):`)
   console.log(`  ${"preset".padEnd(16)}${"mode".padEnd(7)}${inks.map((r) => r.variable.replace(/^--/, "").padEnd(24)).join("")}`)
   for (const preset of presets) {
-    for (const mode of ["light", "dark"]) {
+    for (const { mode } of paintedModes(preset)) {
       const tokens = preset.modes[mode].tokens
       const where = `${preset.id}/${mode}`
       const bg = parseColour(surface.effective[mode]) ?? fail(`${where}: --contrast-bg-base is not a colour`)
@@ -406,7 +437,7 @@ function gateDisabledPair(tokenMap, presets, solvedInks) {
   console.log(`disabled pair (gate ${AA}:1; --bg-disabled = --muted; disabled quieter than the CTA):`)
   console.log(`  ${"preset".padEnd(16)}${"mode".padEnd(7)}${"on-surface/--muted".padEnd(22)}${"on-page, worst".padEnd(18)}${"muted|page".padEnd(14)}primary|page`)
   for (const preset of presets) {
-    for (const mode of ["light", "dark"]) {
+    for (const { mode } of paintedModes(preset)) {
       const tokens = preset.modes[mode].tokens
       const where = `${preset.id}/${mode}`
       const inks = solvedInks[where]
@@ -457,15 +488,25 @@ function over(ink, surface) {
  * "rendered from N tokens of preset <label>" source line.
  */
 function writePresetsModule(presets, tokenCount) {
+  const ids = (list) => list.map((p) => JSON.stringify(p.id)).join(", ")
   const lines = [
     "// GENERATED by scripts/build-themes.mjs (pnpm themes:build) — do not edit.",
     "// Mirrors specs/design-system/themes/*.theme.json.",
     "",
-    `export const THEME_IDS = [${presets.map((p) => JSON.stringify(p.id)).join(", ")}] as const`,
+    `export const THEME_IDS = [${ids(presets.filter((p) => !isLightOnly(p)))}] as const`,
     'export const THEME_MODES = ["light", "dark"] as const',
     "",
     "export type ThemeId = (typeof THEME_IDS)[number]",
     "export type ThemeMode = (typeof THEME_MODES)[number]",
+    "",
+    "/**",
+    " * Presets with no dark mode, painted light under both data-mode values. A template may",
+    " * name one with a light default; no shop picker offers one, because a shop's visitor can",
+    " * switch to dark.",
+    " */",
+    `export const LIGHT_ONLY_THEME_IDS = [${ids(presets.filter(isLightOnly))}] as const`,
+    "",
+    "export type LightOnlyThemeId = (typeof LIGHT_ONLY_THEME_IDS)[number]",
     "",
     "/** Plain-language names for the settings panel; ids never reach the screen. */",
     "export const THEME_LABELS: Record<string, string> = {",

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { PROFILE_DEFAULTS } from "@lib/theme/composition"
+import { LIGHT_ONLY_THEME_IDS } from "@lib/theme/presets.generated"
 import { blockById } from "@modules/blocks/registry"
 
 import { TEMPLATE_SOURCES, getTemplate } from "./catalog"
@@ -51,6 +52,21 @@ describe("the templates of this branch", () => {
       expect(a[layer], layer).not.toBe(b[layer])
     }
     expect(a.fontPair).not.toEqual(b.fontPair)
+  })
+
+  it("both get their own font pair, Cyrillic included (lead's answer to T0a)", () => {
+    expect(getTemplate("long-morning")!.fonts).toEqual({
+      display: "Cormorant Garamond",
+      body: "Manrope",
+      loaded: true,
+      pair: "Cormorant Garamond|Manrope",
+    })
+    expect(getTemplate("ferrite")!.fonts).toEqual({
+      display: "IBM Plex Mono",
+      body: "IBM Plex Sans",
+      loaded: true,
+      pair: "IBM Plex Mono|IBM Plex Sans",
+    })
   })
 
   it("long-morning places the new text bar first", () => {
@@ -142,6 +158,21 @@ describe("validateTemplate", () => {
       "theme.radius: theme.radius must be one of: sharp, soft, round, pill.",
     ])
   })
+
+  it.each([...LIGHT_ONLY_THEME_IDS])("takes the lab palette %s with a light default", (palette) => {
+    const input = base()
+    input.theme = { ...input.theme, palette }
+    expect(messages(input)).toEqual([])
+  })
+
+  it("refuses a light-only palette with a dark default", () => {
+    const input = base()
+    input.settings = { ...input.settings, defaultMode: "dark" }
+    input.theme = { ...input.theme, palette: "ferma" }
+    expect(messages(input)).toEqual([
+      'settings.defaultMode: theme.palette "ferma" has no dark mode; settings.defaultMode must be "light".',
+    ])
+  })
 })
 
 describe("resolveTemplate", () => {
@@ -161,8 +192,33 @@ describe("resolveTemplate", () => {
       "--layer-density": "1.25",
       "--layer-section-gap": "4.5rem",
     })
-    // This build loads no profile font pair (`fonts.generated.ts`), so none is loaded.
-    expect(resolved.fonts).toEqual({ display: "Fraunces", body: "Manrope", loaded: false })
+    // This build loads no profile font pair (`fonts.generated.ts`), and Fraunces has no
+    // template file (no Cyrillic, `public/fonts/templates/LICENSES.md`), so none is loaded.
+    expect(resolved.fonts).toEqual({ display: "Fraunces", body: "Manrope", loaded: false, pair: null })
+  })
+
+  const resolveWith = (fontPair: { display: string; body: string }) => {
+    const input = base()
+    input.theme = { ...input.theme, fontPair }
+    const result = check(input)
+    if (!result.ok) throw new Error(result.errors.map((e) => e.message).join("; "))
+    return resolveTemplate(result.value)
+  }
+
+  it("sets data-font-pair and loads a pair whose two families have files", () => {
+    expect(resolveWith({ display: "Playfair Display", body: "Manrope" }).fonts).toEqual({
+      display: "Playfair Display",
+      body: "Manrope",
+      loaded: true,
+      pair: "Playfair Display|Manrope",
+    })
+    expect(resolveWith({ display: "IBM Plex Sans", body: "IBM Plex Sans" }).fonts.pair).toBe("IBM Plex Sans|IBM Plex Sans")
+  })
+
+  it("leaves data-font-pair unset when one family has no file", () => {
+    const fonts = resolveWith({ display: "Space Grotesk", body: "IBM Plex Sans" }).fonts
+    expect(fonts.pair).toBeNull()
+    expect(fonts.loaded).toBe(false)
   })
 })
 

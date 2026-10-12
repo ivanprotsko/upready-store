@@ -219,13 +219,13 @@ A template is `apps/storefront/src/templates/<id>/template.json`, schema
 
 | Layer | Values | Lands on |
 |---|---|---|
-| `palette` | a preset of `THEME_IDS`, or `default` | `data-theme` on `<html>` |
+| `palette` | a preset of `THEME_IDS` or `LIGHT_ONLY_THEME_IDS`, or `default` | `data-theme` on `<html>` |
 | mode | `settings.defaultMode` | `data-mode` on `<html>` |
 | `radius` | `sharp`, `soft`, `round`, `pill` | the presets' own `--radius` |
 | `buttonStyle` | `filled`, `outlined` | `--layer-button-*` |
 | `photoStyle` | `square`, `portrait`, `landscape`, `wide` | `--layer-photo-aspect` |
 | `density` | `compact`, `comfortable`, `spacious` | `--layer-density`, `--layer-section-gap` |
-| `fontPair` | two of the twelve `FONT_NAMES` | build time only, see below |
+| `fontPair` | two of the twelve `FONT_NAMES` | `data-font-pair` on `<html>` when both have files, see below |
 
 - `sections`, the home page in order: `{ "block": "<id>", "props"?: {…} }`, `home` blocks only. A hero,
   tiles or listing section is the page's own slot and matches `settings` (`hero/g` needs `"hero": "g"`);
@@ -235,8 +235,19 @@ A template is `apps/storefront/src/templates/<id>/template.json`, schema
 every template. `resolveTemplate()` turns a valid one into the settings, the two `<html>` attributes and
 the inline CSS variables, the very inputs the storefront reads without a template.
 
-Fonts are `next/font` calls generated at build time for the active profile only (`lib/theme/fonts.ts`),
-so a preview shows the build's own pair; `ResolvedTemplate.fonts.loaded` says whether it is the template's.
+The seven palettes of the 16.09 templates lab (`ferma`, `interier`, `katalog`, `lending`, `moda`, `opt`,
+`uhod`) are `LIGHT_ONLY_THEME_IDS`: the lab drew no dark mode, so the build paints them light under both
+`data-mode` values and no shop picker offers them. A template that names one sets `settings.defaultMode`
+to `"light"`, and `validateTemplate()` refuses `"dark"` with it.
+
+Fonts. The build profile's pair stays a `next/font` call generated at build time (`lib/theme/fonts.ts`). A
+template's pair comes from `public/fonts/templates/`: the lab's Latin and Cyrillic woff2 of eight families
+(`TEMPLATE_FONT_FAMILIES` in `lib/templates/fonts.ts`, licences in `LICENSES.md` beside the files). When both
+families of `fontPair` are there, `resolveTemplate()` sets `fonts.pair` to `"<display>|<body>"` and
+`fonts.loaded` to true, and the root layout writes `data-font-pair` on `<html>` and links
+`/fonts/templates/fonts.css`. That sheet sets `--font-display` and `--font-body` and puts the page text and
+the headings in them. DM Sans, Space Grotesk, Fraunces and Sora have no Cyrillic and no file, so a pair with
+one of them keeps the build's type and `fonts.loaded` false. A page without a template links nothing.
 
 The preview is `?template=<id>` on any page of a storefront started with `STOREFRONT_TEMPLATE_PREVIEW=1`.
 It saves nothing. Without the flag every reader returns early, and `page.baseline.test.tsx` holds the
