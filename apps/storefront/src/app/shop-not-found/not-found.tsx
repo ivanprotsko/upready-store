@@ -1,14 +1,15 @@
-import { publicHost } from "@lib/tenant/origin"
-import { headers } from "next/headers"
-
-import { displayHost, ShopNotFoundView } from "./shop-not-found-view"
+import ShopNotFoundPage from "./page"
+import { metadata as shopNotFoundMetadata } from "./layout"
 
 /**
- * What `page.tsx` of this segment renders through `notFound()`, so the answer
- * carries Next's own 404 status (t-2026-10-12-32 FX4). The address is read
- * the way the shop lookup read it: the forwarded name a proxy recorded, else
- * `Host`.
+ * Here for its metadata, not as a boundary anyone throws into
+ * (t-2026-10-12-32 FX4). The middleware answers this route with a 404, and
+ * under a 404 Next resolves the tab title through the `not-found` convention:
+ * the deepest not-found module wins (`resolve-metadata.js`, Next 15.5). Without
+ * this file that was the root one, «Страница не найдена | Gorgo Medusa Store» —
+ * the build profile's shop name on an address with no shop (measured on the
+ * stand). The component is the page itself, should anything ever throw here.
  */
-export default async function ShopNotFound() {
-  return <ShopNotFoundView host={displayHost(publicHost(await headers()))} />
-}
+export const metadata = shopNotFoundMetadata
+
+export default ShopNotFoundPage

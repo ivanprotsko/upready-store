@@ -8,9 +8,9 @@ import { NextRequest } from "next/server"
  * host", and the multi-shop storefront (no NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
  * `deploy/compose.mt.yml`) used to send such a host `/` → 302 `/ru` → 200 with
  * an empty shop under the build profile's name. Now every page of it is
- * rewritten to `/shop-not-found`, whose page answers 404
- * (`app/shop-not-found/page.test.tsx`) — never a redirect into `[locale]`,
- * never a 5xx.
+ * rewritten to `/shop-not-found` with the status 404 on the rewrite itself
+ * (`app/shop-not-found/page.test.tsx` draws the page) — never a redirect into
+ * `[locale]`, never a 5xx.
  *
  * What must NOT change: a known shop, a single-store deployment with its own
  * key, and a backend that failed to answer (500, unreachable) — "do not know"
@@ -87,15 +87,15 @@ describe("middleware: a host with no shop behind it", () => {
     vi.unstubAllEnvs()
   })
 
-  it("rewrites every page of an unknown host to /shop-not-found, no redirect into [locale], noindex", async () => {
+  it("rewrites every page of an unknown host to /shop-not-found with a 404, no redirect into [locale], noindex", async () => {
     const middleware = await loadMiddleware()
 
     for (const path of ["/", "/ru", "/en/store", "/products/anything"]) {
       const response = await middleware(get(`https://${UNKNOWN}${path}`))
 
       expect(rewriteOf(response), path).toBe("/shop-not-found")
+      expect(response.status, path).toBe(404)
       expect(response.headers.get("location"), path).toBeNull()
-      expect(response.status, path).toBeLessThan(500)
       expect(response.headers.get("x-robots-tag"), path).toBe("noindex")
     }
   })

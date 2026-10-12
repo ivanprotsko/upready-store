@@ -128,10 +128,12 @@ function demoHostResponse(request: NextRequest): NextResponse {
  * (measured on a local stand), and on the live proxy no answer of this
  * process at all (see `deploy/scripts/tenant-ingress-sync.sh`).
  *
- * Every page path is rewritten to `/shop-not-found`, which answers 404 with
- * «Магазин не найден» in the platform's look. A file path (`/favicon.ico`,
- * `/robots.txt`) gets a bare 404: there is no shop to describe. `noindex` on
- * both, so such an address never reaches search.
+ * Every page path is rewritten to `/shop-not-found`, which draws «Магазин не
+ * найден» in the platform's look. The 404 is set on the rewrite itself: Next
+ * copies the status of the middleware's response onto the reply before it
+ * renders the rewritten page (`resolve-routes.js`, Next 15.5). A file path
+ * (`/favicon.ico`, `/robots.txt`) gets a bare 404: there is no shop to
+ * describe. `noindex` on both, so such an address never reaches search.
  */
 const SHOP_NOT_FOUND_PATH = "/shop-not-found"
 
@@ -141,6 +143,7 @@ function shopNotFoundResponse(request: NextRequest): NextResponse {
     pathname.includes(".") || pathname === "/opengraph-image" || pathname === "/twitter-image"
       ? new NextResponse(null, { status: 404 })
       : NextResponse.rewrite(new URL(SHOP_NOT_FOUND_PATH, request.url), {
+          status: 404,
           request: { headers: platformRequestHeaders(request) },
         })
   response.headers.set("X-Robots-Tag", "noindex")
