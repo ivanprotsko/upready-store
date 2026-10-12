@@ -77,12 +77,32 @@ const PHOTO_ASPECT: Record<PhotoStyle, string> = {
   wide: "16 / 9",
 }
 
-/** A multiplier on a block's own vertical rhythm, and the gap between home sections. */
-const DENSITY_VARS: Record<Density, Record<string, string>> = {
-  compact: { "--layer-density": "0.75", "--layer-section-gap": "2rem" },
-  comfortable: { "--layer-density": "1", "--layer-section-gap": "3rem" },
-  spacious: { "--layer-density": "1.25", "--layer-section-gap": "4.5rem" },
+/**
+ * The space scale `pnpm template:check` holds padding, margin and gap to (QR-SPACE-SCALE,
+ * `scripts/template-check/rules.mjs` THRESHOLDS.space), in px: Tailwind's steps 1 to 32, the lab's `--space-N`.
+ */
+export const SPACE_SCALE = [4, 8, 12, 16, 24, 32, 48, 64, 96, 128] as const
+
+/**
+ * The density layer picks steps on the scale and never multiplies, so a space stays on it at every density.
+ * `--layer-space-N` is Tailwind's step N (N × 4px) at `comfortable`, one step down at `compact` and one step up at
+ * `spacious`: a block writes `py-[var(--layer-space-8,2rem)]` where it would write `py-8`. N runs over the steps
+ * with a neighbour on both sides, 8 to 96px. `--layer-section-gap`, the gap between home sections, is the 12 step.
+ */
+export const LAYER_SPACE_STEPS = [2, 3, 4, 6, 8, 12, 16, 24] as const
+
+const DENSITY_SHIFT: Record<Density, number> = { compact: -1, comfortable: 0, spacious: 1 }
+
+const densityVars = (density: Density): Record<string, string> => {
+  const scale: readonly number[] = SPACE_SCALE
+  const step = (px: number) => `${scale[scale.indexOf(px) + DENSITY_SHIFT[density]] / 16}rem`
+  return {
+    ...Object.fromEntries(LAYER_SPACE_STEPS.map((n) => [`--layer-space-${n}`, step(n * 4)])),
+    "--layer-section-gap": step(48),
+  }
 }
+
+const DENSITY_VARS = Object.fromEntries(DENSITIES.map((d) => [d, densityVars(d)])) as Record<Density, Record<string, string>>
 
 export type TemplateTheme = {
   /**

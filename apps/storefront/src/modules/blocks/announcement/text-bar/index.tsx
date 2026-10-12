@@ -11,7 +11,7 @@ import type { TextBarProps } from "./props"
  * kept trivial on purpose: it proves the path from a template's `props` to the page.
  *
  * Colours are the theme's own `--primary` pair, its height follows the template's density
- * layer (`--layer-density`, 1 when no template sets it). With no text in the visitor's
+ * layer (`--layer-space-2`, 0.5rem when no template sets it). With no text in the visitor's
  * language, nor in English, nor in any other, it draws nothing: an empty bar is not news.
  */
 export default async function TextBar({ text, href }: TextBarProps) {
@@ -28,7 +28,7 @@ export default async function TextBar({ text, href }: TextBarProps) {
   return (
     <div
       data-block="announcement/text-bar"
-      className="flex min-h-11 w-full items-center justify-center bg-[var(--primary)] px-4 py-[calc(0.5rem*var(--layer-density,1))] text-sm text-[var(--primary-foreground)]"
+      className="flex min-h-11 w-full items-center justify-center bg-[var(--primary)] px-4 py-[var(--layer-space-2,0.5rem)] text-sm text-[var(--primary-foreground)]"
     >
       <p className="max-w-3xl text-balance">
         {href ? (

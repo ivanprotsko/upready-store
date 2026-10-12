@@ -29,7 +29,7 @@ const BUTTON_CLASS = {
  * with their line breaks, up to two buttons; left or centred, a 42rem or 56rem column (the
  * paragraphs keep a reading measure, `max-w-prose`, in both), on the page or on a `--muted` panel.
  * Several stand on one page, so it brings no outer spacing of its own: `BlockSection` sets the
- * rhythm, `--layer-density` the inside.
+ * rhythm, the density layer's `--layer-space-*` steps the inside.
  *
  * It draws its own heading stack rather than the shell's header, because the header is always
  * left and 42rem, and this block centres and widens; the type is the shell's, `SECTION_TYPE` of
@@ -78,12 +78,12 @@ export default async function RichText({
       <div
         className={clx(
           tone === "muted" &&
-            "rounded-[var(--radius)] bg-[var(--muted)] px-6 py-[calc(2rem*var(--layer-density,1))] xsmall:px-12 small:px-16 small:py-[calc(4rem*var(--layer-density,1))]"
+            "rounded-[var(--radius)] bg-[var(--muted)] px-6 py-[var(--layer-space-8,2rem)] xsmall:px-12 small:px-16 small:py-[var(--layer-space-16,4rem)]"
         )}
       >
         <div
           className={clx(
-            "flex flex-col gap-[calc(1.5rem*var(--layer-density,1))]",
+            "flex flex-col gap-[var(--layer-space-6,1.5rem)]",
             width === "wide" ? "max-w-4xl" : "max-w-2xl",
             centred && "mx-auto items-center text-center"
           )}
@@ -118,7 +118,7 @@ export default async function RichText({
           {buttons.length ? (
             <div
               className={clx(
-                "mt-[calc(0.75rem*var(--layer-density,1))] flex flex-wrap items-center gap-x-6 gap-y-3",
+                "mt-[var(--layer-space-3,0.75rem)] flex flex-wrap items-center gap-x-6 gap-y-3",
                 centred && "justify-center"
               )}
             >

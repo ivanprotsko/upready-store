@@ -81,7 +81,7 @@ export default async function TestimonialsCards({
     >
       <figure
         data-role="testimonial-card"
-        className="flex w-full flex-col gap-[calc(1rem*var(--layer-density,1))] rounded-[var(--radius)] border border-[var(--border)] bg-[var(--card)] p-6 text-[var(--card-foreground)] small:p-8"
+        className="flex w-full flex-col gap-[var(--layer-space-4,1rem)] rounded-[var(--radius)] border border-[var(--border)] bg-[var(--card)] p-6 text-[var(--card-foreground)] small:p-8"
       >
         {showRating && card.rating ? (
           <Stars rating={card.rating} label={stars.replace("{rating}", String(card.rating))} />

@@ -64,7 +64,7 @@ export default async function FaqAccordion({ header, items, image, layout, openF
           <summary
             data-role="trigger"
             className={clx(
-              "group/summary flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-[calc(1rem*var(--layer-density,1))] text-base font-medium text-ui-fg-base small:text-lg [&::-webkit-details-marker]:hidden",
+              "group/summary flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-[var(--layer-space-4,1rem)] text-base font-medium text-ui-fg-base small:text-lg [&::-webkit-details-marker]:hidden",
               focusRing
             )}
           >
@@ -78,7 +78,7 @@ export default async function FaqAccordion({ header, items, image, layout, openF
           </summary>
           <p
             data-role="content"
-            className="max-w-prose whitespace-pre-line pb-[calc(1rem*var(--layer-density,1))] text-base leading-relaxed text-ui-fg-subtle small:text-lg"
+            className="max-w-prose whitespace-pre-line pb-[var(--layer-space-4,1rem)] text-base leading-relaxed text-ui-fg-subtle small:text-lg"
           >
             {answer}
           </p>

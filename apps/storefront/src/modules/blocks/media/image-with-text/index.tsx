@@ -99,10 +99,10 @@ export default async function ImageWithText({
   const words = (
     <div
       className={clx(
-        "flex min-w-0 flex-col gap-[calc(1.5rem*var(--layer-density,1))]",
+        "flex min-w-0 flex-col gap-[var(--layer-space-6,1.5rem)]",
         JUSTIFY[verticalAlign],
         tone === "muted" &&
-          "rounded-[var(--radius)] bg-[var(--muted)] px-6 py-[calc(2rem*var(--layer-density,1))] small:px-12 small:py-[calc(3rem*var(--layer-density,1))]"
+          "rounded-[var(--radius)] bg-[var(--muted)] px-6 py-[var(--layer-space-8,2rem)] small:px-12 small:py-[var(--layer-space-12,3rem)]"
       )}
     >
       {label ? (
@@ -121,7 +121,7 @@ export default async function ImageWithText({
         </p>
       ) : null}
       {button && buttonText ? (
-        <div className="mt-[calc(0.75rem*var(--layer-density,1))] flex">
+        <div className="mt-[var(--layer-space-3,0.75rem)] flex">
           {button.href.startsWith("/") ? (
             <Link href={button.href} data-role="cta-primary" className={BUTTON_CLASS}>
               {buttonText}

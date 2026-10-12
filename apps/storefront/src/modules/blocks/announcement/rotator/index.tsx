@@ -15,7 +15,7 @@ import RotatorBar, { type RotatorLine } from "./rotator-bar"
  * `announcement/rotator` (t-2026-10-12-33, R1 build list item 16): two to five lines of the
  * shop's own news across the page, one at a time, each optionally a link. The sibling of
  * `announcement/text-bar` with the same colours (the theme's `--primary` pair) and the same
- * height (44px, `--layer-density` for its padding); measured against the Shopify catalogue's
+ * height (44px, the density layer's `--layer-space-2` for its padding); measured against the Shopify catalogue's
  * `announcement-bar` (one centred line on the accent colour, arrows on the sides in Dawn,
  * a close button in Focal).
  *

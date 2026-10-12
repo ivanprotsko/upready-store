@@ -141,7 +141,13 @@ export const parseRichTextProps = (input: unknown) =>
   `rounded-[var(--radius)]`, which follows the template's radius layer.
 - The template layers are CSS variables on `<html>`. Read them with a fallback, so the block also works
   in a shop with no template:
-  - `--layer-density` (a multiplier, 1) for the block's own vertical rhythm;
+  - `--layer-space-N` for the block's own padding, margin and gap: Tailwind's step N (`N` × 4px) at
+    `comfortable`, one step down the space scale at `compact`, one step up at `spacious`, for N = 2, 3, 4,
+    6, 8, 12, 16, 24. Write `py-[var(--layer-space-8,2rem)]` where you would write `py-8`; the fallback is
+    the step's own value, so a shop with no template draws what `comfortable` draws. A block never
+    multiplies a space; it takes a step token. A multiple of a step falls off the scale QR-SPACE-SCALE
+    holds (0.75 × 24 = 18px), and `pnpm lint:blocks` refuses `--layer-density` and a `calc()` around a
+    step (`contract-density-step`);
   - `--layer-section-gap` (3rem), which `BlockSection` already applies;
   - `--layer-photo-aspect` (1 / 1) for product and category pictures;
   - `--layer-button-bg`, `--layer-button-fg`, `--layer-button-border` for the primary button.
@@ -191,7 +197,7 @@ export const parseRichTextProps = (input: unknown) =>
 - [ ] `parseProps` built from `shared/parse.ts`, both fixtures, `roles`, `data`, `status: "lab"`
 - [ ] every visible string a `LocalizedText` prop with Russian and English defaults; no `messages/*.json`
 - [ ] wrapped in `BlockSection`; pictures as `ImageRef`, icons as `BlockIcon`
-- [ ] `npx vitest run src/modules/blocks src/lib/templates page.baseline` passes
+- [ ] `npx vitest run src/modules/blocks src/lib/templates page.baseline page.template` passes
 - [ ] `npx tsc --noEmit`, `pnpm lint` and `pnpm lint:blocks` pass
 - [ ] `pnpm template:check --only <id>` is green, with no new failure against the baseline, and its
       `report.md` is linked in the PR body
@@ -239,7 +245,7 @@ A template is `apps/storefront/src/templates/<id>/template.json`, schema
 | `radius` | `sharp`, `soft`, `round`, `pill` | the presets' own `--radius` |
 | `buttonStyle` | `filled`, `outlined` | `--layer-button-*` |
 | `photoStyle` | `square`, `portrait`, `landscape`, `wide` | `--layer-photo-aspect` |
-| `density` | `compact`, `comfortable`, `spacious` | `--layer-density`, `--layer-section-gap` |
+| `density` | `compact`, `comfortable`, `spacious` | `--layer-space-2` … `--layer-space-24` (8 to 96px at `comfortable`, one step down or up the space scale), `--layer-section-gap` (32 / 48 / 64px); never a multiplier |
 | `fontPair` | two of the twelve `FONT_NAMES` | `data-font-pair` on `<html>` when both have files, see below |
 
 - `sections`, the home page in order: `{ "block": "<id>", "props"?: {…} }`, `home` blocks only. A hero,
