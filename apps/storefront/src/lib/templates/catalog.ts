@@ -3,6 +3,7 @@ import { blockById } from "@modules/blocks/registry"
 import { resolveTemplate, validateTemplate, type ResolvedTemplate } from "./manifest"
 import longMorning from "../../templates/long-morning/template.json"
 import ferrite from "../../templates/ferrite/template.json"
+import uhod from "../../templates/uhod/template.json"
 
 /**
  * Every template of this branch, `src/templates/<id>/template.json` (t-2026-10-12-33). A
@@ -12,6 +13,7 @@ import ferrite from "../../templates/ferrite/template.json"
 export const TEMPLATE_SOURCES: Record<string, unknown> = {
   "long-morning": longMorning,
   ferrite,
+  uhod,
 }
 
 export const TEMPLATE_IDS = Object.keys(TEMPLATE_SOURCES)

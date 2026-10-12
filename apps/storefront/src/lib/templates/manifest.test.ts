@@ -86,6 +86,48 @@ describe("the templates of this branch", () => {
     expect(getTemplate("long-morning")!.manifest.sections[0].block).toBe("announcement/text-bar")
   })
 
+  // The 16.09 lab's «Косметика и уход» (`artifacts/docs/store-templates-lab/src/templates/uhod.json`).
+  describe("uhod", () => {
+    const uhod = () => getTemplate("uhod")!
+
+    it("paints the lab's palette, light only, in Nunito and Manrope at comfortable density", () => {
+      expect(uhod().manifest.theme).toMatchObject({ palette: "uhod", density: "comfortable" })
+      expect(uhod().manifest.settings.defaultMode).toBe("light")
+      expect(uhod().fonts).toEqual({ display: "Nunito", body: "Manrope", loaded: true, pair: "Nunito|Manrope" })
+    })
+
+    it("places the lab's home sections in the lab's order", () => {
+      // announcement, hero, usp, tiles, product grid, story, reviews, newsletter; header and footer come from settings.
+      // The lab's bundle has no block on templates/main yet (`collection/bundle`).
+      expect(uhod().manifest.sections.map((section) => section.block)).toEqual([
+        "announcement/rotator",
+        "hero/split",
+        "columns/multicolumn",
+        "tiles/on",
+        "collection/featured",
+        "media/image-with-text",
+        "testimonials/cards",
+        "newsletter/signup",
+      ])
+      expect(uhod().manifest.settings).toMatchObject({ header: "h2", hero: "none", tiles: "on", listing: "none", footer: "f1" })
+    })
+
+    it("draws its pictures from its own files, each one there and within its weight", () => {
+      const files = JSON.stringify(TEMPLATE_SOURCES.uhod).match(/\/templates\/uhod\/[^"]+/g) ?? []
+      expect(files.length).toBeGreaterThan(0)
+      for (const file of files) {
+        const onDisk = path.join(process.cwd(), "public", file)
+        expect(fs.existsSync(onDisk), file).toBe(true)
+        expect(fs.statSync(onDisk).size, file).toBeLessThanOrEqual(200 * 1024)
+      }
+    })
+
+    it("carries no shop's identity: no phone, e-mail, INN or the lab's brand", () => {
+      const text = JSON.stringify(TEMPLATE_SOURCES.uhod)
+      expect(text).not.toMatch(/\+7|\d{3}[- ]\d{2}[- ]\d{2}|@[a-z0-9-]+\.[a-z]|ИНН|ООО|Скрупул|scruple/i)
+    })
+  })
+
   // P2b: the panel shows these to the owner, in the owner's language and plain words (rule 18e).
   it.each(Object.keys(TEMPLATE_SOURCES))("%s names itself and says what it is for in Russian and English", (id) => {
     const { title, description } = TEMPLATE_SOURCES[id] as { title: unknown; description: unknown }
