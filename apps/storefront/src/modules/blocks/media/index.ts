@@ -3,4 +3,4 @@
  * `export { <entry> } from "./<variant>/block"`. `../registry.ts` takes every export of this
  * file, sorts it by variant and puts the category where `BLOCK_CATEGORIES` says.
  */
-export {}
+export { imageWithText } from "./image-with-text/block"
