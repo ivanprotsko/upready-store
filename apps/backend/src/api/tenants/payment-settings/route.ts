@@ -11,6 +11,7 @@ import {
 } from "../../../tenant-secrets/robokassa";
 import { getTenantScope } from "../tenant-scope";
 import type { PutTenantPaymentSettingsBody } from "../validators";
+import { sanitizeRobokassaAliases } from "../../../modules/payment-robokassa/payment-methods";
 import { readOwnPaymentSettings, readOwnRobokassaSecret } from "./helpers";
 
 /**
@@ -55,6 +56,7 @@ export const PUT = async (
     fiscalization_enabled: body.fiscalization_enabled ?? previous.fiscalization_enabled ?? false,
     sno: body.sno ?? previous.sno ?? "osn",
     default_tax: body.default_tax ?? previous.default_tax ?? "none",
+    disabled_methods: sanitizeRobokassaAliases(body.disabled_methods ?? previous.disabled_methods ?? []),
   };
   const isTest = body.is_test ?? existing?.is_test ?? unreadable?.is_test ?? true;
   const isEnabled = body.is_enabled ?? existing?.is_enabled ?? unreadable?.is_enabled ?? true;

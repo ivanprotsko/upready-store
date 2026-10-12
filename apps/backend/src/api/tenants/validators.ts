@@ -420,6 +420,15 @@ export const PutTenantPaymentSettingsSchema = z.strictObject({
   fiscalization_enabled: z.boolean().optional(),
   sno: z.enum(ROBOKASSA_SNO_VALUES).optional(),
   default_tax: z.enum(ROBOKASSA_TAX_VALUES).optional(),
+  /**
+   * t-2026-10-12-13 (Ivan 12.10, 4.1: «нужно выключить оплату СБП»): the
+   * Robokassa methods (`IncCurrLabel` aliases) the checkout must not offer.
+   * Absent keeps the stored list; an empty list switches every method on.
+   */
+  disabled_methods: z
+    .array(z.string().regex(/^[A-Za-z0-9_]{1,40}$/))
+    .max(24)
+    .optional(),
 });
 export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
 

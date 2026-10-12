@@ -54,6 +54,7 @@ const shopIn = (isTest: boolean): ResolvedRobokassaSecret => ({
     fiscalization_enabled: false,
     sno: "osn",
     default_tax: "none",
+    disabled_methods: [],
   },
 });
 

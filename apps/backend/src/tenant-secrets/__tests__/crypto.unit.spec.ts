@@ -62,6 +62,7 @@ describe("tenant-secrets/robokassa", () => {
       fiscalization_enabled: false,
       sno: "osn",
       default_tax: "none",
+      disabled_methods: [],
     },
   };
 

@@ -5,8 +5,9 @@ import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { processPaymentWorkflow } from "@medusajs/medusa/core-flows";
 import {
   readRobokassaSecret,
+  sameOutSum,
+  secretInSessionMode,
   verifyResultSignature,
-  type ResolvedRobokassaSecret,
   type RobokassaResultPayload,
 } from "../../../tenant-secrets/robokassa";
 import type { RobokassaSessionData } from "../../../modules/payment-robokassa/service";
@@ -27,8 +28,14 @@ import type { RobokassaSessionData } from "../../../modules/payment-robokassa/se
  * through the provider's `updatePayment`, and `processPaymentWorkflow` runs
  * with `SUCCESSFUL`: it authorizes the session (the provider answers CAPTURED
  * once stamped), captures the payment and completes the cart into an order.
- * The browser return (`SuccessUrl2`, storefront `api/payment-return`) never
- * marks anything; it only reads the order that this route produced.
+ *
+ * Since t-2026-10-12-13 the buyer's return usually completes the cart first
+ * (`src/api/store/tenant/robokassa-return/route.ts`): with the payment
+ * authorized when Robokassa's signature or `OpStateExt` proved it, or with no
+ * payment yet (`pending_authorization`) when nothing could. This route is then
+ * the capture of that order and creates nothing new: the workflow captures the
+ * authorized payment, or authorizes and captures the pending one, and skips
+ * the cart completion because the order exists.
  *
  * Robokassa expects the literal body `OK<InvId>` and keeps retrying otherwise,
  * so a replay of an already confirmed invoice answers `OK` again (idempotent),
@@ -51,23 +58,6 @@ const payloadFrom = (req: MedusaRequest): RobokassaResultPayload => {
     Shp_SessionID: text(source?.Shp_SessionID),
   };
 };
-
-/**
- * The shop's credentials in the mode the payment session was CREATED in (46df
- * D2). Robokassa signs the Result of a test invoice with test password #2 and
- * of a live one with password #2, for the whole life of the invoice, retries
- * included. The shop's `is_test` is the owner's switch and may have flipped
- * since the payment page was built; checking against it turned a genuine live
- * Result into `bad_signature`, money taken and no order. A session written
- * before `is_test` was stored on it falls back to the shop's mode.
- */
-const secretInSessionMode = (
-  secret: ResolvedRobokassaSecret,
-  sessionIsTest: unknown,
-): ResolvedRobokassaSecret =>
-  typeof sessionIsTest === "boolean" && sessionIsTest !== secret.is_test
-    ? { ...secret, is_test: sessionIsTest }
-    : secret;
 
 const handle = async (req: MedusaRequest, res: MedusaResponse) => {
   const logger = req.scope.resolve<Logger>(ContainerRegistrationKeys.LOGGER);
@@ -107,7 +97,9 @@ const handle = async (req: MedusaRequest, res: MedusaResponse) => {
   if (secret.is_test && !shopSecret.is_test) {
     return reject(400, "test_payment_in_live_mode");
   }
-  if (payload.InvId !== data.invoice_id || payload.OutSum !== data.out_sum) {
+  // The same sum to the kopeck: the signature above is over Robokassa's own
+  // string, and the number of decimals it writes is not the session's.
+  if (payload.InvId !== data.invoice_id || !sameOutSum(payload.OutSum, data.out_sum)) {
     return reject(400, "invoice_mismatch");
   }
 

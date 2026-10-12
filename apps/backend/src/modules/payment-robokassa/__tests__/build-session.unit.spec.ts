@@ -27,6 +27,7 @@ const secretFor = (overrides: Partial<ResolvedRobokassaSecret> = {}): ResolvedRo
     fiscalization_enabled: false,
     sno: "osn",
     default_tax: "none",
+    disabled_methods: [],
     ...overrides.credentials,
   },
   ...overrides,
@@ -90,6 +91,7 @@ describe("buildRobokassaSession: fiscalization on (t-cherk-30)", () => {
         fiscalization_enabled: true,
         sno: "osn",
         default_tax: "vat10",
+        disabled_methods: [],
       },
     });
     const input = {
@@ -143,6 +145,7 @@ describe("buildRobokassaSession: fiscalization on (t-cherk-30)", () => {
         fiscalization_enabled: true,
         sno: "osn",
         default_tax: "vat20",
+        disabled_methods: [],
       },
     });
     const session = buildRobokassaSession({
@@ -183,6 +186,7 @@ describe("buildRobokassaSession: fiscalization on (t-cherk-30)", () => {
         fiscalization_enabled: true,
         sno: "osn",
         default_tax: "none",
+        disabled_methods: [],
       },
     });
     const session = buildRobokassaSession({
@@ -214,6 +218,7 @@ describe("buildRobokassaSession: checkout method rows and the modal (t-2026-10-0
         fiscalization_enabled: true,
         sno: "osn",
         default_tax: "none",
+        disabled_methods: [],
       },
     });
 

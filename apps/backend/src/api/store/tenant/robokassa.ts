@@ -45,7 +45,7 @@ export const robokassaAvailableFor = async (req: MedusaStoreRequest): Promise<bo
  * id must be the SERVER's word, never the client's: it is taken from the
  * publishable key, checked against the cart the payment collection belongs
  * to, and written over whatever the body carried. Any other client key that
- * the provider treats as server-owned (`result_*`) is dropped here as well;
+ * the provider treats as server-owned (`result_*`, `return_*`) is dropped here as well;
  * the provider rebuilds its data from scratch anyway (`initiatePayment`),
  * so this is the second wall, not the only one.
  *
@@ -128,8 +128,16 @@ export const injectRobokassaTenant = async (
       ]
     : undefined;
 
-  const { tenant_id: _tenant, result_confirmed_at: _confirmed, result_out_sum: _sum, ...clientData } =
-    body.data ?? {};
+  const {
+    tenant_id: _tenant,
+    result_confirmed_at: _confirmed,
+    result_out_sum: _sum,
+    return_confirmed_at: _returnConfirmed,
+    return_confirmed_by: _returnBy,
+    return_out_sum: _returnSum,
+    return_seen_at: _returnSeen,
+    ...clientData
+  } = body.data ?? {};
   req.body = {
     ...body,
     data: { ...clientData, tenant_id: tenant.id, receipt_lines: receiptLines },
