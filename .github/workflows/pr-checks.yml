@@ -19,9 +19,14 @@ name: PR Checks
 # each host (deploy/auto/release-agent.sh) releases the newest dev commit whose jobs below are all green.
 # A pull request was checked against the dev of its own time, so after five merges in a row the commit
 # that reaches dev was never checked as it is.
+# A pull request into templates/** (template and block work, AGENTS.md «`templates/*` Branches») runs Storefront
+# and, from templates-guard.yml, Templates Guard. Template Scope reads what it changes, and Backend, Panel And
+# Repository and Deploy Checks run only when it touches what they check (t-2026-10-12-33). All jobs share one
+# self-hosted runner on the INTL production host, Backend alone takes about 23 minutes, and up to seven lines open
+# template pull requests at night. The dev releases must not wait behind them (t-2026-10-12-30 measured 164 minutes).
 on:
   pull_request:
-    branches: [ dev ]
+    branches: [ dev, 'templates/**' ]
   push:
     branches: [ dev ]
   workflow_dispatch:
@@ -51,8 +56,34 @@ concurrency:
 # (`gh workflow run pr-checks.yml --ref <branch>`), which is not dependabot's and runs here.
 # deploy/auto/__tests__/pr-checks-runner.test.mjs checks that every job carries this choice.
 jobs:
+  # Runs only on a pull request into templates/**. The merge commit's first parent is the base tip, so the diff
+  # against it is what the pull request changes. Elsewhere the job is skipped and every job below runs. When
+  # the job fails, its outputs are empty and the jobs below run too.
+  scope:
+    name: Template Scope
+    if: ${{ startsWith(github.base_ref, 'templates/') }}
+    runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
+    timeout-minutes: 5
+    outputs:
+      backend: ${{ steps.scope.outputs.backend }}
+      panel: ${{ steps.scope.outputs.panel }}
+      deploy: ${{ steps.scope.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Changed paths
+        id: scope
+        shell: bash
+        run: git diff --name-only HEAD^1 HEAD | node .github/scripts/templates-guard.mjs --scope >> "$GITHUB_OUTPUT"
+
   backend:
     name: Backend
+    needs: scope
+    if: ${{ !cancelled() && (!startsWith(github.base_ref, 'templates/') || needs.scope.outputs.backend != 'false') }}
     runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
     timeout-minutes: 30
     steps:
@@ -113,6 +144,8 @@ jobs:
 
   panel-and-repository:
     name: Panel And Repository
+    needs: scope
+    if: ${{ !cancelled() && (!startsWith(github.base_ref, 'templates/') || needs.scope.outputs.panel != 'false') }}
     runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
     timeout-minutes: 30
     steps:
@@ -184,6 +217,8 @@ jobs:
 
   deploy-checks:
     name: Deploy Checks
+    needs: scope
+    if: ${{ !cancelled() && (!startsWith(github.base_ref, 'templates/') || needs.scope.outputs.deploy != 'false') }}
     runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
     timeout-minutes: 10
     steps:
