@@ -106,11 +106,15 @@ export default function VideoPlayer({
       )}
     >
       {cover ? <Image src={cover.url} alt={cover.alt} fill sizes={sizes} className="object-cover" /> : null}
+      {/* The mark wears the template's button. An outlined button is drawn on the page, so the page's own
+          colour lies under it here: on a picture its clear fill would leave the mark unseen. */}
       <span
         aria-hidden
-        className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--layer-button-border,var(--primary))] bg-[var(--layer-button-bg,var(--primary))] text-[var(--layer-button-fg,var(--primary-foreground))] transition-transform duration-200 group-hover:scale-110 motion-reduce:transition-none"
+        className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--background)] transition-transform duration-200 group-hover:scale-110 motion-reduce:transition-none"
       >
-        <Play className="size-7 translate-x-0.5 fill-current" strokeWidth={1.5} />
+        <span className="flex size-full items-center justify-center rounded-full border border-[var(--layer-button-border,var(--primary))] bg-[var(--layer-button-bg,var(--primary))] text-[var(--layer-button-fg,var(--primary-foreground))]">
+          <Play className="size-7 translate-x-0.5 fill-current" strokeWidth={1.5} />
+        </span>
       </span>
     </button>
   )
