@@ -476,6 +476,14 @@
       "propsEditable": false
     },
     {
+      "id": "banner/image",
+      "category": "banner",
+      "placement": "home",
+      "status": "lab",
+      "props": true,
+      "propsEditable": false
+    },
+    {
       "id": "faq/accordion",
       "category": "faq",
       "placement": "home",

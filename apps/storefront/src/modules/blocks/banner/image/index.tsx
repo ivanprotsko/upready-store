@@ -7,6 +7,7 @@ import { resolveImageRef, type BlockImage } from "@lib/data/block-image"
 
 import BlockSection from "../../shared/block-section"
 import { pickText } from "../../shared/localized-text"
+import { SECTION_TYPE } from "../../shared/section-type"
 import type { ContentPosition, ImageBannerProps } from "./props"
 
 const focusRing =
@@ -91,8 +92,10 @@ const TEXT_ALIGN: Record<Horizontal, { text: string; buttons: string }> = {
  * - Nine places for the words, the text aligned with its side. `stackOnMobile` puts them under the picture
  *   below 512 px, on the page's background.
  *
- * The heading is the section heading's type (24 / 32 px, the same as `text/rich-text`), so a page keeps one
- * size per role (QR-TYPE-ROLE); the full width is `BlockSection`'s, the words stay in the content container.
+ * The heading and the text are the section type of `shared/section-type.ts`, so a page keeps one size per
+ * role (QR-TYPE-ROLE). One departure: straight on the picture the text is `--foreground`, not the role's
+ * `--muted-foreground`, which over a 65 % layer falls below 4.5:1 on a white or black spot in every palette.
+ * The full width is `BlockSection`'s; the words stay in the content container.
  */
 export default async function ImageBanner({
   image,
@@ -203,15 +206,15 @@ export default async function ImageBanner({
               )}
             >
               {title ? (
-                <h2
-                  data-role="headline"
-                  className="text-balance text-2xl font-semibold leading-tight tracking-[-0.02em] small:text-3xl"
-                >
+                <h2 data-role="headline" className={SECTION_TYPE.heading}>
                   {title}
                 </h2>
               ) : null}
               {body ? (
-                <p data-role="description" className="whitespace-pre-line text-pretty text-base small:text-lg">
+                <p
+                  data-role="description"
+                  className={clx(SECTION_TYPE.description, "whitespace-pre-line", !textBox && "text-[var(--foreground)]")}
+                >
                   {body}
                 </p>
               ) : null}

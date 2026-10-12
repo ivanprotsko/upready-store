@@ -49,8 +49,8 @@ export const SECONDARY_LABEL: LocalizedText = { ru: "Подробнее", en: "L
 /**
  * The least overlay under words that sit straight on the picture (`textBox: false`). The worst picture is
  * pure white or pure black behind the text; over it, `--foreground` on a 65 % `--background` layer stands at
- * 4.58:1 or more in every palette of `styles/themes.css` measured (home-goods, electronics and default, light
- * and dark), so the text holds WCAG AA whatever the picture. Below that the words go on the card.
+ * 4.58:1 or more in all 21 palette and mode pairs of `styles/themes.css`, so the text holds WCAG AA whatever
+ * the picture. Below that the words go on the card.
  */
 export const MIN_BARE_OVERLAY = 65
 

@@ -7,6 +7,7 @@ import { validateTemplate } from "@lib/templates/manifest"
 
 import { BLOCKS, CATEGORY_BLOCKS, blockById } from "../../registry"
 import type { ImageRef } from "../../shared/image-ref"
+import { SECTION_TYPE } from "../../shared/section-type"
 import ImageBanner from "."
 import { image } from "./block"
 import { MIN_BARE_OVERLAY, PRIMARY_LABEL, SECONDARY_LABEL, parseImageBannerProps, type ImageBannerProps } from "./props"
@@ -166,10 +167,16 @@ describe("ImageBanner", () => {
   })
 
   it("puts the words on a --background card with the template's radius, or straight on the picture", async () => {
-    const card = (await render({ ...blank, image: kitchen, heading: { ru: "Распродажа" }, stackOnMobile: false }))!
+    const words = { heading: { ru: "Распродажа" }, text: { ru: "До конца недели" } }
+    const card = (await render({ ...blank, ...words, image: kitchen, stackOnMobile: false }))!
     expect(card).toContain("rounded-[var(--radius)] bg-[var(--background)] p-6")
-    const bare = (await render({ ...blank, image: kitchen, heading: { ru: "Распродажа" }, overlay: 65, textBox: false }))!
+    const bare = (await render({ ...blank, ...words, image: kitchen, overlay: 65, textBox: false }))!
     expect(bare).not.toContain("rounded-[var(--radius)] bg-[var(--background)]")
+
+    // The section type of every home block; on the bare picture the text leaves --muted-foreground for --foreground.
+    for (const html of [card, bare]) expect(html).toContain(`<h2 data-role="headline" class="${SECTION_TYPE.heading}">`)
+    expect(card).toContain(`<p data-role="description" class="${SECTION_TYPE.description} whitespace-pre-line">`)
+    expect(bare).toMatch(/<p data-role="description" class="text-pretty text-base small:text-lg whitespace-pre-line text-\[var\(--foreground\)\]">/)
   })
 
   it("places the words in nine spots, the text aligned with its side", async () => {
