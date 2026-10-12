@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK-utlämningsställe",
-    "chooseHeading": "Välj ett CDEK-utlämningsställe",
     "searchPlaceholder": "Sök på adress eller tunnelbana",
     "cityLabel": "Stad",
     "cityPlaceholder": "Börja skriva en stad",
     "choose": "Välj",
     "chosen": "Vald",
-    "found": "Hittade utlämningsställen: {count}",
     "noResults": "Inga utlämningsställen hittades i {city}.",
     "needCity": "Ange din leveransstad för att se utlämningsställen.",
     "loading": "Laddar utlämningsställen…",
@@ -122,7 +120,8 @@
     "tabList": "Lista",
     "tabMap": "Karta",
     "mapEmpty": "Det finns inga utlämningsställen att visa på kartan för den här staden.",
-    "mapFailed": "Kartan är inte tillgänglig. Välj ett ställe i listan."
+    "pickerHeading": "Välj ett utlämningsställe",
+    "closeCard": "Stäng ställets kort"
   },
   "CheckoutPage": {
     "addNewAddress": "Lägg till ny adress",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Ryska postens utlämningsställe",
-    "chooseHeading": "Välj ett utlämningsställe hos Ryska posten",
     "notConfigured": "Leverans med Ryska posten är inte inställd i den här butiken än.",
     "quoteFailed": "Frakten till det här stället kunde inte beräknas. Välj ett annat.",
     "postcode": "Postnummer {index}"

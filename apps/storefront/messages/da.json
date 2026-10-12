@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK-afhentningssted",
-    "chooseHeading": "Vælg et CDEK-afhentningssted",
     "searchPlaceholder": "Søg efter adresse eller metro",
     "cityLabel": "By",
     "cityPlaceholder": "Begynd at skrive en by",
     "choose": "Vælg",
     "chosen": "Valgt",
-    "found": "Fundne afhentningssteder: {count}",
     "noResults": "Ingen afhentningssteder fundet i {city}.",
     "needCity": "Angiv din leveringsby for at se afhentningssteder.",
     "loading": "Indlæser afhentningssteder…",
@@ -122,7 +120,8 @@
     "tabList": "Liste",
     "tabMap": "Kort",
     "mapEmpty": "Der er ingen afhentningssteder på kortet for denne by.",
-    "mapFailed": "Kortet er ikke tilgængeligt. Vælg et sted fra listen."
+    "pickerHeading": "Vælg et afhentningssted",
+    "closeCard": "Luk stedets kort"
   },
   "CheckoutPage": {
     "addNewAddress": "Tilføj ny adresse",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Russisk Posts udleveringssted",
-    "chooseHeading": "Vælg et udleveringssted hos Russisk Post",
     "notConfigured": "Levering med Russisk Post er endnu ikke sat op i denne butik.",
     "quoteFailed": "Leveringen til dette sted kunne ikke beregnes. Vælg et andet.",
     "postcode": "Postnummer {index}"

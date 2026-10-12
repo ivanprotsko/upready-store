@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK-afhaalpunt",
-    "chooseHeading": "Kies een CDEK-afhaalpunt",
     "searchPlaceholder": "Zoeken op adres of metro",
     "cityLabel": "Stad",
     "cityPlaceholder": "Begin met typen",
     "choose": "Kiezen",
     "chosen": "Gekozen",
-    "found": "Gevonden afhaalpunten: {count}",
     "noResults": "Geen afhaalpunten gevonden in {city}.",
     "needCity": "Vul je bezorgstad in om afhaalpunten te zien.",
     "loading": "Afhaalpunten laden…",
@@ -122,7 +120,8 @@
     "tabList": "Lijst",
     "tabMap": "Kaart",
     "mapEmpty": "Geen afhaalpunten om op de kaart te tonen voor deze stad.",
-    "mapFailed": "De kaart is niet beschikbaar. Kies een punt uit de lijst."
+    "pickerHeading": "Kies een afhaalpunt",
+    "closeCard": "Kaart van het punt sluiten"
   },
   "CheckoutPage": {
     "addNewAddress": "Nieuw adres toevoegen",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Afhaalpunt van de Russische Post",
-    "chooseHeading": "Kies een afhaalpunt van de Russische Post",
     "notConfigured": "Verzending met de Russische Post is in deze winkel nog niet ingesteld.",
     "quoteFailed": "De verzending naar dit punt kon niet worden berekend. Kies een ander punt.",
     "postcode": "Postcode {index}"

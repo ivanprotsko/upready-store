@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK-noutopiste",
-    "chooseHeading": "Valitse CDEK-noutopiste",
     "searchPlaceholder": "Hae osoitteella tai metrolla",
     "cityLabel": "Kaupunki",
     "cityPlaceholder": "Ala kirjoittaa kaupunkia",
     "choose": "Valitse",
     "chosen": "Valittu",
-    "found": "Löytyneet noutopisteet: {count}",
     "noResults": "Kaupungista {city} ei löytynyt noutopisteitä.",
     "needCity": "Anna toimituskaupunki nähdäksesi noutopisteet.",
     "loading": "Ladataan noutopisteitä…",
@@ -122,7 +120,8 @@
     "tabList": "Lista",
     "tabMap": "Kartta",
     "mapEmpty": "Tälle kaupungille ei ole noutopisteitä kartalla.",
-    "mapFailed": "Kartta ei ole käytettävissä. Valitse piste listalta."
+    "pickerHeading": "Valitse noutopiste",
+    "closeCard": "Sulje pisteen kortti"
   },
   "CheckoutPage": {
     "addNewAddress": "Lisää uusi osoite",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Venäjän postin noutopiste",
-    "chooseHeading": "Valitse Venäjän postin noutopiste",
     "notConfigured": "Venäjän postin toimitusta ei ole vielä otettu käyttöön tässä kaupassa.",
     "quoteFailed": "Toimitusta tähän noutopisteeseen ei voitu laskea. Valitse toinen.",
     "postcode": "Postinumero {index}"

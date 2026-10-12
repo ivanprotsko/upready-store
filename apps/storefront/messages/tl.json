@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK pickup point",
-    "chooseHeading": "Pumili ng CDEK pickup point",
     "searchPlaceholder": "Maghanap ayon sa address o metro",
     "cityLabel": "Lungsod",
     "cityPlaceholder": "Simulang i-type ang lungsod",
     "choose": "Piliin",
     "chosen": "Napili",
-    "found": "Mga pickup point na nakita: {count}",
     "noResults": "Walang pickup point na nakita sa {city}.",
     "needCity": "Ilagay ang lungsod ng paghahatid para makita ang mga pickup point.",
     "loading": "Nilo-load ang mga pickup point…",
@@ -122,7 +120,8 @@
     "tabList": "Listahan",
     "tabMap": "Mapa",
     "mapEmpty": "Walang pickup point na maipapakita sa mapa para sa lungsod na ito.",
-    "mapFailed": "Hindi available ang mapa. Pumili ng pickup point sa listahan."
+    "pickerHeading": "Pumili ng pickup point",
+    "closeCard": "Isara ang card ng point"
   },
   "CheckoutPage": {
     "addNewAddress": "Magdagdag ng bagong address",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Pickup point ng Russian Post",
-    "chooseHeading": "Pumili ng pickup point ng Russian Post",
     "notConfigured": "Hindi pa naka-set up ang delivery sa Russian Post sa tindahang ito.",
     "quoteFailed": "Hindi makalkula ang delivery papunta sa puntong ito. Pumili ng iba.",
     "postcode": "Postal code {index}"

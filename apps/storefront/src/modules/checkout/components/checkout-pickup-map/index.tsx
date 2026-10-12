@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { clx } from "@medusajs/ui"
 
-import type { CdekStorePoint } from "@lib/util/cdek"
-
 /**
- * The pickup points of one city on a Yandex map (i03-checkout-pvz-map-address-suggest).
+ * The pickup points of one city on a Yandex map (i03-checkout-pvz-map-address-suggest),
+ * since t-2026-10-12-03 the one map of both pickers, Russian Post and CDEK. Ivan's item 2
+ * (12.10) replaced the Russian Post map, Leaflet over OpenStreetMap tiles, with this one.
  *
  * Mechanics are ported from the reference storefront's `pickup-map-yandex`
  * (chrxnasdmds), the components and the styling are this storefront's own —
@@ -20,8 +20,8 @@ import type { CdekStorePoint } from "@lib/util/cdek"
  * next door is built on CDEK's own directory instead (see
  * `modules/common/components/suggest-input`).
  *
- * The map never owns the selection: the sheet does. This component draws the
- * points, reports a click and follows `selectedCode` — so the list and the map
+ * The map never owns the selection: the picker does. This component draws the
+ * points, reports a click and follows `selectedId` — so the list and the map
  * can never disagree about what the buyer picked.
  */
 
@@ -34,12 +34,13 @@ let loader: Promise<YMaps> | null = null
 type YMaps = {
   Map: new (el: HTMLElement, state: unknown, options?: unknown) => YMap
   ObjectManager: new (options: unknown) => YObjectManager
+  Placemark: new (coordinates: number[], properties: unknown, options: unknown) => unknown
   ready: (cb: () => void) => void
 }
 
 type YMap = {
   behaviors: { disable: (name: string) => void }
-  geoObjects: { add: (object: unknown) => void }
+  geoObjects: { add: (object: unknown) => void; remove: (object: unknown) => void }
   container: { fitToViewport?: () => void }
   setBounds: (bounds: number[][], options?: unknown) => void
   setCenter: (center: number[], zoom?: number, options?: unknown) => void
@@ -51,10 +52,9 @@ type YObjectManager = {
   add: (collection: unknown) => void
   removeAll: () => void
   getBounds: () => number[][] | null
+  setFilter: (filter: (object: { id: string }) => boolean) => void
   objects: {
     events: { add: (event: string, handler: (e: { get: (k: string) => string }) => void) => void }
-    getById: (id: string) => unknown
-    setObjectOptions: (id: string, options: unknown) => void
   }
   clusters: { options: { set: (key: string, value: unknown) => void } }
 }
@@ -93,36 +93,79 @@ function loadYmaps(apikey: string): Promise<YMaps> {
   return loader
 }
 
-/** Marker presets: a postamat reads differently from a staffed office. */
-const PRESET_BY_TYPE: Record<string, string> = {
-  POSTAMAT: "islands#blueDotIcon",
-  PVZ: "islands#greenDotIcon",
+/** What a marker stands for; a postamat reads differently from a staffed office. */
+export type PickupMapKind = "pvz" | "postamat" | "post"
+
+/** Marker presets of the points that are NOT selected. */
+const PRESET_BY_KIND: Record<PickupMapKind, string> = {
+  pvz: "islands#greenDotIcon",
+  postamat: "islands#blueDotIcon",
+  post: "islands#blueDotIcon",
 }
-const PRESET_DEFAULT = "islands#violetDotIcon"
-const PRESET_SELECTED = "islands#blackDotIcon"
+
+/**
+ * The selected point: a red Location pin, a teardrop with a dark dot (Ivan's item 3.8 and
+ * his Image #4), drawn above every cluster. 28 × 40 px, the tip at the bottom centre.
+ *
+ * theme-colours allowlist: the pin is the map's own marker, drawn by Yandex over map tiles
+ * that follow no shop theme; Ivan's Image #4 fixes its red, the one literal of this file.
+ */
+const SELECTED_PIN_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="40" viewBox="0 0 28 40">' +
+  // theme-colours allowlist: the red pin of Ivan's Image #4, see SELECTED_PIN_SVG above.
+  '<path d="M14 1.2C6.9 1.2 1.2 6.8 1.2 13.8c0 9.4 11.2 22.6 12.1 23.7a.9.9 0 0 0 1.4 0c.9-1.1 12.1-14.3 12.1-23.7C26.8 6.8 21.1 1.2 14 1.2z" fill="#EA4335" stroke="#B3261E" stroke-width="1.4"/>' +
+  // theme-colours allowlist: the dark dot of the same pin, Image #4.
+  '<circle cx="14" cy="13.8" r="4.6" fill="#7A1712"/>' +
+  "</svg>"
+const SELECTED_PIN = {
+  iconLayout: "default#image",
+  iconImageHref: `data:image/svg+xml;charset=utf-8,${encodeURIComponent(SELECTED_PIN_SVG)}`,
+  iconImageSize: [28, 40],
+  iconImageOffset: [-14, -40],
+  // Above the clusters and the other markers, so the pin is never hidden under a group.
+  zIndex: 1000,
+}
+
+export type PickupMapPoint = {
+  id: string
+  lat: number | null
+  lng: number | null
+  kind: PickupMapKind
+  /** The hover hint: the point's address. */
+  hint: string
+}
 
 type Props = {
-  points: CdekStorePoint[]
-  selectedCode: string | null
-  onSelect: (point: CdekStorePoint) => void
+  points: PickupMapPoint[]
+  selectedId: string | null
+  onSelect: (id: string) => void
+  /** The key is missing or the loader failed: the picker then shows its list alone. */
+  onFailed?: () => void
   className?: string
   /** Shown over the map when the city has no points at all. */
   emptyHint?: string
-  /** Shown instead of the map when the key is missing or the loader fails. */
-  failedHint?: string
 }
 
 export default function CheckoutPickupMap({
   points,
-  selectedCode,
+  selectedId,
   onSelect,
+  onFailed,
   className,
   emptyHint,
-  failedHint,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<YMap | null>(null)
   const omRef = useRef<YObjectManager | null>(null)
+  const ymapsRef = useRef<YMaps | null>(null)
+  const pinRef = useRef<unknown>(null)
+  /**
+   * A view the map could not take yet because its box had no size: the mobile «Карта» tab
+   * is `display: none` while the list is shown, and bounds fitted into a zero box land on
+   * the whole world (measured on the stand 12.10: CDEK's 126 Moscow points in one cluster
+   * over Eurasia). The resize observer applies it once the box has a size.
+   */
+  const pendingRef = useRef<"fit" | "selected" | null>(null)
   const [ready, setReady] = useState(false)
   const [failed, setFailed] = useState(false)
 
@@ -141,8 +184,12 @@ export default function CheckoutPickupMap({
   /** Fresh handlers without rebuilding the map on every render. */
   const selectRef = useRef(onSelect)
   selectRef.current = onSelect
+  const failedRef = useRef(onFailed)
+  failedRef.current = onFailed
   const pointsRef = useRef(located)
   pointsRef.current = located
+  const selectedRef = useRef(selectedId)
+  selectedRef.current = selectedId
 
   /**
    * `prefers-reduced-motion`: the flight to a chosen point is the only
@@ -153,12 +200,39 @@ export default function CheckoutPickupMap({
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 600
   }, [])
 
+  const hasSize = () => {
+    const el = containerRef.current
+    return !!el && el.clientWidth > 0 && el.clientHeight > 0
+  }
+
+  /** Frames the city's points. */
+  const fit = useCallback(() => {
+    const map = mapRef.current
+    const bounds = omRef.current?.getBounds()
+    if (!map || !bounds) return
+    map.setBounds(bounds, { checkZoomRange: true, zoomMargin: 40 })
+  }, [])
+
+  /** Flies to the selected point, close enough to see its street. */
+  const flyToSelected = useCallback(
+    (animate: boolean) => {
+      const map = mapRef.current
+      const hit = pointsRef.current.find((point) => point.id === selectedRef.current)
+      if (!map || !hit) return
+      map.setCenter([hit.lat as number, hit.lng as number], Math.max(map.getZoom(), 14), {
+        duration: animate ? flightDuration() : 0,
+      })
+    },
+    [flightDuration]
+  )
+
   useEffect(() => {
     let cancelled = false
     const container = containerRef.current
     if (!container) return
     if (!apikey) {
       setFailed(true)
+      failedRef.current?.()
       return
     }
 
@@ -166,6 +240,7 @@ export default function CheckoutPickupMap({
       .then((ymaps) => {
         if (cancelled || !containerRef.current) return
 
+        ymapsRef.current = ymaps
         const map = new ymaps.Map(
           containerRef.current,
           { center: [55.75, 37.62], zoom: 9, controls: ["zoomControl"] },
@@ -188,14 +263,15 @@ export default function CheckoutPickupMap({
 
         om.objects.events.add("click", (event) => {
           const id = event.get("objectId")
-          const hit = pointsRef.current.find((point) => point.code === id)
-          if (hit) selectRef.current(hit)
+          if (pointsRef.current.some((point) => point.id === id)) selectRef.current(id)
         })
 
         setReady(true)
       })
       .catch(() => {
-        if (!cancelled) setFailed(true)
+        if (cancelled) return
+        setFailed(true)
+        failedRef.current?.()
       })
 
     return () => {
@@ -203,6 +279,7 @@ export default function CheckoutPickupMap({
       mapRef.current?.destroy?.()
       mapRef.current = null
       omRef.current = null
+      pinRef.current = null
       setReady(false)
     }
   }, [apikey])
@@ -219,70 +296,80 @@ export default function CheckoutPickupMap({
       features: located.map((point) => ({
         type: "Feature",
         // Stable id: the click handler finds the point by it.
-        id: point.code,
+        id: point.id,
         // JS API 2.1 takes [latitude, longitude] — the reverse of GeoJSON.
         // Swapping them puts every pickup point in the Indian Ocean.
         geometry: { type: "Point", coordinates: [point.lat, point.lng] },
         properties: {
-          hintContent: point.name,
+          hintContent: point.hint,
         },
         options: {
-          preset: PRESET_BY_TYPE[point.type] ?? PRESET_DEFAULT,
+          preset: PRESET_BY_KIND[point.kind],
         },
       })),
     })
 
     if (!located.length) return
-    const bounds = om.getBounds()
-    if (bounds) map.setBounds(bounds, { checkZoomRange: true, zoomMargin: 40 })
-  }, [located, ready])
+    // A preselected point (the cart's own, decision D9) is flown to by the selection
+    // effect; framing the city here would undo that flight.
+    if (located.some((point) => point.id === selectedRef.current)) return
+    if (hasSize()) {
+      fit()
+      pendingRef.current = null
+    } else {
+      pendingRef.current = "fit"
+    }
+  }, [located, ready, fit])
 
-  // Selection: highlight and fly.
+  // Selection: the red pin, drawn on its own above the clusters, and the flight to it.
   useEffect(() => {
+    const ymaps = ymapsRef.current
     const om = omRef.current
     const map = mapRef.current
-    if (!om || !map || !ready) return
+    if (!ymaps || !om || !map || !ready) return
 
-    for (const point of located) {
-      if (!om.objects.getById(point.code)) continue
-      om.objects.setObjectOptions(point.code, {
-        preset:
-          point.code === selectedCode
-            ? PRESET_SELECTED
-            : PRESET_BY_TYPE[point.type] ?? PRESET_DEFAULT,
-      })
+    if (pinRef.current) {
+      map.geoObjects.remove(pinRef.current)
+      pinRef.current = null
     }
+    const hit = located.find((point) => point.id === selectedId)
+    // The selected point leaves the object manager while it is selected: inside a cluster
+    // the pin would be one more number in a circle.
+    om.setFilter((object) => object.id !== (hit ? hit.id : null))
+    if (!hit) return
 
-    const hit = located.find((point) => point.code === selectedCode)
-    if (hit) {
-      map.setCenter([hit.lat as number, hit.lng as number], Math.max(map.getZoom(), 14), {
-        duration: flightDuration(),
-      })
+    const pin = new ymaps.Placemark(
+      [hit.lat as number, hit.lng as number],
+      { hintContent: hit.hint },
+      SELECTED_PIN
+    )
+    map.geoObjects.add(pin)
+    pinRef.current = pin
+
+    if (hasSize()) {
+      flyToSelected(true)
+      pendingRef.current = null
+    } else {
+      pendingRef.current = "selected"
     }
-  }, [selectedCode, located, ready, flightDuration])
+  }, [selectedId, located, ready, flyToSelected])
 
-  // The sheet changes the map's size: a tab switch on mobile, a window resize.
+  // The picker changes the map's size: a tab switch on mobile, a window resize.
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
-    const observer = new ResizeObserver(() => mapRef.current?.container?.fitToViewport?.())
+    const observer = new ResizeObserver(() => {
+      mapRef.current?.container?.fitToViewport?.()
+      if (!hasSize() || !pendingRef.current) return
+      if (pendingRef.current === "selected") flyToSelected(false)
+      else fit()
+      pendingRef.current = null
+    })
     observer.observe(el)
     return () => observer.disconnect()
-  }, [])
+  }, [fit, flyToSelected])
 
-  if (failed) {
-    return (
-      <div
-        className={clx(
-          "flex items-center justify-center bg-ui-bg-subtle p-6 text-center txt-small text-ui-fg-muted",
-          className
-        )}
-        data-testid="pickup-map-failed"
-      >
-        {failedHint}
-      </div>
-    )
-  }
+  if (failed) return null
 
   return (
     <div
@@ -293,7 +380,7 @@ export default function CheckoutPickupMap({
 
       {ready && located.length === 0 && emptyHint && (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
-          <div className="mx-auto w-fit rounded-rounded bg-ui-bg-base/90 px-3 py-2 txt-small text-ui-fg-muted shadow-elevation-card-rest">
+          <div className="mx-auto w-fit rounded-rounded bg-ui-bg-base px-3 py-2 txt-small text-ui-fg-muted shadow-elevation-card-rest">
             {emptyHint}
           </div>
         </div>

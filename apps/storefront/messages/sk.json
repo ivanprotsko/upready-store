@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "Výdajné miesto CDEK",
-    "chooseHeading": "Vyberte výdajné miesto CDEK",
     "searchPlaceholder": "Hľadať podľa adresy alebo metra",
     "cityLabel": "Mesto",
     "cityPlaceholder": "Začnite písať mesto",
     "choose": "Vybrať",
     "chosen": "Vybrané",
-    "found": "Nájdených výdajných miest: {count}",
     "noResults": "V meste {city} sa nenašli žiadne výdajné miesta.",
     "needCity": "Zadajte mesto doručenia, aby ste videli výdajné miesta.",
     "loading": "Načítavanie výdajných miest…",
@@ -122,7 +120,8 @@
     "tabList": "Zoznam",
     "tabMap": "Mapa",
     "mapEmpty": "Pre toto mesto nie sú na mape žiadne výdajné miesta.",
-    "mapFailed": "Mapa nie je dostupná. Vyberte miesto zo zoznamu."
+    "pickerHeading": "Vyberte výdajné miesto",
+    "closeCard": "Zavrieť kartu miesta"
   },
   "CheckoutPage": {
     "addNewAddress": "Pridať novú adresu",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Výdajné miesto Ruskej pošty",
-    "chooseHeading": "Vyberte výdajné miesto Ruskej pošty",
     "notConfigured": "Doprava Ruskou poštou zatiaľ v tomto obchode nie je nastavená.",
     "quoteFailed": "Dopravu na toto miesto sa nepodarilo vypočítať. Vyberte iné.",
     "postcode": "PSČ {index}"

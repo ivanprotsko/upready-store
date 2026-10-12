@@ -20,8 +20,21 @@ const waitForMapStub = (page: import("@playwright/test").Page) =>
  * shipping method. The map's own rendering is Yandex's business and is measured
  * on the stand by eye instead (report.md, screenshots).
  */
+/** The list row of one point. */
+const rowOf = (page: import("@playwright/test").Page, code: string) =>
+  page.locator(`[data-testid="cdek-point-row"][data-point-id="${code}"]`)
+
+/** What the stub was last asked to mark as selected: the red pin and the point it stands for. */
+const pinOf = (page: import("@playwright/test").Page) =>
+  page.evaluate(() => {
+    const ymaps = (window as never as {
+      __ymaps: { selected: string | null; pins: { options: { iconImageHref?: string } }[] }
+    }).__ymaps
+    return { selected: ymaps.selected, pins: ymaps.pins.length, href: ymaps.pins[0]?.options.iconImageHref ?? "" }
+  })
+
 test.describe("checkout pickup map", () => {
-  test("draws the city's points, clusters them, and a marker click previews one", async ({ page }) => {
+  test("draws the city's points, clusters them, and a marker click expands its row", async ({ page }) => {
     await mockCdek(page)
     const loader = await mockYandexMaps(page)
     await reachShippingStep(page)
@@ -51,20 +64,26 @@ test.describe("checkout pickup map", () => {
     expect(drawn.first).toEqual([POINT_FIXTURES[0].lat, POINT_FIXTURES[0].lng])
     expect(drawn.clusterPreset, "clustering was never configured").toContain("ClusterIcons")
 
-    // A click on the second marker: the card appears and names that point.
+    // A click on the second marker (t-2026-10-12-03, item 3.6.2): the list on the left
+    // expands that point's row in view, the pin turns red, and no card appears on the map.
     await page.evaluate(
       (code) => (window as never as { __ymapsClick: (id: string) => void }).__ymapsClick(code),
       POINT_FIXTURES[1].code
     )
-    const pointCard = page.getByTestId("cdek-point-card")
-    await expect(pointCard).toBeVisible()
-    await expect(pointCard).toContainText(POINT_FIXTURES[1].name)
-    await expect(pointCard).toContainText(POINT_FIXTURES[1].address)
+    const row = rowOf(page, POINT_FIXTURES[1].code)
+    await expect(row).toHaveAttribute("data-selected", "true")
+    await expect(row).toBeInViewport()
+    await expect(row).toContainText(POINT_FIXTURES[1].phone as string)
+    await expect(page.getByTestId("cdek-point-map-card")).toBeHidden()
+    const pin = await pinOf(page)
+    expect(pin.selected).toBe(POINT_FIXTURES[1].code)
+    expect(pin.pins).toBe(1)
+    expect(decodeURIComponent(pin.href)).toContain("#EA4335")
 
     // The loader script is added once for the life of the page: choosing a
     // point, then reopening the picker through «Сменить пункт», rebuilds the map
     // from the API already in memory and never fetches it again.
-    await page.getByTestId("cdek-point-card-choose").click()
+    await row.getByTestId("cdek-point-choose").click()
     await expect(page.getByTestId("cdek-point-city")).toBeHidden({ timeout: 30_000 })
 
     const change = page.getByTestId("delivery-option-cdek-change")
@@ -74,20 +93,24 @@ test.describe("checkout pickup map", () => {
     await change.click()
     await expect(page.getByTestId("pickup-map")).toBeVisible()
     expect(loader.loads, "the Yandex loader was requested more than once").toBe(1)
+
+    // Decision D9: the point on the cart opens selected, its row expanded and in view.
+    const reopened = rowOf(page, POINT_FIXTURES[1].code)
+    await expect(reopened).toHaveAttribute("data-selected", "true")
+    await expect(reopened).toBeInViewport()
   })
 
-  test("choosing a point on the card sets the shipping method", async ({ page }) => {
+  test("choosing a point in its expanded row sets the shipping method", async ({ page }) => {
     await mockCdek(page)
     await mockYandexMaps(page)
     await reachShippingStep(page)
     await openCdekPointSheet(page)
     await waitForMapStub(page)
 
-    await page.evaluate(
-      (code) => (window as never as { __ymapsClick: (id: string) => void }).__ymapsClick(code),
-      POINT_FIXTURES[2].code
-    )
-    await page.getByTestId("cdek-point-card-choose").click()
+    // A tap on the row (item 3.4): it expands with «Выбрать»; collapsed rows carry none.
+    await expect(page.getByTestId("cdek-point-choose")).toHaveCount(0)
+    await rowOf(page, POINT_FIXTURES[2].code).click()
+    await page.getByTestId("cdek-point-choose").click()
 
     // The sheet closes on success, and the chosen point is on the page: the
     // shipping row names it (`checkout-info-rows` reads the cart's own method).
@@ -117,6 +140,43 @@ test.describe("checkout pickup map", () => {
     await expect(page.getByTestId("pickup-map")).toBeVisible()
     await expect(page.getByTestId("cdek-point-list")).toBeHidden()
   })
+
+  test("@mobile a tap on the map opens a card with an xmark; back on the list the row is in view", async ({
+    page,
+  }) => {
+    await mockCdek(page)
+    await mockYandexMaps(page)
+    await reachShippingStep(page)
+    await openCdekPointSheet(page)
+    await page.getByTestId("cdek-point-tab-map").click()
+    await waitForMapStub(page)
+
+    const tap = (code: string) =>
+      page.evaluate(
+        (id) => (window as never as { __ymapsClick: (id: string) => void }).__ymapsClick(id),
+        code
+      )
+
+    // Item 3.6: the card at the bottom of the map, «Выбрать» without leaving the tab.
+    await tap(POINT_FIXTURES[2].code)
+    const card = page.getByTestId("cdek-point-map-card")
+    await expect(card).toBeVisible()
+    await expect(card).toContainText(POINT_FIXTURES[2].name)
+    await expect(card.getByTestId("cdek-point-map-card-choose")).toBeVisible()
+    expect((await pinOf(page)).selected).toBe(POINT_FIXTURES[2].code)
+
+    // The xmark closes the card and clears the selection: no red pin is left.
+    await page.getByTestId("cdek-point-map-card-close").click()
+    await expect(card).toBeHidden()
+    expect(await pinOf(page)).toMatchObject({ selected: null, pins: 0 })
+
+    // Item 3.6.1: a point picked on the map is already in view, expanded, on «Список».
+    await tap(POINT_FIXTURES[2].code)
+    await page.getByTestId("cdek-point-tab-list").click()
+    const row = rowOf(page, POINT_FIXTURES[2].code)
+    await expect(row).toHaveAttribute("data-selected", "true")
+    await expect(row).toBeInViewport()
+  })
 })
 
 /**
@@ -138,7 +198,7 @@ test.describe("checkout pickup map, reduced motion", () => {
       (code) => (window as never as { __ymapsClick: (id: string) => void }).__ymapsClick(code),
       POINT_FIXTURES[1].code
     )
-    await expect(page.getByTestId("cdek-point-card")).toBeVisible()
+    await expect(rowOf(page, POINT_FIXTURES[1].code)).toHaveAttribute("data-selected", "true")
 
     const flights = await page.evaluate(
       () =>

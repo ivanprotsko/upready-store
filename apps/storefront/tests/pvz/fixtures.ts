@@ -96,7 +96,7 @@ export async function mockCdek(page: Page): Promise<SuggestCounter> {
 
 /**
  * Replaces the Yandex loader with a stub that answers the same surface the map
- * component uses (`Map`, `ObjectManager`, `ready`) and records every call, so a
+ * component uses (`Map`, `ObjectManager`, `Placemark`, `ready`) and records every call, so a
  * test can assert what was drawn and can fire a marker click without a key, a
  * network or a canvas.
  */
@@ -114,7 +114,7 @@ export async function mockYandexMaps(page: Page): Promise<{ loads: number }> {
 }
 
 const YMAPS_STUB = `
-window.__ymaps = { features: [], selected: null, clickHandlers: [], bounds: 0, flights: [] }
+window.__ymaps = { features: [], selected: null, pins: [], clickHandlers: [], bounds: 0, flights: [] }
 window.ymaps = {
   ready: function (cb) { cb() },
   Map: function (el, state) {
@@ -122,7 +122,10 @@ window.ymaps = {
     window.__ymaps.center = state.center
     return {
       behaviors: { disable: function () {} },
-      geoObjects: { add: function () {} },
+      geoObjects: {
+        add: function (object) { if (object && object.__pin) window.__ymaps.pins.push(object) },
+        remove: function (object) { window.__ymaps.pins = window.__ymaps.pins.filter(function (p) { return p !== object }) },
+      },
       container: { fitToViewport: function () {} },
       setBounds: function () { window.__ymaps.bounds += 1 },
       setCenter: function (c, z, o) { window.__ymaps.flights.push({ center: c, zoom: z, duration: o && o.duration }) },
@@ -136,13 +139,21 @@ window.ymaps = {
       add: function (collection) { window.__ymaps.features = collection.features },
       removeAll: function () { window.__ymaps.features = [] },
       getBounds: function () { return [[55, 37], [56, 38]] },
+      // The component takes the selected point out of the clusters; the one it filters out is
+      // the selected one.
+      setFilter: function (keep) {
+        var out = window.__ymaps.features.find(function (f) { return !keep(f) })
+        window.__ymaps.selected = out ? out.id : null
+      },
       clusters: { options: { set: function (k, v) { options[k] = v; window.__ymaps.clusterPreset = v } } },
       objects: {
         events: { add: function (name, handler) { if (name === "click") window.__ymaps.clickHandlers.push(handler) } },
-        getById: function (id) { return window.__ymaps.features.find(function (f) { return f.id === id }) || null },
-        setObjectOptions: function (id, opts) { if (opts.preset === "islands#blackDotIcon") window.__ymaps.selected = id },
       },
     }
+  },
+  /** The selected point's own marker, the red pin (t-2026-10-12-03, item 3.8). */
+  Placemark: function (coordinates, properties, options) {
+    return { __pin: true, coordinates: coordinates, options: options }
   },
 }
 /** Fires the component's own click handler for one point id. */

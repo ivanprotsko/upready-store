@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK-Abholstelle",
-    "chooseHeading": "CDEK-Abholstelle wählen",
     "searchPlaceholder": "Nach Adresse oder Metro suchen",
     "cityLabel": "Stadt",
     "cityPlaceholder": "Stadt eingeben",
     "choose": "Wählen",
     "chosen": "Gewählt",
-    "found": "Gefundene Abholstellen: {count}",
     "noResults": "In {city} wurden keine Abholstellen gefunden.",
     "needCity": "Geben Sie Ihre Lieferstadt ein, um Abholstellen zu sehen.",
     "loading": "Abholstellen werden geladen…",
@@ -122,7 +120,8 @@
     "tabList": "Liste",
     "tabMap": "Karte",
     "mapEmpty": "Für diese Stadt sind keine Punkte auf der Karte vorhanden.",
-    "mapFailed": "Die Karte ist nicht verfügbar. Wählen Sie einen Punkt aus der Liste."
+    "pickerHeading": "Abholstelle wählen",
+    "closeCard": "Karte der Abholstelle schließen"
   },
   "CheckoutPage": {
     "addNewAddress": "Neue Adresse hinzufügen",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Abholstelle der Russischen Post",
-    "chooseHeading": "Abholstelle der Russischen Post wählen",
     "notConfigured": "Der Versand mit der Russischen Post ist in diesem Shop noch nicht eingerichtet.",
     "quoteFailed": "Der Versand zu dieser Abholstelle konnte nicht berechnet werden. Wählen Sie eine andere.",
     "postcode": "PLZ {index}"

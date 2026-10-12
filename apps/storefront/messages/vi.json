@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "Điểm nhận hàng CDEK",
-    "chooseHeading": "Chọn điểm nhận hàng CDEK",
     "searchPlaceholder": "Tìm theo địa chỉ hoặc ga tàu",
     "cityLabel": "Thành phố",
     "cityPlaceholder": "Bắt đầu nhập thành phố",
     "choose": "Chọn",
     "chosen": "Đã chọn",
-    "found": "Số điểm nhận hàng tìm thấy: {count}",
     "noResults": "Không tìm thấy điểm nhận hàng ở {city}.",
     "needCity": "Nhập thành phố giao hàng để xem các điểm nhận hàng.",
     "loading": "Đang tải điểm nhận hàng…",
@@ -122,7 +120,8 @@
     "tabList": "Danh sách",
     "tabMap": "Bản đồ",
     "mapEmpty": "Không có điểm nhận hàng nào để hiển thị trên bản đồ cho thành phố này.",
-    "mapFailed": "Không dùng được bản đồ. Hãy chọn điểm nhận hàng trong danh sách."
+    "pickerHeading": "Chọn điểm nhận hàng",
+    "closeCard": "Đóng thẻ điểm nhận"
   },
   "CheckoutPage": {
     "addNewAddress": "Thêm địa chỉ mới",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Điểm nhận hàng của Bưu điện Nga",
-    "chooseHeading": "Chọn điểm nhận hàng của Bưu điện Nga",
     "notConfigured": "Cửa hàng này chưa thiết lập giao hàng qua Bưu điện Nga.",
     "quoteFailed": "Không tính được phí giao hàng đến điểm này. Hãy chọn điểm khác.",
     "postcode": "Mã bưu chính {index}"

@@ -22,13 +22,7 @@ const srcDir = path.join(storefrontRoot, "src")
 
 // Each entry is a real silent drop, left in place only because the file is outside the change that
 // added this gate. Remove the entry together with the fix.
-export const ALLOWED = [
-  {
-    file: "src/modules/checkout/components/checkout-pickup-map/index.tsx",
-    token: "bg-ui-bg-base/90",
-    reason: "checkout is being rewritten by another line (46df L3); the empty-map hint has no background",
-  },
-]
+export const ALLOWED = []
 
 /** Names of the theme colours whose value is a bare `var(--x)`, e.g. `ui-bg-base`. */
 export const bareVarColours = (config) => {

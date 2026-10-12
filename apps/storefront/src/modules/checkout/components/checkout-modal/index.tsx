@@ -17,20 +17,23 @@ interface CheckoutModalProps {
   title: string
   children: React.ReactNode
   /**
-   * A sheet that has two panes to show at once (the CDEK picker's list and its
-   * map, i03-checkout-pvz-map-address-suggest) gets the wider panel on a large
+   * A sheet that has two panes to show at once gets the wider panel on a large
    * screen. Every other sheet keeps the 540 px it has always had, and the
    * mobile panel is full width either way.
    */
   wide?: boolean
   /**
-   * A point picker (t-2026-10-09-56, Ivan 09.10: «на десктоп следует разворачивать окно
-   * на весь экран и карту показывать размером 2/3»): from `small` up the panel fills the
-   * whole screen and its body stretches to the bottom, so the sheet inside can give the
-   * map two thirds of the width and the full height. Below `small` it is the same
-   * bottom sheet as every other one.
+   * The pickup-point picker (t-2026-10-12-03, Ivan 12.10). Below `small` the panel takes the
+   * whole screen with no rounded top, and the picker inside pins its head, tabs and fields
+   * over a scrolling list (items 3.1, 3.2). From `small` up it is a large centred dialog
+   * with margins on every side and rounded corners, the overlay visible around it (item 1:
+   * «в всплывающем окне, с отступами по краям»), its body stretching to the bottom so the
+   * map can take two thirds of the width and the full height (t-2026-10-09-56, item 9б).
+   * `list` is the same dialog narrowed to a list, for a build without a map key.
+   * The header gets a hairline under it and the body no padding: the picker lays out
+   * its own edges, rows run edge to edge (item 3.5).
    */
-  fullscreen?: boolean
+  picker?: "split" | "list"
   /**
    * The sign-in modal (t-2026-10-04-45, Ivan 04.10: «Высота 40, скругления 8, ширина 320 …
    * Отступы вокруг внутри контейнера на десктоп 24 и планшете, на мобайл 16»). The content is a
@@ -48,7 +51,7 @@ export function CheckoutModal({
   children,
   wide = false,
   compact = false,
-  fullscreen = false,
+  picker,
 }: CheckoutModalProps) {
   const t = useTranslations("Common")
 
@@ -85,19 +88,27 @@ export function CheckoutModal({
                 "relative w-full max-h-[90dvh] overflow-y-auto bg-ui-bg-base rounded-t-xl sm:rounded-xl shadow-elevation-modal",
                 compact ? "sm:w-[368px]" : "sm:w-[540px]",
                 wide && "small:w-[880px]",
-                fullscreen &&
-                  "small:flex small:h-dvh small:max-h-none small:w-screen small:flex-col small:overflow-hidden small:rounded-none"
+                picker &&
+                  "flex h-dvh max-h-none w-screen flex-col overflow-hidden rounded-none sm:w-screen sm:rounded-none small:h-[calc(100dvh-4rem)] small:rounded-xl",
+                picker === "split" && "small:w-[calc(100vw-4rem)] small:max-w-[1600px]",
+                picker === "list" && "small:w-[640px]"
               )}
-              data-fullscreen={fullscreen ? "" : undefined}
+              data-picker={picker}
               data-compact={compact ? "" : undefined}
             >
               <div
                 className={clx(
                   compact && "mx-auto flex w-full max-w-[352px] flex-col gap-y-4 p-4 sm:max-w-none sm:p-6",
-                  fullscreen && "small:flex small:min-h-0 small:flex-1 small:flex-col"
+                  picker && "flex min-h-0 flex-1 flex-col"
                 )}
               >
-                <div className={clx("flex items-center justify-between", !compact && "px-6 py-4")}>
+                <div
+                  className={clx(
+                    "flex items-center justify-between",
+                    !compact && !picker && "px-6 py-4",
+                    picker && "shrink-0 gap-x-3 border-b border-ui-border-base px-4 py-3 small:px-6 small:py-4"
+                  )}
+                >
                   <DialogTitle className="txt-xlarge text-ui-fg-base">
                     {title}
                   </DialogTitle>
@@ -112,8 +123,8 @@ export function CheckoutModal({
                 </div>
                 <div
                   className={clx(
-                    !compact && "px-6 pb-4",
-                    fullscreen && "small:min-h-0 small:flex-1 small:pb-6"
+                    !compact && !picker && "px-6 pb-4",
+                    picker && "flex min-h-0 flex-1 flex-col"
                   )}
                 >
                   {children}

@@ -19,6 +19,7 @@ const contactsRow = read("../checkout-contacts-row/index.tsx")
 const modal = read("../checkout-modal/index.tsx")
 const cdekSheet = read("../checkout-cdek-point-sheet/index.tsx")
 const pochtaSheet = read("../checkout-pochta-point-sheet/index.tsx")
+const picker = read("../pickup-point-picker/index.tsx")
 const consent = read("../checkout-consent/index.tsx")
 
 describe("«Способ доставки» (items 1–4, 8, 10, 11)", () => {
@@ -103,11 +104,13 @@ describe("item 9, returned: the postcode and CDEK's refusal", () => {
 })
 
 describe("the point sheets and the documents (items 9б, 12)", () => {
-  it("9б: the point sheets fill the screen on a desktop, list a third and map two thirds", () => {
-    expect(modal).toMatch(/small:h-dvh small:max-h-none small:w-screen/)
+  it("9б: the point sheets give the map two thirds of a desktop, down to the bottom", () => {
+    // t-2026-10-12-03 (Ivan 12.10, item 1) turned the full-screen window into a dialog with
+    // margins; the list a third and the map two thirds stayed (`pickup-point-picker`).
+    expect(modal).toMatch(/small:h-\[calc\(100dvh-4rem\)\]/)
+    expect(picker).toMatch(/small:grid-cols-\[minmax\(0,1fr\)_minmax\(0,2fr\)\]/)
     for (const sheet of [cdekSheet, pochtaSheet]) {
-      expect(sheet).toMatch(/title=\{t\("chooseHeading"\)\} fullscreen>/)
-      expect(sheet).toMatch(/small:grid-cols-\[minmax\(0,1fr\)_minmax\(0,2fr\)\]/)
+      expect(sheet).toMatch(/<PickupPointPicker</)
     }
   })
 
