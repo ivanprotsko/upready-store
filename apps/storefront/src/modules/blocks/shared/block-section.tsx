@@ -1,3 +1,4 @@
+import { clx } from "@medusajs/ui"
 import type { ReactNode } from "react"
 
 import { Link } from "@i18n/navigation"
@@ -5,6 +6,7 @@ import { Link } from "@i18n/navigation"
 import type { BlockId } from "../types"
 import { pickText } from "./localized-text"
 import type { SectionHeader } from "./section-header"
+import { SECTION_TYPE } from "./section-type"
 
 /**
  * The outer shell of a home section (t-2026-10-12-33, BLOCK-CONTRACT.md §3). Every block but a
@@ -15,7 +17,8 @@ import type { SectionHeader } from "./section-header"
  *   template), so two sections stand one gap apart;
  * - the content container (`width: "content"`), or the page's full width for a banner or a
  *   slideshow (`"full"`); the header stays in the container either way;
- * - the header, when it has any words: eyebrow, heading, description and a «see all» link;
+ * - the header, when it has any words: eyebrow, heading, description and a «see all» link, in the one
+ *   section type of `section-type.ts`;
  * - `data-block`, the block's id, for the shots and for whoever reads the page.
  *
  * `locale` is the visitor's (`getLocale()` in the block), so the shell stays a plain component.
@@ -39,8 +42,10 @@ export default function BlockSection({
   const seeAll = header?.seeAll
   const seeAllLabel = seeAll ? pickText(seeAll.label, locale) : null
 
-  const linkClass =
-    "shrink-0 rounded-sm text-sm font-medium text-ui-fg-interactive underline-offset-4 hover:text-ui-fg-interactive-hover hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive"
+  const linkClass = clx(
+    "shrink-0 rounded-sm text-ui-fg-interactive underline-offset-4 hover:text-ui-fg-interactive-hover hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ui-fg-interactive",
+    SECTION_TYPE.seeAll
+  )
 
   return (
     <section data-block={block} className="py-[calc(var(--layer-section-gap,3rem)/2)]">
@@ -51,20 +56,17 @@ export default function BlockSection({
         >
           <div className="flex max-w-2xl flex-col gap-2">
             {eyebrow ? (
-              <p data-role="label" className="text-sm font-medium text-ui-fg-muted">
+              <p data-role="label" className={SECTION_TYPE.label}>
                 {eyebrow}
               </p>
             ) : null}
             {heading ? (
-              <h2
-                data-role="heading"
-                className="text-balance text-xl font-semibold tracking-[-0.02em] text-ui-fg-base small:text-2xl"
-              >
+              <h2 data-role="heading" className={SECTION_TYPE.heading}>
                 {heading}
               </h2>
             ) : null}
             {description ? (
-              <p data-role="description" className="text-pretty text-base text-ui-fg-subtle">
+              <p data-role="description" className={SECTION_TYPE.description}>
                 {description}
               </p>
             ) : null}
