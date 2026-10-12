@@ -1,8 +1,11 @@
 {
   "schema": "upready.storefront-template/v1",
   "id": "ferrite",
-  "title": "Ferrite",
-  "description": "Electronics, dark and dense. The electronics profile defaults (header h3, tiles, spec list p3, footer f5), with the showcase hero g in place of the profile-only announcement k, and the list ahead of the tiles. Type: IBM Plex Mono headings over IBM Plex Sans text, both with Cyrillic.",
+  "title": { "ru": "Феррит", "en": "Ferrite" },
+  "description": {
+    "ru": "Электроника: тёмный и плотный, характеристики на виду.",
+    "en": "Electronics: dark and dense, with the specs up front."
+  },
   "settings": {
     "defaultMode": "dark",
     "header": "h3",

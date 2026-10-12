@@ -5,6 +5,7 @@ import { Link } from "@i18n/navigation"
 import { listCategories } from "@lib/data/categories"
 import { getTenantHome } from "@lib/data/tenant-home"
 import { TEMPLATE_IDS, getTemplate } from "@lib/templates/catalog"
+import { templateText } from "@lib/templates/manifest"
 import { categoriesWithImages, categoryImage } from "@lib/util/category-image"
 import { localizedHero } from "@lib/util/localized-hero"
 import { HOME_SECTION_CLASS } from "@modules/home/components/listing-section"
@@ -117,7 +118,7 @@ export default async function BlockPlayground() {
             data-template-valid={template ? "true" : "false"}
             className="rounded-rounded border border-ui-border-base px-3 py-2 text-sm text-ui-fg-base hover:bg-ui-bg-base-hover"
           >
-            {template?.manifest.title ?? id}
+            {template ? templateText(template.manifest.title, locale) : id}
           </Link>
         ))}
       </nav>

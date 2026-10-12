@@ -19,10 +19,16 @@ export type TemplateLayers = { radius: Radius; buttonStyle: ButtonStyle; photoSt
 
 export type LayerName = keyof TemplateLayers
 
+/**
+ * Words from the catalogue (P2b): `{ "ru": "…", "en": "…" }` as the template's manifest and the
+ * palette's theme file give them, or one string for every language. The section shows `textFor()`.
+ */
+export type TemplateText = string | Record<string, string>
+
 export type TemplateCard = {
   id: string
-  title: string
-  description: string
+  title: TemplateText
+  description: TemplateText
   defaultMode: "light" | "dark"
   theme: TemplateLayers & { palette: string; fontPair: { display: string; body: string } }
   sections: { block: string; category: string }[]
@@ -30,7 +36,7 @@ export type TemplateCard = {
 
 export type PaletteEntry = {
   id: string
-  label: string
+  label: TemplateText
   lightOnly: boolean
   colours: { light: Swatch; dark?: Swatch }
 }
@@ -47,6 +53,18 @@ export type TemplateCatalogue = {
   palettes: PaletteEntry[]
   layers: Record<LayerName, string[]>
   current: CurrentTemplate | null
+}
+
+/**
+ * The words in the panel's language (`i18n.language`, `ru-RU` read as `ru`), else English, else
+ * any line given; the storefront picks a block's text the same way (`pickText`). A string is
+ * the same words in every language.
+ */
+export function textFor(text: TemplateText, language: string | undefined): string {
+  if (typeof text === "string") return text
+  const own = language?.split("-")[0]
+  const line = [own ? text[own] : undefined, text.en, ...Object.values(text)].find((candidate) => candidate?.trim())
+  return line?.trim() ?? ""
 }
 
 /** What the owner has chosen for one template: its palette and four layers. */

@@ -1,12 +1,15 @@
 import { CATALOG, catalogBlock } from "../template/validation";
-import type { FontPair, PaletteSwatch, TemplateLayers, TemplateManifest } from "../template/validation";
+import type { FontPair, PaletteSwatch, TemplateLayers, TemplateManifest, TemplateText } from "../template/validation";
 import type { TenantHomeDocument } from "../validators";
 
-/** One template as the panel's card draws it: its words, its look, and the shape of its home page. */
+/**
+ * One template as the panel's card draws it: its words, its look, and the shape of its home page.
+ * The words come per language as the manifest gives them (P2b); the panel picks the owner's.
+ */
 export type TemplateCard = {
   id: string;
-  title: string;
-  description: string;
+  title: TemplateText;
+  description: TemplateText;
   /** The template's own mode: a light-only palette may replace its palette only when this is "light". */
   defaultMode: "light" | "dark";
   theme: TemplateLayers & { palette: string; fontPair: FontPair };
@@ -16,7 +19,8 @@ export type TemplateCard = {
 
 export type PaletteEntry = {
   id: string;
-  label: string;
+  /** Per language, from the palette's own theme file (`specs/design-system/themes`). */
+  label: TemplateText;
   /** No dark mode: a template whose `defaultMode` is not "light" cannot take it (400 from `POST /tenants/home/template`). */
   lightOnly: boolean;
   colours: { light: PaletteSwatch; dark?: PaletteSwatch };

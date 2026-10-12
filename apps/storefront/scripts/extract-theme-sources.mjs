@@ -577,7 +577,7 @@ function main() {
   write(join(REPO, "specs/design-system/themes/medusa.theme.json"), {
     schema: "upready.theme-preset/v0",
     id: "medusa",
-    label: "Medusa default",
+    label: { ru: "Стандартная", en: "Medusa default" },
     description:
       "Today's storefront look, written in the canon vocabulary. Values read out of the installed @medusajs/ui-preset, except --link, which carries the storefront's WCAG-corrected blue.",
     dictionary: "geist-kit/theme.css",
@@ -587,7 +587,7 @@ function main() {
   write(join(REPO, "specs/design-system/themes/geist.theme.json"), {
     schema: "upready.theme-preset/v0",
     id: "geist",
-    label: "Geist",
+    label: { ru: "Чёрно-белая", en: "Geist" },
     description:
       "Vendor copy of the canon palette (~/upready/packages/geist-kit/theme.css). Dark repeats the tokens geist-kit leaves to the cascade, because the preset schema requires the same key set in both modes.",
     dictionary: "geist-kit/theme.css",

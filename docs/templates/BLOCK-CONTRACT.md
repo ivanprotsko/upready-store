@@ -223,7 +223,10 @@ contact sheet, from the lab's §Checklist (`design/style-spec.md`):
 A template is `apps/storefront/src/templates/<id>/template.json`, schema
 `upready.storefront-template/v1`, imported in `src/lib/templates/catalog.ts`. It holds these fields:
 
-- `id` (kebab-case), `title` and `description`, English working text;
+- `id` (kebab-case);
+- `title` and `description` as `{ "ru": "…", "en": "…" }`, the shop owner's words in the panel: the name,
+  and one sentence on what the template is for and how it looks, with no internal names (`h2`, `p4`, profile and
+  font names). A plain string still validates, read as the same words in every language;
 - `settings`, a `StorefrontSettingsInput`: the composition document `getEffectiveSettings()` answers
   today, checked by `validate()` of `lib/theme/composition.ts`, so `FORBIDDEN` refuses the template and
   `ADVISORY` warns;

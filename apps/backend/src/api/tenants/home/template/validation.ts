@@ -48,11 +48,14 @@ export type FontPair = { display: string; body: string };
 
 export type TemplateSection = { block: string; props?: Record<string, unknown> };
 
+/** `{ "ru": "…", "en": "…" }` keyed by the catalogue's `locales`, or one string for every language (P2b). */
+export type TemplateText = string | Record<string, string>;
+
 export type TemplateManifest = {
   schema: typeof TEMPLATE_SCHEMA;
   id: string;
-  title: string;
-  description: string;
+  title: TemplateText;
+  description: TemplateText;
   settings: StorefrontSettingsInput;
   theme: TemplateLayers & { palette: string; fontPair: FontPair };
   sections: TemplateSection[];
@@ -84,7 +87,7 @@ export type TemplateCatalog = {
   /** Palettes with no dark mode (`LIGHT_ONLY_THEME_IDS`): they need `settings.defaultMode` "light". */
   lightOnlyPalettes: string[];
   /** Each palette's name and colours, for the panel's swatches; a light-only palette has `light` alone. */
-  swatches: Record<string, { label: string; light: PaletteSwatch; dark?: PaletteSwatch }>;
+  swatches: Record<string, { label: TemplateText; light: PaletteSwatch; dark?: PaletteSwatch }>;
   fonts: string[];
   layers: { radius: string[]; buttonStyle: string[]; photoStyle: string[]; density: string[] };
   locales: string[];
@@ -118,6 +121,21 @@ function oneOf(errors: FieldError[], field: string, value: unknown, allowed: rea
   if (typeof value === "string" && allowed.includes(value)) return true;
   errors.push({ field, message: `${field} must be one of: ${allowed.join(", ")}.` });
   return false;
+}
+
+/** A `TemplateText`: a non-empty string, or at least one language of `i18n/config.ts`, each a non-empty string. */
+function textErrors(field: string, value: unknown): FieldError[] {
+  if (typeof value === "string" && value.trim()) return [];
+  if (!isObject(value) || Object.keys(value).length === 0) {
+    return [{ field, message: `${field} must be a non-empty string or an object of language code to text.` }];
+  }
+  const errors: FieldError[] = [];
+  for (const [code, line] of Object.entries(value)) {
+    const at = `${field}.${code}`;
+    if (!LOCALE_CODES.has(code)) errors.push({ field: at, message: `${at} is not a language of i18n/config.ts.` });
+    else if (typeof line !== "string" || !line.trim()) errors.push({ field: at, message: `${at} must be a non-empty string.` });
+  }
+  return errors;
 }
 
 /* ------------------------------------------------------------------ block props */
@@ -235,12 +253,7 @@ export function validateTemplate(
   if (typeof input.id !== "string" || !ID_PATTERN.test(input.id)) {
     errors.push({ field: "id", message: "id must be kebab-case: a-z, 0-9 and single hyphens." });
   }
-  for (const field of ["title", "description"] as const) {
-    const value = input[field];
-    if (typeof value !== "string" || !value.trim()) {
-      errors.push({ field, message: `${field} must be a non-empty string.` });
-    }
-  }
+  for (const field of ["title", "description"] as const) errors.push(...textErrors(field, input[field]));
 
   // settings: the composition's own validation, field enums first and FORBIDDEN after.
   const fieldErrors = validateFields(input.settings);

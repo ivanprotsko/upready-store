@@ -35,5 +35,24 @@ export const THEME_LABELS: Record<string, string> = {
   "womens-fashion": "Larchant",
 }
 
+/** The same names per language, as the preset files give them; the template catalogue exports these. */
+export const THEME_LABEL_TEXTS: Record<string, string | Record<string, string>> = {
+  default: { ru: "Стандартная", en: "Medusa default" },
+  "electronics": { ru: "Графит и синий", en: "Ferrite" },
+  "ferma": { ru: "Ферма", en: "Ferma" },
+  "geist": { ru: "Чёрно-белая", en: "Geist" },
+  "home-goods": { ru: "Терракота", en: "Long Morning" },
+  "interier": { ru: "Интерьер", en: "Interior" },
+  "katalog": { ru: "Каталог", en: "Catalogue" },
+  "lending": { ru: "Лендинг", en: "Landing" },
+  "medusa": { ru: "Стандартная", en: "Medusa default" },
+  "moda": { ru: "Мода", en: "Moda" },
+  "opt": { ru: "Опт", en: "Wholesale" },
+  "sneakers": { ru: "Чёрный и лайм", en: "Kerbstone" },
+  "supplements": { ru: "Белый и зелёный", en: "Scruple" },
+  "uhod": { ru: "Уход", en: "Care" },
+  "womens-fashion": { ru: "Крем и глина", en: "Larchant" },
+}
+
 /** Canon tokens written per preset per mode; the panel's source line quotes it. */
 export const THEME_TOKEN_COUNT = 31

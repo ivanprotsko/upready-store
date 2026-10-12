@@ -1,7 +1,10 @@
 {
   "schema": "upready.theme-preset/v0",
   "id": "womens-fashion",
-  "label": "Larchant",
+  "label": {
+    "ru": "Крем и глина",
+    "en": "Larchant"
+  },
   "description": "Larchant, the women's clothing profile: warm cream paper, ink black type, and one clay red that only ever means 'this is the one' — sale price, link, focus ring, selected swatch. --radius 0.125rem, the corner of a pressed card, because an editorial page has no rounded chrome. Light is the default mode and the mode the brand was drawn in; dark is a full second palette warmed to the same cream, not an inversion. Values are section 3 of the profile's design/style-board.md; the contrast table is section 3.3, computed by design/contrast.mjs.",
   "dictionary": "geist-kit/theme.css",
   "source": "apps/backend/src/migration-scripts/data/profiles/womens-fashion/design/style-board.md section 3 (store-profiles wave 2, W1/W4)",

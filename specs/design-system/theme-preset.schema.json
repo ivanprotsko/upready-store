@@ -9,7 +9,18 @@
   "properties": {
     "schema": { "const": "upready.theme-preset/v0" },
     "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "value of <html data-theme>; file name is <id>.theme.json" },
-    "label": { "type": "string", "minLength": 1, "description": "plain-language name shown in the settings panel (rule 18e: no raw ids on screen)" },
+    "label": {
+      "description": "plain-language name shown in the settings panel (rule 18e: no raw ids on screen): { \"ru\": \"…\", \"en\": \"…\" }, or one string for every language",
+      "anyOf": [
+        { "type": "string", "minLength": 1 },
+        {
+          "type": "object",
+          "required": ["ru", "en"],
+          "propertyNames": { "pattern": "^[a-z]{2}$" },
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      ]
+    },
     "description": { "type": "string" },
     "dictionary": {
       "type": "string",
