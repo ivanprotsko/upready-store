@@ -19,9 +19,23 @@
 #   7. Rollback, by the previous image tag — see --rollback below.
 #
 # The RELEASE ORDER lives in docs/instances/RULES.md §4, not in this script:
-# a human runs `deploy-instance.sh intl <ref>` first, waits for its own step 6
-# to be green, then runs `deploy-instance.sh ru <ref>`. Each instance's own
-# rollback (step 7) never touches the other host.
+# `deploy-instance.sh intl <ref>` runs first, its own step 6 goes green, then
+# `deploy-instance.sh ru <ref>`. Since t-2026-10-12-30 the release agent on each
+# host (deploy/auto/release-agent.sh) keeps that order for every green sha of
+# dev, with --on-host below; a person on the Mac still can, without it. Each
+# instance's own rollback (step 7) never touches the other host.
+#
+# Two ways to run:
+#   from the Mac (default)  every host command goes over ssh, step 1 is
+#                           git archive + rsync, step 6 runs from the Mac.
+#   --on-host               on the instance's own host, from a release tree
+#                           already there (this script's own repository root,
+#                           unpacked by the release agent): host commands run
+#                           here, step 1 copies the paths of
+#                           deploy/release-paths.txt into /opt/upready-store/mt
+#                           and keeps the env file in place, step 6 runs from
+#                           the host. No git, no ssh. --env-file names the
+#                           host's own file.
 #
 # Usage:
 #   deploy/scripts/deploy-instance.sh <ru|intl> <git-ref> [flags]
@@ -42,6 +56,12 @@
 #                                 warning every time it is set
 #     --verify-only               run only step 6
 #     --rollback <image-tag>      run only step 7, against that tag
+#     --on-host                   run on the instance's host itself (above)
+#
+# The last line is always `RESULT exit=<code> step=<n>`: the step the run
+# ended in, read by the release agent to name a failed step.
+# DEPLOY_HOST_ROOT (default /opt/upready-store) moves every host path, for
+# the tests only.
 #
 # Everything is logged to $DEPLOY_LOG_DIR (default <repo>/.ai/deploy-logs/
 # <instance>-<ts>.log). No secret is ever printed: pg-backup.sh's own output
@@ -53,7 +73,7 @@ GIT_REF="${2:-}"
 [ -n "$INSTANCE" ] && [ -n "$GIT_REF" ] || { sed -n '2,40p' "$0"; exit 2; }
 shift 2
 
-ENV_FILE_OVERRIDE=""; SKIP_BE=0; SKIP_SF=0; SKIP_PANEL=0; SKIP_SCHOOL=0; SKIP_CHECK=0; VERIFY_ONLY=0; ROLLBACK_TAG=""
+ENV_FILE_OVERRIDE=""; SKIP_BE=0; SKIP_SF=0; SKIP_PANEL=0; SKIP_SCHOOL=0; SKIP_CHECK=0; VERIFY_ONLY=0; ROLLBACK_TAG=""; ON_HOST=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --env-file) ENV_FILE_OVERRIDE="$2"; shift ;;
@@ -64,6 +84,7 @@ while [ $# -gt 0 ]; do
     --skip-instance-check) SKIP_CHECK=1 ;;
     --verify-only) VERIFY_ONLY=1 ;;
     --rollback) ROLLBACK_TAG="$2"; shift ;;
+    --on-host) ON_HOST=1 ;;
     *) echo "unknown flag: $1" >&2; exit 2 ;;
   esac
   shift
@@ -77,7 +98,8 @@ PROFILE_FILE="$REPO_ROOT/deploy/instances/$INSTANCE.json"
 # Two independent hosts, two independent credentials, no path between them
 # (docs/instances/RULES.md §4). Both read from ~/upready/.env.keys the same
 # way deploy/scripts/deploy-stand.sh already reads CONTABO_SERVER_IP, rather
-# than hardcoding a real IP into a file this repository commits.
+# than hardcoding a real IP into a file this repository commits. --on-host
+# needs neither: the host is this machine.
 case "$INSTANCE" in
   intl)
     IP="${CONTABO_SERVER_IP:-$(grep '^CONTABO_SERVER_IP=' "$HOME/upready/.env.keys" 2>/dev/null | cut -d= -f2)}"
@@ -91,9 +113,14 @@ case "$INSTANCE" in
     ;;
   *) echo "instance must be ru or intl, got: $INSTANCE" >&2; exit 2 ;;
 esac
+if [ "$ON_HOST" = 1 ]; then
+  IP="this host"
+  [ -n "$ENV_FILE_OVERRIDE" ] || { echo "--on-host needs --env-file <the host's own env file>" >&2; exit 2; }
+fi
 [ -n "$IP" ] || { echo "no host IP for instance $INSTANCE (set CONTABO_SERVER_IP / RU_HOST_IP in ~/upready/.env.keys)" >&2; exit 2; }
 HOST="root@$IP"
-REMOTE_DIR="/opt/upready-store/mt"
+HOST_ROOT="${DEPLOY_HOST_ROOT:-/opt/upready-store}"
+REMOTE_DIR="$HOST_ROOT/mt"
 if [ -n "$ENV_FILE_OVERRIDE" ]; then
   case "$ENV_FILE_OVERRIDE" in
     /*) ENV_FILE="$ENV_FILE_OVERRIDE" ;;
@@ -120,11 +147,20 @@ TS="$(date +%Y%m%d-%H%M%S)"
 LOG="$LOG_DIR/$INSTANCE-$TS.log"
 exec > >(tee -a "$LOG") 2>&1
 log() { echo "[$(date '+%H:%M:%S')] [$INSTANCE] $*"; }
-rssh() { ssh -n -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=30 -i "$SSH_KEY" "$HOST" "$@"; }
+STEP=0
+begin_step() { STEP="$1"; log "step $1/7: $2"; }
+# shellcheck disable=SC2154 # rc is assigned inside the trap itself
+trap 'rc=$?; log "RESULT exit=$rc step=$STEP"' EXIT
+if [ "$ON_HOST" = 1 ]; then
+  # The same command string ssh would hand the host's shell, run by this host's shell.
+  rssh() { bash -c "$*" </dev/null; }
+else
+  rssh() { ssh -n -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=30 -i "$SSH_KEY" "$HOST" "$@"; }
+fi
 fail() { log "FAILED: $*"; exit 1; }
 envval() { grep -E "^$1=" "$ENV_FILE" | head -1 | cut -d= -f2- | sed -e "s/^[\"']//" -e "s/[\"']\$//"; }
 
-log "start · instance=$INSTANCE ref=$GIT_REF host=$IP log=$LOG"
+log "start · instance=$INSTANCE ref=$GIT_REF host=$IP log=$LOG$([ "$ON_HOST" = 1 ] && echo " (on the host, tree $REPO_ROOT)")"
 
 md5_local() { md5 -q "$1" 2>/dev/null || md5sum "$1" | cut -d' ' -f1; }
 env_digests_match() {
@@ -151,8 +187,14 @@ postgres_running() { rssh "docker inspect mt-postgres >/dev/null 2>&1"; }
 # pg_dump wrote «no space left on device». The decisions live in deploy/scripts/host-disk.mjs and read
 # the profile's `host` section; deploy/scripts/__tests__/host-disk.test.mjs runs this block with a
 # stand-in ssh.
-BACKUP_DIR="/opt/upready-store/backups/mt"
-host_disk() { node "$REPO_ROOT/deploy/scripts/host-disk.mjs" "$@" --instance "$INSTANCE"; }
+BACKUP_DIR="${HOST_ROOT:-/opt/upready-store}/backups/mt"
+# With --on-host the tools run on the host, and the RU host has no node of its own: there they run in the
+# node image step 3 already uses.
+run_node() {
+  if command -v node >/dev/null 2>&1; then node "$@"; return; fi
+  docker run --rm -i -v "$REPO_ROOT:$REPO_ROOT:ro" -w "$REPO_ROOT" node:22-alpine node "$@"
+}
+host_disk() { run_node "$REPO_ROOT/deploy/scripts/host-disk.mjs" "$@" --instance "$INSTANCE"; }
 
 # After step 2: cut the build cache down to the profile's limit where the profile switches it on (RU).
 # A failed prune is a warning, never a failed release.
@@ -193,21 +235,34 @@ backup_room_ok() {
 # --- end host disk ---------------------------------------------------------
 
 # ------------------------------------------------------------------- step 1
+# The paths a release carries: deploy/release-paths.txt (its header says why it is an allowlist), read at
+# the release ref itself where git has it.
+release_paths() {
+  { git -C "$REPO_ROOT" show "$GIT_REF:deploy/release-paths.txt" 2>/dev/null || cat "$REPO_ROOT/deploy/release-paths.txt"; } \
+    | sed -e 's/#.*//' -e 's/[[:space:]]*$//' -e '/^$/d'
+}
 step_archive_and_rsync() {
-  local workdir; workdir="$(mktemp -d)"
+  begin_step 1 "release tree to $REMOTE_DIR"
+  local workdir paths p; workdir="$(mktemp -d)"
+  paths="$(release_paths)" || fail "no deploy/release-paths.txt at $GIT_REF"
+  [ -n "$paths" ] || fail "deploy/release-paths.txt at $GIT_REF names no path: an empty list would carry the whole repository"
+  if [ "$ON_HOST" = 1 ]; then
+    for p in $paths; do [ -e "$REPO_ROOT/$p" ] || fail "the release tree $REPO_ROOT has no $p (deploy/release-paths.txt)"; done
+    log "copy $REPO_ROOT ($GIT_REF) -> $workdir, the paths of deploy/release-paths.txt only"
+    # shellcheck disable=SC2086
+    tar -C "$REPO_ROOT" -cf - $paths | tar -x -C "$workdir"
+    log "rsync $workdir -> $REMOTE_DIR/ on this host, $(basename "$REMOTE_ENV") kept in place"
+    mkdir -p "$REMOTE_DIR"
+    rsync -a --delete --exclude="/$(basename "$REMOTE_ENV")" "$workdir/" "$REMOTE_DIR/"
+    rm -rf "$workdir"
+    [ "$ENV_FILE" = "$REMOTE_ENV" ] || { log "copy env file $ENV_FILE -> $REMOTE_ENV"; cp "$ENV_FILE" "$REMOTE_ENV"; }
+    chmod 600 "$REMOTE_ENV"
+    env_digests_match || fail "env file drifted during the copy"
+    return 0
+  fi
   log "git archive $GIT_REF -> $workdir (clean release tree, no uncommitted work, no .git)"
-  # ALLOWLIST, not a deny list: only what the images and compose files need reaches a production host.
-  # Everything else tracked in this repository (handoff/ operator task registry, artifacts/, docs/ with its
-  # evidence screenshots from stands that run on copies of live data, specs/, tools/, glossary/, AGENTS.md,
-  # CLAUDE.md, .github/) is internal and must never be copied to a host that a hosting provider can snapshot.
-  # apps/*/Dockerfile copy only package manifests, apps/<app>, apps/backend/src/migration-scripts/data,
-  # specs/design-system and docs/owner-guide; compose and the scripts live under deploy/ and scripts/.
-  # docs/owner-guide is the one folder of docs/ that goes, because the panel image builds its help (/help/ and
-  # the docs hosts) from it. It is public on purpose. Its frames come from a stand with made-up names, logins and
-  # requisites only, and the panel test and shoot.mjs refuse a frame that shows a real person or a customer's
-  # name or address. The rest of docs/ still never leaves this machine (t-2026-10-09-104).
-  git -C "$REPO_ROOT" archive "$GIT_REF" -- apps deploy scripts specs/design-system docs/owner-guide \
-    package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc turbo.json .dockerignore LICENSE | tar -x -C "$workdir"
+  # shellcheck disable=SC2086
+  git -C "$REPO_ROOT" archive "$GIT_REF" -- $paths | tar -x -C "$workdir"
   log "rsync $workdir -> $HOST:$REMOTE_DIR/"
   rssh "mkdir -p '$REMOTE_DIR'"
   rsync -az --delete \
@@ -222,6 +277,7 @@ step_archive_and_rsync() {
 
 # ------------------------------------------------------------------- step 2
 step_build_images() {
+  begin_step 2 "build images"
   if [ "$BRING_UP_OWN_TRAEFIK" = 1 ]; then
     log "RU host: bringing up deploy/compose.ru-host.yml (own traefik, idempotent) before the mt stack needs the coolify network"
     rssh "cd '$REMOTE_DIR' && $RU_HOST_COMPOSE up -d 2>&1 | tail -10"
@@ -233,7 +289,7 @@ step_build_images() {
       panel) [ "$SKIP_PANEL" = 1 ] && { log "skip panel build"; continue; } ;;
       school) [ "$SKIP_SCHOOL" = 1 ] && { log "skip school build"; continue; } ;;
     esac
-    local f="/opt/upready-store/mt-build-$svc-$TS.log"
+    local f="$HOST_ROOT/mt-build-$svc-$TS.log"
     log "building $svc image detached on the host, log $f"
     rssh "cd '$REMOTE_DIR' && setsid nohup $COMPOSE build $svc > '$f' 2>&1 < /dev/null &"
     wait_build "$f" 1800 || fail "$svc build"
@@ -243,6 +299,7 @@ step_build_images() {
 
 # ------------------------------------------------------------------- step 3
 step_instance_check() {
+  begin_step 3 "instance-check"
   if [ "$SKIP_CHECK" = 1 ]; then
     log "WARNING: --skip-instance-check set — this instance's own allow/deny rules were not verified"
     return 0
@@ -252,7 +309,7 @@ step_instance_check() {
   # the stack directory the container mounts, so it is mounted on its own, read only, at its own path.
   # Without the mount the tool finds no file there and says that backup targets were not checked.
   local backup_file backup_env="" backup_mount=""
-  backup_file="$(node -e 'const p=require(process.argv[1]);console.log(p.backup?.envFileOnHost||"")' "$PROFILE_FILE")"
+  backup_file="$(run_node -e 'const p=require(process.argv[1]);console.log(p.backup?.envFileOnHost||"")' "$PROFILE_FILE")"
   if [ -n "$backup_file" ]; then
     backup_env="--backup-env $backup_file"
     if rssh "test -f '$backup_file'"; then
@@ -278,6 +335,7 @@ step_instance_check() {
 
 # ------------------------------------------------------------------- step 4
 step_pre_migration_backup() {
+  begin_step 4 "pre-migration dump"
   if ! postgres_running; then
     log "mt-postgres is not running yet (first boot) — nothing to back up before this release's migrations"
     return 0
@@ -293,6 +351,7 @@ step_pre_migration_backup() {
 
 # ------------------------------------------------------------------- step 5
 step_up() {
+  begin_step 5 "up"
   log "up -d --build (migrations run in docker-entrypoint.sh, as on every boot)"
   rssh "cd '$REMOTE_DIR' && $COMPOSE up -d --build 2>&1 | tail -20"
 }
@@ -303,6 +362,7 @@ check() { # <label> <expected> <actual>
   if [ "$2" = "$3" ]; then log "ok   $1 → $3"; else log "FAIL $1 → $3 (expected $2)"; FAILS=$((FAILS+1)); fi
 }
 step_verify() {
+  [ "$STEP" = 7 ] || begin_step 6 "verify"
   FAILS=0
   local engine panel stores
   engine="$(envval ENGINE_DOMAIN)"; panel="$(envval PANEL_DOMAIN)"; stores="$(envval STORES_DOMAIN)"
@@ -321,6 +381,7 @@ step_verify() {
 # ------------------------------------------------------------------- step 7
 step_rollback() {
   local tag="$1"
+  begin_step 7 "rollback to :$tag"
   log "rollback: retagging every mt-* image to :$tag and restarting, no rebuild"
   for svc in $SERVICES; do
     rssh "docker image inspect mt-$svc:$tag >/dev/null 2>&1" || { log "no mt-$svc:$tag on host — skipping that service"; continue; }
