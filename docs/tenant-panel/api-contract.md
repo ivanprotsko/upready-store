@@ -428,6 +428,15 @@ the home page out from `content.sections` and does not read `content.order`. A s
 the template's own, or the answer is 400 `props of <block> cannot be changed yet`. The rules are in
 `docs/templates/BLOCK-CONTRACT.md`, "A Shop Keeps Its Template".
 
+`GET /tenants/home/templates` (t-2026-10-12-33 P2, the `storefront` permission) answers what the panel's
+«Шаблоны» section draws:
+- `templates`: `[{ id, title, description, defaultMode, theme, sections: [{ block, category }] }]`;
+- `palettes`: `[{ id, label, lightOnly, colours: { light, dark? } }]`, each mode's `background`,
+  `foreground`, `primary`, `accent` and `muted` from the storefront's `themes.css`, through the export's
+  `swatches`, with `medusa` folded into `default`;
+- `layers`: the four vocabularies;
+- `current`: `{ id, palette, layers, fontPair }` of the shop's own saved template, or null.
+
 This is the ONE composition schema of the project: `settings` is the `feat/stands-composition`
 document (`upready.storefront-settings/v1`) unchanged, `content` is the tenant's text for those
 blocks (that document never had content fields — recorded as the resolution of the acceptance item

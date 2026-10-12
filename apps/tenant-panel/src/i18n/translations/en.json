@@ -1290,7 +1290,50 @@
     "tiles": "Category tiles",
     "upload": "Upload",
     "uploadFailed": "The image could not be uploaded.",
-    "uploading": "Uploading…"
+    "uploading": "Uploading…",
+    "templates": {
+      "heading": "Templates",
+      "hint": "A template sets the header, the footer, the order of the home sections and the look. Your texts, products and banners stay.",
+      "current": "Live on the storefront",
+      "fonts": "{{display}} and {{body}}",
+      "palette": "Palette",
+      "lightOnlyReason": "The greyed palettes have a light theme only, and this template opens in the dark theme.",
+      "radius": {
+        "label": "Corners",
+        "sharp": "Square",
+        "soft": "Slightly rounded",
+        "round": "Rounded",
+        "pill": "Round"
+      },
+      "buttonStyle": {
+        "label": "Buttons",
+        "filled": "Filled",
+        "outlined": "Outlined"
+      },
+      "photoStyle": {
+        "label": "Photos",
+        "square": "Square",
+        "portrait": "Portrait",
+        "landscape": "Landscape",
+        "wide": "Wide"
+      },
+      "density": {
+        "label": "Spacing",
+        "compact": "Compact",
+        "comfortable": "Regular",
+        "spacious": "Spacious"
+      },
+      "reset": "Reset to the template",
+      "apply": "Apply template",
+      "preview": "Open preview",
+      "confirmTitle": "Apply «{{title}}»?",
+      "confirmDescription": "The template replaces the header, the footer, the order of the home sections and the look of the shop. Your texts, products and banners stay.",
+      "confirmUnsaved": "Changes on this page that are not saved yet will be dropped.",
+      "confirm": "Apply",
+      "applyFailed": "The template could not be applied.",
+      "advisories": "Notes on the template:",
+      "loadFailed": "The templates could not be loaded."
+    }
   },
   "inventory": {
     "adjustInventory": {

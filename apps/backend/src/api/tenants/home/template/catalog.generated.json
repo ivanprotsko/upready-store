@@ -27,6 +27,214 @@
     "opt",
     "uhod"
   ],
+  "swatches": {
+    "default": {
+      "label": "Medusa default",
+      "light": {
+        "background": "rgba(255, 255, 255, 1)",
+        "foreground": "rgba(24, 24, 27, 1)",
+        "primary": "rgba(39, 39, 42, 1)",
+        "accent": "rgba(244, 244, 245, 1)",
+        "muted": "rgba(244, 244, 245, 1)"
+      },
+      "dark": {
+        "background": "rgba(33, 33, 36, 1)",
+        "foreground": "rgba(244, 244, 245, 1)",
+        "primary": "rgba(82, 82, 91, 1)",
+        "accent": "rgba(39, 39, 42, 1)",
+        "muted": "rgba(39, 39, 42, 1)"
+      }
+    },
+    "electronics": {
+      "label": "Ferrite",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0d1013",
+        "primary": "#0b57d0",
+        "accent": "#e7ecf2",
+        "muted": "#f1f4f7"
+      },
+      "dark": {
+        "background": "#0d1013",
+        "foreground": "#e9edf1",
+        "primary": "#4d9dff",
+        "accent": "#262d35",
+        "muted": "#1e242b"
+      }
+    },
+    "geist": {
+      "label": "Geist",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#171717",
+        "primary": "#171717",
+        "accent": "#f5f5f5",
+        "muted": "#f5f5f5"
+      },
+      "dark": {
+        "background": "#0a0a0a",
+        "foreground": "#ededed",
+        "primary": "#ededed",
+        "accent": "#1f1f1f",
+        "muted": "#1a1a1a"
+      }
+    },
+    "home-goods": {
+      "label": "Long Morning",
+      "light": {
+        "background": "#fdfbf7",
+        "foreground": "#241c16",
+        "primary": "#a64b2a",
+        "accent": "#ece2d3",
+        "muted": "#f2ebe0"
+      },
+      "dark": {
+        "background": "#1a1512",
+        "foreground": "#f2ebe2",
+        "primary": "#e08a63",
+        "accent": "#302823",
+        "muted": "#26201b"
+      }
+    },
+    "medusa": {
+      "label": "Medusa default",
+      "light": {
+        "background": "rgba(255, 255, 255, 1)",
+        "foreground": "rgba(24, 24, 27, 1)",
+        "primary": "rgba(39, 39, 42, 1)",
+        "accent": "rgba(244, 244, 245, 1)",
+        "muted": "rgba(244, 244, 245, 1)"
+      },
+      "dark": {
+        "background": "rgba(33, 33, 36, 1)",
+        "foreground": "rgba(244, 244, 245, 1)",
+        "primary": "rgba(82, 82, 91, 1)",
+        "accent": "rgba(39, 39, 42, 1)",
+        "muted": "rgba(39, 39, 42, 1)"
+      }
+    },
+    "sneakers": {
+      "label": "Kerbstone",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0a0a0a",
+        "primary": "#0a0a0a",
+        "accent": "#f0f0f0",
+        "muted": "#f5f5f5"
+      },
+      "dark": {
+        "background": "#0a0a0a",
+        "foreground": "#ededed",
+        "primary": "#d6ff3b",
+        "accent": "#1f1f1f",
+        "muted": "#1a1a1a"
+      }
+    },
+    "supplements": {
+      "label": "Scruple",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1d1d1d",
+        "primary": "#0a6a52",
+        "accent": "#ebebeb",
+        "muted": "#f3f3f3"
+      },
+      "dark": {
+        "background": "#111111",
+        "foreground": "#efefef",
+        "primary": "#57e0b0",
+        "accent": "#282828",
+        "muted": "#222222"
+      }
+    },
+    "womens-fashion": {
+      "label": "Larchant",
+      "light": {
+        "background": "#f7f2e9",
+        "foreground": "#17140f",
+        "primary": "#17140f",
+        "accent": "#8c3b2e",
+        "muted": "#efe8db"
+      },
+      "dark": {
+        "background": "#14110d",
+        "foreground": "#f2eadc",
+        "primary": "#f2eadc",
+        "accent": "#e0907a",
+        "muted": "#241f18"
+      }
+    },
+    "ferma": {
+      "label": "Ferma",
+      "light": {
+        "background": "#fbfaf7",
+        "foreground": "#1c2620",
+        "primary": "#274534",
+        "accent": "#f0e4d6",
+        "muted": "#e9e6dc"
+      }
+    },
+    "interier": {
+      "label": "Interior",
+      "light": {
+        "background": "#fbfaf8",
+        "foreground": "#1a1917",
+        "primary": "#2c2a26",
+        "accent": "#eae2d3",
+        "muted": "#e7e4de"
+      }
+    },
+    "katalog": {
+      "label": "Catalogue",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#111214",
+        "primary": "#111214",
+        "accent": "#e8f0fb",
+        "muted": "#eceef0"
+      }
+    },
+    "lending": {
+      "label": "Landing",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0d0f12",
+        "primary": "#0d0f12",
+        "accent": "#fde9d9",
+        "muted": "#eaecee"
+      }
+    },
+    "moda": {
+      "label": "Moda",
+      "light": {
+        "background": "#faf8f5",
+        "foreground": "#14110e",
+        "primary": "#14110e",
+        "accent": "#e7ded2",
+        "muted": "#e6e0d7"
+      }
+    },
+    "opt": {
+      "label": "Wholesale",
+      "light": {
+        "background": "#fcfcfd",
+        "foreground": "#14171c",
+        "primary": "#1b3a5c",
+        "accent": "#e4edf7",
+        "muted": "#e7eaee"
+      }
+    },
+    "uhod": {
+      "label": "Care",
+      "light": {
+        "background": "#fdfbfa",
+        "foreground": "#221a1e",
+        "primary": "#5c3550",
+        "accent": "#f3e3e8",
+        "muted": "#efe4e7"
+      }
+    }
+  },
   "fonts": [
     "Geist",
     "Inter",

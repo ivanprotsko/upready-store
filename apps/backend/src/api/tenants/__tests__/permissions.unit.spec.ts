@@ -291,6 +291,7 @@ const EXPECTED: Record<TenantPermission | "any", string[]> = {
     "GET /tenants/home",
     "PUT /tenants/home",
     "POST /tenants/home/template",
+    "GET /tenants/home/templates",
     "GET /tenants/pages",
     "POST /tenants/pages",
     "GET /tenants/pages/[key]",
