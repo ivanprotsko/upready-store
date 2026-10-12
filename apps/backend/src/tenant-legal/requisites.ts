@@ -87,10 +87,37 @@ export const LEGAL_TOKENS: LegalToken[] = [
   DOMAIN_TOKEN,
 ];
 
+/**
+ * Latin spellings of three of the tokens above (t-2026-10-12-32). The English
+ * legal pages of an INTL tenant (`cherkashino-com`: offer, privacy, returns,
+ * contacts, consent, both locales) were written with `{{SELLER_*}}` because
+ * the seller of the .com shop was not settled (t-2026-10-04-20), and since this
+ * module knew none of them, they reached the buyer as raw braces — neither
+ * filled nor hidden (audit 13.10, D1).
+ *
+ * An alias is not a 17th requisite: it reads the same value as its Cyrillic
+ * token, is filled or hidden exactly like it, and `tokensInText` reports it
+ * under the Cyrillic name, so the panel's «не заполнено» list has one field
+ * to fill for both languages.
+ */
+export const LEGAL_TOKEN_ALIASES = {
+  SELLER_NAME: "ФИО_ИП",
+  SELLER_ADDRESS: "ЮР_АДРЕС",
+  SELLER_EMAIL: "EMAIL",
+} as const satisfies Record<string, LegalToken>;
+
+type LegalTokenAlias = keyof typeof LEGAL_TOKEN_ALIASES;
+
+const canonicalToken = (token: string): string =>
+  LEGAL_TOKEN_ALIASES[token as LegalTokenAlias] ?? token;
+
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const tokenPattern = (): RegExp =>
-  new RegExp(`\\{\\{(${LEGAL_TOKENS.map(escapeRegExp).join("|")})\\}\\}`, "g");
+  new RegExp(
+    `\\{\\{(${[...LEGAL_TOKENS, ...Object.keys(LEGAL_TOKEN_ALIASES)].map(escapeRegExp).join("|")})\\}\\}`,
+    "g",
+  );
 
 /**
  * One value per of the 16 tokens: the stored row's fields plus the resolved
@@ -135,13 +162,16 @@ export const valuesFromRequisites = (
  * `parseInline`'s alternation match first, so the underscores inside never
  * reach the emphasis branch; a resolved VALUE is never wrapped, only the
  * literal "not filled" placeholder.
+ *
+ * An alias (`{{SELLER_NAME}}`) takes the value of its Cyrillic token
+ * (`ФИО_ИП`), so `values` stays keyed by the 16 tokens alone.
  */
 export const resolveLegalPlaceholders = (
   body: string,
   values: Record<string, string | null | undefined>,
 ): string =>
   body.replace(tokenPattern(), (match, token: string) => {
-    const value = values[token];
+    const value = values[canonicalToken(token)];
     return value && value.trim().length > 0 ? value : `\`${match}\``;
   });
 
@@ -157,13 +187,13 @@ export const missingLegalTokens = (
   });
 };
 
-/** Every known token that appears, literally, in one page body. */
+/** Every known token that appears, literally, in one page body; an alias counts as its Cyrillic token. */
 export const tokensInText = (body: string): LegalToken[] => {
   const found = new Set<LegalToken>();
   let match: RegExpExecArray | null;
   const pattern = tokenPattern();
   while ((match = pattern.exec(body))) {
-    found.add(match[1] as LegalToken);
+    found.add(canonicalToken(match[1]) as LegalToken);
   }
   return [...found];
 };

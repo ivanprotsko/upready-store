@@ -1,5 +1,6 @@
 import {
   DOMAIN_TOKEN,
+  LEGAL_TOKEN_ALIASES,
   LEGAL_TOKENS,
   missingLegalTokens,
   resolveLegalPlaceholders,
@@ -163,5 +164,36 @@ describe("tenant-legal/requisites: missingLegalTokens / tokensInText", () => {
   it("finds every known token literally present in a body, once each", () => {
     const found = tokensInText("{{ИНН}} и снова {{ИНН}}, а ещё {{EMAIL}}");
     expect(found.sort()).toEqual(["EMAIL", "ИНН"].sort());
+  });
+});
+
+describe("tenant-legal/requisites: the Latin SELLER_* aliases (t-2026-10-12-32)", () => {
+  it("fills each alias with the value of its Cyrillic token", () => {
+    const values = valuesFromRequisites(FULL_ROW, "cherkashino.upready.dev");
+    const rendered = resolveLegalPlaceholders("{{SELLER_NAME}} | {{SELLER_ADDRESS}} | {{SELLER_EMAIL}}", values);
+    expect(rendered).toBe(`${FULL_ROW.legal_name} | ${FULL_ROW.legal_address} | ${FULL_ROW.email}`);
+  });
+
+  it("leaves an empty alias literal and backtick-wrapped, like an empty Cyrillic token", () => {
+    const values = valuesFromRequisites(EMPTY_ROW, null);
+    expect(resolveLegalPlaceholders("{{SELLER_ADDRESS}}", values)).toBe("`{{SELLER_ADDRESS}}`");
+  });
+
+  it("points every alias at one of the 16 tokens, and adds none to the list", () => {
+    for (const target of Object.values(LEGAL_TOKEN_ALIASES)) {
+      expect(LEGAL_TOKENS).toContain(target);
+    }
+    expect(LEGAL_TOKENS).toHaveLength(16);
+  });
+
+  it("reports an alias under its Cyrillic token, so the panel lists one field for both languages", () => {
+    const found = tokensInText("{{SELLER_NAME}}, {{ФИО_ИП}}, {{SELLER_EMAIL}} и {{SELLER_ADDRESS}}");
+    expect(found.sort()).toEqual(["EMAIL", "ФИО_ИП", "ЮР_АДРЕС"].sort());
+  });
+
+  it("does not know a Latin token that is not an alias", () => {
+    expect(tokensInText("{{SELLER_VAT_ID}}")).toEqual([]);
+    const values = valuesFromRequisites(FULL_ROW, "cherkashino.upready.dev");
+    expect(resolveLegalPlaceholders("{{SELLER_VAT_ID}}", values)).toBe("{{SELLER_VAT_ID}}");
   });
 });

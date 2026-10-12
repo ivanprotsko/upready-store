@@ -167,3 +167,109 @@ describe("redactLegalInline", () => {
     expect(empty("Девиз: {{ДЕВИЗ_МАГАЗИНА}}")).toBe("Девиз: {{ДЕВИЗ_МАГАЗИНА}}");
   });
 });
+
+/**
+ * The English legal pages of an INTL tenant (t-2026-10-12-32, audit 13.10 D1):
+ * `cherkashino-com` writes the seller as `{{SELLER_NAME}}`, `{{SELLER_ADDRESS}}`
+ * and `{{SELLER_EMAIL}}`, and before the aliases every one of them reached the
+ * buyer as raw braces. The body is shaped like the live contacts page (heading,
+ * seller paragraph, details table, contact list); the wording is this test's own.
+ */
+const CONTACTS_EN = `## Seller
+
+The seller is {{SELLER_NAME}}, registered at {{SELLER_ADDRESS}}.
+
+| | |
+|---|---|
+| Seller | {{SELLER_NAME}} |
+| Address | {{SELLER_ADDRESS}} |
+| E-mail | {{SELLER_EMAIL}} |
+| Hours | 09:00–21:00 Moscow time, daily |
+
+---
+
+## Contact us
+
+- **E-mail:** {{SELLER_EMAIL}}
+- **Telegram:** [t.me/cherkashina_oks](https://t.me/cherkashina_oks)`;
+
+describe("redactLegalPlaceholders: an English page with the SELLER_* aliases", () => {
+  it("substitutes every alias from its Cyrillic field when the requisites are filled", () => {
+    const { body, hidden } = redactLegalPlaceholders(
+      CONTACTS_EN,
+      valuesFromRequisites(FILLED_ROW, "shop.example"),
+    );
+    expect(hidden).toBe(0);
+    expect(body).toContain(
+      "The seller is Черкашина Оксана Сергеевна, registered at г. Астрахань, ул. Победы, 1.",
+    );
+    expect(body).toContain("| Seller | Черкашина Оксана Сергеевна |");
+    expect(body).toContain("| Address | г. Астрахань, ул. Победы, 1 |");
+    expect(body).toContain("| E-mail | shop@example.ru |");
+    expect(body).toContain("- **E-mail:** shop@example.ru");
+    expect(body).not.toContain("{{");
+    expect(body).not.toContain("SELLER_");
+  });
+
+  it("hides every block carrying an empty alias, exactly as an empty Cyrillic token is hidden", () => {
+    const { body, hidden } = redactLegalPlaceholders(
+      CONTACTS_EN,
+      valuesFromRequisites(EMPTY_ROW, "shop.example"),
+    );
+    expect(body).not.toContain("{{");
+    expect(body).not.toContain("SELLER_");
+    expect(body).not.toContain("The seller is");
+    expect(body).toContain("| Hours | 09:00–21:00 Moscow time, daily |");
+    expect(body).toContain("- **Telegram:** [t.me/cherkashina_oks](https://t.me/cherkashina_oks)");
+    expect(body).toContain("## Seller");
+    expect(body).toContain("## Contact us");
+    // 1 paragraph + 3 table rows + 1 list item.
+    expect(hidden).toBe(5);
+  });
+
+  it("matches the Cyrillic page block for block: the same body in Cyrillic tokens hides the same", () => {
+    const cyrillic = CONTACTS_EN.replace(/SELLER_NAME/g, "ФИО_ИП")
+      .replace(/SELLER_ADDRESS/g, "ЮР_АДРЕС")
+      .replace(/SELLER_EMAIL/g, "EMAIL");
+    for (const row of [EMPTY_ROW, FILLED_ROW, { ...EMPTY_ROW, email: "shop@example.ru" }]) {
+      const values = valuesFromRequisites(row, "shop.example");
+      expect(redactLegalPlaceholders(CONTACTS_EN, values)).toEqual(
+        redactLegalPlaceholders(cyrillic, values),
+      );
+    }
+  });
+
+  it("on the .com shop as it stands (name and address blanked, e-mail kept) shows the e-mail and hides the rest", () => {
+    const comRow: RequisitesRow = { ...EMPTY_ROW, email: "shop@example.ru" };
+    const { body, hidden } = redactLegalPlaceholders(
+      CONTACTS_EN,
+      valuesFromRequisites(comRow, "shop.example"),
+    );
+    expect(body).toContain("| E-mail | shop@example.ru |");
+    expect(body).toContain("- **E-mail:** shop@example.ru");
+    expect(body).not.toContain("| Seller |");
+    expect(body).not.toContain("| Address |");
+    expect(body).not.toContain("{{");
+    // 1 paragraph + 2 table rows.
+    expect(hidden).toBe(3);
+  });
+
+  it("leaves a Latin token neither form knows exactly as written, and does not hide its block", () => {
+    const body = "VAT number: {{SELLER_VAT_ID}}.";
+    const result = redactLegalPlaceholders(body, valuesFromRequisites(EMPTY_ROW, "shop.example"));
+    expect(result.body).toBe("VAT number: {{SELLER_VAT_ID}}.");
+    expect(result.hidden).toBe(0);
+  });
+
+  it("drops an empty alias from a one-line field and substitutes a filled one", () => {
+    expect(redactLegalInline("Terms of Sale — {{SELLER_NAME}}", valuesFromRequisites(EMPTY_ROW, "shop.example"))).toBe(
+      "Terms of Sale",
+    );
+    expect(redactLegalInline("Terms of Sale — {{SELLER_NAME}}", valuesFromRequisites(FILLED_ROW, "shop.example"))).toBe(
+      "Terms of Sale — Черкашина Оксана Сергеевна",
+    );
+    expect(redactLegalInline("Terms of Sale {{SELLER_VAT_ID}}", valuesFromRequisites(EMPTY_ROW, "shop.example"))).toBe(
+      "Terms of Sale {{SELLER_VAT_ID}}",
+    );
+  });
+});
