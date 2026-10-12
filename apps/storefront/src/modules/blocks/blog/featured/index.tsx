@@ -84,8 +84,10 @@ async function previewCards(posts: BlogFeaturedProps["previewPosts"], limit: num
  * - Under the cards, the link to all posts (`showSeeAll`), in the block's own words while it is `lab`. The
  *   shell's header carries no link here: the parser refuses `header.seeAll`.
  *
- * The type stays on the shell's scale (`shared/section-type.ts`): the title is the description's size,
- * 16 / 18 px, set apart by weight; the date and the excerpt take the see-all link's 16 / 14 px.
+ * The type stays on the shell's scale (`shared/section-type.ts`) and its 1.15× steps: the date and the
+ * excerpt take the see-all link's 16 / 14 px; the title is 20 px below 1024, a step over the 16 px text, and
+ * from 1024 the description's 18 px, set apart by weight. At 16 px a layer's display face (Cormorant in
+ * `long-morning`) drew the title smaller than the excerpt.
  *
  * No post, nothing drawn. On the templates stand (`STOREFRONT_TEMPLATE_PREVIEW=1`), and only while the journal
  * is empty, the block draws `previewPosts` instead, so the playground and the shots have something to show;
@@ -141,7 +143,7 @@ export default async function BlogFeatured({
                       alt={card.cover.alt}
                       fill
                       sizes={SIZES[columns]}
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                      className="object-cover transition-transform duration-200 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     />
                   ) : (
                     <span aria-hidden className="absolute inset-0 flex items-center justify-center text-ui-fg-muted">
@@ -157,7 +159,7 @@ export default async function BlogFeatured({
                   ) : null}
                   <h3
                     data-role="card-title"
-                    className="text-pretty text-base font-semibold text-ui-fg-base underline-offset-4 group-hover:underline small:text-lg"
+                    className="text-pretty text-xl font-semibold text-ui-fg-base underline-offset-4 group-hover:underline small:text-lg"
                   >
                     {card.title}
                   </h3>
