@@ -468,6 +468,14 @@
       "propsEditable": false
     },
     {
+      "id": "columns/multicolumn",
+      "category": "columns",
+      "placement": "home",
+      "status": "lab",
+      "props": true,
+      "propsEditable": false
+    },
+    {
       "id": "testimonials/cards",
       "category": "testimonials",
       "placement": "home",
