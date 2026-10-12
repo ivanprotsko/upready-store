@@ -334,7 +334,53 @@
         }
       },
       "errors": [
-        "sections[3].props: props must be an object { text, href? }"
+        "sections[3].props: text must be an object of language code to string"
+      ]
+    },
+    {
+      "name": "a text bar whose props are a string",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar",
+          "props": "Hi"
+        }
+      },
+      "errors": [
+        "sections[3].props: props must be an object { text, href }"
+      ]
+    },
+    {
+      "name": "a text bar whose link leads to another site as a path",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar",
+          "props": {
+            "text": {
+              "ru": "Привет"
+            },
+            "href": "//evil.example"
+          }
+        }
+      },
+      "errors": [
+        "sections[3].props: href: // leads to another site; write https://"
+      ]
+    },
+    {
+      "name": "a text bar whose link has a space",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar",
+          "props": {
+            "text": {
+              "ru": "Привет"
+            },
+            "href": "https://shop.example/a b"
+          }
+        }
+      },
+      "errors": [
+        "sections[3].props: href must be one address, no spaces, at most 2048 characters"
       ]
     },
     {

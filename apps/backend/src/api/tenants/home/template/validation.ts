@@ -111,30 +111,49 @@ function oneOf(errors: FieldError[], field: string, value: unknown, allowed: rea
 
 const LOCALE_CODES = new Set(CATALOG.locales);
 
-/** `parseTextBarProps` of `modules/blocks/announcement/text-bar/props.ts`. */
-function checkTextBarProps(input: unknown): string[] {
+/** `parseLocalizedText` of `modules/blocks/shared/parse.ts`, with no fallback: the text is required. */
+function checkLocalizedText(value: unknown, path: string, max: number): string[] {
+  if (!isObject(value)) return [`${path} must be an object of language code to string`];
   const errors: string[] = [];
-  if (!isObject(input)) {
-    return ["props must be an object { text, href? }"];
+  for (const [code, line] of Object.entries(value)) {
+    if (!LOCALE_CODES.has(code)) errors.push(`${path}.${code}: not a language of i18n/config.ts`);
+    if (typeof line !== "string") errors.push(`${path}.${code} must be a string`);
+    else if (line.length > max) errors.push(`${path}.${code} is ${line.length} characters, at most ${max}`);
   }
-  const { text, href, ...rest } = input;
+  return errors;
+}
 
-  if (!isObject(text)) {
-    errors.push("text must be an object of language code to string");
-  } else {
-    for (const [code, value] of Object.entries(text)) {
-      if (!LOCALE_CODES.has(code)) errors.push(`text.${code}: not a language of i18n/config.ts`);
-      if (typeof value !== "string") errors.push(`text.${code} must be a string`);
-      else if (value.length > 140) errors.push(`text.${code} is ${value.length} characters, at most 140`);
+/** `parseHref` of `modules/blocks/shared/parse.ts`, optional: absent is null. */
+function checkHref(value: unknown, path: string): string[] {
+  if (value === undefined || value === null) return [];
+  if (typeof value !== "string" || !(value.startsWith("/") || value.startsWith("https://"))) {
+    return [`${path} must start with / or https://`];
+  }
+  if (/^\/[/\\]/.test(value)) return [`${path}: ${value.slice(0, 2)} leads to another site; write https://`];
+  if (value.length > 2048 || /\s/.test(value)) {
+    return [`${path} must be one address, no spaces, at most 2048 characters`];
+  }
+  if (value.startsWith("https://")) {
+    try {
+      new URL(value);
+    } catch {
+      return [`${path} is not an address`];
     }
   }
-  if (href !== undefined && href !== null) {
-    if (typeof href !== "string" || !(href.startsWith("/") || href.startsWith("https://"))) {
-      errors.push("href must start with / or https://");
-    }
-  }
+  return [];
+}
+
+/**
+ * `parseTextBarProps` of `modules/blocks/announcement/text-bar/props.ts`, which is one
+ * `parseProps(…)` call of `shared/parse.ts`: absent props are `{}`, the fields are read in
+ * their listed order, then every key the block does not list is refused.
+ */
+function checkTextBarProps(input: unknown): string[] {
+  const value = input ?? {};
+  if (!isObject(value)) return ["props must be an object { text, href }"];
+  const { text, href, ...rest } = value;
+  const errors = [...checkLocalizedText(text, "text", 140), ...checkHref(href, "href")];
   for (const key of Object.keys(rest)) errors.push(`${key}: not a prop of announcement/text-bar`);
-
   return errors;
 }
 
