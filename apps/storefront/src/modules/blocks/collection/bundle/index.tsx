@@ -149,7 +149,7 @@ export default async function Bundle({
                   <Link
                     href={href}
                     className={clx(
-                      "ms-24 inline-flex min-h-11 items-center rounded-sm text-base font-medium text-ui-fg-interactive underline-offset-4 hover:text-ui-fg-interactive-hover hover:underline min-[720px]:ms-0",
+                      "ms-24 inline-flex min-h-11 items-center rounded-[var(--radius)] text-base font-medium text-ui-fg-interactive underline-offset-4 hover:text-ui-fg-interactive-hover hover:underline min-[720px]:ms-0",
                       focusRing
                     )}
                   >

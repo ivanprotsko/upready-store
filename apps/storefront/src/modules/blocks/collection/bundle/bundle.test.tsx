@@ -279,10 +279,12 @@ describe("Bundle, drawing", () => {
     expect(html).toContain(TITLE.en)
   })
 
-  it("draws with tokens only: no literal colours, the button on the template's button layer", async () => {
-    shop(candle, rail)
-    const html = (await render(props(["candle-holder", "hook-rail"])))!
+  it("draws with tokens only: no literal colours or radii, the button on the template's button layer", async () => {
+    shop(candle, rail, mug)
+    const html = (await render(props(["candle-holder", "hook-rail", "mug"])))!
     expect(html).not.toMatch(/\b(?:bg|text|border)-(?:black|white)\b|#[0-9a-f]{3,8}\b|rgba?\(|hsla?\(|oklch\(/i)
+    // QR-RADIUS: a corner is the template's radius; `rounded-sm` on «Выбрать вариант» drew 2 px under every template.
+    expect(html).not.toMatch(/\brounded(?:-(?:[se][se]?|[tblr][lr]?))?-(?:none|xs|sm|md|lg|xl|2xl|3xl|full)\b|\brounded(?=[\s"])/)
     expect(html).toContain("rounded-[var(--radius)]")
   })
 })
