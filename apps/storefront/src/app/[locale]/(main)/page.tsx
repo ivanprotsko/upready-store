@@ -28,7 +28,7 @@ import { categoriesWithImages, categoryImage } from "@lib/util/category-image"
 import { categoryTiles as profileCategoryTiles } from "@lib/profile"
 import type { ProfileCategoryTile } from "@lib/profile/types"
 import { HOME_SECTION_CLASS } from "@modules/home/components/listing-section"
-import { getPreviewTemplate } from "@lib/templates/preview"
+import { getActiveTemplate } from "@lib/templates/active"
 
 /**
  * The category tiles THIS shop may show. The list in the build profile belongs to the
@@ -98,13 +98,14 @@ const savedBlockOrder = (home: TenantHome | null): readonly HomeBlockKey[] =>
   home?.content.order?.length ? home.content.order : DEFAULT_BLOCK_ORDER
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [t, locale, siteName, settings, home, olavka] = await Promise.all([
+  const [t, locale, siteName, settings, home, olavka, template] = await Promise.all([
     getTranslations("Metadata.home"),
     getLocale(),
     getSiteName(),
     getEffectiveSettings(),
     getTenantHome(),
     isOlavkaShop(),
+    getActiveTemplate(),
   ])
   return {
     title: siteName,
@@ -114,7 +115,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: homeDescription({
       olavka,
       hero: settings?.hero ?? DEFAULT_HERO,
-      savedOrder: savedBlockOrder(home),
+      savedOrder: template ? DEFAULT_BLOCK_ORDER : savedBlockOrder(home),
       subtitle: localizedHero(home?.content.hero, locale)?.subtitle,
       neutral: t("description"),
     }),
@@ -161,7 +162,7 @@ export default async function Home() {
     tilesForThisShop(),
     getLocale(),
     isOlavkaShop(),
-    getPreviewTemplate(),
+    getActiveTemplate(),
   ])
 
   const hero = settings?.hero ?? DEFAULT_HERO
@@ -186,8 +187,8 @@ export default async function Home() {
       }
     : {}
 
-  // A previewed template places the hero itself (its `sections`), so the shop's saved
-  // order cannot take it off; without one this is the shop's order, as before.
+  // A template, previewed or saved by the shop, places the hero itself (its `sections`), so
+  // the shop's saved order cannot take it off; without one this is the shop's order, as before.
   const savedOrder = template ? DEFAULT_BLOCK_ORDER : savedBlockOrder(home)
   // The Olavka shop's own blocks above take the hero's place, so the composed hero is
   // skipped for it — Ivan saw three heroes on one page otherwise (2026-09-24). Tiles and
@@ -235,9 +236,9 @@ export default async function Home() {
             </Fragment>
           )
         })}
-      {/* The templates stand (t-2026-10-12-33): a previewed template lays out the home page
-          from its own `sections`, the three slots above included. Null everywhere else, and
-          the registry is imported only then. */}
+      {/* A template (t-2026-10-12-33), previewed on the templates stand or saved by the shop,
+          lays out the home page from its own `sections`, the three slots above included.
+          Null for a shop with none, and the registry is imported only then. */}
       {template && TemplateSections ? (
         <TemplateSections sections={template.manifest.sections} slots={blocks} />
       ) : (

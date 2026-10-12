@@ -13,13 +13,14 @@ const SLOT_OF: Partial<Record<string, HomeBlockKey>> = {
 }
 
 /**
- * The home page of a previewed template (t-2026-10-12-33), section by section. A hero,
- * tiles or listing section is the page's own slot, built by `(main)/page.tsx` exactly as
- * it builds it for the shop (its variant already comes from the template's `settings`, the
- * validator holds the two in step); every other block is drawn from the registry with the
- * props the template gives it, parsed once more on the way in.
+ * The home page of a template (t-2026-10-12-33), previewed or saved by the shop, section
+ * by section. A hero, tiles or listing section is the page's own slot, built by
+ * `(main)/page.tsx` exactly as it builds it for the shop (its variant already comes from
+ * the template's `settings`, the validator holds the two in step); every other block is
+ * drawn from the registry with the props the template gives it, parsed once more on the
+ * way in.
  *
- * Only `(main)/page.tsx` renders this, and only when `getPreviewTemplate()` answered.
+ * Only `(main)/page.tsx` renders this, and only when `getActiveTemplate()` answered.
  */
 export default function TemplateSections({
   sections,

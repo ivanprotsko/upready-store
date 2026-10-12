@@ -29,6 +29,7 @@
     "lint:blocks": "node scripts/lint-blocks.mjs",
     "template:shots": "node scripts/template-shots.mjs",
     "template:check": "node scripts/template-check.mjs",
+    "templates:export": "TEMPLATES_EXPORT_WRITE=1 vitest run src/lib/templates/catalog-export.test.ts",
     "analyze": "ANALYZE=true next build",
     "ui:inventory": "node scripts/ui-inventory.mjs",
     "ui-lab:dev": "NEXT_PUBLIC_UI_LAB=1 next dev --turbopack -p 8001",

@@ -21,7 +21,7 @@ import {
   getTenantThemePreset,
 } from "@lib/data/tenant-home"
 import { TEMPLATE_FONTS_STYLESHEET } from "@lib/templates/fonts"
-import { getPreviewTemplate } from "@lib/templates/preview"
+import { getActiveTemplate } from "@lib/templates/active"
 import StudioMount from "@modules/studio/components/studio-mount"
 import MiniAppBridge from "@modules/telegram/components/mini-app-bridge"
 import TestModeDot from "@modules/common/components/test-mode-dot"
@@ -84,7 +84,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode, messages, preview] =
+  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode, messages, template] =
     await Promise.all([
       getEffectiveSettings(),
       getTenantThemePreset(),
@@ -94,7 +94,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       isOlavkaShop(),
       getSiteTestMode(),
       getClientMessages(),
-      getPreviewTemplate(),
+      getActiveTemplate(),
     ])
   // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
   // this parse only ever produces a clean integer or null, never NaN reaching
@@ -102,10 +102,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const yandexCounterId = analytics.yandexMetricaId
     ? Number.parseInt(analytics.yandexMetricaId, 10)
     : null
-  // A previewed template (t-2026-10-12-33, templates stand only) paints with its own
-  // palette and mode; null everywhere else, and the lines below are the shop's own.
-  const theme = preview
-    ? preview.preset
+  // A template (t-2026-10-12-33), previewed on the templates stand or saved by the shop,
+  // paints with its own palette and mode; null for a shop with none, and the lines below
+  // are the shop's own.
+  const theme = template
+    ? template.preset
     : isAllowed("data-theme", tenantPreset)
       ? tenantPreset
       : profileTheme
@@ -114,7 +115,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   // for one shop. `getEffectiveSettings()` already prefers the shop's document, so the
   // second term only ever answers for a single-store stand.
   const mode =
-    preview?.mode ??
+    template?.mode ??
     (isAllowed("data-mode", tenantMode) ? tenantMode : null) ??
     settings?.defaultMode ??
     profileMode
@@ -143,11 +144,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       data-theme={theme}
       data-mode={mode}
       className={[fontClassName, olavkaFontClassName].filter(Boolean).join(" ") || undefined}
-      // The template's style layers (`--radius`, `--layer-*`) over the brand colour, preview only.
-      style={preview ? ({ ...brandStyle, ...preview.style } as React.CSSProperties) : brandStyle}
+      // The template's style layers (`--radius`, `--layer-*`) over the brand colour; none without one.
+      style={template ? ({ ...brandStyle, ...template.style } as React.CSSProperties) : brandStyle}
       // The template's font pair, when its files exist (`lib/templates/fonts.ts`): the attribute the
-      // stylesheet linked below keys on. The preview is the only template reader today; absent for a shop.
-      data-font-pair={preview?.fonts.pair ?? undefined}
+      // stylesheet linked below keys on. Absent for a shop with no template.
+      data-font-pair={template?.fonts.pair ?? undefined}
       // Marks an Olavka shop (`OLAVKA_SHOP_HANDLES`) for the styles a client component or a
       // portal cannot learn from the server: the product row tile's 1rem type (remark 17),
       // the search input's focus ring (remark 18).
@@ -165,7 +166,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         {olavka ? <style dangerouslySetInnerHTML={{ __html: OLAVKA_INTER_CSS }} /> : null}
         {/* The template fonts' @font-face and [data-font-pair] rules; a page without the attribute
             does not link it, so a shop with no template fetches neither the sheet nor a face. */}
-        {preview?.fonts.pair ? <link rel="stylesheet" href={TEMPLATE_FONTS_STYLESHEET} /> : null}
+        {template?.fonts.pair ? <link rel="stylesheet" href={TEMPLATE_FONTS_STYLESHEET} /> : null}
       </head>
       <body>
         {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside
