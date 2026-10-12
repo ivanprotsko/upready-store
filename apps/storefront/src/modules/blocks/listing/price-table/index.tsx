@@ -80,7 +80,11 @@ function Thumbnail({ src }: { src: string | null }) {
  */
 export default async function PriceTable({ header, source, limit, columns, unit, note, labels }: PriceTableProps) {
   const locale = await getLocale()
-  const selection = await readSelection(source, limit).catch(() => null)
+  const selection = await readSelection(source, limit).catch((error) => {
+    // A failed read is not an empty source (rule 20a): name it, and leave the section out.
+    console.error(`listing/price-table: could not read ${JSON.stringify(source)}`, error)
+    return null
+  })
   const rows: PriceTableRow[] = selection ? toRows(selection.products, locale) : []
 
   if (!selection || !rows.length) {

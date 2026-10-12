@@ -244,12 +244,19 @@ describe("readSelection", () => {
 })
 
 describe("PriceTable", () => {
-  it("draws nothing when the source holds no product, or the read fails", async () => {
+  it("draws nothing when the source holds no product", async () => {
     data.listProducts.mockResolvedValueOnce(answer([]))
     expect(await render(props())).toBeNull()
-    data.listProducts.mockRejectedValueOnce(new Error("502"))
-    expect(await render(props())).toBeNull()
     expect(await render(priceTable.fixtures!.empty)).toBeNull()
+  })
+
+  it("draws nothing when the read fails, and says so in the log", async () => {
+    const logged = vi.spyOn(console, "error").mockImplementation(() => {})
+    const failure = new Error("502")
+    data.listProducts.mockRejectedValueOnce(failure)
+    expect(await render(props())).toBeNull()
+    expect(logged).toHaveBeenCalledWith(`listing/price-table: could not read ${JSON.stringify(props().source)}`, failure)
+    logged.mockRestore()
   })
 
   it("draws a table of rows with the brief's roles, one row per product", async () => {
