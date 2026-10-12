@@ -108,6 +108,83 @@ test("the opener shows the drawer; header and footer stay while the body scrolls
   await expect(opener).toBeFocused()
 })
 
+/**
+ * t-2026-10-12-06, Ivan 12.10.2026: «4. панель с харектеристиками и описанием продукта нужно
+ * показывать справа», «4.1. и похоже в этой панели не работает кнопка "в корзину"», «5. убери
+ * кнопку "купить" везде».
+ */
+const openDrawer = async (page: import("@playwright/test").Page) => {
+  await page
+    .getByTestId("product-container")
+    .getByTestId("product-details-opener")
+    .click()
+  const drawer = page.getByTestId("product-details-drawer")
+  await expect(drawer).toBeVisible()
+  await drawer.evaluate((element) =>
+    Promise.all(element.getAnimations().map((animation) => animation.finished))
+  )
+  return drawer
+}
+
+test("the drawer is a card on the right edge, with the page dimmed on its left", async ({
+  page,
+}) => {
+  const drawer = await openDrawer(page)
+  const found = await drawer.boundingBox()
+  const width = page.viewportSize()?.width ?? 0
+
+  expect(found).not.toBeNull()
+  const card = found as NonNullable<typeof found>
+  // 8 px from the right edge, as from the top and the bottom.
+  expect(Math.abs(card.x + card.width - (width - 8))).toBeLessThanOrEqual(1)
+  expect(card.x).toBeGreaterThan(width / 2)
+  expect(card.width).toBeLessThanOrEqual(640)
+})
+
+test("«В корзину» in the drawer closes it and opens the cart sidebar with the line", async ({
+  page,
+}) => {
+  const drawer = await openDrawer(page)
+  const add = drawer.getByTestId("product-details-add")
+  await expect(add).toBeEnabled()
+  await add.click()
+
+  await expect(drawer).toHaveCount(0)
+  const sidebar = page.getByTestId("cart-sidebar")
+  await expect(sidebar).toBeVisible()
+  await expect(sidebar.getByTestId("cart-sidebar-empty")).toHaveCount(0)
+})
+
+test("no «Купить» button on the page, nor in the drawer", async ({ page }) => {
+  await expect(page.getByTestId("buy-now-button")).toHaveCount(0)
+  await expect(page.getByRole("button", { name: "Купить", exact: true })).toHaveCount(0)
+
+  const drawer = await openDrawer(page)
+  await expect(drawer.getByTestId("product-details-buy-now")).toHaveCount(0)
+  await expect(drawer.getByRole("button")).toHaveCount(2) // the X and «В корзину»
+})
+
+test.describe("on a phone", () => {
+  test.use({ viewport: { width: 390, height: 844 } })
+
+  test("the drawer takes the whole screen", async ({ page }) => {
+    const drawer = await openDrawer(page)
+    const found = await drawer.boundingBox()
+
+    expect(found).toEqual({ x: 0, y: 0, width: 390, height: 844 })
+  })
+
+  test("«В корзину» in the drawer closes it, so the page shows the line in the cart", async ({
+    page,
+  }) => {
+    const drawer = await openDrawer(page)
+    await drawer.getByTestId("product-details-add").click()
+
+    await expect(drawer).toHaveCount(0)
+    await expect(page.getByTestId("in-cart-stepper").first()).toBeVisible()
+  })
+})
+
 test("the rating links to the reviews block", async ({ page }) => {
   await expect(
     page.getByTestId("product-container").getByTestId("product-rating")

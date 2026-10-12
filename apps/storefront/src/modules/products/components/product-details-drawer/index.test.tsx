@@ -128,7 +128,7 @@ describe("«В корзину» in the details drawer (item 4.1)", () => {
     const html = render({ chosen: null })
 
     expect(state.buttons["product-details-add"].disabled).toBe(true)
-    expect(html).toContain("Выберите вариант")
+    expect(html).toContain("Выбрать вариант")
     expect(html).not.toContain(">В корзину<")
   })
 })
