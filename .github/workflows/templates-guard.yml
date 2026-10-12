@@ -30,7 +30,8 @@ permissions:
 jobs:
   guard:
     name: Templates Guard
-    runs-on: [self-hosted, upready-store]
+    # A dependabot pull request runs it on GitHub's runner, as every job of pr-checks.yml (t-2026-10-12-30, point 11).
+    runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
