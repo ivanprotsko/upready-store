@@ -9,7 +9,23 @@
     "medusa",
     "sneakers",
     "supplements",
-    "womens-fashion"
+    "womens-fashion",
+    "ferma",
+    "interier",
+    "katalog",
+    "lending",
+    "moda",
+    "opt",
+    "uhod"
+  ],
+  "lightOnlyPalettes": [
+    "ferma",
+    "interier",
+    "katalog",
+    "lending",
+    "moda",
+    "opt",
+    "uhod"
   ],
   "fonts": [
     "Geist",
@@ -96,7 +112,8 @@
         "field": "header",
         "value": "h1"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "header/h2",
@@ -107,7 +124,8 @@
         "field": "header",
         "value": "h2"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "header/h3",
@@ -118,7 +136,8 @@
         "field": "header",
         "value": "h3"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "header/h4",
@@ -129,7 +148,8 @@
         "field": "header",
         "value": "h4"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "header/h5",
@@ -140,7 +160,8 @@
         "field": "header",
         "value": "h5"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "header/h6",
@@ -151,7 +172,8 @@
         "field": "header",
         "value": "h6"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "hero/g",
@@ -162,7 +184,8 @@
         "field": "hero",
         "value": "g"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "hero/h",
@@ -173,7 +196,8 @@
         "field": "hero",
         "value": "h"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "hero/j",
@@ -184,7 +208,8 @@
         "field": "hero",
         "value": "j"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "hero/k",
@@ -195,7 +220,8 @@
         "field": "hero",
         "value": "k"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "hero/l",
@@ -206,7 +232,8 @@
         "field": "hero",
         "value": "l"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "hero/m",
@@ -217,7 +244,8 @@
         "field": "hero",
         "value": "m"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "hero/ga",
@@ -228,7 +256,8 @@
         "field": "hero",
         "value": "ga"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "hero/gb",
@@ -239,7 +268,8 @@
         "field": "hero",
         "value": "gb"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "tiles/on",
@@ -250,7 +280,8 @@
         "field": "tiles",
         "value": "on"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "listing/p1",
@@ -261,7 +292,8 @@
         "field": "listing",
         "value": "p1"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "listing/p2",
@@ -272,7 +304,8 @@
         "field": "listing",
         "value": "p2"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "listing/p3",
@@ -283,7 +316,8 @@
         "field": "listing",
         "value": "p3"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "listing/p4",
@@ -294,7 +328,8 @@
         "field": "listing",
         "value": "p4"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "listing/p5",
@@ -305,7 +340,8 @@
         "field": "listing",
         "value": "p5"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "footer/f1",
@@ -316,7 +352,8 @@
         "field": "footer",
         "value": "f1"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "footer/f2",
@@ -327,7 +364,8 @@
         "field": "footer",
         "value": "f2"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "footer/f3",
@@ -338,7 +376,8 @@
         "field": "footer",
         "value": "f3"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "footer/f4",
@@ -349,7 +388,8 @@
         "field": "footer",
         "value": "f4"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "footer/f5",
@@ -360,7 +400,8 @@
         "field": "footer",
         "value": "f5"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "footer/f6",
@@ -371,7 +412,8 @@
         "field": "footer",
         "value": "f6"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "footer/f7",
@@ -382,14 +424,24 @@
         "field": "footer",
         "value": "f7"
       },
-      "props": false
+      "props": false,
+      "propsEditable": false
     },
     {
       "id": "announcement/text-bar",
       "category": "announcement",
       "placement": "home",
       "status": "lab",
-      "props": true
+      "props": true,
+      "propsEditable": true
+    },
+    {
+      "id": "text/rich-text",
+      "category": "text",
+      "placement": "home",
+      "status": "lab",
+      "props": true,
+      "propsEditable": false
     }
   ],
   "templates": {
@@ -397,7 +449,7 @@
       "schema": "upready.storefront-template/v1",
       "id": "long-morning",
       "title": "Long Morning",
-      "description": "Home goods, light and unhurried. The home-goods profile defaults (header h2, shelf hero h, tiles, wall listing p4), with footer f1 in place of the f4 placeholder, under the shop's own text bar.",
+      "description": "Home goods, light and unhurried. The home-goods profile defaults (header h2, shelf hero h, tiles, wall listing p4), with footer f1 in place of the f4 placeholder, under the shop's own text bar. Type: Cormorant Garamond headings over Manrope text, both with Cyrillic.",
       "settings": {
         "defaultMode": "light",
         "header": "h2",
@@ -409,7 +461,7 @@
       "theme": {
         "palette": "home-goods",
         "fontPair": {
-          "display": "Fraunces",
+          "display": "Cormorant Garamond",
           "body": "Manrope"
         },
         "radius": "soft",
@@ -443,7 +495,7 @@
       "schema": "upready.storefront-template/v1",
       "id": "ferrite",
       "title": "Ferrite",
-      "description": "Electronics, dark and dense. The electronics profile defaults (header h3, tiles, spec list p3, footer f5), with the showcase hero g in place of the profile-only announcement k, and the list ahead of the tiles.",
+      "description": "Electronics, dark and dense. The electronics profile defaults (header h3, tiles, spec list p3, footer f5), with the showcase hero g in place of the profile-only announcement k, and the list ahead of the tiles. Type: IBM Plex Mono headings over IBM Plex Sans text, both with Cyrillic.",
       "settings": {
         "defaultMode": "dark",
         "header": "h3",
@@ -455,7 +507,7 @@
       "theme": {
         "palette": "electronics",
         "fontPair": {
-          "display": "Space Grotesk",
+          "display": "IBM Plex Mono",
           "body": "IBM Plex Sans"
         },
         "radius": "sharp",

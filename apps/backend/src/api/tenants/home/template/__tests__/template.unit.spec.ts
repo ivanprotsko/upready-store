@@ -113,7 +113,7 @@ describe("applying a template", () => {
     expect(document.template).toEqual({
       id: "long-morning",
       schema: "upready.storefront-template/v1",
-      fontPair: { display: "Fraunces", body: "Manrope" },
+      fontPair: longMorning().theme.fontPair,
     });
     const { sections: _sections, ...content } = document.content;
     expect(content).toEqual(previousDocument().content);

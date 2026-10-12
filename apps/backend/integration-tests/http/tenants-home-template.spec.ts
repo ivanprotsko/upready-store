@@ -57,6 +57,7 @@ const LONG_MORNING = {
   settings: { defaultMode: "light", header: "h2", hero: "h", tiles: "on", listing: "p4", footer: "f1" },
   layers: { radius: "soft", buttonStyle: "filled", photoStyle: "landscape", density: "spacious" },
   blocks: ["announcement/text-bar", "hero/h", "tiles/on", "listing/p4"],
+  fontPair: { display: "Cormorant Garamond", body: "Manrope" },
 };
 
 medusaIntegrationTestRunner({
@@ -124,7 +125,7 @@ medusaIntegrationTestRunner({
         expect(home.template).toEqual({
           id: "long-morning",
           schema: "upready.storefront-template/v1",
-          fontPair: { display: "Fraunces", body: "Manrope" },
+          fontPair: LONG_MORNING.fontPair,
         });
         expect(home.content.order).toEqual(["hero", "categories", "products"]);
         expect(home.content.products).toEqual({ source: "popular" });

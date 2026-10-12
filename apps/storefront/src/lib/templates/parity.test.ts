@@ -84,7 +84,7 @@ describe("the template validator, storefront and backend", () => {
   // A subset, not the same list: a block PR adds its parser here only, and the backend takes that
   // block's props from the catalogue template until a line copies the parser over.
   it("every props check on the backend copies a props parser here", () => {
-    const parsed = BLOCKS.filter((block) => block.parseProps).map((block) => block.id)
+    const parsed: string[] = BLOCKS.filter((block) => block.parseProps).map((block) => block.id)
     expect(Object.keys(backend.PROPS_CHECKS).filter((id) => !parsed.includes(id))).toEqual([])
     const unchecked = parsed.filter((id) => !Object.prototype.hasOwnProperty.call(backend.PROPS_CHECKS, id))
     if (unchecked.length) {
