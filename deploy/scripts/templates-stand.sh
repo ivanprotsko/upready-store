@@ -78,7 +78,10 @@ step_source() {
   SHA="$(git -C "$REPO_ROOT" rev-parse --short=8 "$REF^{commit}")"
   log "source $REF = $SHA ($(git -C "$REPO_ROOT" log -1 --format=%s "$SHA" | cut -c1-90))"
   local tmp; tmp="$(mktemp -d)"
-  git -C "$REPO_ROOT" archive --format=tar "$SHA" | tar -x -C "$tmp"
+  # The image is built from apps/, specs/ and the root manifests; handoff/, artifacts/ and
+  # docs/ are three quarters of the tree's 257 MB and none of them reach the image.
+  git -C "$REPO_ROOT" archive --format=tar "$SHA" -- . \
+    ':(exclude)handoff' ':(exclude)artifacts' ':(exclude)docs' | tar -x -C "$tmp"
   echo "$SHA" > "$tmp/.stand-revision"
   log "rsync $REF → $HOST:$REMOTE_DIR/"
   rssh "mkdir -p '$REMOTE_DIR/deploy/stands'"
@@ -128,15 +131,26 @@ REMOTE
 }
 
 step_wait_runner() {
-  local start; start=$(date +%s)
-  while [ "$(runner_busy)" != 0 ]; do
-    if [ $(( $(date +%s) - start )) -gt $(( RUNNER_WAIT_MIN * 60 )) ]; then
-      blocked "the CI runner on the host is still running a job after ${RUNNER_WAIT_MIN} min"
+  # A workflow's jobs follow each other 2-3 s apart (the runner's log, 12.10.2026), so one
+  # empty look is usually the gap between two jobs, not the end of the queue: idle means
+  # no job on two looks 30 s apart. Waiting is logged when it starts and every 10 minutes.
+  local start idle=0 said=0; start=$(date +%s)
+  while :; do
+    if [ "$(runner_busy)" = 0 ]; then
+      idle=$((idle + 1)); [ "$idle" -ge 2 ] && break
+    else
+      idle=0
+      if [ $(( $(date +%s) - said )) -ge 600 ]; then
+        log "the CI runner is running a job; waiting (a storefront build next to it is the host's memory peak)"
+        said=$(date +%s)
+      fi
     fi
-    log "the CI runner is running a job; waiting (a storefront build next to it is the host's memory peak)"
+    if [ $(( $(date +%s) - start )) -gt $(( RUNNER_WAIT_MIN * 60 )) ]; then
+      blocked "the CI runner on the host is still running jobs after ${RUNNER_WAIT_MIN} min"
+    fi
     sleep 30
   done
-  log "the CI runner is idle"
+  log "the CI runner is idle (no job on two looks 30 s apart, after $(( ($(date +%s) - start) / 60 )) min)"
 }
 
 step_build() {
