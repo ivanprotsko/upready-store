@@ -32,6 +32,11 @@
 #   state.json    the switch, what the agent waits for, the current and the last release,
 #                 schema deploy/auto/state.schema.json
 #   logs/<id>/    baseline.out, release.out and the deploy-instance.sh log of every release
+#   etags/        the ETag and the body of the last answer to each GET: the next tick asks with
+#                 If-None-Match, and an answer 304 (unchanged) does not count against GitHub's limit
+#   github-auth   App only: the Authorization header of the installation token, 600, the one file here
+#                 that holds a secret. GitHub gives the token an hour; github-auth.expires holds when it
+#                 ends (epoch seconds), and the agent signs in again five minutes before that
 #
 # Configuration: RELEASE_AGENT_CONF (default /etc/upready-store-release/release.env), shell variables:
 #   RELEASE_INSTANCE        intl | ru (required)
@@ -44,7 +49,7 @@
 #   RELEASE_GRACE_TRIES (12) × RELEASE_GRACE_SLEEP (15 s), RELEASE_COMMITS_DEPTH (30), GITHUB_API_URL.
 #
 # No secret is ever printed: the key and the token are read into a 600 header file curl reads with
-# -H @file, never into an argument or a log line. The env file is passed by path only.
+# -H @file, never into an argument, a log line or any other file. The env file is passed by path only.
 #
 # Exit code: 0 on every tick, a failed release included (it is in the journal and on the commit);
 # 2 on a configuration error.
@@ -79,12 +84,18 @@ command -v jq >/dev/null 2>&1 || { echo "jq is not installed" >&2; exit 2; }
 
 JOURNAL="$STATE_DIR/journal.json"
 STATE="$STATE_DIR/state.json"
-mkdir -p "$STATE_DIR/logs" || exit 2
+mkdir -p "$STATE_DIR/logs" "$STATE_DIR/etags" || exit 2
 WORK="$(umask 077; mktemp -d "${TMPDIR:-/tmp}/release-agent.XXXXXX")" || exit 2
 trap 'rm -rf "$WORK"' EXIT
 AUTH="$WORK/auth"
 BODY="$WORK/body"
 API_CODE=000
+KEPT_AUTH="$STATE_DIR/github-auth"
+KEPT_UNTIL="$STATE_DIR/github-auth.expires"
+AUTH_KEPT=0
+ETAGS="$STATE_DIR/etags"
+# The answers of commits and runs gone from dev's list are not asked for again.
+find "$ETAGS" -type f -mtime +2 -exec rm -f {} + 2>/dev/null
 
 now() { date -u +%Y-%m-%dT%H:%M:%SZ; }
 say() { echo "[$(now)] [release-agent $INSTANCE] $*"; }
@@ -131,14 +142,36 @@ jwrite "$JOURNAL" --arg t "$(now)" '.records |= map(if .result == "running"
   else . end)'
 
 # -------------------------------------------------------------------- GitHub
-api() { # <METHOD> <path> [json body]: the body lands in $BODY, the HTTP code in $API_CODE; 0 on a 2xx
-  local args
-  args=(-sS -m 30 -o "$BODY" -w '%{http_code}' -X "$1" -H @"$AUTH"
+api() { # <METHOD> <path> [json body]: the body lands in $BODY, the HTTP code in $API_CODE; 0 on a 2xx or 304
+  local args key="" tag=""
+  args=(-sS -m 30 -o "$BODY" -D "$WORK/headers" -w '%{http_code}' -X "$1" -H @"$AUTH"
         -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28')
   [ -n "${3:-}" ] && args+=(-H 'Content-Type: application/json' --data "$3")
-  : >"$BODY"
+  # A GET asks with the ETag of its last answer. 304 means unchanged: the kept body is the answer, and
+  # GitHub does not count the call against the limit. Every tick asks the same three things (the switch,
+  # the commits and the runs of dev), so an hour with nothing new takes nothing from the limit.
+  if [ "$1" = GET ]; then
+    key="$ETAGS/$(printf '%s' "$2" | tr -c 'A-Za-z0-9._-' '_')"
+    if [ -s "$key.etag" ] && [ -f "$key.body" ]; then tag="$(cat "$key.etag")"; args+=(-H "If-None-Match: $tag"); fi
+  fi
+  : >"$BODY"; : >"$WORK/headers"
   API_CODE="$(curl "${args[@]}" "$API$2" 2>/dev/null)" || API_CODE=000
-  case "$API_CODE" in 2??) return 0 ;; *) return 1 ;; esac
+  if [ "$API_CODE" = 401 ] && [ "$AUTH_KEPT" = 1 ]; then
+    # The token of an earlier tick was refused (revoked, the App reinstalled): a new one, and this call once more.
+    say "the kept installation token was refused (HTTP 401): signing in again"
+    rm -f "$KEPT_AUTH" "$KEPT_UNTIL"; AUTH_KEPT=0
+    github_sign_in || return 1
+    api "$@"; return
+  fi
+  case "$API_CODE" in
+    304) [ -n "$tag" ] || return 1; touch "$key.etag" "$key.body"; cp "$key.body" "$BODY" ;;
+    2??)
+      if [ -n "$key" ]; then
+        tag="$(sed -n 's/^[Ee][Tt][Aa][Gg]:[[:space:]]*//p' "$WORK/headers" | tr -d '\r' | tail -1)"
+        if [ -n "$tag" ] && cp "$BODY" "$key.body"; then printf '%s\n' "$tag" >"$key.etag"; else rm -f "$key.etag"; fi
+      fi ;;
+    *) return 1 ;;
+  esac
 }
 b64url() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
 app_jwt() {
@@ -151,6 +184,7 @@ app_jwt() {
   printf '%s.%s.%s' "$h" "$p" "$s"
 }
 github_sign_in() {
+  AUTH="$WORK/auth"; AUTH_KEPT=0
   ( umask 077; : >"$AUTH" )
   if [ -n "${GITHUB_TOKEN_FILE:-}" ]; then
     [ -r "$GITHUB_TOKEN_FILE" ] || { GITHUB_STATE="error: the token file $GITHUB_TOKEN_FILE is not readable"; return 1; }
@@ -161,7 +195,12 @@ github_sign_in() {
     GITHUB_STATE="error: no credentials (GITHUB_APP_ID and a readable GITHUB_APP_KEY_FILE, or GITHUB_TOKEN_FILE)"
     return 1
   fi
-  local jwt inst token
+  # The installation token of an earlier tick, while it has more than five minutes left: no call at all.
+  local jwt inst token ends tmp
+  ends="$(cat "$KEPT_UNTIL" 2>/dev/null)"
+  if [ -s "$KEPT_AUTH" ] && [ "${ends:-0}" -gt "$(($(date +%s) + 300))" ] 2>/dev/null; then
+    AUTH="$KEPT_AUTH"; AUTH_KEPT=1; return 0
+  fi
   jwt="$(app_jwt)" || { GITHUB_STATE="error: could not sign the App token with $GITHUB_APP_KEY_FILE"; return 1; }
   printf 'Authorization: Bearer %s\n' "$jwt" >"$AUTH"
   inst="${GITHUB_APP_INSTALLATION_ID:-}"
@@ -171,9 +210,15 @@ github_sign_in() {
   fi
   api POST "/app/installations/$inst/access_tokens" '{}' || { GITHUB_STATE="error: no installation token (HTTP $API_CODE)"; return 1; }
   token="$(jq -r '.token // empty' "$BODY")"
-  : >"$BODY"
+  ends="$(jq -r '.expires_at // empty | fromdateiso8601' "$BODY" 2>/dev/null)"
+  : >"$BODY"; : >"$AUTH"
   [ -n "$token" ] || { GITHUB_STATE="error: the installation token answer had no token"; return 1; }
-  printf 'Authorization: Bearer %s\n' "$token" >"$AUTH"
+  # Kept for the next ticks: mktemp makes the file 600, mv puts it in place whole.
+  if tmp="$(mktemp "$KEPT_AUTH.XXXXXX")" && printf 'Authorization: Bearer %s\n' "$token" >"$tmp" && mv "$tmp" "$KEPT_AUTH"; then
+    printf '%s\n' "${ends:-0}" >"$KEPT_UNTIL"; AUTH="$KEPT_AUTH"
+  else
+    rm -f "$tmp"; printf 'Authorization: Bearer %s\n' "$token" >"$AUTH"
+  fi
 }
 
 publish() { # <sha> <pending|success|failure|error> <description>: the commit status release/<instance>

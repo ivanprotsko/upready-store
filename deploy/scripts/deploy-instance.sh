@@ -148,11 +148,17 @@ LOG_DIR="${DEPLOY_LOG_DIR:-$REPO_ROOT/.ai/deploy-logs}"; mkdir -p "$LOG_DIR"
 TS="$(date +%Y%m%d-%H%M%S)"
 LOG="$LOG_DIR/$INSTANCE-$TS.log"
 exec > >(tee -a "$LOG") 2>&1
+TEE_PID=$!
 log() { echo "[$(date '+%H:%M:%S')] [$INSTANCE] $*"; }
 STEP=0
 begin_step() { STEP="$1"; log "step $1/7: $2"; }
+# bash does not wait for the tee at exit, and release-agent.sh reads this output the moment the script ends:
+# without a wait the RESULT line can still be inside the tee (review note 1 on #346). The trap closes this
+# shell's end of the pipe and waits for the tee to write it all and exit, 10 s at most. A poll, not
+# `wait $TEE_PID`: that needs bash 4.4 (the Mac has 3.2) and would hang on a child still holding the pipe.
 # shellcheck disable=SC2154 # rc is assigned inside the trap itself
-trap 'rc=$?; log "RESULT exit=$rc step=$STEP"' EXIT
+trap 'rc=$?; log "RESULT exit=$rc step=$STEP"; exec >/dev/null 2>&1
+  for _ in $(seq 100); do kill -0 "$TEE_PID" 2>/dev/null || break; sleep 0.1; done' EXIT
 if [ "$ON_HOST" = 1 ]; then
   # The same command string ssh would hand the host's shell, run by this host's shell.
   rssh() { bash -c "$*" </dev/null; }
