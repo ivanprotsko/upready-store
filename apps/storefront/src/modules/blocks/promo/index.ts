@@ -4,4 +4,5 @@
  * file, sorts it by variant and puts the category where `BLOCK_CATEGORIES` says.
  */
 export {}
+export { codeBanner } from "./code-banner/block"
 export { grid } from "./grid/block"
