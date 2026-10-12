@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Le paiement n'a pas abouti",
     "paymentFailedText": "Les données de votre commande sont enregistrées : réessayez ou choisissez un autre moyen de paiement.",
     "paymentPendingHeading": "Paiement en cours de confirmation",
-    "paymentPendingText": "La banque n'a pas encore confirmé le paiement. Si vous avez déjà été débité, ne payez pas une seconde fois : la commande sera passée dès réception de la confirmation.",
+    "paymentPendingText": "La confirmation du paiement n'est pas encore arrivée. Si le montant a déjà été débité, ne payez pas à nouveau : la commande sera passée dès son arrivée.",
     "paymentPendingCryptoText": "Le réseau n'a pas encore confirmé votre transfert, ce qui peut prendre plus de temps qu'un paiement par carte. Ne payez pas une seconde fois : la commande sera passée dès réception de la confirmation.",
     "x402SignHint": "Votre portefeuille vous demandera de signer un paiement en USDC.",
     "x402TestNetwork": "Réseau de test : cet USDC n'a aucune valeur.",

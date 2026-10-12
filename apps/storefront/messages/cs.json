@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Platba neproběhla",
     "paymentFailedText": "Údaje objednávky jsou uložené: zkuste to znovu nebo zvolte jiný způsob platby.",
     "paymentPendingHeading": "Platba se ověřuje",
-    "paymentPendingText": "Banka platbu zatím nepotvrdila. Pokud vám už byly peníze strženy, neplaťte znovu: objednávka se vytvoří, jakmile dorazí potvrzení.",
+    "paymentPendingText": "Potvrzení platby zatím nedorazilo. Pokud už byly peníze strženy, neplaťte znovu: objednávka se dokončí, jakmile potvrzení přijde.",
     "paymentPendingCryptoText": "Síť váš převod zatím nepotvrdila a může to trvat déle než platba kartou. Neplaťte znovu: objednávka se vytvoří, jakmile dorazí potvrzení.",
     "x402SignHint": "Peněženka vás požádá o podpis platby v USDC.",
     "x402TestNetwork": "Testovací síť: tento USDC nemá žádnou hodnotu.",

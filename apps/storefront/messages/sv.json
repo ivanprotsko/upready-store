@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Betalningen gick inte igenom",
     "paymentFailedText": "Dina beställningsuppgifter är sparade: Försök igen eller välj ett annat betalsätt.",
     "paymentPendingHeading": "Betalningen bekräftas",
-    "paymentPendingText": "Banken har ännu inte bekräftat betalningen. Om beloppet redan har dragits, betala inte igen: Beställningen läggs så snart bekräftelsen kommer.",
+    "paymentPendingText": "Betalningsbekräftelsen har inte kommit än. Om pengarna redan har dragits, betala inte igen: beställningen läggs så snart bekräftelsen kommer.",
     "paymentPendingCryptoText": "Nätverket har ännu inte bekräftat din överföring, och det kan ta längre tid än en kortbetalning. Betala inte igen: Beställningen läggs så snart bekräftelsen kommer.",
     "x402SignHint": "Din plånbok ber dig signera en USDC-betalning.",
     "x402TestNetwork": "Testnätverk: denna USDC saknar värde.",

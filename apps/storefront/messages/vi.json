@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Thanh toán không thành công",
     "paymentFailedText": "Thông tin đơn hàng của bạn đã được lưu: hãy thử lại hoặc chọn phương thức thanh toán khác.",
     "paymentPendingHeading": "Đang xác nhận thanh toán",
-    "paymentPendingText": "Ngân hàng chưa xác nhận thanh toán. Nếu tiền đã bị trừ, đừng thanh toán lại: đơn hàng sẽ được tạo ngay khi có xác nhận.",
+    "paymentPendingText": "Xác nhận thanh toán chưa đến. Nếu tiền đã bị trừ, đừng thanh toán lại: đơn hàng sẽ được tạo ngay khi xác nhận đến.",
     "paymentPendingCryptoText": "Mạng lưới chưa xác nhận giao dịch chuyển tiền của bạn, và việc này có thể mất nhiều thời gian hơn thanh toán bằng thẻ. Đừng thanh toán lại: đơn hàng sẽ được tạo ngay khi có xác nhận.",
     "x402SignHint": "Ví của bạn sẽ yêu cầu ký một khoản thanh toán USDC.",
     "x402TestNetwork": "Mạng thử nghiệm: USDC này không có giá trị.",

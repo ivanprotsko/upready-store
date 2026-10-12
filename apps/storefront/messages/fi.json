@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Maksu ei onnistunut",
     "paymentFailedText": "Tilauksen tiedot on tallennettu: yritä uudelleen tai valitse toinen maksutapa.",
     "paymentPendingHeading": "Maksua vahvistetaan",
-    "paymentPendingText": "Pankki ei ole vielä vahvistanut maksua. Jos rahat on jo veloitettu, älä maksa uudelleen: tilaus tehdään heti, kun vahvistus saapuu.",
+    "paymentPendingText": "Maksun vahvistusta ei ole vielä tullut. Jos rahat on jo veloitettu, älä maksa uudelleen: tilaus tehdään heti, kun vahvistus saapuu.",
     "paymentPendingCryptoText": "Verkko ei ole vielä vahvistanut siirtoasi, ja se voi kestää kauemmin kuin korttimaksu. Älä maksa uudelleen: tilaus tehdään heti, kun vahvistus saapuu.",
     "x402SignHint": "Lompakko pyytää sinua allekirjoittamaan USDC-maksun.",
     "x402TestNetwork": "Testiverkko: tällä USDC:llä ei ole arvoa.",

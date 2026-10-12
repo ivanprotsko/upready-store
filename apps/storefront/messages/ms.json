@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Pembayaran tidak berjaya",
     "paymentFailedText": "Butiran pesanan anda telah disimpan: cuba lagi atau pilih kaedah pembayaran lain.",
     "paymentPendingHeading": "Pembayaran sedang disahkan",
-    "paymentPendingText": "Bank belum mengesahkan pembayaran. Jika wang sudah ditolak, jangan bayar sekali lagi: pesanan akan dibuat sebaik sahaja pengesahan diterima.",
+    "paymentPendingText": "Pengesahan bayaran belum diterima. Jika wang sudah ditolak, jangan bayar lagi: pesanan akan dibuat sebaik sahaja pengesahan tiba.",
     "paymentPendingCryptoText": "Rangkaian belum mengesahkan pemindahan anda, dan ini mungkin mengambil masa lebih lama daripada pembayaran kad. Jangan bayar sekali lagi: pesanan akan dibuat sebaik sahaja pengesahan diterima.",
     "x402SignHint": "Dompet anda akan meminta anda menandatangani pembayaran USDC.",
     "x402TestNetwork": "Rangkaian ujian: USDC ini tidak bernilai.",

@@ -169,7 +169,7 @@
     "paymentFailedHeading": "A fizetés nem sikerült",
     "paymentFailedText": "A rendelés adatait elmentettük: próbálja újra, vagy válasszon másik fizetési módot.",
     "paymentPendingHeading": "A fizetés megerősítése folyamatban",
-    "paymentPendingText": "A bank még nem erősítette meg a fizetést. Ha az összeget már levonták, ne fizessen újra: a rendelés létrejön, amint megérkezik a megerősítés.",
+    "paymentPendingText": "A fizetés megerősítése még nem érkezett meg. Ha az összeget már levonták, ne fizessen újra: a rendelés a megerősítés megérkezésekor létrejön.",
     "paymentPendingCryptoText": "A hálózat még nem erősítette meg az utalását, és ez tovább tarthat, mint egy kártyás fizetés. Ne fizessen újra: a rendelés létrejön, amint megérkezik a megerősítés.",
     "x402SignHint": "A tárca egy USDC-fizetés aláírását fogja kérni.",
     "x402TestNetwork": "Tesztháló: ennek az USDC-nek nincs értéke.",

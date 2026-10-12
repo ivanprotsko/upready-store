@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Hindi natuloy ang bayad",
     "paymentFailedText": "Naka-save ang mga detalye ng iyong order: subukan muli o pumili ng ibang paraan ng pagbabayad.",
     "paymentPendingHeading": "Kinukumpirma ang bayad",
-    "paymentPendingText": "Hindi pa kinukumpirma ng bangko ang bayad. Kung nabawasan na ang iyong pera, huwag nang magbayad muli: malilikha ang order sa sandaling dumating ang kumpirmasyon.",
+    "paymentPendingText": "Hindi pa dumarating ang kumpirmasyon ng bayad. Kung nabawas na ang pera, huwag nang magbayad muli: mailalagay ang order sa sandaling dumating ito.",
     "paymentPendingCryptoText": "Hindi pa kinukumpirma ng network ang iyong transfer, at maaaring mas matagal ito kaysa sa bayad gamit ang card. Huwag nang magbayad muli: malilikha ang order sa sandaling dumating ang kumpirmasyon.",
     "x402SignHint": "Hihilingin ng iyong wallet na lagdaan ang isang bayad sa USDC.",
     "x402TestNetwork": "Test network: walang halaga ang USDC na ito.",

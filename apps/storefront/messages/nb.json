@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Betalingen gikk ikke gjennom",
     "paymentFailedText": "Bestillingsopplysningene er lagret: Prøv igjen, eller velg en annen betalingsmåte.",
     "paymentPendingHeading": "Betalingen bekreftes",
-    "paymentPendingText": "Banken har ennå ikke bekreftet betalingen. Hvis beløpet allerede er trukket, må du ikke betale på nytt: Bestillingen opprettes så snart bekreftelsen kommer.",
+    "paymentPendingText": "Betalingsbekreftelsen har ikke kommet ennå. Hvis pengene allerede er trukket, ikke betal igjen: bestillingen fullføres så snart bekreftelsen kommer.",
     "paymentPendingCryptoText": "Nettverket har ennå ikke bekreftet overføringen din, og det kan ta lengre tid enn en kortbetaling. Ikke betal på nytt: Bestillingen opprettes så snart bekreftelsen kommer.",
     "x402SignHint": "Lommeboken din ber deg signere en USDC-betaling.",
     "x402TestNetwork": "Testnettverk: denne USDC-en har ingen verdi.",

@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Betalingen gik ikke igennem",
     "paymentFailedText": "Dine ordreoplysninger er gemt: Prøv igen, eller vælg en anden betalingsmetode.",
     "paymentPendingHeading": "Betalingen bekræftes",
-    "paymentPendingText": "Banken har endnu ikke bekræftet betalingen. Hvis beløbet allerede er trukket, skal du ikke betale igen: Ordren oprettes, så snart bekræftelsen kommer.",
+    "paymentPendingText": "Betalingsbekræftelsen er ikke kommet endnu. Hvis pengene allerede er trukket, skal du ikke betale igen: ordren gennemføres, så snart bekræftelsen kommer.",
     "paymentPendingCryptoText": "Netværket har endnu ikke bekræftet din overførsel, og det kan tage længere tid end en kortbetaling. Betal ikke igen: Ordren oprettes, så snart bekræftelsen kommer.",
     "x402SignHint": "Din tegnebog beder dig om at signere en USDC-betaling.",
     "x402TestNetwork": "Testnetværk: denne USDC har ingen værdi.",

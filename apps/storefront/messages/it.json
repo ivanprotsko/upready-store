@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Il pagamento non è andato a buon fine",
     "paymentFailedText": "I dati dell'ordine sono salvati: riprova o scegli un altro metodo di pagamento.",
     "paymentPendingHeading": "Pagamento in fase di conferma",
-    "paymentPendingText": "La banca non ha ancora confermato il pagamento. Se l'importo è già stato addebitato, non pagare di nuovo: l'ordine verrà creato non appena arriverà la conferma.",
+    "paymentPendingText": "La conferma del pagamento non è ancora arrivata. Se l'importo è già stato addebitato, non pagare di nuovo: l'ordine verrà registrato appena arriva.",
     "paymentPendingCryptoText": "La rete non ha ancora confermato il tuo trasferimento, e potrebbe volerci più tempo che con un pagamento con carta. Non pagare di nuovo: l'ordine verrà creato non appena arriverà la conferma.",
     "x402SignHint": "Il tuo portafoglio ti chiederà di firmare un pagamento in USDC.",
     "x402TestNetwork": "Rete di test: questi USDC non hanno valore.",

@@ -169,7 +169,7 @@
     "paymentFailedHeading": "Płatność nie powiodła się",
     "paymentFailedText": "Dane zamówienia są zapisane: spróbuj ponownie lub wybierz inną metodę płatności.",
     "paymentPendingHeading": "Płatność jest potwierdzana",
-    "paymentPendingText": "Bank jeszcze nie potwierdził płatności. Jeśli pieniądze zostały już pobrane, nie płać ponownie: zamówienie zostanie złożone, gdy tylko nadejdzie potwierdzenie.",
+    "paymentPendingText": "Potwierdzenie płatności jeszcze nie dotarło. Jeśli pieniądze zostały już pobrane, nie płać ponownie: zamówienie zostanie złożone, gdy tylko potwierdzenie dotrze.",
     "paymentPendingCryptoText": "Sieć nie potwierdziła jeszcze twojego przelewu, a może to potrwać dłużej niż płatność kartą. Nie płać ponownie: zamówienie zostanie złożone, gdy tylko nadejdzie potwierdzenie.",
     "x402SignHint": "Portfel poprosi o podpisanie płatności w USDC.",
     "x402TestNetwork": "Sieć testowa: ten USDC nie ma wartości.",
