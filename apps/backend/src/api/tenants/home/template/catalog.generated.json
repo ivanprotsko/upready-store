@@ -458,6 +458,14 @@
       "status": "lab",
       "props": true,
       "propsEditable": false
+    },
+    {
+      "id": "testimonials/cards",
+      "category": "testimonials",
+      "placement": "home",
+      "status": "lab",
+      "props": true,
+      "propsEditable": false
     }
   ],
   "templates": {
