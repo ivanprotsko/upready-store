@@ -31,7 +31,8 @@ const BUTTON_CLASS = {
  *
  * It draws its own heading stack rather than the shell's header, because the header is always
  * left and 42rem, and this block centres and widens; the type is the same family of tokens, one
- * step larger, measured against the Shopify catalogue's rich-text (Sense, 30/36 px at 1280).
+ * step larger, measured against the Shopify catalogue's rich-text (Sense, 30/36 px at 1280). The
+ * storefront's `text-3xl` is 2rem with no line height of its own, hence `leading-tight`: 32/40.
  *
  * With no heading and no paragraph in the visitor's language, nor in English, nor in any other,
  * it draws nothing: an eyebrow and a button alone are not a section.
@@ -91,7 +92,7 @@ export default async function RichText({
               {title ? (
                 <h2
                   data-role="heading"
-                  className="text-balance text-2xl font-semibold tracking-[-0.02em] text-ui-fg-base small:text-3xl"
+                  className="text-balance text-2xl font-semibold leading-tight tracking-[-0.02em] text-ui-fg-base small:text-3xl"
                 >
                   {title}
                 </h2>
