@@ -78,6 +78,8 @@ export type CatalogBlock = {
 export type TemplateCatalog = {
   schema: string;
   palettes: string[];
+  /** Palettes with no dark mode (`LIGHT_ONLY_THEME_IDS`): they need `settings.defaultMode` "light". */
+  lightOnlyPalettes: string[];
   fonts: string[];
   layers: { radius: string[]; buttonStyle: string[]; photoStyle: string[]; density: string[] };
   locales: string[];
@@ -256,7 +258,15 @@ export function validateTemplate(
   if (!isObject(theme)) {
     errors.push({ field: "theme", message: "theme must be an object." });
   } else {
-    oneOf(errors, "theme.palette", theme.palette, CATALOG.palettes);
+    if (oneOf(errors, "theme.palette", theme.palette, CATALOG.palettes)) {
+      const lightOnly = CATALOG.lightOnlyPalettes.includes(theme.palette as string);
+      if (lightOnly && settings && settings.defaultMode !== "light") {
+        errors.push({
+          field: "settings.defaultMode",
+          message: `theme.palette "${theme.palette}" has no dark mode; settings.defaultMode must be "light".`,
+        });
+      }
+    }
     if (!isObject(theme.fontPair)) {
       errors.push({ field: "theme.fontPair", message: "theme.fontPair must be { display, body }." });
     } else {

@@ -288,7 +288,8 @@ The backend cannot import this app, so it reads `apps/backend/src/api/tenants/ho
 the catalogue, the registry's block list and the vocabularies. `pnpm templates:export` in
 `apps/storefront` writes it, and `catalog-export.test.ts` fails when it is stale. The backend's
 `validation.ts` transcribes `validateTemplate()` by hand, and `parity.test.ts` runs both copies on
-`parity.fixtures.json`.
+`parity.fixtures.json`. The export lists the light-only palettes apart (`lightOnlyPalettes`), and the
+backend asks for `settings.defaultMode` "light" with one of them, as `validateTemplate()` does.
 
 A new block needs no backend code. A block with `parseProps` and a check in `PROPS_CHECKS` (text-bar
 today) takes any props that check passes. A block with `parseProps` and no check takes only the props

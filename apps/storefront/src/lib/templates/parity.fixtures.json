@@ -128,7 +128,7 @@
         "theme.palette": "neon"
       },
       "errors": [
-        "theme.palette: theme.palette must be one of: default, electronics, geist, home-goods, medusa, sneakers, supplements, womens-fashion."
+        "theme.palette: theme.palette must be one of: default, electronics, geist, home-goods, medusa, sneakers, supplements, womens-fashion, ferma, interier, katalog, lending, moda, opt, uhod."
       ]
     },
     {
@@ -137,6 +137,23 @@
         "theme.palette": "default"
       },
       "errors": []
+    },
+    {
+      "name": "a light-only palette with a light page",
+      "set": {
+        "theme.palette": "ferma"
+      },
+      "errors": []
+    },
+    {
+      "name": "a light-only palette with a dark page",
+      "set": {
+        "theme.palette": "ferma",
+        "settings.defaultMode": "dark"
+      },
+      "errors": [
+        "settings.defaultMode: theme.palette \"ferma\" has no dark mode; settings.defaultMode must be \"light\"."
+      ]
     },
     {
       "name": "a font outside the twelve",
