@@ -288,14 +288,23 @@ The backend cannot import this app, so it reads `apps/backend/src/api/tenants/ho
 the catalogue, the registry's block list and the vocabularies. `pnpm templates:export` in
 `apps/storefront` writes it, and `catalog-export.test.ts` fails when it is stale. The backend's
 `validation.ts` transcribes `validateTemplate()` by hand, and `parity.test.ts` runs both copies on
-`parity.fixtures.json`. A block with `parseProps` needs its check in `PROPS_CHECKS` there, or the
-backend refuses its props.
+`parity.fixtures.json`.
+
+A new block needs no backend code. A block with `parseProps` and a check in `PROPS_CHECKS` (text-bar
+today) takes any props that check passes. A block with `parseProps` and no check takes only the props
+its catalogue template gives it, the same block in the same template, compared as JSON: those passed
+the storefront's `validateTemplate()` and came over in the export. An override that changes them is
+400, `props of <block> cannot be changed yet`. `parity.test.ts` holds every `PROPS_CHECKS` key to a
+storefront parser and prints the blocks without a check. The export marks each block
+`propsEditable`, and the panel offers a prop edit only where it is true. Copying a parser into
+`PROPS_CHECKS` makes the block editable.
 
 The storefront reads the saved template through `getActiveTemplate()` (`lib/templates/active.ts`): the
 preview first, then the document's template, resolved by `validateTemplate()` and `resolveTemplate()`
 the way a preview is, so the root layout and the home page paint it through the same lines. A saved
 template that no longer validates is logged once and the shop renders from its composition. The
-template's font pair is recorded and not loaded, and `fonts.loaded` says so.
+template's font pair loads the way a preview's does (`data-font-pair` and `lib/templates/fonts.ts`)
+when both families have files, and `fonts.loaded` says whether they do.
 
 A plain `PUT /tenants/home` from the panel carries a saved template over. Its slot sections follow
 the settings just saved: renamed to the new variant, dropped when the slot is off, appended when a

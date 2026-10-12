@@ -8,6 +8,9 @@ import { FONT_NAMES } from "@lib/theme/fonts"
 import { THEME_IDS } from "@lib/theme/presets.generated"
 import { BLOCKS } from "@modules/blocks/registry"
 
+// Which blocks the backend can check props of: `propsEditable` below. A pure module.
+import { PROPS_CHECKS } from "../../../../backend/src/api/tenants/home/template/validation"
+
 import { TEMPLATE_SOURCES } from "./catalog"
 import { BUTTON_STYLES, DENSITIES, PHOTO_STYLES, RADII, TEMPLATE_SCHEMA } from "./manifest"
 
@@ -50,6 +53,8 @@ function catalogExport() {
       status: block.status,
       ...(block.setting ? { setting: block.setting } : {}),
       props: Boolean(block.parseProps),
+      // A shop may change the props only where the backend holds a copy of the parser; the panel reads this.
+      propsEditable: Boolean(block.parseProps) && Object.prototype.hasOwnProperty.call(PROPS_CHECKS, block.id),
     })),
     templates: TEMPLATE_SOURCES,
   }

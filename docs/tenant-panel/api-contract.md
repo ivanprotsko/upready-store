@@ -423,7 +423,9 @@ Three optional fields join it when the shop applies a store template (t-2026-10-
 `templates/*`): `theme.layers` `{ radius, buttonStyle, photoStyle, density }`, `content.sections`
 `[{ block, props? }]` and `template` `{ id, schema, fontPair }`. They come together, are written by
 `POST /tenants/home/template { id, overrides? }` and carried over by `PUT`; with them the storefront lays
-the home page out from `content.sections` and does not read `content.order`. The rules are in
+the home page out from `content.sections` and does not read `content.order`. A section's props in
+`overrides.sections[]` change only where the catalogue block is `propsEditable`; elsewhere they must be
+the template's own, or the answer is 400 `props of <block> cannot be changed yet`. The rules are in
 `docs/templates/BLOCK-CONTRACT.md`, "A Shop Keeps Its Template".
 
 This is the ONE composition schema of the project: `settings` is the `feat/stands-composition`

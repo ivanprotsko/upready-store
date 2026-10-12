@@ -65,8 +65,14 @@ export type CatalogBlock = {
   placement: "site" | "home";
   status: "live" | "lab" | "placeholder";
   setting?: { field: keyof StorefrontSettingsInput; value: string };
-  /** The block has a props parser on the storefront; `PROPS_CHECKS` below holds its copy. */
+  /** The block has a props parser on the storefront. */
   props: boolean;
+  /**
+   * `PROPS_CHECKS` below holds a copy of that parser, so a shop may change the block's props.
+   * Without one the backend takes the props the catalogue template gives the block, and only
+   * those. The panel offers a prop edit only where this is true.
+   */
+  propsEditable: boolean;
 };
 
 export type TemplateCatalog = {
@@ -158,12 +164,47 @@ function checkTextBarProps(input: unknown): string[] {
 }
 
 /**
- * The props check of every block whose storefront entry has a `parseProps`, by block id.
- * A block the catalogue marks `props: true` with no line here is refused, never let through.
+ * The props check of a block whose storefront entry has a `parseProps`, by block id. Not every
+ * such block has one: a block PR adds its parser on the storefront only. A block with
+ * `props: true` and no line here takes the props its catalogue template gives it
+ * (`catalogueProps`), never props of the shop's own; `parity.test.ts` holds every line here
+ * to a storefront parser.
  */
 export const PROPS_CHECKS: Record<string, (input: unknown) => string[]> = {
   "announcement/text-bar": checkTextBarProps,
 };
+
+/** The refusal of props a shop changed on a block `PROPS_CHECKS` has no line for. */
+export const unchangeableProps = (block: string): string => `props of ${block} cannot be changed yet`;
+
+/** Equal as JSON: arrays in order, object keys in any order, absent equal to absent. */
+export function sameJson(a: unknown, b: unknown): boolean {
+  if (Array.isArray(a) || Array.isArray(b)) {
+    return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((v, i) => sameJson(v, b[i]));
+  }
+  if (isObject(a) || isObject(b)) {
+    if (!isObject(a) || !isObject(b)) return false;
+    const keys = Object.keys(a);
+    return keys.length === Object.keys(b).length && keys.every((key) => key in b && sameJson(a[key], b[key]));
+  }
+  return a === b;
+}
+
+/**
+ * The props catalogue template `templateId` gives `block`, at each place it stands there.
+ * Those passed the storefront's own `validateTemplate()` (`manifest.test.ts`) and came over
+ * unchanged in the export, so they are safe for a block whose props this side cannot check.
+ * By block rather than by index: `carryTemplateOver()` moves the sections after a slot that
+ * a plain `PUT` switched off or on.
+ */
+export function catalogueProps(templateId: unknown, block: string): unknown[] {
+  if (typeof templateId !== "string" || !Object.prototype.hasOwnProperty.call(CATALOG.templates, templateId)) {
+    return [];
+  }
+  const sections = (CATALOG.templates[templateId] as { sections?: unknown } | null)?.sections;
+  if (!Array.isArray(sections)) return [];
+  return sections.filter((s) => isObject(s) && s.block === block).map((s) => (s as { props?: unknown }).props);
+}
 
 /* ------------------------------------------------------------------ the validator */
 
@@ -263,7 +304,11 @@ export function validateTemplate(
       }
       if (entry.props) {
         const check = PROPS_CHECKS[entry.id];
-        const messages = check ? check(section.props) : [`${entry.id} has no props check on the backend.`];
+        const messages = check
+          ? check(section.props)
+          : catalogueProps(input.id, entry.id).some((own) => sameJson(own, section.props))
+            ? []
+            : [unchangeableProps(entry.id)];
         errors.push(...messages.map((message) => ({ field: `${at}.props`, message })));
       } else if (section.props !== undefined) {
         errors.push({ field: `${at}.props`, message: `${entry.id} takes no props from a template.` });

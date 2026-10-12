@@ -14,6 +14,9 @@ import {
   HOME_SLOTS,
   TEMPLATE_SCHEMA,
   catalogBlock,
+  PROPS_CHECKS,
+  sameJson,
+  unchangeableProps,
   validateTemplate,
   type TemplateLayers,
   type TemplateManifest,
@@ -30,7 +33,11 @@ import {
  * not the shop's words.
  */
 
-/** What the owner may change while applying: the layers, the palette, a section's props. */
+/**
+ * What the owner may change while applying: the layers, the palette, a section's props. The
+ * props only of a block the backend can check (`PROPS_CHECKS`, `propsEditable` in the
+ * catalogue); another block's props may be sent back unchanged, nothing else.
+ */
 export type TemplateOverrides = {
   palette?: string;
   layers?: Partial<TemplateLayers>;
@@ -70,6 +77,12 @@ export function applyTemplate(source: unknown, overrides: TemplateOverrides = {}
         field: `${at}.block`,
         message: `section ${override.index} of ${template.id} is ${target.block}, not ${override.block}.`,
       });
+    } else if (
+      catalogBlock(target.block)?.props &&
+      !PROPS_CHECKS[target.block] &&
+      !sameJson(override.props, target.props)
+    ) {
+      errors.push({ field: `${at}.props`, message: unchangeableProps(target.block) });
     } else {
       sections[override.index] = { block: target.block, props: override.props };
     }

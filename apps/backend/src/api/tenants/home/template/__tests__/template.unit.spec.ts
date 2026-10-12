@@ -91,7 +91,8 @@ describe("the template validator's backend copy", () => {
   });
 
   it("reads the vocabularies the document already holds by hand", () => {
-    expect(CATALOG.palettes.filter((id) => id !== "default")).toEqual([...THEME_PRESETS]);
+    // Every preset the document stores is a palette of the catalogue; the catalogue may hold more.
+    expect(THEME_PRESETS.filter((id) => !CATALOG.palettes.includes(id))).toEqual([]);
     expect(CATALOG.locales).toEqual([...LOCALE_CODES]);
   });
 });
