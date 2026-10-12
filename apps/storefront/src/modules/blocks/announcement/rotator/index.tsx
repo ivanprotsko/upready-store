@@ -1,7 +1,14 @@
 import { getLocale } from "next-intl/server"
 
 import { pickText, type LocalizedText } from "../../shared/localized-text"
-import { CLOSE_LABEL, NEXT_LABEL, PREVIOUS_LABEL, REGION_LABEL, dismissKey, type RotatorProps } from "./props"
+import {
+  CLOSE_LABEL,
+  NEXT_LABEL,
+  PREVIOUS_LABEL,
+  REGION_LABEL,
+  dismissKey,
+  type RotatorProps,
+} from "./props"
 import RotatorBar, { type RotatorLine } from "./rotator-bar"
 
 /**
@@ -36,7 +43,8 @@ export default async function Rotator({
     return null
   }
 
-  const words = (text: LocalizedText, fallback: LocalizedText) => pickText(text, locale) ?? pickText(fallback, locale) ?? ""
+  const words = (text: LocalizedText, fallback: LocalizedText) =>
+    pickText(text, locale) ?? pickText(fallback, locale) ?? ""
 
   return (
     <RotatorBar

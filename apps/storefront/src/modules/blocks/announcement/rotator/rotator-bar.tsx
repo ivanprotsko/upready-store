@@ -2,7 +2,13 @@
 
 import { clx } from "@medusajs/ui"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
-import { useEffect, useState, useSyncExternalStore, type FocusEvent, type PointerEvent } from "react"
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type FocusEvent,
+  type PointerEvent,
+} from "react"
 
 import { Link } from "@i18n/navigation"
 
@@ -68,11 +74,20 @@ const subscribeMotion = (listener: () => void) => {
  * `prefers-reduced-motion`, where the first line stays until the visitor turns it with an arrow.
  * The server renders the first line and no timer; the rotation starts after hydration.
  *
+ * The arrows flank the line inside a 42rem group in the bar's centre, as in the Shopify catalogue's
+ * Dawn, rather than at the screen's edges; the close button keeps the right edge.
+ *
  * Every line stands in the same grid cell, the hidden ones `invisible`, so the bar is as tall as
  * its longest line and does not jump when the line changes; a hidden line's link is out of the
  * tab order.
  */
-export default function RotatorBar({ lines, interval, dismissible, storageKey, labels }: RotatorBarProps) {
+export default function RotatorBar({
+  lines,
+  interval,
+  dismissible,
+  storageKey,
+  labels,
+}: RotatorBarProps) {
   const [index, setIndex] = useState(0)
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
@@ -91,7 +106,10 @@ export default function RotatorBar({ lines, interval, dismissible, storageKey, l
 
   useEffect(() => {
     if (!rotating) return
-    const timer = window.setTimeout(() => setIndex((current) => (current + 1) % lines.length), interval * 1000)
+    const timer = window.setTimeout(
+      () => setIndex((current) => (current + 1) % lines.length),
+      interval * 1000
+    )
     return () => window.clearTimeout(timer)
   }, [rotating, index, interval, lines.length])
 
@@ -99,9 +117,12 @@ export default function RotatorBar({ lines, interval, dismissible, storageKey, l
     return null
   }
 
-  const turn = (step: number) => setIndex((current) => (current + step + lines.length) % lines.length)
-  const onPointerEnter = (event: PointerEvent) => event.pointerType === "mouse" && setHovered(true)
-  const onPointerLeave = (event: PointerEvent) => event.pointerType === "mouse" && setHovered(false)
+  const turn = (step: number) =>
+    setIndex((current) => (current + step + lines.length) % lines.length)
+  const onPointerEnter = (event: PointerEvent) =>
+    event.pointerType === "mouse" && setHovered(true)
+  const onPointerLeave = (event: PointerEvent) =>
+    event.pointerType === "mouse" && setHovered(false)
   const onBlur = (event: FocusEvent<HTMLElement>) => {
     if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false)
   }
@@ -117,65 +138,79 @@ export default function RotatorBar({ lines, interval, dismissible, storageKey, l
       className="flex min-h-11 w-full items-center bg-[var(--primary)] text-sm text-[var(--primary-foreground)]"
     >
       {/* Balances the close button from 512px, so the line stays in the page's centre. */}
-      {dismissible ? <span aria-hidden className="hidden w-11 shrink-0 xsmall:block" /> : null}
-      {many ? (
-        <button
-          type="button"
-          data-role="trigger"
-          aria-label={labels.previous}
-          onClick={() => turn(-1)}
-          className={BUTTON_CLASS}
-        >
-          <ChevronLeft aria-hidden className="h-4 w-4" />
-        </button>
+      {dismissible ? (
+        <span aria-hidden className="hidden w-11 shrink-0 xsmall:block" />
       ) : null}
-      <div
-        aria-live={rotating ? "off" : "polite"}
-        className={clx(
-          "grid flex-1 justify-items-center py-[calc(0.5rem*var(--layer-density,1))] text-center",
-          many || dismissible ? "px-2" : "px-4"
-        )}
-      >
-        {lines.map((line, position) => {
-          const active = position === index
-          return (
-            <p
-              key={position}
-              data-role="description"
-              aria-hidden={!active}
-              className={clx(
-                "col-start-1 row-start-1 max-w-xl self-center text-balance transition-[opacity,visibility] duration-200 motion-reduce:transition-none",
-                active ? "visible opacity-100" : "invisible opacity-0"
-              )}
+      <div className="flex min-w-0 flex-1 justify-center">
+        <div className="flex w-full max-w-2xl items-center">
+          {many ? (
+            <button
+              type="button"
+              data-role="trigger"
+              aria-label={labels.previous}
+              onClick={() => turn(-1)}
+              className={BUTTON_CLASS}
             >
-              {line.href ? (
-                line.href.startsWith("/") ? (
-                  <Link href={line.href} data-role="nav-link" className={LINK_CLASS}>
-                    {line.text}
-                  </Link>
-                ) : (
-                  <a href={line.href} data-role="nav-link" className={LINK_CLASS}>
-                    {line.text}
-                  </a>
-                )
-              ) : (
-                line.text
-              )}
-            </p>
-          )
-        })}
+              <ChevronLeft aria-hidden className="h-4 w-4" />
+            </button>
+          ) : null}
+          <div
+            aria-live={rotating ? "off" : "polite"}
+            className={clx(
+              "grid flex-1 justify-items-center py-[calc(0.5rem*var(--layer-density,1))] text-center",
+              many || dismissible ? "px-2" : "px-4"
+            )}
+          >
+            {lines.map((line, position) => {
+              const active = position === index
+              return (
+                <p
+                  key={position}
+                  data-role="description"
+                  aria-hidden={!active}
+                  className={clx(
+                    "col-start-1 row-start-1 max-w-xl self-center text-balance transition-[opacity,visibility] duration-200 motion-reduce:transition-none",
+                    active ? "visible opacity-100" : "invisible opacity-0"
+                  )}
+                >
+                  {line.href ? (
+                    line.href.startsWith("/") ? (
+                      <Link
+                        href={line.href}
+                        data-role="nav-link"
+                        className={LINK_CLASS}
+                      >
+                        {line.text}
+                      </Link>
+                    ) : (
+                      <a
+                        href={line.href}
+                        data-role="nav-link"
+                        className={LINK_CLASS}
+                      >
+                        {line.text}
+                      </a>
+                    )
+                  ) : (
+                    line.text
+                  )}
+                </p>
+              )
+            })}
+          </div>
+          {many ? (
+            <button
+              type="button"
+              data-role="trigger"
+              aria-label={labels.next}
+              onClick={() => turn(1)}
+              className={BUTTON_CLASS}
+            >
+              <ChevronRight aria-hidden className="h-4 w-4" />
+            </button>
+          ) : null}
+        </div>
       </div>
-      {many ? (
-        <button
-          type="button"
-          data-role="trigger"
-          aria-label={labels.next}
-          onClick={() => turn(1)}
-          className={BUTTON_CLASS}
-        >
-          <ChevronRight aria-hidden className="h-4 w-4" />
-        </button>
-      ) : null}
       {dismissible ? (
         <button
           type="button"

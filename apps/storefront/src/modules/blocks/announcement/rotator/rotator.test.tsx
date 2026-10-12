@@ -20,7 +20,14 @@ vi.mock("server-only", () => ({}))
 const locale = vi.hoisted(() => ({ current: "ru" }))
 vi.mock("next-intl/server", () => ({ getLocale: async () => locale.current }))
 vi.mock("@i18n/navigation", () => ({
-  Link: ({ href, children, ...rest }: { href: string; children: ReactNode }) => (
+  Link: ({
+    href,
+    children,
+    ...rest
+  }: {
+    href: string
+    children: ReactNode
+  }) => (
     <a href={`/ru${href}`} {...rest}>
       {children}
     </a>
@@ -32,9 +39,17 @@ const render = async (props: RotatorProps) => {
   return tree === null ? null : renderToStaticMarkup(tree)
 }
 
-const chrome = { label: REGION_LABEL, previousLabel: PREVIOUS_LABEL, nextLabel: NEXT_LABEL, closeLabel: CLOSE_LABEL }
+const chrome = {
+  label: REGION_LABEL,
+  previousLabel: PREVIOUS_LABEL,
+  nextLabel: NEXT_LABEL,
+  closeLabel: CLOSE_LABEL,
+}
 
-const props = (messages: RotatorProps["messages"], rest: Partial<RotatorProps> = {}): RotatorProps => ({
+const props = (
+  messages: RotatorProps["messages"],
+  rest: Partial<RotatorProps> = {}
+): RotatorProps => ({
   messages,
   interval: 5,
   dismissible: false,
@@ -42,7 +57,8 @@ const props = (messages: RotatorProps["messages"], rest: Partial<RotatorProps> =
   ...rest,
 })
 
-const count = (html: string, pattern: RegExp) => html.match(pattern)?.length ?? 0
+const count = (html: string, pattern: RegExp) =>
+  html.match(pattern)?.length ?? 0
 
 beforeEach(() => {
   locale.current = "ru"
@@ -50,7 +66,10 @@ beforeEach(() => {
 
 describe("parseRotatorProps", () => {
   it("fills interval, dismissible and the bar's own words when only the messages are given", () => {
-    const messages = [{ text: { ru: "Раз" } }, { text: { ru: "Два" }, href: "/store" }]
+    const messages = [
+      { text: { ru: "Раз" } },
+      { text: { ru: "Два" }, href: "/store" },
+    ]
     expect(parseRotatorProps({ messages })).toEqual({
       ok: true,
       value: props([
@@ -58,22 +77,40 @@ describe("parseRotatorProps", () => {
         { text: { ru: "Два" }, href: "/store" },
       ]),
     })
-    for (const words of [REGION_LABEL, PREVIOUS_LABEL, NEXT_LABEL, CLOSE_LABEL]) {
+    for (const words of [
+      REGION_LABEL,
+      PREVIOUS_LABEL,
+      NEXT_LABEL,
+      CLOSE_LABEL,
+    ]) {
       expect(words.ru && words.en).toBeTruthy()
     }
   })
 
   it("asks for two to five messages", () => {
     const one = parseRotatorProps({ messages: [{ text: { ru: "Раз" } }] })
-    const six = parseRotatorProps({ messages: Array.from({ length: 6 }, () => ({ text: { ru: "Да" } })) })
-    expect(one.ok ? [] : one.errors).toEqual(["messages has 1 items, at least 2"])
-    expect(six.ok ? [] : six.errors).toEqual(["messages has 6 items, at most 5"])
-    expect(parseRotatorProps(undefined)).toEqual({ ok: false, errors: ["messages is required"] })
+    const six = parseRotatorProps({
+      messages: Array.from({ length: 6 }, () => ({ text: { ru: "Да" } })),
+    })
+    expect(one.ok ? [] : one.errors).toEqual([
+      "messages has 1 items, at least 2",
+    ])
+    expect(six.ok ? [] : six.errors).toEqual([
+      "messages has 6 items, at most 5",
+    ])
+    expect(parseRotatorProps(undefined)).toEqual({
+      ok: false,
+      errors: ["messages is required"],
+    })
   })
 
   it("refuses bad props with the path of every field", () => {
     const result = parseRotatorProps({
-      messages: [{ text: { ru: "я".repeat(141) } }, { text: { xx: "Hi" }, href: "//evil.example" }, "plain"],
+      messages: [
+        { text: { ru: "я".repeat(141) } },
+        { text: { xx: "Hi" }, href: "//evil.example" },
+        "plain",
+      ],
       interval: 3,
       dismissible: "yes",
       closeLabel: { ru: "з".repeat(61) },
@@ -112,8 +149,15 @@ describe("dismissKey", () => {
 
   it("changes with any word or link of any message, so new messages show again", () => {
     const key = dismissKey(messages)
-    expect(dismissKey([messages[0], { ...messages[1], href: "/sale" }])).not.toBe(key)
-    expect(dismissKey([{ ...messages[0], text: { ru: "Раз", en: "Uno" } }, messages[1]])).not.toBe(key)
+    expect(
+      dismissKey([messages[0], { ...messages[1], href: "/sale" }])
+    ).not.toBe(key)
+    expect(
+      dismissKey([
+        { ...messages[0], text: { ru: "Раз", en: "Uno" } },
+        messages[1],
+      ])
+    ).not.toBe(key)
     expect(dismissKey([messages[1], messages[0]])).not.toBe(key)
   })
 })
@@ -121,7 +165,14 @@ describe("dismissKey", () => {
 describe("Rotator", () => {
   it("draws nothing when no message has words in any language", async () => {
     expect(await render(rotator.fixtures!.empty)).toBeNull()
-    expect(await render(props([{ text: { ru: "   " }, href: "/store" }, { text: {}, href: null }]))).toBeNull()
+    expect(
+      await render(
+        props([
+          { text: { ru: "   " }, href: "/store" },
+          { text: {}, href: null },
+        ])
+      )
+    ).toBeNull()
   })
 
   it("draws every message in one cell, the first one shown, with arrows on both sides", async () => {
@@ -130,7 +181,9 @@ describe("Rotator", () => {
     expect(html).toContain('aria-label="Объявления магазина"')
     expect(count(html, /data-role="description"/g)).toBe(3)
     expect(count(html, /aria-hidden="false"/g)).toBe(1)
-    expect(html).toMatch(/aria-hidden="false"[^>]*><a [^>]*>Доставка по городу за два часа</)
+    expect(html).toMatch(
+      /aria-hidden="false"[^>]*><a [^>]*>Доставка по городу за два часа</
+    )
     expect(html).toContain('<a href="/ru/store" data-role="nav-link"')
     expect(count(html, /data-role="trigger"/g)).toBe(2)
     expect(html).toContain('aria-label="Предыдущее объявление"')
@@ -160,7 +213,13 @@ describe("Rotator", () => {
 
   it("keeps the close button on a single message when the owner made the bar dismissible", async () => {
     const html = (await render(
-      props([{ text: { ru: "Самовывоз бесплатно" }, href: null }, { text: {}, href: null }], { dismissible: true })
+      props(
+        [
+          { text: { ru: "Самовывоз бесплатно" }, href: null },
+          { text: {}, href: null },
+        ],
+        { dismissible: true }
+      )
     ))!
     expect(html).not.toContain('data-role="trigger"')
     expect(count(html, /data-role="close-button"/g)).toBe(1)
@@ -172,14 +231,19 @@ describe("Rotator", () => {
       props(
         [
           { text: { ru: "Только по-русски", en: "English line" }, href: null },
-          { text: { de: "Deutsche Zeile", en: "Second" }, href: "https://example.com/de" },
+          {
+            text: { de: "Deutsche Zeile", en: "Second" },
+            href: "https://example.com/de",
+          },
         ],
         { closeLabel: {}, dismissible: true }
       )
     ))!
     expect(html).toContain("English line")
     expect(html).toContain("Deutsche Zeile")
-    expect(html).toContain('<a href="https://example.com/de" data-role="nav-link"')
+    expect(html).toContain(
+      '<a href="https://example.com/de" data-role="nav-link"'
+    )
     expect(html).toContain('aria-label="Close announcements"')
   })
 
@@ -195,13 +259,31 @@ describe("the registry entry", () => {
   it("stands in the announcement category before text-bar, a lab home block of static data", () => {
     expect(blockById("announcement/rotator")).toBe(rotator)
     expect(BLOCKS).toContain(rotator)
-    expect(CATEGORY_BLOCKS.announcement.map((entry) => entry.variant)).toEqual(["rotator", "text-bar"])
-    expect(rotator).toMatchObject({ status: "lab", placement: "home", data: ["static"] })
-    expect(rotator.roles).toEqual(["close-button", "description", "nav-link", "trigger"])
+    expect(CATEGORY_BLOCKS.announcement.map((entry) => entry.variant)).toEqual([
+      "rotator",
+      "text-bar",
+    ])
+    expect(rotator).toMatchObject({
+      status: "lab",
+      placement: "home",
+      data: ["static"],
+    })
+    expect(rotator.roles).toEqual([
+      "close-button",
+      "description",
+      "nav-link",
+      "trigger",
+    ])
   })
 
   it("has fixtures its own parser accepts", () => {
-    expect(parseRotatorProps(rotator.fixtures!.empty)).toEqual({ ok: true, value: rotator.fixtures!.empty })
-    expect(parseRotatorProps(rotator.fixtures!.sample)).toEqual({ ok: true, value: rotator.fixtures!.sample })
+    expect(parseRotatorProps(rotator.fixtures!.empty)).toEqual({
+      ok: true,
+      value: rotator.fixtures!.empty,
+    })
+    expect(parseRotatorProps(rotator.fixtures!.sample)).toEqual({
+      ok: true,
+      value: rotator.fixtures!.sample,
+    })
   })
 })

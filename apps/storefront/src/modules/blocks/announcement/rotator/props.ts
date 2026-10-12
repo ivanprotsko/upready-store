@@ -28,10 +28,22 @@ export type RotatorProps = {
 }
 
 /** The bar's own words while the block is `lab` (BLOCK-CONTRACT.md §2). */
-export const REGION_LABEL: LocalizedText = { ru: "Объявления магазина", en: "Shop announcements" }
-export const PREVIOUS_LABEL: LocalizedText = { ru: "Предыдущее объявление", en: "Previous announcement" }
-export const NEXT_LABEL: LocalizedText = { ru: "Следующее объявление", en: "Next announcement" }
-export const CLOSE_LABEL: LocalizedText = { ru: "Закрыть объявления", en: "Close announcements" }
+export const REGION_LABEL: LocalizedText = {
+  ru: "Объявления магазина",
+  en: "Shop announcements",
+}
+export const PREVIOUS_LABEL: LocalizedText = {
+  ru: "Предыдущее объявление",
+  en: "Previous announcement",
+}
+export const NEXT_LABEL: LocalizedText = {
+  ru: "Следующее объявление",
+  en: "Next announcement",
+}
+export const CLOSE_LABEL: LocalizedText = {
+  ru: "Закрыть объявления",
+  en: "Close announcements",
+}
 
 const chrome = (fallback: LocalizedText) => (value: unknown, path: string) =>
   parseLocalizedText(value, path, { max: 60, fallback })
@@ -44,13 +56,16 @@ export function parseRotatorProps(input: unknown): PropsResult<RotatorProps> {
         path,
         (item, itemPath) =>
           parseObject<RotatorMessage>(item, itemPath, {
-            text: (text, textPath) => parseLocalizedText(text, textPath, { max: 140 }),
+            text: (text, textPath) =>
+              parseLocalizedText(text, textPath, { max: 140 }),
             href: (href, hrefPath) => parseHref(href, hrefPath),
           }),
         { min: 2, max: 5 }
       ),
-    interval: (value, path) => parseInteger(value, path, { min: 4, max: 10, fallback: 5 }),
-    dismissible: (value, path) => parseBoolean(value, path, { fallback: false }),
+    interval: (value, path) =>
+      parseInteger(value, path, { min: 4, max: 10, fallback: 5 }),
+    dismissible: (value, path) =>
+      parseBoolean(value, path, { fallback: false }),
     label: chrome(REGION_LABEL),
     previousLabel: chrome(PREVIOUS_LABEL),
     nextLabel: chrome(NEXT_LABEL),
