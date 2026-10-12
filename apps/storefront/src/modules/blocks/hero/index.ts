@@ -8,3 +8,4 @@
  */
 export {}
 export { heroSplit } from "./split/block"
+export { heroType } from "./type/block"
