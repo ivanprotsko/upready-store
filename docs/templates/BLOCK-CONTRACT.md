@@ -239,6 +239,11 @@ A template is `apps/storefront/src/templates/<id>/template.json`, schema
 - `sections`, the home page in order: `{ "block": "<id>", "props"?: {…} }`, `home` blocks only. A hero,
   tiles or listing section is the page's own slot and matches `settings` (`hero/g` needs `"hero": "g"`);
   a slot `settings` turns on needs exactly one section. Header and footer come from `settings` alone.
+- A block of those three categories written for templates (an entry without `setting`, such as
+  `hero/split`) has no composition value. It takes the slot's place instead:
+  - `settings` turns the slot off: `"hero": "none"`, `"tiles": "off"` or `"listing": "none"`;
+  - the page draws it from the registry with its props, not the shop's slot;
+  - it still counts as the slot's one section, so `hero/split` beside `hero/g` is refused.
 
 `validateTemplate()` in `src/lib/templates/manifest.ts` checks all of it; `manifest.test.ts` runs it over
 every template. `resolveTemplate()` turns a valid one into the settings, the two `<html>` attributes and

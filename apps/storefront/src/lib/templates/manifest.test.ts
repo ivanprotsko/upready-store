@@ -150,6 +150,28 @@ describe("validateTemplate", () => {
     expect(messages(input)).toEqual(["sections[0].props: hero/h takes no props from a template."])
   })
 
+  it("takes a hero written for templates in the hero's place when settings turn the composition hero off", () => {
+    const input = base()
+    input.settings = { ...input.settings, hero: "none" }
+    input.sections[0] = { block: "hero/split", props: blockById("hero/split")!.fixtures!.sample }
+    expect(messages(input)).toEqual([])
+  })
+
+  it("refuses it while settings still choose a composition hero, and beside one", () => {
+    const named = base()
+    named.sections[0] = { block: "hero/split", props: { title: { ru: "Свежий хлеб" } } }
+    expect(messages(named)).toEqual([
+      'sections[0].block: hero/split takes the hero slot itself and needs settings.hero "none", the template says "h".',
+    ])
+
+    const twice = base()
+    twice.sections.unshift({ block: "hero/split", props: { title: { ru: "Свежий хлеб" } } })
+    expect(messages(twice)).toEqual([
+      'sections[0].block: hero/split takes the hero slot itself and needs settings.hero "none", the template says "h".',
+      "sections: hero appears 2 times; the slot renders once.",
+    ])
+  })
+
   it("refuses a style layer outside its list", () => {
     const input = base()
     input.theme = { ...input.theme, palette: "neon", radius: "huge" }

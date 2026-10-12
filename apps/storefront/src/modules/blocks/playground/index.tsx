@@ -78,7 +78,9 @@ export default async function BlockPlayground() {
 
   const live = (entry: BlockEntry): ReactNode => {
     const Block = entry.component as ComponentType<Record<string, unknown>>
-    switch (entry.category) {
+    // The slot props are the composition variants' own; a block written for templates
+    // (`hero/split`) draws its sample like any other.
+    switch (entry.setting ? entry.category : null) {
       case "hero":
         return <Block {...heroProps} />
       case "tiles":
