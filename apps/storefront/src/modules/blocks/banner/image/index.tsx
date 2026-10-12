@@ -18,8 +18,10 @@ const BUTTON_CLASS = {
     "border-[var(--layer-button-border,var(--primary))] bg-[var(--layer-button-bg,var(--primary))] text-[var(--layer-button-fg,var(--primary-foreground))]",
     focusRing
   ),
+  // A link, as in `text/rich-text`: a second outlined button outweighs the first on a template whose button
+  // layer is outlined in `--border` (ferrite), so the secondary stays text with an underline.
   "cta-secondary": clx(
-    "inline-flex min-h-11 items-center justify-center rounded-[var(--radius)] border border-[var(--foreground)] px-6 text-base font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)] motion-reduce:transition-none small:text-sm",
+    "inline-flex min-h-11 items-center rounded-[var(--radius)] px-1 text-base font-medium underline decoration-[var(--muted-foreground)] decoration-1 underline-offset-4 transition-colors hover:decoration-[var(--foreground)] motion-reduce:transition-none small:text-sm",
     focusRing
   ),
 } as const
@@ -84,7 +86,8 @@ const TEXT_ALIGN: Record<Horizontal, { text: string; buttons: string }> = {
  *   ratio. Medusa keeps no dimensions, so `adapt` learns the ratio when the picture loads.
  * - The overlay is a `--background` layer, 0–80 %, never black; the words are `--foreground`, so the pair
  *   follows a light and a dark template alike. Straight on the picture, the parser holds the overlay at
- *   65 % or more (`MIN_BARE_OVERLAY`); on the card (`textBox`) any overlay reads.
+ *   65 % or more (`MIN_BARE_OVERLAY`); on the card (`textBox`) any overlay reads. The first button wears the
+ *   template's button layer, the second is an underlined link.
  * - Nine places for the words, the text aligned with its side. `stackOnMobile` puts them under the picture
  *   below 512 px, on the page's background.
  *
@@ -215,7 +218,10 @@ export default async function ImageBanner({
               {buttons.length ? (
                 <div
                   data-role="cta-group"
-                  className={clx("mt-[calc(0.5rem*var(--layer-density,1))] flex flex-wrap gap-3", align.buttons)}
+                  className={clx(
+                    "mt-[calc(0.5rem*var(--layer-density,1))] flex flex-wrap items-center gap-x-6 gap-y-3",
+                    align.buttons
+                  )}
                 >
                   {buttons.map(({ role, href, label }) =>
                     href.startsWith("/") ? (
