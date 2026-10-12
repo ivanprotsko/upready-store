@@ -29,13 +29,14 @@ const tabletColumns = (columns: number) => (columns === 4 ? 2 : Math.min(columns
 
 /**
  * Under 512px. `swipe` bleeds to the screen's edge through the content container's own 16px, so the next
- * card shows at the edge, and is a grid again from 512px.
+ * card shows at the edge and fades out there (a mask, not a colour: the row goes on, nothing is cut off),
+ * and is a grid again from 512px.
  */
 const PHONE = {
   one: "grid grid-cols-1",
   two: "grid grid-cols-2",
   swipe:
-    "no-scrollbar -mx-4 flex snap-x snap-mandatory overflow-x-auto scroll-px-4 px-4 xsmall:mx-0 xsmall:grid xsmall:overflow-visible xsmall:px-0",
+    "no-scrollbar -mx-4 flex snap-x snap-mandatory overflow-x-auto scroll-px-4 px-4 [mask-image:linear-gradient(to_right,black_calc(100%_-_1.5rem),transparent)] xsmall:mx-0 xsmall:grid xsmall:overflow-visible xsmall:px-0 xsmall:[mask-image:none]",
 } as const
 
 /** Widths `next/image` picks a file for: the column's share of the page at each breakpoint. */

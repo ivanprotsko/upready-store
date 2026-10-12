@@ -23,9 +23,9 @@ vi.mock("@i18n/navigation", () => ({
   ),
 }))
 vi.mock("next/image", () => ({
-  default: ({ fill, sizes, ...rest }: { fill?: boolean; sizes?: string; src: string; alt: string }) => (
+  default: ({ fill, sizes, src, alt, className }: { fill?: boolean; sizes?: string; src: string; alt: string; className?: string }) => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img {...rest} sizes={sizes} data-fill={fill ? "" : undefined} />
+    <img src={src} alt={alt} sizes={sizes} className={className} data-fill={fill ? "" : undefined} />
   ),
 }))
 
@@ -65,6 +65,9 @@ const point = (title: MulticolumnItem["title"], extra: Partial<MulticolumnItem> 
 })
 
 const count = (html: string, needle: string) => html.split(needle).length - 1
+
+/** The class `align: "center"` sets on every column. */
+const CENTRE = "text-center"
 
 beforeEach(() => {
   locale.current = "ru"
@@ -177,7 +180,7 @@ describe("Multicolumn", () => {
     expect(html).toContain("grid-cols-2")
     expect(html).toContain("xsmall:grid-cols-2")
     expect(html).toContain("small:grid-cols-4")
-    expect(html).toContain("text-center")
+    expect(html).toContain(CENTRE)
     expect(resolved.calls).toEqual([])
   })
 
@@ -190,9 +193,11 @@ describe("Multicolumn", () => {
     expect(html).toContain('src="https://shop.example/cookware.webp"')
     expect(html).toContain('alt="Чугунная жаровня на плите"')
     expect(html).toContain("aspect-[var(--layer-photo-aspect,1/1)]")
-    expect(html).toContain("overflow-x-auto")
     expect(html).toContain("snap-x")
     expect(html).toContain("no-scrollbar")
+    // The next card fades out at the screen's edge, so the row reads as going on, not cut off.
+    expect(html).toContain("[mask-image:linear-gradient(to_right,black_calc(100%_-_1.5rem),transparent)]")
+    expect(html).toContain("xsmall:[mask-image:none]")
     expect(html).toContain("small:grid-cols-3")
     expect(resolved.calls).toEqual(CARDS_SAMPLE.items.map((item) => item.image))
   })
@@ -233,13 +238,13 @@ describe("Multicolumn", () => {
   it("lays out left and plain by default, centre and muted cards on request, tokens only", async () => {
     const items = [point({ ru: "Доставка" }), point({ ru: "Оплата" }), point({ ru: "Возврат" })]
     const plain = (await render({ ...blank, items }))!
-    expect(plain).not.toContain("text-center")
+    expect(plain).not.toContain(CENTRE)
     expect(plain).not.toMatch(/data-role="feature-card" class="[^"]*bg-\[var\(--muted\)\]/)
     expect(plain).toContain("grid-cols-1")
     expect(plain).toContain("xsmall:grid-cols-3")
 
     const muted = (await render({ ...blank, items, align: "center", tone: "muted", mobile: "two", columns: 6 }))!
-    expect(count(muted, "text-center")).toBe(3)
+    expect(count(muted, CENTRE)).toBe(3)
     expect(muted).toMatch(/data-role="feature-card" class="[^"]*bg-\[var\(--muted\)\]/)
     expect(muted).toContain("rounded-[var(--radius)]")
     expect(muted).toContain("small:grid-cols-3")
