@@ -485,23 +485,59 @@ export function evaluatePages(pages) {
 /** The baseline key of one failure: target, rule and the failure's own signature. */
 export const failureKey = (target, rule, sig) => `${target} | ${rule} | ${sig}`
 
+/** A template page target `template/<id>/<page>@<width>` as `{ template, slot: "<page>@<width>" }`; anything else null. */
+export function templatePage(target) {
+  const m = /^template\/([^/]+)\/([^/@]+@\d+)$/.exec(target)
+  return m ? { template: m[1], slot: m[2] } : null
+}
+
 /**
- * Splits a run's gate failures into new ones and those the baseline already holds. Report rules never count.
- * `results`: `[{ target, results: [...] }]`; `baseline`: a Set of keys.
+ * The baseline's template page failures by page kind and width, any template: `<page>@<width> | <rule> | <sig>`
+ * → the template ids that hold it. Block and playground keys are not in it.
+ */
+export function inheritedIndex(baseline) {
+  const index = new Map()
+  for (const key of baseline) {
+    const cut = key.indexOf(" | ")
+    const page = templatePage(key.slice(0, cut))
+    if (!page) continue
+    const k = `${page.slot}${key.slice(cut)}`
+    if (!index.has(k)) index.set(k, new Set())
+    index.get(k).add(page.template)
+  }
+  return index
+}
+
+/**
+ * Splits a run's gate failures in three. Report rules never count.
+ * - `known`: the baseline holds this key.
+ * - `inherited`: a template page's failure that the baseline holds for the same page kind and width of some
+ *   template (`from`). A new template renders the storefront's shared header, card, gallery and footer, so their
+ *   known debt shows on its pages too. It does not fail the run; it stays listed.
+ * - `fresh`: the rest, the failures this run made. A block or the playground has no inherited class: a new block
+ *   owns its failures.
+ * `results`: `[{ target, results: [...] }]`; `baseline`: a Set of keys, always the whole baseline, `--only` too.
  */
 export function compareWithBaseline(results, baseline) {
+  const index = inheritedIndex(baseline)
   const fresh = []
+  const inherited = []
   const known = []
   for (const t of results) {
+    const page = templatePage(t.target)
     for (const r of t.results) {
       if (r.kind !== "gate") continue
       for (const f of r.failures) {
         const key = failureKey(t.target, r.rule, f.sig)
-        ;(baseline.has(key) ? known : fresh).push({ key, target: t.target, rule: r.rule, sig: f.sig, detail: f.detail })
+        const failure = { key, target: t.target, rule: r.rule, sig: f.sig, detail: f.detail }
+        const from = page && index.get(`${page.slot} | ${r.rule} | ${f.sig}`)
+        if (baseline.has(key)) known.push(failure)
+        else if (from) inherited.push({ ...failure, from: [...from].sort() })
+        else fresh.push(failure)
       }
     }
   }
-  return { fresh, known }
+  return { fresh, inherited, known }
 }
 
 /** Which targets a `--only` value selects: a template id, a block id (`hero/g`) or a playground anchor. */

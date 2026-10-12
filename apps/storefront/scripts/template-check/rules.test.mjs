@@ -16,6 +16,7 @@ import {
   parseAspect,
   priceTextProblems,
   ratios,
+  templatePage,
 } from "./rules.mjs"
 
 const TYPE_SCALE = [12, 14, 16, 18, 20, 24, 32, 36, 48, 60, 72, 96, 128]
@@ -227,9 +228,79 @@ describe("baseline", () => {
       },
     ]
     const baseline = new Set([failureKey("template/a/home@1280", "QR-SPACE-SCALE", "space 6px off the scale")])
-    const { fresh, known } = compareWithBaseline(results, baseline)
+    const { fresh, inherited, known } = compareWithBaseline(results, baseline)
     expect(known.map((f) => f.sig)).toEqual(["space 6px off the scale"])
     expect(fresh.map((f) => f.sig)).toEqual(["space 10px off the scale"])
+    expect(inherited).toEqual([])
+  })
+
+  // The baseline as T0b wrote it: long-morning's and ferrite's pages and one block, no key of the new template.
+  const shared = new Set([
+    failureKey("template/long-morning/home@360", "QR-HIT", "hit area under 44px: a[cart-link]"),
+    failureKey("template/ferrite/home@360", "QR-HIT", "hit area under 44px: a[cart-link]"),
+    failureKey("template/long-morning/product@1280", "QR-TYPE-SCALE", "size 13px off the scale"),
+    failureKey("block/hero/g@360", "QR-MOTION", "transition 300ms over 240ms"),
+  ])
+  const gate = (target, rule, ...sigs) => ({ target, results: [{ rule, kind: "gate", failures: sigs.map((sig) => ({ sig, detail: sig })) }] })
+
+  it("a new template's page failure the baseline holds for the same page and width of another template is inherited", () => {
+    const { fresh, inherited, known } = compareWithBaseline([gate("template/ferma/home@360", "QR-HIT", "hit area under 44px: a[cart-link]")], shared)
+    expect(fresh).toEqual([])
+    expect(known).toEqual([])
+    expect(inherited).toEqual([
+      {
+        key: "template/ferma/home@360 | QR-HIT | hit area under 44px: a[cart-link]",
+        target: "template/ferma/home@360",
+        rule: "QR-HIT",
+        sig: "hit area under 44px: a[cart-link]",
+        detail: "hit area under 44px: a[cart-link]",
+        from: ["ferrite", "long-morning"],
+      },
+    ])
+  })
+
+  it("a failure only the new template has is new: another sig, page, width or rule", () => {
+    const { fresh, inherited } = compareWithBaseline(
+      [
+        gate("template/ferma/home@360", "QR-HIT", "hit area under 44px: button[ferma-cta]"),
+        gate("template/ferma/category@360", "QR-HIT", "hit area under 44px: a[cart-link]"),
+        gate("template/ferma/home@1280", "QR-HIT", "hit area under 44px: a[cart-link]"),
+        gate("template/ferma/product@1280", "QR-SPACE-SCALE", "size 13px off the scale"),
+      ],
+      shared
+    )
+    expect(inherited).toEqual([])
+    expect(fresh.map((f) => f.target)).toEqual(["template/ferma/home@360", "template/ferma/category@360", "template/ferma/home@1280", "template/ferma/product@1280"])
+  })
+
+  it("a block owns its failures, even one the baseline holds for a page or another block", () => {
+    const { fresh, inherited } = compareWithBaseline(
+      [
+        gate("block/hero/h@360", "QR-HIT", "hit area under 44px: a[cart-link]"),
+        gate("block/hero/h@360", "QR-MOTION", "transition 300ms over 240ms"),
+        gate("playground@360", "QR-HIT", "hit area under 44px: a[cart-link]"),
+      ],
+      shared
+    )
+    expect(inherited).toEqual([])
+    expect(fresh).toHaveLength(3)
+  })
+
+  it("a template's own baseline key stays known, not inherited; the whole baseline serves an --only run", () => {
+    const run = [gate("template/long-morning/home@360", "QR-HIT", "hit area under 44px: a[cart-link]")]
+    expect(compareWithBaseline(run, shared).known).toHaveLength(1)
+    expect(compareWithBaseline(run, shared).inherited).toEqual([])
+    // ferrite's key alone is enough to call long-morning's same failure inherited.
+    const ferriteOnly = new Set([...shared].filter((k) => !k.startsWith("template/long-morning/")))
+    expect(compareWithBaseline(run, ferriteOnly).inherited.map((f) => f.from)).toEqual([["ferrite"]])
+  })
+
+  it("templatePage reads template page targets only", () => {
+    expect(templatePage("template/long-morning/home@360")).toEqual({ template: "long-morning", slot: "home@360" })
+    expect(templatePage("template/ferrite/pages@1280")).toEqual({ template: "ferrite", slot: "pages@1280" })
+    expect(templatePage("block/hero/g@360")).toBe(null)
+    expect(templatePage("block/announcement/text-bar:empty@360")).toBe(null)
+    expect(templatePage("playground@1280")).toBe(null)
   })
 
   it("--only matches a template id, a block id or its anchor", () => {

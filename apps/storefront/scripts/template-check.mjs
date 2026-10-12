@@ -18,6 +18,8 @@
 // Writes `report.json` and `report.md` to `artifacts/templates/check/<date>/` (`…/<date>/only-<ids>/` with
 // --only). Exit 0: no gate failure outside the baseline (`artifacts/templates/check/baseline.json`); 1: a new
 // gate failure; 2: nothing or not everything was checked (stand down, no playground, no axe-core), not a pass.
+// A template page's failure the baseline holds for the same page and width of another template is inherited
+// (`compareWithBaseline()`): listed apart, not failing the run.
 // `--write-baseline` records today's gate failures as the baseline (with --only, for those targets alone).
 //
 // The storefront must run with STOREFRONT_TEMPLATE_PREVIEW=1. `--host` is sent as `x-forwarded-host`, as in the
@@ -348,7 +350,7 @@ try {
 const isFixture = Boolean(opts.fixture || opts["self-test"])
 const baselineDoc = !isFixture && fs.existsSync(baselineFile) ? JSON.parse(fs.readFileSync(baselineFile, "utf8")) : null
 let baseline = new Set(baselineDoc?.failures ?? [])
-let { fresh, known } = compareWithBaseline(results, baseline)
+let { fresh, inherited, known } = compareWithBaseline(results, baseline)
 
 if (opts["write-baseline"] && !isFixture) {
   if (problems.length) {
@@ -358,7 +360,7 @@ if (opts["write-baseline"] && !isFixture) {
   }
   const ran = new Set(results.map((t) => t.target))
   const kept = opts.only.length ? (baselineDoc?.failures ?? []).filter((k) => !ran.has(k.split(" | ")[0])) : []
-  const failures = [...new Set([...kept, ...[...fresh, ...known].map((f) => f.key)])].sort()
+  const failures = [...new Set([...kept, ...[...fresh, ...inherited, ...known].map((f) => f.key)])].sort()
   fs.mkdirSync(path.dirname(baselineFile), { recursive: true })
   fs.writeFileSync(
     baselineFile,
@@ -381,9 +383,18 @@ if (opts["write-baseline"] && !isFixture) {
   console.log(`baseline: ${failures.length} gate failures → ${baselineFile}`)
   // The run that wrote the baseline is judged against it, like the next run will be.
   baseline = new Set(failures)
-  ;({ fresh, known } = compareWithBaseline(results, baseline))
+  ;({ fresh, inherited, known } = compareWithBaseline(results, baseline))
 }
-for (const t of results) for (const r of t.results) for (const f of r.failures) f.baseline = baseline.has(failureKey(t.target, r.rule, f.sig))
+const inheritedKeys = new Set(inherited.map((f) => f.key))
+for (const t of results) {
+  for (const r of t.results) {
+    for (const f of r.failures) {
+      const key = failureKey(t.target, r.rule, f.sig)
+      f.baseline = baseline.has(key)
+      f.inherited = inheritedKeys.has(key)
+    }
+  }
+}
 
 /* ------------------------------------------------------------------ report */
 
@@ -416,12 +427,19 @@ const json = {
   verdict,
   exit: status,
   baseline: isFixture ? null : { file: baselineFile, failures: baseline.size, found: Boolean(baselineDoc) },
-  summary: { targets: results.length, newGateFailures: fresh.length, baselineGateFailures: known.length, reportFailures: reportFails.length },
+  summary: {
+    targets: results.length,
+    newGateFailures: fresh.length,
+    inheritedGateFailures: inherited.length,
+    baselineGateFailures: known.length,
+    reportFailures: reportFails.length,
+  },
   problems,
   thresholds: { ...THRESHOLDS, typeScale },
   rules: RULES,
   notPorted: NOT_PORTED,
   newFailures: fresh,
+  inheritedFailures: inherited,
   targets: results,
 }
 fs.writeFileSync(path.join(outDir, "report.json"), `${JSON.stringify(json, null, 2)}\n`)
@@ -432,8 +450,9 @@ const perRule = RULES.map((rule) => {
   const rows = results.flatMap((t) => t.results.filter((r) => r.rule === rule.id))
   const failedTargets = rows.filter((r) => !r.pass)
   const newCount = fresh.filter((f) => f.rule === rule.id).length
+  const inheritedCount = inherited.filter((f) => f.rule === rule.id).length
   const knownCount = known.filter((f) => f.rule === rule.id).length
-  return { rule, checked: rows.length, passed: rows.length - failedTargets.length, failed: failedTargets.length, newCount, knownCount }
+  return { rule, checked: rows.length, passed: rows.length - failedTargets.length, failed: failedTargets.length, newCount, inheritedCount, knownCount }
 })
 const ru = []
 ru.push(`# template:check — ${today}`)
@@ -442,7 +461,8 @@ ru.push(
   `**Итог: ${verdict}.** Проверено целей: ${results.length} (шаблоны × страницы, блоки площадки, ширины ${widths.join(" и ")} px). ` +
     (isFixture
       ? `Фикстура, без базы: отказов gate ${gateFails.length}.`
-      : `Новых отказов gate: **${fresh.length}**; отказов из базы (известный долг существующих вариантов): ${known.length}; ` +
+      : `Новых отказов gate: **${fresh.length}**; унаследованных (долг общих частей витрины на страницах шаблона): ${inherited.length}; ` +
+        `отказов из базы (известный долг существующих вариантов): ${known.length}; ` +
         `report-правил вне порога: ${reportFails.length}.`)
 )
 if (!isFixture) {
@@ -451,6 +471,12 @@ if (!isFixture) {
       ? "Что делать: каждый новый отказ ниже — с id правила, целью и замером. Чинить блок или шаблон; базу не переписывать, чтобы спрятать отказ."
       : "Что делать: ничего, новых отказов нет. Отказы из базы — долг существующих вариантов композиции, он виден в report.json."
   )
+  if (inherited.length) {
+    ru.push(
+      "Унаследованные не валят прогон: база держит тот же отказ (правило и замер) на той же странице и ширине другого шаблона, " +
+        "его дают общие части витрины, а не этот шаблон. Они перечислены отдельной таблицей ниже."
+    )
+  }
 }
 if (problems.length) ru.push(`Не проверено: ${problems.join("; ")}.`)
 ru.push("")
@@ -458,9 +484,11 @@ ru.push(`Commit ${commit} · ${isFixture ? "fixtures" : `${base}${opts.host ? ` 
 ru.push("")
 ru.push("## Rules")
 ru.push("")
-ru.push("| Rule | Kind | Threshold | Checked | Pass | Fail | New gate failures | Baseline failures |")
-ru.push("|---|---|---|---|---|---|---|---|")
-for (const p of perRule) ru.push(`| ${p.rule.id} | ${p.rule.kind} | ${esc(p.rule.threshold)} | ${p.checked} | ${p.passed} | ${p.failed} | ${p.newCount} | ${p.knownCount} |`)
+ru.push("| Rule | Kind | Threshold | Checked | Pass | Fail | New gate failures | Inherited failures | Baseline failures |")
+ru.push("|---|---|---|---|---|---|---|---|---|")
+for (const p of perRule) {
+  ru.push(`| ${p.rule.id} | ${p.rule.kind} | ${esc(p.rule.threshold)} | ${p.checked} | ${p.passed} | ${p.failed} | ${p.newCount} | ${p.inheritedCount} | ${p.knownCount} |`)
+}
 ru.push("")
 ru.push(`Not ported from the lab: ${NOT_PORTED.map((n) => `${n.id} (${n.why})`).join("; ")}.`)
 ru.push("")
@@ -474,13 +502,27 @@ else {
   for (const f of listed) ru.push(`| ${esc(f.target)} | ${f.rule} | ${esc(f.detail)} |`)
 }
 ru.push("")
+if (!isFixture) {
+  ru.push("## Inherited gate failures")
+  ru.push("")
+  if (!inherited.length) ru.push("None.")
+  else {
+    ru.push("| Target | Rule | Measured | Baseline holds it for |")
+    ru.push("|---|---|---|---|")
+    for (const f of inherited) ru.push(`| ${esc(f.target)} | ${f.rule} | ${esc(f.detail)} | ${esc(f.from.join(", "))} |`)
+  }
+  ru.push("")
+}
 ru.push("## Targets")
 ru.push("")
-ru.push("| Target | Gate rules failed (new / baseline) | Report rules out of range |")
+ru.push("| Target | Gate rules failed (new / inherited / baseline) | Report rules out of range |")
 ru.push("|---|---|---|")
 for (const t of results) {
   const g = t.results.filter((r) => r.kind === "gate" && !r.pass)
-  const gText = g.map((r) => `${r.rule} (${r.failures.filter((f) => !f.baseline).length}/${r.failures.filter((f) => f.baseline).length})`).join(", ")
+  const count = (r, pick) => r.failures.filter(pick).length
+  const gText = g
+    .map((r) => `${r.rule} (${count(r, (f) => !f.baseline && !f.inherited)}/${count(r, (f) => f.inherited)}/${count(r, (f) => f.baseline)})`)
+    .join(", ")
   const rText = t.results.filter((r) => r.kind === "report").map((r) => `${r.rule} ${r.pass ? "ok" : "out"} ${fmt(r.value)}`).join("; ")
   ru.push(`| ${esc(t.target)} | ${esc(gText || "none")} | ${esc(rText || "–")} |`)
 }
@@ -491,7 +533,7 @@ fs.writeFileSync(path.join(outDir, "report.md"), `${ru.join("\n")}\n`)
 console.log(
   isFixture
     ? `template:check ${verdict}: ${results.length} fixture targets, ${fresh.length} gate failures (no baseline) → ${path.join(outDir, "report.md")}`
-    : `template:check ${verdict}: ${results.length} targets, ${fresh.length} new gate failures, ${known.length} in the baseline → ${path.join(outDir, "report.md")}`
+    : `template:check ${verdict}: ${results.length} targets, ${fresh.length} new gate failures, ${inherited.length} inherited, ${known.length} in the baseline → ${path.join(outDir, "report.md")}`
 )
 for (const f of fresh.slice(0, 40)) console.log(`  ✗ ${f.rule}  ${f.target}  ${f.detail}`)
 if (fresh.length > 40) console.log(`  … ${fresh.length - 40} more in report.md`)
