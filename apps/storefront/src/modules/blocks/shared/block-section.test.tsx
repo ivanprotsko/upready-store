@@ -59,6 +59,31 @@ describe("BlockSection", () => {
     )
   })
 
+  it("gives the see-all link a 44px target with no corner, text-wide on a phone, its words where they were", () => {
+    const html = renderToStaticMarkup(<BlockSection block="text/probe" locale="ru" header={header} />)
+    const link = html.match(/data-role="cta-secondary" class="([^"]*)"/)?.[1].split(" ") ?? []
+    // QR-HIT: every target ≥ 44px high. QR-RADIUS: radii only 6 · --radius · 12 · pill, and rounded-sm was 2px.
+    expect(link).toEqual(expect.arrayContaining(["inline-flex", "min-h-11", "items-center"]))
+    expect(link.filter((token) => token.startsWith("rounded"))).toEqual([])
+    // The header is a column below `small`: the link keeps its own width there, the row's items-end above it.
+    expect(link).toEqual(expect.arrayContaining(["self-start", "small:self-auto"]))
+    // The taller box grows into the gap under the header, so the words stay level with the heading.
+    expect(link).toContain("-mb-3")
+    // Colour, hover underline and focus ring stay as they were.
+    expect(link).toEqual(
+      expect.arrayContaining([
+        "text-ui-fg-interactive",
+        "underline-offset-4",
+        "hover:text-ui-fg-interactive-hover",
+        "hover:underline",
+        "focus-visible:outline",
+        "focus-visible:outline-2",
+        "focus-visible:outline-offset-4",
+        "focus-visible:outline-ui-fg-interactive",
+      ])
+    )
+  })
+
   it("keeps an https see-all link a plain anchor, and draws no header without words", () => {
     const outside = renderToStaticMarkup(
       <BlockSection block="text/probe" locale="en" header={{ ...header, seeAll: { href: "https://t.me/shop", label: SEE_ALL_LABEL } }} />
