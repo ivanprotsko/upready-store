@@ -12,6 +12,7 @@
 
 import { isAppLocale, defaultLocale, LOCALE_COOKIE } from "@i18n/config"
 import { resolveTenantByHost } from "@lib/tenant/resolve"
+import { YANDEX_AVATAR_KEY } from "@lib/util/customer-avatar"
 
 export { sanitizeReturnPath } from "./return-path"
 
@@ -125,6 +126,8 @@ export type MedusaJwtPayload = {
     name?: string | null
     picture?: string | null
     login?: string | null
+    /** Yandex's `default_avatar_id` (the backend's `mapProfileToIdentity`, t-2026-10-12-05). */
+    avatar_id?: string | null
   }
 }
 
@@ -151,5 +154,63 @@ export function decodeJwtPayload(token: string): MedusaJwtPayload | null {
     return JSON.parse(json) as MedusaJwtPayload
   } catch {
     return null
+  }
+}
+
+/**
+ * The customer's metadata with this sign-in's Yandex avatar id in it, or null when it already
+ * holds that id (nothing to write). Every other key is kept: the whole object goes back to
+ * `/store/customers/me`.
+ */
+export function withYandexAvatar(
+  metadata: Record<string, unknown> | null | undefined,
+  avatarId: string | null | undefined,
+): Record<string, unknown> | null {
+  const next = avatarId?.trim() || null
+  const current = metadata?.[YANDEX_AVATAR_KEY] ?? null
+  if (current === next) {
+    return null
+  }
+  return { ...(metadata ?? {}), [YANDEX_AVATAR_KEY]: next }
+}
+
+/**
+ * Keep the Yandex ID picture on the customer (t-2026-10-12-05, Ivan 12.10 item 6.2: the
+ * checkout header shows the avatar). The auth identity holds it, the storefront reads the
+ * customer, so every Yandex sign-in copies it over, and a picture removed on Yandex goes away
+ * here too. Never fatal: the buyer is signed in either way, and the header draws the initials.
+ */
+export async function keepYandexAvatar(
+  headers: Record<string, string>,
+  avatarId: string | null | undefined,
+): Promise<void> {
+  try {
+    const me = await fetch(`${backendUrl()}/store/customers/me`, {
+      method: "GET",
+      headers,
+      cache: "no-store",
+    })
+    if (!me.ok) {
+      console.error("[yandex-auth] avatar: customer read answered", me.status)
+      return
+    }
+    const { customer } = (await me.json()) as {
+      customer?: { metadata?: Record<string, unknown> | null }
+    }
+    const metadata = withYandexAvatar(customer?.metadata, avatarId)
+    if (!metadata) {
+      return
+    }
+    const res = await fetch(`${backendUrl()}/store/customers/me`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ metadata }),
+      cache: "no-store",
+    })
+    if (!res.ok) {
+      console.error("[yandex-auth] avatar: customer update answered", res.status)
+    }
+  } catch (error) {
+    console.error("[yandex-auth] avatar not kept:", error)
   }
 }

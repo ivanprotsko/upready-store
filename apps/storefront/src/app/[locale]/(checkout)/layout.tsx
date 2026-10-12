@@ -1,15 +1,17 @@
 import { retrieveCustomer } from "@lib/data/customer"
 import { getSiteName } from "@lib/data/cookies"
+import { customerAvatarUrl, customerInitials } from "@lib/util/customer-avatar"
 import { customerContactLabel } from "@lib/util/telegram-contact"
-import { UserMini } from "@medusajs/icons"
+import { ArrowLeft } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import SiteAttribution from "@modules/layout/components/site-attribution"
 import HydrationSlot from "@modules/common/components/hydration-slot"
 import { NOINDEX } from "@lib/util/robots"
-import BrandUnlock from "@modules/studio/components/brand-unlock"
 import AccountLink from "@modules/layout/components/account-link"
+import CustomerAvatar from "@modules/layout/components/customer-avatar"
+import HeaderLogo from "@modules/layout/components/header-logo"
 import CartQueueGate from "@modules/checkout/components/cart-queue-gate"
 import LoginModalHost from "@modules/account/components/login-modal/host"
 import { Suspense } from "react"
@@ -32,34 +34,44 @@ export default async function CheckoutLayout({
   return (
     <div className="min-h-screen bg-ui-bg-base flex flex-col">
       <header className="border-b border-ui-border-base bg-ui-bg-base sticky top-0 z-40">
-        <div className="flex items-center content-container py-3 h-16">
-          <div className="flex flex-1 items-center">
-            {/* Ivan 04.10 08:40 (t-2026-10-04-22): no «В корзину» control on the checkout.
-                The phone keeps the shop's name here, as a link home like the desktop one. */}
+        <div className="flex items-center gap-x-2 content-container h-16">
+          {/* The two sides take what they need on a phone and a third each from 640 px, so the
+              logo sits in the middle wherever there is room for it. */}
+          <div className="flex flex-none items-center sm:flex-1">
+            {/* Ivan 12.10 14:23 (t-2026-10-12-05, item 1.2): «сделать контрол, который бы
+                позволял вернуться обратно в корзину». It replaces Ivan 04.10 08:40
+                (t-2026-10-04-22), «no «В корзину» control on the checkout»: the order list
+                here is read-only now (item 6.1), so the cart is where the order changes.
+                «Корзина» on a phone, «Вернуться в корзину» from 1024 px; the accessible name is
+                the long one at every width. */}
             <Link
-              href="/"
-              className="sm:hidden txt-compact-medium-plus font-semibold uppercase whitespace-nowrap text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-              data-testid="store-link-mobile"
+              href="/cart"
+              aria-label={t("backToCart")}
+              className="flex items-center gap-x-1.5 whitespace-nowrap txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+              data-testid="checkout-back-to-cart"
             >
-              {siteName}
+              <ArrowLeft className="shrink-0 rtl:rotate-180" aria-hidden />
+              <span className="small:hidden">{t("backToCartShort")}</span>
+              <span className="hidden small:inline">{t("backToCart")}</span>
             </Link>
           </div>
 
-          <BrandUnlock>
-            <Link
-              href="/"
-              className="hidden sm:block shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
-              data-testid="store-link"
-            >
-              {siteName}
-            </Link>
-          </BrandUnlock>
+          {/* Ivan 12.10 (item 1.1): «сделать логотип как на основном сайте». */}
+          <HeaderLogo testId="store-link" />
 
-          <div className="flex flex-1 items-center justify-end">
+          <div className="flex min-w-0 flex-none items-center justify-end sm:flex-1">
             {customer ? (
-              <div className="flex items-center gap-x-1 txt-compact-medium text-ui-fg-subtle">
-                <UserMini />
-                <span className="text-xs truncate hidden md:block">
+              // Ivan 12.10 (item 6.2): the avatar, not a user icon, and not clickable. No link,
+              // no button, no hover: the label beside it is the one place the name reads.
+              <div
+                className="flex min-w-0 items-center gap-x-2 cursor-default txt-compact-medium text-ui-fg-subtle"
+                data-testid="checkout-customer"
+              >
+                <CustomerAvatar
+                  src={customerAvatarUrl(customer)}
+                  initials={customerInitials(customer)}
+                />
+                <span className="sr-only md:not-sr-only md:truncate text-xs">
                   {customerContactLabel(customer)}
                 </span>
               </div>
@@ -100,9 +112,11 @@ export default async function CheckoutLayout({
         </div>
       </footer>
 
-      {/* The sign-in modal the header's «Войти» and the sign-in block open (t-2026-10-04-24). */}
+      {/* The sign-in modal the header's «Войти» and the sign-in step open (t-2026-10-04-24).
+          Kept for a customer too: the step's «Изменить» signs in with another account
+          (t-2026-10-12-05). */}
       <Suspense fallback={null}>
-        <LoginModalHost />
+        <LoginModalHost forCustomer />
       </Suspense>
     </div>
   )

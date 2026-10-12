@@ -1,0 +1,33 @@
+/* The logo's column in a header of its own (the checkout's, t-2026-10-12-05): the container
+   H7's wordmark sizes itself against (`100cqi`, `--wm-chars`), as H7's `.main` and
+   `.compactMain` are. */
+.slot {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  container-type: inline-size;
+  /* H7 sets its wordmark colour on its bar; this header has no bar of its own. */
+  --h7-wordmark: var(--foreground);
+}
+
+/* Below 1024 px H7 draws the wordmark in its compact bar (`.compactMain .wordmark`): 28 px in a
+   37 px box with 8 px sides on a phone, a 40 px box with 16 px sides from 640 px. The same
+   numbers here, so the checkout's logo is the size the main header's is at every width. */
+@media (max-width: 1023.98px) {
+  .slot .wordmark {
+    height: 37px;
+    padding: 0 8px;
+    font-size: min(28px, calc((100cqi - 16px) / (var(--wm-chars, 6) * 0.72)));
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .slot .wordmark {
+    height: 40px;
+    padding: 0 16px;
+    font-size: min(28px, calc((100cqi - 32px) / (var(--wm-chars, 6) * 0.72)));
+  }
+}
