@@ -2,7 +2,7 @@
 
 # t-2026-10-12-33 R2 — шаблоны InSales и Tilda, разобранные до секций
 
-PR: (ссылка будет добавлена после открытия), ветка `templates/research-insales-tilda` → `templates/main`, в `main` не идёт. Папка: [2026-10-13-templates-insales-tilda](/Users/ivanprotsko/upready/worktrees/upready-store/templates/research-insales-tilda/artifacts/research/2026-10-13-templates-insales-tilda).
+PR: [https://github.com/ivanprotsko/upready-store/pull/359](https://github.com/ivanprotsko/upready-store/pull/359), ветка `templates/research-insales-tilda` → `templates/main`, в `main` не идёт. Папка: [2026-10-13-templates-insales-tilda](/Users/ivanprotsko/upready/worktrees/upready-store/templates/research-insales-tilda/artifacts/research/2026-10-13-templates-insales-tilda).
 
 Продолжение исследования 16.09 (r03), а не повтор. Его данные перенесены как есть в [from-2026-09-16/](/Users/ivanprotsko/upready/worktrees/upready-store/templates/research-insales-tilda/artifacts/research/2026-10-13-templates-insales-tilda/from-2026-09-16): `features.json`, `templates-index.tsv`, `tilda-index.json`, `upready-map.json` и страницы 10 тем InSales. Все взяты `git show` из ветки `origin/feat/day16-store-templates-research`, коммит `591c996f` (сами файлы реестра — из `befb1dca`, 16.09 09:14 WITA).
 
