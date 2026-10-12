@@ -436,6 +436,14 @@
       "propsEditable": false
     },
     {
+      "id": "announcement/rotator",
+      "category": "announcement",
+      "placement": "home",
+      "status": "lab",
+      "props": true,
+      "propsEditable": false
+    },
+    {
       "id": "announcement/text-bar",
       "category": "announcement",
       "placement": "home",
