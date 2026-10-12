@@ -1,4 +1,8 @@
 {
+  "login": {
+    "title": "Upready Store",
+    "hint": "Войдите в админку платформы"
+  },
   "tenants": {
     "sidebarLabel": "Магазины",
     "list": {
