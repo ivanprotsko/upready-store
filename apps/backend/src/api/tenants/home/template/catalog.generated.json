@@ -428,6 +428,14 @@
       "propsEditable": false
     },
     {
+      "id": "hero/split",
+      "category": "hero",
+      "placement": "home",
+      "status": "lab",
+      "props": true,
+      "propsEditable": false
+    },
+    {
       "id": "announcement/text-bar",
       "category": "announcement",
       "placement": "home",
