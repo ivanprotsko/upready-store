@@ -1,0 +1,179 @@
+{
+  "schema": "upready.storefront-template/v1",
+  "id": "uhod",
+  "title": { "ru": "Косметика и уход", "en": "Cosmetics and Care" },
+  "description": {
+    "ru": "Косметика и уход: светлый и мягкий, состав, отзывы и наборы на виду.",
+    "en": "Cosmetics and skincare: light and soft, with ingredients, reviews and sets up front."
+  },
+  "settings": { "defaultMode": "light", "header": "h2", "hero": "none", "tiles": "on", "listing": "none", "footer": "f1" },
+  "theme": {
+    "palette": "uhod",
+    "fontPair": { "display": "Nunito", "body": "Manrope" },
+    "radius": "soft",
+    "buttonStyle": "filled",
+    "photoStyle": "portrait",
+    "density": "comfortable"
+  },
+  "sections": [
+    {
+      "block": "announcement/rotator",
+      "props": {
+        "messages": [
+          { "text": { "ru": "Состав в каждой карточке", "en": "Ingredients on every page" }, "href": null },
+          { "text": { "ru": "Наборы для утра и вечера", "en": "Morning and evening sets" }, "href": null },
+          { "text": { "ru": "Поможем подобрать уход", "en": "We help you choose" }, "href": null }
+        ],
+        "interval": 5,
+        "dismissible": true
+      }
+    },
+    {
+      "block": "hero/split",
+      "props": {
+        "eyebrow": { "ru": "Короткий состав", "en": "Short ingredient lists" },
+        "title": {
+          "ru": "Понятный состав — и ни одного лишнего ингредиента",
+          "en": "Clear ingredient lists, and nothing you do not need"
+        },
+        "lead": {
+          "ru": "Полный состав, объём и способ применения — в карточке каждого средства. Подберите уход под свою кожу и соберите его из двух-трёх шагов.",
+          "en": "The full ingredient list, the size and the directions are on every product page. Choose care for your skin and build a routine of two or three steps."
+        },
+        "primary": { "href": "/store", "label": { "ru": "Подобрать уход", "en": "Find your care" } },
+        "secondary": { "href": "/shipping", "label": { "ru": "Доставка и оплата", "en": "Delivery and payment" } },
+        "facts": [
+          { "ru": "Состав в карточке каждого средства", "en": "Ingredients on every product page" },
+          { "ru": "Наборы для утра и вечера", "en": "Morning and evening sets" },
+          { "ru": "Поможем с подбором", "en": "Help with choosing" }
+        ],
+        "image": { "src": "/templates/uhod/hero.webp" },
+        "imageSide": "right",
+        "imageFit": "cover",
+        "tone": "plain",
+        "height": "auto"
+      }
+    },
+    {
+      "block": "columns/multicolumn",
+      "props": {
+        "items": [
+          {
+            "icon": "leaf",
+            "title": { "ru": "Понятный состав", "en": "Clear ingredients" },
+            "text": { "ru": "Полный список в карточке товара", "en": "The full list on every product page" }
+          },
+          {
+            "icon": "shield-check",
+            "title": { "ru": "Сроки на виду", "en": "Dates in plain sight" },
+            "text": { "ru": "Срок годности и срок после вскрытия", "en": "Shelf life and period after opening" }
+          },
+          {
+            "icon": "gift",
+            "title": { "ru": "Пробники и наборы", "en": "Samples and sets" },
+            "text": { "ru": "Попробуйте до большого объёма", "en": "Try before the full size" }
+          },
+          {
+            "icon": "truck",
+            "title": { "ru": "Доставка по России", "en": "Delivery across Russia" },
+            "text": { "ru": "Курьером или в пункт выдачи", "en": "By courier or to a pick-up point" }
+          }
+        ],
+        "mode": "icons",
+        "columns": 4,
+        "mobile": "two",
+        "align": "left",
+        "tone": "plain"
+      }
+    },
+    { "block": "tiles/on" },
+    {
+      "block": "collection/featured",
+      "props": {
+        "header": {
+          "eyebrow": { "ru": "Только что в каталоге", "en": "Just in" },
+          "heading": { "ru": "Новинки ухода", "en": "New in skincare" }
+        },
+        "source": { "sort": "newest" },
+        "limit": 8,
+        "layout": "grid",
+        "columns": 4
+      }
+    },
+    {
+      "block": "media/image-with-text",
+      "props": {
+        "image": { "src": "/templates/uhod/story.webp" },
+        "eyebrow": { "ru": "О подходе", "en": "Our approach" },
+        "heading": {
+          "ru": "Мы показываем состав, а не прячем его",
+          "en": "We show the ingredients instead of hiding them"
+        },
+        "text": {
+          "ru": "Состав косметики печатают на упаковке — но мелко, на обороте и часто на латыни. Здесь он в карточке товара, целиком и по-русски.\nТак проще выбрать средство под свою кожу и заранее проверить список на аллергены.",
+          "en": "Ingredients are printed on the pack, but small, on the back and often in Latin. Here they are on the product page, in full.\nThat makes it easier to choose for your skin and to check the list for allergens before you buy."
+        },
+        "button": { "label": { "ru": "Посмотреть каталог", "en": "Browse the catalogue" }, "href": "/store" },
+        "imageSide": "left",
+        "imageWidth": "1/2",
+        "imageAspect": "landscape",
+        "verticalAlign": "center",
+        "tone": "plain"
+      }
+    },
+    {
+      "block": "testimonials/cards",
+      "props": {
+        "header": { "heading": { "ru": "Что пишут покупатели", "en": "What customers say" } },
+        "items": [
+          {
+            "quote": {
+              "ru": "Наконец-то вижу состав до покупки. Проверила список на свои аллергены за минуту.",
+              "en": "At last I can see the ingredients before I buy. I checked them for my allergens in a minute."
+            },
+            "name": { "ru": "Вера", "en": "Vera" },
+            "city": { "ru": "Казань", "en": "Kazan" },
+            "rating": 5
+          },
+          {
+            "quote": {
+              "ru": "Взяла пробник сыворотки, через неделю вернулась за полным объёмом. Кожа спокойная.",
+              "en": "I took a sample of the serum and came back for the full size a week later. My skin is calm."
+            },
+            "name": { "ru": "Полина", "en": "Polina" },
+            "city": { "ru": "Самара", "en": "Samara" },
+            "rating": 5
+          },
+          {
+            "quote": {
+              "ru": "Собрала вечерний уход из трёх средств по подсказкам в карточках. Упаковано аккуратно.",
+              "en": "I put an evening routine of three products together from the tips on the product pages. Carefully packed."
+            },
+            "name": { "ru": "Ирина", "en": "Irina" },
+            "city": { "ru": "Пермь", "en": "Perm" },
+            "rating": 4
+          }
+        ],
+        "layout": "grid"
+      }
+    },
+    {
+      "block": "newsletter/signup",
+      "props": {
+        "heading": { "ru": "Письма об уходе — в канале магазина", "en": "Notes on skincare, in the shop's channel" },
+        "text": {
+          "ru": "Раз в месяц: новые средства, что изменилось в составах и как собрать уход по сезону.",
+          "en": "Once a month: new products, what changed in the ingredient lists and how to build a routine for the season."
+        },
+        "mode": "channels",
+        "channels": [
+          { "network": "telegram", "href": null },
+          { "network": "vk", "href": null },
+          { "network": "max", "href": null }
+        ],
+        "align": "left",
+        "tone": "muted"
+      }
+    }
+  ]
+}
