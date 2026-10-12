@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK atsiėmimo punktas",
-    "chooseHeading": "Pasirinkite CDEK atsiėmimo punktą",
     "searchPlaceholder": "Ieškoti pagal adresą ar metro",
     "cityLabel": "Miestas",
     "cityPlaceholder": "Pradėkite rašyti miestą",
     "choose": "Pasirinkti",
     "chosen": "Pasirinkta",
-    "found": "Rasta atsiėmimo punktų: {count}",
     "noResults": "Mieste {city} atsiėmimo punktų nerasta.",
     "needCity": "Nurodykite pristatymo miestą, kad matytumėte atsiėmimo punktus.",
     "loading": "Kraunami atsiėmimo punktai…",
@@ -122,7 +120,8 @@
     "tabList": "Sąrašas",
     "tabMap": "Žemėlapis",
     "mapEmpty": "Šiam miestui žemėlapyje atsiėmimo punktų nėra.",
-    "mapFailed": "Žemėlapis nepasiekiamas. Pasirinkite punktą iš sąrašo."
+    "pickerHeading": "Pasirinkite atsiėmimo punktą",
+    "closeCard": "Uždaryti punkto kortelę"
   },
   "CheckoutPage": {
     "addNewAddress": "Pridėti naują adresą",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Rusijos pašto atsiėmimo punktas",
-    "chooseHeading": "Pasirinkite Rusijos pašto atsiėmimo punktą",
     "notConfigured": "Pristatymas Rusijos paštu šioje parduotuvėje dar nenustatytas.",
     "quoteFailed": "Nepavyko apskaičiuoti pristatymo į šį punktą. Pasirinkite kitą.",
     "postcode": "Pašto kodas {index}"

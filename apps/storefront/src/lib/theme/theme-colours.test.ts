@@ -31,8 +31,6 @@ const FILE_ALLOWLIST: Record<string, string> = {
   "modules/order/components/transfer-image/index.tsx":
     "brand graphic: the order-transfer illustration draws its own greys (lead, 2026-10-05)",
   "modules/common/icons/github.tsx": "brand graphic: GitHub's coloured mark with its gradient",
-  "modules/checkout/components/pochta-map/index.tsx":
-    "brand graphic: Russian Post's blue and red markers on a raster map that follows no theme",
   "modules/home/variants/olavka-navigation.tsx":
     "brand graphic: cherkashino.com category chips from the mockup, each a self-contained fill and ink pair",
   "modules/home/variants/olavka-navigation.module.css":

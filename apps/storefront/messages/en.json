@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK pickup point",
-    "chooseHeading": "Choose a CDEK pickup point",
     "searchPlaceholder": "Search by address or metro",
     "cityLabel": "City",
     "cityPlaceholder": "Start typing a city",
     "choose": "Choose",
     "chosen": "Chosen",
-    "found": "Pickup points found: {count}",
     "noResults": "No pickup points found in {city}.",
     "needCity": "Enter your delivery city to see pickup points.",
     "loading": "Loading pickup points…",
@@ -122,7 +120,8 @@
     "tabList": "List",
     "tabMap": "Map",
     "mapEmpty": "No pickup points to show on the map for this city.",
-    "mapFailed": "The map is unavailable. Pick a point from the list."
+    "pickerHeading": "Choose a pickup point",
+    "closeCard": "Close the point's card"
   },
   "CheckoutPage": {
     "addNewAddress": "Add new address",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Russian Post pickup point",
-    "chooseHeading": "Choose a Russian Post pickup point",
     "notConfigured": "Russian Post delivery is not set up in this shop yet.",
     "quoteFailed": "Delivery to this point could not be priced. Choose another one.",
     "postcode": "Postcode {index}"

@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK-hentested",
-    "chooseHeading": "Velg et CDEK-hentested",
     "searchPlaceholder": "Søk etter adresse eller metro",
     "cityLabel": "By",
     "cityPlaceholder": "Begynn å skrive en by",
     "choose": "Velg",
     "chosen": "Valgt",
-    "found": "Hentesteder funnet: {count}",
     "noResults": "Ingen hentesteder funnet i {city}.",
     "needCity": "Oppgi leveringsbyen for å se hentesteder.",
     "loading": "Laster hentesteder…",
@@ -122,7 +120,8 @@
     "tabList": "Liste",
     "tabMap": "Kart",
     "mapEmpty": "Ingen hentesteder å vise på kartet for denne byen.",
-    "mapFailed": "Kartet er utilgjengelig. Velg et hentested fra listen."
+    "pickerHeading": "Velg et hentested",
+    "closeCard": "Lukk stedets kort"
   },
   "CheckoutPage": {
     "addNewAddress": "Legg til ny adresse",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Russisk posts hentested",
-    "chooseHeading": "Velg et hentested hos Russisk post",
     "notConfigured": "Levering med Russisk post er ikke satt opp i denne butikken ennå.",
     "quoteFailed": "Frakten til dette hentestedet kunne ikke beregnes. Velg et annet.",
     "postcode": "Postnummer {index}"

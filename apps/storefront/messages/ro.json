@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "Punct de ridicare CDEK",
-    "chooseHeading": "Alegeți un punct de ridicare CDEK",
     "searchPlaceholder": "Căutați după adresă sau metrou",
     "cityLabel": "Oraș",
     "cityPlaceholder": "Începeți să scrieți orașul",
     "choose": "Alege",
     "chosen": "Ales",
-    "found": "Puncte de ridicare găsite: {count}",
     "noResults": "Nu s-au găsit puncte de ridicare în {city}.",
     "needCity": "Introduceți orașul de livrare pentru a vedea punctele de ridicare.",
     "loading": "Se încarcă punctele de ridicare…",
@@ -122,7 +120,8 @@
     "tabList": "Listă",
     "tabMap": "Hartă",
     "mapEmpty": "Nu există puncte de ridicare de afișat pe hartă pentru acest oraș.",
-    "mapFailed": "Harta nu este disponibilă. Alege un punct din listă."
+    "pickerHeading": "Alegeți un punct de ridicare",
+    "closeCard": "Închide fișa punctului"
   },
   "CheckoutPage": {
     "addNewAddress": "Adaugă o adresă nouă",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Punct de ridicare Poșta Rusă",
-    "chooseHeading": "Alegeți un punct de ridicare Poșta Rusă",
     "notConfigured": "Livrarea prin Poșta Rusă nu este încă configurată în acest magazin.",
     "quoteFailed": "Livrarea către acest punct nu a putut fi calculată. Alegeți altul.",
     "postcode": "Cod poștal {index}"

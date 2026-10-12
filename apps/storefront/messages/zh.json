@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK 自提点",
-    "chooseHeading": "选择 CDEK 自提点",
     "searchPlaceholder": "按地址或地铁搜索",
     "cityLabel": "城市",
     "cityPlaceholder": "开始输入城市",
     "choose": "选择",
     "chosen": "已选择",
-    "found": "找到自提点：{count}",
     "noResults": "在 {city} 未找到自提点。",
     "needCity": "请填写收货城市以查看自提点。",
     "loading": "正在加载自提点…",
@@ -122,7 +120,8 @@
     "tabList": "列表",
     "tabMap": "地图",
     "mapEmpty": "该城市没有可在地图上显示的自提点。",
-    "mapFailed": "地图不可用，请从列表中选择自提点。"
+    "pickerHeading": "选择自提点",
+    "closeCard": "关闭自提点卡片"
   },
   "CheckoutPage": {
     "addNewAddress": "添加新地址",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "俄罗斯邮政自提点",
-    "chooseHeading": "选择俄罗斯邮政自提点",
     "notConfigured": "本店尚未设置俄罗斯邮政配送。",
     "quoteFailed": "无法计算寄往该自提点的运费，请选择其他自提点。",
     "postcode": "邮编 {index}"

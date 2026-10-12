@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "Punkt odbioru CDEK",
-    "chooseHeading": "Wybierz punkt odbioru CDEK",
     "searchPlaceholder": "Szukaj po adresie lub metrze",
     "cityLabel": "Miasto",
     "cityPlaceholder": "Zacznij wpisywać miasto",
     "choose": "Wybierz",
     "chosen": "Wybrany",
-    "found": "Znaleziono punktów odbioru: {count}",
     "noResults": "W mieście {city} nie znaleziono punktów odbioru.",
     "needCity": "Podaj miasto dostawy, aby zobaczyć punkty odbioru.",
     "loading": "Ładowanie punktów odbioru…",
@@ -122,7 +120,8 @@
     "tabList": "Lista",
     "tabMap": "Mapa",
     "mapEmpty": "Dla tego miasta nie ma punktów odbioru na mapie.",
-    "mapFailed": "Mapa jest niedostępna. Wybierz punkt z listy."
+    "pickerHeading": "Wybierz punkt odbioru",
+    "closeCard": "Zamknij kartę punktu"
   },
   "CheckoutPage": {
     "addNewAddress": "Dodaj nowy adres",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Punkt odbioru Poczty Rosyjskiej",
-    "chooseHeading": "Wybierz punkt odbioru Poczty Rosyjskiej",
     "notConfigured": "Wysyłka Pocztą Rosyjską nie jest jeszcze skonfigurowana w tym sklepie.",
     "quoteFailed": "Nie udało się obliczyć dostawy do tego punktu. Wybierz inny.",
     "postcode": "Kod pocztowy {index}"

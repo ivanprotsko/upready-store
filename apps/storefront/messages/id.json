@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "Titik pengambilan CDEK",
-    "chooseHeading": "Pilih titik pengambilan CDEK",
     "searchPlaceholder": "Cari berdasarkan alamat atau metro",
     "cityLabel": "Kota",
     "cityPlaceholder": "Mulai ketik nama kota",
     "choose": "Pilih",
     "chosen": "Dipilih",
-    "found": "Titik pengambilan ditemukan: {count}",
     "noResults": "Tidak ada titik pengambilan di {city}.",
     "needCity": "Masukkan kota pengiriman untuk melihat titik pengambilan.",
     "loading": "Memuat titik pengambilan…",
@@ -122,7 +120,8 @@
     "tabList": "Daftar",
     "tabMap": "Peta",
     "mapEmpty": "Tidak ada titik ambil di peta untuk kota ini.",
-    "mapFailed": "Peta tidak tersedia. Pilih titik dari daftar."
+    "pickerHeading": "Pilih titik pengambilan",
+    "closeCard": "Tutup kartu titik"
   },
   "CheckoutPage": {
     "addNewAddress": "Tambah alamat baru",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Titik ambil Pos Rusia",
-    "chooseHeading": "Pilih titik ambil Pos Rusia",
     "notConfigured": "Pengiriman dengan Pos Rusia belum diatur di toko ini.",
     "quoteFailed": "Ongkos kirim ke titik ini tidak dapat dihitung. Pilih titik lain.",
     "postcode": "Kode pos {index}"

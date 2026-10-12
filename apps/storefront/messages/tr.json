@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK teslim noktası",
-    "chooseHeading": "CDEK teslim noktası seçin",
     "searchPlaceholder": "Adrese veya metroya göre arayın",
     "cityLabel": "Şehir",
     "cityPlaceholder": "Şehir yazmaya başlayın",
     "choose": "Seç",
     "chosen": "Seçildi",
-    "found": "Bulunan teslim noktası: {count}",
     "noResults": "{city} şehrinde teslim noktası bulunamadı.",
     "needCity": "Teslim noktalarını görmek için teslimat şehrinizi girin.",
     "loading": "Teslim noktaları yükleniyor…",
@@ -122,7 +120,8 @@
     "tabList": "Liste",
     "tabMap": "Harita",
     "mapEmpty": "Bu şehir için haritada gösterilecek teslim noktası yok.",
-    "mapFailed": "Harita kullanılamıyor. Listeden bir nokta seçin."
+    "pickerHeading": "Teslim noktası seçin",
+    "closeCard": "Nokta kartını kapat"
   },
   "CheckoutPage": {
     "addNewAddress": "Yeni adres ekle",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Rus Postası teslim alma noktası",
-    "chooseHeading": "Bir Rus Postası teslim alma noktası seçin",
     "notConfigured": "Rus Postası ile gönderim bu mağazada henüz ayarlanmadı.",
     "quoteFailed": "Bu noktaya gönderim ücreti hesaplanamadı. Başka bir nokta seçin.",
     "postcode": "Posta kodu {index}"

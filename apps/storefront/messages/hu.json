@@ -107,13 +107,11 @@
   },
   "CdekPoint": {
     "heading": "CDEK átvételi pont",
-    "chooseHeading": "Válasszon CDEK átvételi pontot",
     "searchPlaceholder": "Keresés cím vagy metró alapján",
     "cityLabel": "Város",
     "cityPlaceholder": "Kezdje el beírni a várost",
     "choose": "Kiválaszt",
     "chosen": "Kiválasztva",
-    "found": "Talált átvételi pontok: {count}",
     "noResults": "Nem található átvételi pont itt: {city}.",
     "needCity": "Adja meg a szállítási várost az átvételi pontok megjelenítéséhez.",
     "loading": "Átvételi pontok betöltése…",
@@ -122,7 +120,8 @@
     "tabList": "Lista",
     "tabMap": "Térkép",
     "mapEmpty": "Ehhez a városhoz nincs átvételi pont a térképen.",
-    "mapFailed": "A térkép nem érhető el. Válasszon pontot a listából."
+    "pickerHeading": "Válasszon átvételi pontot",
+    "closeCard": "A pont kártyájának bezárása"
   },
   "CheckoutPage": {
     "addNewAddress": "Új cím hozzáadása",
@@ -1202,7 +1201,6 @@
   },
   "PochtaPoint": {
     "heading": "Orosz Posta átvételi pont",
-    "chooseHeading": "Válasszon Orosz Posta átvételi pontot",
     "notConfigured": "Az Orosz Postával történő szállítás még nincs beállítva ebben a boltban.",
     "quoteFailed": "Nem sikerült kiszámítani a szállítást erre a pontra. Válasszon másikat.",
     "postcode": "Irányítószám: {index}"
