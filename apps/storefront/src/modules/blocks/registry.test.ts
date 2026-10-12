@@ -1,3 +1,6 @@
+import { existsSync, readFileSync } from "node:fs"
+import { fileURLToPath } from "node:url"
+
 import { describe, expect, it, vi } from "vitest"
 
 import { FOOTER_KEYS, HEADER_KEYS, HERO_KEYS, LISTING_KEYS } from "@lib/theme/composition"
@@ -6,7 +9,9 @@ import { HERO_VARIANTS, LISTING_VARIANTS } from "@modules/home/variants"
 import { FOOTER_VARIANTS } from "@modules/layout/templates/footer/variants"
 import { NAV_VARIANTS } from "@modules/layout/templates/nav/variants"
 
-import { BLOCKS, blockById } from "./registry"
+import { EXISTING_BLOCKS } from "./existing"
+import { BLOCKS, CATEGORY_BLOCKS, blockById } from "./registry"
+import { BLOCK_CATEGORIES, BLOCK_ROLES } from "./types"
 
 // The header and footer variants reach `server-only` loaders; outside the react-server
 // condition that package throws on import, and nothing here renders. Hoisted by vitest.
@@ -59,6 +64,37 @@ describe("block registry", () => {
       expect(block.fixtures, block.id).toBeDefined()
       expect(block.parseProps!(block.fixtures!.empty).ok, `${block.id} empty`).toBe(true)
       expect(block.parseProps!(block.fixtures!.sample).ok, `${block.id} sample`).toBe(true)
+    }
+  })
+
+  it("gives every declared category its own file, holding only blocks of that category", () => {
+    const registry = readFileSync(fileURLToPath(new URL("./registry.ts", import.meta.url)), "utf8")
+    for (const category of BLOCK_CATEGORIES) {
+      expect(existsSync(fileURLToPath(new URL(`./${category}/index.ts`, import.meta.url))), category).toBe(true)
+      expect(registry, category).toContain(`import * as ${category} from "./${category}"`)
+      for (const block of CATEGORY_BLOCKS[category]) {
+        expect(block.category, block.id).toBe(category)
+        expect(block.id).toBe(`${category}/${block.variant}`)
+        expect(block.variant, block.id).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+      }
+    }
+  })
+
+  it("is the composition variants first, then each category's file in declared order, sorted by variant", () => {
+    const expected = [
+      ...EXISTING_BLOCKS,
+      ...BLOCK_CATEGORIES.flatMap((category) =>
+        [...CATEGORY_BLOCKS[category]].sort((a, b) => (a.variant < b.variant ? -1 : 1))
+      ),
+    ]
+    expect(BLOCKS.map((b) => b.id)).toEqual(expected.map((b) => b.id))
+    expect(CATEGORY_BLOCKS.announcement.map((b) => b.id)).toEqual(["announcement/text-bar"])
+  })
+
+  it("describes every block with known roles", () => {
+    const known = new Set<string>(BLOCK_ROLES)
+    for (const block of BLOCKS) {
+      expect(block.roles.filter((role) => !known.has(role)), block.id).toEqual([])
     }
   })
 })

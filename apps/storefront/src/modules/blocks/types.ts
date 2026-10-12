@@ -12,17 +12,42 @@ import type { StorefrontSettingsInput } from "@lib/theme/composition"
  * read the entries without rendering anything.
  */
 
-/** The block families. The first five are the composition slots that exist today. */
-export type BlockCategory = "header" | "hero" | "tiles" | "listing" | "footer" | "announcement"
-
-export const BLOCK_CATEGORIES: readonly BlockCategory[] = [
+/**
+ * The block families, declared up front so that no block PR edits this file. The first five
+ * are the composition slots that exist today; `announcement` holds the first lab block; the
+ * next fourteen are the build list of the Shopify catalogue (R1,
+ * `artifacts/research/2026-10-13-templates-shopify/report.md`); `trust`, `delivery` and
+ * `contacts` are for the Russian-market blocks: payment and marketplace badges, delivery and
+ * pick-up, contacts with a map. Each has its file, `./<category>/index.ts`; the order is the
+ * registry's and the playground's.
+ */
+export const BLOCK_CATEGORIES = [
   "header",
   "hero",
   "tiles",
   "listing",
   "footer",
   "announcement",
-]
+  "text",
+  "media",
+  "columns",
+  "collection",
+  "testimonials",
+  "newsletter",
+  "banner",
+  "collage",
+  "slideshow",
+  "faq",
+  "video",
+  "blog",
+  "promo",
+  "countdown",
+  "trust",
+  "delivery",
+  "contacts",
+] as const
+
+export type BlockCategory = (typeof BLOCK_CATEGORIES)[number]
 
 /** `<category>/<variant>`, e.g. `hero/g`, `announcement/text-bar`. */
 export type BlockId = `${BlockCategory}/${string}`
@@ -30,24 +55,80 @@ export type BlockId = `${BlockCategory}/${string}`
 /**
  * What the block draws, as element roles. The same vocabulary the competitor teardowns use
  * (A-2026-10-12-55, point 2), so a section of another platform maps onto our blocks role
- * by role rather than by eye.
+ * by role rather than by eye: every role of R1's `roles.json` (46 words of the
+ * ui-upready-dev-monorepo analyser, 10 extensions) next to the ones this file had, sorted,
+ * one per line. `roles.test.ts` fails when `roles.json` names a role missing here.
  */
-export type BlockRole =
-  | "brand"
-  | "navigation"
-  | "search"
-  | "cart"
-  | "category-links"
-  | "heading"
-  | "body-text"
-  | "cta-primary"
-  | "media"
-  | "product-card"
-  | "price"
-  | "promo-text"
-  | "newsletter"
-  | "legal"
-  | "contacts"
+export const BLOCK_ROLES = [
+  "author-info",
+  "badge",
+  "body-text",
+  "brand",
+  "brand-logo",
+  "brand-slider",
+  "breadcrumb",
+  "card",
+  "card-image",
+  "card-title",
+  "cart",
+  "category-links",
+  "close-button",
+  "compare-slider",
+  "contacts",
+  "content",
+  "countdown",
+  "cta-group",
+  "cta-primary",
+  "cta-secondary",
+  "description",
+  "dialog",
+  "feature-card",
+  "filter",
+  "form",
+  "heading",
+  "headline",
+  "hero-image",
+  "hotspot",
+  "icon",
+  "icon-button",
+  "icon-wrapper",
+  "input",
+  "label",
+  "legal",
+  "legal-links",
+  "logo",
+  "marquee",
+  "media",
+  "mobile-menu",
+  "nav",
+  "nav-column",
+  "nav-link",
+  "navigation",
+  "newsletter",
+  "newsletter-form",
+  "pagination",
+  "price",
+  "product-card",
+  "promo-text",
+  "quantity-input",
+  "quote-text",
+  "search",
+  "section-header",
+  "social-link",
+  "sort",
+  "star-rating",
+  "tab-content",
+  "tab-list",
+  "tab-trigger",
+  "table",
+  "table-row",
+  "testimonial-card",
+  "trigger",
+  "variant-picker",
+  "video-player",
+] as const
+
+export type BlockRole = (typeof BLOCK_ROLES)[number]
 
 /** Where the block's content comes from. */
 export type BlockData =

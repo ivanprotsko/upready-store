@@ -2,7 +2,8 @@ import { getLocale } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
 
-import { pickText, type TextBarProps } from "./props"
+import { pickText } from "../../shared/localized-text"
+import type { TextBarProps } from "./props"
 
 /**
  * `announcement/text-bar` (t-2026-10-12-33): one line of the shop's own news across the
