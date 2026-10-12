@@ -7,7 +7,7 @@
 #
 # Usage:
 #   deploy/scripts/templates-stand.sh [flags]
-#     --ref <git ref>         build this instead of origin/templates/main (fetched first)
+#     --ref <git ref>         build this instead of origin/templates/main (origin/* fetched first)
 #     --skip-build            reuse the image already tagged with the ref's sha
 #     --verify-only           run only the public checks
 #     --runner-wait <min>     how long to wait for the runner's job to end (default 30)
@@ -74,7 +74,8 @@ log "start · ref=$REF log=$LOG"
 
 # ------------------------------------------------------------------- steps
 step_source() {
-  git -C "$REPO_ROOT" fetch -q origin templates/main
+  # A remote branch is fetched first, so the build is the branch as it is now.
+  case "$REF" in origin/*) git -C "$REPO_ROOT" fetch -q origin "${REF#origin/}" ;; esac
   SHA="$(git -C "$REPO_ROOT" rev-parse --short=8 "$REF^{commit}")"
   log "source $REF = $SHA ($(git -C "$REPO_ROOT" log -1 --format=%s "$SHA" | cut -c1-90))"
   local tmp; tmp="$(mktemp -d)"
