@@ -129,7 +129,7 @@ export default async function VideoEmbed({
 
   return (
     <BlockSection block="video/embed" locale={locale} width={full ? "full" : "content"}>
-      {beside && textPosition !== "above" ? (
+      {beside ? (
         <div
           className={clx(
             "grid grid-cols-1 gap-y-[calc(1.5rem*var(--layer-density,1))] small:items-center small:gap-x-12",
