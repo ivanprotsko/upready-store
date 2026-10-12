@@ -80,7 +80,7 @@ export default function FeaturedCarousel({
         {children}
       </ul>
       {edges.start && edges.end ? null : (
-        <div className="mt-[calc(1rem*var(--layer-density,1))] hidden justify-end gap-2 small:flex">
+        <div className="mt-[var(--layer-space-4,1rem)] hidden justify-end gap-2 small:flex">
           <button
             type="button"
             aria-label={previousLabel}
