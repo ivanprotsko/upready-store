@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import type { ImageRef } from "@modules/blocks/shared/image-ref"
+import { SECTION_TYPE } from "@modules/blocks/shared/section-type"
 import { getTemplate } from "@lib/templates/catalog"
 import { validateTemplate } from "@lib/templates/manifest"
 
@@ -177,6 +178,10 @@ describe("Multicolumn", () => {
     expect(html).toMatch(/<a href="\/ru\/shipping" data-role="cta-secondary"[^>]*>Условия доставки<\/a>/)
     expect(html).toMatch(/<a href="\/ru\/returns" data-role="cta-secondary"[^>]*>Как вернуть<\/a>/)
     expect(count(html, 'data-role="cta-secondary"')).toBe(2)
+    // One section scale: the column's text is the header's description, its link the header's «see all».
+    expect(html).toContain(`<p data-role="description" class="${SECTION_TYPE.description}">`)
+    expect(html).toMatch(new RegExp(`data-role="cta-secondary" class="[^"]*${SECTION_TYPE.seeAll}"`))
+    expect(html).toContain("text-xl font-semibold tracking-[-0.02em] text-ui-fg-base small:text-2xl")
     expect(html).toContain("grid-cols-2")
     expect(html).toContain("xsmall:grid-cols-2")
     expect(html).toContain("small:grid-cols-4")

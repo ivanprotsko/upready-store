@@ -1,3 +1,4 @@
+import { clx } from "@medusajs/ui"
 import Image from "next/image"
 import { getLocale } from "next-intl/server"
 
@@ -7,6 +8,7 @@ import { resolveImageRef, type BlockImage } from "@lib/data/block-image"
 import BlockIcon from "../../shared/block-icon"
 import BlockSection from "../../shared/block-section"
 import { pickText } from "../../shared/localized-text"
+import { SECTION_TYPE } from "../../shared/section-type"
 import type { MulticolumnItem, MulticolumnProps } from "./props"
 
 /** From 1024px: the template's columns, never more than the items shown. */
@@ -54,10 +56,18 @@ type Shown = {
   picture: BlockImage | null
 }
 
-const cx = (...classes: (string | false | null | undefined)[]) => classes.filter(Boolean).join(" ")
+/** The column's link is the section's «see all» in size and weight: one secondary link per section scale. */
+const linkClass = clx(
+  "inline-flex min-h-11 items-center text-ui-fg-interactive underline underline-offset-4 hover:text-ui-fg-interactive-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-fg-interactive",
+  SECTION_TYPE.seeAll
+)
 
-const linkClass =
-  "inline-flex min-h-11 items-center text-base font-medium text-ui-fg-interactive underline underline-offset-4 hover:text-ui-fg-interactive-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ui-fg-interactive"
+/**
+ * The column's title sits between the section's description and its heading (`shared/section-type.ts`):
+ * 16 → 20 → 24 px at 360 and 18 → 24 → 32 px from `small`, every step ≥ 1.15× (QR-TYPE-SCALE), so a header
+ * above the row adds no size that falls between the row's own.
+ */
+const titleClass = "text-balance text-xl font-semibold tracking-[-0.02em] text-ui-fg-base small:text-2xl"
 
 /**
  * `columns/multicolumn` (t-2026-10-12-33, R1 build list item 3): two to six columns, each a picture or
@@ -110,7 +120,7 @@ export default async function Multicolumn({ header, items, mode, columns, mobile
   return (
     <BlockSection block="columns/multicolumn" locale={locale} header={header}>
       <ul
-        className={cx(
+        className={clx(
           PHONE[mobile],
           TABLET[tabletColumns(count)],
           DESKTOP[count],
@@ -123,9 +133,9 @@ export default async function Multicolumn({ header, items, mode, columns, mobile
             <li
               key={column.key}
               data-role="feature-card"
-              className={cx(
+              className={clx(
                 "flex min-w-0 flex-col",
-                swipe && cx("shrink-0 snap-start xsmall:w-auto", mode === "cards" ? "w-4/5" : "w-3/5"),
+                swipe && clx("shrink-0 snap-start xsmall:w-auto", mode === "cards" ? "w-4/5" : "w-3/5"),
                 centre && "text-center",
                 muted && "overflow-hidden rounded-[var(--radius)] bg-[var(--muted)]"
               )}
@@ -133,7 +143,7 @@ export default async function Multicolumn({ header, items, mode, columns, mobile
               {card ? (
                 <div
                   data-role="card-image"
-                  className={cx(
+                  className={clx(
                     "relative aspect-[var(--layer-photo-aspect,1/1)] w-full overflow-hidden bg-[var(--muted)]",
                     !muted && "rounded-[var(--radius)]"
                   )}
@@ -142,7 +152,7 @@ export default async function Multicolumn({ header, items, mode, columns, mobile
                 </div>
               ) : null}
               <div
-                className={cx(
+                className={clx(
                   "flex flex-1 flex-col gap-2",
                   centre && "items-center",
                   muted ? "p-4 small:p-6" : card && "pt-4"
@@ -151,7 +161,7 @@ export default async function Multicolumn({ header, items, mode, columns, mobile
                 {!card && (column.picture || column.icon) ? (
                   <span
                     data-role="icon-wrapper"
-                    className={cx(
+                    className={clx(
                       "relative mb-2 flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full text-ui-fg-base",
                       muted ? "bg-[var(--background)]" : "bg-[var(--muted)]"
                     )}
@@ -165,14 +175,11 @@ export default async function Multicolumn({ header, items, mode, columns, mobile
                     )}
                   </span>
                 ) : null}
-                <h3
-                  data-role="card-title"
-                  className="text-balance text-xl font-semibold tracking-[-0.02em] text-ui-fg-base"
-                >
+                <h3 data-role="card-title" className={titleClass}>
                   {column.title}
                 </h3>
                 {column.text ? (
-                  <p data-role="description" className="text-pretty text-base text-ui-fg-subtle">
+                  <p data-role="description" className={SECTION_TYPE.description}>
                     {column.text}
                   </p>
                 ) : null}
