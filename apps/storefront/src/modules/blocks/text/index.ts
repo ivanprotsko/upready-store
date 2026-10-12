@@ -4,3 +4,4 @@
  * file, sorts it by variant and puts the category where `BLOCK_CATEGORIES` says.
  */
 export {}
+export { richText } from "./rich-text/block"
