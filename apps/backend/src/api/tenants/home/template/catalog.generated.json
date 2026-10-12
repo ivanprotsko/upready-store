@@ -360,6 +360,7 @@
     {"id":"announcement/text-bar","category":"announcement","placement":"home","status":"lab","props":true,"propsEditable":true},
     {"id":"banner/image","category":"banner","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"blog/featured","category":"blog","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"collage/mosaic","category":"collage","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"collection/featured","category":"collection","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"columns/multicolumn","category":"columns","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"faq/accordion","category":"faq","placement":"home","status":"lab","props":true,"propsEditable":false},
