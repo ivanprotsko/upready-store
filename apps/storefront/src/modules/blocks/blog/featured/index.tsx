@@ -121,7 +121,7 @@ export default async function BlogFeatured({
       <ul
         data-role="card-list"
         className={clx(
-          "grid grid-cols-1 gap-x-8 gap-y-[calc(2rem*var(--layer-density,1))] min-[720px]:grid-cols-2",
+          "grid grid-cols-1 gap-x-8 gap-y-[var(--layer-space-8,2rem)] min-[720px]:grid-cols-2",
           COLUMNS[columns]
         )}
       >
@@ -130,7 +130,7 @@ export default async function BlogFeatured({
             <article data-role="card" className="flex w-full">
               <Link
                 href={card.href}
-                className={clx("group flex w-full flex-col gap-[calc(1rem*var(--layer-density,1))] rounded-[var(--radius)]", focusRing)}
+                className={clx("group flex w-full flex-col gap-[var(--layer-space-4,1rem)] rounded-[var(--radius)]", focusRing)}
               >
                 <div
                   data-role="card-image"
@@ -175,7 +175,7 @@ export default async function BlogFeatured({
         ))}
       </ul>
       {seeAllText ? (
-        <div className="mt-[calc(2rem*var(--layer-density,1))] flex justify-center">
+        <div className="mt-[var(--layer-space-8,2rem)] flex justify-center">
           <Link
             href="/journal"
             data-role="cta-secondary"
