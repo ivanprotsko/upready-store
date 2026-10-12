@@ -152,7 +152,10 @@ Ivan, 12.10.2026 18:04: «вливай и делай деплой, в следу
 - **Nobody else starts a release of dev.** No agent session, no script on the Mac and no `lead-accept`
   step runs `deploy-instance.sh` for dev, and no release script is written in a scratchpad. A release by
   hand from the Mac stays for what the agent does not do (a rollback, a ref that is not on dev, a host
-  without the agent), with Ivan's ok each time.
+  without the agent), with Ivan's ok each time. Until `deploy/auto/install.sh` has run on both hosts,
+  Ivan's standing order of 12.10.2026 18:04, «вливай и делай деплой, в следующий раз не жди и сразу делай
+  это», is that ok for every release of a merge into dev, by hand from the Mac with the lead's
+  `release.sh`, INTL first, then RU.
 - **Ivan's switch.** The repository variable `AUTO_RELEASE_DEV` (GitHub, Settings → Secrets and
   variables → Actions → Variables) is `on` or `off`. Off, missing or unreadable means no new release
   starts on either host; a release already running finishes. Only Ivan flips it; an agent never does.
