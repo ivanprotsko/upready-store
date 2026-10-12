@@ -270,6 +270,7 @@ import { injectCustomerTenantMetadata } from "./store/customers/inject-tenant-me
 import { stripCustomerTenantMetadata } from "./store/customers/strip-tenant-metadata";
 import { guardRequestedFields } from "./field-guard";
 import { allowStoreMetadataOnAnswer } from "./store-metadata";
+import { keepPublishedCategoryProductsOnAnswer } from "./store-category-products";
 import { rateLimit } from "./rate-limit";
 import { StoreGetPaymentProvidersParams } from "@medusajs/medusa/api/store/payment-providers/validators";
 import { listTransformPaymentProvidersQueryConfig } from "@medusajs/medusa/api/store/payment-providers/query-config";
@@ -346,7 +347,14 @@ export default defineMiddlewares({
     // `allowStoreMetadataOnAnswer` rides the same wildcard for the same reason: it
     // has to be in place before any Store route answers (t-2026-10-08-13). It is
     // on `/store/*` only, so `/admin` and `/tenants` answer with `metadata` whole.
-    { matcher: "/store/*", middlewares: [guardRequestedFields, allowStoreMetadataOnAnswer] },
+    //
+    // `keepPublishedCategoryProductsOnAnswer` comes after the guard: it reads the
+    // fields the guard let through, and a category answers with its published
+    // products only (t-2026-10-12-32).
+    {
+      matcher: "/store/*",
+      middlewares: [guardRequestedFields, allowStoreMetadataOnAnswer, keepPublishedCategoryProductsOnAnswer],
+    },
     { matcher: "/tenants/*", middlewares: [guardRequestedFields] },
     {
       matcher: "/tenants/*",
