@@ -37,9 +37,9 @@ type Category = {
 
 const PASSWORD = "supersecret-owner";
 
-const productBody = (title: string) => ({
+const productBody = (title: string, status = "published") => ({
   title,
-  status: "published",
+  status,
   options: [{ title: "Color", values: ["Blue"] }],
   variants: [
     {
@@ -97,10 +97,14 @@ medusaIntegrationTestRunner({
         return created.data.product_category as Category;
       };
 
-      const createProduct = async (owner: Registered, title: string): Promise<{ id: string }> => {
-        const created = await api.post("/tenants/products", productBody(title), bearer(owner.token));
+      const createProduct = async (
+        owner: Registered,
+        title: string,
+        status = "published",
+      ): Promise<{ id: string; handle: string }> => {
+        const created = await api.post("/tenants/products", productBody(title, status), bearer(owner.token));
         expect(created.status).toBe(201);
-        return created.data.product as { id: string };
+        return created.data.product as { id: string; handle: string };
       };
 
       /** The response of a call that is expected to fail, without throwing. */
@@ -357,6 +361,62 @@ medusaIntegrationTestRunner({
         const storeA = await api.get("/store/tenant/product-categories", storeKey(a));
         expect(storeA.status).toBe(200);
         expect(storeA.data.count).toBe(0);
+      });
+
+      // t-2026-10-12-32, defect D3: `*products` of «Мёд» listed seven drafts to a
+      // guest on cherkashino.ru, titles and handles included.
+      it("lists a category's published products to a guest and none of its drafts", async () => {
+        const category = await createCategory(a, { name: "Acme honey", is_active: true });
+        const published = await createProduct(a, "Acme linden honey");
+        const draft = await createProduct(a, "Acme drone honey", "draft");
+        expect(draft.handle).toBeTruthy();
+
+        const added = await api.post(
+          `/tenants/product-categories/${category.id}/products`,
+          { add: [published.id, draft.id] },
+          bearer(a.token),
+        );
+        expect(added.status).toBe(200);
+
+        const reads: Array<[path: string, pick: (data: any) => any]> = [
+          [
+            `/store/tenant/product-categories?fields=${encodeURIComponent("id,name,handle,*products")}`,
+            (data) => data.product_categories.find((c: Category) => c.id === category.id),
+          ],
+          [
+            `/store/product-categories?fields=${encodeURIComponent("id,name,handle,*products")}`,
+            (data) => data.product_categories.find((c: Category) => c.id === category.id),
+          ],
+          [
+            `/store/product-categories/${category.id}?fields=${encodeURIComponent("id,products.id,products.handle")}`,
+            (data) => data.product_category,
+          ],
+          // The storefront's own read (`lib/data/categories.ts`, DEFAULT_CATEGORY_FIELDS).
+          [
+            `/store/tenant/product-categories?fields=${encodeURIComponent(
+              "*category_children, +category_children.metadata, +metadata, *products, *parent_category, *parent_category.parent_category",
+            )}`,
+            (data) => data.product_categories.find((c: Category) => c.id === category.id),
+          ],
+        ];
+
+        for (const [path, pick] of reads) {
+          const read = await api.get(path, storeKey(a));
+          expect(read.status).toBe(200);
+          const products = pick(read.data).products as Array<{ id: string; handle?: string }>;
+          expect(products.map((p) => p.id)).toEqual([published.id]);
+          expect(JSON.stringify(read.data)).not.toContain(draft.id);
+          expect(JSON.stringify(read.data)).not.toContain(draft.handle);
+        }
+
+        // The shop panel is not a guest: its owner still sees the draft in the category.
+        const owner = await api.get(
+          `/tenants/product-categories/${category.id}?fields=id,products.id`,
+          bearer(a.token),
+        );
+        expect(owner.data.product_category.products.map((p: { id: string }) => p.id).sort()).toEqual(
+          [published.id, draft.id].sort(),
+        );
       });
 
       it("refuses the public read without a publishable key", async () => {

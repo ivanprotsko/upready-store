@@ -1,5 +1,6 @@
 import { z } from "@medusajs/framework/zod";
 import { OWNER_PASSWORD_MIN_LENGTH, OWNER_PASSWORD_TOO_SHORT_MESSAGE } from "../../auth/password-length-gate";
+import { LIVE_METADATA_KEYS } from "../../../modules/tenant/live";
 import { TENANT_ADMIN_ROLES } from "../../../modules/tenant/models/tenant-admin";
 
 /**
@@ -53,7 +54,8 @@ export type PostAdminTenantCreateBody = z.infer<typeof PostAdminTenantCreateSche
  * `POST /admin/tenants/:id` body (contract §3). `handle` is immutable through
  * this API and `metadata.archived_at` belongs only to the delete workflow, so
  * both are refused with `400` in the route rather than accepted here and
- * silently ignored.
+ * silently ignored. The same goes for `metadata.live`, `live_since` and
+ * `live_by` (`modules/tenant/live.ts`), which only Ivan's switch writes.
  */
 export const PostAdminTenantUpdateSchema = z
   .strictObject({
@@ -63,6 +65,12 @@ export const PostAdminTenantUpdateSchema = z
   .refine((data) => !data.metadata || !("archived_at" in data.metadata), {
     message: "metadata.archived_at cannot be set through this route; use DELETE /admin/tenants/:id",
     path: ["metadata", "archived_at"],
+  })
+  // t-2026-10-12-31: only Ivan switches a shop live, and not with an API token.
+  .refine((data) => !LIVE_METADATA_KEYS.some((key) => key in (data.metadata ?? {})), {
+    message:
+      "metadata.live, live_since and live_by cannot be set through this route; Ivan switches a shop with deploy/scripts/tenant-live.mjs",
+    path: ["metadata", "live"],
   });
 
 export type PostAdminTenantUpdateBody = z.infer<typeof PostAdminTenantUpdateSchema>;

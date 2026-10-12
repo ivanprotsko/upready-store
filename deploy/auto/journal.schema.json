@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ivanprotsko/upready-store/deploy/auto/journal.schema.json",
+  "title": "The release journal of one production host (t-2026-10-12-30)",
+  "description": "Written by deploy/auto/release-agent.sh at /var/lib/upready-store-release/journal.json on the host; one record per release, in the order they started. Checked by deploy/auto/journal-check.mjs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "instance", "host", "records"],
+  "properties": {
+    "schema": { "const": "upready-store.release-journal/1" },
+    "instance": { "enum": ["intl", "ru"] },
+    "host": { "type": "string", "minLength": 1, "description": "the host name of the machine the agent runs on" },
+    "records": { "type": "array", "items": { "$ref": "#/$defs/record" } }
+  },
+  "$defs": {
+    "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "time": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$", "description": "UTC" },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha", "instance", "kind", "start", "end", "result", "step", "step_name", "reason", "log", "checks_run", "after", "switch", "new_reds", "published"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^(intl|ru)-[0-9TZ]+-[0-9a-f]{8}$|^(intl|ru)-adopted-[0-9a-f]{8}$" },
+        "sha": { "$ref": "#/$defs/sha" },
+        "instance": { "enum": ["intl", "ru"] },
+        "kind": { "enum": ["release", "adopted"], "description": "adopted: the sha that was live when install.sh ran, recorded without a release" },
+        "start": { "$ref": "#/$defs/time" },
+        "end": { "oneOf": [{ "$ref": "#/$defs/time" }, { "type": "null" }] },
+        "result": { "enum": ["running", "success", "failure", "interrupted", "adopted"] },
+        "step": { "oneOf": [{ "type": "integer", "minimum": 0, "maximum": 7 }, { "type": "null" }], "description": "the step a failure ended in: 0 prepare (GitHub, the tarball), 1 to 7 the steps of deploy-instance.sh" },
+        "step_name": { "type": ["string", "null"] },
+        "reason": { "type": ["string", "null"], "description": "why it failed, or what a success had to forgive (known reds)" },
+        "log": { "type": ["string", "null"], "description": "the folder on the host with baseline.out, release.out and the deploy-instance.sh log" },
+        "checks_run": { "type": ["integer", "null"], "description": "the pr-checks.yml run whose required jobs were green" },
+        "after": { "type": ["string", "null"], "description": "what allowed the start: required checks green (INTL), release/intl = success (RU)" },
+        "switch": { "type": ["string", "null"], "description": "the switch as read when the release started" },
+        "new_reds": { "type": "array", "items": { "type": "string" }, "description": "checks red after the release, not before it and not back within the grace" },
+        "published": { "type": "boolean", "description": "the commit status release/<instance> of the end of this record is on GitHub" }
+      }
+    }
+  }
+}

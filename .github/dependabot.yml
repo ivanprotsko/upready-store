@@ -1,4 +1,8 @@
 version: 2
+# rebase-strategy: disabled on every ecosystem (t-2026-10-12-30). By default dependabot rebases its open
+# pull requests when dev moves under them; on 12.10.2026 the merge of 67430df1 set off three rebases at once,
+# and their checks took the single self-hosted runner while dev's own checks waited for the release. A
+# dependabot pull request is rebased when the lead is about to merge it: a comment «@dependabot rebase».
 updates:
   # Main pnpm workspace: apps/backend, apps/storefront, apps/tenant-panel,
   # apps/bot and the root devDependencies all share this lockfile
@@ -8,6 +12,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
     open-pull-requests-limit: 10
     ignore:
       # .github/workflows/update.yaml already owns @medusajs/* version bumps
@@ -29,8 +34,10 @@ updates:
     directory: "/apps/homepage/port"
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"

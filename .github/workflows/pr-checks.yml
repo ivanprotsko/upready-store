@@ -15,22 +15,76 @@ name: PR Checks
 # not a config bug. workflow_dispatch stays for a manual re-run without a new
 # commit.
 
+# A push to dev runs the same checks on the merged commit itself (t-2026-10-12-30): the release agent on
+# each host (deploy/auto/release-agent.sh) releases the newest dev commit whose jobs below are all green.
+# A pull request was checked against the dev of its own time, so after five merges in a row the commit
+# that reaches dev was never checked as it is.
+# A pull request into templates/** (template and block work, AGENTS.md «`templates/*` Branches») runs Storefront
+# and, from templates-guard.yml, Templates Guard. Template Scope reads what it changes, and Backend, Panel And
+# Repository and Deploy Checks run only when it touches what they check (t-2026-10-12-33). All jobs share one
+# self-hosted runner on the INTL production host, Backend alone takes about 23 minutes, and up to seven lines open
+# template pull requests at night. The dev releases must not wait behind them (t-2026-10-12-30 measured 164 minutes).
 on:
   pull_request:
+    branches: [ dev, 'templates/**' ]
+  push:
     branches: [ dev ]
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# The single self-hosted runner takes one job at a time, and not in the order the jobs were queued. On
+# 12.10.2026 the checks of dev 67430df1 ran 44 minutes for 34 minutes of their own jobs: three dependabot
+# pull requests, rebased by dependabot right after the merge, slipped their jobs in between until the lead
+# cancelled them. All dependabot runs now share one group: one runs, the newest waits, an older waiting one
+# is dropped, so at most one dependabot run spends minutes at a time. (.github/dependabot.yml no longer
+# rebases its pull requests on every move of dev, which is what started all three at once.)
+# The lead merges in bursts (five pull requests within 61 seconds on 12.10): a push to dev cancels the run
+# of the push before it, so the last commit of a burst is checked at once and released.
 concurrency:
-  group: pr-checks-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: ${{ startsWith(github.head_ref, 'dependabot/') && 'pr-checks-dependabot' || format('pr-checks-{0}', github.event.pull_request.number || github.ref) }}
+  cancel-in-progress: ${{ !startsWith(github.head_ref, 'dependabot/') }}
 
+# The jobs of a dependabot pull request run on GitHub's own runner, never on the self-hosted one
+# (t-2026-10-12-30, point 11): from 05.10 to 12.10 they held it 429 of its 2432 busy minutes, and on 09.10
+# the checks of a pull request waited 164 minutes behind them. Every other run (a push to dev, the pull
+# requests of people and agents, a run by hand) stays on [self-hosted, upready-store]. A re-run keeps the
+# actor of the first run, so a dependabot run re-run by anyone stays on GitHub's runner. When GitHub refuses
+# the job (the Actions budget, as on 21.09), the job fails before its first step and costs the runner
+# nothing; the lead then checks that pull request right before merging it with a run by hand on its branch
+# (`gh workflow run pr-checks.yml --ref <branch>`), which is not dependabot's and runs here.
+# deploy/auto/__tests__/pr-checks-runner.test.mjs checks that every job carries this choice.
 jobs:
+  # Runs only on a pull request into templates/**. The merge commit's first parent is the base tip, so the diff
+  # against it is what the pull request changes. Elsewhere the job is skipped and every job below runs. When
+  # the job fails, its outputs are empty and the jobs below run too.
+  scope:
+    name: Template Scope
+    if: ${{ startsWith(github.base_ref, 'templates/') }}
+    runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
+    timeout-minutes: 5
+    outputs:
+      backend: ${{ steps.scope.outputs.backend }}
+      panel: ${{ steps.scope.outputs.panel }}
+      deploy: ${{ steps.scope.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Changed paths
+        id: scope
+        shell: bash
+        run: git diff --name-only HEAD^1 HEAD | node .github/scripts/templates-guard.mjs --scope >> "$GITHUB_OUTPUT"
+
   backend:
     name: Backend
-    runs-on: [self-hosted, upready-store]
+    needs: scope
+    if: ${{ !cancelled() && (!startsWith(github.base_ref, 'templates/') || needs.scope.outputs.backend != 'false') }}
+    runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +117,7 @@ jobs:
 
   storefront:
     name: Storefront
-    runs-on: [self-hosted, upready-store]
+    runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -90,7 +144,9 @@ jobs:
 
   panel-and-repository:
     name: Panel And Repository
-    runs-on: [self-hosted, upready-store]
+    needs: scope
+    if: ${{ !cancelled() && (!startsWith(github.base_ref, 'templates/') || needs.scope.outputs.panel != 'false') }}
+    runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -161,7 +217,9 @@ jobs:
 
   deploy-checks:
     name: Deploy Checks
-    runs-on: [self-hosted, upready-store]
+    needs: scope
+    if: ${{ !cancelled() && (!startsWith(github.base_ref, 'templates/') || needs.scope.outputs.deploy != 'false') }}
+    runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -170,6 +228,9 @@ jobs:
           node-version: 22
       - name: instance-check unit tests
         run: node --test deploy/scripts/__tests__/*.test.mjs
+      - name: release agent tests
+        if: ${{ !cancelled() }}
+        run: node --test deploy/auto/__tests__/*.test.mjs
       # The tool itself, once per profile, on the env templates this
       # repository ships. It needs no secret and no database, and it fails
       # when a profile loses a field a check reads or a template gains a

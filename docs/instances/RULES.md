@@ -135,6 +135,43 @@ rolls back independently, by its own previous image tag (the script's step 7) �
 touches the INTL host and vice versa, because there is no SSH path between the two hosts at all
 (`deploy/RUNBOOK-RU.md`).
 
+### Releases of dev are automatic (t-2026-10-12-30)
+
+Ivan, 12.10.2026 18:04: «вливай и делай деплой, в следующий раз не жди и сразу делай это». Ivan,
+11.10.2026: «нужно сделать чтобы агенты сами не могли ничего делать, всё это должно управляться
+снаружи системы… чтобы случайная ошибка агентов не могло ничего поломать».
+
+- **An accepted hand-in is merged into dev at once.** The lead merges it on acceptance, without asking
+  Ivan for a separate «мержи».
+- **A merge into dev needs no ok for its release.** The release agent on each host
+  (`deploy/auto/release-agent.sh`, a systemd timer every two minutes) releases the newest commit of dev
+  whose required checks (`.github/workflows/pr-checks.yml`, run on every push to dev) are green: INTL
+  first, then RU, only after INTL published the commit status `release/intl` = success on that commit.
+  The order above holds without an SSH path between the hosts, because each host reads GitHub, not the
+  other host.
+- **Nobody else starts a release of dev.** No agent session, no script on the Mac and no `lead-accept`
+  step runs `deploy-instance.sh` for dev, and no release script is written in a scratchpad. A release by
+  hand from the Mac stays for what the agent does not do (a rollback, a ref that is not on dev, a host
+  without the agent), with Ivan's ok each time. Until `deploy/auto/install.sh` has run on both hosts,
+  Ivan's standing order of 12.10.2026 18:04, «вливай и делай деплой, в следующий раз не жди и сразу делай
+  это», is that ok for every release of a merge into dev, by hand from the Mac with the lead's
+  `release.sh`, INTL first, then RU.
+- **Ivan's switch.** The repository variable `AUTO_RELEASE_DEV` (GitHub, Settings → Secrets and
+  variables → Actions → Variables) is `on` or `off`. Off, missing or unreadable means no new release
+  starts on either host; a release already running finishes. Only Ivan flips it; an agent never does.
+- **The record.** Each host keeps its journal (`/var/lib/upready-store-release/journal.json`, schema
+  `deploy/auto/journal.schema.json`) and its state (`state.json`, schema `deploy/auto/state.schema.json`):
+  one record per release with the commit, the start and the end, the result, the step that failed and
+  the folder of its logs. The commit statuses `release/intl` and `release/ru` carry the same result to
+  GitHub; a `failure` there is the signal to lead-upready-store and coo.
+- **A failed release is not retried.** The commit stays red in the journal, the stack keeps running what
+  step 5 left (a failure before step 5 changes nothing that runs), RU does not get it, and the next green
+  commit of dev is the next release. A rollback is step 7, by hand, with Ivan's ok.
+- **What goes on a host** is the agent `deploy/auto/install.sh` installs, after Ivan's ok to the lead,
+  on the `--dry-run` output of that script. A new version of the agent goes on a host the same way: a
+  merge into dev changes the release steps (`deploy-instance.sh` of the released commit), never the
+  agent that decides what to release.
+
 ## 5. Breach notification
 
 | | RU (152-FZ) | INTL (GDPR) |
@@ -171,6 +208,50 @@ it does not file anything on a live government portal or sign anything on Ivan's
 | Privacy policy | 152-FZ's mandatory operator document: what data, why, how long, who it is shared with, the subject's rights | `docs/legal/privacy-policy.md` already exists and is pending the requisites `docs/legal/requisites.json` collects — see that README for the publication gate. This task adds no new legal text; it points the policy at `processors.json` as the source of "who it is shared with." |
 | Security level (УЗ-4) | A documented basis for classifying this system at protection level 4, the lowest of the four 152-FZ levels, consistent with the data categories actually processed (standard customer PII, no special categories, no biometric data) | Not yet documented as its own artifact. Recorded here as owed; `apps/backend`'s own access controls (JWT auth, per-tenant scoping, AES-256-GCM at rest for integration secrets, `deploy/backup`'s own retention) are the technical measures a УЗ-4 justification would cite. |
 | Processing instruction (поручение на обработку) | A written agreement between the data controller (ИП Черкашина / the shop owner) and upready as the processor operating the RU instance on their behalf | Not drafted. Owed before the RU instance holds its first real customer row (`t-cherk-14`), tracked here rather than assumed. |
+
+## 7. Live flag
+
+Ivan, 12.10.2026 21:4x WITA (t-2026-10-12-31), verbatim:
+
+> нужно внедрить механизм при котором будут понимать, что проект еще не работает для приёма
+> посетителей. Все эти 7 покупателей это всё тестовые! Это можно было понять по вторичным признакам:
+> имейлы, режим тестовой оплаты и так далее. Нужно где-то делать пометку и сделать явный флаг, по
+> которому агенты будут понимать, что проект уже принимает реальных посетителей
+
+A shop accepts real visitors when its tenant's `metadata.live` is `true`. A missing key reads as
+`false`. Two more keys go with it: `live_since`, the date of the last switch, and `live_by`, who made
+it. [live.ts](../../apps/backend/src/modules/tenant/live.ts) reads all three, and the project canon of
+ivanprotsko/devops uses the same keys.
+
+- **What it means.** While a shop is not live, its orders and buyers are test data. Reports and
+  agents say so and never count them as personal data of real people. Once it is live, the rules of
+  this page apply to them in full. `test_shop` is another mark: it hides a dev fixture such as acme
+  from the shop switcher. A real shop is not a `test_shop` and can still be not live.
+- **Who switches it.** Ivan, in either direction, because a wrong `false` hides real buyers as surely
+  as a wrong `true` invents them. An agent never changes the flag. It reads it with `--show` and names
+  the command for Ivan in its report. `POST /admin/tenants/:id` refuses the three keys, so no API
+  token sets them.
+- **The command.** Run it from the Mac, in this repository. It reaches the host the way
+  `deploy/scripts/deploy-instance.sh` does and prints the flag before and after. `--since YYYY-MM-DD`
+  records a day other than today.
+
+  ```bash
+  node deploy/scripts/tenant-live.mjs --instance intl --handle <handle> --live true --by ivan --yes-ivan
+  node deploy/scripts/tenant-live.mjs --instance ru --handle <handle> --show
+  ```
+
+- **The secondary signs.** With `--db`, `deploy/scripts/instance-check.mjs` prints one `live-check:`
+  line per tenant on every deploy (step 3). The line holds the flag, a verdict and counts: orders,
+  customers, how many of them are test ones, and which payment and delivery accounts run in a test
+  contour or live. A payment account in live mode is a real sign, and a delivery account in live
+  mode is none, because olavka's CDEK runs on the live pair for real quotes before production. An
+  order is a test one when its e-mail is on a domain in `TEST_EMAIL_DOMAINS` of that tool,
+  has a `+test` tag or a domain starting with `test.`, or when it was paid in a provider's test
+  contour. The e-mails are classified inside Postgres, so no address leaves the host. The verdict is
+  `test-only` (no real sign, which includes an empty shop), `real-signs` or `mixed`.
+- **The signal.** A shop that is not live but shows any real sign, and a live shop that shows test
+  signs only, get a `SIGNAL:` line. It does not fail the deploy: the lead takes it to Ivan, who
+  either switches the flag or says the signs are test data.
 
 ## Enforcement
 

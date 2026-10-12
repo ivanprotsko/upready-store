@@ -23,11 +23,11 @@ import {
   encodeTenantHeaderValue,
 } from "@lib/tenant/headers"
 import { originForHost, publicHost } from "@lib/tenant/origin"
-import { resolveShopOfRequest } from "@lib/tenant/request-shop"
+import { requestNamesNoShop, resolveShopOfRequest } from "@lib/tenant/request-shop"
 import { tenantIconFileOf } from "@lib/tenant/icon-file"
 import { applyTemplatePreview } from "@lib/templates/preview-header"
 import { getTenantRedirects, resolveRedirect } from "@lib/tenant/redirects"
-import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
+import { isShoplessHost, resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import { shopLocaleRedirect } from "@lib/util/shop-locales"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
@@ -88,7 +88,8 @@ function isDemoHost(host: string | null): boolean {
   return DEMO_HOSTS.includes(host.split(":")[0].toLowerCase())
 }
 
-function demoHostResponse(request: NextRequest): NextResponse {
+/** Request headers of a platform page (the demo, «магазин не найден»): no shop, the Geist canon. */
+function platformRequestHeaders(request: NextRequest): Headers {
   const headers = new Headers(request.headers)
   // Same rule as tenantRequestHeaders: whatever a visitor sends under these
   // names is deleted before ours are written.
@@ -97,6 +98,11 @@ function demoHostResponse(request: NextRequest): NextResponse {
   }
   headers.set("x-tenant-theme", encodeTenantHeaderValue(DEMO_THEME))
   headers.set("x-tenant-mode", encodeTenantHeaderValue(DEMO_MODE))
+  return headers
+}
+
+function demoHostResponse(request: NextRequest): NextResponse {
+  const headers = platformRequestHeaders(request)
 
   const { pathname } = request.nextUrl
   // A file request (`.ico`, `.png`, a source map) is served as-is; everything
@@ -114,6 +120,35 @@ function demoHostResponse(request: NextRequest): NextResponse {
   }
 
   return NextResponse.redirect(new URL("/start", request.url), 307)
+}
+
+/**
+ * An address no shop lives at (t-2026-10-12-32 FX4, audit 13.10 D4): a typo,
+ * a shop not created yet, a shop deleted. Before this, such a host got
+ * `/` → 302 `/ru` → 200 with an empty shop under the build profile's name
+ * (measured on a local stand), and on the live proxy no answer of this
+ * process at all (see `deploy/scripts/tenant-ingress-sync.sh`).
+ *
+ * Every page path is rewritten to `/shop-not-found`, which draws «Магазин не
+ * найден» in the platform's look. The 404 is set on the rewrite itself: Next
+ * copies the status of the middleware's response onto the reply before it
+ * renders the rewritten page (`resolve-routes.js`, Next 15.5). A file path
+ * (`/favicon.ico`, `/robots.txt`) gets a bare 404: there is no shop to
+ * describe. `noindex` on both, so such an address never reaches search.
+ */
+const SHOP_NOT_FOUND_PATH = "/shop-not-found"
+
+function shopNotFoundResponse(request: NextRequest): NextResponse {
+  const { pathname } = request.nextUrl
+  const response =
+    pathname.includes(".") || pathname === "/opengraph-image" || pathname === "/twitter-image"
+      ? new NextResponse(null, { status: 404 })
+      : NextResponse.rewrite(new URL(SHOP_NOT_FOUND_PATH, request.url), {
+          status: 404,
+          request: { headers: platformRequestHeaders(request) },
+        })
+  response.headers.set("X-Robots-Tag", "noindex")
+  return response
 }
 
 const INTL_LOCALE_HEADER = "X-NEXT-INTL-LOCALE"
@@ -427,6 +462,16 @@ export async function middleware(request: NextRequest) {
     request.headers,
     (host) => resolveTenantByHost(BACKEND_URL, host)
   )
+
+  // No shop here, said the backend itself, and no single-store key to fall
+  // back to: «магазин не найден» with a 404. A deployment that sets
+  // NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY keeps serving its one shop on any
+  // host, and a backend that failed to answer is not "no shop"
+  // (`requestNamesNoShop`).
+  if (!tenant && !PUBLISHABLE_API_KEY && requestNamesNoShop(request.headers, isShoplessHost)) {
+    return shopNotFoundResponse(request)
+  }
+
   // Before anything else this shop's pages would do: an address that is not the
   // shop's main one answers a permanent redirect to the same page of the one
   // that is, assets included.
