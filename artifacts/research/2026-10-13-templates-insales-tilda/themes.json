@@ -1,0 +1,914 @@
+[
+ {
+  "theme": "Cream",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "scrolling-text",
+    "header",
+    "stories",
+    "logo-list",
+    "rich-text",
+    "collection-list",
+    "featured-collection",
+    "image-banner",
+    "rich-text",
+    "collection-list",
+    "featured-blog",
+    "contact-form",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "product": [
+    "scrolling-text",
+    "header",
+    "breadcrumbs",
+    "page-title",
+    "main-product",
+    "related-products",
+    "related-products",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "collection": [
+    "scrolling-text",
+    "header",
+    "breadcrumbs",
+    "page-title",
+    "collection-filters",
+    "main-collection-product-grid",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ]
+  },
+  "styles": [
+   "Косметика, парфюмерия"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "collection-list used 2 times on the home page",
+   "has scrolling-text, stories, logo-list, callback, preorder"
+  ]
+ },
+ {
+  "theme": "Minimalism",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "slideshow",
+    "rich-text",
+    "collection-list",
+    "slideshow",
+    "rich-text",
+    "collection-list",
+    "collection-list",
+    "contact-form",
+    "featured-blog",
+    "store-locations",
+    "footer",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "product": [],
+   "collection": [
+    "header",
+    "breadcrumbs",
+    "page-title",
+    "collection-list",
+    "collection-filters",
+    "main-collection-product-grid",
+    "footer",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ]
+  },
+  "styles": [
+   "Дом и дача"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "slideshow used 2 times on the home page",
+   "collection-list used 3 times on the home page",
+   "footer used 2 times on the home page",
+   "has store-locations, callback, preorder"
+  ]
+ },
+ {
+  "theme": "Base",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "featured-collections-tabs",
+    "collection-list",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "product": [
+    "header",
+    "breadcrumbs",
+    "main-product",
+    "product-tabs",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "collection": [
+    "header",
+    "breadcrumbs",
+    "page-title",
+    "page-title",
+    "main-collection-product-grid",
+    "collection-filters",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ]
+  },
+  "styles": [
+   "Здоровье и медицина"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "has featured-collections-tabs, callback, preorder"
+  ]
+ },
+ {
+  "theme": "Bubble",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "collection-list",
+    "slideshow",
+    "featured-collection",
+    "promo-grid",
+    "featured-collection",
+    "collection-list",
+    "featured-collection",
+    "collection-list",
+    "logo-list",
+    "footer",
+    "footer",
+    "callback",
+    "preorder",
+    "cart-notification"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "collection-list",
+    "breadcrumbs",
+    "main-product",
+    "footer",
+    "footer",
+    "callback",
+    "preorder",
+    "cart-notification"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "collection-list",
+    "breadcrumbs",
+    "collection-filters",
+    "main-collection-product-grid",
+    "collection-filters",
+    "footer",
+    "footer",
+    "callback",
+    "preorder",
+    "cart-notification"
+   ]
+  },
+  "styles": [
+   "Детские товары"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "collection-list used 3 times on the home page",
+   "featured-collection used 3 times on the home page",
+   "footer used 2 times on the home page",
+   "has logo-list, callback, preorder"
+  ]
+ },
+ {
+  "theme": "Fine",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "collection-menu",
+    "promo-grid",
+    "featured-collection",
+    "slideshow",
+    "featured-collection",
+    "slideshow",
+    "recently-viewed",
+    "featured-collection",
+    "featured-collection",
+    "logo-list",
+    "featured-blog",
+    "footer",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "product": [
+    "header",
+    "collection-menu",
+    "breadcrumbs",
+    "main-product",
+    "product-tabs",
+    "footer",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "collection": [
+    "header",
+    "collection-menu",
+    "breadcrumbs",
+    "page-title",
+    "page-title",
+    "main-collection-product-grid",
+    "pagination",
+    "collection-filters",
+    "footer",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ]
+  },
+  "styles": [
+   "Авто, мото"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "featured-collection used 4 times on the home page",
+   "slideshow used 2 times on the home page",
+   "footer used 2 times on the home page",
+   "has logo-list, callback, preorder"
+  ]
+ },
+ {
+  "theme": "Grand",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "slideshow",
+    "promo-grid",
+    "featured-collection",
+    "featured-collection",
+    "logo-list",
+    "featured-collections-tabs",
+    "featured-collections-tabs",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification"
+   ],
+   "product": [
+    "header",
+    "breadcrumbs",
+    "main-product",
+    "product-tabs",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification"
+   ],
+   "collection": [
+    "header",
+    "breadcrumbs",
+    "page-title",
+    "main-collection-product-grid",
+    "collection-filters",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification"
+   ]
+  },
+  "styles": [
+   "Дом и дача"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "featured-collection used 2 times on the home page",
+   "featured-collections-tabs used 2 times on the home page",
+   "has logo-list, featured-collections-tabs, callback, preorder"
+  ]
+ },
+ {
+  "theme": "Moon",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "collection-list",
+    "featured-collection",
+    "image-banner",
+    "image-banner",
+    "image-banner",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "product": [
+    "header",
+    "breadcrumbs",
+    "main-product",
+    "product-tabs",
+    "related-products",
+    "related-products",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "collection": [
+    "header",
+    "breadcrumbs",
+    "main-collection-product-grid",
+    "collection-filters",
+    "collection-filters",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ]
+  },
+  "styles": [
+   "Косметика, парфюмерия"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "image-banner used 3 times on the home page",
+   "has callback, preorder"
+  ]
+ },
+ {
+  "theme": "Idea",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "slideshow",
+    "collection-list",
+    "featured-collections-tabs",
+    "collection-list",
+    "multicolumn",
+    "logo-list",
+    "video",
+    "collection-menu",
+    "social-links",
+    "featured-collection",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "back-to-top",
+    "cart-notification"
+   ],
+   "product": [
+    "header",
+    "breadcrumbs",
+    "main-product",
+    "related-products",
+    "collection-menu",
+    "social-links",
+    "featured-collection",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "back-to-top",
+    "cart-notification"
+   ],
+   "collection": [
+    "header",
+    "page-title",
+    "collection-filters",
+    "main-collection-product-grid",
+    "collection-menu",
+    "social-links",
+    "featured-collection",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "back-to-top",
+    "cart-notification"
+   ]
+  },
+  "styles": [
+   "Детские товары"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "collection-list used 2 times on the home page",
+   "has featured-collections-tabs, logo-list, video, callback, preorder"
+  ]
+ },
+ {
+  "theme": "Loft",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "slideshow",
+    "featured-collections-tabs",
+    "promo-grid",
+    "collection-list",
+    "collection-list",
+    "collection-list",
+    "multicolumn",
+    "testimonials",
+    "logo-list",
+    "featured-blog",
+    "contact-form",
+    "footer",
+    "preorder",
+    "cart-notification",
+    "callback",
+    "back-to-top"
+   ],
+   "product": [
+    "header",
+    "breadcrumbs",
+    "main-product",
+    "footer",
+    "preorder",
+    "cart-notification",
+    "callback",
+    "back-to-top"
+   ],
+   "collection": [
+    "header",
+    "breadcrumbs",
+    "page-title",
+    "collection-list",
+    "main-collection-product-grid",
+    "pagination",
+    "collection-filters",
+    "footer",
+    "preorder",
+    "cart-notification",
+    "callback",
+    "back-to-top"
+   ]
+  },
+  "styles": [
+   "Дом и дача"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "collection-list used 3 times on the home page",
+   "has featured-collections-tabs, logo-list, preorder, callback"
+  ]
+ },
+ {
+  "theme": "Stories",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "stories",
+    "featured-collections-tabs",
+    "promo-grid",
+    "rich-text",
+    "footer",
+    "footer",
+    "bottom-nav",
+    "preorder",
+    "cart-notification"
+   ],
+   "product": [
+    "header",
+    "breadcrumbs",
+    "main-product",
+    "related-products",
+    "footer",
+    "footer",
+    "bottom-nav",
+    "preorder",
+    "cart-notification"
+   ],
+   "collection": [
+    "header",
+    "breadcrumbs",
+    "page-title",
+    "collection-filters",
+    "main-collection-product-grid",
+    "pagination",
+    "footer",
+    "footer",
+    "bottom-nav",
+    "preorder",
+    "cart-notification"
+   ]
+  },
+  "styles": [
+   "Детские товары"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "footer used 2 times on the home page",
+   "has stories, featured-collections-tabs, preorder"
+  ]
+ },
+ {
+  "theme": "Vibe",
+  "price": "0 ₽ (insales.ru theme page, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "scrolling-text",
+    "featured-collection",
+    "image-banner",
+    "image-banner",
+    "collection-list",
+    "promo-grid",
+    "multicolumn",
+    "testimonials",
+    "newsletter",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "product": [
+    "header",
+    "breadcrumbs",
+    "main-product",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ],
+   "collection": [
+    "header",
+    "image-banner",
+    "image-banner",
+    "collection-filters",
+    "main-collection-product-grid",
+    "footer",
+    "bottom-nav",
+    "callback",
+    "preorder",
+    "cart-notification",
+    "back-to-top"
+   ]
+  },
+  "styles": [
+   "Детские товары"
+  ],
+  "notable": [
+   "4th-generation InSales theme: the feature list on its theme page is word for word the same as the other nine",
+   "image-banner used 2 times on the home page",
+   "has scrolling-text, callback, preorder"
+  ]
+ },
+ {
+  "theme": "Магазин комнатных растений",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "cart-drawer",
+    "image-banner",
+    "main-collection-product-grid",
+    "steps",
+    "promo-banner",
+    "testimonials",
+    "multicolumn",
+    "delivery-payment",
+    "image-with-text",
+    "contacts",
+    "footer"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Шаблон интернет-магазина комнатных растений для дома и офиса с каталогом товаров, фильтрами и поиском.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "has steps, delivery-payment"
+  ]
+ },
+ {
+  "theme": "Магазин товаров для дома",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "image-banner",
+    "main-collection-product-grid",
+    "image-banner",
+    "multicolumn",
+    "logo-list",
+    "image-gallery",
+    "collapsible-content",
+    "store-locations",
+    "footer",
+    "cart-drawer",
+    "wishlist"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Шаблон магазина товаров для дома с разделами, преимуществами бренда и галереей имиджевого контента",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "image-banner used 2 times on the home page",
+   "has logo-list, image-gallery, store-locations"
+  ]
+ },
+ {
+  "theme": "Магазин украшений",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "image-banner",
+    "featured-collection",
+    "image-banner",
+    "featured-collection",
+    "multicolumn",
+    "image-gallery",
+    "contacts",
+    "footer",
+    "cart-drawer",
+    "wishlist"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Шаблон магазина украшений с имиджевыми фото, категориями товаров и акцентом на эстетику бренда.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "image-banner used 2 times on the home page",
+   "featured-collection used 2 times on the home page",
+   "has image-gallery"
+  ]
+ },
+ {
+  "theme": "Магазин мебели",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "video",
+    "main-collection-product-grid",
+    "image-with-text",
+    "multicolumn",
+    "footer",
+    "cart-drawer",
+    "wishlist"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Шаблон магазина мебели с разделами, фильтрацией и акцентом на интерьерную эстетику.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "has video"
+  ]
+ },
+ {
+  "theme": "Онлайн-магазин (shetuka)",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "rich-text",
+    "featured-collection",
+    "delivery-payment",
+    "rich-text",
+    "cart-drawer",
+    "footer"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Базовый шаблон магазина с логотипом, описанием, плиткой товаров и контактными данными.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "has delivery-payment"
+  ]
+ },
+ {
+  "theme": "Магазин цветов",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "image-banner",
+    "rich-text",
+    "featured-product",
+    "featured-product",
+    "featured-product",
+    "contact-form",
+    "image-gallery",
+    "multicolumn",
+    "contacts",
+    "cart-drawer",
+    "footer"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Шаблон магазина авторских букетов с карточками товара, галереей и преимуществами студии.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "featured-product used 3 times on the home page",
+   "has image-gallery"
+  ]
+ },
+ {
+  "theme": "Одежда и аксессуары",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "image-banner",
+    "rich-text",
+    "featured-collection",
+    "image-with-text",
+    "image-gallery",
+    "multicolumn",
+    "contact-form",
+    "social-links",
+    "cart-drawer",
+    "store-locations",
+    "footer"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Шаблон магазина концептуального бренда с историей и традициями марки, особенностями продуктов и плиткой товаров.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "has image-gallery, store-locations"
+  ]
+ },
+ {
+  "theme": "Интернет-магазин (canny)",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "rich-text",
+    "image-banner",
+    "rich-text",
+    "collection-list",
+    "featured-collection",
+    "featured-collection",
+    "newsletter",
+    "social-links",
+    "cart-drawer",
+    "footer"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Реализуйте ваши товары без труда с удобным и понятным шаблоном для интернет-продаж.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "featured-collection used 2 times on the home page"
+  ]
+ },
+ {
+  "theme": "Онлайн-магазин (instore)",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "slideshow",
+    "rich-text",
+    "featured-collection",
+    "delivery-payment",
+    "contacts",
+    "back-to-top",
+    "cart-drawer",
+    "footer"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Шаблон магазина стильных аксессуаров для повседневной жизни.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it",
+   "has delivery-payment"
+  ]
+ },
+ {
+  "theme": "Онлайн-магазин (ascent)",
+  "price": "included in a paid Tilda plan (tilda.cc/ru/tpls, 16.09.2026)",
+  "pages": {
+   "home": [
+    "header",
+    "image-banner",
+    "collection-list",
+    "featured-collection",
+    "image-with-text",
+    "newsletter",
+    "footer",
+    "cart-drawer"
+   ],
+   "product": [],
+   "collection": []
+  },
+  "styles": [
+   "Интернет-магазин"
+  ],
+  "notable": [
+   "Главная страница онлайн-магазина со списком категорий товаров.",
+   "one long page: catalogue, product popups (#!/tproduct/…), cart and checkout form all live on it"
+  ]
+ }
+]

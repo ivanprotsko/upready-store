@@ -1,0 +1,761 @@
+[
+ {
+  "role": "description",
+  "from": "analyser",
+  "analyserNodes": 1258,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "promo-grid",
+   "slideshow",
+   "featured-blog",
+   "image-banner",
+   "multicolumn",
+   "rich-text",
+   "scrolling-text",
+   "announcement-bar",
+   "store-locations",
+   "video",
+   "contacts",
+   "image-with-text",
+   "delivery-payment",
+   "promo-banner",
+   "steps"
+  ]
+ },
+ {
+  "role": "cta-primary",
+  "from": "analyser",
+  "analyserNodes": 420,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "cart-notification",
+   "preorder",
+   "callback",
+   "main-product",
+   "promo-grid",
+   "slideshow",
+   "contact-form",
+   "image-banner",
+   "rich-text",
+   "newsletter",
+   "cart-drawer",
+   "image-with-text",
+   "wishlist",
+   "featured-product",
+   "promo-banner"
+  ]
+ },
+ {
+  "role": "section-header",
+  "from": "analyser",
+  "analyserNodes": 437,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "collection-list",
+   "featured-collection",
+   "logo-list",
+   "featured-collections-tabs",
+   "featured-blog",
+   "related-products",
+   "contact-form",
+   "multicolumn",
+   "stories",
+   "testimonials",
+   "newsletter",
+   "recently-viewed",
+   "social-links",
+   "store-locations",
+   "contacts",
+   "image-gallery",
+   "delivery-payment",
+   "collapsible-content",
+   "steps"
+  ]
+ },
+ {
+  "role": "price",
+  "from": "analyser",
+  "analyserNodes": 31,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "cart-notification",
+   "main-collection-product-grid",
+   "main-product",
+   "featured-collection",
+   "featured-collections-tabs",
+   "related-products",
+   "recently-viewed",
+   "cart-drawer",
+   "wishlist",
+   "featured-product"
+  ]
+ },
+ {
+  "role": "heading",
+  "from": "analyser",
+  "analyserNodes": 529,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "page-title",
+   "rich-text",
+   "contacts",
+   "image-with-text",
+   "featured-product"
+  ]
+ },
+ {
+  "role": "card-image",
+  "from": "analyser",
+  "analyserNodes": 70,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "collection-list",
+   "promo-grid",
+   "featured-blog",
+   "stories"
+  ]
+ },
+ {
+  "role": "card-title",
+  "from": "analyser",
+  "analyserNodes": 595,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "collection-list",
+   "featured-blog",
+   "multicolumn",
+   "steps"
+  ]
+ },
+ {
+  "role": "trigger",
+  "from": "analyser",
+  "analyserNodes": 821,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "collection-filters",
+   "slideshow",
+   "pagination",
+   "announcement-bar",
+   "delivery-payment",
+   "collapsible-content"
+  ]
+ },
+ {
+  "role": "headline",
+  "from": "analyser",
+  "analyserNodes": 418,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "promo-grid",
+   "slideshow",
+   "image-banner",
+   "video",
+   "promo-banner"
+  ]
+ },
+ {
+  "role": "cta-secondary",
+  "from": "analyser",
+  "analyserNodes": 369,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "cart-notification",
+   "featured-collection"
+  ]
+ },
+ {
+  "role": "card",
+  "from": "analyser",
+  "analyserNodes": 582,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "collection-list",
+   "promo-grid",
+   "featured-blog",
+   "store-locations"
+  ]
+ },
+ {
+  "role": "nav-link",
+  "from": "analyser",
+  "analyserNodes": 421,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "footer",
+   "header",
+   "collection-menu",
+   "announcement-bar"
+  ]
+ },
+ {
+  "role": "input",
+  "from": "analyser",
+  "analyserNodes": 481,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "header",
+   "preorder",
+   "callback",
+   "contact-form",
+   "newsletter",
+   "cart-drawer"
+  ]
+ },
+ {
+  "role": "newsletter-form",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "newsletter"
+  ]
+ },
+ {
+  "role": "star-rating",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-product",
+   "testimonials"
+  ]
+ },
+ {
+  "role": "hero-image",
+  "from": "analyser",
+  "analyserNodes": 367,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "slideshow",
+   "image-banner",
+   "promo-banner"
+  ]
+ },
+ {
+  "role": "logo",
+  "from": "analyser",
+  "analyserNodes": 36,
+  "inTaxonomy": false,
+  "note": null,
+  "sections": [
+   "footer",
+   "header"
+  ]
+ },
+ {
+  "role": "social-link",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "footer",
+   "social-links",
+   "contacts",
+   "image-gallery"
+  ]
+ },
+ {
+  "role": "breadcrumb",
+  "from": "analyser",
+  "analyserNodes": 33,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "breadcrumbs"
+  ]
+ },
+ {
+  "role": "badge",
+  "from": "analyser",
+  "analyserNodes": 101,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-collection-product-grid",
+   "bottom-nav",
+   "featured-collection"
+  ]
+ },
+ {
+  "role": "content",
+  "from": "analyser",
+  "analyserNodes": 3485,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "collapsible-content"
+  ]
+ },
+ {
+  "role": "feature-card",
+  "from": "analyser",
+  "analyserNodes": 51,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "multicolumn",
+   "delivery-payment"
+  ]
+ },
+ {
+  "role": "video-player",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "video"
+  ]
+ },
+ {
+  "role": "tab-list",
+  "from": "analyser",
+  "analyserNodes": 24,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "featured-collections-tabs",
+   "product-tabs"
+  ]
+ },
+ {
+  "role": "tab-trigger",
+  "from": "analyser",
+  "analyserNodes": 24,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "featured-collections-tabs",
+   "product-tabs"
+  ]
+ },
+ {
+  "role": "tab-content",
+  "from": "analyser",
+  "analyserNodes": 14,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "featured-collections-tabs",
+   "product-tabs"
+  ]
+ },
+ {
+  "role": "nav",
+  "from": "analyser",
+  "analyserNodes": 66,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "header",
+   "bottom-nav",
+   "collection-menu"
+  ]
+ },
+ {
+  "role": "mobile-menu",
+  "from": "analyser",
+  "analyserNodes": 14,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "header"
+  ]
+ },
+ {
+  "role": "icon-button",
+  "from": "analyser",
+  "analyserNodes": 176,
+  "inTaxonomy": false,
+  "note": null,
+  "sections": [
+   "header",
+   "bottom-nav",
+   "back-to-top"
+  ]
+ },
+ {
+  "role": "nav-column",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "footer"
+  ]
+ },
+ {
+  "role": "legal-links",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "footer"
+  ]
+ },
+ {
+  "role": "pagination",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "main-collection-product-grid",
+   "pagination"
+  ]
+ },
+ {
+  "role": "cta-group",
+  "from": "analyser",
+  "analyserNodes": 606,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "image-banner"
+  ]
+ },
+ {
+  "role": "dialog",
+  "from": "analyser",
+  "analyserNodes": 13,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "cart-notification",
+   "preorder",
+   "callback",
+   "stories"
+  ]
+ },
+ {
+  "role": "close-button",
+  "from": "analyser",
+  "analyserNodes": 29,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "preorder",
+   "callback"
+  ]
+ },
+ {
+  "role": "icon-wrapper",
+  "from": "analyser",
+  "analyserNodes": 9,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "multicolumn"
+  ]
+ },
+ {
+  "role": "icon",
+  "from": "analyser",
+  "analyserNodes": 1337,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "multicolumn",
+   "social-links"
+  ]
+ },
+ {
+  "role": "testimonial-card",
+  "from": "analyser",
+  "analyserNodes": 23,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "testimonials"
+  ]
+ },
+ {
+  "role": "quote-text",
+  "from": "analyser",
+  "analyserNodes": 47,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "testimonials"
+  ]
+ },
+ {
+  "role": "author-info",
+  "from": "analyser",
+  "analyserNodes": 57,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "testimonials"
+  ]
+ },
+ {
+  "role": "brand-slider",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "logo-list"
+  ]
+ },
+ {
+  "role": "brand-logo",
+  "from": "analyser",
+  "analyserNodes": null,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "logo-list"
+  ]
+ },
+ {
+  "role": "form",
+  "from": "analyser",
+  "analyserNodes": 84,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "contact-form",
+   "cart-drawer"
+  ]
+ },
+ {
+  "role": "label",
+  "from": "analyser",
+  "analyserNodes": 277,
+  "inTaxonomy": true,
+  "note": null,
+  "sections": [
+   "contact-form"
+  ]
+ },
+ {
+  "role": "product-card",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "card for one product: image, title, price; the analyser has card + card-image + card-title + price, but no single commerce card",
+  "sections": [
+   "cart-notification",
+   "main-collection-product-grid",
+   "featured-collection",
+   "featured-collections-tabs",
+   "related-products",
+   "recently-viewed",
+   "cart-drawer",
+   "wishlist"
+  ]
+ },
+ {
+  "role": "media",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "image or video area of a non-hero section, or a product gallery",
+  "sections": [
+   "main-product",
+   "image-gallery",
+   "image-with-text",
+   "featured-product"
+  ]
+ },
+ {
+  "role": "variant-picker",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "option/variant selector (size, colour swatches)",
+  "sections": [
+   "main-product",
+   "featured-product"
+  ]
+ },
+ {
+  "role": "quantity-input",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "quantity stepper next to the buy button",
+  "sections": [
+   "main-product",
+   "cart-drawer"
+  ]
+ },
+ {
+  "role": "filter",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "faceted filters on a product listing",
+  "sections": [
+   "collection-filters",
+   "main-collection-product-grid"
+  ]
+ },
+ {
+  "role": "sort",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "sort selector on a product listing",
+  "sections": [
+   "collection-filters",
+   "main-collection-product-grid"
+  ]
+ },
+ {
+  "role": "marquee",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "horizontally scrolling text line",
+  "sections": [
+   "scrolling-text"
+  ]
+ },
+ {
+  "role": "story-circle",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "round story thumbnail that opens a full-screen story (InSales «Истории», Instagram-like)",
+  "sections": [
+   "stories"
+  ]
+ },
+ {
+  "role": "step",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "numbered step of a «how to order» row: number, title, text",
+  "sections": [
+   "steps"
+  ]
+ },
+ {
+  "role": "payment-badge",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "payment method mark: СБП, Мир, ЮKassa, Долями/Сплит, cards",
+  "sections": [
+   "footer",
+   "delivery-payment"
+  ]
+ },
+ {
+  "role": "delivery-badge",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "delivery service mark or line: СДЭК, Почта России, Boxberry, courier, pickup",
+  "sections": [
+   "delivery-payment"
+  ]
+ },
+ {
+  "role": "one-click-buy",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "«Купить в 1 клик» button that opens a name+phone form instead of the cart",
+  "sections": [
+   "main-product"
+  ]
+ },
+ {
+  "role": "phone-form",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "short form of name + phone (callback, preorder, one-click) sent to the manager",
+  "sections": [
+   "preorder",
+   "callback"
+  ]
+ },
+ {
+  "role": "map",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "embedded map (Яндекс Карты, 2ГИС) with shop or pickup points",
+  "sections": [
+   "store-locations"
+  ]
+ },
+ {
+  "role": "bonus-badge",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "bonus/cashback note on a card or in a bar («Дарим 5000 бонусов»)",
+  "sections": [
+   "scrolling-text"
+  ]
+ },
+ {
+  "role": "stock-badge",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "in stock / out of stock / preorder marker on a product",
+  "sections": [
+   "main-collection-product-grid",
+   "featured-collection"
+  ]
+ },
+ {
+  "role": "compare-toggle",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "add-to-compare control on a product card",
+  "sections": [
+   "main-product"
+  ]
+ },
+ {
+  "role": "wishlist-toggle",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "add-to-favourites control on a product card",
+  "sections": [
+   "main-product"
+  ]
+ },
+ {
+  "role": "drawer",
+  "from": "extension",
+  "analyserNodes": null,
+  "inTaxonomy": false,
+  "note": "side panel over the page (cart, favourites)",
+  "sections": [
+   "cart-drawer",
+   "wishlist"
+  ]
+ }
+]

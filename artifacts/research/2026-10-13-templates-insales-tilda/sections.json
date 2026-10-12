@@ -1,0 +1,6039 @@
+[
+ {
+  "source": "insales",
+  "section": "breadcrumbs",
+  "roles": [
+   "breadcrumb"
+  ],
+  "settings": [
+   {
+    "name": "align",
+    "type": "select"
+   },
+   {
+    "name": "delemeter",
+    "type": "range"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "breadcrumb-color",
+    "type": "color"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:breadcrumbs_1"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 11,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "note": "Cream, collection page, widget system_widget_v4_breadcrumbs_1, 75 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+    "note": "Minimalism, collection page, widget system_widget_v4_breadcrumbs_1, 75 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/collection/new",
+    "note": "Base, collection page, widget system_widget_v4_breadcrumbs_1, 50 px high; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+    "note": "Bubble, collection page, widget system_widget_v4_breadcrumbs_1, 75 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+    "note": "Fine, collection page, widget system_widget_v4_breadcrumbs_1, 50 px high; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/collection/oboi",
+    "note": "Grand, collection page, widget system_widget_v4_breadcrumbs_1, 43 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/collection/parfyum",
+    "note": "Moon, collection page, widget system_widget_v4_breadcrumbs_1, 56 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/myagkaya-igrushka",
+    "note": "Idea, product page, widget system_widget_v4_breadcrumbs_1, 50 px high; 10 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "cart-notification",
+  "roles": [
+   "dialog",
+   "product-card",
+   "price",
+   "cta-primary",
+   "cta-secondary"
+  ],
+  "settings": [
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:notification_add_to_cart_1"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 11,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_notification_add_to_cart_1, 0 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_notification_add_to_cart_1, 0 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_notification_add_to_cart_1, 0 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_notification_add_to_cart_1, 0 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_notification_add_to_cart_1, 0 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_notification_add_to_cart_1, 0 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_notification_add_to_cart_1, 0 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_notification_add_to_cart_1, 0 px high; 3 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "collection-filters",
+  "roles": [
+   "filter",
+   "sort",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-sorting-on-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "display-property-color",
+    "type": "color"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "load-all-items-at-once",
+    "type": "checkbox"
+   },
+   {
+    "name": "max-filter-item-list-items-visible",
+    "type": "range"
+   },
+   {
+    "name": "filter-onchange-submit",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-count",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-only-available",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-heading",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-sorting-on-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "font-size-filter",
+    "type": "range"
+   },
+   {
+    "name": "font-weight-filter",
+    "type": "range"
+   },
+   {
+    "name": "hide-categories",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-sorting-border",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "layout-mb",
+    "type": "range"
+   },
+   {
+    "name": "layout-mt",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:collection_sort_1",
+   "widget:filter_sort_1",
+   "widget:filter_sort_2",
+   "widget:filter_sort_3",
+   "widget:sidebar_filter_1",
+   "widget:sidebar_filter_2",
+   "widget:sidebar_filter_2_2293d50de4f8f415b3281d2ce9117c7a",
+   "widget:sidebar_filter_3"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 11,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "note": "Cream, collection page, widget system_widget_v4_filter_sort_2, 91 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+    "note": "Minimalism, collection page, widget system_widget_v4_filter_sort_2, 91 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/collection/new",
+    "note": "Base, collection page, widget system_widget_v4_sidebar_filter_2, 554 px high; 13 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+    "note": "Bubble, collection page, widget system_widget_v4_collection_sort_1, 101 px high, heading «Мягкие игрушки»; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+    "note": "Fine, collection page, widget widget_v4_sidebar_filter_2_2293d50de4f8f415b3281d2ce9117c7a, 1139 px high; 10 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/collection/oboi",
+    "note": "Grand, collection page, widget system_widget_v4_sidebar_filter_3, 1153 px high, heading «Фильтры»; 13 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/collection/parfyum",
+    "note": "Moon, collection page, widget system_widget_v4_filter_sort_1, 0 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+    "note": "Idea, collection page, widget system_widget_v4_filter_sort_3, 221 px high; 14 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "footer",
+  "roles": [
+   "logo",
+   "nav-column",
+   "nav-link",
+   "social-link",
+   "legal-links",
+   "payment-badge"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg",
+    "type": "color"
+   },
+   {
+    "name": "hide-social",
+    "type": "checkbox"
+   },
+   {
+    "name": "logo-max-width",
+    "type": "range"
+   },
+   {
+    "name": "logo-img",
+    "type": "image_picker"
+   },
+   {
+    "name": "hide-pay",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "pay-img-1",
+    "type": "image_picker"
+   },
+   {
+    "name": "pay-img-2",
+    "type": "image_picker"
+   },
+   {
+    "name": "pay-img-3",
+    "type": "image_picker"
+   },
+   {
+    "name": "hide-menu-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-phone-2",
+    "type": "checkbox"
+   },
+   {
+    "name": "align-text",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "widget:footer_16_1",
+   "widget:footer_17_1",
+   "widget:footer_18_1",
+   "widget:footer_19",
+   "widget:footer_19_1",
+   "widget:footer_2",
+   "widget:footer_20_1",
+   "widget:footer_4"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 11,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_footer_19_1, 454 px high; 13 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_footer_18_1, 314 px high; 12 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_footer_2, 140 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_footer_18_1, 354 px high; 16 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_footer_20_1, 452 px high; 12 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_footer_19_1, 395 px high; 13 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_footer_17_1, 169 px high; 15 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_footer_19, 398 px high; 13 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "header",
+  "roles": [
+   "logo",
+   "nav",
+   "nav-link",
+   "mobile-menu",
+   "icon-button",
+   "input"
+  ],
+  "settings": [
+   {
+    "name": "bage-bg",
+    "type": "color"
+   },
+   {
+    "name": "hide-compare",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-language",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-personal",
+    "type": "checkbox"
+   },
+   {
+    "name": "logo-max-width",
+    "type": "range"
+   },
+   {
+    "name": "hide-favorite",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-search",
+    "type": "checkbox"
+   },
+   {
+    "name": "live-search",
+    "type": "checkbox"
+   },
+   {
+    "name": "logo-img",
+    "type": "image_picker"
+   },
+   {
+    "name": "hide-menu-photo",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "mobile-panel-right-btn",
+    "type": "select"
+   },
+   {
+    "name": "header-main-pb",
+    "type": "range"
+   },
+   {
+    "name": "header-main-pt",
+    "type": "range"
+   },
+   {
+    "name": "header-top-pb",
+    "type": "range"
+   },
+   {
+    "name": "header-top-pt",
+    "type": "range"
+   },
+   {
+    "name": "header-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "header-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-counts",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "menu-grid-list-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "menu-grid-list-min-width",
+    "type": "range"
+   },
+   {
+    "name": "menu-grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "menu-img-fit",
+    "type": "select"
+   },
+   {
+    "name": "menu-img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "subcollections-items-limit",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "autoplay",
+    "type": "checkbox"
+   },
+   {
+    "name": "autoplay-delay",
+    "type": "range"
+   },
+   {
+    "name": "banner-overlay-opacity",
+    "type": "range"
+   },
+   {
+    "name": "bg",
+    "type": "color"
+   },
+   {
+    "name": "color-btn-sl-bg",
+    "type": "color"
+   },
+   {
+    "name": "color-text-banner",
+    "type": "color"
+   },
+   {
+    "name": "header-height",
+    "type": "range"
+   },
+   {
+    "name": "header-height-mobile",
+    "type": "range"
+   },
+   {
+    "name": "header-height-mobile-px",
+    "type": "range"
+   },
+   {
+    "name": "img-contain",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:header_1",
+   "widget:header_11_1",
+   "widget:header_12",
+   "widget:header_3",
+   "widget:header_4",
+   "widget:header_5",
+   "widget:header_6",
+   "widget:header_7",
+   "widget:header_8"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 11,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_header_12, 900 px high; 26 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_header_7, 124 px high; 13 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_header_11_1, 143 px high; 21 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_header_8, 68 px high; 23 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_header_4, 123 px high; 27 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_header_6, 106 px high; 26 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_header_12, 900 px high; 26 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_header_1, 125 px high; 28 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "main-collection-product-grid",
+  "roles": [
+   "product-card",
+   "price",
+   "badge",
+   "stock-badge",
+   "filter",
+   "sort",
+   "pagination"
+  ],
+  "settings": [
+   {
+    "name": "catalog-grid-list-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-min-width",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-min-width-mobile",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "hide-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-desc-limit",
+    "type": "range"
+   },
+   {
+    "name": "product-hide-rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "rating-color",
+    "type": "color"
+   },
+   {
+    "name": "sticker-font-size",
+    "type": "range"
+   },
+   {
+    "name": "product-info-align",
+    "type": "select"
+   },
+   {
+    "name": "display-property-color",
+    "type": "color"
+   },
+   {
+    "name": "product-hide-rating-modal",
+    "type": "checkbox"
+   },
+   {
+    "name": "rating-color-modal",
+    "type": "color"
+   },
+   {
+    "name": "switch-img-on-hover",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-info-accent",
+    "type": "select"
+   },
+   {
+    "name": "catalog-grid-list-column-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-row-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "hide-variants-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-compare",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-short-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "show-selected-variant-photos",
+    "type": "checkbox"
+   },
+   {
+    "name": "border-radius",
+    "type": "range"
+   },
+   {
+    "name": "hide-mobile-modal-variants",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "product-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "show-variants-text",
+    "type": "checkbox"
+   },
+   {
+    "name": "rounding-button",
+    "type": "checkbox"
+   },
+   {
+    "name": "border-radius-m",
+    "type": "range"
+   },
+   {
+    "name": "hide-compare",
+    "type": "checkbox"
+   },
+   {
+    "name": "modal-overlay-bg",
+    "type": "color"
+   },
+   {
+    "name": "preview-background",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "widget:catalog_2",
+   "widget:catalog_3",
+   "widget:catalog_4",
+   "widget:catalog_5",
+   "widget:catalog_6",
+   "widget:catalog_7"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 11,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "note": "Cream, collection page, widget system_widget_v4_catalog_6, 1335 px high; 28 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+    "note": "Minimalism, collection page, widget system_widget_v4_catalog_6, 794 px high; 28 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/collection/new",
+    "note": "Base, collection page, widget system_widget_v4_catalog_4, 286 px high; 24 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+    "note": "Bubble, collection page, widget system_widget_v4_catalog_7, 1913 px high; 37 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+    "note": "Fine, collection page, widget system_widget_v4_catalog_4, 1234 px high; 24 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/collection/oboi",
+    "note": "Grand, collection page, widget system_widget_v4_catalog_5, 1040 px high; 25 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/collection/parfyum",
+    "note": "Moon, collection page, widget system_widget_v4_catalog_6, 851 px high; 28 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+    "note": "Idea, collection page, widget system_widget_v4_catalog_3, 636 px high; 30 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "preorder",
+  "roles": [
+   "dialog",
+   "phone-form",
+   "input",
+   "cta-primary",
+   "close-button"
+  ],
+  "settings": [
+   {
+    "name": "hide-use-agree",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:preorder_1"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 11,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_preorder_1, 0 px high; 4 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_preorder_1, 0 px high; 4 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_preorder_1, 0 px high; 4 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_preorder_1, 0 px high; 4 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_preorder_1, 0 px high; 4 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_preorder_1, 0 px high; 4 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_preorder_1, 0 px high; 4 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_preorder_1, 0 px high; 4 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "callback",
+  "roles": [
+   "dialog",
+   "phone-form",
+   "input",
+   "cta-primary",
+   "close-button"
+  ],
+  "settings": [
+   {
+    "name": "hide-field-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-use-agree",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:callback_modal_1"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Vibe"
+  ],
+  "frequency": 10,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_callback_modal_1, 0 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_callback_modal_1, 0 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_callback_modal_1, 0 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_callback_modal_1, 0 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_callback_modal_1, 0 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_callback_modal_1, 0 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_callback_modal_1, 0 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_callback_modal_1, 0 px high; 5 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "main-product",
+  "roles": [
+   "media",
+   "heading",
+   "price",
+   "variant-picker",
+   "quantity-input",
+   "cta-primary",
+   "one-click-buy",
+   "star-rating",
+   "compare-toggle",
+   "wishlist-toggle"
+  ],
+  "settings": [
+   {
+    "name": "display-property-color",
+    "type": "color"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-compare",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-sku",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-variants-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "rating-color",
+    "type": "color"
+   },
+   {
+    "name": "show-selected-variant-photos",
+    "type": "checkbox"
+   },
+   {
+    "name": "sticker-font-size",
+    "type": "range"
+   },
+   {
+    "name": "video-before-image",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-short-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "manager-photo",
+    "type": "image_picker"
+   },
+   {
+    "name": "product-hide-rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "product-hide-full-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "controls-btn-width-size",
+    "type": "range"
+   },
+   {
+    "name": "controls-font-size-xl",
+    "type": "range"
+   },
+   {
+    "name": "controls-height-xl",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "padding-button-hor",
+    "type": "range"
+   },
+   {
+    "name": "padding-button-vert",
+    "type": "range"
+   },
+   {
+    "name": "sale-bg",
+    "type": "color"
+   },
+   {
+    "name": "hide-favorite",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-table",
+    "type": "checkbox"
+   },
+   {
+    "name": "properties-limit",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:product_1",
+   "widget:product_2",
+   "widget:product_4",
+   "widget:product_5",
+   "widget:product_6",
+   "widget:product_7",
+   "widget:product_8"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 10,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+    "note": "Cream, product page, widget system_widget_v4_product_2, 1022 px high, heading «Набор макияжа \"Сияние Утра\"»; 20 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/product/primer-kostyum-muzhskoy",
+    "note": "Base, product page, widget system_widget_v4_product_1, 551 px high, heading «[Пример] Костюм мужской»; 20 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/product/shkolnyy-ryukzak-school",
+    "note": "Bubble, product page, widget system_widget_v4_product_2, 1212 px high, heading «Школьный рюкзак School»; 20 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+    "note": "Fine, product page, widget system_widget_v4_product_5, 786 px high, heading «Смартфон Samsung Galaxy A12 32GB Black (SM-A125F)»; 21 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+    "note": "Grand, product page, widget system_widget_v4_product_7, 740 px high, heading «Однорычажный смеситель для раковины»; 20 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes",
+    "note": "Moon, product page, widget system_widget_v4_product_8, 651 px high, heading «Палетка теней для век»; 26 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/myagkaya-igrushka",
+    "note": "Idea, product page, widget system_widget_v4_product_4, 888 px high, heading «Мягкая игрушка»; 21 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm",
+    "note": "Loft, product page, widget system_widget_v4_product_4, 729 px high, heading «Барбекю с крышкой на колесиках, d=44 см»; 22 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "bottom-nav",
+  "roles": [
+   "nav",
+   "icon-button",
+   "badge"
+  ],
+  "settings": [
+   {
+    "name": "bage-bg",
+    "type": "color"
+   },
+   {
+    "name": "hide-cart",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-personal",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-search",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "show-catalog-instead-home",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-bottom-navigation-bar",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:bottom_navigation_bar_1",
+   "widget:bottom_navigation_bar_1_f9975ae6e01993b189215fa34e592826"
+  ],
+  "themes": [
+   "Base",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Minimalism",
+   "Moon",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 9,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_bottom_navigation_bar_1, 0 px high; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_bottom_navigation_bar_1, 0 px high; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_bottom_navigation_bar_1, 0 px high; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_bottom_navigation_bar_1, 0 px high; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget widget_v4_bottom_navigation_bar_1_f9975ae6e01993b189215fa34e592826, 0 px high; 10 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_bottom_navigation_bar_1, 0 px high; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_bottom_navigation_bar_1, 0 px high; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-stories.myinsales.ru/",
+    "note": "Stories, home page, widget system_widget_v4_bottom_navigation_bar_1, 0 px high; 11 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "back-to-top",
+  "roles": [
+   "icon-button"
+  ],
+  "settings": [
+   {
+    "name": "align",
+    "type": "select"
+   },
+   {
+    "name": "button-view",
+    "type": "select"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "icon-view",
+    "type": "select"
+   },
+   {
+    "name": "margin-bottom",
+    "type": "range"
+   },
+   {
+    "name": "margin-side",
+    "type": "range"
+   },
+   {
+    "name": "size",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:button_on_top_1"
+  ],
+  "themes": [
+   "Base",
+   "Cream",
+   "Fine",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Vibe"
+  ],
+  "frequency": 8,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_button_on_top_1, 0 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_button_on_top_1, 0 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_button_on_top_1, 0 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_button_on_top_1, 0 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_button_on_top_1, 0 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_button_on_top_1, 0 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_button_on_top_1, 0 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_button_on_top_1, 0 px high; 8 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "collection-list",
+  "roles": [
+   "section-header",
+   "card",
+   "card-image",
+   "card-title"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "grid-list-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-min-width",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "banner-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-column-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "img-ratio-mobile",
+    "type": "range"
+   },
+   {
+    "name": "open-link",
+    "type": "select"
+   },
+   {
+    "name": "zoom-on-hover",
+    "type": "checkbox"
+   },
+   {
+    "name": "banners-allign-center",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg-text",
+    "type": "color"
+   },
+   {
+    "name": "border-radius",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-min-width-mobile",
+    "type": "range"
+   },
+   {
+    "name": "mark-bg",
+    "type": "color"
+   },
+   {
+    "name": "mark-text-color",
+    "type": "color"
+   },
+   {
+    "name": "show-mark",
+    "type": "checkbox"
+   },
+   {
+    "name": "slide-gap",
+    "type": "range"
+   },
+   {
+    "name": "slide-width",
+    "type": "range"
+   },
+   {
+    "name": "slide-width-mobile",
+    "type": "range"
+   },
+   {
+    "name": "slides-align-center",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "count-collections",
+    "type": "range"
+   },
+   {
+    "name": "slide-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "text-alignment",
+    "type": "select"
+   },
+   {
+    "name": "card-font-size",
+    "type": "range"
+   },
+   {
+    "name": "hide-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "subcollection-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "text-align",
+    "type": "select"
+   },
+   {
+    "name": "align-title",
+    "type": "select"
+   },
+   {
+    "name": "coll_limit",
+    "type": "range"
+   },
+   {
+    "name": "hide-block-head",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:banner_list_22",
+   "widget:banner_list_23",
+   "widget:collections_and_subcollections_1",
+   "widget:collections_on_index_1",
+   "widget:collections_on_index_2",
+   "widget:collections_on_index_4",
+   "widget:special_categories_1",
+   "widget:subcollections_1"
+  ],
+  "themes": [
+   "Base",
+   "Bubble",
+   "Cream",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Moon",
+   "Vibe"
+  ],
+  "frequency": 8,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_banner_list_22, 1294 px high; 24 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_banner_list_22, 753 px high; 24 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_collections_on_index_1, 365 px high; 18 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_collections_on_index_2, 149 px high; 16 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_banner_list_22, 1319 px high; 24 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_collections_on_index_2, 287 px high; 16 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_collections_and_subcollections_1, 326 px high; 16 settings read from the markup"
+   },
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_banner_list_22, 622 px high; 24 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "page-title",
+  "roles": [
+   "heading"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:page_title_1"
+  ],
+  "themes": [
+   "Base",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism",
+   "Stories"
+  ],
+  "frequency": 8,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "note": "Cream, collection page, widget system_widget_v4_page_title_1, 54 px high, heading «Уход за кожей»; 7 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+    "note": "Minimalism, collection page, widget system_widget_v4_page_title_1, 54 px high, heading «Диваны»; 7 settings read from the markup"
+   },
+   {
+    "url": "https://demo-base.myinsales.ru/collection/new",
+    "note": "Base, collection page, widget system_widget_v4_page_title_1, 0 px high, heading «Новинки»; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+    "note": "Fine, collection page, widget system_widget_v4_page_title_1, 0 px high, heading «Смартфоны и планшеты»; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/collection/oboi",
+    "note": "Grand, collection page, widget system_widget_v4_page_title_1, 80 px high, heading «Обои»; 7 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+    "note": "Idea, collection page, widget system_widget_v4_page_title_1, 70 px high, heading «Для девочек»; 7 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+    "note": "Loft, collection page, widget system_widget_v4_page_title_1, 51 px high, heading «Сад и огород»; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-stories.myinsales.ru/collection/kategoriya-1",
+    "note": "Stories, collection page, widget system_widget_v4_page_title_1, 54 px high, heading «Мужчинам»; 8 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "featured-collection",
+  "roles": [
+   "section-header",
+   "product-card",
+   "price",
+   "badge",
+   "stock-badge",
+   "cta-secondary"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "rating-color",
+    "type": "color"
+   },
+   {
+    "name": "product-info-align",
+    "type": "select"
+   },
+   {
+    "name": "slide-gap",
+    "type": "range"
+   },
+   {
+    "name": "slide-width",
+    "type": "range"
+   },
+   {
+    "name": "hide-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-desc-limit",
+    "type": "range"
+   },
+   {
+    "name": "product-hide-compare",
+    "type": "checkbox"
+   },
+   {
+    "name": "sticker-font-size",
+    "type": "range"
+   },
+   {
+    "name": "count_special_products",
+    "type": "range"
+   },
+   {
+    "name": "slide-width-mobile",
+    "type": "range"
+   },
+   {
+    "name": "product-info-accent",
+    "type": "select"
+   },
+   {
+    "name": "switch-img-on-hover",
+    "type": "checkbox"
+   },
+   {
+    "name": "display-property-color",
+    "type": "color"
+   },
+   {
+    "name": "align-title",
+    "type": "select"
+   },
+   {
+    "name": "hide-variants-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "product-hide-rating-modal",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-short-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "rating-color-modal",
+    "type": "color"
+   },
+   {
+    "name": "show-selected-variant-photos",
+    "type": "checkbox"
+   },
+   {
+    "name": "border-radius",
+    "type": "range"
+   },
+   {
+    "name": "count-special-products",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "hide-mobile-modal-variants",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "border-radius-m",
+    "type": "range"
+   },
+   {
+    "name": "hide-compare",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-sku",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-title",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:special_products_12",
+   "widget:special_products_15",
+   "widget:special_products_16",
+   "widget:special_products_17",
+   "widget:special_products_17_1",
+   "widget:special_products_20",
+   "widget:special_products_6",
+   "widget:special_products_8"
+  ],
+  "themes": [
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Moon",
+   "Vibe"
+  ],
+  "frequency": 7,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_special_products_12, 804 px high, heading «Наборы для макияжа»; 35 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_special_products_16, 504 px high, heading «Рюкзаки»; 32 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_special_products_6, 395 px high, heading «Смартфоны и планшеты»; 23 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_special_products_15, 442 px high; 32 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_special_products_12, 1016 px high, heading «Бестселлеры»; 35 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_special_products_20, 399 px high, heading «Популярное»; 16 settings read from the markup"
+   },
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_special_products_12, 629 px high, heading «Блузки и рубашки»; 35 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "logo-list",
+  "roles": [
+   "section-header",
+   "brand-logo",
+   "brand-slider"
+  ],
+  "settings": [
+   {
+    "name": "banner-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "img-ratio-mobile",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "open-link",
+    "type": "select"
+   },
+   {
+    "name": "align-title",
+    "type": "select"
+   },
+   {
+    "name": "grid-list-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-min-width",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "slide-gap",
+    "type": "range"
+   },
+   {
+    "name": "slide-width",
+    "type": "range"
+   },
+   {
+    "name": "slide-width-mobile",
+    "type": "range"
+   },
+   {
+    "name": "widget-align",
+    "type": "select"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:banner_list_26",
+   "widget:banner_list_27"
+  ],
+  "themes": [
+   "Bubble",
+   "Cream",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft"
+  ],
+  "frequency": 6,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_banner_list_27, 315 px high, heading «Бренды»; 17 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_banner_list_26, 594 px high, heading «Бренды в нашем магазине»; 17 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_banner_list_26, 390 px high, heading «Популярные бренды»; 18 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_banner_list_26, 353 px high, heading «Бренды в нашем магазине»; 17 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_banner_list_27, 230 px high, heading «Наши партнеры»; 17 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_banner_list_27, 331 px high, heading «Бренды»; 18 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "promo-grid",
+  "roles": [
+   "card",
+   "card-image",
+   "headline",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "open-link",
+    "type": "select"
+   },
+   {
+    "name": "banner-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "img-ratio-mobile",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-column-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "zoom-on-hover",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg-items",
+    "type": "color"
+   },
+   {
+    "name": "mark-bg",
+    "type": "color"
+   },
+   {
+    "name": "mark-text-color",
+    "type": "color"
+   },
+   {
+    "name": "position-banner",
+    "type": "range"
+   },
+   {
+    "name": "show-mark",
+    "type": "checkbox"
+   },
+   {
+    "name": "btn-position-horizontal-1",
+    "type": "range"
+   },
+   {
+    "name": "btn-position-horizontal-2",
+    "type": "range"
+   },
+   {
+    "name": "btn-position-vertical-1",
+    "type": "range"
+   },
+   {
+    "name": "btn-position-vertical-2",
+    "type": "range"
+   },
+   {
+    "name": "font-size-button",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-min-width",
+    "type": "range"
+   },
+   {
+    "name": "only-one-block",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding-button-hor",
+    "type": "range"
+   },
+   {
+    "name": "padding-button-vert",
+    "type": "range"
+   },
+   {
+    "name": "swipe-right-block",
+    "type": "checkbox"
+   },
+   {
+    "name": "widget-align",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "widget:banner_list_19",
+   "widget:banner_list_21",
+   "widget:banner_list_23",
+   "widget:banner_list_6",
+   "widget:banner_list_8_1"
+  ],
+  "themes": [
+   "Bubble",
+   "Fine",
+   "Grand",
+   "Loft",
+   "Stories",
+   "Vibe"
+  ],
+  "frequency": 6,
+  "evidence": [
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_banner_list_23, 845 px high; 16 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_banner_list_21, 318 px high; 16 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_banner_list_21, 404 px high; 15 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_banner_list_19, 837 px high; 22 settings read from the markup"
+   },
+   {
+    "url": "https://demo-stories.myinsales.ru/",
+    "note": "Stories, home page, widget system_widget_v4_banner_list_6, 171 px high, heading «Мы на маркетплейсах»; 15 settings read from the markup"
+   },
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_banner_list_8_1, 455 px high; 28 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "slideshow",
+  "roles": [
+   "hero-image",
+   "headline",
+   "description",
+   "cta-primary",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "autoplay",
+    "type": "checkbox"
+   },
+   {
+    "name": "autoplay-delay",
+    "type": "range"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "mark-bg",
+    "type": "color"
+   },
+   {
+    "name": "mark-text-color",
+    "type": "color"
+   },
+   {
+    "name": "show-mark",
+    "type": "checkbox"
+   },
+   {
+    "name": "border-radius",
+    "type": "range"
+   },
+   {
+    "name": "img-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "count-active-slides",
+    "type": "range"
+   },
+   {
+    "name": "gap-slides",
+    "type": "range"
+   },
+   {
+    "name": "hide-block-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-menu",
+    "type": "checkbox"
+   },
+   {
+    "name": "slide-overlay-color",
+    "type": "color"
+   },
+   {
+    "name": "slide-overlay-opacity",
+    "type": "range"
+   },
+   {
+    "name": "slide-text-bg",
+    "type": "color"
+   },
+   {
+    "name": "banner-img-1",
+    "type": "image_picker"
+   },
+   {
+    "name": "banner-img-2",
+    "type": "image_picker"
+   },
+   {
+    "name": "hide-arrows",
+    "type": "checkbox"
+   },
+   {
+    "name": "slide-overlayopacity-mobile",
+    "type": "range"
+   },
+   {
+    "name": "slide-text-color",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "widget:promo_slider_11",
+   "widget:promo_slider_14",
+   "widget:promo_slider_15",
+   "widget:promo_slider_16",
+   "widget:promo_slider_18"
+  ],
+  "themes": [
+   "Bubble",
+   "Fine",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Minimalism"
+  ],
+  "frequency": 6,
+  "evidence": [
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_promo_slider_16, 512 px high; 14 settings read from the markup"
+   },
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_promo_slider_11, 413 px high; 17 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_promo_slider_15, 301 px high, heading «Акции»; 14 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_promo_slider_18, 579 px high; 17 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_promo_slider_18, 529 px high; 17 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_promo_slider_14, 556 px high; 20 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "featured-collections-tabs",
+  "roles": [
+   "section-header",
+   "tab-list",
+   "tab-trigger",
+   "tab-content",
+   "product-card",
+   "price"
+  ],
+  "settings": [
+   {
+    "name": "hide-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-desc-limit",
+    "type": "range"
+   },
+   {
+    "name": "product-info-accent",
+    "type": "select"
+   },
+   {
+    "name": "product-info-align",
+    "type": "select"
+   },
+   {
+    "name": "sticker-font-size",
+    "type": "range"
+   },
+   {
+    "name": "switch-img-on-hover",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "rating-color",
+    "type": "color"
+   },
+   {
+    "name": "border-radius",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-min-width",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-min-width-mobile",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "count-special-products",
+    "type": "range"
+   },
+   {
+    "name": "hide-mobile-modal-variants",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "display-property-color",
+    "type": "color"
+   },
+   {
+    "name": "product-hide-rating-modal",
+    "type": "checkbox"
+   },
+   {
+    "name": "rating-color-modal",
+    "type": "color"
+   },
+   {
+    "name": "align-title",
+    "type": "select"
+   },
+   {
+    "name": "catalog-grid-list-column-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "catalog-grid-list-row-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "count_special_products",
+    "type": "range"
+   },
+   {
+    "name": "product-hide-compare",
+    "type": "checkbox"
+   },
+   {
+    "name": "rounding-button",
+    "type": "checkbox"
+   },
+   {
+    "name": "slide-gap",
+    "type": "range"
+   },
+   {
+    "name": "slide-gap-mobile",
+    "type": "range"
+   },
+   {
+    "name": "slide-width",
+    "type": "range"
+   },
+   {
+    "name": "slide-width-mobile",
+    "type": "range"
+   },
+   {
+    "name": "widget-heading-ratio",
+    "type": "range"
+   },
+   {
+    "name": "widget-heading-weight",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:special_products_tabs_13",
+   "widget:special_products_tabs_4",
+   "widget:special_products_tabs_9",
+   "widget:special_products_tabs_9_895b7b889ec49cabd3a8bacac22395de"
+  ],
+  "themes": [
+   "Base",
+   "Grand",
+   "Idea",
+   "Loft",
+   "Stories"
+  ],
+  "frequency": 5,
+  "evidence": [
+   {
+    "url": "https://demo-base.myinsales.ru/",
+    "note": "Base, home page, widget system_widget_v4_special_products_tabs_9, 707 px high, heading «Каталог»; 36 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/",
+    "note": "Grand, home page, widget system_widget_v4_special_products_tabs_13, 520 px high, heading «Освещение»; 29 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_special_products_tabs_4, 1142 px high, heading «Хиты»; 23 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_special_products_tabs_4, 928 px high, heading «Новинки»; 24 settings read from the markup"
+   },
+   {
+    "url": "https://demo-stories.myinsales.ru/",
+    "note": "Stories, home page, widget widget_v4_special_products_tabs_9_895b7b889ec49cabd3a8bacac22395de, 1728 px high, heading «Мужчинам»; 30 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "featured-blog",
+  "roles": [
+   "section-header",
+   "card",
+   "card-image",
+   "card-title",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "article_desc_limit",
+    "type": "range"
+   },
+   {
+    "name": "hide-date",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "limit",
+    "type": "range"
+   },
+   {
+    "name": "slide-gap",
+    "type": "range"
+   },
+   {
+    "name": "slide-width",
+    "type": "range"
+   },
+   {
+    "name": "widget-heading-ratio",
+    "type": "range"
+   },
+   {
+    "name": "widget-heading-weight",
+    "type": "range"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:article_previews_2"
+  ],
+  "themes": [
+   "Cream",
+   "Fine",
+   "Loft",
+   "Minimalism"
+  ],
+  "frequency": 4,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_article_previews_2, 414 px high, heading «Полезные статьи»; 19 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_article_previews_2, 761 px high, heading «Полезные статьи»; 19 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_article_previews_2, 303 px high, heading «Обзоры новинок»; 20 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_article_previews_2, 312 px high, heading «Новости и акции»; 20 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "product-tabs",
+  "roles": [
+   "tab-list",
+   "tab-trigger",
+   "tab-content"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "manager-photo",
+    "type": "image_picker"
+   },
+   {
+    "name": "rating-color",
+    "type": "color"
+   },
+   {
+    "name": "reviews-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "reviews-min-width",
+    "type": "range"
+   },
+   {
+    "name": "reviews-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "hide-icon",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:product_info_2",
+   "widget:product_info_3"
+  ],
+  "themes": [
+   "Base",
+   "Fine",
+   "Grand",
+   "Moon"
+  ],
+  "frequency": 4,
+  "evidence": [
+   {
+    "url": "https://demo-base.myinsales.ru/product/primer-kostyum-muzhskoy",
+    "note": "Base, product page, widget system_widget_v4_product_info_2, 301 px high; 14 settings read from the markup"
+   },
+   {
+    "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+    "note": "Fine, product page, widget system_widget_v4_product_info_2, 1350 px high; 14 settings read from the markup"
+   },
+   {
+    "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+    "note": "Grand, product page, widget system_widget_v4_product_info_3, 391 px high; 14 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes",
+    "note": "Moon, product page, widget system_widget_v4_product_info_2, 323 px high; 13 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "related-products",
+  "roles": [
+   "section-header",
+   "product-card",
+   "price"
+  ],
+  "settings": [
+   {
+    "name": "align-title",
+    "type": "select"
+   },
+   {
+    "name": "count-special-products",
+    "type": "range"
+   },
+   {
+    "name": "hide-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-sku",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-desc-limit",
+    "type": "range"
+   },
+   {
+    "name": "product-hide-rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-info-accent",
+    "type": "select"
+   },
+   {
+    "name": "product-info-align",
+    "type": "select"
+   },
+   {
+    "name": "rating-color",
+    "type": "color"
+   },
+   {
+    "name": "slide-gap",
+    "type": "range"
+   },
+   {
+    "name": "slide-width",
+    "type": "range"
+   },
+   {
+    "name": "slide-width-mobile",
+    "type": "range"
+   },
+   {
+    "name": "sticker-font-size",
+    "type": "range"
+   },
+   {
+    "name": "display-property-color",
+    "type": "color"
+   },
+   {
+    "name": "switch-img-on-hover",
+    "type": "checkbox"
+   },
+   {
+    "name": "border-radius",
+    "type": "range"
+   },
+   {
+    "name": "hide-variants-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "product-hide-rating-modal",
+    "type": "checkbox"
+   },
+   {
+    "name": "rating-color-modal",
+    "type": "color"
+   },
+   {
+    "name": "product-hide-compare",
+    "type": "checkbox"
+   },
+   {
+    "name": "product-hide-short-description",
+    "type": "checkbox"
+   },
+   {
+    "name": "show-selected-variant-photos",
+    "type": "checkbox"
+   },
+   {
+    "name": "show-variants-text",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile-modal-variants",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-variants",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "rounding-button",
+    "type": "checkbox"
+   },
+   {
+    "name": "slide-gap-mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:products_related_1",
+   "widget:products_related_2",
+   "widget:products_related_6",
+   "widget:products_similar_2",
+   "widget:products_similar_4",
+   "widget:products_similar_6"
+  ],
+  "themes": [
+   "Cream",
+   "Idea",
+   "Moon",
+   "Stories"
+  ],
+  "frequency": 4,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+    "note": "Cream, product page, widget system_widget_v4_products_related_2, 741 px high, heading «Сопутствующие товары»; 25 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes",
+    "note": "Moon, product page, widget system_widget_v4_products_related_6, 510 px high, heading «Сопутствующие товары»; 32 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/myagkaya-igrushka",
+    "note": "Idea, product page, widget system_widget_v4_products_related_1, 496 px high; 28 settings read from the markup"
+   },
+   {
+    "url": "https://demo-stories.myinsales.ru/product/koshelek-kozhanyy-korichnevyy",
+    "note": "Stories, product page, widget system_widget_v4_products_similar_4, 571 px high, heading «Аналогичные товары»; 32 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "contact-form",
+  "roles": [
+   "section-header",
+   "form",
+   "input",
+   "label",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "align-title",
+    "type": "select"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-use-agree",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:feedback_2"
+  ],
+  "themes": [
+   "Cream",
+   "Loft",
+   "Minimalism"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_feedback_2, 627 px high, heading «Обратная связь»; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_feedback_2, 445 px high, heading «Нужна помощь в выборе?»; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_feedback_2, 615 px high, heading «Обратная связь»; 9 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "image-banner",
+  "roles": [
+   "hero-image",
+   "headline",
+   "description",
+   "cta-group",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-button",
+    "type": "checkbox"
+   },
+   {
+    "name": "banner-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "mark-bg",
+    "type": "color"
+   },
+   {
+    "name": "mark-text-color",
+    "type": "color"
+   },
+   {
+    "name": "show-mark",
+    "type": "checkbox"
+   },
+   {
+    "name": "banner-img",
+    "type": "image_picker"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "open-link",
+    "type": "select"
+   },
+   {
+    "name": "align-content",
+    "type": "select"
+   },
+   {
+    "name": "banner-overlay-color",
+    "type": "color"
+   },
+   {
+    "name": "banner-overlay-opacity",
+    "type": "range"
+   },
+   {
+    "name": "banner-pb",
+    "type": "range"
+   },
+   {
+    "name": "banner-pt",
+    "type": "range"
+   },
+   {
+    "name": "font-size",
+    "type": "range"
+   },
+   {
+    "name": "font-size-button",
+    "type": "range"
+   },
+   {
+    "name": "font-size-mobile",
+    "type": "range"
+   },
+   {
+    "name": "img-position",
+    "type": "select"
+   },
+   {
+    "name": "img-size",
+    "type": "range"
+   },
+   {
+    "name": "padding-button-hor",
+    "type": "range"
+   },
+   {
+    "name": "padding-button-vert",
+    "type": "range"
+   },
+   {
+    "name": "widget-align",
+    "type": "select"
+   },
+   {
+    "name": "bg-opacity",
+    "type": "color"
+   },
+   {
+    "name": "bg-point",
+    "type": "color"
+   },
+   {
+    "name": "bg-point-small",
+    "type": "color"
+   },
+   {
+    "name": "img-ratio-mobile",
+    "type": "range"
+   },
+   {
+    "name": "point-animate",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:page_banner_1",
+   "widget:page_banner_2_1",
+   "widget:page_banner_3_1",
+   "widget:page_banner_4"
+  ],
+  "themes": [
+   "Cream",
+   "Moon",
+   "Vibe"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_page_banner_2_1, 454 px high; 21 settings read from the markup"
+   },
+   {
+    "url": "https://demo-moon.myinsales.ru/",
+    "note": "Moon, home page, widget system_widget_v4_page_banner_1, 438 px high; 16 settings read from the markup"
+   },
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_page_banner_2_1, 412 px high; 21 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "multicolumn",
+  "roles": [
+   "section-header",
+   "feature-card",
+   "icon-wrapper",
+   "icon",
+   "card-title",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "align-content",
+    "type": "select"
+   },
+   {
+    "name": "align-title",
+    "type": "select"
+   },
+   {
+    "name": "font-size-content",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-min-width",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "image-width",
+    "type": "range"
+   },
+   {
+    "name": "img-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "margin-bottom-title",
+    "type": "range"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "bg",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "widget:benefits_4"
+  ],
+  "themes": [
+   "Idea",
+   "Loft",
+   "Vibe"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_benefits_4, 503 px high, heading «Наши плюсы»; 20 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_benefits_4, 228 px high, heading «Наши плюсы»; 20 settings read from the markup"
+   },
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_benefits_4, 284 px high, heading «Наши плюсы»; 20 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "pagination",
+  "roles": [
+   "pagination",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "align",
+    "type": "select"
+   },
+   {
+    "name": "btn-align",
+    "type": "select"
+   },
+   {
+    "name": "btn-font-size",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:infinity_products_button_1",
+   "widget:pagination_2",
+   "widget:pagination_3"
+  ],
+  "themes": [
+   "Fine",
+   "Loft",
+   "Stories"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+    "note": "Fine, collection page, widget system_widget_v4_pagination_3, 91 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+    "note": "Loft, collection page, widget system_widget_v4_pagination_2, 101 px high; 9 settings read from the markup"
+   },
+   {
+    "url": "https://demo-stories.myinsales.ru/collection/kategoriya-1",
+    "note": "Stories, collection page, widget system_widget_v4_infinity_products_button_1, 66 px high; 10 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "rich-text",
+  "roles": [
+   "heading",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "align-button",
+    "type": "select"
+   },
+   {
+    "name": "font-size",
+    "type": "range"
+   },
+   {
+    "name": "tag",
+    "type": "select"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:heading_1",
+   "widget:simple_text"
+  ],
+  "themes": [
+   "Cream",
+   "Minimalism",
+   "Stories"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_heading_1, 57 px high, heading «Уход за кожей»; 10 settings read from the markup"
+   },
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_heading_1, 57 px high, heading «Диваны»; 10 settings read from the markup"
+   },
+   {
+    "url": "https://demo-stories.myinsales.ru/",
+    "note": "Stories, home page, widget system_widget_v4_simple_text, 109 px high; 8 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "collection-menu",
+  "roles": [
+   "nav",
+   "nav-link"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "align-items",
+    "type": "select"
+   },
+   {
+    "name": "hide-title",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:collections_menu_1",
+   "widget:sidebar_collections_menu_1"
+  ],
+  "themes": [
+   "Fine",
+   "Idea"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_collections_menu_1, 49 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_sidebar_collections_menu_1, 637 px high; 5 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "scrolling-text",
+  "roles": [
+   "marquee",
+   "description",
+   "bonus-badge"
+  ],
+  "settings": [
+   {
+    "name": "draft-marquee-speed",
+    "type": "range"
+   },
+   {
+    "name": "font-size-content",
+    "type": "range"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "img-height",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "marquee-direction",
+    "type": "select"
+   },
+   {
+    "name": "marquee-gap",
+    "type": "range"
+   },
+   {
+    "name": "marquee-line",
+    "type": "range"
+   },
+   {
+    "name": "marquee-speed-mobile",
+    "type": "range"
+   },
+   {
+    "name": "pause-on-hover",
+    "type": "checkbox"
+   },
+   {
+    "name": "text-align",
+    "type": "select"
+   },
+   {
+    "name": "bg",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "widget:marquee_1"
+  ],
+  "themes": [
+   "Cream",
+   "Vibe"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_marquee_1, 37 px high; 18 settings read from the markup"
+   },
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_marquee_1, 46 px high; 17 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "stories",
+  "roles": [
+   "section-header",
+   "story-circle",
+   "card-image",
+   "dialog"
+  ],
+  "settings": [
+   {
+    "name": "bg-details-stories-color",
+    "type": "color"
+   },
+   {
+    "name": "delete-borders",
+    "type": "checkbox"
+   },
+   {
+    "name": "heading-align",
+    "type": "select"
+   },
+   {
+    "name": "heading-hide",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:stories_2",
+   "widget:stories_3"
+  ],
+  "themes": [
+   "Cream",
+   "Stories"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "https://demo-cream.myinsales.ru/",
+    "note": "Cream, home page, widget system_widget_v4_stories_3, 148 px high, heading «Истории»; 11 settings read from the markup"
+   },
+   {
+    "url": "https://demo-stories.myinsales.ru/",
+    "note": "Stories, home page, widget system_widget_v4_stories_2, 309 px high, heading «Истории»; 12 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "testimonials",
+  "roles": [
+   "section-header",
+   "testimonial-card",
+   "quote-text",
+   "author-info",
+   "star-rating"
+  ],
+  "settings": [
+   {
+    "name": "grid-list-column-gap",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-min-width",
+    "type": "range"
+   },
+   {
+    "name": "grid-list-row-gap",
+    "type": "range"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg",
+    "type": "color"
+   },
+   {
+    "name": "border-radius",
+    "type": "range"
+   },
+   {
+    "name": "font-size-content",
+    "type": "range"
+   },
+   {
+    "name": "img-border-radius",
+    "type": "range"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "review-bg",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "widget:benefits_3",
+   "widget:shop"
+  ],
+  "themes": [
+   "Loft",
+   "Vibe"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "https://demo-loft.myinsales.ru/",
+    "note": "Loft, home page, widget system_widget_v4_benefits_3, 242 px high; 15 settings read from the markup"
+   },
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_shop, 548 px high, heading «Отзывы клиентов»; 13 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "announcement-bar",
+  "roles": [
+   "description",
+   "nav-link",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "banner-close-bg",
+    "type": "color"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "open-link",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "widget:banner_top_1_1"
+  ],
+  "themes": [
+   "Bubble"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "note": "Bubble, home page, widget system_widget_v4_banner_top_1_1, 41 px high; 9 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "newsletter",
+  "roles": [
+   "section-header",
+   "newsletter-form",
+   "input",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:application_form_1"
+  ],
+  "themes": [
+   "Vibe"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "note": "Vibe, home page, widget system_widget_v4_application_form_1, 146 px high, heading «Получите скидку 20% на первый заказ»; 7 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "recently-viewed",
+  "roles": [
+   "section-header",
+   "product-card",
+   "price"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "img-fit",
+    "type": "select"
+   },
+   {
+    "name": "img-ratio",
+    "type": "range"
+   },
+   {
+    "name": "layout-content-max-width",
+    "type": "range"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "slide-gap",
+    "type": "range"
+   },
+   {
+    "name": "slide-width",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:viewed_products_1"
+  ],
+  "themes": [
+   "Fine"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://demo-fine.myinsales.ru/",
+    "note": "Fine, home page, widget system_widget_v4_viewed_products_1, 0 px high, heading «Ранее просмотренные»; 12 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "social-links",
+  "roles": [
+   "section-header",
+   "social-link",
+   "icon"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "social_position",
+    "type": "select"
+   },
+   {
+    "name": "title_position",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "widget:sidebar_social_1"
+  ],
+  "themes": [
+   "Idea"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_sidebar_social_1, 109 px high, heading «Подписывайтесь»; 6 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "store-locations",
+  "roles": [
+   "section-header",
+   "map",
+   "card",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-social",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   },
+   {
+    "name": "map-position",
+    "type": "select"
+   },
+   {
+    "name": "map-size",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "widget:shops_6_2"
+  ],
+  "themes": [
+   "Minimalism"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "note": "Minimalism, home page, widget system_widget_v4_shops_6_2, 507 px high, heading «Наши контакты»; 10 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "insales",
+  "section": "video",
+  "roles": [
+   "video-player",
+   "headline",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "banner-img",
+    "type": "image_picker"
+   },
+   {
+    "name": "heading-hide",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-desktop",
+    "type": "checkbox"
+   },
+   {
+    "name": "hide-mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-edge",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-pb",
+    "type": "range"
+   },
+   {
+    "name": "layout-pt",
+    "type": "range"
+   },
+   {
+    "name": "layout-wide-bg",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout-wide-content",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "widget:video_clip"
+  ],
+  "themes": [
+   "Idea"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://demo-idea.myinsales.ru/",
+    "note": "Idea, home page, widget system_widget_v4_video_clip, 636 px high, heading «О нас»; 9 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "cart-drawer",
+  "roles": [
+   "drawer",
+   "product-card",
+   "price",
+   "quantity-input",
+   "form",
+   "input",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "field-name",
+    "type": "select"
+   },
+   {
+    "name": "field-type",
+    "type": "select"
+   },
+   {
+    "name": "init-mask",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "record:T706"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Магазин комнатных растений",
+   "Магазин мебели",
+   "Магазин товаров для дома",
+   "Магазин украшений",
+   "Магазин цветов",
+   "Одежда и аксессуары",
+   "Онлайн-магазин (ascent)",
+   "Онлайн-магазин (instore)",
+   "Онлайн-магазин (shetuka)"
+  ],
+  "frequency": 10,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T706 (#rec2996647901), 0 px high, heading «Ваш заказ»; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T706 (#rec2894184801), 0 px high, heading «Ваш заказ»; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T706 (#rec2340317621), 0 px high, heading «Ваш заказ»; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "note": "Магазин мебели, home page, record T706 (#rec2365083621), 0 px high, heading «Ваш заказ:»; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/shetukaru",
+    "note": "Онлайн-магазин (shetuka), home page, record T706 (#rec45307836), 0 px high, heading «Ваш заказ»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T706 (#rec46110137), 0 px high, heading «Ваш заказ»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T706 (#rec825679297), 0 px high, heading «Ваш заказ»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T706 (#rec51284053), 0 px high, heading «Ваш заказ»; 5 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "footer",
+  "roles": [
+   "logo",
+   "nav-column",
+   "nav-link",
+   "social-link",
+   "legal-links",
+   "payment-badge"
+  ],
+  "settings": [
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T106",
+   "record:T389",
+   "record:T457",
+   "record:T56",
+   "record:T573"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Магазин комнатных растений",
+   "Магазин мебели",
+   "Магазин товаров для дома",
+   "Магазин украшений",
+   "Магазин цветов",
+   "Одежда и аксессуары",
+   "Онлайн-магазин (ascent)",
+   "Онлайн-магазин (instore)",
+   "Онлайн-магазин (shetuka)"
+  ],
+  "frequency": 10,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T457 (#rec2996648501), 366 px high; 7 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T457 (#rec2633885401), 243 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T389 (#rec2323260151), 130 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "note": "Магазин мебели, home page, record T573 (#rec2369205461), 535 px high, heading «+1 123 4567890hello@loftpineapple.com»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/shetukaru",
+    "note": "Онлайн-магазин (shetuka), home page, record T106 (#rec45307837), 242 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T56 (#rec751056306), 267 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T56 (#rec751056789), 174 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T56 (#rec751061182), 220 px high; 5 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "header",
+  "roles": [
+   "logo",
+   "nav",
+   "nav-link",
+   "mobile-menu",
+   "icon-button",
+   "input"
+  ],
+  "settings": [
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T1272",
+   "record:T257",
+   "record:T446",
+   "record:T454",
+   "record:T456"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Магазин комнатных растений",
+   "Магазин мебели",
+   "Магазин товаров для дома",
+   "Магазин украшений",
+   "Магазин цветов",
+   "Одежда и аксессуары",
+   "Онлайн-магазин (ascent)",
+   "Онлайн-магазин (instore)",
+   "Онлайн-магазин (shetuka)"
+  ],
+  "frequency": 10,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T1272 (#rec2996647701), 0 px high, heading «Planto»; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T1272 (#rec2633883901), 0 px high; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T1272 (#rec2322323941), 0 px high, heading «AMELI JEWERLY»; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "note": "Магазин мебели, home page, record T1272 (#rec2364331941), 0 px high, heading «Sofa.»; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/shetukaru",
+    "note": "Онлайн-магазин (shetuka), home page, record T454 (#rec45307831), 290 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T257 (#rec46089438), 0 px high; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T446 (#rec46675307), 0 px high, heading «MY.THS»; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T257 (#rec51257256), 100 px high; 2 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "image-banner",
+  "roles": [
+   "hero-image",
+   "headline",
+   "description",
+   "cta-group",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "stretched",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "record:T1241",
+   "record:T160",
+   "record:T18",
+   "record:T205",
+   "record:T3",
+   "record:T448",
+   "record:T543"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Магазин комнатных растений",
+   "Магазин товаров для дома",
+   "Магазин украшений",
+   "Магазин цветов",
+   "Одежда и аксессуары",
+   "Онлайн-магазин (ascent)"
+  ],
+  "frequency": 7,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T448 (#rec3482644701), 905 px high, heading «Комнатные растения для дома и офиса»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T205 (#rec2633884001), 960 px high, heading «Комфорт начинается с деталей»; 3 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T1241 (#rec2341659271), 720 px high, heading «Изысканные украшения для элегантных образов»; 4 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T205 (#rec46089439), 900 px high, heading «Цветочный салон»; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T18 (#rec46675308), 900 px high, heading «Одежда и аксессуары из натуральных материалов»; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T3 (#rec51257258), 743 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/ascentru",
+    "note": "Онлайн-магазин (ascent), home page, record T205 (#rec46087514), 900 px high, heading «Магазин Ascent»; 2 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "featured-collection",
+  "roles": [
+   "section-header",
+   "product-card",
+   "price",
+   "badge",
+   "stock-badge",
+   "cta-secondary"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-correct-height",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-transition",
+    "type": "range"
+   },
+   {
+    "name": "slider-with-cycle",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "blocks-per-row",
+    "type": "range"
+   },
+   {
+    "name": "buttons-v-align",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "record:T2841",
+   "record:T754",
+   "record:T776",
+   "record:T786"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Магазин украшений",
+   "Одежда и аксессуары",
+   "Онлайн-магазин (ascent)",
+   "Онлайн-магазин (instore)",
+   "Онлайн-магазин (shetuka)"
+  ],
+  "frequency": 6,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T2841 (#rec2322341871), 756 px high, heading «Бестселлеры»; 7 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/shetukaru",
+    "note": "Онлайн-магазин (shetuka), home page, record T754 (#rec45307833), 1847 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T754 (#rec562465092), 1789 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T776 (#rec51257264), 1851 px high, heading «Мебель»; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/instoreru",
+    "note": "Онлайн-магазин (instore), home page, record T754 (#rec45457982), 1632 px high; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/ascentru",
+    "note": "Онлайн-магазин (ascent), home page, record T786 (#rec278076333), 1391 px high, heading «Наши хиты»; 6 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "multicolumn",
+  "roles": [
+   "section-header",
+   "feature-card",
+   "icon-wrapper",
+   "icon",
+   "card-title",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   },
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-correct-height",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-transition",
+    "type": "range"
+   },
+   {
+    "name": "slider-with-cycle",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "record:T1066",
+   "record:T1196",
+   "record:T490",
+   "record:T502",
+   "record:T786",
+   "record:T908"
+  ],
+  "themes": [
+   "Магазин комнатных растений",
+   "Магазин мебели",
+   "Магазин товаров для дома",
+   "Магазин украшений",
+   "Магазин цветов",
+   "Одежда и аксессуары"
+  ],
+  "frequency": 6,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T786 (#rec3023758601), 852 px high, heading «Почему выбирают нас»; 11 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T908 (#rec2633884501), 942 px high, heading «Почему нас выбирают»; 6 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T490 (#rec2323144321), 859 px high, heading «нас выбирают за уникальность и доступность»; 7 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "note": "Магазин мебели, home page, record T1196 (#rec2364332061), 849 px high, heading «Почему выбирают нас»; 7 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T502 (#rec46089452), 695 px high, heading «Наши преимущества»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T1066 (#rec749292009), 1082 px high, heading «Почему мы хорошо делаем свое дело?»; 5 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "rich-text",
+  "roles": [
+   "heading",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "record:T127",
+   "record:T467",
+   "record:T474",
+   "record:T484",
+   "record:T560",
+   "record:T60"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Магазин цветов",
+   "Одежда и аксессуары",
+   "Онлайн-магазин (instore)",
+   "Онлайн-магазин (shetuka)"
+  ],
+  "frequency": 5,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/shetukaru",
+    "note": "Онлайн-магазин (shetuka), home page, record T127 (#rec45307832), 165 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T484 (#rec46089441), 386 px high, heading «Создаем индивидуальные букеты, для свадеб и мероприятий»; 3 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T474 (#rec46675309), 327 px high; 3 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T60 (#rec51257257), 403 px high, heading «Canny store»; 3 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/instoreru",
+    "note": "Онлайн-магазин (instore), home page, record T474 (#rec45457981), 252 px high; 3 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "contacts",
+  "roles": [
+   "section-header",
+   "heading",
+   "description",
+   "social-link"
+  ],
+  "settings": [
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T1055",
+   "record:T561",
+   "record:T572"
+  ],
+  "themes": [
+   "Магазин комнатных растений",
+   "Магазин украшений",
+   "Магазин цветов",
+   "Онлайн-магазин (instore)"
+  ],
+  "frequency": 4,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T1055 (#rec3184833701), 605 px high, heading «Наши контакты»; 7 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T572 (#rec2365295261), 406 px high, heading «Контакты»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T561 (#rec46089454), 810 px high, heading «+1 123 456 78 90hello@company.com»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/instoreru",
+    "note": "Онлайн-магазин (instore), home page, record T572 (#rec45457984), 645 px high, heading «Контакты»; 5 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "image-gallery",
+  "roles": [
+   "section-header",
+   "media",
+   "social-link"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   },
+   {
+    "name": "slider-arrows-nearpic",
+    "type": "select"
+   },
+   {
+    "name": "slider-correct-height",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-stopped",
+    "type": "select"
+   },
+   {
+    "name": "slider-transition",
+    "type": "range"
+   },
+   {
+    "name": "slider-with-cycle",
+    "type": "checkbox"
+   },
+   {
+    "name": "swiper-initialized",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "record:T1148",
+   "record:T1196",
+   "record:T604",
+   "record:T680"
+  ],
+  "themes": [
+   "Магазин товаров для дома",
+   "Магазин украшений",
+   "Магазин цветов",
+   "Одежда и аксессуары"
+  ],
+  "frequency": 4,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T1148 (#rec2633885001), 918 px high, heading «Идеи для дома»; 6 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T1196 (#rec2323216641), 490 px high; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T680 (#rec1051864181), 1190 px high, heading «Следите за нами в Соцсетях»; 4 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T604 (#rec613263105), 1062 px high, heading «ЛУКБУК MY.THS:»; 16 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "image-with-text",
+  "roles": [
+   "media",
+   "heading",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "columns",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T1001",
+   "record:T1241",
+   "record:T469",
+   "record:T478"
+  ],
+  "themes": [
+   "Магазин комнатных растений",
+   "Магазин мебели",
+   "Одежда и аксессуары",
+   "Онлайн-магазин (ascent)"
+  ],
+  "frequency": 4,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T1241 (#rec2996648401), 620 px high, heading «О магазине Planto»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "note": "Магазин мебели, home page, record T1001 (#rec2364332041), 1160 px high, heading «Мы создаём мебель, которая сочетает в себе современный дизай»; 7 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T469 (#rec46675313), 601 px high, heading «О нас»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/ascentru",
+    "note": "Онлайн-магазин (ascent), home page, record T478 (#rec46087518), 750 px high, heading «О нас»; 7 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "delivery-payment",
+  "roles": [
+   "section-header",
+   "feature-card",
+   "delivery-badge",
+   "payment-badge",
+   "description",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T1118",
+   "record:T473"
+  ],
+  "themes": [
+   "Магазин комнатных растений",
+   "Онлайн-магазин (instore)",
+   "Онлайн-магазин (shetuka)"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T1118 (#rec3024805501), 655 px high, heading «Оплата и доставка»; 6 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/shetukaru",
+    "note": "Онлайн-магазин (shetuka), home page, record T473 (#rec45307834), 609 px high, heading «информация о доставке»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/instoreru",
+    "note": "Онлайн-магазин (instore), home page, record T473 (#rec45457983), 489 px high, heading «о доставке»; 3 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "main-collection-product-grid",
+  "roles": [
+   "product-card",
+   "price",
+   "badge",
+   "stock-badge",
+   "filter",
+   "sort",
+   "pagination"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T2831",
+   "record:T2851",
+   "record:T2861"
+  ],
+  "themes": [
+   "Магазин комнатных растений",
+   "Магазин мебели",
+   "Магазин товаров для дома"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T2831 (#rec3656188801), 1577 px high, heading «Каталог растений»; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T2851 (#rec2633884201), 1721 px high, heading «Home Goods»; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "note": "Магазин мебели, home page, record T2861 (#rec2364332011), 4087 px high, heading «Каталог»; 8 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "wishlist",
+  "roles": [
+   "drawer",
+   "product-card",
+   "price",
+   "cta-primary"
+  ],
+  "settings": [],
+  "blocks": [
+   "record:T1002"
+  ],
+  "themes": [
+   "Магазин мебели",
+   "Магазин товаров для дома",
+   "Магазин украшений"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T1002 (#rec2894184901), 0 px high, heading «Избранное:»; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "note": "Магазин украшений, home page, record T1002 (#rec2340317881), 0 px high, heading «Избранное:»; 2 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "note": "Магазин мебели, home page, record T1002 (#rec2365083631), 0 px high, heading «Избранное:»; 2 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "collection-list",
+  "roles": [
+   "section-header",
+   "card",
+   "card-image",
+   "card-title"
+  ],
+  "settings": [
+   {
+    "name": "tile-ratio",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T686",
+   "record:T694"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Онлайн-магазин (ascent)"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T694 (#rec51257261), 640 px high, heading «Мебель»; 3 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/ascentru",
+    "note": "Онлайн-магазин (ascent), home page, record T686 (#rec46087516), 1399 px high, heading «Категории одежды»; 5 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "contact-form",
+  "roles": [
+   "section-header",
+   "form",
+   "input",
+   "label",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "field-name",
+    "type": "select"
+   },
+   {
+    "name": "field-type",
+    "type": "select"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "record:T678"
+  ],
+  "themes": [
+   "Магазин цветов",
+   "Одежда и аксессуары"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T678 (#rec1051859366), 1059 px high, heading «Создайте свой уникальный букет»; 8 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T678 (#rec46675318), 951 px high, heading «Свяжитесь с нами по любым вопросам»; 7 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "newsletter",
+  "roles": [
+   "section-header",
+   "newsletter-form",
+   "input",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "field-name",
+    "type": "select"
+   },
+   {
+    "name": "field-type",
+    "type": "select"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "record:T704"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Онлайн-магазин (ascent)"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T704 (#rec51257268), 652 px high, heading «Подпишитесь на нашу рассылку»; 7 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/ascentru",
+    "note": "Онлайн-магазин (ascent), home page, record T704 (#rec46087519), 601 px high, heading «Узнайте об акциях и скидках первыми!»; 8 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "social-links",
+  "roles": [
+   "section-header",
+   "social-link",
+   "icon"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "record:T212",
+   "record:T494"
+  ],
+  "themes": [
+   "Интернет-магазин (canny)",
+   "Одежда и аксессуары"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T494 (#rec46675320), 576 px high, heading «Следите за нами в соцсетях и приходите в наш шоурум в Москве»; 5 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "note": "Интернет-магазин (canny), home page, record T212 (#rec51257269), 216 px high; 4 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "store-locations",
+  "roles": [
+   "section-header",
+   "map",
+   "card",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T125",
+   "record:T554"
+  ],
+  "themes": [
+   "Магазин товаров для дома",
+   "Одежда и аксессуары"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T554 (#rec2633885301), 420 px high, heading «Свяжитесь с нами»; 3 settings read from the markup"
+   },
+   {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "note": "Одежда и аксессуары, home page, record T125 (#rec46675321), 300 px high; 3 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "back-to-top",
+  "roles": [
+   "icon-button"
+  ],
+  "settings": [],
+  "blocks": [
+   "record:T217"
+  ],
+  "themes": [
+   "Онлайн-магазин (instore)"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/instoreru",
+    "note": "Онлайн-магазин (instore), home page, record T217 (#rec45457985), 0 px high; 2 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "collapsible-content",
+  "roles": [
+   "section-header",
+   "trigger",
+   "content"
+  ],
+  "settings": [
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T849"
+  ],
+  "themes": [
+   "Магазин товаров для дома"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T849 (#rec2633885201), 842 px high, heading «Частые вопросы»; 7 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "featured-product",
+  "roles": [
+   "media",
+   "heading",
+   "price",
+   "variant-picker",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "slider-correct-height",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-stopped",
+    "type": "select"
+   },
+   {
+    "name": "slider-transition",
+    "type": "range"
+   },
+   {
+    "name": "slider-with-cycle",
+    "type": "checkbox"
+   },
+   {
+    "name": "swiper-initialized",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "record:T744"
+  ],
+  "themes": [
+   "Магазин цветов"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "note": "Магазин цветов, home page, record T744 (#rec46089443), 725 px high; 15 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "logo-list",
+  "roles": [
+   "section-header",
+   "brand-logo",
+   "brand-slider"
+  ],
+  "settings": [
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   },
+   {
+    "name": "slider-correct-height",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-stopped",
+    "type": "select"
+   },
+   {
+    "name": "slider-transition",
+    "type": "range"
+   },
+   {
+    "name": "slider-with-cycle",
+    "type": "checkbox"
+   },
+   {
+    "name": "swiper-initialized",
+    "type": "checkbox"
+   },
+   {
+    "name": "witharrows",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "record:T738"
+  ],
+  "themes": [
+   "Магазин товаров для дома"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "note": "Магазин товаров для дома, home page, record T738 (#rec2633884701), 701 px high, heading «Наши партнеры»; 19 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "promo-banner",
+  "roles": [
+   "hero-image",
+   "headline",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "bg-color",
+    "type": "color"
+   }
+  ],
+  "blocks": [
+   "record:T995"
+  ],
+  "themes": [
+   "Магазин комнатных растений"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T995 (#rec3011254001), 580 px high, heading «Дарим 10% скидку на первый заказ по промокоду FLOWERS»; 3 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "slideshow",
+  "roles": [
+   "hero-image",
+   "headline",
+   "description",
+   "cta-primary",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-correct-height",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-stopped",
+    "type": "text"
+   },
+   {
+    "name": "slider-transition",
+    "type": "range"
+   },
+   {
+    "name": "slider-with-cycle",
+    "type": "checkbox"
+   },
+   {
+    "name": "swiper-initialized",
+    "type": "checkbox"
+   },
+   {
+    "name": "witharrows",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "record:T734"
+  ],
+  "themes": [
+   "Онлайн-магазин (instore)"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/instoreru",
+    "note": "Онлайн-магазин (instore), home page, record T734 (#rec45457979), 900 px high, heading «БОЛЬШАЯ РАСПРОДАЖА В INSTORE.СКИДКИ 30-70%»; 14 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "steps",
+  "roles": [
+   "section-header",
+   "step",
+   "card-title",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   },
+   {
+    "name": "slider-correct-height",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-transition",
+    "type": "range"
+   },
+   {
+    "name": "slider-with-cycle",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "record:T786"
+  ],
+  "themes": [
+   "Магазин комнатных растений"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T786 (#rec3593408101), 587 px high, heading «Как сделать заказ»; 11 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "testimonials",
+  "roles": [
+   "section-header",
+   "testimonial-card",
+   "quote-text",
+   "author-info",
+   "star-rating"
+  ],
+  "settings": [
+   {
+    "name": "auto-correct-mobile-width",
+    "type": "checkbox"
+   },
+   {
+    "name": "bg-color",
+    "type": "color"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   },
+   {
+    "name": "slider-correct-height",
+    "type": "checkbox"
+   },
+   {
+    "name": "slider-stopped",
+    "type": "select"
+   },
+   {
+    "name": "slider-transition",
+    "type": "range"
+   },
+   {
+    "name": "slider-with-cycle",
+    "type": "checkbox"
+   },
+   {
+    "name": "swiper-initialized",
+    "type": "checkbox"
+   },
+   {
+    "name": "witharrows",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "record:T605"
+  ],
+  "themes": [
+   "Магазин комнатных растений"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "note": "Магазин комнатных растений, home page, record T605 (#rec3334731801), 907 px high, heading «Отзывы наших клиентов»; 19 settings read from the markup"
+   }
+  ]
+ },
+ {
+  "source": "tilda",
+  "section": "video",
+  "roles": [
+   "video-player",
+   "headline",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom_mobile",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_top_mobile",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "record:T1120"
+  ],
+  "themes": [
+   "Магазин мебели"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "note": "Магазин мебели, home page, record T1120 (#rec2364331981), 735 px high, heading «Стиль начинается с вашего дома»; 5 settings read from the markup"
+   }
+  ]
+ }
+]
