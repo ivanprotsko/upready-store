@@ -2,7 +2,7 @@ model: claude-opus-5-5 (Opus 5.5), линия f7-compact-analytics
 
 # t-2026-10-12-33 R1 — темы Shopify, разобранные до секций
 
-Ветка `templates/research-shopify`, PR → `templates/main`. Папка: [2026-10-13-templates-shopify](/Users/ivanprotsko/upready/worktrees/upready-store/templates/research-shopify/artifacts/research/2026-10-13-templates-shopify).
+PR: [https://github.com/ivanprotsko/upready-store/pull/353](https://github.com/ivanprotsko/upready-store/pull/353), ветка `templates/research-shopify` → `templates/main`, в main не идёт. Папка: [2026-10-13-templates-shopify](/Users/ivanprotsko/upready/worktrees/upready-store/templates/research-shopify/artifacts/research/2026-10-13-templates-shopify).
 
 ## Коротко
 - Разобрано 18 тем:
