@@ -1361,21 +1361,21 @@
       "radius": {
         "label": "Углы",
         "sharp": "Прямые",
-        "soft": "Чуть скруглённые",
-        "round": "Скруглённые",
-        "pill": "Круглые"
+        "soft": "Мягкие",
+        "round": "Круглые",
+        "pill": "Капсула"
       },
       "buttonStyle": {
         "label": "Кнопки",
-        "filled": "С заливкой",
-        "outlined": "Контурные"
+        "filled": "Заливка",
+        "outlined": "Контур"
       },
       "photoStyle": {
-        "label": "Фото",
-        "square": "Квадратные",
-        "portrait": "Вертикальные",
-        "landscape": "Горизонтальные",
-        "wide": "Широкие"
+        "label": "Пропорции фото",
+        "square": "1:1",
+        "portrait": "3:4",
+        "landscape": "4:3",
+        "wide": "16:9"
       },
       "density": {
         "label": "Плотность",

@@ -1301,9 +1301,9 @@
       "radius": {
         "label": "Corners",
         "sharp": "Square",
-        "soft": "Slightly rounded",
-        "round": "Rounded",
-        "pill": "Round"
+        "soft": "Soft",
+        "round": "Round",
+        "pill": "Pill"
       },
       "buttonStyle": {
         "label": "Buttons",
@@ -1311,11 +1311,11 @@
         "outlined": "Outlined"
       },
       "photoStyle": {
-        "label": "Photos",
-        "square": "Square",
-        "portrait": "Portrait",
-        "landscape": "Landscape",
-        "wide": "Wide"
+        "label": "Photo proportions",
+        "square": "1:1",
+        "portrait": "3:4",
+        "landscape": "4:3",
+        "wide": "16:9"
       },
       "density": {
         "label": "Spacing",

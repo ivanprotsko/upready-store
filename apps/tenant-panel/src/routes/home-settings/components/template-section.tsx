@@ -37,16 +37,13 @@ const PREVIEW_ORIGIN = import.meta.env.VITE_TEMPLATE_PREVIEW_ORIGIN as string | 
 
 /** Plain words for every layer value (rule 18e): an enum value never reaches the screen. */
 const LAYER_LABELS: Record<LayerName, { key: string; label: string; values: Record<string, string> }> = {
-  radius: {
-    key: "radius",
-    label: "Corners",
-    values: { sharp: "Square", soft: "Slightly rounded", round: "Rounded", pill: "Round" },
-  },
+  radius: { key: "radius", label: "Corners", values: { sharp: "Square", soft: "Soft", round: "Round", pill: "Pill" } },
   buttonStyle: { key: "buttonStyle", label: "Buttons", values: { filled: "Filled", outlined: "Outlined" } },
+  // The proportions themselves: short enough for four segments on a phone, and what a photo is cut to.
   photoStyle: {
     key: "photoStyle",
-    label: "Photos",
-    values: { square: "Square", portrait: "Portrait", landscape: "Landscape", wide: "Wide" },
+    label: "Photo proportions",
+    values: { square: "1:1", portrait: "3:4", landscape: "4:3", wide: "16:9" },
   },
   density: {
     key: "density",
