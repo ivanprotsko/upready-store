@@ -393,6 +393,7 @@
     {"id":"listing/p5","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p5"},"props":false,"propsEditable":false},
     {"id":"media/image-with-text","category":"media","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"newsletter/signup","category":"newsletter","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"slideshow/banners","category":"slideshow","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"testimonials/cards","category":"testimonials","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"text/rich-text","category":"text","placement":"home","status":"lab","props":true,"propsEditable":false},
     {"id":"tiles/on","category":"tiles","placement":"home","status":"live","setting":{"field":"tiles","value":"on"},"props":false,"propsEditable":false}
