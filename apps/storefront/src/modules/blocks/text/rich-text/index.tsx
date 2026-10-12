@@ -5,6 +5,7 @@ import { Link } from "@i18n/navigation"
 
 import BlockSection from "../../shared/block-section"
 import { pickText } from "../../shared/localized-text"
+import { SECTION_TYPE } from "../../shared/section-type"
 import type { RichTextProps } from "./props"
 
 const focusRing =
@@ -31,9 +32,9 @@ const BUTTON_CLASS = {
  * rhythm, `--layer-density` the inside.
  *
  * It draws its own heading stack rather than the shell's header, because the header is always
- * left and 42rem, and this block centres and widens; the type is the same family of tokens, one
- * step larger, measured against the Shopify catalogue's rich-text (Sense, 30/36 px at 1280). The
- * storefront's `text-3xl` is 2rem with no line height of its own, hence `leading-tight`: 32/40.
+ * left and 42rem, and this block centres and widens; the type is the shell's, `SECTION_TYPE` of
+ * `shared/section-type.ts`, measured against the Shopify catalogue's rich-text (Sense, 30/36 px at
+ * 1280). The paragraphs take the description's size and keep their own leading and line breaks.
  *
  * The sizes pass `pnpm template:check` (the lab's QR rules): neighbouring sizes ≥ 1.15× apart,
  * heading ÷ body ≥ 1.5, so 12 / 16 / 16 / 24 px at 360 (eyebrow, buttons, body, heading) and
@@ -90,15 +91,12 @@ export default async function RichText({
           {label || title ? (
             <div data-role="section-header" className="flex flex-col gap-3">
               {label ? (
-                <p data-role="label" className="text-xs font-medium uppercase tracking-widest text-ui-fg-muted">
+                <p data-role="label" className={SECTION_TYPE.label}>
                   {label}
                 </p>
               ) : null}
               {title ? (
-                <h2
-                  data-role="heading"
-                  className="text-balance text-2xl font-semibold leading-tight tracking-[-0.02em] text-ui-fg-base small:text-3xl"
-                >
+                <h2 data-role="heading" className={SECTION_TYPE.heading}>
                   {title}
                 </h2>
               ) : null}
@@ -110,7 +108,7 @@ export default async function RichText({
                 <p
                   key={index}
                   data-role="description"
-                  className="whitespace-pre-line text-pretty text-base leading-relaxed text-ui-fg-subtle small:text-lg"
+                  className={clx(SECTION_TYPE.description, "whitespace-pre-line leading-relaxed")}
                 >
                   {line}
                 </p>

@@ -113,6 +113,12 @@ export const parseRichTextProps = (input: unknown) =>
     drawn only when it has words, with the roles `section-header`, `label`, `heading`, `description`
     and `cta-secondary`. That is the one heading style of every home section; never draw your own `h2`
     above a block.
+  - A block that draws its own section heading, as `text/rich-text` does to centre and widen it, takes the
+    type from `shared/section-type.ts`: `SECTION_TYPE.label`, `.heading`, `.description` and `.seeAll`, the
+    four roles of the shell's header (12 px; 24 px, 32 px from `small`; 16 px, 18 px from `small`; 16 px,
+    14 px from `small`). Add the block's own layout classes next to them with `clx`, never a size, weight or
+    colour of these roles. One size per role on a page is a gate rule (QR-TYPE-ROLE), and `pnpm lint:blocks`
+    refuses an `h2` in a block file without `SECTION_TYPE.heading` (`contract-section-type`).
   - It writes `data-block`, the block's id.
 - Pictures are an `ImageRef` (`shared/image-ref.ts`), exactly one of:
   - `{ "product": "<handle>", "index"?: n }`, picture n of one of the shop's own products;

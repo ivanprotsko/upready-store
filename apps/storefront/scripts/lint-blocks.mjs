@@ -61,6 +61,8 @@ const CONTRACT = [
   { rule: "contract-white-black", pattern: /\b(?:bg|border|ring|fill|stroke|from|via|to)-(?:white|black)\b/g, why: "White and black do not follow the theme: use a token." },
   // `shared/block-icon` and `shared/icon-name` are the blocks' own lucide wrapper and its names.
   { rule: "contract-icons", pattern: /from\s+["'](?!lucide-react["']|(?:\.\.?\/)+(?:shared\/)?(?:block-icon|icon-name)["']|@modules\/blocks\/shared\/)[^"']*icons?[^"']*["']/g, why: "Icons come from lucide-react only." },
+  // §3: one size per role on a page (QR-TYPE-ROLE), so a section heading takes the shell's type.
+  { rule: "contract-section-type", pattern: /<h2\b(?![^>]*\bSECTION_TYPE\.heading\b)/g, why: "A section heading takes its classes from shared/section-type: className={SECTION_TYPE.heading}." },
 ]
 
 const walk = (target) => {

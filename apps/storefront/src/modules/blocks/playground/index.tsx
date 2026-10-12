@@ -41,8 +41,8 @@ const SHELL_HEADER: SectionHeader = {
   eyebrow: { ru: "Подборка недели", en: "This week's pick" },
   heading: { ru: "Всё для неспешного утра", en: "Everything for a slow morning" },
   description: {
-    ru: "Чайники, турки и чашки, которые мы сами берём на кухню. Привезём завтра.",
-    en: "Kettles, pots and cups we take to our own kitchen. Delivered tomorrow.",
+    ru: "Чайники, турки и чашки, которые мы сами берём на кухню: толстые стенки, удобные ручки, никакого пластика. Соберём заказ сегодня, привезём завтра, а если вещь не подойдёт, заберём её обратно в течение месяца.",
+    en: "Kettles, pots and cups we take to our own kitchen: thick walls, handles that sit well, no plastic. We pack the order today and deliver it tomorrow, and if a piece does not suit you, we take it back within a month.",
   },
   seeAll: { href: "/store", label: SEE_ALL_LABEL },
 }

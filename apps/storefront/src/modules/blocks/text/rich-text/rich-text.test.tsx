@@ -6,6 +6,7 @@ import { getTemplate } from "@lib/templates/catalog"
 import { validateTemplate } from "@lib/templates/manifest"
 
 import { BLOCKS, CATEGORY_BLOCKS, blockById } from "../../registry"
+import { SECTION_TYPE } from "../../shared/section-type"
 import RichText from "."
 import { richText } from "./block"
 import { PRIMARY_LABEL, SECONDARY_LABEL, parseRichTextProps, type RichTextProps } from "./props"
@@ -112,6 +113,15 @@ describe("RichText", () => {
     expect(html).toContain("\n")
     expect(html).toMatch(/<a href="\/ru\/store" data-role="cta-primary"[^>]*>Перейти в каталог<\/a>/)
     expect(html).toMatch(/<a href="\/ru\/shipping" data-role="cta-secondary"[^>]*>Доставка и оплата<\/a>/)
+  })
+
+  it("sets its heading stack in the one section type of shared/section-type, its paragraphs in the description's size", async () => {
+    const html = (await render(richText.fixtures!.sample))!
+    expect(html).toContain(`<p data-role="label" class="${SECTION_TYPE.label}">`)
+    expect(html).toContain(`<h2 data-role="heading" class="${SECTION_TYPE.heading}">`)
+    const paragraphs = Array.from(html.matchAll(/<p data-role="description" class="([^"]*)"/g), (m) => m[1].split(" "))
+    expect(paragraphs.length).toBeGreaterThan(0)
+    for (const classes of paragraphs) expect(classes).toEqual(expect.arrayContaining(SECTION_TYPE.description.split(" ")))
   })
 
   it("keeps the text plain: markup in the props is shown, not run", async () => {

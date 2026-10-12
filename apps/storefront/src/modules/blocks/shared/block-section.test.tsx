@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest"
 
 import BlockSection from "./block-section"
 import { SEE_ALL_LABEL } from "./section-header"
+import { SECTION_TYPE } from "./section-type"
 
 vi.mock("@i18n/navigation", () => ({
   Link: ({ href, children, ...rest }: { href: string; children: ReactNode }) => (
@@ -44,6 +45,18 @@ describe("BlockSection", () => {
     expect(html).toMatch(/<h2 data-role="heading"[^>]*>Новинки недели<\/h2>/)
     expect(html).toMatch(/<p data-role="description"[^>]*>Пришло в понедельник<\/p>/)
     expect(html).toMatch(/<a href="\/ru\/store" data-role="cta-secondary"[^>]*>Смотреть все<\/a>/)
+  })
+
+  it("sets the header in the one section type of shared/section-type, the see-all link included", () => {
+    const html = renderToStaticMarkup(<BlockSection block="text/probe" locale="ru" header={header} />)
+    expect(html).toContain(`<p data-role="label" class="${SECTION_TYPE.label}">`)
+    expect(html).toContain(`<h2 data-role="heading" class="${SECTION_TYPE.heading}">`)
+    expect(html).toContain(`<p data-role="description" class="${SECTION_TYPE.description}">`)
+    const link = html.match(/data-role="cta-secondary" class="([^"]*)"/)?.[1].split(" ") ?? []
+    expect(link).toEqual(expect.arrayContaining(SECTION_TYPE.seeAll.split(" ")))
+    expect(link.filter((token) => /^(small:)?text-(xs|sm|base|lg|xl|\dxl)$/.test(token))).toEqual(
+      SECTION_TYPE.seeAll.split(" ").filter((token) => /^(small:)?text-(xs|sm|base|lg|xl|\dxl)$/.test(token))
+    )
   })
 
   it("keeps an https see-all link a plain anchor, and draws no header without words", () => {
