@@ -18,15 +18,23 @@
  *
  * The script is GENERATED from `AXES`, so a new axis is allow-listed by adding it to
  * that array — there is no second list here to keep in sync.
+ *
+ * `lightOnly` (t-2026-10-12-33 T0c): the page paints a light-only palette, so the stored mode
+ * is never read and the script writes `data-mode="light"` itself. Without it the script is
+ * the one every other page has always had, byte for byte.
  */
 
 import { AXES } from "./attributes"
 
-export function themePrePaintScript(): string {
-  const table = AXES.map((a) => [a.storageKey, a.attr, a.allowed] as const)
+export function themePrePaintScript({ lightOnly = false }: { lightOnly?: boolean } = {}): string {
+  const table = AXES.filter((a) => !(lightOnly && a.attr === "data-mode")).map(
+    (a) => [a.storageKey, a.attr, a.allowed] as const
+  )
   return (
     `(function(){try{var d=document.documentElement,t=${JSON.stringify(table)};` +
     `for(var i=0;i<t.length;i++){var v=null;try{v=localStorage.getItem(t[i][0])}catch(e){}` +
-    `if(v&&t[i][2].indexOf(v)>=0){d.setAttribute(t[i][1],v)}}}catch(e){}})();`
+    `if(v&&t[i][2].indexOf(v)>=0){d.setAttribute(t[i][1],v)}}` +
+    (lightOnly ? `d.setAttribute("data-mode","light")` : ``) +
+    `}catch(e){}})();`
   )
 }

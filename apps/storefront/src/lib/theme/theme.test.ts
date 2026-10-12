@@ -3,10 +3,10 @@ import { createRequire } from "node:module"
 import { join } from "node:path"
 import { describe, expect, it } from "vitest"
 
-import { AXES, axis, isAllowed } from "./attributes"
+import { AXES, axis, isAllowed, isLightOnlyTheme } from "./attributes"
 import { FONT_LOADERS, FONT_NAMES, FONT_STATIC_WEIGHTS, assertFontName, isFontName } from "./fonts"
 import { themePrePaintScript } from "./pre-paint"
-import { THEME_IDS, THEME_TOKEN_COUNT } from "./presets.generated"
+import { LIGHT_ONLY_THEME_IDS, THEME_IDS, THEME_TOKEN_COUNT } from "./presets.generated"
 
 const REPO = join(__dirname, "../../../../..")
 const SPECS = join(REPO, "specs/design-system")
@@ -144,6 +144,37 @@ describe("the pre-paint script", () => {
     const once = { ...html }
     fn(document, localStorage)
     expect(html).toEqual(once)
+  })
+})
+
+describe("a light-only palette (t-2026-10-12-33 T0c)", () => {
+  const run = (script: string, store: Record<string, string>) => {
+    const html: Record<string, string> = {}
+    const document = { documentElement: { setAttribute: (k: string, v: string) => void (html[k] = v) } }
+    const localStorage = { getItem: (k: string) => store[k] ?? null }
+    new Function("document", "localStorage", script)(document, localStorage)
+    return html
+  }
+
+  it("is the seven lab palettes and nothing else", () => {
+    for (const id of LIGHT_ONLY_THEME_IDS) expect(isLightOnlyTheme(id), id).toBe(true)
+    for (const id of ["default", ...THEME_IDS]) expect(isLightOnlyTheme(id), id).toBe(false)
+    expect(isLightOnlyTheme(null)).toBe(false)
+  })
+
+  it("keeps the page light whatever the visitor stored, and still applies the rest", () => {
+    const script = themePrePaintScript({ lightOnly: true })
+    expect(script).not.toContain('"upready-store.mode"')
+    expect(run(script, { "upready-store.theme": "geist", "upready-store.mode": "dark" })).toEqual({
+      "data-theme": "geist",
+      "data-mode": "light",
+    })
+    expect(run(script, {})).toEqual({ "data-mode": "light" })
+  })
+
+  it("leaves every other page with today's script", () => {
+    expect(themePrePaintScript({ lightOnly: false })).toBe(themePrePaintScript())
+    expect(run(themePrePaintScript(), { "upready-store.mode": "dark" })).toEqual({ "data-mode": "dark" })
   })
 })
 

@@ -11,7 +11,7 @@
  * has to be touched, because the pre-paint script is generated FROM this array.
  */
 
-import { THEME_IDS, THEME_MODES } from "./presets.generated"
+import { LIGHT_ONLY_THEME_IDS, THEME_IDS, THEME_MODES } from "./presets.generated"
 
 export type ThemeAxis = {
   /** the `<html>` attribute this axis writes */
@@ -52,4 +52,13 @@ export function axis(attr: AxisAttr): ThemeAxis {
 /** Narrowing guard used by both apply() and the panel; never throws. */
 export function isAllowed(attr: AxisAttr, value: unknown): value is string {
   return typeof value === "string" && axis(attr).allowed.includes(value)
+}
+
+/**
+ * A light-only palette (t-2026-10-12-33 T0c): one of the 16.09 lab's, a template's `data-theme`
+ * with no dark tokens. The root layout paints it light whatever the visitor stored and offers no
+ * mode switch, since `globals.css` keeps `[data-mode="dark"]` rules of its own.
+ */
+export function isLightOnlyTheme(id: unknown): boolean {
+  return typeof id === "string" && (LIGHT_ONLY_THEME_IDS as readonly string[]).includes(id)
 }

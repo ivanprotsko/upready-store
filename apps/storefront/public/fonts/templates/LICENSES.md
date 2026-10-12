@@ -4,7 +4,8 @@ The woff2 files in this folder are the fonts a store template may name in `theme
 (`apps/storefront/src/lib/templates/fonts.ts`), declared by `fonts.css` beside them. They come from
 the 16.09 templates lab, `artifacts/docs/store-templates-lab/assets/fonts` (commit 2dc99d85), whose
 `fonts.mjs` took them from Google Fonts, Latin and Cyrillic subsets only. The lab kept 400, 500 and 600
-of a variable family as three copies of the same bytes; here each family has one file per subset.
+of a variable family as three copies of the same bytes; here each family has one file per subset,
+plus the ruble sign below.
 IBM Plex Mono has no variable axis and keeps its 400 and 500 files.
 
 Every family is under the **SIL Open Font License 1.1** ([SIL Open Font License](https://openfontlicense.org)).
@@ -26,6 +27,31 @@ t-2026-10-12-33.
 The copyright column drops the `https://` the files write before their repository addresses; the rest
 is as the files have it. The files are served unmodified, so the Reserved Font Name of Playfair Display
 does not come into play.
+
+## The ruble sign (`*-ruble.woff2`)
+
+The lab's Latin and Cyrillic subsets leave out U+20BD, so a price set in a template face drew its ₽
+from the fallback (t-2026-10-12-33 T0c). Each `*-ruble.woff2` holds U+20BD alone (and the space every
+subset keeps), cut by Google Fonts itself from the same release as the files above: one request per
+family to its CSS API with `text=₽`, made once outside the repository on 13.10.2026, e.g.
+`https://fonts.googleapis.com/css2?family=Inter:wght@100..900&text=%E2%82%BD`, and the woff2 it
+links saved unmodified. No tool was added to the repository. Each file carries the same version
+(name ID 5), weight axis, copyright (name ID 0) and licence URL (name ID 14) as the family's rows in
+the table above.
+
+| Family | File | Weight | Version (name ID 5) |
+|---|---|---|---|
+| Cormorant Garamond | `cormorant-garamond-ruble.woff2` | 300–700 | 4.001 |
+| Geist | `geist-ruble.woff2` | 100–900 | 1.800 |
+| IBM Plex Mono | `ibm-plex-mono-{400,500}-ruble.woff2` | 400, 500 | 2.3 |
+| IBM Plex Sans | `ibm-plex-sans-ruble.woff2` | 100–700 | 3.201 |
+| Inter | `inter-ruble.woff2` | 100–900 | 4.001 |
+| Manrope | `manrope-ruble.woff2` | 200–800 | 4.504 |
+| Nunito | `nunito-ruble.woff2` | 200–1000 | 3.602 |
+
+Playfair Display has no ruble sign: its Google Fonts release, `ofl/playfairdisplay/PlayfairDisplay[wght].ttf`
+(1.203), maps no glyph to U+20BD (its currency signs are € and ₹), and the CSS API answers 400 to
+`text=₽`. A price set in it keeps the fallback's ₽.
 
 Four of the twelve `FONT_NAMES` have no file here: DM Sans, Space Grotesk, Fraunces and Sora carry no
 Cyrillic (the lab's measurement of 16.09, `artifacts/docs/store-templates-lab/README.md`), so the lab
