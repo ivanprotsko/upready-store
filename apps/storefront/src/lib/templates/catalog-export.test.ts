@@ -27,6 +27,11 @@ vi.mock("server-only", () => ({}))
  * again after a change to a template, a block or a vocabulary:
  *
  *   pnpm templates:export
+ *
+ * Laid out so that parallel block and template PRs merge without a conflict: `blocks` sorted
+ * by id, one line per block; `templates` keyed in id order. Two new blocks are then separate
+ * insertions in different places, unless no existing id sorts between them. Nothing reads
+ * the order: the backend looks blocks and templates up by id.
  */
 const TARGET = fileURLToPath(
   new URL("../../../../backend/src/api/tenants/home/template/catalog.generated.json", import.meta.url)
@@ -70,6 +75,9 @@ function swatches() {
   )
 }
 
+/** Plain code-unit order: the same on every Node build, unlike a locale's collation. */
+const byCodeUnits = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0)
+
 function catalogExport() {
   return {
     $comment:
@@ -88,21 +96,33 @@ function catalogExport() {
       density: [...DENSITIES],
     },
     locales: [...locales],
-    blocks: BLOCKS.map((block) => ({
-      id: block.id,
-      category: block.category,
-      placement: block.placement,
-      status: block.status,
-      ...(block.setting ? { setting: block.setting } : {}),
-      props: Boolean(block.parseProps),
-      // A shop may change the props only where the backend holds a copy of the parser; the panel reads this.
-      propsEditable: Boolean(block.parseProps) && Object.prototype.hasOwnProperty.call(PROPS_CHECKS, block.id),
-    })),
-    templates: TEMPLATE_SOURCES,
+    blocks: [...BLOCKS]
+      .sort((a, b) => byCodeUnits(a.id, b.id))
+      .map((block) => ({
+        id: block.id,
+        category: block.category,
+        placement: block.placement,
+        status: block.status,
+        ...(block.setting ? { setting: block.setting } : {}),
+        props: Boolean(block.parseProps),
+        // A shop may change the props only where the backend holds a copy of the parser; the panel reads this.
+        propsEditable: Boolean(block.parseProps) && Object.prototype.hasOwnProperty.call(PROPS_CHECKS, block.id),
+      })),
+    templates: Object.fromEntries(Object.entries(TEMPLATE_SOURCES).sort(([a], [b]) => byCodeUnits(a, b))),
   }
 }
 
-const serialised = () => `${JSON.stringify(catalogExport(), null, 2)}\n`
+/** `JSON.stringify(…, null, 2)` with one change: each entry of `blocks` on a line of its own. */
+function serialised() {
+  const entries = Object.entries(catalogExport()).map(([key, value]) => {
+    const body =
+      key === "blocks"
+        ? `[\n${(value as unknown[]).map((block) => `    ${JSON.stringify(block)}`).join(",\n")}\n  ]`
+        : JSON.stringify(value, null, 2).replace(/\n/g, "\n  ")
+    return `  ${JSON.stringify(key)}: ${body}`
+  })
+  return `{\n${entries.join(",\n")}\n}\n`
+}
 
 describe("the template catalogue the backend reads", () => {
   it("is the one this storefront exports", () => {

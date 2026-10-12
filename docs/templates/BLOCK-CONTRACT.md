@@ -199,7 +199,8 @@ export const parseRichTextProps = (input: unknown) =>
 - [ ] rebase on `origin/templates/main` right before the hand-in. A conflict in your category file means
   another block of your category landed, so keep both lines
 - [ ] after the final rebase run `pnpm templates:export` and commit `catalog.generated.json`; on a conflict
-  there, take either side and run it again
+  there, take templates/main's file (during a rebase that is `git checkout --ours`) and run the export again,
+  never edit the file by hand
 - [ ] base `templates/main`, never `dev`
 
 ## 7. What Is Left to the Eyes
@@ -297,7 +298,9 @@ validator again before anything is written: 400 for a field, 422 with the `PUT` 
 
 The backend cannot import this app, so it reads `apps/backend/src/api/tenants/home/template/catalog.generated.json`:
 the catalogue, the registry's block list and the vocabularies. `pnpm templates:export` in
-`apps/storefront` writes it, and `catalog-export.test.ts` fails when it is stale. The backend's
+`apps/storefront` writes it, and `catalog-export.test.ts` fails when it is stale. The export is sorted
+by id, one line per block, so parallel block PRs merge without a conflict; if one still happens on a
+rebase, take templates/main's file and run the export again, never edit the file by hand. The backend's
 `validation.ts` transcribes `validateTemplate()` by hand, and `parity.test.ts` runs both copies on
 `parity.fixtures.json`. The export lists the light-only palettes apart (`lightOnlyPalettes`), and the
 backend asks for `settings.defaultMode` "light" with one of them, as `validateTemplate()` does.

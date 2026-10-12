@@ -311,412 +311,81 @@
     "zh"
   ],
   "blocks": [
-    {
-      "id": "header/h1",
-      "category": "header",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "header",
-        "value": "h1"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "header/h2",
-      "category": "header",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "header",
-        "value": "h2"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "header/h3",
-      "category": "header",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "header",
-        "value": "h3"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "header/h4",
-      "category": "header",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "header",
-        "value": "h4"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "header/h5",
-      "category": "header",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "header",
-        "value": "h5"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "header/h6",
-      "category": "header",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "header",
-        "value": "h6"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/g",
-      "category": "hero",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "hero",
-        "value": "g"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/h",
-      "category": "hero",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "hero",
-        "value": "h"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/j",
-      "category": "hero",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "hero",
-        "value": "j"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/k",
-      "category": "hero",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "hero",
-        "value": "k"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/l",
-      "category": "hero",
-      "placement": "home",
-      "status": "placeholder",
-      "setting": {
-        "field": "hero",
-        "value": "l"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/m",
-      "category": "hero",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "hero",
-        "value": "m"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/ga",
-      "category": "hero",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "hero",
-        "value": "ga"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/gb",
-      "category": "hero",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "hero",
-        "value": "gb"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "tiles/on",
-      "category": "tiles",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "tiles",
-        "value": "on"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "listing/p1",
-      "category": "listing",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "listing",
-        "value": "p1"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "listing/p2",
-      "category": "listing",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "listing",
-        "value": "p2"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "listing/p3",
-      "category": "listing",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "listing",
-        "value": "p3"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "listing/p4",
-      "category": "listing",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "listing",
-        "value": "p4"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "listing/p5",
-      "category": "listing",
-      "placement": "home",
-      "status": "live",
-      "setting": {
-        "field": "listing",
-        "value": "p5"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "footer/f1",
-      "category": "footer",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "footer",
-        "value": "f1"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "footer/f2",
-      "category": "footer",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "footer",
-        "value": "f2"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "footer/f3",
-      "category": "footer",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "footer",
-        "value": "f3"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "footer/f4",
-      "category": "footer",
-      "placement": "site",
-      "status": "placeholder",
-      "setting": {
-        "field": "footer",
-        "value": "f4"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "footer/f5",
-      "category": "footer",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "footer",
-        "value": "f5"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "footer/f6",
-      "category": "footer",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "footer",
-        "value": "f6"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "footer/f7",
-      "category": "footer",
-      "placement": "site",
-      "status": "live",
-      "setting": {
-        "field": "footer",
-        "value": "f7"
-      },
-      "props": false,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/split",
-      "category": "hero",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    },
-    {
-      "id": "hero/type",
-      "category": "hero",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    },
-    {
-      "id": "announcement/rotator",
-      "category": "announcement",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    },
-    {
-      "id": "announcement/text-bar",
-      "category": "announcement",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": true
-    },
-    {
-      "id": "text/rich-text",
-      "category": "text",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    },
-    {
-      "id": "media/image-with-text",
-      "category": "media",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    },
-    {
-      "id": "columns/multicolumn",
-      "category": "columns",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    },
-    {
-      "id": "testimonials/cards",
-      "category": "testimonials",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    },
-    {
-      "id": "banner/image",
-      "category": "banner",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    },
-    {
-      "id": "faq/accordion",
-      "category": "faq",
-      "placement": "home",
-      "status": "lab",
-      "props": true,
-      "propsEditable": false
-    }
+    {"id":"announcement/rotator","category":"announcement","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"announcement/text-bar","category":"announcement","placement":"home","status":"lab","props":true,"propsEditable":true},
+    {"id":"banner/image","category":"banner","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"columns/multicolumn","category":"columns","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"faq/accordion","category":"faq","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"footer/f1","category":"footer","placement":"site","status":"live","setting":{"field":"footer","value":"f1"},"props":false,"propsEditable":false},
+    {"id":"footer/f2","category":"footer","placement":"site","status":"live","setting":{"field":"footer","value":"f2"},"props":false,"propsEditable":false},
+    {"id":"footer/f3","category":"footer","placement":"site","status":"live","setting":{"field":"footer","value":"f3"},"props":false,"propsEditable":false},
+    {"id":"footer/f4","category":"footer","placement":"site","status":"placeholder","setting":{"field":"footer","value":"f4"},"props":false,"propsEditable":false},
+    {"id":"footer/f5","category":"footer","placement":"site","status":"live","setting":{"field":"footer","value":"f5"},"props":false,"propsEditable":false},
+    {"id":"footer/f6","category":"footer","placement":"site","status":"live","setting":{"field":"footer","value":"f6"},"props":false,"propsEditable":false},
+    {"id":"footer/f7","category":"footer","placement":"site","status":"live","setting":{"field":"footer","value":"f7"},"props":false,"propsEditable":false},
+    {"id":"header/h1","category":"header","placement":"site","status":"live","setting":{"field":"header","value":"h1"},"props":false,"propsEditable":false},
+    {"id":"header/h2","category":"header","placement":"site","status":"live","setting":{"field":"header","value":"h2"},"props":false,"propsEditable":false},
+    {"id":"header/h3","category":"header","placement":"site","status":"live","setting":{"field":"header","value":"h3"},"props":false,"propsEditable":false},
+    {"id":"header/h4","category":"header","placement":"site","status":"live","setting":{"field":"header","value":"h4"},"props":false,"propsEditable":false},
+    {"id":"header/h5","category":"header","placement":"site","status":"live","setting":{"field":"header","value":"h5"},"props":false,"propsEditable":false},
+    {"id":"header/h6","category":"header","placement":"site","status":"live","setting":{"field":"header","value":"h6"},"props":false,"propsEditable":false},
+    {"id":"hero/g","category":"hero","placement":"home","status":"live","setting":{"field":"hero","value":"g"},"props":false,"propsEditable":false},
+    {"id":"hero/ga","category":"hero","placement":"home","status":"live","setting":{"field":"hero","value":"ga"},"props":false,"propsEditable":false},
+    {"id":"hero/gb","category":"hero","placement":"home","status":"live","setting":{"field":"hero","value":"gb"},"props":false,"propsEditable":false},
+    {"id":"hero/h","category":"hero","placement":"home","status":"live","setting":{"field":"hero","value":"h"},"props":false,"propsEditable":false},
+    {"id":"hero/j","category":"hero","placement":"home","status":"live","setting":{"field":"hero","value":"j"},"props":false,"propsEditable":false},
+    {"id":"hero/k","category":"hero","placement":"home","status":"live","setting":{"field":"hero","value":"k"},"props":false,"propsEditable":false},
+    {"id":"hero/l","category":"hero","placement":"home","status":"placeholder","setting":{"field":"hero","value":"l"},"props":false,"propsEditable":false},
+    {"id":"hero/m","category":"hero","placement":"home","status":"live","setting":{"field":"hero","value":"m"},"props":false,"propsEditable":false},
+    {"id":"hero/split","category":"hero","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"hero/type","category":"hero","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"listing/p1","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p1"},"props":false,"propsEditable":false},
+    {"id":"listing/p2","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p2"},"props":false,"propsEditable":false},
+    {"id":"listing/p3","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p3"},"props":false,"propsEditable":false},
+    {"id":"listing/p4","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p4"},"props":false,"propsEditable":false},
+    {"id":"listing/p5","category":"listing","placement":"home","status":"live","setting":{"field":"listing","value":"p5"},"props":false,"propsEditable":false},
+    {"id":"media/image-with-text","category":"media","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"testimonials/cards","category":"testimonials","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"text/rich-text","category":"text","placement":"home","status":"lab","props":true,"propsEditable":false},
+    {"id":"tiles/on","category":"tiles","placement":"home","status":"live","setting":{"field":"tiles","value":"on"},"props":false,"propsEditable":false}
   ],
   "templates": {
+    "ferrite": {
+      "schema": "upready.storefront-template/v1",
+      "id": "ferrite",
+      "title": "Ferrite",
+      "description": "Electronics, dark and dense. The electronics profile defaults (header h3, tiles, spec list p3, footer f5), with the showcase hero g in place of the profile-only announcement k, and the list ahead of the tiles. Type: IBM Plex Mono headings over IBM Plex Sans text, both with Cyrillic.",
+      "settings": {
+        "defaultMode": "dark",
+        "header": "h3",
+        "hero": "g",
+        "tiles": "on",
+        "listing": "p3",
+        "footer": "f5"
+      },
+      "theme": {
+        "palette": "electronics",
+        "fontPair": {
+          "display": "IBM Plex Mono",
+          "body": "IBM Plex Sans"
+        },
+        "radius": "sharp",
+        "buttonStyle": "outlined",
+        "photoStyle": "square",
+        "density": "compact"
+      },
+      "sections": [
+        {
+          "block": "hero/g"
+        },
+        {
+          "block": "listing/p3"
+        },
+        {
+          "block": "tiles/on"
+        }
+      ]
+    },
     "long-morning": {
       "schema": "upready.storefront-template/v1",
       "id": "long-morning",
@@ -760,42 +429,6 @@
         },
         {
           "block": "listing/p4"
-        }
-      ]
-    },
-    "ferrite": {
-      "schema": "upready.storefront-template/v1",
-      "id": "ferrite",
-      "title": "Ferrite",
-      "description": "Electronics, dark and dense. The electronics profile defaults (header h3, tiles, spec list p3, footer f5), with the showcase hero g in place of the profile-only announcement k, and the list ahead of the tiles. Type: IBM Plex Mono headings over IBM Plex Sans text, both with Cyrillic.",
-      "settings": {
-        "defaultMode": "dark",
-        "header": "h3",
-        "hero": "g",
-        "tiles": "on",
-        "listing": "p3",
-        "footer": "f5"
-      },
-      "theme": {
-        "palette": "electronics",
-        "fontPair": {
-          "display": "IBM Plex Mono",
-          "body": "IBM Plex Sans"
-        },
-        "radius": "sharp",
-        "buttonStyle": "outlined",
-        "photoStyle": "square",
-        "density": "compact"
-      },
-      "sections": [
-        {
-          "block": "hero/g"
-        },
-        {
-          "block": "listing/p3"
-        },
-        {
-          "block": "tiles/on"
         }
       ]
     }
