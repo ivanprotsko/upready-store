@@ -89,7 +89,7 @@ export default async function VideoEmbed({
   const beside = hasWords && !full && textPosition !== "above"
 
   const words = hasWords ? (
-    <div className={clx("flex min-w-0 flex-col gap-[calc(1rem*var(--layer-density,1))]", full && "content-container")}>
+    <div className={clx("flex min-w-0 flex-col gap-[var(--layer-space-4,1rem)]", full && "content-container")}>
       {title ? (
         <h2 data-role="headline" className={clx(SECTION_TYPE.heading, "max-w-2xl")}>
           {title}
@@ -101,7 +101,7 @@ export default async function VideoEmbed({
         </p>
       ) : null}
       {button && buttonText ? (
-        <div className="mt-[calc(0.5rem*var(--layer-density,1))] flex">
+        <div className="mt-[var(--layer-space-2,0.5rem)] flex">
           {button.href.startsWith("/") ? (
             <Link href={button.href} data-role="cta-primary" className={BUTTON_CLASS}>
               {buttonText}
@@ -132,7 +132,7 @@ export default async function VideoEmbed({
       {beside ? (
         <div
           className={clx(
-            "grid grid-cols-1 gap-y-[calc(1.5rem*var(--layer-density,1))] small:items-center small:gap-x-12",
+            "grid grid-cols-1 gap-y-[var(--layer-space-6,1.5rem)] small:items-center small:gap-x-12",
             COLUMNS[textPosition]
           )}
         >
@@ -140,7 +140,7 @@ export default async function VideoEmbed({
           <div className="min-w-0">{player}</div>
         </div>
       ) : (
-        <div className="flex flex-col gap-[calc(1.5rem*var(--layer-density,1))]">
+        <div className="flex flex-col gap-[var(--layer-space-6,1.5rem)]">
           {words}
           {player}
         </div>
