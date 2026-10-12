@@ -26,7 +26,7 @@ export type VideoEmbedProps = {
   aspect: "16/9" | "4/3" | "9/16"
   /** `full`: the video takes the page's width, the words stay in the container. */
   width: "container" | "full"
-  /** For a clip of the template only: a provider's player takes neither. */
+  /** For a clip of the template only; a link plays in the provider's player, with its own settings. */
   loop: boolean
   muted: boolean
 }
