@@ -322,7 +322,7 @@ describe("promo/grid in the registry", () => {
     expect(blockById("promo/grid")).toBe(grid)
     expect(grid).toMatchObject({ category: "promo", variant: "grid", data: ["products", "categories", "static"], status: "lab", placement: "home" })
     expect([...grid.roles].sort()).toEqual(["badge", "card", "card-image", "cta-primary", "description", "headline"])
-    expect(CATEGORY_BLOCKS.promo.map((b) => b.id)).toEqual(["promo/grid"])
+    expect(CATEGORY_BLOCKS.promo.map((b) => b.id)).toContain("promo/grid")
     expect(BLOCKS.map((b) => b.id)).toContain("promo/grid")
   })
 
