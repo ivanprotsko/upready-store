@@ -20,6 +20,7 @@ import {
   getTenantModeDefault,
   getTenantThemePreset,
 } from "@lib/data/tenant-home"
+import { getPreviewTemplate } from "@lib/templates/preview"
 import StudioMount from "@modules/studio/components/studio-mount"
 import MiniAppBridge from "@modules/telegram/components/mini-app-bridge"
 import TestModeDot from "@modules/common/components/test-mode-dot"
@@ -82,7 +83,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode, messages] =
+  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode, messages, preview] =
     await Promise.all([
       getEffectiveSettings(),
       getTenantThemePreset(),
@@ -92,6 +93,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       isOlavkaShop(),
       getSiteTestMode(),
       getClientMessages(),
+      getPreviewTemplate(),
     ])
   // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
   // this parse only ever produces a clean integer or null, never NaN reaching
@@ -99,12 +101,19 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const yandexCounterId = analytics.yandexMetricaId
     ? Number.parseInt(analytics.yandexMetricaId, 10)
     : null
-  const theme = isAllowed("data-theme", tenantPreset) ? tenantPreset : profileTheme
+  // A previewed template (t-2026-10-12-33, templates stand only) paints with its own
+  // palette and mode; null everywhere else, and the lines below are the shop's own.
+  const theme = preview
+    ? preview.preset
+    : isAllowed("data-theme", tenantPreset)
+      ? tenantPreset
+      : profileTheme
   // The shop's own default sits ahead of the site-wide one: on a multi-shop process
   // `store.metadata.storefrontSettings` belongs to the whole backend and cannot speak
   // for one shop. `getEffectiveSettings()` already prefers the shop's document, so the
   // second term only ever answers for a single-store stand.
   const mode =
+    preview?.mode ??
     (isAllowed("data-mode", tenantMode) ? tenantMode : null) ??
     settings?.defaultMode ??
     profileMode
@@ -133,7 +142,8 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       data-theme={theme}
       data-mode={mode}
       className={[fontClassName, olavkaFontClassName].filter(Boolean).join(" ") || undefined}
-      style={brandStyle}
+      // The template's style layers (`--radius`, `--layer-*`) over the brand colour, preview only.
+      style={preview ? ({ ...brandStyle, ...preview.style } as React.CSSProperties) : brandStyle}
       // Marks an Olavka shop (`OLAVKA_SHOP_HANDLES`) for the styles a client component or a
       // portal cannot learn from the server: the product row tile's 1rem type (remark 17),
       // the search input's focus ring (remark 18).

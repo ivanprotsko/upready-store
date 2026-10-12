@@ -42,6 +42,7 @@ import { tenantHomeTag } from "@lib/tenant/cache-tags"
 import type { StorefrontSettings, StorefrontSettingsInput } from "@lib/theme/composition"
 import { headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
+import { getPreviewTemplate } from "@lib/templates/preview"
 
 export type HomeBlock = "hero" | "categories" | "products"
 
@@ -159,8 +160,16 @@ export async function getTenantHome(): Promise<TenantHome | null> {
  *
  * Both reads are `force-cache` fetches with their own tags, so calling this from several
  * components of one request costs no extra round trip (Next's fetch request memoization).
+ *
+ * The templates stand comes first (t-2026-10-12-33): with `STOREFRONT_TEMPLATE_PREVIEW=1`
+ * and `?template=<id>`, the request reads that template's composition and nothing is saved.
+ * Without the flag `getPreviewTemplate()` answers null before it reads anything.
  */
 export async function getEffectiveSettings(): Promise<StorefrontSettings | null> {
+  const preview = await getPreviewTemplate()
+  if (preview) {
+    return { ...preview.settings, updatedAt: new Date(0).toISOString() }
+  }
   const home = await getTenantHome()
   if (home) {
     return { ...home.settings, updatedAt: home.updatedAt }

@@ -28,6 +28,7 @@ import { categoriesWithImages, categoryImage } from "@lib/util/category-image"
 import { categoryTiles as profileCategoryTiles } from "@lib/profile"
 import type { ProfileCategoryTile } from "@lib/profile/types"
 import { HOME_SECTION_CLASS } from "@modules/home/components/listing-section"
+import { getPreviewTemplate } from "@lib/templates/preview"
 
 /**
  * The category tiles THIS shop may show. The list in the build profile belongs to the
@@ -153,13 +154,14 @@ export default async function Home() {
   // "this shop's document, else the site-wide one", which is why there is no second
   // fallback here; a single-store deployment resolves no shop and reads exactly what it
   // read before either piece existed.
-  const [t, settings, home, tileList, locale, olavka] = await Promise.all([
+  const [t, settings, home, tileList, locale, olavka, template] = await Promise.all([
     getTranslations("CategoryMenu"),
     getEffectiveSettings(),
     getTenantHome(),
     tilesForThisShop(),
     getLocale(),
     isOlavkaShop(),
+    getPreviewTemplate(),
   ])
 
   const hero = settings?.hero ?? DEFAULT_HERO
@@ -184,12 +186,18 @@ export default async function Home() {
       }
     : {}
 
-  const savedOrder = savedBlockOrder(home)
+  // A previewed template places the hero itself (its `sections`), so the shop's saved
+  // order cannot take it off; without one this is the shop's order, as before.
+  const savedOrder = template ? DEFAULT_BLOCK_ORDER : savedBlockOrder(home)
   // The Olavka shop's own blocks above take the hero's place, so the composed hero is
   // skipped for it — Ivan saw three heroes on one page otherwise (2026-09-24). Tiles and
   // listing keep rendering below the new blocks. Every other shop gets the saved order,
   // untouched. The rule lives in `homeBlockOrder`, which `generateMetadata` reads too.
   const order = homeBlockOrder(savedOrder, olavka)
+
+  const TemplateSections = template
+    ? (await import("@modules/blocks/template-sections")).default
+    : null
 
   const blocks: Record<HomeBlockKey, React.ReactNode> = {
     hero: Hero && heroIsDrawn({ olavka, hero, savedOrder }) ? <Hero {...heroProps} /> : null,
@@ -227,9 +235,14 @@ export default async function Home() {
             </Fragment>
           )
         })}
-      {order.map((block) => (
-        <Fragment key={block}>{blocks[block]}</Fragment>
-      ))}
+      {/* The templates stand (t-2026-10-12-33): a previewed template lays out the home page
+          from its own `sections`, the three slots above included. Null everywhere else, and
+          the registry is imported only then. */}
+      {template && TemplateSections ? (
+        <TemplateSections sections={template.manifest.sections} slots={blocks} />
+      ) : (
+        order.map((block) => <Fragment key={block}>{blocks[block]}</Fragment>)
+      )}
       {/* The shop's brands, when it keeps a `brands` category (ask a0e1); nothing otherwise. */}
       <HomeBrands />
     </>

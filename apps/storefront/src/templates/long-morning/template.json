@@ -1,0 +1,37 @@
+{
+  "schema": "upready.storefront-template/v1",
+  "id": "long-morning",
+  "title": "Long Morning",
+  "description": "Home goods, light and unhurried. The home-goods profile defaults (header h2, shelf hero h, tiles, wall listing p4), with footer f1 in place of the f4 placeholder, under the shop's own text bar.",
+  "settings": {
+    "defaultMode": "light",
+    "header": "h2",
+    "hero": "h",
+    "tiles": "on",
+    "listing": "p4",
+    "footer": "f1"
+  },
+  "theme": {
+    "palette": "home-goods",
+    "fontPair": { "display": "Fraunces", "body": "Manrope" },
+    "radius": "soft",
+    "buttonStyle": "filled",
+    "photoStyle": "landscape",
+    "density": "spacious"
+  },
+  "sections": [
+    {
+      "block": "announcement/text-bar",
+      "props": {
+        "text": {
+          "ru": "Доставка по городу за два часа, самовывоз бесплатно",
+          "en": "Delivery across town in two hours, pick-up is free"
+        },
+        "href": "/store"
+      }
+    },
+    { "block": "hero/h" },
+    { "block": "tiles/on" },
+    { "block": "listing/p4" }
+  ]
+}

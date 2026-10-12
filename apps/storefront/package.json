@@ -26,6 +26,8 @@
     "lint": "next lint && node scripts/check-ui-content-allowlist.mjs && node scripts/check-var-colour-opacity.mjs",
     "check:ui-content-allowlist": "node scripts/check-ui-content-allowlist.mjs",
     "check:var-colour-opacity": "node scripts/check-var-colour-opacity.mjs",
+    "lint:blocks": "node scripts/lint-blocks.mjs",
+    "template:shots": "node scripts/template-shots.mjs",
     "analyze": "ANALYZE=true next build",
     "ui:inventory": "node scripts/ui-inventory.mjs",
     "ui-lab:dev": "NEXT_PUBLIC_UI_LAB=1 next dev --turbopack -p 8001",

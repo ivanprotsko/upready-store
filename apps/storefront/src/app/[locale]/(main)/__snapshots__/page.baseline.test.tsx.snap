@@ -1,0 +1,407 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`home page with no template: unchanged > hero none, listing none: the tree matches the one before templates 1`] = `
+"{
+ "type": "Symbol(react.fragment)",
+ "key": null,
+ "props": {},
+ "children": [
+  false,
+  [
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "hero",
+    "props": {},
+    "children": null
+   },
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "categories",
+    "props": {},
+    "children": {
+     "type": "CategoryTiles",
+     "key": null,
+     "props": {
+      "heading": "CategoryMenu.title",
+      "tiles": [
+       {
+        "categoryHandle": "chairs",
+        "label": "Chairs",
+        "image": "/chairs.jpg"
+       }
+      ]
+     },
+     "children": null
+    }
+   },
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "products",
+    "props": {},
+    "children": null
+   }
+  ],
+  {
+   "type": "HomeBrands",
+   "key": null,
+   "props": {},
+   "children": null
+  }
+ ]
+}"
+`;
+
+exports[`home page with no template: unchanged > no settings, no tenant document: the tree matches the one before templates 1`] = `
+"{
+ "type": "Symbol(react.fragment)",
+ "key": null,
+ "props": {},
+ "children": [
+  false,
+  [
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "hero",
+    "props": {},
+    "children": {
+     "type": "HeroK",
+     "key": null,
+     "props": {},
+     "children": null
+    }
+   },
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "categories",
+    "props": {},
+    "children": {
+     "type": "CategoryTiles",
+     "key": null,
+     "props": {
+      "heading": "CategoryMenu.title",
+      "tiles": [
+       {
+        "categoryHandle": "chairs",
+        "label": "Chairs",
+        "image": "/chairs.jpg"
+       }
+      ]
+     },
+     "children": null
+    }
+   },
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "products",
+    "props": {},
+    "children": {
+     "type": "div",
+     "key": null,
+     "props": {},
+     "children": {
+      "type": "ul",
+      "key": null,
+      "props": {
+       "className": "flex flex-col gap-x-6"
+      },
+      "children": {
+       "type": "Symbol(react.suspense)",
+       "key": null,
+       "props": {
+        "fallback": {
+         "type": "li",
+         "key": null,
+         "props": {
+          "className": "home-section"
+         },
+         "children": {
+          "type": "SkeletonProductGrid",
+          "key": null,
+          "props": {
+           "numberOfProducts": 4
+          },
+          "children": null
+         }
+        }
+       },
+       "children": {
+        "type": "ListingP1",
+        "key": null,
+        "props": {},
+        "children": null
+       }
+      }
+     }
+    }
+   }
+  ],
+  {
+   "type": "HomeBrands",
+   "key": null,
+   "props": {},
+   "children": null
+  }
+ ]
+}"
+`;
+
+exports[`home page with no template: unchanged > saved composition: hero g, tiles off, listing p3: the tree matches the one before templates 1`] = `
+"{
+ "type": "Symbol(react.fragment)",
+ "key": null,
+ "props": {},
+ "children": [
+  false,
+  [
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "hero",
+    "props": {},
+    "children": {
+     "type": "HeroG",
+     "key": null,
+     "props": {},
+     "children": null
+    }
+   },
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "categories",
+    "props": {},
+    "children": null
+   },
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "products",
+    "props": {},
+    "children": {
+     "type": "div",
+     "key": null,
+     "props": {},
+     "children": {
+      "type": "ul",
+      "key": null,
+      "props": {
+       "className": "flex flex-col gap-x-6"
+      },
+      "children": {
+       "type": "Symbol(react.suspense)",
+       "key": null,
+       "props": {
+        "fallback": {
+         "type": "li",
+         "key": null,
+         "props": {
+          "className": "home-section"
+         },
+         "children": {
+          "type": "SkeletonProductGrid",
+          "key": null,
+          "props": {
+           "numberOfProducts": 4
+          },
+          "children": null
+         }
+        }
+       },
+       "children": {
+        "type": "ListingP3",
+        "key": null,
+        "props": {},
+        "children": null
+       }
+      }
+     }
+    }
+   }
+  ],
+  {
+   "type": "HomeBrands",
+   "key": null,
+   "props": {},
+   "children": null
+  }
+ ]
+}"
+`;
+
+exports[`home page with no template: unchanged > tenant document with hero copy, products and its own order: the tree matches the one before templates 1`] = `
+"{
+ "type": "Symbol(react.fragment)",
+ "key": null,
+ "props": {},
+ "children": [
+  false,
+  [
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "products",
+    "props": {},
+    "children": {
+     "type": "div",
+     "key": null,
+     "props": {},
+     "children": {
+      "type": "ul",
+      "key": null,
+      "props": {
+       "className": "flex flex-col gap-x-6"
+      },
+      "children": {
+       "type": "Symbol(react.suspense)",
+       "key": null,
+       "props": {
+        "fallback": {
+         "type": "li",
+         "key": null,
+         "props": {
+          "className": "home-section"
+         },
+         "children": {
+          "type": "SkeletonProductGrid",
+          "key": null,
+          "props": {
+           "numberOfProducts": 4
+          },
+          "children": null
+         }
+        }
+       },
+       "children": {
+        "type": "ListingP4",
+        "key": null,
+        "props": {
+         "products": {
+          "kind": "collection",
+          "handle": "new"
+         }
+        },
+        "children": null
+       }
+      }
+     }
+    }
+   },
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "hero",
+    "props": {},
+    "children": {
+     "type": "HeroH",
+     "key": null,
+     "props": {
+      "title": "Title",
+      "subtitle": null,
+      "ctaLabel": "Go",
+      "ctaHref": "/store",
+      "imageUrl": null,
+      "profileFallback": false
+     },
+     "children": null
+    }
+   }
+  ],
+  {
+   "type": "HomeBrands",
+   "key": null,
+   "props": {},
+   "children": null
+  }
+ ]
+}"
+`;
+
+exports[`home page with no template: unchanged > the olavka shop: the tree matches the one before templates 1`] = `
+"{
+ "type": "Symbol(react.fragment)",
+ "key": null,
+ "props": {},
+ "children": [
+  [
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "olavkaHeroSlider",
+    "props": {},
+    "children": {
+     "type": "OlavkaHeroSlider",
+     "key": null,
+     "props": {},
+     "children": null
+    }
+   }
+  ],
+  [
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "categories",
+    "props": {},
+    "children": {
+     "type": "CategoryTiles",
+     "key": null,
+     "props": {
+      "heading": "CategoryMenu.title",
+      "tiles": [
+       {
+        "categoryHandle": "chairs",
+        "label": "Chairs",
+        "image": "/chairs.jpg"
+       }
+      ]
+     },
+     "children": null
+    }
+   },
+   {
+    "type": "Symbol(react.fragment)",
+    "key": "products",
+    "props": {},
+    "children": {
+     "type": "div",
+     "key": null,
+     "props": {},
+     "children": {
+      "type": "ul",
+      "key": null,
+      "props": {
+       "className": "flex flex-col gap-x-6"
+      },
+      "children": {
+       "type": "Symbol(react.suspense)",
+       "key": null,
+       "props": {
+        "fallback": {
+         "type": "li",
+         "key": null,
+         "props": {
+          "className": "home-section"
+         },
+         "children": {
+          "type": "SkeletonProductGrid",
+          "key": null,
+          "props": {
+           "numberOfProducts": 4
+          },
+          "children": null
+         }
+        }
+       },
+       "children": {
+        "type": "ListingP1",
+        "key": null,
+        "props": {},
+        "children": null
+       }
+      }
+     }
+    }
+   }
+  ],
+  {
+   "type": "HomeBrands",
+   "key": null,
+   "props": {},
+   "children": null
+  }
+ ]
+}"
+`;

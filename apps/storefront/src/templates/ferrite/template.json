@@ -1,0 +1,27 @@
+{
+  "schema": "upready.storefront-template/v1",
+  "id": "ferrite",
+  "title": "Ferrite",
+  "description": "Electronics, dark and dense. The electronics profile defaults (header h3, tiles, spec list p3, footer f5), with the showcase hero g in place of the profile-only announcement k, and the list ahead of the tiles.",
+  "settings": {
+    "defaultMode": "dark",
+    "header": "h3",
+    "hero": "g",
+    "tiles": "on",
+    "listing": "p3",
+    "footer": "f5"
+  },
+  "theme": {
+    "palette": "electronics",
+    "fontPair": { "display": "Space Grotesk", "body": "IBM Plex Sans" },
+    "radius": "sharp",
+    "buttonStyle": "outlined",
+    "photoStyle": "square",
+    "density": "compact"
+  },
+  "sections": [
+    { "block": "hero/g" },
+    { "block": "listing/p3" },
+    { "block": "tiles/on" }
+  ]
+}
