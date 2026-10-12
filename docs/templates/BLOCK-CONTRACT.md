@@ -254,7 +254,10 @@ the inline CSS variables, the very inputs the storefront reads without a templat
 The seven palettes of the 16.09 templates lab (`ferma`, `interier`, `katalog`, `lending`, `moda`, `opt`,
 `uhod`) are `LIGHT_ONLY_THEME_IDS`: the lab drew no dark mode, so the build paints them light under both
 `data-mode` values and no shop picker offers them. A template that names one sets `settings.defaultMode`
-to `"light"`, and `validateTemplate()` refuses `"dark"` with it.
+to `"light"`, and `validateTemplate()` refuses `"dark"` with it. On such a page the root layout writes
+`data-mode="light"` whatever the shop or the visitor stored, the pre-paint script does not read the stored
+mode (`themePrePaintScript({ lightOnly })`), and no mode switch is drawn (`ModeLockProvider`): `globals.css`
+keeps `[data-mode="dark"]` rules of its own, which would otherwise paint dark parts on a light page.
 
 Fonts. The build profile's pair stays a `next/font` call generated at build time (`lib/theme/fonts.ts`). A
 template's pair comes from `public/fonts/templates/`: the lab's Latin and Cyrillic woff2 of eight families
@@ -262,7 +265,8 @@ template's pair comes from `public/fonts/templates/`: the lab's Latin and Cyrill
 families of `fontPair` are there, `resolveTemplate()` sets `fonts.pair` to `"<display>|<body>"` and
 `fonts.loaded` to true, and the root layout writes `data-font-pair` on `<html>` and links
 `/fonts/templates/fonts.css`. That sheet sets `--font-display` and `--font-body` and puts the page text and
-the headings in them. DM Sans, Space Grotesk, Fraunces and Sora have no Cyrillic and no file, so a pair with
+the headings in them. Every family but Playfair Display, whose source has none, also has a `-ruble` file
+holding U+20BD alone, so a price sets its ₽ in the family's face. DM Sans, Space Grotesk, Fraunces and Sora have no Cyrillic and no file, so a pair with
 one of them keeps the build's type and `fonts.loaded` false. A page without a template links nothing.
 
 The preview is `?template=<id>` on any page of a storefront started with `STOREFRONT_TEMPLATE_PREVIEW=1`.

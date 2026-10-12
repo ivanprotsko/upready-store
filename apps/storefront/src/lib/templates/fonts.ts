@@ -15,7 +15,8 @@ export const TEMPLATE_FONTS_STYLESHEET = "/fonts/templates/fonts.css"
 /**
  * The families with files, Latin and Cyrillic: the eight of `FONT_NAMES` the 16.09 templates lab
  * took. DM Sans, Space Grotesk, Fraunces and Sora have no Cyrillic and no file (LICENSES.md
- * beside the files). `fonts.test.ts` holds this list to the stylesheet's `@font-face` rules.
+ * beside the files). `fonts.test.ts` holds this list to the stylesheet's `@font-face` rules, and
+ * every family but Playfair Display, whose source has no ₽, to a ruble-sign face (T0c).
  */
 export const TEMPLATE_FONT_FAMILIES = [
   "Cormorant Garamond",

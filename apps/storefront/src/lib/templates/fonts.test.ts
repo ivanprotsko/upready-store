@@ -10,7 +10,8 @@ import { TEMPLATE_FONTS_STYLESHEET, TEMPLATE_FONT_FAMILIES, templateFontPair } f
 /**
  * The template fonts (t-2026-10-12-33 T0a): every family `TEMPLATE_FONT_FAMILIES` names has its
  * Latin and Cyrillic file, under the SIL OFL the file itself states, declared and paired by the
- * stylesheet, and nothing in that stylesheet acts on a page without `data-font-pair`.
+ * stylesheet, and nothing in that stylesheet acts on a page without `data-font-pair`. T0c: the
+ * ruble sign is set in the family's own face wherever the family has one.
  */
 
 const PUBLIC = join(__dirname, "../../../public")
@@ -22,6 +23,7 @@ const faces = Array.from(uncommented.matchAll(/@font-face\s*\{([^}]*)\}/g)).map(
   return {
     family: prop("font-family").replace(/"/g, ""),
     display: prop("font-display"),
+    weight: prop("font-weight"),
     file: /url\("\.\/([^"]+)"\)/.exec(m[1])?.[1] ?? "",
     range: prop("unicode-range"),
   }
@@ -32,8 +34,8 @@ const rules = Array.from(uncommented.replace(/@font-face\s*\{[^}]*\}/g, "").matc
 }))
 const woff2 = readdirSync(DIR).filter((f) => f.endsWith(".woff2"))
 
-/** Name ID 14 (licence URL) of a woff2: the table directory, then one Brotli stream holding every table. */
-function licenceUrl(path: string): string | null {
+/** One table of a woff2, by tag: the table directory, then one Brotli stream holding every table. */
+function woff2Table(path: string, want: string): Buffer | null {
   const TAGS = ["cmap", "head", "hhea", "hmtx", "maxp", "name"]
   const buf = readFileSync(path)
   const pos = { p: 48 }
@@ -60,21 +62,65 @@ function licenceUrl(path: string): string | null {
   const data = brotliDecompressSync(buf.subarray(pos.p, pos.p + buf.readUInt32BE(20)))
   let offset = 0
   for (const t of tables) {
-    if (t.tag === "name") {
-      const name = data.subarray(offset, offset + t.length)
-      const strings = name.readUInt16BE(4)
-      for (let i = 0; i < name.readUInt16BE(2); i++) {
-        const r = 6 + i * 12
-        if (name.readUInt16BE(r + 6) !== 14 || name.readUInt16BE(r) !== 3) continue
-        const raw = name.subarray(strings + name.readUInt16BE(r + 10), strings + name.readUInt16BE(r + 10) + name.readUInt16BE(r + 8))
-        return String.fromCharCode(...Array.from({ length: raw.length / 2 }, (_, k) => raw.readUInt16BE(k * 2)))
-      }
-      return null
-    }
+    if (t.tag === want) return data.subarray(offset, offset + t.length)
     offset += t.length
   }
   return null
 }
+
+/** Name ID 14 (licence URL) of a woff2. */
+function licenceUrl(path: string): string | null {
+  const name = woff2Table(path, "name")
+  if (!name) return null
+  const strings = name.readUInt16BE(4)
+  for (let i = 0; i < name.readUInt16BE(2); i++) {
+    const r = 6 + i * 12
+    if (name.readUInt16BE(r + 6) !== 14 || name.readUInt16BE(r) !== 3) continue
+    const raw = name.subarray(strings + name.readUInt16BE(r + 10), strings + name.readUInt16BE(r + 10) + name.readUInt16BE(r + 8))
+    return String.fromCharCode(...Array.from({ length: raw.length / 2 }, (_, k) => raw.readUInt16BE(k * 2)))
+  }
+  return null
+}
+
+/** Whether a woff2's `cmap` maps a code point to a glyph: its format 4 and format 12 subtables. */
+function hasGlyph(path: string, codePoint: number): boolean {
+  const cmap = woff2Table(path, "cmap")
+  if (!cmap) return false
+  for (let i = 0; i < cmap.readUInt16BE(2); i++) {
+    const sub = cmap.subarray(cmap.readUInt32BE(4 + i * 8 + 4))
+    const format = sub.readUInt16BE(0)
+    if (format === 4) {
+      const segments = sub.readUInt16BE(6) / 2
+      for (let s = 0; s < segments; s++) {
+        const end = sub.readUInt16BE(14 + s * 2)
+        const start = sub.readUInt16BE(16 + segments * 2 + s * 2)
+        if (codePoint < start || codePoint > end) continue
+        const delta = sub.readInt16BE(16 + segments * 4 + s * 2)
+        const rangeAt = 16 + segments * 6 + s * 2
+        const range = sub.readUInt16BE(rangeAt)
+        const glyph = range === 0 ? (codePoint + delta) & 0xffff : sub.readUInt16BE(rangeAt + range + (codePoint - start) * 2)
+        if (glyph) return true
+      }
+    } else if (format === 12) {
+      for (let k = 0; k < sub.readUInt32BE(12); k++) {
+        if (codePoint >= sub.readUInt32BE(16 + k * 12) && codePoint <= sub.readUInt32BE(20 + k * 12)) return true
+      }
+    }
+  }
+  return false
+}
+
+/** Whether a `unicode-range` value covers a code point. */
+function covers(range: string, codePoint: number): boolean {
+  return range.split(",").some((part) => {
+    const [from, to] = part.trim().replace(/^U\+/i, "").split("-").map((hex) => parseInt(hex, 16))
+    return codePoint >= from && codePoint <= (to ?? from)
+  })
+}
+
+const RUBLE = 0x20bd
+/** Playfair Display 1.203 has no ₽ (google/fonts `ofl/playfairdisplay`, read 13.10.2026): it keeps the fallback. */
+const NO_RUBLE_IN_SOURCE: readonly string[] = ["Playfair Display"]
 
 describe("the template font files", () => {
   it("are families of FONT_NAMES only", () => {
@@ -95,6 +141,26 @@ describe("the template font files", () => {
 
   it.each(woff2)("%s states the SIL Open Font License", (file) => {
     expect(licenceUrl(join(DIR, file))).toMatch(/^https?:\/\/(openfontlicense\.org|scripts\.sil\.org\/OFL)$/)
+  })
+
+  it.each([...TEMPLATE_FONT_FAMILIES])("%s sets the ruble sign in its own face, in every weight it declares", (family) => {
+    const own = faces.filter((f) => f.family === family)
+    const ruble = own.filter((f) => covers(f.range, RUBLE))
+    if (NO_RUBLE_IN_SOURCE.includes(family)) {
+      expect(ruble).toEqual([])
+      for (const face of own) expect(hasGlyph(join(DIR, face.file), RUBLE), face.file).toBe(false)
+      return
+    }
+    expect(ruble.length, "a face that declares U+20BD").toBeGreaterThan(0)
+    for (const face of ruble) expect(hasGlyph(join(DIR, face.file), RUBLE), face.file).toBe(true)
+    const latin = own.filter((f) => f.range.startsWith("U+0000-00FF"))
+    expect(new Set(ruble.map((f) => f.weight))).toEqual(new Set(latin.map((f) => f.weight)))
+  })
+
+  it("declares U+20BD only for a file that has the glyph", () => {
+    for (const face of faces) {
+      if (covers(face.range, RUBLE)) expect(hasGlyph(join(DIR, face.file), RUBLE), face.file).toBe(true)
+    }
   })
 
   it("lists every family in LICENSES.md", () => {

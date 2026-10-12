@@ -4,7 +4,7 @@
  * and the font contract. Everything else imports from here.
  */
 
-export { AXES, axis, isAllowed, type AxisAttr, type ThemeAxis } from "./attributes"
+export { AXES, axis, isAllowed, isLightOnlyTheme, type AxisAttr, type ThemeAxis } from "./attributes"
 export { themePrePaintScript } from "./pre-paint"
 export { readProfileTheme, readProfileFonts, type ProfileTheme } from "./profile"
 export {

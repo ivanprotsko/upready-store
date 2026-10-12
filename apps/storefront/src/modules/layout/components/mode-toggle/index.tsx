@@ -25,6 +25,9 @@
  *
  * Icon shows the mode a click switches TO — sun visible in dark mode, moon visible in
  * light mode, the macOS/GitHub convention (§Open forks, resolved (a)).
+ *
+ * Draws nothing while the root layout locks the mode (`ModeLockProvider`): a light-only
+ * palette has no dark tokens to switch to (t-2026-10-12-33 T0c).
  */
 
 import { useEffect, useState } from "react"
@@ -32,6 +35,7 @@ import { Moon, Sun } from "@medusajs/icons"
 import { useTranslations } from "next-intl"
 
 import { applyMode, readCurrent } from "@lib/theme/apply"
+import { useModeLocked } from "@lib/theme/mode-lock"
 
 type ModeToggleProps = {
   className?: string
@@ -60,6 +64,8 @@ export default function ModeToggle({
   useEffect(() => {
     setMode(readCurrent()["data-mode"] ?? "light")
   }, [])
+  const locked = useModeLocked()
+  if (locked) return null
   const next = mode === "dark" ? "light" : "dark"
 
   return (
