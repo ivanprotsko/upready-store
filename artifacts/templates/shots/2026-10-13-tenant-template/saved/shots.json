@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-12",
+  "commit": "3662e4b5",
+  "base": "http://localhost:8133",
+  "host": "acme.upready.dev",
+  "locale": "en",
+  "widths": [
+    360,
+    768,
+    1280
+  ],
+  "problems": [],
+  "shots": [
+    {
+      "kind": "template",
+      "name": "long-morning",
+      "title": "long-morning, saved by the shop",
+      "width": 360,
+      "file": "template-long-morning-360.png",
+      "status": 200,
+      "url": "http://localhost:8133/en",
+      "facts": {
+        "theme": "home-goods",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": true
+      },
+      "diff": {
+        "ratio": 0,
+        "file": "template-long-morning-360.diff.png"
+      }
+    },
+    {
+      "kind": "template",
+      "name": "long-morning",
+      "title": "long-morning, saved by the shop",
+      "width": 768,
+      "file": "template-long-morning-768.png",
+      "status": 200,
+      "url": "http://localhost:8133/en",
+      "facts": {
+        "theme": "home-goods",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": true
+      },
+      "diff": {
+        "ratio": 0,
+        "file": "template-long-morning-768.diff.png"
+      }
+    },
+    {
+      "kind": "template",
+      "name": "long-morning",
+      "title": "long-morning, saved by the shop",
+      "width": 1280,
+      "file": "template-long-morning-1280.png",
+      "status": 200,
+      "url": "http://localhost:8133/en",
+      "facts": {
+        "theme": "home-goods",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": true
+      },
+      "diff": {
+        "ratio": 0,
+        "file": "template-long-morning-1280.diff.png"
+      }
+    }
+  ]
+}
