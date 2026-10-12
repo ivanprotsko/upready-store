@@ -116,7 +116,12 @@ export type TemplateValidation =
   | { ok: true; value: TemplateManifest; advisories: string[] }
   | { ok: false; errors: FieldError[]; forbidden?: ForbiddenRule }
 
-/** The three home slots of the composition document, and the block category of each. */
+/**
+ * The three home slots of the composition document, and the block category of each. A
+ * section of the category is the slot: a composition variant (an entry with `setting`) is
+ * the shop's own, chosen by `settings`; a block written for templates (`hero/split`) takes
+ * the slot's place, so `settings` must turn the slot `off`. Either way the slot renders once.
+ */
 const HOME_SLOTS = [
   { field: "hero", category: "hero", off: "none" },
   { field: "tiles", category: "tiles", off: "off" },
@@ -239,6 +244,13 @@ export function validateTemplate(
         errors.push({
           field: `${at}.block`,
           message: `${entry.id} needs settings.${entry.setting.field} "${entry.setting.value}", the template says "${settings.value[entry.setting.field]}".`,
+        })
+      }
+      const slot = HOME_SLOTS.find((candidate) => candidate.category === entry.category)
+      if (!entry.setting && slot && settings.ok && settings.value[slot.field] !== slot.off) {
+        errors.push({
+          field: `${at}.block`,
+          message: `${entry.id} takes the ${slot.field} slot itself and needs settings.${slot.field} "${slot.off}", the template says "${settings.value[slot.field]}".`,
         })
       }
       if (entry.status === "placeholder") {

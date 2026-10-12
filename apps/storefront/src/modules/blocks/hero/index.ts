@@ -7,3 +7,4 @@
  * this file holds the `hero/*` variants written for templates.
  */
 export {}
+export { heroSplit } from "./split/block"
