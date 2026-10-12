@@ -122,13 +122,13 @@ function world({ instance = "intl", journal = [A], auth = "token" } = {}) {
   return w;
 }
 
-function githubRoutes(w, { switchJson = { name: "AUTO_RELEASE_DEV", value: "on" }, switchStatus = 200, runs = RUNS, statuses = {}, tarball = w.tarball, extra = [] } = {}) {
+function githubRoutes(w, { switchJson = { name: "AUTO_RELEASE_DEV", value: "on" }, switchStatus = 200, runs = RUNS, statuses = {}, tarball = w.tarball, extra = [], etags = {} } = {}) {
   const r = `${esc(API)}/repos/${esc(REPO)}`;
   return [
     ...extra,
-    { method: "GET", url: `${r}/actions/variables/AUTO_RELEASE_DEV$`, status: switchStatus, json: switchJson },
-    { method: "GET", url: `${r}/commits\\?sha=dev&`, json: [D, C, B, A].map((s) => ({ sha: s })) },
-    { method: "GET", url: `${r}/actions/workflows/pr-checks\\.yml/runs\\?branch=dev`, json: { workflow_runs: runs } },
+    { method: "GET", url: `${r}/actions/variables/AUTO_RELEASE_DEV$`, status: switchStatus, json: switchJson, etag: etags.switch },
+    { method: "GET", url: `${r}/commits\\?sha=dev&`, json: [D, C, B, A].map((s) => ({ sha: s })), etag: etags.commits },
+    { method: "GET", url: `${r}/actions/workflows/pr-checks\\.yml/runs\\?branch=dev`, json: { workflow_runs: runs }, etag: etags.runs },
     { method: "GET", url: `${r}/actions/runs/\\d+/jobs`, json: { jobs: REQUIRED.map((name) => ({ name, conclusion: "success" })) } },
     ...Object.entries(statuses).map(([s, state]) => ({
       method: "GET", url: `${r}/commits/${s}/status$`, json: { statuses: state ? [{ context: "release/intl", state }] : [] },
@@ -151,9 +151,15 @@ function allFiles(dir) {
   });
 }
 
+// The installation token of the App is kept between ticks in state/github-auth, 600: the one file of the
+// state that may hold a secret.
 function assertNoSecret(w, secret) {
+  const header = path.join(w.dir, "state", "github-auth");
   assert.ok(!w.last.stdout.includes(secret) && !w.last.stderr.includes(secret), "the token is not printed");
-  for (const f of allFiles(path.join(w.dir, "state"))) assert.ok(!readFileSync(f, "utf8").includes(secret), `the token is not in ${f}`);
+  for (const f of allFiles(path.join(w.dir, "state")).filter((f) => f !== header)) {
+    assert.ok(!readFileSync(f, "utf8").includes(secret), `the token is not in ${f}`);
+  }
+  if (existsSync(header)) assert.equal(statSync(header).mode & 0o777, 0o600, "the header file is 600");
   assert.ok(w.calls().every((c) => !c.argsHoldAuth), "the token never is an argument of curl");
 }
 
@@ -383,6 +389,110 @@ test("the GitHub App: a JWT signed with the key, then the installation token; ne
   assert.equal(w.state().github, "ok");
   assertNoSecret(w, installToken);
   assertNoSecret(w, jwt);
+});
+
+// What GitHub counts against the limit: every answer but a 304 (and curl's own failures, which never got one).
+const counted = (calls) => calls.filter((c) => c.status !== 304);
+const ETAGS = { switch: '"s1"', commits: '"c1"', runs: '"r1"' };
+const iso = (ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
+
+test("ETag: the next tick asks with If-None-Match, a 304 is the kept answer, and a new answer is taken in full", () => {
+  const w = world();
+  w.routes(githubRoutes(w, { etags: ETAGS }));
+  w.tick();
+  assert.equal(w.journal().records[1].sha, C);
+  const first = w.calls().filter((c) => c.method === "GET" && !/tarball|\/jobs/.test(c.url));
+  assert.deepEqual(first.map((c) => [c.ifNoneMatch, c.status]), [[null, 200], [null, 200], [null, 200]]);
+
+  const before = w.calls().length;
+  w.tick();
+  const second = w.calls().slice(before);
+  assert.deepEqual(second.map((c) => [c.url.replace(`${API}/repos/${REPO}`, ""), c.ifNoneMatch, c.status]), [
+    ["/actions/variables/AUTO_RELEASE_DEV", ETAGS.switch, 304],
+    ["/commits?sha=dev&per_page=30", ETAGS.commits, 304],
+    ["/actions/workflows/pr-checks.yml/runs?branch=dev&per_page=50", ETAGS.runs, 304],
+  ]);
+  assert.equal(w.state().switch.value, "on", "the kept answer of the switch");
+  assert.equal(w.state().waiting, "dev dddddddd: checks in_progress (run 3)", "the kept answers of the commits and the runs");
+  assert.equal(w.state().dev_head, D);
+
+  // D's checks finish: the runs answer changes, its new ETag comes in, and D is released.
+  w.routes(githubRoutes(w, {
+    etags: { ...ETAGS, runs: '"r2"' },
+    runs: [{ id: 4, head_sha: D, status: "completed", conclusion: "success", created_at: "2026-10-12T11:00:00Z" }, ...RUNS.slice(1)],
+  }));
+  w.tick();
+  assert.equal(w.journal().records[2].sha, D);
+  assert.equal(readFileSync(path.join(w.dir, "state", "etags", `_repos_${REPO.replace("/", "_")}_actions_workflows_pr-checks.yml_runs_branch_dev_per_page_50.etag`), "utf8").trim(), '"r2"');
+  assertValid(w);
+  assertNoSecret(w, TOKEN);
+});
+
+test("a quiet hour, 30 ticks with nothing new: 90 requests, and only the first tick's 3 count against the limit", () => {
+  const w = world({ journal: [D] });
+  w.routes(githubRoutes(w, { etags: ETAGS }));
+  for (let i = 0; i < 30; i += 1) assert.equal(w.tick().status, 0);
+  const calls = w.calls();
+  assert.equal(calls.length, 90, "the switch, the commits and the runs of dev on every tick");
+  assert.equal(counted(calls).length, 3);
+  assert.ok(calls.slice(3).every((c) => c.status === 304));
+  assert.equal(w.state().waiting, "nothing new on dev since dddddddd");
+  assert.equal(w.journal().records.length, 1);
+});
+
+test("the GitHub App: the installation token is kept between ticks, 600, and taken anew five minutes before it ends", () => {
+  const w = world({ auth: "app", journal: [D] });
+  const key = path.join(w.dir, "app.pem");
+  assert.equal(spawnSync("openssl", ["genrsa", "-out", key, "2048"]).status, 0);
+  const app = { GITHUB_APP_ID: "4242", GITHUB_APP_KEY_FILE: key };
+  const r = `${esc(API)}/repos/${esc(REPO)}`;
+  const mint = (token, expires, extra = []) => githubRoutes(w, {
+    etags: ETAGS,
+    extra: [
+      ...extra,
+      { method: "GET", url: `${r}/installation$`, json: { id: 77 } },
+      { method: "POST", url: `${esc(API)}/app/installations/77/access_tokens$`, status: 201, json: { token, expires_at: iso(expires) } },
+    ],
+  });
+  const posts = () => w.calls().filter((c) => c.method === "POST" && /access_tokens/.test(c.url)).length;
+  const header = path.join(w.dir, "state", "github-auth");
+  const until = path.join(w.dir, "state", "github-auth.expires");
+
+  // An hour of quiet ticks: one token for all of them.
+  const hour = Date.now() + 3600 * 1000;
+  w.routes(mint("ghs_FIRST_1a2b", hour));
+  for (let i = 0; i < 30; i += 1) w.tick(app);
+  assert.equal(posts(), 1, "one installation token for 30 ticks");
+  assert.equal(counted(w.calls()).length, 5, "the first tick: the installation, the token and the 3 GETs; then only 304s");
+  assert.equal(w.calls().length, 92);
+  assert.ok(w.calls().filter((c) => c.method === "GET" && !/installation$/.test(c.url)).every((c) => c.auth === "Authorization: Bearer ghs_FIRST_1a2b"));
+  assert.equal(readFileSync(header, "utf8"), "Authorization: Bearer ghs_FIRST_1a2b\n");
+  assert.equal(Number(readFileSync(until, "utf8")), Math.floor(hour / 1000));
+  assertNoSecret(w, "ghs_FIRST_1a2b");
+
+  // Less than five minutes left: a new token before the next call.
+  writeFileSync(until, `${Math.floor(Date.now() / 1000) + 200}\n`);
+  w.routes(mint("ghs_SECOND_3c4d", hour));
+  w.tick(app);
+  assert.equal(posts(), 2);
+  assert.equal(w.calls().at(-1).auth, "Authorization: Bearer ghs_SECOND_3c4d");
+  assertNoSecret(w, "ghs_SECOND_3c4d");
+
+  // The kept token refused (the App reinstalled): signed in again within the tick, the call made once more.
+  w.routes(mint("ghs_THIRD_5e6f", hour, [{ url: ".", auth: "ghs_SECOND_3c4d", status: 401, json: { message: "Bad credentials" } }]));
+  const before = w.calls().length;
+  w.tick(app);
+  assert.deepEqual(w.calls().slice(before, before + 4).map((c) => `${c.method} ${c.url.replace(API, "").replace(`/repos/${REPO}`, "")} ${c.status}`), [
+    "GET /actions/variables/AUTO_RELEASE_DEV 401",
+    "GET /installation 200",
+    "POST /app/installations/77/access_tokens 201",
+    "GET /actions/variables/AUTO_RELEASE_DEV 304",
+  ]);
+  assert.match(w.last.stdout, /the kept installation token was refused \(HTTP 401\): signing in again/);
+  assert.equal(readFileSync(header, "utf8"), "Authorization: Bearer ghs_THIRD_5e6f\n");
+  assert.equal(w.state().github, "ok");
+  assert.equal(w.state().switch.value, "on");
+  assertNoSecret(w, "ghs_THIRD_5e6f");
 });
 
 test("no credentials: the tick asks GitHub nothing and the state says why", () => {

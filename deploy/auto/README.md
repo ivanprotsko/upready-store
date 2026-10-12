@@ -86,12 +86,20 @@ bash /opt/upready-store/mt/deploy/auto/install.sh --instance ru \
 and the same without `--dry-run` once Ivan said yes to what it printed. `--live-sha` records the commit
 live now, so the first tick does not release it again.
 
-Why an App and not a token: no API token lives on either host, and a token of Ivan's account shares the
-5000 calls an hour every agent uses (it ran out on 12.10.2026 at 11:59 UTC until 12:37). An App has its own
-limit. `GITHUB_TOKEN_FILE` in `release.env` is there for a token anyway.
+Why an App and not a token: no API token of Ivan's lives on either host, and a token of Ivan's account
+shares the 5000 calls an hour every agent uses (it ran out on 12.10.2026 at 11:59 UTC until 12:37). An App
+has its own limit. `GITHUB_TOKEN_FILE` in `release.env` is there for a token anyway.
+
+What one host spends of the limit (t-2026-10-12-30, part D). Every GET asks with the ETag of its last
+answer (`/var/lib/upready-store-release/etags/`), and a 304 does not count. The App's installation token
+lives an hour; the agent keeps it in `/var/lib/upready-store-release/github-auth` (600, the only file there
+with a secret) and signs in again five minutes before it ends. An hour with nothing new on dev, 30 ticks:
+90 counted calls with a token and 150 with the App before; 0 and about 2 (one new token an hour) now.
 
 ## Tests
 
 `node --test deploy/auto/__tests__/*.test.mjs deploy/scripts/__tests__/deploy-instance-on-host.test.mjs`:
 GitHub is `__tests__/fake-curl.mjs`, the host is a temporary folder, `deploy-instance.sh` inside the
-tarball is a stand-in. The Deploy Checks job of `pr-checks.yml` runs them.
+tarball is a stand-in. `result-line.test.mjs` runs the real `deploy-instance.sh` behind a slow `tee`, and
+`pr-checks-runner.test.mjs` reads where each job of `.github/workflows` runs. The Deploy Checks job of
+`pr-checks.yml` runs them.
