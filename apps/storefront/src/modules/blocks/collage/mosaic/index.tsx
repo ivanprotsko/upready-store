@@ -130,7 +130,7 @@ export default async function Mosaic({ header, tiles, largeSide, mobile }: Mosai
       <ul
         className={clx(
           LIST[mobile],
-          "gap-y-[calc(1.5rem*var(--layer-density,1))] min-[720px]:gap-x-4 small:gap-x-6",
+          "gap-y-[var(--layer-space-6,1.5rem)] min-[720px]:gap-x-4 small:gap-x-6",
           COLUMNS[shaped ? largeSide : "equal"]
         )}
       >
