@@ -15,11 +15,14 @@ const CartTemplate = ({
   error,
   wishlistLoggedIn,
   wishlistProductIds,
+  promoCode,
 }: {
   snapshot: CartSnapshot
   error?: string
   wishlistLoggedIn: boolean
   wishlistProductIds: readonly string[]
+  /** Whether the summary shows the promo code field (t-2026-10-13-11). */
+  promoCode: boolean
 }) => {
   return (
     <div className="overflow-x-hidden lg:py-10">
@@ -30,6 +33,7 @@ const CartTemplate = ({
           empty={<EmptyCartMessage />}
           wishlistLoggedIn={wishlistLoggedIn}
           wishlistProductIds={wishlistProductIds}
+          promoCode={promoCode}
         />
       </div>
     </div>

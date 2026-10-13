@@ -432,6 +432,11 @@ function tenantRequestHeaders(
     )
     // t-2026-10-04-21 (checkout-v2 A3): the red test-mode dot in the root layout.
     headers.set("x-tenant-test-mode", encodeTenantHeaderValue(JSON.stringify(tenant.testMode)))
+    // t-2026-10-13-11: whether the cart and the checkout show the promo code field.
+    headers.set(
+      "x-tenant-promo-code",
+      encodeTenantHeaderValue(JSON.stringify({ enabled: tenant.promoCode }))
+    )
   }
 
   return headers

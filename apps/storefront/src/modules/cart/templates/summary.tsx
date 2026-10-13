@@ -13,6 +13,8 @@ import { useTranslations } from "next-intl"
 
 type SummaryProps = {
   cart: HttpTypes.StoreCart
+  /** False for a shop that switched the promo code off (t-2026-10-13-11). */
+  promoCode: boolean
 }
 
 function getCheckoutStep(cart: HttpTypes.StoreCart) {
@@ -34,7 +36,7 @@ function getCheckoutStep(cart: HttpTypes.StoreCart) {
  * One bordered card holds the heading, the promo code, the rows, the total and the
  * button (t-2026-10-06-11), so the summary weighs the same as the list beside it.
  */
-const Summary = ({ cart }: SummaryProps) => {
+const Summary = ({ cart, promoCode }: SummaryProps) => {
   const t = useTranslations("CartSummary")
   const tOrder = useTranslations("OrderSummary")
   const queue = useCartQueue()
@@ -59,7 +61,7 @@ const Summary = ({ cart }: SummaryProps) => {
       data-testid="cart-summary"
     >
       <h2 className="txt-large-plus text-ui-fg-base">{tOrder("heading")}</h2>
-      <DiscountCode cart={cart} />
+      {promoCode && <DiscountCode cart={cart} />}
       <CartTotals
         totals={cart}
         needsShipping={cartNeedsShipping(cart)}

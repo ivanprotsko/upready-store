@@ -27,6 +27,7 @@ import {
   readPaymentPreNotice,
   type TenantPaymentPreNotice,
 } from "../util/payment-pre-notice"
+import { readTenantPromoCode } from "./promo-code"
 import { readTenantTestMode, type TenantTestMode } from "./test-mode"
 
 export type { TenantAttribution }
@@ -104,6 +105,11 @@ export type ResolvedTenant = {
    * storefront's red dot. `EMPTY_TENANT_TEST_MODE` when the backend sends nothing.
    */
   testMode: TenantTestMode
+  /**
+   * Whether the cart and the checkout show the promo code field (t-2026-10-13-11): true unless
+   * the shop switched it off.
+   */
+  promoCode: boolean
 }
 
 const TTL_MS = 60_000
@@ -182,6 +188,7 @@ export async function resolveTenantByHost(
         payment_methods?: unknown
         payment_pre_notice?: unknown
         test_mode?: unknown
+        promo_code?: unknown
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -234,6 +241,7 @@ export async function resolveTenantByHost(
             ? readPaymentPreNotice(body.payment_pre_notice)
             : EMPTY_PAYMENT_PRE_NOTICE,
           testMode: readTenantTestMode(body.test_mode),
+          promoCode: readTenantPromoCode(body.promo_code),
         }
       }
     }

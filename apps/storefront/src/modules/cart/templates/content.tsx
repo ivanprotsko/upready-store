@@ -22,11 +22,13 @@ export default function CartContent({
   empty,
   wishlistLoggedIn,
   wishlistProductIds,
+  promoCode,
 }: {
   snapshot: CartSnapshot
   empty: ReactNode
   wishlistLoggedIn: boolean
   wishlistProductIds: readonly string[]
+  promoCode: boolean
 }) {
   const t = useTranslations("Cart")
   const { cart } = useCart(snapshot)
@@ -48,7 +50,7 @@ export default function CartContent({
         />
         {cart.region && (
           <div className="small:sticky small:top-6">
-            <Summary cart={cart} />
+            <Summary cart={cart} promoCode={promoCode} />
           </div>
         )}
       </div>
