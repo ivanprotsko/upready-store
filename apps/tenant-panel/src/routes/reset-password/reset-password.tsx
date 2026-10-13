@@ -5,7 +5,7 @@ import { Trans, useTranslation } from "react-i18next"
 import { Link, useSearchParams } from "react-router-dom"
 import * as z from "zod"
 
-import AvatarBox from "../../components/common/logo-box/avatar-box"
+import { BrandMark } from "../../components/common/brand-mark"
 import { Form } from "../../components/common/form"
 import { isFetchError } from "../../lib/is-fetch-error"
 import { useResetPasswordForEmailPass } from "../../hooks/api/auth"
@@ -52,7 +52,7 @@ export const ResetPassword = () => {
     return (
       <div className="bg-ui-bg-subtle flex min-h-dvh w-dvw items-center justify-center">
         <div className="m-4 flex w-full max-w-[280px] flex-col items-center gap-y-4">
-          <AvatarBox />
+          <BrandMark />
           <div className="flex flex-col items-center text-center">
             <Heading>{t("resetPassword.invalidLinkTitle")}</Heading>
             <Text size="small" className="text-ui-fg-subtle">
@@ -70,7 +70,7 @@ export const ResetPassword = () => {
   return (
     <div className="bg-ui-bg-subtle flex min-h-dvh w-dvw items-center justify-center">
       <div className="m-4 flex w-full max-w-[280px] flex-col items-center">
-        <AvatarBox />
+        <BrandMark />
         <div className="mb-4 flex flex-col items-center">
           <Heading>{t("resetPassword.title")}</Heading>
           <Text size="small" className="text-ui-fg-subtle text-center">

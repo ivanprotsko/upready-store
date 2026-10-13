@@ -3,7 +3,7 @@ import { Heading, InlineTip, Text } from "@medusajs/ui"
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 
-import AvatarBox from "../../components/common/logo-box/avatar-box"
+import { BrandMark } from "../../components/common/brand-mark"
 import { useAuthProviders } from "../../hooks/api"
 import { EmailPassLogin } from "./components/email-pass-login"
 import { hasEmailPassProvider } from "./utils"
@@ -32,7 +32,7 @@ export const Login = () => {
   return (
     <div className="bg-ui-bg-subtle flex min-h-dvh w-dvw items-center justify-center">
       <div className="m-4 flex w-full max-w-[280px] flex-col items-center">
-        <AvatarBox />
+        <BrandMark />
         <div className="mb-4 flex flex-col items-center">
           <Heading>{t("login.title")}</Heading>
           <Text size="small" className="text-ui-fg-subtle text-center">
