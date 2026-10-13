@@ -845,6 +845,223 @@
         }
       ]
     },
+    "opt": {
+      "schema": "upready.storefront-template/v1",
+      "id": "opt",
+      "title": {
+        "ru": "Опт и B2B",
+        "en": "Wholesale and B2B"
+      },
+      "description": {
+        "ru": "Оптовая торговля: строгий и плотный, прайс-таблица с количеством и корзиной прямо на главной.",
+        "en": "Wholesale: strict and dense, with a price table, quantities and add to cart right on the home page."
+      },
+      "settings": {
+        "defaultMode": "light",
+        "header": "h3",
+        "hero": "none",
+        "tiles": "off",
+        "listing": "none",
+        "footer": "f1"
+      },
+      "theme": {
+        "palette": "opt",
+        "fontPair": {
+          "display": "IBM Plex Sans",
+          "body": "IBM Plex Sans"
+        },
+        "radius": "soft",
+        "buttonStyle": "filled",
+        "photoStyle": "square",
+        "density": "compact"
+      },
+      "sections": [
+        {
+          "block": "announcement/rotator",
+          "props": {
+            "messages": [
+              {
+                "text": {
+                  "ru": "Цены для оптовых покупателей — в прайсе на главной",
+                  "en": "Trade prices are in the price list on the home page"
+                },
+                "href": null
+              },
+              {
+                "text": {
+                  "ru": "Выставляем счёт для юрлиц и ИП",
+                  "en": "We invoice companies and sole traders"
+                },
+                "href": null
+              },
+              {
+                "text": {
+                  "ru": "Сертификаты и накладные приезжают с поставкой",
+                  "en": "Certificates and delivery notes come with every shipment"
+                },
+                "href": null
+              }
+            ],
+            "interval": 5,
+            "dismissible": true
+          }
+        },
+        {
+          "block": "hero/split",
+          "props": {
+            "eyebrow": {
+              "ru": "Оптовые поставки",
+              "en": "Wholesale supply"
+            },
+            "title": {
+              "ru": "Опт от одной упаковки — со склада, по открытому прайсу",
+              "en": "Wholesale from a single pack, from stock, at open list prices"
+            },
+            "lead": {
+              "ru": "Работаем с компаниями и предпринимателями: цены открыты в прайсе, наличие видно в каждой строке, а заказ можно собрать прямо из таблицы.",
+              "en": "We work with companies and sole traders: the prices are open in the price list, the stock shows on every row, and you can put an order together right from the table."
+            },
+            "primary": {
+              "href": "/store",
+              "label": {
+                "ru": "Открыть каталог",
+                "en": "Open the catalogue"
+              }
+            },
+            "secondary": {
+              "href": "/shipping",
+              "label": {
+                "ru": "Условия отгрузки",
+                "en": "Shipping terms"
+              }
+            },
+            "facts": [
+              {
+                "ru": "Цена и наличие в каждой строке прайса",
+                "en": "Price and stock on every row of the list"
+              },
+              {
+                "ru": "Счёт для юрлиц и ИП",
+                "en": "Invoices for companies and sole traders"
+              },
+              {
+                "ru": "Документы приезжают с поставкой",
+                "en": "Documents come with the delivery"
+              }
+            ],
+            "image": {
+              "src": "/templates/opt/hero.webp"
+            },
+            "imageSide": "right",
+            "imageFit": "cover",
+            "tone": "plain",
+            "height": "auto"
+          }
+        },
+        {
+          "block": "columns/multicolumn",
+          "props": {
+            "items": [
+              {
+                "icon": "truck",
+                "title": {
+                  "ru": "Быстрая отгрузка",
+                  "en": "Fast dispatch"
+                },
+                "text": {
+                  "ru": "Собираем заказ со своего склада",
+                  "en": "Picked from our own warehouse"
+                }
+              },
+              {
+                "icon": "package",
+                "title": {
+                  "ru": "Партиями от упаковки",
+                  "en": "By the pack"
+                },
+                "text": {
+                  "ru": "Берите столько, сколько нужно",
+                  "en": "Order as much as you need"
+                }
+              },
+              {
+                "icon": "banknote",
+                "title": {
+                  "ru": "Оплата по счёту",
+                  "en": "Pay by invoice"
+                },
+                "text": {
+                  "ru": "Для юрлиц и ИП, с закрывающими документами",
+                  "en": "For companies and sole traders, with closing documents"
+                }
+              },
+              {
+                "icon": "phone",
+                "title": {
+                  "ru": "Персональный менеджер",
+                  "en": "A personal manager"
+                },
+                "text": {
+                  "ru": "Один контакт на всё время работы",
+                  "en": "One contact for as long as we work together"
+                }
+              }
+            ],
+            "mode": "icons",
+            "columns": 4,
+            "mobile": "two",
+            "align": "left",
+            "tone": "plain"
+          }
+        },
+        {
+          "block": "listing/price-table",
+          "props": {
+            "header": {
+              "heading": {
+                "ru": "Прайс-лист",
+                "en": "Price list"
+              },
+              "seeAll": {
+                "href": "/store",
+                "label": {
+                  "ru": "Весь каталог",
+                  "en": "Full catalogue"
+                }
+              }
+            },
+            "source": {
+              "sort": "title"
+            },
+            "limit": 10,
+            "columns": [
+              "sku",
+              "stock"
+            ],
+            "note": {
+              "ru": "Цены указаны за единицу товара. Крупную партию посчитаем отдельно — напишите менеджеру.",
+              "en": "Prices are per item. We price a large order separately: write to your manager."
+            }
+          }
+        },
+        {
+          "block": "text/rich-text",
+          "props": {
+            "eyebrow": {
+              "ru": "Как мы работаем",
+              "en": "How we work"
+            },
+            "heading": {
+              "ru": "Мы не торгуем остатками: если позиция есть в прайсе, она есть на складе, а документы на неё приедут вместе с поставкой.",
+              "en": "We do not sell leftovers: if an item is in the price list, it is in stock, and its documents come with the delivery."
+            },
+            "align": "center",
+            "width": "narrow",
+            "tone": "muted"
+          }
+        }
+      ]
+    },
     "uhod": {
       "schema": "upready.storefront-template/v1",
       "id": "uhod",
