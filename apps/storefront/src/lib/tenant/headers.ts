@@ -42,6 +42,7 @@ export const TENANT_HEADERS = [
   "x-tenant-payment-methods",
   "x-tenant-payment-pre-notice",
   "x-tenant-test-mode",
+  "x-tenant-promo-code",
 ] as const
 
 export type TenantHeaderName = (typeof TENANT_HEADERS)[number]

@@ -1,3 +1,4 @@
+import { getSitePromoCodeEnabled } from "@lib/data/tenant-promo-code"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
 import { Divider, Text } from "@medusajs/ui"
@@ -15,7 +16,8 @@ import CheckoutTotals from "@modules/checkout/components/checkout-totals"
  * The order summary column (batch 6 part 1): what is bought, the totals, the promo
  * code. On a desktop it is the sticky right column next to the form, the way the
  * Medusa starter's checkout lays it out; on a phone it sits between the form and the
- * payment, where it was before. The payment block is `CheckoutPayment`.
+ * payment, where it was before. The payment block is `CheckoutPayment`. A shop that
+ * switched the promo code off (t-2026-10-13-11) gets no promo code field.
  */
 const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
   // Batch 6: a course in the cart — the access note under the totals (Q3.2).
@@ -29,6 +31,7 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
   // and term, the way the shop's own pickup point is echoed above.
   const tCheckout = await getTranslations("CheckoutPage")
   const tPochta = await getTranslations("PochtaPoint")
+  const promoCode = await getSitePromoCodeEnabled()
   const shippingMethod = cartNeedsShipping(cart) ? cart.shipping_methods?.at(-1) : undefined
   const carrierMethod =
     !pickupPointName && shippingMethod && isWayCardMethod(shippingMethod) ? shippingMethod : null
@@ -75,7 +78,7 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
         />
       )}
 
-      <DiscountCode cart={cart} />
+      {promoCode && <DiscountCode cart={cart} />}
     </div>
   )
 }

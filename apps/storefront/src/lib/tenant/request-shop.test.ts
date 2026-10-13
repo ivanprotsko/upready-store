@@ -26,6 +26,7 @@ const tenant = (handle: string): ResolvedTenant => ({
   paymentMethods: EMPTY_TENANT_PAYMENT_METHODS,
   paymentPreNotice: EMPTY_PAYMENT_PRE_NOTICE,
   testMode: EMPTY_TENANT_TEST_MODE,
+  promoCode: true,
 })
 
 /** A backend that knows exactly the hosts it is given. */

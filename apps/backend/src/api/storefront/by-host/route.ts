@@ -3,6 +3,7 @@ import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/util
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { Logger } from "@medusajs/framework/types";
 import { isAttributionHidden, resolveAttribution } from "./attribution";
+import { isPromoCodeEnabled } from "./promo-code";
 import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import { loginSettingsResponse, readBuyerLoginMethod } from "../../tenants/login-settings/login-settings";
 import {
@@ -286,6 +287,11 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     payment_pre_notice: paymentPreNoticePublicView(
       readPaymentPreNotice(tenant.metadata as Record<string, unknown> | null),
     ),
+    // t-2026-10-13-11: whether the cart and the checkout show the promo code
+    // field, off only for a shop whose `metadata.promo_code.enabled` is false.
+    promo_code: {
+      enabled: isPromoCodeEnabled(tenant.metadata as Record<string, unknown> | null),
+    },
     settings,
     home,
     // t06-locale-currency: absent (null) for a tenant that never saved

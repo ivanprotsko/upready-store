@@ -1,4 +1,5 @@
 import { retrieveCartSnapshot } from "@lib/data/cart"
+import { getSitePromoCodeEnabled } from "@lib/data/tenant-promo-code"
 import { getWishlistProductIds, isWishlistCustomerLoggedIn } from "@lib/data/wishlist"
 import CartTemplate from "@modules/cart/templates"
 import type { Metadata } from "next"
@@ -23,12 +24,13 @@ type CartPageProps = {
 export default async function Cart({ searchParams }: CartPageProps) {
   // The wishlist reads are the cached ones the cart sidebar makes on the same request,
   // for the hearts on the lines (t-2026-10-04-42).
-  const [snapshot, { error }, wishlistLoggedIn, wishlistProductIds] =
+  const [snapshot, { error }, wishlistLoggedIn, wishlistProductIds, promoCode] =
     await Promise.all([
       retrieveCartSnapshot(),
       searchParams,
       isWishlistCustomerLoggedIn().catch(() => false),
       getWishlistProductIds().catch(() => [] as string[]),
+      getSitePromoCodeEnabled(),
     ])
 
   return (
@@ -37,6 +39,7 @@ export default async function Cart({ searchParams }: CartPageProps) {
       error={error}
       wishlistLoggedIn={wishlistLoggedIn}
       wishlistProductIds={wishlistProductIds}
+      promoCode={promoCode}
     />
   )
 }
