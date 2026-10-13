@@ -3,8 +3,8 @@
   "id": "katalog",
   "title": { "ru": "Большой каталог", "en": "Large Catalogue" },
   "description": {
-    "ru": "Большой каталог техники и товаров для дома: поиск в шапке, плотная сетка товаров и условия покупки на виду.",
-    "en": "A large catalogue of appliances and home goods: search in the header, a dense product grid and the terms of purchase up front."
+    "ru": "Большой каталог техники и товаров для дома: строгий и плотный, с поиском, сеткой товаров и условиями покупки на виду.",
+    "en": "A large catalogue of appliances and home goods: strict and dense, with search, a product grid and the terms of purchase up front."
   },
   "settings": { "defaultMode": "light", "header": "h3", "hero": "none", "tiles": "off", "listing": "none", "footer": "f1" },
   "theme": {
@@ -21,7 +21,7 @@
       "props": {
         "messages": [
           { "text": { "ru": "Техника и товары для дома", "en": "Appliances and home goods" }, "href": null },
-          { "text": { "ru": "Гарантия производителя на технику", "en": "The maker's warranty on appliances" }, "href": null },
+          { "text": { "ru": "Гарантия на технику", "en": "A warranty on appliances" }, "href": null },
           { "text": { "ru": "Доставка по всей России", "en": "Delivery across Russia" }, "href": null }
         ],
         "interval": 5,
@@ -40,8 +40,8 @@
               "en": "Appliances and home goods in one catalogue"
             },
             "text": {
-              "ru": "Найдите товар поиском в шапке или через категории: в карточке — цена, характеристики и фотографии.",
-              "en": "Find a product with the search above or through the categories: each page has the price, the specifications and photos."
+              "ru": "Найдите товар поиском или через категории: в карточке — цена, характеристики и фотографии.",
+              "en": "Find a product with the search or through the categories: each page has the price, the specifications and photos."
             },
             "button": { "href": "/store", "label": { "ru": "Открыть каталог", "en": "Open the catalogue" } }
           },
