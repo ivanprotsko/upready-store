@@ -26,6 +26,17 @@ export const getAuthHeaders = async (): Promise<
   }
 }
 
+/**
+ * Whether `getAuthHeaders()` found a session. Without one it answers `{}`, and
+ * `{}` is truthy, so `if (!headers) return null` never fires. That is how a
+ * guest's read of `/store/customers/me` went out on every page and came back
+ * 401, which Next does not cache (t-2026-10-12-32). Ask this before a call only
+ * a logged-in customer can make.
+ */
+export const hasSession = (
+  headers: { authorization: string } | Record<string, never>
+): headers is { authorization: string } => "authorization" in headers
+
 export const getCacheTag = async (tag: string): Promise<string> => {
   try {
     const cookies = await nextCookies()

@@ -23,6 +23,7 @@ vi.mock("./cookies", () => ({
   getCacheOptions: async () => ({ tags: ["customers-cache_1"] }),
   getCacheTag: async () => "customers-cache_1",
   getCartId: async () => undefined,
+  hasSession: (headers: object) => "authorization" in headers,
   removeAuthToken: vi.fn(),
   removeCartId: vi.fn(),
   setAuthToken: vi.fn(),
