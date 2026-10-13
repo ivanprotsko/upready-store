@@ -29,6 +29,7 @@
     "lint:blocks": "node scripts/lint-blocks.mjs",
     "template:shots": "node scripts/template-shots.mjs",
     "template:check": "node scripts/template-check.mjs",
+    "template:sbs": "node scripts/template-sbs.mjs",
     "templates:export": "TEMPLATES_EXPORT_WRITE=1 vitest run src/lib/templates/catalog-export.test.ts",
     "analyze": "ANALYZE=true next build",
     "ui:inventory": "node scripts/ui-inventory.mjs",

@@ -285,6 +285,17 @@ The preview is `?template=<id>` on any page of a storefront started with `STOREF
 It saves nothing. Without the flag every reader returns early, and `page.baseline.test.tsx` holds the
 home page to the tree it had before templates existed.
 
+`pnpm template:sbs <id> --base http://localhost:8130 --host globex.shipshift.dev` puts the 16.09 lab beside
+the storefront. On the stand and flag of the shots it shoots the home page, a category page and a product page
+with `?template=<id>`, at 1280, 768 and 360 px, full page. The category page is the first category that the
+playground, then the home page, links and that lists a product. The product page is that category's first product. `--locale` is `ru`
+unless given. Each shot stands beside the lab's shot of the same page
+(`artifacts/docs/store-templates-lab/shots/<id>-{index,catalog,product}-{desktop,mobile}.webp`): desktop at 1280
+and 768, mobile at 360. The script writes one JPEG per pair, `sbs-<page>-<width>.jpg`, and a `side-by-side.html`
+with all of them into `artifacts/templates/shots/<date>-<id>/`. A pair over 400 KB is named and exits 1. A
+template the lab never drew gets its three pages alone and one line saying so. A template hand-in links this sheet
+in its PR body, and the lead accepts the template on it.
+
 ## A Shop Keeps Its Template
 
 `POST /tenants/home/template` with `{ "id": "<id>", "overrides"?: {…} }` applies a template to the shop
