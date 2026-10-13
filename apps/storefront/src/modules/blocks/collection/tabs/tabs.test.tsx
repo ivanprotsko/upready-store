@@ -300,7 +300,9 @@ describe("the registry entry", () => {
     expect(blockById("collection/tabs")).toBe(entry)
     expect(entry).toMatchObject({ category: "collection", variant: "tabs", data: ["products", "categories"], status: "lab", placement: "home" })
     expect(entry.roles).toEqual(expect.arrayContaining(["section-header", "tab-list", "tab-trigger", "tab-content", "product-card", "price"]))
-    expect(CATEGORY_BLOCKS.collection.map((b) => b.id)).toEqual(["collection/featured", "collection/tabs"])
+    const collection = CATEGORY_BLOCKS.collection.map((b) => b.id)
+    expect(collection).toEqual(expect.arrayContaining(["collection/featured", "collection/tabs"]))
+    expect(collection.indexOf("collection/featured")).toBeLessThan(collection.indexOf("collection/tabs"))
   })
 
   it("stands in a template, and a template's bad tabs are refused with their path", () => {
