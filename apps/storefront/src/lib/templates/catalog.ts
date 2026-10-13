@@ -3,6 +3,7 @@ import { blockById } from "@modules/blocks/registry"
 import { resolveTemplate, validateTemplate, type ResolvedTemplate } from "./manifest"
 import longMorning from "../../templates/long-morning/template.json"
 import ferrite from "../../templates/ferrite/template.json"
+import interier from "../../templates/interier/template.json"
 import katalog from "../../templates/katalog/template.json"
 import lending from "../../templates/lending/template.json"
 import moda from "../../templates/moda/template.json"
@@ -17,6 +18,7 @@ import uhod from "../../templates/uhod/template.json"
 export const TEMPLATE_SOURCES: Record<string, unknown> = {
   "long-morning": longMorning,
   ferrite,
+  interier,
   katalog,
   lending,
   moda,

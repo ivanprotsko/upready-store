@@ -87,6 +87,56 @@ describe("the templates of this branch", () => {
     expect(getTemplate("long-morning")!.manifest.sections[0].block).toBe("announcement/text-bar")
   })
 
+  // The 16.09 lab's «Мебель и интерьер» (`artifacts/docs/store-templates-lab/src/templates/interier.json`).
+  describe("interier", () => {
+    const interier = () => getTemplate("interier")!
+
+    it("paints the lab's palette, light only, in Manrope and IBM Plex Sans at spacious density", () => {
+      expect(interier().manifest.theme).toMatchObject({ palette: "interier", density: "spacious", photoStyle: "landscape" })
+      expect(interier().manifest.settings.defaultMode).toBe("light")
+      expect(interier().fonts).toEqual({
+        display: "Manrope",
+        body: "IBM Plex Sans",
+        loaded: true,
+        pair: "Manrope|IBM Plex Sans",
+      })
+    })
+
+    it("places the lab's home sections in the lab's order, the room-set collage before the story", () => {
+      // cover, category tiles, product grid, (room sets), story, faq, newsletter; the inline header and the dark
+      // wordmark footer come from settings, and the cover banner takes the hero's place.
+      expect(interier().manifest.sections.map((section) => section.block)).toEqual([
+        "banner/image",
+        "tiles/on",
+        "collection/featured",
+        "collage/mosaic",
+        "media/image-with-text",
+        "faq/accordion",
+        "newsletter/signup",
+      ])
+      expect(interier().manifest.settings).toMatchObject({ header: "h2", hero: "none", tiles: "on", listing: "none", footer: "f6" })
+    })
+
+    it("draws its pictures from its own files, each one there and within its weight", () => {
+      const files = JSON.stringify(TEMPLATE_SOURCES.interier).match(/\/templates\/interier\/[^"]+/g) ?? []
+      expect(files).toHaveLength(5)
+      for (const file of files) {
+        const onDisk = path.join(process.cwd(), "public", file)
+        expect(fs.existsSync(onDisk), file).toBe(true)
+        expect(fs.statSync(onDisk).size, file).toBeLessThanOrEqual((file.endsWith("/hero.webp") ? 200 : 80) * 1024)
+      }
+    })
+
+    it("carries no shop's identity and none of the lab shop's promises", () => {
+      const text = JSON.stringify(TEMPLATE_SOURCES.interier)
+      expect(text).not.toMatch(/\+7|\d{3}[- ]\d{2}[- ]\d{2}|@[a-z0-9-]+\.[a-z]|dolgoeutro/i)
+      // Case kept, as for lending: a lower-case «инн» sits inside ordinary words.
+      expect(text).not.toMatch(/ИНН|ООО|ИП |Долгое утро|Новосибирск|Фабричн/)
+      // Four weeks to make, a five-year guarantee, a size changed by the centimetre: the shop's to promise, not the template's.
+      expect(text).not.toMatch(/\d+\s*(?:недел|год|лет|дн|час|см|week|year|day|hour|cm)/i)
+    })
+  })
+
   // The 16.09 lab's «Косметика и уход» (`artifacts/docs/store-templates-lab/src/templates/uhod.json`).
   describe("uhod", () => {
     const uhod = () => getTemplate("uhod")!
