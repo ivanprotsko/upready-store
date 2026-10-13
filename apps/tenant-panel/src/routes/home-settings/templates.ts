@@ -69,6 +69,34 @@ export function textFor(text: TemplateText, language: string | undefined): strin
   return line?.trim() ?? ""
 }
 
+/** The panel language's alphabet; a `lng` that is not a language tag gets the browser's own. */
+function collatorFor(language: string | undefined): Intl.Collator {
+  try {
+    return new Intl.Collator(language)
+  } catch {
+    return new Intl.Collator()
+  }
+}
+
+/**
+ * The cards' order (P2c): the template on the storefront now first, the rest by their title in
+ * the panel's language, in that language's alphabet. The export keys `templates` by id, so the
+ * file's layout sets no order; a list of ids in the catalogue would make every two template PRs
+ * conflict. Returns a new list.
+ */
+export function orderTemplates(
+  templates: readonly TemplateCard[],
+  current: CurrentTemplate | null,
+  language: string | undefined
+): TemplateCard[] {
+  const collator = collatorFor(language)
+  const live = (template: TemplateCard) => (current?.id === template.id ? 0 : 1)
+  const title = (template: TemplateCard) => textFor(template.title, language)
+  return [...templates].sort(
+    (a, b) => live(a) - live(b) || collator.compare(title(a), title(b)) || collator.compare(a.id, b.id)
+  )
+}
+
 /** What the owner has chosen for one template: its palette and four layers. */
 export type TemplateChoice = { palette: string; layers: TemplateLayers }
 
