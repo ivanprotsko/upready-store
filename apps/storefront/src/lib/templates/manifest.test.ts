@@ -232,13 +232,13 @@ describe("the templates of this branch", () => {
     })
 
     it("places the lab's home sections in the lab's order", () => {
-      // announcement, banners, usp cards, product tabs, bundle, story, newsletter; header and footer come from settings.
+      // announcement, banners, usp cards, product tabs, story, newsletter; header and footer come from settings.
+      // The lab's bundle is left out: `collection/bundle` beside a product card fails QR-TYPE-ROLE and QR-CARD-GRAMMAR.
       expect(katalog().manifest.sections.map((section) => section.block)).toEqual([
         "announcement/rotator",
         "slideshow/banners",
         "columns/multicolumn",
         "collection/tabs",
-        "collection/bundle",
         "text/rich-text",
         "newsletter/signup",
       ])
