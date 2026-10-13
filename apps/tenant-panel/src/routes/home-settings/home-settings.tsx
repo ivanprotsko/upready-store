@@ -42,6 +42,7 @@ import {
 } from "./composition"
 import { HomeBannersEditor, validateBanners } from "./components/home-banners-editor"
 import { TemplateSection } from "./components/template-section"
+import { textFor } from "./templates"
 
 // tenant-panel: own screen, no Admin counterpart (`/home-settings`). It writes
 // the tenant's home-page document `upready.tenant-home/v1`
@@ -138,7 +139,7 @@ const SlotSelect = <T extends string>({
 }
 
 export const HomeSettings = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { home, isPending, isError, error } = useTenantHome()
   const { mutateAsync, isPending: isSaving } = useUpdateTenantHome()
 
@@ -348,7 +349,7 @@ export const HomeSettings = () => {
               <Select.Content>
                 {THEME_PRESETS.map((preset) => (
                   <Select.Item key={preset} value={preset}>
-                    {THEME_LABELS[preset]}
+                    {textFor(THEME_LABELS[preset], i18n.language)}
                   </Select.Item>
                 ))}
               </Select.Content>

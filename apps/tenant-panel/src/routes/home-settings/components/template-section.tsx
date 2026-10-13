@@ -14,6 +14,7 @@ import {
   failureText,
   initialChoice,
   isTemplateOwn,
+  orderTemplates,
   overridesFrom,
   paletteAllowed,
   previewHref,
@@ -325,7 +326,7 @@ export const TemplateSection = ({
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {catalogue.templates.map((template) => {
+        {orderTemplates(catalogue.templates, catalogue.current, i18n.language).map((template) => {
           const live = catalogue.current?.id === template.id
           const palette = paletteById.get(live ? catalogue.current!.palette : template.theme.palette)
           const layers = live && catalogue.current!.layers ? catalogue.current!.layers : templateChoice(template).layers
