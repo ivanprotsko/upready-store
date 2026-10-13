@@ -133,20 +133,16 @@ export const COURSE_PAGES_EN: Record<string, CoursePageLists> = {
         "body": "A healthy lymphatic system is the key to feeling well and full of energy. A lymph cleanse helps to:\n- Remove toxins\n- Get rid of allergens\n- Reduce excess glucose\n- Remove cholesterol\n- Clear the blood plasma of cell metabolism products\n- Clear stagnant bile"
       },
       {
-        "heading": "Day 1: Preparation",
-        "body": "You will get all the knowledge and instructions you need for a successful cleanse."
+        "heading": "What the course includes",
+        "body": "**Day 1: Preparation**\n\nYou will get all the knowledge and instructions you need for a successful cleanse.\n\n**Day 2: The procedure**\n\nWe will carry out the lymph cleansing procedure."
       },
       {
-        "heading": "Day 2: The procedure",
-        "body": "We will carry out the lymph cleansing procedure."
-      },
-      {
-        "heading": "The result you will get:",
+        "heading": "The result you will get",
         "body": "- A boost of energy\n- Lightness in the body\n- A healthy skin tone\n- Cleanness and freshness"
       },
       {
-        "heading": "How you take part:",
-        "body": "Online format\nThe cleanse takes place in a Telegram channel"
+        "heading": "How you take part",
+        "body": "- Online format\n- The cleanse takes place in a Telegram channel"
       }
     ],
     "faq": [
