@@ -4,3 +4,4 @@
  * file, sorts it by variant and puts the category where `BLOCK_CATEGORIES` says.
  */
 export { imageWithText } from "./image-with-text/block"
+export { mediaStories } from "./stories/block"
