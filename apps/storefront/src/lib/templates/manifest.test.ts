@@ -177,6 +177,50 @@ describe("the templates of this branch", () => {
     })
   })
 
+  // The 16.09 lab's «Опт и B2B» (`artifacts/docs/store-templates-lab/src/templates/opt.json`).
+  describe("opt", () => {
+    const opt = () => getTemplate("opt")!
+
+    it("paints the lab's palette, light only, in IBM Plex Sans at compact density", () => {
+      expect(opt().manifest.theme).toMatchObject({ palette: "opt", density: "compact" })
+      expect(opt().manifest.settings.defaultMode).toBe("light")
+      expect(opt().fonts).toEqual({
+        display: "IBM Plex Sans",
+        body: "IBM Plex Sans",
+        loaded: true,
+        pair: "IBM Plex Sans|IBM Plex Sans",
+      })
+    })
+
+    it("places the lab's home sections in the lab's order", () => {
+      // announcement, hero, usp, price list, story; header and footer come from settings.
+      // The lab's newsletter is left out: `newsletter/signup` draws only a channel the template cannot name.
+      expect(opt().manifest.sections.map((section) => section.block)).toEqual([
+        "announcement/rotator",
+        "hero/split",
+        "columns/multicolumn",
+        "listing/price-table",
+        "text/rich-text",
+      ])
+      expect(opt().manifest.settings).toMatchObject({ header: "h3", hero: "none", tiles: "off", listing: "none", footer: "f1" })
+    })
+
+    it("draws its pictures from its own files, each one there and within its weight", () => {
+      const files = JSON.stringify(TEMPLATE_SOURCES.opt).match(/\/templates\/opt\/[^"]+/g) ?? []
+      expect(files.length).toBeGreaterThan(0)
+      for (const file of files) {
+        const onDisk = path.join(process.cwd(), "public", file)
+        expect(fs.existsSync(onDisk), file).toBe(true)
+        expect(fs.statSync(onDisk).size, file).toBeLessThanOrEqual(200 * 1024)
+      }
+    })
+
+    it("carries no shop's identity: no phone, e-mail, INN, city or the lab's brand", () => {
+      const text = JSON.stringify(TEMPLATE_SOURCES.opt)
+      expect(text).not.toMatch(/\+7|\d{3}[- ]\d{2}[- ]\d{2}|@[a-z0-9-]+\.[a-z]|ИНН|ООО|Снабжени|snabzhenie|Екатеринбург|Ветров/i)
+    })
+  })
+
   // P2b: the panel shows these to the owner, in the owner's language and plain words (rule 18e).
   it.each(Object.keys(TEMPLATE_SOURCES))("%s names itself and says what it is for in Russian and English", (id) => {
     const { title, description } = TEMPLATE_SOURCES[id] as { title: unknown; description: unknown }
