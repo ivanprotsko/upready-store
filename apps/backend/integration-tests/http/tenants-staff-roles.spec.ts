@@ -5,6 +5,7 @@ import type { IAuthModuleService } from "@medusajs/framework/types";
 import { STAFF_REFUSALS } from "../../src/api/tenants/staff/staff-refusals";
 import { TENANT_MODULE } from "../../src/modules/tenant";
 import { Migration20261008010000 } from "../../src/modules/tenant/migrations/Migration20261008010000";
+import { Migration20261014060000 } from "../../src/modules/tenant/migrations/Migration20261014060000";
 import type TenantModuleService from "../../src/modules/tenant/service";
 
 jest.setTimeout(180_000);
@@ -34,6 +35,7 @@ const MANAGER_A = "manager-a@roles-suite.test";
 const OPERATOR_A = "operator-a@roles-suite.test";
 const OWNER_B = "owner-b@roles-suite.test";
 const OWNER_S = "owner-s@roles-suite.test";
+const DEVELOPER_A = "developer-a@roles-suite.test";
 
 const ALL_PERMISSIONS = [
   "orders",
@@ -262,11 +264,13 @@ medusaIntegrationTestRunner({
           expect(me.data.tenant_admin.role).toBe("operator");
         });
 
-        it("made every login that existed before a role was asked for an owner", async () => {
-          // `POST /admin/tenants` names no role, the way nothing did before this task.
+        it("makes the login a shop is created with an owner, and the platform's row a developer", async () => {
+          // `POST /admin/tenants` names no role, the way nothing did before this
+          // task; the platform's row is a developer since t-2026-10-14-41.
           const admins = await platformAdminsOf(shopB);
-          expect(admins.map((admin) => admin.role)).toEqual(admins.map(() => "owner"));
-          expect(admins.map((admin) => admin.email).sort()).toEqual([PLATFORM_EMAIL, OWNER_B].sort());
+          expect(admins.map((admin) => `${admin.email} ${admin.role}`).sort()).toEqual(
+            [`${PLATFORM_EMAIL} developer`, `${OWNER_B} owner`].sort(),
+          );
         });
       });
 
@@ -716,7 +720,7 @@ medusaIntegrationTestRunner({
 
           // Both rows are where they were, with the role they had.
           const adminsA = await platformAdminsOf(shopA);
-          expect(adminsA.find((admin) => admin.email === PLATFORM_EMAIL)?.role).toBe("owner");
+          expect(adminsA.find((admin) => admin.email === PLATFORM_EMAIL)?.role).toBe("developer");
           const adminsB = await platformAdminsOf(shopB);
           expect(adminsB.find((admin) => admin.email === OWNER_B)?.role).toBe("owner");
         });
@@ -779,7 +783,7 @@ medusaIntegrationTestRunner({
 
           expect(admins.map((admin) => `${admin.email} ${admin.role}`).sort()).toEqual(
             [
-              `${PLATFORM_EMAIL} owner`,
+              `${PLATFORM_EMAIL} developer`,
               `${OWNER_A} owner`,
               `${MANAGER_A} manager`,
               `${OPERATOR_A} operator`,
@@ -789,7 +793,7 @@ medusaIntegrationTestRunner({
 
         it("carries the role of every login in the shop card, which is what the platform's screen reads", async () => {
           const expected = [
-            `${PLATFORM_EMAIL} owner`,
+            `${PLATFORM_EMAIL} developer`,
             `${OWNER_A} owner`,
             `${MANAGER_A} manager`,
             `${OPERATOR_A} operator`,
@@ -820,7 +824,7 @@ medusaIntegrationTestRunner({
           expect(archived.status).toBe(200);
           expect(archived.data).not.toHaveProperty("tenant");
           const cardB = await api.get(`/admin/tenants/${shopB.id}`, adminHeaders);
-          expect(rolesIn(cardB.data.tenant.admins)).toEqual([`${PLATFORM_EMAIL} owner`, `${OWNER_B} owner`].sort());
+          expect(rolesIn(cardB.data.tenant.admins)).toEqual([`${PLATFORM_EMAIL} developer`, `${OWNER_B} owner`].sort());
         });
 
         it("creates an owner when no role is named, and the role named otherwise", async () => {
@@ -970,6 +974,189 @@ medusaIntegrationTestRunner({
           // And the rollback really put the suite's own roles back.
           const me = await api.get("/tenants/me", bearer(operatorToken));
           expect(me.data.tenant_admin.role).toBe("operator");
+        });
+      });
+
+      describe("the migration of the developer role, on a table that already holds logins", () => {
+        type Sql = { raw: (sql: string) => Promise<{ rows: Record<string, unknown>[] }> };
+        type Connection = Sql & { transaction: (work: (trx: Sql) => Promise<void>) => Promise<void> };
+
+        const statementsOf = async (direction: "up" | "down") => {
+          const migration = new Migration20261014060000(undefined as never, undefined as never);
+          await migration[direction]();
+          return migration.getQueries() as string[];
+        };
+
+        const ROLLBACK = new Error("rolled back on purpose");
+
+        it("lets a row be a developer, still refuses an unknown role, and turns developers back into owners on the way down", async () => {
+          const connection: Connection = getContainer().resolve(ContainerRegistrationKeys.PG_CONNECTION);
+          const up = await statementsOf("up");
+          const down = await statementsOf("down");
+          const seen: Record<string, unknown> = {};
+
+          const attempt = async (trx: Sql, sql: string) => {
+            await trx.raw(`savepoint attempt`);
+            const outcome = await trx
+              .raw(sql)
+              .then(() => "accepted")
+              .catch((error: Error) => error.message);
+            await trx.raw(`rollback to savepoint attempt`);
+            return outcome;
+          };
+
+          await connection
+            .transaction(async (trx) => {
+              // A second run must be a no-op, the way every migration here is written.
+              for (const statement of [...up, ...up]) {
+                await trx.raw(statement);
+              }
+              seen.developerAfterUp = await attempt(
+                trx,
+                `update "tenant_admin" set "role" = 'developer' where "email" = '${OWNER_B}'`,
+              );
+              seen.badRoleAfterUp = await attempt(trx, `update "tenant_admin" set "role" = 'root'`);
+
+              // The platform's rows are developers already; down makes them owners again.
+              for (const statement of down) {
+                await trx.raw(statement);
+              }
+              seen.rolesAfterDown = (
+                await trx.raw(`select distinct "role" from "tenant_admin" order by "role"`)
+              ).rows.map((row) => row.role);
+              seen.developerAfterDown = await attempt(
+                trx,
+                `update "tenant_admin" set "role" = 'developer' where "email" = '${OWNER_B}'`,
+              );
+
+              throw ROLLBACK;
+            })
+            .catch((error) => {
+              if (error !== ROLLBACK) {
+                throw error;
+              }
+            });
+
+          expect(seen.developerAfterUp).toBe("accepted");
+          expect(String(seen.badRoleAfterUp)).toContain("check");
+          expect(seen.rolesAfterDown).toEqual(["manager", "operator", "owner"]);
+          expect(String(seen.developerAfterDown)).toContain("check");
+
+          // And the rollback put the platform's row back as a developer.
+          const admins = await platformAdminsOf(shopB);
+          expect(admins.find((admin) => admin.email === PLATFORM_EMAIL)?.role).toBe("developer");
+        });
+      });
+
+      describe("the platform's developer in a shop (t-2026-10-14-41)", () => {
+        let developerToken: string;
+        let developerRow: PlatformAdmin;
+
+        beforeEach(async () => {
+          // Only the platform gives the role: platform staff, through its own route.
+          const created = await answer(
+            api.post(
+              `/admin/tenants/${shopA.id}/admins`,
+              { email: DEVELOPER_A, password: PASSWORD, first_name: "Dev", role: "developer" },
+              adminHeaders,
+            ),
+          );
+          expect(created.status).toBe(201);
+          developerRow = created.data.admin;
+          expect(developerRow.role).toBe("developer");
+          developerToken = await login(DEVELOPER_A);
+        });
+
+        it("opens every permission and every read, like the owner", async () => {
+          const me = await api.get("/tenants/me", bearer(developerToken));
+          expect(me.data.tenant_admin.role).toBe("developer");
+          expect(me.data.tenant_admin.permissions).toEqual(ALL_PERMISSIONS);
+
+          const refused: string[] = [];
+          for (const { path } of READS) {
+            const response = await answer(api.get(path, bearer(developerToken)));
+            if (response.status !== 200) {
+              refused.push(`${path} ${response.status}`);
+            }
+          }
+          expect(refused).toEqual([]);
+        });
+
+        it("is in the owner's list with its own role, and the form's roles stay the shop's three", async () => {
+          const listed = await api.get("/tenants/staff", bearer(ownerToken));
+          expect(
+            (listed.data.staff as StaffMember[]).find((member) => member.email === DEVELOPER_A)?.role,
+          ).toBe("developer");
+          expect((listed.data.roles as { role: string }[]).map((grant) => grant.role)).toEqual([
+            "owner",
+            "manager",
+            "operator",
+          ]);
+          // The platform's own row stays out of the list, as before.
+          expect((listed.data.staff as StaffMember[]).map((member) => member.email)).not.toContain(PLATFORM_EMAIL);
+        });
+
+        it("cannot be changed or removed by the shop's owner", async () => {
+          for (const body of [{ role: "operator" }, { first_name: "Renamed" }, { password: OTHER_PASSWORD }]) {
+            const edited = await editStaff(ownerToken, developerRow.id, body);
+            expect(`${Object.keys(body)[0]} ${edited.status} ${edited.data.message}`).toBe(
+              `${Object.keys(body)[0]} 400 ${STAFF_REFUSALS.developer_row}`,
+            );
+          }
+
+          const removed = await removeStaff(ownerToken, developerRow.id);
+          expect(removed.status).toBe(400);
+          expect(removed.data.message).toBe(STAFF_REFUSALS.developer_row);
+
+          const admins = await platformAdminsOf(shopA);
+          expect(admins.find((admin) => admin.email === DEVELOPER_A)?.role).toBe("developer");
+          expect((await tryLogin(DEVELOPER_A, PASSWORD)).status).toBe(200);
+        });
+
+        it("is never handed out by a shop: neither on a new login nor on an existing one", async () => {
+          const added = await addStaff(ownerToken, {
+            email: "would-be-developer@roles-suite.test",
+            password: PASSWORD,
+            role: "developer",
+          });
+          expect(added.status).toBe(400);
+
+          const promoted = await editStaff(ownerToken, manager.id, { role: "developer" });
+          expect(promoted.status).toBe(400);
+          expect((await api.get("/tenants/me", bearer(managerToken))).data.tenant_admin.role).toBe("manager");
+
+          // Not even by a developer through the shop's own route.
+          const byDeveloper = await editStaff(developerToken, manager.id, { role: "developer" });
+          expect(byDeveloper.status).toBe(400);
+        });
+
+        it("is not an owner of the shop: the last owner stays, whoever asks", async () => {
+          const removed = await removeStaff(developerToken, (await staffOf(ownerToken)).find((m) => m.is_self)!.id);
+          expect(removed.status).toBe(400);
+          expect(removed.data.message).toBe(STAFF_REFUSALS.last_owner_remove);
+
+          // A developer may do what the owner may: give a manager a new role.
+          const demoted = await editStaff(developerToken, manager.id, { role: "operator" });
+          expect(demoted.status).toBe(200);
+          expect(demoted.data.staff_member.role).toBe("operator");
+        });
+
+        it("opens the sister site like an owner, and stays a developer there", async () => {
+          const shops = await api.get("/tenants/me/shops", bearer(developerToken));
+          expect((shops.data.shops as { id: string }[]).map((shop) => shop.id).sort()).toEqual(
+            [shopA.id, shopS.id].sort(),
+          );
+
+          const switched = await answer(api.post("/tenants/me/switch", { tenant_id: shopS.id }, bearer(developerToken)));
+          expect(switched.status).toBe(200);
+
+          const me = await api.get("/tenants/me", bearer(switched.data.token));
+          expect(me.data.tenant_admin.tenant.id).toBe(shopS.id);
+          expect(me.data.tenant_admin.role).toBe("developer");
+
+          // A shop outside the client stays closed to it.
+          const foreign = await answer(api.post("/tenants/me/switch", { tenant_id: shopB.id }, bearer(developerToken)));
+          expect(foreign.status).toBe(403);
         });
       });
 

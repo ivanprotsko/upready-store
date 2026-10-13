@@ -5955,7 +5955,8 @@
     "roles": {
       "owner": "Owner",
       "manager": "Manager",
-      "operator": "Operator"
+      "operator": "Operator",
+      "developer": "Developer"
     },
     "roleSees": "Sees: {{list}}.",
     "permissions": {
@@ -6007,7 +6008,8 @@
       "own_login": "You cannot remove your own login. Ask another owner of the shop.",
       "last_owner_remove": "This is the last owner of the shop, so you cannot remove it. Make another login an owner first.",
       "last_owner_demote": "This is the last owner of the shop, so you cannot change its role. Make another login an owner first.",
-      "password_shared": "This login is also used outside this shop, so you cannot change its password here. Ask the person to change it in their profile or through the reset link on the login page."
+      "password_shared": "This login is also used outside this shop, so you cannot change its password here. Ask the person to change it in their profile or through the reset link on the login page.",
+      "developer_row": "This is the platform developer's login. Only the platform can change or remove it, not the shop."
     }
   },
   "coursePage": {

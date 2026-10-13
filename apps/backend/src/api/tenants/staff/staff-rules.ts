@@ -33,10 +33,24 @@ export const isPlatformRow = (row: { email?: string | null }): boolean => isPlat
 const invalid = (message: string) => new MedusaError(MedusaError.Types.INVALID_DATA, message);
 
 /**
+ * A row with the `developer` role (t-2026-10-14-41) is the platform's, set by
+ * the platform alone. The shop sees it in its list, with its own name, and
+ * changes nothing on it: not the name, not the role, not the password, and it
+ * does not remove it. Platform staff edit it through `/admin/tenants/:id/admins`.
+ */
+export const assertNotDeveloperRow = (target: { role: TenantAdminRole }) => {
+  if (target.role === "developer") {
+    throw invalid(STAFF_REFUSALS.developer_row);
+  }
+};
+
+/**
  * A shop always keeps one owner of its own. Without one nobody in the shop
  * could add a login or change a role, and the only way back would be the
  * platform. `rows` is every login of the shop; the platform's row is skipped,
- * or an owner could remove herself and leave only the platform behind.
+ * or an owner could remove herself and leave only the platform behind. A
+ * developer is not an owner of the shop either (t-2026-10-14-41), so it never
+ * counts as the owner who stays.
  */
 export const assertAnotherOwnerStays = (rows: StaffRow[], target: StaffRow, action: "remove" | "demote") => {
   if (target.role !== "owner" || isPlatformRow(target)) {

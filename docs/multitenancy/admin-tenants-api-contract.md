@@ -39,7 +39,7 @@ type TenantAdmin = {
   email: string;
   first_name: string | null;
   last_name: string | null;
-  role: "owner" | "manager" | "operator"; // t-2026-10-07-11; in the shop card (`TenantDetail.admins`) too
+  role: "owner" | "manager" | "operator" | "developer"; // t-2026-10-07-11, developer t-2026-10-14-41; in the shop card (`TenantDetail.admins`) too
   created_at: string;
   updated_at: string;
 };
@@ -56,7 +56,7 @@ type TenantDetail = TenantSummary & { admins: TenantAdmin[] };
 | `GET /admin/tenants/:id` | — | `{ tenant: TenantDetail }` | `404` when unknown. Archived tenants are readable. |
 | `POST /admin/tenants/:id` | `{ name?, metadata? }` | `{ tenant: TenantDetail }` | `metadata` merges (Medusa convention verified by W1 in `merge-metadata.js`: an EMPTY STRING deletes a key, `null` is stored literally). `metadata.archived_at` may NOT be set through this route (`400`); it belongs to the delete workflow. `handle` in the body → `400`. |
 | `DELETE /admin/tenants/:id` | query `purge_files?=true` | `{ id, object: "tenant", deleted: true, archived_at }` | Soft delete, see §4. Idempotent: deleting an archived tenant answers `200` again with the original `archived_at`. |
-| `GET /admin/tenants/:id/admins` | — | `{ admins: TenantAdmin[] }` | Each admin carries `role`: `owner`, `manager` or `operator` (t-2026-10-07-11). |
+| `GET /admin/tenants/:id/admins` | — | `{ admins: TenantAdmin[] }` | Each admin carries `role`: `owner`, `manager`, `operator` or `developer` (t-2026-10-07-11, t-2026-10-14-41). The platform's own row is a `developer`. |
 | `POST /admin/tenants/:id/admins` | `{ email, password, first_name?, last_name?, role? }` | `201 { admin: TenantAdmin }` | Without `role` the login is an `owner`. Auth identity registered + `tenant_admin` row + `setAuthAppMetadataStep` (actor type `tenant`, value = admin id). Archived tenant → `400`. |
 | `POST /admin/tenants/:id/admins/:adminId` | `{ email?, password?, first_name?, last_name?, role? }` | `{ admin: TenantAdmin }` | Taking `owner` away from the last owner of the shop → `400`. Password: `authModuleService.updateProvider("emailpass", { entity_id: <current email>, password })` (the provider's `update` requires `entity_id`, which for emailpass IS the email). Email: `tenant_admin.email` + the provider identity's `entity_id` (`authModuleService.updateProviderIdentities({ id: <provider_identity.id>, entity_id: <new email> })`, find it by `listAuthIdentities` filtering `provider_identities.entity_id = old email` and `provider = "emailpass"`). When both are sent: password first (against the OLD email), then the email. Compensation restores the previous values. Admin not of this tenant → `404`. |
 | `DELETE /admin/tenants/:id/admins/:adminId` | — | `{ id, object: "tenant_admin", deleted: true }` | The last owner of a tenant cannot be removed → `400` (a manager or an operator always can; the platform's own row is never counted as an owner of the shop). Deletes the `tenant_admin` row and the auth identity (`deleteAuthIdentities`). |

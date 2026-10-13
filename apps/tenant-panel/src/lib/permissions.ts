@@ -38,6 +38,22 @@ export type StaffRole = (typeof STAFF_ROLES)[number]
 export const isStaffRole = (value: unknown): value is StaffRole =>
   STAFF_ROLES.some((role) => role === value)
 
+/**
+ * The platform's super admin inside the shop (t-2026-10-14-41, Ivan
+ * 14.10.2026: «нужно еще добавить роль "разработчик" это буду я с ролью
+ * суперадмина»). The panel names it and never offers it: only the platform
+ * gives it, and the shop changes nothing on a row that has it.
+ */
+export const PLATFORM_ROLES = ["developer"] as const
+
+/** Every role the panel has a name for, in the order the catalogs list them. */
+export const ROLE_NAMES = [...STAFF_ROLES, ...PLATFORM_ROLES] as const
+
+export type RoleName = (typeof ROLE_NAMES)[number]
+
+export const isRoleName = (value: unknown): value is RoleName =>
+  ROLE_NAMES.some((role) => role === value)
+
 const isPermission = (value: unknown): value is Permission =>
   PERMISSIONS.some((permission) => permission === value)
 

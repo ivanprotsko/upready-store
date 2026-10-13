@@ -41,6 +41,8 @@ const COPY_OF_STAFF_REFUSALS = {
   password_shared:
     "This login is also used outside this shop, so its password cannot be changed here. " +
     "The person can change it in their own profile or through the reset link on the login page.",
+  developer_row:
+    "This is the platform developer's login. Only the platform changes or removes it, not the shop.",
 }
 
 const backendHasFile = existsSync(BACKEND_FILE)
@@ -55,8 +57,9 @@ const catalogs = {
 const lookup = (catalog, key) =>
   key.split(".").reduce((node, part) => (node && typeof node === "object" ? node[part] : undefined), catalog)
 
-test("the seven refusals of the contract", () => {
+test("the eight refusals of the contract", () => {
   assert.deepEqual(Object.keys(STAFF_REFUSALS).sort(), [
+    "developer_row",
     "email_has_account",
     "email_taken_in_shop",
     "last_owner_demote",

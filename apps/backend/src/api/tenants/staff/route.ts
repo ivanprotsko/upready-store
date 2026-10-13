@@ -3,7 +3,7 @@ import { MedusaError } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
 import addTenantAdminWorkflow from "../../../workflows/tenant/add-tenant-admin";
-import { permissionsOf, TENANT_ADMIN_ROLES } from "../permissions";
+import { permissionsOf, STAFF_ROLES } from "../permissions";
 import { getTenantAdminAccess } from "../tenant-admin-gate";
 import type { PostTenantStaffCreateBody } from "../validators";
 import { assertEmailHasNoIdentity, isPlatformRow } from "./staff-rules";
@@ -15,9 +15,11 @@ import { STAFF_REFUSALS } from "./staff-refusals";
  * The shop is the one the gate read off the caller's row, never a parameter.
  * The platform's row is left out: it is not the shop's staff.
  *
- * `roles` is every role with what it opens, in the order owner, manager,
- * operator (§12.3). The form that adds a login says what a role sees from
- * these names, so the panel keeps no text of its own about any role.
+ * `roles` is every role the shop may give, with what it opens, in the order
+ * owner, manager, operator (§12.3). The form that adds a login says what a
+ * role sees from these names, so the panel keeps no text of its own about any
+ * role. The platform's `developer` is not among them (t-2026-10-14-41): the
+ * shop sees a developer's row in `staff` and never offers the role.
  *
  * Both routes here need the `staff` permission (`../permissions.ts`); the gate
  * has already checked it.
@@ -33,7 +35,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 
   res.status(200).json({
     staff: rows.filter((row) => !isPlatformRow(row)).map((row) => toStaffMember(row, access.id)),
-    roles: TENANT_ADMIN_ROLES.map((role) => ({ role, permissions: permissionsOf(role) })),
+    roles: STAFF_ROLES.map((role) => ({ role, permissions: permissionsOf(role) })),
   });
 };
 

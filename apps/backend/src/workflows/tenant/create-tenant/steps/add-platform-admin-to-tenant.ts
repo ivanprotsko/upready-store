@@ -12,6 +12,9 @@ export type AddPlatformAdminToTenantStepInput = { tenant_id: string };
  * touched here (`scripts/fixtures/o25-platform-admin-all-shops.ts` is what
  * registers it, once, the first time this feature is turned on).
  *
+ * The row is the platform's `developer` (t-2026-10-14-41): every permission
+ * in the shop, never one of the shop's owners, and out of the owner's reach.
+ *
  * Silent no-op when `PLATFORM_ADMIN_EMAIL` is unset (feature off) or the row
  * already exists (idempotent re-run, and defence against the rare race with
  * the backfill fixture running at the same time).
@@ -38,7 +41,7 @@ const addPlatformAdminToTenantStep = createStep(
 
     const admin = await tenantModuleService.createTenantAdmins({
       email,
-      role: "owner",
+      role: "developer",
       tenant_id: input.tenant_id,
     });
 

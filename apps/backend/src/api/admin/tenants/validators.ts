@@ -1,7 +1,7 @@
 import { z } from "@medusajs/framework/zod";
 import { OWNER_PASSWORD_MIN_LENGTH, OWNER_PASSWORD_TOO_SHORT_MESSAGE } from "../../auth/password-length-gate";
 import { LIVE_METADATA_KEYS } from "../../../modules/tenant/live";
-import { TENANT_ADMIN_ROLES } from "../../../modules/tenant/models/tenant-admin";
+import { STAFF_ROLES, TENANT_ADMIN_ROLES } from "../../../modules/tenant/models/tenant-admin";
 
 /**
  * 46df A-22: a staff-issued password for a shop admin has the same floor as
@@ -85,8 +85,19 @@ export const DeleteAdminTenantParams = z.object({
 
 export type DeleteAdminTenantParamsType = z.infer<typeof DeleteAdminTenantParams>;
 
-/** One of `TENANT_ADMIN_ROLES` (t-2026-10-07-11). */
+/**
+ * One of `TENANT_ADMIN_ROLES` (t-2026-10-07-11): what platform staff may set
+ * through `/admin/tenants/:id/admins`, the platform's `developer` included
+ * (t-2026-10-14-41).
+ */
 export const tenantAdminRole = () => z.enum(TENANT_ADMIN_ROLES);
+
+/**
+ * One of `STAFF_ROLES`: what a shop's owner may set through `/tenants/staff`.
+ * `developer` is refused here with `400`, so no shop hands out the platform's
+ * role (t-2026-10-14-41).
+ */
+export const staffRole = () => z.enum(STAFF_ROLES);
 
 /**
  * `POST /admin/tenants/:id/admins` body (contract §3). Without `role` the

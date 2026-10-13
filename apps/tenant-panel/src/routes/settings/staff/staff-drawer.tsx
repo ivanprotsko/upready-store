@@ -3,7 +3,7 @@ import { Button, Drawer, Input, Label, Select, Text, toast } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { useCreateStaff, useUpdateStaff } from "../../../hooks/api/staff"
-import { isStaffRole } from "../../../lib/permissions"
+import { isRoleName } from "../../../lib/permissions"
 import {
   StaffDraft,
   StaffMember,
@@ -46,7 +46,7 @@ export const StaffDrawer = ({ member, roles, onClose }: StaffDrawerProps) => {
   const { mutateAsync: update, isPending: isUpdating } = useUpdateStaff()
 
   const canChangeRole = !member || staffRowActions(member).canChangeRole
-  const roleName = (role: string) => (isStaffRole(role) ? t(`staff.roles.${role}`) : role)
+  const roleName = (role: string) => (isRoleName(role) ? t(`staff.roles.${role}`) : role)
   const sees = roleSees(roles, draft.role)
   const roleHint = !canChangeRole
     ? t("staff.edit.selfRole")

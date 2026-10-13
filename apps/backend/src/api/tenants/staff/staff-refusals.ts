@@ -21,4 +21,6 @@ export const STAFF_REFUSALS = {
   password_shared:
     "This login is also used outside this shop, so its password cannot be changed here. " +
     "The person can change it in their own profile or through the reset link on the login page.",
+  developer_row:
+    "This is the platform developer's login. Only the platform changes or removes it, not the shop.",
 } as const;

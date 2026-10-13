@@ -4,7 +4,7 @@ import { ContainerRegistrationKeys, generateJwtToken, MedusaError, Modules } fro
 import { TENANT_ACTOR_TYPE, TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
 import type { PostTenantSwitchShopBody } from "../../validators";
-import { listGroupTenants, readCallerTenant } from "../group-sites";
+import { listGroupTenants, opensSisterSites, readCallerTenant } from "../group-sites";
 
 const ENTITY_ID_KEY = `${TENANT_ACTOR_TYPE}_id`;
 const PROVIDER = "emailpass";
@@ -39,7 +39,9 @@ const PROVIDER = "emailpass";
  * alike, which tells the caller nothing a `404` would hide. Only an OWNER of
  * the current site gets that first row made for her, and it is an owner's
  * row; a manager or an operator switches only into a site where her email
- * already holds a row, with the role that row has.
+ * already holds a row, with the role that row has. The platform's DEVELOPER
+ * opens sister sites like an owner and gets a developer's row there
+ * (t-2026-10-14-41).
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<PostTenantSwitchShopBody>,
@@ -66,10 +68,10 @@ export const POST = async (
   });
 
   if (!target) {
-    // Only an owner opens a sister site she has no login in yet
-    // (t-2026-10-07-11, §11.1). A manager or an operator goes where a row
+    // Only an owner or a developer opens a sister site she has no login in
+    // yet (t-2026-10-07-11, §11.1). A manager or an operator goes where a row
     // already waits for her, and gets the foreign shop's refusal otherwise.
-    const siblings = caller.role === "owner" ? await listGroupTenants(req.scope, caller.group_id) : [];
+    const siblings = opensSisterSites(caller.role) ? await listGroupTenants(req.scope, caller.group_id) : [];
 
     if (!siblings.some((tenant) => tenant.id === tenant_id)) {
       throw new MedusaError(MedusaError.Types.FORBIDDEN, `No access to tenant "${tenant_id}".`);
@@ -79,9 +81,9 @@ export const POST = async (
       email: caller.email,
       first_name: caller.first_name,
       last_name: caller.last_name,
-      // Said out loud, not left to the column's default: the caller is an
-      // owner here, and the sites of one client have the same owner.
-      role: "owner",
+      // Said out loud, not left to the column's default: the sites of one
+      // client have the same owner, and the developer stays a developer.
+      role: caller.role,
       tenant_id,
       metadata: { via_group: caller.group_id },
     });

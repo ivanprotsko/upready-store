@@ -6,6 +6,7 @@ import {
   Container,
   Heading,
   IconButton,
+  StatusBadge,
   Table,
   Text,
   toast,
@@ -22,6 +23,7 @@ import {
   StaffMember,
   staffErrorText,
   staffName,
+  staffRoleColor,
   staffRoleOf,
   staffRowActions,
 } from "../../../lib/staff"
@@ -32,6 +34,10 @@ import { StaffDrawer } from "./staff-drawer"
 // видит весь магазин. Это нужно исправить»). The shape follows
 // ../redirects next door: one Container, the heading with its action, the
 // table. The add and edit forms are one drawer, the delete is a prompt.
+//
+// t-2026-10-14-41: the role is a badge with one colour per role
+// (`staffRoleColor`, panel-ds E7). The platform's developer stands apart and
+// its row offers neither «edit» nor «delete»: only the platform changes it.
 
 export const Staff = () => {
   const { t } = useTranslation()
@@ -114,21 +120,25 @@ export const Staff = () => {
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{member.email}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">
-                      {role ? t(`staff.roles.${role}`) : member.role}
+                      <StatusBadge color={staffRoleColor(member.role)} data-testid="staff-role-badge">
+                        {role ? t(`staff.roles.${role}`) : member.role}
+                      </StatusBadge>
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap">
                       {getFullDate({ date: member.created_at })}
                     </Table.Cell>
                     <Table.Cell>
                       <div className="flex justify-end gap-x-1">
-                        <IconButton
-                          size="small"
-                          variant="transparent"
-                          aria-label={t("actions.edit")}
-                          onClick={() => setEditing(member)}
-                        >
-                          <PencilSquare />
-                        </IconButton>
+                        {actions.canEdit ? (
+                          <IconButton
+                            size="small"
+                            variant="transparent"
+                            aria-label={t("actions.edit")}
+                            onClick={() => setEditing(member)}
+                          >
+                            <PencilSquare />
+                          </IconButton>
+                        ) : null}
                         {actions.canDelete ? (
                           <IconButton
                             size="small"

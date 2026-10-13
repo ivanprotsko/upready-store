@@ -58,6 +58,8 @@ These may appear only inside the collapsed «Подробности для по�
 | product category | категория | |
 | tenant | магазин | |
 | tenant admin | владелец, сотрудник | |
+| role `owner`, `manager`, `operator` | владелец, менеджер, оператор | The roles a shop gives its own people, in the form «Новый сотрудник». |
+| role `developer`, platform super admin | разработчик | The platform's login inside a shop (t-2026-10-14-41). Shown in «Сотрудники» with a purple badge, never offered in the form, and the owner cannot change or remove it. |
 | storefront | витрина, магазин | The button is «Открыть магазин». The link is «Посмотреть на витрине». |
 | region | страна продаж | |
 | marketplace | площадка | The section is «Торговые площадки». |

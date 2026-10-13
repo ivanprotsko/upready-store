@@ -15,6 +15,7 @@ import {
   roleSees,
   staffErrorText,
   staffName,
+  staffRoleColor,
   staffRoleOf,
   staffRoleOptions,
   staffRowActions,
@@ -85,6 +86,14 @@ test("the form offers the server's roles in the server's order", () => {
   // A server that listed none still gets a form with the three names.
   assert.deepEqual(staffRoleOptions(undefined), ["owner", "manager", "operator"])
   assert.deepEqual(staffRoleOptions([]), ["owner", "manager", "operator"])
+})
+
+test("the form never offers the platform's developer, even when the server lists it", () => {
+  // t-2026-10-14-41: only the platform gives the role.
+  assert.deepEqual(
+    staffRoleOptions([...ROLES, { role: "developer", permissions: [...PERMISSIONS] }]),
+    ["owner", "manager", "operator"]
+  )
 })
 
 test("the line under the role is built from what the server says the role opens", () => {
@@ -158,8 +167,8 @@ test("an empty password field keeps the password, a short one is refused before 
 
 test("a login never sends a change of its own role and is not offered to delete itself", () => {
   const self = member({ is_self: true, role: "owner" })
-  assert.deepEqual(staffRowActions(self), { canDelete: false, canChangeRole: false })
-  assert.deepEqual(staffRowActions(member()), { canDelete: true, canChangeRole: true })
+  assert.deepEqual(staffRowActions(self), { canEdit: true, canDelete: false, canChangeRole: false })
+  assert.deepEqual(staffRowActions(member()), { canEdit: true, canDelete: true, canChangeRole: true })
   assert.deepEqual(updateStaffBody(self, { ...draftOfStaff(self), role: "operator", lastName: "Sokolova" }), {
     body: { last_name: "Sokolova" },
   })
@@ -168,15 +177,36 @@ test("a login never sends a change of its own role and is not offered to delete 
   })
 })
 
+test("the platform developer's row offers no form and no delete, not even to itself", () => {
+  // t-2026-10-14-41: the shop changes nothing on it; the server refuses both anyway.
+  const none = { canEdit: false, canDelete: false, canChangeRole: false }
+  assert.deepEqual(staffRowActions(member({ role: "developer" })), none)
+  assert.deepEqual(staffRowActions(member({ role: "developer", is_self: true })), none)
+})
+
 // ---------------------------------------------------------------- what the table shows
 
 test("a row shows the name, and a role the panel has no name for as the server spelled it", () => {
   assert.equal(staffName(member()), "Vera Lugovaya")
   assert.equal(staffName(member({ first_name: null, last_name: null })), "")
   assert.equal(staffRoleOf(member()), "operator")
+  assert.equal(staffRoleOf(member({ role: "developer" })), "developer")
   assert.equal(staffRoleOf(member({ role: "auditor" })), null)
   assert.equal(draftOfStaff(member({ first_name: null })).firstName, "")
   assert.equal(draftOfStaff(member({ role: "auditor" })).role, "auditor", "an edit keeps a role as it is")
+})
+
+test("the role is a badge, and the developer's stands apart in its own colour", () => {
+  assert.equal(staffRoleColor("developer"), "purple")
+  for (const role of ["owner", "manager", "operator", "auditor"]) {
+    assert.equal(staffRoleColor(role), "grey", role)
+  }
+  const screen = read("routes/settings/staff/staff.tsx")
+  assert.match(
+    screen,
+    /<StatusBadge color=\{staffRoleColor\(member\.role\)\} data-testid="staff-role-badge">\s*\{role \? t\(`staff\.roles\.\$\{role\}`\) : member\.role\}/
+  )
+  assert.match(screen, /actions\.canEdit \? \(\s*<IconButton/, "the developer's row offers «edit»")
 })
 
 test("a refusal of the server is shown in the server's words", () => {
@@ -263,7 +293,11 @@ test("the catalogs name roles and permissions and keep no text about what a role
   for (const language of ["ru", "en"]) {
     const { staff } = JSON.parse(read(`i18n/translations/${language}.json`))
     assert.deepEqual(Object.keys(staff.permissions), [...PERMISSIONS], `${language}: the permission names`)
-    assert.deepEqual(Object.keys(staff.roles), ["owner", "manager", "operator"], `${language}: the role names`)
+    assert.deepEqual(
+      Object.keys(staff.roles),
+      ["owner", "manager", "operator", "developer"],
+      `${language}: the role names`
+    )
     assert.equal(staff.roleHints, undefined, `${language}: a ready text per role is back`)
     assert.match(staff.roleSees, /\{\{list\}\}/, `${language}: the line has no place for the list`)
   }

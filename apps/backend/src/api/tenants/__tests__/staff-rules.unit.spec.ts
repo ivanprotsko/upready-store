@@ -7,6 +7,7 @@ import { STAFF_REFUSALS } from "../staff/staff-refusals";
 import {
   assertAnotherOwnerStays,
   assertEmailHasNoIdentity,
+  assertNotDeveloperRow,
   assertPasswordIsThisShopsOnly,
   isPlatformRow,
   type StaffRow,
@@ -59,9 +60,10 @@ describe("the refusal texts (§13.1)", () => {
   const STAFF_DIR = path.resolve(__dirname, "../staff");
   const read = (...file: string[]) => fs.readFileSync(path.join(STAFF_DIR, ...file), "utf8");
 
-  it("holds exactly the seven codes, each with a text of its own", () => {
+  it("holds exactly the eight codes, each with a text of its own", () => {
     expect(Object.keys(STAFF_REFUSALS).sort()).toEqual(
       [
+        "developer_row",
         "email_has_account",
         "email_taken_in_shop",
         "last_owner_demote",
@@ -71,7 +73,7 @@ describe("the refusal texts (§13.1)", () => {
         "password_shared",
       ].sort(),
     );
-    expect(new Set(Object.values(STAFF_REFUSALS)).size).toBe(7);
+    expect(new Set(Object.values(STAFF_REFUSALS)).size).toBe(8);
   });
 
   it("imports nothing, so the panel's test can read the file as it is", () => {
@@ -127,6 +129,7 @@ describe("a shop keeps one owner of its own", () => {
   const manager = row("manager", "manager");
   const operator = row("operator", "operator");
   const platform = row("platform", "owner", PLATFORM);
+  const developer = row("developer", "developer");
 
   it.each(["remove", "demote"] as const)("refuses to %s the only owner", (action) => {
     expect(() => assertAnotherOwnerStays([owner, manager, operator], owner, action)).toThrow(/last owner/);
@@ -135,6 +138,13 @@ describe("a shop keeps one owner of its own", () => {
   it("does not count the platform's row as an owner of the shop", () => {
     expect(() => assertAnotherOwnerStays([owner, platform, manager], owner, "remove")).toThrow(/last owner/);
     expect(() => assertAnotherOwnerStays([owner, platform], owner, "demote")).toThrow(/last owner/);
+  });
+
+  it("does not count the platform's developer as an owner of the shop (t-2026-10-14-41)", () => {
+    expect(() => assertAnotherOwnerStays([owner, developer], owner, "remove")).toThrow(STAFF_REFUSALS.last_owner_remove);
+    expect(() => assertAnotherOwnerStays([owner, developer, manager], owner, "demote")).toThrow(
+      STAFF_REFUSALS.last_owner_demote,
+    );
   });
 
   it("lets one of two owners go", () => {
@@ -157,6 +167,18 @@ describe("a shop keeps one owner of its own", () => {
   it("says which of the two was refused, in the words of STAFF_REFUSALS", () => {
     expect(() => assertAnotherOwnerStays([owner], owner, "remove")).toThrow(STAFF_REFUSALS.last_owner_remove);
     expect(() => assertAnotherOwnerStays([owner], owner, "demote")).toThrow(STAFF_REFUSALS.last_owner_demote);
+  });
+});
+
+describe("the platform's developer row (t-2026-10-14-41)", () => {
+  it("is out of the shop's reach, in the words of STAFF_REFUSALS", () => {
+    expect(() => assertNotDeveloperRow(row("developer", "developer"))).toThrow(STAFF_REFUSALS.developer_row);
+  });
+
+  it("leaves every role of the shop's own people alone", () => {
+    for (const role of ["owner", "manager", "operator"] as const) {
+      expect(() => assertNotDeveloperRow(row(role, role))).not.toThrow();
+    }
   });
 });
 

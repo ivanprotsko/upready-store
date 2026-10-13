@@ -1,12 +1,15 @@
 /**
  * The roles of a shop login as the platform's forms name them
  * (t-2026-10-07-11). What a role may do is decided by the backend's own table;
- * this file only gives the three values their Russian names.
+ * this file only gives the values their Russian names. `developer` is the
+ * platform's super admin inside a shop (t-2026-10-14-41): the shop's own form
+ * never offers it, these platform forms do.
  */
 export const TENANT_ADMIN_ROLES = [
   { value: "owner", label: "Владелец" },
   { value: "manager", label: "Менеджер" },
   { value: "operator", label: "Оператор" },
+  { value: "developer", label: "Разработчик" },
 ] as const
 
 export type TenantAdminRole = (typeof TENANT_ADMIN_ROLES)[number]["value"]
