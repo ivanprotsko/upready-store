@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server"
 
 import { listCategories } from "@lib/data/categories"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { isOlavkaShop } from "@lib/data/olavka-shop"
 import { listShopRegions } from "@lib/data/regions"
 import { getSiteBranding } from "@lib/data/tenant-branding"
 import AccountLink from "@modules/layout/components/account-link"
@@ -17,7 +18,7 @@ import SiteMark from "@modules/layout/components/site-mark"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 const BottomNav = async () => {
-  const [categories, t, siteName, branding, regions, countryCode, locales] = await Promise.all([
+  const [categories, t, siteName, branding, regions, countryCode, locales, olavka] = await Promise.all([
     listCategories(),
     getTranslations("Nav"),
     getSiteName(),
@@ -25,6 +26,7 @@ const BottomNav = async () => {
     listShopRegions(),
     getCountryCode(),
     getSwitcherLocales(),
+    isOlavkaShop(),
   ])
 
   return (
@@ -60,18 +62,24 @@ const BottomNav = async () => {
           <Search className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />
         </div>
 
-        <div className="flex flex-1 items-center justify-center">
-          <BrandUnlock>
-            <Link
-              href="/"
-              aria-label={siteName}
-              data-testid="bottom-nav-store-link"
-              className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-            >
-              <SiteMark siteName={siteName} branding={branding} />
-            </Link>
-          </BrandUnlock>
-        </div>
+        {/* The Olavka shop (cherkashino.ru and .com) has no home slot here. Ivan 13.10: «в
+            мобильной версии cherkashino нужно убрать из нижней навигации пункт который ведет
+            на главную страницу». Its header's logo already leads home, and the other slots
+            share the freed width. Every other shop keeps the slot. */}
+        {!olavka && (
+          <div className="flex flex-1 items-center justify-center">
+            <BrandUnlock>
+              <Link
+                href="/"
+                aria-label={siteName}
+                data-testid="bottom-nav-store-link"
+                className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+              >
+                <SiteMark siteName={siteName} branding={branding} />
+              </Link>
+            </BrandUnlock>
+          </div>
+        )}
 
         <div className="flex flex-1 items-center justify-center text-ui-fg-subtle hover:text-ui-fg-base transition-colors">
           <AccountLink aria-label={t("account")}>
