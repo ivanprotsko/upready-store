@@ -4,3 +4,4 @@
  * file, sorts it by variant and puts the category where `BLOCK_CATEGORIES` says.
  */
 export { featured } from "./featured/block"
+export { tabs } from "./tabs/block"
