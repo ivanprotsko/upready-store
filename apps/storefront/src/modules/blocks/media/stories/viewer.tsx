@@ -134,7 +134,7 @@ export default function StoriesViewer({ stories, labels }: { stories: ViewerStor
             >
               <span
                 className={clx(
-                  "block rounded-full border-2 p-0.5 transition-colors duration-150 motion-reduce:transition-none group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-[var(--ring)]",
+                  "block rounded-full border-2 p-1 transition-colors duration-150 motion-reduce:transition-none group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-[var(--ring)]",
                   seen.has(story.key) ? "border-[var(--border)]" : "border-[var(--primary)]"
                 )}
               >
