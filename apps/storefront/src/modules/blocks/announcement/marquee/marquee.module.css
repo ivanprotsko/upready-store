@@ -5,7 +5,11 @@
  * The track is two equal copies side by side and moves left by one copy, half its width, then starts
  * again: the second copy stands where the first began, so the loop has no seam. Only `transform` moves,
  * so nothing around the line is laid out again. A mouse over the line or the focus inside it holds it.
+ * Keyboard focus also brings the track back to its start: the readable copy then begins at the bar's left
+ * edge, where the browser can scroll any of its links into view; held where it was, the focused link could
+ * stand off the screen to the left. A mouse click only holds the line, so the link does not jump under it.
  * Under `prefers-reduced-motion` nothing moves: the copy and the repeats are hidden and the points wrap.
+ * The hiding takes two classes, so the `flex` utility on the same element does not win it back.
  */
 
 .track {
@@ -23,6 +27,10 @@
   animation-play-state: paused;
 }
 
+.bar:has(:focus-visible) .track {
+  animation: none;
+}
+
 @keyframes run {
   from {
     transform: translateX(0);
@@ -38,7 +46,7 @@
     animation: none;
   }
 
-  .echo {
+  .track .echo {
     display: none;
   }
 }

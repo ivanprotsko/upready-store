@@ -229,6 +229,10 @@ describe("Marquee", () => {
     expect(reduced).toMatch(/\.track\s*{[^}]*animation:\s*none/)
     expect(reduced).toMatch(/\.echo\s*{[^}]*display:\s*none/)
     expect(css).toMatch(/\.bar:hover \.track,\s*\.bar:focus-within \.track\s*{[^}]*animation-play-state:\s*paused/)
+    // Keyboard focus brings the track back to its start, so the focused link stands where it can be scrolled to.
+    expect(css).toMatch(/\.bar:has\(:focus-visible\) \.track\s*{[^}]*animation:\s*none/)
+    // Two classes: the `flex` utility on the copies must not win their hiding back.
+    expect(reduced).toMatch(/\.track \.echo\s*{[^}]*display:\s*none/)
     expect(css).toMatch(/@keyframes run\s*{[^@]*transform: translateX\(0\)[^@]*transform: translateX\(-50%\)/)
     const html = (await render(props([item("Раз"), item("Два")])))!
     expect(copies(html).first).toMatch(/^<ul class="[^"]*motion-reduce:flex-wrap/)
