@@ -21,11 +21,11 @@ vi.mock("@lib/data/locale-actions", () => ({ updateLocale: vi.fn() }))
 import RegionSelect from "./index"
 
 /**
- * FX5 (t-2026-10-12-32). The header renders the switcher on every page, twice
- * (the bar and the bottom nav), on the server and again at hydration. It used
- * to name every country in every locale for the search text there, 241 × 37
- * names on globex; the search text now waits for a typed query, so a render
- * names each country once, in the reader's locale.
+ * FX5 (t-2026-10-12-32). The header bar renders the switcher on every page, on
+ * the server and again at hydration (the bottom nav's copy only when its menu
+ * opens). It used to name every country in every locale for the search text
+ * there, 241 × 37 names on globex; the search text now waits for a typed query,
+ * so a render names each country once, in the reader's locale.
  */
 const ISO = "am by de es fr gb it kz ru tr ua us uz".split(" ")
 const regions = [
