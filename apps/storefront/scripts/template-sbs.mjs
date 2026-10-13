@@ -105,6 +105,29 @@ async function settle(page) {
   await page.waitForTimeout(200)
 }
 
+/**
+ * A bar fixed to the lower half of the screen (the phone's tab bar, a product's buy bar, a consent banner) stays where
+ * the first screen ends in a full-page shot, over the hero. Each is moved to the end of the page, as far from it as
+ * from the screen's bottom, where a shopper who scrolled sees it.
+ */
+async function pinBottomBarsToEnd(page) {
+  await page.evaluate(() => {
+    const end = document.documentElement.scrollHeight
+    const screen = window.innerHeight
+    const bars = [...document.querySelectorAll("body *")]
+      .filter((el) => getComputedStyle(el).position === "fixed")
+      .map((el) => ({ el, box: el.getBoundingClientRect() }))
+      .filter(({ box }) => box.height >= 1 && box.height < screen / 2 && box.top >= screen / 2)
+    for (const { el, box } of bars) {
+      el.style.setProperty("position", "absolute", "important")
+      el.style.setProperty("bottom", "auto", "important")
+      el.style.setProperty("top", "0px", "important")
+      const offset = el.getBoundingClientRect().top + window.scrollY
+      el.style.setProperty("top", `${end - (screen - box.top) - offset}px`, "important")
+    }
+  })
+}
+
 const pathnames = (page, selector) => page.$$eval(selector, (els) => els.map((a) => new URL(a.href).pathname))
 
 const problems = []
@@ -164,6 +187,7 @@ try {
       const res = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 180_000 })
       if (res?.status() !== 200) problems.push(`${paths[pair.page]}?template=${id} answered ${res?.status()} at ${width} px`)
       await settle(page)
+      await pinBottomBarsToEnd(page)
       const shot = await page.screenshot({ fullPage: true, animations: "disabled" })
       const lab = pair.lab ? dataUrl("image/webp", fs.readFileSync(path.join(labDir, pair.lab))) : null
       await compose.setViewportSize({ width: composeWidth(pair), height: 900 })
