@@ -14,7 +14,7 @@ import {
 
 /**
  * FX5 (t-2026-10-12-32). The switcher built a new `Intl.DisplayNames` for every
- * name it showed or searched by, 482 countries × 37 locales on globex, 42 % of
+ * name it showed or searched by, 241 countries × 37 locales on globex, 42 % of
  * a warm page's server CPU. The fix keeps one formatter per locale and type,
  * and the rows, their order and what a query finds must not move: the code the
  * switcher ran before is copied below, word for word, and the rows are held
@@ -130,8 +130,8 @@ const country = (iso_2: string | undefined, display_name?: string) =>
   ({ iso_2, display_name }) as HttpTypes.StoreRegionCountry
 
 /**
- * Four currencies over every code, a country in two regions (globex has 482
- * rows for ~250 codes), and the edges the fallbacks are for: a row with no
+ * Every code in roubles, half of them in euros as well (rows with the same
+ * name keep their order), and the edges the fallbacks are for: a row with no
  * code, a code the runtime does not know, a currency code it rejects and none.
  */
 const regions = [

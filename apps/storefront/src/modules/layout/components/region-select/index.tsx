@@ -135,30 +135,38 @@ const RegionSelect = ({
   const interactive = canPickCountry || canPickLanguage
 
   const normalizedQuery = query.trim().toLowerCase()
+  const searching = normalizedQuery !== ""
 
+  // FX5 (t-2026-10-12-32): the search text names every row in every locale,
+  // 241 countries × 36 on globex, and only a typed query reads it. It is built
+  // with the first letter, not in each render of the header on every page.
   const countrySearchTexts = useMemo(
-    () => countryOptions.map((o) => countrySearchText(o, locales)),
-    [countryOptions, locales]
+    () =>
+      searching ? countryOptions.map((o) => countrySearchText(o, locales)) : [],
+    [searching, countryOptions, locales]
   )
 
   const languageSearchTexts = useMemo(
-    () => languageOptions.map((o) => languageSearchText(o, locales)),
-    [languageOptions, locales]
+    () =>
+      searching
+        ? languageOptions.map((o) => languageSearchText(o, locales))
+        : [],
+    [searching, languageOptions, locales]
   )
 
   const filteredCountryOptions = useMemo(() => {
-    if (!normalizedQuery) return countryOptions
+    if (!searching) return countryOptions
     return countryOptions.filter((_, i) =>
       countrySearchTexts[i].includes(normalizedQuery)
     )
-  }, [countryOptions, countrySearchTexts, normalizedQuery])
+  }, [searching, countryOptions, countrySearchTexts, normalizedQuery])
 
   const filteredLanguageOptions = useMemo(() => {
-    if (!normalizedQuery) return languageOptions
+    if (!searching) return languageOptions
     return languageOptions.filter((_, i) =>
       languageSearchTexts[i].includes(normalizedQuery)
     )
-  }, [languageOptions, languageSearchTexts, normalizedQuery])
+  }, [searching, languageOptions, languageSearchTexts, normalizedQuery])
 
   const selectedCountryOption =
     countryOptions.find((o) => o.country === currentCountryCode) ??

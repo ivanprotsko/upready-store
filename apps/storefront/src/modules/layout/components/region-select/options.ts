@@ -25,6 +25,32 @@ export type LanguageOption = {
 }
 
 /**
+ * One `Intl.DisplayNames` per locale and type for the life of the module
+ * (FX5, t-2026-10-12-32). The search text names every country of the shop in
+ * every locale, 241 × 37 names on globex, and the switcher used to build a new
+ * formatter for each: 42 % of a warm page's server CPU, and the same again on
+ * the buyer's phone at hydration. A locale the runtime rejects is kept as
+ * `null`, and its names fall back as they always did.
+ */
+const displayNames = new Map<string, Intl.DisplayNames | null>()
+
+function displayNamesOf(locale: string, type: "region" | "language") {
+  const key = `${type}:${locale}`
+  let names = displayNames.get(key)
+
+  if (names === undefined) {
+    try {
+      names = new Intl.DisplayNames([locale], { type })
+    } catch {
+      names = null
+    }
+    displayNames.set(key, names)
+  }
+
+  return names
+}
+
+/**
  * The currency SYMBOL for a code, in the reader's own locale: "₽", "$", "€".
  * The header shows the symbol rather than the three-letter code — Ivan's wording
  * for the target state is "ru ₽" — and the flag beside it answers "which dollar".
@@ -34,11 +60,7 @@ export type LanguageOption = {
  * `narrowSymbol` is not in every runtime, and an unknown code throws; either way
  * the code is a correct answer, so it is the fallback rather than an error.
  */
-function getCurrencySymbol(currencyCode: string, locale: string): string {
-  if (!currencyCode) {
-    return ""
-  }
-
+function readCurrencySymbol(currencyCode: string, locale: string): string {
   try {
     const part = new Intl.NumberFormat(locale, {
       style: "currency",
@@ -54,17 +76,36 @@ function getCurrencySymbol(currencyCode: string, locale: string): string {
   }
 }
 
+/**
+ * Each currency's symbol in each locale, worked out once. The switcher asks
+ * for it on every country row, 241 on globex, and a new `Intl.NumberFormat`
+ * per row was most of what a render cost once the names were cached (FX5).
+ */
+const currencySymbols = new Map<string, string>()
+
+function getCurrencySymbol(currencyCode: string, locale: string): string {
+  if (!currencyCode) {
+    return ""
+  }
+
+  const key = `${locale}:${currencyCode}`
+  let symbol = currencySymbols.get(key)
+
+  if (symbol === undefined) {
+    symbol = readCurrencySymbol(currencyCode, locale)
+    currencySymbols.set(key, symbol)
+  }
+
+  return symbol
+}
+
 function getLocalizedCountryName(
   isoCode: string,
   locale: string,
   fallback: string
 ) {
   try {
-    return (
-      new Intl.DisplayNames([locale], { type: "region" }).of(
-        isoCode.toUpperCase()
-      ) ?? fallback
-    )
+    return displayNamesOf(locale, "region")?.of(isoCode.toUpperCase()) ?? fallback
   } catch {
     return fallback
   }
@@ -76,10 +117,7 @@ function getLocalizedLanguageName(
   displayLocale: string
 ) {
   try {
-    return (
-      new Intl.DisplayNames([displayLocale], { type: "language" }).of(code) ??
-      fallback
-    )
+    return displayNamesOf(displayLocale, "language")?.of(code) ?? fallback
   } catch {
     return fallback
   }
