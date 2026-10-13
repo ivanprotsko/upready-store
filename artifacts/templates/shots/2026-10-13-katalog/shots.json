@@ -1,6 +1,6 @@
 {
   "date": "2026-10-13",
-  "commit": "41eacb0c",
+  "commit": "e044aa17",
   "base": "http://localhost:8147",
   "host": "globex.shipshift.dev",
   "locale": "ru",
@@ -66,6 +66,21 @@
       "url": "http://localhost:8147/ru?template=lending",
       "facts": {
         "theme": "lending",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": false
+      }
+    },
+    {
+      "kind": "template",
+      "name": "opt",
+      "title": "Опт и B2B",
+      "width": 360,
+      "file": "template-opt-360.png",
+      "status": 200,
+      "url": "http://localhost:8147/ru?template=opt",
+      "facts": {
+        "theme": "opt",
         "mode": "light",
         "radius": "0.375rem",
         "textBar": false
@@ -508,6 +523,26 @@
     },
     {
       "kind": "block",
+      "name": "block-media-stories",
+      "block": "media/stories",
+      "state": "live",
+      "width": 360,
+      "file": "block-media-stories-360.png",
+      "status": 200,
+      "height": 262
+    },
+    {
+      "kind": "block",
+      "name": "block-media-stories-empty",
+      "block": "media/stories",
+      "state": "empty",
+      "width": 360,
+      "file": "block-media-stories-empty-360.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
       "name": "block-columns-multicolumn",
       "block": "columns/multicolumn",
       "state": "live",
@@ -594,7 +629,7 @@
       "width": 360,
       "file": "block-testimonials-cards-360.png",
       "status": 200,
-      "height": 550
+      "height": 598
     },
     {
       "kind": "block",
@@ -861,6 +896,21 @@
       "url": "http://localhost:8147/ru?template=lending",
       "facts": {
         "theme": "lending",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": false
+      }
+    },
+    {
+      "kind": "template",
+      "name": "opt",
+      "title": "Опт и B2B",
+      "width": 768,
+      "file": "template-opt-768.png",
+      "status": 200,
+      "url": "http://localhost:8147/ru?template=opt",
+      "facts": {
+        "theme": "opt",
         "mode": "light",
         "radius": "0.375rem",
         "textBar": false
@@ -1303,6 +1353,26 @@
     },
     {
       "kind": "block",
+      "name": "block-media-stories",
+      "block": "media/stories",
+      "state": "live",
+      "width": 768,
+      "file": "block-media-stories-768.png",
+      "status": 200,
+      "height": 262
+    },
+    {
+      "kind": "block",
+      "name": "block-media-stories-empty",
+      "block": "media/stories",
+      "state": "empty",
+      "width": 768,
+      "file": "block-media-stories-empty-768.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-columns-multicolumn",
       "block": "columns/multicolumn",
       "state": "live",
@@ -1389,7 +1459,7 @@
       "width": 768,
       "file": "block-testimonials-cards-768.png",
       "status": 200,
-      "height": 484
+      "height": 532
     },
     {
       "kind": "block",
@@ -1656,6 +1726,21 @@
       "url": "http://localhost:8147/ru?template=lending",
       "facts": {
         "theme": "lending",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": false
+      }
+    },
+    {
+      "kind": "template",
+      "name": "opt",
+      "title": "Опт и B2B",
+      "width": 1280,
+      "file": "template-opt-1280.png",
+      "status": 200,
+      "url": "http://localhost:8147/ru?template=opt",
+      "facts": {
+        "theme": "opt",
         "mode": "light",
         "radius": "0.375rem",
         "textBar": false
@@ -2098,6 +2183,26 @@
     },
     {
       "kind": "block",
+      "name": "block-media-stories",
+      "block": "media/stories",
+      "state": "live",
+      "width": 1280,
+      "file": "block-media-stories-1280.png",
+      "status": 200,
+      "height": 288
+    },
+    {
+      "kind": "block",
+      "name": "block-media-stories-empty",
+      "block": "media/stories",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-media-stories-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-columns-multicolumn",
       "block": "columns/multicolumn",
       "state": "live",
@@ -2184,7 +2289,7 @@
       "width": 1280,
       "file": "block-testimonials-cards-1280.png",
       "status": 200,
-      "height": 522
+      "height": 570
     },
     {
       "kind": "block",
