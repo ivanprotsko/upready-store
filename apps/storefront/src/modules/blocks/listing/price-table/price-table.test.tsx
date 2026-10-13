@@ -232,6 +232,16 @@ describe("readSelection", () => {
     expect(data.listProducts).toHaveBeenLastCalledWith({ regionId: "reg_ru", queryParams: { limit: 10, order: "title" } })
   })
 
+  it("asks for the region and the source's own record at once, the products after both", async () => {
+    data.getHomeRegion.mockImplementation(() => new Promise(() => {}))
+    void readSelection({ category: "household" }, 20)
+    void readSelection({ collection: "trade" }, 30)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(data.listCategories).toHaveBeenCalledTimes(1)
+    expect(data.getCollectionByHandle).toHaveBeenCalledWith("trade")
+    expect(data.listProducts).not.toHaveBeenCalled()
+  })
+
   it("answers null with no region, no such category or collection, or no product", async () => {
     data.getHomeRegion.mockResolvedValueOnce(null)
     await expect(readSelection({ sort: "newest" }, 10)).resolves.toBeNull()

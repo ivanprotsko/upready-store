@@ -31,37 +31,42 @@ export type Selection = {
  * Null when there is nothing to show: no region, no such category or collection, no product.
  */
 export async function readSelection(source: FeaturedSource, limit: number): Promise<Selection | null> {
-  const region = await getHomeRegion()
-  if (!region) return null
+  // The region and the source's own record do not need each other, so they are asked together:
+  // on a cold cache that is one round trip before the products instead of two (stand-render-time).
+  const [region, origin] = await Promise.all([getHomeRegion(), originOf(source)])
+  if (!region || !origin) return null
 
-  const read = async (queryParams: Parameters<typeof listProducts>[0]["queryParams"]) => {
-    const { response } = await listProducts({ regionId: region.id, queryParams: { limit, ...queryParams } })
-    const withImage = response.products.filter((product) => !!product.thumbnail)
-    return withImage.length >= Math.min(4, limit) ? withImage : response.products
-  }
+  const { response } = await listProducts({ regionId: region.id, queryParams: { limit, ...origin.query } })
+  const withImage = response.products.filter((product) => !!product.thumbnail)
+  const products = withImage.length >= Math.min(4, limit) ? withImage : response.products
 
-  let selection: Selection
+  return products.length ? { title: origin.title, href: origin.href, products } : null
+}
+
+/** The source as the shop names it, where «see all» leads, and what the products are read by. */
+type Origin = Pick<Selection, "title" | "href"> & { query: Parameters<typeof listProducts>[0]["queryParams"] }
+
+/** Null when the shop has no such category or collection. */
+async function originOf(source: FeaturedSource): Promise<Origin | null> {
   if ("category" in source) {
     const categories = await listCategories()
     const category = categories.find((each) => each.handle === source.category)
     if (!category) return null
-    selection = {
+    return {
       title: category.name ?? null,
       href: `/categories/${category.handle}`,
-      products: await read({ category_id: categoryBranchIds(category.id, categories) }),
+      query: { category_id: categoryBranchIds(category.id, categories) },
     }
-  } else if ("collection" in source) {
+  }
+  if ("collection" in source) {
     const collection = await getCollectionByHandle(source.collection)
     if (!collection) return null
-    selection = {
+    return {
       title: collection.title ?? null,
       href: `/collections/${collection.handle}`,
-      products: await read({ collection_id: [collection.id] }),
+      query: { collection_id: [collection.id] },
     }
-  } else {
-    // `/store`'s own «newest» sort, so «see all» opens the catalogue in the same order.
-    selection = { title: null, href: "/store?sortBy=created_at", products: await read({ order: "-created_at" }) }
   }
-
-  return selection.products.length ? selection : null
+  // `/store`'s own «newest» sort, so «see all» opens the catalogue in the same order.
+  return { title: null, href: "/store?sortBy=created_at", query: { order: "-created_at" } }
 }
