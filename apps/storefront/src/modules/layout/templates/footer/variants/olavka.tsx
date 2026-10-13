@@ -5,7 +5,7 @@ import { listCategories } from "@lib/data/categories"
 import { getSiteName } from "@lib/data/cookies"
 import { getLegalLinkContext } from "@lib/data/legal-links"
 import { listTenantPages } from "@lib/data/tenant-pages"
-import { getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
+import { getRobokassaDisabledMethods, getSitePaymentMethods } from "@lib/data/tenant-payment-methods"
 import { getTenantSeller } from "@lib/data/tenant-seller"
 import { footerRequisitesLine, footerRequisitesText } from "@lib/util/footer-requisites"
 import { footerLegalLinks, pagesBesideLegalLinks } from "@lib/util/legal-links"
@@ -89,12 +89,17 @@ const MARK_IMAGE = "h-5 w-auto"
  * own, in full colour; where each one came from is in the task's report. `width` and
  * `height` give the ratio at 24 high. The names are the marks' own, which no locale
  * translates, so they are not catalog strings, as «Robokassa» is not.
+ *
+ * Each mark stands for one Robokassa method (`alias`), and a method the owner switched off in
+ * the panel takes its marks with it: no СБП mark once SBP is off, no card marks once the card
+ * is (t-2026-10-12-32; Ivan 13.10: «я просил в upready-store убрать в магазине cherkashino.ru
+ * способ оплаты СБП, но он до сих пор там»).
  */
 const PAYMENT_MARKS = [
-  { name: "mir", alt: "Мир", width: 86, height: 24 },
-  { name: "visa", alt: "Visa", width: 74, height: 24 },
-  { name: "mastercard", alt: "Mastercard", width: 39, height: 24 },
-  { name: "sbp", alt: "СБП", width: 44, height: 24 },
+  { name: "mir", alt: "Мир", width: 86, height: 24, alias: "BankCard" },
+  { name: "visa", alt: "Visa", width: 74, height: 24, alias: "BankCard" },
+  { name: "mastercard", alt: "Mastercard", width: 39, height: 24, alias: "BankCard" },
+  { name: "sbp", alt: "СБП", width: 44, height: 24, alias: "SBP" },
 ] as const
 
 export default async function FooterOlavka() {
@@ -132,6 +137,8 @@ export default async function FooterOlavka() {
     regNumberSoleTrader: (value) => t("regNumberSoleTrader", { value }),
   })
   const showRobokassa = paymentMethods.robokassa
+  const disabledMethods = showRobokassa ? await getRobokassaDisabledMethods() : []
+  const paymentMarks = PAYMENT_MARKS.filter((mark) => !disabledMethods.includes(mark.alias))
 
   return (
     // No horizontal line anywhere (Ivan's remark 13 addition), and no legal row under it
@@ -218,7 +225,7 @@ export default async function FooterOlavka() {
                         <img src={ROBOKASSA_LOGO} alt="Robokassa" width={161} height={24} className={MARK_IMAGE} />
                       </a>
                     </li>
-                    {PAYMENT_MARKS.map((mark) => (
+                    {paymentMarks.map((mark) => (
                       <li key={mark.name} className={MARK_PLATE} data-testid="footer-payment-plate">
                         {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG from `public`, drawn as it is; next/image has no SVG config here. */}
                         <img

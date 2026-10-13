@@ -1,4 +1,5 @@
 import "server-only"
+import { sdk } from "@lib/config"
 import {
   EMPTY_TENANT_PAYMENT_METHODS,
   parseTenantPaymentMethodsHeader,
@@ -33,4 +34,28 @@ export const getSitePaymentMethods = async (): Promise<TenantPaymentMethods> => 
   }
 
   return EMPTY_TENANT_PAYMENT_METHODS
+}
+
+/**
+ * The Robokassa methods the owner switched off in the panel (t-2026-10-12-13), for the
+ * footer's payment marks (t-2026-10-12-32; Ivan 13.10: «я просил в upready-store убрать в
+ * магазине cherkashino.ru способ оплаты СБП, но он до сих пор там»). The answer is the one
+ * the checkout reads fresh (`listRobokassaMethods`, `GET /store/tenant/robokassa-methods`);
+ * the footer is on every page, so it takes it from the data cache for five minutes rather
+ * than asking the backend on each render (the publishable key is in the request, so each
+ * shop has its own entry). Ask only for a shop with Robokassa. A read that fails leaves
+ * every mark where it was.
+ */
+export const getRobokassaDisabledMethods = async (): Promise<string[]> => {
+  try {
+    const { disabled } = await sdk.client.fetch<{ disabled?: unknown }>(
+      "/store/tenant/robokassa-methods",
+      { method: "GET", next: { revalidate: 300 }, cache: "force-cache" }
+    )
+    return Array.isArray(disabled)
+      ? disabled.filter((alias): alias is string => typeof alias === "string")
+      : []
+  } catch {
+    return []
+  }
 }
