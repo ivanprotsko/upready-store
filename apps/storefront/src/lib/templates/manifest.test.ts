@@ -285,7 +285,7 @@ describe("the templates of this branch", () => {
     })
 
     it("places the lab's home sections in the lab's order", () => {
-      // hero, lookbook, product grid, story, newsletter; the centred header and the wordmark footer come from settings.
+      // hero, lookbook, product grid, story, newsletter; the centred header and the dark wordmark footer come from settings.
       expect(moda().manifest.sections.map((section) => section.block)).toEqual([
         "hero/type",
         "collage/mosaic",
@@ -293,7 +293,7 @@ describe("the templates of this branch", () => {
         "text/rich-text",
         "newsletter/signup",
       ])
-      expect(moda().manifest.settings).toMatchObject({ header: "h6", hero: "none", tiles: "off", listing: "none", footer: "f3" })
+      expect(moda().manifest.settings).toMatchObject({ header: "h6", hero: "none", tiles: "off", listing: "none", footer: "f6" })
     })
 
     it("draws its lookbook from its own files, each one there and within its weight", () => {

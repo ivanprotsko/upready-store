@@ -6,7 +6,7 @@
     "ru": "Одежда и аксессуары: светлый и просторный, крупные фото в рост и лукбук на главной.",
     "en": "Clothing and accessories: light and spacious, with tall photos and a lookbook on the home page."
   },
-  "settings": { "defaultMode": "light", "header": "h6", "hero": "none", "tiles": "off", "listing": "none", "footer": "f3" },
+  "settings": { "defaultMode": "light", "header": "h6", "hero": "none", "tiles": "off", "listing": "none", "footer": "f6" },
   "theme": {
     "palette": "moda",
     "fontPair": { "display": "Playfair Display", "body": "Manrope" },
