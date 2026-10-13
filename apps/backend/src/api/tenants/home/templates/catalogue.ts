@@ -1,3 +1,4 @@
+import { manifestOf } from "../template/apply";
 import { CATALOG, catalogBlock } from "../template/validation";
 import type { FontPair, PaletteSwatch, TemplateLayers, TemplateManifest, TemplateText } from "../template/validation";
 import type { TenantHomeDocument } from "../validators";
@@ -13,9 +14,24 @@ export type TemplateCard = {
   /** The template's own mode: a light-only palette may replace its palette only when this is "light". */
   defaultMode: "light" | "dark";
   theme: TemplateLayers & { palette: string; fontPair: FontPair };
-  /** The home page in order: each section's block and the block's category, for the schematic preview. */
-  sections: { block: string; category: string }[];
+  /**
+   * The home page in order: each section's block and the block's category, for the schematic preview; the
+   * template's own props, which the panel's «Тексты секций» starts from; and `editable`, the block's
+   * `propsEditable`: whether `POST /tenants/home/template` takes changed props for it (PE2).
+   */
+  sections: TemplateCardSection[];
 };
+
+export type TemplateCardSection = {
+  block: string;
+  category: string;
+  /** Absent where the template gives the block none (a slot block). */
+  props?: Record<string, unknown>;
+  editable: boolean;
+};
+
+/** A section of the shop's saved home page, its words included; `category` names it to the owner. */
+export type SavedSection = { block: string; category: string; props?: Record<string, unknown> };
 
 export type PaletteEntry = {
   id: string;
@@ -32,6 +48,12 @@ export type CurrentTemplate = {
   palette: string;
   layers: TemplateLayers | null;
   fontPair: FontPair;
+  /**
+   * The shop's saved sections in order (`content.sections` through `manifestOf`), with the props it applied:
+   * the panel opens the live template on these words and sends them back when it is applied again, so a
+   * palette change does not reset them to the template's sample (PE2). Empty when the document has none.
+   */
+  sections: SavedSection[];
 };
 
 export type TemplateCatalogue = {
@@ -40,10 +62,14 @@ export type TemplateCatalogue = {
   layers: TemplateCatalogLayers;
   /** The storefront's gap between home sections at each density, in px: the schematic keeps its proportion. */
   sectionGapPx: Record<string, number>;
+  /** The storefront's languages (`i18n/config.ts`): a text of a section's props is keyed by these codes. */
+  locales: string[];
   current: CurrentTemplate | null;
 };
 
 type TemplateCatalogLayers = typeof CATALOG.layers;
+
+const categoryOf = (block: string): string => catalogBlock(block)?.category ?? block.split("/")[0];
 
 /**
  * `medusa` is how the document stores the palette `default` (`storedPreset`), and `themes.css`
@@ -70,10 +96,14 @@ export function templateCatalogue(document: TenantHomeDocument | null): Template
       description: manifest.description,
       defaultMode: manifest.settings.defaultMode,
       theme: manifest.theme,
-      sections: manifest.sections.map((section) => ({
-        block: section.block,
-        category: catalogBlock(section.block)?.category ?? section.block.split("/")[0],
-      })),
+      sections: manifest.sections.map(
+        (section): TemplateCardSection => ({
+          block: section.block,
+          category: categoryOf(section.block),
+          ...(section.props !== undefined ? { props: section.props } : {}),
+          editable: catalogBlock(section.block)?.propsEditable ?? false,
+        }),
+      ),
     }),
   );
 
@@ -95,8 +125,22 @@ export function templateCatalogue(document: TenantHomeDocument | null): Template
         palette: asPalette(document.theme.preset),
         layers: document.theme.layers ?? null,
         fontPair: document.template.fontPair,
+        sections: (manifestOf(document)?.sections ?? []).map(
+          (section): SavedSection => ({
+            block: section.block,
+            category: categoryOf(section.block),
+            ...(section.props !== undefined ? { props: section.props } : {}),
+          }),
+        ),
       }
     : null;
 
-  return { templates, palettes, layers: CATALOG.layers, sectionGapPx: CATALOG.sectionGapPx, current };
+  return {
+    templates,
+    palettes,
+    layers: CATALOG.layers,
+    sectionGapPx: CATALOG.sectionGapPx,
+    locales: CATALOG.locales,
+    current,
+  };
 }
