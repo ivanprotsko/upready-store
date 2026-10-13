@@ -1,7 +1,7 @@
 {
   "schema": "upready.template-check-report/v1",
   "date": "2026-10-13",
-  "commit": "412a7718",
+  "commit": "41eacb0c",
   "base": "http://localhost:8147",
   "host": "globex.shipshift.dev",
   "locale": "en",
@@ -16,8 +16,11 @@
   "exit": 0,
   "baseline": {
     "file": "/Users/ivanprotsko/upready/worktrees/upready-store/templates/tpl-katalog/artifacts/templates/check/baseline.json",
-    "failures": 745,
-    "found": true
+    "failures": 737,
+    "found": true,
+    "staleJudged": true,
+    "stale": 0,
+    "pruned": 0
   },
   "summary": {
     "targets": 8,
@@ -1651,16 +1654,6 @@
       ]
     },
     {
-      "key": "template/katalog/home@1280 | QR-SPACE-SCALE | space 40px off the scale",
-      "target": "template/katalog/home@1280",
-      "rule": "QR-SPACE-SCALE",
-      "sig": "space 40px off the scale",
-      "detail": "40px ×2, e.g. ul.grid «Hook rail · blackened steel$»",
-      "from": [
-        "long-morning"
-      ]
-    },
-    {
       "key": "template/katalog/home@1280 | QR-SPACE-SCALE | space 6px off the scale",
       "target": "template/katalog/home@1280",
       "rule": "QR-SPACE-SCALE",
@@ -1678,6 +1671,16 @@
       "detail": "20px ×1, e.g. div.flex «Globex»",
       "from": [
         "ferrite",
+        "long-morning"
+      ]
+    },
+    {
+      "key": "template/katalog/home@1280 | QR-SPACE-SCALE | space 40px off the scale",
+      "target": "template/katalog/home@1280",
+      "rule": "QR-SPACE-SCALE",
+      "sig": "space 40px off the scale",
+      "detail": "40px ×1, e.g. div.grid «CategoriesThe kitchenThe hou»",
+      "from": [
         "long-morning"
       ]
     },
@@ -2173,6 +2176,7 @@
       ]
     }
   ],
+  "staleBaselineKeys": [],
   "targets": [
     {
       "target": "template/katalog/home@360",
@@ -2313,7 +2317,7 @@
           "kind": "gate",
           "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em",
           "pass": false,
-          "value": 4,
+          "value": 3,
           "failures": [
             {
               "sig": "capitals: a[nav-store-link] «Globex»",
@@ -2426,7 +2430,7 @@
           "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280",
           "pass": true,
           "value": {
-            "pageHeight": 3638
+            "pageHeight": 2535
           },
           "failures": []
         },
@@ -2446,8 +2450,8 @@
           "value": {
             "placeholders": 0,
             "drawn": {
-              "h": 3638,
-              "text": 1327,
+              "h": 2535,
+              "text": 1309,
               "media": 64
             }
           },
@@ -4043,7 +4047,7 @@
           "kind": "gate",
           "threshold": "capitals only at ≤ 12px with tracking ≥ 0.06em",
           "pass": false,
-          "value": 4,
+          "value": 3,
           "failures": [
             {
               "sig": "capitals: a[nav-store-link] «Globex»",
@@ -4098,12 +4102,6 @@
           ],
           "failures": [
             {
-              "sig": "space 40px off the scale",
-              "detail": "40px ×2, e.g. ul.grid «Hook rail · blackened steel$»",
-              "baseline": false,
-              "inherited": true
-            },
-            {
               "sig": "space 6px off the scale",
               "detail": "6px ×32, e.g. button[wishlist-button] «Add to wishlist»",
               "baseline": false,
@@ -4112,6 +4110,12 @@
             {
               "sig": "space 20px off the scale",
               "detail": "20px ×1, e.g. div.flex «Globex»",
+              "baseline": false,
+              "inherited": true
+            },
+            {
+              "sig": "space 40px off the scale",
+              "detail": "40px ×1, e.g. div.grid «CategoriesThe kitchenThe hou»",
               "baseline": false,
               "inherited": true
             }
@@ -4191,7 +4195,7 @@
           "threshold": "one main frame; thumbnail ratio = frame ratio (±0.01); product page ≤ 6000px at 1280",
           "pass": true,
           "value": {
-            "pageHeight": 2820
+            "pageHeight": 2317
           },
           "failures": []
         },
@@ -4211,9 +4215,9 @@
           "value": {
             "placeholders": 0,
             "drawn": {
-              "h": 2796,
-              "text": 1358,
-              "media": 61
+              "h": 2293,
+              "text": 1342,
+              "media": 63
             }
           },
           "failures": []

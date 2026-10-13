@@ -1,6 +1,6 @@
 {
   "date": "2026-10-13",
-  "commit": "412a7718",
+  "commit": "41eacb0c",
   "base": "http://localhost:8147",
   "host": "globex.shipshift.dev",
   "locale": "ru",
@@ -51,6 +51,21 @@
       "url": "http://localhost:8147/ru?template=katalog",
       "facts": {
         "theme": "katalog",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": false
+      }
+    },
+    {
+      "kind": "template",
+      "name": "lending",
+      "title": "Лендинг одного товара",
+      "width": 360,
+      "file": "template-lending-360.png",
+      "status": 200,
+      "url": "http://localhost:8147/ru?template=lending",
+      "facts": {
+        "theme": "lending",
         "mode": "light",
         "radius": "0.375rem",
         "textBar": false
@@ -513,6 +528,26 @@
     },
     {
       "kind": "block",
+      "name": "block-collection-bundle",
+      "block": "collection/bundle",
+      "state": "live",
+      "width": 360,
+      "file": "block-collection-bundle-360.png",
+      "status": 200,
+      "height": 943
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-bundle-empty",
+      "block": "collection/bundle",
+      "state": "empty",
+      "width": 360,
+      "file": "block-collection-bundle-empty-360.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
       "name": "block-collection-featured",
       "block": "collection/featured",
       "state": "live",
@@ -528,6 +563,26 @@
       "state": "empty",
       "width": 360,
       "file": "block-collection-featured-empty-360.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-tabs",
+      "block": "collection/tabs",
+      "state": "live",
+      "width": 360,
+      "file": "block-collection-tabs-360.png",
+      "status": 200,
+      "height": 550
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-tabs-empty",
+      "block": "collection/tabs",
+      "state": "empty",
+      "width": 360,
+      "file": "block-collection-tabs-empty-360.png",
       "status": 200,
       "height": 44
     },
@@ -593,6 +648,26 @@
     },
     {
       "kind": "block",
+      "name": "block-collage-mosaic",
+      "block": "collage/mosaic",
+      "state": "live",
+      "width": 360,
+      "file": "block-collage-mosaic-360.png",
+      "status": 200,
+      "height": 883
+    },
+    {
+      "kind": "block",
+      "name": "block-collage-mosaic-empty",
+      "block": "collage/mosaic",
+      "state": "empty",
+      "width": 360,
+      "file": "block-collage-mosaic-empty-360.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
       "name": "block-slideshow-banners",
       "block": "slideshow/banners",
       "state": "live",
@@ -633,6 +708,26 @@
     },
     {
       "kind": "block",
+      "name": "block-video-embed",
+      "block": "video/embed",
+      "state": "live",
+      "width": 360,
+      "file": "block-video-embed-360.png",
+      "status": 200,
+      "height": 523
+    },
+    {
+      "kind": "block",
+      "name": "block-video-embed-empty",
+      "block": "video/embed",
+      "state": "empty",
+      "width": 360,
+      "file": "block-video-embed-empty-360.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
       "name": "block-blog-featured",
       "block": "blog/featured",
       "state": "live",
@@ -653,6 +748,26 @@
     },
     {
       "kind": "block",
+      "name": "block-promo-code-banner",
+      "block": "promo/code-banner",
+      "state": "live",
+      "width": 360,
+      "file": "block-promo-code-banner-360.png",
+      "status": 200,
+      "height": 768
+    },
+    {
+      "kind": "block",
+      "name": "block-promo-code-banner-empty",
+      "block": "promo/code-banner",
+      "state": "empty",
+      "width": 360,
+      "file": "block-promo-code-banner-empty-360.png",
+      "status": 200,
+      "height": 60
+    },
+    {
+      "kind": "block",
       "name": "block-promo-grid",
       "block": "promo/grid",
       "state": "live",
@@ -668,6 +783,26 @@
       "state": "empty",
       "width": 360,
       "file": "block-promo-grid-empty-360.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
+      "name": "block-countdown-timer",
+      "block": "countdown/timer",
+      "state": "live",
+      "width": 360,
+      "file": "block-countdown-timer-360.png",
+      "status": 200,
+      "height": 452
+    },
+    {
+      "kind": "block",
+      "name": "block-countdown-timer-empty",
+      "block": "countdown/timer",
+      "state": "empty",
+      "width": 360,
+      "file": "block-countdown-timer-empty-360.png",
       "status": 200,
       "height": 44
     },
@@ -711,6 +846,21 @@
       "url": "http://localhost:8147/ru?template=katalog",
       "facts": {
         "theme": "katalog",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": false
+      }
+    },
+    {
+      "kind": "template",
+      "name": "lending",
+      "title": "Лендинг одного товара",
+      "width": 768,
+      "file": "template-lending-768.png",
+      "status": 200,
+      "url": "http://localhost:8147/ru?template=lending",
+      "facts": {
+        "theme": "lending",
         "mode": "light",
         "radius": "0.375rem",
         "textBar": false
@@ -1173,6 +1323,26 @@
     },
     {
       "kind": "block",
+      "name": "block-collection-bundle",
+      "block": "collection/bundle",
+      "state": "live",
+      "width": 768,
+      "file": "block-collection-bundle-768.png",
+      "status": 200,
+      "height": 856
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-bundle-empty",
+      "block": "collection/bundle",
+      "state": "empty",
+      "width": 768,
+      "file": "block-collection-bundle-empty-768.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-collection-featured",
       "block": "collection/featured",
       "state": "live",
@@ -1188,6 +1358,26 @@
       "state": "empty",
       "width": 768,
       "file": "block-collection-featured-empty-768.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-tabs",
+      "block": "collection/tabs",
+      "state": "live",
+      "width": 768,
+      "file": "block-collection-tabs-768.png",
+      "status": 200,
+      "height": 600
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-tabs-empty",
+      "block": "collection/tabs",
+      "state": "empty",
+      "width": 768,
+      "file": "block-collection-tabs-empty-768.png",
       "status": 200,
       "height": 28
     },
@@ -1253,6 +1443,26 @@
     },
     {
       "kind": "block",
+      "name": "block-collage-mosaic",
+      "block": "collage/mosaic",
+      "state": "live",
+      "width": 768,
+      "file": "block-collage-mosaic-768.png",
+      "status": 200,
+      "height": 858
+    },
+    {
+      "kind": "block",
+      "name": "block-collage-mosaic-empty",
+      "block": "collage/mosaic",
+      "state": "empty",
+      "width": 768,
+      "file": "block-collage-mosaic-empty-768.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-slideshow-banners",
       "block": "slideshow/banners",
       "state": "live",
@@ -1293,6 +1503,26 @@
     },
     {
       "kind": "block",
+      "name": "block-video-embed",
+      "block": "video/embed",
+      "state": "live",
+      "width": 768,
+      "file": "block-video-embed-768.png",
+      "status": 200,
+      "height": 680
+    },
+    {
+      "kind": "block",
+      "name": "block-video-embed-empty",
+      "block": "video/embed",
+      "state": "empty",
+      "width": 768,
+      "file": "block-video-embed-empty-768.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-blog-featured",
       "block": "blog/featured",
       "state": "live",
@@ -1313,6 +1543,26 @@
     },
     {
       "kind": "block",
+      "name": "block-promo-code-banner",
+      "block": "promo/code-banner",
+      "state": "live",
+      "width": 768,
+      "file": "block-promo-code-banner-768.png",
+      "status": 200,
+      "height": 576
+    },
+    {
+      "kind": "block",
+      "name": "block-promo-code-banner-empty",
+      "block": "promo/code-banner",
+      "state": "empty",
+      "width": 768,
+      "file": "block-promo-code-banner-empty-768.png",
+      "status": 200,
+      "height": 44
+    },
+    {
+      "kind": "block",
       "name": "block-promo-grid",
       "block": "promo/grid",
       "state": "live",
@@ -1328,6 +1578,26 @@
       "state": "empty",
       "width": 768,
       "file": "block-promo-grid-empty-768.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
+      "name": "block-countdown-timer",
+      "block": "countdown/timer",
+      "state": "live",
+      "width": 768,
+      "file": "block-countdown-timer-768.png",
+      "status": 200,
+      "height": 382
+    },
+    {
+      "kind": "block",
+      "name": "block-countdown-timer-empty",
+      "block": "countdown/timer",
+      "state": "empty",
+      "width": 768,
+      "file": "block-countdown-timer-empty-768.png",
       "status": 200,
       "height": 28
     },
@@ -1371,6 +1641,21 @@
       "url": "http://localhost:8147/ru?template=katalog",
       "facts": {
         "theme": "katalog",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": false
+      }
+    },
+    {
+      "kind": "template",
+      "name": "lending",
+      "title": "Лендинг одного товара",
+      "width": 1280,
+      "file": "template-lending-1280.png",
+      "status": 200,
+      "url": "http://localhost:8147/ru?template=lending",
+      "facts": {
+        "theme": "lending",
         "mode": "light",
         "radius": "0.375rem",
         "textBar": false
@@ -1833,6 +2118,26 @@
     },
     {
       "kind": "block",
+      "name": "block-collection-bundle",
+      "block": "collection/bundle",
+      "state": "live",
+      "width": 1280,
+      "file": "block-collection-bundle-1280.png",
+      "status": 200,
+      "height": 528
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-bundle-empty",
+      "block": "collection/bundle",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-collection-bundle-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-collection-featured",
       "block": "collection/featured",
       "state": "live",
@@ -1848,6 +2153,26 @@
       "state": "empty",
       "width": 1280,
       "file": "block-collection-featured-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-tabs",
+      "block": "collection/tabs",
+      "state": "live",
+      "width": 1280,
+      "file": "block-collection-tabs-1280.png",
+      "status": 200,
+      "height": 763
+    },
+    {
+      "kind": "block",
+      "name": "block-collection-tabs-empty",
+      "block": "collection/tabs",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-collection-tabs-empty-1280.png",
       "status": 200,
       "height": 28
     },
@@ -1913,6 +2238,26 @@
     },
     {
       "kind": "block",
+      "name": "block-collage-mosaic",
+      "block": "collage/mosaic",
+      "state": "live",
+      "width": 1280,
+      "file": "block-collage-mosaic-1280.png",
+      "status": 200,
+      "height": 1248
+    },
+    {
+      "kind": "block",
+      "name": "block-collage-mosaic-empty",
+      "block": "collage/mosaic",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-collage-mosaic-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-slideshow-banners",
       "block": "slideshow/banners",
       "state": "live",
@@ -1953,6 +2298,26 @@
     },
     {
       "kind": "block",
+      "name": "block-video-embed",
+      "block": "video/embed",
+      "state": "live",
+      "width": 1280,
+      "file": "block-video-embed-1280.png",
+      "status": 200,
+      "height": 520
+    },
+    {
+      "kind": "block",
+      "name": "block-video-embed-empty",
+      "block": "video/embed",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-video-embed-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-blog-featured",
       "block": "blog/featured",
       "state": "live",
@@ -1973,6 +2338,26 @@
     },
     {
       "kind": "block",
+      "name": "block-promo-code-banner",
+      "block": "promo/code-banner",
+      "state": "live",
+      "width": 1280,
+      "file": "block-promo-code-banner-1280.png",
+      "status": 200,
+      "height": 460
+    },
+    {
+      "kind": "block",
+      "name": "block-promo-code-banner-empty",
+      "block": "promo/code-banner",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-promo-code-banner-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
       "name": "block-promo-grid",
       "block": "promo/grid",
       "state": "live",
@@ -1988,6 +2373,26 @@
       "state": "empty",
       "width": 1280,
       "file": "block-promo-grid-empty-1280.png",
+      "status": 200,
+      "height": 28
+    },
+    {
+      "kind": "block",
+      "name": "block-countdown-timer",
+      "block": "countdown/timer",
+      "state": "live",
+      "width": 1280,
+      "file": "block-countdown-timer-1280.png",
+      "status": 200,
+      "height": 420
+    },
+    {
+      "kind": "block",
+      "name": "block-countdown-timer-empty",
+      "block": "countdown/timer",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-countdown-timer-empty-1280.png",
       "status": 200,
       "height": 28
     }
