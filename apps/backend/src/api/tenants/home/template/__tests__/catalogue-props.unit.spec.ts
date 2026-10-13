@@ -2,11 +2,11 @@ import type * as ApplyModule from "../apply";
 import type * as ValidationModule from "../validation";
 
 /**
- * Props of a block the backend has no check for (t-2026-10-12-33): a block PR adds its
- * parser on the storefront only, and the backend takes that block's props from its catalogue
- * template and nothing else. The real catalogue may hold no such block yet, so these cases
- * run on a fixture catalogue: the exported one plus a `test/unchecked` block with props and
- * no `PROPS_CHECKS` line, placed last in a copy of `long-morning`.
+ * Props of a block the backend has no check for (t-2026-10-12-33): the backend takes that
+ * block's props from its catalogue template and nothing else. The real catalogue holds no
+ * such block, since `pnpm templates:export` copies every parser into `props.generated/`, so
+ * these cases run on a fixture catalogue: the exported one plus a `test/unchecked` block with
+ * props and no `PROPS_CHECKS` line, placed last in a copy of `long-morning`.
  */
 
 const UNCHECKED = "test/unchecked";
