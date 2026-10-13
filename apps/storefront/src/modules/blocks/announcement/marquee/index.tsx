@@ -25,8 +25,10 @@ const BONUS_ICONS = new Set(["gift", "percent"])
 
 const MARK_SPACE = "mx-[var(--layer-space-6,1.5rem)]"
 
+/* A point's link is the whole point, so it is a 44px target of its own (QR-HIT); its focus ring stands inside it,
+   where the bar's `overflow-hidden` cannot cut it. */
 const LINK_CLASS =
-  "rounded-[var(--radius)] underline decoration-1 underline-offset-4 hover:decoration-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[currentColor]"
+  "inline-flex min-h-11 items-center rounded-[var(--radius)] px-1 underline decoration-1 underline-offset-4 hover:decoration-2 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[currentColor]"
 
 /**
  * One point and the mark before it. `echo` is a repeat of a point already said: hidden from a screen
@@ -76,7 +78,7 @@ function Point({
     <li
       aria-hidden={echo || undefined}
       inert={echo || undefined}
-      className={clx("flex shrink-0 items-center motion-reduce:shrink", echo && styles.echo)}
+      className={clx("flex min-h-11 shrink-0 items-center motion-reduce:shrink", echo && styles.echo)}
     >
       {mark}
       <span className="flex items-center gap-2">
@@ -97,7 +99,8 @@ function Point({
  * promises across the page, «Дарим 500 бонусов на первую покупку · Бесплатная доставка от 3000 ₽».
  * Measured against InSales Cream and Vibe (`scrolling-text`, 37 and 46px high): one line of points
  * with a mark between them. A sibling of `announcement/text-bar` and `announcement/rotator`: the same
- * 44px height, the density layer's `--layer-space-2` for its padding, 14px type.
+ * 44px height and 14px type. Each point stands 44px high, so a point's link is a full target; the space
+ * around the marks is the density layer's `--layer-space-6`.
  *
  * The server picks each point in the visitor's language (else English, else any) and drops the ones
  * with nothing to say; none left, nothing is drawn. It repeats the points until one copy of the track
@@ -136,7 +139,7 @@ export default async function Marquee({ items, speed, direction, separator, tone
       aria-label={pickText(label, locale) ?? pickText(REGION_LABEL, locale) ?? undefined}
       className={clx(
         styles.bar,
-        "flex min-h-11 w-full items-center overflow-hidden py-[var(--layer-space-2,0.5rem)] text-sm",
+        "flex min-h-11 w-full items-center overflow-hidden text-sm",
         TONES[tone]
       )}
     >
@@ -145,7 +148,7 @@ export default async function Marquee({ items, speed, direction, separator, tone
         className={clx(styles.track, direction === "right" && styles.right)}
         style={{ "--marquee-duration": `${seconds}s` } as CSSProperties}
       >
-        <ul className="flex shrink-0 items-center motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-y-1 motion-reduce:px-4 motion-reduce:text-center">
+        <ul className="flex shrink-0 items-center motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:px-4 motion-reduce:text-center">
           {copy(false)}
         </ul>
         <ul aria-hidden="true" inert className={clx(styles.echo, "flex shrink-0 items-center")}>
