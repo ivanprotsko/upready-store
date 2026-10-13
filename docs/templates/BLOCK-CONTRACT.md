@@ -9,7 +9,8 @@ registry entry, and you never add a second theming path.
 Put the block in `apps/storefront/src/modules/blocks/<category>/<variant>/`, kebab-case:
 
 - `index.tsx` holds the component, a server component unless it needs state.
-- `props.ts` holds the props type and its parser.
+- `props.ts` holds the props type and its parser. The backend runs a copy of it (§ A Shop Keeps Its Template),
+  so it imports only `modules/blocks` files, `PropsResult` from `types.ts` and `locales` from `@i18n/config`.
 - `block.ts` holds the registry entry, a `BlockEntry<YourProps>` from `modules/blocks/types.ts`.
 
 Then add one line to the category file, `modules/blocks/<category>/index.ts`, in path order:
@@ -199,6 +200,7 @@ export const parseRichTextProps = (input: unknown) =>
 ## 6. PR Checklist
 
 - [ ] `<category>/<variant>/{index.tsx,props.ts,block.ts}` and one line in `<category>/index.ts`; nothing else
+  by hand
 - [ ] `parseProps` built from `shared/parse.ts`, both fixtures, `roles`, `data`, `status: "lab"`
 - [ ] every visible string a `LocalizedText` prop with Russian and English defaults; no `messages/*.json`
 - [ ] wrapped in `BlockSection`; pictures as `ImageRef`, icons as `BlockIcon`
@@ -209,9 +211,9 @@ export const parseRichTextProps = (input: unknown) =>
 - [ ] the contact sheet at 3 widths, live and empty, is linked in the PR body
 - [ ] rebase on `origin/templates/main` right before the hand-in. A conflict in your category file means
   another block of your category landed, so keep both lines
-- [ ] after the final rebase run `pnpm templates:export` and commit `catalog.generated.json`; on a conflict
-  there, take templates/main's file (during a rebase that is `git checkout --ours`) and run the export again,
-  never edit the file by hand
+- [ ] after the final rebase run `pnpm templates:export` and commit `catalog.generated.json` and
+  `props.generated/`; on a conflict there, take templates/main's files (during a rebase that is
+  `git checkout --ours`) and run the export again, never edit them by hand
 - [ ] base `templates/main`, never `dev`
 
 ## 7. What Is Left to the Eyes
@@ -330,14 +332,25 @@ rebase, take templates/main's file and run the export again, never edit the file
 `parity.fixtures.json`. The export lists the light-only palettes apart (`lightOnlyPalettes`), and the
 backend asks for `settings.defaultMode` "light" with one of them, as `validateTemplate()` does.
 
-A new block needs no backend code. A block with `parseProps` and a check in `PROPS_CHECKS` (text-bar
-today) takes any props that check passes. A block with `parseProps` and no check takes only the props
-its catalogue template gives it, the same block in the same template, compared as JSON: those passed
-the storefront's `validateTemplate()` and came over in the export. An override that changes them is
-400, `props of <block> cannot be changed yet`. `parity.test.ts` holds every `PROPS_CHECKS` key to a
-storefront parser and prints the blocks without a check. The export marks each block
-`propsEditable`, and the panel offers a prop edit only where it is true. Copying a parser into
-`PROPS_CHECKS` makes the block editable.
+A new block needs no backend code. The same export copies each block's `props.ts`, and the files it
+imports, into `apps/backend/src/api/tenants/home/template/props.generated/`, in the layout of
+`src/modules/blocks`, every file marked generated. `PROPS_CHECKS` in `validation.ts` runs those copies, one
+per block with `parseProps`. So a shop may change the props of every such block. The backend refuses
+what the storefront would refuse to draw, with the same message.
+
+- **What the copy changes.** Two imports point elsewhere: `types.ts` at a stub holding `PropsResult`
+  alone (the rest of that file imports React), and `@i18n/config` at the catalogue's `locales`.
+- **What a parser may import.** Only files of `src/modules/blocks`: `shared/`, its own folder, another
+  block's `props.ts`. Besides those, `PropsResult` from `types.ts` and `locales` from `@i18n/config`. The
+  export refuses anything else, and `parseProps` must be an export of the block's own `props.ts`.
+- **What fails when the copy drifts.** `catalog-export.test.ts`, when the copy is stale. `parity.test.ts`
+  runs the storefront parser and the backend check on each block's two fixtures and on two broken inputs
+  (a prop of another type, a text over its limit); they must give the same verdict.
+- **`propsEditable`.** The export marks each block it copied a parser for, and the panel offers a prop
+  edit only where it is true.
+- **A block with no check.** A block with `props: true` and no `PROPS_CHECKS` line takes only the props
+  its catalogue template gives it, compared as JSON. That happens only in a catalogue the export did not
+  write. An override that changes those props is 400, `props of <block> cannot be changed yet`.
 
 The storefront reads the saved template through `getActiveTemplate()` (`lib/templates/active.ts`): the
 preview first, then the document's template, resolved by `validateTemplate()` and `resolveTemplate()`

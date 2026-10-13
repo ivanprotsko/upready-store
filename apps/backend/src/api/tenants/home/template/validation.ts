@@ -1,4 +1,5 @@
 import catalogJson from "./catalog.generated.json";
+import { PROPS_PARSERS } from "./props.generated/index";
 import {
   isForbidden,
   validateFields,
@@ -17,6 +18,9 @@ import {
  * - the vocabularies and the catalogue come from `catalog.generated.json`, which the
  *   storefront writes (`pnpm templates:export` in `apps/storefront`) and fails a test on
  *   when it drifts;
+ * - each block's props parser is copied, not transcribed: the same export writes the
+ *   storefront's `props.ts` files and what they import into `props.generated/`, and fails a
+ *   test when the copy drifts;
  * - the logic below is transcribed by hand, and `apps/storefront/src/lib/templates/
  *   parity.test.ts` runs this file and `manifest.ts` on the same fixtures
  *   (`parity.fixtures.json`), so a rule changed on one side and not the other fails there.
@@ -125,6 +129,8 @@ function oneOf(errors: FieldError[], field: string, value: unknown, allowed: rea
   return false;
 }
 
+const LOCALE_CODES = new Set(CATALOG.locales);
+
 /** A `TemplateText`: a non-empty string, or at least one language of `i18n/config.ts`, each a non-empty string. */
 function textErrors(field: string, value: unknown): FieldError[] {
   if (typeof value === "string" && value.trim()) return [];
@@ -142,64 +148,23 @@ function textErrors(field: string, value: unknown): FieldError[] {
 
 /* ------------------------------------------------------------------ block props */
 
-const LOCALE_CODES = new Set(CATALOG.locales);
-
-/** `parseLocalizedText` of `modules/blocks/shared/parse.ts`, with no fallback: the text is required. */
-function checkLocalizedText(value: unknown, path: string, max: number): string[] {
-  if (!isObject(value)) return [`${path} must be an object of language code to string`];
-  const errors: string[] = [];
-  for (const [code, line] of Object.entries(value)) {
-    if (!LOCALE_CODES.has(code)) errors.push(`${path}.${code}: not a language of i18n/config.ts`);
-    if (typeof line !== "string") errors.push(`${path}.${code} must be a string`);
-    else if (line.length > max) errors.push(`${path}.${code} is ${line.length} characters, at most ${max}`);
-  }
-  return errors;
-}
-
-/** `parseHref` of `modules/blocks/shared/parse.ts`, optional: absent is null. */
-function checkHref(value: unknown, path: string): string[] {
-  if (value === undefined || value === null) return [];
-  if (typeof value !== "string" || !(value.startsWith("/") || value.startsWith("https://"))) {
-    return [`${path} must start with / or https://`];
-  }
-  if (/^\/[/\\]/.test(value)) return [`${path}: ${value.slice(0, 2)} leads to another site; write https://`];
-  if (value.length > 2048 || /\s/.test(value)) {
-    return [`${path} must be one address, no spaces, at most 2048 characters`];
-  }
-  if (value.startsWith("https://")) {
-    try {
-      new URL(value);
-    } catch {
-      return [`${path} is not an address`];
-    }
-  }
-  return [];
-}
-
 /**
- * `parseTextBarProps` of `modules/blocks/announcement/text-bar/props.ts`, which is one
- * `parseProps(…)` call of `shared/parse.ts`: absent props are `{}`, the fields are read in
- * their listed order, then every key the block does not list is refused.
+ * The props check of each block with a `parseProps` on the storefront, by block id: that
+ * parser itself, from the copy `pnpm templates:export` writes into `props.generated/`, and
+ * its errors. A block with `props: true` and no line here (a catalogue the export did not
+ * write, as `catalogue-props.unit.spec.ts` builds) takes the props its catalogue template
+ * gives it (`catalogueProps`), never props of the shop's own; `parity.test.ts` holds every
+ * line here to the storefront's parser.
  */
-function checkTextBarProps(input: unknown): string[] {
-  const value = input ?? {};
-  if (!isObject(value)) return ["props must be an object { text, href }"];
-  const { text, href, ...rest } = value;
-  const errors = [...checkLocalizedText(text, "text", 140), ...checkHref(href, "href")];
-  for (const key of Object.keys(rest)) errors.push(`${key}: not a prop of announcement/text-bar`);
-  return errors;
-}
-
-/**
- * The props check of a block whose storefront entry has a `parseProps`, by block id. Not every
- * such block has one: a block PR adds its parser on the storefront only. A block with
- * `props: true` and no line here takes the props its catalogue template gives it
- * (`catalogueProps`), never props of the shop's own; `parity.test.ts` holds every line here
- * to a storefront parser.
- */
-export const PROPS_CHECKS: Record<string, (input: unknown) => string[]> = {
-  "announcement/text-bar": checkTextBarProps,
-};
+export const PROPS_CHECKS: Record<string, (input: unknown) => string[]> = Object.fromEntries(
+  Object.entries(PROPS_PARSERS).map(([id, parse]) => [
+    id,
+    (input: unknown) => {
+      const result = parse(input);
+      return result.ok ? [] : result.errors;
+    },
+  ]),
+);
 
 /** The refusal of props a shop changed on a block `PROPS_CHECKS` has no line for. */
 export const unchangeableProps = (block: string): string => `props of ${block} cannot be changed yet`;
