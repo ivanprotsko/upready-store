@@ -64,6 +64,12 @@ describe("block registry", () => {
       expect(block.fixtures, block.id).toBeDefined()
       expect(block.parseProps!(block.fixtures!.empty).ok, `${block.id} empty`).toBe(true)
       expect(block.parseProps!(block.fixtures!.sample).ok, `${block.id} sample`).toBe(true)
+      // A further fixture gets its own playground anchor, `block-<category>-<variant>-<name>`.
+      for (const [name, fixture] of Object.entries(block.fixtures!)) {
+        expect(name, `${block.id} fixture name`).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+        expect(name, `${block.id} fixture name`).not.toBe("live")
+        expect(block.parseProps!(fixture).ok, `${block.id} ${name}`).toBe(true)
+      }
     }
   })
 
