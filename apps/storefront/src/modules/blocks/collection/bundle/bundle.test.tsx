@@ -2,6 +2,8 @@ import type { ReactElement, ReactNode } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
+import ProductCard from "@modules/products/components/product-card"
+
 import { blockById } from "../../registry"
 import Bundle from "."
 import type { BundleLine } from "./add-bundle-button"
@@ -11,7 +13,11 @@ import { BUTTON_LABEL, CHOOSE_HINT, parseBundleProps, TITLE, TOTAL_LABEL, type B
 vi.mock("server-only", () => ({}))
 
 const locale = vi.hoisted(() => ({ current: "ru" }))
-vi.mock("next-intl/server", () => ({ getLocale: async () => locale.current }))
+vi.mock("next-intl/server", () => ({
+  getLocale: async () => locale.current,
+  getTranslations: async () => (key: string, values?: { percent?: number }) =>
+    key === "sale" ? `Скидка ${values?.percent}%` : key,
+}))
 vi.mock("@i18n/navigation", () => ({
   Link: ({ href, children, ...rest }: { href: string; children: ReactNode }) => (
     <a href={`/ru${href}`} {...rest}>
@@ -24,6 +30,10 @@ vi.mock("@modules/products/components/product-media", () => ({
     <div data-product-media="card" data-product-media-state={src ? "photo" : "placeholder"} data-src={src ?? ""} data-alt={alt} />
   ),
 }))
+
+// The storefront's own card, drawn beside the bundle's in "the cards are the storefront's card"; its wishlist is not a role.
+vi.mock("@lib/data/wishlist", () => ({ getWishlistProductIds: async () => [], isWishlistCustomerLoggedIn: async () => false }))
+vi.mock("@modules/products/components/wishlist-button", () => ({ default: () => null }))
 
 const getHomeRegion = vi.hoisted(() => vi.fn())
 vi.mock("@lib/data/home", () => ({ getHomeRegion }))
@@ -51,36 +61,76 @@ vi.mock("@modules/layout/components/cart-sidebar/context", () => ({ useCartSideb
 
 /* ------------------------------------------------------------------ the shop */
 
-const variant = (id: string, amount: number | null, stock: number | "untracked" = "untracked") => ({
+const variant = (
+  id: string,
+  amount: number | null,
+  stock: number | "untracked" = "untracked",
+  { options = [], original = amount }: { options?: string[]; original?: number | null } = {}
+) => ({
   id,
   title: id,
   manage_inventory: stock !== "untracked",
   allow_backorder: false,
   inventory_quantity: stock === "untracked" ? 0 : stock,
+  options: options.map((value) => ({ id: value })),
   calculated_price:
     amount === null
       ? null
       : {
           calculated_amount: amount,
-          original_amount: amount,
+          original_amount: original,
           currency_code: "usd",
-          calculated_price: { price_list_type: "default" },
+          calculated_price: { price_list_type: original !== amount ? "sale" : "default" },
         },
 })
 
-const product = (handle: string, title: string, variants: ReturnType<typeof variant>[]) => ({
+type Option = { id: string; title: string; values: { id: string; value: string; metadata?: { hex: string } }[] }
+
+const product = (handle: string, title: string, variants: ReturnType<typeof variant>[], options: Option[] = []) => ({
   id: `prod_${handle}`,
   handle,
   title,
   thumbnail: `https://shipshift.dev/static/${handle}.webp`,
   images: [{ id: `img_${handle}`, url: `https://shipshift.dev/static/${handle}.webp` }],
   metadata: {},
+  options,
   variants,
 })
 
 const candle = product("candle-holder", "Подсвечник", [variant("var_candle", 37.99)])
 const rail = product("hook-rail", "Вешалка", [variant("var_rail", 53.99)])
-const mug = product("mug", "Кружка", [variant("var_mug_s", 25.99), variant("var_mug_l", 29.99)])
+// Two sizes its variants use and one no variant has: the card's unit line names the two.
+const mug = product(
+  "mug",
+  "Кружка",
+  [
+    variant("var_mug_s", 25.99, "untracked", { options: ["ov_s"] }),
+    variant("var_mug_l", 29.99, "untracked", { options: ["ov_l"] }),
+  ],
+  [{ id: "opt_size", title: "Размер", values: [{ id: "ov_s", value: "S" }, { id: "ov_l", value: "L" }, { id: "ov_xl", value: "XL" }] }]
+)
+// Two colours: the card draws them as dots, not in the unit line. The shop's own option colours, not the block's.
+const blanket = product(
+  "throw",
+  "Плед",
+  [
+    variant("var_throw_sand", 45, "untracked", { options: ["ov_sand"] }),
+    variant("var_throw_ink", 45, "untracked", { options: ["ov_ink"] }),
+  ],
+  [
+    {
+      id: "opt_colour",
+      title: "Цвет",
+      values: [
+        // Any colour the shop stores; a theme variable here keeps the fixture off lint:blocks' hex rule.
+        { id: "ov_sand", value: "Песок", metadata: { hex: "var(--chart-1)" } },
+        { id: "ov_ink", value: "Чернила", metadata: { hex: "var(--chart-2)" } },
+      ],
+    },
+  ]
+)
+// On sale: 60 instead of 80, so 25 % off.
+const lamp = product("lamp", "Лампа", [variant("var_lamp", 60, "untracked", { original: 80 })])
 const vase = product("vase", "Ваза", [variant("var_vase", 41, 0)])
 const unpriced = product("unpriced", "Без цены", [variant("var_unpriced", null)])
 
@@ -292,6 +342,102 @@ describe("Bundle, drawing", () => {
     shop(candle, rail)
     const html = (await render(props(["candle-holder", "hook-rail"])))!
     expect(html).toMatch(/<ul class="[^"]*\[--product-media-ratio:var\(--layer-photo-aspect,3\/4\)\]/)
+  })
+})
+
+/* ------------------------------------------------------------------ one card for one product */
+
+// The card roles `template:check` reads in a card, in document order (scripts/template-check/measure.mjs, CARD_ROLES).
+const CARD_ROLES: [RegExp, string][] = [
+  [/data-product-media="/, "card-media"],
+  [/data-testid="product-sale-badge"/, "card-badge"],
+  [/data-testid="product-title"/, "card-title"],
+  [/data-testid="price"/, "card-price"],
+  [/data-testid="original-price"/, "card-price-old"],
+  [/data-testid="product-unit"/, "card-meta"],
+  [/data-testid="product-excerpt"/, "card-meta"],
+]
+
+/** Each product card of the markup: its link, the roles in order, and the classes and text of its title, unit and price. */
+const cardsOf = (html: string) =>
+  html
+    .split(/(?=<a [^>]*data-testid="product-wrapper")/)
+    .filter((chunk) => /^<a [^>]*data-testid="product-wrapper"/.test(chunk))
+    .map((card) => {
+      const roles: string[] = []
+      for (const tag of card.match(/<[a-z][^>]*>/g) ?? []) {
+        const role = CARD_ROLES.find(([pattern]) => pattern.test(tag))?.[1]
+        if (role && roles[roles.length - 1] !== role) roles.push(role)
+      }
+      const part = (testid: string) => {
+        const match = card.match(new RegExp(`<(\\w+)([^>]*data-testid="${testid}"[^>]*)>([^<]*)`))
+        return match ? { class: match[2].match(/class="([^"]*)"/)?.[1] ?? "", text: match[3] } : null
+      }
+      return {
+        href: card.match(/href="([^"]+)"/)?.[1],
+        sig: roles.join(">"),
+        title: part("product-title"),
+        unit: part("product-unit"),
+        price: part("price"),
+        old: part("original-price"),
+        badge: card.includes('data-testid="product-sale-badge"'),
+        dots: card.match(/<span title="[^"]*" class="inline-block size-3[^>]*>/g) ?? [],
+      }
+    })
+
+const storefrontCard = async (item: ReturnType<typeof product>) =>
+  cardsOf(
+    renderToStaticMarkup(await ProductCard({ product: item as unknown as Parameters<typeof ProductCard>[0]["product"] }))
+  )[0]
+
+describe("Bundle, one card for one product", () => {
+  // Decision (a), t-2026-10-12-33 bundle-card-grammar: a set's item is a product card. Beside `collection/tabs` the
+  // block's 16 px title and its missing unit line gave one product two card signatures (QR-CARD-GRAMMAR) and the
+  // card title two sizes (QR-TYPE-ROLE) on katalog.
+  it("draws each product with the storefront card's signature, title, unit line, dots and price", async () => {
+    shop(candle, rail, mug, blanket)
+    const html = (await render(props(["candle-holder", "hook-rail", "mug", "throw"])))!
+    const cards = cardsOf(html)
+    expect(cards).toHaveLength(4)
+
+    const items = [candle, rail, mug, blanket]
+    for (let index = 0; index < items.length; index++) {
+      const own = await storefrontCard(items[index])
+      expect(cards[index].href).toBe(own.href)
+      expect(cards[index].sig).toBe(own.sig)
+      expect(cards[index].sig).toBe("card-media>card-title>card-meta>card-price")
+      expect(cards[index].title?.class).toBe(own.title?.class)
+      // The unit line says what the card's says; it is 12 px, not the card's arbitrary 13 px (index.tsx, the doc comment).
+      expect(cards[index].unit?.text).toBe(own.unit?.text)
+      expect(cards[index].dots).toEqual(own.dots)
+      expect(cards[index].price).toEqual(own.price)
+    }
+    // The title at the card's 14 px, not the 16 px that differed from the tabs beside it.
+    expect(cards[0].title?.class).toMatch(/(?:^| )text-sm(?: |$)/)
+    expect(cards[0].title?.class).not.toMatch(/(?:^| )text-base(?: |$)/)
+    // The unit line names the sizes a variant uses and keeps its slot when empty; colours are dots.
+    expect(cards[0].unit?.text).toBe("")
+    expect(cards[2].unit?.text).toBe("S · L")
+    expect(cards[3].unit?.text).toBe("")
+    expect(cards[3].dots).toHaveLength(2)
+  })
+
+  it("draws a product on sale as the storefront card does: its badge and old price, and the sum still of today's prices", async () => {
+    shop(candle, lamp)
+    const html = (await render(props(["candle-holder", "lamp"])))!
+    const [, card] = cardsOf(html)
+    const own = await storefrontCard(lamp)
+
+    expect(card.sig).toBe(own.sig)
+    expect(card.sig).toBe("card-media>card-badge>card-title>card-meta>card-price>card-price-old")
+    expect(card.badge).toBe(true)
+    expect(card.price).toEqual(own.price)
+    expect(card.old?.text).toBe(own.old?.text)
+    expect(card.old?.text).toBe(money(80))
+    // The set promises no discount of its own: the sum is today's prices, and there is no old sum.
+    expect(html).toContain(money(37.99 + 60))
+    expect(html).not.toContain(money(37.99 + 80))
+    expect(count(html, "line-through")).toBe(1)
   })
 })
 

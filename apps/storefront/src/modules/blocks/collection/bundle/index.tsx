@@ -1,6 +1,6 @@
 import { clx } from "@medusajs/ui"
 import { Plus } from "lucide-react"
-import { getLocale } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
 import ProductMedia from "@modules/products/components/product-media"
@@ -19,6 +19,9 @@ const focusRing =
  * (3 / 4 by default), so the list hands it `--layer-photo-aspect`, as `collection/featured` does.
  */
 const PHOTO_LAYER = "[--product-media-ratio:var(--layer-photo-aspect,3/4)]"
+
+/** The colour dots a card shows at most, as `ProductCard`. */
+const MAX_SWATCHES = 5
 
 /** The primary button of the template's button layer, full width of the summary card. */
 const BUTTON_CLASS = clx(
@@ -55,13 +58,24 @@ const lineOf = ({ product, variant }: BundleItem): BundleLine | null =>
  * `bundle` and InSales' «Комплект». 2–4 of the shop's products as compact cards with a plus between
  * them, then a card with the set's name, the sum of the cards' prices and one button.
  *
- * - The cards carry the storefront card's markers (`ProductMedia`, `product-wrapper`, `product-title`,
- *   `price`), so a page measures them as product cards. Below 720 px each is a row, the picture 80 px
- *   wide, the plus under it; from 720 px they stand side by side, the plus between the pictures; from
- *   1024 px the summary stands beside them.
- * - The type is 16 px with a 20 px set name and a 24 px sum, every pair ≥ 1.15× apart (QR-TYPE-SCALE):
- *   `ProductCard`'s 14 px title beside its 16 px price is closer than that, so the card keeps its
- *   markers and not its sizes; the title differs from the price in weight (QR-PRICE).
+ * - A set's item is a product card, the storefront's (decision (a), t-2026-10-12-33 bundle-card-grammar):
+ *   a product looks the same wherever the shop shows it. Each card has `ProductCard`'s markers and its
+ *   grammar: the picture, the 14 px title on two lines, the unit line (the option values its variants
+ *   use, colours as dots; it keeps its slot when empty), the 16 px price, and on a sale the badge on the
+ *   picture and the old price. With the 16 px title and no unit line the block had before, the same
+ *   product beside `collection/tabs` and on its category had two card signatures (QR-CARD-GRAMMAR) and
+ *   the card title two sizes (QR-TYPE-ROLE). `ProductCard` itself does not fit the set: it is a column
+ *   with a wishlist button, and the set below 720 px is a row with an 80 px picture, so the block draws
+ *   the same parts in its own frame and `bundle.test.tsx` holds them equal to `ProductCard`'s. The
+ *   wishlist button is left out: it is not a card role, and it would cover a third of the 80 px picture.
+ * - Below 720 px each card is a row, the picture 80 px wide, the plus under it; from 720 px they stand
+ *   side by side, the plus between the pictures; from 1024 px the summary stands beside them.
+ * - One size differs: the unit line and the old price are 12 px (`text-xs`), not `ProductCard`'s 13 px.
+ *   13 px is off the Tailwind scale, `pnpm lint:blocks` refuses an arbitrary size in a block, and a
+ *   13 px token would go into the shared `tailwind.config.js`; no rule measures the meta's size, and
+ *   12 px is on the gate's type scale. The title's 14 px beside the price's 16 px is closer than
+ *   QR-TYPE-SCALE's 1.15×: inside the card that is `ProductCard`'s known debt (the gate's shared part),
+ *   not the block's. The summary's own type is 16 px with a 20 px set name and a 24 px sum.
  * - «Добавить набор» adds the one variant of each product through the cart queue
  *   (`add-bundle-button.tsx`). A product with several variants is not added: its card links to its
  *   page with «Выбрать вариант», and a line under the button says so.
@@ -82,7 +96,7 @@ export default async function Bundle({
   outOfStockLabel,
   chooseHint,
 }: BundleProps) {
-  const locale = await getLocale()
+  const [locale, t] = await Promise.all([getLocale(), getTranslations("ProductCard")])
   const bundle = await readBundle(products, locale)
 
   if (!bundle) {
@@ -119,11 +133,23 @@ export default async function Bundle({
                   )}
                 >
                   <div className="w-20 shrink-0 min-[720px]:relative min-[720px]:w-full">
-                    <ProductMedia
-                      src={item.product.thumbnail || item.product.images?.[0]?.url || null}
-                      alt={productTitle}
-                      sizes="(min-width: 720px) 192px, 80px"
-                    />
+                    <div className="relative">
+                      <ProductMedia
+                        src={item.product.thumbnail || item.product.images?.[0]?.url || null}
+                        alt={productTitle}
+                        sizes="(min-width: 720px) 192px, 80px"
+                      />
+                      {item.sale?.percent ? (
+                        <span
+                          // theme-colours allowlist: ProductCard's sale badge, a decorative tag colour and not an error status.
+                          className="absolute start-2 top-2 rounded-full bg-ui-tag-red-bg px-2 py-0.5 text-xs font-medium tabular-nums text-ui-tag-red-text"
+                          data-testid="product-sale-badge"
+                        >
+                          <span aria-hidden>−{item.sale.percent}%</span>
+                          <span className="sr-only">{t("sale", { percent: item.sale.percent })}</span>
+                        </span>
+                      ) : null}
+                    </div>
                     {index < bundle.items.length - 1 ? (
                       <span
                         aria-hidden
@@ -133,21 +159,47 @@ export default async function Bundle({
                       </span>
                     ) : null}
                   </div>
-                  <div className="flex min-w-0 flex-1 flex-col gap-1">
+                  <div className="flex min-w-0 flex-1 flex-col">
                     <p
                       data-testid="product-title"
-                      className="line-clamp-2 break-words text-base font-medium leading-6 text-ui-fg-base group-hover:underline group-hover:underline-offset-2"
+                      className="line-clamp-2 min-h-10 break-words text-sm font-medium leading-5 text-ui-fg-base group-hover:underline group-hover:underline-offset-2"
                     >
                       {productTitle}
                     </p>
-                    <p className="tabular-nums">
+                    <div className="mt-1 flex h-5 items-center justify-between gap-x-2 text-xs leading-5 text-ui-fg-subtle">
+                      <span className="min-w-0 truncate" title={item.unit || undefined} data-testid="product-unit">
+                        {item.unit}
+                      </span>
+                      {item.swatches.length > 0 ? (
+                        <span className="flex shrink-0 items-center gap-x-1">
+                          {item.swatches.slice(0, MAX_SWATCHES).map((color) => (
+                            <span
+                              key={color.id}
+                              title={color.value}
+                              className="inline-block size-3 rounded-full border border-ui-border-base"
+                              style={{ backgroundColor: color.hex }}
+                            />
+                          ))}
+                        </span>
+                      ) : null}
+                    </div>
+                    <p className="flex flex-wrap items-baseline gap-x-2 pt-2 tabular-nums">
                       <span
                         data-testid="price"
                         data-role="price"
-                        className="text-base font-semibold text-[color:var(--fg-accent,var(--fg-base))]"
+                        className={
+                          item.sale
+                            ? "text-base font-semibold text-ui-fg-error"
+                            : "text-base font-semibold text-[color:var(--fg-accent,var(--fg-base))]"
+                        }
                       >
                         {item.price}
                       </span>
+                      {item.sale ? (
+                        <span className="text-xs text-ui-fg-muted line-through decoration-1" data-testid="original-price">
+                          {item.sale.original}
+                        </span>
+                      ) : null}
                     </p>
                   </div>
                 </Link>

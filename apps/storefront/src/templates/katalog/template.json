@@ -106,6 +106,15 @@
       }
     },
     {
+      "block": "collection/bundle",
+      "props": {
+        "header": { "heading": { "ru": "Купить комплектом", "en": "Buy as a set" } },
+        "title": { "ru": "Для дома", "en": "For the home" },
+        "note": { "ru": "Всё нужное — одной кнопкой", "en": "Everything you need, with one button" },
+        "products": ["hook-rail", "candle-holder", "mug"]
+      }
+    },
+    {
       "block": "text/rich-text",
       "props": {
         "eyebrow": { "ru": "Как выбирать", "en": "How to choose" },

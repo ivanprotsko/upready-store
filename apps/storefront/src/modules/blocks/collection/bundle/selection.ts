@@ -2,8 +2,10 @@ import type { HttpTypes } from "@medusajs/types"
 
 import { getHomeRegion } from "@lib/data/home"
 import { listProducts } from "@lib/data/products"
+import { getOptionValueHex, isColorOption } from "@lib/util/color-option"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { convertToLocale } from "@lib/util/money"
+import { isPlaceholderOption } from "@lib/util/option-filter-groups"
 
 /** One product of the set as the block draws it. */
 export type BundleItem = {
@@ -12,6 +14,11 @@ export type BundleItem = {
   variant: HttpTypes.StoreProductVariant | null
   /** The price its card shows, the cheapest variant's, as `ProductCard` shows it. */
   price: string
+  /** The cheapest variant on sale: its percentage off (as `getProductPrice` gives it) and its price before. */
+  sale: { percent: string; original: string } | null
+  /** The card's unit line and colour dots (`cardMetaOf`). */
+  unit: string
+  swatches: { id: string; value: string; hex: string }[]
   /** No variant can go into the cart: stock is tracked, nothing is left and back orders are off. */
   outOfStock: boolean
 }
@@ -26,6 +33,28 @@ export type Bundle = {
   outOfStock: string[]
   /** Whether a product of the set has several variants, so the button cannot add it. */
   needsChoice: boolean
+}
+
+/**
+ * The unit line and the colour dots of `ProductCard`, by its rule: the values the product's variants use, colours as
+ * dots, the rest joined by « · », Medusa's «Default option» left out. `ProductCard` computes them inline and is a
+ * part `dev` has, so the rule is repeated here, not shared; `bundle.test.tsx` draws both and holds them equal.
+ */
+export function cardMetaOf(product: HttpTypes.StoreProduct): Pick<BundleItem, "unit" | "swatches"> {
+  const used = new Set(product.variants?.flatMap((v) => v.options?.map((o) => o.id).filter(Boolean) ?? []) ?? [])
+  const options = product.options ?? []
+  const unit = options
+    .filter((o) => !isColorOption(o) && !isPlaceholderOption(o))
+    .flatMap((o) => o.values?.filter((v) => used.has(v.id)).map((v) => v.value) ?? [])
+    .join(" · ")
+  const swatches = options
+    .filter((o) => isColorOption(o))
+    .flatMap((o) => o.values?.filter((v) => used.has(v.id)) ?? [])
+    .flatMap((v) => {
+      const hex = getOptionValueHex(v)
+      return hex === undefined ? [] : [{ id: v.id, value: v.value, hex }]
+    })
+  return { unit, swatches }
 }
 
 /** The rule of `ProductActions` and the home's add button: stock is not tracked, back orders are allowed, or some is left. */
@@ -51,6 +80,11 @@ export function bundleOf(products: HttpTypes.StoreProduct[], handles: string[], 
       product,
       variant: variants.length === 1 ? variants[0] : null,
       price: cheapest.calculated_price,
+      sale:
+        cheapest.price_type === "sale"
+          ? { percent: cheapest.percentage_diff, original: cheapest.original_price }
+          : null,
+      ...cardMetaOf(product),
       outOfStock: !variants.some(variantInStock),
     })
     amounts.push(cheapest.calculated_price_number)
