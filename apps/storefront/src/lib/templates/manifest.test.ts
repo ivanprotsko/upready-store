@@ -269,6 +269,53 @@ describe("the templates of this branch", () => {
     })
   })
 
+  // The 16.09 lab's «Мода» (`artifacts/docs/store-templates-lab/src/templates/moda.json`).
+  describe("moda", () => {
+    const moda = () => getTemplate("moda")!
+
+    it("paints the lab's palette, light only, in Playfair Display and Manrope at spacious density", () => {
+      expect(moda().manifest.theme).toMatchObject({ palette: "moda", density: "spacious", photoStyle: "portrait" })
+      expect(moda().manifest.settings.defaultMode).toBe("light")
+      expect(moda().fonts).toEqual({
+        display: "Playfair Display",
+        body: "Manrope",
+        loaded: true,
+        pair: "Playfair Display|Manrope",
+      })
+    })
+
+    it("places the lab's home sections in the lab's order", () => {
+      // hero, lookbook, product grid, story, newsletter; the centred header and the wordmark footer come from settings.
+      expect(moda().manifest.sections.map((section) => section.block)).toEqual([
+        "hero/type",
+        "collage/mosaic",
+        "collection/featured",
+        "text/rich-text",
+        "newsletter/signup",
+      ])
+      expect(moda().manifest.settings).toMatchObject({ header: "h6", hero: "none", tiles: "off", listing: "none", footer: "f3" })
+    })
+
+    it("draws its lookbook from its own files, each one there and within its weight", () => {
+      const files = JSON.stringify(TEMPLATE_SOURCES.moda).match(/\/templates\/moda\/[^"]+/g) ?? []
+      expect(files).toHaveLength(3)
+      for (const file of files) {
+        const onDisk = path.join(process.cwd(), "public", file)
+        expect(fs.existsSync(onDisk), file).toBe(true)
+        expect(fs.statSync(onDisk).size, file).toBeLessThanOrEqual(200 * 1024)
+      }
+    })
+
+    it("carries no shop's identity and none of the lab shop's promises", () => {
+      const text = JSON.stringify(TEMPLATE_SOURCES.moda)
+      expect(text).not.toMatch(/\+7|\d{3}[- ]\d{2}[- ]\d{2}|@[a-z0-9-]+\.[a-z]|larchant/i)
+      // Case kept, as for lending: a lower-case «инн» sits inside ordinary words.
+      expect(text).not.toMatch(/ИНН|ООО|ИП |Ларшан|Ларин|Москв/)
+      // Two collections a year, a fitting in the showroom, a 30-day exchange: the shop's to promise, not the template's.
+      expect(text).not.toMatch(/\d+\s*(?:год|лет|дн|час|колл|year|day|hour)/i)
+    })
+  })
+
   // P2b: the panel shows these to the owner, in the owner's language and plain words (rule 18e).
   it.each(Object.keys(TEMPLATE_SOURCES))("%s names itself and says what it is for in Russian and English", (id) => {
     const { title, description } = TEMPLATE_SOURCES[id] as { title: unknown; description: unknown }
