@@ -1,0 +1,364 @@
+# Block Contract
+
+One block variant lands in one PR, on a `templates/*` branch, against `templates/main`, never `dev`. A
+template is a manifest over the storefront's existing composition, so a block is a component plus a
+registry entry, and you never add a second theming path.
+
+## 1. One Folder and One Line in Its Category File Make a Block
+
+Put the block in `apps/storefront/src/modules/blocks/<category>/<variant>/`, kebab-case:
+
+- `index.tsx` holds the component, a server component unless it needs state.
+- `props.ts` holds the props type and its parser. The backend runs a copy of it (§ A Shop Keeps Its Template),
+  so it imports only `modules/blocks` files, `PropsResult` from `types.ts` and `locales` from `@i18n/config`.
+- `block.ts` holds the registry entry, a `BlockEntry<YourProps>` from `modules/blocks/types.ts`.
+
+Then add one line to the category file, `modules/blocks/<category>/index.ts`, in path order:
+
+```ts
+export { richText } from "./rich-text/block"
+```
+
+That folder and that line make the whole diff of a block PR. Never touch `registry.ts`, `types.ts`,
+`package.json` or `messages/*.json`:
+
+- `registry.ts` imports every category file already, sorts each by variant, and puts the composition
+  variants first and then the categories in the order of `BLOCK_CATEGORIES`.
+- `types.ts` declares every category and every role already. The categories are `header`, `hero`,
+  `tiles`, `listing`, `footer`, `announcement`, `text`, `media`, `columns`, `collection`, `testimonials`,
+  `newsletter`, `banner`, `collage`, `slideshow`, `faq`, `video`, `blog`, `promo`, `countdown`, `trust`,
+  `delivery`, `contacts` and `logos`. The roles are those of R1's and R2's `roles.json`, plus the registry's own.
+- `lucide-react` is already a dependency of the storefront.
+- Lab strings live in props, not in the catalogs (§2).
+
+A block that needs a new category or a new role is a question for the lead, not a line in your PR.
+
+The entry carries these fields:
+
+| Field | What you write |
+|---|---|
+| `id` | `<category>/<variant>`, the name a template uses |
+| `category`, `variant` | the two halves of the id; `category` is the folder the block lives in |
+| `title` | an English working name for the playground and the contact sheet |
+| `roles` | what it draws, from `BLOCK_ROLES`: `section-header`, `heading`, `cta-primary`, `card-image`… |
+| `data` | where its content comes from: `products`, `categories`, `shop`, `profile`, `static` |
+| `status` | `lab` for a new block, `live` once the composition contract and the panel know it |
+| `placement` | `home` for a home section; `site` is reserved for header and footer |
+| `parseProps`, `fixtures` | see sections 2 and 4 |
+
+The composition variants (header h1 to h6, hero g h j k l m ga gb, tiles, listing p1 to p5, footer f1
+to f7) are registered by reference in `modules/blocks/existing.ts`. Never move or copy one. Its entry
+points at the live registry's own component, and `registry.test.ts` fails when a composition key has
+no entry or the entry points elsewhere. A new variant of one of those categories written for
+templates goes into that category's file like any other block.
+
+## 2. Props Are Typed and Parsed With the Shared Helpers, Data Comes Through a Loader
+
+- Type the props in `props.ts`. `parseProps(input)` returns `{ ok: true, value }` or `{ ok: false, errors }`.
+  The template validator calls it for every section of the block, absent props included.
+- Build it from `modules/blocks/shared/parse.ts`, one call per field. Every helper takes the raw value
+  and its path and puts the path in front of each error (`items[1].title.ru is 95 characters, at most 90`):
+
+```ts
+export const parseRichTextProps = (input: unknown) =>
+  parseProps<RichTextProps>(input, "text/rich-text", {
+    header: (value, path) => parseSectionHeader(value, path),
+    body: (value, path) => parseLocalizedText(value, path, { max: 600 }),
+    align: (value, path) => parseEnum(value, path, ["left", "center"], { fallback: "left" }),
+    cta: (value, path) => parseObject(value, path, { label: …, href: … }, { optional: true }),
+  })
+```
+
+| Helper | Takes |
+|---|---|
+| `parseProps(input, blockId, fields)` | the whole props; absent props are `{}`, unknown keys are refused |
+| `parseObject(value, path, fields, { optional? })` | a nested object: a button, a list item |
+| `parseList(value, path, item, { min?, max, fallback? })` | a list, each item under `path[i]` |
+| `parseLocalizedText(value, path, { max, fallback? })` | shop text, see below |
+| `parseHref(value, path, { required? })` | `/…` inside the shop or `https://…`; not `//host`; absent is null |
+| `parseEnum(value, path, allowed, { fallback? })` | one of a list |
+| `parseInteger(value, path, { min, max, fallback? })` | a whole number in range (not `parseInt`: that name is the global's) |
+| `parseBoolean(value, path, { fallback })` | a switch |
+| `parseImageRef(value, path, { optional? })` | a picture, §3 |
+| `parseIcon(value, path, { fallback? })` | an icon name, §3 |
+| `parseSectionHeader(value, path)` | the section header, §3 |
+
+- Shop text is `LocalizedText`, `{ "<locale>": "…" }`, keyed by the codes of `src/i18n/config.ts`.
+  `pickText(text, locale)` from `shared/localized-text.ts` picks the visitor's language, then English, then
+  any, and answers null when there is nothing.
+- **While a block is `lab`, every visible string comes from its props as `LocalizedText`,** its own
+  chrome included: a button label, a form placeholder, a «see all», an empty-state line. Put a Russian
+  and an English default in `props.ts` and pass it as `fallback`, so a template that names the block
+  without props still reads well. Never a literal in the component, and never a `messages/*.json` edit.
+  The next-intl keys for all 36 catalogs come in one batch PR, the day the blocks go `live`.
+- Catalogue data is read through a `"use server"` loader in `src/lib/data`, never a fetch in the
+  component. List what it reads in `data`.
+- With nothing to show, the block renders `null`. An empty frame is not an empty state.
+
+## 3. One Section Shell, Tokens Only
+
+- Wrap the block in `BlockSection` (`shared/block-section.tsx`). Only a full-width bar such as
+  `announcement/text-bar` draws its own markup.
+
+```tsx
+<BlockSection block="text/rich-text" locale={await getLocale()} header={header} width="content">
+  …
+</BlockSection>
+```
+
+  - It puts half of `--layer-section-gap` (3rem without a template) above the section and half below,
+    so two sections stand one gap apart. Never add your own outer margin or padding.
+  - `width: "content"` holds the children in the content container. `"full"` gives a banner or a
+    slideshow the page's width, and the header stays in the container.
+  - The header is `{ eyebrow, heading, description, seeAll }`, parsed by `parseSectionHeader`. It is
+    drawn only when it has words, with the roles `section-header`, `label`, `heading`, `description`
+    and `cta-secondary`. That is the one heading style of every home section; never draw your own `h2`
+    above a block.
+  - A block that draws its own section heading, as `text/rich-text` does to centre and widen it, takes the
+    type from `shared/section-type.ts`: `SECTION_TYPE.label`, `.heading`, `.description` and `.seeAll`, the
+    four roles of the shell's header (12 px; 24 px, 32 px from `small`; 16 px, 18 px from `small`; 16 px,
+    14 px from `small`). Add the block's own layout classes next to them with `clx`, never a size, weight or
+    colour of these roles. One size per role on a page is a gate rule (QR-TYPE-ROLE), and `pnpm lint:blocks`
+    refuses an `h2` in a block file without `SECTION_TYPE.heading` (`contract-section-type`).
+  - It writes `data-block`, the block's id.
+- Pictures are an `ImageRef` (`shared/image-ref.ts`), exactly one of:
+  - `{ "product": "<handle>", "index"?: n }`, picture n of one of the shop's own products;
+  - `{ "category": "<handle>" }`, the picture the owner gave a category;
+  - `{ "src": "/templates/<template-id>/<file>" }`, a file committed under
+    `apps/storefront/public/templates/<template-id>/`. It must be made for us; no third-party image, stock
+    or competitor's, is ever committed.
+  - `alt` is `LocalizedText` on all three.
+
+  `resolveImageRef(ref, locale)` from `src/lib/data/block-image.ts` turns one into
+  `{ url, alt, width, height }` through the shop's own loaders. It answers null when the product, the
+  category or the picture is not there, and the block then shows its empty state. Medusa keeps no
+  dimensions, so `width` and `height` are null today: draw the picture with `next/image` `fill` in a box
+  of `aspect-[var(--layer-photo-aspect,1/1)]`.
+- Colours come from the theme variables of `styles/themes.css` (`var(--primary)`, `var(--border)`,
+  `var(--muted-foreground)` and the rest) or the `ui-*` classes of the Medusa preset. No hex, `rgb()`,
+  `hsl()`, `oklch()`, no `bg-white` or `text-black`.
+- Shadows are `var(--shadow-card)`, `var(--shadow-float)`, `var(--shadow-modal)` or none. No `shadow-[…]`.
+- Sizes and spacing come from the Tailwind scale, nothing under `text-xs`. Corners use
+  `rounded-[var(--radius)]`, which follows the template's radius layer.
+- The template layers are CSS variables on `<html>`. Read them with a fallback, so the block also works
+  in a shop with no template:
+  - `--layer-space-N` for the block's own padding, margin and gap: Tailwind's step N (`N` × 4px) at
+    `comfortable`, one step down the space scale at `compact`, one step up at `spacious`, for N = 2, 3, 4,
+    6, 8, 12, 16, 24. Write `py-[var(--layer-space-8,2rem)]` where you would write `py-8`; the fallback is
+    the step's own value, so a shop with no template draws what `comfortable` draws. A block never
+    multiplies a space; it takes a step token. A multiple of a step falls off the scale QR-SPACE-SCALE
+    holds (0.75 × 24 = 18px), and `pnpm lint:blocks` refuses `--layer-density` outside a height and a
+    `calc()` around a step (`contract-density-step`);
+  - `--layer-density` (0.75 / 1 / 1.25) for a height alone, never a space:
+    `min-h-[calc(18rem*var(--layer-density,1))]` lets a compact template's banner stand lower;
+  - `--layer-section-gap` (3rem), which `BlockSection` already applies;
+  - `--layer-photo-aspect` (1 / 1) for product and category pictures;
+  - `--layer-button-bg`, `--layer-button-fg`, `--layer-button-border` for the primary button.
+- Icons are `BlockIcon` (`shared/block-icon.tsx`), named by string from the closed list of
+  `shared/icon-name.ts`, about 30 icons for delivery, payment, trust and the catalogue. A template's icon
+  prop is parsed with `parseIcon`, which refuses any other name. An icon the list lacks is a question for
+  the lead. `lucide-react` directly is allowed. The lint refuses `@medusajs/icons`, the storefront's
+  own `modules/common/icons` and every other set inside `modules/blocks`.
+
+## 4. Fixtures Feed the Playground
+
+- `fixtures.empty` and `fixtures.sample` are props the parser accepts; `registry.test.ts` checks both.
+- The playground `/<locale>/template-lab` answers 404 unless the server runs with
+  `STOREFRONT_TEMPLATE_PREVIEW=1`. Every variant renders there on the shop's real catalogue under
+  `#block-<category>-<variant>`, and a block with fixtures once more empty under `…-empty`.
+
+## 5. Shots and Lint Prove the Block
+
+- `pnpm template:shots --base http://localhost:8130 --locale en --host globex.shipshift.dev`, against a
+  storefront started with the flag, writes PNGs at 360, 768 and 1280 px, an `index.html` contact sheet
+  and two `contact-*.jpg` into `artifacts/templates/shots/<date>/`. `--baseline <dir>` adds a pixel diff.
+- `pnpm lint:blocks` runs the design-docs ui-lint (19 detectors) over `src/modules/blocks`, plus the
+  checks of section 3 it lacks. Any error or warning fails. It needs `~/upready/tools/ui-lint.js`, or
+  `UI_LINT_PATH`. Without it the script exits 2, and that is not a pass.
+- `pnpm template:check --base http://localhost:8130 --locale en --host globex.shipshift.dev` measures the
+  rendered page against the 16.09 templates lab's quality rules (`QR-…`, `scripts/template-check/rules.mjs`):
+  - the same storefront and flag as the shots, the same headless Chromium;
+  - targets: every template's home, a category page and a product page, every playground anchor, at 360 and
+    1280 px;
+  - each rule keeps the lab's id, threshold and kind. A `gate` fails the run, a `report` only prints a number.
+  - It writes `report.json` and `report.md` to `artifacts/templates/check/<date>/`.
+  - It exits 1 only on a gate failure that `artifacts/templates/check/baseline.json` does not hold. The
+    baseline is the debt the existing composition variants already had.
+  - A template page's failure is **inherited** when the baseline holds the same rule and measure on the same
+    page and width of another template: the storefront's shared header, card, gallery or footer made it. It does
+    not fail the run; `report.md` lists it in its own table. A block that reuses a storefront part
+    (`SHARED_PARTS` in `rules.mjs`, e.g. `ProductCard`) inherits only that part's known debt, a failure that
+    goes once the part's elements are left out and that the baseline holds for a block at the same width, and
+    owns everything else.
+  - Check your own block or template with `--only <id>` (`--only hero/g`, `--only long-morning`).
+  - Exit 2 means the stand, the playground or axe-core was missing, and that is not a pass.
+  - Rewrite the baseline with `--write-baseline` only when a failure is fixed or accepted, never to hide a
+    new one.
+  - `node scripts/template-check.mjs --self-test` proves the measuring: a bad fixture fails every gate rule
+    with its id, and a good one passes them all.
+
+## 6. PR Checklist
+
+- [ ] `<category>/<variant>/{index.tsx,props.ts,block.ts}` and one line in `<category>/index.ts`; nothing else
+  by hand
+- [ ] `parseProps` built from `shared/parse.ts`, both fixtures, `roles`, `data`, `status: "lab"`
+- [ ] every visible string a `LocalizedText` prop with Russian and English defaults; no `messages/*.json`
+- [ ] wrapped in `BlockSection`; pictures as `ImageRef`, icons as `BlockIcon`
+- [ ] `npx vitest run src/modules/blocks src/lib/templates page.baseline page.template` passes
+- [ ] `npx tsc --noEmit`, `pnpm lint` and `pnpm lint:blocks` pass
+- [ ] `pnpm template:check --only <id>` is green, with no new failure against the baseline, and its
+      `report.md` is linked in the PR body
+- [ ] the contact sheet at 3 widths, live and empty, is linked in the PR body
+- [ ] rebase on `origin/templates/main` right before the hand-in. A conflict in your category file means
+  another block of your category landed, so keep both lines
+- [ ] after the final rebase run `pnpm templates:export` and commit `catalog.generated.json` and
+  `props.generated/`; on a conflict there, take templates/main's files (during a rebase that is
+  `git checkout --ours`) and run the export again, never edit them by hand
+- [ ] base `templates/main`, never `dev`
+
+## 7. What Is Left to the Eyes
+
+The machine catches a number with a threshold. It does not judge the following, so a person checks them on the
+contact sheet, from the lab's §Checklist (`design/style-spec.md`):
+- the three pages of a template read as one shop, and templates side by side read as one system;
+- the difference between two templates can be named: palette, font, density, and nothing else;
+- the first screen has one dominant, and the first product or catalogue entry is above the fold;
+- a row of cards keeps titles and prices on one line, and a product is recognised by its picture;
+- a card without a photo looks designed, not broken;
+- the gallery is one frame with its thumbnails, and «add to cart» is the only primary action;
+- no second accent colour, no gradients on controls, and the footer carries the page;
+- the template has one device of its own that a token explains.
+
+`QR-TECTONICS` and `QR-DENSITY` print their numbers, but the person decides.
+
+## Template Contract
+
+A template is `apps/storefront/src/templates/<id>/template.json`, schema
+`upready.storefront-template/v1`, imported in `src/lib/templates/catalog.ts`. It holds these fields:
+
+- `id` (kebab-case);
+- `title` and `description` as `{ "ru": "…", "en": "…" }`, the shop owner's words in the panel: the name,
+  and one sentence on what the template is for and how it looks, with no internal names (`h2`, `p4`, profile and
+  font names). A plain string still validates, read as the same words in every language;
+- `settings`, a `StorefrontSettingsInput`: the composition document `getEffectiveSettings()` answers
+  today, checked by `validate()` of `lib/theme/composition.ts`, so `FORBIDDEN` refuses the template and
+  `ADVISORY` warns;
+- `theme`, the style layers, each mapped onto what already paints the page:
+
+| Layer | Values | Lands on |
+|---|---|---|
+| `palette` | a preset of `THEME_IDS` or `LIGHT_ONLY_THEME_IDS`, or `default` | `data-theme` on `<html>` |
+| mode | `settings.defaultMode` | `data-mode` on `<html>` |
+| `radius` | `sharp`, `soft`, `round`, `pill` | the presets' own `--radius` |
+| `buttonStyle` | `filled`, `outlined` | `--layer-button-*` |
+| `photoStyle` | `square`, `portrait`, `landscape`, `wide` | `--layer-photo-aspect` |
+| `density` | `compact`, `comfortable`, `spacious` | `--layer-space-2` … `--layer-space-24` (8 to 96px at `comfortable`, one step down or up the space scale), `--layer-section-gap` (32 / 48 / 64px); `--layer-density` (0.75 / 1 / 1.25) for a height only, never a space |
+| `fontPair` | two of the twelve `FONT_NAMES` | `data-font-pair` on `<html>` when both have files, see below |
+
+- `sections`, the home page in order: `{ "block": "<id>", "props"?: {…} }`, `home` blocks only. A hero,
+  tiles or listing section is the page's own slot and matches `settings` (`hero/g` needs `"hero": "g"`);
+  a slot `settings` turns on needs exactly one section. Header and footer come from `settings` alone.
+- A block of those three categories written for templates (an entry without `setting`, such as
+  `hero/split`) has no composition value. It takes the slot's place instead:
+  - `settings` turns the slot off: `"hero": "none"`, `"tiles": "off"` or `"listing": "none"`;
+  - the page draws it from the registry with its props, not the shop's slot;
+  - it still counts as the slot's one section, so `hero/split` beside `hero/g` is refused.
+
+`validateTemplate()` in `src/lib/templates/manifest.ts` checks all of it; `manifest.test.ts` runs it over
+every template. `resolveTemplate()` turns a valid one into the settings, the two `<html>` attributes and
+the inline CSS variables, the very inputs the storefront reads without a template.
+
+The seven palettes of the 16.09 templates lab (`ferma`, `interier`, `katalog`, `lending`, `moda`, `opt`,
+`uhod`) are `LIGHT_ONLY_THEME_IDS`: the lab drew no dark mode, so the build paints them light under both
+`data-mode` values and no shop picker offers them. A template that names one sets `settings.defaultMode`
+to `"light"`, and `validateTemplate()` refuses `"dark"` with it. On such a page the root layout writes
+`data-mode="light"` whatever the shop or the visitor stored, the pre-paint script does not read the stored
+mode (`themePrePaintScript({ lightOnly })`), and no mode switch is drawn (`ModeLockProvider`): `globals.css`
+keeps `[data-mode="dark"]` rules of its own, which would otherwise paint dark parts on a light page.
+
+Fonts. The build profile's pair stays a `next/font` call generated at build time (`lib/theme/fonts.ts`). A
+template's pair comes from `public/fonts/templates/`: the lab's Latin and Cyrillic woff2 of eight families
+(`TEMPLATE_FONT_FAMILIES` in `lib/templates/fonts.ts`, licences in `LICENSES.md` beside the files). When both
+families of `fontPair` are there, `resolveTemplate()` sets `fonts.pair` to `"<display>|<body>"` and
+`fonts.loaded` to true, and the root layout writes `data-font-pair` on `<html>` and links
+`/fonts/templates/fonts.css`. That sheet sets `--font-display` and `--font-body` and puts the page text and
+the headings in them. Every family but Playfair Display, whose source has none, also has a `-ruble` file
+holding U+20BD alone, so a price sets its ₽ in the family's face. DM Sans, Space Grotesk, Fraunces and Sora have no Cyrillic and no file, so a pair with
+one of them keeps the build's type and `fonts.loaded` false. A page without a template links nothing.
+
+The preview is `?template=<id>` on any page of a storefront started with `STOREFRONT_TEMPLATE_PREVIEW=1`.
+It saves nothing. Without the flag every reader returns early, and `page.baseline.test.tsx` holds the
+home page to the tree it had before templates existed.
+
+`pnpm template:sbs <id> --base http://localhost:8130 --host globex.shipshift.dev` puts the 16.09 lab beside
+the storefront. On the stand and flag of the shots it shoots the home page, a category page and a product page
+with `?template=<id>`, at 1280, 768 and 360 px, full page. The category page is the first category that the
+playground, then the home page, links and that lists a product. The product page is that category's first product. `--locale` is `ru`
+unless given. Each shot stands beside the lab's shot of the same page
+(`artifacts/docs/store-templates-lab/shots/<id>-{index,catalog,product}-{desktop,mobile}.webp`): desktop at 1280
+and 768, mobile at 360. The script writes one JPEG per pair, `sbs-<page>-<width>.jpg`, and a `side-by-side.html`
+with all of them into `artifacts/templates/shots/<date>-<id>/`. A pair over 400 KB is named and exits 1. A
+template the lab never drew gets its three pages alone and one line saying so. A template hand-in links this sheet
+in its PR body, and the lead accepts the template on it.
+
+## A Shop Keeps Its Template
+
+`POST /tenants/home/template` with `{ "id": "<id>", "overrides"?: {…} }` applies a template to the shop
+behind the token, with the auth, the `storefront` permission and the write of `PUT /tenants/home`. It
+expands the template into the shop's home document, `upready.tenant-home/v1`, and keeps the shop's own
+content (hero copy, products, banners, block order):
+
+| Template | Document |
+|---|---|
+| `settings` | `settings` |
+| `theme.palette` | `theme.preset` (`default` is stored as `medusa`, which `themes.css` paints the same) |
+| `theme.radius`, `buttonStyle`, `photoStyle`, `density` | `theme.layers` |
+| `sections` | `content.sections` |
+| `id`, `schema`, `theme.fontPair` | `template` |
+
+The three new fields are optional and come together. A document without them reads as it always did.
+
+`overrides` may set `palette`, any of the four `layers`, and the whole `props` of a section by
+`{ index, block, props }`. It cannot add or move a section and cannot touch `settings`, so it cannot
+bring in a block outside the registry or break a `FORBIDDEN` pair. The merged template passes the
+validator again before anything is written: 400 for a field, 422 with the `PUT` body for a pair.
+
+The backend cannot import this app, so it reads `apps/backend/src/api/tenants/home/template/catalog.generated.json`:
+the catalogue, the registry's block list and the vocabularies. `pnpm templates:export` in
+`apps/storefront` writes it, and `catalog-export.test.ts` fails when it is stale. The export is sorted
+by id, one line per block, so parallel block PRs merge without a conflict; if one still happens on a
+rebase, take templates/main's file and run the export again, never edit the file by hand. The backend's
+`validation.ts` transcribes `validateTemplate()` by hand, and `parity.test.ts` runs both copies on
+`parity.fixtures.json`. The export lists the light-only palettes apart (`lightOnlyPalettes`), and the
+backend asks for `settings.defaultMode` "light" with one of them, as `validateTemplate()` does.
+
+A new block needs no backend code. The same export copies each block's `props.ts`, and the files it
+imports, into `apps/backend/src/api/tenants/home/template/props.generated/`, in the layout of
+`src/modules/blocks`, every file marked generated. `PROPS_CHECKS` in `validation.ts` runs those copies, one
+per block with `parseProps`. So a shop may change the props of every such block. The backend refuses
+what the storefront would refuse to draw, with the same message.
+
+- **What the copy changes.** Two imports point elsewhere: `types.ts` at a stub holding `PropsResult`
+  alone (the rest of that file imports React), and `@i18n/config` at the catalogue's `locales`.
+- **What a parser may import.** Only files of `src/modules/blocks`: `shared/`, its own folder, another
+  block's `props.ts`. Besides those, `PropsResult` from `types.ts` and `locales` from `@i18n/config`. The
+  export refuses anything else, and `parseProps` must be an export of the block's own `props.ts`.
+- **What fails when the copy drifts.** `catalog-export.test.ts`, when the copy is stale. `parity.test.ts`
+  runs the storefront parser and the backend check on each block's two fixtures and on two broken inputs
+  (a prop of another type, a text over its limit); they must give the same verdict.
+- **`propsEditable`.** The export marks each block it copied a parser for, and the panel offers a prop
+  edit only where it is true.
+- **A block with no check.** A block with `props: true` and no `PROPS_CHECKS` line takes only the props
+  its catalogue template gives it, compared as JSON. That happens only in a catalogue the export did not
+  write. An override that changes those props is 400, `props of <block> cannot be changed yet`.
+
+The storefront reads the saved template through `getActiveTemplate()` (`lib/templates/active.ts`): the
+preview first, then the document's template, resolved by `validateTemplate()` and `resolveTemplate()`
+the way a preview is, so the root layout and the home page paint it through the same lines. A saved
+template that no longer validates is logged once and the shop renders from its composition. The
+template's font pair loads the way a preview's does (`data-font-pair` and `lib/templates/fonts.ts`)
+when both families have files, and `fonts.loaded` says whether they do.
+
+A plain `PUT /tenants/home` from the panel carries a saved template over. Its slot sections follow
+the settings just saved: renamed to the new variant, dropped when the slot is off, appended when a
+slot is switched on that no section places.

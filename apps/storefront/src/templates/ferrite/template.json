@@ -1,0 +1,30 @@
+{
+  "schema": "upready.storefront-template/v1",
+  "id": "ferrite",
+  "title": { "ru": "Феррит", "en": "Ferrite" },
+  "description": {
+    "ru": "Электроника: тёмный и плотный, характеристики на виду.",
+    "en": "Electronics: dark and dense, with the specs up front."
+  },
+  "settings": {
+    "defaultMode": "dark",
+    "header": "h3",
+    "hero": "g",
+    "tiles": "on",
+    "listing": "p3",
+    "footer": "f5"
+  },
+  "theme": {
+    "palette": "electronics",
+    "fontPair": { "display": "IBM Plex Mono", "body": "IBM Plex Sans" },
+    "radius": "sharp",
+    "buttonStyle": "outlined",
+    "photoStyle": "square",
+    "density": "compact"
+  },
+  "sections": [
+    { "block": "hero/g" },
+    { "block": "listing/p3" },
+    { "block": "tiles/on" }
+  ]
+}

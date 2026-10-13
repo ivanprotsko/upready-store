@@ -1,0 +1,2979 @@
+[
+ {
+  "source": "shopify",
+  "section": "header",
+  "roles": [
+   "logo",
+   "nav",
+   "nav-link",
+   "mobile-menu",
+   "icon-button",
+   "input"
+  ],
+  "settings": [
+   {
+    "name": "logo_position",
+    "type": "select"
+   },
+   {
+    "name": "mobile_logo_position",
+    "type": "select"
+   },
+   {
+    "name": "menu",
+    "type": "link_list"
+   },
+   {
+    "name": "menu_type_desktop",
+    "type": "select"
+   },
+   {
+    "name": "sticky_header_type",
+    "type": "select"
+   },
+   {
+    "name": "show_line_separator",
+    "type": "checkbox"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "menu_color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "enable_country_selector",
+    "type": "checkbox"
+   },
+   {
+    "name": "enable_language_selector",
+    "type": "checkbox"
+   },
+   {
+    "name": "margin_bottom",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "@app"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Horizon",
+   "Impulse",
+   "Motion",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Spotlight",
+   "Studio",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 18,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/header.liquid",
+    "note": "Dawn {% schema %} \"Header\": 13 settings, blocks [@app], fixed on its template"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"header\"; type from section key header"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"header\"; type from section key header"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"header\"; type from section key header"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"header\", heading «Country/region»; type from section key header"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"header\", heading «Focal Theme Carbon»; type from wrapper class shopify-section--header"
+   },
+   {
+    "url": "https://theme-horizon-demo.myshopify.com/",
+    "note": "Horizon, home page, section \"header_section\", heading «Horizon»; type from section key header_section"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "footer",
+  "roles": [
+   "nav-column",
+   "nav-link",
+   "newsletter-form",
+   "social-link",
+   "legal-links",
+   "logo"
+  ],
+  "settings": [
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "newsletter_enable",
+    "type": "checkbox"
+   },
+   {
+    "name": "newsletter_heading",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "enable_follow_on_shop",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_social",
+    "type": "checkbox"
+   },
+   {
+    "name": "enable_country_selector",
+    "type": "checkbox"
+   },
+   {
+    "name": "enable_language_selector",
+    "type": "checkbox"
+   },
+   {
+    "name": "payment_enable",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_policy",
+    "type": "checkbox"
+   },
+   {
+    "name": "margin_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "@app",
+   "link_list",
+   "brand_information",
+   "text",
+   "image"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Horizon",
+   "Impulse",
+   "Motion",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Spotlight",
+   "Studio",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 18,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/footer.liquid",
+    "note": "Dawn {% schema %} \"Footer\": 12 settings, blocks [@app, link_list, brand_information, text, image], fixed on its template"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"footer\"; type from section key footer"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"footer\", heading «Get to know Craft»; type from section key footer"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"footer\", heading «Quick links»; type from section key footer"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"footer\", heading «Quick links»; type from section key footer"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"footer\"; type from wrapper class shopify-section--footer"
+   },
+   {
+    "url": "https://theme-horizon-demo.myshopify.com/",
+    "note": "Horizon, home page, section \"migrated_footer_content\", heading «Join the club»; type from section key migrated_footer_content"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "main-product",
+  "roles": [
+   "media",
+   "breadcrumb",
+   "headline",
+   "price",
+   "badge",
+   "star-rating",
+   "variant-picker",
+   "quantity-input",
+   "cta-primary",
+   "cta-secondary",
+   "trigger",
+   "content",
+   "social-link"
+  ],
+  "settings": [
+   {
+    "name": "enable_sticky_info",
+    "type": "checkbox"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "media_size",
+    "type": "select"
+   },
+   {
+    "name": "constrain_to_viewport",
+    "type": "checkbox"
+   },
+   {
+    "name": "media_fit",
+    "type": "select"
+   },
+   {
+    "name": "gallery_layout",
+    "type": "select"
+   },
+   {
+    "name": "mobile_thumbnails",
+    "type": "select"
+   },
+   {
+    "name": "media_position",
+    "type": "select"
+   },
+   {
+    "name": "image_zoom",
+    "type": "select"
+   },
+   {
+    "name": "hide_variants",
+    "type": "checkbox"
+   },
+   {
+    "name": "enable_video_looping",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "@app",
+   "text",
+   "title",
+   "price",
+   "sku",
+   "inventory",
+   "quantity_selector",
+   "variant_picker",
+   "buy_buttons",
+   "description",
+   "share",
+   "custom_liquid",
+   "disclosures",
+   "collapsible_tab",
+   "popup",
+   "rating",
+   "complementary",
+   "icon-with-text"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Horizon",
+   "Impulse",
+   "Motion",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Spotlight",
+   "Studio",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 18,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/main-product.liquid",
+    "note": "Dawn {% schema %} \"Product information\": 13 settings, blocks [@app, text, title, price, sku, inventory, quantity_selector, variant_picker, buy_buttons, description, share, custom_liquid, disclosures, collapsible_tab, popup, rating, complementary, icon-with-text], fixed on its template"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/products/pocket-cardi-purple",
+    "note": "Colorblock, product page, section \"main\", heading «Pocket Cardi»; type from section key main (the template's main section on a product page)"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/products/ceramic-bundle",
+    "note": "Craft, product page, section \"main\", heading «Dinnerware Set»; type from section key main (the template's main section on a product page)"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/products/heat-lovers-set",
+    "note": "Crave, product page, section \"main\", heading «The Heat Lover's Set»; type from section key main (the template's main section on a product page)"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/products/small-convertible-flex-bag-cappuccino",
+    "note": "Dawn, product page, section \"main\", heading «Small Convertible Flex Bag»; type from section key main (the template's main section on a product page)"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/products/belt-watch",
+    "note": "Focal, product page, section \"main\", heading «Belt Watch»; type from wrapper class shopify-section--main-product"
+   },
+   {
+    "url": "https://theme-horizon-demo.myshopify.com/products/1tuck-tapered-pants-424",
+    "note": "Horizon, product page, section \"main\", heading «1Tuck Tapered Pants»; type from section key main (the template's main section on a product page)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "main-collection-product-grid",
+  "roles": [
+   "filter",
+   "sort",
+   "product-card",
+   "price",
+   "pagination"
+  ],
+  "settings": [
+   {
+    "name": "products_per_page",
+    "type": "range"
+   },
+   {
+    "name": "columns_desktop",
+    "type": "range"
+   },
+   {
+    "name": "columns_mobile",
+    "type": "select"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "image_ratio",
+    "type": "select"
+   },
+   {
+    "name": "image_shape",
+    "type": "select"
+   },
+   {
+    "name": "show_secondary_image",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_vendor",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "quick_add",
+    "type": "select"
+   },
+   {
+    "name": "enable_filtering",
+    "type": "checkbox"
+   },
+   {
+    "name": "filter_type",
+    "type": "select"
+   },
+   {
+    "name": "enable_sorting",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Horizon",
+   "Impulse",
+   "Motion",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Spotlight",
+   "Studio",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 18,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/main-collection-product-grid.liquid",
+    "note": "Dawn {% schema %} \"Product grid\": 15 settings, blocks [none], fixed on its template"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/collections/mens-cardigans",
+    "note": "Colorblock, collection page, section \"product-grid\", heading «Sort by:»; type from section key product-grid"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/collections/bundles",
+    "note": "Craft, collection page, section \"product-grid\", heading «Filter:»; type from section key product-grid"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/collections/meal-starters",
+    "note": "Crave, collection page, section \"product-grid\", heading «Filter:»; type from section key product-grid"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/collections/bags",
+    "note": "Dawn, collection page, section \"product-grid\", heading «Filter:»; type from section key product-grid"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/collections/iphone-cases",
+    "note": "Focal, collection page, section \"main\"; type from wrapper class shopify-section--main-collection"
+   },
+   {
+    "url": "https://theme-horizon-demo.myshopify.com/collections/front-page",
+    "note": "Horizon, collection page, section \"main\", heading «Filter»; type from section key main (the template's main section on a collection page)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "related-products",
+  "roles": [
+   "section-header",
+   "product-card",
+   "price"
+  ],
+  "settings": [
+   {
+    "name": "heading",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "products_to_show",
+    "type": "range"
+   },
+   {
+    "name": "columns_desktop",
+    "type": "range"
+   },
+   {
+    "name": "columns_mobile",
+    "type": "select"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "image_ratio",
+    "type": "select"
+   },
+   {
+    "name": "image_shape",
+    "type": "select"
+   },
+   {
+    "name": "show_secondary_image",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_vendor",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Horizon",
+   "Impulse",
+   "Motion",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Spotlight",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 17,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/related-products.liquid",
+    "note": "Dawn {% schema %} \"Related products\": 13 settings, blocks [none], fixed on its template"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/products/pocket-cardi-purple",
+    "note": "Colorblock, product page, section \"product-recommendations\"; type from section key product-recommendations"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/products/ceramic-bundle",
+    "note": "Craft, product page, section \"product-recommendations\"; type from section key product-recommendations"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/products/heat-lovers-set",
+    "note": "Crave, product page, section \"product-recommendations\"; type from section key product-recommendations"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/products/small-convertible-flex-bag-cappuccino",
+    "note": "Dawn, product page, section \"related-products\"; type from section key related-products"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/products/belt-watch",
+    "note": "Focal, product page, section \"product-recommendations\"; type from wrapper class shopify-section--product-recommendations"
+   },
+   {
+    "url": "https://theme-horizon-demo.myshopify.com/products/1tuck-tapered-pants-424",
+    "note": "Horizon, product page, section \"product_recommendations_qggXJq\", heading «You may also like»; type from section key product_recommendations_qggXJq"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "announcement-bar",
+  "roles": [
+   "description",
+   "nav-link",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "auto_rotate",
+    "type": "checkbox"
+   },
+   {
+    "name": "change_slides_speed",
+    "type": "range"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "show_line_separator",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_social",
+    "type": "checkbox"
+   },
+   {
+    "name": "enable_country_selector",
+    "type": "checkbox"
+   },
+   {
+    "name": "enable_language_selector",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "announcement"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Impulse",
+   "Motion",
+   "Origin",
+   "Publisher",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Studio",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 15,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/announcement-bar.liquid",
+    "note": "Dawn {% schema %} \"Announcement bar\": 7 settings, blocks [announcement], addable from the editor"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"announcement-bar\"; type from section key announcement-bar"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"announcement-bar\"; type from section key announcement-bar"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"announcement-bar\"; type from section key announcement-bar"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"announcement-bar\"; type from section key announcement-bar"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"announcement-bar\", heading «The Heritage Collection»; type from wrapper class shopify-section--announcement-bar"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"announcement\"; type from section key announcement"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "main-collection-banner",
+  "roles": [
+   "breadcrumb",
+   "heading",
+   "description",
+   "media"
+  ],
+  "settings": [
+   {
+    "name": "show_collection_description",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_collection_image",
+    "type": "checkbox"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Horizon",
+   "Impulse",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Ride",
+   "Sense",
+   "Spotlight",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 15,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/main-collection-banner.liquid",
+    "note": "Dawn {% schema %} \"Collection banner\": 3 settings, blocks [none], fixed on its template"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/collections/mens-cardigans",
+    "note": "Colorblock, collection page, section \"banner\", heading «Collection: Cardigans»; type from section key banner"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/collections/bundles",
+    "note": "Craft, collection page, section \"banner\", heading «Collection: Bundles»; type from section key banner"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/collections/meal-starters",
+    "note": "Crave, collection page, section \"banner\", heading «Collection: Meal starters»; type from section key banner"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/collections/bags",
+    "note": "Dawn, collection page, section \"banner\", heading «Collection: Bags»; type from section key banner"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/collections/iphone-cases",
+    "note": "Focal, collection page, section \"main-banner\", heading «iPhone Cases»; type from wrapper class shopify-section--collection-banner"
+   },
+   {
+    "url": "https://theme-horizon-demo.myshopify.com/collections/front-page",
+    "note": "Horizon, collection page, section \"section\", heading «New in»; type from override after looking at the shot"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "featured-collection",
+  "roles": [
+   "section-header",
+   "heading",
+   "product-card",
+   "card-image",
+   "card-title",
+   "price",
+   "badge",
+   "cta-secondary"
+  ],
+  "settings": [
+   {
+    "name": "collection",
+    "type": "collection"
+   },
+   {
+    "name": "products_to_show",
+    "type": "range"
+   },
+   {
+    "name": "title",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "description",
+    "type": "richtext"
+   },
+   {
+    "name": "show_description",
+    "type": "checkbox"
+   },
+   {
+    "name": "description_style",
+    "type": "select"
+   },
+   {
+    "name": "columns_desktop",
+    "type": "range"
+   },
+   {
+    "name": "enable_desktop_slider",
+    "type": "checkbox"
+   },
+   {
+    "name": "full_width",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_view_all",
+    "type": "checkbox"
+   },
+   {
+    "name": "view_all_style",
+    "type": "select"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "image_ratio",
+    "type": "select"
+   },
+   {
+    "name": "image_shape",
+    "type": "select"
+   },
+   {
+    "name": "show_secondary_image",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_vendor",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "quick_add",
+    "type": "select"
+   },
+   {
+    "name": "columns_mobile",
+    "type": "select"
+   },
+   {
+    "name": "swipe_on_mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Colorblock",
+   "Crave",
+   "Dawn",
+   "Horizon",
+   "Impulse",
+   "Motion",
+   "Publisher",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Spotlight",
+   "Studio",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 14,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/featured-collection.liquid",
+    "note": "Dawn {% schema %} \"Featured collection\": 23 settings, blocks [none], addable from the editor"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"1642713387765f0484\", heading «Pocket Cardi»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"featured_products\", heading «Get your hands on our bestsellers 🔥»; type from section key featured_products"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"featured_collection\", heading «Small Convertible Flex Bag»; type from section key featured_collection"
+   },
+   {
+    "url": "https://theme-horizon-demo.myshopify.com/",
+    "note": "Horizon, home page, section \"product_list_qU3bEB\", heading «Featured products»; type from section key product_list_qU3bEB"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"featured_collection_6YhzLm\", heading «Everyday Essentials»; type from section key featured_collection_6YhzLm"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"1628005585ddb03641\", heading «Built for what’s next»; type from data-section-type=featured-collection"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "multicolumn",
+  "roles": [
+   "section-header",
+   "feature-card",
+   "card-image",
+   "card-title",
+   "description",
+   "cta-secondary"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "image_width",
+    "type": "select"
+   },
+   {
+    "name": "image_ratio",
+    "type": "select"
+   },
+   {
+    "name": "button_label",
+    "type": "text"
+   },
+   {
+    "name": "button_link",
+    "type": "url"
+   },
+   {
+    "name": "columns_desktop",
+    "type": "range"
+   },
+   {
+    "name": "column_alignment",
+    "type": "select"
+   },
+   {
+    "name": "background_style",
+    "type": "select"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "columns_mobile",
+    "type": "select"
+   },
+   {
+    "name": "swipe_on_mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "column"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Origin",
+   "Prestige",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Studio",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 13,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/multicolumn.liquid",
+    "note": "Dawn {% schema %} \"Multicolumn\": 14 settings, blocks [column], addable from the editor"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"16427065473f6bd7d5\", heading «Inspired by the burst of life spring brings, we've designed this collection with»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"16371707180d6ee8c7\", heading «\"Such beautiful dishes that I have come to refer to as my shelf art! if you have»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"multi_column\", heading «\"It's completely transformed home cooking.\"»; type from section key multi_column"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"multicolumn\"; type from section key multicolumn"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/collections/iphone-cases",
+    "note": "Focal, collection page, section \"162980997090a12a4f\"; type from wrapper class shopify-section--multi-column"
+   },
+   {
+    "url": "https://theme-origin-demo.myshopify.com/",
+    "note": "Origin, home page, section \"multicolumn\", heading «So soft»; type from section key multicolumn"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "image-with-text",
+  "roles": [
+   "media",
+   "heading",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "image",
+    "type": "image_picker"
+   },
+   {
+    "name": "height",
+    "type": "select"
+   },
+   {
+    "name": "desktop_image_width",
+    "type": "select"
+   },
+   {
+    "name": "layout",
+    "type": "select"
+   },
+   {
+    "name": "image_behavior",
+    "type": "select"
+   },
+   {
+    "name": "content_layout",
+    "type": "select"
+   },
+   {
+    "name": "desktop_content_position",
+    "type": "select"
+   },
+   {
+    "name": "desktop_content_alignment",
+    "type": "select"
+   },
+   {
+    "name": "mobile_content_alignment",
+    "type": "select"
+   },
+   {
+    "name": "section_color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "heading",
+   "caption",
+   "text",
+   "button"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Focal",
+   "Impulse",
+   "Motion",
+   "Prestige",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Studio",
+   "Taste"
+  ],
+  "frequency": 13,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/image-with-text.liquid",
+    "note": "Dawn {% schema %} \"Image with text\": 13 settings, blocks [heading, caption, text, button], addable from the editor"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"1642710716253decf6\", heading «For all genders»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/products/ceramic-bundle",
+    "note": "Craft, product page, section \"image-with-text\", heading «We design responsibly.»; type from section key image-with-text"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"163953443513c15b00\", heading «Rip - Pour - Fire it up 🌶»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/products/small-convertible-flex-bag-cappuccino",
+    "note": "Dawn, product page, section \"image-with-text\", heading «A new kind of bag.»; type from section key image-with-text"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"16153079344d24a48e\", heading «Process»; type from wrapper class shopify-section--image-with-text"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"text_and_image_FVRMYg\", heading «Inside the journal»; type from section key text_and_image_FVRMYg"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "newsletter",
+  "roles": [
+   "section-header",
+   "heading",
+   "description",
+   "newsletter-form",
+   "input",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "full_width",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "heading",
+   "paragraph",
+   "email_form",
+   "@app"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Focal",
+   "Motion",
+   "Origin",
+   "Prestige",
+   "Refresh",
+   "Ride",
+   "Sense",
+   "Studio"
+  ],
+  "frequency": 11,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/newsletter.liquid",
+    "note": "Dawn {% schema %} \"Email signup\": 4 settings, blocks [heading, paragraph, email_form, @app], addable from the editor"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"164271352995cabd7a\", heading «Stay in the know»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"1637170833db1b0e8f\", heading «Don't miss out»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"16395920543f5b3187\", heading «Spice up your inbox»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"newsletter\", heading «Subscribe to our newsletter»; type from wrapper class shopify-section--newsletter"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"newsletter_KbkgN9\"; type from section key newsletter_KbkgN9"
+   },
+   {
+    "url": "https://theme-origin-demo.myshopify.com/",
+    "note": "Origin, home page, section \"newsletter_tLLgmr\", heading «Stay in the know»; type from section key newsletter_tLLgmr"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "rich-text",
+  "roles": [
+   "section-header",
+   "heading",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "desktop_content_position",
+    "type": "select"
+   },
+   {
+    "name": "content_alignment",
+    "type": "select"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "full_width",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "heading",
+   "caption",
+   "text",
+   "button"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Dawn",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Refresh",
+   "Sense",
+   "Studio",
+   "Trade"
+  ],
+  "frequency": 10,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/rich-text.liquid",
+    "note": "Dawn {% schema %} \"Rich text\": 6 settings, blocks [heading, caption, text, button], addable from the editor"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"164320664505855764\", heading «Spring collection ’22»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"rich_text\", heading «Sustainably crafted goods to elevate your everyday.»; type from section key rich_text"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"rich_text\", heading «Obsessive Attention. Intelligent Effort.»; type from section key rich_text"
+   },
+   {
+    "url": "https://theme-origin-demo.myshopify.com/",
+    "note": "Origin, home page, section \"rich-text\"; type from section key rich-text"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"ea806311-02ee-461b-a3ea-1e528667f9fe\"; type from wrapper class shopify-section--rich-text"
+   },
+   {
+    "url": "https://theme-publisher-demo.myshopify.com/",
+    "note": "Publisher, home page, section \"16553171870b0e49f3\", heading «Publisher is an independentstudio and gallery offering a curated selection of bo»; type from DOM signature (Dawn family)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "image-banner",
+  "roles": [
+   "hero-image",
+   "headline",
+   "description",
+   "cta-group",
+   "cta-primary",
+   "cta-secondary"
+  ],
+  "settings": [
+   {
+    "name": "image",
+    "type": "image_picker"
+   },
+   {
+    "name": "image_2",
+    "type": "image_picker"
+   },
+   {
+    "name": "image_overlay_opacity",
+    "type": "range"
+   },
+   {
+    "name": "image_height",
+    "type": "select"
+   },
+   {
+    "name": "image_behavior",
+    "type": "select"
+   },
+   {
+    "name": "desktop_content_position",
+    "type": "select"
+   },
+   {
+    "name": "desktop_content_alignment",
+    "type": "select"
+   },
+   {
+    "name": "show_text_box",
+    "type": "checkbox"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "stack_images_on_mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "mobile_content_alignment",
+    "type": "select"
+   },
+   {
+    "name": "show_text_below",
+    "type": "checkbox"
+   }
+  ],
+  "blocks": [
+   "heading",
+   "text",
+   "buttons"
+  ],
+  "themes": [
+   "Crave",
+   "Dawn",
+   "Horizon",
+   "Motion",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Ride",
+   "Trade"
+  ],
+  "frequency": 9,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/image-banner.liquid",
+    "note": "Dawn {% schema %} \"Image banner\": 12 settings, blocks [heading, text, buttons], addable from the editor"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/products/heat-lovers-set",
+    "note": "Crave, product page, section \"16395364860f3d63df\", heading «Our promise»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"image_banner\", heading «Industrial design meets fashion.»; type from section key image_banner"
+   },
+   {
+    "url": "https://theme-horizon-demo.myshopify.com/",
+    "note": "Horizon, home page, section \"hero_TA4rQk\", heading «New arrivals»; type from section key hero_TA4rQk"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"background-image-text\", heading «The long way round»; type from data-section-type=background-image"
+   },
+   {
+    "url": "https://theme-origin-demo.myshopify.com/",
+    "note": "Origin, home page, section \"image-banner\"; type from section key image-banner"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"1cd70547-bfe1-4267-b0e8-77f11a822fca\"; type from wrapper class shopify-section--image-with-text-overlay"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "collection-list",
+  "roles": [
+   "section-header",
+   "card",
+   "card-image",
+   "card-title"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "image_ratio",
+    "type": "select"
+   },
+   {
+    "name": "columns_desktop",
+    "type": "range"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "show_view_all",
+    "type": "checkbox"
+   },
+   {
+    "name": "columns_mobile",
+    "type": "select"
+   },
+   {
+    "name": "swipe_on_mobile",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "featured_collection"
+  ],
+  "themes": [
+   "Craft",
+   "Crave",
+   "Focal",
+   "Impulse",
+   "Motion",
+   "Sense",
+   "Studio",
+   "Taste",
+   "Trade"
+  ],
+  "frequency": 9,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/collection-list.liquid",
+    "note": "Dawn {% schema %} \"Collection list\": 10 settings, blocks [featured_collection], addable from the editor"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"1639595149acc048aa\", heading «Dinnerware»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/collections/meal-starters",
+    "note": "Crave, collection page, section \"1639540191727d196a\", heading «Hungry for more?»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"1622704518cf40b0f3\", heading «Discover our»; type from wrapper class shopify-section--collection-list"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"featured_collections_XUr8fp\"; type from section key featured_collections_XUr8fp, read against the shot"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"featured-collections\"; type from section key featured-collections, read against the shot"
+   },
+   {
+    "url": "https://theme-sense-demo.myshopify.com/",
+    "note": "Sense, home page, section \"16371861472fe64fed\", heading «Skin Care»; type from DOM signature (Dawn family)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "collage",
+  "roles": [
+   "section-header",
+   "card",
+   "card-image",
+   "product-card",
+   "video-player"
+  ],
+  "settings": [
+   {
+    "name": "heading",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "desktop_layout",
+    "type": "select"
+   },
+   {
+    "name": "mobile_layout",
+    "type": "select"
+   },
+   {
+    "name": "card_styles",
+    "type": "select"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "image",
+   "product",
+   "collection",
+   "video"
+  ],
+  "themes": [
+   "Colorblock",
+   "Craft",
+   "Crave",
+   "Dawn",
+   "Impulse",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Sense"
+  ],
+  "frequency": 9,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/collage.liquid",
+    "note": "Dawn {% schema %} \"Collage\": 8 settings, blocks [image, product, collection, video], addable from the editor"
+   },
+   {
+    "url": "https://theme-colorblock-demo.myshopify.com/",
+    "note": "Colorblock, home page, section \"164270538016d03432\"; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"163966533404a6fc60\"; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"collage\", heading «Find your flavor»; type from section key collage"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"collage\", heading «Back in stock!»; type from section key collage"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"image_grid_HV6jN9\"; type from section key image_grid_HV6jN9"
+   },
+   {
+    "url": "https://theme-origin-demo.myshopify.com/",
+    "note": "Origin, home page, section \"collage_ytefR8\"; type from section key collage_ytefR8"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "slideshow",
+  "roles": [
+   "hero-image",
+   "headline",
+   "description",
+   "cta-primary",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "layout",
+    "type": "select"
+   },
+   {
+    "name": "slide_height",
+    "type": "select"
+   },
+   {
+    "name": "slider_visual",
+    "type": "select"
+   },
+   {
+    "name": "auto_rotate",
+    "type": "checkbox"
+   },
+   {
+    "name": "change_slides_speed",
+    "type": "range"
+   },
+   {
+    "name": "image_behavior",
+    "type": "select"
+   },
+   {
+    "name": "show_text_below",
+    "type": "checkbox"
+   },
+   {
+    "name": "accessibility_info",
+    "type": "text"
+   }
+  ],
+  "blocks": [
+   "slide"
+  ],
+  "themes": [
+   "Crave",
+   "Focal",
+   "Impulse",
+   "Motion",
+   "Prestige",
+   "Refresh",
+   "Studio",
+   "Taste"
+  ],
+  "frequency": 8,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/slideshow.liquid",
+    "note": "Dawn {% schema %} \"Slideshow\": 8 settings, blocks [slide], addable from the editor"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/",
+    "note": "Crave, home page, section \"16402062992313257c\", heading «Meet your new favorite pantry staple!»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"16147007865c3d0b70\", heading «Premium Collection»; type from wrapper class shopify-section--slideshow"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"slideshow_gRJqnT\", heading «Easy to wear, easy to return to»; type from section key slideshow_gRJqnT"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"slideshow_7J3xzi\", heading «Made to keep moving»; type from section key slideshow_7J3xzi"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"slideshow\"; type from wrapper class shopify-section--slideshow"
+   },
+   {
+    "url": "https://theme-refresh-demo.myshopify.com/",
+    "note": "Refresh, home page, section \"1650475219262621a2\", heading «Your hair, but better.»; type from DOM signature (Dawn family)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "video",
+  "roles": [
+   "video-player",
+   "headline",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "heading",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "enable_video_looping",
+    "type": "checkbox"
+   },
+   {
+    "name": "video",
+    "type": "video"
+   },
+   {
+    "name": "video_url",
+    "type": "video_url"
+   },
+   {
+    "name": "cover_image",
+    "type": "image_picker"
+   },
+   {
+    "name": "description",
+    "type": "text"
+   },
+   {
+    "name": "full_width",
+    "type": "checkbox"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Craft",
+   "Dawn",
+   "Impulse",
+   "Motion",
+   "Prestige",
+   "Sense"
+  ],
+  "frequency": 6,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/video.liquid",
+    "note": "Dawn {% schema %} \"Video\": 11 settings, blocks [none], addable from the editor"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"1639595147aa46bf0c\", heading «The details matter»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-dawn-demo.myshopify.com/",
+    "note": "Dawn, home page, section \"video\"; type from section key video"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"hero_video_pdBLke\", heading «Made to move with ease»; type from section key hero_video_pdBLke"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"hero-video\", heading «Into the wild»; type from section key hero-video"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"3711948d-3939-401a-96a9-b2bb3f4cac7d\"; type from wrapper class shopify-section--video"
+   },
+   {
+    "url": "https://theme-sense-demo.myshopify.com/products/natural-vegan-lip-balm-lemon-lime",
+    "note": "Sense, product page, section \"16378071702344eb62\"; type from DOM signature (Dawn family)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "featured-blog",
+  "roles": [
+   "section-header",
+   "card",
+   "card-image",
+   "card-title",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "blog",
+    "type": "blog"
+   },
+   {
+    "name": "post_limit",
+    "type": "range"
+   },
+   {
+    "name": "heading",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "columns_desktop",
+    "type": "range"
+   },
+   {
+    "name": "show_view_all",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_image",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_date",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_author",
+    "type": "checkbox"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Craft",
+   "Crave",
+   "Focal",
+   "Origin",
+   "Prestige",
+   "Refresh"
+  ],
+  "frequency": 6,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/featured-blog.liquid",
+    "note": "Dawn {% schema %} \"Blog posts\": 12 settings, blocks [none], addable from the editor"
+   },
+   {
+    "url": "https://theme-craft-demo.myshopify.com/",
+    "note": "Craft, home page, section \"163717072176749f09\", heading «From the magazine»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-crave-demo.myshopify.com/products/heat-lovers-set",
+    "note": "Crave, product page, section \"1639536276e95f2ee6\", heading «Recipes to get you fired up 🌶»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"16152178472dac1ead\", heading «Read the blog»; type from wrapper class shopify-section--blog-posts"
+   },
+   {
+    "url": "https://theme-origin-demo.myshopify.com/",
+    "note": "Origin, home page, section \"featured_blog_kCircH\", heading «Only for the brave»; type from section key featured_blog_kCircH"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"blog-posts\", heading «From the blog»; type from wrapper class shopify-section--blog-posts"
+   },
+   {
+    "url": "https://theme-refresh-demo.myshopify.com/",
+    "note": "Refresh, home page, section \"1650477363cddf34c9\", heading «Indulge in some light bathroom reading.»; type from DOM signature (Dawn family)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "featured-product",
+  "roles": [
+   "media",
+   "card-title",
+   "price",
+   "variant-picker",
+   "quantity-input",
+   "cta-primary",
+   "cta-secondary",
+   "star-rating"
+  ],
+  "settings": [
+   {
+    "name": "product",
+    "type": "product"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "secondary_background",
+    "type": "checkbox"
+   },
+   {
+    "name": "media_size",
+    "type": "select"
+   },
+   {
+    "name": "constrain_to_viewport",
+    "type": "checkbox"
+   },
+   {
+    "name": "media_fit",
+    "type": "select"
+   },
+   {
+    "name": "media_position",
+    "type": "select"
+   },
+   {
+    "name": "image_zoom",
+    "type": "select"
+   },
+   {
+    "name": "hide_variants",
+    "type": "checkbox"
+   },
+   {
+    "name": "enable_video_looping",
+    "type": "checkbox"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "@app",
+   "text",
+   "title",
+   "price",
+   "sku",
+   "quantity_selector",
+   "variant_picker",
+   "buy_buttons",
+   "share",
+   "custom_liquid",
+   "disclosures",
+   "rating",
+   "icon-with-text"
+  ],
+  "themes": [
+   "Focal",
+   "Origin",
+   "Prestige",
+   "Publisher",
+   "Taste"
+  ],
+  "frequency": 5,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/featured-product.liquid",
+    "note": "Dawn {% schema %} \"Featured product\": 12 settings, blocks [@app, text, title, price, sku, quantity_selector, variant_picker, buy_buttons, share, custom_liquid, disclosures, rating, icon-with-text], addable from the editor"
+   },
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"16268538348a7cd456\", heading «Best Seller»; type from wrapper class shopify-section--featured-product"
+   },
+   {
+    "url": "https://theme-origin-demo.myshopify.com/",
+    "note": "Origin, home page, section \"featured-product\", heading «2Unfold Bag»; type from section key featured-product"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"78a5db19-b230-4b47-a4f1-4c5b07493df3\", heading «Product of the week»; type from wrapper class shopify-section--featured-product"
+   },
+   {
+    "url": "https://theme-publisher-demo.myshopify.com/",
+    "note": "Publisher, home page, section \"16553217533c66fdb9\", heading «Gift Card»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-taste-demo.myshopify.com/",
+    "note": "Taste, home page, section \"1645126111d823f1ba\", heading «Fiery Ginger Booster»; type from DOM signature (Dawn family)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "popup",
+  "roles": [
+   "dialog",
+   "close-button",
+   "newsletter-form",
+   "input",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "heading",
+    "type": "text"
+   },
+   {
+    "name": "text",
+    "type": "richtext"
+   },
+   {
+    "name": "image",
+    "type": "image_picker"
+   },
+   {
+    "name": "delay_seconds",
+    "type": "range"
+   },
+   {
+    "name": "show_email_form",
+    "type": "checkbox"
+   },
+   {
+    "name": "button_label",
+    "type": "text"
+   },
+   {
+    "name": "button_link",
+    "type": "url"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Focal",
+   "Impulse",
+   "Motion",
+   "Prestige"
+  ],
+  "frequency": 4,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"newsletter-popup\", heading «Get 10% off»; type from wrapper class shopify-section--popup"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"newsletter-popup\", heading «Welcome to Impulse»; type from section key newsletter-popup"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"newsletter-popup\", heading «Go Further»; type from section key newsletter-popup"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"newsletter-popup\"; type from wrapper class shopify-section--popup"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/impulse",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (impulse, motion, focal, prestige): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "icons-with-text",
+  "roles": [
+   "feature-card",
+   "icon-wrapper",
+   "icon",
+   "card-title",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "text"
+   },
+   {
+    "name": "align_text",
+    "type": "select"
+   },
+   {
+    "name": "columns",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "column"
+  ],
+  "themes": [
+   "Focal",
+   "Impulse",
+   "Motion",
+   "Prestige"
+  ],
+  "frequency": 4,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"1614959715404f4b2a\"; type from wrapper class shopify-section--text-with-icons"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"text_with_icons_VnVL6Q\", heading «Quietly considered»; type from section key text_with_icons_VnVL6Q"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"1652296560ac5d88bd\", heading «Sustainable materials»; type from data-section-type=text-with-icons"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"54bc3e9a-d630-4114-835f-bb1a313bd58b\"; type from wrapper class shopify-section--text-with-icons"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/impulse",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (impulse, motion, focal, prestige): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "featured-collections-tabs",
+  "roles": [
+   "section-header",
+   "tab-list",
+   "tab-trigger",
+   "tab-content",
+   "product-card",
+   "price"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "text"
+   },
+   {
+    "name": "products_to_show",
+    "type": "range"
+   },
+   {
+    "name": "layout",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "collection"
+  ],
+  "themes": [
+   "Focal",
+   "Motion",
+   "Prestige"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"1614958323f6c9ecb5\", heading «Explore»; type from wrapper class shopify-section--featured-collections"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"featured-collection-switcher\", heading «Wear»; type from section key featured-collection-switcher"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"b0ce58f8-be7a-4c04-9dd1-e43c34483746\"; type from wrapper class shopify-section--featured-collections"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/focal",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (focal, prestige, motion): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "collapsible-content",
+  "roles": [
+   "section-header",
+   "heading",
+   "trigger",
+   "content"
+  ],
+  "settings": [
+   {
+    "name": "caption",
+    "type": "text"
+   },
+   {
+    "name": "heading",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "heading_alignment",
+    "type": "select"
+   },
+   {
+    "name": "layout",
+    "type": "select"
+   },
+   {
+    "name": "container_color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "open_first_collapsible_row",
+    "type": "checkbox"
+   },
+   {
+    "name": "image",
+    "type": "image_picker"
+   },
+   {
+    "name": "image_ratio",
+    "type": "select"
+   },
+   {
+    "name": "desktop_layout",
+    "type": "select"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "collapsible_row"
+  ],
+  "themes": [
+   "Refresh",
+   "Ride",
+   "Taste"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/collapsible-content.liquid",
+    "note": "Dawn {% schema %} \"Collapsible content\": 13 settings, blocks [collapsible_row], addable from the editor"
+   },
+   {
+    "url": "https://theme-refresh-demo.myshopify.com/products/shampoo-2",
+    "note": "Refresh, product page, section \"1650538096b126a513\", heading «Let's get into the nitty gritty details.»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-ride-demo.myshopify.com/",
+    "note": "Ride, home page, section \"1646617339680e19de\", heading «MEET THE NEOGLASS ECO FIN»; type from DOM signature (Dawn family)"
+   },
+   {
+    "url": "https://theme-taste-demo.myshopify.com/products/copy-of-the-good",
+    "note": "Taste, product page, section \"1645735466dbbf8c08\", heading «Frequently asked questions»; type from DOM signature (Dawn family)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "testimonials",
+  "roles": [
+   "section-header",
+   "testimonial-card",
+   "quote-text",
+   "author-info",
+   "star-rating",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "text"
+   },
+   {
+    "name": "autoplay",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_rating",
+    "type": "checkbox"
+   },
+   {
+    "name": "layout",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "testimonial"
+  ],
+  "themes": [
+   "Focal",
+   "Motion",
+   "Prestige"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"1615816974eca9f9cb\"; type from wrapper class shopify-section--testimonials"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"1628005539ef941de4\", heading «Don't take our word for it»; type from data-section-type=testimonials"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"b86761d3-bfe7-48d8-a53e-f2b00601f0ff\"; type from wrapper class shopify-section--testimonials"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/focal",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (focal, prestige, motion): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "shop-the-look",
+  "roles": [
+   "hero-image",
+   "hotspot",
+   "product-card",
+   "price",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "image",
+    "type": "image_picker"
+   },
+   {
+    "name": "title",
+    "type": "text"
+   },
+   {
+    "name": "hotspot_style",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "hotspot (product, x, y)"
+  ],
+  "themes": [
+   "Focal",
+   "Impulse",
+   "Prestige"
+  ],
+  "frequency": 3,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"1614954392e85bc74a\"; type from wrapper class shopify-section--shop-the-look"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"shoppable_hero_9HDgMT\", heading «Easy by design»; type from section key shoppable_hero_9HDgMT, read against the shot"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"6e127d82-2b16-49ba-8ebf-aaabc2cb3b1d\", heading «Our looks»; type from wrapper class shopify-section--shop-the-look"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/focal",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (focal, prestige, impulse): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "promo-grid",
+  "roles": [
+   "card",
+   "card-image",
+   "headline",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "full_width",
+    "type": "checkbox"
+   },
+   {
+    "name": "gutter",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "advanced"
+  ],
+  "themes": [
+   "Impulse",
+   "Motion"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse, home page, section \"promo_grid_gXNQQX\", heading «Dresses for every day»; type from section key promo_grid_gXNQQX"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"footer-promotions\"; type from section key footer-promotions"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/impulse",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (impulse): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   },
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/",
+    "note": "Impulse promo grid tiles carry class type-advanced (image, heading, text, button, width 50%)"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "countdown",
+  "roles": [
+   "heading",
+   "countdown",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "year",
+    "type": "number"
+   },
+   {
+    "name": "month",
+    "type": "number"
+   },
+   {
+    "name": "day",
+    "type": "number"
+   },
+   {
+    "name": "hour",
+    "type": "number"
+   },
+   {
+    "name": "minute",
+    "type": "number"
+   },
+   {
+    "name": "hide_timer",
+    "type": "checkbox"
+   },
+   {
+    "name": "complete_message",
+    "type": "text"
+   },
+   {
+    "name": "text",
+    "type": "richtext"
+   },
+   {
+    "name": "button_label",
+    "type": "text"
+   },
+   {
+    "name": "button_link",
+    "type": "url"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Motion",
+   "Prestige"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"countdown_A3AJ9j\", heading «buy 1 get 1 free»; type from section key countdown_A3AJ9j"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"64fa0d62-7c5c-48c4-91c5-18187368ed0f\"; type from wrapper class shopify-section--countdown-condensed"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/motion",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (motion, prestige): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   },
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion countdown root carries data-year/month/day/hour/minute, data-hide-timer, data-complete-message; renders DAYS HOURS MINUTES SECONDS and a «Shop Collection» button"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "timeline",
+  "roles": [
+   "section-header",
+   "card",
+   "card-image",
+   "card-title",
+   "description",
+   "trigger"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "text"
+   }
+  ],
+  "blocks": [
+   "item (image, label, heading, text)"
+  ],
+  "themes": [
+   "Focal",
+   "Prestige"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"16152192799342656c\", heading «Offices»; type from wrapper class shopify-section--timeline"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"321064c5-aded-43e3-9d25-d99158e3190a\"; type from wrapper class shopify-section--timeline"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/focal",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (focal, prestige): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "scrolling-text",
+  "roles": [
+   "marquee",
+   "description",
+   "nav-link"
+  ],
+  "settings": [
+   {
+    "name": "text",
+    "type": "text"
+   },
+   {
+    "name": "link",
+    "type": "url"
+   },
+   {
+    "name": "speed",
+    "type": "range"
+   },
+   {
+    "name": "direction",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "text"
+  ],
+  "themes": [
+   "Motion",
+   "Prestige"
+  ],
+  "frequency": 2,
+  "evidence": [
+   {
+    "url": "https://motion-theme-adventure.myshopify.com/",
+    "note": "Motion, home page, section \"scrolling_text_KXLXzi\"; type from section key scrolling_text_KXLXzi"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"209158ef-3f59-4cea-b40b-6c0fb7134b94\"; type from wrapper class shopify-section--scrolling-content"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/motion",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (motion, prestige): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "multirow",
+  "roles": [
+   "media",
+   "heading",
+   "description",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "image_height",
+    "type": "select"
+   },
+   {
+    "name": "desktop_image_width",
+    "type": "select"
+   },
+   {
+    "name": "image_layout",
+    "type": "select"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "text_style",
+    "type": "select"
+   },
+   {
+    "name": "button_style",
+    "type": "select"
+   },
+   {
+    "name": "desktop_content_position",
+    "type": "select"
+   },
+   {
+    "name": "desktop_content_alignment",
+    "type": "select"
+   },
+   {
+    "name": "mobile_content_alignment",
+    "type": "select"
+   },
+   {
+    "name": "section_color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "row_color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "row"
+  ],
+  "themes": [
+   "Prestige"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/multirow.liquid",
+    "note": "Dawn {% schema %} \"Multirow\": 13 settings, blocks [row], addable from the editor"
+   },
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"a7b611f2-bfa1-4b73-afdd-afa7047323b2\"; type from wrapper class shopify-section--images-with-text-scroll"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "logo-list",
+  "roles": [
+   "section-header",
+   "brand-slider",
+   "brand-logo"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "text"
+   },
+   {
+    "name": "scroll_speed",
+    "type": "range"
+   }
+  ],
+  "blocks": [
+   "logo"
+  ],
+  "themes": [
+   "Focal"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"1615217887bd9ef80e\", heading «Featured in»; type from wrapper class shopify-section--logo-list"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/focal",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (focal): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "before-after",
+  "roles": [
+   "heading",
+   "description",
+   "compare-slider"
+  ],
+  "settings": [
+   {
+    "name": "before_image",
+    "type": "image_picker"
+   },
+   {
+    "name": "after_image",
+    "type": "image_picker"
+   },
+   {
+    "name": "heading",
+    "type": "text"
+   },
+   {
+    "name": "direction",
+    "type": "select"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Prestige"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://prestige-theme-allure.myshopify.com/",
+    "note": "Prestige, home page, section \"7f505dbc-26a8-4d7e-8878-69976a1a901f\", heading «Choose your colour»; type from wrapper class shopify-section--before-after-image"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/prestige",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (prestige): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "image-gallery",
+  "roles": [
+   "section-header",
+   "card-image",
+   "description"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "text"
+   },
+   {
+    "name": "image_size",
+    "type": "select"
+   }
+  ],
+  "blocks": [
+   "image (image, caption)"
+  ],
+  "themes": [
+   "Focal"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/",
+    "note": "Focal, home page, section \"1623916563b311301f\", heading «Focal x La Boîte Concept»; type from wrapper class shopify-section--gallery"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/focal",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (focal): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "product-tabs",
+  "roles": [
+   "tab-list",
+   "tab-trigger",
+   "tab-content"
+  ],
+  "settings": [],
+  "blocks": [],
+  "themes": [
+   "Focal"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://focal-theme-carbon.myshopify.com/products/belt-watch",
+    "note": "Focal, product page, section \"product-content\"; type from wrapper class shopify-section--product-content"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "quick-order-list",
+  "roles": [
+   "table",
+   "table-row",
+   "variant-picker",
+   "quantity-input",
+   "price",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "variants_per_page",
+    "type": "range"
+   },
+   {
+    "name": "show_image",
+    "type": "checkbox"
+   },
+   {
+    "name": "show_sku",
+    "type": "checkbox"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Trade"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/quick-order-list.liquid",
+    "note": "Dawn {% schema %} \"Quick order list\": 6 settings, blocks [none], addable from the editor"
+   },
+   {
+    "url": "https://theme-trade-demo.myshopify.com/products/euro-sham-brushed-cotton",
+    "note": "Trade, product page, section \"quick-order-list\"; type from section key quick-order-list"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "recently-viewed",
+  "roles": [
+   "section-header",
+   "product-card",
+   "price"
+  ],
+  "settings": [
+   {
+    "name": "title",
+    "type": "text"
+   },
+   {
+    "name": "products_to_show",
+    "type": "range"
+   }
+  ],
+  "blocks": [],
+  "themes": [
+   "Impulse"
+  ],
+  "frequency": 1,
+  "evidence": [
+   {
+    "url": "https://impulse-theme-fashion.myshopify.com/products/the-wren-coat",
+    "note": "Impulse, product page, section \"recently-viewed\", heading «Recently viewed»; type from section key recently-viewed"
+   },
+   {
+    "url": "https://themes.shopify.com/themes/focal",
+    "note": "settings and blocks of this row are inferred from what the rendered demo shows (focal, impulse, prestige): its items, controls and data-attributes; not a {% schema %}, since Dawn has no such section and paid theme code is not public"
+   }
+  ]
+ },
+ {
+  "source": "shopify",
+  "section": "contact-form",
+  "roles": [
+   "form",
+   "input",
+   "label",
+   "cta-primary"
+  ],
+  "settings": [
+   {
+    "name": "heading",
+    "type": "inline_richtext"
+   },
+   {
+    "name": "heading_size",
+    "type": "select"
+   },
+   {
+    "name": "color_scheme",
+    "type": "color_scheme"
+   },
+   {
+    "name": "padding_top",
+    "type": "range"
+   },
+   {
+    "name": "padding_bottom",
+    "type": "range"
+   }
+  ],
+  "blocks": [],
+  "themes": [],
+  "frequency": 0,
+  "evidence": [
+   {
+    "url": "https://github.com/Shopify/dawn/blob/258f00f64365e2018ca4c62778a6bf55a5d3cd18/sections/contact-form.liquid",
+    "note": "Dawn {% schema %} \"Contact Form\": 5 settings, blocks [none], addable from the editor"
+   }
+  ]
+ }
+]

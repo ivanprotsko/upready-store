@@ -167,6 +167,8 @@ export const ROUTE_PERMISSIONS: Record<string, RouteRule> = {
 
   // ---- storefront: home, pages, journal, look
   "/tenants/home": { GET: "storefront", PUT: "storefront" },
+  "/tenants/home/template": { POST: "storefront" },
+  "/tenants/home/templates": { GET: "storefront" },
   "/tenants/pages": { GET: "storefront", POST: "storefront" },
   "/tenants/pages/[key]": { GET: "storefront", PUT: "storefront", DELETE: "storefront" },
   "/tenants/articles": { GET: "storefront", POST: "storefront" },

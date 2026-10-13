@@ -11,7 +11,8 @@ import { buildIconMetadata } from "@lib/tenant/icons"
 import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
-import { fontClassName, isAllowed, readProfileTheme, themePrePaintScript } from "@lib/theme"
+import { fontClassName, isAllowed, isLightOnlyTheme, readProfileTheme, themePrePaintScript } from "@lib/theme"
+import { ModeLockProvider } from "@lib/theme/mode-lock"
 // Branch-local (`redesign-olavka`): the Figma node's three typefaces, see the module.
 import { olavkaFontClassName } from "@lib/theme/olavka-fonts"
 import { OLAVKA_INTER_CSS, OLAVKA_INTER_PRELOAD } from "@lib/theme/olavka-inter"
@@ -20,6 +21,8 @@ import {
   getTenantModeDefault,
   getTenantThemePreset,
 } from "@lib/data/tenant-home"
+import { TEMPLATE_FONTS_STYLESHEET } from "@lib/templates/fonts"
+import { getActiveTemplate } from "@lib/templates/active"
 import StudioMount from "@modules/studio/components/studio-mount"
 import MiniAppBridge from "@modules/telegram/components/mini-app-bridge"
 import TestModeDot from "@modules/common/components/test-mode-dot"
@@ -82,7 +85,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode, messages] =
+  const [settings, tenantPreset, tenantMode, analytics, branding, olavka, testMode, messages, template] =
     await Promise.all([
       getEffectiveSettings(),
       getTenantThemePreset(),
@@ -92,6 +95,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       isOlavkaShop(),
       getSiteTestMode(),
       getClientMessages(),
+      getActiveTemplate(),
     ])
   // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
   // this parse only ever produces a clean integer or null, never NaN reaching
@@ -99,15 +103,29 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const yandexCounterId = analytics.yandexMetricaId
     ? Number.parseInt(analytics.yandexMetricaId, 10)
     : null
-  const theme = isAllowed("data-theme", tenantPreset) ? tenantPreset : profileTheme
+  // A template (t-2026-10-12-33), previewed on the templates stand or saved by the shop,
+  // paints with its own palette and mode; null for a shop with none, and the lines below
+  // are the shop's own.
+  const theme = template
+    ? template.preset
+    : isAllowed("data-theme", tenantPreset)
+      ? tenantPreset
+      : profileTheme
   // The shop's own default sits ahead of the site-wide one: on a multi-shop process
   // `store.metadata.storefrontSettings` belongs to the whole backend and cannot speak
   // for one shop. `getEffectiveSettings()` already prefers the shop's document, so the
   // second term only ever answers for a single-store stand.
-  const mode =
-    (isAllowed("data-mode", tenantMode) ? tenantMode : null) ??
-    settings?.defaultMode ??
-    profileMode
+  //
+  // A light-only palette (t-2026-10-12-33 T0c) has no dark tokens, while `globals.css` keeps
+  // `[data-mode="dark"]` rules of its own: such a page is light whatever is stored anywhere, the
+  // pre-paint script does not read the visitor's mode, and the switch is not offered.
+  const lightOnly = isLightOnlyTheme(theme)
+  const mode = lightOnly
+    ? "light"
+    : (template?.mode ??
+      (isAllowed("data-mode", tenantMode) ? tenantMode : null) ??
+      settings?.defaultMode ??
+      profileMode)
 
   // t16-owner-branding, step 3/4: the owner's primary colour, applied as an
   // inline style so it outranks the `[data-theme][data-mode]` attribute
@@ -133,7 +151,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       data-theme={theme}
       data-mode={mode}
       className={[fontClassName, olavkaFontClassName].filter(Boolean).join(" ") || undefined}
-      style={brandStyle}
+      // The template's style layers (`--radius`, `--layer-*`) over the brand colour; none without one.
+      style={template ? ({ ...brandStyle, ...template.style } as React.CSSProperties) : brandStyle}
+      // The template's font pair, when its files exist (`lib/templates/fonts.ts`): the attribute the
+      // stylesheet linked below keys on. Absent for a shop with no template.
+      data-font-pair={template?.fonts.pair ?? undefined}
       // Marks an Olavka shop (`OLAVKA_SHOP_HANDLES`) for the styles a client component or a
       // portal cannot learn from the server: the product row tile's 1rem type (remark 17),
       // the search input's focus ring (remark 18).
@@ -142,27 +164,32 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       <head>
         {/* Applies the visitor's stored choice before the first paint, so a reload
             does not flash the profile default. Allow-listed, idempotent, never throws. */}
-        <script dangerouslySetInnerHTML={{ __html: themePrePaintScript() }} />
+        <script dangerouslySetInnerHTML={{ __html: themePrePaintScript({ lightOnly }) }} />
         {olavka
           ? OLAVKA_INTER_PRELOAD.map((href) => (
               <link key={href} rel="preload" href={href} as="font" type="font/woff2" crossOrigin="" />
             ))
           : null}
         {olavka ? <style dangerouslySetInnerHTML={{ __html: OLAVKA_INTER_CSS }} /> : null}
+        {/* The template fonts' @font-face and [data-font-pair] rules; a page without the attribute
+            does not link it, so a shop with no template fetches neither the sheet nor a face. */}
+        {template?.fonts.pair ? <link rel="stylesheet" href={TEMPLATE_FONTS_STYLESHEET} /> : null}
       </head>
       <body>
         {/* Not `<main>`: this wraps the header and the footer too, and a `<header>` inside
             `<main>` is not a `banner` landmark (nor a `<footer>` a `contentinfo`). Each
             route group marks its own main content: `(main)/layout.tsx`, `(checkout)/layout.tsx`,
             `start/layout.tsx` and the root `not-found.tsx`. */}
-        <div className="relative">{props.children}</div>
+        <div className="relative">
+          <ModeLockProvider locked={lightOnly}>{props.children}</ModeLockProvider>
+        </div>
         {/* t-2026-10-04-21 (checkout-v2 A3): red dot while payments or delivery are in test mode. */}
         {/* t-2026-10-08-13: `STOREFRONT_HIDE_TEST_MODE_DOT` takes the dot off for the time of
             the Robokassa moderation (`visibleTestMode`). */}
         <TestModeDot mode={visibleTestMode(testMode)} locale={locale} />
         {/* Telegram Mini App bridge: inert in a browser, active only when a Telegram
             client opened the page (src/modules/telegram/components/mini-app-bridge). */}
-        <MiniAppBridge />
+        <MiniAppBridge modeLocked={lightOnly} />
         {/* Renders the hidden settings panel only for a browser that carries the
             studio cookie; null for everybody else, including the HTML of a visitor.
             Wrapped in its own NextIntlClientProvider: this root layout sits OUTSIDE the

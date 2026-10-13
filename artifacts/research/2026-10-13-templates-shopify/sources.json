@@ -1,0 +1,200 @@
+{
+ "colorblock": {
+  "theme": "Colorblock",
+  "store": "https://themes.shopify.com/themes/colorblock",
+  "version": "16.1.0",
+  "demo": "https://theme-colorblock-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-colorblock-demo.myshopify.com/",
+   "product": "https://theme-colorblock-demo.myshopify.com/products/pocket-cardi-purple",
+   "collection": "https://theme-colorblock-demo.myshopify.com/collections/mens-cardigans"
+  }
+ },
+ "craft": {
+  "theme": "Craft",
+  "store": "https://themes.shopify.com/themes/craft",
+  "version": "16.1.0",
+  "demo": "https://theme-craft-demo.myshopify.com",
+  "pages": {
+   "home": "https://theme-craft-demo.myshopify.com/",
+   "product": "https://theme-craft-demo.myshopify.com/products/ceramic-bundle",
+   "collection": "https://theme-craft-demo.myshopify.com/collections/bundles"
+  }
+ },
+ "crave": {
+  "theme": "Crave",
+  "store": "https://themes.shopify.com/themes/crave",
+  "version": "16.1.0",
+  "demo": "https://theme-crave-demo.myshopify.com",
+  "pages": {
+   "home": "https://theme-crave-demo.myshopify.com/",
+   "product": "https://theme-crave-demo.myshopify.com/products/heat-lovers-set",
+   "collection": "https://theme-crave-demo.myshopify.com/collections/meal-starters"
+  }
+ },
+ "dawn": {
+  "theme": "Dawn",
+  "store": "https://themes.shopify.com/themes/dawn",
+  "version": "16.1.0",
+  "demo": "https://theme-dawn-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-dawn-demo.myshopify.com/",
+   "product": "https://theme-dawn-demo.myshopify.com/products/small-convertible-flex-bag-cappuccino",
+   "collection": "https://theme-dawn-demo.myshopify.com/collections/bags"
+  }
+ },
+ "focal": {
+  "theme": "Focal",
+  "store": "https://themes.shopify.com/themes/focal",
+  "version": "13.0.0",
+  "demo": "https://focal-theme-carbon.myshopify.com/",
+  "pages": {
+   "home": "https://focal-theme-carbon.myshopify.com/",
+   "product": "https://focal-theme-carbon.myshopify.com/products/belt-watch",
+   "collection": "https://focal-theme-carbon.myshopify.com/collections/iphone-cases"
+  }
+ },
+ "horizon": {
+  "theme": "Horizon",
+  "store": "https://themes.shopify.com/themes/horizon",
+  "version": "4.3.0",
+  "demo": "https://theme-horizon-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-horizon-demo.myshopify.com/",
+   "product": "https://theme-horizon-demo.myshopify.com/products/1tuck-tapered-pants-424",
+   "collection": "https://theme-horizon-demo.myshopify.com/collections/front-page"
+  }
+ },
+ "impulse": {
+  "theme": "Impulse",
+  "store": "https://themes.shopify.com/themes/impulse",
+  "version": "10.0.0",
+  "demo": "https://impulse-theme-fashion.myshopify.com/",
+  "pages": {
+   "home": "https://impulse-theme-fashion.myshopify.com/",
+   "product": "https://impulse-theme-fashion.myshopify.com/products/the-wren-coat",
+   "collection": "https://impulse-theme-fashion.myshopify.com/collections/2026-new"
+  }
+ },
+ "motion": {
+  "theme": "Motion",
+  "store": "https://themes.shopify.com/themes/motion",
+  "version": "12.0.0",
+  "demo": "https://motion-theme-adventure.myshopify.com/",
+  "pages": {
+   "home": "https://motion-theme-adventure.myshopify.com/",
+   "product": "https://motion-theme-adventure.myshopify.com/products/merino-wool-quarter-zip",
+   "collection": "https://motion-theme-adventure.myshopify.com/collections/new-in"
+  }
+ },
+ "origin": {
+  "theme": "Origin",
+  "store": "https://themes.shopify.com/themes/origin",
+  "version": "16.1.0",
+  "demo": "https://theme-origin-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-origin-demo.myshopify.com/",
+   "product": "https://theme-origin-demo.myshopify.com/products/2unfold-bag-copy",
+   "collection": "https://theme-origin-demo.myshopify.com/collections/all"
+  }
+ },
+ "prestige": {
+  "theme": "Prestige",
+  "store": "https://themes.shopify.com/themes/prestige",
+  "version": "11.4.1",
+  "demo": "https://prestige-theme-allure.myshopify.com/",
+  "pages": {
+   "home": "https://prestige-theme-allure.myshopify.com/",
+   "product": "https://prestige-theme-allure.myshopify.com/products/le-nouveau-cartable-navy",
+   "collection": "https://prestige-theme-allure.myshopify.com/collections/sale"
+  }
+ },
+ "publisher": {
+  "theme": "Publisher",
+  "store": "https://themes.shopify.com/themes/publisher",
+  "version": "16.1.0",
+  "demo": "https://theme-publisher-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-publisher-demo.myshopify.com/",
+   "product": "https://theme-publisher-demo.myshopify.com/products/braulio-amado-2021",
+   "collection": "https://theme-publisher-demo.myshopify.com/collections/books"
+  }
+ },
+ "refresh": {
+  "theme": "Refresh",
+  "store": "https://themes.shopify.com/themes/refresh",
+  "version": "16.1.0",
+  "demo": "https://theme-refresh-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-refresh-demo.myshopify.com/",
+   "product": "https://theme-refresh-demo.myshopify.com/products/shampoo-2",
+   "collection": "https://theme-refresh-demo.myshopify.com/collections/hair"
+  }
+ },
+ "ride": {
+  "theme": "Ride",
+  "store": "https://themes.shopify.com/themes/ride",
+  "version": "16.1.0",
+  "demo": "https://theme-ride-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-ride-demo.myshopify.com/",
+   "product": "https://theme-ride-demo.myshopify.com/products/filipe-toledo-wildfire",
+   "collection": "https://theme-ride-demo.myshopify.com/collections/fins"
+  }
+ },
+ "sense": {
+  "theme": "Sense",
+  "store": "https://themes.shopify.com/themes/sense",
+  "version": "16.1.0",
+  "demo": "https://theme-sense-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-sense-demo.myshopify.com/",
+   "product": "https://theme-sense-demo.myshopify.com/products/natural-vegan-lip-balm-lemon-lime",
+   "collection": "https://theme-sense-demo.myshopify.com/collections/skin"
+  }
+ },
+ "spotlight": {
+  "theme": "Spotlight",
+  "store": "https://themes.shopify.com/themes/spotlight",
+  "version": "16.1.0",
+  "demo": "https://theme-spotlight-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-spotlight-demo.myshopify.com/",
+   "product": "https://theme-spotlight-demo.myshopify.com/products/copy-of-ebbets-wool-c-cap-navy",
+   "collection": "https://theme-spotlight-demo.myshopify.com/collections/all"
+  }
+ },
+ "studio": {
+  "theme": "Studio",
+  "store": "https://themes.shopify.com/themes/studio",
+  "version": "16.1.0",
+  "demo": "https://theme-studio-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-studio-demo.myshopify.com/",
+   "product": "https://theme-studio-demo.myshopify.com/products/gift-card",
+   "collection": "https://theme-studio-demo.myshopify.com/collections/leia-bryans"
+  }
+ },
+ "taste": {
+  "theme": "Taste",
+  "store": "https://themes.shopify.com/themes/taste",
+  "version": "16.1.0",
+  "demo": "https://theme-taste-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-taste-demo.myshopify.com/",
+   "product": "https://theme-taste-demo.myshopify.com/products/copy-of-the-good",
+   "collection": "https://theme-taste-demo.myshopify.com/collections/cold-pressed-juices"
+  }
+ },
+ "trade": {
+  "theme": "Trade",
+  "store": "https://themes.shopify.com/themes/trade",
+  "version": "16.1.0",
+  "demo": "https://theme-trade-demo.myshopify.com/",
+  "pages": {
+   "home": "https://theme-trade-demo.myshopify.com/",
+   "product": "https://theme-trade-demo.myshopify.com/products/euro-sham-brushed-cotton",
+   "collection": "https://theme-trade-demo.myshopify.com/collections/furniture"
+  }
+ }
+}

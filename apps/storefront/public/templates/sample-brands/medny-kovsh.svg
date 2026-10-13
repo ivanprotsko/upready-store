@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <title>Медный ковш — a made-up brand for the logos/brands sample</title>
+  <g fill="#B4692F">
+    <circle cx="120" cy="120" r="112"/>
+    <circle cx="120" cy="120" r="100" fill="#FFFFFF"/>
+    <circle cx="120" cy="120" r="94"/>
+    <path d="M72 64h60v8a30 30 0 0 1-60 0zM132 66l42-20 4 8-46 22z" fill="#FFFFFF"/>
+    <text x="120" y="150" text-anchor="middle" fill="#FFFFFF" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="2">МЕДНЫЙ</text>
+    <text x="120" y="182" text-anchor="middle" fill="#FFFFFF" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="2">КОВШ</text>
+  </g>
+</svg>

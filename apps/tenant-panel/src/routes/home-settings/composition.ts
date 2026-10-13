@@ -12,8 +12,8 @@
 //    the storefront's own catalog `apps/storefront/messages/en.json`, namespace
 //    `Composition` (the English column of the C1 string set the composition
 //    mockup §C1 specifies). Raw enum values never reach the screen (rule 18e);
-//  - the theme preset labels: `THEME_LABELS` in the storefront's generated
-//    `src/lib/theme/presets.generated.ts`.
+//  - the theme preset labels: `THEME_LABEL_TEXTS` in the storefront's generated
+//    `src/lib/theme/presets.generated.ts`, `{ ru, en }` per preset.
 
 export type Mode = "light" | "dark"
 export type HeaderKey = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
@@ -44,15 +44,19 @@ export const THEME_PRESETS = [
 
 export type ThemePreset = (typeof THEME_PRESETS)[number]
 
-/** `THEME_LABELS`, verbatim. An id never reaches the screen. */
-export const THEME_LABELS: Record<ThemePreset, string> = {
-  medusa: "Medusa default",
-  electronics: "Ferrite",
-  geist: "Geist",
-  "home-goods": "Long Morning",
-  sneakers: "Kerbstone",
-  supplements: "Scruple",
-  "womens-fashion": "Larchant",
+/**
+ * `THEME_LABEL_TEXTS`, verbatim, for each preset of the panel; the page shows the words of the
+ * panel's language (`textFor`). An id never reaches the screen. `home-templates.test.mjs`
+ * reads the generated file and holds this copy to it.
+ */
+export const THEME_LABELS: Record<ThemePreset, { ru: string; en: string }> = {
+  medusa: { ru: "Стандартная", en: "Medusa default" },
+  electronics: { ru: "Графит и синий", en: "Ferrite" },
+  geist: { ru: "Чёрно-белая", en: "Geist" },
+  "home-goods": { ru: "Терракота", en: "Long Morning" },
+  sneakers: { ru: "Чёрный и лайм", en: "Kerbstone" },
+  supplements: { ru: "Белый и зелёный", en: "Scruple" },
+  "womens-fashion": { ru: "Крем и глина", en: "Larchant" },
 }
 
 export type Option<T extends string> = {

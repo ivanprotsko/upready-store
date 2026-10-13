@@ -92,8 +92,9 @@ const BottomNav = async () => {
         </div>
 
         {/* 6th slot, appended last — the existing five keep their position
-            (panel-composition-mockup.md §S12). */}
-        <div className="flex flex-1 items-center justify-center">
+            (panel-composition-mockup.md §S12). Empty, and so gone, while the mode is
+            locked on a light-only palette (t-2026-10-12-33 T0c). */}
+        <div className="flex flex-1 items-center justify-center empty:hidden">
           <ModeToggle
             className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
             data-testid="bottom-nav-mode-toggle"

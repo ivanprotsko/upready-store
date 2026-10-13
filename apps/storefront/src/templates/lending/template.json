@@ -1,0 +1,198 @@
+{
+  "schema": "upready.storefront-template/v1",
+  "id": "lending",
+  "title": { "ru": "Лендинг одного товара", "en": "Single-Product Landing" },
+  "description": {
+    "ru": "Длинная страница об одном товаре: как он устроен, что выбрать, отзывы и ответы на вопросы перед покупкой.",
+    "en": "One long page about one product: how it works, which set to choose, reviews and answers before buying."
+  },
+  "settings": { "defaultMode": "light", "header": "h2", "hero": "none", "tiles": "off", "listing": "none", "footer": "f1" },
+  "theme": {
+    "palette": "lending",
+    "fontPair": { "display": "Geist", "body": "Geist" },
+    "radius": "soft",
+    "buttonStyle": "filled",
+    "photoStyle": "portrait",
+    "density": "comfortable"
+  },
+  "sections": [
+    {
+      "block": "announcement/rotator",
+      "props": {
+        "messages": [
+          { "text": { "ru": "Одна модель — до мелочей", "en": "One model, done properly" }, "href": null },
+          { "text": { "ru": "Все комплектации рядом", "en": "Every set on one page" }, "href": null },
+          { "text": { "ru": "Ответим до покупки", "en": "Ask us before you buy" }, "href": null }
+        ],
+        "interval": 5,
+        "dismissible": true
+      }
+    },
+    {
+      "block": "hero/split",
+      "props": {
+        "eyebrow": { "ru": "Одна модель, доведённая до ума", "en": "One model, made right" },
+        "title": {
+          "ru": "Мы делаем одну вещь — и делаем её хорошо",
+          "en": "We make one thing, and we make it well"
+        },
+        "lead": {
+          "ru": "Вся страница — о ней: как она устроена, чем отличается от обычных моделей, что лежит в коробке и какую комплектацию выбрать.",
+          "en": "This whole page is about it: how it works, how it differs from the usual models, what comes in the box and which set to choose."
+        },
+        "primary": { "href": "/store", "label": { "ru": "Выбрать комплектацию", "en": "Choose your set" } },
+        "secondary": { "href": "/shipping", "label": { "ru": "Доставка и оплата", "en": "Delivery and payment" } },
+        "facts": [
+          { "ru": "Все комплектации на одной странице", "en": "Every set on one page" },
+          { "ru": "Что в коробке — в карточке товара", "en": "What is in the box, on the product page" },
+          { "ru": "Ответим на вопросы до покупки", "en": "Answers before you buy" }
+        ],
+        "image": { "src": "/templates/lending/hero.webp" },
+        "imageSide": "right",
+        "imageFit": "cover",
+        "tone": "plain",
+        "height": "auto"
+      }
+    },
+    {
+      "block": "columns/multicolumn",
+      "props": {
+        "items": [
+          {
+            "icon": "badge-check",
+            "title": { "ru": "Одна модель", "en": "One model" },
+            "text": { "ru": "Знаем её до винтика", "en": "Known inside out" }
+          },
+          {
+            "icon": "package",
+            "title": { "ru": "Комплект", "en": "In the box" },
+            "text": { "ru": "Состав коробки в карточке", "en": "Box contents on its page" }
+          },
+          {
+            "icon": "shield-check",
+            "title": { "ru": "Гарантия", "en": "Warranty" },
+            "text": { "ru": "Условия в документах", "en": "Terms come in the box" }
+          },
+          {
+            "icon": "truck",
+            "title": { "ru": "Доставка", "en": "Delivery" },
+            "text": { "ru": "Цена при оформлении", "en": "Priced at checkout" }
+          }
+        ],
+        "mode": "cards",
+        "columns": 4,
+        "mobile": "two",
+        "align": "left",
+        "tone": "muted"
+      }
+    },
+    {
+      "block": "media/image-with-text",
+      "props": {
+        "image": { "src": "/templates/lending/story.webp" },
+        "eyebrow": { "ru": "Как это работает", "en": "How it works" },
+        "heading": {
+          "ru": "Почему одна модель, а не сотня похожих",
+          "en": "Why one model, not a hundred alike"
+        },
+        "text": {
+          "ru": "В обычном магазине десятки похожих моделей и короткие карточки, а разницу между ними покупатель ищет сам.\nУ нас одна модель, и мы рассказываем о ней всё: из чего она сделана, как устроена внутри и почему именно так. Чего не нашли на странице — спросите, ответим до покупки.",
+          "en": "A usual shop has dozens of similar models and short product pages, and the buyer has to work out the difference alone.\nWe have one model, and we tell you everything about it: what it is made of, how it works inside and why it is built that way. If something is missing here, ask us before you buy."
+        },
+        "button": { "label": { "ru": "Посмотреть комплектации", "en": "See the sets" }, "href": "/store" },
+        "imageSide": "left",
+        "imageWidth": "1/2",
+        "imageAspect": "landscape",
+        "verticalAlign": "center",
+        "tone": "plain"
+      }
+    },
+    {
+      "block": "collection/featured",
+      "props": {
+        "header": {
+          "eyebrow": { "ru": "Комплектации", "en": "Sets" },
+          "heading": { "ru": "Что выбрать", "en": "Which to choose" }
+        },
+        "source": { "sort": "newest" },
+        "limit": 6,
+        "layout": "grid",
+        "columns": 3
+      }
+    },
+    {
+      "block": "testimonials/cards",
+      "props": {
+        "header": { "heading": { "ru": "Отзывы покупателей", "en": "What buyers say" } },
+        "items": [
+          {
+            "quote": {
+              "ru": "Выбирала между тремя похожими моделями. Взяла эту из-за подробного описания — и всё совпало с тем, что пришло.",
+              "en": "I was choosing between three similar models and took this one for its detailed description. Everything matched what arrived."
+            },
+            "name": { "ru": "Татьяна", "en": "Tatiana" },
+            "city": { "ru": "Тверь", "en": "Tver" },
+            "rating": 5
+          },
+          {
+            "quote": {
+              "ru": "Через месяц взял второй комплект в подарок — пришёл точно такой же, как первый. Удобно, когда модель одна и не меняется каждый сезон.",
+              "en": "A month later I bought a second set as a gift, and it came exactly like the first. It helps when there is one model that does not change every season."
+            },
+            "name": { "ru": "Владимир", "en": "Vladimir" },
+            "city": { "ru": "Омск", "en": "Omsk" },
+            "rating": 5
+          },
+          {
+            "quote": {
+              "ru": "Хорошая вещь, но с инструкцией пришлось разбираться. Написала в поддержку — ответили и всё объяснили.",
+              "en": "A good thing, but the manual took some working out. I wrote to support, and they answered and explained everything."
+            },
+            "name": { "ru": "Галина", "en": "Galina" },
+            "city": { "ru": "Вологда", "en": "Vologda" },
+            "rating": 4
+          }
+        ],
+        "layout": "grid"
+      }
+    },
+    {
+      "block": "faq/accordion",
+      "props": {
+        "header": { "heading": { "ru": "Вопросы перед покупкой", "en": "Questions before you buy" } },
+        "items": [
+          {
+            "question": { "ru": "Какую комплектацию выбрать?", "en": "Which set should I choose?" },
+            "answer": {
+              "ru": "Сравните комплектации выше: в карточке каждой — что лежит в коробке, размеры и цена. Если сомневаетесь, напишите нам до заказа — контакты внизу страницы.",
+              "en": "Compare the sets above: each one's page lists what comes in the box, its size and its price. If in doubt, write to us before you order; our contacts are at the foot of the page."
+            }
+          },
+          {
+            "question": { "ru": "Сколько стоит доставка и когда привезут?", "en": "How much is delivery, and when will it arrive?" },
+            "answer": {
+              "ru": "Это зависит от города и способа доставки. Способы и их цену вы увидите при оформлении заказа, до оплаты, а общие условия — на странице о доставке.",
+              "en": "It depends on your city and the way you choose. You see the options and their prices at checkout, before you pay, and the general terms are on the delivery page."
+            }
+          },
+          {
+            "question": { "ru": "Можно ли вернуть товар?", "en": "Can I return it?" },
+            "answer": {
+              "ru": "Да. Как оформить возврат, рассказано на странице о возврате. Если остались вопросы, напишите нам — контакты внизу страницы.",
+              "en": "Yes. The returns page says how to send it back. If anything is unclear, write to us; our contacts are at the foot of the page."
+            }
+          },
+          {
+            "question": { "ru": "Что с гарантией?", "en": "What about the warranty?" },
+            "answer": {
+              "ru": "Срок и условия гарантии указаны в документах, которые лежат в коробке. Если что-то сломалось, напишите нам — подскажем, куда обратиться.",
+              "en": "The warranty's term and conditions are in the papers in the box. If something breaks, write to us and we will tell you where to take it."
+            }
+          }
+        ],
+        "layout": "single",
+        "openFirst": true
+      }
+    }
+  ]
+}

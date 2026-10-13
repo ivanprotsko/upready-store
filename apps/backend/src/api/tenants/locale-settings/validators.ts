@@ -1,8 +1,8 @@
 import { z } from "@medusajs/framework/zod";
 
 /**
- * `apps/storefront/src/i18n/config.ts` `locales`, hand-transcribed. Same reason
- * `THEME_PRESETS` is transcribed in `tenants/home/validators.ts`: `pnpm-workspace.yaml`
+ * `apps/storefront/src/i18n/config.ts` `locales`, hand-transcribed. Same reason the
+ * composition enums are transcribed in `store/storefront-settings/validation.ts`: `pnpm-workspace.yaml`
  * lists only `apps/**`, so there is no shared package the backend could import the
  * storefront's own list from.
  */

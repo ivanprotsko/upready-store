@@ -407,7 +407,7 @@ Model `tenant_home_config.config` (JSON). Schema `upready.tenant-home/v1`:
 ```
 {
   "schema": "upready.tenant-home/v1",
-  "theme": { "preset": ThemeId },                    // apps/storefront/src/lib/theme/presets.generated.ts THEME_IDS
+  "theme": { "preset": ThemeId },                    // a palette of the store template catalogue (catalog.generated.json), `default` as `medusa`
   "settings": StorefrontSettingsInput,               // VERBATIM apps/storefront/src/lib/theme/composition.ts:
                                                      // { defaultMode, header, hero, tiles, listing, footer }, FORBIDDEN pairs enforced
   "content": {
@@ -418,6 +418,24 @@ Model `tenant_home_config.config` (JSON). Schema `upready.tenant-home/v1`:
   "updatedAt": ISO 8601 (server-stamped)
 }
 ```
+
+Three optional fields join it when the shop applies a store template (t-2026-10-12-33, branch
+`templates/*`): `theme.layers` `{ radius, buttonStyle, photoStyle, density }`, `content.sections`
+`[{ block, props? }]` and `template` `{ id, schema, fontPair }`. They come together, are written by
+`POST /tenants/home/template { id, overrides? }` and carried over by `PUT`; with them the storefront lays
+the home page out from `content.sections` and does not read `content.order`. A section's props in
+`overrides.sections[]` change only where the catalogue block is `propsEditable`; elsewhere they must be
+the template's own, or the answer is 400 `props of <block> cannot be changed yet`. The rules are in
+`docs/templates/BLOCK-CONTRACT.md`, "A Shop Keeps Its Template".
+
+`GET /tenants/home/templates` (t-2026-10-12-33 P2, the `storefront` permission) answers what the panel's
+«Шаблоны» section draws:
+- `templates`: `[{ id, title, description, defaultMode, theme, sections: [{ block, category }] }]`;
+- `palettes`: `[{ id, label, lightOnly, colours: { light, dark? } }]`, each mode's `background`,
+  `foreground`, `primary`, `accent` and `muted` from the storefront's `themes.css`, through the export's
+  `swatches`, with `medusa` folded into `default`;
+- `layers`: the four vocabularies;
+- `current`: `{ id, palette, layers, fontPair }` of the shop's own saved template, or null.
 
 This is the ONE composition schema of the project: `settings` is the `feat/stands-composition`
 document (`upready.storefront-settings/v1`) unchanged, `content` is the tenant's text for those
@@ -456,9 +474,12 @@ them on the stand (backend :9034, 2026-09-11):
   `api/store/storefront-settings/validation.ts` inside the zod schema
   (`api/tenants/home/validators.ts`, a `superRefine`), so the six enums exist once on this
   side; the FORBIDDEN check stays in the route because its answer is a 422, not a 400.
-- `theme.preset` is validated against the seven ids of the storefront's generated
-  `presets.generated.ts`, hand-transcribed in the same validators file for the same reason the
-  composition enums are transcribed.
+- `theme.preset` is validated against the catalogue's palettes (t-2026-10-12-33): `THEME_PRESETS` in
+  `api/tenants/home/validators.ts` reads `palettes` of `api/tenants/home/template/catalog.generated.json`,
+  which `pnpm templates:export` in `apps/storefront` writes from `THEME_IDS` and `LIGHT_ONLY_THEME_IDS` of
+  `presets.generated.ts`, with `default` stored as `medusa`. `POST /tenants/home/template` and
+  `POST /tenants/seed` read the same list, so a palette added on the storefront and exported needs no
+  backend edit.
 - `content.order` may name each block at most once; a block missing from it is not rendered.
   The panel's screen can drop a block and add it back.
 - The write goes through a one-step workflow (`workflows/tenant/upsert-tenant-home`) whose
@@ -472,7 +493,8 @@ them on the stand (backend :9034, 2026-09-11):
   document and falls back to `getStorefrontSettings()`, so a stand with no tenant behind its
   key is unchanged.
 - `data-theme` takes the document's preset only when it is one of the generated `THEME_IDS`;
-  anything else falls back to the build profile's own theme. Measured on the stand: with a
+  anything else falls back to the build profile's own theme. A light-only preset is not among them:
+  it paints through a saved template, whose palette the layout takes as it is. Measured on the stand: with a
   document naming `geist`/`light` the page answered `data-theme="geist" data-mode="light"`
   while the build profile is `sneakers`/`dark`, which is the proof the document wins — with
   the preset `sneakers` the two are indistinguishable.

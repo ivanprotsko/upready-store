@@ -7,16 +7,51 @@ export const THEME_MODES = ["light", "dark"] as const
 export type ThemeId = (typeof THEME_IDS)[number]
 export type ThemeMode = (typeof THEME_MODES)[number]
 
+/**
+ * Presets with no dark mode, painted light under both data-mode values. A template may
+ * name one with a light default; no shop picker offers one, because a shop's visitor can
+ * switch to dark.
+ */
+export const LIGHT_ONLY_THEME_IDS = ["ferma", "interier", "katalog", "lending", "moda", "opt", "uhod"] as const
+
+export type LightOnlyThemeId = (typeof LIGHT_ONLY_THEME_IDS)[number]
+
 /** Plain-language names for the settings panel; ids never reach the screen. */
 export const THEME_LABELS: Record<string, string> = {
   default: "Medusa default",
   "electronics": "Ferrite",
+  "ferma": "Ferma",
   "geist": "Geist",
   "home-goods": "Long Morning",
+  "interier": "Interior",
+  "katalog": "Catalogue",
+  "lending": "Landing",
   "medusa": "Medusa default",
+  "moda": "Moda",
+  "opt": "Wholesale",
   "sneakers": "Kerbstone",
   "supplements": "Scruple",
+  "uhod": "Care",
   "womens-fashion": "Larchant",
+}
+
+/** The same names per language, as the preset files give them; the template catalogue exports these. */
+export const THEME_LABEL_TEXTS: Record<string, string | Record<string, string>> = {
+  default: { ru: "Стандартная", en: "Medusa default" },
+  "electronics": { ru: "Графит и синий", en: "Ferrite" },
+  "ferma": { ru: "Ферма", en: "Ferma" },
+  "geist": { ru: "Чёрно-белая", en: "Geist" },
+  "home-goods": { ru: "Терракота", en: "Long Morning" },
+  "interier": { ru: "Интерьер", en: "Interior" },
+  "katalog": { ru: "Каталог", en: "Catalogue" },
+  "lending": { ru: "Лендинг", en: "Landing" },
+  "medusa": { ru: "Стандартная", en: "Medusa default" },
+  "moda": { ru: "Мода", en: "Moda" },
+  "opt": { ru: "Опт", en: "Wholesale" },
+  "sneakers": { ru: "Чёрный и лайм", en: "Kerbstone" },
+  "supplements": { ru: "Белый и зелёный", en: "Scruple" },
+  "uhod": { ru: "Уход", en: "Care" },
+  "womens-fashion": { ru: "Крем и глина", en: "Larchant" },
 }
 
 /** Canon tokens written per preset per mode; the panel's source line quotes it. */

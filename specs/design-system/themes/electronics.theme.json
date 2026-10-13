@@ -1,7 +1,10 @@
 {
   "schema": "upready.theme-preset/v0",
   "id": "electronics",
-  "label": "Ferrite",
+  "label": {
+    "ru": "Графит и синий",
+    "en": "Ferrite"
+  },
   "description": "Ferrite, the audio-and-gadgets store profile: graphite housings plus one electric blue that only ever means 'this is live' — price, link, focus, selection, in-stock. --radius 0.5rem, the corner of a moulded ABS shell. Dark is the default mode and the mode the brand was drawn in; light is a full second palette, not a tint. Values are section 3 of the profile's design/style-board.md; the contrast table is section 3.3, computed by scripts/contrast-electronics.mjs.",
   "dictionary": "geist-kit/theme.css",
   "source": "apps/backend/src/migration-scripts/data/profiles/electronics/design/style-board.md section 3 (store-profiles wave 2, W1/W4)",

@@ -26,8 +26,11 @@ const SILENT_SIGN_IN_KEY = "__upready_tg_sign_in"
  * shop's own bot), then refreshes, because the page was server-rendered signed
  * out and with the webview's own cart. The cart is opened on every launch, the
  * sign-in runs once per webview session (`lib/telegram/mini-app-entry.ts`).
+ *
+ * `modeLocked`: the page paints a light-only palette (t-2026-10-12-33 T0c), and Telegram's
+ * colour scheme leaves `data-mode` as the server wrote it.
  */
-export default function MiniAppBridge() {
+export default function MiniAppBridge({ modeLocked = false }: { modeLocked?: boolean }) {
   const router = useRouter()
   const pathname = usePathname()
   const [tg, setTg] = useState<TelegramWebApp | undefined>(undefined)
@@ -43,7 +46,7 @@ export default function MiniAppBridge() {
         return
       }
       document.documentElement.dataset.tg = "1"
-      if (webApp.colorScheme) {
+      if (webApp.colorScheme && !modeLocked) {
         document.documentElement.dataset.mode = webApp.colorScheme
       }
       webApp.ready()
@@ -66,7 +69,7 @@ export default function MiniAppBridge() {
     return () => {
       cancelled = true
     }
-  }, [router])
+  }, [router, modeLocked])
 
   useEffect(() => {
     const webApp = tg ?? getWebApp()

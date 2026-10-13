@@ -35,6 +35,13 @@ Two ways to reach the backend, controlled by `.env` (copy `.env.template`):
   cross-origin. Medusa's CORS middleware only covers `/admin`, `/store` and `/auth` today, so this
   mode needs a CORS middleware added to `/tenants/*` on the backend before it will work.
 
+## Template Preview Link
+
+The «Шаблоны» section of `/home-settings` offers «Открыть превью» on a template only when you set
+`VITE_TEMPLATE_PREVIEW_ORIGIN` to a storefront started with `STOREFRONT_TEMPLATE_PREVIEW=1`. The
+link is `<origin>/<locale>?template=<id>`. Unset, the default, there is no link: production
+storefronts run with the preview off.
+
 ## Integration note
 
 `GET /tenants/store` (used for the sidebar's store-name header, `components/layout/main-layout`)

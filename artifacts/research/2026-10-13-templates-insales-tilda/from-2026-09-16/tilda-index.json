@@ -1,0 +1,3567 @@
+{
+ "fetchedAt": "2026-09-16T00:48:00.842Z",
+ "total": 355,
+ "counts": {
+  "ed": 17,
+  "in": 19,
+  "cp": 56,
+  "em": 11,
+  "bu": 119,
+  "fr": 42,
+  "st": 26,
+  "ev": 28,
+  "zb": 37
+ },
+ "rows": [
+  {
+   "source": "tilda",
+   "name": "Блог фотографа",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "blog",
+   "url": "https://tilda.cc/tpls/page/?q=blog",
+   "demo": "http://examples-ru.tilda.ws/blog",
+   "descr": "Страница с приветствием или описанием блога, сеткой постов и формой подписки."
+  },
+  {
+   "source": "tilda",
+   "name": "О компании",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "aboutru",
+   "url": "https://tilda.cc/tpls/page/?q=aboutru",
+   "demo": "http://examples-ru.tilda.ws/aboutru",
+   "descr": "Минималистичная чистая типографика шаблона поможет рассказать о вашей компании, ее истории и миссии."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Черный",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "classic",
+   "url": "https://tilda.cc/tpls/page/?q=classic",
+   "demo": "http://examples-ru.tilda.ws/classic",
+   "descr": "Минималистичная мультиссылка с фотографией профиля и черными прямоугольными кнопками."
+  },
+  {
+   "source": "tilda",
+   "name": "О компании",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "about2ru",
+   "url": "https://tilda.cc/tpls/page/?q=about2ru",
+   "demo": "http://examples-ru.tilda.ws/about2ru",
+   "descr": "Шаблон для представления компании. Шапка, узкая обложка, история и ключевые цифры. Команда и отзывы клиентов."
+  },
+  {
+   "source": "tilda",
+   "name": "О компании",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "about3ru",
+   "url": "https://tilda.cc/tpls/page/?q=about3ru",
+   "demo": "http://examples-ru.tilda.ws/about3ru",
+   "descr": "Шаблон рассказывает об услугах компании и ее преимуществах. Добавьте атмосферное фото и расскажите о команде."
+  },
+  {
+   "source": "tilda",
+   "name": "Услуги",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "serviceru",
+   "url": "https://tilda.cc/tpls/page/?q=serviceru",
+   "demo": "http://examples-ru.tilda.ws/serviceru",
+   "descr": "Универсальная страница услуг компании: шапка, узкая обложка, сетка колонок с фото и текстом для перечисления услуг и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Услуги",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "service2ru",
+   "url": "https://tilda.cc/tpls/page/?q=service2ru",
+   "demo": "http://examples-ru.tilda.ws/service2ru",
+   "descr": "Перечислите услуги компании: шапка, узкая обложка, услуги в колонках текста и контактная информация."
+  },
+  {
+   "source": "tilda",
+   "name": "Услуги",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "servie3ru",
+   "url": "https://tilda.cc/tpls/page/?q=servie3ru",
+   "demo": "http://examples-ru.tilda.ws/servie3ru",
+   "descr": "Перечислите услуги вашей компании и что в них входит. Шаблон страницы с шапкой, узкой обложкой, колонками текста и блоком коктактов."
+  },
+  {
+   "source": "tilda",
+   "name": "Цены",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "pricesru",
+   "url": "https://tilda.cc/tpls/page/?q=pricesru",
+   "demo": "http://examples-ru.tilda.ws/pricesru",
+   "descr": "Универсальный шаблон для перечисления цен на услуги компании."
+  },
+  {
+   "source": "tilda",
+   "name": "Команда",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "teamru",
+   "url": "https://tilda.cc/tpls/page/?q=teamru",
+   "demo": "http://examples-ru.tilda.ws/teamru",
+   "descr": "Представьте вашу команду."
+  },
+  {
+   "source": "tilda",
+   "name": "Персона",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "personaru",
+   "url": "https://tilda.cc/tpls/page/?q=personaru",
+   "demo": "http://examples-ru.tilda.ws/personaru",
+   "descr": "Расскажите об одном из специалистов или главе компании."
+  },
+  {
+   "source": "tilda",
+   "name": "Портфолио",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "portfolioru",
+   "url": "https://tilda.cc/tpls/page/?q=portfolioru",
+   "demo": "http://examples-ru.tilda.ws/portfolioru",
+   "descr": "Шаблон страницы с плиткой проектов в две колонки."
+  },
+  {
+   "source": "tilda",
+   "name": "Лента новостей",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "newsfeedsubscriptionru",
+   "url": "https://tilda.cc/tpls/page/?q=newsfeedsubscriptionru",
+   "demo": "http://examples-ru.tilda.ws/newsfeedsubscriptionru",
+   "descr": "Страница подписки на новости с возможностью настройки новостной ленты с помощью Потоков."
+  },
+  {
+   "source": "tilda",
+   "name": "Блог",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "news2ru",
+   "url": "https://tilda.cc/tpls/page/?q=news2ru",
+   "demo": "http://examples-ru.tilda.ws/news2ru",
+   "descr": "Шаблон страницы новостей компании со списком публикаций в карточках и формой подписки."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Оливковый",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "olive",
+   "url": "https://tilda.cc/tpls/page/?q=olive",
+   "demo": "http://examples-ru.tilda.ws/olive",
+   "descr": "Мультиссылка с фотографией профиля и оливково-зелеными кнопками с описанием."
+  },
+  {
+   "source": "tilda",
+   "name": "Новость",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "articleru",
+   "url": "https://tilda.cc/tpls/page/?q=articleru",
+   "demo": "http://examples-ru.tilda.ws/articleru",
+   "descr": "Шаблон с отличной типографикой, простой и эффектной версткой для оформления новости."
+  },
+  {
+   "source": "tilda",
+   "name": "Новости",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "newsru",
+   "url": "https://tilda.cc/tpls/page/?q=newsru",
+   "demo": "http://examples-ru.tilda.ws/newsru",
+   "descr": "Шаблон для публикации новостей компании."
+  },
+  {
+   "source": "tilda",
+   "name": "Вопросы",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "faqru",
+   "url": "https://tilda.cc/tpls/page/?q=faqru",
+   "demo": "http://examples-ru.tilda.ws/faqru",
+   "descr": "Ответьте на самые часто задаваемые вопросы клиентов."
+  },
+  {
+   "source": "tilda",
+   "name": "Контакты",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "contact2ru",
+   "url": "https://tilda.cc/tpls/page/?q=contact2ru",
+   "demo": "http://examples-ru.tilda.ws/contact2ru",
+   "descr": "Используйте хедер, узкую обложку раздела, коротко укажите контакты компании и укажите место на карте."
+  },
+  {
+   "source": "tilda",
+   "name": "Контакты",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "contactsru",
+   "url": "https://tilda.cc/tpls/page/?q=contactsru",
+   "demo": "http://examples-ru.tilda.ws/contactsru",
+   "descr": "Простая страница с контактами компании, адресом и картой."
+  },
+  {
+   "source": "tilda",
+   "name": "Контакты",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "contacts3ru",
+   "url": "https://tilda.cc/tpls/page/?q=contacts3ru",
+   "demo": "http://examples-ru.tilda.ws/contacts3ru",
+   "descr": "Собирайте обратную связь и данные клиентов. Форма приема данных и контакты компании."
+  },
+  {
+   "source": "tilda",
+   "name": "Контакты",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "contacts4ru",
+   "url": "https://tilda.cc/tpls/page/?q=contacts4ru",
+   "demo": "http://examples-ru.tilda.ws/contacts4ru",
+   "descr": "Расскажите как клиенту связаться с вами и где находится ваш офис."
+  },
+  {
+   "source": "tilda",
+   "name": "Контакты",
+   "type": "in",
+   "category": "Прочее",
+   "alias": "contacts5ru",
+   "url": "https://tilda.cc/tpls/page/?q=contacts5ru",
+   "demo": "http://examples-ru.tilda.ws/contacts5ru",
+   "descr": "Шаблон страницы контактов компании с картой на первом экране."
+  },
+  {
+   "source": "tilda",
+   "name": "Сообщение",
+   "type": "em",
+   "category": "Письма",
+   "alias": "message",
+   "url": "https://tilda.cc/tpls/page/?q=message",
+   "demo": "http://examples-ru.tilda.ws/message",
+   "descr": "Универсальное письмо с минималистичным дизайном, содержащее в себе заголовок, сообщение и изображение."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Пурпурный",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "purple",
+   "url": "https://tilda.cc/tpls/page/?q=purple",
+   "demo": "http://examples-ru.tilda.ws/purple",
+   "descr": "Мультиссылка с изображением профиля и пурпурными кнопками со стрелками."
+  },
+  {
+   "source": "tilda",
+   "name": "Универсальный шаблон",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "basic00ru",
+   "url": "https://tilda.cc/tpls/page/?q=basic00ru",
+   "demo": "http://examples-ru.tilda.ws/basic00ru",
+   "descr": "Универсальная страница для бизнеса. Понятная структура, подходит для больших текстов и списков."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Чёрный и салатовый",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "blackandgreen",
+   "url": "https://tilda.cc/tpls/page/?q=blackandgreen",
+   "demo": "http://examples-ru.tilda.ws/blackandgreen",
+   "descr": "Минималистичная мультиссылка с фотографией профиля, темным фоном и светло-зелеными кнопками."
+  },
+  {
+   "source": "tilda",
+   "name": "Приветствие",
+   "type": "em",
+   "category": "Письма",
+   "alias": "hello",
+   "url": "https://tilda.cc/tpls/page/?q=hello",
+   "demo": "http://examples-ru.tilda.ws/hello",
+   "descr": "Короткое письмо с крупным заголовком, атмосферной фотографией и кнопкой перехода по ссылке."
+  },
+  {
+   "source": "tilda",
+   "name": "Универсальная страница компании",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "basic01ru",
+   "url": "https://tilda.cc/tpls/page/?q=basic01ru",
+   "demo": "http://examples-ru.tilda.ws/basic01ru",
+   "descr": "Рассказ о компании или сервисе, услуги и преимущества с иконками, отзывы клиентов и форма контактов."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Базовый",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "basic",
+   "url": "https://tilda.cc/tpls/page/?q=basic",
+   "demo": "http://examples-ru.tilda.ws/basic",
+   "descr": "Шаблон мультиссылки с фотографией профиля и кнопками с контуром."
+  },
+  {
+   "source": "tilda",
+   "name": "Дайджест",
+   "type": "em",
+   "category": "Письма",
+   "alias": "digest",
+   "url": "https://tilda.cc/tpls/page/?q=digest",
+   "demo": "http://examples-ru.tilda.ws/digest",
+   "descr": "Эффектная подача материалов в крупных карточках и небольшие колонки с фото для избранных статей."
+  },
+  {
+   "source": "tilda",
+   "name": "Универсальная страница для бизнеса",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "basic02ru",
+   "url": "https://tilda.cc/tpls/page/?q=basic02ru",
+   "demo": "http://examples-ru.tilda.ws/basic02ru",
+   "descr": "Простой пример лендинга. Блок услуг с фотографиями, колонки со списком преимуществ, форма для связи."
+  },
+  {
+   "source": "tilda",
+   "name": "Распродажа",
+   "type": "em",
+   "category": "Письма",
+   "alias": "sale",
+   "url": "https://tilda.cc/tpls/page/?q=sale",
+   "demo": "http://examples-ru.tilda.ws/sale",
+   "descr": "Яркое сообщение о начале распродажи. Привлекающая обложка с крупным заголовком и товарами в две колонки."
+  },
+  {
+   "source": "tilda",
+   "name": "Универсальная страница",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "basic03ru",
+   "url": "https://tilda.cc/tpls/page/?q=basic03ru",
+   "demo": "http://examples-ru.tilda.ws/basic03ru",
+   "descr": "Крупный оффер с изображением, услуги и преимущества, блок целевого действия и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Красный",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "red",
+   "url": "https://tilda.cc/tpls/page/?q=red",
+   "demo": "http://examples-ru.tilda.ws/red",
+   "descr": "Шаблон мультиссылки с изображением профиля и красными кнопками с описанием."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Коралловый",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "amber",
+   "url": "https://tilda.cc/tpls/page/?q=amber",
+   "demo": "http://examples-ru.tilda.ws/amber",
+   "descr": "Минималистичная мультиссылка с фотографией профиля и коралловыми кнопками."
+  },
+  {
+   "source": "tilda",
+   "name": "Универсальный лендинг",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "basic04ru",
+   "url": "https://tilda.cc/tpls/page/?q=basic04ru",
+   "demo": "http://examples-ru.tilda.ws/basic04ru",
+   "descr": "Напишите оффер и перечислите ваши услуги. Расскажите о компании, добавьте преимущества, отзывы и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Статья",
+   "type": "em",
+   "category": "Письма",
+   "alias": "article",
+   "url": "https://tilda.cc/tpls/page/?q=article",
+   "demo": "http://examples-ru.tilda.ws/article",
+   "descr": "Шаблон для рекламы публикации или поста. Крупный заголовок и фото в начале помогут привлечь читателя."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Чёрно-белый",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "blackandwhite",
+   "url": "https://tilda.cc/tpls/page/?q=blackandwhite",
+   "demo": "http://examples-ru.tilda.ws/blackandwhite",
+   "descr": "Минималистичная мультиссылка с фотографией профиля, черным фоном и белыми прямоугольными кнопками со стрелками."
+  },
+  {
+   "source": "tilda",
+   "name": "Бизнес",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "businessru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-dlya-biznesa/",
+   "demo": "http://examples-ru.tilda.ws/businessru",
+   "descr": "Расскажите о вашем бизнесе с помощью четкой и ясной структуры блоков, цифр и кнопок целевого действия."
+  },
+  {
+   "source": "tilda",
+   "name": "Акция",
+   "type": "em",
+   "category": "Письма",
+   "alias": "discount",
+   "url": "https://tilda.cc/tpls/page/?q=discount",
+   "demo": "http://examples-ru.tilda.ws/discount",
+   "descr": "Яркий патерн на фоне всего письма для сообщения о начале распродажи, с большим заголовком и условиями акции."
+  },
+  {
+   "source": "tilda",
+   "name": "Страница компании",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "basic05ru",
+   "url": "https://tilda.cc/tpls/page/?q=basic05ru",
+   "demo": "http://examples-ru.tilda.ws/basic05ru",
+   "descr": "Базовый шаблон. Секция «О компании», секция преимуществ, этапы работы, целевое действие и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Подборка",
+   "type": "em",
+   "category": "Письма",
+   "alias": "selection",
+   "url": "https://tilda.cc/tpls/page/?q=selection",
+   "demo": "http://examples-ru.tilda.ws/selection",
+   "descr": "Избранные материалы компании. Ритмичные цветовые сочетания фотографий, заголовки с текстом и контрастные кнопки."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Голубой",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "lightblue",
+   "url": "https://tilda.cc/tpls/page/?q=lightblue",
+   "demo": "http://examples-ru.tilda.ws/lightblue",
+   "descr": "Светлый шаблон мультиссылки с изображением профиля и голубыми прямоугольными кнопками с иконками."
+  },
+  {
+   "source": "tilda",
+   "name": "Страница для бизнеса",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "stenserru",
+   "url": "https://tilda.cc/tpls/page/?q=stenserru",
+   "demo": "http://examples-ru.tilda.ws/stenserru",
+   "descr": "Отличный пример того, как можно рассказать про свои услуги и главные преимущества компании."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Коричневый",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "brown",
+   "url": "https://tilda.cc/tpls/page/?q=brown",
+   "demo": "http://examples-ru.tilda.ws/brown",
+   "descr": "Минималистичная мультиссылка с фотографией профиля и коричневыми прямоугольными кнопками с иконками."
+  },
+  {
+   "source": "tilda",
+   "name": "Вебинар",
+   "type": "em",
+   "category": "Письма",
+   "alias": "webinarcampaign",
+   "url": "https://tilda.cc/tpls/page/?q=webinarcampaign",
+   "demo": "http://examples-ru.tilda.ws/webinarcampaign",
+   "descr": "Шаблон для сообщения о вебинаре поможет максимально подробно рассказать о мероприятии."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Технологии",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "technology",
+   "url": "https://tilda.cc/tpls/page/?q=technology",
+   "demo": "http://examples-ru.tilda.ws/technology",
+   "descr": "Мультиссылка IT-компании с фоновым изображением, логотипом и кнопками с иконками."
+  },
+  {
+   "source": "tilda",
+   "name": "Страница компании",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "windhouseru",
+   "url": "https://tilda.cc/tpls/page/?q=windhouseru",
+   "demo": "http://examples-ru.tilda.ws/windhouseru",
+   "descr": "Создайте эффектную презентацию компании. Расскажите о ней, об услугах и покажите несколько полноэкранных изображений."
+  },
+  {
+   "source": "tilda",
+   "name": "Кейсы",
+   "type": "em",
+   "category": "Письма",
+   "alias": "cases",
+   "url": "https://tilda.cc/tpls/page/?q=cases",
+   "demo": "http://examples-ru.tilda.ws/cases",
+   "descr": "Подборка избранных кейсов дизайн студии. Крупные блоки друг за другом: привлекающее изображение, заголовок и описание с кнопкой."
+  },
+  {
+   "source": "tilda",
+   "name": "Услуги нотариуса",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "notaryru",
+   "url": "https://tilda.cc/tpls/page/?q=notaryru",
+   "demo": "http://examples-ru.tilda.ws/notaryru",
+   "descr": "Шаблон для страницы специалиста. Предложение и важные контакты на первом экране, услуги и форма для записи."
+  },
+  {
+   "source": "tilda",
+   "name": "Спецпредложение",
+   "type": "em",
+   "category": "Письма",
+   "alias": "special",
+   "url": "https://tilda.cc/tpls/page/?q=special",
+   "demo": "http://examples-ru.tilda.ws/special",
+   "descr": "Небольшое сообщение в монохромной цветной карточке в тон обложке и заголовок со спец предложением."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Транспорт",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "drive",
+   "url": "https://tilda.cc/tpls/page/?q=drive",
+   "demo": "http://examples-ru.tilda.ws/drive",
+   "descr": "Мультиссылка с логотипом, фоновым изображением и кнопками для логистического бизнеса."
+  },
+  {
+   "source": "tilda",
+   "name": "Предложение",
+   "type": "em",
+   "category": "Письма",
+   "alias": "proposal",
+   "url": "https://tilda.cc/tpls/page/?q=proposal",
+   "demo": "http://examples-ru.tilda.ws/proposal",
+   "descr": "Письмо с рекламой услуг и предложениями компании в виде колонок и плитки с текстом."
+  },
+  {
+   "source": "tilda",
+   "name": "Охранная сигнализация для квартиры",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "securitysystemru",
+   "url": "https://tilda.cc/tpls/page/?q=securitysystemru",
+   "demo": "http://examples-ru.tilda.ws/securitysystemru",
+   "descr": "Шаблон охранной системы с описанием, отзывами и формой для расчета стоимости."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Красота и здоровье",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "beauty",
+   "url": "https://tilda.cc/tpls/page/?q=beauty",
+   "demo": "http://examples-ru.tilda.ws/beauty",
+   "descr": "Мультиссылка с логотипом, однотонным фоном и зелеными кнопками."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Лето",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "fresh",
+   "url": "https://tilda.cc/tpls/page/?q=fresh",
+   "demo": "http://examples-ru.tilda.ws/fresh",
+   "descr": "Мультиссылка с фоновым изображением, фотографией профиля и оранжевыми кнопками с иконками."
+  },
+  {
+   "source": "tilda",
+   "name": "Бухгалтерские услуги",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "accountantru",
+   "url": "https://tilda.cc/tpls/page/?q=accountantru",
+   "demo": "http://examples-ru.tilda.ws/accountantru",
+   "descr": "Шаблон бухгалтерской компании: услуги и цены, преимущества, отзывы и форма обратного вызова и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Бизнес",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "entreprise",
+   "url": "https://tilda.cc/tpls/page/?q=entreprise",
+   "demo": "http://examples-ru.tilda.ws/entreprise",
+   "descr": "Бизнес шаблон с фоновым изображением, фотографией профиля и кнопками с описанием."
+  },
+  {
+   "source": "tilda",
+   "name": "Юридическая компания",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "legalservicesru",
+   "url": "https://tilda.cc/ru/tpls/sait-yurista/",
+   "demo": "http://examples-ru.tilda.ws/legalservicesru",
+   "descr": "Сайт компании, предоставляющей услуги в сфере юриспруденции и консалтинга."
+  },
+  {
+   "source": "tilda",
+   "name": "Франшиза кофейни",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "franchiseru",
+   "url": "https://tilda.cc/tpls/page/?q=franchiseru",
+   "demo": "http://examples-ru.tilda.ws/franchiseru",
+   "descr": "Шаблон франшизы с информацией о кофейне, преимуществами, тарифами, этапами и формой заявки."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Оранжевый",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "orange",
+   "url": "https://tilda.cc/tpls/page/?q=orange",
+   "demo": "http://examples-ru.tilda.ws/orange",
+   "descr": "Мультиссылка с фоновым изображением, фотографией профиля и оранжевыми кнопками со стрелками."
+  },
+  {
+   "source": "tilda",
+   "name": "Универсальная страница онлайн-сервиса",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "basicserviceru",
+   "url": "https://tilda.cc/tpls/page/?q=basicserviceru",
+   "demo": "http://examples-ru.tilda.ws/basicserviceru",
+   "descr": "Лендинг онлайн-сервиса с преимуществами, отзывами и призывом к действию."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Бежевый",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "beige",
+   "url": "https://tilda.cc/tpls/page/?q=beige",
+   "demo": "http://examples-ru.tilda.ws/beige",
+   "descr": "Мультиссылка с фоновым изображением, фотографией профиля и кнопками со стрелками."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Юрист",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "legal",
+   "url": "https://tilda.cc/tpls/page/?q=legal",
+   "demo": "http://examples-ru.tilda.ws/legal",
+   "descr": "Мультиссылка юриста с фотографией профиля, кнопками с иконками и вопросом-ответом для адвоката или юридической фирмы."
+  },
+  {
+   "source": "tilda",
+   "name": "Бюро переводов",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "translationagencyru",
+   "url": "https://tilda.cc/tpls/page/?q=translationagencyru",
+   "demo": "http://examples-ru.tilda.ws/translationagencyru",
+   "descr": "Минималистичный шаблон для бюро переводов. Услуги, цены, преимущества, как это работает и контакты с картой."
+  },
+  {
+   "source": "tilda",
+   "name": "Вскрытие замков и сейфов",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "safeopeningserviceru",
+   "url": "https://tilda.cc/tpls/page/?q=safeopeningserviceru",
+   "demo": "http://examples-ru.tilda.ws/safeopeningserviceru",
+   "descr": "Шаблон сервиса вскрытия замков и сейфов с услугами, дополнительной информацией, отзывами и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Ресторан",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "restaurant",
+   "url": "https://tilda.cc/tpls/page/?q=restaurant",
+   "demo": "http://examples-ru.tilda.ws/restaurant",
+   "descr": "Мультиссылка для ресторана или кафе с логотипом, узким фоновым изображением, описанием, картой и социальными сетями."
+  },
+  {
+   "source": "tilda",
+   "name": "Адвокат",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "attorneyru",
+   "url": "https://tilda.cc/tpls/page/?q=attorneyru",
+   "demo": "http://examples-ru.tilda.ws/attorneyru",
+   "descr": "Шаблон страницы частного адвоката с услугами, ценами на них и кратким резюме специалиста."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Педиатр",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "pediatrician",
+   "url": "https://tilda.cc/tpls/page/?q=pediatrician",
+   "demo": "http://examples-ru.tilda.ws/pediatrician",
+   "descr": "Мультиссылка для врача с изображением профиля и кнопками c описанием."
+  },
+  {
+   "source": "tilda",
+   "name": "Авто тюнинг",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "autotuningru",
+   "url": "https://tilda.cc/tpls/page/?q=autotuningru",
+   "demo": "http://examples-ru.tilda.ws/autotuningru",
+   "descr": "Небольшой шаблон салона тюнинга автомобилей с портфолио работ, услугами и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Автосалон",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "cardealership",
+   "url": "https://tilda.cc/tpls/page/?q=cardealership",
+   "demo": "http://examples-ru.tilda.ws/cardealership",
+   "descr": "Мультиссылка для автосалона с логотипом, изображением, карточками товаров, картой и социальными сетями."
+  },
+  {
+   "source": "tilda",
+   "name": "Ремонтная компания",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "turnkeyru",
+   "url": "https://tilda.cc/tpls/page/?q=turnkeyru",
+   "demo": "http://examples-ru.tilda.ws/turnkeyru",
+   "descr": "Шаблон для сервиса ремонтных услуг под ключ. Длинная и разнообразная структура поможет легко согласовать блоки с вашими идеями."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Репетитор",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "educator",
+   "url": "https://tilda.cc/tpls/page/?q=educator",
+   "demo": "http://examples-ru.tilda.ws/educator",
+   "descr": "Мультиссылка с фотографией профиля, описанием, кнопками и FAQ для репетитора или преподавателя."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Музыкальная группа",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "musicband",
+   "url": "https://tilda.cc/tpls/page/?q=musicband",
+   "demo": "http://examples-ru.tilda.ws/musicband",
+   "descr": "Мультиссылка с изображениями, кнопками с иконками, видео, галереей и социальными сетями."
+  },
+  {
+   "source": "tilda",
+   "name": "Жилой комплекс",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "residentialcomplexru",
+   "url": "https://tilda.cc/tpls/page/?q=residentialcomplexru",
+   "demo": "http://examples-ru.tilda.ws/residentialcomplexru",
+   "descr": "Лендинг жилого комплекса с информацией, фотографиями, планировками квартир, новостями и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Переезд под ключ",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "movingservicery",
+   "url": "https://tilda.cc/tpls/page/?q=movingservicery",
+   "demo": "http://examples-ru.tilda.ws/movingservicery",
+   "descr": "Шаблон лендинга для услуг квартирного и офисного переезда под ключ."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Персональный стилист",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "fashionstylist",
+   "url": "https://tilda.cc/tpls/page/?q=fashionstylist",
+   "demo": "http://examples-ru.tilda.ws/fashionstylist",
+   "descr": "Мультиссылка с фотографией профиля, кнопками, карточками товаров и отзывами."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Тату",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "tattoo",
+   "url": "https://tilda.cc/tpls/page/?q=tattoo",
+   "demo": "http://examples-ru.tilda.ws/tattoo",
+   "descr": "Мультиссылка для тату-салона с логотипом, кнопками, FAQ в виде выпадающего списка и картой."
+  },
+  {
+   "source": "tilda",
+   "name": "Остекление окон и балконов",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "windows",
+   "url": "https://tilda.cc/tpls/page/?q=windows",
+   "demo": "http://examples-ru.tilda.ws/windows",
+   "descr": "Шаблон для страницы услуг по остеклению с калькулятором расчета стоимости."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Нутрициолог",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "nutritionist",
+   "url": "https://tilda.cc/tpls/page/?q=nutritionist",
+   "demo": "http://examples-ru.tilda.ws/nutritionist",
+   "descr": "Мультиссылка для нутрициолога с большой фотографией профиля, кнопками и карточками продуктов."
+  },
+  {
+   "source": "tilda",
+   "name": "Авто сервис",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "carserviceru",
+   "url": "https://tilda.cc/tpls/page/?q=carserviceru",
+   "demo": "http://examples-ru.tilda.ws/carserviceru",
+   "descr": "Шаблон страницы авто сервиса. Внутри: локация, текст о сервисе, фотогралерея, список услуг, акции, отзывы, форма для записи."
+  },
+  {
+   "source": "tilda",
+   "name": "Автошкола",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "drivingschoolru",
+   "url": "https://tilda.cc/tpls/page/?q=drivingschoolru",
+   "demo": "http://examples-ru.tilda.ws/drivingschoolru",
+   "descr": "Шаблон для автошколы. Тарифы, преимущества и фото школы, карта с адресами филиалов, инструкторы, отзывы и вопросы."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Стоматологическая клиника",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "dentalclinic",
+   "url": "https://tilda.cc/tpls/page/?q=dentalclinic",
+   "demo": "http://examples-ru.tilda.ws/dentalclinic",
+   "descr": "Мультиссылка для стоматологии с фотографией профиля, кнопками, картой и галереей."
+  },
+  {
+   "source": "tilda",
+   "name": "Ремонтная мастерская",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "repairru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-masterskoi/",
+   "demo": "http://examples-ru.tilda.ws/repairru",
+   "descr": "Простое светлое решение страницы с векторными изображениями и необходимыми блоками для продвижения ремонтных услуг."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: частный детский сад",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "privatepreschool",
+   "url": "https://tilda.cc/tpls/page/?q=privatepreschool",
+   "demo": "http://examples-ru.tilda.ws/privatepreschool",
+   "descr": "Мультиссылка для детского сада с логотипом, разноцветными кнопками, картой и галереей."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка: Школа танцев",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "danceschool",
+   "url": "https://tilda.cc/tpls/page/?q=danceschool",
+   "demo": "http://examples-ru.tilda.ws/danceschool",
+   "descr": "Мультиссылка для школы танцев с логотипом, фоновым изображением, кнопками, картой и галереей."
+  },
+  {
+   "source": "tilda",
+   "name": "Ветеринарная клиника",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "veterinaryclinicru",
+   "url": "https://tilda.cc/tpls/page/?q=veterinaryclinicru",
+   "demo": "http://examples-ru.tilda.ws/veterinaryclinicru",
+   "descr": "Шаблон ветеринарной клиники. Услуги, вызов на дом, команда, информация о клинике, отзывы и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка для магазина",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "storeoninstagram",
+   "url": "https://tilda.cc/tpls/page/?q=storeoninstagram",
+   "demo": "http://examples-ru.tilda.ws/storeoninstagram",
+   "descr": "Одноэкранная страница магазина с описанием, категориями товаров, контактами и картой."
+  },
+  {
+   "source": "tilda",
+   "name": "Зубной кабинет",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "dentalru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-stomatologii/",
+   "demo": "http://examples-ru.tilda.ws/dentalru",
+   "descr": "Лендинг для стоматологии или других медицинских услуг. Светлая страница с блоками услуг и преимуществ и галереей."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Серый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizgray",
+   "url": "https://tilda.cc/tpls/page/?q=quizgray",
+   "demo": "http://examples-ru.tilda.ws/quizgray",
+   "descr": "Минималистичная квиз-форма в сером цвете с обложкой, формой контактов и панелью сверху."
+  },
+  {
+   "source": "tilda",
+   "name": "Частная клиника",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "medicalclinicru",
+   "url": "https://tilda.cc/tpls/page/?q=medicalclinicru",
+   "demo": "http://examples-ru.tilda.ws/medicalclinicru",
+   "descr": "Шаблон частной медицинской клиники. Услуги, запросы на прием и обратный звонок, информация о клинике и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка для дизайнера",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "designeroninstagram",
+   "url": "https://tilda.cc/tpls/page/?q=designeroninstagram",
+   "demo": "http://examples-ru.tilda.ws/designeroninstagram",
+   "descr": "Одноэкранная страница дизайнера с описанием, портфолио, ссылками и социальными сетями."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Коралловый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizcoral",
+   "url": "https://tilda.cc/tpls/page/?q=quizcoral",
+   "demo": "http://examples-ru.tilda.ws/quizcoral",
+   "descr": "Квиз-форма в коралловом цвете с обложкой, формой контактов, панелью сверху и расположением полей в две колонки."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Тёмно-синий",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizdarkblue",
+   "url": "https://tilda.cc/tpls/page/?q=quizdarkblue",
+   "demo": "http://examples-ru.tilda.ws/quizdarkblue",
+   "descr": "Квиз-форма в тёмно-синем цвете с обложкой, формой контактов и панелью сверху."
+  },
+  {
+   "source": "tilda",
+   "name": "Психотерапевт",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "psychotherapistru",
+   "url": "https://tilda.cc/tpls/page/?q=psychotherapistru",
+   "demo": "http://examples-ru.tilda.ws/psychotherapistru",
+   "descr": "Персональная страница психотерапевта: информация об образовании и опыте, услуги, отзывы, публикации и форма записи."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка для салона красоты",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "beautystudiooninstagram",
+   "url": "https://tilda.cc/tpls/page/?q=beautystudiooninstagram",
+   "demo": "http://examples-ru.tilda.ws/beautystudiooninstagram",
+   "descr": "Одноэкранная страница салона красоты с описанием, ссылками, контактами и картой."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка для иллюстратора",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "illustratoroninstagram",
+   "url": "https://tilda.cc/tpls/page/?q=illustratoroninstagram",
+   "demo": "http://examples-ru.tilda.ws/illustratoroninstagram",
+   "descr": "Одноэкранная страница иллюстратора с фото, контактами и кнопками соцсетей."
+  },
+  {
+   "source": "tilda",
+   "name": "Эксперт",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "expertru",
+   "url": "https://tilda.cc/tpls/page/?q=expertru",
+   "demo": "http://examples-ru.tilda.ws/expertru",
+   "descr": "Персональная страница эксперта с услугами, историями успеха клиентов и квиз-формой."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Мятный",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizmint",
+   "url": "https://tilda.cc/tpls/page/?q=quizmint",
+   "demo": "http://examples-ru.tilda.ws/quizmint",
+   "descr": "Квиз-форма в мятном цвете с обложкой, формой контактов, панелью сверху и расположением полей в две колонки."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка для маркетолога",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "marketeroninstagram",
+   "url": "https://tilda.cc/tpls/page/?q=marketeroninstagram",
+   "demo": "http://examples-ru.tilda.ws/marketeroninstagram",
+   "descr": "Cтраница-визитка маркетолога с фото, контактами, кнопками соцсетей и ссылкой на онлайн-курс."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Синий",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizblue",
+   "url": "https://tilda.cc/tpls/page/?q=quizblue",
+   "demo": "http://examples-ru.tilda.ws/quizblue",
+   "descr": "Квиз-форма в синем цвете с обложкой, формой контактов, панелью сверху."
+  },
+  {
+   "source": "tilda",
+   "name": "Персональный стилист",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "personalstylistru",
+   "url": "https://tilda.cc/tpls/page/?q=personalstylistru",
+   "demo": "http://examples-ru.tilda.ws/personalstylistru",
+   "descr": "Шаблон персонального стилиста с портфолио, процессом работы, услугами, формой обратной связи, блогом и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Клиника эстетической косметологии",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "cosmeticclinicru",
+   "url": "https://tilda.cc/tpls/page/?q=cosmeticclinicru",
+   "demo": "http://examples-ru.tilda.ws/cosmeticclinicru",
+   "descr": "Шаблон косметологической клиники. Услуги, информация о клинике, акции, врачи, отзывы и запись на прием."
+  },
+  {
+   "source": "tilda",
+   "name": "Мультиссылка для блогера",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "bloggeroninstagram",
+   "url": "https://tilda.cc/tpls/page/?q=bloggeroninstagram",
+   "demo": "http://examples-ru.tilda.ws/bloggeroninstagram",
+   "descr": "Одноэкранная страница блогера с фото, контактами и кнопками соцсетей."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Фиолетовый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizpurple",
+   "url": "https://tilda.cc/tpls/page/?q=quizpurple",
+   "demo": "http://examples-ru.tilda.ws/quizpurple",
+   "descr": "Квиз-форма в фиолетовом цвете с обложкой, формой контактов и боковой панелью слева."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Оливковый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizolive",
+   "url": "https://tilda.cc/tpls/page/?q=quizolive",
+   "demo": "http://examples-ru.tilda.ws/quizolive",
+   "descr": "Квиз-форма в оливковом цвете с обложкой, формой контактов, боковой панелью справа и консультантом."
+  },
+  {
+   "source": "tilda",
+   "name": "Студия маникюра",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "manicurestudioru",
+   "url": "https://tilda.cc/tpls/page/?q=manicurestudioru",
+   "demo": "http://examples-ru.tilda.ws/manicurestudioru",
+   "descr": "Шаблон студии маникюра. Услуги, галерея работ, информация о студии, преимущества, отзывы и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Контактная страница фрилансера",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "freelancer",
+   "url": "https://tilda.cc/tpls/page/?q=freelancer",
+   "demo": "http://examples-ru.tilda.ws/freelancer",
+   "descr": "Одноэкранная страница профессионала с текстом, контактами и ссылками на социальные сети."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Жёлтый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizyellow",
+   "url": "https://tilda.cc/tpls/page/?q=quizyellow",
+   "demo": "http://examples-ru.tilda.ws/quizyellow",
+   "descr": "Квиз-форма в жёлтом цвете с обложкой, формой контактов, панелью сверху и расположением полей по умолчанию."
+  },
+  {
+   "source": "tilda",
+   "name": "Мастер перманентного и классического макияжа",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "beautymasterru",
+   "url": "https://tilda.cc/tpls/page/?q=beautymasterru",
+   "demo": "http://examples-ru.tilda.ws/beautymasterru",
+   "descr": "Шаблон мастера макияжа с услугами, фотогалереей и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Иллюстратор",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "illustrator",
+   "url": "https://tilda.cc/tpls/page/?q=illustrator",
+   "demo": "http://examples-ru.tilda.ws/illustrator",
+   "descr": "Одноэкранная страница профессионала с текстом, ссылкой на портфолио или CV, контактами и ссылками на социальные сети."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Кремовый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizcream",
+   "url": "https://tilda.cc/tpls/page/?q=quizcream",
+   "demo": "http://examples-ru.tilda.ws/quizcream",
+   "descr": "Квиз-форма в светлых оттенках с обложкой, формой контактов, панелью сверху и расположением полей по умолчанию."
+  },
+  {
+   "source": "tilda",
+   "name": "Одноэкранная страница-визитка",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "model",
+   "url": "https://tilda.cc/tpls/page/?q=model",
+   "demo": "http://examples-ru.tilda.ws/model",
+   "descr": "Oдноэкранная страница профессионала с текстом, ссылкой на портфолио или CV, контактами и ссылками на социальные сети."
+  },
+  {
+   "source": "tilda",
+   "name": "Студия бровей и ресниц",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "browstudioru",
+   "url": "https://tilda.cc/tpls/page/?q=browstudioru",
+   "demo": "http://examples-ru.tilda.ws/browstudioru",
+   "descr": "Шаблон студии бровей и ресниц с услугами, фотогалереей, акциями, онлайн-записью и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Студия тайского массажа",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "orchidru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-massazhnogo-salona/",
+   "demo": "http://examples-ru.tilda.ws/orchidru",
+   "descr": "Универсальный шаблон для сферы услуг: студии массажа, SPA процедур или косметологии."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Оранжевый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizorange",
+   "url": "https://tilda.cc/tpls/page/?q=quizorange",
+   "demo": "http://examples-ru.tilda.ws/quizorange",
+   "descr": "Квиз-форма в оранжевом цвете с обложкой, формой контактов, боковой панелью слева и консультантом."
+  },
+  {
+   "source": "tilda",
+   "name": "Персональная страница",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "stylist",
+   "url": "https://tilda.cc/tpls/page/?q=stylist",
+   "demo": "http://examples-ru.tilda.ws/stylist",
+   "descr": "Одноэкранная страница профессионала с текстом, ссылкой на портфолио или CV, контактами и ссылками на социальные сети."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Зелёный",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizgreen",
+   "url": "https://tilda.cc/tpls/page/?q=quizgreen",
+   "demo": "http://examples-ru.tilda.ws/quizgreen",
+   "descr": "Квиз-форма в зелёном цвете с обложкой, формой контактов, панелью сверху и расположением полей по умолчанию."
+  },
+  {
+   "source": "tilda",
+   "name": "Барбер шоп",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "samandjuoru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-parikmakherskoi/",
+   "demo": "http://examples-ru.tilda.ws/samandjuoru",
+   "descr": "Шаблон с фотографиями салона и его мастеров, вдохновляющий рассказ о компании и акцент на блоке со списком услуг."
+  },
+  {
+   "source": "tilda",
+   "name": "Одноэкранная страница-визитка для бизнеса",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "cqmdeveloper",
+   "url": "https://tilda.cc/tpls/page/?q=cqmdeveloper",
+   "demo": "http://examples-ru.tilda.ws/cqmdeveloper",
+   "descr": "Страница профессионала с текстом, ссылкой на портфолио или CV и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Cтудия йоги",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "yogaclassru",
+   "url": "https://tilda.cc/tpls/page/?q=yogaclassru",
+   "demo": "http://examples-ru.tilda.ws/yogaclassru",
+   "descr": "Шаблон для студии йоги. Четкая структура поможет предложить посетителям лучшие условия и качество занятий."
+  },
+  {
+   "source": "tilda",
+   "name": "Контактная страница фотографа",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "bastian",
+   "url": "https://tilda.cc/tpls/page/?q=bastian",
+   "demo": "http://examples-ru.tilda.ws/bastian",
+   "descr": "Одноэкранная страница профессионала с текстом, ссылкой на портфолио или CV, контактами и ссылками на социальные сети."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Серый и жёлтый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizgrayandyellow",
+   "url": "https://tilda.cc/tpls/page/?q=quizgrayandyellow",
+   "demo": "http://examples-ru.tilda.ws/quizgrayandyellow",
+   "descr": "Квиз-форма в сером и жёлтом цветах с обложкой, формой контактов, консультантом и расположением полей в две колонки."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Персиковый",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizpeach",
+   "url": "https://tilda.cc/tpls/page/?q=quizpeach",
+   "demo": "http://examples-ru.tilda.ws/quizpeach",
+   "descr": "Квиз-форма в персиковом цвете с обложкой, формой контактов и консультантом."
+  },
+  {
+   "source": "tilda",
+   "name": "Одноэкранная страница-визитка для юриста",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "lawyer",
+   "url": "https://tilda.cc/tpls/page/?q=lawyer",
+   "demo": "http://examples-ru.tilda.ws/lawyer",
+   "descr": "Страница профессионала с текстом, ссылкой на портфолио или CV и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Онлайн-тренировки",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "onlinefitnessru",
+   "url": "https://tilda.cc/tpls/page/?q=onlinefitnessru",
+   "demo": "http://examples-ru.tilda.ws/onlinefitnessru",
+   "descr": "Шаблон онлайн-тренировок с описанием, расписанием занятий, тарифами и тренерами."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Подбор квартиры",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizapartmentselection",
+   "url": "https://tilda.cc/tpls/page/?q=quizapartmentselection",
+   "demo": "http://examples-ru.tilda.ws/quizapartmentselection",
+   "descr": "Квиз-форма с обложкой, ветвлением вопросов, формой контактов и консультантом. Собирает заявки на подбор квартиры."
+  },
+  {
+   "source": "tilda",
+   "name": "Персональная страница",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "beautican",
+   "url": "https://tilda.cc/tpls/page/?q=beautican",
+   "demo": "http://examples-ru.tilda.ws/beautican",
+   "descr": "Одноэкранная страница профессионала с текстом, ссылкой на портфолио или CV, контактами и ссылками на социальные сети."
+  },
+  {
+   "source": "tilda",
+   "name": "Продажа недвижимости",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "newsfeedrealestateru",
+   "url": "https://tilda.cc/tpls/page/?q=newsfeedrealestateru",
+   "demo": "http://examples-ru.tilda.ws/newsfeedrealestateru",
+   "descr": "Объявления о продаже недвижимости с карточками объектов, созданные с помощью Потоков."
+  },
+  {
+   "source": "tilda",
+   "name": "Благотворительный фонд",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "charitablefoundationru",
+   "url": "https://tilda.cc/tpls/page/?q=charitablefoundationru",
+   "demo": "http://examples-ru.tilda.ws/charitablefoundationru",
+   "descr": "Шаблон страницы благотворительного фонда. Форма пожертвования, информация о фонде, проекты и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Одноэкранная страница для бизнеса",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "businessconsultant",
+   "url": "https://tilda.cc/tpls/page/?q=businessconsultant",
+   "demo": "http://examples-ru.tilda.ws/businessconsultant",
+   "descr": "Одноэкранная страница профессионала с текстом, ссылкой на портфолио или CV и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Недвижимость",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizrealestate",
+   "url": "https://tilda.cc/tpls/page/?q=quizrealestate",
+   "demo": "http://examples-ru.tilda.ws/quizrealestate",
+   "descr": "Квиз-форма для агентства недвижимости с обложкой, формой контактов и консультантом. Уточняет предпочтения клиента."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Путешествия",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quiztravel",
+   "url": "https://tilda.cc/tpls/page/?q=quiztravel",
+   "demo": "http://examples-ru.tilda.ws/quiztravel",
+   "descr": "Квиз-форма для турагентства с ветвлением результатов. Позволяет подобрать тур с учетом предпочтений."
+  },
+  {
+   "source": "tilda",
+   "name": "Благотворительный фонд",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "basiccharitablefoundationru",
+   "url": "https://tilda.cc/tpls/page/?q=basiccharitablefoundationru",
+   "demo": "http://examples-ru.tilda.ws/basiccharitablefoundationru",
+   "descr": "Шаблон благотворительного фонда с программами, новостями, информацией о фонде и формой для приема взносов."
+  },
+  {
+   "source": "tilda",
+   "name": "Декоратор. Персональная страница.",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "decorator",
+   "url": "https://tilda.cc/tpls/page/?q=decorator",
+   "demo": "http://examples-ru.tilda.ws/decorator",
+   "descr": "Одноэкранная страница профессионала с текстом, ссылкой на портфолио или CV и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Аренда авто",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizcarrental",
+   "url": "https://tilda.cc/tpls/page/?q=quizcarrental",
+   "demo": "http://examples-ru.tilda.ws/quizcarrental",
+   "descr": "Квиз-форма для оформления заявки на аренду автомобиля с обложкой, формой контактов, результатом и консультантом."
+  },
+  {
+   "source": "tilda",
+   "name": "Приют для животных",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "animalshelter",
+   "url": "https://tilda.cc/tpls/page/?q=animalshelter",
+   "demo": "http://examples-ru.tilda.ws/animalshelter",
+   "descr": "Шаблон страницы для приюта животных с карточками питомцев и формой пожертвования."
+  },
+  {
+   "source": "tilda",
+   "name": "Контактная страница",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "eventorganiser",
+   "url": "https://tilda.cc/tpls/page/?q=eventorganiser",
+   "demo": "http://examples-ru.tilda.ws/eventorganiser",
+   "descr": "Oдноэкранная страница профессионала с текстом, ссылкой на портфолио или CV, контактами и ссылками на социальные сети."
+  },
+  {
+   "source": "tilda",
+   "name": "Библиотека",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "libraryru",
+   "url": "https://tilda.cc/tpls/page/?q=libraryru",
+   "demo": "http://examples-ru.tilda.ws/libraryru",
+   "descr": "Страница библиотеки. Расписание ближайших мероприятий, информация о библиотеке, галерея, частые вопросы и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Оптика",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizoptics",
+   "url": "https://tilda.cc/tpls/page/?q=quizoptics",
+   "demo": "http://examples-ru.tilda.ws/quizoptics",
+   "descr": "Квиз-форма для салона оптики с формой контактов, подбором товара и консультантом. Помогает персонализировать предложение"
+  },
+  {
+   "source": "tilda",
+   "name": "Фитнес тренер. Контактная страница",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "personaltrainer",
+   "url": "https://tilda.cc/tpls/page/?q=personaltrainer",
+   "demo": "http://examples-ru.tilda.ws/personaltrainer",
+   "descr": "Одноэкранная страница профессионала с текстом, ссылкой на портфолио или CV и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Сервис уборки",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "cleansyru",
+   "url": "https://tilda.cc/tpls/page/?q=cleansyru",
+   "demo": "http://examples-ru.tilda.ws/cleansyru",
+   "descr": "Шаблон лендинга для сервиса уборки. Расскажите о видах услуг уборки и помогите клиентам рассчитать стоимость услуги."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Образование",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizeducation",
+   "url": "https://tilda.cc/tpls/page/?q=quizeducation",
+   "demo": "http://examples-ru.tilda.ws/quizeducation",
+   "descr": "Квиз-форма для онлайн-школы с формой и ветвлением результатов. Предлагает оптимальную программу обучения."
+  },
+  {
+   "source": "tilda",
+   "name": "Персональная страница",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "designer",
+   "url": "https://tilda.cc/tpls/page/?q=designer",
+   "demo": "http://examples-ru.tilda.ws/designer",
+   "descr": "Одноэкранная страница профессионала с крупным изображением, текстом, ссылкой на портфолио или CV и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Галерея современного искусства",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "haikoru",
+   "url": "https://tilda.cc/tpls/page/?q=haikoru",
+   "demo": "http://examples-ru.tilda.ws/haikoru",
+   "descr": "Галерея современного искусства. Текущие и ближайшие выставки, резиденты галереи, подписка на новости и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Мероприятия",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizeventplanning",
+   "url": "https://tilda.cc/tpls/page/?q=quizeventplanning",
+   "demo": "http://examples-ru.tilda.ws/quizeventplanning",
+   "descr": "Квиз-форма для ивент-агентства с обложкой, формой контактов и консультантом. Для заявки на организацию мероприятия."
+  },
+  {
+   "source": "tilda",
+   "name": "Страница заведения. Скоро запуск",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "bar",
+   "url": "https://tilda.cc/tpls/page/?q=bar",
+   "demo": "http://examples-ru.tilda.ws/bar",
+   "descr": "Страница предзапуска веб сайта с адресом, контактами, заголовком и pop-up формой подписки."
+  },
+  {
+   "source": "tilda",
+   "name": "Музей",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "museumru",
+   "url": "https://tilda.cc/tpls/page/?q=museumru",
+   "demo": "http://examples-ru.tilda.ws/museumru",
+   "descr": "Шаблон музея. Информация для посетителей, выставки, коллекции, о музее, экскурсии и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Контактная страница",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "sisters",
+   "url": "https://tilda.cc/tpls/page/?q=sisters",
+   "demo": "http://examples-ru.tilda.ws/sisters",
+   "descr": "Страница-визитка для компании. Заголовок, адрес, контакты и кнопки социальных сетей."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Языковые курсы",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizlanguagecourses",
+   "url": "https://tilda.cc/tpls/page/?q=quizlanguagecourses",
+   "demo": "http://examples-ru.tilda.ws/quizlanguagecourses",
+   "descr": "Квиз-форма для языковой школы с обложкой и формой контактов. Формирует заявку на подбор курса."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Салон красоты",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizbeautysalon",
+   "url": "https://tilda.cc/tpls/page/?q=quizbeautysalon",
+   "demo": "http://examples-ru.tilda.ws/quizbeautysalon",
+   "descr": "Квиз-форма для записи в салон красоты с обложкой, формой контактов и результатом."
+  },
+  {
+   "source": "tilda",
+   "name": "Крафт бар",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "tulipbarru",
+   "url": "https://tilda.cc/tpls/page/?q=tulipbarru",
+   "demo": "http://examples-ru.tilda.ws/tulipbarru",
+   "descr": "Лендинг для бара или кафе. Немного слов о баре и расположении и больше атмосферных фотографий места."
+  },
+  {
+   "source": "tilda",
+   "name": "Сайт бюро. Скоро открытие",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "archbureau",
+   "url": "https://tilda.cc/tpls/page/?q=archbureau",
+   "demo": "http://examples-ru.tilda.ws/archbureau",
+   "descr": "Контактная страница с логотипом, заголовком, контактами, соц сетями и формой подписки в pop-up."
+  },
+  {
+   "source": "tilda",
+   "name": "Сайт типографии",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "printhouseru",
+   "url": "https://tilda.cc/tpls/page/?q=printhouseru",
+   "demo": "http://examples-ru.tilda.ws/printhouseru",
+   "descr": "Главная страница для сайта типографии. Расскажите о своих услугах и покажите лучшие выполненные работы."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Медицина",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizmedicine",
+   "url": "https://tilda.cc/tpls/page/?q=quizmedicine",
+   "demo": "http://examples-ru.tilda.ws/quizmedicine",
+   "descr": "Квиз-форма для записи в медицинский центр с обложкой, формой контактов, результатом и консультантом."
+  },
+  {
+   "source": "tilda",
+   "name": "Анонс события, афиша",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "concert",
+   "url": "https://tilda.cc/tpls/page/?q=concert",
+   "demo": "http://examples-ru.tilda.ws/concert",
+   "descr": "Проанонсируйте событие: отредактируйте и укажите время, место события и цену посещения, название и описание мероприятия."
+  },
+  {
+   "source": "tilda",
+   "name": "Анонс мероприятия",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "artcenterwebinar",
+   "url": "https://tilda.cc/tpls/page/?q=artcenterwebinar",
+   "demo": "http://examples-ru.tilda.ws/artcenterwebinar",
+   "descr": "Расскажите самое важное о приближающемся событии и соберите контакты посетителей или участников."
+  },
+  {
+   "source": "tilda",
+   "name": "Страница с вакансиями",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "hrvacanciesru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-s-vakansiyami/",
+   "demo": "http://examples-ru.tilda.ws/hrvacanciesru",
+   "descr": "Шаблон с самыми важными разделами для привлечения новых сотрудников. Легко адаптируйте шаблон под свой вид бизнеса."
+  },
+  {
+   "source": "tilda",
+   "name": "Квиз-форма: Фитнес",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "quizfitness",
+   "url": "https://tilda.cc/tpls/page/?q=quizfitness",
+   "demo": "http://examples-ru.tilda.ws/quizfitness",
+   "descr": "Квиз-форма для фитнес-клуба с формой и ветвлением вопросов. Помогает сформировать персональное предложение."
+  },
+  {
+   "source": "tilda",
+   "name": "Обзор",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "restimonial",
+   "url": "https://tilda.cc/tpls/page/?q=restimonial",
+   "demo": "http://examples-ru.tilda.ws/restimonial",
+   "descr": "Попросите ваших клиентов оставить отзыв о вас и отправить свои предложения."
+  },
+  {
+   "source": "tilda",
+   "name": "Контактная страница",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "yogatan",
+   "url": "https://tilda.cc/tpls/page/?q=yogatan",
+   "demo": "http://examples-ru.tilda.ws/yogatan",
+   "descr": "Одноэкранная страница-визитка для студии или другой организации с контактами, адресом, логотипом, заголовком и формой подписки."
+  },
+  {
+   "source": "tilda",
+   "name": "Салон красоты",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "beautysalonru",
+   "url": "https://tilda.cc/ru/tpls/sait-salona-krasoti/",
+   "demo": "http://examples-ru.tilda.ws/beautysalonru",
+   "descr": "Светлая страница для салона красоты. Описание салона, цены, дополнительная информация и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Скоро запуск",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "showroomopening",
+   "url": "https://tilda.cc/tpls/page/?q=showroomopening",
+   "demo": "http://examples-ru.tilda.ws/showroomopening",
+   "descr": "Одноэкранная страница для бизнеса с контактами, социальными сетями, и формой подписки."
+  },
+  {
+   "source": "tilda",
+   "name": "Регистрация на мероприятие",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "eventreg",
+   "url": "https://tilda.cc/tpls/page/?q=eventreg",
+   "demo": "http://examples-ru.tilda.ws/eventreg",
+   "descr": "Форма для запроса контактных данных и бронирования количества билетов на мероприятия."
+  },
+  {
+   "source": "tilda",
+   "name": "Галерея современного искусства",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "lazurru",
+   "url": "https://tilda.cc/tpls/page/?q=lazurru",
+   "demo": "http://examples-ru.tilda.ws/lazurru",
+   "descr": "Шаблон галереи с описанием проекта, списком выставок и событий, формой подписки и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Тур клуб",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "nationtoursru",
+   "url": "https://tilda.cc/tpls/page/?q=nationtoursru",
+   "demo": "http://examples-ru.tilda.ws/nationtoursru",
+   "descr": "Простой шаблон c предложениями компании. Просто адаптируйте шаблон под свой бизнес, загрузив атмосферные фотографии."
+  },
+  {
+   "source": "tilda",
+   "name": "Задайте вопрос",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "question",
+   "url": "https://tilda.cc/tpls/page/?q=question",
+   "demo": "http://examples-ru.tilda.ws/question",
+   "descr": "Форма с полем для заполнения имейла и полем для того, чтобы задать вопрос."
+  },
+  {
+   "source": "tilda",
+   "name": "Скоро запуск",
+   "type": "cp",
+   "category": "Мультиссылка",
+   "alias": "mindsaheadopensoon",
+   "url": "https://tilda.cc/tpls/page/?q=mindsaheadopensoon",
+   "demo": "http://examples-ru.tilda.ws/mindsaheadopensoon",
+   "descr": "Страница предзапуска сайта с таймером. Логотип компании, заголовок, описание и форма подписки."
+  },
+  {
+   "source": "tilda",
+   "name": "Форма заказа",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "orderform",
+   "url": "https://tilda.cc/tpls/page/?q=orderform",
+   "demo": "http://examples-ru.tilda.ws/orderform",
+   "descr": "Попросите клиентов заполнить контактную информацию и детали заказа."
+  },
+  {
+   "source": "tilda",
+   "name": "Страница похода",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "georgiatourru",
+   "url": "https://tilda.cc/tpls/page/?q=georgiatourru",
+   "demo": "http://examples-ru.tilda.ws/georgiatourru",
+   "descr": "Лендинг для турпохода. Характеристики похода, красивые фото, полезные советы, цена и форма регистрации."
+  },
+  {
+   "source": "tilda",
+   "name": "Вакансия",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "vacancyru",
+   "url": "https://tilda.cc/tpls/page/?q=vacancyru",
+   "demo": "http://examples-ru.tilda.ws/vacancyru",
+   "descr": "Страница с описанием вакансии, компании и условий работы."
+  },
+  {
+   "source": "tilda",
+   "name": "Форма участника",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "participation",
+   "url": "https://tilda.cc/tpls/page/?q=participation",
+   "demo": "http://examples-ru.tilda.ws/participation",
+   "descr": "Попросите людей заполнить контактные данные и ответить на пару вопросов."
+  },
+  {
+   "source": "tilda",
+   "name": "Тур",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "eurotourru",
+   "url": "https://tilda.cc/tpls/page/?q=eurotourru",
+   "demo": "http://examples-ru.tilda.ws/eurotourru",
+   "descr": "Страница групповой туристической поездки с описанием маршрута, деталей поездки, ценой и атмосферными фотографиями."
+  },
+  {
+   "source": "tilda",
+   "name": "Бронирование номера",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "reservation",
+   "url": "https://tilda.cc/tpls/page/?q=reservation",
+   "demo": "http://examples-ru.tilda.ws/reservation",
+   "descr": "Форма для сбора контактов, регистрации количества гостей и дат их прибытия."
+  },
+  {
+   "source": "tilda",
+   "name": "Туристическое агентство",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "tourismru",
+   "url": "https://tilda.cc/ru/tpls/sait-turagentstva/",
+   "demo": "http://examples-ru.tilda.ws/tourismru",
+   "descr": "Сайт для туристического агентства или организатора путешествий."
+  },
+  {
+   "source": "tilda",
+   "name": "Простая форма",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "simpleform",
+   "url": "https://tilda.cc/tpls/page/?q=simpleform",
+   "demo": "http://examples-ru.tilda.ws/simpleform",
+   "descr": "Базовая форма для сбора данных: имя, контактный номер и имейл."
+  },
+  {
+   "source": "tilda",
+   "name": "Жилой комплекс",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "livingapartmentsru",
+   "url": "https://tilda.cc/tpls/page/?q=livingapartmentsru",
+   "demo": "http://examples-ru.tilda.ws/livingapartmentsru",
+   "descr": "Лендинг для стильной архитектуры жилого пространства! Покажите преимущества городской жизни с помощью изображений."
+  },
+  {
+   "source": "tilda",
+   "name": "Форма",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "form",
+   "url": "https://tilda.cc/tpls/page/?q=form",
+   "demo": "http://examples-ru.tilda.ws/form",
+   "descr": "Попросите своего соискателя рассказать о себе, профессиональном опыте и прикрепить резюме."
+  },
+  {
+   "source": "tilda",
+   "name": "Опрос",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "survay",
+   "url": "https://tilda.cc/tpls/page/?q=survay",
+   "demo": "http://examples-ru.tilda.ws/survay",
+   "descr": "Соберите информацию: имя, имейл и ответы на вопросы."
+  },
+  {
+   "source": "tilda",
+   "name": "Продажа квартиры",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "flatforsaleru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-prodazhi-kvartiri/",
+   "demo": "http://examples-ru.tilda.ws/flatforsaleru",
+   "descr": "Красивый легко адаптируемый шаблон для презентации и продажи апартаментов cо стильными минималистичными изображениями."
+  },
+  {
+   "source": "tilda",
+   "name": "Шаблон сервиса доставки еды",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "fooddeliveryru",
+   "url": "https://tilda.cc/tpls/page/?q=fooddeliveryru",
+   "demo": "http://examples-ru.tilda.ws/fooddeliveryru",
+   "descr": "Универсальный шаблон сервиса доставки еды из ресторана с категориями товаров, акциями и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Заявка",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "tourrorm",
+   "url": "https://tilda.cc/tpls/page/?q=tourrorm",
+   "demo": "http://examples-ru.tilda.ws/tourrorm",
+   "descr": "Соберите информацию перед тем как выслать клиенту предложение."
+  },
+  {
+   "source": "tilda",
+   "name": "Форма вакансии",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "vacancyform",
+   "url": "https://tilda.cc/tpls/page/?q=vacancyform",
+   "demo": "http://examples-ru.tilda.ws/vacancyform",
+   "descr": "Соберите информацию о человеке, прежде чем пригласить его на интервью."
+  },
+  {
+   "source": "tilda",
+   "name": "Сетевая кофейня",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "chaincoffeeshopru",
+   "url": "https://tilda.cc/tpls/page/?q=chaincoffeeshopru",
+   "demo": "http://examples-ru.tilda.ws/chaincoffeeshopru",
+   "descr": "Шаблон страницы сетевой кофейни или кафе, с адресами кофеен, блоком с ценами на напитки и несколькими блоками доверия."
+  },
+  {
+   "source": "tilda",
+   "name": "Бургерная",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "bravaburgerru",
+   "url": "https://tilda.cc/tpls/page/?q=bravaburgerru",
+   "demo": "http://examples-ru.tilda.ws/bravaburgerru",
+   "descr": "Маленькая городская бургерная. Яркая страничка со списком блюд и ценами и галереей с фото."
+  },
+  {
+   "source": "tilda",
+   "name": "Бриф",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "brief",
+   "url": "https://tilda.cc/tpls/page/?q=brief",
+   "demo": "http://examples-ru.tilda.ws/brief",
+   "descr": "Получите запросы о потенциальных проектах."
+  },
+  {
+   "source": "tilda",
+   "name": "Пиццерия",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "pizzeriaru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-piccerii/",
+   "demo": "http://examples-ru.tilda.ws/pizzeriaru",
+   "descr": "Описание небольшого меню на главной, телефон для заказа доставки и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Заявка на обучение",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "course",
+   "url": "https://tilda.cc/tpls/page/?q=course",
+   "demo": "http://examples-ru.tilda.ws/course",
+   "descr": "Форма для сбора личной и профессиональной информации о будущих студентах."
+  },
+  {
+   "source": "tilda",
+   "name": "Ресторан",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "agaterestaurantru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-kafe-restorana/",
+   "demo": "http://examples-ru.tilda.ws/agaterestaurantru",
+   "descr": "Шаблон для ресторана с красивыми фотографиями места и популярных блюд, блок о шеф-поваре и контакты для брони."
+  },
+  {
+   "source": "tilda",
+   "name": "Зарегистрируйтесь на вебинар",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "webinar",
+   "url": "https://tilda.cc/tpls/page/?q=webinar",
+   "demo": "http://examples-ru.tilda.ws/webinar",
+   "descr": "Форма для регистрации имени и почтового адреса."
+  },
+  {
+   "source": "tilda",
+   "name": "Регистрация в летний лагерь",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "summercamp",
+   "url": "https://tilda.cc/tpls/page/?q=summercamp",
+   "demo": "http://examples-ru.tilda.ws/summercamp",
+   "descr": "Упростите процесс регистрации, узнав контакты клиента и даты пребывания у вас."
+  },
+  {
+   "source": "tilda",
+   "name": "Дизайн интерьера",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "spheredesignru",
+   "url": "https://tilda.cc/tpls/page/?q=spheredesignru",
+   "demo": "http://examples-ru.tilda.ws/spheredesignru",
+   "descr": "Страница для небольшой студии. Услуги, блок о команде с крупным фото, избранные проекты, условия и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Дизайн-агентство",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "bureauru",
+   "url": "https://tilda.cc/tpls/page/?q=bureauru",
+   "demo": "http://examples-ru.tilda.ws/bureauru",
+   "descr": "Страница для дизайн-студии или агентства креативной индустрии."
+  },
+  {
+   "source": "tilda",
+   "name": "Регистрация на занятие",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "lesson",
+   "url": "https://tilda.cc/tpls/page/?q=lesson",
+   "demo": "http://examples-ru.tilda.ws/lesson",
+   "descr": "Простая форма для заполнения: имя, телефон и почта для регистрации на занятие."
+  },
+  {
+   "source": "tilda",
+   "name": "Резюме",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "cvtemplateru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-rezume/",
+   "demo": "http://examples-ru.tilda.ws/cvtemplateru",
+   "descr": "Описание опыта профессионала, тайм-лайн развития навыков, детали и биография."
+  },
+  {
+   "source": "tilda",
+   "name": "Регистрация на тренировку",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "session",
+   "url": "https://tilda.cc/tpls/page/?q=session",
+   "demo": "http://examples-ru.tilda.ws/session",
+   "descr": "Получайте контактные данные клиентов для быстрой связи с ними."
+  },
+  {
+   "source": "tilda",
+   "name": "Форма подписки",
+   "type": "fr",
+   "category": "Формы и квизы",
+   "alias": "subscribtion",
+   "url": "https://tilda.cc/tpls/page/?q=subscribtion",
+   "demo": "http://examples-ru.tilda.ws/subscribtion",
+   "descr": "Укажите почту для получения рассылки."
+  },
+  {
+   "source": "tilda",
+   "name": "Учитель",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "teacherru",
+   "url": "https://tilda.cc/tpls/page/?q=teacherru",
+   "demo": "http://examples-ru.tilda.ws/teacherru",
+   "descr": "Персональная страница учителя."
+  },
+  {
+   "source": "tilda",
+   "name": "Репетитор",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "tutorru",
+   "url": "https://tilda.cc/tpls/page/?q=tutorru",
+   "demo": "http://examples-ru.tilda.ws/tutorru",
+   "descr": "Шаблон для продвижения услуг частного репетитора."
+  },
+  {
+   "source": "tilda",
+   "name": "Персональная страница фрилансера",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "freelancecopywriterru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-specialista/",
+   "demo": "http://examples-ru.tilda.ws/freelancecopywriterru",
+   "descr": "Расскажите о направлениях вашей работы, ключевых навыках, проектах и дайте контактную информацию."
+  },
+  {
+   "source": "tilda",
+   "name": "Портфолио иллюстратора",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "illustratorzassru",
+   "url": "https://tilda.cc/tpls/page/?q=illustratorzassru",
+   "demo": "http://examples-ru.tilda.ws/illustratorzassru",
+   "descr": "Шаблон со свободной версткой плиток с иллюстрациями и словами автора. Полностью собран c помощью Нулевого блока."
+  },
+  {
+   "source": "tilda",
+   "name": "Портфолио дизайнера",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "tildadesignerru",
+   "url": "https://tilda.cc/tpls/page/?q=tildadesignerru",
+   "demo": "http://examples-ru.tilda.ws/tildadesignerru",
+   "descr": "Шаблон портфолио для дизайнера. Страница полностью состоит из Zero block."
+  },
+  {
+   "source": "tilda",
+   "name": "Портфолио дизайнера",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "tomassmithru",
+   "url": "https://tilda.cc/tpls/page/?q=tomassmithru",
+   "demo": "http://examples-ru.tilda.ws/tomassmithru",
+   "descr": "Шаблон для портфолио. Портрет на первом экране, приветствие, примеры работ, отзывы клиентов и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Портфолио веб дизайнера",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "webdesignerru",
+   "url": "https://tilda.cc/tpls/page/?q=webdesignerru",
+   "demo": "http://examples-ru.tilda.ws/webdesignerru",
+   "descr": "Шаблон портфолио, полностью собранной в Zero Block. Минимализм, классная типографика и дизайнерское решение."
+  },
+  {
+   "source": "tilda",
+   "name": "Портфолио веб-дизайнера",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "webdesignerportfolioru",
+   "url": "https://tilda.cc/tpls/page/?q=webdesignerportfolioru",
+   "demo": "http://examples-ru.tilda.ws/webdesignerportfolioru",
+   "descr": "Шаблон сайта-портфолио с примерами работ на Потоках, прайс-листом и формой заявки"
+  },
+  {
+   "source": "tilda",
+   "name": "Свадебная фотография",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "melissaweisru",
+   "url": "https://tilda.cc/tpls/page/?q=melissaweisru",
+   "demo": "http://examples-ru.tilda.ws/melissaweisru",
+   "descr": "Странница-портфолио свадебного фотографа. Расскажите о своей работе, покажите лучшие работы, расскажите об услугах и ценах."
+  },
+  {
+   "source": "tilda",
+   "name": "Фото студия",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "ballancestudiosru",
+   "url": "https://tilda.cc/tpls/page/?q=ballancestudiosru",
+   "demo": "http://examples-ru.tilda.ws/ballancestudiosru",
+   "descr": "Информация о студии, спектр услуг, фотогалерея, список оборудования, условия пользования студией и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Фотограф",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "samphotographerru",
+   "url": "https://tilda.cc/ru/tpls/sait-fotografa/",
+   "demo": "http://examples-ru.tilda.ws/samphotographerru",
+   "descr": "Решение для профессионального фотографа. Работы из портфолио, услуги, цены, специальные материалы и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Коттеджный поселок",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "malvernru",
+   "url": "https://tilda.cc/ru/tpls/sait-kottedzhnogo-poselka/",
+   "demo": "http://examples-ru.tilda.ws/malvernru",
+   "descr": "Промо страница частного жилого пространства и продажа недвижимости."
+  },
+  {
+   "source": "tilda",
+   "name": "Фитнес центр",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "linefitru",
+   "url": "https://tilda.cc/tpls/page/?q=linefitru",
+   "demo": "http://examples-ru.tilda.ws/linefitru",
+   "descr": "Шаблон для фитнес центра или спорт зала. Динамичная по стилю страница с атмосферными фото и асимметричной галереей."
+  },
+  {
+   "source": "tilda",
+   "name": "Персональный фитнес тренер",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "fitnesscoachru",
+   "url": "https://tilda.cc/tpls/page/?q=fitnesscoachru",
+   "demo": "http://examples-ru.tilda.ws/fitnesscoachru",
+   "descr": "Страница для спортивного тренера. Описание индивидуальных занятий, направления, преимущества, расписание, контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "EMS тренировки",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "emsru",
+   "url": "https://tilda.cc/tpls/page/?q=emsru",
+   "demo": "http://examples-ru.tilda.ws/emsru",
+   "descr": "Шаблон для студии EMS тренировок."
+  },
+  {
+   "source": "tilda",
+   "name": "Коворкинг пространство",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "coworkingru",
+   "url": "https://tilda.cc/tpls/page/?q=coworkingru",
+   "demo": "http://examples-ru.tilda.ws/coworkingru",
+   "descr": "Главная страница сайта рабочего пространства с описанием условий, оборудования и ценовыми категориями."
+  },
+  {
+   "source": "tilda",
+   "name": "Компьютерный клуб",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "gamingclubru",
+   "url": "https://tilda.cc/tpls/page/?q=gamingclubru",
+   "demo": "http://examples-ru.tilda.ws/gamingclubru",
+   "descr": "Шаблон страницы для компьютерного клуба с описанием игровых зон, тарифами и формой для бронирования."
+  },
+  {
+   "source": "tilda",
+   "name": "Персональный гид",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "personalguideru",
+   "url": "https://tilda.cc/tpls/page/?q=personalguideru",
+   "demo": "http://examples-ru.tilda.ws/personalguideru",
+   "descr": "Страница с услугами гида, вдохновляющая путешествовать. Блоки с услугами, информацией о гиде и способами связи."
+  },
+  {
+   "source": "tilda",
+   "name": "Ведущий",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "nstimmru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-vedushego/",
+   "demo": "http://examples-ru.tilda.ws/nstimmru",
+   "descr": "Яркая страничка для ведущего. Адаптируйте ее под себя, показав много изображений, и расскажите о своих сильных сторонах."
+  },
+  {
+   "source": "tilda",
+   "name": "Студия йоги",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "yogaru",
+   "url": "https://tilda.cc/tpls/page/?q=yogaru",
+   "demo": "http://examples-ru.tilda.ws/yogaru",
+   "descr": "Страница для студии йоги. Блоки: о студии, направления йоги, преподаватели, цены, запись на занятия и отзывы."
+  },
+  {
+   "source": "tilda",
+   "name": "Анонс фильма",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "seamovieru",
+   "url": "https://tilda.cc/tpls/page/?q=seamovieru",
+   "demo": "http://examples-ru.tilda.ws/seamovieru",
+   "descr": "Шаблон для промо страницы нового фильма."
+  },
+  {
+   "source": "tilda",
+   "name": "Театр",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "theatreru",
+   "url": "https://tilda.cc/tpls/page/?q=theatreru",
+   "demo": "http://examples-ru.tilda.ws/theatreru",
+   "descr": "Шаблон главной страницы театра или теартальной студии."
+  },
+  {
+   "source": "tilda",
+   "name": "Школа танцев",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "danceru",
+   "url": "https://tilda.cc/tpls/page/?q=danceru",
+   "demo": "http://examples-ru.tilda.ws/danceru",
+   "descr": "Главная страница для школы танцев."
+  },
+  {
+   "source": "tilda",
+   "name": "Школа ораторского искусства",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "publictalkru",
+   "url": "https://tilda.cc/tpls/page/?q=publictalkru",
+   "demo": "http://examples-ru.tilda.ws/publictalkru",
+   "descr": "Шаблон для лендинга школы ораторского мастерства."
+  },
+  {
+   "source": "tilda",
+   "name": "Школа по футболу",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "socceracademyru",
+   "url": "https://tilda.cc/tpls/page/?q=socceracademyru",
+   "demo": "http://examples-ru.tilda.ws/socceracademyru",
+   "descr": "Шаблон детской школы по футболу: о школе, адреса стадионов с картой, расписание занятий, тарифы."
+  },
+  {
+   "source": "tilda",
+   "name": "Ивент-агентство",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "eventsru",
+   "url": "https://tilda.cc/tpls/page/?q=eventsru",
+   "demo": "http://examples-ru.tilda.ws/eventsru",
+   "descr": "Лэндинг для компании–организатора мероприятий, ведущей корпоративные и частные проекты."
+  },
+  {
+   "source": "tilda",
+   "name": "Свадебное агентство",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "weddingru",
+   "url": "https://tilda.cc/tpls/page/?q=weddingru",
+   "demo": "http://examples-ru.tilda.ws/weddingru",
+   "descr": "Посадочная страница для организаторов свадеб. Ключевые кейсы, список услуг, условия и цены."
+  },
+  {
+   "source": "tilda",
+   "name": "Отель",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "valleyhotelru",
+   "url": "https://tilda.cc/tpls/page/?q=valleyhotelru",
+   "demo": "http://examples-ru.tilda.ws/valleyhotelru",
+   "descr": "Лендинг для отеля, гостиницы или хостела. Внутри: галереи для презентации и бронирования комнат, услуги отеля и фото."
+  },
+  {
+   "source": "tilda",
+   "name": "Парк-отель",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "parkhotelru",
+   "url": "https://tilda.cc/tpls/page/?q=parkhotelru",
+   "demo": "http://examples-ru.tilda.ws/parkhotelru",
+   "descr": "Страница с большими галереями для передачи атмосферы парка. Список услуг дополнен красивыми векторными иллюстрациями."
+  },
+  {
+   "source": "tilda",
+   "name": "Корпоративный блог",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "corporateblog",
+   "url": "https://tilda.cc/tpls/page/?q=corporateblog",
+   "demo": "http://examples-ru.tilda.ws/corporateblog",
+   "descr": "Расскажите своим клиентам больше о вашей компании, продукте или сервисе."
+  },
+  {
+   "source": "tilda",
+   "name": "Гестхаус",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "burgashouseru",
+   "url": "https://tilda.cc/tpls/page/?q=burgashouseru",
+   "demo": "http://examples-ru.tilda.ws/burgashouseru",
+   "descr": "Универсальная страничка для гестхауса или сдачи жилья в аренду. Большие галереи для презентации атмосферы и инфраструктуры."
+  },
+  {
+   "source": "tilda",
+   "name": "Хостел",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "hostelru",
+   "url": "https://tilda.cc/ru/tpls/sait-otelya/",
+   "demo": "http://examples-ru.tilda.ws/hostelru",
+   "descr": "Главная страница для хостела или отеля."
+  },
+  {
+   "source": "tilda",
+   "name": "Летний лагерь",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "summersetru",
+   "url": "https://tilda.cc/tpls/page/?q=summersetru",
+   "demo": "http://examples-ru.tilda.ws/summersetru",
+   "descr": "Лендинг для организаторов сезонного кемпинга. Видео, преимущества, мероприятия, отзывы, расписание и регистрация."
+  },
+  {
+   "source": "tilda",
+   "name": "Рассказ",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "cave",
+   "url": "https://tilda.cc/tpls/page/?q=cave",
+   "demo": "http://examples-ru.tilda.ws/cave",
+   "descr": "Красивые крупные изображения и простая эффектная верстка."
+  },
+  {
+   "source": "tilda",
+   "name": "Тату студия",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "thinkofinkru",
+   "url": "https://tilda.cc/tpls/page/?q=thinkofinkru",
+   "demo": "http://examples-ru.tilda.ws/thinkofinkru",
+   "descr": "Крупная галерея лучших работ, яркая атмосфера места и мастера студии."
+  },
+  {
+   "source": "tilda",
+   "name": "Фото отчет",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "surf",
+   "url": "https://tilda.cc/tpls/page/?q=surf",
+   "demo": "http://examples-ru.tilda.ws/surf",
+   "descr": "Рассказ о поездке в фотографиях. Страница с коротким вступлением и фото галереей."
+  },
+  {
+   "source": "tilda",
+   "name": "Кавер группа",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "coverbandru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-muzikalnoi-gruppi/",
+   "demo": "http://examples-ru.tilda.ws/coverbandru",
+   "descr": "Страница кавер группы. Фото галереи и видео самых ярких выступлений и вдохновляющий рассказ о группе и команде."
+  },
+  {
+   "source": "tilda",
+   "name": "Заметки из путешествия",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "notes",
+   "url": "https://tilda.cc/tpls/page/?q=notes",
+   "demo": "http://examples-ru.tilda.ws/notes",
+   "descr": "Страница с большими полноэкранными изображениями, чередующаяся с текстом."
+  },
+  {
+   "source": "tilda",
+   "name": "Архитектурное бюро",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "terraceru",
+   "url": "https://tilda.cc/tpls/page/?q=terraceru",
+   "demo": "http://examples-ru.tilda.ws/terraceru",
+   "descr": "Расскажите о своей компании и покажите лучшие проекты бюро."
+  },
+  {
+   "source": "tilda",
+   "name": "Фото отчет",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "report",
+   "url": "https://tilda.cc/tpls/page/?q=report",
+   "demo": "http://examples-ru.tilda.ws/report",
+   "descr": "Расскажите о своей поездке с помощью классных фотографий. Страница с обложкой, вступлением и полноэкранными фотографиями."
+  },
+  {
+   "source": "tilda",
+   "name": "Антикафе",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "chicouteru",
+   "url": "https://tilda.cc/tpls/page/?q=chicouteru",
+   "demo": "http://examples-ru.tilda.ws/chicouteru",
+   "descr": "Пространство формата Антикафе. Описание места с фотографиями, услуги, цена за время, мероприятия, отзывы и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Из истории Баварии",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "history",
+   "url": "https://tilda.cc/tpls/page/?q=history",
+   "demo": "http://examples-ru.tilda.ws/history",
+   "descr": "Страница с полноэкранными изображениями и связанным с ними текстом."
+  },
+  {
+   "source": "tilda",
+   "name": "Онлайн-сервис",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "serviceru",
+   "url": "https://tilda.cc/tpls/page/?q=serviceru",
+   "demo": "http://examples-ru.tilda.ws/serviceru",
+   "descr": "Лэндинг для онлайн-сервиса со списком преимуществ, блоками описания, отзывами и тарифами."
+  },
+  {
+   "source": "tilda",
+   "name": "Red Box — кейс архитектора Jeremy Levine",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "redbox",
+   "url": "https://tilda.cc/tpls/page/?q=redbox",
+   "demo": "http://examples-ru.tilda.ws/redbox",
+   "descr": "Обложка, описание проекта, данные о проекте и исполнителях, фотографии проекта и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Школа акварельной иллюстрации",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "watercolorru",
+   "url": "https://tilda.cc/tpls/page/?q=watercolorru",
+   "demo": "http://examples-ru.tilda.ws/watercolorru",
+   "descr": "Промо страница курса по искусству, прикладной деятельности, области косметологии и других направлений."
+  },
+  {
+   "source": "tilda",
+   "name": "Лонгрид",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "britpop",
+   "url": "https://tilda.cc/tpls/page/?q=britpop",
+   "demo": "http://examples-ru.tilda.ws/britpop",
+   "descr": "Лонгрид с видео, изображениями и небольшими текстами."
+  },
+  {
+   "source": "tilda",
+   "name": "Детский садик",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "kinderzzru",
+   "url": "https://tilda.cc/tpls/page/?q=kinderzzru",
+   "demo": "http://examples-ru.tilda.ws/kinderzzru",
+   "descr": "Шаблон для главной страницы детского садика. Цены на разные формы пребывания, расписание активностей, фото галерея."
+  },
+  {
+   "source": "tilda",
+   "name": "Топ 10",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "top10list",
+   "url": "https://tilda.cc/tpls/page/?q=top10list",
+   "demo": "http://examples-ru.tilda.ws/top10list",
+   "descr": "Составляйте рейтинги и обзоры на избранные темы. Используйте цифры, полноэкранные изображения и небольшие подписи."
+  },
+  {
+   "source": "tilda",
+   "name": "Детское дополнительное образование",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "additionaleducationru",
+   "url": "https://tilda.cc/ru/tpls/sait-detskogo-sada/",
+   "demo": "http://examples-ru.tilda.ws/additionaleducationru",
+   "descr": "Лендинг образовательных программ с несколькими направлениями, учителями и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Нарратив",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "aquatic",
+   "url": "https://tilda.cc/tpls/page/?q=aquatic",
+   "demo": "http://examples-ru.tilda.ws/aquatic",
+   "descr": "Структура с несколькими частями, текстовыми блоками в паре с ключевыми фразами."
+  },
+  {
+   "source": "tilda",
+   "name": "Частная школа",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "schoolru",
+   "url": "https://tilda.cc/ru/tpls/sait-shkoli/",
+   "demo": "http://examples-ru.tilda.ws/schoolru",
+   "descr": "Расскажите о преимуществах частного и индивидуального образования."
+  },
+  {
+   "source": "tilda",
+   "name": "Лонгрид",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "lightanddark",
+   "url": "https://tilda.cc/tpls/page/?q=lightanddark",
+   "demo": "http://examples-ru.tilda.ws/lightanddark",
+   "descr": "Лонгрид с пронумерованными заголовками, цитатами, крупными изображениями и красивой полноэкранной обложкой истории."
+  },
+  {
+   "source": "tilda",
+   "name": "Презентация проекта",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "presentation",
+   "url": "https://tilda.cc/tpls/page/?q=presentation",
+   "demo": "http://examples-ru.tilda.ws/presentation",
+   "descr": "Расскажите о вашем проекте, покажите его лучшие стороны с помощью фото галерей, крупных изображений, описаний и подписей."
+  },
+  {
+   "source": "tilda",
+   "name": "Частные уроки",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "personallandingpageru",
+   "url": "https://tilda.cc/ru/tpls/sait-uchitelya/",
+   "demo": "http://examples-ru.tilda.ws/personallandingpageru",
+   "descr": "Страница для продвижения себя как профессионала, преподавателя или тренера."
+  },
+  {
+   "source": "tilda",
+   "name": "Кафе",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "comeincaferu",
+   "url": "https://tilda.cc/tpls/page/?q=comeincaferu",
+   "demo": "http://examples-ru.tilda.ws/comeincaferu",
+   "descr": "Сайт для небольшого бизнеса или организации."
+  },
+  {
+   "source": "tilda",
+   "name": "Фолио",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "cherbourg",
+   "url": "https://tilda.cc/tpls/page/?q=cherbourg",
+   "demo": "http://examples-ru.tilda.ws/cherbourg",
+   "descr": "Кейс с крупными изображениями в паре с легкими и минималистичными блоками."
+  },
+  {
+   "source": "tilda",
+   "name": "Bellevue",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "greek",
+   "url": "https://tilda.cc/tpls/page/?q=greek",
+   "demo": "http://examples-ru.tilda.ws/greek",
+   "descr": "Лонгрид с отличной типографикой и разнообразной подачей крупных изображений."
+  },
+  {
+   "source": "tilda",
+   "name": "Студия видео продакшн",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "gunterleibachru",
+   "url": "https://tilda.cc/tpls/page/?q=gunterleibachru",
+   "demo": "http://examples-ru.tilda.ws/gunterleibachru",
+   "descr": "Шоурил, лучшие кейсы студии, основные направления работы, блок с отзывами и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Портфолио",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "portfolioru",
+   "url": "https://tilda.cc/ru/tpls/sait-portfolio/",
+   "demo": "http://examples-ru.tilda.ws/portfolioru",
+   "descr": "Покажите портфолио с категориями. Большие полноэкранные изображения и комментарии к разделам."
+  },
+  {
+   "source": "tilda",
+   "name": "Шаблон итогов года",
+   "type": "ed",
+   "category": "Образование",
+   "alias": "yearinreviewru",
+   "url": "https://tilda.cc/tpls/page/?q=yearinreviewru",
+   "demo": "http://examples-ru.tilda.ws/yearinreviewru",
+   "descr": "Шаблон итогов года с главными цифрами, обращением основателя, достижениями и пожеланиями."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин комнатных растений",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "plantsshopru",
+   "url": "https://tilda.cc/tpls/page/?q=plantsshopru",
+   "demo": "http://examples-ru.tilda.ws/plantsshopru",
+   "descr": "Шаблон интернет-магазина комнатных растений для дома и офиса с каталогом товаров, фильтрами и поиском."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин товаров для дома",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "homegoodsru",
+   "url": "https://tilda.cc/tpls/page/?q=homegoodsru",
+   "demo": "http://examples-ru.tilda.ws/homegoodsru",
+   "descr": "Шаблон магазина товаров для дома с разделами, преимуществами бренда и галереей имиджевого контента"
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин украшений",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "jewelryru",
+   "url": "https://tilda.cc/tpls/page/?q=jewelryru",
+   "demo": "http://examples-ru.tilda.ws/jewelryru",
+   "descr": "Шаблон магазина украшений с имиджевыми фото, категориями товаров и акцентом на эстетику бренда."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин мебели",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "furnitureru",
+   "url": "https://tilda.cc/tpls/page/?q=furnitureru",
+   "demo": "http://examples-ru.tilda.ws/furnitureru",
+   "descr": "Шаблон магазина мебели с разделами, фильтрацией и акцентом на интерьерную эстетику."
+  },
+  {
+   "source": "tilda",
+   "name": "Онлайн-магазин",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "shetukaru",
+   "url": "https://tilda.cc/tpls/page/?q=shetukaru",
+   "demo": "http://examples-ru.tilda.ws/shetukaru",
+   "descr": "Базовый шаблон магазина с логотипом, описанием, плиткой товаров и контактными данными."
+  },
+  {
+   "source": "tilda",
+   "name": "Онлайн-магазин",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "instoreru",
+   "url": "https://tilda.cc/tpls/page/?q=instoreru",
+   "demo": "http://examples-ru.tilda.ws/instoreru",
+   "descr": "Шаблон магазина стильных аксессуаров для повседневной жизни."
+  },
+  {
+   "source": "tilda",
+   "name": "Онлайн-магазин",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "ascentru",
+   "url": "https://tilda.cc/tpls/page/?q=ascentru",
+   "demo": "http://examples-ru.tilda.ws/ascentru",
+   "descr": "Главная страница онлайн-магазина со списком категорий товаров."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин цветов",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "floristsru",
+   "url": "https://tilda.cc/tpls/page/?q=floristsru",
+   "demo": "http://examples-ru.tilda.ws/floristsru",
+   "descr": "Шаблон магазина авторских букетов с карточками товара, галереей и преимуществами студии."
+  },
+  {
+   "source": "tilda",
+   "name": "Аксессуары для дома",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "menidyonru",
+   "url": "https://tilda.cc/tpls/page/?q=menidyonru",
+   "demo": "http://examples-ru.tilda.ws/menidyonru",
+   "descr": "Шаблон магазина домашнего декора с панелью фильтров слева."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин ХВОЯ",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "hvoyastoreru",
+   "url": "https://tilda.cc/tpls/page/?q=hvoyastoreru",
+   "demo": "http://examples-ru.tilda.ws/hvoyastoreru",
+   "descr": "Стильный шаблон для маленького онлайн-магазина. Подходит для продажи даже 3-4 товаров."
+  },
+  {
+   "source": "tilda",
+   "name": "Одежда и аксессуары",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "mythsru",
+   "url": "https://tilda.cc/tpls/page/?q=mythsru",
+   "demo": "http://examples-ru.tilda.ws/mythsru",
+   "descr": "Шаблон магазина концептуального бренда с историей и традициями марки, особенностями продуктов и плиткой товаров."
+  },
+  {
+   "source": "tilda",
+   "name": "Растения для дома",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "tukaplantsru",
+   "url": "https://tilda.cc/tpls/page/?q=tukaplantsru",
+   "demo": "http://examples-ru.tilda.ws/tukaplantsru",
+   "descr": "Минималистичный шаблон магазина для продажи растений. Пример с тонкой типографикой и большой атмосферной галереей."
+  },
+  {
+   "source": "tilda",
+   "name": "Блокноты ручной работы",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "voodoobooksru",
+   "url": "https://tilda.cc/tpls/page/?q=voodoobooksru",
+   "demo": "http://examples-ru.tilda.ws/voodoobooksru",
+   "descr": "Шаблон для небольшого магазина с крупными колонками товаров."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин постеров",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "posteandcoru",
+   "url": "https://tilda.cc/tpls/page/?q=posteandcoru",
+   "demo": "http://examples-ru.tilda.ws/posteandcoru",
+   "descr": "Шаблон для онлайн магазина постеров. Простая структура, яркие акценты карточек товаров."
+  },
+  {
+   "source": "tilda",
+   "name": "Промо страница товара",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "velottonstrru",
+   "url": "https://tilda.cc/tpls/page/?q=velottonstrru",
+   "demo": "http://examples-ru.tilda.ws/velottonstrru",
+   "descr": "Стильный шаблон, пример того, как интересно рассказать о новом товаре в коллекции."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин головоломок",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "puzzlesru",
+   "url": "https://tilda.cc/tpls/page/?q=puzzlesru",
+   "demo": "http://examples-ru.tilda.ws/puzzlesru",
+   "descr": "Светлый шаблон магазина с деревянными товарами, тонкой графикой и яркими цветовыми акцентами."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин аксессуаров для дома",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "bluerinru",
+   "url": "https://tilda.cc/tpls/page/?q=bluerinru",
+   "demo": "http://examples-ru.tilda.ws/bluerinru",
+   "descr": "Стильный шаблон магазина аксессуаров c секциями категориями товаров."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин мебели",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "happychairru",
+   "url": "https://tilda.cc/tpls/page/?q=happychairru",
+   "demo": "http://examples-ru.tilda.ws/happychairru",
+   "descr": "Шаблон сайта небольшой мастерской. Крупные галереи для разных ракурсов товаров, корзина и рассказ о мастерской."
+  },
+  {
+   "source": "tilda",
+   "name": "Аксессуары из кожи",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "longriverru",
+   "url": "https://tilda.cc/tpls/page/?q=longriverru",
+   "demo": "http://examples-ru.tilda.ws/longriverru",
+   "descr": "Шаблон магазина аксессуаров из кожи с галереей, несколькими категориями товаров, историей бренда и условиях доставки."
+  },
+  {
+   "source": "tilda",
+   "name": "Онлайн-магазин",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "pichyshopru",
+   "url": "https://tilda.cc/tpls/page/?q=pichyshopru",
+   "demo": "http://examples-ru.tilda.ws/pichyshopru",
+   "descr": "Шаблон с минималистичной полноэкранной галереей на обложке, карточками товаров и блоками дополнительной информации."
+  },
+  {
+   "source": "tilda",
+   "name": "Онлайн-магазин",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "loadstoneru",
+   "url": "https://tilda.cc/tpls/page/?q=loadstoneru",
+   "demo": "http://examples-ru.tilda.ws/loadstoneru",
+   "descr": "Шаблон магазина с крупными обложками разделов."
+  },
+  {
+   "source": "tilda",
+   "name": "Интернет-магазин",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "cannyonlinestoreru",
+   "url": "https://tilda.cc/tpls/page/?q=cannyonlinestoreru",
+   "demo": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+   "descr": "Реализуйте ваши товары без труда с удобным и понятным шаблоном для интернет-продаж."
+  },
+  {
+   "source": "tilda",
+   "name": "Страница товара",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "oneproductpageru",
+   "url": "https://tilda.cc/tpls/page/?q=oneproductpageru",
+   "demo": "http://examples-ru.tilda.ws/oneproductpageru",
+   "descr": "Страница с карточкой одного товара в интернет-магазине."
+  },
+  {
+   "source": "tilda",
+   "name": "Страница товара",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "phantomru",
+   "url": "https://tilda.cc/tpls/page/?q=phantomru",
+   "demo": "http://examples-ru.tilda.ws/phantomru",
+   "descr": "Шаблон лендинга одного продукта. Галерея с ракурсами продукта и описание его технических характеристик."
+  },
+  {
+   "source": "tilda",
+   "name": "Магазин украшений",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "jewelrystoreru",
+   "url": "https://tilda.cc/tpls/page/?q=jewelrystoreru",
+   "demo": "http://examples-ru.tilda.ws/jewelrystoreru",
+   "descr": "Страница магазина для продажи изделий ручной работы или небольшого количества уникальных товаров."
+  },
+  {
+   "source": "tilda",
+   "name": "Онлайн-сервис доставки еды",
+   "type": "st",
+   "category": "Интернет-магазин",
+   "alias": "sushideliveryru",
+   "url": "https://tilda.cc/tpls/page/?q=sushideliveryru",
+   "demo": "http://examples-ru.tilda.ws/sushideliveryru",
+   "descr": "Аккуратный и яркий шаблон для сервиса доставки еды."
+  },
+  {
+   "source": "tilda",
+   "name": "Конференция",
+   "type": "ev",
+   "category": "События",
+   "alias": "conferenceru",
+   "url": "https://tilda.cc/tpls/page/?q=conferenceru",
+   "demo": "http://examples-ru.tilda.ws/conferenceru",
+   "descr": "Расскажите о приближающемся событии. Описание мероприятия, расписание, выступления спикеров, запись на мероприятие."
+  },
+  {
+   "source": "tilda",
+   "name": "Мероприятие",
+   "type": "ev",
+   "category": "События",
+   "alias": "workshopru",
+   "url": "https://tilda.cc/tpls/page/?q=workshopru",
+   "demo": "http://examples-ru.tilda.ws/workshopru",
+   "descr": "Подробная информация о мероприятии: описание, программа, презентация спикеров, отзывы, цена, регистрация и контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Курс по продвижению в социальных сетях",
+   "type": "ev",
+   "category": "События",
+   "alias": "promotionru",
+   "url": "https://tilda.cc/tpls/page/?q=promotionru",
+   "demo": "http://examples-ru.tilda.ws/promotionru",
+   "descr": "Шаблон для лендинга курса по основам продвижения в социальных сетях."
+  },
+  {
+   "source": "tilda",
+   "name": "Лендинг для дизайн-конференции",
+   "type": "ev",
+   "category": "События",
+   "alias": "modusru",
+   "url": "https://tilda.cc/tpls/page/?q=modusru",
+   "demo": "http://examples-ru.tilda.ws/modusru",
+   "descr": "Расскажите о мероприятии с помощью блоков описания, расписания, расскажите, где пройдет событие и как на него записаться."
+  },
+  {
+   "source": "tilda",
+   "name": "Бизнес тренинг самопрезентации",
+   "type": "ev",
+   "category": "События",
+   "alias": "trainingru",
+   "url": "https://tilda.cc/tpls/page/?q=trainingru",
+   "demo": "http://examples-ru.tilda.ws/trainingru",
+   "descr": "Промо страница бизнес тренинга. Блоки с программой,спикером, условиями участия с ценами."
+  },
+  {
+   "source": "tilda",
+   "name": "Лендинг для бизнес конференции",
+   "type": "ev",
+   "category": "События",
+   "alias": "allianceru",
+   "url": "https://tilda.cc/ru/tpls/sait-meropriyatiya/",
+   "demo": "http://examples-ru.tilda.ws/allianceru",
+   "descr": "Привлекайте гостей на конференцию, представив известных спикеров, преимущества события в цифрах, расписание и стоимость участия."
+  },
+  {
+   "source": "tilda",
+   "name": "Лендинг конференции по маркетингу",
+   "type": "ev",
+   "category": "События",
+   "alias": "marketingconferenceru",
+   "url": "https://tilda.cc/tpls/page/?q=marketingconferenceru",
+   "demo": "http://examples-ru.tilda.ws/marketingconferenceru",
+   "descr": "Светлый шаблон конференции со спикерами, расписанием, выступлениями и формой."
+  },
+  {
+   "source": "tilda",
+   "name": "Лекция известного человека",
+   "type": "ev",
+   "category": "События",
+   "alias": "lectureru",
+   "url": "https://tilda.cc/tpls/page/?q=lectureru",
+   "demo": "http://examples-ru.tilda.ws/lectureru",
+   "descr": "Яркая промо страницы лекции с рассказом об известном лекторе, программой, отзывами, формой заявки."
+  },
+  {
+   "source": "tilda",
+   "name": "Конференция",
+   "type": "ev",
+   "category": "События",
+   "alias": "allianceconfru",
+   "url": "https://tilda.cc/tpls/page/?q=allianceconfru",
+   "demo": "http://examples-ru.tilda.ws/allianceconfru",
+   "descr": "Стильный шаблон для продвижения креативных событий."
+  },
+  {
+   "source": "tilda",
+   "name": "Митап",
+   "type": "ev",
+   "category": "События",
+   "alias": "meetupru",
+   "url": "https://tilda.cc/tpls/page/?q=meetupru",
+   "demo": "http://examples-ru.tilda.ws/meetupru",
+   "descr": "Небольшой шаблон для митапа с программой, спонсором, картой и регистрацией на мероприятие."
+  },
+  {
+   "source": "tilda",
+   "name": "Хакатон",
+   "type": "ev",
+   "category": "События",
+   "alias": "ntjhackathonru",
+   "url": "https://tilda.cc/tpls/page/?q=ntjhackathonru",
+   "demo": "http://examples-ru.tilda.ws/ntjhackathonru",
+   "descr": "Промо страница для организации хакатона. Блоки: о мероприятии, треки, расписание, эксперты, контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Вебинар",
+   "type": "ev",
+   "category": "События",
+   "alias": "photowerbinarru",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-vebinara/",
+   "demo": "http://examples-ru.tilda.ws/photowerbinarru",
+   "descr": "Расскажите о предстоящем вебинаре. Раскройте тему, укажите день и место проведения, расскажите о лекторе и дайте форму подписки."
+  },
+  {
+   "source": "tilda",
+   "name": "Городское мероприятие",
+   "type": "ev",
+   "category": "События",
+   "alias": "cityeventru",
+   "url": "https://tilda.cc/tpls/page/?q=cityeventru",
+   "demo": "http://examples-ru.tilda.ws/cityeventru",
+   "descr": "Страница городского события с расписанием, билетами, картой и отзывами участников."
+  },
+  {
+   "source": "tilda",
+   "name": "Городской фестиваль",
+   "type": "ev",
+   "category": "События",
+   "alias": "festivalru",
+   "url": "https://tilda.cc/tpls/page/?q=festivalru",
+   "demo": "http://examples-ru.tilda.ws/festivalru",
+   "descr": "Для проведения фестиваля создайте яркую страницу, чтобы привлечь участников и рассказать о программе мероприятия."
+  },
+  {
+   "source": "tilda",
+   "name": "Концерт",
+   "type": "ev",
+   "category": "События",
+   "alias": "concertru",
+   "url": "https://tilda.cc/tpls/page/?q=concertru",
+   "demo": "http://examples-ru.tilda.ws/concertru",
+   "descr": "Шаблон для концерта. Информация о концерте, рассказ о группе, галерея фотографий, призыв к действию и карта."
+  },
+  {
+   "source": "tilda",
+   "name": "Кулинарный мастер-класс",
+   "type": "ev",
+   "category": "События",
+   "alias": "culinarymasterclassru",
+   "url": "https://tilda.cc/tpls/page/?q=culinarymasterclassru",
+   "demo": "http://examples-ru.tilda.ws/culinarymasterclassru",
+   "descr": "Шаблон кулинарного мастер-класса с расписанием, фотографиями, отзывами и онлайн-записью."
+  },
+  {
+   "source": "tilda",
+   "name": "Музыкальный фестиваль",
+   "type": "ev",
+   "category": "События",
+   "alias": "musicfestivalru",
+   "url": "https://tilda.cc/tpls/page/?q=musicfestivalru",
+   "demo": "http://examples-ru.tilda.ws/musicfestivalru",
+   "descr": "Шаблон для музыкального фестиваля. Лайнап, программа фестиваля, фотографии, место проведения и продажа билетов."
+  },
+  {
+   "source": "tilda",
+   "name": "Мастер-класс по живописи",
+   "type": "ev",
+   "category": "События",
+   "alias": "paintingmasterclassru",
+   "url": "https://tilda.cc/tpls/page/?q=paintingmasterclassru",
+   "demo": "http://examples-ru.tilda.ws/paintingmasterclassru",
+   "descr": "Шаблон мастер-класса по живописи с преподавателем, фотогалереей, отзывами и формой записи."
+  },
+  {
+   "source": "tilda",
+   "name": "Выставка",
+   "type": "ev",
+   "category": "События",
+   "alias": "exporu",
+   "url": "https://tilda.cc/tpls/page/?q=exporu",
+   "demo": "http://examples-ru.tilda.ws/exporu",
+   "descr": "Лэндинг для продвижения отраслевой выставки, биеннале и других крупных мероприятий."
+  },
+  {
+   "source": "tilda",
+   "name": "Курс по каллиграфии",
+   "type": "ev",
+   "category": "События",
+   "alias": "letteringcourseru",
+   "url": "https://tilda.cc/tpls/page/?q=letteringcourseru",
+   "demo": "http://examples-ru.tilda.ws/letteringcourseru",
+   "descr": "Шаблон курса по каллиграфии. Информация о курсе, преподаватель, программа курса, работы и отзывы участников, контакты."
+  },
+  {
+   "source": "tilda",
+   "name": "Квест",
+   "type": "ev",
+   "category": "События",
+   "alias": "questru",
+   "url": "https://tilda.cc/tpls/page/?q=questru",
+   "demo": "http://examples-ru.tilda.ws/questru",
+   "descr": "Шаблон квеста с информацией о мероприятии, описанием, галереей, расписанием и формой записи."
+  },
+  {
+   "source": "tilda",
+   "name": "Городская экскурсия",
+   "type": "ev",
+   "category": "События",
+   "alias": "excursionru",
+   "url": "https://tilda.cc/tpls/page/?q=excursionru",
+   "demo": "http://examples-ru.tilda.ws/excursionru",
+   "descr": "Шаблон пешеходной экскурсии с программой, маршрутом, записью, отзывами и контактами."
+  },
+  {
+   "source": "tilda",
+   "name": "Спортивный марафон",
+   "type": "ev",
+   "category": "События",
+   "alias": "runfestivalru",
+   "url": "https://tilda.cc/tpls/page/?q=runfestivalru",
+   "demo": "http://examples-ru.tilda.ws/runfestivalru",
+   "descr": "Страница спортивного мероприятия: дата и место проведения,расписание фестиваля c картой, спонсоры, условия участия, регистрация."
+  },
+  {
+   "source": "tilda",
+   "name": "Обучающий курс",
+   "type": "ev",
+   "category": "События",
+   "alias": "alliancecourceru",
+   "url": "https://tilda.cc/tpls/page/?q=alliancecourceru",
+   "demo": "http://examples-ru.tilda.ws/alliancecourceru",
+   "descr": "Если вы проводите интенсивы или курсы, вам помогут блоки описания, список преподавателей, подробная программа и выгоды курса."
+  },
+  {
+   "source": "tilda",
+   "name": "Приглашение на свадьбу или годовщину",
+   "type": "ev",
+   "category": "События",
+   "alias": "invitationru",
+   "url": "https://tilda.cc/tpls/page/?q=invitationru",
+   "demo": "http://examples-ru.tilda.ws/invitationru",
+   "descr": "Соберите всю информацию о мероприятии на одной странице и отправьте ссылку вашим гостям."
+  },
+  {
+   "source": "tilda",
+   "name": "Семинар",
+   "type": "ev",
+   "category": "События",
+   "alias": "negotiationru",
+   "url": "https://tilda.cc/tpls/page/?q=negotiationru",
+   "demo": "http://examples-ru.tilda.ws/negotiationru",
+   "descr": "Промо страница для семинара. Обложка с датой и временем мероприятия, описание семинара, спикер и программа с заявкой."
+  },
+  {
+   "source": "tilda",
+   "name": "Промо страница спектакля",
+   "type": "ev",
+   "category": "События",
+   "alias": "perfomancepromopageru",
+   "url": "https://tilda.cc/tpls/page/?q=perfomancepromopageru",
+   "demo": "http://examples-ru.tilda.ws/perfomancepromopageru",
+   "descr": "Создайте страницу для продвижения мероприятия: пьесы, шоу или спектакля."
+  },
+  {
+   "source": "tilda",
+   "name": "День города",
+   "type": "ev",
+   "category": "События",
+   "alias": "cityanniversaryru",
+   "url": "https://tilda.cc/tpls/page/?q=cityanniversaryru",
+   "demo": "http://examples-ru.tilda.ws/cityanniversaryru",
+   "descr": "Шаблон для организации и продвижения общественного праздника или городского фестиваля."
+  },
+  {
+   "source": "tilda",
+   "name": "Мобильное приложение",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "app",
+   "url": "https://tilda.cc/tpls/page/?q=app",
+   "demo": "http://examples-ru.tilda.ws/app",
+   "descr": "Небольшая страничка для мобильного приложения."
+  },
+  {
+   "source": "tilda",
+   "name": "Мобильное приложение",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "savetheearth",
+   "url": "https://tilda.cc/ru/tpls/sozdanie-saita-mobilnogo-prilozheniya/",
+   "demo": "http://examples-ru.tilda.ws/savetheearth",
+   "descr": "Отличное решение для яркого лендинга в стиле флэт."
+  },
+  {
+   "source": "tilda",
+   "name": "Мобильное приложение",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "rnifilms",
+   "url": "https://tilda.cc/tpls/page/?q=rnifilms",
+   "demo": "http://examples-ru.tilda.ws/rnifilms",
+   "descr": "Лендинг для мобильного приложения. Блоки с интерфейсом и описанием, особенности приложения и блок целевого действия."
+  },
+  {
+   "source": "tilda",
+   "name": "Мобильное приложение",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "app3",
+   "url": "https://tilda.cc/tpls/page/?q=app3",
+   "demo": "http://examples-ru.tilda.ws/app3",
+   "descr": "Лендинг мобильного приложения. Видео презентация, интерфейс приложения, основные функции."
+  },
+  {
+   "source": "tilda",
+   "name": "Видео портфолио",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "videoproduction",
+   "url": "https://tilda.cc/tpls/page/?q=videoproduction",
+   "demo": "http://examples-ru.tilda.ws/videoproduction",
+   "descr": "Страница для презентации ваших видео проектов с четкой структурой блоков и стильным оформлением разделов."
+  },
+  {
+   "source": "tilda",
+   "name": "Бизнес",
+   "type": "bu",
+   "category": "Бизнес и услуги",
+   "alias": "businesslanding",
+   "url": "https://tilda.cc/tpls/page/?q=businesslanding",
+   "demo": "http://examples-ru.tilda.ws/businesslanding",
+   "descr": "Страница, информирующая клиента о ваших услугах с простой и ясной структурой."
+  },
+  {
+   "source": "tilda",
+   "name": "The Ridge",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "theridge",
+   "url": "https://theridge-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/theridge",
+   "descr": "Страница турагенства с карточками туров и крупными фото, минималистичный стиль"
+  },
+  {
+   "source": "tilda",
+   "name": "Craft Studio",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "craftstudio",
+   "url": "https://craftstudio-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/craftstudio",
+   "descr": "Страница студии с брутальными шрифтами, темными цветами и необычной анимацией"
+  },
+  {
+   "source": "tilda",
+   "name": "Forma Studio",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "forma-studio",
+   "url": "https://forma-studio-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/forma-studio",
+   "descr": "Атмосферный визуал, теплая пастельная палитра и мягкая композиция. Подойдет для малого бизнеса или локального бренда."
+  },
+  {
+   "source": "tilda",
+   "name": "Svalbard",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "svalbard",
+   "url": "https://svalbard-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/svalbard",
+   "descr": "Страница тура, включающая маршрут поездки, раздел с командой и форму онлайн-бронирования."
+  },
+  {
+   "source": "tilda",
+   "name": "Frame",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "frame",
+   "url": "https://frame-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/frame",
+   "descr": "Минималистичная эстетика, крупные визуалы и акцент на проектах. Подойдет для студии или портфолио."
+  },
+  {
+   "source": "tilda",
+   "name": "Elaria",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "elaria",
+   "url": "https://elaria-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/elaria",
+   "descr": "Теплый визуальный стиль, крупная типографика и выразительная структура"
+  },
+  {
+   "source": "tilda",
+   "name": "Module",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "module",
+   "url": "https://module-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/module",
+   "descr": "Темная тема, спокойная сетка, крупный визуал и яркие акцентные блоки"
+  },
+  {
+   "source": "tilda",
+   "name": "S Studio",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "sstudio",
+   "url": "https://sstudio-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/sstudio",
+   "descr": "Шаблон студии в теплых цветах с услугами, портфолио и блогом."
+  },
+  {
+   "source": "tilda",
+   "name": "Urban",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "urban",
+   "url": "https://urban-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/urban",
+   "descr": "Яркая палитра, динамическая композиция, разнообразие геометрических фигур"
+  },
+  {
+   "source": "tilda",
+   "name": "Designer Portfolio",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "designer-portfolio",
+   "url": "https://designer-portfolio-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/designer-portfolio",
+   "descr": "Минималистичный дизайн со сменой цвета фона и асимметричной композицией"
+  },
+  {
+   "source": "tilda",
+   "name": "Hotel",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "hotel",
+   "url": "https://template-hotel.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/hotel",
+   "descr": "Акцидентная типографика, темная цветовая палитра и акцент на крупных фотографиях"
+  },
+  {
+   "source": "tilda",
+   "name": "Aether",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "aether",
+   "url": "https://aether-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/aether",
+   "descr": "Крупная типографика, необычная композиция и акцент на фотографиях."
+  },
+  {
+   "source": "tilda",
+   "name": "Revive",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "revive",
+   "url": "https://revive-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/revive",
+   "descr": "Утонченный дизайн, крупные карточки продуктов и аккуратная сетка."
+  },
+  {
+   "source": "tilda",
+   "name": "Bloom Lights",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "bloomlights",
+   "url": "https://bloomlights-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/bloomlights",
+   "descr": "Яркий дизайн с акцентом на фото продукта и динамичной анимацией. Подойдет для небольшого интернет-магазина."
+  },
+  {
+   "source": "tilda",
+   "name": "Bloomly",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "bloomly",
+   "url": "https://bloomly-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/bloomly",
+   "descr": "Яркая палитра, модульная верстка с крупными заголовками, акцентные элементы и эффектная анимация."
+  },
+  {
+   "source": "tilda",
+   "name": "Simple Things",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "simplethings",
+   "url": "https://simplethings-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/simplethings",
+   "descr": "Минималистичный дизайн, лаконичная типографика, черно-белая палитра и акцент на фотографиях продукта."
+  },
+  {
+   "source": "tilda",
+   "name": "Dwira",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "dwira",
+   "url": "https://dwira-template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/dwira",
+   "descr": "Строгий стиль, оттенки серого, сложная композиция в каждом блоке и премиальная эстетика."
+  },
+  {
+   "source": "tilda",
+   "name": "Photolab",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "photolab",
+   "url": "https://photolab-template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/photolab",
+   "descr": "Нестандартная верстка в 3-колоночной сетке, темный фон и параллакс в разных вариациях."
+  },
+  {
+   "source": "tilda",
+   "name": "Squircle",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "squircle",
+   "url": "https://squircle-template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/squircle",
+   "descr": "Строгая типографика, сетка в 4 колонки, легкий паттерн на фоне и акцент на фотографиях."
+  },
+  {
+   "source": "tilda",
+   "name": "Fox",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "fox",
+   "url": "https://fox-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/fox",
+   "descr": "Минималистичный шаблон в оранжево-серой цветовой гамме. В швейцарском стиле с автомасштабированием."
+  },
+  {
+   "source": "tilda",
+   "name": "Fashion",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "fashion",
+   "url": "https://fashion-template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/fashion",
+   "descr": "Темный фон, белая типографика, акцентные заголовки и много фотографий. Подойдет для салона красоты или бренда одежды."
+  },
+  {
+   "source": "tilda",
+   "name": "Yellow",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "yellow",
+   "url": "https://yellow-template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/yellow",
+   "descr": "Яркий шаблон в желто-черной цветовой гамме. Необычный шрифт для заголовков, цветные пятна и фотографии."
+  },
+  {
+   "source": "tilda",
+   "name": "Pottery",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "peterpottery",
+   "url": "https://peterpottery-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/peterpottery",
+   "descr": "Крупная типографика, монохромная цветовая гамма, акцент на фотографиях и плавная анимация появления."
+  },
+  {
+   "source": "tilda",
+   "name": "Coffee",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "coffee",
+   "url": "https://coffee-template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/coffee",
+   "descr": "Кофейная цветовая схема, волны, крупные заголовки с добавлением фигурного шрифта."
+  },
+  {
+   "source": "tilda",
+   "name": "Modern Museum",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "modernmuseum",
+   "url": "http://modernmuseum-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/modernmuseum",
+   "descr": "Темный фон, акцентный золотой, крупная типографика и строгая верстка. Подойдет для сайта галереи."
+  },
+  {
+   "source": "tilda",
+   "name": "John Doe",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "johndoe",
+   "url": "http://johndoe.template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/johndoe",
+   "descr": "Сочетание нескольких ярких цветов, много фотографий, креативная верстка."
+  },
+  {
+   "source": "tilda",
+   "name": "Agency",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "agency",
+   "url": "http://agency.template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/agency",
+   "descr": "Черный фон, белая крупная типографика, яркие зеленые акценты и минималистичная линейная иллюстрация."
+  },
+  {
+   "source": "tilda",
+   "name": "Studio",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "studio",
+   "url": "http://studio.template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/studio",
+   "descr": "Монохромная цветовая схема, строгая сетка, крупные заголовки со смещением строк."
+  },
+  {
+   "source": "tilda",
+   "name": "Grid",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "grid",
+   "url": "http://grid.template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/grid",
+   "descr": "Светло-голубой фон, аккуратная типографика, нестандартная сетка, акцент на фотографиях."
+  },
+  {
+   "source": "tilda",
+   "name": "Dark-Corporate",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "darkcorporate",
+   "url": "http://darkcorporate.template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/darkcorporate",
+   "descr": "Темный фон, тонкие линии, крупная типографика, строгая верстка. Подойдет для главной страницы сайта."
+  },
+  {
+   "source": "tilda",
+   "name": "Summerset",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "summer",
+   "url": "http://summerset.template.tilda.ws",
+   "demo": "http://examples-ru.tilda.ws/summer",
+   "descr": "Пастельные тона, акцент на заголовках, нестандартная композиция блоков с изображениями."
+  },
+  {
+   "source": "tilda",
+   "name": "Architecture",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "architecture",
+   "url": "http://architecture.template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/architecture",
+   "descr": "Строгий стиль, акцент на фотографиях. Подойдет для архитектурной фирмы или студии дизайна интерьера."
+  },
+  {
+   "source": "tilda",
+   "name": "Color Cards",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "colorcards",
+   "url": "http://colorcards.template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/colorcards",
+   "descr": "Яркие карточки, закругленные края, акцентные цвета. Подойдет для лендинга онлайн-сервиса или мероприятия."
+  },
+  {
+   "source": "tilda",
+   "name": "Flowers",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "flowers",
+   "url": "http://flowers.template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/flowers",
+   "descr": "Крупная типографика, однородный светлый фон, триггерная анимация. Подойдет для лонгрида, страницы мероприятия."
+  },
+  {
+   "source": "tilda",
+   "name": "Modernism",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "modernism",
+   "url": "https://modernism-template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/modernism",
+   "descr": "Журнальная верстка, рубленые формы, резкие переходы между блоками. Для сайта дизайн-студии, мероприятия."
+  },
+  {
+   "source": "tilda",
+   "name": "Grayblue",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "grayblue",
+   "url": "http://grayblue.template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/grayblue",
+   "descr": "Акцентные заголовки, много воздуха. Подойдет для дизайн-студии, маркетингового агентства."
+  },
+  {
+   "source": "tilda",
+   "name": "Industrial",
+   "type": "zb",
+   "category": "Zero Block",
+   "alias": "industrial",
+   "url": "http://industrial.template.tilda.ws/",
+   "demo": "http://examples-ru.tilda.ws/industrial",
+   "descr": "Темный фон, яркие фото, акцентная анимация, полноэкранные слайдеры. Для главной страницы компании, презентации."
+  }
+ ]
+}

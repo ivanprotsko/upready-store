@@ -1,7 +1,10 @@
 {
   "schema": "upready.theme-preset/v0",
   "id": "sneakers",
-  "label": "Kerbstone",
+  "label": {
+    "ru": "Чёрный и лайм",
+    "en": "Kerbstone"
+  },
   "description": "Kerbstone, the streetwear-sneakers store profile: ink black plus exactly one acid accent (Sulphur #d6ff3b), --radius 0.25rem for hard edges. Values are section 3.1 of the profile's design/style-board.md, contrast table section 3.2. --accent is the hover surface, not the brand accent; the acid lives in --primary, --ring, --link and --success, and --primary flips polarity in light mode because Sulphur on white scores 1.15:1.",
   "dictionary": "geist-kit/theme.css",
   "source": "apps/backend/src/migration-scripts/data/profiles/sneakers/design/style-board.md section 3.1 (store-profiles pilot S2)",

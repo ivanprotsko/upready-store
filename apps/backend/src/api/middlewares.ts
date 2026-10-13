@@ -228,6 +228,7 @@ import {
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
+import { PostTenantHomeTemplateBody } from "./tenants/home/template/validators";
 import {
   PostTenantProductAttributeSchema,
   PostTenantProductAttributeUpdateSchema,
@@ -1372,6 +1373,14 @@ export default defineMiddlewares({
       matcher: "/tenants/home",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantHomeBody)],
+    },
+    // A store template applied to the document (t-2026-10-12-33): `{ id, overrides? }`,
+    // strict, so an override of anything but the palette, a layer or a section's props
+    // is refused here.
+    {
+      matcher: "/tenants/home/template",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantHomeTemplateBody)],
     },
 
     // ---- t15-product-attributes: the shop's own product characteristics

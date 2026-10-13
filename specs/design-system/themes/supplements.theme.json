@@ -1,7 +1,10 @@
 {
   "schema": "upready.theme-preset/v0",
   "id": "supplements",
-  "label": "Scruple",
+  "label": {
+    "ru": "Белый и зелёный",
+    "en": "Scruple"
+  },
   "description": "Scruple, the vitamins-and-supplements store profile: clinical white with one mint, --radius 0.5rem for a soft clinical edge. Light is the default mode. Values are section 3.1 of the profile design/style-board.md, contrast table section 3.2. --primary flips polarity between modes: the mint #57e0b0 scores 1.63:1 on white, so light mode carries the darkened emerald #0a6a52 (6.57:1) and dark mode carries the mint itself (11.40:1). The neutral ramp (every token but --primary, --ring, --link, --success, --warning, --destructive and --chart-1) is grey since 2026-10-04: each tinted grey of section 3.1 became the grey of the same relative luminance, so every ratio of section 3.2 still holds (Ivan, ask-20261004-090510-c687: \"убрать этот зеленый оттенок в полях и везде где он используется\").",
   "dictionary": "geist-kit/theme.css",
   "source": "apps/backend/src/migration-scripts/data/profiles/supplements/design/style-board.md section 3.1 (store-profiles wave 2, W1/W4)",

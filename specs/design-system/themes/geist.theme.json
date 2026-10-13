@@ -1,7 +1,10 @@
 {
   "schema": "upready.theme-preset/v0",
   "id": "geist",
-  "label": "Geist",
+  "label": {
+    "ru": "Чёрно-белая",
+    "en": "Geist"
+  },
   "description": "Vendor copy of the canon palette (~/upready/packages/geist-kit/theme.css). Dark repeats the tokens geist-kit leaves to the cascade, because the preset schema requires the same key set in both modes.",
   "dictionary": "geist-kit/theme.css",
   "source": "geist-kit@b0e687b",

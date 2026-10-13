@@ -1,0 +1,512 @@
+{
+  "$comment": "One fixture set for both copies of the template validator (t-2026-10-12-33): apps/storefront/src/lib/templates/manifest.ts and apps/backend/src/api/tenants/home/template/validation.ts. Each case is `base` with `set` paths written and `delete` paths removed (or `input` in its place); `errors` is the verdict both must give, `field: message`, in order. Read by src/lib/templates/parity.test.ts here and by template-validation.unit.spec.ts on the backend.",
+  "base": {
+    "schema": "upready.storefront-template/v1",
+    "id": "probe",
+    "title": "Probe",
+    "description": "A template for the parity fixtures.",
+    "settings": {
+      "defaultMode": "light",
+      "header": "h2",
+      "hero": "h",
+      "tiles": "on",
+      "listing": "p4",
+      "footer": "f1"
+    },
+    "theme": {
+      "palette": "home-goods",
+      "fontPair": {
+        "display": "Fraunces",
+        "body": "Manrope"
+      },
+      "radius": "soft",
+      "buttonStyle": "filled",
+      "photoStyle": "landscape",
+      "density": "spacious"
+    },
+    "sections": [
+      {
+        "block": "hero/h"
+      },
+      {
+        "block": "tiles/on"
+      },
+      {
+        "block": "listing/p4"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "the base manifest",
+      "errors": []
+    },
+    {
+      "name": "not an object",
+      "input": "probe",
+      "errors": [
+        "_root: A template is a JSON object."
+      ]
+    },
+    {
+      "name": "another schema",
+      "set": {
+        "schema": "upready.storefront-template/v0"
+      },
+      "errors": [
+        "schema: schema must be \"upready.storefront-template/v1\"."
+      ]
+    },
+    {
+      "name": "an id that is not kebab-case",
+      "set": {
+        "id": "Probe_1"
+      },
+      "errors": [
+        "id: id must be kebab-case: a-z, 0-9 and single hyphens."
+      ]
+    },
+    {
+      "name": "an empty title and no description",
+      "set": {
+        "title": " "
+      },
+      "delete": [
+        "description"
+      ],
+      "errors": [
+        "title: title must be a non-empty string or an object of language code to text.",
+        "description: description must be a non-empty string or an object of language code to text."
+      ]
+    },
+    {
+      "name": "a title and a description per language",
+      "set": {
+        "title": {
+          "ru": "Проба",
+          "en": "Probe"
+        },
+        "description": {
+          "ru": "Шаблон для тестов валидатора.",
+          "en": "A template for the validator's tests."
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "a title in one language only",
+      "set": {
+        "title": {
+          "ru": "Проба"
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "a title with no language",
+      "set": {
+        "title": {}
+      },
+      "errors": [
+        "title: title must be a non-empty string or an object of language code to text."
+      ]
+    },
+    {
+      "name": "a title that is a list",
+      "set": {
+        "title": [
+          "Probe"
+        ]
+      },
+      "errors": [
+        "title: title must be a non-empty string or an object of language code to text."
+      ]
+    },
+    {
+      "name": "a title in a language the shop has not",
+      "set": {
+        "title": {
+          "ru": "Проба",
+          "xx": "Probe"
+        }
+      },
+      "errors": [
+        "title.xx: title.xx is not a language of i18n/config.ts."
+      ]
+    },
+    {
+      "name": "a description with an empty Russian line and a number for English",
+      "set": {
+        "description": {
+          "ru": " ",
+          "en": 7
+        }
+      },
+      "errors": [
+        "description.ru: description.ru must be a non-empty string.",
+        "description.en: description.en must be a non-empty string."
+      ]
+    },
+    {
+      "name": "a header outside the enum",
+      "set": {
+        "settings.header": "h9"
+      },
+      "errors": [
+        "settings.header: header must be one of: h1, h2, h3, h4, h5, h6."
+      ]
+    },
+    {
+      "name": "settings missing",
+      "delete": [
+        "settings"
+      ],
+      "errors": [
+        "settings._root: Body must be a JSON object."
+      ]
+    },
+    {
+      "name": "FORBIDDEN header h4 with hero k",
+      "set": {
+        "settings.header": "h4",
+        "settings.hero": "k",
+        "sections.0": {
+          "block": "hero/k"
+        }
+      },
+      "errors": [
+        "settings.header: header \"h4\" with hero \"k\" is forbidden: Header Accent and hero Announcement both fill their bar with the accent, nothing between."
+      ]
+    },
+    {
+      "name": "FORBIDDEN footer f6 on a dark page, after an id error",
+      "set": {
+        "id": "x_",
+        "settings.footer": "f6",
+        "settings.defaultMode": "dark"
+      },
+      "errors": [
+        "id: id must be kebab-case: a-z, 0-9 and single hyphens.",
+        "settings.footer: footer \"f6\" with defaultMode \"dark\" is forbidden: Footer Inverted giant wordmark turns light on a dark page — reads as detached, not a foundation."
+      ]
+    },
+    {
+      "name": "a palette that is not a preset",
+      "set": {
+        "theme.palette": "neon"
+      },
+      "errors": [
+        "theme.palette: theme.palette must be one of: default, electronics, geist, home-goods, medusa, sneakers, supplements, womens-fashion, ferma, interier, katalog, lending, moda, opt, uhod."
+      ]
+    },
+    {
+      "name": "the default palette",
+      "set": {
+        "theme.palette": "default"
+      },
+      "errors": []
+    },
+    {
+      "name": "a light-only palette with a light page",
+      "set": {
+        "theme.palette": "ferma"
+      },
+      "errors": []
+    },
+    {
+      "name": "a light-only palette with a dark page",
+      "set": {
+        "theme.palette": "ferma",
+        "settings.defaultMode": "dark"
+      },
+      "errors": [
+        "settings.defaultMode: theme.palette \"ferma\" has no dark mode; settings.defaultMode must be \"light\"."
+      ]
+    },
+    {
+      "name": "a font outside the twelve",
+      "set": {
+        "theme.fontPair.display": "Comic Sans"
+      },
+      "errors": [
+        "theme.fontPair.display: theme.fontPair.display must be one of: Geist, Inter, Manrope, DM Sans, Space Grotesk, Playfair Display, Fraunces, Cormorant Garamond, Nunito, Sora, IBM Plex Sans, IBM Plex Mono."
+      ]
+    },
+    {
+      "name": "a font pair that is not an object",
+      "set": {
+        "theme.fontPair": "Fraunces"
+      },
+      "errors": [
+        "theme.fontPair: theme.fontPair must be { display, body }."
+      ]
+    },
+    {
+      "name": "every layer outside its list",
+      "set": {
+        "theme.radius": "huge",
+        "theme.buttonStyle": "ghost",
+        "theme.photoStyle": "tall",
+        "theme.density": "airy"
+      },
+      "errors": [
+        "theme.radius: theme.radius must be one of: sharp, soft, round, pill.",
+        "theme.buttonStyle: theme.buttonStyle must be one of: filled, outlined.",
+        "theme.photoStyle: theme.photoStyle must be one of: square, portrait, landscape, wide.",
+        "theme.density: theme.density must be one of: compact, comfortable, spacious."
+      ]
+    },
+    {
+      "name": "theme missing",
+      "delete": [
+        "theme"
+      ],
+      "errors": [
+        "theme: theme must be an object."
+      ]
+    },
+    {
+      "name": "no sections",
+      "set": {
+        "sections": []
+      },
+      "errors": [
+        "sections: sections must be a non-empty array."
+      ]
+    },
+    {
+      "name": "a section that is a string",
+      "set": {
+        "sections.0": "hero/h"
+      },
+      "errors": [
+        "sections[0]: sections[0] must be { block, props? }.",
+        "sections: settings.hero is \"h\" but no hero section places it."
+      ]
+    },
+    {
+      "name": "a block outside the registry",
+      "set": {
+        "sections.0": {
+          "block": "hero/zz"
+        }
+      },
+      "errors": [
+        "sections[0].block: hero/zz is not a registered block.",
+        "sections: settings.hero is \"h\" but no hero section places it."
+      ]
+    },
+    {
+      "name": "a site block as a home section",
+      "set": {
+        "sections.3": {
+          "block": "header/h2"
+        }
+      },
+      "errors": [
+        "sections[3].block: header/h2 is drawn on every page from settings.header; it is not a home section."
+      ]
+    },
+    {
+      "name": "a hero section out of step with settings",
+      "set": {
+        "sections.0": {
+          "block": "hero/g"
+        }
+      },
+      "errors": [
+        "sections[0].block: hero/g needs settings.hero \"g\", the template says \"h\"."
+      ]
+    },
+    {
+      "name": "the tiles slot placed twice",
+      "set": {
+        "sections.3": {
+          "block": "tiles/on"
+        }
+      },
+      "errors": [
+        "sections: tiles appears 2 times; the slot renders once."
+      ]
+    },
+    {
+      "name": "the listing slot switched on and not placed",
+      "set": {
+        "sections": [
+          {
+            "block": "hero/h"
+          },
+          {
+            "block": "tiles/on"
+          }
+        ]
+      },
+      "errors": [
+        "sections: settings.listing is \"p4\" but no listing section places it."
+      ]
+    },
+    {
+      "name": "tiles off and not placed",
+      "set": {
+        "settings.tiles": "off",
+        "sections": [
+          {
+            "block": "hero/h"
+          },
+          {
+            "block": "listing/p4"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "name": "a placeholder hero renders with an advisory",
+      "set": {
+        "settings.hero": "l",
+        "sections.0": {
+          "block": "hero/l"
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "props on a block that takes none",
+      "set": {
+        "sections.1": {
+          "block": "tiles/on",
+          "props": {
+            "limit": 3
+          }
+        }
+      },
+      "errors": [
+        "sections[1].props: tiles/on takes no props from a template."
+      ]
+    },
+    {
+      "name": "a text bar with its props",
+      "set": {
+        "sections": [
+          {
+            "block": "announcement/text-bar",
+            "props": {
+              "text": {
+                "ru": "Доставка за два часа",
+                "en": "Delivery in two hours"
+              },
+              "href": "/store"
+            }
+          },
+          {
+            "block": "hero/h"
+          },
+          {
+            "block": "tiles/on"
+          },
+          {
+            "block": "listing/p4"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "name": "a text bar without props",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar"
+        }
+      },
+      "errors": [
+        "sections[3].props: text must be an object of language code to string"
+      ]
+    },
+    {
+      "name": "a text bar whose props are a string",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar",
+          "props": "Hi"
+        }
+      },
+      "errors": [
+        "sections[3].props: props must be an object { text, href }"
+      ]
+    },
+    {
+      "name": "a text bar whose link leads to another site as a path",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar",
+          "props": {
+            "text": {
+              "ru": "Привет"
+            },
+            "href": "//evil.example"
+          }
+        }
+      },
+      "errors": [
+        "sections[3].props: href: // leads to another site; write https://"
+      ]
+    },
+    {
+      "name": "a text bar whose link has a space",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar",
+          "props": {
+            "text": {
+              "ru": "Привет"
+            },
+            "href": "https://shop.example/a b"
+          }
+        }
+      },
+      "errors": [
+        "sections[3].props: href must be one address, no spaces, at most 2048 characters"
+      ]
+    },
+    {
+      "name": "a text bar with every props error",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar",
+          "props": {
+            "text": {
+              "xx": "Hi",
+              "ru": "жжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжжж",
+              "en": 5
+            },
+            "href": "javascript:alert(1)",
+            "color": "red"
+          }
+        }
+      },
+      "errors": [
+        "sections[3].props: text.xx: not a language of i18n/config.ts",
+        "sections[3].props: text.ru is 141 characters, at most 140",
+        "sections[3].props: text.en must be a string",
+        "sections[3].props: href must start with / or https://",
+        "sections[3].props: color: not a prop of announcement/text-bar"
+      ]
+    },
+    {
+      "name": "a text bar with text that is a list",
+      "set": {
+        "sections.3": {
+          "block": "announcement/text-bar",
+          "props": {
+            "text": [
+              "ru"
+            ]
+          }
+        }
+      },
+      "errors": [
+        "sections[3].props: text must be an object of language code to string"
+      ]
+    }
+  ]
+}

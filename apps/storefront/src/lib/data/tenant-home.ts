@@ -42,6 +42,8 @@ import { tenantHomeTag } from "@lib/tenant/cache-tags"
 import type { StorefrontSettings, StorefrontSettingsInput } from "@lib/theme/composition"
 import { headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
+import { getPreviewTemplate } from "@lib/templates/preview"
+import type { TemplateSection } from "@lib/templates/manifest"
 
 export type HomeBlock = "hero" | "categories" | "products"
 
@@ -93,9 +95,34 @@ export type TenantBannerCopy = Partial<
   Pick<TenantHomeBanner, "kicker" | "label" | "title" | "button"> & { alt: string }
 >
 
+/**
+ * The four style layers of a saved template (`theme.layers`), the values of
+ * `lib/templates/manifest.ts` (`RADII`, `BUTTON_STYLES`, `PHOTO_STYLES`, `DENSITIES`). Plain
+ * strings here: the document crosses the wire, and `getSavedTemplate()` validates it before
+ * a value reaches the page.
+ */
+export type TenantHomeLayers = {
+  radius: string
+  buttonStyle: string
+  photoStyle: string
+  density: string
+}
+
+/** The template a shop applied (`POST /tenants/home/template`, t-2026-10-12-33). */
+export type TenantHomeTemplate = {
+  id: string
+  schema: string
+  /** What the template asks for; this build loads its own pair (`ResolvedTemplate.fonts`). */
+  fontPair: { display: string; body: string }
+}
+
 export type TenantHome = {
   schema: string
-  theme: { preset: string }
+  theme: {
+    preset: string
+    /** Absent on a document with no template. */
+    layers?: TenantHomeLayers
+  }
   settings: StorefrontSettingsInput
   content: {
     hero: TenantHeroContent
@@ -103,7 +130,11 @@ export type TenantHome = {
     order: HomeBlock[]
     /** Absent on documents saved before the banners existed. */
     banners?: TenantHomeBanner[]
+    /** The home page block by block, as a template lays it out. Absent with no template. */
+    sections?: TemplateSection[]
   }
+  /** Absent on a document with no template; then the three fields above are absent too. */
+  template?: TenantHomeTemplate
   updatedAt: string
 }
 
@@ -159,8 +190,20 @@ export async function getTenantHome(): Promise<TenantHome | null> {
  *
  * Both reads are `force-cache` fetches with their own tags, so calling this from several
  * components of one request costs no extra round trip (Next's fetch request memoization).
+ *
+ * The templates stand comes first (t-2026-10-12-33): with `STOREFRONT_TEMPLATE_PREVIEW=1`
+ * and `?template=<id>`, the request reads that template's composition and nothing is saved.
+ * Without the flag `getPreviewTemplate()` answers null before it reads anything.
+ *
+ * A template the shop saved needs no line here: applying one writes the template's
+ * settings into the document itself (`POST /tenants/home/template`), so `home.settings`
+ * below already is the saved template's composition.
  */
 export async function getEffectiveSettings(): Promise<StorefrontSettings | null> {
+  const preview = await getPreviewTemplate()
+  if (preview) {
+    return { ...preview.settings, updatedAt: new Date(0).toISOString() }
+  }
   const home = await getTenantHome()
   if (home) {
     return { ...home.settings, updatedAt: home.updatedAt }

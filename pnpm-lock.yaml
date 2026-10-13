@@ -204,6 +204,9 @@ importers:
       lodash:
         specifier: '>=4.18.1'
         version: 4.18.1
+      lucide-react:
+        specifier: ^1.55.0
+        version: 1.55.0(@types/react@19.0.5)(react@19.0.5)
       next:
         specifier: 15.5.21
         version: 15.5.21(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.63.0)(@types/node@20.19.26)(react-dom@19.0.5(react@19.0.5))(react@19.0.5)
@@ -7656,6 +7659,15 @@ packages:
 
   lru-memoizer@2.3.0:
     resolution: {integrity: sha512-GXn7gyHAMhO13WSKrIiNfztwxodVsP8IoZ3XfrJV4yH2x0/OeTO/FIaAHTY5YekdGgW94njfuKmyyt1E0mR6Ug==}
+
+  lucide-react@1.55.0:
+    resolution: {integrity: sha512-bSozQHiI3/8q7JvgoqVRGOYUi7fYT3siAZwmZsljjsOH2Husp/2ODdFf/leD+ZC/2yKfn7r8oh6yeoR3ITR5vA==}
+    peerDependencies:
+      '@types/react': 19.0.5
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   luxon@3.7.2:
     resolution: {integrity: sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew==}
@@ -20553,6 +20565,12 @@ snapshots:
     dependencies:
       lodash.clonedeep: 4.5.0
       lru-cache: 6.0.0
+
+  lucide-react@1.55.0(@types/react@19.0.5)(react@19.0.5):
+    dependencies:
+      react: 19.0.5
+    optionalDependencies:
+      '@types/react': 19.0.5
 
   luxon@3.7.2: {}
 

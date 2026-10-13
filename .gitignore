@@ -155,3 +155,7 @@ handoff/day-2026-09-16-oksana-store/logs/launchd-operator.log
 
 # local link sheet for Ivan (stand/live URLs, logins without passwords)
 .NAVIGATION.md
+
+# Template shots (t-2026-10-12-33): the single PNGs stay local. The contact sheet, its shots.json
+# and the two contact-*.jpg images of the PR body are tracked.
+artifacts/templates/shots/*/*.png

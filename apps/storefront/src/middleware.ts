@@ -25,6 +25,7 @@ import {
 import { originForHost, publicHost } from "@lib/tenant/origin"
 import { requestNamesNoShop, resolveShopOfRequest } from "@lib/tenant/request-shop"
 import { tenantIconFileOf } from "@lib/tenant/icon-file"
+import { applyTemplatePreview } from "@lib/templates/preview-header"
 import { getTenantRedirects, resolveRedirect } from "@lib/tenant/redirects"
 import { isShoplessHost, resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import { shopLocaleRedirect } from "@lib/util/shop-locales"
@@ -487,6 +488,9 @@ export async function middleware(request: NextRequest) {
 
   const publishableKey = tenant?.publishableKey ?? PUBLISHABLE_API_KEY ?? null
   const requestHeaders = tenantRequestHeaders(request, tenant, shopHost)
+  // `?template=<id>` on the templates stand only (t-2026-10-12-33); everywhere else this
+  // just deletes a header of that name the visitor may have sent.
+  applyTemplatePreview(request.nextUrl, requestHeaders)
   const nextWithTenant = () =>
     NextResponse.next({ request: { headers: requestHeaders } })
 

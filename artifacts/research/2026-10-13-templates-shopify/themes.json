@@ -1,0 +1,1124 @@
+[
+ {
+  "theme": "Colorblock",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "rich-text",
+    "collage",
+    "multicolumn",
+    "collage",
+    "collage",
+    "multicolumn",
+    "multicolumn",
+    "image-with-text",
+    "image-with-text",
+    "image-with-text",
+    "multicolumn",
+    "featured-collection",
+    "rich-text",
+    "multicolumn",
+    "newsletter",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "rich-text",
+    "multicolumn",
+    "multicolumn",
+    "multicolumn",
+    "multicolumn",
+    "multicolumn",
+    "multicolumn",
+    "related-products",
+    "multicolumn",
+    "multicolumn",
+    "newsletter",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "newsletter",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Colorblock"
+  ],
+  "notable": [
+   "A striking theme ideal for high-end fashion",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Customizable contact form",
+   "Press coverage",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Craft",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "rich-text",
+    "collage",
+    "collection-list",
+    "video",
+    "rich-text",
+    "multicolumn",
+    "collage",
+    "multicolumn",
+    "featured-blog",
+    "newsletter",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "image-with-text",
+    "related-products",
+    "newsletter",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "newsletter",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Craft"
+  ],
+  "notable": [
+   "A refined theme that celebrates craftsmanship.",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Blogs",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Crave",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "slideshow",
+    "featured-collection",
+    "collage",
+    "image-with-text",
+    "newsletter",
+    "image-with-text",
+    "multicolumn",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "image-with-text",
+    "image-banner",
+    "featured-blog",
+    "newsletter",
+    "related-products",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "newsletter",
+    "featured-blog",
+    "collection-list",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Crave"
+  ],
+  "notable": [
+   "An eye-catching theme optimized for shopping on the go.",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Press coverage",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Dawn",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "image-banner",
+    "rich-text",
+    "featured-collection",
+    "collage",
+    "video",
+    "multicolumn",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "image-with-text",
+    "multicolumn",
+    "related-products",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Dawn"
+  ],
+  "notable": [
+   "A minimalist theme that lets product images take center stage.",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Blogs",
+   "Press coverage",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Focal",
+  "price": "$320 USD",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "slideshow",
+    "featured-collections-tabs",
+    "image-with-text",
+    "shop-the-look",
+    "featured-blog",
+    "image-with-text",
+    "collection-list",
+    "featured-product",
+    "image-gallery",
+    "logo-list",
+    "testimonials",
+    "timeline",
+    "icons-with-text",
+    "newsletter",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "main-product",
+    "product-tabs",
+    "image-with-text",
+    "image-with-text",
+    "related-products",
+    "collection-list",
+    "icons-with-text",
+    "newsletter",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "main-collection-banner",
+    "multicolumn",
+    "main-collection-product-grid",
+    "featured-collections-tabs",
+    "icons-with-text",
+    "newsletter",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Focal",
+   "Ivory",
+   "Quartz",
+   "Sapphire"
+  ],
+  "notable": [
+   "A striking layout made for standout tech imagery.",
+   "by Maestrooo",
+   "Slide-out cart",
+   "Sticky cart",
+   "Trust badges",
+   "Stock counter",
+   "Recently viewed",
+   "Quick view",
+   "Promo tiles",
+   "Promo popups",
+   "Promo banners",
+   "Product badges",
+   "Press coverage",
+   "In-menu promos",
+   "EU translations (EN, FR, IT, DE, ES)",
+   "Customizable contact form",
+   "Blogs",
+   "Quantity pricing",
+   "Shopify Plus",
+   "Size chart",
+   "Shipping/delivery information",
+   "Product tabs",
+   "Product options",
+   "Lookbooks",
+   "Ingredients or nutritional information",
+   "Image hotspot",
+   "Animation",
+   "Combined listing",
+   "Collection page navigation",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Horizon",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "header",
+    "image-banner",
+    "featured-collection",
+    "footer",
+    "footer"
+   ],
+   "product": [
+    "header",
+    "main-product",
+    "related-products",
+    "footer",
+    "footer"
+   ],
+   "collection": [
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "footer",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Horizon"
+  ],
+  "notable": [
+   "Polished design meets a clean setup: launch faster without sacrificing style.",
+   "by Shopify; same code base as Dawn 4.3.0",
+   "Pre-order",
+   "Sign in with Shop",
+   "Slide-out cart",
+   "Customer accounts and sign-in",
+   "Account menu",
+   "Back-in-stock alert",
+   "Blogs",
+   "Customizable contact form",
+   "EU translations (EN, FR, IT, DE, ES)",
+   "In-menu promos",
+   "Press coverage",
+   "Product badges",
+   "Promo banners",
+   "Quick view",
+   "Recently viewed",
+   "Stock counter",
+   "Animation",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Shipping/delivery information",
+   "Size chart",
+   "Combined listing",
+   "Shopify Plus",
+   "Infinite scroll",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Impulse",
+  "price": "$500 USD",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "shop-the-look",
+    "collection-list",
+    "featured-collection",
+    "promo-grid",
+    "featured-collection",
+    "video",
+    "image-with-text",
+    "slideshow",
+    "collage",
+    "icons-with-text",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "main-product",
+    "related-products",
+    "recently-viewed",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "main-collection-banner",
+    "promo-grid",
+    "main-collection-product-grid",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Impulse",
+   "Dune",
+   "Terrain",
+   "Apothecary"
+  ],
+  "notable": [
+   "Flexible, fashionable, proven design with powerful promotions.",
+   "by Archetype Themes",
+   "Slide-out cart",
+   "Customer accounts and sign-in",
+   "Account menu",
+   "Age verifier",
+   "Blogs",
+   "Countdown timer",
+   "Customizable contact form",
+   "EU translations (EN, FR, IT, DE, ES)",
+   "Press coverage",
+   "Product badges",
+   "Promo banners",
+   "Promo popups",
+   "Promo tiles",
+   "Quick view",
+   "Recently viewed",
+   "Stock counter",
+   "Trust badges",
+   "Size chart",
+   "Shipping/delivery information",
+   "Product tabs",
+   "Product options",
+   "Lookbooks",
+   "Image hotspot",
+   "Before/after image slider",
+   "Animation",
+   "Combined listing",
+   "Shopify Plus",
+   "Breadcrumbs",
+   "Collection page navigation"
+  ]
+ },
+ {
+  "theme": "Motion",
+  "price": "$420 USD",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "slideshow",
+    "featured-collection",
+    "scrolling-text",
+    "featured-collections-tabs",
+    "video",
+    "countdown",
+    "collection-list",
+    "image-with-text",
+    "image-with-text",
+    "image-with-text",
+    "testimonials",
+    "image-banner",
+    "icons-with-text",
+    "promo-grid",
+    "newsletter",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "main-product",
+    "related-products",
+    "promo-grid",
+    "newsletter",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "popup",
+    "main-collection-product-grid",
+    "promo-grid",
+    "newsletter",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Motion",
+   "Satchel",
+   "Memo"
+  ],
+  "notable": [
+   "Bring your brand to life with animation and video",
+   "by Archetype Themes",
+   "Slide-out cart",
+   "Customer accounts and sign-in",
+   "Account menu",
+   "Age verifier",
+   "Blogs",
+   "Countdown timer",
+   "Customizable contact form",
+   "EU translations (EN, FR, IT, DE, ES)",
+   "In-menu promos",
+   "Press coverage",
+   "Product badges",
+   "Promo banners",
+   "Promo popups",
+   "Quick view",
+   "Stock counter",
+   "Trust badges",
+   "Size chart",
+   "Shipping/delivery information",
+   "Product tabs",
+   "Product options",
+   "Lookbooks",
+   "Image hotspot",
+   "Before/after image slider",
+   "Animation",
+   "Combined listing",
+   "Shopify Plus",
+   "Breadcrumbs",
+   "Collection page navigation"
+  ]
+ },
+ {
+  "theme": "Origin",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "rich-text",
+    "featured-product",
+    "image-banner",
+    "image-banner",
+    "image-banner",
+    "rich-text",
+    "multicolumn",
+    "rich-text",
+    "featured-blog",
+    "rich-text",
+    "collage",
+    "multicolumn",
+    "multicolumn",
+    "newsletter",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "related-products",
+    "newsletter",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "newsletter",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Origin"
+  ],
+  "notable": [
+   "A stylish theme designed for makers selling unique pieces",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Slide-out cart",
+   "Blogs",
+   "Press coverage",
+   "Promo banners",
+   "Stock counter",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Product tabs",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Prestige",
+  "price": "$400 USD",
+  "pages": {
+   "home": [
+    "countdown",
+    "header",
+    "popup",
+    "slideshow",
+    "featured-collections-tabs",
+    "image-banner",
+    "rich-text",
+    "collage",
+    "scrolling-text",
+    "scrolling-text",
+    "featured-collections-tabs",
+    "video",
+    "shop-the-look",
+    "countdown",
+    "image-with-text",
+    "before-after",
+    "multirow",
+    "featured-blog",
+    "featured-product",
+    "image-with-text",
+    "testimonials",
+    "timeline",
+    "image-banner",
+    "multicolumn",
+    "newsletter",
+    "multicolumn",
+    "icons-with-text",
+    "footer"
+   ],
+   "product": [
+    "countdown",
+    "header",
+    "popup",
+    "main-product",
+    "video",
+    "scrolling-text",
+    "multicolumn",
+    "testimonials",
+    "image-with-text",
+    "image-with-text",
+    "related-products",
+    "collage",
+    "multicolumn",
+    "icons-with-text",
+    "footer"
+   ],
+   "collection": [
+    "countdown",
+    "header",
+    "popup",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "video",
+    "image-with-text",
+    "collage",
+    "multicolumn",
+    "icons-with-text",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Prestige",
+   "Couture",
+   "Vogue",
+   "Strass",
+   "Signature"
+  ],
+  "notable": [
+   "Designed for premium, high-end brand appeal",
+   "by Maestrooo",
+   "Slide-out cart",
+   "Sticky cart",
+   "Stock counter",
+   "Right-to-left",
+   "Recently viewed",
+   "Quick view",
+   "Quick order list",
+   "Promo tiles",
+   "Promo popups",
+   "Promo banners",
+   "Product badges",
+   "Press coverage",
+   "In-menu promos",
+   "EU translations (EN, FR, IT, DE, ES)",
+   "Customizable contact form",
+   "Countdown timer",
+   "Blogs",
+   "Quantity pricing",
+   "Shopify Plus",
+   "Size chart",
+   "Product tabs",
+   "Product options",
+   "Lookbooks",
+   "Ingredients or nutritional information",
+   "Image hotspot",
+   "Before/after image slider",
+   "Animation",
+   "Combined listing",
+   "Collection page navigation",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Publisher",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "rich-text",
+    "collage",
+    "rich-text",
+    "featured-collection",
+    "collage",
+    "featured-product",
+    "rich-text",
+    "image-banner",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "rich-text",
+    "main-product",
+    "related-products",
+    "rich-text",
+    "image-banner",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "rich-text",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "rich-text",
+    "image-banner",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Publisher"
+  ],
+  "notable": [
+   "An avant-garde theme inspired by independent studios and publishers.",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Slide-out cart",
+   "Blogs",
+   "Promo banners",
+   "Stock counter",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Product tabs",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Refresh",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "slideshow",
+    "featured-collection",
+    "multicolumn",
+    "image-with-text",
+    "image-with-text",
+    "image-with-text",
+    "image-with-text",
+    "featured-collection",
+    "rich-text",
+    "multicolumn",
+    "featured-blog",
+    "newsletter",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "collapsible-content",
+    "related-products",
+    "rich-text",
+    "multicolumn",
+    "rich-text",
+    "image-with-text",
+    "image-with-text",
+    "image-with-text",
+    "newsletter",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "slideshow",
+    "main-collection-product-grid",
+    "image-with-text",
+    "image-with-text",
+    "newsletter",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Refresh"
+  ],
+  "notable": [
+   "A bold theme that elevates product quality and brand storytelling.",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Slide-out cart",
+   "Blogs",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Ride",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "image-with-text",
+    "featured-collection",
+    "image-with-text",
+    "image-with-text",
+    "multicolumn",
+    "collapsible-content",
+    "newsletter",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "collapsible-content",
+    "related-products",
+    "newsletter",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "image-banner",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "collapsible-content",
+    "newsletter",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Ride"
+  ],
+  "notable": [
+   "A distinct, dynamic theme that champions the world of sports.",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Blogs",
+   "Press coverage",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Shipping/delivery information",
+   "Size chart",
+   "Collection page navigation",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Sense",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "image-with-text",
+    "featured-collection",
+    "rich-text",
+    "collage",
+    "multicolumn",
+    "collection-list",
+    "newsletter",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "rich-text",
+    "multicolumn",
+    "image-with-text",
+    "video",
+    "related-products",
+    "newsletter",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "collage",
+    "newsletter",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Sense"
+  ],
+  "notable": [
+   "An energizing theme featuring extensive product detail layouts",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Blogs",
+   "Press coverage",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Spotlight",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "header",
+    "featured-collection",
+    "footer"
+   ],
+   "product": [
+    "header",
+    "main-product",
+    "related-products",
+    "footer"
+   ],
+   "collection": [
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Spotlight"
+  ],
+  "notable": [
+   "A streamlined theme designed to quickly start selling.",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Slide-out cart",
+   "Blogs",
+   "Stock counter",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Studio",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "rich-text",
+    "slideshow",
+    "rich-text",
+    "featured-collection",
+    "image-with-text",
+    "image-with-text",
+    "rich-text",
+    "featured-collection",
+    "rich-text",
+    "collection-list",
+    "multicolumn",
+    "newsletter",
+    "image-with-text",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "slideshow",
+    "main-product",
+    "collection-list",
+    "image-with-text",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-product-grid",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Studio"
+  ],
+  "notable": [
+   "A stylish theme with special attention to artists and collections",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Blogs",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Taste",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "image-with-text",
+    "featured-collection",
+    "slideshow",
+    "collection-list",
+    "image-with-text",
+    "featured-product",
+    "multicolumn",
+    "featured-collection",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "collapsible-content",
+    "related-products",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Taste"
+  ],
+  "notable": [
+   "Ideal for speciality products and bold branding",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Blogs",
+   "Press coverage",
+   "Promo banners",
+   "Ingredients or nutritional information",
+   "Lookbooks",
+   "Product options",
+   "Shipping/delivery information",
+   "Size chart",
+   "Swatch filters"
+  ]
+ },
+ {
+  "theme": "Trade",
+  "price": "Free",
+  "pages": {
+   "home": [
+    "announcement-bar",
+    "header",
+    "image-banner",
+    "multicolumn",
+    "rich-text",
+    "featured-collection",
+    "collection-list",
+    "multicolumn",
+    "featured-collection",
+    "multicolumn",
+    "footer"
+   ],
+   "product": [
+    "announcement-bar",
+    "header",
+    "main-product",
+    "quick-order-list",
+    "related-products",
+    "footer"
+   ],
+   "collection": [
+    "announcement-bar",
+    "header",
+    "main-collection-banner",
+    "main-collection-product-grid",
+    "footer"
+   ]
+  },
+  "styles": [
+   "Trade"
+  ],
+  "notable": [
+   "A professional theme specifically designed for wholesale.",
+   "by Shopify; same code base as Dawn 16.1.0",
+   "Slide-out cart",
+   "Blogs",
+   "Customizable contact form",
+   "Quick order list",
+   "Quick view",
+   "Stock counter",
+   "Animation",
+   "Ingredients or nutritional information",
+   "Product tabs",
+   "Swatch filters"
+  ]
+ }
+]

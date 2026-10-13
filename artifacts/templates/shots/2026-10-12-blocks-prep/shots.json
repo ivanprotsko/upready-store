@@ -1,0 +1,1386 @@
+{
+  "date": "2026-10-12",
+  "commit": "dadf682c",
+  "base": "http://localhost:8131",
+  "host": "globex.shipshift.dev",
+  "locale": "en",
+  "widths": [
+    360,
+    768,
+    1280
+  ],
+  "problems": [],
+  "shots": [
+    {
+      "kind": "template",
+      "name": "long-morning",
+      "title": "Long Morning",
+      "width": 360,
+      "file": "template-long-morning-360.png",
+      "status": 200,
+      "url": "http://localhost:8131/en?template=long-morning",
+      "facts": {
+        "theme": "home-goods",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": true
+      },
+      "diff": {
+        "ratio": 0,
+        "file": "template-long-morning-360.diff.png"
+      }
+    },
+    {
+      "kind": "template",
+      "name": "ferrite",
+      "title": "Ferrite",
+      "width": 360,
+      "file": "template-ferrite-360.png",
+      "status": 200,
+      "url": "http://localhost:8131/en?template=ferrite",
+      "facts": {
+        "theme": "electronics",
+        "mode": "dark",
+        "radius": "0.125rem",
+        "textBar": false
+      },
+      "diff": {
+        "ratio": 0,
+        "file": "template-ferrite-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-shared-block-section",
+      "block": "shared/block-section",
+      "state": "live",
+      "width": 360,
+      "file": "block-shared-block-section-360.png",
+      "status": 200,
+      "height": 260,
+      "diff": {
+        "note": "no baseline"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h1",
+      "block": "header/h1",
+      "state": "live",
+      "width": 360,
+      "file": "block-header-h1-360.png",
+      "status": 200,
+      "height": 92,
+      "diff": {
+        "ratio": 0.000030193236714975845,
+        "file": "block-header-h1-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h2",
+      "block": "header/h2",
+      "state": "live",
+      "width": 360,
+      "file": "block-header-h2-360.png",
+      "status": 200,
+      "height": 108,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h2-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h3",
+      "block": "header/h3",
+      "state": "live",
+      "width": 360,
+      "file": "block-header-h3-360.png",
+      "status": 200,
+      "height": 112,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h3-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h4",
+      "block": "header/h4",
+      "state": "live",
+      "width": 360,
+      "file": "block-header-h4-360.png",
+      "status": 200,
+      "height": 92,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h4-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h5",
+      "block": "header/h5",
+      "state": "live",
+      "width": 360,
+      "file": "block-header-h5-360.png",
+      "status": 200,
+      "height": 151,
+      "diff": {
+        "ratio": 0.00001839587932303164,
+        "file": "block-header-h5-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h6",
+      "block": "header/h6",
+      "state": "live",
+      "width": 360,
+      "file": "block-header-h6-360.png",
+      "status": 200,
+      "height": 163,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h6-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-g",
+      "block": "hero/g",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-g-360.png",
+      "status": 200,
+      "height": 791,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-g-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-h",
+      "block": "hero/h",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-h-360.png",
+      "status": 200,
+      "height": 527,
+      "diff": {
+        "ratio": 0.004456018518518519,
+        "file": "block-hero-h-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-j",
+      "block": "hero/j",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-j-360.png",
+      "status": 200,
+      "height": 44,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-j-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-k",
+      "block": "hero/k",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-k-360.png",
+      "status": 200,
+      "height": 468,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-k-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-l",
+      "block": "hero/l",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-l-360.png",
+      "status": 200,
+      "height": 468,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-l-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-m",
+      "block": "hero/m",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-m-360.png",
+      "status": 200,
+      "height": 133,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-m-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-ga",
+      "block": "hero/ga",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-ga-360.png",
+      "status": 200,
+      "height": 44,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-ga-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-gb",
+      "block": "hero/gb",
+      "state": "live",
+      "width": 360,
+      "file": "block-hero-gb-360.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-gb-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-tiles-on",
+      "block": "tiles/on",
+      "state": "live",
+      "width": 360,
+      "file": "block-tiles-on-360.png",
+      "status": 200,
+      "height": 677,
+      "diff": {
+        "ratio": 0,
+        "file": "block-tiles-on-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p1",
+      "block": "listing/p1",
+      "state": "live",
+      "width": 360,
+      "file": "block-listing-p1-360.png",
+      "status": 200,
+      "height": 1531,
+      "diff": {
+        "ratio": 0.00002901073397156948,
+        "file": "block-listing-p1-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p2",
+      "block": "listing/p2",
+      "state": "live",
+      "width": 360,
+      "file": "block-listing-p2-360.png",
+      "status": 200,
+      "height": 1531,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p2-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p3",
+      "block": "listing/p3",
+      "state": "live",
+      "width": 360,
+      "file": "block-listing-p3-360.png",
+      "status": 200,
+      "height": 1463,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p3-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p4",
+      "block": "listing/p4",
+      "state": "live",
+      "width": 360,
+      "file": "block-listing-p4-360.png",
+      "status": 200,
+      "height": 1531,
+      "diff": {
+        "ratio": 0.00002901073397156948,
+        "file": "block-listing-p4-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p5",
+      "block": "listing/p5",
+      "state": "live",
+      "width": 360,
+      "file": "block-listing-p5-360.png",
+      "status": 200,
+      "height": 1436,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p5-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f1",
+      "block": "footer/f1",
+      "state": "live",
+      "width": 360,
+      "file": "block-footer-f1-360.png",
+      "status": 200,
+      "height": 481,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f1-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f2",
+      "block": "footer/f2",
+      "state": "live",
+      "width": 360,
+      "file": "block-footer-f2-360.png",
+      "status": 200,
+      "height": 264,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f2-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f3",
+      "block": "footer/f3",
+      "state": "live",
+      "width": 360,
+      "file": "block-footer-f3-360.png",
+      "status": 200,
+      "height": 311,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f3-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f4",
+      "block": "footer/f4",
+      "state": "live",
+      "width": 360,
+      "file": "block-footer-f4-360.png",
+      "status": 200,
+      "height": 481,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f4-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f5",
+      "block": "footer/f5",
+      "state": "live",
+      "width": 360,
+      "file": "block-footer-f5-360.png",
+      "status": 200,
+      "height": 481,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f5-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f6",
+      "block": "footer/f6",
+      "state": "live",
+      "width": 360,
+      "file": "block-footer-f6-360.png",
+      "status": 200,
+      "height": 311,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f6-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f7",
+      "block": "footer/f7",
+      "state": "live",
+      "width": 360,
+      "file": "block-footer-f7-360.png",
+      "status": 200,
+      "height": 369,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f7-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-announcement-text-bar",
+      "block": "announcement/text-bar",
+      "state": "live",
+      "width": 360,
+      "file": "block-announcement-text-bar-360.png",
+      "status": 200,
+      "height": 88,
+      "diff": {
+        "ratio": 0,
+        "file": "block-announcement-text-bar-360.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-announcement-text-bar-empty",
+      "block": "announcement/text-bar",
+      "state": "empty",
+      "width": 360,
+      "file": "block-announcement-text-bar-empty-360.png",
+      "status": 200,
+      "height": 44,
+      "diff": {
+        "ratio": 0,
+        "file": "block-announcement-text-bar-empty-360.diff.png"
+      }
+    },
+    {
+      "kind": "template",
+      "name": "long-morning",
+      "title": "Long Morning",
+      "width": 768,
+      "file": "template-long-morning-768.png",
+      "status": 200,
+      "url": "http://localhost:8131/en?template=long-morning",
+      "facts": {
+        "theme": "home-goods",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": true
+      },
+      "diff": {
+        "ratio": 0,
+        "file": "template-long-morning-768.diff.png"
+      }
+    },
+    {
+      "kind": "template",
+      "name": "ferrite",
+      "title": "Ferrite",
+      "width": 768,
+      "file": "template-ferrite-768.png",
+      "status": 200,
+      "url": "http://localhost:8131/en?template=ferrite",
+      "facts": {
+        "theme": "electronics",
+        "mode": "dark",
+        "radius": "0.125rem",
+        "textBar": false
+      },
+      "diff": {
+        "ratio": 0,
+        "file": "template-ferrite-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-shared-block-section",
+      "block": "shared/block-section",
+      "state": "live",
+      "width": 768,
+      "file": "block-shared-block-section-768.png",
+      "status": 200,
+      "height": 220,
+      "diff": {
+        "note": "no baseline"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h1",
+      "block": "header/h1",
+      "state": "live",
+      "width": 768,
+      "file": "block-header-h1-768.png",
+      "status": 200,
+      "height": 92,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h1-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h2",
+      "block": "header/h2",
+      "state": "live",
+      "width": 768,
+      "file": "block-header-h2-768.png",
+      "status": 200,
+      "height": 92,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h2-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h3",
+      "block": "header/h3",
+      "state": "live",
+      "width": 768,
+      "file": "block-header-h3-768.png",
+      "status": 200,
+      "height": 96,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h3-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h4",
+      "block": "header/h4",
+      "state": "live",
+      "width": 768,
+      "file": "block-header-h4-768.png",
+      "status": 200,
+      "height": 92,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h4-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h5",
+      "block": "header/h5",
+      "state": "live",
+      "width": 768,
+      "file": "block-header-h5-768.png",
+      "status": 200,
+      "height": 135,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h5-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h6",
+      "block": "header/h6",
+      "state": "live",
+      "width": 768,
+      "file": "block-header-h6-768.png",
+      "status": 200,
+      "height": 147,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h6-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-g",
+      "block": "hero/g",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-g-768.png",
+      "status": 200,
+      "height": 1301,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-g-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-h",
+      "block": "hero/h",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-h-768.png",
+      "status": 200,
+      "height": 527,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-h-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-j",
+      "block": "hero/j",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-j-768.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-j-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-k",
+      "block": "hero/k",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-k-768.png",
+      "status": 200,
+      "height": 468,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-k-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-l",
+      "block": "hero/l",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-l-768.png",
+      "status": 200,
+      "height": 468,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-l-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-m",
+      "block": "hero/m",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-m-768.png",
+      "status": 200,
+      "height": 117,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-m-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-ga",
+      "block": "hero/ga",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-ga-768.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-ga-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-gb",
+      "block": "hero/gb",
+      "state": "live",
+      "width": 768,
+      "file": "block-hero-gb-768.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-gb-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-tiles-on",
+      "block": "tiles/on",
+      "state": "live",
+      "width": 768,
+      "file": "block-tiles-on-768.png",
+      "status": 200,
+      "height": 1171,
+      "diff": {
+        "ratio": 0,
+        "file": "block-tiles-on-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p1",
+      "block": "listing/p1",
+      "state": "live",
+      "width": 768,
+      "file": "block-listing-p1-768.png",
+      "status": 200,
+      "height": 2619,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p1-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p2",
+      "block": "listing/p2",
+      "state": "live",
+      "width": 768,
+      "file": "block-listing-p2-768.png",
+      "status": 200,
+      "height": 2619,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p2-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p3",
+      "block": "listing/p3",
+      "state": "live",
+      "width": 768,
+      "file": "block-listing-p3-768.png",
+      "status": 200,
+      "height": 1463,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p3-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p4",
+      "block": "listing/p4",
+      "state": "live",
+      "width": 768,
+      "file": "block-listing-p4-768.png",
+      "status": 200,
+      "height": 2619,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p4-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p5",
+      "block": "listing/p5",
+      "state": "live",
+      "width": 768,
+      "file": "block-listing-p5-768.png",
+      "status": 200,
+      "height": 2504,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p5-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f1",
+      "block": "footer/f1",
+      "state": "live",
+      "width": 768,
+      "file": "block-footer-f1-768.png",
+      "status": 200,
+      "height": 315,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f1-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f2",
+      "block": "footer/f2",
+      "state": "live",
+      "width": 768,
+      "file": "block-footer-f2-768.png",
+      "status": 200,
+      "height": 156,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f2-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f3",
+      "block": "footer/f3",
+      "state": "live",
+      "width": 768,
+      "file": "block-footer-f3-768.png",
+      "status": 200,
+      "height": 285,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f3-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f4",
+      "block": "footer/f4",
+      "state": "live",
+      "width": 768,
+      "file": "block-footer-f4-768.png",
+      "status": 200,
+      "height": 315,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f4-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f5",
+      "block": "footer/f5",
+      "state": "live",
+      "width": 768,
+      "file": "block-footer-f5-768.png",
+      "status": 200,
+      "height": 263,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f5-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f6",
+      "block": "footer/f6",
+      "state": "live",
+      "width": 768,
+      "file": "block-footer-f6-768.png",
+      "status": 200,
+      "height": 285,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f6-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f7",
+      "block": "footer/f7",
+      "state": "live",
+      "width": 768,
+      "file": "block-footer-f7-768.png",
+      "status": 200,
+      "height": 321,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f7-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-announcement-text-bar",
+      "block": "announcement/text-bar",
+      "state": "live",
+      "width": 768,
+      "file": "block-announcement-text-bar-768.png",
+      "status": 200,
+      "height": 72,
+      "diff": {
+        "ratio": 0,
+        "file": "block-announcement-text-bar-768.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-announcement-text-bar-empty",
+      "block": "announcement/text-bar",
+      "state": "empty",
+      "width": 768,
+      "file": "block-announcement-text-bar-empty-768.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-announcement-text-bar-empty-768.diff.png"
+      }
+    },
+    {
+      "kind": "template",
+      "name": "long-morning",
+      "title": "Long Morning",
+      "width": 1280,
+      "file": "template-long-morning-1280.png",
+      "status": 200,
+      "url": "http://localhost:8131/en?template=long-morning",
+      "facts": {
+        "theme": "home-goods",
+        "mode": "light",
+        "radius": "0.375rem",
+        "textBar": true
+      },
+      "diff": {
+        "ratio": 0.008929885969976905,
+        "file": "template-long-morning-1280.diff.png"
+      }
+    },
+    {
+      "kind": "template",
+      "name": "ferrite",
+      "title": "Ferrite",
+      "width": 1280,
+      "file": "template-ferrite-1280.png",
+      "status": 200,
+      "url": "http://localhost:8131/en?template=ferrite",
+      "facts": {
+        "theme": "electronics",
+        "mode": "dark",
+        "radius": "0.125rem",
+        "textBar": false
+      },
+      "diff": {
+        "ratio": 0,
+        "file": "template-ferrite-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-shared-block-section",
+      "block": "shared/block-section",
+      "state": "live",
+      "width": 1280,
+      "file": "block-shared-block-section-1280.png",
+      "status": 200,
+      "height": 192,
+      "diff": {
+        "note": "no baseline"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h1",
+      "block": "header/h1",
+      "state": "live",
+      "width": 1280,
+      "file": "block-header-h1-1280.png",
+      "status": 200,
+      "height": 92,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h1-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h2",
+      "block": "header/h2",
+      "state": "live",
+      "width": 1280,
+      "file": "block-header-h2-1280.png",
+      "status": 200,
+      "height": 92,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h2-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h3",
+      "block": "header/h3",
+      "state": "live",
+      "width": 1280,
+      "file": "block-header-h3-1280.png",
+      "status": 200,
+      "height": 96,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h3-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h4",
+      "block": "header/h4",
+      "state": "live",
+      "width": 1280,
+      "file": "block-header-h4-1280.png",
+      "status": 200,
+      "height": 92,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h4-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h5",
+      "block": "header/h5",
+      "state": "live",
+      "width": 1280,
+      "file": "block-header-h5-1280.png",
+      "status": 200,
+      "height": 135,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h5-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-header-h6",
+      "block": "header/h6",
+      "state": "live",
+      "width": 1280,
+      "file": "block-header-h6-1280.png",
+      "status": 200,
+      "height": 147,
+      "diff": {
+        "ratio": 0,
+        "file": "block-header-h6-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-g",
+      "block": "hero/g",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-g-1280.png",
+      "status": 200,
+      "height": 548,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-g-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-h",
+      "block": "hero/h",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-h-1280.png",
+      "status": 200,
+      "height": 548,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-h-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-j",
+      "block": "hero/j",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-j-1280.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-j-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-k",
+      "block": "hero/k",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-k-1280.png",
+      "status": 200,
+      "height": 588,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-k-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-l",
+      "block": "hero/l",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-l-1280.png",
+      "status": 200,
+      "height": 588,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-l-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-m",
+      "block": "hero/m",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-m-1280.png",
+      "status": 200,
+      "height": 133,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-m-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-ga",
+      "block": "hero/ga",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-ga-1280.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-ga-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-hero-gb",
+      "block": "hero/gb",
+      "state": "live",
+      "width": 1280,
+      "file": "block-hero-gb-1280.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-hero-gb-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-tiles-on",
+      "block": "tiles/on",
+      "state": "live",
+      "width": 1280,
+      "file": "block-tiles-on-1280.png",
+      "status": 200,
+      "height": 614,
+      "diff": {
+        "ratio": 0,
+        "file": "block-tiles-on-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p1",
+      "block": "listing/p1",
+      "state": "live",
+      "width": 1280,
+      "file": "block-listing-p1-1280.png",
+      "status": 200,
+      "height": 1512,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p1-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p2",
+      "block": "listing/p2",
+      "state": "live",
+      "width": 1280,
+      "file": "block-listing-p2-1280.png",
+      "status": 200,
+      "height": 2861,
+      "diff": {
+        "ratio": 0.0000032756813417190774,
+        "file": "block-listing-p2-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p3",
+      "block": "listing/p3",
+      "state": "live",
+      "width": 1280,
+      "file": "block-listing-p3-1280.png",
+      "status": 200,
+      "height": 1651,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p3-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p4",
+      "block": "listing/p4",
+      "state": "live",
+      "width": 1280,
+      "file": "block-listing-p4-1280.png",
+      "status": 200,
+      "height": 2861,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p4-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-listing-p5",
+      "block": "listing/p5",
+      "state": "live",
+      "width": 1280,
+      "file": "block-listing-p5-1280.png",
+      "status": 200,
+      "height": 1233,
+      "diff": {
+        "ratio": 0,
+        "file": "block-listing-p5-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f1",
+      "block": "footer/f1",
+      "state": "live",
+      "width": 1280,
+      "file": "block-footer-f1-1280.png",
+      "status": 200,
+      "height": 311,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f1-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f2",
+      "block": "footer/f2",
+      "state": "live",
+      "width": 1280,
+      "file": "block-footer-f2-1280.png",
+      "status": 200,
+      "height": 156,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f2-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f3",
+      "block": "footer/f3",
+      "state": "live",
+      "width": 1280,
+      "file": "block-footer-f3-1280.png",
+      "status": 200,
+      "height": 364,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f3-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f4",
+      "block": "footer/f4",
+      "state": "live",
+      "width": 1280,
+      "file": "block-footer-f4-1280.png",
+      "status": 200,
+      "height": 311,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f4-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f5",
+      "block": "footer/f5",
+      "state": "live",
+      "width": 1280,
+      "file": "block-footer-f5-1280.png",
+      "status": 200,
+      "height": 343,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f5-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f6",
+      "block": "footer/f6",
+      "state": "live",
+      "width": 1280,
+      "file": "block-footer-f6-1280.png",
+      "status": 200,
+      "height": 364,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f6-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-footer-f7",
+      "block": "footer/f7",
+      "state": "live",
+      "width": 1280,
+      "file": "block-footer-f7-1280.png",
+      "status": 200,
+      "height": 353,
+      "diff": {
+        "ratio": 0,
+        "file": "block-footer-f7-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-announcement-text-bar",
+      "block": "announcement/text-bar",
+      "state": "live",
+      "width": 1280,
+      "file": "block-announcement-text-bar-1280.png",
+      "status": 200,
+      "height": 72,
+      "diff": {
+        "ratio": 0,
+        "file": "block-announcement-text-bar-1280.diff.png"
+      }
+    },
+    {
+      "kind": "block",
+      "name": "block-announcement-text-bar-empty",
+      "block": "announcement/text-bar",
+      "state": "empty",
+      "width": 1280,
+      "file": "block-announcement-text-bar-empty-1280.png",
+      "status": 200,
+      "height": 28,
+      "diff": {
+        "ratio": 0,
+        "file": "block-announcement-text-bar-empty-1280.diff.png"
+      }
+    }
+  ]
+}

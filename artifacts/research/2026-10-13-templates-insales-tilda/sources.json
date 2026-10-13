@@ -1,0 +1,352 @@
+[
+ {
+  "source": "insales",
+  "theme": "Cream",
+  "page": "https://www.insales.ru/collection/themes/product/cream",
+  "demo": "https://demo-cream.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-cream.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-cream.myinsales.ru/product/makiyazh-1",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Minimalism",
+  "page": "https://www.insales.ru/collection/themes/product/shablon-dlya-internet-magazina-minimalism",
+  "demo": "https://demo-minimalism.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-minimalism.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-minimalism.myinsales.ru/collection/divani",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Base",
+  "page": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-base",
+  "demo": "https://demo-base.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-base.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-base.myinsales.ru/collection/new",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-base.myinsales.ru/product/primer-kostyum-muzhskoy",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Bubble",
+  "page": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-bubble",
+  "demo": "https://demo-bubble.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-bubble.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-bubble.myinsales.ru/product/shkolnyy-ryukzak-school",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Fine",
+  "page": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-fine",
+  "demo": "https://demo-fine.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-fine.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Grand",
+  "page": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-grand",
+  "demo": "https://demo-grand.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-grand.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-grand.myinsales.ru/collection/oboi",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-grand.myinsales.ru/product/frap-odnorychazhnyy-smesitel-dlya-rakoviny-umyvalnika-frap-f1046-hrom-latun",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Moon",
+  "page": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon",
+  "demo": "https://demo-moon.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-moon.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-moon.myinsales.ru/collection/parfyum",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Idea",
+  "page": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-idea",
+  "demo": "https://demo-idea.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-idea.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/myagkaya-igrushka",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Loft",
+  "page": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-loft",
+  "demo": "https://demo-loft.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-loft.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Stories",
+  "page": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-stories",
+  "demo": "https://demo-stories.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-stories.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-stories.myinsales.ru/collection/kategoriya-1",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-stories.myinsales.ru/product/koshelek-kozhanyy-korichnevyy",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Vibe",
+  "page": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-vibe-2",
+  "demo": "https://demo-vibe.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://demo-vibe.myinsales.ru/",
+    "status": 200
+   },
+   "collection": {
+    "url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery",
+    "status": 200
+   },
+   "product": {
+    "url": "https://demo-vibe.myinsales.ru/product/prozrachnyy-top-bez-rukavov-na-molnii-chernyy",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин комнатных растений",
+  "page": "https://tilda.cc/tpls/page/?q=plantsshopru",
+  "demo": "http://examples-ru.tilda.ws/plantsshopru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/plantsshopru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин товаров для дома",
+  "page": "https://tilda.cc/tpls/page/?q=homegoodsru",
+  "demo": "http://examples-ru.tilda.ws/homegoodsru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/homegoodsru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин украшений",
+  "page": "https://tilda.cc/tpls/page/?q=jewelryru",
+  "demo": "http://examples-ru.tilda.ws/jewelryru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/jewelryru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин мебели",
+  "page": "https://tilda.cc/tpls/page/?q=furnitureru",
+  "demo": "http://examples-ru.tilda.ws/furnitureru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/furnitureru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Онлайн-магазин (shetuka)",
+  "page": "https://tilda.cc/tpls/page/?q=shetukaru",
+  "demo": "http://examples-ru.tilda.ws/shetukaru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/shetukaru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Магазин цветов",
+  "page": "https://tilda.cc/tpls/page/?q=floristsru",
+  "demo": "http://examples-ru.tilda.ws/floristsru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/floristsru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Одежда и аксессуары",
+  "page": "https://tilda.cc/tpls/page/?q=mythsru",
+  "demo": "http://examples-ru.tilda.ws/mythsru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/mythsru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Интернет-магазин (canny)",
+  "page": "https://tilda.cc/tpls/page/?q=cannyonlinestoreru",
+  "demo": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Онлайн-магазин (instore)",
+  "page": "https://tilda.cc/tpls/page/?q=instoreru",
+  "demo": "http://examples-ru.tilda.ws/instoreru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/instoreru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "tilda",
+  "theme": "Онлайн-магазин (ascent)",
+  "page": "https://tilda.cc/tpls/page/?q=ascentru",
+  "demo": "http://examples-ru.tilda.ws/ascentru",
+  "crawled": {
+   "home": {
+    "url": "http://examples-ru.tilda.ws/ascentru",
+    "status": 200
+   }
+  }
+ },
+ {
+  "source": "insales",
+  "theme": "Newtone 2.0",
+  "demo": "https://newtone-demo.myinsales.ru",
+  "crawled": {
+   "home": {
+    "url": "https://newtone-demo.myinsales.ru/",
+    "status": 500,
+    "title": "We're sorry, but something went wrong (500)",
+    "sections": []
+   }
+  },
+  "left_out": "demo answered HTTP 500 on 12.10 23:29 WITA, twice; left out"
+ }
+]

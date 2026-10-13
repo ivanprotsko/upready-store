@@ -1,0 +1,68 @@
+import type { PropsResult } from "../../types"
+import type { LocalizedText } from "../../shared/localized-text"
+import { parseList, parseLocalizedText, parseProps } from "../../shared/parse"
+import { parseSectionHeader, type SectionHeader } from "../../shared/section-header"
+
+export type BundleProps = {
+  header: SectionHeader | null
+  /** The set's name, «Всё для утреннего кофе». */
+  title: LocalizedText
+  /** A line under the name, «Вместе удобнее». Words only: no discount is computed or promised. */
+  note: LocalizedText
+  /** 2–4 handles of the shop's products, in the order the set shows them. */
+  products: string[]
+  /** Above the sum of the cards' prices, «Набор целиком». */
+  totalLabel: LocalizedText
+  /** The one button, «Добавить набор». */
+  buttonLabel: LocalizedText
+  /** Under the card of a product with several variants, a link to its page. */
+  chooseLabel: LocalizedText
+  /** Before the titles of the products that are out of stock, «Нет в наличии». */
+  outOfStockLabel: LocalizedText
+  /** Under the button when the set has a product with several variants. */
+  chooseHint: LocalizedText
+}
+
+/** The block's own words while it is `lab` (BLOCK-CONTRACT.md §2): props, not the catalogs. */
+export const TITLE: LocalizedText = { ru: "Набор", en: "The set" }
+export const TOTAL_LABEL: LocalizedText = { ru: "Набор целиком", en: "The whole set" }
+export const BUTTON_LABEL: LocalizedText = { ru: "Добавить набор", en: "Add the set" }
+export const CHOOSE_LABEL: LocalizedText = { ru: "Выбрать вариант", en: "Choose an option" }
+export const OUT_OF_STOCK_LABEL: LocalizedText = { ru: "Нет в наличии", en: "Out of stock" }
+export const CHOOSE_HINT: LocalizedText = {
+  ru: "Товар с вариантами добавьте со своей страницы",
+  en: "Add a product with options from its own page",
+}
+
+/**
+ * A product handle as Medusa writes one, lower case: Latin or Cyrillic letters, digits, `-`, `_`, `.`.
+ * The same rule as `shared/image-ref.ts`, which keeps it to itself; a product handle has no `/`.
+ */
+const HANDLE = /^[a-z0-9а-яё][a-z0-9а-яё._-]*$/
+
+const handle = (value: unknown, path: string): PropsResult<string> =>
+  typeof value === "string" && value.length <= 200 && HANDLE.test(value)
+    ? { ok: true, value }
+    : { ok: false, errors: [`${path} must be a product handle of the shop (letters, digits, - and _)`] }
+
+const words = (max: number, fallback: LocalizedText) => (value: unknown, path: string) =>
+  parseLocalizedText(value, path, { max, fallback })
+
+export function parseBundleProps(input: unknown): PropsResult<BundleProps> {
+  const result = parseProps<BundleProps>(input, "collection/bundle", {
+    header: (value, path) => parseSectionHeader(value, path),
+    title: words(60, TITLE),
+    note: words(120, {}),
+    products: (value, path) => parseList(value, path, handle, { min: 2, max: 4 }),
+    totalLabel: words(30, TOTAL_LABEL),
+    buttonLabel: words(30, BUTTON_LABEL),
+    chooseLabel: words(30, CHOOSE_LABEL),
+    outOfStockLabel: words(30, OUT_OF_STOCK_LABEL),
+    chooseHint: words(90, CHOOSE_HINT),
+  })
+  if (!result.ok) return result
+  const repeated = result.value.products
+    .map((name, index) => (result.value.products.indexOf(name) < index ? `products[${index}]: ${name} is already in the set` : null))
+    .filter((error): error is string => error !== null)
+  return repeated.length ? { ok: false, errors: repeated } : result
+}

@@ -70,30 +70,71 @@ test("the command line exits 2 on a bad call rather than passing", () => {
 test("a storefront-only change needs no heavy job", () => {
   assert.deepEqual(scopeOf(["apps/storefront/src/modules/home/templates/index.tsx", "apps/storefront/public/a.png"]), {
     backend: false,
+    catalogue: false,
     panel: false,
     deploy: false,
   })
 })
 
 test("each heavy job comes back with the paths it checks", () => {
-  assert.deepEqual(scopeOf(["apps/backend/src/api/route.ts"]), { backend: true, panel: false, deploy: false })
-  assert.deepEqual(scopeOf(["apps/tenant-panel/src/App.tsx"]), { backend: false, panel: true, deploy: false })
-  assert.deepEqual(scopeOf(["apps/storefront/src/i18n/config.ts"]), { backend: false, panel: true, deploy: false })
-  assert.deepEqual(scopeOf(["docs/evidence/t-1/shots/a.png"]), { backend: false, panel: true, deploy: false })
-  assert.deepEqual(scopeOf(["deploy/scripts/deploy-instance.sh"]), { backend: false, panel: false, deploy: true })
+  const none = { backend: false, catalogue: false, panel: false, deploy: false }
+  assert.deepEqual(scopeOf(["apps/backend/src/api/route.ts"]), { ...none, backend: true })
+  assert.deepEqual(scopeOf(["apps/tenant-panel/src/App.tsx"]), { ...none, panel: true })
+  assert.deepEqual(scopeOf(["apps/storefront/src/i18n/config.ts"]), { ...none, panel: true })
+  assert.deepEqual(scopeOf(["docs/evidence/t-1/shots/a.png"]), { ...none, panel: true })
+  assert.deepEqual(scopeOf(["deploy/scripts/deploy-instance.sh"]), { ...none, deploy: true })
 })
 
-test("a change to the workflows or the root install runs every heavy job", () => {
-  for (const file of [".github/workflows/pr-checks.yml", "pnpm-lock.yaml", "package.json"]) {
-    assert.deepEqual(scopeOf([file]), { backend: true, panel: true, deploy: true }, file)
+// Every block or template pull request into templates/main changes what pnpm templates:export writes into the backend,
+// the catalogue's line and, for a block with props, its parser's copy (t-2026-10-12-33 ci-catalog-scope): alone among
+// the backend's files they run Backend Catalogue, not Backend.
+const CATALOGUE = "apps/backend/src/api/tenants/home/template/catalog.generated.json"
+const PROPS = "apps/backend/src/api/tenants/home/template/props.generated/"
+const BLOCK = "apps/storefront/src/modules/blocks/media/stories/index.tsx"
+const EXPORT = [CATALOGUE, `${PROPS}index.ts`, `${PROPS}media/stories/props.ts`]
+
+test("a block and the export's files run Backend Catalogue, not Backend", () => {
+  for (const files of [[CATALOGUE], [BLOCK, CATALOGUE], [BLOCK, ...EXPORT], [`${PROPS}media/stories/props.ts`]]) {
+    assert.deepEqual(scopeOf(files), { backend: false, catalogue: true, panel: false, deploy: false }, files.join(" "))
   }
-  assert.deepEqual(scopeOf(["apps/storefront/package.json"]), { backend: false, panel: false, deploy: false })
+})
+
+test("the export's files beside any other backend file run Backend, which checks them too", () => {
+  for (const other of ["apps/backend/src/api/tenants/home/template/validation.ts", "apps/backend/package.json"]) {
+    assert.deepEqual(scopeOf([BLOCK, CATALOGUE, other]), { backend: true, catalogue: false, panel: false, deploy: false }, other)
+    assert.deepEqual(scopeOf([BLOCK, ...EXPORT, other]), { backend: true, catalogue: false, panel: false, deploy: false }, other)
+  }
+})
+
+test("a change with no backend file runs neither backend job", () => {
+  assert.deepEqual(scopeOf([BLOCK, "apps/storefront/src/lib/templates/catalog-export.ts"]), {
+    backend: false,
+    catalogue: false,
+    panel: false,
+    deploy: false,
+  })
+})
+
+test("a backend file beside the export's, which the export does not write, runs Backend", () => {
+  for (const near of [`${CATALOGUE}.bak`, "apps/backend/src/api/tenants/home/template/props.generated.ts"]) {
+    assert.deepEqual(scopeOf([near]), { backend: true, catalogue: false, panel: false, deploy: false }, near)
+  }
+})
+
+test("a change to the workflows or the root install runs every heavy job, Backend Catalogue too", () => {
+  for (const file of [".github/workflows/pr-checks.yml", "pnpm-lock.yaml", "package.json"]) {
+    assert.deepEqual(scopeOf([file]), { backend: true, catalogue: true, panel: true, deploy: true }, file)
+    assert.deepEqual(scopeOf([file, CATALOGUE]), { backend: true, catalogue: true, panel: true, deploy: true }, file)
+  }
+  assert.deepEqual(scopeOf(["apps/storefront/package.json"]), { backend: false, catalogue: false, panel: false, deploy: false })
 })
 
 test("--scope prints the lines $GITHUB_OUTPUT takes", () => {
   const scope = run(["--scope"], "apps/storefront/src/a.tsx\napps/backend/src/b.ts\n")
   assert.equal(scope.status, 0)
-  assert.equal(scope.stdout, "backend=true\npanel=false\ndeploy=false\n")
+  assert.equal(scope.stdout, "backend=true\ncatalogue=false\npanel=false\ndeploy=false\n")
+  const alone = run(["--scope"], `${BLOCK}\n${CATALOGUE}\n`)
+  assert.equal(alone.stdout, "backend=false\ncatalogue=true\npanel=false\ndeploy=false\n")
 })
 
 // The workflow passes --pr with GITHUB_TOKEN and GITHUB_REPOSITORY set: the API's answer decides over the event's.

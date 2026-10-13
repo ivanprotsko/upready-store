@@ -5,6 +5,13 @@ import {
   type ForbiddenRule,
   type StorefrontSettingsInput,
 } from "../../store/storefront-settings/validation";
+import {
+  CATALOG,
+  type FontPair,
+  type TemplateLayers,
+  type TemplateSection,
+  type TEMPLATE_SCHEMA,
+} from "./template/validation";
 
 /**
  * The tenant's home-page document, `upready.tenant-home/v1`
@@ -24,25 +31,24 @@ import {
  */
 
 /**
- * `apps/storefront/src/lib/theme/presets.generated.ts` `THEME_IDS`,
- * hand-transcribed. Same reason the composition enums are transcribed in
- * `store/storefront-settings/validation.ts`: `pnpm-workspace.yaml` lists only
- * `apps/**`, so there is no shared package the two apps could import one copy
- * from, and the storefront file itself is generated from
- * `specs/design-system/themes/*.theme.json` by `scripts/build-themes.mjs`.
- * Keep in step with that generator's output by hand.
+ * The preset a document stores for a template palette. `default` is not a preset id of
+ * its own: `styles/themes.css` paints it from the very rule blocks of `medusa`, so it is
+ * stored as that.
  */
-export const THEME_PRESETS = [
-  "electronics",
-  "geist",
-  "home-goods",
-  "medusa",
-  "sneakers",
-  "supplements",
-  "womens-fashion",
-] as const;
+export const storedPreset = (palette: string): string => (palette === "default" ? "medusa" : palette);
 
-export type ThemePreset = (typeof THEME_PRESETS)[number];
+/**
+ * The presets a document may name: every palette of the store template catalogue
+ * (`template/catalog.generated.json`, which `pnpm templates:export` in `apps/storefront`
+ * writes from `THEME_IDS` and `LIGHT_ONLY_THEME_IDS` of `lib/theme/presets.generated.ts`),
+ * `default` stored as `medusa`. There is no shared package between the two apps
+ * (`pnpm-workspace.yaml` lists only `apps/**`), and this is the one copy the backend keeps:
+ * a palette added on the storefront and exported needs no edit here. `PUT /tenants/home`,
+ * `POST /tenants/home/template` and `POST /tenants/seed` read it (t-2026-10-12-33).
+ */
+export const THEME_PRESETS = [...new Set(CATALOG.palettes.map(storedPreset))] as [string, ...string[]];
+
+export type ThemePreset = string;
 
 /** The three home blocks `content.order` may name, each at most once. */
 export const HOME_BLOCKS = ["hero", "categories", "products"] as const;
@@ -222,10 +228,34 @@ export const PutTenantHomeBody = z.object({
 
 export type PutTenantHomeBodyType = z.infer<typeof PutTenantHomeBody>;
 
-/** The stored document: the validated body plus the server's own stamp. */
+/**
+ * The template a shop applied (t-2026-10-12-33, `POST /tenants/home/template`): which one,
+ * under which manifest schema, and the font pair it asks for. The storefront loads the pair
+ * when both families have files (`apps/storefront/src/lib/templates/fonts.ts`) and reports
+ * whether it did (`ResolvedTemplate.fonts.loaded`).
+ */
+export type TenantHomeTemplate = {
+  id: string;
+  schema: typeof TEMPLATE_SCHEMA;
+  fontPair: FontPair;
+};
+
+/**
+ * The stored document: the validated body plus the server's own stamp.
+ *
+ * A saved template adds three fields, all optional, under the same `v1`: the document has
+ * grown that way before (`content.banners`, `hero.i18n`), and an older document reads
+ * exactly as it did. The three come together or not at all: `theme.layers`,
+ * `content.sections` and `template`. With them the storefront lays the home page out from
+ * `content.sections` the way the template preview does, and `content.order` is not read.
+ */
 export type TenantHomeDocument = {
   schema: typeof TENANT_HOME_SCHEMA_ID;
-  theme: { preset: ThemePreset };
+  theme: {
+    preset: ThemePreset;
+    /** Absent on a document with no template. */
+    layers?: TemplateLayers;
+  };
   settings: StorefrontSettingsInput;
   content: {
     hero: {
@@ -242,7 +272,11 @@ export type TenantHomeDocument = {
     order: HomeBlock[];
     /** Absent on documents saved before t-2026-09-24-n15; the storefront reads it as `[]`. */
     banners?: HomeBanner[];
+    /** The home page in order, block by block. Absent on a document with no template. */
+    sections?: TemplateSection[];
   };
+  /** Absent on a document with no template. */
+  template?: TenantHomeTemplate;
   updatedAt: string;
 };
 

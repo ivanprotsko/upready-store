@@ -1,0 +1,48 @@
+{
+  "schema": "upready.theme-preset/v0",
+  "id": "opt",
+  "label": {
+    "ru": "Опт",
+    "en": "Wholesale"
+  },
+  "description": "Wholesale, the palette of the lab template «Опт и B2B» (16.09 templates lab, t-2026-10-12-33 T0a). Light only (no modes.dark): the lab drew no dark mode and the generator has no rule to derive one, so themes:build paints these tokens under both data-mode values. The lab has no --chart-*: they take the lab's own role colours in the order the bridge reads them as tag hues (1 blue = --link, 2 green = --success, 3 purple = --accent-foreground, 4 red = --destructive, 5 orange = --warning). The lab's --surface-media has no canon row and is not carried.",
+  "dictionary": "geist-kit/theme.css",
+  "source": "artifacts/docs/store-templates-lab/tools/palettes.json \"opt\" @ 2dc99d85; --radius is the lab's --r-md (8px), --shadow-card the lab's src/tokens/base.css, --shadow-float and --shadow-modal geist.theme.json",
+  "modes": {
+    "light": {
+      "tokens": {
+        "--radius": "0.5rem",
+        "--background": "#fcfcfd",
+        "--foreground": "#14171c",
+        "--card": "#ffffff",
+        "--card-foreground": "#14171c",
+        "--popover": "#ffffff",
+        "--popover-foreground": "#14171c",
+        "--primary": "#1b3a5c",
+        "--primary-foreground": "#fcfcfd",
+        "--secondary": "#f1f3f6",
+        "--secondary-foreground": "#14171c",
+        "--muted": "#e7eaee",
+        "--muted-foreground": "#4d545e",
+        "--accent": "#e4edf7",
+        "--accent-foreground": "#12456f",
+        "--destructive": "#b0272c",
+        "--destructive-foreground": "#ffffff",
+        "--border": "#dfe3e9",
+        "--input": "#dfe3e9",
+        "--ring": "#1b3a5c",
+        "--link": "#175486",
+        "--success": "#12643d",
+        "--warning": "#80480a",
+        "--chart-1": "#175486",
+        "--chart-2": "#12643d",
+        "--chart-3": "#12456f",
+        "--chart-4": "#b0272c",
+        "--chart-5": "#80480a",
+        "--shadow-card": "0 0 0 1px rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.06), 0 4px 12px -4px rgb(0 0 0 / 0.06)",
+        "--shadow-float": "inset 0 0 0 1px #00000014, 0 2px 2px #0000000a, 0 8px 16px -4px #0000000a",
+        "--shadow-modal": "inset 0 0 0 1px #00000014, 0 1px 1px #00000005, 0 8px 16px -4px #0000000a, 0 24px 32px -8px #0000000f"
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "upready.storefront-template/v1",
+  "id": "long-morning",
+  "title": { "ru": "Долгое утро", "en": "Long Morning" },
+  "description": {
+    "ru": "Товары для дома: светлый, спокойный, много воздуха.",
+    "en": "Home goods: light, calm and airy."
+  },
+  "settings": {
+    "defaultMode": "light",
+    "header": "h2",
+    "hero": "h",
+    "tiles": "on",
+    "listing": "p4",
+    "footer": "f1"
+  },
+  "theme": {
+    "palette": "home-goods",
+    "fontPair": { "display": "Cormorant Garamond", "body": "Manrope" },
+    "radius": "soft",
+    "buttonStyle": "filled",
+    "photoStyle": "landscape",
+    "density": "spacious"
+  },
+  "sections": [
+    {
+      "block": "announcement/text-bar",
+      "props": {
+        "text": {
+          "ru": "Доставка по городу за два часа, самовывоз бесплатно",
+          "en": "Delivery across town in two hours, pick-up is free"
+        },
+        "href": "/store"
+      }
+    },
+    { "block": "hero/h" },
+    { "block": "tiles/on" },
+    { "block": "listing/p4" }
+  ]
+}
