@@ -179,6 +179,11 @@ export const RequisitesSettings = () => {
           id: "domain",
           label: t("requisitesSettings.domain.label"),
           value: domain || null,
+          // A shop without a primary address has no domain yet, and the
+          // platform counts it in «не заполнено: N»; the row says so too.
+          status: domain
+            ? undefined
+            : { color: "orange", label: t("requisitesSettings.notFilled") },
           hint: t("requisitesSettings.domain.hint"),
         },
       ],

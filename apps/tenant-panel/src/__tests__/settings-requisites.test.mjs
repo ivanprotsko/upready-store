@@ -125,6 +125,9 @@ test("bank details are a Textarea in the «other» drawer; the domain is read-on
   assert.ok(!Object.values(DRAWERS).flat().includes("domain"))
   assert.ok(page.includes('t("requisitesSettings.domain.hint")'))
   assert.equal(ru.requisitesSettings.domain.hint.includes("«Адрес магазина»"), true)
+  // The platform counts an unresolved domain in «не заполнено: N»: its row carries the badge too.
+  const domainRow = page.slice(page.indexOf('id: "domain"'), page.indexOf("]", page.indexOf('id: "domain"')))
+  assert.ok(domainRow.includes('t("requisitesSettings.notFilled")'), "an empty domain row carries «не заполнено»")
 })
 
 test("the phone confirmation is a Switch in the contacts drawer, not a link under a field", () => {
