@@ -1,7 +1,7 @@
 {
   "schema": "upready.template-check-report/v1",
   "date": "2026-10-13",
-  "commit": "6a4bf19d",
+  "commit": "82e8175d",
   "base": "http://localhost:8141",
   "host": "globex.shipshift.dev",
   "locale": "en",
@@ -16,13 +16,16 @@
   "exit": 1,
   "baseline": {
     "file": "/Users/ivanprotsko/upready/worktrees/upready-store/templates/tpl-opt/artifacts/templates/check/baseline.json",
-    "failures": 745,
-    "found": true
+    "failures": 737,
+    "found": true,
+    "staleJudged": true,
+    "stale": 0,
+    "pruned": 0
   },
   "summary": {
     "targets": 8,
     "newGateFailures": 1,
-    "inheritedGateFailures": 156,
+    "inheritedGateFailures": 154,
     "baselineGateFailures": 0,
     "reportFailures": 3
   },
@@ -1118,7 +1121,7 @@
       "target": "template/opt/product@360",
       "rule": "QR-SPACE-SCALE",
       "sig": "space 6px off the scale",
-      "detail": "6px ×4, e.g. nav[breadcrumb-pill] «Showcase/Catalog/The kitchen»",
+      "detail": "6px ×2, e.g. nav[breadcrumb-pill] «Showcase/Catalog/The kitchen»",
       "from": [
         "ferrite",
         "long-morning"
@@ -1129,7 +1132,7 @@
       "target": "template/opt/product@360",
       "rule": "QR-SPACE-SCALE",
       "sig": "space 10px off the scale",
-      "detail": "10px ×8, e.g. button[add-product-button] «Select variant»",
+      "detail": "10px ×2, e.g. button[add-product-button] «Select variant»",
       "from": [
         "ferrite",
         "long-morning"
@@ -1195,7 +1198,7 @@
       "target": "template/opt/product@360",
       "rule": "QR-ELEVATION",
       "sig": "more than 1 shadow recipe",
-      "detail": "rgba(0, 0, 0, 0.04) 0px 0px 0px 1px, rgba(0, 0, 0, 0.06) 0px 1px 2px -1px, rgba(0, 0, 0, 0.06) 0px 4px 12px -4px | rgba(0, 0, 0, 0.12) 0px 1px 2px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px | rgba(0, 0, 0, 0.06) 0px -4px 16px 0px",
+      "detail": "rgba(0, 0, 0, 0.04) 0px 0px 0px 1px, rgba(0, 0, 0, 0.06) 0px 1px 2px -1px, rgba(0, 0, 0, 0.06) 0px 4px 12px -4px | rgba(0, 0, 0, 0.12) 0px 1px 2px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
       "from": [
         "ferrite",
         "long-morning"
@@ -1317,28 +1320,6 @@
       "rule": "QR-HIT",
       "sig": "target under 44px high: button[add-product-button] «Select variant»",
       "detail": "294×40: button[add-product-button] «Select variant»",
-      "from": [
-        "ferrite",
-        "long-morning"
-      ]
-    },
-    {
-      "key": "template/opt/product@360 | QR-HIT | target under 44px high: button[mobile-actions-button] «Select options»",
-      "target": "template/opt/product@360",
-      "rule": "QR-HIT",
-      "sig": "target under 44px high: button[mobile-actions-button] «Select options»",
-      "detail": "126×40: button[mobile-actions-button] «Select options»",
-      "from": [
-        "ferrite",
-        "long-morning"
-      ]
-    },
-    {
-      "key": "template/opt/product@360 | QR-HIT | target under 44px high: button[mobile-cart-button] «Select variant»",
-      "target": "template/opt/product@360",
-      "rule": "QR-HIT",
-      "sig": "target under 44px high: button[mobile-cart-button] «Select variant»",
-      "detail": "126×40: button[mobile-cart-button] «Select variant»",
       "from": [
         "ferrite",
         "long-morning"
@@ -2099,6 +2080,7 @@
       ]
     }
   ],
+  "staleBaselineKeys": [],
   "targets": [
     {
       "target": "template/opt/home@360",
@@ -3255,13 +3237,13 @@
             },
             {
               "sig": "space 6px off the scale",
-              "detail": "6px ×4, e.g. nav[breadcrumb-pill] «Showcase/Catalog/The kitchen»",
+              "detail": "6px ×2, e.g. nav[breadcrumb-pill] «Showcase/Catalog/The kitchen»",
               "baseline": false,
               "inherited": true
             },
             {
               "sig": "space 10px off the scale",
-              "detail": "10px ×8, e.g. button[add-product-button] «Select variant»",
+              "detail": "10px ×2, e.g. button[add-product-button] «Select variant»",
               "baseline": false,
               "inherited": true
             },
@@ -3359,8 +3341,8 @@
             "placeholders": 0,
             "drawn": {
               "h": 2192,
-              "text": 1444,
-              "media": 33
+              "text": 1375,
+              "media": 32
             }
           },
           "failures": []
@@ -3442,11 +3424,11 @@
           "kind": "gate",
           "threshold": "≤ 1 shadow recipe",
           "pass": false,
-          "value": 3,
+          "value": 2,
           "failures": [
             {
               "sig": "more than 1 shadow recipe",
-              "detail": "rgba(0, 0, 0, 0.04) 0px 0px 0px 1px, rgba(0, 0, 0, 0.06) 0px 1px 2px -1px, rgba(0, 0, 0, 0.06) 0px 4px 12px -4px | rgba(0, 0, 0, 0.12) 0px 1px 2px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px | rgba(0, 0, 0, 0.06) 0px -4px 16px 0px",
+              "detail": "rgba(0, 0, 0, 0.04) 0px 0px 0px 1px, rgba(0, 0, 0, 0.06) 0px 1px 2px -1px, rgba(0, 0, 0, 0.06) 0px 4px 12px -4px | rgba(0, 0, 0, 0.12) 0px 1px 2px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
               "baseline": false,
               "inherited": true
             }
@@ -3497,7 +3479,7 @@
           "kind": "gate",
           "threshold": "every target ≥ 44px high; icon-only ≥ 44px wide; inline links exempt",
           "pass": false,
-          "value": 25,
+          "value": 23,
           "failures": [
             {
               "sig": "target under 44px high: a[nav-store-link] «Globex»",
@@ -3562,18 +3544,6 @@
             {
               "sig": "target under 44px high: button[add-product-button] «Select variant»",
               "detail": "294×40: button[add-product-button] «Select variant»",
-              "baseline": false,
-              "inherited": true
-            },
-            {
-              "sig": "target under 44px high: button[mobile-actions-button] «Select options»",
-              "detail": "126×40: button[mobile-actions-button] «Select options»",
-              "baseline": false,
-              "inherited": true
-            },
-            {
-              "sig": "target under 44px high: button[mobile-cart-button] «Select variant»",
-              "detail": "126×40: button[mobile-cart-button] «Select variant»",
               "baseline": false,
               "inherited": true
             },
