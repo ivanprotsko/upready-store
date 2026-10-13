@@ -17,9 +17,9 @@ import BlockSection from "../shared/block-section"
 import { SEE_ALL_LABEL, type SectionHeader } from "../shared/section-header"
 import type { BlockEntry, BlockId } from "../types"
 
-/** `hero/g` → `block-hero-g`; the shots script reads these anchors back off the page. */
-export const blockAnchor = (id: string, state: "live" | "empty") =>
-  `block-${id.replace(/\//g, "-")}${state === "empty" ? "-empty" : ""}`
+/** `hero/g` → `block-hero-g`, `block-hero-g-empty`; the shots script reads these anchors back off the page. */
+export const blockAnchor = (id: string, state: string) =>
+  `block-${id.replace(/\//g, "-")}${state === "live" ? "" : `-${state}`}`
 
 /** The shop's own category tiles: its categories that carry a picture, at most six. */
 async function shopTiles() {
@@ -51,7 +51,8 @@ const SHELL_HEADER: SectionHeader = {
 /**
  * The block playground (t-2026-10-12-33): every variant of the registry on this shop's
  * real catalogue, in registry order, each under its own anchor, and the empty-state fixture
- * of every block that has one. Above them, the links to each template's preview. The shots
+ * of every block that has one, then its further named fixtures under `…-<name>`. Above them,
+ * the links to each template's preview. The shots
  * script (`scripts/template-shots.mjs`) walks the anchors at 360, 768 and 1280.
  *
  * The composition variants get what `(main)/page.tsx` gives them: the shop's hero copy, its
@@ -162,6 +163,22 @@ export default async function BlockPlayground() {
                 </div>
               </section>
             ) : null}
+            {Object.entries(entry.fixtures ?? {})
+              .filter(([name]) => name !== "empty" && name !== "sample")
+              .map(([name, fixture]) => (
+                <section
+                  key={name}
+                  id={blockAnchor(entry.id, name)}
+                  data-block-anchor={entry.id}
+                  data-block-state={name}
+                  className="flex flex-col gap-3"
+                >
+                  <p className="content-container font-mono text-xs text-ui-fg-muted">{`${caption} · ${name}`}</p>
+                  <div>
+                    <Block {...(fixture as Record<string, unknown>)} />
+                  </div>
+                </section>
+              ))}
           </div>
         )
       })}

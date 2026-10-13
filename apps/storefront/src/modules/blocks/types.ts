@@ -197,6 +197,10 @@ export type BlockEntry<P extends object = object> = {
   component: ComponentType<P>
   /** Validates a template's `props` for this block. Absent: the block takes no props. */
   parseProps?: (input: unknown) => PropsResult<P>
-  /** Props for the playground: what an empty shop shows, and a filled example. */
-  fixtures?: { empty: P; sample: P }
+  /**
+   * Props for the playground: what an empty shop shows, and a filled example. Any further one is a
+   * named state of the block (`collage/mosaic`'s `five`), drawn under its own anchor
+   * `block-<category>-<variant>-<name>`.
+   */
+  fixtures?: { empty: P; sample: P; [name: string]: P }
 }
