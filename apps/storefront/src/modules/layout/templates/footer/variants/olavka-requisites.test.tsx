@@ -40,6 +40,9 @@ const SELLER: TenantSeller = {
 
 let seller: TenantSeller | null = SELLER
 let paymentMethods: TenantPaymentMethods = EMPTY_TENANT_PAYMENT_METHODS
+// What `GET /store/tenant/robokassa-methods` answers as `disabled`: the methods the owner switched off.
+let disabledMethods: string[] = []
+const readDisabledMethods = vi.fn(async () => disabledMethods)
 
 vi.mock("next-intl/server", () => ({
   getTranslations: async (namespace: string) =>
@@ -72,6 +75,7 @@ vi.mock("@lib/data/tenant-pages", () => ({
 vi.mock("@lib/data/tenant-seller", () => ({ getTenantSeller: async () => seller }))
 vi.mock("@lib/data/tenant-payment-methods", () => ({
   getSitePaymentMethods: async () => paymentMethods,
+  getRobokassaDisabledMethods: () => readDisabledMethods(),
 }))
 // The product card pulls the whole catalog UI in; the footer takes one class string from it.
 vi.mock("@modules/products/components/product-card", () => ({ PRODUCT_GRID_CLASS: "grid" }))
@@ -90,6 +94,8 @@ afterEach(() => {
   vi.unstubAllEnvs()
   seller = SELLER
   paymentMethods = EMPTY_TENANT_PAYMENT_METHODS
+  disabledMethods = []
+  readDisabledMethods.mockClear()
 })
 
 describe("Olavka footer: the requisites line behind the switch", { timeout: 30_000 }, () => {
@@ -215,6 +221,36 @@ describe("Olavka footer: the Robokassa mark and the payment marks", { timeout: 3
     ]) {
       expect(html).toMatch(new RegExp(`<img src="/payment/${name}\\.svg" alt="${alt}" width="\\d+" height="\\d+" class="h-5 w-auto"/>`))
     }
+  })
+
+  // t-2026-10-12-32, Ivan 13.10: «я просил в upready-store убрать в магазине cherkashino.ru
+  // способ оплаты СБП, но он до сих пор там». A method switched off in the panel takes its marks.
+  it("drops the СБП mark once the owner switched SBP off, and keeps the card's", async () => {
+    paymentMethods = { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false }
+    disabledMethods = ["SBP"]
+    const html = await render()
+
+    expect(markSources(html)).toEqual([
+      "/payment/robokassa.svg",
+      "/payment/mir.svg",
+      "/payment/visa.svg",
+      "/payment/mastercard.svg",
+    ])
+    expect(html).not.toContain('alt="СБП"')
+  })
+
+  it("drops the card marks once the card is switched off, and keeps СБП", async () => {
+    paymentMethods = { ...EMPTY_TENANT_PAYMENT_METHODS, robokassa: true, demo: false }
+    disabledMethods = ["BankCard"]
+    const html = await render()
+
+    expect(markSources(html)).toEqual(["/payment/robokassa.svg", "/payment/sbp.svg"])
+  })
+
+  it("does not ask for switched-off methods when the shop has no Robokassa", async () => {
+    await render()
+
+    expect(readDisabledMethods).not.toHaveBeenCalled()
   })
 
   it("draws every mark on the same plate at the same height", async () => {
