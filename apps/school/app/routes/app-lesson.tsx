@@ -88,7 +88,7 @@ function LockedLesson({ courseHref, opensAt }: { courseHref: string; opensAt: st
       <div className="flex flex-col gap-y-1">
         <h2 className="text-lg font-semibold">{opensAt ? `Урок ${opensText(opensAt).toLowerCase()}` : "Урок скоро откроется"}</h2>
         <p className="max-w-measure text-muted-foreground">
-          Уроки этого курса открываются по дням программы. Мы откроем этот урок в его день, заходите.
+          Уроки курса открываются по дням программы. Загляните сюда в этот день.
         </p>
       </div>
       <Link
