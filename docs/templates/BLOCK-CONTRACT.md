@@ -185,7 +185,10 @@ export const parseRichTextProps = (input: unknown) =>
     baseline is the debt the existing composition variants already had.
   - A template page's failure is **inherited** when the baseline holds the same rule and measure on the same
     page and width of another template: the storefront's shared header, card, gallery or footer made it. It does
-    not fail the run; `report.md` lists it in its own table. A block never inherits: it owns its failures.
+    not fail the run; `report.md` lists it in its own table. A block that reuses a storefront part
+    (`SHARED_PARTS` in `rules.mjs`, e.g. `ProductCard`) inherits only that part's known debt, a failure that
+    goes once the part's elements are left out and that the baseline holds for a block at the same width, and
+    owns everything else.
   - Check your own block or template with `--only <id>` (`--only hero/g`, `--only long-morning`).
   - Exit 2 means the stand, the playground or axe-core was missing, and that is not a pass.
   - Rewrite the baseline with `--write-baseline` only when a failure is fixed or accepted, never to hide a

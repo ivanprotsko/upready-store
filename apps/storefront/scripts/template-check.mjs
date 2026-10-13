@@ -19,7 +19,8 @@
 // --only). Exit 0: no gate failure outside the baseline (`artifacts/templates/check/baseline.json`); 1: a new
 // gate failure; 2: nothing or not everything was checked (stand down, no playground, no axe-core), not a pass.
 // A template page's failure the baseline holds for the same page and width of another template is inherited
-// (`compareWithBaseline()`): listed apart, not failing the run.
+// (`compareWithBaseline()`): listed apart, not failing the run. So is a block's failure that only a storefront part
+// it reuses makes (`SHARED_PARTS`, e.g. ProductCard), when the baseline holds it for a block at that width.
 // `--write-baseline` records today's gate failures as the baseline (with --only, for those targets alone).
 //
 // The storefront must run with STOREFRONT_TEMPLATE_PREVIEW=1. `--host` is sent as `x-forwarded-host`, as in the
@@ -35,8 +36,10 @@ import { measureContrast, measureFocus, measureMotion, measureTarget } from "./t
 import {
   NOT_PORTED,
   RULES,
+  SHARED_PARTS,
   THRESHOLDS,
   compareWithBaseline,
+  evaluateBlock,
   evaluatePages,
   evaluateTarget,
   failureKey,
@@ -175,7 +178,7 @@ async function checkPage(browser, { url, width }) {
   }
 }
 
-/** Every anchor of the playground at one width, one page load. */
+/** Every anchor of the playground at one width, one page load; a block with a shared part is measured once more without it. */
 async function checkPlayground(browser, { url, width, anchors }) {
   const context = await browser.newContext({ viewport: { width, height: HEIGHT[width] ?? 900 }, extraHTTPHeaders: headers })
   const page = await context.newPage()
@@ -192,14 +195,16 @@ async function checkPlayground(browser, { url, width, anchors }) {
       const scope = `#${a.anchor} > div`
       await page.evaluate((id) => document.getElementById(id)?.scrollIntoView({ block: "start" }), a.anchor)
       await page.waitForTimeout(120)
-      const facts = await page.evaluate(measureTarget, { scope, block: true })
-      const motion = await page.evaluate(measureMotion, { scope })
-      const contrast = await page.evaluate(measureContrast, { scope })
-      const focus = await page.evaluate(measureFocus, { scope, limit: 8 })
-      out.push({ ...a, facts, motion, contrast, focus })
+      const shared = SHARED_PARTS
+      const facts = await page.evaluate(measureTarget, { scope, block: true, shared })
+      const ownFacts = facts.shared?.length ? await page.evaluate(measureTarget, { scope, block: true, shared, withoutShared: true }) : null
+      const motion = await page.evaluate(measureMotion, { scope, shared })
+      const contrast = await page.evaluate(measureContrast, { scope, shared })
+      const focus = await page.evaluate(measureFocus, { scope, limit: 8, shared })
+      out.push({ ...a, facts, ownFacts, motion, contrast, focus })
     }
     await page.emulateMedia({ reducedMotion: "reduce" })
-    for (const item of out) item.reducedMotion = await page.evaluate(measureMotion, { scope: `#${item.anchor} > div` })
+    for (const item of out) item.reducedMotion = await page.evaluate(measureMotion, { scope: `#${item.anchor} > div`, shared: SHARED_PARTS })
     return { status: res?.status() ?? null, errors, anchors: out }
   } finally {
     await context.close()
@@ -213,12 +218,12 @@ const problems = []
 const browser = await chromium.launch()
 let exitOverride = null
 
-const record = (target, meta, facts, ctx) => {
+const record = (target, meta, facts, ctx, ownFacts = null) => {
   if (facts?.missing) {
     problems.push(`${target}: nothing to measure (${meta.url ?? meta.anchor})`)
     return
   }
-  results.push({ target, ...meta, results: evaluateTarget(facts, { typeScale, ...ctx }) })
+  results.push({ target, ...meta, ...evaluateBlock(facts, ownFacts, { typeScale, ...ctx }) })
 }
 
 try {
@@ -328,7 +333,7 @@ try {
             reducedMotion: a.reducedMotion,
             contrast: a.contrast,
             focus: a.focus,
-          })
+          }, a.ownFacts)
         }
         console.log(`  playground@${width}: ${pg.anchors.length} anchors measured`)
       }
@@ -461,7 +466,7 @@ ru.push(
   `**Итог: ${verdict}.** Проверено целей: ${results.length} (шаблоны × страницы, блоки площадки, ширины ${widths.join(" и ")} px). ` +
     (isFixture
       ? `Фикстура, без базы: отказов gate ${gateFails.length}.`
-      : `Новых отказов gate: **${fresh.length}**; унаследованных (долг общих частей витрины на страницах шаблона): ${inherited.length}; ` +
+      : `Новых отказов gate: **${fresh.length}**; унаследованных (известный долг общих частей витрины на страницах шаблона и в блоках): ${inherited.length}; ` +
         `отказов из базы (известный долг существующих вариантов): ${known.length}; ` +
         `report-правил вне порога: ${reportFails.length}.`)
 )
@@ -474,7 +479,9 @@ if (!isFixture) {
   if (inherited.length) {
     ru.push(
       "Унаследованные не валят прогон: база держит тот же отказ (правило и замер) на той же странице и ширине другого шаблона, " +
-        "его дают общие части витрины, а не этот шаблон. Они перечислены отдельной таблицей ниже."
+        "его дают общие части витрины, а не этот шаблон; в блоке — отказ, которого нет, когда элементы внутри переиспользованной " +
+        "части витрины (колонка «Shared part») не замеряются, и который база держит для блока той же ширины. Всё остальное блок " +
+        "отвечает сам. Они перечислены отдельной таблицей ниже."
     )
   }
 }
@@ -507,9 +514,9 @@ if (!isFixture) {
   ru.push("")
   if (!inherited.length) ru.push("None.")
   else {
-    ru.push("| Target | Rule | Measured | Baseline holds it for |")
-    ru.push("|---|---|---|---|")
-    for (const f of inherited) ru.push(`| ${esc(f.target)} | ${f.rule} | ${esc(f.detail)} | ${esc(f.from.join(", "))} |`)
+    ru.push("| Target | Rule | Measured | Shared part | Baseline holds it for |")
+    ru.push("|---|---|---|---|---|")
+    for (const f of inherited) ru.push(`| ${esc(f.target)} | ${f.rule} | ${esc(f.detail)} | ${esc(f.part ?? "–")} | ${esc(f.from.join(", "))} |`)
   }
   ru.push("")
 }

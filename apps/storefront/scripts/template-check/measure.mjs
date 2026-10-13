@@ -14,12 +14,17 @@
 //   content container .content-container
 
 /**
- * Every fact one rule needs, measured on `scope` (a CSS selector, or the whole body).
- * @param {{ scope: string | null, block: boolean }} opts
+ * Every fact one rule needs, measured on `scope` (a CSS selector, or the whole body). `shared`: the storefront parts
+ * a block reuses (`SHARED_PARTS` in `./rules.mjs`); the facts name those found in `shared`, and with
+ * `withoutShared` every element inside one is left out. The drawn box of an empty state is the target's own either way.
+ * @param {{ scope: string | null, block: boolean, shared?: Array<{ name: string, selector: string }>, withoutShared?: boolean }} opts
  */
-export function measureTarget({ scope, block }) {
+export function measureTarget({ scope, block, shared = [], withoutShared = false }) {
   const root = scope ? document.querySelector(scope) : document.body
   if (!root) return { missing: true }
+  const inShared = (el) => shared.some((p) => root.contains(el.closest(p.selector)))
+  const kept = (el) => !withoutShared || !inShared(el)
+  const pick = (selector) => [...root.querySelectorAll(selector)].filter(kept)
 
   const hiddenCache = new WeakMap()
   const fadedOut = (el) => {
@@ -42,7 +47,7 @@ export function measureTarget({ scope, block }) {
     if (cs.visibility === "hidden" || cs.display === "none") return false
     return !fadedOut(el)
   }
-  const all = [...root.querySelectorAll("*")].filter(shown)
+  const all = pick("*").filter(shown)
 
   const ownText = (el) =>
     [...el.childNodes]
@@ -72,6 +77,7 @@ export function measureTarget({ scope, block }) {
   const vh = window.innerHeight
   const inMain = (el) => block || Boolean(el.closest("main"))
   const out = { block, viewport: { width: vw, height: vh } }
+  out.shared = shared.filter((p) => [...root.querySelectorAll(p.selector)].some(shown)).map((p) => p.name)
 
   /* ---- type: only elements with text of their own (lab: hasOwnText) ---- */
   const sizes = new Map()
@@ -125,11 +131,11 @@ export function measureTarget({ scope, block }) {
   out.longest = longest
 
   /* ---- headings and roles ---- */
-  out.headings = [...root.querySelectorAll("h1,h2,h3,h4,h5,h6")]
+  out.headings = pick("h1,h2,h3,h4,h5,h6")
     .filter(shown)
     .map((h) => ({ level: Number(h.tagName[1]), size: px(getComputedStyle(h).fontSize), el: label(h) }))
   const roleSizes = (selector, filter = () => true) =>
-    [...root.querySelectorAll(selector)].filter((el) => shown(el) && filter(el)).map((el) => px(getComputedStyle(el).fontSize))
+    pick(selector).filter((el) => shown(el) && filter(el)).map((el) => px(getComputedStyle(el).fontSize))
   out.roles = {
     "page-title": roleSizes("h1"),
     "section-title": roleSizes("h2", inMain),
@@ -139,7 +145,7 @@ export function measureTarget({ scope, block }) {
     price: roleSizes('[data-testid="product-price"]'),
   }
   const bodySizes = new Map()
-  for (const p of root.querySelectorAll("p")) {
+  for (const p of pick("p")) {
     if (shown(p) && inMain(p) && ownText(p).length >= 40) bump(bodySizes, px(getComputedStyle(p).fontSize))
   }
   const bodyMode = dump(bodySizes).sort((a, b) => b.count - a.count)[0]
@@ -169,7 +175,7 @@ export function measureTarget({ scope, block }) {
   }
   out.radii = dump(radius)
   const radiusOf = (selector) => {
-    const el = [...root.querySelectorAll(selector)].find(shown)
+    const el = pick(selector).find(shown)
     if (!el) return null
     const raw = getComputedStyle(el).borderTopLeftRadius
     return raw.endsWith("%") || parseFloat(raw) >= 999 ? "pill" : px(raw)
@@ -205,7 +211,7 @@ export function measureTarget({ scope, block }) {
   out.shadows = dump(shadows)
 
   /* ---- pictures ---- */
-  out.frames = [...root.querySelectorAll("[data-product-media]")].filter(shown).map((box) => {
+  out.frames = pick("[data-product-media]").filter(shown).map((box) => {
     const r = box.getBoundingClientRect()
     const cs = getComputedStyle(box)
     const img = [...box.querySelectorAll("img")].find((i) => !i.closest('[aria-hidden="true"]'))
@@ -220,7 +226,7 @@ export function measureTarget({ scope, block }) {
       h: Math.round(r.height),
     }
   })
-  out.images = [...root.querySelectorAll("img")]
+  out.images = pick("img")
     .filter((img) => !img.closest(IGNORED))
     .map((img) => {
       const r = img.getBoundingClientRect()
@@ -252,7 +258,7 @@ export function measureTarget({ scope, block }) {
     ['[data-testid="product-unit"]', "card-meta"],
     ['[data-testid="product-excerpt"]', "card-meta"],
   ]
-  out.cards = [...root.querySelectorAll('[data-testid="product-wrapper"]')].filter(shown).map((card) => {
+  out.cards = pick('[data-testid="product-wrapper"]').filter(shown).map((card) => {
     const sig = []
     for (const el of card.querySelectorAll("*")) {
       const hit = CARD_ROLES.find(([sel]) => el.matches(sel))
@@ -273,13 +279,13 @@ export function measureTarget({ scope, block }) {
         Boolean(media && parseFloat(getComputedStyle(media).borderTopLeftRadius) > 0),
     }
   })
-  out.prices = [...root.querySelectorAll('[data-testid="price"], [data-testid="product-price"], [data-testid="original-price"]')]
+  out.prices = pick('[data-testid="price"], [data-testid="product-price"], [data-testid="original-price"]')
     .filter(shown)
     .map((el) => {
       const cs = getComputedStyle(el)
       return { el: label(el), text: el.textContent.trim().slice(0, 40), numeric: cs.fontVariantNumeric, weight: cs.fontWeight, size: cs.fontSize }
     })
-  const title = [...root.querySelectorAll('[data-testid="product-wrapper"] [data-testid="product-title"]')].find(shown)
+  const title = pick('[data-testid="product-wrapper"] [data-testid="product-title"]').find(shown)
   out.cardTitle = title ? { weight: getComputedStyle(title).fontWeight, size: getComputedStyle(title).fontSize } : null
 
   /* ---- overflow ---- */
@@ -303,7 +309,7 @@ export function measureTarget({ scope, block }) {
 
   /* ---- hit size (lab: WCAG 2.5.8, an inline link inside a paragraph is exempt) ---- */
   const INTERACTIVE = "a[href],button,[role=button],input:not([type=hidden]),select,textarea,summary"
-  out.hits = [...root.querySelectorAll(INTERACTIVE)]
+  out.hits = pick(INTERACTIVE)
     .filter(shown)
     .map((el) => {
       const r = el.getBoundingClientRect()
@@ -327,11 +333,11 @@ export function measureTarget({ scope, block }) {
     .filter((h) => !h.inline && (h.w < 44 || h.h < 44))
 
   /* ---- icon-only controls in one row of a header (lab: QR-CONTROL-DENSITY) ---- */
-  const headers = block ? [root, ...root.querySelectorAll("header")] : [...document.querySelectorAll("header")]
+  const headers = block ? [root, ...pick("header")] : [...document.querySelectorAll("header")]
   const runs = new Map()
   for (const header of headers) {
     for (const el of header.querySelectorAll("a[href],button")) {
-      if (!shown(el) || (el.textContent || "").trim() || !el.querySelector("svg,img")) continue
+      if (!kept(el) || !shown(el) || (el.textContent || "").trim() || !el.querySelector("svg,img")) continue
       let row = el.parentElement
       while (row && row !== header && !/flex/.test(getComputedStyle(row).display)) row = row.parentElement
       // Wrapped one per box, a control's own flex box is not the row: climb while the box holds only this control.
@@ -349,7 +355,7 @@ export function measureTarget({ scope, block }) {
   out.pageHeight = document.documentElement.scrollHeight
   out.containerEdges = [
     ...new Set(
-      [...root.querySelectorAll(".content-container")].filter(shown).map((c) => Math.round(c.getBoundingClientRect().left))
+      pick(".content-container").filter(shown).map((c) => Math.round(c.getBoundingClientRect().left))
     ),
   ].sort((a, b) => a - b)
   const main = block ? root : document.querySelector("main")
@@ -373,8 +379,8 @@ export function measureTarget({ scope, block }) {
   out.footer = footer ? { footer: surface(footer), page: surface(document.body) } : null
 
   /* ---- gallery (lab: QR-GALLERY) ---- */
-  const hero = [...root.querySelectorAll('[data-product-media="gallery"]')].filter(shown)
-  const thumb = [...root.querySelectorAll('[data-testid^="product-gallery-thumbnail-"]')].find(shown)
+  const hero = pick('[data-product-media="gallery"]').filter(shown)
+  const thumb = pick('[data-testid^="product-gallery-thumbnail-"]').find(shown)
   const ratioOf = (el) => {
     const r = el.getBoundingClientRect()
     return Math.round((r.width / r.height) * 1000) / 1000
@@ -397,7 +403,7 @@ export function measureTarget({ scope, block }) {
     }
     return false
   }
-  for (const el of root.querySelectorAll('h1,h2,h3,[data-testid="price"],[data-testid="product-price"],button,a[role="button"]')) {
+  for (const el of pick('h1,h2,h3,[data-testid="price"],[data-testid="product-price"],button,a[role="button"]')) {
     if (!shown(el)) continue
     const r = el.getBoundingClientRect()
     if (r.width < 8 || r.height < 8 || r.bottom < 0 || r.top > vh || r.left < 0 || r.right > vw) continue
@@ -412,10 +418,15 @@ export function measureTarget({ scope, block }) {
   return out
 }
 
-/** Transition and animation lengths on the target, in ms (QR-MOTION). Measured twice: as is and under reduce. */
-export function measureMotion({ scope }) {
+/**
+ * Transition and animation lengths on the target, in ms (QR-MOTION). Measured twice: as is and under reduce.
+ * Each offender inside a shared part names it (`part`).
+ */
+export function measureMotion({ scope, shared = [] }) {
   const root = scope ? document.querySelector(scope) : document.body
   if (!root) return { max: 0, offenders: [] }
+  // The shared part an element sits in (`SHARED_PARTS`), so the rules can also run without it.
+  const partOf = (el) => (el && shared.find((p) => root.contains(el.closest(p.selector)))?.name) || null
   const ms = (list) => Math.max(0, ...list.split(",").map((v) => (v.trim().endsWith("ms") ? parseFloat(v) : parseFloat(v) * 1000)))
   const offenders = []
   let max = 0
@@ -428,7 +439,8 @@ export function measureMotion({ scope }) {
     if (d > max) max = d
     if (d > 0) {
       const cls = typeof el.className === "string" ? el.className.trim().split(/\s+/)[0] : ""
-      offenders.push({ ms: d, kind: a >= t ? "animation" : "transition", el: `${el.tagName.toLowerCase()}${cls ? `.${cls}` : ""}` })
+      const part = partOf(el)
+      offenders.push({ ms: d, kind: a >= t ? "animation" : "transition", el: `${el.tagName.toLowerCase()}${cls ? `.${cls}` : ""}`, ...(part ? { part } : {}) })
     }
   }
   return { max, offenders }
@@ -437,10 +449,13 @@ export function measureMotion({ scope }) {
 /**
  * Focus rings (QR-FOCUS). The caller presses Tab once first: after a keyboard focus Chromium keeps
  * `:focus-visible` for a focus moved by script, so every target here is focused as a keyboard user reaches it.
+ * A target inside a shared part names it (`part`).
  */
-export function measureFocus({ scope, limit }) {
+export function measureFocus({ scope, limit, shared = [] }) {
   const root = scope ? document.querySelector(scope) : document.body
   if (!root) return []
+  // The shared part an element sits in (`SHARED_PARTS`), so the rules can also run without it.
+  const partOf = (el) => (el && shared.find((p) => root.contains(el.closest(p.selector)))?.name) || null
   const FOCUSABLE = 'a[href],button:not([disabled]),input:not([type=hidden]):not([disabled]),select,textarea,summary,[tabindex]:not([tabindex="-1"])'
   const shown = (el) => {
     const r = el.getBoundingClientRect()
@@ -472,16 +487,22 @@ export function measureFocus({ scope, limit }) {
     const on = ring(el)
     const visible =
       on.outline || on.own !== rest.own || on.after !== rest.after || on.before !== rest.before || on.parent !== rest.parent
-    out.push({ el: label(el), visible })
+    const part = partOf(el)
+    out.push({ el: label(el), visible, ...(part ? { part } : {}) })
   }
   if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur()
   return out
 }
 
-/** Text contrast by axe-core's own `color-contrast` rule (lab: QR-CONTRAST); axe is injected by the caller. */
-export async function measureContrast({ scope }) {
+/**
+ * Text contrast by axe-core's own `color-contrast` rule (lab: QR-CONTRAST); axe is injected by the caller.
+ * A violation inside a shared part names it (`part`).
+ */
+export async function measureContrast({ scope, shared = [] }) {
   const root = scope ? document.querySelector(scope) : document
   if (!root || !window.axe) return { error: "axe-core is not on the page" }
+  // The shared part an element sits in (`SHARED_PARTS`), so the rules can also run without it.
+  const partOf = (el) => (el && shared.find((p) => root.contains(el.closest(p.selector)))?.name) || null
   const res = await window.axe.run(root, { runOnly: { type: "rule", values: ["color-contrast"] }, resultTypes: ["violations"] })
   const label = (el) => {
     if (!el) return "?"
@@ -497,7 +518,8 @@ export async function measureContrast({ scope }) {
           el = document.querySelector(String(n.target[0]))
         } catch {}
         const data = n.any?.[0]?.data || {}
-        return { el: label(el), ratio: data.contrastRatio ?? null, expected: data.expectedContrastRatio ?? null }
+        const part = partOf(el)
+        return { el: label(el), ratio: data.contrastRatio ?? null, expected: data.expectedContrastRatio ?? null, ...(part ? { part } : {}) }
       })
     ),
   }

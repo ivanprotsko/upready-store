@@ -4,10 +4,13 @@ import { describe, expect, it } from "vitest"
 
 import {
   RULES,
+  SHARED_PARTS,
   THRESHOLDS,
   allowedRadii,
   applies,
+  blockTarget,
   compareWithBaseline,
+  evaluateBlock,
   evaluatePages,
   evaluateTarget,
   failureKey,
@@ -17,6 +20,7 @@ import {
   priceTextProblems,
   ratios,
   templatePage,
+  withoutShared,
 } from "./rules.mjs"
 
 const TYPE_SCALE = [12, 14, 16, 18, 20, 24, 32, 36, 48, 60, 72, 96, 128]
@@ -310,5 +314,94 @@ describe("baseline", () => {
     expect(matchesOnly({ kind: "block", block: "hero/g", anchor: "block-hero-g" }, ["block-hero-g"])).toBe(true)
     expect(matchesOnly({ kind: "block", block: "announcement/text-bar", anchor: "block-announcement-text-bar-empty" }, ["announcement/text-bar"])).toBe(true)
     expect(matchesOnly({ kind: "block", block: "hero/g", anchor: "block-hero-g" }, [])).toBe(true)
+  })
+})
+
+describe("shared parts", () => {
+  // A block showing products with the storefront's ProductCard, at 360: its own text 16 and 24px, the card's unit line 13px.
+  const own = { value: 16, count: 3, samples: ["h2"] }
+  const card = { value: 13, count: 6, samples: ["span[product-unit] «Small · Large»"] }
+  const block = (sizes, over = {}) => facts({ block: true, type: { sizes: [...sizes, { value: 24, count: 1, samples: ["h2"] }], weights: [] }, ...over })
+  const at360 = ctx({ on: "block", page: null, width: 360 })
+  // The baseline as T0b wrote it for the home listing: the card's debt on block/listing/p1 and p2.
+  const baseline = new Set([
+    failureKey("block/listing/p1@360", "QR-TYPE-SCALE", "size 13px off the scale"),
+    failureKey("block/listing/p2@360", "QR-TYPE-SCALE", "size 13px off the scale"),
+    failureKey("block/listing/p1@360", "QR-MOTION", "motion kept under prefers-reduced-motion"),
+    failureKey("block/listing/p1@1280", "QR-SPACE-SCALE", "space 6px off the scale"),
+  ])
+  const run = (target, full, ownFacts, c = at360) => compareWithBaseline([{ target, ...evaluateBlock(full, ownFacts, c) }], baseline)
+
+  it("names ProductCard by the selector of its root", () => {
+    expect(SHARED_PARTS.map((p) => [p.name, p.selector])).toEqual([["ProductCard", '[data-testid="product-wrapper"]']])
+    expect(blockTarget("block/listing/p1@360")).toEqual({ block: "listing/p1", width: 360 })
+    expect(blockTarget("block/announcement/text-bar:empty@1280")).toEqual({ block: "announcement/text-bar:empty", width: 1280 })
+    expect(blockTarget("template/ferrite/home@360")).toBe(null)
+  })
+
+  it("a block with the card's 13px unit line only: 0 new, 1 inherited from the listing blocks and the card", () => {
+    const { fresh, inherited, known } = run("block/collection/featured@360", block([own, card], { shared: ["ProductCard"] }), block([own]))
+    expect(fresh).toEqual([])
+    expect(known).toEqual([])
+    expect(inherited).toEqual([
+      {
+        key: "block/collection/featured@360 | QR-TYPE-SCALE | size 13px off the scale",
+        target: "block/collection/featured@360",
+        rule: "QR-TYPE-SCALE",
+        sig: "size 13px off the scale",
+        detail: "13px ×6, e.g. span[product-unit] «Small · Large»",
+        from: ["listing/p1", "listing/p2", "ProductCard"],
+        part: "ProductCard",
+      },
+    ])
+  })
+
+  it("a block whose own text is 13px too: the 13px failure stays new", () => {
+    const ownSmall = { value: 13, count: 1, samples: ["p.note «Delivery tomorrow»"] }
+    const { fresh, inherited } = run("block/collection/featured@360", block([own, card], { shared: ["ProductCard"] }), block([own, ownSmall]))
+    expect(inherited).toEqual([])
+    expect(fresh.map((f) => `${f.rule} | ${f.sig}`)).toEqual(["QR-TYPE-SCALE | size 13px off the scale"])
+  })
+
+  it("a card failure the baseline does not hold, or holds at another width only, is new", () => {
+    const spacing = [{ value: 16, count: 4, samples: [] }, { value: 6, count: 32, samples: ["button[wishlist-button]"] }, { value: 10, count: 2, samples: ["span[product-unit]"] }]
+    const { fresh, inherited } = run(
+      "block/collection/featured@360",
+      block([own], { shared: ["ProductCard"], spacing }),
+      block([own], { spacing: [{ value: 16, count: 4, samples: [] }] })
+    )
+    expect(inherited).toEqual([])
+    expect(fresh.map((f) => f.sig)).toEqual(["space 6px off the scale", "space 10px off the scale"])
+  })
+
+  it("motion, focus and contrast inside the part are left out by the part they name", () => {
+    const c = ctx({
+      on: "block",
+      page: null,
+      width: 360,
+      reducedMotion: { max: 150, offenders: [{ ms: 150, kind: "transition", el: "button.absolute", part: "ProductCard" }] },
+      focus: [{ el: "a", visible: true }, { el: "button[wishlist-button]", visible: false, part: "ProductCard" }],
+      contrast: { violations: [{ el: "span[product-unit]", ratio: 3.9, expected: 4.5, part: "ProductCard" }] },
+    })
+    expect(withoutShared(c)).toMatchObject({ reducedMotion: { max: 0, offenders: [] }, focus: [{ el: "a", visible: true }], contrast: { violations: [] } })
+    const { fresh, inherited } = run("block/collection/featured@360", block([own], { shared: ["ProductCard"] }), block([own]), c)
+    expect(inherited.map((f) => f.rule)).toEqual(["QR-MOTION"])
+    // Focus and contrast inside the card are not in the baseline: the block's run reports them as new.
+    expect(fresh.map((f) => f.rule)).toEqual(["QR-CONTRAST", "QR-FOCUS"])
+  })
+
+  it("a template page keeps today's rule: a block's baseline key makes nothing on it inherited", () => {
+    const page = { ...evaluateBlock(facts({ type: { sizes: [own, card, { value: 32, count: 1, samples: ["h1"] }], weights: [] } }), null, ctx({ width: 360 })) }
+    const target = { target: "template/ferma/home@360", ...page, shared: ["ProductCard"], ownFailures: [] }
+    const { fresh, inherited } = compareWithBaseline([target], baseline)
+    expect(inherited).toEqual([])
+    expect(fresh.map((f) => f.sig)).toContain("size 13px off the scale")
+  })
+
+  it("a block without a shared part is measured once and owns every failure", () => {
+    const r = evaluateBlock(block([own, card], { shared: [] }), block([own]), at360)
+    expect(r.shared).toBeUndefined()
+    expect(r.ownFailures).toBeUndefined()
+    expect(compareWithBaseline([{ target: "block/collection/featured@360", ...r }], baseline).fresh.map((f) => f.sig)).toEqual(["size 13px off the scale"])
   })
 })
