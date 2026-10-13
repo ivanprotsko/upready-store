@@ -42,17 +42,17 @@ export default async function CheckoutLayout({
                 позволял вернуться обратно в корзину». It replaces Ivan 04.10 08:40
                 (t-2026-10-04-22), «no «В корзину» control on the checkout»: the order list
                 here is read-only now (item 6.1), so the cart is where the order changes.
-                «Корзина» on a phone, «Вернуться в корзину» from 1024 px; the accessible name is
-                the long one at every width. */}
+                Ivan 13.10 ~19:15 (t-2026-10-13-20): «кнопку назад в виде обычной иконки со
+                стрелкой назад». The arrow alone at every width, in the 40 px round target of
+                the Olavka header's icon buttons, pulled 12 px outward so the arrow itself stays
+                on the page's start edge. «Вернуться в корзину» is its accessible name. */}
             <Link
               href="/cart"
               aria-label={t("backToCart")}
-              className="flex items-center gap-x-1.5 whitespace-nowrap txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+              className="-ms-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-ui-fg-subtle transition-colors hover:bg-[var(--accent)] hover:text-ui-fg-base focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
               data-testid="checkout-back-to-cart"
             >
-              <ArrowLeft className="shrink-0 rtl:rotate-180" aria-hidden />
-              <span className="small:hidden">{t("backToCartShort")}</span>
-              <span className="hidden small:inline">{t("backToCart")}</span>
+              <ArrowLeft className="rtl:rotate-180" aria-hidden />
             </Link>
           </div>
 
