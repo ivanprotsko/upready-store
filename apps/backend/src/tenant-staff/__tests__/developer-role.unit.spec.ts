@@ -2,6 +2,7 @@ import {
   describeDeveloperRolePlan,
   parseEmailList,
   planDeveloperRoles,
+  type DeveloperRoleInput,
   type StaffLogin,
 } from "../developer-role";
 
@@ -40,9 +41,9 @@ const SHOPS: StaffLogin[] = [
   login("t_owner", "test-shop", "agent@test-shop.test"),
 ];
 
-const INPUT = { platformEmail: PLATFORM, developers: [DEVELOPER], services: [SERVICE] };
+const INPUT: DeveloperRoleInput = { platformEmail: PLATFORM, developers: [DEVELOPER], services: [SERVICE] };
 
-const moves = (rows: StaffLogin[], input = INPUT) =>
+const moves = (rows: StaffLogin[], input: DeveloperRoleInput = INPUT) =>
   planDeveloperRoles(rows, input).changes.map((change) => `${change.id} ${change.from}->${change.to} ${change.reason}`);
 
 describe("who stops being an owner", () => {
