@@ -11,6 +11,12 @@ import { fileURLToPath } from "node:url"
 const here = dirname(fileURLToPath(import.meta.url))
 const source = readFileSync(join(here, "layout.tsx"), "utf8")
 const header = source.slice(source.indexOf("<header"), source.indexOf("</header>"))
+// What the header draws, without the comments that quote Ivan's words.
+const drawn = header.replace(/\{\/\*[\s\S]*?\*\/\}/g, "").replace(/\/\/.*$/gm, "")
+const backLink = header.slice(
+  header.search(/<Link\s+href="\/cart"/),
+  header.indexOf("</Link>", header.search(/<Link\s+href="\/cart"/)) + "</Link>".length
+)
 const logo = readFileSync(
   join(here, "../../../modules/layout/components/header-logo/index.tsx"),
   "utf8"
@@ -27,8 +33,22 @@ describe("the checkout header", () => {
 
   it("1.2: leads back to the cart, named «Вернуться в корзину» at every width", () => {
     expect(header).toMatch(/<Link\s+href="\/cart"\s+aria-label=\{t\("backToCart"\)\}/)
-    expect(header).toContain('<span className="small:hidden">{t("backToCartShort")}</span>')
-    expect(header).toContain('<span className="hidden small:inline">{t("backToCart")}</span>')
+    expect(backLink).toContain('data-testid="checkout-back-to-cart"')
+  })
+
+  // t-2026-10-13-20, Ivan 13.10 ~19:15: «кнопку назад в виде обычной иконки со стрелкой назад».
+  it("draws the way back as a plain back-arrow icon, with no visible text", () => {
+    const children = backLink
+      .slice(backLink.indexOf(">") + 1, backLink.lastIndexOf("</Link>"))
+      .trim()
+    expect(children).toBe('<ArrowLeft className="rtl:rotate-180" aria-hidden />')
+    // A 40 px round target at least, centred, so the logo keeps its column.
+    expect(backLink).toMatch(/className="[^"]*\bh-10 w-10\b[^"]*"/)
+    expect(backLink).toMatch(/className="[^"]*\bitems-center justify-center rounded-full\b/)
+    // Neither label is drawn anywhere in the header, only named.
+    expect(drawn).not.toMatch(/\{t\("backToCartShort"\)\}/)
+    expect(drawn).not.toMatch(/>\s*\{t\("backToCart"\)\}/)
+    expect(drawn).not.toMatch(/Корзина|Вернуться в корзину/)
   })
 
   it("6.2: shows the signed-in buyer's avatar instead of a user icon, as no link", () => {
