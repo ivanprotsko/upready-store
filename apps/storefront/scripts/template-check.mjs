@@ -10,7 +10,7 @@
 //
 //   node scripts/template-check.mjs --base http://localhost:8130 --locale en --host globex.shipshift.dev \
 //     [--only <template id | block id | anchor>[,…]] [--widths 360,1280] [--out <dir>]
-//     [--baseline <file>] [--write-baseline]
+//     [--baseline <file>] [--write-baseline | --prune-baseline]
 //   node scripts/template-check.mjs --fixture <file.html>      one static page, every page rule, no baseline
 //   node scripts/template-check.mjs --self-test                the bad fixture fails with the ids it lists,
 //                                                              the good one passes every gate
@@ -22,6 +22,8 @@
 // (`compareWithBaseline()`): listed apart, not failing the run. So is a block's failure that only a storefront part
 // it reuses makes (`SHARED_PARTS`, e.g. ProductCard), when the baseline holds it for a block at that width.
 // `--write-baseline` records today's gate failures as the baseline (with --only, for those targets alone).
+// A baseline key of a target this run checked that no failure has today is stale (`staleBaselineKeys()`): the run
+// names each on a line of its own and in the report, and `--prune-baseline` removes those keys and nothing else.
 //
 // The storefront must run with STOREFRONT_TEMPLATE_PREVIEW=1. `--host` is sent as `x-forwarded-host`, as in the
 // shots script, so a local storefront resolves that shop and the pages carry a real catalogue.
@@ -44,6 +46,7 @@ import {
   evaluateTarget,
   failureKey,
   matchesOnly,
+  staleBaselineKeys,
 } from "./template-check/rules.mjs"
 
 const here = path.dirname(fileURLToPath(import.meta.url))
@@ -51,7 +54,7 @@ const storefront = path.resolve(here, "..")
 const repoRoot = path.resolve(storefront, "..", "..")
 const require = createRequire(import.meta.url)
 
-const FLAGS = { base: 1, locale: 1, host: 1, out: 1, only: 1, widths: 1, baseline: 1, fixture: 1, "write-baseline": 0, "self-test": 0 }
+const FLAGS = { base: 1, locale: 1, host: 1, out: 1, only: 1, widths: 1, baseline: 1, fixture: 1, "write-baseline": 0, "prune-baseline": 0, "self-test": 0 }
 function args(argv) {
   const out = { only: [] }
   for (let i = 0; i < argv.length; i++) {
@@ -390,6 +393,33 @@ if (opts["write-baseline"] && !isFixture) {
   baseline = new Set(failures)
   ;({ fresh, inherited, known } = compareWithBaseline(results, baseline))
 }
+
+// A signature holds a link's text and the shop's catalogue: only a run in the baseline's own locale and shop judges
+// its keys stale.
+const sameAsBaseline = Boolean(baselineDoc) && baselineDoc.locale === locale && (baselineDoc.host ?? null) === (opts.host ?? null)
+let stale = sameAsBaseline ? staleBaselineKeys(results, baseline) : []
+let pruned = 0
+if (opts["prune-baseline"] && !opts["write-baseline"] && !isFixture) {
+  if (problems.length || !sameAsBaseline) {
+    console.error("template:check: not pruning the baseline after a run that did not check everything or ran elsewhere:")
+    for (const p of problems) console.error(`  ! ${p}`)
+    if (!sameAsBaseline) console.error(`  ! the baseline was written for locale ${baselineDoc?.locale} and host ${baselineDoc?.host ?? "none"}`)
+    process.exit(2)
+  }
+  if (stale.length) {
+    const drop = new Set(stale)
+    const failures = baselineDoc.failures.filter((key) => !drop.has(key))
+    const doc = { ...baselineDoc, pruned: { date: new Date().toISOString(), commit, removed: stale.length }, failures }
+    fs.writeFileSync(baselineFile, `${JSON.stringify(doc, null, 2)}\n`)
+    for (const key of stale) console.log(`  - pruned baseline key: ${key}`)
+    console.log(`baseline: ${stale.length} stale keys removed, ${failures.length} left → ${baselineFile}`)
+    pruned = stale.length
+    // Judged again without them: a failure another template's stale key called inherited is the template's own now.
+    baseline = new Set(failures)
+    ;({ fresh, inherited, known } = compareWithBaseline(results, baseline))
+    stale = []
+  }
+}
 const inheritedKeys = new Set(inherited.map((f) => f.key))
 for (const t of results) {
   for (const r of t.results) {
@@ -431,7 +461,7 @@ const json = {
   only: opts.only,
   verdict,
   exit: status,
-  baseline: isFixture ? null : { file: baselineFile, failures: baseline.size, found: Boolean(baselineDoc) },
+  baseline: isFixture ? null : { file: baselineFile, failures: baseline.size, found: Boolean(baselineDoc), staleJudged: sameAsBaseline, stale: stale.length, pruned },
   summary: {
     targets: results.length,
     newGateFailures: fresh.length,
@@ -445,6 +475,7 @@ const json = {
   notPorted: NOT_PORTED,
   newFailures: fresh,
   inheritedFailures: inherited,
+  staleBaselineKeys: stale,
   targets: results,
 }
 fs.writeFileSync(path.join(outDir, "report.json"), `${JSON.stringify(json, null, 2)}\n`)
@@ -520,6 +551,20 @@ if (!isFixture) {
   }
   ru.push("")
 }
+if (!isFixture) {
+  ru.push("## Stale baseline keys")
+  ru.push("")
+  if (!sameAsBaseline) {
+    ru.push(`Not judged: the baseline was written for locale ${baselineDoc?.locale ?? "–"} and host ${baselineDoc?.host ?? "none"}, this run is ${locale} and ${opts.host ?? "none"}.`)
+  } else if (!stale.length) {
+    ru.push(pruned ? `None: ${pruned} removed by --prune-baseline in this run.` : "None.")
+  } else {
+    ru.push("The target was checked and no gate failure has the key today. `--prune-baseline` removes them.")
+    ru.push("")
+    for (const key of stale) ru.push(`- \`${esc(key)}\``)
+  }
+  ru.push("")
+}
 ru.push("## Targets")
 ru.push("")
 ru.push("| Target | Gate rules failed (new / inherited / baseline) | Report rules out of range |")
@@ -540,8 +585,9 @@ fs.writeFileSync(path.join(outDir, "report.md"), `${ru.join("\n")}\n`)
 console.log(
   isFixture
     ? `template:check ${verdict}: ${results.length} fixture targets, ${fresh.length} gate failures (no baseline) → ${path.join(outDir, "report.md")}`
-    : `template:check ${verdict}: ${results.length} targets, ${fresh.length} new gate failures, ${inherited.length} inherited, ${known.length} in the baseline → ${path.join(outDir, "report.md")}`
+    : `template:check ${verdict}: ${results.length} targets, ${fresh.length} new gate failures, ${inherited.length} inherited, ${known.length} in the baseline, ${stale.length} stale baseline keys → ${path.join(outDir, "report.md")}`
 )
+for (const key of stale) console.log(`  ~ stale baseline key: ${key}`)
 for (const f of fresh.slice(0, 40)) console.log(`  ✗ ${f.rule}  ${f.target}  ${f.detail}`)
 if (fresh.length > 40) console.log(`  … ${fresh.length - 40} more in report.md`)
 for (const p of problems) console.log(`  ! ${p}`)

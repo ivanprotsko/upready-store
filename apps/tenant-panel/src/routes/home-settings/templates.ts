@@ -52,6 +52,8 @@ export type TemplateCatalogue = {
   templates: TemplateCard[]
   palettes: PaletteEntry[]
   layers: Record<LayerName, string[]>
+  /** The storefront's gap between home sections at each density, in px (its `--layer-section-gap`). */
+  sectionGapPx: Record<Density, number>
   current: CurrentTemplate | null
 }
 
@@ -144,7 +146,12 @@ export const PHOTO_RATIO: Record<PhotoStyle, string> = {
   landscape: "4 / 3",
   wide: "16 / 9",
 }
-export const DENSITY_GAP_PX: Record<Density, number> = { compact: 4, comfortable: 6, spacious: 9 }
+
+/**
+ * The schematic's gap between home sections: the storefront's own gap at the density, from the catalogue export
+ * (`sectionGapPx`), drawn at an eighth of its size. The three densities keep the storefront's proportion.
+ */
+export const densityGapPx = (sectionGapPx: Record<Density, number>, density: Density): number => sectionGapPx[density] / 8
 
 /** The preview link, `<origin>/<locale>?template=<id>`, or null when the panel has no preview origin. */
 export const previewHref = (origin: string | undefined, locale: string, id: string): string | null =>

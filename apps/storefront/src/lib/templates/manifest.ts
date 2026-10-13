@@ -99,12 +99,23 @@ const DENSITY_SHIFT: Record<Density, number> = { compact: -1, comfortable: 0, sp
  */
 const HEIGHT_FACTOR: Record<Density, string> = { compact: "0.75", comfortable: "1", spacious: "1.25" }
 
-const densityVars = (density: Density): Record<string, string> => {
+/** The step a `comfortable` space of `px` lands on at a density, in px. */
+const stepPx = (px: number, density: Density): number => {
   const scale: readonly number[] = SPACE_SCALE
-  const step = (px: number) => `${scale[scale.indexOf(px) + DENSITY_SHIFT[density]] / 16}rem`
+  return scale[scale.indexOf(px) + DENSITY_SHIFT[density]]
+}
+
+/**
+ * The gap between home sections at each density, in px (`--layer-section-gap`). The catalogue export carries it, so
+ * the panel's schematic of a template's home page keeps the storefront's proportions.
+ */
+export const SECTION_GAP_PX = Object.fromEntries(DENSITIES.map((d) => [d, stepPx(48, d)])) as Record<Density, number>
+
+const densityVars = (density: Density): Record<string, string> => {
+  const step = (px: number) => `${stepPx(px, density) / 16}rem`
   return {
     ...Object.fromEntries(LAYER_SPACE_STEPS.map((n) => [`--layer-space-${n}`, step(n * 4)])),
-    "--layer-section-gap": step(48),
+    "--layer-section-gap": `${SECTION_GAP_PX[density] / 16}rem`,
     "--layer-density": HEIGHT_FACTOR[density],
   }
 }

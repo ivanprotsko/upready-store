@@ -90,6 +90,8 @@ export type TemplateCatalog = {
   swatches: Record<string, { label: TemplateText; light: PaletteSwatch; dark?: PaletteSwatch }>;
   fonts: string[];
   layers: { radius: string[]; buttonStyle: string[]; photoStyle: string[]; density: string[] };
+  /** The storefront's gap between home sections at each density, in px, for the panel's schematic. */
+  sectionGapPx: Record<string, number>;
   locales: string[];
   blocks: CatalogBlock[];
   templates: Record<string, unknown>;

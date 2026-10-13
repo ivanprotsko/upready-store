@@ -1,7 +1,9 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
 
 import {
+  densityGapPx,
   failureText,
   initialChoice,
   isTemplateOwn,
@@ -119,4 +121,19 @@ test("a catalogue text that is a string is the same words in every language", ()
   assert.equal(textFor("Long Morning", "ru"), "Long Morning")
   assert.equal(textFor("Long Morning", undefined), "Long Morning")
   assert.equal(textFor({ en: "Long Morning" }, undefined), "Long Morning")
+})
+
+// The schematic's gaps between sections follow the storefront's density steps (#389): the catalogue export carries
+// the storefront's section gap per density, and the scheme draws it at an eighth, so the ratio stays the storefront's.
+test("the schematic's gap between sections keeps the storefront's proportion at every density", () => {
+  const catalogue = JSON.parse(
+    readFileSync(new URL("../../../backend/src/api/tenants/home/template/catalog.generated.json", import.meta.url), "utf8"),
+  )
+  const { sectionGapPx } = catalogue
+  assert.deepEqual(sectionGapPx, { compact: 32, comfortable: 48, spacious: 64 })
+  const gaps = catalogue.layers.density.map((density) => densityGapPx(sectionGapPx, density))
+  assert.deepEqual(gaps, [4, 6, 8])
+  for (const density of catalogue.layers.density) {
+    assert.equal(densityGapPx(sectionGapPx, density) / sectionGapPx[density], 1 / 8, density)
+  }
 })

@@ -38,6 +38,8 @@ export type TemplateCatalogue = {
   templates: TemplateCard[];
   palettes: PaletteEntry[];
   layers: TemplateCatalogLayers;
+  /** The storefront's gap between home sections at each density, in px: the schematic keeps its proportion. */
+  sectionGapPx: Record<string, number>;
   current: CurrentTemplate | null;
 };
 
@@ -96,5 +98,5 @@ export function templateCatalogue(document: TenantHomeDocument | null): Template
       }
     : null;
 
-  return { templates, palettes, layers: CATALOG.layers, current };
+  return { templates, palettes, layers: CATALOG.layers, sectionGapPx: CATALOG.sectionGapPx, current };
 }

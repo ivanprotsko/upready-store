@@ -13,6 +13,7 @@ import { THRESHOLDS } from "../../../scripts/template-check/rules.mjs"
 import {
   DENSITIES,
   LAYER_SPACE_STEPS,
+  SECTION_GAP_PX,
   SPACE_SCALE,
   TEMPLATE_SCHEMA,
   resolveTemplate,
@@ -373,6 +374,12 @@ describe("the density layer", () => {
     expect(spaces("compact")).toEqual({ ...step([4, 8, 12, 16, 24, 32, 48, 64]), "--layer-section-gap": 32 })
     expect(spaces("comfortable")).toEqual({ ...step([8, 12, 16, 24, 32, 48, 64, 96]), "--layer-section-gap": 48 })
     expect(spaces("spacious")).toEqual({ ...step([12, 16, 24, 32, 48, 64, 96, 128]), "--layer-section-gap": 64 })
+  })
+
+  // The catalogue export carries SECTION_GAP_PX to the panel, whose schematic draws the home page's gaps with it.
+  it("exports the section gap it sets, per density", () => {
+    expect(SECTION_GAP_PX).toEqual({ compact: 32, comfortable: 48, spacious: 64 })
+    for (const density of DENSITIES) expect(spaces(density)["--layer-section-gap"], density).toBe(SECTION_GAP_PX[density])
   })
 
   // A block reads a step with its comfortable value as the fallback, so a shop with no template draws exactly

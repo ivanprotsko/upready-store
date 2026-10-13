@@ -317,6 +317,11 @@
       "spacious"
     ]
   },
+  "sectionGapPx": {
+    "compact": 32,
+    "comfortable": 48,
+    "spacious": 64
+  },
   "locales": [
     "ar",
     "bg",

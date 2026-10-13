@@ -611,6 +611,19 @@ export function compareWithBaseline(results, baseline) {
   return { fresh, inherited, known }
 }
 
+/**
+ * The baseline's keys this run proves stale: the key's target was checked, and no gate failure of it has the key
+ * today (a fix, or a change like the density steps of #389, took the failure away). A target the run did not check
+ * (`--only`, `--widths`, a page with nothing to measure) keeps its keys: nothing is known about them. Sorted.
+ */
+export function staleBaselineKeys(results, baseline) {
+  const ran = new Set(results.map((t) => t.target))
+  const today = new Set(
+    results.flatMap((t) => t.results.filter((r) => r.kind === "gate").flatMap((r) => r.failures.map((f) => failureKey(t.target, r.rule, f.sig))))
+  )
+  return [...baseline].filter((key) => ran.has(key.slice(0, key.indexOf(" | "))) && !today.has(key)).sort()
+}
+
 /** Which targets a `--only` value selects: a template id, a block id (`hero/g`) or a playground anchor. */
 export function matchesOnly(target, only) {
   if (!only.length) return true

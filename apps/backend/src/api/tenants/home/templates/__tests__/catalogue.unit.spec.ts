@@ -70,6 +70,10 @@ describe("templateCatalogue", () => {
     });
   });
 
+  it("answers the storefront's gap between home sections at each density", () => {
+    expect(templateCatalogue(null).sectionGapPx).toEqual({ compact: 32, comfortable: 48, spacious: 64 });
+  });
+
   it("has no current template for a shop with no document, or a document with no template", () => {
     expect(templateCatalogue(null).current).toBeNull();
     expect(templateCatalogue(documentWith()).current).toBeNull();
