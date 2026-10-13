@@ -134,6 +134,21 @@ export function readCoursePage(
   return { about, faq, testimonials }
 }
 
+/**
+ * Whether a product page takes the course layout: a product that sells a course
+ * (`getProductCourse` answered), or one that carries a course landing's own
+ * sections without a course of lessons behind it. The lymph set of cherkashino.ru
+ * is the second kind (t-2026-10-13-26, Ivan 13.10: «страница с курсом по лимфе не
+ * заполнена»): its `metadata.course_page` held the landing's sections and FAQ, and
+ * the page drew none of them, because only the first kind got the layout.
+ */
+export function takesCourseLayout(
+  hasCourse: boolean,
+  page: CoursePageContent | null
+): boolean {
+  return hasCourse || page !== null
+}
+
 function readCourseLists(page: Record<string, unknown>): CoursePageContent {
   const list = (value: unknown) => (Array.isArray(value) ? value : [])
 

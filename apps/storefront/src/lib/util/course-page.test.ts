@@ -5,6 +5,7 @@ import {
   parseCourseDescription,
   readCourseCover,
   readCoursePage,
+  takesCourseLayout,
 } from "./course-page"
 
 // Ivan's text for the centre card (t-2026-09-24-n23, 1.2), as the fixture stores it.
@@ -229,5 +230,33 @@ describe("readCoursePage in the page's language", () => {
   it("never lets the i18n object itself reach a list", () => {
     const page = readCoursePage(metadata, "en")
     expect(Object.keys(page ?? {})).toEqual(["about", "faq", "testimonials"])
+  })
+})
+
+// t-2026-10-13-26, Ivan 13.10: «страница с курсом по лимфе не заполнена». The lymph
+// set held its landing's sections in `metadata.course_page` and sold no course of
+// lessons, so its page drew none of them.
+describe("takesCourseLayout", () => {
+  const lymph = readCoursePage({
+    course_page: {
+      about: [{ heading: "Почему очищение лимфы важно?", body: "Текст" }],
+      faq: [{ q: "С какого возраста можно?", a: "C 16 лет" }],
+      testimonials: [],
+    },
+  })
+
+  it("lays out a product with a landing's sections and no course as a course", () => {
+    expect(lymph).not.toBeNull()
+    expect(takesCourseLayout(false, lymph)).toBe(true)
+  })
+
+  it("lays out a product that sells a course as a course, sections or not", () => {
+    expect(takesCourseLayout(true, null)).toBe(true)
+    expect(takesCourseLayout(true, lymph)).toBe(true)
+  })
+
+  it("leaves an ordinary product, with neither, on the ordinary layout", () => {
+    expect(takesCourseLayout(false, readCoursePage({}))).toBe(false)
+    expect(takesCourseLayout(false, readCoursePage(null))).toBe(false)
   })
 })
