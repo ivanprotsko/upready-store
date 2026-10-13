@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <title>Ольха — a made-up brand for the logos/brands sample</title>
+  <g fill="#3F8A5A">
+    <path d="M120 22c44 22 62 60 46 96-10 22-28 34-46 38-18-4-36-16-46-38-16-36 2-74 46-96z"/>
+    <path d="M118 58h4v104h-4z" fill="#FFFFFF" opacity="0.85"/>
+    <path d="M120 96l26-18 3 4-29 20zM120 124l-26-18-3 4 29 20z" fill="#FFFFFF" opacity="0.85"/>
+    <text x="120" y="212" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="38" font-weight="700" letter-spacing="4">ОЛЬХА</text>
+  </g>
+</svg>

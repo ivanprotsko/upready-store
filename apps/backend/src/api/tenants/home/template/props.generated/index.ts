@@ -15,6 +15,7 @@ import { parseFaqAccordionProps } from "./faq/accordion/props"
 import { parseHeroSplitProps } from "./hero/split/props"
 import { parseHeroTypeProps } from "./hero/type/props"
 import { parsePriceTableProps } from "./listing/price-table/props"
+import { parseLogosBrandsProps } from "./logos/brands/props"
 import { parseImageWithTextProps } from "./media/image-with-text/props"
 import { parseMediaStoriesProps } from "./media/stories/props"
 import { parseNewsletterSignupProps } from "./newsletter/signup/props"
@@ -40,6 +41,7 @@ export const PROPS_PARSERS: Record<string, (input: unknown) => PropsResult<unkno
   "hero/split": parseHeroSplitProps,
   "hero/type": parseHeroTypeProps,
   "listing/price-table": parsePriceTableProps,
+  "logos/brands": parseLogosBrandsProps,
   "media/image-with-text": parseImageWithTextProps,
   "media/stories": parseMediaStoriesProps,
   "newsletter/signup": parseNewsletterSignupProps,
