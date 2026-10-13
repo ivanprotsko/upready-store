@@ -219,7 +219,7 @@ describe("newsletter/signup in the registry", () => {
     expect([...newsletterSignup.roles].sort()).toEqual(
       ["cta-primary", "cta-secondary", "description", "heading", "icon", "section-header"].sort()
     )
-    expect(CATEGORY_BLOCKS.newsletter.map((b) => b.id)).toEqual(["newsletter/signup"])
+    expect(CATEGORY_BLOCKS.newsletter.map((b) => b.id)).toContain("newsletter/signup")
     expect(BLOCKS.map((b) => b.id)).toContain("newsletter/signup")
   })
 

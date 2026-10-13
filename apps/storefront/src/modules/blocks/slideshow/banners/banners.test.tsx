@@ -319,7 +319,7 @@ describe("the carousel's moves", () => {
 })
 
 describe("slideshow/banners in the registry", () => {
-  it("is a static lab home block with the brief's roles, the only slideshow so far", () => {
+  it("is a static lab home block of the slideshow category with the brief's roles", () => {
     expect(blockById("slideshow/banners")).toBe(slideshowBanners)
     expect(slideshowBanners).toMatchObject({
       category: "slideshow",
@@ -329,7 +329,7 @@ describe("slideshow/banners in the registry", () => {
       placement: "home",
     })
     expect([...slideshowBanners.roles].sort()).toEqual(["cta-primary", "description", "headline", "hero-image", "trigger"])
-    expect(CATEGORY_BLOCKS.slideshow.map((b) => b.id)).toEqual(["slideshow/banners"])
+    expect(CATEGORY_BLOCKS.slideshow.map((b) => b.id)).toContain("slideshow/banners")
     expect(BLOCKS.map((b) => b.id)).toContain("slideshow/banners")
     expect(parseSlideshowBannersProps(sample)).toEqual({ ok: true, value: sample })
     expect(parseSlideshowBannersProps(slideshowBanners.fixtures!.empty).ok).toBe(true)

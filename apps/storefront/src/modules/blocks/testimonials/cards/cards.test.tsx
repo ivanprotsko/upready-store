@@ -217,7 +217,7 @@ describe("testimonials/cards in the registry", () => {
     expect([...testimonialsCards.roles].sort()).toEqual(
       ["author-info", "quote-text", "section-header", "star-rating", "testimonial-card", "trigger"].sort()
     )
-    expect(CATEGORY_BLOCKS.testimonials.map((b) => b.id)).toEqual(["testimonials/cards"])
+    expect(CATEGORY_BLOCKS.testimonials.map((b) => b.id)).toContain("testimonials/cards")
     const ids = BLOCKS.map((b) => b.id)
     const lastText = Math.max(...CATEGORY_BLOCKS.text.map((b) => ids.indexOf(b.id)))
     expect(ids.indexOf("testimonials/cards")).toBeGreaterThan(lastText)

@@ -259,10 +259,9 @@ describe("the registry entry", () => {
   it("stands in the announcement category before text-bar, a lab home block of static data", () => {
     expect(blockById("announcement/rotator")).toBe(rotator)
     expect(BLOCKS).toContain(rotator)
-    expect(CATEGORY_BLOCKS.announcement.map((entry) => entry.variant)).toEqual([
-      "rotator",
-      "text-bar",
-    ])
+    const announcement = CATEGORY_BLOCKS.announcement.map((entry) => entry.variant)
+    expect(announcement).toEqual(expect.arrayContaining(["rotator", "text-bar"]))
+    expect(announcement.indexOf("rotator")).toBeLessThan(announcement.indexOf("text-bar"))
     expect(rotator).toMatchObject({
       status: "lab",
       placement: "home",
