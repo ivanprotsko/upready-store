@@ -6,6 +6,7 @@ import {
   NEXT_LABEL,
   PREVIOUS_LABEL,
   RATING_LABEL,
+  SOURCE_LABELS,
   parseTestimonialsCardsProps,
   type TestimonialsCardsProps,
 } from "./props"
@@ -15,25 +16,28 @@ const labels = {
   listLabel: LIST_LABEL,
   previousLabel: PREVIOUS_LABEL,
   nextLabel: NEXT_LABEL,
+  sourceLabels: SOURCE_LABELS,
 }
 
 /**
  * The registry entry of `testimonials/cards`: `docs/templates/BLOCK-CONTRACT.md` §1. The names in
- * the sample are invented first names; a fixture, a shot or a test never carries a real buyer's.
+ * the sample are invented first names; a fixture, a shot or a test never carries a real buyer's. The
+ * sample names each place a review can come from once; two of them link to the marketplace's front
+ * page, since an invented review has no page of its own.
  */
 export const testimonialsCards: BlockEntry<TestimonialsCardsProps> = {
   id: "testimonials/cards",
   category: "testimonials",
   variant: "cards",
   title: "Testimonial cards",
-  roles: ["section-header", "testimonial-card", "quote-text", "author-info", "star-rating", "trigger"],
+  roles: ["section-header", "testimonial-card", "quote-text", "author-info", "star-rating", "marketplace-badge", "trigger"],
   data: ["static"],
   status: "lab",
   placement: "home",
   component: TestimonialsCards,
   parseProps: parseTestimonialsCardsProps,
   fixtures: {
-    empty: { header: null, items: [], layout: "grid", showRating: true, ...labels },
+    empty: { header: null, items: [], layout: "grid", showRating: true, showSource: true, ...labels },
     sample: {
       header: {
         eyebrow: { ru: "Отзывы", en: "Reviews" },
@@ -53,6 +57,8 @@ export const testimonialsCards: BlockEntry<TestimonialsCardsProps> = {
           name: { ru: "Марина", en: "Marina" },
           city: { ru: "Казань", en: "Kazan" },
           rating: 5,
+          source: "wildberries",
+          sourceUrl: "https://www.wildberries.ru/",
         },
         {
           quote: {
@@ -62,6 +68,8 @@ export const testimonialsCards: BlockEntry<TestimonialsCardsProps> = {
           name: { ru: "Тимур", en: "Timur" },
           city: { ru: "Пермь", en: "Perm" },
           rating: 5,
+          source: "site",
+          sourceUrl: null,
         },
         {
           quote: {
@@ -71,6 +79,8 @@ export const testimonialsCards: BlockEntry<TestimonialsCardsProps> = {
           name: { ru: "Вера", en: "Vera" },
           city: { ru: "Тверь", en: "Tver" },
           rating: 4,
+          source: "ozon",
+          sourceUrl: "https://www.ozon.ru/",
         },
         {
           quote: {
@@ -80,6 +90,8 @@ export const testimonialsCards: BlockEntry<TestimonialsCardsProps> = {
           name: { ru: "Арсений", en: "Arseny" },
           city: { ru: "Екатеринбург", en: "Yekaterinburg" },
           rating: 5,
+          source: "vk",
+          sourceUrl: null,
         },
         {
           quote: {
@@ -89,10 +101,24 @@ export const testimonialsCards: BlockEntry<TestimonialsCardsProps> = {
           name: { ru: "Олеся", en: "Olesya" },
           city: { ru: "Новосибирск", en: "Novosibirsk" },
           rating: 5,
+          source: "yandex-market",
+          sourceUrl: null,
+        },
+        {
+          quote: {
+            ru: "Забрала заказ в пункте выдачи у дома. Продавец ответил на вопрос о размере за пять минут, всё подошло.",
+            en: "I picked the order up at the pickup point by my house. The seller answered my sizing question in five minutes, and it all fit.",
+          },
+          name: { ru: "Лидия", en: "Lidiya" },
+          city: { ru: "Самара", en: "Samara" },
+          rating: 5,
+          source: "avito",
+          sourceUrl: null,
         },
       ],
       layout: "carousel",
       showRating: true,
+      showSource: true,
       ...labels,
     },
   },

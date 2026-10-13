@@ -1,9 +1,26 @@
 import type { PropsResult } from "../../types"
 import type { LocalizedText } from "../../shared/localized-text"
-import { parseBoolean, parseEnum, parseInteger, parseList, parseLocalizedText, parseObject, parseProps } from "../../shared/parse"
+import {
+  type Fields,
+  parseBoolean,
+  parseEnum,
+  parseHref,
+  parseInteger,
+  parseList,
+  parseLocalizedText,
+  parseObject,
+  parseProps,
+} from "../../shared/parse"
 import { parseSectionHeader, type SectionHeader } from "../../shared/section-header"
 
-/** One testimonial: the buyer's words, an invented or consented first name, a city, a rating. */
+/**
+ * Where a review was left: a marketplace, VK, Авито or the shop's own site. R2's build list item 4,
+ * after InSales Vibe's «отзыв с Wildberries / OZON / VK» under the buyer's name.
+ */
+export const REVIEW_SOURCES = ["wildberries", "ozon", "yandex-market", "vk", "avito", "site"] as const
+export type ReviewSource = (typeof REVIEW_SOURCES)[number]
+
+/** One testimonial: the buyer's words, an invented or consented first name, a city, a rating, where it was left. */
 export type Testimonial = {
   quote: LocalizedText
   /** A first name, «Марина», never a full name. */
@@ -12,6 +29,10 @@ export type Testimonial = {
   city: LocalizedText
   /** 1 to 5, or null: no stars on this card. */
   rating: number | null
+  /** Where the review was left, or null: no badge on this card. */
+  source: ReviewSource | null
+  /** The review on that place, `https://` only; the badge becomes a link. Needs a `source`. */
+  sourceUrl: string | null
 }
 
 export type TestimonialsCardsProps = {
@@ -21,12 +42,16 @@ export type TestimonialsCardsProps = {
   /** `grid`: every card at once; `carousel`: one row that scrolls sideways, snapping to a card. */
   layout: "grid" | "carousel"
   showRating: boolean
+  /** Off: no card shows where its review was left, whatever the items say. */
+  showSource: boolean
   /** What a screen reader hears for the stars; `{rating}` becomes the number. */
   ratingLabel: LocalizedText
   /** The carousel's own name for assistive technology. */
   listLabel: LocalizedText
   previousLabel: LocalizedText
   nextLabel: LocalizedText
+  /** The badge's words for each place: «Отзыв с Wildberries». Words only, never a marketplace's logo. */
+  sourceLabels: Record<ReviewSource, LocalizedText>
 }
 
 /** The block's own words while it is `lab` (BLOCK-CONTRACT.md §2). */
@@ -34,6 +59,14 @@ export const RATING_LABEL: LocalizedText = { ru: "Оценка {rating} из 5",
 export const LIST_LABEL: LocalizedText = { ru: "Отзывы покупателей", en: "Customer reviews" }
 export const PREVIOUS_LABEL: LocalizedText = { ru: "Предыдущие отзывы", en: "Previous reviews" }
 export const NEXT_LABEL: LocalizedText = { ru: "Следующие отзывы", en: "Next reviews" }
+export const SOURCE_LABELS: Record<ReviewSource, LocalizedText> = {
+  wildberries: { ru: "Отзыв с Wildberries", en: "Review on Wildberries" },
+  ozon: { ru: "Отзыв с Ozon", en: "Review on Ozon" },
+  "yandex-market": { ru: "Отзыв с Яндекс Маркета", en: "Review on Yandex Market" },
+  vk: { ru: "Отзыв из VK", en: "Review on VK" },
+  avito: { ru: "Отзыв с Авито", en: "Review on Avito" },
+  site: { ru: "Отзыв с сайта", en: "Review on our site" },
+}
 
 const MIN_ITEMS = 2
 const MAX_ITEMS = 9
@@ -44,13 +77,30 @@ const label = (fallback: LocalizedText) => (value: unknown, path: string) =>
 const parseRating = (value: unknown, path: string): PropsResult<number | null> =>
   value === undefined || value === null ? { ok: true, value: null } : parseInteger(value, path, { min: 1, max: 5 })
 
-const parseTestimonial = (value: unknown, path: string) =>
-  parseObject<Testimonial>(value, path, {
+const parseSource = (value: unknown, path: string): PropsResult<ReviewSource | null> =>
+  value === undefined || value === null ? { ok: true, value: null } : parseEnum(value, path, REVIEW_SOURCES)
+
+/** A review sits on a page of its own, on the marketplace or on the shop's site: a full `https://` address. */
+const parseSourceUrl = (value: unknown, path: string): PropsResult<string | null> =>
+  typeof value === "string" && !value.startsWith("https://")
+    ? { ok: false, errors: [`${path} must start with https://: a review sits on its own page`] }
+    : parseHref(value, path)
+
+/** A link with no place to name would be a badge with no words. */
+const parseTestimonial = (value: unknown, path: string): PropsResult<Testimonial> => {
+  const result = parseObject<Testimonial>(value, path, {
     quote: (quote, quotePath) => parseLocalizedText(quote, quotePath, { max: 400 }),
     name: (name, namePath) => parseLocalizedText(name, namePath, { max: 40 }),
     city: (city, cityPath) => parseLocalizedText(city, cityPath, { max: 40, fallback: {} }),
     rating: parseRating,
+    source: parseSource,
+    sourceUrl: parseSourceUrl,
   })
+  if (result.ok && result.value.sourceUrl && !result.value.source) {
+    return { ok: false, errors: [`${path}.sourceUrl needs a source: the badge names the place the link leads to`] }
+  }
+  return result
+}
 
 /** A list of one is neither empty nor a set of voices to compare: none, or two to nine. */
 const parseItems = (value: unknown, path: string): PropsResult<Testimonial[]> => {
@@ -72,15 +122,25 @@ const parseRatingLabel = (value: unknown, path: string): PropsResult<LocalizedTe
   return missing.length ? { ok: false, errors: missing } : result
 }
 
+const sourceLabelFields = Object.fromEntries(
+  REVIEW_SOURCES.map((source) => [source, label(SOURCE_LABELS[source])])
+) as Fields<Record<ReviewSource, LocalizedText>>
+
+/** Absent is the block's own words; a shop may reword one place and keep the rest. */
+const parseSourceLabels = (value: unknown, path: string): PropsResult<Record<ReviewSource, LocalizedText>> =>
+  value === undefined || value === null ? { ok: true, value: SOURCE_LABELS } : parseObject(value, path, sourceLabelFields)
+
 export function parseTestimonialsCardsProps(input: unknown): PropsResult<TestimonialsCardsProps> {
   return parseProps<TestimonialsCardsProps>(input, "testimonials/cards", {
     header: (value, path) => parseSectionHeader(value, path),
     items: parseItems,
     layout: (value, path) => parseEnum(value, path, ["grid", "carousel"] as const, { fallback: "grid" }),
     showRating: (value, path) => parseBoolean(value, path, { fallback: true }),
+    showSource: (value, path) => parseBoolean(value, path, { fallback: true }),
     ratingLabel: parseRatingLabel,
     listLabel: label(LIST_LABEL),
     previousLabel: label(PREVIOUS_LABEL),
     nextLabel: label(NEXT_LABEL),
+    sourceLabels: parseSourceLabels,
   })
 }
