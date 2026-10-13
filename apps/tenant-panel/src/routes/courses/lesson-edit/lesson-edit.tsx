@@ -25,6 +25,7 @@ export const LessonEdit = () => {
           heading={lesson.title}
           description="Изменения видны покупателям с доступом к курсу сразу после сохранения."
           lesson={lesson}
+          lessons={lessons ?? []}
           isPending={isSaving}
           submitLabel="Сохранить"
           onSubmit={async (values) => {

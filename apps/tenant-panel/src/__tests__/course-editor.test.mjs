@@ -9,6 +9,17 @@ import {
   productsWithoutCourse,
   productTitleById,
 } from "../routes/courses/course-labels.ts"
+import {
+  courseScheduleBody,
+  dateInputValue,
+  emptyVideo,
+  fromLesson,
+  lessonGroups,
+  moveRow,
+  sectionNames,
+  sectionOrderFor,
+  toLessonBody,
+} from "../routes/courses/lesson-form/lesson-form-values.ts"
 
 /**
  * o24-courses, the panel's course editor (`/courses`, `/courses/:id`,
@@ -78,26 +89,29 @@ test("a failed lesson reorder puts the list back the way it was", () => {
   )
 })
 
-test("the lesson form refuses an empty title before it ever calls onSubmit", () => {
+// t-2026-10-13-29 stage 2 moved the form's checks into `toLessonBody`
+// (`lesson-form-values.ts`); they are run for real below, and the form must
+// still stop on them before it sends anything.
+test("the lesson form checks its values before it ever calls onSubmit, and stops on a refusal", () => {
   const source = readFileSync(join(SRC, "routes/courses/lesson-form/lesson-form.tsx"), "utf8")
 
-  const guardIndex = source.indexOf("if (!title)")
+  const guardIndex = source.indexOf("toLessonBody(values")
   const submitIndex = source.indexOf("await onSubmit(")
-  assert.notEqual(guardIndex, -1, "the empty-title guard is missing")
+  assert.notEqual(guardIndex, -1, "the toLessonBody check is missing")
   assert.notEqual(submitIndex, -1, "the onSubmit call is missing")
-  assert.ok(guardIndex < submitIndex, "the title guard must run before the request is sent")
+  assert.ok(guardIndex < submitIndex, "the check must run before the request is sent")
 
   const guardBlock = source.slice(guardIndex, submitIndex)
-  assert.ok(/\breturn\b/.test(guardBlock), "an empty title must stop the submit, not just warn")
+  assert.ok(/if \(!result\.ok\)[\s\S]*\breturn\b/.test(guardBlock), "a refused value must stop the submit, not just warn")
 })
 
-test("the lesson form refuses a video link with no http(s) scheme before it ever calls onSubmit", () => {
-  const source = readFileSync(join(SRC, "routes/courses/lesson-form/lesson-form.tsx"), "utf8")
+test("the lesson form refuses an empty title and a video link with no http(s) scheme", () => {
+  const values = { ...fromLesson(), title: "Урок" }
 
-  const guardIndex = source.indexOf("VIDEO_URL_PATTERN.test")
-  const submitIndex = source.indexOf("await onSubmit(")
-  assert.notEqual(guardIndex, -1, "the video-url guard is missing")
-  assert.ok(guardIndex < submitIndex, "the video-url guard must run before the request is sent")
+  assert.equal(toLessonBody({ ...values, title: "  " }).ok, false)
+  assert.equal(toLessonBody({ ...values, videos: [{ ...emptyVideo(), url: "ftp://cdn.test/v.mp4" }] }).ok, false)
+  assert.equal(toLessonBody({ ...values, videos: [{ ...emptyVideo(), url: "cdn.test/v.mp4" }] }).ok, false)
+  assert.equal(toLessonBody({ ...values, videos: [{ ...emptyVideo(), url: "https://cdn.test/v.mp4" }] }).ok, true)
 })
 
 test("buildCourseStorefrontUrl reads the real product-page address of the course, on the shop's own host", () => {
@@ -131,4 +145,126 @@ test("deleting a course warns that a buyer's own access survives it", () => {
     source.includes("Покупатели, уже получившие доступ,"),
     "the delete prompt must say access already granted is not revoked (course-helpers.ts DELETE route keeps entitlement rows on purpose)"
   )
+})
+
+// t-2026-10-13-29 stage 2: the lesson form's values become the contract's
+// fields (`lesson-form-values.ts`, plain TS, imported and run for real).
+
+const courseLessons = [
+  { id: "l1", section: "Подготовка", order: 0 },
+  { id: "l2", section: "Подготовка", order: 1 },
+  { id: "l3", section: "Первая неделя программы", order: 2 },
+]
+
+const filled = () => ({
+  ...fromLesson(),
+  title: "  Дыхательная гимнастика ",
+  body: "Текст",
+  section: " Первая неделя программы ",
+  summary: " Как дышать по Стрельниковой ",
+  cover_url: "https://cdn.test/cover.jpg",
+  available_from_day: "3",
+  videos: [
+    { url: "https://cdn.test/v1.mp4", title: "", duration_sec: 225, poster_url: "https://cdn.test/p.jpg" },
+    emptyVideo(),
+    { url: " https://cdn.test/v2.mp4 ", title: " Комплекс ", duration_sec: null, poster_url: null },
+  ],
+  attachments: [{ name: "Подготовительный этап.pdf", url: "https://cdn.test/a.pdf", size_bytes: "1082539", mime: "application/pdf" }],
+  links: [{ kind: "telegram_chat", url: "https://t.me/+chat", title: "Чат «КАМНИ 26 ПОТОКА»" }],
+})
+
+test("the lesson form sends every stage-2 field in the contract's shape", () => {
+  const result = toLessonBody(filled(), courseLessons)
+
+  assert.equal(result.ok, true)
+  assert.deepEqual(result.body, {
+    title: "Дыхательная гимнастика",
+    body: "Текст",
+    section: "Первая неделя программы",
+    section_order: 1,
+    summary: "Как дышать по Стрельниковой",
+    cover_url: "https://cdn.test/cover.jpg",
+    available_from_day: 3,
+    videos: [
+      { url: "https://cdn.test/v1.mp4", duration_sec: 225, poster_url: "https://cdn.test/p.jpg" },
+      { url: "https://cdn.test/v2.mp4", title: "Комплекс" },
+    ],
+    attachments: [{ name: "Подготовительный этап.pdf", url: "https://cdn.test/a.pdf", size_bytes: 1082539, mime: "application/pdf" }],
+    links: [{ kind: "telegram_chat", url: "https://t.me/+chat", title: "Чат «КАМНИ 26 ПОТОКА»" }],
+    video_url: "https://cdn.test/v1.mp4",
+  })
+})
+
+test("empty optional fields go as null and empty lists, an empty row is dropped", () => {
+  const result = toLessonBody({ ...fromLesson(), title: "Урок", videos: [emptyVideo()] })
+
+  assert.equal(result.ok, true)
+  assert.equal(result.body.section, null)
+  assert.equal(result.body.section_order, null)
+  assert.equal(result.body.available_from_day, null)
+  assert.deepEqual(result.body.videos, [])
+  assert.equal(result.body.video_url, null)
+})
+
+test("the lesson form names the first thing to fix", () => {
+  const bad = (patch) => toLessonBody({ ...filled(), ...patch })
+
+  assert.equal(bad({ title: " " }).error, "Укажите название урока.")
+  assert.match(bad({ available_from_day: "0" }).error, /День открытия/)
+  assert.match(bad({ available_from_day: "2.5" }).error, /День открытия/)
+  assert.match(bad({ videos: [{ ...emptyVideo(), title: "Без ссылки" }] }).error, /^Видео 1:/)
+  assert.match(bad({ attachments: [{ name: "", url: "https://cdn.test/a.pdf", size_bytes: "", mime: null }] }).error, /^Файл 1: укажите имя/)
+  assert.match(bad({ links: [{ kind: "youtube", url: "https://youtu.be/x", title: "" }] }).error, /^Ссылка 1: укажите текст/)
+  assert.match(bad({ cover_url: "cover.jpg" }).error, /обложку/)
+})
+
+test("a lesson from before stage 2 opens in the form with its video_url as the one video", () => {
+  const values = fromLesson({ id: "l1", course_id: "c", title: "Старый", order: 0, body: "", video_url: "https://cdn.test/old.mp4" })
+
+  assert.deepEqual(values.videos, [{ url: "https://cdn.test/old.mp4", title: "", duration_sec: null, poster_url: null }])
+  assert.equal(values.available_from_day, "")
+})
+
+test("the section's place: an existing section keeps it, a new one goes last, the edited lesson does not count", () => {
+  assert.deepEqual(sectionNames(courseLessons), ["Подготовка", "Первая неделя программы"])
+  assert.equal(sectionOrderFor("Подготовка", courseLessons), 0)
+  assert.equal(sectionOrderFor("Бонусные уроки", courseLessons), 2)
+  assert.equal(sectionOrderFor("Первая неделя программы", courseLessons, "l3"), 1)
+  assert.equal(sectionOrderFor(null, courseLessons), null)
+})
+
+test("the course page groups lessons the way the school does: runs of one section", () => {
+  const groups = lessonGroups([...courseLessons, { id: "l4", section: null, order: 3 }])
+
+  assert.deepEqual(
+    groups.map((group) => [group.title, group.lessons.map((lesson) => lesson.id)]),
+    [
+      ["Подготовка", ["l1", "l2"]],
+      ["Первая неделя программы", ["l3"]],
+      [null, ["l4"]],
+    ]
+  )
+})
+
+test("moveRow moves one row and leaves the list alone at either end", () => {
+  assert.deepEqual(moveRow(["a", "b", "c"], 2, -1), ["a", "c", "b"])
+  assert.deepEqual(moveRow(["a", "b", "c"], 0, 1), ["b", "a", "c"])
+  assert.deepEqual(moveRow(["a", "b"], 0, -1), ["a", "b"])
+  assert.deepEqual(moveRow(["a", "b"], 1, 1), ["a", "b"])
+})
+
+test("the course's start and access length go to the API as a Moscow midnight and a number", () => {
+  assert.deepEqual(courseScheduleBody("2026-10-19", "97"), { ok: true, start_date: "2026-10-19T00:00:00+03:00", access_days: 97 })
+  assert.deepEqual(courseScheduleBody("", ""), { ok: true, start_date: null, access_days: null })
+  assert.equal(courseScheduleBody("", "0").ok, false)
+  assert.equal(dateInputValue("2026-10-18T21:00:00Z"), "2026-10-19")
+  assert.equal(dateInputValue(null), "")
+})
+
+test("the course page's lesson list and fields carry no fixed px widths and no table", () => {
+  for (const file of ["routes/courses/course-detail/course-detail.tsx", "routes/courses/lesson-form/lesson-form.tsx"]) {
+    const source = readFileSync(join(SRC, file), "utf8")
+    assert.doesNotMatch(source, /\b(?:max-)?w-\[\d+px\]/, `${file}: a fixed px width`)
+    assert.doesNotMatch(source, /<table|<Table\b/, `${file}: a table outside TableScroll`)
+  }
 })
