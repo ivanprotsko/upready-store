@@ -1,5 +1,5 @@
 import { isValidElement, type ReactNode } from "react"
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 
 import longMorning from "../../../templates/long-morning/template.json"
 
@@ -102,8 +102,13 @@ function serialise(node: ReactNode): unknown {
   return { type: name, key: node.key, props, children: serialise(children as ReactNode) }
 }
 
+// For a template the page imports the block registry lazily (`@lib/templates/saved`), and that first
+// import is cold: it grows with every block, took 2–5 s on a laptop and ran past vitest's 5 s under load
+// (t-2026-10-12-33, #397, #398). The page and what it imports for a template load once here, under a
+// limit of their own, so each test keeps vitest's 5 s for its own render.
+let Home: typeof import("./page").default
+
 async function renderHome(): Promise<string> {
-  const { default: Home } = await import("./page")
   return JSON.stringify(serialise(await Home()), null, 1)
 }
 
@@ -148,6 +153,16 @@ const find = (tree: unknown, type: string): Node | null => {
 }
 
 describe("home page with a saved template", () => {
+  beforeAll(async () => {
+    const [page] = await Promise.all([
+      import("./page"),
+      import("@lib/templates/saved"),
+      import("@modules/blocks/template-sections"),
+      import("@lib/templates/catalog"),
+    ])
+    Home = page.default
+  }, 30_000)
+
   beforeEach(() => {
     state.settings = longMorning.settings
     state.home = null
