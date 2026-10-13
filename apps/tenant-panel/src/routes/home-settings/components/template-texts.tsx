@@ -9,6 +9,7 @@ import {
   isLongText,
   isSectionOwn,
   lengthRefusal,
+  textRows,
   textsOf,
   withChannel,
   withText,
@@ -194,7 +195,7 @@ export const TemplateTexts = ({
                           onChange(index, withText(props, text.path, lang, event.target.value), `${text.path}.${lang}`)
                         }
                         data-testid={id}
-                        {...(isLongText(text) ? { rows: 3 } : {})}
+                        {...(isLongText(text) ? { rows: textRows(text) } : {})}
                       />
                       {refusal ? (
                         <Text id={`${id}-note`} size="small" className="text-ui-fg-error" data-testid="template-text-refusal">

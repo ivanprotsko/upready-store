@@ -12,6 +12,7 @@ import {
   channelRefusal,
   lengthRefusal,
   overridesWithTexts,
+  textRows,
   refusalsOf,
   sectionOverrides,
   textsOf,
@@ -262,6 +263,10 @@ test("long texts take a text area, short ones a single line", () => {
   for (const leaf of ["quote", "answer", "text", "lead", "note", "paragraphs"]) {
     assert.equal(isLongText({ leaf, text: { ru: "" } }), true, leaf)
   }
+  // A text area is as tall as its longest language needs, three to eight rows.
+  assert.equal(textRows({ text: { ru: "коротко", en: "short" } }), 3)
+  assert.equal(textRows({ text: { ru: "х".repeat(297), en: "x".repeat(200) } }), 6)
+  assert.equal(textRows({ text: { ru: "х".repeat(5000) } }), 8)
 })
 
 const lookup = (dictionary, key) => key.split(".").reduce((node, part) => (node == null ? node : node[part]), dictionary)

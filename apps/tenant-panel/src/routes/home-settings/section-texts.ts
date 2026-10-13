@@ -200,6 +200,10 @@ export const LONG_TEXT_CHARS = 90
 export const isLongText = (field: Pick<SectionText, "leaf" | "text">): boolean =>
   LONG_TEXT_LEAVES.has(field.leaf) || Object.values(field.text).some((line) => line.length > LONG_TEXT_CHARS)
 
+/** A text area's rows: the longest language's words at about 55 characters a row, from 3 to 8. */
+export const textRows = (field: Pick<SectionText, "text">): number =>
+  Math.min(8, Math.max(3, Math.ceil(Math.max(0, ...Object.values(field.text).map((line) => line.length)) / 55)))
+
 /**
  * The i18n keys of a field's name under `homeSettings.templates.texts`, the first one found wins: the name of
  * the leaf under its parent (`fieldsIn.seeAll.label`, «Ссылка на все»), then the leaf's own (`fields.label`).
