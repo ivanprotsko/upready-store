@@ -13,9 +13,12 @@ import { chooseTab, initialTabState, settleTab, tabAfterKey } from "./tab-state"
 /** One tab as the panel gets it: the label in the visitor's language, its source's page, its request. */
 export type TabView = { label: string; href: string; request: TabRequest }
 
-/** A tab: at least 44 px high (QR-HIT), the chosen one underlined in the text colour, the others subtle. */
+/**
+ * A tab: at least 44 px high (QR-HIT), the chosen one underlined in the text colour, the others subtle.
+ * 16 px at every width: 18 px from `small` sat 1.125× over the cards' 16 px, under QR-TYPE-SCALE's 1.15 step.
+ */
 const TRIGGER_CLASS =
-  "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap border-b-2 text-base font-medium transition-colors duration-200 motion-reduce:transition-none small:text-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
+  "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap border-b-2 text-base font-medium transition-colors duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
 
 /** The shell's «see all», as `BlockSection` draws it: the type of `SECTION_TYPE.seeAll`, a 44 px target, no corner. */
 const SEE_ALL_CLASS = clx(
