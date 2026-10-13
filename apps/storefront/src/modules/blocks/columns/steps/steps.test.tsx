@@ -156,6 +156,8 @@ describe("Steps", () => {
     expect(count(html, 'aria-hidden="true" data-step-marker=""')).toBe(4)
     expect(html).toContain("text-4xl")
     expect(html).toContain("small:text-5xl")
+    // Lining figures, whatever the face sets by default (Cormorant Garamond sets old-style ones).
+    expect(html).toContain("lining-nums")
   })
 
   it("keeps a list a list at every width, in a reading column, and puts muted steps on one panel", async () => {

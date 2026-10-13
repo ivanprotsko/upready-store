@@ -32,9 +32,11 @@ const titleClass = "text-balance text-xl font-semibold tracking-[-0.02em] text-u
 /**
  * The number: 36 px, 48 px from `small`, in the template's display face (`--font-display`, the page's own face
  * without a template pair). 1.5× the section heading at both widths (QR-TYPE-SCALE) and weight 500 (QR-WEIGHT).
+ * Lining figures: a serif pair such as Cormorant Garamond sets old-style ones by default, a «1» at x-height and a
+ * «3» below the line.
  */
 const numberClass =
-  "font-[family-name:var(--font-display,inherit)] text-4xl font-medium leading-none tabular-nums text-[var(--primary)] small:text-5xl"
+  "font-[family-name:var(--font-display,inherit)] text-4xl font-medium leading-none lining-nums tabular-nums text-[var(--primary)] small:text-5xl"
 
 type Shown = { key: number; title: string; text: string | null; icon: Step["icon"] }
 
