@@ -15,7 +15,9 @@ const rule = /traefik\.http\.routers\.mt-school\.rule=(.*)$/m.exec(compose)?.[1]
 const proxied = [...rule.matchAll(/PathPrefix\(`([^`]+)`\)/g)].map((match) => match[1])
 
 // Docker's health check calls the container directly; the proxy never needs it.
-const INTERNAL = new Set(["healthz"])
+// The fixture stand's media answers only on a local stand with SCHOOL_FIXTURE=1
+// (`lib/fixture.server.ts`), never behind the proxy.
+const INTERNAL = new Set(["healthz", "fixture-media"])
 
 describe("the paths the proxy sends to the school", () => {
   it("are read from compose.mt.yml", () => {

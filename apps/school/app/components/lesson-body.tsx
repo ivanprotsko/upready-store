@@ -1,7 +1,7 @@
 import { Fragment, type ElementType } from "react"
 import { parseLessonBody, type LessonBlock, type LessonFileNode, type LessonInline } from "~/lib/vendor/lesson-body"
 
-const LINK_CLASS = "text-link underline underline-offset-2 hover:opacity-80"
+export const LINK_CLASS = "text-link underline underline-offset-2 hover:opacity-80"
 
 const HEADING: Record<2 | 3 | 4, { tag: ElementType; className: string }> = {
   2: { tag: "h2", className: "mt-2 text-xl font-semibold first:mt-0" },

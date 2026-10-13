@@ -5,9 +5,11 @@ import * as appCourse from "./app-course"
 import * as appCourses from "./app-courses"
 import * as appLayout from "./app-layout"
 import * as appLesson from "./app-lesson"
+import * as appMedia from "./app-media"
 import * as authCallback from "./auth-callback"
 import * as login from "./login"
 import * as logout from "./logout"
+import type { CourseContents } from "~/lib/types"
 import { readSetCookie } from "~/test-support/set-cookie"
 
 /**
@@ -33,6 +35,7 @@ const routes: RouteObject[] = [
         ErrorBoundary: appLayout.ErrorBoundary,
         children: [
           { id: "routes/app-courses", index: true, loader: appCourses.loader, Component: appCourses.default },
+          { id: "routes/app-media", path: "_media", loader: appMedia.loader },
           { id: "routes/app-course", path: ":slug", loader: appCourse.loader, Component: appCourse.default },
           {
             id: "routes/app-lesson",
@@ -391,5 +394,259 @@ describe("/app/<course>/<lesson>", () => {
 
     expect(status).toBe(404)
     expect(html).toContain("Страница не найдена")
+  })
+})
+
+/**
+ * t-2026-10-13-29 stage 2: sections, covers, drip lessons, Telegram, several
+ * videos, files and links, against the contract the backend half builds.
+ */
+const NOW = new Date("2026-10-13T12:00:00Z")
+
+const staged: CourseContents = {
+  course: {
+    id: "course_2",
+    title: "Очищение лимфы",
+    slug: "limfa",
+    description: null,
+    telegram_channel_url: "https://t.me/+channel",
+    telegram_chat_url: "https://t.me/+chat",
+    access_until: "2027-01-19T00:00:00+03:00",
+  },
+  lessons: [],
+  sections: [
+    {
+      title: "Подготовка",
+      order: 0,
+      lessons: [
+        {
+          id: "lsn_a",
+          title: "Режим дня",
+          order: 0,
+          viewed_at: "2026-10-12T09:00:00Z",
+          has_quiz: false,
+          section: "Подготовка",
+          cover_url: "https://cdn.test/a.jpg",
+          summary: "Как принимать гепачисты",
+          locked: false,
+          opens_at: null,
+        },
+        { id: "lsn_b", title: "Здоровый сон", order: 1, viewed_at: null, has_quiz: false, section: "Подготовка", cover_url: null, summary: null, locked: false, opens_at: null },
+      ],
+    },
+    {
+      title: "Первая неделя программы",
+      order: 1,
+      lessons: [
+        {
+          id: "lsn_c",
+          title: "Клизмы",
+          order: 2,
+          viewed_at: null,
+          has_quiz: false,
+          section: "Первая неделя программы",
+          cover_url: null,
+          summary: null,
+          locked: true,
+          opens_at: "2026-10-18T00:00:00+03:00",
+        },
+      ],
+    },
+  ],
+  progress: { completed: 1, total: 3, percent: 33 },
+  continue_lesson_id: "lsn_b",
+}
+staged.lessons = (staged.sections ?? []).flatMap((section) => section.lessons)
+
+const stagedLesson = {
+  id: "lsn_b",
+  course_id: "course_2",
+  title: "Здоровый сон",
+  order: 1,
+  body: "Текст урока.",
+  video_url: "/store/tenant/courses/course_2/media?key=v1",
+  videos: [
+    { url: "/store/tenant/courses/course_2/media?key=v1", title: null, duration_sec: 225, poster_url: "https://cdn.test/a.jpg" },
+    { url: "/store/tenant/courses/course_2/media?key=v2", title: "Комплекс упражнений", duration_sec: 1287, poster_url: null },
+  ],
+  attachments: [{ name: "Подготовительный этап.pdf", url: "/store/tenant/courses/course_2/media?key=f1", size_bytes: 1258291, mime: "application/pdf" }],
+  links: [
+    { kind: "telegram_channel", url: "https://t.me/+channel", title: "Канал «КАМНИ 26 ПОТОКА»" },
+    { kind: "youtube", url: "https://www.youtube.com/watch?v=i_UTD2Mh4mI", title: "О вреде молока — YouTube" },
+  ],
+  quiz: null,
+  viewed_at: null,
+}
+
+describe("stage 2: /app/<course> with sections", () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ["Date"] })
+    vi.setSystemTime(NOW)
+    api["GET /store/tenant/courses/mine/limfa"] = Response.json(staged)
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it("heads every section with its title, the lessons under it in order", async () => {
+    const { html } = await open("/app/limfa", { cookie: SIGNED_IN })
+
+    expect(html.match(/data-testid="lesson-section"/g)).toHaveLength(2)
+    expect(html).toMatch(/<h2[^>]*>Подготовка<\/h2>/)
+    expect(html).toMatch(/<h2[^>]*>Первая неделя программы<\/h2>/)
+    expect(html.indexOf("Подготовка")).toBeLessThan(html.indexOf("Режим дня"))
+    expect(html.indexOf("Здоровый сон")).toBeLessThan(html.indexOf("Первая неделя программы"))
+  })
+
+  it("shows a cover only where the lesson has one, and the summary under the title", async () => {
+    const { html } = await open("/app/limfa", { cookie: SIGNED_IN })
+
+    expect(html.match(/data-testid="lesson-cover"/g)).toHaveLength(1)
+    expect(html).toContain('src="https://cdn.test/a.jpg"')
+    expect(html).toContain("Как принимать гепачисты")
+  })
+
+  it("lists a locked lesson with its date and no link to it", async () => {
+    const { html } = await open("/app/limfa", { cookie: SIGNED_IN })
+
+    expect(html).toContain('data-testid="lesson-locked"')
+    expect(html).toContain("Откроется 18 октября")
+    expect(html).not.toContain('href="/app/limfa/lsn_c"')
+    expect(html).toContain('href="/app/limfa/lsn_b"')
+  })
+
+  it("puts the Telegram channel and the stream's chat under the title, and the access date", async () => {
+    const { html } = await open("/app/limfa", { cookie: SIGNED_IN })
+
+    expect(html).toMatch(/<a(?=[^>]*href="https:\/\/t\.me\/\+channel")(?=[^>]*data-testid="telegram-channel")[^>]*>Вступить в Telegram-канал<\/a>/)
+    expect(html).toMatch(/<a(?=[^>]*href="https:\/\/t\.me\/\+chat")(?=[^>]*data-testid="telegram-chat")[^>]*>Чат потока<\/a>/)
+    expect(html.indexOf("course-telegram")).toBeLessThan(html.indexOf("lesson-list"))
+    expect(html).toContain("Доступ до 19 января 2027")
+  })
+
+  it("shows no Telegram pair, no access line and no section heading for a course without them", async () => {
+    api["GET /store/tenant/courses/mine/yoga"] = Response.json(contents)
+
+    const { html } = await open("/app/yoga", { cookie: SIGNED_IN })
+
+    expect(html).not.toContain("course-telegram")
+    expect(html).not.toContain("access-until")
+    expect(html).not.toMatch(/<h2/)
+    expect(html.match(/data-testid="lesson-section"/g)).toHaveLength(1)
+  })
+})
+
+describe("stage 2: /app/<course>/<lesson>", () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ["Date"] })
+    vi.setSystemTime(NOW)
+    api["GET /store/tenant/courses/mine/limfa"] = Response.json(staged)
+    api["GET /store/tenant/courses/course_2/lessons/lsn_b"] = Response.json({ lesson: stagedLesson })
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it("plays every video in order, each under its own line, through the school's media route", async () => {
+    const { html } = await open("/app/limfa/lsn_b", { cookie: SIGNED_IN })
+    const sources = [...html.matchAll(/<video[^>]*src="([^"]+)"/g)].map((match) => match[1]?.replaceAll("&amp;", "&"))
+
+    expect(sources).toEqual([
+      `/app/_media?src=${encodeURIComponent("/store/tenant/courses/course_2/media?key=v1")}`,
+      `/app/_media?src=${encodeURIComponent("/store/tenant/courses/course_2/media?key=v2")}`,
+    ])
+    expect(html).toContain("Видео 1 из 2 · 3:45")
+    expect(html).toContain("Комплекс упражнений · 21:27")
+    expect(html).toMatch(/<video(?=[^>]*preload="metadata")(?=[^>]*playsinline="")(?=[^>]*poster="https:\/\/cdn\.test\/a\.jpg")[^>]*>/i)
+  })
+
+  it("lists the lesson's files the way the text words a file link", async () => {
+    const { html } = await open("/app/limfa/lsn_b", { cookie: SIGNED_IN })
+
+    expect(html).toContain("Файлы урока")
+    expect(html).toContain("Скачать «Подготовительный этап.pdf» — PDF, 1,2 МБ")
+    expect(html).toContain(`href="/app/_media?src=${encodeURIComponent("/store/tenant/courses/course_2/media?key=f1")}"`)
+  })
+
+  it("gives Telegram as a button and YouTube as a plain link with its title, no iframe", async () => {
+    const { html } = await open("/app/limfa/lsn_b", { cookie: SIGNED_IN })
+
+    expect(html).toMatch(/<a(?=[^>]*href="https:\/\/t\.me\/\+channel")(?=[^>]*data-testid="lesson-telegram")[^>]*>Канал «КАМНИ 26 ПОТОКА»<\/a>/)
+    expect(html).toMatch(/<a(?=[^>]*href="https:\/\/www\.youtube\.com\/watch\?v=i_UTD2Mh4mI")(?=[^>]*data-testid="lesson-link-out")[^>]*>О вреде молока — YouTube<\/a>/)
+    expect(html).not.toContain("<iframe")
+  })
+
+  it("does not link «Следующий» to a lesson that has not opened", async () => {
+    const { html } = await open("/app/limfa/lsn_b", { cookie: SIGNED_IN })
+
+    expect(html).toContain('data-testid="next-lesson-locked"')
+    expect(html).toContain("Следующий · откроется 18 октября")
+    expect(html).not.toContain('href="/app/limfa/lsn_c"')
+  })
+
+  it("shows the lock and the date for a lesson the API answers 403 lesson_locked, not the error view", async () => {
+    api["GET /store/tenant/courses/course_2/lessons/lsn_c"] = Response.json(
+      { code: "lesson_locked", opens_at: "2026-10-18T00:00:00+03:00" },
+      { status: 403 },
+    )
+
+    const { html, status } = await open("/app/limfa/lsn_c", { cookie: SIGNED_IN })
+
+    expect(status).toBe(200)
+    expect(html).toContain('data-testid="lesson-locked-page"')
+    expect(html).toContain("Урок откроется 18 октября")
+    expect(html).toMatch(linkTo("/app/limfa", "locked-back"))
+    expect(html).toContain("Клизмы")
+    expect(html).not.toContain("lesson-videos")
+    expect(html).not.toContain("mark-viewed")
+    expect(html).not.toContain("Курс пока закрыт")
+  })
+
+  it("still shows «Курс пока закрыт» for a 403 that is not a locked lesson", async () => {
+    api["GET /store/tenant/courses/course_2/lessons/lsn_b"] = new Response("", { status: 403 })
+
+    const { html, status } = await open("/app/limfa/lsn_b", { cookie: SIGNED_IN })
+
+    expect(status).toBe(403)
+    expect(html).toContain("Курс пока закрыт")
+  })
+})
+
+describe("stage 2: /app/_media", () => {
+  it("asks the backend's media route with the buyer's token and passes its redirect on", async () => {
+    api["GET /store/tenant/courses/course_2/media"] = new Response(null, {
+      status: 302,
+      headers: { location: "https://s3.test/courses/t1/limfa/v1.mp4?X-Amz-Signature=s" },
+    })
+    const src = "/store/tenant/courses/course_2/media?key=v1"
+
+    const { response } = await open(`/app/_media?src=${encodeURIComponent(src)}`, { cookie: SIGNED_IN })
+
+    expect(response?.status).toBe(302)
+    expect(response?.headers.get("location")).toBe("https://s3.test/courses/t1/limfa/v1.mp4?X-Amz-Signature=s")
+    expect(calls[0]?.url).toBe(`http://api.test${src}`)
+    expect(calls[0]?.init?.redirect).toBe("manual")
+    expect(new Headers(calls[0]?.init?.headers).get("authorization")).toBe("Bearer jwt-buyer")
+  })
+
+  it("is no proxy to the rest of the API", async () => {
+    // A resource route: the server sends its Response as is, which `open`'s page render does not model.
+    const request = new Request(`https://school.cherkashina.ru/app/_media?src=${encodeURIComponent("/store/customers/me")}`, {
+      headers: { cookie: SIGNED_IN },
+    })
+    const response = await appMedia.loader({ request, params: {}, context: {} } as Parameters<typeof appMedia.loader>[0])
+
+    expect(response.status).toBe(404)
+    expect(calls).toHaveLength(0)
+  })
+
+  it("sends a buyer without the cookie to /login", async () => {
+    const src = encodeURIComponent("/store/tenant/courses/course_2/media?key=v1")
+    const { response } = await open(`/app/_media?src=${src}`)
+
+    expect(response?.status).toBe(302)
+    expect(response?.headers.get("location")).toMatch(/^\/login\?next=/)
   })
 })
