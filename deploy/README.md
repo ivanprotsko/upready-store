@@ -640,7 +640,10 @@ answers. It reads kerbstone's catalogue through kerbstone's backend and publisha
 postgres, no backend and no database of its own (`deploy/compose.templates.yml` over
 `deploy/compose.stand.yml`, `up --no-deps`). Its panel is off because the studio password and the
 settings secret are empty, so it cannot write kerbstone's composition. Traefik adds
-`X-Robots-Tag: noindex, nofollow` to every response it serves.
+`X-Robots-Tag: noindex, nofollow` to every response it serves, and sends the bare root and the
+bare locale roots (`/`, `/ru`, `/en`, without a query) to the list of templates, `/ru/template-lab`
+(`root-to-lab` in `deploy/compose.templates.yml`; Ivan 13.10: «здесь шаблон а не список шаблонов»).
+A page with `?template=<id>` and every other path keep their address.
 
 ### Journal
 
@@ -652,6 +655,8 @@ settings secret are empty, so it cannot write kerbstone's composition. Traefik a
   (`/opt/upready-store/templates`, env written from kerbstone's on the host). Build not run: the
   CI runner was running jobs back to back (2–3 s gaps, Backend ≈ 20 min). The lead runs the build
   when the queue is empty.
+- **2026-10-13** — the root opens the template list (Traefik `redirectregex`, COO's word 13:25),
+  applied with `--image` on the image already on the host: Ivan's order 12:45 stops stand rebuilds.
 
 ### Build, start and check — one command
 
@@ -667,13 +672,16 @@ It exports the ref (without `handoff/`, `artifacts/` and `docs/`), rsyncs it to
 kerbstone's, waits until the runner has no job on two looks 30 s apart (`--runner-wait`, default
 30 min), builds the storefront image detached and stops it if the host's available memory drops
 under 1.5 GB, starts `templates-storefront` with `--no-deps`, then runs the public checks from
-this machine. Flags: `--skip-build` (reuse the image tagged with the ref's sha), `--verify-only`,
-`--runner-wait <min>`. Log: `.ai/deploy-logs/templates-<ts>.log`. Exit 0 all checks green, 1 a step
+this machine. Flags: `--skip-build` (reuse the image tagged with the ref's sha), `--image <ref>`
+(run the image already on the host for `<ref>` with the deploy files of `--ref`: a label or compose
+change reaches the stand without a build and without waiting for the runner; `.stand-revision`
+then reads `<ref sha> image <image sha>`), `--verify-only`, `--runner-wait <min>`. Log: `.ai/deploy-logs/templates-<ts>.log`. Exit 0 all checks green, 1 a step
 or a check failed, 3 blocked (memory floor or runner still busy).
 
-Success ends with seven `ok` lines, `VERIFY OK — every check passed` and
-`DONE · https://templates.store.upready.dev serves templates/main <sha>`: `/` 200 with a valid
-certificate, `http://` redirects to `https://`, `X-Robots-Tag: noindex, nofollow` on `/en`,
+Success ends with eight `ok` lines, `VERIFY OK — every check passed` and
+`DONE · https://templates.store.upready.dev serves templates/main <sha>`: `/` ends at
+`/ru/template-lab` with 200 and a valid certificate, `/en` redirects there, `http://` redirects to
+`https://`, `X-Robots-Tag: noindex, nofollow` on `/ru/template-lab`,
 `data-theme` `home-goods` for `/en?template=long-morning` and `electronics` for
 `/en?template=ferrite`, `/ru/template-lab` 200, `POST /api/studio/unlock` 404.
 

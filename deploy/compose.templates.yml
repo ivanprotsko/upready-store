@@ -19,4 +19,11 @@ services:
       # A preview, not a shop: no page of it belongs in a search index, whatever its
       # own metadata says.
       - traefik.http.middlewares.${STAND}-noindex.headers.customresponseheaders.X-Robots-Tag=noindex, nofollow
-      - traefik.http.routers.${STAND}-storefront.middlewares=${STAND}-noindex
+      # The stand's own front door is the list of templates, not the demo shop's home (Ivan
+      # 13.10: «здесь шаблон а не список шаблонов»). Only the bare root and the bare locale
+      # roots go there: Traefik matches the whole URL, query included, so `/ru?template=<id>`
+      # and every other path are untouched. `$$` is a literal `$` for compose.
+      - traefik.http.middlewares.${STAND}-root-to-lab.redirectregex.regex=^https?://[^/?]+/((ru|en)/?)?$$
+      - traefik.http.middlewares.${STAND}-root-to-lab.redirectregex.replacement=https://${DOMAIN}/ru/template-lab
+      - traefik.http.middlewares.${STAND}-root-to-lab.redirectregex.permanent=false
+      - traefik.http.routers.${STAND}-storefront.middlewares=${STAND}-noindex,${STAND}-root-to-lab
