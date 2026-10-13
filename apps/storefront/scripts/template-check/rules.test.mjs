@@ -19,6 +19,7 @@ import {
   parseAspect,
   priceTextProblems,
   ratios,
+  staleBaselineKeys,
   templatePage,
   withoutShared,
 } from "./rules.mjs"
@@ -297,6 +298,34 @@ describe("baseline", () => {
     // ferrite's key alone is enough to call long-morning's same failure inherited.
     const ferriteOnly = new Set([...shared].filter((k) => !k.startsWith("template/long-morning/")))
     expect(compareWithBaseline(run, ferriteOnly).inherited.map((f) => f.from)).toEqual([["ferrite"]])
+  })
+
+  // #389: long-morning's 10px spaces went with the density steps; the keys stayed in the baseline.
+  it("a baseline key is stale when its target was checked and no gate failure has it today", () => {
+    const baseline = new Set([
+      ...shared,
+      failureKey("template/long-morning/home@1280", "QR-SPACE-SCALE", "space 10px off the scale"),
+      failureKey("template/long-morning/home@360", "QR-SPACE-SCALE", "space 10px off the scale"),
+    ])
+    const run = [
+      gate("template/long-morning/home@360", "QR-HIT", "hit area under 44px: a[cart-link]"),
+      gate("template/long-morning/home@1280", "QR-TYPE-SCALE", "size 13px off the scale"),
+      // The block passes QR-MOTION now.
+      { target: "block/hero/g@360", results: [{ rule: "QR-MOTION", kind: "gate", failures: [] }] },
+    ]
+    // ferrite was not checked: its key stays.
+    expect(staleBaselineKeys(run, baseline)).toEqual([
+      "block/hero/g@360 | QR-MOTION | transition 300ms over 240ms",
+      "template/long-morning/home@1280 | QR-SPACE-SCALE | space 10px off the scale",
+      "template/long-morning/home@360 | QR-SPACE-SCALE | space 10px off the scale",
+    ])
+  })
+
+  it("a target the run did not check keeps its baseline keys", () => {
+    // ferrite and the product page were not checked (--only long-morning, --widths 360).
+    const run = [gate("template/long-morning/home@360", "QR-HIT", "hit area under 44px: a[cart-link]")]
+    expect(staleBaselineKeys(run, shared)).toEqual([])
+    expect(staleBaselineKeys([], shared)).toEqual([])
   })
 
   it("templatePage reads template page targets only", () => {

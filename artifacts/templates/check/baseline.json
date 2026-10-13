@@ -378,12 +378,6 @@
     "block/listing/p5@360 | QR-TYPE-SCALE | sizes 14→16 closer than 1.15",
     "block/listing/p5@360 | QR-TYPE-SCALE | sizes 16→18 closer than 1.15",
     "block/listing/p5@360 | QR-TYPE-SCALE | sizes 18→20 closer than 1.15",
-    "block/shared/block-section@1280 | QR-RADIUS | radius 2px off the tokens",
-    "block/shared/block-section@1280 | QR-TYPE-SCALE | sizes 14→16 closer than 1.15",
-    "block/shared/block-section@360 | QR-HIT | target under 44px high: a.shrink-0 «See all»",
-    "block/shared/block-section@360 | QR-RADIUS | radius 2px off the tokens",
-    "block/shared/block-section@360 | QR-SECTION-RANK | section title ÷ body below 1.5",
-    "block/shared/block-section@360 | QR-TYPE-SCALE | sizes 14→16 closer than 1.15",
     "block/tiles/on@1280 | QR-MOTION | motion kept under prefers-reduced-motion",
     "block/tiles/on@1280 | QR-RADIUS | radius 8px off the tokens",
     "block/tiles/on@360 | QR-MOTION | motion kept under prefers-reduced-motion",
@@ -629,7 +623,6 @@
     "template/long-morning/home@1280 | QR-RADIUS | radius 8px off the tokens",
     "template/long-morning/home@1280 | QR-SECTION-RANK | section title ÷ body below 1.5",
     "template/long-morning/home@1280 | QR-SPACE-SCALE | space 0.02px off the scale",
-    "template/long-morning/home@1280 | QR-SPACE-SCALE | space 10px off the scale",
     "template/long-morning/home@1280 | QR-SPACE-SCALE | space 20px off the scale",
     "template/long-morning/home@1280 | QR-SPACE-SCALE | space 40px off the scale",
     "template/long-morning/home@1280 | QR-SPACE-SCALE | space 56px off the scale",
@@ -666,7 +659,6 @@
     "template/long-morning/home@360 | QR-RADIUS | radius 2px off the tokens",
     "template/long-morning/home@360 | QR-RADIUS | radius 8px off the tokens",
     "template/long-morning/home@360 | QR-SECTION-RANK | section title ÷ body below 1.5",
-    "template/long-morning/home@360 | QR-SPACE-SCALE | space 10px off the scale",
     "template/long-morning/home@360 | QR-SPACE-SCALE | space 20px off the scale",
     "template/long-morning/home@360 | QR-SPACE-SCALE | space 40px off the scale",
     "template/long-morning/home@360 | QR-SPACE-SCALE | space 6px off the scale",
@@ -756,5 +748,10 @@
     "template/long-morning/product@360 | QR-TYPE-SCALE | sizes 12→13 closer than 1.15",
     "template/long-morning/product@360 | QR-TYPE-SCALE | sizes 13→14 closer than 1.15",
     "template/long-morning/product@360 | QR-TYPE-SCALE | sizes 14→16 closer than 1.15"
-  ]
+  ],
+  "pruned": {
+    "date": "2026-10-13T01:22:35.818Z",
+    "commit": "e28705dc",
+    "removed": 8
+  }
 }

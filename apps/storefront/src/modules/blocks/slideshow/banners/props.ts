@@ -23,7 +23,10 @@ export type BannerSlide = {
 export type SlideshowBannersProps = {
   /** Two to five banners, one at a time. */
   slides: BannerSlide[]
-  /** The picture's frame: 224 / 288 / 384 px on a phone, 400 / 560 / 640 px from 1024. */
+  /**
+   * The picture's frame as a ratio (`FRAME` in `index.tsx`): 3:2 / 5:4 / 1:1 on a phone, 5:2 / 2:1 / 3:2 from 512 px,
+   * 3:1 / 5:2 / 2:1 from 1024 px, and never lower than 384 px there.
+   */
   height: "small" | "medium" | "large"
   /** Seconds each banner stays, 5 to 10, or null: the banners move only when the visitor moves them. */
   autoplay: number | null

@@ -7,10 +7,10 @@ import { SegmentedControl } from "../../../components/common/segmented-control"
 import { useApplyTenantTemplate, useTenantTemplates } from "../../../hooks/api/home"
 import type { TenantHomeDocument } from "../composition"
 import {
-  DENSITY_GAP_PX,
   LAYER_NAMES,
   PHOTO_RATIO,
   RADIUS_PX,
+  densityGapPx,
   failureText,
   initialChoice,
   isTemplateOwn,
@@ -23,6 +23,7 @@ import {
   type LayerName,
   type PaletteEntry,
   type TemplateCard,
+  type TemplateCatalogue,
   type TemplateChoice,
   type TemplateLayers,
   type TemplateText,
@@ -173,11 +174,13 @@ const SchematicPreview = ({
   template,
   palette,
   layers,
+  sectionGapPx,
   className,
 }: {
   template: TemplateCard
   palette: PaletteEntry | undefined
   layers: TemplateLayers
+  sectionGapPx: TemplateCatalogue["sectionGapPx"]
   className?: string
 }) => {
   if (!palette) return null
@@ -187,7 +190,7 @@ const SchematicPreview = ({
       aria-hidden
       data-testid={`template-preview-${template.id}`}
       className={clx("overflow-hidden rounded-md border border-ui-border-base", className)}
-      style={{ background: colours.background, padding: 8, display: "flex", flexDirection: "column", gap: DENSITY_GAP_PX[layers.density] }}
+      style={{ background: colours.background, padding: 8, display: "flex", flexDirection: "column", gap: densityGapPx(sectionGapPx, layers.density) }}
     >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ height: 5, width: 22, background: colours.foreground, borderRadius: 1 }} />
@@ -338,7 +341,7 @@ export const TemplateSection = ({
                 openId === template.id ? "border-ui-border-interactive" : "border-ui-border-base"
               )}
             >
-              <SchematicPreview template={template} palette={palette} layers={layers} />
+              <SchematicPreview template={template} palette={palette} layers={layers} sectionGapPx={catalogue.sectionGapPx} />
               <div className="flex items-start justify-between gap-x-2">
                 <Text size="small" weight="plus">
                   {text(template.title)}
@@ -445,6 +448,7 @@ export const TemplateSection = ({
               template={open}
               palette={paletteById.get(choice.palette)}
               layers={choice.layers}
+              sectionGapPx={catalogue.sectionGapPx}
               className="self-start"
             />
           </div>

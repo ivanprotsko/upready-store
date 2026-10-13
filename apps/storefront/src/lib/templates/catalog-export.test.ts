@@ -12,7 +12,7 @@ import { BLOCKS } from "@modules/blocks/registry"
 import { PROPS_CHECKS } from "../../../../backend/src/api/tenants/home/template/validation"
 
 import { TEMPLATE_SOURCES } from "./catalog"
-import { BUTTON_STYLES, DENSITIES, PHOTO_STYLES, RADII, TEMPLATE_SCHEMA } from "./manifest"
+import { BUTTON_STYLES, DENSITIES, PHOTO_STYLES, RADII, SECTION_GAP_PX, TEMPLATE_SCHEMA } from "./manifest"
 
 // The registry reaches `server-only` loaders through the header and footer variants. Hoisted by vitest.
 vi.mock("server-only", () => ({}))
@@ -96,6 +96,8 @@ function catalogExport() {
       photoStyle: [...PHOTO_STYLES],
       density: [...DENSITIES],
     },
+    // The gap between home sections at each density, in px: the panel's schematic draws its gaps in this proportion.
+    sectionGapPx: SECTION_GAP_PX,
     locales: [...locales],
     blocks: [...BLOCKS]
       .sort((a, b) => byCodeUnits(a.id, b.id))
