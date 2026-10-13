@@ -171,6 +171,18 @@ describe("readSelection", () => {
     expect(data.listProducts).toHaveBeenCalledTimes(1)
   })
 
+  // stand-render-time: on a cold template-lab the region, then the category list, then the products cost
+  // three round trips in turn; the first two do not need each other.
+  it("asks for the region and the source's own record at once, the products after both", async () => {
+    data.getHomeRegion.mockImplementation(() => new Promise(() => {}))
+    void readSelection({ category: "the-kitchen" }, 6)
+    void readSelection({ collection: "the-morning-table" }, 4)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(data.listCategories).toHaveBeenCalledTimes(1)
+    expect(data.getCollectionByHandle).toHaveBeenCalledWith("the-morning-table")
+    expect(data.listProducts).not.toHaveBeenCalled()
+  })
+
   it("prefers the products with a picture while at least four have one", async () => {
     data.listProducts.mockResolvedValueOnce(answer([...shelf(4), product("bare", null)]))
     expect((await readSelection({ sort: "newest" }, 8))?.products.map((p) => p.handle)).not.toContain("bare")
