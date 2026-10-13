@@ -9,6 +9,9 @@
 #   deploy/scripts/templates-stand.sh [flags]
 #     --ref <git ref>         build this instead of origin/templates/main (origin/* fetched first)
 #     --skip-build            reuse the image already tagged with the ref's sha
+#     --image <ref>           run the image already on the host for <ref> (no build, no runner
+#                             wait) with the deploy files of --ref: a change to labels or compose
+#                             reaches the stand without rebuilding it
 #     --verify-only           run only the public checks
 #     --runner-wait <min>     how long to wait for the runner's job to end (default 30)
 #
@@ -25,14 +28,15 @@
 #     --env-file deploy/stands/templates.env down'
 set -euo pipefail
 
-REF="origin/templates/main"; SKIP_BUILD=0; VERIFY_ONLY=0; RUNNER_WAIT_MIN=30
+REF="origin/templates/main"; SKIP_BUILD=0; VERIFY_ONLY=0; RUNNER_WAIT_MIN=30; IMAGE_REF=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --ref) REF="$2"; shift ;;
     --skip-build) SKIP_BUILD=1 ;;
+    --image) IMAGE_REF="$2"; SKIP_BUILD=1; shift ;;
     --verify-only) VERIFY_ONLY=1 ;;
     --runner-wait) RUNNER_WAIT_MIN="$2"; shift ;;
-    -h|--help) sed -n '2,27p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,28p' "$0"; exit 0 ;;
     *) echo "unknown flag: $1" >&2; exit 2 ;;
   esac
   shift
@@ -78,12 +82,18 @@ step_source() {
   case "$REF" in origin/*) git -C "$REPO_ROOT" fetch -q origin "${REF#origin/}" ;; esac
   SHA="$(git -C "$REPO_ROOT" rev-parse --short=8 "$REF^{commit}")"
   log "source $REF = $SHA ($(git -C "$REPO_ROOT" log -1 --format=%s "$SHA" | cut -c1-90))"
+  # The image's tag is the sha it was built from: the ref's own, or the one --image names.
+  IMAGE_SHA="$SHA"
+  if [ -n "$IMAGE_REF" ]; then
+    IMAGE_SHA="$(git -C "$REPO_ROOT" rev-parse --short=8 "$IMAGE_REF^{commit}")" || fail "no commit $IMAGE_REF"
+    log "image: the one built from $IMAGE_SHA, deploy files from $SHA"
+  fi
   local tmp; tmp="$(mktemp -d)"
   # The image is built from apps/, specs/ and the root manifests; handoff/, artifacts/ and
   # docs/ are three quarters of the tree's 257 MB and none of them reach the image.
   git -C "$REPO_ROOT" archive --format=tar "$SHA" -- . \
     ':(exclude)handoff' ':(exclude)artifacts' ':(exclude)docs' | tar -x -C "$tmp"
-  echo "$SHA" > "$tmp/.stand-revision"
+  if [ "$IMAGE_SHA" = "$SHA" ]; then echo "$SHA" > "$tmp/.stand-revision"; else echo "$SHA image $IMAGE_SHA" > "$tmp/.stand-revision"; fi
   log "rsync $REF → $HOST:$REMOTE_DIR/"
   rssh "mkdir -p '$REMOTE_DIR/deploy/stands'"
   # The env file lives in the tree but is written on the host: excluded, so --delete keeps it.
@@ -94,7 +104,7 @@ step_source() {
 
 step_env() {
   log "env file from $SOURCE_ENV (values never printed)"
-  rsh "$SOURCE_ENV" "$REMOTE_ENV" "$STAND" "$DOMAIN" "$SHA" <<'REMOTE'
+  rsh "$SOURCE_ENV" "$REMOTE_ENV" "$STAND" "$DOMAIN" "$IMAGE_SHA" <<'REMOTE'
 set -euo pipefail
 src="$1"; dst="$2"; stand="$3"; domain="$4"; sha="$5"
 [ -r "$src" ] || { echo "no $src on the host" >&2; exit 1; }
@@ -156,8 +166,8 @@ step_wait_runner() {
 
 step_build() {
   if [ "$SKIP_BUILD" = 1 ]; then
-    rssh "docker image inspect $STAND-storefront:$SHA >/dev/null" || fail "no $STAND-storefront:$SHA on the host"
-    log "reusing $STAND-storefront:$SHA"
+    rssh "docker image inspect $STAND-storefront:$IMAGE_SHA >/dev/null" || fail "no $STAND-storefront:$IMAGE_SHA on the host"
+    log "reusing $STAND-storefront:$IMAGE_SHA"
     return 0
   fi
   step_wait_runner
@@ -210,12 +220,16 @@ theme_of() { # <path> → data-theme on <html>
   curl -sS -m 60 -L "https://$DOMAIN$1" | grep -oE '<html[^>]*' | grep -oE 'data-theme="[^"]*"' | head -1 | cut -d'"' -f2
 }
 step_verify() {
-  check "GET https://$DOMAIN/ (redirects followed)" "200 tls=0" \
-    "$(curl -sS -m 60 -L -o /dev/null -w '%{http_code} tls=%{ssl_verify_result}' "https://$DOMAIN/" || echo "000 tls=err")"
+  # The root and the bare locale roots open the list of templates (compose.templates.yml,
+  # `root-to-lab`); a page with `?template=` keeps its own address.
+  check "GET https://$DOMAIN/ ends at the template list (redirects followed)" "200 https://$DOMAIN/ru/template-lab tls=0" \
+    "$(curl -sS -m 60 -L -o /dev/null -w '%{http_code} %{url_effective} tls=%{ssl_verify_result}' "https://$DOMAIN/" || echo "000 err tls=err")"
+  check "GET /en redirects to the template list" "https://$DOMAIN/ru/template-lab" \
+    "$(curl -sS -m 30 -o /dev/null -w '%{redirect_url}' "https://$DOMAIN/en" || echo err)"
   check "GET http://$DOMAIN/ redirects to https" "https://$DOMAIN/" \
     "$(curl -sS -m 30 -o /dev/null -w '%{redirect_url}' "http://$DOMAIN/" || echo err)"
-  check "X-Robots-Tag on /en" "noindex, nofollow" \
-    "$(curl -sS -m 60 -o /dev/null -D - "https://$DOMAIN/en" | tr -d '\r' | awk -F': ' 'tolower($1)=="x-robots-tag"{print $2}' | head -1)"
+  check "X-Robots-Tag on /ru/template-lab" "noindex, nofollow" \
+    "$(curl -sS -m 60 -o /dev/null -D - "https://$DOMAIN/ru/template-lab" | tr -d '\r' | awk -F': ' 'tolower($1)=="x-robots-tag"{print $2}' | head -1)"
   check "data-theme of /en?template=long-morning" "home-goods" "$(theme_of '/en?template=long-morning')"
   check "data-theme of /en?template=ferrite" "electronics" "$(theme_of '/en?template=ferrite')"
   check "GET /ru/template-lab" "200" "$(curl -sS -m 60 -o /dev/null -w '%{http_code}' "https://$DOMAIN/ru/template-lab" || echo 000)"
@@ -233,4 +247,4 @@ step_env
 step_build
 step_up
 step_verify
-log "DONE · https://$DOMAIN serves templates/main $SHA"
+if [ "$IMAGE_SHA" = "$SHA" ]; then log "DONE · https://$DOMAIN serves templates/main $SHA"; else log "DONE · https://$DOMAIN serves the image of $IMAGE_SHA with the deploy files of $SHA"; fi
