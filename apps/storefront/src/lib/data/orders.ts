@@ -2,7 +2,12 @@
 
 import { sdk } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
-import { getAuthHeaders, getCacheOptions, getCacheTag } from "./cookies"
+import {
+  getAuthHeaders,
+  getCacheOptions,
+  getCacheTag,
+  hasSession,
+} from "./cookies"
 import type { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
 
@@ -175,7 +180,7 @@ export type ClaimOrdersState = {
 export const claimGuestOrders = async (): Promise<ClaimOrdersState> => {
   const headers = await getAuthHeaders()
 
-  if (!headers) {
+  if (!hasSession(headers)) {
     return { claimed: null, error: "unauthorized" }
   }
 

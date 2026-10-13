@@ -8,12 +8,13 @@ import { getAuthHeaders, getCacheOptions } from "./cookies"
 export const retrieveVariant = async (
   variant_id: string
 ): Promise<HttpTypes.StoreProductVariant | null> => {
-  const authHeaders = await getAuthHeaders()
-
-  if (!authHeaders) return null
-
+  // A guest reads a variant too. `/store/product-variants/:id` answers without a
+  // session, and the header only goes along when there is one. There used to be
+  // an `if (!authHeaders) return null` here that never fired, because
+  // `getAuthHeaders()` answers `{}` for a guest. Do not turn it into a
+  // `hasSession` check (t-2026-10-12-32).
   const headers = {
-    ...authHeaders,
+    ...(await getAuthHeaders()),
   }
 
   const next = {

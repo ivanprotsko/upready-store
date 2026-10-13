@@ -11,7 +11,7 @@
  */
 
 import { sdk } from "@lib/config"
-import { getAuthHeaders, getCacheTag } from "./cookies"
+import { getAuthHeaders, getCacheTag, hasSession } from "./cookies"
 import { getLocale } from "./locale-actions"
 import { defaultLocale } from "@i18n/config"
 import { revalidateTag } from "next/cache"
@@ -117,7 +117,7 @@ export async function submitProductReview(
 ): Promise<SubmitReviewResult> {
   const authHeaders = await getAuthHeaders()
 
-  if (!authHeaders) {
+  if (!hasSession(authHeaders)) {
     return { ok: false, error: "unauthorized" }
   }
 
