@@ -11,6 +11,7 @@ import { parseBundleProps } from "./collection/bundle/props"
 import { parseFeaturedCollectionProps } from "./collection/featured/props"
 import { parseCollectionTabsProps } from "./collection/tabs/props"
 import { parseMulticolumnProps } from "./columns/multicolumn/props"
+import { parseStepsProps } from "./columns/steps/props"
 import { parseContactsStoreMapProps } from "./contacts/store-map/props"
 import { parseCountdownTimerProps } from "./countdown/timer/props"
 import { parseFaqAccordionProps } from "./faq/accordion/props"
@@ -39,6 +40,7 @@ export const PROPS_PARSERS: Record<string, (input: unknown) => PropsResult<unkno
   "collection/featured": parseFeaturedCollectionProps,
   "collection/tabs": parseCollectionTabsProps,
   "columns/multicolumn": parseMulticolumnProps,
+  "columns/steps": parseStepsProps,
   "contacts/store-map": parseContactsStoreMapProps,
   "countdown/timer": parseCountdownTimerProps,
   "faq/accordion": parseFaqAccordionProps,
