@@ -129,6 +129,54 @@ describe("the templates of this branch", () => {
     })
   })
 
+  // The 16.09 lab's «Лендинг одного товара» (`artifacts/docs/store-templates-lab/src/templates/lending.json`).
+  describe("lending", () => {
+    const lending = () => getTemplate("lending")!
+
+    it("paints the lab's palette, light only, in Geist at comfortable density", () => {
+      expect(lending().manifest.theme).toMatchObject({ palette: "lending", density: "comfortable" })
+      expect(lending().manifest.settings.defaultMode).toBe("light")
+      expect(lending().fonts).toEqual({ display: "Geist", body: "Geist", loaded: true, pair: "Geist|Geist" })
+    })
+
+    it("places the lab's home sections in the lab's order", () => {
+      // announcement, hero, usp cards, story, product grid, reviews, faq; header and footer come from settings.
+      // The lab's bundle has no block on templates/main yet (`collection/bundle`), its checkout no block at all.
+      expect(lending().manifest.sections.map((section) => section.block)).toEqual([
+        "announcement/rotator",
+        "hero/split",
+        "columns/multicolumn",
+        "media/image-with-text",
+        "collection/featured",
+        "testimonials/cards",
+        "faq/accordion",
+      ])
+      expect(lending().manifest.settings).toMatchObject({ header: "h2", hero: "none", tiles: "off", listing: "none", footer: "f1" })
+      const props = (block: string) => lending().manifest.sections.find((section) => section.block === block)?.props
+      expect(props("columns/multicolumn")).toMatchObject({ mode: "cards" })
+      expect(props("collection/featured")).toMatchObject({ layout: "grid", columns: 3 })
+    })
+
+    it("draws its pictures from its own files, each one there and within its weight", () => {
+      const files = JSON.stringify(TEMPLATE_SOURCES.lending).match(/\/templates\/lending\/[^"]+/g) ?? []
+      expect(files.length).toBeGreaterThan(0)
+      for (const file of files) {
+        const onDisk = path.join(process.cwd(), "public", file)
+        expect(fs.existsSync(onDisk), file).toBe(true)
+        expect(fs.statSync(onDisk).size, file).toBeLessThanOrEqual(200 * 1024)
+      }
+    })
+
+    it("carries no shop's identity and none of the lab shop's promises", () => {
+      const text = JSON.stringify(TEMPLATE_SOURCES.lending)
+      expect(text).not.toMatch(/\+7|\d{3}[- ]\d{2}[- ]\d{2}|@[a-z0-9-]+\.[a-z]/i)
+      // Case kept: «Длинная» holds «инн».
+      expect(text).not.toMatch(/ИНН|ООО|ИП |Урожай|Ковал|Челябинск/)
+      // A deadline, a warranty term or a return window is the shop's to promise, not the template's.
+      expect(text).not.toMatch(/\d+\s*(?:год|лет|дн|час|year|day|hour)|\d{1,2}:\d{2}/i)
+    })
+  })
+
   // P2b: the panel shows these to the owner, in the owner's language and plain words (rule 18e).
   it.each(Object.keys(TEMPLATE_SOURCES))("%s names itself and says what it is for in Russian and English", (id) => {
     const { title, description } = TEMPLATE_SOURCES[id] as { title: unknown; description: unknown }
