@@ -8,8 +8,8 @@ import StoreMap from "./store-map"
 
 /**
  * `contacts/store-map` (t-2026-10-12-33, R2 build list item 13): the shop's own shops and pick-up points, each
- * with its address, hours, phone and a link to Yandex Maps, and the points on a Yandex map. Measured against
- * InSales Minimalism's shops widget (a list of addresses) and the Tilda home pages with an embedded map.
+ * with its address, hours, phone and a link to Yandex Maps, and the points on a Yandex map. Measured against the
+ * R2 catalogue's `contacts` and `store-locations` rows (`artifacts/research/2026-10-13-templates-insales-tilda`).
  *
  * The server picks the visitor's words and drops a point with no name or address in them; no point left, nothing
  * is drawn. The map needs the storefront's key (`NEXT_PUBLIC_YANDEX_MAPS_KEY`, the checkout map's): without it
