@@ -130,7 +130,7 @@ test("the evaluator reads GitHub's rules: an operand from && and ||, strings wit
 
 test("PR Checks: every job of a dependabot pull request runs on GitHub's runner, never on [self-hosted, upready-store]", () => {
   const { jobs } = workflow("pr-checks.yml");
-  assert.deepEqual(Object.keys(jobs).sort(), ["backend", "deploy-checks", "panel-and-repository", "scope", "storefront"]);
+  assert.deepEqual(Object.keys(jobs).sort(), ["backend", "backend-catalogue", "deploy-checks", "panel-and-repository", "scope", "storefront"]);
   for (const [name, raw] of Object.entries(jobs)) {
     for (const [what, context] of DEPENDABOT) {
       const l = labels(raw, context);

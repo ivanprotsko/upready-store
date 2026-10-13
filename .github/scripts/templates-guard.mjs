@@ -12,9 +12,11 @@
  *
  *   git diff --name-only HEAD^1 HEAD | node .github/scripts/templates-guard.mjs --scope
  *
- * Prints `backend=`, `panel=` and `deploy=` lines (true or false) for $GITHUB_OUTPUT. The Template Scope job of
- * pr-checks.yml uses them to run Backend, Panel And Repository and Deploy Checks on a pull request into
- * templates/** only when it changes what those jobs check.
+ * Prints `backend=`, `catalogue=`, `panel=` and `deploy=` lines (true or false) for $GITHUB_OUTPUT. The Template
+ * Scope job of pr-checks.yml uses them to run Backend, Backend Catalogue, Panel And Repository and Deploy Checks on a
+ * pull request into templates/** only when it changes what those jobs check. When the only backend file it changes is
+ * the generated catalogue of templates, as every block or template pull request does, it runs Backend Catalogue, the
+ * backend's specs that read that file, instead of the whole Backend.
  */
 import { readFileSync } from "node:fs"
 import { fileURLToPath } from "node:url"
@@ -50,6 +52,9 @@ export function verdict({ base, head, labels }) {
 // (scripts/check-evidence-manifest.mjs), so those paths run it too. A change to the workflows or to what the
 // root installs runs every job.
 const EVERY_JOB = [".github/", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml"]
+// pnpm templates:export writes it from the storefront's block registry, and the storefront's catalog-export test holds
+// it equal to the export (t-2026-10-12-33 ci-catalog-scope).
+export const CATALOGUE = "apps/backend/src/api/tenants/home/template/catalog.generated.json"
 export const SCOPES = {
   backend: ["apps/backend/", ...EVERY_JOB],
   panel: [
@@ -66,10 +71,20 @@ export const SCOPES = {
   deploy: ["deploy/", ...EVERY_JOB],
 }
 
-/** { backend, panel, deploy }: which heavy job of pr-checks.yml the changed files still need. */
+/**
+ * { backend, catalogue, panel, deploy }: which heavy job of pr-checks.yml the changed files still need. The catalogue
+ * alone among the backend's files needs Backend Catalogue; beside any other backend file Backend runs, and its unit
+ * suites hold the catalogue's specs. A change to the workflows or the root install runs both.
+ */
 export function scopeOf(files) {
-  const touches = (prefix) => files.some((file) => (prefix.endsWith("/") ? file.startsWith(prefix) : file === prefix))
-  return Object.fromEntries(Object.entries(SCOPES).map(([job, prefixes]) => [job, prefixes.some(touches)]))
+  const touches = (among) => (prefix) => among.some((file) => (prefix.endsWith("/") ? file.startsWith(prefix) : file === prefix))
+  const backend = SCOPES.backend.some(touches(files.filter((file) => file !== CATALOGUE)))
+  return {
+    backend,
+    catalogue: EVERY_JOB.some(touches(files)) || (files.includes(CATALOGUE) && !backend),
+    panel: SCOPES.panel.some(touches(files)),
+    deploy: SCOPES.deploy.some(touches(files)),
+  }
 }
 
 function parseArgs(argv) {

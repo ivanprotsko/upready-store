@@ -24,6 +24,9 @@ name: PR Checks
 # Repository and Deploy Checks run only when it touches what they check (t-2026-10-12-33). All jobs share one
 # self-hosted runner on the INTL production host, Backend alone takes about 23 minutes, and up to seven lines open
 # template pull requests at night. The dev releases must not wait behind them (t-2026-10-12-30 measured 164 minutes).
+# When the only backend file a pull request into templates/** changes is the generated catalogue of templates, as
+# every block or template pull request does, Backend Catalogue runs the backend's specs that read it instead of
+# Backend (t-2026-10-12-33 ci-catalog-scope).
 on:
   pull_request:
     branches: [ dev, 'templates/**' ]
@@ -66,6 +69,7 @@ jobs:
     timeout-minutes: 5
     outputs:
       backend: ${{ steps.scope.outputs.backend }}
+      catalogue: ${{ steps.scope.outputs.catalogue }}
       panel: ${{ steps.scope.outputs.panel }}
       deploy: ${{ steps.scope.outputs.deploy }}
     steps:
@@ -114,6 +118,31 @@ jobs:
       - name: Fixtures typecheck
         if: ${{ !cancelled() }}
         run: pnpm check:backend-fixtures
+
+  # The backend's part of a block or template pull request: the unit specs that read the generated catalogue, which
+  # Jest finds through the import graph from the file itself, on an install of the backend alone. Template Scope sets
+  # `catalogue` when that file is the only backend file changed, or when the workflows or the root install change.
+  # When Template Scope fails its outputs are empty: this job is skipped and Backend runs.
+  backend-catalogue:
+    name: Backend Catalogue
+    needs: scope
+    if: ${{ !cancelled() && needs.scope.outputs.catalogue == 'true' }}
+    runs-on: ${{ (startsWith(github.head_ref, 'dependabot/') || github.actor == 'dependabot[bot]') && 'ubuntu-latest' || fromJSON('["self-hosted", "upready-store"]') }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install the backend
+        run: pnpm install --frozen-lockfile --filter @dtc/gorgo-medusa-backend...
+      - name: Catalogue specs
+        working-directory: apps/backend
+        run: pnpm run test:unit --findRelatedTests src/api/tenants/home/template/catalog.generated.json
 
   storefront:
     name: Storefront
