@@ -1332,7 +1332,92 @@
       "confirm": "Apply",
       "applyFailed": "The template could not be applied.",
       "advisories": "Notes on the template:",
-      "loadFailed": "The templates could not be loaded."
+      "loadFailed": "The templates could not be loaded.",
+      "texts": {
+        "heading": "Section texts",
+        "hint": "Only the words change here. The number of reviews, questions and slides, the pictures and the links stay as in the template.",
+        "none": "This template has no sections with texts.",
+        "sectionTitle": "Section {{place}} · {{kind}}",
+        "numbered": "{{label}} {{number}}",
+        "reset": "Restore the template's text",
+        "empty": "Empty: the storefront shows this text in another language.",
+        "tooLong": "At most {{max}} characters, now {{now}}",
+        "refused": "The server refused the texts of some sections: the reason is under the field.",
+        "dropped": "Your texts will not carry over: {{sections}}. The template changed with a storefront update.",
+        "channels": {
+          "hint": "The address of the shop's channel. Empty: the storefront shows no button for it.",
+          "telegram": "Telegram channel",
+          "vk": "VK group",
+          "max": "MAX channel",
+          "wrongHost": "Needs the address of a channel on {{hosts}}",
+          "or": " or "
+        },
+        "fields": {
+          "alt": "Picture description",
+          "answer": "Answer",
+          "city": "City",
+          "eyebrow": "Line above the heading",
+          "facts": "Fact",
+          "heading": "Heading",
+          "label": "Label",
+          "lead": "Lead text",
+          "name": "Name",
+          "note": "Note",
+          "paragraphs": "Paragraph",
+          "question": "Question",
+          "quote": "Review text",
+          "text": "Text",
+          "title": "Heading"
+        },
+        "fieldsIn": {
+          "seeAll": {
+            "label": "«See all» link"
+          },
+          "button": {
+            "label": "Button label"
+          },
+          "primary": {
+            "label": "Main button"
+          },
+          "secondary": {
+            "label": "Second button"
+          },
+          "tabs": {
+            "label": "Tab name"
+          },
+          "messages": {
+            "text": "Message"
+          },
+          "header": {
+            "eyebrow": "Line above the section heading",
+            "heading": "Section heading"
+          }
+        }
+      },
+      "categories": {
+        "announcement": "Announcement",
+        "banner": "Banner",
+        "blog": "Blog",
+        "collage": "Collage",
+        "collection": "Product selection",
+        "columns": "Columns",
+        "contacts": "Contacts",
+        "countdown": "Countdown",
+        "faq": "Questions and answers",
+        "footer": "Footer",
+        "header": "Header",
+        "hero": "First screen",
+        "listing": "Products",
+        "logos": "Logos",
+        "media": "Picture with text",
+        "newsletter": "Channel subscription",
+        "promo": "Promotion",
+        "slideshow": "Slideshow",
+        "testimonials": "Reviews",
+        "text": "Text",
+        "tiles": "Category tiles",
+        "video": "Video"
+      }
     }
   },
   "inventory": {

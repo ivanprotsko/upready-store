@@ -7,6 +7,14 @@ import { SegmentedControl } from "../../../components/common/segmented-control"
 import { useApplyTenantTemplate, useTenantTemplates } from "../../../hooks/api/home"
 import type { TenantHomeDocument } from "../composition"
 import {
+  draftOf,
+  overridesWithTexts,
+  refusalsOf,
+  type DroppedSection,
+  type SectionDraft,
+  type SectionRefusal,
+} from "../section-texts"
+import {
   LAYER_NAMES,
   PHOTO_RATIO,
   RADIUS_PX,
@@ -15,7 +23,6 @@ import {
   initialChoice,
   isTemplateOwn,
   orderTemplates,
-  overridesFrom,
   paletteAllowed,
   previewHref,
   swatchFor,
@@ -29,12 +36,14 @@ import {
   type TemplateLayers,
   type TemplateText,
 } from "../templates"
+import { TemplateTexts } from "./template-texts"
 
 // tenant-panel: the «Шаблоны» section of `/home-settings` (t-2026-10-12-33 P2). The owner
-// picks a store template, adjusts its palette and four layers on a schematic preview, and
-// applies it through `POST /tenants/home/template`. Section texts are not edited here: a
-// section keeps the props its template gives it (the next step; the catalogue already marks
-// `propsEditable`). The logic lives in `../templates.ts`; this file only draws it.
+// picks a store template, adjusts its palette and four layers on a schematic preview, replaces
+// the words of its sections («Тексты секций», PE2, `./template-texts.tsx`), and applies it
+// through `POST /tenants/home/template`. The live template opens on the shop's saved words, and
+// applying it again sends them back, so a palette change keeps them. The logic lives in
+// `../templates.ts` and `../section-texts.ts`; this file only draws it.
 
 /** The storefront that answers `?template=<id>`; production storefronts have the preview off. */
 const PREVIEW_ORIGIN = import.meta.env.VITE_TEMPLATE_PREVIEW_ORIGIN as string | undefined
@@ -241,6 +250,9 @@ export const TemplateSection = ({
   const [openId, setOpenId] = useState<string | null>(null)
   const [choice, setChoice] = useState<TemplateChoice | null>(null)
   const [advisories, setAdvisories] = useState<string[]>([])
+  const [draft, setDraft] = useState<SectionDraft>([])
+  const [dropped, setDropped] = useState<DroppedSection[]>([])
+  const [refusals, setRefusals] = useState<SectionRefusal[]>([])
 
   const label = (layer: LayerName, value?: string) =>
     value
@@ -248,6 +260,21 @@ export const TemplateSection = ({
       : t(`homeSettings.templates.${LAYER_LABELS[layer].key}.label`, { defaultValue: LAYER_LABELS[layer].label })
   /** A template's or a palette's words from the catalogue, in the panel's language. */
   const text = (value: TemplateText) => textFor(value, i18n.language)
+  /**
+   * The dropped sections in plain words, by their kind («Отзывы»), for one line. Not by their place: that was the
+   * place on the saved page, and the editor above numbers the template's.
+   */
+  const droppedLine = (sections: DroppedSection[]) =>
+    t("homeSettings.templates.texts.dropped", {
+      defaultValue: "Your texts will not carry over: {{sections}}. The template changed with a storefront update.",
+      sections: sections
+        .map((section) =>
+          t(`homeSettings.templates.categories.${section.category}`, {
+            defaultValue: t("homeSettings.templates.categories.text", { defaultValue: "Text" }),
+          })
+        )
+        .join(", "),
+    })
 
   if (isPending) {
     return (
@@ -276,7 +303,21 @@ export const TemplateSection = ({
     }
     setOpenId(template.id)
     setChoice(initialChoice(template, catalogue.current))
+    const opened = draftOf(template, catalogue.current)
+    setDraft(opened.draft)
+    setDropped(opened.dropped)
+    setRefusals([])
     setAdvisories([])
+  }
+
+  const editSection = (index: number, props: Record<string, unknown>, field: string) => {
+    setDraft(draft.map((section, at) => (at === index ? props : section)))
+    setRefusals(refusals.filter((refusal) => !(refusal.index === index && refusal.field === field)))
+  }
+
+  const resetSection = (template: TemplateCard, index: number) => {
+    setDraft(draft.map((section, at) => (at === index ? template.sections[index]?.props : section)))
+    setRefusals(refusals.filter((refusal) => refusal.index !== index))
   }
 
   const apply = async (template: TemplateCard, picked: TemplateChoice) => {
@@ -292,6 +333,7 @@ export const TemplateSection = ({
               defaultValue: "Changes on this page that are not saved yet will be dropped.",
             })
           : "",
+        dropped.length ? droppedLine(dropped) : "",
       ]
         .filter(Boolean)
         .join(" "),
@@ -302,13 +344,28 @@ export const TemplateSection = ({
     if (!confirmed) return
 
     try {
-      const result = await mutateAsync({ id: template.id, overrides: overridesFrom(template, picked) })
+      const result = await mutateAsync({ id: template.id, overrides: overridesWithTexts(template, picked, draft) })
       setAdvisories(result.advisories ?? [])
+      setRefusals([])
+      setDropped([])
       onApplied(result.home)
       toast.success(t("homeSettings.saved", { defaultValue: "The home page was saved." }))
     } catch (e) {
+      // A refused section text goes under its field (`sections[N].props: <path>.<lang> …`); the toast names it.
+      const message = failureText(e, "")
+      const refused = refusalsOf(message)
+      setRefusals(refused.sections)
       toast.error(
-        failureText(e, t("homeSettings.templates.applyFailed", { defaultValue: "The template could not be applied." }))
+        refused.sections.length
+          ? [
+              t("homeSettings.templates.texts.refused", {
+                defaultValue: "The server refused the texts of some sections: the reason is under the field.",
+              }),
+              refused.rest,
+            ]
+              .filter(Boolean)
+              .join(" ")
+          : message || t("homeSettings.templates.applyFailed", { defaultValue: "The template could not be applied." })
       )
     }
   }
@@ -453,6 +510,21 @@ export const TemplateSection = ({
               className="self-start"
             />
           </div>
+
+          <TemplateTexts
+            card={open}
+            locales={catalogue.locales ?? []}
+            draft={draft}
+            refusals={refusals}
+            onChange={editSection}
+            onReset={(index) => resetSection(open, index)}
+          />
+
+          {dropped.length ? (
+            <Text size="small" className="text-ui-fg-subtle" data-testid="template-texts-dropped">
+              {droppedLine(dropped)}
+            </Text>
+          ) : null}
 
           {advisories.length ? (
             <div className="flex flex-col gap-y-1" data-testid="template-advisories">

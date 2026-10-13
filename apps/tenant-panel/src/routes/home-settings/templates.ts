@@ -31,8 +31,18 @@ export type TemplateCard = {
   description: TemplateText
   defaultMode: "light" | "dark"
   theme: TemplateLayers & { palette: string; fontPair: { display: string; body: string } }
-  sections: { block: string; category: string }[]
+  sections: CardSection[]
 }
+
+/**
+ * A section of a template's home page: its block and the block's category (the schematic's shape), the
+ * template's own props (absent for a slot block) and `editable`, whether the backend takes changed props for
+ * the block (PE2, `section-texts.ts`).
+ */
+export type CardSection = { block: string; category: string; props?: Record<string, unknown>; editable: boolean }
+
+/** A section of the shop's saved home page, with the props it applied. */
+export type SavedSection = { block: string; category: string; props?: Record<string, unknown> }
 
 export type PaletteEntry = {
   id: string
@@ -46,6 +56,8 @@ export type CurrentTemplate = {
   palette: string
   layers: TemplateLayers | null
   fontPair: { display: string; body: string }
+  /** The shop's saved sections in order, its own words included (PE2). */
+  sections: SavedSection[]
 }
 
 export type TemplateCatalogue = {
@@ -54,6 +66,8 @@ export type TemplateCatalogue = {
   layers: Record<LayerName, string[]>
   /** The storefront's gap between home sections at each density, in px (its `--layer-section-gap`). */
   sectionGapPx: Record<Density, number>
+  /** The storefront's language codes: a text of a section's props is an object of these to strings. */
+  locales: string[]
   current: CurrentTemplate | null
 }
 
@@ -100,8 +114,15 @@ export function orderTemplates(
 /** What the owner has chosen for one template: its palette and four layers. */
 export type TemplateChoice = { palette: string; layers: TemplateLayers }
 
-/** The body's `overrides` of `POST /tenants/home/template`; no section props in this screen. */
-export type TemplateOverrides = { palette?: string; layers?: Partial<TemplateLayers> }
+/**
+ * The body's `overrides` of `POST /tenants/home/template`: the palette and layers here, a section's props from
+ * «Тексты секций» (`section-texts.ts`), each at its place in the template with the block standing there.
+ */
+export type TemplateOverrides = {
+  palette?: string
+  layers?: Partial<TemplateLayers>
+  sections?: Array<{ index: number; block: string; props: Record<string, unknown> }>
+}
 
 export const LAYER_NAMES: readonly LayerName[] = ["radius", "buttonStyle", "photoStyle", "density"]
 
