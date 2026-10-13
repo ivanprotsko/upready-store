@@ -94,17 +94,24 @@
       }
     },
     {
-      "block": "collection/featured",
+      "block": "collection/tabs",
       "props": {
-        "header": {
-          "eyebrow": { "ru": "Только что в каталоге", "en": "Just in" },
-          "heading": { "ru": "Новинки", "en": "New arrivals" },
-          "seeAll": { "href": "/store", "label": { "ru": "Весь каталог", "en": "The whole catalogue" } }
-        },
-        "source": { "sort": "newest" },
-        "limit": 8,
-        "layout": "grid",
+        "header": { "heading": { "ru": "Подборки каталога", "en": "Catalogue picks" } },
+        "tabs": [
+          { "label": { "ru": "Новинки", "en": "New arrivals" }, "source": { "sort": "newest" }, "limit": 8 },
+          { "label": { "ru": "Хиты", "en": "Bestsellers" }, "source": { "collection": "bestsellers" }, "limit": 8 },
+          { "label": { "ru": "Скидки", "en": "On sale" }, "source": { "collection": "sale" }, "limit": 8 }
+        ],
         "columns": 4
+      }
+    },
+    {
+      "block": "collection/bundle",
+      "props": {
+        "header": { "heading": { "ru": "Берут комплектом", "en": "Bought as a set" } },
+        "title": { "ru": "Для дома", "en": "For the home" },
+        "note": { "ru": "Всё нужное — одной кнопкой", "en": "Everything you need, with one button" },
+        "products": ["hook-rail", "candle-holder", "mug"]
       }
     },
     {

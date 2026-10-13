@@ -232,17 +232,23 @@ describe("the templates of this branch", () => {
     })
 
     it("places the lab's home sections in the lab's order", () => {
-      // announcement, banners, usp cards, product grid, story, newsletter; header and footer come from settings.
-      // The lab's bundle has no block on templates/main yet (`collection/bundle`), nor the tabs (`collection/tabs`).
+      // announcement, banners, usp cards, product tabs, bundle, story, newsletter; header and footer come from settings.
       expect(katalog().manifest.sections.map((section) => section.block)).toEqual([
         "announcement/rotator",
         "slideshow/banners",
         "columns/multicolumn",
-        "collection/featured",
+        "collection/tabs",
+        "collection/bundle",
         "text/rich-text",
         "newsletter/signup",
       ])
       expect(katalog().manifest.settings).toMatchObject({ header: "h3", hero: "none", tiles: "off", listing: "none", footer: "f1" })
+      const props = (block: string) => katalog().manifest.sections.find((section) => section.block === block)?.props
+      // The lab's three tabs; a tab whose source holds no product is dropped by the block.
+      expect(props("collection/tabs")).toMatchObject({
+        tabs: [{ source: { sort: "newest" } }, { source: { collection: "bestsellers" } }, { source: { collection: "sale" } }],
+        columns: 4,
+      })
     })
 
     it("draws its pictures from its own files, each one there and within its weight", () => {
