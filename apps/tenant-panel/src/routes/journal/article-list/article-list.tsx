@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
+import { TableScroll } from "../../../components/table/table-scroll"
 import { useDomains } from "../../../hooks/api/domains"
 import {
   TenantArticle,
@@ -194,89 +195,91 @@ export const ArticleList = () => {
           </Text>
         </div>
 
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Статья</Table.HeaderCell>
-              <Table.HeaderCell>Статус</Table.HeaderCell>
-              <Table.HeaderCell>Рубрика</Table.HeaderCell>
-              <Table.HeaderCell>Языки</Table.HeaderCell>
-              <Table.HeaderCell>Дата</Table.HeaderCell>
-              <Table.HeaderCell />
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {visible.length === 0 ? (
+        <TableScroll>
+          <Table>
+            <Table.Header>
               <Table.Row>
-                {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
-                    state fills the first cell and the rest stay blank. */}
-                <Table.Cell>
-                  <Text size="small" className="text-ui-fg-subtle" data-testid="article-empty">
-                    {filtering
-                      ? "Под фильтр ничего не подошло. Снимите его, чтобы увидеть все статьи."
-                      : "Статей пока нет. Нажмите «Новая статья» — откроется страница, где можно сразу писать."}
-                  </Text>
-                </Table.Cell>
-                <Table.Cell />
-                <Table.Cell />
-                <Table.Cell />
-                <Table.Cell />
-                <Table.Cell />
+                <Table.HeaderCell>Статья</Table.HeaderCell>
+                <Table.HeaderCell>Статус</Table.HeaderCell>
+                <Table.HeaderCell>Рубрика</Table.HeaderCell>
+                <Table.HeaderCell>Языки</Table.HeaderCell>
+                <Table.HeaderCell>Дата</Table.HeaderCell>
+                <Table.HeaderCell />
               </Table.Row>
-            ) : null}
-            {visible.map((group) => {
-              const badge = statusBadge(group.primary)
-              return (
-                <Table.Row key={group.slug} data-testid="article-row">
+            </Table.Header>
+            <Table.Body>
+              {visible.length === 0 ? (
+                <Table.Row>
+                  {/* `Table.Cell` of @medusajs/ui takes no colSpan, so the empty
+                      state fills the first cell and the rest stay blank. */}
                   <Table.Cell>
-                    <Link
-                      to={group.slug}
-                      className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
-                    >
+                    <Text size="small" className="text-ui-fg-subtle" data-testid="article-empty">
+                      {filtering
+                        ? "Под фильтр ничего не подошло. Снимите его, чтобы увидеть все статьи."
+                        : "Статей пока нет. Нажмите «Новая статья» — откроется страница, где можно сразу писать."}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                </Table.Row>
+              ) : null}
+              {visible.map((group) => {
+                const badge = statusBadge(group.primary)
+                return (
+                  <Table.Row key={group.slug} data-testid="article-row">
+                    <Table.Cell>
+                      <Link
+                        to={group.slug}
+                        className="text-ui-fg-base hover:text-ui-fg-subtle transition-fg"
+                      >
+                        <Text
+                          size="small"
+                          weight="plus"
+                          className="truncate"
+                          title={publicArticleUrl(primaryHost, group.slug)}
+                        >
+                          {group.primary.title.trim() || group.slug}
+                        </Text>
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <StatusBadge color={badge.color}>{badge.label}</StatusBadge>
+                    </Table.Cell>
+                    <Table.Cell>
                       <Text
                         size="small"
-                        weight="plus"
-                        className="truncate"
-                        title={publicArticleUrl(primaryHost, group.slug)}
+                        className="text-ui-fg-subtle truncate"
+                        title={group.primary.category || "—"}
                       >
-                        {group.primary.title.trim() || group.slug}
+                        {group.primary.category || "—"}
                       </Text>
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <StatusBadge color={badge.color}>{badge.label}</StatusBadge>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text
-                      size="small"
-                      className="text-ui-fg-subtle truncate"
-                      title={group.primary.category || "—"}
-                    >
-                      {group.primary.category || "—"}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex flex-wrap items-center gap-1">
-                      {group.locales.map((row) => (
-                        <StatusBadge key={row.locale} color={row.published ? "green" : "orange"}>
-                          {localeLabel(row.locale)}
-                        </StatusBadge>
-                      ))}
-                    </div>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text size="small" className="text-ui-fg-subtle">
-                      {formatArticleDate(group.primary.published_at) || "—"}
-                    </Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <ArticleRowActions group={group} publicHost={primaryHost} />
-                  </Table.Cell>
-                </Table.Row>
-              )
-            })}
-          </Table.Body>
-        </Table>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex flex-wrap items-center gap-1">
+                        {group.locales.map((row) => (
+                          <StatusBadge key={row.locale} color={row.published ? "green" : "orange"}>
+                            {localeLabel(row.locale)}
+                          </StatusBadge>
+                        ))}
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Text size="small" className="text-ui-fg-subtle">
+                        {formatArticleDate(group.primary.published_at) || "—"}
+                      </Text>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <ArticleRowActions group={group} publicHost={primaryHost} />
+                    </Table.Cell>
+                  </Table.Row>
+                )
+              })}
+            </Table.Body>
+          </Table>
+        </TableScroll>
       </Container>
     </SingleColumnPage>
   )

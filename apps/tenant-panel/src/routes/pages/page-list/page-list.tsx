@@ -16,6 +16,7 @@ import {
 } from "../page-sections"
 import { CustomPageRow } from "./custom-page-row"
 import { PHONE_CARDS } from "../../../components/table/phone-cards"
+import { TableScroll } from "../../../components/table/table-scroll"
 
 // tenant-panel wave 2, piece 7: the panel's own screen, no Admin counterpart
 // (the native Admin has no per-store content pages). Built from the same
@@ -103,7 +104,10 @@ export const PageList = () => {
             «Информация», в выбранном вами порядке.
           </Text>
         </div>
-        <div className={PHONE_CARDS}>
+        {/* t-2026-10-13-30: below `md` the rows are cards (PHONE_CARDS); from
+            `md` up the table is wider than a 768 px screen and scrolls in its
+            own box. */}
+        <TableScroll className={PHONE_CARDS}>
           <Table>
             <Table.Header>
               <Table.Row>
@@ -180,7 +184,7 @@ export const PageList = () => {
               })}
             </Table.Body>
           </Table>
-        </div>
+        </TableScroll>
         <form
           onSubmit={handleCreate}
           className="flex flex-wrap items-end gap-x-3 gap-y-2 px-6 py-4"

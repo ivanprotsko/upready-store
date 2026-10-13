@@ -5,7 +5,15 @@ import type CourseModuleService from "../../../../modules/course/service";
 import { toSlug, firstFreeSlug } from "../../../../product-csv/slugify";
 import { getTenantScope } from "../../tenant-scope";
 import type { PutTenantCourseBody } from "../validators";
-import { assertOwnedCourse, byOrderAsc, type CourseRow, type LessonRow, toCourseDto, toLessonDto } from "../course-helpers";
+import {
+  assertOwnedCourse,
+  byOrderAsc,
+  type CourseRow,
+  courseStreamForWrite,
+  type LessonRow,
+  toCourseDto,
+  toLessonDto,
+} from "../course-helpers";
 
 /**
  * `GET /tenants/courses/:id` — one course of the tenant, with its lessons in
@@ -64,6 +72,7 @@ export const POST = async (
     slug,
     ...(body.description !== undefined && { description: body.description }),
     ...(body.status !== undefined && { status: body.status }),
+    ...courseStreamForWrite(body),
   });
 
   const row = (Array.isArray(updated) ? updated[0] : updated) as CourseRow;

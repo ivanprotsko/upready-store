@@ -5,7 +5,7 @@ import type CourseModuleService from "../../../modules/course/service";
 import { firstFreeSlug, toSlug } from "../../../product-csv/slugify";
 import { assertOwnedProduct, getTenantScope } from "../tenant-scope";
 import type { PostTenantCourseBody } from "./validators";
-import { type CourseRow, markProductAsCourse, toCourseDto } from "./course-helpers";
+import { type CourseRow, courseStreamForWrite, markProductAsCourse, toCourseDto } from "./course-helpers";
 
 /**
  * `GET /tenants/courses` — every course of the tenant behind the token
@@ -76,6 +76,7 @@ export const POST = async (
     slug,
     description: body.description ?? null,
     status: body.status ?? "draft",
+    ...courseStreamForWrite(body),
   });
 
   const row = (Array.isArray(created) ? created[0] : created) as CourseRow;

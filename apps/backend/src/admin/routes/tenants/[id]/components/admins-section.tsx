@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Button, Container, Heading, Table, toast, usePrompt } from "@medusajs/ui"
 
+import { TABLE_SCROLL } from "../../../../lib/table-scroll"
 import { deleteTenantAdmin, type TenantAdmin, type TenantDetail } from "../../../../lib/tenants-api"
 import { AddAdminDrawer } from "./add-admin-drawer"
 import { tenantAdminRoleLabel } from "./admin-roles"
@@ -44,55 +45,57 @@ export function AdminsSection({ tenant }: { tenant: TenantDetail }) {
 
   return (
     <Container className="divide-y p-0">
-      <div className="flex items-center justify-between px-6 py-4">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4">
         <Heading level="h2">Администраторы</Heading>
         <Button variant="secondary" size="small" disabled={disabled} onClick={() => setAddOpen(true)}>
           Добавить администратора
         </Button>
       </div>
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>Имя</Table.HeaderCell>
-            <Table.HeaderCell>Роль</Table.HeaderCell>
-            <Table.HeaderCell>Создан</Table.HeaderCell>
-            <Table.HeaderCell />
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {tenant.admins.map((admin) => (
-            <Table.Row key={admin.id}>
-              <Table.Cell>{admin.email}</Table.Cell>
-              <Table.Cell>
-                {[admin.first_name, admin.last_name].filter(Boolean).join(" ") || "—"}
-              </Table.Cell>
-              <Table.Cell>{tenantAdminRoleLabel(admin.role)}</Table.Cell>
-              <Table.Cell>{dateFormatter.format(new Date(admin.created_at))}</Table.Cell>
-              <Table.Cell>
-                <div className="flex justify-end gap-x-2">
-                  <Button
-                    variant="transparent"
-                    size="small"
-                    disabled={disabled}
-                    onClick={() => setEditingAdmin(admin)}
-                  >
-                    Изменить
-                  </Button>
-                  <Button
-                    variant="transparent"
-                    size="small"
-                    disabled={disabled}
-                    onClick={() => handleRemove(admin)}
-                  >
-                    Удалить
-                  </Button>
-                </div>
-              </Table.Cell>
+      <div className={TABLE_SCROLL}>
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Email</Table.HeaderCell>
+              <Table.HeaderCell>Имя</Table.HeaderCell>
+              <Table.HeaderCell>Роль</Table.HeaderCell>
+              <Table.HeaderCell>Создан</Table.HeaderCell>
+              <Table.HeaderCell />
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+          </Table.Header>
+          <Table.Body>
+            {tenant.admins.map((admin) => (
+              <Table.Row key={admin.id}>
+                <Table.Cell>{admin.email}</Table.Cell>
+                <Table.Cell>
+                  {[admin.first_name, admin.last_name].filter(Boolean).join(" ") || "—"}
+                </Table.Cell>
+                <Table.Cell>{tenantAdminRoleLabel(admin.role)}</Table.Cell>
+                <Table.Cell>{dateFormatter.format(new Date(admin.created_at))}</Table.Cell>
+                <Table.Cell>
+                  <div className="flex justify-end gap-x-2">
+                    <Button
+                      variant="transparent"
+                      size="small"
+                      disabled={disabled}
+                      onClick={() => setEditingAdmin(admin)}
+                    >
+                      Изменить
+                    </Button>
+                    <Button
+                      variant="transparent"
+                      size="small"
+                      disabled={disabled}
+                      onClick={() => handleRemove(admin)}
+                    >
+                      Удалить
+                    </Button>
+                  </div>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </div>
 
       <AddAdminDrawer tenantId={tenant.id} open={addOpen} onOpenChange={setAddOpen} />
       {editingAdmin ? (

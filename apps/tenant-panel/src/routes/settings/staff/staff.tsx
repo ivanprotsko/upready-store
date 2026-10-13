@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next"
 
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { SingleColumnPage } from "../../../components/layout/pages"
+import { TableScroll } from "../../../components/table/table-scroll"
 import { useDeleteStaff, useStaff } from "../../../hooks/api/staff"
 import { useDate } from "../../../hooks/use-date"
 import {
@@ -84,66 +85,68 @@ export const Staff = () => {
           </Button>
         </div>
 
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>{t("staff.columns.name")}</Table.HeaderCell>
-              <Table.HeaderCell>{t("staff.columns.email")}</Table.HeaderCell>
-              <Table.HeaderCell>{t("staff.columns.role")}</Table.HeaderCell>
-              <Table.HeaderCell>{t("staff.columns.created")}</Table.HeaderCell>
-              <Table.HeaderCell />
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {staff.map((member) => {
-              const role = staffRoleOf(member)
-              const actions = staffRowActions(member)
-              return (
-                <Table.Row key={member.id} data-self={member.is_self ? "true" : undefined}>
-                  <Table.Cell>
-                    <div className="flex items-center gap-x-2">
-                      <Text size="small" className="whitespace-nowrap">
-                        {staffName(member) || "-"}
-                      </Text>
-                      {member.is_self ? (
-                        <Badge size="2xsmall">{t("staff.you")}</Badge>
-                      ) : null}
-                    </div>
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{member.email}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">
-                    {role ? t(`staff.roles.${role}`) : member.role}
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">
-                    {getFullDate({ date: member.created_at })}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex justify-end gap-x-1">
-                      <IconButton
-                        size="small"
-                        variant="transparent"
-                        aria-label={t("actions.edit")}
-                        onClick={() => setEditing(member)}
-                      >
-                        <PencilSquare />
-                      </IconButton>
-                      {actions.canDelete ? (
+        <TableScroll>
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>{t("staff.columns.name")}</Table.HeaderCell>
+                <Table.HeaderCell>{t("staff.columns.email")}</Table.HeaderCell>
+                <Table.HeaderCell>{t("staff.columns.role")}</Table.HeaderCell>
+                <Table.HeaderCell>{t("staff.columns.created")}</Table.HeaderCell>
+                <Table.HeaderCell />
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {staff.map((member) => {
+                const role = staffRoleOf(member)
+                const actions = staffRowActions(member)
+                return (
+                  <Table.Row key={member.id} data-self={member.is_self ? "true" : undefined}>
+                    <Table.Cell>
+                      <div className="flex items-center gap-x-2">
+                        <Text size="small" className="whitespace-nowrap">
+                          {staffName(member) || "-"}
+                        </Text>
+                        {member.is_self ? (
+                          <Badge size="2xsmall">{t("staff.you")}</Badge>
+                        ) : null}
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{member.email}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">
+                      {role ? t(`staff.roles.${role}`) : member.role}
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">
+                      {getFullDate({ date: member.created_at })}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex justify-end gap-x-1">
                         <IconButton
                           size="small"
                           variant="transparent"
-                          aria-label={t("actions.delete")}
-                          onClick={() => handleDelete(member)}
+                          aria-label={t("actions.edit")}
+                          onClick={() => setEditing(member)}
                         >
-                          <Trash />
+                          <PencilSquare />
                         </IconButton>
-                      ) : null}
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-              )
-            })}
-          </Table.Body>
-        </Table>
+                        {actions.canDelete ? (
+                          <IconButton
+                            size="small"
+                            variant="transparent"
+                            aria-label={t("actions.delete")}
+                            onClick={() => handleDelete(member)}
+                          >
+                            <Trash />
+                          </IconButton>
+                        ) : null}
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                )
+              })}
+            </Table.Body>
+          </Table>
+        </TableScroll>
       </Container>
 
       {adding ? <StaffDrawer roles={roles} onClose={() => setAdding(false)} /> : null}

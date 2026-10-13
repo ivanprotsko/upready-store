@@ -37,7 +37,11 @@ import { getProductCourse } from "@lib/data/courses"
 import { listProductAttributes } from "@lib/data/product-attributes"
 import { listProductReviews } from "@lib/data/product-reviews"
 import { buildProductJsonLd } from "@lib/util/json-ld"
-import { readCourseCover, readCoursePage } from "@lib/util/course-page"
+import {
+  readCourseCover,
+  readCoursePage,
+  takesCourseLayout,
+} from "@lib/util/course-page"
 import { showsSupplementNotice } from "@lib/util/regulated-product"
 import { stripHtml } from "@lib/util/strip-html"
 import { notFound } from "next/navigation"
@@ -74,6 +78,9 @@ const CARD = "rounded-large border border-ui-border-base bg-ui-bg-base"
  * ответы» and the testimonials; the right column is the buy box alone, sticky under the
  * header all the way down that column. On a phone the order is cover, centre card, buy
  * box, sections, and the sticky bar keeps «В корзину» reachable as on any product.
+ * A product that carries a course landing's sections (`metadata.course_page`) without
+ * a course of lessons takes the same layout, the lesson list left out
+ * (t-2026-10-13-26: the lymph set).
  */
 const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   product,
@@ -158,10 +165,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
     </>
   )
 
-  if (course) {
-    const metadata = product.metadata as Record<string, unknown> | null
+  const metadata = product.metadata as Record<string, unknown> | null
+  const page = readCoursePage(metadata, locale)
+
+  if (takesCourseLayout(Boolean(course), page)) {
     const cover = readCourseCover(metadata)
-    const page = readCoursePage(metadata, locale)
 
     const summaryCard = (
       <div
@@ -255,7 +263,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                     >
                       <HydrationSlot>
                         {page && <CourseAbout sections={page.about} />}
-                        <CourseBlock data={course} />
+                        {course && <CourseBlock data={course} />}
                         {page && <CourseFaq items={page.faq} />}
                         {page && <CourseTestimonials items={page.testimonials} />}
                       </HydrationSlot>

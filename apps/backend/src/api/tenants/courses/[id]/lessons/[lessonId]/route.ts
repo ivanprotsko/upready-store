@@ -3,7 +3,14 @@ import { COURSE_MODULE } from "../../../../../../modules/course";
 import type CourseModuleService from "../../../../../../modules/course/service";
 import { getTenantScope } from "../../../../tenant-scope";
 import type { PutTenantLessonBody } from "../../../validators";
-import { assertOwnedCourse, assertOwnedLesson, type LessonRow, toLessonDto } from "../../../course-helpers";
+import {
+  assertOwnedCourse,
+  assertOwnedLesson,
+  lessonContentForWrite,
+  type LessonRow,
+  toLessonDto,
+  videoUrlForWrite,
+} from "../../../course-helpers";
 
 /** `GET /tenants/courses/:id/lessons/:lessonId` — one lesson, full content, for the panel editor. */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
@@ -29,8 +36,9 @@ export const POST = async (
     id: lesson.id,
     ...(body.title !== undefined && { title: body.title }),
     ...(body.body !== undefined && { body: body.body }),
-    ...(body.video_url !== undefined && { video_url: body.video_url }),
+    ...videoUrlForWrite(body),
     ...(body.order !== undefined && { order: body.order }),
+    ...lessonContentForWrite(body),
   });
 
   const row = (Array.isArray(updated) ? updated[0] : updated) as LessonRow;

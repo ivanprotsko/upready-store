@@ -5,6 +5,7 @@ import type {
 } from "@medusajs/framework/http";
 import { MedusaError } from "@medusajs/framework/utils";
 import { COURSE_MODULE } from "../../../../../../../modules/course";
+import { parseLessonLinks, toStoreAttachments, toStoreVideos } from "../../../../../../../modules/course/content";
 import { parseLessonQuiz } from "../../../../../../../modules/course/quiz";
 import type CourseModuleService from "../../../../../../../modules/course/service";
 import type { LessonRow } from "../../../../../../tenants/courses/course-helpers";
@@ -14,9 +15,11 @@ import {
   getOwnedCourse,
   LESSON_REFERENCE,
   LESSON_TRANSLATABLE_FIELDS,
+  sendLessonLocked,
   translateRows,
   type ProgressRow,
 } from "../../../store-course-helpers";
+import { accessStartOf, lessonLock } from "../../../lesson-schedule";
 
 /**
  * `GET /store/tenant/courses/:id/lessons/:lessonId` — the lesson player's one
@@ -35,6 +38,13 @@ import {
  * t-2026-10-04-19), the same one the contents list shows for this lesson. The
  * body and the questions stay as the owner wrote them: neither is a
  * translatable field.
+ *
+ * t-2026-10-13-29 stage 2: a lesson that opens on a later day of this buyer's
+ * access answers 403 `{ code: "lesson_locked", opens_at }` and nothing of its
+ * content. An open one carries its `videos`, `attachments` and `links`; a
+ * video or a file the platform stores is the media route
+ * (`/store/tenant/courses/:id/media?key=…`), never the file's own address,
+ * and `video_url` is the first of the videos for readers that know only it.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req as unknown as MedusaStoreRequest);
@@ -45,7 +55,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   }
 
   const course = await getOwnedCourse(req, tenant.id, req.params.id);
-  await assertCourseAccess(req, tenant.id, customerId, course);
+  const entitlement = await assertCourseAccess(req, tenant.id, customerId, course);
 
   const courseService: CourseModuleService = req.scope.resolve(COURSE_MODULE);
   const [lesson] = (await courseService.listLessons({
@@ -61,6 +71,12 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     );
   }
 
+  const lock = lessonLock(lesson, accessStartOf(entitlement, course));
+  if (lock.locked) {
+    sendLessonLocked(res, lock.opens_at);
+    return;
+  }
+
   const [[progress], [translated]] = await Promise.all([
     courseService.listCourseProgresses({
       tenant_id: tenant.id,
@@ -70,6 +86,8 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     translateRows(req.scope, LESSON_REFERENCE, [lesson], LESSON_TRANSLATABLE_FIELDS, req.locale),
   ]);
 
+  const videos = toStoreVideos(course.id, lesson.videos);
+
   res.json({
     lesson: {
       id: lesson.id,
@@ -77,7 +95,14 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       title: translated.title,
       order: lesson.order,
       body: lesson.body,
-      video_url: lesson.video_url,
+      video_url: videos[0]?.url ?? lesson.video_url,
+      videos,
+      attachments: toStoreAttachments(course.id, lesson.attachments),
+      links: parseLessonLinks(lesson.links),
+      section: lesson.section ?? null,
+      cover_url: lesson.cover_url ?? null,
+      summary: lesson.summary ?? null,
+      opens_at: lock.opens_at,
       quiz: parseLessonQuiz(lesson.quiz),
       viewed_at: progress?.viewed_at ?? null,
     },

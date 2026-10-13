@@ -93,7 +93,9 @@ const TenantDetailPage = () => {
   return (
     <div className="flex flex-col gap-y-4">
       <Container className="divide-y p-0">
-        <div className="flex items-center justify-between px-6 py-4">
+        {/* t-2026-10-13-30: three buttons beside the name were wider than a
+            390 px screen; they now wrap under it. */}
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-6 py-4">
           <div className="flex items-center gap-x-3">
             <Heading level="h1">{tenant.name}</Heading>
             {archived ? (
@@ -102,7 +104,7 @@ const TenantDetailPage = () => {
               <StatusBadge color="green">Активен</StatusBadge>
             )}
           </div>
-          <div className="flex items-center gap-x-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Button variant="secondary" size="small" onClick={() => setEditNameOpen(true)}>
               Изменить название
             </Button>

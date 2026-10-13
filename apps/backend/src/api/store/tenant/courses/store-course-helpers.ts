@@ -1,5 +1,5 @@
 import type { MedusaContainer } from "@medusajs/framework";
-import type { MedusaRequest } from "@medusajs/framework/http";
+import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { MedusaError } from "@medusajs/framework/utils";
 import { COURSE_MODULE } from "../../../../modules/course";
 import type CourseModuleService from "../../../../modules/course/service";
@@ -93,6 +93,7 @@ export type EntitlementRow = {
   order_id: string | null;
   granted_at: Date | string;
   status: "active" | "revoked";
+  created_at?: Date | string;
 };
 
 export type ProgressRow = {
@@ -104,13 +105,13 @@ export type ProgressRow = {
   viewed_at: Date | string;
 };
 
-/** Whether this customer holds a live grant for the course, tenant-scoped. */
-export const hasCourseAccess = async (
+/** This customer's live grant for the course, tenant-scoped, or null. */
+export const findCourseEntitlement = async (
   req: MedusaRequest,
   tenantId: string,
   customerId: string,
   courseId: string,
-): Promise<boolean> => {
+): Promise<EntitlementRow | null> => {
   const courseService: CourseModuleService = req.scope.resolve(COURSE_MODULE);
   const [entitlement] = (await courseService.listCourseEntitlements({
     tenant_id: tenantId,
@@ -119,27 +120,56 @@ export const hasCourseAccess = async (
     status: "active",
   })) as EntitlementRow[];
 
-  return Boolean(entitlement);
+  return entitlement ?? null;
 };
 
-/** 403 for a customer with no live entitlement, 404 for a course another tenant owns. */
+/** Whether this customer holds a live grant for the course, tenant-scoped. */
+export const hasCourseAccess = async (
+  req: MedusaRequest,
+  tenantId: string,
+  customerId: string,
+  courseId: string,
+): Promise<boolean> => Boolean(await findCourseEntitlement(req, tenantId, customerId, courseId));
+
+/**
+ * 403 for a customer with no live entitlement, 404 for a course another
+ * tenant owns. Returns the grant, the start the lesson days count from
+ * (`lesson-schedule.ts`).
+ */
 export const assertCourseAccess = async (
   req: MedusaRequest,
   tenantId: string,
   customerId: string,
   course: CourseRow,
-): Promise<void> => {
+): Promise<EntitlementRow> => {
   if (course.tenant_id !== tenantId) {
     throw new MedusaError(MedusaError.Types.NOT_FOUND, `Course with id: ${course.id} was not found`);
   }
 
-  const allowed = await hasCourseAccess(req, tenantId, customerId, course.id);
-  if (!allowed) {
+  const entitlement = await findCourseEntitlement(req, tenantId, customerId, course.id);
+  if (!entitlement) {
     throw new MedusaError(
       MedusaError.Types.FORBIDDEN,
       "This course has not been purchased by this customer.",
     );
   }
+
+  return entitlement;
+};
+
+/**
+ * The answer for a lesson that opens on a later day of the buyer's access
+ * (t-2026-10-13-29 stage 2): 403 with `code: "lesson_locked"` and the instant
+ * it opens, so the school can say when rather than «no access». Written
+ * straight to the response: `MedusaError` has no room for `opens_at`.
+ */
+export const sendLessonLocked = (res: MedusaResponse, opensAt: string | null) => {
+  res.status(403).json({
+    code: "lesson_locked",
+    type: "forbidden",
+    message: "This lesson opens on a later day of the course.",
+    opens_at: opensAt,
+  });
 };
 
 export const getOwnedCourse = async (

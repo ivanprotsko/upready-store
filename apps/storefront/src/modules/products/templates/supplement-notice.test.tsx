@@ -58,7 +58,11 @@ vi.mock("@lib/data/product-reviews", () => ({
   listProductReviews: async () => ({ summary: { count: 0, average: 0 }, reviews: [], count: 0 }),
 }))
 vi.mock("@lib/util/json-ld", () => ({ buildProductJsonLd: async () => ({}) }))
-vi.mock("@lib/util/course-page", () => ({ readCourseCover: () => null, readCoursePage: () => null }))
+vi.mock("@lib/util/course-page", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@lib/util/course-page")>()),
+  readCourseCover: () => null,
+  readCoursePage: () => null,
+}))
 vi.mock("@modules/products/components/product-attributes/rows", () => ({
   prepareAttributeRows: (rows: unknown[]) => rows,
 }))

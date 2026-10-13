@@ -10,11 +10,12 @@ import type { CourseRow, LessonRow } from "../../../tenants/courses/course-helpe
 import { resolveTenantFromPublishableKey } from "../resolve-tenant";
 import {
   computeCourseProgress,
-  hasCourseAccess,
+  findCourseEntitlement,
   translateCourse,
   type CourseProgressSummary,
   type ProgressRow,
 } from "./store-course-helpers";
+import { accessStartOf, lessonLock } from "./lesson-schedule";
 
 /**
  * `GET /store/tenant/courses?product_id=…` — the product page's course block
@@ -35,6 +36,9 @@ import {
  * The course's title and description and every lesson title come in the
  * visitor's language (`x-medusa-locale`, t-2026-10-04-19), from the
  * translation module, else in the owner's own text (`translateCourse`).
+ *
+ * For an entitled customer a lesson that opens on a later day of their access
+ * stays locked, with its `opens_at` (t-2026-10-13-29 stage 2, `lessonLock`).
  */
 export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req);
@@ -69,9 +73,12 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   ).sort((a, b) => a.order - b.order);
 
   const customerId = (req as AuthenticatedMedusaRequest).auth_context?.actor_id;
-  const unlocked = customerId
-    ? await hasCourseAccess(req, tenant.id, customerId, course.id)
-    : false;
+  const entitlement = customerId
+    ? await findCourseEntitlement(req, tenant.id, customerId, course.id)
+    : null;
+  const unlocked = Boolean(entitlement);
+  const start = accessStartOf(entitlement, course);
+  const now = new Date();
 
   let progress: CourseProgressSummary | null = null;
   if (unlocked && customerId) {
@@ -93,12 +100,17 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
       slug: course.slug,
       description: translated.course.description,
     },
-    lessons: translated.lessons.map((lesson) => ({
-      id: lesson.id,
-      title: lesson.title,
-      order: lesson.order,
-      locked: !unlocked,
-    })),
+    lessons: translated.lessons.map((lesson) => {
+      const lock = lessonLock(lesson, start, now);
+      return {
+        id: lesson.id,
+        title: lesson.title,
+        order: lesson.order,
+        section: lesson.section ?? null,
+        locked: !unlocked || lock.locked,
+        opens_at: unlocked ? lock.opens_at : null,
+      };
+    }),
     has_access: unlocked,
     progress,
   });
