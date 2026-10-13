@@ -136,13 +136,17 @@ export const OWNER_ROUTES = [
   { path: "/settings/sites" },
   { path: "/settings/notifications" },
   { path: "/settings/customer-login" },
+  { path: "/settings/customer-login/edit", kind: "overlay" },
   { path: "/settings/locale" },
+  { path: "/settings/locale/edit", kind: "overlay" },
   { path: "/settings/payments", core: true },
   { path: "/settings/delivery", core: true },
   { path: "/settings/requisites", core: true },
   { path: "/settings/redirects" },
   { path: "/settings/seo" },
+  { path: "/settings/seo/edit", kind: "overlay" },
   { path: "/settings/analytics" },
+  { path: "/settings/analytics/edit", kind: "overlay" },
   { path: "/settings/staff", note: "needs the staff permission (t-2026-10-07-11)" },
 
   // Торговые площадки и подключения (mp-section-design: the screens of one

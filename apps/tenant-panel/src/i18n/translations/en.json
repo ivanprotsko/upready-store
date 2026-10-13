@@ -75,19 +75,25 @@
     "title": "Addresses"
   },
   "analyticsSettings": {
-    "title": "Analytics",
-    "subtitle": "your own counters on your storefront",
+    "title": "Counters",
+    "subtitle": "Your own visit counters on your storefront",
     "yandexMetrica": {
-      "label": "Yandex Metrica counter",
-      "hint": "the number shown in the Metrica dashboard, digits only"
+      "label": "Yandex Metrica counter number",
+      "hint": "The number from your Metrica account, digits only.",
+      "title": "Yandex Metrica",
+      "readHint": "The counter number from your Metrica account.",
+      "emptyHint": "Not set: the counter number from your Metrica account, digits only."
     },
     "ga4": {
-      "label": "GA4 measurement ID",
-      "hint": "starts with G-, from your Google Analytics 4 property"
+      "label": "Google Analytics 4 measurement ID",
+      "hint": "Starts with G-, from your Google Analytics 4 property.",
+      "title": "Google Analytics 4",
+      "readHint": "The measurement ID of your Google Analytics 4 property.",
+      "emptyHint": "Not set: the ID starts with G-, from your Google Analytics 4 property."
     },
     "save": "Save",
     "loading": "Loading…",
-    "saved": "Analytics settings saved"
+    "saved": "Counters saved"
   },
   "apiKeyManagement": {
     "actions": {
@@ -1491,7 +1497,7 @@
   },
   "customerLogin": {
     "title": "Buyer sign-in",
-    "subtitle": "how buyers sign in to their account on the storefront",
+    "subtitle": "How buyers sign in to their account on the storefront",
     "loading": "loading…",
     "save": "Save",
     "saved": "Sign-in method saved",
@@ -1509,7 +1515,14 @@
         "description": "A buyer picks either email and password or Yandex ID."
       }
     },
-    "yandexUnavailableHint": "Yandex ID is not available yet: the platform has no Yandex ID keys configured. Contact support to turn it on."
+    "yandexUnavailableHint": "Yandex ID is not available yet: the platform has no Yandex ID keys configured. Contact support to turn it on.",
+    "method": "Sign-in method",
+    "yandex": {
+      "title": "Yandex ID",
+      "off": "not connected on the platform",
+      "offHint": "Signing in with Yandex becomes available once the platform has its keys. Write to support to turn it on.",
+      "on": "connected on the platform"
+    }
   },
   "notificationSettings": {
     "title": "Notifications",
@@ -4634,19 +4647,22 @@
   },
   "seoVerification": {
     "title": "Search engine ownership",
-    "subtitle": "the code Yandex and Google use to confirm the site is yours",
+    "subtitle": "The code Yandex and Google use to confirm the site is yours",
     "yandex": {
       "label": "Yandex Webmaster code",
-      "hint": "in Webmaster pick the Meta tag method and paste its content value here"
+      "hint": "In Webmaster, pick the «Meta tag» method and paste its content value here.",
+      "emptyHint": "Not set: in Webmaster, pick the «Meta tag» method and paste its content value here."
     },
     "google": {
       "label": "Google Search Console code",
-      "hint": "in Search Console pick the HTML tag method and paste its content value here"
+      "hint": "In Search Console, pick the «HTML tag» method and paste its content value here.",
+      "emptyHint": "Not set: in Search Console, pick the «HTML tag» method and paste its content value here."
     },
-    "hint": "Once saved, the code appears in the source of every page of your shop. Go back to Webmaster or Search Console and press Verify.",
+    "hint": "Once saved, the code appears in every page of the shop. Go back to Webmaster or Search Console and press «Verify».",
     "save": "Save",
     "saved": "Code saved",
-    "loading": "loading…"
+    "loading": "loading…",
+    "live": "on every page"
   },
   "marketplaceSync": {
     "noWarnings": "Nothing needs attention: the keys are fine and every kind has run.",
@@ -6030,5 +6046,23 @@
       "author": "Author",
       "text": "Testimonial"
     }
+  },
+  "localeSettings": {
+    "title": "Language and currency",
+    "subtitle": "Which language the storefront opens in by default, which languages its switcher offers and which currency prices show in",
+    "enabledLocales": "Shop languages",
+    "enabledLocalesPlaceholder": "Add a language…",
+    "enabledLocalesHint_zero": "The storefront switcher offers every language of the catalog.",
+    "enabledLocalesHint_one": "Only these languages appear in the storefront switcher. {{count}} more language stays in the catalog, but the shop does not offer it.",
+    "enabledLocalesHint_other": "Only these languages appear in the storefront switcher. The other {{count}} stay in the catalog, but the shop does not offer them.",
+    "defaultLocale": "Default language",
+    "defaultLocaleHint": "A visitor with no choice made and no matching browser language lands here.",
+    "defaultCountry": "Default price country",
+    "defaultCountryPlaceholder": "The visitor's country decides",
+    "defaultCountryHint": "With a country set, only the prices entered for it are shown, with no exchange-rate conversion.",
+    "defaultCountryEmptyHint": "Not set: the visitor's country decides the currency. With a country set, only the prices entered for it are shown, with no exchange-rate conversion.",
+    "defaultCountrySetHint": "The storefront opens in this country's currency and shows only the prices entered for it, with no exchange-rate conversion.",
+    "needsOneLocale": "Turn on at least one language.",
+    "saved": "Language and currency saved"
   }
 }

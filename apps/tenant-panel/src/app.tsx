@@ -843,19 +843,33 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => t("customerLogin.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/customer-login"),
+            // t-2026-10-14-01 (panel redesign, G1): the screen only reads; its
+            // fields are edited in this drawer, the way profile-edit hangs
+            // under /settings/profile.
+            children: [
+              {
+                path: "edit",
+                lazy: () => import("./routes/settings/customer-login/customer-login-edit"),
+              },
+            ],
           },
           {
             // t06-locale-currency: which of the storefront's 36 locales this
             // shop offers, its default, and the currency its default prices
-            // in. Same shape as /settings/domains next to it — one screen,
-            // no children, the document is edited in place.
+            // in.
             path: "/settings/locale",
-            handle: {
-              breadcrumb: () =>
-                t("localeSettings.title", { defaultValue: "Язык и валюта" }),
-            },
+            handle: { breadcrumb: () => t("localeSettings.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/locale"),
+            // t-2026-10-14-01 (panel redesign, G1): the screen only reads; its
+            // fields are edited in this drawer, the way profile-edit hangs
+            // under /settings/profile.
+            children: [
+              {
+                path: "edit",
+                lazy: () => import("./routes/settings/locale/locale-edit"),
+              },
+            ],
           },
           {
             // «Приём оплат» (t03-tenant-secrets-robokassa): the shop's own
@@ -906,6 +920,15 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => t("seoVerification.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/seo"),
+            // t-2026-10-14-01 (panel redesign, G1): the screen only reads; its
+            // fields are edited in this drawer, the way profile-edit hangs
+            // under /settings/profile.
+            children: [
+              {
+                path: "edit",
+                lazy: () => import("./routes/settings/seo/seo-edit"),
+              },
+            ],
           },
           {
             // t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids.
@@ -915,6 +938,15 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => t("analyticsSettings.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/analytics"),
+            // t-2026-10-14-01 (panel redesign, G1): the screen only reads; its
+            // fields are edited in this drawer, the way profile-edit hangs
+            // under /settings/profile.
+            children: [
+              {
+                path: "edit",
+                lazy: () => import("./routes/settings/analytics/analytics-edit"),
+              },
+            ],
           },
           {
             // mp-section-design: the old daily screens redirect to the
