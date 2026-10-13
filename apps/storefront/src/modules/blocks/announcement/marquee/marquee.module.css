@@ -1,0 +1,44 @@
+/*
+ * announcement/marquee: the motion alone (t-2026-10-12-33). Colours, type and spacing are token classes in
+ * `index.tsx`; this file holds the keyframe Tailwind has no utility for.
+ *
+ * The track is two equal copies side by side and moves left by one copy, half its width, then starts
+ * again: the second copy stands where the first began, so the loop has no seam. Only `transform` moves,
+ * so nothing around the line is laid out again. A mouse over the line or the focus inside it holds it.
+ * Under `prefers-reduced-motion` nothing moves: the copy and the repeats are hidden and the points wrap.
+ */
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: run var(--marquee-duration, 40s) linear infinite;
+}
+
+.right {
+  animation-direction: reverse;
+}
+
+.bar:hover .track,
+.bar:focus-within .track {
+  animation-play-state: paused;
+}
+
+@keyframes run {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    width: 100%;
+    animation: none;
+  }
+
+  .echo {
+    display: none;
+  }
+}
