@@ -202,6 +202,8 @@ export default function SlideshowCarousel({
             aria-label={names[index]}
             tabIndex={-1}
             inert={hydrated && index !== current}
+            // theme-colours allowlist: the slide's ring is its banner box's `group-focus-visible/slide:outline`
+            // in --ring (./index.tsx). The slide is as wide as the track, so a ring of its own would lie in the fade.
             className="group/slide w-full shrink-0 snap-start snap-always outline-none"
           >
             {slide}
