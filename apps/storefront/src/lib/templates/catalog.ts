@@ -5,6 +5,7 @@ import longMorning from "../../templates/long-morning/template.json"
 import ferrite from "../../templates/ferrite/template.json"
 import katalog from "../../templates/katalog/template.json"
 import lending from "../../templates/lending/template.json"
+import moda from "../../templates/moda/template.json"
 import opt from "../../templates/opt/template.json"
 import uhod from "../../templates/uhod/template.json"
 
@@ -18,6 +19,7 @@ export const TEMPLATE_SOURCES: Record<string, unknown> = {
   ferrite,
   katalog,
   lending,
+  moda,
   opt,
   uhod,
 }

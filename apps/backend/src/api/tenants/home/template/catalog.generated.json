@@ -1117,6 +1117,200 @@
         }
       ]
     },
+    "moda": {
+      "schema": "upready.storefront-template/v1",
+      "id": "moda",
+      "title": {
+        "ru": "Мода",
+        "en": "Fashion"
+      },
+      "description": {
+        "ru": "Одежда и аксессуары: светлый и просторный, крупные фото в рост и лукбук на главной.",
+        "en": "Clothing and accessories: light and spacious, with tall photos and a lookbook on the home page."
+      },
+      "settings": {
+        "defaultMode": "light",
+        "header": "h6",
+        "hero": "none",
+        "tiles": "off",
+        "listing": "none",
+        "footer": "f6"
+      },
+      "theme": {
+        "palette": "moda",
+        "fontPair": {
+          "display": "Playfair Display",
+          "body": "Manrope"
+        },
+        "radius": "soft",
+        "buttonStyle": "filled",
+        "photoStyle": "portrait",
+        "density": "spacious"
+      },
+      "sections": [
+        {
+          "block": "hero/type",
+          "props": {
+            "eyebrow": {
+              "ru": "Коллекция сезона",
+              "en": "This season"
+            },
+            "title": {
+              "ru": "Вещи, которые носятся вместе",
+              "en": "Clothes that go together"
+            },
+            "lead": {
+              "ru": "Коллекция собрана как гардероб: каждую вещь легко сочетать с другими по цвету и длине.",
+              "en": "The collection is put together as a wardrobe: every piece goes with the others in colour and length."
+            },
+            "primary": {
+              "href": "/store",
+              "label": {
+                "ru": "Смотреть коллекцию",
+                "en": "See the collection"
+              }
+            },
+            "align": "left",
+            "scale": "large"
+          }
+        },
+        {
+          "block": "collage/mosaic",
+          "props": {
+            "header": {
+              "eyebrow": {
+                "ru": "Лукбук",
+                "en": "Lookbook"
+              },
+              "heading": {
+                "ru": "Как это носят",
+                "en": "How to wear it"
+              }
+            },
+            "tiles": [
+              {
+                "image": {
+                  "src": "/templates/moda/look-1.webp",
+                  "alt": {
+                    "ru": "Рисунок: силуэт платья на светлом фоне",
+                    "en": "Drawing: a dress silhouette on a light ground"
+                  }
+                },
+                "title": {
+                  "ru": "Городской день",
+                  "en": "A day in town"
+                },
+                "href": "/store"
+              },
+              {
+                "image": {
+                  "src": "/templates/moda/look-2.webp",
+                  "alt": {
+                    "ru": "Рисунок: силуэт сумки на светлом фоне",
+                    "en": "Drawing: a bag silhouette on a light ground"
+                  }
+                },
+                "title": {
+                  "ru": "Вечер",
+                  "en": "Evening"
+                },
+                "href": "/store"
+              },
+              {
+                "image": {
+                  "src": "/templates/moda/look-3.webp",
+                  "alt": {
+                    "ru": "Рисунок: силуэт ботинка на светлом фоне",
+                    "en": "Drawing: a shoe silhouette on a light ground"
+                  }
+                },
+                "title": {
+                  "ru": "Выходные",
+                  "en": "Weekend"
+                },
+                "href": "/store"
+              }
+            ],
+            "largeSide": "left",
+            "mobile": "stack"
+          }
+        },
+        {
+          "block": "collection/featured",
+          "props": {
+            "header": {
+              "eyebrow": {
+                "ru": "Новое",
+                "en": "New in"
+              },
+              "heading": {
+                "ru": "Новая коллекция",
+                "en": "The new collection"
+              },
+              "seeAll": {
+                "href": "/store",
+                "label": {
+                  "ru": "Весь каталог",
+                  "en": "The whole catalogue"
+                }
+              }
+            },
+            "source": {
+              "sort": "newest"
+            },
+            "limit": 6,
+            "layout": "grid",
+            "columns": 3
+          }
+        },
+        {
+          "block": "text/rich-text",
+          "props": {
+            "eyebrow": {
+              "ru": "О марке",
+              "en": "About us"
+            },
+            "heading": {
+              "ru": "Хорошая вещь носится дольше одного сезона и сочетается с тем, что уже есть в шкафу.",
+              "en": "A good piece lasts longer than one season and goes with what is already in your wardrobe."
+            },
+            "align": "center",
+            "width": "narrow",
+            "tone": "muted"
+          }
+        },
+        {
+          "block": "newsletter/signup",
+          "props": {
+            "heading": {
+              "ru": "Новости коллекции — в канале магазина",
+              "en": "Collection news, in the shop's channel"
+            },
+            "text": {
+              "ru": "Рассказываем о новых вещах, тканях и о том, как сочетать их между собой.",
+              "en": "We write about new pieces, the fabrics and how to wear them together."
+            },
+            "mode": "channels",
+            "channels": [
+              {
+                "network": "telegram",
+                "href": null
+              },
+              {
+                "network": "vk",
+                "href": null
+              },
+              {
+                "network": "max",
+                "href": null
+              }
+            ],
+            "align": "left",
+            "tone": "plain"
+          }
+        }
+      ]
+    },
     "opt": {
       "schema": "upready.storefront-template/v1",
       "id": "opt",
