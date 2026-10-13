@@ -457,6 +457,291 @@
         }
       ]
     },
+    "interier": {
+      "schema": "upready.storefront-template/v1",
+      "id": "interier",
+      "title": {
+        "ru": "Мебель и интерьер",
+        "en": "Furniture and Interiors"
+      },
+      "description": {
+        "ru": "Мебель и интерьер: светлый и спокойный, крупные картинки, разделы каталога и ответы о доставке и сборке на главной.",
+        "en": "Furniture and interiors: light and calm, with large pictures, the catalogue's sections and answers on delivery and assembly on the home page."
+      },
+      "settings": {
+        "defaultMode": "light",
+        "header": "h2",
+        "hero": "none",
+        "tiles": "on",
+        "listing": "none",
+        "footer": "f6"
+      },
+      "theme": {
+        "palette": "interier",
+        "fontPair": {
+          "display": "Manrope",
+          "body": "IBM Plex Sans"
+        },
+        "radius": "soft",
+        "buttonStyle": "filled",
+        "photoStyle": "landscape",
+        "density": "spacious"
+      },
+      "sections": [
+        {
+          "block": "banner/image",
+          "props": {
+            "image": {
+              "src": "/templates/interier/hero.webp",
+              "alt": {
+                "ru": "Рисунок: светлые вертикальные колонны",
+                "en": "Drawing: light upright columns"
+              }
+            },
+            "heading": {
+              "ru": "Мебель, которая подходит по размеру",
+              "en": "Furniture that fits your room"
+            },
+            "text": {
+              "ru": "Подберите мебель по размеру комнаты: проверьте габариты и узнайте о доставке и сборке до заказа.",
+              "en": "Choose furniture by the size of your room: check the dimensions and learn about delivery and assembly before you order."
+            },
+            "primary": {
+              "href": "/store",
+              "label": {
+                "ru": "Смотреть каталог",
+                "en": "Browse the catalogue"
+              }
+            },
+            "secondary": {
+              "href": "/shipping",
+              "label": {
+                "ru": "Доставка и оплата",
+                "en": "Delivery and payment"
+              }
+            },
+            "height": "large",
+            "overlay": 0,
+            "contentPosition": "center-left",
+            "textBox": true,
+            "stackOnMobile": true
+          }
+        },
+        {
+          "block": "tiles/on"
+        },
+        {
+          "block": "collection/featured",
+          "props": {
+            "header": {
+              "eyebrow": {
+                "ru": "Каталог",
+                "en": "Catalogue"
+              },
+              "heading": {
+                "ru": "Новые модели",
+                "en": "New models"
+              },
+              "seeAll": {
+                "href": "/store",
+                "label": {
+                  "ru": "Весь каталог",
+                  "en": "The whole catalogue"
+                }
+              }
+            },
+            "source": {
+              "sort": "newest"
+            },
+            "limit": 6,
+            "layout": "grid",
+            "columns": 3
+          }
+        },
+        {
+          "block": "collage/mosaic",
+          "props": {
+            "header": {
+              "eyebrow": {
+                "ru": "Идеи для дома",
+                "en": "Ideas for the home"
+              },
+              "heading": {
+                "ru": "Мебель в интерьере",
+                "en": "Furniture in the room"
+              }
+            },
+            "tiles": [
+              {
+                "image": {
+                  "src": "/templates/interier/room-1.webp",
+                  "alt": {
+                    "ru": "Рисунок: диван на светлом фоне",
+                    "en": "Drawing: a sofa on a light ground"
+                  }
+                },
+                "title": {
+                  "ru": "Гостиная",
+                  "en": "Living room"
+                },
+                "href": "/store"
+              },
+              {
+                "image": {
+                  "src": "/templates/interier/room-2.webp",
+                  "alt": {
+                    "ru": "Рисунок: обеденный стол на светлом фоне",
+                    "en": "Drawing: a dining table on a light ground"
+                  }
+                },
+                "title": {
+                  "ru": "Столовая",
+                  "en": "Dining room"
+                },
+                "href": "/store"
+              },
+              {
+                "image": {
+                  "src": "/templates/interier/room-3.webp",
+                  "alt": {
+                    "ru": "Рисунок: комод на светлом фоне",
+                    "en": "Drawing: a chest of drawers on a light ground"
+                  }
+                },
+                "title": {
+                  "ru": "Хранение",
+                  "en": "Storage"
+                },
+                "href": "/store"
+              }
+            ],
+            "largeSide": "left",
+            "mobile": "stack"
+          }
+        },
+        {
+          "block": "media/image-with-text",
+          "props": {
+            "image": {
+              "src": "/templates/interier/story.webp",
+              "alt": {
+                "ru": "Рисунок: светлые вертикальные колонны",
+                "en": "Drawing: light upright columns"
+              }
+            },
+            "eyebrow": {
+              "ru": "Как выбрать",
+              "en": "How to choose"
+            },
+            "heading": {
+              "ru": "Сначала размер, потом цвет",
+              "en": "Size first, then colour"
+            },
+            "text": {
+              "ru": "Мебель чаще всего возвращают не из-за цвета, а потому, что она не встала на место. Прежде чем выбирать оттенок и обивку, измерьте комнату и сверьте с ней габариты модели.\nНе забудьте про дверные проёмы, лестницу и лифт: крупная вещь должна пройти к месту, где будет стоять.",
+              "en": "Furniture comes back more often because it did not fit than because of its colour. Before you choose the shade and the upholstery, measure the room and check the model's dimensions against it.\nRemember the doorways, the stairs and the lift: a large piece has to get to the place where it will stand."
+            },
+            "button": {
+              "label": {
+                "ru": "Посмотреть каталог",
+                "en": "Browse the catalogue"
+              },
+              "href": "/store"
+            },
+            "imageSide": "left",
+            "imageWidth": "1/2",
+            "imageAspect": "landscape",
+            "verticalAlign": "center",
+            "tone": "plain"
+          }
+        },
+        {
+          "block": "faq/accordion",
+          "props": {
+            "header": {
+              "heading": {
+                "ru": "О доставке и сборке",
+                "en": "On delivery and assembly"
+              }
+            },
+            "items": [
+              {
+                "question": {
+                  "ru": "Сколько ждать заказ?",
+                  "en": "How long will my order take?"
+                },
+                "answer": {
+                  "ru": "Это зависит от модели и вашего города. Способы доставки и их сроки вы увидите при оформлении заказа, до оплаты.",
+                  "en": "It depends on the model and your city. You see the ways of delivery and how long each takes at checkout, before you pay."
+                }
+              },
+              {
+                "question": {
+                  "ru": "Сборка входит в стоимость?",
+                  "en": "Is assembly included in the price?"
+                },
+                "answer": {
+                  "ru": "Это зависит от модели и способа доставки. Условия описаны на странице о доставке; если сомневаетесь, напишите нам до заказа — контакты внизу страницы.",
+                  "en": "It depends on the model and the way of delivery. The terms are on the delivery page; if in doubt, write to us before you order. Our contacts are at the foot of the page."
+                }
+              },
+              {
+                "question": {
+                  "ru": "Как понять, что мебель встанет на место?",
+                  "en": "How do I know the furniture will fit?"
+                },
+                "answer": {
+                  "ru": "Сверьте габариты модели с размерами комнаты и с проёмами на пути: дверью, лестницей, лифтом. Если нужного размера нет в карточке товара, спросите нас до заказа.",
+                  "en": "Check the model's dimensions against the room and against the openings on the way in: the door, the stairs, the lift. If the size you need is not on the product page, ask us before you order."
+                }
+              },
+              {
+                "question": {
+                  "ru": "Что если не подойдёт по цвету?",
+                  "en": "What if the colour is not right?"
+                },
+                "answer": {
+                  "ru": "Экран передаёт оттенок дерева и ткани неточно. Если цвет важен, напишите нам до заказа — подскажем. Как вернуть товар, рассказано на странице о возврате.",
+                  "en": "A screen shows the shade of wood and fabric inexactly. If the colour matters, write to us before you order and we will help. The returns page says how to send a piece back."
+                }
+              }
+            ],
+            "layout": "single",
+            "openFirst": true
+          }
+        },
+        {
+          "block": "newsletter/signup",
+          "props": {
+            "heading": {
+              "ru": "Новые модели — в канале магазина",
+              "en": "New models, in the shop's channel"
+            },
+            "text": {
+              "ru": "Пишем, когда появляются новые модели и когда возвращаются те, что закончились.",
+              "en": "We write when new models arrive and when sold-out ones are back."
+            },
+            "mode": "channels",
+            "channels": [
+              {
+                "network": "telegram",
+                "href": null
+              },
+              {
+                "network": "vk",
+                "href": null
+              },
+              {
+                "network": "max",
+                "href": null
+              }
+            ],
+            "align": "left",
+            "tone": "muted"
+          }
+        }
+      ]
+    },
     "katalog": {
       "schema": "upready.storefront-template/v1",
       "id": "katalog",
